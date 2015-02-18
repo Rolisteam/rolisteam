@@ -60,8 +60,9 @@ LecteurAudio::LecteurAudio(QWidget *parent)
         connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreEtat(Liaison *)));
     }
     connect(mediaObject,SIGNAL(finished()),this,SLOT(onfinished()));
-    *path = Phonon::createPath(mediaObject, audioOutput);
+
     setupUi();
+    *path = Phonon::createPath(mediaObject, audioOutput);
     if(G_joueur)
         playerWidget();
     setWidget(widgetPrincipal);
@@ -157,8 +158,8 @@ void LecteurAudio::setupUi()
         actionLecture->setDisabled(true);
         actionPause = new QAction(style()->standardIcon(QStyle::SP_MediaPause), tr("Pause"), this);
         actionPause->setDisabled(true);
-        actionStop = new QAction(style()->standardIcon(QStyle::SP_MediaStop), tr("Stop"), this);
-        actionStop->setDisabled(true);
+        m_actionStop = new QAction(style()->standardIcon(QStyle::SP_MediaStop), tr("Stop"), this);
+        m_actionStop->setDisabled(true);
 
         actionAjouter->setToolTip(tr("Add song to the list"));
         actionSupprimer->setToolTip(tr("Remove selected file"));
@@ -177,7 +178,7 @@ void LecteurAudio::setupUi()
 
         boutonLecture->setDefaultAction(actionLecture);
         boutonPause->setDefaultAction(actionPause);
-        boutonStop->setDefaultAction(actionStop);
+        boutonStop->setDefaultAction(m_actionStop);
         boutonBoucle->setDefaultAction(actionBoucle);
         boutonUnique->setDefaultAction(actionUnique);
         boutonAjouter->setDefaultAction(actionAjouter);
@@ -215,7 +216,7 @@ void LecteurAudio::setupUi()
 
         connect(actionLecture, SIGNAL(triggered()), mediaObject, SLOT(play()));
         connect(actionPause, SIGNAL(triggered()), mediaObject, SLOT(pause()));
-        connect(actionStop, SIGNAL(triggered()), mediaObject, SLOT(stop()));
+        connect(m_actionStop, SIGNAL(triggered()), mediaObject, SLOT(stop()));
         connect(actionBoucle, SIGNAL(triggered()), this, SLOT(updatePlayingMode()));
         connect(actionUnique, SIGNAL(triggered()), this, SLOT(updatePlayingMode()));
         connect(actionAjouter, SIGNAL(triggered(bool)), this, SLOT(addFiles()));
@@ -225,7 +226,7 @@ void LecteurAudio::setupUi()
 
         actionLecture->setEnabled(false);
         actionPause->setEnabled(false);
-        actionStop->setEnabled(false);
+        m_actionStop->setEnabled(false);
         actionBoucle->setEnabled(false);
         actionUnique->setEnabled(false);
         actionSupprimer->setEnabled(false);
@@ -283,7 +284,7 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
                  actionLecture->setChecked(true);
                  actionPause->setEnabled(true);
                  actionPause->setChecked(false);
-                 actionStop->setEnabled(true);
+                 m_actionStop->setEnabled(true);
                 // if(oldState == Phonon::PausedState)
                     //emettreCommande();
                 // else
@@ -291,12 +292,12 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
                 }
                  break;
          case Phonon::StoppedState:
-                 qDebug() << "stopped State";
+                 qDebug() << "stopped State" << m_actionStop;
                  //arreter();
                  if(!G_joueur)
                  {
                      emettreCommande(arretMorceau);
-                     actionStop->setEnabled(false);
+                     m_actionStop->setEnabled(false);
                      actionLecture->setEnabled(true);
                      actionLecture->setChecked(false);
                      actionPause->setChecked(false);
@@ -317,7 +318,7 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
                      else
                      {
                          emettreCommande(pauseMorceau);
-                         actionStop->setEnabled(true);
+                         m_actionStop->setEnabled(true);
                          actionLecture->setEnabled(true);
                          actionLecture->setChecked(false);
                          actionPause->setEnabled(false);
@@ -393,7 +394,7 @@ void LecteurAudio::addFiles()
                         // On active tous les boutons
                         actionLecture->setEnabled(true);
                         actionPause->setEnabled(true);
-                        actionStop->setEnabled(true);
+                        m_actionStop->setEnabled(true);
                         actionBoucle->setEnabled(true);
                         actionUnique->setEnabled(true);
                         actionSupprimer->setEnabled(true);

@@ -9,7 +9,6 @@ OBJECTS_DIR = bin
 #DEFINES += VERSION=\\\"1.0.2\\\"
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
 CONFIG += HAVE_PHONON
-#CONFIG += HAVE_FMOD
 #CONFIG += HAVE_NULL
 TRANSLATIONS = traduction/rolisteam_fr.ts
 CODECFORTR = UTF-8
@@ -93,16 +92,6 @@ SOURCES += src/AfficheurDisque.cpp \
            src/TextEditAmeliore.cpp \
            src/updatechecker.cpp \
            src/WorkspaceAmeliore.cpp
-
-
-
-HAVE_FMOD {
- DEFINES+= FMOD
- SOURCES +=  src/LecteurAudiowin.cpp
- HEADERS +=  src/fmod.h  src/fmod_errors.h \
-           src/LecteurAudio.h
- FORMS += src/LecteurAudio.ui
-}
 
 HAVE_PHONON {
  DEFINES+= PHONON

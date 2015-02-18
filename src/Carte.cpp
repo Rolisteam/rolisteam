@@ -1105,16 +1105,20 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
     
     else if (m_currentTool == BarreOutils::deplacePerso)
     {
-        // Si un PNJ est selectionne, on le deplace
         if (pnjSelectionne)
         {
-            // On verifie que la souris reste dans les limites de la carte
-            if ( QRect(0, 0, fond->width(), fond->height()).contains(positionSouris, true) )
+            if((!G_joueur)||
+               (NouveauPlanVide::PC_ALL==m_currentMode)||
+               ((NouveauPlanVide::PC_MOVE == m_currentMode)||(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
             {
-                // Deplacement du perso
-                pnjSelectionne->deplacePerso(positionSouris - diffSourisDessinPerso);
-                // Ajout de la position actuelle du perso dans la liste
-                listeDeplacement.append(pnjSelectionne->positionCentrePerso());
+                // On verifie que la souris reste dans les limites de la carte
+                if ( QRect(0, 0, fond->width(), fond->height()).contains(positionSouris, true) )
+                {
+                    // Deplacement du perso
+                    pnjSelectionne->deplacePerso(positionSouris - diffSourisDessinPerso);
+                    // Ajout de la position actuelle du perso dans la liste
+                    listeDeplacement.append(pnjSelectionne->positionCentrePerso());
+                }
             }
         }
     }

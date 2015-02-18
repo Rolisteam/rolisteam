@@ -132,7 +132,7 @@ private :
     QActionGroup* m_playingMode;
     QAction *actionLecture;            //!< @brief Play action
     QAction *actionPause;            //!< @brief Pause action
-    QAction *actionStop;            //!< @brief Stop action
+    QAction *m_actionStop;            //!< @brief Stop action
     QAction *actionBoucle;            //!< @brief loop playing action
     QAction *actionUnique;            //!< @brief one song playing mode action
     QAction *actionAjouter;            //!< @brief add song action
