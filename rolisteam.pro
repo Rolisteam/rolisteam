@@ -73,7 +73,6 @@ HEADERS += src/AfficheurDisque.h \
            src/networkmessage.h \
            src/networkmessagereader.h \
            src/networkmessagewriter.h \
-           src/NouveauPlanVide.h \
            src/persons.h \
            src/persondialog.h \
            src/playersList.h \
@@ -95,7 +94,9 @@ HEADERS += src/AfficheurDisque.h \
     src/mainwindow.h \
     src/preferencesmanager.h \
     src/chatbrowser.h \
-    src/ipchecker.h
+    src/ipchecker.h \
+    src/mapwizzard.h \
+    src/newemptymapdialog.h
 
 SOURCES += src/AfficheurDisque.cpp \
            src/BarreOutils.cpp \
@@ -116,7 +117,6 @@ SOURCES += src/AfficheurDisque.cpp \
            src/Liaison.cpp \
            src/localpersonmodel.cpp \
            src/main.cpp \
-           src/NouveauPlanVide.cpp \
            src/networkmessage.cpp \
            src/networkmessagereader.cpp \
            src/networkmessagewriter.cpp \
@@ -138,7 +138,9 @@ SOURCES += src/AfficheurDisque.cpp \
     src/mainwindow.cpp \
     src/preferencesmanager.cpp \
     src/chatbrowser.cpp \
-    src/ipchecker.cpp
+    src/ipchecker.cpp \
+    src/mapwizzard.cpp \
+    src/newemptymapdialog.cpp
 #end source
 
 
@@ -197,4 +199,6 @@ LIBS += -lz
 }
 
 FORMS += \
-    src/connectionretrydialog.ui
+    src/connectionretrydialog.ui \
+    src/mapwizzard.ui \
+    src/newemptymapdialog.ui

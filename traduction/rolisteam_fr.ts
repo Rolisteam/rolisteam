@@ -419,37 +419,37 @@
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="199"/>
+        <location filename="../src/ClientServeur.cpp" line="200"/>
         <source>Server is on.</source>
         <translation>Le serveur est fonctionnel.</translation>
     </message>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="205"/>
+        <location filename="../src/ClientServeur.cpp" line="206"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="205"/>
+        <location filename="../src/ClientServeur.cpp" line="206"/>
         <source>Can not establish the connection.</source>
         <translation>Impossible d&apos;établir la connexion.</translation>
     </message>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="288"/>
+        <location filename="../src/ClientServeur.cpp" line="289"/>
         <source>Connection with the Remote Server has been lost.</source>
         <translation>Connexion avec le serveur distant a été perdu.</translation>
     </message>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="311"/>
+        <location filename="../src/ClientServeur.cpp" line="312"/>
         <source>Unknown thread joined, (finDeLiaison - ClientServeur.cpp)</source>
         <translation>Un thread inconnu a fini.(finDeLiaison - ClientServeur.cpp) </translation>
     </message>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="323"/>
+        <location filename="../src/ClientServeur.cpp" line="324"/>
         <source>Server has been closed.</source>
         <translation>Le serveur a été fermé.</translation>
     </message>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="334"/>
+        <location filename="../src/ClientServeur.cpp" line="335"/>
         <source>Connection to the server has been closed.</source>
         <translation>La liaison avec le serveur a été coupé.</translation>
     </message>
@@ -466,7 +466,7 @@
         <translation type="obsolete">Réception Image: %1</translation>
     </message>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="304"/>
+        <location filename="../src/ClientServeur.cpp" line="305"/>
         <source>NULL Liaison pointer (ClientServeur::finDeLiaison).</source>
         <translation>Pointer Null de la liaison (ClientServeur::finDeLiaison).</translation>
     </message>
@@ -764,6 +764,14 @@
     </message>
 </context>
 <context>
+    <name>IpChecker</name>
+    <message>
+        <location filename="../src/ipchecker.cpp" line="37"/>
+        <source>Error to read server IP.</source>
+        <translation>Erreur: Impossible de lire l&apos;ỈP du serveur.</translation>
+    </message>
+</context>
+<context>
     <name>LecteurAudio</name>
     <message>
         <location filename="../src/LecteurAudio.ui" line="22"/>
@@ -889,38 +897,38 @@
         <translation>Fin du procéssus de connexion</translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1011"/>
+        <location filename="../src/Liaison.cpp" line="1012"/>
         <source>New map: %1</source>
         <translation>Nouveau Plan: %1</translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1076"/>
-        <location filename="../src/Liaison.cpp" line="1170"/>
+        <location filename="../src/Liaison.cpp" line="1077"/>
+        <location filename="../src/Liaison.cpp" line="1171"/>
         <source>Receiving map: %1</source>
         <translation>réception Plan: %1</translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1202"/>
+        <location filename="../src/Liaison.cpp" line="1203"/>
         <source>The map %1 has been closed by the GM</source>
         <translation>Le plan %1 a été fermé par le MJ</translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1276"/>
+        <location filename="../src/Liaison.cpp" line="1277"/>
         <source> (Picture)</source>
         <translation> (Image)</translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1310"/>
+        <location filename="../src/Liaison.cpp" line="1311"/>
         <source> (Image)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1276"/>
+        <location filename="../src/Liaison.cpp" line="1277"/>
         <source>Receiving picture: %1</source>
         <translation>Réception Image: %1</translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1310"/>
+        <location filename="../src/Liaison.cpp" line="1311"/>
         <source>Picture &quot;%1&quot; has been closed</source>
         <translation>Image &quot;%1&quot; a été fermé</translation>
     </message>
@@ -928,92 +936,97 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="170"/>
+        <location filename="../src/mainwindow.cpp" line="174"/>
         <source>unknown</source>
         <translation>inconnue</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="306"/>
+        <location filename="../src/mainwindow.cpp" line="312"/>
         <source>%1[*] - v%2 - %3 - %4</source>
         <translation>%1[*] - v%2 - %3 - %4</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="343"/>
+        <location filename="../src/mainwindow.cpp" line="351"/>
         <source>&amp;New empty Map</source>
-        <translation>&amp;Noveau Plan Vide</translation>
+        <translation>&amp;Nouveau Plan Vide</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="392"/>
+        <location filename="../src/mainwindow.cpp" line="355"/>
+        <source>Open Map…</source>
+        <translation>Ouvrir Plan…</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="400"/>
         <source>Cascade</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="409"/>
+        <location filename="../src/mainwindow.cpp" line="417"/>
         <source>Minutes Editor</source>
         <translation>Editeur de notes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="255"/>
+        <location filename="../src/mainwindow.cpp" line="259"/>
         <source>healthy</source>
         <translation>Sain</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="242"/>
+        <location filename="../src/mainwindow.cpp" line="246"/>
         <source>Minutes Editor[*]</source>
         <translation>Editeur de Notes[*]</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="256"/>
+        <location filename="../src/mainwindow.cpp" line="260"/>
         <source>lightly wounded</source>
         <translation>légèrement blessé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="257"/>
+        <location filename="../src/mainwindow.cpp" line="261"/>
         <source>seriously injured</source>
         <translation>gravement blessé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="258"/>
+        <location filename="../src/mainwindow.cpp" line="262"/>
         <source>Dead</source>
         <translation>Mort</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="259"/>
+        <location filename="../src/mainwindow.cpp" line="263"/>
         <source>Sleeping</source>
         <translation>Dormant</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="260"/>
+        <location filename="../src/mainwindow.cpp" line="264"/>
         <source>Bewitched</source>
         <translation>Ensorcelé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="308"/>
+        <location filename="../src/mainwindow.cpp" line="314"/>
         <source>Connected</source>
         <translation>Connecté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="308"/>
+        <location filename="../src/mainwindow.cpp" line="314"/>
         <source>Not Connected</source>
         <translation>Non connecté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="309"/>
+        <location filename="../src/mainwindow.cpp" line="315"/>
         <source>Server</source>
         <translation>Serveur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="309"/>
+        <location filename="../src/mainwindow.cpp" line="315"/>
         <source>Client</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="316"/>
+        <location filename="../src/mainwindow.cpp" line="324"/>
         <source>Events</source>
         <translation>Évènements</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="342"/>
+        <location filename="../src/mainwindow.cpp" line="350"/>
         <source>File</source>
         <translation>Fichier</translation>
     </message>
@@ -1022,156 +1035,159 @@
         <translation type="obsolete">Nouveau Plan vide</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="347"/>
-        <location filename="../src/mainwindow.cpp" line="582"/>
         <source>Open Map</source>
-        <translation>Ouvrir Plan</translation>
+        <translation type="obsolete">Ouvrir Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="348"/>
         <source>Open And hide Map</source>
-        <translation>Ouvrir et cacher Plan</translation>
+        <translation type="obsolete">Ouvrir et cacher Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="349"/>
-        <location filename="../src/mainwindow.cpp" line="1460"/>
+        <location filename="../src/mainwindow.cpp" line="357"/>
+        <location filename="../src/mainwindow.cpp" line="1535"/>
         <source>Open scenario</source>
         <translation>Ouvrir Scénario</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="350"/>
-        <location filename="../src/mainwindow.cpp" line="854"/>
+        <location filename="../src/mainwindow.cpp" line="358"/>
+        <location filename="../src/mainwindow.cpp" line="860"/>
         <source>Open Picture</source>
         <translation>Ouvrir Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="351"/>
-        <location filename="../src/mainwindow.cpp" line="1443"/>
+        <location filename="../src/mainwindow.cpp" line="359"/>
+        <location filename="../src/mainwindow.cpp" line="1518"/>
         <source>Open Minutes</source>
         <translation>Ouvrir Notes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="353"/>
+        <location filename="../src/mainwindow.cpp" line="361"/>
         <source>Close Map/Picture</source>
         <translation>Fermer Plan/Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="355"/>
-        <location filename="../src/mainwindow.cpp" line="1387"/>
+        <location filename="../src/mainwindow.cpp" line="363"/>
+        <location filename="../src/mainwindow.cpp" line="1462"/>
         <source>Save Map</source>
         <translation>Sauvegarder Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="356"/>
+        <location filename="../src/mainwindow.cpp" line="364"/>
         <source>Save scenario</source>
         <translation>Sauvegarder Scénario</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="357"/>
+        <location filename="../src/mainwindow.cpp" line="365"/>
         <source>Save Minutes</source>
         <translation>Sauvegarder Notes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="359"/>
+        <location filename="../src/mainwindow.cpp" line="367"/>
         <source>Preferences</source>
         <translation>Préférences</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="361"/>
-        <location filename="../src/mainwindow.cpp" line="1218"/>
+        <location filename="../src/mainwindow.cpp" line="369"/>
+        <location filename="../src/mainwindow.cpp" line="1293"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="364"/>
+        <location filename="../src/mainwindow.cpp" line="372"/>
         <source>Network</source>
         <translation>Réseau</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="365"/>
+        <location filename="../src/mainwindow.cpp" line="373"/>
         <source>Reconnection</source>
         <translation>Reconnexion</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="366"/>
+        <location filename="../src/mainwindow.cpp" line="374"/>
         <source>Disconnect</source>
         <translation>Déconnecter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="370"/>
+        <location filename="../src/mainwindow.cpp" line="378"/>
         <source>View</source>
         <translation>Affichage</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="371"/>
+        <location filename="../src/mainwindow.cpp" line="379"/>
         <source>Display PC names</source>
         <translation>Afficher le nom des PJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="372"/>
+        <location filename="../src/mainwindow.cpp" line="380"/>
         <source>Display NPC names</source>
         <translation>Afficher le nom des PNJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="373"/>
+        <location filename="../src/mainwindow.cpp" line="381"/>
         <source>Display NPC number</source>
         <translation>Afficher le numéro des PNJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="388"/>
+        <location filename="../src/mainwindow.cpp" line="396"/>
         <source>Sub-Windows</source>
         <translation>Fênetres</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="391"/>
+        <location filename="../src/mainwindow.cpp" line="399"/>
         <source>Reorganize</source>
         <translation>Réorganiser</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="393"/>
+        <location filename="../src/mainwindow.cpp" line="401"/>
         <source>Tile</source>
         <translation>Tuile</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="419"/>
-        <location filename="../src/mainwindow.cpp" line="1751"/>
+        <location filename="../src/mainwindow.cpp" line="427"/>
+        <location filename="../src/mainwindow.cpp" line="1810"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="420"/>
+        <location filename="../src/mainwindow.cpp" line="428"/>
         <source>Help about %1</source>
         <translation>Aide à propos de %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="422"/>
+        <location filename="../src/mainwindow.cpp" line="430"/>
         <source>About %1</source>
         <translation>About %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="582"/>
+        <location filename="../src/mainwindow.cpp" line="1981"/>
+        <source>Server Ip Address:%1
+Port:%2</source>
+        <translation>Adresse IP du serveur:%1
+Port:%2</translation>
+    </message>
+    <message>
         <source>Open and Hide Map</source>
-        <translation>Ouvrir et Cacher Plan</translation>
+        <translation type="obsolete">Ouvrir et Cacher Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="583"/>
         <source>Map (*.pla *.jpg *.jpeg *.png *.bmp)</source>
-        <translation>Plan (*.pla *.jpg *.jpeg *.png *.bmp)</translation>
+        <translation type="obsolete">Plan (*.pla *.jpg *.jpeg *.png *.bmp)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="593"/>
-        <location filename="../src/mainwindow.cpp" line="865"/>
+        <location filename="../src/mainwindow.cpp" line="596"/>
+        <location filename="../src/mainwindow.cpp" line="871"/>
         <source>Loading error</source>
         <translation>Erreur de chargement</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="634"/>
-        <location filename="../src/mainwindow.cpp" line="880"/>
+        <location filename="../src/mainwindow.cpp" line="610"/>
+        <location filename="../src/mainwindow.cpp" line="629"/>
+        <location filename="../src/mainwindow.cpp" line="886"/>
         <source>Unsupported file format</source>
         <translation>Format de fichier non supporté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="855"/>
+        <location filename="../src/mainwindow.cpp" line="861"/>
         <source>Picture (*.jpg *.jpeg *.png *.bmp)</source>
         <translation>Image (*.jpg *.jpeg *.png *.bmp)</translation>
     </message>
@@ -1188,7 +1204,7 @@ It will be closed for everybody</source>
 Elle sera fermée pour tout le monde</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1710"/>
+        <location filename="../src/mainwindow.cpp" line="1787"/>
         <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;h3&gt;Site Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Official de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bu. Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Anciens developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
@@ -1197,17 +1213,17 @@ Elle sera fermée pour tout le monde</translation>
         <translation type="obsolete">&lt;p&gt;&lt;h3&gt;Site Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Official de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bu. Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.renaudguezennec.eu/accueil,3.html&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Anciens developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1752"/>
+        <location filename="../src/mainwindow.cpp" line="1811"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>La documentation de %1 est accessible sur le web :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="890"/>
+        <location filename="../src/mainwindow.cpp" line="896"/>
         <source> (Picture)</source>
         <translation> (Image)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="981"/>
+        <location filename="../src/mainwindow.cpp" line="987"/>
         <source>Close Map</source>
         <translation>Fermer Plan</translation>
     </message>
@@ -1218,49 +1234,49 @@ It will be closed for everybody</source>
 It will be closed for everybody</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="985"/>
+        <location filename="../src/mainwindow.cpp" line="991"/>
         <source>Close Picture</source>
         <translation>Fermer Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="987"/>
+        <location filename="../src/mainwindow.cpp" line="993"/>
         <source>Do you want to close %1 %2?
 It will be closed for everybody</source>
         <translation>Voulez-vous fermer %1 %2?
 Il sera fermé pour tout le monde</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="987"/>
+        <location filename="../src/mainwindow.cpp" line="993"/>
         <source>(Map)</source>
         <translation>(Plan)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1231"/>
+        <location filename="../src/mainwindow.cpp" line="1306"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>La connexion a été perdue. %1 va s&apos;arrêter </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1235"/>
+        <location filename="../src/mainwindow.cpp" line="1310"/>
         <source>Connection lost</source>
         <translation>Connexion perdue</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1244"/>
+        <location filename="../src/mainwindow.cpp" line="1319"/>
         <source>Quit %1 </source>
         <translation>Quitter %1 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1250"/>
+        <location filename="../src/mainwindow.cpp" line="1325"/>
         <source>Do you want to save your minutes before to quit %1?</source>
         <translation>Voulez-vous sauvegarder vos notes avant de quitter %1 ?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1255"/>
+        <location filename="../src/mainwindow.cpp" line="1330"/>
         <source>Do you want to save your scenario before to quit %1?</source>
         <translation>Voulez-vous sauvegarder votre scénario avant de quitter %1 ?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1387"/>
+        <location filename="../src/mainwindow.cpp" line="1462"/>
         <source>Map (*.pla)</source>
         <translation>Plan (*.pla)</translation>
     </message>
@@ -1273,28 +1289,28 @@ Il sera fermé pour tout le monde</translation>
         <translation type="obsolete">Documents HTML (*.htm *.html)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1460"/>
-        <location filename="../src/mainwindow.cpp" line="1512"/>
+        <location filename="../src/mainwindow.cpp" line="1535"/>
+        <location filename="../src/mainwindow.cpp" line="1589"/>
         <source>Scenarios (*.sce)</source>
         <translation>Scénarios (*.sce)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1512"/>
+        <location filename="../src/mainwindow.cpp" line="1589"/>
         <source>Save Scenarios</source>
         <translation>Sauvegarder Scénarios</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1706"/>
+        <location filename="../src/mainwindow.cpp" line="1783"/>
         <source>About Rolisteam</source>
         <translation>À propose de Rolisteam</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1707"/>
+        <location filename="../src/mainwindow.cpp" line="1784"/>
         <source>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others and to share maps and pictures. Rolisteam also provides many features for : permission management, background music and dice roll. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.&lt;/p&gt;</source>
         <translation>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam facilite la maîtrise de n&apos;importe quel jeu de rôle. Il permet aux joueurs de communiquer entre eux et de partager des images et des cartes. Il gère aussi différents niveau de persmission, la musique de fond et les lancers de dés. Rolisteam est écrit en Qt4. Ses dépendances sont : Qt4 et Phonon.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1709"/>
+        <location filename="../src/mainwindow.cpp" line="1786"/>
         <source>&lt;p&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the &apos;COPYING&apos; file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the &apos;COPYRIGHT&apos; file for the complete list of contributors.  We provide no warranty for this program.&lt;/p&gt;</source>
         <translation></translation>
     </message>
@@ -1303,24 +1319,206 @@ Il sera fermé pour tout le monde</translation>
         <translation type="obsolete">&lt;p&gt;&lt;h3&gt;Sites Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Officiel de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developeurs actuels :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://renaudguezennec.homelinux.org/accueil,3.html&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Ancien developeur :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1810"/>
+        <location filename="../src/mainwindow.cpp" line="1869"/>
         <source>Update Monitor</source>
         <translation>Mises à jour</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1810"/>
+        <location filename="../src/mainwindow.cpp" line="1869"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>La version %1 est disponible. Pour plus d&apos;informations veuillez consulter &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;la page de téléchargement&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1862"/>
+        <location filename="../src/mainwindow.cpp" line="1921"/>
         <source>%1 just joins the game.</source>
         <translation>%1 vient de rejoindre la partie.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1867"/>
+        <location filename="../src/mainwindow.cpp" line="1926"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 vient de quitter la partie.</translation>
+    </message>
+</context>
+<context>
+    <name>MapWizzard</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="obsolete">Dialogue
+</translation>
+    </message>
+    <message>
+        <location filename="../src/mapwizzard.ui" line="14"/>
+        <source>Map Wizzard</source>
+        <translation>Ouvrir un Plan</translation>
+    </message>
+    <message>
+        <location filename="../src/mapwizzard.ui" line="22"/>
+        <source>Title:</source>
+        <translation>Titre:</translation>
+    </message>
+    <message>
+        <location filename="../src/mapwizzard.ui" line="36"/>
+        <source>Permission Mode:</source>
+        <translation>Mode de Permission:</translation>
+    </message>
+    <message>
+        <location filename="../src/mapwizzard.ui" line="50"/>
+        <source>Filepath:</source>
+        <translation>Chemin:</translation>
+    </message>
+    <message>
+        <location filename="../src/mapwizzard.ui" line="64"/>
+        <source>Browse</source>
+        <translation>Parcourir</translation>
+    </message>
+    <message>
+        <location filename="../src/mapwizzard.ui" line="75"/>
+        <source>Hidden</source>
+        <translation>Caché</translation>
+    </message>
+    <message>
+        <location filename="../src/mapwizzard.cpp" line="18"/>
+        <source>No Right</source>
+        <translation>Aucun droit</translation>
+    </message>
+    <message>
+        <location filename="../src/mapwizzard.cpp" line="18"/>
+        <source>His character</source>
+        <translation>Personnage</translation>
+    </message>
+    <message>
+        <location filename="../src/mapwizzard.cpp" line="18"/>
+        <source>All Permissions</source>
+        <translation>Tous les droits</translation>
+    </message>
+    <message>
+        <location filename="../src/mapwizzard.cpp" line="28"/>
+        <source>Select Map</source>
+        <translation>Selection de Plan</translation>
+    </message>
+    <message>
+        <location filename="../src/mapwizzard.cpp" line="29"/>
+        <source>Map (*.pla *.jpg *.jpeg *.png *.bmp)</source>
+        <translation>Plan (*.pla *.jpg *.jpeg *.png *.bmp)</translation>
+    </message>
+</context>
+<context>
+    <name>NewEmptyMapDialog</name>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="14"/>
+        <source>New Map</source>
+        <translation>Nouveau Plan</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="29"/>
+        <source>Title:</source>
+        <translation>Titre:</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="43"/>
+        <source>Background Color:</source>
+        <translation>Couleur de Fond:</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="67"/>
+        <source>Permission :</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="79"/>
+        <source>Format</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="85"/>
+        <source>Landscape</source>
+        <translation>Paysage</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="95"/>
+        <source>Portrait</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="102"/>
+        <source>Square</source>
+        <translation>Carré</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="114"/>
+        <source>Size (in pixels)</source>
+        <translation>Taille (en pixels)</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="120"/>
+        <source>Small (%1 x %2 )</source>
+        <translation>Petit (%1 x %2 )</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="127"/>
+        <source>Middle (%1 x %2 )</source>
+        <translation>Moyen (%1 x %2 )</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="137"/>
+        <source>Big (%1 x %2 )</source>
+        <translation>Grand (%1 x %2 )</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="144"/>
+        <source>Huge (%1 x %2 )</source>
+        <translation>Énorme (%1 x %2 ) </translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="151"/>
+        <location filename="../src/newemptymapdialog.ui" line="161"/>
+        <source>Custom</source>
+        <translation>Personnalisé</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="169"/>
+        <source>Width:</source>
+        <translation>Largeur:</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.ui" line="183"/>
+        <source>Height:</source>
+        <translation>Hauteur:</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.cpp" line="16"/>
+        <source>Small (%1 x %2)</source>
+        <translation>Petit (%1 x %2)</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.cpp" line="16"/>
+        <source>Middle (%1 x %2)</source>
+        <translation>Moyen (%1 x %2)</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.cpp" line="16"/>
+        <source>Big (%1 x %2)</source>
+        <translation>Grand (%1 x %2 )</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.cpp" line="16"/>
+        <source>Huge (%1 x %2)</source>
+        <translation>Énorme (%1 x %2)</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.cpp" line="27"/>
+        <source>No Right</source>
+        <translation>Aucun droit</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.cpp" line="27"/>
+        <source>His character</source>
+        <translation>Personnage</translation>
+    </message>
+    <message>
+        <location filename="../src/newemptymapdialog.cpp" line="27"/>
+        <source>All Permissions</source>
+        <translation>Tous les droits</translation>
     </message>
 </context>
 <context>

@@ -42,7 +42,7 @@
 Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
-    m_currentMode = NouveauPlanVide::GM_ONLY;
+    m_currentMode = Carte::GM_ONLY;
     m_currentTool = BarreOutils::main;
 
     m_originalBackground = new QImage(image->size(), QImage::Format_ARGB32);
@@ -128,7 +128,7 @@ void Carte::p_init()
 Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
-    m_currentMode = NouveauPlanVide::GM_ONLY;
+    m_currentMode = Carte::GM_ONLY;
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
     // Creation de l'image de fond originale qui servira a effacer
@@ -217,7 +217,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
             if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj ||
                 m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
             {
-                if((!G_joueur)||(NouveauPlanVide::PC_ALL==m_currentMode)||(NouveauPlanVide::PC_MOVE == m_currentMode))
+                if((!G_joueur)||(Carte::PC_ALL==m_currentMode)||(Carte::PC_MOVE == m_currentMode))
                 {
                     actionPnjBoutonEnfonce(pos);
                 }
@@ -228,7 +228,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
             {
                 // On initialise le deplacement de la Carte
                 if((!G_joueur)||
-                  (((m_currentMode == NouveauPlanVide::PC_ALL))))
+                  (((m_currentMode == Carte::PC_ALL))))
                 {
                     emit commencerDeplacementCarteFenetre(mapToGlobal(pos));
                 }
@@ -238,7 +238,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
         else
         {
                 if(((!G_joueur))||
-                  (((m_currentMode == NouveauPlanVide::PC_ALL))))
+                  (((m_currentMode == Carte::PC_ALL))))
                 {
                         m_originePoint = m_mousePoint = pos;
                         zoneOrigine = zoneNouvelle = zoneARafraichir();
@@ -402,7 +402,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
             }
 
             if(((!G_joueur))||
-              (((m_currentMode == NouveauPlanVide::PC_ALL))))
+              (((m_currentMode == Carte::PC_ALL))))
             {
                  m_mousePoint = pos;
                 zoneNouvelle = zoneARafraichir();
@@ -431,7 +431,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
                 afficheOuMasquePnj();
             }
             if((!G_joueur)||
-              (((m_currentMode == NouveauPlanVide::PC_ALL))))
+              (((m_currentMode == Carte::PC_ALL))))
             {
 
                 emettreTrace();
@@ -528,7 +528,7 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
         else
         {
             if((!G_joueur)||
-              (((m_currentMode == NouveauPlanVide::PC_ALL))))
+              (((m_currentMode == Carte::PC_ALL))))
             {
                 //m_originePoint = m_mousePoint;
                 m_mousePoint = pos;
@@ -908,8 +908,8 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
         if (pnj)
         {
             if((!G_joueur)||
-               (NouveauPlanVide::PC_ALL==m_currentMode)||
-                    ((NouveauPlanVide::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )
+               (Carte::PC_ALL==m_currentMode)||
+                    ((Carte::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )
             {
                 if (m_currentTool == BarreOutils::supprPnj)
                 {
@@ -1081,8 +1081,8 @@ void Carte::actionPnjBoutonRelache(QPoint positionSouris)
         if (pnjSelectionne)
         {
             if((!G_joueur)||
-               (NouveauPlanVide::PC_ALL==m_currentMode)||
-               ((NouveauPlanVide::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
+               (Carte::PC_ALL==m_currentMode)||
+               ((Carte::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
             {
                 // Affiche ou masque le PNJ selon qu'il se trouve sur une zone masquee ou pas
                 afficheOuMasquePnj(pnjSelectionne);
@@ -1129,8 +1129,8 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
         if (pnjSelectionne)
         {
             if((!G_joueur)||
-               (NouveauPlanVide::PC_ALL==m_currentMode)||
-               ((NouveauPlanVide::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
+               (Carte::PC_ALL==m_currentMode)||
+               ((Carte::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
             {
                 // On verifie que la souris reste dans les limites de la carte
                 if ( QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris, true) )
@@ -1349,7 +1349,7 @@ void Carte::toggleCharacterView(Character * character)
 {
     QString uuid = character->uuid();
     bool newState = !pjAffiche(uuid);
-    if((!G_joueur)||(NouveauPlanVide::PC_ALL==m_currentMode)||(NouveauPlanVide::PC_MOVE == m_currentMode))
+    if((!G_joueur)||(Carte::PC_ALL==m_currentMode)||(Carte::PC_MOVE == m_currentMode))
     {
         affichageDuPj(uuid, newState);
 
@@ -2472,11 +2472,11 @@ bool Carte::selectCharacter(QString& id)
 
     return true;
 }
-void Carte::setPermissionMode(NouveauPlanVide::PermissionMode mode)
+void Carte::setPermissionMode(Carte::PermissionMode mode)
 {
     m_currentMode = mode;
 }
-NouveauPlanVide::PermissionMode Carte::getPermissionMode()
+Carte::PermissionMode Carte::getPermissionMode()
 {
     return m_currentMode;
 }

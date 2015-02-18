@@ -1005,8 +1005,9 @@ void Liaison::receptionMessagePlan()
         p+=sizeof(quint8);
 
         // On cree la carte
-        m_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur,permission);
-        qDebug() << "permission " << permission;
+        QSize mapSize(largeur,hauteur);
+        m_mainWindow->buildNewMap(titre, idPlan,couleur, mapSize,(Carte::PermissionMode)permission);
+
         // Message sur le log utilisateur
         MainWindow::notifyUser(tr("New map: %1").arg(titre));
 
@@ -1066,7 +1067,7 @@ void Liaison::receptionMessagePlan()
 
         // Creation de la carte
         Carte *carte = new Carte(idPlan, &image, masquerPlan);
-        carte->setPermissionMode((NouveauPlanVide::PermissionMode)permission);
+        carte->setPermissionMode((Carte::PermissionMode)permission);
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte,m_mainWindow);
         // Ajout de la carte au workspace
@@ -1158,7 +1159,7 @@ void Liaison::receptionMessagePlan()
 
         // Creation de la carte
         Carte *carte = new Carte(idPlan, &fondOriginal, &fond, &alpha);
-        carte->setPermissionMode((NouveauPlanVide::PermissionMode)permission);
+        carte->setPermissionMode((Carte::PermissionMode)permission);
         // On adapte la couche alpha a la nature de l'utilisateur local (MJ ou joueur)
         carte->adapterCoucheAlpha(intensiteAlpha);
         // Creation de la CarteFenetre

@@ -23,7 +23,7 @@
 
 #include <QColorDialog>
 #include <QPlastiqueStyle>
-
+#include <QCleanlooksStyle>
 #include <QPaintEvent>
 #include <QStyleOptionFocusRect>
 #include <QDebug>
@@ -36,7 +36,7 @@ ColorButton::ColorButton(const QColor & color, QWidget * parent)
     // Warning: If a StyleSheet is used with XP or Vista, this workaround might not work.
     /*if((style()->inherits("QWindowsXPStyle"))||(style()->inherits("QMacStyle")))
     {*/
-        setStyle(new QPlastiqueStyle());
+        setStyle(new QCleanlooksStyle());
     //}
     setColor(m_color);
 
@@ -70,7 +70,6 @@ void ColorButton::setColor(const QColor & color)
     setPalette(tmp);
     setAutoFillBackground(true);
     setStyleSheet(QString("ColorButton { background-color: rgb(%1,%2,%3);}").arg(color.red()).arg(color.green()).arg(color.blue()));
-    //qDebug() << this->styleSheet();
     emit colorChanged(m_color);
 }
 

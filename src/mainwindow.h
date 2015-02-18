@@ -32,11 +32,12 @@
 #include <QMenu>
 #include <QWorkspace>
 
-#include "NouveauPlanVide.h"
 #include "DessinPerso.h"
 #include "initialisation.h"
 #include "preferencesmanager.h"
 #include "ipchecker.h"
+#include "mapwizzard.h"
+#include "newemptymapdialog.h"
 
 #ifndef NULL_PLAYER
 #include "LecteurAudio.h"
@@ -154,7 +155,7 @@ public :
      * @param id
      * @return
      */
-    NouveauPlanVide::PermissionMode getPermission(int id);
+    Carte::PermissionMode getPermission(int id);
     /**
      * @brief readSettings
      */
@@ -187,11 +188,7 @@ public slots :
      * @param largeur
      * @param hauteur
      */
-    void creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur,quint8);
-    /**
-     * @brief aucunNouveauPlanVide
-     */
-    void aucunNouveauPlanVide();
+    void buildNewMap(QString titre, QString idCarte, QColor couleurFond, QSize size,Carte::PermissionMode mode );
     /**
      * @brief afficherEditeurNotes
      * @param afficher
@@ -229,10 +226,10 @@ private slots :
     void afficherNomsPnj(bool afficher);
     void afficherNumerosPnj(bool afficher);
     void changementFenetreActive(QWidget *widget);
-    void nouveauPlan();
-    void ouvrirPlan(bool masquer = false);
+    void newMap();
+    void openMap(Carte::PermissionMode Permission,QString filepath,QString title,bool masquer = false);
     void ouvrirImage();
-    void ouvrirEtMasquerPlan();
+    void openMapWizzard();
     void ouvrirScenario();
     void openNote();
     void closeMapOrImage();
@@ -311,7 +308,7 @@ private :
     PlayersListWidget * m_playersListWidget;
     QMenu *menuFenetre;
     BarreOutils *m_toolBar;
-    NouveauPlanVide *fenetreNouveauPlan;
+
     EditeurNotes *editeurNotes;
     QList <CarteFenetre *> listeCarteFenetre;
     QList <Image *> listeImage;
@@ -323,10 +320,11 @@ private :
 
     ChatListWidget * m_chatListWidget;
 
+    //submenu and action for map and parameters.
     QAction* m_newMapAct;
     QAction* actionOuvrirImage;
-    QAction* actionOuvrirPlan;
-    QAction* actionOuvrirEtMasquerPlan;
+    QAction* m_openMapAct;
+    //QAction* actionOuvrirEtMasquerPlan;
     QAction* actionOuvrirScenario;
     QAction* m_openMinutesAct;
     QAction* actionFermerPlan;
@@ -369,6 +367,11 @@ private :
 
     /// @brief get the server IP.
     IpChecker* m_ipChecker;
+
+
+    NewEmptyMapDialog* m_newEmptyMapDialog;
+
+    MapWizzard* m_mapWizzard;
 
 
 };

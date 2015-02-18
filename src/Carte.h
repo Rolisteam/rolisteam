@@ -36,7 +36,7 @@
 #include <QDataStream>
 
 #include "types.h"
-#include "NouveauPlanVide.h"
+
 #include "BarreOutils.h"
 
 #include "playersList.h"
@@ -56,9 +56,13 @@ class Carte : public QWidget
 {
     Q_OBJECT
 
+
 public :
     Carte(QString identCarte, QImage *image, bool masquer = false, QWidget *parent = 0);
     Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent = 0);
+
+    enum PermissionMode{GM_ONLY, PC_MOVE,PC_ALL };
+
     void afficheOuMasquePnj(DessinPerso *pnjSeul = 0);
     void toggleCharacterView(Character * character);
     void affichageDuPj(QString idPerso, bool afficher);
@@ -87,8 +91,8 @@ public :
 
     QString getLastSelectedCharacterId();
     bool selectCharacter(QString& id);
-    void setPermissionMode(NouveauPlanVide::PermissionMode mode);
-    NouveauPlanVide::PermissionMode getPermissionMode();
+    void setPermissionMode(Carte::PermissionMode mode);
+    Carte::PermissionMode getPermissionMode();
 
     void setHasPermissionMode(bool b);
     bool hasPermissionMode();
@@ -170,7 +174,7 @@ private :
     QList<QPoint> listePointsCrayon;    // liste des points composant le trace du crayon, qui sera emise aux autres utilisateurs
     QList<QPoint> listeDeplacement;        // liste des points composant le deplacement du perso qui vient d'etre deplace par l'utilisateur
     QList<PersoEnMouvement> mouvements;    // liste des personnages a deplacer, ainsi que leur trajectoire
-    NouveauPlanVide::PermissionMode m_currentMode;
+    Carte::PermissionMode m_currentMode;
     BarreOutils::Tool m_currentTool;
     Player* m_localPlayer;
     qreal m_scaleY;
