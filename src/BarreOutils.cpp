@@ -376,7 +376,8 @@ void BarreOutils::creerOutils()
 	#endif
 	outilsLayout->addWidget(nomPnj);
 	outilsLayout->addWidget(separateur5);
-	outilsLayout->addWidget(diametrePnj);
+        if(PlayersList::instance().localPlayer()->isGM())
+            outilsLayout->addWidget(diametrePnj);
         //outilsLayout->addWidget(m_pcDiameter);
 	// Alignement du widget outils sur le haut du dockWidget
 	layout()->setAlignment(outils, Qt::AlignTop | Qt::AlignHCenter);

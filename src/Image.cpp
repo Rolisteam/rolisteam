@@ -330,18 +330,18 @@ void Image::createActions()
 
     m_actionlittleZoom = new QAction(tr("Little"),this);
     m_actionlittleZoom->setShortcut(tr("Ctrl+1"));
-    m_actionZoomIn->setToolTip(tr("Set the zoom level at 20% "));
+    m_actionlittleZoom->setToolTip(tr("Set the zoom level at 20% "));
     connect(m_actionlittleZoom,SIGNAL(triggered()),this,SLOT(zoomLittle()));
 
     m_actionNormalZoom = new QAction(tr("Normal"),this);
     m_actionNormalZoom->setShortcut(tr("Ctrl+0"));
-    m_actionZoomIn->setToolTip(tr("No Zoom"));
+    m_actionNormalZoom->setToolTip(tr("No Zoom"));
     connect(m_actionNormalZoom,SIGNAL(triggered()),this,SLOT(zoomNormal()));
 
 
     m_actionBigZoom = new QAction(tr("Big"),this);
     m_actionBigZoom->setShortcut(tr("Ctrl+2"));
-    m_actionZoomIn->setToolTip(tr("Set the zoom level at 400%"));
+    m_actionBigZoom->setToolTip(tr("Set the zoom level at 400%"));
     connect(m_actionBigZoom,SIGNAL(triggered()),this,SLOT(zoomBig()));
 }
 void Image::contextMenuEvent ( QContextMenuEvent * event )
