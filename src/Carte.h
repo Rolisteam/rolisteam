@@ -116,6 +116,7 @@ class Carte : public QWidget
         void mouseMoveEvent(QMouseEvent *event);
         
     private :
+        void p_init();
         bool ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, const QRect &rect = QRect());
         bool convertirARGB32(QImage *original, QImage *copie);
         QRect zoneARafraichir();

@@ -41,7 +41,7 @@
 /* Constructeur                                                     */
 /********************************************************************/    
 Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), idCarte(identCarte)
 {
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
@@ -58,15 +58,21 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
     QPainter painterAlpha(alpha);
     painterAlpha.fillRect(0, 0, image->width(), image->height(), masquer?G_couleurMasque:Qt::white);
 
+    p_init();
+}
+
+
+void Carte::p_init()
+{
     // Creation de la couche alpha qui sera utilisee pour effacer fond a l'aide de fondOriginal
-    effaceAlpha = new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
+    effaceAlpha = new QImage(fondOriginal->size(), QImage::Format_ARGB32_Premultiplied);
     QPainter painterEfface(effaceAlpha);
-    painterEfface.fillRect(0, 0, image->width(), image->height(), Qt::black);
+    painterEfface.fillRect(0, 0, fondOriginal->width(), fondOriginal->height(), Qt::black);
     // Ajout de la couche alpha effaceAlpha a l'image de fond originale
     ajouterAlpha(fondOriginal, effaceAlpha, fondOriginal);
 
     // Creation d'une image en mode ARGB32 qui sert a mixer le fond et la couche alpha
-    fondAlpha = new QImage(image->size(), QImage::Format_ARGB32);
+    fondAlpha = new QImage(fondOriginal->size(), QImage::Format_ARGB32);
                 // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
     ajouterAlpha(fond, alpha, fondAlpha);
 
@@ -88,8 +94,6 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
 
     // Redimentionnement du widget
     resize(fond->size());
-    // Sauvegarde de l'identifiant de la carte
-    idCarte = identCarte;
     // Initialisation de la liste de points du trace du crayon et de la liste de deplacement du PJ
     listePointsCrayon.clear();
     listeDeplacement.clear();
@@ -126,7 +130,7 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
 /* (image d'origine, image avec les annotations, couche alpha)      */
 /********************************************************************/    
 Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent), idCarte(identCarte)
 {
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
@@ -142,41 +146,7 @@ Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QIma
     alpha = new QImage(coucheAlpha->size(), QImage::Format_ARGB32_Premultiplied);
     *alpha = coucheAlpha->convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-    // Creation de la couche alpha qui sera utilisee pour effacer fond a l'aide de fondOriginal
-    effaceAlpha = new QImage(fondOriginal->size(), QImage::Format_ARGB32_Premultiplied);
-    QPainter painterEfface(effaceAlpha);
-    painterEfface.fillRect(0, 0, fondOriginal->width(), fondOriginal->height(), Qt::black);
-    // Ajout de la couche alpha effaceAlpha a l'image de fond originale
-    ajouterAlpha(fondOriginal, effaceAlpha, fondOriginal);
-
-    // Creation d'une image en mode ARGB32 qui sert a mixer le fond et la couche alpha
-    fondAlpha = new QImage(fondOriginal->size(), QImage::Format_ARGB32);
-    // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-    ajouterAlpha(fond, alpha, fondAlpha);
-
-    // Le fond du widget est automatiquement rempli avec une couleur a chaque reaffichage
-    setAutoFillBackground(true);
-    QPalette pal = palette();
-    pal.setColor(QPalette::Window, Qt::darkMagenta);
-    setPalette(pal);
-    
-    // Initialisation des variables
-    taillePj = 12;
-    boutonGaucheEnfonce = false;
-    boutonDroitEnfonce = false;
-    pointSouris = QPoint(0,0);
-    pointOrigine = QPoint(0,0);
-    diffSourisDessinPerso = QPoint(0,0);
-    pnjSelectionne = 0;
-    dernierPnjSelectionne = 0;
-
-    // Redimentionnement du widget
-    resize(fond->size());
-    // Sauvegarde de l'identifiant de la carte
-    idCarte = identCarte;
-
-    // Initialisation de la liste des mouvement de personnages
-    mouvements.clear();
+    p_init();
 }
 
 /********************************************************************/

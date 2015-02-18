@@ -56,8 +56,12 @@ Initialisation::Initialisation()
         fluxFichier >> ipServeur;
         // ...le port du serveur
         fluxFichier >> portServeur;
+        if (portServeur < 1024)
+            portServeur = 6660;
         // ...le port de connexion pour les clients
         fluxFichier >> portClient;
+        if (portClient.toInt() < 1024)
+            portClient = QString("6660");
         // ...le chemin pour les musiques
         fluxFichier >> dossierMusiquesMj;
         // ...le chemin pour les musiques des joueurs
