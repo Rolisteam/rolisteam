@@ -1,33 +1,30 @@
-/*
-	Rolistik - logiciel collaboratif d'aide aux jeux de roles en ligne
-	Copyright (C) 2007 - Romain Campioni  Tous droits rservs.
+/***************************************************************************
+ *	Copyright (C) 2007 by Romain Campioni   			   *
+ *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
-	Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le
-	modifier suivant les termes de la GNU General Public License telle que
-	publie par la Free Software Foundation : soit la version 2 de cette
-	licence, soit ( votre gr) toute version ultrieure.
 
-	Ce programme est distribu dans lespoir quil vous sera utile, mais SANS
-	AUCUNE GARANTIE : sans mme la garantie implicite de COMMERCIALISABILIT
-	ni dADQUATION  UN OBJECTIF PARTICULIER. Consultez la Licence Gnrale
-	Publique GNU pour plus de dtails.
-
-	Vous devriez avoir reu une copie de la Licence Gnrale Publique GNU avec
-	ce programme ; si ce nest pas le cas, consultez :
-	<http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
-
-	Par ailleurs ce logiciel est gratuit et ne peut en aucun cas tre
-	commercialis, conformment  la "FMOD Non-Commercial License".
+/**!
+* \brief
+* This player can be used by the GM to play song.   
+* Regular players can just change the volume level.                  			                           
 */
-
-
-/********************************************************************/
-/*                                                                  */
-/* Lecteur permettant au MJ de faire jouer de la musique chez les   */
-/* autres utilisateurs. Les joueurs ont seuelement la possibilite   */
-/* de faire varier le volume de la musique.                         */
-/*                                                                  */
-/********************************************************************/
 
 
 #ifndef LECTEUR_AUDIO_H
@@ -64,100 +61,243 @@ class LecteurAudio : public QDockWidget
     Q_OBJECT
 
 public :
+
+	/**
+	* \brief Not used with phonon - used for emit signal when the song is almost finished   
+	*/
         void arriveeEnFinDeTitre();
+
+	/**
+	* \brief Not used with phonon - Called by global stuff to define the time displayed by the LCDNumber   
+	*/
         void passageSurUnTag(QString tag);
+
+	/**
+	* \brief Send some informations to the given player
+	*/
         void emettreEtat(QString idJoueur);
+
+	/**
+	* \brief Hide the control panel if the current user is not the GM
+	*/
         void autoriserOuIntedireCommandes();
+
+	/**
+	* \brief Players only, displays and plays the given filename
+	*/
         void joueurNouveauFichier(QString nomFichier);
+
+	/**
+	* \brief Players only, start or re-start the play of the current song
+	*/
         void joueurLectureMorceau();
+
+	/**
+	* \brief Players only, Pause the playing
+	*/
         void joueurPauseMorceau();
+
+	/**
+	* \brief Players only, Stop the playing
+	*/
         void joueurArretMorceau();
+
+	/**
+	* \brief Players only, Change position of the song
+	*/
         void joueurChangerPosition(int position);
+
+	/**
+	* \brief provides the current volume level
+	*/
         qreal volume();
+
+	/**
+	* \brief return a pointer to the unique audio player. Sigleton pattern
+	*/
         static LecteurAudio*  getInstance(QWidget *parent = 0);
 
 signals :
+
+	/**
+	* \brief emitted when current song is finished
+	*/
         void finDeTitreSignal();
 
 private :
+
+	/**
+	* \brief private constructor
+	*/
         LecteurAudio(QWidget *parent = 0);
+
+	/**
+	* \brief enum playingState
+	*/
         enum etatLecteur {pause, arret, lecture};
 
+
+	/**
+	* \brief add a new file in the list
+	*/
         void nouveauTitre(QString titre, QString fichier);
+
+	/**
+	* \brief stop the playing
+	*/
         void arreter();
-        #ifdef Q_WS_X11
-        void setupUi();
-        #endif
-        void ajouterTags();
+
+	/**
+	* \brief Fmod only
+	*/
+	void ajouterTags();
+
+	/**
+	* \brief send command to a client
+	*/
         void emettreCommande(actionMusique action, QString nomFichier = "", quint64 position = 0, int numeroLiaison = -1);
-        static LecteurAudio* singleton;
-
-        #ifdef Q_WS_X11
-        qint64 m_time;
-        Phonon::MediaSource *currentsource;
-        Phonon::SeekSlider *seekSlider;
-        Phonon::MediaObject *mediaObject;
-        Phonon::AudioOutput *audioOutput;
-        Phonon::VolumeSlider *volumeSlider;
-        bool eventFilter(QObject *object, QEvent *event);
-        Phonon::Path* path;
-        Phonon::VolumeSlider *niveauVolume;			// Permet d'ajuster le niveau du volume
-        Phonon::SeekSlider *positionTemps;			// Permet de voir et de modifier la position de la lecture du titre
-        #endif
-        #ifdef Q_WS_WIN32
-        FSOUND_STREAM *fluxAudio;
-        #endif
-        QWidget *widgetPrincipal;		// Widget contenant tout le lecteur audio (affichage + commande)
-        QWidget *widgetAffichage;		// Contient l'afficheur de titre et le reglage du volume (pour joueurs et MJ)
-        QWidget *widgetCommande;		// Contient le panneau de commande du lecteur (MJ seulement)
-        QVBoxLayout *layoutPrincipal;	// Layout du widget principal
-        QLineEdit *afficheurTitre;		// Affiche le titre en cours de lecture
-        #ifdef Q_WS_WIN32
-        QSlider *niveauVolume;			// Permet d'ajuster le niveau du volume
-        QSlider *positionTemps;
-        #endif
 
 
-        QLCDNumber *afficheurTemps;		// Affiche la position courante du curseur de temps
-        QListWidget *listeTitres;		// Contient la liste des titres qui vont etre lus
-        QList<QString> listeChemins;	// Liste des chemins des fichiers dont les titres sont affiches dans listeTitres
-        QAction *actionLecture;			// Lecture du titre
-        QAction *actionPause;			// Mise en pause de la lecture
-        QAction *actionStop;			// Arret de la lecture
-        QAction *actionBoucle;			// Lecture en boucle du titre
-        QAction *actionUnique;			// Lecture unique du titre, sans passer au titre suivant
-        QAction *actionAjouter;			// Ajouter un titre a la liste
-        QAction *actionSupprimer;		// Supprimer le titre selectionne de la liste
-        int etatActuel;					// Etat courant du lecteur
-        int titreCourant;				// Numero du titre actuellement lu dans la liste des titres
-        int canalAudio;					// Numero de canal utilise pour diffuser le flux audio
-        bool enBoucle;					// True si le bouton "Boucle" est enfonce (la lecture du titre a lieu en boucle)
-        bool lectureUnique;				// True si le bouton "Lecture unique" est enfonce (apres la lecture en cours, le lecteur s'arrete sans passer au titre suivant)
-        bool repriseDeLecture;			// True si la lecture est en cours de lancement (pour eviter qu'un passage sur un tag ne deplace la reprise de lecture)
-        int joueurPositionTemps;		// Joueur seulement - indique la position a partir de laquelle la lecture doit commencer
+        static LecteurAudio* singleton;//!< \brief static pointer to the unique instance of this audioplayer
+
+#ifdef Q_WS_X11
+	/**
+	* \brief set the UI - Phonon only
+	*/
+        void setupUi();
+	/**
+	* \brief event filter to catch all signal emitted by phonon classes
+	*/
+	bool eventFilter(QObject *object, QEvent *event);
+
+        qint64 m_time;//!< \brief current time
+        Phonon::MediaSource *currentsource;//!< \brief current audio source
+        Phonon::SeekSlider *seekSlider; //!< \brief Allows to seek in the song (Phonon only)
+        Phonon::MediaObject *mediaObject; //!<  (Phonon only)
+        Phonon::AudioOutput *audioOutput; //!< (Phonon only)
+        Phonon::VolumeSlider *volumeSlider; //!< \brief Allows to adjust the sound volume (Phonon only)
+        Phonon::Path* path; //!< (Phonon only)
+        Phonon::VolumeSlider *niveauVolume;//!< \brief Allows to adjust the sound volume (Phonon only)
+        Phonon::SeekSlider *positionTemps;//!< \brief Allows to seek in the song (Phonon only)
+#endif
+
+#ifdef Q_WS_WIN32
+        FSOUND_STREAM *fluxAudio; //!< \brief fmod pointer
+#endif
+        QWidget *widgetPrincipal;		//!< \brief brings together all subwidget
+        QWidget *widgetAffichage;		//!< \brief Displays some gauges (for Player and GM.)
+        QWidget *widgetCommande;		//!< \brief Displays the control panel (GM only)
+        QVBoxLayout *layoutPrincipal;	//!< \brief layout
+        QLineEdit *afficheurTitre;		//!< \brief Displays the title of the played song
+
+#ifdef Q_WS_WIN32
+        QSlider *niveauVolume;			//!< \brief Allows to adjust the sound volume
+        QSlider *positionTemps;//!< \brief Allows to seek in the song 
+#endif
+
+
+        QLCDNumber *afficheurTemps;		//!< \brief displays the past time of the playing
+        QListWidget *listeTitres;		//!< \brief displays all avaliable songs 
+        QList<QString> listeChemins;	//!< \brief Path list 
+        QAction *actionLecture;			//!< \brief Play action
+        QAction *actionPause;			//!< \brief Pause action 
+        QAction *actionStop;			//!< \brief Stop action 
+        QAction *actionBoucle;			//!< \brief loop playing action 
+        QAction *actionUnique;			//!< \brief one song playing mode action
+        QAction *actionAjouter;			//!< \brief add song action
+        QAction *actionSupprimer;		//!< \brief remove song action
+        int etatActuel;				//!< \brief current state of the player
+        int titreCourant;	//!< \brief index of the current song (must die)
+        int canalAudio;		//!< \brief index for fmod (must die)
+        bool enBoucle;		//!< \brief bool true if the playing is in loop mode. otherwise false.(must die)
+        bool lectureUnique;     //!< \brief bool true if the playing is in only one song mode. Otherwise false. (must die)
+        bool repriseDeLecture;			//!< \brief bool (must die)
+        int joueurPositionTemps;//!< \brief int starting time for players only
 
 
 private slots :
-        #ifdef Q_WS_X11
+#ifdef Q_WS_X11
+	/**
+	* \brief Phonon only - received the time
+	*/
         void tick(qint64 time);
-        void stateChanged(Phonon::State newState, Phonon::State oldState);
-        void sourceChanged(const Phonon::MediaSource &source);
-        #endif
-        #ifdef Q_WS_WIN32
-        void appuiPause(bool etatBouton);
-        void appuiStop(bool etatBouton);
-        void appuiLecture(bool etatBouton);
-        void changementVolume(int valeur);
-        void changementTempsLecture();
-        void changementTempsAffichage(int valeur);
-        #endif
 
+	/**
+	* \brief Phonon only - called when state has been changed
+	*/
+        void stateChanged(Phonon::State newState, Phonon::State oldState);
+
+	/**
+	* \brief Phonon only - called when the audio source has been changed
+	*/
+        void sourceChanged(const Phonon::MediaSource &source);
+#endif
+#ifdef Q_WS_WIN32
+	/**
+	* \brief Fmod only - slot which manage the click on pauseButton
+	*/
+        void appuiPause(bool etatBouton);
+
+	/**
+	* \brief Fmod only - slot which manage the click on stopButton
+	*/
+        void appuiStop(bool etatBouton);
+
+	/**
+	* \brief Fmod only - slot which manage the click on playing
+	*/
+        void appuiLecture(bool etatBouton);
+
+	/**
+	* \brief Fmod only - slot which manage the volume  change 
+	*/
+        void changementVolume(int valeur);
+
+	/**
+	* \brief Fmod only - slot which manage seeking 
+	*/
+        void changementTempsLecture();
+
+	/**
+	* \brief Fmod only - slot which manage seeking 
+	*/
+        void changementTempsAffichage(int valeur);
+
+#endif
+	/**
+	* \brief  slot which set/unset loop playing
+	*/
         void appuiBoucle(bool etatBouton);
+
+	/**
+	* \brief  slot which set/unset only one song playing mode
+	*/
         void appuiUnique(bool etatBouton);
+
+	/**
+	* \brief  slot which manage the click on add song button
+	*/
         void ajouterTitre();
+
+
+	/**
+	* \brief  slot which manage the click on remove song button
+	*/
         void supprimerTitre();
+
+	/**
+	* \brief  slot which manage the tilte change
+	*/
         void changementTitre(QListWidgetItem * p);
+
+	/**
+	* \brief  slot which is called when song is finished
+	*/
         void finDeTitreSlot();
+
+	/**
+	* \brief  slot which manage the player's root directory change
+	*/
         void joueurChangerDossier();
 
 
