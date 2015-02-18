@@ -28,6 +28,7 @@ PathChooser::PathChooser(QWidget *parent) :
     connect(m_button,SIGNAL(pressed()),this,SLOT(onButton()));
     m_line= new QLineEdit();
     connect(m_line,SIGNAL(textChanged(QString)),this,SLOT(editPath()));
+    m_label = new QLabel();
 
     setupUi();
 }
@@ -57,6 +58,8 @@ void PathChooser::setupUi()
     m_layout->setMargin(0);
     m_layout->addWidget(m_line);
     m_layout->addWidget(m_button);
+    m_layout->addWidget(m_label);
+
 
     setLayout(m_layout);
 
@@ -82,4 +85,16 @@ void PathChooser::onButton()
 QString PathChooser::getPath()
 {
     return m_path;
+}
+void PathChooser::checkPermission()
+{
+    QFileInfo file(m_path);
+    if(file.isWritable())
+    {
+        m_label->setPixmap();
+    }
+    else
+    {
+        m_label->setPixmap();
+    }
 }

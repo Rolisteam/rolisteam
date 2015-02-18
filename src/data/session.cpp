@@ -23,8 +23,7 @@ Chapter* Session::addChapter(QString& name)
 
 CleverURI* Session::addRessource(QString& uri, CleverURI::ContentType& type, Chapter* chapter)
 {
-    CleverURI* tp=NULL;
-    tp=new CleverURI(uri,type);
+    CleverURI* tp=new CleverURI(uri,type);
     if(chapter==NULL)
     {
         m_ressoucelist.append(tp);
@@ -44,6 +43,10 @@ Chapter* Session::getChapter(int index)
  {
     return m_chapterList;
  }
+ QList<CleverURI*>& Session::getUnclassedList()
+ {
+    return m_ressourcelist;
+ }
  QDataStream& operator<<(QDataStream& out, const Session& con)
  {
    out << con.m_gameCount;
@@ -57,3 +60,4 @@ Chapter* Session::getChapter(int index)
    is >>(con.m_time);
    return is;
  }
+

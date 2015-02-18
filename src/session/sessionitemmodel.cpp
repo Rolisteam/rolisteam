@@ -148,7 +148,21 @@ void SessionItemModel::setSession(Session* s)
         m_rootItem->addChild(rt);
 
     }
+    foreach(CleverURI* tmp2,m_session->getUnclassedList())
+    {
+        ResourcesItem* rt = new ResourcesItem(tmp2,true);
+        m_rootItem->addChild(rt);
+    }
 }
+
+Chapter* SessionItemModel::addChapter(QString& name)
+{
+    beginInsertRows(parentIndex,childItem->childrenCount(),childItem->childrenCount());
+    Chapter* t = m_session->addChapter(name);
+    endInsertRows();
+    return t;
+}
+
 CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& parent)
 {
      ResourcesItem* parentItem=NULL;
@@ -165,3 +179,4 @@ CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentT
     endInsertRows();
     return tmp;
 }
+

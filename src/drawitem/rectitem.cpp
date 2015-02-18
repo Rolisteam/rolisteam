@@ -79,10 +79,12 @@ void RectItem::setNewEnd(QPointF& p)
 }
 void RectItem::writeData(QDataStream& out) const
 {
-
+    out << m_rect;
+    out << m_filled;
 }
 
 void RectItem::readData(QDataStream& in)
 {
-
+    in >> m_rect;
+    in >> m_filled;
 }

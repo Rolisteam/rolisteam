@@ -25,6 +25,12 @@
   */
 class CharacterItem : public VisualItem
 {
+
+public:
+    /**
+      * @brief constructor
+      */
+    CharacterItem(QColor& penColor,QGraphicsItem * parent = 0);
     /**
       * @brief serialisation function to write data
       */
@@ -33,11 +39,10 @@ class CharacterItem : public VisualItem
       * @brief serialisation function to read data.
       */
     virtual void readData(QDataStream& in);
-public:
-    /**
-      * @brief constructor
-      */
-    CharacterItem(QColor& penColor,QGraphicsItem * parent = 0);
+
+private:
+    Character* m_character;
+
 };
 
 #endif // CHARACTERITEM_H

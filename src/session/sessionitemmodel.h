@@ -90,6 +90,7 @@ public:
    virtual int columnCount( const QModelIndex&) const;
    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
+    Chapter* addChapter(QString& name);
     void setSession(Session* s);
     void addChapter(Chapter* c );
     CleverURI* addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& index);

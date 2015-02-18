@@ -95,10 +95,14 @@ void EllipsItem::setNewEnd(QPointF& p)
 }
 void EllipsItem::writeData(QDataStream& out) const
 {
-
+    out << m_rect;
+    out << m_center;
+    out << m_filled;
 }
 
 void EllipsItem::readData(QDataStream& in)
 {
-
+    in >> m_rect;
+    in >> m_center;
+    in >> m_filled;
 }

@@ -70,6 +70,8 @@ private slots:
       * @brief called after path editing
       */
     void editPath();
+
+    void checkPermission();
 private:
     /**
       * @brief called for initialising the User Interface
@@ -103,6 +105,8 @@ private:
       * @brief stores title.
       */
     QString m_title;
+
+    QLabel* m_label;
 };
 
 #endif // PATHCHOOSER_H

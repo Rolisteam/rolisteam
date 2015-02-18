@@ -68,10 +68,12 @@ void TextItem::editingFinished()
 }
 void TextItem::writeData(QDataStream& out) const
 {
-
+    out << m_start;
+    out << m_text;
 }
 
 void TextItem::readData(QDataStream& in)
 {
-
+    in >> m_start;
+    in >> m_text;
 }

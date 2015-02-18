@@ -48,10 +48,18 @@ void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 }
 void LineItem::writeData(QDataStream& out) const
 {
-
+    out << m_rect;
+    out << m_startPoint;
+    out << m_endPoint;
+    out << m_pen;
+    out << m_filled;
 }
 
 void LineItem::readData(QDataStream& in)
 {
-
+    in >> m_rect;
+    in >> m_startPoint;
+    in >> m_endPoint;
+    in >> m_pen;
+    in >> m_filled;
 }
