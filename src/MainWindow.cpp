@@ -2166,14 +2166,20 @@ void MainWindow::aideEnLigne()
 
 #elif defined Q_WS_WIN32
       args << QLatin1String("-collectionFile")
-             << QLatin1String(qApp->applicationDirPath()+"/../resourcesdoc/rolisteam-doc/rolisteam.qhc");
+             << QLatin1String((qApp->applicationDirPath()+"/../resourcesdoc/rolisteam-doc/rolisteam.qhc").toLatin1());
       process->start(QLatin1String("assistant"), args);
 #elif defined Q_WS_MAC
-      QString a = QCoreApplication::applicationDirPath()+"/../Resources/doc/rolisteam.qhc";
+	 args << QLatin1String("-collectionFile")
+			 << QLatin1String((QCoreApplication::applicationDirPath()+"/../Resources/doc/rolisteam.qhc").toLatin1());
+	  process->start(QLatin1String("/Developer/Applications/Qt/Assistant/Contents/MacOS/Assistant"), args);
+
+/*
+//version avec l'objet temporaire
+	  QString a = QCoreApplication::applicationDirPath()+"/../Resources/doc/rolisteam.qhc";
      args << QLatin1String("-collectionFile")
              << QLatin1String(a.toLatin1());
       process->start(QLatin1String("/Developer/Applications/Qt/Assistant/Contents/MacOS/Assistant"), args);
-
+*/
 
 
 #endif
