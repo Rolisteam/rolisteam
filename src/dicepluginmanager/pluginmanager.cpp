@@ -1,11 +1,48 @@
 #include "pluginmanager.h"
 #include "dicesysteminterface.h"
 
+#include <QDir>
+#include <QPluginLoader>
+#include <QDebug>
+#include <QtGui>
 
 DicePlugInManager::DicePlugInManager(QObject *parent) :
     QObject(parent)
 {
     m_interfaceList = new QList<DiceSystemInterface*>;
+
+    QDir pluginsDir = QDir(qApp->applicationDirPath());
+
+       pluginsDir.cd("plugins");
+
+
+       foreach (QString fileName, pluginsDir.entryList(QDir::Files))
+       {
+
+           QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+
+           QObject *plugin = loader.instance();
+
+
+           if (plugin)
+           {
+
+               DiceSystemInterface * op = qobject_cast<DiceSystemInterface *>(plugin);
+               if (op)
+               {
+                  m_interfaceList->append(op);
+
+                  //op->getName();
+
+
+
+               }
+
+           }
+           else
+               qDebug() << loader.errorString ();
+       }
+
 }
 DicePlugInManager::~DicePlugInManager()
 {

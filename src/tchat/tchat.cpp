@@ -1,6 +1,6 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni                                  *
- *	Copyright (C) 2009 by Renaud Guezennec                                 *
+ *	Copyright (C) 2007 by Romain Campioni                              *
+ *	Copyright (C) 2009 by Renaud Guezennec                             *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
  *   rolisteam is free software; you can redistribute it and/or modify     *
@@ -35,6 +35,8 @@
 #include "tchatlistmodel.h"
 #include "pluginmanager.h"
 
+#include <QDebug>
+
 Tchat::Tchat(QWidget *parent)
 : SubMdiWindows(parent)
 {
@@ -54,7 +56,7 @@ Tchat::Tchat(QWidget *parent)
     setWindowTitle(tr("Tchat"));
     m_messageHistoric.clear();
 
-    //connect(m_tchatEditor, SIGNAL(onEntry()), this, SLOT(emettreTexte()));
+    connect(m_tchatEditor, SIGNAL(onEntry()), this, SLOT(onEntry()));
     connect(m_tchatEditor, SIGNAL(onArrowUp()), this, SLOT(getUpHistoric()));
     connect(m_tchatEditor, SIGNAL(onArrowDown()), this, SLOT(getDownHistoric()));
 }
@@ -140,13 +142,14 @@ void Tchat::closeEvent(QCloseEvent *event)
 	hide();
         event->ignore();
 }
-void Tchat::addPerson(Person* )
+void Tchat::addPerson(Person* p)
 {
-
+    m_clientList->append(p);
 }
 
-void Tchat::removePerson(Person*)
+void Tchat::removePerson(Person* p)
 {
+    m_clientList->removeOne(p);
 
 }
 void Tchat::setClients(QList<Person*>* tmp)
@@ -201,4 +204,9 @@ void Tchat::showEvent(QShowEvent *event)
 bool Tchat::defineMenu(QMenu* /*menu*/)
 {
     return false;
+}
+void Tchat::onEntry()
+{
+
+
 }

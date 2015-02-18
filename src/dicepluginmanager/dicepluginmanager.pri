@@ -1,5 +1,3 @@
-HEADERS += \
-    dicepluginmanager/pluginmanager.h \
-    dicepluginmanager/dicesysteminterface.h
-SOURCES += \
-    dicepluginmanager/pluginmanager.cpp
+HEADERS += $$PWD/pluginmanager.h \
+    $$PWD/dicesysteminterface.h
+SOURCES += $$PWD/pluginmanager.cpp

@@ -90,7 +90,7 @@ private :
 private slots :
     void getUpHistoric();
     void getDownHistoric();
-
+    void onEntry();
 
 };
 

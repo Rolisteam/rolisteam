@@ -1,4 +1,4 @@
 TEMPLATE = subdirs
 LANGUAGE = C++
 C0NFIG += ordered
-SUBDIRS = src
+SUBDIRS = src srcplugin
