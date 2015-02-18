@@ -33,6 +33,7 @@ class ScriptDiceSystem : public QObject,public DiceSystemInterface
     Q_OBJECT
 
     Q_INTERFACES(DiceSystemInterface)
+        Q_PLUGIN_METADATA(IID "org.rolisteam.scriptdicesystem")
 public:
     /**
       * @brief default constructor

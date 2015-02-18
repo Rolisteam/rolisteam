@@ -20,7 +20,7 @@
     ***************************************************************************/
 
 
-#include <QtGui>
+#include <QtWidgets>
 #include <QCloseEvent>
 #include "audioplayer.h"
 
@@ -36,20 +36,20 @@ AudioPlayer::AudioPlayer(QWidget *parent)
 {
     m_options = PreferencesManager::getInstance();
     setObjectName("AudioPlayer");
-    m_audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
-    m_mediaObject = new Phonon::MediaObject(this);
-    m_path = new Phonon::Path();
+//    m_audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+//    m_mediaObject = new Phonon::MediaObject(this);
+//    m_path = new Phonon::Path();
     
     m_time = 0;
-    connect(m_mediaObject, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
-    connect(m_mediaObject, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
-            this, SLOT(stateChanged(Phonon::State, Phonon::State)));
+//    connect(m_mediaObject, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
+//    connect(m_mediaObject, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
+//            this, SLOT(stateChanged(Phonon::State, Phonon::State)));
     
-    connect(m_mediaObject, SIGNAL(currentSourceChanged(const Phonon::MediaSource &)),
-            this, SLOT(sourceChanged(const Phonon::MediaSource &)));
+//    connect(m_mediaObject, SIGNAL(currentSourceChanged(const Phonon::MediaSource &)),
+//            this, SLOT(sourceChanged(const Phonon::MediaSource &)));
     
-    connect(m_mediaObject, SIGNAL(aboutToFinish()), this, SLOT(finishedSongSlot()));
-    *m_path = Phonon::createPath(m_mediaObject, m_audioOutput);
+//    connect(m_mediaObject, SIGNAL(aboutToFinish()), this, SLOT(finishedSongSlot()));
+//    *m_path = Phonon::/*createPath*/(m_mediaObject, m_audioOutput);
     setupUi();
     
     
@@ -93,29 +93,29 @@ void AudioPlayer::setupUi()
     
     
     // Creation du selecteur de volume
-    m_volumeLevel = new Phonon::VolumeSlider(this);
-    m_volumeLevel->setAudioOutput(m_audioOutput);
-    m_volumeLevel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+//    m_volumeLevel = new Phonon::VolumeSlider(this);
+//    m_volumeLevel->setAudioOutput(m_audioOutput);
+//    m_volumeLevel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     
     
     
-    layoutAffichage->addWidget(m_volumeLevel);
+//    layoutAffichage->addWidget(m_volumeLevel);
     
     QVBoxLayout *layoutCommande = new QVBoxLayout(m_commandWidget);
     layoutCommande->setMargin(0);
     QHBoxLayout *layoutTemps = new QHBoxLayout();
     layoutTemps->setMargin(0);
     
-    m_timeSlider = new Phonon::SeekSlider(this);
-    m_timeSlider->setMediaObject(m_mediaObject);
-    m_timeSlider->setStyle(new QCleanlooksStyle());
+//    m_timeSlider = new Phonon::SeekSlider(this);
+//    m_timeSlider->setMediaObject(m_mediaObject);
+//    m_timeSlider->setStyle(new QCleanlooksStyle());
     
     m_timeCounter = new QLCDNumber();
-    m_timeCounter->setNumDigits(5);
+//    m_timeCounter->setNumDigits(5);
     m_timeCounter->setSegmentStyle(QLCDNumber::Flat);
     m_timeCounter->display("0:00");
     m_timeCounter->setFixedWidth(40);
-    layoutTemps->addWidget(m_timeSlider);
+//    layoutTemps->addWidget(m_timeSlider);
     layoutTemps->addWidget(m_timeCounter);
     layoutCommande->addLayout(layoutTemps);
     QHBoxLayout *layoutBoutons = new QHBoxLayout();
@@ -195,8 +195,8 @@ void AudioPlayer::setupUi()
     
     connect(m_playAct, SIGNAL(triggered(bool)), this, SLOT(pressPlay(bool)));
     
-    connect(m_pauseAct, SIGNAL(triggered()), m_mediaObject, SLOT(pause()));
-    connect(m_stopAct, SIGNAL(triggered()), m_mediaObject, SLOT(stop()));
+//    connect(m_pauseAct, SIGNAL(triggered()), m_mediaObject, SLOT(pause()));
+//    connect(m_stopAct, SIGNAL(triggered()), m_mediaObject, SLOT(stop()));
     
     
     connect(m_repeatAct, SIGNAL(triggered(bool)), this, SLOT(onRepeated(bool)));
@@ -206,7 +206,7 @@ void AudioPlayer::setupUi()
     
     
     connect(m_songListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(changeSong(QListWidgetItem *)));
-    connect(m_mediaObject, SIGNAL(finished()), this, SLOT(finishedSongSlot()));
+//    connect(m_mediaObject, SIGNAL(finished()), this, SLOT(finishedSongSlot()));
     
     m_playAct->setEnabled(false);
     m_pauseAct->setEnabled(false);
@@ -214,15 +214,15 @@ void AudioPlayer::setupUi()
     m_repeatAct->setEnabled(false);
     m_oneperoneAct->setEnabled(false);
     m_removeAct->setEnabled(false);
-    m_timeSlider->setEnabled(false);
+//    m_timeSlider->setEnabled(false);
     
 }
 void AudioPlayer::changeSong(QListWidgetItem * p)
 {
-    m_currentsource = new Phonon::MediaSource(m_pathList[m_songListWidget->row(p)]);
-    m_mediaObject->setCurrentSource(*m_currentsource);
+//    m_currentsource = new Phonon::MediaSource(m_pathList[m_songListWidget->row(p)]);
+//    m_mediaObject->setCurrentSource(*m_currentsource);
     m_currentSong = m_songListWidget->row(p);
-    m_mediaObject->play();
+//    m_mediaObject->play();
 }
 
 void AudioPlayer::pressPlay(bool state)
@@ -252,46 +252,46 @@ void AudioPlayer::tick(qint64 time)
     m_time = time;
     m_timeCounter->display(displayTime.toString("mm:ss"));
 }
-void AudioPlayer::sourceChanged(const Phonon::MediaSource &source)
-{
+//void AudioPlayer::sourceChanged(const Phonon::MediaSource &source)
+//{
     
     
-    m_informationScreen->setText(source.fileName().right(source.fileName().length()-source.fileName().lastIndexOf("/")-1));
-    m_timeCounter->display("00:00");
-}
+//    m_informationScreen->setText(source.fileName().right(source.fileName().length()-source.fileName().lastIndexOf("/")-1));
+//    m_timeCounter->display("00:00");
+//}
 
-void AudioPlayer::stateChanged(Phonon::State newState, Phonon::State /*oldState*/)
-{
+//void AudioPlayer::stateChanged(Phonon::State newState, Phonon::State /*oldState*/)
+//{
     
-    switch (newState) {
-    case Phonon::ErrorState:
+//    switch (newState) {
+//    case Phonon::ErrorState:
 
-        break;
-    case Phonon::PlayingState:
-        m_playAct->setEnabled(false);
-        m_pauseAct->setEnabled(true);
-        m_stopAct->setEnabled(true);
-        break;
-    case Phonon::StoppedState:
-        //stop();
-        m_stopAct->setEnabled(false);
-        m_playAct->setEnabled(true);
-        m_pauseAct->setEnabled(false);
-        m_timeCounter->display("00:00");
-        break;
-    case Phonon::PausedState:
-        m_stopAct->setEnabled(true);
-        m_currentState = PAUSE;
-        m_playAct->setEnabled(true);
-        m_pauseAct->setEnabled(true);
-        break;
-    case Phonon::BufferingState:
-        break;
-    default:
-        break;
-    }
+//        break;
+//    case Phonon::PlayingState:
+//        m_playAct->setEnabled(false);
+//        m_pauseAct->setEnabled(true);
+//        m_stopAct->setEnabled(true);
+//        break;
+//    case Phonon::StoppedState:
+//        //stop();
+//        m_stopAct->setEnabled(false);
+//        m_playAct->setEnabled(true);
+//        m_pauseAct->setEnabled(false);
+//        m_timeCounter->display("00:00");
+//        break;
+//    case Phonon::PausedState:
+//        m_stopAct->setEnabled(true);
+//        m_currentState = PAUSE;
+//        m_playAct->setEnabled(true);
+//        m_pauseAct->setEnabled(true);
+//        break;
+//    case Phonon::BufferingState:
+//        break;
+//    default:
+//        break;
+//    }
     
-}
+//}
 
 
 bool AudioPlayer::eventFilter(QObject *object, QEvent *event)
@@ -348,7 +348,7 @@ void AudioPlayer::addSong()
             m_repeatAct->setEnabled(true);
             m_oneperoneAct->setEnabled(true);
             m_removeAct->setEnabled(true);
-            m_timeSlider->setEnabled(true);
+//            m_timeSlider->setEnabled(true);
 
             m_currentSong = 0;
             addSong(titre, fichier);
@@ -410,7 +410,7 @@ void AudioPlayer::removeSong()
             m_repeatAct->setEnabled(false);
             m_oneperoneAct->setEnabled(false);
             m_removeAct->setEnabled(false);
-            m_timeSlider->setEnabled(false);
+//            m_timeSlider->setEnabled(false);
         }
     }
     
@@ -429,8 +429,8 @@ void AudioPlayer::addSong(QString titre, QString fichier)
     m_informationScreen->setText(titre);
     m_informationScreen->setCursorPosition(0);
     m_informationScreen->setToolTip(fichier);
-    m_currentsource = new Phonon::MediaSource(fichier);
-    m_mediaObject->setCurrentSource(*m_currentsource);
+//    m_currentsource = new Phonon::MediaSource(fichier);
+//    m_mediaObject->setCurrentSource(*m_currentsource);
 }
 
 /*void AudioPlayer::stop()
@@ -450,7 +450,7 @@ void AudioPlayer::finishedSongSlot()
     if (m_repeated)
     {
 
-        m_mediaObject->enqueue(m_mediaObject->currentSource());
+//        m_mediaObject->enqueue(m_mediaObject->currentSource());
 
 
     }
@@ -467,8 +467,8 @@ void AudioPlayer::finishedSongSlot()
 
             m_currentSong++;
             m_currentState = PLAYING;
-            m_currentsource = new Phonon::MediaSource(m_pathList[m_currentSong]);
-            m_mediaObject->enqueue(*m_currentsource);
+//            m_currentsource = new Phonon::MediaSource(m_pathList[m_currentSong]);
+//            m_mediaObject->enqueue(*m_currentsource);
 
         }
 
@@ -482,104 +482,14 @@ void AudioPlayer::finishedSongSlot()
 
 qreal AudioPlayer::volume()
 {
-    return m_audioOutput->volume();
+//    return m_audioOutput->volume();
+    return 0;
 }
 
-/*void AudioPlayer::NewFile(QString nomFichier)
-    {
-    
-    if (nomFichier.isEmpty())
-    {
-    // On efface l'afficheur de titre
-    m_informationScreen->clear();
-    m_informationScreen->setToolTip(tr("Aucun titre"));
-    // On met le lecteur a l'arret
-    m_currentState = arret;
-    // On sort de la fonction
-    return;
-    }
-    
-    // Creation du chemin complet du fichier
-    QString chemin(m_options->value("MusicDirectory",QVariant(".")).toString() + "/" + nomFichier);
-    QFileInfo fileInfo(chemin);
-    // Si l'ouverture s'est mal passee on affiche un message
-    if (!fileInfo.exists())
-    {
-    qWarning("Impossible d'ouvrir le fichier audio (joueurNouveauFichier - AudioPlayer.cpp)");
-    // On affiche le message en clair
-    m_informationScreen->setEchoMode(QLineEdit::Normal);
-    // Changement de la couleur du texte en rouge
-    QPalette palette(m_informationScreen->palette());
-    palette.setColor(QPalette::Normal, QPalette::Text, Qt::red);
-    m_informationScreen->setPalette(palette);
-    // On affiche le titre du nouveau morceau en rouge (indique que le fichier n'est pas present ou impossible a ouvrir)
-    m_informationScreen->setText(nomFichier + tr(" : fichier introuvable ou impossible  ouvrir"));
-    m_informationScreen->setCursorPosition(0);
-    m_informationScreen->setToolTip(tr("Fichier introuvable ou impossible  ouvrir : ") + chemin);
-    // On quitte la fonction
-    return;
-    }
-    
-    // Si l'ouverture du fichier s'est bien passee on ecrit en noir avec des asterisques
-    else
-    {
-    m_currentsource = new Phonon::MediaSource(chemin);
-    m_mediaObject->setCurrentSource(*m_currentsource);
-    m_mediaObject->play();
-    m_informationScreen->setEchoMode(QLineEdit::Password);
-    // On ecrit en noir
-    QPalette palette(m_informationScreen->palette());
-    palette.setColor(QPalette::Normal, QPalette::Text, Qt::black);
-    m_informationScreen->setPalette(palette);
-    }
-    
-    // On affiche le titre du nouveau morceau
-    m_informationScreen->setText(nomFichier);
-    m_informationScreen->setCursorPosition(0);
-    m_informationScreen->setToolTip(tr("Titre masqué"));
-    
-    // On met le lecteur a l'arret
-    m_currentState = arret;
-    // La lecture reprend depuis le debut
-    playerTimePosition = 0;
-    }
-    void AudioPlayer::playerPlaying()
-    {
-    if((m_mediaObject->state()==Phonon::PausedState)||(m_mediaObject->state()==Phonon::StoppedState))
-    {
-    m_mediaObject->play();
-    m_currentState = lecture;
-    
-    
-    }
-    }
-    
-    void AudioPlayer::playerPause()
-    {
-    if(m_mediaObject->state()==Phonon::PlayingState)
-    {
-    m_mediaObject->pause();
-    m_currentState = pause;
-    
-    
-    }
-    }
-    
-    void AudioPlayer::joueurArretMorceau()
-    {
-    if(m_mediaObject->state()==Phonon::PlayingState)
-    {
-    m_mediaObject->stop();
-    m_currentState = arret;
-    
-    playerTimePosition = 0;
-    }
-    }
-    */
 void AudioPlayer::seek(int position)
 {
-    if(m_mediaObject->isSeekable())
-        m_mediaObject->seek(position);
+//    if(m_mediaObject->isSeekable())
+//        m_mediaObject->seek(position);
 }
 
 void AudioPlayer::changeSongDirectory()

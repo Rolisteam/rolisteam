@@ -20,7 +20,7 @@
 
 #include <QMimeData>
 #include <QPixmap>
-#include <QtGui>
+#include <QtWidgets>
 
 #include "improvedworkspace.h"
 #include "preferencesmanager.h"

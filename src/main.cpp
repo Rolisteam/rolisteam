@@ -19,7 +19,7 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 
-#include <QtGui>
+#include <QtWidgets>
 #include <time.h>
 #include "MainWindow.h"
 #include "connection.h"
@@ -54,9 +54,9 @@ int main(int argc, char *argv[])
     
     QApplication app(argc, argv);
     QCoreApplication::setApplicationName(QCoreApplication::tr("rolisteam"));
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+
     qsrand(QDateTime::currentDateTime ().toTime_t ());
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + QLocale::system().name());

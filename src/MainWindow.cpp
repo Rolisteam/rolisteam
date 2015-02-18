@@ -20,7 +20,7 @@
     ***************************************************************************/
 
 //Qt headers
-#include <QtGui>
+#include <QtWidgets>
 #include <QDebug>
 #include <QActionGroup>
 #include <QMessageBox>

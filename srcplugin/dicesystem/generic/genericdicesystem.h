@@ -13,6 +13,7 @@ class GenericDiceSystem : public QObject,public DiceSystemInterface
     Q_OBJECT
 
     Q_INTERFACES(DiceSystemInterface)
+    Q_PLUGIN_METADATA(IID "org.rolisteam.genericdicesystem")
 
 public:
     /**

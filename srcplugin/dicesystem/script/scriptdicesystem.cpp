@@ -59,4 +59,4 @@ const QString& ScriptDiceSystem::catchRegExp() const
 {
     return m_regexp;
 }
-Q_EXPORT_PLUGIN2(dicescripter,ScriptDiceSystem);
+

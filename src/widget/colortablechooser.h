@@ -23,7 +23,7 @@
 
 #include <QColor>
 #include <QWidget>
-
+#include <QtWidgets>
 
 class QVBoxLayout;
 /**

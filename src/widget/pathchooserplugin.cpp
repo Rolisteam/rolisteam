@@ -104,4 +104,4 @@ QString PathChooserPlugin::includeFile() const
     return "pathchooser.h";
 }
 
-Q_EXPORT_PLUGIN2(pathchooserplugin, PathChooserPlugin)
+//Q_EXPORT_PLUGIN2(pathchooserplugin, PathChooserPlugin)

@@ -44,6 +44,9 @@
 #include <QLayout>
 #include <QRect>
 #include <QWidgetItem>
+#include <QStyle>
+
+
 /**
   *  @brief Qt layout to manage elements as flow.
   */

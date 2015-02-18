@@ -20,7 +20,7 @@
     ***************************************************************************/
 
 
-#include <QtGui>
+#include <QtWidgets>
 
 #include "toolbar.h"
 #include "colorselector.h"

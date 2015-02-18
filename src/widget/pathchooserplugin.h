@@ -30,6 +30,7 @@ class PathChooserPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
+    Q_PLUGIN_METADATA(IID "org.rolisteam.pathchooserplugin")
     
 public:
     PathChooserPlugin(QObject *parent = 0);

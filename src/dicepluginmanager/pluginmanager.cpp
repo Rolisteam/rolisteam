@@ -24,7 +24,7 @@
 #include <QDir>
 #include <QPluginLoader>
 #include <QDebug>
-#include <QtGui>
+#include <QtWidgets>
 
 DicePlugInManager::DicePlugInManager(QObject *parent) :
     QObject(parent)

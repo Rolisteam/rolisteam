@@ -2,7 +2,7 @@ TEMPLATE = app
 CONFIG += qt
 
 
-CONFIG += HAVE_PHONON
+CONFIG += HAVE_AUDIO
 #CONFIG += WITH_PDF
 
 DEFINES += VERSION_MAJOR=2 VERSION_MIDDLE=0 VERSION_MINOR=0
@@ -87,17 +87,14 @@ SOURCES += displaydisk.cpp \
     submdiwindows.cpp \
     toolbar.cpp
 
-HAVE_PHONON {
-DEFINES += PHONON
+HAVE_AUDIO {
+DEFINES += AUDIO
 HEADERS += audioplayer.h \
 
 SOURCES += audioplayer.cpp \
 }
 
-HAVE_NULL { 
-    DEFINES += NULL_PLAYER
-    SOURCES += audioplayerunix.cpp
-}
+
 WITH_PDF {
     DEFINES += WITH_PDF
     include(pdfviewer/pdfviewer.pri)
