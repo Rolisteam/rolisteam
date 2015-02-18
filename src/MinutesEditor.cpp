@@ -259,3 +259,18 @@ void MinutesEditor::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
     cursor.mergeCharFormat(format);
     m_minutes->mergeCurrentCharFormat(format);
 }
+void MinutesEditor::saveFile(QString & file)
+{
+    if(!file.isEmpty())
+    {
+
+    }
+}
+
+void MinutesEditor::openFile(QString& file)
+{
+    if(!file.isEmpty())
+    {
+
+    }
+}

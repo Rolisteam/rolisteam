@@ -31,7 +31,7 @@ CharacterSheetWindow::CharacterSheetWindow(QWidget* parent)
 {
     setObjectName("CharacterSheet");
 
-
+    setWindowIcon(QIcon(":/resources/icons/treeview.png"));
     m_addSection = new QAction(tr("Add Section"),this);
     m_addLine= new QAction(tr("Add line"),this);
     m_addCharacterSheet= new QAction(tr("Add CharacterSheet"),this);
@@ -120,6 +120,11 @@ void  CharacterSheetWindow::saveCharacterSheet()
         m_fileUri = QFileDialog::getSaveFileName(this, tr("Save Character Sheets"), m_options->value(QString("DataDirectory"),QVariant(".")).toString(),
                 tr("Xml files (*.xml)"));
     }
+    saveFile(m_fileUri);
+
+}
+void CharacterSheetWindow::saveFile(QString & file)
+{
     if(!m_fileUri.isEmpty())
     {
         QFile url(m_fileUri);
@@ -130,12 +135,10 @@ void  CharacterSheetWindow::saveCharacterSheet()
         m_model.writeModel(in,true);
         url.close();
     }
-
 }
-void CharacterSheetWindow::openCharacterSheet()
+
+void CharacterSheetWindow::openFile(QString& m_fileUri)
 {
-    m_fileUri = QFileDialog::getOpenFileName(this, tr("Save Character Sheets"), m_options->value(QString("DataDirectory"),QVariant(".")).toString(),
-                    tr("Xml files (*.xml)"));
     if(!m_fileUri.isEmpty())
     {
         QFile url(m_fileUri);
@@ -146,6 +149,15 @@ void CharacterSheetWindow::openCharacterSheet()
         m_model.readModel(url);
         url.close();
     }
+}
+
+void CharacterSheetWindow::openCharacterSheet()
+{
+    m_fileUri = QFileDialog::getOpenFileName(this, tr("Save Character Sheets"), m_options->value(QString("DataDirectory"),QVariant(".")).toString(),
+                    tr("Xml files (*.xml)"));
+
+    openFile(m_fileUri);
+
 }
 void CharacterSheetWindow::closeEvent(QCloseEvent *event)
 {

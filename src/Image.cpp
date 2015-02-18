@@ -302,3 +302,18 @@ void Image::zoomBig()
     m_zoomLevel =4.0;
     resizeLabel();
 }
+void Image::saveFile(QString & file)
+{
+    if(!file.isEmpty())
+    {
+
+    }
+}
+
+void Image::openFile(QString& file)
+{
+    if(!file.isEmpty())
+    {
+
+    }
+}

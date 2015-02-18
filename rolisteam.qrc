@@ -57,5 +57,6 @@
         <file>resources/icons/textunder.png</file>
         <file>resources/icons/map.png</file>
         <file>resources/icons/text.png</file>
+        <file>resources/icons/treeview.png</file>
     </qresource>
 </RCC>

@@ -71,7 +71,7 @@ public :
         bool isActiveWindow(QWidget *widget);
 public slots :     
         void displayMinutesEditor();
-        void displayCharacterSheet();
+        void addCharacterSheet();
 
 
 protected :
@@ -102,6 +102,8 @@ private slots:
     void onTabBar();
 
     void openRecentFile(QAction*);
+
+    void openCharacterSheets();
 
 private :
         /**
@@ -160,6 +162,7 @@ private :
         QAction* m_openMapAct;
         QAction* m_openPictureAct;
         QAction* m_openScenarioAct;
+        QAction* m_openCharacterSheetsAct;
         QAction* m_openNoteAct;
 
         QMenu* m_recentFilesMenu;

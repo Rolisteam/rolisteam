@@ -53,6 +53,11 @@ public:
     virtual SubWindowType getType();
 
 
+    void openFile(QString& file);
+    void saveFile(QString & file);
+
+
+
 protected slots:
 	/**
 	* @brief slot is called when the user click on the m_addLine button. That leads to add one line after the current position (in the current CharacterSheet).
@@ -71,8 +76,10 @@ protected slots:
     */
     void displayCustomMenu(const QPoint & pos);
 
-    void saveCharacterSheet();
     void openCharacterSheet();
+
+    void saveCharacterSheet();
+
 
 protected:
     virtual void closeEvent ( QCloseEvent * event );

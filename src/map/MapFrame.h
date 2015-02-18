@@ -49,6 +49,11 @@ public :
 
     int editingMode();
     bool defineMenu(QMenu* /*menu*/);
+
+    void saveFile(QString & file);
+
+    void openFile(QString& file);
+
 public slots :
         /**
          *  @brief called when the windows starts to move (not sure it's still used)

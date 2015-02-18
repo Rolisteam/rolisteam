@@ -106,6 +106,7 @@ void MainWindow::createMenu()
     m_noteEditoAct = m_newMenu->addAction(tr("&Note Editor"));
     m_noteEditoAct->setIcon(QIcon(":/resources/icons/notes.png"));
     m_dataSheetAct = m_newMenu->addAction(tr("&CharacterSheet Viewer"));
+    m_dataSheetAct->setIcon(QIcon(":/resources/icons/treeview.png"));
 
     m_newScenarioAct = m_newMenu->addAction(tr("&Scenario"));
     m_openMenu = m_fileMenu->addMenu(tr("&Open"));
@@ -115,8 +116,13 @@ void MainWindow::createMenu()
     m_openScenarioAct= m_openMenu->addAction(tr("&Scenario"));
     m_openPictureAct= m_openMenu->addAction(tr("&Picture"));
     m_openPictureAct->setIcon(QIcon(":/resources/icons/image.png"));
+    m_openCharacterSheetsAct = m_openMenu->addAction(tr("&CharacterSheet Viewer"));
+    m_openCharacterSheetsAct->setIcon(QIcon(":/resources/icons/treeview.png"));
+
     m_openNoteAct= m_openMenu->addAction(tr("&Note"));
     m_openNoteAct->setIcon(QIcon(":/resources/icons/notes.png"));
+
+
     m_recentFilesMenu = m_fileMenu->addMenu(tr("&Recently Opened"));
     m_recentFiles.removeDuplicates();
     foreach(QString path,m_recentFiles)
@@ -202,7 +208,7 @@ void MainWindow::connectActions()
     connect(m_manageConnectionAct,SIGNAL(triggered()),this,SLOT(showConnectionManager()));
     connect(m_serverAct,SIGNAL(triggered()),this,SLOT(startServer()));
 
-    connect(m_dataSheetAct, SIGNAL(triggered()), this, SLOT(displayCharacterSheet()));
+    connect(m_dataSheetAct, SIGNAL(triggered()), this, SLOT(addCharacterSheet()));
     connect(m_noteEditoAct, SIGNAL(triggered()), this, SLOT(displayMinutesEditor()));
 
     connect(m_usedTabBarAct,SIGNAL(toggled(bool)),m_organizeMenu,SLOT(setDisabled(bool)));
@@ -215,7 +221,7 @@ void MainWindow::connectActions()
     connect( m_cascadeSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(cascadeSubWindows()));
     connect( m_tileSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(tileSubWindows()));
 
-
+    connect(m_openCharacterSheetsAct,SIGNAL(triggered()),this,SLOT(openCharacterSheets()));
     //connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
 }
 void MainWindow::allowActions()
@@ -226,7 +232,21 @@ void MainWindow::openRecentFile(QAction* pathAct)
 {
     qDebug() << pathAct->text();
 }
+void MainWindow::openCharacterSheets()
+{
+    QString filepath = QFileDialog::getOpenFileName(this, tr("Open Character Sheets"), m_options->value(QString("DataDirectory"),QVariant(".")).toString(),
+            tr("Character Sheets files (*.xml)"));
 
+    if(!filepath.isEmpty())
+    {
+        CharacterSheetWindow* characterSheet = new CharacterSheetWindow();
+        characterSheet->openFile(filepath);
+        addToWorkspace(characterSheet);
+
+        characterSheet->setVisible(true);
+
+    }
+}
 void MainWindow::hideShowWindow(QAction* p)
 {
     SubMdiWindows* tmp = (*m_subWindowList)[p];
@@ -250,7 +270,7 @@ void MainWindow::addToWorkspace(SubMdiWindows* subWindow)
 
 }
 
-void MainWindow::displayCharacterSheet()
+void MainWindow::addCharacterSheet()
 {
     CharacterSheetWindow* characterSheet = new CharacterSheetWindow();
     addToWorkspace(characterSheet);

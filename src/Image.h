@@ -51,7 +51,9 @@ public :
 
 
     virtual bool defineMenu(QMenu* menu);
+    void saveFile(QString & file);
 
+    void openFile(QString& file);
 
 public slots :
     void pointeurMain();

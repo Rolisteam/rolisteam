@@ -41,6 +41,10 @@ public:
 	*/
     enum SubWindowType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET};
 
+
+    virtual void saveFile(QString & file)=0;
+    virtual void openFile(QString & file)=0;
+
 public slots:
 	/**
 	* @brief is called when the window' state changes

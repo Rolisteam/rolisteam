@@ -167,3 +167,18 @@ bool MapFrame::defineMenu(QMenu* /*menu*/)
 {
     return false;
 }
+void MapFrame::saveFile(QString & file)
+{
+    if(!file.isEmpty())
+    {
+
+    }
+}
+
+void MapFrame::openFile(QString& file)
+{
+    if(!file.isEmpty())
+    {
+
+    }
+}
