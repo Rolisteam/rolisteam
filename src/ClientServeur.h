@@ -76,6 +76,8 @@ public :
 
     PlayerTransfer* currentUser();
 
+    void finDeLiaison(Liaison * link);
+
 signals :
     void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);
 
@@ -87,7 +89,6 @@ private :
 
 private slots :
     void nouveauClientConnecte();
-    void finDeLiaison();
 };
 
 #endif

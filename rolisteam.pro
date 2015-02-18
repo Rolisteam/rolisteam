@@ -18,6 +18,7 @@ HEADERS += src/AfficheurDisque.h \
            src/ClientServeur.h \
            src/colorbutton.h \
            src/connectiondialog.h \
+           src/datareader.h \
            src/DessinPerso.h \
            src/EditeurNotes.h \
            src/Features.h \
@@ -28,6 +29,7 @@ HEADERS += src/AfficheurDisque.h \
            src/MainWindow.h \
            src/NouveauPlanVide.h \
            src/preferencesdialog.h \
+           src/receiveevent.h \
            src/Rolisteam_private.h \
            src/SelecteurCouleur.h \
            src/SelecteurDiametre.h \
@@ -45,6 +47,7 @@ SOURCES += src/AfficheurDisque.cpp \
            src/ClientServeur.cpp \
            src/colorbutton.cpp \
            src/connectiondialog.cpp \
+           src/datareader.cpp \
            src/DessinPerso.cpp \
            src/EditeurNotes.cpp \
            src/Features.cpp \
@@ -56,6 +59,7 @@ SOURCES += src/AfficheurDisque.cpp \
            src/MainWindow.cpp \
            src/NouveauPlanVide.cpp \
            src/preferencesdialog.cpp \
+           src/receiveevent.cpp \
            src/SelecteurCouleur.cpp \
            src/SelecteurDiametre.cpp \
            src/Tchat.cpp \

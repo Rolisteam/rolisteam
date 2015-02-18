@@ -24,6 +24,9 @@
 
 #include <QList>
 #include <QString>
+#include <QObject>
+
+class DataReader;
 
 /**
  * @brief Feature represents a feature of a client software.
@@ -50,13 +53,13 @@ class Feature {
         Feature(const QString & userId, const QString & name, quint8 version);
 
         /**
-         * @brief Constructor from a buffer.
+         * @brief Constructor from network data.
          *
-         * Made a new Feature out of a message's data buffer.
+         * Made a new Feature out of a network message.
          *
-         * @param buffer pointer to a data section from a message.
+         * @param data.
          */
-        Feature(const char * buffer); // read the data part of a message
+        Feature(DataReader & data); // read the data part of a message
 
         // Operators
 
@@ -121,7 +124,11 @@ class Feature {
 /**
  * @brief FeatureList maintains a features database.
  */
-class FeaturesList {
+class FeaturesList
+ : public QObject
+{
+    Q_OBJECT
+
     public:
 
         // Constructors
@@ -131,7 +138,7 @@ class FeaturesList {
          *
          * Create an empty database.
          */
-        FeaturesList();
+        FeaturesList(QObject * parent = NULL);
 
         // Getters
 
@@ -190,6 +197,9 @@ class FeaturesList {
          * @param userId unique identifier of the player.
          */
         void delUser(const QString & userId);
+
+        // Event handler
+        virtual bool event(QEvent * event);
 
     private:
         QList<Feature> m_list;

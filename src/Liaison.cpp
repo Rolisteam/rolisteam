@@ -1,36 +1,41 @@
-/***************************************************************************
-*	Copyright (C) 2007 by Romain Campioni   			   *
-*	Copyright (C) 2009 by Renaud Guezennec                             *
-*   http://renaudguezennec.homelinux.org/accueil,3.html                   *
-*                                                                         *
-*   rolisteam is free software; you can redistribute it and/or modify  *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 2 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-*   This program is distributed in the hope that it will be useful,       *
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-*   GNU General Public License for more details.                          *
-*                                                                         *
-*   You should have received a copy of the GNU General Public License     *
-*   along with this program; if not, write to the                         *
-*   Free Software Foundation, Inc.,                                       *
-*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-***************************************************************************/
+/************************************************************************
+*   Copyright (C) 2007 by Romain Campioni   			                *
+*   Copyright (C) 2009 by Renaud Guezennec                              *
+*   Copyright (C) 2011 by Joseph Boudou                                 *
+*                                                                       *
+*   rolisteam is free software; you can redistribute it and/or modify   *
+*   it under the terms of the GNU General Public License as published   *
+*   by the Free Software Foundation; either version 2 of the License,   *
+*   or (at your option) any later version.                              *
+*                                                                       *
+*   This program is distributed in the hope that it will be useful,     *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of      *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the       *
+*   GNU General Public License for more details.                        *
+*                                                                       *
+*   You should have received a copy of the GNU General Public License   *
+*   along with this program; if not, write to the                       *
+*   Free Software Foundation, Inc.,                                     *
+*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
+*************************************************************************/
 
-
-#include <QtGui>
-#include <QtNetwork>
+#include <QApplication>
+#include <QTcpSocket>
 
 #include "Carte.h"
 #include "CarteFenetre.h"
+#include "ClientServeur.h"
 #include "DessinPerso.h"
 #include "Liaison.h"
-#include "ClientServeur.h"
+#include "receiveevent.h"
 #include "Tchat.h"
-#include "variablesGlobales.h"
+
+#ifndef NULL_PLAYER
+#include "LecteurAudio.h"
+#endif
+
 #include "types.h"
+#include "variablesGlobales.h"
 
 /***********
  * Globals *
@@ -43,8 +48,8 @@ QMutex G_mutexConnexion;
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/
-Liaison::Liaison(QTcpSocket *socket, QObject * parent)
-    : QThread(parent)
+Liaison::Liaison(QTcpSocket *socket)
+    : QObject(NULL)
 {
     // Initialisation des variables
     socketTcp = socket;
@@ -52,8 +57,7 @@ Liaison::Liaison(QTcpSocket *socket, QObject * parent)
 #ifndef NULL_PLAYER
     G_lecteurAudio = LecteurAudio::getInstance();
 #endif
-    // Connexion de la fin du thread a la fonction de fermeture de l'application ou de suppression d'un client
-    QObject::connect(this, SIGNAL(finished()), G_clientServeur, SLOT(finDeLiaison()));
+
     // Connexion du signal de reception
     QObject::connect(socketTcp, SIGNAL(readyRead()), this, SLOT(reception()));
     // Connexion du signal d'erreur
@@ -69,17 +73,10 @@ Liaison::Liaison(QTcpSocket *socket, QObject * parent)
         QObject::connect(G_clientServeur, SIGNAL(emissionDonnees(char *, quint32, Liaison *)), this, SLOT(emissionDonnees(char *, quint32, Liaison *)));
     }
 }
+
 Liaison::~Liaison()
 {
     delete socketTcp;
-}
-
-/********************************************************************/
-/* Lance le thread (appele par start())                             */
-/********************************************************************/
-void Liaison::run()
-{
-    exec();
 }
 
 /********************************************************************/
@@ -92,11 +89,7 @@ void Liaison::erreurDeConnexion(QAbstractSocket::SocketError erreur)
     // Si la connexion est perdue on quitte le thread
     if (erreur == QAbstractSocket::RemoteHostClosedError)
     {
-        // Destruction du socket
-        //delete socketTcp;
-        //socketTcp->~QTcpSocket();
-        // Onception du plan quitte le thread
-        quit();
+        G_clientServeur->finDeLiaison(this);
     }
 }
 
@@ -1796,10 +1789,17 @@ void Liaison::receptionMessageParametres()
 
     if (entete.action == addFeature)
     {
-        g_featuresList.add(Feature(tampon));
+        postTo(&g_featuresList);
         faireSuivreMessage(false);
     }
 }
+
+void Liaison::postTo(QObject * obj) const
+{
+    QEvent * event = new ReceiveEvent(entete.categorie, entete.action, entete.tailleDonnees, tampon);
+    QCoreApplication::postEvent(obj, event, Qt::LowEventPriority);
+}
+
 
 /********************************************************************/
 /* Fait suivre le message recu a l'ensemble des clients si tous =   */

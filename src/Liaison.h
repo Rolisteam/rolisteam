@@ -35,29 +35,23 @@
 #define LIAISON_H
 
 #include <QtNetwork>
-#include <QThread>
 #include <QTcpSocket>
 
-#include "Carte.h"
 #include "types.h"
-#ifndef NULL_PLAYER
-#include "LecteurAudio.h"
-#endif
-class Liaison : public QThread
+
+class Carte;
+
+class Liaison
+ : public QObject
 {
 Q_OBJECT
 
 public :
-    Liaison(QTcpSocket *socket, QObject * parent = 0);
+    Liaison(QTcpSocket *socket);
     ~Liaison();
 
 public slots :
     void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf = 0);
-
-signals :
-
-protected :
-    void run();
 
 private :
     void receptionMessageConnexion();
@@ -71,6 +65,8 @@ private :
     void receptionMessageDiscussion();
     void receptionMessageMusique();
     void receptionMessageParametres();
+
+    void postTo(QObject * obj) const;
     void faireSuivreMessage(bool tous);
     void emettreUtilisateur(utilisateur *util, bool multi = false);
     int extrairePersonnage(Carte *carte, char *tampon);
@@ -83,6 +79,7 @@ private :
 #ifndef NULL_PLAYER
     LecteurAudio* G_lecteurAudio;
 #endif
+
 private slots :
     void reception();
     void erreurDeConnexion(QAbstractSocket::SocketError);

@@ -247,8 +247,7 @@ bool ClientServeur::configAndConnect()
             if (socket != NULL)
             {
                 synchronizeInitialisation(configDialog);
-                Liaison * link = new Liaison(socket, this);
-                link->start();
+                new Liaison(socket);
 
                 emettreIdentite(configDialog.getName());
                 g_featuresList.sendThemAll();
@@ -292,14 +291,14 @@ void ClientServeur::nouveauClientConnecte()
     QTcpSocket *socketTcp = m_server->nextPendingConnection();
 
     // Creation de la liaison qui va gerer le socket
-    Liaison *liaison = new Liaison(socketTcp, this);
-    // Mise en route de la liaison
-    liaison->start();
+    new Liaison(socketTcp);
 }
 
 
-void ClientServeur::finDeLiaison()
+void ClientServeur::finDeLiaison(Liaison * link)
 {
+    link->deleteLater();
+
     // Si l'ordinateur local est un client
     if (G_client)
     {
@@ -310,23 +309,20 @@ void ClientServeur::finDeLiaison()
     // Si l'ordinateur local est le serveur
     else
     {
-        bool trouve = false;
-        int i;
-        int n = liaisons.size();
-        // On recherche le thread qui vient de se terminer
-            for (i = 0; ((i<n) && (!trouve)); i++)
-            if (liaisons[i]->isFinished())
-                trouve = true;
-        i--;
-        
-        if (!trouve)
+        if (link == NULL)
+        {
+            qWarning("NULL Liaison pointer (ClientServeur::finDeLiaison).");
+            return;
+        }
+
+        int i = liaisons.indexOf(link);
+        if (i < 0)
         {
             qWarning("Un thread inconnu vient de se terminer (finDeLiaison - ClientServeur.cpp)");
             return;
         }
         
         // On supprime la liaison de la liste, apres l'avoir detruite
-        delete liaisons[i];
         liaisons.removeAt(i);
         // Recuperation de l'identifiant du joueur correspondant a la liaison
         // (en tenant compte du fait que le 1er utilisateur est toujours le serveur)

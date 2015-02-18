@@ -20,6 +20,10 @@
 
 
 #include "Features.h"
+
+#include "datareader.h"
+#include "receiveevent.h"
+
 #include "variablesGlobales.h"
 
 /* TODO :
@@ -45,26 +49,12 @@ Feature::Feature(const QString & userId, const QString & name, quint8 version)
     : m_userId(userId), m_name(name), m_version(version)
 {}
 
-Feature::Feature(const char * buffer)
+Feature::Feature(DataReader & data)
 {   // Same format as send(). (network)
-
-    quint8 tmpSize;
-
-    // Read userId (uuid)
-    tmpSize = (quint8) *buffer;
-    buffer += sizeof(quint8);
-    // QString(QChar *, int) makes a deep copy. No need for memcpy.
-    m_userId = QString((const QChar *) buffer, tmpSize);
-    buffer += tmpSize * sizeof(QChar);
-
-    // Read name
-    tmpSize = (quint8) *buffer;
-    buffer += sizeof(quint8);
-    m_name = QString((const QChar *) buffer, tmpSize);
-    buffer += tmpSize * sizeof(QChar);
-
-    // Read version
-    m_version = (quint8) *buffer;
+    data.reset();
+    m_userId = data.string8();
+    m_name = data.string8();
+    m_version = data.uint8();
 }
 
 Feature::Feature(const Feature & other)
@@ -177,7 +167,8 @@ Feature::send(int linkIndex) const
  * FeaturesList *
  ****************/
 
-FeaturesList::FeaturesList()
+FeaturesList::FeaturesList(QObject * parent)
+ : QObject(parent)
 {}
 
 void
@@ -256,4 +247,22 @@ FeaturesList::delUser(const QString & userId)
             i++;
         }
     }
+}
+
+
+bool
+FeaturesList::event(QEvent * event)
+{
+    if (event->type() == ReceiveEvent::Type)
+    {
+        ReceiveEvent * netEvent = static_cast<ReceiveEvent *>(event);
+        if (netEvent->categorie() == parametres && netEvent->action() == addFeature)
+        {
+            Feature feature(netEvent->data());
+            add(feature);
+            return true;
+        }
+    }
+
+    return QObject::event(event);
 }

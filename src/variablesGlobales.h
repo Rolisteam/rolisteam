@@ -40,13 +40,14 @@
 #include "DessinPerso.h"
 #include "ListeUtilisateurs.h"
 #include "MainWindow.h"
-#include "Liaison.h"
 #include "ClientServeur.h"
 #ifndef NULL_PLAYER
 #include "LecteurAudio.h"
 #endif
 #include "Features.h"
 #include "initialisation.h"
+
+class Liaison;
 
 // Fonction globale, declaree dans MainWindow.cpp
 void ecrireLogUtilisateur(QString message);
