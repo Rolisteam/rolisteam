@@ -43,6 +43,10 @@
 #include "charactersheetwindow.h"
 #include "pluginmanager.h"
 
+//network module
+#include "servermanager.h"
+#include "serverdialog.h"
+
 //for the new userlist
 #include "player.h"
 
@@ -490,7 +494,16 @@ void MainWindow::saveAll()
 }
 void MainWindow::startServer()
 {
-    qDebug() << "Start server here";
+    ServerDialog tmpdialog;
+    if(tmpdialog.exec())
+    {
+        tmpdialog.writePrefences();
+        /** @todo: add parameters to use password  */
+        ServerManager* tmp = new ServerManager(tmpdialog.getPort(),this);
+        tmp->start();
+    }
+
+    /** @todo: Make the client connection to the server*/
 }
 void MainWindow::addConnection()
 {
