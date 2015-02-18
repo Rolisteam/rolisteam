@@ -100,6 +100,11 @@ BarreOutils::BarreOutils(QWidget *parent)
 
 	setFloating(false);
 }
+BarreOutils::~BarreOutils()
+{
+    delete ligneDeTexte;
+    delete nomPnj;
+}
 
 /********************************************************************/	
 /* Autorise ou pas la selection des couleurs de masquage et         */
@@ -303,15 +308,16 @@ void BarreOutils::creerOutils()
         diametreTrait = new SelecteurDiametre(outils, true, 1, 45);
 	diametreTrait->setToolTip(tr("Grosseur du trait"));
 
-        if(PlayersList::instance().localPlayer()->isGM())
-        {
+     /*   if(PlayersList::instance().localPlayer()->isGM())
+        {*/
             // Creation du selecteur de diametre des PNJ
             diametrePnj = new SelecteurDiametre(outils, false, 12, 200);
             diametrePnj->setToolTip(tr("Taille du PNJ"));
             connect(diametrePnj, SIGNAL(valueChanging(int)),this, SLOT(changeCharacterSize(int)));
             connect(diametrePnj, SIGNAL(valueChanged(int)),this, SLOT(sendNewCharacterSize(int)));
-        }
-
+    //    }
+    if(!PlayersList::instance().localPlayer()->isGM())
+        diametrePnj->setVisible(false);
     /*m_pcDiameter = new SelecteurDiametre(outils, false, 2, 45);
     m_pcDiameter->setToolTip(tr("Taille du PJ"));
 
@@ -376,8 +382,8 @@ void BarreOutils::creerOutils()
 	#endif
 	outilsLayout->addWidget(nomPnj);
 	outilsLayout->addWidget(separateur5);
-        if(PlayersList::instance().localPlayer()->isGM())
-            outilsLayout->addWidget(diametrePnj);
+        //if(PlayersList::instance().localPlayer()->isGM())
+        outilsLayout->addWidget(diametrePnj);
         //outilsLayout->addWidget(m_pcDiameter);
 	// Alignement du widget outils sur le haut du dockWidget
 	layout()->setAlignment(outils, Qt::AlignTop | Qt::AlignHCenter);

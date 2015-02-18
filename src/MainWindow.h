@@ -63,6 +63,7 @@ class MainWindow : public QMainWindow
 
 public :
     MainWindow();
+    ~MainWindow();
     void majCouleursPersonnelles();
     void ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
     void ajouterImage(Image *imageFenetre, QString titre);
@@ -170,7 +171,7 @@ private :
     UpdateChecker* m_updateChecker;
 
     QString m_version;
-
+    QDockWidget* m_dockLogUtil;
 private slots :
     void changementNatureUtilisateur();
     void afficherNomsPj(bool afficher);

@@ -29,7 +29,6 @@
 #define CONSTANTES_GLOBALES_H
 
 #define NOM_APPLICATION     "Rolisteam"  // Nom de l'application
-#define VERSION_APPLICATION "1.0.3-dev"  // Version de l'application
 #define TAILLE_ICONES       20           // Taille des icones de la barre d'outils
 #define PORT_SERVEUR        6660         // Port par defaut du serveur TCP
 #define FREQUENCE_AUDIO     44100        // Frequence de sortie des musiques

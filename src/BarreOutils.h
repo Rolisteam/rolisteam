@@ -45,6 +45,7 @@ class BarreOutils : public QDockWidget
     
     public :
         BarreOutils(QWidget *parent = 0);
+        virtual ~BarreOutils();
         void majCouleursPersonnelles();
         QColor donnerCouleurPersonnelle(int numero);
         void autoriserOuInterdireCouleurs();

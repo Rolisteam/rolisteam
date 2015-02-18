@@ -14,6 +14,7 @@ CONFIG += HAVE_PHONON
 TRANSLATIONS = traduction/rolisteam_fr.ts
 CODECFORTR = UTF-8
 HEADERS += src/AfficheurDisque.h \
+            src/constantesGlobles.h \
            src/BarreOutils.h \
            src/Carte.h \
            src/CarteFenetre.h \
@@ -124,6 +125,6 @@ QT += core \
  network
 
 #VERSION = 1.0.3
-DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=1
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=2
 UI_DIR = src
 #QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"

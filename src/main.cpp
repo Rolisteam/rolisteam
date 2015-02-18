@@ -63,7 +63,15 @@ int main(int argc, char *argv[])
     // Creation de l'application
     QApplication app(argc, argv);
     app.setApplicationName(NOM_APPLICATION);
-    app.setApplicationVersion(VERSION_APPLICATION);
+    QString version = QObject::tr("Unknown");
+    #ifdef VERSION_MINOR
+        #ifdef VERSION_MAJOR
+            #ifdef VERSION_MIDDLE
+                version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+            #endif
+        #endif
+    #endif
+    app.setApplicationVersion(version);
 
     // Internationalization
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));

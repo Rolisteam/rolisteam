@@ -251,6 +251,10 @@ MainWindow::MainWindow()
         connect(&g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
         connect(&g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
 }
+MainWindow::~MainWindow()
+{
+    delete m_dockLogUtil;
+}
 
 /********************************************************************/
 /* Creation du log utilisateur                                          */
@@ -258,21 +262,21 @@ MainWindow::MainWindow()
 QDockWidget* MainWindow::creerLogUtilisateur()
 {
         // Creation du dockWidget contenant la fenetre de log utilisateur
-        QDockWidget *dockLogUtil = new QDockWidget(tr("Evènements"), this);
-        dockLogUtil->setObjectName("dockLogUtil");
-        dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
-        dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+        m_dockLogUtil = new QDockWidget(tr("Evènements"), this);
+        m_dockLogUtil->setObjectName("dockLogUtil");
+        m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
+        m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 
         //Creation du log utilisateur
-        logUtilisateur = new QTextEdit(dockLogUtil);
+        logUtilisateur = new QTextEdit(m_dockLogUtil);
         logUtilisateur->setReadOnly(true);
 
         // Insertion de la fenetre de log utilisateur dans le dockWidget
-        dockLogUtil->setWidget(logUtilisateur);
+        m_dockLogUtil->setWidget(logUtilisateur);
         // Largeur minimum du log utilisateur
-        dockLogUtil->setMinimumWidth(125);
+        m_dockLogUtil->setMinimumWidth(125);
 
-        return dockLogUtil;
+        return m_dockLogUtil;
 }
 
 /********************************************************************/
