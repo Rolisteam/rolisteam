@@ -33,10 +33,10 @@
 
 #include "networkmessage.h"
 #include "preferencesmanager.h"
-#include "colorbutton.h"
+#include "widgets/colorbutton.h"
 #include "chatbrowser.h"
 
-#include "ui_chatwindow.h"
+//#include "ui_chatwindow.h"
 
 class AbstractChat;
 class MainWindow;
@@ -101,7 +101,7 @@ protected :
 private :
     static QStringList m_keyWordList;
 
-    Ui::ChatWindow* ui;
+    //Ui::ChatWindow* ui;
 
     QMdiSubWindow* m_window;
 

@@ -116,7 +116,8 @@ private:
  *
  * They are stored inside the Player who own them.
  */
-class Character : public Person {
+class Character : public Person
+{
 public:
     Character(const QString & name, const QColor & color);
     Character(const QString & uuid, const QString & name, const QColor & color);

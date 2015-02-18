@@ -29,7 +29,7 @@
 
 
 #include "preferencesmanager.h"
-#include "colorbutton.h"
+#include "widgets/colorbutton.h"
 
 
 
@@ -56,6 +56,10 @@ public slots:
 private slots:
     void load();
     void save() const;
+
+    /**
+     * @brief performDiag start diagnostic and Display some value about current qt version.
+     */
     void performDiag();
 
 private:

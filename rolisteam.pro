@@ -66,7 +66,6 @@ HEADERS += src/AfficheurDisque.h \
            src/chatlist.h \
            src/chatlistwidget.h \
            src/ClientServeur.h \
-           src/colorbutton.h \
            src/connectiondialog.h \
            src/delegate.h \
            src/DessinPerso.h \
@@ -102,7 +101,8 @@ HEADERS += src/AfficheurDisque.h \
     src/ipchecker.h \
     src/mapwizzard.h \
     src/newemptymapdialog.h \
-    src/widgets/dirchooser.h
+    src/widgets/dirchooser.h \
+    src/widgets/colorbutton.h
 
 
 SOURCES += src/AfficheurDisque.cpp \
@@ -113,7 +113,6 @@ SOURCES += src/AfficheurDisque.cpp \
            src/chatlist.cpp \
            src/chatlistwidget.cpp \
            src/ClientServeur.cpp \
-           src/colorbutton.cpp \
            src/connectiondialog.cpp \
            src/delegate.cpp \
            src/DessinPerso.cpp \
@@ -148,7 +147,8 @@ SOURCES += src/AfficheurDisque.cpp \
     src/ipchecker.cpp \
     src/mapwizzard.cpp \
     src/newemptymapdialog.cpp \
-    src/widgets/dirchooser.cpp
+    src/widgets/dirchooser.cpp \
+    src/widgets/colorbutton.cpp \
 
 #end source
 

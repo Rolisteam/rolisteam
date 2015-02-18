@@ -57,7 +57,7 @@ QStringList ChatWindow::m_keyWordList;
 /* Constructeur                                                     */
 /********************************************************************/    
 ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
-    : QWidget(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent),ui(new Ui::ChatWindow)
+    : QWidget(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)/*,ui(new Ui::ChatWindow)*/
 {
     m_preferences = PreferencesManager::getInstance();
     //ui->setupUi(this);
