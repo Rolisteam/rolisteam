@@ -28,10 +28,11 @@ void MapWizzard::selectPath()
     QString filepath = QFileDialog::getOpenFileName(this, tr("Select Map"), m_preferences->value("MapDirectory",QDir::homePath()).toString(),
                                       tr("Map (*.pla *.jpg *.jpeg *.png *.bmp)"));
     ui->m_filepathDisplay->setText(filepath);
-    QFileInfo info(filepath);
-    m_preferences->registerValue("MapDirectory",info.absolutePath());
+
+
     if(ui->m_titleEdit->text().isEmpty())
     {
+        QFileInfo info(filepath);
         ui->m_titleEdit->setText(info.baseName());
     }
 }

@@ -583,6 +583,9 @@ void MainWindow::openMapWizzard()
     m_mapWizzard->resetData();
     if(m_mapWizzard->exec()==QMessageBox::Accepted)
     {
+        QFileInfo info(m_mapWizzard->getFilepath());
+
+        m_preferences->registerValue("MapDirectory",info.absolutePath());
         openMap(m_mapWizzard->getPermissionMode(),m_mapWizzard->getFilepath(),m_mapWizzard->getTitle(),m_mapWizzard->getHidden());
     }
 }
