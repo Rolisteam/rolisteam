@@ -64,10 +64,10 @@ Chapter* Session::getChapter(int index)
  {
    out << con.m_gameCount;
    out << con.m_time;
-   qDebug() << "SESSION " << con.m_chapterList.size();
+//   qDebug() << "SESSION " << con.m_chapterList.size();
    out << con.m_chapterList;
    out << con.m_ressoucelist;
-      qDebug() << "SESSION  ressource" <<con.m_ressoucelist.size();
+   //   qDebug() << "SESSION  ressource" <<con.m_ressoucelist.size();
       return out;
  }
 
@@ -76,9 +76,9 @@ Chapter* Session::getChapter(int index)
    is >>(con.m_gameCount);
    is >>(con.m_time);
    is >> (con.m_chapterList);
-   qDebug() << "SESSION " <<con.m_chapterList.size();
+ //  qDebug() << "SESSION " <<con.m_chapterList.size();
    is >> (con.m_ressoucelist);
-   qDebug() << "SESSION  ressource" <<con.m_ressoucelist.size();
+ //  qDebug() << "SESSION  ressource" <<con.m_ressoucelist.size();
    return is;
  }
 

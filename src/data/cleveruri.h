@@ -27,8 +27,17 @@ public:
     virtual void setShortName(QString& name);
 
 private:
+    void defineShortName();
+
+
+
+
     QString m_uri;
     int m_type;
+    QString m_shortname;
+
+
+
 
     friend QDataStream& operator<<(QDataStream& os,const CleverURI&);
     friend QDataStream& operator>>(QDataStream& is,CleverURI&);

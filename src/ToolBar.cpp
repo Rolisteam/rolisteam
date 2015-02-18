@@ -431,7 +431,7 @@ void ToolsBar::nomPnjChange(const QString &texte)
 void ToolsBar::changeCurrentColor(QColor color)
 {
     couleur->setCurrentColor(color);
-    qDebug() << "Toolbar changed color";
+    //qDebug() << "Toolbar changed color";
     emit currentColorChanged(color);
 }
 QColor& ToolsBar::currentColor()

@@ -64,6 +64,7 @@
 MainWindow::MainWindow()
         : QMainWindow()
 {
+    m_manageConnectionAct=NULL;
     m_options = PreferencesManager::getInstance();
     m_diceManager=DicePlugInManager::instance();
     //m_toolbar = ToolsBar::getInstance(this);//new ToolsBar(this);
@@ -97,7 +98,7 @@ MainWindow::MainWindow()
 
     // all other allocation must be done after the settings reading.
 
-    m_connectDialog = new ConnectionWizzard(this);
+    m_connectDialog = new ConnectionWizzard(this); 
     m_subWindowList = new QMap<QAction*,SubMdiWindows*>;
     m_subWindowActGroup = new QActionGroup(this);
     m_recentFilesActGroup= new QActionGroup(this);
@@ -107,8 +108,9 @@ MainWindow::MainWindow()
   // addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
 
     m_playerListWidget->setLocalPlayer(m_player);
-    connect(m_playerListWidget,SIGNAL(opentchat()),this,SLOT(openTchat()));
 
+    connect(m_playerListWidget,SIGNAL(opentchat()),this,SLOT(openTchat()));
+    connect(m_connectDialog,SIGNAL(connectionApply()),this,SLOT(refreshNetworkMenu()));
 
 
     // Read connection list form preferences manager
@@ -229,7 +231,8 @@ void MainWindow::createMenu()
     //Network Menu and actions
     //////////////////////////
     m_networkMenu = menuBar()->addMenu(tr("&Network"));
-    m_serverAct = m_networkMenu->addAction(tr("&Start server..."));
+    refreshNetworkMenu();
+  /*  m_serverAct = m_networkMenu->addAction(tr("&Start server..."));
 
     m_newConnectionAct = m_networkMenu->addAction(tr("&New Connection..."));
 
@@ -248,7 +251,7 @@ void MainWindow::createMenu()
     }
     connect(m_connectionActGroup,SIGNAL(triggered(QAction*)),this,SLOT(onConnection(QAction*)));
     m_networkMenu->addSeparator();
-    m_manageConnectionAct = m_networkMenu->addAction(tr("Manage connections..."));
+    m_manageConnectionAct = m_networkMenu->addAction(tr("Manage connections..."));*/
 
     ///////////////
     // Help Menu
@@ -478,8 +481,10 @@ void MainWindow::startServer()
 }
 void MainWindow::addConnection()
 {
+
     m_connectDialog->addNewConnection();
     m_connectDialog->setVisible(true);
+
 }
 void MainWindow::showConnectionManager()
 {
@@ -510,7 +515,7 @@ void MainWindow::checkUpdate()
 {
     if(m_options->value("mainwindow/network/checkupdate",true).toBool())
     {
-        qDebug() << "checkupdate 2";
+        //qDebug() << "checkupdate 2";
         m_updateChecker = new UpdateChecker();
         m_updateChecker->startChecking();
         connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
@@ -619,6 +624,47 @@ void MainWindow::tcpStateConnectionChanged(RClient::State s)
             m_connectionActGroup->setEnabled(true);
         break;
     }
+}
+void MainWindow::refreshNetworkMenu()
+{
+    m_networkMenu->clear();
+    if(m_serverAct==NULL)
+        m_serverAct = m_networkMenu->addAction(tr("&Start server..."));
+    else
+        m_networkMenu->addAction(m_serverAct);
+
+
+    if(m_newConnectionAct==NULL)
+        m_newConnectionAct = m_networkMenu->addAction(tr("&New Connection..."));
+    else
+        m_networkMenu->addAction(m_newConnectionAct);
+
+    QVariant tmp2;
+    tmp2.setValue(ConnectionList());
+    QVariant tmp = m_options->value("network/connectionsList",tmp2);
+    m_connectionList = tmp.value<ConnectionList>();
+
+
+    m_connectionActGroup = new QActionGroup(this);
+    if(m_connectionList.size() > 0)//(m_connectionList != NULL)&&
+    {
+        m_connectionMap = new QMap<QAction*,Connection>;
+        m_networkMenu->addSeparator();
+        foreach(Connection tmp, m_connectionList )
+        {
+           QAction* p=m_connectionActGroup->addAction(tmp.getName());
+           m_networkMenu->addAction(p);
+           m_connectionMap->insert(p,tmp);
+        }
+    }
+    connect(m_connectionActGroup,SIGNAL(triggered(QAction*)),this,SLOT(onConnection(QAction*)));
+    m_networkMenu->addSeparator();
+
+    if(m_manageConnectionAct==NULL)
+        m_manageConnectionAct = m_networkMenu->addAction(tr("Manage connections..."));
+    else
+        m_networkMenu->addAction(m_manageConnectionAct);
+    //connect(m_manageConnectionAct,SIGNAL(triggered()),this,SLOT(showConnectionManager()));
 }
 
 void MainWindow::onConnection(QAction* p)

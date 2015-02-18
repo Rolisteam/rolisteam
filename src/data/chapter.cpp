@@ -6,6 +6,8 @@ Chapter::Chapter()
 Chapter::Chapter(const Chapter& m)
 {
     m_name=m.m_name;
+    m_ressoucelist=m.m_ressoucelist;
+    m_chapterlist=m.m_chapterlist;
 }
 
 Chapter::~Chapter()
@@ -52,6 +54,7 @@ QDataStream& operator<<(QDataStream& os,const Chapter& chap)
 {
     os << chap.m_name;
     os << chap.m_ressoucelist;
+    os << chap.m_chapterlist;
     return os;
 }
 
@@ -59,6 +62,7 @@ QDataStream& operator>>(QDataStream& is,Chapter& chap)
 {
     is >> chap.m_name;
     is >> chap.m_ressoucelist;
+    is >> chap.m_chapterlist;
     return is;
 
 }

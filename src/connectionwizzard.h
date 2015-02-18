@@ -49,7 +49,8 @@ public:
     ~ConnectionWizzard();
 
 
-
+signals:
+    void connectionApply();
 public slots:
 	/**
 	* @brief adds a new connection into the model 

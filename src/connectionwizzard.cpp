@@ -74,6 +74,8 @@ void ConnectionWizzard::addNewConnection()
     ui->m_port->setValue(m_options->value("network/defaultPort",6660).toInt());
     m_currentConnection->setPort(m_options->value("network/defaultPort",6660).toInt());
 
+
+
 }
 void ConnectionWizzard::removeConnection()
 {
@@ -96,7 +98,6 @@ void ConnectionWizzard::selectionChanged()
 }
 void ConnectionWizzard::editionFinished()
 {
-    //m_currentConnection->setName(ui->m_name->text());
     ui->m_connectionListWidget->currentItem()->setText(ui->m_name->text());
 }
 void ConnectionWizzard::onApply(QAbstractButton* tmpbutton)
@@ -109,8 +110,8 @@ void ConnectionWizzard::onApply(QAbstractButton* tmpbutton)
         m_options->registerValue("network/defaultPort",ui->m_port->value(),false);
         QVariant tmp2;
         tmp2.setValue(m_connectionList);
-        qDebug() << "ecriture=" << m_connectionList.size();
         m_options->registerValue("network/connectionsList",tmp2,true);
+        emit connectionApply();
     }
 }
 void ConnectionWizzard::updateList()

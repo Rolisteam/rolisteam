@@ -89,6 +89,8 @@ public slots :
 
         void checkUpdate();
 
+        void refreshNetworkMenu();
+
 
 protected :
         void closeEvent(QCloseEvent *event);

@@ -115,7 +115,11 @@ Qt::ItemFlags SessionItemModel::flags ( const QModelIndex & index ) const
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
-        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
+        ResourcesItem* childItem = static_cast<ResourcesItem*>(index.internalPointer());
+        if(!childItem->isLeaf())
+            return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
+        else
+            return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
 
 }
 QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
@@ -167,7 +171,7 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
              if(tmp)
              {
                RessourcesNode* t =  tmp->getData();
-               qDebug() << tmp;
+               //qDebug() << tmp;
                return t->getShortName();
              }
         }
@@ -219,12 +223,11 @@ Chapter* SessionItemModel::addChapter(QString& name,QModelIndex parent)
 }
 /*void SessionItemModel::refresh()
 {
-  * foreach(Chapter tmp,m_session->chapterList())
-    {
+   foreach(Chapter tmp,m_session->chapterList())
+   {
         m_rootItemm_parent
-    }*
+   }
 }*/
-
 CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& parent)
 {
      ResourcesItem* parentItem=NULL;

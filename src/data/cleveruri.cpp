@@ -14,17 +14,18 @@ CleverURI::CleverURI(const CleverURI & mp)
 {
     m_type=mp.getType();
     m_uri=mp.getUri();
+    defineShortName();
 }
 
 CleverURI::CleverURI(QString uri,ContentType type)
     : m_uri(uri),m_type(type)
 {
-
+    defineShortName();
 }
 
 CleverURI::~CleverURI()
 {
-    qDebug() << "Destructor of CleverURI";
+   // qDebug() << "Destructor of CleverURI";
 }
 bool CleverURI::operator==(const CleverURI& uri) const
 {
@@ -36,6 +37,7 @@ bool CleverURI::operator==(const CleverURI& uri) const
 void CleverURI::setUri(QString& uri)
 {
  m_uri=uri;
+     defineShortName();
 }
 
 void CleverURI::setType(int type)
@@ -56,13 +58,18 @@ bool CleverURI::hasChildren() const
 {
     return false;
 }
+void CleverURI::defineShortName()
+{
+    m_shortname = m_uri.mid(m_uri.lastIndexOf('/')+1);
+}
+
 const QString& CleverURI::getShortName() const
 {
-    return m_uri;
+    return m_shortname;
 }
 void CleverURI::setShortName(QString& name)
 {
-
+    //m_shortname = name;
 }
 
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)
@@ -76,6 +83,7 @@ QDataStream& operator>>(QDataStream& is,CleverURI& con)
 {
   is >>(con.m_uri);
   is >>(con.m_type);
+  con.defineShortName();
   return is;
 }
 
