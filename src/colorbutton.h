@@ -45,6 +45,7 @@ class ColorButton
     public slots:
         void setColor(const QColor & color);
 
+
     private:
         QColor       m_color;
         QColorDialog m_dialog;

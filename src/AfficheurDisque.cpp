@@ -25,8 +25,6 @@
 
 #include "AfficheurDisque.h"
 
-
-
 #define MARGIN_NPC 10
 #define MARGIN_PC 5
 

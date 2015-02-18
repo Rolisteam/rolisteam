@@ -36,11 +36,11 @@
         <file>resources/icones/style souligne.png</file>
         <file>resources/icones/supprimer PNJ.png</file>
         <file>resources/icones/vignette plan.png</file>
-        <file>resources/icones/vignette tchat.png</file>
+        <file alias="chatvignette">resources/icones/vignette tchat.png</file>
         <file>traduction/rolisteam_fr.qm</file>
         <file>resources/icones/deplacer PNJ.png</file>
         <file>resources/icones/ligne.png</file>
-        <file>resources/icones/texte.png</file>
+        <file alias="textevignette">resources/icones/texte.png</file>
         <file>resources/icones/image.png</file>
         <file>resources/icones/save.png</file>
         <file>resources/logo/128.ico</file>

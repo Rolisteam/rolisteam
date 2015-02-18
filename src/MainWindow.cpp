@@ -1338,7 +1338,7 @@ void MainWindow::quitterApplication(bool perteConnexion)
         QMessageBox msgBox(this);
         QAbstractButton *boutonSauvegarder         = msgBox.addButton(tr("Sauvegarder"), QMessageBox::YesRole);
         QAbstractButton *boutonQuitter                 = msgBox.addButton(tr("Quitter"), QMessageBox::AcceptRole);
-        msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
+        //msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
         // On supprime l'icone de la barre de titre
         Qt::WindowFlags flags = msgBox.windowFlags();
         msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
@@ -1627,6 +1627,7 @@ void MainWindow::ouvrirNotes()
         editeurNotes->ouvrirNotes(out);
         // Fermeture du fichier
         file.close();
+        afficherEditeurNotes(true, true);
 }
 
 /********************************************************************/

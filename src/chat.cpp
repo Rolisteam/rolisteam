@@ -180,7 +180,7 @@ PrivateChat::PrivateChat(ReceiveEvent & event)
         return;
     }
 
-    if (!G_client and !sameLink(event.link()))
+    if ((!G_client) && (!sameLink(event.link())))
     {
         qWarning("%s is usurpating chat %s", qPrintable(m_owner->name()), qPrintable(chatUuid));
         return;

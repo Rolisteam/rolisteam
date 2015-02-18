@@ -38,7 +38,7 @@
 		setObjectName("EditeurNotes");
 
 		// On change l'icone de la fenetre
-		setWindowIcon(QIcon(":/icones/vignette notes.png"));
+        setWindowIcon(QIcon(":/textevignette"));
 		
 		// Creation du textEdit contenant les notes
 		notes = new QTextEdit();

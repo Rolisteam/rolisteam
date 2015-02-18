@@ -6,6 +6,7 @@ INCLUDEPATH += . src
 LANGUAGE = C++
 MOC_DIR = bin
 OBJECTS_DIR = bin
+#DEFINES += VERSION=\\\"1.0.2\\\"
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
 CONFIG += HAVE_PHONON
 #CONFIG += HAVE_FMOD
@@ -124,6 +125,6 @@ QT += core \
  network
 
 #VERSION = 1.0.3
-DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=0
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=1
 UI_DIR = src
 #QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"
