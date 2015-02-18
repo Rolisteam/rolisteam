@@ -85,6 +85,7 @@ static inline QString FileFilterHaving()
   return filter;
 }
 
+QString TextEdit::m_filter = QString("%1 %2 %3 %4").arg(tr("OpenOffice 2.4 file format OASIS ")).arg(tr(" (*.odt *.ott);;")).arg(tr("XHTML file format")).arg(tr(" (*.htm *.html);;"));
 
 
 #ifdef Q_WS_MAC
@@ -96,6 +97,7 @@ const QString rsrcPath = ":/images/win";
 TextEdit::TextEdit(QWidget *parent)
     : QMainWindow(parent)
 {
+
     setupFileActions();
     setupEditActions();
     setupTextActions();
@@ -489,7 +491,7 @@ void TextEdit::fileNew()
 void TextEdit::fileOpen()
 {
     QString fn = QFileDialog::getOpenFileName(this, tr("Open File..."),
-                                              QString(setter.value("LastDir").toString()), FileFilterHaving() );
+                                              QString(setter.value("LastDir").toString()), m_filter );
     if (!fn.isEmpty())  {
         QFileInfo fi(fn);
         setter.setValue("LastDir",fi.absolutePath() +"/");
@@ -773,3 +775,7 @@ void TextEdit::alignmentChanged(Qt::Alignment a)
     }
 }
 
+ QString TextEdit::getFilter()
+ {
+     return m_filter;
+ }

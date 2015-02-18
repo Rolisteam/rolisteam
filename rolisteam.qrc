@@ -35,12 +35,12 @@
         <file>resources/icones/style normal.png</file>
         <file>resources/icones/style souligne.png</file>
         <file>resources/icones/supprimer PNJ.png</file>
-        <file>resources/icones/vignette plan.png</file>
+        <file alias="map.png">resources/icones/vignette plan.png</file>
         <file>traduction/rolisteam_fr.qm</file>
         <file>resources/icones/deplacer PNJ.png</file>
         <file>resources/icones/ligne.png</file>
         <file alias="textevignette">resources/icones/texte.png</file>
-        <file>resources/icones/image.png</file>
+        <file alias="picture.png">resources/icones/image.png</file>
         <file>resources/icones/save.png</file>
         <file>resources/logo/128.ico</file>
         <file alias="rolisteam250.png">resources/logo/250-rolisteam.png</file>
@@ -56,6 +56,10 @@
         <file>resources/logo/Rolisteam-fond.svg</file>
         <file>resources/logo/Rolisteam.svg</file>
         <file alias="logo.svg">resources/logo/symbole.svg</file>
-        <file>resources/icones/chatIcone.png</file>
+        <file alias="chat.png">resources/icones/chatIcone.png</file>
+        <file alias="notes.png">resources/icones/notes.png</file>
+        <file alias="story.png">resources/icones/scenario.png</file>
+        <file alias="exit.png">resources/icones/exit.png</file>
+        <file alias="settings.png">resources/icones/settings.png</file>
     </qresource>
 </RCC>

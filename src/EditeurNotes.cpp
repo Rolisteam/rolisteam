@@ -105,7 +105,7 @@ EditeurNotes::EditeurNotes(MainWindow* mainWindow) :m_mainWindow(mainWindow)
 /********************************************************************/
 void EditeurNotes::closeEvent(QCloseEvent *event)
 {
-    m_mainWindow->afficherEditeurNotes(false, true);
+    m_mainWindow->displayMinutesEditor(false, true);
     event->ignore();
 }
 

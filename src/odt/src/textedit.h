@@ -69,6 +69,12 @@ class TextEdit : public QMainWindow
 
 public:
     TextEdit(QWidget *parent = 0);
+    QString getFilter();
+
+public slots:
+    bool load(const QString &f);
+    bool fileSave();
+    void setCurrentFileName(const QString &fileName);
 
 
 
@@ -82,14 +88,13 @@ private:
     void setupFileActions();
     void setupEditActions();
     void setupTextActions();
-    bool load(const QString &f);
+
     bool maybeSave();
-    void setCurrentFileName(const QString &fileName);
 
 private slots:
     void fileNew();
     void fileOpen();
-    bool fileSave();
+
     bool fileSaveAs();
     void filePrint();
     void filePrintPreview();
@@ -143,6 +148,8 @@ private:
     QToolBar *tb;
     QString fileName;
     QTextEdit *textEdit;
+
+    static QString m_filter;
 };
 
 #endif

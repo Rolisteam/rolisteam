@@ -196,7 +196,7 @@ public slots :
      * @param afficher
      * @param cocherAction
      */
-    void afficherEditeurNotes(bool afficher, bool cocherAction = false);
+    void displayMinutesEditor(bool afficher, bool cocherAction = false);
     /**
      * @brief quitterApplication
      * @param perteConnexion
@@ -233,7 +233,7 @@ private slots :
     void ouvrirImage();
     void ouvrirEtMasquerPlan();
     void ouvrirScenario();
-    void ouvrirNotes();
+    void openNote();
     void fermerPlanOuImage();
     void sauvegarderPlan();
     void updateMayBeNeeded();
@@ -316,12 +316,12 @@ private :
 
     ChatListWidget * m_chatListWidget;
 
-    QAction* actionNouveauPlan;
+    QAction* m_newMapAct;
     QAction* actionOuvrirImage;
     QAction* actionOuvrirPlan;
     QAction* actionOuvrirEtMasquerPlan;
     QAction* actionOuvrirScenario;
-    QAction* actionOuvrirNotes;
+    QAction* m_openMinutesAct;
     QAction* actionFermerPlan;
     QAction* actionSauvegarderPlan;
     QAction* actionSauvegarderScenario;

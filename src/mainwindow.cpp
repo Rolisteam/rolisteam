@@ -338,23 +338,25 @@ void MainWindow::creerMenu()
 
         // Creation du menu Fichier
         QMenu *menuFichier = new QMenu (tr("File"), barreMenus);
-        actionNouveauPlan                = menuFichier->addAction(tr("New empty Map"));
+        m_newMapAct                = menuFichier->addAction(QIcon(":/map.png"),tr("&New empty Map"));
+
+
         menuFichier->addSeparator();
-        actionOuvrirPlan                 = menuFichier->addAction(tr("Open Map"));
-        actionOuvrirEtMasquerPlan        = menuFichier->addAction(tr("Open And hide Map"));
-        actionOuvrirScenario         = menuFichier->addAction(tr("Open scenario"));
-        actionOuvrirImage                 = menuFichier->addAction(tr("Open Picture"));
-        actionOuvrirNotes                = menuFichier->addAction(tr("Open Minutes"));
+        actionOuvrirPlan                 = menuFichier->addAction(QIcon(":/map.png"),tr("Open Map"));
+        actionOuvrirEtMasquerPlan        = menuFichier->addAction(QIcon(":/map.png"),tr("Open And hide Map"));
+        actionOuvrirScenario         = menuFichier->addAction(QIcon(":/story.png"),tr("Open scenario"));
+        actionOuvrirImage                 = menuFichier->addAction(QIcon(":/picture.png"),tr("Open Picture"));
+        m_openMinutesAct                = menuFichier->addAction(QIcon(":/notes.png"),tr("Open Minutes"));
         menuFichier->addSeparator();
         actionFermerPlan                 = menuFichier->addAction(tr("Close Map/Picture"));
         menuFichier->addSeparator();
-        actionSauvegarderPlan        = menuFichier->addAction(tr("Save Map"));
-        actionSauvegarderScenario        = menuFichier->addAction(tr("Save scenario"));
-        actionSauvegarderNotes           = menuFichier->addAction(tr("Save Minutes"));
+        actionSauvegarderPlan        = menuFichier->addAction(QIcon(":/map.png"),tr("Save Map"));
+        actionSauvegarderScenario        = menuFichier->addAction(QIcon(":/story.png"),tr("Save scenario"));
+        actionSauvegarderNotes           = menuFichier->addAction(QIcon(":/notes.png"),tr("Save Minutes"));
         menuFichier->addSeparator();
-        actionPreferences                = menuFichier->addAction(tr("Preferences"));
+        actionPreferences                = menuFichier->addAction(QIcon(":/settings.png"),tr("Preferences"));
         menuFichier->addSeparator();
-        actionQuitter                = menuFichier->addAction(tr("Quit"));
+        actionQuitter                = menuFichier->addAction(QIcon(":/exit.png"),tr("Quit"));
 
         // Network action
         QMenu *networkMenu = new QMenu (tr("Network"), barreMenus);
@@ -406,7 +408,7 @@ void MainWindow::creerMenu()
         m_noteEditorAct->setCheckable(true);
         m_noteEditorAct->setChecked(false);
         // Connexion de l'action avec l'affichage/masquage de l'editeur de notes
-        connect(m_noteEditorAct, SIGNAL(triggered(bool)), this, SLOT(afficherEditeurNotes(bool)));
+        connect(m_noteEditorAct, SIGNAL(triggered(bool)), this, SLOT(displayMinutesEditor(bool)));
 
         // Ajout du sous-menu Tchat
         menuFenetre->addMenu(m_chatListWidget->chatMenu());
@@ -428,12 +430,12 @@ void MainWindow::creerMenu()
 void MainWindow::linkActionToMenu()
 {
         // file menu
-        connect(actionNouveauPlan, SIGNAL(triggered(bool)), this, SLOT(nouveauPlan()));
+        connect(m_newMapAct, SIGNAL(triggered(bool)), this, SLOT(nouveauPlan()));
         connect(actionOuvrirImage, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
         connect(actionOuvrirPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirPlan()));
         connect(actionOuvrirEtMasquerPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirEtMasquerPlan()));
         connect(actionOuvrirScenario, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
-        connect(actionOuvrirNotes, SIGNAL(triggered(bool)), this, SLOT(ouvrirNotes()));
+        connect(m_openMinutesAct, SIGNAL(triggered(bool)), this, SLOT(openNote()));
         connect(actionFermerPlan, SIGNAL(triggered(bool)), this, SLOT(fermerPlanOuImage()));
         connect(actionSauvegarderPlan, SIGNAL(triggered(bool)), this, SLOT(sauvegarderPlan()));
         connect(actionSauvegarderScenario, SIGNAL(triggered(bool)), this, SLOT(sauvegarderScenario()));
@@ -1445,91 +1447,32 @@ void MainWindow::changementNatureUtilisateur()
 }
 
 
-void MainWindow::afficherEditeurNotes(bool afficher, bool cocherAction)
+void MainWindow::displayMinutesEditor(bool visible, bool isCheck)
 {
 
-    m_noteEditor->setVisible(afficher);
-    if (cocherAction)
+    m_noteEditor->setVisible(visible);
+    if (isCheck)
     {
-            m_noteEditorAct->setChecked(afficher);
+            m_noteEditorAct->setChecked(visible);
     }
 
-    /* // Affichage de l'editeur de notes
-        editeurNotes->setVisible(afficher);
-
-        // Si la fonction a pas ete appelee par la listeUtilisateurs ou par l'editeur lui-meme, on coche/decoche l'action associee
-        if (cocherAction)
-        {
-                actionEditeurNotes->setChecked(afficher);
-        }
-        else
-        {// Sinon on coche/decoche la case de l'editeur de notes dans la listeUtilisateurs
-            /// @todo
-        }*/
 }
-void MainWindow::ouvrirNotes()
+void MainWindow::openNote()
 {
-        // Ouverture du selecteur de fichier
-    QString fichier = QFileDialog::getOpenFileName(this, tr("Open Minutes"), m_preferences->value("MinutesDirectory",QDir::homePath()).toString(), tr("Html Documents (*.htm *.html)"));
+        // open file name.
+        QString filename = QFileDialog::getOpenFileName(this, tr("Open Minutes"), m_preferences->value("MinutesDirectory",QDir::homePath()).toString(), m_noteEditor->getFilter());
 
-        // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
-        if (fichier.isNull())
-                return;
-
-        // On met a jour le chemin vers les notes
-        int dernierSlash = fichier.lastIndexOf("/");
-        m_preferences->registerValue("MinutesDirectory",fichier.left(dernierSlash));
-
-        // Creation du descripteur de fichier
-        QFile file(fichier);
-        // Ouverture du fichier en lecture seule
-        if (!file.open(QIODevice::ReadOnly))
-        {
-                qWarning("Probleme a l'ouverture du fichier (ouvrirNotes - MainWindow.cpp)");
-                return;
+        if (!filename.isEmpty())  {
+            QFileInfo fi(filename);
+            m_preferences->registerValue("MinutesDirectory",fi.absolutePath() +"/");
+            m_noteEditor->load(filename);
+            displayMinutesEditor(true, true);
         }
-        QTextStream out(&file);
-        // On demande a l'editeur de notes de charger le fichier
-        editeurNotes->ouvrirNotes(out);
-        // Fermeture du fichier
-        file.close();
-        afficherEditeurNotes(true, true);
+
 }
 bool MainWindow::sauvegarderNotes()
-{
-        // Ouverture du selecteur de fichiers
-        QString fichier = QFileDialog::getSaveFileName(this, tr("Save Minutes"), m_preferences->value("MinutesDirectory",QDir::homePath()).toString(), tr("HTML Documents (*.htm *.html)"));
-
-        // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
-        if (fichier.isNull())
-                return false;
-
-#ifdef MACOS
-        // On rajoute l'extension
-        fichier += ".htm";
-#endif
-
-        // On met a jour le chemin vers les notes
-        int dernierSlash = fichier.lastIndexOf("/");
-        m_preferences->registerValue("MinutesDirectory",fichier.left(dernierSlash));
-
-        // Creation du descripteur de fichier
-        QFile file(fichier);
-        // Ouverture du fichier en ecriture seule
-        if (!file.open(QIODevice::WriteOnly))
-        {
-                qWarning("cannot be open (sauvegarderNotes - MainWindow.cpp)");
-                return false;
-        }
-        QTextStream in(&file);
-        // On demande a l'editeur de notes de les sauvegarder dans le fichier
-        /// @warning disable code for testing reason.
-        //editeurNotes->sauvegarderNotes(in);
-        // Fermeture du fichier
-
-        file.close();
-
-        return true;
+{    
+        return m_noteEditor->fileSave();
 }
 void MainWindow::ouvrirScenario()
 {
@@ -1842,7 +1785,7 @@ void MainWindow::updateUi()
     #endif
     if(!PlayersList::instance()->localPlayer()->isGM())
     {
-        actionNouveauPlan->setEnabled(false);
+        m_newMapAct->setEnabled(false);
         actionOuvrirPlan->setEnabled(false);
         actionOuvrirEtMasquerPlan->setEnabled(false);
         actionOuvrirScenario->setEnabled(false);
