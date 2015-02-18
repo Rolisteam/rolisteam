@@ -33,7 +33,7 @@
 
 
 
-#include "widgets/dirchooser.h"
+#include "widgets/filedirchooser.h"
 
 namespace Ui {
 class PreferencesDialogBox;

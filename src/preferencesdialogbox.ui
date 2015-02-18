@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>480</height>
+    <width>626</width>
+    <height>463</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -119,18 +119,59 @@
               </property>
              </widget>
             </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_4">
+           <property name="title">
+            <string>Background</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>Color:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="ColorButton" name="m_bgColorPush">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,1">
+              <item>
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Image:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="FileDirChooser" name="m_backgroundImage" native="true"/>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>
@@ -245,25 +286,25 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
-               <widget class="DirChooser" name="m_musicDirGM" native="true"/>
+               <widget class="FileDirChooser" name="m_musicDirGM" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="m_musicDirPlayer" native="true"/>
+               <widget class="FileDirChooser" name="m_musicDirPlayer" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="m_pictureDir" native="true"/>
+               <widget class="FileDirChooser" name="m_pictureDir" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="m_mapDir" native="true"/>
+               <widget class="FileDirChooser" name="m_mapDir" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="m_scenarioDir" native="true"/>
+               <widget class="FileDirChooser" name="m_scenarioDir" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="m_minuteDir" native="true"/>
+               <widget class="FileDirChooser" name="m_minuteDir" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="m_chatDir" native="true"/>
+               <widget class="FileDirChooser" name="m_chatDir" native="true"/>
               </item>
              </layout>
             </item>
@@ -325,9 +366,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>DirChooser</class>
+   <class>FileDirChooser</class>
    <extends>QWidget</extends>
-   <header>widgets/dirchooser.h</header>
+   <header>widgets/filedirchooser.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

@@ -34,59 +34,63 @@
 /* Constructeur                                                     */
 /********************************************************************/	
 WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
-: QMdiArea(parent)
+: QMdiArea(parent),m_variableSizeBackground(size())
 {
     m_preferences =  PreferencesManager::getInstance();
     m_map = new QMap<QAction*,QMdiSubWindow*>();
-    QString fichierImage = QDir::homePath() + "/." + m_preferences->value("Application_Name","rolisteam").toString() + "/" + m_preferences->value("Application_Name","rolisteam").toString() + ".bmp";
 
-    if (!QFile::exists(fichierImage))
-    {
-        fichierImage = ":/resources/icones/fond workspace macos.bmp";
-    }
+    m_backgroundPicture = new QPixmap(size());
 
-    m_color.setRgb(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE);
-    m_background.setColor(m_color);
-    setBackground(m_background);
+    updateBackGround();
 
-
-    m_variableSizeBackground = new QPixmap(size());
-
-
-    m_variableSizeBackground->fill(m_color);
-    QPainter painter(m_variableSizeBackground);
-
-
-    m_backgroundPicture = new QPixmap(fichierImage);
-
-    painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
-    setBackground(QBrush(*m_variableSizeBackground));
 }
 
 WorkspaceAmeliore::~WorkspaceAmeliore()
 {
     delete m_backgroundPicture;
-    delete m_variableSizeBackground;
+}
+void WorkspaceAmeliore::updateBackGround()
+{
+    m_color = m_preferences->value("BackGroundColor",QColor(191,191,191)).value<QColor>();
+    m_background.setColor(m_color);
+    setBackground(m_background);
+
+    QString fileName = m_preferences->value("PathOfBackgroundImage",":/resources/icones/fond workspace macos.bmp").toString();
+    if (!QFile::exists(fileName))
+    {
+        fileName = ":/resources/icones/fond workspace macos.bmp";
+    }
+
+    m_variableSizeBackground = m_variableSizeBackground.scaled(size());
+
+    m_variableSizeBackground.fill(m_color);
+    QPainter painter(&m_variableSizeBackground);
+
+    if(m_fileName!=fileName)
+    {
+        m_fileName = fileName;
+        if(NULL!=m_backgroundPicture)
+        {
+            delete m_backgroundPicture;
+        }
+        m_backgroundPicture = new QPixmap(m_fileName);
+    }
+
+
+
+    painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
+    setBackground(QBrush(m_variableSizeBackground));
 }
 
 void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )
 {
     Q_UNUSED(event);
-    if((m_variableSizeBackground)&&(m_variableSizeBackground->size()==this->size()))
+    if((m_variableSizeBackground.size()==this->size()))
     {
         return;
     }
-    if(m_variableSizeBackground)
-    {
-        delete m_variableSizeBackground;
-    }
 
-    m_variableSizeBackground = new QPixmap(size());
-    m_variableSizeBackground->fill(m_color);
-    QPainter painter(m_variableSizeBackground);
-
-    painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
-    setBackground(QBrush(*m_variableSizeBackground));
+    updateBackGround();
 
     QMdiArea::resizeEvent(event);
 }
@@ -102,6 +106,7 @@ QWidget*  WorkspaceAmeliore::addWindow(QWidget* child,QAction* action)
     insertActionAndSubWindow(action,sub);
     sub->setAttribute(Qt::WA_DeleteOnClose, false);
     child->setAttribute(Qt::WA_DeleteOnClose, false);
+    sub->installEventFilter(this);
     return sub;
 }
 QWidget* WorkspaceAmeliore::activeWindow()
@@ -118,7 +123,7 @@ void WorkspaceAmeliore::setTabbedMode(bool isTabbed)
     {
         setViewMode(QMdiArea::TabbedView);
 
-        setTabsClosable ( true );
+        //setTabsClosable ( true );
         setTabsMovable ( true );
         setTabPosition(QTabWidget::North);
 
@@ -139,6 +144,7 @@ void WorkspaceAmeliore::setTabbedMode(bool isTabbed)
         setViewMode(QMdiArea::SubWindowView);
     }
 }
+
 
 QMdiSubWindow* WorkspaceAmeliore::getSubWindowFromId(QString id)
 {

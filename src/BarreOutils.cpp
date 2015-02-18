@@ -496,7 +496,9 @@ void BarreOutils::changeMap(Carte * map)
 {
     m_map = map;
     if (m_map != NULL)
+    {
         m_npcDiameter->changerDiametre(map->tailleDesPj());
+    }
 }
 
 /********************************************************************/	

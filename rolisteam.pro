@@ -102,8 +102,8 @@ HEADERS += src/AfficheurDisque.h \
     src/ipchecker.h \
     src/mapwizzard.h \
     src/newemptymapdialog.h \
-    src/widgets/dirchooser.h \
-    src/widgets/colorbutton.h
+    src/widgets/colorbutton.h \
+    src/widgets/filedirchooser.h
 
 
 SOURCES += src/AfficheurDisque.cpp \
@@ -148,8 +148,8 @@ SOURCES += src/AfficheurDisque.cpp \
     src/ipchecker.cpp \
     src/mapwizzard.cpp \
     src/newemptymapdialog.cpp \
-    src/widgets/dirchooser.cpp \
     src/widgets/colorbutton.cpp \
+    src/widgets/filedirchooser.cpp
 
 #end source
 
@@ -213,7 +213,7 @@ FORMS += \
     src/mapwizzard.ui \
     src/newemptymapdialog.ui \
     src/chatwindow.ui \
-    preferencesdialogbox.ui
+    src/preferencesdialogbox.ui
 
 OTHER_FILES += \
     src/widgets/widgets.pro
