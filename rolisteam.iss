@@ -14,12 +14,12 @@ AppSupportURL=http://wiki.rolisteam.org
 AppUpdatesURL=http://www.rolisteam.org
 DefaultDirName={pf}\Rolisteam
 DefaultGroupName=Rolisteam
-LicenseFile=F:\documents\applications\rolisteam\COPYING.txt
-OutputDir=F:\documents\softwares
+LicenseFile=D:\documents\applications\rolisteam\COPYING.txt
+OutputDir=D:\documents\softwares
 OutputBaseFilename=Rolisteam-1.6.1-setup
 Compression=lzma
 SolidCompression=yes
-SetupIconFile=F:\documents\applications\rolisteam\resources\logo\256.ico
+SetupIconFile=D:\documents\applications\rolisteam\resources\logo\256.ico
 ;UninstallIconFile=D:\applications\rolisteam\resources\logo\256.ico
 
 [Languages]
@@ -31,18 +31,18 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "F:\documents\applications\build-rolisteam-Qt_4_8_6_Local_PC-Release\release\bin\rolisteam.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Qt\vs2010\bin\QtXml4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Qt\vs2010\bin\phonon4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Qt\vs2010\bin\QtCore4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Qt\vs2010\bin\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Qt\vs2010\bin\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Qt\vs2010\bin\QtOpenGL4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Qt\vs2010\bin\QtSvg4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\documents\applications\lib\zlibapi\dll32\zlibwapi.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\Qt\vs2010\plugins\*"; DestDir: "{app}"; Excludes: "*\sqldrivers\*,*\graphicssystems\*,*\designer\*,*\accessible\*"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "F:\documents\applications\lib\msdistrib\msvcr100.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "F:\documents\applications\lib\msdistrib\msvcp100.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\documents\applications\build-rolisteam-Qt4_8-Release\release\bin\rolisteam.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\4.8.6\bin\QtXml4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\4.8.6\bin\phonon4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\4.8.6\bin\QtCore4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\4.8.6\bin\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\4.8.6\bin\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\4.8.6\bin\QtOpenGL4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\4.8.6\bin\QtSvg4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\documents\applications\lib\zlibapi\dll32\zlibwapi.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\4.8.6\plugins\*"; DestDir: "{app}"; Excludes: "*\sqldrivers\*,*\graphicssystems\*,*\designer\*,*\accessible\*"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\documents\applications\lib\msdistrib\msvcr100.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\documents\applications\lib\msdistrib\msvcp100.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
