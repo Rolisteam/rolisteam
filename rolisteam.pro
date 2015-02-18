@@ -170,12 +170,29 @@ QT += core \
 # Flags
  	win32:QMAKE_CXXFLAGS = "/Wall /GS /Ob2t"
 	else:QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
+
+#include path to zlib file
+win32:INCLUDEPATH+="C:/Program Files (x86)/GnuWin32/include"
  
 # Version
-DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=3
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=6 VERSION_MINOR=0
+
+
+
+#DEFINES += QT_NO_WARNING_OUTPUT
+#}
+#release {
+#DEFINES += QT_FATAL_WARNINGS
+#}
+
+
+UI_DIR = src
+#QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"
+#QMAKE_CXXFLAGS = "-W -Wall -Wextra -pedantic -Wno-long-long -Wno-overlength-strings -Werror"
 
 unix{
 LIBS += -lz
 }
+
 FORMS += \
     src/connectionretrydialog.ui

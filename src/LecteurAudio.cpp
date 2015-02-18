@@ -445,16 +445,17 @@ void LecteurAudio::addFiles()
         QFileInfo fileinfo(listeFichiers[0]);
         m_preferences->registerValue("MusicDirectoryGM",fileinfo.absolutePath());
 
+
         while (!listeFichiers.isEmpty())
         {
                 QString fichier = listeFichiers.takeFirst();
+
                 QFileInfo fi(fichier);
                 QString titre = fi.fileName();
                 if (m_pathList.isEmpty())
                 {
 
                         emettreCommande(nouveauMorceau, titre);
-
                         // On active tous les boutons
 
 

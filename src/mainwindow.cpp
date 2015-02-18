@@ -1792,7 +1792,7 @@ void MainWindow::aPropos()
 
 void MainWindow::helpOnLine()
 {
-    QProcess *process = new QProcess;
+    /*QProcess *process = new QProcess;
             QStringList args;
     #ifdef Q_WS_X11
             args << QLatin1String("-collectionFile")
@@ -1809,7 +1809,7 @@ void MainWindow::helpOnLine()
             process->start(QLatin1String("/Developer/Applications/Qt/Assistant/Contents/MacOS/Assistant"), args);
     #endif
             if (!process->waitForStarted(2000))
-            {
+            {*/
                 if (!QDesktopServices::openUrl(QUrl("http://wiki.rolisteam.org/")))
                 {
                     QMessageBox * msgBox = new QMessageBox(
@@ -1820,7 +1820,7 @@ void MainWindow::helpOnLine()
                             );
                     msgBox->exec();
                 }
-            }
+           // }
 }
 
 void MainWindow::checkUpdate()
