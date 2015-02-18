@@ -408,7 +408,7 @@ void LecteurAudio::addFiles()
 }
 void LecteurAudio::removeFile()
 {
-
+/// @todo protect those delete from out array error.
         QList<QListWidgetItem *> titreSelectionne = listeTitres->selectedItems();
         if (titreSelectionne.isEmpty())
                 return;
@@ -421,7 +421,7 @@ void LecteurAudio::removeFile()
 
 
 
-
+/// @todo able this code and make it working.
        // if (titreSelectionne[0]->text() == m_currentFile)
         //{
                /* if (titreCourant < listeChemins.size())
