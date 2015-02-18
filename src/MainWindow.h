@@ -160,11 +160,13 @@ private slots :
         void updateMayBeNeeded();
         //void askPath();
 
-
-        void saveAs();
+        void save(SubMdiWindows* tmp=NULL);
+        void saveAs(SubMdiWindows* tmp=NULL);
+        void saveAll();
         void updateRecentFilesMenu();
         void openContent();
-
+        void contentHasChanged();
+        //void newContent();
 private :
 
         /**
@@ -183,10 +185,6 @@ private :
          * @brief empty
          */
         void allowActions();
-        /**
-         * @brief Save All contents
-         */
-        void saveAll();
         /**
          * @brief perform some action before adding the given subwindows into the QMdiArea
          */
@@ -350,7 +348,6 @@ private :
 
 
         QString m_version;
-
 
 
 

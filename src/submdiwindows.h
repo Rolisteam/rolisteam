@@ -100,6 +100,8 @@ public slots:
 
     virtual void setCleverURI(CleverURI* uri);
 
+    virtual const CleverURI* getCleverUri() const;
+
 protected:
 	/**
 	* @brief true if the subwindows is active. Otherwise, false.

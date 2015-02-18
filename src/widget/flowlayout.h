@@ -44,33 +44,89 @@
 #include <QLayout>
 #include <QRect>
 #include <QWidgetItem>
+/**
+  *  @brief Qt layout to manage elements as flow.
+  */
 class FlowLayout : public QLayout
 {
 public:
+    /**
+      * @brief constructor
+      * @param parent widget
+      * @param value of margin
+      * @param value of horizontal space
+      * @param value of vertical space
+      */
     FlowLayout(QWidget *parent, int margin = -1, int hSpacing = -1, int vSpacing = -1);
+    /**
+      * @brief constructor
+      * @param value of margin
+      * @param value of horizontal space
+      * @param value of vertical space
+      */
     FlowLayout(int margin = -1, int hSpacing = -1, int vSpacing = -1);
+    /**
+      * @brief destructor
+      */
     ~FlowLayout();
 
+    /**
+      * @brief add items to the layout
+      */
     void addItem(QLayoutItem *item);
+    /**
+      * @brief accessor to the horizontal spacing
+      */
     int horizontalSpacing() const;
+    /**
+      * @brief accessor to the vertcal spacing
+      */
     int verticalSpacing() const;
+    /**
+      * @brief defines the direction of the expension
+      * @return orientation
+      */
     Qt::Orientations expandingDirections() const;
+    /**
+      * @brief
+      */
     bool hasHeightForWidth() const;
+    /**
+      * @brief constructor
+      */
     int heightForWidth(int) const;
+    /**
+      * @brief number of items
+      */
     int count() const;
+    /**
+      * @brief constructor
+      */
     QLayoutItem *itemAt(int index) const;
+    /**
+      * @brief constructor
+      */
     QSize minimumSize() const;
+    /**
+      * @brief constructor
+      */
     void setGeometry(const QRect &rect);
+    /**
+      * @brief constructor
+      */
     QSize sizeHint() const;
+    /**
+      * @brief constructor
+      */
     QLayoutItem *takeAt(int index);
 
 private:
-    int doLayout(const QRect &rect, bool testOnly) const;
-    int smartSpacing(QStyle::PixelMetric pm) const;
+    int doLayout(const QRect &rect, bool testOnly) const;/// compute the position
+    int smartSpacing(QStyle::PixelMetric pm) const; /// compute the spacing
 
-    QList<QLayoutItem *> itemList;
-    int m_hSpace;
-    int m_vSpace;
+    QList<QLayoutItem *> itemList;/// list of managed item
+    int m_hSpace;/// horizontal space
+    int m_vSpace;/// vertical space
 };
 
 #endif

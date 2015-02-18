@@ -76,3 +76,7 @@ void SubMdiWindows::setCleverURI(CleverURI* uri)
 {
     m_uri=uri;
 }
+const CleverURI* SubMdiWindows::getCleverUri() const
+{
+    return m_uri;
+}

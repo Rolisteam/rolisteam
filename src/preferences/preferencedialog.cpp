@@ -23,8 +23,12 @@
 #include <QFileDialog>
 #include <QImageReader>
 
+
+
+
 #ifdef HAVE_PHONON
 #include <Phonon>
+#include <phonon/BackendCapabilities>
 #include <phonon/ObjectDescription>
 #endif
 

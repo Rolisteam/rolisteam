@@ -32,43 +32,96 @@
 #include "colorselector.h"
 #include "diameterselector.h"
 
-
+/**
+  *  @brief toolbar is a QDockWidget subclass which gathering all tool required for drawing maps.
+  *  @todo manu members must be renamed to english
+  */
 class ToolsBar : public QDockWidget
 {
 Q_OBJECT
 
 public :
+    /**
+      * @brief part of the singleton pattern
+      */
     static ToolsBar* getInstance(QWidget *parent=0);
+    /**
+      * @brief may not be used anymore
+      */
     void majCouleursPersonnelles();
+    /**
+      * @brief may not be used anymore
+      */
     QColor donnerCouleurPersonnelle(int numero);
+    /**
+      * @brief may not be used anymore
+      */
     void autoriserOuInterdireCouleurs();
 
-
+    /**
+      * @brief accessor to the current color
+      */
     QColor& currentColor();
 
     // Selectable tools
+    /**
+      * @brief tools id
+      */
     enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
-    
+
+    /**
+      * @brief accessor to the current tool
+      */
     ToolsBar::SelectableTool getCurrentTool();
 public slots :
+    /**
+      * @brief increase NPC number
+      * @todo rename it
+      */
     void incrementeNumeroPnj();
+    /**
+      * @brief accessor to set the current color
+      */
     void changeCurrentColor(QColor color);
-    void updateNPCSize(int diametre, QString nom);
+
+    /**
+      * @brief set the size for the given NPC
+      */
+    void updateNPCSize(int diameter, QString name);
 
 
 signals:
+    /**
+      * @brief emited when current tool has been changed by user
+      */
     void currentToolChanged(ToolsBar::SelectableTool);
+    /**
+      * @brief emitted when current color has been changed by user
+      */
     void currentColorChanged(QColor&);
+    /**
+      * @brief emitted when user has changed the pen size.
+      */
     void currentPenSizeChanged(int);
+    /**
+      * @brief emitted when current NPC size has changed
+      */
     void currentPNCSizeChanged(int);
+    /**
+      * @brief emitted when current mode has changed
+      */
     void currentModeChanged(int);
 
 private:
-
+    /**
+      * @brief constructor for Qt widget
+      */
     ToolsBar(QWidget *parent = 0);
-    static ToolsBar* m_sigleton;
-    void creerActions();
-    void creerOutils();
+
+
+    static ToolsBar* m_sigleton;/// address of single instance
+    void creerActions(); /// utily function
+    void creerOutils(); /// utilyti function
 
     QWidget* m_centralWidget;
     QLineEdit *m_textEditLine;

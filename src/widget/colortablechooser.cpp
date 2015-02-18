@@ -29,7 +29,7 @@
 ////////////////////////////////////////
 //Implementation of ValueChooser
 ////////////////////////////////////////
-ValueChooser::ValueChooser()
+SaturationChooser::SaturationChooser()
     : m_polygon(QPolygon(3))
 {
     m_currentValue=MAX_SATURATION;
@@ -44,11 +44,11 @@ ValueChooser::ValueChooser()
     m_polygon.setPoint(1,5,9);
     m_polygon.setPoint(2,-5,9);
 }
-int ValueChooser::getValue() const
+int SaturationChooser::getValue() const
 {
     return m_currentValue;
 }
-void ValueChooser::mousePressEvent(QMouseEvent* e)
+void SaturationChooser::mousePressEvent(QMouseEvent* e)
 {
     if((e->pos().x()<=width())&&(e->pos().x()>=0))
     {
@@ -57,7 +57,7 @@ void ValueChooser::mousePressEvent(QMouseEvent* e)
         update();
     }
 }
-void ValueChooser::mouseMoveEvent(QMouseEvent* e)
+void SaturationChooser::mouseMoveEvent(QMouseEvent* e)
 {
     if((e->pos().x()<=width())&&(e->pos().x()>=0))
     {
@@ -67,7 +67,7 @@ void ValueChooser::mouseMoveEvent(QMouseEvent* e)
     }
 }
 
-void ValueChooser::wheelEvent ( QWheelEvent * event )
+void SaturationChooser::wheelEvent ( QWheelEvent * event )
 {
     int step = event->delta() / 8;
 
@@ -81,12 +81,12 @@ void ValueChooser::wheelEvent ( QWheelEvent * event )
     update();
 }
 
-void ValueChooser::setColor(QColor& color)
+void SaturationChooser::setColor(QColor& color)
 {
     m_color = color;
 }
 
-void ValueChooser::paintEvent ( QPaintEvent * event )
+void SaturationChooser::paintEvent ( QPaintEvent * event )
 {
     QPainter painter(this);
     QLinearGradient linearGrad(QPointF(0, event->rect().height()/2), QPointF(event->rect().width(), event->rect().height()/2));
@@ -104,7 +104,7 @@ void ValueChooser::paintEvent ( QPaintEvent * event )
     painter.drawPolygon( m_polygon.translated(pos,0));
 
 }
-void ValueChooser::colorHasChanged(int h,int s)
+void SaturationChooser::colorHasChanged(int h,int s)
 {
         m_color.setHsv(h,s,MAX_SATURATION);
         update();
@@ -169,7 +169,7 @@ ColorTableChooser::ColorTableChooser(QWidget* parent)
     m_layout=new QVBoxLayout();
     m_layout->setMargin(0);
     m_colorTable=new ColorTable();
-    m_valueChooser=new ValueChooser();
+    m_valueChooser=new SaturationChooser();
     m_layout->addWidget(m_colorTable);
     m_layout->addWidget(m_valueChooser);
     setLayout(m_layout);

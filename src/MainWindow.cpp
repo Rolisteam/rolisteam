@@ -317,6 +317,7 @@ void MainWindow::connectActions()
     connect(m_preferencesAct,SIGNAL(triggered()),this,SLOT(showPreferenceManager()));
 
 
+    connect(m_saveAllAct,SIGNAL(triggered()),this,SLOT());
 
 
     ////////
@@ -415,11 +416,13 @@ void MainWindow::openTchat()
 void MainWindow::addCharacterSheet()
 {
     CharacterSheetWindow* characterSheet = new CharacterSheetWindow(new CleverURI("",CleverURI::CHARACTERSHEET));
+    characterSheet->setCleverURI(new CleverURI("",CleverURI::CHARACTERSHEET));
     addToWorkspace(characterSheet);
     characterSheet->setVisible(true);
 
 }
-void MainWindow::clickOnMapWizzard()
+void
+MainWindow::clickOnMapWizzard()
 {
     MapWizzardDialog mapWizzard;
     if(mapWizzard.exec())
@@ -461,13 +464,13 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
             folder = m_options->value(QString("DataDirectory"),".").toString();
             break;
 #ifdef WITH _PDF
-        case CleverURI::PDF:
+            case CleverURI::PDF:
             filter = m_pdfFiles;
             title = tr("Open Pdf file");
             folder = m_options->value(QString("DataDirectory"),".").toString();
             break;
 #endif
-        default:
+    default:
             break;
     }
     if(!filter.isNull())
@@ -499,6 +502,23 @@ bool MainWindow::isActiveWindow(QWidget *widget)
 {
     return widget == m_workspace->activeSubWindow() && widget->isVisible();
 }
+void MainWindow::save(SubMdiWindows* tmp)
+{
+    if(NULL==tmp)
+    {
+       tmp = static_cast<SubMdiWindows*>(m_workspace->activeSubWindow());
+
+    }
+    if(tmp->getCleverUri()->getUri().isEmpty())
+    {
+        saveAs();
+    }
+    else
+    {
+        tmp->saveFile(tmp->getCleverUri()->getUri());
+    }
+}
+
 bool MainWindow::maybeSave()
 {
     if(isWindowModified())
@@ -526,10 +546,12 @@ bool MainWindow::maybeSave()
 }
 void MainWindow::saveAll()
 {
-/**
- @todo : save all documents
- */
+    foreach(SubMdiWindows* tmp,m_subWindowList->values())
+    {
+        save(tmp);
+    }
 }
+
 void MainWindow::startServer()
 {
     ServerDialog tmpdialog;
@@ -823,10 +845,14 @@ void MainWindow::help()
 
 
  }
-void MainWindow::saveAs()
+void MainWindow::saveAs(SubMdiWindows* tmp)
 {
-    SubMdiWindows* tmp = m_workspace->activeSubMdiWindow();
-    if(tmp!=NULL)
+    if(NULL==tmp)
+    {
+        tmp = m_workspace->activeSubMdiWindow();
+    }
+    if(NULL!=tmp)
+
     {
         CleverURI* filename = contentToPath(tmp->getType(),true);
         tmp->saveFile(filename->getUri());
@@ -879,6 +905,20 @@ void MainWindow::openContent()
 void MainWindow::reOpenURI(CleverURI* uri )
 {
     openCleverURI(uri,false);
+}
+void MainWindow::contentHasChanged()
+{
+    if(m_workspace->currentSubWindow()->isWindowModified())
+    {
+        m_saveAsAct->setEnabled(true);
+        m_saveAct->setEnabled(true);
+    }
+    else if(m_workspace->children().size() == 0)
+    {
+        m_saveAsAct->setEnabled(false);
+        m_saveAct->setEnabled(false);
+    }
+
 }
 
 void MainWindow::openCleverURI(CleverURI* uri,bool addSession)
