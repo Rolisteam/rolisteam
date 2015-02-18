@@ -855,38 +855,38 @@
         <translation>Supprimer le fichier selectionné</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="415"/>
-        <location filename="../src/LecteurAudio.cpp" line="683"/>
+        <location filename="../src/LecteurAudio.cpp" line="417"/>
+        <location filename="../src/LecteurAudio.cpp" line="686"/>
         <source>No songs</source>
         <translation>Aucune musique</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="452"/>
+        <location filename="../src/LecteurAudio.cpp" line="454"/>
         <source>Add song</source>
         <translation>Ajouter musique</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="452"/>
+        <location filename="../src/LecteurAudio.cpp" line="454"/>
         <source>Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)</source>
         <translation>Fichier audio (*.wav *.mp2 *.mp3 *.ogg *.flac)</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="603"/>
+        <location filename="../src/LecteurAudio.cpp" line="606"/>
         <source>Unknown command send to users</source>
         <translation>Commande inconnue </translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="700"/>
+        <location filename="../src/LecteurAudio.cpp" line="703"/>
         <source>%1 : file can not be found or opened</source>
         <translation>%1 : fichier introuvable ou illisible</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="701"/>
+        <location filename="../src/LecteurAudio.cpp" line="704"/>
         <source>File can not be found or opened : %1</source>
         <translation>Fichier introuvable ou illisible : %1</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="732"/>
+        <location filename="../src/LecteurAudio.cpp" line="735"/>
         <source>Select the songs directory</source>
         <translation>Choississez le dossier des musiques</translation>
     </message>
@@ -899,7 +899,7 @@
         <translation type="obsolete">Supprimer le titre sélectionné</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="690"/>
+        <location filename="../src/LecteurAudio.cpp" line="693"/>
         <source>%1/%2</source>
         <translation></translation>
     </message>
@@ -1221,7 +1221,7 @@ Elle sera fermée pour tout le monde</translation>
     <message>
         <location filename="../src/mainwindow.cpp" line="1793"/>
         <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;&lt;h3&gt;Site Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Official de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bu. Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Anciens developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;&lt;h3&gt;Site Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Official de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Anciens developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.renaudguezennec.eu/accueil,3.html&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
@@ -1856,7 +1856,7 @@ Il sera fermé pour tout le monde</translation>
         <location filename="../src/SelecteurCouleur.cpp" line="321"/>
         <location filename="../src/SelecteurCouleur.cpp" line="395"/>
         <source>Red: %1, Green: %2, Blue: %3</source>
-        <translation type="unfinished">Rouge: %3, Vert: %3, Bleu: %3 {1,?} {2,?} {1, or 2,?}</translation>
+        <translation>Rouge: %1, Vert: %2, Bleu: %3</translation>
     </message>
     <message>
         <source>Red: %1, Green: %1, Blue: %1</source>
