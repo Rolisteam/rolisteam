@@ -21,10 +21,10 @@ HEADERS += src/AfficheurDisque.h \
            src/connectiondialog.h \
            src/datareader.h \
            src/datawriter.h \
+           src/delegate.h \
            src/DessinPerso.h \
            src/EditeurNotes.h \
            src/Features.h \
-            src/updatechecker.h \
            src/Image.h \
            src/initialisation.h \
            src/Liaison.h \
@@ -43,12 +43,12 @@ HEADERS += src/AfficheurDisque.h \
            src/TextEditAmeliore.h \
            src/types.h \
            src/typesApplication.h \
+           src/updatechecker.h \
            src/variablesGlobales.h \
            src/wincompat.h \
            src/WorkspaceAmeliore.h
 SOURCES += src/AfficheurDisque.cpp \
            src/BarreOutils.cpp \
-            src/updatechecker.cpp \
            src/Carte.cpp \
            src/CarteFenetre.cpp \
            src/chatlist.cpp \
@@ -58,6 +58,7 @@ SOURCES += src/AfficheurDisque.cpp \
            src/connectiondialog.cpp \
            src/datareader.cpp \
            src/datawriter.cpp \
+           src/delegate.cpp \
            src/DessinPerso.cpp \
            src/EditeurNotes.cpp \
            src/Features.cpp \
@@ -77,6 +78,7 @@ SOURCES += src/AfficheurDisque.cpp \
            src/SelecteurDiametre.cpp \
            src/Tchat.cpp \
            src/TextEditAmeliore.cpp \
+           src/updatechecker.cpp \
            src/WorkspaceAmeliore.cpp
 
 

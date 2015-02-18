@@ -1,8 +1,9 @@
 /*************************************************************************
  *     Copyright (C) 2011 by Joseph Boudou                               *
+ *                                                                       *
  *     http://www.rolisteam.org/                                         *
  *                                                                       *
- *   rolisteam is free software; you can redistribute it and/or modify   *
+ *   Rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
  *   by the Free Software Foundation; either version 2 of the License,   *
  *   or (at your option) any later version.                              *
@@ -19,52 +20,31 @@
  *************************************************************************/
 
 
-#include <QListView>
-#include <QEvent>
+#include "delegate.h"
 
-#include "chatlist.h"
-#include "MainWindow.h"
-
-#include "chatlistwidget.h"
-
-
-ChatListWidget::ChatListWidget(MainWindow * parent)
-    : QDockWidget(parent)
-{
-    setWindowTitle(tr("Tchats"));
-    setAllowedAreas(Qt::AllDockWidgetAreas);
-    setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-
-    m_chatList = new ChatList(parent);
-
-    QListView * listView = new QListView(this);
-    listView->setModel(m_chatList);
-    listView->setIconSize(QSize(28,20));
-    setWidget(listView);
-
-    m_selectionModel = listView->selectionModel();
-    listView->installEventFilter(this);
-}
-
-ChatListWidget::~ChatListWidget()
+Delegate::Delegate(QObject * parent)
+    : QItemDelegate(parent)
 {
 }
 
-QMenu * ChatListWidget::chatMenu() const
+Delegate::~Delegate()
 {
-    return m_chatList->chatMenu();
 }
 
-QObject * ChatListWidget::chatList() const
+int Delegate::roleAt(const QStyleOptionViewItem &option, const QModelIndex &index, QPoint pos) const
 {
-    return m_chatList;
-}
+    QRect decorationRect = rect(option, index, Qt::DecorationRole);
+    QRect displayRect = rect(option, index, Qt::DisplayRole);
+    QRect checkRect = rect(option, index, Qt::CheckStateRole);
 
-bool ChatListWidget::eventFilter(QObject * object, QEvent * event)
-{
-    Q_UNUSED(object);
+    doLayout(option, &checkRect, &decorationRect, &displayRect, true);
 
-    if (event->type() == QEvent::FocusOut)
-        m_selectionModel->reset();
-    return false;
+    if (decorationRect.contains(pos))
+        return Qt::DecorationRole;
+    if (displayRect.contains(pos))
+        return Qt::DisplayRole;
+    if (checkRect.contains(pos))
+        return Qt::CheckStateRole;
+
+    return -1;
 }

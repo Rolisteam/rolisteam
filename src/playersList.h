@@ -82,6 +82,8 @@ class PlayersList : public QAbstractItemModel {
         void setLocalPlayer(Player * player);
         void addLocalCharacter(Character * newCharacter);
         void changeLocalPerson(Person * person, const QString & name, const QColor & color);
+        void setLocalPersonName(Person * person, const QString & name);
+        void setLocalPersonColor(Person * person, const QColor & color);
         void delLocalCharacter(int index);
 
     signals:
@@ -131,6 +133,9 @@ class PlayersList : public QAbstractItemModel {
         void setPersonColor(DataReader & data);
         void addCharacter(DataReader & data);
         void delCharacter(DataReader & data);
+
+        bool p_setLocalPersonName(Person * person, const QString & name);
+        bool p_setLocalPersonColor(Person * person, const QColor & color);
 
         void notifyPersonChanged(Person * person);
 

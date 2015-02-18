@@ -441,12 +441,33 @@ void PlayersList::changeLocalPerson(Person * person, const QString & name, const
     if (!isLocal(person))
         return;
 
-    bool changed;
-    DataWriter * message;
+    if (p_setLocalPersonName(person, name) | p_setLocalPersonColor(person, color))
+        notifyPersonChanged(person);
+}
 
+void PlayersList::setLocalPersonName(Person * person, const QString & name)
+{
+    if (!isLocal(person))
+        return;
+
+    if (p_setLocalPersonName(person, name))
+        notifyPersonChanged(person);
+}
+
+void PlayersList::setLocalPersonColor(Person * person, const QColor & color)
+{
+    if (!isLocal(person))
+        return;
+
+    if (p_setLocalPersonColor(person, color))
+        notifyPersonChanged(person);
+}
+
+bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
+{
     if (person->setName(name))
     {
-        changed = true;
+        DataWriter * message;
 
         if (person->parent() == NULL)
             message = new DataWriter(joueur, changerNomJoueur);
@@ -456,11 +477,17 @@ void PlayersList::changeLocalPerson(Person * person, const QString & name, const
         message->string16(person->name());
         message->string8(person->uuid());
         message->sendAll();
+
+        return true;
     }
-        
+    return false;
+}
+
+bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
+{
     if (person->setColor(color))
     {
-        changed = true;
+        DataWriter * message;
 
         if (person->parent() == NULL)
             message = new DataWriter(joueur, changerCouleurJoueur);
@@ -470,10 +497,10 @@ void PlayersList::changeLocalPerson(Person * person, const QString & name, const
         message->string8(person->uuid());
         message->rgb(person->color());
         message->sendAll();
-    }
 
-    if (changed)
-        notifyPersonChanged(person);
+        return true;
+    }
+    return false;
 }
 
 void PlayersList::delLocalCharacter(int index)

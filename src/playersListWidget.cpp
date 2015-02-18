@@ -20,12 +20,12 @@
  *************************************************************************/
 
 
-#include <QTreeView>
 #include <QVBoxLayout>
 
 #include "playersListWidget.h"
 
 #include "Carte.h"
+#include "delegate.h"
 #include "persons.h"
 #include "persondialog.h"
 #include "playersList.h"
@@ -93,14 +93,23 @@ int PlayersListWidgetModel::columnCount(const QModelIndex & parent) const
 
 Qt::ItemFlags PlayersListWidgetModel::flags(const QModelIndex &index) const
 {
-    if (isCheckable(index))
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable |
-               Qt::ItemIsUserCheckable;
+    if (!index.isValid())
+        return Qt::NoItemFlags;
 
+    Qt::ItemFlags ret = Qt::ItemIsEnabled;
+    
     if (index.parent().isValid())
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+        ret |= Qt::ItemIsSelectable;
 
-    return Qt::ItemIsEnabled;
+    if (isCheckable(index))
+        ret |= Qt::ItemIsUserCheckable;
+    
+    PlayersList & g_playersList = PlayersList::instance();
+    Person * person = g_playersList.getPerson(index);
+    if (g_playersList.isLocal(person))
+        ret |= Qt::ItemIsEditable;
+
+    return ret;
 }
 
 QVariant PlayersListWidgetModel::data(const QModelIndex &index, int role) const
@@ -115,10 +124,28 @@ QVariant PlayersListWidgetModel::data(const QModelIndex &index, int role) const
 
 bool PlayersListWidgetModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (isCheckable(index) && role == Qt::CheckStateRole)
+    PlayersList & g_playersList = PlayersList::instance();
+    Person * person = g_playersList.getPerson(index);
+
+    if (person != NULL && g_playersList.isLocal(person))
+        switch (role)
+        {
+            case Qt::EditRole:
+            case Qt::DisplayRole:
+                g_playersList.setLocalPersonName(person, value.toString());
+                return true;
+            case Qt::DecorationRole:
+                if (value.type() == QVariant::Color)
+                {
+                    g_playersList.setLocalPersonColor(person, value.toString());
+                    return true;
+                }
+        }
+
+    if (role == Qt::CheckStateRole && isCheckable(index))
     {
         // isCheckable ensures person and m_map is not NULL and person is a character.
-        m_map->toggleCharacterView(static_cast<Character *>(PlayersList::instance().getPerson(index)));
+        m_map->toggleCharacterView(static_cast<Character *>(person));
         emit dataChanged(index, index);
         return true;
     }
@@ -208,6 +235,46 @@ void PlayersListWidgetModel::p_dataChanged(const QModelIndex & from, const QMode
     emit dataChanged(mapFromSource(from), mapFromSource(to));
 }
 
+/*******************
+ * PlayersListView *
+ *******************/
+
+PlayersListView::PlayersListView(QWidget * parent)
+    : QTreeView(parent)
+{
+    static Delegate delegate;
+    setItemDelegate(&delegate);
+}
+
+PlayersListView::~PlayersListView()
+{
+}
+
+void PlayersListView::mouseDoubleClickEvent(QMouseEvent * event)
+{
+    QPoint mPos = event->pos();
+    QModelIndex index = indexAt(mPos);
+    mPos -= visualRect(index).topLeft();
+
+    Delegate * delegate = static_cast<Delegate *>(itemDelegate());
+    int role = delegate->roleAt(viewOptions(), index, mPos);
+    if (role == Qt::DecorationRole)
+    {
+        QVariant value = index.data(role);
+        if (value.type() == QVariant::Color)
+        {
+            QColor color = qvariant_cast<QColor>(value);
+            static QColorDialog colorDialog;
+            colorDialog.setCurrentColor(color);
+            if (colorDialog.exec() == QDialog::Accepted)
+                model()->setData(index, QVariant(colorDialog.currentColor()), role);
+            return;
+        }
+    }
+
+    QTreeView::mouseDoubleClickEvent(event);
+}
+
 
 /********************
  * PlayerListWidget *
@@ -221,6 +288,10 @@ PlayersListWidget::PlayersListWidget(QWidget * parent)
     setWindowTitle(tr("Joueurs"));
 
     setUI();
+}
+
+PlayersListWidget::~PlayersListWidget()
+{
 }
 
 PlayersListWidgetModel * PlayersListWidget::model() const
@@ -282,11 +353,12 @@ void PlayersListWidget::setUI()
     QWidget * centralWidget = new QWidget(this);
 
     // PlayersListView
-    QTreeView * playersListView  = new QTreeView(centralWidget);
+    QTreeView * playersListView  = new PlayersListView(centralWidget);
     m_model = new PlayersListWidgetModel;
     playersListView->setModel(m_model);
     m_selectionModel = playersListView->selectionModel();
     playersListView->setHeaderHidden(true);
+    playersListView->setIconSize(QSize(28,20));
 
     // Add PJ button
     QPushButton * addPlayerButton = new QPushButton(tr("Ajouter un PJ"), centralWidget);
@@ -309,8 +381,6 @@ void PlayersListWidget::setUI()
     setWidget(centralWidget);
 
     // Actions
-    connect(playersListView, SIGNAL(activated(const QModelIndex &)),
-            this, SLOT(editIndex(const QModelIndex &)));
     connect(m_selectionModel, SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
             this, SLOT(selectAnotherPerson(const QModelIndex &)));
     connect(m_model, SIGNAL(rowsRemoved( const QModelIndex &, int, int)),

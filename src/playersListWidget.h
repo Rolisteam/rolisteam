@@ -23,17 +23,19 @@
 #ifndef PLAYERS_LIST_WIDGET_H
 #define PLAYERS_LIST_WIDGET_H
 
-#include <QSet>
 #include <QAbstractProxyModel>
-#include <QItemSelectionModel>
 #include <QDockWidget>
+#include <QItemSelectionModel>
 #include <QPushButton>
+#include <QSet>
+#include <QTreeView>
 
 class Carte;
 class PersonDialog;
 class Person;
 
-class PlayersListWidgetModel : public QAbstractProxyModel {
+class PlayersListWidgetModel : public QAbstractProxyModel
+{
     Q_OBJECT
 
     public:
@@ -67,16 +69,31 @@ class PlayersListWidgetModel : public QAbstractProxyModel {
         void p_dataChanged(const QModelIndex & from, const QModelIndex & to);
 };
 
-class PlayersListWidget : public QDockWidget {
+/**
+ * @brief A QTreeView with editable DecorationRole if it's a QColor.
+ * @todo The code is really generic. The class might be put somewhere else to be reused.
+ */
+class PlayersListView : public QTreeView
+{
+    Q_OBJECT
+
+    public:
+        PlayersListView(QWidget * parent = NULL);
+        ~PlayersListView();
+
+    protected:
+        void mouseDoubleClickEvent(QMouseEvent * event);
+};
+
+class PlayersListWidget : public QDockWidget
+{
     Q_OBJECT
 
     public:
         PlayersListWidget(QWidget * parent = NULL);
+        ~PlayersListWidget();
 
         PlayersListWidgetModel * model() const;
-
-    signals:
-        void indexEdited(const QModelIndex & index, const QString & name, const QColor & color);
 
     private slots:
         void editIndex(const QModelIndex & index);

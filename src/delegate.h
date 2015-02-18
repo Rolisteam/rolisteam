@@ -1,8 +1,9 @@
 /*************************************************************************
  *     Copyright (C) 2011 by Joseph Boudou                               *
+ *                                                                       *
  *     http://www.rolisteam.org/                                         *
  *                                                                       *
- *   rolisteam is free software; you can redistribute it and/or modify   *
+ *   Rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
  *   by the Free Software Foundation; either version 2 of the License,   *
  *   or (at your option) any later version.                              *
@@ -19,52 +20,20 @@
  *************************************************************************/
 
 
-#include <QListView>
-#include <QEvent>
+#ifndef DELEGATE_H
+#define DELEGATE_H
 
-#include "chatlist.h"
-#include "MainWindow.h"
+#include <QItemDelegate>
 
-#include "chatlistwidget.h"
-
-
-ChatListWidget::ChatListWidget(MainWindow * parent)
-    : QDockWidget(parent)
+class Delegate : public QItemDelegate
 {
-    setWindowTitle(tr("Tchats"));
-    setAllowedAreas(Qt::AllDockWidgetAreas);
-    setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    Q_OBJECT
 
-    m_chatList = new ChatList(parent);
+    public:
+        Delegate(QObject * parent = NULL);
+        ~Delegate();
 
-    QListView * listView = new QListView(this);
-    listView->setModel(m_chatList);
-    listView->setIconSize(QSize(28,20));
-    setWidget(listView);
+        int roleAt(const QStyleOptionViewItem &option, const QModelIndex &index, QPoint pos) const;
+};
 
-    m_selectionModel = listView->selectionModel();
-    listView->installEventFilter(this);
-}
-
-ChatListWidget::~ChatListWidget()
-{
-}
-
-QMenu * ChatListWidget::chatMenu() const
-{
-    return m_chatList->chatMenu();
-}
-
-QObject * ChatListWidget::chatList() const
-{
-    return m_chatList;
-}
-
-bool ChatListWidget::eventFilter(QObject * object, QEvent * event)
-{
-    Q_UNUSED(object);
-
-    if (event->type() == QEvent::FocusOut)
-        m_selectionModel->reset();
-    return false;
-}
+#endif
