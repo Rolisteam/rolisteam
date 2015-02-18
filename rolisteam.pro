@@ -101,7 +101,9 @@ HEADERS += src/AfficheurDisque.h \
     src/chatbrowser.h \
     src/ipchecker.h \
     src/mapwizzard.h \
-    src/newemptymapdialog.h
+    src/newemptymapdialog.h \
+    src/widgets/dirchooser.h
+
 
 SOURCES += src/AfficheurDisque.cpp \
            src/BarreOutils.cpp \
@@ -145,7 +147,9 @@ SOURCES += src/AfficheurDisque.cpp \
     src/chatbrowser.cpp \
     src/ipchecker.cpp \
     src/mapwizzard.cpp \
-    src/newemptymapdialog.cpp
+    src/newemptymapdialog.cpp \
+    src/widgets/dirchooser.cpp
+
 #end source
 
 
@@ -209,3 +213,6 @@ FORMS += \
     src/newemptymapdialog.ui \
     src/chatwindow.ui \
     preferencesdialogbox.ui
+
+OTHER_FILES += \
+    src/widgets/widgets.pro

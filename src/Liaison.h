@@ -85,6 +85,7 @@ private :
     LecteurAudio* m_audioPlayer;
 #endif
     MainWindow* m_mainWindow;
+    ClientServeur* m_networkManager;
 
 private slots :
     void reception();

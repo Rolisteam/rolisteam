@@ -80,6 +80,8 @@ public slots:
     void save();
     QString getTitleFromChat();
 
+    void editionGetFocus();
+
 protected :
     void init(MainWindow * parent);
  //void contextMenuEvent ( QContextMenuEvent * event );
@@ -114,7 +116,7 @@ private :
 
     ChatBrowser * m_displayZone;         // Zone de texte ou s'affichent les messages
     QComboBox * m_selectPersonComboBox;
-    TextEditAmeliore * zoneEdition;    // Zone de texte ou l'utilisateur peut ecrire
+    TextEditAmeliore * m_editionZone;    // Zone de texte ou l'utilisateur peut ecrire
     QAction * m_toggleViewAction;
     QSplitter* m_splitter;
     QWidget * m_bottomWidget;

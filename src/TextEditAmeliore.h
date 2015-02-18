@@ -41,9 +41,11 @@ class TextEditAmeliore : public QTextEdit
         void textValidated(QString textHtml,QString text);
         void ctrlUp();
         void ctrlDown();
+    void receivedFocus();
 
     protected :
         void keyPressEvent(QKeyEvent *e);
+    void focusInEvent(QFocusEvent *e);
 
     private:
         QStringList m_history;

@@ -28,6 +28,24 @@
 #include <QStyleOptionFocusRect>
 #include <QDebug>
 
+
+ColorButton::ColorButton(QWidget * parent)
+ : QPushButton(parent), m_color(QColor("tan")), m_dialog(QColor("tan"), this)
+{
+    setStyle(new QCleanlooksStyle());
+//}
+setColor(m_color);
+
+setMaximumSize(sizeHint());
+
+// should never be the default button
+setDefault(false);
+setAutoDefault(false);
+
+connect(this, SIGNAL(pressed()), &m_dialog, SLOT(open()));
+connect(&m_dialog, SIGNAL(colorSelected(const QColor &)), this, SLOT(setColor(const QColor &)));
+}
+
 ColorButton::ColorButton(const QColor & color, QWidget * parent)
     : QPushButton(parent), m_color(color), m_dialog(color, this)
 {

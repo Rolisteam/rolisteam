@@ -40,7 +40,7 @@
 // Identifiant du joueur en local sur la machine
 QString G_idJoueurLocal;
 
-ClientServeur * G_clientServeur;
+
 
 /**
 * @mainpage Rolisteam Documentation

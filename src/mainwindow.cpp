@@ -153,7 +153,7 @@ MainWindow::MainWindow()
     m_mapWizzard = new MapWizzard(this);
     m_networkManager = new ClientServeur;
     m_ipChecker = new IpChecker(this);
-    G_clientServeur = m_networkManager;
+    //G_clientServeur = m_networkManager;
     m_mapAction = new QMap<CarteFenetre*,QAction*>();
 
 }
@@ -184,14 +184,16 @@ void MainWindow::setupUi()
 
 
 
-    // Desactivation des animations
+
     setAnimated(false);
-    // Creation de l'espace de travail
-    workspace = new WorkspaceAmeliore();
-    // Ajout de l'espace de travail dans la fenetre principale
-    setCentralWidget(workspace);
+
+    m_mdiArea = new WorkspaceAmeliore();
+
+
+
+    setCentralWidget(m_mdiArea);
     // Connexion du changement de fenetre active avec la fonction de m.a.j du selecteur de taille des PJ
-    connect(workspace, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(changementFenetreActive(QMdiSubWindow *)));
+    connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(changementFenetreActive(QMdiSubWindow *)));
 
     // Creation de la barre d'outils
     //barreOutils = new BarreOutils(this);
@@ -243,7 +245,7 @@ void MainWindow::setupUi()
     // Creation de l'editeur de notes
     m_noteEditor= new TextEdit(this);
 
-    m_noteEditorSub  = static_cast<QMdiSubWindow*>(workspace->addWindow(m_noteEditor));
+    m_noteEditorSub  = static_cast<QMdiSubWindow*>(m_mdiArea->addWindow(m_noteEditor));
     if(NULL!=m_noteEditorSub)
     {
         m_noteEditorSub->setWindowTitle(tr("Minutes Editor[*]"));
@@ -307,8 +309,8 @@ void MainWindow::setUpNetworkConnection()
     {
         qDebug() << "user is server";
         // send datas on new connection if we are the server
-        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
-        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
+        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
+        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
     }
 }
 
@@ -316,6 +318,10 @@ void MainWindow::setNetworkManager(ClientServeur* tmp)
 {
     m_networkManager = tmp;
     m_networkManager->setParent(this);
+}
+ClientServeur* MainWindow::getNetWorkManager()
+{
+    return m_networkManager;
 }
 
 void MainWindow::updateWindowTitle()
@@ -404,7 +410,7 @@ void MainWindow::creerMenu()
         actionAfficherNumerosPnj->setChecked(true);
 
         // Creation du menu Fenetre
-        menuFenetre = new QMenu (tr("Sub-Windows"), m_menuBar);
+        m_windowMenu = new QMenu (tr("Sub-Windows"), m_menuBar);
 
         // Creation du sous-menu Reorganiser
         QMenu* organizeSubMenu        = new QMenu (tr("Reorganize"), m_menuBar);
@@ -413,28 +419,28 @@ void MainWindow::creerMenu()
         m_cascadeAction  = organizeSubMenu->addAction(tr("Cascade"));
         m_tuleAction   = organizeSubMenu->addAction(tr("Tile"));
         // Ajout du sous-menu Reorganiser au menu Fenetre
-        menuFenetre->addMenu(organizeSubMenu);
-        menuFenetre->addSeparator();
+        m_windowMenu->addMenu(organizeSubMenu);
+        m_windowMenu->addSeparator();
 
         // Ajout des actions d'affichage des fenetres d'evenement, utilisateurs et lecteur audio
-        menuFenetre->addAction(m_toolBar->toggleViewAction());
-        menuFenetre->addAction(m_dockLogUtil->toggleViewAction());
-        menuFenetre->addAction(m_chatListWidget->toggleViewAction());
-        menuFenetre->addAction(m_playersListWidget->toggleViewAction());
+        m_windowMenu->addAction(m_toolBar->toggleViewAction());
+        m_windowMenu->addAction(m_dockLogUtil->toggleViewAction());
+        m_windowMenu->addAction(m_chatListWidget->toggleViewAction());
+        m_windowMenu->addAction(m_playersListWidget->toggleViewAction());
 #ifndef NULL_PLAYER
-        menuFenetre->addAction(m_audioPlayer->toggleViewAction());
+        m_windowMenu->addAction(m_audioPlayer->toggleViewAction());
 #endif
-        menuFenetre->addSeparator();
+        m_windowMenu->addSeparator();
 
         // Ajout de l'action d'affichage de l'editeur de notes
-        m_noteEditorAct = menuFenetre->addAction(tr("Minutes Editor"));
+        m_noteEditorAct = m_windowMenu->addAction(tr("Minutes Editor"));
         m_noteEditorAct->setCheckable(true);
         m_noteEditorAct->setChecked(false);
         // Connexion de l'action avec l'affichage/masquage de l'editeur de notes
         connect(m_noteEditorAct, SIGNAL(triggered(bool)), this, SLOT(displayMinutesEditor(bool)));
 
         // Ajout du sous-menu Tchat
-        menuFenetre->addMenu(m_chatListWidget->chatMenu());
+        m_windowMenu->addMenu(m_chatListWidget->chatMenu());
 
         // Creation du menu Aide
         QMenu *menuAide = new QMenu (tr("Help"), m_menuBar);
@@ -445,7 +451,7 @@ void MainWindow::creerMenu()
         // Ajout des menus a la barre de menus
         m_menuBar->addMenu(menuFichier);
         m_menuBar->addMenu(menuAffichage);
-        m_menuBar->addMenu(menuFenetre);
+        m_menuBar->addMenu(m_windowMenu);
         m_menuBar->addMenu(networkMenu);
         m_menuBar->addMenu(menuAide);
 }
@@ -474,13 +480,13 @@ void MainWindow::linkActionToMenu()
         connect(m_reconnectAct,SIGNAL(triggered()),this,SLOT(startReconnection()));
 
         // Windows managing
-        connect(m_cascadeAction, SIGNAL(triggered(bool)), workspace, SLOT(cascadeSubWindows()));
+        connect(m_cascadeAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
 
-        connect(m_tabOrdering,SIGNAL(triggered(bool)),workspace,SLOT(setTabbedMode(bool)));
+        connect(m_tabOrdering,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
 
         connect(m_tabOrdering,SIGNAL(triggered(bool)),m_cascadeAction,SLOT(setDisabled(bool)));
         connect(m_tabOrdering,SIGNAL(triggered(bool)),m_tuleAction,SLOT(setDisabled(bool)));
-        connect(m_tuleAction, SIGNAL(triggered(bool)), workspace, SLOT(tileSubWindows()));
+        connect(m_tuleAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
 
         // Display
         connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
@@ -498,7 +504,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         listeCarteFenetre.append(carteFenetre);
 
         // Ajout de la carte au workspace
-        QWidget* tmp = workspace->addWindow(carteFenetre);
+        QWidget* tmp = m_mdiArea->addWindow(carteFenetre);
         if(mapsize.isValid())
             tmp->resize(mapsize);
         if(!pos.isNull())
@@ -520,7 +526,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         carteFenetre->setWindowTitle(titre);
 
         // Creation de l'action correspondante
-        QAction *action = menuFenetre->addAction(titre);
+        QAction *action = m_windowMenu->addAction(titre);
         action->setCheckable(true);
         action->setChecked(true);
 
@@ -573,8 +579,7 @@ void  MainWindow::closeConnection()
 
 void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
 {
-        imageFenetre->setParent(workspace);
-        // Ajout de la CarteFenetre a la liste (permet par la suite de parcourir l'ensemble des cartes)
+        imageFenetre->setParent(m_mdiArea);
         addImageToMdiArea(imageFenetre,titre);
 }
 void MainWindow::ouvrirImage()
@@ -624,7 +629,7 @@ void MainWindow::ouvrirImage()
         QString idImage = QUuid::createUuid().toString();
 
         // Creation de la fenetre image
-        Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, img, NULL,workspace);
+        Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, img, NULL,m_mdiArea);
 
         addImageToMdiArea(imageFenetre,titre);
 
@@ -642,13 +647,13 @@ void MainWindow::addImageToMdiArea(Image *imageFenetre, QString titre)
     imageFenetre->setImageTitle(titre);
 
     // Creation de l'action correspondante
-    QAction *action = menuFenetre->addAction(titre);
+    QAction *action = m_windowMenu->addAction(titre);
     action->setCheckable(true);
     action->setChecked(true);
     imageFenetre->setInternalAction(action);
 
     // Ajout de l'image au workspace
-    QMdiSubWindow* sub = static_cast<QMdiSubWindow*>(workspace->addWindow(imageFenetre));
+    QMdiSubWindow* sub = static_cast<QMdiSubWindow*>(m_mdiArea->addWindow(imageFenetre));
 
     // Mise a jour du titre de l'image
     sub->setWindowTitle(titre);
@@ -731,7 +736,7 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
                 carte->setPermissionMode(Permission);
                 carte->setPointeur(m_toolBar->getCurrentTool());
                 // Creation de la CarteFenetre
-                CarteFenetre *carteFenetre = new CarteFenetre(carte,this, workspace);
+                CarteFenetre *carteFenetre = new CarteFenetre(carte,this, m_mdiArea);
                 // Ajout de la carte au workspace
                 ajouterCarte(carteFenetre, title);
 
@@ -876,7 +881,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
         Carte *carte = new Carte(idCarte, &fondOriginal, &fond, &alpha);
         carte->setPointeur(m_toolBar->getCurrentTool());
         // Creation de la CarteFenetre
-        CarteFenetre *carteFenetre = new CarteFenetre(carte,this,workspace);
+        CarteFenetre *carteFenetre = new CarteFenetre(carte,this,m_mdiArea);
 
         carteFenetre->setGeometry(posWindow.x(),posWindow.y(),sizeWindow.width(),sizeWindow.height());
 
@@ -954,7 +959,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
 void MainWindow::closeMapOrImage()
 {
 
-        QMdiSubWindow* subactive = workspace->currentSubWindow();
+        QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
         QWidget* active = subactive->widget();
 
 
@@ -1107,7 +1112,7 @@ void MainWindow::afficherNumerosPnj(bool afficher)
 void MainWindow::mettreAJourEspaceTravail()
 {
 
-        QMdiSubWindow* active = workspace->currentSubWindow();
+        QMdiSubWindow* active = m_mdiArea->currentSubWindow();
 
 
         if (active)
@@ -1237,7 +1242,7 @@ void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond,
         Carte *carte = new Carte(idCarte, &image);
         carte->setPermissionMode(getPermission(mode));
         carte->setPointeur(m_toolBar->getCurrentTool());
-        CarteFenetre *carteFenetre = new CarteFenetre(carte,this, workspace);
+        CarteFenetre *carteFenetre = new CarteFenetre(carte,this, m_mdiArea);
         ajouterCarte(carteFenetre, titre);
 }
 
@@ -1290,29 +1295,18 @@ Carte * MainWindow::trouverCarte(QString idCarte)
                 return 0;
 }
 
-CarteFenetre * MainWindow::trouverCarteFenetre(QString idCarte)
+void MainWindow::removeMapFromId(QString idCarte)
 {
-        // Taille de la liste des CarteFenetre
-        int tailleListe = listeCarteFenetre.size();
+    QMdiSubWindow* tmp = m_mdiArea->getSubWindowFromId(idCarte);
+    CarteFenetre* mapWindow = dynamic_cast<CarteFenetre*>(tmp->widget());
 
-        bool ok = false;
-        int i;
-        for (i=0; i<tailleListe && !ok; ++i)
-                if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
-                        ok = true;
-
-        // Si la carte vient d'etre trouvee on renvoie le pointeur vers la CarteFenetre qui lui est associee
-        if (ok)
-                return listeCarteFenetre[i-1];
-        // Sinon on renvoie 0
-        else
-                return 0;
+    delete m_mapAction->value(mapWindow);
+    delete mapWindow;
+    delete tmp;
 }
 
-bool MainWindow::estLaFenetreActive(QWidget *widget)
-{
-        return widget == workspace->activeWindow() && widget->isVisible();
-}
+
+
 void MainWindow::quitterApplication(bool perteConnexion)
 {
         // Creation de la boite d'alerte
@@ -1473,13 +1467,13 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
 
 QWidget* MainWindow::registerSubWindow(QWidget * subWindow)
 {
-    return workspace->addWindow(subWindow);
+    return m_mdiArea->addWindow(subWindow);
 }
 
 void MainWindow::sauvegarderPlan()
 {
         // On recupere la fenetre active
-        QWidget *active = workspace->activeWindow();
+        QWidget *active = m_mdiArea->activeWindow();
 
         // On verifie pour le principe qu'il s'agit bien d'une CarteFenetre
         if (active->objectName() != "CarteFenetre")
@@ -1717,7 +1711,7 @@ void MainWindow::lireImage(QDataStream &file)
                 qWarning("Probleme de decompression de l'image (lireImage - Mainwindow.cpp)");
 
         // Creation de l'action correspondante
-        QAction *action = menuFenetre->addAction(titre);
+        QAction *action = m_windowMenu->addAction(titre);
         action->setCheckable(true);
         action->setChecked(true);
 
@@ -1725,13 +1719,13 @@ void MainWindow::lireImage(QDataStream &file)
         QString idImage = QUuid::createUuid().toString();
 
         // Creation de la fenetre image
-        Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, &img, action,workspace);
+        Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, &img, action,m_mdiArea);
 
         // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
         listeImage.append(imageFenetre);
 
         // Ajout de l'image au workspace
-        QWidget* tmp = workspace->addWindow(imageFenetre);
+        QWidget* tmp = m_mdiArea->addWindow(imageFenetre);
         tmp->setWindowIcon(QIcon(":/picture.png"));
         tmp->move(topleft);
         tmp->resize(size);

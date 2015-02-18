@@ -33,7 +33,8 @@ class ColorButton
     Q_OBJECT
 
     public:
-        ColorButton(const QColor & color = QColor("tan"), QWidget * parent = NULL);
+    ColorButton(QWidget * parent);
+    ColorButton(const QColor & color = QColor("tan"), QWidget * parent = NULL);
 
         QColor color() const;
 

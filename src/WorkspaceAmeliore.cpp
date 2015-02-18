@@ -24,6 +24,7 @@
 
 #include "WorkspaceAmeliore.h"
 #include "constantesGlobales.h"
+#include "CarteFenetre.h"
 
 //#include <QTextStream>
 
@@ -131,4 +132,24 @@ void WorkspaceAmeliore::setTabbedMode(bool isTabbed)
     {
         setViewMode(QMdiArea::SubWindowView);
     }
+}
+
+QMdiSubWindow* WorkspaceAmeliore::getSubWindowFromId(QString id)
+{
+    foreach(QMdiSubWindow* tmp, subWindowList())
+    {
+        if(NULL!=tmp->widget())
+        {
+            CarteFenetre* tmpWindow = dynamic_cast<CarteFenetre*>(tmp->widget());
+            if(NULL!=tmpWindow)
+            {
+                if(tmpWindow->getMapId() == id)
+                {
+                    //delete tmp;
+                    return tmp;
+                }
+            }
+        }
+    }
+    return NULL;
 }

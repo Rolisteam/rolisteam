@@ -30,69 +30,18 @@
 #include <QFormLayout>
 #include <QDialogButtonBox>
 #include <QPushButton>
+#include <QImageReader>
 
-/**************
- * DirChooser *
- **************/
-
-DirChooser::DirChooser(QWidget * parent)
- : QWidget(parent)
-{
-    // Childrens
-    m_lineEdit = new QLineEdit(this);
-    m_lineEdit->setText(QDir::homePath());
-    QPushButton * button = new QPushButton(tr("..."), this);
-
-    // Layout
-    QHBoxLayout * layout = new QHBoxLayout;
-    layout->addWidget(m_lineEdit, 1);
-    layout->addWidget(button, 0);
-    setLayout(layout);
-
-    // Connections
-    connect(button, SIGNAL(pressed()), this, SLOT(browse()));
-
-    // Misc
-    button->setMaximumWidth(28);
-    setContentsMargins(0,0,0,0);
-    layout->setContentsMargins(0,0,0,0);
-}
-
-DirChooser::~DirChooser()
-{
-    // QObject should do it right for us already.
-}
-
-void DirChooser::setDirName(const QString & dirName)
-{
-    m_lineEdit->setText(dirName);
-}
-
-QString DirChooser::dirName() const
-{
-    return m_lineEdit->text();
-}
-
-void DirChooser::browse()
-{
-    QString result = QFileDialog::getExistingDirectory(this,
-            tr("Select directory"),
-            m_lineEdit->text(),
-            QFileDialog::ShowDirsOnly );
-    if (!result.isEmpty())
-    {
-        m_lineEdit->setText(result);
-    }
-}
-
+#include "ui_preferencesdialogbox.h"
 
 /*********************
  * PreferencesDialog *
  *********************/
 
 PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
- : QDialog(parent, f)
+    : QDialog(parent, f), ui(new Ui::PreferencesDialogBox())
 {
+    ui->setupUi(this);
 
     m_preferences = PreferencesManager::getInstance();
     // Children
@@ -149,6 +98,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(this, SIGNAL(accepted()), this, SLOT(save()));
+    connect(ui->m_startDiag,SIGNAL(clicked()),this,SLOT(performDiag()));
 
     // Misc
     setSizeGripEnabled(true);
@@ -196,4 +146,18 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("ChatDirectory",m_chatsDir->dirName());
     m_preferences->registerValue("MainWindow_MustBeChecked",m_checkUpdateAtStartUp->isChecked());
     m_preferences->registerValue("Fog_color",m_fogColor->color());
+}
+void PreferencesDialog::performDiag()
+{
+    ui->m_diagDisplay->clear();
+    
+    QList<QByteArray> format(QImageReader::supportedImageFormats());
+    QString chaine=tr("format : %1 value %2");
+    ui->m_diagDisplay->setText(tr("Supported Image Formats:"));
+    for(int i=0 ; i < format.size() ; ++i)
+    {
+
+        ui->m_diagDisplay->append(chaine.arg(i).arg(QString(format.at(i))));
+    }
+    ui->m_diagDisplay->append(tr("End Image Diag"));
 }

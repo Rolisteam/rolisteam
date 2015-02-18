@@ -49,7 +49,10 @@ bool G_joueur;
 
 void emettre(char *donnees, quint32 taille, Liaison *sauf)
 {
-    G_clientServeur->emettreDonnees(donnees, taille, sauf);
+    if(NULL!=MainWindow::getInstance()->getNetWorkManager())
+    {
+        MainWindow::getInstance()->getNetWorkManager()->emettreDonnees(donnees, taille, sauf);
+    }
 }
 
 /*****************

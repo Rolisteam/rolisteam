@@ -81,10 +81,10 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     }
     setupUi();
 
-    connect(zoneEdition, SIGNAL(textValidated(QString,QString)), this, SLOT(emettreTexte(QString,QString)));
+    connect(m_editionZone, SIGNAL(textValidated(QString,QString)), this, SLOT(emettreTexte(QString,QString)));
 
-    connect(zoneEdition, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
-    connect(zoneEdition, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
+    connect(m_editionZone, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
+    connect(m_editionZone, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
 
     connect(m_mainWindow, SIGNAL(closing()), this, SLOT(save()));
     //connect(m_chat, SIGNAL(changedName()), this, SLOT(updateTitleFromChat()));
@@ -131,13 +131,13 @@ void ChatWindow::setupUi()
 
 
 
-    zoneEdition = new TextEditAmeliore();
-    zoneEdition->setReadOnly(false);
-    zoneEdition->setMinimumHeight(30);
-    zoneEdition->setAcceptRichText(false);
-    zoneEdition->installEventFilter(this);
+    m_editionZone = new TextEditAmeliore();
+    m_editionZone->setReadOnly(false);
+    m_editionZone->setMinimumHeight(30);
+    m_editionZone->setAcceptRichText(false);
+    m_editionZone->installEventFilter(this);
 
-
+    connect(m_editionZone,SIGNAL(receivedFocus()),this,SLOT(editionGetFocus()));
 
 
 
@@ -194,7 +194,7 @@ void ChatWindow::setupUi()
     internalVLayout->setSpacing(0);
 
     internalVLayout->addWidget(toolBar);
-    internalVLayout->addWidget(zoneEdition);
+    internalVLayout->addWidget(m_editionZone);
 //zoneEdition
     m_bottomWidget->setLayout(internalVLayout);
 
@@ -262,7 +262,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     bool ok=true;
     QString tirage;
     int result;
-    zoneEdition->clear();
+    m_editionZone->clear();
     //QTextStream out(stderr,QIODevice::WriteOnly);
     //qDebug() << "Message=" <<message;
 
@@ -445,7 +445,7 @@ void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& coule
         return;
     }
 
-    if (!zoneEdition->hasFocus() && !m_hasUnseenMessage)
+    if (!m_editionZone->hasFocus() && !m_hasUnseenMessage)
     {
         m_hasUnseenMessage = true;
         emit ChatWindowHasChanged(this);
@@ -1046,9 +1046,9 @@ QString ChatWindow::getTitleFromChat()
 
 void ChatWindow::showEvent(QShowEvent *event)
 {
-    Q_UNUSED(event);
+	Q_UNUSED(event);
     // On place le curseur sur la zone d'edition
-    zoneEdition->setFocus(Qt::OtherFocusReason);
+    m_editionZone->setFocus(Qt::OtherFocusReason);
     if(m_selectPersonComboBox->currentText().isEmpty())
     {
         m_selectPersonComboBox->setCurrentIndex(0);
@@ -1098,6 +1098,13 @@ void ChatWindow::hideEvent(QHideEvent *event)
 
 //    return false;
 //}
+
+void ChatWindow::editionGetFocus()
+{
+    m_hasUnseenMessage = false;
+    emit ChatWindowHasChanged(this);
+}
+
 
 bool ChatWindow::GetNumber(QString &str, int* value)
 {

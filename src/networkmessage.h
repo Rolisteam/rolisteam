@@ -24,7 +24,7 @@
 #define NETWORK_MESSAGE_H
 
 #include <QtGlobal>
-
+#include "ClientServeur.h"
 class Liaison;
 
 struct NetworkMessageHeader
@@ -36,61 +36,61 @@ struct NetworkMessageHeader
 
 namespace NetMsg
 {
-    enum Category {
-        ConnectionCategory,
-        PlayerCategory,
-        CharacterCategory,
-        NPCCategory,
-        PersonCategory,
-        DrawCategory,
-        MapCategory,
-        PictureCategory,
-        ChatCategory,
-        MusicCategory,
-        SetupCategory
-    };
+enum Category {
+    ConnectionCategory,
+    PlayerCategory,
+    CharacterCategory,
+    NPCCategory,
+    PersonCategory,
+    DrawCategory,
+    MapCategory,
+    PictureCategory,
+    ChatCategory,
+    MusicCategory,
+    SetupCategory
+};
 
-    enum Action {
-        // ConnectionCategory
-        EndConnectionAction = 0,
+enum Action {
+    // ConnectionCategory
+    EndConnectionAction = 0,
 
-        // PlayerCategory
-        PlayerConnectionAction = 0,
-        AddPlayerAction,
-        DelPlayerAction,
-        ChangePlayerNameAction,
-        ChangePlayerColorAction,
+    // PlayerCategory
+    PlayerConnectionAction = 0,
+    AddPlayerAction,
+    DelPlayerAction,
+    ChangePlayerNameAction,
+    ChangePlayerColorAction,
 
-        // CharacterCategory
-        AddCharacterAction = 0,
-        DelCharacterAction,
-        ToggleViewCharacterAction,
-        ChangeCharacterSizeAction,
-        ChangeCharacterNameAction,
-        ChangeCharacterColorAction,
+    // CharacterCategory
+    AddCharacterAction = 0,
+    DelCharacterAction,
+    ToggleViewCharacterAction,
+    ChangeCharacterSizeAction,
+    ChangeCharacterNameAction,
+    ChangeCharacterColorAction,
 
-        // MapCategory
-        AddEmptyMap = 0,
-        LoadMap,
-        ImportMap,
-        CloseMap,
+    // MapCategory
+    AddEmptyMap = 0,
+    LoadMap,
+    ImportMap,
+    CloseMap,
 
-        // PictureCategory
-        AddPictureAction = 0,
-        DelPictureAction,
+    // PictureCategory
+    AddPictureAction = 0,
+    DelPictureAction,
 
-        // ChatCategory
-        ChatMessageAction = 0,
-        DiceMessageAction,
-        EmoteMessageAction,
-        UpdateChatAction,
-        DelChatAction,
+    // ChatCategory
+    ChatMessageAction = 0,
+    DiceMessageAction,
+    EmoteMessageAction,
+    UpdateChatAction,
+    DelChatAction,
 
-        // TODO
+    // TODO
 
-        // SetupCategory
-        AddFeatureAction = 2
-    };
+    // SetupCategory
+    AddFeatureAction = 2
+};
 }
 /**
  * @brief The NetworkMessage class
@@ -98,16 +98,19 @@ namespace NetMsg
 class NetworkMessage
 {
 
-    public:
-        virtual ~NetworkMessage();
-        void sendTo(Liaison * link);
-        void sendAll(Liaison * butLink = NULL);
+public:
+    virtual ~NetworkMessage();
+    void sendTo(Liaison * link);
+    void sendAll(Liaison * butLink = NULL);
 
-        virtual NetMsg::Category category() const =0;
-        virtual NetMsg::Action action() const =0;
+    virtual NetMsg::Category category() const =0;
+    virtual NetMsg::Action action() const =0;
 
-    protected:
-        virtual NetworkMessageHeader *  buffer() =0;
+protected:
+    virtual NetworkMessageHeader *  buffer() =0;
+
+protected:
+    ClientServeur* m_server;
 };
 
 #endif

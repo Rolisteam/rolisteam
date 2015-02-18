@@ -21,10 +21,10 @@
 
 #include "networkmessage.h"
 
-#include "ClientServeur.h"
+
 #include "Liaison.h"
 
-extern ClientServeur * G_clientServeur;
+
 
 NetworkMessage::~NetworkMessage()
 {
@@ -46,6 +46,6 @@ void NetworkMessage::sendTo(Liaison * link)
 void NetworkMessage::sendAll(Liaison * butLink)
 {
     NetworkMessageHeader * header = buffer();
-    G_clientServeur->emettreDonnees((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
+    m_server->emettreDonnees((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
     qDebug() << "header data size send:" << header->dataSize << header->action << header->category;
 }

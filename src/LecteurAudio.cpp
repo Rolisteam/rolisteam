@@ -263,7 +263,7 @@ void LecteurAudio::updateUi()
         this, SLOT(stateChanged(Phonon::State, Phonon::State)));
         connect(m_mediaObject, SIGNAL(currentSourceChanged(const Phonon::MediaSource &)),
         this, SLOT(sourceChanged(const Phonon::MediaSource &)));
-        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreEtat(Liaison *)));
+        connect(MainWindow::getInstance()->getNetWorkManager(), SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreEtat(Liaison *)));
     }
     else
     {

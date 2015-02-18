@@ -118,7 +118,15 @@ void CarteFenetre::deplacer(QPoint position)
 }
 QString CarteFenetre::getMapId()
 {
-    return carteAssociee->identifiantCarte();
+    if(NULL!=carteAssociee)
+    {
+        return carteAssociee->identifiantCarte();
+    }
+    else
+    {
+        return QString();
+    }
+
 }
 
 void CarteFenetre::fitMapToWindow()

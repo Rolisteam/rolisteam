@@ -52,6 +52,7 @@ Liaison::Liaison(QTcpSocket *socket)
     : QObject(NULL),m_mainWindow(NULL)
 {
     m_mainWindow = MainWindow::getInstance();
+    m_networkManager = m_mainWindow->getNetWorkManager();
     m_socketTcp = socket;
     receptionEnCours = false;
 #ifndef NULL_PLAYER
@@ -67,7 +68,7 @@ Liaison::Liaison(QTcpSocket *socket)
     // Le serveur effectue cette operation a la fin de la procedure de connexion du client
     if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
-        G_clientServeur->ajouterLiaison(this);
+        m_networkManager->ajouterLiaison(this);
     }
 }
 void Liaison::initialize()
@@ -266,7 +267,7 @@ void Liaison::receptionMessageJoueur()
     if (entete.action == connexionJoueur)
     {
         // Ajout de la liaison a la liste
-        G_clientServeur->ajouterLiaison(this);
+        m_networkManager->ajouterLiaison(this);
 
         // On indique au nouveau joueur que le processus de connexion vient d'arriver a son terme
         NetworkMessageHeader uneEntete;
@@ -1194,28 +1195,14 @@ void Liaison::receptionMessagePlan()
         p+=tailleIdPlan*sizeof(QChar);
         QString idPlan(tableauIdPlan, tailleIdPlan);
 
-        // On recherche la CarteFenetre concernee
-        CarteFenetre *carteFenetre = m_mainWindow->trouverCarteFenetre(idPlan);
-        // Si la CarteFenetre est introuvable on affiche un message d'erreur
-        if (!carteFenetre)
-            qWarning("CarteFenetre introuvable a la reception d'une demande de fermture d'un plan (receptionMessagePlan - Liaison.cpp)");
 
-        // Si la CarteFenetre a ete trouvee, on la supprime
-        else
-        {
-            // Message sur le log utilisateur
-            MainWindow::notifyUser(tr("The map %1 has been closed by the GM").arg(carteFenetre->windowTitle()));
-            // Suppression du plan
-            carteFenetre->~CarteFenetre();
-        }
-
-        // Liberation de la memoire allouee
+        m_mainWindow->removeMapFromId(idPlan);
         delete[] tableauIdPlan;
     }
 
     else
     {
-        qWarning("Action plan inconnue (receptionMessagePlan - Liaison.cpp)");
+        qWarning()<< "Unknown map Action (receptionMessagePlan - Liaison.cpp)";
         return;
     }
 }

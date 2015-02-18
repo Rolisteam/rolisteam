@@ -19,6 +19,7 @@
  *************************************************************************/
 
 #include "networkmessagewriter.h"
+#include "mainwindow.h"
 #include <QDebug>
 
 NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Action action, int size)
@@ -40,6 +41,7 @@ NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Ac
 
     m_header->category = category;
     m_header->action = action;
+    m_server = MainWindow::getInstance()->getNetWorkManager();
 }
 
 NetworkMessageWriter::~NetworkMessageWriter()

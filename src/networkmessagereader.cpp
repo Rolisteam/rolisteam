@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
+#include "mainwindow.h"
 #include "networkmessagereader.h"
 
 NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, const char * buffer)
@@ -34,6 +34,7 @@ NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, 
 
     m_pos = m_buffer;
     m_end = m_buffer + m_header->dataSize;
+    m_server = MainWindow::getInstance()->getNetWorkManager();
 }
 
 NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader & other)

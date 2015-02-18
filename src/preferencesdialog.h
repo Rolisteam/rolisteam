@@ -1,5 +1,6 @@
 /*************************************************************************
  *     Copyright (C) 2010 by Joseph Boudou                               *
+ *     Copyright (C) 2011 by Renaud Guezennec                            *
  *                                                                       *
  *     http://www.rolisteam.org/                                         *
  *                                                                       *
@@ -31,27 +32,12 @@
 #include "colorbutton.h"
 
 
-/**
- * @brief A LineEdit with a button to choose a directory.
- * @todo Make it private or in its own file.
- */
-class DirChooser : public QWidget
-{
-    Q_OBJECT
 
-public:
-    DirChooser(QWidget * parent = NULL);
-    ~DirChooser();
+#include "widgets/dirchooser.h"
 
-    void setDirName(const QString & dirname);
-    QString dirName() const;
-
-private slots:
-    void browse();
-
-private:
-    QLineEdit   * m_lineEdit;
-};
+namespace Ui {
+class PreferencesDialogBox;
+}
 
 /**
  * @brief Actually only to change directories.
@@ -70,6 +56,7 @@ public slots:
 private slots:
     void load();
     void save() const;
+    void performDiag();
 
 private:
 #ifndef NULL_PLAYER
@@ -85,6 +72,8 @@ private:
     PreferencesManager* m_preferences;
     QCheckBox* m_checkUpdateAtStartUp;
     ColorButton* m_fogColor;
+
+    Ui::PreferencesDialogBox* ui;
 };
 
 #endif

@@ -114,19 +114,14 @@ public :
      * @param idCarte
      * @return
      */
-    CarteFenetre *trouverCarteFenetre(QString idCarte);
+    void removeMapFromId(QString idCarte);
     /**
      * @brief trouverImage
      * @param idImage
      * @return
      */
     Image *trouverImage(QString idImage);
-    /**
-     * @brief estLaFenetreActive
-     * @param widget
-     * @return
-     */
-    bool estLaFenetreActive(QWidget *widget);
+
     /**
      * @brief enleverCarteDeLaListe
      * @param idCarte
@@ -183,6 +178,8 @@ public :
      * @brief setUpNetworkConnection
      */
     void setUpNetworkConnection();
+
+    ClientServeur* getNetWorkManager();
 
 
 signals:
@@ -257,6 +254,9 @@ private slots :
     void networkStateChanged(bool state);
 
 
+
+
+
     /**
     * \brief Show the about dialog
     *
@@ -317,9 +317,9 @@ private :
     /**
      * @brief workspace
      */
-    WorkspaceAmeliore *workspace;
+    WorkspaceAmeliore* m_mdiArea;
     PlayersListWidget * m_playersListWidget;
-    QMenu *menuFenetre;
+    QMenu *m_windowMenu;
     BarreOutils *m_toolBar;
 
     EditeurNotes *editeurNotes;

@@ -99,3 +99,11 @@ void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
             QTextEdit::keyPressEvent(e);
     }
 }
+void TextEditAmeliore::focusInEvent(QFocusEvent *e)
+{
+    if(e->gotFocus())
+    {
+        emit receivedFocus();
+    }
+    QTextEdit::focusInEvent(e);
+}

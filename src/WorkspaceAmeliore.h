@@ -52,6 +52,15 @@ public :
     QWidget* activeWindow();
 
     void insertActionAndSubWindow(QAction*, QMdiSubWindow*);
+    /**
+     * @brief getSubWindowFromId must be improved with polymorphism
+     * @param id
+     */
+    QMdiSubWindow* getSubWindowFromId(QString id);
+
+
+signals:
+    void removedAction(QAction*);
 
 public slots:
     void setTabbedMode(bool );
