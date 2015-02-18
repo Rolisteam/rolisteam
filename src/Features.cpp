@@ -25,15 +25,6 @@
 #include "datawriter.h"
 #include "receiveevent.h"
 
-#include "variablesGlobales.h"
-
-
-/***********
- * Globals *
- ***********/
-
-FeaturesList g_featuresList;
-
 
 /***********
  * Feature *
@@ -109,7 +100,7 @@ void Feature::upgradeTo(quint8 version)
 
 void Feature::send(Liaison * link) const
 {
-    qDebug("Send feature %s to %d", qPrintable(toString()), link);
+    qDebug("Send feature %s to %d", qPrintable(toString()), quintptr(link));
     
     DataWriter writer(parametres, addFeature);
 
@@ -123,6 +114,12 @@ void Feature::send(Liaison * link) const
 /****************
  * FeaturesList *
  ****************/
+
+FeaturesList & FeaturesList::instance()
+{
+    static FeaturesList featuresList;
+    return featuresList;
+}
 
 FeaturesList::FeaturesList(QObject * parent)
  : QObject(parent)

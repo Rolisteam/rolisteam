@@ -168,6 +168,7 @@ void Tchat::emettreTexte()
     zoneEdition->clear();
     QTextStream out(stderr,QIODevice::WriteOnly);
 
+    FeaturesList & g_featuresList = FeaturesList::instance();
     PlayersList & g_playersList = PlayersList::instance();
     Player * localPlayer = g_playersList.localPlayer();
 

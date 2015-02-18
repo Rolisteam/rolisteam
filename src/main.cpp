@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
 
     // We need an Uuid for the local player
     G_idJoueurLocal = QUuid::createUuid().toString();
-    g_featuresList.addLocal(G_idJoueurLocal);
+    FeaturesList::instance().addLocal(G_idJoueurLocal);
 
     // Get a connection
     G_clientServeur = new ClientServeur;

@@ -82,7 +82,7 @@ ClientServeur::ClientServeur()
 : QObject(), m_server(NULL)
 {
     connect(this, SIGNAL(linkAdded(Liaison *)),
-            &g_featuresList, SLOT(sendThemAll(Liaison *)));
+            &FeaturesList::instance(), SLOT(sendThemAll(Liaison *)));
 }
 
 

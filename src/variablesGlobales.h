@@ -93,7 +93,4 @@ extern QCursor *G_pointeurAjouter;
 extern QCursor *G_pointeurSupprimer;
 extern QCursor *G_pointeurEtat;
 
-// Declared in Features.cpp
-extern FeaturesList g_featuresList;
-
 #endif

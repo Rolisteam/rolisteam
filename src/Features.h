@@ -128,15 +128,7 @@ class FeaturesList : public QObject
     Q_OBJECT
 
     public:
-
-        // Constructors
-
-        /**
-         * @brief Default constructor.
-         *
-         * Create an empty database.
-         */
-        FeaturesList(QObject * parent = NULL);
+        static FeaturesList & instance();
 
         // Getters
 
@@ -202,6 +194,14 @@ class FeaturesList : public QObject
 
     private:
         QList<Feature> m_list;
+
+        /**
+         * @brief Default constructor.
+         *
+         * Create an empty database.
+         */
+        FeaturesList(QObject * parent = NULL);
+
 };
 
 #endif
