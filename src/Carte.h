@@ -37,6 +37,7 @@
 #include <QDataStream>
 
 #include "types.h"
+#include "NouveauPlanVide.h"
 
 class Character;
 class DessinPerso;
@@ -54,111 +55,114 @@ class Carte : public QWidget
 {
     Q_OBJECT
 
-    public :
-        Carte(QString identCarte, QImage *image, bool masquer = false, QWidget *parent = 0);
-        Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent = 0);
-        void afficheOuMasquePnj(DessinPerso *pnjSeul = 0);
-        void toggleCharacterView(Character * character);
-        void affichageDuPj(QString idPerso, bool afficher);
-        void changerTaillePjCarte(int nouvelleTaille, bool updatePj = true);
-        void emettreCarte(QString titre);
-        void emettreCarte(QString titre, Liaison * link);
-        void emettreTousLesPersonnages();
-        void emettreTousLesPersonnages(Liaison * link);
-        void dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur, bool joueurLocal);
-        void dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneARafraichir, couleurSelectionee couleur);
-        void dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur);
-        void adapterCoucheAlpha(quint8 intensiteAlpha);
-        void lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoints);
-        //void sauvegarderCarte(QFile &file, QString titre = "");
-        void sauvegarderCarte(QDataStream &out, QString titre = "");
-        int tailleDesPj();
-        bool pjAffiche(QString idPerso);
-        QString identifiantCarte();
-        DessinPerso* trouverPersonnage(QString idPerso);
-        QString getLastSelectedCharacterId();
-        bool selectCharacter(QString& id);
+public :
+    Carte(QString identCarte, QImage *image, bool masquer = false, QWidget *parent = 0);
+    Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent = 0);
+    void afficheOuMasquePnj(DessinPerso *pnjSeul = 0);
+    void toggleCharacterView(Character * character);
+    void affichageDuPj(QString idPerso, bool afficher);
+    void changerTaillePjCarte(int nouvelleTaille, bool updatePj = true);
+    void emettreCarte(QString titre);
+    void emettreCarte(QString titre, Liaison * link);
+    void emettreTousLesPersonnages();
+    void emettreTousLesPersonnages(Liaison * link);
+    void dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur, bool joueurLocal);
+    void dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneARafraichir, couleurSelectionee couleur);
+    void dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur);
+    void adapterCoucheAlpha(quint8 intensiteAlpha);
+    void lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoints);
+    //void sauvegarderCarte(QFile &file, QString titre = "");
+    void sauvegarderCarte(QDataStream &out, QString titre = "");
+    int tailleDesPj();
+    bool pjAffiche(QString idPerso);
+    QString identifiantCarte();
+    DessinPerso* trouverPersonnage(QString idPerso);
+    QString getLastSelectedCharacterId();
+    bool selectCharacter(QString& id);
+    void setPermissionMode(quint8 mode);
+    NouveauPlanVide::PermissionMode getPermissionMode();
 
-    signals :
-        void incrementeNumeroPnj();
-        void changeCouleurActuelle(QColor couleur);
-        void mettreAJourPnj(int diametre, QString nom);
-        void afficherNomsPj(bool afficher);
-        void afficherNomsPnj(bool afficher);
-        void afficherNumerosPnj(bool afficher);
-        void changerTaillePj(int nouvelleTaille);
-        void commencerDeplacementCarteFenetre(QPoint position);
-        void deplacerCarteFenetre(QPoint position);
-        
-    public slots :
-        void pointeurCrayon();
-        void pointeurLigne();
-        void pointeurRectVide();
-        void pointeurRectPlein();
-        void pointeurElliVide();
-        void pointeurElliPlein();
-        void pointeurTexte();
-        void pointeurMain();
-        void pointeurAjoutPnj();
-        void pointeurSupprPnj();
-        void pointeurDeplacePnj();
-        void pointeurEtatPnj();
-        
-        void deplacerLesPersonnages();
-        void effacerPerso(QString idPerso);
+signals :
+    void incrementeNumeroPnj();
+    void changeCouleurActuelle(QColor couleur);
+    void mettreAJourPnj(int diametre, QString nom);
+    void afficherNomsPj(bool afficher);
+    void afficherNomsPnj(bool afficher);
+    void afficherNumerosPnj(bool afficher);
+    void changerTaillePj(int nouvelleTaille);
+    void commencerDeplacementCarteFenetre(QPoint position);
+    void deplacerCarteFenetre(QPoint position);
 
-        void addCharacter(Character * person);
-        void changeCharacter(Character * person);
-        void delCharacter(Character * person);
+public slots :
+    void pointeurCrayon();
+    void pointeurLigne();
+    void pointeurRectVide();
+    void pointeurRectPlein();
+    void pointeurElliVide();
+    void pointeurElliPlein();
+    void pointeurTexte();
+    void pointeurMain();
+    void pointeurAjoutPnj();
+    void pointeurSupprPnj();
+    void pointeurDeplacePnj();
+    void pointeurEtatPnj();
 
-    protected :
-        void paintEvent(QPaintEvent *event);
-        void mousePressEvent(QMouseEvent *event);
-        void mouseReleaseEvent(QMouseEvent *event);
-        void mouseMoveEvent(QMouseEvent *event);
-        
-    private :
-        void p_init();
-        bool ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, const QRect &rect = QRect());
-        bool convertirARGB32(QImage *original, QImage *copie);
-        QRect zoneARafraichir();
-        void dessiner(QPainter &painter);
-        void emettreTrace();
-        void emettreTrajetPersonnage();
-        void actionPnjBoutonEnfonce(QPoint positionSouris);
-        void actionPnjBoutonRelache(QPoint positionSouris);
-        void actionPnjMouvementSouris(QPoint positionSouris);
-        void emettreCarteGeneral(QString titre, Liaison * link = NULL, bool versLiaisonUniquement = false);
-        void emettreTousLesPersonnagesGeneral(Liaison * link = NULL, bool versLiaisonUniquement = false);
-        DessinPerso* dansDessinPerso(QPoint positionSouris);
+    void deplacerLesPersonnages();
+    void effacerPerso(QString idPerso);
 
-        typedef struct
-        {
-            QString idPersonnage;
-            QList<QPoint> trajet;
-        } PersoEnMouvement;
+    void addCharacter(Character * person);
+    void changeCharacter(Character * person);
+    void delCharacter(Character * person);
 
-        int taillePj;                        // Taille courante des PJ de la carte
-        QImage *fond;                        // image de fond affichee dans la fenetre
-        QImage *fondOriginal;                // image qui servira a effacer les annotations
-        QImage *alpha;                        // image contenant la couche alpha
-        QImage *fondAlpha;                    // image temporaire contenant le melange du fond et de la couche alpha
-        QImage *effaceAlpha;                // image contenant la couche alpha permettant d'effacer le fond a l'aide du fond original
-        bool boutonGaucheEnfonce;            // bouton gauche de la souris enfonce ou pas?
-        bool boutonDroitEnfonce;            // bouton droit de la souris enfonce ou pas?
-        QPoint pointOrigine;                // point vise au moment du clic gauche
-        QPoint pointSouris;                    // point actuellement vise par la souris
-        QPoint diffSourisDessinPerso;        // difference entre le coin sup gauche du PNJ selectionne (pnjSelectionne) et la position de la souris au moment du clic
-        QRect zoneOrigine;                    // zone a rafraichir au 1er clic de la souris, puis zone precedemment rafraichie
-        QRect zoneNouvelle;                    // zone a rafraichir au prochain affichage
-        QRect zoneGlobaleCrayon;            // unite de toutes les zone a raffraichir lors du trace du crayon (emise aux autres utilisateurs)
-        QCursor pointeur;                    // pointeur actuel de la souris
-        DessinPerso *pnjSelectionne;        // pointe sur le PNJ actuellement selectionne (0 si aucun PNJ selectionne)
-        DessinPerso *dernierPnjSelectionne;    // pointe sur le dernier PNJ selectionne (0 si aucun PNJ n'a deja ete selection)
-        QString idCarte;                    // identifiant de la carte
-        QList<QPoint> listePointsCrayon;    // liste des points composant le trace du crayon, qui sera emise aux autres utilisateurs
-        QList<QPoint> listeDeplacement;        // liste des points composant le deplacement du perso qui vient d'etre deplace par l'utilisateur
-        QList<PersoEnMouvement> mouvements;    // liste des personnages a deplacer, ainsi que leur trajectoire
+protected :
+    void paintEvent(QPaintEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+
+private :
+    void p_init();
+    bool ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, const QRect &rect = QRect());
+    bool convertirARGB32(QImage *original, QImage *copie);
+    QRect zoneARafraichir();
+    void dessiner(QPainter &painter);
+    void emettreTrace();
+    void emettreTrajetPersonnage();
+    void actionPnjBoutonEnfonce(QPoint positionSouris);
+    void actionPnjBoutonRelache(QPoint positionSouris);
+    void actionPnjMouvementSouris(QPoint positionSouris);
+    void emettreCarteGeneral(QString titre, Liaison * link = NULL, bool versLiaisonUniquement = false);
+    void emettreTousLesPersonnagesGeneral(Liaison * link = NULL, bool versLiaisonUniquement = false);
+    DessinPerso* dansDessinPerso(QPoint positionSouris);
+
+    typedef struct
+    {
+        QString idPersonnage;
+        QList<QPoint> trajet;
+    } PersoEnMouvement;
+
+    int taillePj;                        // Taille courante des PJ de la carte
+    QImage *fond;                        // image de fond affichee dans la fenetre
+    QImage *fondOriginal;                // image qui servira a effacer les annotations
+    QImage *alpha;                        // image contenant la couche alpha
+    QImage *fondAlpha;                    // image temporaire contenant le melange du fond et de la couche alpha
+    QImage *effaceAlpha;                // image contenant la couche alpha permettant d'effacer le fond a l'aide du fond original
+    bool boutonGaucheEnfonce;            // bouton gauche de la souris enfonce ou pas?
+    bool boutonDroitEnfonce;            // bouton droit de la souris enfonce ou pas?
+    QPoint pointOrigine;                // point vise au moment du clic gauche
+    QPoint pointSouris;                    // point actuellement vise par la souris
+    QPoint diffSourisDessinPerso;        // difference entre le coin sup gauche du PNJ selectionne (pnjSelectionne) et la position de la souris au moment du clic
+    QRect zoneOrigine;                    // zone a rafraichir au 1er clic de la souris, puis zone precedemment rafraichie
+    QRect zoneNouvelle;                    // zone a rafraichir au prochain affichage
+    QRect zoneGlobaleCrayon;            // unite de toutes les zone a raffraichir lors du trace du crayon (emise aux autres utilisateurs)
+    QCursor pointeur;                    // pointeur actuel de la souris
+    DessinPerso *pnjSelectionne;        // pointe sur le PNJ actuellement selectionne (0 si aucun PNJ selectionne)
+    DessinPerso *dernierPnjSelectionne;    // pointe sur le dernier PNJ selectionne (0 si aucun PNJ n'a deja ete selection)
+    QString idCarte;                    // identifiant de la carte
+    QList<QPoint> listePointsCrayon;    // liste des points composant le trace du crayon, qui sera emise aux autres utilisateurs
+    QList<QPoint> listeDeplacement;        // liste des points composant le deplacement du perso qui vient d'etre deplace par l'utilisateur
+    QList<PersoEnMouvement> mouvements;    // liste des personnages a deplacer, ainsi que leur trajectoire
+    NouveauPlanVide::PermissionMode m_currentMode;
 
 };
 

@@ -43,6 +43,7 @@
 Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
     : QWidget(parent), idCarte(identCarte)
 {
+    m_currentMode = NouveauPlanVide::GM_ONLY;
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
     // Creation de l'image de fond originale qui servira a effacer
@@ -132,6 +133,7 @@ void Carte::p_init()
 Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
     : QWidget(parent), idCarte(identCarte)
 {
+    m_currentMode = NouveauPlanVide::GM_ONLY;
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
     // Creation de l'image de fond originale qui servira a effacer
@@ -185,23 +187,31 @@ void Carte::mousePressEvent(QMouseEvent *event)
     // Si l'utilisateur a clique avec la bouton gauche
     if ((event->button() == Qt::LeftButton) && !boutonGaucheEnfonce && !boutonDroitEnfonce)
     {
-        // Bonton gauche enfonce
-        boutonGaucheEnfonce = true;
-        
-        // Il s'agit d'une action sur les PJ/PNJ
-        if (G_outilCourant == BarreOutils::ajoutPnj || G_outilCourant == BarreOutils::supprPnj ||
-            G_outilCourant == BarreOutils::deplacePerso || G_outilCourant == BarreOutils::etatPerso)
-        {
-            actionPnjBoutonEnfonce(event->pos());
-        }
+            // Bonton gauche enfonce
+            boutonGaucheEnfonce = true;
 
-        // Il s'agit de l'outil main
-        else if (G_outilCourant == BarreOutils::main)
-        {
-            // On initialise le deplacement de la Carte
-            emit commencerDeplacementCarteFenetre(mapToGlobal(event->pos()));
-        }
 
+            // Il s'agit d'une action sur les PJ/PNJ
+            if (G_outilCourant == BarreOutils::ajoutPnj || G_outilCourant == BarreOutils::supprPnj ||
+                G_outilCourant == BarreOutils::deplacePerso || G_outilCourant == BarreOutils::etatPerso)
+            {
+                if(((m_currentMode == NouveauPlanVide::GM_ONLY)&&(!G_joueur))||(NouveauPlanVide::PC_ALL==m_currentMode)||(NouveauPlanVide::PC_MOVE == m_currentMode))
+                {
+                    actionPnjBoutonEnfonce(event->pos());
+                }
+            }
+
+            // Il s'agit de l'outil main
+            else if (G_outilCourant == BarreOutils::main)
+            {
+                // On initialise le deplacement de la Carte
+                if(((m_currentMode == NouveauPlanVide::GM_ONLY)&&(!G_joueur))||
+                  (((m_currentMode == NouveauPlanVide::PC_ALL))))
+                {
+                    emit commencerDeplacementCarteFenetre(mapToGlobal(event->pos()));
+                }
+
+        }
         // Il s'agit d'une action de dessin
         else
         {            
@@ -216,7 +226,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
             // Demande de rafraichissement de la fenetre (appel a paintEvent)
             update(zoneOrigine);
         }
-         }
+    }
 
     // Si l'utilisateur a clique avec le bouton droit
     else if ((event->button() == Qt::RightButton) && !boutonGaucheEnfonce && !boutonDroitEnfonce)
@@ -1507,6 +1517,7 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
     // Creation du corps du message
     int p = sizeof(enteteMessage);
     // Ajout du titre
+
     quint16 tailleTitre = titre.size();
     memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
     p+=sizeof(quint16);
@@ -2598,3 +2609,23 @@ bool Carte::selectCharacter(QString& id)
 
     return true;
 }
+void Carte::setPermissionMode(quint8 mode)
+{
+    switch(mode)
+    {
+       case 0:
+        m_currentMode = NouveauPlanVide::GM_ONLY;
+       case 1:
+        m_currentMode = NouveauPlanVide::PC_MOVE;
+       case 2:
+        m_currentMode = NouveauPlanVide::PC_ALL;
+       default:
+        m_currentMode = NouveauPlanVide::GM_ONLY;
+    }
+
+}
+NouveauPlanVide::PermissionMode Carte::getPermissionMode()
+{
+    return m_currentMode;
+}
+

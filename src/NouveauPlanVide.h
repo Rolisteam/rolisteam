@@ -31,51 +31,60 @@
 #ifndef NOUVEAU_PLAN_VIDE_H
 #define NOUVEAU_PLAN_VIDE_H
 
-    #include <QDialog>
-    #include <QLineEdit>
-    #include <QPushButton>
-    #include <QRadioButton>
-	#include <QGroupBox>
+#include <QDialog>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QGroupBox>
+#include <QComboBox>
+
+class NouveauPlanVide : public QDialog
+{
+    Q_OBJECT
+
+public :
+    enum PermissionMode{GM_ONLY, PC_MOVE,PC_ALL };
+
+    NouveauPlanVide(QWidget *parent = 0);
 
 
-    class NouveauPlanVide : public QDialog
-    {
-	Q_OBJECT
+signals :
+        void creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur,NouveauPlanVide::PermissionMode);
 
-    public :
-	    NouveauPlanVide(QWidget *parent = 0);
+protected:
+        NouveauPlanVide::PermissionMode getPermission(int id);
 
-	signals :
-		void creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur);
+private slots :
+        void ouvrirSelecteurCouleur();
+        void changementFormat(int bouton);
+        void changementDimensions(int bouton);
+        void validerDimensions();
 
-	private slots :
-		void ouvrirSelecteurCouleur();
-		void changementFormat(int bouton);
-		void changementDimensions(int bouton);
-		void validerDimensions();
 
-    private :
-		void majIntitulesBoutons();
+private :
+        void majIntitulesBoutons();
+        QGroupBox *groupeFormat;
+        QGroupBox *groupeTaille;
+        QLineEdit *titrePlan;
+        QLineEdit *largeurPlan;
+        QLineEdit *hauteurPlan;
+        QPushButton *couleurFond;
+        QRadioButton *boutonPetitPlan;
+        QRadioButton *boutonMoyenPlan;
+        QRadioButton *boutonGrandPlan;
+        QRadioButton *boutonTresGrandPlan;
+        QRadioButton *boutonPersonnalise;
+        QWidget *taillePersonnalisee;
+        QComboBox* m_permissionMode;
 
-		QGroupBox *groupeFormat;
-		QGroupBox *groupeTaille;
-		QLineEdit *titrePlan;
-		QLineEdit *largeurPlan;
-		QLineEdit *hauteurPlan;
-		QPushButton *couleurFond;
-		QRadioButton *boutonPetitPlan;
-		QRadioButton *boutonMoyenPlan;
-		QRadioButton *boutonGrandPlan;
-		QRadioButton *boutonTresGrandPlan;
-		QRadioButton *boutonPersonnalise;
-		QWidget *taillePersonnalisee;
-		int format;							// Indice dans les tableaux ci-dessous correspondant au format selectionne
-		int dimensions;						// Indice dans les tableaux ci-dessous correspondant aux dimensions selectionnees
 
-		// Tableaux contenant les dimensions du plan au format [format] [dimension]
-		static quint16 largeur[3][4];
-		static quint16 hauteur[3][4];
+        int format;							// Indice dans les tableaux ci-dessous correspondant au format selectionne
+        int dimensions;						// Indice dans les tableaux ci-dessous correspondant aux dimensions selectionnees
 
-	};
+        // Tableaux contenant les dimensions du plan au format [format] [dimension]
+        static quint16 largeur[3][4];
+        static quint16 hauteur[3][4];
+
+};
 
 #endif

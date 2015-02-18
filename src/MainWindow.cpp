@@ -1210,7 +1210,7 @@ void MainWindow::nouveauPlan()
 /* Cree un nouveau plan vide dont les caracteristiques sont passees */
 /* en parametre                                                         */
 /********************************************************************/
-void MainWindow::creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur)
+void MainWindow::creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur,quint8 mode)
 {
         if (fenetreNouveauPlan)
         {
@@ -1223,6 +1223,7 @@ void MainWindow::creerNouveauPlanVide(QString titre, QString idCarte, QColor cou
         image.fill(couleurFond.rgb());
         // Creation de la carte
         Carte *carte = new Carte(idCarte, &image);
+        carte->setPermissionMode(mode);
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte, workspace);
         // Ajout de la carte au workspace

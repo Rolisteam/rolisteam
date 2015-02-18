@@ -31,6 +31,7 @@
 #include <QMenu>
 #include <QWorkspace>
 
+#include "NouveauPlanVide.h"
 #include "DessinPerso.h"
 
 #ifndef NULL_PLAYER
@@ -46,7 +47,6 @@ class EditeurNotes;
 class Image;
 class Liaison;
 class ListeUtilisateurs;
-class NouveauPlanVide;
 class PreferencesDialog;
 class Player;
 class PlayersListWidget;
@@ -81,7 +81,7 @@ signals:
     void closing();
 
 public slots :
-    void creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur);
+    void creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur,quint8);
     void aucunNouveauPlanVide();
     void afficherEditeurNotes(bool afficher, bool cocherAction = false);
     void quitterApplication(bool perteConnexion = false);

@@ -976,9 +976,12 @@ void Liaison::receptionMessagePlan()
         quint8 taillePj;
         memcpy(&taillePj, &(tampon[p]), sizeof(quint8));
         p+=sizeof(quint8);
+        quint8 permission;
+        memcpy(&permission,&(tampon[p]), sizeof(quint8));
+        p+=sizeof(quint8);
 
         // On cree la carte
-        G_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur);
+        G_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur,permission);
 
         // Message sur le log utilisateur
         ecrireLogUtilisateur(tr("New map: %1").arg(titre));
@@ -1014,6 +1017,11 @@ void Liaison::receptionMessagePlan()
         quint8 taillePj;
         memcpy(&taillePj, &(tampon[p]), sizeof(quint8));
         p+=sizeof(quint8);
+
+        quint8 permission;
+        memcpy(&permission,&(tampon[p]), sizeof(quint8));
+        p+=sizeof(quint8);
+
         // On recupere l'information "plan masque a l'ouverture?"
         quint8 masquerPlan;
         memcpy(&masquerPlan, &(tampon[p]), sizeof(quint8));
