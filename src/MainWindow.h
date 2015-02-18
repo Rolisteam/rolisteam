@@ -41,7 +41,7 @@
 #include "ToolBar.h"
 
 
-#include "Tchat.h"
+#include "tchat.h"
 #include "Image.h"
 #include "MinutesEditor.h"
 //#include "ClientServeur.h"

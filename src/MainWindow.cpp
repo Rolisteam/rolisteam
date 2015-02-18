@@ -175,8 +175,6 @@ void MainWindow::createMenu()
     m_newConnectionAct = m_networkMenu->addAction(tr("&New Connection..."));
     connect(m_newConnectionAct,SIGNAL(triggered()),this,SLOT(addConnection()));
 
-
-
     m_connectionActGroup = new QActionGroup(this);
     if(m_connectionList.size() > 0)//(m_connectionList != NULL)&&
     {
@@ -208,7 +206,6 @@ void MainWindow::connectActions()
     connect(m_quitAct, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(m_preferencesAct,SIGNAL(triggered()),this,SLOT(showPreferenceManager()));
 
-
     connect(m_manageConnectionAct,SIGNAL(triggered()),this,SLOT(showConnectionManager()));
     connect(m_serverAct,SIGNAL(triggered()),this,SLOT(startServer()));
 
@@ -220,7 +217,6 @@ void MainWindow::connectActions()
 
     connect(m_subWindowActGroup,SIGNAL(triggered(QAction*)),this,SLOT(hideShowWindow(QAction*)));
     connect(m_recentFilesActGroup,SIGNAL(triggered(QAction*)),this,SLOT(openRecentFile(QAction*)));
-
 
     connect( m_cascadeSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(cascadeSubWindows()));
     connect( m_tileSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(tileSubWindows()));
@@ -258,12 +254,10 @@ void MainWindow::hideShowWindow(QAction* p)
     SubMdiWindows* tmp = (*m_subWindowList)[p];
     tmp->setVisible(!tmp->isVisible());
     p->setChecked(tmp->isVisible());
-
 }
 
 void MainWindow::addToWorkspace(SubMdiWindows* subWindow)
 {
-
     if(m_subWindowList->size()==0)
         m_viewMenu->addSeparator();
 
@@ -274,7 +268,6 @@ void MainWindow::addToWorkspace(SubMdiWindows* subWindow)
 
     m_subWindowList->insert(tmp,subWindow);
     m_viewMenu->addAction(tmp);
-
 }
 
 void MainWindow::addCharacterSheet()
@@ -287,14 +280,12 @@ void MainWindow::addCharacterSheet()
 void MainWindow::clickOnMapWizzard()
 {
     MapWizzardDialog mapWizzard;
-
     if(mapWizzard.exec())
     {
         Map* tempmap  = new Map();
         mapWizzard.setAllMap(tempmap);
         MapFrame* tmp = new MapFrame(tempmap);
         addToWorkspace(tmp);
-
         tmp->show();
     }
 }
@@ -413,7 +404,6 @@ QMessageBox::about(this, tr("About Rolisteam"),
 "<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni<a/> (rolistik)  </li>"
 "</ul></p>"));
 }
-
 void MainWindow::readSettings()
 {
     QSettings settings("rolisteam");
@@ -431,13 +421,8 @@ void MainWindow::readSettings()
     tmp2.setValue(ConnectionList());
     QVariant tmp = m_options->value("network/connectionsList",tmp2);
     m_connectionList = tmp.value<ConnectionList>();
-
-
-
     m_recentFiles = settings.value("recentfiles", QStringList()).toStringList();
-
     m_options->readSettings();
-
 }
 void MainWindow::writeSettings()
 {
@@ -448,11 +433,8 @@ void MainWindow::writeSettings()
   variant.setValue(*m_player);
   settings.setValue("player", variant);
   settings.setValue("recentfiles", m_recentFiles);
-
   m_options->writeSettings();
 }
-
-
 void MainWindow::help()
 {
 

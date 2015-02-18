@@ -15,53 +15,47 @@ include(drawitem/drawitem.pri)
 include(data/data.pri)
 include(charactersheet/charactersheet.pri)
 include(userlist/userlist.pri)
+include(tchat/tchat.pri)
 DEPENDPATH += . \
     drawitem \
     preferences \
     data \
     userlist \
     charactersheet \
+    tchat \
     map
 INCLUDEPATH += . \
     drawitem \
     preferences \
     userlist \
     data \
+    tchat \
     charactersheet \
     map
 HEADERS += displaydisk.h \
-    ToolBar.h \ # ClientServeur.h \
+    ToolBar.h \
     MinutesEditor.h \
     Image.h \
-    audioplayer.h \ # Liaison.h \
+    audioplayer.h \
     MainWindow.h \
     colorselector.h \
     SelecteurDiametre.h \
-    Tchat.h \
-    TextEditAmeliore.h \
-    #types.h \
-    #typesApplication.h \ # variablesGlobales.h \
     improvedworkspace.h \
     submdiwindows.h \
-    connectionwizzard.h \
-    userlistdockwidget.h
+    connectionwizzard.h
 FORMS += LecteurAudio.ui \
-    userlistdockwidget.ui \
     connectionwizzard.ui
 SOURCES += displaydisk.cpp \
-    ToolBar.cpp \ # ClientServeur.cpp \
+    ToolBar.cpp \
     MinutesEditor.cpp \
-    Image.cpp \ # Liaison.cpp \
+    Image.cpp \
     main.cpp \
     MainWindow.cpp \
     colorselector.cpp \
     SelecteurDiametre.cpp \
-    Tchat.cpp \
-    TextEditAmeliore.cpp \
     connectionwizzard.cpp \
     improvedworkspace.cpp \
-    submdiwindows.cpp \
-    userlistdockwidget.cpp
+    submdiwindows.cpp
 
 
 DEFINES += PHONON
