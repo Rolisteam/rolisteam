@@ -2594,9 +2594,13 @@ void MainWindow::AddHealthState(const QColor &color, const QString &label, QList
 void MainWindow::InitMousePointer(QCursor **pointer, const QString &iconFileName, const int hotX, const int hotY)
 // the pointer of pointer is to avoid deep modification of the rolistik's legacy
 {
-        QBitmap bitmap(iconFileName);
+            QBitmap bitmap(iconFileName);
+    #ifdef Q_WS_MAC
         QBitmap mask(32,32);
         mask.fill(Qt::color0);
         (*pointer) = new QCursor(bitmap,mask, hotX, hotY);
+    #else
+        (*pointer) = new QCursor(bitmap, hotX, hotY);
+    #endif
 
 }
