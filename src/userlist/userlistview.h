@@ -29,6 +29,7 @@ class UserListView : public QTreeView
 public:
     explicit UserListView(QWidget *parent = 0);
 
+
 signals:
     void currentItemChanged(const QModelIndex &);
     void editCurrentItemColor();

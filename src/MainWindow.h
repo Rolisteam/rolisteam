@@ -87,6 +87,7 @@ Q_DECLARE_METATYPE(CleverUriList)
 /**
   * @brief is the main GUI of rolisteam, bring together all piece of software components, read the settings, set the graphical interface.
   */
+class RClient;
 class MainWindow : public QMainWindow
 {
 Q_OBJECT
@@ -257,6 +258,7 @@ private :
 
         QActionGroup* m_subWindowActGroup;
         QMap<QAction*,SubMdiWindows*>* m_subWindowList;
+        QMap<QAction*,Connection>* m_connectionMap;
         //QList<QAction*> m_registedConnectionList;
 
         /**
@@ -264,7 +266,8 @@ private :
           */
         ConnectionList m_connectionList;
 
-
+        Connection m_currentConnection;
+        RClient* m_rclient;
         /**
           * preference wizzard.
           */
@@ -302,7 +305,11 @@ private slots :
         *
         */
         void about();
-
+        /**
+        * @brief click on selected connection
+        *
+        */
+        void onConnection(QAction*);
 
         /// @brief open the Qt assistant with the rolisteam documentation
         void help();
@@ -337,7 +344,7 @@ private slots :
         void openRecentFile(QAction*);
         void AskCharacterSheets();
 
-        void openCharacterSheets(QString );
+        void openCharacterSheets(QString);
 
         void openTchat();
 

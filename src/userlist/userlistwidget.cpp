@@ -108,7 +108,8 @@ void UserListWidget::addPC()
 }
 void UserListWidget::delSelectedPC()
 {
-
+    QModelIndex p = m_view->currentIndex();
+    m_model->removeCharacter(p,m_local);
 }
 QList<Person*>* UserListWidget::getSelectedPerson()
 {
@@ -120,10 +121,12 @@ void UserListWidget::currentChanged(const QModelIndex& p)
     if(m_model->isPlayer(p))
     {
         m_addPC->setEnabled(true);
+        m_delPC->setEnabled(false);
     }
     else
     {
         m_addPC->setEnabled(false);
+        m_delPC->setEnabled(true);
     }
 }
 void UserListWidget::setLocalPlayer(Player* p)

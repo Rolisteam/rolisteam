@@ -49,6 +49,7 @@ public:
       */
     Connection(QString name,QString address,int port);
 
+
     /**
       * @brief Accessor to set the name
       * @param name

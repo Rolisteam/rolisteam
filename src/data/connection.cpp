@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 #include "connection.h"
+#include "rclient.h"
+#include <QHostAddress>
 
 Connection::Connection()
 {
@@ -38,6 +40,9 @@ Connection::~Connection()
 {
 
 }
+
+
+
 
 void Connection::setName(QString name)
 {

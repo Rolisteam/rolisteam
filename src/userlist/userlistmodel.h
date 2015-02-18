@@ -37,6 +37,7 @@ public:
     void setParent(PersonItem* p);
 
     void addChild(PersonItem* child);
+    void removeChild(int row);
     PersonItem* child(int row);
 
     int row();
@@ -71,6 +72,8 @@ public:
     Qt::ItemFlags flags ( const QModelIndex & index )  const;
     virtual void setLocalPlayer(Person* p);
     QList<Person*>* getSelectedPerson();
+
+    void removeCharacter(QModelIndex& l,Person* p);
 
 
 private:

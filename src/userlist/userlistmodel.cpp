@@ -52,6 +52,11 @@ PersonItem* PersonItem::getParent()
 {
     return m_parent;
 }
+void PersonItem::removeChild(int row)
+{
+    if((m_children->size()>row)&&(row>=0))
+        m_children->removeAt(row);
+}
 
 void PersonItem::setParent(PersonItem* p)
 {
@@ -78,7 +83,10 @@ void PersonItem::addChild(PersonItem* child)
 
 PersonItem* PersonItem::child(int row)
 {
-    return m_children->at(row);
+    if((row <m_children->size())&&(row>=0))
+        return m_children->at(row);
+    else
+        return NULL;
 }
 
 int PersonItem::row()
@@ -110,7 +118,9 @@ QModelIndex UserListModel::index ( int row, int column, const QModelIndex & pare
     if (!parent.isValid())
         parentItem = m_root;
     else
+    {
         parentItem = static_cast<PersonItem*>(parent.internalPointer());
+    }
 
     PersonItem* childItem = parentItem->child(row);
     if (childItem)
@@ -169,6 +179,7 @@ QVariant UserListModel::data ( const QModelIndex & index, int role  ) const
 
                 switch(role)
                 {
+                    case Qt::EditRole:
                     case Qt::DisplayRole:
                         return childItem->getPerson()->getName();
 
@@ -192,6 +203,17 @@ void UserListModel::addPlayer(Person* p)
     m_root->addChild(new PersonItem(p,false));
     endInsertRows();
 }
+void UserListModel::removeCharacter(QModelIndex& a,Person* p)
+{
+        PersonItem* parentItem = static_cast<PersonItem*>(a.parent().internalPointer());
+        if(p==parentItem->getPerson())
+        {
+            beginRemoveRows(a,a.row(),a.row());
+            parentItem->removeChild(a.row());
+            endRemoveRows();
+        }
+}
+
 void UserListModel::addCharacter(Person* p,Person* parent)
 {
     int row= m_root->indexOfPerson(parent);

@@ -46,6 +46,7 @@
 //network module
 #include "servermanager.h"
 #include "serverdialog.h"
+#include "rclient.h"
 
 //for the new userlist
 #include "player.h"
@@ -128,7 +129,7 @@ MainWindow::MainWindow()
     m_diceManager=DicePlugInManager::instance();
     m_toolbar = new ToolsBar(this);
 
-
+    m_rclient=NULL;
     readSettings();
     m_workspace = new ImprovedWorkspace(m_toolbar->currentColor());
     m_workspace->readSettings();
@@ -160,6 +161,14 @@ MainWindow::MainWindow()
 
     m_audioPlayer = AudioPlayer::getInstance(this);
     addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
+
+    // Read connection list form preferences manager
+    QVariant tmp2;
+    tmp2.setValue(ConnectionList());
+    QVariant tmp = m_options->value("network/connectionsList",tmp2);
+    m_connectionList = tmp.value<ConnectionList>();
+
+
 
     createMenu();
     connectActions();
@@ -279,12 +288,16 @@ void MainWindow::createMenu()
     m_connectionActGroup = new QActionGroup(this);
     if(m_connectionList.size() > 0)//(m_connectionList != NULL)&&
     {
+        m_connectionMap = new QMap<QAction*,Connection>;
         m_networkMenu->addSeparator();
         foreach(Connection tmp, m_connectionList )
         {
-           m_networkMenu->addAction(m_connectionActGroup->addAction(tmp.getName()));
+           QAction* p=m_connectionActGroup->addAction(tmp.getName());
+           m_networkMenu->addAction(p);
+           m_connectionMap->insert(p,tmp);
         }
     }
+    connect(m_connectionActGroup,SIGNAL(triggered(QAction*)),this,SLOT(onConnection(QAction*)));
     m_networkMenu->addSeparator();
     m_manageConnectionAct = m_networkMenu->addAction(tr("Manage connections..."));
 
@@ -501,9 +514,12 @@ void MainWindow::startServer()
         /** @todo: add parameters to use password  */
         ServerManager* tmp = new ServerManager(tmpdialog.getPort(),this);
         tmp->start();
+
+
+         /** @todo: Make the client connection to the server*/
     }
 
-    /** @todo: Make the client connection to the server*/
+
 }
 void MainWindow::addConnection()
 {
@@ -574,10 +590,7 @@ void MainWindow::readSettings()
     resize(size);
     move(pos);
 
-    QVariant tmp2;
-    tmp2.setValue(ConnectionList());
-    QVariant tmp = m_options->value("network/connectionsList",tmp2);
-    m_connectionList = tmp.value<ConnectionList>();
+
 
 
     QVariant tmp3;
@@ -597,17 +610,28 @@ void MainWindow::writeSettings()
   QSettings settings("rolisteam");
   settings.setValue("pos", pos());
   settings.setValue("size", size());
+
   QVariant variant;
   variant.setValue(*m_player);
   settings.setValue("player", variant);
   variant.setValue(m_recentFiles);
   settings.setValue("recentfiles",variant);
 
+
+
   m_options->writeSettings();
   m_workspace->writeSettings();
   m_diceManager->writeSettings();
 }
-
+void MainWindow::onConnection(QAction* p)
+{
+    if(m_connectionMap->contains(p))
+    {
+         m_currentConnection = m_connectionMap->value(p);
+         m_rclient = new RClient(m_currentConnection);
+         m_rclient->startConnection();
+    }
+}
 
 void MainWindow::help()
 {

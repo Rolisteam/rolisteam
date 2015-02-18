@@ -92,4 +92,5 @@ bool DicePlugInManager::hasUISettings(QString& name)
         if(name==tmp->getName())
            return tmp->hasUiSettings();
     }
+    return false;
 }
