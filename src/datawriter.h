@@ -36,8 +36,8 @@ class DataWriter
 
         void reset();
 
-        void sendTo(Liaison * link);
-        void sendAll(Liaison * butLink = NULL);
+        void sendTo(int linkIndex);
+        void sendAll(Liaison * butLink);
 
         void uint8(quint8 data);
         void uint16(quint16 data);

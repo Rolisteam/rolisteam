@@ -54,16 +54,10 @@ void DataWriter::reset()
     m_pos = m_begin;
 }
 
-void DataWriter::sendTo(Liaison * link)
+void DataWriter::sendTo(int link)
 {
-    if (link == NULL)
-    {
-        sendAll();
-        return;
-    }
-
     m_header->tailleDonnees = m_pos - m_begin;
-    link->emissionDonnees(m_buffer, m_header->tailleDonnees + sizeof(enteteMessage));
+    G_clientServeur->emettreDonnees(m_buffer, m_header->tailleDonnees + sizeof(enteteMessage), link);
 }
 
 void DataWriter::sendAll(Liaison * butLink)
