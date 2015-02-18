@@ -44,7 +44,7 @@ public:
 
 public slots:
     void setCurrentTool(ToolsBar::SelectableTool selectedtool);
-    void setCurrentChosenColor();
+    void setCurrentChosenColor(QColor&);
 
 protected:
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );

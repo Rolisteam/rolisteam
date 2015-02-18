@@ -8,6 +8,8 @@ Map::Map(QObject * parent)
 {
 
 }
+
+
 Map::Map(int width,int height,QString& title,QColor& bgColor,QObject * parent)
     : QGraphicsScene(0,0,width,height,parent)
 {
@@ -130,4 +132,8 @@ void Map::addItem()
  void Map::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
  {
         Q_UNUSED(mouseEvent);
+ }
+ void Map::setCurrentChosenColor(QColor& p)
+ {
+    Q_UNUSED(p);
  }
