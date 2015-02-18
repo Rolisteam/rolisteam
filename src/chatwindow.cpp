@@ -51,11 +51,13 @@
 
 QStringList ChatWindow::m_keyWordList;
 
+#define MAX_COLOR_CHANNEL 255
+
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/    
 ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
-    : QSplitter(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)
+    : QSplitter(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent),m_bgColor(MAX_COLOR_CHANNEL,MAX_COLOR_CHANNEL,MAX_COLOR_CHANNEL)
 {
     m_preferences = PreferencesManager::getInstance();
     if (m_chat == NULL)
@@ -83,6 +85,10 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     m_toggleViewAction->setCheckable(true);
     connect(m_toggleViewAction, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
 
+    m_bgColorAct= new QAction(tr("Background Color"),this); //toolBar->addWidget(m_bgColorSelector);
+    m_bgColorAct->setToolTip(tr("Background Color"));
+    connect(m_bgColorAct,SIGNAL(triggered()),this, SLOT(backGrounChanged()));
+
     //setWindowIcon(QIcon(":/resources/icones/chatvignette.png"));
 
     // Les 2 parties du tchat seront positionnees verticalement dans la fenetre
@@ -92,11 +98,14 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
 
     // Creation de la zone affichant le texte des utilisateurs tiers
     zoneAffichage = new QTextBrowser();
+    zoneAffichage->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(zoneAffichage,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(showContextMenu(QPoint)));
     zoneAffichage->setOpenExternalLinks(true);
    // zoneAffichage->setOpenLinks(false);
     zoneAffichage->setReadOnly(true);
     zoneAffichage->setMinimumHeight(30);
-    zoneAffichage->setFocusPolicy(Qt::NoFocus);
+    //zoneAffichage->setFocusPolicy(Qt::NoFocus);
+    //zoneAffichage->installEventFilter(this);
     //zoneAffichage->setTextInteractionFlags(Qt::TextBrowserInteraction);
     
     // Creation de la zone editable contenant les messages de l'utilisateur local
@@ -119,12 +128,6 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     toolBar->addAction(
     QIcon::fromTheme("document-save", QIcon(":/resources/icones/save.png")),
     tr("save"), this, SLOT(save()));
-    m_bgColorSelector = new ColorButton(Qt::white);
-    //toolBar->addWidget(new QLabel(tr("Background Color:"),this));
-    QAction* bgColor=toolBar->addWidget(m_bgColorSelector);
-    bgColor->setToolTip(tr("Background Color"));
-
-    connect(m_bgColorSelector,SIGNAL(colorChanged(QColor)),this, SLOT(backGrounChanged(QColor)));
 
     // Layout
     QVBoxLayout * vboxLayout = new QVBoxLayout();
@@ -175,9 +178,15 @@ ChatWindow::~ChatWindow()
     if (G_client || !m_chat->inherits("PrivateChat"))
         delete m_chat;
 }
-void ChatWindow::backGrounChanged(QColor color)
+void ChatWindow::backGrounChanged()
 {
-    zoneAffichage->setStyleSheet(QString("background:rgb(%1,%2,%3)").arg(color.red()).arg(color.green()).arg(color.blue()));
+    QColorDialog dialog;
+    dialog.setCurrentColor(m_bgColor);
+    if(dialog.exec()==QDialog::Accepted)
+    {
+        m_bgColor=dialog.currentColor();
+        zoneAffichage->setStyleSheet(QString("background:rgb(%1,%2,%3)").arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()));
+    }
 }
 
 AbstractChat * ChatWindow::chat() const
@@ -185,10 +194,7 @@ AbstractChat * ChatWindow::chat() const
     return m_chat;
 }
 
-/********************************************************************/    
-/* La zone d'edition est recopiee dans la zone d'affichage, puis    */
-/* envoyee aux autres utilisateurs, avant d'etre effacee            */
-/********************************************************************/
+
 // not (const QString & message), because we change it !
 void ChatWindow::emettreTexte(QString message)
 {
@@ -199,7 +205,7 @@ void ChatWindow::emettreTexte(QString message)
     QString tirage;
     int result;
     zoneEdition->clear();
-    QTextStream out(stderr,QIODevice::WriteOnly);
+    //QTextStream out(stderr,QIODevice::WriteOnly);
 
     QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
     Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
@@ -788,12 +794,30 @@ void ChatWindow::showEvent(QShowEvent *event)
 bool ChatWindow::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == zoneEdition)
+    {
         if (event->type() == QEvent::FocusIn)
+        {
             if (m_hasUnseenMessage)
             {
                 m_hasUnseenMessage = false;
                 emit changed(this);
             }
+        }
+    }
+    else if(obj == zoneAffichage)
+    {
+        qDebug() << "Event Type: "<< event->type();
+        if(event->type() == QEvent::ContextMenu)
+        {
+            QContextMenuEvent* eventCustom = dynamic_cast<QContextMenuEvent*>(event);
+            if(eventCustom!=NULL)
+            {
+                showContextMenu(eventCustom->globalPos());
+                event->accept();
+                return true;
+            }
+        }
+    }
 
     return false;
 }
@@ -842,4 +866,23 @@ void ChatWindow::updateChatMembers()
     if (!enable)
         m_selectPersonComboBox->setCurrentIndex(0);
     m_selectPersonComboBox->setEnabled(enable);
+}
+void ChatWindow::showContextMenu(QPoint pos)
+{
+    QMenu menu(this);
+
+
+    //m_bgColorSelector = new ColorButton(Qt::white);
+    //toolBar->addWidget(new QLabel(tr("Background Color:"),this));
+
+    menu.addAction(m_bgColorAct);
+
+
+    menu.exec(mapToGlobal(pos));
+}
+void ChatWindow::contextMenuEvent ( QContextMenuEvent * event )
+{
+    /*showContextMenu(event->globalPos());
+    event->accept();*/
+    QSplitter::contextMenuEvent(event);
 }

@@ -74,6 +74,7 @@ public slots:
 protected :
     void init(MainWindow * parent);
 
+    void contextMenuEvent ( QContextMenuEvent * event );
     void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent *event);
 
@@ -100,7 +101,8 @@ private :
     QComboBox * m_selectPersonComboBox;
     TextEditAmeliore * zoneEdition;    // Zone de texte ou l'utilisateur peut ecrire
     QAction * m_toggleViewAction;
-    ColorButton* m_bgColorSelector;
+    QColor m_bgColor;
+    QAction* m_bgColorAct;
 
     int calculerJetDes(QString &message, QString & tirage, bool &ok);
     int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok);
@@ -111,7 +113,8 @@ private slots :
     void downSelectPerson();
     void scheduleUpdateChatMembers();
     void updateChatMembers();
-    void backGrounChanged(QColor);
+    void backGrounChanged();
+    void showContextMenu(QPoint);
 };
 
 #endif
