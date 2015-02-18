@@ -1,0 +1,50 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>resources/doc/rolisteam.qhc</file>
+        <file>resources/a propos.htm</file>
+        <file>resources/icones/Rolistik.png</file>
+        <file>resources/icones/ajouter PNJ.png</file>
+        <file>resources/icones/boucle.png</file>
+        <file>resources/icones/chronometre.png</file>
+        <file>resources/icones/crayon.png</file>
+        <file>resources/icones/demasque.png</file>
+        <file>resources/icones/deplacer PNJ.png</file>
+        <file>resources/icones/dossier.png</file>
+        <file>resources/icones/efface.png</file>
+        <file>resources/icones/ellipse pleine.png</file>
+        <file>resources/icones/ellipse vide.png</file>
+        <file>resources/icones/etat.png</file>
+        <file>resources/icones/fond workspace macos.bmp</file>
+        <file>resources/icones/fond workspace win32.bmp</file>
+        <file>resources/icones/icone plan.png</file>
+        <file>resources/icones/icone scenario.png</file>
+        <file>resources/icones/lecture unique.png</file>
+        <file>resources/icones/lecture.png</file>
+        <file>resources/icones/ligne.png</file>
+        <file>resources/icones/main.png</file>
+        <file>resources/icones/masque.png</file>
+        <file>resources/icones/pause.png</file>
+        <file>resources/icones/pointeur ajouter.png</file>
+        <file>resources/icones/pointeur deplacer.png</file>
+        <file>resources/icones/pointeur dessin.png</file>
+        <file>resources/icones/pointeur etat.png</file>
+        <file>resources/icones/pointeur orienter.png</file>
+        <file>resources/icones/pointeur pipette.png</file>
+        <file>resources/icones/pointeur supprimer.png</file>
+        <file>resources/icones/pointeur texte.png</file>
+        <file>resources/icones/rectangle plein.png</file>
+        <file>resources/icones/rectangle vide.png</file>
+        <file>resources/icones/stop.png</file>
+        <file>resources/icones/style gras.png</file>
+        <file>resources/icones/style italique.png</file>
+        <file>resources/icones/style normal.png</file>
+        <file>resources/icones/style souligne.png</file>
+        <file>resources/icones/supprimer PNJ.png</file>
+        <file>resources/icones/texte.png</file>
+        <file>resources/icones/vignette image.png</file>
+        <file>resources/icones/vignette notes.png</file>
+        <file>resources/icones/vignette plan.png</file>
+        <file>resources/icones/vignette tchat.png</file>
+        <file>traduction/qt_fr.qm</file>
+    </qresource>
+</RCC>
