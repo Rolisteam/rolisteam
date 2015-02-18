@@ -79,7 +79,8 @@ void NewEmptyMapDialog::updateSize()
 Carte::PermissionMode NewEmptyMapDialog::getPermission() const
 {
     Carte::PermissionMode result;
-    switch (ui->m_permissionSelector->currentIndex()) {
+    switch (ui->m_permissionSelector->currentIndex())
+    {
     case 0:
         result = Carte::GM_ONLY;
         break;
@@ -137,7 +138,7 @@ QSize NewEmptyMapDialog::getSize() const
         QSize result;
 
         int sizeW = ui->m_widthEdit->text().toInt();
-        int sizeH= ui->m_widthEdit->text().toInt();
+        int sizeH= ui->m_heightEdit->text().toInt();
         result.setHeight(sizeH);
         result.setWidth(sizeW);
         return result;
