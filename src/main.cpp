@@ -112,6 +112,8 @@ int main(int argc, char *argv[])
 
     // Creation de l'application
     QApplication app(argc, argv);
+    app.setApplicationName("rolisteam");
+    app.setApplicationVersion("1.0.2");
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
@@ -120,45 +122,34 @@ int main(int argc, char *argv[])
     Log = new QTextEdit();
     Log->setWindowTitle("Log");
     Log->setReadOnly(true);
-//	Log->show();
 
-    // Installation du handler de debugage
-    qInstallMsgHandler(handlerAffichageMsg);
-
-    // Chargement du traducteur de Qt
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + QLocale::system().name());
     app.installTranslator(&qtTranslator);
 
-    // On charge le fichier de ressources qui contient ttes les images
     QResource::registerResource(QString(NOM_APPLICATION) + ".rcc");
 
     #ifdef WIN32
-        // M.a.j de l'icone de l'application
         app.setWindowIcon(QIcon(":/resources/icones/" + QString(NOM_APPLICATION) + ".png"));
     #endif
 
-    // Initialisation de la librairie FMOD
-/*		if (!FSOUND_Init(FREQUENCE_AUDIO, 32, 0))
-        qWarning("Probleme d'initialisation de la librairie FMOD (main - main.cpp)");*/
+
 
     // We need an Uuid for the local player
     G_idJoueurLocal = QUuid::createUuid().toString();
-    // and a list to store it into
-    new ListeUtilisateurs;
 
-    // Initialise features database with local features
     g_featuresList.addLocal(G_idJoueurLocal);
 
-    // Creation du client/serveur : si la connexion reussie alors
-    // le programme principal est lance
+
+    // We have a connection, we create the main window.
+    G_mainWindow = new MainWindow;
+    G_mainWindow->setWindowTitle(NOM_APPLICATION);
+
     G_clientServeur = new ClientServeur;
     if (!G_clientServeur->configAndConnect())
         return 0;
     
-    // We have a connection, we create the main window.
-    G_mainWindow = new MainWindow;
-    G_mainWindow->setWindowTitle(NOM_APPLICATION);
+
     G_mainWindow->showNormal();
 
     // Lancement de la boucle d'application

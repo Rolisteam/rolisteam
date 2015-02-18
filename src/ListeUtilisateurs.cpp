@@ -26,7 +26,7 @@
 #include "MainWindow.h"
 #include "variablesGlobales.h"
 #include "types.h"
-
+#include "MainWindow.h"
 
 /********************************************************************/
 /* Variables globales utilisees par tous les elements de            */
@@ -39,7 +39,7 @@ ListeUtilisateurs *G_listeUtilisateurs;
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/
-ListeUtilisateurs::ListeUtilisateurs(QWidget *parent)
+ListeUtilisateurs::ListeUtilisateurs(MainWindow *parent)
         : QDockWidget(parent)
 {
         // On interdit la reception des signaux dans changementEtatItem
@@ -136,7 +136,7 @@ ListeUtilisateurs::ListeUtilisateurs(QWidget *parent)
         // Connexion du selecteur avec l'afficheur de taille des PJ
         QObject::connect(selecteurTaillePj, SIGNAL(valueChanged(int)), afficheurTaillePj, SLOT(setNum(int)));
         // Connexion du selecteur avec la demande de changement de taille des PJ
-        QObject::connect(selecteurTaillePj, SIGNAL(valueChanged(int)), G_mainWindow, SLOT(changerTaillePj(int)));
+        QObject::connect(selecteurTaillePj, SIGNAL(valueChanged(int)), parent, SLOT(changerTaillePj(int)));
         // Connexion du selecteur avec la demande d'emission de changement de taille des PJ
         QObject::connect(selecteurTaillePj, SIGNAL(sliderReleased()), this, SLOT(emettreChangementTaillePj()));
 

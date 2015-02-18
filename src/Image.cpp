@@ -24,37 +24,40 @@
 
 #include "Image.h"
 #include "variablesGlobales.h"
-
+#include <QDebug>
 
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/	
-Image::Image(QString identImage, QString identJoueur, QImage *image, QAction *action, QWidget *parent)
-: QScrollArea(parent)
+Image::Image(QString identImage, QString identJoueur, QImage *image, QAction *action, WorkspaceAmeliore *parent)
+: QScrollArea(parent),m_NormalSize(0,0)
 {
-	// On donne un nom a l'objet "Image" pour le differencier des autres fenetres du workspace
+
 	setObjectName("Image");
+    m_zoomLevel = 1;
+    m_parent=parent;
+    setWindowIcon(QIcon(":/resources/icones/image.png"));
+    createActions();
 
-	// On change l'icone de la fenetre
-	setWindowIcon(QIcon(":/icones/vignette image.png"));
-
-	// Creation du label qui contient l'image
 	labelImage = new QLabel(this);
-	QPixmap pixmap = QPixmap::fromImage(*image);
-	labelImage->setPixmap(pixmap);
+    m_pixMap = QPixmap::fromImage(*image);
+    labelImage->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
 	labelImage->resize(image->width(), image->height());
-	// Memorisation de l'action associee
-	actionAssociee = action;
-	// Memorisation des ID de l'image et du joueur qui l'a ouverte
-	idImage = identImage;
+    labelImage->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    labelImage->setScaledContents(true);
+    labelImage->resize(m_pixMap.size());
+
+    actionAssociee = action;
+    idImage = identImage;
 	idJoueur = identJoueur;
-	// On aligne l'image au centre de la scrollArea
-setAlignment(Qt::AlignCenter);
-	// Association du label contenant l'image avec le scrollArea
-	setWidget(labelImage);
-	// Redimentionement de la taille du scrollArea
-	resize(image->width()+2, image->height()+2);
+    setAlignment(Qt::AlignCenter);
+    setWidget(labelImage);
+    //labelImage->installEventFilter(this);
+    if(m_parent)
+        fitWindow();
+    //resize(image->width()+2, image->height()+2);
 }
+
 
 /********************************************************************/	
 /* Destructeur                                                      */
@@ -176,31 +179,6 @@ void Image::emettreImage(QString titre, int numeroLiaison)
 /********************************************************************/
 /* Sauvegarde l'image dans le fichier passe en parametre            */
 /********************************************************************/
-/*void Image::sauvegarderImage(QFile &file, QString titre)
-{
-	bool ok;
-
-	// On commence par compresser l'image (format jpeg) dans un tableau
-	QByteArray baImage;
-	QBuffer bufImage(&baImage);
-	ok = labelImage->pixmap()->save(&bufImage, "jpeg", 100);
-	if (!ok)
-		qWarning("Probleme de compression de l'image (sauvegarderImage - Image.cpp)");
-	
-	// Ecriture de l'image dans le fichier
-
-	// Ecriture du titre
-	quint16 tailleTitre = titre.size();
-	file.write((char *)&tailleTitre, sizeof(quint16));
-	file.write((char *)titre.data(), tailleTitre*sizeof(QChar));
-	// Ajout de l'image
-	quint32 tailleImage = baImage.size();
-	file.write((char *)&tailleImage, sizeof(quint32));
-	file.write(baImage.data(), tailleImage);
-}*/
-/********************************************************************/
-/* Sauvegarde l'image dans le fichier passe en parametre            */
-/********************************************************************/
 void Image::sauvegarderImage(QDataStream &out, QString titre)
 {
     bool ok;
@@ -213,17 +191,18 @@ void Image::sauvegarderImage(QDataStream &out, QString titre)
         qWarning("Probleme de compression de l'image (sauvegarderImage - Image.cpp)");
 
     // Ecriture de l'image dans le fichier
-
     // Ecriture du titre
-    //quint16 tailleTitre = titre.size();
     out<< titre;
-    //file.write((char *)&tailleTitre, sizeof(quint16));
-    //file.write((char *)titre.data(), tailleTitre*sizeof(QChar));
-    // Ajout de l'image
+
+
+
+
+    out << pos();
+    out << size();
+
     out << baImage;
-    //quint32 tailleImage = baImage.size();
-    //file.write((char *)&tailleImage, sizeof(quint32));
-   // file.write(baImage.data(), tailleImage);
+
+
 }
 /********************************************************************/
 /* Un bouton de la souris vient d'etre enfonce                      */
@@ -269,19 +248,176 @@ void Image::mouseMoveEvent(QMouseEvent *event)
 	}
 }
 		
-/********************************************************************/
-/* Changement du pointeur de souris pour l'outil main               */
-/********************************************************************/	
+void Image::resizeLabel()
+{
+    //qDebug()<< " cdcec"<< m_pixMap.height() << m_pixMap.width() << labelImage->rect() << geometry();
+    if((m_NormalSize.height()!=0)&&(m_NormalSize.width()!=0))
+    {
+        labelImage->resize(m_zoomLevel * m_NormalSize);
+    }
+    else
+    {
+        labelImage->resize(m_zoomLevel * m_pixMap.size());
+        m_NormalSize = widget()->size();
+    }
+    //qDebug()<< m_pixMap.height() << m_pixMap.width() << labelImage->rect() << geometry();
+}
 void Image::pointeurMain()
 {
 	labelImage->setCursor(Qt::OpenHandCursor);
 }
-
-/********************************************************************/
-/* Changement du pointeur de souris pour les autres outils          */
-/********************************************************************/	
 void Image::pointeurNormal()
 {
 	labelImage->setCursor(Qt::ForbiddenCursor);
 }
+void Image::zoomIn()
+{
+    m_zoomLevel +=0.2;
+    resizeLabel();
+}
 
+void Image::zoomOut()
+{
+    m_zoomLevel -=0.2;
+    resizeLabel();
+}
+
+void Image::onFitWindow()
+{
+    labelImage->resize(m_parent->size());
+    fitWindow();
+    //m_zoomLevel = 1;
+}
+
+void Image::fitWindow()
+{
+    QSize windowsize = m_parent->size();//right size
+    while((windowsize.height()<(m_zoomLevel * m_pixMap.height()))||(windowsize.width()<(m_zoomLevel * m_pixMap.width())))
+    {
+        m_zoomLevel -= 0.1;
+    }
+    labelImage->resize(m_pixMap.size());
+    m_NormalSize = QSize(0,0);
+    resizeLabel();
+    setGeometry(labelImage->rect().adjusted(0,0,4,4));
+    m_zoomLevel = 1.0;
+}
+void Image::wheelEvent(QWheelEvent *event)
+{
+    if(event->modifiers() == Qt::ControlModifier)
+    {
+        int delta = event->delta();
+        if(delta > 0)//zoomin
+        {
+            m_zoomLevel +=0.2;
+        }
+        else//zoomOut
+        {
+            m_zoomLevel -=0.2;
+        }
+        resizeLabel();
+        event->ignore();
+
+    }
+}
+void Image::paintEvent ( QPaintEvent * event )
+{
+    QScrollArea::paintEvent(event);
+    if(widgetResizable())
+    {
+
+        setWidgetResizable(false);
+
+    }
+    if((m_NormalSize * m_zoomLevel) != labelImage->size())
+    {
+        m_NormalSize = labelImage->size() / m_zoomLevel;
+        m_windowSize = size();
+    }
+}
+void Image::setZoomLevel(double zoomlevel)
+{
+
+        m_zoomLevel = zoomlevel;
+        resizeLabel();
+
+}
+void Image::zoomLittle()
+{
+    m_zoomLevel =0.2;
+    resizeLabel();
+
+}
+
+void Image::zoomNormal()
+{
+
+    m_zoomLevel =1.0;
+    resizeLabel();
+
+}
+void Image::zoomBig()
+{
+    m_zoomLevel =4.0;
+    resizeLabel();
+}
+void Image::createActions()
+{
+    m_actionZoomIn = new QAction(tr("Zoom In"),this);
+    m_actionZoomIn->setShortcut(tr("Ctrl++"));
+    m_actionZoomIn->setToolTip(tr("increase zoom level"));
+    m_actionZoomIn->setIcon(QIcon(":/resources/icons/zoom-in-32.png"));
+    connect(m_actionZoomIn,SIGNAL(triggered()),this,SLOT(zoomIn()));
+
+    m_actionZoomOut = new QAction(tr("Zoom out"),this);
+    m_actionZoomOut->setShortcut(tr("Ctrl+-"));
+    m_actionZoomOut->setIcon(QIcon(":/resources/icons/zoom-out-32.png"));
+    m_actionZoomOut->setToolTip(tr("Reduce zoom level"));
+    connect(m_actionZoomOut,SIGNAL(triggered()),this,SLOT(zoomOut()));
+
+    m_actionfitWorkspace = new QAction(tr("Fit the workspace"),this);
+    m_actionfitWorkspace->setIcon(QIcon(":/resources/icons/fit-page-32.png"));
+    m_actionfitWorkspace->setShortcut(tr("Ctrl+5"));
+    m_actionfitWorkspace->setToolTip(tr("The window and the image fit the workspace"));
+    connect(m_actionfitWorkspace,SIGNAL(triggered()),this,SLOT(onFitWindow()));
+
+    m_actionlittleZoom = new QAction(tr("Little"),this);
+    m_actionlittleZoom->setShortcut(tr("Ctrl+1"));
+    m_actionZoomIn->setToolTip(tr("Set the zoom level at 20% "));
+    connect(m_actionlittleZoom,SIGNAL(triggered()),this,SLOT(zoomLittle()));
+
+    m_actionNormalZoom = new QAction(tr("Normal"),this);
+    m_actionNormalZoom->setShortcut(tr("Ctrl+0"));
+    m_actionZoomIn->setToolTip(tr("No Zoom"));
+    connect(m_actionNormalZoom,SIGNAL(triggered()),this,SLOT(zoomNormal()));
+
+
+    m_actionBigZoom = new QAction(tr("Big"),this);
+    m_actionBigZoom->setShortcut(tr("Ctrl+2"));
+    m_actionZoomIn->setToolTip(tr("Set the zoom level at 400%"));
+    connect(m_actionBigZoom,SIGNAL(triggered()),this,SLOT(zoomBig()));
+}
+void Image::contextMenuEvent ( QContextMenuEvent * event )
+{
+    QMenu menu(this);
+
+    menu.addAction(m_actionZoomIn);
+    menu.addAction(m_actionZoomOut);
+    menu.addSeparator();
+    menu.addAction( m_actionfitWorkspace);
+    menu.addSeparator();
+    menu.addAction(m_actionlittleZoom);
+    menu.addAction(m_actionNormalZoom);
+    menu.addAction(m_actionBigZoom);
+
+
+    menu.exec(event->globalPos ()/*event->pos()*/);
+
+}
+void Image::setParent(WorkspaceAmeliore *parent)
+{
+    m_parent=parent;
+    QScrollArea::setParent(parent);
+    if(m_parent)
+        fitWindow();
+}

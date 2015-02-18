@@ -57,7 +57,7 @@ public :
     MainWindow();
     void affichageDuPj(QString idPerso, bool afficher);
     void majCouleursPersonnelles();
-    void ajouterCarte(CarteFenetre *carteFenetre, QString titre);
+    void ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
     void ajouterImage(Image *imageFenetre, QString titre);
     void emettreTousLesPlans(int numeroLiaison);
     void emettreToutesLesImages(int numeroLiaison);
@@ -125,6 +125,7 @@ private :
 
     QDockWidget *dockLogUtil;
     WorkspaceAmeliore *workspace;
+    ListeUtilisateurs* m_listeUtilisateurs;
     QMenu *menuFenetre;
     QMenu *sousMenuTchat;
     BarreOutils *barreOutils;

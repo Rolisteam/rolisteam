@@ -33,49 +33,111 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-    #include <QWidget>
-    #include <QImage>
-    #include <QScrollArea>
-    #include <QAction>
-	#include <QFile>
-	#include <QString>
-	#include <QLabel>
+#include <QWidget>
+#include <QImage>
+#include <QScrollArea>
+#include <QAction>
+#include <QFile>
+#include <QString>
+#include <QLabel>
+#include "WorkspaceAmeliore.h"
+
+class Image : public QScrollArea
+{
+Q_OBJECT
+
+public :
+    Image(QString identImage, QString identJoueur, QImage *image, QAction *action = 0, WorkspaceAmeliore *parent = 0);
+    ~Image();
+    void associerAction(QAction *action);
+    void emettreImage(QString titre, int numeroLiaison);
+    void sauvegarderImage(QFile &file, QString titre);
+    void sauvegarderImage(QDataStream& out, QString titre);
+    bool proprietaireImage();
+    QString identifiantImage();
+    void setParent(WorkspaceAmeliore *parent);
+
+public slots :
+    void pointeurMain();
+    void pointeurNormal();
 
 
-    class Image : public QScrollArea
-    {
-	Q_OBJECT
-		
-    public :
-	    Image(QString identImage, QString identJoueur, QImage *image, QAction *action = 0, QWidget *parent = 0);
-		~Image();
-		void associerAction(QAction *action);
-		void emettreImage(QString titre, int numeroLiaison);
-		void sauvegarderImage(QFile &file, QString titre);
-        void sauvegarderImage(QDataStream& out, QString titre);
-		bool proprietaireImage();
-		QString identifiantImage();
+protected:
+    /**
+    * @brief called when users roll the wheel of their mouse
+    * @param event : define few parameters about the action (way,..)
+    */
+    void wheelEvent(QWheelEvent *event);
 
-	public slots :
-		void pointeurMain();
-		void pointeurNormal();
+    void closeEvent(QCloseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void contextMenuEvent ( QContextMenuEvent * event );
+    void paintEvent ( QPaintEvent * event );
+private slots:
+    /**
+    * @brief generic function to set the zoom level and refresh the picture
+    * @param zoomlevel : new zoomlevel value
+    */
+    void setZoomLevel(double zoomlevel);
+    /**
+    * @brief default function to zoomIn, Add 0.2 to the zoom level and then refresh the picture
+    */
+    void zoomIn();
+    /**
+    * @brief default function to zoomOut, substract 0.2 to the zoom level and then refresh the picture
+    */
+    void zoomOut();
+    /**
+    * @brief refresh the size of the label (which embeds the picture)
+    */
+    void resizeLabel();
+    /**
+    * @brief sets the zoomlevel to 0.2
+    */
+    void zoomLittle();
+    /**
+    * @brief sets the zoom level to 1
+    */
+    void zoomNormal();
+    /**
+    * @brief sets the zoom level to 4
+    */
+    void zoomBig();
+    /**
+    * @brief resize the window and sets current size as zoomlevel 1.
+    */
+    void onFitWindow();
 
-    private :
-		QString idImage;
-		QString idJoueur;
-		QAction *actionAssociee;
-		QLabel *labelImage;
-		QPoint pointDepart;
-		int horizontalDepart;
-		int verticalDepart;
-		bool deplacementAutorise;
+private :
+    /**
+    * @brief adapt the size window to fit the MdiArea size and no scrollbar (if possible)
+    */
+    void fitWindow();
+    void createActions();
+private :
+    QString idImage;
+    QString idJoueur;
+    QAction *actionAssociee;
+    QLabel *labelImage;
+    QPoint pointDepart;
+    int horizontalDepart;
+    int verticalDepart;
+    bool deplacementAutorise;
+    double m_zoomLevel;
+    WorkspaceAmeliore* m_parent;
 
-	protected :
-		void closeEvent(QCloseEvent *event);
-		void mousePressEvent(QMouseEvent *event);
-		void mouseReleaseEvent(QMouseEvent *event);
-		void mouseMoveEvent(QMouseEvent *event);
+    QSize m_NormalSize;
+    QSize m_windowSize;
+    QPixmap  m_pixMap;
 
-	};
+    QAction* m_actionZoomIn;
+    QAction* m_actionZoomOut;
+    QAction* m_actionfitWorkspace;
+    QAction* m_actionNormalZoom; // *1
+    QAction* m_actionBigZoom;// * 4
+    QAction* m_actionlittleZoom;// * 0.2
+};
 
 #endif

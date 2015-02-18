@@ -244,8 +244,9 @@ void LecteurAudio::setupUi()
 
 
         connect(actionLecture, SIGNAL(triggered()), mediaObject, SLOT(play()));
+#ifdef FMOD
         connect(actionLecture, SIGNAL(triggered(bool)), this, SLOT(appuiLecture(bool)));
-
+#endif
         connect(actionPause, SIGNAL(triggered()), mediaObject, SLOT(pause()));
         connect(actionStop, SIGNAL(triggered()), mediaObject, SLOT(stop()));
 
@@ -254,10 +255,10 @@ void LecteurAudio::setupUi()
         QObject::connect(actionUnique, SIGNAL(triggered(bool)), this, SLOT(appuiUnique(bool)));
         QObject::connect(actionAjouter, SIGNAL(triggered(bool)), this, SLOT(ajouterTitre()));
         QObject::connect(actionSupprimer, SIGNAL(triggered(bool)), this, SLOT(supprimerTitre()));
-
+#ifdef FMOD
         QObject::connect(positionTemps, SIGNAL(sliderReleased()), this, SLOT(changementTempsLecture()));
         QObject::connect(positionTemps, SIGNAL(sliderMoved(int)), this, SLOT(changementTempsAffichage(int)));
-
+#endif
         QObject::connect(listeTitres, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(changementTitre(QListWidgetItem *)));
 
         QObject::connect(this, SIGNAL(finDeTitreSignal()), this, SLOT(finDeTitreSlot()));

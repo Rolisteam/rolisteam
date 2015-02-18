@@ -165,7 +165,9 @@ MainWindow::MainWindow()
         addDockWidget(Qt::RightDockWidgetArea, dockLogUtil);
 
         // Ajout de la liste d'utilisateurs a la fenetre principale
-        addDockWidget(Qt::RightDockWidgetArea, G_listeUtilisateurs);
+        m_listeUtilisateurs = new ListeUtilisateurs(this);
+        addDockWidget(Qt::RightDockWidgetArea, m_listeUtilisateurs);
+
 #ifndef NULL_PLAYER
         // Creation du lecteur audio
         G_lecteurAudio = LecteurAudio::getInstance(this);
@@ -441,13 +443,19 @@ void MainWindow::autoriserOuInterdireActions()
 /********************************************************************/
 /* Creation d'une nouvelle carte dans le workspace                  */
 /********************************************************************/
-void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre)
+void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize,QPoint pos )
 {
         // Ajout de la CarteFenetre a la liste (permet par la suite de parcourir l'ensemble des cartes)
         listeCarteFenetre.append(carteFenetre);
 
         // Ajout de la carte au workspace
-        workspace->addWindow(carteFenetre);
+        QWidget* tmp = workspace->addWindow(carteFenetre);
+        qDebug() << mapsize << pos;
+        if(mapsize.isValid())
+            tmp->resize(mapsize);
+        if(!pos.isNull())
+            tmp->move(pos);
+
 
         // Mise a jour du titre de la CarteFenetre
         carteFenetre->setWindowTitle(titre);
@@ -554,6 +562,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre)
 /********************************************************************/
 void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
 {
+        imageFenetre->setParent(workspace);
         // Ajout de la CarteFenetre a la liste (permet par la suite de parcourir l'ensemble des cartes)
         listeImage.append(imageFenetre);
 
@@ -758,9 +767,22 @@ void MainWindow::ouvrirPlan(bool masquer)
 void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichier)
 {
 
-        QString titre;
+        QPoint topleft;
+        in >>topleft;
 
+        QSize mapsize;
+        in >> mapsize;
+
+
+
+        QString titre;
         in >> titre;
+
+
+
+        QTextStream out2(stderr,QIODevice::WriteOnly);
+        out2 <<" lire plan " << topleft.x() << "," << topleft.y()  << " size=("<< mapsize.width()<<","<<mapsize.height() << endl;
+
         ///QString titre(tableauTitre, tailleTitre);
         // On recupere la taille des PJ
         int taillePj;
@@ -805,14 +827,19 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
         // Creation de la carte
         Carte *carte = new Carte(idCarte, &fondOriginal, &fond, &alpha, taillePj);
         // Creation de la CarteFenetre
-        CarteFenetre *carteFenetre = new CarteFenetre(carte);
+        CarteFenetre *carteFenetre = new CarteFenetre(carte,workspace);
+
         // Ajout de la carte au workspace : si aucun nom de fichier n'est passe en parametre, il s'agit d'une lecture de
         // carte dans le cadre de l'ouverture d'un fichier scenario : on prend alors le titre associe a la carte. Sinon
         // il s'agit d'un fichier plan : on prend alors le nom du fichier
+
+        QPoint pos2 = carteFenetre->mapFromParent(topleft);
+        out2 <<" lire plan 2 " << pos2.x() << "," << pos2.y()  << " size=("<< mapsize.width()<<","<<mapsize.height() << endl;
+
         if (nomFichier.isEmpty())
-                G_mainWindow->ajouterCarte(carteFenetre, titre);
+                G_mainWindow->ajouterCarte(carteFenetre, titre,mapsize,topleft);
         else
-                G_mainWindow->ajouterCarte(carteFenetre, nomFichier);
+                G_mainWindow->ajouterCarte(carteFenetre, nomFichier,mapsize,topleft);
 
 
         // On recupere le nombre de personnages presents dans le message
@@ -928,7 +955,7 @@ void MainWindow::ouvrirImage()
         QString idImage = QUuid::createUuid().toString();
 
         // Creation de la fenetre image
-        Image *imageFenetre = new Image(idImage, G_idJoueurLocal, img, action);
+        Image *imageFenetre = new Image(idImage, G_idJoueurLocal, img, action,workspace);
 
         // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
         listeImage.append(imageFenetre);
@@ -2166,43 +2193,6 @@ void MainWindow::ouvrirScenario()
 /* les cartes, les images (qui deviennent proprietes du MJ), et les */
 /* notes                                                                */
 /********************************************************************/
-/*bool MainWindow::sauvegarderScenario()
-{
-        // Ouverture du selecteur de fichiers
-        QString filename = QFileDialog::getSaveFileName(this, tr("Sauvegarder scénario"), G_dossierScenarii, tr("Scénarios (*.sce)"));
-
-
-        if (filename.isNull())
-                return false;
-
-        if(!filename.endsWith(".sce"))
-                filename += ".sce";
-
-
-        // On met a jour le chemin vers les scenarii
-        int dernierSlash = filename.lastIndexOf("/");
-        G_dossierScenarii = filename.left(dernierSlash);
-
-        // Creation du descripteur de fichier
-        QFile file(filename);
-        // Ouverture du fichier en ecriture seule
-        if (!file.open(QIODevice::WriteOnly))
-        {
-                qWarning("Probleme a l'ouverture du fichier (sauvegarderScenario - MainWindow.cpp)");
-                return false;
-        }
-
-        // On commence par sauvegarder toutes les cartes
-        sauvegarderTousLesPlans(file);
-        // Puis toutes les images
-        sauvegarderToutesLesImages(file);
-        // Et enfin les notes
-        editeurNotes->sauvegarderNotes(file);
-        // Fermeture du fichier
-        file.close();
-
-        return true;
-}*/
 bool MainWindow::sauvegarderScenario()
 {
         // Ouverture du selecteur de fichiers
@@ -2246,7 +2236,18 @@ void MainWindow::sauvegarderTousLesPlans(QDataStream &out)
 {
     out << listeCarteFenetre.size();
     for (int i=0; i<listeCarteFenetre.size(); i++)
-           listeCarteFenetre[i]->carte()->sauvegarderCarte(out, listeCarteFenetre[i]->windowTitle());
+    {
+        QTextStream out2(stderr,QIODevice::WriteOnly);
+        out2 <<" save tous les plans " << listeCarteFenetre[i]->pos().x() << "," << listeCarteFenetre[i]->pos().y()  << " size=("<< listeCarteFenetre[i]->size().width()<<","<<listeCarteFenetre[i]->size().height() << endl;
+        QPoint pos2 = listeCarteFenetre[i]->mapFromParent(listeCarteFenetre[i]->pos());
+        out2 <<" save tous les plans " << pos2.x() << "," << pos2.y()  << " size=("<< listeCarteFenetre[i]->size().width()<<","<<listeCarteFenetre[i]->size().height() << endl;
+
+        out << pos2;
+        out << listeCarteFenetre[i]->size();
+        //QWidgetList list = workspace->windowList();
+        //list.indexOf()
+            listeCarteFenetre[i]->carte()->sauvegarderCarte(out, listeCarteFenetre[i]->windowTitle());
+    }
 }
 
 void MainWindow::sauvegarderToutesLesImages(QDataStream &out)
@@ -2265,8 +2266,16 @@ void MainWindow::lireImage(QDataStream &file)
 
         QString titre;
         QByteArray baImage;
+        QPoint topleft;
+        QSize size;
 
         file >> titre;
+        file >>topleft;
+        file >> size;
+
+        QTextStream out(stderr,QIODevice::WriteOnly);
+        out << "lire image " << topleft.x() << "," << topleft.y()  << " size=("<< size.width()<<","<<size.height() << endl;
+
         file >> baImage;
 
         bool ok;
@@ -2285,13 +2294,15 @@ void MainWindow::lireImage(QDataStream &file)
         QString idImage = QUuid::createUuid().toString();
 
         // Creation de la fenetre image
-        Image *imageFenetre = new Image(idImage, G_idJoueurLocal, &img, action);
+        Image *imageFenetre = new Image(idImage, G_idJoueurLocal, &img, action,workspace);
 
         // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
         listeImage.append(imageFenetre);
 
         // Ajout de l'image au workspace
-        workspace->addWindow(imageFenetre);
+        QWidget* tmp = workspace->addWindow(imageFenetre);
+        tmp->move(topleft);
+        tmp->resize(size);
 
         // Mise a jour du titre de l'image
         imageFenetre->setWindowTitle(titre);

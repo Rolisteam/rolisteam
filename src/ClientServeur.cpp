@@ -152,8 +152,8 @@ bool
 ClientServeur::configAndConnect()
 {
     ConnectionConfigDialog configDialog(
-        G_initialisation.nomUtilisateur, G_initialisation.couleurUtilisateur, !G_initialisation.joueur,
-        G_initialisation.ipServeur, G_initialisation.portServeur, !G_initialisation.client);
+    G_initialisation.nomUtilisateur, G_initialisation.couleurUtilisateur, !G_initialisation.joueur,
+    G_initialisation.ipServeur, G_initialisation.portServeur, !G_initialisation.client);
 
     ConnectionWaitDialog   waitDialog;
 
@@ -173,7 +173,8 @@ ClientServeur::configAndConnect()
         // Server setup
         if (configDialog.isServer())
         {
-            if (m_server == NULL) {
+            if (m_server == NULL)
+            {
                 m_server = new QTcpServer(this);
                 connect(m_server, SIGNAL(newConnection()), this, SLOT(nouveauClientConnecte()));
             }

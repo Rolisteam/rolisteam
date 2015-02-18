@@ -33,7 +33,7 @@
 #include <QWidget>
 #include <QImage>
 #include <QPaintEvent>
-
+#include <QWorkspace>
 
 class WorkspaceAmeliore : public QWorkspace
 {

@@ -41,5 +41,6 @@
         <file>resources/icones/deplacer PNJ.png</file>
         <file>resources/icones/ligne.png</file>
         <file>resources/icones/texte.png</file>
+        <file>resources/icones/image.png</file>
     </qresource>
 </RCC>

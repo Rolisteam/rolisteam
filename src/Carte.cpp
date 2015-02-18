@@ -2411,7 +2411,13 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
 
     // Ecriture du titre
     //out << titre.size();
+
+    //QTextStream out2(stderr,QIODevice::WriteOnly);
+    //out2 << "save plan" << pos().x() << "," << pos().y()  << " size=("<< size().width()<<","<<size().height() << endl;
+
     out << titre;
+   // out << pos();
+   // out << size();
     out << taillePj;
     out << baFondOriginal;
     out << baFond;
