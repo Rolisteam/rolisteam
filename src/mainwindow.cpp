@@ -71,21 +71,21 @@ bool G_affichageNomPnj;
 // Indique si le numero des PNJ doit etre affiche ou pas
 bool G_affichageNumeroPnj;
 // Contient le pointeur de souris pour dessiner
-QCursor *G_pointeurDessin;
+//QCursor *G_pointeurDessin;
 // Contient le pointeur de souris pour le texte
-QCursor *G_pointeurTexte;
+//QCursor *G_pointeurTexte;
 // Contient le pointeur de souris pour deplacer les PJ/PNJ
-QCursor *G_pointeurDeplacer;
+//QCursor *G_pointeurDeplacer;
 // Contient le pointeur de souris pour orienter les PJ/PNJ
-QCursor *G_pointeurOrienter;
+//QCursor *G_pointeurOrienter;
 // Contient le pointeur de souris pour la pipette (clic droit)
-QCursor *G_pointeurPipette;
+//QCursor *G_pointeurPipette;
 // Contient le pointeur de souris pour ajouter un PNJ
-QCursor *G_pointeurAjouter;
+//QCursor *G_pointeurAjouter;
 // Contient le pointeur de souris pour supprimer en PNJ
-QCursor *G_pointeurSupprimer;
+//QCursor *G_pointeurSupprimer;
 // Contient le pointeur de souris pour changer l'etat des PJ/PNJ
-QCursor *G_pointeurEtat;
+//QCursor *G_pointeurEtat;
 
 
 // Pointeur vers la fenetre de log utilisateur (utilise seulement dans ce fichier)
@@ -264,17 +264,6 @@ void MainWindow::setupUi()
     AddHealthState(QColor(80, 80, 255),tr("Sleeping"),G_etatsDeSante);
     AddHealthState(QColor(0, 200, 0),tr("Bewitched"),G_etatsDeSante);
 
-    // Initialisation des pointeurs de souris
-    InitMousePointer(&G_pointeurDessin, ":/resources/icones/pointeur dessin.png", 8, 8);
-    InitMousePointer(&G_pointeurTexte, ":/resources/icones/pointeur texte.png", 4, 13); //strange values here
-
-    G_pointeurDeplacer  = new QCursor(QPixmap(":/resources/icones/pointeur deplacer.png"), 0, 0);
-    G_pointeurOrienter  = new QCursor(QPixmap(":/resources/icones/pointeur orienter.png"), 10, 12);
-    G_pointeurPipette   = new QCursor(QPixmap(":/resources/icones/pointeur pipette.png"), 1, 19);
-    G_pointeurAjouter   = new QCursor(QPixmap(":/resources/icones/pointeur ajouter.png"), 6, 0);
-    G_pointeurSupprimer = new QCursor(QPixmap(":/resources/icones/pointeur supprimer.png"), 6, 0);
-    G_pointeurEtat      = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
-
     m_playerList = PlayersList::instance();
 
     connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
@@ -382,7 +371,8 @@ void MainWindow::creerMenu()
     m_saveMinuteAct           = menuFichier->addAction(QIcon(":/notes.png"),tr("Save Minutes"));
     menuFichier->addSeparator();
     m_preferencesAct = menuFichier->addAction(QIcon(":/settings.png"),tr("Preferences"));
-    m_preferencesAct->setShortcut(QKeySequence::Preferences);
+
+    m_preferencesAct->setShortcut(QKeySequence("Ctrl+P"));
     menuFichier->addSeparator();
     m_quitAct = menuFichier->addAction(QIcon(":/exit.png"),tr("Quit"));
     m_quitAct->setShortcut(QKeySequence::Quit);

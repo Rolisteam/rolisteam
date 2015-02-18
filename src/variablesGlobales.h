@@ -77,13 +77,6 @@ extern int G_diametreTraitCourant;
 extern bool G_affichageNomPj;
 extern bool G_affichageNomPnj;
 extern bool G_affichageNumeroPnj;
-extern QCursor *G_pointeurDessin;
-extern QCursor *G_pointeurTexte;
-extern QCursor *G_pointeurPipette;
-extern QCursor *G_pointeurDeplacer;
-extern QCursor *G_pointeurOrienter;
-extern QCursor *G_pointeurAjouter;
-extern QCursor *G_pointeurSupprimer;
-extern QCursor *G_pointeurEtat;
+
 
 #endif

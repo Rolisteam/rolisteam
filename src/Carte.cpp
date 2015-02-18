@@ -66,7 +66,7 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
 
 void Carte::p_init()
 {
-
+    initCursor();
     effaceAlpha = new QImage(m_originalBackground->size(), QImage::Format_ARGB32_Premultiplied);
     QPainter painterEfface(effaceAlpha);
     painterEfface.fillRect(0, 0, m_originalBackground->width(), m_originalBackground->height(), Qt::black);
@@ -149,6 +149,27 @@ Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QIma
     p_init();
 }
 
+void Carte::initCursor()
+{
+
+    //InitMousePointer(&G_pointeurTexte, ":/resources/icones/pointeur texte.png", 4, 13); //strange values here
+
+    //G_pointeurDeplacer
+    m_orientCursor  = new QCursor(QPixmap(":/resources/icones/pointeur orienter.png"), 10, 12);
+    m_pipetteCursor   = new QCursor(QPixmap(":/resources/icones/pointeur pipette.png"), 1, 19);
+    //G_pointeurAjouter
+    //G_pointeurSupprimer
+
+    m_addCursor= new QCursor(QPixmap(":/resources/icones/pointeur ajouter.png"), 6, 0);
+    m_delCursor = new QCursor(QPixmap(":/resources/icones/pointeur supprimer.png"), 6, 0);
+    m_movCursor= new QCursor(QPixmap(":/resources/icones/pointeur deplacer.png"), 0, 0);
+    m_textCursor= new QCursor(QPixmap(":/resources/icones/pointeur texte.png"), 4, 13);
+    m_pencilCursor = new QCursor(QPixmap(":/resources/icones/pointeur dessin.png"), 8, 8);
+
+    m_stateCursor = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
+
+
+}
 
 void Carte::paintEvent(QPaintEvent *event)
 {
@@ -278,7 +299,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
         else if (m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
         {
             boutonDroitEnfonce = true;
-            setCursor(*G_pointeurOrienter);
+            setCursor(*m_orientCursor);
             // On regarde s'il y a un PNJ sous la souris
             DessinPerso *pnj = dansDessinPerso(positionSouris);        
             // Si oui, on modifie son affichage de l'orientation et on le selectionne
@@ -340,7 +361,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
         else if(event->modifiers()==Qt::ControlModifier)
         {
             boutonDroitEnfonce = true;
-            setCursor(*G_pointeurPipette);
+            setCursor(*m_pipetteCursor);
             QColor couleur = QColor(m_backgroundImage->pixel(positionSouris.x(), positionSouris.y()));
             emit changeCurrentColor(couleur);
         }
@@ -2403,25 +2424,25 @@ void Carte::setPointeur(BarreOutils::Tool currentTool)
         case BarreOutils::rectPlein:
         case BarreOutils::elliVide:
         case BarreOutils::elliPlein:
-            pointeur = *G_pointeurDessin;
+            pointeur = *m_pencilCursor;
         break;
         case BarreOutils::texte:
-            pointeur = *G_pointeurTexte;
+            pointeur = *m_textCursor;
         break;
         case BarreOutils::main:
             pointeur =  Qt::OpenHandCursor;
         break;
         case BarreOutils::ajoutPnj:
-            pointeur =*G_pointeurAjouter;
+            pointeur =*m_addCursor;
         break;
         case BarreOutils::supprPnj:
-            pointeur =*G_pointeurSupprimer;
+            pointeur =*m_delCursor;
         break;
         case BarreOutils::deplacePerso:
-            pointeur =*G_pointeurDeplacer;
+            pointeur =*m_movCursor;
         break;
         case BarreOutils::etatPerso:
-            pointeur = *G_pointeurEtat;
+            pointeur = *m_stateCursor;
         break;
     }
     setCursor(pointeur);

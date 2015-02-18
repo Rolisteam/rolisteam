@@ -127,6 +127,7 @@ protected :
 
 private :
     void p_init();
+    void initCursor();
     bool ajouterAlpha(QImage *source, QImage *m_alphaLayer, QImage *destination, const QRect &rect = QRect());
     bool convertirARGB32(QImage *original, QImage *copie);
     QRect zoneARafraichir();
@@ -180,6 +181,15 @@ private :
     Player* m_localPlayer;
     qreal m_scaleY;
     qreal m_scaleX;
+
+    QCursor* m_stateCursor;
+    QCursor* m_pencilCursor;
+    QCursor* m_addCursor;
+    QCursor* m_delCursor;
+    QCursor* m_movCursor;
+    QCursor* m_textCursor;
+    QCursor* m_orientCursor;
+    QCursor* m_pipetteCursor;
 
     bool m_hasPermissionMode;
 
