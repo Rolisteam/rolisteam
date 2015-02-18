@@ -57,6 +57,7 @@ Liaison::Liaison(QTcpSocket *socket)
 #endif
 
     setSocket(socket);
+    makeSignalConnection();
 
     // Si l'ordi local est un client, on ajoute tt de suite la liaison a la liste, et on connecte le signal d'emission des donnees
     // Le serveur effectue cette operation a la fin de la procedure de connexion du client
@@ -1579,5 +1580,5 @@ void Liaison::disconnectAndClose()
 void Liaison::setSocket(QTcpSocket* socket)
 {
     m_socketTcp=socket;
-    makeSignalConnection();
+
 }

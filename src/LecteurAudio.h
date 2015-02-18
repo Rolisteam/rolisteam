@@ -45,20 +45,21 @@
 
 
 #ifdef PHONON
-#include <Phonon/MediaSource>
-#include <Phonon/SeekSlider>
-#include <Phonon/MediaObject>
-#include <Phonon/AudioOutput>
-#include <Phonon/VolumeSlider>
-#include <Phonon/Path>
-/*#include <mediasource.h>
-#include <seekslider.h>
-#include <mediaobject.h>
-#include <volumeslider.h>
-#include <audiooutput.h>
-#include <Phonon/Path>*/
+    #ifndef _PHONON_INCLUDE_QT_
+        #include <Phonon/MediaSource>
+        #include <Phonon/SeekSlider>
+        #include <Phonon/MediaObject>
+        #include <Phonon/AudioOutput>
+        #include <Phonon/VolumeSlider>
+        #include <Phonon/Path>
+    #else
+        #include <mediasource.h>
+        #include <seekslider.h>
+        #include <mediaobject.h>
+        #include <volumeslider.h>
+        #include <audiooutput.h>
+    #endif
 #endif
-
 #include "preferencesmanager.h"
 
 class Liaison;
