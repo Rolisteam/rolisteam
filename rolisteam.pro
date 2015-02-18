@@ -76,7 +76,7 @@ HAVE_PHONON {
  DEFINES+= PHONON
  HEADERS += src/LecteurAudio.h
  FORMS += src/LecteurAudio.ui
- SOURCES +=  src/LecteurAudiounix.cpp
+ SOURCES +=  src/LecteurAudio.cpp
  QT += phonon
 }
 
