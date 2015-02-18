@@ -22,8 +22,11 @@
 #include <QImageWriter>
 #include <QFileDialog>
 #include <QImageReader>
+
+#ifdef HAVE_PHONON
 #include <Phonon>
 #include <phonon/ObjectDescription>
+#endif
 
 #include "preferencedialog.h"
 #include "ui_preferencedialog.h"
@@ -270,8 +273,9 @@ void PreferenceDialog::fontTest()
 
 void PreferenceDialog::phononTest()
 {
+#ifdef HAVE_PHONON
    ui->m_testResult->append(tr("<h2>Multimedia Test</h2>"));
-   ;
+
    QString result;
    result+=tr("<h3>Effect</h3>");
    QList<Phonon::EffectDescription> list1 = Phonon::BackendCapabilities::availableAudioEffects();
@@ -295,6 +299,6 @@ void PreferenceDialog::phononTest()
 
 
    ui->m_testResult->append(result);
-
+#endif
 
 }

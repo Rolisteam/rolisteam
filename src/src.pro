@@ -1,14 +1,14 @@
 TEMPLATE = app
 CONFIG += qt \
     phonon
-CONFIG += HAVE_PHONON WITH_PDF
+CONFIG += HAVE_PHONON
+CONFIG += WITH_PDF
 DEFINES += VERSION_MAJOR=2 VERSION_MIDDLE=0 VERSION_MINOR=0
 # CONFIG += HAVE_FMOD
 # CONFIG += HAVE_NULL
 
 
-INCLUDEPATH  += /usr/include/poppler/qt4
-LIBS         += -L/usr/lib -lpoppler-qt4
+
 
 QT += core \
     gui \
@@ -56,7 +56,6 @@ INCLUDEPATH += . \
     map
 HEADERS += displaydisk.h \
     Image.h \
-    audioplayer.h \
     MainWindow.h \
     colorselector.h \
     diameterselector.h \
@@ -76,10 +75,14 @@ SOURCES += displaydisk.cpp \
     submdiwindows.cpp \
     toolbar.cpp
 
-
+HAVE_PHONON {
 DEFINES += PHONON
-SOURCES += audioplayer.cpp
+HEADERS += audioplayer.h \
+
+SOURCES += audioplayer.cpp \
+
 QT += phonon
+}
 
 HAVE_NULL { 
     DEFINES += NULL_PLAYER
@@ -90,6 +93,8 @@ WITH_PDF {
     include(pdfviewer/pdfviewer.pri)
     #SOURCES +=
     DEPENDPATH += pdfviewer
+    INCLUDEPATH  += /usr/include/poppler/qt4
+    LIBS         += -L/usr/lib -lpoppler-qt4
 
 }
 RESOURCES += ../rolisteam.qrc

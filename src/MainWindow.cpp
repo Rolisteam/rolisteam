@@ -101,12 +101,13 @@ MainWindow::MainWindow()
     connect( m_sessionManager,SIGNAL(openFile(CleverURI*)),this,SLOT(reOpenURI(CleverURI*)));
     m_playerListWidget = new UserListWidget();
     m_rclient->registerMessageManager(Network::UsersCategory,m_playerListWidget);
-    m_audioPlayer = AudioPlayer::getInstance(this);
-
     addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
     addDockWidget(Qt::RightDockWidgetArea, m_playerListWidget);
+#ifdef HAVE_PHONON
+    m_audioPlayer = AudioPlayer::getInstance(this);
     addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
-    addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
+#endif
+addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
     m_workspace = new ImprovedWorkspace(this/*m_toolbar->currentColor()*/);
     connect(m_workspace,SIGNAL(openCleverUri(CleverURI*)),this,SLOT(openCleverURI(CleverURI*)));
     m_subWindowActGroup = new QActionGroup(this);
@@ -255,9 +256,11 @@ void MainWindow::createMenu()
     m_tileSubWindowsAct= m_organizeMenu->addAction(tr("&Tile Windows"));
     m_viewMenu->addSeparator();
 
-    m_playerShower = m_viewMenu->addAction(tr("Show the Audio Player"));
-    m_playerShower->setCheckable(true);
-    m_playerShower->setChecked(m_audioPlayer->isVisible());
+    #ifdef HAVE_PHONON
+        m_playerShower = m_viewMenu->addAction(tr("Show the Audio Player"));
+        m_playerShower->setCheckable(true);
+        m_playerShower->setChecked(m_audioPlayer->isVisible());
+    #endif
     m_userlistShower= m_viewMenu->addAction(tr("Show the userlist"));
     m_userlistShower->setCheckable(true);
     m_userlistShower->setChecked(m_playerListWidget->isVisible());
@@ -350,7 +353,7 @@ void MainWindow::connectActions()
     ////////
     // Menu View
     ////////
-    connect(m_playerShower,SIGNAL(triggered(bool)),m_audioPlayer,SLOT(setVisible(bool)));
+
     connect(m_sessionShower,SIGNAL(triggered(bool)),m_sessionManager,SLOT(setVisible(bool)));
     connect(m_userlistShower,SIGNAL(triggered(bool)),m_playerListWidget,SLOT(setVisible(bool)));
     connect(m_sessionManager,SIGNAL(changeVisibility(bool)),m_sessionShower,SLOT(setChecked(bool)));
@@ -359,7 +362,10 @@ void MainWindow::connectActions()
     connect(m_subWindowActGroup,SIGNAL(triggered(QAction*)),this,SLOT(hideShowWindow(QAction*)));
     connect( m_cascadeSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(cascadeSubWindows()));
     connect( m_tileSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(tileSubWindows()));
-    connect(m_audioPlayer,SIGNAL(changeVisibility(bool)),m_playerShower,SLOT(setChecked(bool)));
+    #ifdef HAVE_PHONON
+        connect(m_playerShower,SIGNAL(triggered(bool)),m_audioPlayer,SLOT(setVisible(bool)));
+        connect(m_audioPlayer,SIGNAL(changeVisibility(bool)),m_playerShower,SLOT(setChecked(bool)));
+    #endif
     connect(m_playerListWidget,SIGNAL(changeVisibility(bool)),m_userlistShower,SLOT(setChecked(bool)));
 }
 void MainWindow::allowActions()
@@ -664,7 +670,9 @@ void MainWindow::readSettings()
 
 
     settings.beginGroup("MenuAction");
+    #ifdef HAVE_PHONON
     m_playerShower->setChecked(settings.value("playeraudio",m_playerShower->isChecked()).toBool());
+    #endif
     m_userlistShower->setChecked(settings.value("userlist",m_userlistShower->isChecked()).toBool());
     m_sessionShower->setChecked(settings.value("SessionManager",m_sessionShower->isChecked()).toBool());
     settings.endGroup();
@@ -686,7 +694,9 @@ void MainWindow::writeSettings()
   settings.setValue("windowState", saveState());
 
   settings.beginGroup("MenuAction");
+#ifdef HAVE_PHONON
   settings.setValue("playeraudio",m_playerShower->isChecked());
+#endif
   settings.setValue("userlist",m_userlistShower->isChecked());
   settings.setValue("SessionManager",m_sessionShower->isChecked());
   settings.endGroup();

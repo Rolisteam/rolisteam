@@ -215,10 +215,11 @@ private :
           */
         void addopenedFile(CleverURI* uri );
 
-
+#ifdef HAVE_PHONON
         /// members declarations.
         AudioPlayer* m_audioPlayer;
-
+        QAction* m_playerShower;
+#endif
         QMenu *m_fileMenu;
         QMenu* m_newMenu;
         QAction* m_newMapAct;
@@ -256,7 +257,7 @@ private :
         QAction* m_noteEditoAct;
         QAction* m_dataSheetAct;
 
-        QAction* m_playerShower;
+
         QAction* m_userlistShower;
         QAction* m_sessionShower;
 
