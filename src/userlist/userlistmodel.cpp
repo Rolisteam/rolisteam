@@ -1,7 +1,7 @@
 #include "userlistmodel.h"
 
 #include <QDebug>
-
+#include <QStandardItem>
 
 PersonItem::PersonItem(Person* p,bool isLeaf)
     : m_data(p),m_isLeaf(isLeaf)
@@ -140,31 +140,28 @@ QVariant UserListModel::data ( const QModelIndex & index, int role  ) const
     if(!index.isValid())
         return QVariant();
 
-    if((role == Qt::DisplayRole)||(role == Qt::DecorationRole))
-    {
+   /* if((role == Qt::DisplayRole)||(role == Qt::DecorationRole)||(Qt::CheckStateRole == role))
+    {*/
         if(index.column()==0)
         {
             PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
             if(childItem)
             {
 
-                if(role == Qt::DisplayRole)
+                switch(role)
                 {
-                    return childItem->getPerson()->getName();
-                }
-                if(role == Qt::DecorationRole)
-                {
-                    //return QColor(Qt::blue);
-                    //qDebug() << childItem->getPerson()->getColor();
-                    return childItem->getPerson()->getColor();
-                }
-                if(role == Qt::CheckStateRole)
-                {
-                    return childItem->getPerson()->checkedState();
-                }
+                    case Qt::DisplayRole:
+                        return childItem->getPerson()->getName();
+
+                    case Qt::DecorationRole:
+                        return childItem->getPerson()->getColor();
+
+                    case Qt::CheckStateRole:
+                        return childItem->getPerson()->checkedState();
+
             }
         }
-    }
+        }
 
     return QVariant();
 }

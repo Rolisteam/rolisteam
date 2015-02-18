@@ -32,7 +32,7 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
             depth++;
             tmp=tmp.parent();
         }
-        if((depth*20<event->pos().x())&&((depth+1)*20>event->pos().x()))
+        if((depth*20+20<event->pos().x())&&((depth+1)*20+20>event->pos().x()))
         {
             emit editCurrentItemColor();
         }
