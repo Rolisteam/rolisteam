@@ -856,38 +856,38 @@
         <translation>Supprimer le fichier selectionné</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="416"/>
-        <location filename="../src/LecteurAudio.cpp" line="685"/>
+        <location filename="../src/LecteurAudio.cpp" line="418"/>
+        <location filename="../src/LecteurAudio.cpp" line="687"/>
         <source>No songs</source>
         <translation>Aucune musique</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="453"/>
+        <location filename="../src/LecteurAudio.cpp" line="455"/>
         <source>Add song</source>
         <translation>Ajouter musique</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="453"/>
+        <location filename="../src/LecteurAudio.cpp" line="455"/>
         <source>Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)</source>
         <translation>Fichier audio (*.wav *.mp2 *.mp3 *.ogg *.flac)</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="605"/>
+        <location filename="../src/LecteurAudio.cpp" line="607"/>
         <source>Unknown command send to users</source>
         <translation>Commande inconnue </translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="702"/>
+        <location filename="../src/LecteurAudio.cpp" line="704"/>
         <source>%1 : file can not be found or opened</source>
         <translation>%1 : fichier introuvable ou illisible</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="703"/>
+        <location filename="../src/LecteurAudio.cpp" line="705"/>
         <source>File can not be found or opened : %1</source>
         <translation>Fichier introuvable ou illisible : %1</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="751"/>
+        <location filename="../src/LecteurAudio.cpp" line="753"/>
         <source>Select the songs directory</source>
         <translation>Choississez le dossier des musiques</translation>
     </message>
@@ -900,7 +900,7 @@
         <translation type="obsolete">Supprimer le titre sélectionné</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="692"/>
+        <location filename="../src/LecteurAudio.cpp" line="694"/>
         <source>%1/%2</source>
         <translation></translation>
     </message>
@@ -1189,7 +1189,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="448"/>
         <source>About %1</source>
-        <translation>About %1</translation>
+        <translation>À propos %1</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="517"/>
@@ -1355,7 +1355,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/mainwindow.cpp" line="1741"/>
         <source>About Rolisteam</source>
-        <translation>À propose de Rolisteam</translation>
+        <translation>À propos de Rolisteam</translation>
     </message>
     <message>
         <source>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others and to share maps and pictures. Rolisteam also provides many features for : permission management, background music and dice roll. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.&lt;/p&gt;</source>
@@ -1819,7 +1819,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../preferencesdialogbox.ui" line="50"/>
         <source>Diagnotic</source>
-        <translation>Diagnostic</translation>
+        <translation>Diagnostique</translation>
     </message>
     <message>
         <location filename="../preferencesdialogbox.ui" line="65"/>

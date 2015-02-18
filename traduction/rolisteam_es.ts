@@ -809,43 +809,43 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="416"/>
-        <location filename="../src/LecteurAudio.cpp" line="685"/>
+        <location filename="../src/LecteurAudio.cpp" line="418"/>
+        <location filename="../src/LecteurAudio.cpp" line="687"/>
         <source>No songs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="453"/>
+        <location filename="../src/LecteurAudio.cpp" line="455"/>
         <source>Add song</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="453"/>
+        <location filename="../src/LecteurAudio.cpp" line="455"/>
         <source>Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="605"/>
+        <location filename="../src/LecteurAudio.cpp" line="607"/>
         <source>Unknown command send to users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="692"/>
+        <location filename="../src/LecteurAudio.cpp" line="694"/>
         <source>%1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="702"/>
+        <location filename="../src/LecteurAudio.cpp" line="704"/>
         <source>%1 : file can not be found or opened</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="703"/>
+        <location filename="../src/LecteurAudio.cpp" line="705"/>
         <source>File can not be found or opened : %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="751"/>
+        <location filename="../src/LecteurAudio.cpp" line="753"/>
         <source>Select the songs directory</source>
         <translation type="unfinished"></translation>
     </message>
