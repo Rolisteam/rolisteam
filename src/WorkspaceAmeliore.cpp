@@ -25,13 +25,15 @@
 #include "WorkspaceAmeliore.h"
 #include "constantesGlobales.h"
 
-
+//#include <QTextStream>
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/	
 WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
 : QWorkspace(parent)
 {
+  /*  QTextStream out(stderr,QIODevice::WriteOnly);
+    out << " Si l'utilisateur a ajoute une image de fond, on la charge " <<QString(NOM_APPLICATION);*/
         // Nom du fichier image utilisateur, qui peut etre utilise pour le fond
 	#ifdef WIN32
 		QString fichierImage = QString(NOM_APPLICATION) + ".bmp";
@@ -42,19 +44,19 @@ WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
 	#endif
 
 	// Si l'utilisateur a ajoute une image de fond, on la charge
+
 	if (QFile::exists(fichierImage))
 			imageFond = new QImage(fichierImage);
-
 	// Sinon on utilise le fond par defaut
 	else
 	{
-		#ifdef WIN32
+                #ifdef WIN32
                         imageFond = new QImage(":/resources/icones/fond workspace win32.bmp");
 		#elif defined (MACOS)
                         imageFond = new QImage(":/resources/icones/fond workspace macos.bmp");
                 #else
                         imageFond = new QImage(":/resources/icones/fond workspace macos.bmp");
-		#endif
+                #endif
 	}
 }
 

@@ -2597,9 +2597,7 @@ void MainWindow::sauvegarderFichierInitialisation()
         file.close();
 }
 
-/********************************************************************/
-/* Affiche la fenetre "A propos"                                    */
-/********************************************************************/
+
 void MainWindow::aPropos()
 {
 QMessageBox::about(this, tr("About Rolisteam"),
@@ -2625,8 +2623,8 @@ void MainWindow::aideEnLigne()
 
      QProcess *process = new QProcess;
      QStringList args;
-     QTextStream out(stderr,QIODevice::WriteOnly);
-out<< " je suis la" << endl;
+     /*QTextStream out(stderr,QIODevice::WriteOnly);
+out<< " je suis la" << endl;*/
 #ifdef Q_WS_X11
      args << QLatin1String("-collectionFile")
              << QLatin1String("/usr/share/doc/rolisteam-doc/rolisteam.qhc");
@@ -2638,7 +2636,7 @@ out<< " je suis la" << endl;
              << QLatin1String(qApp->applicationDirPath()+"/../resourcesdoc/rolisteam-doc/rolisteam.qhc");
 #endif
 
-out<< args.first() << args.at(1) << endl;
+//out<< args.first() << args.at(1) << endl;
             process->start(QLatin1String("assistant"), args);
              if (!process->waitForStarted())
                  return;
