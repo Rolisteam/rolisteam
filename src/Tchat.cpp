@@ -169,7 +169,7 @@ void Tchat::emettreTexte()
 			break;
 		case '*':
             {
-                QRegExp exp("\\*[0-9]+D.*");
+                QRegExp exp("\\*[0-9]+[dD].*");
                 if(exp.exactMatch(message))
                 {
                     QString glitch;

@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>resources/doc/rolisteam.qhc</file>
         <file>resources/a propos.htm</file>
         <file>resources/icones/ajouter PNJ.png</file>
@@ -38,5 +38,8 @@
         <file>resources/icones/vignette plan.png</file>
         <file>resources/icones/vignette tchat.png</file>
         <file>traduction/qt_fr.qm</file>
+        <file>resources/icones/deplacer PNJ.png</file>
+        <file>resources/icones/ligne.png</file>
+        <file>resources/icones/texte.png</file>
     </qresource>
 </RCC>
