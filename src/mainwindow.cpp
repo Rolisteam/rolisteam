@@ -241,7 +241,7 @@ void MainWindow::setupUi()
 
     // Creation de l'editeur de notes
     m_noteEditor= new TextEdit(this);
-    connect(m_noteEditor,SIGNAL(closed(bool)),m_noteEditorAct,SLOT(setChecked(bool)));
+
     m_noteEditorSub  = static_cast<QMdiSubWindow*>(workspace->addWindow(m_noteEditor));
     if(NULL!=m_noteEditorSub)
     {
@@ -249,14 +249,9 @@ void MainWindow::setupUi()
         m_noteEditorSub->setWindowIcon(QIcon(":/notes.png"));
         m_noteEditorSub->hide();
     }
+    connect(m_noteEditor,SIGNAL(closed(bool)),m_noteEditorAct,SLOT(setChecked(bool)));
+    connect(m_noteEditor,SIGNAL(closed(bool)),m_noteEditorSub,SLOT(setVisible(bool)));
 
-   /* editeurNotes = new EditeurNotes(this);
-    // Ajout de l'editeur de notes au workspace
-    workspace->addWindow(editeurNotes);
-    // Mise a jour du titre de l'editeur de notes
-    editeurNotes->setWindowTitle(tr("Minutes Editor"));
-    // Masquage de l'editeur de notes
-    editeurNotes->hide();*/
 
     // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
     AddHealthState(Qt::black, tr("healthy"), G_etatsDeSante);
@@ -278,7 +273,7 @@ void MainWindow::setupUi()
     G_pointeurEtat      = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
 
     m_playerList = PlayersList::instance();
-    if (G_client)
+    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         // We want to know if the server refuses local player to be GM
         connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
@@ -287,6 +282,7 @@ void MainWindow::setupUi()
     }
     else
     {
+        qDebug() << "user is server";
         // send datas on new connection if we are the server
         connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
         connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
@@ -381,7 +377,7 @@ void MainWindow::creerMenu()
         QMenu *menuAffichage = new QMenu (tr("View"), m_menuBar);
         actionAfficherNomsPj         = menuAffichage->addAction(tr("Display PC names"));
         actionAfficherNomsPnj        = menuAffichage->addAction(tr("Display NPC names"));
-        actionAfficherNumerosPnj         = menuAffichage->addAction(tr("Display NPC number"));
+        actionAfficherNumerosPnj = menuAffichage->addAction(tr("Display NPC number"));
 
 
         // Actions checkables
@@ -399,11 +395,13 @@ void MainWindow::creerMenu()
         menuFenetre = new QMenu (tr("Sub-Windows"), m_menuBar);
 
         // Creation du sous-menu Reorganiser
-        QMenu *sousMenuReorganise        = new QMenu (tr("Reorganize"), m_menuBar);
-        actionCascade                = sousMenuReorganise->addAction(tr("Cascade"));
-        actionTuiles                 = sousMenuReorganise->addAction(tr("Tile"));
+        QMenu* organizeSubMenu        = new QMenu (tr("Reorganize"), m_menuBar);
+        m_tabOrdering  = organizeSubMenu->addAction(tr("Tabs"));
+        m_tabOrdering->setCheckable(true);
+        m_cascadeAction  = organizeSubMenu->addAction(tr("Cascade"));
+        m_tuleAction   = organizeSubMenu->addAction(tr("Tile"));
         // Ajout du sous-menu Reorganiser au menu Fenetre
-        menuFenetre->addMenu(sousMenuReorganise);
+        menuFenetre->addMenu(organizeSubMenu);
         menuFenetre->addSeparator();
 
         // Ajout des actions d'affichage des fenetres d'evenement, utilisateurs et lecteur audio
@@ -464,8 +462,13 @@ void MainWindow::linkActionToMenu()
         connect(m_reconnectAct,SIGNAL(triggered()),this,SLOT(startReconnection()));
 
         // Windows managing
-        connect(actionCascade, SIGNAL(triggered(bool)), workspace, SLOT(cascadeSubWindows()));
-        connect(actionTuiles, SIGNAL(triggered(bool)), workspace, SLOT(tileSubWindows()));
+        connect(m_cascadeAction, SIGNAL(triggered(bool)), workspace, SLOT(cascadeSubWindows()));
+
+        connect(m_tabOrdering,SIGNAL(triggered(bool)),workspace,SLOT(setTabbedMode(bool)));
+
+        connect(m_tabOrdering,SIGNAL(triggered(bool)),m_cascadeAction,SLOT(setDisabled(bool)));
+        connect(m_tabOrdering,SIGNAL(triggered(bool)),m_tuleAction,SLOT(setDisabled(bool)));
+        connect(m_tuleAction, SIGNAL(triggered(bool)), workspace, SLOT(tileSubWindows()));
 
         // Display
         connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
@@ -558,33 +561,95 @@ void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
 {
         imageFenetre->setParent(workspace);
         // Ajout de la CarteFenetre a la liste (permet par la suite de parcourir l'ensemble des cartes)
-        listeImage.append(imageFenetre);
+        addImageToMdiArea(imageFenetre,titre);
+}
+void MainWindow::ouvrirImage()
+{
+        // Ouverture du selecteur de fichier
+    QString fichier = QFileDialog::getOpenFileName(this, tr("Open Picture"), m_preferences->value("ImageDirectory",QDir::homePath()).toString(),
+                                          tr("Picture (*.jpg *.jpeg *.png *.bmp)"));
 
-        // Ajout de la carte au workspace
-        workspace->addWindow(imageFenetre);
+        // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
+        if (fichier.isNull())
+                return;
 
-        // Mise a jour du titre de la CarteFenetre
-        imageFenetre->setWindowTitle(titre);
+        // Creation de la boite d'alerte
+        QMessageBox msgBox(this);
+        msgBox.addButton(QMessageBox::Cancel);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setWindowTitle(tr("Loading error"));
+        msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
+        // On supprime l'icone de la barre de titre
+        Qt::WindowFlags flags = msgBox.windowFlags();
+        msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
-        // Creation de l'action correspondante
-        QAction *action = menuFenetre->addAction(titre);
-        action->setCheckable(true);
-        action->setChecked(true);
+        // On met a jour le chemin vers les images
+        int dernierSlash = fichier.lastIndexOf("/");
+        m_preferences->registerValue("ImageDirectory",fichier.left(dernierSlash));
 
-        // Association de l'action avec la carte
-        imageFenetre->associerAction(action);
+        // Chargement de l'image
+        QImage *img = new QImage(fichier);
+        // Verification du chargement de l'image
+        if (img->isNull())
+        {
+                msgBox.setText(tr("Unsupported file format"));
+                msgBox.exec();
+                delete img;
+                return;
+        }
 
-        connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),imageFenetre,SLOT(setCurrentTool(BarreOutils::Tool)));
-        imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
+        // Suppression de l'extension du fichier pour obtenir le titre de l'image
+        int dernierPoint = fichier.lastIndexOf(".");
+        QString titre = fichier.left(dernierPoint);
+        titre = titre.right(titre.length()-dernierSlash-1);
+        titre+= tr(" (Picture)");
 
-        // Connexion de l'action avec l'affichage/masquage de l'image
-        connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
 
-        // Mise a jour du pointeur de souris de l'image
-        imageFenetre->setWindowIcon(QIcon(":/picture.png"));
 
-        // Affichage de l'image
-        imageFenetre->show();
+        // Creation de l'identifiant
+        QString idImage = QUuid::createUuid().toString();
+
+        // Creation de la fenetre image
+        Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, img, NULL,workspace);
+
+        addImageToMdiArea(imageFenetre,titre);
+
+        // Envoie de l'image aux autres utilisateurs
+        NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
+        imageFenetre->fill(message);
+        message.sendAll();
+}
+
+void MainWindow::addImageToMdiArea(Image *imageFenetre, QString titre)
+{
+    // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
+    listeImage.append(imageFenetre);
+
+    // Creation de l'action correspondante
+    QAction *action = menuFenetre->addAction(titre);
+    action->setCheckable(true);
+    action->setChecked(true);
+    imageFenetre->setInternalAction(action);
+
+    // Ajout de l'image au workspace
+    QMdiSubWindow* sub = static_cast<QMdiSubWindow*>(workspace->addWindow(imageFenetre));
+
+    // Mise a jour du titre de l'image
+    sub->setWindowTitle(titre);
+    sub->setWindowIcon(QIcon(":/resources/icones/image.png"));
+
+
+    connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),imageFenetre,SLOT(setCurrentTool(BarreOutils::Tool)));
+
+
+    imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
+    // Connexion de l'action avec l'affichage/masquage de la fenetre
+    connect(action, SIGNAL(triggered(bool)), sub, SLOT(setVisible(bool)));
+    connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
+
+
+    // Affichage de l'image
+    sub->show();
 }
 
 void MainWindow::openMapWizzard()
@@ -867,85 +932,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
 }
 
 
-void MainWindow::ouvrirImage()
-{
-        // Ouverture du selecteur de fichier
-    QString fichier = QFileDialog::getOpenFileName(this, tr("Open Picture"), m_preferences->value("ImageDirectory",QDir::homePath()).toString(),
-                                          tr("Picture (*.jpg *.jpeg *.png *.bmp)"));
 
-        // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
-        if (fichier.isNull())
-                return;
-
-        // Creation de la boite d'alerte
-        QMessageBox msgBox(this);
-        msgBox.addButton(QMessageBox::Cancel);
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setWindowTitle(tr("Loading error"));
-        msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
-        // On supprime l'icone de la barre de titre
-        Qt::WindowFlags flags = msgBox.windowFlags();
-        msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
-
-        // On met a jour le chemin vers les images
-        int dernierSlash = fichier.lastIndexOf("/");
-        m_preferences->registerValue("ImageDirectory",fichier.left(dernierSlash));
-
-        // Chargement de l'image
-        QImage *img = new QImage(fichier);
-        // Verification du chargement de l'image
-        if (img->isNull())
-        {
-                msgBox.setText(tr("Unsupported file format"));
-                msgBox.exec();
-                delete img;
-                return;
-        }
-
-        // Suppression de l'extension du fichier pour obtenir le titre de l'image
-        int dernierPoint = fichier.lastIndexOf(".");
-        QString titre = fichier.left(dernierPoint);
-        titre = titre.right(titre.length()-dernierSlash-1);
-        titre+= tr(" (Picture)");
-
-        // Creation de l'action correspondante
-        QAction *action = menuFenetre->addAction(titre);
-        action->setCheckable(true);
-        action->setChecked(true);
-
-        // Creation de l'identifiant
-        QString idImage = QUuid::createUuid().toString();
-
-        // Creation de la fenetre image
-        Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, img, action,workspace);
-
-        // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
-        listeImage.append(imageFenetre);
-
-        // Ajout de l'image au workspace
-        workspace->addWindow(imageFenetre);
-
-        // Mise a jour du titre de l'image
-        imageFenetre->setWindowTitle(titre);
-
-
-        connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),imageFenetre,SLOT(setCurrentTool(BarreOutils::Tool)));
-
-
-        imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
-        // Connexion de l'action avec l'affichage/masquage de la fenetre
-        connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
-
-
-
-        // Affichage de l'image
-        imageFenetre->show();
-
-        // Envoie de l'image aux autres utilisateurs
-        NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
-        imageFenetre->fill(message);
-        message.sendAll();
-}
 
 
 void MainWindow::closeMapOrImage()
@@ -1102,10 +1089,10 @@ void MainWindow::afficherNumerosPnj(bool afficher)
 
 void MainWindow::mettreAJourEspaceTravail()
 {
-        // On recupere la fenetre active
+
         QMdiSubWindow* active = workspace->currentSubWindow();
 
-        // S'il y a une fenetre active, on la passe a la fonction changementFenetreActive
+
         if (active)
         {
                 changementFenetreActive(active);
@@ -1243,7 +1230,7 @@ void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond,
 
 void MainWindow::emettreTousLesPlans(Liaison * link)
 {
-
+        qDebug() << "emettreTousLesPlans " << link;
         int tailleListe = listeCarteFenetre.size();
         for (int i=0; i<tailleListe; ++i)
         {
@@ -1532,6 +1519,7 @@ void MainWindow::displayMinutesEditor(bool visible, bool isCheck)
     if(NULL!=m_noteEditorSub)
     {
         m_noteEditorSub->setVisible(visible);
+        m_noteEditor->setVisible(visible);
     }
     if (isCheck)
     {
@@ -1704,7 +1692,7 @@ void MainWindow::lireImage(QDataStream &file)
         bool ok;
         // Creation de l'image
         QImage img;
-        ok = img.loadFromData(baImage, "jpeg");
+        ok = img.loadFromData(baImage, "png");
         if (!ok)
                 qWarning("Probleme de decompression de l'image (lireImage - Mainwindow.cpp)");
 
@@ -1742,10 +1730,10 @@ void MainWindow::lireImage(QDataStream &file)
 
         // Envoie de l'image aux autres utilisateurs
 
-        // On commence par compresser l'image (format jpeg) dans un tableau
+        // On commence par compresser l'image (format png) dans un tableau
         QByteArray byteArray;
         QBuffer buffer(&byteArray);
-        ok = img.save(&buffer, "jpeg", 60);
+        ok = img.save(&buffer, "png", 60);
         if (!ok)
                 qWarning("Probleme de compression de l'image (lireImage - MainWindow.cpp)");
 

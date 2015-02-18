@@ -380,7 +380,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
             // Dans le cas contraire le plan ne sera mis a jour qu'a la reception du message de trace
             // ayant fait l'aller-retour avec le serveur (necessaire pour conserver la coherence
             // entre les differents utilisateurs : le serveur fait foi)
-            if (!G_client)
+            if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
             {
                 // Creation du painter pour pouvoir dessiner
                 QPainter painter;
@@ -412,7 +412,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
             }
 
             // Idem : seul le serveur peut dessiner directement sur le plan
-            if (!G_client)
+            if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
             {
                 if (G_couleurCourante.type == efface)
                 {

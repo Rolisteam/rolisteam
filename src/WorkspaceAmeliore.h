@@ -43,6 +43,7 @@
  */
 class WorkspaceAmeliore : public QMdiArea
 {
+    Q_OBJECT
 public :
     WorkspaceAmeliore(QWidget *parent = 0);
     ~WorkspaceAmeliore();
@@ -50,6 +51,10 @@ public :
     QWidget* addWindow(QWidget*);
     QWidget* activeWindow();
 
+    void insertActionAndSubWindow(QAction*, QMdiSubWindow*);
+
+public slots:
+    void setTabbedMode(bool );
 private :
 	QImage *imageFond;		// Image de fond du workspace
 
@@ -64,6 +69,7 @@ private:
     QPixmap* m_variableSizeBackground;
 
     PreferencesManager* m_preferences;
+    QMap<QAction*,QMdiSubWindow*>* m_map;
 };
 
 #endif

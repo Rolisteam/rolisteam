@@ -233,7 +233,7 @@ ChatWindow::~ChatWindow()
 {
     delete m_toggleViewAction;
 
-    if (G_client || !m_chat->inherits("PrivateChat"))
+    if (PreferencesManager::getInstance()->value("isClient",true).toBool() || !m_chat->inherits("PrivateChat"))
         delete m_chat;
 }
 
@@ -989,9 +989,21 @@ void ChatWindow::showEvent(QShowEvent *event)
     {
         m_selectPersonComboBox->setCurrentIndex(0);
     }
+    if(!m_toggleViewAction->isChecked())
+    {
+        m_toggleViewAction->setChecked(true);
+    }
    // QWidget::showEvent(event);
 }
-
+void ChatWindow::hideEvent(QHideEvent *event)
+{
+    Q_UNUSED(event);
+    if(m_toggleViewAction->isChecked())
+    {
+        m_toggleViewAction->setChecked(false);
+    }
+   // QWidget::showEvent(event);
+}
 //bool ChatWindow::eventFilter(QObject *obj, QEvent *event)
 //{
 //    if (obj == zoneEdition)

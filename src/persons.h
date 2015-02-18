@@ -39,29 +39,29 @@ class Player;
 class Person 
 {
 
-    public:
-        virtual ~Person();
-        Person(const QString & name, const QColor & color);
-        Person(const QString & uuid, const QString & name, const QColor & color);
+public:
+    virtual ~Person();
+    Person(const QString & name, const QColor & color);
+    Person(const QString & uuid, const QString & name, const QColor & color);
 
-        const QString uuid() const;
-        QString name() const;
-        QColor  color() const;
-        virtual Player * parent() const;
+    const QString uuid() const;
+    QString name() const;
+    QColor  color() const;
+    virtual Player * parent() const;
 
-        virtual void fill(NetworkMessageWriter & message) = 0;
+    virtual void fill(NetworkMessageWriter & message) = 0;
 
-    protected:
-        Person();
+protected:
+    Person();
 
-        QString m_uuid;
-        QString m_name;
-        QColor  m_color;
+    QString m_uuid;
+    QString m_name;
+    QColor  m_color;
 
-    private:
-        friend class PlayersList;
-        bool setColor(const QColor & color);
-        bool setName(const QString & name);
+private:
+    friend class PlayersList;
+    bool setColor(const QColor & color);
+    bool setName(const QString & name);
 };
 
 
@@ -70,41 +70,43 @@ class Person
  *
  * Players are stored in PlayersList. A player may have some characters.
  */
-class Player : public Person {
+class Player : public Person
+{
 
-    public:
-        Player(const QString & name, const QColor & color, bool master = false, Liaison * link = NULL);
-        Player(const QString & uuid, const QString & name, const QColor & color, bool master = false, Liaison * link = NULL);
-        Player(NetworkMessageReader & data, Liaison * link = NULL);
-        virtual ~Player();
+public:
+    Player(const QString & name, const QColor & color, bool master = false, Liaison * link = NULL);
+    Player(const QString & uuid, const QString & name, const QColor & color, bool master = false, Liaison * link = NULL);
+    Player(NetworkMessageReader & data, Liaison * link = NULL);
+    virtual ~Player();
 
-        void fill(NetworkMessageWriter & message);
+    void fill(NetworkMessageWriter & message);
 
-        Liaison * link() const;
+    Liaison * link() const;
 
-        int         getCharactersCount() const;
-        Character * getCharacterByIndex(int index) const;
-        int         getIndexOfCharacter(Character * character) const;
-        int         getIndexOf(QString id) const;
+    int         getCharactersCount() const;
+    Character * getCharacterByIndex(int index) const;
+    int         getIndexOfCharacter(Character * character) const;
+    int         getIndexOf(QString id) const;
 
-        bool isGM() const;
+    bool isGM() const;
 
-        bool hasFeature(const QString & name, quint8 version = 0) const;
-        void setFeature(const QString & name, quint8 version = 0);
 
-    private:
-        friend class PlayersList;
-        friend class SendFeaturesIterator;
+    bool hasFeature(const QString & name, quint8 version = 0) const;
+    void setFeature(const QString & name, quint8 version = 0);
 
-        void addCharacter(Character * character);
-        void delCharacter(int index);
-        bool searchCharacter(Character * character, int & index) const;
-        void setGM(bool value);
+private:
+    friend class PlayersList;
+    friend class SendFeaturesIterator;
 
-        bool m_gameMaster;
-        Liaison * m_link;
-        QList<Character *> m_characters;
-        QMap<QString, quint8> m_features;
+    void addCharacter(Character * character);
+    void delCharacter(int index);
+    bool searchCharacter(Character * character, int & index) const;
+    void setGM(bool value);
+
+    bool m_gameMaster;
+    Liaison * m_link;
+    QList<Character *> m_characters;
+    QMap<QString, quint8> m_features;
 };
 
 
@@ -115,20 +117,20 @@ class Player : public Person {
  * They are stored inside the Player who own them.
  */
 class Character : public Person {
-    public:
-        Character(const QString & name, const QColor & color);
-        Character(const QString & uuid, const QString & name, const QColor & color);
-        Character(NetworkMessageReader & data);
+public:
+    Character(const QString & name, const QColor & color);
+    Character(const QString & uuid, const QString & name, const QColor & color);
+    Character(NetworkMessageReader & data);
 
-        void fill(NetworkMessageWriter & message);
+    void fill(NetworkMessageWriter & message);
 
-        Player * parent() const;
+    Player * parent() const;
 
-    private:
-        friend class Player;
-        void setParent(Player * player);
+private:
+    friend class Player;
+    void setParent(Player * player);
 
-        Player * m_parent;
+    Player * m_parent;
 };
 
 #endif

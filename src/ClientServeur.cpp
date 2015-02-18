@@ -40,8 +40,7 @@
 
 // True si l'utilisateur est un joueur, false s'il est MJ
 bool G_joueur;
-// True si l'ordinateur local est client, false s'il est serveur
-bool G_client;
+
 
 #define second 1000
 /********************
@@ -94,7 +93,7 @@ void ClientServeur::synchronizePreferences()
     m_preferences->registerValue("isPlayer",!m_configDialog->isGM());
     m_preferences->registerValue("ipaddress",m_configDialog->getHost());
     G_joueur= !m_configDialog->isGM();
-    G_client= !m_configDialog->isServer();
+    //G_client= !m_configDialog->isServer();
     m_preferences->registerValue("ServerPort",m_configDialog->getPort());
     m_preferences->registerValue("isClient",!m_configDialog->isServer());
     m_preferences->registerValue("clientPort",m_configDialog->getPort());
@@ -121,6 +120,8 @@ bool ClientServeur::configAndConnect()
     bool isConnected = false;
     while((!isConnected) && (m_configDialog->exec() != QDialog::Rejected))
     {
+
+        m_isClient = !m_configDialog->isServer();
         m_playersList->completeListClean();
         if(m_localPlayer!=NULL)
         {

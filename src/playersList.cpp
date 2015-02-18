@@ -35,7 +35,7 @@
 #include "types.h"
 
 // we don't want to include variablesGlobales.h just for some bool
-extern bool G_client;
+
 extern bool G_joueur;
 
 

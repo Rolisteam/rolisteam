@@ -224,6 +224,8 @@ public slots :
 protected :
     void closeEvent(QCloseEvent *event);
 
+    void addImageToMdiArea(Image *imageFenetre, QString titre);
+
 private slots :
     void changementNatureUtilisateur();
     void afficherNomsPj(bool afficher);
@@ -269,6 +271,8 @@ private slots :
      * @param ip
      */
     void showIp(QString ip);
+
+
 
 private :
     MainWindow();
@@ -348,8 +352,9 @@ private :
     QAction *actionCarre;
     QAction *actionHexagones;
 
-    QAction *actionCascade;
-    QAction *actionTuiles;
+    QAction *m_cascadeAction;
+    QAction *m_tuleAction;
+    QAction* m_tabOrdering;
     QAction *m_noteEditorAct;
 
     QAction *actionAideLogiciel;

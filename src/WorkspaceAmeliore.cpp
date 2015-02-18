@@ -35,6 +35,7 @@ WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
 : QMdiArea(parent)
 {
     m_preferences =  PreferencesManager::getInstance();
+    m_map = new QMap<QAction*,QMdiSubWindow*>();
     QString fichierImage = QDir::homePath() + "/." + m_preferences->value("Application_Name","rolisteam").toString() + "/" + m_preferences->value("Application_Name","rolisteam").toString() + ".bmp";
 
     if (!QFile::exists(fichierImage))
@@ -97,4 +98,37 @@ QWidget*  WorkspaceAmeliore::addWindow(QWidget* child)
 QWidget* WorkspaceAmeliore::activeWindow()
 {
     return currentSubWindow();
+}
+void WorkspaceAmeliore::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
+{
+    m_map->insert(act,sub);
+}
+void WorkspaceAmeliore::setTabbedMode(bool isTabbed)
+{
+    if(isTabbed)
+    {
+        setViewMode(QMdiArea::TabbedView);
+
+        setTabsClosable ( true );
+        setTabsMovable ( true );
+        setTabPosition(QTabWidget::North);
+
+        /// make all subwindows visible.
+
+        foreach(QMdiSubWindow* tmp, subWindowList())
+        {
+            tmp->setVisible(true);
+            if(NULL!=tmp->widget())
+            {
+                tmp->widget()->setVisible(true);
+            }
+        }
+
+
+
+    }
+    else
+    {
+        setViewMode(QMdiArea::SubWindowView);
+    }
 }

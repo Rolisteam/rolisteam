@@ -86,6 +86,7 @@ protected :
 
     //void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent *event);
+    void hideEvent(QHideEvent *event);
 
     /**
      * @brief read and remove a number from a string.

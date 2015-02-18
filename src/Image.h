@@ -58,7 +58,7 @@ Q_OBJECT
 public :
     Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QImage *image, QAction *action = 0, WorkspaceAmeliore *parent = 0);
     ~Image();
-    void associerAction(QAction *action);
+    void setInternalAction(QAction *action);
     QAction* getAssociatedAction() const;
 
     void fill(NetworkMessageWriter & message) const;
@@ -87,7 +87,9 @@ protected:
      */
     void resizeEvent(QResizeEvent *event);
 
-    void closeEvent(QCloseEvent *event);
+   // void closeEvent(QCloseEvent *event);
+    void hideEvent(QHideEvent* event);
+    void showEvent(QShowEvent* event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
@@ -146,7 +148,7 @@ private :
     MainWindow* m_mainWindow;
     QString idImage;
     QString idJoueur;
-    QAction *actionAssociee;
+    QAction *m_internalAction;
     QLabel *labelImage;
     QPoint pointDepart;
     int horizontalDepart;

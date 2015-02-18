@@ -30,7 +30,7 @@
 #include "chatwindow.h"
 #include "mainwindow.h"
 
-extern bool G_client;
+
 
 ChatList::ChatList(MainWindow * mainWindow)
     : QAbstractItemModel(NULL), m_chatWindowList(), m_chatMenu(),m_mainWindow(mainWindow)
@@ -206,7 +206,7 @@ bool ChatList::addLocalChat(PrivateChat * chat)
     if (!chat->belongsToLocalPlayer())
         return false;
 
-    if (!G_client)
+    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
         m_privateChatMap.insert(chat->identifier(), chat);
     addChatWindow(new ChatWindow(chat,m_mainWindow));
     return true;
@@ -221,7 +221,7 @@ bool ChatList::delLocalChat(const QModelIndex & index)
     
     chat->sendDel();
     delChatWindow(chatw);
-    if (!G_client)
+    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         m_privateChatMap.remove(chat->identifier());
         delete chat;
@@ -335,7 +335,7 @@ void ChatList::delPlayer(Player * player)
     if (shouldReset)
         reset();
 
-    if (!G_client)
+    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         QMutableMapIterator<QString, PrivateChat *> i(m_privateChatMap);
         while (i.hasNext())
@@ -420,7 +420,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
         Player * addressee = g_playersList->getPlayer(to);
         if (addressee != NULL)
         {
-            if (!G_client)
+            if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
                 data.sendTo(addressee->link());
             return;
         }
@@ -430,7 +430,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     if (chatw != NULL)
         chatw->afficherMessage(sender->name(), sender->color(), msg, data.action());
 
-    if (!G_client)
+    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         if (m_privateChatMap.contains(to))
             m_privateChatMap.value(to)->sendThem(data, event->link());
@@ -449,7 +449,7 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
         return;
     }
 
-    if (!G_client)
+    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         if (m_privateChatMap.contains(newChat->identifier()))
         {
@@ -470,7 +470,7 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
     {
         if (newChat->includeLocalPlayer())
         {
-            if (G_client)
+            if (PreferencesManager::getInstance()->value("isClient",true).toBool())
             {
                 PrivateChat * oldChat = qobject_cast<PrivateChat *>(chatw->chat());
                 if (oldChat == NULL)
@@ -492,7 +492,7 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
     }
 
 
-    else if (G_client)
+    else if (PreferencesManager::getInstance()->value("isClient",true).toBool())
         delete newChat;
 }
 
@@ -500,7 +500,7 @@ void ChatList::deletePrivateChat(ReceiveEvent * event)
 {
     QString uuid = event->data().string8();
 
-    if (!G_client)
+    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         if (!m_privateChatMap.contains(uuid))
         {

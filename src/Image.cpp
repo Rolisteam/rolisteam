@@ -53,7 +53,7 @@ Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QIm
     labelImage->setScaledContents(true);
     labelImage->resize(m_pixMap.size());
 
-    actionAssociee = action;
+    m_internalAction = action;
     idImage = identImage;
 	idJoueur = identJoueur;
     setAlignment(Qt::AlignCenter);
@@ -79,12 +79,10 @@ Image::~Image()
 }
 QAction* Image::getAssociatedAction() const
 {
-    return actionAssociee;
+    return m_internalAction;
 }
-/********************************************************************/
-/* Cache la fenetre au lieu de la detruire                          */
-/********************************************************************/	
-void Image::closeEvent(QCloseEvent *event)
+
+/*void Image::closeEvent(QCloseEvent *event)
 {
 
 	hide();
@@ -92,14 +90,14 @@ void Image::closeEvent(QCloseEvent *event)
 	actionAssociee->setChecked(false);
 
 	event->ignore();
-}
+}*/
 
 /********************************************************************/
 /* Associe l'action d'affichage/masquage a la carte                 */
 /********************************************************************/	
-void Image::associerAction(QAction *action)
+void Image::setInternalAction(QAction *action)
 {
-	actionAssociee = action;
+    m_internalAction = action;
 }
 
 /********************************************************************/
@@ -144,10 +142,10 @@ void Image::sauvegarderImage(QDataStream &out, QString titre)
 {
     bool ok;
 
-    // On commence par compresser l'image (format jpeg) dans un tableau
+    // compression is done in PNG allowing transparency.
     QByteArray baImage;
     QBuffer bufImage(&baImage);
-    ok = labelImage->pixmap()->save(&bufImage, "jpeg", 100);
+    ok = labelImage->pixmap()->save(&bufImage, "png", 100);
     if (!ok)
         qWarning() <<(tr("Image Compression fails (sauvegarderImage - Image.cpp)"));
 
@@ -284,6 +282,22 @@ void Image::wheelEvent(QWheelEvent *event)
 
     }
 }
+void Image::hideEvent(QHideEvent* event)
+{
+    if(NULL!=m_internalAction)
+    {
+        m_internalAction->setChecked(false);
+    }
+
+}
+void Image::showEvent(QShowEvent* event)
+{
+    if(NULL!=m_internalAction)
+    {
+        m_internalAction->setChecked(true);
+    }
+}
+
 void Image::paintEvent ( QPaintEvent * event )
 {
     QScrollArea::paintEvent(event);
@@ -448,7 +462,7 @@ void Image::fitWindow()
     }
     else
     {
-       setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+         setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
          setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
          m_actionZoomIn->setEnabled(true);
          m_actionZoomOut->setEnabled(true);

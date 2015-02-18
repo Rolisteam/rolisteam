@@ -28,8 +28,8 @@
 #include "persons.h"
 #include "playersList.h"
 #include "receiveevent.h"
+#include "preferencesmanager.h"
 
-extern bool G_client;
 
 /****************
  * AbstractChat *
@@ -116,7 +116,7 @@ bool PlayerChat::belongsTo(Player * player) const
 
 void PlayerChat::sendThem(NetworkMessage & message, Liaison * but) const
 {
-    if (G_client)
+    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
         message.sendAll(but);
     else
     {
@@ -180,7 +180,7 @@ PrivateChat::PrivateChat(ReceiveEvent & event)
         return;
     }
 
-    if ((!G_client) && (!sameLink(event.link())))
+    if ((!PreferencesManager::getInstance()->value("isClient",true).toBool()) && (!sameLink(event.link())))
     {
         qWarning("%s is usurpating chat %s", qPrintable(m_owner->name()), qPrintable(chatUuid));
         return;
@@ -230,7 +230,7 @@ void PrivateChat::sendThem(NetworkMessage & message, Liaison * but) const
 
 void PrivateChat::p_sendThem(NetworkMessage & message, Liaison * but, bool force) const
 {
-    if (G_client)
+    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         if (force || m_set.size() > 1)
             message.sendAll(but);
@@ -273,7 +273,7 @@ bool PrivateChat::includeLocalPlayer() const
 
 bool PrivateChat::removePlayer(Player * player)
 {
-    if (G_client)
+    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         qWarning("You're not allowed to delete a player from %s", qPrintable(m_uuid));
         return false;
@@ -356,7 +356,7 @@ void PrivateChat::p_set(const QString & name, QSet<Player *> set, bool thenUpdat
 {
     set.insert(m_owner);
 
-    if (thenUpdate && !G_client)
+    if (thenUpdate && !PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         m_set.subtract(set);
         if (m_set.size() > 0)

@@ -80,9 +80,13 @@ public slots:
 
 signals:
     void closed(bool);
+    void showed();
+    void hidden();
 
 protected:
     virtual void closeEvent(QCloseEvent *e);
+    virtual void showEvent(QShowEvent *e);
+    virtual void hideEvent(QHideEvent *e);
 
 private:
     void setupFileActions();

@@ -65,7 +65,7 @@ Liaison::Liaison(QTcpSocket *socket)
 
     // Si l'ordi local est un client, on ajoute tt de suite la liaison a la liste, et on connecte le signal d'emission des donnees
     // Le serveur effectue cette operation a la fin de la procedure de connexion du client
-    if (G_client)
+    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         G_clientServeur->ajouterLiaison(this);
     }
@@ -86,7 +86,7 @@ Liaison::~Liaison()
 void Liaison::makeSignalConnection()
 {
 
-    /// @bug: At the reconnection try, this code makes a segfault.
+
     connect(m_socketTcp, SIGNAL(readyRead()),
             this, SLOT(reception()));
     connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)),
@@ -134,7 +134,7 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
             qWarning("Erreur réseau lors d'une transmission : %s", qPrintable(m_socketTcp->errorString()));
         }
         else
-            qDebug("Emit - data size : %d/%d", t, taille);
+            qDebug() << "Emit - data size : " << t << taille;
     }
 }
 
@@ -179,7 +179,7 @@ void Liaison::reception()
         // Si toutes les donnees ont pu etre lu
         else
         {
-            qDebug("Reception - Taille donnees : %d", entete.dataSize);
+            qDebug() << "Reception - Taille donnees :" << entete.dataSize;
             // Envoie la notification sur la mainWindows
             QApplication::alert(m_mainWindow);
 
@@ -1263,7 +1263,7 @@ void Liaison::receptionMessageImage()
 
         // Creation de l'image
         QImage *img = new QImage;
-        bool ok = img->loadFromData(byteArray, "jpeg");
+        bool ok = img->loadFromData(byteArray, "png");
         if (!ok)
             qWarning("Cannot read received image (receptionMessageImage - Liaison.cpp)");
 
@@ -1445,7 +1445,7 @@ void Liaison::receptionMessageParametres()
 void Liaison::faireSuivreMessage(bool tous)
 {
     // Uniquement si l'ordinateur local est le serveur
-    if (!G_client)
+    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         char *donnees = new char[entete.dataSize + sizeof(NetworkMessageHeader)];
         // Recopie de l'entete

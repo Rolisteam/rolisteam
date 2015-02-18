@@ -80,6 +80,10 @@ public :
 
 public slots:
     void disconnectAndClose();
+    /**
+     * @brief startConnection try to connect to the server or to start it.
+     * @return true everything goes fine, otherwise false.
+     */
     bool startConnection();
 
 signals :
@@ -116,6 +120,8 @@ private :
     PlayersList* m_playersList;
 
     bool m_connectionState;
+
+    bool m_isClient;
 
 
 private slots :

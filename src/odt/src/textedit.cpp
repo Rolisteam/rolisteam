@@ -102,12 +102,12 @@ TextEdit::TextEdit(QWidget *parent)
     setupEditActions();
     setupTextActions();
 
-    {
-        QMenu *helpMenu = new QMenu(tr("Help"), this);
-        menuBar()->addMenu(helpMenu);
-        helpMenu->addAction(tr("About"), this, SLOT(about()));
-        helpMenu->addAction(tr("About &Qt"), qApp, SLOT(aboutQt()));
-    }
+//    {
+//        QMenu *helpMenu = new QMenu(tr("Help"), this);
+//        menuBar()->addMenu(helpMenu);
+//        helpMenu->addAction(tr("About"), this, SLOT(about()));
+//        helpMenu->addAction(tr("About &Qt"), qApp, SLOT(aboutQt()));
+//    }
 
     textEdit = new QTextEdit(this);
     connect(textEdit, SIGNAL(currentCharFormatChanged(const QTextCharFormat &)),
@@ -182,6 +182,16 @@ void TextEdit::closeEvent(QCloseEvent *e)
     else
         e->ignore();
 }
+void TextEdit::showEvent(QShowEvent *e)
+{
+    emit showed();
+    emit closed(true);
+}
+void TextEdit::hideEvent(QHideEvent *e)
+{
+    emit hidden();
+    emit closed(false);
+}
 
 void TextEdit::setupFileActions()
 {
@@ -240,7 +250,7 @@ void TextEdit::setupFileActions()
 
     a = new QAction(tr("&Quit"), this);
     a->setShortcut(Qt::CTRL + Qt::Key_Q);
-    connect(a, SIGNAL(triggered()), this, SLOT(close()));
+    connect(a, SIGNAL(triggered()), this, SLOT(hide()));
     menu->addAction(a);
 }
 

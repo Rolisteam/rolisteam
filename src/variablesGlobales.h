@@ -55,7 +55,7 @@ extern QString         G_idJoueurLocal;
 
 // Declarees dans ClientServeur.cpp
 extern bool G_joueur;
-extern bool G_client;
+
 
 // Declarees dans DessinPerso.cpp, initialiser dans MainWindow.cpp
 extern QList<DessinPerso::etatDeSante> G_etatsDeSante;
