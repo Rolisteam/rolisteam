@@ -32,7 +32,10 @@ PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,QGraphicsItem * p
 }
 QRectF PathItem::boundingRect() const
 {
-    return m_path.boundingRect();
+    //Adjust the bounding according the pen size.
+    QRectF rect = m_path.boundingRect();
+    rect.adjust(-m_pen.width()/2,-m_pen.width()/2,m_pen.width()/2,m_pen.width()/2);
+    return rect;
 }
 QPainterPath PathItem::shape () const
 {
@@ -43,12 +46,8 @@ QPainterPath PathItem::shape () const
 void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->save();
-
     painter->setPen(m_pen);
     painter->drawPath(m_path);
-
-
-
     painter->restore();
 
 }

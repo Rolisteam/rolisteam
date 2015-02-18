@@ -85,6 +85,8 @@ const QColor& Map::mapColor() const
              update();
         // }
     }
+    if(m_selectedtool==ToolsBar::HANDLER)
+          QGraphicsScene::mouseMoveEvent(mouseEvent);
  }
 void Map::addItem()
 {
@@ -162,12 +164,17 @@ void Map::setNPCSize(int p)
          m_end = m_first;
          addItem();
      }
+
+     if(m_selectedtool==ToolsBar::HANDLER)
+        QGraphicsScene::mousePressEvent(mouseEvent);
  }
 
  void Map::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
  {
      Q_UNUSED(mouseEvent);
      currentItem = NULL;
+     if(m_selectedtool==ToolsBar::HANDLER)
+        QGraphicsScene::mouseReleaseEvent(mouseEvent);
  }
  void Map::setCurrentChosenColor(QColor& p)
  {
