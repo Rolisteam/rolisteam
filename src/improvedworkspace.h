@@ -69,6 +69,8 @@ public:
     virtual void readSettings();
     virtual void writeSettings();
 
+    SubMdiWindows* activeSubMdiWindow();
+
 public slots:
     /**
       * @brief is called when the current tool changed, raise the signal currentToolHasChanged, and it performs the first treatment

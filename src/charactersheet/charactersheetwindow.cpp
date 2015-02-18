@@ -73,10 +73,10 @@ bool CharacterSheetWindow::defineMenu(QMenu* menu)
     return true;
 }
 
-SubMdiWindows::SubWindowType CharacterSheetWindow::getType()
+/*SubMdiWindows::SubWindowType CharacterSheetWindow::getType()
 {
     return CHARACTERSHEET;
-}
+}*/
 void CharacterSheetWindow::addLine()
 {
         m_model.addLine(m_view.currentIndex());
@@ -127,7 +127,7 @@ void  CharacterSheetWindow::saveCharacterSheet()
     saveFile(m_fileUri);
 
 }
-void CharacterSheetWindow::saveFile(QString & file)
+void CharacterSheetWindow::saveFile(const QString & file)
 {
     if(!m_fileUri.isEmpty())
     {
@@ -141,7 +141,7 @@ void CharacterSheetWindow::saveFile(QString & file)
     }
 }
 
-void CharacterSheetWindow::openFile(QString& m_fileUri)
+void CharacterSheetWindow::openFile(const QString& m_fileUri)
 {
     if(!m_fileUri.isEmpty())
     {

@@ -28,6 +28,7 @@ class CharacterItem : public VisualItem
 {
 
 public:
+    CharacterItem();
     /**
       * @brief constructor
       */
@@ -41,8 +42,26 @@ public:
       */
     virtual void readData(QDataStream& in);
 
+    virtual VisualItem::ItemType getType();
+
+    /**
+      * @brief gives the bounding rect of the ellipse
+      */
+    virtual QRectF boundingRect() const ;
+
+
+    /**
+      * @brief modifies the ellipse size and shape.
+      */
+    virtual void setNewEnd(QPointF& nend);
+    /**
+      * @brief paint the ellipse at the correct position
+      */
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 private:
-    //Character* m_character;
+    Character* m_character;
+    QPointF m_center;
+    quint32 size;
 
 };
 

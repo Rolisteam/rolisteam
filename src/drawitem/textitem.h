@@ -34,6 +34,7 @@ class TextItem : public QObject ,public VisualItem
 {
     Q_OBJECT
 public:
+    TextItem();
     /**
       * @brief Constructor with parameters
       * @param start, starting point, it represents the bottom right rectangle corner where the text willbe displayed
@@ -54,6 +55,9 @@ public:
 
     virtual void writeData(QDataStream& out) const;
     virtual void readData(QDataStream& in);
+
+
+    virtual VisualItem::ItemType getType();
 public slots:
     /**
       * @brief called when edition is done, remove the editor and call update to draw the text as usual.

@@ -70,7 +70,7 @@ public:
       * @brief set the type
       * @param the new type
       */
-    void setType(int type);
+    void setType(CleverURI::ContentType type);
     /**
       * @brief accessor to the URI
       * @return the URI
@@ -80,7 +80,7 @@ public:
       * @brief accessor to the type
       * @return the type
       */
-    int getType() const;
+    CleverURI::ContentType getType() const;
     bool operator==(const CleverURI& uri1) const;
 
     /**
@@ -116,7 +116,7 @@ private:
 
 
     QString m_uri; ///< member to store the uri
-    int m_type;///< member to store the content type
+    CleverURI::ContentType m_type;///< member to store the content type
     QString m_shortname; ///< member to store the shortname
 
     static QString m_musicIcon; ///< static member to store the music icon

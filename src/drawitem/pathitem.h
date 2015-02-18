@@ -61,6 +61,9 @@ public:
       * @brief reading serialisation method
       */
     virtual void readData(QDataStream& in);
+
+
+    virtual VisualItem::ItemType getType();
 private:
     /**
       * @brief pen used for drawing the path

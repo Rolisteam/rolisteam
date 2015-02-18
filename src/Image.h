@@ -50,12 +50,13 @@ class Image : public SubMdiWindows //public QScrollArea
     Q_OBJECT
 
 public :
+    Image(ImprovedWorkspace *parent = 0);
 	/**
 	*  @brief Constructor
-	*  @param m_filename uri to the image file
+        *  @param CleverURI uri to the image file
 	*  @param parent pointer to the parent widget
 	*/
-    Image(QString& m_filename, ImprovedWorkspace *parent = 0);
+    Image(CleverURI* uri, ImprovedWorkspace *parent = 0);
 	/**
 	* @brief destructor
 	*
@@ -75,13 +76,13 @@ public :
 	* @brief should be the only way to save the image content
 	* @param QString file : uri to the local file.
 	*/
-    void saveFile(QString & file);
+    void saveFile(const QString & file);
 
 	/**
 	* @brief should be the only way to open an Image 
 	* @param QString file : uri to the local file 
 	*/
-    void openFile(QString& file);
+    void openFile(const QString& file);
 
 
     virtual bool hasDockWidget() const ;
@@ -178,7 +179,7 @@ private :
 
 
 
-    QString m_filename;
+
     QLabel * m_labelImage;
     //QImage* m_image;
 

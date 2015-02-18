@@ -28,6 +28,8 @@
 class VisualItem : public QGraphicsItem
 {
 public:
+    enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT};
+    VisualItem();
     VisualItem(QColor& penColor,QGraphicsItem * parent = 0);
 
 
@@ -40,6 +42,8 @@ public:
     friend QDataStream& operator<<(QDataStream& os,const VisualItem&);
     friend QDataStream& operator>>(QDataStream& is,VisualItem&);
 
+    virtual VisualItem::ItemType getType()=0;
+
 protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
@@ -47,6 +51,7 @@ protected:
 
 
     QColor m_color;
+    ItemType m_type;
 
 };
 

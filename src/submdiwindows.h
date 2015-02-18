@@ -23,9 +23,11 @@
 #include <QMdiSubWindow>
 
 #include "ToolBar.h"
+#include "cleveruri.h"
 
 class PreferencesManager;
 class RClient;
+
 /**
 * @brief is an abstract class which defines interfaces with all kinds of subwindows.
 */
@@ -40,11 +42,11 @@ public:
 	/**
 	* @brief enum which lists all type of subwindow
 	*/
-    enum SubWindowType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET};
+    //enum SubWindowType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET};
 
 
-    virtual void saveFile(QString & file)=0;
-    virtual void openFile(QString & file)=0;
+    virtual void saveFile(const QString & file)=0;
+    virtual void openFile(const QString & file)=0;
     virtual void setRClient(RClient* t);
 
     virtual bool hasDockWidget() const =0;
@@ -88,13 +90,15 @@ public slots:
 	/**
 	* @brief virtual function which allows controlor class to know the type of the current instance.
 	*/
-    virtual SubWindowType getType();
+    virtual CleverURI::ContentType getType();
 
 	/**
 	* @brief must be overriden in subclasses. It allows to define the custom menu
 	* @param the new size.
 	*/
     virtual bool defineMenu(QMenu* menu)=0;
+
+    virtual void setCleverURI(CleverURI* uri);
 
 protected:
 	/**
@@ -124,7 +128,7 @@ protected:
 	/**
 	* @brief subwindows type.
 	*/
-    SubWindowType m_type;
+    CleverURI* m_uri;
 
 
     RClient* m_client;

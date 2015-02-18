@@ -26,6 +26,7 @@
 class EllipsItem : public VisualItem
 {
 public:
+    EllipsItem();
     /**
       * @brief constructor with parameters
       * @param center first point clicked by the user
@@ -38,14 +39,14 @@ public:
       */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
     /**
-      * @brief gives the bounding rect of the ellipse
-      */
-    virtual QRectF boundingRect() const ;
-
-    /**
       * @brief modifies the ellipse size and shape.
       */
     virtual void setNewEnd(QPointF& nend);
+
+    /**
+      * @brief gives the bounding rect of the ellipse
+      */
+    virtual QRectF boundingRect() const ;
     /**
       * @brief serialisation writing
       */
@@ -54,6 +55,8 @@ public:
       * @brief serialisation reading
       */
     virtual void readData(QDataStream& in);
+
+    virtual VisualItem::ItemType getType();
 private:
     /**
       * @brief bounding rect

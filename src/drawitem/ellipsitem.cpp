@@ -21,6 +21,14 @@
 #include <QPainter>
 #include <QDebug>
 #include "math.h"
+
+
+EllipsItem::EllipsItem()
+    : VisualItem()
+{
+
+}
+
 EllipsItem::EllipsItem(QPointF& center,bool filled,QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
 {
@@ -98,6 +106,10 @@ void EllipsItem::writeData(QDataStream& out) const
     out << m_rect;
     out << m_center;
     out << m_filled;
+}
+VisualItem::ItemType EllipsItem::getType()
+{
+       return VisualItem::ELLISPE;
 }
 
 void EllipsItem::readData(QDataStream& in)

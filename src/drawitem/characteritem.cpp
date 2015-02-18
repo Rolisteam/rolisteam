@@ -18,6 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "characteritem.h"
+CharacterItem::CharacterItem()
+    : VisualItem()
+{
+
+}
 
 CharacterItem::CharacterItem(QColor& penColor,QGraphicsItem * parent)
             : VisualItem(penColor,parent)
@@ -34,4 +39,23 @@ void CharacterItem::writeData(QDataStream& out) const
 void CharacterItem::readData(QDataStream& in)
 {
 
+}
+VisualItem::ItemType CharacterItem::getType()
+{
+    return VisualItem::CHARACTER;
+}
+QRectF CharacterItem::boundingRect() const
+{
+    /**
+      * @todo must be changed and managed by preference system
+      */
+    return QRectF(0,0,20,20);
+}
+void CharacterItem::setNewEnd(QPointF& nend)
+{
+    m_center = nend;
+}
+void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
+{
+    /// @todo implemented it, get the image and display it
 }

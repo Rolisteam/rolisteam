@@ -20,6 +20,13 @@
 #include "lineitem.h"
 #include <QPainterPath>
 #include <QPainter>
+
+LineItem::LineItem()
+    : VisualItem()
+{
+
+}
+
 LineItem::LineItem(QPointF& p,QColor& penColor,int penSize,QGraphicsItem * parent)
     :  VisualItem(penColor,parent)
 {
@@ -62,4 +69,8 @@ void LineItem::readData(QDataStream& in)
     in >> m_endPoint;
     in >> m_pen;
     in >> m_filled;
+}
+VisualItem::ItemType LineItem::getType()
+{
+    return VisualItem::LINE;
 }

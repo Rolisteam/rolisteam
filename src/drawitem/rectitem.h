@@ -28,6 +28,7 @@
 class RectItem : public VisualItem
 {
 public:
+    RectItem();
     /**
       * @brief Constructor with parameters.
       * @param topleft corner of the rectangle.
@@ -61,6 +62,8 @@ public:
       * @brief serialization function to read data from stream.
       */
     virtual void readData(QDataStream& in);
+
+    virtual VisualItem::ItemType getType();
 private:
     /**
       * @brief geometry of the widget.

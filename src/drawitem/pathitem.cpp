@@ -66,3 +66,7 @@ void PathItem::readData(QDataStream& in)
 {
 
 }
+VisualItem::ItemType PathItem::getType()
+{
+    return VisualItem::PATH;
+}

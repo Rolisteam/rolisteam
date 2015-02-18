@@ -56,19 +56,17 @@ int Session::chapterCount()
     return m_chapterList.size();
 }
 
-CleverURI* Session::addRessource(QString& uri, CleverURI::ContentType& type, Chapter* chapter)
+CleverURI* Session::addRessource(CleverURI* uri, Chapter* chapter)
 {
-    CleverURI* tp=new CleverURI(uri,type);
-
     if(chapter==NULL)
     {
-        m_ressoucelist.append(tp);
+        m_ressoucelist.append(uri);
     }
     else
     {
-        chapter->addResource(tp);
+        chapter->addResource(uri);
     }
-    return tp;
+    return uri;
 }
 void Session::removeRessourcesNode(RessourcesNode* item)
 {

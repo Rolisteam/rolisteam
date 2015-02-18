@@ -49,10 +49,11 @@ class MinutesEditor : public SubMdiWindows
 Q_OBJECT
 
 public :
+	MinutesEditor();
 	/**
 	* @brief the default constructor
 	*/
-    MinutesEditor();
+    MinutesEditor(CleverURI* uri);
 	/**
 	* @brief allows to determine how the window must be resized.
 	*/
@@ -68,12 +69,12 @@ public :
     * @param file which must be writen.
     * @todo perhaps it should be useful to override operator << and >> for QDataStream and QTextStream?
     */
-    void saveFile(QString & file);
+    void saveFile(const QString & file);
     /**
     * @brief read data from a file and set the appropriate member.
     * @param file which must be read.
     */
-    void openFile(QString& file);
+    void openFile(const QString& file);
 
 
     virtual bool hasDockWidget() const ;

@@ -4,6 +4,7 @@
 #include "pathitem.h"
 #include "lineitem.h"
 #include "textitem.h"
+#include "characteritem.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
@@ -183,4 +184,82 @@ void Map::setNPCSize(int p)
  void Map::setCurrentChosenColor(QColor& p)
  {
     m_itemColor = p;
+
+
  }
+ void Map::saveFile(QDataStream& out)
+ {
+     if(m_itemList->isEmpty())
+         return;
+
+     out << m_width;
+
+     out<< m_height;
+
+     out<< m_title;
+
+     out<< m_bgColor;
+
+     out << m_itemList->size();
+
+     foreach(VisualItem* tmp, *m_itemList)
+     {
+        out << tmp->getType() << *tmp;
+     }
+
+
+
+
+ }
+void Map::openFile(QDataStream& in)
+{
+    if(m_itemList!=NULL)
+    {
+        in >> m_width;
+
+        in >> m_height;
+
+        in>> m_title;
+
+        in>> m_bgColor;
+
+         int numberOfItem;
+         in >> numberOfItem;
+
+
+         for(int i =0 ; i<numberOfItem;i++)
+         {
+             VisualItem* item;
+             item=NULL;
+            VisualItem::ItemType type;
+            int tmptype;
+            in >> tmptype;
+            type=(VisualItem::ItemType)tmptype;
+
+            switch(type)
+            {
+                case VisualItem::TEXT:
+                    item=new TextItem();
+
+                break;
+                case VisualItem::CHARACTER:
+                    item=new CharacterItem();
+
+                break;
+                case VisualItem::LINE:
+                    item=new LineItem();
+
+                break;
+                case VisualItem::RECT:
+                    item=new RectItem();
+                break;
+                case VisualItem::ELLISPE:
+                    item=new EllipsItem();
+
+                break;
+
+            }
+            in >> *item;
+         }
+    }
+}

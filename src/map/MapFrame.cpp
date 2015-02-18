@@ -27,7 +27,7 @@
 
 
 
-MapFrame::MapFrame(Map *map)
+MapFrame::MapFrame(CleverURI* uri,Map *map)
     : SubMdiWindows(),m_map(map)
 {
 
@@ -45,7 +45,7 @@ MapFrame::MapFrame(Map *map)
 
     m_vlayout= new QVBoxLayout();
     m_hlayout = new QHBoxLayout();
-    m_type = SubMdiWindows::MAP;
+    m_uri =uri ;
 
     m_vlayout->addStretch(1);
     m_vlayout->addWidget(m_graphicView);
@@ -182,19 +182,28 @@ bool MapFrame::defineMenu(QMenu* /*menu*/)
 {
     return false;
 }
-void MapFrame::saveFile(QString & file)
+void MapFrame::saveFile(const QString & filepath)
 {
-    if(!file.isEmpty())
+    if(!filepath.isEmpty())
     {
+        QFile output(filepath);
+        if (!output.open(QIODevice::WriteOnly))
+                return;
+        QDataStream out(&output);
+        m_map->saveFile(out);
     }
 
 }
 
-void MapFrame::openFile(QString& file)
+void MapFrame::openFile(const QString& filepath)
 {
-    if(!file.isEmpty())
+    if(!filepath.isEmpty())
     {
-
+        QFile input(filepath);
+        if (!input.open(QIODevice::ReadOnly))
+                return;
+        QDataStream in(&input);
+        m_map->openFile(in);
     }
 }
 void MapFrame::keyPressEvent ( QKeyEvent * event )

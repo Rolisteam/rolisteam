@@ -39,7 +39,7 @@
 #include "message.h"
 #include "rclient.h"
 
-Tchat::Tchat(QWidget *parent)
+Tchat::Tchat(CleverURI* uri,QWidget *parent)
 : SubMdiWindows(parent)
 {
     setObjectName("Tchat");
@@ -53,7 +53,7 @@ Tchat::Tchat(QWidget *parent)
 
     m_active=false;
     m_historicNumber = 0;
-    m_type = SubMdiWindows::TCHAT;
+    m_uri = uri;
     setWindowIcon(QIcon(":/resources/icons/tchat_icon.png"));
     setWindowTitle(tr("Tchat"));
     m_messageHistoric.clear();
@@ -182,15 +182,16 @@ void Tchat::getDownHistoric()
                 m_tchatEditor->append(m_messageHistoric[m_historicNumber]);
 	}
 }
-void Tchat::saveFile(QString &file)
+void Tchat::saveFile(const QString &file)
 {
 
         QTextDocument *document = m_meetingRoom->document();
 	QString html = document->toHtml(QByteArray("UTF-8"));
-        QTextStream textfile(&file);
+        QString tmp= file;
+        QTextStream textfile(&tmp);
         textfile << html;
 }
-void Tchat::openFile(QString& file)
+void Tchat::openFile(const QString& file)
 {
     Q_UNUSED(file);
 }

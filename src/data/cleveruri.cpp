@@ -96,7 +96,7 @@ void CleverURI::setUri(QString& uri)
      defineShortName();
 }
 
-void CleverURI::setType(int type)
+void CleverURI::setType(CleverURI::ContentType type)
 {
     m_type=type;
 }
@@ -106,7 +106,7 @@ const QString CleverURI::getUri() const
     return m_uri;
 }
 
-int CleverURI::getType() const
+CleverURI::ContentType CleverURI::getType() const
 {
     return m_type;
 }
@@ -131,14 +131,16 @@ void CleverURI::setShortName(QString& name)
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)
 {
   out << con.getUri();
-  out << con.getType();
+  out << (int)con.getType();
   return out;
 }
 
 QDataStream& operator>>(QDataStream& is,CleverURI& con)
 {
   is >>(con.m_uri);
-  is >>(con.m_type);
+  int type;
+  is >> type;
+  con.m_type=(CleverURI::ContentType)type;
   con.defineShortName();
   return is;
 }

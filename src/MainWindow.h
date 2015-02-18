@@ -90,11 +90,12 @@ public slots :
         void checkUpdate();
 
         void refreshNetworkMenu();
-        void openFile(CleverURI* );
+        //void openFile(CleverURI* );
 
 
 protected :
         void closeEvent(QCloseEvent *event);
+        CleverURI* contentToPath(CleverURI::ContentType type,bool save);
 
 
 private :
@@ -145,11 +146,11 @@ private :
         /**
           * @brief unique acces to recentfile management
           */
-        void addopenedFile(QString& , CleverURI::ContentType );
+        void addopenedFile(CleverURI* uri );
 
-        bool openImage(QString filepath);
-        bool openCharacterSheets(QString);
-        bool openMinutes(QString path);
+        bool openImage(CleverURI* uri);
+        bool openCharacterSheets(CleverURI* uri);
+        bool openMinutes(CleverURI* uri);
         /// members declarations.
         AudioPlayer* m_audioPlayer;
 
@@ -275,7 +276,15 @@ private :
 
         UpdateChecker* m_updateChecker;
 
+
+        QString m_supportedImage;
+        QString m_supportedCharacterSheet;
+        QString m_supportedNotes;
+        QString m_supportedMap;
+
+
         QString m_version;
+
 private slots :
         /**
         * @brief Show the map wizzard
@@ -335,7 +344,12 @@ private slots :
         void openTchat();
 
         void updateMayBeNeeded();
-        void askPath();
+        //void askPath();
+
+
+        void saveAs();
+        void updateRecentFilesMenu();
+        void open();
 };
 
 #endif

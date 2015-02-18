@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *   Copyright (C) 2009 by Renaud Guezennec                             *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
  *   Rolisteam is free software; you can redistribute it and/or modify     *
@@ -61,10 +61,10 @@ void SessionManager::setCurrentSession(Session* s)
     m_currentSession=s;
     m_model->setSession(m_currentSession);
 }
-CleverURI* SessionManager::addRessource(QString& urifile, CleverURI::ContentType type)
+CleverURI* SessionManager::addRessource(CleverURI* tp)
 {
     QModelIndex index = m_view->currentIndex();
-    CleverURI* tp = m_model->addRessources(urifile,type,index);
+    m_model->addRessources(tp,index);
 
     m_recentlist.prepend(tp);
 
@@ -84,7 +84,7 @@ void SessionManager::readSettings(QSettings & m)
 
     // if no number that means no recenfile
     int number = m.value("numberRecentFile",0).toInt();
-
+    qDebug()<< "number of recent file session manager" << number;
     for(int i=0 ; i<number ; i++)
     {
         CleverURI* cleverURI = new CleverURI;
@@ -107,8 +107,8 @@ const QList<CleverURI*>& SessionManager::getRecentFiles()
 void SessionManager::addChapter(QModelIndex& index)
 {
     QString tmp = tr("Chapter %1").arg(m_currentSession->chapterCount());
-    m_currentChapter = m_model->addChapter(tmp,m_view->currentIndex());
-    m_model->addChapter(tmp,index);
+    //m_currentChapter = m_model->addChapter(tmp,m_view->currentIndex());
+    m_currentChapter =m_model->addChapter(tmp,index);
 
 }
 

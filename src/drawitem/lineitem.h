@@ -28,6 +28,7 @@
 class LineItem : public VisualItem
 {
 public:
+    LineItem();
     /**
       * @brief constructor with parameters
       */
@@ -53,6 +54,9 @@ public:
       * @brief serialisation reading
       */
     virtual void readData(QDataStream& in);
+
+
+    virtual VisualItem::ItemType getType();
 private:
     /**
       * @brief bounding rect copy (no need to compute it each time

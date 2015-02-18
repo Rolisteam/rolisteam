@@ -50,11 +50,11 @@ public:
 	* @brief cumpulsary function, it returns the subwindows type.
 	* @return type of subwindows. 
 	*/
-    virtual SubWindowType getType();
+    //virtual SubWindowType getType();
 
 
-    void openFile(QString& file);
-    void saveFile(QString & file);
+    void openFile(const QString& file);
+    void saveFile(const QString & file);
     virtual bool hasDockWidget() const ;
     virtual QDockWidget* getDockWidget() ;
 

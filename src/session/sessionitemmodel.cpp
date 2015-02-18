@@ -270,7 +270,7 @@ Chapter* SessionItemModel::addChapter(QString& name,QModelIndex parent)
         {
             beginInsertRows(parent,tmp->childrenCount(),tmp->childrenCount());
             t = parentChapter->addChapter(name);
-            //tmp->addChild(new ResourcesItem(t,false));
+            tmp->addChild(new ResourcesItem(t,false));
             endInsertRows();
 
         }
@@ -281,7 +281,7 @@ Chapter* SessionItemModel::addChapter(QString& name,QModelIndex parent)
     return t;
 }
 
-CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& parent)
+CleverURI* SessionItemModel::addRessources(CleverURI* uri,QModelIndex& parent)
 {
      ResourcesItem* parentItem=NULL;
     if(!parent.isValid())
@@ -300,10 +300,10 @@ CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentT
 
     Chapter* chap=dynamic_cast<Chapter*>(parentItem->getData());// NULL when it is not a chapter.
 
-    CleverURI* tmp = m_session->addRessource(urifile,type,chap);
-    parentItem->addChild(new ResourcesItem(tmp,true));
+    m_session->addRessource(uri,chap);
+    parentItem->addChild(new ResourcesItem(uri,true));
     endInsertRows();
-    return tmp;
+    return uri;
 }
 void SessionItemModel::populateChapter(Chapter* t,ResourcesItem* parentItem)
 {

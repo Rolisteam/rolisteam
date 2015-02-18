@@ -66,7 +66,7 @@ public:
       * @param urifile: file's uri
       * @param type : type of content: picture, maps etc...
       */
-     CleverURI* addRessource(QString& urifile, CleverURI::ContentType type);
+     CleverURI* addRessource(CleverURI* uri);
      /**
        * @brief accessor to the recent files list
        */

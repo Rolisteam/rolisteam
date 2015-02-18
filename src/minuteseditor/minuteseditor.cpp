@@ -22,16 +22,20 @@
 
 #include <QtGui>
 
-#include "minuteseditor.h"
-
 #include <QFontComboBox>
+
+#include "minuteseditor.h"
 MinutesEditor::MinutesEditor()
+: SubMdiWindows()
+{
+}
+MinutesEditor::MinutesEditor(CleverURI* uri)
     : SubMdiWindows()
 {
     setObjectName("MinutesEditor");
     QWidget* main = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout;
-    m_type = SubMdiWindows::TEXT;
+    m_uri = uri;
     setWindowTitle(tr("Minutes Editor"));
     setWindowIcon(QIcon(":/resources/icons/notes.png"));
 
@@ -241,7 +245,7 @@ void MinutesEditor::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
     cursor.mergeCharFormat(format);
     m_minutes->mergeCurrentCharFormat(format);
 }
-void MinutesEditor::saveFile(QString & file)
+void MinutesEditor::saveFile(const QString & file)
 {
     if(!file.isEmpty())
     {
@@ -256,7 +260,7 @@ void MinutesEditor::saveFile(QString & file)
     }
 }
 
-void MinutesEditor::openFile(QString& file)
+void MinutesEditor::openFile(const QString& file)
 {
     if(!file.isEmpty())
     {

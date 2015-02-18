@@ -83,6 +83,10 @@ public:
       */
     const QColor& mapColor() const;
 
+    void saveFile(QDataStream& );
+
+    void openFile(QDataStream& );
+
 public slots:
     /**
       * @brief defines the current tools

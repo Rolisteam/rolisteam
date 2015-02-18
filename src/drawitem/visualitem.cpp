@@ -23,6 +23,12 @@
 #include <QCursor>
 #include <QDebug>
 
+VisualItem::VisualItem()
+: QGraphicsItem()
+{
+
+}
+
 VisualItem::VisualItem(QColor& penColor,QGraphicsItem * parent )
     : QGraphicsItem(parent),m_color(penColor)
 {

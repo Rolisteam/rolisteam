@@ -184,7 +184,7 @@ public:
       * @param parent index
       * @return created cleverURI address
       */
-    CleverURI* addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& index);
+    CleverURI* addRessources(CleverURI* uri,QModelIndex& index);
     /**
       * @brief fills up the model with the given chapter and its children
       */

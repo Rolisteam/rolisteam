@@ -70,7 +70,11 @@ void SubMdiWindows::currentNPCSizeChanged(int npc)
 {
     m_npcSize = npc;
 }
-SubMdiWindows::SubWindowType SubMdiWindows::getType()
+CleverURI::ContentType SubMdiWindows::getType()
 {
-    return m_type;
+    return m_uri->getType();
+}
+void SubMdiWindows::setCleverURI(CleverURI* uri)
+{
+    m_uri=uri;
 }

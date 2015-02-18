@@ -21,6 +21,10 @@
 #include <QLineEdit>
 #include <QPainter>
 #include <QObject>
+TextItem::TextItem()
+{
+
+}
 
 TextItem::TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsItem * parent)
         : VisualItem(penColor,parent)
@@ -55,6 +59,10 @@ void TextItem::setNewEnd(QPointF& p)
     //QRectF tmp= m_rect;
    // m_rect.setBottomRight(p);
     //update(tmp);
+}
+VisualItem::ItemType TextItem::getType()
+{
+    return VisualItem::TEXT;
 }
 void TextItem::editingFinished()
 {

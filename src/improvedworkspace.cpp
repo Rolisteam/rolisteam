@@ -164,7 +164,7 @@ void ImprovedWorkspace::addWidget(SubMdiWindows* subWindow)
     addSubWindow(subWindow);
     connect(this,SIGNAL(currentCursorChanged(QCursor*)),subWindow,SLOT(currentCursorChanged(QCursor*)));
 
-    if(subWindow->getType() == SubMdiWindows::MAP )
+    if(subWindow->getType() == CleverURI::MAP )
     {
         connect(this,SIGNAL(currentModeChanged(int)),subWindow,SLOT(setEditingMode(int)));
         connect(this,SIGNAL(penSizeChanged(int)),subWindow,SLOT(currentPenSizeChanged(int)));
@@ -199,6 +199,11 @@ void ImprovedWorkspace::currentNPCSizeChanged(int p)
     m_npcSize = p;
     emit npcSizeChanged(p);
 }
+SubMdiWindows* ImprovedWorkspace::activeSubMdiWindow()
+{
+    return static_cast<SubMdiWindows*>(activeSubWindow());
+}
+
 void ImprovedWorkspace::activeSubWindowChanged(QMdiSubWindow* wdw)
 {
     SubMdiWindows* tmp = static_cast<SubMdiWindows*>(wdw);

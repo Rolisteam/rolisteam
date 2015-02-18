@@ -39,7 +39,7 @@ public:
     ~Session();
 
     Chapter* addChapter(QString& name);
-    CleverURI* addRessource(QString& uri, CleverURI::ContentType& type, Chapter* chapter);
+    CleverURI* addRessource(CleverURI* uri, Chapter* chapter);
 
     Chapter* getChapter(int index);
 

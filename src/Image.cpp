@@ -25,25 +25,29 @@
 #include <QHBoxLayout>
 #include <QFileInfo>
 #include "improvedworkspace.h"
+Image::Image(ImprovedWorkspace *parent)
+    : SubMdiWindows(parent),m_NormalSize(0,0)
+{
 
+}
 
-Image::Image( QString& filename,  ImprovedWorkspace *parent)
+Image::Image( CleverURI* uri,  ImprovedWorkspace *parent)
 : SubMdiWindows(parent),m_NormalSize(0,0)
 {
     m_parent = parent;
-    m_filename = filename;
+    m_uri = uri;
     m_zoomLevel = 1;
     setUi();
     createActions();
 
-	setObjectName("Image");
-    m_type = SubMdiWindows::PICTURE;
-    setWindowTitle(QFileInfo(filename).baseName());
+    setObjectName("Image");
+
+    setWindowTitle(m_uri->getShortName());
     setWindowIcon(QIcon(":/resources/icons/image.png"));
 
 
     m_labelImage = new QLabel(this);
-    m_pixMap = QPixmap::fromImage(QImage(m_filename));
+    m_pixMap = QPixmap::fromImage(QImage(m_uri->getUri()));
    //m_labelImage->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     m_labelImage->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
     m_labelImage->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -314,7 +318,7 @@ void Image::zoomBig()
     m_zoomLevel =4.0;
     resizeLabel();
 }
-void Image::saveFile(QString & file)
+void Image::saveFile(const QString & file)
 {
     if(!file.isEmpty())
     {
@@ -322,7 +326,7 @@ void Image::saveFile(QString & file)
     }
 }
 
-void Image::openFile(QString& file)
+void Image::openFile(const QString& file)
 {
     if(!file.isEmpty())
     {

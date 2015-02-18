@@ -50,7 +50,7 @@ public :
        * @brief constructor
        * @todo default constructor missing
        */
-    MapFrame(Map *map);
+    MapFrame(CleverURI* uri,Map *map);
     /**
       * @brief destructor
       */
@@ -78,12 +78,12 @@ public :
       * @brief writes the map into the given file
       * @param uri of the file
       */
-    void saveFile(QString & file);
+    void saveFile(const QString & file);
     /**
       * @brief reads the map into the given file
       * @param uri of the file
       */
-    void openFile(QString& file);
+    void openFile(const QString& file);
 
     virtual bool hasDockWidget() const ;
     virtual QDockWidget* getDockWidget() ;

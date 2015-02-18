@@ -47,7 +47,7 @@ public :
     /**
       * @brief default constructor
       */
-    Tchat(QWidget *parent = NULL);
+    Tchat(CleverURI* uri,QWidget *parent = NULL);
     /**
       * @brief destructor
       */
@@ -66,12 +66,12 @@ public :
       * @brief must save conversation into the given file.
       * @param file's uri
       */
-    virtual void saveFile(QString& file);
+    virtual void saveFile(const QString& file);
     /**
       * @brief read conversation from the given file
       * @param file's uri
       */
-    virtual void openFile(QString& file);
+    virtual void openFile(const QString& file);
     /**
      * @brief define menu for this window.
      */

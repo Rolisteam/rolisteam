@@ -24,6 +24,11 @@
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
 #include <QStylePainter>
+RectItem::RectItem()
+    : VisualItem()
+{
+
+}
 
 RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
@@ -88,6 +93,11 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 void RectItem::setNewEnd(QPointF& p)
 {
     m_rect.setBottomRight(p);
+}
+
+VisualItem::ItemType RectItem::getType()
+{
+    return VisualItem::RECT;
 }
 void RectItem::writeData(QDataStream& out) const
 {
