@@ -237,6 +237,7 @@ void Image::pointeurNormal()
 }
 bool  Image::defineMenu(QMenu* menu)
 {
+    menu->setTitle(tr("Picture Viewer"));
     menu->addAction(m_actionZoomIn);
     menu->addAction(m_actionZoomOut);
     menu->addSeparator();

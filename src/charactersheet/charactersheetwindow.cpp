@@ -58,6 +58,7 @@ CharacterSheetWindow::CharacterSheetWindow(QWidget* parent)
 }
 bool CharacterSheetWindow::defineMenu(QMenu* menu)
 {
+    menu->setTitle(tr("Character Sheet Viewer"));
     menu->addAction(m_addCharacterSheet);
     menu->addAction(m_addSection);
     menu->addAction(m_addLine);

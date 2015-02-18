@@ -197,17 +197,15 @@ void ImprovedWorkspace::activeSubWindowChanged(QMdiSubWindow* wdw)
         m_variantMenu->clear();
         if(tmp->defineMenu(m_variantMenu))
         {
-
+            m_variantMenu->parentWidget()->removeAction(m_variantMenu->menuAction());
             QList<QAction*> list = m_variantMenu->parentWidget()->actions();
-
             if(list.size()>=3)
-             m_variantMenu->parentWidget()->insertAction(list[2],m_variantMenu->menuAction());
-
-
+            {
+                m_variantMenu->parentWidget()->insertAction(list[2],m_variantMenu->menuAction());
+              }
         }
         else
         {
-            //m_variantMenu->setVisible(false);
             m_variantMenu->parentWidget()->removeAction(m_variantMenu->menuAction());
         }
     }
