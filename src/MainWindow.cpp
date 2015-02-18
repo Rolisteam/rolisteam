@@ -2595,7 +2595,7 @@ void MainWindow::InitMousePointer(QCursor **pointer, const QString &iconFileName
 // the pointer of pointer is to avoid deep modification of the rolistik's legacy
 {
             QBitmap bitmap(iconFileName);
-    #ifndef Q_WS_X11
+    #ifndef Q_OS_LINUX
         QBitmap mask(32,32);
         mask.fill(Qt::color0);
         (*pointer) = new QCursor(bitmap,mask, hotX, hotY);
