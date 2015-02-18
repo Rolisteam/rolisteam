@@ -47,7 +47,7 @@ bool G_joueur;
 // True si l'ordinateur local est client, false s'il est serveur
 bool G_client;
 
-
+#define second 1000
 /********************
  * Global functions *
  ********************/
@@ -72,7 +72,40 @@ static void synchronizeInitialisation(const ConnectionConfigDialog & dialog)
     G_initialisation.portServeur        = dialog.getPort();
     G_initialisation.portClient.setNum(G_initialisation.portServeur);
 }
+/*****************
+ * TimerDialog *
+ *****************/
+TimerDialog::TimerDialog(int interval,QString message, bool refreshMsg)
+    : m_interval(interval),m_message(message), m_refresh(refreshMsg),m_dialog(new Ui::Dialog)
+{
+    m_dialog->setupUi(this);
 
+    if(refreshMsg)
+    {
+        m_timer = new QTimer();
+
+        m_timer->setInterval(second);
+        m_timer->start();
+        connect(m_timer,SIGNAL(timeout()),this,SLOT(timeOut()));
+
+
+    }
+    m_dialog->textEdit->setText(m_message.arg(m_interval));
+}
+void TimerDialog::setInterval(int val)
+{
+    m_interval=val;
+}
+
+void TimerDialog::timeOut()
+{
+
+    m_dialog->textEdit->setText(m_message.arg(--m_interval));
+    if(m_interval==0)
+    {
+        accept();
+    }
+}
 
 /*****************
  * ClientServeur *
@@ -82,7 +115,7 @@ ClientServeur::ClientServeur()
     : QObject(), m_server(NULL),m_liaisonToServer(NULL)
 {
     m_reconnect = new QTimer(this);
-
+    m_timerdialog = new TimerDialog(10,tr("Connection fails, retry in %1s."),true);
     connect(m_reconnect, SIGNAL(timeout()), this, SLOT(startConnection()));
 }
 
@@ -154,10 +187,16 @@ bool ClientServeur::configAndConnect()
             m_address = configDialog.getHost();
             if(startConnection())
             {
-
                 cont = false;
             }
         }
+        m_timerdialog->setInterval(10);
+        if(m_timerdialog->exec()==QDialog::Rejected)
+        {
+            exit(0);
+        }
+
+
     }
 
 

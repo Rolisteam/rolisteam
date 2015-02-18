@@ -239,7 +239,7 @@ void LecteurAudio::clickOnList(QListWidgetItem * p)//double click
              m_currentsource = new Phonon::MediaSource(listeChemins[listeTitres->row(m_currentItemFile)]);
              mediaObject->setCurrentSource(*m_currentsource);
              emettreCommande(nouveauMorceau, p->text());
-             qDebug() << "Changement de titre" << listeChemins[listeTitres->row(p)] << p->text();
+             qDebug() << "Changement de titre" << listeChemins[listeTitres->row(m_currentItemFile)] << p->text();
              mediaObject->play();
 }
 
@@ -273,7 +273,7 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
      switch (newState)
      {
          case Phonon::ErrorState:
-            qDebug() << "error State";
+            qDebug() << "error State" << mediaObject->errorString();
              break;
          case Phonon::PlayingState:
              qDebug() << "playing State";
@@ -377,15 +377,14 @@ void LecteurAudio::addFiles()
 
         if (listeFichiers.isEmpty())
                 return;
-        int dernierSlash = listeFichiers[0].lastIndexOf("/");
-        G_initialisation.dossierMusiquesMj = listeFichiers[0].left(dernierSlash);
+        QFileInfo fileinfo(listeFichiers[0]);
+        G_initialisation.dossierMusiquesMj = fileinfo.absolutePath();
+
         while (!listeFichiers.isEmpty())
         {
                 QString fichier = listeFichiers.takeFirst();
-                int dernierSlash = fichier.lastIndexOf("/");
-                QString titre = fichier.right(fichier.length()-dernierSlash-1);
-
-
+                QFileInfo fi(fichier);
+                QString titre = fi.fileName();
                 if (listeChemins.isEmpty())
                 {
 
@@ -523,7 +522,7 @@ void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, qui
                         break;
 
                 default :
-                        qWarning() <<(tr("Commande inconnue envoyee aux lecteurs audio des autres utilisateurs"));
+                        qWarning() <<(tr("Unknown command send to users"));
                         break;
         }
         if(donnees == NULL)
@@ -616,7 +615,7 @@ void LecteurAudio::pselectNewFile(QString file)
             QPalette palette(afficheurTitre->palette());
             palette.setColor(QPalette::Normal, QPalette::Text, Qt::red);
             afficheurTitre->setPalette(palette);
-            afficheurTitre->setText(tr("%1 : file can not be found or opened").arg(file));
+            afficheurTitre->setText(tr("%1 : file can not be found or opened").arg(path));
             afficheurTitre->setToolTip(tr("File can not be found or opened : %1").arg(path));
         }
         else

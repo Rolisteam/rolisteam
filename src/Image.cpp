@@ -310,9 +310,6 @@ void Image::zoomBig()
 }
 void Image::createActions()
 {
-
-
-
     m_actionZoomIn = new QAction(tr("Zoom In"),this);
    //m_actionZoomIn->setShortcut(tr("Ctrl++"));
     m_actionZoomIn->setToolTip(tr("increase zoom level"));
@@ -332,7 +329,7 @@ void Image::createActions()
     m_zoomOutShort = new QShortcut(QKeySequence(tr("Ctrl+-", "Zoom Out")), this);
     m_zoomOutShort->setContext(Qt::WidgetWithChildrenShortcut);
     connect(m_zoomOutShort, SIGNAL(activated ()), this, SLOT(zoomOut()));
-    connect(m_zoomOutShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomOut()));
+   /// connect(m_zoomOutShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomOut()));
 
     m_actionfitWorkspace = new QAction(tr("Fit the workspace"),this);
     m_actionfitWorkspace->setIcon(QIcon(":/resources/icons/fit-page-32.png"));
@@ -343,7 +340,7 @@ void Image::createActions()
     m_fitShort = new QShortcut(QKeySequence(tr("Ctrl+5", "Fit the workspace")), this);
     m_fitShort->setContext(Qt::WidgetWithChildrenShortcut);
     connect(m_fitShort, SIGNAL(activated ()), this, SLOT(onFitWindow()));
-    connect(m_fitShort, SIGNAL(activatedAmbiguously()), this, SLOT(onFitWindow()));
+   // connect(m_fitShort, SIGNAL(activatedAmbiguously()), this, SLOT(onFitWindow()));
 
 
 
@@ -354,7 +351,7 @@ void Image::createActions()
     m_littleShort = new QShortcut(QKeySequence(tr("Ctrl+1", "Set the zoom level at 20%")), this);
     m_littleShort->setContext(Qt::WidgetWithChildrenShortcut);
     connect(m_littleShort, SIGNAL(activated ()), this, SLOT(zoomLittle()));
-    connect(m_littleShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomLittle()));
+   // connect(m_littleShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomLittle()));
 
 
 
@@ -365,7 +362,7 @@ void Image::createActions()
     m_normalShort = new QShortcut(QKeySequence(tr("Ctrl+0", "Normal")), this);
     m_normalShort->setContext(Qt::WidgetWithChildrenShortcut);
     connect(m_normalShort, SIGNAL(activated ()), this, SLOT(zoomNormal()));
-    connect(m_normalShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomNormal()));
+   // connect(m_normalShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomNormal()));
 
     m_actionBigZoom = new QAction(tr("Big"),this);
     //m_actionBigZoom->setShortcut(tr("Ctrl+2"));
@@ -374,7 +371,7 @@ void Image::createActions()
     m_bigShort = new QShortcut(QKeySequence(tr("Ctrl+2", "Zoom Out")), this);
     m_bigShort->setContext(Qt::WidgetWithChildrenShortcut);
     connect(m_bigShort, SIGNAL(activated ()), this, SLOT(zoomBig()));
-    connect(m_bigShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomBig()));
+   // connect(m_bigShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomBig()));
 
 
 }

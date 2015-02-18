@@ -137,3 +137,6 @@ DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=2
 
 UI_DIR = src
 QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"
+
+FORMS += \
+    src/timerdialog.ui

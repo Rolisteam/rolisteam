@@ -574,7 +574,7 @@ void Carte::dessiner(QPainter &painter)
     else if(G_couleurCourante.type == efface)
         couleurPinceau = Qt::white;
     else
-        qWarning() << tr("Type de couleur incorrecte (dessiner - Carte.cpp)");
+        qWarning() << tr("color type not allowed (dessiner - Carte.cpp)");
 
     // Reglage du pinceau
     QPen pen;
@@ -598,7 +598,7 @@ void Carte::dessiner(QPainter &painter)
         else
         {
             painter.begin(fond);
-            qWarning() << tr("Type de couleur incorrecte (dessiner - Carte.cpp)");
+            qWarning() << tr("color type not allowed  (dessiner - Carte.cpp)");
         }
         painterCrayon.setRenderHint(QPainter::Antialiasing);
         
@@ -730,7 +730,7 @@ void Carte::dessiner(QPainter &painter)
     }
             
     else
-        qWarning() << tr("Outil non défini lors du dessin (dessiner - Carte.cpp)");
+        qWarning() << tr("undefined drawing tools (dessiner - Carte.cpp)");
 }
 
 /********************************************************************/
@@ -828,7 +828,7 @@ bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, con
     // On verifie que la source, la destination et la couche alpha ont le meme nombre de pixels
     if (source->size() != destination->size() || source->size() != alpha->size())
     {
-        qWarning() << (tr("La source, la destination et la couche alpha n'ont pas le meme nombre de pixels (ajouterAlpha - Carte.cpp)"));
+        qWarning() << (tr("Source, destination and alpha layer have not the same size  (ajouterAlpha - Carte.cpp)"));
         return false;
     }
 
@@ -1012,7 +1012,7 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
     }
 
     else
-        qWarning() << (tr("Outil non défini lors du traitement d'une action sur les PJ/PNJ (actionPnjBoutonEnfonce - Carte.cpp)"));
+        qWarning() << (tr("undefine tool for processing action on NPC or PC (actionPnjBoutonEnfonce - Carte.cpp)"));
 
 }
 
@@ -1082,7 +1082,7 @@ void Carte::actionPnjBoutonRelache(QPoint positionSouris)
     }
 
     else
-        qWarning() << (tr("Outil non défini lors du traitement d'une action sur les PJ/PNJ (actionPnjBoutonRelache - Carte.cpp)"));
+        qWarning() << (tr("undefine tool for processing action on NPC or PC (actionPnjBoutonRelache - Carte.cpp)"));
 
 }
 
@@ -1128,7 +1128,7 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
     }
 
     else
-        qWarning() << (tr("Outil non défini lors du traitement d'une action sur les PJ/PNJ (actionPnjMouvementSouris - Carte.cpp)"));
+        qWarning() << (tr("undefine tool for processing action on NPC or PC (actionPnjMouvementSouris - Carte.cpp)"));
 
 }
 
@@ -1196,7 +1196,7 @@ DessinPerso* Carte::dansDessinPerso(QPoint positionSouris)
         // Cas qui ne devrait jamais arriver
         else
         {
-            qWarning() <<  (tr("Widget inconnu sous le pointeur de la souris (dansDessinPerso - Carte.cpp)"));
+            qWarning() <<  (tr("unknown widget under cursor (dansDessinPerso - Carte.cpp)"));
             resultat = 0;
         }
     }
@@ -1365,7 +1365,7 @@ void Carte::affichageDuPj(QString idPerso, bool afficher)
     // Ne devrait jamais arriver
     if (!pj)
     {
-        qWarning() << (tr("L'identifiant du PJ n'a pas ete trouve (affichageDuPj - Carte.cpp)"));
+        qWarning() << (tr("PC ID not found (affichageDuPj - Carte.cpp)"));
         return;
     }
     // On masque ou on affiche le PJ
@@ -1390,7 +1390,7 @@ bool Carte::pjAffiche(QString idPerso)
     // Ne devrait jamais arriver
     if (!pj)
     {
-        qWarning() << tr("L'identifiant %s n'a pas ete trouve (pjAffiche - Carte.cpp)") << qPrintable(idPerso);
+        qWarning() << tr("PC ID: %1 not found (pjAffiche - Carte.cpp)") << qPrintable(idPerso);
         return false;
     }
 

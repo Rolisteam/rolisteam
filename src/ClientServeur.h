@@ -29,9 +29,35 @@
 #include <QList>
 #include <QColor>
 #include <QTimer>
+#include <QDialog>
 
+#include "ui_timerdialog.h"
+namespace Ui {
+    class Dialog;
+}
 class Player;
 class Liaison;
+
+class TimerDialog: public QDialog
+{
+    Q_OBJECT
+public:
+    TimerDialog(int interval,QString message, bool refreshMsg);
+    void setInterval(int val);
+
+public slots:
+    void timeOut();
+
+private:
+    int m_interval;
+    QString m_message;
+     bool m_refresh;
+
+    QTimer* m_timer;
+
+    Ui::Dialog* m_dialog;
+
+};
 
 /**
  * @brief hold the list of socket (Liaison).
@@ -69,6 +95,9 @@ private :
     QString m_address;
     QTimer* m_reconnect;
     Player * m_localPlayer;
+
+
+    TimerDialog* m_timerdialog;
 
 private slots :
     void nouveauClientConnecte();
