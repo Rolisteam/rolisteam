@@ -1949,11 +1949,36 @@ void MainWindow::stopReconnection()
     m_reconnectAct->setEnabled(true);
     m_disconnectAct->setEnabled(false);
 }
+void MainWindow::closeAllImagesAndMaps()
+{
+
+    foreach(QMdiSubWindow* tmp,m_pictureList)
+    {
+        if(NULL!=tmp)
+        {
+                Image* imageWindow = dynamic_cast<Image*>(tmp->widget());
+
+                if(NULL!=imageWindow)
+                {
+                    removePictureFromId(imageWindow->getImageId());
+                }
+        }
+    }
+
+    foreach(CarteFenetre* tmp,m_mapWindowList)
+    {
+        if(NULL!=tmp)
+        {
+            removeMapFromId(tmp->getMapId());
+        }
+    }
+}
+
 void MainWindow::startReconnection()
 {
     if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
-    //    closeAll();
+       closeAllImagesAndMaps();
     }
     if(m_networkManager->startConnection())
     {

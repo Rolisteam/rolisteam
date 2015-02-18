@@ -224,6 +224,11 @@ public slots :
      */
     void updateWindowTitle();
 
+    /**
+     * @brief closeAllImagesAndMap - remove all maps and Pictures
+     */
+    void closeAllImagesAndMaps();
+
 protected :
     void closeEvent(QCloseEvent *event);
 
@@ -327,7 +332,7 @@ private :
 
     EditeurNotes *editeurNotes;
     QList <CarteFenetre *> m_mapWindowList;
-    QList <Image *> listeImage;
+    //QList <Image *> listeImage;
     QList <QMdiSubWindow*> m_pictureList;
     QMap<CarteFenetre*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   

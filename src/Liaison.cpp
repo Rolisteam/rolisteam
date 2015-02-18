@@ -1257,10 +1257,10 @@ void Liaison::receptionMessageImage()
         memcpy(byteArray.data(), &(tampon[p]), tailleImage);
         p+=tailleImage;
 
-        qDebug() << "taille donnee" << tailleTitre*sizeof(QChar)+sizeof(quint16)
+       /* qDebug() << "taille donnee" << tailleTitre*sizeof(QChar)+sizeof(quint16)
                                       +tailleIdImage*sizeof(QChar)+sizeof(quint8)
                                       +sizeof(quint8) +tailleIdJoueur*sizeof(QChar)
-                                      +tailleImage+sizeof(quint32) << "taille image:"<< tailleImage << tailleTitre << tailleIdJoueur << tailleIdImage;
+                                      +tailleImage+sizeof(quint32) << "taille image:"<< tailleImage << tailleTitre << tailleIdJoueur << tailleIdImage;*/
 
         // Creation de l'image
         QImage *img = new QImage;
@@ -1274,7 +1274,7 @@ void Liaison::receptionMessageImage()
         m_mainWindow->ajouterImage(imageFenetre, titre);
 
 
-        qDebug() << "titre" << titre;
+        //qDebug() << "titre" << titre;
         MainWindow::notifyUser(tr("Receiving picture: %1").arg(titre.left(titre.size()-QString(tr(" (Picture)")).size())));
 
         // Liberation de la memoire allouee
