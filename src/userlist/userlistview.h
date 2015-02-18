@@ -23,26 +23,53 @@
 #include <QTreeView>
 class UserListModel;
 class UserListDelegate;
+/**
+  * @brief custom view to display tree person
+  */
 class UserListView : public QTreeView
 {
     Q_OBJECT
 public:
+    /**
+     * @brief default constructor
+     */
     explicit UserListView(QWidget *parent = 0);
 
 
 signals:
+    /**
+      * @brief emited when user selects another item
+      */
     void currentItemChanged(const QModelIndex &);
+    /**
+      * @brief emited when user doubleclicks on the color rectangle
+      */
     void editCurrentItemColor();
 
 public slots:
+    /**
+      * @brief called to change the current color
+      */
     void onEditCurrentItemColor();
+    /**
+      * @brief requires context menu
+      */
     void customContextMenuEvent ( QPoint);
 
 protected slots:
+    /**
+      * @brief defines new behaviours for mouseDoubleClickEvent
+      */
     virtual void mouseDoubleClickEvent ( QMouseEvent * );
+    /**
+      * @brief called when current item changed
+      */
     void currentChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
+    /**
+      * @brief pointer to the delegate
+      */
     UserListDelegate* m_delegate;
 };
 

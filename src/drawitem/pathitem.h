@@ -22,21 +22,53 @@
 
 #include "visualitem.h"
 #include <QPen>
+/**
+  * @brief map item to paint a path on the scene/map
+  */
 class PathItem : public VisualItem
 {
 public:
+    /**
+      * @brief constructor with parameters
+      * @param nend starting point
+      * @param penColor color used to draw the path (path is not filled)
+      * @param penSize, width of the pen
+      * @param parent
+      */
     PathItem(QPointF& nend,QColor& penColor,int penSize,QGraphicsItem * parent = 0);
 
+    /**
+      * @brief override function to paint itself.
+      */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
-
+    /**
+      * @brief defines the  boundrect of path. Useful for mouse selection or collision detection
+      */
     virtual QRectF boundingRect() const ;
-
+    /**
+      * @brief adds new point at the end
+      */
     virtual void setNewEnd(QPointF& nend);
+    /**
+      * @brief accessor to the shape of path, better definition than boudingRect
+      */
     virtual QPainterPath shape () const;
+    /**
+      * @brief writing serialisation method
+      */
     virtual void writeData(QDataStream& out) const;
+    /**
+      * @brief reading serialisation method
+      */
     virtual void readData(QDataStream& in);
 private:
+    /**
+      * @brief pen used for drawing the path
+      */
     QPen m_pen;
+    /**
+      * @brief path stored in QtClasse
+      */
     QPainterPath m_path;
 
 };

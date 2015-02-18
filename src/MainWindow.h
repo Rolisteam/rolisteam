@@ -58,25 +58,63 @@ class DicePlugInManager;
 class UpdateChecker;
 
 
-
+/**
+  * @brief stores file URIs and keeps its type, useful for recent opened files
+  */
 class CleverURI
 {
 
 public:
+    /**
+      * @brief content type, some file can be opened by several module
+      */
     enum ContentType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET};
+    /**
+      * @brief default constructor
+      */
     CleverURI();
+    /**
+      * @brief copy constructor
+      */
     CleverURI(const CleverURI & mp);
+    /**
+      * @brief constructor with parameters
+      */
     CleverURI(QString uri,ContentType type);
+    /**
+      * @brief virtual destructor
+      */
     ~CleverURI();
 
+    /**
+      * @brief defines the uri stored
+      */
     void setUri(QString& uri);
+    /**
+      * @brief defines the media type.
+      */
     void setType(int type);
-
+    /**
+      * @brief accessor to get the uri
+      */
     const QString& getUri() const;
+    /**
+      * @brief accessor to get the type
+      */
     int getType() const;
+    /**
+      * @brief compare operator useful for removing any doubling into the list
+      */
     bool operator==(const CleverURI& uri1) const;
 private:
+    /**
+      * @brief Uri
+      */
     QString m_uri;
+    /**
+      * @brief type
+      * @todo could be of another type
+      */
     int m_type;
 
     friend QDataStream& operator<<(QDataStream& os,const CleverURI&);
@@ -92,7 +130,6 @@ Q_DECLARE_METATYPE(CleverUriList)
 /**
   * @brief is the main GUI of rolisteam, bring together all piece of software components, read the settings, set the graphical interface.
   */
-
 class MainWindow : public QMainWindow
 {
 Q_OBJECT

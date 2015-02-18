@@ -23,11 +23,20 @@
 #include <QThread>
 #include "message.h"
 class QTcpSocket;
+/**
+  * @brief reading permanently the socket to build and forward message to the whole application
+  */
 class ReadingThread : public QThread
 {
     Q_OBJECT
 public:
+    /**
+      * @brief constructor with parameters
+      */
     explicit ReadingThread(QTcpSocket* l,QObject *parent = 0);
+    /**
+      * @brief defines the connection used
+      */
     void setConnection(Connection& m);
 
 protected:

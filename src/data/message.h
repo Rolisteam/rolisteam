@@ -21,7 +21,10 @@
 #define MESSAGE_H
 
 #include <QByteArray>
-
+/**
+  * @brief storage class to store rolisteam protocole messages
+  * @brief should implement some features to get important/compulsory fields
+  */
 class Message : public QByteArray
 {
 public:

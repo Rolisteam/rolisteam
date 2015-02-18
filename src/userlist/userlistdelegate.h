@@ -21,15 +21,28 @@
 #define USERLISTDELEGATE_H
 
 #include <QStyledItemDelegate>
-
+/**
+  * @brief Overrides the list item painting
+  * @todo Review it completely to make mouse click user-friendly
+  * @author Renaud Guezennec
+  */
 class UserListDelegate : public QStyledItemDelegate
 {
 
 public:
+    /**
+      * @brief default construtor
+      */
     explicit UserListDelegate(QObject *parent = 0);
 
 protected:
+    /**
+      * @brief is called for painting each item
+      */
     virtual void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const ;
+    /**
+      * @brief defines the size Hint of each item
+      */
     virtual QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 
 public slots:
