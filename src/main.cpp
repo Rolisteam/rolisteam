@@ -106,6 +106,7 @@ int main(int argc, char *argv[])
         mainWindow->showNormal();
         value = app.exec();
     }
+    QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 
     delete mainWindow;
     return value;

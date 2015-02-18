@@ -47,8 +47,14 @@ Q_OBJECT
 
 public :
     EditeurNotes(MainWindow* mainWindow);
-    void sauvegarderNotes(QDataStream &file);
-    void ouvrirNotes(QDataStream &file);
+    void sauvegarderNotes(QTextStream &file);
+    void ouvrirNotes(QTextStream &file);
+
+
+    void saveNoteBinary(QDataStream &file);
+    void openNoteBinary(QDataStream &file);
+
+
     QSize sizeHint() const;
 
 private :

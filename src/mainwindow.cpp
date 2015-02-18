@@ -1475,7 +1475,7 @@ void MainWindow::ouvrirNotes()
                 qWarning("Probleme a l'ouverture du fichier (ouvrirNotes - MainWindow.cpp)");
                 return;
         }
-        QDataStream out(&file);
+        QTextStream out(&file);
         // On demande a l'editeur de notes de charger le fichier
         editeurNotes->ouvrirNotes(out);
         // Fermeture du fichier
@@ -1508,7 +1508,7 @@ bool MainWindow::sauvegarderNotes()
                 qWarning("cannot be open (sauvegarderNotes - MainWindow.cpp)");
                 return false;
         }
-        QDataStream in(&file);
+        QTextStream in(&file);
         // On demande a l'editeur de notes de les sauvegarder dans le fichier
         editeurNotes->sauvegarderNotes(in);
         // Fermeture du fichier
@@ -1558,7 +1558,7 @@ void MainWindow::ouvrirScenario()
                 lireImage(in);
 
         // Enfin on lit les notes
-        editeurNotes->ouvrirNotes(in);
+        editeurNotes->openNoteBinary(in);
 
         // Fermeture du fichier
         file.close();
@@ -1598,7 +1598,7 @@ bool MainWindow::sauvegarderScenario()
         // Puis toutes les images
         sauvegarderToutesLesImages(out);
         // Et enfin les notes
-        editeurNotes->sauvegarderNotes(out);
+        editeurNotes->saveNoteBinary(out);
         // Fermeture du fichier
         file.close();
 

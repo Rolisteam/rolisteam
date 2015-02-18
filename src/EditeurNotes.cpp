@@ -247,7 +247,7 @@ void EditeurNotes::changementTaille(int index)
 /********************************************************************/
 /* Ouvre les notes contenues dans le fichier passe en parametre     */
 /********************************************************************/
-void EditeurNotes::ouvrirNotes(QDataStream &file)
+void EditeurNotes::ouvrirNotes(QTextStream &file)
 {
     // On cree un flux de donnees rattache au fichier
     //QTextStream fichier(&file);
@@ -259,18 +259,25 @@ void EditeurNotes::ouvrirNotes(QDataStream &file)
     notes->setHtml(html);
 }
 
-/********************************************************************/
-/* Sauvegarde les notes dans le fichier passe en parametre          */
-/********************************************************************/
-void EditeurNotes::sauvegarderNotes(QDataStream &file)
+void EditeurNotes::sauvegarderNotes(QTextStream &file)
 {
-    // On recupere le document contenant les notes
     QTextDocument *document = notes->document();
-    // On convertit le document en HTML
     QString html = document->toHtml(QByteArray("UTF-8"));
-    // On cree un flux de donnees rattache au fichier
-    //QTextStream fichier(&file);
-    // On envoie le document HTML dans le flux
+    file << html;
+}
+
+
+void EditeurNotes::saveNoteBinary(QDataStream &file)
+{
+    QTextDocument *document = notes->document();
+    QString html = document->toHtml(QByteArray("UTF-8"));
+    file << html;
+}
+
+void EditeurNotes::openNoteBinary(QDataStream &file)
+{
+    QTextDocument *document = notes->document();
+    QString html = document->toHtml(QByteArray("UTF-8"));
     file << html;
 }
 
