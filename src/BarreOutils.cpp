@@ -55,6 +55,7 @@ BarreOutils::BarreOutils(QWidget *parent)
 {
 	// Titre du dockWidget
 	setWindowTitle(tr("Outils"));
+        setObjectName("BarreOutils");
 	// Parametrage du dockWidget
     setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);

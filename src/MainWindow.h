@@ -98,6 +98,8 @@ private :
     void sauvegarderTousLesPlans(QDataStream &file);
     void sauvegarderToutesLesImages(QDataStream &file);
     void sauvegarderFichierInitialisation();
+    void readSettings();
+    void writeSettings();
 
     /**
      * @brief Add a health state to a list

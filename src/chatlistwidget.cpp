@@ -38,6 +38,7 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
     : QDockWidget(parent)
 {
     setWindowTitle(tr("Tchats"));
+    setObjectName("ChatListWidget");
     setAllowedAreas(Qt::AllDockWidgetAreas);
     setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 

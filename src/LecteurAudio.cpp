@@ -38,6 +38,7 @@ LecteurAudio * LecteurAudio::singleton = NULL;
 LecteurAudio::LecteurAudio(QWidget *parent)
 : QDockWidget(parent)
 {
+    setObjectName("LecteurAudio");
     m_endFile= false;
     m_currentPlayingMode = NEXT;
     m_formerItemFile =NULL;

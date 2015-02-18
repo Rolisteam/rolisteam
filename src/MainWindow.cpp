@@ -125,6 +125,7 @@ void ecrireLogUtilisateur(QString message)
 MainWindow::MainWindow()
         : QMainWindow()
 {
+
         // Initialisation des variables globales
         G_affichageNomPj = true;
         G_affichageNomPnj = true;
@@ -170,7 +171,7 @@ MainWindow::MainWindow()
         // Ajout du lecteur audio a la fenetre principale
         addDockWidget(Qt::RightDockWidgetArea, G_lecteurAudio);
 #endif
-
+        readSettings();
         // Create Preference dialog
         m_preferencesDialog = new PreferencesDialog(this);
 
@@ -232,6 +233,7 @@ QDockWidget* MainWindow::creerLogUtilisateur()
 {
         // Creation du dockWidget contenant la fenetre de log utilisateur
         QDockWidget *dockLogUtil = new QDockWidget(tr("Evènements"), this);
+        dockLogUtil->setObjectName("dockLogUtil");
         dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
         dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 
@@ -1410,6 +1412,8 @@ void MainWindow::quitterApplication(bool perteConnexion)
         if (msgBox.clickedButton() == boutonQuitter)
         {
             emit closing();
+            writeSettings();
+
             // On sauvegarde le fichier d'initialisation
             sauvegarderFichierInitialisation();
             // On quitte l'application
@@ -1431,6 +1435,7 @@ void MainWindow::quitterApplication(bool perteConnexion)
                 if (ok || perteConnexion)
                 {
                     emit closing();
+                    writeSettings();
                     // On sauvegarde le fichier d'initialisation
                     sauvegarderFichierInitialisation();
                     // On quitte l'application
@@ -2042,5 +2047,26 @@ void MainWindow::InitMousePointer(QCursor **pointer, const QString &iconFileName
     #else
         (*pointer) = new QCursor(bitmap, hotX, hotY);
     #endif
+
+}
+void MainWindow::readSettings()
+{
+    QSettings settings("rolisteam","rolisteam/preferences");
+
+    move(settings.value("pos", QPoint(200, 200)).toPoint());
+    resize(settings.value("size", QSize(600, 400)).toSize());
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("windowState").toByteArray());
+
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings("rolisteam","rolisteam/preferences");
+    settings.setValue("pos", pos());
+    settings.setValue("size", size());
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("windowState", saveState());
+
 
 }
