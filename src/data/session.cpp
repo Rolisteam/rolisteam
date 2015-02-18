@@ -2,6 +2,7 @@
 
 Session::Session()
 {
+    //m_chapterList = new QList<Chapter*>;
 }
 Session::Session(const Session& m)
 {
@@ -12,17 +13,24 @@ Session::~Session()
 {
 
 }
-Chapter* Session::addChapter()
+Chapter* Session::addChapter(QString& name)
 {
-return NULL;
+    Chapter* imp = new Chapter();
+    imp->setName(name);
+    m_chapterList.append(imp);
+    return imp;
 }
 
-CleverURI* Session::addRessource(QString uri, CleverURI::ContentType type, Chapter* chapter)
+CleverURI* Session::addRessource(QString& uri, CleverURI::ContentType& type, Chapter* chapter)
 {
     return new CleverURI();
 }
 
-Chapter* Session::getCurrentChapter()
+Chapter* Session::getChapter(int index)
 {
-return NULL;
+    return NULL;
 }
+ QList<Chapter*>& Session::chapterList()
+ {
+    return m_chapterList;
+ }

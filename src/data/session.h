@@ -16,13 +16,15 @@ public:
     Session(const Session& m);
     ~Session();
 
-    Chapter* addChapter();
-    CleverURI* addRessource(QString uri, CleverURI::ContentType type, Chapter* chapter);
+    Chapter* addChapter(QString& name);
+    CleverURI* addRessource(QString& uri, CleverURI::ContentType& type, Chapter* chapter);
 
+    Chapter* getChapter(int index);
 
+    QList<Chapter*>& chapterList();
 
 private:
-    QList<Chapter> m_chapterList;
+    QList<Chapter*> m_chapterList;
     QTime m_time;
     int m_gameCount;
 

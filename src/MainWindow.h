@@ -53,16 +53,9 @@ class CharacterSheetWindow;
 class Player;
 class DicePlugInManager;
 class UpdateChecker;
-class SessionManager;
 class Session;
+class SessionManager;
 
-
-
-
-
-/**
-  * @brief stores file URIs and keeps its type, useful for recent opened files
-  */
 #include "rclient.h"
 
 /**
@@ -267,15 +260,13 @@ private :
         /**
           * @brief QStringList of opened documents : file paths
           */
-
       /*  QStringList m_recentFiles;
         QList<int> m_recentTypes;*/
         //QList<CleverURI> m_recentFiles;
         Session* m_session;
+        SessionManager* m_sessionManager;
 
         UpdateChecker* m_updateChecker;
-
-        SessionManager* m_sessionManager;
 private slots :
         /**
         * @brief Show the map wizzard

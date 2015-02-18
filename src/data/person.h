@@ -57,11 +57,11 @@ public:
     /**
       * @brief set the person's name.
       */
-    virtual void setName(QString);
+    virtual void setName(QString&);
     /**
       * @brief set the person's color.
       */
-    virtual void setColor(QColor);
+    virtual void setColor(QColor&);
     /**
       * @brief gives access to person's avatar.
       */
@@ -69,7 +69,7 @@ public:
     /**
       * @brief set the person's avatar.
       */
-    virtual void setAvatar(QImage p);
+    virtual void setAvatar(QImage& p);
     /**
       * @brief set the person state.
       */

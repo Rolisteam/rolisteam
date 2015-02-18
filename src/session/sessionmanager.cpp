@@ -2,6 +2,7 @@
 #include <QTreeView>
 #include <QHBoxLayout>
 #include "sessionitemmodel.h"
+#include "session.h"
 
 SessionManager::SessionManager()
 {
@@ -21,10 +22,13 @@ SessionManager::SessionManager()
 }
 Chapter* SessionManager::getCurrentChapter()
 {
-
+    return NULL;
 }
 void SessionManager::setCurrentSession(Session* s)
 {
     m_currentSession=s;
+    /// @todo test code, should be removed
+    QString t = tr("Chapter 1");
+    m_currentSession->addChapter(t );
     m_model->setSession(m_currentSession);
 }

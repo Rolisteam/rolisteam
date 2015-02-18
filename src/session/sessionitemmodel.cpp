@@ -1,7 +1,7 @@
 #include "sessionitemmodel.h"
 #include "cleveruri.h"
 #include "session.h"
-ResourcesItem::ResourcesItem(CleverURI* p,bool leaf)
+ResourcesItem::ResourcesItem(RessourcesNode* p,bool leaf)
     : m_data(p),m_isLeaf(leaf)
 {
     m_children =new QList<ResourcesItem*>;
@@ -16,11 +16,11 @@ void ResourcesItem::setParent(ResourcesItem* p)
     m_parent = p;
 }
 
-void ResourcesItem::setCleverURI(CleverURI* p)
+void ResourcesItem::setData(RessourcesNode* p)
 {
     m_data = p;
 }
-CleverURI* ResourcesItem::getCleverURI()
+RessourcesNode* ResourcesItem::getData()
 {
     return m_data;
 }
@@ -42,6 +42,7 @@ int ResourcesItem::childrenCount()
 
 void ResourcesItem::addChild(ResourcesItem* child)
 {
+    child->setParent(this);
     m_children->append(child);
 }
 
@@ -131,7 +132,7 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
              ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
              if(tmp)
              {
-               return tmp->getCleverURI()->getUri();
+               return tmp->getData()->getShortName();
              }
         }
     }
@@ -140,4 +141,11 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
 void SessionItemModel::setSession(Session* s)
 {
     /// @todo parse the session and build appropriate ressources items.
+    m_session = s;
+    foreach(Chapter* tmp,m_session->chapterList())
+    {
+        ResourcesItem* rt = new ResourcesItem(tmp,false);
+        m_rootItem->addChild(rt);
+
+    }
 }

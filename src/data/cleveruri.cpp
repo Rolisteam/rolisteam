@@ -51,7 +51,14 @@ int CleverURI::getType() const
 {
     return m_type;
 }
-
+bool CleverURI::hasChildren() const
+{
+    return false;
+}
+const QString& CleverURI::getShortName() const
+{
+    return m_uri;
+}
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)
 {
   out << con.getUri();

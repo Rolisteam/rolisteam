@@ -42,17 +42,17 @@ const QImage& Person::getAvatar() const
 {
     return m_avatar;
 }
-void Person::setAvatar(QImage p)
+void Person::setAvatar(QImage& p)
 {
     m_avatar=p;
 }
 
-void Person::setName(QString p)
+void Person::setName(QString& p)
 {
     m_name = p;
 }
 
-void Person::setColor(QColor p)
+void Person::setColor(QColor& p)
 {
     m_color=p;
 }

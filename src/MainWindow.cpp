@@ -72,8 +72,10 @@ MainWindow::MainWindow()
     m_rclient= new RClient();
 
     readSettings();
+    m_session = new Session();
     m_sessionManager = new SessionManager();
     m_sessionManager->setCurrentSession(m_session);
+
     addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
     m_preferenceDialog->initValues();
 

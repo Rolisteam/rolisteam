@@ -102,8 +102,8 @@ void UserListView::onAvatar()
     QString path = QFileDialog::getOpenFileName(this, tr("Avatar"),".",tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)"));
     QModelIndex index= currentIndex();
     PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
-
-    childItem->getPerson()->setAvatar(QImage(path));
+    QImage im(path);
+    childItem->getPerson()->setAvatar(im);
 
 }
 void UserListView::onEditCurrentItemColor()

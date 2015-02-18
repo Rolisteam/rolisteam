@@ -3,6 +3,7 @@
 
 #include <QAbstractItemModel>
 class CleverURI;
+class RessourcesNode;
 class ResourcesItem
 {
 public:
@@ -11,16 +12,18 @@ public:
       * @param Section pointer
       * @param isLeaf either the item is a leaf or not.
       */
-    ResourcesItem(CleverURI* p,bool isLeaf);
+    ResourcesItem(RessourcesNode* p,bool isLeaf);
 
     /**
       * @brief defines the stored section
       */
-    void setCleverURI(CleverURI* p);
+    void setData(RessourcesNode* p);
     /**
       * @brief accessor to the stored section
       */
-    CleverURI* getCleverURI();
+    RessourcesNode* getData();
+
+
 
     /**
       * @brief return either the item is a leaf or note.
@@ -66,7 +69,7 @@ public:
       */
     int childrenCount();
 private:
-    CleverURI* m_data;
+    RessourcesNode* m_data;
     bool m_isLeaf; /// @brief true when no child and has valid parent
     bool m_directory; // organisation helper.
     ResourcesItem* m_parent;
@@ -87,6 +90,7 @@ public:
    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
     void setSession(Session* s);
+   // void addChapter(Chapter* c );
 private:
     //Section* m_rootSection;
 

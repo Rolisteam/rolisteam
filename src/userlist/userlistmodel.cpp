@@ -237,7 +237,8 @@ bool UserListModel::setData ( const QModelIndex & index, const QVariant & value,
     if(Qt::EditRole==role)
     {
             PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
-            childItem->getPerson()->setName(value.toString());
+            QString st = value.toString();
+            childItem->getPerson()->setName(st);
             return true;
     }
     else if(Qt::CheckStateRole == role)

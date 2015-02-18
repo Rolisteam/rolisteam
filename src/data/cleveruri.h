@@ -3,8 +3,9 @@
 
 #include <QString>
 #include <QMetaType>
+#include "ressourcesnode.h"
 
-class CleverURI
+class CleverURI : public RessourcesNode
 {
 
 public:
@@ -20,6 +21,10 @@ public:
     const QString& getUri() const;
     int getType() const;
     bool operator==(const CleverURI& uri1) const;
+
+    bool hasChildren() const;
+    const QString& getShortName() const;
+
 private:
     QString m_uri;
     int m_type;
