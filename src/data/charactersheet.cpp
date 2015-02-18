@@ -121,3 +121,7 @@ void CharacterSheet::setData(int index,QVariant value,bool isHeader)
     }
 
 }
+void CharacterSheet::appendSection()
+{
+
+}

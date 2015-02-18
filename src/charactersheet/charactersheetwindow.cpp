@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include "charactersheetwindow.h"
-
+#include "charactersheet.h"
 
 CharacterSheetWindow::CharacterSheetWindow()
 {
@@ -28,8 +28,11 @@ CharacterSheetWindow::CharacterSheetWindow()
 
     m_addSection.setText(tr("Add Section"));
     m_addLine.setText(tr("Add line"));
+    m_addCharacterSheet.setText(tr("Add CharacterSheet"));
+    m_vertiLayout.addWidget(&m_addCharacterSheet);
     m_vertiLayout.addWidget(&m_addSection);
     m_vertiLayout.addWidget(&m_addLine);
+
 
     QHBoxLayout horizonLayout;
 
@@ -45,6 +48,7 @@ CharacterSheetWindow::CharacterSheetWindow()
 
     connect(&m_addLine,SIGNAL(clicked()),this,SLOT(addLine()));
     connect(&m_addSection,SIGNAL(clicked()),this,SLOT(addSection()));
+    connect(&m_addCharacterSheet,SIGNAL(clicked()),this,SLOT(addCharacterSheet()));
 }
 bool CharacterSheetWindow::defineMenu(QMenu* menu)
 {
@@ -62,5 +66,10 @@ void CharacterSheetWindow::addLine()
 
 void CharacterSheetWindow::addSection()
 {
+
+}
+void CharacterSheetWindow::addCharacterSheet()
+{
+    m_model.addCharacterSheet();
 
 }

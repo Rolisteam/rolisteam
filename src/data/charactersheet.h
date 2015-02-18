@@ -106,6 +106,8 @@ public:
 	*/
     int getIndexCount();
 
+    void appendSection();
+
 private:
 	/**
 	* @brief 

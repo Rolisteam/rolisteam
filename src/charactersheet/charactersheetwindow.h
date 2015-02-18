@@ -41,6 +41,7 @@ public:
 protected slots:
     void addLine();
     void addSection();
+    void addCharacterSheet();
 
 private:
     QTableView m_view;
@@ -48,6 +49,7 @@ private:
 
     QPushButton m_addSection;
     QPushButton m_addLine;
+    QPushButton m_addCharacterSheet;
 
     QVBoxLayout m_vertiLayout;
     QHBoxLayout m_horizonLayout;

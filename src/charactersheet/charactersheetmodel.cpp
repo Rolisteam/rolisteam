@@ -39,7 +39,7 @@ int CharacterSheetModel::rowCount ( const QModelIndex & parent  ) const
 int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
 {
     Q_UNUSED(parent)
-    return m_characterList->size()+1;
+            return m_characterList->size()>0?m_characterList->size()+1:0;
 }
 QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex & parent ) const
 {
@@ -55,7 +55,7 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
 {
     Q_UNUSED(index)
     if(role == Qt::DisplayRole)
-        return QString("merde");
+        return QString("");
 
     return QVariant();
 }
@@ -73,5 +73,25 @@ bool CharacterSheetModel::setData ( const QModelIndex & index, const QVariant & 
             CharacterSheet* tmp = m_characterList->at(index.column()-1);
             tmp->setData(index.row(),0,true);
         }
+        return true;
     }
+    return false;
+
+}
+void CharacterSheetModel::addCharacterSheet()
+{
+    CharacterSheet* sheet = new CharacterSheet;
+    sheet->appendSection();
+    m_characterList->append(sheet);
+
+}
+
+void CharacterSheetModel::addSection(int index)
+{
+
+}
+
+void CharacterSheetModel::addLine(int index)
+{
+
 }
