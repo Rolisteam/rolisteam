@@ -139,16 +139,13 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 		G_initialisation.initialisee = false;
 
 		// Nom du fichier d'initialisation
-		#ifdef WIN32
-			QString fichierInitialisation = QString(NOM_APPLICATION) + ".ini";
-		#elif defined (MACOS)
-			// Creation du repertoire ou sont stockees les preferences, si celui-ci n'existe pas
-			if (!(QDir(QDir::homePath() + "/." + QString(NOM_APPLICATION)).exists()))
-				QDir::home().mkdir("." + QString(NOM_APPLICATION));
-                        QString fichierInitialisation = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".ini";
-                #else
-                        QString fichierInitialisation = qApp->applicationDirPath()+"/."+QString(NOM_APPLICATION);
-		#endif
+
+
+
+         QString fichierInitialisation = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".ini";
+
+
+
  
 		// Si le fichier d'initialisation existe, on le charge
 		if (QFile::exists(fichierInitialisation))

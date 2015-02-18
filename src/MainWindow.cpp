@@ -2467,14 +2467,17 @@ void MainWindow::sauvegarderFichierInitialisation()
         G_initialisation.dossierTchats = G_dossierTchats;
 
         // Nom du fichier d'initialisation
-#ifdef WIN32
-        QString fichierInitialisation = QString(NOM_APPLICATION) + ".ini";
-#else
+        QDir storageFolder = QDir::homePath();
+        if(!storageFolder.exists(QString(".%1").arg(NOM_APPLICATION)))
+        {
+            storageFolder.mkdir(QString(".%1").arg(NOM_APPLICATION));
+        }
         QString fichierInitialisation = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".ini";
-#endif
+
 
         // Creation du descripteur de fichier
         QFile file(fichierInitialisation);
+
         // Ouverture du fichier en ecriture seule
         if (!file.open(QIODevice::WriteOnly))
         {
