@@ -88,7 +88,7 @@ public slots :
     void masquerTchat(QString id);
     void afficherEditeurNotes(bool afficher, bool cocherAction = false);
     void quitterApplication(bool perteConnexion = false);
-
+    void checkUpdate();
 private :
     QDockWidget* creerLogUtilisateur();
     void creerMenu();
@@ -184,7 +184,7 @@ private slots :
     void ouvrirNotes();
     void fermerPlanOuImage();
     void sauvegarderPlan();
-
+    void updateMayBeNeeded();
     /**
     * \brief Show the about dialog
     *
