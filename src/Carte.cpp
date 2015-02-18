@@ -35,7 +35,7 @@
 #include "playersList.h"
 
 #include "variablesGlobales.h"
-
+//GM_ONLY, PC_MOVE,PC_ALL
 
 /********************************************************************/
 /* Constructeur                                                     */
@@ -72,6 +72,8 @@ void Carte::p_init()
     painterEfface.fillRect(0, 0, fondOriginal->width(), fondOriginal->height(), Qt::black);
     // Ajout de la couche alpha effaceAlpha a l'image de fond originale
     ajouterAlpha(fondOriginal, effaceAlpha, fondOriginal);
+
+    m_localPlayer = PlayersList::instance().localPlayer();
 
     // Creation d'une image en mode ARGB32 qui sert a mixer le fond et la couche alpha
     fondAlpha = new QImage(fondOriginal->size(), QImage::Format_ARGB32);
@@ -196,7 +198,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
             if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj ||
                 m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
             {
-                if(((m_currentMode == NouveauPlanVide::GM_ONLY)&&(!G_joueur))||(NouveauPlanVide::PC_ALL==m_currentMode)||(NouveauPlanVide::PC_MOVE == m_currentMode))
+                if((!G_joueur)||(NouveauPlanVide::PC_ALL==m_currentMode)||(NouveauPlanVide::PC_MOVE == m_currentMode))
                 {
                     actionPnjBoutonEnfonce(event->pos());
                 }
@@ -206,7 +208,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
             else if (m_currentTool == BarreOutils::main)
             {
                 // On initialise le deplacement de la Carte
-                if(((m_currentMode == NouveauPlanVide::GM_ONLY)&&(!G_joueur))||
+                if((!G_joueur)||
                   (((m_currentMode == NouveauPlanVide::PC_ALL))))
                 {
                     emit commencerDeplacementCarteFenetre(mapToGlobal(event->pos()));
@@ -216,7 +218,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
         // Il s'agit d'une action de dessin
         else
         {
-                if(((m_currentMode == NouveauPlanVide::GM_ONLY)&&(!G_joueur))||
+                if(((!G_joueur))||
                   (((m_currentMode == NouveauPlanVide::PC_ALL))))
                 {
                         pointOrigine = pointSouris = event->pos();
@@ -390,7 +392,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
                 dessiner(painter);
             }
 
-            if(((m_currentMode == NouveauPlanVide::GM_ONLY)&&(!G_joueur))||
+            if(((!G_joueur))||
               (((m_currentMode == NouveauPlanVide::PC_ALL))))
             {
                 zoneNouvelle = zoneARafraichir();
@@ -418,7 +420,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
                 // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
                 afficheOuMasquePnj();
             }
-            if(((m_currentMode == NouveauPlanVide::GM_ONLY)&&(!G_joueur))||
+            if((!G_joueur)||
               (((m_currentMode == NouveauPlanVide::PC_ALL))))
             {
 
@@ -516,7 +518,7 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
         // Il s'agit d'une action de dessin
         else
         {
-            if(((m_currentMode == NouveauPlanVide::GM_ONLY)&&(!G_joueur))||
+            if((!G_joueur)||
               (((m_currentMode == NouveauPlanVide::PC_ALL))))
             {
                 pointSouris = event->pos();
@@ -879,140 +881,134 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
             emit incrementeNumeroPnj();
         }
     }
-    
-    else if (m_currentTool == BarreOutils::supprPnj)
-    {
-        // Recuperation du DessinPerso se trouvant sous la souris
-        DessinPerso *pnj = dansDessinPerso(positionSouris);
-        // S'il y a un DessinPerso sous la souris...
-        if (pnj)
-        {
-            // ...et que ce n'est pas un PJ, alors on le detruit
-            if (!pnj->estUnPj())
-            {
-                if (dernierPnjSelectionne == pnj)
-                    dernierPnjSelectionne = 0;
-
-                // Emission de la demande de suppression de de PNJ
-                
-                // Taille des donnees
-                quint32 tailleCorps =
-                    // Taille de l'identifiant de la carte
-                    sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-                    // Taille de l'identifiant du PNJ
-                    sizeof(quint8) + pnj->idPersonnage().size()*sizeof(QChar);
-                                            
-                // Buffer d'emission
-                char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-        
-                // Creation de l'entete du message
-                enteteMessage *uneEntete;
-                uneEntete = (enteteMessage *) donnees;
-                uneEntete->categorie = persoNonJoueur;
-                uneEntete->action = supprimerPersoNonJoueur;
-                uneEntete->tailleDonnees = tailleCorps;
-                
-                // Creation du corps du message
-                int p = sizeof(enteteMessage);
-                // Ajout de l'identifiant de la carte
-                quint8 tailleIdCarte = idCarte.size();
-                memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-                p+=sizeof(quint8);
-                memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
-                p+=tailleIdCarte*sizeof(QChar);
-                // Ajout de l'identifiant du PNJ
-                quint8 tailleIdPnj = pnj->idPersonnage().size();
-                memcpy(&(donnees[p]), &tailleIdPnj, sizeof(quint8));
-                p+=sizeof(quint8);
-                memcpy(&(donnees[p]), pnj->idPersonnage().data(), tailleIdPnj*sizeof(QChar));
-                p+=tailleIdPnj*sizeof(QChar);
-                
-                // Emission de la suppression de PNJ au serveur ou aux clients
-                emettre(donnees, tailleCorps + sizeof(enteteMessage));
-                // Liberation du buffer d'emission
-                delete[] donnees;
-                
-                // Destruction du personnage
-                pnj->~DessinPerso();
-            }
-        }
-    }
-    
-    else if (m_currentTool == BarreOutils::deplacePerso)
-    {
-        // Recuperation du DessinPerso se trouvant sous la souris (0 si aucun PNJ sous la souris)
-        pnjSelectionne = dansDessinPerso(positionSouris);
-        // Si la souris etait bien sur un DessinPerso
-        if (pnjSelectionne)
-        {
-            // On calcule la difference entre le coin sup gauche du PNJ et le pointeur de la souris
-            diffSourisDessinPerso = pnjSelectionne->mapFromParent(positionSouris);
-            // Mise a zero de la liste de points
-            listeDeplacement.clear();
-            // Ajout de la position actuelle du perso dans la liste
-            listeDeplacement.append(pnjSelectionne->positionCentrePerso());
-        }
-    }
-    
-    else if (m_currentTool == BarreOutils::etatPerso)
-    {
-        // Recuperation du DessinPerso se trouvant sous la souris
-        DessinPerso *pnj = dansDessinPerso(positionSouris);
-        // S'il y a un DessinPerso sous la souris, on change son etat
-        if (pnj)
-        {
-            // changement d'etat du personnage
-            pnj->changerEtat();
-            dernierPnjSelectionne = pnj;
-            
-            // Emission de la demande de changement d'etat du perso
-
-            // Taille des donnees
-            quint32 tailleCorps =
-                // Taille de l'identifiant de la carte
-                sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-                // Taille de l'identifiant du perso
-                sizeof(quint8) + pnj->idPersonnage().size()*sizeof(QChar) +
-                // Taille du numero d'etat
-                sizeof(quint16);
-                                        
-            // Buffer d'emission
-            char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-    
-            // Creation de l'entete du message
-            enteteMessage *uneEntete;
-            uneEntete = (enteteMessage *) donnees;
-            uneEntete->categorie = personnage;
-            uneEntete->action = changerEtatPerso;
-            uneEntete->tailleDonnees = tailleCorps;
-            
-            // Creation du corps du message
-            int p = sizeof(enteteMessage);
-            // Ajout de l'identifiant de la carte
-            quint8 tailleIdCarte = idCarte.size();
-            memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-            p+=sizeof(quint8);
-            memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
-            p+=tailleIdCarte*sizeof(QChar);
-            // Ajout de l'identifiant du perso
-            quint8 tailleIdPnj = pnj->idPersonnage().size();
-            memcpy(&(donnees[p]), &tailleIdPnj, sizeof(quint8));
-            p+=sizeof(quint8);
-            memcpy(&(donnees[p]), pnj->idPersonnage().data(), tailleIdPnj*sizeof(QChar));
-            p+=tailleIdPnj*sizeof(QChar);
-            // Ajout du numero d'etat
-            quint16 numEtat = pnj->numeroEtatSante();
-            memcpy(&(donnees[p]), &numEtat, sizeof(quint16));
-            p+=sizeof(quint16);
-            // Emission du changement d'etat de perso au serveur ou aux clients
-            emettre(donnees, tailleCorps + sizeof(enteteMessage));
-            // Liberation du buffer d'emission
-            delete[] donnees;
-        }
-    }
-
     else
-        qWarning() << (tr("undefine tool for processing action on NPC or PC (actionPnjBoutonEnfonce - Carte.cpp)"));
+    {
+        DessinPerso *pnj = dansDessinPerso(positionSouris);
+        if (pnj)
+        {
+            if((!G_joueur)||
+               (NouveauPlanVide::PC_ALL==m_currentMode)||
+                    ((NouveauPlanVide::PC_MOVE == m_currentMode)||(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )
+            {
+                if (m_currentTool == BarreOutils::supprPnj)
+                {
+                        if (!pnj->estUnPj())
+                        {
+                            if (dernierPnjSelectionne == pnj)
+                                dernierPnjSelectionne = 0;
+
+                            // Emission de la demande de suppression de de PNJ
+
+                            // Taille des donnees
+                            quint32 tailleCorps =
+                                // Taille de l'identifiant de la carte
+                                sizeof(quint8) + idCarte.size()*sizeof(QChar) +
+                                // Taille de l'identifiant du PNJ
+                                sizeof(quint8) + pnj->idPersonnage().size()*sizeof(QChar);
+
+                            // Buffer d'emission
+                            char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
+
+                            // Creation de l'entete du message
+                            enteteMessage *uneEntete;
+                            uneEntete = (enteteMessage *) donnees;
+                            uneEntete->categorie = persoNonJoueur;
+                            uneEntete->action = supprimerPersoNonJoueur;
+                            uneEntete->tailleDonnees = tailleCorps;
+
+                            // Creation du corps du message
+                            int p = sizeof(enteteMessage);
+                            // Ajout de l'identifiant de la carte
+                            quint8 tailleIdCarte = idCarte.size();
+                            memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
+                            p+=sizeof(quint8);
+                            memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
+                            p+=tailleIdCarte*sizeof(QChar);
+                            // Ajout de l'identifiant du PNJ
+                            quint8 tailleIdPnj = pnj->idPersonnage().size();
+                            memcpy(&(donnees[p]), &tailleIdPnj, sizeof(quint8));
+                            p+=sizeof(quint8);
+                            memcpy(&(donnees[p]), pnj->idPersonnage().data(), tailleIdPnj*sizeof(QChar));
+                            p+=tailleIdPnj*sizeof(QChar);
+
+                            // Emission de la suppression de PNJ au serveur ou aux clients
+                            emettre(donnees, tailleCorps + sizeof(enteteMessage));
+                            // Liberation du buffer d'emission
+                            delete[] donnees;
+
+                            // Destruction du personnage
+                            pnj->~DessinPerso();
+                        }
+
+                }
+
+                else if (m_currentTool == BarreOutils::deplacePerso)
+                {
+                            pnjSelectionne = pnj;
+                            // On calcule la difference entre le coin sup gauche du PNJ et le pointeur de la souris
+                            diffSourisDessinPerso = pnj->mapFromParent(positionSouris);
+                            // Mise a zero de la liste de points
+                            listeDeplacement.clear();
+                            // Ajout de la position actuelle du perso dans la liste
+                            listeDeplacement.append(pnj->positionCentrePerso());
+
+
+                }
+                else if (m_currentTool == BarreOutils::etatPerso)
+                {
+                        // changement d'etat du personnage
+                        pnj->changerEtat();
+                        dernierPnjSelectionne = pnj;
+
+                        // Emission de la demande de changement d'etat du perso
+
+                        // Taille des donnees
+                        quint32 tailleCorps =
+                            // Taille de l'identifiant de la carte
+                            sizeof(quint8) + idCarte.size()*sizeof(QChar) +
+                            // Taille de l'identifiant du perso
+                            sizeof(quint8) + pnj->idPersonnage().size()*sizeof(QChar) +
+                            // Taille du numero d'etat
+                            sizeof(quint16);
+
+                        // Buffer d'emission
+                        char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
+
+                        // Creation de l'entete du message
+                        enteteMessage *uneEntete;
+                        uneEntete = (enteteMessage *) donnees;
+                        uneEntete->categorie = personnage;
+                        uneEntete->action = changerEtatPerso;
+                        uneEntete->tailleDonnees = tailleCorps;
+
+                        // Creation du corps du message
+                        int p = sizeof(enteteMessage);
+                        // Ajout de l'identifiant de la carte
+                        quint8 tailleIdCarte = idCarte.size();
+                        memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
+                        p+=sizeof(quint8);
+                        memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
+                        p+=tailleIdCarte*sizeof(QChar);
+                        // Ajout de l'identifiant du perso
+                        quint8 tailleIdPnj = pnj->idPersonnage().size();
+                        memcpy(&(donnees[p]), &tailleIdPnj, sizeof(quint8));
+                        p+=sizeof(quint8);
+                        memcpy(&(donnees[p]), pnj->idPersonnage().data(), tailleIdPnj*sizeof(QChar));
+                        p+=tailleIdPnj*sizeof(QChar);
+                        // Ajout du numero d'etat
+                        quint16 numEtat = pnj->numeroEtatSante();
+                        memcpy(&(donnees[p]), &numEtat, sizeof(quint16));
+                        p+=sizeof(quint16);
+                        // Emission du changement d'etat de perso au serveur ou aux clients
+                        emettre(donnees, tailleCorps + sizeof(enteteMessage));
+                        // Liberation du buffer d'emission
+                        delete[] donnees;
+                }
+                else
+                    qWarning() << (tr("undefine tool for processing action on NPC or PC (actionPnjBoutonEnfonce - Carte.cpp)"));
+            }
+    }
+}
 
 }
 
@@ -1123,12 +1119,12 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
         }
     }
     
-    else if (m_currentTool == BarreOutils::etatPerso)
+    else if (m_currentTool != BarreOutils::etatPerso)
     {
+        qWarning() << (tr("undefine tool for processing action on NPC or PC (actionPnjMouvementSouris - Carte.cpp)"));
     }
 
-    else
-        qWarning() << (tr("undefine tool for processing action on NPC or PC (actionPnjMouvementSouris - Carte.cpp)"));
+
 
 }
 
@@ -1345,13 +1341,17 @@ void Carte::toggleCharacterView(Character * character)
 {
     QString uuid = character->uuid();
     bool newState = !pjAffiche(uuid);
-    affichageDuPj(uuid, newState);
+    if((!G_joueur)||(NouveauPlanVide::PC_ALL==m_currentMode)||(NouveauPlanVide::PC_MOVE == m_currentMode))
+    {
+        affichageDuPj(uuid, newState);
 
-    NetworkMessageWriter message(NetMsg::CharacterCategory, NetMsg::ToggleViewCharacterAction);
-    message.string8(idCarte);
-    message.string8(uuid);
-    message.uint8(newState ? 1 : 0);
-    message.sendAll();
+        NetworkMessageWriter message(NetMsg::CharacterCategory, NetMsg::ToggleViewCharacterAction);
+        message.string8(idCarte);
+        message.string8(uuid);
+        message.uint8(newState ? 1 : 0);
+        message.sendAll();
+    }
+
 }
 
 /********************************************************************/

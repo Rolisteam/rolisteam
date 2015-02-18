@@ -82,6 +82,7 @@ class Player : public Person {
         int         getCharactersCount() const;
         Character * getCharacterByIndex(int index) const;
         int         getIndexOfCharacter(Character * character) const;
+        int         getIndexOf(QString id) const;
 
         bool isGM() const;
 

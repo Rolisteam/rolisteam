@@ -39,6 +39,7 @@
 #include <QColor>
 #include <QPoint>
 
+//#include "playersList.h"
 
 class DessinPerso : public QWidget
 {
@@ -83,6 +84,9 @@ public :
     int numeroEtatSante();
     void write(QDataStream &out);
 
+    /*void setCharacter(Character* tmp);
+    Character* getCharacter();*/
+
 public slots :
     void afficherNomsPj(bool afficher);
     void afficherNomsPnj(bool afficher);
@@ -112,6 +116,8 @@ private :
     QPoint contour[8];			// 8 points formant le contour du disque (dans l'espace de coordonnees de disquePerso)
     QPoint orientation;			// Orientation du personnage (difference entre le centre du disque et la souris)
     QPoint centre;				// Sert a memoriser la position du centre pendant que le personnage est cache
+
+    //Character * person;
 
 
 };

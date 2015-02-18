@@ -145,7 +145,16 @@ int Player::getIndexOfCharacter(Character * character) const
 {
     return m_characters.indexOf(character);
 }
+int Player::getIndexOf(QString id) const
+{
+    for(int i =0; i< m_characters.size() ; i++)
+    {
+        if(m_characters[i]->uuid()==id)
+            return i;
+    }
 
+    return -1;
+}
 bool Player::isGM() const
 {
     return m_gameMaster;

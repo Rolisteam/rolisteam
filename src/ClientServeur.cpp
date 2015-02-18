@@ -190,11 +190,15 @@ bool ClientServeur::configAndConnect()
                 cont = false;
             }
         }
-        m_timerdialog->setInterval(10);
-        if(m_timerdialog->exec()==QDialog::Rejected)
+        if(cont)
         {
-            exit(0);
+            m_timerdialog->setInterval(10);
+            if(m_timerdialog->exec()==QDialog::Rejected)
+            {
+                exit(0);
+            }
         }
+
 
 
     }

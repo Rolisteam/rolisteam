@@ -28,7 +28,8 @@
 
 #include "colorbutton.h"
 
-
+#define MIN 1
+#define MAX 32767
 /**************************
  * ConnectionConfigDialog *
  **************************/
@@ -125,8 +126,8 @@ void ConnectionConfigDialog::setUI()
     m_host      = new QLineEdit;
 
     m_port      = new QSpinBox;
-    m_port->setMinimum(1024);
-    m_port->setMaximum(32767);
+    m_port->setMinimum(MIN);
+    m_port->setMaximum(MAX);
 
     m_server    = new QCheckBox(tr("Host the game."));
     m_server->setCheckState(Qt::Unchecked);

@@ -40,6 +40,8 @@
 #include "NouveauPlanVide.h"
 #include "BarreOutils.h"
 
+#include "playersList.h"
+
 
 class Character;
 class DessinPerso;
@@ -157,6 +159,7 @@ private :
     QList<PersoEnMouvement> mouvements;    // liste des personnages a deplacer, ainsi que leur trajectoire
     NouveauPlanVide::PermissionMode m_currentMode;
     BarreOutils::Tool m_currentTool;
+    Player* m_localPlayer;
 
 };
 
