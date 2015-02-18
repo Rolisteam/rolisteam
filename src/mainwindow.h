@@ -179,6 +179,11 @@ public :
      */
     void notifyUser_p(QString msg);
 
+    /**
+     * @brief setUpNetworkConnection
+     */
+    void setUpNetworkConnection();
+
 
 signals:
     void closing();

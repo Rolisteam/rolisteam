@@ -51,6 +51,7 @@ ChatList::ChatList(MainWindow * mainWindow)
     for (int i = 0 ; i < maxPlayerIndex ; i++)
     {
         Player * player = g_playersList->getPlayer(i);
+
         if (player != localPlayer)
         {
             addPlayerChat(player);//m_mainWindow
@@ -83,14 +84,19 @@ bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role
 
     switch (role)
     {
-        default:
-        case Qt::DisplayRole:
-        case Qt::EditRole:
-        case Qt::DecorationRole:
-            return false;
-        case Qt::CheckStateRole:
-            chatw->setVisible(!chatw->isVisible());
-            return true;
+    default:
+    case Qt::DisplayRole:
+    case Qt::EditRole:
+    case Qt::DecorationRole:
+        return false;
+    case Qt::CheckStateRole:
+    {
+        bool visible = chatw->isVisible();
+        chatw->widget()->setVisible(!visible);
+        chatw->setVisible(!visible);
+    }
+
+        return true;
     }
 
 
@@ -110,13 +116,13 @@ QVariant ChatList::data(const QModelIndex &index, int role) const
 
     switch (role)
     {
-        case Qt::DisplayRole:
-        case Qt::EditRole:
-            return QVariant(chatw->chat()->name());
-        case Qt::DecorationRole:
-            return QVariant(QColor(chatw->hasUnseenMessage() ? "red" : "green"));
-        case Qt::CheckStateRole:
-            return QVariant(chatw2->isVisible());
+    case Qt::DisplayRole:
+    case Qt::EditRole:
+        return QVariant(chatw->chat()->name());
+    case Qt::DecorationRole:
+        return QVariant(QColor(chatw->hasUnseenMessage() ? "red" : "green"));
+    case Qt::CheckStateRole:
+        return QVariant(chatw2->isVisible());
     }
 
     return QVariant();
@@ -236,7 +242,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
 
 
     m_chatMenu.addAction(chatw->toggleViewAction());
-    connect(chatw, SIGNAL(changed(ChatWindow *)), this, SLOT(changeChatWindow(ChatWindow *)));
+    connect(chatw, SIGNAL(ChatWindowHasChanged(ChatWindow *)), this, SLOT(changeChatWindow(ChatWindow *)));
 
     QMdiSubWindow* widget = static_cast<QMdiSubWindow*>(m_mainWindow->registerSubWindow(chatw));
 
@@ -311,10 +317,13 @@ QMdiSubWindow * ChatList::getChatSubWindowByIndex(const QModelIndex & index) con
 }
 void ChatList::addPlayerChat(Player * player)
 {
-    ChatWindow * chatw = getChatWindowByUuid(player->uuid());
-    if (chatw == NULL)
+    if(player != PlayersList::instance()->localPlayer())
     {
-        addChatWindow(new ChatWindow(new PlayerChat(player), m_mainWindow));
+        ChatWindow * chatw = getChatWindowByUuid(player->uuid());
+        if (chatw == NULL)
+        {
+            addChatWindow(new ChatWindow(new PlayerChat(player), m_mainWindow));
+        }
     }
 }
 
@@ -325,7 +334,7 @@ void ChatList::delPlayer(Player * player)
     while (i.hasNext())
     {
         ChatWindow * chatw = i.next();
-        if (chatw->chat()->belongsTo(player))
+        if(chatw->chat()->belongsTo(player))
         {
             i.remove();
             chatw->deleteLater();
@@ -372,19 +381,19 @@ bool ChatList::event(QEvent * event)
             NetMsg::Action action = data.action();
             switch (action)
             {
-                case NetMsg::ChatMessageAction:
-                case NetMsg::DiceMessageAction:
-                case NetMsg::EmoteMessageAction:
-                    dispatchMessage(netEvent);
-                    return true;
-                case NetMsg::UpdateChatAction:
-                    updatePrivateChat(netEvent);
-                    return true;
-                case NetMsg::DelChatAction:
-                    deletePrivateChat(netEvent);
-                    return true;
-                default:
-                    qWarning("Unknown chat action %d", action);
+            case NetMsg::ChatMessageAction:
+            case NetMsg::DiceMessageAction:
+            case NetMsg::EmoteMessageAction:
+                dispatchMessage(netEvent);
+                return true;
+            case NetMsg::UpdateChatAction:
+                updatePrivateChat(netEvent);
+                return true;
+            case NetMsg::DelChatAction:
+                deletePrivateChat(netEvent);
+                return true;
+            default:
+                qWarning("Unknown chat action %d", action);
             }
         }
     }

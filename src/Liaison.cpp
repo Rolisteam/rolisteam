@@ -128,13 +128,13 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
     {
         // Emission des donnees
         int t = m_socketTcp->write(donnees, taille);
-        qDebug() << QString(donnees);
+        //qDebug() << QString(donnees);
         if (t < 0)
         {
-            qWarning("Erreur réseau lors d'une transmission : %s", qPrintable(m_socketTcp->errorString()));
+            qWarning() << "Tranmission error :" << m_socketTcp->errorString();
         }
-        else
-            qDebug() << "Emit - data size : " << t << taille;
+      /*  else
+            qDebug() << "Emit - data size : " << t << taille;*/
     }
 }
 
@@ -161,7 +161,7 @@ void Liaison::reception()
             // Initialisation du restant a lire
             restant = entete.dataSize;
         }
-        qDebug() << "before" <<entete.dataSize << restant << entete.category << entete.action;
+        //qDebug() << "before" <<entete.dataSize << restant << entete.category << entete.action;
         // Lecture des donnees a partir du dernier point
         lu = m_socketTcp->read(&(tampon[entete.dataSize-restant]), restant);
 
@@ -1260,6 +1260,11 @@ void Liaison::receptionMessageImage()
         QByteArray byteArray(tailleImage, 0);
         memcpy(byteArray.data(), &(tampon[p]), tailleImage);
         p+=tailleImage;
+
+        qDebug() << "taille donnee" << tailleTitre*sizeof(QChar)+sizeof(quint16)
+                                      +tailleIdImage*sizeof(QChar)+sizeof(quint8)
+                                      +sizeof(quint8) +tailleIdJoueur*sizeof(QChar)
+                                      +tailleImage+sizeof(quint32) << "taille image:"<< tailleImage << tailleTitre << tailleIdJoueur << tailleIdImage;
 
         // Creation de l'image
         QImage *img = new QImage;

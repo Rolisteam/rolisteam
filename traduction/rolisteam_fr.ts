@@ -545,12 +545,12 @@
     <message>
         <location filename="../src/connectionretrydialog.ui" line="23"/>
         <source>Connection has failed! Connection Retry in %1s. </source>
-        <translation>La connexion a écoué! Tentative dans %1s.</translation>
+        <translation>La connexion a échoué! Tentative dans %1s.</translation>
     </message>
     <message>
         <location filename="../src/connectionretrydialog.cpp" line="36"/>
         <source>Connection has failed! Connection Retry in %1s.</source>
-        <translation>La connexion a écoué! Tentative dans %1s.</translation>
+        <translation>La connexion a échoué! Tentative dans %1s.</translation>
     </message>
 </context>
 <context>

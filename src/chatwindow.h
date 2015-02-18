@@ -72,10 +72,10 @@ public :
     QMdiSubWindow* getSubWindow();
 
 signals:
-    void changed(ChatWindow * what);
+    void ChatWindowHasChanged(ChatWindow * what);
 
 public slots:
-    //virtual void setVisible(bool visible);
+    virtual void setVisible(bool visible);
     virtual bool isVisible();
     void save();
     QString getTitleFromChat();

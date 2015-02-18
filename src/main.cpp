@@ -120,13 +120,14 @@ int main(int argc, char *argv[])
 
     // Create the main window
     MainWindow* mainWindow =MainWindow::getInstance();
+
     mainWindow->setupUi();
     mainWindow->readSettings();
-
     int value = 0;
     if(mainWindow->showConnectionDialog())
     {
 
+        mainWindow->setUpNetworkConnection();
         mainWindow->updateWindowTitle();
         mainWindow->checkUpdate();
         mainWindow->updateUi();

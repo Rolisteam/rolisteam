@@ -244,10 +244,13 @@ AbstractChat * ChatWindow::chat() const
 }
 bool ChatWindow::isVisible()
 {
+
+    return (m_window->isVisible() & QWidget::isVisible());
+    /*
     if(NULL!=m_window)
         return m_window->isVisible();
     else
-        return false;
+        return false;*/
 }
 
 // not (const QString & message), because we change it !
@@ -414,10 +417,7 @@ QAction * ChatWindow::toggleViewAction() const
     return m_toggleViewAction;
 }
 
-/********************************************************************/    
-/* Ecrit le message dans la zone d'affichage, precede par le nom de */
-/* l'emetteur (avec la couleur passee en parametre)                 */
-/********************************************************************/    
+
 void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& couleur, const QString& message, NetMsg::Action msgtype)
 {
     // On repositionne le curseur a la fin du QTexEdit
@@ -448,7 +448,7 @@ void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& coule
     if (!zoneEdition->hasFocus() && !m_hasUnseenMessage)
     {
         m_hasUnseenMessage = true;
-        emit changed(this);
+        emit ChatWindowHasChanged(this);
     }
 
     // Affichage du message
@@ -1155,6 +1155,13 @@ void ChatWindow::setSubWindow(QMdiSubWindow* subWindow)
 
 
     //updateTitleFromChat();
+}
+void ChatWindow::setVisible(bool visible)
+{
+
+    QWidget::setVisible(visible);
+    m_window->setVisible(visible);
+    emit ChatWindowHasChanged(this);
 }
 
 /*void ChatWindow::contextMenuEvent ( QContextMenuEvent * event )
