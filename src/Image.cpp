@@ -183,7 +183,11 @@ void Image::mouseMoveEvent(QMouseEvent *event)
 		
 void Image::resizeLabel()
 {
-    //qDebug()<< " cdcec"<< m_pixMap.height() << m_pixMap.width() << labelImage->rect() << geometry();
+    if(m_zoomLevel<0.2)
+    {
+        m_zoomLevel=0.2;
+    }
+
     if(m_fitWindowAct->isChecked())
     {
         if(width()>height()*m_ratioImage)
@@ -204,7 +208,6 @@ void Image::resizeLabel()
         labelImage->resize(m_zoomLevel * m_pixMap.size());
         m_NormalSize = widget()->size();
     }
-    //qDebug()<< m_pixMap.height() << m_pixMap.width() << labelImage->rect() << geometry();
 }
 void Image::pointeurMain()
 {
