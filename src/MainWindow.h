@@ -36,26 +36,32 @@
 #include <QMenu>
 #include <QWorkspace>
 
-#include "CarteFenetre.h"
-#include "Carte.h"
+
+
 #include "BarreOutils.h"
 #include "ListeUtilisateurs.h"
-#include "NouveauPlanVide.h"
+
 #include "Tchat.h"
 #include "Image.h"
 #include "EditeurNotes.h"
-#include "WorkspaceAmeliore.h"
+#include "ClientServeur.h"
 #include "LecteurAudio.h"
+#include "userlistdockwidget.h"
+#include "mapwizzarddialog.h"
 
+class PreferencesManager;
+class ImprovedWorkspace;
+class MapFrame;
+class Carte;
 class MainWindow : public QMainWindow
 {
 Q_OBJECT
 
 public :
         MainWindow();
-        void affichageDuPj(QString idPerso, bool afficher);
+        /*void affichageDuPj(QString idPerso, bool afficher);
         void majCouleursPersonnelles();
-        void ajouterCarte(CarteFenetre *carteFenetre, QString titre);
+        void ajouterCarte(MapFrame *carteFenetre, QString titre);
         void ajouterImage(Image *imageFenetre, QString titre);
         void emettreTousLesPlans(QString idJoueur);
         void emettreToutesLesImages(QString idJoueur);
@@ -64,50 +70,63 @@ public :
         void emettreChangementTaillePj(int nouvelleTaille);
         void ajouterTchat(QString idJoueur, QString nomJoueur);
         void supprimerTchat(QString idJoueur);
-        void devientFenetreActive(QWidget *widget);
+        void devientFenetreActive(QMdiSubWindow *widget);
         void cocherActionTchatCommun();
-        void changementNatureUtilisateur();
-        Carte *trouverCarte(QString idCarte);
-        CarteFenetre *trouverCarteFenetre(QString idCarte);
-        Image *trouverImage(QString idImage);
-        Tchat *trouverTchat(QString idJoueur);
+        void changementNatureUtilisateur();*/
+
+        Image* trouverImage(QString idImage);
+        Tchat* trouverTchat(QString idJoueur);
         bool estLaFenetreActive(QWidget *widget);
         bool enleverCarteDeLaListe(QString idCarte);
         bool enleverImageDeLaListe(QString idImage);
 
 public slots :
-        void changerTaillePj(int nouvelleTaille);
-        void creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur, quint8 taillePj);
-        void aucunNouveauPlanVide();
+     //   void changerTaillePj(int nouvelleTaille);
+
         void afficherTchat(QString id);
         void masquerTchat(QString id);
         void afficherEditeurNotes(bool afficher, bool cocherAction = false);
         void quitterApplication(bool perteConnexion = false);
+
+
+protected :
+        void closeEvent(QCloseEvent *event);
 
 private :
         QDockWidget* creerLogUtilisateur();
         void creerMenu();
         void associerActionsMenus();
         void autoriserOuInterdireActions();
-        void lireCarteEtPnj(QFile &file, bool masquer = false, QString nomFichier = "");
+       /* void lireCarteEtPnj(QFile &file, bool masquer = false, QString nomFichier = "");
         void lireImage(QFile &file);
         void sauvegarderTousLesPlans(QFile &file);
         void sauvegarderToutesLesImages(QFile &file);
-        void sauvegarderTousLesTchats();
-        void sauvegarderFichierInitialisation();
+        void sauvegarderTousLesTchats();*/
+
+
+
+        /**
+         * Load informations from the previous rolisteam's execution
+         */
+        void readSettings();
+
+        /**
+         * Save parameters for next executions.
+         */
+        void writeSettings();
 
         QDockWidget *dockLogUtil;
-        WorkspaceAmeliore *workspace;
+        ImprovedWorkspace* workspace;
         QMenu *menuFenetre;
         QMenu *sousMenuTchat;
-        BarreOutils *barreOutils;
-        NouveauPlanVide *fenetreNouveauPlan;
+        ToolsBar *barreOutils;
+
         EditeurNotes *editeurNotes;
-        QList <CarteFenetre *> listeCarteFenetre;
+        QList <MapFrame *> listeCarteFenetre;
         QList <Image *> listeImage;
         QList <Tchat *> listeTchat;
-        LecteurAudio* G_lecteurAudio;
-        QAction *actionNouveauPlan;
+        LecteurAudio* m_audioPlayer;
+        QAction *newMapAction;
         QAction *actionOuvrirImage;
         QAction *actionOuvrirPlan;
         QAction *actionOuvrirEtMasquerPlan;
@@ -134,35 +153,53 @@ private :
 
         QAction *actionAideLogiciel;
         QAction *actionAPropos;
+       // ClientServeur* m_clientServer;
+        /**
+          * pointer to the unique instance of preference manager.
+          */
+        PreferencesManager* m_options;
+
+        /**
+          * pointer to the userlist widget.
+          */
+        UserListDockWidget* m_playerListDockWidget;
+
+
+
 
 private slots :
-        void afficherNomsPj(bool afficher);
+       /* void afficherNomsPj(bool afficher);
         void afficherNomsPnj(bool afficher);
-        void afficherNumerosPnj(bool afficher);
-        void changementFenetreActive(QWidget *widget);
-        void nouveauPlan();
-        void ouvrirPlan(bool masquer = false);
+        void afficherNumerosPnj(bool afficher);*/
+        void changementFenetreActive(QMdiSubWindow *widget);
+
+        /**
+        * @brief Show the map wizzard
+        *
+        */
+        void clickOnMapWizzard();
+
+       /* void ouvrirPlan(bool masquer = false);
         void ouvrirImage();
         void ouvrirEtMasquerPlan();
         void ouvrirScenario();
         void ouvrirNotes();
         void fermerPlanOuImage();
-        void sauvegarderPlan();
+        void sauvegarderPlan();*/
 
         /**
         * \brief Show the about dialog
         *
         */
-        void aPropos();
+        void about();
 
 
         /// \brief open the Qt assistant with the rolisteam documentation
         void aideEnLigne();
-        bool sauvegarderScenario();
-        bool sauvegarderNotes();
+        /*bool sauvegarderScenario();
+        bool sauvegarderNotes();*/
 
-protected :
-        void closeEvent(QCloseEvent *event);
+
 
 };
 

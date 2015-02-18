@@ -72,7 +72,7 @@ extern couleurSelectionee G_couleurCourante;
 extern QColor G_couleurMasque;
 
 // Declarees dans BarreOutils.cpp
-extern BarreOutils::outilSelectionne G_outilCourant;
+//extern BarreOutils::outilSelectionne G_outilCourant;
 extern QString G_texteCourant;
 extern QString G_nomPnjCourant;
 extern int G_numeroPnjCourant;
@@ -87,21 +87,8 @@ extern bool G_affichageNomPj;
 extern bool G_affichageNomPnj;
 extern bool G_affichageNumeroPnj;
 extern bool G_carteFenetreActive;
-extern QCursor *G_pointeurDessin;
-extern QCursor *G_pointeurTexte;
-extern QCursor *G_pointeurPipette;
-extern QCursor *G_pointeurDeplacer;
-extern QCursor *G_pointeurOrienter;
-extern QCursor *G_pointeurAjouter;
-extern QCursor *G_pointeurSupprimer;
-extern QCursor *G_pointeurEtat;
-extern QString G_dossierMusiquesMj;
-extern QString G_dossierMusiquesJoueur;
-extern QString G_dossierImages;
-extern QString G_dossierPlans;
-extern QString G_dossierScenarii;
-extern QString G_dossierNotes;
-extern QString G_dossierTchats;
+
+
 
 // Declarees dans ListeUtilisateur.cpp
 extern ListeUtilisateurs *G_listeUtilisateurs;

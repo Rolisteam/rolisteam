@@ -28,35 +28,36 @@
 #include "types.h"
 #include "fmod.h"
 
+#include "preferencesmanager.h"
 
-	/********************************************************************/
-	/* Variables globales utilisees par tous les elements de            */
-	/* l'application                                                    */
-	/********************************************************************/	
-	// Pointeur vers l'unique instance du lecteur audio
-        LecteurAudio * LecteurAudio::singleton = NULL;
+/********************************************************************/
+/* Variables globales utilisees par tous les elements de            */
+/* l'application                                                    */
+/********************************************************************/
+// Pointeur vers l'unique instance du lecteur audio
+    LecteurAudio * LecteurAudio::singleton = NULL;
 
-	/********************************************************************/
-	/* Fonction de callback hors classe appelee par FMOD a chaque fois  */
-	/* que la lecture d'un titre se termine. Le parametre userdata      */
-	/* pointe sur l'instance du lecteur qu'il faut mettre a l'arret     */
-	/********************************************************************/
-	signed char F_CALLBACKAPI finTitre(FSOUND_STREAM *stream, void *buff, int len, void *userdata)
-	{
-		((LecteurAudio *)userdata)->arriveeEnFinDeTitre();
-		return true;
-	}
+/********************************************************************/
+/* Fonction de callback hors classe appelee par FMOD a chaque fois  */
+/* que la lecture d'un titre se termine. Le parametre userdata      */
+/* pointe sur l'instance du lecteur qu'il faut mettre a l'arret     */
+/********************************************************************/
+signed char F_CALLBACKAPI finTitre(FSOUND_STREAM *stream, void *buff, int len, void *userdata)
+{
+    ((LecteurAudio *)userdata)->arriveeEnFinDeTitre();
+    return true;
+}
 
-	/********************************************************************/
-	/* Fonction de callback hors classe appelee par FMOD a chaque fois  */
-	/* que la lecture passe sur un TAG. Le parametre userdata pointe    */
-	/* sur l'instance du lecteur qu'il faut prevenir                    */
-	/********************************************************************/
-	signed char F_CALLBACKAPI passageTag(FSOUND_STREAM *stream, void *buff, int len, void *userdata)
-	{
-		((LecteurAudio *)userdata)->passageSurUnTag(QString((char *)buff));
-		return true;
-	}
+/********************************************************************/
+/* Fonction de callback hors classe appelee par FMOD a chaque fois  */
+/* que la lecture passe sur un TAG. Le parametre userdata pointe    */
+/* sur l'instance du lecteur qu'il faut prevenir                    */
+/********************************************************************/
+signed char F_CALLBACKAPI passageTag(FSOUND_STREAM *stream, void *buff, int len, void *userdata)
+{
+    ((LecteurAudio *)userdata)->passageSurUnTag(QString((char *)buff));
+    return true;
+}
 
 	/********************************************************************/
 	/* Constructeur                                                     */
@@ -64,6 +65,7 @@
     LecteurAudio::LecteurAudio(QWidget *parent)
         : QDockWidget(parent)
     {
+        m_options = PreferencesManager::getInstance();
 		// Initialisation de la variable globale
 		G_lecteurAudio = this;
 
@@ -463,7 +465,7 @@ LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
 	void LecteurAudio::ajouterTitre()
 	{
 		// Ouverture d'un selecteur de fichier, et recuperation de la liste des fichiers selectionnes
-		QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Ajouter un titre"), G_dossierMusiquesMj, tr("Fichiers audio (*.wav *.mp2 *.mp3 *.ogg)"));
+        QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Ajouter un titre"), m_options->value("MusicDirectory").toString(), tr("Fichiers audio (*.wav *.mp2 *.mp3 *.ogg)"));
 
 		// Si l'utilisateur a clique sur "Annuler" on quitte
 		if (listeFichiers.isEmpty())
@@ -471,7 +473,8 @@ LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
 
 		// On met a jour le chemin vers les musiques
 		int dernierSlash = listeFichiers[0].lastIndexOf("/");
-		G_dossierMusiquesMj = listeFichiers[0].left(dernierSlash);
+        m_options->registerValue("MusicDirectory",listeFichiers[0].left(dernierSlash));
+        //G_dossierMusiquesMj = ;listeFichiers[0].left(dernierSlash)
 
 
 		// Tant qu'il y a un element dans la liste, on l'ajoute a la liste des titres

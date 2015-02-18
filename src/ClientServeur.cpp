@@ -53,7 +53,8 @@ QColor G_couleurJoueurLocal;
 /********************************************************************/
 void emettre(char *donnees, quint32 taille, Liaison *sauf)
 {
-G_clientServeur->emettreDonnees(donnees, taille, sauf);
+    if(G_clientServeur != NULL)
+        G_clientServeur->emettreDonnees(donnees, taille, sauf);
 }
 
 /********************************************************************/
@@ -61,7 +62,8 @@ G_clientServeur->emettreDonnees(donnees, taille, sauf);
 /********************************************************************/
 void emettre(char *donnees, quint32 taille, int numeroLiaison)
 {
-G_clientServeur->emettreDonnees(donnees, taille, numeroLiaison);
+    if(G_clientServeur != NULL)
+        G_clientServeur->emettreDonnees(donnees, taille, numeroLiaison);
 }
 
 /********************************************************************/
@@ -156,7 +158,7 @@ if (!G_client)
 	// ...et detruire la fenetre de connexion
 	detruireFenetreConnexion();
 	// On rajoute l'utilisateur local dans la liste des utilisateurs
-	G_listeUtilisateurs->ajouterJoueur(G_idJoueurLocal, tempNomJoueur, G_couleurJoueurLocal, true, !G_joueur);
+//	G_listeUtilisateurs->ajouterJoueur(G_idJoueurLocal, tempNomJoueur, G_couleurJoueurLocal, true, !G_joueur);
 	// On affiche un message dans la fenetre de log utilisateur
 	ecrireLogUtilisateur(tr("Serveur en place sur le port ") + QString::number(serveurTcp->serverPort()));
 }
@@ -323,7 +325,7 @@ void ClientServeur::finDeLiaison()
 if (G_client)
 {
 	// On quitte l'application	
-	G_mainWindow->quitterApplication(true);
+    m_mainWindow->quitterApplication(true);
 }
 
 // Si l'ordinateur local est le serveur
@@ -349,7 +351,7 @@ else
 	liaisons.removeAt(i);
 	// Recuperation de l'identifiant du joueur correspondant a la liaison
 	// (en tenant compte du fait que le 1er utilisateur est toujours le serveur)
-	QString identifiant = G_listeUtilisateurs->indentifiantUtilisateur(i+1);
+    QString identifiant = G_listeUtilisateurs->indentifiantUtilisateur(i+1);
 	// Si l'utilisateur etait le MJ, on reinitialise le lecteur audio
         if (G_listeUtilisateurs->estUnMj(i+1))
         {
@@ -360,7 +362,7 @@ else
 	// Suppression de l'utilisateur dans la liste
 	G_listeUtilisateurs->supprimerJoueur(identifiant);
 	// On supprime le tchat associe
-	G_mainWindow->supprimerTchat(identifiant);
+    m_mainWindow->supprimerTchat(identifiant);
 	
 	// On envoie un message a l'ensemble des clients
 
@@ -411,7 +413,7 @@ Qt::WindowFlags flags = fenetreAttente->windowFlags();
 fenetreAttente->setWindowFlags(flags ^ Qt::WindowContextHelpButtonHint ^ Qt::WindowSystemMenuHint);
 
 // M.a.j de l'icone de la fenetre
-fenetreAttente->setWindowIcon(QIcon(":/resources/icones/" + QString(NOM_APPLICATION) + ".png"));
+fenetreAttente->setWindowIcon(QIcon(":/resources/icones/" + QString(APPLICATION_NAME) + ".png"));
 
 // Creation des layouts
 QVBoxLayout *layoutVertical = new QVBoxLayout(fenetreAttente);
@@ -564,11 +566,11 @@ identifiantServeur->show();
 void ClientServeur::programmePrincipal()
 {
 // Creation de la fenetre principale
-mainWindow = new MainWindow;
+/*mainWindow = new MainWindow;
 // Mise a jour du titre de la fenetre principale
-mainWindow->setWindowTitle(NOM_APPLICATION);
+mainWindow->setWindowTitle(APPLICATION_NAME);
 // Ouverture de la fenetre principale en mode plein ecran
-mainWindow->showNormal();
+mainWindow->showNormal();*/
 }
 
 /********************************************************************/	
@@ -829,7 +831,7 @@ else
 }
 
 // M.a.j du titre de la fenetre de connexion
-fenetreConnexion->setWindowTitle(QString(NOM_APPLICATION) + " - " + tr("Fenêtre de connexion"));
+fenetreConnexion->setWindowTitle(QString(APPLICATION_NAME) + " - " + tr("Fenêtre de connexion"));
 
 // Affichage de la fenetre
 #ifdef WIN32

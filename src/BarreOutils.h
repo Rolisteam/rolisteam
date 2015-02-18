@@ -27,82 +27,79 @@
 /********************************************************************/
 
 
-#ifndef BARRE_OUTILS_H
-#define BARRE_OUTILS_H
+#ifndef TOOLS_BAR_H
+#define TOOLS_BAR_H
 
-	#include <QAction>
-	#include <QLineEdit>
-	#include <QLCDNumber>
-	#include <QDockWidget>
-	#include <QResizeEvent>
-	
-	#include "SelecteurCouleur.h"
-	#include "SelecteurDiametre.h"
+#include <QAction>
+#include <QLineEdit>
+#include <QLCDNumber>
+#include <QDockWidget>
+#include <QResizeEvent>
+
+#include "SelecteurCouleur.h"
+#include "SelecteurDiametre.h"
 
 
-	class BarreOutils : public QDockWidget
-	{
-	Q_OBJECT
-	
-	public :
-		BarreOutils(QWidget *parent = 0);
-		void majCouleursPersonnelles();
-		QColor donnerCouleurPersonnelle(int numero);
-		void autoriserOuInterdireCouleurs();
+class ToolsBar : public QDockWidget
+{
+Q_OBJECT
 
-		QAction *actionCrayon;
-		QAction *actionLigne;
-		QAction *actionRectVide;
-		QAction *actionRectPlein;
-		QAction *actionElliVide;
-		QAction *actionElliPlein;
-		QAction *actionTexte;
-		QAction *actionMain;
-		QAction *actionAjoutPnj;
-		QAction *actionSupprPnj;
-		QAction *actionDeplacePnj;
-		QAction *actionEtatPnj;
-		QAction *actionRazChrono;
+public :
+    ToolsBar(QWidget *parent = 0);
+    void majCouleursPersonnelles();
+    QColor donnerCouleurPersonnelle(int numero);
+    void autoriserOuInterdireCouleurs();
 
-		// Outils selectionnables par l'utilisateur
-		enum outilSelectionne {crayon, ligne, rectVide, rectPlein, elliVide, elliPlein, texte, main, ajoutPnj, supprPnj, deplacePerso, etatPerso};
+    QAction *actionCrayon;
+    QAction *actionLigne;
+    QAction *actionRectVide;
+    QAction *actionRectPlein;
+    QAction *actionElliVide;
+    QAction *actionElliPlein;
+    QAction *actionTexte;
+    QAction *actionMain;
+    QAction *actionAjoutPnj;
+    QAction *actionSupprPnj;
+    QAction *actionDeplacePnj;
+    QAction *actionEtatPnj;
+    QAction *actionRazChrono;
 
-	public slots :
-		void incrementeNumeroPnj();
-		void changeCouleurActuelle(QColor coul);
-		void mettreAJourPnj(int diametre, QString nom);
-	
-	private :
-		void creerActions();
-		void creerOutils();
+    // Outils selectionnables par l'utilisateur
+    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
 
-		QWidget *outils;
-		QLineEdit *ligneDeTexte;
-		QLineEdit *nomPnj;
-		QLCDNumber *afficheNumeroPnj;
-		SelecteurCouleur *couleur;
-		SelecteurDiametre *diametreTrait;
-		SelecteurDiametre *diametrePnj;
+public slots :
+    void incrementeNumeroPnj();
+    void changeCouleurActuelle(QColor coul);
+    void mettreAJourPnj(int diametre, QString nom);
 
-	private slots :
-		void razNumeroPnj();
-		void changementTaille(bool floating);
-		void texteChange(const QString &texte);
-		void nomPnjChange(const QString &texte);
 
-		void crayonSelectionne();
-		void ligneSelectionne();
-		void rectVideSelectionne();
-		void rectPleinSelectionne();
-		void elliVideSelectionne();
-		void elliPleinSelectionne();
-		void texteSelectionne();
-		void mainSelectionne();
-		void ajoutPnjSelectionne();
-		void supprPnjSelectionne();
-		void deplacePersoSelectionne();
-		void etatPersoSelectionne();
+signals:
+    void currentToolChanged(ToolsBar::SelectableTool);
 
-	};
+private :
+    void creerActions();
+    void creerOutils();
+
+    QWidget *outils;
+    QLineEdit *ligneDeTexte;
+    QLineEdit *nomPnj;
+    QLCDNumber *afficheNumeroPnj;
+    SelecteurCouleur *couleur;
+    SelecteurDiametre *diametreTrait;
+    SelecteurDiametre *diametrePnj;
+    QActionGroup *m_toolsGroup;
+    SelectableTool m_currentTool;
+
+private slots :
+    void razNumeroPnj();
+    void changementTaille(bool floating);
+    void texteChange(const QString &texte);
+    void nomPnjChange(const QString &texte);
+
+
+
+    void currentActionChanged(QAction* p);
+
+};
 
 #endif

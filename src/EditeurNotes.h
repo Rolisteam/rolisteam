@@ -38,9 +38,9 @@
     #include <QToolBar>
 	#include <QComboBox>
 	#include <QFile>
+#include "submdiwindows.h"
 
-
-    class EditeurNotes : public QMainWindow
+    class EditeurNotes : public SubMdiWindows
     {
 	Q_OBJECT
 

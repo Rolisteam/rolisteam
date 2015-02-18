@@ -27,7 +27,7 @@
 #include "constantesGlobales.h"
 #include "types.h"
 
-
+#include "preferencesmanager.h"
 
 // Pointeur vers l'unique instance du lecteur audio
 LecteurAudio * LecteurAudio::singleton = NULL;
@@ -40,6 +40,7 @@ LecteurAudio * LecteurAudio::singleton = NULL;
 LecteurAudio::LecteurAudio(QWidget *parent)
 : QDockWidget(parent)
 {
+    m_options = PreferencesManager::getInstance();
 
     #ifdef PHONON
     audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
@@ -115,7 +116,7 @@ void LecteurAudio::setupUi()
 
         // Si l'utilisateur local est un joueur on rajoute un bouton pour qu'il puisse choisir le repertoire
         // ou se trouve les musiques qui vont etre jouees
-        if (G_joueur)
+        /*if (G_joueur)
         {
                 QAction *actionChangerDossier = new QAction(QIcon(":/resources/icones/dossier.png"), tr("Choisir le répertoire où sont stockées les musiques"), widgetAffichage);
                 QToolButton *boutonChangerDossier = new QToolButton(widgetAffichage);
@@ -125,7 +126,7 @@ void LecteurAudio::setupUi()
                 layoutAffichage->addWidget(boutonChangerDossier);
                 // Connexion de l'action a l'ouverture d'un selecteur de repertoire
                 QObject::connect(actionChangerDossier, SIGNAL(triggered(bool)), this, SLOT(joueurChangerDossier()));
-        }
+        }*/
 
         // Creation du selecteur de volume
         niveauVolume = new Phonon::VolumeSlider(this);
@@ -248,8 +249,8 @@ void LecteurAudio::setupUi()
         // Connexion des actions des boutons avec les fonctions appropriees
 
 
-        connect(actionLecture, SIGNAL(triggered()), mediaObject, SLOT(play()));
-        connect(actionLecture, SIGNAL(triggered(bool)), this, SLOT(appuiLecture(bool)));
+        connect(actionLecture, SIGNAL(triggered(bool)), this, SLOT(pressPlay(bool)));
+       // connect(actionLecture, SIGNAL(triggered(bool)), this, SLOT(appuiLecture(bool)));
 
         connect(actionPause, SIGNAL(triggered()), mediaObject, SLOT(pause()));
         connect(actionStop, SIGNAL(triggered()), mediaObject, SLOT(stop()));
@@ -260,8 +261,8 @@ void LecteurAudio::setupUi()
         QObject::connect(actionAjouter, SIGNAL(triggered(bool)), this, SLOT(ajouterTitre()));
         QObject::connect(actionSupprimer, SIGNAL(triggered(bool)), this, SLOT(supprimerTitre()));
 
-        QObject::connect(positionTemps, SIGNAL(sliderReleased()), this, SLOT(changementTempsLecture()));
-        QObject::connect(positionTemps, SIGNAL(sliderMoved(int)), this, SLOT(changementTempsAffichage(int)));
+        /*QObject::connect(positionTemps, SIGNAL(sliderReleased()), this, SLOT(changementTempsLecture()));
+        QObject::connect(positionTemps, SIGNAL(sliderMoved(int)), this, SLOT(changementTempsAffichage(int)));*/
 
         QObject::connect(listeTitres, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(changementTitre(QListWidgetItem *)));
 
@@ -289,12 +290,30 @@ void LecteurAudio::changementTitre(QListWidgetItem * p)
              titreCourant = listeTitres->row(p);
              emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
              mediaObject->play();
-
-#endif
+    #endif
 
 
 }
 #ifdef PHONON
+
+void LecteurAudio::pressPlay(bool state)
+{
+    if(listeChemins.isEmpty())
+        return;
+
+    if(state)
+    {
+        QListWidgetItem * p = listeTitres->currentItem();
+        if(p != NULL)
+            changementTitre(p);
+        else
+            changementTitre(listeTitres->item(0));
+    }
+
+
+}
+
+
 /***************************************************************************/
 /* Fonction de notification pour la barre d'avancement du temps du lecteur */
 /***************************************************************************/
@@ -302,8 +321,8 @@ void LecteurAudio::tick(qint64 time)
 {
      QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
 
-            if((!G_joueur) && ((time>m_time+(2*mediaObject->tickInterval()))||(time<m_time)))
-                    emettreCommande(nouvellePositionMorceau, "", time, -1);
+            /*if((!G_joueur) && ((time>m_time+(2*mediaObject->tickInterval()))||(time<m_time)))
+                    emettreCommande(nouvellePositionMorceau, "", time, -1);*/
 
 
         m_time = time;
@@ -365,7 +384,7 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State /*oldState
 void LecteurAudio::autoriserOuIntedireCommandes()
 {
         // Si l'utilisateur local est un joueur
-        if (G_joueur)
+        /*if (G_joueur)
         {
                 // Initialement il n'y a aucun titre dans le lecteur
                 afficheurTitre->setToolTip(tr("Aucun titre"));
@@ -377,7 +396,7 @@ void LecteurAudio::autoriserOuIntedireCommandes()
                 layoutPrincipal->addWidget(separateur3);
                 // On fixe la hauteur du dockWidget
                 setFixedHeight(66);
-        }
+        }*/
 }
 
 
@@ -439,7 +458,7 @@ void LecteurAudio::ajouterTitre()
 {
     #ifdef PHONON
         // Ouverture d'un selecteur de fichier, et recuperation de la liste des fichiers selectionnes
-        QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Ajouter un titre"), G_dossierMusiquesMj, tr("Fichiers audio (*.wav *.mp2 *.mp3 *.ogg)"));
+        QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Ajouter un titre"), m_options->value("MusicDirectory",QVariant(".")).toString(), tr("Fichiers audio (*.wav *.mp2 *.mp3 *.ogg)"));
 
         // Si l'utilisateur a clique sur "Annuler" on quitte
         if (listeFichiers.isEmpty())
@@ -447,7 +466,7 @@ void LecteurAudio::ajouterTitre()
 
         // On met a jour le chemin vers les musiques
         int dernierSlash = listeFichiers[0].lastIndexOf("/");
-        G_dossierMusiquesMj = listeFichiers[0].left(dernierSlash);
+        m_options->registerValue("MusicDirectory",listeFichiers[0].left(dernierSlash));
 
 
         // Tant qu'il y a un element dans la liste, on l'ajoute a la liste des titres
@@ -782,12 +801,12 @@ void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, qui
         memcpy(donnees, &uneEntete, sizeof(enteteMessage));
 
         // Emission du message vers le serveur ou les clients...
-        if (numeroLiaison == -1)
+       /* if (numeroLiaison == -1)
                 emettre(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage));
 
         // ...ou bien vers un client en particulier
         else
-                emettre(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage), numeroLiaison);
+                emettre(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage), numeroLiaison);*/
 
         // Liberation du buffer d'emission
         delete[] donnees;
@@ -801,7 +820,7 @@ void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, qui
 void LecteurAudio::emettreEtat(QString idJoueur)
 {
     #ifdef PHONON
-        // On recupere le numero de liaison correspondant a l'identifiant du joueur
+  /*      // On recupere le numero de liaison correspondant a l'identifiant du joueur
         // (on soustrait 1 car le 1er utilisateur est toujours le serveur et qu'il
         // n'a pas de liaison associee)
         int numeroLiaison = G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
@@ -840,7 +859,7 @@ void LecteurAudio::emettreEtat(QString idJoueur)
                 default :
                         qWarning("Etat du lecteur audio inconnu lors de l'emission de l'etat (emettreEtat - LecteurAudio.cpp)");
                         break;
-        }
+        }*/
 #endif
 }
 
@@ -886,7 +905,7 @@ void LecteurAudio::joueurNouveauFichier(QString nomFichier)
         }
 
         // Creation du chemin complet du fichier
-        QString chemin(G_dossierMusiquesJoueur + "/" + nomFichier);
+        QString chemin(m_options->value("MusicDirectory",QVariant(".")).toString() + "/" + nomFichier);
         QFileInfo fileInfo(chemin);
        /* QTextStream cout(stderr,QIODevice::WriteOnly);
         cout << "joueur "<<chemin << endl;*/
@@ -1002,8 +1021,8 @@ void LecteurAudio::joueurChangerDossier()
 {
     #ifdef PHONON
         // On met a jour le dossier des musiques du joueur
-        G_dossierMusiquesJoueur = QFileDialog::getExistingDirectory(0 , tr("Choix du répertoire des musiques"), G_dossierMusiquesJoueur,
-                QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
+        m_options->registerValue("MusicDirectory",QFileDialog::getExistingDirectory(0 , tr("Choix du répertoire des musiques"), m_options->value("MusicDirectory",QVariant(".")).toString(),
+                QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks));
         #endif
 }
 

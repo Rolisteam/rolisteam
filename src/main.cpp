@@ -22,14 +22,15 @@
 
 #include <QtGui>
 
-#include "ClientServeur.h"
+
 #include "constantesGlobales.h"
 #include "types.h"
 #include <time.h>
 
+#include "MainWindow.h"
 
 // Inclusion de la librairie FMOD (librairie audio)
-#ifdef WIN32
+#ifdef HAVE_FMOD
         #define DLL_EXPORTS
 
         #include "fmod.h"
@@ -106,16 +107,12 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 	
 		// Creation de l'application
         QApplication app(argc, argv);
-               QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+        QCoreApplication::setApplicationName(QCoreApplication::tr(APPLICATION_NAME));
+        QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-		// Creation de la fenetre de log
-		Log = new QTextEdit();
-		Log->setWindowTitle("Log");
-		Log->setReadOnly(true);
-	//	Log->show();
 
-		// Installation du handler de debugage
-		qInstallMsgHandler(handlerAffichageMsg);
+    /*	// Installation du handler de debugage
+        qInstallMsgHandler(handlerAffichageMsg);*/
 
 		// Chargement du traducteur de Qt
 		QTranslator qtTranslator;
@@ -123,12 +120,12 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 		app.installTranslator(&qtTranslator);
 
 		// On charge le fichier de ressources qui contient ttes les images
-		QResource::registerResource(QString(NOM_APPLICATION) + ".rcc");
+		QResource::registerResource(QString(APPLICATION_NAME) + ".rcc");
 
-		#ifdef WIN32
-			// M.a.j de l'icone de l'application
-                        app.setWindowIcon(QIcon(":/resources/icones/" + QString(NOM_APPLICATION) + ".png"));
-		#endif
+
+
+         app.setWindowIcon(QIcon(":/resources/icones/" + QString(APPLICATION_NAME) + ".png"));
+
 
   		// Initialisation de la librairie FMOD
 /*		if (!FSOUND_Init(FREQUENCE_AUDIO, 32, 0))
@@ -138,15 +135,15 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 		G_initialisation.initialisee = false;
 
 		// Nom du fichier d'initialisation
-		#ifdef WIN32
-			QString fichierInitialisation = QString(NOM_APPLICATION) + ".ini";
+    /*	#ifdef WIN32
+			QString fichierInitialisation = QString(APPLICATION_NAME) + ".ini";
 		#elif defined (MACOS)
 			// Creation du repertoire ou sont stockees les preferences, si celui-ci n'existe pas
-			if (!(QDir(QDir::homePath() + "/." + QString(NOM_APPLICATION)).exists()))
-				QDir::home().mkdir("." + QString(NOM_APPLICATION));
-                        QString fichierInitialisation = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".ini";
+			if (!(QDir(QDir::homePath() + "/." + QString(APPLICATION_NAME)).exists()))
+				QDir::home().mkdir("." + QString(APPLICATION_NAME));
+                        QString fichierInitialisation = QDir::homePath() + "/." + QString(APPLICATION_NAME) + "/" + QString(APPLICATION_NAME) + ".ini";
                 #else
-                        QString fichierInitialisation = qApp->applicationDirPath()+"/."+QString(NOM_APPLICATION);
+                        QString fichierInitialisation = qApp->applicationDirPath()+"/."+QString(APPLICATION_NAME);
 		#endif
  
 		// Si le fichier d'initialisation existe, on le charge
@@ -206,11 +203,13 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 				// Fermeture du fichier
 				file.close();
 			}
-		}
+        }*/
 
 		// Creation du client/serveur : si la connexion reussie alors
 		// le programme principal est lance
-		ClientServeur *clientServeur = new ClientServeur();
+        //ClientServeur *clientServeur = new ClientServeur();
+        MainWindow* mw =new MainWindow();
+        mw->show();
 		
 		// Lancement de la boucle d'application
         return app.exec();

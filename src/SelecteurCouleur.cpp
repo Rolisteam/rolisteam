@@ -213,7 +213,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 void SelecteurCouleur::autoriserOuInterdireCouleurs()
 {
 	// L'utilisateur est un joueur
-	if (G_joueur)
+/*	if (G_joueur)
 	{
 		// Le masquage est total
 		G_couleurMasque = QColor(0,0,0);
@@ -233,7 +233,7 @@ void SelecteurCouleur::autoriserOuInterdireCouleurs()
 		// Tooltip normaux pour les couleurs de masquage et de demasquage
 		couleurMasque->setToolTip(tr("Masquer"));
 		couleurDemasque->setToolTip(tr("Démasquer"));
-	}
+    }*/
 }
 
 /********************************************************************/
@@ -328,8 +328,8 @@ void SelecteurCouleur::clicUtilisateur(QPoint positionSouris, bool move)
 	if (enfant == couleurMasque)
 	{
 		// Si l'utilisateur est un joueur (et non un MJ) il n'a pas le droit de selectionner cette couleur
-		if (G_joueur)
-			return;
+/*		if (G_joueur)
+            return;*/
 		// Mise a jour du widget affichant la couleur
 		couleurActuelle->setPixmap(*masque_pix);
 		couleurActuelle->setPalette(QPalette(Qt::white));
@@ -344,8 +344,8 @@ void SelecteurCouleur::clicUtilisateur(QPoint positionSouris, bool move)
 	if (enfant == couleurDemasque)
 	{
 		// Si l'utilisateur est un joueur (et non un MJ) il n'a pas le droit de selectionner cette couleur
-		if (G_joueur)
-			return;
+/*		if (G_joueur)
+            return;*/
 		// Mise a jour du widget affichant la couleur
 		couleurActuelle->setPixmap(*demasque_pix);
 		couleurActuelle->setPalette(QPalette(Qt::white));

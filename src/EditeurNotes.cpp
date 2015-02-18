@@ -30,39 +30,46 @@
 	/* Constructeur                                                     */
 	/********************************************************************/
     EditeurNotes::EditeurNotes()
+        : SubMdiWindows()
     {
-		// On donne un nom a l'objet "EditeurNotes" pour le differencier des autres fenetres du workspace
-		setObjectName("EditeurNotes");
 
-		// On change l'icone de la fenetre
+		setObjectName("EditeurNotes");
+        QWidget* main = new QWidget;
+        QVBoxLayout* layout = new QVBoxLayout;
+
+
+
+
 		setWindowIcon(QIcon(":/icones/vignette notes.png"));
 		
-		// Creation du textEdit contenant les notes
+
 		notes = new QTextEdit();
 		notes->setAcceptRichText(false);
 
-		// Connexion du deplacement du curseur avec la fonction de m.a.j de la taille de la fonte
+
 		QObject::connect(notes, SIGNAL(cursorPositionChanged()), this, SLOT(mettreTailleAJour()));
 
-		// Le textEdit devient le widget central
-		setCentralWidget(notes);
 
-		// Creation de la barre d'outils contenant les boutons de mise en forme du texte
-		barreFontes = new QToolBar();
-		// On fixe la taille des icones
+
+
+        barreFontes = new QToolBar;
+
+        layout->addWidget(barreFontes);
+
+
 		barreFontes->setIconSize(QSize(16, 16));
 
-		// Creation des actions de mise en forme du texte
-                QAction	*act1 = barreFontes->addAction(QIcon(":/resources/icones/style normal.png"), tr("Normal"), this, SLOT(styleNormal()));
-                QAction	*act2 = barreFontes->addAction(QIcon(":/resources/icones/style gras.png"), tr("Gras"), this, SLOT(styleGras()));
-                QAction	*act3 = barreFontes->addAction(QIcon(":/resources/icones/style italique.png"), tr("Italique"), this, SLOT(styleItalique()));
-                QAction	*act4 = barreFontes->addAction(QIcon(":/resources/icones/style souligne.png"), tr("Souligné"), this, SLOT(styleSouligne()));
-                Q_UNUSED(act1)
-                Q_UNUSED(act2)
-                Q_UNUSED(act3)
-                Q_UNUSED(act4)
+
+            QAction	*act1 = barreFontes->addAction(QIcon(":/resources/icones/style normal.png"), tr("Normal"), this, SLOT(styleNormal()));
+            QAction	*act2 = barreFontes->addAction(QIcon(":/resources/icones/style gras.png"), tr("Gras"), this, SLOT(styleGras()));
+            QAction	*act3 = barreFontes->addAction(QIcon(":/resources/icones/style italique.png"), tr("Italique"), this, SLOT(styleItalique()));
+            QAction	*act4 = barreFontes->addAction(QIcon(":/resources/icones/style souligne.png"), tr("Souligné"), this, SLOT(styleSouligne()));
+            Q_UNUSED(act1)
+            Q_UNUSED(act2)
+            Q_UNUSED(act3)
+            Q_UNUSED(act4)
 		#ifdef MACOS
-			// On change le style des icones
+
 			QPlastiqueStyle *style = new QPlastiqueStyle();
 			barreFontes->widgetForAction(act1)->setStyle(style);
 			barreFontes->widgetForAction(act2)->setStyle(style);
@@ -70,10 +77,10 @@
 			barreFontes->widgetForAction(act4)->setStyle(style);
 		#endif
 		
-		// Ajout d'un separateur a la barre de mise en forme
+
 		barreFontes->addSeparator();
 		
-		// Creation du selecteur de taille de la fonte
+
 		selecteurTaille = new QComboBox();
 		selecteurTaille->setEditable(false);
 		#ifdef WIN32
@@ -82,32 +89,34 @@
 			selecteurTaille->setFixedWidth(56);
 		#endif
 		selecteurTaille->setToolTip(tr("Taille de la police"));
-		// Creation de la liste de tailles disponibles
+
 		QStringList listeTailles;
 		listeTailles << "8" << "10" << "12" << "14" << "16" << "18" << "20" << "22" << "26" << "30" << "40" << "50" << "70";
-		// Ajout de la liste des tailles au selecteur
+
 		selecteurTaille->addItems(listeTailles);
-		// Connexion du changement de taille via le selecteur de taille a la m.a.j de la zone selectionnee
+
 		QObject::connect(selecteurTaille, SIGNAL(activated(int)), this, SLOT(changementTaille(int)));
 		
-		// Ajout du selecteur de taille a la barre
-		barreFontes->addWidget(selecteurTaille);
 
-		// Ajout de la barre de mise en forme a l'editeur
-		addToolBar(barreFontes);
+		barreFontes->addWidget(selecteurTaille);
+        layout->addWidget(notes);
+
+
+         main->setLayout(layout);
+         setWidget(main);
+
 	}
 
-	/********************************************************************/
-	/* Cache la fenetre au lieu de la detruire                          */
-	/********************************************************************/
+
 	void EditeurNotes::closeEvent(QCloseEvent *event)
 	{
+        Q_UNUSED(event);
 		// On masque l'editeur de notes et on decoche l'action associee
-		G_mainWindow->afficherEditeurNotes(false, true);
+        //m_mainWindow->afficherEditeurNotes(false, true);
 		// On decoche la case de l'editeur de notes
-		G_listeUtilisateurs->decocherCaseTchat(G_idJoueurLocal);
+        //G_listeUtilisateurs->decocherCaseTchat(G_idJoueurLocal);
 		// Arret de la procedure de fermeture		
-		event->ignore();
+
 	}
 
 	/********************************************************************/

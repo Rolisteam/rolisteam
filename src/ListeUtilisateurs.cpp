@@ -27,6 +27,7 @@
 #include "variablesGlobales.h"
 #include "types.h"
 
+#include "MainWindow.h"
 
 /********************************************************************/
 /* Variables globales utilisees par tous les elements de            */
@@ -39,9 +40,10 @@ ListeUtilisateurs *G_listeUtilisateurs;
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/
-ListeUtilisateurs::ListeUtilisateurs(QWidget *parent)
+ListeUtilisateurs::ListeUtilisateurs(MainWindow *parent)
         : QDockWidget(parent)
 {
+    m_mainWindow = parent;
         // On interdit la reception des signaux dans changementEtatItem
         autoriserSignauxListe = false;
 
@@ -136,7 +138,7 @@ ListeUtilisateurs::ListeUtilisateurs(QWidget *parent)
         // Connexion du selecteur avec l'afficheur de taille des PJ
         QObject::connect(selecteurTaillePj, SIGNAL(valueChanged(int)), afficheurTaillePj, SLOT(setNum(int)));
         // Connexion du selecteur avec la demande de changement de taille des PJ
-        QObject::connect(selecteurTaillePj, SIGNAL(valueChanged(int)), G_mainWindow, SLOT(changerTaillePj(int)));
+        QObject::connect(selecteurTaillePj, SIGNAL(valueChanged(int)), m_mainWindow, SLOT(changerTaillePj(int)));
         // Connexion du selecteur avec la demande d'emission de changement de taille des PJ
         QObject::connect(selecteurTaillePj, SIGNAL(sliderReleased()), this, SLOT(emettreChangementTaillePj()));
 
@@ -953,7 +955,7 @@ void ListeUtilisateurs::changementEtatItem(QTreeWidgetItem *item, int colonne)
                         // M.a.j de la 4eme colonne
                         item->setText(3, "cochee");
                         // Affichage du tchat
-                        G_mainWindow->afficherTchat(item->text(1));
+                        m_mainWindow->afficherTchat(item->text(1));
                 }
                 // Si la case a ete decochee on masque le tchat
                 else if (item->checkState(0)==Qt::Unchecked)
@@ -961,7 +963,7 @@ void ListeUtilisateurs::changementEtatItem(QTreeWidgetItem *item, int colonne)
                         // M.a.j de la 4eme colonne
                         item->setText(3, "decochee");
                         // Masquage du tchat
-                        G_mainWindow->masquerTchat(item->text(1));
+                        m_mainWindow->masquerTchat(item->text(1));
                 }
         }
 
@@ -973,14 +975,14 @@ void ListeUtilisateurs::changementEtatItem(QTreeWidgetItem *item, int colonne)
                 {
                         // M.a.j de la 4eme colonne
                         item->setText(3, "cochee");
-                        G_mainWindow->afficherEditeurNotes(true, true);
+                        m_mainWindow->afficherEditeurNotes(true, true);
                 }
                 // Si la case a ete decochee on masque l'editeur de notes
                 else if (item->checkState(0)==Qt::Unchecked && item->text(3)=="cochee")
                 {
                         // M.a.j de la 4eme colonne
                         item->setText(3, "decochee");
-                        G_mainWindow->afficherEditeurNotes(false, true);
+                        m_mainWindow->afficherEditeurNotes(false, true);
                 }
 
                 // Si le nom du joueur local a ete modifie on previent les autres joueurs
@@ -1033,14 +1035,14 @@ void ListeUtilisateurs::changementEtatItem(QTreeWidgetItem *item, int colonne)
                 {
                         // M.a.j de la 4eme colonne
                         item->setText(3, "cochee");
-                        G_mainWindow->affichageDuPj(item->text(1), true);
+                        m_mainWindow->affichageDuPj(item->text(1), true);
                 }
                 // Si la case a ete decochee on masque le personnage dans la carte
                 else if (item->checkState(0)==Qt::Unchecked)
                 {
                         // M.a.j de la 4eme colonne
                         item->setText(3, "decochee");
-                        G_mainWindow->affichageDuPj(item->text(1), false);
+                        m_mainWindow->affichageDuPj(item->text(1), false);
                 }
         }
 
@@ -1052,14 +1054,14 @@ void ListeUtilisateurs::changementEtatItem(QTreeWidgetItem *item, int colonne)
                 {
                         // M.a.j de la 4eme colonne
                         item->setText(3, "cochee");
-                        G_mainWindow->affichageDuPj(item->text(1), true);
+                        m_mainWindow->affichageDuPj(item->text(1), true);
                 }
                 // Si la case a ete decochee on masque le personnage dans la carte
                 else if (item->checkState(0)==Qt::Unchecked && item->text(3)=="cochee")
                 {
                         // M.a.j de la 4eme colonne
                         item->setText(3, "decochee");
-                        G_mainWindow->affichageDuPj(item->text(1), false);
+                        m_mainWindow->affichageDuPj(item->text(1), false);
                 }
 
                 // Si le nom du PJ local a ete modifie on le m.a.j sur la carte et sur le serveur
@@ -1208,7 +1210,7 @@ void ListeUtilisateurs::clicSurItem(QTreeWidgetItem *item, int colonne)
 
                 #ifdef WIN32
                         // Mise a jour des couleurs personnelles du selecteur de la barre d'outils
-                        G_mainWindow->majCouleursPersonnelles();
+                        m_mainWindow->majCouleursPersonnelles();
                 #endif
         }
 
@@ -1420,7 +1422,7 @@ void ListeUtilisateurs::emettreChangementTaillePj()
         // Recuperation de la taille des PJ
         int taillePj = selecteurTaillePj->value();
         // Emission de la demande de changement de taille des PJ pour la carte active
-        G_mainWindow->emettreChangementTaillePj(taillePj);
+        m_mainWindow->emettreChangementTaillePj(taillePj);
 }
 
 /********************************************************************/
@@ -1429,11 +1431,11 @@ void ListeUtilisateurs::emettreChangementTaillePj()
 void ListeUtilisateurs::afficherTchatCommun()
 {
         // Demande d'affichage du tchat dont l'ID est vide
-        G_mainWindow->afficherTchat("");
+        m_mainWindow->afficherTchat("");
         // Le tchat commun devient la fenetre active
-        G_mainWindow->devientFenetreActive(G_mainWindow->trouverTchat(""));
+        m_mainWindow->devientFenetreActive(m_mainWindow->trouverTchat(""));
         // On met a jour l'action du sous-menu Tchats
-        G_mainWindow->cocherActionTchatCommun();
+        m_mainWindow->cocherActionTchatCommun();
 }
 
 /********************************************************************/

@@ -31,9 +31,11 @@
 	/********************************************************************/
 	/* Constructeur                                                     */
 	/********************************************************************/	
-    Carte::Carte(QString identCarte, QImage *image, int taillePerso, bool masquer, QWidget *parent)
-        : QWidget(parent)
+    Carte::Carte(QString identCarte, QImage *image, int taillePerso, bool masquer, MainWindow *parent)
+        : SubMdiWindows(parent)
     {
+        initCursors();
+        m_mainWindow=parent;
 		// Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
 		// Creation de l'image de fond originale qui servira a effacer
@@ -95,9 +97,11 @@
 	/* Constructeur : cree un plan a partir des 3 images le composant   */
 	/* (image d'origine, image avec les annotations, couche alpha)      */
 	/********************************************************************/	
-    Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, int taillePerso, QWidget *parent)
-        : QWidget(parent)
+    Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, int taillePerso, MainWindow *parent)
+        : SubMdiWindows(parent)
     {
+        initCursors();
+        m_mainWindow=parent;
 		// Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
 		// Creation de l'image de fond originale qui servira a effacer
@@ -176,7 +180,47 @@
 		// Dessin temporaire sur le widget
 		dessiner(painter);
 	}
-	
+
+    void Carte::initCursors()
+    {
+        QBitmap bitmap(":/resources/icones/pointeur dessin.png");
+        #ifdef Q_WS_MAC
+            QBitmap drawmask(32,32);
+            drawmask.fill(Qt::color0);
+            m_drawingCursor = new QCursor(bitmap,drawmask, 8, 8);
+        #else
+            m_drawingCursor = new QCursor(bitmap, 8, 8);
+        #endif
+
+            QBitmap textBitmap(":/resources/icones/pointeur texte.png");
+    #ifdef Q_WS_MAC
+        QBitmap drawmask(32,32);
+        drawmask.fill(Qt::color0);
+        m_textCursor = new QCursor(textBitmap, drawmask, 4, 13);
+    #else
+        m_textCursor = new QCursor(textBitmap/*, masqueTexte*/, 4, 13);
+    #endif
+
+
+            QPixmap movePixmap(":/resources/icones/pointeur deplacer.png");
+            m_moveCursor = new QCursor(movePixmap, 0, 0);
+
+            QPixmap rotatePixmap(":/resources/icones/pointeur orienter.png");
+            m_rotateCursor = new QCursor(rotatePixmap, 10, 12);
+
+            QPixmap pipettePixmap(":/resources/icones/pointeur pipette.png");
+            m_pipetteCursor = new QCursor(pipettePixmap, 1, 19);
+
+            QPixmap addPixmap(":/resources/icones/pointeur ajouter.png");
+            m_addCursor = new QCursor(addPixmap, 6, 0);
+
+            QPixmap deletePixmap(":/resources/icones/pointeur supprimer.png");
+            m_deleteCursor = new QCursor(deletePixmap, 6, 0);
+
+            QPixmap StatePixmap(":/resources/icones/pointeur etat.png");
+            m_stateCursor = new QCursor(StatePixmap, 0, 0);
+    }
+
 	/********************************************************************/
 	/* Un bouton de la souris vient d'etre enfonce                      */
 	/********************************************************************/	
@@ -250,7 +294,7 @@
 			else if (G_outilCourant == BarreOutils::deplacePerso || G_outilCourant == BarreOutils::etatPerso)
 			{
 				// Changement de curseur
-				setCursor(*G_pointeurOrienter);
+                setCursor(*m_rotateCursor);
 				// On regarde s'il y a un PNJ sous la souris
 				DessinPerso *pnj = dansDessinPerso(positionSouris);		
 				// Si oui, on modifie son affichage de l'orientation et on le selectionne
@@ -299,7 +343,7 @@
 					memcpy(&(donnees[p]), &afficheOrientation, sizeof(quint8));
 					p+=sizeof(quint8);
 					// Emission du changement d'etat de perso au serveur ou aux clients
-					emettre(donnees, tailleCorps + sizeof(enteteMessage));
+//					emettre(donnees, tailleCorps + sizeof(enteteMessage));
 					// Liberation du buffer d'emission
 					delete[] donnees;
 				}
@@ -313,7 +357,7 @@
 			else
 			{
 				// Changement de curseur
-				setCursor(*G_pointeurPipette);
+                setCursor(*m_pipetteCursor);
 				// Recuperation de la couleur sous le pointeur de la souris
 				QColor couleur = QColor(fond->pixel(positionSouris.x(), positionSouris.y()));
 				// Emission du signal demandant le changement de la couleur courante
@@ -356,7 +400,7 @@
 				// Dans le cas contraire le plan ne sera mis a jour qu'a la reception du message de trace
 				// ayant fait l'aller-retour avec le serveur (necessaire pour conserver la coherence
 				// entre les differents utilisateurs : le serveur fait foi)
-				if (!G_client)
+/*				if (!G_client)
 				{
 					// Creation du painter pour pouvoir dessiner
 					QPainter painter;
@@ -377,13 +421,13 @@
 					
 					// Dessin definitif sur l'image de fond, la couche alpha ou la couche alpha d'effacement
 					dessiner(painter);
-				}
+                }*/
 
 				// Calcule de la nouvelle zone a rafraichir
 				zoneNouvelle = zoneARafraichir();
 
 				// Idem : seul le serveur peut dessiner directement sur le plan
-				if (!G_client)
+/*				if (!G_client)
 				{
 					if (G_couleurCourante.type == efface)
 					{
@@ -402,8 +446,8 @@
 					// Demande de rafraichissement de la fenetre (appel a paintEvent)
 					update(zoneOrigine.unite(zoneNouvelle));
 					// Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
-					afficheOuMasquePnj();
-				}
+                    //afficheOuMasquePnj();
+                }*/
 				
 				// On emet le trace que l'on vient d'effectuer vers les clients ou le serveur
 				emettreTrace();
@@ -466,7 +510,7 @@
 				memcpy(&(donnees[p]), &orientationY, sizeof(qint16));
 				p+=sizeof(qint16);
 				// Emission du changement d'orientation au serveur ou aux clients
-				emettre(donnees, tailleCorps + sizeof(enteteMessage));
+                //emettre(donnees, tailleCorps + sizeof(enteteMessage));
 				// Liberation du buffer d'emission
 				delete[] donnees;
 				
@@ -911,7 +955,7 @@
 					p+=tailleIdPnj*sizeof(QChar);
 					
 					// Emission de la suppression de PNJ au serveur ou aux clients
-					emettre(donnees, tailleCorps + sizeof(enteteMessage));
+//					emettre(donnees, tailleCorps + sizeof(enteteMessage));
 					// Liberation du buffer d'emission
 					delete[] donnees;
 					
@@ -988,7 +1032,7 @@
 				memcpy(&(donnees[p]), &numEtat, sizeof(quint16));
 				p+=sizeof(quint16);
 				// Emission du changement d'etat de perso au serveur ou aux clients
-				emettre(donnees, tailleCorps + sizeof(enteteMessage));
+//				emettre(donnees, tailleCorps + sizeof(enteteMessage));
 				// Liberation du buffer d'emission
 				delete[] donnees;
 			}
@@ -1028,11 +1072,11 @@
 			else
 			{
 				// Creation de la boite d'alerte
-				QMessageBox msgBox(G_mainWindow);
+                QMessageBox msgBox(m_mainWindow);
 				msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
 				msgBox.setIcon(QMessageBox::Warning);
 				msgBox.setWindowTitle(tr("Couleur inadaptée"));
-				msgBox.move(G_mainWindow->pos() + QPoint(G_mainWindow->width()/2, G_mainWindow->height()/2) + QPoint(-100, -50));
+                msgBox.move(m_mainWindow->pos() + QPoint(m_mainWindow->width()/2, m_mainWindow->height()/2) + QPoint(-100, -50));
 				// On supprime l'icone de la barre de titre
 				Qt::WindowFlags flags = msgBox.windowFlags();
 				msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
@@ -1539,12 +1583,12 @@
 		memcpy(&(donnees[p]), baAlpha.data(), tailleAlpha);
 		p+=tailleAlpha;
 
-		if (versLiaisonUniquement)
+//		if (versLiaisonUniquement)
 			// Emission de la carte vers la liaison indiquee
-			emettre(donnees, tailleCorps + sizeof(enteteMessage), numeroLiaison);
-		else
+//			emettre(donnees, tailleCorps + sizeof(enteteMessage), numeroLiaison);
+//		else
 			// Emission de la carte vers tous les autres utilisateurs
-			emettre(donnees, tailleCorps + sizeof(enteteMessage));
+//			emettre(donnees, tailleCorps + sizeof(enteteMessage));
 		
 		// Liberation du buffer d'emission
 		delete[] donnees;
@@ -1626,12 +1670,12 @@
 			p += perso->preparerPourEmission(&(donnees[p]));
 		}		
 
-		if (versLiaisonUniquement)
+/*		if (versLiaisonUniquement)
 			// Emission de la carte vers la liaison indiquee
 			emettre(donnees, tailleCorps + sizeof(enteteMessage), numeroLiaison);
 		else
 			// Emission de la carte vers tous les autres utilisateurs
-			emettre(donnees, tailleCorps + sizeof(enteteMessage));
+            emettre(donnees, tailleCorps + sizeof(enteteMessage));*/
 
 		// Liberation du buffer d'emission
 		delete[] donnees;
@@ -1643,7 +1687,7 @@
 	/********************************************************************/	
 	void Carte::emettreTrace()
 	{
-                qint32 tailleCorps;
+       /*         qint32 tailleCorps;
 		char *donnees;
 		enteteMessage *uneEntete;
 
@@ -1665,7 +1709,7 @@
 				// Taille du diametre du trait
 				sizeof(quint8) +
 				// Taille de la couleur
-				sizeof(couleurSelectionee);
+                sizeof(couleurSelectionee);
 
 			// Buffer d'emission
 			donnees = new char[tailleCorps + sizeof(enteteMessage)];
@@ -1883,7 +1927,7 @@
 		// Emission du trace
 		emettre(donnees, tailleCorps + sizeof(enteteMessage));
 		// Liberation du buffer d'emission
-		delete[] donnees;
+        delete[] donnees;*/
 	}
 
 	/********************************************************************/	
@@ -1893,7 +1937,7 @@
 	void Carte::emettreTrajetPersonnage()
 	{
 		// Recuperation de l'identifiant du perso
-		QString idPerso = pnjSelectionne->idPersonnage();
+        /*QString idPerso = pnjSelectionne->idPersonnage();
 		
 		// Taille de la liste
                 qint32 tailleListe = listeDeplacement.size();
@@ -1946,9 +1990,9 @@
 		}
 
 		// Emission du deplacement
-		emettre(donnees, tailleCorps + sizeof(enteteMessage));
+        emettre(donnees, tailleCorps + sizeof(enteteMessage));
 		// Liberation du buffer d'emission
-		delete[] donnees;
+        delete[] donnees;*/
 	}
 
 	/********************************************************************/	
@@ -2487,66 +2531,19 @@
 		return idCarte;
 	}
 
-	/********************************************************************/
-	/* Changement du pointeur de souris pour l'outil crayon             */
-	/********************************************************************/	
-	void Carte::pointeurCrayon()
-	{
-		pointeur = *G_pointeurDessin;
-		setCursor(pointeur);
-	}
-	
-	/********************************************************************/
-	/* Changement du pointeur de souris pour l'outil ligne              */
-	/********************************************************************/	
-	void Carte::pointeurLigne()
-	{
-		pointeur = *G_pointeurDessin;
-		setCursor(pointeur);
-	}
+void Carte::drawingCursor()
+{
+    pointeur = *m_drawingCursor;
+    setCursor(pointeur);
+}
 
-	/********************************************************************/
-	/* Changement du pointeur de souris pour l'outil rectangle vide     */
-	/********************************************************************/	
-	void Carte::pointeurRectVide()
-	{
-		pointeur = *G_pointeurDessin;
-		setCursor(pointeur);
-	}
-
-	/********************************************************************/
-	/* Changement du pointeur de souris pour l'outil rectangle plein    */
-	/********************************************************************/
-	void Carte::pointeurRectPlein()
-	{
-		pointeur = *G_pointeurDessin;
-		setCursor(pointeur);
-	}
-
-	/********************************************************************/
-	/* Changement du pointeur de souris pour l'outil ellipse vide       */
-	/********************************************************************/	
-	void Carte::pointeurElliVide()
-	{
-		pointeur = *G_pointeurDessin;
-		setCursor(pointeur);
-	}
-
-	/********************************************************************/
-	/* Changement du pointeur de souris pour l'outil ellipse pleine     */
-	/********************************************************************/	
-	void Carte::pointeurElliPlein()
-	{
-		pointeur = *G_pointeurDessin;
-		setCursor(pointeur);
-	}
 
 	/********************************************************************/
 	/* Changement du pointeur de souris pour l'outil texte              */
 	/********************************************************************/	
 	void Carte::pointeurTexte()
 	{
-		pointeur = *G_pointeurTexte;
+        pointeur = *m_textCursor;
 		setCursor(pointeur);
 	}
 
@@ -2555,6 +2552,7 @@
 	/********************************************************************/	
 	void Carte::pointeurMain()
 	{
+
 		pointeur = Qt::OpenHandCursor;
 		setCursor(pointeur);
 	}
@@ -2564,7 +2562,7 @@
 	/********************************************************************/	
 	void Carte::pointeurAjoutPnj()
 	{
-		pointeur = *G_pointeurAjouter;
+        pointeur = *m_addCursor;
 		setCursor(pointeur);
 	}
 
@@ -2573,7 +2571,7 @@
 	/********************************************************************/	
 	void Carte::pointeurSupprPnj()
 	{
-		pointeur = *G_pointeurSupprimer;
+        pointeur = *m_deleteCursor;
 		setCursor(pointeur);
 	}
 
@@ -2582,7 +2580,7 @@
 	/********************************************************************/	
 	void Carte::pointeurDeplacePnj()
 	{
-		pointeur = *G_pointeurDeplacer;
+        pointeur = *m_moveCursor;
 		setCursor(pointeur);
 	}
 
@@ -2591,7 +2589,7 @@
 	/********************************************************************/	
 	void Carte::pointeurEtatPnj()
 	{
-		pointeur = *G_pointeurEtat;
+        pointeur = *m_stateCursor;
 		setCursor(pointeur);
 	}
 

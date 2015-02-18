@@ -1,24 +1,23 @@
-/*
-	Rolistik - logiciel collaboratif d'aide aux jeux de roles en ligne
-	Copyright (C) 2007 - Romain Campioni  Tous droits réservés.
-
-	Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le
-	modifier suivant les termes de la GNU General Public License telle que
-	publiée par la Free Software Foundation : soit la version 2 de cette
-	licence, soit (à votre gré) toute version ultérieure.
-
-	Ce programme est distribué dans lespoir quil vous sera utile, mais SANS
-	AUCUNE GARANTIE : sans même la garantie implicite de COMMERCIALISABILITÉ
-	ni dADÉQUATION À UN OBJECTIF PARTICULIER. Consultez la Licence Générale
-	Publique GNU pour plus de détails.
-
-	Vous devriez avoir reçu une copie de la Licence Générale Publique GNU avec
-	ce programme ; si ce nest pas le cas, consultez :
-	<http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
-
-	Par ailleurs ce logiciel est gratuit et ne peut en aucun cas être
-	commercialisé, conformément à la "FMOD Non-Commercial License".
-*/
+/***************************************************************************
+ *	Copyright (C) 2007 by Romain Campioni   			   *
+ *	Copyright (C) 2010 by Renaud Guezennec                             *
+ *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 
 /********************************************************************/
@@ -42,16 +41,17 @@
     #include <QSlider>
     #include <QLabel>
     
-    #include "Carte.h"
+
     #include "types.h"
     
-
-    class ListeUtilisateurs : public QDockWidget
+class Carte;
+class MainWindow;
+class ListeUtilisateurs : public QDockWidget
     {
 	Q_OBJECT
 
     public :
-        ListeUtilisateurs(QWidget *parent = 0);
+        ListeUtilisateurs(MainWindow *parent = 0);
 		bool ajouterJoueur(QString idJoueur, QString nomJoueur, QColor couleur, bool joueurLocal = false, bool mj = false);
 		bool supprimerJoueur(QString idJoueur);
 		bool ajouterPersonnage(QString idJoueur, QString idPerso, QString nomPerso, QColor couleur, bool joueurLocal = false, bool creerDessins = true);
@@ -99,6 +99,7 @@
 		bool autoriserSignauxListe;			// Autorise ou interdit la reception des signaux par la fonction changementEtatItem
 		bool boutonTchatClignote;			// True si le bouton du tchat commun est en train de clignoter
 		QList<QString> listeClignotants;	// Contient les ID des joueurs a faire clignoter
+        MainWindow* m_mainWindow;
 
 	private slots :
 		void nouveauPj(bool checked);

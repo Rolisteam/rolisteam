@@ -57,12 +57,12 @@
 		if (type == pj)
 		{
 			numeroAffiche = false;
-			nomAffiche = G_affichageNomPj;
+//			nomAffiche = G_affichageNomPj;
 		}
 		else
 		{
-			numeroAffiche = G_affichageNumeroPnj;
-			nomAffiche = G_affichageNomPnj;
+/*			numeroAffiche = G_affichageNumeroPnj;
+            nomAffiche = G_affichageNomPnj;*/
 		}
 		
 		// Creation du label contenant le dessin du personnage
@@ -600,7 +600,7 @@
 	void DessinPerso::emettrePnj(QString idCarte)
 	{
 		// Taille des donnees a emettre (sans l'entete)
-		quint32 tailleCorps = sizeof(quint8) + idCarte.size()*sizeof(QChar) + tailleDonneesAEmettre();
+    /*	quint32 tailleCorps = sizeof(quint8) + idCarte.size()*sizeof(QChar) + tailleDonneesAEmettre();
 
 		// Buffer d'emission
 		char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
@@ -623,7 +623,7 @@
 		preparerPourEmission(&(donnees[p]));
 		// Emission des donnees
 		emettre(donnees, tailleCorps + sizeof(enteteMessage));
-		delete[] donnees;
+        delete[] donnees;*/
 	}
 
 	/********************************************************************/

@@ -33,7 +33,7 @@
 	/* l'application                                                    */
 	/********************************************************************/	
 	// Definit l'outil courant
-	BarreOutils::outilSelectionne G_outilCourant;
+    //ToolsBar::outilSelectionne G_outilCourant;
 	// Contient le texte de la zone de texte
 	QString G_texteCourant;
 	// Contient le texte de la zone "nom du PNJ"
@@ -45,7 +45,7 @@
 	/********************************************************************/
 	/* Constructeur                                                     */
 	/********************************************************************/	
-	BarreOutils::BarreOutils(QWidget *parent)
+    ToolsBar::ToolsBar(QWidget *parent)
 		: QDockWidget(parent)
 	{
 		// Titre du dockWidget
@@ -64,7 +64,7 @@
 		creerOutils();
 
 		// Initialisation de la variable globale indiquant l'outil courant
-		G_outilCourant = main;
+        m_currentTool = HANDLER;
 		
 		// Connexion de l'action RazChrono avec le slot razNumeroPnj
 		QObject::connect(actionRazChrono, SIGNAL(triggered(bool)), this, SLOT(razNumeroPnj()));
@@ -73,7 +73,10 @@
 		// Connexion du changement du nom de PNJ avec nomPnjChange
 		QObject::connect(nomPnj, SIGNAL(textEdited(const QString &)), this, SLOT(nomPnjChange(const QString &)));
 		// Connexion des actions avec les slot adaptes
-		QObject::connect(actionCrayon,     SIGNAL(triggered(bool)), this, SLOT(crayonSelectionne()));
+
+        connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));
+
+        /*QObject::connect(actionCrayon,     SIGNAL(triggered(bool)), this, SLOT(crayonSelectionne()));
 		QObject::connect(actionLigne,      SIGNAL(triggered(bool)), this, SLOT(ligneSelectionne()));
 		QObject::connect(actionRectVide,   SIGNAL(triggered(bool)), this, SLOT(rectVideSelectionne()));
 		QObject::connect(actionRectPlein,  SIGNAL(triggered(bool)), this, SLOT(rectPleinSelectionne()));
@@ -84,7 +87,7 @@
 		QObject::connect(actionAjoutPnj,   SIGNAL(triggered(bool)), this, SLOT(ajoutPnjSelectionne()));
 		QObject::connect(actionSupprPnj,   SIGNAL(triggered(bool)), this, SLOT(supprPnjSelectionne()));
 		QObject::connect(actionDeplacePnj, SIGNAL(triggered(bool)), this, SLOT(deplacePersoSelectionne()));
-		QObject::connect(actionEtatPnj,    SIGNAL(triggered(bool)), this, SLOT(etatPersoSelectionne()));
+        QObject::connect(actionEtatPnj,    SIGNAL(triggered(bool)), this, SLOT(etatPersoSelectionne()));*/
 		// Connection du changement d'etat (floating / no floating) avec le changement de taille
 		QObject::connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changementTaille(bool)));
 
@@ -95,7 +98,7 @@
 	/* Autorise ou pas la selection des couleurs de masquage et         */
 	/* demasquage en fonction de la nature de l'utilisateur (MJ/joueur) */
 	/********************************************************************/	
-	void BarreOutils::autoriserOuInterdireCouleurs()
+    void ToolsBar::autoriserOuInterdireCouleurs()
 	{
 		couleur->autoriserOuInterdireCouleurs();
 	}
@@ -103,24 +106,24 @@
 	/********************************************************************/
 	/* Creation des actions                                             */
 	/********************************************************************/	
-	void BarreOutils::creerActions()
+    void ToolsBar::creerActions()
 	{
 		// Creation du groupe d'action
-		QActionGroup *groupOutils = new QActionGroup(this);
+        m_toolsGroup = new QActionGroup(this);
 
 		// Creation des actions
-                actionCrayon 	= new QAction(QIcon(":/resources/icones/crayon.png"), tr("Crayon"), groupOutils);
-                actionLigne 	= new QAction(QIcon(":/resources/icones/ligne.png"), tr("Ligne"), groupOutils);
-                actionRectVide 	= new QAction(QIcon(":/resources/icones/rectangle vide.png"), tr("Rectangle vide"), groupOutils);
-                actionRectPlein	= new QAction(QIcon(":/resources/icones/rectangle plein.png"), tr("Rectangle plein"), groupOutils);
-                actionElliVide 	= new QAction(QIcon(":/resources/icones/ellipse vide.png"), tr("Ellipse vide"), groupOutils);
-                actionElliPlein	= new QAction(QIcon(":/resources/icones/ellipse pleine.png"), tr("Ellipse pleine"), groupOutils);
-                actionTexte 	= new QAction(QIcon(":/resources/icones/texte.png"), tr("Texte"), groupOutils);
-                actionMain		= new QAction(QIcon(":/resources/icones/main.png"), tr("Déplacer"), groupOutils);
-                actionAjoutPnj 	= new QAction(QIcon(":/resources/icones/ajouter PNJ.png"), tr("Ajouter un PNJ"), groupOutils);
-                actionSupprPnj 	= new QAction(QIcon(":/resources/icones/supprimer PNJ.png"), tr("Supprimer un PNJ"), groupOutils);
-                actionDeplacePnj= new QAction(QIcon(":/resources/icones/deplacer PNJ.png"), tr("Déplacer/Orienter un personnage"), groupOutils);
-                actionEtatPnj	= new QAction(QIcon(":/resources/icones/etat.png"), tr("Changer l'état d'un personnage"), groupOutils);
+                actionCrayon 	= new QAction(QIcon(":/resources/icones/crayon.png"), tr("Crayon"), m_toolsGroup);
+                actionLigne 	= new QAction(QIcon(":/resources/icones/ligne.png"), tr("Ligne"), m_toolsGroup);
+                actionRectVide 	= new QAction(QIcon(":/resources/icones/rectangle vide.png"), tr("Rectangle vide"), m_toolsGroup);
+                actionRectPlein	= new QAction(QIcon(":/resources/icones/rectangle plein.png"), tr("Rectangle plein"), m_toolsGroup);
+                actionElliVide 	= new QAction(QIcon(":/resources/icones/ellipse vide.png"), tr("Ellipse vide"), m_toolsGroup);
+                actionElliPlein	= new QAction(QIcon(":/resources/icones/ellipse pleine.png"), tr("Ellipse pleine"), m_toolsGroup);
+                actionTexte 	= new QAction(QIcon(":/resources/icones/texte.png"), tr("Texte"), m_toolsGroup);
+                actionMain		= new QAction(QIcon(":/resources/icones/main.png"), tr("Déplacer"), m_toolsGroup);
+                actionAjoutPnj 	= new QAction(QIcon(":/resources/icones/ajouter PNJ.png"), tr("Ajouter un PNJ"), m_toolsGroup);
+                actionSupprPnj 	= new QAction(QIcon(":/resources/icones/supprimer PNJ.png"), tr("Supprimer un PNJ"), m_toolsGroup);
+                actionDeplacePnj= new QAction(QIcon(":/resources/icones/deplacer PNJ.png"), tr("Déplacer/Orienter un personnage"), m_toolsGroup);
+                actionEtatPnj	= new QAction(QIcon(":/resources/icones/etat.png"), tr("Changer l'état d'un personnage"), m_toolsGroup);
 
 		// Action independante : remise a 0 des numeros de PNJ
                 actionRazChrono	= new QAction(QIcon(":/resources/icones/chronometre.png"), tr("RAZ numéros de PNJ"), this);
@@ -146,7 +149,7 @@
 	/********************************************************************/
 	/* Creation des boutons et du widget qui les contient               */
 	/********************************************************************/	
-	void BarreOutils::creerOutils()
+    void ToolsBar::creerOutils()
 	{
 		// Creation des boutons du toolBar
 		QToolButton *boutonCrayon     = new QToolButton(outils);
@@ -361,7 +364,7 @@
 	/********************************************************************/
 	/* Incrementation du numero de PNJ                                   */
 	/********************************************************************/	
-	void BarreOutils::incrementeNumeroPnj()
+    void ToolsBar::incrementeNumeroPnj()
 	{
 		// Recuperation de la valeur actuelle
 		int numeroActuel = (int) afficheNumeroPnj->value();
@@ -381,7 +384,7 @@
 	/********************************************************************/
 	/* Remise a 1 du numero de PNJ                                      */
 	/********************************************************************/	
-	void BarreOutils::razNumeroPnj()
+    void ToolsBar::razNumeroPnj()
 	{
 		afficheNumeroPnj->display(1);
 		// Mise a jour de la variable globale indiquant le numero de PNJ
@@ -391,7 +394,7 @@
 	/********************************************************************/
 	/* Changement de taille en fonction de l'etat du dockwidget         */
 	/********************************************************************/	
-	void BarreOutils::changementTaille(bool floating)
+    void ToolsBar::changementTaille(bool floating)
 	{
                 if (floating)
                 {
@@ -408,7 +411,7 @@
 	/********************************************************************/
 	/* Mise a jour de la variable globale contenant le texte            */
 	/********************************************************************/	
-	void BarreOutils::texteChange(const QString &texte)
+    void ToolsBar::texteChange(const QString &texte)
 	{
 		// M.a.j automatique de la variable globale contenant le texte
 		G_texteCourant = texte;
@@ -419,7 +422,7 @@
 	/********************************************************************/
 	/* Mise a jour de la variable globale contenant le nom du PNJ       */
 	/********************************************************************/	
-	void BarreOutils::nomPnjChange(const QString &texte)
+    void ToolsBar::nomPnjChange(const QString &texte)
 	{
 		// M.a.j de la variable globale contenant le nom du PNJ
 		G_nomPnjCourant = texte;
@@ -431,7 +434,7 @@
 	/* Fait suivre une demande de changement de couleur au selecteur    */
 	/* de couleur                                                       */
 	/********************************************************************/
-	void BarreOutils::changeCouleurActuelle(QColor coul)
+    void ToolsBar::changeCouleurActuelle(QColor coul)
 	{
 		couleur->changeCouleurActuelle(coul);
 	}
@@ -439,7 +442,7 @@
 	/********************************************************************/
 	/* M.a.j le nom et le diametre du PNJ                               */
 	/********************************************************************/
-	void BarreOutils::mettreAJourPnj(int diametre, QString nom)
+    void ToolsBar::mettreAJourPnj(int diametre, QString nom)
 	{
 		// M.a.j du diametre du PNJ (ce qui met a jour la variable globale)
 		diametrePnj->changerDiametre(diametre);
@@ -453,7 +456,7 @@
 	/* Demande une m.a.j des couleurs personnelles au selecteur de      */
 	/* couleurs                                                         */
 	/********************************************************************/	
-	void BarreOutils::majCouleursPersonnelles()
+    void ToolsBar::majCouleursPersonnelles()
 	{
 		couleur->majCouleursPersonnelles();
 	}
@@ -462,115 +465,56 @@
 	/* Renvoie la couleur personnelle dont le numero est passe en       */
 	/* parametre                                                        */
 	/********************************************************************/	
-	QColor BarreOutils::donnerCouleurPersonnelle(int numero)
+    QColor ToolsBar::donnerCouleurPersonnelle(int numero)
 	{
 		return couleur->donnerCouleurPersonnelle(numero);
 	}
 
-	/********************************************************************/
-	/* Selectionne l'outil crayon                                       */
-	/********************************************************************/	
-	void BarreOutils::crayonSelectionne()
-	{
-		G_outilCourant = crayon;
-	}
-	
-	/********************************************************************/
-	/* Selectionne l'outil ligne                                        */
-	/********************************************************************/	
-	void BarreOutils::ligneSelectionne()
-	{
-		G_outilCourant = ligne;
-	}
 
-	/********************************************************************/
-	/* Selectionne l'outil rectangle vide                               */
-	/********************************************************************/	
-	void BarreOutils::rectVideSelectionne()
-	{
-		G_outilCourant = rectVide;
-	}
 
-	/********************************************************************/
-	/* Selectionne l'outil rectangle plein                              */
-	/********************************************************************/	
-	void BarreOutils::rectPleinSelectionne()
-	{
-		G_outilCourant = rectPlein;
-	}
 
-	/********************************************************************/
-	/* Selectionne l'outil ellipse vide                                 */
-	/********************************************************************/	
-	void BarreOutils::elliVideSelectionne()
-	{
-		G_outilCourant = elliVide;
-	}
+void ToolsBar::currentActionChanged(QAction* p)
+{
+    //  enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
 
-	/********************************************************************/
-	/* Selectionne l'outil ellipse pleine                               */
-	/********************************************************************/	
-	void BarreOutils::elliPleinSelectionne()
-	{
-		G_outilCourant = elliPlein;
-	}
 
-	/********************************************************************/
-	/* Selectionne l'outil texte                                        */
-	/********************************************************************/	
-	void BarreOutils::texteSelectionne()
-	{
-		// Le focus du clavier est oriente vers la zone de texte
-		if (!(ligneDeTexte->hasFocus()))
-		{
-			ligneDeTexte->setFocus(Qt::OtherFocusReason);
-			ligneDeTexte->setSelection(0, G_texteCourant.length());
-		}
-		G_outilCourant = texte;
-	}
+        if(p == actionCrayon)
+            m_currentTool = PEN;
 
-	/********************************************************************/
-	/* Selectionne l'outil main                                         */
-	/********************************************************************/	
-	void BarreOutils::mainSelectionne()
-	{
-		G_outilCourant = main;
-	}
+        if(p ==  actionLigne)
+            m_currentTool = LINE;
 
-	/********************************************************************/
-	/* Selectionne l'outil ajouter PNJ                                  */
-	/********************************************************************/	
-	void BarreOutils::ajoutPnjSelectionne()
-	{
-		// Le focus du clavier est oriente vers la zone de nom de PNJ
-		if (!(nomPnj->hasFocus()))
-		{
-			nomPnj->setFocus(Qt::OtherFocusReason);
-			nomPnj->setSelection(0, G_nomPnjCourant.length());
-		}
-		G_outilCourant = ajoutPnj;
-	}
+        if(p == actionRectVide)
+                m_currentTool = EMPTYRECT;
 
-	/********************************************************************/
-	/* Selectionne l'outil supprimer PNJ                                */
-	/********************************************************************/	
-	void BarreOutils::supprPnjSelectionne()
-	{
-		G_outilCourant = supprPnj;
-	}
+       if(p == actionRectPlein)
+            m_currentTool = FILLRECT;
 
-	/********************************************************************/
-	/* Selectionne l'outil deplacer PNJ                                 */
-	/********************************************************************/	
-	void BarreOutils::deplacePersoSelectionne()
-	{
-		G_outilCourant = deplacePerso;
-	}
+        if(p ==  actionElliVide)
+            m_currentTool = EMPTYELLIPSE;
 
-	/********************************************************************/
-	/* Selectionne l'outil changer etat PNJ                             */
-	/********************************************************************/	
-	void BarreOutils::etatPersoSelectionne()
-	{
-		G_outilCourant = etatPerso;
-	}
+        if(p ==  actionElliPlein)
+            m_currentTool = FILLEDELLIPSE;
+
+        if(p ==  actionMain)
+            m_currentTool = HANDLER;
+
+        if(p ==  actionTexte)
+            m_currentTool = TEXT;
+
+        if(p ==  actionAjoutPnj)
+            m_currentTool = ADDNPC;
+
+        if(p ==  actionSupprPnj)
+            m_currentTool = DELNPC;
+
+        if(p ==  actionDeplacePnj)
+            m_currentTool = MOVECHARACTER;
+
+        if(p ==  actionEtatPnj)
+            m_currentTool = STATECHARACTER;
+
+        emit currentToolChanged(m_currentTool);
+
+
+}

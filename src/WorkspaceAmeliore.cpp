@@ -1,9 +1,9 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *	Copyright (C) 2007 by Romain Campioni   			                   *
+ *	Copyright (C) 2009 by Renaud Guezennec                                 *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify  *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -25,53 +25,132 @@
 #include "WorkspaceAmeliore.h"
 #include "constantesGlobales.h"
 
-//#include <QTextStream>
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/	
-WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
-: QWorkspace(parent)
+#include <QPixmap>
+
+
+ImprovedWorkspace::ImprovedWorkspace(QWidget *parent)
+: QMdiArea(parent)
 {
-  /*  QTextStream out(stderr,QIODevice::WriteOnly);
-    out << " Si l'utilisateur a ajoute une image de fond, on la charge " <<QString(NOM_APPLICATION);*/
-        // Nom du fichier image utilisateur, qui peut etre utilise pour le fond
-	#ifdef WIN32
-		QString fichierImage = QString(NOM_APPLICATION) + ".bmp";
-	#elif defined (MACOS)
-                QString fichierImage = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".bmp";
+    initCursors();
+    m_variableSizeBackground = new QPixmap(this->viewport()->size());
+    m_variableSizeBackground->fill(Qt::darkGray);
+    QPainter painter(m_variableSizeBackground);
+
+    m_backgroundPicture = new QPixmap(":/resources/icones/fond workspace macos.bmp");
+
+    painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
+    this->setBackground(QBrush(*m_variableSizeBackground));
+    m_currentCursor = m_handCursor;
+
+}
+
+
+void ImprovedWorkspace::resizeEvent ( QResizeEvent * event )
+{
+    Q_UNUSED(event);
+    delete m_variableSizeBackground;
+
+    m_variableSizeBackground = new QPixmap(this->viewport()->size());
+    m_variableSizeBackground->fill(Qt::darkGray);
+    QPainter painter(m_variableSizeBackground);
+
+    painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
+    this->setBackground(QBrush(*m_variableSizeBackground));
+
+
+}
+void ImprovedWorkspace::currentToolChanged(ToolsBar::SelectableTool tool)
+{
+    //enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
+
+    switch(tool)
+    {
+        case ToolsBar::PEN:
+        case ToolsBar::LINE:
+        case ToolsBar::EMPTYRECT:
+        case ToolsBar::FILLRECT:
+        case ToolsBar::EMPTYELLIPSE:
+        case ToolsBar::FILLEDELLIPSE:
+            m_currentCursor = m_drawingCursor;
+            break;
+        case ToolsBar::TEXT:
+            m_currentCursor = m_textCursor;
+            break;
+        case ToolsBar::HANDLER:
+            m_currentCursor = m_handCursor;
+            break;
+        case ToolsBar::ADDNPC:
+            m_currentCursor = m_addCursor;
+            break;
+        case ToolsBar::DELNPC:
+            m_currentCursor = m_deleteCursor;
+            break;
+        case ToolsBar::MOVECHARACTER:
+            m_currentCursor = m_moveCursor;
+            break;
+        case ToolsBar::STATECHARACTER:
+            m_currentCursor = m_stateCursor;
+            break;
+    }
+
+    emit currentCursorChanged(m_currentCursor);
+    emit currentToolHasChanged(tool);
+}
+
+void ImprovedWorkspace::initCursors()
+{
+        QBitmap bitmap(":/resources/icones/pointeur dessin.png");
+        #ifdef Q_WS_MAC
+            QBitmap drawmask(32,32);
+            drawmask.fill(Qt::color0);
+            m_drawingCursor = new QCursor(bitmap,drawmask, 8, 8);
         #else
-               QString fichierImage = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".bmp";
-	#endif
+            m_drawingCursor = new QCursor(bitmap, 8, 8);
+        #endif
 
-	// Si l'utilisateur a ajoute une image de fond, on la charge
+            QBitmap textBitmap(":/resources/icones/pointeur texte.png");
+        #ifdef Q_WS_MAC
+            QBitmap drawmask(32,32);
+            drawmask.fill(Qt::color0);
+            m_textCursor = new QCursor(textBitmap, drawmask, 4, 13);
+        #else
+            m_textCursor = new QCursor(textBitmap/*, masqueTexte*/, 4, 13);
+        #endif
 
-	if (QFile::exists(fichierImage))
-			imageFond = new QImage(fichierImage);
-	// Sinon on utilise le fond par defaut
-	else
-	{
-                #ifdef WIN32
-                        imageFond = new QImage(":/resources/icones/fond workspace win32.bmp");
-		#elif defined (MACOS)
-                        imageFond = new QImage(":/resources/icones/fond workspace macos.bmp");
-                #else
-                        imageFond = new QImage(":/resources/icones/fond workspace macos.bmp");
-                #endif
-	}
+
+        QPixmap movePixmap(":/resources/icones/pointeur deplacer.png");
+        m_moveCursor = new QCursor(movePixmap, 0, 0);
+
+        QPixmap rotatePixmap(":/resources/icones/pointeur orienter.png");
+        m_rotateCursor = new QCursor(rotatePixmap, 10, 12);
+
+        QPixmap pipettePixmap(":/resources/icones/pointeur pipette.png");
+        m_pipetteCursor = new QCursor(pipettePixmap, 1, 19);
+
+        QPixmap addPixmap(":/resources/icones/pointeur ajouter.png");
+        m_addCursor = new QCursor(addPixmap, 6, 0);
+
+        QPixmap deletePixmap(":/resources/icones/pointeur supprimer.png");
+        m_deleteCursor = new QCursor(deletePixmap, 6, 0);
+
+        QPixmap StatePixmap(":/resources/icones/pointeur etat.png");
+        m_stateCursor = new QCursor(StatePixmap, 0, 0);
+
+        m_handCursor = new QCursor(Qt::OpenHandCursor);
+
 }
 
-/********************************************************************/
-/* Redessine le fond                                                */
-/********************************************************************/	
-void WorkspaceAmeliore::paintEvent(QPaintEvent *event)
+void ImprovedWorkspace::addWidget(SubMdiWindows* subWindow)
 {
-	// Creation du painter pour pouvoir dessiner
-	QPainter painter(this);
-
-	// On calcule l'intersection de la zone a repeindre avec la taille de l'image
-	QRect zoneARecopier = event->rect().intersected(QRect(0, 0, imageFond->width(), imageFond->height()));
-
-	// Si la zone n'est pas vide, on recopie l'image de fond dans le workspace
-	if (!zoneARecopier.isEmpty())
-		painter.drawImage(zoneARecopier, *imageFond, zoneARecopier);
+    addSubWindow(subWindow);
+    connect(this,SIGNAL(currentCursorChanged(QCursor*)),subWindow,SLOT(currentCursorChanged(QCursor*)));
+    connect(this,SIGNAL(currentToolHasChanged(ToolsBar::SelectableTool)),subWindow,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
+    connect(subWindow,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates)),subWindow,SLOT(changedStatus(Qt::WindowStates,Qt::WindowStates)));
 }
+/*void ImprovedWorkspace::activeSubWindowChanged(QMdiSubWindow* subWindow)
+{
+    SubMdiWindows* tmp = static_cast<SubMdiWindows*>(subWindow);
+
+    tmp->setCurrentTool();
+
+}*/

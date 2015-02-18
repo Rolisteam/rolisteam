@@ -32,11 +32,13 @@
 /* Constructeur                                                     */
 /********************************************************************/	
 Tchat::Tchat(QString id, QAction *action, QWidget *parent)
-: QSplitter(parent)
+: SubMdiWindows(parent)
 {
+
 	// On donne un nom a l'objet "Tchat" pour le differencier des autres fenetres du workspace
 	setObjectName("Tchat");
-
+    m_splitter = new QSplitter;
+    m_active=false;
 	// Initialisation des variables
 	idJoueur = id;
 	numHistorique = 0;
@@ -52,9 +54,9 @@ Tchat::Tchat(QString id, QAction *action, QWidget *parent)
 	historiqueMessages.clear();
 
 	// Les 2 parties du tchat seront positionnees verticalement dans la fenetre
-	setOrientation(Qt::Vertical);
+    m_splitter->setOrientation(Qt::Vertical);
 	// Les widgets contenus ne peuvent pas avoir une taille de 0
-	setChildrenCollapsible(false);
+    m_splitter->setChildrenCollapsible(false);
 
 	// Creation de la zone affichant le texte des utilisateurs tiers
 	zoneAffichage = new QTextEdit();
@@ -68,20 +70,22 @@ Tchat::Tchat(QString id, QAction *action, QWidget *parent)
 	zoneEdition->setAcceptRichText(false);
 
 	// Ajout des 2 zones dans le splitter
-    addWidget(zoneAffichage);
-    addWidget(zoneEdition);
+    m_splitter->addWidget(zoneAffichage);
+    m_splitter->addWidget(zoneEdition);
 
 	// Initialisation des tailles des 2 widgets
 	QList<int> tailles;
 	tailles.append(200);
 	tailles.append(40);
-	setSizes(tailles);
+    m_splitter->setSizes(tailles);
 
 	// Connexion du signal de validation du text de la zone d'edition a la demande d'emission
 	QObject::connect(zoneEdition, SIGNAL(entreePressee()), this, SLOT(emettreTexte()));
 	// Connexion des signaux haut et bas au defilement des anciens messages
 	QObject::connect(zoneEdition, SIGNAL(hautPressee()), this, SLOT(monterHistorique()));
 	QObject::connect(zoneEdition, SIGNAL(basPressee()), this, SLOT(descendreHistorique()));
+
+    setWidget(m_splitter);
 }
 
 /********************************************************************/	
@@ -125,7 +129,7 @@ void Tchat::emettreTexte()
 		{
 			// On affiche le resultat du tirage dans la zone d'affichage
 			QString messageTemp = QString(tr("avez obtenu  ")) + QString::number(result) + QString(tr("  à votre jet de dés  [")) + tirage + QString("]");
-			afficherTirage(tr("Vous"), G_couleurJoueurLocal, messageTemp);
+            afficherTirage(tr("Vous"), " ", messageTemp);
 			// On cree un nouveau message a envoyer aux autres utilisateurs
 			message = QString(tr("a obtenu  ")) + QString::number(result) + QString(tr("  à son jet de dés  [")) + tirage + QString("]");
 			// M.a.j de l'action a emettre
@@ -189,7 +193,7 @@ void Tchat::emettreTexte()
 		{
 			// On affiche le resultat du tirage dans la zone d'affichage
 			QString messageTemp = QString(tr("avez obtenu ")) + QString::number(result) + QString(tr(" succès")) + glitch + tirage;
-			afficherTirage(tr("Vous"), G_couleurJoueurLocal, messageTemp);
+            afficherTirage(tr("Vous"), " ", messageTemp);
 			// On cree un nouveau message a envoyer aux autres utilisateurs
 			message = QString(tr("a obtenu ")) + QString::number(result) + QString(tr(" succès")) + glitch + tirage;
 			// M.a.j de l'action a emettre
@@ -210,7 +214,7 @@ void Tchat::emettreTexte()
 	// Sinon on recopie le message tel quel dans la zone d'affichage
 	else
 	{
-		afficherMessage(tr("Vous"), G_couleurJoueurLocal, message);
+        afficherMessage(tr("Vous"), " ", message);
 		// M.a.j de l'action a emettre
 		action = messageTchat;
 
@@ -222,7 +226,7 @@ void Tchat::emettreTexte()
 	// Emission du message au serveur, a un ou a l'ensemble des clients
 
 	// Taille des donnees
-	quint32 tailleCorps =
+    /*quint32 tailleCorps =
 		// Taille de l'identifiant du joueur local
 		sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
 		// Taille de l'identifiant du joueur de destination
@@ -276,8 +280,8 @@ void Tchat::emettreTexte()
 			// On recupere le numero de liaison correspondant a l'identifiant du joueur
 			// (on soustrait 1 car le 1er utilisateur est toujours le serveur et qu'il
 			// n'a pas de liaison associee)
-			int numeroLiaison = G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
-			emettre(donnees, tailleCorps + sizeof(enteteMessage), numeroLiaison);
+//			int numeroLiaison = G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
+//			emettre(donnees, tailleCorps + sizeof(enteteMessage), numeroLiaison);
 		}
 	}
 	
@@ -286,7 +290,7 @@ void Tchat::emettreTexte()
 		emettre(donnees, tailleCorps + sizeof(enteteMessage));
 
 	// Liberation du buffer d'emission
-	delete[] donnees;
+    delete[] donnees;*/
 }
 
 
@@ -316,8 +320,8 @@ void Tchat::afficherMessage(QString utilisateur, QColor couleur, QString message
 	zoneAffichage->verticalScrollBar()->setSliderPosition(zoneAffichage->verticalScrollBar()->maximum());
 
 	// Si le tchat n'est pas en 1er plan, on fait clignoter l'utilisateur associe
-	if (!G_mainWindow->estLaFenetreActive(this))
-		G_listeUtilisateurs->faireClignoter(idJoueur);
+ /*   if (!m_active)
+        G_listeUtilisateurs->faireClignoter(idJoueur);*/
 }
 
 /********************************************************************/	
@@ -338,8 +342,8 @@ void Tchat::afficherTirage(QString utilisateur, QColor couleur, QString message)
 	zoneAffichage->verticalScrollBar()->setSliderPosition(zoneAffichage->verticalScrollBar()->maximum());
 
 	// Si le tchat n'est pas en 1er plan, on fait clignoter l'utilisateur associe
-	if (!G_mainWindow->estLaFenetreActive(this))
-		G_listeUtilisateurs->faireClignoter(idJoueur);
+ /*   if (!m_active)
+        G_listeUtilisateurs->faireClignoter(idJoueur);*/
 }
 
 /********************************************************************/
@@ -354,7 +358,7 @@ void Tchat::closeEvent(QCloseEvent *event)
 	// Si l'identifiant n'est pas vide (il ne s'agit pas du tchat commun)
 	if (!idJoueur.isEmpty())
 		// On demande le decochage de la case correspondante au joueur
-		G_listeUtilisateurs->decocherCaseTchat(idJoueur);
+//		G_listeUtilisateurs->decocherCaseTchat(idJoueur);
 	// Arret de la procedure de fermeture
 	event->ignore();
 	// Decoche l'action associee dans le sous-menu Tchats
@@ -860,10 +864,10 @@ void Tchat::changerEtatCase(bool coche)
 		return;
 		
 	// Sinon on met a jour la case du joueur correspondant
-	if (coche)
+    /*if (coche)
 		G_listeUtilisateurs->cocherCaseTchat(idJoueur);
 	else
-		G_listeUtilisateurs->decocherCaseTchat(idJoueur);		
+        G_listeUtilisateurs->decocherCaseTchat(idJoueur);*/
 }
 
 /********************************************************************/

@@ -209,7 +209,7 @@
 			// Message sur le log utilisateur
 			ecrireLogUtilisateur(tr("Fin du processus de connexion"));
 			// On met a jour l'espace de travail
-			G_mainWindow->mettreAJourEspaceTravail();
+//			G_mainWindow->mettreAJourEspaceTravail();
 		}
 	}
 
@@ -289,10 +289,10 @@
 				G_lecteurAudio->emettreEtat(idJoueur);
 
 			// On emet tous les plans deja ouverts au nouveau client
-			G_mainWindow->emettreTousLesPlans(idJoueur);
+//			G_mainWindow->emettreTousLesPlans(idJoueur);
 
 			// On emet toutes les images deja ouvertes au nouveau client
-			G_mainWindow->emettreToutesLesImages(idJoueur);
+//			G_mainWindow->emettreToutesLesImages(idJoueur);
 
 			// On emet l'ensemble des personnages joueurs deja crees (et on demande qu'ils ne creent pas de DessinPerso associes sur les cartes)
 			G_listeUtilisateurs->emettreTousLesPj(idJoueur);
@@ -312,7 +312,7 @@
 			emissionDonnees((char *)&uneEntete, sizeof(enteteMessage));
 
 			// Ajout du tchat correspondant au nouveau joueur
-			G_mainWindow->ajouterTchat(idJoueur, nomJoueur);
+//			G_mainWindow->ajouterTchat(idJoueur, nomJoueur);
 
 			// Deblocage du mutex : les autres threads peuvent entrer dans la zone protegee
 			G_mutexConnexion.unlock();
@@ -365,7 +365,7 @@
 					// On change la nature de l'utilisateur local : il devient joueur au lieu de MJ
 					G_joueur = true;
 					// On met a jour l'espace de travail en consequence (limitation des droits)
-					G_mainWindow->changementNatureUtilisateur();
+//					G_mainWindow->changementNatureUtilisateur();
 					// On affiche un message dans le log utilisateur
 					ecrireLogUtilisateur(tr("Un MJ est déjà connecté au serveur, celui-ci vous donne donc le statut de joueur"));
 				}
@@ -374,8 +374,8 @@
 			// Ajout du joueur a la liste
 			G_listeUtilisateurs->ajouterJoueur(idJoueur, nomJoueur, couleurJoueur, idJoueur==G_idJoueurLocal, mj);
 			// Ajout du tchat s'il ne s'agit pas de l'utilisateur local
-			if (idJoueur != G_idJoueurLocal)
-				G_mainWindow->ajouterTchat(idJoueur, nomJoueur);
+//			if (idJoueur != G_idJoueurLocal)
+//				G_mainWindow->ajouterTchat(idJoueur, nomJoueur);
 
 			// Liberation de la memoire allouee
 			delete[] tableauNom;
@@ -400,7 +400,7 @@
 			// On supprime le joueur de la liste
 			G_listeUtilisateurs->supprimerJoueur(idJoueur);
 			// On supprime le tchat
-			G_mainWindow->supprimerTchat(idJoueur);
+//			G_mainWindow->supprimerTchat(idJoueur);
 
 			// Liberation de la memoire allouee
 			delete[] tableauId;
@@ -578,9 +578,9 @@
 			p+=sizeof(quint8);
 
 			// On recherche la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+            /*Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche un message d'erreur
-			if (!carte)
+            if (!carte)
 				qWarning("Carte introuvable a la reception d'une demande d'affichage/masquage de PJ (receptionMessagePersoJoueur - Liaison.cpp)");
 
 			// Si la carte a ete trouvee
@@ -591,7 +591,7 @@
 				// On coche/decoche le PJ dans la liste d'utilisateurs si la carte est actuellement active
 				if (G_mainWindow->estLaFenetreActive(G_mainWindow->trouverCarteFenetre(idPlan)))
 					G_listeUtilisateurs->cocherDecocherPj(idPerso, affichage);
-			}
+            }*/
 
 			// Liberation de la memoire allouee
 			delete[] tableauIdPlan;
@@ -617,7 +617,7 @@
 			p+=sizeof(quint8);
 			
 			// On recherche la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+            /*Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche un message d'erreur
 			if (!carte)
 				qWarning("Carte introuvable a la reception d'une demande de changement de taille des PJ (receptionMessagePersoJoueur - Liaison.cpp)");
@@ -629,7 +629,7 @@
 				carte->changerTaillePjCarte(taillePj);
 				// On met a jour le selecteur de taille si la carte est la fenetre active
 				G_mainWindow->mettreAJourSelecteurTaille(idPlan, taillePj);
-			}
+            }*/
 
 			// Liberation de la memoire allouee
 			delete[] tableauIdPlan;
@@ -720,13 +720,13 @@
 			QString idPlan(tableauIdPlan, tailleIdPlan);
 
 			// Recherche de la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+            /*Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche une erreur
 			if (!carte)
 				qWarning("Carte introuvable a la reception d'un PNJ a ajouter (receptionMessagePersoNonJoueur - Liaison.cpp)");
 			// Sinon on ajoute le PNJ a la carte
 			else
-				extrairePersonnage(carte, &(tampon[p]));
+                extrairePersonnage(carte, &(tampon[p]));*/
 
 			// Liberation de la memoire allouee
 			delete[] tableauIdPlan;
@@ -755,13 +755,13 @@
 			QString idPerso(tableauIdPnj, tailleIdPnj);
 
 			// Recherche de la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+            /*Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche une erreur
 			if (!carte)
 				qWarning("Carte introuvable a la reception d'un PNJ a supprimer (receptionMessagePersoNonJoueur - Liaison.cpp)");
 			// Sinon on supprime le PNJ de la carte
-			else
-				carte->effacerPerso(idPerso);
+            else
+                carte->effacerPerso(idPerso);*/
 
 			// Liberation de la memoire allouee
 			delete[] tableauIdPlan;
@@ -802,14 +802,14 @@
 			p+=sizeof(quint16);
 			
 			// Recherche de la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+/*			Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche une erreur
 			if (!carte)
 				qWarning("Carte introuvable a la reception d'une liste de personnages a ajouter (receptionMessagePersonnage - Liaison.cpp)");
 			// Sinon on recupere l'ensemble des personnages et on les ajoute a la carte
 			else
 				for (int i=0; i<nbrPersonnages; i++)
-					p += extrairePersonnage(carte, &(tampon[p]));
+                    p += extrairePersonnage(carte, &(tampon[p]));*/
 			
 			// Liberation de la memoire allouee
 			delete[] tableauId;
@@ -855,13 +855,13 @@
 			}
 			
 			// Recherche de la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+            /*Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche une erreur
 			if (!carte)
 				qWarning("Carte introuvable a la reception d'un deplacement de personnage (receptionMessagePersonnage - Liaison.cpp)");
 			// Sinon lance le deplacement du personnage
 			else
-				carte->lancerDeplacementPersonnage(idPerso, listeDeplacement);
+                carte->lancerDeplacementPersonnage(idPerso, listeDeplacement);*/
 			
 			// Liberation de la memoire allouee
 			delete[] tableauIdPlan;
@@ -895,7 +895,7 @@
 			p+=sizeof(quint16);
 
 			// Recherche de la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+            /*Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche une erreur
 			if (!carte)
 				qWarning("Carte introuvable a la reception d'un changement d'etat de perso (receptionMessagePersonnage - Liaison.cpp)");
@@ -909,7 +909,7 @@
 				// S'il est introuvable
 				else
 					qWarning("Personnage introuvable a la reception d'un changement d'etat de perso (receptionMessagePersonnage - Liaison.cpp)");
-			}
+            }*/
 
 			// Liberation de la memoire allouee
 			delete[] tableauIdPlan;
@@ -946,7 +946,7 @@
 			QPoint orientation(pointX, pointY);
 
 			// Recherche de la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        /*	Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche une erreur
 			if (!carte)
 				qWarning("Carte introuvable a la reception d'un changement d'orientation (receptionMessagePersonnage - Liaison.cpp)");
@@ -961,7 +961,7 @@
 				else
 					qWarning("Personnage introuvable a la reception d'un changement d'orientation (receptionMessagePersonnage - Liaison.cpp)");
 			}
-
+*/
 			// Liberation de la memoire allouee
 			delete[] tableauIdPlan;
 			delete[] tableauIdPerso;
@@ -994,7 +994,7 @@
 			p+=sizeof(quint8);
 
 			// Recherche de la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+            /*Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche une erreur
 			if (!carte)
 				qWarning("Carte introuvable a la reception d'un affichage/masquage d'orientation (receptionMessagePersonnage - Liaison.cpp)");
@@ -1008,7 +1008,7 @@
 				// S'il est introuvable
 				else
 					qWarning("Personnage introuvable a la reception d'un affichage/masquage d'orientation (receptionMessagePersonnage - Liaison.cpp)");
-			}
+            }*/
 
 			// Liberation de la memoire allouee
 			delete[] tableauIdPlan;
@@ -1084,14 +1084,14 @@
 			p+=sizeof(couleurSelectionee);
 			
 			// Recherche de la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+            /*Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche un message d'erreur
 			if (!carte)
 				qWarning("Carte introuvable a la reception d'un trace de crayon (receptionMessageDessin - Liaison.cpp)");
 			// Sinon on demande le dessin du trace
 			else
 				carte->dessinerTraceCrayon(&listePoints, zoneARafraichir, diametre, couleur, idJoueur==G_idJoueurLocal);
-
+*/
 			// Liberation de la memoire allouee
 			delete[] tableauIdJoueur;
 			delete[] tableauIdPlan;
@@ -1143,14 +1143,14 @@
 			p+=sizeof(couleurSelectionee);
 			
 			// Recherche de la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+            /*Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche un message d'erreur
 			if (!carte)
 				qWarning("Carte introuvable a la reception d'un trace texte (receptionMessageDessin - Liaison.cpp)");
 			// Sinon on demande le dessin du trace
 			else
 				carte->dessinerTraceTexte(texte, positionSouris, zoneARafraichir, couleur);
-
+*/
 			// Liberation de la memoire allouee
 			delete[] tableauId;
 			delete[] tableauTexte;
@@ -1210,14 +1210,14 @@
 			p+=sizeof(couleurSelectionee);
 			
 			// Recherche de la carte concernee
-			Carte *carte = G_mainWindow->trouverCarte(idPlan);
+            /*Carte *carte = G_mainWindow->trouverCarte(idPlan);
 			// Si la carte est introuvable on affiche un message d'erreur
 			if (!carte)
 				qWarning("Carte introuvable a la reception d'un trace general (receptionMessageDessin - Liaison.cpp)");
 			// Sinon on demande le dessin du trace
 			else
 				carte->dessinerTraceGeneral((actionDessin)(entete.action), pointDepart, pointArrivee, zoneARafraichir, diametre, couleur);
-
+*/
 			// Liberation de la memoire allouee
 			delete[] tableauId;
 		}
@@ -1270,7 +1270,7 @@
 			p+=sizeof(quint8);
 
 			// On cree la carte
-			G_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur, taillePj);
+            //G_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur, taillePj);
 			
 			// Message sur le log utilisateur
 			ecrireLogUtilisateur(tr("Nouveau plan \"") + titre + "\"");
@@ -1325,11 +1325,11 @@
 				qWarning("Probleme de decompression de l'image (receptionMessagePlan - Liaison.cpp)");
 
 			// Creation de la carte
-		    Carte *carte = new Carte(idPlan, &image, taillePj, masquerPlan);
+            /*Carte *carte = new Carte(idPlan, &image, taillePj, masquerPlan, G_mainWindow);
 			// Creation de la CarteFenetre
 			CarteFenetre *carteFenetre = new CarteFenetre(carte);
 			// Ajout de la carte au workspace
-			G_mainWindow->ajouterCarte(carteFenetre, titre);
+            G_mainWindow->ajouterCarte(carteFenetre, titre);*/
 
 			// Message sur le log utilisateur
 			ecrireLogUtilisateur(tr("Réception du plan \"") + titre + "\"");
@@ -1409,13 +1409,13 @@
 				qWarning("Probleme de decompression de la couche alpha (receptionMessagePlan - Liaison.cpp)");
 
 			// Creation de la carte
-		    Carte *carte = new Carte(idPlan, &fondOriginal, &fond, &alpha, taillePj);
+            /*Carte *carte = new Carte(idPlan, &fondOriginal, &fond, &alpha, taillePj,G_mainWindow);
 			// On adapte la couche alpha a la nature de l'utilisateur local (MJ ou joueur)
 			carte->adapterCoucheAlpha(intensiteAlpha);
 			// Creation de la CarteFenetre
 			CarteFenetre *carteFenetre = new CarteFenetre(carte);
 			// Ajout de la carte au workspace
-			G_mainWindow->ajouterCarte(carteFenetre, titre);
+            G_mainWindow->ajouterCarte(carteFenetre, titre);*/
 
 			// Message sur le log utilisateur
 			ecrireLogUtilisateur(tr("Réception du plan \"") + titre + "\"");
@@ -1441,7 +1441,7 @@
 			QString idPlan(tableauIdPlan, tailleIdPlan);
 
 			// On recherche la CarteFenetre concernee
-			CarteFenetre *carteFenetre = G_mainWindow->trouverCarteFenetre(idPlan);
+            /*CarteFenetre *carteFenetre = G_mainWindow->trouverCarteFenetre(idPlan);
 			// Si la CarteFenetre est introuvable on affiche un message d'erreur
 			if (!carteFenetre)
 				qWarning("CarteFenetre introuvable a la reception d'une demande de fermture d'un plan (receptionMessagePlan - Liaison.cpp)");
@@ -1453,7 +1453,7 @@
 				ecrireLogUtilisateur(tr("Le plan \"") + carteFenetre->windowTitle() + tr("\" vient d'être fermé par le MJ"));
 				// Suppression du plan
 				carteFenetre->~CarteFenetre();
-			}
+            }*/
 
 			// Liberation de la memoire allouee
 			delete[] tableauIdPlan;
@@ -1521,7 +1521,7 @@
 			// Creation de l'Image
 		    Image *imageFenetre = new Image(idImage, idJoueur, img);
 			// Ajout de la carte au workspace
-			G_mainWindow->ajouterImage(imageFenetre, titre);
+            //G_mainWindow->ajouterImage(imageFenetre, titre);
 
 			// Message sur le log utilisateur
 			ecrireLogUtilisateur(tr("Réception de l'image \"") + titre.left(titre.size() - QString(tr(" (Image)")).size() ) + "\"");
@@ -1548,7 +1548,7 @@
 			QString idImage(tableauIdImage, tailleIdImage);
 
 			// On recherche l'image concernee
-			Image *imageFenetre = G_mainWindow->trouverImage(idImage);
+            /*Image *imageFenetre = G_mainWindow->trouverImage(idImage);
 			// Si l'image est introuvable on affiche un message d'erreur
 			if (!imageFenetre)
 				qWarning("Image introuvable a la reception d'une demande de fermeture d'une image (receptionMessageImage - Liaison.cpp)");
@@ -1561,7 +1561,7 @@
 				ecrireLogUtilisateur(tr("L'image \"") + titre.left(titre.size() - QString(tr(" (Image)")).size() ) + tr("\" vient d'être fermée"));
 				// Suppression de l'image
 				imageFenetre->~Image();
-			}
+            }*/
 
 			// Liberation de la memoire allouee
 			delete[] tableauIdImage;
@@ -1617,7 +1617,7 @@
 				Tchat *tchat;
 
 				// Si le destinataire est vide, il s'agit du tchat commun
-				if (idJoueurRecepteur.isEmpty())
+            /*	if (idJoueurRecepteur.isEmpty())
 					tchat = G_mainWindow->trouverTchat(idJoueurRecepteur);
 				// Sinon on recupere le tchat prive concerne
 				else
@@ -1631,7 +1631,7 @@
 				if (entete.action == messageTchat)
 					tchat->afficherMessage(emetteur, couleur, message);
 				else
-					tchat->afficherTirage(emetteur, couleur, message);				
+                    tchat->afficherTirage(emetteur, couleur, message);			*/
 			}
 			
 			// Si l'ordinateur local est le serveur il doit faire suivre le message

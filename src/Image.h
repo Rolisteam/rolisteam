@@ -33,48 +33,53 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-    #include <QWidget>
-    #include <QImage>
-    #include <QScrollArea>
-    #include <QAction>
-	#include <QFile>
-	#include <QString>
-	#include <QLabel>
+#include <QWidget>
+#include <QImage>
+#include <QScrollArea>
+#include <QAction>
+#include <QFile>
+#include <QString>
+#include <QLabel>
+
+#include "submdiwindows.h"
+
+class Image : public SubMdiWindows //public QScrollArea
+{
+    Q_OBJECT
+
+public :
+    Image(QString identImage, QString identJoueur, QImage *image, QAction *action = 0, QWidget *parent = 0);
+    ~Image();
+    void associerAction(QAction *action);
+    void emettreImage(QString titre, int numeroLiaison);
+    void sauvegarderImage(QFile &file, QString titre);
+    bool proprietaireImage();
+    QString identifiantImage();
+
+public slots :
+    void pointeurMain();
+    void pointeurNormal();
+
+protected :
+    void closeEvent(QCloseEvent *event);
+   /* void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);*/
 
 
-    class Image : public QScrollArea
-    {
-	Q_OBJECT
-		
-    public :
-	    Image(QString identImage, QString identJoueur, QImage *image, QAction *action = 0, QWidget *parent = 0);
-		~Image();
-		void associerAction(QAction *action);
-		void emettreImage(QString titre, int numeroLiaison);
-		void sauvegarderImage(QFile &file, QString titre);
-		bool proprietaireImage();
-		QString identifiantImage();
+private :
+    QString idImage;
+    QString idJoueur;
+    QAction *actionAssociee;
+    QLabel *labelImage;
+    QPoint pointDepart;
+    int horizontalDepart;
+    int verticalDepart;
+    bool deplacementAutorise;
+    QScrollArea* m_scrollArea;
 
-	public slots :
-		void pointeurMain();
-		void pointeurNormal();
 
-    private :
-		QString idImage;
-		QString idJoueur;
-		QAction *actionAssociee;
-		QLabel *labelImage;
-		QPoint pointDepart;
-		int horizontalDepart;
-		int verticalDepart;
-		bool deplacementAutorise;
 
-	protected :
-		void closeEvent(QCloseEvent *event);
-		void mousePressEvent(QMouseEvent *event);
-		void mouseReleaseEvent(QMouseEvent *event);
-		void mouseMoveEvent(QMouseEvent *event);
-
-	};
+};
 
 #endif

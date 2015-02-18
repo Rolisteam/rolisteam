@@ -24,157 +24,71 @@
 #include <QDebug>
 
 
-#include "CarteFenetre.h"
+#include "MapFrame.h"
 #include "Carte.h"
 #include "MainWindow.h"
 #include "BarreOutils.h"
 #include "ListeUtilisateurs.h"
 #include "constantesGlobales.h"
 #include "variablesGlobales.h"
-#include "NouveauPlanVide.h"
+
 #include "Image.h"
 #include "LecteurAudio.h"
 #include "EditeurNotes.h"
 #include "WorkspaceAmeliore.h"
 
-// Necessaires pour utiliser l'instruction ShellExecute
-#ifdef WIN32
-        #include <windows.h>
-        #include <shellapi.h>
-#endif
+#include "preferencesmanager.h"
 
-/********************************************************************/
-/* Variables globales utilisees par tous les elements de            */
-/* l'application                                                    */
-/********************************************************************/
-// Pointeur vers l'unique instance de la fenetre principale
-MainWindow *G_mainWindow;
-// Indique si le nom des PJ doit etre affiche ou pas
-bool G_affichageNomPj;
-// Indique si le nom des PNJ doit etre affiche ou pas
-bool G_affichageNomPnj;
-// Indique si le numero des PNJ doit etre affiche ou pas
-bool G_affichageNumeroPnj;
-// Indique si une CarteFenetre est actuellement active
-bool G_carteFenetreActive;
-// Contient le pointeur de souris pour dessiner
-QCursor *G_pointeurDessin;
-// Contient le pointeur de souris pour le texte
-QCursor *G_pointeurTexte;
-// Contient le pointeur de souris pour deplacer les PJ/PNJ
-QCursor *G_pointeurDeplacer;
-// Contient le pointeur de souris pour orienter les PJ/PNJ
-QCursor *G_pointeurOrienter;
-// Contient le pointeur de souris pour la pipette (clic droit)
-QCursor *G_pointeurPipette;
-// Contient le pointeur de souris pour ajouter un PNJ
-QCursor *G_pointeurAjouter;
-// Contient le pointeur de souris pour supprimer en PNJ
-QCursor *G_pointeurSupprimer;
-// Contient le pointeur de souris pour changer l'etat des PJ/PNJ
-QCursor *G_pointeurEtat;
-// Dossier par defaut ou sont stockees les musiques d'ambiance du MJ
-QString G_dossierMusiquesMj;
-// Dossier ou sont stockees les musiques des joueurs
-QString G_dossierMusiquesJoueur;
-// Dossier par defaut ou sont stockees les images
-QString G_dossierImages;
-// Dossier par defaut ou sont stockes les plans
-QString G_dossierPlans;
-// Dossier par defaut ou sont stockes les scenarii
-QString G_dossierScenarii;
-// Dossier par defaut ou sont stockees les notes
-QString G_dossierNotes;
-// Dossier ou sont stockes les tchats a la fermeture de l'application
-QString G_dossierTchats;
-
-
-// Pointeur vers la fenetre de log utilisateur (utilise seulement dans ce fichier)
-static QTextEdit *logUtilisateur;
-
-
-/********************************************************************/
-/* Affiche un message dans la fenetre de log utilisateur. Peut etre */
-/* appelee par n'importe quel element de l'application              */
-/********************************************************************/
-void ecrireLogUtilisateur(QString message)
-{
-        static bool alternance = false;
-        QColor couleur;
-
-        // Changement de la couleur
-        alternance = !alternance;
-        if (alternance)
-                couleur = Qt::darkBlue;
-        else
-                couleur = Qt::darkRed;
-
-        // Ajout de l'heure
-        QString heure = QTime::currentTime().toString("hh:mm:ss") + " - ";
-
-        // On repositionne le curseur a la fin du QTextEdit
-        logUtilisateur->moveCursor(QTextCursor::End);
-
-        // Affichage de l'heure
-        logUtilisateur->setTextColor(Qt::darkGreen);
-        logUtilisateur->append(heure);
-
-        // Affichage du texte
-    logUtilisateur->setTextColor(couleur);
-        logUtilisateur->insertPlainText(message);
-}
-
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/
 MainWindow::MainWindow()
         : QMainWindow()
 {
-        // Initialisation des variables globales
-        G_mainWindow = this;
-        G_affichageNomPj = true;
-        G_affichageNomPnj = true;
-        G_affichageNumeroPnj = true;
-        G_carteFenetreActive = false;
+        m_options = PreferencesManager::getInstance();
+        readSettings();
+
+
 
         // Initialisation de la liste des CarteFenetre, des Image et des Tchat
         listeCarteFenetre.clear();
         listeImage.clear();
         listeTchat.clear();
 
-        // Initialisation du pointeur vers la fenetre de parametrage de nouveau plan
-        fenetreNouveauPlan = 0;
+
 
         // Desactivation des animations
         setAnimated(false);
         // Creation de l'espace de travail
-        workspace = new WorkspaceAmeliore();
+        workspace = new ImprovedWorkspace;
         // Ajout de l'espace de travail dans la fenetre principale
         setCentralWidget(workspace);
         // Connexion du changement de fenetre active avec la fonction de m.a.j du selecteur de taille des PJ
-        QObject::connect(workspace, SIGNAL(windowActivated(QWidget *)), this, SLOT(changementFenetreActive(QWidget *)));
+        //connect(workspace, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(changementFenetreActive(QMdiSubWindow *)));
 
         // Creation de la barre d'outils
-        barreOutils = new BarreOutils(this);
+        barreOutils = new ToolsBar(this);
         // Ajout de la barre d'outils a la fenetre principale
         addDockWidget(Qt::LeftDockWidgetArea, barreOutils);
+
+
+        connect(barreOutils,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),workspace,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
 
         // Creation du log utilisateur
         dockLogUtil = creerLogUtilisateur();
         // Ajout du log utilisateur a la fenetre principale
         addDockWidget(Qt::RightDockWidgetArea, dockLogUtil);
 
-        // Creation de la liste d'utilisateurs
-        new ListeUtilisateurs(this);
-        // Ajout de la liste d'utilisateurs a la fenetre principale
-        addDockWidget(Qt::RightDockWidgetArea, G_listeUtilisateurs);
 
-        // Creation du lecteur audio
-        G_lecteurAudio = LecteurAudio::getInstance(this);
-        // Ajout du lecteur audio a la fenetre principale
-        addDockWidget(Qt::RightDockWidgetArea, G_lecteurAudio);
 
-        // Creation de la barre de menus et des menus
+
+
+        m_playerListDockWidget = new UserListDockWidget;
+        addDockWidget(Qt::RightDockWidgetArea, m_playerListDockWidget);
+
+
+        m_audioPlayer = LecteurAudio::getInstance(this);
+
+        addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
+
+
         creerMenu();
         // Association des actions des menus avec des fonctions
         associerActionsMenus();
@@ -184,7 +98,7 @@ MainWindow::MainWindow()
         // Creation de l'editeur de notes
         editeurNotes = new EditeurNotes();
         // Ajout de l'editeur de notes au workspace
-        workspace->addWindow(editeurNotes);
+        workspace->addWidget(editeurNotes);
         // Mise a jour du titre de l'editeur de notes
         editeurNotes->setWindowTitle(tr("Editeur de notes"));
         // Masquage de l'editeur de notes
@@ -216,115 +130,14 @@ MainWindow::MainWindow()
         etat.nomEtat = tr("Ensorcelé");
         G_etatsDeSante.append(etat);
 
-        // Initialisation des pointeurs de souris
-        QBitmap bitmapDessin(":/resources/icones/pointeur dessin.png");
-#ifdef Q_WS_MAC
-    QBitmap masqueDessin(32,32);
-    masqueDessin.fill(Qt::color0);
-    G_pointeurDessin = new QCursor(bitmapDessin,masqueDessin, 8, 8);
-#else
-    G_pointeurDessin = new QCursor(bitmapDessin, 8, 8);
-#endif
 
 
 
-        QBitmap bitmapTexte(":/resources/icones/pointeur texte.png");
-#ifdef Q_WS_MAC
-    QBitmap masqueTexte(32,32);
-    masqueDessin.fill(Qt::color0);
-    G_pointeurTexte = new QCursor(bitmapTexte, masqueTexte, 4, 13);
-#else
-    G_pointeurTexte = new QCursor(bitmapTexte/*, masqueTexte*/, 4, 13);
-#endif
 
 
-        QPixmap pixmapDeplacer(":/resources/icones/pointeur deplacer.png");
-        G_pointeurDeplacer = new QCursor(pixmapDeplacer, 0, 0);
 
-        QPixmap pixmapOrienter(":/resources/icones/pointeur orienter.png");
-        G_pointeurOrienter = new QCursor(pixmapOrienter, 10, 12);
 
-        QPixmap pixmapPipette(":/resources/icones/pointeur pipette.png");
-        G_pointeurPipette = new QCursor(pixmapPipette, 1, 19);
 
-        QPixmap pixmapAjouter(":/resources/icones/pointeur ajouter.png");
-        G_pointeurAjouter = new QCursor(pixmapAjouter, 6, 0);
-
-        QPixmap pixmapSupprimer(":/resources/icones/pointeur supprimer.png");
-        G_pointeurSupprimer = new QCursor(pixmapSupprimer, 6, 0);
-
-        QPixmap pixmapEtat(":/resources/icones/pointeur etat.png");
-        G_pointeurEtat = new QCursor(pixmapEtat, 0, 0);
-
-        // Si la variable d'initialisation est utilisable, on initialise les chemins vers les differents types de fichiers
-        if (G_initialisation.initialisee)
-        {
-                // Initialisation du chemin vers les musiques du MJ
-                G_dossierMusiquesMj = G_initialisation.dossierMusiquesMj;
-                // Initialisation du chemin vers les musiques des joueurs
-                G_dossierMusiquesJoueur = G_initialisation.dossierMusiquesJoueur;
-                // Initialisation du chemin vers les images
-                G_dossierImages = G_initialisation.dossierImages;
-                // Initialisation du chemin vers les plans
-                G_dossierPlans = G_initialisation.dossierPlans;
-                // Initialisation du chemin vers les scenarii
-                G_dossierScenarii = G_initialisation.dossierScenarii;
-                // Initialisation du chemin vers les notes
-                G_dossierNotes = G_initialisation.dossierNotes;
-                // Initialisation du chemin vers les tchats
-                G_dossierTchats = G_initialisation.dossierTchats;
-        }
-
-        // Dans le cas contraire on utilise les valeurs par defaut
-        else
-        {
-                #ifdef WIN32
-                        // Initialisation du chemin vers les musiques
-                        G_dossierMusiquesMj = "audio";
-                        // Initialisation du chemin vers les musiques des joueurs
-                        G_dossierMusiquesJoueur = "audio";
-                        // Initialisation du chemin vers les images
-                        G_dossierImages = ".";
-                        // Initialisation du chemin vers les plans
-                        G_dossierPlans = ".";
-                        // Initialisation du chemin vers les scenarii
-                        G_dossierScenarii = ".";
-                        // Initialisation du chemin vers les notes
-                        G_dossierNotes = ".";
-                        // Initialisation du chemin vers les tchats
-                        G_dossierTchats = "tchats";
-                #elif defined(MACOS)
-                        // Initialisation du chemin vers les musiques
-                        G_dossierMusiquesMj = QDir::homePath();
-                        // Initialisation du chemin vers les musiques des joueurs
-                        G_dossierMusiquesJoueur = QDir::homePath();
-                        // Initialisation du chemin vers les images
-                        G_dossierImages = QDir::homePath();
-                        // Initialisation du chemin vers les plans
-                        G_dossierPlans = QDir::homePath();
-                        // Initialisation du chemin vers les scenarii
-                        G_dossierScenarii = QDir::homePath();
-                        // Initialisation du chemin vers les notes
-                        G_dossierNotes = QDir::homePath();
-                        // Initialisation du chemin vers les tchats
-                        G_dossierTchats = QDir::homePath() + "/." + QString(NOM_APPLICATION);
-                #elif defined Q_WS_X11
-                        // Initialisation du chemin vers les musiques
-                        G_dossierMusiquesMj = QDir::homePath();
-                        // Initialisation du chemin vers les musiques des joueurs
-                        G_dossierMusiquesJoueur = QDir::homePath();
-                        // Initialisation du chemin vers les images
-                        G_dossierImages = QDir::homePath();
-                        // Initialisation du chemin vers les plans
-                        G_dossierPlans = QDir::homePath();
-                        // Initialisation du chemin vers les scenarii
-                        G_dossierScenarii = QDir::homePath();
-                        // Initialisation du chemin vers les notes
-                        G_dossierNotes = QDir::homePath();
-                        // Initialisation du chemin vers les tchats
-                        G_dossierTchats = QDir::homePath() + "/." + QString(NOM_APPLICATION);
-                #endif
-        }
 }
 
 /********************************************************************/
@@ -338,11 +151,11 @@ dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
         dockLogUtil->setFeatures(QDockWidget::AllDockWidgetFeatures);
 
         //Creation du log utilisateur
-        logUtilisateur = new QTextEdit(dockLogUtil);
-        logUtilisateur->setReadOnly(true);
+        /*logUtilisateur = new QTextEdit(dockLogUtil);
+        logUtilisateur->setReadOnly(true);*/
 
         // Insertion de la fenetre de log utilisateur dans le dockWidget
-        dockLogUtil->setWidget(logUtilisateur);
+        //dockLogUtil->setWidget(logUtilisateur);
         // Largeur minimum du log utilisateur
         dockLogUtil->setMinimumWidth(125);
 
@@ -354,14 +167,14 @@ dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
 /********************************************************************/
 void MainWindow::creerMenu()
 {
-        // Creation de la barre de menus
+
         QMenuBar *barreMenus = new QMenuBar(this);
-        // Ajout de la barre de menus a la fenetre principale
+
         setMenuBar(barreMenus);
 
         // Creation du menu Fichier
         QMenu *menuFichier = new QMenu (tr("Fichier"), barreMenus);
-        actionNouveauPlan            = menuFichier->addAction(tr("Nouveau plan vide"));
+        newMapAction            = menuFichier->addAction(tr("&New empty map"));
         menuFichier->addSeparator();
         actionOuvrirPlan             = menuFichier->addAction(tr("Ouvrir plan"));
         actionOuvrirEtMasquerPlan    = menuFichier->addAction(tr("Ouvrir et masquer plan"));
@@ -432,8 +245,8 @@ void MainWindow::creerMenu()
 
         // Ajout des actions d'affichage des fenetres d'evenement, utilisateurs et lecteur audio
         menuFenetre->addAction(dockLogUtil->toggleViewAction());
-        menuFenetre->addAction(G_listeUtilisateurs->toggleViewAction());
-        menuFenetre->addAction(G_lecteurAudio->toggleViewAction());
+        //menuFenetre->addAction(G_listeUtilisateurs->toggleViewAction());
+        menuFenetre->addAction(m_audioPlayer->toggleViewAction());
         menuFenetre->addSeparator();
 
         // Ajout de l'action d'affichage de l'editeur de notes
@@ -454,9 +267,9 @@ void MainWindow::creerMenu()
         menuFenetre->addSeparator();
 
         // Creation du tchat commun
-        listeTchat.append(new Tchat("", actionTchatCommun));
+        listeTchat.append(new Tchat("", actionTchatCommun,NULL));
         // Ajout du tchat commun au workspace
-        workspace->addWindow(listeTchat[0]);
+        workspace->addWidget(listeTchat[0]);
         // Mise a jour du titre du tchat commun
         listeTchat[0]->setWindowTitle(tr("Tchat commun"));
         // Masquage du tchat commun
@@ -466,9 +279,9 @@ void MainWindow::creerMenu()
 
         // Creation du menu Aide
         QMenu *menuAide = new QMenu (tr("Aide"), barreMenus);
-        actionAideLogiciel = menuAide->addAction(tr("Aide sur") + " " + NOM_APPLICATION);
+        actionAideLogiciel = menuAide->addAction(tr("Aide sur") + " " + APPLICATION_NAME);
         menuAide->addSeparator();
-        actionAPropos = menuAide->addAction(tr("A propos de") + " " + NOM_APPLICATION);
+        actionAPropos = menuAide->addAction(tr("A propos de") + " " + APPLICATION_NAME);
 
         // Ajout des menus a la barre de menus
         barreMenus->addMenu(menuFichier);
@@ -483,8 +296,8 @@ void MainWindow::creerMenu()
 void MainWindow::associerActionsMenus()
 {
         // file menu
-        QObject::connect(actionNouveauPlan, SIGNAL(triggered(bool)), this, SLOT(nouveauPlan()));
-        QObject::connect(actionOuvrirImage, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
+        QObject::connect(newMapAction, SIGNAL(triggered(bool)), this, SLOT(clickOnMapWizzard()));
+      /*  QObject::connect(actionOuvrirImage, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
         QObject::connect(actionOuvrirPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirPlan()));
         QObject::connect(actionOuvrirEtMasquerPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirEtMasquerPlan()));
         QObject::connect(actionOuvrirScenario, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
@@ -498,16 +311,16 @@ void MainWindow::associerActionsMenus()
         QObject::connect(actionQuitter, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
 
         // Windows managing
-        QObject::connect(actionCascade, SIGNAL(triggered(bool)), workspace, SLOT(cascade()));
-        QObject::connect(actionTuiles, SIGNAL(triggered(bool)), workspace, SLOT(tile()));
+        QObject::connect(actionCascade, SIGNAL(triggered(bool)), workspace, SLOT(cascadeSubWindows()));
+        QObject::connect(actionTuiles, SIGNAL(triggered(bool)), workspace, SLOT(tileSubWindows()));
 
         // Display
         QObject::connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
         QObject::connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPnj(bool)));
         QObject::connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNumerosPnj(bool)));
-
+*/
         // Help
-        QObject::connect(actionAPropos, SIGNAL(triggered()), this, SLOT(aPropos()));
+        QObject::connect(actionAPropos, SIGNAL(triggered()), this, SLOT(about()));
         QObject::connect(actionAideLogiciel, SIGNAL(triggered()), this, SLOT(aideEnLigne()));
 }
 
@@ -518,7 +331,7 @@ void MainWindow::associerActionsMenus()
 void MainWindow::autoriserOuInterdireActions()
 {
         // L'utilisateur est un joueur
-        if (G_joueur)
+     /*   if (G_joueur)
         {
                 actionNouveauPlan->setEnabled(false);
                 actionOuvrirPlan->setEnabled(false);
@@ -527,68 +340,66 @@ void MainWindow::autoriserOuInterdireActions()
                 actionFermerPlan->setEnabled(false);
                 actionSauvegarderPlan->setEnabled(false);
                 actionSauvegarderScenario->setEnabled(false);
-        }
+        }*/
 
         // L'utilisateur est un MJ
-        else
+       /* else
         {
-        }
+        }*/
 }
 
 /********************************************************************/
 /* Creation d'une nouvelle carte dans le workspace                  */
 /********************************************************************/
-void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre)
+/*void MainWindow::ajouterCarte(MapFrame *mapFrame, QString titre)
 {
         // Ajout de la CarteFenetre a la liste (permet par la suite de parcourir l'ensemble des cartes)
-        listeCarteFenetre.append(carteFenetre);
+        listeCarteFenetre.append(mapFrame);
 
         // Ajout de la carte au workspace
-        workspace->addWindow(carteFenetre);
+        workspace->addWidget(mapFrame);
 
-        // Mise a jour du titre de la CarteFenetre
-        carteFenetre->setWindowTitle(titre);
+
 
         // Creation de l'action correspondante
         QAction *action = menuFenetre->addAction(titre);
         action->setCheckable(true);
         action->setChecked(true);
 
-        // Association de l'action avec la carte
-        carteFenetre->associerAction(action);
+
 
         // Connexion de l'action avec l'affichage/masquage de la fenetre
-        QObject::connect(action, SIGNAL(triggered(bool)), carteFenetre, SLOT(setVisible(bool)));
+        QObject::connect(action, SIGNAL(triggered(bool)), mapFrame, SLOT(setVisible(bool)));
 
         // Recuperation de la Carte contenue dans la CarteFenetre
-        Carte *carte = (Carte *)(carteFenetre->widget());
+        Map *map = mapFrame->map();
 
         // Connexion des actions de changement d'outil avec les fonctions de changement de pointeur de souris
-        QObject::connect(barreOutils->actionCrayon,     SIGNAL(triggered(bool)), carte, SLOT(pointeurCrayon()));
-        QObject::connect(barreOutils->actionLigne,      SIGNAL(triggered(bool)), carte, SLOT(pointeurLigne()));
-        QObject::connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), carte, SLOT(pointeurRectVide()));
-        QObject::connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), carte, SLOT(pointeurRectPlein()));
-        QObject::connect(barreOutils->actionElliVide,   SIGNAL(triggered(bool)), carte, SLOT(pointeurElliVide()));
-        QObject::connect(barreOutils->actionElliPlein,  SIGNAL(triggered(bool)), carte, SLOT(pointeurElliPlein()));
-        QObject::connect(barreOutils->actionTexte,      SIGNAL(triggered(bool)), carte, SLOT(pointeurTexte()));
-        QObject::connect(barreOutils->actionMain,	    SIGNAL(triggered(bool)), carte, SLOT(pointeurMain()));
-        QObject::connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), carte, SLOT(pointeurAjoutPnj()));
-        QObject::connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), carte, SLOT(pointeurSupprPnj()));
-        QObject::connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), carte, SLOT(pointeurDeplacePnj()));
-        QObject::connect(barreOutils->actionEtatPnj,    SIGNAL(triggered(bool)), carte, SLOT(pointeurEtatPnj()));
+        QObject::connect(barreOutils->actionCrayon,     SIGNAL(triggered(bool)), map, SLOT(drawingCursor()));
+        QObject::connect(barreOutils->actionLigne,      SIGNAL(triggered(bool)), map, SLOT(drawingCursor()));
+        QObject::connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), map, SLOT(drawingCursor()));
+        QObject::connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), map, SLOT(drawingCursor()));
+        QObject::connect(barreOutils->actionElliVide,   SIGNAL(triggered(bool)), map, SLOT(drawingCursor()));
+        QObject::connect(barreOutils->actionElliPlein,  SIGNAL(triggered(bool)), map, SLOT(drawingCursor()));
+        QObject::connect(barreOutils->actionTexte,      SIGNAL(triggered(bool)), map, SLOT(pointeurTexte()));
+        QObject::connect(barreOutils->actionMain,	    SIGNAL(triggered(bool)), map, SLOT(pointeurMain()));
+        QObject::connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), map, SLOT(pointeurAjoutPnj()));
+        QObject::connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), map, SLOT(pointeurSupprPnj()));
+        QObject::connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), map, SLOT(pointeurDeplacePnj()));
+        QObject::connect(barreOutils->actionEtatPnj,    SIGNAL(triggered(bool)), map, SLOT(pointeurEtatPnj()));
 
         // Connexion de la demande de changement de couleur de la carte avec celle de la barre d'outils
-        QObject::connect(carte, SIGNAL(changeCouleurActuelle(QColor)), barreOutils, SLOT(changeCouleurActuelle(QColor)));
+        QObject::connect(map, SIGNAL(changeCouleurActuelle(QColor)), barreOutils, SLOT(changeCouleurActuelle(QColor)));
         // Connexion de la demande d'incrementation du numero de PNJ de la carte avec celle de la barre d'outils
-        QObject::connect(carte, SIGNAL(incrementeNumeroPnj()), barreOutils, SLOT(incrementeNumeroPnj()));
+        QObject::connect(map, SIGNAL(incrementeNumeroPnj()), barreOutils, SLOT(incrementeNumeroPnj()));
         // Connexion de la demande de changement de diametre des PNJ de la carte avec celle de la barre d'outils
-        QObject::connect(carte, SIGNAL(mettreAJourPnj(int, QString)), barreOutils, SLOT(mettreAJourPnj(int, QString)));
+        QObject::connect(map, SIGNAL(mettreAJourPnj(int, QString)), barreOutils, SLOT(mettreAJourPnj(int, QString)));
         // Affichage des noms et numeros des PJ/PNJ
-        QObject::connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
-        QObject::connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
-        QObject::connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
+        QObject::connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), map, SIGNAL(afficherNomsPj(bool)));
+        QObject::connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), map, SIGNAL(afficherNomsPnj(bool)));
+        QObject::connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), map, SIGNAL(afficherNumerosPnj(bool)));
         // Creation d'un DessinPerso a la creation d'un nouveau personnage dans la liste
-        QObject::connect(G_listeUtilisateurs, SIGNAL(ajouterPj(QString , QString , QColor)), carte, SLOT(ajouterPj(QString , QString , QColor)));
+     /*   QObject::connect(G_listeUtilisateurs, SIGNAL(ajouterPj(QString , QString , QColor)), carte, SLOT(ajouterPj(QString , QString , QColor)));
         // Changement de nom d'un PJ
         QObject::connect(G_listeUtilisateurs, SIGNAL(renommerPj(QString , QString)), carte, SLOT(renommerPj(QString , QString)));
         // Suppression d'un PJ
@@ -600,40 +411,30 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre)
         switch(G_outilCourant)
         {
                 case BarreOutils::crayon :
-                        carte->pointeurCrayon();
-                        break;
                 case BarreOutils::ligne :
-                        carte->pointeurLigne();
-                        break;
                 case BarreOutils::rectVide :
-                        carte->pointeurRectVide();
-                        break;
                 case BarreOutils::rectPlein :
-                        carte->pointeurRectPlein();
-                        break;
                 case BarreOutils::elliVide :
-                        carte->pointeurElliVide();
-                        break;
                 case BarreOutils::elliPlein :
-                        carte->pointeurElliPlein();
+                        map->drawingCursor();
                         break;
                 case BarreOutils::texte :
-                        carte->pointeurTexte();
+                        map->pointeurTexte();
                         break;
                 case BarreOutils::main :
-                        carte->pointeurMain();
+                        map->pointeurMain();
                         break;
                 case BarreOutils::ajoutPnj :
-                        carte->pointeurAjoutPnj();
+                        map->pointeurAjoutPnj();
                         break;
                 case BarreOutils::supprPnj :
-                        carte->pointeurSupprPnj();
+                        map->pointeurSupprPnj();
                         break;
                 case BarreOutils::deplacePerso :
-                        carte->pointeurDeplacePnj();
+                        map->pointeurDeplacePnj();
                         break;
                 case BarreOutils::etatPerso :
-                        carte->pointeurEtatPnj();
+                        map->pointeurEtatPnj();
                         break;
                 default :
                         qWarning("Outil non dfini a la creation d'une fentre (ajouterCarte - MainWindow.cpp)");
@@ -641,21 +442,21 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre)
         }
 
         // Ajout dans la carte des PJ deja presents
-        G_listeUtilisateurs->ajouterTousLesPj(carte);
+        //G_listeUtilisateurs->ajouterTousLesPj(carte);
         // Affichage de la carte
-        carteFenetre->show();
-}
+        mapFrame->show();
+}*/
 
 /********************************************************************/
 /* Ajout de l'Image passee en parametre sans le workspace           */
 /********************************************************************/
-void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
+/*void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
 {
-        // Ajout de la CarteFenetre a la liste (permet par la suite de parcourir l'ensemble des cartes)
+        // Ajout de la  a la liste (permet par la suite de parcourir l'ensemble des cartes)
         listeImage.append(imageFenetre);
 
         // Ajout de la carte au workspace
-        workspace->addWindow(imageFenetre);
+        workspace->addWidget(imageFenetre);
 
         // Mise a jour du titre de la CarteFenetre
         imageFenetre->setWindowTitle(titre);
@@ -700,26 +501,26 @@ void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
 
         // Affichage de l'image
         imageFenetre->show();
-}
+}*/
 
 /********************************************************************/
 /* Appelle la fonction ouvrirPlan avec le parametre "masquer" egale */
 /* a true                                                           */
 /********************************************************************/
-void MainWindow::ouvrirEtMasquerPlan()
+/*void MainWindow::ouvrirEtMasquerPlan()
 {
         ouvrirPlan(true);
-}
+}*/
 
 /********************************************************************/
 /* Demande a l'utilisateur de selectionner un fichier image ou un   */
 /* fichier plan, puis ouvre la carte. Le parametre "masquer" n'est  */
 /* utilise que lorsque l'utilisateur ouvre une image                */
 /********************************************************************/
-void MainWindow::ouvrirPlan(bool masquer)
+/*void MainWindow::ouvrirPlan(bool masquer)
 {
-        // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, masquer?tr("Ouvrir et masquer un plan"):tr("Ouvrir un plan"), G_dossierPlans,
+
+        QString fichier = QFileDialog::getOpenFileName(this, masquer?tr("Ouvrir et masquer un plan"):tr("Ouvrir un plan"), m_options->value("MapDirectory",QVariant(".")).toString(),
                 tr("Plans (*.pla *.jpg *.jpeg *.png *.bmp)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
@@ -736,9 +537,9 @@ void MainWindow::ouvrirPlan(bool masquer)
         Qt::WindowFlags flags = msgBox.windowFlags();
         msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
-        // On met a jour le chemin vers les plans
+        //! @todo : cross-platform issue ? should use QDir class.
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierPlans = fichier.left(dernierSlash);
+        m_options->registerValue("MapDirectory",fichier.left(dernierSlash));
 
         // Suppression de l'extension du fichier pour obtenir le titre de la CarteFenetre
         int dernierPoint = fichier.lastIndexOf(".");
@@ -777,18 +578,18 @@ void MainWindow::ouvrirPlan(bool masquer)
             // Creation de l'identifiant
             QString idCarte = QUuid::createUuid().toString();
                 // On recupere la taille des PJ
-                int tailleDesPj = G_listeUtilisateurs->taillePj();
+            int tailleDesPj = 0;//G_listeUtilisateurs->taillePj();
                 // Creation de la carte
-            Carte *carte = new Carte(idCarte, &image, tailleDesPj, masquer);
+            Map *carte = new Map(idCarte, &image, tailleDesPj, masquer,this);
                 // Creation de la CarteFenetre
-                CarteFenetre *carteFenetre = new CarteFenetre(carte, workspace);
+            MapFrame *carteFenetre = new MapFrame(carte, this);
                 // Ajout de la carte au workspace
-                ajouterCarte(carteFenetre, titre);
+            ajouterCarte(carteFenetre, titre);
 
                 // Envoie de la carte aux autres utilisateurs
                 // On commence par compresser l'image (format jpeg) dans un tableau
-                QByteArray byteArray;
-                QBuffer buffer(&byteArray);
+            QByteArray byteArray;
+            QBuffer buffer(&byteArray);
                 bool ok = image.save(&buffer, "jpeg", 60);
                 if (!ok)
                         qWarning("Probleme de compression de l'image (ouvrirPlan - MainWindow.cpp)");
@@ -849,19 +650,19 @@ void MainWindow::ouvrirPlan(bool masquer)
                 // Liberation du buffer d'emission
                 delete[] donnees;
         }
-}
+}*/
 
 /********************************************************************/
 /* Reconstitue la carte et les PNJ associes se trouvant dans le     */
 /* fichier passe en parametre. Si le parametre masquer = true, on   */
 /* masque l'ensemble du plan                                        */
 /********************************************************************/
-void MainWindow::lireCarteEtPnj(QFile &file, bool masquer, QString nomFichier)
+/*void MainWindow::lireCarteEtPnj(QFile &file, bool masquer, QString nomFichier)
 {
         // Lecture de la carte
 
         // On recupere le titre
-        quint16 tailleTitre;
+      /*  quint16 tailleTitre;
         file.read((char *)&tailleTitre, sizeof(quint16));
         QChar *tableauTitre = new QChar[tailleTitre];
         file.read((char *)tableauTitre, tailleTitre*sizeof(QChar));
@@ -911,16 +712,16 @@ void MainWindow::lireCarteEtPnj(QFile &file, bool masquer, QString nomFichier)
     // Creation de l'identifiant de la carte
     QString idCarte = QUuid::createUuid().toString();
         // Creation de la carte
-    Carte *carte = new Carte(idCarte, &fondOriginal, &fond, &alpha, taillePj);
+    Carte *carte = new Carte(idCarte, &fondOriginal, &fond, &alpha, taillePj,this);
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte);
         // Ajout de la carte au workspace : si aucun nom de fichier n'est passe en parametre, il s'agit d'une lecture de
         // carte dans le cadre de l'ouverture d'un fichier scenario : on prend alors le titre associe a la carte. Sinon
         // il s'agit d'un fichier plan : on prend alors le nom du fichier
         if (nomFichier.isEmpty())
-                G_mainWindow->ajouterCarte(carteFenetre, titre);
+                ajouterCarte(carteFenetre, titre);
         else
-                G_mainWindow->ajouterCarte(carteFenetre, nomFichier);
+                ajouterCarte(carteFenetre, nomFichier);
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1018,16 +819,16 @@ void MainWindow::lireCarteEtPnj(QFile &file, bool masquer, QString nomFichier)
         carte->emettreCarte(carteFenetre->windowTitle());
         // On emet egalement l'ensemble des personnages presents sur la carte
         carte->emettreTousLesPersonnages();
-}
+}*/
 
 /********************************************************************/
 /* Demande a l'utilisateur de selectionner un fichier image puis    */
 /* l'ouvre sous forme d'Image (image non modifiable)                */
 /********************************************************************/
-void MainWindow::ouvrirImage()
+/*void MainWindow::ouvrirImage()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir une image"), G_dossierImages,
+        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir une image"), m_options->value(QString("ImageDirectory"),QVariant(".")).toString(),
                 tr("Images (*.jpg *.jpeg *.png *.bmp)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
@@ -1046,7 +847,7 @@ void MainWindow::ouvrirImage()
 
         // On met a jour le chemin vers les images
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierImages = fichier.left(dernierSlash);
+        m_options->registerValue(QString("ImageDirectory"),QVariant(fichier.left(dernierSlash)));
 
         // Chargement de l'image
         QImage *img = new QImage(fichier);
@@ -1074,13 +875,13 @@ void MainWindow::ouvrirImage()
     QString idImage = QUuid::createUuid().toString();
 
         // Creation de la fenetre image
-    Image *imageFenetre = new Image(idImage, G_idJoueurLocal, img, action);
+        Image *imageFenetre = new Image(idImage, "", img, action);
 
         // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
         listeImage.append(imageFenetre);
 
         // Ajout de l'image au workspace
-        workspace->addWindow(imageFenetre);
+        workspace->addWidget(imageFenetre);
 
         // Mise a jour du titre de l'image
         imageFenetre->setWindowTitle(titre);
@@ -1128,13 +929,13 @@ void MainWindow::ouvrirImage()
                 qWarning("Probleme de compression de l'image (ouvrirImage - MainWindow.cpp)");
 
         // Taille des donnees
-        quint32 tailleCorps =
+       /* quint32 tailleCorps =
                 // Taille du titre
                 sizeof(quint16) + titre.size()*sizeof(QChar) +
                 // Taille de l'identifiant de l'image
                 sizeof(quint8) + idImage.size()*sizeof(QChar) +
                 // Taille de l'identifiant du joueur
-                sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
+                //sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
                 // Taille de l'image
                 sizeof(quint32) + byteArray.size();
 
@@ -1176,20 +977,20 @@ void MainWindow::ouvrirImage()
         p+=tailleImage;
 
         // Emission de l'image au serveur ou a l'ensemble des clients
-        emettre(donnees, tailleCorps + sizeof(enteteMessage));
+       // emettre(donnees, tailleCorps + sizeof(enteteMessage));
         // Liberation du buffer d'emission
         delete[] donnees;
-}
+}*/
 
 /********************************************************************/
 /* Ferme le plan ou l'image actuellement ouvert sur l'ordinateur    */
 /* local et chez les autres utilisateurs                            */
 /********************************************************************/
-void MainWindow::fermerPlanOuImage()
+/*void MainWindow::fermerPlanOuImage()
 {
         // On recupere la fenetre active (qui est forcement de type CarteFenetre ou Image, sans quoi l'action
         // ne serait pas dispo dans le menu Fichier)
-        QWidget *active = workspace->activeWindow();
+        QMdiSubWindow *active = workspace->activeSubWindow();
 
         // Ne devrait jamais arriver
         if (!active)
@@ -1235,7 +1036,7 @@ void MainWindow::fermerPlanOuImage()
         if (active->objectName() == "CarteFenetre")
         {
                 // Recuperation de l'identifiant de la carte
-                QString idCarte = ((CarteFenetre *)active)->carte()->identifiantCarte();
+                QString idCarte = ((MapFrame *)active)->carte()->identifiantCarte();
 
                 // Taille des donnees
                 quint32 tailleCorps =
@@ -1262,12 +1063,12 @@ void MainWindow::fermerPlanOuImage()
                 p+=tailleIdCarte*sizeof(QChar);
 
                 // Emission de la demande de fermeture de la carte au serveur ou a l'ensemble des clients
-                emettre(donnees, tailleCorps + sizeof(enteteMessage));
+                //emettre(donnees, tailleCorps + sizeof(enteteMessage));
                 // Liberation du buffer d'emission
                 delete[] donnees;
 
                 // Suppression de la CarteFenetre et de l'action associee sur l'ordinateur local
-                ((CarteFenetre *)active)->~CarteFenetre();
+                ((MapFrame *)active)->~MapFrame();
         }
 
         // Emission de la demande de fermeture de l'image
@@ -1301,77 +1102,77 @@ void MainWindow::fermerPlanOuImage()
                 p+=tailleIdImage*sizeof(QChar);
 
                 // Emission de la demande de fermeture de l'image au serveur ou a l'ensemble des clients
-                emettre(donnees, tailleCorps + sizeof(enteteMessage));
+                //emettre(donnees, tailleCorps + sizeof(enteteMessage));
                 // Liberation du buffer d'emission
                 delete[] donnees;
 
                 // Suppression de l'Image et de l'action associee sur l'ordinateur local
                 ((Image *)active)->~Image();
         }
-}
+}*/
 
 /********************************************************************/
 /* Met a jour la variable globale indiquant s'il faut afficher le   */
 /* nom des nouveaux PJ                                              */
 /********************************************************************/
-void MainWindow::afficherNomsPj(bool afficher)
+/*void MainWindow::afficherNomsPj(bool afficher)
 {
-        G_affichageNomPj = afficher;
-}
+       // G_affichageNomPj = afficher;
+}*/
 
 /********************************************************************/
 /* Met a jour la variable globale indiquant s'il faut afficher le   */
 /* nom des nouveaux PNJ                                             */
 /********************************************************************/
-void MainWindow::afficherNomsPnj(bool afficher)
+/*void MainWindow::afficherNomsPnj(bool afficher)
 {
-        G_affichageNomPnj = afficher;
-}
+        //G_affichageNomPnj = afficher;
+}*/
 
 /********************************************************************/
 /* Met a jour la variable globale indiquant s'il faut afficher le   */
 /* numero des nouveaux PNJ                                          */
 /********************************************************************/
-void MainWindow::afficherNumerosPnj(bool afficher)
+/*void MainWindow::afficherNumerosPnj(bool afficher)
 {
-        G_affichageNumeroPnj = afficher;
-}
+        //G_affichageNumeroPnj = afficher;
+}*/
 
 /********************************************************************/
 /* Regarde quelle est la carte active et lui envoie une demande     */
 /* de changement de taille pour les PJ qu'elle contient             */
 /********************************************************************/
-void MainWindow::changerTaillePj(int nouvelleTaille)
+/*void MainWindow::changerTaillePj(int nouvelleTaille)
 {
         // On recupere le widget actif dans le workspace
-        QWidget *widget = workspace->activeWindow();
+        QMdiSubWindow *widget = workspace->activeSubWindow();
 
         // S'il y a un widget actif on verifie qu'il s'agit d'un objet "CarteFenetre"
         if (widget)
                 if (widget->objectName() == "CarteFenetre")
                 {
                         // On effectue un changement de taille pour les personnages de la carte active
-                        ((CarteFenetre *)widget)->carte()->changerTaillePjCarte(nouvelleTaille);
+                        ((mapFrame *)widget)->carte()->changerTaillePjCarte(nouvelleTaille);
                 }
-}
+}*/
 
 /********************************************************************/
 /* Emet aux clients ou au serveur une demande de changement de      */
 /* taille des PJ                                                    */
 /********************************************************************/
-void MainWindow::emettreChangementTaillePj(int nouvelleTaille)
+/*void MainWindow::emettreChangementTaillePj(int nouvelleTaille)
 {
         // On recupere le widget actif dans le workspace
-        QWidget *widget = workspace->activeWindow();
+       * QMdiSubWindow *widget = workspace->activeSubWindow();
 
-        // S'il y a un widget actif on verifie qu'il s'agit d'un objet "CarteFenetre"
+        // S'il y a un widget actif on verifie qu'il s'agit d'un objet "mapFrame"
         if (widget)
                 if (widget->objectName() == "CarteFenetre")
                 {
                         // Emission du changement de taille
 
                         // Recuperation de l'identifiant de la carte
-                        QString idCarte = ((CarteFenetre *)widget)->carte()->identifiantCarte();
+                        QString idCarte = ((mapFrame *)widget)->carte()->identifiantCarte();
 
                         // Taille des donnees
                         quint32 tailleCorps =
@@ -1404,32 +1205,32 @@ void MainWindow::emettreChangementTaillePj(int nouvelleTaille)
                         p+=sizeof(quint8);
 
                         // Emission de la demande de changement de taille des PJ au serveur ou a l'ensemble des clients
-                        emettre(donnees, tailleCorps + sizeof(enteteMessage));
+                        //emettre(donnees, tailleCorps + sizeof(enteteMessage));
                         // Liberation du buffer d'emission
                         delete[] donnees;
                 }
-}
+}*/
 
 /********************************************************************/
 /* Demande a la carte active de masquer/afficher le personnage dont */
 /* l'identifiant est passe en parametre                             */
 /********************************************************************/
-void MainWindow::affichageDuPj(QString idPerso, bool afficher)
+/*void MainWindow::affichageDuPj(QString idPerso, bool afficher)
 {
         // On recupere le widget actif dans le workspace
-        QWidget *widget = workspace->activeWindow();
+        QMdiSubWindow *widget = workspace->activeSubWindow();
 
         // S'il y a un widget actif on verifie qu'il s'agit d'un objet "CarteFenetre"
         if (widget)
                 if (widget->objectName() == "CarteFenetre")
                 {
                         // On demande a la carte d'afficher ou masquer le PJ
-                        ((CarteFenetre *)widget)->carte()->affichageDuPj(idPerso, afficher);
+                        ((mapFrame *)widget)->carte()->affichageDuPj(idPerso, afficher);
 
                         // Emision de la demande d'affichage/masquage du PJ au serveur ou aux clients
 
                         // Recuperation de l'identifiant de la carte
-                        QString idCarte = ((CarteFenetre *)widget)->carte()->identifiantCarte();
+                        QString idCarte = ((mapFrame *)widget)->carte()->identifiantCarte();
 
                         // Taille des donnees
                         quint32 tailleCorps =
@@ -1470,86 +1271,83 @@ void MainWindow::affichageDuPj(QString idPerso, bool afficher)
                         p+=sizeof(quint8);
 
                         // Emission de la demande d'affichage/masquage de PJ au serveur ou a l'ensemble des clients
-                        emettre(donnees, tailleCorps + sizeof(enteteMessage));
+                        //emettre(donnees, tailleCorps + sizeof(enteteMessage));
                         // Liberation du buffer d'emission
                         delete[] donnees;
                 }
-}
+}*/
 
 /********************************************************************/
 /* Met a jour le selecteur de taille de la liste d'utilisateurs si  */
 /* la carte dont l'identifiant est passe en parametre se trouve     */
 /* etre la carte active                                             */
 /********************************************************************/
-void MainWindow::mettreAJourSelecteurTaille(QString idCarte, int taillePj)
+/*void MainWindow::mettreAJourSelecteurTaille(QString idCarte, int taillePj)
 {
         // On recupere la fenetre active
-        QWidget *active = workspace->activeWindow();
+        QMdiSubWindow *active = workspace->activeSubWindow();
 
         // S'il y a une fenetre active
-        if (active)
+       /* if (active)
                 // S'il s'agit d'une CarteFenetre
                 if (active->objectName() == "CarteFenetre")
                         // S'il d'agit de la carte demandee
                         if (((CarteFenetre *)active)->carte()->identifiantCarte() == idCarte)
                                 // Alors on met a jour le selecteur de taille de la liste d'utilisateurs
-                                G_listeUtilisateurs->majTaillePj(taillePj);
-}
+                                //G_listeUtilisateurs->majTaillePj(taillePj);*
+}*/
 
 /********************************************************************/
 /* M.a.j l'espace de travail en fonction de la fenetre actuellement */
 /* active                                                           */
 /********************************************************************/
-void MainWindow::mettreAJourEspaceTravail()
+/*void MainWindow::mettreAJourEspaceTravail()
 {
         // On recupere la fenetre active
-        QWidget *active = workspace->activeWindow();
+        QMdiSubWindow *active = workspace->activeSubWindow();
 
         // S'il y a une fenetre active, on la passe a la fonction changementFenetreActive
         if (active)
                 changementFenetreActive(active);
-}
+}*/
 
 /********************************************************************/
 /* Met a jour le selecteur de taille des PJ, ainsi que l'etat       */
 /* d'affichage des PJ, si la fenetre activee dans le workspace est  */
 /* de type CarteFenetre                                             */
 /********************************************************************/
-void MainWindow::changementFenetreActive(QWidget *widget)
+void MainWindow::changementFenetreActive(QMdiSubWindow *widget)
 {
         // Si le widget existe on verifie qu'il s'agit d'un objet "CarteFenetre"
-        if (widget)
+        /*if (widget)
         {
                 if (widget->objectName() == "CarteFenetre")
                 {
-                        // Il existe une CarteFenetre active (les personnages nouvellement crees peuvent etre coches)
-                        G_carteFenetreActive = true;
+
 
                         // Si l'utilisateur local est MJ on autorise la fermeture et la sauvegarde du plan
-                        if (!G_joueur)
+                        /*if (!G_joueur)
                         {
                                 actionFermerPlan->setEnabled(true);
                                 actionSauvegarderPlan->setEnabled(true);;
                         }
                         else
                                 actionFermerPlan->setEnabled(false);
-
                         // On demande la taille des PJ dans la carte selectionnee
-                        int taille = ((CarteFenetre *)widget)->carte()->tailleDesPj();
+                       // int taille = ((mapFrame *)widget)->carte()->tailleDesPj();
                         // Puis on met a jour le selecteur de taille des PJ
-                        G_listeUtilisateurs->majTaillePj(taille);
+                        //G_listeUtilisateurs->majTaillePj(taille);
 
                         // M.a.j de l'etat d'affichage de chaque PJ
-                        G_listeUtilisateurs->majAffichagePj(((CarteFenetre *)widget)->carte());
+                        //G_listeUtilisateurs->majAffichagePj(((CarteFenetre *)widget)->carte());
                 }
 
                 else if (widget->objectName() == "Tchat")
                 {
-                        // Aucune CarteFenetre active (les personnages nouvellement crees ne peuvent pas etre coches)
-                        G_carteFenetreActive = false;
+
 
                         // Si l'utilisateur local est MJ on interdit la fermeture et la sauvegarde des plans
-                        if (!G_joueur)
+                        /*if (!G_joueur)
                         {
                                 actionFermerPlan->setEnabled(false);
                                 actionSauvegarderPlan->setEnabled(false);;
@@ -1558,19 +1356,18 @@ void MainWindow::changementFenetreActive(QWidget *widget)
                                 actionFermerPlan->setEnabled(false);
 
                         // On decoche tous les PJ
-                        G_listeUtilisateurs->casesPjNonSelectionnables();
+                        //G_listeUtilisateurs->casesPjNonSelectionnables();
 
                         // Le joueur concerne ne doit plus clignoter
-                        G_listeUtilisateurs->nePlusFaireClignoter(((Tchat *)widget)->identifiant());
+                        //G_listeUtilisateurs->nePlusFaireClignoter(((Tchat *)widget)->identifiant());
                 }
 
                 else if (widget->objectName() == "Image")
                 {
-                        // Aucune CarteFenetre active (les personnages nouvellement crees ne peuvent pas etre coches)
-                        G_carteFenetreActive = false;
+
 
                         // Si l'utilisateur local est MJ ou proprietaire de l'image on interdit la sauvegarde des plans et on autorise la fermeture de l'image
-                        if (!G_joueur || ((Image *)widget)->proprietaireImage() )
+                        /*if (!G_joueur || ((Image *)widget)->proprietaireImage() )
                         {
                                 actionFermerPlan->setEnabled(true);
                                 actionSauvegarderPlan->setEnabled(false);;
@@ -1579,38 +1376,33 @@ void MainWindow::changementFenetreActive(QWidget *widget)
                                 actionFermerPlan->setEnabled(false);
 
                         // On decoche tous les PJ
-                        G_listeUtilisateurs->casesPjNonSelectionnables();
+                       // G_listeUtilisateurs->casesPjNonSelectionnables();
                 }
 
                 else if (widget->objectName() == "EditeurNotes")
                 {
-                        // Aucune CarteFenetre active (les personnages nouvellement crees ne peuvent pas etre coches)
-                        G_carteFenetreActive = false;
 
                         // On interdit la sauvegarde et la fermeture des plans
                         actionFermerPlan->setEnabled(false);
                         actionSauvegarderPlan->setEnabled(false);;
 
                         // On decoche tous les PJ
-                        G_listeUtilisateurs->casesPjNonSelectionnables();
+                        //G_listeUtilisateurs->casesPjNonSelectionnables();
                 }
 
                 else
                 {
-                        // Aucune CarteFenetre active (les personnages nouvellement crees ne peuvent pas etre coches)
-                        G_carteFenetreActive = false;
+
 
                         qWarning("Fenetre active autre que CarteFenetre, Tchat, Image ou EditeurNotes (changementFenetreActive - MainWindow.cpp)");
                         // On decoche tous les PJ
-                        G_listeUtilisateurs->casesPjNonSelectionnables();
+                        //G_listeUtilisateurs->casesPjNonSelectionnables();
                 }
         }	// Fin du if(widget)
 
         // Aucun widget n'est actif
         else
         {
-                // Aucune CarteFenetre active (les personnages nouvellement crees ne peuvent pas etre coches)
-                G_carteFenetreActive = false;
 
                 // Si l'utilisateur local est MJ on interdit la fermeture et la sauvegarde des plans
                 if (!G_joueur)
@@ -1622,69 +1414,49 @@ void MainWindow::changementFenetreActive(QWidget *widget)
                         actionFermerPlan->setEnabled(false);
 
                 // On decoche tous les PJ
-                G_listeUtilisateurs->casesPjNonSelectionnables();
-        }
+                //G_listeUtilisateurs->casesPjNonSelectionnables();
+        }*/
 }
 
 /********************************************************************/
 /* Demande une m.a.j des couleurs personnelles de la barre d'outils */
 /********************************************************************/
-void MainWindow::majCouleursPersonnelles()
+/*void MainWindow::majCouleursPersonnelles()
 {
         barreOutils->majCouleursPersonnelles();
-}
+}*/
 
-/********************************************************************/
-/* L'utilisateur vient de demander la creation d'un nouveau plan    */
-/* vide                                                             */
-/********************************************************************/
-void MainWindow::nouveauPlan()
+
+void MainWindow::clickOnMapWizzard()
 {
-        fenetreNouveauPlan = new NouveauPlanVide(this);
+
+    MapWizzardDialog mapWizzard;
+    //QTextStream out(stderr,QIODevice::WriteOnly);
+    if(mapWizzard.exec())
+    {
+
+
+        Map* tempmap  = new Map();
+        mapWizzard.setAllMap(tempmap);
+        MapFrame* tmp = new MapFrame(tempmap);
+        workspace->addWidget(tmp);
+        tmp->show();
+
+    }
 }
 
-/********************************************************************/
-/* Cree un nouveau plan vide dont les caracteristiques sont passees */
-/* en parametre                                                     */
-/********************************************************************/
-void MainWindow::creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur, quint8 taillePj)
-{
-        if (fenetreNouveauPlan)
-        {
-                fenetreNouveauPlan->~NouveauPlanVide();
-                fenetreNouveauPlan = 0;
-        }
 
-        // Creation de l'image
-        QImage image(largeur, hauteur, QImage::Format_ARGB32_Premultiplied);
-        image.fill(couleurFond.rgb());
-        // Creation de la carte
-    Carte *carte = new Carte(idCarte, &image, taillePj);
-        // Creation de la CarteFenetre
-        CarteFenetre *carteFenetre = new CarteFenetre(carte, workspace);
-        // Ajout de la carte au workspace
-        ajouterCarte(carteFenetre, titre);
-}
-
-/********************************************************************/
-/* Ferme la fenetre de creation d'un nouveau plan vide              */
-/********************************************************************/
-void MainWindow::aucunNouveauPlanVide()
-{
-        fenetreNouveauPlan->~NouveauPlanVide();
-        fenetreNouveauPlan = 0;
-}
 
 /********************************************************************/
 /* Envoie tous les plans deja ouvert au joueur dont l'identifiant   */
 /* est passe en parametre (serveur uniquement)                      */
 /********************************************************************/
-void MainWindow::emettreTousLesPlans(QString idJoueur)
+/*void MainWindow::emettreTousLesPlans(QString idJoueur)
 {
         // On recupere le numero de liaison correspondant a l'identifiant du joueur
         // (on soustrait 1 car le 1er utilisateur est toujours le serveur et qu'il
         // n'a pas de liaison associee)
-        int numeroLiaison = G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
+        /*int numeroLiaison = G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
 
         // Taille de la liste des CarteFenetre
         int tailleListe = listeCarteFenetre.size();
@@ -1697,75 +1469,30 @@ void MainWindow::emettreTousLesPlans(QString idJoueur)
                 listeCarteFenetre[i]->carte()->emettreCarte(listeCarteFenetre[i]->windowTitle(), numeroLiaison);
                 // On emet egalement vers la liaison l'ensemble des personnages presents sur la carte
                 listeCarteFenetre[i]->carte()->emettreTousLesPersonnages(numeroLiaison);
-        }
-}
+        }*
+}*/
 
 /********************************************************************/
 /* Envoie toutes les images deja ouvertes au joueur dont            */
 /* l'identifiant est passe en parametre (serveur uniquement)        */
 /********************************************************************/
-void MainWindow::emettreToutesLesImages(QString idJoueur)
+/*void MainWindow::emettreToutesLesImages(QString idJoueur)
 {
         // On recupere le numero de liaison correspondant a l'identifiant du joueur
         // (on soustrait 1 car le 1er utilisateur est toujours le serveur et qu'il
         // n'a pas de liaison associee)
-        int numeroLiaison = G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
+   //     int numeroLiaison = 0;//G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
 
         // Taille de la liste des Images
-        int tailleListe = listeImage.size();
+   //     int tailleListe = listeImage.size();
 
         // Parcours de la liste
-        for (int i=0; i<tailleListe; i++)
+    //    for (int i=0; i<tailleListe; i++)
                 // On demande a l'Image de s'emettre vers l'utilisateur dont la liaison est passee en parametre
-                listeImage[i]->emettreImage(listeImage[i]->windowTitle(), numeroLiaison);
-}
+     //           listeImage[i]->emettreImage(listeImage[i]->windowTitle(), numeroLiaison);
+}*/
 
-/********************************************************************/
-/* Renvoie le pointeur vers la Carte dont l'identifiant est passe   */
-/* en parametre, ou 0 si la Carte n'est pas trouvee                 */
-/********************************************************************/
-Carte * MainWindow::trouverCarte(QString idCarte)
-{
-        // Taille de la liste des CarteFenetre
-        int tailleListe = listeCarteFenetre.size();
 
-        bool ok = false;
-        int i;
-        for (i=0; i<tailleListe && !ok; i++)
-                if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
-                        ok = true;
-
-        // Si la carte vient d'etre trouvee on renvoie son pointeur
-        if (ok)
-                return listeCarteFenetre[i-1]->carte();
-        // Sinon on renvoie -1
-        else
-                return 0;
-}
-
-/********************************************************************/
-/* Renvoie le pointeur vers la CarteFenetre dont l'identifiant de   */
-/* la Carte associee est passe en parametre, ou 0 si la Carte n'est */
-/* pas trouvee                                                      */
-/********************************************************************/
-CarteFenetre * MainWindow::trouverCarteFenetre(QString idCarte)
-{
-        // Taille de la liste des CarteFenetre
-        int tailleListe = listeCarteFenetre.size();
-
-        bool ok = false;
-        int i;
-        for (i=0; i<tailleListe && !ok; i++)
-                if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
-                        ok = true;
-
-        // Si la carte vient d'etre trouvee on renvoie le pointeur vers la CarteFenetre qui lui est associee
-        if (ok)
-                return listeCarteFenetre[i-1];
-        // Sinon on renvoie 0
-        else
-                return 0;
-}
 
 /********************************************************************/
 /* Affiche le tchat correspondant a l'utilisateur dont l'ID est     */
@@ -1826,7 +1553,7 @@ void MainWindow::masquerTchat(QString id)
 /********************************************************************/
 /* Ajoute un tchat                                                  */
 /********************************************************************/
-void MainWindow::ajouterTchat(QString idJoueur, QString nomJoueur)
+/*void MainWindow::ajouterTchat(QString idJoueur, QString nomJoueur)
 {
 
         // Creation de l'action correspondante
@@ -1834,24 +1561,24 @@ void MainWindow::ajouterTchat(QString idJoueur, QString nomJoueur)
         action->setCheckable(true);
         action->setChecked(false);
         // Creation du Tchat
-        Tchat *tchat = new Tchat(idJoueur, action);
+        Tchat *tchat = new Tchat(idJoueur, action,NULL);
         // Connexion de l'action avec l'affichage/masquage de la fenetre
         QObject::connect(action, SIGNAL(triggered(bool)), tchat, SLOT(setVisible(bool)));
         // Ajout du tchat a la liste
         listeTchat.append(tchat);
         // Ajout du tchat au workspace
-        workspace->addWindow(tchat);
+        workspace->addWidget(tchat);
         // Mise a jour du titre du tchat
         tchat->setWindowTitle(tr("Tchat avec ") + nomJoueur);
         // Masquage du tchat
         tchat->hide();
-}
+}*/
 
 /********************************************************************/
 /* Supprime le tchat associe au joueurs dont l'ID est passe en      */
 /* parametre                                                        */
 /********************************************************************/
-void MainWindow::supprimerTchat(QString idJoueur)
+/*void MainWindow::supprimerTchat(QString idJoueur)
 {
         int i;
         bool trouve = false;
@@ -1873,7 +1600,7 @@ void MainWindow::supprimerTchat(QString idJoueur)
         listeTchat[i-1]->~Tchat();
         // Suppresion de l'element dans la liste
         listeTchat.removeAt(i-1);
-}
+}*/
 
 /********************************************************************/
 /* Renvoie le pointeur vers le Tchat dont l'identifiant est passe   */
@@ -1905,26 +1632,26 @@ Tchat * MainWindow::trouverTchat(QString idJoueur)
 /********************************************************************/
 bool MainWindow::estLaFenetreActive(QWidget *widget)
 {
-        return widget == workspace->activeWindow() && widget->isVisible();
+        return widget == workspace->activeSubWindow() && widget->isVisible();
 }
 
 /********************************************************************/
 /* Change la fenetre active du workspace devient celle passee en    */
 /* parametre                                                        */
 /********************************************************************/
-void MainWindow::devientFenetreActive(QWidget *widget)
+/*void MainWindow::devientFenetreActive(QMdiSubWindow *widget)
 {
-        workspace->setActiveWindow(widget);
+        workspace->setActiveSubWindow(widget);
         changementFenetreActive(widget);
-}
+}*/
 
 /********************************************************************/
 /* Coche l'action Tchat commun du sous-menu Tchats                  */
 /********************************************************************/
-void MainWindow::cocherActionTchatCommun()
+/*void MainWindow::cocherActionTchatCommun()
 {
         actionTchatCommun->setChecked(true);
-}
+}*/
 
 /********************************************************************/
 /* Demande a l'utilisateur s'il desire reellement quitter           */
@@ -1936,8 +1663,8 @@ void MainWindow::quitterApplication(bool perteConnexion)
 {
         // Creation de la boite d'alerte
         QMessageBox msgBox(this);
-        QAbstractButton *boutonSauvegarder 	= msgBox.addButton(tr("Sauvegarder"), QMessageBox::YesRole);
-        QAbstractButton *boutonQuitter 		= msgBox.addButton(tr("Quitter"), QMessageBox::AcceptRole);
+        QAbstractButton *boutonSauvegarder 	= msgBox.addButton(tr("Save"), QMessageBox::YesRole);
+        QAbstractButton *boutonQuitter 		= msgBox.addButton(tr("Quit"), QMessageBox::AcceptRole);
         msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
         // On supprime l'icone de la barre de titre
         Qt::WindowFlags flags = msgBox.windowFlags();
@@ -1949,7 +1676,7 @@ void MainWindow::quitterApplication(bool perteConnexion)
         // S'il s'agit d'une perte de connexion
         if (perteConnexion)
         {
-                message = tr("La connexion avec le serveur a été perdue, ") + NOM_APPLICATION + tr(" va être fermé\n");
+                message = tr("La connexion avec le serveur a été perdue, ") + APPLICATION_NAME + tr(" va être fermé\n");
                 // Icone de la fenetre
                 msgBox.setIcon(QMessageBox::Critical);
                 // M.a.j du titre et du message
@@ -1962,16 +1689,16 @@ void MainWindow::quitterApplication(bool perteConnexion)
                 // Ajout d'un bouton
                 QAbstractButton *boutonAnnuler = msgBox.addButton(tr("Annuler"), QMessageBox::RejectRole);
                 // M.a.j du titre et du message
-                msgBox.setWindowTitle(tr("Quitter ") + NOM_APPLICATION);
+                msgBox.setWindowTitle(tr("Quitter ") + APPLICATION_NAME);
         }
 
         // Si l'utilisateur est un joueur
-        if (G_joueur)
+        /*if (G_joueur)
                 message += tr("Voulez-vous sauvegarder vos notes avant de quitter l'application?");
 
         // Si l'utilisateut est un MJ
         else
-                message += tr("Voulez-vous sauvegarder le scénario avant de quitter l'application?");
+                message += tr("Voulez-vous sauvegarder le scénario avant de quitter l'application?");*/
 
         //M.a.j du message de la boite de dialogue
         msgBox.setText(message);
@@ -1982,10 +1709,11 @@ void MainWindow::quitterApplication(bool perteConnexion)
         if (msgBox.clickedButton() == boutonQuitter)
         {
                 // On sauvegarde les tchats
-                sauvegarderTousLesTchats();
-                // On sauvegarde le fichier d'initialisation
-                sauvegarderFichierInitialisation();
-                // On quitte l'application
+                //sauvegarderTousLesTchats();
+
+
+
+                writeSettings();
                 qApp->quit();
         }
 
@@ -1994,20 +1722,21 @@ void MainWindow::quitterApplication(bool perteConnexion)
         {
                 bool ok;
                 // Si l'utilisateur est un joueur, on sauvegarde les notes
-                if (G_joueur)
+                /*if (G_joueur)
                         ok = sauvegarderNotes();
                 // S'il est MJ, on sauvegarde le scenario
                 else
-                        ok = sauvegarderScenario();
+                        ok = sauvegarderScenario();*/
 
                 // Puis on quitte l'application si l'utilisateur a sauvegarde ou s'il s'agit d'une perte de connexion
                 if (ok || perteConnexion)
                 {
                         // On sauvegarde les tchats
-                        sauvegarderTousLesTchats();
-                        // On sauvegarde le fichier d'initialisation
-                        sauvegarderFichierInitialisation();
-                        // On quitte l'application
+                        //sauvegarderTousLesTchats();
+
+
+
+                        writeSettings();
                         qApp->quit();
                 }
         }
@@ -2021,6 +1750,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
         // Arret de la procedure de fermeture
         event->ignore();
+
+
         // Demande de confirmation de la fermture a l'utilisateur
         quitterApplication();
 }
@@ -2052,7 +1783,7 @@ Image *MainWindow::trouverImage(QString idImage)
 /* Enleve de la liste la carte dont l'ID est passe en parametre.    */
 /* Renvoie true en cas de reussite, false sinon                     */
 /********************************************************************/
-bool MainWindow::enleverCarteDeLaListe(QString idCarte)
+/*bool MainWindow::enleverCarteDeLaListe(QString idCarte)
 {
         // Taille de la liste des CarteFenetre
         int tailleListe = listeCarteFenetre.size();
@@ -2072,7 +1803,7 @@ bool MainWindow::enleverCarteDeLaListe(QString idCarte)
         // Sinon on renvoie false
         else
                 return false;
-}
+}*/
 
 /********************************************************************/
 /* Enleve de la liste l'image dont l'ID est passe en parametre.     */
@@ -2104,10 +1835,10 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
 /* Sauvegarde la plan actuellement ouvert ainsi que la position des */
 /* PNJ et PJ                                                        */
 /********************************************************************/
-void MainWindow::sauvegarderPlan()
+/*void MainWindow::sauvegarderPlan()
 {
         // On recupere la fenetre active
-        QWidget *active = workspace->activeWindow();
+        QMdiSubWindow *active = workspace->activeSubWindow();
 
         // On verifie pour le principe qu'il s'agit bien d'une CarteFenetre
         if (active->objectName() != "CarteFenetre")
@@ -2117,7 +1848,7 @@ void MainWindow::sauvegarderPlan()
         }
 
         // Ouverture du selecteur de fichiers
-        QString fichier = QFileDialog::getSaveFileName(this, tr("Sauvegarder un plan"), G_dossierPlans, tr("Plans (*.pla)"));
+        QString fichier = QFileDialog::getSaveFileName(this, tr("Sauvegarder un plan"), m_options->value("MapDirectory",QVariant(".")).toString(), tr("Plans (*.pla)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -2130,7 +1861,7 @@ void MainWindow::sauvegarderPlan()
 
         // On met a jour le chemin vers les plans
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierPlans = fichier.left(dernierSlash);
+        m_options->registerValue("MapDirectory",fichier.left(dernierSlash));
 
         // Creation du fichier
         QFile file(fichier);
@@ -2144,7 +1875,7 @@ void MainWindow::sauvegarderPlan()
         ((CarteFenetre *)active)->carte()->sauvegarderCarte(file);
         // Fermeture du fichier
         file.close();
-}
+}*/
 
 /********************************************************************/
 /* L'utilisateur local a demande a etre MJ lors de la connexion au  */
@@ -2152,18 +1883,18 @@ void MainWindow::sauvegarderPlan()
 /* devient donc simple joueur. On met l'espace de travail a jour en */
 /* consequence                                                      */
 /********************************************************************/
-void MainWindow::changementNatureUtilisateur()
+/*void MainWindow::changementNatureUtilisateur()
 {
         // M.a.j des menus du mainWindow
         autoriserOuInterdireActions();
         // M.a.j de la barre d'outils
         barreOutils->autoriserOuInterdireCouleurs();
         // M.a.j du lecteur audio (pour que le changement de taille se passe correctement, on enleve puis on remet le dockWidget)
-        removeDockWidget(G_lecteurAudio);
-        G_lecteurAudio->autoriserOuIntedireCommandes();
-        addDockWidget(Qt::RightDockWidgetArea, G_lecteurAudio);
-        G_lecteurAudio->show();
-}
+        removeDockWidget(m_audioPlayer);
+        m_audioPlayer->autoriserOuIntedireCommandes();
+        addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
+        m_audioPlayer->show();
+}*/
 
 /********************************************************************/
 /* Affiche ou masque l'editeur de notes. Le 2eme parametre doit     */
@@ -2183,10 +1914,10 @@ void MainWindow::afficherEditeurNotes(bool afficher, bool cocherAction)
         // Sinon on coche/decoche la case de l'editeur de notes dans la listeUtilisateurs
         else
         {
-                if (afficher)
+             /*   if (afficher)
                         G_listeUtilisateurs->cocherCaseTchat(G_idJoueurLocal);
                 else
-                        G_listeUtilisateurs->decocherCaseTchat(G_idJoueurLocal);
+                        G_listeUtilisateurs->decocherCaseTchat(G_idJoueurLocal);*/
         }
 }
 
@@ -2194,10 +1925,10 @@ void MainWindow::afficherEditeurNotes(bool afficher, bool cocherAction)
 /* Demande a l'utilisateur de selectionner un fichier de notes a    */
 /* ouvrir                                                           */
 /********************************************************************/
-void MainWindow::ouvrirNotes()
+/*void MainWindow::ouvrirNotes()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir notes"), G_dossierNotes, tr("Documents HTML (*.htm *.html)"));
+        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir notes"), m_options->value("MinutesDirectory",QVariant(".")).toString(), tr("Documents HTML (*.htm *.html)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -2205,7 +1936,7 @@ void MainWindow::ouvrirNotes()
 
         // On met a jour le chemin vers les notes
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierNotes = fichier.left(dernierSlash);
+        m_options->registerValue("MinutesDirectory",fichier.left(dernierSlash));
 
         // Creation du descripteur de fichier
         QFile file(fichier);
@@ -2220,28 +1951,28 @@ void MainWindow::ouvrirNotes()
         // Fermeture du fichier
         file.close();
 }
-
+*/
 /********************************************************************/
 /* Demande a l'utilisateur d'entrer un nom de fichier dans lequel   */
 /* sauvegarder les notes                                            */
 /********************************************************************/
-bool MainWindow::sauvegarderNotes()
+/*bool MainWindow::sauvegarderNotes()
 {
         // Ouverture du selecteur de fichiers
-        QString fichier = QFileDialog::getSaveFileName(this, tr("Sauvegarder notes"), G_dossierNotes, tr("Documents HTML (*.htm *.html)"));
+        QString fichier = QFileDialog::getSaveFileName(this, tr("Sauvegarder notes"), m_options->value("MinutesDirectory",QVariant(".")).toString(), tr("Documents HTML (*.htm *.html)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
                 return false;
 
-        #ifdef MACOS
-                // On rajoute l'extension
-                fichier += ".htm";
-        #endif
 
-        // On met a jour le chemin vers les notes
+        if(!fichier.endsWith(".htm"))
+                 fichier += ".htm";
+
+
+       // On met a jour le chemin vers les notes
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierNotes = fichier.left(dernierSlash);
+        m_options->registerValue("MinutesDirectory", fichier.left(dernierSlash));
 
         // Creation du descripteur de fichier
         QFile file(fichier);
@@ -2257,15 +1988,15 @@ bool MainWindow::sauvegarderNotes()
         file.close();
 
         return true;
-}
+}*/
 
 /********************************************************************/
 /* Demande a l'utilisateur de selectionner un scenario a ouvrir     */
 /********************************************************************/
-void MainWindow::ouvrirScenario()
+/*void MainWindow::ouvrirScenario()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir scénario"), G_dossierScenarii, tr("Scénarios (*.sce)"));
+        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir scénario"), m_options->value("ScriptDirectory",QVariant(".")).toString(), tr("Scénarios (*.sce)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -2273,7 +2004,7 @@ void MainWindow::ouvrirScenario()
 
         // On met a jour le chemin vers les scenarii
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierScenarii = fichier.left(dernierSlash);
+        m_options->registerValue("scriptDirectory",fichier.left(dernierSlash));
 
         // Creation du descripteur de fichier
         QFile file(fichier);
@@ -2303,7 +2034,7 @@ void MainWindow::ouvrirScenario()
 
         // Fermeture du fichier
         file.close();
-}
+}*/
 
 /********************************************************************/
 /* Demande a l'utilisateur de choisir un nom de fichier pour        */
@@ -2311,10 +2042,10 @@ void MainWindow::ouvrirScenario()
 /* les cartes, les images (qui deviennent proprietes du MJ), et les */
 /* notes                                                            */
 /********************************************************************/
-bool MainWindow::sauvegarderScenario()
+/*bool MainWindow::sauvegarderScenario()
 {
         // Ouverture du selecteur de fichiers
-        QString filename = QFileDialog::getSaveFileName(this, tr("Sauvegarder scénario"), G_dossierScenarii, tr("Scénarios (*.sce)"));
+        QString filename = QFileDialog::getSaveFileName(this, tr("Sauvegarder scénario"), m_options->value("ScriptDirectory",QVariant(".")).toString(), tr("Scénarios (*.sce)"));
 
 
         if (filename.isNull())
@@ -2326,7 +2057,7 @@ bool MainWindow::sauvegarderScenario()
 
         // On met a jour le chemin vers les scenarii
         int dernierSlash = filename.lastIndexOf("/");
-        G_dossierScenarii = filename.left(dernierSlash);
+        m_options->registerValue("ScriptDirectory",filename.left(dernierSlash));
 
         // Creation du descripteur de fichier
         QFile file(filename);
@@ -2347,12 +2078,12 @@ bool MainWindow::sauvegarderScenario()
         file.close();
 
         return true;
-}
+}*/
 
 /********************************************************************/
 /* Sauvegarde toutes les cartes dans le fichier file                */
 /********************************************************************/
-void MainWindow::sauvegarderTousLesPlans(QFile &file)
+/*void MainWindow::sauvegarderTousLesPlans(QFile &file)
 {
         // Taille de la liste des CarteFenetre
         quint16 tailleListe = listeCarteFenetre.size();
@@ -2363,12 +2094,12 @@ void MainWindow::sauvegarderTousLesPlans(QFile &file)
         for (int i=0; i<tailleListe; i++)
                 // On demande a la carte contenue dans la CarteFenetre de se sauvegarder dans le fichier
                 listeCarteFenetre[i]->carte()->sauvegarderCarte(file, listeCarteFenetre[i]->windowTitle());
-}
+}*/
 
 /********************************************************************/
 /* Sauvegarde toutes les cartes dans le fichier file                */
 /********************************************************************/
-void MainWindow::sauvegarderToutesLesImages(QFile &file)
+/*void MainWindow::sauvegarderToutesLesImages(QFile &file)
 {
         // Taille de la liste des images
         quint16 tailleListe = listeImage.size();
@@ -2379,13 +2110,13 @@ void MainWindow::sauvegarderToutesLesImages(QFile &file)
         for (int i=0; i<tailleListe; i++)
                 // On demande a l'image de se sauvegarder dans le fichier
                 listeImage[i]->sauvegarderImage(file, listeImage[i]->windowTitle());
-}
+}*/
 
 /********************************************************************/
 /* Reconstitue l'image se trouvant dans le fichier passe en         */
 /* parametre                                                        */
 /********************************************************************/
-void MainWindow::lireImage(QFile &file)
+/*void MainWindow::lireImage(QFile &file)
 {
         // Lecture de l'image
 
@@ -2417,13 +2148,13 @@ void MainWindow::lireImage(QFile &file)
     QString idImage = QUuid::createUuid().toString();
 
         // Creation de la fenetre image
-    Image *imageFenetre = new Image(idImage, G_idJoueurLocal, &img, action);
+    Image *imageFenetre = new Image(idImage, "", &img, action);
 
         // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
         listeImage.append(imageFenetre);
 
         // Ajout de l'image au workspace
-        workspace->addWindow(imageFenetre);
+        workspace->addWidget(imageFenetre);
 
         // Mise a jour du titre de l'image
         imageFenetre->setWindowTitle(titre);
@@ -2447,7 +2178,7 @@ void MainWindow::lireImage(QFile &file)
                 qWarning("Probleme de compression de l'image (lireImage - MainWindow.cpp)");
 
         // Taille des donnees
-        quint32 tailleCorps =
+        /*quint32 tailleCorps =
                 // Taille du titre
                 sizeof(quint16) + titre.size()*sizeof(QChar) +
                 // Taille de l'identifiant de l'image
@@ -2497,13 +2228,13 @@ void MainWindow::lireImage(QFile &file)
         // Emission de l'image au serveur ou a l'ensemble des clients
         emettre(donnees, tailleCorps + sizeof(enteteMessage));
         // Liberation du buffer d'emission
-        delete[] donnees;
-}
+        delete[] donnees;*
+}*/
 
 /********************************************************************/
 /* Sauvegarde l'ensemble des tchats sous forme de fichiers HTML     */
 /********************************************************************/
-void MainWindow::sauvegarderTousLesTchats()
+/*void MainWindow::sauvegarderTousLesTchats()
 {
         // Taille de la liste des tchats
         int tailleListe = listeTchat.size();
@@ -2512,7 +2243,7 @@ void MainWindow::sauvegarderTousLesTchats()
         for (int i=0; i<tailleListe; i++)
         {
                 // Creation du chemin complet du fichier
-                QString chemin(G_dossierTchats + "/" + listeTchat[i]->windowTitle() + ".htm");
+                QString chemin(m_options->value("TchatDirectory",QVariant(".")).toString() + "/" + listeTchat[i]->windowTitle() + ".htm");
                 // Creation du descripteur de fichier
                 QFile file(chemin);
                 // Ouverture du fichier en ecriture seule
@@ -2526,90 +2257,12 @@ void MainWindow::sauvegarderTousLesTchats()
                 // Fermeture du fichier
                 file.close();
         }
-}
-
-/********************************************************************/
-/* Sauvegarde le fichier d'initialisation                           */
-/********************************************************************/
-void MainWindow::sauvegarderFichierInitialisation()
-{
-        // Memorisation du chemin vers les musiques du MJ dans la variable d'initialisation
-        G_initialisation.dossierMusiquesMj = G_dossierMusiquesMj;
-        // ...du chemin vers les musiques des joueurs
-        G_initialisation.dossierMusiquesJoueur = G_dossierMusiquesJoueur;
-        // ...du chemin vers les images
-        G_initialisation.dossierImages = G_dossierImages;
-        // ...du chemin vers les plans
-        G_initialisation.dossierPlans = G_dossierPlans;
-        // ...du chemin vers les scenarii
-        G_initialisation.dossierScenarii = G_dossierScenarii;
-        // ...du chemin vers les notes
-        G_initialisation.dossierNotes = G_dossierNotes;
-        // ...du chemin vers les tchats
-        G_initialisation.dossierTchats = G_dossierTchats;
-
-        // Nom du fichier d'initialisation
-        #ifdef WIN32
-                QString fichierInitialisation = QString(NOM_APPLICATION) + ".ini";
-        #elif defined (MACOS)
-                QString fichierInitialisation = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".ini";
-        #else
-                QString fichierInitialisation = QApplication::applicationDirPath()+"/."+QString(NOM_APPLICATION);
-        #endif
-
-        // Creation du descripteur de fichier
-        QFile file(fichierInitialisation);
-        // Ouverture du fichier en ecriture seule
-        if (!file.open(QIODevice::WriteOnly))
-        {
-                qWarning("Probleme a la creation du fichier d'initialisation (sauvegarderFichierInitialisation - MainWindow.cpp)");
-                return;
-        }
-
-        // On cree un flux de donnees rattache au fichier
-        QDataStream fluxFichier(&file);
-        // On sauvegarde la version de l'application
-        fluxFichier << G_initialisation.versionApplication;
-        // ...le nom de l'utilisateur
-        fluxFichier << G_initialisation.nomUtilisateur;
-        // ...la couleur de l'utilisateur
-        fluxFichier << G_initialisation.couleurUtilisateur;
-        // ...la nature de l'utilisateur (joueur ou MJ)
-        fluxFichier << G_initialisation.joueur;
-        // ...la nature de l'ordinateur local
-        fluxFichier << G_initialisation.client;
-        // ...l'adresse IP du serveur
-        fluxFichier << G_initialisation.ipServeur;
-        // ...le port du serveur
-        fluxFichier << G_initialisation.portServeur;
-        // ...le port de connexion pour les clients
-        fluxFichier << G_initialisation.portClient;
-        // ...le chemin pour les musiques
-        fluxFichier << G_initialisation.dossierMusiquesMj;
-        // ...le chemin pour les musiques des joueurs
-        fluxFichier << G_initialisation.dossierMusiquesJoueur;
-        // ...le chemin pour les images
-        fluxFichier << G_initialisation.dossierImages;
-        // ...le chemin pour les plans
-        fluxFichier << G_initialisation.dossierPlans;
-        // ...le chemin pour les scenarii
-        fluxFichier << G_initialisation.dossierScenarii;
-        // ...le chemin pour les notes
-        fluxFichier << G_initialisation.dossierNotes;
-        // ...le chemin pour les tchats
-        fluxFichier << G_initialisation.dossierTchats;
-        // ...les couleurs personnelles
-        for (int i=0; i<16; i++)
-                fluxFichier << barreOutils->donnerCouleurPersonnelle(i);
-        // ...le volume du lecteur audio
-        fluxFichier << G_lecteurAudio->volume();
-
-        // Fermeture du fichier
-        file.close();
-}
+}*/
 
 
-void MainWindow::aPropos()
+
+
+void MainWindow::about()
 {
 QMessageBox::about(this, tr("About Rolisteam"),
                  tr("<h1>Rolisteam v1.0</h1>"
@@ -2626,6 +2279,25 @@ QMessageBox::about(this, tr("About Rolisteam"),
 "<ul>"
 "<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni<a/> (rolistik)  </li>"
 "</ul></p>"));
+}
+
+void MainWindow::readSettings()
+{
+        QSettings settings("RolisteamTeam", "Rolisteam");
+        QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
+        QSize size = settings.value("size", QSize(600, 400)).toSize();
+        resize(size);
+        move(pos);
+        m_options->readSettings();
+
+}
+void MainWindow::writeSettings()
+{
+      QSettings settings("RolisteamTeam", "Rolisteam");
+      settings.setValue("pos", pos());
+      settings.setValue("size", size());
+      m_options->writeSettings();
+
 }
 
 

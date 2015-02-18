@@ -20,11 +20,6 @@
  ***************************************************************************/
 
 
-/**!
-* \brief
-* This player can be used by the GM to play song.   
-* Regular players can just change the volume level.                  			                           
-*/
 
 
 #ifndef LECTEUR_AUDIO_H
@@ -49,15 +44,20 @@
 #ifdef PHONON
 //#include <phonon>
 #include <mediasource.h>
-#include <seekslider.h>
+#include <Phonon/SeekSlider>
 #include <mediaobject.h>
 #include <volumeslider.h>
 #include <audiooutput.h>
 #include <path.h>
 #endif
 
+/**!
+* \brief
+* This player can be used by the GM to play songs.
+* Regular players can just change the volume level.
+*/
 
-	
+class PreferencesManager;
 class LecteurAudio : public QDockWidget
 {
     Q_OBJECT
@@ -209,6 +209,13 @@ private :
         QAction *actionUnique;			//!< \brief one song playing mode action
         QAction *actionAjouter;			//!< \brief add song action
         QAction *actionSupprimer;		//!< \brief remove song action
+
+        /**
+          * pointer to the unique instance of preference manager.
+          */
+        PreferencesManager* m_options;
+
+
         int etatActuel;				//!< \brief current state of the player
         int titreCourant;	//!< \brief index of the current song (must die)
         int canalAudio;		//!< \brief index for fmod (must die)
@@ -216,6 +223,8 @@ private :
         bool lectureUnique;     //!< \brief bool true if the playing is in only one song mode. Otherwise false. (must die)
         bool repriseDeLecture;			//!< \brief bool (must die)
         int joueurPositionTemps;//!< \brief int starting time for players only
+        
+        
 
 
 private slots :
@@ -234,6 +243,11 @@ private slots :
 	* \brief Phonon only - called when the audio source has been changed
 	*/
         void sourceChanged(const Phonon::MediaSource &source);
+
+    /**
+      * @brief Phonon only - called when user press the play button.
+      */
+       void pressPlay(bool state);
 #endif
 #ifdef FMOD
 	/**

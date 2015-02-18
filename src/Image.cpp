@@ -30,9 +30,11 @@
 /* Constructeur                                                     */
 /********************************************************************/	
 Image::Image(QString identImage, QString identJoueur, QImage *image, QAction *action, QWidget *parent)
-: QScrollArea(parent)
+: SubMdiWindows(parent)
 {
-	// On donne un nom a l'objet "Image" pour le differencier des autres fenetres du workspace
+
+    m_scrollArea = new QScrollArea;
+    setWidget(m_scrollArea);
 	setObjectName("Image");
 
 	// On change l'icone de la fenetre
@@ -49,11 +51,11 @@ Image::Image(QString identImage, QString identJoueur, QImage *image, QAction *ac
 	idImage = identImage;
 	idJoueur = identJoueur;
 	// On aligne l'image au centre de la scrollArea
-setAlignment(Qt::AlignCenter);
+    m_scrollArea->setAlignment(Qt::AlignCenter);
 	// Association du label contenant l'image avec le scrollArea
-	setWidget(labelImage);
+    m_scrollArea->setWidget(labelImage);
 	// Redimentionement de la taille du scrollArea
-	resize(image->width()+2, image->height()+2);
+    m_scrollArea->resize(image->width()+2, image->height()+2);
 }
 
 /********************************************************************/	
@@ -64,7 +66,7 @@ Image::~Image()
 	// Destruction de l'action associee
 	actionAssociee->~QAction();
 	// On enleve l'image de la liste des Images existantes
-	G_mainWindow->enleverImageDeLaListe(idImage);
+    //m_mainWindow->enleverImageDeLaListe(idImage);
 }
 
 /********************************************************************/
@@ -94,7 +96,7 @@ void Image::associerAction(QAction *action)
 /********************************************************************/
 bool Image::proprietaireImage()
 {
-	return idJoueur == G_idJoueurLocal;
+    return true;//idJoueur == G_idJoueurLocal;
 }
 
 /********************************************************************/
@@ -110,7 +112,7 @@ QString Image::identifiantImage()
 /********************************************************************/
 void Image::emettreImage(QString titre, int numeroLiaison)
 {
-	bool ok;
+    /*bool ok;
 
 	// On compresse l'image dans un tableau
 	QByteArray baImage;
@@ -170,7 +172,7 @@ void Image::emettreImage(QString titre, int numeroLiaison)
 	// Emission de l'image vers la liaison indiquee
 	emettre(donnees, tailleCorps + sizeof(enteteMessage), numeroLiaison);
 	// Liberation du buffer d'emission
-	delete[] donnees;
+    delete[] donnees;*/
 }
 
 /********************************************************************/
@@ -202,35 +204,35 @@ void Image::sauvegarderImage(QFile &file, QString titre)
 /********************************************************************/
 /* Un bouton de la souris vient d'etre enfonce                      */
 /********************************************************************/	
-void Image::mousePressEvent(QMouseEvent *event)
+/*void Image::mousePressEvent(QMouseEvent *event)
 {
 	// Si l'utilisateur a clique avec la bouton gauche et que l'outil main est selectionne
-	if (event->button() == Qt::LeftButton && G_outilCourant == BarreOutils::main)
+    if (event->button() == Qt::LeftButton && G_outilCourant == BarreOutils::main)
 	{
 		// Le deplacement est autorise
 		deplacementAutorise = true;
 		// On memorise la position du point de depart
 		pointDepart = event->pos();
 		// On releve les valeurs des barres de defilement
-		horizontalDepart = horizontalScrollBar()->value();
-		verticalDepart = verticalScrollBar()->value();
-	}
-}
+        horizontalDepart = m_scrollArea->horizontalScrollBar()->value();
+        verticalDepart = m_scrollArea->verticalScrollBar()->value();
+    }
+}*/
 
 /********************************************************************/
 /* Relache d'un bouton de la souris                                 */
 /********************************************************************/	
-void Image::mouseReleaseEvent(QMouseEvent *event)
+/*void Image::mouseReleaseEvent(QMouseEvent *event)
 {
 	// Si le bouton gauche est relache on interdit le deplacement de la carte
 	if (event->button() == Qt::LeftButton)
 		deplacementAutorise = false;
-}
+}*/
 
 /********************************************************************/
 /* Deplacement de la souris                                         */
 /********************************************************************/	
-void Image::mouseMoveEvent(QMouseEvent *event)
+/*void Image::mouseMoveEvent(QMouseEvent *event)
 {
 	// Si le deplacement est autorise
 	if (deplacementAutorise)
@@ -238,10 +240,10 @@ void Image::mouseMoveEvent(QMouseEvent *event)
 		// On calcule la cifference de position entre le depart et maintenant
 		QPoint diff = pointDepart - event->pos();
 		// On change la position des barres de defilement
-		horizontalScrollBar()->setValue(horizontalDepart + diff.x());
-		verticalScrollBar()->setValue(verticalDepart + diff.y());
+        m_scrollArea->horizontalScrollBar()->setValue(horizontalDepart + diff.x());
+        m_scrollArea->verticalScrollBar()->setValue(verticalDepart + diff.y());
 	}
-}
+}*/
 		
 /********************************************************************/
 /* Changement du pointeur de souris pour l'outil main               */

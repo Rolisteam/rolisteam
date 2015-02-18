@@ -31,24 +31,28 @@
 #ifndef TCHAT_H
 #define TCHAT_H
 
+#include <QMdiSubWindow>
+
 #include <QSplitter>
 #include <QFile>
 
 #include "TextEditAmeliore.h"
+#include "submdiwindows.h"
 
 
-class Tchat : public QSplitter
+class Tchat : public SubMdiWindows
 {
 Q_OBJECT
 
 public :
-    Tchat(QString id, QAction *action, QWidget *parent = 0);
+    Tchat(QString id, QAction *action, QWidget *parent);
     ~Tchat();
 	QString identifiant();
 	void afficherMessage(QString utilisateur, QColor couleur, QString message);
     void afficherTirage(QString utilisateur, QColor couleur, QString message);
 	void majAction();
 	void sauvegarderTchat(QFile &file);
+
 
 protected :
 	void closeEvent(QCloseEvent *event);
@@ -66,12 +70,14 @@ private :
 	QList<QString> historiqueMessages;	// Contient l'historique des anciens messages
 	int numHistorique;					// Numero de la ligne de l'historique actuellement affichee
 	QAction *actionAssociee;			// Action permettant d'afficher/masquer le tchat
+    QSplitter* m_splitter;
 
 private slots :
 	void emettreTexte();
 	void monterHistorique();
 	void descendreHistorique();
 	void changerEtatCase(bool coche);
+
 };
 
 #endif

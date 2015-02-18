@@ -43,7 +43,9 @@
 #include "MainWindow.h"
 #include "ListeUtilisateurs.h"
 #include "Liaison.h"
+#include "LecteurAudio.h"
 
+class Liaison;
 
     class ClientServeur : public QObject
     {
@@ -68,7 +70,7 @@
 		void majParametresInitialisation();
 		bool verifierParametres();
 		
-		MainWindow *mainWindow;				// Principale fenetre de l'application
+        MainWindow *m_mainWindow;				// Principale fenetre de l'application
 		QLineEdit *nomJoueur;				// Contient le nom choisi par le joueur
 		QLineEdit *adresseServeur;			// Contient l'adresse du serveur
 		QLineEdit *portServeur;				// Contient le port du serveur
@@ -88,7 +90,7 @@
 		bool client;						// True si l'ordinateur local est un client, false s'il est le serveur
 		bool enAttente;						// True si la fenetre d'attente de connexion est affichee
 		QString tempNomJoueur;				// Contient le nom du joueur avant son ajout a la liste des utilisateurs
-                LecteurAudio* G_lecteurAudio;
+        LecteurAudio* G_lecteurAudio;
 		
 	private slots :
 		void programmePrincipal();
