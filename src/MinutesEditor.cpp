@@ -24,82 +24,90 @@
 
 #include "MinutesEditor.h"
 
-
+#include <QFontComboBox>
 MinutesEditor::MinutesEditor()
     : SubMdiWindows()
 {
-
     setObjectName("MinutesEditor");
     QWidget* main = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout;
     m_type = SubMdiWindows::TEXT;
+    setWindowTitle(tr("Minutes Editor"));
+    setWindowIcon(QIcon(":/resources/icons/notes.png"));
+
+    //////////////////
+    // Style selector
+    //////////////////
+    m_styleSelector = new QComboBox(this);
+    m_styleSelector->addItem(tr("Standard"));
+    m_styleSelector->addItem(tr("Bullet List (Disc)"));
+    m_styleSelector->addItem(tr("Bullet List (Circle)"));
+    m_styleSelector->addItem(tr("Bullet List (Square)"));
+    m_styleSelector->addItem(tr("Ordered List (Decimal)"));
+    m_styleSelector->addItem(tr("Ordered List (Alpha lower)"));
+    m_styleSelector->addItem(tr("Ordered List (Alpha upper)"));
+
+    /////////////////
+    // Font selector
+    /////////////////
+    m_fontSelector = new QFontComboBox;
+    m_fontSelector->setEditable(false);
+    m_fontSelector->setMaximumWidth(100);
+
+
+    /////////////////
+    // font size
+    /////////////////
+    QStringList sizeList;
+    sizeList << "8" << "10" << "12" << "14" << "16" << "18" << "20" << "22" << "26" << "30" << "40" << "50" << "70";
+    m_sizeSelector = new QComboBox;
+    m_sizeSelector->addItems(sizeList);
 
 
 
-    setWindowIcon(QIcon(":/icones/vignette m_minutes.png"));
 
 
-    m_minutes = new QTextEdit();
-    m_minutes->setAcceptRichText(false);
-
-
-    QObject::connect(m_minutes, SIGNAL(cursorPositionChanged()), this, SLOT(updateSize()));
-
-
-
-   // m_styleBar = systemMenu();
+    /////////////////
+    // tool bar
+    /////////////////
     m_styleBar = new QToolBar;
-
-    layout->addWidget(m_styleBar);
-
-
+    m_styleBar->setStyleSheet("QToolBar { border: 0px }");
     m_styleBar->setIconSize(QSize(16, 16));
-    layout->setMargin(0);
 
-        QAction	*act1 = m_styleBar->addAction(QIcon(":/resources/icons/style normal.png"), tr("Normal"), this, SLOT(normalStyle()));
-        QAction	*act2 = m_styleBar->addAction(QIcon(":/resources/icons/style gras.png"), tr("Gras"), this, SLOT(boldStyle()));
-        QAction	*act3 = m_styleBar->addAction(QIcon(":/resources/icons/style italique.png"), tr("Italique"), this, SLOT(italicStyle()));
-        QAction	*act4 = m_styleBar->addAction(QIcon(":/resources/icons/style souligne.png"), tr("Souligné"), this, SLOT(underlineStyle()));
-        Q_UNUSED(act1)
-        Q_UNUSED(act2)
-        Q_UNUSED(act3)
-        Q_UNUSED(act4)
-    #ifdef MACOS
-
-        QPlastiqueStyle *style = new QPlastiqueStyle();
-        m_styleBar->widgetForAction(act1)->setStyle(style);
-        m_styleBar->widgetForAction(act2)->setStyle(style);
-        m_styleBar->widgetForAction(act3)->setStyle(style);
-        m_styleBar->widgetForAction(act4)->setStyle(style);
-    #endif
-
+    m_styleBar->addWidget(m_styleSelector);
+    m_styleBar->addWidget(m_fontSelector);
+    m_styleBar->addWidget(m_sizeSelector);
 
     m_styleBar->addSeparator();
-
+    /////////////////
+    // Action
+    /////////////////
+    m_italicAct= m_styleBar->addAction(QIcon(":/resources/icons/textitalic.png"), tr("Italic"), this, SLOT(italicStyle()));
+    m_boldAct = m_styleBar->addAction(QIcon(":/resources/icons/textbold.png"), tr("Bold"), this, SLOT(boldStyle()));
+    m_underLineAct=m_styleBar->addAction(QIcon(":/resources/icons/textunder.png"), tr("Underline"), this, SLOT(underlineStyle()));
+    m_leftAct= m_styleBar->addAction(QIcon(":/resources/icons/textleft.png"), tr("Left"), this, SLOT(boldStyle()));
+    m_centerAct = m_styleBar->addAction(QIcon(":/resources/icons/textcenter.png"), tr("Center"), this, SLOT(boldStyle()));
+    m_rightAct= m_styleBar->addAction(QIcon(":/resources/icons/textright.png"), tr("Right"), this, SLOT(boldStyle()));
+    m_justifyAct= m_styleBar->addAction(QIcon(":/resources/icons/textjustify.png"), tr("Justify"), this, SLOT(boldStyle()));
 
     m_sizeSelector = new QComboBox();
     m_sizeSelector->setEditable(false);
-    #ifdef WIN32
-        m_sizeSelector->setFixedWidth(40);
-    #elif defined (MACOS)
-        m_sizeSelector->setFixedWidth(56);
-    #endif
-    m_sizeSelector->setToolTip(tr("Taille de la police"));
+    m_sizeSelector->setToolTip(tr("Font Size"));
 
-    QStringList listeTailles;
-    listeTailles << "8" << "10" << "12" << "14" << "16" << "18" << "20" << "22" << "26" << "30" << "40" << "50" << "70";
-
-    m_sizeSelector->addItems(listeTailles);
-
-    QObject::connect(m_sizeSelector, SIGNAL(activated(int)), this, SLOT(changeSize(int)));
-
-
-    //m_styleBar->addWidget(m_sizeSelector);
-    layout->addWidget(m_minutes);
+    m_minutes = new QTextEdit();
+    m_minutes->setAcceptRichText(true);
+    m_fontSelector->setCurrentFont(m_minutes->font());
 
     layout->setContentsMargins(0,0,0,0);
+    layout->setMenuBar(m_styleBar);
+    layout->setSpacing(0);
+    layout->addWidget(m_minutes);
+
      main->setLayout(layout);
      setWidget(main);
+
+     connect(m_sizeSelector, SIGNAL(activated(int)), this, SLOT(changeSize(int)));
+     connect(m_minutes, SIGNAL(cursorPositionChanged()), this, SLOT(updateSize()));
 
 }
 
@@ -113,144 +121,123 @@ void MinutesEditor::closeEvent(QCloseEvent *event)
 
 void MinutesEditor::normalStyle()
 {
-    // On recupere la zone du curseur
     QTextCursor zone = m_minutes->textCursor();
-    // On cree un style normal a appliquer a la zone
     QTextCharFormat styleZone;
     styleZone.setFontItalic(false);
     styleZone.setFontUnderline(false);
     styleZone.setFontWeight(QFont::Normal);
-    // On ajoute le style a la zone
     zone.mergeCharFormat(styleZone);
-    // Enfin on recopie la zone dans les m_minutes
     m_minutes->setTextCursor(zone);
 }
 
 
 void MinutesEditor::boldStyle()
 {
-    // On recupere la zone du curseur
+
     QTextCursor zone = m_minutes->textCursor();
-    // On cree un style gras a appliquer a la zone
+
     QTextCharFormat styleZone;
-    styleZone.setFontWeight(QFont::Bold);
-    // On ajoute le style a la zone
+    if(m_minutes->textCursor().charFormat().fontWeight()==QFont::Bold)
+        styleZone.setFontWeight(QFont::Normal);
+    else
+        styleZone.setFontWeight(QFont::Bold);
+
     zone.mergeCharFormat(styleZone);
-    // Enfin on recopie la zone dans les m_minutes
+
     m_minutes->setTextCursor(zone);
 }
 
 
 void MinutesEditor::italicStyle()
 {
-    // On recupere la zone du curseur
+
     QTextCursor zone = m_minutes->textCursor();
-    // On cree un style italique a appliquer a la zone
     QTextCharFormat styleZone;
-    styleZone.setFontItalic(true);
-    // On ajoute le style a la zone
+    styleZone.setFontItalic(!styleZone.fontItalic());
     zone.mergeCharFormat(styleZone);
-    // Enfin on recopie la zone dans les m_minutes
     m_minutes->setTextCursor(zone);
 }
 
 void MinutesEditor::underlineStyle()
 {
-    // On recupere la zone du curseur
+
     QTextCursor zone = m_minutes->textCursor();
-    // On cree un style souligne a appliquer a la zone
+
     QTextCharFormat styleZone;
     styleZone.setFontUnderline(true);
-    // On ajoute le style a la zone
+
     zone.mergeCharFormat(styleZone);
-    // Enfin on recopie la zone dans les m_minutes
+
     m_minutes->setTextCursor(zone);
 }
 
 
 void MinutesEditor::updateSize()
 {
-    // On recupere la zone du curseur
+
     QTextCursor zone = m_minutes->textCursor();
-    // On recupere le style de la zone
+
     QTextCharFormat styleActuel = zone.charFormat();
-    // On recupere la taille de la fonte a cet endroit
+
     QFont fonte = styleActuel.font();
     int tailleFonte = fonte.pointSize();
-    // On cherche la taille equivalente dans le selecteur de taille
+
     int index = m_sizeSelector->findText(QString::number(tailleFonte));
 
-    // Si la taille a ete trouvee on met a jour le selecteur
+
     if (index != -1)
         m_sizeSelector->setCurrentIndex(index);
 
-    // Dans le cas contraire on insere l'element dans la liste
+
     else
     {
         int i;
         bool trouve = false;
         int tailleListe = m_sizeSelector->count();
-        // On parcourt la liste des taille jusqu'a ce que l'on trouve une taille superieure
+
         for (i=0; i<tailleListe && !trouve; i++)
             if (m_sizeSelector->itemText(i).toInt() > tailleFonte)
                 trouve = true;
-        // On met i a jour en fonction du resultat de la recherche
+
         i = trouve?i-1:i;
-        // On insert la nouvelle taille avant l'element en question
+
         m_sizeSelector->insertItem(i, QString::number(tailleFonte));
-        // La nouvelle taille est selectionnee
+
         m_sizeSelector->setCurrentIndex(i);
     }
 }
 
 
 void MinutesEditor::changeSize(int index)
-{
-    // On recupere la taille selectionnee
+{   
     int tailleFonte = m_sizeSelector->itemText(index).toInt();
-    // On recupere la zone du curseur
     QTextCursor zone = m_minutes->textCursor();
-    // On recupere le style de la zone
     QTextCharFormat styleActuel = zone.charFormat();
-    // On regarde si la fonte est soulignee (l'information n'est pas conservee lors de l'operation)
+
     bool souligne = styleActuel.fontUnderline();
-    // On recupere la fonte a cet endroit
     QFont fonte = styleActuel.font();
-    // On met a jour la taille de la fonte
     fonte.setPointSize(tailleFonte);
-    // On remet la fonte dans le style
     styleActuel.setFont(fonte);
-    // On remet l'etat souligne ou pas
     styleActuel.setFontUnderline(souligne);
-    // On met a jour le style de la zone
     zone.mergeCharFormat(styleActuel);
-    // Enfin on recopie la zone dans les m_minutes
     m_minutes->setTextCursor(zone);
-    // On remet le curseur sur la zone de texte
     m_minutes->setFocus(Qt::OtherFocusReason);
 }
 
 
 void MinutesEditor::openMinutes(QFile &file)
-{
-    // On cree un flux de donnees rattache au fichier
+{ 
     QTextStream fichier(&file);
-    // On recupere le fichier HTML sous forme de string
     QString html = fichier.readAll();
-    // On ecrit le contenu HTML dans les m_minutes
     m_minutes->setHtml(html);
 }
 
 
 void MinutesEditor::saveMinutes(QFile &file)
 {
-    // On recupere le document contenant les m_minutes
     QTextDocument *document = m_minutes->document();
-    // On convertit le document en HTML
     QString html = document->toHtml(QByteArray("UTF-8"));
-    // On cree un flux de donnees rattache au fichier
     QTextStream fichier(&file);
-    // On envoie le document HTML dans le flux
     fichier << html;
 }
 
@@ -263,4 +250,12 @@ QSize MinutesEditor::sizeHint() const
 bool MinutesEditor::defineMenu(QMenu* /*menu*/)
 {
     return false;
+}
+void MinutesEditor::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
+{
+    QTextCursor cursor = m_minutes->textCursor();
+    if (!cursor.hasSelection())
+        cursor.select(QTextCursor::WordUnderCursor);
+    cursor.mergeCharFormat(format);
+    m_minutes->mergeCurrentCharFormat(format);
 }

@@ -96,26 +96,32 @@ MainWindow::~MainWindow()
 
 void MainWindow::createMenu()
 {
-
     ///////////////
     // File Menu
     ///////////////
     m_fileMenu = menuBar()->addMenu(tr("&File"));
     m_newMenu = m_fileMenu->addMenu(tr("&New"));
     m_newMapAct = m_newMenu->addAction(tr("&Map"));
-    m_newNoteAct= m_newMenu->addAction(tr("&Note"));
+    m_newMapAct->setIcon(QIcon(":/resources/icons/map.png"));
+    m_noteEditoAct = m_newMenu->addAction(tr("&Note Editor"));
+    m_noteEditoAct->setIcon(QIcon(":/resources/icons/notes.png"));
+    m_dataSheetAct = m_newMenu->addAction(tr("&CharacterSheet Viewer"));
+
     m_newScenarioAct = m_newMenu->addAction(tr("&Scenario"));
     m_openMenu = m_fileMenu->addMenu(tr("&Open"));
     m_openMapAct= m_openMenu->addAction(tr("&Map"));
-    m_openMapHiddenAct= m_openMenu->addAction(tr("&Masked Map"));
+    m_openMapAct->setIcon(QIcon(":/resources/icons/map.png"));
+
     m_openScenarioAct= m_openMenu->addAction(tr("&Scenario"));
     m_openPictureAct= m_openMenu->addAction(tr("&Picture"));
+    m_openPictureAct->setIcon(QIcon(":/resources/icons/image.png"));
     m_openNoteAct= m_openMenu->addAction(tr("&Note"));
+    m_openNoteAct->setIcon(QIcon(":/resources/icons/notes.png"));
     m_recentFilesMenu = m_fileMenu->addMenu(tr("&Recently Opened"));
+    m_recentFiles.removeDuplicates();
     foreach(QString path,m_recentFiles)
     {
         m_recentFilesMenu->addAction(m_recentFilesActGroup->addAction(path));
-
     }
 
     m_fileMenu->addSeparator();
@@ -143,16 +149,6 @@ void MainWindow::createMenu()
     m_organizeMenu = m_viewMenu->addMenu(tr("Organize"));
     m_cascadeSubWindowsAct= m_organizeMenu->addAction(tr("&Cascade Windows"));
     m_tileSubWindowsAct= m_organizeMenu->addAction(tr("&Tile Windows"));
-    m_viewMenu->addSeparator();
-
-    m_noteEditoAct = m_viewMenu->addAction(tr("&New Note Editor"));
-
-    m_dataSheetAct = m_viewMenu->addAction(tr("New &CharacterSheet Viewer"));
-
-
-
-
-
 
     ///////////////
     // Custom Menu
@@ -214,6 +210,11 @@ void MainWindow::connectActions()
 
     connect(m_subWindowActGroup,SIGNAL(triggered(QAction*)),this,SLOT(hideShowWindow(QAction*)));
     connect(m_recentFilesActGroup,SIGNAL(triggered(QAction*)),this,SLOT(openRecentFile(QAction*)));
+
+
+    connect( m_cascadeSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(cascadeSubWindows()));
+    connect( m_tileSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(tileSubWindows()));
+
 
     //connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
 }
@@ -280,6 +281,7 @@ void MainWindow::openImage()
     {
         Image* tmpImage=new Image(filepath,m_workspace);
         m_recentFiles << filepath;
+        m_recentFiles.removeDuplicates();
         addToWorkspace(tmpImage);
         tmpImage->show();
     }

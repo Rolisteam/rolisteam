@@ -90,16 +90,16 @@ void ToolsBar::creerActions()
 
     // Creation des actions
             actionCrayon 	= new QAction(QIcon(":/resources/icons/crayon.png"), tr("Crayon"), m_toolsGroup);
-            actionLigne 	= new QAction(QIcon(":/resources/icons/ligne.png"), tr("Ligne"), m_toolsGroup);
+            actionLigne 	= new QAction(QIcon(":/resources/icons/line.png"), tr("Ligne"), m_toolsGroup);
             actionRectVide 	= new QAction(QIcon(":/resources/icons/rectangle vide.png"), tr("Rectangle vide"), m_toolsGroup);
             actionRectPlein	= new QAction(QIcon(":/resources/icons/rectangle plein.png"), tr("Rectangle plein"), m_toolsGroup);
             actionElliVide 	= new QAction(QIcon(":/resources/icons/ellipse vide.png"), tr("Ellipse vide"), m_toolsGroup);
             actionElliPlein	= new QAction(QIcon(":/resources/icons/ellipse pleine.png"), tr("Ellipse pleine"), m_toolsGroup);
-            actionTexte 	= new QAction(QIcon(":/resources/icons/texte.png"), tr("Texte"), m_toolsGroup);
+            actionTexte 	= new QAction(QIcon(":/resources/icons/text.png"), tr("Texte"), m_toolsGroup);
             actionMain		= new QAction(QIcon(":/resources/icons/main.png"), tr("Déplacer"), m_toolsGroup);
             actionAjoutPnj 	= new QAction(QIcon(":/resources/icons/ajouter PNJ.png"), tr("Ajouter un PNJ"), m_toolsGroup);
             actionSupprPnj 	= new QAction(QIcon(":/resources/icons/supprimer PNJ.png"), tr("Supprimer un PNJ"), m_toolsGroup);
-            actionDeplacePnj= new QAction(QIcon(":/resources/icons/deplacer PNJ.png"), tr("Déplacer/Orienter un personnage"), m_toolsGroup);
+            actionDeplacePnj= new QAction(QIcon(":/resources/icons/move-npc.png"), tr("Déplacer/Orienter un personnage"), m_toolsGroup);
             actionEtatPnj	= new QAction(QIcon(":/resources/icons/etat.png"), tr("Changer l'état d'un personnage"), m_toolsGroup);
 
     // Action independante : remise a 0 des numeros de PNJ

@@ -158,7 +158,6 @@ private :
 
         QMenu* m_openMenu;
         QAction* m_openMapAct;
-        QAction* m_openMapHiddenAct;
         QAction* m_openPictureAct;
         QAction* m_openScenarioAct;
         QAction* m_openNoteAct;

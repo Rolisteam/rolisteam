@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>resources/doc/rolisteam.qhc</file>
         <file>resources/a propos.htm</file>
         <file>resources/icons/Rolisteam.png</file>
@@ -8,7 +8,7 @@
         <file>resources/icons/chronometre.png</file>
         <file>resources/icons/crayon.png</file>
         <file>resources/icons/demasque.png</file>
-        <file>resources/icons/deplacer PNJ.png</file>
+        <file>resources/icons/move-npc.png</file>
         <file>resources/icons/dossier.png</file>
         <file>resources/icons/efface.png</file>
         <file>resources/icons/ellipse pleine.png</file>
@@ -16,11 +16,10 @@
         <file>resources/icons/etat.png</file>
         <file>resources/icons/fond workspace macos.bmp</file>
         <file>resources/icons/fond workspace win32.bmp</file>
-        <file>resources/icons/icone plan.png</file>
         <file>resources/icons/icone scenario.png</file>
         <file>resources/icons/lecture unique.png</file>
         <file>resources/icons/lecture.png</file>
-        <file>resources/icons/ligne.png</file>
+        <file>resources/icons/line.png</file>
         <file>resources/icons/main.png</file>
         <file>resources/icons/masque.png</file>
         <file>resources/icons/pause.png</file>
@@ -40,11 +39,23 @@
         <file>resources/icons/style normal.png</file>
         <file>resources/icons/style souligne.png</file>
         <file>resources/icons/supprimer PNJ.png</file>
-        <file>resources/icons/texte.png</file>
-        <file>resources/icons/vignette image.png</file>
-        <file>resources/icons/vignette notes.png</file>
+        <file>resources/icons/image.png</file>
+        <file>resources/icons/notes.png</file>
         <file>resources/icons/vignette plan.png</file>
         <file>resources/icons/vignette tchat.png</file>
         <file>traduction/qt_fr.qm</file>
+        <file>resources/icons/zoom-in-32.png</file>
+        <file>resources/icons/zoom-out-32.png</file>
+        <file>resources/icons/fit-width-32.png</file>
+        <file>resources/icons/fit-page-32.png</file>
+        <file>resources/icons/textbold.png</file>
+        <file>resources/icons/textcenter.png</file>
+        <file>resources/icons/textitalic.png</file>
+        <file>resources/icons/textjustify.png</file>
+        <file>resources/icons/textleft.png</file>
+        <file>resources/icons/textright.png</file>
+        <file>resources/icons/textunder.png</file>
+        <file>resources/icons/map.png</file>
+        <file>resources/icons/text.png</file>
     </qresource>
 </RCC>

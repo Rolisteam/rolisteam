@@ -44,6 +44,7 @@
 * @brief MinutesEditor is dedicated to be a simple text processor. It provides some helpful features, such as Font style, and save/load mechanism.
 * @todo we should improve MinutesEditor to support openDocument file.  
 */
+class QFontComboBox;
 class MinutesEditor : public SubMdiWindows
 {
 Q_OBJECT
@@ -75,19 +76,7 @@ public :
 
     virtual bool defineMenu(QMenu* menu);
 
-private :
-	/**
-	* @brief pointeur to the texteditor 
-	*/
-    QTextEdit* m_minutes;			
-	/**
-	* @brief pointeur to the fontstyle toolbar
-	*/
-    QToolBar* m_styleBar;
-	/**
-	* @brief allows to change font size.
-	*/
-    QComboBox* m_sizeSelector;	
+
 
 private slots :
 	/**
@@ -116,11 +105,58 @@ private slots :
 	*/
     void changeSize(int index);
 
-protected :
+
+
+    /*void drawDoc();
+    void textBold();
+    void textUnderline();
+    void textItalic();
+    void textFamily(const QString &f);
+    void textSize(const QString &p);
+    void textStyle(int styleIndex);
+    void textColor();
+    void textAlign(QAction *a);
+    void onRead( int now ,int tot );
+    void currentCharFormatChanged(const QTextCharFormat &format);
+    void cursorPositionChanged();
+
+    void clipboardDataChanged();
+    void printPreview(QPrinter *);*/
+
+
+
+
+protected:
 	/**
 	* @brief handle the close event to make some backup (useless at the moment).
 	*/
     void closeEvent(QCloseEvent *event);
+
+private:
+    void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
+    QAction* m_italicAct;
+    QAction* m_boldAct;
+    QAction* m_underLineAct;
+
+    QAction* m_centerAct;
+    QAction* m_leftAct;
+    QAction* m_rightAct;
+    QAction* m_justifyAct;
+
+    QComboBox* m_styleSelector;
+    QFontComboBox* m_fontSelector;
+        /**
+        * @brief pointeur to the texteditor
+        */
+    QTextEdit* m_minutes;
+        /**
+        * @brief pointeur to the fontstyle toolbar
+        */
+    QToolBar* m_styleBar;
+        /**
+        * @brief allows to change font size.
+        */
+    QComboBox* m_sizeSelector;
 
 };
 

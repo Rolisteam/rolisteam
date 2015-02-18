@@ -39,7 +39,7 @@ Image::Image( QString& filename,  ImprovedWorkspace *parent)
 	setObjectName("Image");
     m_type = SubMdiWindows::PICTURE;
     setWindowTitle(QFileInfo(filename).baseName());
-    setWindowIcon(QIcon(":/resources/icons/vignette image.png"));
+    setWindowIcon(QIcon(":/resources/icons/image.png"));
 
 
     m_labelImage = new QLabel(this);
@@ -60,7 +60,6 @@ Image::Image( QString& filename,  ImprovedWorkspace *parent)
 
 Image::~Image()
 {
-
     delete m_labelImage;
     delete m_scrollArea;
     delete m_actionZoomIn;
@@ -76,14 +75,17 @@ void Image::createActions()
     m_actionZoomIn = new QAction(tr("Zoom In"),this);
     m_actionZoomIn->setShortcut(tr("Ctrl++"));
     m_actionZoomIn->setToolTip(tr("increase zoom level"));
+    m_actionZoomIn->setIcon(QIcon(":/resources/icons/zoom-in-32.png"));
     connect(m_actionZoomIn,SIGNAL(triggered()),this,SLOT(zoomIn()));
 
     m_actionZoomOut = new QAction(tr("Zoom out"),this);
     m_actionZoomOut->setShortcut(tr("Ctrl+-"));
+    m_actionZoomOut->setIcon(QIcon(":/resources/icons/zoom-out-32.png"));
     m_actionZoomOut->setToolTip(tr("Reduce zoom level"));
     connect(m_actionZoomOut,SIGNAL(triggered()),this,SLOT(zoomOut()));
 
     m_actionfitWorkspace = new QAction(tr("Fit the workspace"),this);
+    m_actionfitWorkspace->setIcon(QIcon(":/resources/icons/fit-page-32.png"));
     m_actionfitWorkspace->setShortcut(tr("Ctrl+5"));
     m_actionfitWorkspace->setToolTip(tr("The window and the image fit the workspace"));
     connect(m_actionfitWorkspace,SIGNAL(triggered()),this,SLOT(onFitWindow()));
@@ -156,7 +158,6 @@ void Image::wheelEvent(QWheelEvent *event)
 {
     if(event->modifiers() == Qt::ControlModifier)
     {
-        qDebug() << "event 1";
         int delta = event->delta();
         if(delta > 0)//zoomin
         {

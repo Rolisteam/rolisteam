@@ -46,9 +46,6 @@ public :
 
     QColor& currentColor();
 
-
-
-
     // Selectable tools
     enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
 

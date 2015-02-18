@@ -52,7 +52,7 @@ MapFrame::MapFrame(Map *map)
     m_widgetLayout->setLayout(m_hlayout);
 
     setWidget(m_widgetLayout);
-    setWindowIcon(QIcon(":/resources/icons/icone plan.png"));
+    setWindowIcon(QIcon(":/resources/icons/map.png"));
 
     m_maskPixmap = new QPixmap(m_graphicView->size());
 
