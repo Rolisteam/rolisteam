@@ -161,7 +161,7 @@ void Liaison::reception()
             // Initialisation du restant a lire
             restant = entete.dataSize;
         }
-
+        qDebug() << "before" <<entete.dataSize << restant << entete.category << entete.action;
         // Lecture des donnees a partir du dernier point
         lu = m_socketTcp->read(&(tampon[entete.dataSize-restant]), restant);
 
@@ -227,7 +227,7 @@ void Liaison::reception()
                     receptionMessageParametres();
                     break;
                 default :
-                    qWarning("Categorie d'entete inconnue (reception - Liaison.cpp)");
+                    qWarning()<< tr("Unknown network package received!");
                     return;
             }
             // On libere le tampon
@@ -1273,7 +1273,7 @@ void Liaison::receptionMessageImage()
         m_mainWindow->ajouterImage(imageFenetre, titre);
 
         // Message sur le log utilisateur
-        qDebug() << titre;
+        qDebug() << "titre" << titre;
         MainWindow::notifyUser(tr("Receiving picture: %1").arg(titre.left(titre.size()-QString(tr(" (Picture)")).size())));
 
         // Liberation de la memoire allouee

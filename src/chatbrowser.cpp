@@ -27,11 +27,11 @@ void ChatBrowser::backGrounChanged()
 }
 void ChatBrowser::showContextMenu(QPoint pos)
 {
-    QMenu menu(this);
+    QMenu* menu = createStandardContextMenu(pos);
 
 
-    menu.addAction(m_bgColorAct);
+    menu->addAction(m_bgColorAct);
 
 
-    menu.exec(mapToGlobal(pos));
+    menu->exec(mapToGlobal(pos));
 }
