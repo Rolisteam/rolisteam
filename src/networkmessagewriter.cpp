@@ -190,7 +190,8 @@ void NetworkMessageWriter::makeRoom(int size)
                 char * newBuffer = new char[newSize];
                 memcpy(newBuffer, m_buffer, m_currentPos - m_buffer);
 
-                int diff = newBuffer - m_buffer;
+                long long int diff = newBuffer - m_buffer;
+
                 m_begin  += diff;
                 m_currentPos    += diff;
                 m_end = newBuffer + newSize;
