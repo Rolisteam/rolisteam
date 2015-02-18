@@ -249,7 +249,7 @@ QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientatio
         switch(section)
         {
             case 0:
-                return tr("field name");
+                return tr("Fields name");
             default:
                 return m_characterList->at(section-1)->owner();
         }

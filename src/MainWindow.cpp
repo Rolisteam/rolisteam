@@ -55,13 +55,14 @@ MainWindow::MainWindow()
     /// all other allocation must be done after the settings reading.
     m_preferenceDialog = new PreferenceDialog(this);
     m_connectDialog = new ConnectionWizzard(this);
-
-    listeCarteFenetre.clear();
+    m_subWindowList = new QMap<QAction*,SubMdiWindows*>;
+    m_subWindowActGroup = new QActionGroup(this);
+   /* listeCarteFenetre.clear();
     listeImage.clear();
-    listeTchat.clear();
+    listeTchat.clear();*/
 
     m_toolbar = new ToolsBar(this);
-    setAnimated(false);
+
     m_workspace = new ImprovedWorkspace(m_toolbar->currentColor());
     setCentralWidget(m_workspace);
     addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
@@ -71,9 +72,6 @@ MainWindow::MainWindow()
     connect(m_toolbar,SIGNAL(currentModeChanged(int)),m_workspace,SIGNAL(currentModeChanged(int)));
     connect(m_toolbar,SIGNAL(currentPenSizeChanged(int)),m_workspace,SLOT(currentPenSizeChanged(int)));
     connect(m_toolbar,SIGNAL(currentPNCSizeChanged(int)),m_workspace,SLOT(currentNPCSizeChanged(int)));
-
-   /* dockLogUtil = creerLogUtilisateur();
-    addDockWidget(Qt::RightDockWidgetArea, dockLogUtil);*/
 
     m_playerListWidget = new UserListWidget;
     m_playerListWidget->setLocalPlayer(m_player);
@@ -85,18 +83,18 @@ MainWindow::MainWindow()
 
     createMenu();
     connectActions();
-    allowActions();
-
-    minutesEditor = new MinutesEditor();
-    m_workspace->addWidget(minutesEditor);
-    minutesEditor->setWindowTitle(tr("Minutes editor"));
-    minutesEditor->hide();
 
 
-    m_characterSheet = new CharacterSheetWindow();
-    m_workspace->addWidget(m_characterSheet);
-    m_characterSheet->setVisible(false);
 }
+MainWindow::~MainWindow()
+{
+    delete m_preferenceDialog;
+    delete m_connectDialog;
+    delete m_subWindowList;
+    delete m_toolbar;
+    delete m_playerListWidget;
+}
+
 void MainWindow::createMenu()
 {
 
@@ -108,35 +106,25 @@ void MainWindow::createMenu()
     m_newMapAct = m_newMenu->addAction(tr("&Map"));
     m_newNoteAct= m_newMenu->addAction(tr("&Note"));
     m_newScenarioAct = m_newMenu->addAction(tr("&Scenario"));
-
     m_openMenu = m_fileMenu->addMenu(tr("&Open"));
     m_openMapAct= m_openMenu->addAction(tr("&Map"));
     m_openMapHiddenAct= m_openMenu->addAction(tr("&Masked Map"));
     m_openScenarioAct= m_openMenu->addAction(tr("&Scenario"));
     m_openPictureAct= m_openMenu->addAction(tr("&Picture"));
     m_openNoteAct= m_openMenu->addAction(tr("&Note"));
-
     m_recentlyOpened = m_fileMenu->addMenu(tr("&Recently Opened"));
-
     m_fileMenu->addSeparator();
-
     m_saveAct = m_fileMenu->addAction(tr("&Save"));
     m_saveAct->setShortcut(tr("Ctrl+s"));
     m_saveAsAct = m_fileMenu->addAction(tr("Save &As"));
     m_saveAllAct = m_fileMenu->addAction(tr("Save A&ll"));
     m_saveAllIntoScenarioAct= m_fileMenu->addAction(tr("Save &into Scenario"));
-
     m_fileMenu->addSeparator();
-
     m_closeAct  = m_fileMenu->addAction(tr("&Close"));
-
     m_fileMenu->addSeparator();
-
     m_preferencesAct  = m_fileMenu->addAction(tr("&Preferences"));
     m_preferencesAct->setShortcut(tr("Ctrl+,"));
-
     m_fileMenu->addSeparator();
-
     m_quitAct  = m_fileMenu->addAction(tr("&Quit"));
     m_quitAct->setShortcut(tr("Ctrl+q"));
 
@@ -152,11 +140,14 @@ void MainWindow::createMenu()
     m_tileSubWindowsAct= m_organizeMenu->addAction(tr("&Tile Windows"));
     m_viewMenu->addSeparator();
 
-    m_noteEditoAct = m_viewMenu->addAction(tr("&Note Editor"));
+    m_noteEditoAct = m_viewMenu->addAction(tr("&New Note Editor"));
 
-    m_dataSheetAct = m_viewMenu->addAction(tr("&CharacterSheet Viewer"));
-    m_dataSheetAct->setCheckable(true);
-    m_dataSheetAct->setChecked(false);
+    m_dataSheetAct = m_viewMenu->addAction(tr("New &CharacterSheet Viewer"));
+
+
+
+
+
 
     ///////////////
     // Custom Menu
@@ -173,10 +164,7 @@ void MainWindow::createMenu()
     m_newConnectionAct = m_networkMenu->addAction(tr("&New Connection..."));
     connect(m_newConnectionAct,SIGNAL(triggered()),this,SLOT(addConnection()));
 
-    QVariant tmp2;
-    tmp2.setValue(ConnectionList());
-    QVariant tmp = m_options->value("network/connectionsList",tmp2);
-    m_connectionList = tmp.value<ConnectionList>();
+
 
     m_connectionActGroup = new QActionGroup(this);
     if(m_connectionList.size() > 0)//(m_connectionList != NULL)&&
@@ -213,11 +201,13 @@ void MainWindow::connectActions()
     connect(m_manageConnectionAct,SIGNAL(triggered()),this,SLOT(showConnectionManager()));
     connect(m_serverAct,SIGNAL(triggered()),this,SLOT(startServer()));
 
-    connect(m_dataSheetAct, SIGNAL(triggered(bool)), this, SLOT(displayCharacterSheet(bool)));
-    connect(m_noteEditoAct, SIGNAL(triggered(bool)), this, SLOT(displayMinutesEditor(bool)));
+    connect(m_dataSheetAct, SIGNAL(triggered()), this, SLOT(displayCharacterSheet()));
+    connect(m_noteEditoAct, SIGNAL(triggered()), this, SLOT(displayMinutesEditor()));
 
     connect(m_usedTabBarAct,SIGNAL(toggled(bool)),m_organizeMenu,SLOT(setDisabled(bool)));
     connect(m_usedTabBarAct,SIGNAL(triggered()),this,SLOT(onTabBar()));
+
+    connect(m_subWindowActGroup,SIGNAL(triggered(QAction*)),this,SLOT(hideShowWindow(QAction*)));
 
     //connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
 }
@@ -225,13 +215,38 @@ void MainWindow::allowActions()
 {
 
 }
-void MainWindow::displayCharacterSheet(bool display, bool checkAction)
+void MainWindow::hideShowWindow(QAction* p)
 {
-    m_characterSheet->setVisible(display);
+    SubMdiWindows* tmp = (*m_subWindowList)[p];
+    tmp->setVisible(!tmp->isVisible());
+
+}
+
+void MainWindow::addToWorkspace(SubMdiWindows* subWindow)
+{
+   // m_minutesEditor = new MinutesEditor();
+    if(m_subWindowList->size()==0)
+        m_viewMenu->addSeparator();
+
+    m_workspace->addWidget(subWindow);
+    QAction* tmp = m_subWindowActGroup->addAction(subWindow->windowTitle());
+    m_subWindowList->insert(tmp,subWindow);
+    m_viewMenu->addAction(tmp);
+
+  /*  m_minutesEditor->setWindowTitle(tr("Minutes editor"));
+    m_minutesEditor->hide();*/
+
+}
+
+void MainWindow::displayCharacterSheet()
+{
+    CharacterSheetWindow* characterSheet = new CharacterSheetWindow();
+    addToWorkspace(characterSheet);
+    characterSheet->setVisible(true);
+
 }
 void MainWindow::clickOnMapWizzard()
 {
-
     MapWizzardDialog mapWizzard;
     //QTextStream out(stderr,QIODevice::WriteOnly);
     if(mapWizzard.exec())
@@ -239,7 +254,8 @@ void MainWindow::clickOnMapWizzard()
         Map* tempmap  = new Map();
         mapWizzard.setAllMap(tempmap);
         MapFrame* tmp = new MapFrame(tempmap);
-        m_workspace->addWidget(tmp);
+        addToWorkspace(tmp);
+        //m_workspace->addWidget(tmp);
         tmp->show();
     }
 }
@@ -251,7 +267,8 @@ void MainWindow::openImage()
 
     Image* tmpImage=new Image(filepath,m_workspace);
 
-    m_workspace->addWidget(tmpImage);
+    //m_workspace->addWidget(tmpImage);
+    addToWorkspace(tmpImage);
     tmpImage->show();
 }
 void  MainWindow::onTabBar()
@@ -268,67 +285,15 @@ void  MainWindow::onTabBar()
 
 void MainWindow::displayTchat(QString id)
 {
-    int i;
-    bool trouve = false;
-    int tailleListe = listeTchat.size();
 
-    // Recherche du tchat
-    for (i=0; i<tailleListe && !trouve; i++)
-            if (listeTchat[i]->identifiant() == id)
-                    trouve = true;
-
-    // Ne devrait jamais arriver
-    if (!trouve)
-    {
-            qWarning("Tchat introuvable et impossible a afficher (afficherTchat - MainWindow.cpp)");
-            return;
-    }
-
-    // Affichage du tchat
-    listeTchat[i-1]->show();
-    // Mise a jour de l'action du sous-menu Tchats
-    listeTchat[i-1]->majAction();
 }
 void MainWindow::hideTchat(QString id)
 {
-    int i;
-    bool trouve = false;
-    int tailleListe = listeTchat.size();
 
-    // Recherche du tchat
-    for (i=0; i<tailleListe && !trouve; i++)
-            if (listeTchat[i]->identifiant() == id)
-                    trouve = true;
-
-    // Ne devrait jamais arriver
-    if (!trouve)
-    {
-            qWarning("Tchat introuvable et impossible a masquer (masquerTchat - MainWindow.cpp)");
-            return;
-    }
-
-    // Masquage du tchat
-    listeTchat[i-1]->hide();
-    // Mise a jour de l'action du sous-menu Tchats
-    listeTchat[i-1]->majAction();
 }
 Tchat * MainWindow::trouverTchat(QString idJoueur)
 {
-    // Taille de la liste des Tchat
-    int tailleListe = listeTchat.size();
-
-    bool ok = false;
-    int i;
-    for (i=0; i<tailleListe && !ok; i++)
-            if (listeTchat[i]->identifiant() == idJoueur)
-                    ok = true;
-
-    // Si le Tchat vient d'etre trouve on renvoie son pointeur
-    if (ok)
-            return listeTchat[i-1];
-    // Sinon on renvoie 0
-    else
-            return 0;
+    return 0;
 }
 bool MainWindow::isActiveWindow(QWidget *widget)
 {
@@ -393,15 +358,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
           event->ignore();
     }
 }
-void MainWindow::displayMinutesEditor(bool displayed, bool actChecked)
+void MainWindow::displayMinutesEditor()
 {
-    minutesEditor->setVisible(displayed);
-    if (actChecked)
-            m_noteEditoAct->setChecked(displayed);
-    else
-    {
-
-    }
+    MinutesEditor* minutesEditor = new MinutesEditor();
+    addToWorkspace(minutesEditor);
+    minutesEditor->setVisible(true);
 }
 
 void MainWindow::about()
@@ -411,7 +372,7 @@ QMessageBox::about(this, tr("About Rolisteam"),
 "<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others, share maps or picture. Rolisteam also provides many features for: permission management, sharing background music and dices throw. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.</p>"
 "<p>Rolisteam may contain some files from the FMOD library. This point prevents commercial use of the software.</p> "
 "<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>"
-"<p><h3>URL:</h3>  <a href=\"http://code.google.com/p/rolisteam/\">http://code.google.com/p/rolisteam/</a></p> "
+"<p><h3>URL:</h3>  <a href=\"http://www.rolisteam.org\">www.rolisteam.org</a></p> "
 "<p><h3>BugTracker:</h3> <a href=\"http://code.google.com/p/rolisteam/issues/list\">http://code.google.com/p/rolisteam/issues/list</a></p> "
 "<p><h3>Current developers :</h3> "
 "<ul>"
@@ -435,6 +396,12 @@ void MainWindow::readSettings()
     *m_player = settings.value("player", variant).value<Player>();
     resize(size);
     move(pos);
+
+    QVariant tmp2;
+    tmp2.setValue(ConnectionList());
+    QVariant tmp = m_options->value("network/connectionsList",tmp2);
+    m_connectionList = tmp.value<ConnectionList>();
+
     m_options->readSettings();
 
 }

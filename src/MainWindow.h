@@ -67,7 +67,7 @@ Q_OBJECT
 
 public :
         MainWindow();
-
+        ~MainWindow();
 
         Tchat* trouverTchat(QString idJoueur);
         bool isActiveWindow(QWidget *widget);
@@ -76,8 +76,8 @@ public :
 public slots :
         void displayTchat(QString id);
         void hideTchat(QString id);
-        void displayMinutesEditor(bool display, bool checkAction = false);
-        void displayCharacterSheet(bool display, bool checkAction = false);
+        void displayMinutesEditor();
+        void displayCharacterSheet();
 
 
 protected :
@@ -114,6 +114,8 @@ private :
         void allowActions();
         void saveAll();
 
+        void addToWorkspace(SubMdiWindows* subWindow);
+
         /**
          * Load informations from the previous rolisteam's execution
          */
@@ -125,14 +127,14 @@ private :
         void writeSettings();
 
         ImprovedWorkspace* m_workspace;
-        QMenu *windowMenu;
-        QMenu *tchatSubMenu;
+
+
         ToolsBar *m_toolbar;
 
-        MinutesEditor* minutesEditor;
-        QList <MapFrame *> listeCarteFenetre;
+        //MinutesEditor* minutesEditor;
+        /*QList <MapFrame *> listeCarteFenetre;
         QList <Image *> listeImage;
-        QList <Tchat *> listeTchat;
+        QList <Tchat *> listeTchat;*/
         AudioPlayer* m_audioPlayer;
 
         QMenu *m_fileMenu;
@@ -215,6 +217,10 @@ private :
         QAction* m_manageConnectionAct;
 
         QActionGroup* m_connectionActGroup;
+
+
+        QActionGroup* m_subWindowActGroup;
+        QMap<QAction*,SubMdiWindows*>* m_subWindowList;
         //QList<QAction*> m_registedConnectionList;
 
         /**
@@ -237,7 +243,7 @@ private :
         /**
           * CharacterSheet viewer
           */
-        CharacterSheetWindow* m_characterSheet;
+        //CharacterSheetWindow* m_characterSheet;
 
 private slots :
         /**
@@ -261,6 +267,9 @@ private slots :
 
         /// \brief open the Qt assistant with the rolisteam documentation
         void help();
+
+
+        void hideShowWindow(QAction*);
 
 
 

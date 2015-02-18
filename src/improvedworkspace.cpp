@@ -52,8 +52,6 @@ ImprovedWorkspace::ImprovedWorkspace(QColor& penColor,QWidget *parent)
     connect(this,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(activeSubWindowChanged(QMdiSubWindow*)));
 
 }
-
-
 void ImprovedWorkspace::resizeEvent ( QResizeEvent * event )
 {
     Q_UNUSED(event);
@@ -66,7 +64,7 @@ void ImprovedWorkspace::resizeEvent ( QResizeEvent * event )
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
     this->setBackground(QBrush(*m_variableSizeBackground));
 
-
+    QMdiArea::resizeEvent(event);
 }
 void ImprovedWorkspace::currentToolChanged(ToolsBar::SelectableTool tool)
 {
@@ -159,9 +157,6 @@ void ImprovedWorkspace::addWidget(SubMdiWindows* subWindow)
     addSubWindow(subWindow);
     connect(this,SIGNAL(currentCursorChanged(QCursor*)),subWindow,SLOT(currentCursorChanged(QCursor*)));
 
-
-
-
     if(subWindow->getType() == SubMdiWindows::MAP )
     {
         connect(this,SIGNAL(currentModeChanged(int)),subWindow,SLOT(setEditingMode(int)));
@@ -199,6 +194,7 @@ void ImprovedWorkspace::activeSubWindowChanged(QMdiSubWindow* wdw)
     SubMdiWindows* tmp = static_cast<SubMdiWindows*>(wdw);
     if((tmp)&&(tmp->isVisible()))
     {
+        m_variantMenu->clear();
         if(tmp->defineMenu(m_variantMenu))
         {
 

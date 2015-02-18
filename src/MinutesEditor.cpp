@@ -47,19 +47,19 @@ MinutesEditor::MinutesEditor()
 
 
 
-
+   // m_styleBar = systemMenu();
     m_styleBar = new QToolBar;
 
     layout->addWidget(m_styleBar);
 
 
     m_styleBar->setIconSize(QSize(16, 16));
+    layout->setMargin(0);
 
-
-        QAction	*act1 = m_styleBar->addAction(QIcon(":/resources/icones/style normal.png"), tr("Normal"), this, SLOT(normalStyle()));
-        QAction	*act2 = m_styleBar->addAction(QIcon(":/resources/icones/style gras.png"), tr("Gras"), this, SLOT(boldStyle()));
-        QAction	*act3 = m_styleBar->addAction(QIcon(":/resources/icones/style italique.png"), tr("Italique"), this, SLOT(italicStyle()));
-        QAction	*act4 = m_styleBar->addAction(QIcon(":/resources/icones/style souligne.png"), tr("Souligné"), this, SLOT(underlineStyle()));
+        QAction	*act1 = m_styleBar->addAction(QIcon(":/resources/icons/style normal.png"), tr("Normal"), this, SLOT(normalStyle()));
+        QAction	*act2 = m_styleBar->addAction(QIcon(":/resources/icons/style gras.png"), tr("Gras"), this, SLOT(boldStyle()));
+        QAction	*act3 = m_styleBar->addAction(QIcon(":/resources/icons/style italique.png"), tr("Italique"), this, SLOT(italicStyle()));
+        QAction	*act4 = m_styleBar->addAction(QIcon(":/resources/icons/style souligne.png"), tr("Souligné"), this, SLOT(underlineStyle()));
         Q_UNUSED(act1)
         Q_UNUSED(act2)
         Q_UNUSED(act3)
@@ -94,7 +94,7 @@ MinutesEditor::MinutesEditor()
     QObject::connect(m_sizeSelector, SIGNAL(activated(int)), this, SLOT(changeSize(int)));
 
 
-    m_styleBar->addWidget(m_sizeSelector);
+    //m_styleBar->addWidget(m_sizeSelector);
     layout->addWidget(m_minutes);
 
     layout->setContentsMargins(0,0,0,0);
@@ -106,13 +106,8 @@ MinutesEditor::MinutesEditor()
 
 void MinutesEditor::closeEvent(QCloseEvent *event)
 {
-    Q_UNUSED(event);
-    // On masque l'editeur de m_minutes et on decoche l'action associee
-    //m_mainWindow->afficherMinutesEditor(false, true);
-    // On decoche la case de l'editeur de m_minutes
-    //G_listeUtilisateurs->decocherCaseTchat(G_idJoueurLocal);
-    // Arret de la procedure de fermeture
-
+    event->ignore();
+    setVisible(false);
 }
 
 

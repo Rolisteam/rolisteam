@@ -74,6 +74,8 @@ protected slots:
     void saveCharacterSheet();
     void openCharacterSheet();
 
+protected:
+    virtual void closeEvent ( QCloseEvent * event );
 private:
 	/**
 	* @brief The view class
@@ -123,6 +125,7 @@ private:
     QWidget m_widget;
 
     QString m_fileUri;
+
 
 };
 

@@ -25,6 +25,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include "preferencesmanager.h"
+
 CharacterSheetWindow::CharacterSheetWindow(QWidget* parent)
     : SubMdiWindows(parent)
 {
@@ -37,7 +38,7 @@ CharacterSheetWindow::CharacterSheetWindow(QWidget* parent)
     m_saveCharacterSheet = new QAction(tr("Save Character Sheets"),this);
     m_openCharacterSheet= new QAction(tr("Open Character Sheets"),this);
     m_view.setModel(&m_model);
-
+    setWindowTitle(tr("Character Sheet Viewer"));
 
     m_widget.setLayout(&m_horizonLayout);
     setWidget(&m_view);
@@ -52,6 +53,8 @@ CharacterSheetWindow::CharacterSheetWindow(QWidget* parent)
     connect(m_openCharacterSheet,SIGNAL(triggered()),this,SLOT(openCharacterSheet()));
 
     connect(&m_view,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(displayCustomMenu(QPoint)));
+
+
 }
 bool CharacterSheetWindow::defineMenu(QMenu* menu)
 {
@@ -142,4 +145,9 @@ void CharacterSheetWindow::openCharacterSheet()
         m_model.readModel(url);
         url.close();
     }
+}
+void CharacterSheetWindow::closeEvent(QCloseEvent *event)
+{
+    setVisible(false);
+    event->ignore();
 }

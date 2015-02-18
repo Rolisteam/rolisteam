@@ -83,7 +83,7 @@ private :
 	/**
 	* @brief pointeur to the fontstyle toolbar
 	*/
-    QToolBar* m_styleBar;		
+    QToolBar* m_styleBar;
 	/**
 	* @brief allows to change font size.
 	*/
