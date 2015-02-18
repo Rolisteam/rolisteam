@@ -701,7 +701,7 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
         }
         QDataStream in(&file);
         // Lecture de la carte et des PNJ
-        lireCarteEtPnj(in, masquer, title);
+        readMapAndNpc(in, masquer, title);
         // Fermeture du fichier
         file.close();
     }
@@ -804,7 +804,7 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
     }
 }
 
-void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichier)
+void MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString nomFichier)
 {
 
 
@@ -821,16 +821,14 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
     QPoint pos;
     in >>pos;
 
+    Carte::PermissionMode myPermission;
+    quint32 permiInt;
+    in >> permiInt;
+    myPermission = (Carte::PermissionMode) permiInt;
+
     QSize size;
     in >> size;
 
-
-
-
-    //qDebug() <<" lire plan " << titre << "pos"<< pos<<"size"<<size;
-
-    ///QString titre(tableauTitre, tailleTitre);
-    // On recupere la taille des PJ (ignored)
     int taillePj;
     in >> taillePj;
 
@@ -844,44 +842,53 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
     in>> baAlpha;
 
     bool ok;
-    // Creation de l'image de fond original
+
+
+    //////////////////
+    // Manage Data to create the map.
+    //////////////////
+
     QImage fondOriginal;
     ok = fondOriginal.loadFromData(baFondOriginal, "jpeg");
     if (!ok)
+    {
         qWarning("Probleme de decompression du fond original (lireCarteEtPnj - Mainwindow.cpp)");
-    // Creation de l'image de fond
+    }
+
     QImage fond;
     ok = fond.loadFromData(baFond, "jpeg");
     if (!ok)
+    {
         qWarning("Probleme de decompression du fond (lireCarteEtPnj - Mainwindow.cpp)");
-    // Creation de la couche alpha
+    }
+
     QImage alpha;
     ok = alpha.loadFromData(baAlpha, "jpeg");
     if (!ok)
+    {
         qWarning("Probleme de decompression de la couche alpha (lireCarteEtPnj - Mainwindow.cpp)");
-    // Si necessaire la couche alpha est remplie, de facon a masquer l'image
+    }
+
     if (masquer)
     {
         QPainter painterAlpha(&alpha);
         painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), PreferencesManager::getInstance()->value("fog_color",QColor(0,0,0)).value<QColor>());
     }
 
-    // Creation de l'identifiant de la carte
     QString idCarte = QUuid::createUuid().toString();
-    // Creation de la carte
-    Carte *carte = new Carte(idCarte, &fondOriginal, &fond, &alpha);
-    carte->setPointeur(m_toolBar->getCurrentTool());
+
+    Carte* map = new Carte(idCarte, &fondOriginal, &fond, &alpha);
+    map->setPermissionMode(myPermission);
+    map->setPointeur(m_toolBar->getCurrentTool());
     // Creation de la CarteFenetre
-    CarteFenetre *carteFenetre = new CarteFenetre(carte,this,m_mdiArea);
+    CarteFenetre *carteFenetre = new CarteFenetre(map,this,m_mdiArea);
 
     carteFenetre->setGeometry(posWindow.x(),posWindow.y(),sizeWindow.width(),sizeWindow.height());
 
-    // Ajout de la carte au workspace : si aucun nom de fichier n'est passe en parametre, il s'agit d'une lecture de
-    // carte dans le cadre de l'ouverture d'un fichier scenario : on prend alors le titre associe a la carte. Sinon
-    // il s'agit d'un fichier plan : on prend alors le nom du fichier
+
 
     QPoint pos2 = carteFenetre->mapFromParent(pos);
-    //qDebug() <<" lire plan 2 " << pos2.x() << "," << pos2.y()  << " size="<< size << endl;
+
 
     if (nomFichier.isEmpty())
         ajouterCarte(carteFenetre, titre,size,pos);
@@ -924,7 +931,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
         in>> visible;
         in >> orientationAffichee;
 
-        DessinPerso *pnj = new DessinPerso(carte, ident, nomPerso, couleur, diametre, centre, type, numeroDuPnj);
+        DessinPerso *pnj = new DessinPerso(map, ident, nomPerso, couleur, diametre, centre, type, numeroDuPnj);
 
         if (visible || (type == DessinPerso::pnj && PlayersList::instance()->localPlayer()->isGM()))
             pnj->afficherPerso();
@@ -936,11 +943,11 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
 
         pnj->nouvelEtatDeSante(sante, numeroEtat);
 
-        carte->afficheOuMasquePnj(pnj);
+        map->afficheOuMasquePnj(pnj);
 
     }
-    carte->emettreCarte(carteFenetre->windowTitle());
-    carte->emettreTousLesPersonnages();
+    map->emettreCarte(carteFenetre->windowTitle());
+    map->emettreTousLesPersonnages();
 }
 
 
@@ -1495,7 +1502,7 @@ void MainWindow::sauvegarderPlan()
     }
     QDataStream out(&file);
     // On demande a la carte de se sauvegarder dans le fichier
-    ((CarteFenetre *)active)->carte()->sauvegarderCarte(out);
+    ((CarteFenetre *)active)->carte()->saveMap(out);
     // Fermeture du fichier
     file.close();
 }
@@ -1576,7 +1583,7 @@ void MainWindow::ouvrirScenario()
     for (int i=0; i<nbrCartes; ++i)
     {
 
-        lireCarteEtPnj(in);
+        readMapAndNpc(in);
     }
 
     // On lit le nbr d'images a suivre
@@ -1629,8 +1636,8 @@ bool MainWindow::sauvegarderScenario()
     QDataStream out(&file);
 
     // On commence par sauvegarder toutes les cartes
-    sauvegarderTousLesPlans(out);
-    sauvegarderToutesLesImages(out);
+    saveAllMap(out);
+    saveAllImages(out);
 
     m_noteEditor->saveFileAsBinary(out);
     out << m_noteEditor->isVisible();
@@ -1639,23 +1646,19 @@ bool MainWindow::sauvegarderScenario()
 
     return true;
 }
-void MainWindow::sauvegarderTousLesPlans(QDataStream &out)
+void MainWindow::saveAllMap(QDataStream &out)
 {
     out << listeCarteFenetre.size();
     for (int i=0; i<listeCarteFenetre.size(); ++i)
     {
-
-
         QPoint pos2 = listeCarteFenetre[i]->mapFromParent(listeCarteFenetre[i]->pos());
-
-
         out << pos2;
         out << listeCarteFenetre[i]->size();
-        listeCarteFenetre[i]->carte()->sauvegarderCarte(out, listeCarteFenetre[i]->windowTitle());
+        listeCarteFenetre[i]->carte()->saveMap(out, listeCarteFenetre[i]->windowTitle());
     }
 }
 
-void MainWindow::sauvegarderToutesLesImages(QDataStream &out)
+void MainWindow::saveAllImages(QDataStream &out)
 {
     out << m_pictureList.size();
     foreach(QMdiSubWindow* sub, m_pictureList)

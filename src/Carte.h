@@ -76,8 +76,8 @@ public :
     void dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur);
     void adapterCoucheAlpha(quint8 intensiteAlpha);
     void lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoints);
-    //void sauvegarderCarte(QFile &file, QString titre = "");
-    void sauvegarderCarte(QDataStream &out, QString titre = "");
+
+    void saveMap(QDataStream &out, QString titre = "");
     int tailleDesPj();
     bool pjAffiche(QString idPerso);
     QString identifiantCarte();
@@ -99,7 +99,7 @@ public :
 
 signals :
     void incrementeNumeroPnj();
-    void changeCouleurActuelle(QColor couleur);
+    void changeCurrentColor(QColor couleur);
     void mettreAJourPnj(int diametre, QString nom);
     void afficherNomsPj(bool afficher);
     void afficherNomsPnj(bool afficher);
@@ -110,8 +110,8 @@ signals :
 
 public slots :
     void setPointeur(BarreOutils::Tool currentTool);
-    void deplacerLesPersonnages();
-    void effacerPerso(QString idPerso);
+    void moveAllCharacters();
+    void eraseCharacter(QString idPerso);
     void addCharacter(Character * person);
     void changeCharacter(Character * person);
     void delCharacter(Character * person);

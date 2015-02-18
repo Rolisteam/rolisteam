@@ -501,7 +501,7 @@ void Liaison::receptionMessagePersoNonJoueur()
             qWarning("Carte introuvable a la reception d'un PNJ a supprimer (receptionMessagePersoNonJoueur - Liaison.cpp)");
         // Sinon on supprime le PNJ de la carte
         else
-            carte->effacerPerso(idPerso);
+            carte->eraseCharacter(idPerso);
 
         // Liberation de la memoire allouee
         delete[] tableauIdPlan;

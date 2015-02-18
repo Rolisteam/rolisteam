@@ -272,7 +272,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
 
                 pnj->diametreCouleurNom(&diametre, &couleur, &nomPnj);
                 emit mettreAJourPnj(diametre, nomPnj);
-                emit changeCouleurActuelle(couleur);
+                emit changeCurrentColor(couleur);
             }
         }
         else if (m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
@@ -342,7 +342,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
             boutonDroitEnfonce = true;
             setCursor(*G_pointeurPipette);
             QColor couleur = QColor(m_backgroundImage->pixel(positionSouris.x(), positionSouris.y()));
-            emit changeCouleurActuelle(couleur);
+            emit changeCurrentColor(couleur);
         }
     }
 }
@@ -564,7 +564,7 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
         else
         {
             QColor couleur = QColor(m_backgroundImage->pixel(positionSouris.x(), positionSouris.y()));
-            emit changeCouleurActuelle(couleur);
+            emit changeCurrentColor(couleur);
         }
     }
 }
@@ -1410,7 +1410,7 @@ void Carte::addCharacter(Character * person)
 }
 
 
-void Carte::effacerPerso(QString idPerso)
+void Carte::eraseCharacter(QString idPerso)
 {
     // Recherche du personnage
     DessinPerso *perso = trouverPersonnage(idPerso);
@@ -2364,125 +2364,106 @@ void Carte::lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoin
         // Si l'element ajoute est le seul de la liste, on relance le timer
         if (mouvements.size() == 1)
         {
-            QTimer::singleShot(10, this, SLOT(deplacerLesPersonnages()));
+            QTimer::singleShot(10, this, SLOT(moveAllCharacters()));
         }
     }
 }
 
 
-void Carte::deplacerLesPersonnages()
+void Carte::moveAllCharacters()
 {
     QPoint position;
-    // Deplacement des personnages
     int i=0;
     while(i < mouvements.size())
     {
-        // On recupere le DessinPerso concerne
+
         DessinPerso *perso = trouverPersonnage(mouvements[i].idPersonnage);
 
-        // Si le personnage existe, on le deplace
+
         if (NULL != perso)
         {
-            // Prochain point de deplacement
             position = mouvements[i].trajet.takeFirst();
-            // Deplacement du perso
             perso->deplaceCentrePerso(position);
-            // Masquage/affichage du personnage
             afficheOuMasquePnj(perso);
         }
-
-        // Si le trajet est vide ou que le personnage est introuvable, on supprime le mouvement de la liste
         if (mouvements[i].trajet.isEmpty() || !perso)
         {
-            // Suppression de l'element
             mouvements.removeAt(i);
         }
-        
-        // Sinon on passe a l'element suivant
         else
             i++;
     }
-
-    // Si la liste n'est pas vide on relance le timer
     if (!mouvements.isEmpty())
     {
-        QTimer::singleShot(10, this, SLOT(deplacerLesPersonnages()));
+        QTimer::singleShot(10, this, SLOT(moveAllCharacters()));
     }
 }
 
 
-void Carte::sauvegarderCarte(QDataStream &out, QString titre)
+void Carte::saveMap(QDataStream &out, QString titre)
 {
     bool ok;
-    // On commence par compresser le fond original (format jpeg) dans un tableau
     QByteArray baFondOriginal;
     QBuffer bufFondOriginal(&baFondOriginal);
     ok = m_originalBackground->save(&bufFondOriginal, "jpeg", 100);
-    //qDebug() << fondOriginal->size();
     if (!ok)
-        qWarning() << (tr("Probleme de compression du fond original (sauvegarderCarte - Carte.cpp)"));
+    {
+        qWarning() << tr("Probleme de compression du fond original (sauvegarderCarte - Carte.cpp)");
+    }
 
-    // On compresse le fond (format jpeg) dans un tableau
+
     QByteArray baFond;
     QBuffer bufFond(&baFond);
     ok = m_backgroundImage->save(&bufFond, "jpeg", 100);
-    //qDebug() << fond->size();
     if (!ok)
-        qWarning() << (tr("Probleme de compression du fond (sauvegarderCarte - Carte.cpp)"));
+    {
+        qWarning() << tr("Probleme de compression du fond (sauvegarderCarte - Carte.cpp)");
+    }
 
-    // Enfin on compresse la couche alpha (format jpeg) dans un tableau
+
     QByteArray baAlpha;
     QBuffer bufAlpha(&baAlpha);
     ok = m_alphaLayer->save(&bufAlpha, "jpeg", 100);
-    //qDebug() << alpha->size();
     if (!ok)
-        qWarning() << (tr("Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)"));
+    {
+        qWarning() << tr("Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)");
+    }
 
-    // Ecriture de la carte dans le fichier
 
-    // Ecriture du titre
-    //out << titre.size();
-
-    //QTextStream out2(stderr,QIODevice::WriteOnly);
-    //out2 << "save plan" << pos().x() << "," << pos().y()  << " size=("<< size().width()<<","<<size().height() << endl;
 
     out << titre;
     out << pos();
+    out << (quint32)m_currentMode;
     out << m_alphaLayer->size();
     out << taillePj;
     out << baFondOriginal;
     out << baFond;
     out << baAlpha;
 
-    // Ecriture des PNJ (les PJ sont convertis en PNJ) dans le fichier
+
 
     DessinPerso *perso;
-    // Nombre de PNJ presents sur la carte
     quint16 nombrePnj = 0;
 
-    // On recupere la liste des enfants de la carte (tous des DessinPerso)
+
     QObjectList enfants = children();
-    // Taille de la liste
+
     int tailleListe = enfants.size();
 
-    // On parcourt une premiere fois la liste des DessinPerso pour connaitre le nombre de PJ/PNJ visibles
+
     for (int i=0; i<tailleListe; i++)
     {
         perso = (DessinPerso *)(enfants[i]);
-        // On regarde si le personnage est visible
         if (perso->estVisible())
             nombrePnj++;
     }
 
-    // Ajout du nbr de PNJ presents dans le fichier
-    //file.write((char *)&nombrePnj, sizeof(quint16));
-    out << nombrePnj;
 
-    // On parcourt la liste des DessinPerso une 2eme fois pour ajouter les donnees de chaque PNJ
+    // Write NPC
+    out << nombrePnj;
     for (int i=0; i<tailleListe; i++)
     {
         perso = (DessinPerso *)(enfants[i]);
-        // Si le perso est visible, on procede a l'ecriture de ses donnees
         if (perso->estVisible())
         {
             perso->write(out);

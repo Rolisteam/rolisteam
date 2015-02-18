@@ -286,10 +286,10 @@ private :
     void creerMenu();
     void linkActionToMenu();
 
-    void lireCarteEtPnj(QDataStream &file, bool masquer = false, QString nomFichier = "");
+    void readMapAndNpc(QDataStream &file, bool masquer = false, QString nomFichier = "");
     void lireImage(QDataStream &file);
-    void sauvegarderTousLesPlans(QDataStream &file);
-    void sauvegarderToutesLesImages(QDataStream &file);
+    void saveAllMap(QDataStream &file);
+    void saveAllImages(QDataStream &file);
 
 
 
