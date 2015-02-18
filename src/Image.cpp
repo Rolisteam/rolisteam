@@ -77,7 +77,10 @@ Image::~Image()
 {
     m_mainWindow->enleverImageDeLaListe(idImage);
 }
-
+QAction* Image::getAssociatedAction() const
+{
+    return actionAssociee;
+}
 /********************************************************************/
 /* Cache la fenetre au lieu de la detruire                          */
 /********************************************************************/	

@@ -66,10 +66,13 @@ CarteFenetre::CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *pare
 
 CarteFenetre::~CarteFenetre()
 {
-//no need to delete, actionAssociee it is delete when qmenu is deleted
+    //no need to delete, actionAssociee it is delete when qmenu is deleted
     m_mainWindow->enleverCarteDeLaListe(carteAssociee->identifiantCarte());
 }
-
+QAction* CarteFenetre::getAssociatedAction() const
+{
+    return actionAssociee;
+}
 void CarteFenetre::closeEvent(QCloseEvent *event)
 {
     hide();

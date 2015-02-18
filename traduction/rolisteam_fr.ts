@@ -1130,7 +1130,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="396"/>
         <source>Sub-Windows</source>
-        <translation>Fênetres</translation>
+        <translation>Fenêtres</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="399"/>

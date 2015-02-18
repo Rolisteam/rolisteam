@@ -947,13 +947,11 @@ void MainWindow::closeMapOrImage()
         if (NULL!=active)
         {
 
-
-
-
             Image*  imageFenetre = dynamic_cast<Image*>(active);
-
+            QAction* associatedAction = imageFenetre->getAssociatedAction();
             QString mapImageId;
             QString mapImageTitle;
+
             mapImageTitle = active->windowTitle();
             bool image=false;
             if(NULL!=imageFenetre)
@@ -968,6 +966,7 @@ void MainWindow::closeMapOrImage()
                 if(NULL!=carteFenetre)
                 {
                     mapImageId = carteFenetre->getMapId();
+                    associatedAction = carteFenetre->getAssociatedAction();
                 }
                 else
                 {
@@ -1067,6 +1066,10 @@ void MainWindow::closeMapOrImage()
                     delete[] donnees;
 
                    //((Image *)active)->~Image();
+            }
+            if(NULL!=associatedAction)
+            {
+                delete associatedAction;
             }
             delete active;
         }

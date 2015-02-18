@@ -59,6 +59,8 @@ public :
     Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QImage *image, QAction *action = 0, WorkspaceAmeliore *parent = 0);
     ~Image();
     void associerAction(QAction *action);
+    QAction* getAssociatedAction() const;
+
     void fill(NetworkMessageWriter & message) const;
     void sauvegarderImage(QFile &file, QString titre);
     void sauvegarderImage(QDataStream& out, QString titre);
