@@ -12,6 +12,18 @@ CONFIG += HAVE_PHONON
 #CONFIG += HAVE_NULL
 TRANSLATIONS = traduction/rolisteam_fr.ts
 CODECFORTR = UTF-8
+
+isEmpty(QMAKE_LRELEASE) {
+    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]\lrelease.exe
+    else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
+}
+updateqm.input = TRANSLATIONS
+updateqm.output = ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
+updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
+updateqm.CONFIG += no_link
+QMAKE_EXTRA_COMPILERS += updateqm
+PRE_TARGETDEPS += compiler_updateqm_make_all
+
 HEADERS += src/AfficheurDisque.h \
            src/BarreOutils.h \
            src/Carte.h \
@@ -27,7 +39,6 @@ HEADERS += src/AfficheurDisque.h \
            src/EditeurNotes.h \
            src/Features.h \
            src/Image.h \
-           src/initialisation.h \
            src/Liaison.h \
            src/localpersonmodel.h \
            src/networkmessage.h \
@@ -52,7 +63,8 @@ HEADERS += src/AfficheurDisque.h \
            src/variablesGlobales.h \
            src/WorkspaceAmeliore.h \
     src/connectionretrydialog.h \
-    src/mainwindow.h
+    src/mainwindow.h \
+    src/preferencesmanager.h
 
 SOURCES += src/AfficheurDisque.cpp \
            src/BarreOutils.cpp \
@@ -92,7 +104,8 @@ SOURCES += src/AfficheurDisque.cpp \
            src/updatechecker.cpp \
            src/WorkspaceAmeliore.cpp \
     src/connectionretrydialog.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/preferencesmanager.cpp
 
 HAVE_PHONON {
  DEFINES+= PHONON
