@@ -1,12 +1,14 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/" >
         <file>resources/doc/rolisteam.qhc</file>
         <file>resources/a propos.htm</file>
+        <file>resources/icones/Rolistik.png</file>
         <file>resources/icones/ajouter PNJ.png</file>
         <file>resources/icones/boucle.png</file>
         <file>resources/icones/chronometre.png</file>
         <file>resources/icones/crayon.png</file>
         <file>resources/icones/demasque.png</file>
+        <file>resources/icones/deplacer PNJ.png</file>
         <file>resources/icones/dossier.png</file>
         <file>resources/icones/efface.png</file>
         <file>resources/icones/ellipse pleine.png</file>
@@ -14,8 +16,11 @@
         <file>resources/icones/etat.png</file>
         <file>resources/icones/fond workspace macos.bmp</file>
         <file>resources/icones/fond workspace win32.bmp</file>
+        <file>resources/icones/icone plan.png</file>
+        <file>resources/icones/icone scenario.png</file>
         <file>resources/icones/lecture unique.png</file>
         <file>resources/icones/lecture.png</file>
+        <file>resources/icones/ligne.png</file>
         <file>resources/icones/main.png</file>
         <file>resources/icones/masque.png</file>
         <file>resources/icones/pause.png</file>
@@ -35,40 +40,11 @@
         <file>resources/icones/style normal.png</file>
         <file>resources/icones/style souligne.png</file>
         <file>resources/icones/supprimer PNJ.png</file>
-        <file alias="map.png">resources/icones/vignette plan.png</file>
-        <file>traduction/rolisteam_fr.qm</file>
-        <file>resources/icones/deplacer PNJ.png</file>
-        <file>resources/icones/ligne.png</file>
-        <file alias="textevignette">resources/icones/texte.png</file>
-        <file alias="picture.png">resources/icones/image.png</file>
-        <file>resources/icones/save.png</file>
-        <file>resources/logo/128.ico</file>
-        <file alias="rolisteam250.png">resources/logo/250-rolisteam.png</file>
-        <file alias="logo.png">resources/logo/250-symbole.png</file>
-        <file alias="256ico.png">resources/logo/256-icone.png</file>
-        <file alias="logo-256.ico">resources/logo/256.ico</file>
-        <file>resources/logo/500-rolisteam.png</file>
-        <file>resources/logo/500-symbole.png</file>
-        <file>resources/logo/1000-fond.png</file>
-        <file>resources/logo/1000-rolisteam.png</file>
-        <file>resources/logo/1000-symbole.png</file>
-        <file>resources/logo/1500-rolisteam.png</file>
-        <file>resources/logo/Rolisteam-fond.svg</file>
-        <file>resources/logo/Rolisteam.svg</file>
-        <file alias="logo.svg">resources/logo/symbole.svg</file>
-        <file alias="chat.png">resources/icones/chatIcone.png</file>
-        <file alias="notes.png">resources/icones/notes.png</file>
-        <file alias="story.png">resources/icones/scenario.png</file>
-        <file alias="exit.png">resources/icones/exit.png</file>
-        <file alias="settings.png">resources/icones/settings.png</file>
-        <file alias="fit-page.png">resources/icones/fit-page-32.png</file>
-        <file alias="fit-window.png">resources/icones/fit-width-24.png</file>
+        <file>resources/icones/texte.png</file>
+        <file>resources/icones/vignette image.png</file>
+        <file>resources/icones/vignette notes.png</file>
+        <file>resources/icones/vignette plan.png</file>
+        <file>resources/icones/vignette tchat.png</file>
         <file>traduction/qt_fr.qm</file>
-        <file>traduction/rolisteam_de.qm</file>
-        <file>traduction/rolisteam_es.qm</file>
-        <file>traduction/rolisteam_fi.qm</file>
-        <file>traduction/rolisteam_it.qm</file>
-        <file>traduction/qt_de.qm</file>
-        <file>traduction/qt_es.qm</file>
     </qresource>
 </RCC>
