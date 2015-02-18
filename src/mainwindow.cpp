@@ -765,14 +765,16 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
         quint8 tailleDesPj = 12;
         memcpy(&(donnees[p]), &tailleDesPj, sizeof(quint8));
         p+=sizeof(quint8);
+
+
+
+        quint8 permission = carte->getPermissionMode();
+        memcpy(&(donnees[p]), &permission, sizeof(quint8));
+        p+=sizeof(quint8);
+
         // Ajout de l'info "plan masque au chargement?"
         quint8 masquerPlan = masquer;
         memcpy(&(donnees[p]), &masquerPlan, sizeof(quint8));
-        p+=sizeof(quint8);
-
-
-        quint8 mode = carte->getPermissionMode();
-        memcpy(&(donnees[p]), &mode, sizeof(quint8));
         p+=sizeof(quint8);
 
         // Ajout de l'image

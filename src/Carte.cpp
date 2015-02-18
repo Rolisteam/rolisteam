@@ -43,6 +43,7 @@
 Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
+
     m_currentMode = Carte::GM_ONLY;
     m_currentTool = BarreOutils::main;
 
@@ -55,10 +56,8 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
     m_backgroundImage = new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
     *m_backgroundImage = image->convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-
     m_alphaLayer = new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
-    QPainter painterAlpha(m_alphaLayer);
-    painterAlpha.fillRect(0, 0, image->width(), image->height(), masquer?m_fogColor:Qt::transparent);
+    m_alphaLayer->fill(masquer?m_fogColor:Qt::white);
 
     p_init();
 }
@@ -80,9 +79,9 @@ void Carte::p_init()
 
 
     setAutoFillBackground(true);
-    QPalette pal = palette();
+    //QPalette pal = palette();
     //pal.setColor(QPalette::Window, Qt::darkMagenta);
-    setPalette(pal);
+   // setPalette(pal);
     
     // variable Initialisation
     taillePj = 12;
@@ -131,6 +130,7 @@ void Carte::p_init()
 Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
+    qDebug()<< "constructor 2 carte" ;
     m_currentMode = Carte::GM_ONLY;
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
@@ -187,7 +187,7 @@ void Carte::paintEvent(QPaintEvent *event)
 
     //painter.drawImage(event->rect(), *fondAlpha, event->rect());
     //qDebug()<<"zoneNouvelle" << m_refreshZone;
-    painter.drawImage(rect(), *fondAlpha, fondAlpha->rect());
+    //painter.drawImage(rect(), *fondAlpha, fondAlpha->rect());
 
 
     if (boutonGaucheEnfonce == false)
@@ -858,7 +858,6 @@ QRect Carte::zoneARafraichir()
 
 bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, const QRect &rect)
 {
-
     if (source->size() != destination->size() || source->size() != alpha->size())
     {
         qWarning() << (tr("Source, destination and alpha layer have not the same size  (ajouterAlpha - Carte.cpp)"));
