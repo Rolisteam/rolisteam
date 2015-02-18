@@ -45,7 +45,7 @@ ImprovedWorkspace::ImprovedWorkspace(/*QColor& penColor,*/MainWindow *parent)
 
     m_backgroundPicture = new QPixmap(m_options->value("worspace/background/image",":/resources/icons/fond workspace macos.bmp").toString());
 
-    qDebug() << m_backgroundPicture->isNull();
+    qDebug() << m_backgroundPicture->isNull() << m_options->value("worspace/background/image",":/resources/icons/fond workspace macos.bmp").toString();
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
     this->setBackground(QBrush(*m_variableSizeBackground));
     m_currentCursor = m_handCursor;

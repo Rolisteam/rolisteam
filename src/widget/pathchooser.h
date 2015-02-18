@@ -60,6 +60,7 @@ public slots:
       * @brief set the current path
       */
     void setPath(QString m);
+    void activeDirectory(bool m);
 private slots:
     /**
       * @brief manages internally the button click.

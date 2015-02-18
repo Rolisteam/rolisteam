@@ -52,73 +52,9 @@
 //for the new userlist
 #include "player.h"
 
+//session
+#include "session.h"
 
-
-/////////////////
-// CleverUri
-/////////////////
-
-CleverURI::CleverURI()
-{
-
-}
-
-CleverURI::CleverURI(const CleverURI & mp)
-{
-    m_type=mp.getType();
-    m_uri=mp.getUri();
-}
-
-CleverURI::CleverURI(QString uri,ContentType type)
-    : m_uri(uri),m_type(type)
-{
-
-}
-
-CleverURI::~CleverURI()
-{
-
-}
-bool CleverURI::operator==(const CleverURI& uri) const
-{
-    if((uri.getUri()==getUri())&&(uri.getType()==getType()))
-        return true;
-    return false;
-}
-
-void CleverURI::setUri(QString& uri)
-{
- m_uri=uri;
-}
-
-void CleverURI::setType(int type)
-{
-    m_type=type;
-}
-
-const QString& CleverURI::getUri() const
-{
-    return m_uri;
-}
-
-int CleverURI::getType() const
-{
-    return m_type;
-}
-
-QDataStream& operator<<(QDataStream& out, const CleverURI& con)
-{
-  out << con.getUri();
-  out << con.getType();
-  return out;
-}
-
-QDataStream& operator>>(QDataStream& is,CleverURI& con)
-{
-  is >>(con.m_uri);
-  is >>(con.m_type);
-  return is;
-}
 
 
 
@@ -150,7 +86,7 @@ MainWindow::MainWindow()
     m_subWindowActGroup = new QActionGroup(this);
     m_recentFilesActGroup= new QActionGroup(this);
 
-
+    setWindowTitle(tr("Rolisteam - %1").arg(VERSION));
     setCentralWidget(m_workspace);
   // addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
 
@@ -231,7 +167,7 @@ void MainWindow::createMenu()
 
     m_recentFilesMenu = m_fileMenu->addMenu(tr("&Recent Files"));
     //m_recentFiles.removeDuplicates();
-    foreach(CleverURI path,m_recentFiles)
+    /*foreach(CleverURI path,m_recentFiles)
     {
 
         QAction* act = m_recentFilesActGroup->addAction(path.getUri());
@@ -253,7 +189,7 @@ void MainWindow::createMenu()
         act->setData((int)path.getType());
         m_recentFilesMenu->addAction(act);
 
-    }
+    }*/
 
     m_fileMenu->addSeparator();
     m_saveAct = m_fileMenu->addAction(tr("&Save"));
@@ -357,8 +293,6 @@ void MainWindow::allowActions()
 void MainWindow::openRecentFile(QAction* pathAct)
 {
 
-
-
     switch(pathAct->data().toInt())
     {
         case CleverURI::MAP:
@@ -379,10 +313,12 @@ void MainWindow::openRecentFile(QAction* pathAct)
 }
 void MainWindow::addopenedFile(QString& urifile, CleverURI::ContentType type)
 {
-    CleverURI uri(urifile,type);
+
     /// @todo Manage the list size in the option/preferences system
-    if(m_recentFiles.indexOf(uri)==-1)//if it's not here, it is added to the list.
-        m_recentFiles << uri;
+
+    m_session->addRessource(urifile,type,m_session->getCurrentChapter());
+    //if(m_recentFiles.indexOf(uri)==-1)//if it's not here, it is added to the list.
+     //   m_recentFiles << uri;
 
 }
 void MainWindow::AskCharacterSheets()
@@ -582,7 +518,7 @@ void MainWindow::updateMayBeNeeded()
 {
     if(m_updateChecker->mustBeUpdated())
     {
-        QMessageBox::information(this,tr("Update Monitor"),tr("The %1 version has been released. Please take a look at www.rolisteam.org for more information").arg(m_updateChecker->getLatestVersion()));
+        QMessageBox::information(this,tr("Update Monitor"),tr("The %1 version has been released. Please take a look at <a href=\"http://www.rolisteam.org/download/\">Download</a> for more information").arg(m_updateChecker->getLatestVersion()));
     }
     m_updateChecker->deleteLater();
 }
@@ -633,8 +569,8 @@ void MainWindow::readSettings()
 
     QVariant tmp3;
     tmp3.setValue(CleverUriList());
-    QVariant tmp4= settings.value("recentfiles", tmp3);
-    m_recentFiles=tmp4.value<CleverUriList>();
+    QVariant tmp4= settings.value("session", tmp3);
+    //m_recentFiles=tmp4.value<CleverUriList>();
 
 
 
@@ -653,8 +589,8 @@ void MainWindow::writeSettings()
   QVariant variant;
   variant.setValue(*m_player);
   settings.setValue("player", variant);
-  variant.setValue(m_recentFiles);
-  settings.setValue("recentfiles",variant);
+  variant.setValue(*m_session);
+  settings.setValue("session",variant);
 
 
 

@@ -23,6 +23,7 @@
 PathChooser::PathChooser(QWidget *parent) :
     QWidget(parent)
 {
+    m_isDirectory=true;
     m_button = new QPushButton(tr("Browse"));
     connect(m_button,SIGNAL(pressed()),this,SLOT(onButton()));
     m_line= new QLineEdit();
@@ -30,7 +31,7 @@ PathChooser::PathChooser(QWidget *parent) :
 
     setupUi();
 }
-//QString& title,QString& filter,
+
 void PathChooser::setTitle(QString& t)
 {
     m_title=t;
@@ -39,6 +40,10 @@ void PathChooser::setTitle(QString& t)
 void PathChooser::setFilters(QString& t)
 {
     m_filters=t;
+}
+void PathChooser::activeDirectory(bool m)
+{
+    m_isDirectory=m;
 }
 
 void PathChooser::setPath(QString m)

@@ -143,16 +143,16 @@ void MapFrame::mousePressEvent(QMouseEvent* event)
         SubMdiWindows::mousePressEvent(event);
 }
 
-void MapFrame::paintEvent(QPaintEvent* event)
+/*void MapFrame::paintEvent(QPaintEvent* event)
 {
-    /*if(m_currentEditingMode != ColorSelector::NORMAL)
+    / *if(m_currentEditingMode != ColorSelector::NORMAL)
     {
         event->accept();
         
     }
-    else*/
+    else
         SubMdiWindows::paintEvent(event);
-}
+}*/
 
 void MapFrame::currentPenSizeChanged(int ps)
 {
@@ -184,8 +184,8 @@ void MapFrame::saveFile(QString & file)
 {
     if(!file.isEmpty())
     {
-
     }
+
 }
 
 void MapFrame::openFile(QString& file)
@@ -193,6 +193,17 @@ void MapFrame::openFile(QString& file)
     if(!file.isEmpty())
     {
 
+    }
+}
+void MapFrame::keyPressEvent ( QKeyEvent * event )
+{
+    switch (event->key())
+    {
+       case Qt::Key_Delete:
+        /// @todo remove selected item
+        break;
+       default:
+             SubMdiWindows::keyPressEvent(event);
     }
 }
 

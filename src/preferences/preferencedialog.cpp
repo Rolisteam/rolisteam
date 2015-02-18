@@ -80,13 +80,42 @@ void PreferenceDialog::initValues()
 
     //General Panel
     ui->m_genUpdateCheck->setChecked(m_options->value("mainwindow/network/checkupdate",true).toBool());
+
+    ui->m_dataChooser->setPath(m_options->value("DataDirectory",QDir::homePath()).toString());
+    ui->m_dataChooser->activeDirectory(true);
+
+    ui->m_imageChooser->setPath(m_options->value("ImageDirectory",QDir::homePath()).toString());
+    ui->m_imageChooser->activeDirectory(true);
+
+    ui->m_mapsChooser->setPath(m_options->value("MapDirectory",QDir::homePath()).toString());
+    ui->m_mapsChooser->activeDirectory(true);
+
+    ui->m_scriptChooser->setPath(m_options->value("ScriptDirectory",QDir::homePath()).toString());
+    ui->m_scriptChooser->activeDirectory(true);
+
+    ui->m_minutesChooser->setPath(m_options->value("MinutesDirectory",QDir::homePath()).toString());
+    ui->m_minutesChooser->activeDirectory(true);
+
+    ui->m_chatChooser->setPath(m_options->value("TchatDirectory",QDir::homePath()).toString());
+    ui->m_chatChooser->activeDirectory(true);
+
+    ui->m_musicChooser->setPath(m_options->value("MusicDirectory",QDir::homePath()).toString());
+    ui->m_musicChooser->activeDirectory(true);
+
 }
 void PreferenceDialog::resetValues()
 {
-    ui->m_wsBgPathLine->setText(":/resources/icones/fond workspace macos.bmp");
+    ui->m_wsBgPathLine->setText(":/resources/icons/fond workspace macos.bmp");
     ui->m_wsBgColorButton->setColor(QColor(191,191,191));
     ui->m_genUpdateCheck->setChecked(true);
 
+    ui->m_dataChooser->setPath(QDir::homePath());
+    ui->m_scriptChooser->setPath(QDir::homePath());
+    ui->m_mapsChooser->setPath(QDir::homePath());
+    ui->m_minutesChooser->setPath(QDir::homePath());
+    ui->m_imageChooser->setPath(QDir::homePath());
+    ui->m_chatChooser->setPath(QDir::homePath());
+    ui->m_musicChooser->setPath(QDir::homePath());
 }
 void PreferenceDialog::changeBackgroundImage()
 {
@@ -110,9 +139,24 @@ void PreferenceDialog::applyAllChanges(QAbstractButton * button)
     {
         m_current.setBackgroundImage(ui->m_wsBgPathLine->text());
         m_options->registerValue("worspace/background/image",m_current.backgroundImage());
-        qDebug() << "Teste apply";
         m_options->registerValue("worspace/background/color",m_current.backgroundColor());
         m_options->registerValue("mainwindow/network/checkupdate",ui->m_genUpdateCheck->isChecked());
+
+
+
+        m_options->registerValue("DataDirectory",ui->m_dataChooser->getPath());
+        m_options->registerValue("ImageDirectory",ui->m_dataChooser->getPath());
+        m_options->registerValue("MapDirectory",ui->m_mapsChooser->getPath());
+        m_options->registerValue("ScriptDirectory",ui->m_scriptChooser->getPath());
+        m_options->registerValue("MinutesDirectory",ui->m_minutesChooser->getPath());
+        m_options->registerValue("TchatDirectory",ui->m_chatChooser->getPath());
+        m_options->registerValue("MusicDirectory",ui->m_musicChooser->getPath());
+
+
+
+
+
+
         emit preferencesChanged();
     }
     setWindowModified(false);

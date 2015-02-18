@@ -28,10 +28,6 @@
 #include <QMainWindow>
 #include <QAction>
 #include <QMenu>
-#include <QWorkspace>
-
-
-
 #include "ToolBar.h"
 
 
@@ -44,6 +40,7 @@
 
 
 #include "connection.h"
+#include "cleveruri.h"
 
 class PreferencesManager;
 class ImprovedWorkspace;
@@ -56,14 +53,15 @@ class CharacterSheetWindow;
 class Player;
 class DicePlugInManager;
 class UpdateChecker;
+class Session;
 
 
 /**
   * @brief stores file URIs and keeps its type, useful for recent opened files
   */
-class CleverURI
-{
 
+<<<<<<< .mine
+=======
 public:
     /**
       * @brief content type, some file can be opened by several module
@@ -85,7 +83,6 @@ public:
       * @brief virtual destructor
       */
     ~CleverURI();
-
     /**
       * @brief defines the uri stored
       */
@@ -123,7 +120,6 @@ private:
 typedef QList<CleverURI> CleverUriList;
 Q_DECLARE_METATYPE(CleverURI)
 Q_DECLARE_METATYPE(CleverUriList)
-
 
 #include "rclient.h"
 
@@ -331,7 +327,8 @@ private :
           */
       /*  QStringList m_recentFiles;
         QList<int> m_recentTypes;*/
-        QList<CleverURI> m_recentFiles;
+        //QList<CleverURI> m_recentFiles;
+        Session* m_session;
 
         UpdateChecker* m_updateChecker;
 private slots :

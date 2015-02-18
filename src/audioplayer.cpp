@@ -120,8 +120,8 @@ void AudioPlayer::setupUi()
         QHBoxLayout *layoutBoutons = new QHBoxLayout();
         layoutBoutons->setMargin(0);
         layoutBoutons->setSpacing(0);
-        m_repeatAct	= new QAction(QIcon(":/resources/icones/boucle.png"), tr("Repeat"), m_commandWidget);
-        m_oneperoneAct	= new QAction(QIcon(":/resources/icones/lecture unique.png"), tr("One Playing"), m_commandWidget);
+        m_repeatAct	= new QAction(QIcon(":/resources/icons/boucle.png"), tr("Repeat"), m_commandWidget);
+        m_oneperoneAct	= new QAction(QIcon(":/resources/icons/lecture unique.png"), tr("One Playing"), m_commandWidget);
         m_addAct 	= new QAction(tr("Add"), m_commandWidget);
         m_removeAct	= new QAction(tr("Remove"), m_commandWidget);
 

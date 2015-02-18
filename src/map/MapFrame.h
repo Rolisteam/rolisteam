@@ -142,7 +142,8 @@ protected :
      *  @brief called when painting the widget is required
      *  @param event discribe the context of the event
      */
-    virtual void paintEvent(QPaintEvent* event);
+    //virtual void paintEvent(QPaintEvent* event);
+    virtual void keyPressEvent ( QKeyEvent * event ) ;
 
     /**
      *  @brief catches the mousePressEvent to active the selection and edition

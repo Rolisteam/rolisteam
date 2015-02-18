@@ -177,7 +177,7 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
-            <widget class="PathChooser" name="pathchooser">
+            <widget class="PathChooser" name="m_dataChooser">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -199,7 +199,7 @@
             </widget>
            </item>
            <item>
-            <widget class="PathChooser" name="PathChooser_5">
+            <widget class="PathChooser" name="m_musicChooser">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -221,7 +221,7 @@
             </widget>
            </item>
            <item>
-            <widget class="PathChooser" name="PathChooser_4">
+            <widget class="PathChooser" name="m_mapsChooser">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -243,7 +243,7 @@
             </widget>
            </item>
            <item>
-            <widget class="PathChooser" name="PathChooser_3">
+            <widget class="PathChooser" name="m_minutesChooser">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -259,7 +259,7 @@
             </widget>
            </item>
            <item>
-            <widget class="PathChooser" name="PathChooser_7">
+            <widget class="PathChooser" name="m_scriptChooser">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -275,7 +275,7 @@
             </widget>
            </item>
            <item>
-            <widget class="PathChooser" name="PathChooser_6">
+            <widget class="PathChooser" name="m_imageChooser">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -291,7 +291,7 @@
             </widget>
            </item>
            <item>
-            <widget class="PathChooser" name="PathChooser_2">
+            <widget class="PathChooser" name="m_chatChooser">
              <property name="minimumSize">
               <size>
                <width>0</width>
