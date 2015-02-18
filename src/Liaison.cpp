@@ -145,6 +145,9 @@
 			// Si toutes les donnees ont pu etre lu
 			else
 			{
+				// Envoie la notification sur la mainWindows
+				QApplication::alert(G_mainWindow);
+
 				// On aiguille vers le traitement adapte
 				switch((categorieAction)(entete.categorie))
 				{
@@ -367,7 +370,7 @@
 					// On met a jour l'espace de travail en consequence (limitation des droits)
 					G_mainWindow->changementNatureUtilisateur();
 					// On affiche un message dans le log utilisateur
-					ecrireLogUtilisateur(tr("Un MJ est déjà connecté au serveur, celui-ci vous donne donc le statut de joueur"));
+					ecrireLogUtilisateur(tr("Un MJ est déj�  connecté au serveur, celui-ci vous donne donc le statut de joueur"));
 				}
 			}
 

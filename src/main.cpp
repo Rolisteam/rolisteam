@@ -105,10 +105,6 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
         QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
 
-
-
-
-
 		// Creation de la fenetre de log
 		Log = new QTextEdit();
 		Log->setWindowTitle("Log");
@@ -128,24 +124,18 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 
 		#ifdef WIN32
 			// M.a.j de l'icone de l'application
-                        app.setWindowIcon(QIcon(":/resources/icones/" + QString(NOM_APPLICATION) + ".png"));
+			app.setWindowIcon(QIcon(":/resources/icones/" + QString(NOM_APPLICATION) + ".png"));
 		#endif
 
   		// Initialisation de la librairie FMOD
 /*		if (!FSOUND_Init(FREQUENCE_AUDIO, 32, 0))
-                        qWarning("Probleme d'initialisation de la librairie FMOD (main - main.cpp)");*/
+			qWarning("Probleme d'initialisation de la librairie FMOD (main - main.cpp)");*/
 
 		// Par defaut la variable d'initialisation n'est pas utilisable
 		G_initialisation.initialisee = false;
 
 		// Nom du fichier d'initialisation
-
-
-
          QString fichierInitialisation = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".ini";
-
-
-
  
 		// Si le fichier d'initialisation existe, on le charge
 		if (QFile::exists(fichierInitialisation))
