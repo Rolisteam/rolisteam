@@ -1,4 +1,4 @@
-CONFIG += debug phonon console
+CONFIG += phonon
 TEMPLATE = app
 TARGET = bin/rolisteam
 DEPENDPATH += . src
@@ -82,7 +82,7 @@ QT += core \
  gui \
  network
 
-VERSION = 1.0.1
+VERSION = 1.0.2
 
 UI_DIR = src
 #QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"
