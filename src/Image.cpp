@@ -270,6 +270,7 @@ void Image::wheelEvent(QWheelEvent *event)
 }
 void Image::hideEvent(QHideEvent* event)
 {
+        qDebug()<< "hideEvent hideEvent" << this;
     if(NULL!=m_internalAction)
     {
         m_internalAction->setChecked(false);
@@ -278,6 +279,7 @@ void Image::hideEvent(QHideEvent* event)
 }
 void Image::showEvent(QShowEvent* event)
 {
+    qDebug()<< "showEvent Image " << this;
     if(NULL!=m_internalAction)
     {
         m_internalAction->setChecked(true);
@@ -287,12 +289,6 @@ void Image::showEvent(QShowEvent* event)
 void Image::paintEvent ( QPaintEvent * event )
 {
     QScrollArea::paintEvent(event);
-    /*if(widgetResizable())
-    {
-
-
-
-    }*/
     if(m_fitWindowAct->isChecked())
     {
 

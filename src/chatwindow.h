@@ -60,14 +60,8 @@ public :
 
     AbstractChat * chat() const;
     QAction * toggleViewAction() const;
-
-    void afficherMessage(const QString &utilisateur, const QColor &couleur,
-            const QString &message, NetMsg::Action msgtype = NetMsg::ChatMessageAction);
-
+    void afficherMessage(const QString &utilisateur, const QColor &couleur,const QString &message, NetMsg::Action msgtype = NetMsg::ChatMessageAction);
     bool hasUnseenMessage() const;
-
-    // events handler
-   // bool eventFilter(QObject *obj, QEvent *event);
     void setSubWindow(QMdiSubWindow* subWindow);
     QMdiSubWindow* getSubWindow();
 
@@ -75,7 +69,7 @@ signals:
     void ChatWindowHasChanged(ChatWindow * what);
 
 public slots:
-    virtual void setVisible(bool visible);
+    //virtual void setVisible(bool visible);
     virtual bool isVisible();
     void save();
     QString getTitleFromChat();
@@ -84,9 +78,7 @@ public slots:
 
 protected :
     void init(MainWindow * parent);
- //void contextMenuEvent ( QContextMenuEvent * event );
 
-    //void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent *event);
     void hideEvent(QHideEvent *event);
 

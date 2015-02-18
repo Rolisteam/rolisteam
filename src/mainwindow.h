@@ -139,7 +139,7 @@ public :
      * @brief registerSubWindow
      * @param subWindow
      */
-    QWidget* registerSubWindow(QWidget * subWindow);
+    QWidget* registerSubWindow(QWidget * subWindow, QAction* action);
     /**
      * @brief showConnectionDialog
      * @return
@@ -385,7 +385,7 @@ private :
     IpChecker* m_ipChecker;
 
 
-    NewEmptyMapDialog* m_newEmptyMapDialog;
+    NewEmptyMapDialog* m_newEmptyMapDialog;/// @brief dialog to create new map.
 
     MapWizzard* m_mapWizzard;
 

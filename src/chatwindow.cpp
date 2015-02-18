@@ -94,7 +94,7 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     m_toggleViewAction = new QAction(this);
     m_toggleViewAction->setCheckable(true);
 
-    connect(m_toggleViewAction, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
+    //connect(m_toggleViewAction, SIGNAL(triggered(bool)), this, SLOT(setVisible(bool)));
 
 }
 QMdiSubWindow* ChatWindow::getSubWindow()
@@ -244,13 +244,7 @@ AbstractChat * ChatWindow::chat() const
 }
 bool ChatWindow::isVisible()
 {
-
     return (m_window->isVisible() & QWidget::isVisible());
-    /*
-    if(NULL!=m_window)
-        return m_window->isVisible();
-    else
-        return false;*/
 }
 
 // not (const QString & message), because we change it !
@@ -263,8 +257,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     QString tirage;
     int result;
     m_editionZone->clear();
-    //QTextStream out(stderr,QIODevice::WriteOnly);
-    //qDebug() << "Message=" <<message;
+
 
     QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
     Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
@@ -1046,58 +1039,30 @@ QString ChatWindow::getTitleFromChat()
 
 void ChatWindow::showEvent(QShowEvent *event)
 {
-	Q_UNUSED(event);
-    // On place le curseur sur la zone d'edition
+      qDebug()<< "showEvent " << this;
+
     m_editionZone->setFocus(Qt::OtherFocusReason);
     if(m_selectPersonComboBox->currentText().isEmpty())
     {
         m_selectPersonComboBox->setCurrentIndex(0);
     }
-    if(!m_toggleViewAction->isChecked())
+    if(NULL!=m_toggleViewAction)
     {
         m_toggleViewAction->setChecked(true);
     }
-   // QWidget::showEvent(event);
+    emit ChatWindowHasChanged(this);
+    //QWidget::showEvent(event);
 }
 void ChatWindow::hideEvent(QHideEvent *event)
 {
-    Q_UNUSED(event);
-    if(m_toggleViewAction->isChecked())
+    qDebug()<< "hideEvent ChatWindow" << this;
+    if(NULL!=m_toggleViewAction)
     {
         m_toggleViewAction->setChecked(false);
     }
-   // QWidget::showEvent(event);
+    emit ChatWindowHasChanged(this);
+    //QWidget::hideEvent(event);
 }
-//bool ChatWindow::eventFilter(QObject *obj, QEvent *event)
-//{
-//    if (obj == zoneEdition)
-//    {
-//        if (event->type() == QEvent::FocusIn)
-//        {
-//            if (m_hasUnseenMessage)
-//            {
-//                m_hasUnseenMessage = false;
-//                emit changed(this);
-//            }
-//        }
-//    }
-//    /* else if(obj == m_displayZone)
-//    {
-//        //qDebug() << "Event Type: "<< event->type();
-//        if(event->type() == QEvent::ContextMenu)
-//        {
-//            QContextMenuEvent* eventCustom = dynamic_cast<QContextMenuEvent*>(event);
-//            if(eventCustom!=NULL)
-//            {
-//                showContextMenu(eventCustom->globalPos());
-//                event->accept();
-//                return true;
-//            }
-//        }
-//    }*/
-
-//    return false;
-//}
 
 void ChatWindow::editionGetFocus()
 {
@@ -1158,22 +1123,15 @@ void ChatWindow::setSubWindow(QMdiSubWindow* subWindow)
     m_window = subWindow;
 
 
-    connect(m_toggleViewAction, SIGNAL(toggled(bool)), m_window, SLOT(setVisible(bool)));
+    connect(m_toggleViewAction, SIGNAL(triggered(bool)), m_window, SLOT(setVisible(bool)));
 
 
     //updateTitleFromChat();
 }
-void ChatWindow::setVisible(bool visible)
-{
-
-    QWidget::setVisible(visible);
-    m_window->setVisible(visible);
-    emit ChatWindowHasChanged(this);
-}
-
-/*void ChatWindow::contextMenuEvent ( QContextMenuEvent * event )
-{
-    showContextMenu(event->globalPos());
-    event->accept();
-    QSplitter::contextMenuEvent(event);
-}*/
+//void ChatWindow::setVisible(bool visible)
+//{
+//    qDebug()<< "ChatWindow " << visible;
+//    QWidget::setVisible(visible);
+//    m_window->setVisible(visible);
+//    emit ChatWindowHasChanged(this);
+//}

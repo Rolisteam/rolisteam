@@ -89,9 +89,16 @@ void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )
 
     QMdiArea::resizeEvent(event);
 }
-QWidget*  WorkspaceAmeliore::addWindow(QWidget* child)
+QWidget*  WorkspaceAmeliore::addWindow(QWidget* child,QAction* action)
 {
     QMdiSubWindow* sub = addSubWindow(child);
+    if(viewMode()==QMdiArea::TabbedView)
+    {
+        action->setChecked(true);
+        sub->setVisible(true);
+        child->setVisible(true);
+    }
+    insertActionAndSubWindow(action,sub);
     sub->setAttribute(Qt::WA_DeleteOnClose, false);
     child->setAttribute(Qt::WA_DeleteOnClose, false);
     return sub;
@@ -119,14 +126,12 @@ void WorkspaceAmeliore::setTabbedMode(bool isTabbed)
         foreach(QMdiSubWindow* tmp, subWindowList())
         {
             tmp->setVisible(true);
+            m_map->key(tmp)->setChecked(true);
             if(NULL!=tmp->widget())
             {
                 tmp->widget()->setVisible(true);
             }
         }
-
-
-
     }
     else
     {

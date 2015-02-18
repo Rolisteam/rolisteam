@@ -48,7 +48,7 @@ public :
     WorkspaceAmeliore(QWidget *parent = 0);
     ~WorkspaceAmeliore();
 
-    QWidget* addWindow(QWidget*);
+    QWidget* addWindow(QWidget*,QAction* action);
     QWidget* activeWindow();
 
     void insertActionAndSubWindow(QAction*, QMdiSubWindow*);

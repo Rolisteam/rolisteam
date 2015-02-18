@@ -244,21 +244,21 @@ void ChatList::addChatWindow(ChatWindow* chatw)
     m_chatMenu.addAction(chatw->toggleViewAction());
     connect(chatw, SIGNAL(ChatWindowHasChanged(ChatWindow *)), this, SLOT(changeChatWindow(ChatWindow *)));
 
-    QMdiSubWindow* widget = static_cast<QMdiSubWindow*>(m_mainWindow->registerSubWindow(chatw));
+    QMdiSubWindow* subWindowChat = static_cast<QMdiSubWindow*>(m_mainWindow->registerSubWindow(chatw,chatw->toggleViewAction()));
 
-    connect(chatw->chat(), SIGNAL(changedName(QString)), widget, SLOT(setWindowTitle(QString)));
-    //chatw->setSubWindow(widget);
+    connect(chatw->chat(), SIGNAL(changedName(QString)), subWindowChat, SLOT(setWindowTitle(QString)));
     m_chatWindowList.append(chatw);
-    m_chatSubWindowList.append(widget);
+    m_chatSubWindowList.append(subWindowChat);
 
-    if(NULL!=widget)
+    if(NULL!=subWindowChat)
     {
-        chatw->setSubWindow(widget);
-        widget->setWindowTitle(tr("%1 (Chat)").arg(chatw->getTitleFromChat()));
-        widget->setWindowIcon(QIcon(":/chat.png"));
-        widget->setAttribute(Qt::WA_DeleteOnClose, false);
-        //m_window->setWindowTitle(tr(""));
-        widget->setVisible(false);
+        chatw->setSubWindow(subWindowChat);
+        subWindowChat->setWindowTitle(tr("%1 (Chat)").arg(chatw->getTitleFromChat()));
+        subWindowChat->setWindowIcon(QIcon(":/chat.png"));
+        subWindowChat->setAttribute(Qt::WA_DeleteOnClose, false);
+        chatw->setAttribute(Qt::WA_DeleteOnClose, false);
+
+        subWindowChat->setVisible(chatw->toggleViewAction()->isChecked());
     }
 
 

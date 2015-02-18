@@ -31,6 +31,7 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QImageReader>
+#include <QFontDatabase>
 
 #include "ui_preferencesdialogbox.h"
 
@@ -102,12 +103,19 @@ void PreferencesDialog::performDiag()
     ui->m_diagDisplay->clear();
     
     QList<QByteArray> format(QImageReader::supportedImageFormats());
-    QString chaine=tr("format : %1 value %2");
+    QString chaine=tr("Image Format : %1 value %2");
     ui->m_diagDisplay->setText(tr("Supported Image Formats:"));
     for(int i=0 ; i < format.size() ; ++i)
     {
-
         ui->m_diagDisplay->append(chaine.arg(i).arg(QString(format.at(i))));
     }
-    ui->m_diagDisplay->append(tr("End Image Diag"));
+    ui->m_diagDisplay->append(tr("End of Image Format"));
+
+    QFontDatabase database;
+    ui->m_diagDisplay->setText(tr("Font families:"));
+    foreach (const QString &family, database.families())
+    {
+          ui->m_diagDisplay->append(family);
+    }
+    ui->m_diagDisplay->setText(tr("End of Font families:"));
 }

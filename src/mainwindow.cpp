@@ -174,11 +174,11 @@ void MainWindow::setupUi()
     m_version=tr("unknown");
 
 #ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-#endif
-#endif
+    #ifdef VERSION_MAJOR
+        #ifdef VERSION_MIDDLE
+            m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+        #endif
+    #endif
 #endif
 
 
@@ -223,29 +223,22 @@ void MainWindow::setupUi()
 
 
 #ifndef NULL_PLAYER
-    // Creation du lecteur audio
     m_audioPlayer = LecteurAudio::getInstance(this);
-    /*m_audioDock = new QDockWidget(this);
-    m_audioDock->setObjectName("LecteurAudio");
-    m_audioDock->setWidget(m_audioPlayer);*/
-    // Ajout du lecteur audio a la fenetre principale
     addDockWidget(Qt::RightDockWidgetArea,m_audioPlayer );
 #endif
     //readSettings();
-    // Create Preference dialog
     m_preferencesDialog = new PreferencesDialog(this);
 
-    // Creation de la barre de menus et des menus
+
     creerMenu();
-    // Association des actions des menus avec des fonctions
+
     linkActionToMenu();
-    // Autoriser/interdire action en fonction de la nature de l'utilisateur (joueur ou MJ)
-    //autoriserOuInterdireActions();
+
 
     // Creation de l'editeur de notes
     m_noteEditor= new TextEdit(this);
 
-    m_noteEditorSub  = static_cast<QMdiSubWindow*>(m_mdiArea->addWindow(m_noteEditor));
+    m_noteEditorSub  = static_cast<QMdiSubWindow*>(m_mdiArea->addWindow(m_noteEditor,m_noteEditorAct));
     if(NULL!=m_noteEditorSub)
     {
         m_noteEditorSub->setWindowTitle(tr("Minutes Editor[*]"));
@@ -500,11 +493,14 @@ void MainWindow::linkActionToMenu()
 
 void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize,QPoint pos )
 {
-    // Ajout de la CarteFenetre a la liste (permet par la suite de parcourir l'ensemble des cartes)
+    QAction *action = m_windowMenu->addAction(titre);
+    action->setCheckable(true);
+    action->setChecked(true);
+
     listeCarteFenetre.append(carteFenetre);
 
     // Ajout de la carte au workspace
-    QWidget* tmp = m_mdiArea->addWindow(carteFenetre);
+    QWidget* tmp = m_mdiArea->addWindow(carteFenetre,action);
     if(mapsize.isValid())
         tmp->resize(mapsize);
     if(!pos.isNull())
@@ -526,9 +522,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
     carteFenetre->setWindowTitle(titre);
 
     // Creation de l'action correspondante
-    QAction *action = m_windowMenu->addAction(titre);
-    action->setCheckable(true);
-    action->setChecked(true);
+
 
     m_mapAction->insert(carteFenetre,action);
 
@@ -651,7 +645,7 @@ void MainWindow::addImageToMdiArea(Image *imageFenetre, QString titre)
     imageFenetre->setInternalAction(action);
 
     // Ajout de l'image au workspace
-    QMdiSubWindow* sub = static_cast<QMdiSubWindow*>(m_mdiArea->addWindow(imageFenetre));
+    QMdiSubWindow* sub = static_cast<QMdiSubWindow*>(m_mdiArea->addWindow(imageFenetre,action));
 
     m_pictureList.append(sub);
 
@@ -741,7 +735,9 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
         QBuffer buffer(&byteArray);
         bool ok = image.save(&buffer, "jpeg", 60);
         if (!ok)
-            qWarning("Probleme de compression de l'image (ouvrirPlan - MainWindow.cpp)");
+        {
+            qWarning() << tr("Compressing image goes wrong (ouvrirPlan - MainWindow.cpp)");
+        }
 
         // Taille des donnees
         quint32 tailleCorps =
@@ -1456,14 +1452,14 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
     return false;
 }
 
-QWidget* MainWindow::registerSubWindow(QWidget * subWindow)
+QWidget* MainWindow::registerSubWindow(QWidget * subWindow,QAction* action)
 {
-    return m_mdiArea->addWindow(subWindow);
+    return m_mdiArea->addWindow(subWindow,action);
 }
 
 void MainWindow::sauvegarderPlan()
 {
-    // On recupere la fenetre active
+
     QWidget *active = m_mdiArea->activeWindow();
 
     // On verifie pour le principe qu'il s'agit bien d'une CarteFenetre
