@@ -60,6 +60,11 @@ const QString& CleverURI::getShortName() const
 {
     return m_uri;
 }
+void CleverURI::setShortName(QString& name)
+{
+
+}
+
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)
 {
   out << con.getUri();

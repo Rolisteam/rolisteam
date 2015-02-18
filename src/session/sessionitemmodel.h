@@ -93,12 +93,15 @@ public:
    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
    QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
-    Chapter* addChapter(QString& name);
+    Chapter* addChapter(QString& name,QModelIndex parent);
     void setSession(Session* s);
     void addChapter(Chapter* c );
     CleverURI* addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& index);
 
     void populateChapter(Chapter& t,ResourcesItem* parentIte);
+
+    virtual bool setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole );
+    virtual Qt::ItemFlags flags ( const QModelIndex & index ) const;
 private:
     //Section* m_rootSection;
 

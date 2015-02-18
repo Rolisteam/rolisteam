@@ -24,6 +24,7 @@ public:
 
     bool hasChildren() const;
     const QString& getShortName() const;
+    virtual void setShortName(QString& name);
 
 private:
     QString m_uri;

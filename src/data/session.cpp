@@ -21,7 +21,7 @@ Session::~Session()
 Chapter* Session::addChapter(QString& name)
 {
     Chapter* imp = new Chapter();
-    imp->setName(name);
+    imp->setShortName(name);
     m_chapterList.append(*imp);
     return imp;
 }

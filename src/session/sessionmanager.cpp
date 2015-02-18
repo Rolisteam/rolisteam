@@ -56,7 +56,7 @@ void SessionManager::readSettings(QSettings & m)
 void SessionManager::addChapter()
 {
     QString tmp = tr("Chapter %1").arg(m_currentSession->chapterCount());
-    m_model->addChapter(tmp);
+    m_model->addChapter(tmp,m_view->currentIndex());
 }
 
 void SessionManager::writeSettings(QSettings & m)

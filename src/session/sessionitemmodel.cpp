@@ -99,6 +99,25 @@ QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & pa
         return QModelIndex();
 
 }
+bool  SessionItemModel::setData ( const QModelIndex & index, const QVariant & value, int role )
+{
+    if(Qt::EditRole==role)
+    {
+            ResourcesItem* childItem = static_cast<ResourcesItem*>(index.internalPointer());
+            QString st = value.toString();
+            childItem->getData()->setShortName(st);
+            return true;
+    }
+    return false;
+}
+Qt::ItemFlags SessionItemModel::flags ( const QModelIndex & index ) const
+{
+    if (!index.isValid())
+        return Qt::ItemIsEnabled;
+
+        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
+
+}
 QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
 {
 
@@ -137,7 +156,7 @@ int SessionItemModel::columnCount(const QModelIndex&) const
 }
 QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
 {
-    if(role == Qt::DisplayRole)
+    if((role == Qt::DisplayRole)||(Qt::EditRole==role))
     {
         if(!index.isValid())
             return QVariant();
@@ -175,11 +194,26 @@ void SessionItemModel::setSession(Session* s)
     }
 }
 
-Chapter* SessionItemModel::addChapter(QString& name)
+Chapter* SessionItemModel::addChapter(QString& name,QModelIndex parent)
 {
-    beginInsertRows(QModelIndex(),m_session->childrenCount(),m_session->childrenCount());
-    Chapter* t = m_session->addChapter(name);
-    m_rootItem->addChild(new ResourcesItem(t,false));
+    ResourcesItem* tmp =NULL;
+    if(!parent.isValid())
+        tmp=m_rootItem;
+    else
+        tmp = static_cast<ResourcesItem*>(parent.internalPointer());
+
+    beginInsertRows(parent,tmp->childrenCount(),tmp->childrenCount());
+    Chapter* t=NULL;
+    if(!parent.isValid())
+    {
+        t = m_session->addChapter(name);
+    }
+    else
+    {
+        Chapter* parentChapter = dynamic_cast<Chapter*>(tmp->getData());
+        t = parentChapter->addChapter(name);
+    }
+    tmp->addChild(new ResourcesItem(t,false));
     endInsertRows();
     return t;
 }
@@ -217,7 +251,6 @@ CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentT
 }
 void SessionItemModel::populateChapter(Chapter& t,ResourcesItem* parentItem)
 {
-
     for(int i =0;i<t.getChapterList().size();i++)
     {
         Chapter& tmp = t.getChapterList()[i];

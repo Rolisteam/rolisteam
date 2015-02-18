@@ -21,14 +21,23 @@ const QString& Chapter::getShortName() const
 {
     return m_name;
 }
-void Chapter::setName(QString& p )
-{
- m_name =p;
-}
 void Chapter::addResource(CleverURI* cluri)
 {
     m_ressoucelist.append(*cluri);
 }
+Chapter* Chapter::addChapter(QString& name)
+{
+    Chapter* t = new Chapter();
+    t->setShortName(name);
+    m_chapterlist.append(*t);
+    return t;
+}
+
+void Chapter::setShortName(QString& name)
+{
+    m_name = name;
+}
+
 QList<CleverURI>& Chapter::getResourceList()
 {
     return m_ressoucelist;

@@ -12,9 +12,10 @@ public:
     Chapter(const Chapter& m);
     ~Chapter();
     virtual const QString& getShortName() const;
+    virtual void setShortName(QString& name);
     virtual bool hasChildren() const;
-    void setName(QString& p );
     void addResource(CleverURI* );
+    Chapter* addChapter(QString& name);
 
     QList<CleverURI>& getResourceList();
     QList<Chapter>& getChapterList();
