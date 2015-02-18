@@ -23,13 +23,11 @@
 
 #include "SelecteurDiametre.h"
 #include "displaydisk.h"
-#include "constantesGlobales.h"
 
 
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/	
-SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int max)
+
+
+DiameterSelector::DiameterSelector(QWidget *parent, bool plein, int min, int max)
 	: QWidget(parent)
 {
 	// Initialisation des minimum et maximum
@@ -39,18 +37,18 @@ SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int m
 	// Creation du layout
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setMargin(0);
-	#ifdef MACOS
-		layout->setSpacing(0);
-	#endif
+
+    layout->setSpacing(0);
+
 	
     // Creation du QFrame qui va contenir l'afficheur de disk
 	QFrame *frame = new QFrame(this);
 	frame->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 	frame->setLineWidth(2);
 	frame->setMidLineWidth(2);
-	frame->setFixedHeight(TAILLE_ICONES * 2 + 12);
-	frame->setMaximumWidth(TAILLE_ICONES * 2 + 12);
-	
+
+    frame->setMaximumWidth(parent->width()-2);
+    frame->setFixedHeight(frame->widthMM()*2);
 	// Creation du layout du QFrame
 	QVBoxLayout *frameLayout = new QVBoxLayout(frame);
 	frameLayout->setMargin(0);
@@ -66,11 +64,11 @@ SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int m
 	layout->addWidget(frame);
 	
 	// Creation du QSlider permettant de faire varier le diametre
-	diametre = new QSlider(Qt::Horizontal, this);
-	diametre->setRange(minimum, maximum);
-	diametre->setValue(minimum);
+    m_diameterSlider = new QSlider(Qt::Horizontal, this);
+    m_diameterSlider->setRange(minimum, maximum);
+    m_diameterSlider->setValue(minimum);
 	// Ajout du QSlider au layout
-	layout->addWidget(diametre);
+    layout->addWidget(m_diameterSlider);
 
 	#ifdef MACOS
 		layout->setSpacing(0);
@@ -78,13 +76,12 @@ SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int m
 	#endif
 	
 	// Connection des signaux
-    QObject::connect(diametre, SIGNAL(valueChanged(int)), disk, SLOT(changeDiameter(int)));
+    connect(m_diameterSlider, SIGNAL(valueChanged(int)), disk, SLOT(changeDiameter(int)));
+    connect(m_diameterSlider, SIGNAL(valueChanged(int)), this, SIGNAL(diameterChanged(int)));
 }
 
-/********************************************************************/
-/* Change la valeur du selecteur de diametre                        */
-/********************************************************************/	
-void SelecteurDiametre::changerDiametre(int nouvelleValeur)
+
+void DiameterSelector::changerDiametre(int nouvelleValeur)
 {
 	int valeur = nouvelleValeur;
 	
@@ -95,5 +92,5 @@ void SelecteurDiametre::changerDiametre(int nouvelleValeur)
 		valeur = maximum;
 	
     // Mise a jour du slider (un signal est envoye a l'afficheur de disk)
-	diametre->setValue(valeur);
+    m_diameterSlider->setValue(valeur);
 }

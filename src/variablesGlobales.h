@@ -36,13 +36,13 @@
 #include <QMutex>
 
 #include "SelecteurCouleur.h"
-#include "BarreOutils.h"
+#include "ToolBar.h"
 #include "DessinPerso.h"
 #include "ListeUtilisateurs.h"
 #include "MainWindow.h"
 #include "Liaison.h"
 #include "ClientServeur.h"
-#include "LecteurAudio.h"
+
 
 
 // Fonction globale, declaree dans MainWindow.cpp

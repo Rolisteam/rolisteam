@@ -28,9 +28,10 @@
 #include <QPixmap>
 
 
-ImprovedWorkspace::ImprovedWorkspace(QWidget *parent)
-: QMdiArea(parent)
+ImprovedWorkspace::ImprovedWorkspace(QColor& penColor,QWidget *parent)
+: QMdiArea(parent),m_currentPenColor(penColor)
 {
+    //m_currentPenColor = penColor;
     initCursors();
     m_variableSizeBackground = new QPixmap(this->viewport()->size());
     m_variableSizeBackground->fill(Qt::darkGray);
@@ -41,6 +42,8 @@ ImprovedWorkspace::ImprovedWorkspace(QWidget *parent)
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
     this->setBackground(QBrush(*m_variableSizeBackground));
     m_currentCursor = m_handCursor;
+    m_penSize = 1;
+    m_npcSize =1;
 
 }
 
@@ -96,6 +99,12 @@ void ImprovedWorkspace::currentToolChanged(ToolsBar::SelectableTool tool)
     emit currentCursorChanged(m_currentCursor);
     emit currentToolHasChanged(tool);
 }
+void ImprovedWorkspace::currentColorChanged(QColor& color)
+{
+
+    m_currentPenColor = color;
+    emit currentColorHasChanged(m_currentPenColor);
+}
 
 void ImprovedWorkspace::initCursors()
 {
@@ -145,8 +154,29 @@ void ImprovedWorkspace::addWidget(SubMdiWindows* subWindow)
     addSubWindow(subWindow);
     connect(this,SIGNAL(currentCursorChanged(QCursor*)),subWindow,SLOT(currentCursorChanged(QCursor*)));
     connect(this,SIGNAL(currentToolHasChanged(ToolsBar::SelectableTool)),subWindow,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
+    connect(this,SIGNAL(penSizeChanged(int)),subWindow,SLOT(currentPenSizeChanged(int)));
+    connect(this,SIGNAL(npcSizeChanged(int)),subWindow,SLOT(currentNPCSizeChanged(int)));
+    subWindow->currentPenSizeChanged(m_penSize);
+    subWindow->currentNPCSizeChanged(m_npcSize);
+    subWindow->currentColorChanged(m_currentPenColor);
+    connect(this,SIGNAL(currentColorHasChanged(QColor&)),subWindow,SLOT(currentColorChanged(QColor&)));
     connect(subWindow,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates)),subWindow,SLOT(changedStatus(Qt::WindowStates,Qt::WindowStates)));
 }
+
+
+void ImprovedWorkspace::currentPenSizeChanged(int p)
+{
+    m_penSize = p;
+    qDebug() << m_penSize;
+    emit penSizeChanged(p);
+}
+
+void ImprovedWorkspace::currentNPCSizeChanged(int p)
+{
+    m_npcSize = p;
+    emit npcSizeChanged(p);
+}
+
 /*void ImprovedWorkspace::activeSubWindowChanged(QMdiSubWindow* subWindow)
 {
     SubMdiWindows* tmp = static_cast<SubMdiWindows*>(subWindow);

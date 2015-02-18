@@ -19,7 +19,12 @@
  ***************************************************************************/
 #include "visualitem.h"
 
-VisualItem::VisualItem(QGraphicsItem * parent )
-    : QGraphicsItem(parent)
+VisualItem::VisualItem(QColor& penColor,QGraphicsItem * parent )
+    : QGraphicsItem(parent),m_color(penColor)
 {
+}
+
+void VisualItem::setPenColor(QColor& penColor)
+{
+    m_color = penColor;
 }

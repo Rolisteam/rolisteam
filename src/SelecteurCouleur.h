@@ -31,46 +31,67 @@
 #ifndef SELECTEUR_COULEUR_H
 #define SELECTEUR_COULEUR_H
 
-	#include <QWidget>
-	#include <QFrame>
-	#include <QColor>
-	#include <QLabel>
+#include <QWidget>
+#include <QFrame>
+#include <QColor>
+#include <QLabel>
 
-	#include "types.h"
+#include "types.h"
+
+class PreferencesManager;
+class ColorLabel : public QWidget
+{
+    Q_OBJECT
+public:
+   ColorLabel(QWidget * parent = 0);
+signals:
+    void clickedColor(const QColor& p);
+    void doubledclicked();
+protected:
+    virtual void mousePressEvent(QMouseEvent *ev);
+    virtual void mouseDoubleClickEvent (QMouseEvent *event);
+};
 
 
-	class SelecteurCouleur : public QWidget
-	{
-	public:
-		SelecteurCouleur(QWidget *parent = 0);
-		void changeCouleurActuelle(QColor couleur);
-		void majCouleursPersonnelles();
-		void autoriserOuInterdireCouleurs();
-		QColor donnerCouleurPersonnelle(int numero);
 
-	private:
-		void clicUtilisateur(QPoint positionSouris, bool move = false);
 
-		QLabel *couleurActuelle;
-		QLabel *couleurEfface;
-		QLabel *couleurMasque;
-		QLabel *couleurDemasque;
-		QWidget *couleurPredefinie[48];
-		QWidget *couleurPersonnelle[16];
-		QWidget *separateur1;
-		QWidget *separateur2;
-		QPixmap *efface_pix;
-		QPixmap *masque_pix;
-		QPixmap *demasque_pix;
-		bool boutonEnfonce;
+class ColorSelector : public QWidget
+{
+    Q_OBJECT
+public:
+    ColorSelector(QWidget *parent = 0);
+    void setCurrentColor(QColor& color);
+    QColor& currentColor();
+    void majCouleursPersonnelles();
+    void autoriserOuInterdireCouleurs();
+    QColor donnerCouleurPersonnelle(int numero);
 
-	protected:
-		void mousePressEvent(QMouseEvent *event);		
-		void mouseMoveEvent(QMouseEvent *event);
-		void mouseReleaseEvent(QMouseEvent *event);
-		#ifdef MACOS
-			void mouseDoubleClickEvent (QMouseEvent *event);
-		#endif
-	};
+signals:
+    void currentColorChanged(QColor&);
+
+private slots:
+    void selectColor(const QColor& color);
+    void colorSelectorDialog();
+private:
+    ColorLabel *m_currentColorLabel;
+    QLabel *couleurEfface;
+    QLabel *couleurMasque;
+    QLabel *couleurDemasque;
+    ColorLabel *couleurPredefinie[48];
+    ColorLabel *couleurPersonnelle[16];
+    QWidget *separateur1;
+    QWidget *separateur2;
+    QPixmap *efface_pix;
+    QPixmap *masque_pix;
+    QPixmap *demasque_pix;
+ //   bool boutonEnfonce;
+
+    QColor m_currentColor;
+
+    /**
+      * pointer to the unique instance of preference manager.
+      */
+    PreferencesManager* m_options;
+};
 
 #endif

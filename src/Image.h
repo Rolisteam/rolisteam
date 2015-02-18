@@ -20,15 +20,6 @@
  ***************************************************************************/
 
 
-/********************************************************************/
-/*                                                                  */
-/* QScrollArea contenant une image, qui ne peut etre fermee que par */
-/* le joueur qui l'a ouverte ou par le MJ. Le but est de pouvoir    */
-/* afficher des images sans passer par les cartes qui utilisent     */
-/* beaucoup de ressources systeme.                                  */
-/*                                                                  */
-/********************************************************************/	
-
 
 #ifndef IMAGE_H
 #define IMAGE_H
@@ -36,25 +27,28 @@
 #include <QWidget>
 #include <QImage>
 #include <QScrollArea>
-#include <QAction>
 #include <QFile>
 #include <QString>
 #include <QLabel>
 
 #include "submdiwindows.h"
 
+class QScrollArea;
+class QLabel;
+class QSpinBox;
+class QSlider;
 class Image : public SubMdiWindows //public QScrollArea
 {
     Q_OBJECT
 
 public :
-    Image(QString identImage, QString identJoueur, QImage *image, QAction *action = 0, QWidget *parent = 0);
+    Image(QString& m_filename, QWidget *parent = 0);
     ~Image();
-    void associerAction(QAction *action);
-    void emettreImage(QString titre, int numeroLiaison);
-    void sauvegarderImage(QFile &file, QString titre);
-    bool proprietaireImage();
-    QString identifiantImage();
+
+
+
+
+
 
 public slots :
     void pointeurMain();
@@ -62,21 +56,27 @@ public slots :
 
 protected :
     void closeEvent(QCloseEvent *event);
+
+
+
+    void setUi();
    /* void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);*/
 
-
+private slots:
+    void setZoomLevel(int zoomlevel);
 private :
-    QString idImage;
-    QString idJoueur;
-    QAction *actionAssociee;
-    QLabel *labelImage;
-    QPoint pointDepart;
-    int horizontalDepart;
-    int verticalDepart;
-    bool deplacementAutorise;
+    QString m_filename;
+    QLabel * m_labelImage;
+    QImage* m_image;
+
     QScrollArea* m_scrollArea;
+    float m_zoomLevel;
+    QPixmap  m_pixMap;
+    QLabel* m_zoomLabel;
+    QSlider* m_zoomSlider;
+    QSpinBox* m_zoomSpinBox;
 
 
 

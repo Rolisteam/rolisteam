@@ -25,11 +25,12 @@
 class VisualItem : public QGraphicsItem
 {
 public:
-    VisualItem(QGraphicsItem * parent = 0);
+    VisualItem(QColor& penColor,QGraphicsItem * parent = 0);
 
 
 
-virtual void setNewEnd(QPointF& nend)=0;
+    virtual void setNewEnd(QPointF& nend)=0;
+    virtual void setPenColor(QColor& penColor);
 
 protected:
 

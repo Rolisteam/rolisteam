@@ -38,14 +38,14 @@
 
 
 
-#include "BarreOutils.h"
+#include "ToolBar.h"
 #include "ListeUtilisateurs.h"
 
 #include "Tchat.h"
 #include "Image.h"
 #include "EditeurNotes.h"
 #include "ClientServeur.h"
-#include "LecteurAudio.h"
+#include "audioplayer.h"
 #include "userlistdockwidget.h"
 #include "mapwizzarddialog.h"
 
@@ -119,15 +119,15 @@ private :
         ImprovedWorkspace* workspace;
         QMenu *menuFenetre;
         QMenu *sousMenuTchat;
-        ToolsBar *barreOutils;
+        ToolsBar *m_toolbar;
 
         EditeurNotes *editeurNotes;
         QList <MapFrame *> listeCarteFenetre;
         QList <Image *> listeImage;
         QList <Tchat *> listeTchat;
-        LecteurAudio* m_audioPlayer;
+        AudioPlayer* m_audioPlayer;
         QAction *newMapAction;
-        QAction *actionOuvrirImage;
+        QAction *OpenImageAction;
         QAction *actionOuvrirPlan;
         QAction *actionOuvrirEtMasquerPlan;
         QAction *actionOuvrirScenario;
@@ -179,8 +179,14 @@ private slots :
         */
         void clickOnMapWizzard();
 
+        /**
+        * @brief Show the map wizzard
+        *
+        */
+        void openImage();
+
        /* void ouvrirPlan(bool masquer = false);
-        void ouvrirImage();
+
         void ouvrirEtMasquerPlan();
         void ouvrirScenario();
         void ouvrirNotes();

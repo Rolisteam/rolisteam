@@ -21,11 +21,26 @@
 #define LINEITEM_H
 
 #include "visualitem.h"
-
+#include <QPen>
 class LineItem : public VisualItem
 {
 public:
-    LineItem();
+    LineItem(QPointF& p,QColor& penColor,int penSize,QGraphicsItem * parent = 0);
+
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+
+    virtual QRectF boundingRect() const ;
+
+
+    virtual void setNewEnd(QPointF& nend);
+
+private:
+    QRectF m_rect;
+    QPointF m_startPoint;
+    QPointF m_endPoint;
+
+    QPen m_pen;
+    bool m_filled;
 };
 
 #endif // LINEITEM_H

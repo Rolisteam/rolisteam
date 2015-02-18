@@ -25,7 +25,7 @@
 class RectItem : public VisualItem
 {
 public:
-    RectItem(QPointF& topleft,QPointF& buttomright,bool filled,QGraphicsItem * parent = 0);
+    RectItem(QPointF& topleft,QPointF& buttomright,bool filled,QColor& penColor,QGraphicsItem * parent = 0);
 
 
 

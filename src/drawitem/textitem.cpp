@@ -17,27 +17,53 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PATHITEM_H
-#define PATHITEM_H
+#include "textitem.h"
+#include <QLineEdit>
+#include <QPainter>
+#include <QObject>
 
-#include "visualitem.h"
-#include <QPen>
-class PathItem : public VisualItem
+TextItem::TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsItem * parent)
+        : VisualItem(penColor,parent)
 {
-public:
-    PathItem(QPointF& nend,QColor& penColor,int penSize,QGraphicsItem * parent = 0);
+    m_start = start;
+    m_textEdit = editor;
+    if(m_textEdit)
+        m_metricFont = new QFontMetrics(m_textEdit->font());
+    else
+        m_metricFont = new QFontMetrics(QFont());
+}
+QRectF TextItem::boundingRect() const
+{
+    if(m_metricFont)
+        return m_metricFont->boundingRect(m_text);
+    else
+        return QRect();
+}
+void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+{
+    if(!m_text.isEmpty())
+    {
+        painter->save();
+        painter->setPen(m_color);
+        painter->drawText(m_start,m_text);
+        painter->restore();
+    }
 
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+}
+void TextItem::setNewEnd(QPointF& p)
+{
+    //QRectF tmp= m_rect;
+   // m_rect.setBottomRight(p);
+    //update(tmp);
+}
+void TextItem::editingFinished()
+{
+    if(m_textEdit!=NULL)
+    {
+        m_text = m_textEdit->text();
+        m_textEdit->setVisible(false);
+        update ();
 
-    virtual QRectF boundingRect() const ;
+    }
 
-    virtual void setNewEnd(QPointF& nend);
-    virtual QPainterPath shape () const;
-
-private:
-    QPen m_pen;
-    QPainterPath m_path;
-
-};
-
-#endif // PATHITEM_H
+}

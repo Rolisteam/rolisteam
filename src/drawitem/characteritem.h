@@ -23,7 +23,7 @@
 class CharacterItem : public VisualItem
 {
 public:
-    CharacterItem();
+    CharacterItem(QColor& penColor,QGraphicsItem * parent = 0);
 };
 
 #endif // CHARACTERITEM_H

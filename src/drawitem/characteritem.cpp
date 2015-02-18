@@ -19,7 +19,8 @@
  ***************************************************************************/
 #include "characteritem.h"
 
-CharacterItem::CharacterItem()
+CharacterItem::CharacterItem(QColor& penColor,QGraphicsItem * parent)
+            : VisualItem(penColor,parent)
 {
 
 }

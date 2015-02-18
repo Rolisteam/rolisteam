@@ -34,7 +34,7 @@
 #include <QImage>
 #include <QPaintEvent>
 #include <QMdiArea>
-#include "BarreOutils.h"
+#include "ToolBar.h"
 #include "submdiwindows.h"
 
 class QPixmap;
@@ -43,18 +43,74 @@ class ImprovedWorkspace : public QMdiArea
     Q_OBJECT
 
 public:
-    ImprovedWorkspace(QWidget *parent = 0);
-
+    /**
+      * @brief Class constructor
+      */
+    ImprovedWorkspace(QColor& penColor,QWidget *parent = 0);
+    /**
+      * @brief add subwindows in the QMdiArea. Connect subWindow to few signals.
+      * @param subWindow which has to be added
+      */
     void addWidget(SubMdiWindows* subWindow);
 
 public slots:
+    /**
+      * @brief is called when the current tool changed, raise the signal currentToolHasChanged, and it performs the first treatment
+      * @param the current selected tool
+      */
     void currentToolChanged(ToolsBar::SelectableTool );
+    /**
+      * @brief is called when currentCursorChanged is raised, and it performs the first treatment
+      * @param the current selected tool
+      */
+    void currentColorChanged(QColor&);
+
+    /**
+      * @brief is called when the user change the pen size
+      * @param the new size
+      */
+    void currentPenSizeChanged(int);
+    /**
+      * @brief is called when the user change the PNJ size
+      * @param the new size
+      */
+    void currentNPCSizeChanged(int);
 
 signals:
+    /**
+      * @brief signal emitted when the current tool has changed
+      * @param the current selected tool
+      */
     void currentCursorChanged(QCursor*);
+    /**
+      * @brief signal emitted when the current tool has changed
+      * @param the current selected tool
+      */
     void currentToolHasChanged(ToolsBar::SelectableTool);
 
+    /**
+      * @brief signal emitted when the current pen color has changed
+      * @param the current color
+      */
+    void currentColorHasChanged(QColor&);
+    /**
+      * @brief is called when the user change the pen size
+      * @param the new size
+      */
+    void penSizeChanged(int);
+    /**
+      * @brief is called when the user change the PNJ size
+      * @param the new size
+      */
+    void npcSizeChanged(int);
+
+
+
 protected:
+    /**
+      * @brief Overwrite of the resize event to perform an hack to display the correct background picture
+      * @param event context of the event raising
+      */
     void resizeEvent ( QResizeEvent * event );
 
 
@@ -121,11 +177,19 @@ private:
       */
     QCursor *m_currentCursor;
 
-private slots:
     /**
-      * slot call each time when the subWindowChanged
+      * current pen color.
       */
-   // void activeSubWindowChanged(QMdiSubWindow*);
+    QColor& m_currentPenColor;
+    /**
+      * current pen size.
+      */
+    int m_penSize;
+    /**
+      * current npc color.
+      */
+    int m_npcSize;
+
 
 };
 

@@ -23,7 +23,17 @@
 class EllipsItem : public VisualItem
 {
 public:
-    EllipsItem();
+    EllipsItem(QPointF& center,bool filled,QColor& penColor,QGraphicsItem * parent = 0);
+
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+    virtual QRectF boundingRect() const ;
+
+    virtual void setNewEnd(QPointF& nend);
+private:
+    QRectF m_rect;
+    QPointF m_center;
+
+    bool m_filled;
 };
 
 #endif // ELLIPSITEM_H

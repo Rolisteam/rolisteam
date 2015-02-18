@@ -18,7 +18,41 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "pathitem.h"
-
-PathItem::PathItem()
+ #include <QPainterPath>
+#include <QPainter>
+PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,QGraphicsItem * parent)
+         : VisualItem(penColor,parent)
 {
+    m_path.moveTo(start);
+    m_pen.setColor(penColor);
+    m_pen.setWidth(penSize);
+    m_pen.setCapStyle(Qt::RoundCap);
+}
+QRectF PathItem::boundingRect() const
+{
+    return m_path.boundingRect();
+}
+QPainterPath PathItem::shape () const
+{
+
+    return m_path;
+
+}
+void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+{
+    painter->save();
+
+    painter->setPen(m_pen);
+    painter->drawPath(m_path);
+
+
+
+    painter->restore();
+
+}
+void PathItem::setNewEnd(QPointF& p)
+{
+    //QRectF tmp= m_rect;
+    m_path.lineTo(p);
+    //update(tmp);
 }

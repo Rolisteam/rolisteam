@@ -27,13 +27,13 @@
 #include "MapFrame.h"
 #include "Carte.h"
 #include "MainWindow.h"
-#include "BarreOutils.h"
+#include "ToolBar.h"
 #include "ListeUtilisateurs.h"
 #include "constantesGlobales.h"
 #include "variablesGlobales.h"
 
 #include "Image.h"
-#include "LecteurAudio.h"
+#include "audioplayer.h"
 #include "EditeurNotes.h"
 #include "WorkspaceAmeliore.h"
 
@@ -47,33 +47,33 @@ MainWindow::MainWindow()
 
 
 
-        // Initialisation de la liste des CarteFenetre, des Image et des Tchat
+
         listeCarteFenetre.clear();
         listeImage.clear();
         listeTchat.clear();
 
 
+        m_toolbar = new ToolsBar(this);
 
-        // Desactivation des animations
         setAnimated(false);
-        // Creation de l'espace de travail
-        workspace = new ImprovedWorkspace;
-        // Ajout de l'espace de travail dans la fenetre principale
+
+        workspace = new ImprovedWorkspace(m_toolbar->currentColor());
+
         setCentralWidget(workspace);
-        // Connexion du changement de fenetre active avec la fonction de m.a.j du selecteur de taille des PJ
-        //connect(workspace, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(changementFenetreActive(QMdiSubWindow *)));
 
-        // Creation de la barre d'outils
-        barreOutils = new ToolsBar(this);
-        // Ajout de la barre d'outils a la fenetre principale
-        addDockWidget(Qt::LeftDockWidgetArea, barreOutils);
+        addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
 
 
-        connect(barreOutils,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),workspace,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
+        connect(m_toolbar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),workspace,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
+        connect(m_toolbar,SIGNAL(currentColorChanged(QColor&)),workspace,SLOT(currentColorChanged(QColor&)));
+        connect(m_toolbar,SIGNAL(currentPenSizeChanged(int)),workspace,SLOT(currentPenSizeChanged(int)));
+        connect(m_toolbar,SIGNAL(currentPNCSizeChanged(int)),workspace,SLOT(currentNPCSizeChanged(int)));
 
-        // Creation du log utilisateur
+
+
+
         dockLogUtil = creerLogUtilisateur();
-        // Ajout du log utilisateur a la fenetre principale
+
         addDockWidget(Qt::RightDockWidgetArea, dockLogUtil);
 
 
@@ -84,50 +84,50 @@ MainWindow::MainWindow()
         addDockWidget(Qt::RightDockWidgetArea, m_playerListDockWidget);
 
 
-        m_audioPlayer = LecteurAudio::getInstance(this);
+        m_audioPlayer = AudioPlayer::getInstance(this);
 
         addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
 
 
         creerMenu();
-        // Association des actions des menus avec des fonctions
+
         associerActionsMenus();
-        // Autoriser/interdire action en fonction de la nature de l'utilisateur (joueur ou MJ)
+
         autoriserOuInterdireActions();
 
-        // Creation de l'editeur de notes
+
         editeurNotes = new EditeurNotes();
-        // Ajout de l'editeur de notes au workspace
+
         workspace->addWidget(editeurNotes);
-        // Mise a jour du titre de l'editeur de notes
-        editeurNotes->setWindowTitle(tr("Editeur de notes"));
-        // Masquage de l'editeur de notes
+
+        editeurNotes->setWindowTitle(tr("Minutes editor"));
+
         editeurNotes->hide();
 
-        // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
+
         DessinPerso::etatDeSante etat;
         etat.couleurEtat = Qt::black;
-        etat.nomEtat = tr("Sain");
+        etat.nomEtat = tr("Healthy");
         G_etatsDeSante.append(etat);
 
         etat.couleurEtat = QColor(255, 100, 100);
-        etat.nomEtat = tr("Blessé léger");
+        etat.nomEtat = tr("Lightly wounded");
         G_etatsDeSante.append(etat);
 
         etat.couleurEtat = QColor(255, 0, 0);
-        etat.nomEtat = tr("Blessé grave");
+        etat.nomEtat = tr("Heavily wounded");
         G_etatsDeSante.append(etat);
 
         etat.couleurEtat = Qt::gray;
-        etat.nomEtat = tr("Mort");
+        etat.nomEtat = tr("Dead");
         G_etatsDeSante.append(etat);
 
         etat.couleurEtat = QColor(80, 80, 255);
-        etat.nomEtat = tr("Endormi");
+        etat.nomEtat = tr("Sleeping");
         G_etatsDeSante.append(etat);
 
         etat.couleurEtat = QColor(0, 200, 0);
-        etat.nomEtat = tr("Ensorcelé");
+        etat.nomEtat = tr("Bewitched");
         G_etatsDeSante.append(etat);
 
 
@@ -140,9 +140,7 @@ MainWindow::MainWindow()
 
 }
 
-/********************************************************************/
-/* Creation du log utilisateur                                      */
-/********************************************************************/
+
 QDockWidget* MainWindow::creerLogUtilisateur()
 {
         // Creation du dockWidget contenant la fenetre de log utilisateur
@@ -162,9 +160,7 @@ dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
         return dockLogUtil;
 }
 
-/********************************************************************/
-/* Creation de la barre de menus, des menus, des actions associees  */
-/********************************************************************/
+
 void MainWindow::creerMenu()
 {
 
@@ -179,7 +175,7 @@ void MainWindow::creerMenu()
         actionOuvrirPlan             = menuFichier->addAction(tr("Ouvrir plan"));
         actionOuvrirEtMasquerPlan    = menuFichier->addAction(tr("Ouvrir et masquer plan"));
         actionOuvrirScenario         = menuFichier->addAction(tr("Ouvrir scénario"));
-        actionOuvrirImage	         = menuFichier->addAction(tr("Ouvrir image"));
+        OpenImageAction	         = menuFichier->addAction(tr("Ouvrir image"));
         actionOuvrirNotes            = menuFichier->addAction(tr("Ouvrir notes"));
         menuFichier->addSeparator();
         actionFermerPlan             = menuFichier->addAction(tr("Fermer plan/image"));
@@ -295,10 +291,10 @@ void MainWindow::creerMenu()
 /********************************************************************/
 void MainWindow::associerActionsMenus()
 {
-        // file menu
-        QObject::connect(newMapAction, SIGNAL(triggered(bool)), this, SLOT(clickOnMapWizzard()));
-      /*  QObject::connect(actionOuvrirImage, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
-        QObject::connect(actionOuvrirPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirPlan()));
+
+        connect(newMapAction, SIGNAL(triggered(bool)), this, SLOT(clickOnMapWizzard()));
+        connect(OpenImageAction, SIGNAL(triggered(bool)), this, SLOT(openImage()));
+        /*QObject::connect(actionOuvrirPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirPlan()));
         QObject::connect(actionOuvrirEtMasquerPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirEtMasquerPlan()));
         QObject::connect(actionOuvrirScenario, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
         QObject::connect(actionOuvrirNotes, SIGNAL(triggered(bool)), this, SLOT(ouvrirNotes()));
@@ -821,166 +817,8 @@ void MainWindow::autoriserOuInterdireActions()
         carte->emettreTousLesPersonnages();
 }*/
 
-/********************************************************************/
-/* Demande a l'utilisateur de selectionner un fichier image puis    */
-/* l'ouvre sous forme d'Image (image non modifiable)                */
-/********************************************************************/
-/*void MainWindow::ouvrirImage()
-{
-        // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir une image"), m_options->value(QString("ImageDirectory"),QVariant(".")).toString(),
-                tr("Images (*.jpg *.jpeg *.png *.bmp)"));
 
-        // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
-        if (fichier.isNull())
-                return;
 
-        // Creation de la boite d'alerte
-        QMessageBox msgBox(this);
-        msgBox.addButton(tr("Annuler"), QMessageBox::RejectRole);
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setWindowTitle(tr("Erreur de chargement"));
-        msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
-        // On supprime l'icone de la barre de titre
-        Qt::WindowFlags flags = msgBox.windowFlags();
-        msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
-
-        // On met a jour le chemin vers les images
-        int dernierSlash = fichier.lastIndexOf("/");
-        m_options->registerValue(QString("ImageDirectory"),QVariant(fichier.left(dernierSlash)));
-
-        // Chargement de l'image
-        QImage *img = new QImage(fichier);
-        // Verification du chargement de l'image
-        if (img->isNull())
-        {
-                msgBox.setText(tr("Format de fichier incorrect"));
-                msgBox.exec();
-                delete img;
-                return;
-        }
-
-        // Suppression de l'extension du fichier pour obtenir le titre de l'image
-        int dernierPoint = fichier.lastIndexOf(".");
-        QString titre = fichier.left(dernierPoint);
-        titre = titre.right(titre.length()-dernierSlash-1);
-        titre+= tr(" (Image)");
-
-        // Creation de l'action correspondante
-        QAction *action = menuFenetre->addAction(titre);
-        action->setCheckable(true);
-        action->setChecked(true);
-
-    // Creation de l'identifiant
-    QString idImage = QUuid::createUuid().toString();
-
-        // Creation de la fenetre image
-        Image *imageFenetre = new Image(idImage, "", img, action);
-
-        // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
-        listeImage.append(imageFenetre);
-
-        // Ajout de l'image au workspace
-        workspace->addWidget(imageFenetre);
-
-        // Mise a jour du titre de l'image
-        imageFenetre->setWindowTitle(titre);
-
-        // Connexion de l'action d'outil main avec la fonction de changement de pointeur de souris en main
-        QObject::connect(barreOutils->actionMain,	    SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurMain()));
-
-        // Connexion des actions de changement d'outil avec la fonction de changement de pointeur de souris normal
-        QObject::connect(barreOutils->actionCrayon,     SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionLigne,      SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionElliVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionElliPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionTexte,      SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionEtatPnj,    SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-
-        // Connexion de l'action avec l'affichage/masquage de la fenetre
-        QObject::connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
-
-        // Mise a jour du pointeur de souris de l'image
-        switch(G_outilCourant)
-        {
-                case BarreOutils::main :
-                        imageFenetre->pointeurMain();
-                        break;
-                default :
-                        imageFenetre->pointeurNormal();
-                        break;
-        }
-
-        // Affichage de l'image
-        imageFenetre->show();
-
-        // Envoie de l'image aux autres utilisateurs
-
-        // On commence par compresser l'image (format jpeg) dans un tableau
-        QByteArray byteArray;
-        QBuffer buffer(&byteArray);
-        bool ok = img->save(&buffer, "jpeg", 60);
-        if (!ok)
-                qWarning("Probleme de compression de l'image (ouvrirImage - MainWindow.cpp)");
-
-        // Taille des donnees
-       /* quint32 tailleCorps =
-                // Taille du titre
-                sizeof(quint16) + titre.size()*sizeof(QChar) +
-                // Taille de l'identifiant de l'image
-                sizeof(quint8) + idImage.size()*sizeof(QChar) +
-                // Taille de l'identifiant du joueur
-                //sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
-                // Taille de l'image
-                sizeof(quint32) + byteArray.size();
-
-        // Buffer d'emission
-        char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-        // Creation de l'entete du message
-        enteteMessage *uneEntete;
-        uneEntete = (enteteMessage *) donnees;
-        uneEntete->categorie = image;
-        uneEntete->action = chargerImage;
-        uneEntete->tailleDonnees = tailleCorps;
-
-        // Creation du corps du message
-        int p = sizeof(enteteMessage);
-        // Ajout du titre
-        quint16 tailleTitre = titre.size();
-        memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
-        p+=sizeof(quint16);
-        memcpy(&(donnees[p]), titre.data(), tailleTitre*sizeof(QChar));
-        p+=tailleTitre*sizeof(QChar);
-        // Ajout de l'identifiant de l'image
-        quint8 tailleIdImage = idImage.size();
-        memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), idImage.data(), tailleIdImage*sizeof(QChar));
-        p+=tailleIdImage*sizeof(QChar);
-        // Ajout de l'identifiant du joueur
-        quint8 tailleIdJoueur = G_idJoueurLocal.size();
-        memcpy(&(donnees[p]), &tailleIdJoueur, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), G_idJoueurLocal.data(), tailleIdJoueur*sizeof(QChar));
-        p+=tailleIdJoueur*sizeof(QChar);
-        // Ajout de l'image
-        quint32 tailleImage = byteArray.size();
-        memcpy(&(donnees[p]), &tailleImage, sizeof(quint32));
-        p+=sizeof(quint32);
-        memcpy(&(donnees[p]), byteArray.data(), tailleImage);
-        p+=tailleImage;
-
-        // Emission de l'image au serveur ou a l'ensemble des clients
-       // emettre(donnees, tailleCorps + sizeof(enteteMessage));
-        // Liberation du buffer d'emission
-        delete[] donnees;
-}*/
 
 /********************************************************************/
 /* Ferme le plan ou l'image actuellement ouvert sur l'ordinateur    */
@@ -1444,7 +1282,18 @@ void MainWindow::clickOnMapWizzard()
 
     }
 }
+void MainWindow::openImage()
+{
 
+        QString filepath = QFileDialog::getOpenFileName(this, tr("Open Image file"), m_options->value(QString("ImageDirectory"),QVariant(".")).toString(),
+                tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp)"));
+
+
+        Image* tmpImage=new Image(filepath,workspace);
+
+        workspace->addWidget(tmpImage);
+        tmpImage->show();
+}
 
 
 /********************************************************************/
@@ -1763,7 +1612,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 Image *MainWindow::trouverImage(QString idImage)
 {
         // Taille de la liste des Images
-        int tailleListe = listeImage.size();
+       /* int tailleListe = listeImage.size();
 
         bool ok = false;
         int i;
@@ -1776,7 +1625,7 @@ Image *MainWindow::trouverImage(QString idImage)
                 return listeImage[i-1];
         // Sinon on renvoie 0
         else
-                return 0;
+                return 0;*/
 }
 
 /********************************************************************/
@@ -1812,7 +1661,7 @@ Image *MainWindow::trouverImage(QString idImage)
 bool MainWindow::enleverImageDeLaListe(QString idImage)
 {
         // Taille de la liste des Images
-        int tailleListe = listeImage.size();
+       /* int tailleListe = listeImage.size();
 
         bool ok = false;
         int i;
@@ -1828,7 +1677,7 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
         }
         // Sinon on renvoie false
         else
-                return false;
+                return false;*/
 }
 
 /********************************************************************/

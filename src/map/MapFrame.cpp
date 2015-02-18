@@ -31,17 +31,34 @@ MapFrame::MapFrame(Map *map)
     : SubMdiWindows(),m_map(map)
 {
 
+    m_widgetLayout = new QWidget;
     m_graphicView = new QGraphicsView(map);
-    setWindowTitle(m_map->mapTitle());
-    setGeometry(0,0,m_map->mapWidth(),map->mapHeight());
+    m_vlayout= new QVBoxLayout();
+    m_hlayout = new QHBoxLayout();
 
-    setWidget(m_graphicView);
+    m_vlayout->addStretch(1);
+    m_vlayout->addWidget(m_graphicView);
+    m_vlayout->addStretch(1);
+
+
+    m_hlayout->addStretch(1);
+    m_hlayout->addLayout(m_vlayout);
+    m_hlayout->addStretch(1);
+    setWindowTitle(m_map->mapTitle());
+    m_graphicView->setGeometry(0,0,m_map->mapWidth(),map->mapHeight());
+    m_widgetLayout->setLayout(m_hlayout);
+    setWidget(m_widgetLayout);
+    //setLayout(hlayout);
 
 }
 
 
 MapFrame::~MapFrame()
 {
+    delete m_widgetLayout;
+    delete m_graphicView;
+    delete m_hlayout;
+    delete m_vlayout;
 
 }
 
@@ -85,4 +102,23 @@ void MapFrame::currentToolChanged(ToolsBar::SelectableTool selectedtool)
     if(m_map != NULL)
         m_map->setCurrentTool(m_currentTool);
 
+}
+
+void MapFrame::currentPenSizeChanged(int ps)
+{
+    if(m_map != NULL)
+        m_map->setPenSize(ps);
+}
+void MapFrame::currentNPCSizeChanged(int ps)
+{
+    if(m_map != NULL)
+        m_map->setNPCSize(ps);
+}
+
+void MapFrame::currentColorChanged(QColor& penColor)
+{
+    m_penColor = penColor;
+
+    if(m_map !=NULL)
+        m_map->setCurrentChosenColor(m_penColor);
 }

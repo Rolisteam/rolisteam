@@ -36,17 +36,21 @@
 #include "displaydisk.h"
 
 
-class SelecteurDiametre : public QWidget
+class DiameterSelector : public QWidget
 {
+    Q_OBJECT
 public :
-	SelecteurDiametre(QWidget *parent = 0, bool plein = true, int minimum = 1, int maximum = 50);
+    DiameterSelector(QWidget *parent = 0, bool plein = true, int minimum = 1, int maximum = 50);
 	void changerDiametre(int nouvelleValeur);
+
+signals:
+    void diameterChanged(int);
 
 private :
 	int minimum;
 	int maximum;
     DisplayDisk *disk;
-	QSlider *diametre;
+    QSlider *m_diameterSlider;
 };
 
 #endif

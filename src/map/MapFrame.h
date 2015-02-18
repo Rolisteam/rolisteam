@@ -68,6 +68,22 @@ public slots :
      *  @param  new selected tool
      */
     virtual void currentToolChanged(ToolsBar::SelectableTool);
+    /**
+     *  @brief change the current color
+     *  @param  new color
+     */
+    virtual void currentColorChanged(QColor& );
+
+    /**
+     *  @brief change the pen size
+     *  @param  new size
+     */
+    virtual void currentPenSizeChanged(int);
+    /**
+     *  @brief change the NPC size
+     *  @param  new size
+     */
+    virtual void currentNPCSizeChanged(int);
 
 protected :
         /**
@@ -75,6 +91,7 @@ protected :
          *  @param event discribe the context of the event
          */
     void closeEvent(QCloseEvent *event);
+
 
 private :
 
@@ -100,6 +117,21 @@ private :
      * Pointer to the graphicView, the widget (viewport) which displays the scene
      */
     QGraphicsView* m_graphicView;
+
+
+    /**
+     * Pointer to the intermediate widget, it's a sublayer to manager layout.
+     */
+    QWidget* m_widgetLayout;
+
+    /**
+     * vertical layout
+     */
+    QVBoxLayout* m_vlayout;
+    /**
+     * horizontal layout
+     */
+    QHBoxLayout* m_hlayout;
 
 };
 

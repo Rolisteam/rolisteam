@@ -22,7 +22,7 @@
 
 #include <QMdiSubWindow>
 
-#include "BarreOutils.h"
+#include "ToolBar.h"
 class SubMdiWindows : public QMdiSubWindow
 {
     Q_OBJECT
@@ -34,12 +34,18 @@ public slots:
     void changedStatus(Qt::WindowStates oldState,Qt::WindowStates newState);
     virtual void currentToolChanged(ToolsBar::SelectableTool);
     virtual void currentCursorChanged(QCursor*);
+    virtual void currentColorChanged(QColor&);
 
+    virtual void currentPenSizeChanged(int);
 
+    virtual void currentNPCSizeChanged(int);
 protected:
     bool m_active;
     QCursor* m_currentCursor;
     ToolsBar::SelectableTool m_currentTool;
+    QColor m_penColor;
+    int m_penSize;
+    int m_npcSize;
 
 };
 

@@ -23,187 +23,102 @@
 #include <QtGui>
 
 #include "Image.h"
-#include "variablesGlobales.h"
+
+#include <QHBoxLayout>
 
 
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/	
-Image::Image(QString identImage, QString identJoueur, QImage *image, QAction *action, QWidget *parent)
-: SubMdiWindows(parent)
+Image::Image( QString& filename,  QWidget *parent)
+: SubMdiWindows(parent),m_image(NULL)
 {
 
-    m_scrollArea = new QScrollArea;
-    setWidget(m_scrollArea);
+    m_filename = filename;
+    setUi();
+    m_image = new QImage(m_filename);
+
 	setObjectName("Image");
 
-	// On change l'icone de la fenetre
+    m_zoomLevel = 1;
 	setWindowIcon(QIcon(":/icones/vignette image.png"));
 
-	// Creation du label qui contient l'image
-	labelImage = new QLabel(this);
-	QPixmap pixmap = QPixmap::fromImage(*image);
-	labelImage->setPixmap(pixmap);
-	labelImage->resize(image->width(), image->height());
-	// Memorisation de l'action associee
-	actionAssociee = action;
-	// Memorisation des ID de l'image et du joueur qui l'a ouverte
-	idImage = identImage;
-	idJoueur = identJoueur;
-	// On aligne l'image au centre de la scrollArea
+
+    m_labelImage = new QLabel(this);
+    m_pixMap = QPixmap::fromImage(*m_image);
+    m_labelImage->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
+    //m_labelImage->resize(m_image->width()*m_zoomLevel, m_image->height()*m_zoomLevel);
+
+
+
+
+
     m_scrollArea->setAlignment(Qt::AlignCenter);
-	// Association du label contenant l'image avec le scrollArea
-    m_scrollArea->setWidget(labelImage);
-	// Redimentionement de la taille du scrollArea
-    m_scrollArea->resize(image->width()+2, image->height()+2);
+    m_scrollArea->setWidget(m_labelImage);
+    m_scrollArea->resize(m_image->width()+2, m_image->height()+2);
 }
 
-/********************************************************************/	
-/* Destructeur                                                      */
-/********************************************************************/	
+
 Image::~Image()
 {
-	// Destruction de l'action associee
-	actionAssociee->~QAction();
-	// On enleve l'image de la liste des Images existantes
-    //m_mainWindow->enleverImageDeLaListe(idImage);
+
+}
+void Image::setUi()
+{
+    m_scrollArea = new QScrollArea;
+    QHBoxLayout* hlayout=new QHBoxLayout;
+    QVBoxLayout* vlayout= new QVBoxLayout;
+    m_zoomLabel= new QLabel(tr("Zoom level"));
+    m_zoomSlider=new QSlider(Qt::Horizontal);
+    m_zoomSlider->setMaximum(800);
+    m_zoomSlider->setMinimum(25);
+    m_zoomSpinBox=new QSpinBox;
+    m_zoomSpinBox->setMaximum(800);
+    m_zoomSpinBox->setMinimum(25);
+    m_zoomSpinBox->setSuffix("%");
+
+    connect(m_zoomSpinBox,SIGNAL(valueChanged(int)),m_zoomSlider,SLOT(setValue(int)));
+    connect(m_zoomSlider,SIGNAL(valueChanged(int)),m_zoomSpinBox,SLOT(setValue(int)));
+    connect(m_zoomSlider,SIGNAL(valueChanged(int)),this,SLOT(setZoomLevel(int)));
+    connect(m_zoomSpinBox,SIGNAL(valueChanged(int)),this,SLOT(setZoomLevel(int)));
+    m_zoomSpinBox->setValue(m_zoomLevel*100);
+    m_zoomSlider->setValue(m_zoomLevel*100);
+    hlayout->addWidget(m_zoomLabel);
+    hlayout->addWidget(m_zoomSlider);
+    hlayout->addWidget(m_zoomSpinBox);
+
+    vlayout->addWidget(m_scrollArea);
+    vlayout->addLayout(hlayout);
+
+    QWidget* tmp = new QWidget;
+    tmp->setLayout(vlayout);
+    setWidget(tmp);
+}
+void Image::setZoomLevel(int zoomlevel)
+{
+    if((float)zoomlevel/100!=m_zoomLevel)
+    {
+        m_zoomLevel = (float)zoomlevel/100;
+        m_labelImage->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
+        m_labelImage->resize(m_image->width()*m_zoomLevel, m_image->height()*m_zoomLevel);
+    }
 }
 
-/********************************************************************/
-/* Cache la fenetre au lieu de la detruire                          */
-/********************************************************************/	
 void Image::closeEvent(QCloseEvent *event)
 {
-	// Masquage de la fenetre
 	hide();
-	// Deselection de l'action associee
-	actionAssociee->setChecked(false);
-	// Arret de la procedure de fermeture		
 	event->ignore();
 }
 
-/********************************************************************/
-/* Associe l'action d'affichage/masquage a la carte                 */
-/********************************************************************/	
-void Image::associerAction(QAction *action)
-{
-	actionAssociee = action;
-}
 
-/********************************************************************/
-/* Renvoie true si l'utilisateur local est le proprietaire de       */
-/* l'image                                                          */
-/********************************************************************/
-bool Image::proprietaireImage()
-{
-    return true;//idJoueur == G_idJoueurLocal;
-}
 
-/********************************************************************/
-/* Renvoie l'identifiant de l'image                                 */
-/********************************************************************/
-QString Image::identifiantImage()
-{
-	return idImage;
-}
 
-/********************************************************************/
-/* Emet l'Image vers la liaison passee en parametre                 */
-/********************************************************************/
-void Image::emettreImage(QString titre, int numeroLiaison)
-{
-    /*bool ok;
 
-	// On compresse l'image dans un tableau
-	QByteArray baImage;
-	QBuffer bufImage(&baImage);
-	ok = labelImage->pixmap()->save(&bufImage, "jpeg", 70);
-	if (!ok)
-		qWarning("Probleme de compression de l'image (emettreImage - Image.cpp)");
-	
-	// Taille des donnees
-	quint32 tailleCorps =
-		// Taille du titre
-		sizeof(quint16) + titre.size()*sizeof(QChar) +
-		// Taille de l'identifiant de l'image
-		sizeof(quint8) + idImage.size()*sizeof(QChar) +
-		// Taille de l'identifiant du joueur
-		sizeof(quint8) + idJoueur.size()*sizeof(QChar) +
-		// Taille de l'image
-		sizeof(quint32) + baImage.size();
-			
-	// Buffer d'emission
-	char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
 
-	// Creation de l'entete du message
-	enteteMessage *uneEntete;
-	uneEntete = (enteteMessage *) donnees;
-	uneEntete->categorie = image;
-	uneEntete->action = chargerImage;
-	uneEntete->tailleDonnees = tailleCorps;
-	
-	// Creation du corps du message
-	int p = sizeof(enteteMessage);
-	// Ajout du titre
-	quint16 tailleTitre = titre.size();
-	memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
-	p+=sizeof(quint16);
-	memcpy(&(donnees[p]), titre.data(), tailleTitre*sizeof(QChar));
-	p+=tailleTitre*sizeof(QChar);
-	// Ajout de l'identifiant de l'image
-	quint8 tailleIdImage = idImage.size();
-	memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
-	p+=sizeof(quint8);
-	memcpy(&(donnees[p]), idImage.data(), tailleIdImage*sizeof(QChar));
-	p+=tailleIdImage*sizeof(QChar);
-	// Ajout de l'identifiant du joueur
-	quint8 tailleIdJoueur = idJoueur.size();
-	memcpy(&(donnees[p]), &tailleIdJoueur, sizeof(quint8));
-	p+=sizeof(quint8);
-	memcpy(&(donnees[p]), idJoueur.data(), tailleIdJoueur*sizeof(QChar));
-	p+=tailleIdJoueur*sizeof(QChar);
-	// Ajout de l'image
-	quint32 tailleImage = baImage.size();
-	memcpy(&(donnees[p]), &tailleImage, sizeof(quint32));
-	p+=sizeof(quint32);
-	memcpy(&(donnees[p]), baImage.data(), tailleImage);
-	p+=tailleImage;
 
-	// Emission de l'image vers la liaison indiquee
-	emettre(donnees, tailleCorps + sizeof(enteteMessage), numeroLiaison);
-	// Liberation du buffer d'emission
-    delete[] donnees;*/
-}
 
-/********************************************************************/
-/* Sauvegarde l'image dans le fichier passe en parametre            */
-/********************************************************************/
-void Image::sauvegarderImage(QFile &file, QString titre)
-{
-	bool ok;
 
-	// On commence par compresser l'image (format jpeg) dans un tableau
-	QByteArray baImage;
-	QBuffer bufImage(&baImage);
-	ok = labelImage->pixmap()->save(&bufImage, "jpeg", 100);
-	if (!ok)
-		qWarning("Probleme de compression de l'image (sauvegarderImage - Image.cpp)");
-	
-	// Ecriture de l'image dans le fichier
 
-	// Ecriture du titre
-	quint16 tailleTitre = titre.size();
-	file.write((char *)&tailleTitre, sizeof(quint16));
-	file.write((char *)titre.data(), tailleTitre*sizeof(QChar));
-	// Ajout de l'image
-	quint32 tailleImage = baImage.size();
-	file.write((char *)&tailleImage, sizeof(quint32));
-	file.write(baImage.data(), tailleImage);
-}
 
-/********************************************************************/
-/* Un bouton de la souris vient d'etre enfonce                      */
-/********************************************************************/	
+
+
 /*void Image::mousePressEvent(QMouseEvent *event)
 {
 	// Si l'utilisateur a clique avec la bouton gauche et que l'outil main est selectionne
@@ -219,9 +134,7 @@ void Image::sauvegarderImage(QFile &file, QString titre)
     }
 }*/
 
-/********************************************************************/
-/* Relache d'un bouton de la souris                                 */
-/********************************************************************/	
+
 /*void Image::mouseReleaseEvent(QMouseEvent *event)
 {
 	// Si le bouton gauche est relache on interdit le deplacement de la carte
@@ -229,9 +142,7 @@ void Image::sauvegarderImage(QFile &file, QString titre)
 		deplacementAutorise = false;
 }*/
 
-/********************************************************************/
-/* Deplacement de la souris                                         */
-/********************************************************************/	
+
 /*void Image::mouseMoveEvent(QMouseEvent *event)
 {
 	// Si le deplacement est autorise
@@ -245,19 +156,15 @@ void Image::sauvegarderImage(QFile &file, QString titre)
 	}
 }*/
 		
-/********************************************************************/
-/* Changement du pointeur de souris pour l'outil main               */
-/********************************************************************/	
+
 void Image::pointeurMain()
 {
-	labelImage->setCursor(Qt::OpenHandCursor);
+    m_labelImage->setCursor(Qt::OpenHandCursor);
 }
 
-/********************************************************************/
-/* Changement du pointeur de souris pour les autres outils          */
-/********************************************************************/	
+
 void Image::pointeurNormal()
 {
-	labelImage->setCursor(Qt::ForbiddenCursor);
+    m_labelImage->setCursor(Qt::ForbiddenCursor);
 }
 

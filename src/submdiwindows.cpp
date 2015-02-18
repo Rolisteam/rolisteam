@@ -23,6 +23,7 @@
 SubMdiWindows::SubMdiWindows(QWidget* parent)
     : QMdiSubWindow(parent)
 {
+
     m_currentTool = ToolsBar::HANDLER;
 }
 
@@ -48,4 +49,17 @@ void SubMdiWindows::currentCursorChanged(QCursor* cursor)
 {
     m_currentCursor = cursor;
 
+}
+void SubMdiWindows::currentColorChanged(QColor& penColor)
+{
+m_penColor = penColor;
+
+}
+void SubMdiWindows::currentPenSizeChanged(int pensize)
+{
+    m_penSize =pensize;
+}
+void SubMdiWindows::currentNPCSizeChanged(int npc)
+{
+    m_npcSize = npc;
 }

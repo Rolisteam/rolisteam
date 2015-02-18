@@ -22,7 +22,7 @@
 
 #include <QGraphicsScene>
 #include <QColor>
-#include "BarreOutils.h"
+#include "ToolBar.h"
 class VisualItem;
 class Map : public QGraphicsScene
 {
@@ -45,12 +45,17 @@ public:
 public slots:
     void setCurrentTool(ToolsBar::SelectableTool selectedtool);
     void setCurrentChosenColor(QColor&);
+    void setPenSize(int);
+    void setNPCSize(int);
 
 protected:
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     void addItem();
+/*private slots:
+    void editingFinished();*/
+
 
 private:
     int m_width;
@@ -61,7 +66,9 @@ private:
     QPointF m_first;
     QPointF m_end;
     VisualItem* currentItem;
-    QColor* m_itemColor;
+    QColor m_itemColor;
+    int m_penSize;
+    int m_npcSize;
 };
 
 #endif // MAP_H

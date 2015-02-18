@@ -17,27 +17,35 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PATHITEM_H
-#define PATHITEM_H
-
+#ifndef TEXTITEM_H
+#define TEXTITEM_H
 #include "visualitem.h"
-#include <QPen>
-class PathItem : public VisualItem
-{
-public:
-    PathItem(QPointF& nend,QColor& penColor,int penSize,QGraphicsItem * parent = 0);
+#include <QObject>
+#include <QFontMetrics>
 
+
+
+class QLineEdit;
+class TextItem : public QObject ,public VisualItem
+{
+    Q_OBJECT
+public:
+    TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsItem * parent = 0);
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
     virtual QRectF boundingRect() const ;
 
     virtual void setNewEnd(QPointF& nend);
-    virtual QPainterPath shape () const;
+
+
+public slots:
+    void editingFinished();
 
 private:
-    QPen m_pen;
-    QPainterPath m_path;
-
+    QPointF m_start;
+    QString m_text;
+    QLineEdit* m_textEdit;
+    QFontMetrics* m_metricFont;
 };
 
-#endif // PATHITEM_H
+#endif // TEXTITEM_H

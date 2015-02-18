@@ -1,5 +1,5 @@
 /***************************************************************************
-  *      Copyright (C) 2010 by Renaud Guezennec                             *
+ *      Copyright (C) 2010 by Renaud Guezennec                             *
  *                                                                         *
  *                                                                         *
  *   rolisteam is free software; you can redistribute it and/or modify     *
@@ -18,7 +18,31 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "lineitem.h"
-
-LineItem::LineItem()
+#include <QPainterPath>
+#include <QPainter>
+LineItem::LineItem(QPointF& p,QColor& penColor,int penSize,QGraphicsItem * parent)
+    :  VisualItem(penColor,parent)
 {
+    m_startPoint = p;
+    m_rect.setTopLeft(p);
+    m_pen.setColor(penColor);
+    m_pen.setWidth(penSize);
+}
+
+void LineItem::setNewEnd(QPointF& nend)
+{
+    m_endPoint = nend;
+    m_rect.setBottomRight(nend);
+}
+QRectF LineItem::boundingRect() const
+{
+    return  m_rect;
+}
+void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+{
+    painter->save();
+    painter->setPen(m_pen);
+    painter->drawLine(m_startPoint,m_endPoint);
+    painter->restore();
+
 }

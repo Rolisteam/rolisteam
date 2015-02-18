@@ -21,12 +21,12 @@ INCLUDEPATH += . \
     preferences \
     map
 HEADERS += displaydisk.h \
-    BarreOutils.h \
+    ToolBar.h \
 #    ClientServeur.h \
     DessinPerso.h \
     EditeurNotes.h \
     Image.h \
-    LecteurAudio.h \
+    audioplayer.h \
 #    Liaison.h \
 #    ListeUtilisateurs.h \
     MainWindow.h \
@@ -45,7 +45,7 @@ HEADERS += displaydisk.h \
 FORMS += LecteurAudio.ui \
     userlistdockwidget.ui
 SOURCES += displaydisk.cpp \
-    BarreOutils.cpp \
+    ToolBar.cpp \
 #    ClientServeur.cpp \
     DessinPerso.cpp \
     EditeurNotes.cpp \
@@ -64,18 +64,18 @@ SOURCES += displaydisk.cpp \
 
 HAVE_FMOD { 
     DEFINES += FMOD
-    SOURCES += LecteurAudiowin.cpp
+    SOURCES += audioplayerwin.cpp
 #    HEADERS += fmod.h \
 #        fmod_errors.h
 }
 HAVE_PHONON { 
     DEFINES += PHONON
-    SOURCES += LecteurAudiounix.cpp
+    SOURCES += audioplayerunix.cpp
     QT += phonon
 }
 HAVE_NULL { 
     DEFINES += NULL_PLAYER
-    SOURCES += LecteurAudiounix.cpp
+    SOURCES += audioplayerunix.cpp
 }
 RESOURCES += ../rolisteam.qrc
 macx { 
