@@ -246,7 +246,7 @@ void LecteurAudio::tick(qint64 time)
 {
      QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
      if((!G_joueur) && ((time>m_time+(2*mediaObject->tickInterval()))||(time<m_time)))
-          emettreCommande(nouvellePositionMorceau, "", time, -1);
+          emettreCommande(nouvellePositionMorceau, "", time);
      m_time = time;
      afficheurTemps->display(displayTime.toString("mm:ss"));
 }
