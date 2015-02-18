@@ -120,7 +120,7 @@ void ecrireLogUtilisateur(QString message)
         logUtilisateur->append(heure);
 
         // Affichage du texte
-logUtilisateur->setTextColor(couleur);
+    logUtilisateur->setTextColor(couleur);
         logUtilisateur->insertPlainText(message);
 }
 
@@ -2603,54 +2603,21 @@ void MainWindow::sauvegarderFichierInitialisation()
 /********************************************************************/
 void MainWindow::aPropos()
 {
-        // Creation du descripteur de fichier
-        QFile file(":/a propos.htm");
-        // Ouverture du fichier en lecture seule
-        if (!file.open(QIODevice::ReadOnly))
-        {
-                qWarning("Probleme a l'ouverture du fichier (aPropos - MainWindow.cpp)");
-                return;
-        }
-
-        // On cree un flux de donnees rattache au fichier
-        QTextStream fichier(&file);
-        // On decode le flux en UTF-8
-        fichier.setCodec("UTF-8");
-        // On recupere le fichier HTML sous forme de string
-        QString html = fichier.readAll();
-        // Fermeture du fichier
-        file.close();
-
-        // Creation du widget qui va afficher le message
-        QDialog dialog;
-        dialog.setFixedSize(585, 375);
-        dialog.setWindowTitle(tr("A propos de ") + NOM_APPLICATION + " - version " + VERSION_APPLICATION);
-
-        // Creation de l'icone
-        QPixmap pixIcone(":/icones/" + QString(NOM_APPLICATION) + ".png");
-        QLabel label(&dialog);
-        label.setPixmap(pixIcone.scaledToWidth(80, Qt::SmoothTransformation));
-        label.move(20,15);
-
-        // Creation du bouton
-        QPushButton bouton(tr("D'accord"), &dialog);
-        bouton.move(450, 330);
-        // Connexion du bouton a la fermeture de la boite de dialog
-        QObject::connect(&bouton, SIGNAL(clicked()), &dialog, SLOT(close()));
-
-        // Ajout de la zone de texte
-        QTextEdit text(&dialog);
-        text.setReadOnly(true);
-        text.move(120, 15);
-        text.setFixedSize(450, 300);
-        // Creation du document
-        QTextDocument document;
-        document.setHtml(html);
-        // On definit le message
-        text.setDocument(&document);
-
-        // Affichage de la boite de dialogue
-        dialog.exec();
+QMessageBox::about(this, tr("About Rolisteam"),
+                 tr("<h1>Rolisteam v1.0</h1>"
+"<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others, share maps or picture. Rolisteam also provides many features for: permission management, sharing background music and dices throw. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.</p>"
+"<p>Rolisteam may contain some files from the FMOD library. This point prevents commercial use of the software.</p> "
+"<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>"
+"<p><h3>URL:</h3>  <a href=\"http://code.google.com/p/rolisteam/\">http://code.google.com/p/rolisteam/</a></p> "
+"<p><h3>BugTracker:</h3> <a href=\"http://code.google.com/p/rolisteam/issues/list\">http://code.google.com/p/rolisteam/issues/list</a></p> "
+"<p><h3>Current developers :</h3> "
+"<ul>"
+"<li><a href=\"http://renaudguezennec.homelinux.org/accueil,3.html\">Renaud Guezennec</a></li>"
+"</ul></p> "
+"<p><h3>Retired developers :</h3>"
+"<ul>"
+"<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni<a/> (rolistik)  </li>"
+"</ul></p>"));
 }
 
 
