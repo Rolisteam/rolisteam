@@ -18,13 +18,41 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "visualitem.h"
+#include <QGraphicsSceneHoverEvent>
+#include <math.h>
+#include <QCursor>
+#include <QDebug>
 
 VisualItem::VisualItem(QColor& penColor,QGraphicsItem * parent )
     : QGraphicsItem(parent),m_color(penColor)
 {
+    //m_state = IDLE;
 }
 
 void VisualItem::setPenColor(QColor& penColor)
 {
     m_color = penColor;
+}
+/*void VisualItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
+{
+
+}
+void VisualItem::mousePressEvent ( QGraphicsSceneMouseEvent * event )
+{
+    if(event->button()==Qt::LeftButton)
+    {
+
+    }
+}*/
+void VisualItem::hoverEnterEvent ( QGraphicsSceneHoverEvent * event )
+{
+
+    qreal distanceToTopLeft = sqrt(event->lastPos().x()*boundingRect().topLeft().y()+event->lastPos().y()*boundingRect().topLeft().x());
+
+
+    qDebug()<< "distance" << distanceToTopLeft;
+    if(distanceToTopLeft<=5)
+    {
+        setCursor(QCursor(Qt::SizeFDiagCursor));
+    }
 }

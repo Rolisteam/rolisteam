@@ -28,11 +28,12 @@ public:
     VisualItem(QColor& penColor,QGraphicsItem * parent = 0);
 
 
-
     virtual void setNewEnd(QPointF& nend)=0;
     virtual void setPenColor(QColor& penColor);
 
+
 protected:
+    virtual void hoverEnterEvent ( QGraphicsSceneHoverEvent * event );
 
     QColor m_color;
 
