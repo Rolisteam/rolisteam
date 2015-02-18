@@ -57,7 +57,6 @@ public :
 
     void afficherMessage(const QString &utilisateur, const QColor &couleur, const QString &message, actionDiscussion msgtype = TCHAT_MESSAGE);
 
-    void sauvegarderTchat(QFile &file);
     bool hasUnseenMessage() const;
 
     // events handler

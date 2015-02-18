@@ -100,7 +100,6 @@ SendFeaturesIterator::~SendFeaturesIterator()
 DataWriter & SendFeaturesIterator::message()
 {
     m_message.reset();
-    qDebug("zorglub");
     if (m_player != NULL)
     {
         qDebug("Prepared feature %s -> %s (%d)", qPrintable(m_player->uuid()), qPrintable(key()), value());

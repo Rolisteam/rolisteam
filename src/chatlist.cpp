@@ -248,6 +248,8 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     QString chatUuid = to;
     if (to == g_playersList.localPlayer()->uuid())
         chatUuid = from;
+    else if (not to.isEmpty())
+        return;
 
     Tchat * chat = getChat(chatUuid);
     if (chat == NULL)

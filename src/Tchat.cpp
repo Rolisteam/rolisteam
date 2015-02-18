@@ -784,21 +784,6 @@ void Tchat::descendreHistorique()
     }
 }
 
-/********************************************************************/
-/* Sauvegarde le tchat dans un fichier portant son nom              */
-/********************************************************************/
-void Tchat::sauvegarderTchat(QFile &file)
-{
-    // On recupere le document contenant la discussion
-    QTextDocument *document = zoneAffichage->document();
-    // On convertit le document en HTML
-    QString html = document->toHtml(QByteArray("UTF-8"));
-    // On cree un flux de donnees rattache au fichier
-    QTextStream fichier(&file);
-    // On envoie le document HTML dans le flux
-    fichier << html;
-}
-
 bool Tchat::hasUnseenMessage() const
 {
     return m_hasUnseenMessage;
