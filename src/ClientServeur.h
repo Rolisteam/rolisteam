@@ -75,6 +75,8 @@ public :
 
     Liaison* getLinkToServer();
 
+    quint16 getPort() const;
+
 
 public slots:
     void disconnectAndClose();
@@ -101,6 +103,7 @@ private :
     QList<Liaison *> liaisons;
     Liaison * m_liaisonToServer;
     quint16 m_port;
+    quint16 m_listeningPort;
     QString m_address;
     QTimer* m_reconnect;
     Player * m_localPlayer;

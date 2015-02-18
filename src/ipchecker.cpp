@@ -1,9 +1,9 @@
 /*************************************************************************
- *    Copyright (C) 2011 by Renaud Guezennec                             *
+ *   Copyright (C) 2013 by Renaud Guezennec                              *
  *                                                                       *
- *      http://www.rolisteam.org/                                        *
+ *   http://www.rolisteam.org/                                           *
  *                                                                       *
- *   Rolisteam is free software; you can redistribute it and/or modify   *
+ *   rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
  *   by the Free Software Foundation; either version 2 of the License,   *
  *   or (at your option) any later version.                              *
@@ -18,47 +18,37 @@
  *   Free Software Foundation, Inc.,                                     *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
+#include <QUrl>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
-#ifndef UPDATECHECKER_H
-#define UPDATECHECKER_H
+#include "ipchecker.h"
 
-#include <QString>
-#include <QTcpSocket>
-#include <QNetworkAccessManager>
-/**
- * @brief The UpdateChecker class
- */
-class UpdateChecker : public QObject
+IpChecker::IpChecker(QObject *parent) :
+    QObject(parent)
 {
-    Q_OBJECT
-public:
-    UpdateChecker();
 
-    bool mustBeUpdated();
-    void startChecking();
+}
+void IpChecker::readText(QNetworkReply* p)
+{
 
-    QString& getLatestVersion();
-    QString& getLatestVersionDate();
-signals:
-    void checkFinished();
+    if(p->error()!=QNetworkReply::NoError)
+    {
+        m_ip = tr("Error to read server IP.");
+    }
+    else
+    {
+        m_ip = p->readAll();
+        emit finished(m_ip);
+    }
 
-private slots:
-    void readXML(QNetworkReply* p);
 
-private:
- bool inferiorVersion();
+}
+void IpChecker::startCheck()
+{
+    m_manager = new QNetworkAccessManager(this);
+    connect(m_manager, SIGNAL(finished(QNetworkReply*)),
+             this, SLOT(readText(QNetworkReply*)));
 
-private:
-    QString m_version;
-    int m_versionMinor;
-    int m_versionMajor;
-    int m_versionMiddle;
-    QString m_versionDate;
-    QString m_versionChangelog;
-//    QTcpSocket m_socket;
-    QNetworkAccessManager* m_manager;
-    bool m_state;
-    bool m_noErrror;
-};
-
-#endif // UPDATECHECKER_H
+     m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/ip.php")));
+}

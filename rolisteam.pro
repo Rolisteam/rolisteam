@@ -94,7 +94,8 @@ HEADERS += src/AfficheurDisque.h \
     src/connectionretrydialog.h \
     src/mainwindow.h \
     src/preferencesmanager.h \
-    src/chatbrowser.h
+    src/chatbrowser.h \
+    src/ipchecker.h
 
 SOURCES += src/AfficheurDisque.cpp \
            src/BarreOutils.cpp \
@@ -136,7 +137,8 @@ SOURCES += src/AfficheurDisque.cpp \
     src/connectionretrydialog.cpp \
     src/mainwindow.cpp \
     src/preferencesmanager.cpp \
-    src/chatbrowser.cpp
+    src/chatbrowser.cpp \
+    src/ipchecker.cpp
 #end source
 
 

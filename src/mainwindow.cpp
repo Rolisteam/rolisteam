@@ -149,6 +149,7 @@ MainWindow::MainWindow()
 {
     m_preferences = PreferencesManager::getInstance();
     m_networkManager = new ClientServeur;
+    m_ipChecker = new IpChecker(this);
     G_clientServeur = m_networkManager;
 
 }
@@ -289,6 +290,8 @@ void MainWindow::setupUi()
 
     connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(updateWindowTitle()));
     connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(networkStateChanged(bool)));
+
+    connect(m_ipChecker,SIGNAL(finished(QString)),this,SLOT(showIp(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -307,6 +310,8 @@ void MainWindow::updateWindowTitle()
                                                 .arg(m_version)
                                                 .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected"))
                                                 .arg(m_networkManager->isServer() ? tr("Server") : tr("Client")));
+
+
 
 }
 
@@ -498,25 +503,24 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         // Connexion de l'action avec l'affichage/masquage de la fenetre
         connect(action, SIGNAL(triggered(bool)), carteFenetre, SLOT(setVisible(bool)));
 
-        // Recuperation de la Carte contenue dans la CarteFenetre
+
         Carte *carte = carteFenetre->carte();
         carte->setPointeur(m_toolBar->getCurrentTool());
 
         connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),carte,SLOT(setPointeur(BarreOutils::Tool)));
 
-        // Connexion de la demande de changement de couleur de la carte avec celle de la barre d'outils
+
         connect(carte, SIGNAL(changeCouleurActuelle(QColor)), m_toolBar, SLOT(changeCouleurActuelle(QColor)));
-        // Connexion de la demande d'incrementation du numero de PNJ de la carte avec celle de la barre d'outils
+
         connect(carte, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementeNumeroPnj()));
-        // Connexion de la demande de changement de diametre des PNJ de la carte avec celle de la barre d'outils
+
         connect(carte, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(mettreAJourPnj(int, QString)));
-        // Affichage des noms et numeros des PJ/PNJ
+
         connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
         connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
         connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
 
-        // Mise a jour du pointeur de souris de la carte
-        //carte->setPointeur(G_outilCourant);
+
 
         
         // new PlayersList connection
@@ -1887,6 +1891,11 @@ void MainWindow::networkStateChanged(bool state)
     {
         m_reconnectAct->setEnabled(false);
         m_disconnectAct->setEnabled(true);
+
+        if((m_networkManager->isConnected())&&(m_networkManager->isServer())&&(NULL!=m_ipChecker))
+        {
+            m_ipChecker->startCheck();
+        }
     }
     else
     {
@@ -1911,4 +1920,8 @@ void MainWindow::startReconnection()
         m_reconnectAct->setEnabled(true);
         m_disconnectAct->setEnabled(false);
     }
+}
+void MainWindow::showIp(QString ip)
+{
+    notifyUser(tr("Server Ip Address:%1\nPort:%2").arg(ip).arg(m_networkManager->getPort()));
 }

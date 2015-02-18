@@ -1,9 +1,9 @@
 /*************************************************************************
- *    Copyright (C) 2011 by Renaud Guezennec                             *
+ *   Copyright (C) 2013 by Renaud Guezennec                              *
  *                                                                       *
- *      http://www.rolisteam.org/                                        *
+ *   http://www.rolisteam.org/                                           *
  *                                                                       *
- *   Rolisteam is free software; you can redistribute it and/or modify   *
+ *   rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
  *   by the Free Software Foundation; either version 2 of the License,   *
  *   or (at your option) any later version.                              *
@@ -18,47 +18,34 @@
  *   Free Software Foundation, Inc.,                                     *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
+#ifndef IPCHECKER_H
+#define IPCHECKER_H
 
-#ifndef UPDATECHECKER_H
-#define UPDATECHECKER_H
-
+#include <QObject>
 #include <QString>
 #include <QTcpSocket>
 #include <QNetworkAccessManager>
-/**
- * @brief The UpdateChecker class
- */
-class UpdateChecker : public QObject
+
+class IpChecker : public QObject
 {
     Q_OBJECT
 public:
-    UpdateChecker();
-
-    bool mustBeUpdated();
-    void startChecking();
-
-    QString& getLatestVersion();
-    QString& getLatestVersionDate();
+    explicit IpChecker(QObject *parent = 0);
+    
 signals:
-    void checkFinished();
+    void finished(QString);
+
+public slots:
+    void startCheck();
 
 private slots:
-    void readXML(QNetworkReply* p);
+    void readText(QNetworkReply* p);
 
 private:
- bool inferiorVersion();
-
-private:
-    QString m_version;
-    int m_versionMinor;
-    int m_versionMajor;
-    int m_versionMiddle;
-    QString m_versionDate;
-    QString m_versionChangelog;
-//    QTcpSocket m_socket;
+    QTcpSocket m_socket;
     QNetworkAccessManager* m_manager;
-    bool m_state;
-    bool m_noErrror;
+    QString m_ip;
+    
 };
 
-#endif // UPDATECHECKER_H
+#endif // IPCHECKER_H

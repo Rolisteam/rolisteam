@@ -151,6 +151,7 @@ bool ClientServeur::startConnection()
         if (m_configDialog->isServer())
         {
             cont = !startListening();
+            m_port = m_configDialog->getPort();
         }
         else
         {
@@ -358,4 +359,8 @@ void ClientServeur::setConnectionState(bool state)
 Liaison* ClientServeur::getLinkToServer()
 {
     return m_liaisonToServer;
+}
+quint16 ClientServeur::getPort() const
+{
+    return m_port;
 }

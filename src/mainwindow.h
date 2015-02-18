@@ -36,6 +36,7 @@
 #include "DessinPerso.h"
 #include "initialisation.h"
 #include "preferencesmanager.h"
+#include "ipchecker.h"
 
 #ifndef NULL_PLAYER
 #include "LecteurAudio.h"
@@ -262,6 +263,12 @@ private slots :
     void notifyAboutAddedPlayer(Player * player) const;
     void notifyAboutDeletedPlayer(Player * player) const;
 
+    /**
+     * @brief showIp displays ip address of the server - feature request #76
+     * @param ip
+     */
+    void showIp(QString ip);
+
 private :
     MainWindow();
     static MainWindow* m_singleton;
@@ -359,9 +366,10 @@ private :
 
     PlayersList* m_playerList;
     QMenuBar* m_menuBar;
-//#ifndef NULL_PLAYER
-//    QDockWidget* m_audioDock;
-//#endif
+
+    /// @brief get the server IP.
+    IpChecker* m_ipChecker;
+
 
 };
 
