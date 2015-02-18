@@ -140,25 +140,28 @@ QVariant UserListModel::data ( const QModelIndex & index, int role  ) const
     if(!index.isValid())
         return QVariant();
 
-    if(role == Qt::DisplayRole)
+    if((role == Qt::DisplayRole)||(role == Qt::DecorationRole))
     {
         if(index.column()==0)
         {
             PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
             if(childItem)
             {
-                 return childItem->getPerson()->getName();
-/*                if(!childItem->isLeaf())
+
+                if(role == Qt::DisplayRole)
                 {
                     return childItem->getPerson()->getName();
                 }
-                else
+                if(role == Qt::DecorationRole)
                 {
-
-                }*/
+                    //return QColor(Qt::blue);
+                    //qDebug() << childItem->getPerson()->getColor();
+                    return childItem->getPerson()->getColor();
+                }
             }
         }
     }
+
     return QVariant();
 }
 void UserListModel::addPlayer(Person* p)
@@ -179,8 +182,6 @@ void UserListModel::addCharacter(Person* p,Person* parent)
         childItem->addChild(new PersonItem(p,true));
         endInsertRows();
     }
-
-
 }
 void UserListModel::setLocalPlayer(Person* p)
 {
@@ -189,13 +190,11 @@ void UserListModel::setLocalPlayer(Person* p)
 
 bool UserListModel::setData ( const QModelIndex & index, const QVariant & value, int role )
 {
-
     if(Qt::EditRole==role)
     {
-             PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
-             childItem->getPerson()->setName(value.toString());
-
-        return true;
+            PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
+            childItem->getPerson()->setName(value.toString());
+            return true;
     }
     return false;
 }

@@ -1,9 +1,9 @@
 #ifndef USERLISTDELEGATE_H
 #define USERLISTDELEGATE_H
 
-#include <QAbstractItemDelegate>
+#include <QItemDelegate>
 
-class UserListDelegate : public QAbstractItemDelegate
+class UserListDelegate : public QItemDelegate
 {
 
 public:

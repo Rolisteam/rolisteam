@@ -3,21 +3,29 @@
 #include <QPainter>
 #include <QDebug>
 UserListDelegate::UserListDelegate(QObject *parent) :
-    QAbstractItemDelegate(parent)
+    QItemDelegate(parent)
 {
 }
 void UserListDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {
-    PersonItem* p = static_cast<PersonItem*>(index.internalPointer());
+    /*PersonItem* p = static_cast<PersonItem*>(index.internalPointer());
     if(p!=NULL)
     {
-        painter->drawText(0,option.fontMetrics.height(),p->getPerson()->getName());
+        QRect tmp = option.rect;
+        tmp.setLeft(20);
+        painter->drawText(tmp,p->getPerson()->getName());
+        QBrush brush(p->getPerson()->getColor());
+        painter->setBrush(brush);
+        painter->fillRect(option.rect.x(),option.rect.y(),20,option.rect.height(),Qt::SolidPattern);
+
     }
+    qDebug() << option.decorationSize << option.rect;*/
+    QItemDelegate::paint(painter,option,index);
 
 }
 QSize UserListDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {
-    QSize returnValue;
+    /*QSize returnValue;
     PersonItem* p = static_cast<PersonItem*>(index.internalPointer());
     if(p!=NULL)
     {
@@ -25,6 +33,7 @@ QSize UserListDelegate::sizeHint ( const QStyleOptionViewItem & option, const QM
         returnValue.setHeight(option.fontMetrics.height());
 
     }
-    qDebug() << " height" << returnValue.height();
-    return returnValue;
+    qDebug() << " height" << returnValue.height();*/
+   // qDebug() << QItemDelegate::sizeHint(option,index);
+    return QItemDelegate::sizeHint(option,index);
 }

@@ -12,11 +12,13 @@ public:
 
 signals:
     void currentItemChanged(const QModelIndex &);
+    void editCurrentItemColor();
 
 public slots:
-
+    void onEditCurrentItemColor();
 
 protected slots:
+    virtual void mouseDoubleClickEvent ( QMouseEvent * );
     void currentChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:

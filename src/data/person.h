@@ -10,7 +10,7 @@ public:
     Person();
 
     virtual bool hasChildren() const =0;
-    virtual QString getName() const ;
+    virtual QString getName() const;
     virtual QColor getColor() const;
     virtual void setName(QString);
     virtual void setColor(QColor);

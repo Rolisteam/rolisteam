@@ -7,6 +7,7 @@ Person::Person()
 Person::Person(QString name,QColor color)
     : m_name(name),m_color(color)
 {
+
 }
 QString Person::getName() const
 {
@@ -18,7 +19,7 @@ QColor Person::getColor() const
 }
 void Person::setName(QString p)
 {
-m_name = p;
+    m_name = p;
 }
 
 void Person::setColor(QColor p)

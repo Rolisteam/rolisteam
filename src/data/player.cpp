@@ -2,6 +2,9 @@
 Player::Player()
     : Person()
 {
+    m_color.setBlue(255);
+    m_color.setGreen(0);
+    m_color.setRed(0);
     m_children = new QList<Character*>;
 }
 Player::Player(QString name,QColor color)
