@@ -1,4 +1,4 @@
-CONFIG += debug
+CONFIG += debug phonon
 TEMPLATE = app
 TARGET = bin/rolisteam
 DEPENDPATH += . src
@@ -6,7 +6,7 @@ INCLUDEPATH += . src
 LANGUAGE = C++
 MOC_DIR = bin
 OBJECTS_DIR = bin
-
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
 
 CONFIG += HAVE_PHONON
 #CONFIG += HAVE_FMOD
@@ -16,7 +16,7 @@ HEADERS += src/AfficheurDisque.h \
            src/Carte.h \
            src/CarteFenetre.h \
            src/ClientServeur.h \
-           src/constantesGlobales.h \
+#           src/constsantesGlobales.h \
            src/DessinPerso.h \
            src/EditeurNotes.h \
            src/Image.h \
@@ -56,11 +56,15 @@ SOURCES += src/AfficheurDisque.cpp \
            src/WorkspaceAmeliore.cpp
 
 
+
 HAVE_FMOD {
  DEFINES+= FMOD
  SOURCES +=  src/LecteurAudiowin.cpp
  HEADERS +=  src/fmod.h  src/fmod_errors.h
 }
+
+
+
 HAVE_PHONON {
  DEFINES+= PHONON
  SOURCES +=  src/LecteurAudiounix.cpp
@@ -70,8 +74,11 @@ HAVE_NULL {
 DEFINES+= NULL_PLAYER
 SOURCES +=  src/LecteurAudiounix.cpp
 }
-RESOURCES += rolisteam.qrc
 
+RESOURCES += rolisteam.qrc
+documentation.path = bin/rolisteam.app/Contents/Resources/doc
+documentation.files = resources/doc/*
+INSTALLS += documentation
 QT += core \
  gui \
  network
