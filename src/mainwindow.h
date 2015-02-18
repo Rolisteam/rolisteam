@@ -110,17 +110,18 @@ public :
      */
     Carte *trouverCarte(QString idCarte);
     /**
-     * @brief trouverCarteFenetre
+     * @brief removeMapFromId
      * @param idCarte
      * @return
      */
     void removeMapFromId(QString idCarte);
+
     /**
-     * @brief trouverImage
+     * @brief removePictureFromId
      * @param idImage
      * @return
      */
-    QMdiSubWindow* findPictureSubWindow(QString idImage);
+    void removePictureFromId(QString idImage);
 
     /**
      * @brief enleverCarteDeLaListe

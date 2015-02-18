@@ -1293,21 +1293,9 @@ void Liaison::receptionMessageImage()
         p+=tailleIdImage*sizeof(QChar);
         QString idImage(tableauIdImage, tailleIdImage);
 
-        /// @todo recup sub instead to close it.
-        QMdiSubWindow* subwindow = m_mainWindow->findPictureSubWindow(idImage);
-        // Si l'image est introuvable on affiche un message d'erreur
-        if (!subwindow)
-        {
-            qWarning() << "Image not found, already close ? (receptionMessageImage - Liaison.cpp)";
-        }
-        else
-        {
-            QString titre = subwindow->windowTitle();
-            MainWindow::notifyUser(tr("Picture \"%1\" has been closed").arg(titre.left(titre.size() - QString(tr(" (Image)")).size())));
-            delete subwindow;
-        }
 
-        // Liberation de la memoire allouee
+        m_mainWindow->removePictureFromId(idImage);
+
         delete[] tableauIdImage;
     }
 

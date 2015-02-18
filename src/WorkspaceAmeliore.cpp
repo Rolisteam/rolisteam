@@ -25,6 +25,7 @@
 #include "WorkspaceAmeliore.h"
 #include "constantesGlobales.h"
 #include "CarteFenetre.h"
+#include "Image.h"
 
 //#include <QTextStream>
 
@@ -150,7 +151,14 @@ QMdiSubWindow* WorkspaceAmeliore::getSubWindowFromId(QString id)
             {
                 if(tmpWindow->getMapId() == id)
                 {
-                    //delete tmp;
+                    return tmp;
+                }
+            }
+            else
+            {
+                Image* img = dynamic_cast<Image*>(tmp->widget());
+                if(tmpWindow->getMapId() == id)
+                {
                     return tmp;
                 }
             }

@@ -286,32 +286,12 @@ MainWindow::~MainWindow()
 
 
 
-
-void MainWindow::setUpNetworkConnection()
+void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
-    {
-
-        qDebug() << "user is client";
-        // We want to know if the server refuses local player to be GM
-        connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
-        // We send a message to del local player when we quit
-        connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
-    }
-    else
-    {
-        qDebug() << "user is server";
-        // send datas on new connection if we are the server
-        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
-        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
-    }
+    event->ignore();
+    quitterApplication();
 }
 
-void MainWindow::setNetworkManager(ClientServeur* tmp)
-{
-    m_networkManager = tmp;
-    m_networkManager->setParent(this);
-}
 ClientServeur* MainWindow::getNetWorkManager()
 {
     return m_networkManager;
@@ -1024,36 +1004,9 @@ void MainWindow::closeMapOrImage()
         }
         else
         {
-            // Taille des donnees
-            quint32 tailleCorps =
-                    // Taille de l'identifiant de la carte
-                    sizeof(quint8) + mapImageId.size()*sizeof(QChar);
-
-            // Buffer d'emission
-            char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-            // Creation de l'entete du message
-            enteteMessage *uneEntete;
-            uneEntete = (enteteMessage *) donnees;
-            uneEntete->categorie = image;
-            uneEntete->action = fermerImage;
-            uneEntete->tailleDonnees = tailleCorps;
-
-            // Creation du corps du message
-            int p = sizeof(enteteMessage);
-            // Ajout de l'identifiant de la carte
-            quint8 tailleIdImage = mapImageId.size();
-            memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
-            p+=sizeof(quint8);
-            memcpy(&(donnees[p]), mapImageId.data(), tailleIdImage*sizeof(QChar));
-            p+=tailleIdImage*sizeof(QChar);
-
-            // Emission de la demande de fermeture de l'image au serveur ou a l'ensemble des clients
-            emettre(donnees, tailleCorps + sizeof(enteteMessage));
-
-            delete[] donnees;
-
-            //((Image *)active)->~Image();
+            NetworkMessageWriter msg(NetMsg::PictureCategory,NetMsg::DelPictureAction);
+            msg.string8(mapImageId);
+            msg.sendAll();
         }
         if(NULL!=associatedAct)
         {
@@ -1089,7 +1042,16 @@ void MainWindow::mettreAJourEspaceTravail()
         changementFenetreActive(active);
     }
 }
+void MainWindow::checkUpdate()
+{
+    if(m_preferences->value("MainWindow_MustBeChecked",true).toBool())
+    {
+        m_updateChecker = new UpdateChecker();
+        m_updateChecker->startChecking();
+        connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
+    }
 
+}
 void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
 {
     QWidget* widget=NULL;
@@ -1247,6 +1209,17 @@ void MainWindow::emettreToutesLesImages(Liaison * link)
     }
 }
 
+
+
+void MainWindow::removeMapFromId(QString idCarte)
+{
+    QMdiSubWindow* tmp = m_mdiArea->getSubWindowFromId(idCarte);
+    CarteFenetre* mapWindow = dynamic_cast<CarteFenetre*>(tmp->widget());
+
+    delete m_mapAction->value(mapWindow);
+    delete mapWindow;
+    delete tmp;
+}
 Carte * MainWindow::trouverCarte(QString idCarte)
 {
     // Taille de la liste des CarteFenetre
@@ -1265,17 +1238,6 @@ Carte * MainWindow::trouverCarte(QString idCarte)
     else
         return 0;
 }
-
-void MainWindow::removeMapFromId(QString idCarte)
-{
-    QMdiSubWindow* tmp = m_mdiArea->getSubWindowFromId(idCarte);
-    CarteFenetre* mapWindow = dynamic_cast<CarteFenetre*>(tmp->widget());
-
-    delete m_mapAction->value(mapWindow);
-    delete mapWindow;
-    delete tmp;
-}
-
 
 
 void MainWindow::quitterApplication(bool perteConnexion)
@@ -1367,26 +1329,15 @@ void MainWindow::quitterApplication(bool perteConnexion)
 }
 
 
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-    event->ignore();
-    quitterApplication();
-}
-QMdiSubWindow* MainWindow::findPictureSubWindow(QString idImage)
-{
-    foreach(QMdiSubWindow* sub, m_pictureList)
-    {
-        Image* img = static_cast<Image*>(sub->widget());
-        if(NULL!=img)
-        {
-           if(img->getImageId() == idImage)
-           {
-               return sub;
-           }
-        }
 
-    }
-    return NULL;
+void MainWindow::removePictureFromId(QString idImage)
+{
+    QMdiSubWindow* tmp = m_mdiArea->getSubWindowFromId(idImage);
+    Image* imageWindow = dynamic_cast<Image*>(tmp->widget());
+
+    //delete m_mapAction->value(mapWindow);
+    delete imageWindow;
+    delete tmp;
 }
 bool MainWindow::enleverCarteDeLaListe(QString idCarte)
 {
@@ -1809,16 +1760,7 @@ void MainWindow::helpOnLine()
 
 }
 
-void MainWindow::checkUpdate()
-{
-    if(m_preferences->value("MainWindow_MustBeChecked",true).toBool())
-    {
-        m_updateChecker = new UpdateChecker();
-        m_updateChecker->startChecking();
-        connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
-    }
 
-}
 void MainWindow::updateUi()
 {
     /// @todo hide diametrePNj for players.
@@ -1898,26 +1840,9 @@ void MainWindow::readSettings()
     m_preferences->readSettings(settings);
 }
 
-void MainWindow::writeSettings()
-{
-    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
-    settings.setValue("geometry", saveGeometry());
-    settings.setValue("windowState", saveState());
 
-    m_preferences->writeSettings(settings);
-}
 
-void MainWindow::notifyAboutAddedPlayer(Player * player) const
-{
-    notifyUser(tr("%1 just joins the game.").arg(player->name()));
-}
 
-void MainWindow::notifyAboutDeletedPlayer(Player * player) const
-{
-    notifyUser(tr("%1 just leaves the game.").arg(player->name()));
-}
 Carte::PermissionMode MainWindow::getPermission(int id)
 {
     switch(id)
@@ -1951,6 +1876,16 @@ void MainWindow::networkStateChanged(bool state)
         m_disconnectAct->setEnabled(false);
     }
 }
+
+void MainWindow::notifyAboutAddedPlayer(Player * player) const
+{
+    notifyUser(tr("%1 just joins the game.").arg(player->name()));
+}
+
+void MainWindow::notifyAboutDeletedPlayer(Player * player) const
+{
+    notifyUser(tr("%1 just leaves the game.").arg(player->name()));
+}
 void MainWindow::stopReconnection()
 {
     m_reconnectAct->setEnabled(true);
@@ -1972,4 +1907,39 @@ void MainWindow::startReconnection()
 void MainWindow::showIp(QString ip)
 {
     notifyUser(tr("Server Ip Address:%1\nPort:%2").arg(ip).arg(m_networkManager->getPort()));
+}
+void MainWindow::setUpNetworkConnection()
+{
+    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
+    {
+
+        qDebug() << "user is client";
+        // We want to know if the server refuses local player to be GM
+        connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
+        // We send a message to del local player when we quit
+        connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
+    }
+    else
+    {
+        qDebug() << "user is server";
+        // send datas on new connection if we are the server
+        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
+        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
+    }
+}
+
+void MainWindow::setNetworkManager(ClientServeur* tmp)
+{
+    m_networkManager = tmp;
+    m_networkManager->setParent(this);
+}
+void MainWindow::writeSettings()
+{
+    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
+    settings.setValue("pos", pos());
+    settings.setValue("size", size());
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("windowState", saveState());
+
+    m_preferences->writeSettings(settings);
 }
