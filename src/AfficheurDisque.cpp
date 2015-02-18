@@ -92,8 +92,14 @@ void AfficheurDisque::paintEvent(QPaintEvent *event)
         //qDebug() << diametreAffiche << diametreCourant << diametreMinimum;
     }
 
+    int valueDiameter=m_scale*diametreCourant;
+    if (valueDiameter==0)
+    {
+        valueDiameter=1;
+    }
+
     // Dessin du disque
-    painter.drawEllipse((width()-(diametreCourant*m_scale))/2, (height()-(diametreCourant*m_scale))/2, diametreCourant*m_scale, diametreCourant*m_scale);
+    painter.drawEllipse((width()-valueDiameter)/2, (height()-valueDiameter)/2, (valueDiameter) , valueDiameter);
     painter.setPen(Qt::darkGray);
     // Affichage du diametre
     painter.drawText(0, 0, width(), height(), Qt::AlignRight | Qt::AlignBottom, QString::number(diametreAffiche));
