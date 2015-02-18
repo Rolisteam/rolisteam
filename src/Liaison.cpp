@@ -356,6 +356,15 @@ void Liaison::receptionMessagePersoJoueur()
         QChar *tableauIdPlan = new QChar[tailleIdPlan];
         memcpy(tableauIdPlan, &(tampon[p]), tailleIdPlan*sizeof(QChar));
         p+=tailleIdPlan*sizeof(QChar);
+
+        // extract character Id
+        quint8 charIdPlanSize;
+        memcpy(&charIdPlanSize, &(tampon[p]), sizeof(quint8));
+        p+=sizeof(quint8);
+        QChar *charIdPlan = new QChar[charIdPlanSize];
+        memcpy(charIdPlan, &(tampon[p]), charIdPlanSize*sizeof(QChar));
+        p+=tailleIdPlan*sizeof(QChar);
+
         QString idPlan(tableauIdPlan, tailleIdPlan);
         // On recupere la nouvelle taille des PJ
         quint8 taillePj;
@@ -372,6 +381,8 @@ void Liaison::receptionMessagePersoJoueur()
         else
         {
             // On met a jour les PJ sur la carte
+            QString tmp(charIdPlan,charIdPlanSize);
+            carte->selectCharacter(tmp);
             carte->changerTaillePjCarte(taillePj + 11);
         }
 

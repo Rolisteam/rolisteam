@@ -1280,8 +1280,11 @@ void Carte::afficheOuMasquePnj(DessinPerso *pnjSeul)
 void Carte::changerTaillePjCarte(int nouvelleTaille, bool updatePj)
 {
     taillePj = nouvelleTaille;
-    if (updatePj)
-        emit changerTaillePj(nouvelleTaille);
+    if((updatePj)&&(dernierPnjSelectionne!=NULL))
+    {
+        dernierPnjSelectionne->changerTaillePj(nouvelleTaille);
+    }
+        //emit changerTaillePj(nouvelleTaille);
 }
 
 /********************************************************************/
@@ -2578,4 +2581,20 @@ void Carte::pointeurEtatPnj()
 {
     pointeur = *G_pointeurEtat;
     setCursor(pointeur);
+}
+QString Carte::getLastSelectedCharacterId()
+{
+    if(dernierPnjSelectionne==NULL)
+        return QString();
+    return dernierPnjSelectionne->idPersonnage();
+}
+bool Carte::selectCharacter(QString& id)
+{
+    DessinPerso* tmp=trouverPersonnage(id);
+    if(tmp!=NULL)
+        dernierPnjSelectionne=tmp;
+    else
+        return false;
+
+    return true;
 }

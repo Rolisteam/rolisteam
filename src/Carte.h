@@ -76,6 +76,8 @@ class Carte : public QWidget
         bool pjAffiche(QString idPerso);
         QString identifiantCarte();
         DessinPerso* trouverPersonnage(QString idPerso);
+        QString getLastSelectedCharacterId();
+        bool selectCharacter(QString& id);
 
     signals :
         void incrementeNumeroPnj();
@@ -89,7 +91,7 @@ class Carte : public QWidget
         void deplacerCarteFenetre(QPoint position);
         
     public slots :
-           void pointeurCrayon();
+        void pointeurCrayon();
         void pointeurLigne();
         void pointeurRectVide();
         void pointeurRectPlein();

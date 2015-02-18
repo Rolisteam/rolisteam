@@ -26,6 +26,11 @@
 #include "AfficheurDisque.h"
 
 
+
+#define MARGIN_NPC 10
+#define MARGIN_PC 5
+
+#define PEN_SIZE 4
 /********************************************************************/
 /* Variables globales utilisees par tous les elements de            */
 /* l'application                                                    */
@@ -48,16 +53,15 @@ AfficheurDisque::AfficheurDisque(QWidget *parent, bool plein, int minimum,int ma
 
     disquePlein = plein;
 
-    int marge=10;
+    int marge=MARGIN_NPC;
     // Mise a jour des variables globales (Argh...)
     if (disquePlein)
       {
         G_diametreTraitCourant = minimum;
-        marge=5;
-
+        marge=MARGIN_PC;
       }
-    m_scale = (float)(width()-marge)/(float)(maximum*2);
-    qDebug() << "scale ://" << m_scale <<width() ;
+    m_scale = (float)(width()-marge)/(float)(m_maxDiameter*2+PEN_SIZE*2);
+    //qDebug() << "scale ://" << m_scale <<width() ;
 }
 
 /********************************************************************/
@@ -83,10 +87,11 @@ void AfficheurDisque::paintEvent(QPaintEvent *event)
     else
     {
         QPen pen(Qt::black);
-        pen.setWidth(4);
+        pen.setWidth(PEN_SIZE);
         painter.setPen(pen);
         painter.setBrush(Qt::white);
         diametreAffiche = diametreCourant - diametreMinimum +1;
+        //qDebug() << diametreAffiche << diametreCourant << diametreMinimum;
     }
 
     // Dessin du disque

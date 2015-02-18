@@ -84,6 +84,8 @@ class BarreOutils : public QDockWidget
         SelecteurDiametre *diametreTrait;
         SelecteurDiametre *diametrePnj;
         Carte * m_map;
+        SelecteurDiametre* m_pcDiameter;
+
 
     private slots :
         void razNumeroPnj();

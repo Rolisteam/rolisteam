@@ -23,6 +23,8 @@
 
 #include <QVBoxLayout>
 #include <QToolButton>
+#include <QDebug>
+
 
 #include "BarreOutils.h"
 
@@ -30,8 +32,10 @@
 #include "networkmessagewriter.h"
 #include "SelecteurCouleur.h"
 #include "SelecteurDiametre.h"
-
+#include "playersList.h"
+#include "persons.h"
 #include "constantesGlobales.h"
+#include "variablesGlobales.h"
 
 /********************************************************************/
 /* Variables globales utilisees par tous les elements de            */
@@ -104,6 +108,10 @@ BarreOutils::BarreOutils(QWidget *parent)
 void BarreOutils::autoriserOuInterdireCouleurs()
 {
 	couleur->autoriserOuInterdireCouleurs();
+        if(!PlayersList::instance().localPlayer()->isGM())
+        {
+            diametrePnj->setVisible(false);
+        }
 }
 
 /********************************************************************/
@@ -295,13 +303,22 @@ void BarreOutils::creerOutils()
         diametreTrait = new SelecteurDiametre(outils, true, 1, 45);
 	diametreTrait->setToolTip(tr("Grosseur du trait"));
 
-	// Creation du selecteur de diametre des PNJ
-        diametrePnj = new SelecteurDiametre(outils, false, 12, 200);
-	diametrePnj->setToolTip(tr("Taille du PNJ"));
-    connect(diametrePnj, SIGNAL(valueChanging(int)),
+        if(PlayersList::instance().localPlayer()->isGM())
+        {
+            // Creation du selecteur de diametre des PNJ
+            diametrePnj = new SelecteurDiametre(outils, false, 12, 200);
+            diametrePnj->setToolTip(tr("Taille du PNJ"));
+            connect(diametrePnj, SIGNAL(valueChanging(int)),this, SLOT(changeCharacterSize(int)));
+            connect(diametrePnj, SIGNAL(valueChanged(int)),this, SLOT(sendNewCharacterSize(int)));
+        }
+
+    /*m_pcDiameter = new SelecteurDiametre(outils, false, 2, 45);
+    m_pcDiameter->setToolTip(tr("Taille du PJ"));
+
+    connect(m_pcDiameter, SIGNAL(valueChanging(int)),
             this, SLOT(changeCharacterSize(int)));
-    connect(diametrePnj, SIGNAL(valueChanged(int)),
-            this, SLOT(sendNewCharacterSize(int)));
+    connect(m_pcDiameter, SIGNAL(valueChanged(int)),
+            this, SLOT(sendNewCharacterSize(int)));*/
 
 	//Creation du separateur se trouvant entre le selecteur de couleur et les outils de dessin
 	QFrame *separateur1 = new QFrame(outils);
@@ -360,7 +377,7 @@ void BarreOutils::creerOutils()
 	outilsLayout->addWidget(nomPnj);
 	outilsLayout->addWidget(separateur5);
 	outilsLayout->addWidget(diametrePnj);
-
+        //outilsLayout->addWidget(m_pcDiameter);
 	// Alignement du widget outils sur le haut du dockWidget
 	layout()->setAlignment(outils, Qt::AlignTop | Qt::AlignHCenter);
 	// Contraintes de taille sur la barre d'outils
@@ -608,6 +625,7 @@ void BarreOutils::sendNewCharacterSize(int size)
     {
         NetworkMessageWriter message (NetMsg::CharacterCategory, NetMsg::ChangeCharacterSizeAction);
         message.string8(m_map->identifiantCarte());
+        message.string8(m_map->getLastSelectedCharacterId());
         message.uint8(size - 11);
         message.sendAll();
     }
