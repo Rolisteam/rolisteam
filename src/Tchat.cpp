@@ -99,7 +99,7 @@ Tchat::~Tchat()
 /********************************************************************/	
 void Tchat::emettreTexte()
 {
-	quint8 action;
+	quint8 action=messageTirage;
 
 	// On recupere le texte de la zone d'edition
 	QString message = zoneEdition->toPlainText();
@@ -112,123 +112,63 @@ void Tchat::emettreTexte()
 	historiqueMessages.append(message);
 	numHistorique = historiqueMessages.size();
 
-	// Si le 1er caractere (hors espaces) est un "!" alors il s'agit d'un jet de des
-	if (message.simplified().startsWith(QChar('!')))
-	{
-		bool ok;
-		QString tirage;
-		// Calcul du jet de des
-		int result = calculerJetDes(message, &tirage, &ok);
+	bool ok=true;
+	QString tirage;
+	int result;
 
-		// Si le calcul est OK)
-		if (ok)
-		{
-			// On affiche le resultat du tirage dans la zone d'affichage
-                        QString messageTemp = QString(tr("avez obtenu  ")) + QString::number(result) + QString(tr("  à  votre jet de dés  [")) + tirage + QString("]");
-			afficherTirage(tr("Vous"), G_couleurJoueurLocal, messageTemp);
-			// On cree un nouveau message a envoyer aux autres utilisateurs
-                        message = QString(tr("a obtenu  ")) + QString::number(result) + QString(tr("  à  son jet de dés  [")) + tirage + QString("]");
-			// M.a.j de l'action a emettre
-			action = messageTirage;
-		}
-		
-		// S'il y a eu une erreur de syntaxe
-		else
-		{
-                        afficherMessage(tr("Syntaxe"), Qt::red, tr("!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de dés est public (utilisez & pour un jet privé)."));
-			// On efface la zone d'edition
-			zoneEdition->clear();
-			// On quitte la fonction
-			return;
-		}
+	switch(message[0])
+	{
+		case '!':
+			result = calculerJetDes(message, tirage, ok);
+			if(ok)
+			{
+				afficherMessage(tr("Vous"), G_couleurJoueurLocal, QString(tr("avez obtenu  %1 à votre jet de dés [%2]").arg(result).arg(tirage)),true);
+				message = QString(tr("a obtenu %1 à  son jet de dés [%2]").arg(resukt).arg(tirage));
+			}
+			else
+				afficherMessage(tr("Syntaxe"), Qt::red, tr("!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de dés"+" est public (utilisez & pour un jet privé)."));
+			break
+		case '&':
+			result = calculerJetDes(message, tirage, ok);
+			if (ok)
+				afficherMessage(tr("Jet secret :"), Qt::magenta, QString(tr("vous avez obtenu %1 à  votre jet de dés secret [%2]").arg(result).arg(tirage)),true);
+			else
+				afficherMessage(tr("Syntaxe"), Qt::red, tr("&1d6 ou &5d10+3 ou &2d20-3d10+1d6+5 etc... Le jet de dés"+" ne s'affiche pas chez les autres utilisateurs (utilisez ! pour un jet public)."));
+			break;
+		case '*':
+			QString glitch;
+			result = calculerJetDesSR4(message, tirage, glitch, ok);
+			if (ok)
+			{
+				// On affiche le resultat du tirage dans la zone d'affichage
+				afficherMessage(tr("Vous"), G_couleurJoueurLocal, QString(tr("avez obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage)),true);
+				// On cree un nouveau message a envoyer aux autres utilisateurs
+				message = QString(tr("a obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage));
+			}
+			else
+				afficherMessage(tr("Syntaxe SR4"), Qt::red, tr("*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n'afficher que les résultats."),false);
+			break;
+		default:
+			afficherMessage(tr("Vous"), G_couleurJoueurLocal, message,);
+			// action is messageTchat only if there are no dices
+			action = messageTchat;
 	}
 
-	// Sinon si le 1er caractere (hors espaces) est un "&" alors il s'agit d'un jet de des prive (qui ne sera pas affiche chez les autres joueurs)
-	else if (message.simplified().startsWith(QChar('&')))
-	{
-		bool ok;
-		QString tirage;
-		// Calcul du jet de des
-		int result = calculerJetDes(message, &tirage, &ok);
-
-		// Si le calcul est OK)
-		if (ok)
-		{
-			// On affiche le resultat du tirage dans la zone d'affichage
-                        QString messageTemp = QString(tr("vous avez obtenu  ")) + QString::number(result) + QString(tr("  à  votre jet de dés secret  [")) + tirage + QString("]");
-			afficherTirage(tr("Jet secret :"), Qt::magenta, messageTemp);
-			// On efface la zone d'edition
-			zoneEdition->clear();
-			// On quitte la fonction sans emettre le message
-			return;
-		}
-		
-		// S'il y a eu une erreur de syntaxe
-		else
-		{
-                        afficherMessage(tr("Syntaxe"), Qt::red, tr("&1d6 ou &5d10+3 ou &2d20-3d10+1d6+5 etc... Le jet de dés ne s'affiche pas chez les autres utilisateurs (utilisez ! pour un jet public)."));
-			// On efface la zone d'edition
-			zoneEdition->clear();
-			// On quitte la fonction
-			return;
-		}
-	}
-
-	// Ultyme 
-// Sinon si le 1er caractere (hors espaces) est un "*" alors il s'agit d'un jet de des SR4 public 
-	else if (message.simplified().startsWith(QChar('*')))
-	{
-		bool ok;
-		QString tirage;
-		QString glitch;
-		// Calcul du jet de des
-		int result = calculerJetDesSR4(message, &tirage, &glitch, &ok);
-
-		// Si le calcul est OK
-		if (ok)
-		{
-			// On affiche le resultat du tirage dans la zone d'affichage
-                        QString messageTemp = QString(tr("avez obtenu %1 succès%2%3").arg(result).arg(glitch).arg(tirage));
-			afficherTirage(tr("Vous"), G_couleurJoueurLocal, messageTemp);
-			// On cree un nouveau message a envoyer aux autres utilisateurs
-                        message = QString(tr("a obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage));
-			// M.a.j de l'action a emettre
-			action = messageTirage;
-		}
-		// S'il y a eu une erreur de syntaxe
-		else
-		{
-                        afficherMessage(tr("Syntaxe SR4"), Qt::red, tr("*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n'afficher que les résultats."));
-			// On efface la zone d'edition
-			zoneEdition->clear();
-			// On quitte la fonction
-			return;
-		}
-	}
-	// FIN Ultyme
-
-	// Sinon on recopie le message tel quel dans la zone d'affichage
-	else
-	{
-		afficherMessage(tr("Vous"), G_couleurJoueurLocal, message);
-		// M.a.j de l'action a emettre
-		action = messageTchat;
-
-	}
-
-	// On efface la zone d'edition
 	zoneEdition->clear();
+	// if dices fail or if it is private, clean and return
+	if(ok==false || message[0]=='&')
+		return;
 
 	// Emission du message au serveur, a un ou a l'ensemble des clients
 
 	// Taille des donnees
 	quint32 tailleCorps =
-		// Taille de l'identifiant du joueur local
-		sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
-		// Taille de l'identifiant du joueur de destination
-		sizeof(quint8) + idJoueur.size()*sizeof(QChar) +
-		// Taille du message
-		sizeof(quint32) + message.size()*sizeof(QChar);
+	// Taille de l'identifiant du joueur local
+	sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
+	// Taille de l'identifiant du joueur de destination
+	sizeof(quint8) + idJoueur.size()*sizeof(QChar) +
+	// Taille du message
+	sizeof(quint32) + message.size()*sizeof(QChar);
 
 	// Buffer d'emission
 	char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
@@ -302,35 +242,16 @@ QString Tchat::identifiant()
 /* Ecrit le message dans la zone d'affichage, precede par le nom de */
 /* l'emetteur (avec la couleur passee en parametre)                 */
 /********************************************************************/	
-void Tchat::afficherMessage(QString utilisateur, QColor couleur, QString message)
+void Tchat::afficherMessage(QString utilisateur, QColor couleur, QString message, bool tirage)
 {
 	// On repositionne le curseur a la fin du QTexEdit
 	zoneAffichage->moveCursor(QTextCursor::End);
 	// Affichage du nom de l'utilisateur
 	zoneAffichage->setTextColor(couleur);
-	zoneAffichage->append(utilisateur + " : ");
-	// Affichage du message
-	zoneAffichage->setTextColor(Qt::black);
-	zoneAffichage->insertPlainText(message);
-	// On repositionne la barre de defilement, pour pouvoir voir le texte qui vient d'etre affiche
-	zoneAffichage->verticalScrollBar()->setSliderPosition(zoneAffichage->verticalScrollBar()->maximum());
-
-	// Si le tchat n'est pas en 1er plan, on fait clignoter l'utilisateur associe
-	if (!G_mainWindow->estLaFenetreActive(this))
-		G_listeUtilisateurs->faireClignoter(idJoueur);
-}
-
-/********************************************************************/	
-/* Ecrit le resultat du tirage dans la zone d'afficahage, precede   */
-/* par le nom de l'emetteur (avec la couleur passee en parametre)   */
-/********************************************************************/	
-void Tchat::afficherTirage(QString utilisateur, QColor couleur, QString message)
-{
-	// On repositionne le curseur a la fin du QTexEdit
-	zoneAffichage->moveCursor(QTextCursor::End);
-	// Affichage du nom de l'utilisateur
-	zoneAffichage->setTextColor(couleur);
-	zoneAffichage->append(utilisateur + " ");
+	if(tirage)
+		zoneAffichage->append(utilisateur + " ");
+	else
+		zoneAffichage->append(utilisateur + " : ");
 	// Affichage du message
 	zoneAffichage->setTextColor(Qt::black);
 	zoneAffichage->insertPlainText(message);
@@ -366,185 +287,99 @@ void Tchat::closeEvent(QCloseEvent *event)
 /* correcte (ok == true), sinon ok == false. Une QString est        */
 /* generee pour expliquer le tirage                                 */
 /********************************************************************/	
-int Tchat::calculerJetDes(QString message, QString *tirage, bool *ok)
+int Tchat::calculerJetDes(QString &message, QString &tirage, bool &ok)
 {
-	int i;
-	bool stop;
-	// Operateur par defaut
-	char operateur = '+';
-	// Resultat du calcul
+	//1 by default to add, -1 to substract.
+	short signOperator=1;
 	int result = 0;
-	// Dernier nombre sous forme de QString
-	QString nombreStr;
-	// Dernier nombre sous forme de int
 	int nombre;
-	// Nbr de faces du de sous forme de QString
-	QString facesStr;
-	// Nbr de faces du de
 	int faces;
 
 	// Mise a 0 de la chaine tirage
-	tirage->clear();
+	tirage.clear();
 	// Suppression des espaces dans le message
 	message.remove(QChar(' '));
 	// Suppresion du "!" en tete du message
 	message.remove(0, 1);
-	// La taille du message est recalculee a chaque iteration
-	int tailleMessage = message.size();
 	// Si la taille est nulle, on quitte avec une erreur
-	if (!tailleMessage)
-	{
-		*ok = false;
-		return 0;
-	}
+	if (!message.size())
+		return (ok = false);
 
 	// Analyse du message (uniquement si celui-ci n'est pas vide)
-	while(tailleMessage)
+	while(message.size())
 	{
-		stop = false;
-		// On regarde la longueur du nombre
-		for (i=0; i<tailleMessage && !stop; i++)
-			if (message[i].digitValue() == -1)
-				stop = true;
-		if (stop)
-			i--;
-		// S'il n'y a aucun chiffre, on quitte et on renvoie une erreur
-		if (!i)
-		{
-			*ok = false;
-			return 0;
-		}
-		// On recupere le nombre sous forme de QString
-		nombreStr = message.left(i);
-		// On le convertit en int
-		nombre = nombreStr.toUInt(&stop, 10);
-		// Suppression du nombre dans le message
-		message.remove(0, i);
-					
+	
+		ok = GetNumber(message,nombre);
+		
 		// 2 cas de figure :
 		// le nombre est suivi par un "D" : on recupere le nombre qui suit (nbr de faces du de)
 		if (message[0] == QChar('d') || message[0] == QChar('D'))
 		{
 			// On supprime le "D"
 			message.remove(0, 1);
-			// On recalcule la longueur du message
-			tailleMessage = message.size();
+
 			// Si la taille est nulle, on quitte avec une erreur
-			if (!tailleMessage)
-			{
-				*ok = false;
-				return 0;
-			}
+			if (!message.size())
+				return (ok = false);
 			
-			// dans le cas contraire on recupere le nbr de faces du de
-			stop = false;
-			// On regarde la longueur du nombre
-			for (i=0; i<tailleMessage && !stop; i++)
-				if (message[i].digitValue() == -1)
-					stop = true;
-			if (stop)
-				i--;
-			// S'il n'y a aucun chiffre, on quitte et on renvoie une erreur
-			if (!i)
-			{
-				*ok = false;
-				return 0;
-			}
-			// On recupere le nombre sous forme de QString
-			facesStr = message.left(i);
-			// On le convertit en int
-			faces = facesStr.toUInt(&stop, 10);
-			// Suppression du nombre dans le message
-			message.remove(0, i);
+			ok = GetNumber(message,faces);
 
 			// S'il y a un nombre de des ou de faces nul, on quitte
 			if (!nombre || !faces)
+				return (ok = false);
+
+            // The dices rolling
+			QVector<unsigned short> listDices(nombre);
+			unsigned short dice, sumDice=0;
+			foreach(dice,listDices);
 			{
-				*ok = false;
-				return 0;
+				qDebug()<<faces;
+				dice=(rand()%faces)+1;
+				sumDice+=dice;
 			}
-
-			// Inscription du jet de des dans la chaine tirage
-			tirage->append(nombreStr + QString("d") + facesStr + QString(" (") );
-
-			int de;
-			int resultatDes = 0;
-                        // The dices rolling
-			for (int u=0; u<nombre; u++)
+			
+			// Formatting the "tirage" text
+			tirage.append(tr("%1d%2 (").arg(nombre).arg(faces));
+			for(unsigned short u=1;u<nombre;u++)
 			{
-				// Tirage du de
-                                /*de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * (faces)); //rand()%faces + 1;*/ //Okay
-                                //de = 1 + (faces * rand()) / (RAND_MAX+1);//Too bad
-                                //de = 1 + ((double)faces*rand())/((double)RAND_MAX);
-                                qDebug() << faces ;
-                                de = (rand() % faces)+1;
-
-				// Ajout du de au resultat final
-				resultatDes += de;
-				// Ajout du resultat a la chaine tirage
-				tirage->append(QString::number(de));
-				// Ajout d'une virgule ou d'une parenthese fermante
-				if (u < nombre-1)
-					tirage->append(QString(","));
-				else
-					tirage->append(QString(")"));
+				tirage.append(QString(","));
+				tirage.append(QString::number(listDices[u]));
 			}
-
-			// Le resultat des des est ajoute ou soustrait au resultat final
-			if (operateur == '+')
-				result += resultatDes;
-			else
-				result -= resultatDes;
+			tirage.append(QString(")"));
+			
+			result+=signOperator*sumDice;
 		} // Fin de la lecture et du tirage des des
 
 		// Le caractere suivant n'est pas un "D" : on ajoute ou on soustrait le nombre
 		else
 		{
-			if (operateur == '+')
-				result += nombre;
-			else
-				result -= nombre;
-				
-			// Ajout du nombre a la chaine tirage
-			tirage->append(nombreStr);
+			result+=signOperator*nombre;
+			tirage+=QString("%1").arg(nombre);
 		}
 
-		// On recalcule la taille du message
-		tailleMessage = message.size();
 		// On regarde si le caractere suivant est un signe + ou -
-		if (tailleMessage)
+		if (message.size())
 		{
 			if (message[0] == QChar('+'))
-			{
-				operateur = '+';
-				tirage->append(QString(" + "));
-			}
+				signOperator = 1;
 			else if (message[0] == QChar('-'))
-			{
-				operateur = '-';
-				tirage->append(QString(" - "));
-			}
+				signOperator = -1;
 			else
-			{
-				*ok = false;
-				return 0;
-			}
+				return (ok = false);
+				
+			tirage+=' ';
+			tirage+=message[0];
+			tirage+=' ';
 			
 			// On supprime l'operateur
 			message.remove(0, 1);
 			// Le message ne doit pas etre vide apres
 			if (message.size() == 0)
-			{
-				*ok = false;
-				return 0;
-			}
+				return (ok = false);
 		}
-
-		// La taille du message est recalculee a chaque iteration
-		tailleMessage = message.size();
 	}
 
-	*ok = true;
+	ok = true;
 	return result;
 }
 
@@ -555,250 +390,167 @@ int Tchat::calculerJetDes(QString message, QString *tirage, bool *ok)
 /* neree pour expliquer le tirage, un autre pour le glitch.         */
 /* Les Gremlins et la regle du 6 again (usage de l'edge) sont geres.*/
 /********************************************************************/	
-int Tchat::calculerJetDesSR4(QString message, QString *tirage, QString *glitch, bool *ok)
+int Tchat::calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok)
 {
-    //Initialisation du nombre de succes, de glitches, et des parametres du lancer
-    int nbDes;
-    int nbDesEnCours;
-    int nbDesEnsuite;
-    QString nbDesStr;
-    int nbSucces = 0;
-    int nbGlitch = 0;
-    bool sixAgainActif = false;
-    bool gremlinsActif = false;
-    bool rushActif = false;
-    bool modeCourtActif = false;
-    bool modeSecretActif = false;
-    int indiceGremlins = 0;
-    QString indiceGremlinsStr;
-    int nbFaces = 6;
-    QString nbFacesStr = "6";
-    int seuilSucces = 5;
-    int seuilGlitch = 1;
-    int nbPasses = 0;
-    int de;
-    bool estOK;
+	//Initialisation du nombre de succes, de glitches, et des parametres du lancer
+	int nbDes;
+	int nbDesEnCours;
+	int nbDesEnsuite;
+	QString nbDesStr;
+	int nbSucces = 0;
+	int nbGlitch = 0;
+	bool sixAgainActif = false;
+	bool gremlinsActif = false;
+	bool rushActif = false;
+	bool modeCourtActif = false;
+	bool modeSecretActif = false;
+	int indiceGremlins = 0;
+	QString indiceGremlinsStr;
+	int nbFaces = 6;
+	QString nbFacesStr = "6";
+	int seuilSucces = 5;
+	int seuilGlitch = 1;
+	int nbPasses = 0;
+	int de;
+	bool estOK;
+
+	tirage.clear();
+	glitch.clear();
+
+	message.remove(QChar(' '));
+	message.remove(0, 1);
+
+	if (message.size() == 0)
+		return (ok=false);
+
+	ok=GetNumber(message,nbDes)
+
+	if (message.size() == 0 || (message[0] != QChar('d') && message[0] != QChar('D')))
+		return (ok=false);
+	message.remove(0, 1);
+
+	while (message.size()>0)
+	{
+		QChar firstChar=message[0];
+		//if the first character of message is a letter, put it to lowercase
+		if(firstChar.isLetter())
+			firstChar.toCaseFolded ();
+			
+		switch(firstChar)
+		{
+			case '+':
+				if (sixAgainActif)
+					return (ok=false);
+
+				sixAgainActif = true;
+				break;
+			case 'g':
+				if (gremlinsActif)
+					return (ok=false);
+
+				gremlinsActif = true;
+				message.remove(0, 1);
+
+				// the function need to have a message and that message[0] is a digit to continue
+				if (!(message.size() && message[0].isDigit()))
+					return (ok=false);
+				indiceGremlinsStr = message.left(1);
+				indiceGremlins = indiceGremlinsStr.toUInt(&estOK, 10);
+				break;
+			case 'r':
+				if (rushActif)
+					return (ok=false);
+
+				rushActif = true;
+				seuilGlitch = 2;
+				break;
+			case 'c':
+				if (modeCourtActif)
+					return (ok=false);
+
+				modeCourtActif = true;
+				break;
+			case 's':
+				if (modeSecretActif)
+					return (ok=false);
+
+				modeSecretActif = true;
+				break;
+			default:
+				return (ok=false);
+		}
+		message.remove(0, 1);
+	}
 
 
 
-      tirage->clear();
-      glitch->clear();
+	if (nbDes == 0)
+		return (ok=false);
 
-      message.remove(QChar(' '));
+	if (!modeSecretActif)
+	{
+		tirage.append(QString(tr(" (%1 dés").arg(nbDes)));
+		if (rushActif)
+			tirage.append(QString(tr(" en rushant")));
+		if (gremlinsActif)
+			tirage.append(QString(tr(" avec Gremlins %1").arg(indiceGremlinsStr)));
+		if (sixAgainActif)
+			tirage.append(QString(tr(" - les 6 sont relancés")));
+		if (!modeCourtActif)
+			tirage.append(QString(tr(" : ")));
+		else
+			tirage.append(QString(tr(")")));
+	}
 
-      message.remove(0, 1);
+	nbDesEnsuite = nbDes;
+	while (nbDesEnsuite != 0)
+	{
+		nbDesEnCours = nbDesEnsuite;
+		nbDesEnsuite = 0;
+		nbPasses++;
 
-      int tailleMessage = message.size();
+		for (int u=0; u<nbDesEnCours ; u++)
+		{
+			// Tirage du de
+			de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * (nbFaces)); //rand()%nbFaces + 1;
+			// Verification du succes
+			if (de >= seuilSucces)
+			{
+				nbSucces++;
+				//Si la regle des 6 again est activee, augmentation de la prochaine serie
+				if (sixAgainActif && de == 6)
+					nbDesEnsuite++;
+			}
+			// Verification du glitch (uniquement sur la premiere serie de lancer)
+			// this is strange... nbPasses '=' 1 ??? not '==' ?
+			if (nbPasses = 1 && de <= seuilGlitch)
+				nbGlitch++;
+			// Ajout du resultat a la chaine Tirage si pas en Mode court ou Mode Secret
+			if (!modeCourtActif && !modeSecretActif)
+			{
+				tirage.append(QString::number(de));
+				// Ajout d'un espace, d'un "puis" entre deux series ou d'une parenthèse pour finir
+				if (u < nbDesEnCours-1)
+					tirage.append(QString(" "));
+				else if (nbDesEnsuite > 0)
+					tirage.append(QString(" puis "));
+				else
+					tirage.append(QString(")"));
+			}
+		}
+	}
 
-
-    if (tailleMessage == 0)
-    {
-        *ok = false;
-        return 0;
-    }
-
-    int i=0;
-    while (i<tailleMessage && message[i].digitValue() != -1)
-        i++;
-
-    if (i < 0)
-    {
-        *ok = false;
-        return 0;
-    }
-
-      nbDesStr = message.left(i);
-
-      nbDes = nbDesStr.toUInt(&estOK, 10);
-
-      message.remove(0, i);
-
-      tailleMessage = message.size();
-
-
-    if (tailleMessage == 0 || (message[0] != QChar('d') && message[0] != QChar('D')))
-    {
-        *ok = false;
-        return 0;
-    }
-
-      message.remove(0, 1);
-      tailleMessage = message.size();
-
-
-    while (tailleMessage>0)
-    {
-
-        if (message[0] == '+')
-        {
-
-          if (sixAgainActif)
-          {
-            *ok = false;
-            return 0;
-          }
-
-          sixAgainActif = true;
-
-              message.remove(0, 1);
-              tailleMessage = message.size();
-        }
-
-        else if (message[0] == QChar('g') || message[0] == QChar('G'))
-        {
-
-          if (gremlinsActif)
-          {
-            *ok = false;
-            return 0;
-          }
-
-          gremlinsActif = true;
-
-              message.remove(0, 1);
-              tailleMessage = message.size();
+	if (nbGlitch>0 && nbGlitch>((nbDes/2)-indiceGremlins))
+	{
+		if (nbSucces == 0)
+			glitch.append(QString(" et une complication critique !! "));
+		else
+			glitch.append(QString(" et une complication !! "));
+	}
 
 
-          if (tailleMessage == 0 || message[0].digitValue() == -1)
-          {
-            *ok = false;
-            return 0;
-          }
-
-              indiceGremlinsStr = message.left(1);
-
-              indiceGremlins = indiceGremlinsStr.toUInt(&estOK, 10);
-
-              message.remove(0, 1);
-
-              tailleMessage = message.size();
-        }
-
-        else if (message[0] == 'r' || message[0] == 'R')
-        {
-
-          if (rushActif)
-          {
-            *ok = false;
-            return 0;
-          }
-
-          rushActif = true;
-          seuilGlitch = 2;
-
-              message.remove(0, 1);
-              tailleMessage = message.size();
-        }
-
-        else if (message[0] == 'C' || message[0] == 'c')
-        {
-
-          if (modeCourtActif)
-          {
-            *ok = false;
-            return 0;
-          }
-
-          modeCourtActif = true;
-
-              message.remove(0, 1);
-              tailleMessage = message.size();
-        }
-
-        else if (message[0] == 'S' || message[0] == 's')
-        {
-
-          if (modeSecretActif)
-          {
-            *ok = false;
-            return 0;
-          }
-
-          modeSecretActif = true;
-
-          message.remove(0, 1);
-          tailleMessage = message.size();
-        }
-
-        else
-        {
-          *ok = false;
-          return 0;
-        }
-    }
-
-
-
-    if (nbDes == 0)
-    {
-        *ok = false;
-        return 0;
-    }
-
-      if (!modeSecretActif)
-    {
-        tirage->append(QString(tr(" (%1 dés").arg(nbDesStr)));
-        if (rushActif)
-            tirage->append(QString(tr(" en rushant")));
-        if (gremlinsActif)
-            tirage->append(QString(tr(" avec Gremlins %1").arg(indiceGremlinsStr)));
-        if (sixAgainActif)
-            tirage->append(QString(tr(" - les 6 sont relancés")));
-        if (!modeCourtActif)
-            tirage->append(QString(tr(" : ")));
-        else
-            tirage->append(QString(tr(")")));
-    }
-
-    nbDesEnsuite = nbDes;
-    while (nbDesEnsuite != 0)
-    {
-        nbDesEnCours = nbDesEnsuite;
-        nbDesEnsuite = 0;
-        nbPasses++;
-        for (int u=0; u<nbDesEnCours ; u++)
-        {
-          // Tirage du de
-              de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * (nbFaces)); //rand()%nbFaces + 1;
-          // Verification du succes
-              if (de >= seuilSucces)
-              {
-                nbSucces++;
-                //Si la regle des 6 again est activee, augmentation de la prochaine serie
-                if (sixAgainActif && de == 6)
-                  nbDesEnsuite++;
-              }
-              // Verification du glitch (uniquement sur la premiere serie de lancer)
-              if (nbPasses = 1 && de <= seuilGlitch)
-              {
-                nbGlitch++;
-              }
-              // Ajout du resultat a la chaine Tirage si pas en Mode court ou Mode Secret
-              if (!modeCourtActif && !modeSecretActif)
-              {
-                tirage->append(QString::number(de));
-                    // Ajout d'un espace, d'un "puis" entre deux series ou d'une parenthèse pour finir
-                if (u < nbDesEnCours-1)
-                  tirage->append(QString(" "));
-                else if (nbDesEnsuite > 0)
-                  tirage->append(QString(" puis "));
-                else
-                  tirage->append(QString(")"));
-              }
-        }
-    }
-
-    if (nbGlitch>0 && nbGlitch>((nbDes/2)-indiceGremlins))
-    {
-        if (nbSucces == 0)
-          glitch->append(QString(" et une complication critique !! "));
-        else
-          glitch->append(QString(" et une complication !! "));
-    }
-
-
-    *ok = true;
-    return nbSucces;
+	ok = true;
+	return nbSucces;
 }
 // FIN Ultyme
 
@@ -889,4 +641,17 @@ void Tchat::showEvent(QShowEvent *event)
 	zoneEdition->setFocus(Qt::OtherFocusReason);
 }
 
+bool Tchat::GetNumber(QString &str, unsigned short &value)
+{
+	bool error;
+	unsigned int i=0;
+	while(str[i].isDigit() && i<str.size())
+		i++;
+	// Length of 0 (No digit): exit with error
+	if(!i)
+		return false;
 
+	value = str.left(i).toUInt(&error, 10);
+	str.remove(0, i);
+	return error;
+}
