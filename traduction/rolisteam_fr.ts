@@ -1852,12 +1852,12 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferencesdialogbox.ui" line="147"/>
         <source>Check for Update</source>
-        <translation>Vérification des mises à jours</translation>
+        <translation>Vérification des mises à jour</translation>
     </message>
     <message>
         <location filename="../src/preferencesdialogbox.ui" line="154"/>
         <source>Pictures fit their Windows (at the opening)</source>
-        <translation>Les images s&apos;adapte à leur fenêtre (à l&apos;ouverture)</translation>
+        <translation>Les images s&apos;adaptent à leur fenêtre (à l&apos;ouverture)</translation>
     </message>
     <message>
         <location filename="../src/preferencesdialogbox.ui" line="163"/>
