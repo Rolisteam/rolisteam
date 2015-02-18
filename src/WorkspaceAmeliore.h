@@ -63,11 +63,12 @@ signals:
 
 public slots:
     void setTabbedMode(bool );
+    void ensurePresent();
 
 protected :
     //void paintEvent(QPaintEvent *event);
     void resizeEvent ( QResizeEvent * event );
-
+    bool eventFilter(QObject *object, QEvent *event);
 private :
     void updateBackGround();
 

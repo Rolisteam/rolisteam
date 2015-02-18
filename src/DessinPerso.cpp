@@ -38,8 +38,8 @@ QList<DessinPerso::etatDeSante> G_etatsDeSante;
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/
-DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, int numero)
-    : QWidget(parent)
+DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, int numero,bool isLocal)
+    : QWidget(parent),m_localPerso(isLocal)
 {
     // Initiatialisation des variables
     nomPerso = nom;
@@ -425,6 +425,11 @@ void DessinPerso::dessinerPersonnage(QPoint positionSouris)
 
     // Ajout de l'image au label
     disquePerso->setPixmap(QPixmap::fromImage(disqueImage));
+    if(m_localPerso)
+    {
+       disquePerso->raise();
+       raise();
+    }
     // Ajout du tooltip au label
     if (type == pj)
         disquePerso->setToolTip(nomPerso + " (" + etat.nomEtat + ")");

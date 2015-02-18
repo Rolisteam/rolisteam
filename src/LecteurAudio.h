@@ -158,6 +158,8 @@ private :
     QAction* m_deleteAction;        //!< @brief remove song action
 
 
+
+
     PlayingMode m_currentPlayingMode;
     bool m_endFile;
 
@@ -222,6 +224,8 @@ private slots :
     void selectionHasChanged();
 
     void emitCurrentState();
+
+    void volumeHasChanged(qreal);
 };
 
 #endif

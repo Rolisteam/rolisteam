@@ -51,7 +51,7 @@ WorkspaceAmeliore::~WorkspaceAmeliore()
 }
 void WorkspaceAmeliore::updateBackGround()
 {
-    m_color = m_preferences->value("BackGroundColor",QColor(191,191,191)).value<QColor>();
+    m_color = m_preferences->value("BackGroundColor",QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE)).value<QColor>();
     m_background.setColor(m_color);
     setBackground(m_background);
 
@@ -104,8 +104,11 @@ QWidget*  WorkspaceAmeliore::addWindow(QWidget* child,QAction* action)
         child->setVisible(true);
     }
     insertActionAndSubWindow(action,sub);
+    connect(action,SIGNAL(triggered()),this,SLOT(ensurePresent()));
     sub->setAttribute(Qt::WA_DeleteOnClose, false);
     child->setAttribute(Qt::WA_DeleteOnClose, false);
+    sub->setObjectName(child->objectName());
+
     sub->installEventFilter(this);
     return sub;
 }
@@ -145,6 +148,32 @@ void WorkspaceAmeliore::setTabbedMode(bool isTabbed)
     }
 }
 
+bool WorkspaceAmeliore::eventFilter(QObject *object, QEvent *event)
+{
+    if(event->type()==QEvent::Close)
+    {
+        QMdiSubWindow* sub = dynamic_cast<QMdiSubWindow*>(object);
+        if(NULL!=sub)
+        {
+            removeSubWindow(sub);
+            return true;
+        }
+
+    }
+    return QMdiArea::eventFilter(object,event);
+}
+void WorkspaceAmeliore::ensurePresent()
+{
+    QAction* act = qobject_cast<QAction*>(sender());
+    if(NULL!=act)
+    {
+        if(!subWindowList().contains(m_map->value(act)))
+        {
+            m_map->value(act)->widget()->setVisible(true);
+            addSubWindow(m_map->value(act));
+        }
+    }
+}
 
 QMdiSubWindow* WorkspaceAmeliore::getSubWindowFromId(QString id)
 {

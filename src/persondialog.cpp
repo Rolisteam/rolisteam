@@ -1,5 +1,6 @@
 /*************************************************************************
  *     Copyright (C) 2011 by Joseph Boudou                               *
+ *     Copyright (C) 2014 by Renaud Guezennec                            *
  *     http://www.rolisteam.org/                                         *
  *                                                                       *
  *   Rolisteam is free software; you can redistribute it and/or modify   *

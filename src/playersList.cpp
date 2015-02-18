@@ -1,5 +1,6 @@
 /*************************************************************************
  *     Copyright (C) 2011 by Joseph Boudou                               *
+ *      Copyright (C) 2014 by Renaud Guezennec                            *
  *                                                                       *
  *     http://www.rolisteam.org/                                         *
  *                                                                       *
@@ -697,11 +698,12 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
     {
         if (actualPerson->parent() == NULL)
         {
+
             Player * actualPlayer = static_cast<Player *>(actualPerson);
             bool isGM = newPlayer->isGM();
-            if (actualPlayer->isGM() != isGM)
+            if (m_localPlayer->isGM() != isGM)
             {
-                actualPlayer->setGM(isGM);
+                m_localPlayer->setGM(false);
                 G_joueur = !isGM;
                 notifyPersonChanged(actualPlayer);
                 emit localGMRefused();

@@ -56,7 +56,7 @@ public :
         QString nomEtat;
     } etatDeSante;
 
-    DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, int numero = 0);
+    DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, int numero = 0,bool isLocal=false);
     void deplacePerso(QPoint position);
     void deplacePerso(int x, int y);
     void diametreCouleurNom(int *diam, QColor *coul, QString *nom);
@@ -118,6 +118,7 @@ private :
     QPoint contour[8];			// 8 points formant le contour du disque (dans l'espace de coordonnees de disquePerso)
     QPoint orientation;			// Orientation du personnage (difference entre le centre du disque et la souris)
     QPoint centre;				// Sert a memoriser la position du centre pendant que le personnage est cache
+    bool m_localPerso;
 
     //Character * person;
 

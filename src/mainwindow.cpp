@@ -1488,9 +1488,10 @@ void MainWindow::changementNatureUtilisateur()
 
     m_toolBar->updateUi();
     updateUi();
+    updateWindowTitle();
 #ifndef NULL_PLAYER
-    removeDockWidget(m_audioPlayer);
-    m_audioPlayer->show();
+    //removeDockWidget(m_audioPlayer);
+    //m_audioPlayer->show();
 #endif
 }
 

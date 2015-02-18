@@ -93,6 +93,7 @@ void LecteurAudio::onfinished()
 }
 LecteurAudio::~LecteurAudio()
 {
+    m_preferences->registerValue("MusicVolume",audioOutput->volume());
     delete m_mainWidget;
     delete path;
 }
@@ -130,6 +131,7 @@ void LecteurAudio::setupUi()
 
 
         m_volumeLevelSlider = new Phonon::VolumeSlider(this);
+        audioOutput->setVolume(m_preferences->value("MusicVolume",1.0).toReal());
         m_volumeLevelSlider->setAudioOutput(audioOutput);
         m_volumeLevelSlider->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
@@ -238,6 +240,7 @@ void LecteurAudio::setupUi()
         connect(m_songList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(clickOnList(QListWidgetItem *)));
         connect(m_songList,SIGNAL(itemSelectionChanged()),this,SLOT(selectionHasChanged()),Qt::QueuedConnection);
         connect(m_mediaObject, SIGNAL(finished()), this, SLOT(isAboutToFinish()));
+        connect(audioOutput,SIGNAL(volumeChanged(qreal)),this,SLOT(volumeHasChanged(qreal)));
 
 
         m_playAction->setEnabled(false);
@@ -724,7 +727,6 @@ void LecteurAudio::pselectNewFile(QString file)
 }
 void LecteurAudio::pseek(quint32 position)
 {
-    qDebug()<< "is Seekable" << m_mediaObject->isSeekable()<< m_mediaObject->state();
     if(m_mediaObject->isSeekable())
     {
             m_mediaObject->seek(position);
@@ -789,16 +791,15 @@ void LecteurAudio::selectionHasChanged()
 }
 void LecteurAudio::setSource(QString path)
 {
-   /* if(m_currentSource!=NULL)
-    {
-        delete m_currentSource;
-        m_currentSource=NULL;
-    }*/
-
-    qDebug()<<  "path set source" <<path;
     if(!path.isEmpty())
     {
         m_currentSource = new Phonon::MediaSource(path);
     }
+
+}
+void LecteurAudio::volumeHasChanged(qreal newVolume)
+{
+    qDebug()<< "new volume"<< newVolume;
+    m_preferences->registerValue("MusicVolume",newVolume);
 
 }
