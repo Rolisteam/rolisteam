@@ -1262,16 +1262,19 @@ void MainWindow::emettreToutesLesImages(Liaison * link)
 void MainWindow::removeMapFromId(QString idCarte)
 {
     QMdiSubWindow* tmp = m_mdiArea->getSubWindowFromId(idCarte);
-
-    CarteFenetre* mapWindow = dynamic_cast<CarteFenetre*>(tmp->widget());
-    m_playersListWidget->model()->changeMap(NULL);
-    m_toolBar->changeMap(NULL);
-    if(NULL!=mapWindow)
+    if(NULL!=tmp)
     {
-        delete m_mapAction->value(mapWindow);
-        m_mapWindowList.removeAll(mapWindow);
-        delete mapWindow;
-        delete tmp;
+
+        CarteFenetre* mapWindow = dynamic_cast<CarteFenetre*>(tmp->widget());
+        m_playersListWidget->model()->changeMap(NULL);
+        m_toolBar->changeMap(NULL);
+        if(NULL!=mapWindow)
+        {
+            delete m_mapAction->value(mapWindow);
+            m_mapWindowList.removeAll(mapWindow);
+            delete mapWindow;
+            delete tmp;
+        }
     }
 }
 Carte * MainWindow::trouverCarte(QString idCarte)
