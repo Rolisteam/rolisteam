@@ -87,10 +87,12 @@ Q_DECLARE_METATYPE(CleverURI)
 Q_DECLARE_METATYPE(CleverUriList)
 
 
+#include "rclient.h"
+
 /**
   * @brief is the main GUI of rolisteam, bring together all piece of software components, read the settings, set the graphical interface.
   */
-class RClient;
+
 class MainWindow : public QMainWindow
 {
 Q_OBJECT
@@ -307,6 +309,7 @@ private slots :
         *
         */
         void openImage(QString filepath);
+        void tcpStateConnectionChanged(RClient::State);
         void askOpenImage();
         /**
         * @brief Show the about dialog

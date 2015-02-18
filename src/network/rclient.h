@@ -57,20 +57,25 @@ public:
 
     //int getId(void*);
     void addMessageToSendQueue(Message m);
+    /**
+      * @brief calls when the connection is well established.
+      */
+    void isConnected();
+
+signals:
+    void stateChanged(RClient::State state);
+    void connectionEstablished();
 
 protected slots:
     /**
       * @brief calls when an error occurs during the connection.
       */
     void errorOccurs();
-    /**
-      * @brief calls when the connection is well established.
-      */
-    void isConnected();
+
     /**
       * @brief calls when data must be read.
       */
-    void readData();
+    //void readData();
 
     void sendMessage();
 signals:

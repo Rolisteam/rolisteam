@@ -22,29 +22,33 @@
 #include <QPainter>
 #include <QDebug>
 UserListDelegate::UserListDelegate(QObject *parent) :
-    QItemDelegate(parent)
+    QStyledItemDelegate(parent)
 {
 }
 void UserListDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {
-    /*PersonItem* p = static_cast<PersonItem*>(index.internalPointer());
+    PersonItem* p = static_cast<PersonItem*>(index.internalPointer());
+    painter->save();
     if(p!=NULL)
     {
         QRect tmp = option.rect;
-        tmp.setLeft(20);
+        //tmp.setLeft();
+
+
+        painter->fillRect(option.rect.x(),option.rect.y(),option.decorationSize.width(),option.rect.height(),p->getPerson()->getColor());
+        tmp.adjust(option.decorationSize.width(),0,0,0);
         painter->drawText(tmp,p->getPerson()->getName());
-        QBrush brush(p->getPerson()->getColor());
-        painter->setBrush(brush);
-        painter->fillRect(option.rect.x(),option.rect.y(),20,option.rect.height(),Qt::SolidPattern);
+
 
     }
-    qDebug() << option.decorationSize << option.rect;*/
-    QItemDelegate::paint(painter,option,index);
+    painter->restore();
+    qDebug() << option.decorationSize << option.rect << p->getPerson()->getColor()<< option.decorationPosition;
+   // QItemDelegate::paint(painter,option,index);
 
 }
 QSize UserListDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {
-    /*QSize returnValue;
+    QSize returnValue;
     PersonItem* p = static_cast<PersonItem*>(index.internalPointer());
     if(p!=NULL)
     {
@@ -52,7 +56,8 @@ QSize UserListDelegate::sizeHint ( const QStyleOptionViewItem & option, const QM
         returnValue.setHeight(option.fontMetrics.height());
 
     }
-    qDebug() << " height" << returnValue.height();*/
+    qDebug() << " height" << returnValue.height();
    // qDebug() << QItemDelegate::sizeHint(option,index);
-    return QItemDelegate::sizeHint(option,index);
+    return returnValue;
+   // return QItemDelegate::sizeHint(option,index);
 }

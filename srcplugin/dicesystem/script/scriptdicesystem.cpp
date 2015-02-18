@@ -20,7 +20,7 @@
 #include "scriptdicesystem.h"
 
 ScriptDiceSystem::ScriptDiceSystem()
-    : m_regexp(".*:\(.+\).*")
+    : m_regexp(".*:\\(.+\\).*")
 {
 
 }

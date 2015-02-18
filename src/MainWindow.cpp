@@ -46,8 +46,8 @@
 //network module
 #include "servermanager.h"
 #include "serverdialog.h"
-#include "rclient.h"
 #include "updatechecker.h"
+
 
 //for the new userlist
 #include "player.h"
@@ -528,6 +528,12 @@ void MainWindow::startServer()
 
 
          /** @todo: Make the client connection to the server*/
+        m_currentConnection.setAddress("localhost");
+        m_currentConnection.setName("localhost");
+        m_currentConnection.setPort(tmpdialog.getPort());//m_connectionMap->value(p);
+        m_rclient = new RClient(this);
+        connect(m_rclient,SIGNAL(stateChanged(RClient::State)),this,SLOT(tcpStateConnectionChanged(RClient::State)));
+        m_rclient->startConnection(m_currentConnection);
     }
 
 
@@ -564,7 +570,6 @@ void MainWindow::displayMinutesEditor()
 }
 void MainWindow::checkUpdate()
 {
-    qDebug() << "checkupdate";
     if(m_options->value("mainwindow/network/checkupdate",true).toBool())
     {
         qDebug() << "checkupdate 2";
@@ -575,7 +580,6 @@ void MainWindow::checkUpdate()
 }
 void MainWindow::updateMayBeNeeded()
 {
-    qDebug() << "may be needed checkupdate";
     if(m_updateChecker->mustBeUpdated())
     {
         QMessageBox::information(this,tr("Update Monitor"),tr("The %1 version has been released. Please take a look at www.rolisteam.org for more information").arg(m_updateChecker->getLatestVersion()));
@@ -659,12 +663,27 @@ void MainWindow::writeSettings()
   m_diceManager->writeSettings();
   m_preferenceDialog->writeSettings();
 }
+void MainWindow::tcpStateConnectionChanged(RClient::State s)
+{
+    switch(s)
+    {
+        case RClient::DISCONNECTED:
+            m_connectionActGroup->setEnabled(true);
+        break;
+        case RClient::CONNECTED:
+            m_connectionActGroup->setEnabled(false);
+        break;
+        case RClient::ERROR:
+            m_connectionActGroup->setEnabled(true);
+        break;
+    }
+}
+
 void MainWindow::onConnection(QAction* p)
 {
     if(m_connectionMap->contains(p))
     {
          m_currentConnection = m_connectionMap->value(p);
-         //m_rclient = new RClient();
          m_rclient->startConnection(m_currentConnection);
     }
 }
@@ -673,20 +692,35 @@ void MainWindow::help()
 {
 
     QProcess *process = new QProcess;
-    QStringList args;
-    QString processName="assistant";
-    args << QLatin1String("-collectionFile")
+            QStringList args;
     #ifdef Q_WS_X11
-        << QLatin1String("/usr/share/doc/rolisteam-doc/rolisteam.qhc");
+            args << QLatin1String("-collectionFile")
+            << QLatin1String("/usr/share/doc/rolisteam-doc/rolisteam.qhc");
+            process->start(QLatin1String("assistant"), args);
     #elif defined Q_WS_WIN32
-        << QLatin1String((qApp->applicationDirPath()+"/../resourcesdoc/rolisteam-doc/rolisteam.qhc").toLatin1());
+            args << QLatin1String("-collectionFile")
+            << QLatin1String((qApp->applicationDirPath()+"/../resourcesdoc/rolisteam-doc/rolisteam.qhc").toLatin1());
+            process->start(QLatin1String("assistant"), args);
     #elif defined Q_WS_MAC
-        << QLatin1String((QCoreApplication::applicationDirPath()+"/../Resources/doc/rolisteam.qhc").toLatin1());
-    processName="/Developer/Applications/Qt/Assistant/Contents/MacOS/Assistant";
+            QString a = QCoreApplication::applicationDirPath()+"/../Resources/doc/rolisteam.qhc";
+            args << QLatin1String("-collectionFile")
+            << QLatin1String(a.toLatin1());
+            process->start(QLatin1String("/Developer/Applications/Qt/Assistant/Contents/MacOS/Assistant"), args);
     #endif
-    process->start(processName, args);
-    if (!process->waitForStarted())
-        return;
+            if (!process->waitForStarted(2000))
+            {
+                if (!QDesktopServices::openUrl(QUrl("http://wiki.rolisteam.org/")))
+                {
+                    QMessageBox * msgBox = new QMessageBox(
+                            QMessageBox::Information,
+                            tr("Aide"),
+                            tr("L'aide de rolisteam se trouve sur le web :<br>\
+                                <a href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"),
+                            QMessageBox::Ok
+                            );
+                    msgBox->exec();
+                }
+            }
 
 
  }

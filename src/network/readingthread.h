@@ -23,7 +23,7 @@ public slots:
 
 private:
     QTcpSocket* m_socket;
-   // QList<Message*>* m_messageQueue;
+    QList<Message*>* m_messageQueue;
     Connection m_conn;
 };
 

@@ -20,9 +20,9 @@
 #ifndef USERLISTDELEGATE_H
 #define USERLISTDELEGATE_H
 
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 
-class UserListDelegate : public QItemDelegate
+class UserListDelegate : public QStyledItemDelegate
 {
 
 public:

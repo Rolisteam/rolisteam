@@ -43,6 +43,7 @@ RClient::~RClient()
 void RClient::errorOccurs()
 {
     m_currentState=ERROR;
+    emit stateChanged(m_currentState);
     qDebug() << m_client->errorString();
 }
 
@@ -55,12 +56,11 @@ void RClient::startConnection(Connection& connection)
 void RClient::isConnected()
 {
     m_currentState=CONNECTED;
+    emit stateChanged(m_currentState);
+    emit connectionEstablished();
     qDebug() << "connected established";
 }
-void RClient::readData()
-{
-    qDebug() << "ready to read";
-}
+
 void RClient::addMessageToSendQueue(Message m)
 {
     m_readingMutex.lock();

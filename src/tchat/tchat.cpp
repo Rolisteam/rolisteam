@@ -212,7 +212,7 @@ void Tchat::onEntry()
     m_tchatEditor->document()->clear();
     QString item= m_combobox->currentText();
     DiceSystemInterface* tmp = m_diceManager->getInterface(item);
-    qDebug() << "regexp=" << tmp->catchRegExp();
+
     QRegExp exp(tmp->catchRegExp());
     if(exp.indexIn(text)!=-1)
     {

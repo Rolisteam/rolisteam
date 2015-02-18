@@ -48,20 +48,21 @@ void Server::readDataFromClient()
 
     QTcpSocket* tmp = static_cast<QTcpSocket*>(sender());
     /// @todo: base line of server forward messages to all other clients.
+    QByteArray array = tmp->readAll();
 
-
+    QDataStream stream(array);
+    QString name;
+    QString type;
+    QString data;
+    stream >> type;
+    stream >> name;
     foreach(QTcpSocket* tmpclient, *m_list)
     {
-        QByteArray array = tmp->readAll();
-        QDataStream stream(array);
-        QString name;
-        QString type;
 
-        stream >> type;
-        stream >> name;
 
-        qDebug() << "data readDataFromClient =" << type << name << array.size();
-        tmpclient->write(tmp->readAll());
+
+        quint64 size=tmpclient->write(array);
+        qDebug() << "taille envoyé" <<size << m_list->size()<< type<<name ;
     }
 
 }

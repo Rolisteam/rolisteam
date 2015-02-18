@@ -13,7 +13,7 @@ SOURCES += \
     server.cpp \
     main.cpp
 
-UI_DIR = ../ui
-MOC_DIR = ../obj
-OBJECTS_DIR = ../obj
-TARGET=../bin/rolisteam-server
+UI_DIR = ../../ui
+MOC_DIR = ../../obj
+OBJECTS_DIR = ../../obj
+TARGET=../../bin/rolisteam-server

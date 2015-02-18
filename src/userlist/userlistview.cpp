@@ -35,6 +35,7 @@ UserListView::UserListView(QWidget *parent) :
     setItemDelegate(m_delegate);
     connect(this,SIGNAL(editCurrentItemColor()),this,SLOT(onEditCurrentItemColor()));
     connect(this,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(customContextMenuEvent(QPoint)));
+    //setIconSize(QSize(64,64));
 }
 void UserListView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
@@ -45,6 +46,10 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
 {
     QModelIndex tmp = indexAt(event->pos());
     int indentationValue = indentation();
+    int icon = 0;
+    if(iconSize().isValid())
+        icon = iconSize().width();
+
     if(tmp.isValid())
     {
         event->pos();
@@ -54,8 +59,9 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
             depth++;
             tmp=tmp.parent();
         }
+        qDebug() << "indentationValue" << indentationValue << iconSize() << event->pos().x() << depth << ((depth+1)*indentationValue+icon);
         //if the click is on the color icon.
-        if((depth*indentationValue+indentationValue<event->pos().x())&&((++depth)*indentationValue+indentationValue>event->pos().x()))
+        if((depth*indentationValue+indentationValue<event->pos().x())&&((++depth)*indentationValue+icon>=event->pos().x()))
         {
             emit editCurrentItemColor();
         }

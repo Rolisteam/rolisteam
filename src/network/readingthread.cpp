@@ -3,7 +3,7 @@
 ReadingThread::ReadingThread(QTcpSocket* l,QObject *parent) :
     QThread(parent),m_socket(l)
 {
-
+    m_messageQueue = new QList<Message*>;
 }
 
 void ReadingThread::setConnection(Connection& m)
@@ -18,5 +18,9 @@ void ReadingThread::run()
 }
 void ReadingThread::readDataFromSocket()
 {
-    qDebug() << "data =" << m_socket->readAll();
+    Message* msg = new Message;
+    QByteArray array = m_socket->readAll();
+    msg->append(array);
+    m_messageQueue->append(msg);
+
 }

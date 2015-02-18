@@ -88,7 +88,8 @@ void ConnectionWizzard::removeConnection()
 void ConnectionWizzard::selectionChanged()
 {
     m_currentRow = ui->m_connectionListWidget->currentRow();
-    m_currentConnection = &m_connectionList[m_currentRow];
+    if(!m_connectionList.empty())
+        m_currentConnection = &m_connectionList[m_currentRow];
     ui->m_name->setText(m_currentConnection->getName());
     ui->m_hostname->setText(m_currentConnection->getAddress());
     ui->m_port->setValue(m_currentConnection->getPort());
