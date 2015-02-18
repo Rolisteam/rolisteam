@@ -273,20 +273,7 @@ void MainWindow::setupUi()
     G_pointeurEtat      = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
 
     m_playerList = PlayersList::instance();
-    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
-    {
-        // We want to know if the server refuses local player to be GM
-        connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
-        // We send a message to del local player when we quit
-        connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
-    }
-    else
-    {
-        qDebug() << "user is server";
-        // send datas on new connection if we are the server
-        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
-        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
-    }
+
     connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
     connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
 
@@ -300,6 +287,30 @@ MainWindow::~MainWindow()
 {
     delete m_dockLogUtil;
 }
+
+
+
+
+void MainWindow::setUpNetworkConnection()
+{
+    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
+    {
+
+        qDebug() << "user is client";
+        // We want to know if the server refuses local player to be GM
+        connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
+        // We send a message to del local player when we quit
+        connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
+    }
+    else
+    {
+        qDebug() << "user is server";
+        // send datas on new connection if we are the server
+        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
+        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
+    }
+}
+
 void MainWindow::setNetworkManager(ClientServeur* tmp)
 {
     m_networkManager = tmp;
@@ -1759,7 +1770,6 @@ void MainWindow::lireImage(QDataStream &file)
         uneEntete->categorie = image;
         uneEntete->action = chargerImage;
         uneEntete->tailleDonnees = tailleCorps;
-
 
         // Creation du corps du message
         int p = sizeof(enteteMessage);
