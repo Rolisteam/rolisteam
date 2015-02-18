@@ -350,7 +350,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
         else
         {
             // On recupere la position de la souris
-            QPoint pointSouris = event->pos();
+            //QPoint pointSouris = event->pos();
 
             // Si l'ordinateur local est le serveur on peut dessiner directement sur le plan
             // Dans le cas contraire le plan ne sera mis a jour qu'a la reception du message de trace

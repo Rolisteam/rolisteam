@@ -34,6 +34,14 @@ Initialisation::Initialisation()
     m_filename = QString("%1/%2.ini").arg(m_confdir, QString(NOM_APPLICATION));
 
     QFile file(m_filename);
+    m_version = QObject::tr("Unknown");
+    #ifdef VERSION_MINOR
+        #ifdef VERSION_MAJOR
+            #ifdef VERSION_MIDDLE
+                m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+            #endif
+        #endif
+    #endif
     
     // Si le fichier d'initialisation existe, on le charge
     if (file.exists() && file.open(QIODevice::ReadOnly))
@@ -43,7 +51,7 @@ Initialisation::Initialisation()
         
         // On recupere la version de l'application
         // This field is ignored actually.
-        fluxFichier >> versionApplication;
+        fluxFichier >> m_version;
         // ...le nom de l'utilisateur
         fluxFichier >> nomUtilisateur;
         // ...la couleur de l'utilisateur
@@ -88,7 +96,7 @@ Initialisation::Initialisation()
     // If we don't have the file, we set default values
     else
     {
-        versionApplication    = QString(VERSION_APPLICATION);
+
         nomUtilisateur        = QString();
         couleurUtilisateur    = QColor();
         couleurUtilisateur.setHsv(qrand()%360, qrand()%200 + 56, qrand()%190 + 50);
@@ -128,7 +136,7 @@ Initialisation::~Initialisation()
     QDataStream fluxFichier(&file);
     // On sauvegarde la version de l'application
     // We force the actual version string.
-    fluxFichier << QString(VERSION_APPLICATION);
+    fluxFichier << m_version;
     // ...le nom de l'utilisateur
     fluxFichier << nomUtilisateur;
     // ...la couleur de l'utilisateur

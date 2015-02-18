@@ -48,7 +48,7 @@ class Initialisation
         ~Initialisation();
 
 
-        QString versionApplication;    // Version de l'application ayant cree le fichier d'initialisation
+
         QString nomUtilisateur;        // Nom de l'utilisateur tel qu'indique dans la fenetre de connexion
         QColor couleurUtilisateur;     // Couleur choisie par l'utilisateur
         bool joueur;                   // True si l'utilisateur est joueur, false s'il est MJ
@@ -69,6 +69,7 @@ class Initialisation
     private:
         QString m_confdir;
         QString m_filename;
+        QString m_version;
 };
 
 #endif

@@ -44,7 +44,6 @@ HEADERS += src/AfficheurDisque.h \
            src/preferencesdialog.h \
            src/privatechatdialog.h \
            src/receiveevent.h \
-           src/Rolisteam_private.h \
            src/SelecteurCouleur.h \
            src/SelecteurDiametre.h \
            src/chatwindow.h \

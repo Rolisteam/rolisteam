@@ -129,7 +129,7 @@ void BarreOutils::creerActions()
                 actionRectPlein	= new QAction(QIcon(":/resources/icones/rectangle plein.png"), tr("Rectangle plein"), groupOutils);
                 actionElliVide 	= new QAction(QIcon(":/resources/icones/ellipse vide.png"), tr("Ellipse vide"), groupOutils);
                 actionElliPlein	= new QAction(QIcon(":/resources/icones/ellipse pleine.png"), tr("Ellipse pleine"), groupOutils);
-                actionTexte 	= new QAction(QIcon(":/resources/icones/texte.png"), tr("Texte"), groupOutils);
+                actionTexte 	= new QAction(QIcon(":/textevignette"), tr("Texte"), groupOutils);
                 actionMain		= new QAction(QIcon(":/resources/icones/main.png"), tr("Déplacer"), groupOutils);
                 actionAjoutPnj 	= new QAction(QIcon(":/resources/icones/ajouter PNJ.png"), tr("Ajouter un PNJ"), groupOutils);
                 actionSupprPnj 	= new QAction(QIcon(":/resources/icones/supprimer PNJ.png"), tr("Supprimer un PNJ"), groupOutils);

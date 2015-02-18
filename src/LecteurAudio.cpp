@@ -269,6 +269,7 @@ void LecteurAudio::sourceChanged(const Phonon::MediaSource &source)
 }
 void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
 {
+    Q_UNUSED(oldState);
      switch (newState)
      {
          case Phonon::ErrorState:

@@ -104,10 +104,6 @@
          </layout>
         </item>
        </layout>
-       <zorder>layoutWidget</zorder>
-       <zorder>verticalSpacer</zorder>
-       <zorder></zorder>
-       <zorder>layoutWidget</zorder>
       </widget>
      </item>
      <item>
