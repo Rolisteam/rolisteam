@@ -222,13 +222,14 @@ void Tchat::onEntry()
     /// todo: send messages
     // sendMessage();
     Message* mtmp = new Message;
-    QByteArray& tmpArray = mtmp->getDataArray();
+    QByteArray* tmpArray = mtmp->getDataArray();
 
-    QDataStream msg(&tmpArray,QIODevice::ReadWrite);
+    QDataStream msg(tmpArray,QIODevice::WriteOnly);
     /// @todo: add chat ID, sender and few other stuff
+
     mtmp->setType(1);
     msg << objectName() << text;
-    qDebug() << tmpArray.size()<< mtmp->getDataArray().size();
+
     m_client->addMessageToSendQueue(mtmp);
 }
 bool Tchat::hasDockWidget() const

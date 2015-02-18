@@ -31,7 +31,7 @@ class Message
 {
 public:
     Message();
-    QByteArray& getDataArray();
+    QByteArray* getDataArray();
     quint32 getSize();
     quint32 getType();
     void setType(int type);

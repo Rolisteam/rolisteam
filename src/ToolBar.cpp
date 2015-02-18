@@ -44,7 +44,7 @@ ToolsBar::ToolsBar(QWidget *parent)
 {
 
     setWindowTitle(tr("Tools"));
-
+    setObjectName("Toolbar");
     setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 

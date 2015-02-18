@@ -37,7 +37,9 @@ MapFrame::MapFrame(Map *map)
 
     connect(m_toolsbar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),this,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
     connect(m_toolsbar,SIGNAL(currentColorChanged(QColor&)),this,SLOT(currentColorChanged(QColor&)));
-    connect(m_toolsbar,SIGNAL(currentModeChanged(int)),this,SIGNAL(currentModeChanged(int)));
+
+    connect(m_toolsbar,SIGNAL(currentModeChanged(int)),this,SIGNAL(setEditingMode(int)));
+
     connect(m_toolsbar,SIGNAL(currentPenSizeChanged(int)),this,SLOT(currentPenSizeChanged(int)));
     connect(m_toolsbar,SIGNAL(currentPNCSizeChanged(int)),this,SLOT(currentNPCSizeChanged(int)));
 

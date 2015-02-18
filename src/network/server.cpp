@@ -56,9 +56,9 @@ void Server::readDataFromClient()
     stream >> typeStr;
     //stream >> name;
 
+    qDebug() << "Type ="<<typeStr;
 
-
-    switch((int)type[0])
+    switch(typeStr)
     {
         case 1:
             qDebug() << "Type of tchat";
@@ -71,14 +71,14 @@ void Server::readDataFromClient()
 
 
 
-   /* quint32 sizeint;
-    stream>> sizeint;*/
-    qDebug()  <<" size" << (int)type[1];
+    quint32 sizeint;
+    stream>> sizeint;
+    qDebug()  <<" size" << sizeint;
 
 
 
-   /* QString dataStr;
-    stream >> dataStr;*/
+    QString dataStr;
+    stream >> dataStr;
 
     foreach(QTcpSocket* tmpclient, *m_list)
     {

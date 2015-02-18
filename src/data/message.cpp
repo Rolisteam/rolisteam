@@ -41,16 +41,20 @@ void Message::setType(int type)
 
 void Message::write(QTcpSocket* tpm)
 {
-    qDebug() << tpm->errorString () << tpm->isOpen() << tpm->write((char*)&m_type);
-    qDebug() << tpm->errorString ();
-    qDebug() << m_internalData.size();
+    QByteArray msg;
+    QDataStream cou(&msg,QIODevice::WriteOnly);
+
     quint32 size= m_internalData.size();
-    qDebug() << size;
-    qDebug() << tpm->write((char*)&size);
-    qDebug() << tpm->write(m_internalData);
+
+
+    cou << (quint32)m_type<<(quint32)size << m_internalData;
+
+
+
+    qDebug() << tpm->write(msg);
 }
 
-QByteArray& Message::getDataArray()
+QByteArray* Message::getDataArray()
 {
-    return m_internalData;
+    return &m_internalData;
 }

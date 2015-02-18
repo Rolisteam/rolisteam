@@ -251,6 +251,7 @@ void MainWindow::createMenu()
     m_networkMenu = menuBar()->addMenu(tr("&Network"));
     m_serverAct=new QAction(tr("&Start server..."),NULL);
     m_newConnectionAct=new QAction(tr("&New Connection..."),NULL);
+    m_manageConnectionAct = new QAction(tr("Manage connections..."),NULL);
     refreshNetworkMenu();
 
   /*  m_serverAct = m_networkMenu->addAction(tr("&Start server..."));
@@ -679,10 +680,7 @@ void MainWindow::refreshNetworkMenu()
     connect(m_connectionActGroup,SIGNAL(triggered(QAction*)),this,SLOT(onConnection(QAction*)));
     m_networkMenu->addSeparator();
 
-    if(m_manageConnectionAct==NULL)
-        m_manageConnectionAct = m_networkMenu->addAction(tr("Manage connections..."));
-    else
-        m_networkMenu->addAction(m_manageConnectionAct);
+     m_networkMenu->addAction(m_manageConnectionAct);
     //connect(m_manageConnectionAct,SIGNAL(triggered()),this,SLOT(showConnectionManager()));
 }
 

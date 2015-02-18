@@ -18,11 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "rectitem.h"
-
+#include <QStyle>
 #include <QPainter>
 #include <QPen>
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
+#include <QStylePainter>
+
 RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
 {
@@ -69,6 +71,16 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         painter->setPen(pen);
         painter->drawRect(tmp_rect);
         painter->restore();
+    /*if(widget!=NULL)
+        {
+        QStyleOptionFocusRect option;
+        option.initFrom(widget);
+        option.backgroundColor =m_color;
+//         option.rect=m_rect.toRect();    //option.backgroundColor = palette().color(m_color);
+
+        //QStylePainter painterstyle(widget);
+         widget->style()->drawPrimitive(QStyle::PE_FrameFocusRect, &option, painter, widget);
+        }*/
     }
     painter->restore();
 

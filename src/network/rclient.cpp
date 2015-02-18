@@ -65,7 +65,7 @@ void RClient::addMessageToSendQueue(Message* m)
 {
     m_readingMutex.lock();
         m_messageList->append(m);
-         qDebug() <<  m->getDataArray().size();
+
     m_readingMutex.unlock();
     emit messageInQueue();
 }
@@ -76,7 +76,7 @@ void RClient::sendMessage()
 
         Message* m= m_messageList->takeFirst();
 
-        qDebug() <<  m->getDataArray().size();
+        qDebug() <<  m->getDataArray()->size();
         m->write(m_client);
         /*m_client->write(t.getType());
         m_client->write(t.getSize());
