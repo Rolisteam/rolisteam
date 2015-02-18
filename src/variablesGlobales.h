@@ -66,7 +66,7 @@ extern couleurSelectionee G_couleurCourante;
 extern QColor G_couleurMasque;
 
 // Declarees dans BarreOutils.cpp
-extern BarreOutils::outilSelectionne G_outilCourant;
+extern BarreOutils::Tool G_outilCourant;
 extern QString G_texteCourant;
 extern QString G_nomPnjCourant;
 extern int G_numeroPnjCourant;

@@ -484,7 +484,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         Carte *carte = (Carte *)(carteFenetre->widget());
 
         // Connexion des actions de changement d'outil avec les fonctions de changement de pointeur de souris
-        connect(barreOutils->actionCrayon,         SIGNAL(triggered(bool)), carte, SLOT(pointeurCrayon()));
+        /*connect(barreOutils->actionCrayon,         SIGNAL(triggered(bool)), carte, SLOT(pointeurCrayon()));
         connect(barreOutils->actionLigne,          SIGNAL(triggered(bool)), carte, SLOT(pointeurLigne()));
         connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), carte, SLOT(pointeurRectVide()));
         connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), carte, SLOT(pointeurRectPlein()));
@@ -495,7 +495,9 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), carte, SLOT(pointeurAjoutPnj()));
         connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), carte, SLOT(pointeurSupprPnj()));
         connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), carte, SLOT(pointeurDeplacePnj()));
-        connect(barreOutils->actionEtatPnj,        SIGNAL(triggered(bool)), carte, SLOT(pointeurEtatPnj()));
+        connect(barreOutils->actionEtatPnj,        SIGNAL(triggered(bool)), carte, SLOT(pointeurEtatPnj()));*/
+
+        connect(barreOutils,SIGNAL(currentToolChanged(BarreOutils::Tool)),carte,SLOT(setPointeur(BarreOutils::Tool)));
 
         // Connexion de la demande de changement de couleur de la carte avec celle de la barre d'outils
         connect(carte, SIGNAL(changeCouleurActuelle(QColor)), barreOutils, SLOT(changeCouleurActuelle(QColor)));
@@ -509,7 +511,8 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
 
         // Mise a jour du pointeur de souris de la carte
-        switch(G_outilCourant)
+        carte->setPointeur(G_outilCourant);
+        /*switch(G_outilCourant)
         {
         case BarreOutils::crayon :
                 carte->pointeurCrayon();
@@ -550,7 +553,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         default :
                 qWarning("Unknown (ajouterCarte - MainWindow.cpp)");
                 break;
-        }
+        }*/
         
         // new PlayersList connection
         connect(carteFenetre, SIGNAL(activated(Carte *)), m_playersList->model(), SLOT(changeMap(Carte *)));
@@ -694,6 +697,7 @@ void MainWindow::ouvrirPlan(bool masquer)
                 QString idCarte = QUuid::createUuid().toString();
                 // Creation de la carte
                 Carte *carte = new Carte(idCarte, &image, masquer);
+                carte->setPermissionMode(NouveauPlanVide::GM_ONLY);
                 // Creation de la CarteFenetre
                 CarteFenetre *carteFenetre = new CarteFenetre(carte, workspace);
                 // Ajout de la carte au workspace
@@ -716,7 +720,7 @@ void MainWindow::ouvrirPlan(bool masquer)
                         // Taille des PJ
                         sizeof(quint8) +
                         // Taille de l'info "masquer ou pas"
-                        sizeof(quint8) +
+                        sizeof(quint8) + sizeof(quint8) +
                         // Taille de l'image
                         sizeof(quint32) + byteArray.size();
 
@@ -752,6 +756,12 @@ void MainWindow::ouvrirPlan(bool masquer)
                 quint8 masquerPlan = masquer;
                 memcpy(&(donnees[p]), &masquerPlan, sizeof(quint8));
                 p+=sizeof(quint8);
+
+
+                quint8 mode = carte->getPermissionMode();
+                memcpy(&(donnees[p]), &mode, sizeof(quint8));
+                p+=sizeof(quint8);
+
                 // Ajout de l'image
                 quint32 tailleImage = byteArray.size();
                 memcpy(&(donnees[p]), &tailleImage, sizeof(quint32));
@@ -1235,7 +1245,7 @@ void MainWindow::creerNouveauPlanVide(QString titre, QString idCarte, QColor cou
 /********************************************************************/
 void MainWindow::aucunNouveauPlanVide()
 {
-        fenetreNouveauPlan->~NouveauPlanVide();
+        delete fenetreNouveauPlan;
         fenetreNouveauPlan = 0;
 }
 

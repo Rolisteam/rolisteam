@@ -42,7 +42,7 @@
 /* l'application                                                    */
 /********************************************************************/	
 // Definit l'outil courant
-BarreOutils::outilSelectionne G_outilCourant;
+BarreOutils::Tool G_outilCourant;
 // Contient le texte de la zone de texte
 QString G_texteCourant;
 // Contient le texte de la zone "nom du PNJ"
@@ -57,7 +57,7 @@ int G_numeroPnjCourant;
 BarreOutils::BarreOutils(QWidget *parent)
 	: QDockWidget(parent), m_map(NULL)
 {
-	// Titre du dockWidget
+    m_currentTool = main;
         setWindowTitle(tr("Tools"));
         setObjectName("BarreOutils");
 	// Parametrage du dockWidget
@@ -83,18 +83,7 @@ BarreOutils::BarreOutils(QWidget *parent)
 	// Connexion du changement du nom de PNJ avec nomPnjChange
 	connect(nomPnj, SIGNAL(textEdited(const QString &)), this, SLOT(nomPnjChange(const QString &)));
 	// Connexion des actions avec les slot adaptes
-	connect(actionCrayon,     SIGNAL(triggered(bool)), this, SLOT(crayonSelectionne()));
-	connect(actionLigne,      SIGNAL(triggered(bool)), this, SLOT(ligneSelectionne()));
-	connect(actionRectVide,   SIGNAL(triggered(bool)), this, SLOT(rectVideSelectionne()));
-	connect(actionRectPlein,  SIGNAL(triggered(bool)), this, SLOT(rectPleinSelectionne()));
-	connect(actionElliVide,   SIGNAL(triggered(bool)), this, SLOT(elliVideSelectionne()));
-	connect(actionElliPlein,  SIGNAL(triggered(bool)), this, SLOT(elliPleinSelectionne()));
-	connect(actionTexte,      SIGNAL(triggered(bool)), this, SLOT(texteSelectionne()));
-	connect(actionMain,       SIGNAL(triggered(bool)), this, SLOT(mainSelectionne()));
-	connect(actionAjoutPnj,   SIGNAL(triggered(bool)), this, SLOT(ajoutPnjSelectionne()));
-	connect(actionSupprPnj,   SIGNAL(triggered(bool)), this, SLOT(supprPnjSelectionne()));
-	connect(actionDeplacePnj, SIGNAL(triggered(bool)), this, SLOT(deplacePersoSelectionne()));
-	connect(actionEtatPnj,    SIGNAL(triggered(bool)), this, SLOT(etatPersoSelectionne()));
+
 	// Connection du changement d'etat (floating / no floating) avec le changement de taille
 	connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changementTaille(bool)));
 
@@ -167,7 +156,8 @@ void BarreOutils::creerActions()
 /********************************************************************/	
 void BarreOutils::creerOutils()
 {
-	// Creation des boutons du toolBar
+    // Creationm_actionGroup des boutons du toolBar
+    m_actionGroup = new QActionGroup(this);
 	QToolButton *boutonCrayon     = new QToolButton(outils);
 	QToolButton *boutonLigne      = new QToolButton(outils);
 	QToolButton *boutonRectVide   = new QToolButton(outils);
@@ -181,6 +171,17 @@ void BarreOutils::creerOutils()
 	QToolButton *boutonDeplacePnj = new QToolButton(outils);
 	QToolButton *boutonEtatPnj    = new QToolButton(outils);
 	QToolButton *boutonRazChrono  = new QToolButton(outils);
+
+
+
+
+
+
+
+
+
+
+
 
 	// Association des boutons avec les actions
 	boutonCrayon     ->setDefaultAction(actionCrayon);
@@ -196,6 +197,24 @@ void BarreOutils::creerOutils()
 	boutonDeplacePnj ->setDefaultAction(actionDeplacePnj);
 	boutonEtatPnj    ->setDefaultAction(actionEtatPnj);
 	boutonRazChrono  ->setDefaultAction(actionRazChrono);
+
+
+    m_actionGroup->addAction(actionCrayon);
+    m_actionGroup->addAction(actionLigne);
+    m_actionGroup->addAction(actionRectVide);
+    m_actionGroup->addAction(actionRectPlein);
+    m_actionGroup->addAction(actionElliVide);
+    m_actionGroup->addAction(actionElliPlein);
+    m_actionGroup->addAction(actionTexte);
+
+    m_actionGroup->addAction(actionMain);
+    m_actionGroup->addAction(actionAjoutPnj);
+    m_actionGroup->addAction(actionSupprPnj);
+    m_actionGroup->addAction(actionDeplacePnj);
+    m_actionGroup->addAction(actionEtatPnj);
+    //m_actionGroup->addAction(actionRazChrono);
+
+    connect(m_actionGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentToolHasChanged(QAction*)));
 
 	// Boutons en mode AutoRaise, plus lisible
 	boutonCrayon     ->setAutoRaise(true);
@@ -636,4 +655,69 @@ void BarreOutils::sendNewCharacterSize(int size)
         message.uint8(size - 11);
         message.sendAll();
     }
+}
+void BarreOutils::currentToolHasChanged(QAction* bt)
+{
+    Tool previous = m_currentTool;
+    if(bt==actionCrayon)
+    {
+        m_currentTool = crayon;
+    }
+    if(bt==actionLigne)
+    {
+        m_currentTool = ligne;
+    }
+    if(bt==actionRectVide)
+    {
+        m_currentTool = rectVide;
+    }
+    if(bt==actionRectPlein)
+    {
+        m_currentTool = rectPlein;
+    }
+    if(bt==actionElliVide)
+    {
+        m_currentTool = elliVide;
+    }
+    if(bt==actionElliPlein)
+    {
+        m_currentTool = elliPlein;
+    }
+    if(bt==actionTexte)
+    {
+        if (!(ligneDeTexte->hasFocus()))
+        {
+            ligneDeTexte->setFocus(Qt::OtherFocusReason);
+            ligneDeTexte->setSelection(0, G_texteCourant.length());
+        }
+        m_currentTool = texte;
+    }
+    if(bt==actionMain)
+    {
+        m_currentTool = main;
+    }
+    if(bt==actionAjoutPnj)
+    {
+        if (!(nomPnj->hasFocus()))
+        {
+            nomPnj->setFocus(Qt::OtherFocusReason);
+            nomPnj->setSelection(0, G_nomPnjCourant.length());
+        }
+        m_currentTool = ajoutPnj;
+    }
+    if(bt==actionSupprPnj)
+    {
+        m_currentTool = supprPnj;
+    }
+    if(bt==actionDeplacePnj)
+    {
+        m_currentTool = deplacePerso;
+    }
+    if(bt==actionEtatPnj)
+    {
+        m_currentTool = etatPerso;
+    }
+    if(previous!=m_currentTool)
+        emit currentToolChanged(m_currentTool);
+
 }

@@ -982,7 +982,7 @@ void Liaison::receptionMessagePlan()
 
         // On cree la carte
         G_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur,permission);
-
+        qDebug() << "permission " << permission;
         // Message sur le log utilisateur
         ecrireLogUtilisateur(tr("New map: %1").arg(titre));
 
@@ -1080,7 +1080,14 @@ void Liaison::receptionMessagePlan()
         // On recupere la taille des PJ
         quint8 taillePj;
         memcpy(&taillePj, &(tampon[p]), sizeof(quint8));
+
+
         p+=sizeof(quint8);
+        quint8 permission;
+        memcpy(&permission,&(tampon[p]), sizeof(quint8));
+        p+=sizeof(quint8);
+        qDebug() << "permission import " << permission;
+
         // On recupere l'intensite de la couche alpha
         quint8 intensiteAlpha;
         memcpy(&intensiteAlpha, &(tampon[p]), sizeof(quint8));

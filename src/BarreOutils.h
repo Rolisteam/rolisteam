@@ -34,6 +34,7 @@
 #include <QLineEdit>
 #include <QLCDNumber>
 #include <QDockWidget>
+#include <QActionGroup>
 
 class SelecteurCouleur;
 class SelecteurDiametre;
@@ -43,72 +44,81 @@ class BarreOutils : public QDockWidget
 {
     Q_OBJECT
     
-    public :
-        BarreOutils(QWidget *parent = 0);
-        virtual ~BarreOutils();
-        void majCouleursPersonnelles();
-        QColor donnerCouleurPersonnelle(int numero);
-        void autoriserOuInterdireCouleurs();
+public :
+    BarreOutils(QWidget *parent = 0);
+    virtual ~BarreOutils();
+    void majCouleursPersonnelles();
+    QColor donnerCouleurPersonnelle(int numero);
+    void autoriserOuInterdireCouleurs();
 
-        QAction *actionCrayon;
-        QAction *actionLigne;
-        QAction *actionRectVide;
-        QAction *actionRectPlein;
-        QAction *actionElliVide;
-        QAction *actionElliPlein;
-        QAction *actionTexte;
-        QAction *actionMain;
-        QAction *actionAjoutPnj;
-        QAction *actionSupprPnj;
-        QAction *actionDeplacePnj;
-        QAction *actionEtatPnj;
-        QAction *actionRazChrono;
+    QAction *actionCrayon;
+    QAction *actionLigne;
+    QAction *actionRectVide;
+    QAction *actionRectPlein;
+    QAction *actionElliVide;
+    QAction *actionElliPlein;
+    QAction *actionTexte;
+    QAction *actionMain;
+    QAction *actionAjoutPnj;
+    QAction *actionSupprPnj;
+    QAction *actionDeplacePnj;
+    QAction *actionEtatPnj;
+    QAction *actionRazChrono;
 
-        // Outils selectionnables par l'utilisateur
-        enum outilSelectionne {crayon, ligne, rectVide, rectPlein, elliVide, elliPlein, texte, main, ajoutPnj, supprPnj, deplacePerso, etatPerso};
+    // Outils selectionnables par l'utilisateur
+    enum Tool {crayon, ligne, rectVide, rectPlein, elliVide, elliPlein, texte, main, ajoutPnj, supprPnj, deplacePerso, etatPerso};
+signals:
+    void currentToolChanged(BarreOutils::Tool);
 
-    public slots :
-        void incrementeNumeroPnj();
-        void changeCouleurActuelle(QColor coul);
-        void mettreAJourPnj(int diametre, QString nom);
-        void changeMap(Carte * map);
+public slots :
+    void incrementeNumeroPnj();
+    void changeCouleurActuelle(QColor coul);
+    void mettreAJourPnj(int diametre, QString nom);
+    void changeMap(Carte * map);
     
-    private :
-        void creerActions();
-        void creerOutils();
+private :
+    void creerActions();
+    void creerOutils();
 
-        QWidget *outils;
-        QLineEdit *ligneDeTexte;
-        QLineEdit *nomPnj;
-        QLCDNumber *afficheNumeroPnj;
-        SelecteurCouleur *couleur;
-        SelecteurDiametre *diametreTrait;
-        SelecteurDiametre *diametrePnj;
-        Carte * m_map;
-        SelecteurDiametre* m_pcDiameter;
+    QWidget *outils;
+    QLineEdit *ligneDeTexte;
+    QLineEdit *nomPnj;
+    QLCDNumber *afficheNumeroPnj;
+    SelecteurCouleur *couleur;
+    SelecteurDiametre *diametreTrait;
+    SelecteurDiametre *diametrePnj;
+    Carte * m_map;
+    SelecteurDiametre* m_pcDiameter;
 
 
-    private slots :
-        void razNumeroPnj();
-        void changementTaille(bool floating);
-        void texteChange(const QString &texte);
-        void nomPnjChange(const QString &texte);
+private slots :
+    void razNumeroPnj();
+    void changementTaille(bool floating);
+    void texteChange(const QString &texte);
+    void nomPnjChange(const QString &texte);
 
-        void crayonSelectionne();
-        void ligneSelectionne();
-        void rectVideSelectionne();
-        void rectPleinSelectionne();
-        void elliVideSelectionne();
-        void elliPleinSelectionne();
-        void texteSelectionne();
-        void mainSelectionne();
-        void ajoutPnjSelectionne();
-        void supprPnjSelectionne();
-        void deplacePersoSelectionne();
-        void etatPersoSelectionne();
+    void crayonSelectionne();
+    void ligneSelectionne();
+    void rectVideSelectionne();
+    void rectPleinSelectionne();
+    void elliVideSelectionne();
+    void elliPleinSelectionne();
+    void texteSelectionne();
+    void mainSelectionne();
+    void ajoutPnjSelectionne();
+    void supprPnjSelectionne();
+    void deplacePersoSelectionne();
+    void etatPersoSelectionne();
 
-        void changeCharacterSize(int size);
-        void sendNewCharacterSize(int size);
+    void currentToolHasChanged(QAction*);
+
+    void changeCharacterSize(int size);
+    void sendNewCharacterSize(int size);
+
+
+private:
+    QActionGroup* m_actionGroup;
+    BarreOutils::Tool m_currentTool;
 };
 
 #endif

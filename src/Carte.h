@@ -38,6 +38,8 @@
 
 #include "types.h"
 #include "NouveauPlanVide.h"
+#include "BarreOutils.h"
+
 
 class Character;
 class DessinPerso;
@@ -94,18 +96,9 @@ signals :
     void deplacerCarteFenetre(QPoint position);
 
 public slots :
-    void pointeurCrayon();
-    void pointeurLigne();
-    void pointeurRectVide();
-    void pointeurRectPlein();
-    void pointeurElliVide();
-    void pointeurElliPlein();
-    void pointeurTexte();
-    void pointeurMain();
-    void pointeurAjoutPnj();
-    void pointeurSupprPnj();
-    void pointeurDeplacePnj();
-    void pointeurEtatPnj();
+
+
+    void setPointeur(BarreOutils::Tool currentTool);
 
     void deplacerLesPersonnages();
     void effacerPerso(QString idPerso);
@@ -163,6 +156,7 @@ private :
     QList<QPoint> listeDeplacement;        // liste des points composant le deplacement du perso qui vient d'etre deplace par l'utilisateur
     QList<PersoEnMouvement> mouvements;    // liste des personnages a deplacer, ainsi que leur trajectoire
     NouveauPlanVide::PermissionMode m_currentMode;
+    BarreOutils::Tool m_currentTool;
 
 };
 
