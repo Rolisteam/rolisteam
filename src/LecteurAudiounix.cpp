@@ -41,6 +41,7 @@ LecteurAudio::LecteurAudio(QWidget *parent)
 : QDockWidget(parent)
 {
 
+    #ifdef PHONON
     audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
     mediaObject = new Phonon::MediaObject(this);
     path = new Phonon::Path();
@@ -59,6 +60,10 @@ setupUi();
 
         autoriserOuIntedireCommandes();
         setWidget(widgetPrincipal);
+        #endif
+#ifdef NULL_PLAYER
+        setWidget(new QLabel(tr("No Music Player"),this));
+        #endif
     }
 
 
@@ -70,6 +75,7 @@ LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
             singleton = new LecteurAudio(parent);
         return singleton;
 }
+#ifdef PHONON
 void LecteurAudio::setupUi()
 {
         setWindowTitle(tr("Musiques d'ambiance"));
@@ -139,6 +145,7 @@ void LecteurAudio::setupUi()
         QHBoxLayout *layoutTemps = new QHBoxLayout();
         layoutTemps->setMargin(0);
         // Creation du selecteur de temps
+
         positionTemps = new Phonon::SeekSlider(this);
         positionTemps->setMediaObject(mediaObject);
         positionTemps->setStyle(new QCleanlooksStyle());
@@ -270,21 +277,24 @@ void LecteurAudio::setupUi()
         positionTemps->setEnabled(false);
 
 }
+ #endif
 /********************************************************************************/
 /* Fonction appelée quand l'utilisateur doubleclique sur un élément de la liste */
 /********************************************************************************/
 void LecteurAudio::changementTitre(QListWidgetItem * p)
 {
+    #ifdef PHONON
              currentsource = new Phonon::MediaSource(listeChemins[listeTitres->row(p)]);
              mediaObject->setCurrentSource(*currentsource);
              titreCourant = listeTitres->row(p);
              emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
              mediaObject->play();
 
-
+#endif
 
 
 }
+#ifdef PHONON
 /***************************************************************************/
 /* Fonction de notification pour la barre d'avancement du temps du lecteur */
 /***************************************************************************/
@@ -312,37 +322,7 @@ void LecteurAudio::sourceChanged(const Phonon::MediaSource &source)
      afficheurTitre->setText(source.fileName().right(source.fileName().length()-source.fileName().lastIndexOf("/")-1));
      afficheurTemps->display("00:00");
 }
-/********************************************************************/
-/* Masque le widget de commande si l'utilisateur local n'est pas MJ */
-/********************************************************************/
-void LecteurAudio::autoriserOuIntedireCommandes()
-{
-        // Si l'utilisateur local est un joueur
-        if (G_joueur)
-        {
-                // Initialement il n'y a aucun titre dans le lecteur
-                afficheurTitre->setToolTip(tr("Aucun titre"));
-                // On masque le widget de commande
-                widgetCommande->hide();
-                // On ajoute un widget de separation
-                QWidget *separateur3 = new QWidget();
-                separateur3->setFixedHeight(2);
-                layoutPrincipal->addWidget(separateur3);
-                // On fixe la hauteur du dockWidget
-                setFixedHeight(66);
-        }
-}
 
-
-
-/********************************************************************************/
-/* Not used                                                                      */
-/*                                                                              */
-/********************************************************************************/
- bool LecteurAudio::eventFilter(QObject *object, QEvent *event)
- {
-     return false;
- }
 void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State /*oldState*/)
 {
 
@@ -378,6 +358,39 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State /*oldState
      }
 
 }
+#endif
+/********************************************************************/
+/* Masque le widget de commande si l'utilisateur local n'est pas MJ */
+/********************************************************************/
+void LecteurAudio::autoriserOuIntedireCommandes()
+{
+        // Si l'utilisateur local est un joueur
+        if (G_joueur)
+        {
+                // Initialement il n'y a aucun titre dans le lecteur
+                afficheurTitre->setToolTip(tr("Aucun titre"));
+                // On masque le widget de commande
+                widgetCommande->hide();
+                // On ajoute un widget de separation
+                QWidget *separateur3 = new QWidget();
+                separateur3->setFixedHeight(2);
+                layoutPrincipal->addWidget(separateur3);
+                // On fixe la hauteur du dockWidget
+                setFixedHeight(66);
+        }
+}
+
+
+#ifdef PHONON
+/********************************************************************************/
+/* Not used                                                                      */
+/*                                                                              */
+/********************************************************************************/
+ bool LecteurAudio::eventFilter(QObject *object, QEvent *event)
+ {
+     return false;
+ }
+#endif
 
 
 /********************************************************************/
@@ -424,6 +437,7 @@ void LecteurAudio::appuiUnique(bool etatBouton)
 /********************************************************************/
 void LecteurAudio::ajouterTitre()
 {
+    #ifdef PHONON
         // Ouverture d'un selecteur de fichier, et recuperation de la liste des fichiers selectionnes
         QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Ajouter un titre"), G_dossierMusiquesMj, tr("Fichiers audio (*.wav *.mp2 *.mp3 *.ogg)"));
 
@@ -472,6 +486,7 @@ void LecteurAudio::ajouterTitre()
                 // On ajoute le chemin complet a la liste des chemins
                 listeChemins.append(fichier);
         }
+#endif
 }
 
 /********************************************************************/
@@ -479,7 +494,7 @@ void LecteurAudio::ajouterTitre()
 /********************************************************************/
 void LecteurAudio::supprimerTitre()
 {
-
+#ifdef PHONON
         QList<QListWidgetItem *> titreSelectionne = listeTitres->selectedItems();
 
         if (titreSelectionne.isEmpty())
@@ -538,6 +553,9 @@ void LecteurAudio::supprimerTitre()
 
         else if (ligne < titreCourant)
                 titreCourant--;
+
+#endif
+
 }
 
 
@@ -548,8 +566,8 @@ void LecteurAudio::supprimerTitre()
 /********************************************************************/
 void LecteurAudio::nouveauTitre(QString titre, QString fichier)
 {
-
-        QTextStream cout(stderr,QIODevice::WriteOnly);
+#ifdef PHONON
+        //QTextStream cout(stderr,QIODevice::WriteOnly);
 
         // On affiche le titre du nouveau morceau
         afficheurTitre->setText(titre);
@@ -557,10 +575,10 @@ void LecteurAudio::nouveauTitre(QString titre, QString fichier)
         afficheurTitre->setToolTip(fichier);
 
         // Ouverture du nouveau fichier
-        cout << fichier << endl;
+       // cout << fichier << endl;
         currentsource = new Phonon::MediaSource(fichier);
         mediaObject->setCurrentSource(*currentsource);
-
+#endif
 }
 
 /********************************************************************/
@@ -595,6 +613,7 @@ void LecteurAudio::arriveeEnFinDeTitre()
 /********************************************************************/
 void LecteurAudio::finDeTitreSlot()
 {
+#ifdef PHONON
         // Si la lecture en boucle est activee
         if (enBoucle)
         {
@@ -648,6 +667,7 @@ void LecteurAudio::finDeTitreSlot()
                         arreter();
                 }
         }
+#endif
 }
 
 /********************************************************************/
@@ -780,6 +800,7 @@ void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, qui
 /********************************************************************/
 void LecteurAudio::emettreEtat(QString idJoueur)
 {
+    #ifdef PHONON
         // On recupere le numero de liaison correspondant a l'identifiant du joueur
         // (on soustrait 1 car le 1er utilisateur est toujours le serveur et qu'il
         // n'a pas de liaison associee)
@@ -820,6 +841,7 @@ void LecteurAudio::emettreEtat(QString idJoueur)
                         qWarning("Etat du lecteur audio inconnu lors de l'emission de l'etat (emettreEtat - LecteurAudio.cpp)");
                         break;
         }
+#endif
 }
 
 /********************************************************************/
@@ -827,8 +849,13 @@ void LecteurAudio::emettreEtat(QString idJoueur)
 /********************************************************************/
 qreal LecteurAudio::volume()
 {
+#ifdef PHONON
 //		return niveauVolume->value();
         return audioOutput->volume();
+#endif
+#ifdef NULL_PLAYER
+      return 0;
+      #endif
 }
 
 /********************************************************************/
@@ -845,7 +872,7 @@ qreal LecteurAudio::volume()
 void LecteurAudio::joueurNouveauFichier(QString nomFichier)
 {
 
-
+#ifdef PHONON
         // Si le nom de fichier est vide, il faut arreter le lecteur
         if (nomFichier.isEmpty())
         {
@@ -903,6 +930,7 @@ void LecteurAudio::joueurNouveauFichier(QString nomFichier)
         etatActuel = arret;
         // La lecture reprend depuis le debut
         joueurPositionTemps = 0;
+        #endif
 }
 
 /********************************************************************/
@@ -911,6 +939,7 @@ void LecteurAudio::joueurNouveauFichier(QString nomFichier)
 /********************************************************************/
 void LecteurAudio::joueurLectureMorceau()
 {
+    #ifdef PHONON
     if((mediaObject->state()==Phonon::PausedState)||(mediaObject->state()==Phonon::StoppedState))
     {
         mediaObject->play();
@@ -918,6 +947,7 @@ void LecteurAudio::joueurLectureMorceau()
 
 
     }
+     #endif
 }
 
 /********************************************************************/
@@ -925,6 +955,7 @@ void LecteurAudio::joueurLectureMorceau()
 /********************************************************************/
 void LecteurAudio::joueurPauseMorceau()
 {
+    #ifdef PHONON
     if(mediaObject->state()==Phonon::PlayingState)
     {
         mediaObject->pause();
@@ -932,6 +963,7 @@ void LecteurAudio::joueurPauseMorceau()
 
 
     }
+     #endif
 }
 
 /********************************************************************/
@@ -939,7 +971,7 @@ void LecteurAudio::joueurPauseMorceau()
 /********************************************************************/
 void LecteurAudio::joueurArretMorceau()
 {
-
+ #ifdef PHONON
 if(mediaObject->state()==Phonon::PlayingState)
     {
         mediaObject->stop();
@@ -947,6 +979,7 @@ if(mediaObject->state()==Phonon::PlayingState)
 
         joueurPositionTemps = 0;
     }
+ #endif
 }
 
 /********************************************************************/
@@ -955,8 +988,10 @@ if(mediaObject->state()==Phonon::PlayingState)
 /********************************************************************/
 void LecteurAudio::joueurChangerPosition(int position)
 {
+    #ifdef PHONON
     if(mediaObject->isSeekable())
             mediaObject->seek(position);
+     #endif
 }
 
 /********************************************************************/
@@ -965,8 +1000,10 @@ void LecteurAudio::joueurChangerPosition(int position)
 /********************************************************************/
 void LecteurAudio::joueurChangerDossier()
 {
+    #ifdef PHONON
         // On met a jour le dossier des musiques du joueur
         G_dossierMusiquesJoueur = QFileDialog::getExistingDirectory(0 , tr("Choix du répertoire des musiques"), G_dossierMusiquesJoueur,
                 QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
+        #endif
 }
 

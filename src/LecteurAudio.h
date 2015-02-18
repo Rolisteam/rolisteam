@@ -42,11 +42,11 @@
 #include <QVBoxLayout>
 
 #include "types.h"
-#ifdef Q_WS_WIN32
+#ifdef FMOD
 #include "fmod.h"
 #endif
 
-#ifdef Q_WS_X11
+#ifdef PHONON
 //#include <phonon>
 #include <mediasource.h>
 #include <seekslider.h>
@@ -160,11 +160,12 @@ private :
 
         static LecteurAudio* singleton;//!< \brief static pointer to the unique instance of this audioplayer
 
-#ifdef Q_WS_X11
+#ifdef PHONON
 	/**
 	* \brief set the UI - Phonon only
 	*/
         void setupUi();
+
 	/**
 	* \brief event filter to catch all signal emitted by phonon classes
 	*/
@@ -181,7 +182,7 @@ private :
         Phonon::SeekSlider *positionTemps;//!< \brief Allows to seek in the song (Phonon only)
 #endif
 
-#ifdef Q_WS_WIN32
+#ifdef FMOD
         FSOUND_STREAM *fluxAudio; //!< \brief fmod pointer
 #endif
         QWidget *widgetPrincipal;		//!< \brief brings together all subwidget
@@ -190,7 +191,7 @@ private :
         QVBoxLayout *layoutPrincipal;	//!< \brief layout
         QLineEdit *afficheurTitre;		//!< \brief Displays the title of the played song
 
-#ifdef Q_WS_WIN32
+#ifdef FMOD
         QSlider *niveauVolume;			//!< \brief Allows to adjust the sound volume
         QSlider *positionTemps;//!< \brief Allows to seek in the song 
 #endif
@@ -216,7 +217,7 @@ private :
 
 
 private slots :
-#ifdef Q_WS_X11
+#ifdef PHONON
 	/**
 	* \brief Phonon only - received the time
 	*/
@@ -232,7 +233,7 @@ private slots :
 	*/
         void sourceChanged(const Phonon::MediaSource &source);
 #endif
-#ifdef Q_WS_WIN32
+#ifdef FMOD
 	/**
 	* \brief Fmod only - slot which manage the click on pauseButton
 	*/
