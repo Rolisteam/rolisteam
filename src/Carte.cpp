@@ -888,7 +888,7 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
         {
             if((!G_joueur)||
                (NouveauPlanVide::PC_ALL==m_currentMode)||
-                    ((NouveauPlanVide::PC_MOVE == m_currentMode)||(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )
+                    ((NouveauPlanVide::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )
             {
                 if (m_currentTool == BarreOutils::supprPnj)
                 {
@@ -1062,14 +1062,20 @@ void Carte::actionPnjBoutonRelache(QPoint positionSouris)
     {
         if (pnjSelectionne)
         {
-            // Affiche ou masque le PNJ selon qu'il se trouve sur une zone masquee ou pas
-            afficheOuMasquePnj(pnjSelectionne);
-            // sauvegarde du dernier PNJ selectionne
-            dernierPnjSelectionne = pnjSelectionne;
-            // Emission du trajet du personnage
-            emettreTrajetPersonnage();
-            // Plus de PNJ selectionne
-            pnjSelectionne = 0;
+            if((!G_joueur)||
+               (NouveauPlanVide::PC_ALL==m_currentMode)||
+               ((NouveauPlanVide::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
+            {
+                // Affiche ou masque le PNJ selon qu'il se trouve sur une zone masquee ou pas
+                afficheOuMasquePnj(pnjSelectionne);
+                // sauvegarde du dernier PNJ selectionne
+                dernierPnjSelectionne = pnjSelectionne;
+                // Emission du trajet du personnage
+                emettreTrajetPersonnage();
+                // Plus de PNJ selectionne
+                pnjSelectionne = 0;
+            }
+
         }
     }
     
@@ -1109,7 +1115,7 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
         {
             if((!G_joueur)||
                (NouveauPlanVide::PC_ALL==m_currentMode)||
-               ((NouveauPlanVide::PC_MOVE == m_currentMode)||(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
+               ((NouveauPlanVide::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
             {
                 // On verifie que la souris reste dans les limites de la carte
                 if ( QRect(0, 0, fond->width(), fond->height()).contains(positionSouris, true) )

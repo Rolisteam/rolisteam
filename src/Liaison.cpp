@@ -976,6 +976,7 @@ void Liaison::receptionMessagePlan()
         quint8 taillePj;
         memcpy(&taillePj, &(tampon[p]), sizeof(quint8));
         p+=sizeof(quint8);
+        // Permission analyse
         quint8 permission;
         memcpy(&permission,&(tampon[p]), sizeof(quint8));
         p+=sizeof(quint8);
@@ -1042,6 +1043,7 @@ void Liaison::receptionMessagePlan()
 
         // Creation de la carte
         Carte *carte = new Carte(idPlan, &image, masquerPlan);
+        carte->setPermissionMode((NouveauPlanVide::PermissionMode)permission);
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte);
         // Ajout de la carte au workspace
@@ -1133,6 +1135,7 @@ void Liaison::receptionMessagePlan()
 
         // Creation de la carte
         Carte *carte = new Carte(idPlan, &fondOriginal, &fond, &alpha);
+        carte->setPermissionMode((NouveauPlanVide::PermissionMode)permission);
         // On adapte la couche alpha a la nature de l'utilisateur local (MJ ou joueur)
         carte->adapterCoucheAlpha(intensiteAlpha);
         // Creation de la CarteFenetre
