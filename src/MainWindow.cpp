@@ -2418,36 +2418,17 @@ void MainWindow::aPropos()
 
 void MainWindow::aideEnLigne()
 {
-
-        QProcess *process = new QProcess;
-        QStringList args;
-
-
-#ifdef Q_WS_X11
-        args << QLatin1String("-collectionFile")
-        << QLatin1String("/usr/share/doc/rolisteam-doc/rolisteam.qhc");
-        /* << QLatin1String("-register")
-         << QLatin1String("/usr/share/doc/rolisteam-doc/rolisteam-manual.qch");*/
-        process->start(QLatin1String("assistant"), args);
-
-#elif defined Q_WS_WIN32
-        args << QLatin1String("-collectionFile")
-        << QLatin1String((qApp->applicationDirPath()+"/../resourcesdoc/rolisteam-doc/rolisteam.qhc").toLatin1());
-        process->start(QLatin1String("assistant"), args);
-#elif defined Q_WS_MAC
-        QString a = QCoreApplication::applicationDirPath()+"/../Resources/doc/rolisteam.qhc";
-        args << QLatin1String("-collectionFile")
-        << QLatin1String(a.toLatin1());
-        process->start(QLatin1String("/Developer/Applications/Qt/Assistant/Contents/MacOS/Assistant"), args);
-
-
-
-#endif
-        process->start(QLatin1String("assistant"), args);
-        if (!process->waitForStarted())
-                return;
-
-
+    if (!QDesktopServices::openUrl(QUrl("http://wiki.rolisteam.org/")))
+    {
+        QMessageBox * msgBox = new QMessageBox(
+                QMessageBox::Information,
+                tr("Aide"),
+                tr("L'aide de rolisteam se trouve sur le web :<br>\
+                    <a href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"),
+                QMessageBox::Ok
+                );
+        msgBox->exec();
+    }
 }
 
 
