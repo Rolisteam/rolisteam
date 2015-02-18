@@ -22,7 +22,12 @@ CONFIG += HAVE_PHONON
 #CONFIG += HAVE_NULL
 
 ## Translation
-TRANSLATIONS = traduction/rolisteam_fr.ts
+TRANSLATIONS =  traduction/rolisteam_fr.ts \
+                traduction/rolisteam_de.ts \
+                traduction/rolisteam_it.ts \
+                traduction/rolisteam_es.ts \
+                traduction/rolisteam_fi.ts \
+
 CODECFORTR = UTF-8
 
 isEmpty(QMAKE_LRELEASE) {

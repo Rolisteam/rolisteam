@@ -318,7 +318,7 @@ void SelecteurCouleur::clicUtilisateur(QPoint positionSouris, bool move)
 			G_couleurCourante.type = qcolor;
 			G_couleurCourante.color = couleur;
 			// Mise a jour de la bulle d'aide
-            couleurActuelle->setToolTip(tr("Red: %1, Green: %1, Blue: %1").arg(couleur.red()).arg(couleur.green()).arg(couleur.blue()));
+            couleurActuelle->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(couleur.red()).arg(couleur.green()).arg(couleur.blue()));
 		}
 
 		// Recuperation des couleurs personnelles
@@ -392,7 +392,7 @@ void SelecteurCouleur::changeCouleurActuelle(QColor color)
 	couleurActuelle->clear();
         couleurActuelle->setPalette(QPalette(color));
 	// M.a.j de la bulle d'aide
-        couleurActuelle->setToolTip(tr("Red: %1, Green: %1, Blue: %1").arg(color.red()).arg(color.green()).arg(color.blue()));
+        couleurActuelle->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(color.red()).arg(color.green()).arg(color.blue()));
 	// M.a.j de la variable globale
 	G_couleurCourante.type = qcolor;
         G_couleurCourante.color = color;
@@ -427,46 +427,5 @@ QColor SelecteurCouleur::donnerCouleurPersonnelle(int numero)
 
 	return (couleurPersonnelle[numCouleur]->palette()).color(QPalette::Window);
 }
-
-
-#ifdef MACOS
-	/********************************************************************/		
-	/* L'utilisateur vient d'effectuer un double clic (Mac seulement)   */
-	/********************************************************************/		
-	void SelecteurCouleur::mouseDoubleClickEvent (QMouseEvent *event)
-	{
-		// On recupere le widget present sous la souris
-		QPoint position = event->pos();
-		QWidget *enfant = childAt(position);
-		
-		// La souris ne se trouve pas sur les couleurs personnelles : on quitte
-		if (position.y() < separateur1->pos().y() || position.y() > separateur2->pos().y())
-			return;
-
-		// La souris ne se trouve pas sur une couleur : on quitte
-		if (enfant == 0 || enfant == separateur1 || enfant == separateur2)
-			return;
-		
-		// Dans le cas contraire on se trouve sur une couleur personnelle
-
-		// On demande a l'utilisateur de choisir une couleur
-                QColor color = QColorDialog::getColor((enfant->palette()).color(QPalette::Window));
-
-		// Si l'utilisateur a clique sur OK on recupere la nouvelle couleur
-		if (couleur.isValid())
-		{
-			// Mise a jour du widget affichant la couleur personnelle concernee
-			enfant->setPalette(QPalette(couleur));
-			// Mise a jour du widget affichant la couleur actuelle
-			couleurActuelle->clear();
-                        couleurActuelle->setPalette(QPalette(color));
-			// Mise a jour de la variable globale
-			G_couleurCourante.type = qcolor;
-                        G_couleurCourante.color = color;
-			// Mise a jour de la bulle d'aide
-                        couleurActuelle->setToolTip(tr("Red: %1, Green: %1, Blue: %1").arg(color.red()).arg(color.green()).arg(color.blue()));
-		}
-	}
-#endif
 
 

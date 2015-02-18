@@ -416,6 +416,7 @@ int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
     int nombre=0; ///  @attention : Initialize value Otherwise something wrong could happen
     int faces=0;
     int garde=0;
+    int seuil=0;
     bool relance10;
 
     // Mise a 0 de la chaine tirage
@@ -539,6 +540,140 @@ int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
                 tirage.append(QString(")"));
                 result+=signOperator*sumDice;
             } // Fin de la lecture et du tirage des des
+            // le nombre est suivi par un "E" : on recupere le nombre qui suit (valeur de carac)
+            else if (message[0] == QChar('e') || message[0] == QChar('E'))
+            {
+                relance10=(message[0] == QChar('E'));
+                // On supprime le "E"
+                message.remove(0, 1);
+                // Si la taille est nulle, on quitte avec une erreur
+                if (!message.size())
+                    return (ok = false);
+                ok = GetNumber(message,&seuil);
+                // S'il y a un nombre de des ou de faces nul, on quitte
+                if (!nombre || !seuil)
+                    return (ok = false);
+                // The dices rolling
+                QList<int> listDices;
+                unsigned short tmpDice, dice, sumDice=0, success=0;
+                for(unsigned short u=0;u<nombre;u++)
+                {
+                    tmpDice=(qrand()%10)+1;
+                    dice=tmpDice;
+                    if(relance10)
+                        while((tmpDice==10))
+                        {
+                            tmpDice=(qrand()%10)+1;
+                            dice+=tmpDice;
+                        }
+                    listDices.append(dice); 
+                }
+                qSort(listDices.begin(), listDices.end(), qGreater<unsigned short>());
+			int it =0;
+                while (sumDice<seuil)
+                {
+                    sumDice+=listDices[it];
+                    success++;
+                    it++;
+                }
+                // Formatting the "tirage" text
+                tirage.append(tr("%1e%2 (%3").arg(nombre).arg(seuil).arg(listDices[0]));
+                for(unsigned short u=1;u<listDices.size();u++)
+                {
+                    tirage.append(QString(","));
+                    tirage.append(QString::number(listDices[u]));
+                }
+                tirage.append(QString(")"));
+                result+=signOperator*success;
+            } // Fin de la lecture et du tirage des des
+
+            // le nombre est suivi par un "V" : on recupere le nombre qui suit (valeur de carac)
+            else if (message[0] == QChar('v') || message[0] == QChar('V'))
+            {
+                relance10=(message[0] == QChar('V'));
+                // On supprime le "V"
+                message.remove(0, 1);
+                // Si la taille est nulle, on quitte avec une erreur
+                if (!message.size())
+                    return (ok = false);
+                ok = GetNumber(message,&seuil);
+                // S'il y a un nombre de des ou de faces nul, on quitte
+                if (!nombre || !seuil)
+                    return (ok = false);
+                // The dices rolling
+                QList<int> listDices;
+                unsigned short dice, success=0;
+                for(unsigned short u=0;u<nombre;u++)
+                {
+                    dice=(qrand()%10)+1;
+                    if(relance10 && dice == 10)
+                        nombre++;                     							    listDices.append(dice);
+                }
+                for (int it=0; it<nombre; it++)
+			{
+				if (listDices[it]>=seuil)
+					success++;
+			}
+			
+                // Formatting the "tirage" text
+                tirage.append(tr("%1v%2 (%3").arg(nombre).arg(seuil).arg(listDices[0]));
+                for(unsigned short u=1;u<listDices.size();u++)
+                {
+                    tirage.append(QString(","));
+                    tirage.append(QString::number(listDices[u]));
+                }
+                tirage.append(QString(")"));
+                result+=signOperator*success;
+            } // Fin de la lecture et du tirage des des
+            // le nombre est suivi par un "W" : on recupere le nombre qui suit (valeur de carac)
+            else if (message[0] == QChar('w') || message[0] == QChar('W'))
+            {
+                relance10=(message[0] == QChar('W'));
+                // On supprime le "W"
+                message.remove(0, 1);
+                // Si la taille est nulle, on quitte avec une erreur
+                if (!message.size())
+                    return (ok = false);
+                ok = GetNumber(message,&seuil);
+                // S'il y a un nombre de des ou de faces nul, on quitte
+                if (!nombre || !seuil)
+                    return (ok = false);
+                // The dices rolling
+                QList<int> listDices;
+                unsigned short dice;
+			int success=0;
+			bool  critique=true;
+                for(unsigned short u=0;u<nombre;u++)
+                {
+                    dice=(qrand()%10)+1;
+                    if(relance10 && dice == 10)
+                        nombre++;                     							    listDices.append(dice);
+                }
+                for (int it=0; it<nombre; it++)
+                {
+                    if (listDices[it]>=seuil)
+                    {
+                        success++;
+                        critique=false;
+					
+                    }
+                    if (listDices[it]==1)
+					success--;
+                }
+                if (success<0 && !critique)
+                    success=0;
+			
+                // Formatting the "tirage" text
+                tirage.append(tr("%1w%2 (%3").arg(nombre).arg(seuil).arg(listDices[0]));
+                for(unsigned short u=1;u<listDices.size();u++)
+                {
+                    tirage.append(QString(","));
+                    tirage.append(QString::number(listDices[u]));
+                }
+                tirage.append(QString(")"));
+                result+=signOperator*success;
+            } // Fin de la lecture et du tirage des des
+
             // Le caractere suivant n'est pas un "D" : on ajoute ou on soustrait le nombre
             else
             {

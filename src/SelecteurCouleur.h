@@ -82,9 +82,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
-#ifdef MACOS
-    void mouseDoubleClickEvent (QMouseEvent *event);
-#endif
+
 };
 
 #endif
