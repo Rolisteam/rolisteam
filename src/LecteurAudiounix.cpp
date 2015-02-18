@@ -35,6 +35,7 @@ LecteurAudio * LecteurAudio::singleton = NULL;
 LecteurAudio::LecteurAudio(QWidget *parent)
 : QDockWidget(parent)
 {
+    m_currentPlayingMode = NEXT;
 
     audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
     mediaObject = new Phonon::MediaObject(this);
@@ -147,6 +148,10 @@ void LecteurAudio::setupUi()
 
         actionBoucle	= new QAction(QIcon(":/resources/icones/boucle.png"), tr("Lecture en boucle"), widgetCommande);
         actionUnique	= new QAction(QIcon(":/resources/icones/lecture unique.png"), tr("Lecture unique"), widgetCommande);
+      /*  m_playingMode = new QActionGroup(this);
+        m_playingMode->addAction(actionBoucle);
+        m_playingMode->addAction(actionUnique);*/
+
         actionAjouter 	= new QAction(tr("Ajouter"), widgetCommande);
         actionSupprimer	= new QAction(tr("Supprimer"), widgetCommande);
 
@@ -227,8 +232,9 @@ void LecteurAudio::setupUi()
         connect(actionStop, SIGNAL(triggered()), mediaObject, SLOT(stop()));
 
 
-        connect(actionBoucle, SIGNAL(triggered(bool)), this, SLOT(appuiBoucle(bool)));
-        connect(actionUnique, SIGNAL(triggered(bool)), this, SLOT(appuiUnique(bool)));
+        connect(actionBoucle, SIGNAL(triggered()), this, SLOT(updatePlayingMode()));
+        connect(actionUnique, SIGNAL(triggered()), this, SLOT(updatePlayingMode()));
+
         connect(actionAjouter, SIGNAL(triggered(bool)), this, SLOT(ajouterTitre()));
         connect(actionSupprimer, SIGNAL(triggered(bool)), this, SLOT(supprimerTitre()));
 
@@ -249,7 +255,6 @@ void LecteurAudio::setupUi()
 }
 void LecteurAudio::changementTitre(QListWidgetItem * p)
 {
-
              currentsource = new Phonon::MediaSource(listeChemins[listeTitres->row(p)]);
              mediaObject->setCurrentSource(*currentsource);
              titreCourant = listeTitres->row(p);
@@ -271,8 +276,7 @@ void LecteurAudio::tick(qint64 time)
 
 void LecteurAudio::sourceChanged(const Phonon::MediaSource &source)
 {
-
-    qDebug() << "sourceChanged" << source.fileName();
+     qDebug() << "sourceChanged" << source.fileName();
      afficheurTitre->setText(source.fileName().right(source.fileName().length()-source.fileName().lastIndexOf("/")-1));
      afficheurTemps->display("00:00");
 }
@@ -287,9 +291,11 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State /*oldState
          case Phonon::PlayingState:
              qDebug() << "playing State";
                  actionLecture->setEnabled(false);
+                 actionLecture->setChecked(true);
                  actionPause->setEnabled(true);
+                 actionPause->setChecked(false);
                  actionStop->setEnabled(true);
-                  emettreCommande(lectureMorceau);
+                 emettreCommande(lectureMorceau,"",m_time);
                  break;
          case Phonon::StoppedState:
                  qDebug() << "stopped State";
@@ -297,16 +303,28 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State /*oldState
                  arreter();
                  actionStop->setEnabled(false);
                  actionLecture->setEnabled(true);
+                 actionLecture->setChecked(false);
+                 actionPause->setChecked(false);
                  actionPause->setEnabled(false);
                  afficheurTemps->display("00:00");
                  break;
          case Phonon::PausedState:
                  qDebug() << "paused State";
-                 emettreCommande(pauseMorceau);
+                 /// @attention Workaround for phonon issue with some file. Pause state is sometime
+                 if(!actionPause->isChecked())
+                 {
+                     //finDeTitreSlot();
+                     qDebug() << "Something strange, perhaps the audio file is corrumpted";
+                 }
+
+
+                emettreCommande(pauseMorceau);
                  actionStop->setEnabled(true);
                  etatActuel = pause;
                  actionLecture->setEnabled(true);
-                 actionPause->setEnabled(true);
+                 actionLecture->setChecked(false);
+                 actionPause->setEnabled(false);
+
                  break;
          case Phonon::BufferingState:
                  qDebug() << "buffering State";
@@ -332,25 +350,37 @@ void LecteurAudio::autoriserOuIntedireCommandes()
 
 void LecteurAudio::appuiBoucle(bool etatBouton)
 {
-    qDebug() << "appuiBoucle";
-        enBoucle = etatBouton;
-        if (etatBouton)
-        {
-                actionUnique->setChecked(false);
-                lectureUnique = false;
-        }
-}
 
+
+
+}
+void LecteurAudio::updatePlayingMode()
+{
+    QAction* tmp = static_cast<QAction*>(sender());
+    if((tmp==actionBoucle)&&(actionBoucle->isChecked())&&(actionUnique->isChecked()))
+    {
+        actionUnique->setChecked(false);
+    }
+    if((tmp==actionUnique)&&(actionBoucle->isChecked())&&(actionUnique->isChecked()))
+    {
+        actionBoucle->setChecked(false);
+    }
+
+
+    if(actionBoucle->isChecked())
+        m_currentPlayingMode=LOOP;
+    else if(actionUnique->isChecked())
+        m_currentPlayingMode=UNIQUE;
+    else if((!actionUnique->isChecked())&&(!actionBoucle->isChecked()))
+        m_currentPlayingMode=NEXT;
+
+
+    qDebug()<< "mode playing =" <<m_currentPlayingMode;
+
+}
 void LecteurAudio::appuiUnique(bool etatBouton)
 {
-        lectureUnique = etatBouton;
-qDebug() << "appuiUnique";
-        if (etatBouton)
-        {
 
-                actionBoucle->setChecked(false);
-                enBoucle = false;
-        }
 }
 
 void LecteurAudio::ajouterTitre()
@@ -424,36 +454,24 @@ void LecteurAudio::supprimerTitre()
 
         if (ligne == titreCourant)
         {
-
-
                 if (titreCourant < listeChemins.size())
                 {
 
                         emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
-
                         nouveauTitre(listeTitres->item(titreCourant)->text(), listeChemins[titreCourant]);
-
                 }
-
-
                 else if (titreCourant != 0)
                 {
                         titreCourant--;
-
                         emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
-
                         nouveauTitre(listeTitres->item(titreCourant)->text(), listeChemins[titreCourant]);
                 }
-
                 else
                 {
-
                         emettreCommande(nouveauMorceau, "");
-
                         arreter();
                         afficheurTitre->clear();
                         afficheurTitre->setToolTip("");
-
                         actionLecture->setEnabled(false);
                         actionPause->setEnabled(false);
                         actionStop->setEnabled(false);
@@ -463,12 +481,9 @@ void LecteurAudio::supprimerTitre()
                         positionTemps->setEnabled(false);
                 }
         }
-
-
         else if (ligne < titreCourant)
                 titreCourant--;
 }
-
 
 
 void LecteurAudio::nouveauTitre(QString titre, QString fichier)
@@ -489,37 +504,25 @@ void LecteurAudio::arreter()
         etatActuel = arret;
 }
 
-
-void LecteurAudio::arriveeEnFinDeTitre()
-{
-    qDebug() << "arriveeEnFinDeTitre";
-        // Traitement de la fin de lecture en asynchrone, par le biais d'un signal : cela evite de surcharger la fonction de callback
-        // qui doit etre breve par nature. Dans la pratique si tout le traitement a lieu dans la fonction de callback il y a un probleme
-        // lors de l'emission des donnees; cette technique resoud le probleme
-        //emit finDeTitreSignal();
-}
-
-
 void LecteurAudio::finDeTitreSlot()
 {
-    qDebug() << "finDeTitreSlot";
-        if (enBoucle)
+        qDebug() << "finDeTitreSlot";
+        if (m_currentPlayingMode==LOOP)
         {
                 qDebug() << "finDeTitreSlot" << "enboucle";
                 emettreCommande(arretMorceau);
                 emettreCommande(lectureMorceau);
                 mediaObject->enqueue(mediaObject->currentSource());
         }
-        else if (lectureUnique)
+        else if (m_currentPlayingMode==UNIQUE)
         {
                 emettreCommande(arretMorceau);
                 qDebug() << "finDeTitreSlot" << "lecture unique";
         }
-        else
+        else if (m_currentPlayingMode==NEXT)
         {
                 if (titreCourant < listeChemins.size()-1)
                 {
-
                         titreCourant++;
                         qDebug() << "finDeTitreSlot" << "titre courant" <<titreCourant;
                         emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
@@ -527,7 +530,6 @@ void LecteurAudio::finDeTitreSlot()
                         etatActuel = lecture;
                         currentsource = new Phonon::MediaSource(listeChemins[titreCourant]);
                         mediaObject->enqueue(*currentsource);
-
                 }
                 else
                 {
@@ -554,14 +556,12 @@ void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, qui
                 case nouveauMorceau :
                         uneEntete.tailleDonnees = sizeof(quint16) + nomFichier.size()*sizeof(QChar);
                         donnees = new char[uneEntete.tailleDonnees + sizeof(enteteMessage)];
-
                         p = sizeof(enteteMessage);
                         tailleNomFichier = nomFichier.size();
                         memcpy(&(donnees[p]), &tailleNomFichier, sizeof(quint16));
                         p+=sizeof(quint16);
                         memcpy(&(donnees[p]), nomFichier.data(), tailleNomFichier*sizeof(QChar));
                         break;
-
                 case lectureMorceau :
                         uneEntete.tailleDonnees = 0;
                         donnees = new char[uneEntete.tailleDonnees + sizeof(enteteMessage)];
@@ -708,8 +708,6 @@ void LecteurAudio::joueurLectureMorceau()
         qDebug() << "joueurLectureMorceau" ;
         mediaObject->play();
         etatActuel = lecture;
-
-
     }
 }
 
@@ -721,8 +719,6 @@ void LecteurAudio::joueurPauseMorceau()
         qDebug() << "joueurPauseMorceau" ;
         mediaObject->pause();
         etatActuel = pause;
-
-
     }
 }
 
@@ -730,7 +726,7 @@ void LecteurAudio::joueurPauseMorceau()
 void LecteurAudio::joueurArretMorceau()
 {
 
-if(mediaObject->state()==Phonon::PlayingState)
+    if(mediaObject->state()==Phonon::PlayingState)
     {
         qDebug() << "joueurArretMorceau" ;
         mediaObject->stop();

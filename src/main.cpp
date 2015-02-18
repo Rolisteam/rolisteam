@@ -137,8 +137,6 @@ int main(int argc, char *argv[])
     G_idJoueurLocal = QUuid::createUuid().toString();
     g_featuresList.addLocal(G_idJoueurLocal);
 
-
-
     // Get a connection
     G_clientServeur = new ClientServeur;
     if (!G_clientServeur->configAndConnect())
