@@ -1223,7 +1223,7 @@ void MainWindow::creerNouveauPlanVide(QString titre, QString idCarte, QColor cou
         image.fill(couleurFond.rgb());
         // Creation de la carte
         Carte *carte = new Carte(idCarte, &image);
-        carte->setPermissionMode(mode);
+        carte->setPermissionMode(getPermission(mode));
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte, workspace);
         // Ajout de la carte au workspace
@@ -2057,4 +2057,19 @@ void MainWindow::notifyAboutAddedPlayer(Player * player) const
 void MainWindow::notifyAboutDeletedPlayer(Player * player) const
 {
     ecrireLogUtilisateur(tr("%1 just leaves the game.").arg(player->name()));
+}
+NouveauPlanVide::PermissionMode MainWindow::getPermission(int id)
+{
+    switch(id)
+    {
+       case 0:
+        return NouveauPlanVide::GM_ONLY;
+       case 1:
+        return NouveauPlanVide::PC_MOVE;
+       case 2:
+        return NouveauPlanVide::PC_ALL;
+       default:
+        return NouveauPlanVide::GM_ONLY;
+    }
+
 }

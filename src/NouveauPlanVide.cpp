@@ -54,8 +54,8 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
     permissionLayout->addWidget(m_permissionMode);
 
     // Connexion de la demande de creation d'un plan du widget vers le mainWindow
-    QObject::connect(this, SIGNAL(creerNouveauPlanVide(QString, QString, QColor, quint16, quint16)),
-                     G_mainWindow, SLOT(creerNouveauPlanVide(QString, QString, QColor, quint16, quint16)));
+    QObject::connect(this, SIGNAL(creerNouveauPlanVide(QString, QString, QColor, quint16, quint16,quint8)),
+                     G_mainWindow, SLOT(creerNouveauPlanVide(QString, QString, QColor, quint16, quint16,quint8)));
 
     // Creation du layout principal
     QVBoxLayout *layoutPrincipal = new QVBoxLayout(this);
@@ -416,22 +416,8 @@ void NouveauPlanVide::validerDimensions()
     delete[] donnees;
 
     // On cree le plan en local (ce qui a pour consequence de detruire la fenetre de nouveau plan)
-    emit creerNouveauPlanVide(titre, idCarte, couleur, larg, haut,getPermission(m_permissionMode->currentIndex()));
+    emit creerNouveauPlanVide(titre, idCarte, couleur, larg, haut,m_permissionMode->currentIndex());
 
 }
 
-NouveauPlanVide::PermissionMode NouveauPlanVide::getPermission(int id)
-{
-    switch(id)
-    {
-       case 0:
-        return NouveauPlanVide::GM_ONLY;
-       case 1:
-        return NouveauPlanVide::PC_MOVE;
-       case 2:
-        return NouveauPlanVide::PC_ALL;
-       default:
-        return NouveauPlanVide::GM_ONLY;
-    }
 
-}

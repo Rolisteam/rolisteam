@@ -79,7 +79,7 @@ public :
     DessinPerso* trouverPersonnage(QString idPerso);
     QString getLastSelectedCharacterId();
     bool selectCharacter(QString& id);
-    void setPermissionMode(quint8 mode);
+    void setPermissionMode(NouveauPlanVide::PermissionMode mode);
     NouveauPlanVide::PermissionMode getPermissionMode();
 
 signals :

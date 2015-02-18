@@ -77,6 +77,8 @@ public :
 
     void registerSubWindow(QWidget * subWindow);
 
+    NouveauPlanVide::PermissionMode getPermission(int id);
+
 signals:
     void closing();
 

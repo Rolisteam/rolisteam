@@ -17,7 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
+#include <QDebug>
 
 #include "Features.h"
 
@@ -66,7 +66,7 @@ void addFeature(ReceiveEvent & event)
     Player * player = PlayersList::instance().getPlayer(uuid);
     if (player == NULL)
     {
-        qWarning(tr("Feature %s for unknown player %s"), qPrintable(name), qPrintable(uuid));
+        qWarning()<< QString("Feature %1 for unknown player %2").arg(name).arg(uuid);
         event.repostLater();
         return;
     }

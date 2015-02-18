@@ -36,6 +36,16 @@
 UpdateChecker::UpdateChecker()
     : m_state(false)
 {
+    m_noErrror = true;
+#ifdef VERSION_MINOR
+    #ifdef VERSION_MAJOR
+        #ifdef VERSION_MIDDLE
+    m_versionMinor=VERSION_MINOR;
+    m_versionMajor=VERSION_MAJOR;
+    m_versionMiddle=VERSION_MIDDLE;
+        #endif
+    #endif
+#endif
 }
 
 bool UpdateChecker::mustBeUpdated()
@@ -70,6 +80,12 @@ QString& UpdateChecker::getLatestVersionDate()
 }
 void UpdateChecker::readXML(QNetworkReply* p)
 {
+
+    if(p->error()!=QNetworkReply::NoError)
+    {
+        m_noErrror = false;
+        return;
+    }
 #ifdef VERSION_MINOR
     #ifdef VERSION_MAJOR
         #ifdef VERSION_MIDDLE

@@ -49,7 +49,7 @@ public :
 
 
 signals :
-        void creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur,NouveauPlanVide::PermissionMode);
+        void creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur,quint8);
 
 protected:
         NouveauPlanVide::PermissionMode getPermission(int id);

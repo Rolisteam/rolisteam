@@ -56,6 +56,7 @@ private:
     QTcpSocket m_socket;
     QNetworkAccessManager* m_manager;
     bool m_state;
+    bool m_noErrror;
 };
 
 #endif // UPDATECHECKER_H

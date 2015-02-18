@@ -253,14 +253,14 @@ void ClientServeur::finDeLiaison(Liaison * link)
     {
         if (link == NULL)
         {
-            qWarning(tr("NULL Liaison pointer (ClientServeur::finDeLiaison)."));
+            qWarning() << tr("NULL Liaison pointer (ClientServeur::finDeLiaison).");
             return;
         }
 
         int i = liaisons.indexOf(link);
         if (i < 0)
         {
-            qWarning(tr("Un thread inconnu vient de se terminer (finDeLiaison - ClientServeur.cpp)"));
+            qWarning()<< tr("Un thread inconnu vient de se terminer (finDeLiaison - ClientServeur.cpp)");
             return;
         }
         
