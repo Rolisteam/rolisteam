@@ -58,7 +58,7 @@ void emettre(char *donnees, quint32 taille, Liaison *sauf)
  *****************/
 
 ClientServeur::ClientServeur()
-    : QObject(), m_server(NULL),m_liaisonToServer(NULL),m_disconnectAsked(false)
+    : QObject(), m_server(NULL),m_liaisonToServer(NULL),m_disconnectAsked(false),m_connectionState(false)
 {
 
     m_reconnect = new QTimer(this);
@@ -134,7 +134,7 @@ bool ClientServeur::configAndConnect()
     startConnection();
 
 
-
+    setConnectionState(true);
     return true;
 }
 bool ClientServeur::startConnection()
@@ -278,7 +278,10 @@ void ClientServeur::finDeLiaison(Liaison * link)
         //On quitte l'application
         //MainWindow::notifyUser(tr("Receiving picture: %1"));
         if(link!=m_liaisonToServer)
+        {
             qDebug() << "link is NOT the link to the server ";
+            setConnectionState(false);
+        }
         else
             qDebug() << "link is the link to the server ";
 
@@ -321,8 +324,22 @@ void ClientServeur::disconnectAndClose()
         m_liaisonToServer->disconnectAndClose();
         MainWindow::notifyUser(tr("Connection to the server has been close."));
     }
+    setConnectionState(false);
 }
 bool ClientServeur::isServer() const
 {
     return m_configDialog->isServer();
+}
+bool ClientServeur::isConnected() const
+{
+    return m_connectionState;
+}
+
+void ClientServeur::setConnectionState(bool state)
+{
+    if(m_connectionState!=state)
+    {
+        m_connectionState=state;
+        connectionStateChanged(m_connectionState);
+    }
 }

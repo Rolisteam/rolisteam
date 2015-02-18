@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     if(mainWindow->showConnectionDialog())
     {
 
-        mainWindow->setWindowTitle(init->getApplicationName());
+        mainWindow->updateWindowTitle();
         mainWindow->checkUpdate();
         mainWindow->updateUi();
         // We have a connection, we launch the main window.

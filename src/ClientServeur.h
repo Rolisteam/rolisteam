@@ -71,6 +71,8 @@ public :
 
     bool startConnection();
 
+    bool isConnected() const;
+
 
 public slots:
     void disconnectAndClose();
@@ -83,11 +85,14 @@ signals :
 
     void stopConnectionTry();
 
+    void connectionStateChanged(bool);
+
 
 
 
 private :
     void synchronizePreferences();
+    void setConnectionState(bool);
 
     QTcpServer * m_server;
     QList<Liaison *> liaisons;
@@ -103,6 +108,8 @@ private :
     ConnectionConfigDialog* m_configDialog;
 
     PlayersList* m_playersList;
+
+    bool m_connectionState;
 
 
 private slots :

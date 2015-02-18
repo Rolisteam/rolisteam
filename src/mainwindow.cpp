@@ -275,6 +275,8 @@ void MainWindow::setupUi()
     }
     connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
     connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
+
+    connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(updateWindowTitle()));
 }
 
 MainWindow::~MainWindow()
@@ -287,6 +289,13 @@ void MainWindow::setNetworkManager(ClientServeur* tmp)
     m_networkManager->setParent(this);
 }
 
+void MainWindow::updateWindowTitle()
+{
+    setWindowTitle(tr("%1[*] - v%2 - %3").arg(m_preferences->value("applicationName","Rolisteam").toString())
+                                       .arg(m_version)
+                   .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected")));
+
+}
 
 void MainWindow::creerLogUtilisateur()
 {

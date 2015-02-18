@@ -102,6 +102,7 @@ public slots :
     void checkUpdate();
     void setNetworkManager(ClientServeur*);
     void updateUi();
+    void updateWindowTitle();
 
 protected :
     void closeEvent(QCloseEvent *event);
