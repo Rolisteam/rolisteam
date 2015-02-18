@@ -84,13 +84,15 @@ public :
 
     void pplay();
     void ppause();
-    void pstop();
+    //void pstop();
     void pselectNewFile(QString file);
     void pseek(quint32 position);
 
     void setSource(QString path);
 
     void updateUi();
+public slots:
+    void pstop();
 
 signals :
 
