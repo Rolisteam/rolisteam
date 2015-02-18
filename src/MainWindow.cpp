@@ -109,11 +109,15 @@ void MainWindow::createMenu()
     m_dataSheetAct->setIcon(QIcon(":/resources/icons/treeview.png"));
 
     m_newScenarioAct = m_newMenu->addAction(tr("&Scenario"));
+    m_newScenarioAct->setIcon(QIcon(":/resources/icons/scenario.png"));
+
     m_openMenu = m_fileMenu->addMenu(tr("&Open"));
     m_openMapAct= m_openMenu->addAction(tr("&Map"));
     m_openMapAct->setIcon(QIcon(":/resources/icons/map.png"));
 
     m_openScenarioAct= m_openMenu->addAction(tr("&Scenario"));
+    m_openScenarioAct->setIcon(QIcon(":/resources/icons/scenario.png"));
+
     m_openPictureAct= m_openMenu->addAction(tr("&Picture"));
     m_openPictureAct->setIcon(QIcon(":/resources/icons/image.png"));
     m_openCharacterSheetsAct = m_openMenu->addAction(tr("&CharacterSheet Viewer"));
@@ -123,7 +127,7 @@ void MainWindow::createMenu()
     m_openNoteAct->setIcon(QIcon(":/resources/icons/notes.png"));
 
 
-    m_recentFilesMenu = m_fileMenu->addMenu(tr("&Recently Opened"));
+    m_recentFilesMenu = m_fileMenu->addMenu(tr("&Recent Files"));
     m_recentFiles.removeDuplicates();
     foreach(QString path,m_recentFiles)
     {
@@ -240,6 +244,8 @@ void MainWindow::openCharacterSheets()
     if(!filepath.isEmpty())
     {
         CharacterSheetWindow* characterSheet = new CharacterSheetWindow();
+        m_recentFiles << filepath;
+        m_recentFiles.removeDuplicates();
         characterSheet->openFile(filepath);
         addToWorkspace(characterSheet);
 
@@ -251,22 +257,23 @@ void MainWindow::hideShowWindow(QAction* p)
 {
     SubMdiWindows* tmp = (*m_subWindowList)[p];
     tmp->setVisible(!tmp->isVisible());
+    p->setChecked(tmp->isVisible());
 
 }
 
 void MainWindow::addToWorkspace(SubMdiWindows* subWindow)
 {
-   // m_minutesEditor = new MinutesEditor();
+
     if(m_subWindowList->size()==0)
         m_viewMenu->addSeparator();
 
     m_workspace->addWidget(subWindow);
     QAction* tmp = m_subWindowActGroup->addAction(subWindow->windowTitle());
+    tmp->setCheckable(true);
+    tmp->setChecked(true);
+
     m_subWindowList->insert(tmp,subWindow);
     m_viewMenu->addAction(tmp);
-
-  /*  m_minutesEditor->setWindowTitle(tr("Minutes editor"));
-    m_minutesEditor->hide();*/
 
 }
 
@@ -280,14 +287,14 @@ void MainWindow::addCharacterSheet()
 void MainWindow::clickOnMapWizzard()
 {
     MapWizzardDialog mapWizzard;
-    //QTextStream out(stderr,QIODevice::WriteOnly);
+
     if(mapWizzard.exec())
     {
         Map* tempmap  = new Map();
         mapWizzard.setAllMap(tempmap);
         MapFrame* tmp = new MapFrame(tempmap);
         addToWorkspace(tmp);
-        //m_workspace->addWidget(tmp);
+
         tmp->show();
     }
 }
