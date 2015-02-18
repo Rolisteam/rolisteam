@@ -37,7 +37,8 @@ void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
         case Qt::Key_Return:
         case Qt::Key_Enter:
         {
-            QString text = toPlainText().trimmed();
+        /// @warning changing the method to get the text
+            QString text = toHtml().trimmed();//toPlainText().trimmed();
             if (!text.isEmpty())
             {
                 m_history.append(text);
@@ -54,7 +55,8 @@ void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
                 emit ctrlUp();
             else if (m_histPos > 0)
             {
-                QString text = toPlainText().trimmed();
+                /// @warning changing the method to get the text
+                QString text = toHtml().trimmed();
                 if (!text.isEmpty())
                 {
                     if (m_histPos == m_history.size())
@@ -64,7 +66,7 @@ void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
                 }
 
                 m_histPos -= 1;
-                setPlainText(m_history[m_histPos]);
+                setHtml(m_history[m_histPos]);
             }
             break;
 
@@ -73,7 +75,8 @@ void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
                 emit ctrlDown();
             else
             {
-                QString text = toPlainText().trimmed();
+                /// @warning changing the method to get the text
+                QString text = toHtml().trimmed();
                 if (!text.isEmpty())
                 {
                     if (m_histPos == m_history.size())
@@ -85,7 +88,7 @@ void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
                 if (m_histPos < m_history.size())
                     m_histPos += 1;
                 if (m_histPos < m_history.size())
-                    setPlainText(m_history[m_histPos]);
+                    setHtml(m_history[m_histPos]);
                 else
                     clear();
             }

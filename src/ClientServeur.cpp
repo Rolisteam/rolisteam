@@ -58,7 +58,7 @@ void emettre(char *donnees, quint32 taille, Liaison *sauf)
  *****************/
 
 ClientServeur::ClientServeur()
-    : QObject(), m_server(NULL),m_liaisonToServer(NULL)
+    : QObject(), m_server(NULL),m_liaisonToServer(NULL),m_disconnectAsked(false)
 {
 
     m_reconnect = new QTimer(this);
@@ -134,7 +134,7 @@ bool ClientServeur::configAndConnect()
     startConnection();
 
 
-    m_playersList->setLocalPlayer(m_localPlayer);
+
     return true;
 }
 bool ClientServeur::startConnection()
@@ -164,6 +164,18 @@ bool ClientServeur::startConnection()
 
 
 
+    }
+    m_playersList = PlayersList::instance();
+    if(m_disconnectAsked)
+    {
+         m_playersList->cleanList();
+         m_playersList->sendOffLocalPlayerInformations();
+         m_playersList->sendOffFeatures( m_playersList->getLocalPlayer());
+
+    }
+    else
+    {
+        m_playersList->setLocalPlayer(m_localPlayer);
     }
     return true;
 }
@@ -210,20 +222,12 @@ bool ClientServeur::startConnectionToServer()
             {
                 m_liaisonToServer->setSocket(socket);
             }
-           m_playersList = PlayersList::instance();
-           if( m_reconnect->isActive())
-           {
-                m_reconnect->stop();
-                m_playersList->cleanList();
-                m_playersList->sendOffLocalPlayerInformations();
-                m_playersList->sendOffFeatures( m_playersList->getLocalPlayer());
-           }
-           return true;
+
+          return true;
 
         }
         else
         {
-            sleep(2);
             return false;
         }
 
@@ -242,6 +246,7 @@ void ClientServeur::ajouterLiaison(Liaison *liaison)
     liaisons.append(liaison);
     connect(this, SIGNAL(emissionDonnees(char *, quint32, Liaison *)),liaison, SLOT(emissionDonnees(char *, quint32, Liaison *)));
     connect(liaison, SIGNAL(disconnected(Liaison *)),this, SLOT(finDeLiaison(Liaison *)));
+    //liaison->initialize();
     emit linkAdded(liaison);
 }
 
@@ -251,33 +256,38 @@ void ClientServeur::nouveauClientConnecte()
     // Recuperation du socket lie a la demande de connexion
     QTcpSocket *socketTcp = m_server->nextPendingConnection();
 
-    // Creation de la liaison qui va gerer le socket
+
     new Liaison(socketTcp);
+
 }
 
 
 void ClientServeur::finDeLiaison(Liaison * link)
 {
-    link->deleteLater();
 
-    emit linkDeleted(link);
+    if(!m_disconnectAsked)
+    {
+        link->deleteLater();
+
+        emit linkDeleted(link);
+    }
 
 
     if (!m_configDialog->isServer())
     {
         //On quitte l'application
-        MainWindow::notifyUser(tr("Receiving picture: %1"));
+        //MainWindow::notifyUser(tr("Receiving picture: %1"));
         if(link!=m_liaisonToServer)
             qDebug() << "link is NOT the link to the server ";
         else
             qDebug() << "link is the link to the server ";
 
-       //m_reconnect->start(1000);
-       // m_thread->start();
-        m_dialog->startTimer();
 
-        m_dialog->show();
-
+        if(!m_disconnectAsked)
+        {
+            m_dialog->startTimer();
+            m_dialog->show();
+        }
     }
 
     // Si l'ordinateur local est le serveur
@@ -307,6 +317,7 @@ void ClientServeur::disconnectAndClose()
     }
     else
     {
+        m_disconnectAsked = true;
         m_liaisonToServer->disconnectAndClose();
         MainWindow::notifyUser(tr("Connection to the server has been close."));
     }

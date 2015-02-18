@@ -91,10 +91,13 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     setChildrenCollapsible(false);
 
     // Creation de la zone affichant le texte des utilisateurs tiers
-    zoneAffichage = new QTextEdit();
+    zoneAffichage = new QTextBrowser();
+    zoneAffichage->setOpenExternalLinks(true);
+   // zoneAffichage->setOpenLinks(false);
     zoneAffichage->setReadOnly(true);
     zoneAffichage->setMinimumHeight(30);
     zoneAffichage->setFocusPolicy(Qt::NoFocus);
+    //zoneAffichage->setTextInteractionFlags(Qt::TextBrowserInteraction);
     
     // Creation de la zone editable contenant les messages de l'utilisateur local
     zoneEdition = new TextEditAmeliore();
@@ -116,6 +119,12 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     toolBar->addAction(
     QIcon::fromTheme("document-save", QIcon(":/resources/icones/save.png")),
     tr("save"), this, SLOT(save()));
+    m_bgColorSelector = new ColorButton(Qt::white);
+    //toolBar->addWidget(new QLabel(tr("Background Color:"),this));
+    QAction* bgColor=toolBar->addWidget(m_bgColorSelector);
+    bgColor->setToolTip(tr("Background Color"));
+
+    connect(m_bgColorSelector,SIGNAL(colorChanged(QColor)),this, SLOT(backGrounChanged(QColor)));
 
     // Layout
     QVBoxLayout * vboxLayout = new QVBoxLayout();
@@ -165,6 +174,10 @@ ChatWindow::~ChatWindow()
 
     if (G_client || !m_chat->inherits("PrivateChat"))
         delete m_chat;
+}
+void ChatWindow::backGrounChanged(QColor color)
+{
+    zoneAffichage->setStyleSheet(QString("background:rgb(%1,%2,%3)").arg(color.red()).arg(color.green()).arg(color.blue()));
 }
 
 AbstractChat * ChatWindow::chat() const
@@ -368,7 +381,8 @@ void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& coule
     // Affichage du message
     zoneAffichage->setTextColor(Qt::black);
 
-    zoneAffichage->insertPlainText(message);
+/// @warning change insertPlainText to insertHtml.
+    zoneAffichage->insertHtml(message);
     if(msgtype==NetMsg::EmoteMessageAction)
         zoneAffichage->setFontItalic(false);
     // On repositionne la barre de defilement, pour pouvoir voir le texte qui vient d'etre affiche

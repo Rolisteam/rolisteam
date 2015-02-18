@@ -57,7 +57,9 @@ Liaison::Liaison(QTcpSocket *socket)
 #endif
 
     setSocket(socket);
-    makeSignalConnection();
+    //makeSignalConnection();
+
+
 
     // Si l'ordi local est un client, on ajoute tt de suite la liaison a la liste, et on connecte le signal d'emission des donnees
     // Le serveur effectue cette operation a la fin de la procedure de connexion du client
@@ -65,6 +67,10 @@ Liaison::Liaison(QTcpSocket *socket)
     {
         G_clientServeur->ajouterLiaison(this);
     }
+}
+void Liaison::initialize()
+{
+    makeSignalConnection();
 }
 
 Liaison::~Liaison()
@@ -104,6 +110,7 @@ void Liaison::erreurDeConnexion(QAbstractSocket::SocketError erreur)
 
 void Liaison::p_disconnect()
 {
+    qWarning("Emit disconneted signal : s");
     emit disconnected(this);
 }
 
@@ -1580,5 +1587,5 @@ void Liaison::disconnectAndClose()
 void Liaison::setSocket(QTcpSocket* socket)
 {
     m_socketTcp=socket;
-
+    makeSignalConnection();
 }

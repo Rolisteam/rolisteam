@@ -534,7 +534,7 @@ void PlayersList::addPlayer(Player * player)
     QString uuid = player->uuid();
 
     if (m_uuidMap.contains(uuid))
-        qFatal("Uuid %s allready in use.", qPrintable(uuid));
+        qFatal("Uuid %s For this player already in use.", qPrintable(uuid));
 
     beginInsertRows(QModelIndex(), size, size);
 
@@ -554,7 +554,7 @@ void PlayersList::addCharacter(Player * player, Character * character)
     QString uuid = character->uuid();
 
     if (m_uuidMap.contains(uuid))
-        qFatal("Uuid %s allready in use.", qPrintable(uuid));
+        qFatal("Uuid %s for this character already in use.", qPrintable(uuid));
 
     beginInsertRows(createIndex(player), size, size);
 

@@ -28,10 +28,11 @@
 #include <QComboBox>
 #include <QFile>
 #include <QSplitter>
-#include <QTextEdit>
+#include <QTextBrowser>
 
 #include "networkmessage.h"
 #include "preferencesmanager.h"
+#include "colorbutton.h"
 
 class AbstractChat;
 class MainWindow;
@@ -95,10 +96,11 @@ private :
 
     PreferencesManager* m_preferences;
 
-    QTextEdit * zoneAffichage;         // Zone de texte ou s'affichent les messages
+    QTextBrowser * zoneAffichage;         // Zone de texte ou s'affichent les messages
     QComboBox * m_selectPersonComboBox;
     TextEditAmeliore * zoneEdition;    // Zone de texte ou l'utilisateur peut ecrire
     QAction * m_toggleViewAction;
+    ColorButton* m_bgColorSelector;
 
     int calculerJetDes(QString &message, QString & tirage, bool &ok);
     int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok);
@@ -109,6 +111,7 @@ private slots :
     void downSelectPerson();
     void scheduleUpdateChatMembers();
     void updateChatMembers();
+    void backGrounChanged(QColor);
 };
 
 #endif

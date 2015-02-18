@@ -96,6 +96,7 @@ private :
     QString m_address;
     QTimer* m_reconnect;
     Player * m_localPlayer;
+    bool m_disconnectAsked;
     PreferencesManager* m_preferences;
 
     ConnectionRetryDialog* m_dialog;

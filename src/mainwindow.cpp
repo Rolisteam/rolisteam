@@ -1939,5 +1939,14 @@ void MainWindow::stopReconnection()
 }
 void MainWindow::startReconnection()
 {
-    m_networkManager->startConnection();
+    if(m_networkManager->startConnection())
+    {
+        m_reconnectAct->setEnabled(false);
+        m_disconnectAct->setEnabled(true);
+    }
+    else
+    {
+        m_reconnectAct->setEnabled(true);
+        m_disconnectAct->setEnabled(false);
+    }
 }

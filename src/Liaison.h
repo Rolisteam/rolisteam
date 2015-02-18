@@ -48,6 +48,7 @@ public :
 
     void disconnectAndClose();
 
+    void initialize();
 signals:
     void disconnected(Liaison * link);
 
