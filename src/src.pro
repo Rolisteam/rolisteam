@@ -33,7 +33,7 @@ HEADERS += displaydisk.h \
     TextEditAmeliore.h \
     types.h \
     typesApplication.h \ # variablesGlobales.h \
-    WorkspaceAmeliore.h \
+    improvedworkspace.h \
     submdiwindows.h \
     userlistdockwidget.h
 FORMS += LecteurAudio.ui \
@@ -49,7 +49,7 @@ SOURCES += displaydisk.cpp \
     SelecteurDiametre.cpp \
     Tchat.cpp \
     TextEditAmeliore.cpp \
-    WorkspaceAmeliore.cpp \
+    improvedworkspace.cpp \
     submdiwindows.cpp \
     userlistdockwidget.cpp
 HAVE_FMOD { 

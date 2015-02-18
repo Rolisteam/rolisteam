@@ -105,9 +105,9 @@ void ToolsBar::creerActions()
     // Action independante : remise a 0 des numeros de PNJ
             actionRazChrono	= new QAction(QIcon(":/resources/icones/chronometre.png"), tr("RAZ numéros de PNJ"), this);
 
-            m_eraseAction= new QAction(QIcon(":/resources/icones/efface.png"), tr("Erase"), m_toolsGroup);
+           /* m_eraseAction= new QAction(QIcon(":/resources/icones/efface.png"), tr("Erase"), m_toolsGroup);
             m_hideAction= new QAction(QIcon(":/resources/icones/masque.png"), tr("Hide"), m_toolsGroup);
-            m_unveilAction= new QAction(QIcon(":/resources/icones/demasque.png"), tr("Unveil"), m_toolsGroup);
+            m_unveilAction= new QAction(QIcon(":/resources/icones/demasque.png"), tr("Unveil"), m_toolsGroup);*/
 
     // Les actions sont checkable
     actionCrayon	->setCheckable(true);
@@ -123,9 +123,9 @@ void ToolsBar::creerActions()
     actionDeplacePnj->setCheckable(true);
     actionEtatPnj	->setCheckable(true);
 
-    m_eraseAction->setCheckable(true);
+    /*m_eraseAction->setCheckable(true);
     m_hideAction->setCheckable(true);
-    m_unveilAction->setCheckable(true);
+    m_unveilAction->setCheckable(true);*/
 
     // Choix d'une action selectionnee au depart
     actionMain->setChecked(true);
@@ -151,9 +151,9 @@ void ToolsBar::creerActions()
 		QToolButton *boutonEtatPnj    = new QToolButton(outils);
 		QToolButton *boutonRazChrono  = new QToolButton(outils);
 
-        QToolButton* eraseButton  = new QToolButton(outils);
+       /*QToolButton* eraseButton  = new QToolButton(outils);
         QToolButton* hideButton  = new QToolButton(outils);
-        QToolButton* unveilButton  = new QToolButton(outils);
+        QToolButton* unveilButton  = new QToolButton(outils);*/
 
 		// Association des boutons avec les actions
         boutonCrayon->setDefaultAction(actionCrayon);
@@ -170,9 +170,9 @@ void ToolsBar::creerActions()
 		boutonEtatPnj    ->setDefaultAction(actionEtatPnj);
 		boutonRazChrono  ->setDefaultAction(actionRazChrono);
 
-        eraseButton->setDefaultAction(m_eraseAction);
+        /*eraseButton->setDefaultAction(m_eraseAction);
         hideButton->setDefaultAction(m_hideAction);
-        unveilButton->setDefaultAction(m_unveilAction);
+        unveilButton->setDefaultAction(m_unveilAction);*/
 
 		// Boutons en mode AutoRaise, plus lisible
 		boutonCrayon     ->setAutoRaise(true);
@@ -189,9 +189,9 @@ void ToolsBar::creerActions()
 		boutonEtatPnj    ->setAutoRaise(true);
 		boutonRazChrono  ->setAutoRaise(true);
 
-        eraseButton->setAutoRaise(true);
+       /* eraseButton->setAutoRaise(true);
         hideButton->setAutoRaise(true);
-        unveilButton->setAutoRaise(true);
+        unveilButton->setAutoRaise(true);*/
 
         /*#ifdef MACOS
 			// Changement du style des boutons (plus lisible)
@@ -227,9 +227,9 @@ void ToolsBar::creerActions()
 		boutonEtatPnj    ->setIconSize(tailleIcones);
 		boutonRazChrono  ->setIconSize(tailleIcones);
 
-        eraseButton->setIconSize(tailleIcones);
+        /*eraseButton->setIconSize(tailleIcones);
         hideButton->setIconSize(tailleIcones);
-        unveilButton->setIconSize(tailleIcones);
+        unveilButton->setIconSize(tailleIcones);*/
 					
 		// Creation du layout vertical qui constitue la barre d'outils
 		QVBoxLayout *outilsLayout = new QVBoxLayout(outils);
@@ -248,9 +248,9 @@ void ToolsBar::creerActions()
 		layoutDessin->addWidget(boutonElliPlein, 2, 1);
 		layoutDessin->addWidget(boutonTexte, 3, 0);
 		layoutDessin->addWidget(boutonMain, 3, 1);
-        layoutDessin->addWidget(eraseButton, 4, 0);
+        /*layoutDessin->addWidget(eraseButton, 4, 0);
         layoutDessin->addWidget(hideButton, 4, 1);
-        layoutDessin->addWidget(unveilButton, 5, 0);
+        layoutDessin->addWidget(unveilButton, 5, 0);*/
 		// Creation des zones de texte et de nom de PNJ
 		ligneDeTexte = new QLineEdit(outils);
         ligneDeTexte->setToolTip(tr("Text"));

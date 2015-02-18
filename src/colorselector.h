@@ -39,7 +39,7 @@
 #include "types.h"
 
 class PreferencesManager;
-class ColorLabel : public QWidget
+class ColorLabel : public QAbstractButton
 {
     Q_OBJECT
 public:
@@ -47,9 +47,13 @@ public:
 signals:
     void clickedColor(const QColor& p);
     void doubledclicked();
+
 protected:
+    void paintEvent( QPaintEvent * event );
     virtual void mousePressEvent(QMouseEvent *ev);
     virtual void mouseDoubleClickEvent (QMouseEvent *event);
+
+
 };
 
 class ColorButton : public QPushButton
@@ -72,8 +76,9 @@ class ColorSelector : public QWidget
 {
     Q_OBJECT
 
-    enum PAINTINGMODE{NORMAL,HIDING,ERASING};
+
 public:
+    enum PAINTINGMODE{NORMAL,HIDING,UNVEIL,ERASING};
     ColorSelector(QWidget *parent = 0);
     void setCurrentColor(QColor& color);
     QColor& currentColor();
@@ -85,9 +90,11 @@ signals:
     void currentColorChanged(QColor&);
     void currentModeChanged(int);
 
+
 private slots:
     void selectColor(const QColor& color);
     void colorSelectorDialog();
+    void onGroupEdition(QAbstractButton*);
 private:
     ColorLabel *m_currentColorLabel;
     ColorButton *m_eraseColor;
@@ -101,7 +108,7 @@ private:
     QWidget *separateur2;
     QPixmap *efface_pix;
     QPixmap *masque_pix;
-    QPixmap *demasque_pix;
+    QPixmap *unveil_pix;
  //   bool boutonEnfonce;
 
     QColor m_currentColor;
@@ -110,6 +117,10 @@ private:
       * pointer to the unique instance of preference manager.
       */
     PreferencesManager* m_options;
+    /**
+      * pointer to the button group which manage editing mode.
+      */
+    QButtonGroup* m_editingModeGroup;
 };
 
 #endif

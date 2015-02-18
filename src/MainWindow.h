@@ -86,17 +86,20 @@ public slots :
         void afficherTchat(QString id);
         void masquerTchat(QString id);
         void afficherEditeurNotes(bool afficher, bool cocherAction = false);
-        void quitterApplication(bool perteConnexion = false);
+
 
 
 protected :
         void closeEvent(QCloseEvent *event);
 
+
 private :
+        bool maybeSave();
         QDockWidget* creerLogUtilisateur();
         void creerMenu();
         void associerActionsMenus();
         void autoriserOuInterdireActions();
+        void saveAll();
        /* void lireCarteEtPnj(QFile &file, bool masquer = false, QString nomFichier = "");
         void lireImage(QFile &file);
         void sauvegarderTousLesPlans(QFile &file);

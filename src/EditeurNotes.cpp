@@ -36,7 +36,7 @@
 		setObjectName("EditeurNotes");
         QWidget* main = new QWidget;
         QVBoxLayout* layout = new QVBoxLayout;
-
+        m_type = SubMdiWindows::TEXT;
 
 
 

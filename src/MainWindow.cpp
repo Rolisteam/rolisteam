@@ -35,7 +35,7 @@
 #include "Image.h"
 #include "audioplayer.h"
 #include "EditeurNotes.h"
-#include "WorkspaceAmeliore.h"
+#include "improvedworkspace.h"
 
 #include "preferencesmanager.h"
 
@@ -106,30 +106,7 @@ MainWindow::MainWindow()
         editeurNotes->hide();
 
 
-        /*DessinPerso::etatDeSante etat;
-        etat.couleurEtat = Qt::black;
-        etat.nomEtat = tr("Healthy");
-        G_etatsDeSante.append(etat);
 
-        etat.couleurEtat = QColor(255, 100, 100);
-        etat.nomEtat = tr("Lightly wounded");
-        G_etatsDeSante.append(etat);
-
-        etat.couleurEtat = QColor(255, 0, 0);
-        etat.nomEtat = tr("Heavily wounded");
-        G_etatsDeSante.append(etat);
-
-        etat.couleurEtat = Qt::gray;
-        etat.nomEtat = tr("Dead");
-        G_etatsDeSante.append(etat);
-
-        etat.couleurEtat = QColor(80, 80, 255);
-        etat.nomEtat = tr("Sleeping");
-        G_etatsDeSante.append(etat);
-
-        etat.couleurEtat = QColor(0, 200, 0);
-        etat.nomEtat = tr("Bewitched");
-        G_etatsDeSante.append(etat);*/
 
 
 
@@ -305,7 +282,7 @@ void MainWindow::associerActionsMenus()
         QObject::connect(actionSauvegarderNotes, SIGNAL(triggered(bool)), this, SLOT(sauvegarderNotes()));
 
         // close
-        QObject::connect(actionQuitter, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
+
 
         // Windows managing
         QObject::connect(actionCascade, SIGNAL(triggered(bool)), workspace, SLOT(cascadeSubWindows()));
@@ -317,6 +294,7 @@ void MainWindow::associerActionsMenus()
         QObject::connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNumerosPnj(bool)));
 */
         // Help
+        QObject::connect(actionQuitter, SIGNAL(triggered(bool)), this, SLOT(close()));
         QObject::connect(actionAPropos, SIGNAL(triggered()), this, SLOT(about()));
         QObject::connect(actionAideLogiciel, SIGNAL(triggered()), this, SLOT(aideEnLigne()));
 }
@@ -1503,93 +1481,40 @@ bool MainWindow::estLaFenetreActive(QWidget *widget)
         actionTchatCommun->setChecked(true);
 }*/
 
-/********************************************************************/
-/* Demande a l'utilisateur s'il desire reellement quitter           */
-/* l'application, et si oui, ferme le programme. Si le parametre    */
-/* perteConnexion = true alors la fermeture est due a une perte de  */
-/* connexion avec le serveur                                        */
-/********************************************************************/
-void MainWindow::quitterApplication(bool perteConnexion)
+
+bool MainWindow::maybeSave()
 {
-        // Creation de la boite d'alerte
-        QMessageBox msgBox(this);
-        QAbstractButton *boutonSauvegarder 	= msgBox.addButton(tr("Save"), QMessageBox::YesRole);
-        QAbstractButton *boutonQuitter 		= msgBox.addButton(tr("Quit"), QMessageBox::AcceptRole);
-        msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
-        // On supprime l'icone de la barre de titre
-        Qt::WindowFlags flags = msgBox.windowFlags();
-        msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
-        // Creation du message
-        QString message;
 
-        // S'il s'agit d'une perte de connexion
-        if (perteConnexion)
+
+        if(isWindowModified())
         {
-                message = tr("La connexion avec le serveur a été perdue, ") + APPLICATION_NAME + tr(" va être fermé\n");
-                // Icone de la fenetre
-                msgBox.setIcon(QMessageBox::Critical);
-                // M.a.j du titre et du message
-                msgBox.setWindowTitle(tr("Perte de connexion"));
+            int ret = QMessageBox::warning(this, tr("Rolisteam"),
+                                                tr("one or more documents have been modified.\n"
+                                                   "Do you want to save your changes?"),
+                                                QMessageBox::SaveAll | QMessageBox::Discard
+                                                | QMessageBox::Cancel,
+                                                QMessageBox::SaveAll);
+            switch(ret)
+            {
+            case QMessageBox::SaveAll:
+                saveAll();
+            case QMessageBox::Discard:
+                return true;
+                break;
+            case QMessageBox::Cancel:
+                return false;
+            }
         }
         else
-        {
-                // Icone de la fenetre
-                msgBox.setIcon(QMessageBox::Information);
-                // Ajout d'un bouton
-                QAbstractButton *boutonAnnuler = msgBox.addButton(tr("Annuler"), QMessageBox::RejectRole);
-                // M.a.j du titre et du message
-                msgBox.setWindowTitle(tr("Quitter ") + APPLICATION_NAME);
-        }
+            return true;
 
-        // Si l'utilisateur est un joueur
-        /*if (G_joueur)
-                message += tr("Voulez-vous sauvegarder vos notes avant de quitter l'application?");
-
-        // Si l'utilisateut est un MJ
-        else
-                message += tr("Voulez-vous sauvegarder le scénario avant de quitter l'application?");*/
-
-        //M.a.j du message de la boite de dialogue
-        msgBox.setText(message);
-        // Ouverture de la boite d'alerte
-        msgBox.exec();
-
-        // Si l'utilisateur a clique sur "Quitter", on quitte l'application
-        if (msgBox.clickedButton() == boutonQuitter)
-        {
-                // On sauvegarde les tchats
-                //sauvegarderTousLesTchats();
-
-
-
-                writeSettings();
-                qApp->quit();
-        }
-
-        // Si l'utilisateur a clique sur "Sauvegarder", on applique l'action appropriee a la nature de l'utilisateur
-        else if (msgBox.clickedButton() == boutonSauvegarder)
-        {
-                bool ok;
-                // Si l'utilisateur est un joueur, on sauvegarde les notes
-                /*if (G_joueur)
-                        ok = sauvegarderNotes();
-                // S'il est MJ, on sauvegarde le scenario
-                else
-                        ok = sauvegarderScenario();*/
-
-                // Puis on quitte l'application si l'utilisateur a sauvegarde ou s'il s'agit d'une perte de connexion
-                if (ok || perteConnexion)
-                {
-                        // On sauvegarde les tchats
-                        //sauvegarderTousLesTchats();
-
-
-
-                        writeSettings();
-                        qApp->quit();
-                }
-        }
+}
+void MainWindow::saveAll()
+{
+/**
+ @TODO : save all documents
+ */
 }
 
 /********************************************************************/
@@ -1598,12 +1523,14 @@ void MainWindow::quitterApplication(bool perteConnexion)
 /********************************************************************/
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-        // Arret de la procedure de fermeture
-        event->ignore();
+    if (maybeSave()) {
+          writeSettings();
+          event->accept();
+          QApplication::exit();
 
-
-        // Demande de confirmation de la fermture a l'utilisateur
-        quitterApplication();
+    } else {
+          event->ignore();
+    }
 }
 
 /********************************************************************/

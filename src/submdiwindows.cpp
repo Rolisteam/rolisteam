@@ -63,3 +63,7 @@ void SubMdiWindows::currentNPCSizeChanged(int npc)
 {
     m_npcSize = npc;
 }
+SubMdiWindows::SubWindowType SubMdiWindows::getType()
+{
+    return m_type;
+}

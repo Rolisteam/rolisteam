@@ -26,7 +26,7 @@
 
 #include <QHBoxLayout>
 
-#include "WorkspaceAmeliore.h"
+#include "improvedworkspace.h"
 
 
 Image::Image( QString& filename,  ImprovedWorkspace *parent)
@@ -39,7 +39,7 @@ Image::Image( QString& filename,  ImprovedWorkspace *parent)
    // m_image = ;
 
 	setObjectName("Image");
-
+    m_type == SubMdiWindows::PICTURE;
 
 	setWindowIcon(QIcon(":/icones/vignette image.png"));
 

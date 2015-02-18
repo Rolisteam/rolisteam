@@ -43,7 +43,7 @@ Tchat::Tchat(QString id, QAction *action, QWidget *parent)
 	idJoueur = id;
 	numHistorique = 0;
 	actionAssociee = action;
-
+    m_type = SubMdiWindows::TCHAT;
 	// On change l'icone de la fenetre
 	setWindowIcon(QIcon(":/icones/vignette tchat.png"));
 

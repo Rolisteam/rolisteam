@@ -20,13 +20,6 @@
  ***************************************************************************/
 
 
-/********************************************************************/
-/*                                                                  */
-/* DockWidget contenant la barre d'outils.                          */
-/*                                                                  */
-/********************************************************************/
-
-
 #ifndef TOOLS_BAR_H
 #define TOOLS_BAR_H
 
@@ -56,7 +49,7 @@ public :
 
 
 
-    // Outils selectionnables par l'utilisateur
+    // Selectable tools
     enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
 
 public slots :
@@ -100,10 +93,9 @@ private :
     QAction *actionEtatPnj;
     QAction *actionRazChrono;
 
-    QAction* m_eraseAction;
+ /*   QAction* m_eraseAction;
     QAction* m_hideAction;
-    QAction* m_unveilAction;
-
+    QAction* m_unveilAction;*/
 private slots :
     void razNumeroPnj();
     void changementTaille(bool floating);

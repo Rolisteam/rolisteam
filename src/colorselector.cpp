@@ -28,38 +28,49 @@
 #include "preferencesmanager.h"
 
 ColorLabel::ColorLabel(QWidget * parent)
-    : QWidget(parent)
+    : QAbstractButton(parent)
 {}
 void ColorLabel::mousePressEvent(QMouseEvent *ev)
 {
     Q_UNUSED(ev);
     emit clickedColor(this->palette().color(QPalette::Window));
+    QAbstractButton::mousePressEvent(ev);
 }
 void ColorLabel::mouseDoubleClickEvent (QMouseEvent *event)
 {
     Q_UNUSED(event);
     emit doubledclicked();
+    QAbstractButton::mouseDoubleClickEvent(event);
+}
+void ColorLabel::paintEvent( QPaintEvent * event )
+{
+   /* QPainter painter(this);
+    painter.fillRect(rect(),this->palette().color(QPalette::Window));*/
+    QWidget::paintEvent(event);
+
 }
 
 ColorButton::ColorButton(QPixmap* p,QWidget * parent )
     : QPushButton(parent),m_background(p)
 {
-
+   /* setIcon(QIcon(*m_background));
+    setIconSize(QSize(rect().width()-2,rect().height()-2));*/
     setCheckable(true);
 }
 
 void ColorButton::paintEvent( QPaintEvent * event )
 {
     QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing,true);
     QRect r=rect();
-    r.setBottom(r.bottom()-2);
-    r.setTop(r.top()+2);
-    r.setLeft(r.left()+2);
-    r.setRight(r.right()-2);
-    painter.drawPixmap(r,*m_background);
-   /* if(isChecked())
-        painter.drawRect(rect());*/
-    QPushButton::paintEvent(event);
+    r.setBottom(r.bottom());
+    r.setTop(r.top());
+    r.setLeft(r.left());
+    r.setRight(r.right());
+    painter.drawImage(rect(),m_background->toImage(),m_background->rect());
+    if(isChecked())
+        painter.drawRect(rect().adjusted(0,0,-1,-1));
+    //QPushButton::paintEvent(event);
 }
 
 
@@ -97,6 +108,7 @@ ColorSelector::ColorSelector(QWidget *parent)
 	selecteurLayout->addLayout(grillePredef);
 
 	// Creation des widgets pour les couleurs predefinies
+         m_editingModeGroup = new QButtonGroup;
 	int i=0, x=0, y=0;
 	for (; i<48; i++)
 	{
@@ -105,10 +117,14 @@ ColorSelector::ColorSelector(QWidget *parent)
 		
 		// Creation d'un widget de couleur unie
         couleurPredefinie[i] = new ColorLabel(this);
+        couleurPredefinie[i]->setCheckable(true);
+
 		couleurPredefinie[i]->setPalette(QPalette(couleur));
 		couleurPredefinie[i]->setAutoFillBackground(true);
 		couleurPredefinie[i]->setFixedHeight(5);
+
         couleurPredefinie[i]->setToolTip(tr("Predefined color #%1").arg(i+1));
+        m_editingModeGroup->addButton(couleurPredefinie[i]);
         connect(couleurPredefinie[i],SIGNAL(clickedColor(QColor)),this,SLOT(selectColor(QColor)));
 
 		QColorDialog::setStandardColor(x*6+y, couleur.rgb());
@@ -121,26 +137,28 @@ ColorSelector::ColorSelector(QWidget *parent)
 		x = x>=8?0:x;
 	}
 
-	// Ajout d'un separateur entre les couleurs predefinies et les couleurs personnelles
+
 	separateur1 = new QWidget(this);
 	separateur1->setMaximumHeight(2);
 	selecteurLayout->addWidget(separateur1);
 
-	// Création du layout de la grille de couleurs personnelles
+
 	QGridLayout *grillePerso = new QGridLayout();
 	grillePerso->setSpacing(1);
 	grillePerso->setMargin(1);
-	// Ajout de la grille de couleurs personnelles dans le layout principal
+
 	selecteurLayout->addLayout(grillePerso);
 
-	// Creation des widgets pour les couleurs personnelles
+
 	for (i=0, x=0, y=7; i<16; i++)
 	{
-		// Creation d'un widget de couleur blanche
+
         couleurPersonnelle[i] = new ColorLabel(this);
+        couleurPersonnelle[i]->setCheckable(true);
+        m_editingModeGroup->addButton(couleurPersonnelle[i]);
 		couleurPersonnelle[i]->setAutoFillBackground(true);
 		couleurPersonnelle[i]->setFixedHeight(5);
-		couleurPersonnelle[i]->setToolTip(tr("Couleur personnelle ") + QString::number(i+1));
+        couleurPersonnelle[i]->setToolTip(tr("Customized Color: #%1 ").arg(i+1));
 
 		// Mise a jour des couleurs personnelles de QColorDialog dans le cas ou la variable d'initialisation est utilisable
 /*		if (G_initialisation.initialisee == true)
@@ -173,77 +191,87 @@ ColorSelector::ColorSelector(QWidget *parent)
 	// Ajout du layout des couleurs specuales dans le layout principal
 	selecteurLayout->addLayout(couleursSpeciales);
 
-	// Ajout de la couleur speciale qui efface
-
-    //m_eraseColor->setFrameStyle(QFrame::Box | QFrame::Raised);
-    //m_eraseColor->setLineWidth(0);
-    //m_eraseColor->setMidLineWidth(1);
 
 
 
     efface_pix = new QPixmap(":/resources/icones/efface.png");
     m_eraseColor = new ColorButton(efface_pix,this);
-    m_eraseColor->setFixedHeight(15);
-    //m_eraseColor->setPixmap(*efface_pix);
-    //m_eraseColor->setScaledContents(true);
+    m_eraseColor->setFixedHeight(17);
+    m_eraseColor->setFixedWidth(17);
+
+
     m_eraseColor->setToolTip(tr("Effacer"));
     m_eraseColor->setPalette(QPalette(Qt::white));
     m_eraseColor->setAutoFillBackground(true);
     couleursSpeciales->addWidget(m_eraseColor);
 	
-	// Ajout de la couleur speciale qui masque
 
-   // HideColor->setFrameStyle(QFrame::Box | QFrame::Raised);
-    //HideColor->setLineWidth(0);
-   // HideColor->setMidLineWidth(1);
 
     masque_pix = new QPixmap(":/resources/icones/masque.png");
     m_hideColor = new ColorButton(masque_pix,this);
-        m_hideColor->setFixedHeight(15);
-   // HideColor->setPixmap(*masque_pix);
-   // HideColor->setScaledContents(true);
+    m_hideColor->setFixedHeight(17);
+    m_hideColor->setFixedWidth(17);
+
     m_hideColor->setPalette(QPalette(Qt::white));
     m_hideColor->setAutoFillBackground(true);
     couleursSpeciales->addWidget(m_hideColor);
 
-	// Ajout de la couleur speciale qui demasque
 
-  //  unveilColor->setFrameStyle(QFrame::Box | QFrame::Raised);
-  // unveilColor->setLineWidth(0);
-   // unveilColor->setMidLineWidth(1);
 
-        demasque_pix = new QPixmap(":/resources/icones/demasque.png");
-        m_unveilColor = new ColorButton(demasque_pix,this);
-        m_unveilColor->setFixedHeight(15);
-   // unveilColor->setPixmap(*demasque_pix);
-   // unveilColor->setScaledContents(true);
+        unveil_pix = new QPixmap(":/resources/icones/demasque.png");
+        m_unveilColor = new ColorButton(unveil_pix,this);
+        m_unveilColor->setFixedHeight(17);
+        m_unveilColor->setFixedWidth(17);
+
+
     m_unveilColor->setPalette(QPalette(Qt::white));
     m_unveilColor->setAutoFillBackground(true);
     couleursSpeciales->addWidget(m_unveilColor);
 
 
-     QButtonGroup group;
-     group.addButton(m_eraseColor);
-     group.addButton(m_hideColor);
-     group.addButton(m_unveilColor);
 
-	// Taille de la palette
-	setFixedHeight(126);
-	//setMaximumWidth((TAILLE_ICONES+7)*2);
+     m_editingModeGroup->addButton(m_eraseColor);
+     m_editingModeGroup->addButton(m_hideColor);
+     m_editingModeGroup->addButton(m_unveilColor);
+     connect(m_editingModeGroup,SIGNAL(buttonClicked(QAbstractButton*)),this,SLOT(onGroupEdition(QAbstractButton*)));
 
-	// On autorise ou pas la selection des couleurs de masquage/demasquage en fonction de la nature de l'utilisateur (MJ/joueur)
+
+
     allowOrForbideColors();
 }
 void ColorSelector::selectColor(const QColor& color)
 {
-    //m_currentColorLabel->clear();
     m_currentColorLabel->setPalette(QPalette(color));
     m_currentColor = color;
-    emit currentColorChanged(m_currentColor);
 
+   /* QAbstractButton* tmp =  m_editingModeGroup->checkedButton();
+    if(tmp != NULL)
+        tmp->setChecked(false);*/
+    emit currentColorChanged(m_currentColor);
+    emit currentModeChanged(NORMAL);
 }
 
+void ColorSelector::onGroupEdition(QAbstractButton* b)
+{
+    if((b == m_eraseColor)&&(m_eraseColor->isChecked()))
+    {
+        emit currentModeChanged(ERASING);
+    }
+    else if((b==m_unveilColor)&&(m_unveilColor->isChecked()))
+    {
+        emit currentModeChanged(UNVEIL);
+    }
+    else if((b==m_hideColor)&&(m_hideColor->isChecked()))
+    {
+        emit currentModeChanged(HIDING);
+    }
+    else
+    {
+        emit currentModeChanged(NORMAL);
+    }
+  // enum PAINTINGMODE{NORMAL,HIDING,UNVEIL,ERASING};
 
+}
 
 
 

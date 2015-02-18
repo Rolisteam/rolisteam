@@ -28,7 +28,7 @@ class SubMdiWindows : public QMdiSubWindow
     Q_OBJECT
 public:
     SubMdiWindows(QWidget* parent=0 );
-
+    enum SubWindowType {MAP,TCHAT,PICTURE,TEXT};
 
 public slots:
     void changedStatus(Qt::WindowStates oldState,Qt::WindowStates newState);
@@ -39,6 +39,8 @@ public slots:
     virtual void currentPenSizeChanged(int);
 
     virtual void currentNPCSizeChanged(int);
+    virtual SubWindowType getType();
+
 protected:
     bool m_active;
     QCursor* m_currentCursor;
@@ -46,6 +48,7 @@ protected:
     QColor m_penColor;
     int m_penSize;
     int m_npcSize;
+    SubWindowType m_type;
 
 };
 

@@ -23,7 +23,7 @@
 #include <QtGui>
 
 #include "MapFrame.h"
-
+#include "colorselector.h"
 
 
 
@@ -32,10 +32,10 @@ MapFrame::MapFrame(Map *map)
 {
 
     m_widgetLayout = new QWidget;
-    m_graphicView = new QGraphicsView(map);
+    m_graphicView = new RGraphicsView(map);
     m_vlayout= new QVBoxLayout();
     m_hlayout = new QHBoxLayout();
-
+    m_type = SubMdiWindows::MAP;
 
 
     m_vlayout->addStretch(1);
@@ -53,7 +53,7 @@ MapFrame::MapFrame(Map *map)
     //setLayout(hlayout);
     m_maskPixmap = new QPixmap(m_graphicView->size());
 
-    m_currentEditingMode=NORMAL;
+    m_currentEditingMode=ColorSelector::NORMAL;
 
 }
 
@@ -81,7 +81,7 @@ Map * MapFrame::map()
 {
     return m_map;
 }
-MapFrame::EditingMode MapFrame::editingMode()
+int MapFrame::editingMode()
 {
     return m_currentEditingMode;
 }
@@ -112,12 +112,29 @@ void MapFrame::currentToolChanged(ToolsBar::SelectableTool selectedtool)
         m_map->setCurrentTool(m_currentTool);
 
 }
+void MapFrame::mousePressEvent(QMouseEvent* event)
+{
+/**
+  @TODO : stop the event when we are not in normal editing mode and make appropriate actions.
+  */
+
+
+    if(m_currentEditingMode != ColorSelector::NORMAL)
+    {
+           event->ignore();
+    }
+    else
+        SubMdiWindows::mousePressEvent(event);
+}
 
 void MapFrame::paintEvent(QPaintEvent* event)
 {
-    if(m_currentEditingMode != NORMAL)
+    /*if(m_currentEditingMode != ColorSelector::NORMAL)
+    {
         event->accept();
-    else
+        
+    }
+    else*/
         SubMdiWindows::paintEvent(event);
 }
 
@@ -139,7 +156,7 @@ void MapFrame::currentColorChanged(QColor& penColor)
     if(m_map !=NULL)
         m_map->setCurrentChosenColor(m_penColor);
 }
-void MapFrame::setEditingMode(EditingMode mode)
+void MapFrame::setEditingMode(int mode)
 {
     m_currentEditingMode = mode;
 }

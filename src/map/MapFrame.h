@@ -30,7 +30,8 @@
 #include <QMouseEvent>
 #include <QPoint>
 #include <QAction>
-#include <QGraphicsView>
+
+#include <rgraphicsview.h>
 
 #include "map.h"
 #include "MainWindow.h"
@@ -39,14 +40,14 @@ class MapFrame : public SubMdiWindows
 {
     Q_OBJECT
 
-    enum EditingMode{NORMAL,MASK,UNMASK,ERASE};
+
 public :
     MapFrame(Map *map);
     ~MapFrame();
     Map *map();
     QString IdMap();
 
-    MapFrame::EditingMode editingMode();
+    int editingMode();
 public slots :
         /**
          *  @brief called when the windows starts to move (not sure it's still used)
@@ -88,7 +89,7 @@ public slots :
     /**
      *  @brief change the current editing  behavior to MaskMode.
      */
-    virtual void setEditingMode(EditingMode mode);
+    virtual void setEditingMode(int);
 
 
 protected :
@@ -99,6 +100,8 @@ protected :
     void closeEvent(QCloseEvent *event);
 
     virtual void paintEvent(QPaintEvent* event);
+
+    virtual void mousePressEvent(QMouseEvent* event);
 
 
 private :
@@ -124,7 +127,7 @@ private :
     /**
      * Pointer to the graphicView, the widget (viewport) which displays the scene
      */
-    QGraphicsView* m_graphicView;
+    RGraphicsView* m_graphicView;
 
 
     /**
@@ -147,7 +150,7 @@ private :
     /**
      * current edition mode
      */
-    EditingMode m_currentEditingMode;
+    int m_currentEditingMode;
 };
 
 #endif
