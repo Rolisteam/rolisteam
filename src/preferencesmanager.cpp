@@ -80,7 +80,7 @@ const QVariant PreferencesManager::value(QString key,QVariant defaultValue)
         return defaultValue;
     }
 }
-
+//#1707fe
 void PreferencesManager::readSettings(QSettings & settings)
 {
     settings.beginGroup("rolisteam/preferences");
@@ -96,11 +96,5 @@ void PreferencesManager::writeSettings(QSettings & settings)
 {
     settings.beginGroup("rolisteam/preferences");
     settings.setValue("map",*m_optionDictionary);
-    //  qDebug() << "size writing dico" << m_optionDictionary->size();
-    //for(int i = 0;m_optionDictionary->size()>i;i++)
-    //{
-         //qDebug() << "key " << m_optionDictionary->keys().at(i);
-         //qDebug() << "value " << m_optionDictionary->value(m_optionDictionary->keys().at(i),true).toString();
-    //}
     settings.endGroup();
 }

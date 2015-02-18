@@ -50,6 +50,7 @@
 #include <qdebug.h>
 #include <qdir.h>
 
+#define ZLIB_WINAPI
 #include <zlib.h>
 
 #if defined(Q_OS_WIN)

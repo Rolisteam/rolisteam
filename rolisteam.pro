@@ -106,6 +106,7 @@ HEADERS += src/AfficheurDisque.h \
     src/widgets/filedirchooser.h
 
 
+
 SOURCES += src/AfficheurDisque.cpp \
            src/BarreOutils.cpp \
            src/Carte.cpp \
@@ -185,13 +186,11 @@ QT += core \
  	win32:QMAKE_CXXFLAGS = "/Wall /GS /Ob2t"
 	else:QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
 
-#include path to zlib file
-win32:INCLUDEPATH+="C:/Program Files (x86)/GnuWin32/include"
- 
+
 # Version
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=6 VERSION_MINOR=1
-
 win32:RC_FILE = "resources/logo/rolisteam.rc"
+win32:DEFINES  += ZLIB_WINAPI
 
 #DEFINES += QT_NO_WARNING_OUTPUT
 #}
@@ -199,10 +198,11 @@ win32:RC_FILE = "resources/logo/rolisteam.rc"
 #DEFINES += QT_FATAL_WARNINGS
 #}
 
-
+#IDI_ICON1               ICON    DISCARDABLE     "256_beta.ico"
 UI_DIR = src
 #QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"
 #QMAKE_CXXFLAGS = "-W -Wall -Wextra -pedantic -Wno-long-long -Wno-overlength-strings -Werror"
+win32:QMAKE_LFLAGS_RELEASE += /INCREMENTAL:NO
 
 unix{
 LIBS += -lz
@@ -216,4 +216,20 @@ FORMS += \
     src/preferencesdialogbox.ui
 
 OTHER_FILES += \
-    src/widgets/widgets.pro
+    src/widgets/widgets.pro \
+
+win32:OTHER_FILES +=resources/logo/rolisteam.rc
+#include path to zlib file
+#win32:INCLUDEPATH+="E:/documents/applications/lib/zlib/include"
+#win32:LIBS += "E:/documents/applications/lib/zlib/lib/zlib.lib"
+
+
+
+win32:LIBS += -L$$PWD/../lib/zlibapi/dll32/ -lzlibwapi
+
+
+win32:INCLUDEPATH += $$PWD/../lib/zlibapi/include
+win32:DEPENDPATH += $$PWD/../lib/zlibapi/include
+
+win32:PRE_TARGETDEPS += $$PWD/../lib/zlibapi/dll32/zlibwapi.lib
+
