@@ -71,7 +71,6 @@
     ClientServeur::ClientServeur()
 		: QObject()
     {
-                G_lecteurAudio=NULL;
 		// Initialisation des variables
 		liaisons.clear();
 		G_clientServeur = this;
@@ -352,11 +351,7 @@
 			QString identifiant = G_listeUtilisateurs->indentifiantUtilisateur(i+1);
 			// Si l'utilisateur etait le MJ, on reinitialise le lecteur audio
 			if (G_listeUtilisateurs->estUnMj(i+1))
-                        {
-                            if(G_lecteurAudio==NULL)
-                                 G_lecteurAudio = LecteurAudio::getInstance();
-                            G_lecteurAudio->joueurNouveauFichier("");
-                        }
+				G_lecteurAudio->joueurNouveauFichier("");
 			// Suppression de l'utilisateur dans la liste
 			G_listeUtilisateurs->supprimerJoueur(identifiant);
 			// On supprime le tchat associe
@@ -841,7 +836,7 @@
 	/********************************************************************/	
 	void ClientServeur::detruireFenetreConnexion()
 	{
-		fenetreConnexion->~QWidget();
+		fenetreConnexion->~QDialog();
 	}
 	
 	/********************************************************************/	

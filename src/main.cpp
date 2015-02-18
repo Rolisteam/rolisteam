@@ -26,6 +26,7 @@
 	#include "ClientServeur.h"
 	#include "constantesGlobales.h"
 	#include "types.h"
+	#include <time.h>
 
 
 	// Inclusion de la librairie FMOD (librairie audio)

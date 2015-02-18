@@ -35,7 +35,7 @@
 	/* l'application                                                    */
 	/********************************************************************/	
 	// Pointeur vers l'unique instance du lecteur audio
-
+	LecteurAudio *G_lecteurAudio;
 
 	/********************************************************************/
 	/* Fonction de callback hors classe appelee par FMOD a chaque fois  */
@@ -66,7 +66,7 @@
         : QDockWidget(parent)
     {
 		// Initialisation de la variable globale
-
+		G_lecteurAudio = this;
 
 		// Initialisation de l'etat du lecteur
 		etatActuel = arret;
@@ -169,11 +169,11 @@
 		layoutBoutons->setMargin(0);
 		layoutBoutons->setSpacing(0);
 		// Creation des actions
-		actionLecture 	= new QAction(QIcon(":/icones/lecture.png"), tr("Lecture"), widgetCommande);
-		actionPause 	= new QAction(QIcon(":/icones/pause.png"), tr("Pause"), widgetCommande);
-		actionStop	 	= new QAction(QIcon(":/icones/stop.png"), tr("Stop"), widgetCommande);
-		actionBoucle	= new QAction(QIcon(":/icones/boucle.png"), tr("Lecture en boucle"), widgetCommande);
-		actionUnique	= new QAction(QIcon(":/icones/lecture unique.png"), tr("Lecture unique"), widgetCommande);
+		actionLecture 	= new QAction(QIcon("resources\\icones\\lecture.png"), tr("Lecture"), widgetCommande);
+		actionPause 	= new QAction(QIcon("resources\\icones\\pause.png"), tr("Pause"), widgetCommande);
+		actionStop	 	= new QAction(QIcon("resources\\icones\\stop.png"), tr("Stop"), widgetCommande);
+		actionBoucle	= new QAction(QIcon("resources\\icones\\boucle.png"), tr("Lecture en boucle"), widgetCommande);
+		actionUnique	= new QAction(QIcon("resources\i\cones\\lecture unique.png"), tr("Lecture unique"), widgetCommande);
 		actionAjouter 	= new QAction(tr("Ajouter"), widgetCommande);
 		actionSupprimer	= new QAction(tr("Supprimer"), widgetCommande);
 		// Modification des toolTip
@@ -265,17 +265,7 @@
 		// Insertion du widget principal dans le dockWidget
 		setWidget(widgetPrincipal);
 	}
-        LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
-        {
-            if(singleton==NULL)
-                singleton = new LecteurAudio(parent);
 
-
-            return singleton;
-
-
-
-        }
 	/********************************************************************/
 	/* Masque le widget de commande si l'utilisateur local n'est pas MJ */
 	/********************************************************************/

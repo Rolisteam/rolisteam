@@ -43,7 +43,7 @@
     #include <QList>
     #include <QString>
     #include <QVBoxLayout>
-    #include <QDebug>
+
     #include "types.h"
 #ifdef Q_WS_WIN32
     #include "fmod.h"
@@ -64,7 +64,7 @@
 	Q_OBJECT
 
     public :
-
+        LecteurAudio(QWidget *parent = 0);
 		void arriveeEnFinDeTitre();
 		void passageSurUnTag(QString tag);
 		void emettreEtat(QString idJoueur);
@@ -74,29 +74,25 @@
 		void joueurPauseMorceau();
 		void joueurArretMorceau();
 		void joueurChangerPosition(int position);
-                qreal volume();
-                static LecteurAudio*  getInstance(QWidget *parent = 0);
+		int volume();
+
 	signals :
 		void finDeTitreSignal();
 
     private :
-                LecteurAudio(QWidget *parent = 0);
 		enum etatLecteur {pause, arret, lecture};
-
+		
 		void nouveauTitre(QString titre, QString fichier);
                 void arreter();
-                 #ifdef Q_WS_X11
+                #ifdef Q_WS_X11
                 void setupUi();
                 #endif
 		void ajouterTags();
-                void emettreCommande(actionMusique action, QString nomFichier = "", quint64 position = 0, int numeroLiaison = -1);
+		void emettreCommande(actionMusique action, QString nomFichier = "", quint32 position = 0, int numeroLiaison = -1);
 		
-                static LecteurAudio* singleton;
                 #ifdef Q_WS_X11
-                qint64 m_time;
                 Phonon::MediaSource *currentsource;
                 Phonon::SeekSlider *seekSlider;
-                 bool eventFilter(QObject *object, QEvent *event);
                 Phonon::MediaObject *mediaObject;
                 Phonon::AudioOutput *audioOutput;
                 Phonon::VolumeSlider *volumeSlider;
@@ -104,7 +100,7 @@
                 Phonon::VolumeSlider *niveauVolume;			// Permet d'ajuster le niveau du volume
                 Phonon::SeekSlider *positionTemps;			// Permet de voir et de modifier la position de la lecture du titre
                 #endif
-                 #ifdef Q_WS_WIN32
+                #ifdef Q_WS_WIN32
                 FSOUND_STREAM *fluxAudio;
                 #endif
                 QWidget *widgetPrincipal;		// Widget contenant tout le lecteur audio (affichage + commande)
