@@ -1366,7 +1366,7 @@ void Carte::affichageDuPj(QString idPerso, bool afficher)
     // Recherche du PJ
     DessinPerso *pj = trouverPersonnage(idPerso);
     // Ne devrait jamais arriver
-    if (!pj)
+    if (NULL==pj)
     {
         qWarning() << (tr("PC ID not found (affichageDuPj - Carte.cpp)"));
         return;
@@ -1391,7 +1391,7 @@ bool Carte::pjAffiche(QString idPerso)
     // Recherche du PJ
     DessinPerso *pj = trouverPersonnage(idPerso);
     // Ne devrait jamais arriver
-    if (!pj)
+    if (NULL==pj)
     {
         qWarning() << tr("PC ID: %1 not found (pjAffiche - Carte.cpp)") << qPrintable(idPerso);
         return false;
@@ -1416,7 +1416,7 @@ void Carte::effacerPerso(QString idPerso)
     // Recherche du personnage
     DessinPerso *perso = trouverPersonnage(idPerso);
     // Ne devrait jamais arriver
-    if (!perso)
+     if (NULL==perso)
     {
         qWarning() << (tr("L'identifiant du personnage n'a pas ete trouve (effacerPerso - Carte.cpp)"));
         return;
@@ -2387,7 +2387,7 @@ void Carte::deplacerLesPersonnages()
         DessinPerso *perso = trouverPersonnage(mouvements[i].idPersonnage);
 
         // Si le personnage existe, on le deplace
-        if (perso)
+        if (NULL != perso)
         {
             // Prochain point de deplacement
             position = mouvements[i].trajet.takeFirst();

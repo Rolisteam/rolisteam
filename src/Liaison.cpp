@@ -650,10 +650,9 @@ void Liaison::receptionMessagePersonnage()
         else
         {
             DessinPerso *perso = carte->trouverPersonnage(idPerso);
-            // Si le personnage existe
-            if (perso)
+
+            if (NULL!=perso)
                 perso->changerEtatDeSante(numEtat);
-            // S'il est introuvable
             else
                 qWarning("Personnage introuvable a la reception d'un changement d'etat de perso (receptionMessagePersonnage - Liaison.cpp)");
         }
@@ -701,10 +700,9 @@ void Liaison::receptionMessagePersonnage()
         else
         {
             DessinPerso *perso = carte->trouverPersonnage(idPerso);
-            // Si le personnage existe
-            if (perso)
+
+            if (NULL!=perso)
                 perso->nouvelleOrientation(orientation);
-            // S'il est introuvable
             else
                 qWarning("Personnage introuvable a la reception d'un changement d'orientation (receptionMessagePersonnage - Liaison.cpp)");
         }
@@ -749,10 +747,9 @@ void Liaison::receptionMessagePersonnage()
         else
         {
             DessinPerso *perso = carte->trouverPersonnage(idPerso);
-            // Si le personnage existe
-            if (perso)
+
+            if (NULL!=perso)
                 perso->afficherOrientation(afficheOrientation);
-            // S'il est introuvable
             else
                 qWarning("Personnage introuvable a la reception d'un affichage/masquage d'orientation (receptionMessagePersonnage - Liaison.cpp)");
         }
