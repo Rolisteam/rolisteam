@@ -188,7 +188,7 @@ QT += core \
 win32:INCLUDEPATH+="C:/Program Files (x86)/GnuWin32/include"
  
 # Version
-DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=6 VERSION_MINOR=0
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=6 VERSION_MINOR=1
 
 win32:RC_FILE = "resources/logo/rolisteam.rc"
 
