@@ -468,7 +468,7 @@
     <message>
         <location filename="../src/ClientServeur.cpp" line="339"/>
         <source>Connection to the server has been closed.</source>
-        <translation>La liaison avec le serveur a été coupé.</translation>
+        <translation>La liaison avec le serveur a été coupée.</translation>
     </message>
     <message>
         <source>Server has been close.</source>

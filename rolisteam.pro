@@ -216,5 +216,4 @@ FORMS += \
     preferencesdialogbox.ui
 
 OTHER_FILES += \
-    src/widgets/widgets.pro \
-    resources/logo/rolisteam.rc
+    src/widgets/widgets.pro

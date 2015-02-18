@@ -1059,6 +1059,8 @@ void Liaison::receptionMessagePlan()
         quint8 masquerPlan;
         memcpy(&masquerPlan, &(tampon[p]), sizeof(quint8));
         p+=sizeof(quint8);
+
+        //qDebug() << permission << "Permission chargerPlan" << taillePj << tailleId << tableauTitre << "masquer le plan" <<masquerPlan;
         // On recupere l'image
         quint32 tailleImage;
         memcpy(&tailleImage, &(tampon[p]), sizeof(quint32));

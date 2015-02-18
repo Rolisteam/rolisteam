@@ -236,7 +236,7 @@ void LecteurAudio::setupUi()
         connect(m_addAction, SIGNAL(triggered(bool)), this, SLOT(addFiles()));
         connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(removeFile()));
         connect(m_songList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(clickOnList(QListWidgetItem *)));
-        connect(m_songList,SIGNAL(itemSelectionChanged()),this,SLOT(selectionHasChanged()));
+        connect(m_songList,SIGNAL(itemSelectionChanged()),this,SLOT(selectionHasChanged()),Qt::QueuedConnection);
         connect(m_mediaObject, SIGNAL(finished()), this, SLOT(isAboutToFinish()));
 
 
@@ -276,12 +276,14 @@ void LecteurAudio::defineSource(QListWidgetItem * p)
      m_formerItemFile = m_currentItemFile;
      m_currentItemFile = p;
 
-     m_mutex.lock();
-     setSource(m_pathList[m_songList->row(m_currentItemFile)]);
-     m_mutex.unlock();
-     m_mediaObject->clear();
-     m_mediaObject->setCurrentSource(*m_currentSource);
-     emettreCommande(nouveauMorceau, p->text());
+     if(m_mutex.tryLock())
+     {
+         setSource(m_pathList[m_songList->row(m_currentItemFile)]);
+         m_mutex.unlock();
+         m_mediaObject->clear();
+         m_mediaObject->setCurrentSource(*m_currentSource);
+         emettreCommande(nouveauMorceau, p->text());
+     }
 }
 
 
@@ -480,14 +482,14 @@ void LecteurAudio::addFiles()
 }
 void LecteurAudio::removeFile()
 {
-    m_mutex.lock();
+
 /// @todo test to perform with several computers. The sound must stop on both side.
         QList<QListWidgetItem *> titreSelectionne = m_songList->selectedItems();
         if (titreSelectionne.isEmpty())
         {
                 return;
         }
-
+        m_mutex.lock();
         foreach(QListWidgetItem * tmp, titreSelectionne)
         {
             m_pathList.removeAt(m_songList->row(tmp));
