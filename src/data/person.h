@@ -69,7 +69,7 @@ public:
     /**
       * @brief set the person's avatar.
       */
-    virtual void setAvatar(QImage& p);
+    virtual void setAvatar(QImage p);
     /**
       * @brief set the person state.
       */

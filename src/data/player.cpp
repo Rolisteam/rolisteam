@@ -1,4 +1,6 @@
 #include "player.h"
+#include <QDebug>
+#include <QVariant>
 Player::Player()
     : Person()
 {
@@ -52,6 +54,8 @@ QDataStream& operator<<(QDataStream& out, const Player& con)
 {
   out << con.getName();
   out << con.getColor();
+  QVariant tmp = con.getAvatar();
+  out << tmp;
   return out;
 }
 
@@ -59,5 +63,9 @@ QDataStream& operator>>(QDataStream& is,Player& con)
 {
   is >>(con.m_name);
   is >>(con.m_color);
+  QVariant tmp;
+  is >>(tmp);
+  con.m_avatar = tmp.value<QImage>();
+  qDebug() << con.m_avatar.isNull();
   return is;
 }

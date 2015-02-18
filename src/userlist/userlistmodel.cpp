@@ -275,3 +275,17 @@ void UserListModel::addCheckedItem(QList<Person*>* tmp,PersonItem* itm)
         addCheckedItem(tmp,itm->child(i));
     }
 }
+bool UserListModel::isLocalPlayer(QModelIndex& index)
+{
+    if(!index.isValid())
+    {
+        qDebug()<< "Index invalide" ;
+        return false;
+
+     }
+
+    //PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
+    return (Qt::ItemIsEditable | flags(index));
+
+    //return (p==m_player);
+}

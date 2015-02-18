@@ -42,7 +42,7 @@ const QImage& Person::getAvatar() const
 {
     return m_avatar;
 }
-void Person::setAvatar(QImage &p)
+void Person::setAvatar(QImage p)
 {
     m_avatar=p;
 }

@@ -74,7 +74,7 @@ void PreferenceDialog::changeEvent(QEvent *e)
 
 void PreferenceDialog::initValues()
 {
-     qDebug() << "Init Value";
+     //qDebug() << "Init Value";
     // Look and feel panel
     ui->m_wsBgPathLine->setText(m_options->value("worspace/background/image",":/resources/icons/fond workspace macos.bmp").toString());
     ui->m_wsBgColorButton->setColor(m_options->value("worspace/background/color",QColor(191,191,191)).value<QColor>());
@@ -205,7 +205,7 @@ void PreferenceDialog::refreshDialogWidgets()
 void PreferenceDialog::readSettings()
 {
     QSettings settings("RolisteamTeam", "Rolisteam/currentTheme");
-    qDebug() << "read setting in preference dialog";
+    //qDebug() << "read setting in preference dialog";
     m_currentThemeIndex =  settings.value("currentTheme",m_currentThemeIndex).toInt();
     m_listModel->readSettings();
 
@@ -214,7 +214,7 @@ void PreferenceDialog::readSettings()
 void PreferenceDialog::writeSettings()
 {
     QSettings settings("RolisteamTeam", "Rolisteam/currentTheme");
-    qDebug() << "write setting in preference dialog";
+   // qDebug() << "write setting in preference dialog";
     settings.setValue("currentTheme",m_currentThemeIndex);
     m_listModel->writeSettings();
 }

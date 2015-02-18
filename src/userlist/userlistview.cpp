@@ -25,6 +25,7 @@
 #include <QDebug>
 #include <QColorDialog>
 #include <QMenu>
+#include <QFileDialog>
 
 UserListView::UserListView(QWidget *parent) :
     QTreeView(parent)
@@ -35,6 +36,11 @@ UserListView::UserListView(QWidget *parent) :
     setItemDelegate(m_delegate);
     connect(this,SIGNAL(editCurrentItemColor()),this,SLOT(onEditCurrentItemColor()));
     connect(this,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(customContextMenuEvent(QPoint)));
+    m_model = NULL;
+
+
+    m_avatar = new QAction(tr("Set Avatar..."),this);
+    connect(m_avatar,SIGNAL(triggered()),this,SLOT(onAvatar()));
     //setIconSize(QSize(64,64));
 }
 void UserListView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
@@ -69,7 +75,6 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
         }
         else
             QTreeView::mouseDoubleClickEvent(event);
-
     }
     else
         QTreeView::mouseDoubleClickEvent(event);
@@ -77,14 +82,28 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
 void UserListView::customContextMenuEvent ( QPoint e )
 {
     QMenu popMenu(this);
-    popMenu.addAction(tr("Set Avatar..."));
+    popMenu.addAction(m_avatar);
     /// @todo check if the position is a valid person (and belongs to the user)
-    if(popMenu.exec(this->mapToGlobal(e)))
+    QModelIndex index = indexAt(e);
+    if(m_model->isLocalPlayer(index))
     {
-
-
-
+        m_avatar->setEnabled(true);
     }
+    else
+    {
+        m_avatar->setEnabled(false);
+    }
+    popMenu.exec(mapToGlobal(e));
+
+}
+void UserListView::onAvatar()
+{
+    /// @TODO: Here! options manager is required to get access to the photo directory
+    QString path = QFileDialog::getOpenFileName(this, tr("Avatar"),".",tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)"));
+    QModelIndex index= currentIndex();
+    PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
+
+    childItem->getPerson()->setAvatar(QImage(path));
 
 }
 void UserListView::onEditCurrentItemColor()
@@ -92,11 +111,13 @@ void UserListView::onEditCurrentItemColor()
     QModelIndex index= currentIndex();
     PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
 
-
-
     QColor color= QColorDialog::getColor(childItem->getPerson()->getColor(),this);
 
     if(color.isValid())
         childItem->getPerson()->setColor(color);
-
+}
+void UserListView::setModel(UserListModel *model)
+{
+    QTreeView::setModel(model);
+    m_model = model;
 }

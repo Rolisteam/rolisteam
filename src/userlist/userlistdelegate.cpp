@@ -38,8 +38,14 @@ void UserListDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & 
 
 
         painter->fillRect(option.rect.x(),option.rect.y(),option.decorationSize.width(),option.rect.height(),p->getPerson()->getColor());
-        tmp.adjust(option.decorationSize.width(),0,0,0);
 
+
+        QRectF target(option.rect.x(), option.rect.y(),option.decorationSize.width(), option.rect.height());
+
+
+
+        painter->drawImage(target,p->getPerson()->getAvatar(),p->getPerson()->getAvatar().rect());
+        tmp.adjust(option.decorationSize.width(),1,1,1);
         painter->drawText(tmp,Qt::AlignVCenter,p->getPerson()->getName());
 
 

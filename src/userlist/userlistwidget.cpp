@@ -59,7 +59,7 @@ void UserListWidget::setupUI()
     m_tchatButton = new QPushButton(tr("Start Tchat"),this);
     m_addPC = new QPushButton(tr("Add PC"),this);
     m_delPC = new QPushButton(tr("delete selected PC"),this);
-
+    setWindowTitle(tr("Characters and Players"));
     m_sizePC = new QSlider(Qt::Horizontal,this);
     m_sizePC->setMaximum(30);
     m_sizePC->setMinimum(0);

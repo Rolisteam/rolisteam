@@ -152,7 +152,7 @@ public:
       */
     void removeCharacter(QModelIndex& l,Person* p);
 
-
+    virtual bool isLocalPlayer(QModelIndex& p);
 private:
     /**
       * @brief put all checked item into the list

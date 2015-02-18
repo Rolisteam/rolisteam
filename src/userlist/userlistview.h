@@ -35,7 +35,7 @@ public:
      */
     explicit UserListView(QWidget *parent = 0);
 
-
+    virtual void setModel(UserListModel *model);
 signals:
     /**
       * @brief emited when user selects another item
@@ -66,11 +66,17 @@ protected slots:
       */
     void currentChanged(const QModelIndex &current, const QModelIndex &previous);
 
+    void onAvatar();
+
 private:
     /**
       * @brief pointer to the delegate
       */
     UserListDelegate* m_delegate;
+
+    UserListModel *m_model;
+
+    QAction* m_avatar;
 };
 
 #endif // USERLISTVIEW_H

@@ -86,12 +86,12 @@ void PreferencesManager::readSettings()
         if(variant.canConvert<QMap<QString,QVariant> >())
             *m_optionDictionary = variant.value<QMap<QString,QVariant> >();
 
-        qDebug() << "size reading dico" << m_optionDictionary->size();
+     //   qDebug() << "size reading dico" << m_optionDictionary->size();
         for(int i = 0;m_optionDictionary->size()>i;i++)
         {
-           qDebug() << "key " << m_optionDictionary->keys().at(i);
-            if(m_optionDictionary->keys().at(i) == "mainwindow/network/checkupdate")
-                qDebug() << "value " << m_optionDictionary->value(m_optionDictionary->keys().at(i),true).toBool();
+          // qDebug() << "key " << m_optionDictionary->keys().at(i);
+           // if(m_optionDictionary->keys().at(i) == "mainwindow/network/checkupdate")
+            //    qDebug() << "value " << m_optionDictionary->value(m_optionDictionary->keys().at(i),true).toBool();
         }
 
 
@@ -101,5 +101,5 @@ void PreferencesManager::writeSettings()
 {
       QSettings settings("rolisteamTeam", "rolisteam/preferences");
       settings.setValue("map",*m_optionDictionary);
-      qDebug() << "size writing dico" << m_optionDictionary->size();
+    //  qDebug() << "size writing dico" << m_optionDictionary->size();
 }
