@@ -111,8 +111,11 @@ void Image::fill(NetworkMessageWriter & message) const
 {
 	QByteArray baImage;
 	QBuffer bufImage(&baImage);
-    if (!labelImage->pixmap()->save(&bufImage, "png", 100))
-                qWarning() << tr("Image Compression fails (emettreImage - Image.cpp)");
+    if (!labelImage->pixmap()->save(&bufImage, "jpg", 70))
+    {
+        qDebug() << "png size:" << bufImage.size();
+    }
+
 
 
     message.reset();
@@ -130,7 +133,7 @@ void Image::sauvegarderImage(QDataStream &out, QString titre)
     // compression is done in PNG allowing transparency.
     QByteArray baImage;
     QBuffer bufImage(&baImage);
-    ok = labelImage->pixmap()->save(&bufImage, "png", 100);
+    ok = labelImage->pixmap()->save(&bufImage, "jpg", 70);
     if (!ok)
         qWarning() <<(tr("Image Compression fails (sauvegarderImage - Image.cpp)"));
 

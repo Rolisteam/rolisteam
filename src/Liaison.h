@@ -45,14 +45,12 @@ public :
     Liaison(QTcpSocket *socket);
     ~Liaison();
 
-
     void setSocket(QTcpSocket* socket, bool makeConnection = true);
-
     void disconnectAndClose();
-
     void initialize();
 signals:
     void disconnected(Liaison * link);
+    void receptionSpeed(qreal);
 
 public slots :
     void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf = 0);
@@ -86,11 +84,14 @@ private :
 #endif
     MainWindow* m_mainWindow;
     ClientServeur* m_networkManager;
+    QTime m_time;
+    QTime m_time2;
 
 private slots :
     void reception();
     void erreurDeConnexion(QAbstractSocket::SocketError);
     void p_disconnect();
+
 };
 
 #endif

@@ -149,12 +149,17 @@ void Liaison::reception()
     quint32 lu=0;
 
 
-    // La boucle permet de lire plusieurs messages concatenes
+    static quint64 readDataSum=0;
+    static quint64 readDataSum2=0;
+
+    static int laps=0;
     while (m_socketTcp->bytesAvailable())
     {
         // S'il s'agit d'un nouveau message
         if (!receptionEnCours)
         {
+            m_time.start();
+            m_time2.start();
             // On recupere l'entete du message
             m_socketTcp->read((char *)&entete, sizeof(NetworkMessageHeader));
             // Reservation du tampon
@@ -169,12 +174,30 @@ void Liaison::reception()
         // Si toutes les donnees n'ont pu etre lues
         if (lu < restant)
         {
-            // On met a jour le restant a lire
             restant-=lu;
-            // On indique qu'une reception est en cours
             receptionEnCours = true;
 
-            qDebug("Reception par morceau");
+            readDataSum+=lu;
+            readDataSum2+=lu;
+
+            if(laps%10)
+            {
+                int millisec = m_time.elapsed();
+                int millisec2 = m_time2.elapsed();
+
+                if(millisec>0)
+                {
+                    qDebug() << (readDataSum/(millisec/1000.0)) << "ko/s firstMethod" << m_time.secsTo(QTime::currentTime());
+                    qDebug() << (readDataSum2*(1000.0/millisec2)) << "ko/s second Method";
+                }
+
+                laps = 0;
+                m_time2.restart();
+                readDataSum2=0;
+            }
+            laps++;
+
+
         }
 
         // Si toutes les donnees ont pu etre lu
@@ -1259,7 +1282,7 @@ void Liaison::receptionMessageImage()
 
         // Creation de l'image
         QImage *img = new QImage;
-        bool ok = img->loadFromData(byteArray, "png");
+        bool ok = img->loadFromData(byteArray, "jpg");
         if (!ok)
             qWarning("Cannot read received image (receptionMessageImage - Liaison.cpp)");
 

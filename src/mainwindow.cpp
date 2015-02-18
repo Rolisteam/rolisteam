@@ -1614,7 +1614,7 @@ void MainWindow::lireImage(QDataStream &file)
     bool ok;
     // Creation de l'image
     QImage img;
-    ok = img.loadFromData(baImage, "png");
+    ok = img.loadFromData(baImage, "jpg");
     if (!ok)
         qWarning("Probleme de decompression de l'image (lireImage - Mainwindow.cpp)");
 
@@ -1648,7 +1648,7 @@ void MainWindow::lireImage(QDataStream &file)
 
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
-    ok = img.save(&buffer, "png", 60);
+    ok = img.save(&buffer, "jpg", 70);
     if (!ok)
         qWarning("Probleme de compression de l'image (lireImage - MainWindow.cpp)");
 
