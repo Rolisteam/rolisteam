@@ -22,8 +22,8 @@
 
 
 #include <QDebug>
-CharacterItem::CharacterItem(const Character* m,QPointF pos)
-    : VisualItem(),m_character(m),m_center(pos)
+CharacterItem::CharacterItem(const Character* m,QPointF pos,quint32 diameter)
+    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter)
 {
 
 }
@@ -53,7 +53,7 @@ QRectF CharacterItem::boundingRect() const
     /**
       * @todo must be changed and managed by preference system
       */
-    return QRectF(m_center.x(),m_center.y(),200,200);
+    return QRectF((m_center.x()-m_diameter/2),m_center.y()-m_diameter/2,m_diameter,m_diameter);
 }
 void CharacterItem::setNewEnd(QPointF& nend)
 {
@@ -63,13 +63,18 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 {
     qDebug() << "paint du character" << m_center ;
     /// @todo implemented it, get the image and display it
+    QBrush brush;
     if(m_character->hasAvatar())
     {
-        painter->drawImage(m_center, m_character->getAvatar());
+        //painter->drawImage(m_center, );
+        brush.setTextureImage(m_character->getAvatar());
     }
     else
     {
         painter->setPen(m_character->getColor());
-        painter->fillRect(m_center.x(),m_center.y(),200,200,m_character->getColor());
+        brush.setColor(m_character->getColor());
+        brush.setStyle(Qt::SolidPattern);
     }
+    painter->setBrush(brush);
+    painter->drawRoundedRect(m_center.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
 }

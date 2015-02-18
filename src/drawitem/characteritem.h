@@ -28,7 +28,7 @@ class CharacterItem : public VisualItem
 {
 
 public:
-    CharacterItem(const Character* m,QPointF center);
+    CharacterItem(const Character* m,QPointF center,quint32 diameter = 40);
     /**
       * @brief constructor
       */
@@ -61,7 +61,8 @@ public:
 private:
     const Character* m_character;
     QPointF m_center;
-    quint32 size;
+    quint32 m_diameter;
+
 
 };
 
