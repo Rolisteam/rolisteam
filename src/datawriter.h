@@ -37,11 +37,15 @@ class DataWriter
         void reset();
 
         void sendTo(Liaison * link);
-        void sendTo(int linkIndex);
         void sendAll(Liaison * butLink = NULL);
 
         void uint8(quint8 data);
+        void uint16(quint16 data);
+        void uint32(quint32 data);
+
         void string8(QString data);
+        void string16(QString data);
+        void string32(QString data);
 
     private:
         enteteMessage * m_header;
@@ -50,6 +54,7 @@ class DataWriter
         char * m_pos;
         char * m_end;
 
+        void string(QString data, int sizeQChar);
         void makeRoom(int size);
 };
 

@@ -49,35 +49,30 @@ DataWriter::~DataWriter()
     delete[] m_buffer;
 }
 
-void
-DataWriter::reset()
+void DataWriter::reset()
 {
     m_pos = m_begin;
 }
 
-void
-DataWriter::sendTo(Liaison * link)
+void DataWriter::sendTo(Liaison * link)
 {
+    if (link == NULL)
+    {
+        sendAll();
+        return;
+    }
+
     m_header->tailleDonnees = m_pos - m_begin;
     link->emissionDonnees(m_buffer, m_header->tailleDonnees + sizeof(enteteMessage));
 }
 
-void
-DataWriter::sendTo(int linkIndex)
-{
-    m_header->tailleDonnees = m_pos - m_begin;
-    G_clientServeur->emettreDonnees(m_buffer, m_header->tailleDonnees + sizeof(enteteMessage), linkIndex);
-}
-
-void
-DataWriter::sendAll(Liaison * butLink)
+void DataWriter::sendAll(Liaison * butLink)
 {
     m_header->tailleDonnees = m_pos - m_begin;
     G_clientServeur->emettreDonnees(m_buffer, m_header->tailleDonnees + sizeof(enteteMessage), butLink);
 }
 
-void
-DataWriter::uint8(quint8 data)
+void DataWriter::uint8(quint8 data)
 {
     int size = sizeof(quint8);
     makeRoom(size);
@@ -86,30 +81,67 @@ DataWriter::uint8(quint8 data)
     m_pos += size;
 }
 
+void DataWriter::uint16(quint16 data)
+{
+    int size = sizeof(quint16);
+    makeRoom(size);
+
+    *((quint16 *)m_pos) = data;
+    m_pos += size;
+}
+
 void
-DataWriter::string8(QString data)
+DataWriter::uint32(quint32 data)
+{
+    int size = sizeof(quint32);
+    makeRoom(size);
+
+    *((quint32 *)m_pos) = data;
+    m_pos += size;
+}
+
+void DataWriter::string8(QString data)
 {
     int sizeQChar = data.size();
+    uint8(sizeQChar);
+    string(data, sizeQChar);
+}
+
+void DataWriter::string16(QString data)
+{
+    int sizeQChar = data.size();
+    uint16(sizeQChar);
+    string(data, sizeQChar);
+}
+
+void DataWriter::string32(QString data)
+{
+    int sizeQChar = data.size();
+    uint32(sizeQChar);
+    string(data, sizeQChar);
+}
+
+void DataWriter::string(QString data, int sizeQChar)
+{
     int sizeBytes = sizeQChar * sizeof(QChar);
 
-    uint8(sizeQChar);
     makeRoom(sizeBytes);
     memcpy(m_pos, data.constData(), sizeBytes);
     m_pos += sizeBytes;
 }
 
-void
-DataWriter::makeRoom(int size)
+void DataWriter::makeRoom(int size)
 {
     while (m_pos + size > m_end)
     {
-        char * newBuffer = new char[(m_end - m_buffer) * 2];
+        int newSize = (m_end - m_buffer) * 2;
+        char * newBuffer = new char[newSize];
         memcpy(newBuffer, m_buffer, m_pos - m_buffer);
 
         int diff = newBuffer - m_buffer;
         m_begin  += diff;
         m_pos    += diff;
-        m_end    += diff;
+        m_end = newBuffer + newSize;
 
         delete[] m_buffer;
 
