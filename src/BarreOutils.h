@@ -69,6 +69,8 @@ public :
 
     // Outils selectionnables par l'utilisateur
     enum Tool {crayon, ligne, rectVide, rectPlein, elliVide, elliPlein, texte, main, ajoutPnj, supprPnj, deplacePerso, etatPerso};
+
+    BarreOutils::Tool getCurrentTool() const;
 signals:
     void currentToolChanged(BarreOutils::Tool);
 

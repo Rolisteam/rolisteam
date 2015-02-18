@@ -162,7 +162,7 @@ void Carte::paintEvent(QPaintEvent *event)
 
 
     //painter.drawImage(event->rect(), *fondAlpha, event->rect());
-    qDebug()<<"zoneNouvelle" << m_refreshZone;
+    //qDebug()<<"zoneNouvelle" << m_refreshZone;
     painter.drawImage(rect(), *fondAlpha, fondAlpha->rect());
 
 
@@ -189,17 +189,17 @@ QPoint Carte::mapToScale(const QPoint & p)
     tmp.setY(tmp.y()*m_scaleY);
 
 
-    qDebug() << m_scaleX << m_scaleY << tmp << p;
+    //qDebug() << m_scaleX << m_scaleY << tmp << p;
 
     return tmp;
 }
 QPoint Carte::mapToNormal(const QPoint & p)
 {
-    QPoint tmp = p;
-    m_origineScalePoint = m_scalePoint;
-    m_scalePoint = p;
-    tmp.setX(tmp.x()/m_scaleX);
-    tmp.setY(tmp.y()/m_scaleY);
+    QPoint tmp;
+   /* m_origineScalePoint = m_scalePoint;
+    m_scalePoint = p;*/
+    tmp.setX(p.x()/m_scaleX);
+    tmp.setY(p.y()/m_scaleY);
     return tmp;
 }
 void Carte::mousePressEvent(QMouseEvent *event)
@@ -244,7 +244,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
                         zoneOrigine = zoneNouvelle = zoneARafraichir();
                         listePointsCrayon.clear();
                         zoneGlobaleCrayon = zoneNouvelle;
-                        update(zoneOrigine);
+                        update();
                 }
         }
     }
@@ -404,6 +404,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
             if(((!G_joueur))||
               (((m_currentMode == NouveauPlanVide::PC_ALL))))
             {
+                 m_mousePoint = pos;
                 zoneNouvelle = zoneARafraichir();
             }
 
@@ -425,7 +426,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
                 // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
                 ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha, zoneNouvelle);
                 // Demande de rafraichissement de la fenetre (appel a paintEvent)
-                update(zoneOrigine.unite(zoneNouvelle));
+                update(/*zoneOrigine.unite(zoneNouvelle)*/);
                 // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
                 afficheOuMasquePnj();
             }
@@ -529,9 +530,11 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
             if((!G_joueur)||
               (((m_currentMode == NouveauPlanVide::PC_ALL))))
             {
+                //m_originePoint = m_mousePoint;
                 m_mousePoint = pos;
+
                 zoneNouvelle = zoneARafraichir();
-                update(zoneOrigine.unite(zoneNouvelle));
+                update();
                 zoneOrigine = zoneNouvelle;
             }
         }
@@ -616,6 +619,7 @@ void Carte::dessiner(QPainter &painter)
         // On dessine une ligne entre le point d'origine et le pointeur de la souris, sur le fond et sur le widget
         painterCrayon.drawLine(m_originePoint, m_mousePoint);
         painter.drawLine(m_originePoint, m_mousePoint);
+
         // Dessin d'un point pour permettre a l'utilisateur de ne dessiner qu'un unique point (cas ou il ne deplace pas la souris)
         painter.drawPoint(m_mousePoint);
         
@@ -745,8 +749,8 @@ QRect Carte::zoneARafraichir()
 
 
 
-    m_originePoint=mapToNormal(m_originePoint);
-    m_mousePoint=mapToNormal(m_mousePoint);
+    /*m_originePoint=mapToNormal(m_originePoint);
+    m_mousePoint=mapToNormal(m_mousePoint);*/
 
     QPoint supGauche, infDroit;
     int gauche = m_originePoint.x()<m_mousePoint.x()?m_originePoint.x():m_mousePoint.x();
@@ -756,6 +760,8 @@ QRect Carte::zoneARafraichir()
     // Calcul de la largeur et de la hauteur
     int largeur = droit - gauche + 1;
     int hauteur = bas - haut + 1;
+
+    //qDebug() << "Refresh Haut: " << haut << gauche << droit << bas << m_originePoint << m_mousePoint;
 
     // Action a effectuer en fonction de l'outil en cours d'utilisation
     if (m_currentTool == BarreOutils::crayon)
@@ -820,12 +826,15 @@ QRect Carte::zoneARafraichir()
     else
         qWarning() <<  (tr("Undefined tool  (drawing - Carte.cpp)"));
 
-    m_originePoint=m_origineScalePoint;
-    m_mousePoint=m_scalePoint;
+    /*m_originePoint=m_origineScalePoint;
+    m_mousePoint=m_scalePoint;*/
+    /*m_originePoint=mapToScale(m_originePoint);
+    m_mousePoint=mapToScale(m_mousePoint);*/
 
-    qDebug() << "Refresh zone:" <<resultat.intersect(m_backgroundImage->rect()) << m_backgroundImage->rect() << resultat << m_mousePoint << m_originePoint;
+   // qDebug() << "Refresh zone1: " << m_backgroundImage->rect() << resultat << m_mousePoint << m_originePoint ;
     m_refreshZone = resultat.intersect(m_backgroundImage->rect());
-    return rect();//resultat.intersect(m_backgroundImage->rect());
+   //qDebug() << "Refresh zone2: " <<resultat.intersect(m_backgroundImage->rect()) << width() << height();
+    return m_refreshZone;//rect();
 }
 
 
@@ -2032,7 +2041,7 @@ void Carte::dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichi
     // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
     ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha, zoneARafraichir);
     // Demande de rafraichissement de la fenetre (appel a paintEvent)
-    update(zoneOrigine.unite(zoneARafraichir));
+    update(/*zoneOrigine.unite(zoneARafraichir)*/);
     // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
     afficheOuMasquePnj();
 }
@@ -2100,7 +2109,7 @@ void Carte::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneA
     // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
     ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha, zoneARafraichir);
     // Demande de rafraichissement de la fenetre (appel a paintEvent)
-    update(zoneOrigine.unite(zoneARafraichir));
+    update(/*zoneOrigine.unite(zoneARafraichir)*/);
     // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
     afficheOuMasquePnj();
 }
@@ -2244,7 +2253,7 @@ void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arri
     // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
     ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha, zoneARafraichir);
     // Demande de rafraichissement de la fenetre (appel a paintEvent)
-    update(zoneOrigine.unite(zoneARafraichir));
+    update(/*zoneOrigine.unite(zoneARafraichir)*/);
     // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
     afficheOuMasquePnj();
 }

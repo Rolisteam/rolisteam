@@ -271,10 +271,10 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
                 else
                 {
                         messageTitle = tr("You");
-                        if(m_chat->everyPlayerHasFeature(QString("RichTextChat")))
+                        /*if(m_chat->everyPlayerHasFeature(QString("RichTextChat")))
                         {
                             message=messagehtml;
-                        }
+                        }*/
                         afficherMessage(messageTitle, localPerson->color(), message);
 
                         // action is messageChatWindow only if there are no dices
@@ -320,10 +320,10 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
 
         default:
             messageTitle = localPerson->name();
-            if(m_chat->everyPlayerHasFeature(QString("RichTextChat")))
+           /* if(m_chat->everyPlayerHasFeature(QString("RichTextChat")))
             {
                 message=messagehtml;
-            }
+            }*/
             afficherMessage(messageTitle, localPerson->color(), message);
             // action is messageChatWindow only if there are no dices
             action = NetMsg::ChatMessageAction;
@@ -385,10 +385,13 @@ void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& coule
     // Affichage du message
     m_displayZone->setTextColor(Qt::black);
 
-/// @warning change insertPlainText to insertHtml.
+
     m_displayZone->insertHtml(message);
+    qDebug() << message;
     if(msgtype==NetMsg::EmoteMessageAction)
+    {
         m_displayZone->setFontItalic(false);
+    }
     // On repositionne la barre de defilement, pour pouvoir voir le texte qui vient d'etre affiche
     m_displayZone->verticalScrollBar()->setSliderPosition(m_displayZone->verticalScrollBar()->maximum());
 }

@@ -42,7 +42,7 @@
 /* l'application                                                    */
 /********************************************************************/	
 // Definit l'outil courant
-BarreOutils::Tool G_outilCourant;
+//BarreOutils::Tool G_outilCourant;
 // Contient le texte de la zone de texte
 QString G_texteCourant;
 // Contient le texte de la zone "nom du PNJ"
@@ -74,7 +74,7 @@ BarreOutils::BarreOutils(QWidget *parent)
 	creerOutils();
 
 	// Initialisation de la variable globale indiquant l'outil courant
-	G_outilCourant = main;
+    //G_outilCourant = main;
 	
 	// Connexion de l'action RazChrono avec le slot razNumeroPnj
 	connect(actionRazChrono, SIGNAL(triggered(bool)), this, SLOT(razNumeroPnj()));
@@ -524,7 +524,7 @@ QColor BarreOutils::donnerCouleurPersonnelle(int numero)
 /********************************************************************/	
 void BarreOutils::crayonSelectionne()
 {
-	G_outilCourant = crayon;
+    m_currentTool = crayon;
 }
 
 /********************************************************************/
@@ -532,7 +532,7 @@ void BarreOutils::crayonSelectionne()
 /********************************************************************/	
 void BarreOutils::ligneSelectionne()
 {
-	G_outilCourant = ligne;
+    m_currentTool = ligne;
 }
 
 /********************************************************************/
@@ -540,7 +540,7 @@ void BarreOutils::ligneSelectionne()
 /********************************************************************/	
 void BarreOutils::rectVideSelectionne()
 {
-	G_outilCourant = rectVide;
+    m_currentTool = rectVide;
 }
 
 /********************************************************************/
@@ -548,7 +548,7 @@ void BarreOutils::rectVideSelectionne()
 /********************************************************************/	
 void BarreOutils::rectPleinSelectionne()
 {
-	G_outilCourant = rectPlein;
+    m_currentTool = rectPlein;
 }
 
 /********************************************************************/
@@ -556,7 +556,7 @@ void BarreOutils::rectPleinSelectionne()
 /********************************************************************/	
 void BarreOutils::elliVideSelectionne()
 {
-	G_outilCourant = elliVide;
+    m_currentTool = elliVide;
 }
 
 /********************************************************************/
@@ -564,7 +564,7 @@ void BarreOutils::elliVideSelectionne()
 /********************************************************************/	
 void BarreOutils::elliPleinSelectionne()
 {
-	G_outilCourant = elliPlein;
+    m_currentTool = elliPlein;
 }
 
 /********************************************************************/
@@ -578,7 +578,7 @@ void BarreOutils::texteSelectionne()
 		ligneDeTexte->setFocus(Qt::OtherFocusReason);
 		ligneDeTexte->setSelection(0, G_texteCourant.length());
 	}
-	G_outilCourant = texte;
+    m_currentTool = texte;
 }
 
 /********************************************************************/
@@ -586,7 +586,7 @@ void BarreOutils::texteSelectionne()
 /********************************************************************/	
 void BarreOutils::mainSelectionne()
 {
-	G_outilCourant = main;
+    m_currentTool = main;
 }
 
 /********************************************************************/
@@ -600,7 +600,7 @@ void BarreOutils::ajoutPnjSelectionne()
 		nomPnj->setFocus(Qt::OtherFocusReason);
 		nomPnj->setSelection(0, G_nomPnjCourant.length());
 	}
-	G_outilCourant = ajoutPnj;
+    m_currentTool = ajoutPnj;
 }
 
 /********************************************************************/
@@ -608,7 +608,7 @@ void BarreOutils::ajoutPnjSelectionne()
 /********************************************************************/	
 void BarreOutils::supprPnjSelectionne()
 {
-	G_outilCourant = supprPnj;
+    m_currentTool = supprPnj;
 }
 
 /********************************************************************/
@@ -616,7 +616,7 @@ void BarreOutils::supprPnjSelectionne()
 /********************************************************************/	
 void BarreOutils::deplacePersoSelectionne()
 {
-	G_outilCourant = deplacePerso;
+    m_currentTool = deplacePerso;
 }
 
 /********************************************************************/
@@ -624,13 +624,13 @@ void BarreOutils::deplacePersoSelectionne()
 /********************************************************************/	
 void BarreOutils::etatPersoSelectionne()
 {
-	G_outilCourant = etatPerso;
+    m_currentTool = etatPerso;
 }
 
 void BarreOutils::changeCharacterSize(int size)
 {
     if (m_map != NULL)
-        m_map->changerTaillePjCarte(size, G_outilCourant != ajoutPnj);
+        m_map->changerTaillePjCarte(size, m_currentTool != ajoutPnj);
 }
 
 void BarreOutils::sendNewCharacterSize(int size)
@@ -639,7 +639,7 @@ void BarreOutils::sendNewCharacterSize(int size)
         return;
 
     changeCharacterSize(size);
-    if(G_outilCourant != ajoutPnj)
+    if(m_currentTool != ajoutPnj)
     {
         NetworkMessageWriter message (NetMsg::CharacterCategory, NetMsg::ChangeCharacterSizeAction);
         message.string8(m_map->identifiantCarte());
@@ -712,6 +712,13 @@ void BarreOutils::currentToolHasChanged(QAction* bt)
         m_currentTool = etatPerso;
     }
     if(previous!=m_currentTool)
+    {
         emit currentToolChanged(m_currentTool);
+    }
 
+}
+//BarreOutils::Tool m_currentTool;
+BarreOutils::Tool BarreOutils::getCurrentTool() const
+{
+    return m_currentTool;
 }

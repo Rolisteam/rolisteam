@@ -58,9 +58,14 @@ Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QIm
 	idJoueur = identJoueur;
     setAlignment(Qt::AlignCenter);
     setWidget(labelImage);
+
+    m_ratioImage = (double)m_pixMap.size().width()/m_pixMap.size().height();
+    m_ratioImageBis = (double)m_pixMap.size().height()/m_pixMap.size().width();
     //labelImage->installEventFilter(this);
-    if(m_parent)
-        fitWindow();
+    if(NULL!=m_parent)
+    {
+        fitWorkSpace();
+    }
     //resize(image->width()+2, image->height()+2);
 }
 
@@ -70,13 +75,6 @@ Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QIm
 /********************************************************************/	
 Image::~Image()
 {
-
-    if(NULL!=actionAssociee)
-    {
-        delete actionAssociee;
-        actionAssociee=NULL;
-    }
-
     m_mainWindow->enleverImageDeLaListe(idImage);
 }
 
@@ -85,11 +83,11 @@ Image::~Image()
 /********************************************************************/	
 void Image::closeEvent(QCloseEvent *event)
 {
-	// Masquage de la fenetre
+
 	hide();
-	// Deselection de l'action associee
+
 	actionAssociee->setChecked(false);
-	// Arret de la procedure de fermeture		
+
 	event->ignore();
 }
 
@@ -162,7 +160,7 @@ void Image::sauvegarderImage(QDataStream &out, QString titre)
 void Image::mousePressEvent(QMouseEvent *event)
 {
 	// Si l'utilisateur a clique avec la bouton gauche et que l'outil main est selectionne
-	if (event->button() == Qt::LeftButton && G_outilCourant == BarreOutils::main)
+    if (event->button() == Qt::LeftButton && m_currentTool == BarreOutils::main)
 	{
 		// Le deplacement est autorise
 		deplacementAutorise = true;
@@ -203,7 +201,18 @@ void Image::mouseMoveEvent(QMouseEvent *event)
 void Image::resizeLabel()
 {
     //qDebug()<< " cdcec"<< m_pixMap.height() << m_pixMap.width() << labelImage->rect() << geometry();
-    if((m_NormalSize.height()!=0)&&(m_NormalSize.width()!=0))
+    if(m_fitWindowAct->isChecked())
+    {
+        if(width()>height()*m_ratioImage)
+        {
+            labelImage->resize(height()*m_ratioImage,height());
+        }
+        else
+        {
+            labelImage->resize(width(),width()*m_ratioImageBis);
+        }
+    }
+    else if((m_NormalSize.height()!=0)&&(m_NormalSize.width()!=0))
     {
         labelImage->resize(m_zoomLevel * m_NormalSize);
     }
@@ -234,14 +243,14 @@ void Image::zoomOut()
     resizeLabel();
 }
 
-void Image::onFitWindow()
+void Image::onFitWorkSpace()
 {
     labelImage->resize(m_parent->size());
-    fitWindow();
+    fitWorkSpace();
     //m_zoomLevel = 1;
 }
 
-void Image::fitWindow()
+void Image::fitWorkSpace()
 {
     QSize windowsize = m_parent->size();//right size
     while((windowsize.height()<(m_zoomLevel * m_pixMap.height()))||(windowsize.width()<(m_zoomLevel * m_pixMap.width())))
@@ -275,13 +284,17 @@ void Image::wheelEvent(QWheelEvent *event)
 void Image::paintEvent ( QPaintEvent * event )
 {
     QScrollArea::paintEvent(event);
-    if(widgetResizable())
+    /*if(widgetResizable())
     {
 
-        setWidgetResizable(false);
+
+
+    }*/
+    if(m_fitWindowAct->isChecked())
+    {
 
     }
-    if((m_NormalSize * m_zoomLevel) != labelImage->size())
+    else if((m_NormalSize * m_zoomLevel) != labelImage->size())
     {
         m_NormalSize = labelImage->size() / m_zoomLevel;
         m_windowSize = size();
@@ -316,7 +329,6 @@ void Image::zoomBig()
 void Image::createActions()
 {
     m_actionZoomIn = new QAction(tr("Zoom In"),this);
-   //m_actionZoomIn->setShortcut(tr("Ctrl++"));
     m_actionZoomIn->setToolTip(tr("increase zoom level"));
     m_actionZoomIn->setIcon(QIcon(":/resources/icons/zoom-in-32.png"));
     connect(m_actionZoomIn,SIGNAL(triggered()),this,SLOT(zoomIn()));
@@ -324,9 +336,9 @@ void Image::createActions()
     m_zoomInShort = new QShortcut(QKeySequence(tr("Ctrl++", "Zoom In")), this);
     m_zoomInShort->setContext(Qt::WidgetWithChildrenShortcut);
     connect(m_zoomInShort, SIGNAL(activated ()), this, SLOT(zoomIn()));
+    m_actionZoomIn->setShortcut(m_zoomInShort->key());
 
     m_actionZoomOut = new QAction(tr("Zoom out"),this);
-    //m_actionZoomOut->setShortcut(tr("Ctrl+-"));
     m_actionZoomOut->setIcon(QIcon(":/resources/icons/zoom-out-32.png"));
     m_actionZoomOut->setToolTip(tr("Reduce zoom level"));
     connect(m_actionZoomOut,SIGNAL(triggered()),this,SLOT(zoomOut()));
@@ -334,49 +346,63 @@ void Image::createActions()
     m_zoomOutShort = new QShortcut(QKeySequence(tr("Ctrl+-", "Zoom Out")), this);
     m_zoomOutShort->setContext(Qt::WidgetWithChildrenShortcut);
     connect(m_zoomOutShort, SIGNAL(activated ()), this, SLOT(zoomOut()));
-   /// connect(m_zoomOutShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomOut()));
+    m_actionZoomOut->setShortcut(m_zoomOutShort->key());
+
+
 
     m_actionfitWorkspace = new QAction(tr("Fit the workspace"),this);
-    m_actionfitWorkspace->setIcon(QIcon(":/resources/icons/fit-page-32.png"));
-    //m_actionfitWorkspace->setShortcut(tr("Ctrl+5"));
+    m_actionfitWorkspace->setIcon(QIcon(":/fit-page.png"));
     m_actionfitWorkspace->setToolTip(tr("The window and the image fit the workspace"));
-    connect(m_actionfitWorkspace,SIGNAL(triggered()),this,SLOT(onFitWindow()));
+    connect(m_actionfitWorkspace,SIGNAL(triggered()),this,SLOT(onFitWorkSpace()));
 
-    m_fitShort = new QShortcut(QKeySequence(tr("Ctrl+5", "Fit the workspace")), this);
+    m_fitShort = new QShortcut(QKeySequence(tr("Ctrl+m", "Fit the workspace")), this);
     m_fitShort->setContext(Qt::WidgetWithChildrenShortcut);
-    connect(m_fitShort, SIGNAL(activated ()), this, SLOT(onFitWindow()));
-   // connect(m_fitShort, SIGNAL(activatedAmbiguously()), this, SLOT(onFitWindow()));
+    connect(m_fitShort, SIGNAL(activated ()), this, SLOT(onFitWorkSpace()));
+    m_actionfitWorkspace->setShortcut(m_fitShort->key());
+
+
+    m_fitWindowAct =  new QAction(tr("Fit Window"),this);
+    m_fitWindowAct->setCheckable(true);
+    m_fitWindowAct->setIcon(QIcon(":/fit-window.png"));
+    m_fitWindowAct->setToolTip(tr("Image will take the best dimension to fit the window."));
+    connect(m_fitWindowAct, SIGNAL(triggered()), this, SLOT(fitWindow()));
+
+    m_fitWindowShort  = new QShortcut(QKeySequence(tr("Ctrl+f", "Fit the window")), this);
+    m_fitWindowShort->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(m_fitWindowShort, SIGNAL(activated ()), this, SLOT(fitWindow()));
+    m_fitWindowAct->setShortcut(m_fitWindowShort->key());
 
 
 
     m_actionlittleZoom = new QAction(tr("Little"),this);
-    //m_actionlittleZoom->setShortcut(tr("Ctrl+1"));
     m_actionlittleZoom->setToolTip(tr("Set the zoom level at 20% "));
     connect(m_actionlittleZoom,SIGNAL(triggered()),this,SLOT(zoomLittle()));
-    m_littleShort = new QShortcut(QKeySequence(tr("Ctrl+1", "Set the zoom level at 20%")), this);
+
+    m_littleShort = new QShortcut(QKeySequence(tr("Ctrl+l", "Set the zoom level at 20%")), this);
     m_littleShort->setContext(Qt::WidgetWithChildrenShortcut);
     connect(m_littleShort, SIGNAL(activated ()), this, SLOT(zoomLittle()));
-   // connect(m_littleShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomLittle()));
-
-
+    m_actionlittleZoom->setShortcut(m_littleShort->key());
 
     m_actionNormalZoom = new QAction(tr("Normal"),this);
-    //m_actionNormalZoom->setShortcut(tr("Ctrl+0"));
     m_actionNormalZoom->setToolTip(tr("No Zoom"));
     connect(m_actionNormalZoom,SIGNAL(triggered()),this,SLOT(zoomNormal()));
-    m_normalShort = new QShortcut(QKeySequence(tr("Ctrl+0", "Normal")), this);
+
+    m_normalShort = new QShortcut(QKeySequence(tr("Ctrl+n", "Normal")), this);
     m_normalShort->setContext(Qt::WidgetWithChildrenShortcut);
     connect(m_normalShort, SIGNAL(activated ()), this, SLOT(zoomNormal()));
-   // connect(m_normalShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomNormal()));
+    m_actionNormalZoom->setShortcut(m_normalShort->key());
+
 
     m_actionBigZoom = new QAction(tr("Big"),this);
-    //m_actionBigZoom->setShortcut(tr("Ctrl+2"));
     m_actionBigZoom->setToolTip(tr("Set the zoom level at 400%"));
     connect(m_actionBigZoom,SIGNAL(triggered()),this,SLOT(zoomBig()));
-    m_bigShort = new QShortcut(QKeySequence(tr("Ctrl+2", "Zoom Out")), this);
+
+    m_bigShort = new QShortcut(QKeySequence(tr("Ctrl+b", "Zoom Out")), this);
     m_bigShort->setContext(Qt::WidgetWithChildrenShortcut);
     connect(m_bigShort, SIGNAL(activated ()), this, SLOT(zoomBig()));
-   // connect(m_bigShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomBig()));
+    m_actionBigZoom->setShortcut(m_bigShort->key());
+
+
 
 
 }
@@ -388,6 +414,7 @@ void Image::contextMenuEvent ( QContextMenuEvent * event )
     menu.addAction(m_actionZoomOut);
     menu.addSeparator();
     menu.addAction( m_actionfitWorkspace);
+    menu.addAction( m_fitWindowAct);
     menu.addSeparator();
     menu.addAction(m_actionlittleZoom);
     menu.addAction(m_actionNormalZoom);
@@ -397,10 +424,69 @@ void Image::contextMenuEvent ( QContextMenuEvent * event )
     menu.exec(event->globalPos ()/*event->pos()*/);
 
 }
+void Image::fitWindow()
+{
+    QObject* senderObj = sender();
+    if(senderObj == m_fitWindowShort)
+    {
+       m_fitWindowAct->setChecked(! m_fitWindowAct->isChecked() );
+    }
+
+    resizeLabel();
+    if(m_fitWindowAct->isChecked())
+    {
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        m_actionZoomIn->setEnabled(false);
+        m_actionZoomOut->setEnabled(false);
+        m_actionlittleZoom->setEnabled(false);
+        m_actionNormalZoom->setEnabled(false);
+        m_actionBigZoom->setEnabled(false);
+    }
+    else
+    {
+       setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+         setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+         m_actionZoomIn->setEnabled(true);
+         m_actionZoomOut->setEnabled(true);
+         m_actionlittleZoom->setEnabled(true);
+         m_actionNormalZoom->setEnabled(true);
+         m_actionBigZoom->setEnabled(true);
+    }
+
+    update();
+}
+void Image::resizeEvent(QResizeEvent *event)
+{
+    if(m_fitWindowAct->isChecked())
+    {
+     resizeLabel();
+    }
+
+    QScrollArea::resizeEvent(event);
+
+}
+
 void Image::setParent(WorkspaceAmeliore *parent)
 {
     m_parent=parent;
     QScrollArea::setParent(parent);
     if(m_parent)
-        fitWindow();
+        fitWorkSpace();
+}
+
+void Image::setCurrentTool(BarreOutils::Tool tool)
+{
+    m_currentTool = tool;
+
+    /// @todo code inline to remove useless functions.
+    switch(m_currentTool)
+    {
+    case BarreOutils::main :
+            pointeurMain();
+            break;
+    default :
+            pointeurNormal();
+            break;
+    }
 }

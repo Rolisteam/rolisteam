@@ -105,13 +105,9 @@ signals :
     void deplacerCarteFenetre(QPoint position);
 
 public slots :
-
-
     void setPointeur(BarreOutils::Tool currentTool);
-
     void deplacerLesPersonnages();
     void effacerPerso(QString idPerso);
-
     void addCharacter(Character * person);
     void changeCharacter(Character * person);
     void delCharacter(Character * person);

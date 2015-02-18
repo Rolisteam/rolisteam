@@ -51,14 +51,10 @@ CarteFenetre::CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *pare
     carteAssociee = uneCarte;
     m_originalSize = carteAssociee->size();
     setWidget(carteAssociee);
+    setViewportMargins(0,0,0,0);
 
-    #ifdef WIN32
-        resize(carteAssociee->width()+2, carteAssociee->height()+2);
-    #elif defined (MACOS)
-        resize(carteAssociee->width()+4, carteAssociee->height()+4);
-    #elif defined Q_WS_X11
-        resize(carteAssociee->width()+2, carteAssociee->height()+2);
-    #endif
+    resize(carteAssociee->width()+4, carteAssociee->height()+4);
+
 
     connect(carteAssociee, SIGNAL(commencerDeplacementCarteFenetre(QPoint)),
             this, SLOT(commencerDeplacement(QPoint)));
@@ -125,7 +121,7 @@ void CarteFenetre::focusInEvent(QFocusEvent * event)
 }
 void CarteFenetre::contextMenuEvent( QContextMenuEvent * event )
 {
-    if(event->modifiers()==Qt::NoModifier)
+   /* if(event->modifiers()==Qt::NoModifier)
     {
         QMenu pop;
 
@@ -133,5 +129,5 @@ void CarteFenetre::contextMenuEvent( QContextMenuEvent * event )
         pop.addAction(m_widgetResizeAct);
 
         pop.exec(event->globalPos());
-    }
+    }*/
 }

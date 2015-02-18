@@ -43,7 +43,7 @@
 
 #include "WorkspaceAmeliore.h"
 #include "mainwindow.h"
-
+#include "BarreOutils.h"
 
 class Liaison;
 class NetworkMessageWriter;
@@ -66,10 +66,12 @@ public :
     QString identifiantImage();
     void setParent(WorkspaceAmeliore *parent);
 
+
+
 public slots :
     void pointeurMain();
     void pointeurNormal();
-
+    void setCurrentTool(BarreOutils::Tool tool);
 
 protected:
     /**
@@ -77,6 +79,11 @@ protected:
     * @param event : define few parameters about the action (way,..)
     */
     void wheelEvent(QWheelEvent *event);
+
+    /**
+     * @brief resizeEvent make sure the window keep the right ratio.
+     */
+    void resizeEvent(QResizeEvent *event);
 
     void closeEvent(QCloseEvent *event);
     void mousePressEvent(QMouseEvent *event);
@@ -117,14 +124,22 @@ private slots:
     /**
     * @brief resize the window and sets current size as zoomlevel 1.
     */
-    void onFitWindow();
+    void onFitWorkSpace();
+
+    /**
+     * @brief fitWindow set the size of the picture at the best size of the window.
+     */
+    void fitWindow();
 
 private :
     /**
     * @brief adapt the size window to fit the MdiArea size and no scrollbar (if possible)
     */
-    void fitWindow();
+    void fitWorkSpace();
     void createActions();
+
+
+
 private :
     MainWindow* m_mainWindow;
     QString idImage;
@@ -161,6 +176,14 @@ private :
     QAction* m_actionlittleZoom;// * 0.2
     QShortcut* m_littleShort;
 
+    //fit window keeping ratio
+    QAction* m_fitWindowAct;// * 0.2
+    QShortcut* m_fitWindowShort;
+
+    double m_ratioImage;
+    double m_ratioImageBis;
+
+    BarreOutils::Tool m_currentTool;
 
 };
 

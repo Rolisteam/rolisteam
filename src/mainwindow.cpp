@@ -499,8 +499,8 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         connect(action, SIGNAL(triggered(bool)), carteFenetre, SLOT(setVisible(bool)));
 
         // Recuperation de la Carte contenue dans la CarteFenetre
-        Carte *carte = (Carte *)(carteFenetre->widget());
-
+        Carte *carte = carteFenetre->carte();
+        carte->setPointeur(m_toolBar->getCurrentTool());
 
         connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),carte,SLOT(setPointeur(BarreOutils::Tool)));
 
@@ -516,7 +516,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
 
         // Mise a jour du pointeur de souris de la carte
-        carte->setPointeur(G_outilCourant);
+        //carte->setPointeur(G_outilCourant);
 
         
         // new PlayersList connection
@@ -558,35 +558,14 @@ void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
         // Association de l'action avec la carte
         imageFenetre->associerAction(action);
 
-        // Connexion de l'action d'outil main avec la fonction de changement de pointeur de souris en main
-        connect(m_toolBar->actionMain,                SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurMain()));
-
-        // Connexion des actions de changement d'outil avec la fonction de changement de pointeur de souris normal
-        connect(m_toolBar->actionCrayon,         SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionLigne,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionRectVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionRectPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionElliVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionElliPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionTexte,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionAjoutPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionSupprPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionDeplacePnj, SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionEtatPnj,        SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),imageFenetre,SLOT(setCurrentTool(BarreOutils::Tool)));
+        imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
 
         // Connexion de l'action avec l'affichage/masquage de l'image
         connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
 
         // Mise a jour du pointeur de souris de l'image
-        switch(G_outilCourant)
-        {
-        case BarreOutils::main :
-                imageFenetre->pointeurMain();
-                break;
-        default :
-                imageFenetre->pointeurNormal();
-                break;
-        }
+
 
         // Affichage de l'image
         imageFenetre->show();
@@ -661,6 +640,7 @@ void MainWindow::ouvrirPlan(bool masquer)
                 // Creation de la carte
                 Carte *carte = new Carte(idCarte, &image, masquer);
                 carte->setPermissionMode(NouveauPlanVide::GM_ONLY);
+                carte->setPointeur(m_toolBar->getCurrentTool());
                 // Creation de la CarteFenetre
                 CarteFenetre *carteFenetre = new CarteFenetre(carte,this, workspace);
                 // Ajout de la carte au workspace
@@ -796,6 +776,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
         QString idCarte = QUuid::createUuid().toString();
         // Creation de la carte
         Carte *carte = new Carte(idCarte, &fondOriginal, &fond, &alpha);
+        carte->setPointeur(m_toolBar->getCurrentTool());
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte,this,workspace);
 
@@ -928,35 +909,15 @@ void MainWindow::ouvrirImage()
         // Mise a jour du titre de l'image
         imageFenetre->setWindowTitle(titre);
 
-        // Connexion de l'action d'outil main avec la fonction de changement de pointeur de souris en main
-        connect(m_toolBar->actionMain,                SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurMain()));
 
-        // Connexion des actions de changement d'outil avec la fonction de changement de pointeur de souris normal
-        connect(m_toolBar->actionCrayon,         SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionLigne,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionRectVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionRectPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionElliVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionElliPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionTexte,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionAjoutPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionSupprPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionDeplacePnj, SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(m_toolBar->actionEtatPnj,        SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),imageFenetre,SLOT(setCurrentTool(BarreOutils::Tool)));
 
+
+        imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
         // Connexion de l'action avec l'affichage/masquage de la fenetre
         connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
 
-        // Mise a jour du pointeur de souris de l'image
-        switch(G_outilCourant)
-        {
-        case BarreOutils::main :
-                imageFenetre->pointeurMain();
-                break;
-        default :
-                imageFenetre->pointeurNormal();
-                break;
-        }
+
 
         // Affichage de l'image
         imageFenetre->show();
@@ -1159,6 +1120,7 @@ void MainWindow::creerNouveauPlanVide(QString titre, QString idCarte, QColor cou
         image.fill(couleurFond.rgb());
         Carte *carte = new Carte(idCarte, &image);
         carte->setPermissionMode(getPermission(mode));
+        carte->setPointeur(m_toolBar->getCurrentTool());
         CarteFenetre *carteFenetre = new CarteFenetre(carte,this, workspace);
         ajouterCarte(carteFenetre, titre);
 }
@@ -1658,6 +1620,8 @@ void MainWindow::lireImage(QDataStream &file)
 
         // Connexion de l'action avec l'affichage/masquage de la fenetre
         connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
+        connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),imageFenetre,SLOT(setCurrentTool(BarreOutils::Tool)));
+        imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
 
         // Affichage de l'image
         imageFenetre->show();
