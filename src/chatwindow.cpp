@@ -424,6 +424,7 @@ void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& coule
     m_displayZone->moveCursor(QTextCursor::End);
     // Affichage du nom de l'utilisateur
     m_displayZone->setTextColor(couleur);
+    QString msg = message;
     switch(msgtype)
     {
     case NetMsg::ChatMessageAction:
@@ -433,6 +434,7 @@ void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& coule
     case NetMsg::EmoteMessageAction:
         m_displayZone->setFontItalic(true);
         m_displayZone->append(QString("%1 ").arg(utilisateur));
+        msg=QString("<i>%1</i>").arg(message);
         break;
     case NetMsg::DiceMessageAction:
         m_displayZone->setFontItalic(false);
@@ -453,7 +455,7 @@ void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& coule
     m_displayZone->setTextColor(Qt::black);
 
 
-    m_displayZone->insertHtml(message);
+    m_displayZone->insertHtml(msg);
    // qDebug() << message;
     if(msgtype==NetMsg::EmoteMessageAction)
     {
