@@ -949,15 +949,15 @@ void MainWindow::closeMapOrImage()
         {
 
             Image*  imageFenetre = dynamic_cast<Image*>(active);
-            QAction* associatedAction = imageFenetre->getAssociatedAction();
+
             QString mapImageId;
             QString mapImageTitle;
-
+            QAction* associatedAction = NULL;
             mapImageTitle = active->windowTitle();
             bool image=false;
             if(NULL!=imageFenetre)
             {
-
+                associatedAction = imageFenetre->getAssociatedAction();
                 mapImageId = imageFenetre->getImageTitle();
                 image = true;
             }
