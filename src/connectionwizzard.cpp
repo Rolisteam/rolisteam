@@ -22,6 +22,7 @@
 #include "ui_connectionwizzard.h"
 
 #include <QListWidget>
+#include <QDebug>
 
 #include "preferencesmanager.h"
 #include "connection.h"
@@ -32,16 +33,21 @@ ConnectionWizzard::ConnectionWizzard(QWidget *parent) :
 {
     ui->setupUi(this);
     m_options = PreferencesManager::getInstance();
+
+
+
     QVariant tmp2;
-    tmp2.setValue(QList<Connection*>());
+    tmp2.setValue(ConnectionList());
     QVariant tmp = m_options->value("network/connectionsList",tmp2);
-    m_connectionList = tmp.value< QList<Connection*> >();
+    m_connectionList = tmp.value< ConnectionList >();
 
     connect(ui->m_addButton,SIGNAL(clicked()),this,SLOT(addNewConnection()));
     connect(ui->m_deleteButton,SIGNAL(clicked()),this,SLOT(removeConnection()));
     connect(ui->m_connectionListWidget,SIGNAL(currentRowChanged(int)),this,SLOT(selectionChanged()));
     connect(ui->m_name,SIGNAL(editingFinished()),this,SLOT(editionFinished()));
     connect(ui->buttonBox,SIGNAL(clicked(QAbstractButton*)),this,SLOT(onApply(QAbstractButton*)));
+
+    updateList();
 }
 
 ConnectionWizzard::~ConnectionWizzard()
@@ -56,7 +62,7 @@ void ConnectionWizzard::addNewConnection()
 
 
     m_currentRow = ui->m_connectionListWidget->count();
-    m_connectionList.insert(m_currentRow,m_currentConnection);
+    m_connectionList.insert(m_currentRow,*m_currentConnection);
     ui->m_connectionListWidget->insertItem(m_currentRow,m_currentConnection->getName());
     ui->m_connectionListWidget->setCurrentRow(m_currentRow);
     m_currentRow = ui->m_connectionListWidget->currentRow();
@@ -82,7 +88,7 @@ void ConnectionWizzard::removeConnection()
 void ConnectionWizzard::selectionChanged()
 {
     m_currentRow = ui->m_connectionListWidget->currentRow();
-    m_currentConnection = m_connectionList.at(m_currentRow);
+    m_currentConnection = &m_connectionList[m_currentRow];
     ui->m_name->setText(m_currentConnection->getName());
     ui->m_hostname->setText(m_currentConnection->getAddress());
     ui->m_port->setValue(m_currentConnection->getPort());
@@ -100,6 +106,17 @@ void ConnectionWizzard::onApply(QAbstractButton* tmpbutton)
         m_currentConnection->setAddress(ui->m_hostname->text());
         m_currentConnection->setPort(ui->m_port->value());
         m_options->registerValue("network/defaultPort",ui->m_port->value(),false);
+        QVariant tmp2;
+        tmp2.setValue(m_connectionList);
+        qDebug() << "ecriture=" << m_connectionList.size();
+        m_options->registerValue("network/connectionsList",tmp2,true);
+    }
+}
+void ConnectionWizzard::updateList()
+{
+    foreach(Connection tmp, m_connectionList)
+    {
+         ui->m_connectionListWidget->insertItem(ui->m_connectionListWidget->count(),tmp.getName());
     }
 }
 

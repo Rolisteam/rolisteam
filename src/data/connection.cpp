@@ -28,7 +28,16 @@ Connection::Connection(QString name,QString address,int port)
 {
 
 }
+Connection::Connection(const Connection& con)
+{
+    m_name=con.m_name;
+    m_address=con.m_address;
+    m_port=con.m_port;
+}
+Connection::~Connection()
+{
 
+}
 
 void Connection::setName(QString name)
 {
@@ -61,3 +70,20 @@ int Connection::getPort() const
 {
     return m_port;
 }
+
+QDataStream& operator<<(QDataStream& out, const Connection& con)
+{
+  out << con.getName();
+  out << con.getAddress();
+  out << con.getPort();
+  return out;
+}
+
+QDataStream& operator>>(QDataStream& is,Connection& con)
+{
+  is >>(con.m_name);
+  is >>(con.m_address);
+  is >> (con.m_port);
+  return is;
+}
+

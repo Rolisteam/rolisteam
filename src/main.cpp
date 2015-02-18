@@ -21,43 +21,13 @@
 
 
 #include <QtGui>
-
-
-
-#include "types.h"
 #include <time.h>
-
 #include "MainWindow.h"
-
-// Inclusion de la librairie FMOD (librairie audio)
-#ifdef HAVE_FMOD
-        #define DLL_EXPORTS
-
-        #include "fmod.h"
-#endif
-
-// Importation du plugin JPEG
-//	Q_IMPORT_PLUGIN(qjpeg)
-
-
-// Fenetre de log (utilise seulement dans ce fichier)
+#include "connection.h"
 static QTextEdit *Log;
-
-
 #define APPLICATION_NAME "rolisteam"
-
-
-/********************************************************************/
-/* Variables globales utilisees par tous les elements de            */
-/* l'application                                                    */
-/********************************************************************/
-// Contient tous les parametres extraits du fichier d'initialisation
 initialisation G_initialisation;
 
-
-/********************************************************************/
-/* handler d'affichage des messages d'erreur et de debug            */
-/********************************************************************/
 void handlerAffichageMsg(QtMsgType type, const char *msg)
 {
             QString titre;
@@ -100,49 +70,33 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
                     abort();
 }
 
-	/********************************************************************/
-	/* main                                                             */
-	/********************************************************************/	
-    int main(int argc, char *argv[])
-    {
-		// Initialisation du generateur de nombre aleatoire
-		srand(clock());
-	
-		// Creation de l'application
-        QApplication app(argc, argv);
-        QCoreApplication::setApplicationName(QCoreApplication::tr(APPLICATION_NAME));
-        QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-        QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-        QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+int main(int argc, char *argv[])
+{
+    srand(clock());
 
 
-		// Chargement du traducteur de Qt
-		QTranslator qtTranslator;
-		qtTranslator.load("qt_" + QLocale::system().name());
-		app.installTranslator(&qtTranslator);
-
-		// On charge le fichier de ressources qui contient ttes les images
-        //QResource::registerResource(QString(APPLICATION_NAME) + ".rcc");
+    QApplication app(argc, argv);
+    QCoreApplication::setApplicationName(QCoreApplication::tr(APPLICATION_NAME));
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
 
 
-         //app.setWindowIcon(QIcon(":/resources/icones/" + QString(APPLICATION_NAME) + ".png"));
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name());
+    app.installTranslator(&qtTranslator);
 
 
-  		// Initialisation de la librairie FMOD
-/*		if (!FSOUND_Init(FREQUENCE_AUDIO, 32, 0))
-                        qWarning("Probleme d'initialisation de la librairie FMOD (main - main.cpp)");*/
-
-		// Par defaut la variable d'initialisation n'est pas utilisable
-        //G_initialisation.initialisee = false;
 
 
-		// Creation du client/serveur : si la connexion reussie alors
-		// le programme principal est lance
-        //ClientServeur *clientServeur = new ClientServeur();
-        MainWindow* mw =new MainWindow();
-        mw->show();
-		
-		// Lancement de la boucle d'application
-        return app.exec();
-    } 
+    qRegisterMetaType<Connection>("Connection");
+    qRegisterMetaTypeStreamOperators<Connection>("Connection");
+
+
+    MainWindow* mw =new MainWindow();
+    mw->show();
+
+    // Lancement de la boucle d'application
+    return app.exec();
+}

@@ -49,11 +49,13 @@
 #include "userlistdockwidget.h"
 #include "mapwizzarddialog.h"
 
+
+#include "connection.h"
+
 class PreferencesManager;
 class ImprovedWorkspace;
 class MapFrame;
 class Carte;
-class Connection;
 class QActionGroup;
 class PreferenceDialog;
 class ConnectionWizzard;
@@ -201,7 +203,7 @@ private :
         /**
           * List of connections
           */
-        QList<Connection*> m_connectionList;
+        ConnectionList m_connectionList;
 
 
         /**

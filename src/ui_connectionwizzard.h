@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'connectionwizzard.ui'
 **
-** Created: Sun Aug 15 13:04:31 2010
+** Created: Sun Aug 15 15:56:44 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -144,6 +144,8 @@ public:
         horizontalLayout_2->setStretch(1, 1);
 
         retranslateUi(ConnectionWizzard);
+        QObject::connect(buttonBox, SIGNAL(accepted()), ConnectionWizzard, SLOT(accept()));
+        QObject::connect(buttonBox, SIGNAL(rejected()), ConnectionWizzard, SLOT(reject()));
 
         QMetaObject::connectSlotsByName(ConnectionWizzard);
     } // setupUi

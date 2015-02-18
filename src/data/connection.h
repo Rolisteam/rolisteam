@@ -32,6 +32,14 @@ public:
       */
     Connection();
     /**
+      * @brief destructor
+      */
+    ~Connection();
+    /**
+      * @brief copy constructor
+      */
+    Connection(const Connection& con);
+    /**
       * @brief constructor with all member as param
       * @param name any relevant text for better understanding
       * @param address either ip address or hostname
@@ -87,9 +95,17 @@ private:
       *
       */
     int m_port;
+
+
+    friend QDataStream& operator<<(QDataStream& os,const Connection&);
+    friend QDataStream& operator>>(QDataStream& is,Connection&);
+
 };
+typedef QList<Connection> ConnectionList;
 #include <QVariant>
 Q_DECLARE_METATYPE ( Connection )
 Q_DECLARE_METATYPE ( Connection* )
-Q_DECLARE_METATYPE ( QList<Connection*> )
+Q_DECLARE_METATYPE ( ConnectionList )
+
+
 #endif // CONNECTION_H

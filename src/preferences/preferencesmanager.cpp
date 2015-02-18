@@ -20,10 +20,18 @@
 #include "preferencesmanager.h"
 #include <QSettings>
 #include <QDir>
+#include <QDebug>
+
+#include "connection.h"
 PreferencesManager::PreferencesManager()
     : m_optionDictionary(NULL)
 {
     m_optionDictionary = new QMap<QString,QVariant>;
+
+    qRegisterMetaType<Connection>("Connection");
+    qRegisterMetaType<ConnectionList>("ConnectionList");
+    qRegisterMetaTypeStreamOperators<Connection>("Connection");
+    qRegisterMetaTypeStreamOperators<ConnectionList>("ConnectionList");
 
     //Default value
     m_optionDictionary->insert("MusicDirectory",QDir::homePath());
@@ -32,10 +40,6 @@ PreferencesManager::PreferencesManager()
     m_optionDictionary->insert("ScriptDirectory",QDir::homePath());
     m_optionDictionary->insert("MinutesDirectory",QDir::homePath());
     m_optionDictionary->insert("TchatDirectory",QDir::homePath());
-
-
-
-
 }
 
 PreferencesManager::~PreferencesManager()
@@ -80,6 +84,13 @@ void PreferencesManager::readSettings()
         if(variant.canConvert<QMap<QString,QVariant> >())
             *m_optionDictionary = variant.value<QMap<QString,QVariant> >();
 
+        qDebug() << "size reading dico" << m_optionDictionary->size();
+        for(int i = 0;m_optionDictionary->size()>i;i++)
+        {
+           qDebug() << "key " << m_optionDictionary->keys().at(i);
+
+        }
+
 
 
 }
@@ -87,7 +98,7 @@ void PreferencesManager::writeSettings()
 {
       QSettings settings("RolisteamTeam", "Rolisteam/preferences");
       settings.setValue("map",*m_optionDictionary);
-
+      qDebug() << "size writing dico" << m_optionDictionary->size();
 
 
 }

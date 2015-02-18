@@ -22,14 +22,14 @@
 #define CONNECTIONWIZZARD_H
 
 #include <QDialog>
-
+#include "connection.h"
 namespace Ui {
     class ConnectionWizzard;
 }
 class QListWidgetItem;
 class PreferencesManager;
-class Connection;
 class QAbstractButton;
+
 class ConnectionWizzard : public QDialog {
     Q_OBJECT
 public:
@@ -46,14 +46,14 @@ protected slots:
     void selectionChanged();
     void editionFinished();
     void onApply(QAbstractButton*);
-
+    void updateList();
 protected:
     void changeEvent(QEvent *e);
 
 private:
     Ui::ConnectionWizzard *ui;
     int m_currentRow;
-    QList<Connection*> m_connectionList;
+    ConnectionList m_connectionList;
 
     Connection* m_currentConnection;
     /**

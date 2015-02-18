@@ -37,7 +37,7 @@
 #include "improvedworkspace.h"
 
 //new headers from rolisteam 2.0.0 branch
-#include "connection.h"
+
 #include "preferencedialog.h"
 #include "preferencesmanager.h"
 #include "connectionwizzard.h"
@@ -50,9 +50,11 @@ MainWindow::MainWindow()
         : QMainWindow()
 {
         m_options = PreferencesManager::getInstance();
+        readSettings();
+
+        /// all other allocation must be done after the settings reading.
         m_preferenceDialog = new PreferenceDialog(this);
         m_connectDialog = new ConnectionWizzard(this);
-        readSettings();
 
         listeCarteFenetre.clear();
         listeImage.clear();
@@ -97,12 +99,10 @@ MainWindow::MainWindow()
 
 QDockWidget* MainWindow::creerLogUtilisateur()
 {
-        // Creation du dockWidget contenant la fenetre de log utilisateur
-        QDockWidget *dockLogUtil = new QDockWidget(tr("Evènements"), this);
+        QDockWidget *dockLogUtil = new QDockWidget(tr("Events"), this);
         dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
         dockLogUtil->setFeatures(QDockWidget::AllDockWidgetFeatures);
         dockLogUtil->setMinimumWidth(125);
-
         return dockLogUtil;
 }
 
@@ -231,17 +231,20 @@ void MainWindow::createMenu()
 
 
         QVariant tmp2;
-        tmp2.setValue(QList<Connection*>());
+        tmp2.setValue(ConnectionList());
         QVariant tmp = m_options->value("network/connectionsList",tmp2);
-        m_connectionList = tmp.value< QList<Connection*> >();
+        m_connectionList = tmp.value<ConnectionList>();
 
         m_connectionActGroup = new QActionGroup(this);
+        qDebug() << m_connectionList.size();
         if(m_connectionList.size() > 0)//(m_connectionList != NULL)&&
         {
-            foreach(Connection* tmp, m_connectionList )
+            m_networkMenu->addSeparator();
+            foreach(Connection tmp, m_connectionList )
             {
-                m_connectionActGroup->addAction(tmp->getName());
+               m_networkMenu->addAction(m_connectionActGroup->addAction(tmp.getName()));
             }
+
         }
 
 
