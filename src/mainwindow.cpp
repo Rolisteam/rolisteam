@@ -525,8 +525,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
 
         // Affichage de la carte
         carteFenetre->show();
-        tmp->setWindowIcon(QIcon(":/resources/icones/chatIcone.png"));
-        carteFenetre->setWindowIcon(QIcon(":/resources/icones/chatIcone.png"));
+
 }
 void  MainWindow::closeConnection()
 {
