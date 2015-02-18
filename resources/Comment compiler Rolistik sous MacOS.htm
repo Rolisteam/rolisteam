@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+.style1 {font-family: Verdana, Arial, Helvetica, sans-serif}
+.style2 {
+	font-size: 18px;
+	font-weight: bold;
+}
+.style3 {font-size: 14px}
+.style4 {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 14px; }
+-->
+</style>
+</head>
+
+<body>
+<div align="center">
+  <table width="950" height="1041" border="0">
+    <tr>
+      <td height="1037" align="left" valign="top"><p class="style1 style2">Comment compiler Rolistik sous MacOS (sur machine MacIntel)?</p>
+        <p class="style1 style3">Vous devez avoir install&eacute; Xcode 3.0.</p>
+        <p class="style1 style3">T&eacute;l&eacute;chargez les sources de Qt 4.3.3 ici : <a href="http://trolltech.com/developer/downloads/qt/mac">http://trolltech.com/developer/downloads/qt/mac</a></p>
+        <p class="style1 style3">D&eacute;compressez les sources dans un r&eacute;pertoire temporaire. Ouvrez un terminal, rendez-vous dans le r&eacute;pertoire temporaire et compilez Qt :</p>
+        <p class="style1 style3">./configure -universal -static -no-openssl<br>
+          make<br>
+        sudo make install</p>
+        <p class="style1 style3">Ajoutez le chemin de Qt au PATH, en rajoutant les lignes suivantes dans le fichier .profile (cr&eacute;ez-le s'il n'existe pas, &agrave; la racine du r&eacute;pertoire personnel) :</p>
+        <p class="style1 style3">PATH=$PATH:/usr/local/Trolltech/Qt-4.3.3/bin<br>
+        export PATH</p>
+        <p class="style1 style3">Fermez et rouvrez un terminal.</p>
+        <p class="style1 style3">Dans les sources de Rolistik, renommez le fichier Makefile_MacOS en Makefile.</p>
+      <p class="style1 style3">Compilez Rolistik en tapant make.</p>
+      <p class="style1 style3">&nbsp;</p>
+      <p class="style1 style3">Les sources sont fournies avec le &quot;Bundle&quot; Rolistik.app contenant d&eacute;j&agrave; l'ic&ocirc;ne ainsi que la documentation associ&eacute;e au logiciel.</p>
+      <p class="style1 style3">&nbsp;</p>
+      </td>
+    </tr>
+  </table>
+</div>
+<div align="center"></div>
+<p class="style1">&nbsp; </p>
+</body>
+</html>

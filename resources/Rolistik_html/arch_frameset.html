@@ -1,0 +1,26 @@
+<html>
+ <head>
+  <title>Rolistik.chm</title>
+  
+  <script>
+   var qs=location.search.substr(1)
+   var A=qs.split("&")
+   var B=null
+   var F="presentation.html"
+   for(var i=0;i<A.length;i++){B=A[i].split("=");A[i]=[B[0],B[1]]}
+   for(var j=0;j<A.length;j++){if(A[j][0]=='page'){ F=A[j][1];break}}
+  </script > 
+ </head>
+ <script>
+  document.write('<frameset cols="200,*" bordercolor="#63baff" frameborder="yes" framespacing="2" >')
+  document.write('<frame name="toc" src="arch_contents.html">')
+  document.write('<frame name="content" src="'+F+'" >')
+  document.write('</frameset>');
+ </script>
+<noscript>
+ <frameset cols="200,*" bordercolor="#63baff" frameborder="yes" framespacing="2" >
+   <frame name="toc" src="arch_contents.html" >
+  <frame name="content" src="presentation.html">
+ </frameset>
+</noscript>
+</html>
