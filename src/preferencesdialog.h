@@ -31,7 +31,7 @@
  */
 class DirChooser : public QWidget
 {
-    Q_OBJECT;
+    Q_OBJECT
 
     public:
         DirChooser(QWidget * parent = NULL);
@@ -52,7 +52,7 @@ class DirChooser : public QWidget
  */
 class PreferencesDialog : public QDialog
 {
-    Q_OBJECT;
+    Q_OBJECT
 
     public:
         PreferencesDialog(QWidget * parent = NULL, Qt::WindowFlags f = 0);

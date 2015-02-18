@@ -190,16 +190,16 @@ void ChatWindow::emettreTexte(QString message)
             result = calculerJetDes(message, tirage, ok);
             if(ok)
             {
-                           messageCorps = tr("avez obtenu %1 à votre jet de dés [%2]").arg(result).arg(tirage);
-                        messageTitle = tr("Vous");
+                           messageCorps = tr("got %1 at your dice roll [%2]").arg(result).arg(tirage);
+                        messageTitle = tr("You");
                         color = localPerson->color();
                         afficherMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
-                            message = QString(tr("a obtenu %1 à  son jet de dés [%2]").arg(result).arg(tirage));
+                            message = QString(tr("got %1 at his dice roll [%2]").arg(result).arg(tirage));
             }
             else
             {
-                messageCorps = tr("!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de dés est public (utilisez & pour un jet privé).");
-                messageTitle = tr("Syntaxe");
+                messageCorps = tr("!1d6 or !5d10+3 or !2d20-3d10+1d6+5 etc... The dice roll is public (For private roll, use & ).");
+                messageTitle = tr("Syntax");
                 color = Qt::red;
                 afficherMessage(messageTitle, color, messageCorps);
             }
@@ -208,15 +208,15 @@ void ChatWindow::emettreTexte(QString message)
             result = calculerJetDes(message, tirage, ok);
             if (ok)
             {
-                messageCorps = tr("vous avez obtenu %1 à votre jet de dés secret [%2]").arg(result).arg(tirage);
-                messageTitle = tr("Jet secret :");
+                messageCorps = tr("You got %1 at your secret dice roll [%2]").arg(result).arg(tirage);
+                messageTitle = tr("Secret Roll:");
                 color = Qt::magenta;
                 afficherMessage(messageTitle, color,messageCorps ,NetMsg::DiceMessageAction);
             }
             else
             {
-                messageCorps = tr("!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de dés est public (utilisez & pour un jet privé).");
-                messageTitle = tr("Syntaxe");
+                messageCorps = tr("!1d6 or !5d10+3 or !2d20-3d10+1d6+5 etc... The dice roll is public (For private roll, use & ).");
+                messageTitle = tr("Syntax");
                 color = Qt::red;
                 afficherMessage(messageTitle, color, messageCorps);
             }
@@ -231,17 +231,18 @@ void ChatWindow::emettreTexte(QString message)
                     result = calculerJetDesSR4(message, tirage, glitch, ok);
                     if (ok)
                     {
-                        messageCorps = tr("avez obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage);
-                        messageTitle = tr("Vous");
+                        messageCorps = tr("got %1 successes %2%3").arg(result).arg(glitch).arg(tirage);
+                        messageTitle = tr("You");
                         // On affiche le resultat du tirage dans la zone d'affichage
                         afficherMessage(messageTitle, localPerson->color(),messageCorps ,NetMsg::DiceMessageAction);
                         // On cree un nouveau message a envoyer aux autres utilisateurs
-                        message = QString(tr("a obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage));
+                        message = QString(tr("got %1 successes %2%3").arg(result).arg(glitch).arg(tirage));
                     }
                     else
                     {
-                        messageCorps = tr("*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n'afficher que les résultats.");
-                        messageTitle = tr("Syntaxe SR4");
+                        //*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n'afficher que les résultats.
+                        messageCorps = tr("*12D ... Add R for rusher, G3 for Gremlins index of 3 and + for reroll 6 ... Adde C hide roll detail, and S to display the result only.");
+                        messageTitle = tr("Syntax SR4");
                          color = Qt::red;
                         afficherMessage(messageTitle, color, messageCorps);
                     }
@@ -249,7 +250,7 @@ void ChatWindow::emettreTexte(QString message)
                 }
                 else
                 {
-                        messageTitle = tr("Vous");
+                        messageTitle = tr("You");
                         afficherMessage(messageTitle, localPerson->color(), message);
                         // action is messageChatWindow only if there are no dices
                         action = NetMsg::ChatMessageAction;
@@ -278,8 +279,8 @@ void ChatWindow::emettreTexte(QString message)
                     // Warn if some users don't have Emote(0) feature
                     if (!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
                     {
-                        messageTitle = tr("Attention");
-                        messageCorps = tr("Certains utilisateurs risquent de ne pas voir vos emotes.");
+                        messageTitle = tr("Warning");
+                        messageCorps = tr("Some users won't be enable to see your emotes.");
                         color = Qt::red;
                         afficherMessage(messageTitle, color, messageCorps);
                         m_warnedEmoteUnavailable = true;
@@ -647,13 +648,13 @@ int ChatWindow::calculerJetDesSR4(QString &message, QString &tirage, QString &gl
 
     if (!modeSecretActif)
     {
-                tirage.append(QString(tr(" (%1 dés").arg(nbDes)));
+                tirage.append(QString(tr(" (%1 dices").arg(nbDes)));
         if (rushActif)
-            tirage.append(QString(tr(" en rushant")));
+            tirage.append(QString(tr(" in rushing")));
         if (gremlinsActif)
-            tirage.append(QString(tr(" avec Gremlins %1").arg(indiceGremlinsStr)));
+            tirage.append(QString(tr(" with Gremlins %1").arg(indiceGremlinsStr)));
         if (sixAgainActif)
-                        tirage.append(QString(tr(" - les 6 sont relancés")));
+                        tirage.append(QString(tr(" - 6 are reroll")));
         if (!modeCourtActif)
             tirage.append(QString(tr(" : ")));
         else
@@ -743,7 +744,7 @@ void ChatWindow::updateTitleFromChat()
 {
     const QString & name = m_chat->name();
 
-    setWindowTitle(tr("%1 (Tchat)").arg(name));
+    setWindowTitle(tr("%1 (Chat)").arg(name));
     m_toggleViewAction->setText(name);
 }
 

@@ -62,7 +62,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 	couleurActuelle->setMidLineWidth(1);
 	couleurActuelle->setFixedSize(45,40);
 	couleurActuelle->setPalette(QPalette(QColor(rouge[0],vert[0],bleu[0])));
-	couleurActuelle->setToolTip(tr("Couleur prédéfinie 1"));
+        couleurActuelle->setToolTip(tr("Predefine color 1"));
 	couleurActuelle->setAutoFillBackground(true);
 	couleurActuelle->setScaledContents(true);
 
@@ -93,7 +93,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 		couleurPredefinie[i]->setPalette(QPalette(couleur));
 		couleurPredefinie[i]->setAutoFillBackground(true);
 		couleurPredefinie[i]->setFixedHeight(5);
-		couleurPredefinie[i]->setToolTip(tr("Couleur prédéfinie ") + QString::number(i+1));
+                couleurPredefinie[i]->setToolTip(tr("Predefine color %1 ").arg(i+1));
 
 		// Mise a jour des couleurs standard de QColorDialog
 		QColorDialog::setStandardColor(x*6+y, couleur.rgb());
@@ -125,7 +125,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 		couleurPersonnelle[i] = new QWidget(this);
 		couleurPersonnelle[i]->setAutoFillBackground(true);
 		couleurPersonnelle[i]->setFixedHeight(5);
-		couleurPersonnelle[i]->setToolTip(tr("Couleur personnelle ") + QString::number(i+1));
+                couleurPersonnelle[i]->setToolTip(tr("Custom Color %1 ").arg(i+1));
 
 		// Mise a jour des couleurs personnelles de QColorDialog
         QColorDialog::setCustomColor(i, G_initialisation.couleurPersonnelle[i].rgb());
@@ -162,7 +162,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
         efface_pix = new QPixmap(":/resources/icones/efface.png");
 	couleurEfface->setPixmap(*efface_pix);
 	couleurEfface->setScaledContents(true);
-	couleurEfface->setToolTip(tr("Effacer"));
+        couleurEfface->setToolTip(tr("Erase"));
 	couleurEfface->setPalette(QPalette(Qt::white));
 	couleurEfface->setAutoFillBackground(true);
 	couleursSpeciales->addWidget(couleurEfface);
@@ -230,8 +230,8 @@ void SelecteurCouleur::autoriserOuInterdireCouleurs()
 		// Le masquage est total
 		G_couleurMasque = QColor(0,0,0);
 		// Message d'interdiction pour les couleurs de masquage et de demasquage
-		couleurMasque->setToolTip(tr("Masquer (MJ seulement)"));
-		couleurDemasque->setToolTip(tr("Démasquer (MJ seulement)"));
+                couleurMasque->setToolTip(tr("Hide (GM only)"));
+                couleurDemasque->setToolTip(tr("Unveil (GM only)"));
 		// Il est impossible de selectionner les couleurs de masquage et de demasquage
 		couleurMasque->setEnabled(false);
 		couleurDemasque->setEnabled(false);
@@ -243,8 +243,8 @@ void SelecteurCouleur::autoriserOuInterdireCouleurs()
 		// Le masque est transparent
 		G_couleurMasque = QColor(50,50,50);
 		// Tooltip normaux pour les couleurs de masquage et de demasquage
-		couleurMasque->setToolTip(tr("Masquer"));
-		couleurDemasque->setToolTip(tr("Démasquer"));
+                couleurMasque->setToolTip(tr("Hide"));
+                couleurDemasque->setToolTip(tr("Unveil"));
 	}
 }
 
@@ -311,9 +311,7 @@ void SelecteurCouleur::clicUtilisateur(QPoint positionSouris, bool move)
 			G_couleurCourante.type = qcolor;
 			G_couleurCourante.color = couleur;
 			// Mise a jour de la bulle d'aide
-			couleurActuelle->setToolTip(tr("Rouge") + " : " + QString::number(couleur.red()) +
-				" / " + tr("Vert") + " : " + QString::number(couleur.green()) +
-				" / " + tr("Bleu") + " : " + QString::number(couleur.blue()));
+                        couleurActuelle->setToolTip(tr("Red: %1, Green: %1, Blue: %1").arg(couleur.red()).arg(couleur.green()).arg(couleur.blue()));
 		}
 
 		// Recuperation des couleurs personnelles
@@ -381,18 +379,16 @@ void SelecteurCouleur::clicUtilisateur(QPoint positionSouris, bool move)
 /********************************************************************/
 /* Change la couleur actuelle                                       */
 /********************************************************************/		
-void SelecteurCouleur::changeCouleurActuelle(QColor couleur)
+void SelecteurCouleur::changeCouleurActuelle(QColor color)
 {
 	// M.a.j du widget affichant la couleur actuelle
 	couleurActuelle->clear();
-	couleurActuelle->setPalette(QPalette(couleur));
+        couleurActuelle->setPalette(QPalette(color));
 	// M.a.j de la bulle d'aide
-	couleurActuelle->setToolTip(tr("Rouge") + " : " + QString::number(couleur.red()) +
-		" / " + tr("Vert") + " : " + QString::number(couleur.green()) +
-		" / " + tr("Bleu") + " : " + QString::number(couleur.blue()));
+        couleurActuelle->setToolTip(tr("Red: %1, Green: %1, Blue: %1").arg(color.red()).arg(color.green()).arg(color.blue()));
 	// M.a.j de la variable globale
 	G_couleurCourante.type = qcolor;
-	G_couleurCourante.color = couleur;
+        G_couleurCourante.color = color;
 }
 
 /********************************************************************/	
@@ -447,7 +443,7 @@ QColor SelecteurCouleur::donnerCouleurPersonnelle(int numero)
 		// Dans le cas contraire on se trouve sur une couleur personnelle
 
 		// On demande a l'utilisateur de choisir une couleur
-		QColor couleur = QColorDialog::getColor((enfant->palette()).color(QPalette::Window));
+                QColor color = QColorDialog::getColor((enfant->palette()).color(QPalette::Window));
 
 		// Si l'utilisateur a clique sur OK on recupere la nouvelle couleur
 		if (couleur.isValid())
@@ -456,14 +452,12 @@ QColor SelecteurCouleur::donnerCouleurPersonnelle(int numero)
 			enfant->setPalette(QPalette(couleur));
 			// Mise a jour du widget affichant la couleur actuelle
 			couleurActuelle->clear();
-			couleurActuelle->setPalette(QPalette(couleur));
+                        couleurActuelle->setPalette(QPalette(color));
 			// Mise a jour de la variable globale
 			G_couleurCourante.type = qcolor;
-			G_couleurCourante.color = couleur;
+                        G_couleurCourante.color = color;
 			// Mise a jour de la bulle d'aide
-			couleurActuelle->setToolTip(tr("Rouge") + " : " + QString::number(couleur.red()) +
-				" / " + tr("Vert") + " : " + QString::number(couleur.green()) +
-				" / " + tr("Bleu") + " : " + QString::number(couleur.blue()));
+                        couleurActuelle->setToolTip(tr("Red: %1, Green: %1, Blue: %1").arg(color.red()).arg(color.green()).arg(color.blue()));
 		}
 	}
 #endif

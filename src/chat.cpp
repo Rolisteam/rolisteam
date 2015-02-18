@@ -63,7 +63,7 @@ QString PublicChat::identifier() const
 
 QString PublicChat::name() const
 { 
-    return tr("Commun");
+    return tr("Global");
 }
 
 bool PublicChat::belongsTo(Player * player) const

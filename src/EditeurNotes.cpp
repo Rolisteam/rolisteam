@@ -57,9 +57,9 @@
 
 		// Creation des actions de mise en forme du texte
                 QAction	*act1 = barreFontes->addAction(QIcon(":/resources/icones/style normal.png"), tr("Normal"), this, SLOT(styleNormal()));
-                QAction	*act2 = barreFontes->addAction(QIcon(":/resources/icones/style gras.png"), tr("Gras"), this, SLOT(styleGras()));
-                QAction	*act3 = barreFontes->addAction(QIcon(":/resources/icones/style italique.png"), tr("Italique"), this, SLOT(styleItalique()));
-                QAction	*act4 = barreFontes->addAction(QIcon(":/resources/icones/style souligne.png"), tr("Souligné"), this, SLOT(styleSouligne()));
+                QAction	*act2 = barreFontes->addAction(QIcon(":/resources/icones/style gras.png"), tr("Bold"), this, SLOT(styleGras()));
+                QAction	*act3 = barreFontes->addAction(QIcon(":/resources/icones/style italique.png"), tr("Italic"), this, SLOT(styleItalique()));
+                QAction	*act4 = barreFontes->addAction(QIcon(":/resources/icones/style souligne.png"), tr("Underline"), this, SLOT(styleSouligne()));
                 Q_UNUSED(act1)
                 Q_UNUSED(act2)
                 Q_UNUSED(act3)
@@ -84,7 +84,7 @@
 		#elif defined (MACOS)
 			selecteurTaille->setFixedWidth(56);
 		#endif
-		selecteurTaille->setToolTip(tr("Taille de la police"));
+                selecteurTaille->setToolTip(tr("Font size"));
 		// Creation de la liste de tailles disponibles
 		QStringList listeTailles;
 		listeTailles << "8" << "10" << "12" << "14" << "16" << "18" << "20" << "22" << "26" << "30" << "40" << "50" << "70";

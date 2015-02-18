@@ -65,7 +65,7 @@ class PlayersList : public QAbstractItemModel {
         QModelIndex mapIndexToMe(const QModelIndex & index) const;
         enum ItemDataRole
         {
-            IdentifierRole = Qt::UserRole,
+            IdentifierRole = Qt::UserRole
         };
 
         // Getters

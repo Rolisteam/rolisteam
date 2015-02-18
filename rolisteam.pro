@@ -126,5 +126,14 @@ QT += core \
 
 #VERSION = 1.0.3
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=2
+
+#debug {
+#DEFINES += QT_NO_WARNING_OUTPUT
+#}
+#release {
+#DEFINES += QT_FATAL_WARNINGS
+#}
+
+
 UI_DIR = src
-#QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"
+QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"

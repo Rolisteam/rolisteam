@@ -63,7 +63,7 @@ class ReceiveEvent : public QEvent
 
 class DelayReceiveEvent : public QObject
 {
-    Q_OBJECT;
+    Q_OBJECT
 
     public:
         DelayReceiveEvent(const ReceiveEvent & event);

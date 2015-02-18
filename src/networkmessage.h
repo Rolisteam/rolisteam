@@ -87,7 +87,7 @@ namespace NetMsg
         // SetupCategory
         AddFeatureAction = 2
     };
-};
+}
 
 class NetworkMessage
 {

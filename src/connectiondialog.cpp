@@ -110,25 +110,25 @@ void ConnectionConfigDialog::setUI()
     setWindowIcon(QIcon(":/logo.svg"));
     m_name  = new QLineEdit;
     m_color = new ColorButton;
-    m_gm    = new QCheckBox(tr("Demander à être le MJ."));
+    m_gm    = new QCheckBox(tr("I'm the Game Master."));
     m_gm->setCheckState(Qt::Unchecked);
 
     QFormLayout * form = new QFormLayout;
-    form->addRow(tr("Nom : "), m_name);
-    form->addRow(tr("Couleur : "), m_color);
+    form->addRow(tr("Name : "), m_name);
+    form->addRow(tr("Color : "), m_color);
     form->addRow(m_gm);
 
-    QGroupBox * playerGroup = new QGroupBox(tr("Joueur"));
+    QGroupBox * playerGroup = new QGroupBox(tr("Player"));
     playerGroup->setLayout(form);
 
-    m_hostLabel = new QLabel(tr("Adresse : "));
+    m_hostLabel = new QLabel(tr("Address : "));
     m_host      = new QLineEdit;
 
     m_port      = new QSpinBox;
     m_port->setMinimum(1024);
     m_port->setMaximum(32767);
 
-    m_server    = new QCheckBox(tr("Héberger la partie."));
+    m_server    = new QCheckBox(tr("Host the game."));
     m_server->setCheckState(Qt::Unchecked);
     connect(m_server, SIGNAL(stateChanged(int)), this, SLOT(changeConnectionType(int)));
 
@@ -137,12 +137,12 @@ void ConnectionConfigDialog::setUI()
     form->addRow(tr("Port : "), m_port);
     form->addRow(m_server);
 
-    QGroupBox * connectionGroup = new QGroupBox(tr("Connexion"));
+    QGroupBox * connectionGroup = new QGroupBox(tr("Connection"));
     connectionGroup->setLayout(form);
 
     QDialogButtonBox * buttonBox = new QDialogButtonBox;
-    buttonBox->addButton(tr("Connexion"), QDialogButtonBox::AcceptRole)->setDefault(true);
-    buttonBox->addButton(tr("Quitter"),   QDialogButtonBox::RejectRole);
+    buttonBox->addButton(tr("Connection"), QDialogButtonBox::AcceptRole)->setDefault(true);
+    buttonBox->addButton(tr("Quit"),   QDialogButtonBox::RejectRole);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 

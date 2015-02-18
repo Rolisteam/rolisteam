@@ -124,9 +124,9 @@ PrivateChatDialog::PrivateChatDialog(QWidget * parent)
     listView->setModel(&m_model);
 
     QFormLayout * formLayout = new QFormLayout;
-    formLayout->addRow(tr("&Nom : "), m_name_w);
-    formLayout->addRow(tr("&Créateur : "), m_owner_w);
-    formLayout->addRow(tr("&Joueurs : "), listView);
+    formLayout->addRow(tr("&Name : "), m_name_w);
+    formLayout->addRow(tr("&Owner : "), m_owner_w);
+    formLayout->addRow(tr("&Player : "), listView);
 
     m_buttonBox = new QDialogButtonBox;
     connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(accept()));

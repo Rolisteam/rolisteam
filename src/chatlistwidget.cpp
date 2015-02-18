@@ -35,7 +35,7 @@
 ChatListWidget::ChatListWidget(MainWindow * parent)
     : QDockWidget(parent)
 {
-    setWindowTitle(tr("Tchats"));
+    setWindowTitle(tr("Chat messaging"));
     setObjectName("ChatListWidget");
     setAllowedAreas(Qt::AllDockWidgetAreas);
     setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
@@ -56,10 +56,10 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
             this, SLOT(selectAnotherChat(const QModelIndex &)));
 //    listView->installEventFilter(this);
 
-    QPushButton * addChatButton = new QPushButton(tr("Ajouter un tchat"));
+    QPushButton * addChatButton = new QPushButton(tr("Add a chat"));
     connect(addChatButton, SIGNAL(pressed()), this, SLOT(createPrivateChat()));
 
-    m_deleteButton = new QPushButton(tr("Supprimer le tchat"));
+    m_deleteButton = new QPushButton(tr("Remove a chat"));
     connect(m_deleteButton, SIGNAL(pressed()), this, SLOT(deleteSelectedChat()));
     m_deleteButton->setEnabled(false);
 
@@ -106,7 +106,7 @@ bool ChatListWidget::eventFilter(QObject * object, QEvent * event)
 
 void ChatListWidget::createPrivateChat()
 {
-    PrivateChat * newChat = new PrivateChat(tr("Nouveau Tchat"));
+    PrivateChat * newChat = new PrivateChat(tr("New chat"));
     if (m_privateChatDialog->edit(newChat) == QDialog::Accepted)
     {
         m_chatList->addLocalChat(newChat);

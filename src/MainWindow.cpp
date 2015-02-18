@@ -211,17 +211,17 @@ MainWindow::MainWindow()
         // Ajout de l'editeur de notes au workspace
         workspace->addWindow(editeurNotes);
         // Mise a jour du titre de l'editeur de notes
-        editeurNotes->setWindowTitle(tr("Editeur de notes"));
+        editeurNotes->setWindowTitle(tr("Minutes Editor"));
         // Masquage de l'editeur de notes
         editeurNotes->hide();
 
         // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
-        AddHealthState(Qt::black, tr("Sain"), G_etatsDeSante);
-        AddHealthState(QColor(255, 100, 100),tr("Blessé léger"),G_etatsDeSante);
-        AddHealthState(QColor(255, 0, 0),tr("Blessé grave"),G_etatsDeSante);
-        AddHealthState(Qt::gray,tr("Mort"),G_etatsDeSante);
-        AddHealthState(QColor(80, 80, 255),tr("Endormi"),G_etatsDeSante);
-        AddHealthState(QColor(0, 200, 0),tr("Ensorcelé"),G_etatsDeSante);
+        AddHealthState(Qt::black, tr("healthy"), G_etatsDeSante);
+        AddHealthState(QColor(255, 100, 100),tr("lightly wounded"),G_etatsDeSante);
+        AddHealthState(QColor(255, 0, 0),tr("seriously injured"),G_etatsDeSante);
+        AddHealthState(Qt::gray,tr("Dead"),G_etatsDeSante);
+        AddHealthState(QColor(80, 80, 255),tr("Sleeping"),G_etatsDeSante);
+        AddHealthState(QColor(0, 200, 0),tr("Bewitched"),G_etatsDeSante);
 
         // Initialisation des pointeurs de souris
         InitMousePointer(&G_pointeurDessin, ":/resources/icones/pointeur dessin.png", 8, 8);
@@ -262,7 +262,7 @@ MainWindow::~MainWindow()
 QDockWidget* MainWindow::creerLogUtilisateur()
 {
         // Creation du dockWidget contenant la fenetre de log utilisateur
-        m_dockLogUtil = new QDockWidget(tr("Evènements"), this);
+        m_dockLogUtil = new QDockWidget(tr("Events"), this);
         m_dockLogUtil->setObjectName("dockLogUtil");
         m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
         m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
@@ -290,30 +290,30 @@ void MainWindow::creerMenu()
         setMenuBar(barreMenus);
 
         // Creation du menu Fichier
-        QMenu *menuFichier = new QMenu (tr("Fichier"), barreMenus);
-        actionNouveauPlan                = menuFichier->addAction(tr("Nouveau plan vide"));
+        QMenu *menuFichier = new QMenu (tr("File"), barreMenus);
+        actionNouveauPlan                = menuFichier->addAction(tr("New empty Map"));
         menuFichier->addSeparator();
-        actionOuvrirPlan                 = menuFichier->addAction(tr("Ouvrir plan"));
-        actionOuvrirEtMasquerPlan        = menuFichier->addAction(tr("Ouvrir et masquer plan"));
-        actionOuvrirScenario         = menuFichier->addAction(tr("Ouvrir scénario"));
-        actionOuvrirImage                 = menuFichier->addAction(tr("Ouvrir image"));
-        actionOuvrirNotes                = menuFichier->addAction(tr("Ouvrir notes"));
+        actionOuvrirPlan                 = menuFichier->addAction(tr("Open Map"));
+        actionOuvrirEtMasquerPlan        = menuFichier->addAction(tr("Open And hide Map"));
+        actionOuvrirScenario         = menuFichier->addAction(tr("Open scenario"));
+        actionOuvrirImage                 = menuFichier->addAction(tr("Open Picture"));
+        actionOuvrirNotes                = menuFichier->addAction(tr("Open Minutes"));
         menuFichier->addSeparator();
-        actionFermerPlan                 = menuFichier->addAction(tr("Fermer plan/image"));
+        actionFermerPlan                 = menuFichier->addAction(tr("Close Map/Picture"));
         menuFichier->addSeparator();
-        actionSauvegarderPlan        = menuFichier->addAction(tr("Sauvegarder plan"));
-        actionSauvegarderScenario        = menuFichier->addAction(tr("Sauvegarder scénario"));
-        actionSauvegarderNotes           = menuFichier->addAction(tr("Sauvegarder notes"));
+        actionSauvegarderPlan        = menuFichier->addAction(tr("Save Map"));
+        actionSauvegarderScenario        = menuFichier->addAction(tr("Save scenario"));
+        actionSauvegarderNotes           = menuFichier->addAction(tr("Save Minutes"));
         menuFichier->addSeparator();
-        actionPreferences                = menuFichier->addAction(tr("Préférences"));
+        actionPreferences                = menuFichier->addAction(tr("Preferences"));
         menuFichier->addSeparator();
-        actionQuitter                = menuFichier->addAction(tr("Quitter"));
+        actionQuitter                = menuFichier->addAction(tr("Quit"));
 
         // Creation du menu Affichage
-        QMenu *menuAffichage = new QMenu (tr("Affichage"), barreMenus);
-        actionAfficherNomsPj         = menuAffichage->addAction(tr("Afficher noms PJ"));
-        actionAfficherNomsPnj        = menuAffichage->addAction(tr("Afficher noms PNJ"));
-        actionAfficherNumerosPnj         = menuAffichage->addAction(tr("Afficher numros PNJ"));
+        QMenu *menuAffichage = new QMenu (tr("View"), barreMenus);
+        actionAfficherNomsPj         = menuAffichage->addAction(tr("Display PC names"));
+        actionAfficherNomsPnj        = menuAffichage->addAction(tr("Display NPC names"));
+        actionAfficherNumerosPnj         = menuAffichage->addAction(tr("Display NPC number"));
         /*
                 // Creation du sous-menu Grille
                 QMenu *sousMenuGrille = new QMenu (tr("Grille"), barreMenus);
@@ -348,12 +348,12 @@ void MainWindow::creerMenu()
                 actionSansGrille        ->setChecked(true);
         */
         // Creation du menu Fenetre
-        menuFenetre = new QMenu (tr("Fenêtre"), barreMenus);
+        menuFenetre = new QMenu (tr("Sub-Windows"), barreMenus);
 
         // Creation du sous-menu Reorganiser
-        QMenu *sousMenuReorganise        = new QMenu (tr("Réorganiser"), barreMenus);
+        QMenu *sousMenuReorganise        = new QMenu (tr("Reorganize"), barreMenus);
         actionCascade                = sousMenuReorganise->addAction(tr("Cascade"));
-        actionTuiles                 = sousMenuReorganise->addAction(tr("Tuiles"));
+        actionTuiles                 = sousMenuReorganise->addAction(tr("Tile"));
         // Ajout du sous-menu Reorganiser au menu Fenetre
         menuFenetre->addMenu(sousMenuReorganise);
         menuFenetre->addSeparator();
@@ -369,7 +369,7 @@ void MainWindow::creerMenu()
         menuFenetre->addSeparator();
 
         // Ajout de l'action d'affichage de l'editeur de notes
-        actionEditeurNotes = menuFenetre->addAction(tr("Editeur de notes"));
+        actionEditeurNotes = menuFenetre->addAction(tr("Minutes Editor"));
         actionEditeurNotes->setCheckable(true);
         actionEditeurNotes->setChecked(false);
         // Connexion de l'action avec l'affichage/masquage de l'editeur de notes
@@ -379,10 +379,10 @@ void MainWindow::creerMenu()
         menuFenetre->addMenu(m_chatListWidget->chatMenu());
 
         // Creation du menu Aide
-        QMenu *menuAide = new QMenu (tr("Aide"), barreMenus);
-        actionAideLogiciel = menuAide->addAction(tr("Aide sur") + " " + NOM_APPLICATION);
+        QMenu *menuAide = new QMenu (tr("Help"), barreMenus);
+        actionAideLogiciel = menuAide->addAction(tr("Help about %1").arg(NOM_APPLICATION));
         menuAide->addSeparator();
-        actionAPropos = menuAide->addAction(tr("A propos de") + " " + NOM_APPLICATION);
+        actionAPropos = menuAide->addAction(tr("About %1").arg(NOM_APPLICATION));
 
         // Ajout des menus a la barre de menus
         barreMenus->addMenu(menuFichier);
@@ -548,7 +548,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
                 carte->pointeurEtatPnj();
                 break;
         default :
-                qWarning("Outil non dfini a la creation d'une fentre (ajouterCarte - MainWindow.cpp)");
+                qWarning("Unknown (ajouterCarte - MainWindow.cpp)");
                 break;
         }
         
@@ -634,8 +634,8 @@ void MainWindow::ouvrirEtMasquerPlan()
 void MainWindow::ouvrirPlan(bool masquer)
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, masquer?tr("Ouvrir et masquer un plan"):tr("Ouvrir un plan"), G_initialisation.dossierPlans,
-                                          tr("Plans (*.pla *.jpg *.jpeg *.png *.bmp)"));
+        QString fichier = QFileDialog::getOpenFileName(this, masquer?tr("Open and Hide Map"):tr("Open Map"), G_initialisation.dossierPlans,
+                                          tr("Map (*.pla *.jpg *.jpeg *.png *.bmp)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -643,9 +643,9 @@ void MainWindow::ouvrirPlan(bool masquer)
 
         // Creation de la boite d'alerte
         QMessageBox msgBox(this);
-        msgBox.addButton(tr("Annuler"), QMessageBox::RejectRole);
+        msgBox.addButton(QMessageBox::Cancel);
         msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setWindowTitle(tr("Erreur de chargement"));
+        msgBox.setWindowTitle(tr("Loading error"));
         msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
         // On supprime l'icone de la barre de titre
         Qt::WindowFlags flags = msgBox.windowFlags();
@@ -686,7 +686,7 @@ void MainWindow::ouvrirPlan(bool masquer)
                 // Verification du chargement de l'image
                 if (image.isNull())
                 {
-                        msgBox.setText(tr("Format de fichier incorrect"));
+                        msgBox.setText(tr("Unsupported file format"));
                         msgBox.exec();
                         return;
                 }
@@ -898,8 +898,8 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
 void MainWindow::ouvrirImage()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir une image"), G_initialisation.dossierImages,
-                                          tr("Images (*.jpg *.jpeg *.png *.bmp)"));
+        QString fichier = QFileDialog::getOpenFileName(this, tr("Open Picture"), G_initialisation.dossierImages,
+                                          tr("Picture (*.jpg *.jpeg *.png *.bmp)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -907,9 +907,9 @@ void MainWindow::ouvrirImage()
 
         // Creation de la boite d'alerte
         QMessageBox msgBox(this);
-        msgBox.addButton(tr("Annuler"), QMessageBox::RejectRole);
+        msgBox.addButton(QMessageBox::Cancel);
         msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setWindowTitle(tr("Erreur de chargement"));
+        msgBox.setWindowTitle(tr("Loading error"));
         msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
         // On supprime l'icone de la barre de titre
         Qt::WindowFlags flags = msgBox.windowFlags();
@@ -924,7 +924,7 @@ void MainWindow::ouvrirImage()
         // Verification du chargement de l'image
         if (img->isNull())
         {
-                msgBox.setText(tr("Format de fichier incorrect"));
+                msgBox.setText(tr("Unsupported file format"));
                 msgBox.exec();
                 delete img;
                 return;
@@ -934,7 +934,7 @@ void MainWindow::ouvrirImage()
         int dernierPoint = fichier.lastIndexOf(".");
         QString titre = fichier.left(dernierPoint);
         titre = titre.right(titre.length()-dernierSlash-1);
-        titre+= tr(" (Image)");
+        titre+= tr(" (Picture)");
 
         // Creation de l'action correspondante
         QAction *action = menuFenetre->addAction(titre);
@@ -1008,21 +1008,21 @@ void MainWindow::fermerPlanOuImage()
         // Ne devrait jamais arriver
         if (!active)
         {
-                qWarning("Action fermerPlan appelee alors qu'aucun widget n'est actif dans le workspace (fermerPlanOuImage - MainWindow.h)");
+                qWarning("Close map action called when no widget is active in the workspace (fermerPlanOuImage - MainWindow.h)");
                 return;
         }
 
         // On verifie pour le principe qu'il s'agit bien d'une CarteFenetre ou d'une Image
         if (active->objectName() != "CarteFenetre" && active->objectName() != "Image")
         {
-                qWarning("Demande de fermeture d'un widget qui n'est ni une CarteFenetre, ni une Image (fermerPlanOuImage - MainWindow.h)");
+                qWarning("not expected type of windows (fermerPlanOuImage - MainWindow.h)");
                 return;
         }
 
         // Creation de la boite d'alerte
         QMessageBox msgBox(this);
-        msgBox.addButton(tr("Fermer"), QMessageBox::AcceptRole);
-        msgBox.addButton(tr("Annuler"), QMessageBox::RejectRole);
+        msgBox.addButton(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::Cancel);
         msgBox.setIcon(QMessageBox::Information);
         msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
         // On supprime l'icone de la barre de titre
@@ -1031,18 +1031,18 @@ void MainWindow::fermerPlanOuImage()
         // M.a.j du titre et du message
         if (active->objectName() == "CarteFenetre")
         {
-                msgBox.setWindowTitle(tr("Fermer plan"));
-                msgBox.setText(tr("Voulez-vous vraiment fermer ce plan?\nCelui-ci sera également fermé chez tous\nles autres utilisateurs"));
+                msgBox.setWindowTitle(tr("Close Map"));
+                msgBox.setText(tr("Do you want to clos this map?\nIt will be closed for everybody"));
         }
         else
         {
-                msgBox.setWindowTitle(tr("Fermer image"));
-                msgBox.setText(tr("Voulez-vous vraiment fermer cette image?\nCelle-ci sera également fermée chez tous\nles autres utilisateurs"));
+                msgBox.setWindowTitle(tr("Close Picture"));
+                msgBox.setText(tr("Do you want to clos this picture?\nIt will be closed for everybody"));
         }
         msgBox.exec();
 
         // Si l'utilisateur n'a pas clique sur "Fermer", on quitte
-        if (msgBox.result() != QMessageBox::AcceptRole)
+        if (msgBox.result() != QMessageBox::YesRole)
                 return;
 
         // Emission de la demande de fermeture de la carte
@@ -1340,8 +1340,8 @@ void MainWindow::quitterApplication(bool perteConnexion)
 {
         // Creation de la boite d'alerte
         QMessageBox msgBox(this);
-        QAbstractButton *boutonSauvegarder         = msgBox.addButton(tr("Sauvegarder"), QMessageBox::YesRole);
-        QAbstractButton *boutonQuitter                 = msgBox.addButton(tr("Quitter"), QMessageBox::AcceptRole);
+        QAbstractButton *boutonSauvegarder         = msgBox.addButton(QMessageBox::Save);
+        QAbstractButton *boutonQuitter                 = msgBox.addButton(tr("Quit"), QMessageBox::RejectRole);
         //msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
         // On supprime l'icone de la barre de titre
         Qt::WindowFlags flags = msgBox.windowFlags();
@@ -1353,29 +1353,29 @@ void MainWindow::quitterApplication(bool perteConnexion)
         // S'il s'agit d'une perte de connexion
         if (perteConnexion)
         {
-                message = tr("La connexion avec le serveur a été perdue, ") + NOM_APPLICATION + tr(" va être fermé\n");
+                message = tr("Connection has been lost. %1 will be close").arg(NOM_APPLICATION);
                 // Icone de la fenetre
                 msgBox.setIcon(QMessageBox::Critical);
                 // M.a.j du titre et du message
-                msgBox.setWindowTitle(tr("Perte de connexion"));
+                msgBox.setWindowTitle(tr("Connection lost"));
         }
         else
         {
                 // Icone de la fenetre
                 msgBox.setIcon(QMessageBox::Information);
                 // Ajout d'un bouton
-                msgBox.addButton(tr("Annuler"), QMessageBox::RejectRole);
+                msgBox.addButton(QMessageBox::Cancel);
                 // M.a.j du titre et du message
-                msgBox.setWindowTitle(tr("Quitter ") + NOM_APPLICATION);
+                msgBox.setWindowTitle(tr("Quit %1 ").arg(NOM_APPLICATION));
         }
 
         // Si l'utilisateur est un joueur
         if (!PlayersList::instance().localPlayer()->isGM())
-                message += tr("Voulez-vous sauvegarder vos notes avant de quitter l'application?");
+                message += tr("Do you want to save your minutes before to quit %1?").arg(NOM_APPLICATION);
 
         // Si l'utilisateut est un MJ
         else
-                message += tr("Voulez-vous sauvegarder le scénario avant de quitter l'application?");
+                message += tr("Do you want to save your scenario before to quit %1?").arg(NOM_APPLICATION);
 
         //M.a.j du message de la boite de dialogue
         msgBox.setText(message);
@@ -1522,12 +1522,12 @@ void MainWindow::sauvegarderPlan()
         // On verifie pour le principe qu'il s'agit bien d'une CarteFenetre
         if (active->objectName() != "CarteFenetre")
         {
-                qWarning("Demande de sauvegarde d'un plan qui n'est pas une CarteFenetre (sauvegarderPlan - MainWindow.h)");
+                qWarning("Not a map (sauvegarderPlan - MainWindow.h)");
                 return;
         }
 
         // Ouverture du selecteur de fichiers
-        QString fichier = QFileDialog::getSaveFileName(this, tr("Sauvegarder un plan"), G_initialisation.dossierPlans, tr("Plans (*.pla)"));
+        QString fichier = QFileDialog::getSaveFileName(this, tr("Save Map"), G_initialisation.dossierPlans, tr("Map (*.pla)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -1547,7 +1547,7 @@ void MainWindow::sauvegarderPlan()
         // Ouverture du fichier en ecriture seule
         if (!file.open(QIODevice::WriteOnly))
         {
-                qWarning("Probleme a l'ouverture du fichier (sauvegarderPlan - MainWindow.cpp)");
+                qWarning("could not open file for writting (sauvegarderPlan - MainWindow.cpp)");
                 return;
         }
         QDataStream out(&file);
@@ -1608,7 +1608,7 @@ void MainWindow::afficherEditeurNotes(bool afficher, bool cocherAction)
 void MainWindow::ouvrirNotes()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir notes"), G_initialisation.dossierNotes, tr("Documents HTML (*.htm *.html)"));
+        QString fichier = QFileDialog::getOpenFileName(this, tr("Open Minutes"), G_initialisation.dossierNotes, tr("Html Documents (*.htm *.html)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -1641,7 +1641,7 @@ void MainWindow::ouvrirNotes()
 bool MainWindow::sauvegarderNotes()
 {
         // Ouverture du selecteur de fichiers
-        QString fichier = QFileDialog::getSaveFileName(this, tr("Sauvegarder notes"), G_initialisation.dossierNotes, tr("Documents HTML (*.htm *.html)"));
+        QString fichier = QFileDialog::getSaveFileName(this, tr("Save Minutes"), G_initialisation.dossierNotes, tr("HTML Documents (*.htm *.html)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -1661,7 +1661,7 @@ bool MainWindow::sauvegarderNotes()
         // Ouverture du fichier en ecriture seule
         if (!file.open(QIODevice::WriteOnly))
         {
-                qWarning("Probleme a l'ouverture du fichier (sauvegarderNotes - MainWindow.cpp)");
+                qWarning("cannot be open (sauvegarderNotes - MainWindow.cpp)");
                 return false;
         }
         QDataStream in(&file);
@@ -1680,7 +1680,7 @@ bool MainWindow::sauvegarderNotes()
 void MainWindow::ouvrirScenario()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir scénario"), G_initialisation.dossierScenarii, tr("Scénarios (*.sce)"));
+        QString fichier = QFileDialog::getOpenFileName(this, tr("Open scenario"), G_initialisation.dossierScenarii, tr("Scenarios (*.sce)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -1695,7 +1695,7 @@ void MainWindow::ouvrirScenario()
         // Ouverture du fichier en lecture seule
         if (!file.open(QIODevice::ReadOnly))
         {
-                qWarning("Probleme a l'ouverture du fichier (ouvrirScenario - MainWindow.cpp)");
+                qWarning("Cannot be read (ouvrirScenario - MainWindow.cpp)");
                 return;
         }
         QDataStream in(&file);
@@ -1733,7 +1733,7 @@ void MainWindow::ouvrirScenario()
 bool MainWindow::sauvegarderScenario()
 {
         // Ouverture du selecteur de fichiers
-        QString filename = QFileDialog::getSaveFileName(this, tr("Sauvegarder scénario"), G_initialisation.dossierScenarii, tr("Scénarios (*.sce)"));
+        QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenarios"), G_initialisation.dossierScenarii, tr("Scenarios (*.sce)"));
 
 
         if (filename.isNull())
@@ -1752,7 +1752,7 @@ bool MainWindow::sauvegarderScenario()
         // Ouverture du fichier en ecriture seule
         if (!file.open(QIODevice::WriteOnly))
         {
-                qWarning("Probleme a l'ouverture du fichier (sauvegarderScenario - MainWindow.cpp)");
+                qWarning("cannot be open (sauvegarderScenario - MainWindow.cpp)");
                 return false;
         }
 
@@ -1979,9 +1979,8 @@ void MainWindow::aideEnLigne()
                 {
                     QMessageBox * msgBox = new QMessageBox(
                             QMessageBox::Information,
-                            tr("Aide"),
-                            tr("L'aide de rolisteam se trouve sur le web :<br>\
-                                <a href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>"),
+                            tr("Help"),
+                            tr("Documentation of %1 can be found online at :<br> <a href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>").arg(NOM_APPLICATION),
                             QMessageBox::Ok
                             );
                     msgBox->exec();
@@ -2051,10 +2050,10 @@ void MainWindow::writeSettings()
 
 void MainWindow::notifyAboutAddedPlayer(Player * player) const
 {
-    ecrireLogUtilisateur(tr("%1 vient de rejoindre la partie.").arg(player->name()));
+    ecrireLogUtilisateur(tr("%1 just joins the game.").arg(player->name()));
 }
 
 void MainWindow::notifyAboutDeletedPlayer(Player * player) const
 {
-    ecrireLogUtilisateur(tr("%1 vient de quitter la partie.").arg(player->name()));
+    ecrireLogUtilisateur(tr("%1 just leaves the game.").arg(player->name()));
 }

@@ -1031,12 +1031,12 @@ void Carte::actionPnjBoutonRelache(QPoint positionSouris)
             QMessageBox msgBox(this);
             msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
             msgBox.setIcon(QMessageBox::Warning);
-            msgBox.setWindowTitle(tr("Couleur inadaptée"));
+            msgBox.setWindowTitle(tr("Inappropriate Color"));
             // On supprime l'icone de la barre de titre
             Qt::WindowFlags flags = msgBox.windowFlags();
             msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
             // On met a jour le message et on ouvre la boite d'alerte
-            msgBox.setText(tr("Il est impossible d'ajouter un PNJ lorsque\nl'une des couleurs spéciales est sélectionnée."));
+            msgBox.setText(tr("You can not select this color because\n It's a special color."));
             msgBox.exec();
         }
     }

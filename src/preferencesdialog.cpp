@@ -75,7 +75,7 @@ QString DirChooser::dirName() const
 void DirChooser::browse()
 {
     QString result = QFileDialog::getExistingDirectory(this,
-            tr("Choisir le dossier"),
+            tr("Select directory"),
             m_lineEdit->text(),
             QFileDialog::ShowDirsOnly );
     if (!result.isEmpty())
@@ -106,14 +106,14 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     // Form layout
     QFormLayout * formLayout = new QFormLayout;
 #ifndef NULL_PLAYER
-    formLayout->addRow(tr("Dossier des musiques (MJ) : "), m_gmMusicDir);
-    formLayout->addRow(tr("Dossier des musiques (Joueur) : "), m_playerMusicDir);
+    formLayout->addRow(tr("Music directory (GM) : "), m_gmMusicDir);
+    formLayout->addRow(tr("Music directory (Player) : "), m_playerMusicDir);
 #endif
-    formLayout->addRow(tr("Dossier des images : "), m_picturesDir);
-    formLayout->addRow(tr("Dossier des cartes : "), m_mapsDir);
-    formLayout->addRow(tr("Dossier des scénarios : "), m_sessionsDir);
-    formLayout->addRow(tr("Dossier des notes : "), m_notesDir);
-    formLayout->addRow(tr("Dossier de sauvegarde des tchats : "), m_chatsDir);
+    formLayout->addRow(tr("Picture directory : "), m_picturesDir);
+    formLayout->addRow(tr("Map directory : "), m_mapsDir);
+    formLayout->addRow(tr("Scenario directory : "), m_sessionsDir);
+    formLayout->addRow(tr("Minutes directory : "), m_notesDir);
+    formLayout->addRow(tr("Chat conversation : "), m_chatsDir);
 
     // Buttons
     QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -131,7 +131,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
     // Misc
     setSizeGripEnabled(true);
-    setWindowTitle(QString("%1 - %2").arg(QString(NOM_APPLICATION),tr("Préférences")));
+    setWindowTitle(QString("%1 - %2").arg(QString(NOM_APPLICATION),tr("Preferences")));
     setWindowModality(Qt::ApplicationModal);
 }
 

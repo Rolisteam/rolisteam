@@ -86,7 +86,7 @@ void LecteurAudio::onfinished()
 
 void LecteurAudio::setupUi()
 {
-        setWindowTitle(tr("Musiques d'ambiance"));
+        setWindowTitle(tr("Background Music"));
         setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
         setFeatures(QDockWidget::AllDockWidgetFeatures);
         setMinimumWidth(255);
@@ -108,7 +108,7 @@ void LecteurAudio::setupUi()
         layoutAffichage->addWidget(afficheurTitre);
         if (G_joueur)
         {
-                QAction *actionChangerDossier = new QAction(QIcon(":/resources/icones/dossier.png"), tr("Choisir le répertoire de stockage des musiques"), widgetAffichage);
+                QAction *actionChangerDossier = new QAction(QIcon(":/resources/icones/dossier.png"), tr("Select the directory contening all music files"), widgetAffichage);
                 QToolButton *boutonChangerDossier = new QToolButton(widgetAffichage);
                 boutonChangerDossier->setDefaultAction(actionChangerDossier);
                 boutonChangerDossier->setFixedSize(20, 20);
@@ -147,12 +147,12 @@ void LecteurAudio::setupUi()
         layoutBoutons->setMargin(0);
         layoutBoutons->setSpacing(0);
 
-        actionBoucle	= new QAction(QIcon(":/resources/icones/boucle.png"), tr("Lecture en boucle"), widgetCommande);
-        actionUnique	= new QAction(QIcon(":/resources/icones/lecture unique.png"), tr("Lecture unique"), widgetCommande);
-        actionAjouter 	= new QAction(tr("Ajouter"), widgetCommande);
-        actionSupprimer	= new QAction(tr("Supprimer"), widgetCommande);
+        actionBoucle	= new QAction(QIcon(":/resources/icones/boucle.png"), tr("Loop"), widgetCommande);
+        actionUnique	= new QAction(QIcon(":/resources/icones/lecture unique.png"), tr("Single shot"), widgetCommande);
+        actionAjouter 	= new QAction(tr("Add"), widgetCommande);
+        actionSupprimer	= new QAction(tr("Remove"), widgetCommande);
 
-        actionLecture = new QAction(style()->standardIcon(QStyle::SP_MediaPlay), tr("Lecture"), this);
+        actionLecture = new QAction(style()->standardIcon(QStyle::SP_MediaPlay), tr("Play"), this);
         actionLecture->setShortcut(Qt::Key_Space);
         actionLecture->setDisabled(true);
         actionPause = new QAction(style()->standardIcon(QStyle::SP_MediaPause), tr("Pause"), this);
@@ -160,8 +160,8 @@ void LecteurAudio::setupUi()
         actionStop = new QAction(style()->standardIcon(QStyle::SP_MediaStop), tr("Stop"), this);
         actionStop->setDisabled(true);
 
-        actionAjouter->setToolTip(tr("Ajouter un titre Ã  la liste"));
-        actionSupprimer->setToolTip(tr("Supprimer le titre sÃ©lectionnÃ©"));
+        actionAjouter->setToolTip(tr("Add song to the list"));
+        actionSupprimer->setToolTip(tr("Remove selected file"));
         actionLecture->setCheckable(true);
         actionPause->setCheckable(true);
         actionBoucle->setCheckable(true);
@@ -338,7 +338,7 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
 }
 void LecteurAudio::playerWidget()
 {
-                afficheurTitre->setToolTip(tr("Aucun titre"));
+                afficheurTitre->setToolTip(tr("No songs"));
                 widgetCommande->hide();
                 QWidget *separateur3 = new QWidget();
                 separateur3->setFixedHeight(2);
@@ -367,14 +367,14 @@ void LecteurAudio::updatePlayingMode()
         m_currentPlayingMode=NEXT;
 
 
-    qDebug()<< "mode playing =" <<m_currentPlayingMode;
+
 
 }
 void LecteurAudio::addFiles()
 {
 
-        QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Ajouter un titre"), G_initialisation.dossierMusiquesMj, tr("Fichiers audio (*.wav *.mp2 *.mp3 *.ogg *.flac)"));
-        qDebug() << "ajouterTitre" << listeFichiers;
+        QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Add song"), G_initialisation.dossierMusiquesMj, tr("Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)"));
+
         if (listeFichiers.isEmpty())
                 return;
         int dernierSlash = listeFichiers[0].lastIndexOf("/");
@@ -388,7 +388,7 @@ void LecteurAudio::addFiles()
 
                 if (listeChemins.isEmpty())
                 {
-                        qDebug() << "emettre ajouter titre=" << titre;
+
                         emettreCommande(nouveauMorceau, titre);
 
                         // On active tous les boutons
@@ -600,7 +600,7 @@ void LecteurAudio::pselectNewFile(QString file)
     {
         qDebug() << " file vide= " << m_currentFile;
         afficheurTitre->clear();
-        afficheurTitre->setToolTip(tr("Aucun titre"));
+        afficheurTitre->setToolTip(tr("No songs"));
         mediaObject->stop();
     }
     else
@@ -612,12 +612,12 @@ void LecteurAudio::pselectNewFile(QString file)
         QFileInfo fileInfo(path);
         if (!fileInfo.exists())
         {
-                    qDebug() << " file existe pas = " << path;
+
             QPalette palette(afficheurTitre->palette());
             palette.setColor(QPalette::Normal, QPalette::Text, Qt::red);
             afficheurTitre->setPalette(palette);
-            afficheurTitre->setText(tr("%1 : fichier introuvable ou impossible  ouvrir").arg(file));
-            afficheurTitre->setToolTip(tr("Fichier introuvable ou impossible  ouvrir : %1").arg(path));
+            afficheurTitre->setText(tr("%1 : file can not be found or opened").arg(file));
+            afficheurTitre->setToolTip(tr("File can not be found or opened : %1").arg(path));
         }
         else
         {
@@ -645,7 +645,7 @@ void LecteurAudio::pseek(quint32 position)
 void LecteurAudio::pChangeDirectory()
 {
 
-        G_initialisation.dossierMusiquesMj = QFileDialog::getExistingDirectory(0 , tr("Choix du répertoire des musiques"), G_initialisation.dossierMusiquesMj,
+        G_initialisation.dossierMusiquesMj = QFileDialog::getExistingDirectory(0 , tr("Select the songs directory"), G_initialisation.dossierMusiquesMj,
         QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
 }
 

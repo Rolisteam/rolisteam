@@ -56,8 +56,8 @@ void PersonDialog::setUI()
     m_color_w = new ColorButton(QColor("white"), this);
 
     QFormLayout * formLayout = new QFormLayout;
-    formLayout->addRow(tr("&Nom : "), m_name_w);
-    formLayout->addRow(tr("&Couleur : "), m_color_w);
+    formLayout->addRow(tr("&Name : "), m_name_w);
+    formLayout->addRow(tr("&Color : "), m_color_w);
 
     QPushButton* okButton = new QPushButton(tr("OK"));
     okButton->setDefault(true);

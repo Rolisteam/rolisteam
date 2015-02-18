@@ -222,7 +222,7 @@ void Liaison::receptionMessageConnexion()
     if (entete.action == finProcessusConnexion)
     {
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Fin du processus de connexion"));
+        ecrireLogUtilisateur(tr("End of the connection process"));
         // On met a jour l'espace de travail
         G_mainWindow->mettreAJourEspaceTravail();
     }
@@ -981,7 +981,7 @@ void Liaison::receptionMessagePlan()
         G_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Nouveau plan: %1").arg(titre));
+        ecrireLogUtilisateur(tr("New map: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1040,7 +1040,7 @@ void Liaison::receptionMessagePlan()
         G_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Réception du plan: %1").arg(titre));
+        ecrireLogUtilisateur(tr("Receiving map: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1126,7 +1126,7 @@ void Liaison::receptionMessagePlan()
         G_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Réception du plan: %1").arg(titre));
+        ecrireLogUtilisateur(tr("Receiving map: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1158,7 +1158,7 @@ void Liaison::receptionMessagePlan()
         else
         {
             // Message sur le log utilisateur
-            ecrireLogUtilisateur(tr("Le plan %1 vient d'être fermé par le MJ").arg(carteFenetre->windowTitle()));
+            ecrireLogUtilisateur(tr("The map %1 has been closed by the GM").arg(carteFenetre->windowTitle()));
             // Suppression du plan
             carteFenetre->~CarteFenetre();
         }
@@ -1223,7 +1223,7 @@ void Liaison::receptionMessageImage()
         QImage *img = new QImage;
         bool ok = img->loadFromData(byteArray, "jpeg");
         if (!ok)
-            qWarning("Probleme de decompression de l'image (receptionMessageImage - Liaison.cpp)");
+            qWarning("Cannot read received image (receptionMessageImage - Liaison.cpp)");
 
         // Creation de l'Image
         Image *imageFenetre = new Image(idImage, idJoueur, img);
@@ -1231,7 +1231,7 @@ void Liaison::receptionMessageImage()
         G_mainWindow->ajouterImage(imageFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Réception de l'image %1").arg(titre.left(titre.size()-QString(tr(" (Image)")).size())));
+        ecrireLogUtilisateur(tr("Receiving picture: %1").arg(titre.left(titre.size()-QString(tr(" (Image)")).size())));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1265,7 +1265,7 @@ void Liaison::receptionMessageImage()
         {
             // Message sur le log utilisateur
             QString titre = imageFenetre->windowTitle();
-            ecrireLogUtilisateur(tr("L'image \"%1\" a été fermée.").arg(titre.left(titre.size() - QString(tr(" (Image)")).size())));
+            ecrireLogUtilisateur(tr("Picture \"%1\" has been closed").arg(titre.left(titre.size() - QString(tr(" (Image)")).size())));
             // Suppression de l'image
             imageFenetre->~Image();
         }

@@ -210,7 +210,7 @@ PlayersListWidget::PlayersListWidget(QWidget * parent)
 {
     setAllowedAreas(Qt::AllDockWidgetAreas);
 	setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-    setWindowTitle(tr("Joueurs"));
+    setWindowTitle(tr("Player"));
     setObjectName("PlayersListWidget");
 
     setUI();
@@ -235,7 +235,7 @@ void PlayersListWidget::editIndex(const QModelIndex & index)
     if (!g_playersList.isLocal(person))
         return;
 
-    if (m_personDialog->edit(tr("Editer"), person->name(), person->color()) == QDialog::Accepted)
+    if (m_personDialog->edit(tr("Edit"), person->name(), person->color()) == QDialog::Accepted)
     {
         g_playersList.changeLocalPerson(person, m_personDialog->getName(), m_personDialog->getColor());
     }
@@ -246,7 +246,7 @@ void PlayersListWidget::createLocalCharacter()
     PlayersList & g_playersList = PlayersList::instance();
     Player * localPlayer = g_playersList.localPlayer();
 
-    if (m_personDialog->edit(tr("Nouveau personnage"), tr("Nouveau personnage"), localPlayer->color()) == QDialog::Accepted)
+    if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->color()) == QDialog::Accepted)
     {
         g_playersList.addLocalCharacter(new Character(m_personDialog->getName(), m_personDialog->getColor()));
     }
@@ -287,11 +287,11 @@ void PlayersListWidget::setUI()
     playersListView->setIconSize(QSize(28,20));
 
     // Add PJ button
-    QString what = (PlayersList::instance().localPlayer()->isGM() ? tr("PNJ") : tr("PJ"));
-    QPushButton * addPlayerButton = new QPushButton(tr("Ajouter un %1").arg(what), centralWidget);
+    QString what = (PlayersList::instance().localPlayer()->isGM() ? tr("NPC") : tr("PC"));
+    QPushButton * addPlayerButton = new QPushButton(tr("Add a %1").arg(what), centralWidget);
 
     // Del PJ buttun
-    m_delButton = new QPushButton(tr("Supprimer le %1").arg(what), centralWidget);
+    m_delButton = new QPushButton(tr("Remove %1").arg(what), centralWidget);
     m_delButton->setEnabled(false);
 
     // Button layout

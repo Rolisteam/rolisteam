@@ -68,15 +68,15 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
 	
 	// Selecteur de titre
 	QHBoxLayout *layoutTitre = new QHBoxLayout();
-	QLabel *titreLabel = new QLabel(tr("Titre"));
+        QLabel *titreLabel = new QLabel(tr("Title"));
 	titrePlan = new QLineEdit();
-	titrePlan->setToolTip(tr("Entrez l'intitulé du plan"));
+        titrePlan->setToolTip(tr("Type the map title"));
 	layoutTitre->addWidget(titreLabel);
 	layoutTitre->addWidget(titrePlan);
 	
 	// Selecteur de couleur
 	QHBoxLayout *layoutCouleur = new QHBoxLayout();
-	QLabel *couleurLabel = new QLabel(tr("Couleur du fond"));
+        QLabel *couleurLabel = new QLabel(tr("background Color"));
 	couleurFond = new QPushButton();
 	couleurFond->setFlat(true);
 	couleurFond->setDefault(false);
@@ -84,7 +84,7 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
 	couleurFond->setStyle(new QPlastiqueStyle());
 	couleurFond->setFixedSize(25,15);
 	couleurFond->setPalette(QPalette(Qt::white));
-	couleurFond->setToolTip(tr("Choisissez une couleur de fond"));
+        couleurFond->setToolTip(tr("Select background Color"));
 	couleurFond->setAutoFillBackground(true);
 	#ifdef WIN32
 		couleurFond->setFixedSize(25,15);
@@ -101,9 +101,9 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
 	// Selecteur de format
 	groupeFormat = new QGroupBox(tr("Format"));
 	// Creation des boutons
-        QRadioButton *boutonPaysage = new QRadioButton(tr("Paysage"));
+        QRadioButton *boutonPaysage = new QRadioButton(tr("Landscape"));
         QRadioButton *boutonPortrait = new QRadioButton(tr("Portrait"));
-        QRadioButton *boutonCarre = new QRadioButton(tr("Carré"));
+        QRadioButton *boutonCarre = new QRadioButton(tr("Square"));
 	// Creation du groupe de boutons
 	QButtonGroup *groupeBoutonsFormat = new QButtonGroup();
 	groupeBoutonsFormat->addButton(boutonPaysage);
@@ -129,13 +129,13 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
 	layoutGauche->addWidget(groupeFormat);
 
 	// Creation du selecteur de taille
-	groupeTaille = new QGroupBox(tr("Dimensions (en pixels)"));
+        groupeTaille = new QGroupBox(tr("Size (in pixels)"));
 	// Creation des boutons
 	boutonPetitPlan = new QRadioButton();
 	boutonMoyenPlan = new QRadioButton();
 	boutonGrandPlan = new QRadioButton();
 	boutonTresGrandPlan = new QRadioButton();
-	boutonPersonnalise = new QRadioButton(tr("Personnalisé"));
+        boutonPersonnalise = new QRadioButton(tr("Customize"));
 	// On met a jour l'intitule des boutons de dimensions
 	majIntitulesBoutons();
 	// Creation du groupe de boutons
@@ -156,10 +156,10 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
 	QObject::connect(groupeBoutonsTaille, SIGNAL(buttonClicked(int)), this, SLOT(changementDimensions(int)));
 	// Creation de la zone de personnalisation de la taille
 	taillePersonnalisee = new QWidget();
-	QLabel *labelLargeur = new QLabel(tr("Largeur"));
+        QLabel *labelLargeur = new QLabel(tr("Width"));
 	largeurPlan = new QLineEdit();
 	largeurPlan->setMaxLength(5);
-	QLabel *labelHauteur = new QLabel(tr("Hauteur"));
+        QLabel *labelHauteur = new QLabel(tr("Height"));
 	hauteurPlan = new QLineEdit();
 	hauteurPlan->setMaxLength(5);
 	#ifdef WIN32
@@ -197,7 +197,7 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
 
 	// Creation des boutons de validation
 	QPushButton *boutonOK = new QPushButton(tr("OK"));
-	QPushButton *boutonAnnuler = new QPushButton(tr("Annuler"));
+        QPushButton *boutonAnnuler = new QPushButton(tr("Cancel"));
 	boutonOK->setFixedWidth(80);
 	boutonAnnuler->setFixedWidth(80);
 	boutonOK->setDefault(true);
@@ -215,7 +215,7 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
 	layoutPrincipal->addLayout(layoutBoutons);
 
 	// M.a.j du titre de la fenetre
-	setWindowTitle(tr("Nouveau plan vide"));
+        setWindowTitle(tr("New empty Map"));
 	// On bloque la souris et le clavier sur cette fenetre
 	setModal(true);
 	// On fixe les dimensions de la fenetre
@@ -268,10 +268,10 @@ void NouveauPlanVide::changementFormat(int bouton)
 /********************************************************************/	
 void NouveauPlanVide::majIntitulesBoutons()
 {
-	boutonPetitPlan->setText(tr("Petit (") + QString::number(largeur[format][0]) + " x " + QString::number(hauteur[format][0]) + ")");
-	boutonMoyenPlan->setText(tr("Moyen (") + QString::number(largeur[format][1]) + " x " + QString::number(hauteur[format][1]) + ")");
-	boutonGrandPlan->setText(tr("Grand (") + QString::number(largeur[format][2]) + " x " + QString::number(hauteur[format][2]) + ")");
-	boutonTresGrandPlan->setText(tr("Très grand (") + QString::number(largeur[format][3]) + " x " + QString::number(hauteur[format][3]) + ")");		
+        boutonPetitPlan->setText(tr("Small (%1 x %2)").arg(largeur[format][0]).arg(hauteur[format][0]));
+        boutonMoyenPlan->setText(tr("Middle (%1 x %2)").arg(largeur[format][1]).arg(hauteur[format][1]));// + QString::number(largeur[format][1]) + " x " + QString::number(hauteur[format][1]) + ")");
+        boutonGrandPlan->setText(tr("Large (%1 x %2)").arg(largeur[format][2]).arg(hauteur[format][2]));// + QString::number(largeur[format][2]) + " x " + QString::number(hauteur[format][2]) + ")");
+        boutonTresGrandPlan->setText(tr("Huge (%1 x %2)").arg(largeur[format][3]).arg(hauteur[format][3])); //+ QString::number(largeur[format][3]) + " x " + QString::number(hauteur[format][3]) + ")");
 }
 
 /********************************************************************/	
@@ -317,14 +317,14 @@ void NouveauPlanVide::validerDimensions()
 		{
 			// Creation de la boite d'alerte
 			QMessageBox msgBox(this);
-			msgBox.addButton(tr("Annuler"), QMessageBox::RejectRole);
+                        msgBox.addButton(QMessageBox::Cancel);
 			msgBox.setIcon(QMessageBox::Critical);
-			msgBox.setWindowTitle(tr("Paramètre invalide"));
+                        msgBox.setWindowTitle(tr("Invalid parameter"));
 			msgBox.move(pos() + QPoint(50,100));
 			// On supprime l'icone de la barre de titre
 			Qt::WindowFlags flags = msgBox.windowFlags();
 			msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
-			msgBox.setText(tr("La hauteur et la largeur doivent\nêtre compris entre 1 et 65535"));
+                        msgBox.setText(tr("The width and the height should be between 1 and 65535"));
 			msgBox.exec();
 
 			return;

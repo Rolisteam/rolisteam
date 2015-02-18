@@ -58,7 +58,7 @@ BarreOutils::BarreOutils(QWidget *parent)
 	: QDockWidget(parent), m_map(NULL)
 {
 	// Titre du dockWidget
-	setWindowTitle(tr("Outils"));
+        setWindowTitle(tr("Tools"));
         setObjectName("BarreOutils");
 	// Parametrage du dockWidget
         setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -128,21 +128,21 @@ void BarreOutils::creerActions()
 	QActionGroup *groupOutils = new QActionGroup(this);
 
 	// Creation des actions
-                actionCrayon 	= new QAction(QIcon(":/resources/icones/crayon.png"), tr("Crayon"), groupOutils);
-                actionLigne 	= new QAction(QIcon(":/resources/icones/ligne.png"), tr("Ligne"), groupOutils);
-                actionRectVide 	= new QAction(QIcon(":/resources/icones/rectangle vide.png"), tr("Rectangle vide"), groupOutils);
-                actionRectPlein	= new QAction(QIcon(":/resources/icones/rectangle plein.png"), tr("Rectangle plein"), groupOutils);
-                actionElliVide 	= new QAction(QIcon(":/resources/icones/ellipse vide.png"), tr("Ellipse vide"), groupOutils);
-                actionElliPlein	= new QAction(QIcon(":/resources/icones/ellipse pleine.png"), tr("Ellipse pleine"), groupOutils);
-                actionTexte 	= new QAction(QIcon(":/textevignette"), tr("Texte"), groupOutils);
-                actionMain		= new QAction(QIcon(":/resources/icones/main.png"), tr("Déplacer"), groupOutils);
-                actionAjoutPnj 	= new QAction(QIcon(":/resources/icones/ajouter PNJ.png"), tr("Ajouter un PNJ"), groupOutils);
-                actionSupprPnj 	= new QAction(QIcon(":/resources/icones/supprimer PNJ.png"), tr("Supprimer un PNJ"), groupOutils);
-                actionDeplacePnj= new QAction(QIcon(":/resources/icones/deplacer PNJ.png"), tr("Déplacer/Orienter un personnage"), groupOutils);
-                actionEtatPnj	= new QAction(QIcon(":/resources/icones/etat.png"), tr("Changer l'état d'un personnage"), groupOutils);
+                actionCrayon 	= new QAction(QIcon(":/resources/icones/crayon.png"), tr("Pen"), groupOutils);
+                actionLigne 	= new QAction(QIcon(":/resources/icones/ligne.png"), tr("Line"), groupOutils);
+                actionRectVide 	= new QAction(QIcon(":/resources/icones/rectangle vide.png"), tr("Empty Rectangle"), groupOutils);
+                actionRectPlein	= new QAction(QIcon(":/resources/icones/rectangle plein.png"), tr("filled Rectangle"), groupOutils);
+                actionElliVide 	= new QAction(QIcon(":/resources/icones/ellipse vide.png"), tr("Empty Ellipse"), groupOutils);
+                actionElliPlein	= new QAction(QIcon(":/resources/icones/ellipse pleine.png"), tr("Filled Ellipse"), groupOutils);
+                actionTexte 	= new QAction(QIcon(":/textevignette"), tr("Text"), groupOutils);
+                actionMain		= new QAction(QIcon(":/resources/icones/main.png"), tr("Move"), groupOutils);
+                actionAjoutPnj 	= new QAction(QIcon(":/resources/icones/ajouter PNJ.png"), tr("Add NPC"), groupOutils);
+                actionSupprPnj 	= new QAction(QIcon(":/resources/icones/supprimer PNJ.png"), tr("Remove NPC"), groupOutils);
+                actionDeplacePnj= new QAction(QIcon(":/resources/icones/deplacer PNJ.png"), tr("Move/Turn Character"), groupOutils);
+                actionEtatPnj	= new QAction(QIcon(":/resources/icones/etat.png"), tr("Change Character's State"), groupOutils);
 
 	// Action independante : remise a 0 des numeros de PNJ
-                actionRazChrono	= new QAction(QIcon(":/resources/icones/chronometre.png"), tr("RAZ numéros de PNJ"), this);
+                actionRazChrono	= new QAction(QIcon(":/resources/icones/chronometre.png"), tr("Reset NPC counter"), this);
 
 	// Les actions sont checkable
 	actionCrayon	->setCheckable(true);
@@ -266,10 +266,10 @@ void BarreOutils::creerOutils()
 
 	// Creation des zones de texte et de nom de PNJ
 	ligneDeTexte = new QLineEdit(outils);
-	ligneDeTexte->setToolTip(tr("Texte"));
+        ligneDeTexte->setToolTip(tr("Text"));
 
 	nomPnj = new QLineEdit(outils);
-	nomPnj->setToolTip(tr("Nom du PNJ"));
+        nomPnj->setToolTip(tr("NPC name"));
 
 	#ifdef MACOS
 		ligneDeTexte->setFixedHeight(22);
@@ -281,7 +281,7 @@ void BarreOutils::creerOutils()
 	afficheNumeroPnj->setSegmentStyle(QLCDNumber::Flat);
 	afficheNumeroPnj->setMaximumSize(TAILLE_ICONES + 7, TAILLE_ICONES);
 	afficheNumeroPnj->display(1);
-                afficheNumeroPnj->setToolTip(tr("Numéro de PNJ"));
+                afficheNumeroPnj->setToolTip(tr("NPC Number"));
 	// Initialisation de la variable globale indiquant le numero de PNJ courant
 	G_numeroPnjCourant = 1;
 	
@@ -306,20 +306,20 @@ void BarreOutils::creerOutils()
 	
 	// Creation du selecteur de diametre du trait
         diametreTrait = new SelecteurDiametre(outils, true, 1, 45);
-	diametreTrait->setToolTip(tr("Grosseur du trait"));
+        diametreTrait->setToolTip(tr("Line's Width"));
 
      /*   if(PlayersList::instance().localPlayer()->isGM())
         {*/
             // Creation du selecteur de diametre des PNJ
             diametrePnj = new SelecteurDiametre(outils, false, 12, 200);
-            diametrePnj->setToolTip(tr("Taille du PNJ"));
+            diametrePnj->setToolTip(tr("NPC Size"));
             connect(diametrePnj, SIGNAL(valueChanging(int)),this, SLOT(changeCharacterSize(int)));
             connect(diametrePnj, SIGNAL(valueChanged(int)),this, SLOT(sendNewCharacterSize(int)));
     //    }
     if(!PlayersList::instance().localPlayer()->isGM())
         diametrePnj->setVisible(false);
     /*m_pcDiameter = new SelecteurDiametre(outils, false, 2, 45);
-    m_pcDiameter->setToolTip(tr("Taille du PJ"));
+    m_pcDiameter->setToolTip(tr("PC size"));
 
     connect(m_pcDiameter, SIGNAL(valueChanging(int)),
             this, SLOT(changeCharacterSize(int)));

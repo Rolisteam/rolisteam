@@ -97,7 +97,7 @@ bool ClientServeur::configAndConnect()
     );
 
     ConnectionWaitDialog waitDialog;
-    QMessageBox errorDialog(QMessageBox::Warning, tr("Erreur"), tr("Impossible de se connecter"));
+    QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
     QTcpSocket * socket;
 
     PlayersList & g_playersList = PlayersList::instance();
