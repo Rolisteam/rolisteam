@@ -68,13 +68,7 @@ ClientServeur::ClientServeur()
     connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
     connect(m_dialog,SIGNAL(rejected()),this,SIGNAL(stopConnectionTry()));
 
-    m_configDialog = new ConnectionConfigDialog(
-                m_preferences->value("UserName",tr("UserName")).toString(),
-                m_preferences->value("UserColor",QColor(255,255,255)).value<QColor>(),
-                !m_preferences->value("isPlayer",true).toBool(),
-                m_preferences->value("ipaddress","").toString(),
-                m_preferences->value("ServerPort",6660).toInt(),
-                !m_preferences->value("isClient",true).toBool());
+
 
 }
 
@@ -109,7 +103,13 @@ void ClientServeur::synchronizePreferences()
 
 bool ClientServeur::configAndConnect()
 {
-
+    m_configDialog = new ConnectionConfigDialog(
+                m_preferences->value("UserName",tr("UserName")).toString(),
+                m_preferences->value("UserColor",QColor(255,255,255)).value<QColor>(),
+                !m_preferences->value("isPlayer",true).toBool(),
+                m_preferences->value("ipaddress","").toString(),
+                m_preferences->value("ServerPort",6660).toInt(),
+                !m_preferences->value("isClient",true).toBool());
 
 
     QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));

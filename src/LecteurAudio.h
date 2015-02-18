@@ -45,13 +45,18 @@
 
 
 #ifdef PHONON
-//#include <phonon>
-#include <mediasource.h>
+#include <Phonon/MediaSource>
+#include <Phonon/SeekSlider>
+#include <Phonon/MediaObject>
+#include <Phonon/AudioOutput>
+#include <Phonon/VolumeSlider>
+#include <Phonon/Path>
+/*#include <mediasource.h>
 #include <seekslider.h>
 #include <mediaobject.h>
 #include <volumeslider.h>
 #include <audiooutput.h>
-#include <path.h>
+#include <Phonon/Path>*/
 #endif
 
 #include "preferencesmanager.h"
@@ -82,6 +87,8 @@ public :
 
     void setSource(QString path);
 
+    void updateUi();
+
 signals :
 
 
@@ -91,7 +98,7 @@ private :
         */
     LecteurAudio(QWidget *parent = 0);
 
-    void updateUi();
+
 
     void playerWidget();
 
@@ -121,9 +128,9 @@ private :
     Phonon::VolumeSlider *niveauVolume;//!< @brief Allows to adjust the sound volume (Phonon only)
     Phonon::SeekSlider *m_timePosition;//!< @brief Allows to seek in the song (Phonon only)
 
-    QWidget *widgetPrincipal;        //!< @brief brings together all subwidget
-    QWidget *widgetAffichage;        //!< @brief Displays some gauges (for Player and GM.)
-    QWidget *widgetCommande;        //!< @brief Displays the control panel (GM only)
+    QWidget* m_mainWidget;        //!< @brief brings together all subwidget
+    QWidget* m_displayWidget;        //!< @brief Displays some gauges (for Player and GM.)
+    QWidget* m_commandWidget;        //!< @brief Displays the control panel (GM only)
     QVBoxLayout *layoutPrincipal;    //!< @brief layout
     QLineEdit *m_titleDisplay;        //!< @brief Displays the title of the played song
 
@@ -132,17 +139,17 @@ private :
     QListWidgetItem* m_formerItemFile;
 
 
-    QLCDNumber *m_timerDisplay;        //!< @brief displays the past time of the playing
-    QListWidget *m_songList;        //!< @brief displays all avaliable songs
+    QLCDNumber* m_timerDisplay;        //!< @brief displays the past time of the playing
+    QListWidget* m_songList;        //!< @brief displays all avaliable songs
     QList<QString> m_pathList;            //!< @brief Path list
     QActionGroup* m_playingMode;
-    QAction *m_playAction;            //!< @brief Play action
-    QAction *m_pauseAction;            //!< @brief Pause action
-    QAction *m_stopAction;            //!< @brief Stop action
-    QAction *m_loopAction;            //!< @brief loop playing action
-    QAction *m_uniqueAction;            //!< @brief one song playing mode action
-    QAction *m_addAction;            //!< @brief add song action
-    QAction *m_deleteAction;        //!< @brief remove song action
+    QAction* m_playAction;            //!< @brief Play action
+    QAction* m_pauseAction;            //!< @brief Pause action
+    QAction* m_stopAction;            //!< @brief Stop action
+    QAction* m_loopAction;            //!< @brief loop playing action
+    QAction* m_uniqueAction;            //!< @brief one song playing mode action
+    QAction* m_addAction;            //!< @brief add song action
+    QAction* m_deleteAction;        //!< @brief remove song action
 
 
     PlayingMode m_currentPlayingMode;

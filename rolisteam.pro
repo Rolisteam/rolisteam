@@ -1,3 +1,10 @@
+##################################################
+##
+## Rolisteam project file
+##
+##################################################
+
+## Generic parameter
 CONFIG += phonon console
 TEMPLATE = app
 TARGET = bin/rolisteam
@@ -6,10 +13,16 @@ INCLUDEPATH += . src
 LANGUAGE = C++
 MOC_DIR = bin
 OBJECTS_DIR = bin
-#DEFINES += VERSION=\\\"1.0.2\\\"
+UI_DIR = src
+
+
+
+
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
 CONFIG += HAVE_PHONON
 #CONFIG += HAVE_NULL
+
+## Translation
 TRANSLATIONS = traduction/rolisteam_fr.ts
 CODECFORTR = UTF-8
 
@@ -23,7 +36,9 @@ updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_PATH}/${Q
 updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 PRE_TARGETDEPS += compiler_updateqm_make_all
+## End of Translation
 
+## Source
 HEADERS += src/AfficheurDisque.h \
            src/BarreOutils.h \
            src/Carte.h \
@@ -106,7 +121,10 @@ SOURCES += src/AfficheurDisque.cpp \
     src/connectionretrydialog.cpp \
     src/mainwindow.cpp \
     src/preferencesmanager.cpp
+#end source
 
+
+#Audio configuration
 HAVE_PHONON {
  DEFINES+= PHONON
  HEADERS += src/LecteurAudio.h
@@ -118,27 +136,26 @@ HAVE_PHONON {
 HAVE_NULL {
  DEFINES+= NULL_PLAYER
 }
+# End of audio
+
 
 RESOURCES += rolisteam.qrc
+
+# Installs
+
 documentation.path = bin/rolisteam.app/Contents/Resources/doc
 documentation.files = resources/doc/*
 INSTALLS += documentation
+
 QT += core \
  gui \
  network
 
-#VERSION = 1.0.3
-DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=2
-
-#debug {
-#DEFINES += QT_NO_WARNING_OUTPUT
-#}
-#release {
-#DEFINES += QT_FATAL_WARNINGS
-#}
+# Version
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=3
 
 
-UI_DIR = src
+# Flags of compilation
 QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"
 
 FORMS += \

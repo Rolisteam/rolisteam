@@ -118,9 +118,8 @@ void ecrireLogUtilisateur(QString message)
 bool  MainWindow::showConnectionDialog()
 {
     // Get a connection
-    G_clientServeur = new ClientServeur;
-    setNetworkManager(G_clientServeur);
-    return G_clientServeur->configAndConnect();
+
+    return m_networkManager->configAndConnect();
 
 }
 
@@ -134,9 +133,12 @@ MainWindow* MainWindow::getInstance()
 }
 
 MainWindow::MainWindow()
-        : QMainWindow()
+    : QMainWindow(),m_networkManager(NULL)
 {
     m_preferences = PreferencesManager::getInstance();
+    m_networkManager = new ClientServeur;
+    G_clientServeur = m_networkManager;
+
 }
 void MainWindow::setupUi()
 {
@@ -269,13 +271,11 @@ void MainWindow::setupUi()
 MainWindow::~MainWindow()
 {
     delete m_dockLogUtil;
-    delete G_clientServeur;
 }
 void MainWindow::setNetworkManager(ClientServeur* tmp)
 {
     m_networkManager = tmp;
-    tmp->setParent(this);
-
+    m_networkManager->setParent(this);
 }
 
 
@@ -1830,6 +1830,9 @@ void MainWindow::updateUi()
         diametrePnj->setVisible(false);
     }*/
     m_toolBar->updateUi();
+    #ifndef NULL_PLAYER
+        m_audioPlayer->updateUi();
+    #endif
     if(!PlayersList::instance().localPlayer()->isGM())
     {
         actionNouveauPlan->setEnabled(false);

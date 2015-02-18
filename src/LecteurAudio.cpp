@@ -39,7 +39,7 @@ LecteurAudio::LecteurAudio(QWidget *parent)
     : QDockWidget(parent),m_currentSource(NULL)
 {
     m_preferences = PreferencesManager::getInstance();
-
+    setObjectName("MusicPlayer");
 
     m_endFile= false;
     m_currentPlayingMode = NEXT;
@@ -53,25 +53,13 @@ LecteurAudio::LecteurAudio(QWidget *parent)
     m_mediaObject = new Phonon::MediaObject(this);
     path = new Phonon::Path();
     m_time = 0;
-    if(!G_joueur)
-    {
-        connect(m_mediaObject, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
-        connect(m_mediaObject, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
-        this, SLOT(stateChanged(Phonon::State, Phonon::State)));
-        connect(m_mediaObject, SIGNAL(currentSourceChanged(const Phonon::MediaSource &)),
-        this, SLOT(sourceChanged(const Phonon::MediaSource &)));
-        //connect(mediaObject, SIGNAL(aboutToFinish()), this, SLOT(isAboutToFinish()));
-        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreEtat(Liaison *)));
-    }
+
     connect(m_mediaObject,SIGNAL(finished()),this,SLOT(onfinished()));
-     *path = Phonon::createPath(m_mediaObject, audioOutput);
+    *path = Phonon::createPath(m_mediaObject, audioOutput);
     setupUi();
 
-    if(G_joueur)
-    {
-        playerWidget();
-    }
-    setWidget(widgetPrincipal);
+
+    setWidget(m_mainWidget);
 }
 
 LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
@@ -105,13 +93,10 @@ void LecteurAudio::onfinished()
 }
 LecteurAudio::~LecteurAudio()
 {
-
-    delete widgetPrincipal;
-   delete  widgetAffichage;
-   delete widgetCommande;
+    delete m_mainWidget;
+    //delete m_displayWidget;
+    //delete m_commandWidget;
     delete path;
-
-
 }
 
 void LecteurAudio::setupUi()
@@ -120,18 +105,18 @@ void LecteurAudio::setupUi()
         setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
         setFeatures(QDockWidget::AllDockWidgetFeatures);
         setMinimumWidth(255);
-        widgetPrincipal = new QWidget();
-        widgetAffichage = new QWidget();
-        widgetCommande = new QWidget();
-        layoutPrincipal = new QVBoxLayout(widgetPrincipal);
+        m_mainWidget = new QWidget();
+        m_displayWidget = new QWidget();
+        m_commandWidget = new QWidget();
+        layoutPrincipal = new QVBoxLayout(m_mainWidget);
         //layoutPrincipal = new QVBoxLayout(this);
         layoutPrincipal->setMargin(0);
         QWidget *separateur1 = new QWidget();
         separateur1->setFixedHeight(2);
         layoutPrincipal->addWidget(separateur1);
-        layoutPrincipal->addWidget(widgetAffichage);
-        layoutPrincipal->addWidget(widgetCommande);
-        QHBoxLayout *layoutAffichage = new QHBoxLayout(widgetAffichage);
+        layoutPrincipal->addWidget(m_displayWidget);
+        layoutPrincipal->addWidget(m_commandWidget);
+        QHBoxLayout *layoutAffichage = new QHBoxLayout(m_displayWidget);
         layoutAffichage->setMargin(0);
         m_titleDisplay = new QLineEdit();
         m_titleDisplay->setReadOnly(true);
@@ -139,8 +124,8 @@ void LecteurAudio::setupUi()
         layoutAffichage->addWidget(m_titleDisplay);
         if (G_joueur)
         {
-                QAction *actionChangerDossier = new QAction(QIcon(":/resources/icones/dossier.png"), tr("Select the directory contening all music files"), widgetAffichage);
-                QToolButton *boutonChangerDossier = new QToolButton(widgetAffichage);
+                QAction *actionChangerDossier = new QAction(QIcon(":/resources/icones/dossier.png"), tr("Select the directory contening all music files"), m_displayWidget);
+                QToolButton *boutonChangerDossier = new QToolButton(m_displayWidget);
                 boutonChangerDossier->setDefaultAction(actionChangerDossier);
                 boutonChangerDossier->setFixedSize(20, 20);
                 layoutAffichage->addWidget(boutonChangerDossier);
@@ -153,7 +138,7 @@ void LecteurAudio::setupUi()
 
         layoutAffichage->addWidget(niveauVolume);
 
-        QVBoxLayout *layoutCommande = new QVBoxLayout(widgetCommande);
+        QVBoxLayout *layoutCommande = new QVBoxLayout(m_commandWidget);
         layoutCommande->setMargin(0);
 
         QHBoxLayout *layoutTemps = new QHBoxLayout();
@@ -178,10 +163,10 @@ void LecteurAudio::setupUi()
         layoutBoutons->setMargin(0);
         layoutBoutons->setSpacing(0);
 
-        m_loopAction	= new QAction(QIcon(":/resources/icones/boucle.png"), tr("Loop"), widgetCommande);
-        m_uniqueAction	= new QAction(QIcon(":/resources/icones/lecture unique.png"), tr("Single shot"), widgetCommande);
-        m_addAction 	= new QAction(tr("Add"), widgetCommande);
-        m_deleteAction	= new QAction(tr("Remove"), widgetCommande);
+        m_loopAction	= new QAction(QIcon(":/resources/icones/boucle.png"), tr("Loop"), m_commandWidget);
+        m_uniqueAction	= new QAction(QIcon(":/resources/icones/lecture unique.png"), tr("Single shot"), m_commandWidget);
+        m_addAction 	= new QAction(tr("Add"), m_commandWidget);
+        m_deleteAction	= new QAction(tr("Remove"), m_commandWidget);
 
         m_playAction = new QAction(style()->standardIcon(QStyle::SP_MediaPlay), tr("Play"), this);
         m_playAction->setShortcut(Qt::Key_Space);
@@ -198,13 +183,13 @@ void LecteurAudio::setupUi()
         m_loopAction->setCheckable(true);
         m_uniqueAction->setCheckable(true);
 
-        QToolButton *boutonLecture= new QToolButton(widgetCommande);
-        QToolButton *boutonPause= new QToolButton(widgetCommande);
-        QToolButton *boutonStop= new QToolButton(widgetCommande);
-        QToolButton *boutonBoucle= new QToolButton(widgetCommande);
-        QToolButton *boutonUnique= new QToolButton(widgetCommande);
-        QToolButton *boutonAjouter= new QToolButton(widgetCommande);
-        QToolButton *boutonSupprimer= new QToolButton(widgetCommande);
+        QToolButton *boutonLecture= new QToolButton(m_commandWidget);
+        QToolButton *boutonPause= new QToolButton(m_commandWidget);
+        QToolButton *boutonStop= new QToolButton(m_commandWidget);
+        QToolButton *boutonBoucle= new QToolButton(m_commandWidget);
+        QToolButton *boutonUnique= new QToolButton(m_commandWidget);
+        QToolButton *boutonAjouter= new QToolButton(m_commandWidget);
+        QToolButton *boutonSupprimer= new QToolButton(m_commandWidget);
 
         boutonLecture->setDefaultAction(m_playAction);
         boutonPause->setDefaultAction(m_pauseAction);
@@ -269,6 +254,24 @@ void LecteurAudio::clickOnList(QListWidgetItem * p)//double click
             defineSource(p);
             m_mediaObject->play();
 }
+void LecteurAudio::updateUi()
+{
+    if(!G_joueur)
+    {
+        connect(m_mediaObject, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
+        connect(m_mediaObject, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
+        this, SLOT(stateChanged(Phonon::State, Phonon::State)));
+        connect(m_mediaObject, SIGNAL(currentSourceChanged(const Phonon::MediaSource &)),
+        this, SLOT(sourceChanged(const Phonon::MediaSource &)));
+        //connect(mediaObject, SIGNAL(aboutToFinish()), this, SLOT(isAboutToFinish()));
+        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreEtat(Liaison *)));
+    }
+    else
+    {
+           playerWidget();
+    }
+}
+
 void LecteurAudio::defineSource(QListWidgetItem * p)
 {
 
@@ -404,7 +407,7 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
 void LecteurAudio::playerWidget()
 {
     m_titleDisplay->setToolTip(tr("No songs"));
-    widgetCommande->hide();
+    m_commandWidget->hide();
     QWidget *separateur3 = new QWidget();
     separateur3->setFixedHeight(2);
     layoutPrincipal->addWidget(separateur3);

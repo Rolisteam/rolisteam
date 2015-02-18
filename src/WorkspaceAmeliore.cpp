@@ -64,7 +64,6 @@ WorkspaceAmeliore::~WorkspaceAmeliore()
 {
     delete m_backgroundPicture;
     delete m_variableSizeBackground;
-    delete m_variableSizeBackground;
 }
 
 void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )

@@ -94,6 +94,7 @@ int main(int argc, char *argv[])
     MainWindow* mainWindow =MainWindow::getInstance();
     mainWindow->setupUi();
     mainWindow->readSettings();
+
     int value = 0;
     if(mainWindow->showConnectionDialog())
     {
