@@ -30,8 +30,7 @@ public:
 
 
 
-    friend QDataStream& operator<<(QDataStream& os,const Theme&);
-    friend QDataStream& operator>>(QDataStream& is,Theme&);
+
 
 private:
     QString m_name;
@@ -45,10 +44,11 @@ private:
     QColor m_chatBackgroundColor;
     QString m_chatBackgroundImage;
 
-
+    friend QDataStream& operator<<(QDataStream& os,const Theme&);
+    friend QDataStream& operator>>(QDataStream& is,Theme&);
 
 };
-typedef QList<Theme*> ThemeList;
+typedef QList<Theme> ThemeList;
 #include <QVariant>
 Q_DECLARE_METATYPE ( Theme )
 Q_DECLARE_METATYPE ( Theme* )

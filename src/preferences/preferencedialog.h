@@ -23,13 +23,14 @@
 
 #include <QDialog>
 #include <QWidget>
+#include "theme.h"
 class PreferencesManager;
 class QAbstractButton;
 
 namespace Ui {
     class PreferenceDialog;
 }
-class Theme;
+
 class ThemeListModel;
 /**
   * @brief Display all required item to manage preferences
@@ -48,6 +49,16 @@ public:
       * @brief destructor.
       */
     ~PreferenceDialog();
+
+    /**
+     * Load informations from the previous rolisteam's execution
+     */
+    void readSettings();
+
+    /**
+     * Save parameters for next executions.
+     */
+    void writeSettings();
 
 signals:
     /**
@@ -79,15 +90,7 @@ protected slots:
 
     void refreshDialogWidgets();
 
-    /**
-     * Load informations from the previous rolisteam's execution
-     */
-    void readSettings();
 
-    /**
-     * Save parameters for next executions.
-     */
-    void writeSettings();
 
 protected:
     /**
@@ -113,7 +116,7 @@ private:
 
     ThemeListModel* m_listModel;
 
-    Theme* m_current;
+    Theme m_current;
 
 
 };

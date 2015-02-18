@@ -24,7 +24,7 @@
 #include "theme.h"
 #include <QFileDialog>
 #include "themelistmodel.h"
-
+#include <QDebug>
 PreferenceDialog::PreferenceDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PreferenceDialog)
@@ -85,7 +85,7 @@ void PreferenceDialog::changeBackgroundImage()
     if(!fileName.isEmpty())
     {
         ui->m_wsBgPathLine->setText(fileName);
-        m_current->setBackgroundImage(fileName);
+        m_current.setBackgroundImage(fileName);
         modifiedSettings();
     }
 }
@@ -97,25 +97,25 @@ void PreferenceDialog::applyAllChanges(QAbstractButton * button)
 {
     if(QDialogButtonBox::ApplyRole==ui->m_buttonbox->buttonRole(button))
     {
-        m_options->registerValue("worspace/background/image",m_current->backgroundImage());
-        m_options->registerValue("worspace/background/color",m_current->backgroundColor());
+        m_options->registerValue("worspace/background/image",m_current.backgroundImage());
+        m_options->registerValue("worspace/background/color",m_current.backgroundColor());
         emit preferencesChanged();
     }
     setWindowModified(false);
 }
 void PreferenceDialog::addDefaultTheme()
 {
-    Theme* m_current=new Theme();
-    m_current->setName(tr("Default"));
-    m_current->setBackgroundColor(m_options->value("worspace/background/color",QColor(191,191,191)).value<QColor>());
-    m_current->setBackgroundImage(m_options->value("worspace/background/image",":/resources/icones/fond workspace macos.bmp").toString());
+
+    m_current.setName(tr("Default"));
+    m_current.setBackgroundColor(m_options->value("worspace/background/color",QColor(191,191,191)).value<QColor>());
+    m_current.setBackgroundImage(m_options->value("worspace/background/image",":/resources/icones/fond workspace macos.bmp").toString());
     m_listModel->addTheme(m_current);
 }
 
 void PreferenceDialog::addTheme()
 {
-    Theme* tmp=new Theme();
-    tmp->setName(tr("Theme %1").arg(m_listModel->rowCount(QModelIndex())));
+    Theme tmp;
+    tmp.setName(tr("Theme %1").arg(m_listModel->rowCount(QModelIndex())));
     m_listModel->addTheme(tmp);
 }
 void PreferenceDialog::removeSelectedTheme()
@@ -129,15 +129,18 @@ void PreferenceDialog::currentChanged()
 }
 void PreferenceDialog::refreshDialogWidgets()
 {
-     ui->m_wsBgPathLine->setText(m_current->backgroundImage());
-     ui->m_wsBgColorButton->setColor(m_current->backgroundColor());
+     ui->m_wsBgPathLine->setText(m_current.backgroundImage());
+     ui->m_wsBgColorButton->setColor(m_current.backgroundColor());
 }
 
 void PreferenceDialog::readSettings()
 {
 
+    qDebug() << "read setting in preference dialo";
+    m_listModel->readSettings();
 }
 void PreferenceDialog::writeSettings()
 {
-
+    qDebug() << "write setting in preference dialog";
+    m_listModel->writeSettings();
 }

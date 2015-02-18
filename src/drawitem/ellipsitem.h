@@ -20,21 +20,53 @@
 #ifndef ELLIPSITEM_H
 #define ELLIPSITEM_H
 #include "visualitem.h"
+/**
+  * @brief displays an ellipse on maps.
+  */
 class EllipsItem : public VisualItem
 {
 public:
+    /**
+      * @brief constructor with parameters
+      * @param center first point clicked by the user
+      * @param either the shape is filled or not
+      * @param color used for drawing it.
+      */
     EllipsItem(QPointF& center,bool filled,QColor& penColor,QGraphicsItem * parent = 0);
-
+    /**
+      * @brief paint the ellipse at the correct position
+      */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+    /**
+      * @brief gives the bounding rect of the ellipse
+      */
     virtual QRectF boundingRect() const ;
 
+    /**
+      * @brief modifies the ellipse size and shape.
+      */
     virtual void setNewEnd(QPointF& nend);
+    /**
+      * @brief serialisation writing
+      */
     virtual void writeData(QDataStream& out) const;
+    /**
+      * @brief serialisation reading
+      */
     virtual void readData(QDataStream& in);
 private:
+    /**
+      * @brief bounding rect
+      */
     QRectF m_rect;
+    /**
+      * @brief ellipse center
+      */
     QPointF m_center;
 
+    /**
+      * @brief stores the filled state
+      */
     bool m_filled;
 };
 

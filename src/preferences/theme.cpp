@@ -59,6 +59,7 @@ void Theme::setChatBackGroundImage(QString uri)
 }
 QDataStream& operator<<(QDataStream& out, const Theme& con)
 {
+  out << con.name();
   out << con.backgroundColor();
   out << con.backgroundImage();
   out << con.chatBackGroundImage();
@@ -69,6 +70,7 @@ QDataStream& operator<<(QDataStream& out, const Theme& con)
 
 QDataStream& operator>>(QDataStream& is,Theme& con)
 {
+    is >> (con.m_name);
   is >>(con.m_backgroundColor);
   is >>(con.m_backgroundImage);
   is >> (con.m_chatBackgroundImage);

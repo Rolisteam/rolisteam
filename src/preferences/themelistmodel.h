@@ -16,10 +16,19 @@ public:
     bool setData ( const QModelIndex & index, const QVariant & value, int role);
 
 
-    Theme* getTheme(int row);
+    Theme getTheme(int row);
+    /**
+     * Load informations from the previous rolisteam's execution
+     */
+    void readSettings();
+
+    /**
+     * Save parameters for next executions.
+     */
+    void writeSettings();
 public slots:
     void removeSelectedTheme(int row);
-    void addTheme(Theme* tmp);
+    void addTheme(Theme tmp);
 private:
         ThemeList* m_themeList;
 };

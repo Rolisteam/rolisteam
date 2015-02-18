@@ -22,25 +22,57 @@
 
 #include "visualitem.h"
 #include <QPen>
+/**
+  * @brief displays a line on maps.
+  */
 class LineItem : public VisualItem
 {
 public:
+    /**
+      * @brief constructor with parameters
+      */
     LineItem(QPointF& p,QColor& penColor,int penSize,QGraphicsItem * parent = 0);
-
+    /**
+      * @brief paint the line
+      */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
-
+    /**
+      * @brief gives bounding rect of the line
+      */
     virtual QRectF boundingRect() const ;
 
-
+    /**
+      * @brief defines new position of the end line.
+      */
     virtual void setNewEnd(QPointF& nend);
+    /**
+      * @brief serialisation writing
+      */
     virtual void writeData(QDataStream& out) const;
+    /**
+      * @brief serialisation reading
+      */
     virtual void readData(QDataStream& in);
 private:
+    /**
+      * @brief bounding rect copy (no need to compute it each time
+      */
     QRectF m_rect;
+    /**
+      * @brief starting point, does not move except when the whole line is moved.
+      */
     QPointF m_startPoint;
+    /**
+      * @brief ending point, should moved
+      */
     QPointF m_endPoint;
-
+    /**
+      * @brief pen
+      */
     QPen m_pen;
+    /**
+      * @brief either filled or not
+      */
     bool m_filled;
 };
 

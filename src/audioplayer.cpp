@@ -21,7 +21,6 @@
 
 
 #include <QtGui>
-
 #include "audioplayer.h"
 
 
