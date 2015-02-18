@@ -36,7 +36,7 @@
 #include <QDockWidget>
 #include <QResizeEvent>
 
-#include "SelecteurCouleur.h"
+#include "colorselector.h"
 #include "SelecteurDiametre.h"
 
 
@@ -70,6 +70,7 @@ signals:
     void currentColorChanged(QColor&);
     void currentPenSizeChanged(int);
     void currentPNCSizeChanged(int);
+    void currentModeChanged(int);
 
 private :
     void creerActions();
@@ -98,6 +99,10 @@ private :
     QAction *actionDeplacePnj;
     QAction *actionEtatPnj;
     QAction *actionRazChrono;
+
+    QAction* m_eraseAction;
+    QAction* m_hideAction;
+    QAction* m_unveilAction;
 
 private slots :
     void razNumeroPnj();

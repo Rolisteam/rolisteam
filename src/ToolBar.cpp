@@ -1,9 +1,9 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *	Copyright (C) 2007 by Romain Campioni                                  *
+ *	Copyright (C) 2009 by Renaud Guezennec                                 *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify  *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -20,122 +20,116 @@
  ***************************************************************************/
 
 
-	#include <QtGui>
+#include <QtGui>
 
-    #include "ToolBar.h"
-	#include "SelecteurCouleur.h"
-	#include "SelecteurDiametre.h"
-	#include "constantesGlobales.h"
+#include "ToolBar.h"
+#include "colorselector.h"
+#include "SelecteurDiametre.h"
+#include "constantesGlobales.h"
 	
 	
-	/********************************************************************/
-	/* Variables globales utilisees par tous les elements de            */
-	/* l'application                                                    */
-	/********************************************************************/	
-	// Definit l'outil courant
-    //ToolsBar::outilSelectionne G_outilCourant;
-	// Contient le texte de la zone de texte
-	QString G_texteCourant;
-	// Contient le texte de la zone "nom du PNJ"
-	QString G_nomPnjCourant;
-	// Numero de PNJ courant
-	int G_numeroPnjCourant;
+
+QString G_texteCourant;
+
+QString G_nomPnjCourant;
+
+int G_numeroPnjCourant;
 	
-	
-	/********************************************************************/
-	/* Constructeur                                                     */
-	/********************************************************************/	
-    ToolsBar::ToolsBar(QWidget *parent)
+
+ToolsBar::ToolsBar(QWidget *parent)
 		: QDockWidget(parent)
-	{
+{
 
-        setWindowTitle(tr("Tools"));
+    setWindowTitle(tr("Tools"));
 
-        setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-		setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 
-		outils = new QWidget(this);
+    outils = new QWidget(this);
 
-		setWidget(outils);
-
-
-		creerActions();
-
-		creerOutils();
+    setWidget(outils);
 
 
-        connect(couleur,SIGNAL(currentColorChanged(QColor&)),this,SIGNAL(currentColorChanged(QColor&)));
+    creerActions();
+
+    creerOutils();
 
 
-        m_currentTool = HANDLER;
-		
+    connect(couleur,SIGNAL(currentColorChanged(QColor&)),this,SIGNAL(currentColorChanged(QColor&)));
+    connect(couleur,SIGNAL(currentModeChanged(int)),this,SIGNAL(currentModeChanged(int)));
 
-		QObject::connect(actionRazChrono, SIGNAL(triggered(bool)), this, SLOT(razNumeroPnj()));
-
-		QObject::connect(ligneDeTexte, SIGNAL(textEdited(const QString &)), this, SLOT(texteChange(const QString &)));
-
-		QObject::connect(nomPnj, SIGNAL(textEdited(const QString &)), this, SLOT(nomPnjChange(const QString &)));
+    m_currentTool = HANDLER;
 
 
-        connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));
+    QObject::connect(actionRazChrono, SIGNAL(triggered(bool)), this, SLOT(razNumeroPnj()));
+
+    QObject::connect(ligneDeTexte, SIGNAL(textEdited(const QString &)), this, SLOT(texteChange(const QString &)));
+
+    QObject::connect(nomPnj, SIGNAL(textEdited(const QString &)), this, SLOT(nomPnjChange(const QString &)));
 
 
-		QObject::connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changementTaille(bool)));
+    connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));
 
-		setFloating(false);
-	}
 
-	/********************************************************************/	
-	/* Autorise ou pas la selection des couleurs de masquage et         */
-	/* demasquage en fonction de la nature de l'utilisateur (MJ/joueur) */
-	/********************************************************************/	
-    void ToolsBar::autoriserOuInterdireCouleurs()
-	{
-        couleur->allowOrForbideColors();
-	}
+    QObject::connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changementTaille(bool)));
 
-	/********************************************************************/
-	/* Creation des actions                                             */
-	/********************************************************************/	
-    void ToolsBar::creerActions()
-	{
-		// Creation du groupe d'action
-        m_toolsGroup = new QActionGroup(this);
+    setFloating(false);
+}
 
-		// Creation des actions
-                actionCrayon 	= new QAction(QIcon(":/resources/icones/crayon.png"), tr("Crayon"), m_toolsGroup);
-                actionLigne 	= new QAction(QIcon(":/resources/icones/ligne.png"), tr("Ligne"), m_toolsGroup);
-                actionRectVide 	= new QAction(QIcon(":/resources/icones/rectangle vide.png"), tr("Rectangle vide"), m_toolsGroup);
-                actionRectPlein	= new QAction(QIcon(":/resources/icones/rectangle plein.png"), tr("Rectangle plein"), m_toolsGroup);
-                actionElliVide 	= new QAction(QIcon(":/resources/icones/ellipse vide.png"), tr("Ellipse vide"), m_toolsGroup);
-                actionElliPlein	= new QAction(QIcon(":/resources/icones/ellipse pleine.png"), tr("Ellipse pleine"), m_toolsGroup);
-                actionTexte 	= new QAction(QIcon(":/resources/icones/texte.png"), tr("Texte"), m_toolsGroup);
-                actionMain		= new QAction(QIcon(":/resources/icones/main.png"), tr("Déplacer"), m_toolsGroup);
-                actionAjoutPnj 	= new QAction(QIcon(":/resources/icones/ajouter PNJ.png"), tr("Ajouter un PNJ"), m_toolsGroup);
-                actionSupprPnj 	= new QAction(QIcon(":/resources/icones/supprimer PNJ.png"), tr("Supprimer un PNJ"), m_toolsGroup);
-                actionDeplacePnj= new QAction(QIcon(":/resources/icones/deplacer PNJ.png"), tr("Déplacer/Orienter un personnage"), m_toolsGroup);
-                actionEtatPnj	= new QAction(QIcon(":/resources/icones/etat.png"), tr("Changer l'état d'un personnage"), m_toolsGroup);
 
-		// Action independante : remise a 0 des numeros de PNJ
-                actionRazChrono	= new QAction(QIcon(":/resources/icones/chronometre.png"), tr("RAZ numéros de PNJ"), this);
+void ToolsBar::autoriserOuInterdireCouleurs()
+{
+    couleur->allowOrForbideColors();
+}
 
-		// Les actions sont checkable
-		actionCrayon	->setCheckable(true);
-		actionLigne		->setCheckable(true);
-		actionRectVide	->setCheckable(true);
-		actionRectPlein	->setCheckable(true);
-		actionElliVide	->setCheckable(true);
-		actionElliPlein	->setCheckable(true);
-		actionTexte		->setCheckable(true);
-		actionMain		->setCheckable(true);
-		actionAjoutPnj	->setCheckable(true);
-		actionSupprPnj	->setCheckable(true);
-		actionDeplacePnj->setCheckable(true);
-		actionEtatPnj	->setCheckable(true);
 
-		// Choix d'une action selectionnee au depart
-		actionMain->setChecked(true);
-	}	
+void ToolsBar::creerActions()
+{
+    // Creation du groupe d'action
+    m_toolsGroup = new QActionGroup(this);
+
+    // Creation des actions
+            actionCrayon 	= new QAction(QIcon(":/resources/icones/crayon.png"), tr("Crayon"), m_toolsGroup);
+            actionLigne 	= new QAction(QIcon(":/resources/icones/ligne.png"), tr("Ligne"), m_toolsGroup);
+            actionRectVide 	= new QAction(QIcon(":/resources/icones/rectangle vide.png"), tr("Rectangle vide"), m_toolsGroup);
+            actionRectPlein	= new QAction(QIcon(":/resources/icones/rectangle plein.png"), tr("Rectangle plein"), m_toolsGroup);
+            actionElliVide 	= new QAction(QIcon(":/resources/icones/ellipse vide.png"), tr("Ellipse vide"), m_toolsGroup);
+            actionElliPlein	= new QAction(QIcon(":/resources/icones/ellipse pleine.png"), tr("Ellipse pleine"), m_toolsGroup);
+            actionTexte 	= new QAction(QIcon(":/resources/icones/texte.png"), tr("Texte"), m_toolsGroup);
+            actionMain		= new QAction(QIcon(":/resources/icones/main.png"), tr("Déplacer"), m_toolsGroup);
+            actionAjoutPnj 	= new QAction(QIcon(":/resources/icones/ajouter PNJ.png"), tr("Ajouter un PNJ"), m_toolsGroup);
+            actionSupprPnj 	= new QAction(QIcon(":/resources/icones/supprimer PNJ.png"), tr("Supprimer un PNJ"), m_toolsGroup);
+            actionDeplacePnj= new QAction(QIcon(":/resources/icones/deplacer PNJ.png"), tr("Déplacer/Orienter un personnage"), m_toolsGroup);
+            actionEtatPnj	= new QAction(QIcon(":/resources/icones/etat.png"), tr("Changer l'état d'un personnage"), m_toolsGroup);
+
+    // Action independante : remise a 0 des numeros de PNJ
+            actionRazChrono	= new QAction(QIcon(":/resources/icones/chronometre.png"), tr("RAZ numéros de PNJ"), this);
+
+            m_eraseAction= new QAction(QIcon(":/resources/icones/efface.png"), tr("Erase"), m_toolsGroup);
+            m_hideAction= new QAction(QIcon(":/resources/icones/masque.png"), tr("Hide"), m_toolsGroup);
+            m_unveilAction= new QAction(QIcon(":/resources/icones/demasque.png"), tr("Unveil"), m_toolsGroup);
+
+    // Les actions sont checkable
+    actionCrayon	->setCheckable(true);
+    actionLigne		->setCheckable(true);
+    actionRectVide	->setCheckable(true);
+    actionRectPlein	->setCheckable(true);
+    actionElliVide	->setCheckable(true);
+    actionElliPlein	->setCheckable(true);
+    actionTexte		->setCheckable(true);
+    actionMain		->setCheckable(true);
+    actionAjoutPnj	->setCheckable(true);
+    actionSupprPnj	->setCheckable(true);
+    actionDeplacePnj->setCheckable(true);
+    actionEtatPnj	->setCheckable(true);
+
+    m_eraseAction->setCheckable(true);
+    m_hideAction->setCheckable(true);
+    m_unveilAction->setCheckable(true);
+
+    // Choix d'une action selectionnee au depart
+    actionMain->setChecked(true);
+}
 
 	/********************************************************************/
 	/* Creation des boutons et du widget qui les contient               */
@@ -157,8 +151,12 @@
 		QToolButton *boutonEtatPnj    = new QToolButton(outils);
 		QToolButton *boutonRazChrono  = new QToolButton(outils);
 
+        QToolButton* eraseButton  = new QToolButton(outils);
+        QToolButton* hideButton  = new QToolButton(outils);
+        QToolButton* unveilButton  = new QToolButton(outils);
+
 		// Association des boutons avec les actions
-		boutonCrayon     ->setDefaultAction(actionCrayon);
+        boutonCrayon->setDefaultAction(actionCrayon);
 		boutonLigne      ->setDefaultAction(actionLigne);
 		boutonRectVide   ->setDefaultAction(actionRectVide);
 		boutonRectPlein  ->setDefaultAction(actionRectPlein);
@@ -171,6 +169,10 @@
 		boutonDeplacePnj ->setDefaultAction(actionDeplacePnj);
 		boutonEtatPnj    ->setDefaultAction(actionEtatPnj);
 		boutonRazChrono  ->setDefaultAction(actionRazChrono);
+
+        eraseButton->setDefaultAction(m_eraseAction);
+        hideButton->setDefaultAction(m_hideAction);
+        unveilButton->setDefaultAction(m_unveilAction);
 
 		// Boutons en mode AutoRaise, plus lisible
 		boutonCrayon     ->setAutoRaise(true);
@@ -187,7 +189,11 @@
 		boutonEtatPnj    ->setAutoRaise(true);
 		boutonRazChrono  ->setAutoRaise(true);
 
-		#ifdef MACOS
+        eraseButton->setAutoRaise(true);
+        hideButton->setAutoRaise(true);
+        unveilButton->setAutoRaise(true);
+
+        /*#ifdef MACOS
 			// Changement du style des boutons (plus lisible)
 			QPlastiqueStyle *styleBouton = new QPlastiqueStyle();
 			boutonCrayon     ->setStyle(styleBouton);
@@ -203,7 +209,7 @@
 			boutonDeplacePnj ->setStyle(styleBouton);
 			boutonEtatPnj    ->setStyle(styleBouton);
 			boutonRazChrono  ->setStyle(styleBouton);
-		#endif
+        #endif*/
 		
 		// Changement de la taille des icones
 		QSize tailleIcones(TAILLE_ICONES,TAILLE_ICONES);
@@ -220,6 +226,10 @@
 		boutonDeplacePnj ->setIconSize(tailleIcones);
 		boutonEtatPnj    ->setIconSize(tailleIcones);
 		boutonRazChrono  ->setIconSize(tailleIcones);
+
+        eraseButton->setIconSize(tailleIcones);
+        hideButton->setIconSize(tailleIcones);
+        unveilButton->setIconSize(tailleIcones);
 					
 		// Creation du layout vertical qui constitue la barre d'outils
 		QVBoxLayout *outilsLayout = new QVBoxLayout(outils);
@@ -238,25 +248,27 @@
 		layoutDessin->addWidget(boutonElliPlein, 2, 1);
 		layoutDessin->addWidget(boutonTexte, 3, 0);
 		layoutDessin->addWidget(boutonMain, 3, 1);
-
+        layoutDessin->addWidget(eraseButton, 4, 0);
+        layoutDessin->addWidget(hideButton, 4, 1);
+        layoutDessin->addWidget(unveilButton, 5, 0);
 		// Creation des zones de texte et de nom de PNJ
 		ligneDeTexte = new QLineEdit(outils);
-		ligneDeTexte->setToolTip(tr("Texte"));
+        ligneDeTexte->setToolTip(tr("Text"));
 
 		nomPnj = new QLineEdit(outils);
-		nomPnj->setToolTip(tr("Nom du PNJ"));
+        nomPnj->setToolTip(tr("NPC Name"));
 
-		#ifdef MACOS
+        /*#ifdef MACOS
 			ligneDeTexte->setFixedHeight(22);
 			nomPnj->setFixedHeight(22);
-		#endif
+        #endif*/
 		
 		// Creation de l'afficheur du numero de PNJ
 		afficheNumeroPnj = new QLCDNumber(2, outils);
 		afficheNumeroPnj->setSegmentStyle(QLCDNumber::Flat);
 		afficheNumeroPnj->setMaximumSize(TAILLE_ICONES + 7, TAILLE_ICONES);
 		afficheNumeroPnj->display(1);
-                afficheNumeroPnj->setToolTip(tr("Numéro de PNJ"));
+                afficheNumeroPnj->setToolTip(tr("NPC's number"));
 		// Initialisation de la variable globale indiquant le numero de PNJ courant
 		G_numeroPnjCourant = 1;
 		
@@ -318,21 +330,21 @@
 		QWidget *separateur5 = new QWidget(outils);
 		separateur5->setFixedHeight(3);
 
-		#ifdef MACOS
+        /*#ifdef MACOS
 			// Creation des separateurs se trouvant au dessus des zones de saisie de texte
 			QWidget *separateur10 = new QWidget(outils);
 			QWidget *separateur11 = new QWidget(outils);
 			separateur10->setFixedHeight(3);
 			separateur11->setFixedHeight(3);
-		#endif
+        #endif*/
 		
 		// Ajout des differents layouts et widgets dans outilsLayout
 		outilsLayout->addWidget(couleur);
 		outilsLayout->addWidget(separateur1);
 		outilsLayout->addLayout(layoutDessin);
-		#ifdef MACOS
+        /*#ifdef MACOS
 			outilsLayout->addWidget(separateur10);
-		#endif
+        #endif*/
 		outilsLayout->addWidget(ligneDeTexte);
 		outilsLayout->addWidget(separateur2);
 		outilsLayout->addWidget(diametreTrait);
@@ -340,9 +352,9 @@
 		outilsLayout->addLayout(layoutMouvementPnj);
 		outilsLayout->addWidget(separateur4);
 		outilsLayout->addLayout(layoutAjoutPnj);
-		#ifdef MACOS
+        /*#ifdef MACOS
 			outilsLayout->addWidget(separateur11);
-		#endif
+        #endif*/
 		outilsLayout->addWidget(nomPnj);
 		outilsLayout->addWidget(separateur5);
 		outilsLayout->addWidget(diametrePnj);

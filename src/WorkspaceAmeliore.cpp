@@ -24,17 +24,21 @@
 
 #include "WorkspaceAmeliore.h"
 #include "constantesGlobales.h"
-
+#include "preferencesmanager.h"
 #include <QPixmap>
 
 
 ImprovedWorkspace::ImprovedWorkspace(QColor& penColor,QWidget *parent)
 : QMdiArea(parent),m_currentPenColor(penColor)
 {
+    m_options = PreferencesManager::getInstance();
+    m_backGroundColor = m_options->value("workspace/backgroundcolor",QColor(191,191,191)).value<QColor>();
+
     //m_currentPenColor = penColor;
     initCursors();
     m_variableSizeBackground = new QPixmap(this->viewport()->size());
-    m_variableSizeBackground->fill(Qt::darkGray);
+
+    m_variableSizeBackground->fill(m_backGroundColor);
     QPainter painter(m_variableSizeBackground);
 
     m_backgroundPicture = new QPixmap(":/resources/icones/fond workspace macos.bmp");
@@ -54,7 +58,7 @@ void ImprovedWorkspace::resizeEvent ( QResizeEvent * event )
     delete m_variableSizeBackground;
 
     m_variableSizeBackground = new QPixmap(this->viewport()->size());
-    m_variableSizeBackground->fill(Qt::darkGray);
+    m_variableSizeBackground->fill(m_backGroundColor);
     QPainter painter(m_variableSizeBackground);
 
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
@@ -177,10 +181,4 @@ void ImprovedWorkspace::currentNPCSizeChanged(int p)
     emit npcSizeChanged(p);
 }
 
-/*void ImprovedWorkspace::activeSubWindowChanged(QMdiSubWindow* subWindow)
-{
-    SubMdiWindows* tmp = static_cast<SubMdiWindows*>(subWindow);
 
-    tmp->setCurrentTool();
-
-}*/

@@ -26,15 +26,13 @@ HEADERS += displaydisk.h \
     EditeurNotes.h \
     Image.h \
     audioplayer.h \ # Liaison.h \
-# ListeUtilisateurs.h \
-    MainWindow.h \ # Rolisteam_private.h \
-    SelecteurCouleur.h \
+    MainWindow.h \
+    colorselector.h \
     SelecteurDiametre.h \
     Tchat.h \
     TextEditAmeliore.h \
     types.h \
     typesApplication.h \ # variablesGlobales.h \
-# wincompat.h \
     WorkspaceAmeliore.h \
     submdiwindows.h \
     userlistdockwidget.h
@@ -45,10 +43,9 @@ SOURCES += displaydisk.cpp \
     DessinPerso.cpp \
     EditeurNotes.cpp \
     Image.cpp \ # Liaison.cpp \
-# ListeUtilisateurs.cpp \
     main.cpp \
     MainWindow.cpp \
-    SelecteurCouleur.cpp \
+    colorselector.cpp \
     SelecteurDiametre.cpp \
     Tchat.cpp \
     TextEditAmeliore.cpp \
@@ -58,10 +55,11 @@ SOURCES += displaydisk.cpp \
 HAVE_FMOD { 
     DEFINES += FMOD
     SOURCES += audioplayerwin.cpp
+    HEADERS += fmod.h \
+    fmod_errors.h
 }
 
-# HEADERS += fmod.h \
-# fmod_errors.h
+
 HAVE_PHONON { 
     DEFINES += PHONON
     SOURCES += audioplayerunix.cpp

@@ -30,7 +30,7 @@
 #include "ToolBar.h"
 #include "ListeUtilisateurs.h"
 #include "constantesGlobales.h"
-#include "variablesGlobales.h"
+//#include "variablesGlobales.h"
 
 #include "Image.h"
 #include "audioplayer.h"
@@ -66,6 +66,7 @@ MainWindow::MainWindow()
 
         connect(m_toolbar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),workspace,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
         connect(m_toolbar,SIGNAL(currentColorChanged(QColor&)),workspace,SLOT(currentColorChanged(QColor&)));
+        connect(m_toolbar,SIGNAL(currentModeChanged(int)),workspace,SIGNAL(currentModeChanged(int)));
         connect(m_toolbar,SIGNAL(currentPenSizeChanged(int)),workspace,SLOT(currentPenSizeChanged(int)));
         connect(m_toolbar,SIGNAL(currentPNCSizeChanged(int)),workspace,SLOT(currentNPCSizeChanged(int)));
 
@@ -105,7 +106,7 @@ MainWindow::MainWindow()
         editeurNotes->hide();
 
 
-        DessinPerso::etatDeSante etat;
+        /*DessinPerso::etatDeSante etat;
         etat.couleurEtat = Qt::black;
         etat.nomEtat = tr("Healthy");
         G_etatsDeSante.append(etat);
@@ -128,7 +129,7 @@ MainWindow::MainWindow()
 
         etat.couleurEtat = QColor(0, 200, 0);
         etat.nomEtat = tr("Bewitched");
-        G_etatsDeSante.append(etat);
+        G_etatsDeSante.append(etat);*/
 
 
 
@@ -172,29 +173,29 @@ void MainWindow::creerMenu()
         QMenu *menuFichier = new QMenu (tr("Fichier"), barreMenus);
         newMapAction            = menuFichier->addAction(tr("&New empty map"));
         menuFichier->addSeparator();
-        actionOuvrirPlan             = menuFichier->addAction(tr("Ouvrir plan"));
-        actionOuvrirEtMasquerPlan    = menuFichier->addAction(tr("Ouvrir et masquer plan"));
-        actionOuvrirScenario         = menuFichier->addAction(tr("Ouvrir scénario"));
-        OpenImageAction	         = menuFichier->addAction(tr("Ouvrir image"));
-        actionOuvrirNotes            = menuFichier->addAction(tr("Ouvrir notes"));
+        actionOuvrirPlan             = menuFichier->addAction(tr("Open Map"));
+        actionOuvrirEtMasquerPlan    = menuFichier->addAction(tr("Open and mask Map"));
+        actionOuvrirScenario         = menuFichier->addAction(tr("Open scenario"));
+        OpenImageAction	         = menuFichier->addAction(tr("Open Picture"));
+        actionOuvrirNotes            = menuFichier->addAction(tr("Open Text"));
         menuFichier->addSeparator();
-        actionFermerPlan             = menuFichier->addAction(tr("Fermer plan/image"));
+        actionFermerPlan             = menuFichier->addAction(tr("Close Map/Image"));
         menuFichier->addSeparator();
-        actionSauvegarderPlan        = menuFichier->addAction(tr("Sauvegarder plan"));
-        actionSauvegarderScenario    = menuFichier->addAction(tr("Sauvegarder scénario"));
-        actionSauvegarderNotes       = menuFichier->addAction(tr("Sauvegarder notes"));
-/*
+        actionSauvegarderPlan        = menuFichier->addAction(tr("Save Map"));
+        actionSauvegarderScenario    = menuFichier->addAction(tr("Save scenario"));
+        actionSauvegarderNotes       = menuFichier->addAction(tr("Save text"));
+
         menuFichier->addSeparator();
-        actionPreferences            = menuFichier->addAction(tr("Préfrences"));
-*/
+        actionPreferences            = menuFichier->addAction(tr("Settings"));
+
         menuFichier->addSeparator();
-        actionQuitter                = menuFichier->addAction(tr("Quitter"));
+        actionQuitter                = menuFichier->addAction(tr("Exit"));
 
         // Creation du menu Affichage
-        QMenu *menuAffichage = new QMenu (tr("Affichage"), barreMenus);
-        actionAfficherNomsPj         = menuAffichage->addAction(tr("Afficher noms PJ"));
-        actionAfficherNomsPnj        = menuAffichage->addAction(tr("Afficher noms PNJ"));
-        actionAfficherNumerosPnj     = menuAffichage->addAction(tr("Afficher numros PNJ"));
+        QMenu *menuAffichage = new QMenu (tr("View"), barreMenus);
+        actionAfficherNomsPj         = menuAffichage->addAction(tr("Show PC's names"));
+        actionAfficherNomsPnj        = menuAffichage->addAction(tr("Show NPC's names"));
+        actionAfficherNumerosPnj     = menuAffichage->addAction(tr("Show NPC's numbers"));
 /*
         // Creation du sous-menu Grille
         QMenu *sousMenuGrille = new QMenu (tr("Grille"), barreMenus);

@@ -24,7 +24,7 @@
 	#include <math.h>
 
 	#include "DessinPerso.h"
-	#include "variablesGlobales.h"
+//	#include "variablesGlobales.h"
 
 
 	/********************************************************************/

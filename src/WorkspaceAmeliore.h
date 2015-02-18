@@ -38,6 +38,7 @@
 #include "submdiwindows.h"
 
 class QPixmap;
+class PreferencesManager;
 class ImprovedWorkspace : public QMdiArea
 {
     Q_OBJECT
@@ -103,6 +104,11 @@ signals:
       * @param the new size
       */
     void npcSizeChanged(int);
+    /**
+      * @brief is called when the user change the PNJ size
+      * @param the new size
+      */
+    void currentModeChanged(int);
 
 
 
@@ -181,6 +187,11 @@ private:
       * current pen color.
       */
     QColor& m_currentPenColor;
+
+    /**
+      * current pen color.
+      */
+    QColor m_backGroundColor;
     /**
       * current pen size.
       */
@@ -190,6 +201,10 @@ private:
       */
     int m_npcSize;
 
+    /**
+      * pointer to the unique instance of preference manager.
+      */
+    PreferencesManager* m_options;
 
 };
 

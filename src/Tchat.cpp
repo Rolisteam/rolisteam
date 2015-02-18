@@ -25,7 +25,7 @@
 #include "Tchat.h"
 #include "TextEditAmeliore.h"
 #include "types.h"
-#include "variablesGlobales.h"
+//#include "variablesGlobales.h"
 
 
 /********************************************************************/

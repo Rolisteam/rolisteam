@@ -23,7 +23,7 @@
 	#include <QtGui>
 
 	#include "EditeurNotes.h"
-	#include "variablesGlobales.h"
+//	#include "variablesGlobales.h"
 
 
 	/********************************************************************/
