@@ -67,7 +67,7 @@ AudioPlayer*  AudioPlayer::getInstance(QWidget *parent)
 }
 void AudioPlayer::setupUi()
 {
-        setWindowTitle(tr("Musiques d'ambiance"));
+        setWindowTitle(tr("Music Player"));
         setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
         setFeatures(QDockWidget::AllDockWidgetFeatures);
         setMinimumWidth(255);
@@ -92,7 +92,7 @@ void AudioPlayer::setupUi()
         layoutAffichage->addWidget(m_informationScreen);
 
 
-        // Creation du selecteur de volume
+
         m_volumeLevel = new Phonon::VolumeSlider(this);
         m_volumeLevel->setAudioOutput(m_audioOutput);
         m_volumeLevel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
