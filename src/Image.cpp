@@ -21,10 +21,12 @@
 
 
 #include <QtGui>
-#include "Image.h"
 #include <QHBoxLayout>
 #include <QFileInfo>
+
+
 #include "improvedworkspace.h"
+#include "Image.h"
 Image::Image(ImprovedWorkspace *parent)
     : SubMdiWindows(parent),m_NormalSize(0,0)
 {
