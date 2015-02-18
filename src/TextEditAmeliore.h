@@ -36,14 +36,16 @@ class TextEditAmeliore : public QTextEdit
         TextEditAmeliore(QWidget *parent = 0);
 
     signals :
-        void entreePressee();
-        void hautPressee();
-        void basPressee();
+        void textValidated(QString text);
         void ctrlUp();
         void ctrlDown();
 
     protected :
         void keyPressEvent(QKeyEvent *e);
+
+    private:
+        QStringList m_history;
+        int m_histPos;
 };
 
 #endif

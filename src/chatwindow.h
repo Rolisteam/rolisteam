@@ -96,16 +96,11 @@ private :
     TextEditAmeliore * zoneEdition;    // Zone de texte ou l'utilisateur peut ecrire
     QAction * m_toggleViewAction;
 
-    QList<QString> historiqueMessages; // Contient l'historique des anciens messages
-    int numHistorique;                 // Numero de la ligne de l'historique actuelle
-
-    int calculerJetDes(QString &message, QString &tirage, bool &ok);
-    int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool ok);
+    int calculerJetDes(QString &message, QString & tirage, bool &ok);
+    int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok);
 
 private slots :
-    void emettreTexte();
-    void monterHistorique();
-    void descendreHistorique();
+    void emettreTexte(QString message);
     void upSelectPerson();
     void downSelectPerson();
     void scheduleUpdateChatMembers();

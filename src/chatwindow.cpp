@@ -74,10 +74,6 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     m_toggleViewAction->setCheckable(true);
     connect(m_toggleViewAction, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
 
-    // Mise a 0 de l'historique des messages
-    historiqueMessages.clear();
-    numHistorique = 0;
-
     // Les 2 parties du tchat seront positionnees verticalement dans la fenetre
     setOrientation(Qt::Vertical);
     // Les widgets contenus ne peuvent pas avoir une taille de 0
@@ -129,10 +125,7 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     setSizes(tailles);
 
     // Connexion du signal de validation du text de la zone d'edition a la demande d'emission
-    connect(zoneEdition, SIGNAL(entreePressee()), this, SLOT(emettreTexte()));
-    // Connexion des signaux haut et bas au defilement des anciens messages
-    connect(zoneEdition, SIGNAL(hautPressee()), this, SLOT(monterHistorique()));
-    connect(zoneEdition, SIGNAL(basPressee()), this, SLOT(descendreHistorique()));
+    connect(zoneEdition, SIGNAL(textValidated(QString)), this, SLOT(emettreTexte(QString)));
 
     connect(zoneEdition, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
     connect(zoneEdition, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
@@ -169,22 +162,12 @@ AbstractChat * ChatWindow::chat() const
 /********************************************************************/    
 /* La zone d'edition est recopiee dans la zone d'affichage, puis    */
 /* envoyee aux autres utilisateurs, avant d'etre effacee            */
-/********************************************************************/    
-void ChatWindow::emettreTexte()
+/********************************************************************/
+// not (const QString & message), because we change it !
+void ChatWindow::emettreTexte(QString message)
 {
     //NetMsg::ChatMessageAction, NetMsg::DiceMessageAction, NetMsg::EmoteMessageAction
     NetMsg::Action action = NetMsg::DiceMessageAction;
-
-    // On recupere le texte de la zone d'edition
-    QString message = zoneEdition->toPlainText();
-    
-    // Si le message est issu de l'historique, on supprime le dernier element de la liste
-    if (numHistorique < historiqueMessages.size())
-        historiqueMessages.removeLast();
-    
-    // On ajoute le message a l'historique
-    historiqueMessages.append(message);
-    numHistorique = historiqueMessages.size();
 
     bool ok=true;
     QString tirage;
@@ -390,7 +373,7 @@ void ChatWindow::closeEvent(QCloseEvent *event)
     QWidget::closeEvent(event);
 }
 
-int ChatWindow::calculerJetDes(QString &message, QString &tirage, bool &ok)
+int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
 {
     //1 by default to add, -1 to substract.
     short signOperator=1;
@@ -564,7 +547,7 @@ int ChatWindow::calculerJetDes(QString &message, QString &tirage, bool &ok)
 /* neree pour expliquer le tirage, un autre pour le glitch.         */
 /* Les Gremlins et la regle du 6 again (usage de l'edge) sont geres.*/
 /********************************************************************/    
-int ChatWindow::calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool ok)
+int ChatWindow::calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok)
 {
     //Initialisation du nombre de succes, de glitches, et des parametres du lancer
     int nbDes;
@@ -727,43 +710,6 @@ int ChatWindow::calculerJetDesSR4(QString &message, QString &tirage, QString &gl
     return nbSucces;
 }
 // FIN Ultyme
-
-/********************************************************************/    
-/* Affiche le message precedent                                     */
-/********************************************************************/    
-void ChatWindow::monterHistorique()
-{
-    // Ne s'applique que si la liste n'est pas vide
-    if (historiqueMessages.isEmpty())
-        return;
-    
-    // C'est la 1ere fois que l'utilisateur appuie sur la touche : on memorise la ligne actuelle
-    if (numHistorique == historiqueMessages.size())
-        historiqueMessages.append(zoneEdition->toPlainText());
-
-    // Si on a atteint le 1er message on arrete de remonter
-    if (numHistorique)
-        numHistorique--;
-        
-    // Affichage de l'ancien message dans la zone d'edition
-    zoneEdition->clear();
-    zoneEdition->append(historiqueMessages[numHistorique]);
-}
-    
-/********************************************************************/    
-/* Affiche le message suivant                                       */
-/********************************************************************/    
-void ChatWindow::descendreHistorique()
-{
-    // Uniquement si on a deja appuye sur fleche haut
-    if (numHistorique < historiqueMessages.size() - 1)
-    {
-        numHistorique++;
-        // Affichage du nouveau message dans la zone d'edition
-        zoneEdition->clear();
-        zoneEdition->append(historiqueMessages[numHistorique]);
-    }
-}
 
 bool ChatWindow::hasUnseenMessage() const
 {

@@ -23,6 +23,7 @@
 
 #include "TextEditAmeliore.h"
 
+static const int MaxHistorySize = 100;
 
 TextEditAmeliore::TextEditAmeliore(QWidget *parent)
     : QTextEdit(parent)
@@ -35,20 +36,61 @@ void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
     {
         case Qt::Key_Return:
         case Qt::Key_Enter:
-            emit entreePressee();
-            break;
+        {
+            QString text = toPlainText().trimmed();
+            if (!text.isEmpty())
+            {
+                m_history.append(text);
+                while (m_history.size() > MaxHistorySize)
+                    m_history.removeFirst();
+                m_histPos = m_history.size();
+                emit textValidated(text);
+                clear();
+            }
+        } break;
+
         case Qt::Key_Up:
             if (e->modifiers() & Qt::ControlModifier)
                 emit ctrlUp();
-            else
-                emit hautPressee();
+            else if (m_histPos > 0)
+            {
+                QString text = toPlainText().trimmed();
+                if (!text.isEmpty())
+                {
+                    if (m_histPos == m_history.size())
+                        m_history.append(text);
+                    else
+                        m_history.replace(m_histPos, text);
+                }
+
+                m_histPos -= 1;
+                setPlainText(m_history[m_histPos]);
+            }
             break;
+
         case Qt::Key_Down:
             if (e->modifiers() & Qt::ControlModifier)
                 emit ctrlDown();
             else
-                emit basPressee();
+            {
+                QString text = toPlainText().trimmed();
+                if (!text.isEmpty())
+                {
+                    if (m_histPos == m_history.size())
+                        m_history.append(text);
+                    else
+                        m_history.replace(m_histPos, text);
+                }
+
+                if (m_histPos < m_history.size())
+                    m_histPos += 1;
+                if (m_histPos < m_history.size())
+                    setPlainText(m_history[m_histPos]);
+                else
+                    clear();
+            }
             break;
+
         default:
             QTextEdit::keyPressEvent(e);
     }
