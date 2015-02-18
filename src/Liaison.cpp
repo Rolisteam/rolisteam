@@ -82,7 +82,7 @@
 		{
 			// Destruction du socket
 			socketTcp->~QTcpSocket();
-			// On quitte le thread
+			// Onception du plan quitte le thread
 			quit();
 		}
 	}
@@ -370,7 +370,7 @@
 					// On met a jour l'espace de travail en consequence (limitation des droits)
 					G_mainWindow->changementNatureUtilisateur();
 					// On affiche un message dans le log utilisateur
-					ecrireLogUtilisateur(tr("Un MJ est déj�  connecté au serveur, celui-ci vous donne donc le statut de joueur"));
+                    ecrireLogUtilisateur(tr("Un MJ est déjà  connecté au serveur, celui-ci vous donne donc le statut de joueur"));
 				}
 			}
 
@@ -525,7 +525,7 @@
 
 			// S'il ne s'agit pas d'un ajout de PJ consecutif a la connexion, on ecrit un message sur le log utilisateur
 			if (dessin)
-				ecrireLogUtilisateur(G_listeUtilisateurs->nomUtilisateur(idJoueur) + tr(" vient de créer un nouveau personnage"));
+				ecrireLogUtilisateur(G_listeUtilisateurs->nomUtilisateur(idJoueur) + tr(" vient de crÃ©er un nouveau personnage"));
 
 			// Liberation de la memoire allouee
 			delete[] tableauIdJoueur;
@@ -1453,7 +1453,7 @@
 			else
 			{
 				// Message sur le log utilisateur
-				ecrireLogUtilisateur(tr("Le plan \"") + carteFenetre->windowTitle() + tr("\" vient d'être fermé par le MJ"));
+				ecrireLogUtilisateur(tr("Le plan \"") + carteFenetre->windowTitle() + tr("\" vient d'Ãªtre fermÃ© par le MJ"));
 				// Suppression du plan
 				carteFenetre->~CarteFenetre();
 			}
@@ -1474,7 +1474,7 @@
 	/********************************************************************/
 	void Liaison::receptionMessageImage()
 	{
-		qDebug("Reception d'un message de categorie Image");
+		qDebug("Réception d'un message de categorie Image");
 		int p = 0;
 
 		// L'hote demande a l'ordinateur local de creer l'image passee dans le message
@@ -1519,7 +1519,7 @@
 			QImage *img = new QImage;
 			bool ok = img->loadFromData(byteArray, "jpeg");
 			if (!ok)
-				qWarning("Probleme de decompression de l'image (receptionMessageImage - Liaison.cpp)");
+				qWarning("Problème de decompression de l'image (réceptionMessageImage - Liaison.cpp)");
 
 			// Creation de l'Image
 		    Image *imageFenetre = new Image(idImage, idJoueur, img);
@@ -1572,7 +1572,7 @@
 
 		else
 		{
-			qWarning("Action image inconnue (receptionMessageImage - Liaison.cpp)");
+			qWarning("Action image inconnue (réceptionMessageImage - Liaison.cpp)");
 			return;
 		}
 	}
@@ -1748,7 +1748,7 @@
 	/********************************************************************/
 	void Liaison::receptionMessageParametres()
 	{
-		qDebug("Reception d'un message de categorie Parametres");
+		qDebug("Reception d'un message de categorie Paramètres");
 	}
 
 	/********************************************************************/
