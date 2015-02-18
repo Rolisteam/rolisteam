@@ -61,7 +61,7 @@ BarreOutils::BarreOutils(QWidget *parent)
         setWindowTitle(tr("Tools"));
         setObjectName("BarreOutils");
 	// Parametrage du dockWidget
-        setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 	// Creation du widget contenant les boutons
 	outils = new QWidget(this);
@@ -99,12 +99,12 @@ BarreOutils::~BarreOutils()
 /* Autorise ou pas la selection des couleurs de masquage et         */
 /* demasquage en fonction de la nature de l'utilisateur (MJ/joueur) */
 /********************************************************************/	
-void BarreOutils::autoriserOuInterdireCouleurs()
+void BarreOutils::updateUi()
 {
 	couleur->autoriserOuInterdireCouleurs();
         if(!PlayersList::instance().localPlayer()->isGM())
         {
-            diametrePnj->setVisible(false);
+            m_npcDiameter->setVisible(false);
         }
 }
 
@@ -329,16 +329,12 @@ void BarreOutils::creerOutils()
 
 
     // Creation du selecteur de diametre des PNJ
-    diametrePnj = new SelecteurDiametre(outils, false, 12, 200);
-    diametrePnj->setToolTip(tr("NPC Size"));
-    connect(diametrePnj, SIGNAL(valueChanging(int)),this, SLOT(changeCharacterSize(int)));
-    connect(diametrePnj, SIGNAL(valueChanged(int)),this, SLOT(sendNewCharacterSize(int)));
+    m_npcDiameter = new SelecteurDiametre(outils, false, 12, 200);
+    m_npcDiameter->setToolTip(tr("NPC Size"));
+    connect(m_npcDiameter, SIGNAL(valueChanging(int)),this, SLOT(changeCharacterSize(int)));
+    connect(m_npcDiameter, SIGNAL(valueChanged(int)),this, SLOT(sendNewCharacterSize(int)));
 
-    /// @todo hide diametrePNj for players.
-    if(!PlayersList::instance().localPlayer()->isGM())
-    {
-        diametrePnj->setVisible(false);
-    }
+
 
 
 	//Creation du separateur se trouvant entre le selecteur de couleur et les outils de dessin
@@ -398,7 +394,7 @@ void BarreOutils::creerOutils()
 	outilsLayout->addWidget(nomPnj);
 	outilsLayout->addWidget(separateur5);
         //if(PlayersList::instance().localPlayer()->isGM())
-        outilsLayout->addWidget(diametrePnj);
+        outilsLayout->addWidget(m_npcDiameter);
         //outilsLayout->addWidget(m_pcDiameter);
 	// Alignement du widget outils sur le haut du dockWidget
 	layout()->setAlignment(outils, Qt::AlignTop | Qt::AlignHCenter);
@@ -491,7 +487,7 @@ void BarreOutils::changeCouleurActuelle(QColor coul)
 void BarreOutils::mettreAJourPnj(int diametre, QString nom)
 {
 	// M.a.j du diametre du PNJ (ce qui met a jour la variable globale)
-	diametrePnj->changerDiametre(diametre);
+    m_npcDiameter->changerDiametre(diametre);
 	// M.a.j de la zone de texte contenant le nom du PNJ
 	nomPnj->setText(nom);
 	// M.a.j de la variable globale contenant le nom du PNJ
@@ -502,7 +498,7 @@ void BarreOutils::changeMap(Carte * map)
 {
     m_map = map;
     if (m_map != NULL)
-        diametrePnj->changerDiametre(map->tailleDesPj());
+        m_npcDiameter->changerDiametre(map->tailleDesPj());
 }
 
 /********************************************************************/	
@@ -652,6 +648,8 @@ void BarreOutils::sendNewCharacterSize(int size)
         message.sendAll();
     }
 }
+
+
 void BarreOutils::currentToolHasChanged(QAction* bt)
 {
     Tool previous = m_currentTool;

@@ -42,6 +42,7 @@ ConnectionRetryDialog::ConnectionRetryDialog(QWidget *parent) :
 ConnectionRetryDialog::~ConnectionRetryDialog()
 {
     delete ui;
+    delete m_timer;
 }
 void ConnectionRetryDialog::resetCounter()
 {

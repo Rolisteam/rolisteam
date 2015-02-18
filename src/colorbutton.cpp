@@ -23,7 +23,7 @@
 
 #include <QColorDialog>
 #include <QPlastiqueStyle>
-#include <QPainter>
+
 #include <QPaintEvent>
 #include <QStyleOptionFocusRect>
 #include <QDebug>

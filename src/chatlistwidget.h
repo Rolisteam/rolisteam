@@ -36,7 +36,7 @@ class ChatListWidget : public QDockWidget
     Q_OBJECT
 
     public:
-        ChatListWidget(MainWindow * parent);
+        ChatListWidget(MainWindow * parent=0);
         ~ChatListWidget();
 
         QMenu * chatMenu() const;

@@ -37,7 +37,7 @@
 #include <QLabel>
 
 
-#include "initialisation.h"
+#include "preferencesmanager.h"
 #include "types.h"
 
 class QHBoxLayout;
@@ -73,7 +73,8 @@ private:
     QVBoxLayout *selecteurLayout;
     QGridLayout *grillePredef;
     bool boutonEnfonce;
-    Initialisation* m_init;
+    PreferencesManager* m_preferences;
+
 protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);

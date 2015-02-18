@@ -31,6 +31,11 @@ PersonDialog::PersonDialog(QWidget * parent)
     setUI();
 
 }
+PersonDialog::~PersonDialog()
+{
+    delete m_name_w;
+    delete m_color_w;
+}
 
 QString PersonDialog::getName() const
 {
@@ -60,13 +65,13 @@ void PersonDialog::setUI()
     formLayout->addRow(tr("&Name : "), m_name_w);
     formLayout->addRow(tr("&Color : "), m_color_w);
 
-    QPushButton* okButton = new QPushButton(tr("OK"));
+    QPushButton* okButton = new QPushButton(tr("OK"),this);
     okButton->setDefault(true);
 
-    QPushButton* cancelButton = new QPushButton(tr("&Cancel"));
+    QPushButton* cancelButton = new QPushButton(tr("&Cancel"),this);
     cancelButton->setAutoDefault(false);
 
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(Qt::Horizontal);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(Qt::Horizontal,this);
     buttonBox->addButton(cancelButton,QDialogButtonBox::RejectRole);
     buttonBox->addButton(okButton,QDialogButtonBox::AcceptRole);
 

@@ -44,8 +44,8 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 {
 	// L'utilisateur n'a pas encore clique sur le selecteur de couleur
 	boutonEnfonce = false;
-    m_init = Initialisation::getInstance();
 
+    m_preferences =  PreferencesManager::getInstance();
 	// Initialisation des couleurs de base
 	int rouge[48] = {255,255,128,0,128,0,255,255, 255,255,128,0,0,0,128,255, 128,255,0,0,0,128,128,255, 128,255,0,0,0,0,128,128, 64,128,0,0,0,0,64,64, 0,128,128,128,64,192,64,255};
 	int vert[48] = {128,255,255,255,255,128,128,128, 0,255,255,255,255,128,128,0, 64,128,255,128,64,128,0,0, 0,128,128,128,0,0,0,0, 0,64,64,64,0,0,0,0, 0,128,128,128,128,192,64,255};
@@ -129,7 +129,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
                 couleurPersonnelle[i]->setToolTip(tr("Custom Color %1 ").arg(i+1));
 
 		// Mise a jour des couleurs personnelles de QColorDialog
-        QColorDialog::setCustomColor(i, m_init->getCustomColorAt(i).rgb());
+                QColorDialog::setCustomColor(i, m_preferences->value(QString("customcolors%1").arg(i),Qt::white).value<QColor>().rgb());
 
 		// Ajout du widget au layout
 		grillePerso->addWidget(couleurPersonnelle[i], y, x);
@@ -207,8 +207,14 @@ SelecteurCouleur::~SelecteurCouleur()
     delete couleurEfface;
     delete couleurMasque;
     delete couleurDemasque;
-    delete[] couleurPredefinie;
-    delete[] couleurPersonnelle;
+    for(int i=0; i<48;++i)
+    {
+        delete couleurPredefinie[i];
+    }
+    for(int i=0; i<16;++i)
+    {
+        delete couleurPersonnelle[i];
+    }
     delete separateur1;
     delete separateur2;
     delete efface_pix;

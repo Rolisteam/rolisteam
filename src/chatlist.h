@@ -39,7 +39,7 @@ class ChatList
     Q_OBJECT
 
 public:
-    ChatList(MainWindow * mainWindow);
+    ChatList(MainWindow * mainWindow=0);
     ~ChatList();
 
     // implements QAbstractItemModel

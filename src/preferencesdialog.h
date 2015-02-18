@@ -24,8 +24,10 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include <QCheckBox>
 
-#include "initialisation.h"
+
+#include "preferencesmanager.h"
 /**
  * @brief A LineEdit with a button to choose a directory.
  * @todo Make it private or in its own file.
@@ -76,7 +78,9 @@ private:
     DirChooser * m_sessionsDir;
     DirChooser * m_notesDir;
     DirChooser * m_chatsDir;
-    Initialisation* m_init;
+
+    PreferencesManager* m_preferences;
+    QCheckBox* m_checkUpdateAtStartUp;
 };
 
 #endif

@@ -30,6 +30,8 @@
 #include <QTimer>
 #include <QToolBar>
 #include <QVBoxLayout>
+#include <QDir>
+
 
 #include "chat.h"
 #include "networkmessagewriter.h"
@@ -53,9 +55,9 @@ QStringList ChatWindow::m_keyWordList;
 /* Constructeur                                                     */
 /********************************************************************/    
 ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
-    : QSplitter(parent), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)
+    : QSplitter(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)
 {
-    m_init = Initialisation::getInstance();
+    m_preferences = PreferencesManager::getInstance();
     if (m_chat == NULL)
     {
         qFatal("ChatWindow with NULL chat");
@@ -736,7 +738,7 @@ void ChatWindow::setVisible(bool visible)
 
 void ChatWindow::save()
 {
-    QString filename = m_filename.arg(m_init->getChatDirectory(), m_chat->name());
+    QString filename = m_filename.arg(m_preferences->value("ChatDirectory",QDir::homePath()).toString(), m_chat->name());
     QFile file (filename);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
     {

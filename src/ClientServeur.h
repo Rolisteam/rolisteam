@@ -31,9 +31,12 @@
 #include <QTimer>
 #include <QDialog>
 
+
+#include "connectiondialog.h"
 #include "ui_timerdialog.h"
 #include "initialisation.h"
 #include "connectionretrydialog.h"
+#include "preferencesmanager.h"
 
 class Player;
 class Liaison;
@@ -77,6 +80,8 @@ signals :
 
 
 private :
+    void synchronizePreferences();
+
     QTcpServer * m_server;
     QList<Liaison *> liaisons;
     Liaison * m_liaisonToServer;
@@ -84,9 +89,10 @@ private :
     QString m_address;
     QTimer* m_reconnect;
     Player * m_localPlayer;
-    Initialisation* m_init;
+    PreferencesManager* m_preferences;
 
     ConnectionRetryDialog* m_dialog;
+    ConnectionConfigDialog* m_configDialog;
 
 
 private slots :

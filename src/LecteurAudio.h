@@ -54,11 +54,11 @@
 #include <path.h>
 #endif
 
-#include "initialisation.h"
+#include "preferencesmanager.h"
 
 class Liaison;
     
-class LecteurAudio : public QDockWidget
+class LecteurAudio : public QDockWidget//QDockWidget
 {
     Q_OBJECT
 
@@ -68,7 +68,7 @@ public :
         * @brief provides the current volume level
         */
     qreal volume();
-
+    ~LecteurAudio();
     /**
     * @brief return a pointer to the unique audio player. Sigleton pattern
     */
@@ -149,7 +149,7 @@ private :
     bool m_endFile;
 
 
-    Initialisation* m_init;
+    PreferencesManager* m_preferences;
     QMutex m_mutex;
 private slots :
     /**

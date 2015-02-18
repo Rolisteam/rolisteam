@@ -34,8 +34,8 @@
 WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
 : QWorkspace(parent)
 {
-    m_init = Initialisation::getInstance();
-    QString fichierImage = QDir::homePath() + "/." + m_init->getApplicationName() + "/" + m_init->getApplicationName() + ".bmp";
+    m_preferences =  PreferencesManager::getInstance();
+    QString fichierImage = QDir::homePath() + "/." + m_preferences->value("Application_Name","rolisteam").toString() + "/" + m_preferences->value("Application_Name","rolisteam").toString() + ".bmp";
 
     if (!QFile::exists(fichierImage))
     {
@@ -47,7 +47,8 @@ WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
     setBackground(m_background);
 
 
-    m_variableSizeBackground = new QPixmap(this->size());
+    m_variableSizeBackground = new QPixmap(size());
+
 
     m_variableSizeBackground->fill(m_color);
     QPainter painter(m_variableSizeBackground);
@@ -56,27 +57,16 @@ WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
     m_backgroundPicture = new QPixmap(fichierImage);
 
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
-    this->setBackground(QBrush(*m_variableSizeBackground));
+    setBackground(QBrush(*m_variableSizeBackground));
 }
 
-/********************************************************************/
-/* Redessine le fond                                                */
-/********************************************************************/	
-/*void WorkspaceAmeliore::paintEvent(QPaintEvent *event)
+WorkspaceAmeliore::~WorkspaceAmeliore()
 {
-	// Creation du painter pour pouvoir dessiner
-	QPainter painter(this);
+    delete m_backgroundPicture;
+    delete m_variableSizeBackground;
+    delete m_variableSizeBackground;
+}
 
-	// On calcule l'intersection de la zone a repeindre avec la taille de l'image
-	QRect zoneARecopier = event->rect().intersected(QRect(0, 0, imageFond->width(), imageFond->height()));
-
-	// Si la zone n'est pas vide, on recopie l'image de fond dans le workspace
-	if (!zoneARecopier.isEmpty())
-		painter.drawImage(zoneARecopier, *imageFond, zoneARecopier);
-
-
-    QWorkspace::paintEvent(event);
-}*/
 void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )
 {
     Q_UNUSED(event);
@@ -84,15 +74,17 @@ void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )
     {
         return;
     }
+    if(m_variableSizeBackground)
+    {
+        delete m_variableSizeBackground;
+    }
 
-    delete m_variableSizeBackground;
-
-    m_variableSizeBackground = new QPixmap(this->size());
+    m_variableSizeBackground = new QPixmap(size());
     m_variableSizeBackground->fill(m_color);
     QPainter painter(m_variableSizeBackground);
 
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
-    this->setBackground(QBrush(*m_variableSizeBackground));
+    setBackground(QBrush(*m_variableSizeBackground));
 
     QWorkspace::resizeEvent(event);
 }

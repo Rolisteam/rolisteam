@@ -51,6 +51,8 @@ public:
      */
     ~Initialisation();
 
+
+
     void saveConfiguration();
     QString getUserName() const;
     QColor getUserColor() const;
@@ -93,6 +95,9 @@ public:
 
     void createDirectories();
 
+    bool mustCheckUpdate();
+    void setCheckUpdate(bool );
+
 private:
     static Initialisation* m_singleton;
     QString m_confdir;
@@ -117,6 +122,7 @@ private:
     QString m_chatDirectory;
     QColor m_customColor[COLOR_TAB_SIZE];
     int m_volumeLevel;
+    bool m_mustCheckUpdate;
 };
 
 #endif

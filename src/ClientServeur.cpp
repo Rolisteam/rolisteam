@@ -27,7 +27,7 @@
 #include <QTcpSocket>
 #include <QMessageBox>
 
-#include "connectiondialog.h"
+
 #include "initialisation.h"
 #include "Liaison.h"
 #include "mainwindow.h"
@@ -37,10 +37,6 @@
 #include "variablesGlobales.h"
 
 
-/********************************************************************/
-/* Variables globales utilisees par tous les elements de            */
-/* l'application                                                    */
-/********************************************************************/    
 
 // True si l'utilisateur est un joueur, false s'il est MJ
 bool G_joueur;
@@ -57,28 +53,6 @@ void emettre(char *donnees, quint32 taille, Liaison *sauf)
     G_clientServeur->emettreDonnees(donnees, taille, sauf);
 }
 
-
-/********************************
- * Private non-member functions *
- ********************************/
-
-static void synchronizeInitialisation(const ConnectionConfigDialog & dialog)
-{
-    Initialisation* init = Initialisation::getInstance();
-    init->setUserName(dialog.getName());
-    init->setUserColor(dialog.getColor());
-    init->setPlayer(!dialog.isGM());
-    init->setClient(!dialog.isServer());
-
-    G_joueur= !dialog.isGM();
-    G_client= !dialog.isServer();
-    init->setIpAddress(dialog.getHost());
-    init->setServerPort(dialog.getPort());
-    init->setClientPort(QString().setNum(dialog.getPort()));
-
-}
-
-
 /*****************
  * ClientServeur *
  *****************/
@@ -86,26 +60,56 @@ static void synchronizeInitialisation(const ConnectionConfigDialog & dialog)
 ClientServeur::ClientServeur()
     : QObject(), m_server(NULL),m_liaisonToServer(NULL)
 {
-    m_init = Initialisation::getInstance();
-    m_reconnect = new QTimer(this);
 
+    m_reconnect = new QTimer(this);
+    m_preferences =  PreferencesManager::getInstance();
     //m_thread = new ConnectionRetryThread();
     m_dialog = new ConnectionRetryDialog();
     connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
     connect(m_dialog,SIGNAL(rejected()),this,SIGNAL(stopConnectionTry()));
+
+    m_configDialog = new ConnectionConfigDialog(
+                m_preferences->value("UserName",tr("UserName")).toString(),
+                m_preferences->value("UserColor",QColor(255,255,255)).value<QColor>(),
+                !m_preferences->value("isPlayer",true).toBool(),
+                m_preferences->value("ipaddress","").toString(),
+                m_preferences->value("ServerPort",6660).toInt(),
+                !m_preferences->value("isClient",true).toBool());
 
 }
 
 
 ClientServeur::~ClientServeur()
 {
-    // QObject should delete all for us.
+    if(NULL!=m_configDialog)
+    {
+        delete m_configDialog;
+        m_configDialog = NULL;
+    }
+    if(NULL!=m_dialog)
+    {
+        delete m_dialog;
+        m_dialog = NULL;
+    }
+    delete m_reconnect;
+}
+void ClientServeur::synchronizePreferences()
+{
+    m_preferences->registerValue("UserName",m_configDialog->getName());
+    m_preferences->registerValue("UserColor",m_configDialog->getColor());
+    m_preferences->registerValue("isPlayer",!m_configDialog->isGM());
+    m_preferences->registerValue("ipaddress",m_configDialog->getHost());
+    G_joueur= !m_configDialog->isGM();
+    G_client= !m_configDialog->isServer();
+    m_preferences->registerValue("ServerPort",m_configDialog->getPort());
+    m_preferences->registerValue("isClient",!m_configDialog->isServer());
+    m_preferences->registerValue("clientPort",m_configDialog->getPort());
+
 }
 
 bool ClientServeur::configAndConnect()
 {
-    ConnectionConfigDialog configDialog(
-        m_init->getUserName(),m_init->getUserColor(),!m_init->isPlayer(),m_init->getIpAddress(), m_init->getServerPort(), !m_init->isClient());
+
 
 
     QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
@@ -114,14 +118,17 @@ bool ClientServeur::configAndConnect()
     PlayersList & g_playersList = PlayersList::instance();
 
     // If the user abort configDialog, we quit
-    if (configDialog.exec() == QDialog::Rejected)
+    if (m_configDialog->exec() == QDialog::Rejected)
+    {
         return false;
-    synchronizeInitialisation(configDialog);
+    }
+    //synchronizeInitialisation(configDialog);
+    synchronizePreferences();
     m_localPlayer = new Player(
             QUuid(G_idJoueurLocal),
-            configDialog.getName(),
-            configDialog.getColor(),
-            configDialog.isGM()
+            m_configDialog->getName(),
+            m_configDialog->getColor(),
+            m_configDialog->isGM()
         );
 
     bool cont = true;
@@ -130,7 +137,7 @@ bool ClientServeur::configAndConnect()
 
 
         // Server setup
-        if (configDialog.isServer())
+        if (m_configDialog->isServer())
         {
             if (m_server == NULL)
             {
@@ -139,7 +146,7 @@ bool ClientServeur::configAndConnect()
             }
 
             // Listen successed
-            if (m_server->listen(QHostAddress::Any, configDialog.getPort()))
+            if (m_server->listen(QHostAddress::Any, m_configDialog->getPort()))
             {
                 //synchronizeInitialisation(configDialog);
                 connect(this, SIGNAL(linkDeleted(Liaison *)), &g_playersList, SLOT(delPlayerWithLink(Liaison *)));
@@ -158,8 +165,8 @@ bool ClientServeur::configAndConnect()
         // Client setup
         else
         {
-            m_port = configDialog.getPort();
-            m_address = configDialog.getHost();
+            m_port = m_configDialog->getPort();
+            m_address = m_configDialog->getHost();
             if(startConnection())
             {
                 cont = false;

@@ -36,12 +36,13 @@
 #include <QWorkspace>
 
 
-#include "initialisation.h"
+#include "preferencesmanager.h"
 
 class WorkspaceAmeliore : public QWorkspace
 {
 public :
     WorkspaceAmeliore(QWidget *parent = 0);
+    ~WorkspaceAmeliore();
 
 private :
 	QImage *imageFond;		// Image de fond du workspace
@@ -54,8 +55,9 @@ private:
     QColor m_color;
 
     QPixmap* m_backgroundPicture;
-    Initialisation* m_init;
     QPixmap* m_variableSizeBackground;
+
+    PreferencesManager* m_preferences;
 };
 
 #endif

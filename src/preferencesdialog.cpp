@@ -94,7 +94,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
  : QDialog(parent, f)
 {
 
-    m_init = Initialisation::getInstance();
+    m_preferences = PreferencesManager::getInstance();
     // Children
 #ifndef NULL_PLAYER
     m_gmMusicDir     = new DirChooser;
@@ -106,6 +106,11 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     m_notesDir       = new DirChooser;
     m_chatsDir       = new DirChooser;
 
+
+    QHBoxLayout * layoutH = new QHBoxLayout;
+    layoutH->addWidget(new QLabel(tr("Check update at start up:")));
+    m_checkUpdateAtStartUp = new QCheckBox();
+    layoutH->addWidget(m_checkUpdateAtStartUp);
     // Form layout
     QFormLayout * formLayout = new QFormLayout;
 #ifndef NULL_PLAYER
@@ -123,8 +128,10 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
     // Main layout
     QVBoxLayout * layout = new QVBoxLayout;
+    layout->addLayout(layoutH);
     layout->addLayout(formLayout);
     layout->addWidget(buttonBox);
+
     setLayout(layout);
 
     // Connections
@@ -134,7 +141,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
     // Misc
     setSizeGripEnabled(true);
-    setWindowTitle(QString("%1 - %2").arg(m_init->getApplicationName(),tr("Preferences")));
+    setWindowTitle(QString("%1 - %2").arg(m_preferences->value("Application_Name","rolisteam").toString(),tr("Preferences")));
     setWindowModality(Qt::ApplicationModal);
 }
 
@@ -152,25 +159,27 @@ void PreferencesDialog::show()
 void PreferencesDialog::load()
 {
 #ifndef NULL_PLAYER
-    m_gmMusicDir->setDirName(m_init->getMusicDirectoryGM());
-    m_playerMusicDir->setDirName(m_init->getMusicDirectoryPlayer());
+    m_gmMusicDir->setDirName(m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString());
+    m_playerMusicDir->setDirName(m_preferences->value("MusicDirectoryPlayer",QDir::homePath()).toString());
 #endif
-    m_picturesDir->setDirName(m_init->getImageDirectory());
-    m_mapsDir->setDirName(m_init->getMapDirectory());
-    m_sessionsDir->setDirName(m_init->getScenarioDirectory());
-    m_notesDir->setDirName(m_init->getMinutesDirectory());
-    m_chatsDir->setDirName(m_init->getChatDirectory());
+    m_picturesDir->setDirName(m_preferences->value("ImageDirectory",QDir::homePath()).toString());
+    m_mapsDir->setDirName(m_preferences->value("MapDirectory",QDir::homePath()).toString());
+    m_sessionsDir->setDirName(m_preferences->value("SessionDirectory",QDir::homePath()).toString());
+    m_notesDir->setDirName(m_preferences->value("MinutesDirectory",QDir::homePath()).toString());
+    m_chatsDir->setDirName(m_preferences->value("ChatDirectory",QDir::homePath()).toString());
+    m_checkUpdateAtStartUp->setChecked(m_preferences->value("MainWindow_MustBeChecked",true).toBool());
 }
 
 void PreferencesDialog::save() const
 {
 #ifndef NULL_PLAYER
-    m_init->setMusicDirectoryGM(m_gmMusicDir->dirName());
-    m_init->setMusicDirectoryPlayer(m_playerMusicDir->dirName());
+    m_preferences->registerValue("MusicDirectoryGM",m_gmMusicDir->dirName());
+    m_preferences->registerValue("MusicDirectoryPlayer",m_gmMusicDir->dirName());
 #endif
-    m_init->setImageDirectory(m_picturesDir->dirName());
-    m_init->setMapDirectory(m_mapsDir->dirName());
-    m_init->setScenarioDirectory(m_sessionsDir->dirName());
-    m_init->setMinutesDirectory(m_notesDir->dirName());
-    m_init->setChatDirectory(m_chatsDir->dirName());
+    m_preferences->registerValue("ImageDirectory",m_picturesDir->dirName());
+    m_preferences->registerValue("MapDirectory",m_mapsDir->dirName());
+    m_preferences->registerValue("SessionDirectory",m_sessionsDir->dirName());
+    m_preferences->registerValue("MinutesDirectory",m_notesDir->dirName());
+    m_preferences->registerValue("ChatDirectory",m_chatsDir->dirName());
+    m_preferences->registerValue("MainWindow_MustBeChecked",m_checkUpdateAtStartUp->isChecked());
 }

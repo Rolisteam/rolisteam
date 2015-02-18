@@ -34,9 +34,6 @@
 #include "variablesGlobales.h"
 
 
-/*************************************/
-/* Variables globales (we love them) */
-/*************************************/
 
 
 
@@ -44,8 +41,6 @@
 QString G_idJoueurLocal;
 
 ClientServeur * G_clientServeur;
-//MainWindow    * G_mainWindow;
-
 
 /********/
 /* main */
@@ -86,7 +81,7 @@ int main(int argc, char *argv[])
 
     // Seeds random generator
     uint seed = quintptr(&app) + QDateTime::currentDateTime().toTime_t();
-    qDebug("Seed %x", seed);
+    //qDebug("Seed %x", seed);
     qsrand(seed);
 
     // We need an Uuid for the local player (do we ?)
@@ -97,21 +92,22 @@ int main(int argc, char *argv[])
 
     // Create the main window
     MainWindow* mainWindow =MainWindow::getInstance();
+    mainWindow->setupUi();
+    mainWindow->readSettings();
+    int value = 0;
     if(mainWindow->showConnectionDialog())
     {
-        mainWindow->setupUi();
+
         mainWindow->setWindowTitle(init->getApplicationName());
         mainWindow->checkUpdate();
+        mainWindow->updateUi();
         // We have a connection, we launch the main window.
         mainWindow->showNormal();
-        return app.exec();
-    }
-    else
-    {
-        return 0;
+        value = app.exec();
     }
 
-
+    delete mainWindow;
+    return value;
 
 
 } 

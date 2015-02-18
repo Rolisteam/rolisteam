@@ -49,7 +49,7 @@ public :
     virtual ~BarreOutils();
     void majCouleursPersonnelles();
     QColor donnerCouleurPersonnelle(int numero);
-    void autoriserOuInterdireCouleurs();
+    void updateUi();
 
     QAction *actionCrayon;
     QAction *actionLigne;
@@ -75,6 +75,7 @@ public slots :
     void changeCouleurActuelle(QColor coul);
     void mettreAJourPnj(int diametre, QString nom);
     void changeMap(Carte * map);
+
     
 private :
     void creerActions();
@@ -86,9 +87,9 @@ private :
     QLCDNumber *afficheNumeroPnj;
     SelecteurCouleur *couleur;
     SelecteurDiametre *diametreTrait;
-    SelecteurDiametre *diametrePnj;
+    SelecteurDiametre *m_npcDiameter;
     Carte * m_map;
-    SelecteurDiametre* m_pcDiameter;
+    //SelecteurDiametre* m_pcDiameter;
 
 
 private slots :

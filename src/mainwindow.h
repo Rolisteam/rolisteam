@@ -34,7 +34,7 @@
 #include "NouveauPlanVide.h"
 #include "DessinPerso.h"
 #include "initialisation.h"
-
+#include "preferencesmanager.h"
 
 #ifndef NULL_PLAYER
 #include "LecteurAudio.h"
@@ -82,6 +82,9 @@ public :
     bool showConnectionDialog();
     void setupUi();
     NouveauPlanVide::PermissionMode getPermission(int id);
+    void readSettings();
+    void writeSettings();
+
 
 signals:
     void closing();
@@ -93,7 +96,7 @@ public slots :
     void quitterApplication(bool perteConnexion = false);
     void checkUpdate();
     void setNetworkManager(ClientServeur*);
-
+    void updateUi();
 
 protected :
     void closeEvent(QCloseEvent *event);
@@ -101,7 +104,7 @@ protected :
 private :
     MainWindow();
     static MainWindow* m_singleton;
-    QDockWidget* creerLogUtilisateur();
+    void creerLogUtilisateur();
     void creerMenu();
     void associerActionsMenus();
     void autoriserOuInterdireActions();
@@ -109,9 +112,8 @@ private :
     void lireImage(QDataStream &file);
     void sauvegarderTousLesPlans(QDataStream &file);
     void sauvegarderToutesLesImages(QDataStream &file);
-    void sauvegarderFichierInitialisation();
-    void readSettings();
-    void writeSettings();
+
+
 
     /**
      * @brief Add a health state to a list
@@ -134,12 +136,12 @@ private :
      */
     void InitMousePointer(QCursor **pointer, const QString &iconFileName, const int hotX, const int hotY);
 
-    QDockWidget *dockLogUtil;
+
     WorkspaceAmeliore *workspace;
     ListeUtilisateurs* m_listeUtilisateurs;
     PlayersListWidget * m_playersList;
     QMenu *menuFenetre;
-    BarreOutils *barreOutils;
+    BarreOutils *m_toolBar;
     NouveauPlanVide *fenetreNouveauPlan;
     EditeurNotes *editeurNotes;
     QList <CarteFenetre *> listeCarteFenetre;
@@ -185,9 +187,12 @@ private :
 
     QString m_version;
     QDockWidget* m_dockLogUtil;
-    Initialisation* m_init;
+    PreferencesManager* m_preferences;
 
     ClientServeur* m_networkManager;
+//#ifndef NULL_PLAYER
+//    QDockWidget* m_audioDock;
+//#endif
 private slots :
     void changementNatureUtilisateur();
     void afficherNomsPj(bool afficher);

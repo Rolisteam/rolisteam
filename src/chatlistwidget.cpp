@@ -33,8 +33,9 @@
 
 
 ChatListWidget::ChatListWidget(MainWindow * parent)
-    : QDockWidget(parent)
+    : QDockWidget(/*parent*/)
 {
+    Q_UNUSED(parent);
     setWindowTitle(tr("Chat messaging"));
     setObjectName("ChatListWidget");
     setAllowedAreas(Qt::AllDockWidgetAreas);

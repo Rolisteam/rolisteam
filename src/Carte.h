@@ -32,7 +32,6 @@
 #include <QMouseEvent>
 #include <QPoint>
 #include <QPainter>
-#include <QTimer>
 #include <QFile>
 #include <QDataStream>
 

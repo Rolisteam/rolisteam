@@ -33,6 +33,7 @@ class PersonDialog
 
 public:
     PersonDialog(QWidget * parent = NULL);
+    ~PersonDialog();
 
     QString getName() const;
     QColor  getColor() const;

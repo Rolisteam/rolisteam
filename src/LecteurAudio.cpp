@@ -38,8 +38,9 @@ LecteurAudio * LecteurAudio::m_singleton = NULL;
 LecteurAudio::LecteurAudio(QWidget *parent)
     : QDockWidget(parent),m_currentSource(NULL)
 {
-    setObjectName("LecteurAudio");
-    m_init = Initialisation::getInstance();
+    m_preferences = PreferencesManager::getInstance();
+
+
     m_endFile= false;
     m_currentPlayingMode = NEXT;
     m_formerItemFile =NULL;
@@ -102,6 +103,16 @@ void LecteurAudio::onfinished()
         m_mediaObject->stop();
     }
 }
+LecteurAudio::~LecteurAudio()
+{
+
+    delete widgetPrincipal;
+   delete  widgetAffichage;
+   delete widgetCommande;
+    delete path;
+
+
+}
 
 void LecteurAudio::setupUi()
 {
@@ -113,6 +124,7 @@ void LecteurAudio::setupUi()
         widgetAffichage = new QWidget();
         widgetCommande = new QWidget();
         layoutPrincipal = new QVBoxLayout(widgetPrincipal);
+        //layoutPrincipal = new QVBoxLayout(this);
         layoutPrincipal->setMargin(0);
         QWidget *separateur1 = new QWidget();
         separateur1->setFixedHeight(2);
@@ -428,12 +440,12 @@ void LecteurAudio::updatePlayingMode()
 void LecteurAudio::addFiles()
 {
 
-        QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Add song"), m_init->getMusicDirectoryGM(), tr("Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)"));
+    QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Add song"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)"));
 
         if (listeFichiers.isEmpty())
                 return;
         QFileInfo fileinfo(listeFichiers[0]);
-        m_init->setMusicDirectoryGM(fileinfo.absolutePath());
+        m_preferences->registerValue("MusicDirectoryGM",fileinfo.absolutePath());
 
         while (!listeFichiers.isEmpty())
         {
@@ -658,14 +670,15 @@ void LecteurAudio::pselectNewFile(QString file)
     {
 
 
-        QString path(tr("%1/%2").arg(m_init->getMusicDirectoryGM()).arg(m_currentFile));
+        QString path(tr("%1/%2").arg(m_preferences->value("MusicDirectoryPlayer",QDir::homePath()).toString()).arg(m_currentFile));
 
         QFileInfo fileInfo(path);
         if (!fileInfo.exists())
         {
-
+            qDebug() << " file n'existe pas = " << path;
             QPalette palette(m_titleDisplay->palette());
             palette.setColor(QPalette::Normal, QPalette::Text, Qt::red);
+            m_titleDisplay->setEchoMode(QLineEdit::Normal);
             m_titleDisplay->setPalette(palette);
             m_titleDisplay->setText(tr("%1 : file can not be found or opened").arg(path));
             m_titleDisplay->setToolTip(tr("File can not be found or opened : %1").arg(path));
@@ -699,9 +712,9 @@ void LecteurAudio::pseek(quint32 position)
 
 void LecteurAudio::pChangeDirectory()
 {
-    QString tmp = QFileDialog::getExistingDirectory(0 , tr("Select the songs directory"), m_init->getMusicDirectoryPlayer(),
+    QString tmp = QFileDialog::getExistingDirectory(0 , tr("Select the songs directory"), m_preferences->value("MusicDirectoryPlayer",QDir::homePath()).toString(),
             QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
-        m_init->setMusicDirectoryPlayer(tmp);
+        m_preferences->registerValue("MusicDirectoryPlayer",tmp);
 
 }
 void LecteurAudio::selectionHasChanged()

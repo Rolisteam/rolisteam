@@ -136,11 +136,12 @@ MainWindow* MainWindow::getInstance()
 MainWindow::MainWindow()
         : QMainWindow()
 {
-
+    m_preferences = PreferencesManager::getInstance();
 }
 void MainWindow::setupUi()
 {
-    m_init = Initialisation::getInstance();
+    //m_preferences = Initialisation::getInstance();
+
     // Initialisation des variables globales
     G_affichageNomPj = true;
     G_affichageNomPnj = true;
@@ -174,35 +175,41 @@ void MainWindow::setupUi()
     connect(workspace, SIGNAL(windowActivated(QWidget *)), this, SLOT(changementFenetreActive(QWidget *)));
 
     // Creation de la barre d'outils
-    barreOutils = new BarreOutils(this);
+    //barreOutils = new BarreOutils(this);
+    m_toolBar = new BarreOutils();
     // Ajout de la barre d'outils a la fenetre principale
-    addDockWidget(Qt::LeftDockWidgetArea, barreOutils);
+    addDockWidget(Qt::LeftDockWidgetArea, m_toolBar);
 
     // Creation du log utilisateur
-    dockLogUtil = creerLogUtilisateur();
+    creerLogUtilisateur();
     // Ajout du log utilisateur a la fenetre principale
-    addDockWidget(Qt::RightDockWidgetArea, dockLogUtil);
+    addDockWidget(Qt::RightDockWidgetArea, m_dockLogUtil);
 
     // Add chatListWidget
     m_chatListWidget = new ChatListWidget(this);
+    //m_chatListWidget = new ChatListWidget();
     addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
 
     // Ajout de la liste d'utilisateurs a la fenetre principale
     m_playersList = new PlayersListWidget(this);
+    //m_playersList = new PlayersListWidget();
     addDockWidget(Qt::RightDockWidgetArea, m_playersList);
 
 
 
-    setWindowIcon(QIcon(":/logo.svg"));
+    setWindowIcon(QIcon(":/logo.png"));
 
 
 #ifndef NULL_PLAYER
     // Creation du lecteur audio
     m_audioPlayer = LecteurAudio::getInstance(this);
+    /*m_audioDock = new QDockWidget(this);
+    m_audioDock->setObjectName("LecteurAudio");
+    m_audioDock->setWidget(m_audioPlayer);*/
     // Ajout du lecteur audio a la fenetre principale
-    addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
+    addDockWidget(Qt::RightDockWidgetArea,m_audioPlayer );
 #endif
-    readSettings();
+    //readSettings();
     // Create Preference dialog
     m_preferencesDialog = new PreferencesDialog(this);
 
@@ -211,7 +218,7 @@ void MainWindow::setupUi()
     // Association des actions des menus avec des fonctions
     associerActionsMenus();
     // Autoriser/interdire action en fonction de la nature de l'utilisateur (joueur ou MJ)
-    autoriserOuInterdireActions();
+    //autoriserOuInterdireActions();
 
     // Creation de l'editeur de notes
     editeurNotes = new EditeurNotes(this);
@@ -262,6 +269,7 @@ void MainWindow::setupUi()
 MainWindow::~MainWindow()
 {
     delete m_dockLogUtil;
+    delete G_clientServeur;
 }
 void MainWindow::setNetworkManager(ClientServeur* tmp)
 {
@@ -271,10 +279,11 @@ void MainWindow::setNetworkManager(ClientServeur* tmp)
 }
 
 
-QDockWidget* MainWindow::creerLogUtilisateur()
+void MainWindow::creerLogUtilisateur()
 {
         // Creation du dockWidget contenant la fenetre de log utilisateur
         m_dockLogUtil = new QDockWidget(tr("Events"), this);
+        //m_dockLogUtil = new QDockWidget(tr("Events"));
         m_dockLogUtil->setObjectName("dockLogUtil");
         m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
         m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
@@ -288,7 +297,7 @@ QDockWidget* MainWindow::creerLogUtilisateur()
         // Largeur minimum du log utilisateur
         m_dockLogUtil->setMinimumWidth(125);
 
-        return m_dockLogUtil;
+
 }
 
 void MainWindow::creerMenu()
@@ -332,8 +341,8 @@ void MainWindow::creerMenu()
 
 
         // Actions checkables
-        actionAfficherNomsPj        ->setCheckable(true);
-        actionAfficherNomsPnj   ->setCheckable(true);
+        actionAfficherNomsPj->setCheckable(true);
+        actionAfficherNomsPnj->setCheckable(true);
         actionAfficherNumerosPnj->setCheckable(true);
 
 
@@ -354,8 +363,8 @@ void MainWindow::creerMenu()
         menuFenetre->addSeparator();
 
         // Ajout des actions d'affichage des fenetres d'evenement, utilisateurs et lecteur audio
-        menuFenetre->addAction(barreOutils->toggleViewAction());
-        menuFenetre->addAction(dockLogUtil->toggleViewAction());
+        menuFenetre->addAction(m_toolBar->toggleViewAction());
+        menuFenetre->addAction(m_dockLogUtil->toggleViewAction());
         menuFenetre->addAction(m_chatListWidget->toggleViewAction());
         menuFenetre->addAction(m_playersList->toggleViewAction());
 #ifndef NULL_PLAYER
@@ -375,9 +384,9 @@ void MainWindow::creerMenu()
 
         // Creation du menu Aide
         QMenu *menuAide = new QMenu (tr("Help"), barreMenus);
-        actionAideLogiciel = menuAide->addAction(tr("Help about %1").arg(m_init->getApplicationName()));
+        actionAideLogiciel = menuAide->addAction(tr("Help about %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
         menuAide->addSeparator();
-        actionAPropos = menuAide->addAction(tr("About %1").arg(m_init->getApplicationName()));
+        actionAPropos = menuAide->addAction(tr("About %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
 
         // Ajout des menus a la barre de menus
         barreMenus->addMenu(menuFichier);
@@ -426,22 +435,22 @@ void MainWindow::associerActionsMenus()
 void MainWindow::autoriserOuInterdireActions()
 {
         // L'utilisateur est un joueur
-        Player* tmp = PlayersList::instance().localPlayer();
-        if (NULL==tmp)//!tmp->isGM()
-        {
-                actionNouveauPlan->setEnabled(false);
-                actionOuvrirPlan->setEnabled(false);
-                actionOuvrirEtMasquerPlan->setEnabled(false);
-                actionOuvrirScenario->setEnabled(false);
-                actionFermerPlan->setEnabled(false);
-                actionSauvegarderPlan->setEnabled(false);
-                actionSauvegarderScenario->setEnabled(false);
-        }
+//        Player* tmp = PlayersList::instance().localPlayer();
+//        if (NULL==tmp)//!tmp->isGM()
+//        {
+//                actionNouveauPlan->setEnabled(false);
+//                actionOuvrirPlan->setEnabled(false);
+//                actionOuvrirEtMasquerPlan->setEnabled(false);
+//                actionOuvrirScenario->setEnabled(false);
+//                actionFermerPlan->setEnabled(false);
+//                actionSauvegarderPlan->setEnabled(false);
+//                actionSauvegarderScenario->setEnabled(false);
+//        }
 
-        // L'utilisateur est un MJ
-        else
-        {
-        }
+//        // L'utilisateur est un MJ
+//        else
+//        {
+//        }
 }
 
 void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize,QPoint pos )
@@ -475,14 +484,14 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         Carte *carte = (Carte *)(carteFenetre->widget());
 
 
-        connect(barreOutils,SIGNAL(currentToolChanged(BarreOutils::Tool)),carte,SLOT(setPointeur(BarreOutils::Tool)));
+        connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),carte,SLOT(setPointeur(BarreOutils::Tool)));
 
         // Connexion de la demande de changement de couleur de la carte avec celle de la barre d'outils
-        connect(carte, SIGNAL(changeCouleurActuelle(QColor)), barreOutils, SLOT(changeCouleurActuelle(QColor)));
+        connect(carte, SIGNAL(changeCouleurActuelle(QColor)), m_toolBar, SLOT(changeCouleurActuelle(QColor)));
         // Connexion de la demande d'incrementation du numero de PNJ de la carte avec celle de la barre d'outils
-        connect(carte, SIGNAL(incrementeNumeroPnj()), barreOutils, SLOT(incrementeNumeroPnj()));
+        connect(carte, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementeNumeroPnj()));
         // Connexion de la demande de changement de diametre des PNJ de la carte avec celle de la barre d'outils
-        connect(carte, SIGNAL(mettreAJourPnj(int, QString)), barreOutils, SLOT(mettreAJourPnj(int, QString)));
+        connect(carte, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(mettreAJourPnj(int, QString)));
         // Affichage des noms et numeros des PJ/PNJ
         connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
         connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
@@ -494,7 +503,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         
         // new PlayersList connection
         connect(carteFenetre, SIGNAL(activated(Carte *)), m_playersList->model(), SLOT(changeMap(Carte *)));
-        connect(carteFenetre, SIGNAL(activated(Carte *)), barreOutils, SLOT(changeMap(Carte *)));
+        connect(carteFenetre, SIGNAL(activated(Carte *)), m_toolBar, SLOT(changeMap(Carte *)));
 
         // Affichage de la carte
         carteFenetre->show();
@@ -523,20 +532,20 @@ void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
         imageFenetre->associerAction(action);
 
         // Connexion de l'action d'outil main avec la fonction de changement de pointeur de souris en main
-        connect(barreOutils->actionMain,                SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurMain()));
+        connect(m_toolBar->actionMain,                SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurMain()));
 
         // Connexion des actions de changement d'outil avec la fonction de changement de pointeur de souris normal
-        connect(barreOutils->actionCrayon,         SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionLigne,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionElliVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionElliPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionTexte,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionEtatPnj,        SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionCrayon,         SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionLigne,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionRectVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionRectPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionElliVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionElliPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionTexte,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionAjoutPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionSupprPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionDeplacePnj, SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionEtatPnj,        SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
 
         // Connexion de l'action avec l'affichage/masquage de l'image
         connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
@@ -564,7 +573,7 @@ void MainWindow::ouvrirEtMasquerPlan()
 void MainWindow::ouvrirPlan(bool masquer)
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, masquer?tr("Open and Hide Map"):tr("Open Map"), m_init->getMapDirectory(),
+        QString fichier = QFileDialog::getOpenFileName(this, masquer?tr("Open and Hide Map"):tr("Open Map"), m_preferences->value("MapDirectory",QDir::homePath()).toString(),
                                           tr("Map (*.pla *.jpg *.jpeg *.png *.bmp)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
@@ -583,7 +592,7 @@ void MainWindow::ouvrirPlan(bool masquer)
 
         // On met a jour le chemin vers les plans
         int dernierSlash = fichier.lastIndexOf("/");
-        m_init->setMapDirectory(fichier.left(dernierSlash));
+        m_preferences->registerValue("MapDirectory",fichier.left(dernierSlash));
 
         // Suppression de l'extension du fichier pour obtenir le titre de la CarteFenetre
         int dernierPoint = fichier.lastIndexOf(".");
@@ -832,7 +841,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
 void MainWindow::ouvrirImage()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Open Picture"), m_init->getImageDirectory(),
+    QString fichier = QFileDialog::getOpenFileName(this, tr("Open Picture"), m_preferences->value("ImageDirectory",QDir::homePath()).toString(),
                                           tr("Picture (*.jpg *.jpeg *.png *.bmp)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
@@ -851,7 +860,7 @@ void MainWindow::ouvrirImage()
 
         // On met a jour le chemin vers les images
         int dernierSlash = fichier.lastIndexOf("/");
-        m_init->setImageDirectory(fichier.left(dernierSlash));
+        m_preferences->registerValue("ImageDirectory",fichier.left(dernierSlash));
 
         // Chargement de l'image
         QImage *img = new QImage(fichier);
@@ -891,20 +900,20 @@ void MainWindow::ouvrirImage()
         imageFenetre->setWindowTitle(titre);
 
         // Connexion de l'action d'outil main avec la fonction de changement de pointeur de souris en main
-        connect(barreOutils->actionMain,                SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurMain()));
+        connect(m_toolBar->actionMain,                SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurMain()));
 
         // Connexion des actions de changement d'outil avec la fonction de changement de pointeur de souris normal
-        connect(barreOutils->actionCrayon,         SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionLigne,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionElliVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionElliPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionTexte,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        connect(barreOutils->actionEtatPnj,        SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionCrayon,         SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionLigne,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionRectVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionRectPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionElliVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionElliPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionTexte,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionAjoutPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionSupprPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionDeplacePnj, SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(m_toolBar->actionEtatPnj,        SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
 
         // Connexion de l'action avec l'affichage/masquage de la fenetre
         connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
@@ -1101,7 +1110,7 @@ void MainWindow::changementFenetreActive(QWidget *widget)
 }
 void MainWindow::majCouleursPersonnelles()
 {
-        barreOutils->majCouleursPersonnelles();
+        m_toolBar->majCouleursPersonnelles();
 }
 
 void MainWindow::nouveauPlan()
@@ -1219,11 +1228,12 @@ void MainWindow::quitterApplication(bool perteConnexion)
 
         // Creation du message
         QString message;
+        QString msg = m_preferences->value("Application_Name","rolisteam").toString();
 
         // S'il s'agit d'une perte de connexion
         if (perteConnexion)
         {
-                message = tr("Connection has been lost. %1 will be close").arg(m_init->getApplicationName());
+            message = tr("Connection has been lost. %1 will be close").arg(msg);
                 // Icone de la fenetre
                 msgBox.setIcon(QMessageBox::Critical);
                 // M.a.j du titre et du message
@@ -1236,16 +1246,20 @@ void MainWindow::quitterApplication(bool perteConnexion)
                 // Ajout d'un bouton
                 msgBox.addButton(QMessageBox::Cancel);
                 // M.a.j du titre et du message
-                msgBox.setWindowTitle(tr("Quit %1 ").arg(m_init->getApplicationName()));
+                msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
         }
 
         // Si l'utilisateur est un joueur
         if (!PlayersList::instance().localPlayer()->isGM())
-                message += tr("Do you want to save your minutes before to quit %1?").arg(m_init->getApplicationName());
-
+        {
+                message += tr("Do you want to save your minutes before to quit %1?").arg(msg);
+        }
         // Si l'utilisateut est un MJ
         else
-                message += tr("Do you want to save your scenario before to quit %1?").arg(m_init->getApplicationName());
+        {
+                message += tr("Do you want to save your scenario before to quit %1?").arg(msg);
+
+        }
 
         //M.a.j du message de la boite de dialogue
         msgBox.setText(message);
@@ -1258,8 +1272,7 @@ void MainWindow::quitterApplication(bool perteConnexion)
             emit closing();
             writeSettings();
 
-            // On sauvegarde le fichier d'initialisation
-            sauvegarderFichierInitialisation();
+        /// @todo : make sure custom colors are saved.
             // On quitte l'application
             qApp->quit();
         }
@@ -1281,7 +1294,7 @@ void MainWindow::quitterApplication(bool perteConnexion)
                     emit closing();
                     writeSettings();
                     // On sauvegarde le fichier d'initialisation
-                    sauvegarderFichierInitialisation();
+                    /// @todo : make sure custom colors are saved.
                     // On quitte l'application
                     qApp->quit();
                 }
@@ -1357,6 +1370,7 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
 
 void MainWindow::registerSubWindow(QWidget * subWindow)
 {
+
     workspace->addWindow(subWindow);
 }
 
@@ -1373,7 +1387,7 @@ void MainWindow::sauvegarderPlan()
         }
 
         // Ouverture du selecteur de fichiers
-        QString fichier = QFileDialog::getSaveFileName(this, tr("Save Map"), m_init->getMapDirectory(), tr("Map (*.pla)"));
+        QString fichier = QFileDialog::getSaveFileName(this, tr("Save Map"), m_preferences->value("MapDirectory",QDir::homePath()).toString(), tr("Map (*.pla)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -1386,7 +1400,7 @@ void MainWindow::sauvegarderPlan()
 
         // On met a jour le chemin vers les plans
         int dernierSlash = fichier.lastIndexOf("/");
-        m_init->setMapDirectory(fichier.left(dernierSlash));
+        m_preferences->registerValue("MapDirectory",fichier.left(dernierSlash));
 
         // Creation du fichier
         QFile file(fichier);
@@ -1409,13 +1423,11 @@ void MainWindow::changementNatureUtilisateur()
         // M.a.j des menus du mainWindow
         autoriserOuInterdireActions();
         // M.a.j de la barre d'outils
-        barreOutils->autoriserOuInterdireCouleurs();
-      
+        //m_toolBar->updateUi();
+        updateUi();
 #ifndef NULL_PLAYER
-    // M.a.j du lecteur audio (pour que le changement de taille se passe correctement, on enleve puis on remet le dockWidget)
         removeDockWidget(m_audioPlayer);
-        //G_lecteurAudio->autoriserOuIntedireCommandes();
-        addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
+        //addDockWidget(Qt::RightDockWidgetArea, m_audioDock);
         m_audioPlayer->show();
 #endif
 }
@@ -1439,7 +1451,7 @@ void MainWindow::afficherEditeurNotes(bool afficher, bool cocherAction)
 void MainWindow::ouvrirNotes()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Open Minutes"), m_init->getMinutesDirectory(), tr("Html Documents (*.htm *.html)"));
+    QString fichier = QFileDialog::getOpenFileName(this, tr("Open Minutes"), m_preferences->value("MinutesDirectory",QDir::homePath()).toString(), tr("Html Documents (*.htm *.html)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -1447,7 +1459,7 @@ void MainWindow::ouvrirNotes()
 
         // On met a jour le chemin vers les notes
         int dernierSlash = fichier.lastIndexOf("/");
-        m_init->setMinutesDirectory(fichier.left(dernierSlash));
+        m_preferences->registerValue("MinutesDirectory",fichier.left(dernierSlash));
 
         // Creation du descripteur de fichier
         QFile file(fichier);
@@ -1467,7 +1479,7 @@ void MainWindow::ouvrirNotes()
 bool MainWindow::sauvegarderNotes()
 {
         // Ouverture du selecteur de fichiers
-        QString fichier = QFileDialog::getSaveFileName(this, tr("Save Minutes"), m_init->getMinutesDirectory(), tr("HTML Documents (*.htm *.html)"));
+        QString fichier = QFileDialog::getSaveFileName(this, tr("Save Minutes"), m_preferences->value("MinutesDirectory",QDir::homePath()).toString(), tr("HTML Documents (*.htm *.html)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -1480,7 +1492,7 @@ bool MainWindow::sauvegarderNotes()
 
         // On met a jour le chemin vers les notes
         int dernierSlash = fichier.lastIndexOf("/");
-        m_init->setMinutesDirectory(fichier.left(dernierSlash));
+        m_preferences->registerValue("MinutesDirectory",fichier.left(dernierSlash));
 
         // Creation du descripteur de fichier
         QFile file(fichier);
@@ -1502,7 +1514,7 @@ bool MainWindow::sauvegarderNotes()
 void MainWindow::ouvrirScenario()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Open scenario"), m_init->getScenarioDirectory(), tr("Scenarios (*.sce)"));
+        QString fichier = QFileDialog::getOpenFileName(this, tr("Open scenario"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -1510,7 +1522,7 @@ void MainWindow::ouvrirScenario()
 
         // On met a jour le chemin vers les scenarii
         int dernierSlash = fichier.lastIndexOf("/");
-        m_init->setScenarioDirectory(fichier.left(dernierSlash));
+        m_preferences->registerValue("StoryDirectory",fichier.left(dernierSlash));
 
         // Creation du descripteur de fichier
         QFile file(fichier);
@@ -1548,19 +1560,21 @@ void MainWindow::ouvrirScenario()
 bool MainWindow::sauvegarderScenario()
 {
         // Ouverture du selecteur de fichiers
-        QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenarios"), m_init->getScenarioDirectory(), tr("Scenarios (*.sce)"));
+        QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenarios"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
 
         if (filename.isNull())
+        {
                 return false;
+        }
 
         if(!filename.endsWith(".sce"))
+        {
                 filename += ".sce";
+        }
 
-
-        // On met a jour le chemin vers les scenarii
         int dernierSlash = filename.lastIndexOf("/");
-        m_init->setScenarioDirectory(filename.left(dernierSlash));
+        m_preferences->registerValue("StoryDirectory",filename.left(dernierSlash));
 
         // Creation du descripteur de fichier
         QFile file(filename);
@@ -1728,19 +1742,19 @@ void MainWindow::lireImage(QDataStream &file)
         // Liberation du buffer d'emission
         delete[] donnees;
 }
-void MainWindow::sauvegarderFichierInitialisation()
-{
-    // Don't really write anything to the filesystem, but store new values in G_initialisation.
+//void MainWindow::sauvegarderFichierInitialisation()
+//{
+//    // Don't really write anything to the filesystem, but store new values in G_initialisation.
 
-    // ...les couleurs personnelles
-    for (int i=0; i<16; i++)
-            m_init->setCustomColorAt(i,barreOutils->donnerCouleurPersonnelle(i));
+//    // ...les couleurs personnelles
+//    for (int i=0; i<16; i++)
+//            m_preferences->setCustomColorAt(i,barreOutils->donnerCouleurPersonnelle(i));
 
-#ifndef NULL_PLAYER
-    // ...le volume du lecteur audio
-    m_init->setVolumeLevel(m_audioPlayer->volume());
-#endif
-}
+//#ifndef NULL_PLAYER
+//    // ...le volume du lecteur audio
+//    m_preferences->setVolumeLevel(m_audioPlayer->volume());
+//#endif
+//}
 
 
 void MainWindow::aPropos()
@@ -1791,7 +1805,7 @@ void MainWindow::aideEnLigne()
                     QMessageBox * msgBox = new QMessageBox(
                             QMessageBox::Information,
                             tr("Help"),
-                            tr("Documentation of %1 can be found online at :<br> <a href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>").arg(m_init->getApplicationName()),
+                                tr("Documentation of %1 can be found online at :<br> <a href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>").arg(m_preferences->value("Application_Name","rolisteam").toString()),
                             QMessageBox::Ok
                             );
                     msgBox->exec();
@@ -1801,11 +1815,33 @@ void MainWindow::aideEnLigne()
 
 void MainWindow::checkUpdate()
 {
-    m_updateChecker = new UpdateChecker();
-    m_updateChecker->startChecking();
-    connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
-}
+    if(m_preferences->value("MainWindow_MustBeChecked",true).toBool())
+    {
+        m_updateChecker = new UpdateChecker();
+        m_updateChecker->startChecking();
+        connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
+    }
 
+}
+void MainWindow::updateUi()
+{
+/// @todo hide diametrePNj for players.
+    /*
+        diametrePnj->setVisible(false);
+    }*/
+    m_toolBar->updateUi();
+    if(!PlayersList::instance().localPlayer()->isGM())
+    {
+        actionNouveauPlan->setEnabled(false);
+        actionOuvrirPlan->setEnabled(false);
+        actionOuvrirEtMasquerPlan->setEnabled(false);
+        actionOuvrirScenario->setEnabled(false);
+        actionFermerPlan->setEnabled(false);
+        actionSauvegarderPlan->setEnabled(false);
+        actionSauvegarderScenario->setEnabled(false);
+    }
+
+}
 void MainWindow::updateMayBeNeeded()
 {
     if(m_updateChecker->mustBeUpdated())
@@ -1839,24 +1875,25 @@ void MainWindow::InitMousePointer(QCursor **pointer, const QString &iconFileName
 }
 void MainWindow::readSettings()
 {
-    QSettings settings("rolisteam","rolisteam/preferences");
+    QSettings settings("rolisteam","rolisteam1/preferences");
 
     move(settings.value("pos", QPoint(200, 200)).toPoint());
     resize(settings.value("size", QSize(600, 400)).toSize());
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("windowState").toByteArray());
 
+    m_preferences->readSettings(settings);
 }
 
 void MainWindow::writeSettings()
 {
-    QSettings settings("rolisteam","rolisteam/preferences");
+    QSettings settings("rolisteam","rolisteam1/preferences");
     settings.setValue("pos", pos());
     settings.setValue("size", size());
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
 
-    m_init->saveConfiguration();
+    m_preferences->writeSettings(settings);
 }
 
 void MainWindow::notifyAboutAddedPlayer(Player * player) const

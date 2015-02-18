@@ -108,7 +108,7 @@ void ConnectionConfigDialog::changeConnectionType(int state)
 void ConnectionConfigDialog::setUI()
 {
 
-    setWindowIcon(QIcon(":/logo.svg"));
+    setWindowIcon(QIcon(":/logo.png"));
     m_name  = new QLineEdit;
     m_color = new ColorButton;
     m_gm    = new QCheckBox(tr("I'm the Game Master."));

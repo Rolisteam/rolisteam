@@ -31,7 +31,8 @@
 #include <QTextEdit>
 
 #include "networkmessage.h"
-#include "initialisation.h"
+#include "preferencesmanager.h"
+
 class AbstractChat;
 class MainWindow;
 class Player;
@@ -92,11 +93,13 @@ private :
     bool m_hasUnseenMessage;
     MainWindow* m_mainWindow;
 
+    PreferencesManager* m_preferences;
+
     QTextEdit * zoneAffichage;         // Zone de texte ou s'affichent les messages
     QComboBox * m_selectPersonComboBox;
     TextEditAmeliore * zoneEdition;    // Zone de texte ou l'utilisateur peut ecrire
     QAction * m_toggleViewAction;
-    Initialisation* m_init;
+
     int calculerJetDes(QString &message, QString & tirage, bool &ok);
     int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok);
 

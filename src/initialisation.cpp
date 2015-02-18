@@ -86,6 +86,7 @@ Initialisation::Initialisation()
         fluxFichier >> m_minutesDirectory;
         // ...le chemin pour les tchats
         fluxFichier >> m_chatDirectory;
+        fluxFichier >> m_mustCheckUpdate;
         // ...les couleurs personnelles
         for (int i=0; i<COLOR_TAB_SIZE; i++)
             fluxFichier >> m_customColor[i];
@@ -114,8 +115,11 @@ Initialisation::Initialisation()
         m_scenarioDirectory       = m_confdir + QObject::tr("/scenario");
         m_minutesDirectory          = m_confdir + QObject::tr("/minutes");
         m_chatDirectory         = m_confdir + QObject::tr("/chat");
+        m_mustCheckUpdate = true;
         for (int i=0; i<COLOR_TAB_SIZE; i++)
+        {
             m_customColor[i] = QColor(i*COLOR_TAB_SIZE, i*COLOR_TAB_SIZE, i*COLOR_TAB_SIZE);
+        }
         m_volumeLevel          = 100;
 
     }
@@ -156,6 +160,7 @@ void Initialisation::saveConfiguration()
     fluxFichier << m_scenarioDirectory;
     fluxFichier << m_minutesDirectory;
     fluxFichier << m_chatDirectory;
+    fluxFichier << m_mustCheckUpdate;
     for (int i=0; i<COLOR_TAB_SIZE; i++)
             fluxFichier << m_customColor[i];
     fluxFichier << m_volumeLevel;
@@ -359,4 +364,13 @@ void Initialisation::setCustomColorAt(int index,QColor value)
 void Initialisation::setVolumeLevel(int  value)
 {
     m_volumeLevel = value;
+}
+bool Initialisation::mustCheckUpdate()
+{
+    return m_mustCheckUpdate;
+}
+
+void Initialisation::setCheckUpdate(bool value)
+{
+    m_mustCheckUpdate = value;
 }
