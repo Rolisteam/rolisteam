@@ -1,3 +1,22 @@
+/***************************************************************************
+ *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *                                                                         *
+ *   Rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #include "sessionitemmodel.h"
 #include "cleveruri.h"
 #include "session.h"
@@ -12,6 +31,12 @@ ResourcesItem::ResourcesItem(RessourcesNode* p,bool leaf)
 ResourcesItem* ResourcesItem::getParent()
 {
     return m_parent;
+}
+ResourcesItem::~ResourcesItem()
+{
+    delete m_data;
+   // delete m_parent;
+    delete m_children;
 }
 
 void ResourcesItem::setParent(ResourcesItem* p)
@@ -71,7 +96,10 @@ int ResourcesItem::indexOfChild(ResourcesItem* itm)
 {
     return m_children->indexOf(itm);
 }
-
+QList<ResourcesItem*>* ResourcesItem::getChildren()
+{
+    return m_children;
+}
 
 
 SessionItemModel::SessionItemModel()
@@ -203,15 +231,15 @@ void SessionItemModel::setSession(Session* s)
     m_rootItem->clean();
     for(int i =0;i<m_session->chapterList().size();i++)
     {
-        Chapter& tmp = m_session->chapterList()[i];
-        ResourcesItem* rt = new ResourcesItem(&tmp,false);
+        Chapter* tmp = m_session->chapterList()[i];
+        ResourcesItem* rt = new ResourcesItem(tmp,false);
         m_rootItem->addChild(rt);
         populateChapter(tmp,rt);
     }
     for(int i = 0;i<m_session->getUnclassedList().size();i++)
     {
-        CleverURI& tmp2 = m_session->getUnclassedList()[i];
-        ResourcesItem* rt = new ResourcesItem(&tmp2,true);
+        CleverURI* tmp2 = m_session->getUnclassedList()[i];
+        ResourcesItem* rt = new ResourcesItem(tmp2,true);
         m_rootItem->addChild(rt);
     }
 }
@@ -252,13 +280,7 @@ Chapter* SessionItemModel::addChapter(QString& name,QModelIndex parent)
 
     return t;
 }
-/*void SessionItemModel::refresh()
-{
-   foreach(Chapter tmp,m_session->chapterList())
-   {
-        m_rootItemm_parent
-   }
-}*/
+
 CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& parent)
 {
      ResourcesItem* parentItem=NULL;
@@ -283,22 +305,57 @@ CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentT
     endInsertRows();
     return tmp;
 }
-void SessionItemModel::populateChapter(Chapter& t,ResourcesItem* parentItem)
+void SessionItemModel::populateChapter(Chapter* t,ResourcesItem* parentItem)
 {
-    for(int i =0;i<t.getChapterList().size();i++)
+    for(int i =0;i<t->getChapterList().size();i++)
     {
-        Chapter& tmp = t.getChapterList()[i];
-        ResourcesItem* rt = new ResourcesItem(&tmp,false);
+        Chapter* tmp = t->getChapterList()[i];
+        ResourcesItem* rt = new ResourcesItem(tmp,false);
         parentItem->addChild(rt);
         populateChapter(tmp,rt);
     }
-    for(int i = 0;i<t.getResourceList().size();i++)
+    for(int i = 0;i<t->getResourceList().size();i++)
     {
-        CleverURI& tmp2 = t.getResourceList()[i];
-        ResourcesItem* rt = new ResourcesItem(&tmp2,true);
+        CleverURI* tmp2 = t->getResourceList()[i];
+        ResourcesItem* rt = new ResourcesItem(tmp2,true);
         parentItem->addChild(rt);
     }
 }
+void SessionItemModel::remove(QModelIndex& index)
+{
+    if(!index.isValid())
+        return;
+    ResourcesItem* indexItem = static_cast<ResourcesItem*>(index.internalPointer());
+    QModelIndex parent = index.parent();
+    ResourcesItem* parentItem=NULL;
+
+    if(!parent.isValid())
+        parentItem=m_rootItem;
+    else
+        parentItem= static_cast<ResourcesItem*>(parent.internalPointer());
+
+    if(indexItem->childrenCount()>0)
+    {
+        beginRemoveRows(index,0,indexItem->childrenCount());
+        QList<ResourcesItem*>* child = indexItem->getChildren();
+
+
+
+        endRemoveRows();
+    }
+
+    beginRemoveRows(index.parent(),index.row(),index.row());
+    parentItem->getChildren()->removeOne(indexItem);
+    //delete indexItem;
+
+    m_session->removeRessourcesNode(indexItem->getData());
+
+    endRemoveRows();
+
+
+
+}
+
 QVariant SessionItemModel::headerData ( int section, Qt::Orientation orientation, int role  ) const
 {
     if((role==Qt::DisplayRole)&&(orientation==Qt::Horizontal))

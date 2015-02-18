@@ -10,7 +10,7 @@ SessionView::SessionView(QWidget *parent) :
     connect(m_addChapterAction,SIGNAL(triggered()),this,SLOT(onAddChapter()));
 
     m_removeAction = new QAction(tr("Remove items"),this);
-    connect(m_addChapterAction,SIGNAL(triggered()),this,SIGNAL(removeSelection()));
+    connect(m_removeAction,SIGNAL(triggered()),this,SIGNAL(removeSelection()));
 }
 void SessionView::contextMenuEvent ( QContextMenuEvent * event )
 {
@@ -29,8 +29,6 @@ void SessionView::mouseDoubleClickEvent( QMouseEvent * event)
 
     emit onDoubleClick(index);
 
-
-
 }
 
 void SessionView::onAddChapter()
@@ -38,4 +36,8 @@ void SessionView::onAddChapter()
     QModelIndex index = indexAt(m_pointClick);
 
     emit addChapter(index);
+}
+QModelIndexList SessionView::getSelection()
+{
+    return selectionModel()->selectedIndexes();
 }

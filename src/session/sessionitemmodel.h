@@ -1,3 +1,22 @@
+/***************************************************************************
+ *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *                                                                         *
+ *   Rolisteam is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #ifndef SESSIONITEMMODEL_H
 #define SESSIONITEMMODEL_H
 
@@ -13,6 +32,7 @@ public:
       * @param isLeaf either the item is a leaf or not.
       */
     ResourcesItem(RessourcesNode* p,bool isLeaf);
+    ~ResourcesItem();
 
     /**
       * @brief defines the stored section
@@ -70,6 +90,8 @@ public:
     int childrenCount();
 
     void clean();
+
+    QList<ResourcesItem*>* getChildren();
 private:
     RessourcesNode* m_data;
     bool m_isLeaf; /// @brief true when no child and has valid parent
@@ -92,13 +114,13 @@ public:
    virtual int columnCount( const QModelIndex&) const;
    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
    QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
-
+    void remove(QModelIndex& index);
     Chapter* addChapter(QString& name,QModelIndex parent);
     void setSession(Session* s);
     void addChapter(Chapter* c );
     CleverURI* addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& index);
 
-    void populateChapter(Chapter& t,ResourcesItem* parentIte);
+    void populateChapter(Chapter* t,ResourcesItem* parentIte);
 
     virtual bool setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole );
     virtual Qt::ItemFlags flags ( const QModelIndex & index ) const;

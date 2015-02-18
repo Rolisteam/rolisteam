@@ -57,5 +57,6 @@
         <file>resources/icons/text.png</file>
         <file>resources/icons/treeview.png</file>
         <file>resources/icons/tchat_icon.png</file>
+        <file>resources/icons/music.svg</file>
     </qresource>
 </RCC>

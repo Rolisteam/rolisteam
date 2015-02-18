@@ -48,7 +48,7 @@ void Message::write(QTcpSocket* tmp)
    QDataStream cout(&m_internalData,QIODevice::WriteOnly);
    cout.setVersion(QDataStream::Qt_4_4);
    cout.device()->seek(0);
-   cout << (quint32)m_type<<((quint32)m_internalData.size() - sizeof(quint32) - sizeof(quint32));
+   //cout << (quint32)m_type<<((quint32)m_internalData.size() - sizeof(quint32) - sizeof(quint32));
     //quint32 size= m_internalData.size();
     //cou << (quint32)m_type<<(quint32)size << m_internalData;
     //qDebug() <<(quint32)m_type<<(quint32)size;*/

@@ -20,7 +20,7 @@ include(dicepluginmanager/dicepluginmanager.pri)
 include(widget/widget.pri)
 include(network/network.pri)
 include(session/session.pri)
-
+include(minuteseditor/minuteseditor.pri)
 DEPENDPATH += . \
     drawitem \
     preferences \
@@ -31,6 +31,7 @@ DEPENDPATH += . \
     widget \
     session \
     network \
+    minuteseditor \
     tchat \
     map
 INCLUDEPATH += . \
@@ -41,13 +42,13 @@ INCLUDEPATH += . \
     userlist \
     dicepluginmanager \
     data \
+    minuteseditor \
     network \
     tchat \
     charactersheet \
     map
 HEADERS += displaydisk.h \
     ToolBar.h \
-    MinutesEditor.h \
     Image.h \
     audioplayer.h \
     MainWindow.h \
@@ -59,7 +60,6 @@ HEADERS += displaydisk.h \
 FORMS += connectionwizzard.ui
 SOURCES += displaydisk.cpp \
     ToolBar.cpp \
-    MinutesEditor.cpp \
     Image.cpp \
     main.cpp \
     MainWindow.cpp \

@@ -33,7 +33,7 @@
 
 #include "tchat.h"
 #include "Image.h"
-#include "MinutesEditor.h"
+#include "minuteseditor.h"
 #include "audioplayer.h"
 #include "userlistwidget.h"
 #include "mapwizzarddialog.h"
@@ -53,7 +53,7 @@ class CharacterSheetWindow;
 class Player;
 class DicePlugInManager;
 class UpdateChecker;
-class Session;
+//class Session;
 class SessionManager;
 
 #include "rclient.h"
@@ -149,7 +149,7 @@ private :
 
         bool openImage(QString filepath);
         bool openCharacterSheets(QString);
-
+        bool openMinutes(QString path);
         /// members declarations.
         AudioPlayer* m_audioPlayer;
 

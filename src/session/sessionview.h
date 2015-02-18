@@ -8,6 +8,8 @@ class SessionView : public QTreeView
     Q_OBJECT
 public:
     explicit SessionView(QWidget *parent = 0);
+    QModelIndexList getSelection();
+
 protected:
     void contextMenuEvent ( QContextMenuEvent * event );
 

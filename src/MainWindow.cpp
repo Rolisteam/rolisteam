@@ -27,13 +27,11 @@
 
 //former (but renamed) headers
 #include "MapFrame.h"
-
 #include "MainWindow.h"
 #include "ToolBar.h"
-
 #include "Image.h"
 #include "audioplayer.h"
-#include "MinutesEditor.h"
+
 #include "improvedworkspace.h"
 
 //new headers from rolisteam 2.0.0 branch
@@ -42,6 +40,7 @@
 #include "connectionwizzard.h"
 #include "charactersheetwindow.h"
 #include "pluginmanager.h"
+#include "minuteseditor.h"
 
 //network module
 #include "servermanager.h"
@@ -175,11 +174,12 @@ void MainWindow::createMenu()
 
     m_recentFilesMenu = m_fileMenu->addMenu(tr("&Recent Files"));
     //m_recentFiles.removeDuplicates();
-    /*foreach(CleverURI path,m_recentFiles)
+    foreach(CleverURI* path,m_sessionManager->getRecentFiles())
     {
 
-        QAction* act = m_recentFilesActGroup->addAction(path.getUri());
-        switch(path.getType())
+        QAction* act = m_recentFilesActGroup->addAction(path->getUri());
+        act->setIcon(QIcon(CleverURI::getIcon(static_cast<CleverURI::ContentType>(path->getType()))));
+        /*switch(path.getType())
         {
             case CleverURI::CHARACTERSHEET:
                 act->setIcon(QIcon(":/resources/icons/treeview.png"));
@@ -193,11 +193,11 @@ void MainWindow::createMenu()
             case CleverURI::PICTURE:
                     act->setIcon(QIcon(":/resources/icons/image.png"));
                     break;
-        }
-        act->setData((int)path.getType());
+        }*/
+        act->setData(path->getType());
         m_recentFilesMenu->addAction(act);
 
-    }*/
+    }
 
     m_fileMenu->addSeparator();
     m_saveAct = m_fileMenu->addAction(tr("&Save"));
@@ -209,7 +209,8 @@ void MainWindow::createMenu()
     m_closeAct  = m_fileMenu->addAction(tr("&Close"));
     m_fileMenu->addSeparator();
     m_preferencesAct  = m_fileMenu->addAction(tr("&Preferences"));
-    m_preferencesAct->setShortcut(tr("Ctrl+,"));
+    m_preferencesAct->setShortcut(tr("Ctrl+p"));
+    m_preferencesAct->setMenuRole(QAction::PreferencesRole);
     m_fileMenu->addSeparator();
     m_quitAct  = m_fileMenu->addAction(tr("&Quit"));
     m_quitAct->setShortcut(tr("Ctrl+q"));
@@ -282,6 +283,7 @@ void MainWindow::createMenu()
     m_helpMenu = menuBar()->addMenu(tr("&Help"));
     m_helpAct = m_helpMenu->addAction(tr("&Help"));
     m_aproposAct =m_helpMenu->addAction(tr("&About Rolisteam"));
+    m_aproposAct->setMenuRole(QAction::AboutRole);
 
     //Hiding the custom menu because no subwindows displayed.
     menuBar()->removeAction(m_currentWindowMenu->menuAction());
@@ -290,12 +292,13 @@ void MainWindow::connectActions()
 {
     connect(m_newConnectionAct,SIGNAL(triggered()),this,SLOT(addConnection()));
     connect(m_openPictureAct, SIGNAL(triggered(bool)), this, SLOT(askPath()));
+
     connect(m_newMapAct, SIGNAL(triggered(bool)), this, SLOT(clickOnMapWizzard()));
     connect(m_helpAct, SIGNAL(triggered()), this, SLOT(help()));
     connect(m_aproposAct, SIGNAL(triggered()), this, SLOT(about()));
     connect(m_quitAct, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(m_preferencesAct,SIGNAL(triggered()),this,SLOT(showPreferenceManager()));
-
+    connect(m_openNoteAct,SIGNAL(triggered(bool)), this, SLOT(askPath()));
     connect(m_manageConnectionAct,SIGNAL(triggered()),this,SLOT(showConnectionManager()));
     connect(m_serverAct,SIGNAL(triggered()),this,SLOT(startServer()));
 
@@ -420,6 +423,19 @@ void MainWindow::clickOnMapWizzard()
         tmp->show();
     }
 }
+bool MainWindow::openMinutes(QString path)
+{
+    if(!path.isEmpty())
+    {
+        MinutesEditor* minutesEditor = new MinutesEditor();
+        minutesEditor->openFile(path);
+        addToWorkspace(minutesEditor);
+        minutesEditor->setVisible(true);
+        return true;
+    }
+    return false;
+}
+
 void MainWindow::askPath()
 {
     QAction* tmp = static_cast<QAction*>(sender());
@@ -440,6 +456,14 @@ void MainWindow::askPath()
 
         if(openCharacterSheets(filepath))
             addopenedFile(filepath,CleverURI::CHARACTERSHEET);
+    }
+    else if (m_openNoteAct == tmp)
+    {
+        filepath = QFileDialog::getOpenFileName(this, tr("Open Minutes"), m_options->value(QString("MinutesDirectory"),QVariant(".")).toString(),
+                                                tr("Supported Text files (*.html *.txt)"));
+
+        if(openMinutes(filepath))
+            addopenedFile(filepath,CleverURI::TEXT);
     }
 
  /*   case m_openPictureAct:
@@ -784,7 +808,9 @@ void MainWindow::openFile(CleverURI* uri)
         break;
     case CleverURI::TCHAT:
         break;
-
+    case CleverURI::TEXT:
+        openMinutes(uri->getUri());
+        break;
     }
 
 }
