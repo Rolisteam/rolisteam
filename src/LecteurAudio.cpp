@@ -137,18 +137,18 @@ void LecteurAudio::setupUi()
         QHBoxLayout *layoutTemps = new QHBoxLayout();
         layoutTemps->setMargin(0);
 
-        positionTemps = new Phonon::SeekSlider(this);
-        positionTemps->setMediaObject(m_mediaObject);
-        positionTemps->setStyle(new QCleanlooksStyle());
+        m_timePosition = new Phonon::SeekSlider(this);
+        m_timePosition->setMediaObject(m_mediaObject);
+        m_timePosition->setStyle(new QCleanlooksStyle());
 
-        afficheurTemps = new QLCDNumber();
-        afficheurTemps->setNumDigits(5);
-        afficheurTemps->setSegmentStyle(QLCDNumber::Flat);
-        afficheurTemps->display("0:00");
-        afficheurTemps->setFixedWidth(40);
+        m_timerDisplay = new QLCDNumber();
+        m_timerDisplay->setNumDigits(5);
+        m_timerDisplay->setSegmentStyle(QLCDNumber::Flat);
+        m_timerDisplay->display("0:00");
+        m_timerDisplay->setFixedWidth(40);
 
-        layoutTemps->addWidget(positionTemps);
-        layoutTemps->addWidget(afficheurTemps);
+        layoutTemps->addWidget(m_timePosition);
+        layoutTemps->addWidget(m_timerDisplay);
 
         layoutCommande->addLayout(layoutTemps);
 
@@ -230,26 +230,31 @@ void LecteurAudio::setupUi()
         connect(m_addAction, SIGNAL(triggered(bool)), this, SLOT(addFiles()));
         connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(removeFile()));
         connect(m_songList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(clickOnList(QListWidgetItem *)));
+        connect(m_songList,SIGNAL(itemSelectionChanged()),this,SLOT(selectionHasChanged()));
         connect(m_mediaObject, SIGNAL(aboutToFinish()), this, SLOT(isAboutToFinish()));
 
         m_playAction->setEnabled(false);
         m_pauseAction->setEnabled(false);
         m_stopAction->setEnabled(false);
-        m_loopAction->setEnabled(false);
-        m_uniqueAction->setEnabled(false);
+       // m_loopAction->setEnabled(false);
+        //m_uniqueAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
-        positionTemps->setEnabled(false);
+        m_timePosition->setEnabled(false);
 
 }
 void LecteurAudio::clickOnList(QListWidgetItem * p)//double click
 {
-            m_formerItemFile = m_currentItemFile;
-             m_currentItemFile = p;
-             m_currentSource = new Phonon::MediaSource(m_pathList[m_songList->row(m_currentItemFile)]);
-             m_mediaObject->setCurrentSource(*m_currentSource);
-             emettreCommande(nouveauMorceau, p->text());
-             qDebug() << "Changement de titre" << m_pathList[m_songList->row(m_currentItemFile)] << p->text();
-             m_mediaObject->play();
+            defineSource(p);
+            m_mediaObject->play();
+}
+void LecteurAudio::defineSource(QListWidgetItem * p)
+{
+     m_formerItemFile = m_currentItemFile;
+     m_currentItemFile = p;
+     //m_currentSource = new Phonon::MediaSource(m_pathList[m_songList->row(m_currentItemFile)]);
+     setSource(m_pathList[m_songList->row(m_currentItemFile)]);
+     m_mediaObject->setCurrentSource(*m_currentSource);
+     emettreCommande(nouveauMorceau, p->text());
 }
 
 void LecteurAudio::tick(qint64 time)
@@ -258,7 +263,7 @@ void LecteurAudio::tick(qint64 time)
      if((!G_joueur) && ((time>m_time+(2*m_mediaObject->tickInterval()))||(time<m_time)))
           emettreCommande(nouvellePositionMorceau, "", time);
      m_time = time;
-     afficheurTemps->display(displayTime.toString("mm:ss"));
+     m_timerDisplay->display(displayTime.toString("mm:ss"));
 }
 
 void LecteurAudio::sourceChanged(const Phonon::MediaSource &source)
@@ -278,11 +283,14 @@ void LecteurAudio::sourceChanged(const Phonon::MediaSource &source)
          ft.setBold(false);
          m_formerItemFile->setFont(ft);
     }
-     afficheurTemps->display("00:00");
+     m_timerDisplay->display("00:00");
 }
 void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
 {
     Q_UNUSED(oldState);
+    if(G_joueur)
+        return;
+
      switch (newState)
      {
          case Phonon::ErrorState:
@@ -290,42 +298,30 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
              break;
          case Phonon::PlayingState:
              qDebug() << "playing State";
-                if(!G_joueur)
-                {
                  m_playAction->setEnabled(false);
                  m_playAction->setChecked(true);
                  m_pauseAction->setEnabled(true);
                  m_pauseAction->setChecked(false);
                  m_stopAction->setEnabled(true);
-                // if(oldState == Phonon::PausedState)
-                    //emettreCommande();
-                // else
-                    emettreCommande(lectureMorceau,"",m_time);
-                }
+                 m_timePosition->setEnabled(true);
+                 emettreCommande(lectureMorceau,"",m_time);
                  break;
          case Phonon::StoppedState:
-                 qDebug() << "stopped State" << m_stopAction;
-                 //arreter();
-                 if(!G_joueur)
-                 {
                      emettreCommande(arretMorceau);
                      m_stopAction->setEnabled(false);
                      m_playAction->setEnabled(true);
                      m_playAction->setChecked(false);
                      m_pauseAction->setChecked(false);
                      m_pauseAction->setEnabled(false);
-                     afficheurTemps->display("00:00");
-                 }
+                     m_timePosition->setEnabled(true);
+                     m_timerDisplay->display("00:00");
                  break;
          case Phonon::PausedState:
                  qDebug() << "paused State";
                  /// @attention Workaround for phonon issue with some file. Pause state is sometime
-                 if(!G_joueur)
-                 {
                      if(!m_pauseAction->isChecked())
                      {
                          isAboutToFinish();
-                         qDebug() << "Something strange, perhaps the audio file is corrumpted";
                      }
                      else
                      {
@@ -335,7 +331,6 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
                          m_playAction->setChecked(false);
                          m_pauseAction->setEnabled(false);
                     }
-                 }
                  break;
          case Phonon::BufferingState:
                  qDebug() << "buffering State";
@@ -404,13 +399,8 @@ void LecteurAudio::addFiles()
                         emettreCommande(nouveauMorceau, titre);
 
                         // On active tous les boutons
-                        m_playAction->setEnabled(true);
-                        m_pauseAction->setEnabled(true);
-                        m_stopAction->setEnabled(true);
-                        m_loopAction->setEnabled(true);
-                        m_uniqueAction->setEnabled(true);
-                        m_deleteAction->setEnabled(true);
-                        positionTemps->setEnabled(true);
+
+
 
                 }
                 QListWidgetItem *morceau = new QListWidgetItem(titre, m_songList);
@@ -470,7 +460,8 @@ void LecteurAudio::isAboutToFinish()
             m_formerItemFile = m_currentItemFile;
             m_currentItemFile = m_songList->item(position);
 
-            m_currentSource = new Phonon::MediaSource(m_pathList[position]);
+            // m_currentSource = new Phonon::MediaSource();
+            setSource(m_pathList[position]);
             m_mediaObject->setCurrentSource(*m_currentSource);
             emettreCommande(nouveauMorceau, m_currentItemFile->text());
             qDebug() << "Changement de titre 2" << m_pathList[position] << m_currentItemFile->text();
@@ -577,9 +568,6 @@ qreal LecteurAudio::volume()
 
 void LecteurAudio::pplay()
 {
-    qDebug() << " pplay ";
-//    currentsource = new Phonon::MediaSource(m_currentFile);
-//    mediaObject->setCurrentSource(*currentsource);
     m_mediaObject->play();
 }
 
@@ -623,7 +611,8 @@ void LecteurAudio::pselectNewFile(QString file)
         else
         {
             qDebug() << " file existe = " << path;
-            m_currentSource = new Phonon::MediaSource(path);
+            //m_currentSource = new Phonon::MediaSource(path);
+            setSource(path);
             m_mediaObject->setCurrentSource(*m_currentSource);
             m_titleDisplay->setEchoMode(QLineEdit::Password);
             QPalette palette(m_titleDisplay->palette());
@@ -645,8 +634,34 @@ void LecteurAudio::pseek(quint32 position)
 
 void LecteurAudio::pChangeDirectory()
 {
-
         G_initialisation.dossierMusiquesMj = QFileDialog::getExistingDirectory(0 , tr("Select the songs directory"), G_initialisation.dossierMusiquesMj,
         QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
 }
+void LecteurAudio::selectionHasChanged()
+{
+     QList<QListWidgetItem *> selection = m_songList->selectedItems();
+    if(selection.size()>0)
+    {
+        defineSource(selection[0]);
+        m_deleteAction->setEnabled(true);
+        m_playAction->setEnabled(true);
 
+    }
+    else
+    {
+        m_deleteAction->setEnabled(false);
+
+    }
+}
+void LecteurAudio::setSource(QString path)
+{
+    if(m_currentSource!=NULL)
+    {
+        delete m_currentSource;
+        m_currentSource=NULL;
+    }
+
+    //if(!path.isEmpty())
+    m_currentSource = new Phonon::MediaSource(path);
+
+}

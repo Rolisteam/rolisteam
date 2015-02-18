@@ -78,6 +78,8 @@ public :
     void pselectNewFile(QString file);
     void pseek(quint32 position);
 
+
+
 signals :
 
 
@@ -90,6 +92,8 @@ private :
     void updateUi();
 
     void playerWidget();
+
+    void defineSource(QListWidgetItem*);
 
 
         /**
@@ -113,7 +117,7 @@ private :
     Phonon::VolumeSlider *volumeSlider; //!< @brief Allows to adjust the sound volume (Phonon only)
     Phonon::Path* path; //!< (Phonon only)
     Phonon::VolumeSlider *niveauVolume;//!< @brief Allows to adjust the sound volume (Phonon only)
-    Phonon::SeekSlider *positionTemps;//!< @brief Allows to seek in the song (Phonon only)
+    Phonon::SeekSlider *m_timePosition;//!< @brief Allows to seek in the song (Phonon only)
 
     QWidget *widgetPrincipal;        //!< @brief brings together all subwidget
     QWidget *widgetAffichage;        //!< @brief Displays some gauges (for Player and GM.)
@@ -126,7 +130,7 @@ private :
     QListWidgetItem* m_formerItemFile;
 
 
-    QLCDNumber *afficheurTemps;        //!< @brief displays the past time of the playing
+    QLCDNumber *m_timerDisplay;        //!< @brief displays the past time of the playing
     QListWidget *m_songList;        //!< @brief displays all avaliable songs
     QList<QString> m_pathList;            //!< @brief Path list
     QActionGroup* m_playingMode;
@@ -196,6 +200,10 @@ private slots :
     * @brief Send some informations to the given player
     */
     void emettreEtat(Liaison * link);
+    /**
+    * @brief called when selection on list has changed
+    */
+    void selectionHasChanged();
 };
 
 #endif
