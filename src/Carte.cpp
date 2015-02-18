@@ -1465,31 +1465,66 @@ void Carte::emettreCarte(QString titre, Liaison * link)
 
 void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonUniquement)
 {
-    bool ok;
 
     // On commence par compresser le fond original (format jpeg) dans un tableau
     QByteArray baFondOriginal;
     QBuffer bufFondOriginal(&baFondOriginal);
-    ok = m_originalBackground->save(&bufFondOriginal, "jpeg", 70);
-    if (!ok)
-        qWarning() << (tr("Probleme de compression du fond original (emettreCarte - Carte.cpp)"));
+    if (!m_originalBackground->save(&bufFondOriginal, "jpeg", 70))
+    {
+        qWarning() << (tr("Codec Error (emettreCarte - Carte.cpp)"));
+    }
 
-    // On compresse le fond (format jpeg) dans un tableau
+
     QByteArray baFond;
     QBuffer bufFond(&baFond);
-    ok = m_backgroundImage->save(&bufFond, "jpeg", 70);
-    if (!ok)
-        qWarning() << (tr("Probleme de compression du fond (emettreCarte - Carte.cpp)"));
 
+    if (!m_backgroundImage->save(&bufFond, "jpeg", 70))
+    {
+        qWarning() << (tr("Codec Error (emettreCarte - Carte.cpp)"));
+    }
     // Enfin on compresse la couche alpha (format jpeg) dans un tableau
     QByteArray baAlpha;
     QBuffer bufAlpha(&baAlpha);
-    ok = m_alphaLayer->save(&bufAlpha, "jpeg", 100);
-    if (!ok)
-        qWarning() << (tr("Probleme de compression de la couche alpha (emettreCarte - Carte.cpp)"));
-    
+    if (!m_alphaLayer->save(&bufAlpha, "jpeg", 100))
+    {
+        qWarning() << (tr("Codec Error (emettreCarte - Carte.cpp)"));
+    }
+
+
+    NetworkMessageWriter message(NetMsg::MapCategory, NetMsg::ImportMap);
+    qDebug()<< "get data size" << message.getDataSize();
+    message.string16(titre);
+    qDebug()<< "get data size" << message.getDataSize();
+    message.string8(idCarte);
+    qDebug()<< "get data size" << message.getDataSize();
+    message.uint8(taillePj);
+    qDebug()<< "get data size" << message.getDataSize();
+    message.uint8(getPermissionMode());
+    qDebug()<< "get data size" << message.getDataSize();
+
+    message.uint8(m_fogColor.red());
+    qDebug()<< "get data size" << message.getDataSize();
+    message.byteArray32(baFondOriginal);
+    qDebug()<< "get data size" << message.getDataSize();
+    message.byteArray32(baFond);
+    qDebug()<< "get data size" << message.getDataSize();
+
+    message.byteArray32(baAlpha);
+qDebug()<< "get data size" << message.getDataSize();
+     if (versLiaisonUniquement)
+     {
+         message.sendTo(link);
+     }
+     else
+     {
+
+         message.sendAll();
+     }
+
+
+
     // Taille des donnees
-    quint32 tailleCorps =
+   /* quint32 tailleCorps =
         // Taille du titre
         sizeof(quint16) + titre.size()*sizeof(QChar) +
         // Taille de l'identifiant
@@ -1565,17 +1600,17 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
     memcpy(&(donnees[p]), &tailleAlpha, sizeof(quint32));
     p+=sizeof(quint32);
     memcpy(&(donnees[p]), baAlpha.data(), tailleAlpha);
-    p+=tailleAlpha;
+    p+=tailleAlpha;*/
 
-    if (versLiaisonUniquement)
+   /* if (versLiaisonUniquement)
         // Emission de la carte vers la liaison indiquee
         link->emissionDonnees(donnees, tailleCorps + sizeof(enteteMessage));
     else
         // Emission de la carte vers tous les autres utilisateurs
-        emettre(donnees, tailleCorps + sizeof(enteteMessage));
+        emettre(donnees, tailleCorps + sizeof(enteteMessage));*/
     
     // Liberation du buffer d'emission
-    delete[] donnees;
+    //delete[] donnees;
 }
 
 

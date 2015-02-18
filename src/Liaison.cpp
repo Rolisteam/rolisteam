@@ -128,7 +128,7 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
     {
         // Emission des donnees
         int t = m_socketTcp->write(donnees, taille);
-        //qDebug() << QString(donnees);
+        qDebug() <<  "send to server " << taille;
         if (t < 0)
         {
             qWarning() << "Tranmission error :" << m_socketTcp->errorString();
@@ -228,6 +228,7 @@ void Liaison::reception()
                     break;
                 default :
                     qWarning()<< tr("Unknown network package received!");
+                    receptionEnCours = false;
                     return;
             }
             // On libere le tampon

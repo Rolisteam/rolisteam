@@ -120,7 +120,7 @@ void LecteurAudio::setupUi()
         m_titleDisplay->setReadOnly(true);
 
         layoutAffichage->addWidget(m_titleDisplay);
-        if (G_joueur)
+        if (PreferencesManager::getInstance()->value("isPlayer",true).toBool())
         {
                 QAction *actionChangerDossier = new QAction(QIcon(":/resources/icones/dossier.png"), tr("Select the directory contening all music files"), m_displayWidget);
                 QToolButton *boutonChangerDossier = new QToolButton(m_displayWidget);

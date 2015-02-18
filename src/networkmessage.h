@@ -69,7 +69,11 @@ namespace NetMsg
         ChangeCharacterNameAction,
         ChangeCharacterColorAction,
 
-        // TODO
+        // MapCategory
+        AddEmptyMap = 0,
+        LoadMap,
+        ImportMap,
+        CloseMap,
 
         // PictureCategory
         AddPictureAction = 0,

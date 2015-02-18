@@ -53,6 +53,8 @@ class NetworkMessageWriter : public NetworkMessage
 
         void rgb(const QColor & color);
 
+        int getDataSize();
+
     protected:
         NetworkMessageHeader * buffer();
 

@@ -46,7 +46,11 @@ NetworkMessageWriter::~NetworkMessageWriter()
 {
     delete[] m_buffer;
 }
+int NetworkMessageWriter::getDataSize()
+{
+    return m_currentPos - m_begin;
 
+}
 NetMsg::Category NetworkMessageWriter::category() const
 {
     return NetMsg::Category(m_header->category);
@@ -147,12 +151,12 @@ void NetworkMessageWriter::makeRoom(int size)
 {
 
 
-    if(m_sizeBuffer - m_sizeData < size )
+   /* if(m_sizeBuffer - m_sizeData < size )
     {
         int oldSize = m_sizeBuffer;
         m_sizeBuffer = m_sizeBuffer + size;
 
-        char * newBuffer = new char[m_sizeBuffer];//*2
+        char * newBuffer = new char[m_sizeBuffer];//x2
 
 
         qDebug()<< "new size: "<< m_sizeBuffer << m_header->dataSize;
@@ -177,10 +181,10 @@ void NetworkMessageWriter::makeRoom(int size)
 
         qDebug()<< "napresiueuietnndln.u ew size: "<< m_sizeBuffer << m_header->dataSize;
     }
-        m_sizeData+=size;
+        m_sizeData+=size;*/
 
 
-       /* while (m_currentPos + size > m_end)
+        while (m_currentPos + size > m_end)
             {
                 int newSize = (m_end - m_buffer) * 2;
                 char * newBuffer = new char[newSize];
@@ -195,6 +199,6 @@ void NetworkMessageWriter::makeRoom(int size)
 
                 m_buffer = newBuffer;
                 m_header = (NetworkMessageHeader *) m_buffer;
-            }*/
+            }
 
 }
