@@ -202,7 +202,7 @@ void ImprovedWorkspace::activeSubWindowChanged(QMdiSubWindow* wdw)
             if(list.size()>=3)
             {
                 m_variantMenu->parentWidget()->insertAction(list[2],m_variantMenu->menuAction());
-              }
+            }
         }
         else
         {

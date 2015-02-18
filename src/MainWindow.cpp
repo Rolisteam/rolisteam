@@ -57,9 +57,7 @@ MainWindow::MainWindow()
     m_connectDialog = new ConnectionWizzard(this);
     m_subWindowList = new QMap<QAction*,SubMdiWindows*>;
     m_subWindowActGroup = new QActionGroup(this);
-   /* listeCarteFenetre.clear();
-    listeImage.clear();
-    listeTchat.clear();*/
+    m_recentFilesActGroup= new QActionGroup(this);
 
     m_toolbar = new ToolsBar(this);
 
@@ -93,6 +91,7 @@ MainWindow::~MainWindow()
     delete m_subWindowList;
     delete m_toolbar;
     delete m_playerListWidget;
+    delete m_recentFilesActGroup;
 }
 
 void MainWindow::createMenu()
@@ -112,7 +111,13 @@ void MainWindow::createMenu()
     m_openScenarioAct= m_openMenu->addAction(tr("&Scenario"));
     m_openPictureAct= m_openMenu->addAction(tr("&Picture"));
     m_openNoteAct= m_openMenu->addAction(tr("&Note"));
-    m_recentlyOpened = m_fileMenu->addMenu(tr("&Recently Opened"));
+    m_recentFilesMenu = m_fileMenu->addMenu(tr("&Recently Opened"));
+    foreach(QString path,m_recentFiles)
+    {
+        m_recentFilesMenu->addAction(m_recentFilesActGroup->addAction(path));
+
+    }
+
     m_fileMenu->addSeparator();
     m_saveAct = m_fileMenu->addAction(tr("&Save"));
     m_saveAct->setShortcut(tr("Ctrl+s"));
@@ -208,6 +213,7 @@ void MainWindow::connectActions()
     connect(m_usedTabBarAct,SIGNAL(triggered()),this,SLOT(onTabBar()));
 
     connect(m_subWindowActGroup,SIGNAL(triggered(QAction*)),this,SLOT(hideShowWindow(QAction*)));
+    connect(m_recentFilesActGroup,SIGNAL(triggered(QAction*)),this,SLOT(openRecentFile(QAction*)));
 
     //connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
 }
@@ -215,6 +221,11 @@ void MainWindow::allowActions()
 {
 
 }
+void MainWindow::openRecentFile(QAction* pathAct)
+{
+    qDebug() << pathAct->text();
+}
+
 void MainWindow::hideShowWindow(QAction* p)
 {
     SubMdiWindows* tmp = (*m_subWindowList)[p];
@@ -265,11 +276,13 @@ void MainWindow::openImage()
     QString filepath = QFileDialog::getOpenFileName(this, tr("Open Image file"), m_options->value(QString("ImageDirectory"),QVariant(".")).toString(),
             tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp)"));
 
-    Image* tmpImage=new Image(filepath,m_workspace);
-
-    //m_workspace->addWidget(tmpImage);
-    addToWorkspace(tmpImage);
-    tmpImage->show();
+    if(!filepath.isEmpty())
+    {
+        Image* tmpImage=new Image(filepath,m_workspace);
+        m_recentFiles << filepath;
+        addToWorkspace(tmpImage);
+        tmpImage->show();
+    }
 }
 void  MainWindow::onTabBar()
 {
@@ -283,18 +296,6 @@ void  MainWindow::onTabBar()
     }
 }
 
-void MainWindow::displayTchat(QString id)
-{
-
-}
-void MainWindow::hideTchat(QString id)
-{
-
-}
-Tchat * MainWindow::trouverTchat(QString idJoueur)
-{
-    return 0;
-}
 bool MainWindow::isActiveWindow(QWidget *widget)
 {
     return widget == m_workspace->activeSubWindow() && widget->isVisible();
@@ -402,6 +403,10 @@ void MainWindow::readSettings()
     QVariant tmp = m_options->value("network/connectionsList",tmp2);
     m_connectionList = tmp.value<ConnectionList>();
 
+
+
+    m_recentFiles = settings.value("recentfiles", QStringList()).toStringList();
+
     m_options->readSettings();
 
 }
@@ -413,8 +418,9 @@ void MainWindow::writeSettings()
   QVariant variant;
   variant.setValue(*m_player);
   settings.setValue("player", variant);
-  m_options->writeSettings();
+  settings.setValue("recentfiles", m_recentFiles);
 
+  m_options->writeSettings();
 }
 
 

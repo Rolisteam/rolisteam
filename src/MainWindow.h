@@ -68,14 +68,8 @@ Q_OBJECT
 public :
         MainWindow();
         ~MainWindow();
-
-        Tchat* trouverTchat(QString idJoueur);
         bool isActiveWindow(QWidget *widget);
-
-
-public slots :
-        void displayTchat(QString id);
-        void hideTchat(QString id);
+public slots :     
         void displayMinutesEditor();
         void displayCharacterSheet();
 
@@ -107,34 +101,53 @@ private slots:
      */
     void onTabBar();
 
-private :
-        bool maybeSave();
-        void createMenu();
-        void connectActions();
-        void allowActions();
-        void saveAll();
+    void openRecentFile(QAction*);
 
+private :
+        /**
+         * @brief determine either the current content should be save or not
+         */
+        bool maybeSave();
+        /**
+         * @brief create menus.
+         */
+        void createMenu();
+        /**
+         * @brief Connect actions to appropriate slots
+         */
+        void connectActions();
+        /**
+         * @brief empty
+         */
+        void allowActions();
+        /**
+         * @brief Save All contents
+         */
+        void saveAll();
+        /**
+         * @brief perform some action before adding the given subwindows into the QMdiArea
+         */
         void addToWorkspace(SubMdiWindows* subWindow);
 
         /**
-         * Load informations from the previous rolisteam's execution
+         * @brief Load informations from the previous rolisteam's execution
          */
         void readSettings();
 
         /**
-         * Save parameters for next executions.
+         * @brief Save parameters for next executions.
          */
         void writeSettings();
-
+        /**
+         * @brief Save parameters for next executions.
+         */
         ImprovedWorkspace* m_workspace;
 
-
+        /**
+         * @brief Save parameters for next executions.
+         */
         ToolsBar *m_toolbar;
 
-        //MinutesEditor* minutesEditor;
-        /*QList <MapFrame *> listeCarteFenetre;
-        QList <Image *> listeImage;
-        QList <Tchat *> listeTchat;*/
         AudioPlayer* m_audioPlayer;
 
         QMenu *m_fileMenu;
@@ -150,7 +163,7 @@ private :
         QAction* m_openScenarioAct;
         QAction* m_openNoteAct;
 
-        QMenu* m_recentlyOpened;
+        QMenu* m_recentFilesMenu;
 
         QAction* m_saveAct;
         QAction* m_saveAsAct;
@@ -161,8 +174,6 @@ private :
 
         QAction* m_closeAct;
         QAction* m_quitAct;
-
-        //QMenu *m_editMenu;
 
         QMenu *m_viewMenu;
 
@@ -239,11 +250,12 @@ private :
           */
         ConnectionWizzard* m_connectDialog;
 
-
+        QActionGroup* m_recentFilesActGroup;
         /**
-          * CharacterSheet viewer
+          * @brief QStringList of opened documents : file paths
           */
-        //CharacterSheetWindow* m_characterSheet;
+        QStringList m_recentFiles;
+
 
 private slots :
         /**

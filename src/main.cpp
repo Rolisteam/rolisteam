@@ -19,14 +19,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
 #include <QtGui>
 #include <time.h>
 #include "MainWindow.h"
 #include "connection.h"
-static QTextEdit *Log;
-#define APPLICATION_NAME "rolisteam"
-//initialisation G_initialisation;
 
 /**
 * @mainpage Rolisteam Documentation 
@@ -35,6 +31,9 @@ static QTextEdit *Log;
 *
 *
 * Rolisteam help you to manage role playing games with your friend all over the world.
+* Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to
+* perform Role playing games with remote friends.
+* It is based on Client/server architecture and it is written in C++ with Qt.
 *
 *
 *
@@ -42,71 +41,23 @@ static QTextEdit *Log;
 *
 */
 
-void handlerAffichageMsg(QtMsgType type, const char *msg)
-{
-            QString titre;
-            Qt::GlobalColor couleur;
-
-            // Parametrage du titre et de la couleur
-    switch (type) {
-    case QtDebugMsg:
-        titre = "Debug : ";
-        couleur = Qt::green;
-        break;
-    case QtWarningMsg:
-        titre = "Warning : ";
-        couleur = Qt::blue;
-        break;
-    case QtCriticalMsg:
-        titre = "Critical : ";
-        couleur = Qt::red;
-        break;
-    case QtFatalMsg:
-        titre = "Fatal : ";
-        couleur = Qt::darkGray;
-        break;
-    default :
-                    titre = "Type de message inconnu : ";
-                    couleur = Qt::magenta;
-                    break;
-    }
-
-            // Affichage du texte
-            Log->setFontWeight(QFont::Bold);
-    Log->setTextColor(couleur);
-            Log->append(titre);
-            Log->setFontWeight(QFont::Normal);
-    Log->setTextColor(Qt::black);
-            Log->insertPlainText(msg);
-
-            // Erreur fatale : on quitte
-            if (type == QtFatalMsg)
-                    abort();
-}
-
 int main(int argc, char *argv[])
 {
-   qsrand(QDateTime::currentDateTime ().toTime_t ());
+    qsrand(QDateTime::currentDateTime ().toTime_t ());
 
 
     QApplication app(argc, argv);
-    QCoreApplication::setApplicationName(QCoreApplication::tr(APPLICATION_NAME));
+    QCoreApplication::setApplicationName(QCoreApplication::tr("rolisteam"));
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
-
-
 
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + QLocale::system().name());
     app.installTranslator(&qtTranslator);
 
-
-
-
     qRegisterMetaType<Connection>("Connection");
     qRegisterMetaTypeStreamOperators<Connection>("Connection");
-
 
     MainWindow* mw =new MainWindow();
     mw->show();
