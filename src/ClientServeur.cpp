@@ -248,7 +248,6 @@ bool ClientServeur::configAndConnect()
             {
                 synchronizeInitialisation(configDialog);
                 Liaison * link = new Liaison(socket, this);
-                m_user = new PlayerTransfer(G_idJoueurLocal,configDialog.getName(),configDialog.getColor(),configDialog.isGM());
                 link->start();
 
                 emettreIdentite(configDialog.getName());

@@ -144,7 +144,7 @@ int main(int argc, char *argv[])
 
     // Create the main window
     G_mainWindow = new MainWindow;
-    if(G_clientServeur->currentUser()->isGM())
+    if (!G_client)
         G_listeUtilisateurs->ajouterJoueur(G_clientServeur->currentUser()->id(), G_clientServeur->currentUser()->name(), G_clientServeur->currentUser()->color(), true, G_clientServeur->currentUser()->isGM());
 
     G_mainWindow->setWindowTitle(NOM_APPLICATION);
