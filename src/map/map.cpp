@@ -15,6 +15,7 @@ Map::Map(QObject * parent)
 {
     m_currentItem = NULL;
     m_itemList=new  QList<VisualItem*>;
+	setItemIndexMethod(QGraphicsScene::NoIndex);
 }
 
 
@@ -26,6 +27,7 @@ Map::Map(int width,int height,QString& title,QColor& bgColor,QObject * parent)
     setBackgroundBrush(m_bgColor);
     m_currentItem = NULL;
     m_itemList=new  QList<VisualItem*>;
+	setItemIndexMethod(QGraphicsScene::NoIndex);
 
 }
 
@@ -187,8 +189,8 @@ void Map::setNPCSize(int p)
 
  }
 
- QDataStream& operator<<(QDataStream& out, const Map& con)
- {
+QDataStream& operator<<(QDataStream& out, const Map& con)
+{
    out << con.m_width;
    out << con.m_height;
    out << con.m_title;
@@ -201,10 +203,10 @@ void Map::setNPCSize(int p)
        out << *item ;
    }
    return out;
- }
+}
 
- QDataStream& operator>>(QDataStream& is,Map& con)
- {
+QDataStream& operator>>(QDataStream& is,Map& con)
+{
    is >>(con.m_width);
    is >>(con.m_height);
    is >>(con.m_title);
@@ -217,24 +219,24 @@ void Map::setNPCSize(int p)
 
    return is;
  }
+void Map::saveFile(QDataStream& out)
+{
+    if(m_itemList->isEmpty())
+        return;
 
- void Map::saveFile(QDataStream& out)
- {
-     if(m_itemList->isEmpty())
-         return;
+    out << m_width;
+    out<< m_height;
+    out<< m_title;
+    out<< m_bgColor;
+    out << m_itemList->size();
+    qDebug()<< "m_itemList size" << m_itemList->size() <<  m_bgColor << m_width << m_height << m_title ;
 
-     out << m_width;
-     out<< m_height;
-     out<< m_title;
-     out<< m_bgColor;
-     out << m_itemList->size();
-     qDebug()<< "m_itemList size" << m_itemList->size() <<  m_bgColor << m_width << m_height << m_title ;
-
-     foreach(VisualItem* tmp, *m_itemList)
-     {
+    foreach(VisualItem* tmp, *m_itemList)
+    {
         out << tmp->getType() << *tmp;
-     }
- }
+    }
+}
+
 void Map::openFile(QDataStream& in)
 {
     if(m_itemList!=NULL)
@@ -290,4 +292,3 @@ void Map::openFile(QDataStream& in)
         qDebug()<< m_itemList->size();
     }
 }
-
