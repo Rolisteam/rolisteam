@@ -40,6 +40,7 @@ extern bool G_joueur;
 /******************
  * Initialisation *
  ******************/
+PlayersList* PlayersList::m_singleton=NULL;
 
 PlayersList::PlayersList()
  : QAbstractItemModel(NULL), m_gmCount(0)
@@ -67,10 +68,13 @@ PlayersList::~PlayersList()
     }
 }
 
-PlayersList & PlayersList::instance()
+PlayersList* PlayersList::instance()
 {
-    static PlayersList s_playersList;
-    return s_playersList;
+    if(NULL==m_singleton)
+    {
+        m_singleton = new PlayersList();
+    }
+    return m_singleton;
 }
 
 

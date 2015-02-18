@@ -28,6 +28,7 @@
 
 #include <QMainWindow>
 #include <QAction>
+#include <QTextEdit>
 #include <QMenu>
 #include <QWorkspace>
 
@@ -84,6 +85,10 @@ public :
     NouveauPlanVide::PermissionMode getPermission(int id);
     void readSettings();
     void writeSettings();
+
+    static void notifyUser(QString msg);
+
+    void notifyUser_p(QString msg);
 
 
 signals:
@@ -190,6 +195,8 @@ private :
     PreferencesManager* m_preferences;
 
     ClientServeur* m_networkManager;
+
+    QTextEdit* m_notifierDisplay;
 //#ifndef NULL_PLAYER
 //    QDockWidget* m_audioDock;
 //#endif
@@ -211,7 +218,11 @@ private slots :
     void emettreTousLesPlans(Liaison * link);
     void emettreToutesLesImages(Liaison * link);
 
+
+    //Network private Slot
     void stopReconnection();
+    void closeConnection();
+    void startReconnection();
 
     /**
     * \brief Show the about dialog

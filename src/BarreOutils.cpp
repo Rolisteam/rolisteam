@@ -102,7 +102,7 @@ BarreOutils::~BarreOutils()
 void BarreOutils::updateUi()
 {
 	couleur->autoriserOuInterdireCouleurs();
-        if(!PlayersList::instance().localPlayer()->isGM())
+        if(!PlayersList::instance()->localPlayer()->isGM())
         {
             m_npcDiameter->setVisible(false);
         }

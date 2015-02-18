@@ -48,13 +48,13 @@ Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex &index) const
     if (!m_isEditable)
         return Qt::ItemIsEnabled;
 
-    PlayersList & g_playersList = PlayersList::instance();
-    Player * player = g_playersList.getPlayer(index);
+    PlayersList * g_playersList = PlayersList::instance();
+    Player * player = g_playersList->getPlayer(index);
 
     // We should return Qt::NoItemFlags when (player == NULL),
     // but this cause an infinite loop when the last entry is deleted.
     // This is a workaround of a Qt's bug.
-    if (player == NULL || player == g_playersList.localPlayer())
+    if (player == NULL || player == g_playersList->localPlayer())
         return Qt::ItemIsEnabled;
 
     if (player->hasFeature("MultiChat"))
@@ -67,7 +67,7 @@ QVariant PrivateChatDialogModel::data(const QModelIndex &index, int role) const
 {
     if (role == Qt::CheckStateRole)
     {
-        return QVariant(m_set.contains(PlayersList::instance().getPlayer(index)));
+        return QVariant(m_set.contains(PlayersList::instance()->getPlayer(index)));
     }
 
     return QAbstractProxyModel::data(index, role);
@@ -80,7 +80,7 @@ bool PrivateChatDialogModel::setData(const QModelIndex &index, const QVariant &v
 
     if (role == Qt::CheckStateRole && (index.flags() & Qt::ItemIsUserCheckable))
     {
-        Player * player = PlayersList::instance().getPlayer(index);
+        Player * player = PlayersList::instance()->getPlayer(index);
         if (!m_set.remove(player))
             m_set.insert(player);
         emit dataChanged(index, index);
@@ -98,9 +98,9 @@ QSet<Player *> & PrivateChatDialogModel::playersSet()
 void PrivateChatDialogModel::setPlayersSet(const QSet<Player *> & set)
 {
     m_set = set;
-    m_set.insert(PlayersList::instance().localPlayer());
+    m_set.insert(PlayersList::instance()->localPlayer());
     emit dataChanged(createIndex(0, 0, PlayersList::NoParent),
-            createIndex(PlayersList::instance().numPlayers() - 1, 0, PlayersList::NoParent));
+            createIndex(PlayersList::instance()->numPlayers() - 1, 0, PlayersList::NoParent));
 }
 
 void PrivateChatDialogModel::setEditable(bool isEditable)

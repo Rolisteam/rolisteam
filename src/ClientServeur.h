@@ -37,6 +37,8 @@
 #include "initialisation.h"
 #include "connectionretrydialog.h"
 #include "preferencesmanager.h"
+#include "playersList.h"
+
 
 class Player;
 class Liaison;
@@ -67,8 +69,11 @@ public :
 
     bool    isServer() const;
 
+    bool startConnection();
+
+
 public slots:
-    void disconnect();
+    void disconnectAndClose();
 
 signals :
     void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);
@@ -96,11 +101,14 @@ private :
     ConnectionRetryDialog* m_dialog;
     ConnectionConfigDialog* m_configDialog;
 
+    PlayersList* m_playersList;
+
 
 private slots :
     void nouveauClientConnecte();
     void finDeLiaison(Liaison * link);
-    bool startConnection();
+    bool startConnectionToServer();
+    bool startListening();
 };
 
 #endif

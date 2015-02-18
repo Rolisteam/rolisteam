@@ -86,10 +86,19 @@ QCursor *G_pointeurEtat;
 
 
 // Pointeur vers la fenetre de log utilisateur (utilise seulement dans ce fichier)
-static QTextEdit *logUtilisateur;
+
 MainWindow* MainWindow::m_singleton= NULL;
 
-void ecrireLogUtilisateur(QString message)
+void MainWindow::notifyUser(QString msg)
+{
+    if(NULL!=m_singleton)
+    {
+        m_singleton->notifyUser_p(msg);
+    }
+
+}
+
+void MainWindow::notifyUser_p(QString message)
 {
         static bool alternance = false;
         QColor couleur;
@@ -105,15 +114,15 @@ void ecrireLogUtilisateur(QString message)
         QString heure = QTime::currentTime().toString("hh:mm:ss") + " - ";
 
         // On repositionne le curseur a la fin du QTextEdit
-        logUtilisateur->moveCursor(QTextCursor::End);
+        m_notifierDisplay->moveCursor(QTextCursor::End);
 
         // Affichage de l'heure
-        logUtilisateur->setTextColor(Qt::darkGreen);
-        logUtilisateur->append(heure);
+        m_notifierDisplay->setTextColor(Qt::darkGreen);
+        m_notifierDisplay->append(heure);
 
         // Affichage du texte
-        logUtilisateur->setTextColor(couleur);
-        logUtilisateur->insertPlainText(message);
+        m_notifierDisplay->setTextColor(couleur);
+        m_notifierDisplay->insertPlainText(message);
 }
 bool  MainWindow::showConnectionDialog()
 {
@@ -250,13 +259,13 @@ void MainWindow::setupUi()
     G_pointeurSupprimer = new QCursor(QPixmap(":/resources/icones/pointeur supprimer.png"), 6, 0);
     G_pointeurEtat      = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
 
-    PlayersList & g_playersList = PlayersList::instance();
+    PlayersList * g_playersList = PlayersList::instance();
     if (G_client)
     {
         // We want to know if the server refuses local player to be GM
-        connect(&g_playersList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
+        connect(g_playersList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
         // We send a message to del local player when we quit
-        connect(this, SIGNAL(closing()), &g_playersList, SLOT(sendDelLocalPlayer()));
+        connect(this, SIGNAL(closing()), g_playersList, SLOT(sendDelLocalPlayer()));
     }
     else
     {
@@ -264,8 +273,8 @@ void MainWindow::setupUi()
         connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
         connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
     }
-    connect(&g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
-    connect(&g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
+    connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
+    connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
 }
 
 MainWindow::~MainWindow()
@@ -289,11 +298,11 @@ void MainWindow::creerLogUtilisateur()
         m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 
         //Creation du log utilisateur
-        logUtilisateur = new QTextEdit(m_dockLogUtil);
-        logUtilisateur->setReadOnly(true);
+        m_notifierDisplay = new QTextEdit(m_dockLogUtil);
+        m_notifierDisplay->setReadOnly(true);
 
         // Insertion de la fenetre de log utilisateur dans le dockWidget
-        m_dockLogUtil->setWidget(logUtilisateur);
+        m_dockLogUtil->setWidget(m_notifierDisplay);
         // Largeur minimum du log utilisateur
         m_dockLogUtil->setMinimumWidth(125);
 
@@ -416,7 +425,8 @@ void MainWindow::linkActionToMenu()
 
         // network
         connect(m_networkManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
-        connect(m_disconnectAct,SIGNAL(triggered()),m_networkManager,SLOT(disconnect()));
+        connect(m_disconnectAct,SIGNAL(triggered()),this,SLOT(closeConnection()));
+        connect(m_reconnectAct,SIGNAL(triggered()),this,SLOT(startReconnection()));
 
         // Windows managing
         connect(actionCascade, SIGNAL(triggered(bool)), workspace, SLOT(cascade()));
@@ -488,6 +498,15 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         carteFenetre->show();
         tmp->setWindowIcon(QIcon(":/resources/icones/chatIcone.png"));
         carteFenetre->setWindowIcon(QIcon(":/resources/icones/chatIcone.png"));
+}
+void  MainWindow::closeConnection()
+{
+    if(NULL!=m_networkManager)
+    {
+        m_networkManager->disconnectAndClose();
+        m_reconnectAct->setEnabled(true);
+        m_disconnectAct->setEnabled(false);
+    }
 }
 
 void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
@@ -799,7 +818,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
 
             DessinPerso *pnj = new DessinPerso(carte, ident, nomPerso, couleur, diametre, centre, type, numeroDuPnj);
 
-                if (visible || (type == DessinPerso::pnj && PlayersList::instance().localPlayer()->isGM()))
+                if (visible || (type == DessinPerso::pnj && PlayersList::instance()->localPlayer()->isGM()))
                         pnj->afficherPerso();
                 // On m.a.j l'orientation
                 pnj->nouvelleOrientation(orientation);
@@ -1069,7 +1088,7 @@ void MainWindow::mettreAJourEspaceTravail()
 
 void MainWindow::changementFenetreActive(QWidget *widget)
 {
-    bool localPlayerIsGM = PlayersList::instance().localPlayer()->isGM();
+    bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
     if (widget != NULL && widget->objectName() == QString("CarteFenetre") && localPlayerIsGM)
     {
         actionFermerPlan->setEnabled(true);
@@ -1229,7 +1248,7 @@ void MainWindow::quitterApplication(bool perteConnexion)
         }
 
         // Si l'utilisateur est un joueur
-        if (!PlayersList::instance().localPlayer()->isGM())
+        if (!PlayersList::instance()->localPlayer()->isGM())
         {
                 message += tr("Do you want to save your minutes before to quit %1?").arg(msg);
         }
@@ -1261,7 +1280,7 @@ void MainWindow::quitterApplication(bool perteConnexion)
         {
                 bool ok;
                 // Si l'utilisateur est un joueur, on sauvegarde les notes
-                if (!PlayersList::instance().localPlayer()->isGM())
+                if (!PlayersList::instance()->localPlayer()->isGM())
                         ok = sauvegarderNotes();
                 // S'il est MJ, on sauvegarde le scenario
                 else
@@ -1806,7 +1825,7 @@ void MainWindow::updateUi()
     #ifndef NULL_PLAYER
         m_audioPlayer->updateUi();
     #endif
-    if(!PlayersList::instance().localPlayer()->isGM())
+    if(!PlayersList::instance()->localPlayer()->isGM())
     {
         actionNouveauPlan->setEnabled(false);
         actionOuvrirPlan->setEnabled(false);
@@ -1891,12 +1910,12 @@ void MainWindow::writeSettings()
 
 void MainWindow::notifyAboutAddedPlayer(Player * player) const
 {
-    ecrireLogUtilisateur(tr("%1 just joins the game.").arg(player->name()));
+    notifyUser(tr("%1 just joins the game.").arg(player->name()));
 }
 
 void MainWindow::notifyAboutDeletedPlayer(Player * player) const
 {
-    ecrireLogUtilisateur(tr("%1 just leaves the game.").arg(player->name()));
+    notifyUser(tr("%1 just leaves the game.").arg(player->name()));
 }
 NouveauPlanVide::PermissionMode MainWindow::getPermission(int id)
 {
@@ -1917,4 +1936,8 @@ void MainWindow::stopReconnection()
 {
     m_reconnectAct->setEnabled(true);
     m_disconnectAct->setEnabled(false);
+}
+void MainWindow::startReconnection()
+{
+    m_networkManager->startConnection();
 }

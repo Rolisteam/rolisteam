@@ -42,7 +42,7 @@ class Liaison;
 class MainWindow;
 
 // Fonction globale, declaree dans MainWindow.cpp
-void ecrireLogUtilisateur(QString message);
+void notifyUser(QString message);
 
 // Fonctions globales, declaree dans ClientServeur.cpp
 void emettre(char *donnees, quint32 taille, Liaison *sauf = 0);

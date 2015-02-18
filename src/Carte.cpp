@@ -73,7 +73,7 @@ void Carte::p_init()
     // Ajout de la couche alpha effaceAlpha a l'image de fond originale
     ajouterAlpha(fondOriginal, effaceAlpha, fondOriginal);
 
-    m_localPlayer = PlayersList::instance().localPlayer();
+    m_localPlayer = PlayersList::instance()->localPlayer();
 
     // Creation d'une image en mode ARGB32 qui sert a mixer le fond et la couche alpha
     fondAlpha = new QImage(fondOriginal->size(), QImage::Format_ARGB32);
@@ -108,11 +108,11 @@ void Carte::p_init()
     mouvements.clear();
 
     // Get every characters
-    PlayersList & g_playersList = PlayersList::instance();
-    int maxPlayersIndex = g_playersList.numPlayers();
+    PlayersList* g_playersList = PlayersList::instance();
+    int maxPlayersIndex = g_playersList->numPlayers();
     for (int i = 0 ; i < maxPlayersIndex ; i++)
     {
-        Player * player = g_playersList.getPlayer(i);
+        Player * player = g_playersList->getPlayer(i);
         int maxCharactersIndex = player->getCharactersCount();
         for (int j = 0 ; j < maxCharactersIndex ; j++)
         {
@@ -121,11 +121,11 @@ void Carte::p_init()
     }
 
     // connect to g_playesList to stay tuned
-    connect(&g_playersList, SIGNAL(characterAdded(Character *)),
+    connect(g_playersList, SIGNAL(characterAdded(Character *)),
             this, SLOT(addCharacter(Character *)));
-    connect(&g_playersList, SIGNAL(characterDeleted(Character *)),
+    connect(g_playersList, SIGNAL(characterDeleted(Character *)),
             this, SLOT(delCharacter(Character *)));
-    connect(&g_playersList, SIGNAL(characterChanged(Character *)),
+    connect(g_playersList, SIGNAL(characterChanged(Character *)),
             this, SLOT(changeCharacter(Character *)));
 }
 

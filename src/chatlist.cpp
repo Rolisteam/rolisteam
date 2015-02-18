@@ -40,16 +40,16 @@ ChatList::ChatList(MainWindow * mainWindow)
     addChatWindow(new ChatWindow(new PublicChat(), m_mainWindow));
 
     // Stay sync with g_playersList
-    PlayersList & g_playersList = PlayersList::instance();
-    connect(&g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(addPlayerChat(Player *)));
-    connect(&g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(delPlayer(Player *)));
+    PlayersList * g_playersList = PlayersList::instance();
+    connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(addPlayerChat(Player *)));
+    connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(delPlayer(Player *)));
 
     // Allready there player's chat
-    int maxPlayerIndex = g_playersList.numPlayers();
-    Player * localPlayer = g_playersList.localPlayer();
+    int maxPlayerIndex = g_playersList->numPlayers();
+    Player * localPlayer = g_playersList->localPlayer();
     for (int i = 0 ; i < maxPlayerIndex ; i++)
     {
-        Player * player = g_playersList.getPlayer(i);
+        Player * player = g_playersList->getPlayer(i);
         if (player != localPlayer)
         {
             addPlayerChat(player);//m_mainWindow
@@ -346,25 +346,25 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     QString to   = data.string8();
     QString msg  = data.string32();
 
-    PlayersList & g_playersList = PlayersList::instance();
+    PlayersList* g_playersList = PlayersList::instance();
 
-    Person * sender = g_playersList.getPerson(from);
+    Person * sender = g_playersList->getPerson(from);
     if (sender == NULL)
     {
         qWarning("Message from unknown person %s", qPrintable(from));
         return;
     }
 
-    if (to == g_playersList.localPlayer()->uuid())
+    if (to == g_playersList->localPlayer()->uuid())
     {
-        Player * owner = g_playersList.getParent(from);
+        Player * owner = g_playersList->getParent(from);
         chatWindow(owner->uuid())->afficherMessage(sender->name(), sender->color(), msg, data.action());
         return;
     }
 
     else
     {
-        Player * addressee = g_playersList.getPlayer(to);
+        Player * addressee = g_playersList->getPlayer(to);
         if (addressee != NULL)
         {
             if (!G_client)

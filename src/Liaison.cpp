@@ -53,15 +53,10 @@ Liaison::Liaison(QTcpSocket *socket)
     m_socketTcp = socket;
     receptionEnCours = false;
 #ifndef NULL_PLAYER
-    G_lecteurAudio = LecteurAudio::getInstance();
+    m_audioPlayer = LecteurAudio::getInstance();
 #endif
 
-    connect(m_socketTcp, SIGNAL(readyRead()),
-            this, SLOT(reception()));
-    connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SLOT(erreurDeConnexion(QAbstractSocket::SocketError)));
-    connect(m_socketTcp, SIGNAL(disconnected()),
-            this, SLOT(p_disconnect()));
+    setSocket(socket);
 
     // Si l'ordi local est un client, on ajoute tt de suite la liaison a la liste, et on connecte le signal d'emission des donnees
     // Le serveur effectue cette operation a la fin de la procedure de connexion du client
@@ -73,8 +68,21 @@ Liaison::Liaison(QTcpSocket *socket)
 
 Liaison::~Liaison()
 {
-    delete m_socketTcp;
+    if(NULL!=m_socketTcp)
+        delete m_socketTcp;
 }
+void Liaison::makeSignalConnection()
+{
+
+    /// @bug: At the reconnection try, this code makes a segfault.
+    connect(m_socketTcp, SIGNAL(readyRead()),
+            this, SLOT(reception()));
+    connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)),
+            this, SLOT(erreurDeConnexion(QAbstractSocket::SocketError)));
+    connect(m_socketTcp, SIGNAL(disconnected()),
+            this, SLOT(p_disconnect()));
+}
+
 void Liaison::setMainWindow(MainWindow* mainWindow)
 {
     m_mainWindow = mainWindow;
@@ -86,6 +94,10 @@ void Liaison::setMainWindow(MainWindow* mainWindow)
 void Liaison::erreurDeConnexion(QAbstractSocket::SocketError erreur)
 {
     Q_UNUSED(erreur);
+    if(NULL==m_socketTcp)
+    {
+        return;
+    }
     qWarning("Une erreur réseau est survenue : %s", qPrintable(m_socketTcp->errorString()));
 }
 
@@ -100,6 +112,10 @@ void Liaison::p_disconnect()
 /********************************************************************/
 void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
 {
+    if(NULL==m_socketTcp)
+    {
+        return;
+    }
     if (sauf != this)
     {
         // Emission des donnees
@@ -124,7 +140,12 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
 /********************************************************************/
 void Liaison::reception()
 {
+    if(NULL==m_socketTcp)
+    {
+        return;
+    }
     quint32 lu;
+
 
     // La boucle permet de lire plusieurs messages concatenes
     while (m_socketTcp->bytesAvailable())
@@ -226,7 +247,7 @@ void Liaison::receptionMessageConnexion()
     if (entete.action == finProcessusConnexion)
     {
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("End of the connection process"));
+        MainWindow::notifyUser(tr("End of the connection process"));
         // On met a jour l'espace de travail
         m_mainWindow->mettreAJourEspaceTravail();
     }
@@ -989,7 +1010,7 @@ void Liaison::receptionMessagePlan()
         m_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur,permission);
         qDebug() << "permission " << permission;
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("New map: %1").arg(titre));
+        MainWindow::notifyUser(tr("New map: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1054,7 +1075,7 @@ void Liaison::receptionMessagePlan()
         m_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Receiving map: %1").arg(titre));
+        MainWindow::notifyUser(tr("Receiving map: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1148,7 +1169,7 @@ void Liaison::receptionMessagePlan()
         m_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Receiving map: %1").arg(titre));
+        MainWindow::notifyUser(tr("Receiving map: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1180,7 +1201,7 @@ void Liaison::receptionMessagePlan()
         else
         {
             // Message sur le log utilisateur
-            ecrireLogUtilisateur(tr("The map %1 has been closed by the GM").arg(carteFenetre->windowTitle()));
+            MainWindow::notifyUser(tr("The map %1 has been closed by the GM").arg(carteFenetre->windowTitle()));
             // Suppression du plan
             carteFenetre->~CarteFenetre();
         }
@@ -1254,7 +1275,7 @@ void Liaison::receptionMessageImage()
 
         // Message sur le log utilisateur
         qDebug() << titre;
-        ecrireLogUtilisateur(tr("Receiving picture: %1").arg(titre.left(titre.size()-QString(tr(" (Picture)")).size())));
+        MainWindow::notifyUser(tr("Receiving picture: %1").arg(titre.left(titre.size()-QString(tr(" (Picture)")).size())));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1288,7 +1309,7 @@ void Liaison::receptionMessageImage()
         {
             // Message sur le log utilisateur
             QString titre = imageFenetre->windowTitle();
-            ecrireLogUtilisateur(tr("Picture \"%1\" has been closed").arg(titre.left(titre.size() - QString(tr(" (Image)")).size())));
+            MainWindow::notifyUser(tr("Picture \"%1\" has been closed").arg(titre.left(titre.size() - QString(tr(" (Image)")).size())));
             // Suppression de l'image
             imageFenetre->~Image();
         }
@@ -1356,7 +1377,7 @@ void Liaison::receptionMessageMusique()
 
         // On charge le nouveau fichier dans le lecteur
                     qDebug() << nomFichier <<endl;
-        G_lecteurAudio->pselectNewFile(nomFichier);
+        m_audioPlayer->pselectNewFile(nomFichier);
 
         // Liberation de la memoire allouee
         delete[] tableauNomFichier;
@@ -1367,7 +1388,7 @@ void Liaison::receptionMessageMusique()
     {
         // On demande au lecteur audio de mettre la lecture en pause
         qDebug() << " pplay";
-        G_lecteurAudio->pplay();
+        m_audioPlayer->pplay();
     }
 
     // Demande de mise en pause de la lecture
@@ -1375,7 +1396,7 @@ void Liaison::receptionMessageMusique()
     {
         // On demande au lecteur audio de mettre la lecture en pause
         qDebug() << " ppause";
-        G_lecteurAudio->ppause();
+        m_audioPlayer->ppause();
     }
 
     // Demande d'arret de la lecture
@@ -1383,7 +1404,7 @@ void Liaison::receptionMessageMusique()
     {
         // On demande au lecteur audio de mettre la lecture en pause
          qDebug() << " pstop";
-        G_lecteurAudio->pstop();
+        m_audioPlayer->pstop();
     }
 
     // Demande de changement de position de la lecture
@@ -1395,7 +1416,7 @@ void Liaison::receptionMessageMusique()
         p+=sizeof(quint32);
 
         qDebug() << "new position" << newPosition;
-        G_lecteurAudio->pseek(newPosition);
+        m_audioPlayer->pseek(newPosition);
     }
 
     else
@@ -1552,4 +1573,11 @@ int Liaison::extrairePersonnage(Carte *carte, char *tampon)
 void Liaison::disconnectAndClose()
 {
     m_socketTcp->close();
+    delete m_socketTcp;
+    m_socketTcp=NULL;
+}
+void Liaison::setSocket(QTcpSocket* socket)
+{
+    m_socketTcp=socket;
+    makeSignalConnection();
 }

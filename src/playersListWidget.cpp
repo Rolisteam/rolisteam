@@ -53,9 +53,9 @@ Qt::ItemFlags PlayersListWidgetModel::flags(const QModelIndex &index) const
     if (isCheckable(index))
         ret |= Qt::ItemIsUserCheckable;
     
-    PlayersList & g_playersList = PlayersList::instance();
-    Person * person = g_playersList.getPerson(index);
-    if (g_playersList.isLocal(person))
+    PlayersList* g_playersList = PlayersList::instance();
+    Person * person = g_playersList->getPerson(index);
+    if (g_playersList->isLocal(person))
         ret |= Qt::ItemIsEditable;
 
     return ret;
@@ -65,7 +65,7 @@ QVariant PlayersListWidgetModel::data(const QModelIndex &index, int role) const
 {
     if (isCheckable(index) && role == Qt::CheckStateRole)
     {
-        return QVariant(m_map->pjAffiche(PlayersList::instance().getPerson(index)->uuid()));
+        return QVariant(m_map->pjAffiche(PlayersList::instance()->getPerson(index)->uuid()));
     }
 
     return QAbstractProxyModel::data(index, role);
@@ -73,20 +73,20 @@ QVariant PlayersListWidgetModel::data(const QModelIndex &index, int role) const
 
 bool PlayersListWidgetModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    PlayersList & g_playersList = PlayersList::instance();
-    Person * person = g_playersList.getPerson(index);
+    PlayersList* g_playersList = PlayersList::instance();
+    Person * person = g_playersList->getPerson(index);
 
-    if (person != NULL && g_playersList.isLocal(person))
+    if (person != NULL && g_playersList->isLocal(person))
         switch (role)
         {
             case Qt::EditRole:
             case Qt::DisplayRole:
-                g_playersList.setLocalPersonName(person, value.toString());
+                g_playersList->setLocalPersonName(person, value.toString());
                 return true;
             case Qt::DecorationRole:
                 if (value.type() == QVariant::Color)
                 {
-                    g_playersList.setLocalPersonColor(person, value.toString());
+                    g_playersList->setLocalPersonColor(person, value.toString());
                     return true;
                 }
         }
@@ -111,15 +111,15 @@ void PlayersListWidgetModel::changeMap(Carte * map)
 
     // We need to tell which rows should be updated
 
-    PlayersList & g_playersList = PlayersList::instance();
+    PlayersList * g_playersList = PlayersList::instance();
     QModelIndex begin;
     QModelIndex end;
     int i;
-    int max = (g_playersList.localPlayer()->isGM() ? g_playersList.numPlayers() : 1);
+    int max = (g_playersList->localPlayer()->isGM() ? g_playersList->numPlayers() : 1);
 
     for (i = 0 ; i < max ; i++)
     {
-        Player * player = g_playersList.getPlayer(i);
+        Player * player = g_playersList->getPlayer(i);
         int nbCharacters = player->getCharactersCount();
 
         if (nbCharacters > 0)
@@ -131,7 +131,7 @@ void PlayersListWidgetModel::changeMap(Carte * map)
     }
     for (; i < max ; i++)
     {
-        Player * player = g_playersList.getPlayer(i);
+        Player * player = g_playersList->getPlayer(i);
         int nbCharacters = player->getCharactersCount();
 
         if (nbCharacters > 0)
@@ -147,13 +147,13 @@ bool PlayersListWidgetModel::isCheckable(const QModelIndex &index) const
     if (!index.isValid() || m_map == NULL)
         return false;
 
-    PlayersList & g_playersList = PlayersList::instance();
+    PlayersList * g_playersList = PlayersList::instance();
 
-    Person * person = g_playersList.getPerson(index);
+    Person * person = g_playersList->getPerson(index);
     if (person == NULL)
         return false;
 
-    Player * localPlayer = g_playersList.localPlayer();
+    Player * localPlayer = g_playersList->localPlayer();
 
     return ((person->parent() == localPlayer) ||
             (localPlayer->isGM() && index.parent().isValid()));
@@ -230,45 +230,45 @@ void PlayersListWidget::editIndex(const QModelIndex & index)
     if (!index.isValid())
         return;
 
-    PlayersList & g_playersList = PlayersList::instance();
-    Person * person = g_playersList.getPerson(index);
-    if (!g_playersList.isLocal(person))
+    PlayersList* g_playersList = PlayersList::instance();
+    Person * person = g_playersList->getPerson(index);
+    if (!g_playersList->isLocal(person))
         return;
 
     if (m_personDialog->edit(tr("Edit"), person->name(), person->color()) == QDialog::Accepted)
     {
-        g_playersList.changeLocalPerson(person, m_personDialog->getName(), m_personDialog->getColor());
+        g_playersList->changeLocalPerson(person, m_personDialog->getName(), m_personDialog->getColor());
     }
 }
 
 void PlayersListWidget::createLocalCharacter()
 {
-    PlayersList & g_playersList = PlayersList::instance();
-    Player * localPlayer = g_playersList.localPlayer();
+    PlayersList* g_playersList = PlayersList::instance();
+    Player * localPlayer = g_playersList->localPlayer();
 
     if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->color()) == QDialog::Accepted)
     {
-        g_playersList.addLocalCharacter(new Character(m_personDialog->getName(), m_personDialog->getColor()));
+        g_playersList->addLocalCharacter(new Character(m_personDialog->getName(), m_personDialog->getColor()));
     }
 }
 
 
 void PlayersListWidget::selectAnotherPerson(const QModelIndex & current)
 {
-    PlayersList & g_playersList = PlayersList::instance();
+    PlayersList* g_playersList = PlayersList::instance();
     m_delButton->setEnabled(current.isValid() && current.parent().isValid() &&
-            g_playersList.isLocal(g_playersList.getPerson(current)));
+            g_playersList->isLocal(g_playersList->getPerson(current)));
 }
 
 
 void PlayersListWidget::deleteSelected()
 {
-    PlayersList & g_playersList = PlayersList::instance();
+    PlayersList* g_playersList = PlayersList::instance();
     QModelIndex current = m_selectionModel->currentIndex();
     if (current.isValid() && current.parent().isValid() &&
-            g_playersList.isLocal(g_playersList.getPerson(current)))
+            g_playersList->isLocal(g_playersList->getPerson(current)))
     {
-        g_playersList.delLocalCharacter(current.row());
+        g_playersList->delLocalCharacter(current.row());
         m_delButton->setEnabled(false);
     }
 }
@@ -287,8 +287,8 @@ void PlayersListWidget::setUI()
     playersListView->setIconSize(QSize(28,20));
 
     // Add PJ button
-    Player* tmp = PlayersList::instance().localPlayer();
-    //PlayersList::instance().localPlayer()->isGM()
+    Player* tmp = PlayersList::instance()->localPlayer();
+    //PlayersList::instance()->localPlayer()->isGM()
     QString what;
     if(NULL!=tmp)
     {

@@ -60,13 +60,13 @@ QModelIndex LocalPersonModel::mapToSource(const QModelIndex & proxyIndex) const
     if (!proxyIndex.isValid())
         return QModelIndex();
 
-    PlayersList & g_playersList = PlayersList::instance();
+    PlayersList* g_playersList = PlayersList::instance();
     quint32 parentRow = (quint32)(proxyIndex.internalId() & PlayersList::NoParent);
     if (parentRow == 0)
     {
-        return g_playersList.mapIndexToMe(createIndex(proxyIndex.row() - 1, proxyIndex.column(), parentRow));
+        return g_playersList->mapIndexToMe(createIndex(proxyIndex.row() - 1, proxyIndex.column(), parentRow));
     }
-    return g_playersList.mapIndexToMe(proxyIndex);
+    return g_playersList->mapIndexToMe(proxyIndex);
 }
 
 
@@ -99,10 +99,10 @@ int LocalPersonModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    Player* tmp = PlayersList::instance().localPlayer();
+    Player* tmp = PlayersList::instance()->localPlayer();
     if(NULL!=tmp)
     {
-       return 1 + PlayersList::instance().localPlayer()->getCharactersCount();
+       return 1 + PlayersList::instance()->localPlayer()->getCharactersCount();
     }
     else
     {

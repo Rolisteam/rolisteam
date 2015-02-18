@@ -63,7 +63,7 @@ void addFeature(ReceiveEvent & event)
     QString name   = data.string8();
     quint8 version = data.uint8();
 
-    Player * player = PlayersList::instance().getPlayer(uuid);
+    Player * player = PlayersList::instance()->getPlayer(uuid);
     if (player == NULL)
     {
         qWarning()<< QString("Feature %1 for unknown player %2").arg(name).arg(uuid);

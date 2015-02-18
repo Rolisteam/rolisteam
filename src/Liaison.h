@@ -43,6 +43,9 @@ public :
     Liaison(QTcpSocket *socket);
     ~Liaison();
 
+
+    void setSocket(QTcpSocket* socket);
+
     void disconnectAndClose();
 
 signals:
@@ -53,6 +56,7 @@ public slots :
     void setMainWindow(MainWindow* mainWindow);
 
 private :
+    void makeSignalConnection();
     void receptionMessageConnexion();
     void receptionMessageJoueur();
     void receptionMessagePersoJoueur();
@@ -75,7 +79,7 @@ private :
     char *tampon;				 // Tampon contenant le message en court de reconstitution
     quint32 restant;			 // Taille des donnees restant a receptionner
 #ifndef NULL_PLAYER
-    LecteurAudio* G_lecteurAudio;
+    LecteurAudio* m_audioPlayer;
 #endif
     MainWindow* m_mainWindow;
 

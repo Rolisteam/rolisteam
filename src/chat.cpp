@@ -48,9 +48,9 @@ bool AbstractChat::belongsToLocalPlayer() const
 
 PublicChat::PublicChat()
 {
-    PlayersList & g_playersList = PlayersList::instance();
-    connect(&g_playersList, SIGNAL(playerAdded(Player *)), this, SIGNAL(changedMembers()));
-    connect(&g_playersList, SIGNAL(playerDeleted(Player *)), this, SIGNAL(changedMembers()));
+    PlayersList* g_playersList = PlayersList::instance();
+    connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SIGNAL(changedMembers()));
+    connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SIGNAL(changedMembers()));
 }
 
 PublicChat::~PublicChat()
@@ -79,7 +79,7 @@ void PublicChat::sendThem(NetworkMessage & message, Liaison * but) const
 
 bool PublicChat::everyPlayerHasFeature(const QString & feature, quint8 version) const
 {
-    return PlayersList::instance().everyPlayerHasFeature(feature, version);
+    return PlayersList::instance()->everyPlayerHasFeature(feature, version);
 }
 
 
@@ -92,7 +92,7 @@ PlayerChat::PlayerChat(Player * player)
 {
     if (m_player == NULL)
         qFatal("PlayerChat with NULL player");
-    connect(&PlayersList::instance(), SIGNAL(playerChanged(Player *)),
+    connect(PlayersList::instance(), SIGNAL(playerChanged(Player *)),
             this, SLOT(verifyName(Player *)));
 }
 
@@ -162,18 +162,18 @@ PrivateChat::PrivateChat(const QString & name)
     : m_name(name)
 {
     m_uuid   = QUuid::createUuid().toString();
-    m_owner = PlayersList::instance().localPlayer();
+    m_owner = PlayersList::instance()->localPlayer();
     m_set.insert(m_owner);
 }
 
 PrivateChat::PrivateChat(ReceiveEvent & event)
 {
     NetworkMessageReader & data = event.data();
-    PlayersList & g_playersList = PlayersList::instance();
+    PlayersList* g_playersList = PlayersList::instance();
 
     QString chatUuid  = data.string8();
 
-    m_owner = g_playersList.getPlayer(data.string8());
+    m_owner = g_playersList->getPlayer(data.string8());
     if (m_owner == NULL)
     {
         qWarning("New chat from an unknown player.");
@@ -191,7 +191,7 @@ PrivateChat::PrivateChat(ReceiveEvent & event)
     for (quint8 i = data.uint8() ; i > 0 ; i--)
     {
         QString uuid = data.string8();
-        m_set.insert(g_playersList.getPlayer(uuid));
+        m_set.insert(g_playersList->getPlayer(uuid));
     }
 
     m_uuid = chatUuid;
@@ -214,7 +214,7 @@ QString PrivateChat::name() const
 
 bool PrivateChat::belongsToLocalPlayer() const
 {
-    return (m_owner == PlayersList::instance().localPlayer());
+    return (m_owner == PlayersList::instance()->localPlayer());
 }
 
 bool PrivateChat::belongsTo(Player * player) const
@@ -237,7 +237,7 @@ void PrivateChat::p_sendThem(NetworkMessage & message, Liaison * but, bool force
         return;
     }
 
-    Player * localPlayer = PlayersList::instance().localPlayer();
+    Player * localPlayer = PlayersList::instance()->localPlayer();
     foreach (Player * player, m_set)
     {
         if (player != localPlayer && player != NULL && player->link() != but)
@@ -268,7 +268,7 @@ bool PrivateChat::sameLink(Liaison * link)
 
 bool PrivateChat::includeLocalPlayer() const
 {
-    return m_set.contains(PlayersList::instance().localPlayer());
+    return m_set.contains(PlayersList::instance()->localPlayer());
 }
 
 bool PrivateChat::removePlayer(Player * player)
@@ -344,7 +344,7 @@ void PrivateChat::set(const PrivateChat & other, bool thenUpdate)
 
 void PrivateChat::set(const QString & name, const QSet<Player *> & set)
 {
-    if (m_owner != PlayersList::instance().localPlayer())
+    if (m_owner != PlayersList::instance()->localPlayer())
     {
         qWarning("Can't change this private chat locally.");
         return;

@@ -32,18 +32,18 @@
 PlayersListProxyModel::PlayersListProxyModel(QObject * parent)
     : QAbstractProxyModel(parent), m_rowsAboutToBeInserted(false), m_rowsAboutToBeRemoved(false)
 {
-    PlayersList & g_playersList = PlayersList::instance();
-    setSourceModel(&g_playersList);
+    PlayersList* g_playersList = PlayersList::instance();
+    setSourceModel(g_playersList);
 
-    connect(&g_playersList, SIGNAL(rowsAboutToBeInserted(const QModelIndex &,int,int)),
+    connect(g_playersList, SIGNAL(rowsAboutToBeInserted(const QModelIndex &,int,int)),
             this, SLOT(p_rowsAboutToBeInserted(const QModelIndex &,int,int)));
-    connect(&g_playersList, SIGNAL(rowsInserted(const QModelIndex &,int,int)),
+    connect(g_playersList, SIGNAL(rowsInserted(const QModelIndex &,int,int)),
             this, SLOT(p_rowsInserted()));
-    connect(&g_playersList, SIGNAL(rowsAboutToBeRemoved(const QModelIndex &,int,int)),
+    connect(g_playersList, SIGNAL(rowsAboutToBeRemoved(const QModelIndex &,int,int)),
             this, SLOT(p_rowsAboutToBeRemoved(const QModelIndex &,int,int)));
-    connect(&g_playersList, SIGNAL(rowsRemoved(const QModelIndex &,int,int)),
+    connect(g_playersList, SIGNAL(rowsRemoved(const QModelIndex &,int,int)),
             this, SLOT(p_rowsRemoved()));
-    connect(&g_playersList, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
+    connect(g_playersList, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
             this, SLOT(p_dataChanged(const QModelIndex &, const QModelIndex &)));
 }
 
@@ -58,7 +58,7 @@ QModelIndex PlayersListProxyModel::mapFromSource(const QModelIndex & sourceIndex
 
 QModelIndex PlayersListProxyModel::mapToSource(const QModelIndex & proxyIndex) const
 {
-    return PlayersList::instance().mapIndexToMe(proxyIndex);
+    return PlayersList::instance()->mapIndexToMe(proxyIndex);
 }
 
 QModelIndex PlayersListProxyModel::index(int row, int column, const QModelIndex &parent) const

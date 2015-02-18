@@ -189,7 +189,7 @@ void ChatWindow::emettreTexte(QString message)
     QTextStream out(stderr,QIODevice::WriteOnly);
 
     QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
-    Person * localPerson = PlayersList::instance().getPerson(localPersonIdentifier);
+    Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
 
     QString tmpmessage=message.simplified();
     QString messageCorps="";

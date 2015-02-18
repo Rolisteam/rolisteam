@@ -32,7 +32,7 @@
 #include "Liaison.h"
 #include "mainwindow.h"
 #include "persons.h"
-#include "playersList.h"
+
 
 #include "variablesGlobales.h"
 
@@ -65,7 +65,7 @@ ClientServeur::ClientServeur()
     m_preferences =  PreferencesManager::getInstance();
     //m_thread = new ConnectionRetryThread();
     m_dialog = new ConnectionRetryDialog();
-    connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
+    connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnectionToServer()));
     connect(m_dialog,SIGNAL(rejected()),this,SIGNAL(stopConnectionTry()));
 
 
@@ -112,17 +112,16 @@ bool ClientServeur::configAndConnect()
                 !m_preferences->value("isClient",true).toBool());
 
 
-    QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
 
 
-    PlayersList & g_playersList = PlayersList::instance();
+
+    m_playersList = PlayersList::instance();
 
     // If the user abort configDialog, we quit
     if (m_configDialog->exec() == QDialog::Rejected)
     {
         return false;
     }
-    //synchronizeInitialisation(configDialog);
     synchronizePreferences();
     m_localPlayer = new Player(
             QUuid(G_idJoueurLocal),
@@ -131,43 +130,28 @@ bool ClientServeur::configAndConnect()
             m_configDialog->isGM()
         );
 
+
+    startConnection();
+
+
+    m_playersList->setLocalPlayer(m_localPlayer);
+    return true;
+}
+bool ClientServeur::startConnection()
+{
     bool cont = true;
     while (cont)
     {
-
-
         // Server setup
         if (m_configDialog->isServer())
         {
-            if (m_server == NULL)
-            {
-                m_server = new QTcpServer(this);
-                connect(m_server, SIGNAL(newConnection()), this, SLOT(nouveauClientConnecte()));
-            }
-
-            // Listen successed
-            if (m_server->listen(QHostAddress::Any, m_configDialog->getPort()))
-            {
-                //synchronizeInitialisation(configDialog);
-                connect(this, SIGNAL(linkDeleted(Liaison *)), &g_playersList, SLOT(delPlayerWithLink(Liaison *)));
-                cont = false;
-            }
-
-            // Listen failed
-            else
-            {
-                errorDialog.setInformativeText(m_server->errorString());
-                errorDialog.exec();
-            }
-
+            cont = !startListening();
         }
-
-        // Client setup
         else
         {
             m_port = m_configDialog->getPort();
             m_address = m_configDialog->getHost();
-            if(startConnection())
+            if(startConnectionToServer())
             {
                 cont = false;
             }
@@ -181,14 +165,31 @@ bool ClientServeur::configAndConnect()
 
 
     }
-
-
-
-    g_playersList.setLocalPlayer(m_localPlayer);
     return true;
 }
+bool  ClientServeur::startListening()
+{
+    if (m_server == NULL)
+    {
+        m_server = new QTcpServer(this);
+        connect(m_server, SIGNAL(newConnection()), this, SLOT(nouveauClientConnecte()));
+    }
+    if (m_server->listen(QHostAddress::Any, m_configDialog->getPort()))
+    {
+        connect(this, SIGNAL(linkDeleted(Liaison *)), m_playersList, SLOT(delPlayerWithLink(Liaison *)));
+        return true;
+    }
+    else
+    {
+        QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
+        errorDialog.setInformativeText(m_server->errorString());
+        errorDialog.exec();
+        return false;
+    }
 
-bool ClientServeur::startConnection()
+}
+
+bool ClientServeur::startConnectionToServer()
 {
     ConnectionWaitDialog waitDialog;
     QTcpSocket * socket;
@@ -197,27 +198,36 @@ bool ClientServeur::startConnection()
     qDebug()<< "connection retry";
     //QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
     // connect successed
-    if (socket != NULL)
-    {
-        //G_client=true;
-       m_liaisonToServer = new Liaison(socket);
-       PlayersList & g_playersList = PlayersList::instance();
-       if( m_reconnect->isActive ())
-       {
-            m_reconnect->stop();
-            g_playersList.cleanList();
-            g_playersList.sendOffLocalPlayerInformations();
-            g_playersList.sendOffFeatures( g_playersList.getLocalPlayer());
-       }
 
-       return true;
+        if (socket != NULL)
+        {
+            //G_client=true;
+            if(NULL==m_liaisonToServer)
+            {
+                m_liaisonToServer = new Liaison(socket);
+            }
+            else
+            {
+                m_liaisonToServer->setSocket(socket);
+            }
+           m_playersList = PlayersList::instance();
+           if( m_reconnect->isActive())
+           {
+                m_reconnect->stop();
+                m_playersList->cleanList();
+                m_playersList->sendOffLocalPlayerInformations();
+                m_playersList->sendOffFeatures( m_playersList->getLocalPlayer());
+           }
+           return true;
 
-    }
-    else
-    {
-        sleep(2);
-        return false;
-    }
+        }
+        else
+        {
+            sleep(2);
+            return false;
+        }
+
+
 }
 
 void ClientServeur::emettreDonnees(char *donnees, quint32 taille, Liaison *sauf)
@@ -252,11 +262,11 @@ void ClientServeur::finDeLiaison(Liaison * link)
 
     emit linkDeleted(link);
 
-    // Si l'ordinateur local est un client
-    if (G_client)
+
+    if (!m_configDialog->isServer())
     {
         //On quitte l'application
-        ecrireLogUtilisateur(tr("Receiving picture: %1"));
+        MainWindow::notifyUser(tr("Receiving picture: %1"));
         if(link!=m_liaisonToServer)
             qDebug() << "link is NOT the link to the server ";
         else
@@ -282,24 +292,23 @@ void ClientServeur::finDeLiaison(Liaison * link)
         int i = liaisons.indexOf(link);
         if (i < 0)
         {
-            qWarning()<< tr("Un thread inconnu vient de se terminer (finDeLiaison - ClientServeur.cpp)");
+            qWarning()<< tr("Unknown thread joined, (finDeLiaison - ClientServeur.cpp)");
             return;
         }
-        
-        // On supprime la liaison de la liste, apres l'avoir detruite
         liaisons.removeAt(i);
     }
 }
-void ClientServeur::disconnect()
+void ClientServeur::disconnectAndClose()
 {
-    /// @todo does nothing, must be implemented.
     if (m_configDialog->isServer())
     {
         m_server->close();
+        MainWindow::notifyUser(tr("Server has been close."));
     }
     else
     {
         m_liaisonToServer->disconnectAndClose();
+        MainWindow::notifyUser(tr("Connection to the server has been close."));
     }
 }
 bool ClientServeur::isServer() const
