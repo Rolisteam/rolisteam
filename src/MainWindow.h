@@ -43,7 +43,7 @@
 
 #include "Tchat.h"
 #include "Image.h"
-#include "EditeurNotes.h"
+#include "MinutesEditor.h"
 //#include "ClientServeur.h"
 #include "audioplayer.h"
 #include "userlistdockwidget.h"
@@ -130,7 +130,7 @@ private :
         QMenu *sousMenuTchat;
         ToolsBar *m_toolbar;
 
-        EditeurNotes *editeurNotes;
+        MinutesEditor* minutesEditor;
         QList <MapFrame *> listeCarteFenetre;
         QList <Image *> listeImage;
         QList <Tchat *> listeTchat;

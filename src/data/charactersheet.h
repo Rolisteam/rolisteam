@@ -49,6 +49,9 @@ public:
     void setName(QString name);
 
 private:
+	/**
+	* @brief stores the section name
+	*/
     QString m_name;
 
 
@@ -106,13 +109,19 @@ public:
 	*/
     int getIndexCount();
 
+	/**
+	*@brief create an empty section with one row. useful for editing.
+	*/
     void appendSection();
 
 private:
 	/**
-	* @brief 
+	* @brief stores all character sheet sections
 	*/
     QList<Section> m_sectionList;
+	/**
+	*@brief User Id of the owner
+	*/
     QString m_owner;
 };
 

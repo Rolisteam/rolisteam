@@ -29,7 +29,7 @@ INCLUDEPATH += . \
 HEADERS += displaydisk.h \
     ToolBar.h \ # ClientServeur.h \
     DessinPerso.h \
-    EditeurNotes.h \
+    MinutesEditor.h \
     Image.h \
     audioplayer.h \ # Liaison.h \
     MainWindow.h \
@@ -49,7 +49,7 @@ FORMS += LecteurAudio.ui \
 SOURCES += displaydisk.cpp \
     ToolBar.cpp \ # ClientServeur.cpp \
     DessinPerso.cpp \
-    EditeurNotes.cpp \
+    MinutesEditor.cpp \
     Image.cpp \ # Liaison.cpp \
     main.cpp \
     MainWindow.cpp \

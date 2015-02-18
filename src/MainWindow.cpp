@@ -33,7 +33,7 @@
 
 #include "Image.h"
 #include "audioplayer.h"
-#include "EditeurNotes.h"
+#include "MinutesEditor.h"
 #include "improvedworkspace.h"
 
 //new headers from rolisteam 2.0.0 branch
@@ -86,10 +86,10 @@ MainWindow::MainWindow()
         autoriserOuInterdireActions();
 
 
-        editeurNotes = new EditeurNotes();
-        m_workspace->addWidget(editeurNotes);
-        editeurNotes->setWindowTitle(tr("Minutes editor"));
-        editeurNotes->hide();
+        minutesEditor = new MinutesEditor();
+        m_workspace->addWidget(minutesEditor);
+        minutesEditor->setWindowTitle(tr("Minutes editor"));
+        minutesEditor->hide();
 
 
         m_characterSheet = new CharacterSheetWindow();
@@ -511,7 +511,7 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
 void MainWindow::displayMinutesEditor(bool afficher, bool cocherAction)
 {
         // Affichage de l'editeur de notes
-        editeurNotes->setVisible(afficher);
+        minutesEditor->setVisible(afficher);
 
         // Si la fonction a pas ete appelee par la listeUtilisateurs ou par l'editeur lui-meme, on coche/decoche l'action associee
         if (cocherAction)
@@ -531,7 +531,7 @@ void MainWindow::displayMinutesEditor(bool afficher, bool cocherAction)
 void MainWindow::about()
 {
 QMessageBox::about(this, tr("About Rolisteam"),
-                 tr("<h1>Rolisteam v1.0</h1>"
+                 tr("<h1>Rolisteam v2.0.0</h1>"
 "<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others, share maps or picture. Rolisteam also provides many features for: permission management, sharing background music and dices throw. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.</p>"
 "<p>Rolisteam may contain some files from the FMOD library. This point prevents commercial use of the software.</p> "
 "<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>"
