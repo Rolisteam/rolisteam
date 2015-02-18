@@ -321,10 +321,12 @@ void ClientServeur::disconnectAndClose()
     {
         m_server->close();
         MainWindow::notifyUser(tr("Server has been closed."));
+        m_playersList->cleanListButLocal();
         foreach(Liaison * tmp,liaisons)
         {
             tmp->disconnectAndClose();
         }
+        liaisons.clear();
     }
     else
     {

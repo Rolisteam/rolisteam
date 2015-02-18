@@ -334,12 +334,12 @@ void MainWindow::creerLogUtilisateur()
 void MainWindow::creerMenu()
 {
         // Creation de la barre de menus
-        QMenuBar *barreMenus = new QMenuBar(this);
+        m_menuBar = new QMenuBar(this);
         // Ajout de la barre de menus a la fenetre principale
-        setMenuBar(barreMenus);
+        setMenuBar(m_menuBar);
 
         // Creation du menu Fichier
-        QMenu *menuFichier = new QMenu (tr("File"), barreMenus);
+        QMenu *menuFichier = new QMenu (tr("File"), m_menuBar);
         m_newMapAct                = menuFichier->addAction(QIcon(":/map.png"),tr("&New empty Map"));
 
 
@@ -361,13 +361,13 @@ void MainWindow::creerMenu()
         actionQuitter                = menuFichier->addAction(QIcon(":/exit.png"),tr("Quit"));
 
         // Network action
-        QMenu *networkMenu = new QMenu (tr("Network"), barreMenus);
+        QMenu *networkMenu = new QMenu (tr("Network"), m_menuBar);
         m_reconnectAct  = networkMenu->addAction(tr("Reconnection"));
         m_disconnectAct = networkMenu->addAction(tr("Disconnect"));
 
 
         // Creation du menu Affichage
-        QMenu *menuAffichage = new QMenu (tr("View"), barreMenus);
+        QMenu *menuAffichage = new QMenu (tr("View"), m_menuBar);
         actionAfficherNomsPj         = menuAffichage->addAction(tr("Display PC names"));
         actionAfficherNomsPnj        = menuAffichage->addAction(tr("Display NPC names"));
         actionAfficherNumerosPnj         = menuAffichage->addAction(tr("Display NPC number"));
@@ -385,10 +385,10 @@ void MainWindow::creerMenu()
         actionAfficherNumerosPnj->setChecked(true);
 
         // Creation du menu Fenetre
-        menuFenetre = new QMenu (tr("Sub-Windows"), barreMenus);
+        menuFenetre = new QMenu (tr("Sub-Windows"), m_menuBar);
 
         // Creation du sous-menu Reorganiser
-        QMenu *sousMenuReorganise        = new QMenu (tr("Reorganize"), barreMenus);
+        QMenu *sousMenuReorganise        = new QMenu (tr("Reorganize"), m_menuBar);
         actionCascade                = sousMenuReorganise->addAction(tr("Cascade"));
         actionTuiles                 = sousMenuReorganise->addAction(tr("Tile"));
         // Ajout du sous-menu Reorganiser au menu Fenetre
@@ -416,17 +416,17 @@ void MainWindow::creerMenu()
         menuFenetre->addMenu(m_chatListWidget->chatMenu());
 
         // Creation du menu Aide
-        QMenu *menuAide = new QMenu (tr("Help"), barreMenus);
+        QMenu *menuAide = new QMenu (tr("Help"), m_menuBar);
         actionAideLogiciel = menuAide->addAction(tr("Help about %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
         menuAide->addSeparator();
         actionAPropos = menuAide->addAction(tr("About %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
 
         // Ajout des menus a la barre de menus
-        barreMenus->addMenu(menuFichier);
-        barreMenus->addMenu(menuAffichage);
-        barreMenus->addMenu(menuFenetre);
-        barreMenus->addMenu(networkMenu);
-        barreMenus->addMenu(menuAide);
+        m_menuBar->addMenu(menuFichier);
+        m_menuBar->addMenu(menuAffichage);
+        m_menuBar->addMenu(menuFenetre);
+        m_menuBar->addMenu(networkMenu);
+        m_menuBar->addMenu(menuAide);
 }
 
 void MainWindow::linkActionToMenu()

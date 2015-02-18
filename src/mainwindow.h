@@ -358,6 +358,7 @@ private :
     TextEdit* m_noteEditor;
 
     PlayersList* m_playerList;
+    QMenuBar* m_menuBar;
 //#ifndef NULL_PLAYER
 //    QDockWidget* m_audioDock;
 //#endif

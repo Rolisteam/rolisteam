@@ -70,7 +70,7 @@ CarteFenetre::CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *pare
 
 CarteFenetre::~CarteFenetre()
 {
-    actionAssociee->~QAction();
+//no need to delete, actionAssociee it is delete when qmenu is deleted
     m_mainWindow->enleverCarteDeLaListe(carteAssociee->identifiantCarte());
 }
 
