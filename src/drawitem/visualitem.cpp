@@ -26,7 +26,7 @@
 VisualItem::VisualItem()
 : QGraphicsObject()
 {
-
+    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 }
 
 VisualItem::VisualItem(QColor& penColor,QGraphicsItem * parent )

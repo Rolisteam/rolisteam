@@ -26,6 +26,7 @@
 CharacterItem::CharacterItem(const Character* m,QPointF pos,int diameter)
     : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL)
 {
+    m_rect.setRect(m_center.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter);
     connect(m_character,SIGNAL(avatarChanged()),this,SLOT(generatedThumbnail()));
 }
 
@@ -51,10 +52,7 @@ VisualItem::ItemType CharacterItem::getType()
 }
 QRectF CharacterItem::boundingRect() const
 {
-    /**
-      * @todo must be changed and managed by tool from toolbar
-      */
-    return QRectF((m_center.x()-m_diameter/2),m_center.y()-m_diameter/2,m_diameter,m_diameter);
+    return m_rect;
 }
 void CharacterItem::setNewEnd(QPointF& nend)
 {
@@ -71,11 +69,12 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 
         painter->drawRect(m_thumnails->rect());
     }
-    painter->drawPixmap(m_center.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter,*m_thumnails);
+    painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
 }
 void CharacterItem::sizeChanged(int m_size)
 {
     m_diameter=m_size;
+    m_rect.setRect(m_center.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter);
     generatedThumbnail();
 }
 void CharacterItem::generatedThumbnail()

@@ -68,6 +68,7 @@ private:
     QPointF m_center;
     int m_diameter;
     QPixmap* m_thumnails;
+    QRectF m_rect;
 
 
 };
