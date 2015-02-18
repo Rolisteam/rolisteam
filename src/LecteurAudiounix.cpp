@@ -730,7 +730,7 @@ void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, qui
         quint16 tailleNomFichier;
 
         // Donnees a emettre
-        char *donnees;
+        char *donnees = NULL;
 
         // Creation de l'entete du message
         enteteMessage uneEntete;
@@ -777,7 +777,8 @@ void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, qui
                         qWarning("Commande inconnue envoyee aux lecteurs audio des autres utilisateurs");
                         break;
         }
-
+        if(donnees == NULL)
+            return;
         // Recopie de l'entete en debut de message
         memcpy(donnees, &uneEntete, sizeof(enteteMessage));
 
