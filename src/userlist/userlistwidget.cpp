@@ -66,6 +66,9 @@ void UserListWidget::setupUI()
     m_centralWidget = new QWidget();
     m_centralWidget->setLayout(m_verticalLayout);
 
+
+
+
     setWidget(m_centralWidget);
 }
 void UserListWidget::setAction()
@@ -73,7 +76,7 @@ void UserListWidget::setAction()
     connect(m_sizePC,SIGNAL(valueChanged(int)),m_sizePCNumber,SLOT(display(int)));
     connect(m_addPC,SIGNAL(clicked()),this,SLOT(addPC()));
     connect(m_delPC,SIGNAL(clicked()),this,SLOT(delSelectedPC()));
-
+    connect(m_tchatButton,SIGNAL(clicked()),this,SIGNAL(opentchat()));
     connect(m_view,SIGNAL(currentItemChanged(QModelIndex)),this,SLOT(currentChanged(QModelIndex)));
 }
 void UserListWidget::addUser(Person* p)

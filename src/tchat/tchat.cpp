@@ -26,73 +26,84 @@
 #include "tchateditor.h"
 //#include "types.h"
 
+#include "tchatlistmodel.h"
 
 
-
-Tchat::Tchat(QString id, QWidget *parent)
+Tchat::Tchat(QWidget *parent)
 : SubMdiWindows(parent)
 {
-
-    // On donne un nom a l'objet "Tchat" pour le differencier des autres fenetres du workspace
     setObjectName("Tchat");
-    m_splitter = new QSplitter;
-    m_active=false;
-    // Initialisation des variables
+    m_clientList = new QList<Person*>;
+    setupUi();
 
+    m_listModel=new TchatListModel;
+
+    m_active=false;
     m_historicNumber = 0;
     m_type = SubMdiWindows::TCHAT;
-    // On change l'icone de la fenetre
-    setWindowIcon(QIcon(":/icones/vignette tchat.png"));
-
-    // Mise a 0 de l'historique des messages
+    setWindowIcon(QIcon(":/resources/icons/tchat_icon.png"));
+    setWindowTitle(tr("Tchat"));
     m_messageHistoric.clear();
 
-    // Les 2 parties du tchat seront positionnees verticalement dans la fenetre
-    m_splitter->setOrientation(Qt::Vertical);
-    // Les widgets contenus ne peuvent pas avoir une taille de 0
-    m_splitter->setChildrenCollapsible(false);
-
-    // Creation de la zone affichant le texte des utilisateurs tiers
-    m_meetingRoom = new QTextEdit();
-    m_meetingRoom->setReadOnly(true);
-    m_meetingRoom->setMinimumHeight(30);
-
-    // Creation de la zone editable contenant les messages de l'utilisateur local
-    m_tchatEditor = new TchatEditor();
-    m_tchatEditor->setReadOnly(false);
-    m_tchatEditor->setMinimumHeight(30);
-    m_tchatEditor->setAcceptRichText(false);
-
-    // Ajout des 2 zones dans le splitter
-    m_splitter->addWidget(m_meetingRoom);
-    m_splitter->addWidget(m_tchatEditor);
-
-    // Initialisation des tailles des 2 widgets
-    QList<int> tailles;
-    tailles.append(200);
-    tailles.append(40);
-    m_splitter->setSizes(tailles);
-
-
-    connect(m_tchatEditor, SIGNAL(onEntrey()), this, SLOT(emettreTexte()));
-    connect(m_tchatEditor, SIGNAL(onArrowUp()), this, SLOT(monterHistorique()));
-    connect(m_tchatEditor, SIGNAL(basPressee()), this, SLOT(descendreHistorique()));
-    setWidget(m_splitter);
+    //connect(m_tchatEditor, SIGNAL(onEntry()), this, SLOT(emettreTexte()));
+    connect(m_tchatEditor, SIGNAL(onArrowUp()), this, SLOT(getUpHistoric()));
+    connect(m_tchatEditor, SIGNAL(onArrowDown()), this, SLOT(getDownHistoric()));
 }
 
 
 Tchat::~Tchat()
 {
-
+    delete m_listModel;
+    delete m_listView;
+    delete m_splitter;
 }
 
+void Tchat::setupUi()
+{
 
+    m_meetingRoom = new QTextEdit();
+    m_meetingRoom->setReadOnly(true);
+    m_meetingRoom->setMinimumHeight(30);
+
+    m_tchatEditor = new TchatEditor();
+    m_tchatEditor->setReadOnly(false);
+    m_tchatEditor->setMinimumHeight(30);
+    m_tchatEditor->setAcceptRichText(false);
+
+
+    m_splitter = new QSplitter;
+
+    m_HorizonSplitter = new QSplitter;
+
+    m_listView=new QListView(this);
+    m_splitter->setOrientation(Qt::Vertical);
+    m_HorizonSplitter->setOrientation(Qt::Horizontal);
+
+    m_HorizonSplitter->addWidget(m_meetingRoom);
+    m_HorizonSplitter->addWidget(m_listView);
+
+    m_splitter->setChildrenCollapsible(false);
+
+    m_splitter->addWidget(m_HorizonSplitter);
+    m_splitter->addWidget(m_tchatEditor);
+
+    m_HorizonSplitter->setStretchFactor(0,2);
+    m_HorizonSplitter->setStretchFactor(1,1);
+
+    m_splitter->setStretchFactor(0,5);
+    m_splitter->setStretchFactor(1,1);
+    /*QList<int> tailles;
+    tailles.append(200);
+    tailles.append(40);
+    m_splitter->setSizes(tailles);*/
+    setWidget(m_splitter);
+}
 
 void Tchat::showMessage(QString utilisateur, QColor couleur, QString message)
 {
         m_meetingRoom->moveCursor(QTextCursor::End);
         m_meetingRoom->setTextColor(couleur);
-        m_meetingRoom->append(utilisateur + " : ");
+        m_meetingRoom->append(tr("%1: ").arg(utilisateur));
         m_meetingRoom->setTextColor(Qt::black);
         m_meetingRoom->insertPlainText(message);
         m_meetingRoom->verticalScrollBar()->setSliderPosition(m_meetingRoom->verticalScrollBar()->maximum());
@@ -101,7 +112,7 @@ void Tchat::showDiceRoll(QString utilisateur, QColor couleur, QString message)
 {
         m_meetingRoom->moveCursor(QTextCursor::End);
         m_meetingRoom->setTextColor(couleur);
-        m_meetingRoom->append(utilisateur + " ");
+        m_meetingRoom->append(tr("%1: ").arg(utilisateur));
         m_meetingRoom->setTextColor(Qt::black);
         m_meetingRoom->insertPlainText(message);
         m_meetingRoom->verticalScrollBar()->setSliderPosition(m_meetingRoom->verticalScrollBar()->maximum());
@@ -111,6 +122,16 @@ void Tchat::closeEvent(QCloseEvent *event)
 	hide();
         event->ignore();
 }
+void Tchat::addPerson(Person* )
+{
+
+}
+
+void Tchat::removePerson(Person*)
+{
+
+}
+
 int Tchat::rollDices(QString message, QString *tirage, bool *ok)
 {
 	int i;

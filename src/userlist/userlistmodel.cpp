@@ -158,6 +158,10 @@ QVariant UserListModel::data ( const QModelIndex & index, int role  ) const
                     //qDebug() << childItem->getPerson()->getColor();
                     return childItem->getPerson()->getColor();
                 }
+                if(role == Qt::CheckStateRole)
+                {
+                    return childItem->getPerson()->checkedState();
+                }
             }
         }
     }
@@ -196,6 +200,12 @@ bool UserListModel::setData ( const QModelIndex & index, const QVariant & value,
             childItem->getPerson()->setName(value.toString());
             return true;
     }
+    else if(Qt::CheckStateRole == role)
+    {
+        PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
+        childItem->getPerson()->setState((Qt::CheckState)value.toInt());
+        return true;
+    }
     return false;
 }
 Qt::ItemFlags UserListModel::flags ( const QModelIndex & index )  const
@@ -205,7 +215,7 @@ Qt::ItemFlags UserListModel::flags ( const QModelIndex & index )  const
 
     PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
     if((childItem->getPerson()==m_player)||(childItem->getParent()->getPerson() ==m_player))
-        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
+        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable ;
     else
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
 }

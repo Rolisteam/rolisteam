@@ -74,6 +74,9 @@ MainWindow::MainWindow()
     m_playerListWidget = new UserListWidget;
     m_playerListWidget->setLocalPlayer(m_player);
 
+
+    connect(m_playerListWidget,SIGNAL(opentchat()),this,SLOT(openTchat()));
+
     addDockWidget(Qt::RightDockWidgetArea, m_playerListWidget);
 
     m_audioPlayer = AudioPlayer::getInstance(this);
@@ -269,7 +272,12 @@ void MainWindow::addToWorkspace(SubMdiWindows* subWindow)
     m_subWindowList->insert(tmp,subWindow);
     m_viewMenu->addAction(tmp);
 }
-
+void MainWindow::openTchat()
+{
+    Tchat* tchat=new Tchat(this);
+    addToWorkspace(tchat);
+    tchat->setVisible(true);
+}
 void MainWindow::addCharacterSheet()
 {
     CharacterSheetWindow* characterSheet = new CharacterSheetWindow();
@@ -435,6 +443,8 @@ void MainWindow::writeSettings()
   settings.setValue("recentfiles", m_recentFiles);
   m_options->writeSettings();
 }
+
+
 void MainWindow::help()
 {
 

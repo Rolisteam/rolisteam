@@ -105,6 +105,8 @@ private slots:
 
     void openCharacterSheets();
 
+    void openTchat();
+
 private :
         /**
          * @brief determine either the current content should be save or not

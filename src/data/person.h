@@ -15,9 +15,13 @@ public:
     virtual void setName(QString);
     virtual void setColor(QColor);
 
+    virtual void setState(Qt::CheckState m);
+    virtual Qt::CheckState checkedState();
+
 protected:
     QString m_name;
     QColor m_color;
+    Qt::CheckState m_state;
 };
 
 #endif // PERSON_H

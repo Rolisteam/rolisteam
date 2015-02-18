@@ -35,17 +35,19 @@
 
 #include <QSplitter>
 #include <QFile>
-
+#include <QList>
 #include "tchateditor.h"
 #include "submdiwindows.h"
 
-
+class Person;
+class QListView;
+class TchatListModel;
 class Tchat : public SubMdiWindows
 {
 Q_OBJECT
 
 public :
-    Tchat(QString id, QWidget *parent);
+    Tchat(QWidget *parent);
     ~Tchat();
 
     void showMessage(QString user, QColor color, QString msg);
@@ -55,21 +57,32 @@ public :
     virtual void openFile(QString& file);
     bool defineMenu(QMenu* /*menu*/);
 
+
+public slots:
+    void addPerson(Person* );
+    void removePerson(Person*);
+
+
 protected :
     void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent *event);
 
 private :
     int rollDices(QString message, QString *tirage, bool *ok);
-    // Ultyme
+
     int rollDicesSR4(QString message, QString *tirage, QString *glitch, bool *ok);
-    // FIN Ultyme
+    void setupUi();
 
     QTextEdit* m_meetingRoom;
     TchatEditor* m_tchatEditor;
     QStringList m_messageHistoric;
     int m_historicNumber;
     QSplitter* m_splitter;
+    QSplitter* m_HorizonSplitter;
+    QList<Person*>* m_clientList;
+    QListView* m_listView;
+    TchatListModel* m_listModel;
+
 
 private slots :
     void getUpHistoric();

@@ -42,7 +42,6 @@
         <file>resources/icons/image.png</file>
         <file>resources/icons/notes.png</file>
         <file>resources/icons/vignette plan.png</file>
-        <file>resources/icons/vignette tchat.png</file>
         <file>traduction/qt_fr.qm</file>
         <file>resources/icons/zoom-in-32.png</file>
         <file>resources/icons/zoom-out-32.png</file>
@@ -58,5 +57,6 @@
         <file>resources/icons/map.png</file>
         <file>resources/icons/text.png</file>
         <file>resources/icons/treeview.png</file>
+        <file>resources/icons/tchat_icon.png</file>
     </qresource>
 </RCC>

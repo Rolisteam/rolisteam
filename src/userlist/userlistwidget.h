@@ -25,6 +25,7 @@ protected:
     void setAction();
 signals:
     void sizePcChanged(int);
+    void opentchat();
 
 public slots:
     void addUser(Person* p);
