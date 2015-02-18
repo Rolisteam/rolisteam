@@ -59,7 +59,7 @@ PreferencesManager* PreferencesManager::getInstance()
 }
 bool PreferencesManager::registerValue(QString key,QVariant value, bool overwrite)
 {
-    qDebug() << "registervalue" << key << value;
+    //qDebug() << "registervalue" << key << value;
     if((overwrite)||(!m_optionDictionary->contains(key)))
     {
         m_optionDictionary->insert(key,value);
@@ -103,8 +103,8 @@ void PreferencesManager::writeSettings(QSettings & settings)
     //  qDebug() << "size writing dico" << m_optionDictionary->size();
     for(int i = 0;m_optionDictionary->size()>i;i++)
     {
-         qDebug() << "key " << m_optionDictionary->keys().at(i);
-         qDebug() << "value " << m_optionDictionary->value(m_optionDictionary->keys().at(i),true).toString();
+         //qDebug() << "key " << m_optionDictionary->keys().at(i);
+         //qDebug() << "value " << m_optionDictionary->value(m_optionDictionary->keys().at(i),true).toString();
     }
     settings.endGroup();
 }

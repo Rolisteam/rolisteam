@@ -21,6 +21,8 @@
 
 
 #include <QApplication>
+#include <QDebug>
+
 
 #include "playersList.h"
 
@@ -43,7 +45,7 @@ extern bool G_joueur;
 PlayersList* PlayersList::m_singleton=NULL;
 
 PlayersList::PlayersList()
- : QAbstractItemModel(NULL), m_gmCount(0)
+    : QAbstractItemModel(NULL), m_gmCount(0),m_localPlayer(NULL)
 {
     using namespace NetMsg;
     ReceiveEvent::registerReceiver(PlayerCategory, PlayerConnectionAction, this);
@@ -281,6 +283,7 @@ Player * PlayersList::getPlayer(int index) const
 
 Person * PlayersList::getPerson(const QString & uuid) const
 {
+    qDebug()<< "uuid person:" << uuid ;
     return m_uuidMap.value(uuid);
 }
 
@@ -406,12 +409,21 @@ void PlayersList::sendOffFeatures(Player* player)
 
 void PlayersList::setLocalPlayer(Player * player)
 {
-    if (m_playersList.size() > 0)
-        qFatal("We have too many local players.");
-    m_localPlayer=player;
-    addPlayer(player);
 
-    qDebug("LocalPlayer %s %s %s", qPrintable(player->name()), qPrintable(player->uuid()), (G_client ? "client" : "server"));
+    if(player!=m_localPlayer)
+    {
+        if (m_playersList.size() > 0)
+        {
+            qFatal("We have too many local players.");
+        }
+        m_localPlayer=player;
+        addPlayer(player);
+    }
+
+
+
+
+    //qDebug("LocalPlayer %s %s %s", qPrintable(player->name()), qPrintable(player->uuid()), (G_client ? "client" : "server"));
 
     if (G_client)
     {
@@ -829,7 +841,13 @@ void PlayersList::sendDelLocalPlayer()
     message.string8(localPlayer()->uuid());
     message.sendAll();
 }
-
+void PlayersList::completeListClean()
+{
+    m_playersList.clear();
+    m_uuidMap.clear();
+    reset();
+    m_localPlayer=NULL;
+}
 
 /*********
  * Other *

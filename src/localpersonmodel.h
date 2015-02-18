@@ -24,6 +24,8 @@
 #define LOCAL_PERSON_MODEL_H
 
 #include "playerslistproxy.h"
+#include "playersList.h"
+
 
 class LocalPersonModel : public PlayersListProxyModel
 {
@@ -45,6 +47,7 @@ class LocalPersonModel : public PlayersListProxyModel
 
     private:
         LocalPersonModel();
+        PlayersList* m_playersList;
 };
 
 #endif

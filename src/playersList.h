@@ -81,7 +81,7 @@ public:
     Character * getCharacter(const QString & uuid) const;
     Player* getLocalPlayer() const;
     void cleanList();
-
+    void completeListClean();
     /**
          * @brief Same as getPlayer(uuid), if getPerson(uuid) is a Player.
          * Same as getPerson(uuid)->parent() if it's a Character.

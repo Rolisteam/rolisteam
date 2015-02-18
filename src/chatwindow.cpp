@@ -206,7 +206,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     int result;
     zoneEdition->clear();
     //QTextStream out(stderr,QIODevice::WriteOnly);
-    qDebug() << "Message=" <<message;
+    //qDebug() << "Message=" <<message;
 
     QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
     Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
@@ -793,6 +793,10 @@ void ChatWindow::showEvent(QShowEvent *event)
     Q_UNUSED(event);
     // On place le curseur sur la zone d'edition
     zoneEdition->setFocus(Qt::OtherFocusReason);
+    if(m_selectPersonComboBox->currentText().isEmpty())
+    {
+        m_selectPersonComboBox->setCurrentIndex(0);
+    }
 }
 
 bool ChatWindow::eventFilter(QObject *obj, QEvent *event)
@@ -810,7 +814,7 @@ bool ChatWindow::eventFilter(QObject *obj, QEvent *event)
     }
     else if(obj == zoneAffichage)
     {
-        qDebug() << "Event Type: "<< event->type();
+        //qDebug() << "Event Type: "<< event->type();
         if(event->type() == QEvent::ContextMenu)
         {
             QContextMenuEvent* eventCustom = dynamic_cast<QContextMenuEvent*>(event);
@@ -859,13 +863,13 @@ void ChatWindow::downSelectPerson()
 
 void ChatWindow::scheduleUpdateChatMembers()
 {
-    qDebug("schedules");
+    //qDebug("schedules");
     QTimer::singleShot(300, this, SLOT(updateChatMembers()));
 }
 
 void ChatWindow::updateChatMembers()
 {
-    qDebug("doing it");
+    //qDebug("doing it");
     bool enable = m_chat->everyPlayerHasFeature(QString("MultiChat"));
     if (!enable)
         m_selectPersonComboBox->setCurrentIndex(0);

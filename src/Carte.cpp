@@ -2432,7 +2432,7 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     QByteArray baFondOriginal;
     QBuffer bufFondOriginal(&baFondOriginal);
     ok = fondOriginal->save(&bufFondOriginal, "jpeg", 100);
-    qDebug() << fondOriginal->size();
+    //qDebug() << fondOriginal->size();
     if (!ok)
         qWarning() << (tr("Probleme de compression du fond original (sauvegarderCarte - Carte.cpp)"));
 
@@ -2440,7 +2440,7 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     QByteArray baFond;
     QBuffer bufFond(&baFond);
     ok = fond->save(&bufFond, "jpeg", 100);
-    qDebug() << fond->size();
+    //qDebug() << fond->size();
     if (!ok)
         qWarning() << (tr("Probleme de compression du fond (sauvegarderCarte - Carte.cpp)"));
 
@@ -2448,7 +2448,7 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     QByteArray baAlpha;
     QBuffer bufAlpha(&baAlpha);
     ok = alpha->save(&bufAlpha, "jpeg", 100);
-    qDebug() << alpha->size();
+    //qDebug() << alpha->size();
     if (!ok)
         qWarning() << (tr("Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)"));
 

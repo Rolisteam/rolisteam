@@ -10,7 +10,7 @@
 
 QT += xml network
 ##########console
-CONFIG   +=  qt release warn_off
+CONFIG   +=  qt warn_off
 
 ##########LIBS   += -lz
 win32:LIBS	+= -luser32
@@ -61,7 +61,7 @@ contains(CONFIG, static): {
 
 SRC_DIRECTORY_ODT=$$PWD
 
-message($$SRC_DIRECTORY_ODT)
+
 
 INCLUDEPATH+= $$SRC_DIRECTORY_ODT/../format_OO_oasis_/ \
               $$SRC_DIRECTORY_ODT/

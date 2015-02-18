@@ -70,7 +70,7 @@ void ColorButton::setColor(const QColor & color)
     setPalette(tmp);
     setAutoFillBackground(true);
     setStyleSheet(QString("ColorButton { background-color: rgb(%1,%2,%3);}").arg(color.red()).arg(color.green()).arg(color.blue()));
-    qDebug() << this->styleSheet();
+    //qDebug() << this->styleSheet();
     emit colorChanged(m_color);
 }
 

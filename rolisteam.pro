@@ -47,7 +47,7 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 ## End of Translation
 
 
-
+include(src/odt/src/src.pri)
 
 
 ## Source

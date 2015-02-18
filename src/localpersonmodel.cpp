@@ -23,12 +23,12 @@
 #include "localpersonmodel.h"
 
 #include "persons.h"
-#include "playersList.h"
 
 
 LocalPersonModel::LocalPersonModel()
     : PlayersListProxyModel()
 {
+    m_playersList = PlayersList::instance();
 }
 
 LocalPersonModel & LocalPersonModel::instance()
@@ -60,13 +60,13 @@ QModelIndex LocalPersonModel::mapToSource(const QModelIndex & proxyIndex) const
     if (!proxyIndex.isValid())
         return QModelIndex();
 
-    PlayersList* g_playersList = PlayersList::instance();
+
     quint32 parentRow = (quint32)(proxyIndex.internalId() & PlayersList::NoParent);
     if (parentRow == 0)
     {
-        return g_playersList->mapIndexToMe(createIndex(proxyIndex.row() - 1, proxyIndex.column(), parentRow));
+        return m_playersList->mapIndexToMe(createIndex(proxyIndex.row() - 1, proxyIndex.column(), parentRow));
     }
-    return g_playersList->mapIndexToMe(proxyIndex);
+    return m_playersList->mapIndexToMe(proxyIndex);
 }
 
 
@@ -99,14 +99,14 @@ int LocalPersonModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    Player* tmp = PlayersList::instance()->localPlayer();
+    Player* tmp = m_playersList->localPlayer();
     if(NULL!=tmp)
     {
-       return 1 + PlayersList::instance()->localPlayer()->getCharactersCount();
+       return 1 + m_playersList->localPlayer()->getCharactersCount();
     }
     else
     {
-        return 1;
+        return 0;
     }
 
 }
@@ -118,9 +118,9 @@ bool LocalPersonModel::filterChangingRows(QModelIndex & parent, int & start, int
         parent = QModelIndex();
         start += 1;
         end   += 1;
-        qDebug("LPM filterChangingRows true %d %d", start, end);
+        //qDebug("LPM filterChangingRows true %d %d", start, end);
         return true;
     }
-    qDebug("LPM filterChangingRows false %d %d", start, end);
+    //qDebug("LPM filterChangingRows false %d %d", start, end);
     return false;
 }

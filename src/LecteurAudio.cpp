@@ -279,7 +279,7 @@ void LecteurAudio::defineSource(QListWidgetItem * p)
      m_currentItemFile = p;
 
      m_mutex.lock();
-     qDebug() << "Title current song "<<m_currentItemFile->text() << m_songList->row(m_currentItemFile) << m_pathList.size();
+     //qDebug() << "Title current song "<<m_currentItemFile->text() << m_songList->row(m_currentItemFile) << m_pathList.size();
      setSource(m_pathList[m_songList->row(m_currentItemFile)]);
      m_mutex.unlock();
 
@@ -301,7 +301,7 @@ void LecteurAudio::tick(qint64 time)
 
 void LecteurAudio::sourceChanged(const Phonon::MediaSource &source)
 {
-     qDebug() << "sourceChanged" << source.fileName() << m_currentItemFile;
+     //qDebug() << "sourceChanged" << source.fileName() << m_currentItemFile;
      if(m_currentItemFile==NULL)
      {
          return;

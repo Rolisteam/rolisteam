@@ -44,7 +44,7 @@ public :
     ~Liaison();
 
 
-    void setSocket(QTcpSocket* socket);
+    void setSocket(QTcpSocket* socket, bool makeConnection = true);
 
     void disconnectAndClose();
 

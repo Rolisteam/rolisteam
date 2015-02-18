@@ -69,13 +69,14 @@ public :
 
     bool    isServer() const;
 
-    bool startConnection();
+
 
     bool isConnected() const;
 
 
 public slots:
     void disconnectAndClose();
+    bool startConnection();
 
 signals :
     void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);

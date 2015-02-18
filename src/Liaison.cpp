@@ -1584,8 +1584,12 @@ void Liaison::disconnectAndClose()
     delete m_socketTcp;
     m_socketTcp=NULL;
 }
-void Liaison::setSocket(QTcpSocket* socket)
+void Liaison::setSocket(QTcpSocket* socket, bool makeConnection)
 {
     m_socketTcp=socket;
-    makeSignalConnection();
+    if(makeConnection)
+    {
+        makeSignalConnection();
+    }
+
 }

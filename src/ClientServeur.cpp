@@ -65,7 +65,7 @@ ClientServeur::ClientServeur()
     m_preferences =  PreferencesManager::getInstance();
     //m_thread = new ConnectionRetryThread();
     m_dialog = new ConnectionRetryDialog();
-    connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnectionToServer()));
+    connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
     connect(m_dialog,SIGNAL(rejected()),this,SIGNAL(stopConnectionTry()));
 
 
@@ -159,14 +159,16 @@ bool ClientServeur::startConnection()
         if(cont)
         {
             m_dialog->startTimer();
-            m_dialog->exec();
+            m_dialog->show();//exec();
         }
 
 
 
     }
     m_playersList = PlayersList::instance();
-    if(m_disconnectAsked)
+    m_playersList->completeListClean();
+    m_playersList->setLocalPlayer(m_localPlayer);
+    /*if(m_disconnectAsked)
     {
          m_playersList->cleanList();
          m_playersList->sendOffLocalPlayerInformations();
@@ -175,8 +177,8 @@ bool ClientServeur::startConnection()
     }
     else
     {
-        m_playersList->setLocalPlayer(m_localPlayer);
-    }
+
+    }*/
     return true;
 }
 bool  ClientServeur::startListening()
@@ -188,6 +190,7 @@ bool  ClientServeur::startListening()
     }
     if (m_server->listen(QHostAddress::Any, m_configDialog->getPort()))
     {
+        MainWindow::notifyUser(tr("Server is on."));
         connect(this, SIGNAL(linkDeleted(Liaison *)), m_playersList, SLOT(delPlayerWithLink(Liaison *)));
         return true;
     }
@@ -207,7 +210,7 @@ bool ClientServeur::startConnectionToServer()
     QTcpSocket * socket;
 
     socket = waitDialog.connectTo(m_address, m_port);
-    qDebug()<< "connection retry";
+    //qDebug()<< "connection retry";
     //QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
     // connect successed
 
@@ -220,9 +223,10 @@ bool ClientServeur::startConnectionToServer()
             }
             else
             {
-                m_liaisonToServer->setSocket(socket);
+                m_liaisonToServer->setSocket(socket,false);
             }
 
+            m_dialog->hide();
           return true;
 
         }
@@ -268,6 +272,7 @@ void ClientServeur::finDeLiaison(Liaison * link)
     if(!m_disconnectAsked)
     {
         link->deleteLater();
+        qDebug()<< "disconnection non asked" << link << m_liaisonToServer;
 
         emit linkDeleted(link);
     }
@@ -313,14 +318,19 @@ void ClientServeur::finDeLiaison(Liaison * link)
 }
 void ClientServeur::disconnectAndClose()
 {
+    m_disconnectAsked = true;
     if (m_configDialog->isServer())
     {
         m_server->close();
         MainWindow::notifyUser(tr("Server has been close."));
+        foreach(Liaison * tmp,liaisons)
+        {
+            tmp->disconnectAndClose();
+        }
     }
     else
     {
-        m_disconnectAsked = true;
+
         m_liaisonToServer->disconnectAndClose();
         MainWindow::notifyUser(tr("Connection to the server has been close."));
     }

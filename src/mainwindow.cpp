@@ -299,9 +299,10 @@ void MainWindow::setNetworkManager(ClientServeur* tmp)
 
 void MainWindow::updateWindowTitle()
 {
-    setWindowTitle(tr("%1[*] - v%2 - %3").arg(m_preferences->value("applicationName","Rolisteam").toString())
-                                       .arg(m_version)
-                   .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected")));
+    setWindowTitle(tr("%1[*] - v%2 - %3 - %4").arg(m_preferences->value("applicationName","Rolisteam").toString())
+                                                .arg(m_version)
+                                                .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected"))
+                                                .arg(m_networkManager->isServer() ? tr("Server") : tr("Client")));
 
 }
 
@@ -741,7 +742,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
 
 
 
-    qDebug() <<" lire plan " << titre << "pos"<< pos<<"size"<<size;
+    //qDebug() <<" lire plan " << titre << "pos"<< pos<<"size"<<size;
 
         ///QString titre(tableauTitre, tailleTitre);
         // On recupere la taille des PJ (ignored)
@@ -792,7 +793,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
         // il s'agit d'un fichier plan : on prend alors le nom du fichier
 
         QPoint pos2 = carteFenetre->mapFromParent(pos);
-        qDebug() <<" lire plan 2 " << pos2.x() << "," << pos2.y()  << " size="<< size << endl;
+        //qDebug() <<" lire plan 2 " << pos2.x() << "," << pos2.y()  << " size="<< size << endl;
 
         if (nomFichier.isEmpty())
                 ajouterCarte(carteFenetre, titre,size,pos);
