@@ -381,9 +381,11 @@ void MainWindow::creerMenu()
     m_saveStoryAct        = menuFichier->addAction(QIcon(":/story.png"),tr("Save scenario"));
     m_saveMinuteAct           = menuFichier->addAction(QIcon(":/notes.png"),tr("Save Minutes"));
     menuFichier->addSeparator();
-    m_preferencesAct                = menuFichier->addAction(QIcon(":/settings.png"),tr("Preferences"));
+    m_preferencesAct = menuFichier->addAction(QIcon(":/settings.png"),tr("Preferences"));
+    m_preferencesAct->setShortcut(QKeySequence::Preferences);
     menuFichier->addSeparator();
-    m_quitAct                = menuFichier->addAction(QIcon(":/exit.png"),tr("Quit"));
+    m_quitAct = menuFichier->addAction(QIcon(":/exit.png"),tr("Quit"));
+    m_quitAct->setShortcut(QKeySequence::Quit);
 
     // Network action
     QMenu *networkMenu = new QMenu (tr("Network"), m_menuBar);
@@ -445,6 +447,7 @@ void MainWindow::creerMenu()
     // Creation du menu Aide
     QMenu *menuAide = new QMenu (tr("Help"), m_menuBar);
     m_helpAct = menuAide->addAction(tr("Help about %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
+    m_helpAct->setShortcut(QKeySequence::HelpContents);
     menuAide->addSeparator();
     m_aboutAct = menuAide->addAction(tr("About %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
 

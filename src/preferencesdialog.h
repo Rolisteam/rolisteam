@@ -48,7 +48,7 @@ class PreferencesDialog : public QDialog
 
 public:
     PreferencesDialog(QWidget * parent = NULL, Qt::WindowFlags f = 0);
-    ~PreferencesDialog();
+    virtual ~PreferencesDialog();
 
 public slots:
     void show();

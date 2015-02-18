@@ -5,7 +5,7 @@
 ##################################################
 
 ## Generic parameter
-CONFIG += phonon console
+CONFIG += phonon -console
 #-console
 TEMPLATE = app
 TARGET = bin/rolisteam
@@ -216,4 +216,5 @@ FORMS += \
     preferencesdialogbox.ui
 
 OTHER_FILES += \
-    src/widgets/widgets.pro
+    src/widgets/widgets.pro \
+    resources/logo/rolisteam.rc

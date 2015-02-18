@@ -58,7 +58,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
 PreferencesDialog::~PreferencesDialog()
 {
-    // QObject should do it right for us allready.
+    // QObject should do it right for us already.
 }
 
 void PreferencesDialog::show()
@@ -112,10 +112,10 @@ void PreferencesDialog::performDiag()
     ui->m_diagDisplay->append(tr("End of Image Format"));
 
     QFontDatabase database;
-    ui->m_diagDisplay->setText(tr("Font families:"));
+    ui->m_diagDisplay->append(tr("Font families:"));
     foreach (const QString &family, database.families())
     {
           ui->m_diagDisplay->append(family);
     }
-    ui->m_diagDisplay->setText(tr("End of Font families:"));
+    ui->m_diagDisplay->append(tr("End of Font families:"));
 }
