@@ -178,7 +178,7 @@ AbstractChat * ChatList::chat(const QModelIndex & index)
 
 bool ChatList::addLocalChat(PrivateChat * chat)
 {
-    if (!chat->belongsTo(PlayersList::instance().localPlayer()))
+    if (!chat->belongsToLocalPlayer())
         return false;
 
     if (!G_client)
@@ -191,7 +191,7 @@ bool ChatList::delLocalChat(const QModelIndex & index)
 {
     ChatWindow * chatw =  chatWindow(index);
     PrivateChat * chat = qobject_cast<PrivateChat *>(chatw->chat());
-    if (chat == NULL || !chat->belongsTo(PlayersList::instance().localPlayer()))
+    if (chat == NULL || !chat->belongsToLocalPlayer())
         return false;
     
     chat->sendDel();
@@ -389,6 +389,12 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
 void ChatList::updatePrivateChat(ReceiveEvent * event)
 {
     PrivateChat * newChat = new PrivateChat(*event);
+    if (newChat->identifier().isNull())
+    {
+        qWarning("Bad PrivateChat, removed");
+        delete newChat;
+        return;
+    }
 
     if (!G_client)
     {
@@ -419,7 +425,7 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
                     qWarning("%s is not a private chat", qPrintable(newChat->identifier()));
                     return;
                 }
-                oldChat->set(*newChat);
+                oldChat->set(*newChat, false);
                 delete newChat;
             }
         }

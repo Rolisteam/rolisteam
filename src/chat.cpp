@@ -31,6 +31,17 @@
 
 extern bool G_client;
 
+/****************
+ * AbstractChat *
+ ****************/
+
+
+bool AbstractChat::belongsToLocalPlayer() const
+{
+    return false;
+}
+
+
 /**************
  * PublicChat *
  **************/
@@ -62,9 +73,9 @@ void PublicChat::sendThem(NetworkMessage & message, Liaison * but) const
     message.sendAll(but);
 }
 
-bool PublicChat::everyPlayerHasFeature(const QString & feature) const
+bool PublicChat::everyPlayerHasFeature(const QString & feature, quint8 version) const
 {
-    return PlayersList::instance().everyPlayerHasFeature(feature);
+    return PlayersList::instance().everyPlayerHasFeature(feature, version);
 }
 
 
@@ -109,9 +120,9 @@ void PlayerChat::sendThem(NetworkMessage & message, Liaison * but) const
     }
 }
 
-bool PlayerChat::everyPlayerHasFeature(const QString & feature) const
+bool PlayerChat::everyPlayerHasFeature(const QString & feature, quint8 version) const
 {
-    return m_player->hasFeature(feature);
+    return m_player->hasFeature(feature, version);
 }
 
 
@@ -189,6 +200,10 @@ QString PrivateChat::name() const
     return m_name;
 }
 
+bool PrivateChat::belongsToLocalPlayer() const
+{
+    return (m_owner == PlayersList::instance().localPlayer());
+}
 
 bool PrivateChat::belongsTo(Player * player) const
 {
@@ -213,11 +228,11 @@ void PrivateChat::sendThem(NetworkMessage & message, Liaison * but) const
 }
 
 
-bool PrivateChat::everyPlayerHasFeature(const QString & feature) const
+bool PrivateChat::everyPlayerHasFeature(const QString & feature, quint8 version) const
 {
     foreach (Player * player, m_set)
     {
-        if (! player->hasFeature(feature))
+        if (! player->hasFeature(feature, version))
             return false;
     }
     return true;
@@ -305,14 +320,14 @@ void PrivateChat::sendDel() const
 }
 
 
-void PrivateChat::set(const PrivateChat & other)
+void PrivateChat::set(const PrivateChat & other, bool thenUpdate)
 {
     if (other.m_owner != m_owner)
     {
         qWarning("Can't set this private chat to one with a different owner");
         return;
     }
-    p_set(other.m_name, other.m_set);
+    p_set(other.m_name, other.m_set, thenUpdate);
 }
 
 
@@ -326,11 +341,11 @@ void PrivateChat::set(const QString & name, const QSet<Player *> & set)
     p_set(name, set);
 }
 
-void PrivateChat::p_set(const QString & name, QSet<Player *> set)
+void PrivateChat::p_set(const QString & name, QSet<Player *> set, bool thenUpdate)
 {
     set.insert(m_owner);
 
-    if (!G_client)
+    if (thenUpdate && !G_client)
     {
         m_set.subtract(set);
         if (m_set.size() > 0)
@@ -340,5 +355,6 @@ void PrivateChat::p_set(const QString & name, QSet<Player *> set)
     m_name = name;
     emit changedName();
     m_set  = set;
-    sendUpdate();
+    if (thenUpdate)
+        sendUpdate();
 }

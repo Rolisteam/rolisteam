@@ -38,9 +38,10 @@ class AbstractChat : public QObject
     public:
         virtual QString identifier() const =0;
         virtual QString name() const =0;
+        virtual bool belongsToLocalPlayer() const;
         virtual bool belongsTo(Player * player) const =0;
         virtual void sendThem(NetworkMessage & message, Liaison * but = NULL) const =0;
-        virtual bool everyPlayerHasFeature(const QString & feature) const =0;
+        virtual bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const =0;
 
     signals:
         void changedName();
@@ -58,7 +59,7 @@ class PublicChat : public AbstractChat
         QString name() const;
         bool belongsTo(Player * player) const;
         void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
-        bool everyPlayerHasFeature(const QString & feature) const;
+        bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 };
 
 class PlayerChat : public AbstractChat
@@ -73,7 +74,7 @@ class PlayerChat : public AbstractChat
         QString name() const;
         bool belongsTo(Player * player) const;
         void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
-        bool everyPlayerHasFeature(const QString & feature) const;
+        bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 
     private:
         Player * m_player;
@@ -99,9 +100,10 @@ class PrivateChat : public AbstractChat
 
         QString identifier() const;
         QString name() const;
+        bool belongsToLocalPlayer() const;
         bool belongsTo(Player * player) const;
         void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
-        bool everyPlayerHasFeature(const QString & feature) const;
+        bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 
         Player * owner() const;
 
@@ -125,7 +127,7 @@ class PrivateChat : public AbstractChat
          * @brief Update the current chat to the other chat if they have the same owner.
          * Then send update.
          */
-        void set(const PrivateChat & data);
+        void set(const PrivateChat & data, bool update = true);
 
         /**
          * @brief Update chat owned by local player.
@@ -139,7 +141,7 @@ class PrivateChat : public AbstractChat
         Player * m_owner;
         QSet<Player *> m_set;
 
-        void p_set(const QString & name, QSet<Player *> set);
+        void p_set(const QString & name, QSet<Player *> set, bool update = true);
 };
 
 #endif

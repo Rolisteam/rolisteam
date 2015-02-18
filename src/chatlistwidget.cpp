@@ -29,8 +29,6 @@
 #include "chat.h"
 #include "chatlist.h"
 #include "MainWindow.h"
-// Just for Chat::belongsTo(...) TODO: del it
-#include "playersList.h"
 #include "privatechatdialog.h"
 
 
@@ -123,7 +121,7 @@ void ChatListWidget::selectAnotherChat(const QModelIndex & index)
     m_deleteButton->setEnabled(
             chat != NULL &&
             chat->inherits("PrivateChat") &&
-            chat->belongsTo(PlayersList::instance().localPlayer())
+            chat->belongsToLocalPlayer()
             );
 }
 

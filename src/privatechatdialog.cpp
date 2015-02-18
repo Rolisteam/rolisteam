@@ -151,7 +151,7 @@ int PrivateChatDialog::edit(PrivateChat * chat)
     if (chat == NULL)
         return QDialog::Rejected;
 
-    bool isEditable = chat->belongsTo(PlayersList::instance().localPlayer());
+    bool isEditable = chat->belongsToLocalPlayer();
     m_name_w->setText(chat->name());
     m_name_w->setReadOnly(!isEditable);
     m_owner_w->setText(chat->owner()->name());
