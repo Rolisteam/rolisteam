@@ -299,10 +299,10 @@ ClientServeur* MainWindow::getNetWorkManager()
 
 void MainWindow::updateWindowTitle()
 {
-    setWindowTitle(tr("%1[*] - v%2 - %3 - %4").arg(m_preferences->value("applicationName","Rolisteam").toString())
+    setWindowTitle(tr("%1[*] - v%2 - %3 - %4 - %5").arg(m_preferences->value("applicationName","Rolisteam").toString())
                    .arg(m_version)
                    .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected"))
-                   .arg(m_networkManager->isServer() ? tr("Server") : tr("Client")));
+                   .arg(m_networkManager->isServer() ? tr("Server") : tr("Client")).arg(m_playerList->localPlayer()->isGM() ? tr("GM") : tr("Player")));
 
 
 
@@ -344,19 +344,19 @@ void MainWindow::creerMenu()
     menuFichier->addSeparator();
     m_openMapAct                 = menuFichier->addAction(QIcon(":/map.png"),tr("Open Map…"));
     //actionOuvrirEtMasquerPlan        = menuFichier->addAction(QIcon(":/map.png"),tr("Open And hide Map"));
-    actionOuvrirScenario         = menuFichier->addAction(QIcon(":/story.png"),tr("Open scenario"));
+    m_openStoryAct         = menuFichier->addAction(QIcon(":/story.png"),tr("Open scenario"));
     m_openImageAct                 = menuFichier->addAction(QIcon(":/picture.png"),tr("Open Picture"));
     m_openMinutesAct = menuFichier->addAction(QIcon(":/notes.png"),tr("Open Minutes"));
     menuFichier->addSeparator();
-    actionFermerPlan                 = menuFichier->addAction(tr("Close Map/Picture"));
+    m_closeMap                 = menuFichier->addAction(tr("Close Map/Picture"));
     menuFichier->addSeparator();
     m_saveMapAct        = menuFichier->addAction(QIcon(":/map.png"),tr("Save Map"));
-    actionSauvegarderScenario        = menuFichier->addAction(QIcon(":/story.png"),tr("Save scenario"));
-    actionSauvegarderNotes           = menuFichier->addAction(QIcon(":/notes.png"),tr("Save Minutes"));
+    m_saveStoryAct        = menuFichier->addAction(QIcon(":/story.png"),tr("Save scenario"));
+    m_saveMinuteAct           = menuFichier->addAction(QIcon(":/notes.png"),tr("Save Minutes"));
     menuFichier->addSeparator();
-    actionPreferences                = menuFichier->addAction(QIcon(":/settings.png"),tr("Preferences"));
+    m_preferencesAct                = menuFichier->addAction(QIcon(":/settings.png"),tr("Preferences"));
     menuFichier->addSeparator();
-    actionQuitter                = menuFichier->addAction(QIcon(":/exit.png"),tr("Quit"));
+    m_quitAct                = menuFichier->addAction(QIcon(":/exit.png"),tr("Quit"));
 
     // Network action
     QMenu *networkMenu = new QMenu (tr("Network"), m_menuBar);
@@ -366,21 +366,21 @@ void MainWindow::creerMenu()
 
     // Creation du menu Affichage
     QMenu *menuAffichage = new QMenu (tr("View"), m_menuBar);
-    actionAfficherNomsPj         = menuAffichage->addAction(tr("Display PC names"));
-    actionAfficherNomsPnj        = menuAffichage->addAction(tr("Display NPC names"));
-    actionAfficherNumerosPnj = menuAffichage->addAction(tr("Display NPC number"));
+    m_showPCAct         = menuAffichage->addAction(tr("Display PC names"));
+    m_showNpcNameAct        = menuAffichage->addAction(tr("Display NPC names"));
+    m_showNPCNumberAct = menuAffichage->addAction(tr("Display NPC number"));
 
 
     // Actions checkables
-    actionAfficherNomsPj->setCheckable(true);
-    actionAfficherNomsPnj->setCheckable(true);
-    actionAfficherNumerosPnj->setCheckable(true);
+    m_showPCAct->setCheckable(true);
+    m_showNpcNameAct->setCheckable(true);
+    m_showNPCNumberAct->setCheckable(true);
 
 
     // Choix des actions selectionnees au depart
-    actionAfficherNomsPj->setChecked(true);
-    actionAfficherNomsPnj->setChecked(true);
-    actionAfficherNumerosPnj->setChecked(true);
+    m_showPCAct->setChecked(true);
+    m_showNpcNameAct->setChecked(true);
+    m_showNPCNumberAct->setChecked(true);
 
     // Creation du menu Fenetre
     m_windowMenu = new QMenu (tr("Sub-Windows"), m_menuBar);
@@ -417,9 +417,9 @@ void MainWindow::creerMenu()
 
     // Creation du menu Aide
     QMenu *menuAide = new QMenu (tr("Help"), m_menuBar);
-    actionAideLogiciel = menuAide->addAction(tr("Help about %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
+    m_helpAct = menuAide->addAction(tr("Help about %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
     menuAide->addSeparator();
-    actionAPropos = menuAide->addAction(tr("About %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
+    m_aboutAct = menuAide->addAction(tr("About %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
 
     // Ajout des menus a la barre de menus
     m_menuBar->addMenu(menuFichier);
@@ -436,16 +436,16 @@ void MainWindow::linkActionToMenu()
     connect(m_openImageAct, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
     connect(m_openMapAct, SIGNAL(triggered(bool)), this, SLOT(openMapWizzard()));
 
-    connect(actionOuvrirScenario, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
+    connect(m_openStoryAct, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
     connect(m_openMinutesAct, SIGNAL(triggered(bool)), this, SLOT(openNote()));
-    connect(actionFermerPlan, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
+    connect(m_closeMap, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
     connect(m_saveMapAct, SIGNAL(triggered(bool)), this, SLOT(saveMap()));
-    connect(actionSauvegarderScenario, SIGNAL(triggered(bool)), this, SLOT(sauvegarderScenario()));
-    connect(actionSauvegarderNotes, SIGNAL(triggered(bool)), this, SLOT(sauvegarderNotes()));
-    connect(actionPreferences, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
+    connect(m_saveStoryAct, SIGNAL(triggered(bool)), this, SLOT(sauvegarderScenario()));
+    connect(m_saveMinuteAct, SIGNAL(triggered(bool)), this, SLOT(saveMinutes()));
+    connect(m_preferencesAct, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
 
     // close
-    connect(actionQuitter, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
+    connect(m_quitAct, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
 
     // network
     connect(m_networkManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
@@ -462,13 +462,13 @@ void MainWindow::linkActionToMenu()
     connect(m_tuleAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
 
     // Display
-    connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
-    connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPnj(bool)));
-    connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNumerosPnj(bool)));
+    connect(m_showPCAct, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
+    connect(m_showNpcNameAct, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPnj(bool)));
+    connect(m_showNPCNumberAct, SIGNAL(triggered(bool)), this, SLOT(afficherNumerosPnj(bool)));
 
     // Help
-    connect(actionAPropos, SIGNAL(triggered()), this, SLOT(aPropos()));
-    connect(actionAideLogiciel, SIGNAL(triggered()), this, SLOT(helpOnLine()));
+    connect(m_aboutAct, SIGNAL(triggered()), this, SLOT(aPropos()));
+    connect(m_helpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 }
 
 QWidget* MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize,QPoint pos )
@@ -513,9 +513,9 @@ QWidget* MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSiz
     connect(carte, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementeNumeroPnj()));
     connect(carte, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(mettreAJourPnj(int, QString)));
 
-    connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
-    connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
-    connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
+    connect(m_showPCAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
+    connect(m_showNpcNameAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
+    connect(m_showNPCNumberAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
 
     // new PlayersList connection
     connect(carteFenetre, SIGNAL(activated(Carte *)), m_playersListWidget->model(), SLOT(changeMap(Carte *)));
@@ -1063,18 +1063,18 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
     bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
     if (widget != NULL && widget->objectName() == QString("CarteFenetre") && localPlayerIsGM)
     {
-        actionFermerPlan->setEnabled(true);
+        m_closeMap->setEnabled(true);
         m_saveMapAct->setEnabled(true);
     }
     else if (widget != NULL && widget->objectName() == QString("Image") &&
              (localPlayerIsGM || static_cast<Image *>(widget)->proprietaireImage()))
     {
-        actionFermerPlan->setEnabled(true);
+        m_closeMap->setEnabled(true);
         m_saveMapAct->setEnabled(false);
     }
     else
     {
-        actionFermerPlan->setEnabled(false);
+        m_closeMap->setEnabled(false);
         m_saveMapAct->setEnabled(false);
     }
 }
@@ -1309,7 +1309,7 @@ void MainWindow::quitterApplication(bool perteConnexion)
         bool ok;
         // Si l'utilisateur est un joueur, on sauvegarde les notes
         if (!PlayersList::instance()->localPlayer()->isGM())
-            ok = sauvegarderNotes();
+            ok = saveMinutes();
         // S'il est MJ, on sauvegarde le scenario
         else
             ok = sauvegarderScenario();
@@ -1371,23 +1371,6 @@ bool MainWindow::enleverCarteDeLaListe(QString idCarte)
     else
         return false;
 }
-/*bool MainWindow::enleverImageDeLaListe(QString idImage)
-{
-    foreach(QMdiSubWindow* sub, m_pictureList)
-    {
-        Image* img = static_cast<Image*>(sub->widget());
-        if(NULL!=img)
-        {
-            if(img->getImageId() == idImage)
-            {
-                m_pictureList.removeOne(sub);
-                return true;
-            }
-        }
-
-    }
-    return false;
-}*/
 
 QWidget* MainWindow::registerSubWindow(QWidget * subWindow,QAction* action)
 {
@@ -1480,7 +1463,7 @@ void MainWindow::openNote()
     }
 
 }
-bool MainWindow::sauvegarderNotes()
+bool MainWindow::saveMinutes()
 {    
     return m_noteEditor->fileSave();
 }
@@ -1624,8 +1607,7 @@ void MainWindow::lireImage(QDataStream &file)
     file >>topleft;
     file >> size;
 
-    QTextStream out(stderr,QIODevice::WriteOnly);
-    out << "lire image " << topleft.x() << "," << topleft.y()  << " size=("<< size.width()<<","<<size.height() << endl;
+
 
     file >> baImage;
 
@@ -1781,10 +1763,10 @@ void MainWindow::updateUi()
         m_newMapAct->setEnabled(false);
         m_openMapAct->setEnabled(false);
 
-        actionOuvrirScenario->setEnabled(false);
-        actionFermerPlan->setEnabled(false);
+        m_openStoryAct->setEnabled(false);
+        m_closeMap->setEnabled(false);
         m_saveMapAct->setEnabled(false);
-        actionSauvegarderScenario->setEnabled(false);
+        m_saveStoryAct->setEnabled(false);
 
     }
 

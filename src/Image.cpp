@@ -84,14 +84,10 @@ QAction* Image::getAssociatedAction() const
 {
     return m_internalAction;
 }
-
-
 void Image::setInternalAction(QAction *action)
 {
     m_internalAction = action;
 }
-
-
 bool Image::proprietaireImage()
 {
 	return idJoueur == G_idJoueurLocal;
@@ -267,7 +263,6 @@ void Image::wheelEvent(QWheelEvent *event)
 }
 void Image::hideEvent(QHideEvent* event)
 {
-        qDebug()<< "hideEvent hideEvent" << this;
     if(NULL!=m_internalAction)
     {
         m_internalAction->setChecked(false);
@@ -276,7 +271,6 @@ void Image::hideEvent(QHideEvent* event)
 }
 void Image::showEvent(QShowEvent* event)
 {
-    qDebug()<< "showEvent Image " << this;
     if(NULL!=m_internalAction)
     {
         m_internalAction->setChecked(true);

@@ -129,7 +129,7 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
     {
         // Emission des donnees
         int t = m_socketTcp->write(donnees, taille);
-        qDebug() <<  "send to server " << taille;
+
         if (t < 0)
         {
             qWarning() << "Tranmission error :" << m_socketTcp->errorString();
@@ -165,7 +165,7 @@ void Liaison::reception()
 
         // Lecture des donnees a partir du dernier point
         lu = m_socketTcp->read(&(tampon[entete.dataSize-restant]), restant);
-        qDebug() << "before:" <<lu << entete.dataSize << restant << entete.category << entete.action << m_socketTcp->bytesAvailable();
+
         // Si toutes les donnees n'ont pu etre lues
         if (lu < restant)
         {
@@ -239,7 +239,7 @@ void Liaison::reception()
         }
 
     } // Fin du while
-    qDebug() << "sortie du while";
+
 }
 
 /********************************************************************/

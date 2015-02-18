@@ -96,7 +96,6 @@ void ClientServeur::synchronizePreferences()
     m_preferences->registerValue("isPlayer",!m_configDialog->isGM());
     m_preferences->registerValue("ipaddress",m_configDialog->getHost());
     G_joueur= !m_configDialog->isGM();
-    //G_client= !m_configDialog->isServer();
     m_preferences->registerValue("ServerPort",m_configDialog->getPort());
     m_preferences->registerValue("isClient",!m_configDialog->isServer());
     m_preferences->registerValue("clientPort",m_configDialog->getPort());
@@ -119,24 +118,19 @@ bool ClientServeur::configAndConnect()
 
     m_playersList = PlayersList::instance();
 
-    // If the user abort configDialog, we quit
     bool isConnected = false;
-    qDebug() <<  m_configDialog << 0 << m_preferences;
 
-
-    m_configDialog->show();
+    m_configDialog->show();/// @warning prevent crash on windows.
     while((!isConnected) && (m_configDialog->exec() != QDialog::Rejected))
     {
-        qDebug() << 1;
         m_isClient = !m_configDialog->isServer();
         m_playersList->completeListClean();
-        qDebug() << 2;
+
         if(m_localPlayer!=NULL)
         {
             delete m_localPlayer;
             m_localPlayer = NULL;
         }
-        qDebug() << 3;
         synchronizePreferences();
         m_localPlayer = new Player(
                 QUuid(G_idJoueurLocal),
@@ -148,7 +142,6 @@ bool ClientServeur::configAndConnect()
 
            isConnected = startConnection();
     }
-    qDebug() << 4;
     return isConnected;
 
 }
@@ -273,7 +266,7 @@ void ClientServeur::nouveauClientConnecte()
 {
 
     QTcpSocket *socketTcp = m_server->nextPendingConnection();
-    qDebug() << "New pending connection" << socketTcp;
+    //qDebug() << "New pending connection" << socketTcp;
 
     new Liaison(socketTcp);
 

@@ -267,7 +267,7 @@ private slots :
     /// \brief open the Qt assistant with the rolisteam documentation
     void helpOnLine();
     bool sauvegarderScenario();
-    bool sauvegarderNotes();
+    bool saveMinutes();
 
     void notifyAboutAddedPlayer(Player * player) const;
     void notifyAboutDeletedPlayer(Player * player) const;
@@ -341,21 +341,21 @@ private :
     QAction* m_openImageAct;
     QAction* m_openMapAct;
     //QAction* actionOuvrirEtMasquerPlan;
-    QAction* actionOuvrirScenario;
+    QAction* m_openStoryAct;
     QAction* m_openMinutesAct;
-    QAction* actionFermerPlan;
+    QAction* m_closeMap;
     QAction* m_saveMapAct;
-    QAction* actionSauvegarderScenario;
-    QAction* actionSauvegarderNotes;
-    QAction* actionPreferences;
-    QAction* actionQuitter;
+    QAction* m_saveStoryAct;
+    QAction* m_saveMinuteAct;
+    QAction* m_preferencesAct;
+    QAction* m_quitAct;
 
     QAction* m_reconnectAct;
     QAction* m_disconnectAct;
 
-    QAction *actionAfficherNomsPj;
-    QAction *actionAfficherNomsPnj;
-    QAction *actionAfficherNumerosPnj;
+    QAction *m_showPCAct;
+    QAction *m_showNpcNameAct;
+    QAction *m_showNPCNumberAct;
     QAction *actionSansGrille;
     QAction *actionCarre;
     QAction *actionHexagones;
@@ -365,8 +365,8 @@ private :
     QAction* m_tabOrdering;
     QAction *m_noteEditorAct;
 
-    QAction *actionAideLogiciel;
-    QAction *actionAPropos;
+    QAction *m_helpAct;
+    QAction *m_aboutAct;
     UpdateChecker* m_updateChecker;
 
     QString m_version;

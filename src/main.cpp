@@ -75,7 +75,6 @@ QString G_idJoueurLocal;
  */
 int main(int argc, char *argv[])
 {
-     qDebug()<< "start" << 1;
     // Creation de l'application
     QApplication app(argc, argv);
     Initialisation* init= Initialisation::getInstance();

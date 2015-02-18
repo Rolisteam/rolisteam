@@ -36,13 +36,14 @@ class ReceiveEvent;
  * @brief List of connected players and theyr characters
  * @note This class is NOT thread-safe.
  */
-class PlayersList : public QAbstractItemModel {
+class PlayersList : public QAbstractItemModel
+{
     Q_OBJECT
 
 public:
     /**
-         * @brief Get the singleton
-         */
+     * @brief Get the singleton
+     */
     static PlayersList * instance();
 
     // implements QAbstractItemModel
