@@ -123,7 +123,7 @@ Initialisation::~Initialisation()
     // On cree un flux de donnees rattache au fichier
     QDataStream fluxFichier(&file);
     // On sauvegarde la version de l'application
-    // We forced the actual version string.
+    // We force the actual version string.
     fluxFichier << QString(VERSION_APPLICATION);
     // ...le nom de l'utilisateur
     fluxFichier << nomUtilisateur;

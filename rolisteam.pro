@@ -8,9 +8,9 @@ LANGUAGE = C++
 MOC_DIR = bin
 OBJECTS_DIR = bin
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
-#CONFIG += HAVE_PHONON
+CONFIG += HAVE_PHONON
 #CONFIG += HAVE_FMOD
-CONFIG += HAVE_NULL
+#CONFIG += HAVE_NULL
 HEADERS += src/AfficheurDisque.h \
            src/BarreOutils.h \
            src/Carte.h \
@@ -27,6 +27,7 @@ HEADERS += src/AfficheurDisque.h \
            src/ListeUtilisateurs.h \
            src/MainWindow.h \
            src/NouveauPlanVide.h \
+           src/preferencesdialog.h \
            src/Rolisteam_private.h \
            src/SelecteurCouleur.h \
            src/SelecteurDiametre.h \
@@ -54,6 +55,7 @@ SOURCES += src/AfficheurDisque.cpp \
            src/main.cpp \
            src/MainWindow.cpp \
            src/NouveauPlanVide.cpp \
+           src/preferencesdialog.cpp \
            src/SelecteurCouleur.cpp \
            src/SelecteurDiametre.cpp \
            src/Tchat.cpp \

@@ -49,6 +49,9 @@
 #ifndef NULL_PLAYER
 #include "LecteurAudio.h"
 #endif
+
+class PreferencesDialog;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -137,6 +140,9 @@ private :
 #ifndef NULL_PLAYER   
     LecteurAudio* G_lecteurAudio;
 #endif
+
+    PreferencesDialog * m_preferencesDialog;
+
     QAction *actionNouveauPlan;
     QAction *actionOuvrirImage;
     QAction *actionOuvrirPlan;

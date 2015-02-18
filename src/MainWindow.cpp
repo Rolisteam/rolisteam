@@ -40,6 +40,7 @@
 #endif
 #include "EditeurNotes.h"
 #include "WorkspaceAmeliore.h"
+#include "preferencesdialog.h"
 
 // Necessaires pour utiliser l'instruction ShellExecute
 #ifdef WIN32
@@ -139,7 +140,7 @@ MainWindow::MainWindow()
         // Ajout de l'espace de travail dans la fenetre principale
         setCentralWidget(workspace);
         // Connexion du changement de fenetre active avec la fonction de m.a.j du selecteur de taille des PJ
-        QObject::connect(workspace, SIGNAL(windowActivated(QWidget *)), this, SLOT(changementFenetreActive(QWidget *)));
+        connect(workspace, SIGNAL(windowActivated(QWidget *)), this, SLOT(changementFenetreActive(QWidget *)));
 
         // Creation de la barre d'outils
         barreOutils = new BarreOutils(this);
@@ -161,6 +162,10 @@ MainWindow::MainWindow()
         // Ajout du lecteur audio a la fenetre principale
         addDockWidget(Qt::RightDockWidgetArea, G_lecteurAudio);
 #endif
+
+        // Create Preference dialog
+        m_preferencesDialog = new PreferencesDialog(this);
+
         // Creation de la barre de menus et des menus
         creerMenu();
         // Association des actions des menus avec des fonctions
@@ -245,10 +250,8 @@ void MainWindow::creerMenu()
         actionSauvegarderPlan        = menuFichier->addAction(tr("Sauvegarder plan"));
         actionSauvegarderScenario        = menuFichier->addAction(tr("Sauvegarder scénario"));
         actionSauvegarderNotes           = menuFichier->addAction(tr("Sauvegarder notes"));
-        /*
-                menuFichier->addSeparator();
-                actionPreferences                = menuFichier->addAction(tr("Préfrences"));
-        */
+        menuFichier->addSeparator();
+        actionPreferences                = menuFichier->addAction(tr("Préférences"));
         menuFichier->addSeparator();
         actionQuitter                = menuFichier->addAction(tr("Quitter"));
 
@@ -315,7 +318,7 @@ void MainWindow::creerMenu()
         actionEditeurNotes->setCheckable(true);
         actionEditeurNotes->setChecked(false);
         // Connexion de l'action avec l'affichage/masquage de l'editeur de notes
-        QObject::connect(actionEditeurNotes, SIGNAL(triggered(bool)), this, SLOT(afficherEditeurNotes(bool)));
+        connect(actionEditeurNotes, SIGNAL(triggered(bool)), this, SLOT(afficherEditeurNotes(bool)));
 
         // Ajout du sous-menu Tchat
         sousMenuTchat = new QMenu (tr("Tchats"), barreMenus);
@@ -336,7 +339,7 @@ void MainWindow::creerMenu()
         // Masquage du tchat commun
         listeTchat[0]->hide();
         // Connexion de l'action avec l'affichage/masquage du tchat commun
-        QObject::connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
+        connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
 
         // Creation du menu Aide
         QMenu *menuAide = new QMenu (tr("Aide"), barreMenus);
@@ -357,32 +360,33 @@ void MainWindow::creerMenu()
 void MainWindow::associerActionsMenus()
 {
         // file menu
-        QObject::connect(actionNouveauPlan, SIGNAL(triggered(bool)), this, SLOT(nouveauPlan()));
-        QObject::connect(actionOuvrirImage, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
-        QObject::connect(actionOuvrirPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirPlan()));
-        QObject::connect(actionOuvrirEtMasquerPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirEtMasquerPlan()));
-        QObject::connect(actionOuvrirScenario, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
-        QObject::connect(actionOuvrirNotes, SIGNAL(triggered(bool)), this, SLOT(ouvrirNotes()));
-        QObject::connect(actionFermerPlan, SIGNAL(triggered(bool)), this, SLOT(fermerPlanOuImage()));
-        QObject::connect(actionSauvegarderPlan, SIGNAL(triggered(bool)), this, SLOT(sauvegarderPlan()));
-        QObject::connect(actionSauvegarderScenario, SIGNAL(triggered(bool)), this, SLOT(sauvegarderScenario()));
-        QObject::connect(actionSauvegarderNotes, SIGNAL(triggered(bool)), this, SLOT(sauvegarderNotes()));
+        connect(actionNouveauPlan, SIGNAL(triggered(bool)), this, SLOT(nouveauPlan()));
+        connect(actionOuvrirImage, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
+        connect(actionOuvrirPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirPlan()));
+        connect(actionOuvrirEtMasquerPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirEtMasquerPlan()));
+        connect(actionOuvrirScenario, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
+        connect(actionOuvrirNotes, SIGNAL(triggered(bool)), this, SLOT(ouvrirNotes()));
+        connect(actionFermerPlan, SIGNAL(triggered(bool)), this, SLOT(fermerPlanOuImage()));
+        connect(actionSauvegarderPlan, SIGNAL(triggered(bool)), this, SLOT(sauvegarderPlan()));
+        connect(actionSauvegarderScenario, SIGNAL(triggered(bool)), this, SLOT(sauvegarderScenario()));
+        connect(actionSauvegarderNotes, SIGNAL(triggered(bool)), this, SLOT(sauvegarderNotes()));
+        connect(actionPreferences, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
 
         // close
-        QObject::connect(actionQuitter, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
+        connect(actionQuitter, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
 
         // Windows managing
-        QObject::connect(actionCascade, SIGNAL(triggered(bool)), workspace, SLOT(cascade()));
-        QObject::connect(actionTuiles, SIGNAL(triggered(bool)), workspace, SLOT(tile()));
+        connect(actionCascade, SIGNAL(triggered(bool)), workspace, SLOT(cascade()));
+        connect(actionTuiles, SIGNAL(triggered(bool)), workspace, SLOT(tile()));
 
         // Display
-        QObject::connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
-        QObject::connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPnj(bool)));
-        QObject::connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNumerosPnj(bool)));
+        connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
+        connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPnj(bool)));
+        connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNumerosPnj(bool)));
 
         // Help
-        QObject::connect(actionAPropos, SIGNAL(triggered()), this, SLOT(aPropos()));
-        QObject::connect(actionAideLogiciel, SIGNAL(triggered()), this, SLOT(aideEnLigne()));
+        connect(actionAPropos, SIGNAL(triggered()), this, SLOT(aPropos()));
+        connect(actionAideLogiciel, SIGNAL(triggered()), this, SLOT(aideEnLigne()));
 }
 
 /********************************************************************/
@@ -438,43 +442,43 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         carteFenetre->associerAction(action);
 
         // Connexion de l'action avec l'affichage/masquage de la fenetre
-        QObject::connect(action, SIGNAL(triggered(bool)), carteFenetre, SLOT(setVisible(bool)));
+        connect(action, SIGNAL(triggered(bool)), carteFenetre, SLOT(setVisible(bool)));
 
         // Recuperation de la Carte contenue dans la CarteFenetre
         Carte *carte = (Carte *)(carteFenetre->widget());
 
         // Connexion des actions de changement d'outil avec les fonctions de changement de pointeur de souris
-        QObject::connect(barreOutils->actionCrayon,         SIGNAL(triggered(bool)), carte, SLOT(pointeurCrayon()));
-        QObject::connect(barreOutils->actionLigne,          SIGNAL(triggered(bool)), carte, SLOT(pointeurLigne()));
-        QObject::connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), carte, SLOT(pointeurRectVide()));
-        QObject::connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), carte, SLOT(pointeurRectPlein()));
-        QObject::connect(barreOutils->actionElliVide,   SIGNAL(triggered(bool)), carte, SLOT(pointeurElliVide()));
-        QObject::connect(barreOutils->actionElliPlein,  SIGNAL(triggered(bool)), carte, SLOT(pointeurElliPlein()));
-        QObject::connect(barreOutils->actionTexte,          SIGNAL(triggered(bool)), carte, SLOT(pointeurTexte()));
-        QObject::connect(barreOutils->actionMain,                SIGNAL(triggered(bool)), carte, SLOT(pointeurMain()));
-        QObject::connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), carte, SLOT(pointeurAjoutPnj()));
-        QObject::connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), carte, SLOT(pointeurSupprPnj()));
-        QObject::connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), carte, SLOT(pointeurDeplacePnj()));
-        QObject::connect(barreOutils->actionEtatPnj,        SIGNAL(triggered(bool)), carte, SLOT(pointeurEtatPnj()));
+        connect(barreOutils->actionCrayon,         SIGNAL(triggered(bool)), carte, SLOT(pointeurCrayon()));
+        connect(barreOutils->actionLigne,          SIGNAL(triggered(bool)), carte, SLOT(pointeurLigne()));
+        connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), carte, SLOT(pointeurRectVide()));
+        connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), carte, SLOT(pointeurRectPlein()));
+        connect(barreOutils->actionElliVide,   SIGNAL(triggered(bool)), carte, SLOT(pointeurElliVide()));
+        connect(barreOutils->actionElliPlein,  SIGNAL(triggered(bool)), carte, SLOT(pointeurElliPlein()));
+        connect(barreOutils->actionTexte,          SIGNAL(triggered(bool)), carte, SLOT(pointeurTexte()));
+        connect(barreOutils->actionMain,                SIGNAL(triggered(bool)), carte, SLOT(pointeurMain()));
+        connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), carte, SLOT(pointeurAjoutPnj()));
+        connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), carte, SLOT(pointeurSupprPnj()));
+        connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), carte, SLOT(pointeurDeplacePnj()));
+        connect(barreOutils->actionEtatPnj,        SIGNAL(triggered(bool)), carte, SLOT(pointeurEtatPnj()));
 
         // Connexion de la demande de changement de couleur de la carte avec celle de la barre d'outils
-        QObject::connect(carte, SIGNAL(changeCouleurActuelle(QColor)), barreOutils, SLOT(changeCouleurActuelle(QColor)));
+        connect(carte, SIGNAL(changeCouleurActuelle(QColor)), barreOutils, SLOT(changeCouleurActuelle(QColor)));
         // Connexion de la demande d'incrementation du numero de PNJ de la carte avec celle de la barre d'outils
-        QObject::connect(carte, SIGNAL(incrementeNumeroPnj()), barreOutils, SLOT(incrementeNumeroPnj()));
+        connect(carte, SIGNAL(incrementeNumeroPnj()), barreOutils, SLOT(incrementeNumeroPnj()));
         // Connexion de la demande de changement de diametre des PNJ de la carte avec celle de la barre d'outils
-        QObject::connect(carte, SIGNAL(mettreAJourPnj(int, QString)), barreOutils, SLOT(mettreAJourPnj(int, QString)));
+        connect(carte, SIGNAL(mettreAJourPnj(int, QString)), barreOutils, SLOT(mettreAJourPnj(int, QString)));
         // Affichage des noms et numeros des PJ/PNJ
-        QObject::connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
-        QObject::connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
-        QObject::connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
+        connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
+        connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
+        connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
         // Creation d'un DessinPerso a la creation d'un nouveau personnage dans la liste
-        QObject::connect(G_listeUtilisateurs, SIGNAL(ajouterPj(QString , QString , QColor)), carte, SLOT(ajouterPj(QString , QString , QColor)));
+        connect(G_listeUtilisateurs, SIGNAL(ajouterPj(QString , QString , QColor)), carte, SLOT(ajouterPj(QString , QString , QColor)));
         // Changement de nom d'un PJ
-        QObject::connect(G_listeUtilisateurs, SIGNAL(renommerPj(QString , QString)), carte, SLOT(renommerPj(QString , QString)));
+        connect(G_listeUtilisateurs, SIGNAL(renommerPj(QString , QString)), carte, SLOT(renommerPj(QString , QString)));
         // Suppression d'un PJ
-        QObject::connect(G_listeUtilisateurs, SIGNAL(effacerPj(QString)), carte, SLOT(effacerPerso(QString)));
+        connect(G_listeUtilisateurs, SIGNAL(effacerPj(QString)), carte, SLOT(effacerPerso(QString)));
         // Changement de couleur d'un PJ
-        QObject::connect(G_listeUtilisateurs, SIGNAL(changerCouleurPerso(QString, QColor)), carte, SLOT(changerCouleurPj(QString, QColor)));
+        connect(G_listeUtilisateurs, SIGNAL(changerCouleurPerso(QString, QColor)), carte, SLOT(changerCouleurPj(QString, QColor)));
 
         // Mise a jour du pointeur de souris de la carte
         switch(G_outilCourant)
@@ -550,23 +554,23 @@ void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
         imageFenetre->associerAction(action);
 
         // Connexion de l'action d'outil main avec la fonction de changement de pointeur de souris en main
-        QObject::connect(barreOutils->actionMain,                SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurMain()));
+        connect(barreOutils->actionMain,                SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurMain()));
 
         // Connexion des actions de changement d'outil avec la fonction de changement de pointeur de souris normal
-        QObject::connect(barreOutils->actionCrayon,         SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionLigne,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionElliVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionElliPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionTexte,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionEtatPnj,        SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionCrayon,         SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionLigne,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionElliVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionElliPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionTexte,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionEtatPnj,        SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
 
         // Connexion de l'action avec l'affichage/masquage de l'image
-        QObject::connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
+        connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
 
         // Mise a jour du pointeur de souris de l'image
         switch(G_outilCourant)
@@ -936,23 +940,23 @@ void MainWindow::ouvrirImage()
         imageFenetre->setWindowTitle(titre);
 
         // Connexion de l'action d'outil main avec la fonction de changement de pointeur de souris en main
-        QObject::connect(barreOutils->actionMain,                SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurMain()));
+        connect(barreOutils->actionMain,                SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurMain()));
 
         // Connexion des actions de changement d'outil avec la fonction de changement de pointeur de souris normal
-        QObject::connect(barreOutils->actionCrayon,         SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionLigne,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionElliVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionElliPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionTexte,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
-        QObject::connect(barreOutils->actionEtatPnj,        SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionCrayon,         SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionLigne,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionRectVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionRectPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionElliVide,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionElliPlein,  SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionTexte,          SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionAjoutPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionSupprPnj,   SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionDeplacePnj, SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
+        connect(barreOutils->actionEtatPnj,        SIGNAL(triggered(bool)), imageFenetre, SLOT(pointeurNormal()));
 
         // Connexion de l'action avec l'affichage/masquage de la fenetre
-        QObject::connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
+        connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
 
         // Mise a jour du pointeur de souris de l'image
         switch(G_outilCourant)
@@ -1676,7 +1680,7 @@ void MainWindow::ajouterTchat(QString idJoueur, QString nomJoueur)
         // Creation du Tchat
         Tchat *tchat = new Tchat(idJoueur, action);
         // Connexion de l'action avec l'affichage/masquage de la fenetre
-        QObject::connect(action, SIGNAL(triggered(bool)), tchat, SLOT(setVisible(bool)));
+        connect(action, SIGNAL(triggered(bool)), tchat, SLOT(setVisible(bool)));
         // Ajout du tchat a la liste
         listeTchat.append(tchat);
         // Ajout du tchat au workspace
@@ -2277,7 +2281,7 @@ void MainWindow::lireImage(QDataStream &file)
         imageFenetre->setWindowTitle(titre);
 
         // Connexion de l'action avec l'affichage/masquage de la fenetre
-        QObject::connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
+        connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
 
         // Affichage de l'image
         imageFenetre->show();
