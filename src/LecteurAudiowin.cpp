@@ -461,7 +461,7 @@ LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
 	void LecteurAudio::ajouterTitre()
 	{
 		// Ouverture d'un selecteur de fichier, et recuperation de la liste des fichiers selectionnes
-		QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Ajouter un titre"), G_dossierMusiquesMj, tr("Fichiers audio (*.wav *.mp2 *.mp3 *.ogg)"));
+		QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Ajouter un titre"), G_initialisation.dossierMusiquesMj, tr("Fichiers audio (*.wav *.mp2 *.mp3 *.ogg)"));
 
 		// Si l'utilisateur a clique sur "Annuler" on quitte
 		if (listeFichiers.isEmpty())
@@ -469,7 +469,7 @@ LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
 
 		// On met a jour le chemin vers les musiques
 		int dernierSlash = listeFichiers[0].lastIndexOf("/");
-		G_dossierMusiquesMj = listeFichiers[0].left(dernierSlash);
+		G_initialisation.dossierMusiquesMj = listeFichiers[0].left(dernierSlash);
 
 
 		// Tant qu'il y a un element dans la liste, on l'ajoute a la liste des titres
@@ -1014,7 +1014,7 @@ LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
 		}
 
 		// Creation du chemin complet du fichier
-		QString chemin(G_dossierMusiquesJoueur + "/" + nomFichier);
+		QString chemin(G_initialisation.dossierMusiquesJoueur + "/" + nomFichier);
 		
 		// Ouverture du nouveau fichier
 		fluxAudio = FSOUND_Stream_Open(chemin.toLatin1().data(), FSOUND_NORMAL, 0, 0);
@@ -1171,7 +1171,7 @@ LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
 	void LecteurAudio::joueurChangerDossier()
 	{
 		// On met a jour le dossier des musiques du joueur
-		G_dossierMusiquesJoueur = QFileDialog::getExistingDirectory(0 , tr("Choix du répertoire des musiques"), G_dossierMusiquesJoueur,
+		G_initialisation.dossierMusiquesJoueur = QFileDialog::getExistingDirectory(0 , tr("Choix du répertoire des musiques"), G_initialisation.dossierMusiquesJoueur,
 			QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
 	}
 

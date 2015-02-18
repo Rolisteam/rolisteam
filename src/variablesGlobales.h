@@ -100,13 +100,6 @@ extern QCursor *G_pointeurOrienter;
 extern QCursor *G_pointeurAjouter;
 extern QCursor *G_pointeurSupprimer;
 extern QCursor *G_pointeurEtat;
-extern QString G_dossierMusiquesMj;
-extern QString G_dossierMusiquesJoueur;
-extern QString G_dossierImages;
-extern QString G_dossierPlans;
-extern QString G_dossierScenarii;
-extern QString G_dossierNotes;
-extern QString G_dossierTchats;
 
 // Declarees dans ListeUtilisateur.cpp
 extern ListeUtilisateurs *G_listeUtilisateurs;

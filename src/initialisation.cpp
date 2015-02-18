@@ -42,6 +42,7 @@ Initialisation::Initialisation()
         QDataStream fluxFichier(&file);
         
         // On recupere la version de l'application
+        // This field is ignored actually.
         fluxFichier >> versionApplication;
         // ...le nom de l'utilisateur
         fluxFichier >> nomUtilisateur;
@@ -83,7 +84,7 @@ Initialisation::Initialisation()
     // If we don't have the file, we set default values
     else
     {
-        versionApplication    = QString();
+        versionApplication    = QString(VERSION_APPLICATION);
         nomUtilisateur        = QString();
         couleurUtilisateur    = QColor();
         couleurUtilisateur.setHsv(qrand()%360, qrand()%200 + 56, qrand()%190 + 50);
@@ -122,7 +123,8 @@ Initialisation::~Initialisation()
     // On cree un flux de donnees rattache au fichier
     QDataStream fluxFichier(&file);
     // On sauvegarde la version de l'application
-    fluxFichier << versionApplication;
+    // We forced the actual version string.
+    fluxFichier << QString(VERSION_APPLICATION);
     // ...le nom de l'utilisateur
     fluxFichier << nomUtilisateur;
     // ...la couleur de l'utilisateur

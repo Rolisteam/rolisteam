@@ -1,24 +1,25 @@
-/***************************************************************************
- *        Copyright (C) 2007 by Romain Campioni                            *
- *        Copyright (C) 2009 by Renaud Guezennec                           *
- *        Copyright (C) 2010 by Berenger Morel                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+/*************************************************************************
+ *        Copyright (C) 2007 by Romain Campioni                          *
+ *        Copyright (C) 2009 by Renaud Guezennec                         *
+ *        Copyright (C) 2010 by Berenger Morel                           *
+ *        Copyright (C) 2010 by Joseph Boudou                            *
+ *   http://renaudguezennec.homelinux.org/accueil,3.html                 *
+ *                                                                       *
+ *   rolisteam is free software; you can redistribute it and/or modify   *
+ *   it under the terms of the GNU General Public License as published   *
+ *   by the Free Software Foundation; either version 2 of the License,   *
+ *   or (at your option) any later version.                              *
+ *                                                                       *
+ *   This program is distributed in the hope that it will be useful,     *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of      *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the       *
+ *   GNU General Public License for more details.                        *
+ *                                                                       *
+ *   You should have received a copy of the GNU General Public License   *
+ *   along with this program; if not, write to the                       *
+ *   Free Software Foundation, Inc.,                                     *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
+ *************************************************************************/
 
 
 #include <QtGui>
@@ -74,20 +75,6 @@ QCursor *G_pointeurAjouter;
 QCursor *G_pointeurSupprimer;
 // Contient le pointeur de souris pour changer l'etat des PJ/PNJ
 QCursor *G_pointeurEtat;
-// Dossier par defaut ou sont stockees les musiques d'ambiance du MJ
-QString G_dossierMusiquesMj;
-// Dossier ou sont stockees les musiques des joueurs
-QString G_dossierMusiquesJoueur;
-// Dossier par defaut ou sont stockees les images
-QString G_dossierImages;
-// Dossier par defaut ou sont stockes les plans
-QString G_dossierPlans;
-// Dossier par defaut ou sont stockes les scenarii
-QString G_dossierScenarii;
-// Dossier par defaut ou sont stockees les notes
-QString G_dossierNotes;
-// Dossier ou sont stockes les tchats a la fermeture de l'application
-QString G_dossierTchats;
 
 
 // Pointeur vers la fenetre de log utilisateur (utilise seulement dans ce fichier)
@@ -209,15 +196,6 @@ MainWindow::MainWindow()
         G_pointeurAjouter        = new QCursor(QPixmap(":/resources/icones/pointeur ajouter.png"), 6, 0);
         G_pointeurSupprimer        = new QCursor(QPixmap(":/resources/icones/pointeur supprimer.png"), 6, 0);
         G_pointeurEtat                = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
-
-        // Initialisations' order: GameMaster's musics; Players' musics; images; plans; scenarii; notes; tchats
-        G_dossierMusiquesMj     = G_initialisation.dossierMusiquesMj;
-        G_dossierMusiquesJoueur = G_initialisation.dossierMusiquesJoueur;
-        G_dossierImages         = G_initialisation.dossierImages;
-        G_dossierPlans          = G_initialisation.dossierPlans;
-        G_dossierScenarii       = G_initialisation.dossierScenarii;
-        G_dossierNotes          = G_initialisation.dossierNotes;
-        G_dossierTchats         = G_initialisation.dossierTchats;
 }
 
 /********************************************************************/
@@ -228,7 +206,7 @@ QDockWidget* MainWindow::creerLogUtilisateur()
         // Creation du dockWidget contenant la fenetre de log utilisateur
         QDockWidget *dockLogUtil = new QDockWidget(tr("Evènements"), this);
         dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
-	    dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+        dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 
         //Creation du log utilisateur
         logUtilisateur = new QTextEdit(dockLogUtil);
@@ -622,7 +600,7 @@ void MainWindow::ouvrirEtMasquerPlan()
 void MainWindow::ouvrirPlan(bool masquer)
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, masquer?tr("Ouvrir et masquer un plan"):tr("Ouvrir un plan"), G_dossierPlans,
+        QString fichier = QFileDialog::getOpenFileName(this, masquer?tr("Ouvrir et masquer un plan"):tr("Ouvrir un plan"), G_initialisation.dossierPlans,
                                           tr("Plans (*.pla *.jpg *.jpeg *.png *.bmp)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
@@ -641,7 +619,7 @@ void MainWindow::ouvrirPlan(bool masquer)
 
         // On met a jour le chemin vers les plans
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierPlans = fichier.left(dernierSlash);
+        G_initialisation.dossierPlans = fichier.left(dernierSlash);
 
         // Suppression de l'extension du fichier pour obtenir le titre de la CarteFenetre
         int dernierPoint = fichier.lastIndexOf(".");
@@ -899,7 +877,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
 void MainWindow::ouvrirImage()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir une image"), G_dossierImages,
+        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir une image"), G_initialisation.dossierImages,
                                           tr("Images (*.jpg *.jpeg *.png *.bmp)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
@@ -918,7 +896,7 @@ void MainWindow::ouvrirImage()
 
         // On met a jour le chemin vers les images
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierImages = fichier.left(dernierSlash);
+        G_initialisation.dossierImages = fichier.left(dernierSlash);
 
         // Chargement de l'image
         QImage *img = new QImage(fichier);
@@ -1822,7 +1800,7 @@ void MainWindow::quitterApplication(bool perteConnexion)
                 // Icone de la fenetre
                 msgBox.setIcon(QMessageBox::Information);
                 // Ajout d'un bouton
-                QAbstractButton *boutonAnnuler = msgBox.addButton(tr("Annuler"), QMessageBox::RejectRole);
+                msgBox.addButton(tr("Annuler"), QMessageBox::RejectRole);
                 // M.a.j du titre et du message
                 msgBox.setWindowTitle(tr("Quitter ") + NOM_APPLICATION);
         }
@@ -1979,7 +1957,7 @@ void MainWindow::sauvegarderPlan()
         }
 
         // Ouverture du selecteur de fichiers
-        QString fichier = QFileDialog::getSaveFileName(this, tr("Sauvegarder un plan"), G_dossierPlans, tr("Plans (*.pla)"));
+        QString fichier = QFileDialog::getSaveFileName(this, tr("Sauvegarder un plan"), G_initialisation.dossierPlans, tr("Plans (*.pla)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -1992,7 +1970,7 @@ void MainWindow::sauvegarderPlan()
 
         // On met a jour le chemin vers les plans
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierPlans = fichier.left(dernierSlash);
+        G_initialisation.dossierPlans = fichier.left(dernierSlash);
 
         // Creation du fichier
         QFile file(fichier);
@@ -2023,7 +2001,7 @@ void MainWindow::changementNatureUtilisateur()
         barreOutils->autoriserOuInterdireCouleurs();
       
 #ifndef NULL_PLAYER
-	// M.a.j du lecteur audio (pour que le changement de taille se passe correctement, on enleve puis on remet le dockWidget)
+    // M.a.j du lecteur audio (pour que le changement de taille se passe correctement, on enleve puis on remet le dockWidget)
         removeDockWidget(G_lecteurAudio);
         G_lecteurAudio->autoriserOuIntedireCommandes();
         addDockWidget(Qt::RightDockWidgetArea, G_lecteurAudio);
@@ -2063,7 +2041,7 @@ void MainWindow::afficherEditeurNotes(bool afficher, bool cocherAction)
 void MainWindow::ouvrirNotes()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir notes"), G_dossierNotes, tr("Documents HTML (*.htm *.html)"));
+        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir notes"), G_initialisation.dossierNotes, tr("Documents HTML (*.htm *.html)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -2071,7 +2049,7 @@ void MainWindow::ouvrirNotes()
 
         // On met a jour le chemin vers les notes
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierNotes = fichier.left(dernierSlash);
+        G_initialisation.dossierNotes = fichier.left(dernierSlash);
 
         // Creation du descripteur de fichier
         QFile file(fichier);
@@ -2095,7 +2073,7 @@ void MainWindow::ouvrirNotes()
 bool MainWindow::sauvegarderNotes()
 {
         // Ouverture du selecteur de fichiers
-        QString fichier = QFileDialog::getSaveFileName(this, tr("Sauvegarder notes"), G_dossierNotes, tr("Documents HTML (*.htm *.html)"));
+        QString fichier = QFileDialog::getSaveFileName(this, tr("Sauvegarder notes"), G_initialisation.dossierNotes, tr("Documents HTML (*.htm *.html)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -2108,7 +2086,7 @@ bool MainWindow::sauvegarderNotes()
 
         // On met a jour le chemin vers les notes
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierNotes = fichier.left(dernierSlash);
+        G_initialisation.dossierNotes = fichier.left(dernierSlash);
 
         // Creation du descripteur de fichier
         QFile file(fichier);
@@ -2134,7 +2112,7 @@ bool MainWindow::sauvegarderNotes()
 void MainWindow::ouvrirScenario()
 {
         // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir scénario"), G_dossierScenarii, tr("Scénarios (*.sce)"));
+        QString fichier = QFileDialog::getOpenFileName(this, tr("Ouvrir scénario"), G_initialisation.dossierScenarii, tr("Scénarios (*.sce)"));
 
         // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
         if (fichier.isNull())
@@ -2142,7 +2120,7 @@ void MainWindow::ouvrirScenario()
 
         // On met a jour le chemin vers les scenarii
         int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierScenarii = fichier.left(dernierSlash);
+        G_initialisation.dossierScenarii = fichier.left(dernierSlash);
 
         // Creation du descripteur de fichier
         QFile file(fichier);
@@ -2187,7 +2165,7 @@ void MainWindow::ouvrirScenario()
 bool MainWindow::sauvegarderScenario()
 {
         // Ouverture du selecteur de fichiers
-        QString filename = QFileDialog::getSaveFileName(this, tr("Sauvegarder scénario"), G_dossierScenarii, tr("Scénarios (*.sce)"));
+        QString filename = QFileDialog::getSaveFileName(this, tr("Sauvegarder scénario"), G_initialisation.dossierScenarii, tr("Scénarios (*.sce)"));
 
 
         if (filename.isNull())
@@ -2199,7 +2177,7 @@ bool MainWindow::sauvegarderScenario()
 
         // On met a jour le chemin vers les scenarii
         int dernierSlash = filename.lastIndexOf("/");
-        G_dossierScenarii = filename.left(dernierSlash);
+        G_initialisation.dossierScenarii = filename.left(dernierSlash);
 
         // Creation du descripteur de fichier
         QFile file(filename);
@@ -2380,7 +2358,7 @@ void MainWindow::sauvegarderTousLesTchats()
         for (int i=0; i<tailleListe; i++)
         {
                 // Creation du chemin complet du fichier
-                QString chemin(G_dossierTchats + "/" + listeTchat[i]->windowTitle() + ".htm");
+                QString chemin(G_initialisation.dossierTchats + "/" + listeTchat[i]->windowTitle() + ".htm");
                 // Creation du descripteur de fichier
                 QFile file(chemin);
                 // Ouverture du fichier en ecriture seule
@@ -2402,21 +2380,6 @@ void MainWindow::sauvegarderTousLesTchats()
 void MainWindow::sauvegarderFichierInitialisation()
 {
     // Don't really write anything to the filesystem, but store new values in G_initialisation.
-
-    // Memorisation du chemin vers les musiques du MJ dans la variable d'initialisation
-    G_initialisation.dossierMusiquesMj = G_dossierMusiquesMj;
-    // ...du chemin vers les musiques des joueurs
-    G_initialisation.dossierMusiquesJoueur = G_dossierMusiquesJoueur;
-    // ...du chemin vers les images
-    G_initialisation.dossierImages = G_dossierImages;
-    // ...du chemin vers les plans
-    G_initialisation.dossierPlans = G_dossierPlans;
-    // ...du chemin vers les scenarii
-    G_initialisation.dossierScenarii = G_dossierScenarii;
-    // ...du chemin vers les notes
-    G_initialisation.dossierNotes = G_dossierNotes;
-    // ...du chemin vers les tchats
-    G_initialisation.dossierTchats = G_dossierTchats;
 
     // ...les couleurs personnelles
     for (int i=0; i<16; i++)

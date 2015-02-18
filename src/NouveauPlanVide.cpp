@@ -121,7 +121,6 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
 	QObject::connect(groupeBoutonsFormat, SIGNAL(buttonClicked(int)), this, SLOT(changementFormat(int)));
 
 	// Ajout des layouts et widget au layout de gauche
-	QVBoxLayout *layoutIdentite = new QVBoxLayout();
 	layoutGauche->addLayout(layoutTitre);
 	layoutGauche->addLayout(layoutCouleur);
 	layoutGauche->addWidget(groupeFormat);

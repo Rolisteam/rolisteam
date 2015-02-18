@@ -2447,8 +2447,6 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     //file.write((char *)&nombrePnj, sizeof(quint16));
     out << nombrePnj;
 
-    int tailleDonneesPerso;
-    char *donneesPerso;
     // On parcourt la liste des DessinPerso une 2eme fois pour ajouter les donnees de chaque PNJ
     for (int i=0; i<tailleListe; i++)
     {

@@ -505,7 +505,6 @@ int Tchat::calculerJetDes(QString &message, QString &tirage, bool &ok)
             // The dices rolling
             QList<int> listDices;
             unsigned short tmpDice, dice, sumDice=0;
-            unsigned short min = 11;
 
             for(unsigned short u=0;u<nombre;u++)
             {
@@ -861,6 +860,7 @@ void Tchat::sauvegarderTchat(QFile &file)
 /********************************************************************/
 void Tchat::showEvent(QShowEvent *event)
 {
+    Q_UNUSED(event);
 	// On place le curseur sur la zone d'edition
 	zoneEdition->setFocus(Qt::OtherFocusReason);
 }

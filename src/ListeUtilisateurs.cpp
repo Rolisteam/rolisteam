@@ -842,7 +842,6 @@ void ListeUtilisateurs::casesPjNonSelectionnables()
         int nbrPersos;
         int j, p;
         Qt::ItemFlags flags;
-        bool affiche;
         QTreeWidgetItem *personnage, *joueur;
         QString idPerso;
 
@@ -887,7 +886,7 @@ void ListeUtilisateurs::cocherDecocherPj(QString idPerso, bool cocher)
         int nbrPersos;
         int j, p;
         QTreeWidgetItem *personnage, *joueur;
-        bool trouve = false, result;
+        bool trouve = false;
 
         // Recuperation du nbr de joueurs
         int nbrJoueurs = treeWidget->topLevelItemCount();
@@ -943,6 +942,7 @@ void ListeUtilisateurs::cocherDecocherPj(QString idPerso, bool cocher)
 /********************************************************************/
 void ListeUtilisateurs::changementEtatItem(QTreeWidgetItem *item, int colonne)
 {
+    Q_UNUSED(colonne);
         // Si les signaux ne sont pas autorises, on quitte la fonction
         if (autoriserSignauxListe == false)
                 return;
@@ -1127,6 +1127,7 @@ void ListeUtilisateurs::changementEtatItem(QTreeWidgetItem *item, int colonne)
 /********************************************************************/
 void ListeUtilisateurs::clicSurItem(QTreeWidgetItem *item, int colonne)
 {
+    Q_UNUSED(colonne);
         // Si l'item n'est pas un joueur local ou un personnage local, on quitte
         if (item->text(2) != "Joueur local" && item->text(2) != "Personnage local")
                 return;

@@ -325,12 +325,12 @@ void LecteurAudio::updatePlayingMode()
 void LecteurAudio::ajouterTitre()
 {
 
-        QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Ajouter un titre"), G_dossierMusiquesMj, tr("Fichiers audio (*.wav *.mp2 *.mp3 *.ogg *.flac)"));
+        QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Ajouter un titre"), G_initialisation.dossierMusiquesMj, tr("Fichiers audio (*.wav *.mp2 *.mp3 *.ogg *.flac)"));
         qDebug() << "ajouterTitre" << listeFichiers;
         if (listeFichiers.isEmpty())
                 return;
         int dernierSlash = listeFichiers[0].lastIndexOf("/");
-        G_dossierMusiquesMj = listeFichiers[0].left(dernierSlash);
+        G_initialisation.dossierMusiquesMj = listeFichiers[0].left(dernierSlash);
         while (!listeFichiers.isEmpty())
         {
 
@@ -575,7 +575,7 @@ void LecteurAudio::joueurNouveauFichier(QString nomFichier)
                 etatActuel = arret;
                 return;
         }
-        QString chemin(G_dossierMusiquesJoueur + "/" + nomFichier);
+        QString chemin(G_initialisation.dossierMusiquesJoueur + "/" + nomFichier);
         QFileInfo fileInfo(chemin);
         if (!fileInfo.exists())
         {
@@ -646,6 +646,6 @@ void LecteurAudio::joueurChangerPosition(int position)
 void LecteurAudio::joueurChangerDossier()
 {
 
-        G_dossierMusiquesJoueur = QFileDialog::getExistingDirectory(0 , tr("Choix du répertoire des musiques"), G_dossierMusiquesJoueur,
+        G_initialisation.dossierMusiquesJoueur = QFileDialog::getExistingDirectory(0 , tr("Choix du répertoire des musiques"), G_initialisation.dossierMusiquesJoueur,
         QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
 }
