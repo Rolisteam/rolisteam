@@ -748,12 +748,6 @@ QRect Carte::zoneARafraichir()
 {
     QRect resultat;
     
-    // Creation des points superieur gauche et inferieur droit a partir du point d'origine et du pointeur de la souris
-
-
-
-    /*m_originePoint=mapToNormal(m_originePoint);
-    m_mousePoint=mapToNormal(m_mousePoint);*/
 
     QPoint supGauche, infDroit;
     int gauche = m_originePoint.x()<m_mousePoint.x()?m_originePoint.x():m_mousePoint.x();
@@ -1492,125 +1486,24 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
 
 
     NetworkMessageWriter message(NetMsg::MapCategory, NetMsg::ImportMap);
-    qDebug()<< "get data size" << message.getDataSize();
     message.string16(titre);
-    qDebug()<< "get data size" << message.getDataSize();
     message.string8(idCarte);
-    qDebug()<< "get data size" << message.getDataSize();
     message.uint8(taillePj);
-    qDebug()<< "get data size" << message.getDataSize();
     message.uint8(getPermissionMode());
-    qDebug()<< "get data size" << message.getDataSize();
-
     message.uint8(m_fogColor.red());
-    qDebug()<< "get data size" << message.getDataSize();
     message.byteArray32(baFondOriginal);
-    qDebug()<< "get data size" << message.getDataSize();
     message.byteArray32(baFond);
-    qDebug()<< "get data size" << message.getDataSize();
-
     message.byteArray32(baAlpha);
-qDebug()<< "get data size" << message.getDataSize();
-     if (versLiaisonUniquement)
-     {
-         message.sendTo(link);
-     }
-     else
-     {
 
-         message.sendAll();
-     }
-
-
-
-    // Taille des donnees
-   /* quint32 tailleCorps =
-        // Taille du titre
-        sizeof(quint16) + titre.size()*sizeof(QChar) +
-        // Taille de l'identifiant
-        sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-        // Taille des PJ
-        sizeof(quint8) +
-        // Permission
-        sizeof(quint8) +
-        // Taille de l'intensite de la couche alpha
-        sizeof(quint8) +
-        // Taille du fond original
-        sizeof(quint32) + baFondOriginal.size() +
-        // Taille du fond
-        sizeof(quint32) + baFond.size() +
-        // Taille de la couche alpha
-        sizeof(quint32) + baAlpha.size();
-
-
-            
-    // Buffer d'emission
-    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-    // Creation de l'entete du message
-    enteteMessage *uneEntete;
-    uneEntete = (enteteMessage *) donnees;
-    uneEntete->categorie = plan;
-    uneEntete->action = importerPlanComplet;
-    uneEntete->tailleDonnees = tailleCorps;
-    
-    // Creation du corps du message
-    int p = sizeof(enteteMessage);
-    // Ajout du titre
-
-    quint16 tailleTitre = titre.size();
-    memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
-    p+=sizeof(quint16);
-    memcpy(&(donnees[p]), titre.data(), tailleTitre*sizeof(QChar));
-    p+=tailleTitre*sizeof(QChar);
-    // Ajout de l'identifiant
-    quint8 tailleId = idCarte.size();
-    memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
-    p+=sizeof(quint8);
-    memcpy(&(donnees[p]), idCarte.data(), tailleId*sizeof(QChar));
-    p+=tailleId*sizeof(QChar);
-    // Ajout de la taille des PJ
-    memcpy(&(donnees[p]), &taillePj, sizeof(quint8));
-    p+=sizeof(quint8);
-
-    tailleCorps += sizeof(quint8);
-    quint8 mode = getPermissionMode();
-    memcpy(&(donnees[p]), &mode, sizeof(quint8));
-    p+=sizeof(quint8);
-
-
-    // Ajout de l'intensite de la couche alpha
-    quint8 intensiteAlpha = m_fogColor.red();
-    memcpy(&(donnees[p]), &intensiteAlpha, sizeof(quint8));
-    p+=sizeof(quint8);        
-    // Ajout du fond d'origine
-    quint32 tailleFondOriginal = baFondOriginal.size();
-    memcpy(&(donnees[p]), &tailleFondOriginal, sizeof(quint32));
-    p+=sizeof(quint32);
-    memcpy(&(donnees[p]), baFondOriginal.data(), tailleFondOriginal);
-    p+=tailleFondOriginal;
-    // Ajout du fond
-    quint32 tailleFond = baFond.size();
-    memcpy(&(donnees[p]), &tailleFond, sizeof(quint32));
-    p+=sizeof(quint32);
-    memcpy(&(donnees[p]), baFond.data(), tailleFond);
-    p+=tailleFond;
-    // Ajout de la couche alpha
-    quint32 tailleAlpha = baAlpha.size();
-    memcpy(&(donnees[p]), &tailleAlpha, sizeof(quint32));
-    p+=sizeof(quint32);
-    memcpy(&(donnees[p]), baAlpha.data(), tailleAlpha);
-    p+=tailleAlpha;*/
-
-   /* if (versLiaisonUniquement)
-        // Emission de la carte vers la liaison indiquee
-        link->emissionDonnees(donnees, tailleCorps + sizeof(enteteMessage));
+    if (versLiaisonUniquement)
+    {
+     message.sendTo(link);
+    }
     else
-        // Emission de la carte vers tous les autres utilisateurs
-        emettre(donnees, tailleCorps + sizeof(enteteMessage));*/
-    
-    // Liberation du buffer d'emission
-    //delete[] donnees;
+    {
+
+     message.sendAll();
+    }
 }
 
 
@@ -2429,8 +2322,6 @@ void Carte::saveMap(QDataStream &out, QString titre)
         qWarning() << tr("Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)");
     }
 
-
-
     out << titre;
     out << pos();
     out << (quint32)m_currentMode;
@@ -2440,24 +2331,16 @@ void Carte::saveMap(QDataStream &out, QString titre)
     out << baFond;
     out << baAlpha;
 
-
-
     DessinPerso *perso;
     quint16 nombrePnj = 0;
-
-
     QObjectList enfants = children();
-
     int tailleListe = enfants.size();
-
-
     for (int i=0; i<tailleListe; i++)
     {
         perso = (DessinPerso *)(enfants[i]);
         if (perso->estVisible())
             nombrePnj++;
     }
-
 
     // Write NPC
     out << nombrePnj;

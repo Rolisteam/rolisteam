@@ -92,7 +92,7 @@ public :
      * @param mapsize
      * @param pos
      */
-    void ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
+    QWidget* ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
     /**
      * @brief ajouterImage
      * @param imageFenetre
@@ -241,7 +241,7 @@ private slots :
     void ouvrirScenario();
     void openNote();
     void closeMapOrImage();
-    void sauvegarderPlan();
+    void saveMap();
     void updateMayBeNeeded();
     void emettreTousLesPlans(Liaison * link);
     void emettreToutesLesImages(Liaison * link);
@@ -286,7 +286,7 @@ private :
     void creerMenu();
     void linkActionToMenu();
 
-    void readMapAndNpc(QDataStream &file, bool masquer = false, QString nomFichier = "");
+    QMdiSubWindow*  readMapAndNpc(QDataStream &file, bool masquer = false, QString nomFichier = "");
     void lireImage(QDataStream &file);
     void saveAllMap(QDataStream &file);
     void saveAllImages(QDataStream &file);
@@ -337,13 +337,13 @@ private :
 
     //submenu and action for map and parameters.
     QAction* m_newMapAct;
-    QAction* actionOuvrirImage;
+    QAction* m_openImageAct;
     QAction* m_openMapAct;
     //QAction* actionOuvrirEtMasquerPlan;
     QAction* actionOuvrirScenario;
     QAction* m_openMinutesAct;
     QAction* actionFermerPlan;
-    QAction* actionSauvegarderPlan;
+    QAction* m_saveMapAct;
     QAction* actionSauvegarderScenario;
     QAction* actionSauvegarderNotes;
     QAction* actionPreferences;

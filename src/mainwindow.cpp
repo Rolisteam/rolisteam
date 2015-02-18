@@ -365,12 +365,12 @@ void MainWindow::creerMenu()
     m_openMapAct                 = menuFichier->addAction(QIcon(":/map.png"),tr("Open Map…"));
     //actionOuvrirEtMasquerPlan        = menuFichier->addAction(QIcon(":/map.png"),tr("Open And hide Map"));
     actionOuvrirScenario         = menuFichier->addAction(QIcon(":/story.png"),tr("Open scenario"));
-    actionOuvrirImage                 = menuFichier->addAction(QIcon(":/picture.png"),tr("Open Picture"));
+    m_openImageAct                 = menuFichier->addAction(QIcon(":/picture.png"),tr("Open Picture"));
     m_openMinutesAct = menuFichier->addAction(QIcon(":/notes.png"),tr("Open Minutes"));
     menuFichier->addSeparator();
     actionFermerPlan                 = menuFichier->addAction(tr("Close Map/Picture"));
     menuFichier->addSeparator();
-    actionSauvegarderPlan        = menuFichier->addAction(QIcon(":/map.png"),tr("Save Map"));
+    m_saveMapAct        = menuFichier->addAction(QIcon(":/map.png"),tr("Save Map"));
     actionSauvegarderScenario        = menuFichier->addAction(QIcon(":/story.png"),tr("Save scenario"));
     actionSauvegarderNotes           = menuFichier->addAction(QIcon(":/notes.png"),tr("Save Minutes"));
     menuFichier->addSeparator();
@@ -453,13 +453,13 @@ void MainWindow::linkActionToMenu()
 {
     // file menu
     connect(m_newMapAct, SIGNAL(triggered(bool)), this, SLOT(newMap()));
-    connect(actionOuvrirImage, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
+    connect(m_openImageAct, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
     connect(m_openMapAct, SIGNAL(triggered(bool)), this, SLOT(openMapWizzard()));
 
     connect(actionOuvrirScenario, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
     connect(m_openMinutesAct, SIGNAL(triggered(bool)), this, SLOT(openNote()));
     connect(actionFermerPlan, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
-    connect(actionSauvegarderPlan, SIGNAL(triggered(bool)), this, SLOT(sauvegarderPlan()));
+    connect(m_saveMapAct, SIGNAL(triggered(bool)), this, SLOT(saveMap()));
     connect(actionSauvegarderScenario, SIGNAL(triggered(bool)), this, SLOT(sauvegarderScenario()));
     connect(actionSauvegarderNotes, SIGNAL(triggered(bool)), this, SLOT(sauvegarderNotes()));
     connect(actionPreferences, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
@@ -491,7 +491,7 @@ void MainWindow::linkActionToMenu()
     connect(actionAideLogiciel, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 }
 
-void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize,QPoint pos )
+QWidget* MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize,QPoint pos )
 {
     QAction *action = m_windowMenu->addAction(titre);
     action->setCheckable(true);
@@ -515,19 +515,10 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
     tmp->setWindowIcon(QIcon(":/map.png"));
     tmp->setWindowTitle(titre);
 
-    // Mise a jour du titre de la CarteFenetre
-    //carteFenetre->setWindowFlags(carteFenetre->windowFlags() | Qt::SubWindow);
-
     carteFenetre->setWindowIcon(QIcon(":/map.png"));
     carteFenetre->setWindowTitle(titre);
 
-    // Creation de l'action correspondante
-
-
     m_mapAction->insert(carteFenetre,action);
-
-    //Association de l'action avec la carte
-    //carteFenetre->associerAction(action);
 
     // Connexion de l'action avec l'affichage/masquage de la fenetre
     connect(action, SIGNAL(triggered(bool)), tmp, SLOT(setVisible(bool)));
@@ -538,20 +529,13 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
     carte->setPointeur(m_toolBar->getCurrentTool());
 
     connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),carte,SLOT(setPointeur(BarreOutils::Tool)));
-
-
-    connect(carte, SIGNAL(changeCouleurActuelle(QColor)), m_toolBar, SLOT(changeCouleurActuelle(QColor)));
-
+    connect(carte, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCouleurActuelle(QColor)));
     connect(carte, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementeNumeroPnj()));
-
     connect(carte, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(mettreAJourPnj(int, QString)));
 
     connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
     connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
     connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
-
-
-
 
     // new PlayersList connection
     connect(carteFenetre, SIGNAL(activated(Carte *)), m_playersListWidget->model(), SLOT(changeMap(Carte *)));
@@ -559,6 +543,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
 
     // Affichage de la carte
     tmp->setVisible(true);
+    return tmp;
 
 }
 void  MainWindow::closeConnection()
@@ -687,11 +672,9 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
     Qt::WindowFlags flags = msgBox.windowFlags();
     msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
-    // 2 cas de figure possibles :
-    // Le fichier est un plan, on l'ouvre
-    if (filepath.right(4) == ".pla")
+
+    if (filepath.endsWith(".pla"))
     {
-        // Ouverture du fichier .pla
         QFile file(filepath);
         if (!file.open(QIODevice::ReadOnly))
         {
@@ -700,13 +683,9 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
             return;
         }
         QDataStream in(&file);
-        // Lecture de la carte et des PNJ
         readMapAndNpc(in, masquer, title);
-        // Fermeture du fichier
         file.close();
     }
-
-    // Le fichier est une image : on cree une nouvelle carte
     else
     {
         // Chargement de l'image
@@ -804,17 +783,8 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
     }
 }
 
-void MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString nomFichier)
+QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString nomFichier)
 {
-
-
-    QPoint posWindow;
-    in >> posWindow;
-
-    QSize sizeWindow;
-    in >> sizeWindow;
-
-
     QString titre;
     in >> titre;
 
@@ -852,21 +822,21 @@ void MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString nomFichier
     ok = fondOriginal.loadFromData(baFondOriginal, "jpeg");
     if (!ok)
     {
-        qWarning("Probleme de decompression du fond original (lireCarteEtPnj - Mainwindow.cpp)");
+        qWarning("Probleme de decompression du fond original (readMapAndNpc - Mainwindow.cpp)");
     }
 
     QImage fond;
     ok = fond.loadFromData(baFond, "jpeg");
     if (!ok)
     {
-        qWarning("Probleme de decompression du fond (lireCarteEtPnj - Mainwindow.cpp)");
+        qWarning("Probleme de decompression du fond (readMapAndNpc - Mainwindow.cpp)");
     }
 
     QImage alpha;
     ok = alpha.loadFromData(baAlpha, "jpeg");
     if (!ok)
     {
-        qWarning("Probleme de decompression de la couche alpha (lireCarteEtPnj - Mainwindow.cpp)");
+        qWarning("Probleme de decompression de la couche alpha (readMapAndNpc - Mainwindow.cpp)");
     }
 
     if (masquer)
@@ -880,20 +850,19 @@ void MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString nomFichier
     Carte* map = new Carte(idCarte, &fondOriginal, &fond, &alpha);
     map->setPermissionMode(myPermission);
     map->setPointeur(m_toolBar->getCurrentTool());
-    // Creation de la CarteFenetre
     CarteFenetre *carteFenetre = new CarteFenetre(map,this,m_mdiArea);
 
-    carteFenetre->setGeometry(posWindow.x(),posWindow.y(),sizeWindow.width(),sizeWindow.height());
+
 
 
 
     QPoint pos2 = carteFenetre->mapFromParent(pos);
 
-
+    QMdiSubWindow* m_widget=NULL;
     if (nomFichier.isEmpty())
-        ajouterCarte(carteFenetre, titre,size,pos);
+        m_widget=static_cast<QMdiSubWindow*>(ajouterCarte(carteFenetre, titre,size,pos));
     else
-        ajouterCarte(carteFenetre, nomFichier,size,pos);
+       m_widget=static_cast<QMdiSubWindow*>(ajouterCarte(carteFenetre, nomFichier,size,pos));
 
     // On recupere le nombre de personnages presents dans le message
     quint16 nbrPersonnages;
@@ -948,6 +917,8 @@ void MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString nomFichier
     }
     map->emettreCarte(carteFenetre->windowTitle());
     map->emettreTousLesPersonnages();
+
+    return m_widget;
 }
 
 
@@ -1131,18 +1102,18 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
     if (widget != NULL && widget->objectName() == QString("CarteFenetre") && localPlayerIsGM)
     {
         actionFermerPlan->setEnabled(true);
-        actionSauvegarderPlan->setEnabled(true);
+        m_saveMapAct->setEnabled(true);
     }
     else if (widget != NULL && widget->objectName() == QString("Image") &&
              (localPlayerIsGM || static_cast<Image *>(widget)->proprietaireImage()))
     {
         actionFermerPlan->setEnabled(true);
-        actionSauvegarderPlan->setEnabled(false);
+        m_saveMapAct->setEnabled(false);
     }
     else
     {
         actionFermerPlan->setEnabled(false);
-        actionSauvegarderPlan->setEnabled(false);
+        m_saveMapAct->setEnabled(false);
     }
 }
 void MainWindow::majCouleursPersonnelles()
@@ -1464,46 +1435,48 @@ QWidget* MainWindow::registerSubWindow(QWidget * subWindow,QAction* action)
     return m_mdiArea->addWindow(subWindow,action);
 }
 
-void MainWindow::sauvegarderPlan()
+void MainWindow::saveMap()
 {
 
     QWidget *active = m_mdiArea->activeWindow();
+    QMdiSubWindow* subWindow = static_cast<QMdiSubWindow*>(active);
+    CarteFenetre* mapWindow = static_cast<CarteFenetre*>(subWindow->widget());
 
-    // On verifie pour le principe qu'il s'agit bien d'une CarteFenetre
-    if (active->objectName() != "CarteFenetre")
+
+
+
+    if ((NULL==mapWindow) || (mapWindow->objectName() != "CarteFenetre"))
     {
         qWarning("Not a map (sauvegarderPlan - MainWindow.h)");
         return;
     }
 
-    // Ouverture du selecteur de fichiers
-    QString fichier = QFileDialog::getSaveFileName(this, tr("Save Map"), m_preferences->value("MapDirectory",QDir::homePath()).toString(), tr("Map (*.pla)"));
 
-    // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
-    if (fichier.isNull())
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Map"), m_preferences->value("MapDirectory",QDir::homePath()).toString(), tr("Map (*.pla)"));
+
+
+    if (fileName.isNull())
         return;
 
-#ifdef MACOS
-    // On rajoute l'extension
-    fichier += ".pla";
-#endif
+    if (!fileName.endsWith(".pla"))
+    {
+        fileName += ".pla";
+    }
 
-    // On met a jour le chemin vers les plans
-    int dernierSlash = fichier.lastIndexOf("/");
-    m_preferences->registerValue("MapDirectory",fichier.left(dernierSlash));
 
-    // Creation du fichier
-    QFile file(fichier);
-    // Ouverture du fichier en ecriture seule
+
+    int dernierSlash = fileName.lastIndexOf("/");
+    m_preferences->registerValue("MapDirectory",fileName.left(dernierSlash));
+
+
+    QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly))
     {
         qWarning("could not open file for writting (sauvegarderPlan - MainWindow.cpp)");
         return;
     }
     QDataStream out(&file);
-    // On demande a la carte de se sauvegarder dans le fichier
-    ((CarteFenetre *)active)->carte()->saveMap(out);
-    // Fermeture du fichier
+    mapWindow->carte()->saveMap(out);
     file.close();
 }
 
@@ -1554,20 +1527,16 @@ bool MainWindow::sauvegarderNotes()
 }
 void MainWindow::ouvrirScenario()
 {
-    // Ouverture du selecteur de fichier
     QString fichier = QFileDialog::getOpenFileName(this, tr("Open scenario"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
-    // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
     if (fichier.isNull())
         return;
 
-    // On met a jour le chemin vers les scenarii
     int dernierSlash = fichier.lastIndexOf("/");
     m_preferences->registerValue("StoryDirectory",fichier.left(dernierSlash));
 
-    // Creation du descripteur de fichier
+
     QFile file(fichier);
-    // Ouverture du fichier en lecture seule
     if (!file.open(QIODevice::ReadOnly))
     {
         qWarning("Cannot be read (ouvrirScenario - MainWindow.cpp)");
@@ -1582,13 +1551,21 @@ void MainWindow::ouvrirScenario()
 
     for (int i=0; i<nbrCartes; ++i)
     {
+        QPoint posWindow;
+        in >> posWindow;
 
-        readMapAndNpc(in);
+        QSize sizeWindow;
+        in >> sizeWindow;
+
+        QMdiSubWindow* mapWindow = readMapAndNpc(in);
+        if(NULL!=mapWindow)
+        {
+            mapWindow->setGeometry(posWindow.x(),posWindow.y(),sizeWindow.width(),sizeWindow.height());
+        }
     }
 
-    // On lit le nbr d'images a suivre
+
     int nbrImages;
-    //file.read((char *)&nbrImages, sizeof(quint16));
     in >>nbrImages;
     // in >>On lit toutes les images presentes dans le fichier
     for (int i=0; i<nbrImages; ++i)
@@ -1856,7 +1833,7 @@ void MainWindow::updateUi()
 
         actionOuvrirScenario->setEnabled(false);
         actionFermerPlan->setEnabled(false);
-        actionSauvegarderPlan->setEnabled(false);
+        m_saveMapAct->setEnabled(false);
         actionSauvegarderScenario->setEnabled(false);
 
     }
