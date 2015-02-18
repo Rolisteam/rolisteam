@@ -42,6 +42,7 @@ ColorButton::ColorButton(QWidget * parent,bool transparency)
     // should never be the default button
     setDefault(false);
     setAutoDefault(false);
+    m_dialog.setCurrentColor(m_color);
 
     connect(this, SIGNAL(pressed()), &m_dialog, SLOT(open()));
     connect(&m_dialog, SIGNAL(colorSelected(const QColor &)), this, SLOT(setColor(const QColor &)));
@@ -59,7 +60,7 @@ ColorButton::ColorButton(const QColor & color, QWidget * parent)
 
     setDefault(false);
     setAutoDefault(false);
-
+    m_dialog.setCurrentColor(m_color);
     connect(this, SIGNAL(pressed()), &m_dialog, SLOT(open()));
     connect(&m_dialog, SIGNAL(colorSelected(const QColor &)), this, SLOT(setColor(const QColor &)));
 }
@@ -72,6 +73,7 @@ QColor ColorButton::color() const
 void ColorButton::setTransparency(bool state)
 {
   m_dialog.setOption(QColorDialog::ShowAlphaChannel,state);
+
 }
 
 QSize ColorButton::sizeHint() const
@@ -88,6 +90,7 @@ void ColorButton::setColor(const QColor & color)
     setPalette(tmp);
     setAutoFillBackground(true);
     setStyleSheet(QString("ColorButton { background-color: rgb(%1,%2,%3);}").arg(color.red()).arg(color.green()).arg(color.blue()));
+    m_dialog.setCurrentColor(m_color);
     emit colorChanged(m_color);
 }
 

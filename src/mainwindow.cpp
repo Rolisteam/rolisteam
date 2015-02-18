@@ -830,6 +830,8 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
     QByteArray baAlpha;
     in>> baAlpha;
 
+    qDebug()<< "read map" <<baAlpha.size()<< baFond.size() << baFondOriginal.size() ;
+
     bool ok;
 
 
@@ -869,7 +871,7 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
 
     QString idCarte = QUuid::createUuid().toString();
 
-    Carte* map = new Carte(idCarte, &fondOriginal, &fond, &alpha,masquer);
+    Carte* map = new Carte(idCarte, &fondOriginal, &fond, &alpha);
     map->setPermissionMode(myPermission);
     map->setPointeur(m_toolBar->getCurrentTool());
     CarteFenetre *carteFenetre = new CarteFenetre(map,m_mdiArea);

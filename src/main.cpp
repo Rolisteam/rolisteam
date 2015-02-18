@@ -96,9 +96,6 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
     QString locale = QLocale::system().name();
-    QTranslator qtTranslator;
-    qtTranslator.load("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    app.installTranslator(&qtTranslator);
 
     // Ressources
     QResource::registerResource(init->getApplicationName() + ".rcc");
@@ -106,6 +103,10 @@ int main(int argc, char *argv[])
     QTranslator rolisteamTranslator;
     rolisteamTranslator.load(":/traduction/rolisteam_" + locale);
     app.installTranslator(&rolisteamTranslator);
+
+    QTranslator qtTranslator;
+    qtTranslator.load(":/traduction/qt_" + locale);
+    app.installTranslator(&qtTranslator);
 
     // Seeds random generator
     uint seed = quintptr(&app) + QDateTime::currentDateTime().toTime_t();

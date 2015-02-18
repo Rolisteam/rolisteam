@@ -49,7 +49,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
     connect(this, SIGNAL(accepted()), this, SLOT(save()));
     connect(ui->m_startDiag,SIGNAL(clicked()),this,SLOT(performDiag()));
-    ui->m_fogColor->setTransparency(true);
+    //ui->m_fogColor->setTransparency(true);
 
     // Misc
     setSizeGripEnabled(true);
@@ -78,7 +78,14 @@ void PreferencesDialog::load()
     ui->m_minuteDir->setDirName(m_preferences->value("MinutesDirectory",QDir::homePath()).toString());
     ui->m_chatDir->setDirName(m_preferences->value("ChatDirectory",QDir::homePath()).toString());
     ui->m_checkUpdate->setChecked(m_preferences->value("MainWindow_MustBeChecked",true).toBool());
-    ui->m_fogColor->setColor(m_preferences->value("Fog_color",Qt::black).value<QColor>());
+
+    QColor fog=m_preferences->value("Fog_color",Qt::black).value<QColor>();
+    ui->m_opacitySlider->setValue(m_preferences->value("Fog_opacity",fog.red()).toInt());
+    ui->m_opacitySpin->setValue(m_preferences->value("Fog_opacity",fog.red()).toInt());
+
+
+    ui->m_fogColor->setColor(m_preferences->value("Mask_color",Qt::darkMagenta).value<QColor>());
+
     ui->m_pictureAdjust->setChecked(m_preferences->value("PictureAdjust",true).toBool());
    // ui->m_transColor->setColor(m_preferences->value("TransparencyColor",QColor(200,200,200,120)).value<QColor>());
 }
@@ -94,7 +101,15 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("MinutesDirectory",ui->m_minuteDir->dirName());
     m_preferences->registerValue("ChatDirectory",ui->m_chatDir->dirName());
     m_preferences->registerValue("MainWindow_MustBeChecked",ui->m_checkUpdate->isChecked());
-    m_preferences->registerValue("Fog_color", ui->m_fogColor->color());
+
+    QColor color;
+    int opacity=ui->m_opacitySlider->value();
+    color.setRgb(opacity,opacity,opacity);
+    m_preferences->registerValue("Fog_color", color);
+
+
+    m_preferences->registerValue("Mask_color", ui->m_fogColor->color());
+
     m_preferences->registerValue("PictureAdjust",ui->m_pictureAdjust->isChecked());
    // m_preferences->registerValue("TransparencyColor",ui->m_transColor->color());
 

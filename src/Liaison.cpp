@@ -1122,7 +1122,7 @@ void Liaison::receptionMessagePlan()
         quint8 permission;
         memcpy(&permission,&(tampon[p]), sizeof(quint8));
         p+=sizeof(quint8);
-        qDebug() << permission << "Permission importerPlanComplet" << taillePj << tailleId << *tableauTitre;
+
 
         // On recupere l'intensite de la couche alpha
         quint8 intensiteAlpha;
