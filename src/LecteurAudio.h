@@ -55,6 +55,8 @@
 #include <audiooutput.h>
 #include <path.h>
 #endif
+
+
 	
 class LecteurAudio : public QDockWidget
 {

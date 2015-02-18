@@ -58,7 +58,7 @@
 
 		// Creation d'une image en mode ARGB32 qui sert a mixer le fond et la couche alpha
 		fondAlpha = new QImage(image->size(), QImage::Format_ARGB32);
-		// Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
+                // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
 		ajouterAlpha(fond, alpha, fondAlpha);
 
 		// Le fond du widget est automatiquement rempli avec une couleur a chaque reaffichage

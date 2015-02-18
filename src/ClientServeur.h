@@ -33,16 +33,16 @@
 #ifndef CLIENT_SERVEUR_H
 #define CLIENT_SERVEUR_H
 
-	#include <QtNetwork> 
-        #include <QWidget>
-	#include <QLineEdit>
-	#include <QLabel>
-	#include <QPushButton>
-	#include <QRadioButton>
-	
-	#include "MainWindow.h"
-	#include "ListeUtilisateurs.h"
-	#include "Liaison.h"
+#include <QtNetwork>
+#include <QWidget>
+#include <QLineEdit>
+#include <QLabel>
+#include <QPushButton>
+#include <QRadioButton>
+
+#include "MainWindow.h"
+#include "ListeUtilisateurs.h"
+#include "Liaison.h"
 
 
     class ClientServeur : public QObject

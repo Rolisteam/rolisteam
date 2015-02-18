@@ -218,14 +218,25 @@ MainWindow::MainWindow()
 
         // Initialisation des pointeurs de souris
         QBitmap bitmapDessin(":/resources/icones/pointeur dessin.png");
-        //QBitmap masqueDessin(32,32);
-        //masqueDessin.fill(Qt::color1);
-        G_pointeurDessin = new QCursor(bitmapDessin,/*masqueDessin,*/ 8, 8);
+#ifdef Q_WS_MAC
+    QBitmap masqueDessin(32,32);
+    masqueDessin.fill(Qt::color0);
+    G_pointeurDessin = new QCursor(bitmapDessin,masqueDessin, 8, 8);
+#else
+    G_pointeurDessin = new QCursor(bitmapDessin, 8, 8);
+#endif
+
+
 
         QBitmap bitmapTexte(":/resources/icones/pointeur texte.png");
-        /*QBitmap masqueTexte(32,32);
-        masqueTexte.fill(Qt::color1);*/
-        G_pointeurTexte = new QCursor(bitmapTexte/*, masqueTexte*/, 4, 13);
+#ifdef Q_WS_MAC
+    QBitmap masqueTexte(32,32);
+    masqueDessin.fill(Qt::color0);
+    G_pointeurTexte = new QCursor(bitmapTexte, masqueTexte, 4, 13);
+#else
+    G_pointeurTexte = new QCursor(bitmapTexte/*, masqueTexte*/, 4, 13);
+#endif
+
 
         QPixmap pixmapDeplacer(":/resources/icones/pointeur deplacer.png");
         G_pointeurDeplacer = new QCursor(pixmapDeplacer, 0, 0);
@@ -2623,24 +2634,33 @@ void MainWindow::aideEnLigne()
 
      QProcess *process = new QProcess;
      QStringList args;
-     /*QTextStream out(stderr,QIODevice::WriteOnly);
-out<< " je suis la" << endl;*/
+
+
 #ifdef Q_WS_X11
      args << QLatin1String("-collectionFile")
              << QLatin1String("/usr/share/doc/rolisteam-doc/rolisteam.qhc");
             /* << QLatin1String("-register")
              << QLatin1String("/usr/share/doc/rolisteam-doc/rolisteam-manual.qch");*/
-#endif
-#ifdef Q_WS_WIN32
+        process->start(QLatin1String("assistant"), args);
+
+#elif defined Q_WS_WIN32
       args << QLatin1String("-collectionFile")
              << QLatin1String(qApp->applicationDirPath()+"/../resourcesdoc/rolisteam-doc/rolisteam.qhc");
-#endif
+      process->start(QLatin1String("assistant"), args);
+#elif defined Q_WS_MAC
+      QString a = QCoreApplication::applicationDirPath()+"/../Resources/doc/rolisteam.qhc";
+     args << QLatin1String("-collectionFile")
+             << QLatin1String(a.toLatin1());
+      process->start(QLatin1String("/Developer/Applications/Qt/Assistant/Contents/MacOS/Assistant"), args);
 
-//out<< args.first() << args.at(1) << endl;
+
+
+#endif
             process->start(QLatin1String("assistant"), args);
              if (!process->waitForStarted())
                  return;
 
 
  }
+
 
