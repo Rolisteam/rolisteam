@@ -317,3 +317,12 @@ void Image::openFile(QString& file)
 
     }
 }
+
+bool Image::hasDockWidget() const
+{
+    return false;
+}
+QDockWidget* Image::getDockWidget()
+{
+    return NULL;
+}

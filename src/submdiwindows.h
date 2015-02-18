@@ -47,6 +47,9 @@ public:
     virtual void openFile(QString & file)=0;
     virtual void setRClient(RClient* t);
 
+    virtual bool hasDockWidget() const =0;
+    virtual QDockWidget* getDockWidget() =0;
+
 public slots:
 	/**
 	* @brief is called when the window' state changes

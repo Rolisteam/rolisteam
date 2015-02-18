@@ -33,10 +33,17 @@ MapFrame::MapFrame(Map *map)
 
     m_widgetLayout = new QWidget;
     m_graphicView = new RGraphicsView(map);
+    m_toolsbar = ToolsBar::getInstance();
+
+    connect(m_toolsbar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),this,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
+    connect(m_toolsbar,SIGNAL(currentColorChanged(QColor&)),this,SLOT(currentColorChanged(QColor&)));
+    connect(m_toolsbar,SIGNAL(currentModeChanged(int)),this,SIGNAL(currentModeChanged(int)));
+    connect(m_toolsbar,SIGNAL(currentPenSizeChanged(int)),this,SLOT(currentPenSizeChanged(int)));
+    connect(m_toolsbar,SIGNAL(currentPNCSizeChanged(int)),this,SLOT(currentNPCSizeChanged(int)));
+
     m_vlayout= new QVBoxLayout();
     m_hlayout = new QHBoxLayout();
     m_type = SubMdiWindows::MAP;
-
 
     m_vlayout->addStretch(1);
     m_vlayout->addWidget(m_graphicView);
@@ -47,7 +54,12 @@ MapFrame::MapFrame(Map *map)
     m_hlayout->addLayout(m_vlayout);
     m_hlayout->addStretch(1);
     m_hlayout->setContentsMargins(0,0,0,0);
-    setWindowTitle(m_map->mapTitle());
+
+    if(m_map->mapTitle().size()>0)
+        setWindowTitle(m_map->mapTitle());
+    else
+        setWindowTitle(tr("Untitled Map"));
+
     m_graphicView->setGeometry(0,0,m_map->mapWidth(),map->mapHeight());
     m_widgetLayout->setLayout(m_hlayout);
 
@@ -182,4 +194,13 @@ void MapFrame::openFile(QString& file)
     {
 
     }
+}
+
+bool MapFrame::hasDockWidget() const
+{
+    return true;
+}
+QDockWidget* MapFrame::getDockWidget()
+{
+    return m_toolsbar;
 }

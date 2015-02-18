@@ -39,6 +39,7 @@
 
 class QPixmap;
 class PreferencesManager;
+class MainWindow;
 /**
   * @brief central widget of the MainWindow, it is a QMdiArea which displays many kind of subwindows.
   */
@@ -50,7 +51,7 @@ public:
     /**
       * @brief Class constructor
       */
-    ImprovedWorkspace(QColor& penColor,QWidget *parent = 0);
+    ImprovedWorkspace(/*QColor& penColor,*/MainWindow *parent = 0);
     /**
       * @brief add subwindows in the QMdiArea. Connect subWindow to few signals.
       * @param subWindow which has to be added
@@ -207,12 +208,15 @@ private:
     /**
       * current pen color.
       */
-    QColor& m_currentPenColor;
+   // QColor& m_currentPenColor;
+     QColor m_currentPenColor;
 
     /**
       * current pen color.
       */
     QColor m_backGroundColor;
+
+    MainWindow* m_parentWindow;
 
     /**
       * current pen size.
@@ -234,6 +238,8 @@ private:
       * pointer to the variant menu
       */
     QMenu* m_variantMenu;
+
+    QDockWidget* m_previousWidget;
 };
 
 #endif

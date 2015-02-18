@@ -130,13 +130,13 @@ MainWindow::MainWindow()
 {
     m_options = PreferencesManager::getInstance();
     m_diceManager=DicePlugInManager::instance();
-    m_toolbar = new ToolsBar(this);
+    //m_toolbar = ToolsBar::getInstance(this);//new ToolsBar(this);
     m_preferenceDialog = new PreferenceDialog(this);
 
     m_rclient= new RClient();
 
     readSettings();
-    m_workspace = new ImprovedWorkspace(m_toolbar->currentColor());
+    m_workspace = new ImprovedWorkspace(this/*m_toolbar->currentColor()*/);
     m_workspace->setRClient(m_rclient);
     m_workspace->readSettings();
 
@@ -149,13 +149,15 @@ MainWindow::MainWindow()
 
 
     setCentralWidget(m_workspace);
-    addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
+  // addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
 
+   /*
     connect(m_toolbar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),m_workspace,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
     connect(m_toolbar,SIGNAL(currentColorChanged(QColor&)),m_workspace,SLOT(currentColorChanged(QColor&)));
     connect(m_toolbar,SIGNAL(currentModeChanged(int)),m_workspace,SIGNAL(currentModeChanged(int)));
     connect(m_toolbar,SIGNAL(currentPenSizeChanged(int)),m_workspace,SLOT(currentPenSizeChanged(int)));
     connect(m_toolbar,SIGNAL(currentPNCSizeChanged(int)),m_workspace,SLOT(currentNPCSizeChanged(int)));
+*/
 
     m_playerListWidget = new UserListWidget;
     m_playerListWidget->setLocalPlayer(m_player);
@@ -186,7 +188,7 @@ MainWindow::~MainWindow()
     delete m_preferenceDialog;
     delete m_connectDialog;
     delete m_subWindowList;
-    delete m_toolbar;
+    //delete m_toolbar;
     delete m_playerListWidget;
     delete m_recentFilesActGroup;
 }

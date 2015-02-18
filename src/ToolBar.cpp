@@ -29,7 +29,15 @@
 	
 
 /**/
-	
+ToolsBar* ToolsBar::m_sigleton=NULL;
+
+ToolsBar* ToolsBar::getInstance(QWidget *parent)
+{
+    if(m_sigleton==NULL)
+        m_sigleton=new ToolsBar(parent);
+
+    return m_sigleton;
+}
 
 ToolsBar::ToolsBar(QWidget *parent)
 		: QDockWidget(parent)

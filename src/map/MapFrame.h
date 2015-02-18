@@ -85,6 +85,9 @@ public :
       */
     void openFile(QString& file);
 
+    virtual bool hasDockWidget() const ;
+    virtual QDockWidget* getDockWidget() ;
+
 public slots :
         /**
          *  @brief called when the windows starts to move (not sure it's still used)
@@ -195,6 +198,8 @@ private :
      * current edition mode
      */
     int m_currentEditingMode;
+
+    ToolsBar* m_toolsbar;
 };
 
 #endif

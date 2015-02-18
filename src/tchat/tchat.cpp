@@ -227,3 +227,11 @@ void Tchat::onEntry()
     msg << objectName() << text;
     m_client->addMessageToSendQueue(mtmp);
 }
+bool Tchat::hasDockWidget() const
+{
+    return false;
+}
+QDockWidget* Tchat::getDockWidget()
+{
+    return NULL;
+}

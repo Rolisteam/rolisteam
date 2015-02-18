@@ -274,3 +274,12 @@ void MinutesEditor::openFile(QString& file)
 
     }
 }
+
+bool MinutesEditor::hasDockWidget() const
+{
+    return false;
+}
+QDockWidget* MinutesEditor::getDockWidget()
+{
+    return NULL;
+}

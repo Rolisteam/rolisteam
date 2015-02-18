@@ -82,6 +82,8 @@ public :
       * @param tmp : new client list
       */
     void setClients(QList<Person*>* tmp);
+    virtual bool hasDockWidget() const;
+    virtual QDockWidget* getDockWidget();
 
 public slots:
     /**

@@ -167,3 +167,11 @@ void CharacterSheetWindow::closeEvent(QCloseEvent *event)
     event->ignore();
 
 }
+bool CharacterSheetWindow::hasDockWidget() const
+{
+    return false;
+}
+QDockWidget* CharacterSheetWindow::getDockWidget()
+{
+    return NULL;
+}

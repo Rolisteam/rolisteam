@@ -83,6 +83,10 @@ public :
 	*/
     void openFile(QString& file);
 
+
+    virtual bool hasDockWidget() const ;
+    virtual QDockWidget* getDockWidget() ;
+
 public slots :
 
 	/**

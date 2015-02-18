@@ -167,7 +167,7 @@ private :
         /**
          * @brief Save parameters for next executions.
          */
-        ToolsBar *m_toolbar;
+       // ToolsBar *m_toolbar;
         /**
           * @brief unique acces to recentfile management
           */

@@ -80,6 +80,10 @@ public :
 
     void openFile(QString& file);
 
+
+    virtual bool hasDockWidget() const ;
+    virtual QDockWidget* getDockWidget() ;
+
 private slots :
 	/**
 	* @brief is called when the user has clicked on normal style button.

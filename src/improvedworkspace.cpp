@@ -23,12 +23,16 @@
 #include "improvedworkspace.h"
 #include "preferencesmanager.h"
 #include <QPixmap>
+#include "MainWindow.h"
 
-ImprovedWorkspace::ImprovedWorkspace(QColor& penColor,QWidget *parent)
-: QMdiArea(parent),m_currentPenColor(penColor)
+ImprovedWorkspace::ImprovedWorkspace(/*QColor& penColor,*/MainWindow *parent)
+: QMdiArea(parent)//,m_currentPenColor(penColor)
 {
     m_options = PreferencesManager::getInstance();
+    m_parentWindow = parent;
 
+    m_currentPenColor.setRgb(0,0,0);
+    m_previousWidget = NULL;
     m_backGroundColor = m_options->value("worspace/background/color",QColor(191,191,191)).value<QColor>();
 
     //m_currentPenColor = penColor;
@@ -212,6 +216,20 @@ void ImprovedWorkspace::activeSubWindowChanged(QMdiSubWindow* wdw)
         else
         {
             m_variantMenu->parentWidget()->removeAction(m_variantMenu->menuAction());
+        }
+
+        if(m_previousWidget!=NULL)
+        {
+            m_parentWindow->removeDockWidget(m_previousWidget);
+            //m_previousWidget->hide();
+            m_previousWidget=NULL;
+        }
+
+        if(tmp->hasDockWidget())
+        {
+            m_previousWidget = tmp->getDockWidget();
+            m_parentWindow->addDockWidget(Qt::LeftDockWidgetArea, m_previousWidget);
+            m_previousWidget->setVisible(true);
         }
     }
 }

@@ -55,7 +55,8 @@ public:
 
     void openFile(QString& file);
     void saveFile(QString & file);
-
+    virtual bool hasDockWidget() const ;
+    virtual QDockWidget* getDockWidget() ;
 
 
 protected slots:

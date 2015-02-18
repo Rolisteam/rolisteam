@@ -38,7 +38,7 @@ class ToolsBar : public QDockWidget
 Q_OBJECT
 
 public :
-    ToolsBar(QWidget *parent = 0);
+    static ToolsBar* getInstance(QWidget *parent=0);
     void majCouleursPersonnelles();
     QColor donnerCouleurPersonnelle(int numero);
     void autoriserOuInterdireCouleurs();
@@ -62,7 +62,10 @@ signals:
     void currentPNCSizeChanged(int);
     void currentModeChanged(int);
 
-private :
+private:
+
+    ToolsBar(QWidget *parent = 0);
+    static ToolsBar* m_sigleton;
     void creerActions();
     void creerOutils();
 
