@@ -25,7 +25,7 @@ DicePlugInManager::DicePlugInManager(QObject *parent) :
            }
        }
        else
-           qDebug() << loader.errorString ();
+           qDebug() << loader.errorString();
     }
 
 }
@@ -74,5 +74,22 @@ void DicePlugInManager::writeSettings()
     foreach(DiceSystemInterface* tmp,*m_interfaceList)
     {
         tmp->writeSettings();
+    }
+}
+void showUISettings(QString& name)
+{
+    foreach(DiceSystemInterface* tmp,*m_interfaceList)
+    {
+        if(name==tmp->getName())
+            tmp->showUiSettings();
+    }
+}
+
+bool hasUISettings(QString& name)
+{
+    foreach(DiceSystemInterface* tmp,*m_interfaceList)
+    {
+        if(name==tmp->getName())
+           return tmp->hasUiSettings();
     }
 }

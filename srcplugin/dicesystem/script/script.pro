@@ -7,7 +7,7 @@ include(../../../src/dicepluginmanager/dicepluginmanager.pri)
 INCLUDEPATH += ../../../src \
     ../../../src/dicepluginmanager
 
-TARGET = script
+TARGET = dicescripter
 DESTDIR = ../../../bin/plugins
 
 HEADERS += \

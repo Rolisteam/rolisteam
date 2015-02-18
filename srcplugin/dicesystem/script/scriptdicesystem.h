@@ -20,6 +20,8 @@ public:
 
     virtual bool hasUiSettings() const;
     virtual void showUiSettings();
+
+
 };
 
 #endif // SCRIPTDICESYSTEM_H

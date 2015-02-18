@@ -326,40 +326,33 @@ void MainWindow::allowActions()
 }
 void MainWindow::openRecentFile(QAction* pathAct)
 {
-    qDebug() << pathAct->text();
-    pathAct->data();
+
+
 
     switch(pathAct->data().toInt())
     {
-    case CleverURI::MAP:
+        case CleverURI::MAP:
 
-        break;
-    case CleverURI::CHARACTERSHEET:
-        openCharacterSheets(pathAct->text());
-        break;
-    case CleverURI::PICTURE:
-        openImage(pathAct->text());
-        break;
-    case CleverURI::TCHAT:
-    case CleverURI::TEXT:
-        break;
+            break;
+        case CleverURI::CHARACTERSHEET:
+            openCharacterSheets(pathAct->text());
+            break;
+        case CleverURI::PICTURE:
+            openImage(pathAct->text());
+            break;
+        case CleverURI::TCHAT:
+        case CleverURI::TEXT:
+            break;
     }
 
-    /*foreach(CleverURI uri, m_recentFiles)
-    {
 
-    }*/
 }
 void MainWindow::addopenedFile(QString& urifile, CleverURI::ContentType type)
 {
     CleverURI uri(urifile,type);
-
-    qDebug() <<m_recentFiles.size();
-
-    if(m_recentFiles.indexOf(uri)==-1)
+    /// @todo Manage the list size in the option/preferences system
+    if(m_recentFiles.indexOf(uri)==-1)//if it's not here, it is added to the list.
         m_recentFiles << uri;
-
-    qDebug() <<m_recentFiles.size() << m_recentFiles.indexOf(uri) ;
 
 }
 void MainWindow::AskCharacterSheets()
@@ -597,6 +590,7 @@ void MainWindow::writeSettings()
 
   m_options->writeSettings();
   m_workspace->writeSettings();
+  m_diceManager->writeSettings();
 }
 
 

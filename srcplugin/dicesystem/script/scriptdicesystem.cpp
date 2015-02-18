@@ -14,7 +14,7 @@ QString ScriptDiceSystem::getName() const
 }
 QString ScriptDiceSystem::rollDice(QString diceCmd) const
 {
-
+    return QString();
 }
 void ScriptDiceSystem::readSettings()
 {
@@ -34,3 +34,5 @@ void ScriptDiceSystem::showUiSettings()
 {
 
 }
+
+Q_EXPORT_PLUGIN2(dicescripter,ScriptDiceSystem);
