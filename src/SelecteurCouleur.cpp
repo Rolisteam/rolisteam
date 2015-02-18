@@ -207,14 +207,15 @@ SelecteurCouleur::~SelecteurCouleur()
     delete couleurEfface;
     delete couleurMasque;
     delete couleurDemasque;
-    for(int i=0; i<48;++i)
+    // widget inside these arrays are automatically destroyed because the parent is set.
+    /*for(int i=0; i<48;++i)
     {
         delete couleurPredefinie[i];
-    }
-    for(int i=0; i<16;++i)
+    }*/
+    /*for(int i=0; i<16;++i)
     {
         delete couleurPersonnelle[i];
-    }
+    }*/
     delete separateur1;
     delete separateur2;
     delete efface_pix;

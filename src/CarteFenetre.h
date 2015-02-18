@@ -21,12 +21,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
-/********************************************************************/
-/* Encapsule une Carte dans un QScollArea.                          */
-/********************************************************************/    
-
-
 #ifndef CARTE_FENETRE_H
 #define CARTE_FENETRE_H
 
@@ -43,45 +37,95 @@
 class Carte;
 
 /**
- * @brief The CarteFenetre class
+ * @brief The CarteFenetre class - is the scroll area which manages the display of map.
  */
 class CarteFenetre : public QScrollArea
 {
 Q_OBJECT
 
 public :
-    CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *parent = 0);
+    /**
+     * @brief CarteFenetre
+     * @param uneCarte - the embedded map
+     * @param parent - parent QWidget
+     */
+    CarteFenetre(Carte *uneCarte, QWidget *parent = 0);
+    /**
+     *
+     */
     ~CarteFenetre();
-    //void associerAction(QAction *action);
+    /**
+     * @brief carte
+     * @return
+     */
     Carte *carte();
+    /**
+     * @brief getMapId
+     * @return
+     */
     QString getMapId();
+    /**
+     * @brief getAssociatedAction
+     * @return
+     */
     QAction* getAssociatedAction() const;
 
 
 
 signals:
+    /**
+     * @brief activated
+     * @param carte
+     */
     void activated(Carte * carte);
+    /**
+     * @brief visibleChanged
+     */
     void visibleChanged(bool);
 
 public slots :
+    /**
+     * @brief commencerDeplacement
+     * @param position
+     */
     void commencerDeplacement(QPoint position);
+    /**
+     * @brief deplacer
+     * @param position
+     */
     void deplacer(QPoint position);
+    /**
+     * @brief fitMapToWindow
+     */
     void fitMapToWindow();
 
 protected :
-    //void closeEvent(QCloseEvent *event);
+    /**
+     * @brief focusInEvent
+     * @param event
+     */
     void focusInEvent(QFocusEvent * event);
+    /**
+     * @brief contextMenuEvent
+     * @param event
+     */
     void contextMenuEvent( QContextMenuEvent * event );
+    /**
+     * @brief hideEvent
+     * @param event
+     */
     void hideEvent ( QHideEvent * event );
+    /**
+     * @brief showEvent
+     * @param event
+     */
     void showEvent ( QShowEvent * event );
 
 private :
     Carte *carteAssociee;
-    //QAction *actionAssociee;
     QPoint pointDepart;
     int horizontalDepart;
     int verticalDepart;
-    MainWindow* m_mainWindow;
     QAction* m_widgetResizeAct;
     QSize m_originalSize;
 };

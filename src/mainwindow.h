@@ -326,7 +326,7 @@ private :
     BarreOutils *m_toolBar;
 
     EditeurNotes *editeurNotes;
-    QList <CarteFenetre *> listeCarteFenetre;
+    QList <CarteFenetre *> m_mapWindowList;
     QList <Image *> listeImage;
     QList <QMdiSubWindow*> m_pictureList;
     QMap<CarteFenetre*,QAction*>* m_mapAction;

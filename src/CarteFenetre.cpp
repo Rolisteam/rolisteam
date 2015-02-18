@@ -33,8 +33,8 @@
 
 
 
-CarteFenetre::CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *parent)
-    : QScrollArea(parent),m_mainWindow(mainWindow)
+CarteFenetre::CarteFenetre(Carte *uneCarte, QWidget *parent)
+    : QScrollArea(parent)
 {
     setObjectName("CarteFenetre");
     setWindowIcon(QIcon(":/map.png"));
@@ -67,7 +67,7 @@ CarteFenetre::CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *pare
 CarteFenetre::~CarteFenetre()
 {
     //no need to delete, actionAssociee it is delete when qmenu is deleted
-    m_mainWindow->enleverCarteDeLaListe(carteAssociee->identifiantCarte());
+    //m_mainWindow->enleverCarteDeLaListe(carteAssociee->identifiantCarte());
 }
 //QAction* CarteFenetre::getAssociatedAction() const
 //{
@@ -104,7 +104,6 @@ Carte * CarteFenetre::carte()
 
 void CarteFenetre::commencerDeplacement(QPoint position)
 {
-    qDebug() << "commencer"<<position;
     pointDepart = position;
     horizontalDepart = horizontalScrollBar()->value();
     verticalDepart = verticalScrollBar()->value();
@@ -112,7 +111,6 @@ void CarteFenetre::commencerDeplacement(QPoint position)
 
 void CarteFenetre::deplacer(QPoint position)
 {
-    qDebug() << "deplacer"<<position;
     QPoint diff = pointDepart - position;
     horizontalScrollBar()->setValue(horizontalDepart + diff.x());
     verticalScrollBar()->setValue(verticalDepart + diff.y());

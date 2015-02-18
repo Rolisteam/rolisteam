@@ -175,7 +175,7 @@ void MainWindow::setupUi()
     G_affichageNumeroPnj = true;
 
     // Initialisation de la liste des CarteFenetre, des Image et des Tchat
-    listeCarteFenetre.clear();
+    m_mapWindowList.clear();
     m_pictureList.clear();
 
 
@@ -503,7 +503,7 @@ QWidget* MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSiz
     action->setCheckable(true);
     action->setChecked(true);
 
-    listeCarteFenetre.append(carteFenetre);
+    m_mapWindowList.append(carteFenetre);
 
     // Ajout de la carte au workspace
     QWidget* tmp = m_mdiArea->addWindow(carteFenetre,action);
@@ -710,7 +710,7 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
         carte->setPermissionMode(Permission);
         carte->setPointeur(m_toolBar->getCurrentTool());
         // Creation de la CarteFenetre
-        CarteFenetre *carteFenetre = new CarteFenetre(carte,this, m_mdiArea);
+        CarteFenetre *carteFenetre = new CarteFenetre(carte, m_mdiArea);
         // Ajout de la carte au workspace
         ajouterCarte(carteFenetre, title);
 
@@ -793,6 +793,17 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
 
 QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString nomFichier)
 {
+    /*out << titre;
+    out << pos();
+    out << (quint32)m_currentMode;
+    out << m_alphaLayer->size();
+    out << taillePj;
+    out << baFondOriginal;
+    out << baFond;
+    out << baAlpha;
+*/
+
+
     QString titre;
     in >> titre;
 
@@ -850,15 +861,18 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
     if (masquer)
     {
         QPainter painterAlpha(&alpha);
-        painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), PreferencesManager::getInstance()->value("Fog_color",QColor(0,0,0)).value<QColor>());
+        QColor color = PreferencesManager::getInstance()->value("Fog_color",QColor(0,0,0)).value<QColor>();
+        qDebug()<< "masquer"<< color;
+        qDebug() << alpha.size() << size;
+        painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), color);
     }
 
     QString idCarte = QUuid::createUuid().toString();
 
-    Carte* map = new Carte(idCarte, &fondOriginal, &fond, &alpha);
+    Carte* map = new Carte(idCarte, &fondOriginal, &fond, &alpha,masquer);
     map->setPermissionMode(myPermission);
     map->setPointeur(m_toolBar->getCurrentTool());
-    CarteFenetre *carteFenetre = new CarteFenetre(map,this,m_mdiArea);
+    CarteFenetre *carteFenetre = new CarteFenetre(map,m_mdiArea);
 
 
 
@@ -938,7 +952,7 @@ void MainWindow::closeMapOrImage()
 
     QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
     QWidget* active = subactive->widget();
-
+    CarteFenetre* carteFenetre = NULL;
 
     if (NULL!=active)
     {
@@ -958,11 +972,12 @@ void MainWindow::closeMapOrImage()
         }
         else
         {
-            CarteFenetre *carteFenetre= dynamic_cast<CarteFenetre*>(active);
+            carteFenetre= dynamic_cast<CarteFenetre*>(active);
             if(NULL!=carteFenetre)
             {
                 mapImageId = carteFenetre->getMapId();
                 associatedAct = m_mapAction->value(carteFenetre);
+
             }
             else
             {
@@ -1027,6 +1042,7 @@ void MainWindow::closeMapOrImage()
             delete[] donnees;
 
 
+            m_mapWindowList.removeAll(carteFenetre);
             //((CarteFenetre *)active)->~CarteFenetre();
 
         }
@@ -1201,7 +1217,7 @@ void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond,
     Carte *carte = new Carte(idCarte, &image);
     carte->setPermissionMode(getPermission(mode));
     carte->setPointeur(m_toolBar->getCurrentTool());
-    CarteFenetre *carteFenetre = new CarteFenetre(carte,this, m_mdiArea);
+    CarteFenetre *carteFenetre = new CarteFenetre(carte, m_mdiArea);
     ajouterCarte(carteFenetre, titre);
 }
 
@@ -1212,12 +1228,12 @@ void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond,
 void MainWindow::emettreTousLesPlans(Liaison * link)
 {
     qDebug() << "emettreTousLesPlans " << link;
-    int tailleListe = listeCarteFenetre.size();
+    int tailleListe = m_mapWindowList.size();
     for (int i=0; i<tailleListe; ++i)
     {
-        listeCarteFenetre[i]->carte()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
-        listeCarteFenetre[i]->carte()->emettreCarte(listeCarteFenetre[i]->windowTitle(), link);
-        listeCarteFenetre[i]->carte()->emettreTousLesPersonnages(link);
+        m_mapWindowList[i]->carte()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
+        m_mapWindowList[i]->carte()->emettreCarte(m_mapWindowList[i]->windowTitle(), link);
+        m_mapWindowList[i]->carte()->emettreTousLesPersonnages(link);
     }
 }
 
@@ -1243,25 +1259,28 @@ void MainWindow::removeMapFromId(QString idCarte)
 {
     QMdiSubWindow* tmp = m_mdiArea->getSubWindowFromId(idCarte);
     CarteFenetre* mapWindow = dynamic_cast<CarteFenetre*>(tmp->widget());
-
-    delete m_mapAction->value(mapWindow);
-    delete mapWindow;
-    delete tmp;
+    if(NULL!=mapWindow)
+    {
+        delete m_mapAction->value(mapWindow);
+        m_mapWindowList.removeAll(mapWindow);
+        delete mapWindow;
+        delete tmp;
+    }
 }
 Carte * MainWindow::trouverCarte(QString idCarte)
 {
     // Taille de la liste des CarteFenetre
-    int tailleListe = listeCarteFenetre.size();
+    int tailleListe = m_mapWindowList.size();
 
     bool ok = false;
     int i;
     for (i=0; i<tailleListe && !ok; ++i)
-        if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
+        if ( m_mapWindowList[i]->carte()->identifiantCarte() == idCarte )
             ok = true;
 
     // Si la carte vient d'etre trouvee on renvoie son pointeur
     if (ok)
-        return listeCarteFenetre[i-1]->carte();
+        return m_mapWindowList[i-1]->carte();
     // Sinon on renvoie -1
     else
         return 0;
@@ -1378,21 +1397,30 @@ void MainWindow::removePictureFromId(QString idImage)
 bool MainWindow::enleverCarteDeLaListe(QString idCarte)
 {
     // Taille de la liste des CarteFenetre
-    int tailleListe = listeCarteFenetre.size();
+    int tailleListe = m_mapWindowList.size();
 
     bool ok = false;
     int i;
     for (i=0; i<tailleListe && !ok; ++i)
     {
-        if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
-            ok = true;
+        if(NULL != m_mapWindowList[i])
+        {
+            if(NULL!=m_mapWindowList[i]->carte())
+            {
+                if ( m_mapWindowList[i]->carte()->identifiantCarte() == idCarte )
+                {
+                    ok = true;
+                }
+            }
+
+        }
     }
 
 
     // Si la carte vient d'etre trouvee on supprime l'element
     if (ok)
     {
-        listeCarteFenetre.removeAt(i-1);
+        m_mapWindowList.removeAt(i-1);
         return true;
     }
     // Sinon on renvoie false
@@ -1595,13 +1623,13 @@ bool MainWindow::sauvegarderScenario()
 }
 void MainWindow::saveAllMap(QDataStream &out)
 {
-    out << listeCarteFenetre.size();
-    for (int i=0; i<listeCarteFenetre.size(); ++i)
+    out << m_mapWindowList.size();
+    for (int i=0; i<m_mapWindowList.size(); ++i)
     {
-        QPoint pos2 = listeCarteFenetre[i]->mapFromParent(listeCarteFenetre[i]->pos());
+        QPoint pos2 = m_mapWindowList[i]->mapFromParent(m_mapWindowList[i]->pos());
         out << pos2;
-        out << listeCarteFenetre[i]->size();
-        listeCarteFenetre[i]->carte()->saveMap(out, listeCarteFenetre[i]->windowTitle());
+        out << m_mapWindowList[i]->size();
+        m_mapWindowList[i]->carte()->saveMap(out, m_mapWindowList[i]->windowTitle());
     }
 }
 
