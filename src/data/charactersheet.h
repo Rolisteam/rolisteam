@@ -107,7 +107,7 @@ public:
 	* @param value the value of the added data.
 	* @param isHeader true when add a section. 
 	*/
-    void setData(int index,QVariant value,bool isHeader = false);
+    void setData(int indexSec,int index,QVariant value,bool isHeader = false);
 	/**
 	* @brief return the number of fields: Sum(number of section + sum of all sections items.)
 	*/
@@ -117,6 +117,9 @@ public:
 	*@brief create an empty section with one row. useful for editing.
 	*/
     void appendSection(Section* sec);
+
+
+    void appendLine(int sectionIndex);
 
 private:
 	/**

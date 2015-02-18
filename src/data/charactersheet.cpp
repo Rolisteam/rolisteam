@@ -35,12 +35,6 @@ void Section::setName(QString name)
     m_name=name;
 }
 
-
-
-
-
-
-
 CharacterSheet::CharacterSheet()
 {
 }
@@ -49,16 +43,12 @@ const QString CharacterSheet::getData(int section, int key)
 {
     Q_ASSERT(m_sectionList.size()>section);
     return m_sectionList[section].value(key);
-
 }
 
 const  QString CharacterSheet::getTitleSection(int section)
 {
     Q_ASSERT(m_sectionList.size()>section);
         return m_sectionList[section].getName();
-
-
-
 }
 int CharacterSheet::getSection(int index)
 {
@@ -116,20 +106,22 @@ const QString CharacterSheet::getkey(int index)
 
     }
 }
-void CharacterSheet::setData(int index,QVariant value,bool isHeader)
+void CharacterSheet::setData(int indexSec,int index,QVariant value,bool isHeader)
 {
-    if(!isHeader)
-    {
-            //m_sectionList[getSection(index)].insert(getkey(index),value.toString());
-         //   m_sectionList[getSection(index)].append(value);
-    }
-    else
-    {
-         //   m_sectionList[getSection(index)].append(value);
-            //m_sectionList[getSection(index)].insert(value.toString(),"");
-    }
+
+        qDebug() << indexSec << m_sectionList.size() << index;
+        m_sectionList[indexSec].replace(index,value.toString());
+
+
 
 }
+void CharacterSheet::appendLine(int sectionIndex)
+{
+    if( sectionIndex < m_sectionList.size())
+        m_sectionList[sectionIndex].append("");
+
+}
+
 void CharacterSheet::appendSection(Section* sec)
 {
     m_sectionList.append(*sec);
