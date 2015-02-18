@@ -604,9 +604,11 @@ void BarreOutils::sendNewCharacterSize(int size)
         return;
 
     changeCharacterSize(size);
-
-    NetworkMessageWriter message (NetMsg::CharacterCategory, NetMsg::ChangeCharacterSizeAction);
-    message.string8(m_map->identifiantCarte());
-    message.uint8(size - 11);
-    message.sendAll();
+    if(G_outilCourant != ajoutPnj)
+    {
+        NetworkMessageWriter message (NetMsg::CharacterCategory, NetMsg::ChangeCharacterSizeAction);
+        message.string8(m_map->identifiantCarte());
+        message.uint8(size - 11);
+        message.sendAll();
+    }
 }
