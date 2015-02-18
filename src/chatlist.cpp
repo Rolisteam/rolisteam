@@ -330,36 +330,21 @@ void ChatList::addPlayerChat(Player * player)
 void ChatList::delPlayer(Player * player)
 {
     bool shouldReset = false;
-    QMutableListIterator<ChatWindow *> i(m_chatWindowList);
-    while (i.hasNext())
+    foreach (QMdiSubWindow* tmp, m_chatSubWindowList)
     {
-        ChatWindow * chatw = i.next();
-        if(chatw->chat()->belongsTo(player))
+        ChatWindow* chatw = static_cast<ChatWindow*>(tmp->widget());
+        if((NULL!=chatw) && (chatw->chat()->belongsTo(player)))
         {
-            i.remove();
+            m_chatSubWindowList.removeOne(tmp);
+            m_chatWindowList.removeOne(chatw);
             chatw->deleteLater();
             shouldReset = true;
+            delete tmp;
         }
     }
     if (shouldReset)
-        reset();
-
-    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
-        QMutableMapIterator<QString, PrivateChat *> i(m_privateChatMap);
-        while (i.hasNext())
-        {
-            PrivateChat * chat = i.next().value();
-            if (chat->belongsTo(player))
-            {
-                i.remove();
-                chat->deleteLater();
-            }
-            else
-            {
-                chat->removePlayer(player);
-            }
-        }
+        reset();
     }
 }
 

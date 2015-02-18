@@ -103,29 +103,29 @@ void MainWindow::notifyUser(QString msg)
 
 void MainWindow::notifyUser_p(QString message)
 {
-        static bool alternance = false;
-        QColor couleur;
+    static bool alternance = false;
+    QColor couleur;
 
-        // Changement de la couleur
-        alternance = !alternance;
-        if (alternance)
-                couleur = Qt::darkBlue;
-        else
-                couleur = Qt::darkRed;
+    // Changement de la couleur
+    alternance = !alternance;
+    if (alternance)
+        couleur = Qt::darkBlue;
+    else
+        couleur = Qt::darkRed;
 
-        // Ajout de l'heure
-        QString heure = QTime::currentTime().toString("hh:mm:ss") + " - ";
+    // Ajout de l'heure
+    QString heure = QTime::currentTime().toString("hh:mm:ss") + " - ";
 
-        // On repositionne le curseur a la fin du QTextEdit
-        m_notifierDisplay->moveCursor(QTextCursor::End);
+    // On repositionne le curseur a la fin du QTextEdit
+    m_notifierDisplay->moveCursor(QTextCursor::End);
 
-        // Affichage de l'heure
-        m_notifierDisplay->setTextColor(Qt::darkGreen);
-        m_notifierDisplay->append(heure);
+    // Affichage de l'heure
+    m_notifierDisplay->setTextColor(Qt::darkGreen);
+    m_notifierDisplay->append(heure);
 
-        // Affichage du texte
-        m_notifierDisplay->setTextColor(couleur);
-        m_notifierDisplay->insertPlainText(message);
+    // Affichage du texte
+    m_notifierDisplay->setTextColor(couleur);
+    m_notifierDisplay->insertPlainText(message);
 }
 bool  MainWindow::showConnectionDialog()
 {
@@ -168,18 +168,18 @@ void MainWindow::setupUi()
 
     // Initialisation de la liste des CarteFenetre, des Image et des Tchat
     listeCarteFenetre.clear();
-    listeImage.clear();
+    m_pictureList.clear();
 
 
     m_version=tr("unknown");
 
-    #ifdef VERSION_MINOR
-        #ifdef VERSION_MAJOR
-            #ifdef VERSION_MIDDLE
-                m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-            #endif
-        #endif
-    #endif
+#ifdef VERSION_MINOR
+#ifdef VERSION_MAJOR
+#ifdef VERSION_MIDDLE
+    m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+#endif
+#endif
+#endif
 
 
 
@@ -327,9 +327,9 @@ ClientServeur* MainWindow::getNetWorkManager()
 void MainWindow::updateWindowTitle()
 {
     setWindowTitle(tr("%1[*] - v%2 - %3 - %4").arg(m_preferences->value("applicationName","Rolisteam").toString())
-                                                .arg(m_version)
-                                                .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected"))
-                                                .arg(m_networkManager->isServer() ? tr("Server") : tr("Client")));
+                   .arg(m_version)
+                   .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected"))
+                   .arg(m_networkManager->isServer() ? tr("Server") : tr("Client")));
 
 
 
@@ -337,234 +337,234 @@ void MainWindow::updateWindowTitle()
 
 void MainWindow::creerLogUtilisateur()
 {
-        // Creation du dockWidget contenant la fenetre de log utilisateur
-        m_dockLogUtil = new QDockWidget(tr("Events"), this);
-        //m_dockLogUtil = new QDockWidget(tr("Events"));
-        m_dockLogUtil->setObjectName("dockLogUtil");
-        m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
-        m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    // Creation du dockWidget contenant la fenetre de log utilisateur
+    m_dockLogUtil = new QDockWidget(tr("Events"), this);
+    //m_dockLogUtil = new QDockWidget(tr("Events"));
+    m_dockLogUtil->setObjectName("dockLogUtil");
+    m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
+    m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 
-        //Creation du log utilisateur
-        m_notifierDisplay = new QTextEdit(m_dockLogUtil);
-        m_notifierDisplay->setReadOnly(true);
+    //Creation du log utilisateur
+    m_notifierDisplay = new QTextEdit(m_dockLogUtil);
+    m_notifierDisplay->setReadOnly(true);
 
-        // Insertion de la fenetre de log utilisateur dans le dockWidget
-        m_dockLogUtil->setWidget(m_notifierDisplay);
-        // Largeur minimum du log utilisateur
-        m_dockLogUtil->setMinimumWidth(125);
+    // Insertion de la fenetre de log utilisateur dans le dockWidget
+    m_dockLogUtil->setWidget(m_notifierDisplay);
+    // Largeur minimum du log utilisateur
+    m_dockLogUtil->setMinimumWidth(125);
 
 
 }
 
 void MainWindow::creerMenu()
 {
-        // Creation de la barre de menus
-        m_menuBar = new QMenuBar(this);
-        // Ajout de la barre de menus a la fenetre principale
-        setMenuBar(m_menuBar);
+    // Creation de la barre de menus
+    m_menuBar = new QMenuBar(this);
+    // Ajout de la barre de menus a la fenetre principale
+    setMenuBar(m_menuBar);
 
-        // Creation du menu Fichier
-        QMenu *menuFichier = new QMenu (tr("File"), m_menuBar);
-        m_newMapAct                = menuFichier->addAction(QIcon(":/map.png"),tr("&New empty Map"));
-
-
-        menuFichier->addSeparator();
-        m_openMapAct                 = menuFichier->addAction(QIcon(":/map.png"),tr("Open Map…"));
-        //actionOuvrirEtMasquerPlan        = menuFichier->addAction(QIcon(":/map.png"),tr("Open And hide Map"));
-        actionOuvrirScenario         = menuFichier->addAction(QIcon(":/story.png"),tr("Open scenario"));
-        actionOuvrirImage                 = menuFichier->addAction(QIcon(":/picture.png"),tr("Open Picture"));
-        m_openMinutesAct = menuFichier->addAction(QIcon(":/notes.png"),tr("Open Minutes"));
-        menuFichier->addSeparator();
-        actionFermerPlan                 = menuFichier->addAction(tr("Close Map/Picture"));
-        menuFichier->addSeparator();
-        actionSauvegarderPlan        = menuFichier->addAction(QIcon(":/map.png"),tr("Save Map"));
-        actionSauvegarderScenario        = menuFichier->addAction(QIcon(":/story.png"),tr("Save scenario"));
-        actionSauvegarderNotes           = menuFichier->addAction(QIcon(":/notes.png"),tr("Save Minutes"));
-        menuFichier->addSeparator();
-        actionPreferences                = menuFichier->addAction(QIcon(":/settings.png"),tr("Preferences"));
-        menuFichier->addSeparator();
-        actionQuitter                = menuFichier->addAction(QIcon(":/exit.png"),tr("Quit"));
-
-        // Network action
-        QMenu *networkMenu = new QMenu (tr("Network"), m_menuBar);
-        m_reconnectAct  = networkMenu->addAction(tr("Reconnection"));
-        m_disconnectAct = networkMenu->addAction(tr("Disconnect"));
+    // Creation du menu Fichier
+    QMenu *menuFichier = new QMenu (tr("File"), m_menuBar);
+    m_newMapAct                = menuFichier->addAction(QIcon(":/map.png"),tr("&New empty Map"));
 
 
-        // Creation du menu Affichage
-        QMenu *menuAffichage = new QMenu (tr("View"), m_menuBar);
-        actionAfficherNomsPj         = menuAffichage->addAction(tr("Display PC names"));
-        actionAfficherNomsPnj        = menuAffichage->addAction(tr("Display NPC names"));
-        actionAfficherNumerosPnj = menuAffichage->addAction(tr("Display NPC number"));
+    menuFichier->addSeparator();
+    m_openMapAct                 = menuFichier->addAction(QIcon(":/map.png"),tr("Open Map…"));
+    //actionOuvrirEtMasquerPlan        = menuFichier->addAction(QIcon(":/map.png"),tr("Open And hide Map"));
+    actionOuvrirScenario         = menuFichier->addAction(QIcon(":/story.png"),tr("Open scenario"));
+    actionOuvrirImage                 = menuFichier->addAction(QIcon(":/picture.png"),tr("Open Picture"));
+    m_openMinutesAct = menuFichier->addAction(QIcon(":/notes.png"),tr("Open Minutes"));
+    menuFichier->addSeparator();
+    actionFermerPlan                 = menuFichier->addAction(tr("Close Map/Picture"));
+    menuFichier->addSeparator();
+    actionSauvegarderPlan        = menuFichier->addAction(QIcon(":/map.png"),tr("Save Map"));
+    actionSauvegarderScenario        = menuFichier->addAction(QIcon(":/story.png"),tr("Save scenario"));
+    actionSauvegarderNotes           = menuFichier->addAction(QIcon(":/notes.png"),tr("Save Minutes"));
+    menuFichier->addSeparator();
+    actionPreferences                = menuFichier->addAction(QIcon(":/settings.png"),tr("Preferences"));
+    menuFichier->addSeparator();
+    actionQuitter                = menuFichier->addAction(QIcon(":/exit.png"),tr("Quit"));
+
+    // Network action
+    QMenu *networkMenu = new QMenu (tr("Network"), m_menuBar);
+    m_reconnectAct  = networkMenu->addAction(tr("Reconnection"));
+    m_disconnectAct = networkMenu->addAction(tr("Disconnect"));
 
 
-        // Actions checkables
-        actionAfficherNomsPj->setCheckable(true);
-        actionAfficherNomsPnj->setCheckable(true);
-        actionAfficherNumerosPnj->setCheckable(true);
+    // Creation du menu Affichage
+    QMenu *menuAffichage = new QMenu (tr("View"), m_menuBar);
+    actionAfficherNomsPj         = menuAffichage->addAction(tr("Display PC names"));
+    actionAfficherNomsPnj        = menuAffichage->addAction(tr("Display NPC names"));
+    actionAfficherNumerosPnj = menuAffichage->addAction(tr("Display NPC number"));
 
 
-        // Choix des actions selectionnees au depart
-        actionAfficherNomsPj->setChecked(true);
-        actionAfficherNomsPnj->setChecked(true);
-        actionAfficherNumerosPnj->setChecked(true);
+    // Actions checkables
+    actionAfficherNomsPj->setCheckable(true);
+    actionAfficherNomsPnj->setCheckable(true);
+    actionAfficherNumerosPnj->setCheckable(true);
 
-        // Creation du menu Fenetre
-        m_windowMenu = new QMenu (tr("Sub-Windows"), m_menuBar);
 
-        // Creation du sous-menu Reorganiser
-        QMenu* organizeSubMenu        = new QMenu (tr("Reorganize"), m_menuBar);
-        m_tabOrdering  = organizeSubMenu->addAction(tr("Tabs"));
-        m_tabOrdering->setCheckable(true);
-        m_cascadeAction  = organizeSubMenu->addAction(tr("Cascade"));
-        m_tuleAction   = organizeSubMenu->addAction(tr("Tile"));
-        // Ajout du sous-menu Reorganiser au menu Fenetre
-        m_windowMenu->addMenu(organizeSubMenu);
-        m_windowMenu->addSeparator();
+    // Choix des actions selectionnees au depart
+    actionAfficherNomsPj->setChecked(true);
+    actionAfficherNomsPnj->setChecked(true);
+    actionAfficherNumerosPnj->setChecked(true);
 
-        // Ajout des actions d'affichage des fenetres d'evenement, utilisateurs et lecteur audio
-        m_windowMenu->addAction(m_toolBar->toggleViewAction());
-        m_windowMenu->addAction(m_dockLogUtil->toggleViewAction());
-        m_windowMenu->addAction(m_chatListWidget->toggleViewAction());
-        m_windowMenu->addAction(m_playersListWidget->toggleViewAction());
+    // Creation du menu Fenetre
+    m_windowMenu = new QMenu (tr("Sub-Windows"), m_menuBar);
+
+    // Creation du sous-menu Reorganiser
+    QMenu* organizeSubMenu        = new QMenu (tr("Reorganize"), m_menuBar);
+    m_tabOrdering  = organizeSubMenu->addAction(tr("Tabs"));
+    m_tabOrdering->setCheckable(true);
+    m_cascadeAction  = organizeSubMenu->addAction(tr("Cascade"));
+    m_tuleAction   = organizeSubMenu->addAction(tr("Tile"));
+    // Ajout du sous-menu Reorganiser au menu Fenetre
+    m_windowMenu->addMenu(organizeSubMenu);
+    m_windowMenu->addSeparator();
+
+    // Ajout des actions d'affichage des fenetres d'evenement, utilisateurs et lecteur audio
+    m_windowMenu->addAction(m_toolBar->toggleViewAction());
+    m_windowMenu->addAction(m_dockLogUtil->toggleViewAction());
+    m_windowMenu->addAction(m_chatListWidget->toggleViewAction());
+    m_windowMenu->addAction(m_playersListWidget->toggleViewAction());
 #ifndef NULL_PLAYER
-        m_windowMenu->addAction(m_audioPlayer->toggleViewAction());
+    m_windowMenu->addAction(m_audioPlayer->toggleViewAction());
 #endif
-        m_windowMenu->addSeparator();
+    m_windowMenu->addSeparator();
 
-        // Ajout de l'action d'affichage de l'editeur de notes
-        m_noteEditorAct = m_windowMenu->addAction(tr("Minutes Editor"));
-        m_noteEditorAct->setCheckable(true);
-        m_noteEditorAct->setChecked(false);
-        // Connexion de l'action avec l'affichage/masquage de l'editeur de notes
-        connect(m_noteEditorAct, SIGNAL(triggered(bool)), this, SLOT(displayMinutesEditor(bool)));
+    // Ajout de l'action d'affichage de l'editeur de notes
+    m_noteEditorAct = m_windowMenu->addAction(tr("Minutes Editor"));
+    m_noteEditorAct->setCheckable(true);
+    m_noteEditorAct->setChecked(false);
+    // Connexion de l'action avec l'affichage/masquage de l'editeur de notes
+    connect(m_noteEditorAct, SIGNAL(triggered(bool)), this, SLOT(displayMinutesEditor(bool)));
 
-        // Ajout du sous-menu Tchat
-        m_windowMenu->addMenu(m_chatListWidget->chatMenu());
+    // Ajout du sous-menu Tchat
+    m_windowMenu->addMenu(m_chatListWidget->chatMenu());
 
-        // Creation du menu Aide
-        QMenu *menuAide = new QMenu (tr("Help"), m_menuBar);
-        actionAideLogiciel = menuAide->addAction(tr("Help about %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
-        menuAide->addSeparator();
-        actionAPropos = menuAide->addAction(tr("About %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
+    // Creation du menu Aide
+    QMenu *menuAide = new QMenu (tr("Help"), m_menuBar);
+    actionAideLogiciel = menuAide->addAction(tr("Help about %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
+    menuAide->addSeparator();
+    actionAPropos = menuAide->addAction(tr("About %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
 
-        // Ajout des menus a la barre de menus
-        m_menuBar->addMenu(menuFichier);
-        m_menuBar->addMenu(menuAffichage);
-        m_menuBar->addMenu(m_windowMenu);
-        m_menuBar->addMenu(networkMenu);
-        m_menuBar->addMenu(menuAide);
+    // Ajout des menus a la barre de menus
+    m_menuBar->addMenu(menuFichier);
+    m_menuBar->addMenu(menuAffichage);
+    m_menuBar->addMenu(m_windowMenu);
+    m_menuBar->addMenu(networkMenu);
+    m_menuBar->addMenu(menuAide);
 }
 
 void MainWindow::linkActionToMenu()
 {
-        // file menu
-        connect(m_newMapAct, SIGNAL(triggered(bool)), this, SLOT(newMap()));
-        connect(actionOuvrirImage, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
-        connect(m_openMapAct, SIGNAL(triggered(bool)), this, SLOT(openMapWizzard()));
+    // file menu
+    connect(m_newMapAct, SIGNAL(triggered(bool)), this, SLOT(newMap()));
+    connect(actionOuvrirImage, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
+    connect(m_openMapAct, SIGNAL(triggered(bool)), this, SLOT(openMapWizzard()));
 
-        connect(actionOuvrirScenario, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
-        connect(m_openMinutesAct, SIGNAL(triggered(bool)), this, SLOT(openNote()));
-        connect(actionFermerPlan, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
-        connect(actionSauvegarderPlan, SIGNAL(triggered(bool)), this, SLOT(sauvegarderPlan()));
-        connect(actionSauvegarderScenario, SIGNAL(triggered(bool)), this, SLOT(sauvegarderScenario()));
-        connect(actionSauvegarderNotes, SIGNAL(triggered(bool)), this, SLOT(sauvegarderNotes()));
-        connect(actionPreferences, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
+    connect(actionOuvrirScenario, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
+    connect(m_openMinutesAct, SIGNAL(triggered(bool)), this, SLOT(openNote()));
+    connect(actionFermerPlan, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
+    connect(actionSauvegarderPlan, SIGNAL(triggered(bool)), this, SLOT(sauvegarderPlan()));
+    connect(actionSauvegarderScenario, SIGNAL(triggered(bool)), this, SLOT(sauvegarderScenario()));
+    connect(actionSauvegarderNotes, SIGNAL(triggered(bool)), this, SLOT(sauvegarderNotes()));
+    connect(actionPreferences, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
 
-        // close
-        connect(actionQuitter, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
+    // close
+    connect(actionQuitter, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
 
-        // network
-        connect(m_networkManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
-        connect(m_disconnectAct,SIGNAL(triggered()),this,SLOT(closeConnection()));
-        connect(m_reconnectAct,SIGNAL(triggered()),this,SLOT(startReconnection()));
+    // network
+    connect(m_networkManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
+    connect(m_disconnectAct,SIGNAL(triggered()),this,SLOT(closeConnection()));
+    connect(m_reconnectAct,SIGNAL(triggered()),this,SLOT(startReconnection()));
 
-        // Windows managing
-        connect(m_cascadeAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
+    // Windows managing
+    connect(m_cascadeAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
 
-        connect(m_tabOrdering,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
+    connect(m_tabOrdering,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
 
-        connect(m_tabOrdering,SIGNAL(triggered(bool)),m_cascadeAction,SLOT(setDisabled(bool)));
-        connect(m_tabOrdering,SIGNAL(triggered(bool)),m_tuleAction,SLOT(setDisabled(bool)));
-        connect(m_tuleAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
+    connect(m_tabOrdering,SIGNAL(triggered(bool)),m_cascadeAction,SLOT(setDisabled(bool)));
+    connect(m_tabOrdering,SIGNAL(triggered(bool)),m_tuleAction,SLOT(setDisabled(bool)));
+    connect(m_tuleAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
 
-        // Display
-        connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
-        connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPnj(bool)));
-        connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNumerosPnj(bool)));
+    // Display
+    connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
+    connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPnj(bool)));
+    connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), this, SLOT(afficherNumerosPnj(bool)));
 
-        // Help
-        connect(actionAPropos, SIGNAL(triggered()), this, SLOT(aPropos()));
-        connect(actionAideLogiciel, SIGNAL(triggered()), this, SLOT(helpOnLine()));
+    // Help
+    connect(actionAPropos, SIGNAL(triggered()), this, SLOT(aPropos()));
+    connect(actionAideLogiciel, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 }
 
 void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize,QPoint pos )
 {
-        // Ajout de la CarteFenetre a la liste (permet par la suite de parcourir l'ensemble des cartes)
-        listeCarteFenetre.append(carteFenetre);
+    // Ajout de la CarteFenetre a la liste (permet par la suite de parcourir l'ensemble des cartes)
+    listeCarteFenetre.append(carteFenetre);
 
-        // Ajout de la carte au workspace
-        QWidget* tmp = m_mdiArea->addWindow(carteFenetre);
-        if(mapsize.isValid())
-            tmp->resize(mapsize);
-        if(!pos.isNull())
-            tmp->move(pos);
+    // Ajout de la carte au workspace
+    QWidget* tmp = m_mdiArea->addWindow(carteFenetre);
+    if(mapsize.isValid())
+        tmp->resize(mapsize);
+    if(!pos.isNull())
+        tmp->move(pos);
 
-        if(titre.isEmpty())
-        {
-            titre = tr("Unknown Map");
-        }
+    if(titre.isEmpty())
+    {
+        titre = tr("Unknown Map");
+    }
 
-        //tmp->setParent(this);
-        tmp->setWindowIcon(QIcon(":/map.png"));
-        tmp->setWindowTitle(titre);
+    //tmp->setParent(this);
+    tmp->setWindowIcon(QIcon(":/map.png"));
+    tmp->setWindowTitle(titre);
 
-        // Mise a jour du titre de la CarteFenetre
-        //carteFenetre->setWindowFlags(carteFenetre->windowFlags() | Qt::SubWindow);
+    // Mise a jour du titre de la CarteFenetre
+    //carteFenetre->setWindowFlags(carteFenetre->windowFlags() | Qt::SubWindow);
 
-        carteFenetre->setWindowIcon(QIcon(":/map.png"));
-        carteFenetre->setWindowTitle(titre);
+    carteFenetre->setWindowIcon(QIcon(":/map.png"));
+    carteFenetre->setWindowTitle(titre);
 
-        // Creation de l'action correspondante
-        QAction *action = m_windowMenu->addAction(titre);
-        action->setCheckable(true);
-        action->setChecked(true);
+    // Creation de l'action correspondante
+    QAction *action = m_windowMenu->addAction(titre);
+    action->setCheckable(true);
+    action->setChecked(true);
 
-        m_mapAction->insert(carteFenetre,action);
+    m_mapAction->insert(carteFenetre,action);
 
-        //Association de l'action avec la carte
-        //carteFenetre->associerAction(action);
+    //Association de l'action avec la carte
+    //carteFenetre->associerAction(action);
 
-        // Connexion de l'action avec l'affichage/masquage de la fenetre
-        connect(action, SIGNAL(triggered(bool)), tmp, SLOT(setVisible(bool)));
-        connect(action, SIGNAL(triggered(bool)), carteFenetre, SLOT(setVisible(bool)));
-        connect(carteFenetre,SIGNAL(visibleChanged(bool)),action,SLOT(setChecked(bool)));
+    // Connexion de l'action avec l'affichage/masquage de la fenetre
+    connect(action, SIGNAL(triggered(bool)), tmp, SLOT(setVisible(bool)));
+    connect(action, SIGNAL(triggered(bool)), carteFenetre, SLOT(setVisible(bool)));
+    connect(carteFenetre,SIGNAL(visibleChanged(bool)),action,SLOT(setChecked(bool)));
 
-        Carte *carte = carteFenetre->carte();
-        carte->setPointeur(m_toolBar->getCurrentTool());
+    Carte *carte = carteFenetre->carte();
+    carte->setPointeur(m_toolBar->getCurrentTool());
 
-        connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),carte,SLOT(setPointeur(BarreOutils::Tool)));
-
-
-        connect(carte, SIGNAL(changeCouleurActuelle(QColor)), m_toolBar, SLOT(changeCouleurActuelle(QColor)));
-
-        connect(carte, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementeNumeroPnj()));
-
-        connect(carte, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(mettreAJourPnj(int, QString)));
-
-        connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
-        connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
-        connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
+    connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),carte,SLOT(setPointeur(BarreOutils::Tool)));
 
 
+    connect(carte, SIGNAL(changeCouleurActuelle(QColor)), m_toolBar, SLOT(changeCouleurActuelle(QColor)));
 
-        
-        // new PlayersList connection
-        connect(carteFenetre, SIGNAL(activated(Carte *)), m_playersListWidget->model(), SLOT(changeMap(Carte *)));
-        connect(carteFenetre, SIGNAL(activated(Carte *)), m_toolBar, SLOT(changeMap(Carte *)));
+    connect(carte, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementeNumeroPnj()));
 
-        // Affichage de la carte
-        tmp->setVisible(true);
+    connect(carte, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(mettreAJourPnj(int, QString)));
+
+    connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
+    connect(actionAfficherNomsPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
+    connect(actionAfficherNumerosPnj, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
+
+
+
+
+    // new PlayersList connection
+    connect(carteFenetre, SIGNAL(activated(Carte *)), m_playersListWidget->model(), SLOT(changeMap(Carte *)));
+    connect(carteFenetre, SIGNAL(activated(Carte *)), m_toolBar, SLOT(changeMap(Carte *)));
+
+    // Affichage de la carte
+    tmp->setVisible(true);
 
 }
 void  MainWindow::closeConnection()
@@ -577,72 +577,70 @@ void  MainWindow::closeConnection()
     }
 }
 
-void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
+void MainWindow::ajouterImage(Image* pictureWindow, QString title)
 {
-        imageFenetre->setParent(m_mdiArea);
-        addImageToMdiArea(imageFenetre,titre);
+    pictureWindow->setParent(m_mdiArea);
+    addImageToMdiArea(pictureWindow,title);
 }
 void MainWindow::ouvrirImage()
 {
-        // Ouverture du selecteur de fichier
+
     QString fichier = QFileDialog::getOpenFileName(this, tr("Open Picture"), m_preferences->value("ImageDirectory",QDir::homePath()).toString(),
-                                          tr("Picture (*.jpg *.jpeg *.png *.bmp)"));
+                                                   tr("Picture (*.jpg *.jpeg *.png *.bmp)"));
 
-        // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
-        if (fichier.isNull())
-                return;
+    // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
+    if (fichier.isNull())
+        return;
 
-        // Creation de la boite d'alerte
-        QMessageBox msgBox(this);
-        msgBox.addButton(QMessageBox::Cancel);
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setWindowTitle(tr("Loading error"));
-        msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
-        // On supprime l'icone de la barre de titre
-        Qt::WindowFlags flags = msgBox.windowFlags();
-        msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
+    // Creation de la boite d'alerte
+    QMessageBox msgBox(this);
+    msgBox.addButton(QMessageBox::Cancel);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.setWindowTitle(tr("Loading error"));
+    msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
 
-        // On met a jour le chemin vers les images
-        int dernierSlash = fichier.lastIndexOf("/");
-        m_preferences->registerValue("ImageDirectory",fichier.left(dernierSlash));
+    Qt::WindowFlags flags = msgBox.windowFlags();
+    msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
-        // Chargement de l'image
-        QImage *img = new QImage(fichier);
-        // Verification du chargement de l'image
-        if (img->isNull())
-        {
-                msgBox.setText(tr("Unsupported file format"));
-                msgBox.exec();
-                delete img;
-                return;
-        }
-
-        // Suppression de l'extension du fichier pour obtenir le titre de l'image
-        int dernierPoint = fichier.lastIndexOf(".");
-        QString titre = fichier.left(dernierPoint);
-        titre = titre.right(titre.length()-dernierSlash-1);
-        titre+= tr(" (Picture)");
+    // On met a jour le chemin vers les images
+    int dernierSlash = fichier.lastIndexOf("/");
+    m_preferences->registerValue("ImageDirectory",fichier.left(dernierSlash));
 
 
+    QImage *img = new QImage(fichier);
+    if (img->isNull())
+    {
+        msgBox.setText(tr("Unsupported file format"));
+        msgBox.exec();
+        delete img;
+        return;
+    }
 
-        // Creation de l'identifiant
-        QString idImage = QUuid::createUuid().toString();
+    // Suppression de l'extension du fichier pour obtenir le titre de l'image
+    int dernierPoint = fichier.lastIndexOf(".");
+    QString titre = fichier.left(dernierPoint);
+    titre = titre.right(titre.length()-dernierSlash-1);
+    titre+= tr(" (Picture)");
 
-        // Creation de la fenetre image
-        Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, img, NULL,m_mdiArea);
 
-        addImageToMdiArea(imageFenetre,titre);
 
-        // Envoie de l'image aux autres utilisateurs
-        NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
-        imageFenetre->fill(message);
-        message.sendAll();
+    // Creation de l'identifiant
+    QString idImage = QUuid::createUuid().toString();
+
+    // Creation de la fenetre image
+    Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, img, NULL,m_mdiArea);
+
+    addImageToMdiArea(imageFenetre,titre);
+
+    // Envoie de l'image aux autres utilisateurs
+    NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
+    imageFenetre->fill(message);
+    message.sendAll();
 }
 
 void MainWindow::addImageToMdiArea(Image *imageFenetre, QString titre)
 {
-    // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
-    listeImage.append(imageFenetre);
+    //listeImage.append(imageFenetre);
 
     imageFenetre->setImageTitle(titre);
 
@@ -655,21 +653,18 @@ void MainWindow::addImageToMdiArea(Image *imageFenetre, QString titre)
     // Ajout de l'image au workspace
     QMdiSubWindow* sub = static_cast<QMdiSubWindow*>(m_mdiArea->addWindow(imageFenetre));
 
+    m_pictureList.append(sub);
+
     // Mise a jour du titre de l'image
     sub->setWindowTitle(titre);
-    sub->setWindowIcon(QIcon(":/resources/icones/image.png"));
+    sub->setWindowIcon(QIcon(":/picture.png"));
 
 
     connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),imageFenetre,SLOT(setCurrentTool(BarreOutils::Tool)));
 
-
     imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
-    // Connexion de l'action avec l'affichage/masquage de la fenetre
     connect(action, SIGNAL(triggered(bool)), sub, SLOT(setVisible(bool)));
     connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
-
-
-    // Affichage de l'image
     sub->show();
 }
 
@@ -698,119 +693,119 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
     Qt::WindowFlags flags = msgBox.windowFlags();
     msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
-        // 2 cas de figure possibles :
-        // Le fichier est un plan, on l'ouvre
-        if (filepath.right(4) == ".pla")
+    // 2 cas de figure possibles :
+    // Le fichier est un plan, on l'ouvre
+    if (filepath.right(4) == ".pla")
+    {
+        // Ouverture du fichier .pla
+        QFile file(filepath);
+        if (!file.open(QIODevice::ReadOnly))
         {
-                // Ouverture du fichier .pla
-                QFile file(filepath);
-                if (!file.open(QIODevice::ReadOnly))
-                {
-                        msgBox.setText(tr("Unsupported file format"));
-                        msgBox.exec();
-                        return;
-                }
-                QDataStream in(&file);
-                // Lecture de la carte et des PNJ
-                lireCarteEtPnj(in, masquer, title);
-                // Fermeture du fichier
-                file.close();
+            msgBox.setText(tr("Unsupported file format"));
+            msgBox.exec();
+            return;
         }
+        QDataStream in(&file);
+        // Lecture de la carte et des PNJ
+        lireCarteEtPnj(in, masquer, title);
+        // Fermeture du fichier
+        file.close();
+    }
 
-        // Le fichier est une image : on cree une nouvelle carte
-        else
+    // Le fichier est une image : on cree une nouvelle carte
+    else
+    {
+        // Chargement de l'image
+        QImage image(filepath);
+        // Verification du chargement de l'image
+        if (image.isNull())
         {
-                // Chargement de l'image
-                QImage image(filepath);
-                // Verification du chargement de l'image
-                if (image.isNull())
-                {
-                        msgBox.setText(tr("Unsupported file format"));
-                        msgBox.exec();
-                        return;
-                }
-                // Creation de l'identifiant
-                QString idCarte = QUuid::createUuid().toString();
-                // Creation de la carte
-                Carte *carte = new Carte(idCarte, &image, masquer);
-                carte->setPermissionMode(Permission);
-                carte->setPointeur(m_toolBar->getCurrentTool());
-                // Creation de la CarteFenetre
-                CarteFenetre *carteFenetre = new CarteFenetre(carte,this, m_mdiArea);
-                // Ajout de la carte au workspace
-                ajouterCarte(carteFenetre, title);
-
-                // Envoie de la carte aux autres utilisateurs
-                // On commence par compresser l'image (format jpeg) dans un tableau
-                QByteArray byteArray;
-                QBuffer buffer(&byteArray);
-                bool ok = image.save(&buffer, "jpeg", 60);
-                if (!ok)
-                        qWarning("Probleme de compression de l'image (ouvrirPlan - MainWindow.cpp)");
-
-                // Taille des donnees
-                quint32 tailleCorps =
-                        // Taille du titre
-                        sizeof(quint16) + title.size()*sizeof(QChar) +
-                        // Taille de l'identifiant
-                        sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-                        // Taille des PJ
-                        sizeof(quint8) +
-                        // Taille de l'info "masquer ou pas"
-                        sizeof(quint8) + sizeof(quint8) +
-                        // Taille de l'image
-                        sizeof(quint32) + byteArray.size();
-
-                // Buffer d'emission
-                char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-                // Creation de l'entete du message
-                enteteMessage *uneEntete;
-                uneEntete = (enteteMessage *) donnees;
-                uneEntete->categorie = plan;
-                uneEntete->action = chargerPlan;
-                uneEntete->tailleDonnees = tailleCorps;
-
-                // Creation du corps du message
-                int p = sizeof(enteteMessage);
-                // Ajout du titre
-                quint16 tailleTitre = title.size();
-                memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
-                p+=sizeof(quint16);
-                memcpy(&(donnees[p]), title.data(), tailleTitre*sizeof(QChar));
-                p+=tailleTitre*sizeof(QChar);
-                // Ajout de l'identifiant
-                quint8 tailleId = idCarte.size();
-                memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
-                p+=sizeof(quint8);
-                memcpy(&(donnees[p]), idCarte.data(), tailleId*sizeof(QChar));
-                p+=tailleId*sizeof(QChar);
-                // Ajout de la taille des PJ
-                quint8 tailleDesPj = 12;
-                memcpy(&(donnees[p]), &tailleDesPj, sizeof(quint8));
-                p+=sizeof(quint8);
-                // Ajout de l'info "plan masque au chargement?"
-                quint8 masquerPlan = masquer;
-                memcpy(&(donnees[p]), &masquerPlan, sizeof(quint8));
-                p+=sizeof(quint8);
-
-
-                quint8 mode = carte->getPermissionMode();
-                memcpy(&(donnees[p]), &mode, sizeof(quint8));
-                p+=sizeof(quint8);
-
-                // Ajout de l'image
-                quint32 tailleImage = byteArray.size();
-                memcpy(&(donnees[p]), &tailleImage, sizeof(quint32));
-                p+=sizeof(quint32);
-                memcpy(&(donnees[p]), byteArray.data(), tailleImage);
-                p+=tailleImage;
-
-                // Emission de l'image au serveur ou a l'ensemble des clients
-                emettre(donnees, tailleCorps + sizeof(enteteMessage));
-                // Liberation du buffer d'emission
-                delete[] donnees;
+            msgBox.setText(tr("Unsupported file format"));
+            msgBox.exec();
+            return;
         }
+        // Creation de l'identifiant
+        QString idCarte = QUuid::createUuid().toString();
+        // Creation de la carte
+        Carte *carte = new Carte(idCarte, &image, masquer);
+        carte->setPermissionMode(Permission);
+        carte->setPointeur(m_toolBar->getCurrentTool());
+        // Creation de la CarteFenetre
+        CarteFenetre *carteFenetre = new CarteFenetre(carte,this, m_mdiArea);
+        // Ajout de la carte au workspace
+        ajouterCarte(carteFenetre, title);
+
+        // Envoie de la carte aux autres utilisateurs
+        // On commence par compresser l'image (format jpeg) dans un tableau
+        QByteArray byteArray;
+        QBuffer buffer(&byteArray);
+        bool ok = image.save(&buffer, "jpeg", 60);
+        if (!ok)
+            qWarning("Probleme de compression de l'image (ouvrirPlan - MainWindow.cpp)");
+
+        // Taille des donnees
+        quint32 tailleCorps =
+                // Taille du titre
+                sizeof(quint16) + title.size()*sizeof(QChar) +
+                // Taille de l'identifiant
+                sizeof(quint8) + idCarte.size()*sizeof(QChar) +
+                // Taille des PJ
+                sizeof(quint8) +
+                // Taille de l'info "masquer ou pas"
+                sizeof(quint8) + sizeof(quint8) +
+                // Taille de l'image
+                sizeof(quint32) + byteArray.size();
+
+        // Buffer d'emission
+        char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
+
+        // Creation de l'entete du message
+        enteteMessage *uneEntete;
+        uneEntete = (enteteMessage *) donnees;
+        uneEntete->categorie = plan;
+        uneEntete->action = chargerPlan;
+        uneEntete->tailleDonnees = tailleCorps;
+
+        // Creation du corps du message
+        int p = sizeof(enteteMessage);
+        // Ajout du titre
+        quint16 tailleTitre = title.size();
+        memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
+        p+=sizeof(quint16);
+        memcpy(&(donnees[p]), title.data(), tailleTitre*sizeof(QChar));
+        p+=tailleTitre*sizeof(QChar);
+        // Ajout de l'identifiant
+        quint8 tailleId = idCarte.size();
+        memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
+        p+=sizeof(quint8);
+        memcpy(&(donnees[p]), idCarte.data(), tailleId*sizeof(QChar));
+        p+=tailleId*sizeof(QChar);
+        // Ajout de la taille des PJ
+        quint8 tailleDesPj = 12;
+        memcpy(&(donnees[p]), &tailleDesPj, sizeof(quint8));
+        p+=sizeof(quint8);
+        // Ajout de l'info "plan masque au chargement?"
+        quint8 masquerPlan = masquer;
+        memcpy(&(donnees[p]), &masquerPlan, sizeof(quint8));
+        p+=sizeof(quint8);
+
+
+        quint8 mode = carte->getPermissionMode();
+        memcpy(&(donnees[p]), &mode, sizeof(quint8));
+        p+=sizeof(quint8);
+
+        // Ajout de l'image
+        quint32 tailleImage = byteArray.size();
+        memcpy(&(donnees[p]), &tailleImage, sizeof(quint32));
+        p+=sizeof(quint32);
+        memcpy(&(donnees[p]), byteArray.data(), tailleImage);
+        p+=tailleImage;
+
+        // Emission de l'image au serveur ou a l'ensemble des clients
+        emettre(donnees, tailleCorps + sizeof(enteteMessage));
+        // Liberation du buffer d'emission
+        delete[] donnees;
+    }
 }
 
 void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichier)
@@ -838,118 +833,118 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
 
     //qDebug() <<" lire plan " << titre << "pos"<< pos<<"size"<<size;
 
-        ///QString titre(tableauTitre, tailleTitre);
-        // On recupere la taille des PJ (ignored)
-        int taillePj;
-        in >> taillePj;
+    ///QString titre(tableauTitre, tailleTitre);
+    // On recupere la taille des PJ (ignored)
+    int taillePj;
+    in >> taillePj;
 
-        QByteArray baFondOriginal;
-        in >> baFondOriginal;
+    QByteArray baFondOriginal;
+    in >> baFondOriginal;
 
-        QByteArray baFond;
-        in >> baFond;
+    QByteArray baFond;
+    in >> baFond;
 
-        QByteArray baAlpha;
-        in>> baAlpha;
+    QByteArray baAlpha;
+    in>> baAlpha;
 
-        bool ok;
-        // Creation de l'image de fond original
-        QImage fondOriginal;
-        ok = fondOriginal.loadFromData(baFondOriginal, "jpeg");
-        if (!ok)
-                qWarning("Probleme de decompression du fond original (lireCarteEtPnj - Mainwindow.cpp)");
-        // Creation de l'image de fond
-        QImage fond;
-        ok = fond.loadFromData(baFond, "jpeg");
-        if (!ok)
-                qWarning("Probleme de decompression du fond (lireCarteEtPnj - Mainwindow.cpp)");
-        // Creation de la couche alpha
-        QImage alpha;
-        ok = alpha.loadFromData(baAlpha, "jpeg");
-        if (!ok)
-                qWarning("Probleme de decompression de la couche alpha (lireCarteEtPnj - Mainwindow.cpp)");
-        // Si necessaire la couche alpha est remplie, de facon a masquer l'image
-        if (masquer)
-        {
-                QPainter painterAlpha(&alpha);
-                painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), PreferencesManager::getInstance()->value("fog_color",QColor(0,0,0)).value<QColor>());
-        }
+    bool ok;
+    // Creation de l'image de fond original
+    QImage fondOriginal;
+    ok = fondOriginal.loadFromData(baFondOriginal, "jpeg");
+    if (!ok)
+        qWarning("Probleme de decompression du fond original (lireCarteEtPnj - Mainwindow.cpp)");
+    // Creation de l'image de fond
+    QImage fond;
+    ok = fond.loadFromData(baFond, "jpeg");
+    if (!ok)
+        qWarning("Probleme de decompression du fond (lireCarteEtPnj - Mainwindow.cpp)");
+    // Creation de la couche alpha
+    QImage alpha;
+    ok = alpha.loadFromData(baAlpha, "jpeg");
+    if (!ok)
+        qWarning("Probleme de decompression de la couche alpha (lireCarteEtPnj - Mainwindow.cpp)");
+    // Si necessaire la couche alpha est remplie, de facon a masquer l'image
+    if (masquer)
+    {
+        QPainter painterAlpha(&alpha);
+        painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), PreferencesManager::getInstance()->value("fog_color",QColor(0,0,0)).value<QColor>());
+    }
 
-        // Creation de l'identifiant de la carte
-        QString idCarte = QUuid::createUuid().toString();
-        // Creation de la carte
-        Carte *carte = new Carte(idCarte, &fondOriginal, &fond, &alpha);
-        carte->setPointeur(m_toolBar->getCurrentTool());
-        // Creation de la CarteFenetre
-        CarteFenetre *carteFenetre = new CarteFenetre(carte,this,m_mdiArea);
+    // Creation de l'identifiant de la carte
+    QString idCarte = QUuid::createUuid().toString();
+    // Creation de la carte
+    Carte *carte = new Carte(idCarte, &fondOriginal, &fond, &alpha);
+    carte->setPointeur(m_toolBar->getCurrentTool());
+    // Creation de la CarteFenetre
+    CarteFenetre *carteFenetre = new CarteFenetre(carte,this,m_mdiArea);
 
-        carteFenetre->setGeometry(posWindow.x(),posWindow.y(),sizeWindow.width(),sizeWindow.height());
+    carteFenetre->setGeometry(posWindow.x(),posWindow.y(),sizeWindow.width(),sizeWindow.height());
 
-        // Ajout de la carte au workspace : si aucun nom de fichier n'est passe en parametre, il s'agit d'une lecture de
-        // carte dans le cadre de l'ouverture d'un fichier scenario : on prend alors le titre associe a la carte. Sinon
-        // il s'agit d'un fichier plan : on prend alors le nom du fichier
+    // Ajout de la carte au workspace : si aucun nom de fichier n'est passe en parametre, il s'agit d'une lecture de
+    // carte dans le cadre de l'ouverture d'un fichier scenario : on prend alors le titre associe a la carte. Sinon
+    // il s'agit d'un fichier plan : on prend alors le nom du fichier
 
-        QPoint pos2 = carteFenetre->mapFromParent(pos);
-        //qDebug() <<" lire plan 2 " << pos2.x() << "," << pos2.y()  << " size="<< size << endl;
+    QPoint pos2 = carteFenetre->mapFromParent(pos);
+    //qDebug() <<" lire plan 2 " << pos2.x() << "," << pos2.y()  << " size="<< size << endl;
 
-        if (nomFichier.isEmpty())
-                ajouterCarte(carteFenetre, titre,size,pos);
-        else
-                ajouterCarte(carteFenetre, nomFichier,size,pos);
+    if (nomFichier.isEmpty())
+        ajouterCarte(carteFenetre, titre,size,pos);
+    else
+        ajouterCarte(carteFenetre, nomFichier,size,pos);
 
-        // On recupere le nombre de personnages presents dans le message
-        quint16 nbrPersonnages;
-        in >>  nbrPersonnages;
+    // On recupere le nombre de personnages presents dans le message
+    quint16 nbrPersonnages;
+    in >>  nbrPersonnages;
 
-        for (int i=0; i<nbrPersonnages; ++i)
-        {
-            QString nomPerso,ident;
-            DessinPerso::typePersonnage type;
-            int numeroDuPnj;
-            uchar diametre;
+    for (int i=0; i<nbrPersonnages; ++i)
+    {
+        QString nomPerso,ident;
+        DessinPerso::typePersonnage type;
+        int numeroDuPnj;
+        uchar diametre;
 
-            QColor couleur;
-            DessinPerso::etatDeSante sante;
+        QColor couleur;
+        DessinPerso::etatDeSante sante;
 
-            QPoint centre;
-            QPoint orientation;
-            int numeroEtat;
-            bool visible;
-            bool orientationAffichee;
+        QPoint centre;
+        QPoint orientation;
+        int numeroEtat;
+        bool visible;
+        bool orientationAffichee;
 
-            in >> nomPerso;
-            in >> ident ;
-            int typeint;
-            in >> typeint;
-            type=(DessinPerso::typePersonnage) typeint;
-            in >> numeroDuPnj ;
-            in >> diametre;
-            in >> couleur ;
-            in >> centre ;
-            in >> orientation ;
-            in >>sante.couleurEtat ;
-            in >> sante.nomEtat ;
-            in >> numeroEtat ;
-            in>> visible;
-            in >> orientationAffichee;
+        in >> nomPerso;
+        in >> ident ;
+        int typeint;
+        in >> typeint;
+        type=(DessinPerso::typePersonnage) typeint;
+        in >> numeroDuPnj ;
+        in >> diametre;
+        in >> couleur ;
+        in >> centre ;
+        in >> orientation ;
+        in >>sante.couleurEtat ;
+        in >> sante.nomEtat ;
+        in >> numeroEtat ;
+        in>> visible;
+        in >> orientationAffichee;
 
-            DessinPerso *pnj = new DessinPerso(carte, ident, nomPerso, couleur, diametre, centre, type, numeroDuPnj);
+        DessinPerso *pnj = new DessinPerso(carte, ident, nomPerso, couleur, diametre, centre, type, numeroDuPnj);
 
-                if (visible || (type == DessinPerso::pnj && PlayersList::instance()->localPlayer()->isGM()))
-                        pnj->afficherPerso();
-                // On m.a.j l'orientation
-                pnj->nouvelleOrientation(orientation);
-                // Affichage de l'orientation si besoin
-                if (orientationAffichee)
-                        pnj->afficheOuMasqueOrientation();
+        if (visible || (type == DessinPerso::pnj && PlayersList::instance()->localPlayer()->isGM()))
+            pnj->afficherPerso();
+        // On m.a.j l'orientation
+        pnj->nouvelleOrientation(orientation);
+        // Affichage de l'orientation si besoin
+        if (orientationAffichee)
+            pnj->afficheOuMasqueOrientation();
 
-                pnj->nouvelEtatDeSante(sante, numeroEtat);
+        pnj->nouvelEtatDeSante(sante, numeroEtat);
 
-                carte->afficheOuMasquePnj(pnj);
+        carte->afficheOuMasquePnj(pnj);
 
-        }
-        carte->emettreCarte(carteFenetre->windowTitle());
-        carte->emettreTousLesPersonnages();
+    }
+    carte->emettreCarte(carteFenetre->windowTitle());
+    carte->emettreTousLesPersonnages();
 }
 
 
@@ -959,166 +954,166 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
 void MainWindow::closeMapOrImage()
 {
 
-        QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
-        QWidget* active = subactive->widget();
+    QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
+    QWidget* active = subactive->widget();
 
 
-        if (NULL!=active)
+    if (NULL!=active)
+    {
+
+        Image*  imageFenetre = dynamic_cast<Image*>(active);
+
+        QString mapImageId;
+        QString mapImageTitle;
+        QAction* associatedAct = NULL;
+        mapImageTitle = active->windowTitle();
+        bool image=false;
+        if(NULL!=imageFenetre)
         {
-
-            Image*  imageFenetre = dynamic_cast<Image*>(active);
-
-            QString mapImageId;
-            QString mapImageTitle;
-            QAction* associatedAct = NULL;
-            mapImageTitle = active->windowTitle();
-            bool image=false;
-            if(NULL!=imageFenetre)
-            {
-                associatedAct = imageFenetre->getAssociatedAction();
-                mapImageId = imageFenetre->getImageId();
-                image = true;
-            }
-            else
-            {
-               CarteFenetre *carteFenetre= dynamic_cast<CarteFenetre*>(active);
-                if(NULL!=carteFenetre)
-                {
-                    mapImageId = carteFenetre->getMapId();
-                    associatedAct = m_mapAction->value(carteFenetre);
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            QMessageBox msgBox(this);
-            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel );
-            msgBox.setDefaultButton(QMessageBox::Cancel);
-            msgBox.setIcon(QMessageBox::Information);
-            msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
-            Qt::WindowFlags flags = msgBox.windowFlags();
-            msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
-
-
-            if (!image)
-            {
-                    msgBox.setWindowTitle(tr("Close Map"));
-            }
-            else
-            {
-                    msgBox.setWindowTitle(tr("Close Picture"));
-            }
-            msgBox.setText(tr("Do you want to close %1 %2?\nIt will be closed for everybody").arg(mapImageTitle).arg(image?tr(""):tr("(Map)")));
-
-
-
-            msgBox.exec();
-            if (msgBox.result() != QMessageBox::Yes)
-                    return;
-
-            if (!image)
-            {
-                    // Taille des donnees
-                    quint32 tailleCorps =
-                            // Taille de l'identifiant de la carte
-                            sizeof(quint8) + mapImageId.size()*sizeof(QChar);
-
-                    // Buffer d'emission
-                    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-                    // Creation de l'entete du message
-                    enteteMessage *uneEntete;
-                    uneEntete = (enteteMessage *) donnees;
-                    uneEntete->categorie = plan;
-                    uneEntete->action = fermerPlan;
-                    uneEntete->tailleDonnees = tailleCorps;
-
-                    // Creation du corps du message
-                    int p = sizeof(enteteMessage);
-                    // Ajout de l'identifiant de la carte
-                    quint8 tailleIdCarte = mapImageId.size();
-                    memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-                    p+=sizeof(quint8);
-                    memcpy(&(donnees[p]), mapImageId.data(), tailleIdCarte*sizeof(QChar));
-                    p+=tailleIdCarte*sizeof(QChar);
-
-                    // Emission de la demande de fermeture de la carte au serveur ou a l'ensemble des clients
-                    emettre(donnees, tailleCorps + sizeof(enteteMessage));
-                    // Liberation du buffer d'emission
-                    delete[] donnees;
-
-
-                    //((CarteFenetre *)active)->~CarteFenetre();
-
-            }
-            else
-            {
-                    // Taille des donnees
-                    quint32 tailleCorps =
-                            // Taille de l'identifiant de la carte
-                            sizeof(quint8) + mapImageId.size()*sizeof(QChar);
-
-                    // Buffer d'emission
-                    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-                    // Creation de l'entete du message
-                    enteteMessage *uneEntete;
-                    uneEntete = (enteteMessage *) donnees;
-                    uneEntete->categorie = image;
-                    uneEntete->action = fermerImage;
-                    uneEntete->tailleDonnees = tailleCorps;
-
-                    // Creation du corps du message
-                    int p = sizeof(enteteMessage);
-                    // Ajout de l'identifiant de la carte
-                    quint8 tailleIdImage = mapImageId.size();
-                    memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
-                    p+=sizeof(quint8);
-                    memcpy(&(donnees[p]), mapImageId.data(), tailleIdImage*sizeof(QChar));
-                    p+=tailleIdImage*sizeof(QChar);
-
-                    // Emission de la demande de fermeture de l'image au serveur ou a l'ensemble des clients
-                    emettre(donnees, tailleCorps + sizeof(enteteMessage));
-
-                    delete[] donnees;
-
-                   //((Image *)active)->~Image();
-            }
-            if(NULL!=associatedAct)
-            {
-                delete associatedAct;
-            }
-            delete active;
-            delete subactive;
+            associatedAct = imageFenetre->getAssociatedAction();
+            mapImageId = imageFenetre->getImageId();
+            image = true;
         }
+        else
+        {
+            CarteFenetre *carteFenetre= dynamic_cast<CarteFenetre*>(active);
+            if(NULL!=carteFenetre)
+            {
+                mapImageId = carteFenetre->getMapId();
+                associatedAct = m_mapAction->value(carteFenetre);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        QMessageBox msgBox(this);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel );
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        msgBox.setIcon(QMessageBox::Information);
+        msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
+        Qt::WindowFlags flags = msgBox.windowFlags();
+        msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
+
+
+        if (!image)
+        {
+            msgBox.setWindowTitle(tr("Close Map"));
+        }
+        else
+        {
+            msgBox.setWindowTitle(tr("Close Picture"));
+        }
+        msgBox.setText(tr("Do you want to close %1 %2?\nIt will be closed for everybody").arg(mapImageTitle).arg(image?tr(""):tr("(Map)")));
+
+
+
+        msgBox.exec();
+        if (msgBox.result() != QMessageBox::Yes)
+            return;
+
+        if (!image)
+        {
+            // Taille des donnees
+            quint32 tailleCorps =
+                    // Taille de l'identifiant de la carte
+                    sizeof(quint8) + mapImageId.size()*sizeof(QChar);
+
+            // Buffer d'emission
+            char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
+
+            // Creation de l'entete du message
+            enteteMessage *uneEntete;
+            uneEntete = (enteteMessage *) donnees;
+            uneEntete->categorie = plan;
+            uneEntete->action = fermerPlan;
+            uneEntete->tailleDonnees = tailleCorps;
+
+            // Creation du corps du message
+            int p = sizeof(enteteMessage);
+            // Ajout de l'identifiant de la carte
+            quint8 tailleIdCarte = mapImageId.size();
+            memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
+            p+=sizeof(quint8);
+            memcpy(&(donnees[p]), mapImageId.data(), tailleIdCarte*sizeof(QChar));
+            p+=tailleIdCarte*sizeof(QChar);
+
+            // Emission de la demande de fermeture de la carte au serveur ou a l'ensemble des clients
+            emettre(donnees, tailleCorps + sizeof(enteteMessage));
+            // Liberation du buffer d'emission
+            delete[] donnees;
+
+
+            //((CarteFenetre *)active)->~CarteFenetre();
+
+        }
+        else
+        {
+            // Taille des donnees
+            quint32 tailleCorps =
+                    // Taille de l'identifiant de la carte
+                    sizeof(quint8) + mapImageId.size()*sizeof(QChar);
+
+            // Buffer d'emission
+            char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
+
+            // Creation de l'entete du message
+            enteteMessage *uneEntete;
+            uneEntete = (enteteMessage *) donnees;
+            uneEntete->categorie = image;
+            uneEntete->action = fermerImage;
+            uneEntete->tailleDonnees = tailleCorps;
+
+            // Creation du corps du message
+            int p = sizeof(enteteMessage);
+            // Ajout de l'identifiant de la carte
+            quint8 tailleIdImage = mapImageId.size();
+            memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
+            p+=sizeof(quint8);
+            memcpy(&(donnees[p]), mapImageId.data(), tailleIdImage*sizeof(QChar));
+            p+=tailleIdImage*sizeof(QChar);
+
+            // Emission de la demande de fermeture de l'image au serveur ou a l'ensemble des clients
+            emettre(donnees, tailleCorps + sizeof(enteteMessage));
+
+            delete[] donnees;
+
+            //((Image *)active)->~Image();
+        }
+        if(NULL!=associatedAct)
+        {
+            delete associatedAct;
+        }
+        delete active;
+        delete subactive;
+    }
 }
 
 void MainWindow::afficherNomsPj(bool afficher)
 {
-        G_affichageNomPj = afficher;
+    G_affichageNomPj = afficher;
 }
 
 void MainWindow::afficherNomsPnj(bool afficher)
 {
-        G_affichageNomPnj = afficher;
+    G_affichageNomPnj = afficher;
 }
 void MainWindow::afficherNumerosPnj(bool afficher)
 {
-        G_affichageNumeroPnj = afficher;
+    G_affichageNumeroPnj = afficher;
 }
 
 void MainWindow::mettreAJourEspaceTravail()
 {
 
-        QMdiSubWindow* active = m_mdiArea->currentSubWindow();
+    QMdiSubWindow* active = m_mdiArea->currentSubWindow();
 
 
-        if (active)
-        {
-                changementFenetreActive(active);
-        }
+    if (active)
+    {
+        changementFenetreActive(active);
+    }
 }
 
 void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
@@ -1126,7 +1121,7 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
     QWidget* widget=NULL;
     if(NULL!=subWindow)
     {
-         widget = subWindow->widget();
+        widget = subWindow->widget();
     }
 
     bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
@@ -1136,7 +1131,7 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
         actionSauvegarderPlan->setEnabled(true);
     }
     else if (widget != NULL && widget->objectName() == QString("Image") &&
-            (localPlayerIsGM || static_cast<Image *>(widget)->proprietaireImage()))
+             (localPlayerIsGM || static_cast<Image *>(widget)->proprietaireImage()))
     {
         actionFermerPlan->setEnabled(true);
         actionSauvegarderPlan->setEnabled(false);
@@ -1149,12 +1144,12 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
 }
 void MainWindow::majCouleursPersonnelles()
 {
-        m_toolBar->majCouleursPersonnelles();
+    m_toolBar->majCouleursPersonnelles();
 }
 
 void MainWindow::newMap()
 {
-       // fenetreNouveauPlan = new NouveauPlanVide(this);
+    // fenetreNouveauPlan = new NouveauPlanVide(this);
 
 
     m_newEmptyMapDialog->resetData();
@@ -1162,88 +1157,88 @@ void MainWindow::newMap()
     {
 
 
-            QString idMap = QUuid::createUuid().toString();
-            buildNewMap(m_newEmptyMapDialog->getTitle(),idMap,m_newEmptyMapDialog->getColor(),m_newEmptyMapDialog->getSize(),m_newEmptyMapDialog->getPermission());
+        QString idMap = QUuid::createUuid().toString();
+        buildNewMap(m_newEmptyMapDialog->getTitle(),idMap,m_newEmptyMapDialog->getColor(),m_newEmptyMapDialog->getSize(),m_newEmptyMapDialog->getPermission());
 
 
-            QString titre = m_newEmptyMapDialog->getTitle();
-            // On recupere la couleur du fond
-            QColor couleur = m_newEmptyMapDialog->getColor();
-            quint16 larg = m_newEmptyMapDialog->getSize().width();
-            quint16 haut = m_newEmptyMapDialog->getSize().height();
+        QString titre = m_newEmptyMapDialog->getTitle();
+        // On recupere la couleur du fond
+        QColor couleur = m_newEmptyMapDialog->getColor();
+        quint16 larg = m_newEmptyMapDialog->getSize().width();
+        quint16 haut = m_newEmptyMapDialog->getSize().height();
 
-            // Emission de la demande de creation d'un plan vide
-            // Taille des donnees
-            quint32 tailleCorps =
-                    // Taille du nom
-                    sizeof(quint16) + titre.size()*sizeof(QChar) +
-                    // Taille de l'identifiant
-                    sizeof(quint8) + idMap.size()*sizeof(QChar) +
-                    // Taille de la couleur
-                    sizeof(QRgb) +
-                    // Taille des dimensions de la carte
-                    sizeof(quint16) + sizeof(quint16) +
-                    // Taille des PJ
-                    sizeof(quint8) + sizeof(Carte::PermissionMode);
+        // Emission de la demande de creation d'un plan vide
+        // Taille des donnees
+        quint32 tailleCorps =
+                // Taille du nom
+                sizeof(quint16) + titre.size()*sizeof(QChar) +
+                // Taille de l'identifiant
+                sizeof(quint8) + idMap.size()*sizeof(QChar) +
+                // Taille de la couleur
+                sizeof(QRgb) +
+                // Taille des dimensions de la carte
+                sizeof(quint16) + sizeof(quint16) +
+                // Taille des PJ
+                sizeof(quint8) + sizeof(Carte::PermissionMode);
 
-            // Buffer d'emission
-            char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
+        // Buffer d'emission
+        char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
 
-            // Creation de l'entete du message
-            enteteMessage *uneEntete;
-            uneEntete = (enteteMessage *) donnees;
-            uneEntete->categorie = plan;
-            uneEntete->action = nouveauPlanVide;
-            uneEntete->tailleDonnees = tailleCorps;
+        // Creation de l'entete du message
+        enteteMessage *uneEntete;
+        uneEntete = (enteteMessage *) donnees;
+        uneEntete->categorie = plan;
+        uneEntete->action = nouveauPlanVide;
+        uneEntete->tailleDonnees = tailleCorps;
 
-            // Creation du corps du message
-            int p = sizeof(enteteMessage);
-            // Ajout du titre
-            quint16 tailleTitre = titre.size();
-            memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
-            p+=sizeof(quint16);
-            memcpy(&(donnees[p]), titre.data(), tailleTitre*sizeof(QChar));
-            p+=tailleTitre*sizeof(QChar);
-            // Ajout de l'identifiant
-            quint8 tailleId = idMap.size();
-            memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
-            p+=sizeof(quint8);
-            memcpy(&(donnees[p]), idMap.data(), tailleId*sizeof(QChar));
-            p+=tailleId*sizeof(QChar);
-            // Ajout de la couleur
-            QRgb rgb = couleur.rgb();
-            memcpy(&(donnees[p]), &rgb, sizeof(QRgb));
-            p+=sizeof(QRgb);
-            // Ajout de la largeur et de la hauteur de la carte
-            memcpy(&(donnees[p]), &larg, sizeof(quint16));
-            p+=sizeof(quint16);
-            memcpy(&(donnees[p]), &haut, sizeof(quint16));
-            p+=sizeof(quint16);
-            // Ajout de la taille des PJ
-            quint8 taillePj = 1;
-            memcpy(&(donnees[p]), &taillePj, sizeof(quint8));
-            p+=sizeof(quint8);
+        // Creation du corps du message
+        int p = sizeof(enteteMessage);
+        // Ajout du titre
+        quint16 tailleTitre = titre.size();
+        memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
+        p+=sizeof(quint16);
+        memcpy(&(donnees[p]), titre.data(), tailleTitre*sizeof(QChar));
+        p+=tailleTitre*sizeof(QChar);
+        // Ajout de l'identifiant
+        quint8 tailleId = idMap.size();
+        memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
+        p+=sizeof(quint8);
+        memcpy(&(donnees[p]), idMap.data(), tailleId*sizeof(QChar));
+        p+=tailleId*sizeof(QChar);
+        // Ajout de la couleur
+        QRgb rgb = couleur.rgb();
+        memcpy(&(donnees[p]), &rgb, sizeof(QRgb));
+        p+=sizeof(QRgb);
+        // Ajout de la largeur et de la hauteur de la carte
+        memcpy(&(donnees[p]), &larg, sizeof(quint16));
+        p+=sizeof(quint16);
+        memcpy(&(donnees[p]), &haut, sizeof(quint16));
+        p+=sizeof(quint16);
+        // Ajout de la taille des PJ
+        quint8 taillePj = 1;
+        memcpy(&(donnees[p]), &taillePj, sizeof(quint8));
+        p+=sizeof(quint8);
 
-            quint8 mode = (quint8)m_newEmptyMapDialog->getPermission();
-            memcpy(&(donnees[p]), &mode, sizeof(quint8));
-            p+=sizeof(quint8);
+        quint8 mode = (quint8)m_newEmptyMapDialog->getPermission();
+        memcpy(&(donnees[p]), &mode, sizeof(quint8));
+        p+=sizeof(quint8);
 
-            // On emet vers les clients ou le serveur
-            emettre(donnees, tailleCorps + sizeof(enteteMessage));
-            // Liberation du buffer d'emission
-            delete[] donnees;
+        // On emet vers les clients ou le serveur
+        emettre(donnees, tailleCorps + sizeof(enteteMessage));
+        // Liberation du buffer d'emission
+        delete[] donnees;
     }
 
 }
 void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond, QSize size,Carte::PermissionMode mode)
 {
-        QImage image(size, QImage::Format_ARGB32_Premultiplied);
-        image.fill(couleurFond.rgb());
-        Carte *carte = new Carte(idCarte, &image);
-        carte->setPermissionMode(getPermission(mode));
-        carte->setPointeur(m_toolBar->getCurrentTool());
-        CarteFenetre *carteFenetre = new CarteFenetre(carte,this, m_mdiArea);
-        ajouterCarte(carteFenetre, titre);
+    QImage image(size, QImage::Format_ARGB32_Premultiplied);
+    image.fill(couleurFond.rgb());
+    Carte *carte = new Carte(idCarte, &image);
+    carte->setPermissionMode(getPermission(mode));
+    carte->setPointeur(m_toolBar->getCurrentTool());
+    CarteFenetre *carteFenetre = new CarteFenetre(carte,this, m_mdiArea);
+    ajouterCarte(carteFenetre, titre);
 }
 
 
@@ -1252,47 +1247,49 @@ void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond,
 
 void MainWindow::emettreTousLesPlans(Liaison * link)
 {
-        qDebug() << "emettreTousLesPlans " << link;
-        int tailleListe = listeCarteFenetre.size();
-        for (int i=0; i<tailleListe; ++i)
-        {
-                listeCarteFenetre[i]->carte()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
-                listeCarteFenetre[i]->carte()->emettreCarte(listeCarteFenetre[i]->windowTitle(), link);
-                listeCarteFenetre[i]->carte()->emettreTousLesPersonnages(link);
-        }
+    qDebug() << "emettreTousLesPlans " << link;
+    int tailleListe = listeCarteFenetre.size();
+    for (int i=0; i<tailleListe; ++i)
+    {
+        listeCarteFenetre[i]->carte()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
+        listeCarteFenetre[i]->carte()->emettreCarte(listeCarteFenetre[i]->windowTitle(), link);
+        listeCarteFenetre[i]->carte()->emettreTousLesPersonnages(link);
+    }
 }
 
 
 void MainWindow::emettreToutesLesImages(Liaison * link)
 {
-
-        qDebug() << "truc muche:" <<link << m_networkManager->getLinkToServer();
-        int tailleListe = listeImage.size();
-        NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
-        for (int i=0; i < tailleListe; ++i)
+    NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
+    foreach(QMdiSubWindow* sub, m_pictureList)
+    {
+        Image* img = static_cast<Image*>(sub->widget());
+        if(NULL!=img)
         {
-                listeImage[i]->fill(message);
-                message.sendTo(link);
+            img->fill(message);
+            message.sendTo(link);
         }
+
+    }
 }
 
 Carte * MainWindow::trouverCarte(QString idCarte)
 {
-        // Taille de la liste des CarteFenetre
-        int tailleListe = listeCarteFenetre.size();
+    // Taille de la liste des CarteFenetre
+    int tailleListe = listeCarteFenetre.size();
 
-        bool ok = false;
-        int i;
-        for (i=0; i<tailleListe && !ok; ++i)
-                if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
-                        ok = true;
+    bool ok = false;
+    int i;
+    for (i=0; i<tailleListe && !ok; ++i)
+        if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
+            ok = true;
 
-        // Si la carte vient d'etre trouvee on renvoie son pointeur
-        if (ok)
-                return listeCarteFenetre[i-1]->carte();
-        // Sinon on renvoie -1
-        else
-                return 0;
+    // Si la carte vient d'etre trouvee on renvoie son pointeur
+    if (ok)
+        return listeCarteFenetre[i-1]->carte();
+    // Sinon on renvoie -1
+    else
+        return 0;
 }
 
 void MainWindow::removeMapFromId(QString idCarte)
@@ -1309,160 +1306,154 @@ void MainWindow::removeMapFromId(QString idCarte)
 
 void MainWindow::quitterApplication(bool perteConnexion)
 {
-        // Creation de la boite d'alerte
-        QMessageBox msgBox(this);
-        QAbstractButton *boutonSauvegarder         = msgBox.addButton(QMessageBox::Save);
-        QAbstractButton *boutonQuitter                 = msgBox.addButton(tr("Quit"), QMessageBox::RejectRole);
-        //msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
-        // On supprime l'icone de la barre de titre
-        Qt::WindowFlags flags = msgBox.windowFlags();
-        msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
+    // Creation de la boite d'alerte
+    QMessageBox msgBox(this);
+    QAbstractButton *boutonSauvegarder         = msgBox.addButton(QMessageBox::Save);
+    QAbstractButton *boutonQuitter                 = msgBox.addButton(tr("Quit"), QMessageBox::RejectRole);
+    //msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
+    // On supprime l'icone de la barre de titre
+    Qt::WindowFlags flags = msgBox.windowFlags();
+    msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
-        // Creation du message
-        QString message;
-        QString msg = m_preferences->value("Application_Name","rolisteam").toString();
+    // Creation du message
+    QString message;
+    QString msg = m_preferences->value("Application_Name","rolisteam").toString();
 
-        // S'il s'agit d'une perte de connexion
-        if (perteConnexion)
-        {
-            message = tr("Connection has been lost. %1 will be close").arg(msg);
-                // Icone de la fenetre
-                msgBox.setIcon(QMessageBox::Critical);
-                // M.a.j du titre et du message
-                msgBox.setWindowTitle(tr("Connection lost"));
-        }
-        else
-        {
-                // Icone de la fenetre
-                msgBox.setIcon(QMessageBox::Information);
-                // Ajout d'un bouton
-                msgBox.addButton(QMessageBox::Cancel);
-                // M.a.j du titre et du message
-                msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
-        }
+    // S'il s'agit d'une perte de connexion
+    if (perteConnexion)
+    {
+        message = tr("Connection has been lost. %1 will be close").arg(msg);
+        // Icone de la fenetre
+        msgBox.setIcon(QMessageBox::Critical);
+        // M.a.j du titre et du message
+        msgBox.setWindowTitle(tr("Connection lost"));
+    }
+    else
+    {
+        // Icone de la fenetre
+        msgBox.setIcon(QMessageBox::Information);
+        // Ajout d'un bouton
+        msgBox.addButton(QMessageBox::Cancel);
+        // M.a.j du titre et du message
+        msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
+    }
 
-        // Si l'utilisateur est un joueur
+    // Si l'utilisateur est un joueur
+    if (!PlayersList::instance()->localPlayer()->isGM())
+    {
+        message += tr("Do you want to save your minutes before to quit %1?").arg(msg);
+    }
+    // Si l'utilisateut est un MJ
+    else
+    {
+        message += tr("Do you want to save your scenario before to quit %1?").arg(msg);
+
+    }
+
+    //M.a.j du message de la boite de dialogue
+    msgBox.setText(message);
+    // Ouverture de la boite d'alerte
+    msgBox.exec();
+
+    // Si l'utilisateur a clique sur "Quitter", on quitte l'application
+    if (msgBox.clickedButton() == boutonQuitter)
+    {
+        emit closing();
+        writeSettings();
+        m_noteEditor->close();
+
+        /// @todo : make sure custom colors are saved.
+        // On quitte l'application
+        qApp->quit();
+    }
+
+    // Si l'utilisateur a clique sur "Sauvegarder", on applique l'action appropriee a la nature de l'utilisateur
+    else if (msgBox.clickedButton() == boutonSauvegarder)
+    {
+        bool ok;
+        // Si l'utilisateur est un joueur, on sauvegarde les notes
         if (!PlayersList::instance()->localPlayer()->isGM())
-        {
-                message += tr("Do you want to save your minutes before to quit %1?").arg(msg);
-        }
-        // Si l'utilisateut est un MJ
+            ok = sauvegarderNotes();
+        // S'il est MJ, on sauvegarde le scenario
         else
-        {
-                message += tr("Do you want to save your scenario before to quit %1?").arg(msg);
+            ok = sauvegarderScenario();
 
-        }
-
-        //M.a.j du message de la boite de dialogue
-        msgBox.setText(message);
-        // Ouverture de la boite d'alerte
-        msgBox.exec();
-
-        // Si l'utilisateur a clique sur "Quitter", on quitte l'application
-        if (msgBox.clickedButton() == boutonQuitter)
+        // Puis on quitte l'application si l'utilisateur a sauvegarde ou s'il s'agit d'une perte de connexion
+        if (ok || perteConnexion)
         {
             emit closing();
             writeSettings();
             m_noteEditor->close();
-
-        /// @todo : make sure custom colors are saved.
+            // On sauvegarde le fichier d'initialisation
+            /// @todo : make sure custom colors are saved.
             // On quitte l'application
             qApp->quit();
         }
-
-        // Si l'utilisateur a clique sur "Sauvegarder", on applique l'action appropriee a la nature de l'utilisateur
-        else if (msgBox.clickedButton() == boutonSauvegarder)
-        {
-                bool ok;
-                // Si l'utilisateur est un joueur, on sauvegarde les notes
-                if (!PlayersList::instance()->localPlayer()->isGM())
-                        ok = sauvegarderNotes();
-                // S'il est MJ, on sauvegarde le scenario
-                else
-                        ok = sauvegarderScenario();
-
-                // Puis on quitte l'application si l'utilisateur a sauvegarde ou s'il s'agit d'une perte de connexion
-                if (ok || perteConnexion)
-                {
-                    emit closing();
-                    writeSettings();
-                    m_noteEditor->close();
-                    // On sauvegarde le fichier d'initialisation
-                    /// @todo : make sure custom colors are saved.
-                    // On quitte l'application
-                    qApp->quit();
-                }
-        }
+    }
 }
 
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-        event->ignore();
-        quitterApplication();
+    event->ignore();
+    quitterApplication();
 }
-Image *MainWindow::trouverImage(QString idImage)
+QMdiSubWindow* MainWindow::findPictureSubWindow(QString idImage)
 {
-        // Taille de la liste des Images
-        int tailleListe = listeImage.size();
+    foreach(QMdiSubWindow* sub, m_pictureList)
+    {
+        Image* img = static_cast<Image*>(sub->widget());
+        if(NULL!=img)
+        {
+           if(img->getImageId() == idImage)
+           {
+               return sub;
+           }
+        }
 
-        bool ok = false;
-        int i;
-        for (i=0; i<tailleListe && !ok; ++i)
-                if (listeImage[i]->getImageId() == idImage)
-                        ok = true;
-
-        // Si l'Image vient d'etre trouve on renvoie son pointeur
-        if (ok)
-                return listeImage[i-1];
-        // Sinon on renvoie 0
-        else
-                return 0;
+    }
+    return NULL;
 }
 bool MainWindow::enleverCarteDeLaListe(QString idCarte)
 {
-        // Taille de la liste des CarteFenetre
-        int tailleListe = listeCarteFenetre.size();
+    // Taille de la liste des CarteFenetre
+    int tailleListe = listeCarteFenetre.size();
 
-        bool ok = false;
-        int i;
-        for (i=0; i<tailleListe && !ok; ++i)
-        {
-                if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
-                                   ok = true;
-        }
+    bool ok = false;
+    int i;
+    for (i=0; i<tailleListe && !ok; ++i)
+    {
+        if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
+            ok = true;
+    }
 
 
-        // Si la carte vient d'etre trouvee on supprime l'element
-        if (ok)
-        {
-                listeCarteFenetre.removeAt(i-1);
-                return true;
-        }
-        // Sinon on renvoie false
-        else
-                return false;
+    // Si la carte vient d'etre trouvee on supprime l'element
+    if (ok)
+    {
+        listeCarteFenetre.removeAt(i-1);
+        return true;
+    }
+    // Sinon on renvoie false
+    else
+        return false;
 }
 bool MainWindow::enleverImageDeLaListe(QString idImage)
 {
-        // Taille de la liste des Images
-        int tailleListe = listeImage.size();
-
-        bool ok = false;
-        int i;
-        for (i=0; i<tailleListe && !ok; ++i)
-                if (listeImage[i]->getImageId() == idImage)
-                        ok = true;
-
-        // Si l'image vient d'etre trouvee on supprime l'element
-        if (ok)
+    foreach(QMdiSubWindow* sub, m_pictureList)
+    {
+        Image* img = static_cast<Image*>(sub->widget());
+        if(NULL!=img)
         {
-                listeImage.removeAt(i-1);
-                return true;
+           if(img->getImageId() == idImage)
+           {
+               m_pictureList.removeOne(sub);
+               return true;
+           }
         }
-        // Sinon on renvoie false
-        else
-                return false;
+
+    }
+    return false;
 }
 
 QWidget* MainWindow::registerSubWindow(QWidget * subWindow)
@@ -1472,56 +1463,56 @@ QWidget* MainWindow::registerSubWindow(QWidget * subWindow)
 
 void MainWindow::sauvegarderPlan()
 {
-        // On recupere la fenetre active
-        QWidget *active = m_mdiArea->activeWindow();
+    // On recupere la fenetre active
+    QWidget *active = m_mdiArea->activeWindow();
 
-        // On verifie pour le principe qu'il s'agit bien d'une CarteFenetre
-        if (active->objectName() != "CarteFenetre")
-        {
-                qWarning("Not a map (sauvegarderPlan - MainWindow.h)");
-                return;
-        }
+    // On verifie pour le principe qu'il s'agit bien d'une CarteFenetre
+    if (active->objectName() != "CarteFenetre")
+    {
+        qWarning("Not a map (sauvegarderPlan - MainWindow.h)");
+        return;
+    }
 
-        // Ouverture du selecteur de fichiers
-        QString fichier = QFileDialog::getSaveFileName(this, tr("Save Map"), m_preferences->value("MapDirectory",QDir::homePath()).toString(), tr("Map (*.pla)"));
+    // Ouverture du selecteur de fichiers
+    QString fichier = QFileDialog::getSaveFileName(this, tr("Save Map"), m_preferences->value("MapDirectory",QDir::homePath()).toString(), tr("Map (*.pla)"));
 
-        // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
-        if (fichier.isNull())
-                return;
+    // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
+    if (fichier.isNull())
+        return;
 
 #ifdef MACOS
-        // On rajoute l'extension
-        fichier += ".pla";
+    // On rajoute l'extension
+    fichier += ".pla";
 #endif
 
-        // On met a jour le chemin vers les plans
-        int dernierSlash = fichier.lastIndexOf("/");
-        m_preferences->registerValue("MapDirectory",fichier.left(dernierSlash));
+    // On met a jour le chemin vers les plans
+    int dernierSlash = fichier.lastIndexOf("/");
+    m_preferences->registerValue("MapDirectory",fichier.left(dernierSlash));
 
-        // Creation du fichier
-        QFile file(fichier);
-        // Ouverture du fichier en ecriture seule
-        if (!file.open(QIODevice::WriteOnly))
-        {
-                qWarning("could not open file for writting (sauvegarderPlan - MainWindow.cpp)");
-                return;
-        }
-        QDataStream out(&file);
-        // On demande a la carte de se sauvegarder dans le fichier
-        ((CarteFenetre *)active)->carte()->sauvegarderCarte(out);
-        // Fermeture du fichier
-        file.close();
+    // Creation du fichier
+    QFile file(fichier);
+    // Ouverture du fichier en ecriture seule
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        qWarning("could not open file for writting (sauvegarderPlan - MainWindow.cpp)");
+        return;
+    }
+    QDataStream out(&file);
+    // On demande a la carte de se sauvegarder dans le fichier
+    ((CarteFenetre *)active)->carte()->sauvegarderCarte(out);
+    // Fermeture du fichier
+    file.close();
 }
 
 
 void MainWindow::changementNatureUtilisateur()
 {
 
-        m_toolBar->updateUi();
-        updateUi();
+    m_toolBar->updateUi();
+    updateUi();
 #ifndef NULL_PLAYER
-        removeDockWidget(m_audioPlayer);
-        m_audioPlayer->show();
+    removeDockWidget(m_audioPlayer);
+    m_audioPlayer->show();
 #endif
 }
 
@@ -1537,125 +1528,120 @@ void MainWindow::displayMinutesEditor(bool visible, bool isCheck)
     }
     if (isCheck)
     {
-            m_noteEditorAct->setChecked(visible);
+        m_noteEditorAct->setChecked(visible);
     }
 
 }
 void MainWindow::openNote()
 {
-        // open file name.
-        QString filename = QFileDialog::getOpenFileName(this, tr("Open Minutes"), m_preferences->value("MinutesDirectory",QDir::homePath()).toString(), m_noteEditor->getFilter());
+    // open file name.
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open Minutes"), m_preferences->value("MinutesDirectory",QDir::homePath()).toString(), m_noteEditor->getFilter());
 
-        if (!filename.isEmpty())  {
-            QFileInfo fi(filename);
-            m_preferences->registerValue("MinutesDirectory",fi.absolutePath() +"/");
-            m_noteEditor->load(filename);
-            displayMinutesEditor(true, true);
-        }
+    if (!filename.isEmpty())  {
+        QFileInfo fi(filename);
+        m_preferences->registerValue("MinutesDirectory",fi.absolutePath() +"/");
+        m_noteEditor->load(filename);
+        displayMinutesEditor(true, true);
+    }
 
 }
 bool MainWindow::sauvegarderNotes()
 {    
-        return m_noteEditor->fileSave();
+    return m_noteEditor->fileSave();
 }
 void MainWindow::ouvrirScenario()
 {
-        // Ouverture du selecteur de fichier
-        QString fichier = QFileDialog::getOpenFileName(this, tr("Open scenario"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
+    // Ouverture du selecteur de fichier
+    QString fichier = QFileDialog::getOpenFileName(this, tr("Open scenario"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
-        // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
-        if (fichier.isNull())
-                return;
+    // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
+    if (fichier.isNull())
+        return;
 
-        // On met a jour le chemin vers les scenarii
-        int dernierSlash = fichier.lastIndexOf("/");
-        m_preferences->registerValue("StoryDirectory",fichier.left(dernierSlash));
+    // On met a jour le chemin vers les scenarii
+    int dernierSlash = fichier.lastIndexOf("/");
+    m_preferences->registerValue("StoryDirectory",fichier.left(dernierSlash));
 
-        // Creation du descripteur de fichier
-        QFile file(fichier);
-        // Ouverture du fichier en lecture seule
-        if (!file.open(QIODevice::ReadOnly))
-        {
-                qWarning("Cannot be read (ouvrirScenario - MainWindow.cpp)");
-                return;
-        }
-        QDataStream in(&file);
-
-
-        int nbrCartes;
-        in >> nbrCartes;
+    // Creation du descripteur de fichier
+    QFile file(fichier);
+    // Ouverture du fichier en lecture seule
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qWarning("Cannot be read (ouvrirScenario - MainWindow.cpp)");
+        return;
+    }
+    QDataStream in(&file);
 
 
-        for (int i=0; i<nbrCartes; ++i)
-        {
-
-            lireCarteEtPnj(in);
-        }
-
-        // On lit le nbr d'images a suivre
-        int nbrImages;
-        //file.read((char *)&nbrImages, sizeof(quint16));
-        in >>nbrImages;
-        // in >>On lit toutes les images presentes dans le fichier
-        for (int i=0; i<nbrImages; ++i)
-                lireImage(in);
+    int nbrCartes;
+    in >> nbrCartes;
 
 
-        //reading minutes
-        m_noteEditor->readFromBinary(in);
+    for (int i=0; i<nbrCartes; ++i)
+    {
 
-        bool tempbool;
-        in >> tempbool;
-        m_noteEditor->setVisible(tempbool);
-        m_noteEditorAct->setChecked(tempbool);
+        lireCarteEtPnj(in);
+    }
 
-        // closing file
-        file.close();
+    // On lit le nbr d'images a suivre
+    int nbrImages;
+    //file.read((char *)&nbrImages, sizeof(quint16));
+    in >>nbrImages;
+    // in >>On lit toutes les images presentes dans le fichier
+    for (int i=0; i<nbrImages; ++i)
+        lireImage(in);
+
+
+    //reading minutes
+    m_noteEditor->readFromBinary(in);
+
+    bool tempbool;
+    in >> tempbool;
+    m_noteEditor->setVisible(tempbool);
+    m_noteEditorAct->setChecked(tempbool);
+
+    // closing file
+    file.close();
 }
 bool MainWindow::sauvegarderScenario()
 {
-        // open file
-        QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenarios"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
+    // open file
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenarios"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
 
-        if (filename.isNull())
-        {
-                return false;
-        }
+    if (filename.isNull())
+    {
+        return false;
+    }
+    if(!filename.endsWith(".sce"))
+    {
+        filename += ".sce";
+    }
 
-        if(!filename.endsWith(".sce"))
-        {
-                filename += ".sce";
-        }
+    int dernierSlash = filename.lastIndexOf("/");
+    m_preferences->registerValue("StoryDirectory",filename.left(dernierSlash));
 
-        int dernierSlash = filename.lastIndexOf("/");
-        m_preferences->registerValue("StoryDirectory",filename.left(dernierSlash));
+    // Creation du descripteur de fichier
+    QFile file(filename);
+    // Ouverture du fichier en ecriture seule
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        qWarning("cannot be open (sauvegarderScenario - MainWindow.cpp)");
+        return false;
+    }
 
-        // Creation du descripteur de fichier
-        QFile file(filename);
-        // Ouverture du fichier en ecriture seule
-        if (!file.open(QIODevice::WriteOnly))
-        {
-                qWarning("cannot be open (sauvegarderScenario - MainWindow.cpp)");
-                return false;
-        }
+    QDataStream out(&file);
 
-        QDataStream out(&file);
+    // On commence par sauvegarder toutes les cartes
+    sauvegarderTousLesPlans(out);
+    sauvegarderToutesLesImages(out);
 
-        // On commence par sauvegarder toutes les cartes
-        sauvegarderTousLesPlans(out);
-        // Puis toutes les images
-        sauvegarderToutesLesImages(out);
-        // Et enfin les notes
-        /// @warning disable code for testing reason.
-        //editeurNotes->saveNoteBinary(out);
-        m_noteEditor->saveFileAsBinary(out);
-        out << m_noteEditor->isVisible();
+    m_noteEditor->saveFileAsBinary(out);
+    out << m_noteEditor->isVisible();
+    // closing file
+    file.close();
 
-        // closing file
-        file.close();
-
-        return true;
+    return true;
 }
 void MainWindow::sauvegarderTousLesPlans(QDataStream &out)
 {
@@ -1675,158 +1661,160 @@ void MainWindow::sauvegarderTousLesPlans(QDataStream &out)
 
 void MainWindow::sauvegarderToutesLesImages(QDataStream &out)
 {
-   out << listeImage.size();
-   for (int i=0; i<listeImage.size(); ++i)
-   {
-           listeImage[i]->sauvegarderImage(out, listeImage[i]->windowTitle());
-   }
+    out << m_pictureList.size();
+    foreach(QMdiSubWindow* sub, m_pictureList)
+    {
+        Image* img = static_cast<Image*>(sub->widget());
+        if(NULL!=img)
+        {
+             img->sauvegarderImage(out,sub->windowTitle());
+        }
+
+    }
 }
 
 
 void MainWindow::lireImage(QDataStream &file)
 {
-        // Lecture de l'image
+    // Lecture de l'image
 
-        // On recupere le titre
+    // On recupere le titre
 
-        QString titre;
-        QByteArray baImage;
-        QPoint topleft;
-        QSize size;
+    QString titre;
+    QByteArray baImage;
+    QPoint topleft;
+    QSize size;
 
-        file >> titre;
-        file >>topleft;
-        file >> size;
+    file >> titre;
+    file >>topleft;
+    file >> size;
 
-        QTextStream out(stderr,QIODevice::WriteOnly);
-        out << "lire image " << topleft.x() << "," << topleft.y()  << " size=("<< size.width()<<","<<size.height() << endl;
+    QTextStream out(stderr,QIODevice::WriteOnly);
+    out << "lire image " << topleft.x() << "," << topleft.y()  << " size=("<< size.width()<<","<<size.height() << endl;
 
-        file >> baImage;
+    file >> baImage;
 
-        bool ok;
-        // Creation de l'image
-        QImage img;
-        ok = img.loadFromData(baImage, "png");
-        if (!ok)
-                qWarning("Probleme de decompression de l'image (lireImage - Mainwindow.cpp)");
-
-        // Creation de l'action correspondante
-        QAction *action = m_windowMenu->addAction(titre);
-        action->setCheckable(true);
-        action->setChecked(true);
-
-        // Creation de l'identifiant
-        QString idImage = QUuid::createUuid().toString();
-
-        // Creation de la fenetre image
-        Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, &img, action,m_mdiArea);
-
-        // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
-        listeImage.append(imageFenetre);
-
-        // Ajout de l'image au workspace
-        QWidget* tmp = m_mdiArea->addWindow(imageFenetre);
-        tmp->setWindowIcon(QIcon(":/picture.png"));
-        tmp->move(topleft);
-        tmp->resize(size);
-
-        // Mise a jour du titre de l'image
-        imageFenetre->setWindowTitle(titre);
-
-        // Connexion de l'action avec l'affichage/masquage de la fenetre
-        connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
-        connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),imageFenetre,SLOT(setCurrentTool(BarreOutils::Tool)));
-        imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
-
-        // Affichage de l'image
-        imageFenetre->show();
+    bool ok;
+    // Creation de l'image
+    QImage img;
+    ok = img.loadFromData(baImage, "png");
+    if (!ok)
+        qWarning("Probleme de decompression de l'image (lireImage - Mainwindow.cpp)");
 
 
-        // Envoie de l'image aux autres utilisateurs
 
-        // On commence par compresser l'image (format png) dans un tableau
-        QByteArray byteArray;
-        QBuffer buffer(&byteArray);
-        ok = img.save(&buffer, "png", 60);
-        if (!ok)
-                qWarning("Probleme de compression de l'image (lireImage - MainWindow.cpp)");
+    // Creation de l'identifiant
+    QString idImage = QUuid::createUuid().toString();
 
-        // Taille des donnees
-        quint32 tailleCorps =
-                // Taille du titre
-                sizeof(quint16) + titre.size()*sizeof(QChar) +
-                // Taille de l'identifiant de l'image
-                sizeof(quint8) + idImage.size()*sizeof(QChar) +
-                // Taille de l'identifiant du joueur
-                sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
-                // Taille de l'image
-                sizeof(quint32) + byteArray.size();
+    // Creation de la fenetre image
+    Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, &img, NULL,m_mdiArea);
 
-        // Buffer d'emission
-        char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
 
-        // Creation de l'entete du message
-        enteteMessage *uneEntete;
-        uneEntete = (enteteMessage *) donnees;
-        uneEntete->categorie = image;
-        uneEntete->action = chargerImage;
-        uneEntete->tailleDonnees = tailleCorps;
+    addImageToMdiArea(imageFenetre,titre);
 
-        // Creation du corps du message
-        int p = sizeof(enteteMessage);
-        // Ajout du titre
-        quint16 tailleDuTitre = titre.size();
-        memcpy(&(donnees[p]), &tailleDuTitre, sizeof(quint16));
-        p+=sizeof(quint16);
-        memcpy(&(donnees[p]), titre.data(), tailleDuTitre*sizeof(QChar));
-        p+=tailleDuTitre*sizeof(QChar);
-        // Ajout de l'identifiant de l'image
-        quint8 tailleIdImage = idImage.size();
-        memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), idImage.data(), tailleIdImage*sizeof(QChar));
-        p+=tailleIdImage*sizeof(QChar);
-        // Ajout de l'identifiant du joueur
-        quint8 tailleIdJoueur = G_idJoueurLocal.size();
-        memcpy(&(donnees[p]), &tailleIdJoueur, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), G_idJoueurLocal.data(), tailleIdJoueur*sizeof(QChar));
-        p+=tailleIdJoueur*sizeof(QChar);
-        // Ajout de l'image
-        quint32 tailleDeImage = byteArray.size();
-        memcpy(&(donnees[p]), &tailleDeImage, sizeof(quint32));
-        p+=sizeof(quint32);
-        memcpy(&(donnees[p]), byteArray.data(), tailleDeImage);
-        p+=tailleDeImage;
 
-        // Emission de l'image au serveur ou a l'ensemble des clients
-        emettre(donnees, tailleCorps + sizeof(enteteMessage));
-        // Liberation du buffer d'emission
-        delete[] donnees;
+
+   /* tmp->move(topleft);
+    tmp->resize(size);*/
+
+
+
+    // Connexion de l'action avec l'affichage/masquage de la fenetre
+    //connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
+    connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),imageFenetre,SLOT(setCurrentTool(BarreOutils::Tool)));
+    imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
+
+    // Affichage de l'image
+    //imageFenetre->show();
+
+
+
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    ok = img.save(&buffer, "png", 60);
+    if (!ok)
+        qWarning("Probleme de compression de l'image (lireImage - MainWindow.cpp)");
+
+    // Taille des donnees
+    quint32 tailleCorps =
+            // Taille du titre
+            sizeof(quint16) + titre.size()*sizeof(QChar) +
+            // Taille de l'identifiant de l'image
+            sizeof(quint8) + idImage.size()*sizeof(QChar) +
+            // Taille de l'identifiant du joueur
+            sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
+            // Taille de l'image
+            sizeof(quint32) + byteArray.size();
+
+    // Buffer d'emission
+    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
+
+    // Creation de l'entete du message
+    enteteMessage *uneEntete;
+    uneEntete = (enteteMessage *) donnees;
+    uneEntete->categorie = image;
+    uneEntete->action = chargerImage;
+    uneEntete->tailleDonnees = tailleCorps;
+
+    // Creation du corps du message
+    int p = sizeof(enteteMessage);
+    // Ajout du titre
+    quint16 tailleDuTitre = titre.size();
+    memcpy(&(donnees[p]), &tailleDuTitre, sizeof(quint16));
+    p+=sizeof(quint16);
+    memcpy(&(donnees[p]), titre.data(), tailleDuTitre*sizeof(QChar));
+    p+=tailleDuTitre*sizeof(QChar);
+    // Ajout de l'identifiant de l'image
+    quint8 tailleIdImage = idImage.size();
+    memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
+    p+=sizeof(quint8);
+    memcpy(&(donnees[p]), idImage.data(), tailleIdImage*sizeof(QChar));
+    p+=tailleIdImage*sizeof(QChar);
+    // Ajout de l'identifiant du joueur
+    quint8 tailleIdJoueur = G_idJoueurLocal.size();
+    memcpy(&(donnees[p]), &tailleIdJoueur, sizeof(quint8));
+    p+=sizeof(quint8);
+    memcpy(&(donnees[p]), G_idJoueurLocal.data(), tailleIdJoueur*sizeof(QChar));
+    p+=tailleIdJoueur*sizeof(QChar);
+    // Ajout de l'image
+    quint32 tailleDeImage = byteArray.size();
+    memcpy(&(donnees[p]), &tailleDeImage, sizeof(quint32));
+    p+=sizeof(quint32);
+    memcpy(&(donnees[p]), byteArray.data(), tailleDeImage);
+    p+=tailleDeImage;
+
+    // Emission de l'image au serveur ou a l'ensemble des clients
+    emettre(donnees, tailleCorps + sizeof(enteteMessage));
+    // Liberation du buffer d'emission
+    delete[] donnees;
 }
 
 
 
 void MainWindow::aPropos()
 {
-        QMessageBox::about(this, tr("About Rolisteam"),
-                            tr("<h1>Rolisteam v%1</h1>"
-                            "<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others and to share maps and pictures. Rolisteam also provides many features for : permission management, background music and dice roll. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.</p>").arg(m_version) %
-                            tr("<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>") %
-                            tr("<p><h3>Web Sites :</h3>"
-                            "<ul>"
-                            "<li><a href=\"http://www.rolisteam.org/\">Official Rolisteam Site</a></li> "
-                            "<li><a href=\"http://code.google.com/p/rolisteam/issues/list\">Bug Tracker</a></li> "
-                            "</ul></p>"
-                            "<p><h3>Current developers :</h3>"
-                            "<ul>"
-                            "<li><a href=\"http://www.rolisteam.org/contact\">Renaud Guezennec</a></li>"
-                            "<li><a href=\"mailto:joseph.boudou@matabio.net\">Joseph Boudou<a/></li>"
-                            "</ul></p> "
-                            "<p><h3>Retired developers :</h3>"
-                            "<ul>"
-                            "<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni<a/> (rolistik)  </li>"
-                            "</ul></p>"));
+    QMessageBox::about(this, tr("About Rolisteam"),
+                       tr("<h1>Rolisteam v%1</h1>"
+                          "<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others and to share maps and pictures."
+                          "Rolisteam also provides many features for : permission management, background music and dice roll. Rolisteam is written in Qt4."
+                          "Its dependencies are : Qt4 and Phonon.</p>").arg(m_version) %
+                       tr("<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later)."
+                          "A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam."
+                          "Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>") %
+                       tr("<p><h3>Web Sites :</h3>"
+                          "<ul>"
+                          "<li><a href=\"http://www.rolisteam.org/\">Official Rolisteam Site</a></li> "
+                          "<li><a href=\"http://code.google.com/p/rolisteam/issues/list\">Bug Tracker</a></li> "
+                          "</ul></p>"
+                          "<p><h3>Current developers :</h3>"
+                          "<ul>"
+                          "<li><a href=\"http://www.rolisteam.org/contact\">Renaud Guezennec</a></li>"
+                          "<li><a href=\"mailto:joseph.boudou@matabio.net\">Joseph Boudou<a/></li>"
+                          "</ul></p> "
+                          "<p><h3>Retired developers :</h3>"
+                          "<ul>"
+                          "<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni<a/> (rolistik)  </li>"
+                          "</ul></p>"));
 }
 
 
@@ -1835,11 +1823,11 @@ void MainWindow::helpOnLine()
     if (!QDesktopServices::openUrl(QUrl("http://wiki.rolisteam.org/")))
     {
         QMessageBox * msgBox = new QMessageBox(
-                QMessageBox::Information,
-                tr("Help"),
+                    QMessageBox::Information,
+                    tr("Help"),
                     tr("Documentation of %1 can be found online at :<br> <a href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>").arg(m_preferences->value("Application_Name","rolisteam").toString()),
-                QMessageBox::Ok
-                );
+                    QMessageBox::Ok
+                    );
         msgBox->exec();
     }
 
@@ -1857,11 +1845,11 @@ void MainWindow::checkUpdate()
 }
 void MainWindow::updateUi()
 {
-/// @todo hide diametrePNj for players.
+    /// @todo hide diametrePNj for players.
     m_toolBar->updateUi();
-    #ifndef NULL_PLAYER
-        m_audioPlayer->updateUi();
-    #endif
+#ifndef NULL_PLAYER
+    m_audioPlayer->updateUi();
+#endif
     if(!PlayersList::instance()->localPlayer()->isGM())
     {
         m_newMapAct->setEnabled(false);
@@ -1903,23 +1891,23 @@ void MainWindow::updateMayBeNeeded()
 
 void MainWindow::AddHealthState(const QColor &color, const QString &label, QList<DessinPerso::etatDeSante> &listHealthState)
 {
-        DessinPerso::etatDeSante state;
-        state.couleurEtat = color;
-        state.nomEtat = label;
-        listHealthState.append(state);
+    DessinPerso::etatDeSante state;
+    state.couleurEtat = color;
+    state.nomEtat = label;
+    listHealthState.append(state);
 }
 
 void MainWindow::InitMousePointer(QCursor **pointer, const QString &iconFileName, const int hotX, const int hotY)
 // the pointer of pointer is to avoid deep modification of the rolistik's legacy
 {
-     QBitmap bitmap(iconFileName);
-     #ifndef Q_WS_X11
-        QBitmap mask(32,32);
-        mask.fill(Qt::color0);
-        (*pointer) = new QCursor(bitmap,mask, hotX, hotY);
-    #else
-        (*pointer) = new QCursor(bitmap, hotX, hotY);
-    #endif
+    QBitmap bitmap(iconFileName);
+#ifndef Q_WS_X11
+    QBitmap mask(32,32);
+    mask.fill(Qt::color0);
+    (*pointer) = new QCursor(bitmap,mask, hotX, hotY);
+#else
+    (*pointer) = new QCursor(bitmap, hotX, hotY);
+#endif
 
 }
 void MainWindow::readSettings()
@@ -1958,13 +1946,13 @@ Carte::PermissionMode MainWindow::getPermission(int id)
 {
     switch(id)
     {
-       case 0:
+    case 0:
         return Carte::GM_ONLY;
-       case 1:
+    case 1:
         return Carte::PC_MOVE;
-       case 2:
+    case 2:
         return Carte::PC_ALL;
-       default:
+    default:
         return Carte::GM_ONLY;
     }
 

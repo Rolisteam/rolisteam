@@ -44,6 +44,7 @@
 #include "WorkspaceAmeliore.h"
 #include "mainwindow.h"
 #include "BarreOutils.h"
+#include "preferencesmanager.h"
 
 class Liaison;
 class NetworkMessageWriter;
@@ -158,6 +159,7 @@ private :
     bool deplacementAutorise;
     double m_zoomLevel;
     WorkspaceAmeliore* m_parent;
+    PreferencesManager* m_prefManager;
 
     QSize m_NormalSize;
     QSize m_windowSize;

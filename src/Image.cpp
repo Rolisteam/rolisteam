@@ -45,6 +45,8 @@ Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QIm
 
     createActions();
 
+    m_prefManager = PreferencesManager::getInstance();
+
 	labelImage = new QLabel(this);
     m_pixMap = QPixmap::fromImage(*image);
     labelImage->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
@@ -66,6 +68,10 @@ Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QIm
     {
         fitWorkSpace();
     }
+
+    m_fitWindowAct->setChecked(m_prefManager->value("PictureAdjust",true).toBool());
+    fitWindow();
+
     //resize(image->width()+2, image->height()+2);
 }
 
@@ -82,36 +88,19 @@ QAction* Image::getAssociatedAction() const
     return m_internalAction;
 }
 
-/*void Image::closeEvent(QCloseEvent *event)
-{
 
-	hide();
-
-	actionAssociee->setChecked(false);
-
-	event->ignore();
-}*/
-
-/********************************************************************/
-/* Associe l'action d'affichage/masquage a la carte                 */
-/********************************************************************/	
 void Image::setInternalAction(QAction *action)
 {
     m_internalAction = action;
 }
 
-/********************************************************************/
-/* Renvoie true si l'utilisateur local est le proprietaire de       */
-/* l'image                                                          */
-/********************************************************************/
+
 bool Image::proprietaireImage()
 {
 	return idJoueur == G_idJoueurLocal;
 }
 
-/********************************************************************/
-/* Renvoie l'identifiant de l'image                                 */
-/********************************************************************/
+
 QString Image::getImageId()
 {
 	return idImage;
@@ -140,9 +129,7 @@ void Image::fill(NetworkMessageWriter & message) const
     message.byteArray32(baImage);
 }
 
-/********************************************************************/
-/* Sauvegarde l'image dans le fichier passe en parametre            */
-/********************************************************************/
+
 void Image::sauvegarderImage(QDataStream &out, QString titre)
 {
     bool ok;
@@ -160,9 +147,7 @@ void Image::sauvegarderImage(QDataStream &out, QString titre)
     out << size();
     out << baImage;
 }
-/********************************************************************/
-/* Un bouton de la souris vient d'etre enfonce                      */
-/********************************************************************/	
+
 void Image::mousePressEvent(QMouseEvent *event)
 {
 	// Si l'utilisateur a clique avec la bouton gauche et que l'outil main est selectionne
@@ -178,9 +163,7 @@ void Image::mousePressEvent(QMouseEvent *event)
 	}
 }
 
-/********************************************************************/
-/* Relache d'un bouton de la souris                                 */
-/********************************************************************/	
+
 void Image::mouseReleaseEvent(QMouseEvent *event)
 {
 	// Si le bouton gauche est relache on interdit le deplacement de la carte
@@ -188,9 +171,7 @@ void Image::mouseReleaseEvent(QMouseEvent *event)
 		deplacementAutorise = false;
 }
 
-/********************************************************************/
-/* Deplacement de la souris                                         */
-/********************************************************************/	
+
 void Image::mouseMoveEvent(QMouseEvent *event)
 {
 	// Si le deplacement est autorise

@@ -1268,7 +1268,7 @@ void Liaison::receptionMessageImage()
         // Ajout de la carte au workspace
         m_mainWindow->ajouterImage(imageFenetre, titre);
 
-        // Message sur le log utilisateur
+
         qDebug() << "titre" << titre;
         MainWindow::notifyUser(tr("Receiving picture: %1").arg(titre.left(titre.size()-QString(tr(" (Picture)")).size())));
 
@@ -1293,20 +1293,18 @@ void Liaison::receptionMessageImage()
         p+=tailleIdImage*sizeof(QChar);
         QString idImage(tableauIdImage, tailleIdImage);
 
-        // On recherche l'image concernee
-        Image *imageFenetre = m_mainWindow->trouverImage(idImage);
+        /// @todo recup sub instead to close it.
+        QMdiSubWindow* subwindow = m_mainWindow->findPictureSubWindow(idImage);
         // Si l'image est introuvable on affiche un message d'erreur
-        if (!imageFenetre)
-            qWarning("Image introuvable a la reception d'une demande de fermeture d'une image (receptionMessageImage - Liaison.cpp)");
-
-        // Si l'Image a ete trouvee, on la supprime
+        if (!subwindow)
+        {
+            qWarning() << "Image not found, already close ? (receptionMessageImage - Liaison.cpp)";
+        }
         else
         {
-            // Message sur le log utilisateur
-            QString titre = imageFenetre->windowTitle();
+            QString titre = subwindow->windowTitle();
             MainWindow::notifyUser(tr("Picture \"%1\" has been closed").arg(titre.left(titre.size() - QString(tr(" (Image)")).size())));
-            // Suppression de l'image
-            imageFenetre->~Image();
+            delete subwindow;
         }
 
         // Liberation de la memoire allouee
@@ -1422,9 +1420,7 @@ void Liaison::receptionMessageMusique()
 #endif
 }
 
-/********************************************************************/
-/* Reception d'un message de categorie Parametres                   */
-/********************************************************************/
+
 void Liaison::receptionMessageParametres()
 {
     if (entete.action == NetMsg::AddFeatureAction)
@@ -1433,11 +1429,7 @@ void Liaison::receptionMessageParametres()
     }
 }
 
-/********************************************************************/
-/* Fait suivre le message recu a l'ensemble des clients si tous =   */
-/* true, ou bien a tous a l'exception de l'emetteur initial si tous */
-/* = false (serveur uniquement)                                     */
-/********************************************************************/
+
 void Liaison::faireSuivreMessage(bool tous)
 {
     // Uniquement si l'ordinateur local est le serveur

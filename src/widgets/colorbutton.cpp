@@ -29,9 +29,10 @@
 #include <QDebug>
 
 
-ColorButton::ColorButton(QWidget * parent)
+ColorButton::ColorButton(QWidget * parent,bool transparency)
     : QPushButton(parent), m_color(QColor("tan")), m_dialog(QColor("tan"), this)
 {
+
     setStyle(new QCleanlooksStyle());
     //}
     setColor(m_color);
@@ -49,18 +50,13 @@ ColorButton::ColorButton(QWidget * parent)
 ColorButton::ColorButton(const QColor & color, QWidget * parent)
     : QPushButton(parent), m_color(color), m_dialog(color, this)
 {
-    // XP and Vista styles don't allow us to set the PushButton background color.
-    // If it's the case we switch to QPlastiqueStyle.
-    // Warning: If a StyleSheet is used with XP or Vista, this workaround might not work.
-    /*if((style()->inherits("QWindowsXPStyle"))||(style()->inherits("QMacStyle")))
-    {*/
+
     setStyle(new QCleanlooksStyle());
-    //}
+
     setColor(m_color);
 
     setMaximumSize(sizeHint());
 
-    // should never be the default button
     setDefault(false);
     setAutoDefault(false);
 
@@ -72,6 +68,10 @@ ColorButton::ColorButton(const QColor & color, QWidget * parent)
 QColor ColorButton::color() const
 {
     return m_color;
+}
+void ColorButton::setTransparency(bool state)
+{
+  m_dialog.setOption(QColorDialog::ShowAlphaChannel,state);
 }
 
 QSize ColorButton::sizeHint() const

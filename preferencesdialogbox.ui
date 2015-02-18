@@ -75,7 +75,7 @@
                </widget>
               </item>
               <item>
-               <widget class="ColorButton" name="pushButton">
+               <widget class="ColorButton" name="m_transColor">
                 <property name="text">
                  <string/>
                 </property>
@@ -93,7 +93,7 @@
                </widget>
               </item>
               <item>
-               <widget class="ColorButton" name="pushButton_2">
+               <widget class="ColorButton" name="m_fogColor">
                 <property name="text">
                  <string/>
                 </property>
@@ -111,7 +111,14 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
-             <widget class="QCheckBox" name="checkBox">
+             <widget class="QCheckBox" name="m_checkUpdate">
+              <property name="text">
+               <string>Check for Update</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="m_pictureAdjust">
               <property name="text">
                <string>Pictures fit their Windows (at the opening)</string>
               </property>
@@ -193,25 +200,25 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
-               <widget class="DirChooser" name="widget" native="true"/>
+               <widget class="DirChooser" name="m_musicDirGM" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="widget_2" native="true"/>
+               <widget class="DirChooser" name="m_musicDirPlayer" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="widget_3" native="true"/>
+               <widget class="DirChooser" name="m_pictureDir" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="widget_4" native="true"/>
+               <widget class="DirChooser" name="m_mapDir" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="widget_5" native="true"/>
+               <widget class="DirChooser" name="m_scenarioDir" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="widget_6" native="true"/>
+               <widget class="DirChooser" name="m_minuteDir" native="true"/>
               </item>
               <item>
-               <widget class="DirChooser" name="widget_7" native="true"/>
+               <widget class="DirChooser" name="m_chatDir" native="true"/>
               </item>
              </layout>
             </item>

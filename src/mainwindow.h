@@ -120,7 +120,7 @@ public :
      * @param idImage
      * @return
      */
-    Image *trouverImage(QString idImage);
+    QMdiSubWindow* findPictureSubWindow(QString idImage);
 
     /**
      * @brief enleverCarteDeLaListe
@@ -325,6 +325,7 @@ private :
     EditeurNotes *editeurNotes;
     QList <CarteFenetre *> listeCarteFenetre;
     QList <Image *> listeImage;
+    QList <QMdiSubWindow*> m_pictureList;
     QMap<CarteFenetre*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
     LecteurAudio* m_audioPlayer;

@@ -29,28 +29,29 @@
  * @brief A button to choose a color.
  */
 class ColorButton
-    : public QPushButton
+        : public QPushButton
 {
     Q_OBJECT
 
-    public:
-    ColorButton(QWidget * parent);
+public:
+    ColorButton(QWidget * parent, bool transparency=false);
     ColorButton(const QColor & color = QColor("tan"), QWidget * parent = NULL);
 
-        QColor color() const;
+    QColor color() const;
 
-        virtual QSize sizeHint() const;
+    virtual QSize sizeHint() const;
+    void setTransparency(bool);
 
-    signals:
-        void colorChanged(const QColor & color);
+signals:
+    void colorChanged(const QColor & color);
 
-    public slots:
-        void setColor(const QColor & color);
+public slots:
+    void setColor(const QColor & color);
 
 
-    private:
-        QColor       m_color;
-        QColorDialog m_dialog;
+private:
+    QColor       m_color;
+    QColorDialog m_dialog;
 };
 
 #endif

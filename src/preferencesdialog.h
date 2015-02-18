@@ -63,20 +63,7 @@ private slots:
     void performDiag();
 
 private:
-#ifndef NULL_PLAYER
-    DirChooser * m_gmMusicDir;
-    DirChooser * m_playerMusicDir;
-#endif
-    DirChooser * m_picturesDir;
-    DirChooser * m_mapsDir;
-    DirChooser * m_sessionsDir;
-    DirChooser * m_notesDir;
-    DirChooser * m_chatsDir;
-
     PreferencesManager* m_preferences;
-    QCheckBox* m_checkUpdateAtStartUp;
-    ColorButton* m_fogColor;
-
     Ui::PreferencesDialogBox* ui;
 };
 

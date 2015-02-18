@@ -772,7 +772,9 @@ void PlayersList::delPlayer(NetworkMessageReader & data)
     QString uuid = data.string8();
     Player * player = getPlayer(uuid);
     if (player != NULL)
+    {
         delPlayer(player);
+    }
 }
 
 void PlayersList::setPersonName(NetworkMessageReader & data)

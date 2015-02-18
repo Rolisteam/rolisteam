@@ -44,61 +44,10 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     ui->setupUi(this);
 
     m_preferences = PreferencesManager::getInstance();
-    // Children
-#ifndef NULL_PLAYER
-    m_gmMusicDir     = new DirChooser;
-    m_playerMusicDir = new DirChooser;
-#endif
-    m_picturesDir    = new DirChooser;
-    m_mapsDir        = new DirChooser;
-    m_sessionsDir    = new DirChooser;
-    m_notesDir       = new DirChooser;
-    m_chatsDir       = new DirChooser;
 
-
-    QHBoxLayout * layoutH = new QHBoxLayout;
-    layoutH->addWidget(new QLabel(tr("Check update at start up:")));
-    m_checkUpdateAtStartUp = new QCheckBox();
-    layoutH->addWidget(m_checkUpdateAtStartUp);
-    // Form layout
-    QFormLayout * formLayout = new QFormLayout;
-#ifndef NULL_PLAYER
-    formLayout->addRow(tr("Music directory (GM) : "), m_gmMusicDir);
-    formLayout->addRow(tr("Music directory (Player) : "), m_playerMusicDir);
-#endif
-    formLayout->addRow(tr("Picture directory : "), m_picturesDir);
-    formLayout->addRow(tr("Map directory : "), m_mapsDir);
-    formLayout->addRow(tr("Scenario directory : "), m_sessionsDir);
-    formLayout->addRow(tr("Minutes directory : "), m_notesDir);
-    formLayout->addRow(tr("Chat conversation : "), m_chatsDir);
-
-    // Buttons
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-
-
-
-
-    // Main layout
-    QVBoxLayout * layout = new QVBoxLayout;
-    layout->addLayout(layoutH);
-    layout->addLayout(formLayout);
-
-
-    layoutH = new QHBoxLayout;
-    layoutH->addWidget(new QLabel(tr("Select color for Fog:")));
-    m_fogColor = new ColorButton();
-    layoutH->addWidget(m_fogColor);
-    layout->addLayout(layoutH);
-
-    layout->addWidget(buttonBox);
-
-    setLayout(layout);
-
-    // Connections
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(this, SIGNAL(accepted()), this, SLOT(save()));
     connect(ui->m_startDiag,SIGNAL(clicked()),this,SLOT(performDiag()));
+    ui->m_fogColor->setTransparency(true);
 
     // Misc
     setSizeGripEnabled(true);
@@ -119,33 +68,34 @@ void PreferencesDialog::show()
 
 void PreferencesDialog::load()
 {
-#ifndef NULL_PLAYER
-    m_gmMusicDir->setDirName(m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString());
-    m_playerMusicDir->setDirName(m_preferences->value("MusicDirectoryPlayer",QDir::homePath()).toString());
-#endif
-    m_picturesDir->setDirName(m_preferences->value("ImageDirectory",QDir::homePath()).toString());
-    m_mapsDir->setDirName(m_preferences->value("MapDirectory",QDir::homePath()).toString());
-    m_sessionsDir->setDirName(m_preferences->value("SessionDirectory",QDir::homePath()).toString());
-    m_notesDir->setDirName(m_preferences->value("MinutesDirectory",QDir::homePath()).toString());
-    m_chatsDir->setDirName(m_preferences->value("ChatDirectory",QDir::homePath()).toString());
-    m_checkUpdateAtStartUp->setChecked(m_preferences->value("MainWindow_MustBeChecked",true).toBool());
-
-    m_fogColor->setColor(m_preferences->value("Fog_color",Qt::black).value<QColor>());
+    ui->m_musicDirGM->setDirName(m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString());
+    ui->m_musicDirPlayer->setDirName(m_preferences->value("MusicDirectoryPlayer",QDir::homePath()).toString());
+    ui->m_pictureDir->setDirName(m_preferences->value("ImageDirectory",QDir::homePath()).toString());
+    ui->m_mapDir->setDirName(m_preferences->value("MapDirectory",QDir::homePath()).toString());
+    ui->m_scenarioDir->setDirName(m_preferences->value("SessionDirectory",QDir::homePath()).toString());
+    ui->m_minuteDir->setDirName(m_preferences->value("MinutesDirectory",QDir::homePath()).toString());
+    ui->m_chatDir->setDirName(m_preferences->value("ChatDirectory",QDir::homePath()).toString());
+    ui->m_checkUpdate->setChecked(m_preferences->value("MainWindow_MustBeChecked",true).toBool());
+    ui->m_fogColor->setColor(m_preferences->value("Fog_color",Qt::black).value<QColor>());
+    ui->m_pictureAdjust->setChecked(m_preferences->value("PictureAdjust",true).toBool());
+   // ui->m_transColor->setColor(m_preferences->value("TransparencyColor",QColor(200,200,200,120)).value<QColor>());
 }
 
 void PreferencesDialog::save() const
 {
-#ifndef NULL_PLAYER
-    m_preferences->registerValue("MusicDirectoryGM",m_gmMusicDir->dirName());
-    m_preferences->registerValue("MusicDirectoryPlayer",m_gmMusicDir->dirName());
-#endif
-    m_preferences->registerValue("ImageDirectory",m_picturesDir->dirName());
-    m_preferences->registerValue("MapDirectory",m_mapsDir->dirName());
-    m_preferences->registerValue("SessionDirectory",m_sessionsDir->dirName());
-    m_preferences->registerValue("MinutesDirectory",m_notesDir->dirName());
-    m_preferences->registerValue("ChatDirectory",m_chatsDir->dirName());
-    m_preferences->registerValue("MainWindow_MustBeChecked",m_checkUpdateAtStartUp->isChecked());
-    m_preferences->registerValue("Fog_color",m_fogColor->color());
+
+    m_preferences->registerValue("MusicDirectoryGM",ui->m_musicDirGM->dirName());
+    m_preferences->registerValue("MusicDirectoryPlayer",ui->m_musicDirPlayer->dirName());
+    m_preferences->registerValue("ImageDirectory",ui->m_pictureDir->dirName());
+    m_preferences->registerValue("MapDirectory",ui->m_mapDir->dirName());
+    m_preferences->registerValue("SessionDirectory",ui->m_scenarioDir->dirName());
+    m_preferences->registerValue("MinutesDirectory",ui->m_minuteDir->dirName());
+    m_preferences->registerValue("ChatDirectory",ui->m_chatDir->dirName());
+    m_preferences->registerValue("MainWindow_MustBeChecked",ui->m_checkUpdate->isChecked());
+    m_preferences->registerValue("Fog_color", ui->m_fogColor->color());
+    m_preferences->registerValue("PictureAdjust",ui->m_pictureAdjust->isChecked());
+   // m_preferences->registerValue("TransparencyColor",ui->m_transColor->color());
+
 }
 void PreferencesDialog::performDiag()
 {

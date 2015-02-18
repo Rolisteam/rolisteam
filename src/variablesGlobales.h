@@ -49,7 +49,7 @@ void emettre(char *donnees, quint32 taille, Liaison *sauf = 0);
 
 
 
-extern ClientServeur * G_clientServeur;
+//extern ClientServeur * G_clientServeur;
 //extern MainWindow    * G_mainWindow;
 extern QString         G_idJoueurLocal;
 
