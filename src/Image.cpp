@@ -27,6 +27,7 @@
 
 #include "Liaison.h"
 #include "MainWindow.h"
+#include "networkmessagewriter.h"
 
 #include "variablesGlobales.h"
 
@@ -115,69 +116,19 @@ QString Image::identifiantImage()
 /********************************************************************/
 /* Emet l'Image vers la liaison passee en parametre                 */
 /********************************************************************/
-void Image::emettreImage(QString titre, Liaison * link)
+void Image::fill(NetworkMessageWriter & message) const
 {
-	bool ok;
-
-	// On compresse l'image dans un tableau
 	QByteArray baImage;
 	QBuffer bufImage(&baImage);
-	ok = labelImage->pixmap()->save(&bufImage, "jpeg", 70);
-	if (!ok)
+	if (!labelImage->pixmap()->save(&bufImage, "jpeg", 70))
 		qWarning("Probleme de compression de l'image (emettreImage - Image.cpp)");
-	
-	// Taille des donnees
-	quint32 tailleCorps =
-		// Taille du titre
-		sizeof(quint16) + titre.size()*sizeof(QChar) +
-		// Taille de l'identifiant de l'image
-		sizeof(quint8) + idImage.size()*sizeof(QChar) +
-		// Taille de l'identifiant du joueur
-		sizeof(quint8) + idJoueur.size()*sizeof(QChar) +
-		// Taille de l'image
-		sizeof(quint32) + baImage.size();
-			
-	// Buffer d'emission
-	char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
 
-	// Creation de l'entete du message
-	enteteMessage *uneEntete;
-	uneEntete = (enteteMessage *) donnees;
-	uneEntete->categorie = image;
-	uneEntete->action = chargerImage;
-	uneEntete->tailleDonnees = tailleCorps;
-	
-	// Creation du corps du message
-	int p = sizeof(enteteMessage);
-	// Ajout du titre
-	quint16 tailleTitre = titre.size();
-	memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
-	p+=sizeof(quint16);
-	memcpy(&(donnees[p]), titre.data(), tailleTitre*sizeof(QChar));
-	p+=tailleTitre*sizeof(QChar);
-	// Ajout de l'identifiant de l'image
-	quint8 tailleIdImage = idImage.size();
-	memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
-	p+=sizeof(quint8);
-	memcpy(&(donnees[p]), idImage.data(), tailleIdImage*sizeof(QChar));
-	p+=tailleIdImage*sizeof(QChar);
-	// Ajout de l'identifiant du joueur
-	quint8 tailleIdJoueur = idJoueur.size();
-	memcpy(&(donnees[p]), &tailleIdJoueur, sizeof(quint8));
-	p+=sizeof(quint8);
-	memcpy(&(donnees[p]), idJoueur.data(), tailleIdJoueur*sizeof(QChar));
-	p+=tailleIdJoueur*sizeof(QChar);
-	// Ajout de l'image
-	quint32 tailleImage = baImage.size();
-	memcpy(&(donnees[p]), &tailleImage, sizeof(quint32));
-	p+=sizeof(quint32);
-	memcpy(&(donnees[p]), baImage.data(), tailleImage);
-	p+=tailleImage;
 
-	// Emission de l'image vers la liaison indiquee
-    link->emissionDonnees(donnees, tailleCorps + sizeof(uneEntete));
-	// Liberation du buffer d'emission
-	delete[] donnees;
+    message.reset();
+    message.string16(windowTitle());
+    message.string8(idImage);
+    message.string8(idJoueur);
+    message.byteArray32(baImage);
 }
 
 /********************************************************************/
@@ -195,18 +146,10 @@ void Image::sauvegarderImage(QDataStream &out, QString titre)
         qWarning("Probleme de compression de l'image (sauvegarderImage - Image.cpp)");
 
     // Ecriture de l'image dans le fichier
-    // Ecriture du titre
     out<< titre;
-
-
-
-
     out << pos();
     out << size();
-
     out << baImage;
-
-
 }
 /********************************************************************/
 /* Un bouton de la souris vient d'etre enfonce                      */

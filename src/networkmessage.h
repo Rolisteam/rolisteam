@@ -71,6 +71,10 @@ namespace NetMsg
 
         // TODO
 
+        // PictureCategory
+        AddPictureAction = 0,
+        DelPictureAction,
+
         // ChatCategory
         ChatMessageAction = 0,
         DiceMessageAction,

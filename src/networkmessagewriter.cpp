@@ -121,6 +121,15 @@ void NetworkMessageWriter::string(const QString & data, int sizeQChar)
     m_pos += sizeBytes;
 }
 
+void NetworkMessageWriter::byteArray32(const QByteArray & data)
+{
+    int size = data.size();
+    uint32(size);
+    makeRoom(size);
+    memcpy(m_pos, data.constData(), size);
+    m_pos += size;
+}
+
 void NetworkMessageWriter::rgb(const QColor & color)
 {
     int size = sizeof(QRgb);

@@ -35,6 +35,7 @@
 #include "ClientServeur.h"
 #include "EditeurNotes.h"
 #include "Image.h"
+#include "networkmessagewriter.h"
 #include "NouveauPlanVide.h"
 #include "persons.h"
 #include "playersList.h"
@@ -960,66 +961,9 @@ void MainWindow::ouvrirImage()
         imageFenetre->show();
 
         // Envoie de l'image aux autres utilisateurs
-
-        // On commence par compresser l'image (format jpeg) dans un tableau
-        QByteArray byteArray;
-        QBuffer buffer(&byteArray);
-        bool ok = img->save(&buffer, "jpeg", 60);
-        if (!ok)
-                qWarning("Probleme de compression de l'image (ouvrirImage - MainWindow.cpp)");
-
-        // Taille des donnees
-        quint32 tailleCorps =
-                // Taille du titre
-                sizeof(quint16) + titre.size()*sizeof(QChar) +
-                // Taille de l'identifiant de l'image
-                sizeof(quint8) + idImage.size()*sizeof(QChar) +
-                // Taille de l'identifiant du joueur
-                sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
-                // Taille de l'image
-                sizeof(quint32) + byteArray.size();
-
-        // Buffer d'emission
-        char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-        // Creation de l'entete du message
-        enteteMessage *uneEntete;
-        uneEntete = (enteteMessage *) donnees;
-        uneEntete->categorie = image;
-        uneEntete->action = chargerImage;
-        uneEntete->tailleDonnees = tailleCorps;
-
-        // Creation du corps du message
-        int p = sizeof(enteteMessage);
-        // Ajout du titre
-        quint16 tailleTitre = titre.size();
-        memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
-        p+=sizeof(quint16);
-        memcpy(&(donnees[p]), titre.data(), tailleTitre*sizeof(QChar));
-        p+=tailleTitre*sizeof(QChar);
-        // Ajout de l'identifiant de l'image
-        quint8 tailleIdImage = idImage.size();
-        memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), idImage.data(), tailleIdImage*sizeof(QChar));
-        p+=tailleIdImage*sizeof(QChar);
-        // Ajout de l'identifiant du joueur
-        quint8 tailleIdJoueur = G_idJoueurLocal.size();
-        memcpy(&(donnees[p]), &tailleIdJoueur, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), G_idJoueurLocal.data(), tailleIdJoueur*sizeof(QChar));
-        p+=tailleIdJoueur*sizeof(QChar);
-        // Ajout de l'image
-        quint32 tailleImage = byteArray.size();
-        memcpy(&(donnees[p]), &tailleImage, sizeof(quint32));
-        p+=sizeof(quint32);
-        memcpy(&(donnees[p]), byteArray.data(), tailleImage);
-        p+=tailleImage;
-
-        // Emission de l'image au serveur ou a l'ensemble des clients
-        emettre(donnees, tailleCorps + sizeof(enteteMessage));
-        // Liberation du buffer d'emission
-        delete[] donnees;
+        NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
+        imageFenetre->fill(message);
+        message.sendAll();
 }
 
 /********************************************************************/
@@ -1291,13 +1235,13 @@ void MainWindow::emettreTousLesPlans(Liaison * link)
 /********************************************************************/
 void MainWindow::emettreToutesLesImages(Liaison * link)
 {
-        // Taille de la liste des Images
         int tailleListe = listeImage.size();
-
-        // Parcours de la liste
-        for (int i=0; i<tailleListe; i++)
-                // On demande a l'Image de s'emettre vers l'utilisateur dont la liaison est passee en parametre
-                listeImage[i]->emettreImage(listeImage[i]->windowTitle(), link);
+        NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
+        for (int i=0; i < tailleListe; i++)
+        {
+                listeImage[i]->fill(message);
+                message.sendTo(link);
+        }
 }
 
 /********************************************************************/

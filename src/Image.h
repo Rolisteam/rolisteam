@@ -44,6 +44,7 @@
 #include "WorkspaceAmeliore.h"
 
 class Liaison;
+class NetworkMessageWriter;
 
 class Image : public QScrollArea
 {
@@ -53,7 +54,7 @@ public :
     Image(QString identImage, QString identJoueur, QImage *image, QAction *action = 0, WorkspaceAmeliore *parent = 0);
     ~Image();
     void associerAction(QAction *action);
-    void emettreImage(QString titre, Liaison * link);
+    void fill(NetworkMessageWriter & message) const;
     void sauvegarderImage(QFile &file, QString titre);
     void sauvegarderImage(QDataStream& out, QString titre);
     bool proprietaireImage();

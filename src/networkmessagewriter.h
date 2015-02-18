@@ -47,6 +47,8 @@ class NetworkMessageWriter : public NetworkMessage
         void string16(const QString & data);
         void string32(const QString & data);
 
+        void byteArray32(const QByteArray & data);
+
         void rgb(const QColor & color);
 
     protected:

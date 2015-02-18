@@ -105,7 +105,7 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
             qWarning("Erreur réseau lors d'une transmission : %s", qPrintable(socketTcp->errorString()));
         }
         else
-            qDebug("Emission - Taille donnees : %d", t);
+            qDebug("Emission - Taille donnees : %d/%d", t, taille);
     }
 }
 
