@@ -123,15 +123,15 @@ private:
     void creerActions(); /// utily function
     void creerOutils(); /// utilyti function
 
-    QWidget* m_centralWidget;
-    QLineEdit *m_textEditLine;
-    QLineEdit *m_npcNameTextEdit;
-    QLCDNumber *m_displayNPCCounter;
-    ColorSelector *m_colorSelector;
-    DiameterSelector *m_lineDiameter;
-    DiameterSelector *m_NpcDiameter;
-    QActionGroup *m_toolsGroup;
-    SelectableTool m_currentTool;
+    QWidget* m_centralWidget; /// address to the main widget
+    QLineEdit *m_textEditLine; /// text line @warning is it still used ?
+    QLineEdit *m_npcNameTextEdit;/// text line to define the npc name
+    QLCDNumber *m_displayNPCCounter; /// count how many npc have been created
+    ColorSelector *m_colorSelector; /// select a color
+    DiameterSelector *m_lineDiameter;/// select pen diameter
+    DiameterSelector *m_NpcDiameter; /// select npc diameter
+    QActionGroup *m_toolsGroup;/// group all tools and manage which one is the current one
+    SelectableTool m_currentTool; /// current tool
 
     QAction *m_pencilAct;
     QAction *m_lineAct;
@@ -157,10 +157,10 @@ private:
     int m_currentNPCNumber;
 
 private slots :
-    void razNumeroPnj();
-    void changementTaille(bool floating);
-    void texteChange(const QString &texte);
-    void nomPnjChange(const QString &texte);
+    void resetNpcCount();
+    void changeSize(bool floating);
+    void changeText(const QString &texte);
+    void npcNameChange(const QString &texte);
 
 
 

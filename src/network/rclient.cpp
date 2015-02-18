@@ -36,7 +36,7 @@ RClient::RClient(QObject *parent)
 
     m_currentState =DISCONNECTED;
     connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(errorOccurs()));
-    connect(m_client,SIGNAL(connected()),this,SLOT(isConnected()));
+    connect(m_client,SIGNAL(connected()),this,SLOT(connected()));
     connect(m_client,SIGNAL(readyRead()),m_reading,SLOT(readDataFromSocket()));
     connect(m_client,SIGNAL(readyRead()),m_reading,SLOT(readDataFromSocket()));
     connect(m_reading,SIGNAL(messageRecieved()),this,SLOT(dispachRecievedMessage()));
@@ -60,13 +60,20 @@ void RClient::startConnection(Connection& connection)
     m_reading->start();
     m_client->connectToHost(m_connection.getAddress(),m_connection.getPort());
 }
-void RClient::isConnected()
+void RClient::connected()
 {
     m_currentState=CONNECTED;
     emit stateChanged(m_currentState);
     emit connectionEstablished();
     qDebug() << "connected established";
 }
+bool RClient::isConnected()
+{
+    if(m_currentState==CONNECTED)
+        return true;
+    return false;
+}
+
 void RClient::registerMessageManager(Network::Category cat,MessageManager* manager)
 {
     m_registedSender.insert(cat,manager);

@@ -55,11 +55,11 @@ ToolsBar::ToolsBar(QWidget *parent)
     connect(m_colorSelector,SIGNAL(currentColorChanged(QColor&)),this,SIGNAL(currentColorChanged(QColor&)));
     connect(m_colorSelector,SIGNAL(currentModeChanged(int)),this,SIGNAL(currentModeChanged(int)));
     m_currentTool = HANDLER;
-    QObject::connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(razNumeroPnj()));
-    QObject::connect(m_textEditLine, SIGNAL(textEdited(const QString &)), this, SLOT(texteChange(const QString &)));
-   QObject::connect(m_npcNameTextEdit, SIGNAL(textEdited(const QString &)), this, SLOT(nomPnjChange(const QString &)));
+    QObject::connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcCount()));
+    QObject::connect(m_textEditLine, SIGNAL(textEdited(const QString &)), this, SLOT(changeText(const QString &)));
+   QObject::connect(m_npcNameTextEdit, SIGNAL(textEdited(const QString &)), this, SLOT(npcNameChange(const QString &)));
    connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));
-    QObject::connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changementTaille(bool)));
+    QObject::connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changeSize(bool)));
 
     setFloating(false);
 
@@ -276,14 +276,14 @@ void ToolsBar::incrementeNumeroPnj()
 }
 
 
-void ToolsBar::razNumeroPnj()
+void ToolsBar::resetNpcCount()
 {
     m_displayNPCCounter->display(1);
     m_currentNPCNumber = 1;
 }
 
 
-void ToolsBar::changementTaille(bool floating)
+void ToolsBar::changeSize(bool floating)
 {
     if (floating)
     {
@@ -294,13 +294,13 @@ void ToolsBar::changementTaille(bool floating)
 }
 
 
-void ToolsBar::texteChange(const QString &texte)
+void ToolsBar::changeText(const QString &texte)
 {
     m_textAct->trigger();
 }
 
 
-void ToolsBar::nomPnjChange(const QString &texte)
+void ToolsBar::npcNameChange(const QString &texte)
 {
     m_addPCAct->trigger();
 }

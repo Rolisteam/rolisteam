@@ -4,7 +4,7 @@ CONFIG += qt \
 
 
 CONFIG += HAVE_PHONON
-CONFIG += WITH_PDF
+#CONFIG += WITH_PDF
 
 DEFINES += VERSION_MAJOR=2 VERSION_MIDDLE=0 VERSION_MINOR=0
 # CONFIG += HAVE_FMOD
@@ -25,7 +25,7 @@ include(drawitem/drawitem.pri)
 include(data/data.pri)
 include(charactersheet/charactersheet.pri)
 include(userlist/userlist.pri)
-include(tchat/tchat.pri)
+include(chat/chat.pri)
 include(dicepluginmanager/dicepluginmanager.pri)
 include(widget/widget.pri)
 include(network/network.pri)

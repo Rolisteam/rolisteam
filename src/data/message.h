@@ -20,8 +20,11 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+#include <QString>
 #include <QByteArray>
+
 #include  "networkmisc.h"
+
 class QTcpSocket;
 /**
   * @brief storage class to store rolisteam protocole messages
@@ -66,10 +69,31 @@ public:
       * @return tcp socket address
       */
     QTcpSocket* getSender();
+
+    void adduInt32(quint32);
+    void addString(QString);
+    void addShort(quint16);
+    void addByte(quint8);
+    void addBoolean(bool);
+    void addDouble(qreal);
+    void addLongInt(quint64);
+
+
+    quint32 takeUInt32();
+    QString takeString();
+    quint16 takeShort();
+    quint8 takeByte();
+    bool takeBoolean();
+    qreal takeDouble();
+    quint64 takeLongInt();
+
+    void clear();
+
+
 private:
     Network::Category m_type;/// type of message
     QByteArray m_internalData;/// internal data
-
+    QString m_tmp;
     QTcpSocket* m_sender;/// address of the sender
 };
 

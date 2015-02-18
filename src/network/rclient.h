@@ -62,11 +62,12 @@ public:
     //int getId(void*);
     void addMessageToSendQueue(Message* m);
     void registerMessageManager(Network::Category,MessageManager*);
+    bool isConnected();
 public slots:
     /**
       * @brief calls when the connection is well established.
       */
-    void isConnected();
+    void connected();
 
     void dispachRecievedMessage();
 
