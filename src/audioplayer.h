@@ -36,10 +36,8 @@
 #include <QString>
 #include <QVBoxLayout>
 
-#include "types.h"
-#ifdef FMOD
-#include "fmod.h"
-#endif
+//#include "types.h"
+
 
 #ifdef PHONON
 #include <phonon/MediaObject>
@@ -156,7 +154,7 @@ private :
 	/**
 	* \brief send command to a client
 	*/
-        void emettreCommande(actionMusique action, QString nomFichier = "", quint64 position = 0, int numeroLiaison = -1);
+        //void emettreCommande(actionMusique action, QString nomFichier = "", quint64 position = 0, int numeroLiaison = -1);
 
 
         static AudioPlayer* singleton;//!< \brief static pointer to the unique instance of this audioplayer

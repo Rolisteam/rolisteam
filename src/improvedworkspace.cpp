@@ -31,6 +31,7 @@ ImprovedWorkspace::ImprovedWorkspace(QColor& penColor,QWidget *parent)
 : QMdiArea(parent),m_currentPenColor(penColor)
 {
     m_options = PreferencesManager::getInstance();
+
     m_backGroundColor = m_options->value("workspace/backgroundcolor",QColor(191,191,191)).value<QColor>();
 
     //m_currentPenColor = penColor;
@@ -40,7 +41,8 @@ ImprovedWorkspace::ImprovedWorkspace(QColor& penColor,QWidget *parent)
     m_variableSizeBackground->fill(m_backGroundColor);
     QPainter painter(m_variableSizeBackground);
 
-    m_backgroundPicture = new QPixmap(":/resources/icones/fond workspace macos.bmp");
+
+    m_backgroundPicture = new QPixmap(m_options->value("worspace/background/image",":/resources/icones/fond workspace macos.bmp").toString());
 
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
     this->setBackground(QBrush(*m_variableSizeBackground));

@@ -23,17 +23,13 @@
 #include <QtGui>
 
 #include "EditeurNotes.h"
-//	#include "variablesGlobales.h"
 
 
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/
 EditeurNotes::EditeurNotes()
     : SubMdiWindows()
 {
 
-    setObjectName("EditeurNotes");
+    setObjectName("MinutesEditor");
     QWidget* main = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout;
     m_type = SubMdiWindows::TEXT;
@@ -119,9 +115,7 @@ void EditeurNotes::closeEvent(QCloseEvent *event)
 
 }
 
-/********************************************************************/
-/* Met en normal la zone selectionee (ni gras, ni italique)         */
-/********************************************************************/
+
 void EditeurNotes::styleNormal()
 {
     // On recupere la zone du curseur
@@ -137,9 +131,7 @@ void EditeurNotes::styleNormal()
     notes->setTextCursor(zone);
 }
 
-/********************************************************************/
-/* Met en gras la zone selectionee                                  */
-/********************************************************************/
+
 void EditeurNotes::styleGras()
 {
     // On recupere la zone du curseur
@@ -153,9 +145,7 @@ void EditeurNotes::styleGras()
     notes->setTextCursor(zone);
 }
 
-/********************************************************************/
-/* Met en italique la zone selectionee                              */
-/********************************************************************/
+
 void EditeurNotes::styleItalique()
 {
     // On recupere la zone du curseur
@@ -169,9 +159,6 @@ void EditeurNotes::styleItalique()
     notes->setTextCursor(zone);
 }
 
-/********************************************************************/
-/* Met en souligne la zone selectionee                              */
-/********************************************************************/
 void EditeurNotes::styleSouligne()
 {
     // On recupere la zone du curseur
@@ -185,10 +172,7 @@ void EditeurNotes::styleSouligne()
     notes->setTextCursor(zone);
 }
 
-/********************************************************************/
-/* Le curseur vient d'etre deplace : on met le selecteur de taille  */
-/* de la fonte a jour                                               */
-/********************************************************************/
+
 void EditeurNotes::mettreTailleAJour()
 {
     // On recupere la zone du curseur
@@ -224,10 +208,7 @@ void EditeurNotes::mettreTailleAJour()
     }
 }
 
-/********************************************************************/
-/* Modifie la taille de la fonte pour le texte present sous le      */
-/* curseur                                                          */
-/********************************************************************/
+
 void EditeurNotes::changementTaille(int index)
 {
     // On recupere la taille selectionnee
@@ -254,9 +235,7 @@ void EditeurNotes::changementTaille(int index)
     notes->setFocus(Qt::OtherFocusReason);
 }
 
-/********************************************************************/
-/* Ouvre les notes contenues dans le fichier passe en parametre     */
-/********************************************************************/
+
 void EditeurNotes::ouvrirNotes(QFile &file)
 {
     // On cree un flux de donnees rattache au fichier
@@ -267,9 +246,7 @@ void EditeurNotes::ouvrirNotes(QFile &file)
     notes->setHtml(html);
 }
 
-/********************************************************************/
-/* Sauvegarde les notes dans le fichier passe en parametre          */
-/********************************************************************/
+
 void EditeurNotes::sauvegarderNotes(QFile &file)
 {
     // On recupere le document contenant les notes
@@ -282,9 +259,7 @@ void EditeurNotes::sauvegarderNotes(QFile &file)
     fichier << html;
 }
 
-/********************************************************************/
-/* Renvoie la taille conseillee pour l'editeur de notes             */
-/********************************************************************/
+
 QSize EditeurNotes::sizeHint() const
 {
     return QSize(600, 600);

@@ -39,12 +39,12 @@
 
 
 #include "ToolBar.h"
-#include "ListeUtilisateurs.h"
+//#include "ListeUtilisateurs.h"
 
 #include "Tchat.h"
 #include "Image.h"
 #include "EditeurNotes.h"
-#include "ClientServeur.h"
+//#include "ClientServeur.h"
 #include "audioplayer.h"
 #include "userlistdockwidget.h"
 #include "mapwizzarddialog.h"
@@ -59,6 +59,7 @@ class Carte;
 class QActionGroup;
 class PreferenceDialog;
 class ConnectionWizzard;
+class CharacterSheetWindow;
 class MainWindow : public QMainWindow
 {
 Q_OBJECT
@@ -78,7 +79,7 @@ public slots :
         void displayTchat(QString id);
         void hideTchat(QString id);
         void displayMinutesEditor(bool display, bool checkAction = false);
-
+        void displayCharacterSheet(bool display, bool checkAction = false);
 
 
 protected :
@@ -134,6 +135,7 @@ private :
         QList <Image *> listeImage;
         QList <Tchat *> listeTchat;
         AudioPlayer* m_audioPlayer;
+
         QAction *newMapAction;
         QAction *OpenImageAction;
         QAction *actionOuvrirPlan;
@@ -158,6 +160,7 @@ private :
         QAction *actionTuiles;
         QAction *actionEditeurNotes;
         QAction *actionTchatCommun;
+        QAction* m_showDataSheet;
 
         QAction *actionHelp;
         QAction *actionAPropos;
@@ -215,6 +218,12 @@ private :
           * preference wizzard.
           */
         ConnectionWizzard* m_connectDialog;
+
+
+        /**
+          * CharacterSheet viewer
+          */
+        CharacterSheetWindow* m_characterSheet;
 
 private slots :
         void changementFenetreActive(QMdiSubWindow *widget);

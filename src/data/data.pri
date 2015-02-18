@@ -1,2 +1,4 @@
-HEADERS += connection.h
-SOURCES += connection.cpp
+HEADERS += connection.h \
+    charactersheet.h
+SOURCES += connection.cpp \
+    charactersheet.cpp

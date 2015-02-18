@@ -78,7 +78,7 @@
       <locale language="English" country="UnitedStates"/>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="LookPage">
       <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -528,7 +528,7 @@ border: 0px;
         </layout>
        </item>
        <item>
-        <widget class="QDialogButtonBox" name="buttonBox">
+        <widget class="QDialogButtonBox" name="m_buttonbox">
          <property name="standardButtons">
           <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
          </property>
@@ -602,7 +602,7 @@ border: 0px;
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>m_buttonbox</sender>
    <signal>accepted()</signal>
    <receiver>PreferenceDialog</receiver>
    <slot>accept()</slot>
@@ -618,7 +618,7 @@ border: 0px;
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>m_buttonbox</sender>
    <signal>rejected()</signal>
    <receiver>PreferenceDialog</receiver>
    <slot>reject()</slot>

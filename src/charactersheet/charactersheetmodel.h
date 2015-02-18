@@ -1,8 +1,8 @@
 /***************************************************************************
-  *      Copyright (C) 2010 by Renaud Guezennec                             *
+ *	 Copyright (C) 2009 by Renaud Guezennec                                *
+ *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,41 +17,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SUBMDIWINDOWS_H
-#define SUBMDIWINDOWS_H
 
-#include <QMdiSubWindow>
+#ifndef CHARACTERSHEETMODEL_H
+#define CHARACTERSHEETMODEL_H
 
-#include "ToolBar.h"
-class SubMdiWindows : public QMdiSubWindow
+#include <QAbstractItemModel>
+
+class CharacterSheet;
+class CharacterSheetModel : public QAbstractItemModel
 {
-    Q_OBJECT
 public:
-    SubMdiWindows(QWidget* parent=0 );
-    enum SubWindowType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET};
+    CharacterSheetModel();
 
-public slots:
-    void changedStatus(Qt::WindowStates oldState,Qt::WindowStates newState);
-    virtual void currentToolChanged(ToolsBar::SelectableTool);
-    virtual void currentCursorChanged(QCursor*);
-    virtual void currentColorChanged(QColor&);
+    int rowCount ( const QModelIndex & parent = QModelIndex() ) const ;
+    QModelIndex index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const  ;
+    QModelIndex parent ( const QModelIndex & index ) const ;
+    int columnCount ( const QModelIndex & parent = QModelIndex() ) const;
+    QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
+    bool setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole );
 
-    virtual void currentPenSizeChanged(int);
-
-    virtual void currentNPCSizeChanged(int);
-    virtual SubWindowType getType();
-
-    virtual bool defineMenu(QMenu* menu)=0;
-
-protected:
-    bool m_active;
-    QCursor* m_currentCursor;
-    ToolsBar::SelectableTool m_currentTool;
-    QColor m_penColor;
-    int m_penSize;
-    int m_npcSize;
-    SubWindowType m_type;
-
+private:
+    QList<CharacterSheet*>* m_characterList;
 };
 
-#endif // SUBMDIWINDOWS_H
+#endif // CHARACTERSHEETMODEL_H

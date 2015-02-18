@@ -27,22 +27,20 @@
 
 //former (but renamed) headers
 #include "MapFrame.h"
-#include "Carte.h"
+
 #include "MainWindow.h"
 #include "ToolBar.h"
-#include "ListeUtilisateurs.h"
+
 #include "Image.h"
 #include "audioplayer.h"
 #include "EditeurNotes.h"
 #include "improvedworkspace.h"
 
 //new headers from rolisteam 2.0.0 branch
-
 #include "preferencedialog.h"
 #include "preferencesmanager.h"
 #include "connectionwizzard.h"
-
-
+#include "charactersheetwindow.h"
 
 
 
@@ -92,6 +90,12 @@ MainWindow::MainWindow()
         m_workspace->addWidget(editeurNotes);
         editeurNotes->setWindowTitle(tr("Minutes editor"));
         editeurNotes->hide();
+
+
+        m_characterSheet = new CharacterSheetWindow();
+        m_workspace->addWidget(m_characterSheet);
+        m_characterSheet->setVisible(false);
+
 
 
 }
@@ -198,8 +202,14 @@ void MainWindow::createMenu()
         actionEditeurNotes = menuFenetre->addAction(tr("Minutes Editor"));
         actionEditeurNotes->setCheckable(true);
         actionEditeurNotes->setChecked(false);
-
         connect(actionEditeurNotes, SIGNAL(triggered(bool)), this, SLOT(displayMinutesEditor(bool)));
+
+        m_showDataSheet = menuFenetre->addAction(tr("CharacterSheet Viewer"));
+        m_showDataSheet->setCheckable(true);
+        m_showDataSheet->setChecked(false);
+        connect(m_showDataSheet, SIGNAL(triggered(bool)), this, SLOT(displayCharacterSheet(bool)));
+
+
 
 
         sousMenuTchat = new QMenu (tr("Tchats"), menuBar);
@@ -299,7 +309,12 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *widget)
 {
 
 }
+void MainWindow::displayCharacterSheet(bool display, bool checkAction)
+{
 
+    m_characterSheet->setVisible(display);
+
+}
 
 
 void MainWindow::clickOnMapWizzard()

@@ -22,6 +22,8 @@
 #define PREFERENCEDIALOG_H
 
 #include <QDialog>
+class PreferencesManager;
+class QAbstractButton;
 
 namespace Ui {
     class PreferenceDialog;
@@ -44,6 +46,13 @@ public:
       */
     ~PreferenceDialog();
 
+signals:
+    void preferencesChanged();
+
+protected slots:
+    void changeBackgroundImage();
+
+    void applyAllChanges(QAbstractButton * button);
 protected:
     /**
       * @brief callback receiving the change event.
@@ -56,6 +65,11 @@ private:
       * Pointer to the GUI made with QDesigner
       */
     Ui::PreferenceDialog *ui;
+
+    /**
+      * pointer to the unique instance of preference manager.
+      */
+    PreferencesManager* m_options;
 };
 
 #endif // PREFERENCEDIALOG_H

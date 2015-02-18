@@ -1,9 +1,9 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *	Copyright (C) 2007 by Romain Campioni                                  *
+ *	Copyright (C) 2009 by Renaud Guezennec                                 *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify  *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -24,13 +24,11 @@
 
 #include "Tchat.h"
 #include "TextEditAmeliore.h"
-#include "types.h"
-//#include "variablesGlobales.h"
+//#include "types.h"
 
 
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/	
+
+
 Tchat::Tchat(QString id, QAction *action, QWidget *parent)
 : SubMdiWindows(parent)
 {
@@ -94,7 +92,7 @@ Tchat::Tchat(QString id, QAction *action, QWidget *parent)
 Tchat::~Tchat()
 {
 	// Destruction de l'action associee au Tchat
-	actionAssociee->~QAction();
+    delete actionAssociee;
 }
 
 /********************************************************************/	
@@ -103,7 +101,7 @@ Tchat::~Tchat()
 /********************************************************************/	
 void Tchat::emettreTexte()
 {
-	quint8 action;
+/*	quint8 action;
 
 	// On recupere le texte de la zone d'edition
 	QString message = zoneEdition->toPlainText();
@@ -226,7 +224,7 @@ void Tchat::emettreTexte()
 	// Emission du message au serveur, a un ou a l'ensemble des clients
 
 	// Taille des donnees
-    /*quint32 tailleCorps =
+    quint32 tailleCorps =
 		// Taille de l'identifiant du joueur local
 		sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
 		// Taille de l'identifiant du joueur de destination

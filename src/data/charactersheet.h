@@ -1,8 +1,8 @@
 /***************************************************************************
-  *      Copyright (C) 2010 by Renaud Guezennec                             *
+ *	 Copyright (C) 2009 by Renaud Guezennec                                *
+ *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,41 +17,47 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SUBMDIWINDOWS_H
-#define SUBMDIWINDOWS_H
 
-#include <QMdiSubWindow>
-
-#include "ToolBar.h"
-class SubMdiWindows : public QMdiSubWindow
+#ifndef CHARACTERSHEET_H
+#define CHARACTERSHEET_H
+#include <QString>
+#include <QMap>
+#include <QVariant>
+//typedef QMap<QString,QString> Section;
+class Section : public QMap<QString,QString>
 {
-    Q_OBJECT
 public:
-    SubMdiWindows(QWidget* parent=0 );
-    enum SubWindowType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET};
+    Section();
 
-public slots:
-    void changedStatus(Qt::WindowStates oldState,Qt::WindowStates newState);
-    virtual void currentToolChanged(ToolsBar::SelectableTool);
-    virtual void currentCursorChanged(QCursor*);
-    virtual void currentColorChanged(QColor&);
 
-    virtual void currentPenSizeChanged(int);
+    QString getName();
+    void setName(QString name);
 
-    virtual void currentNPCSizeChanged(int);
-    virtual SubWindowType getType();
+private:
+    QString m_name;
 
-    virtual bool defineMenu(QMenu* menu)=0;
-
-protected:
-    bool m_active;
-    QCursor* m_currentCursor;
-    ToolsBar::SelectableTool m_currentTool;
-    QColor m_penColor;
-    int m_penSize;
-    int m_npcSize;
-    SubWindowType m_type;
 
 };
 
-#endif // SUBMDIWINDOWS_H
+class CharacterSheet
+{
+public:
+    CharacterSheet();
+    const QString getData(int section,const QString& key);
+    const QString getTitleSection(int section);
+
+
+    const  QString getData(int index);
+    const QString getkey(int index);
+
+    int getSection(int index);
+
+    void setData(int index,QVariant value,bool isHeader = false);
+    int getIndexCount();
+
+private:
+    QList<Section> m_sectionList;
+    QString m_owner;
+};
+
+#endif // CHARACTERSHEET_H

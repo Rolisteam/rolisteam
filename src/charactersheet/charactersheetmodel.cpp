@@ -18,65 +18,60 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "preferencedialog.h"
-#include "ui_preferencedialog.h"
-#include "preferencesmanager.h"
+#include "charactersheetmodel.h"
+#include "charactersheet.h"
 
-#include <QFileDialog>
-
-PreferenceDialog::PreferenceDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::PreferenceDialog)
+CharacterSheetModel::CharacterSheetModel()
 {
-    ui->setupUi(this);
-    m_options = PreferencesManager::getInstance();
-
-    //init value:
-    ui->m_wsBgPathLine->setText(m_options->value("worspace/background/image",":/resources/icones/fond workspace macos.bmp").toString());
-    connect(ui->m_wsBgBrowserButton,SIGNAL(clicked()),this,SLOT(changeBackgroundImage()));
-
-
-
-
-
-
-
-    connect(ui->m_buttonbox,SIGNAL(clicked(QAbstractButton * )),this,SLOT(applyAllChanges(QAbstractButton * )));
+    m_characterList = new QList<CharacterSheet*>;
 }
 
-PreferenceDialog::~PreferenceDialog()
+int CharacterSheetModel::rowCount ( const QModelIndex & parent  ) const
 {
-    delete ui;
-}
-
-void PreferenceDialog::changeEvent(QEvent *e)
-{
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
-}
-
-void PreferenceDialog::changeBackgroundImage()
-{
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Rolisteam Background"),".",tr(
-        "Supported files (*.jpg *.png *.gif *.svg)"));
-
-    if(!fileName.isEmpty())
+    Q_UNUSED(parent)
+    int max = 0;
+    for(int i = 0;i<m_characterList->size();i++)
     {
-        ui->m_wsBgPathLine->setText(fileName);
+        max += m_characterList->at(0)->getIndexCount();
     }
+    return max;
 }
-void PreferenceDialog::applyAllChanges(QAbstractButton * button)
+int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
 {
-    if(QDialogButtonBox::ApplyRole==ui->m_buttonbox->buttonRole(button))
-    {
-        m_options->registerValue("worspace/background/image",ui->m_wsBgPathLine->text());
+    Q_UNUSED(parent)
+    return m_characterList->size()+1;
+}
+QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex & parent ) const
+{
+    return parent.child(row,column);
+}
+QModelIndex CharacterSheetModel::parent ( const QModelIndex & index ) const
+{
+        Q_UNUSED(index)
+    return QModelIndex();
+}
 
-        emit preferencesChanged();
+QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) const
+{
+    Q_UNUSED(index)
+    if(role == Qt::DisplayRole)
+        return QString("merde");
+
+    return QVariant();
+}
+bool CharacterSheetModel::setData ( const QModelIndex & index, const QVariant & value, int role  )
+{
+    if(Qt::EditRole==role)
+    {
+        if(index.column()!=0)
+        {
+            CharacterSheet* tmp = m_characterList->at(index.column()-1);
+            tmp->setData(index.row(),value);
+        }
+        else
+        {
+            CharacterSheet* tmp = m_characterList->at(index.column()-1);
+            tmp->setData(index.row(),0,true);
+        }
     }
 }

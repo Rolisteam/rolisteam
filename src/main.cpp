@@ -26,7 +26,7 @@
 #include "connection.h"
 static QTextEdit *Log;
 #define APPLICATION_NAME "rolisteam"
-initialisation G_initialisation;
+//initialisation G_initialisation;
 
 void handlerAffichageMsg(QtMsgType type, const char *msg)
 {

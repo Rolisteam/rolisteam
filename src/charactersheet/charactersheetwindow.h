@@ -1,8 +1,8 @@
 /***************************************************************************
-  *      Copyright (C) 2010 by Renaud Guezennec                             *
+ *	 Copyright (C) 2009 by Renaud Guezennec                                *
+ *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,41 +17,42 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SUBMDIWINDOWS_H
-#define SUBMDIWINDOWS_H
 
-#include <QMdiSubWindow>
+#ifndef CHARACTERSHEETWINDOW_H
+#define CHARACTERSHEETWINDOW_H
+#include <QTableView>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
-#include "ToolBar.h"
-class SubMdiWindows : public QMdiSubWindow
+#include "submdiwindows.h"
+#include "charactersheetmodel.h"
+
+class CharacterSheetWindow : public SubMdiWindows
 {
     Q_OBJECT
 public:
-    SubMdiWindows(QWidget* parent=0 );
-    enum SubWindowType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET};
+    CharacterSheetWindow();
 
-public slots:
-    void changedStatus(Qt::WindowStates oldState,Qt::WindowStates newState);
-    virtual void currentToolChanged(ToolsBar::SelectableTool);
-    virtual void currentCursorChanged(QCursor*);
-    virtual void currentColorChanged(QColor&);
-
-    virtual void currentPenSizeChanged(int);
-
-    virtual void currentNPCSizeChanged(int);
+    virtual bool defineMenu(QMenu* menu);
     virtual SubWindowType getType();
 
-    virtual bool defineMenu(QMenu* menu)=0;
 
-protected:
-    bool m_active;
-    QCursor* m_currentCursor;
-    ToolsBar::SelectableTool m_currentTool;
-    QColor m_penColor;
-    int m_penSize;
-    int m_npcSize;
-    SubWindowType m_type;
+protected slots:
+    void addLine();
+    void addSection();
+
+private:
+    QTableView m_view;
+    CharacterSheetModel m_model;
+
+    QPushButton m_addSection;
+    QPushButton m_addLine;
+
+    QVBoxLayout m_vertiLayout;
+    QHBoxLayout m_horizonLayout;
+    QWidget m_widget;
 
 };
 
-#endif // SUBMDIWINDOWS_H
+#endif // CHARACTERSHEETWINDOW_H

@@ -18,65 +18,49 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "preferencedialog.h"
-#include "ui_preferencedialog.h"
-#include "preferencesmanager.h"
+#include "charactersheetwindow.h"
 
-#include <QFileDialog>
 
-PreferenceDialog::PreferenceDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::PreferenceDialog)
+CharacterSheetWindow::CharacterSheetWindow()
 {
-    ui->setupUi(this);
-    m_options = PreferencesManager::getInstance();
-
-    //init value:
-    ui->m_wsBgPathLine->setText(m_options->value("worspace/background/image",":/resources/icones/fond workspace macos.bmp").toString());
-    connect(ui->m_wsBgBrowserButton,SIGNAL(clicked()),this,SLOT(changeBackgroundImage()));
+    setObjectName("CharacterSheet");
 
 
+    m_addSection.setText(tr("Add Section"));
+    m_addLine.setText(tr("Add line"));
+    m_vertiLayout.addWidget(&m_addSection);
+    m_vertiLayout.addWidget(&m_addLine);
+
+    QHBoxLayout horizonLayout;
+
+    m_horizonLayout.addLayout(&m_vertiLayout);
+    m_horizonLayout.addWidget(&m_view);
+    m_view.setModel(&m_model);
+
+
+    m_widget.setLayout(&m_horizonLayout);
+    setWidget(&m_widget);
 
 
 
-
-
-    connect(ui->m_buttonbox,SIGNAL(clicked(QAbstractButton * )),this,SLOT(applyAllChanges(QAbstractButton * )));
+    connect(&m_addLine,SIGNAL(clicked()),this,SLOT(addLine()));
+    connect(&m_addSection,SIGNAL(clicked()),this,SLOT(addSection()));
+}
+bool CharacterSheetWindow::defineMenu(QMenu* menu)
+{
+    return false;
 }
 
-PreferenceDialog::~PreferenceDialog()
+SubMdiWindows::SubWindowType CharacterSheetWindow::getType()
 {
-    delete ui;
+    return CHARACTERSHEET;
+}
+void CharacterSheetWindow::addLine()
+{
+
 }
 
-void PreferenceDialog::changeEvent(QEvent *e)
+void CharacterSheetWindow::addSection()
 {
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
-}
 
-void PreferenceDialog::changeBackgroundImage()
-{
-    QString fileName = QFileDialog::getOpenFileName(this,tr("Rolisteam Background"),".",tr(
-        "Supported files (*.jpg *.png *.gif *.svg)"));
-
-    if(!fileName.isEmpty())
-    {
-        ui->m_wsBgPathLine->setText(fileName);
-    }
-}
-void PreferenceDialog::applyAllChanges(QAbstractButton * button)
-{
-    if(QDialogButtonBox::ApplyRole==ui->m_buttonbox->buttonRole(button))
-    {
-        m_options->registerValue("worspace/background/image",ui->m_wsBgPathLine->text());
-
-        emit preferencesChanged();
-    }
 }

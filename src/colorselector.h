@@ -36,7 +36,7 @@
 #include <QColor>
 #include <QPushButton>
 
-#include "types.h"
+//#include "types.h"
 
 class PreferencesManager;
 class ColorLabel : public QAbstractButton

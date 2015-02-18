@@ -13,15 +13,18 @@ include(preferences/preferences.pri)
 include(map/map.pri)
 include(drawitem/drawitem.pri)
 include(data/data.pri)
+include(charactersheet/charactersheet.pri)
 DEPENDPATH += . \
     drawitem \
     preferences \
     data \
+    charactersheet \
     map
 INCLUDEPATH += . \
     drawitem \
     preferences \
     data \
+    charactersheet \
     map
 HEADERS += displaydisk.h \
     ToolBar.h \ # ClientServeur.h \
@@ -34,8 +37,8 @@ HEADERS += displaydisk.h \
     SelecteurDiametre.h \
     Tchat.h \
     TextEditAmeliore.h \
-    types.h \
-    typesApplication.h \ # variablesGlobales.h \
+    #types.h \
+    #typesApplication.h \ # variablesGlobales.h \
     improvedworkspace.h \
     submdiwindows.h \
     connectionwizzard.h \
@@ -58,12 +61,12 @@ SOURCES += displaydisk.cpp \
     improvedworkspace.cpp \
     submdiwindows.cpp \
     userlistdockwidget.cpp
-HAVE_FMOD { 
-    DEFINES += FMOD
-    SOURCES += audioplayerwin.cpp
-    HEADERS += fmod.h \
-    fmod_errors.h
-}
+#HAVE_FMOD {
+#    DEFINES += FMOD
+#    SOURCES += audioplayerwin.cpp
+#    HEADERS += fmod.h \
+#    fmod_errors.h
+#}
 
 
 HAVE_PHONON { 

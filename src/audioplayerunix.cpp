@@ -24,7 +24,7 @@
 
 #include "audioplayer.h"
 
-#include "types.h"
+//#include "types.h"
 
 #include "preferencesmanager.h"
 
@@ -287,7 +287,7 @@ void AudioPlayer::changementTitre(QListWidgetItem * p)
              currentsource = new Phonon::MediaSource(listeChemins[listeTitres->row(p)]);
              mediaObject->setCurrentSource(*currentsource);
              titreCourant = listeTitres->row(p);
-             emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
+             //emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
              mediaObject->play();
     #endif
 
@@ -352,10 +352,10 @@ void AudioPlayer::stateChanged(Phonon::State newState, Phonon::State /*oldState*
                  actionLecture->setEnabled(false);
                  actionPause->setEnabled(true);
                  actionStop->setEnabled(true);
-                  emettreCommande(lectureMorceau);
+                  //emettreCommande(lectureMorceau);
                  break;
          case Phonon::StoppedState:
-                 emettreCommande(arretMorceau);
+                // emettreCommande(arretMorceau);
                  arreter();
                  actionStop->setEnabled(false);
                  actionLecture->setEnabled(true);
@@ -363,7 +363,7 @@ void AudioPlayer::stateChanged(Phonon::State newState, Phonon::State /*oldState*
                  afficheurTemps->display("00:00");
                  break;
          case Phonon::PausedState:
-                 emettreCommande(pauseMorceau);
+                 //emettreCommande(pauseMorceau);
                  actionStop->setEnabled(true);
                  etatActuel = pause;
                  actionLecture->setEnabled(true);
@@ -481,7 +481,7 @@ void AudioPlayer::ajouterTitre()
                 if (listeChemins.isEmpty())
                 {
                         // On envoie le nouveau titre aux lecteurs des joueurs
-                        emettreCommande(nouveauMorceau, titre);
+                        //emettreCommande(nouveauMorceau, titre);
 
                         // On active tous les boutons
                         actionLecture->setEnabled(true);
@@ -533,7 +533,7 @@ void AudioPlayer::supprimerTitre()
                 if (titreCourant < listeChemins.size())
                 {
 
-                        emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
+                        //emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
 
                         nouveauTitre(listeTitres->item(titreCourant)->text(), listeChemins[titreCourant]);
 
@@ -544,7 +544,7 @@ void AudioPlayer::supprimerTitre()
                 {
                         titreCourant--;
 
-                        emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
+                        //emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
 
                         nouveauTitre(listeTitres->item(titreCourant)->text(), listeChemins[titreCourant]);
                 }
@@ -552,7 +552,7 @@ void AudioPlayer::supprimerTitre()
                 else
                 {
 
-                        emettreCommande(nouveauMorceau, "");
+                        //emettreCommande(nouveauMorceau, "");
 
                         arreter();
                         afficheurTitre->clear();
@@ -636,9 +636,9 @@ void AudioPlayer::finDeTitreSlot()
         if (enBoucle)
         {
                 // On arrete les lecteurs des joueurs
-                emettreCommande(arretMorceau);
+                //emettreCommande(arretMorceau);
                 // On remet en lecture les lecteurs des joueurs
-                emettreCommande(lectureMorceau);
+                //emettreCommande(lectureMorceau);
 
                 mediaObject->enqueue(mediaObject->currentSource());
 
@@ -650,7 +650,7 @@ void AudioPlayer::finDeTitreSlot()
         else if (lectureUnique)
         {
                 // On arrete les lecteurs des joueurs
-                emettreCommande(arretMorceau);
+                //emettreCommande(arretMorceau);
                 // On arrete le lecteur local
 
         }
@@ -664,9 +664,9 @@ void AudioPlayer::finDeTitreSlot()
 
                         titreCourant++;
 
-                        emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
+                        //emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
 
-                        emettreCommande(lectureMorceau);
+                        //emettreCommande(lectureMorceau);
 
 
 
@@ -680,7 +680,7 @@ void AudioPlayer::finDeTitreSlot()
                 else
                 {
                         // On emet une demande d'arret aux autres utilisateurs
-                        emettreCommande(arretMorceau);
+                        //emettreCommande(arretMorceau);
                         // On arrete le lecteur
                         arreter();
                 }
@@ -742,7 +742,7 @@ void AudioPlayer::passageSurUnTag(QString tag)
 /* Emet une commande pour le lecteur audio vers le serveur ou       */
 /* les clients                                                      */
 /********************************************************************/
-void AudioPlayer::emettreCommande(actionMusique action, QString nomFichier, quint64 position, int numeroLiaison)
+/*void AudioPlayer::emettreCommande(actionMusique action, QString nomFichier, quint64 position, int numeroLiaison)
 {
         int p;
         quint16 tailleNomFichier;
@@ -800,16 +800,16 @@ void AudioPlayer::emettreCommande(actionMusique action, QString nomFichier, quin
         memcpy(donnees, &uneEntete, sizeof(enteteMessage));
 
         // Emission du message vers le serveur ou les clients...
-       /* if (numeroLiaison == -1)
+       / * if (numeroLiaison == -1)
                 emettre(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage));
 
         // ...ou bien vers un client en particulier
         else
-                emettre(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage), numeroLiaison);*/
+                emettre(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage), numeroLiaison);* /
 
         // Liberation du buffer d'emission
-        delete[] donnees;
-}
+   //     delete[] donnees;
+}*/
 
 /********************************************************************/
 /* Emet une serie de commandes vers l'utilisateur dont l'ID est     */
