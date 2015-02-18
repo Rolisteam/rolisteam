@@ -93,6 +93,12 @@ private :
  /*   QAction* m_eraseAction;
     QAction* m_hideAction;
     QAction* m_unveilAction;*/
+
+
+
+    QString m_currentNPCName;
+    int m_currentNPCNumber;
+
 private slots :
     void razNumeroPnj();
     void changementTaille(bool floating);

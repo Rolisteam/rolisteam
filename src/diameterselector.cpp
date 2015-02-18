@@ -21,7 +21,7 @@
 
 #include <QtGui>
 
-#include "SelecteurDiametre.h"
+#include "diameterselector.h"
 #include "displaydisk.h"
 
 

@@ -24,16 +24,12 @@
 
 #include "ToolBar.h"
 #include "colorselector.h"
-#include "SelecteurDiametre.h"
+#include "diameterselector.h"
 
 	
 	
 
-QString G_texteCourant;
-
-QString G_nomPnjCourant;
-
-int G_numeroPnjCourant;
+/**/
 	
 
 ToolsBar::ToolsBar(QWidget *parent)
@@ -275,7 +271,7 @@ void ToolsBar::creerActions()
 		afficheNumeroPnj->display(1);
                 afficheNumeroPnj->setToolTip(tr("NPC's number"));
 		// Initialisation de la variable globale indiquant le numero de PNJ courant
-		G_numeroPnjCourant = 1;
+                m_currentNPCNumber = 1;
 		
 		// Creation du selecteur de couleur
         couleur = new ColorSelector(outils);
@@ -387,7 +383,7 @@ void ToolsBar::incrementeNumeroPnj()
         afficheNumeroPnj->display(numeroActuel);
 
 
-    G_numeroPnjCourant = (int) afficheNumeroPnj->value();
+    m_currentNPCNumber = (int) afficheNumeroPnj->value();
 }
 
 
@@ -395,7 +391,7 @@ void ToolsBar::razNumeroPnj()
 {
     afficheNumeroPnj->display(1);
 
-    G_numeroPnjCourant = 1;
+    m_currentNPCNumber = 1;
 }
 
 
@@ -412,18 +408,15 @@ void ToolsBar::changementTaille(bool floating)
 
 void ToolsBar::texteChange(const QString &texte)
 {
-    // M.a.j automatique de la variable globale contenant le texte
-    G_texteCourant = texte;
-    // Selection automatique de l'action Texte
+
+    //G_texteCourant = texte;
+
     actionTexte->trigger();
 }
 
 
 void ToolsBar::nomPnjChange(const QString &texte)
 {
-    // M.a.j de la variable globale contenant le nom du PNJ
-    G_nomPnjCourant = texte;
-    // Selection automatique de l'action ajout PNJ
     actionAjoutPnj->trigger();
 }
 
@@ -447,7 +440,7 @@ void ToolsBar::mettreAJourPnj(int diametre, QString nom)
 
     nomPnj->setText(nom);
 
-    G_nomPnjCourant = nom;
+    m_currentNPCName = nom;
 }
 
 
