@@ -6,6 +6,11 @@ INCLUDEPATH += . src
 LANGUAGE = C++
 MOC_DIR = bin
 OBJECTS_DIR = bin
+
+
+CONFIG += HAVE_PHONON
+#CONFIG += HAVE_FMOD
+#CONFIG += HAVE_NULL
 HEADERS += src/AfficheurDisque.h \
            src/BarreOutils.h \
            src/Carte.h \
@@ -51,20 +56,23 @@ SOURCES += src/AfficheurDisque.cpp \
            src/WorkspaceAmeliore.cpp
 
 
-win32 {
+HAVE_FMOD {
+ DEFINES+= FMOD
  SOURCES +=  src/LecteurAudiowin.cpp
  HEADERS +=  src/fmod.h  src/fmod_errors.h
 }
-unix {
+HAVE_PHONON {
+ DEFINES+= PHONON
  SOURCES +=  src/LecteurAudiounix.cpp
+ QT += phonon
 }
-macx {
- SOURCES +=  src/LecteurAudiounix.cpp
+HAVE_NULL {
+DEFINES+= NULL_PLAYER
+SOURCES +=  src/LecteurAudiounix.cpp
 }
 RESOURCES += rolisteam.qrc
 
-QT += phonon \
- core \
+QT += core \
  gui \
  network
 
