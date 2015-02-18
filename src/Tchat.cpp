@@ -115,8 +115,10 @@ void Tchat::emettreTexte()
 	bool ok=true;
 	QString tirage;
 	int result;
+	zoneEdition->clear();
 
-	switch(message[0])
+	QString tmpmessage=message.simplified();
+	switch(tmpmessage[0])
 	{
 		case '!':
 			result = calculerJetDes(message, tirage, ok);
@@ -134,6 +136,7 @@ void Tchat::emettreTexte()
 				afficherMessage(tr("Jet secret :"), Qt::magenta, QString(tr("vous avez obtenu %1 à  votre jet de dés secret [%2]").arg(result).arg(tirage)),true);
 			else
 				afficherMessage(tr("Syntaxe"), Qt::red, tr("&1d6 ou &5d10+3 ou &2d20-3d10+1d6+5 etc... Le jet de dés"+" ne s'affiche pas chez les autres utilisateurs (utilisez ! pour un jet public)."));
+			return;
 			break;
 		case '*':
 			QString glitch;
@@ -154,9 +157,7 @@ void Tchat::emettreTexte()
 			action = messageTchat;
 	}
 
-	zoneEdition->clear();
-	// if dices fail or if it is private, clean and return
-	if(ok==false || message[0]=='&')
+	if(!ok)
 		return;
 
 	// Emission du message au serveur, a un ou a l'ensemble des clients
@@ -512,7 +513,7 @@ int Tchat::calculerJetDesSR4(QString &message, QString &tirage, QString &glitch,
 		for (int u=0; u<nbDesEnCours ; u++)
 		{
 			// Tirage du de
-			de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * (nbFaces)); //rand()%nbFaces + 1;
+			de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * nbFaces); //rand()%nbFaces + 1;
 			// Verification du succes
 			if (de >= seuilSucces)
 			{
