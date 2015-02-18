@@ -188,10 +188,10 @@ void Tchat::emettreTexte()
 		if (ok)
 		{
 			// On affiche le resultat du tirage dans la zone d'affichage
-                        QString messageTemp = QString(tr("avez obtenu ")) + QString::number(result) + QString(tr(" succés")) + glitch + tirage;
+                        QString messageTemp = QString(tr("avez obtenu %1 succès%2%3").arg(result).arg(glitch).arg(tirage));
 			afficherTirage(tr("Vous"), G_couleurJoueurLocal, messageTemp);
 			// On cree un nouveau message a envoyer aux autres utilisateurs
-                        message = QString(tr("a obtenu ")) + QString::number(result) + QString(tr(" succés")) + glitch + tirage;
+                        message = QString(tr("a obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage));
 			// M.a.j de l'action a emettre
 			action = messageTirage;
 		}
@@ -557,252 +557,248 @@ int Tchat::calculerJetDes(QString message, QString *tirage, bool *ok)
 /********************************************************************/	
 int Tchat::calculerJetDesSR4(QString message, QString *tirage, QString *glitch, bool *ok)
 {
-//Initialisation du nombre de succes, de glitches, et des parametres du lancer
-int nbDes;
-int nbDesEnCours;
-int nbDesEnsuite;
-QString nbDesStr;
-int nbSucces = 0;
-int nbGlitch = 0;
-bool sixAgainActif = false;
-bool gremlinsActif = false;
-bool rushActif = false;
-bool modeCourtActif = false;
-bool modeSecretActif = false;
-int indiceGremlins = 0;
-QString indiceGremlinsStr;
-int nbFaces = 6;
-QString nbFacesStr = "6";
-int seuilSucces = 5;
-int seuilGlitch = 1;
-int nbPasses = 0;
-int de;
-bool estOK;
+    //Initialisation du nombre de succes, de glitches, et des parametres du lancer
+    int nbDes;
+    int nbDesEnCours;
+    int nbDesEnsuite;
+    QString nbDesStr;
+    int nbSucces = 0;
+    int nbGlitch = 0;
+    bool sixAgainActif = false;
+    bool gremlinsActif = false;
+    bool rushActif = false;
+    bool modeCourtActif = false;
+    bool modeSecretActif = false;
+    int indiceGremlins = 0;
+    QString indiceGremlinsStr;
+    int nbFaces = 6;
+    QString nbFacesStr = "6";
+    int seuilSucces = 5;
+    int seuilGlitch = 1;
+    int nbPasses = 0;
+    int de;
+    bool estOK;
 
 
-// Mise a 0 de la chaine tirage et du glitch
-  tirage->clear();
-  glitch->clear();
-// Suppression des espaces dans le message
-  message.remove(QChar(' '));
-  // Suppresion du "*" en tete du message
-  message.remove(0, 1);
-  // La taille du message est initialisee
-  int tailleMessage = message.size();
 
-// RECUPERATION DU NOMBRE DE DES
-//Si le message est vide, erreur de syntaxe
-if (tailleMessage == 0)
-{
-*ok = false;
-return 0;
-}
-//On repère le premier caractere qui n'est pas un chiffre
-int i=0;
-while (i<tailleMessage && message[i].digitValue() != -1)
-i++;
-//Si aucun chiffre, erreur de syntaxe
-if (i < 0)
-{
-*ok = false;
-return 0;
-}	  
-// On recupere le nombre sous forme de QString
-  nbDesStr = message.left(i);
-  // On le convertit en int
-  nbDes = nbDesStr.toUInt(&estOK, 10);
-  // Suppression du nombre dans le message
-  message.remove(0, i);
-  // On recalcule la longueur du message
-  tailleMessage = message.size();
+      tirage->clear();
+      glitch->clear();
 
-//SUPPRESSION DU "D" AVANT RECUPERATION DES PARAMETRES
-//Si le message est desormais vide ou ne contient pas un "D", erreur de syntaxe
-if (tailleMessage == 0 || (message[0] != QChar('d') && message[0] != QChar('D')))
-{
-*ok = false;
-return 0;
-}
-// Suppression du "D" dans le message et recalcul de la longueur du message
-  message.remove(0, 1);
-  tailleMessage = message.size();
-    
-//RECUPERATION DES PARAMETRES
-//Tant que la chaine qui reste n'est pas vide, on interprete les parametres
-while (tailleMessage>0)
-{
-//S'il y a un "+" pour la premiere fois, alors activation du "Six Again"
-if (message[0] == '+')
-{
-  //Si "Six Again" est deja actif, erreur de syntaxe
-  if (sixAgainActif)
-  {
-    *ok = false;
-    return 0;                  
-  }
-  //Sinon on active le "Six Again"
-  sixAgainActif = true;
-  //On supprime le "+" et on recalcule la longueur du message                
+      message.remove(QChar(' '));
+
+      message.remove(0, 1);
+
+      int tailleMessage = message.size();
+
+
+    if (tailleMessage == 0)
+    {
+        *ok = false;
+        return 0;
+    }
+
+    int i=0;
+    while (i<tailleMessage && message[i].digitValue() != -1)
+        i++;
+
+    if (i < 0)
+    {
+        *ok = false;
+        return 0;
+    }
+
+      nbDesStr = message.left(i);
+
+      nbDes = nbDesStr.toUInt(&estOK, 10);
+
+      message.remove(0, i);
+
+      tailleMessage = message.size();
+
+
+    if (tailleMessage == 0 || (message[0] != QChar('d') && message[0] != QChar('D')))
+    {
+        *ok = false;
+        return 0;
+    }
+
       message.remove(0, 1);
       tailleMessage = message.size();
-}
-//S'il y a un G pour la premiere fois, alors recuperation du parametre Gremlins
-else if (message[0] == QChar('g') || message[0] == QChar('G'))
-{
-  //Si "Gremlins" est deja actif, erreur de syntaxe
-  if (gremlinsActif)
-  {
-    *ok = false;
-    return 0;                  
-  }
-  //Sinon on active les "Gremlins"
-  gremlinsActif = true;
-  //On supprime le "G" et on recalcule la longueur du message                
-      message.remove(0, 1);
-      tailleMessage = message.size();
-  //Si le message est vide ou le prochain caractere n'est pas un chiffre, 
-  //alors erreur (on attend l'indice "Gremlins")
-  if (tailleMessage == 0 || message[0].digitValue() == -1)
-  {
-    *ok = false;
-    return 0;                  
-  }
-  //Sinon, recuparation de l'indice sous forme de QString
-      indiceGremlinsStr = message.left(1);
-      // On le convertit en int
-      indiceGremlins = indiceGremlinsStr.toUInt(&estOK, 10);
-      // Suppression du nombre dans le message
-      message.remove(0, 1);
-      // On recalcule la longueur du message
-      tailleMessage = message.size();     
-}
-//S'il y a un "R" pour la premiere fois, alors activation du "Rush" (glitches sur 1 et 2)
-else if (message[0] == 'r' || message[0] == 'R')
-{
-  //Si "Rush" est deja actif, erreur de syntaxe
-  if (rushActif)
-  {
-    *ok = false;
-    return 0;                  
-  }
-  //Sinon on active le "Rush"
-  rushActif = true;
-  seuilGlitch = 2;
-  //On supprime le "R" et on recalcule la longueur du message                
-      message.remove(0, 1);
-      tailleMessage = message.size();
-}
-//S'il y a un "C" pour la premiere fois, alors activation du "Mode court" (pas de détail du jet)
-else if (message[0] == 'C' || message[0] == 'c')
-{
-  //Si "Mode court" est deja actif, erreur de syntaxe
-  if (modeCourtActif)
-  {
-    *ok = false;
-    return 0;                  
-  }
-  //Sinon on active le "Mode court"
-  modeCourtActif = true;
-  //On supprime le "Mode Court" et on recalcule la longueur du message                
-      message.remove(0, 1);
-      tailleMessage = message.size();
-}
-//S'il y a un "S" pour la premiere fois, alors activation du "Mode secret" (pas d'informations autres que le résultat)
-else if (message[0] == 'S' || message[0] == 's')
-{
-  //Si "Mode secret" est deja actif, erreur de syntaxe
-  if (modeSecretActif)
-  {
-    *ok = false;
-    return 0;                  
-  }
-  //Sinon on active le "Mode secret"
-  modeSecretActif = true;
-  //On supprime le "Mode Court" et on recalcule la longueur du message                
-      message.remove(0, 1);
-      tailleMessage = message.size();
-}
-//Si ce n'est pas un "+", un "R", un "C", un "S" ou un "G", erreur de syntaxe
-else
-{
-  *ok = false;
-  return 0;    
-}                            
-}      
 
-//CALCUL DU RESULTAT
-//Si le nombre de des vaut 0, erreur de syntaxe
-if (nbDes == 0)
-{
-*ok = false;
-return 0;
-}
-// Inscription du jet de des dans la chaine tirage (si mode Secret inactif)
-  if (!modeSecretActif)
-{
-tirage->append(QString(" (") + nbDesStr + QString(" dés"));
-    if (rushActif)
-  tirage->append(QString(" en rushant"));
-if (gremlinsActif)
-      tirage->append(QString(" avec Gremlins ") + indiceGremlinsStr);
-if (sixAgainActif)
-  tirage->append(QString(" - les 6 sont relancés"));
-if (!modeCourtActif)
-  tirage->append(QString(" : "));
-else
-  tirage->append(QString(")"));
-}
-//Lancer de chaque de
-//Afin de gerer les 6 again, on lance une serie de des et prepare la serie qui suit, generee par les 6
-nbDesEnsuite = nbDes;
-while (nbDesEnsuite != 0)
-{
-nbDesEnCours = nbDesEnsuite;
-nbDesEnsuite = 0;
-nbPasses++;
-for (int u=0; u<nbDesEnCours ; u++)
-{
-  // Tirage du de
-          de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * (nbFaces+1)); //rand()%nbFaces + 1;
-	  // Verification du succes
-	  if (de >= seuilSucces)
-	  {
-    nbSucces++;
-    //Si la regle des 6 again est activee, augmentation de la prochaine serie
-    if (sixAgainActif && de == 6) 
-      nbDesEnsuite++;       
-  }
-  // Verification du glitch (uniquement sur la premiere serie de lancer)
-  if (nbPasses = 1 && de <= seuilGlitch)
-  {
-    nbGlitch++;       
-  }
-  // Ajout du resultat a la chaine Tirage si pas en Mode court ou Mode Secret
-	  if (!modeCourtActif && !modeSecretActif)
-  {
-    tirage->append(QString::number(de));
-    // Ajout d'un espace, d'un "puis" entre deux series ou d'une parenthèse pour finir
-	    if (u < nbDesEnCours-1)
-	      tirage->append(QString(" "));
-	    else if (nbDesEnsuite > 0)
-	      tirage->append(QString(" puis "));
-	    else
-	      tirage->append(QString(")"));
-  }  
-}  
-}
-//VERIFICATION D'UN GLITCH OU D'UN GLITCH CRITIQUE
-if (nbGlitch>0 && nbGlitch>((nbDes/2)-indiceGremlins))
-{
-if (nbSucces == 0)
-  glitch->append(QString(" et une complication critique !! "));
-else
-  glitch->append(QString(" et une complication !! "));                 
-}
 
-//RETOUR DU RESULTAT
-*ok = true;
-return nbSucces;               
+    while (tailleMessage>0)
+    {
+
+        if (message[0] == '+')
+        {
+
+          if (sixAgainActif)
+          {
+            *ok = false;
+            return 0;
+          }
+
+          sixAgainActif = true;
+
+              message.remove(0, 1);
+              tailleMessage = message.size();
+        }
+
+        else if (message[0] == QChar('g') || message[0] == QChar('G'))
+        {
+
+          if (gremlinsActif)
+          {
+            *ok = false;
+            return 0;
+          }
+
+          gremlinsActif = true;
+
+              message.remove(0, 1);
+              tailleMessage = message.size();
+
+
+          if (tailleMessage == 0 || message[0].digitValue() == -1)
+          {
+            *ok = false;
+            return 0;
+          }
+
+              indiceGremlinsStr = message.left(1);
+
+              indiceGremlins = indiceGremlinsStr.toUInt(&estOK, 10);
+
+              message.remove(0, 1);
+
+              tailleMessage = message.size();
+        }
+
+        else if (message[0] == 'r' || message[0] == 'R')
+        {
+
+          if (rushActif)
+          {
+            *ok = false;
+            return 0;
+          }
+
+          rushActif = true;
+          seuilGlitch = 2;
+
+              message.remove(0, 1);
+              tailleMessage = message.size();
+        }
+
+        else if (message[0] == 'C' || message[0] == 'c')
+        {
+
+          if (modeCourtActif)
+          {
+            *ok = false;
+            return 0;
+          }
+
+          modeCourtActif = true;
+
+              message.remove(0, 1);
+              tailleMessage = message.size();
+        }
+
+        else if (message[0] == 'S' || message[0] == 's')
+        {
+
+          if (modeSecretActif)
+          {
+            *ok = false;
+            return 0;
+          }
+
+          modeSecretActif = true;
+
+          message.remove(0, 1);
+          tailleMessage = message.size();
+        }
+
+        else
+        {
+          *ok = false;
+          return 0;
+        }
+    }
+
+
+
+    if (nbDes == 0)
+    {
+        *ok = false;
+        return 0;
+    }
+
+      if (!modeSecretActif)
+    {
+        tirage->append(QString(tr(" (%1 dés").arg(nbDesStr)));
+        if (rushActif)
+            tirage->append(QString(tr(" en rushant")));
+        if (gremlinsActif)
+            tirage->append(QString(tr(" avec Gremlins %1").arg(indiceGremlinsStr)));
+        if (sixAgainActif)
+            tirage->append(QString(tr(" - les 6 sont relancés")));
+        if (!modeCourtActif)
+            tirage->append(QString(tr(" : ")));
+        else
+            tirage->append(QString(tr(")")));
+    }
+
+    nbDesEnsuite = nbDes;
+    while (nbDesEnsuite != 0)
+    {
+        nbDesEnCours = nbDesEnsuite;
+        nbDesEnsuite = 0;
+        nbPasses++;
+        for (int u=0; u<nbDesEnCours ; u++)
+        {
+          // Tirage du de
+              de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * (nbFaces)); //rand()%nbFaces + 1;
+          // Verification du succes
+              if (de >= seuilSucces)
+              {
+                nbSucces++;
+                //Si la regle des 6 again est activee, augmentation de la prochaine serie
+                if (sixAgainActif && de == 6)
+                  nbDesEnsuite++;
+              }
+              // Verification du glitch (uniquement sur la premiere serie de lancer)
+              if (nbPasses = 1 && de <= seuilGlitch)
+              {
+                nbGlitch++;
+              }
+              // Ajout du resultat a la chaine Tirage si pas en Mode court ou Mode Secret
+              if (!modeCourtActif && !modeSecretActif)
+              {
+                tirage->append(QString::number(de));
+                    // Ajout d'un espace, d'un "puis" entre deux series ou d'une parenthèse pour finir
+                if (u < nbDesEnCours-1)
+                  tirage->append(QString(" "));
+                else if (nbDesEnsuite > 0)
+                  tirage->append(QString(" puis "));
+                else
+                  tirage->append(QString(")"));
+              }
+        }
+    }
+
+    if (nbGlitch>0 && nbGlitch>((nbDes/2)-indiceGremlins))
+    {
+        if (nbSucces == 0)
+          glitch->append(QString(" et une complication critique !! "));
+        else
+          glitch->append(QString(" et une complication !! "));
+    }
+
+
+    *ok = true;
+    return nbSucces;
 }
 // FIN Ultyme
 

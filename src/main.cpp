@@ -102,7 +102,7 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 	
 		// Creation de l'application
         QApplication app(argc, argv);
-               QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+        QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
 
 

@@ -203,15 +203,15 @@ MainWindow::MainWindow()
         InitMousePointer(&G_pointeurDessin, ":/resources/icones/pointeur dessin.png", 8, 8);
         InitMousePointer(&G_pointeurTexte, ":/resources/icones/pointeur texte.png", 4, 13); //strange values here
 
-        QList<QByteArray> format(QImageReader::supportedImageFormats());
-        QString chaine="format : %1 valeur %2";
-        ecrireLogUtilisateur("Fomats d'images supportés?");
+        /*QList<QByteArray> format(QImageReader::supportedImageFormats());
+        QString chaine=tr("format : %1 valeur %2");
+        ecrireLogUtilisateur(tr("Fomats d'images supportés?"));
         for(int i=0 ; i < format.size() ; ++i)
         {
                 //std::cout << "format : " << i << " valeur : " << (std::string)format.at(i) << std::endl;
                 ecrireLogUtilisateur(chaine.arg(i).arg(QString(format.at(i))));
         }
-        ecrireLogUtilisateur("Fin Formats");
+        ecrireLogUtilisateur("Fin Formats");*/
 
 
         G_pointeurDeplacer        = new QCursor(QPixmap(":/resources/icones/pointeur deplacer.png"), 0, 0);
