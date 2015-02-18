@@ -86,7 +86,7 @@ QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & pa
 
     ResourcesItem* parentItem = NULL;
 
-    qDebug()<< "Index session " <<row << column << parent;
+   // qDebug()<< "Index session " <<row << column << parent;
     if (!parent.isValid())
         parentItem = m_rootItem;
     else
@@ -118,16 +118,16 @@ QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
 }
 int SessionItemModel::rowCount(const QModelIndex& index) const
 {
-    qDebug() << index;
+   // qDebug() << index;
     if(index.isValid())
     {
         ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
-        qDebug() << "rowCount tmp"<< tmp->childrenCount();
+    //    qDebug() << "rowCount tmp"<< tmp->childrenCount();
         return tmp->childrenCount();
     }
     else
     {
-        qDebug() << "rowCount root"<<  m_rootItem->childrenCount() << m_session->chapterList().size() << m_session->childrenCount();
+      //  qDebug() << "rowCount root"<<  m_rootItem->childrenCount() << m_session->chapterList().size() << m_session->childrenCount();
         return (m_session->childrenCount());//->childrenCount();
     }
 }
@@ -177,8 +177,9 @@ void SessionItemModel::setSession(Session* s)
 
 Chapter* SessionItemModel::addChapter(QString& name)
 {
-    beginInsertRows(QModelIndex(),m_session->chapterList().size(),m_session->chapterList().size());
+    beginInsertRows(QModelIndex(),m_session->childrenCount(),m_session->childrenCount());
     Chapter* t = m_session->addChapter(name);
+    m_rootItem->addChild(new ResourcesItem(t,false));
     endInsertRows();
     return t;
 }
@@ -189,6 +190,7 @@ Chapter* SessionItemModel::addChapter(QString& name)
         m_rootItemm_parent
     }*
 }*/
+
 CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& parent)
 {
      ResourcesItem* parentItem=NULL;
@@ -229,4 +231,25 @@ void SessionItemModel::populateChapter(Chapter& t,ResourcesItem* parentItem)
         ResourcesItem* rt = new ResourcesItem(&tmp2,true);
         parentItem->addChild(rt);
     }
+}
+QVariant SessionItemModel::headerData ( int section, Qt::Orientation orientation, int role  ) const
+{
+    if((role==Qt::DisplayRole)&&(orientation==Qt::Horizontal))
+    {
+        switch(section)
+        {
+            case 0:
+                return tr("Name");
+                break;
+            case 1:
+                return tr("Type");
+                break;
+            case 2:
+                return tr("Other");
+                break;
+            default:
+                return QVariant();
+        }
+    }
+                    return QVariant();
 }

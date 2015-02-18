@@ -27,7 +27,7 @@ public:
     QList<CleverURI>& getUnclassedList();
 
     int childrenCount();
-
+    int chapterCount();
 
 private:
     QList<Chapter> m_chapterList;

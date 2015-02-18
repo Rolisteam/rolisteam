@@ -9,7 +9,7 @@ SessionManager::SessionManager()
 {
     m_currentSession = new Session();
     setObjectName("SessionManager");
-    m_view =new QTreeView;
+    m_view =new SessionView;
     m_layout = new QHBoxLayout;
     m_layout->addWidget(m_view);
     m_internal = new QWidget();
@@ -21,6 +21,7 @@ SessionManager::SessionManager()
     m_model = new SessionItemModel;
 
     m_view->setModel(m_model);
+    connect(m_view,SIGNAL(addChapter()),this,SLOT(addChapter()));
 }
 Chapter* SessionManager::getCurrentChapter()
 {
@@ -51,6 +52,11 @@ void SessionManager::readSettings(QSettings & m)
    /* QString t = tr("Chapter 1");
     m_model->addChapter(t);*/
 
+}
+void SessionManager::addChapter()
+{
+    QString tmp = tr("Chapter %1").arg(m_currentSession->chapterCount());
+    m_model->addChapter(tmp);
 }
 
 void SessionManager::writeSettings(QSettings & m)

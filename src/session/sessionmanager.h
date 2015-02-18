@@ -4,6 +4,8 @@
 #include <QDockWidget>
 #include <QSettings>
 #include "cleveruri.h"
+#include "sessionview.h"
+
 class QHBoxLayout;
 class QTreeView;
 class SessionItemModel;
@@ -12,7 +14,7 @@ class Session;
 
 class SessionManager : public QDockWidget
 {
-
+    Q_OBJECT
 public:
     SessionManager();
 
@@ -27,8 +29,11 @@ public:
     void writeSettings(QSettings & m);
 
      CleverURI* addRessource(QString& urifile, CleverURI::ContentType type);
+ public slots:
+     void addChapter();
+
 private:
-    QTreeView* m_view;
+    SessionView* m_view;
     QHBoxLayout* m_layout;
 
     QWidget* m_internal;

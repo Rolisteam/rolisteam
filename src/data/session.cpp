@@ -28,7 +28,10 @@ Chapter* Session::addChapter(QString& name)
 int Session::childrenCount()
 {
         return (m_chapterList.size()+m_ressoucelist.size());
-
+}
+int Session::chapterCount()
+{
+    return m_chapterList.size();
 }
 
 CleverURI* Session::addRessource(QString& uri, CleverURI::ContentType& type, Chapter* chapter)
