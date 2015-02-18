@@ -35,7 +35,7 @@ PreferenceDialog::PreferenceDialog(QWidget *parent) :
     m_listModel = new ThemeListModel();
 
     //init value:
-    initValues();
+   // initValues();
     addDefaultTheme();
 
     connect(ui->m_wsBgBrowserButton,SIGNAL(clicked()),this,SLOT(changeBackgroundImage()));
@@ -48,6 +48,7 @@ PreferenceDialog::PreferenceDialog(QWidget *parent) :
     connect(ui->m_themeList,SIGNAL(pressed(QModelIndex)),this,SLOT(currentChanged()));
 
     connect(ui->m_buttonbox,SIGNAL(clicked(QAbstractButton * )),this,SLOT(applyAllChanges(QAbstractButton * )));
+
 }
 
 PreferenceDialog::~PreferenceDialog()
@@ -66,15 +67,25 @@ void PreferenceDialog::changeEvent(QEvent *e)
         break;
     }
 }
+
+
 void PreferenceDialog::initValues()
 {
+     qDebug() << "Init Value";
+    // Look and feel panel
     ui->m_wsBgPathLine->setText(m_options->value("worspace/background/image",":/resources/icons/fond workspace macos.bmp").toString());
     ui->m_wsBgColorButton->setColor(m_options->value("worspace/background/color",QColor(191,191,191)).value<QColor>());
+
+
+
+    //General Panel
+    ui->m_genUpdateCheck->setChecked(m_options->value("mainwindow/network/checkupdate",true).toBool());
 }
 void PreferenceDialog::resetValues()
 {
     ui->m_wsBgPathLine->setText(":/resources/icones/fond workspace macos.bmp");
     ui->m_wsBgColorButton->setColor(QColor(191,191,191));
+    ui->m_genUpdateCheck->setChecked(true);
 
 }
 void PreferenceDialog::changeBackgroundImage()
@@ -99,7 +110,9 @@ void PreferenceDialog::applyAllChanges(QAbstractButton * button)
     {
         m_current.setBackgroundImage(ui->m_wsBgPathLine->text());
         m_options->registerValue("worspace/background/image",m_current.backgroundImage());
+        qDebug() << "Teste apply";
         m_options->registerValue("worspace/background/color",m_current.backgroundColor());
+        m_options->registerValue("mainwindow/network/checkupdate",ui->m_genUpdateCheck->isChecked());
         emit preferencesChanged();
     }
     setWindowModified(false);

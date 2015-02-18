@@ -60,6 +60,8 @@ public:
      */
     void writeSettings();
 
+        void initValues();
+
 signals:
     /**
       * @brief emited when preferences have been changed
@@ -79,7 +81,7 @@ protected slots:
 
     void modifiedSettings();
 
-    void initValues();
+
     void resetValues();
 
     void addTheme();

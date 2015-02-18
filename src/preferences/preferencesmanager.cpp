@@ -41,6 +41,7 @@ PreferencesManager::PreferencesManager()
     m_optionDictionary->insert("MinutesDirectory",QDir::homePath());
     m_optionDictionary->insert("TchatDirectory",QDir::homePath());
     m_optionDictionary->insert("DataDirectory",QDir::homePath());
+
 }
 
 PreferencesManager::~PreferencesManager()
@@ -89,7 +90,8 @@ void PreferencesManager::readSettings()
         for(int i = 0;m_optionDictionary->size()>i;i++)
         {
            qDebug() << "key " << m_optionDictionary->keys().at(i);
-
+            if(m_optionDictionary->keys().at(i) == "mainwindow/network/checkupdate")
+                qDebug() << "value " << m_optionDictionary->value(m_optionDictionary->keys().at(i),true).toBool();
         }
 
 

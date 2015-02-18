@@ -131,11 +131,14 @@ MainWindow::MainWindow()
     m_options = PreferencesManager::getInstance();
     m_diceManager=DicePlugInManager::instance();
     //m_toolbar = ToolsBar::getInstance(this);//new ToolsBar(this);
-    m_preferenceDialog = new PreferenceDialog(this);
 
+    m_preferenceDialog = new PreferenceDialog(this);
     m_rclient= new RClient();
 
     readSettings();
+
+    m_preferenceDialog->initValues();
+
     m_workspace = new ImprovedWorkspace(this/*m_toolbar->currentColor()*/);
     m_workspace->setRClient(m_rclient);
     m_workspace->readSettings();
@@ -562,9 +565,13 @@ void MainWindow::displayMinutesEditor()
 void MainWindow::checkUpdate()
 {
     qDebug() << "checkupdate";
-    m_updateChecker = new UpdateChecker();
-    m_updateChecker->startChecking();
-    connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
+    if(m_options->value("mainwindow/network/checkupdate",true).toBool())
+    {
+        qDebug() << "checkupdate 2";
+        m_updateChecker = new UpdateChecker();
+        m_updateChecker->startChecking();
+        connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
+    }
 }
 void MainWindow::updateMayBeNeeded()
 {

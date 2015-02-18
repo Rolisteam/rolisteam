@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>731</width>
-    <height>510</height>
+    <height>548</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,73 +16,271 @@
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,3">
-   <property name="spacing">
-    <number>4</number>
+  <widget class="QListWidget" name="listWidget">
+   <property name="enabled">
+    <bool>true</bool>
    </property>
-   <property name="margin">
-    <number>4</number>
+   <property name="geometry">
+    <rect>
+     <x>4</x>
+     <y>4</y>
+     <width>150</width>
+     <height>540</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>150</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="locale">
+    <locale language="English" country="UnitedStates"/>
+   </property>
+   <property name="resizeMode">
+    <enum>QListView::Adjust</enum>
+   </property>
+   <property name="uniformItemSizes">
+    <bool>true</bool>
+   </property>
+   <property name="currentRow">
+    <number>-1</number>
+   </property>
+   <property name="sortingEnabled">
+    <bool>false</bool>
    </property>
    <item>
-    <widget class="QListWidget" name="listWidget">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="locale">
-      <locale language="English" country="UnitedStates"/>
-     </property>
-     <property name="resizeMode">
-      <enum>QListView::Adjust</enum>
-     </property>
-     <property name="uniformItemSizes">
-      <bool>true</bool>
-     </property>
-     <property name="currentRow">
-      <number>0</number>
-     </property>
-     <property name="sortingEnabled">
-      <bool>false</bool>
-     </property>
-     <item>
-      <property name="text">
-       <string>Look And Feel</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>NetWork</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Available Resources</string>
-      </property>
-     </item>
-    </widget>
+    <property name="text">
+     <string>General</string>
+    </property>
    </item>
    <item>
-    <widget class="QStackedWidget" name="stackedWidget">
-     <property name="locale">
-      <locale language="English" country="UnitedStates"/>
-     </property>
-     <property name="currentIndex">
-      <number>0</number>
-     </property>
-     <widget class="QWidget" name="LookPage">
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
+    <property name="text">
+     <string>Look And Feel</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>NetWork</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Available Resources</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>158</x>
+     <y>4</y>
+     <width>571</width>
+     <height>542</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_5">
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="locale">
+       <locale language="English" country="UnitedStates"/>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page">
+       <widget class="QCheckBox" name="m_genUpdateCheck">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>221</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Check Update at Starting</string>
+        </property>
+       </widget>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>50</y>
+          <width>541</width>
+          <height>271</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Default Storage Directories</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_20">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>Data:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Music:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>Maps:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>Minutes:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>Scripts:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_15">
+             <property name="text">
+              <string>Images:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_16">
+             <property name="text">
+              <string>Chat:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_13" stretch="1,0">
+             <item>
+              <widget class="QLineEdit" name="m_gdnDataLine"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="m_gdnDataPush">
+               <property name="text">
+                <string>Browse</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="1,0">
+             <item>
+              <widget class="QLineEdit" name="m_gdnMusicLine"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="m_gdnMusicPush">
+               <property name="text">
+                <string>Browse</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="1,0">
+             <item>
+              <widget class="QLineEdit" name="m_gdnMapLine"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="m_gdnMapPush">
+               <property name="text">
+                <string>Browse</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_16" stretch="1,0">
+             <item>
+              <widget class="QLineEdit" name="m_gdnMinutesLine"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="m_gdnMinutesPush">
+               <property name="text">
+                <string>Browse</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_17" stretch="1,0">
+             <item>
+              <widget class="QLineEdit" name="m_gdnScriptLine"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="m_gdnScriptPush">
+               <property name="text">
+                <string>Browse</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="1,0">
+             <item>
+              <widget class="QLineEdit" name="m_gdnImageLine"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="m_gdnImagePush">
+               <property name="text">
+                <string>Browse</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="1,0">
+             <item>
+              <widget class="QLineEdit" name="m_gdnChatLine"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="m_gdnChatPush">
+               <property name="text">
+                <string>Browse</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="LookPage">
+       <widget class="QWidget" name="">
         <layout class="QHBoxLayout" name="horizontalLayout_10">
          <item>
           <widget class="QLabel" name="label">
@@ -105,8 +303,8 @@
           </spacer>
          </item>
         </layout>
-       </item>
-       <item>
+       </widget>
+       <widget class="QWidget" name="">
         <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="0,5">
          <property name="spacing">
           <number>0</number>
@@ -198,7 +396,7 @@ border: 0px;
               <x>0</x>
               <y>0</y>
               <width>439</width>
-              <height>415</height>
+              <height>414</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -526,46 +724,44 @@ border: 0px;
           </widget>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QDialogButtonBox" name="m_buttonbox">
-         <property name="standardButtons">
-          <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="NetWorkPage">
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="text">
+           <string>Using System's Proxy</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>454</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="ResourcesPage"/>
      </widget>
-     <widget class="QWidget" name="NetWorkPage">
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
-        <widget class="QCheckBox" name="checkBox">
-         <property name="text">
-          <string>Using System's Proxy</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>454</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+    </item>
+    <item>
+     <widget class="QDialogButtonBox" name="m_buttonbox">
+      <property name="standardButtons">
+       <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      </property>
      </widget>
-     <widget class="QWidget" name="ResourcesPage"/>
-    </widget>
-   </item>
-  </layout>
-  <zorder>stackedWidget</zorder>
-  <zorder>listWidget</zorder>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
