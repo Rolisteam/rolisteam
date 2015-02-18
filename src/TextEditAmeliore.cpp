@@ -54,7 +54,7 @@ void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
         case Qt::Key_Up:
             if (e->modifiers() & Qt::ControlModifier)
                 emit ctrlUp();
-            else if (m_histPos > 0)
+            else if ((m_histPos > 0)&&(!m_history.empty()))
             {
                 /// @warning changing the method to get the text
                 QString text = toHtml().trimmed();
@@ -74,11 +74,11 @@ void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
         case Qt::Key_Down:
             if (e->modifiers() & Qt::ControlModifier)
                 emit ctrlDown();
-            else
+            else if(!m_history.empty())
             {
                 /// @warning changing the method to get the text
                 QString text = toHtml().trimmed();
-                if (!text.isEmpty())
+                if((!text.isEmpty()))
                 {
                     if (m_histPos == m_history.size())
                         m_history.append(text);
