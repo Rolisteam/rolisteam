@@ -145,7 +145,7 @@ void Liaison::reception()
     {
         return;
     }
-    quint32 lu;
+    quint32 lu=0;
 
 
     // La boucle permet de lire plusieurs messages concatenes
@@ -161,10 +161,10 @@ void Liaison::reception()
             // Initialisation du restant a lire
             restant = entete.dataSize;
         }
-        //qDebug() << "before" <<entete.dataSize << restant << entete.category << entete.action;
+
         // Lecture des donnees a partir du dernier point
         lu = m_socketTcp->read(&(tampon[entete.dataSize-restant]), restant);
-
+        qDebug() << "before:" <<lu << entete.dataSize << restant << entete.category << entete.action << m_socketTcp->bytesAvailable();
         // Si toutes les donnees n'ont pu etre lues
         if (lu < restant)
         {
@@ -179,7 +179,7 @@ void Liaison::reception()
         // Si toutes les donnees ont pu etre lu
         else
         {
-            qDebug() << "Reception - Taille donnees :" << entete.dataSize;
+
             // Envoie la notification sur la mainWindows
             QApplication::alert(m_mainWindow);
 
@@ -190,7 +190,7 @@ void Liaison::reception()
                 event->postToReceiver();
             }
 
-            qDebug() << "Category:" <<entete.category;
+
             switch((categorieAction)(entete.category))
             {
                 case connexion :
@@ -237,6 +237,7 @@ void Liaison::reception()
         }
 
     } // Fin du while
+    qDebug() << "sortie du while";
 }
 
 /********************************************************************/
@@ -1047,6 +1048,8 @@ void Liaison::receptionMessagePlan()
         memcpy(&permission,&(tampon[p]), sizeof(quint8));
         p+=sizeof(quint8);
 
+        qDebug() << permission << "Permission chargerPlan" << taillePj << tailleId << tableauTitre;
+
         // On recupere l'information "plan masque a l'ouverture?"
         quint8 masquerPlan;
         memcpy(&masquerPlan, &(tampon[p]), sizeof(quint8));
@@ -1112,7 +1115,7 @@ void Liaison::receptionMessagePlan()
         quint8 permission;
         memcpy(&permission,&(tampon[p]), sizeof(quint8));
         p+=sizeof(quint8);
-        qDebug() << "permission import " << permission;
+        qDebug() << permission << "Permission importerPlanComplet" << taillePj << tailleId << *tableauTitre;
 
         // On recupere l'intensite de la couche alpha
         quint8 intensiteAlpha;

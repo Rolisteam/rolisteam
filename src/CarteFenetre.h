@@ -55,7 +55,7 @@ public :
     //void associerAction(QAction *action);
     Carte *carte();
     QString getMapId();
-    //QAction* getAssociatedAction() const;
+    QAction* getAssociatedAction() const;
 
 
 

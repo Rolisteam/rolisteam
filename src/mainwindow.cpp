@@ -154,6 +154,7 @@ MainWindow::MainWindow()
     m_networkManager = new ClientServeur;
     m_ipChecker = new IpChecker(this);
     G_clientServeur = m_networkManager;
+    m_mapAction = new QMap<CarteFenetre*,QAction*>();
 
 }
 void MainWindow::setupUi()
@@ -523,7 +524,9 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         action->setCheckable(true);
         action->setChecked(true);
 
-        // Association de l'action avec la carte
+        m_mapAction->insert(carteFenetre,action);
+
+        //Association de l'action avec la carte
         //carteFenetre->associerAction(action);
 
         // Connexion de l'action avec l'affichage/masquage de la fenetre
@@ -951,8 +954,8 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
 void MainWindow::closeMapOrImage()
 {
 
-        QWidget* active = workspace->activeWindow();
-
+        QMdiSubWindow* subactive = workspace->currentSubWindow();
+        QWidget* active = subactive->widget();
 
 
         if (NULL!=active)
@@ -962,12 +965,12 @@ void MainWindow::closeMapOrImage()
 
             QString mapImageId;
             QString mapImageTitle;
-            QAction* associatedAction = NULL;
+            QAction* associatedAct = NULL;
             mapImageTitle = active->windowTitle();
             bool image=false;
             if(NULL!=imageFenetre)
             {
-                associatedAction = imageFenetre->getAssociatedAction();
+                associatedAct = imageFenetre->getAssociatedAction();
                 mapImageId = imageFenetre->getImageId();
                 image = true;
             }
@@ -977,7 +980,7 @@ void MainWindow::closeMapOrImage()
                 if(NULL!=carteFenetre)
                 {
                     mapImageId = carteFenetre->getMapId();
-                    associatedAction = NULL;
+                    associatedAct = m_mapAction->value(carteFenetre);
                 }
                 else
                 {
@@ -1078,11 +1081,12 @@ void MainWindow::closeMapOrImage()
 
                    //((Image *)active)->~Image();
             }
-            if(NULL!=associatedAction)
+            if(NULL!=associatedAct)
             {
-                delete associatedAction;
+                delete associatedAct;
             }
             delete active;
+            delete subactive;
         }
 }
 
@@ -1429,8 +1433,11 @@ bool MainWindow::enleverCarteDeLaListe(QString idCarte)
         bool ok = false;
         int i;
         for (i=0; i<tailleListe && !ok; ++i)
+        {
                 if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
-                        ok = true;
+                                   ok = true;
+        }
+
 
         // Si la carte vient d'etre trouvee on supprime l'element
         if (ok)

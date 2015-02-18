@@ -325,6 +325,7 @@ private :
     EditeurNotes *editeurNotes;
     QList <CarteFenetre *> listeCarteFenetre;
     QList <Image *> listeImage;
+    QMap<CarteFenetre*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
     LecteurAudio* m_audioPlayer;
 #endif

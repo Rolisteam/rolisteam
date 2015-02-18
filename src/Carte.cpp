@@ -1496,6 +1496,8 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
         sizeof(quint8) + idCarte.size()*sizeof(QChar) +
         // Taille des PJ
         sizeof(quint8) +
+        // Permission
+        sizeof(quint8) +
         // Taille de l'intensite de la couche alpha
         sizeof(quint8) +
         // Taille du fond original
@@ -1536,14 +1538,11 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
     memcpy(&(donnees[p]), &taillePj, sizeof(quint8));
     p+=sizeof(quint8);
 
-    if(m_hasPermissionMode)
-    {
-        tailleCorps += sizeof(quint8);
+    tailleCorps += sizeof(quint8);
+    quint8 mode = getPermissionMode();
+    memcpy(&(donnees[p]), &mode, sizeof(quint8));
+    p+=sizeof(quint8);
 
-        quint8 mode = getPermissionMode();
-        memcpy(&(donnees[p]), &mode, sizeof(quint8));
-        p+=sizeof(quint8);
-    }
 
     // Ajout de l'intensite de la couche alpha
     quint8 intensiteAlpha = m_fogColor.red();

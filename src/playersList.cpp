@@ -65,7 +65,8 @@ PlayersList::PlayersList()
 
 PlayersList::~PlayersList()
 {
-    for (int i = 0; i < m_playersList.size(); i++) {
+    for (int i = 0; i < m_playersList.size(); i++)
+    {
         delete m_playersList.at(i);
     }
 }
@@ -189,13 +190,15 @@ QModelIndex PlayersList::parent(const QModelIndex & index) const
 
 int PlayersList::rowCount(const QModelIndex & index) const
 {
-    if (!index.isValid()) {
+    if (!index.isValid())
+    {
         return m_playersList.size();
     }
 
     quint32 parentRow = (quint32)(index.internalId() & NoParent);
     int row = index.row();
-    if (parentRow != NoParent || row < 0 || row >= m_playersList.size()) {
+    if (parentRow != NoParent || row < 0 || row >= m_playersList.size())
+    {
         return 0;
     }
 

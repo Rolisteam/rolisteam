@@ -129,7 +129,7 @@ void Image::fill(NetworkMessageWriter & message) const
 {
 	QByteArray baImage;
 	QBuffer bufImage(&baImage);
-    if (!labelImage->pixmap()->save(&bufImage, "png", 70))
+    if (!labelImage->pixmap()->save(&bufImage, "png", 100))
                 qWarning() << tr("Image Compression fails (emettreImage - Image.cpp)");
 
 

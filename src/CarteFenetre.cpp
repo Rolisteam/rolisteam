@@ -71,7 +71,7 @@ CarteFenetre::~CarteFenetre()
 }
 //QAction* CarteFenetre::getAssociatedAction() const
 //{
- //   return actionAssociee;
+//    return carteAssociee;
 //}
 /*void CarteFenetre::closeEvent(QCloseEvent *event)
 {

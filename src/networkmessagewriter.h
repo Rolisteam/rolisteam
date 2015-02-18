@@ -60,11 +60,13 @@ class NetworkMessageWriter : public NetworkMessage
         NetworkMessageHeader * m_header;
         char * m_buffer;
         char * m_begin;
-        char * m_pos;
+        char * m_currentPos;
         char * m_end;
 
         void string(const QString & data, int sizeQChar);
         void makeRoom(int size);
+        int m_sizeBuffer      ;
+        int m_sizeData;
 };
 
 #endif
