@@ -184,6 +184,19 @@ bool Player::searchCharacter(Character * character, int & index) const
     return false;
 }
 
+bool Player::hasFeature(const QString & name, quint8 version) const
+{
+    return m_features.contains(name) && m_features.value(name) >= version;
+}
+
+void Player::setFeature(const QString & name, quint8 version)
+{
+    if (hasFeature(name, version))
+        return;
+
+    m_features.insert(name, version);
+}
+
 
 /*************
  * Character *

@@ -1422,7 +1422,7 @@ void Liaison::receptionMessageMusique()
 /********************************************************************/
 void Liaison::receptionMessageParametres()
 {
-    if (entete.action == addFeature)
+    if (entete.action == AddFeatureAction)
     {
         faireSuivreMessage(false);
     }

@@ -26,6 +26,7 @@
 
 #include "datareader.h"
 #include "datawriter.h"
+#include "Features.h"
 #include "persons.h"
 #include "receiveevent.h"
 
@@ -35,9 +36,9 @@
 extern bool G_client;
 extern bool G_joueur;
 
-/***************
- * PlayersList *
- ***************/
+/******************
+ * Initialisation *
+ ******************/
 
 PlayersList::PlayersList()
  : QAbstractItemModel(NULL), m_gmCount(0)
@@ -51,6 +52,7 @@ PlayersList::PlayersList()
     ReceiveEvent::registerReceiver(persoJoueur, supprimerPersoJoueur, this);
     ReceiveEvent::registerReceiver(persoJoueur, changerNomPersoJoueur, this);
     ReceiveEvent::registerReceiver(persoJoueur, changerCouleurPersoJoueur, this);
+    ReceiveEvent::registerReceiver(parametres, AddFeatureAction, this);
     
     connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(sendDelLocalPlayer()));
 }
@@ -69,6 +71,10 @@ PlayersList & PlayersList::instance()
     return s_playersList;
 }
 
+
+/*************
+ * ItemModel *
+ *************/
 
 QVariant PlayersList::data(const QModelIndex &index, int role) const
 {
@@ -200,61 +206,86 @@ bool PlayersList::setData(const QModelIndex & index, const QVariant &value, int 
     return false;
 }
 
-bool PlayersList::event(QEvent * event)
+QModelIndex PlayersList::mapIndexToMe(const QModelIndex & index) const
 {
-    if (event->type() == ReceiveEvent::Type)
+    if (!index.isValid())
+        return QModelIndex();
+
+    quint32 parentRow = (quint32)(index.internalId() & NoParent);
+    return QAbstractItemModel::createIndex(index.row(), index.column(), parentRow);
+}
+
+QModelIndex PlayersList::createIndex(Person * person) const
+{
+    int size = m_playersList.size();
+    for (int row = 0; row < size; row++)
     {
-        ReceiveEvent * rEvent = static_cast<ReceiveEvent *>(event);
-        DataReader & data = rEvent->data();
-        switch ((categorieAction)rEvent->categorie())
+        Player * player = m_playersList.at(row);
+        if (person == player)
         {
-            case joueur:
-                switch ((actionJoueur)rEvent->action())
-                {
-                    case connexionJoueur:
-                        addPlayerAsServer(rEvent);
-                        return true;
-                    case ajouterJoueur:
-                        addPlayer(data);
-                        return true;
-                    case supprimerJoueur:
-                        delPlayer(data);
-                        return true;
-                    case changerNomJoueur:
-                        setPersonName(data);
-                        return true;
-                    case changerCouleurJoueur:
-                        setPersonColor(data);
-                        return true;
-                    default:
-                        qWarning("PlayersList : message of categorie \"joueur\" with unknown action (%d)", rEvent->action());
-                }
-                break;
-            case persoJoueur:
-                switch ((actionPj)rEvent->action())
-                {
-                    case ajouterPersoJoueur:
-                        addCharacter(data);
-                        return true;
-                    case supprimerPersoJoueur:
-                        delCharacter(data);
-                        return true;
-                    case changerNomPersoJoueur:
-                        setPersonName(data);
-                        return true;
-                    case changerCouleurPersoJoueur:
-                        setPersonColor(data);
-                        return true;
-                    default:
-                        qWarning("PlayersList : message of categorie \"persoJoueur\" with unknown action (%d)", rEvent->action());
-                }
-                break;
-            default:
-                qWarning("PlayersList : message of unknown categorie (%d)", rEvent->categorie());
+            return QAbstractItemModel::createIndex(row, 0, NoParent);
+        }
+        else
+        {
+            int c_row;
+            if (player->searchCharacter((Character *)(person), c_row))
+                return QAbstractItemModel::createIndex(c_row, 0, row);
         }
     }
 
-    return QObject::event(event);
+    return QModelIndex();
+}
+
+
+/***********
+ * Getters *
+ ***********/
+
+Player * PlayersList::localPlayer() const
+{
+    return m_playersList.first();
+}
+
+bool PlayersList::isLocal(Person * person) const
+{
+    if (person == NULL)
+        return false;
+
+    Person * local = localPlayer();
+    return (person == local || person->parent() == local);
+}
+
+int PlayersList::numPlayers() const
+{
+    return m_playersList.size();
+}
+
+Player * PlayersList::getPlayer(int index) const
+{
+    if (index < 0 && index > m_playersList.size())
+        return NULL;
+    return m_playersList.at(index);
+}
+
+Person * PlayersList::getPerson(const QString & uuid) const
+{
+    return m_uuidMap.value(uuid);
+}
+
+Player * PlayersList::getPlayer(const QString & uuid) const
+{
+    Person * person = m_uuidMap.value(uuid);
+    if (person == NULL || person->parent() != NULL)
+        return NULL;
+    return static_cast<Player *>(person);
+}
+
+Character * PlayersList::getCharacter(const QString & uuid) const
+{
+    Person * person = m_uuidMap.value(uuid);
+    if (person == NULL || person->parent() == NULL)
+        return NULL;
+    return static_cast<Character *>(person);
 }
 
 Person * PlayersList::getPerson(const QModelIndex & index) const
@@ -296,14 +327,6 @@ Player * PlayersList::getPlayer(const QModelIndex & index) const
     return NULL;
 }
 
-Player * PlayersList::getPlayer(const QString & uuid) const
-{
-    Person * person = m_uuidMap.value(uuid);
-    if (person == NULL || person->parent() != NULL)
-        return NULL;
-    return static_cast<Player *>(person);
-}
-
 Character * PlayersList::getCharacter(const QModelIndex & index) const
 {
     if (!index.isValid() || index.column() != 0)
@@ -321,94 +344,21 @@ Character * PlayersList::getCharacter(const QModelIndex & index) const
     return NULL;
 }
 
-Character * PlayersList::getCharacter(const QString & uuid) const
+bool PlayersList::everyPlayerHasFeature(const QString & name, quint8 version) const
 {
-    Person * person = m_uuidMap.value(uuid);
-    if (person == NULL || person->parent() == NULL)
-        return NULL;
-    return static_cast<Character *>(person);
-}
-
-Person * PlayersList::getPerson(const QString & uuid) const
-{
-    return m_uuidMap.value(uuid);
-}
-
-QModelIndex PlayersList::mapIndexToMe(const QModelIndex & index) const
-{
-    if (!index.isValid())
-        return QModelIndex();
-
-    quint32 parentRow = (quint32)(index.internalId() & NoParent);
-    return QAbstractItemModel::createIndex(index.row(), index.column(), parentRow);
-}
-
-Player * PlayersList::localPlayer() const
-{
-    return m_playersList.first();
-}
-
-bool PlayersList::isLocal(Person * person) const
-{
-    if (person == NULL)
-        return false;
-
-    Person * local = localPlayer();
-    return (person == local || person->parent() == local);
-}
-
-int PlayersList::numPlayers() const
-{
-    return m_playersList.size();
-}
-
-Player * PlayersList::getPlayer(int index) const
-{
-    if (index < 0 && index > m_playersList.size())
-        return NULL;
-    return m_playersList.at(index);
+    int playersCount = m_playersList.size();
+    for (int i = 0; i < playersCount; i++)
+    {
+        if (!m_playersList.at(i)->hasFeature(name, version))
+            return false;
+    }
+    return true;
 }
 
 
-void PlayersList::addPlayer(Player * player)
-{
-    int size = m_playersList.size();
-    QString uuid = player->uuid();
-
-    if (m_uuidMap.contains(uuid))
-        qFatal("Uuid %s allready in use.", qPrintable(uuid));
-
-    beginInsertRows(QModelIndex(), size, size);
-
-    m_playersList << player;
-    m_uuidMap.insert(uuid, player);
-    if (player->isGM())
-        m_gmCount += 1;
-
-    emit playerAdded(player);
-
-    endInsertRows();
-}
-
-void PlayersList::addCharacter(Player * player, Character * character)
-{
-    int size = player->getCharactersCount();
-    QString uuid = character->uuid();
-
-    if (m_uuidMap.contains(uuid))
-        qFatal("Uuid %s allready in use.", qPrintable(uuid));
-
-    beginInsertRows(createIndex(player), size, size);
-
-    player->addCharacter(character);
-    m_uuidMap.insert(uuid, character);
-
-    qDebug("New character %s %s", qPrintable(character->name()), qPrintable(uuid));
-
-    emit characterAdded(character);
-
-    endInsertRows();
-}
+/***********
+ * Setters *
+ ***********/
 
 void PlayersList::setLocalPlayer(Player * player)
 {
@@ -423,6 +373,14 @@ void PlayersList::setLocalPlayer(Player * player)
         DataWriter message (joueur, connexionJoueur);
         player->fill(message);
         message.sendAll();
+    }
+
+    setLocalFeatures(*player);
+    SendFeaturesIterator i(*player);
+    while (i.hasNext())
+    {
+        i.next();
+        i.message().sendAll();
     }
 }
 
@@ -517,6 +475,46 @@ void PlayersList::delLocalCharacter(int index)
     delCharacter(parent, index);
 }
 
+void PlayersList::addPlayer(Player * player)
+{
+    int size = m_playersList.size();
+    QString uuid = player->uuid();
+
+    if (m_uuidMap.contains(uuid))
+        qFatal("Uuid %s allready in use.", qPrintable(uuid));
+
+    beginInsertRows(QModelIndex(), size, size);
+
+    m_playersList << player;
+    m_uuidMap.insert(uuid, player);
+    if (player->isGM())
+        m_gmCount += 1;
+
+    emit playerAdded(player);
+
+    endInsertRows();
+}
+
+void PlayersList::addCharacter(Player * player, Character * character)
+{
+    int size = player->getCharactersCount();
+    QString uuid = character->uuid();
+
+    if (m_uuidMap.contains(uuid))
+        qFatal("Uuid %s allready in use.", qPrintable(uuid));
+
+    beginInsertRows(createIndex(player), size, size);
+
+    player->addCharacter(character);
+    m_uuidMap.insert(uuid, character);
+
+    qDebug("New character %s %s", qPrintable(character->name()), qPrintable(uuid));
+
+    emit characterAdded(character);
+
+    endInsertRows();
+}
+
 void PlayersList::delPlayer(Player * player)
 {
     int index = m_playersList.indexOf(player);
@@ -554,25 +552,88 @@ void PlayersList::delCharacter(Player * parent, int index)
     endRemoveRows();
 }
 
-QModelIndex PlayersList::createIndex(Person * person) const
+void PlayersList::notifyPersonChanged(Person * person)
 {
-    int size = m_playersList.size();
-    for (int row = 0; row < size; row++)
+    QModelIndex index = createIndex(person);
+    
+    if (index.internalId() != NoParent)
+        emit characterChanged(static_cast<Character *>(person));
+    else
+        emit playerChanged(static_cast<Player *>(person));
+
+    emit dataChanged(index, index);
+}
+
+
+/***********
+ * Network *
+ ***********/
+
+bool PlayersList::event(QEvent * event)
+{
+    if (event->type() == ReceiveEvent::Type)
     {
-        Player * player = m_playersList.at(row);
-        if (person == player)
+        ReceiveEvent * rEvent = static_cast<ReceiveEvent *>(event);
+        DataReader & data = rEvent->data();
+        switch ((categorieAction)rEvent->categorie())
         {
-            return QAbstractItemModel::createIndex(row, 0, NoParent);
-        }
-        else
-        {
-            int c_row;
-            if (player->searchCharacter((Character *)(person), c_row))
-                return QAbstractItemModel::createIndex(c_row, 0, row);
+            case joueur:
+                switch ((actionJoueur)rEvent->action())
+                {
+                    case connexionJoueur:
+                        addPlayerAsServer(rEvent);
+                        return true;
+                    case ajouterJoueur:
+                        addPlayer(data);
+                        return true;
+                    case supprimerJoueur:
+                        delPlayer(data);
+                        return true;
+                    case changerNomJoueur:
+                        setPersonName(data);
+                        return true;
+                    case changerCouleurJoueur:
+                        setPersonColor(data);
+                        return true;
+                    default:
+                        qWarning("PlayersList : message of categorie \"joueur\" with unknown action (%d)", rEvent->action());
+                }
+                break;
+            case persoJoueur:
+                switch ((actionPj)rEvent->action())
+                {
+                    case ajouterPersoJoueur:
+                        addCharacter(data);
+                        return true;
+                    case supprimerPersoJoueur:
+                        delCharacter(data);
+                        return true;
+                    case changerNomPersoJoueur:
+                        setPersonName(data);
+                        return true;
+                    case changerCouleurPersoJoueur:
+                        setPersonColor(data);
+                        return true;
+                    default:
+                        qWarning("PlayersList : message of categorie \"persoJoueur\" with unknown action (%d)", rEvent->action());
+                }
+                break;
+            case parametres:
+                switch ((actionParametres)rEvent->action())
+                {
+                    case AddFeatureAction:
+                        addFeature(data);
+                        return true;
+                    default:
+                        qWarning("PlayersList : message of categorie \"parametres\" with unknown action (%d)", rEvent->action());
+                }
+                break;
+            default:
+                qWarning("PlayersList : message of unknown categorie (%d)", rEvent->categorie());
         }
     }
 
-    return QModelIndex();
+    return QObject::event(event);
 }
 
 void PlayersList::addPlayer(DataReader & data)
@@ -612,11 +673,13 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
     addPlayer(player);
 
     DataWriter msgPlayer (joueur, ajouterJoueur);
-    DataWriter msgCharacter (persoJoueur, ajouterPersoJoueur);
     player->fill(msgPlayer);
     // display it in the log
     msgPlayer.uint8(1);
     msgPlayer.sendAll();
+
+    DataWriter msgCharacter (persoJoueur, ajouterPersoJoueur);
+    SendFeaturesIterator featuresIterator;
 
     int playersListSize = m_playersList.size();
     for (int i = 0 ; i < playersListSize ; i++)
@@ -639,6 +702,12 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
                 msgCharacter.uint8(1);
                 msgCharacter.sendTo(link);
             }
+        }
+        featuresIterator = curPlayer;
+        while (featuresIterator.hasNext())
+        {
+            featuresIterator.next();
+            featuresIterator.message().sendTo(link);
         }
     }
 }
@@ -703,17 +772,18 @@ void PlayersList::delCharacter(DataReader & data)
     delCharacter(parent, parent->getIndexOfCharacter(character)); 
 }
 
-void PlayersList::notifyPersonChanged(Person * person)
+void PlayersList::sendDelLocalPlayer()
 {
-    QModelIndex index = createIndex(person);
-    
-    if (index.internalId() != NoParent)
-        emit characterChanged(static_cast<Character *>(person));
-    else
-        emit playerChanged(static_cast<Player *>(person));
-
-    emit dataChanged(index, index);
+    qDebug("sendDelLocalPlayer");
+    DataWriter message (joueur, supprimerJoueur);
+    message.string8(localPlayer()->uuid());
+    message.sendAll();
 }
+
+
+/*********
+ * Other *
+ *********/
 
 void PlayersList::delPlayerWithLink(Liaison * link)
 {
@@ -733,12 +803,4 @@ void PlayersList::delPlayerWithLink(Liaison * link)
             return;
         }
     }
-}
-
-void PlayersList::sendDelLocalPlayer()
-{
-    qDebug("sendDelLocalPlayer");
-    DataWriter message (joueur, supprimerJoueur);
-    message.string8(localPlayer()->uuid());
-    message.sendAll();
 }

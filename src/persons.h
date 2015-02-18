@@ -25,6 +25,7 @@
 
 #include <QColor>
 #include <QList>
+#include <QMap>
 
 class Character;
 class DataReader;
@@ -84,8 +85,13 @@ class Player : public Person {
 
         bool isGM() const;
 
+        bool hasFeature(const QString & name, quint8 version = 0) const;
+        void setFeature(const QString & name, quint8 version = 0);
+
     private:
         friend class PlayersList;
+        friend class SendFeaturesIterator;
+
         void addCharacter(Character * character);
         void delCharacter(int index);
         bool searchCharacter(Character * character, int & index) const;
@@ -94,7 +100,9 @@ class Player : public Person {
         bool m_gameMaster;
         Liaison * m_link;
         QList<Character *> m_characters;
+        QMap<QString, quint8> m_features;
 };
+
 
 
 /**

@@ -62,9 +62,6 @@ class PlayersList : public QAbstractItemModel {
 
         // Proxy helpers
         static const quint32 NoParent = 0x7fffffff;
-        Person * getPerson(const QModelIndex & index) const;
-        Player * getPlayer(const QModelIndex & index) const;
-        Character * getCharacter(const QModelIndex & index) const;
         QModelIndex mapIndexToMe(const QModelIndex & index) const;
 
         // Getters
@@ -74,16 +71,24 @@ class PlayersList : public QAbstractItemModel {
         int numPlayers() const;
         Player * getPlayer(int index) const;
 
+        Person * getPerson(const QString & uuid) const;
         Player * getPlayer(const QString & uuid) const;
         Character * getCharacter(const QString & uuid) const;
-        Person * getPerson(const QString & uuid) const;
+
+        Person * getPerson(const QModelIndex & index) const;
+        Player * getPlayer(const QModelIndex & index) const;
+        Character * getCharacter(const QModelIndex & index) const;
+
+        bool everyPlayerHasFeature(const QString & name, quint8 version = 0) const;
 
         // Setters
         void setLocalPlayer(Player * player);
         void addLocalCharacter(Character * newCharacter);
+
         void changeLocalPerson(Person * person, const QString & name, const QColor & color);
         void setLocalPersonName(Person * person, const QString & name);
         void setLocalPersonColor(Person * person, const QColor & color);
+
         void delLocalCharacter(int index);
 
     signals:

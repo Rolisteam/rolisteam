@@ -139,9 +139,8 @@ int main(int argc, char *argv[])
     qDebug("Seed %x", seed);
     qsrand(seed);
 
-    // We need an Uuid for the local player
+    // We need an Uuid for the local player (do we ?)
     G_idJoueurLocal = QUuid::createUuid().toString();
-    FeaturesList::instance().addLocal(G_idJoueurLocal);
 
     // Get a connection
     G_clientServeur = new ClientServeur;

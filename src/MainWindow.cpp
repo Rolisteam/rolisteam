@@ -32,6 +32,7 @@
 #include "CarteFenetre.h"
 #include "Carte.h"
 #include "chatlistwidget.h"
+#include "ClientServeur.h"
 #include "EditeurNotes.h"
 #include "Image.h"
 #include "NouveauPlanVide.h"

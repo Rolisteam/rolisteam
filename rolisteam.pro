@@ -7,9 +7,9 @@ LANGUAGE = C++
 MOC_DIR = bin
 OBJECTS_DIR = bin
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
-CONFIG += HAVE_PHONON
+#CONFIG += HAVE_PHONON
 #CONFIG += HAVE_FMOD
-#CONFIG += HAVE_NULL
+CONFIG += HAVE_NULL
 HEADERS += src/AfficheurDisque.h \
            src/BarreOutils.h \
            src/Carte.h \

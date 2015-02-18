@@ -22,194 +22,91 @@
 #include "Features.h"
 
 #include "datareader.h"
-#include "datawriter.h"
-#include "receiveevent.h"
+#include "persons.h"
+#include "playersList.h"
+#include "types.h"
 
 
-/***********
- * Feature *
- ***********/
+/******************
+ * Local Features *
+ ******************/
 
-Feature::Feature()
-    : m_userId(""), m_name(""), m_version(0)
-{}
+#define LENGTH(X) (sizeof X / sizeof X[0])
 
-Feature::Feature(const QString & userId, const QString & name, quint8 version)
-    : m_userId(userId), m_name(name), m_version(version)
-{}
+static struct {
+    QString name;
+    quint8  version;
+} localFeatures[] = {
+    {QString("Emote"), 0}
+};
 
-Feature::Feature(DataReader & data)
-{   // Same format as send(). (network)
-    data.reset();
-    m_userId = data.string8();
-    m_name = data.string8();
-    m_version = data.uint8();
-}
 
-Feature::Feature(const Feature & other)
+/*************
+ * Functions *
+ *************/
+
+void setLocalFeatures(Player & player)
 {
-    // QString has an operator=, we rely on it.
-    m_userId  = other.m_userId;
-    m_name    = other.m_name;
-    m_version = other.m_version;
-}
-
-Feature & Feature::operator=(const Feature & other)
-{
-    // Warning : no exception handling. Might be in inconsistent state.
-    // QString has an operator=, we rely on it.
-    if (this != &other)
+    int nbFeatures = LENGTH(localFeatures);
+    for (int i = 0; i < nbFeatures; i++)
     {
-        m_userId  = other.m_userId;
-        m_name    = other.m_name;
-        m_version = other.m_version;
+        player.setFeature(localFeatures[i].name, localFeatures[i].version);
     }
+}
+
+void addFeature(DataReader & data)
+{
+    QString uuid   = data.string8();
+    QString name   = data.string8();
+    quint8 version = data.uint8();
+
+    Player * player = PlayersList::instance().getPlayer(uuid);
+    if (player == NULL)
+    {
+        qWarning("Feature %s for unknown player %s", qPrintable(name), qPrintable(uuid));
+        return;
+    }
+
+    player->setFeature(name, version);
+}
+
+/************************
+ * SendFeaturesIterator *
+ ************************/
+
+SendFeaturesIterator::SendFeaturesIterator()
+    : QMapIterator<QString, quint8>(QMap<QString, quint8>()), m_player(NULL), m_message(parametres, AddFeatureAction)
+{
+}
+
+SendFeaturesIterator::SendFeaturesIterator(const Player & player)
+    : QMapIterator<QString, quint8>(player.m_features), m_player(&player), m_message(parametres, AddFeatureAction)
+{
+}
+
+SendFeaturesIterator & SendFeaturesIterator::operator=(const Player * player)
+{
+    if (player != NULL)
+        QMapIterator<QString, quint8>::operator=(player->m_features);
+
+    m_player = player;
     return *this;
 }
 
-bool Feature::operator==(const Feature & other) const
+SendFeaturesIterator::~SendFeaturesIterator()
 {
-    return ((m_userId == other.m_userId) && (m_name == other.m_name));
 }
 
-bool Feature::isUserId(const QString & userId) const
+DataWriter & SendFeaturesIterator::message()
 {
-    return (m_userId == userId);
-}
-
-bool Feature::implements(const QString & name, quint8 version) const
-{
-    return ((m_name == name) && (m_version >= version));
-}
-
-quint8 Feature::version() const
-{
-    return m_version;
-}
-
-QString Feature::toString() const
-{
-    return QString("%1 -> %2 (%3)").arg(m_userId).arg(m_name).arg(m_version );
-}
-
-void Feature::upgradeTo(quint8 version)
-{
-    if (m_version < version)
-        m_version = version;
-}
-
-void Feature::send(Liaison * link) const
-{
-    qDebug("Send feature %s to %d", qPrintable(toString()), quintptr(link));
-    
-    DataWriter writer(parametres, addFeature);
-
-    writer.string8(m_userId);
-    writer.string8(m_name);
-    writer.uint8(m_version);
-
-    writer.sendTo(link);
-}
-
-/****************
- * FeaturesList *
- ****************/
-
-FeaturesList & FeaturesList::instance()
-{
-    static FeaturesList featuresList;
-    return featuresList;
-}
-
-FeaturesList::FeaturesList(QObject * parent)
- : QObject(parent)
-{
-    ReceiveEvent::registerReceiver(parametres, addFeature, this);
-}
-
-void FeaturesList::addLocal(const QString & userId)
-{
-    add(Feature(userId, "Emote", 0));
-}
-
-void FeaturesList::add(const Feature & feature)
-{   // In fact, our list is a set ;)
-    qDebug("Added feature %s", qPrintable(feature.toString()));
-
-    // If this feature is not is the list for this user, we add it.
-    int pos = m_list.indexOf(feature);
-    if (pos < 0)
+    m_message.reset();
+    qDebug("zorglub");
+    if (m_player != NULL)
     {
-        m_list.append(feature);
-        return;
+        qDebug("Prepared feature %s -> %s (%d)", qPrintable(m_player->uuid()), qPrintable(key()), value());
+        m_message.string8(m_player->uuid());
+        m_message.string8(key());
+        m_message.uint8(value());
     }
-    
-    // If the new version is greater than the old one, we change it.
-    m_list[pos].upgradeTo(feature.version());
-}
-
-int FeaturesList::countImplemented(const QString & featureName, quint8 featureVersion) const
-{
-    int ret = 0;
-
-    QList<Feature>::const_iterator i;
-    for (i = m_list.begin(); i != m_list.end() ; i++)
-    {
-        if ((*i).implements(featureName, featureVersion))
-            ret++;
-    }
-
-    return ret;
-}
-
-bool FeaturesList::clientImplements(const Feature & feature) const
-{
-    int pos = m_list.indexOf(feature);
-
-    if (pos < 0)
-        return false;
-
-    return m_list.at(pos).version() >= feature.version();
-}
-
-void FeaturesList::sendThemAll(Liaison * link) const
-{
-    QList<Feature>::const_iterator i;
-    for (i = m_list.begin(); i != m_list.end(); i++)
-    {
-        (*i).send(link);
-    }
-}
-
-void FeaturesList::delUser(const QString & userId)
-{
-    QList<Feature>::iterator i;
-    for (i = m_list.begin(); i != m_list.end() ;)
-    {
-        if ((*i).isUserId(userId))
-        {
-            qDebug("Delete feature %s", qPrintable((*i).toString()));
-            i = m_list.erase(i);
-        }
-        else
-        {
-            i++;
-        }
-    }
-}
-
-bool FeaturesList::event(QEvent * event)
-{
-    if (event->type() == ReceiveEvent::Type)
-    {
-        ReceiveEvent * netEvent = static_cast<ReceiveEvent *>(event);
-        if (netEvent->categorie() == parametres && netEvent->action() == addFeature)
-        {
-            Feature feature(netEvent->data());
-            add(feature);
-            return true;
-        }
-    }
-
-    return QObject::event(event);
+    return m_message;
 }

@@ -26,6 +26,7 @@
 
 #include <QDateTime>
 #include <QScrollBar>
+#include <QTextStream>
 
 #include "datawriter.h"
 #include "initialisation.h"
@@ -168,7 +169,6 @@ void Tchat::emettreTexte()
     zoneEdition->clear();
     QTextStream out(stderr,QIODevice::WriteOnly);
 
-    FeaturesList & g_featuresList = FeaturesList::instance();
     PlayersList & g_playersList = PlayersList::instance();
     Player * localPlayer = g_playersList.localPlayer();
 
@@ -275,9 +275,7 @@ void Tchat::emettreTexte()
                     {
                         if (m_uuid.isEmpty())
                         {   // Public chat
-                            int nb_implemented = g_featuresList.countImplemented(QString("Emote"), 0);
-                            int nb_users = g_playersList.numPlayers();
-                            if (nb_implemented < nb_users)
+                            if (!g_playersList.everyPlayerHasFeature(QString("Emote")))
                             {
                                 messageTitle = tr("Attention");
                                 messageCorps = tr("Certains utilisateurs risquent de ne pas voir vos emotes.");
@@ -288,7 +286,10 @@ void Tchat::emettreTexte()
                         }
                         else
                         {   // Private chat
-                            if (!g_featuresList.clientImplements(Feature(m_uuid, QString("Emote"), 0)))
+                            Player * distPlayer = g_playersList.getPlayer(m_uuid);
+                            if (distPlayer == NULL)
+                                qFatal("Tchat of an unknown player %s", qPrintable(m_uuid));
+                            if (!distPlayer->hasFeature(QString("Emote")))
                             {
                                 messageTitle = tr("Attention");
                                 messageCorps = tr("Votre interlocuteur risque de ne pas voir vos emotes.");

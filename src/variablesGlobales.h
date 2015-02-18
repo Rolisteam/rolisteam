@@ -21,9 +21,7 @@
 
 
 /********************************************************************/
-/*                                                                  */
 /* Variables globales utilisees dans l'application.                 */
-/*                                                                  */
 /********************************************************************/
 
 
@@ -34,18 +32,14 @@
 #include <QString>
 #include <QList>
 
-#include "SelecteurCouleur.h"
 #include "BarreOutils.h"
 #include "DessinPerso.h"
-#include "ClientServeur.h"
-#ifndef NULL_PLAYER
-#include "LecteurAudio.h"
-#endif
-#include "Features.h"
 #include "initialisation.h"
+#include "SelecteurCouleur.h"
 
-class MainWindow;
+class ClientServeur;
 class Liaison;
+class MainWindow;
 
 // Fonction globale, declaree dans MainWindow.cpp
 void ecrireLogUtilisateur(QString message);

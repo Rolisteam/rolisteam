@@ -81,8 +81,6 @@ static void synchronizeInitialisation(const ConnectionConfigDialog & dialog)
 ClientServeur::ClientServeur()
 : QObject(), m_server(NULL)
 {
-    connect(this, SIGNAL(linkAdded(Liaison *)),
-            &FeaturesList::instance(), SLOT(sendThemAll(Liaison *)));
 }
 
 
