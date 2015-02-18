@@ -1012,7 +1012,7 @@
 			// On verifie que la couleur courante peut etre utilisee pour dessiner un PNJ
 			if (G_couleurCourante.type == qcolor)
 			{
-                            if (pnjSelectionne)
+                            if (pnjSelectionne!=NULL)
                             {
 				// Affiche ou masque le PNJ selon qu'il se trouve sur une zone masquee ou pas
 				afficheOuMasquePnj(pnjSelectionne);

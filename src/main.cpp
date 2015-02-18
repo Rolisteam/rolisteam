@@ -21,81 +21,81 @@
 */
 
 
-	#include <QtGui>
+#include <QtGui>
 
-	#include "ClientServeur.h"
-	#include "constantesGlobales.h"
-	#include "types.h"
-	#include <time.h>
+#include "ClientServeur.h"
+#include "constantesGlobales.h"
+#include "types.h"
+#include <time.h>
 
 
-	// Inclusion de la librairie FMOD (librairie audio)
-	#ifdef WIN32
-		#define DLL_EXPORTS
+// Inclusion de la librairie FMOD (librairie audio)
+#ifdef WIN32
+        #define DLL_EXPORTS
 
-                #include "fmod.h"
-        #endif
+        #include "fmod.h"
+#endif
 
-	// Importation du plugin JPEG
+// Importation du plugin JPEG
 //	Q_IMPORT_PLUGIN(qjpeg)
 
 
-	// Fenetre de log (utilise seulement dans ce fichier)
-	static QTextEdit *Log;
+// Fenetre de log (utilise seulement dans ce fichier)
+static QTextEdit *Log;
 
 
-	/********************************************************************/
-	/* Variables globales utilisees par tous les elements de            */
-	/* l'application                                                    */
-	/********************************************************************/
-	// Contient tous les parametres extraits du fichier d'initialisation
-	initialisation G_initialisation;
+/********************************************************************/
+/* Variables globales utilisees par tous les elements de            */
+/* l'application                                                    */
+/********************************************************************/
+// Contient tous les parametres extraits du fichier d'initialisation
+initialisation G_initialisation;
 
 
-	/********************************************************************/
-	/* handler d'affichage des messages d'erreur et de debug            */
-	/********************************************************************/	
-    void handlerAffichageMsg(QtMsgType type, const char *msg)
-    {
-		QString titre;
-		Qt::GlobalColor couleur;
-		
-		// Parametrage du titre et de la couleur
-        switch (type) {
-        case QtDebugMsg:
-            titre = "Debug : ";
-            couleur = Qt::green;
-            break;
-        case QtWarningMsg:
-            titre = "Warning : ";
-            couleur = Qt::blue;
-            break;
-        case QtCriticalMsg:
-            titre = "Critical : ";
-            couleur = Qt::red;
-            break;
-        case QtFatalMsg:
-            titre = "Fatal : ";
-            couleur = Qt::darkGray;
-            break;
-        default :
-			titre = "Type de message inconnu : ";
-			couleur = Qt::magenta;
-			break;
-        }
+/********************************************************************/
+/* handler d'affichage des messages d'erreur et de debug            */
+/********************************************************************/
+void handlerAffichageMsg(QtMsgType type, const char *msg)
+{
+            QString titre;
+            Qt::GlobalColor couleur;
 
-		// Affichage du texte
-		Log->setFontWeight(QFont::Bold);
-        Log->setTextColor(couleur);
-		Log->append(titre);
- 		Log->setFontWeight(QFont::Normal);
-    	Log->setTextColor(Qt::black);
-		Log->insertPlainText(msg);
-		
-		// Erreur fatale : on quitte
-		if (type == QtFatalMsg)
-			abort();
+            // Parametrage du titre et de la couleur
+    switch (type) {
+    case QtDebugMsg:
+        titre = "Debug : ";
+        couleur = Qt::green;
+        break;
+    case QtWarningMsg:
+        titre = "Warning : ";
+        couleur = Qt::blue;
+        break;
+    case QtCriticalMsg:
+        titre = "Critical : ";
+        couleur = Qt::red;
+        break;
+    case QtFatalMsg:
+        titre = "Fatal : ";
+        couleur = Qt::darkGray;
+        break;
+    default :
+                    titre = "Type de message inconnu : ";
+                    couleur = Qt::magenta;
+                    break;
     }
+
+            // Affichage du texte
+            Log->setFontWeight(QFont::Bold);
+    Log->setTextColor(couleur);
+            Log->append(titre);
+            Log->setFontWeight(QFont::Normal);
+    Log->setTextColor(Qt::black);
+            Log->insertPlainText(msg);
+
+            // Erreur fatale : on quitte
+            if (type == QtFatalMsg)
+                    abort();
+}
 
 	/********************************************************************/
 	/* main                                                             */
