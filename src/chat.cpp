@@ -338,6 +338,7 @@ void PrivateChat::p_set(const QString & name, QSet<Player *> set)
     }
 
     m_name = name;
+    emit changedName();
     m_set  = set;
     sendUpdate();
 }

@@ -43,7 +43,7 @@ class AbstractChat : public QObject
         virtual bool everyPlayerHasFeature(const QString & feature) const =0;
 
     signals:
-        void changedName(const QString & newName);
+        void changedName();
 };
 
 class PublicChat : public AbstractChat

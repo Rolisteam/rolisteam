@@ -331,6 +331,7 @@ void MainWindow::creerMenu()
         // Ajout des actions d'affichage des fenetres d'evenement, utilisateurs et lecteur audio
         menuFenetre->addAction(barreOutils->toggleViewAction());
         menuFenetre->addAction(dockLogUtil->toggleViewAction());
+        menuFenetre->addAction(m_chatListWidget->toggleViewAction());
         menuFenetre->addAction(m_playersList->toggleViewAction());
 #ifndef NULL_PLAYER
         menuFenetre->addAction(G_lecteurAudio->toggleViewAction());

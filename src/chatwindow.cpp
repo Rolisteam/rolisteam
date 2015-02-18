@@ -66,7 +66,7 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
         m_keyWordList << "e " << "em " << "me " << "emote ";
 
     // create and connect toggleViewAction
-    m_toggleViewAction = new QAction(m_chat->name(), this);
+    m_toggleViewAction = new QAction(this);
     m_toggleViewAction->setCheckable(true);
     connect(m_toggleViewAction, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
 
@@ -112,11 +112,13 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
 
     // Window initialisation
     setObjectName("ChatWindow");
-    setWindowTitle(m_chat->name());
     setWindowIcon(QIcon(":/icones/vignette tchat.png"));
     setAttribute(Qt::WA_DeleteOnClose, false);
     parent->registerSubWindow(this);
     hide();
+
+    updateTitleFromChat();
+    connect(m_chat, SIGNAL(changedName()), this, SLOT(updateTitleFromChat()));
 }
 
 /********************************************************************/    
@@ -759,6 +761,14 @@ void ChatWindow::save()
     stream << zoneAffichage->document()->toHtml(QByteArray("utf-8"));
 
     file.close();
+}
+
+void ChatWindow::updateTitleFromChat()
+{
+    const QString & name = m_chat->name();
+
+    setWindowTitle(tr("%1 (Tchat)").arg(name));
+    m_toggleViewAction->setText(name);
 }
 
 /********************************************************************/

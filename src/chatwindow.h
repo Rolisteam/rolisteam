@@ -66,6 +66,7 @@ signals:
 public slots:
     virtual void setVisible(bool visible);
     void save();
+    void updateTitleFromChat();
 
 protected :
     void init(MainWindow * parent);
