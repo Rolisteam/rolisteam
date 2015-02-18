@@ -23,7 +23,9 @@
 
 
 #include <QString>
-
+/**
+* @brief class to store all informations about remote server
+*/
 class Connection
 {
 public:
