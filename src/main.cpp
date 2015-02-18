@@ -27,6 +27,8 @@
 #include "ClientServeur.h"
 #include "initialisation.h"
 #include "MainWindow.h"
+#include "persons.h"
+
 #include "constantesGlobales.h"
 #include "variablesGlobales.h"
 
@@ -148,8 +150,6 @@ int main(int argc, char *argv[])
 
     // Create the main window
     G_mainWindow = new MainWindow;
-    if (!G_client)
-        G_listeUtilisateurs->ajouterJoueur(G_clientServeur->currentUser()->id(), G_clientServeur->currentUser()->name(), G_clientServeur->currentUser()->color(), true, G_clientServeur->currentUser()->isGM());
 
     G_mainWindow->setWindowTitle(NOM_APPLICATION);
     // We have a connection, we launch the main window.

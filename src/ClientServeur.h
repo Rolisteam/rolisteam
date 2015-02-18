@@ -29,33 +29,14 @@
 #include <QList>
 #include <QColor>
 
-class PlayerTransfer
-{
-public:
-    PlayerTransfer(QString id,QString name,QColor color,bool gm);
-
-
-    QString name();
-    QColor color();
-    bool isGM();
-    QString id();
-
-private:
-    QString m_id;
-    QString m_name;
-    QColor m_color;
-    bool m_GM;
-//G_idJoueurLocal, configDialog.getName(), configDialog.getColor(), true, configDialog.isGM()
-};
-
-
+class Player;
 class Liaison;
+
 /**
  * @brief hold the list of socket (Liaison).
  * On startup displays the configDialog.
  */
-class ClientServeur
-    : public QObject
+class ClientServeur : public QObject
 {
     Q_OBJECT
 
@@ -70,22 +51,19 @@ public :
     bool configAndConnect();
 
     void emettreDonnees(char *donnees, quint32 taille, Liaison *sauf);
-    void emettreDonnees(char *donnees, quint32 taille, int numeroLiaison);
 
     void ajouterLiaison(Liaison *liaison);
-
-    PlayerTransfer* currentUser();
-
     void finDeLiaison(Liaison * link);
 
 signals :
     void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);
 
+    void linkAdded(Liaison * link);
+    void linkDeleted(Liaison * link);
+
 private :
     QTcpServer * m_server;
     QList<Liaison *> liaisons;
-    PlayerTransfer* m_user;
-
 
 private slots :
     void nouveauClientConnecte();

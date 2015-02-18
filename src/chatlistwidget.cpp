@@ -19,45 +19,51 @@
  *************************************************************************/
 
 
-#ifndef DATA_WRITER_H
-#define DATA_WRITER_H
+#include <QListView>
+#include <QEvent>
 
-#include <QString>
+#include "chatlist.h"
+#include "MainWindow.h"
 
-#include "types.h"
+#include "chatlistwidget.h"
 
-class Liaison;
 
-class DataWriter
+ChatListWidget::ChatListWidget(MainWindow * parent)
+    : QDockWidget(parent)
 {
-    public:
-        DataWriter(quint8 categorie, quint8 action, int size = 128);
-        ~DataWriter();
+    setWindowTitle(tr("Tchats"));
+    setAllowedAreas(Qt::AllDockWidgetAreas);
+    setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 
-        void reset();
+    m_chatList = new ChatList(parent);
 
-        void sendTo(Liaison * link);
-        void sendAll(Liaison * butLink = NULL);
+    QListView * listView = new QListView(this);
+    listView->setModel(m_chatList);
+    setWidget(listView);
 
-        void uint8(quint8 data);
-        void uint16(quint16 data);
-        void uint32(quint32 data);
+    m_selectionModel = listView->selectionModel();
+    listView->installEventFilter(this);
+}
 
-        void string8(const QString & data);
-        void string16(const QString & data);
-        void string32(const QString & data);
+ChatListWidget::~ChatListWidget()
+{
+}
 
-        void rgb(const QColor & color);
+QMenu * ChatListWidget::chatMenu() const
+{
+    return m_chatList->chatMenu();
+}
 
-    private:
-        enteteMessage * m_header;
-        char * m_buffer;
-        char * m_begin;
-        char * m_pos;
-        char * m_end;
+QObject * ChatListWidget::chatList() const
+{
+    return m_chatList;
+}
 
-        void string(const QString & data, int sizeQChar);
-        void makeRoom(int size);
-};
+bool ChatListWidget::eventFilter(QObject * object, QEvent * event)
+{
+    Q_UNUSED(object);
 
-#endif
+    if (event->type() == QEvent::FocusOut)
+        m_selectionModel->reset();
+    return false;
+}

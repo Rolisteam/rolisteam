@@ -37,8 +37,6 @@
 #include "SelecteurCouleur.h"
 #include "BarreOutils.h"
 #include "DessinPerso.h"
-#include "ListeUtilisateurs.h"
-#include "MainWindow.h"
 #include "ClientServeur.h"
 #ifndef NULL_PLAYER
 #include "LecteurAudio.h"
@@ -46,6 +44,7 @@
 #include "Features.h"
 #include "initialisation.h"
 
+class MainWindow;
 class Liaison;
 
 // Fonction globale, declaree dans MainWindow.cpp
@@ -53,7 +52,6 @@ void ecrireLogUtilisateur(QString message);
 
 // Fonctions globales, declaree dans ClientServeur.cpp
 void emettre(char *donnees, quint32 taille, Liaison *sauf = 0);
-void emettre(char *donnees, quint32 taille, int numeroLiaison);
 
 
 // Declarees dans main.cpp
@@ -65,7 +63,6 @@ extern QString         G_idJoueurLocal;
 // Declarees dans ClientServeur.cpp
 extern bool G_joueur;
 extern bool G_client;
-extern QColor G_couleurJoueurLocal;
 
 // Declarees dans DessinPerso.cpp, initialiser dans MainWindow.cpp
 extern QList<DessinPerso::etatDeSante> G_etatsDeSante;
@@ -82,13 +79,11 @@ extern int G_numeroPnjCourant;
 
 // Declarees dans AfficheurDisque.cpp
 extern int G_diametreTraitCourant;
-extern int G_diametrePnjCourant;
 
 // Declarees dans MainWindow.cpp
 extern bool G_affichageNomPj;
 extern bool G_affichageNomPnj;
 extern bool G_affichageNumeroPnj;
-extern bool G_carteFenetreActive;
 extern QCursor *G_pointeurDessin;
 extern QCursor *G_pointeurTexte;
 extern QCursor *G_pointeurPipette;
@@ -98,11 +93,7 @@ extern QCursor *G_pointeurAjouter;
 extern QCursor *G_pointeurSupprimer;
 extern QCursor *G_pointeurEtat;
 
-// Declarees dans ListeUtilisateur.cpp
-extern ListeUtilisateurs *G_listeUtilisateurs;
-
 // Declared in Features.cpp
 extern FeaturesList g_featuresList;
-
 
 #endif

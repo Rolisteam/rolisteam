@@ -27,10 +27,13 @@
 #include <QTcpSocket>
 #include <QMessageBox>
 
-#include "Liaison.h"
 #include "connectiondialog.h"
 #include "initialisation.h"
-#include "constantesGlobales.h"
+#include "Liaison.h"
+#include "MainWindow.h"
+#include "persons.h"
+#include "playersList.h"
+
 #include "variablesGlobales.h"
 
 
@@ -43,47 +46,6 @@
 bool G_joueur;
 // True si l'ordinateur local est client, false s'il est serveur
 bool G_client;
-// Couleur du joueur local
-QColor G_couleurJoueurLocal;
-
-
-
-
-
-PlayerTransfer::PlayerTransfer(QString id,QString name,QColor color,bool gm)
-    : m_id(id),m_name(name),m_color(color),m_GM(gm)
-{
-
-}
-
-
-QString PlayerTransfer::name()
-{
-    return m_name;
-}
-
-QColor PlayerTransfer::color()
-{
-    return m_color;
-}
-
-bool PlayerTransfer::isGM()
-{
-    return m_GM;
-}
-
-QString PlayerTransfer::id()
-{
-    return m_id;
-}
-
-
-
-
-
-
-
-
 
 
 /********************
@@ -95,77 +57,20 @@ void emettre(char *donnees, quint32 taille, Liaison *sauf)
     G_clientServeur->emettreDonnees(donnees, taille, sauf);
 }
 
-void emettre(char *donnees, quint32 taille, int numeroLiaison)
-{
-    G_clientServeur->emettreDonnees(donnees, taille, numeroLiaison);
-}
-
 
 /********************************
  * Private non-member functions *
  ********************************/
 
-void synchronizeInitialisation(const ConnectionConfigDialog & dialog)
+static void synchronizeInitialisation(const ConnectionConfigDialog & dialog)
 {
     G_initialisation.nomUtilisateur     = dialog.getName();
-    G_initialisation.couleurUtilisateur = G_couleurJoueurLocal = dialog.getColor();
+    G_initialisation.couleurUtilisateur = dialog.getColor();
     G_initialisation.joueur             = G_joueur             = !dialog.isGM();
     G_initialisation.client             = G_client             = !dialog.isServer();
     G_initialisation.ipServeur          = dialog.getHost();
     G_initialisation.portServeur        = dialog.getPort();
     G_initialisation.portClient.setNum(G_initialisation.portServeur);
-}
-
-
-void emettreIdentite(const QString & playerName)
-{
-    // Taille des donnees
-    quint32 tailleCorps =
-        // Taille du nom
-        sizeof(quint16) + playerName.size()*sizeof(QChar) +
-        // Taille de l'identifiant
-        sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
-        // Taille de la couleur
-        sizeof(QRgb) +
-        // Taille de la nature de l'utilisateur (MJ ou joueur)
-        sizeof(quint8);
-
-    // Buffer d'emission
-    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-    // Creation de l'entete du message
-    enteteMessage *entete;
-    entete = (enteteMessage *) donnees;
-    entete->categorie = joueur;
-    entete->action = connexionJoueur;
-    entete->tailleDonnees = tailleCorps;
-
-    // Creation du corps du message
-    int p = sizeof(enteteMessage);
-    // Ajout du nom
-    quint16 tailleNom = playerName.size();
-    memcpy(&(donnees[p]), &tailleNom, sizeof(quint16));
-    p+=sizeof(quint16);
-    memcpy(&(donnees[p]), playerName.data(), tailleNom*sizeof(QChar));
-    p+=tailleNom*sizeof(QChar);
-    // Ajout de l'identifiant
-    quint8 tailleId = G_idJoueurLocal.size();
-    memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
-    p+=sizeof(quint8);
-    memcpy(&(donnees[p]), G_idJoueurLocal.data(), tailleId*sizeof(QChar));
-    p+=tailleId*sizeof(QChar);
-    // Ajout de la couleur
-    QRgb rgb = G_couleurJoueurLocal.rgb();
-    memcpy(&(donnees[p]), &rgb, sizeof(QRgb));
-    p+=sizeof(QRgb);
-    // Ajout de la nature de l'utilisateur (MJ ou joueur)
-    quint8 mj = !G_joueur;
-    memcpy(&(donnees[p]), &mj, sizeof(quint8));
-    p+=sizeof(quint8);
-    // Emission des donnees
-    emettre(donnees, tailleCorps + sizeof(enteteMessage));
-    // Liberation du buffer d'emission
-    delete[] donnees;
 }
 
 
@@ -176,6 +81,8 @@ void emettreIdentite(const QString & playerName)
 ClientServeur::ClientServeur()
 : QObject(), m_server(NULL)
 {
+    connect(this, SIGNAL(linkAdded(Liaison *)),
+            &g_featuresList, SLOT(sendThemAll(Liaison *)));
 }
 
 
@@ -184,24 +91,18 @@ ClientServeur::~ClientServeur()
     // QObject should delete all for us.
 }
 
-PlayerTransfer* ClientServeur::currentUser()
-{
-       return m_user;
-}
-
 bool ClientServeur::configAndConnect()
 {
     ConnectionConfigDialog configDialog(
-    G_initialisation.nomUtilisateur, G_initialisation.couleurUtilisateur, !G_initialisation.joueur,
-    G_initialisation.ipServeur, G_initialisation.portServeur, !G_initialisation.client);
+        G_initialisation.nomUtilisateur, G_initialisation.couleurUtilisateur, !G_initialisation.joueur,
+        G_initialisation.ipServeur, G_initialisation.portServeur, !G_initialisation.client
+    );
 
-    ConnectionWaitDialog   waitDialog;
-
-    QMessageBox            errorDialog;
-    errorDialog.setText(QObject::tr("Impossible de se connecter"));
-    errorDialog.setIcon(QMessageBox::Warning);
-
+    ConnectionWaitDialog waitDialog;
+    QMessageBox errorDialog(QMessageBox::Warning, tr("Erreur"), tr("Impossible de se connecter"));
     QTcpSocket * socket;
+
+    PlayersList & g_playersList = PlayersList::instance();
 
     bool cont = true;
     while (cont)
@@ -223,10 +124,7 @@ bool ClientServeur::configAndConnect()
             if (m_server->listen(QHostAddress::Any, configDialog.getPort()))
             {
                 synchronizeInitialisation(configDialog);
-                m_user = new PlayerTransfer(G_idJoueurLocal,configDialog.getName(),configDialog.getColor(),configDialog.isGM());
-
-
-//                ecrireLogUtilisateur(tr("Serveur en place sur le port ") + G_initialisation.portServeur);
+                connect(this, SIGNAL(linkDeleted(Liaison *)), &g_playersList, SLOT(delPlayerWithLink(Liaison *)));
                 cont = false;
             }
 
@@ -248,9 +146,6 @@ bool ClientServeur::configAndConnect()
             {
                 synchronizeInitialisation(configDialog);
                 new Liaison(socket);
-
-                emettreIdentite(configDialog.getName());
-                g_featuresList.sendThemAll();
                 cont = false;
             }
             else
@@ -260,6 +155,14 @@ bool ClientServeur::configAndConnect()
             }
         }
     }
+
+    Player * localPlayer = new Player(
+            QUuid(G_idJoueurLocal),
+            configDialog.getName(),
+            configDialog.getColor(),
+            configDialog.isGM()
+        );
+    g_playersList.setLocalPlayer(localPlayer);
 
     return true;
 }
@@ -272,16 +175,10 @@ void ClientServeur::emettreDonnees(char *donnees, quint32 taille, Liaison *sauf)
 }
 
 
-void ClientServeur::emettreDonnees(char *donnees, quint32 taille, int numeroLiaison)
-{
-    // Emission des donnees vers la liaison selectionnee
-    liaisons[numeroLiaison]->emissionDonnees(donnees, taille);
-}
-
-
 void ClientServeur::ajouterLiaison(Liaison *liaison)
 {
     liaisons.append(liaison);
+    emit linkAdded(liaison);
 }
 
 
@@ -298,6 +195,8 @@ void ClientServeur::nouveauClientConnecte()
 void ClientServeur::finDeLiaison(Liaison * link)
 {
     link->deleteLater();
+
+    emit linkDeleted(link);
 
     // Si l'ordinateur local est un client
     if (G_client)
@@ -324,51 +223,5 @@ void ClientServeur::finDeLiaison(Liaison * link)
         
         // On supprime la liaison de la liste, apres l'avoir detruite
         liaisons.removeAt(i);
-        // Recuperation de l'identifiant du joueur correspondant a la liaison
-        // (en tenant compte du fait que le 1er utilisateur est toujours le serveur)
-        QString identifiant = G_listeUtilisateurs->indentifiantUtilisateur(i+1);
-#ifndef NULL_PLAYER
-        // Si l'utilisateur etait le MJ, on reinitialise le lecteur audio
-            if (G_listeUtilisateurs->estUnMj(i+1))
-            {
-                LecteurAudio * lecteurAudio = LecteurAudio::getInstance();
-                if(lecteurAudio==NULL)
-                    lecteurAudio = LecteurAudio::getInstance();
-                lecteurAudio->pselectNewFile("");
-            }
-#endif
-        // Suppression de l'utilisateur dans la liste
-        G_listeUtilisateurs->supprimerJoueur(identifiant);
-        // On supprime le tchat associe
-        G_mainWindow->supprimerTchat(identifiant);
-        
-        // On envoie un message a l'ensemble des clients
-
-        // Taille des donnees
-        quint32 tailleCorps =
-            // Taille de l'identifiant
-            sizeof(quint8) + identifiant.size()*sizeof(QChar);
-
-        // Buffer d'emission
-        char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-        // Creation de l'entete du message
-        enteteMessage *uneEntete;
-        uneEntete = (enteteMessage *) donnees;
-        uneEntete->tailleDonnees = tailleCorps;
-        uneEntete->categorie = joueur;
-        uneEntete->action = supprimerJoueur;
-        // Creation du corps du message
-        int p = sizeof(enteteMessage);
-        // Ajout de l'identifiant
-        quint8 tailleId = identifiant.size();
-        memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), identifiant.data(), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        
-        // Emission de la demande de suppression du joueur a l'ensemble des clients
-        emettre(donnees, tailleCorps + sizeof(enteteMessage));
-        // Liberation du buffer d'emission
-        delete[] donnees;
     }
 }

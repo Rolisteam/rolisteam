@@ -23,6 +23,9 @@
 #include <QtGui>
 
 #include "LecteurAudio.h"
+
+#include "Liaison.h"
+
 #include "variablesGlobales.h"
 #include "constantesGlobales.h"
 #include "types.h"
@@ -52,6 +55,7 @@ LecteurAudio::LecteurAudio(QWidget *parent)
         connect(mediaObject, SIGNAL(currentSourceChanged(const Phonon::MediaSource &)),
         this, SLOT(sourceChanged(const Phonon::MediaSource &)));
         //connect(mediaObject, SIGNAL(aboutToFinish()), this, SLOT(isAboutToFinish()));
+        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreEtat(Liaison *)));
     }
     connect(mediaObject,SIGNAL(finished()),this,SLOT(onfinished()));
     *path = Phonon::createPath(mediaObject, audioOutput);
@@ -472,9 +476,9 @@ void LecteurAudio::isAboutToFinish()
         }
 }
 
-void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, quint64 position, int numeroLiaison)
+void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, quint64 position, Liaison * link)
 {
-        qDebug() << " emettre commande " << action << nomFichier << position << numeroLiaison;
+        qDebug() << " emettre commande " << action << nomFichier << position << link;
         int p;
         quint16 tailleNomFichier;
 
@@ -525,35 +529,35 @@ void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, qui
 
         memcpy(donnees, &uneEntete, sizeof(enteteMessage));
 
-        if (numeroLiaison == -1)
-          emettre(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage));
+        if (link == NULL)
+            emettre(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage));
         else
-          emettre(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage), numeroLiaison);
+            link->emissionDonnees(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage));
 
         delete[] donnees;
 }
 
 
-void LecteurAudio::emettreEtat(int numeroLiaison)
+void LecteurAudio::emettreEtat(Liaison * link)
 {
         if(afficheurTitre->text().isEmpty())
-           emettreCommande(nouveauMorceau, "", 0, numeroLiaison);
+           emettreCommande(nouveauMorceau, "", 0, link);
         else
         {
-            emettreCommande(nouveauMorceau, afficheurTitre->text(), 0, numeroLiaison);
+            emettreCommande(nouveauMorceau, afficheurTitre->text(), 0, link);
             switch(mediaObject->state())
             {
                 case Phonon::PausedState:
-                    emettreCommande(pauseMorceau,"", 0, numeroLiaison);
-                    emettreCommande(nouvellePositionMorceau, "", m_time, numeroLiaison);
+                    emettreCommande(pauseMorceau,"", 0, link);
+                    emettreCommande(nouvellePositionMorceau, "", m_time, link);
                     break;
                 case Phonon::StoppedState:
-                    emettreCommande(arretMorceau, "",0, numeroLiaison);
+                    emettreCommande(arretMorceau, "",0, link);
                     break;
             case Phonon::PlayingState :
-                    emettreCommande(pauseMorceau,"", 0, numeroLiaison);
-                    emettreCommande(nouvellePositionMorceau, "", m_time, numeroLiaison);
-                    emettreCommande(lectureMorceau, "", 0, numeroLiaison);
+                    emettreCommande(pauseMorceau,"", 0, link);
+                    emettreCommande(nouvellePositionMorceau, "", m_time, link);
+                    emettreCommande(lectureMorceau, "", 0, link);
                     break;
                 default :
                     break;

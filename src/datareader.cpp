@@ -35,21 +35,19 @@ DataReader::~DataReader()
     delete[] m_buffer;
 }
 
-void
-DataReader::reset()
+void DataReader::reset()
 {
     m_pos = m_buffer;
 }
 
-int DataReader::left() const
+size_t DataReader::left() const
 {
     return (m_end - m_pos);
 }
 
-
 quint8 DataReader::uint8()
 {
-    quint8 size = sizeof(quint8);
+    size_t size = sizeof(quint8);
     if (left() >= size)
     {
         quint8 ret = (quint8) *m_pos;
@@ -59,10 +57,50 @@ quint8 DataReader::uint8()
     return 0;
 }
 
+quint16 DataReader::uint16()
+{
+    size_t size = sizeof(quint16);
+    if (left() >= size)
+    {
+        quint16 ret;
+        memcpy(&ret, m_pos, size);
+        m_pos += size;
+        return ret;
+    }
+    return 0;
+}
+
+quint32 DataReader::uint32()
+{
+    size_t size = sizeof(quint32);
+    if (left() >= size)
+    {
+        quint32 ret;
+        memcpy(&ret, m_pos, size);
+        m_pos += size;
+        return ret;
+    }
+    return 0;
+}
+
 QString DataReader::string8()
 {
-    int sizeQChar = uint8();
-    int sizeBytes = sizeQChar * sizeof(QChar);
+    return string(uint8());
+}
+
+QString DataReader::string16()
+{
+    return string(uint16());
+}
+
+QString DataReader::string32()
+{
+    return string(uint32());
+}
+
+QString DataReader::string(int sizeQChar)
+{
+    size_t sizeBytes = sizeQChar * sizeof(QChar);
     if (sizeBytes > 0 && left() >= sizeBytes)
     {
         QString ret((const QChar *) m_pos, sizeQChar);
@@ -70,4 +108,17 @@ QString DataReader::string8()
         return ret;
     }
     return QString();
+}
+
+QRgb DataReader::rgb()
+{
+    size_t size = sizeof(QRgb);
+    if (left() >= size)
+    {
+        QRgb ret;
+        memcpy(&ret, m_pos, size);
+        m_pos += size;
+        return ret;
+    }
+    return qRgb(255, 255, 255);
 }

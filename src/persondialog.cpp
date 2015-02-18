@@ -2,7 +2,7 @@
  *     Copyright (C) 2011 by Joseph Boudou                               *
  *     http://www.rolisteam.org/                                         *
  *                                                                       *
- *   rolisteam is free software; you can redistribute it and/or modify   *
+ *   Rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
  *   by the Free Software Foundation; either version 2 of the License,   *
  *   or (at your option) any later version.                              *
@@ -19,45 +19,53 @@
  *************************************************************************/
 
 
-#ifndef DATA_WRITER_H
-#define DATA_WRITER_H
+#include "persondialog.h"
 
-#include <QString>
+#include <QFormLayout>
+#include <QVBoxLayout>
+#include <QDialogButtonBox>
 
-#include "types.h"
-
-class Liaison;
-
-class DataWriter
+PersonDialog::PersonDialog(QWidget * parent)
+    : QDialog(parent)
 {
-    public:
-        DataWriter(quint8 categorie, quint8 action, int size = 128);
-        ~DataWriter();
+    setUI();
+}
 
-        void reset();
+QString PersonDialog::getName() const
+{
+    return m_name_w->text();
+}
 
-        void sendTo(Liaison * link);
-        void sendAll(Liaison * butLink = NULL);
+QColor PersonDialog::getColor() const
+{
+    return m_color_w->color();
+}
 
-        void uint8(quint8 data);
-        void uint16(quint16 data);
-        void uint32(quint32 data);
+int PersonDialog::edit(QString title, QString name, QColor color)
+{
+    setWindowTitle(title);
+    m_name_w->setText(name);
+    m_color_w->setColor(color);
+    return exec();
+}
 
-        void string8(const QString & data);
-        void string16(const QString & data);
-        void string32(const QString & data);
 
-        void rgb(const QColor & color);
+void PersonDialog::setUI()
+{
+    m_name_w = new QLineEdit(this);
+    m_color_w = new ColorButton(QColor("white"), this);
 
-    private:
-        enteteMessage * m_header;
-        char * m_buffer;
-        char * m_begin;
-        char * m_pos;
-        char * m_end;
+    QFormLayout * formLayout = new QFormLayout;
+    formLayout->addRow(tr("&Nom : "), m_name_w);
+    formLayout->addRow(tr("&Couleur : "), m_color_w);
 
-        void string(const QString & data, int sizeQChar);
-        void makeRoom(int size);
-};
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-#endif
+    QVBoxLayout * mainLayout = new QVBoxLayout;
+    mainLayout->addLayout(formLayout);
+    mainLayout->addWidget(buttonBox);
+
+    setLayout(mainLayout);
+}

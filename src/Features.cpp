@@ -27,9 +27,6 @@
 
 #include "variablesGlobales.h"
 
-/* TODO :
- * create fonctions or classes to read/write QString from/to buffer
- */
 
 /***********
  * Globals *
@@ -66,8 +63,7 @@ Feature::Feature(const Feature & other)
     m_version = other.m_version;
 }
 
-Feature &
-Feature::operator=(const Feature & other)
+Feature & Feature::operator=(const Feature & other)
 {
     // Warning : no exception handling. Might be in inconsistent state.
     // QString has an operator=, we rely on it.
@@ -80,47 +76,40 @@ Feature::operator=(const Feature & other)
     return *this;
 }
 
-bool
-Feature::operator==(const Feature & other) const
+bool Feature::operator==(const Feature & other) const
 {
     return ((m_userId == other.m_userId) && (m_name == other.m_name));
 }
 
-bool
-Feature::isUserId(const QString & userId) const
+bool Feature::isUserId(const QString & userId) const
 {
     return (m_userId == userId);
 }
 
-bool
-Feature::implements(const QString & name, quint8 version) const
+bool Feature::implements(const QString & name, quint8 version) const
 {
     return ((m_name == name) && (m_version >= version));
 }
 
-quint8
-Feature::version() const
+quint8 Feature::version() const
 {
     return m_version;
 }
 
-QString
-Feature::toString() const
+QString Feature::toString() const
 {
     return QString("%1 -> %2 (%3)").arg(m_userId).arg(m_name).arg(m_version );
 }
 
-void
-Feature::upgradeTo(quint8 version)
+void Feature::upgradeTo(quint8 version)
 {
     if (m_version < version)
         m_version = version;
 }
 
-void
-Feature::send(int linkIndex) const
+void Feature::send(Liaison * link) const
 {
-    qDebug("Send feature %s to %d", qPrintable(toString()), linkIndex);
+    qDebug("Send feature %s to %d", qPrintable(toString()), link);
     
     DataWriter writer(parametres, addFeature);
 
@@ -128,7 +117,7 @@ Feature::send(int linkIndex) const
     writer.string8(m_name);
     writer.uint8(m_version);
 
-    writer.sendTo(linkIndex);
+    writer.sendTo(link);
 }
 
 /****************
@@ -141,14 +130,12 @@ FeaturesList::FeaturesList(QObject * parent)
     ReceiveEvent::registerReceiver(parametres, addFeature, this);
 }
 
-void
-FeaturesList::addLocal(const QString & userId)
+void FeaturesList::addLocal(const QString & userId)
 {
     add(Feature(userId, "Emote", 0));
 }
 
-void
-FeaturesList::add(const Feature & feature)
+void FeaturesList::add(const Feature & feature)
 {   // In fact, our list is a set ;)
     qDebug("Added feature %s", qPrintable(feature.toString()));
 
@@ -164,9 +151,7 @@ FeaturesList::add(const Feature & feature)
     m_list[pos].upgradeTo(feature.version());
 }
 
-int
-FeaturesList::countImplemented(const QString & featureName,
-        quint8 featureVersion) const
+int FeaturesList::countImplemented(const QString & featureName, quint8 featureVersion) const
 {
     int ret = 0;
 
@@ -180,8 +165,7 @@ FeaturesList::countImplemented(const QString & featureName,
     return ret;
 }
 
-bool
-FeaturesList::clientImplements(const Feature & feature) const
+bool FeaturesList::clientImplements(const Feature & feature) const
 {
     int pos = m_list.indexOf(feature);
 
@@ -191,18 +175,16 @@ FeaturesList::clientImplements(const Feature & feature) const
     return m_list.at(pos).version() >= feature.version();
 }
 
-void
-FeaturesList::sendThemAll(int linkIndex) const
+void FeaturesList::sendThemAll(Liaison * link) const
 {
     QList<Feature>::const_iterator i;
     for (i = m_list.begin(); i != m_list.end(); i++)
     {
-        (*i).send(linkIndex);
+        (*i).send(link);
     }
 }
 
-void
-FeaturesList::delUser(const QString & userId)
+void FeaturesList::delUser(const QString & userId)
 {
     QList<Feature>::iterator i;
     for (i = m_list.begin(); i != m_list.end() ;)
@@ -219,9 +201,7 @@ FeaturesList::delUser(const QString & userId)
     }
 }
 
-
-bool
-FeaturesList::event(QEvent * event)
+bool FeaturesList::event(QEvent * event)
 {
     if (event->type() == ReceiveEvent::Type)
     {

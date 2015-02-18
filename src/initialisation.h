@@ -1,5 +1,5 @@
 /*************************************************************************
- *       Copyright (C) 2007 by Romain Campioni                             *
+ *     Copyright (C) 2007 by Romain Campioni                             *
  *     Copyright (C) 2010 by Joseph Boudou                               *
  *                                                                       *
  *     http://www.rolisteam.org/                                         *

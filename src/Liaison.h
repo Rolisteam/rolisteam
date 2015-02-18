@@ -20,17 +20,6 @@
  *************************************************************************/
 
 
-/********************************************************************/
-/*                                                                  */
-/* Chaque Liaison est un thread qui gere un socket, donc la         */
-/* reception et l'emission des messages vers les clients ou le      */
-/* serveur. En regle generale a la reception d'un message le thread */
-/* regarde si l'ordinateur local est le serveur, si c'est le cas il */
-/* fait suivre le message aux autres clients.                       */
-/*                                                                  */
-/********************************************************************/	
-
-
 #ifndef LIAISON_H
 #define LIAISON_H
 
@@ -43,6 +32,8 @@ class Carte;
 #ifndef NULL_PLAYER
     class LecteurAudio;
 #endif
+
+
 class Liaison : public QObject
 {
 Q_OBJECT
@@ -69,7 +60,6 @@ private :
 
     void postTo(QObject * obj) const;
     void faireSuivreMessage(bool tous);
-    void emettreUtilisateur(utilisateur *util, bool multi = false);
     int extrairePersonnage(Carte *carte, char *tampon);
 
     QTcpSocket *socketTcp;		// Socket gere par le thread

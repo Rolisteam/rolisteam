@@ -36,8 +36,7 @@ class ColorButton;
 /**
  * @brief Dialog to set up player's and connection's parameters.
  */
-class ConnectionConfigDialog
-    : public QDialog
+class ConnectionConfigDialog : public QDialog
 {
     Q_OBJECT
 

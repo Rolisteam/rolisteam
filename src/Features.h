@@ -27,6 +27,7 @@
 #include <QObject>
 
 class DataReader;
+class Liaison;
 
 /**
  * @brief Feature represents a feature of a client software.
@@ -34,8 +35,8 @@ class DataReader;
  * Features are designated by a name and a version. A feature of version n includes all versions with same name and
  * version inferior or equal to n.
  */
-class Feature {
-
+class Feature
+{
     public:
 
         // Constructors
@@ -106,14 +107,12 @@ class Feature {
          */
         void   upgradeTo(quint8 version);
 
-        // pseudo-slots
-
         /**
          * @brief Send this feature as a network message.
          *
          * @param linkIndex index of the network link in the global links array.
          */
-        void send(int linkIndex) const;
+        void send(Liaison * link) const;
 
     private:
         QString m_userId;
@@ -124,8 +123,7 @@ class Feature {
 /**
  * @brief FeatureList maintains a features database.
  */
-class FeaturesList
- : public QObject
+class FeaturesList : public QObject
 {
     Q_OBJECT
 
@@ -182,14 +180,14 @@ class FeaturesList
          */
         void add(const Feature & feature);
 
-        // pseudo-slots
 
+    public slots:
         /**
          * @brief Send all the features in the database to the network.
          *
          * @param linkIndex index of the network link in the global links array.
          */
-        void sendThemAll(int linkIndex = 0) const;
+        void sendThemAll(Liaison * link = NULL) const;
 
         /**
          * @brief Delete all entries in the database wich refers to a player.
@@ -200,6 +198,7 @@ class FeaturesList
 
         // Event handler
         virtual bool event(QEvent * event);
+
 
     private:
         QList<Feature> m_list;

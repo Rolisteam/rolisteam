@@ -1,6 +1,6 @@
 /*************************************************************************
- *	   Copyright (C) 2007 by Romain Campioni   			                 *
- *	   Copyright (C) 2009 by Renaud Guezennec                            *
+ *       Copyright (C) 2007 by Romain Campioni                                *
+ *       Copyright (C) 2009 by Renaud Guezennec                            *
  *       http://renaudguezennec.homelinux.org/accueil,3.html             *
  *                                                                       *
  *   Rolisteam is free software; you can redistribute it and/or modify   *
@@ -21,19 +21,17 @@
 
 
 /********************************************************************/
-/*                                                                  */
-/* Constantes utilisees dans l'application.                         */
-/*                                                                  */
+/* Constantes utilisées dans l'application.                         */
 /********************************************************************/
 
 
 #ifndef CONSTANTES_GLOBALES_H
 #define CONSTANTES_GLOBALES_H
 
-#define NOM_APPLICATION			"Rolisteam"		// Nom de l'application
-#define VERSION_APPLICATION		"1.0.3-dev" 	// Version de l'application
-#define TAILLE_ICONES			20				// Taille des icones de la barre d'outils
-#define PORT_SERVEUR			6660			// Port par defaut du serveur TCP
-#define FREQUENCE_AUDIO			44100			// Frequence de sortie des musiques
+#define NOM_APPLICATION     "Rolisteam"  // Nom de l'application
+#define VERSION_APPLICATION "1.0.3-dev"  // Version de l'application
+#define TAILLE_ICONES       20           // Taille des icones de la barre d'outils
+#define PORT_SERVEUR        6660         // Port par defaut du serveur TCP
+#define FREQUENCE_AUDIO     44100        // Frequence de sortie des musiques
 
 #endif

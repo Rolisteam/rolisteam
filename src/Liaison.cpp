@@ -24,13 +24,17 @@
 #include <QApplication>
 #include <QTcpSocket>
 
+#include "Liaison.h"
+
 #include "Carte.h"
 #include "CarteFenetre.h"
 #include "ClientServeur.h"
 #include "DessinPerso.h"
-#include "Liaison.h"
+#include "Image.h"
+#include "MainWindow.h"
+#include "persons.h"
+#include "playersList.h"
 #include "receiveevent.h"
-#include "Tchat.h"
 
 #ifndef NULL_PLAYER
 #include "LecteurAudio.h"
@@ -79,7 +83,7 @@ Liaison::~Liaison()
 /********************************************************************/
 void Liaison::erreurDeConnexion(QAbstractSocket::SocketError erreur)
 {
-    qDebug("Une erreur rÃ©seau est survenue : %d", erreur);
+    qDebug("Une erreur réseau est survenue : %d", erreur);
 
     // Si la connexion est perdue on quitte le thread
     if (erreur == QAbstractSocket::RemoteHostClosedError)
@@ -146,13 +150,18 @@ void Liaison::reception()
         // Si toutes les donnees ont pu etre lu
         else
         {
+            qDebug("Reception terminee");
             // Envoie la notification sur la mainWindows
             QApplication::alert(G_mainWindow);
 
             // Send event
             if (ReceiveEvent::hasReceiverFor(entete.categorie, entete.action))
             {
-                ReceiveEvent * event = new ReceiveEvent(entete.categorie, entete.action, entete.tailleDonnees, tampon);
+                ReceiveEvent * event = new ReceiveEvent(
+                        entete.categorie, entete.action, entete.tailleDonnees,
+                        tampon,
+                        this
+                    );
                 event->postToReceiver();
             }
 
@@ -200,7 +209,6 @@ void Liaison::reception()
             delete[] tampon;
             // On indique qu'aucun message n'est en cours de reception
             receptionEnCours = false;
-            qDebug("Reception terminee");
         }
 
     } // Fin du while
@@ -211,9 +219,6 @@ void Liaison::reception()
 /********************************************************************/
 void Liaison::receptionMessageConnexion()
 {
-    qDebug("Reception d'un message de categorie Connexion");
-    int p = 0;
-            Q_UNUSED(p)
     // Le serveur indique que la processus de connexion vient de se terminer
     if (entete.action == finProcessusConnexion)
     {
@@ -229,8 +234,6 @@ void Liaison::receptionMessageConnexion()
 /********************************************************************/
 void Liaison::receptionMessageJoueur()
 {
-    qDebug("Reception d'un message de categorie Joueur");
-    int p = 0;
 
     // Un nouveau joueur vient de se connecter au serveur (serveur uniquement)
     if (entete.action == connexionJoueur)
@@ -240,184 +243,24 @@ void Liaison::receptionMessageJoueur()
         // Connexion de la demande d'emission de donnees du client/serveur a la liaison
         QObject::connect(G_clientServeur, SIGNAL(emissionDonnees(char *, quint32, Liaison *)), this, SLOT(emissionDonnees(char *, quint32, Liaison *)));
 
-        // On recupere le nom
-        quint16 tailleNom;
-        memcpy(&tailleNom, &(tampon[p]), sizeof(quint16));
-        p+=sizeof(quint16);
-        QChar *tableauNom = new QChar[tailleNom];
-        memcpy(tableauNom, &(tampon[p]), tailleNom*sizeof(QChar));
-        p+=tailleNom*sizeof(QChar);
-        QString nomJoueur(tableauNom, tailleNom);
-        // On recupere l'identifiant
-        quint8 tailleId;
-        memcpy(&tailleId, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauId = new QChar[tailleId];
-        memcpy(tableauId, &(tampon[p]), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        QString idJoueur(tableauId, tailleId);
-        // On recupere la couleur
-        QRgb rgb;
-        memcpy(&rgb, &(tampon[p]), sizeof(QRgb));
-        p+=sizeof(QRgb);
-        QColor couleurJoueur(rgb);
-        // On recupere la nature de l'utilisateur (MJ ou joueur)
-        quint8 mj;
-        memcpy(&mj, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        // S'il y a deja un MJ dans la liste, le nouvel utilisateur est forcement un joueur
-        mj = G_listeUtilisateurs->mjDansLaListe()?false:mj;
-
-        // Creation de l'utilisateur
-        utilisateur util;
-        util.idJoueur = idJoueur;
-        util.nomJoueur = nomJoueur;
-        util.couleurJoueur = couleurJoueur;
-        util.mj = mj;
-
-        // On recupere la liste des utilisateurs deja connectes
-        QList<utilisateur> utilisateursConnectes = G_listeUtilisateurs->tousLesUtilisateurs();
-        // On envoie la liste des utilisateurs au nouveau joueur
-        int nbrUtilisateurs = utilisateursConnectes.size();
-        for (int i=0; i<nbrUtilisateurs; i++)
-            emettreUtilisateur(&(utilisateursConnectes[i]));
-
-        // Ajout du joueur nouvellement connecte a la liste d'utilisateurs
-        G_listeUtilisateurs->ajouterJoueur(idJoueur, nomJoueur, couleurJoueur, false, mj);
-
-        // On envoie le nouveau joueur a l'ensemble des clients
-        emettreUtilisateur(&util, true);
-
-        // On affiche un message dans la fenetre de log utilisateur
-        ecrireLogUtilisateur(util.nomJoueur + tr(" vient de rejoindre la partie"));
-
-        // We get the link index from users list.
-        // The first user is the local user and have no link, we substract 1.
-        int linkIndex = G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
-
-#ifndef NULL_PLAYER
-        // Si le nouvel utilisateur n'est pas un MJ, on emet l'etat actuel du lecteur audio
-        if (!mj)
-            G_lecteurAudio->emettreEtat(linkIndex);
-#endif
-        // On emet tous les plans deja ouverts au nouveau client
-        G_mainWindow->emettreTousLesPlans(linkIndex);
-
-        // On emet toutes les images deja ouvertes au nouveau client
-        G_mainWindow->emettreToutesLesImages(linkIndex);
-
-        // On emet l'ensemble des personnages joueurs deja crees (et on demande qu'ils ne creent pas de DessinPerso associes sur les cartes)
-        G_listeUtilisateurs->emettreTousLesPj(linkIndex);
-
-        // Send all the features in our database
-        g_featuresList.sendThemAll(linkIndex);
-
-        // Liberation de la memoire allouee
-        delete[] tableauNom;
-        delete[] tableauId;
-
         // On indique au nouveau joueur que le processus de connexion vient d'arriver a son terme
-        // Creation de l'entete du message
         enteteMessage uneEntete;
         uneEntete.categorie = connexion;
         uneEntete.action = finProcessusConnexion;
         uneEntete.tailleDonnees = 0;
 
-        // Emission du message
         emissionDonnees((char *)&uneEntete, sizeof(enteteMessage));
-
-        // Ajout du tchat correspondant au nouveau joueur
-        G_mainWindow->ajouterTchat(idJoueur, nomJoueur);
     }
 
     // L'hote demande au soft local d'ajouter un joueur a la liste des utilisateurs
     else if (entete.action == ajouterJoueur)
     {
-        // On recupere le nom
-        quint16 tailleNom;
-        memcpy(&tailleNom, &(tampon[p]), sizeof(quint16));
-        p+=sizeof(quint16);
-        QChar *tableauNom = new QChar[tailleNom];
-        memcpy(tableauNom, &(tampon[p]), tailleNom*sizeof(QChar));
-        p+=tailleNom*sizeof(QChar);
-        QString nomJoueur(tableauNom, tailleNom);
-        // On recupere l'identifiant
-        quint8 tailleId;
-        memcpy(&tailleId, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauId = new QChar[tailleId];
-        memcpy(tableauId, &(tampon[p]), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        QString idJoueur(tableauId, tailleId);
-        // On recupere la couleur
-        QRgb rgb;
-        memcpy(&rgb, &(tampon[p]), sizeof(QRgb));
-        p+=sizeof(QRgb);
-        QColor couleurJoueur(rgb);
-        // On recupere la nature de l'utilisateur (MJ ou joueur)
-        quint8 mj;
-        memcpy(&mj, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        // On recupere l'info indiquant si l'ajout de l'utilisateur doit etre affiche (1) ou pas (0)
-        quint8 affiche;
-        memcpy(&affiche, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-
-        // S'il ne s'agit pas de la reception des autres utilisateurs dans le cadre de la procedure de connexion, on affiche un message
-        if (affiche && idJoueur != G_idJoueurLocal)
-            ecrireLogUtilisateur(nomJoueur + tr(" vient de rejoindre la partie"));
-
-        // Si l'utilisateur recu est l'utilisateur local (procedure de connexion)
-        if (idJoueur == G_idJoueurLocal)
-        {
-            // On verifie si la nature recue (MJ ou joueur) correspond a celle envoyee, dans le cas contraire il n'existe qu'une seule possiblite :
-            // l'utilisateur local a demande a etre MJ mais un MJ etait deja connecte au serveur avant lui, il devient donc simple joueur
-            if (G_joueur != !mj)
-            {
-                // On change la nature de l'utilisateur local : il devient joueur au lieu de MJ
-                G_joueur = true;
-                // On met a jour l'espace de travail en consequence (limitation des droits)
-                G_mainWindow->changementNatureUtilisateur();
-                // On affiche un message dans le log utilisateur
-                ecrireLogUtilisateur(tr("Un MJ est dÃ©jÃ  connectÃ© au serveur, celui-ci vous donne donc le statut de joueur"));
-            }
-        }
-
-        // Ajout du joueur a la liste
-        G_listeUtilisateurs->ajouterJoueur(idJoueur, nomJoueur, couleurJoueur, idJoueur==G_idJoueurLocal, mj);
-        // Ajout du tchat s'il ne s'agit pas de l'utilisateur local
-        if (idJoueur != G_idJoueurLocal)
-            G_mainWindow->ajouterTchat(idJoueur, nomJoueur);
-
-        // Liberation de la memoire allouee
-        delete[] tableauNom;
-        delete[] tableauId;
     }
 
     // Suppression d'un joueur qui vient de se deconnecter
     else if (entete.action == supprimerJoueur)
     {
-        // On recupere l'identifiant
-        quint8 tailleId;
-        memcpy(&tailleId, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauId = new QChar[tailleId];
-        memcpy(tableauId, &(tampon[p]), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        QString idJoueur(tableauId, tailleId);
-
-#ifndef NULL_PLAYER
-        // Si l'utilisateur etait le MJ, on reinitialise le lecteur audio
-        if (G_listeUtilisateurs->estUnMj(idJoueur))
-            G_lecteurAudio->pselectNewFile("");
-#endif
-        // On supprime le joueur de la liste
-        G_listeUtilisateurs->supprimerJoueur(idJoueur);
-        // On supprime le tchat
-        G_mainWindow->supprimerTchat(idJoueur);
-
-        // Liberation de la memoire allouee
-        delete[] tableauId;
+        faireSuivreMessage(false);
     }
 
     // L'hote demande au soft local de changer le nom d'un joueur
@@ -425,30 +268,6 @@ void Liaison::receptionMessageJoueur()
     {
         // Si l'ordinateur local est le serveur, on fait suivre le changement de nom a l'ensemble des clients
         faireSuivreMessage(false);
-
-        // On recupere le nom
-        quint16 tailleNom;
-        memcpy(&tailleNom, &(tampon[p]), sizeof(quint16));
-        p+=sizeof(quint16);
-        QChar *tableauNom = new QChar[tailleNom];
-        memcpy(tableauNom, &(tampon[p]), tailleNom*sizeof(QChar));
-        p+=tailleNom*sizeof(QChar);
-        QString nomJoueur(tableauNom, tailleNom);
-        // On recupere l'identifiant
-        quint8 tailleId;
-        memcpy(&tailleId, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauId = new QChar[tailleId];
-        memcpy(tableauId, &(tampon[p]), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        QString idJoueur(tableauId, tailleId);
-
-        // On change le nom du joueur dans la liste
-        G_listeUtilisateurs->ModifierNomJoueur(idJoueur, nomJoueur);
-
-        // Liberation de la memoire allouee
-        delete[] tableauNom;
-        delete[] tableauId;
     }
 
     // L'hote demande au soft local de changer la couleur d'un joueur
@@ -456,25 +275,6 @@ void Liaison::receptionMessageJoueur()
     {
         // Si l'ordinateur local est le serveur, on fait suivre le changement de couleur a l'ensemble des clients
         faireSuivreMessage(false);
-
-        quint8 tailleId;
-        memcpy(&tailleId, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauId = new QChar[tailleId];
-        memcpy(tableauId, &(tampon[p]), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        QString idJoueur(tableauId, tailleId);
-        // On recupere la couleur
-        QRgb rgb;
-        memcpy(&rgb, &(tampon[p]), sizeof(QRgb));
-        p+=sizeof(QRgb);
-        QColor couleurJoueur(rgb);
-
-        // Changement de la couleur du joueur dans la liste
-        G_listeUtilisateurs->ModifierCouleurJoueur(idJoueur, couleurJoueur);
-
-        // Liberation de la memoire allouee
-        delete[] tableauId;
     }
 
     else
@@ -489,80 +289,18 @@ void Liaison::receptionMessageJoueur()
 /********************************************************************/
 void Liaison::receptionMessagePersoJoueur()
 {
-    qDebug("Reception d'un message de categorie PersoJoueur");
     int p = 0;
 
     if (entete.action == ajouterPersoJoueur)
     {
         // Si l'ordinateur local est le serveur, on fait suivre la creation de PJ aux autres clients
         faireSuivreMessage(false);
-
-        // On recupere l'identifiant du joueur
-        quint8 tailleIdJoueur;
-        memcpy(&tailleIdJoueur, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdJoueur = new QChar[tailleIdJoueur];
-        memcpy(tableauIdJoueur, &(tampon[p]), tailleIdJoueur*sizeof(QChar));
-        p+=tailleIdJoueur*sizeof(QChar);
-        QString idJoueur(tableauIdJoueur, tailleIdJoueur);
-        // On recupere l'identifiant du PJ
-        quint8 tailleIdPj;
-        memcpy(&tailleIdPj, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdPj = new QChar[tailleIdPj];
-        memcpy(tableauIdPj, &(tampon[p]), tailleIdPj*sizeof(QChar));
-        p+=tailleIdPj*sizeof(QChar);
-        QString idPerso(tableauIdPj, tailleIdPj);
-        // On recupere le nom
-        quint16 tailleNom;
-        memcpy(&tailleNom, &(tampon[p]), sizeof(quint16));
-        p+=sizeof(quint16);
-        QChar *tableauNom = new QChar[tailleNom];
-        memcpy(tableauNom, &(tampon[p]), tailleNom*sizeof(QChar));
-        p+=tailleNom*sizeof(QChar);
-        QString nomPerso(tableauNom, tailleNom);
-        // On recupere la couleur
-        QRgb rgb;
-        memcpy(&rgb, &(tampon[p]), sizeof(QRgb));
-        p+=sizeof(QRgb);
-        QColor couleurPerso(rgb);
-        // On recupere l'info indiquant s'il faut creer (1) ou pas (0) les DessinPerso associes au PJ
-        quint8 dessin;
-        memcpy(&dessin, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-
-        // Ajout du PJ a la liste d'utilisateurs
-        G_listeUtilisateurs->ajouterPersonnage(idJoueur, idPerso, nomPerso, couleurPerso, false, dessin);
-
-        // S'il ne s'agit pas d'un ajout de PJ consecutif a la connexion, on ecrit un message sur le log utilisateur
-        if (dessin)
-            ecrireLogUtilisateur(G_listeUtilisateurs->nomUtilisateur(idJoueur) + tr(" vient de crÃ©er un nouveau personnage"));
-
-        // Liberation de la memoire allouee
-        delete[] tableauIdJoueur;
-        delete[] tableauIdPj;
-        delete[] tableauNom;
     }
 
     else if (entete.action == supprimerPersoJoueur)
     {
         // Si l'ordinateur local est le serveur, on fait suivre la suppression de PJ aux autres clients
         faireSuivreMessage(false);
-
-        // On recupere l'identifiant du PJ
-        quint8 tailleIdPj;
-        memcpy(&tailleIdPj, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdPj = new QChar[tailleIdPj];
-        memcpy(tableauIdPj, &(tampon[p]), tailleIdPj*sizeof(QChar));
-        p+=tailleIdPj*sizeof(QChar);
-        QString idPerso(tableauIdPj, tailleIdPj);
-
-        // On supprime le personnage de la liste et des cartes
-        G_listeUtilisateurs->supprimerPersonnage(idPerso);
-
-        // Liberation de la memoire allouee
-        delete[] tableauIdPj;
     }
 
     else if (entete.action == afficherMasquerPersoJoueur)
@@ -602,9 +340,6 @@ void Liaison::receptionMessagePersoJoueur()
         {
             // On affiche/masque le PJ sur la carte
             carte->affichageDuPj(idPerso, affichage);
-            // On coche/decoche le PJ dans la liste d'utilisateurs si la carte est actuellement active
-            if (G_mainWindow->estLaFenetreActive(G_mainWindow->trouverCarteFenetre(idPlan)))
-                G_listeUtilisateurs->cocherDecocherPj(idPerso, affichage);
         }
 
         // Liberation de la memoire allouee
@@ -640,9 +375,7 @@ void Liaison::receptionMessagePersoJoueur()
         else
         {
             // On met a jour les PJ sur la carte
-            carte->changerTaillePjCarte(taillePj);
-            // On met a jour le selecteur de taille si la carte est la fenetre active
-            G_mainWindow->mettreAJourSelecteurTaille(idPlan, taillePj);
+            carte->changerTaillePjCarte(taillePj + 11);
         }
 
         // Liberation de la memoire allouee
@@ -653,55 +386,12 @@ void Liaison::receptionMessagePersoJoueur()
     {
         // Si l'ordinateur local est le serveur, on fait suivre le changement de nom a l'ensemble des clients
         faireSuivreMessage(false);
-
-        // On recupere le nom
-        quint16 tailleNom;
-        memcpy(&tailleNom, &(tampon[p]), sizeof(quint16));
-        p+=sizeof(quint16);
-        QChar *tableauNom = new QChar[tailleNom];
-        memcpy(tableauNom, &(tampon[p]), tailleNom*sizeof(QChar));
-        p+=tailleNom*sizeof(QChar);
-        QString nomPerso(tableauNom, tailleNom);
-        // On recupere l'identifiant
-        quint8 tailleId;
-        memcpy(&tailleId, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauId = new QChar[tailleId];
-        memcpy(tableauId, &(tampon[p]), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        QString idPerso(tableauId, tailleId);
-
-        // On change le nom du personnage dans la liste
-        G_listeUtilisateurs->ModifierNomPerso(idPerso, nomPerso);
-
-        // Liberation de la memoire allouee
-        delete[] tableauNom;
-        delete[] tableauId;
     }
 
     else if (entete.action == changerCouleurPersoJoueur)
     {
         // Si l'ordinateur local est le serveur, on fait suivre le changement de couleur a l'ensemble des clients
         faireSuivreMessage(false);
-
-        quint8 tailleId;
-        memcpy(&tailleId, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauId = new QChar[tailleId];
-        memcpy(tableauId, &(tampon[p]), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        QString idPerso(tableauId, tailleId);
-        // On recupere la couleur
-        QRgb rgb;
-        memcpy(&rgb, &(tampon[p]), sizeof(QRgb));
-        p+=sizeof(QRgb);
-        QColor couleurPerso(rgb);
-
-        // Changement de la couleur du personnage dans la liste
-        G_listeUtilisateurs->ModifierCouleurPerso(idPerso, couleurPerso);
-
-        // Liberation de la memoire allouee
-        delete[] tableauId;
     }
 
     else
@@ -716,7 +406,6 @@ void Liaison::receptionMessagePersoJoueur()
 /********************************************************************/
 void Liaison::receptionMessagePersoNonJoueur()
 {
-    qDebug("Reception d'un message de categorie Pnj");
     int p = 0;
 
     if (entete.action == ajouterPersoNonJoueur)
@@ -794,7 +483,6 @@ void Liaison::receptionMessagePersoNonJoueur()
 /********************************************************************/
 void Liaison::receptionMessagePersonnage()
 {
-    qDebug("Reception d'un message de categorie Personnage");
     int p = 0;
 
     if (entete.action == ajouterListePerso)
@@ -1035,7 +723,6 @@ void Liaison::receptionMessagePersonnage()
 /********************************************************************/
 void Liaison::receptionMessageDessin()
 {
-    qDebug("Reception d'un message de categorie Dessin");
     int p = 0;
 
     if (entete.action == traceCrayon)
@@ -1242,7 +929,6 @@ void Liaison::receptionMessageDessin()
 /********************************************************************/
 void Liaison::receptionMessagePlan()
 {
-    qDebug("Reception d'un message de categorie Plan");
     int p = 0;
 
     // L'hote demande a l'ordinateur local de creer un nouveau plan vide
@@ -1284,7 +970,7 @@ void Liaison::receptionMessagePlan()
         p+=sizeof(quint8);
 
         // On cree la carte
-        G_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur, taillePj);
+        G_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur);
 
         // Message sur le log utilisateur
         ecrireLogUtilisateur(tr("Nouveau plan: %1").arg(titre));
@@ -1339,14 +1025,14 @@ void Liaison::receptionMessagePlan()
             qWarning("Probleme de decompression de l'image (receptionMessagePlan - Liaison.cpp)");
 
         // Creation de la carte
-        Carte *carte = new Carte(idPlan, &image, taillePj, masquerPlan);
+        Carte *carte = new Carte(idPlan, &image, masquerPlan);
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte);
         // Ajout de la carte au workspace
         G_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("RÃ©ception du plan: %1").arg(titre));
+        ecrireLogUtilisateur(tr("Réception du plan: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1423,7 +1109,7 @@ void Liaison::receptionMessagePlan()
             qWarning("Probleme de decompression de la couche alpha (receptionMessagePlan - Liaison.cpp)");
 
         // Creation de la carte
-        Carte *carte = new Carte(idPlan, &fondOriginal, &fond, &alpha, taillePj);
+        Carte *carte = new Carte(idPlan, &fondOriginal, &fond, &alpha);
         // On adapte la couche alpha a la nature de l'utilisateur local (MJ ou joueur)
         carte->adapterCoucheAlpha(intensiteAlpha);
         // Creation de la CarteFenetre
@@ -1432,7 +1118,7 @@ void Liaison::receptionMessagePlan()
         G_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("RÃ©ception du plan: %1").arg(titre));
+        ecrireLogUtilisateur(tr("Réception du plan: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1464,7 +1150,7 @@ void Liaison::receptionMessagePlan()
         else
         {
             // Message sur le log utilisateur
-            ecrireLogUtilisateur(tr("Le plan %1 vient d'Ãªtre fermÃ© par le MJ").arg(carteFenetre->windowTitle()));
+            ecrireLogUtilisateur(tr("Le plan %1 vient d'être fermé par le MJ").arg(carteFenetre->windowTitle()));
             // Suppression du plan
             carteFenetre->~CarteFenetre();
         }
@@ -1485,7 +1171,6 @@ void Liaison::receptionMessagePlan()
 /********************************************************************/
 void Liaison::receptionMessageImage()
 {
-    qDebug("RÃ©ception d'un message de categorie Image");
     int p = 0;
 
     // L'hote demande a l'ordinateur local de creer l'image passee dans le message
@@ -1538,7 +1223,7 @@ void Liaison::receptionMessageImage()
         G_mainWindow->ajouterImage(imageFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("RÃ©ception de l'image %1").arg(titre.left(titre.size()-QString(tr(" (Image)")).size())));
+        ecrireLogUtilisateur(tr("Réception de l'image %1").arg(titre.left(titre.size()-QString(tr(" (Image)")).size())));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1593,7 +1278,6 @@ void Liaison::receptionMessageImage()
 /********************************************************************/
 void Liaison::receptionMessageDiscussion()
 {
-    qDebug("Reception d'un message de categorie Discussion");
     int p = 0;
 
     // Reception d'un message a afficher, et eventuellement a retransmettre
@@ -1616,70 +1300,29 @@ void Liaison::receptionMessageDiscussion()
         memcpy(tableauIdJoueurRecepteur, &(tampon[p]), tailleIdJoueurRecepteur*sizeof(QChar));
         p+=tailleIdJoueurRecepteur*sizeof(QChar);
         QString idJoueurRecepteur(tableauIdJoueurRecepteur, tailleIdJoueurRecepteur);
-        // On recupere le message
-        quint32 tailleMessage;
-        memcpy(&tailleMessage, &(tampon[p]), sizeof(quint32));
-        p+=sizeof(quint32);
-        QChar *tableauMessage = new QChar[tailleMessage];
-        memcpy(tableauMessage, &(tampon[p]), tailleMessage*sizeof(QChar));
-        p+=tailleMessage*sizeof(QChar);
-        QString message(tableauMessage, tailleMessage);
-
-        // Si l'ID du joueur de destination est vide ou est egale a celui du joueur local
-        // alors on affiche le message dans le tchat du joueur emetteur
-        if (idJoueurRecepteur == G_idJoueurLocal || idJoueurRecepteur.isEmpty())
-        {
-            Tchat *tchat;
-
-            // Si le destinataire est vide, il s'agit du tchat commun
-            if (idJoueurRecepteur.isEmpty())
-                tchat = G_mainWindow->trouverTchat(idJoueurRecepteur);
-            // Sinon on recupere le tchat prive concerne
-            else
-                tchat = G_mainWindow->trouverTchat(idJoueurEmetteur);
-
-            // Recherche du nom du joueur emetteur
-            QString emetteur = G_listeUtilisateurs->nomUtilisateur(idJoueurEmetteur);
-            // Recherche de la couleur du joueur emetteur
-            QColor couleur = G_listeUtilisateurs->couleurUtilisateur(idJoueurEmetteur);
-            // Affichage du message dans le tchat, au format message ou tirage
-/*                if (entete.action == TCHAT_MESSAGE)
-                tchat->afficherMessage(emetteur, couleur, message);*/
-
-             tchat->afficherMessage(emetteur, couleur, message,(actionDiscussion)entete.action);
-        }
 
         // Si l'ordinateur local est le serveur il doit faire suivre le message
         if (!G_client)
         {
+            PlayersList & g_playersList = PlayersList::instance();
+
             // Le message est destine a tt le monde : on retransmet vers l'ensemble des utilisateur sauf l'emetteur
             if (idJoueurRecepteur.isEmpty())
                 faireSuivreMessage(false);
 
             // Le message a un destinataire precis : on retransmet vers cet utilisateur
-            else if (idJoueurRecepteur != G_idJoueurLocal)
+            else if (idJoueurRecepteur != g_playersList.localPlayer()->uuid())
             {
-                char *donnees = new char[entete.tailleDonnees + sizeof(enteteMessage)];
-                // Recopie de l'entete
-                memcpy(donnees, &entete, sizeof(enteteMessage));
-                // Recopie du corps du message
-                memcpy(&(donnees[sizeof(enteteMessage)]), tampon, entete.tailleDonnees);
-                // On recupere le numero de liaison correspondant a l'identifiant du joueur
-                // (on soustrait 1 car le 1er utilisateur est toujours le serveur et qu'il
-                // n'a pas de liaison associee)
-                int numeroLiaison = G_listeUtilisateurs->numeroUtilisateur(idJoueurRecepteur) - 1;
-                // Emission du message
-                emettre(donnees, sizeof(enteteMessage) + entete.tailleDonnees, numeroLiaison);
-
-                // Liberation de la memoire allouee
-                delete[] donnees;
+                Liaison * link = g_playersList.getPlayer(idJoueurRecepteur)->link();
+                if (link == NULL)
+                    qFatal("A non-local player don't have a link.");
+                link->emissionDonnees(tampon, entete.tailleDonnees + sizeof(enteteMessage));
             }
         }
 
         // Liberation de la memoire allouee
         delete[] tableauIdJoueurEmetteur;
         delete[] tableauIdJoueurRecepteur;
-        delete[] tableauMessage;
     }
 }
 
@@ -1688,7 +1331,6 @@ void Liaison::receptionMessageDiscussion()
 /********************************************************************/
 void Liaison::receptionMessageMusique()
 {
-    qDebug("Reception d'un message de categorie Musique");
 #ifndef NULL_PLAYER
     int p = 0;
 
@@ -1780,8 +1422,6 @@ void Liaison::receptionMessageMusique()
 /********************************************************************/
 void Liaison::receptionMessageParametres()
 {
-    qDebug("Reception d'un message de categorie Parametres");
-
     if (entete.action == addFeature)
     {
         faireSuivreMessage(false);
@@ -1811,75 +1451,6 @@ void Liaison::faireSuivreMessage(bool tous)
             emettre(donnees, entete.tailleDonnees + sizeof(enteteMessage), this);
         delete[] donnees;
     }
-}
-
-/********************************************************************/
-/* Emission de l'identite d'un utilisateur vers le socket gere par  */
-/* le thread si multi = false, ou vers l'ensemble des sockets si    */
-/* multi = true                                                     */
-/********************************************************************/
-void Liaison::emettreUtilisateur(utilisateur *util, bool multi)
-{
-    // Taille des donnees
-    quint32 tailleCorps =
-        // Taille du nom
-        sizeof(quint16) + util->nomJoueur.size()*sizeof(QChar) +
-        // Taille de l'identifiant
-        sizeof(quint8) + util->idJoueur.size()*sizeof(QChar) +
-        // Taille de la couleur
-        sizeof(QRgb) +
-        // Taille de la nature de l'utilisateur (MJ ou joueur)
-        sizeof(quint8) +
-        // Taille de l'info d'affichage ou pas dans le log utilisateur de l'ajout d'un joueur
-        sizeof(quint8);
-
-    // Buffer d'emission
-    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-    // Creation de l'entete du message
-    enteteMessage *uneEntete;
-    uneEntete = (enteteMessage *) donnees;
-    uneEntete->categorie = joueur;
-    uneEntete->action = ajouterJoueur;
-    uneEntete->tailleDonnees = tailleCorps;
-
-    // Creation du corps du message
-    int p = sizeof(enteteMessage);
-    // Ajout du nom
-    quint16 tailleNom = util->nomJoueur.size();
-    memcpy(&(donnees[p]), &tailleNom, sizeof(quint16));
-    p+=sizeof(quint16);
-    memcpy(&(donnees[p]), util->nomJoueur.data(), tailleNom*sizeof(QChar));
-    p+=tailleNom*sizeof(QChar);
-    // Ajout de l'identifiant
-    quint8 tailleId = util->idJoueur.size();
-    memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
-    p+=sizeof(quint8);
-    memcpy(&(donnees[p]), util->idJoueur.data(), tailleId*sizeof(QChar));
-    p+=tailleId*sizeof(QChar);
-    // Ajout de la couleur
-    QRgb rgb = util->couleurJoueur.rgb();
-    memcpy(&(donnees[p]), &rgb, sizeof(QRgb));
-    p+=sizeof(QRgb);
-    // Ajout de la nature de l'utilisateur (MJ ou joueur)
-    quint8 mj = util->mj;
-    memcpy(&(donnees[p]), &mj, sizeof(quint8));
-    p+=sizeof(quint8);
-    // Ajout d'une information indiquant au recepteur s'il doit afficher l'ajout de l'utilisateur (1) ou pas (0)
-    quint8 affiche = multi;
-    memcpy(&(donnees[p]), &affiche, sizeof(quint8));
-    p+=sizeof(quint8);
-
-    // Emission des donnees vers l'ensemble des liaisons (utilise par le serveur)
-    if (multi)
-        emettre(donnees, tailleCorps + sizeof(enteteMessage));
-
-    // Emission des donnees vers le socket gere par la liaison
-    else
-        emissionDonnees(donnees, tailleCorps + sizeof(enteteMessage));
-
-    // Liberation du buffer d'emission
-    delete[] donnees;
 }
 
 /********************************************************************/

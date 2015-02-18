@@ -507,7 +507,7 @@
 		// Recuperation de la position centrale du PJ
 		QPoint position = positionCentrePerso();
 		// M.a.j du diametre
-		diametre = nouvelleTaille + 11;
+		diametre = nouvelleTaille;
 		// M.a.j de la taille du label contenant l'image
 		disquePerso->resize(QSize(diametre+4, diametre+4));
 		// M.a.j du dessin du PJ

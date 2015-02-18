@@ -58,44 +58,37 @@ ConnectionConfigDialog::~ConnectionConfigDialog()
     // QObject should remove all for us.
 }
 
-QString
-ConnectionConfigDialog::getName() const
+QString ConnectionConfigDialog::getName() const
 {
     return m_name->text();
 }
 
-QColor
-ConnectionConfigDialog::getColor() const
+QColor ConnectionConfigDialog::getColor() const
 {
     return m_color->color();
 }
 
-bool
-ConnectionConfigDialog::isGM() const
+bool ConnectionConfigDialog::isGM() const
 {
     return (m_gm->checkState() == Qt::Checked);
 }
 
-QString
-ConnectionConfigDialog::getHost() const
+QString ConnectionConfigDialog::getHost() const
 {
     return m_host->text();
 }
 
-quint16
-ConnectionConfigDialog::getPort() const
+quint16 ConnectionConfigDialog::getPort() const
 {
     return m_port->value();
 }
 
-bool
-ConnectionConfigDialog::isServer() const
+bool ConnectionConfigDialog::isServer() const
 {
     return (m_server->checkState() == Qt::Checked);
 }
 
-void
-ConnectionConfigDialog::changeConnectionType(int state)
+void ConnectionConfigDialog::changeConnectionType(int state)
 {
     switch (state)
     {
@@ -111,8 +104,7 @@ ConnectionConfigDialog::changeConnectionType(int state)
 }
 
 
-void
-ConnectionConfigDialog::setUI()
+void ConnectionConfigDialog::setUI()
 {
     m_name  = new QLineEdit;
     m_color = new ColorButton;
@@ -186,14 +178,12 @@ ConnectionWaitDialog::~ConnectionWaitDialog()
     delete m_socket;
 }
 
-QString
-ConnectionWaitDialog::getError() const
+QString ConnectionWaitDialog::getError() const
 {
     return m_error;
 }
 
-QTcpSocket *
-ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
+QTcpSocket * ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
 {
     m_error = QString();
 
@@ -220,8 +210,7 @@ ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
     }
 }
 
-void
-ConnectionWaitDialog::setUI()
+void ConnectionWaitDialog::setUI()
 {
     m_label = new QLabel(tr(s_message[0]));
 
@@ -242,8 +231,7 @@ ConnectionWaitDialog::setUI()
     setLayout(mainLayout);
 }
 
-void
-ConnectionWaitDialog::changeState(QAbstractSocket::SocketState socketState)
+void ConnectionWaitDialog::changeState(QAbstractSocket::SocketState socketState)
 {
     m_label->setText(tr(s_message[socketState]));
     if (socketState == QAbstractSocket::ConnectedState)
@@ -252,16 +240,14 @@ ConnectionWaitDialog::changeState(QAbstractSocket::SocketState socketState)
     }
 }
 
-void
-ConnectionWaitDialog::socketError(QAbstractSocket::SocketError socketError)
+void ConnectionWaitDialog::socketError(QAbstractSocket::SocketError socketError)
 {
     Q_UNUSED(socketError);
     m_error = m_socket->errorString();
     reject();
 }
 
-void
-ConnectionWaitDialog::canceledConnection()
+void ConnectionWaitDialog::canceledConnection()
 {
     if (m_socket != NULL)
         m_socket->abort();

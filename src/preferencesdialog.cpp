@@ -29,6 +29,7 @@
 #include <QVBoxLayout>
 #include <QFormLayout>
 #include <QDialogButtonBox>
+#include <QPushButton>
 
 /**************
  * DirChooser *
@@ -61,20 +62,17 @@ DirChooser::~DirChooser()
     // QObject should do it right for us allready.
 }
 
-void
-DirChooser::setDirName(const QString & dirName)
+void DirChooser::setDirName(const QString & dirName)
 {
     m_lineEdit->setText(dirName);
 }
 
-QString
-DirChooser::dirName() const
+QString DirChooser::dirName() const
 {
     return m_lineEdit->text();
 }
 
-void
-DirChooser::browse()
+void DirChooser::browse()
 {
     QString result = QFileDialog::getExistingDirectory(this,
             tr("Choisir le dossier"),
@@ -142,15 +140,13 @@ PreferencesDialog::~PreferencesDialog()
     // QObject should do it right for us allready.
 }
 
-void
-PreferencesDialog::show()
+void PreferencesDialog::show()
 {
     load();
     QDialog::show();
 }
 
-void
-PreferencesDialog::load()
+void PreferencesDialog::load()
 {
 #ifndef NULL_PLAYER
     m_gmMusicDir->setDirName(G_initialisation.dossierMusiquesMj);
@@ -163,8 +159,7 @@ PreferencesDialog::load()
     m_chatsDir->setDirName(G_initialisation.dossierTchats);
 }
 
-void
-PreferencesDialog::save() const
+void PreferencesDialog::save() const
 {
 #ifndef NULL_PLAYER
     G_initialisation.dossierMusiquesMj = m_gmMusicDir->dirName();

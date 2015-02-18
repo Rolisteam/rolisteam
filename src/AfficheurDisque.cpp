@@ -31,8 +31,6 @@
 /********************************************************************/
 // Definit la taille courante du trait
 int G_diametreTraitCourant;
-// Definit la taille courante des Pnj
-int G_diametrePnjCourant;
 
 
 /********************************************************************/
@@ -46,11 +44,9 @@ AfficheurDisque::AfficheurDisque(QWidget *parent, bool plein, int minimum)
     diametreMinimum = minimum;
     disquePlein = plein;
 
-    // Mise a jour des variables globales
+    // Mise a jour des variables globales (Argh...)
     if (disquePlein)
         G_diametreTraitCourant = minimum;
-    else
-        G_diametrePnjCourant = minimum;
 }
 
 /********************************************************************/
@@ -99,8 +95,6 @@ void AfficheurDisque::changerDiametre(int diametre)
     // Mise a jour des variables globales
     if (disquePlein)
         G_diametreTraitCourant = diametre;
-    else
-        G_diametrePnjCourant = diametre;
 
     // Rafraichissement du widget
     update();

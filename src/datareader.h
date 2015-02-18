@@ -23,6 +23,7 @@
 #define DATA_READER_H
 
 #include <QString>
+#include <QColor>
 
 class DataReader
 {
@@ -32,11 +33,19 @@ class DataReader
 
         void reset();
 
-        int left() const;
+        size_t left() const;
 
-        quint8 uint8();
+        quint8  uint8();
+        quint16 uint16();
+        quint32 uint32();
 
         QString string8();
+        QString string16();
+        QString string32();
+
+        QString string(int size);
+
+        QRgb rgb();
 
     private:
         char * m_buffer;

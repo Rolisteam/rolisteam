@@ -32,8 +32,10 @@ quint16 makeKey(quint8 categorie, quint8 action)
     return ((quint16) categorie) + (((quint16) action) * 256);
 }
 
-ReceiveEvent::ReceiveEvent(quint8 categorie, quint8 action, quint32 bufferSize, const char * buffer)
-    : QEvent((QEvent::Type)ReceiveEvent::Type), m_categorie(categorie), m_action(action)
+
+
+ReceiveEvent::ReceiveEvent(quint8 categorie, quint8 action, quint32 bufferSize, const char * buffer, Liaison * link)
+    : QEvent((QEvent::Type)ReceiveEvent::Type), m_categorie(categorie), m_action(action), m_link(link)
 {
     m_data = new DataReader(bufferSize, buffer);
 }
@@ -43,41 +45,39 @@ ReceiveEvent::~ReceiveEvent()
     delete m_data;
 }
 
-void
-ReceiveEvent::postToReceiver()
+void ReceiveEvent::postToReceiver()
 {
     quint16 key = makeKey(m_categorie, m_action);
     if (s_receiverMap.contains(key))
         QCoreApplication::postEvent(s_receiverMap.value(key), this, Qt::LowEventPriority);
 }
 
-
-quint8
-ReceiveEvent::categorie()
+quint8 ReceiveEvent::categorie() const
 {
     return m_categorie;
 }
 
-quint8
-ReceiveEvent::action()
+quint8 ReceiveEvent::action() const
 {
     return m_action;
 }
 
-DataReader &
-ReceiveEvent::data()
+Liaison * ReceiveEvent::link() const
+{
+    return m_link;
+}
+
+DataReader & ReceiveEvent::data()
 {
     return *m_data;
 }
 
-bool
-ReceiveEvent::hasReceiverFor(quint8 categorie, quint8 action)
+bool ReceiveEvent::hasReceiverFor(quint8 categorie, quint8 action)
 {
     return s_receiverMap.contains(makeKey(categorie, action));
 }
 
-void
-ReceiveEvent::registerReceiver(quint8 categorie, quint8 action, QObject * receiver)
+void ReceiveEvent::registerReceiver(quint8 categorie, quint8 action, QObject * receiver)
 {
     quint16 key = makeKey(categorie, action);
     if (s_receiverMap.contains(key))

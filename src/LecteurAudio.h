@@ -1,6 +1,6 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *    Copyright (C) 2007 by Romain Campioni                  *
+ *    Copyright (C) 2009 by Renaud Guezennec                             *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
  *   rolisteam is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,7 @@
 /**!
 * @brief
 * This player can be used by the GM to play song.   
-* Regular players can just change the volume level.                  			                           
+* Regular players can just change the volume level.
 */
 
 
@@ -54,153 +54,148 @@
 #include <path.h>
 #endif
 
-
-	
+class Liaison;
+    
 class LecteurAudio : public QDockWidget
 {
     Q_OBJECT
 
 public :
-        enum PlayingMode { LOOP, UNIQUE , NEXT };
-	/**
-         * @brief Send some informations to the given player
-         */
-        void emettreEtat(int numeroLiaison);
-	/**
-         * @brief provides the current volume level
-         */
-        qreal volume();
+    enum PlayingMode { LOOP, UNIQUE , NEXT };
+        /**
+        * @brief provides the current volume level
+        */
+    qreal volume();
 
-	/**
-        * @brief return a pointer to the unique audio player. Sigleton pattern
-	*/
-        static LecteurAudio*  getInstance(QWidget *parent = 0);
+    /**
+    * @brief return a pointer to the unique audio player. Sigleton pattern
+    */
+    static LecteurAudio*  getInstance(QWidget *parent = 0);
 
-        void pplay();
-        void ppause();
-        void pstop();
-        void pselectNewFile(QString file);
-        void pseek(quint32 position);
+    void pplay();
+    void ppause();
+    void pstop();
+    void pselectNewFile(QString file);
+    void pseek(quint32 position);
 
 signals :
 
 
 private :
+        /**
+        * @brief private constructor
+        */
+    LecteurAudio(QWidget *parent = 0);
 
-	/**
-         * @brief private constructor
-         */
-        LecteurAudio(QWidget *parent = 0);
+    void updateUi();
 
-        void updateUi();
-
-        void playerWidget();
-
-
-	/**
-         * @brief send command to a client
-         */
-        void emettreCommande(actionMusique action, QString nomFichier = "", quint64 position = 0, int numeroLiaison = -1);
+    void playerWidget();
 
 
-        static LecteurAudio* singleton;//!< @brief static pointer to the unique instance of this audioplayer
+        /**
+        * @brief send command to a client
+        */
+    void emettreCommande(actionMusique action, QString nomFichier = "", quint64 position = 0, Liaison * link = NULL);
 
 
-	/**
-         * @brief set the UI - Phonon only
-         */
-        void setupUi();
-        qint64 m_time;//!< @brief current time
-        Phonon::MediaSource *m_currentsource;//!< @brief current audio source
-        Phonon::SeekSlider *seekSlider; //!< @brief Allows to seek in the song (Phonon only)
-        Phonon::MediaObject *mediaObject; //!<  (Phonon only)
-        Phonon::AudioOutput *audioOutput; //!< (Phonon only)
-        Phonon::VolumeSlider *volumeSlider; //!< @brief Allows to adjust the sound volume (Phonon only)
-        Phonon::Path* path; //!< (Phonon only)
-        Phonon::VolumeSlider *niveauVolume;//!< @brief Allows to adjust the sound volume (Phonon only)
-        Phonon::SeekSlider *positionTemps;//!< @brief Allows to seek in the song (Phonon only)
-
-        QWidget *widgetPrincipal;		//!< @brief brings together all subwidget
-        QWidget *widgetAffichage;		//!< @brief Displays some gauges (for Player and GM.)
-        QWidget *widgetCommande;		//!< @brief Displays the control panel (GM only)
-        QVBoxLayout *layoutPrincipal;	//!< @brief layout
-        QLineEdit *afficheurTitre;		//!< @brief Displays the title of the played song
-
-        QString m_currentFile;
-        QListWidgetItem* m_currentItemFile;
-        QListWidgetItem* m_formerItemFile;
+    static LecteurAudio* singleton;//!< @brief static pointer to the unique instance of this audioplayer
 
 
-        QLCDNumber *afficheurTemps;		//!< @brief displays the past time of the playing
-        QListWidget *listeTitres;		//!< @brief displays all avaliable songs
-        QList<QString> listeChemins;	        //!< @brief Path list
-        QActionGroup* m_playingMode;
-        QAction *actionLecture;			//!< @brief Play action
-        QAction *actionPause;			//!< @brief Pause action
-        QAction *actionStop;			//!< @brief Stop action
-        QAction *actionBoucle;			//!< @brief loop playing action
-        QAction *actionUnique;			//!< @brief one song playing mode action
-        QAction *actionAjouter;			//!< @brief add song action
-        QAction *actionSupprimer;		//!< @brief remove song action
+        /**
+        * @brief set the UI - Phonon only
+        */
+    void setupUi();
+    qint64 m_time;//!< @brief current time
+    Phonon::MediaSource *m_currentsource;//!< @brief current audio source
+    Phonon::SeekSlider *seekSlider; //!< @brief Allows to seek in the song (Phonon only)
+    Phonon::MediaObject *mediaObject; //!<  (Phonon only)
+    Phonon::AudioOutput *audioOutput; //!< (Phonon only)
+    Phonon::VolumeSlider *volumeSlider; //!< @brief Allows to adjust the sound volume (Phonon only)
+    Phonon::Path* path; //!< (Phonon only)
+    Phonon::VolumeSlider *niveauVolume;//!< @brief Allows to adjust the sound volume (Phonon only)
+    Phonon::SeekSlider *positionTemps;//!< @brief Allows to seek in the song (Phonon only)
+
+    QWidget *widgetPrincipal;        //!< @brief brings together all subwidget
+    QWidget *widgetAffichage;        //!< @brief Displays some gauges (for Player and GM.)
+    QWidget *widgetCommande;        //!< @brief Displays the control panel (GM only)
+    QVBoxLayout *layoutPrincipal;    //!< @brief layout
+    QLineEdit *afficheurTitre;        //!< @brief Displays the title of the played song
+
+    QString m_currentFile;
+    QListWidgetItem* m_currentItemFile;
+    QListWidgetItem* m_formerItemFile;
 
 
-        PlayingMode m_currentPlayingMode;
-        bool m_endFile;
+    QLCDNumber *afficheurTemps;        //!< @brief displays the past time of the playing
+    QListWidget *listeTitres;        //!< @brief displays all avaliable songs
+    QList<QString> listeChemins;            //!< @brief Path list
+    QActionGroup* m_playingMode;
+    QAction *actionLecture;            //!< @brief Play action
+    QAction *actionPause;            //!< @brief Pause action
+    QAction *actionStop;            //!< @brief Stop action
+    QAction *actionBoucle;            //!< @brief loop playing action
+    QAction *actionUnique;            //!< @brief one song playing mode action
+    QAction *actionAjouter;            //!< @brief add song action
+    QAction *actionSupprimer;        //!< @brief remove song action
 
 
+    PlayingMode m_currentPlayingMode;
+    bool m_endFile;
 
 
 
 private slots :
-	/**
-        * @brief received the time
-	*/
-        void tick(qint64 time);
+    /**
+    * @brief received the time
+    */
+    void tick(qint64 time);
 
-	/**
+    /**
     * @brief called when state has been changed
-	*/
-        void stateChanged(Phonon::State newState, Phonon::State oldState);
+    */
+    void stateChanged(Phonon::State newState, Phonon::State oldState);
 
-	/**
+    /**
     * @brief called when the audio source has been changed
-	*/
-        void sourceChanged(const Phonon::MediaSource &source);
-        /**
-        * @brief Send some informations to the given player
-        */
-        void updatePlayingMode();
+    */
+    void sourceChanged(const Phonon::MediaSource &source);
+    /**
+    * @brief Send some informations to the given player
+    */
+    void updatePlayingMode();
 
-        /**
-         * @brief slot which manage the click on playing
-         */
-        void onfinished();
+    /**
+    * @brief slot which manage the click on playing
+    */
+    void onfinished();
 
-	/**
+    /**
     * @brief  slot which manage the click on add song button
-	*/
-        void clickOnList(QListWidgetItem * p);
-	/**
-         * @brief  slot which manage the click on remove song button
-         */
-        void removeFile();
-        /**
-         * @brief  slot which manage the click on remove song button
-         */
-        void addFiles();
+    */
+    void clickOnList(QListWidgetItem * p);
+    /**
+    * @brief  slot which manage the click on remove song button
+    */
+    void removeFile();
+    /**
+    * @brief  slot which manage the click on remove song button
+    */
+    void addFiles();
 
-	/**
-        * @brief  slot which is called when song is finished
-	*/
-        void isAboutToFinish();
+    /**
+    * @brief  slot which is called when song is finished
+    */
+    void isAboutToFinish();
 
-	/**
-        * @brief  slot which manage the player's root directory change
-	*/
-        void pChangeDirectory();
+    /**
+    * @brief  slot which manage the player's root directory change
+    */
+    void pChangeDirectory();
 
-
-
+    /**
+    * @brief Send some informations to the given player
+    */
+    void emettreEtat(Liaison * link);
 };
 
 #endif

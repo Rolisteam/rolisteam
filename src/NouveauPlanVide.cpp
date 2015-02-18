@@ -23,6 +23,9 @@
 #include <QtGui>
 
 #include "NouveauPlanVide.h"
+
+#include "MainWindow.h"
+
 #include "variablesGlobales.h"
 
 
@@ -41,8 +44,8 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
 	format = 0;
 	dimensions = 1;
 	// Connexion de la demande de creation d'un plan du widget vers le mainWindow
-	QObject::connect(this, SIGNAL(creerNouveauPlanVide(QString, QString, QColor, quint16, quint16, quint8)),
-		G_mainWindow, SLOT(creerNouveauPlanVide(QString, QString, QColor, quint16, quint16, quint8)));
+	QObject::connect(this, SIGNAL(creerNouveauPlanVide(QString, QString, QColor, quint16, quint16)),
+		G_mainWindow, SLOT(creerNouveauPlanVide(QString, QString, QColor, quint16, quint16)));
 
 	#ifdef WIN32
 		// On supprime de bouton d'aide contextuelle et on rajoute le bouton d'iconisation
@@ -341,8 +344,6 @@ void NouveauPlanVide::validerDimensions()
 	QString titre = titrePlan->text();
 	// Creation de l'identifiant
 	QString idCarte = QUuid::createUuid().toString();
-	// On recupere la taille des PJ
-	quint8 taillePj = G_listeUtilisateurs->taillePj();
 	// On recupere la couleur du fond
 	QColor couleur = (couleurFond->palette()).color(QPalette::Window);
 
@@ -394,6 +395,7 @@ void NouveauPlanVide::validerDimensions()
 	memcpy(&(donnees[p]), &haut, sizeof(quint16));
 	p+=sizeof(quint16);
 	// Ajout de la taille des PJ
+    quint8 taillePj = 1;
 	memcpy(&(donnees[p]), &taillePj, sizeof(quint8));
 	p+=sizeof(quint8);		
 
@@ -403,7 +405,7 @@ void NouveauPlanVide::validerDimensions()
 	delete[] donnees;
 
 	// On cree le plan en local (ce qui a pour consequence de detruire la fenetre de nouveau plan)
-	emit creerNouveauPlanVide(titre, idCarte, couleur, larg, haut, taillePj);
+	emit creerNouveauPlanVide(titre, idCarte, couleur, larg, haut);
 
 }
 

@@ -20,10 +20,13 @@
  ***************************************************************************/
 
 
-	#include <QtGui>
+#include <QtGui>
 
-	#include "EditeurNotes.h"
-	#include "variablesGlobales.h"
+#include "EditeurNotes.h"
+
+#include "MainWindow.h"
+
+#include "variablesGlobales.h"
 
 
 	/********************************************************************/
@@ -104,8 +107,6 @@
 	{
 		// On masque l'editeur de notes et on decoche l'action associee
 		G_mainWindow->afficherEditeurNotes(false, true);
-		// On decoche la case de l'editeur de notes
-		G_listeUtilisateurs->decocherCaseTchat(G_idJoueurLocal);
 		// Arret de la procedure de fermeture		
 		event->ignore();
 	}

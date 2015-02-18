@@ -46,7 +46,7 @@
 	    NouveauPlanVide(QWidget *parent = 0);
 
 	signals :
-		void creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur, quint8 taillePj);
+		void creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur);
 
 	private slots :
 		void ouvrirSelecteurCouleur();

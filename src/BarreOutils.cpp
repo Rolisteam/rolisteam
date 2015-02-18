@@ -1,32 +1,37 @@
-/***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+/*************************************************************************
+ *    Copyright (C) 2007 by Romain Campioni                              *
+ *    Copyright (C) 2009 by Renaud Guezennec                             *
+ *    Copyright (C) 2011 by Joseph Boudou                                *
+ *                                                                       *
+ *      http://www.rolisteam.org/                                        *
+ *                                                                       *
+ *   Rolisteam is free software; you can redistribute it and/or modify   *
+ *   it under the terms of the GNU General Public License as published   *
+ *   by the Free Software Foundation; either version 2 of the License,   *
+ *   or (at your option) any later version.                              *
+ *                                                                       *
+ *   This program is distributed in the hope that it will be useful,     *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of      *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the       *
+ *   GNU General Public License for more details.                        *
+ *                                                                       *
+ *   You should have received a copy of the GNU General Public License   *
+ *   along with this program; if not, write to the                       *
+ *   Free Software Foundation, Inc.,                                     *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
+ *************************************************************************/
 
-
-#include <QtGui>
+#include <QVBoxLayout>
+#include <QToolButton>
 
 #include "BarreOutils.h"
+
+#include "Carte.h"
+#include "datawriter.h"
 #include "SelecteurCouleur.h"
 #include "SelecteurDiametre.h"
-#include "constantesGlobales.h"
 
+#include "constantesGlobales.h"
 
 /********************************************************************/
 /* Variables globales utilisees par tous les elements de            */
@@ -46,7 +51,7 @@ int G_numeroPnjCourant;
 /* Constructeur                                                     */
 /********************************************************************/	
 BarreOutils::BarreOutils(QWidget *parent)
-	: QDockWidget(parent)
+	: QDockWidget(parent), m_map(NULL)
 {
 	// Titre du dockWidget
 	setWindowTitle(tr("Outils"));
@@ -67,26 +72,26 @@ BarreOutils::BarreOutils(QWidget *parent)
 	G_outilCourant = main;
 	
 	// Connexion de l'action RazChrono avec le slot razNumeroPnj
-	QObject::connect(actionRazChrono, SIGNAL(triggered(bool)), this, SLOT(razNumeroPnj()));
+	connect(actionRazChrono, SIGNAL(triggered(bool)), this, SLOT(razNumeroPnj()));
 	// Connexion du changement de la zone de texte avec texteChange
-	QObject::connect(ligneDeTexte, SIGNAL(textEdited(const QString &)), this, SLOT(texteChange(const QString &)));
+	connect(ligneDeTexte, SIGNAL(textEdited(const QString &)), this, SLOT(texteChange(const QString &)));
 	// Connexion du changement du nom de PNJ avec nomPnjChange
-	QObject::connect(nomPnj, SIGNAL(textEdited(const QString &)), this, SLOT(nomPnjChange(const QString &)));
+	connect(nomPnj, SIGNAL(textEdited(const QString &)), this, SLOT(nomPnjChange(const QString &)));
 	// Connexion des actions avec les slot adaptes
-	QObject::connect(actionCrayon,     SIGNAL(triggered(bool)), this, SLOT(crayonSelectionne()));
-	QObject::connect(actionLigne,      SIGNAL(triggered(bool)), this, SLOT(ligneSelectionne()));
-	QObject::connect(actionRectVide,   SIGNAL(triggered(bool)), this, SLOT(rectVideSelectionne()));
-	QObject::connect(actionRectPlein,  SIGNAL(triggered(bool)), this, SLOT(rectPleinSelectionne()));
-	QObject::connect(actionElliVide,   SIGNAL(triggered(bool)), this, SLOT(elliVideSelectionne()));
-	QObject::connect(actionElliPlein,  SIGNAL(triggered(bool)), this, SLOT(elliPleinSelectionne()));
-	QObject::connect(actionTexte,      SIGNAL(triggered(bool)), this, SLOT(texteSelectionne()));
-	QObject::connect(actionMain,       SIGNAL(triggered(bool)), this, SLOT(mainSelectionne()));
-	QObject::connect(actionAjoutPnj,   SIGNAL(triggered(bool)), this, SLOT(ajoutPnjSelectionne()));
-	QObject::connect(actionSupprPnj,   SIGNAL(triggered(bool)), this, SLOT(supprPnjSelectionne()));
-	QObject::connect(actionDeplacePnj, SIGNAL(triggered(bool)), this, SLOT(deplacePersoSelectionne()));
-	QObject::connect(actionEtatPnj,    SIGNAL(triggered(bool)), this, SLOT(etatPersoSelectionne()));
+	connect(actionCrayon,     SIGNAL(triggered(bool)), this, SLOT(crayonSelectionne()));
+	connect(actionLigne,      SIGNAL(triggered(bool)), this, SLOT(ligneSelectionne()));
+	connect(actionRectVide,   SIGNAL(triggered(bool)), this, SLOT(rectVideSelectionne()));
+	connect(actionRectPlein,  SIGNAL(triggered(bool)), this, SLOT(rectPleinSelectionne()));
+	connect(actionElliVide,   SIGNAL(triggered(bool)), this, SLOT(elliVideSelectionne()));
+	connect(actionElliPlein,  SIGNAL(triggered(bool)), this, SLOT(elliPleinSelectionne()));
+	connect(actionTexte,      SIGNAL(triggered(bool)), this, SLOT(texteSelectionne()));
+	connect(actionMain,       SIGNAL(triggered(bool)), this, SLOT(mainSelectionne()));
+	connect(actionAjoutPnj,   SIGNAL(triggered(bool)), this, SLOT(ajoutPnjSelectionne()));
+	connect(actionSupprPnj,   SIGNAL(triggered(bool)), this, SLOT(supprPnjSelectionne()));
+	connect(actionDeplacePnj, SIGNAL(triggered(bool)), this, SLOT(deplacePersoSelectionne()));
+	connect(actionEtatPnj,    SIGNAL(triggered(bool)), this, SLOT(etatPersoSelectionne()));
 	// Connection du changement d'etat (floating / no floating) avec le changement de taille
-	QObject::connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changementTaille(bool)));
+	connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changementTaille(bool)));
 
 	setFloating(false);
 }
@@ -292,6 +297,10 @@ void BarreOutils::creerOutils()
 	// Creation du selecteur de diametre des PNJ
 	diametrePnj = new SelecteurDiametre(outils, false, 12, 41);
 	diametrePnj->setToolTip(tr("Taille du PNJ"));
+    connect(diametrePnj, SIGNAL(valueChanging(int)),
+            this, SLOT(changeCharacterSize(int)));
+    connect(diametrePnj, SIGNAL(valueChanged(int)),
+            this, SLOT(sendNewCharacterSize(int)));
 
 	//Creation du separateur se trouvant entre le selecteur de couleur et les outils de dessin
 	QFrame *separateur1 = new QFrame(outils);
@@ -449,6 +458,13 @@ void BarreOutils::mettreAJourPnj(int diametre, QString nom)
 	G_nomPnjCourant = nom;
 }
 
+void BarreOutils::changeMap(Carte * map)
+{
+    m_map = map;
+    if (m_map != NULL)
+        diametrePnj->changerDiametre(map->tailleDesPj());
+}
+
 /********************************************************************/	
 /* Demande une m.a.j des couleurs personnelles au selecteur de      */
 /* couleurs                                                         */
@@ -573,4 +589,23 @@ void BarreOutils::deplacePersoSelectionne()
 void BarreOutils::etatPersoSelectionne()
 {
 	G_outilCourant = etatPerso;
+}
+
+void BarreOutils::changeCharacterSize(int size)
+{
+    if (m_map != NULL)
+        m_map->changerTaillePjCarte(size, G_outilCourant != ajoutPnj);
+}
+
+void BarreOutils::sendNewCharacterSize(int size)
+{
+    if (m_map == NULL)
+        return;
+
+    changeCharacterSize(size);
+
+    DataWriter message (persoJoueur, changerTaillePersoJoueur);
+    message.string8(m_map->identifiantCarte());
+    message.uint8(size - 11);
+    message.sendAll();
 }

@@ -29,8 +29,7 @@
  * @brief A LineEdit with a button to choose a directory.
  * @todo Make it private or in its own file.
  */
-class DirChooser
- : public QWidget
+class DirChooser : public QWidget
 {
     Q_OBJECT;
 
@@ -51,8 +50,7 @@ class DirChooser
 /**
  * @brief Actually only to change directories.
  */
-class PreferencesDialog
- : public QDialog
+class PreferencesDialog : public QDialog
 {
     Q_OBJECT;
 

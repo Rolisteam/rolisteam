@@ -2,7 +2,7 @@
  *     Copyright (C) 2011 by Joseph Boudou                               *
  *     http://www.rolisteam.org/                                         *
  *                                                                       *
- *   rolisteam is free software; you can redistribute it and/or modify   *
+ *   Rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
  *   by the Free Software Foundation; either version 2 of the License,   *
  *   or (at your option) any later version.                              *
@@ -19,45 +19,32 @@
  *************************************************************************/
 
 
-#ifndef DATA_WRITER_H
-#define DATA_WRITER_H
+#ifndef PERSONDIALOG_H
+#define PERSONDIALOG_H
 
-#include <QString>
+#include <QDialog>
+#include <QLineEdit>
 
-#include "types.h"
+#include "colorbutton.h"
 
-class Liaison;
+class PersonDialog
+    : public QDialog {
+    Q_OBJECT
 
-class DataWriter
-{
     public:
-        DataWriter(quint8 categorie, quint8 action, int size = 128);
-        ~DataWriter();
+        PersonDialog(QWidget * parent = NULL);
 
-        void reset();
+        QString getName() const;
+        QColor  getColor() const;
 
-        void sendTo(Liaison * link);
-        void sendAll(Liaison * butLink = NULL);
-
-        void uint8(quint8 data);
-        void uint16(quint16 data);
-        void uint32(quint32 data);
-
-        void string8(const QString & data);
-        void string16(const QString & data);
-        void string32(const QString & data);
-
-        void rgb(const QColor & color);
+    public slots :
+        int edit(QString title, QString name, QColor color);
 
     private:
-        enteteMessage * m_header;
-        char * m_buffer;
-        char * m_begin;
-        char * m_pos;
-        char * m_end;
+        QLineEdit   * m_name_w;
+        ColorButton * m_color_w;
 
-        void string(const QString & data, int sizeQChar);
-        void makeRoom(int size);
+        void setUI();
 };
 
 #endif

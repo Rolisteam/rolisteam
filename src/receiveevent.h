@@ -1,8 +1,9 @@
 /*************************************************************************
  *     Copyright (C) 2011 by Joseph Boudou                               *
+ *                                                                       *
  *     http://www.rolisteam.org/                                         *
  *                                                                       *
- *   rolisteam is free software; you can redistribute it and/or modify   *
+ *   Rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
  *   by the Free Software Foundation; either version 2 of the License,   *
  *   or (at your option) any later version.                              *
@@ -27,20 +28,22 @@
 #include <QMap>
 
 class DataReader;
+class Liaison;
 
 class ReceiveEvent
  : public QEvent
 {
     public:
-        ReceiveEvent(quint8 categorie, quint8 action, quint32 bufferSize, const char * buffer);
+        ReceiveEvent(quint8 categorie, quint8 action, quint32 bufferSize, const char * buffer, Liaison * link);
         ~ReceiveEvent();
 
         static const int Type;
 
         void postToReceiver();
 
-        quint8 categorie();
-        quint8 action();
+        quint8 categorie() const;
+        quint8 action() const;
+        Liaison * link() const;
         DataReader & data();
 
         static bool hasReceiverFor(quint8 categorie, quint8 action);
@@ -49,6 +52,7 @@ class ReceiveEvent
     private:
         quint8 m_categorie;
         quint8 m_action;
+        Liaison * m_link;
         DataReader * m_data;
 
         static QMap<quint16, QObject *> s_receiverMap;

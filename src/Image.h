@@ -40,7 +40,10 @@
 #include <QFile>
 #include <QString>
 #include <QLabel>
+
 #include "WorkspaceAmeliore.h"
+
+class Liaison;
 
 class Image : public QScrollArea
 {
@@ -50,7 +53,7 @@ public :
     Image(QString identImage, QString identJoueur, QImage *image, QAction *action = 0, WorkspaceAmeliore *parent = 0);
     ~Image();
     void associerAction(QAction *action);
-    void emettreImage(QString titre, int numeroLiaison);
+    void emettreImage(QString titre, Liaison * link);
     void sauvegarderImage(QFile &file, QString titre);
     void sauvegarderImage(QDataStream& out, QString titre);
     bool proprietaireImage();

@@ -24,7 +24,9 @@
 #include "Liaison.h"
 
 #include "types.h"
-#include "variablesGlobales.h"
+
+// We don't include the whole variablesGlobales.h for just one extern.
+extern ClientServeur * G_clientServeur;
 
 DataWriter::DataWriter(quint8 categorie, quint8 action, int size)
 {
@@ -43,7 +45,6 @@ DataWriter::DataWriter(quint8 categorie, quint8 action, int size)
     m_header->action = action;
 }
 
-
 DataWriter::~DataWriter()
 {
     delete[] m_buffer;
@@ -54,10 +55,16 @@ void DataWriter::reset()
     m_pos = m_begin;
 }
 
-void DataWriter::sendTo(int link)
+void DataWriter::sendTo(Liaison * link)
 {
+    if (link == NULL)
+    {
+        sendAll();
+        return;
+    }
+
     m_header->tailleDonnees = m_pos - m_begin;
-    G_clientServeur->emettreDonnees(m_buffer, m_header->tailleDonnees + sizeof(enteteMessage), link);
+    link->emissionDonnees(m_buffer, m_header->tailleDonnees + sizeof(enteteMessage));
 }
 
 void DataWriter::sendAll(Liaison * butLink)
@@ -84,8 +91,7 @@ void DataWriter::uint16(quint16 data)
     m_pos += size;
 }
 
-void
-DataWriter::uint32(quint32 data)
+void DataWriter::uint32(quint32 data)
 {
     int size = sizeof(quint32);
     makeRoom(size);
@@ -94,34 +100,43 @@ DataWriter::uint32(quint32 data)
     m_pos += size;
 }
 
-void DataWriter::string8(QString data)
+void DataWriter::string8(const QString & data)
 {
     int sizeQChar = data.size();
     uint8(sizeQChar);
     string(data, sizeQChar);
 }
 
-void DataWriter::string16(QString data)
+void DataWriter::string16(const QString & data)
 {
     int sizeQChar = data.size();
     uint16(sizeQChar);
     string(data, sizeQChar);
 }
 
-void DataWriter::string32(QString data)
+void DataWriter::string32(const QString & data)
 {
     int sizeQChar = data.size();
     uint32(sizeQChar);
     string(data, sizeQChar);
 }
 
-void DataWriter::string(QString data, int sizeQChar)
+void DataWriter::string(const QString & data, int sizeQChar)
 {
     int sizeBytes = sizeQChar * sizeof(QChar);
 
     makeRoom(sizeBytes);
     memcpy(m_pos, data.constData(), sizeBytes);
     m_pos += sizeBytes;
+}
+
+void DataWriter::rgb(const QColor & color)
+{
+    int size = sizeof(QRgb);
+    makeRoom(size);
+
+    *((QRgb *)m_pos) = color.rgb();
+    m_pos += size;
 }
 
 void DataWriter::makeRoom(int size)

@@ -21,10 +21,14 @@
 
 
 #include <QtGui>
+#include <QDebug>
 
 #include "Image.h"
+
+#include "Liaison.h"
+#include "MainWindow.h"
+
 #include "variablesGlobales.h"
-#include <QDebug>
 
 /********************************************************************/
 /* Constructeur                                                     */
@@ -111,7 +115,7 @@ QString Image::identifiantImage()
 /********************************************************************/
 /* Emet l'Image vers la liaison passee en parametre                 */
 /********************************************************************/
-void Image::emettreImage(QString titre, int numeroLiaison)
+void Image::emettreImage(QString titre, Liaison * link)
 {
 	bool ok;
 
@@ -171,7 +175,7 @@ void Image::emettreImage(QString titre, int numeroLiaison)
 	p+=tailleImage;
 
 	// Emission de l'image vers la liaison indiquee
-	emettre(donnees, tailleCorps + sizeof(enteteMessage), numeroLiaison);
+    link->emissionDonnees(donnees, tailleCorps + sizeof(uneEntete));
 	// Liberation du buffer d'emission
 	delete[] donnees;
 }

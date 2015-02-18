@@ -47,20 +47,17 @@ ColorButton::ColorButton(const QColor & color, QWidget * parent)
 }
 
 
-QColor
-ColorButton::color() const
+QColor ColorButton::color() const
 {
     return m_color;
 }
 
-QSize
-ColorButton::sizeHint() const
+QSize ColorButton::sizeHint() const
 {
     return QSize(28,20);
 }
 
-void
-ColorButton::setColor(const QColor & color)
+void ColorButton::setColor(const QColor & color)
 {
     m_color = color;
     setPalette(QPalette(m_color));

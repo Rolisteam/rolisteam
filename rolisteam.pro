@@ -14,6 +14,8 @@ HEADERS += src/AfficheurDisque.h \
            src/BarreOutils.h \
            src/Carte.h \
            src/CarteFenetre.h \
+           src/chatlist.h \
+           src/chatlistwidget.h \
            src/ClientServeur.h \
            src/colorbutton.h \
            src/connectiondialog.h \
@@ -26,9 +28,12 @@ HEADERS += src/AfficheurDisque.h \
            src/Image.h \
            src/initialisation.h \
            src/Liaison.h \
-           src/ListeUtilisateurs.h \
            src/MainWindow.h \
            src/NouveauPlanVide.h \
+           src/persons.h \
+           src/persondialog.h \
+           src/playersList.h \
+           src/playersListWidget.h \
            src/preferencesdialog.h \
            src/receiveevent.h \
            src/Rolisteam_private.h \
@@ -46,6 +51,8 @@ SOURCES += src/AfficheurDisque.cpp \
             src/updatechecker.cpp \
            src/Carte.cpp \
            src/CarteFenetre.cpp \
+           src/chatlist.cpp \
+           src/chatlistwidget.cpp \
            src/ClientServeur.cpp \
            src/colorbutton.cpp \
            src/connectiondialog.cpp \
@@ -57,10 +64,13 @@ SOURCES += src/AfficheurDisque.cpp \
            src/Image.cpp \
            src/initialisation.cpp \
            src/Liaison.cpp \
-           src/ListeUtilisateurs.cpp \
            src/main.cpp \
            src/MainWindow.cpp \
            src/NouveauPlanVide.cpp \
+           src/persons.cpp \
+           src/persondialog.cpp \
+           src/playersList.cpp \
+           src/playersListWidget.cpp \
            src/preferencesdialog.cpp \
            src/receiveevent.cpp \
            src/SelecteurCouleur.cpp \
