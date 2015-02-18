@@ -174,11 +174,11 @@ void MainWindow::setupUi()
     m_version=tr("unknown");
 
 #ifdef VERSION_MINOR
-    #ifdef VERSION_MAJOR
-        #ifdef VERSION_MIDDLE
-            m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-        #endif
-    #endif
+#ifdef VERSION_MAJOR
+#ifdef VERSION_MIDDLE
+    m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+#endif
+#endif
 #endif
 
 
@@ -842,7 +842,7 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
     if (nomFichier.isEmpty())
         m_widget=static_cast<QMdiSubWindow*>(ajouterCarte(carteFenetre, titre,size,pos));
     else
-       m_widget=static_cast<QMdiSubWindow*>(ajouterCarte(carteFenetre, nomFichier,size,pos));
+        m_widget=static_cast<QMdiSubWindow*>(ajouterCarte(carteFenetre, nomFichier,size,pos));
 
     // On recupere le nombre de personnages presents dans le message
     quint16 nbrPersonnages;
@@ -1333,11 +1333,19 @@ void MainWindow::quitterApplication(bool perteConnexion)
 void MainWindow::removePictureFromId(QString idImage)
 {
     QMdiSubWindow* tmp = m_mdiArea->getSubWindowFromId(idImage);
-    Image* imageWindow = dynamic_cast<Image*>(tmp->widget());
+    if(NULL!=tmp)
+    {
+        Image* imageWindow = dynamic_cast<Image*>(tmp->widget());
 
-    //delete m_mapAction->value(mapWindow);
-    delete imageWindow;
-    delete tmp;
+        if(NULL!=imageWindow)
+        {
+
+            delete imageWindow->getAssociatedAction();
+            delete imageWindow;
+
+        }
+        delete tmp;
+    }
 }
 bool MainWindow::enleverCarteDeLaListe(QString idCarte)
 {
@@ -1370,11 +1378,11 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
         Image* img = static_cast<Image*>(sub->widget());
         if(NULL!=img)
         {
-           if(img->getImageId() == idImage)
-           {
-               m_pictureList.removeOne(sub);
-               return true;
-           }
+            if(img->getImageId() == idImage)
+            {
+                m_pictureList.removeOne(sub);
+                return true;
+            }
         }
 
     }
@@ -1594,7 +1602,7 @@ void MainWindow::saveAllImages(QDataStream &out)
         Image* img = static_cast<Image*>(sub->widget());
         if(NULL!=img)
         {
-             img->sauvegarderImage(out,sub->windowTitle());
+            img->sauvegarderImage(out,sub->windowTitle());
         }
 
     }
@@ -1641,7 +1649,7 @@ void MainWindow::lireImage(QDataStream &file)
 
 
 
-   /* tmp->move(topleft);
+    /* tmp->move(topleft);
     tmp->resize(size);*/
 
 

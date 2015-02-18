@@ -157,9 +157,12 @@ QMdiSubWindow* WorkspaceAmeliore::getSubWindowFromId(QString id)
             else
             {
                 Image* img = dynamic_cast<Image*>(tmp->widget());
-                if(tmpWindow->getMapId() == id)
+                if(NULL!=img)
                 {
-                    return tmp;
+                    if(img->getImageId() == id)
+                    {
+                        return tmp;
+                    }
                 }
             }
         }
