@@ -133,6 +133,9 @@ G_idJoueurLocal = QUuid::createUuid().toString();
 tempNomJoueur = nomJoueur->text();
 G_couleurJoueurLocal = (couleurJoueur->palette()).color(QPalette::Window);
 
+// Initialise features database with local features
+g_featuresList.addLocal(G_idJoueurLocal);
+
 // Si l'ordinateur local est un serveur, on le met en place avant de lancer l'application principale
 if (!G_client)
 {
@@ -205,6 +208,8 @@ detruireFenetreConnexion();
 liaison->start();
 // Envoie de l'identite du joueur au serveur
 emettreIdentite();
+// Send the local feature database
+g_featuresList.sendThemAll();
 }
 
 /********************************************************************/

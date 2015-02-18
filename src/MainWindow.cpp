@@ -1601,13 +1601,8 @@ void MainWindow::aucunNouveauPlanVide()
 /* Envoie tous les plans deja ouvert au joueur dont l'identifiant   */
 /* est passe en parametre (serveur uniquement)                          */
 /********************************************************************/
-void MainWindow::emettreTousLesPlans(QString idJoueur)
+void MainWindow::emettreTousLesPlans(int numeroLiaison)
 {
-        // On recupere le numero de liaison correspondant a l'identifiant du joueur
-        // (on soustrait 1 car le 1er utilisateur est toujours le serveur et qu'il
-        // n'a pas de liaison associee)
-        int numeroLiaison = G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
-
         // Taille de la liste des CarteFenetre
         int tailleListe = listeCarteFenetre.size();
 
@@ -1626,13 +1621,8 @@ void MainWindow::emettreTousLesPlans(QString idJoueur)
 /* Envoie toutes les images deja ouvertes au joueur dont                */
 /* l'identifiant est passe en parametre (serveur uniquement)        */
 /********************************************************************/
-void MainWindow::emettreToutesLesImages(QString idJoueur)
+void MainWindow::emettreToutesLesImages(int numeroLiaison)
 {
-        // On recupere le numero de liaison correspondant a l'identifiant du joueur
-        // (on soustrait 1 car le 1er utilisateur est toujours le serveur et qu'il
-        // n'a pas de liaison associee)
-        int numeroLiaison = G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
-
         // Taille de la liste des Images
         int tailleListe = listeImage.size();
 

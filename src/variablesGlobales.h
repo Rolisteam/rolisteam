@@ -45,6 +45,7 @@
 #ifndef NULL_PLAYER
 #include "LecteurAudio.h"
 #endif
+#include "Features.h"
 
 // Fonction globale, declaree dans MainWindow.cpp
 void ecrireLogUtilisateur(QString message);
@@ -107,7 +108,8 @@ extern QString G_dossierTchats;
 // Declarees dans ListeUtilisateur.cpp
 extern ListeUtilisateurs *G_listeUtilisateurs;
 
-
+// Declared in Features.cpp
+extern FeaturesList g_featuresList;
 
 
 #endif

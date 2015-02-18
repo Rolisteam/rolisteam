@@ -59,8 +59,8 @@ public :
     void majCouleursPersonnelles();
     void ajouterCarte(CarteFenetre *carteFenetre, QString titre);
     void ajouterImage(Image *imageFenetre, QString titre);
-    void emettreTousLesPlans(QString idJoueur);
-    void emettreToutesLesImages(QString idJoueur);
+    void emettreTousLesPlans(int numeroLiaison);
+    void emettreToutesLesImages(int numeroLiaison);
     void mettreAJourEspaceTravail();
     void mettreAJourSelecteurTaille(QString idCarte, int taillePj);
     void emettreChangementTaillePj(int nouvelleTaille);

@@ -81,6 +81,8 @@ private :
 
     QString m_owner;
 
+    bool warnedEmoteUnavailable;
+
 private slots :
 	void emettreTexte();
 	void monterHistorique();

@@ -243,6 +243,9 @@ bool ListeUtilisateurs::ajouterJoueur(QString idJoueur, QString nomJoueur, QColo
 /********************************************************************/
 bool ListeUtilisateurs::supprimerJoueur(QString idJoueur)
 {
+    // We should not delete a player while we register another one.
+    QMutexLocker locker(&G_mutexConnexion);
+
         // Recherche du joueur dans la liste, en se basant sur l'idJoueur
         QList<QTreeWidgetItem *> listeItem = treeWidget->findItems(idJoueur, Qt::MatchExactly, 1);
         // Si la liste n'a pas un seul element, alors il y a un probleme
@@ -280,6 +283,9 @@ bool ListeUtilisateurs::supprimerJoueur(QString idJoueur)
         item->~QTreeWidgetItem();
         // On autorise la reception des signaux dans changementEtatItem
         autoriserSignauxListe = true;
+
+        // We delete features linked to this player
+        g_featuresList.delUser(idJoueur);
 
         // Tout c'est passe correctement
         return true;
@@ -1323,7 +1329,7 @@ int ListeUtilisateurs::numeroUtilisateur(QString idJoueur)
 /* Emet tous les personnages joueurs de la liste vers la liaison    */
 /* passee en parametre                                              */
 /********************************************************************/
-void ListeUtilisateurs::emettreTousLesPj(QString idJoueur)
+void ListeUtilisateurs::emettreTousLesPj(int numeroLiaison)
 {
         int nbrPersos;
         int j, t;
@@ -1396,11 +1402,6 @@ void ListeUtilisateurs::emettreTousLesPj(QString idJoueur)
                         quint8 dessin = 0;
                         memcpy(&(donnees[p]), &dessin, sizeof(QRgb));
                         p+=sizeof(quint8);
-
-                        // On recupere le numero de liaison correspondant a l'identifiant du joueur
-                        // (on soustrait 1 car le 1er utilisateur est toujours le serveur et qu'il
-                        // n'a pas de liaison associee)
-                        int numeroLiaison = numeroUtilisateur(idJoueur) - 1;
 
                         // Emission de la demande de creation de PJ vers la liaison indiquee
                         emettre(donnees, tailleCorps + sizeof(enteteMessage), numeroLiaison);

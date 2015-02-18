@@ -67,7 +67,7 @@
 		void ModifierNomPerso(QString idPerso, QString nomPerso);
 		void ModifierCouleurJoueur(QString idJoueur, QColor CouleurJoueur);
 		void ModifierCouleurPerso(QString idPerso, QColor CouleurPerso);
-		void emettreTousLesPj(QString idJoueur);
+		void emettreTousLesPj(int numeroLiaison);
 		void cocherCaseTchat(QString idJoueur);
 		void decocherCaseTchat(QString idJoueur);
 		void faireClignoter(QString idJoueur);

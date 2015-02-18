@@ -43,6 +43,8 @@ Tchat::Tchat(QString id, QAction *action, /*QString tmp,*/QWidget *parent)
 	numHistorique = 0;
 	actionAssociee = action;
 
+    warnedEmoteUnavailable = false;
+
 	// On change l'icone de la fenetre
 	setWindowIcon(QIcon(":/icones/vignette tchat.png"));
 
@@ -220,10 +222,40 @@ void Tchat::emettreTexte()
                 }
                 if(emote)
                 {
-                   m_owner = G_listeUtilisateurs->nomUtilisateur(G_idJoueurLocal);
-                   afficherMessage(m_owner, G_couleurJoueurLocal, message,EMOTE_MESSAGE);
-                   action = EMOTE_MESSAGE;
-                   break;
+                    // Warn if some users don't have Emote(0) feature
+                    if (!warnedEmoteUnavailable)
+                    {
+    		            if (idJoueur.isEmpty())
+                        {   // Public chat
+                            int nb_implemented = g_featuresList.countImplemented(QString("Emote"), 0);
+                            int nb_users = G_listeUtilisateurs->tousLesUtilisateurs().size();
+                            if (nb_implemented < nb_users)
+                            {
+                                messageTitle = tr("Attention");
+                                messageCorps = tr("Certains utilisateurs risquent de ne pas voir vos emotes.");
+                                color = Qt::red;
+                                afficherMessage(messageTitle, color, messageCorps);
+                                warnedEmoteUnavailable = true;
+                            }
+                        }
+                        else
+                        {   // Private chat
+                            if (!g_featuresList.clientImplements(Feature(idJoueur, QString("Emote"), 0)))
+                            {
+                                messageTitle = tr("Attention");
+                                messageCorps = tr("Votre interlocuteur risque de ne pas voir vos emotes.");
+                                color = Qt::red;
+                                afficherMessage(messageTitle, color, messageCorps);
+                            }
+                            warnedEmoteUnavailable = true;
+                        }
+                    }
+                        
+                    
+                    m_owner = G_listeUtilisateurs->nomUtilisateur(G_idJoueurLocal);
+                    afficherMessage(m_owner, G_couleurJoueurLocal, message,EMOTE_MESSAGE);
+                    action = EMOTE_MESSAGE;
+                    break;
                 }
             }
 

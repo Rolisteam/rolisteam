@@ -77,7 +77,7 @@ public :
 	/**
 	* \brief Send some informations to the given player
 	*/
-        void emettreEtat(QString idJoueur);
+        void emettreEtat(int numeroLiaison);
 
 	/**
 	* \brief Hide the control panel if the current user is not the GM

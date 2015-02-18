@@ -932,13 +932,8 @@ LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
 	/* passe en parametre, de sorte que son lecteur audio se retrouve   */
 	/* dans le meme etat que le lecteur local                           */
 	/********************************************************************/
-	void LecteurAudio::emettreEtat(QString idJoueur)
+	void LecteurAudio::emettreEtat(int numeroLiaison)
 	{
-		// On recupere le numero de liaison correspondant a l'identifiant du joueur
-		// (on soustrait 1 car le 1er utilisateur est toujours le serveur et qu'il
-		// n'a pas de liaison associee)
-		int numeroLiaison = G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
-		
 		// S'il n'y a pas de titre dans le lecteur (on regarde s'il y a qq chose dans la zone d'affichage, car la condition peut
 		// etre remplie par le MJ et les joueurs)
 		if (afficheurTitre->text().isEmpty())

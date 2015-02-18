@@ -18,6 +18,7 @@ HEADERS += src/AfficheurDisque.h \
 #           src/constsantesGlobales.h \
            src/DessinPerso.h \
            src/EditeurNotes.h \
+           src/Features.h \
            src/Image.h \
            src/Liaison.h \
            src/ListeUtilisateurs.h \
@@ -40,6 +41,7 @@ SOURCES += src/AfficheurDisque.cpp \
            src/ClientServeur.cpp \
            src/DessinPerso.cpp \
            src/EditeurNotes.cpp \
+           src/Features.cpp \
            src/Image.cpp \
            src/Liaison.cpp \
            src/ListeUtilisateurs.cpp \

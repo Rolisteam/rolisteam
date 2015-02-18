@@ -292,19 +292,27 @@ void Liaison::receptionMessageJoueur()
 
         // On affiche un message dans la fenetre de log utilisateur
         ecrireLogUtilisateur(util.nomJoueur + tr(" vient de rejoindre la partie"));
+
+        // We get the link index from users list.
+        // The first user is the local user and have no link, we substract 1.
+        int linkIndex = G_listeUtilisateurs->numeroUtilisateur(idJoueur) - 1;
+
 #ifndef NULL_PLAYER
         // Si le nouvel utilisateur n'est pas un MJ, on emet l'etat actuel du lecteur audio
         if (!mj)
-            G_lecteurAudio->emettreEtat(idJoueur);
+            G_lecteurAudio->emettreEtat(linkIndex);
 #endif
         // On emet tous les plans deja ouverts au nouveau client
-        G_mainWindow->emettreTousLesPlans(idJoueur);
+        G_mainWindow->emettreTousLesPlans(linkIndex);
 
         // On emet toutes les images deja ouvertes au nouveau client
-        G_mainWindow->emettreToutesLesImages(idJoueur);
+        G_mainWindow->emettreToutesLesImages(linkIndex);
 
         // On emet l'ensemble des personnages joueurs deja crees (et on demande qu'ils ne creent pas de DessinPerso associes sur les cartes)
-        G_listeUtilisateurs->emettreTousLesPj(idJoueur);
+        G_listeUtilisateurs->emettreTousLesPj(linkIndex);
+
+        // Send all the features in our database
+        g_featuresList.sendThemAll(linkIndex);
 
         // Liberation de la memoire allouee
         delete[] tableauNom;
@@ -1759,6 +1767,12 @@ void Liaison::receptionMessageMusique()
 void Liaison::receptionMessageParametres()
 {
     qDebug("Reception d'un message de categorie Paramètres");
+
+    if (entete.action == addFeature)
+    {
+        g_featuresList.add(Feature(tampon));
+        faireSuivreMessage(false);
+    }
 }
 
 /********************************************************************/
