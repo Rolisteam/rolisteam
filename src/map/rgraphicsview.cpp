@@ -17,9 +17,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
+#include <QDebug>
+
+
 #include "rgraphicsview.h"
 
 RGraphicsView::RGraphicsView(Map *map)
     : QGraphicsView(map)
 {
+}
+void RGraphicsView::keyPressEvent ( QKeyEvent * event)
+{
+    if(event->key ()==Qt::Key_Delete)
+    {
+        QList<QGraphicsItem*> list= scene()->selectedItems();
+        if(list.size()>0)
+        {
+            foreach(QGraphicsItem* tmp, list)
+            {
+                scene()->removeItem(tmp);
+            }
+        }
+
+    }
+    QGraphicsView::keyPressEvent(event);
+}
+void RGraphicsView::mousePressEvent ( QMouseEvent * event)
+{
+    QGraphicsView::mousePressEvent (event);
+}
+void RGraphicsView::focusInEvent ( QFocusEvent * event )
+{
+
+    QGraphicsView::focusInEvent (event);
 }

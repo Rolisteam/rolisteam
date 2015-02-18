@@ -33,6 +33,16 @@ public:
       * @param Map address which it will be displayed by the graphicsview
       */
     RGraphicsView(Map *map);
+
+
+
+protected:
+   void keyPressEvent ( QKeyEvent * event);
+   void mousePressEvent ( QMouseEvent * event);
+   void focusInEvent ( QFocusEvent * event );
+
+private:
+
 };
 
 #endif // RGRAPHICSVIEW_H

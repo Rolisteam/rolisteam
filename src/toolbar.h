@@ -70,28 +70,28 @@ private:
     void creerOutils();
 
     QWidget* m_centralWidget;
-    QLineEdit *ligneDeTexte;
-    QLineEdit *nomPnj;
-    QLCDNumber *afficheNumeroPnj;
-    ColorSelector *couleur;
+    QLineEdit *m_textEditLine;
+    QLineEdit *m_npcNameTextEdit;
+    QLCDNumber *m_displayNPCCounter;
+    ColorSelector *m_colorSelector;
     DiameterSelector *m_lineDiameter;
     DiameterSelector *m_NpcDiameter;
     QActionGroup *m_toolsGroup;
     SelectableTool m_currentTool;
 
-    QAction *actionCrayon;
-    QAction *actionLigne;
-    QAction *actionRectVide;
-    QAction *actionRectPlein;
-    QAction *actionElliVide;
-    QAction *actionElliPlein;
-    QAction *actionTexte;
-    QAction *actionMain;
-    QAction *actionAjoutPnj;
-    QAction *actionSupprPnj;
-    QAction *actionDeplacePnj;
-    QAction *actionEtatPnj;
-    QAction *actionRazChrono;
+    QAction *m_pencilAct;
+    QAction *m_lineAct;
+    QAction *m_rectAct;
+    QAction *m_rectFillAct;
+    QAction *m_elipseAct;
+    QAction *m_elipseFillAct;
+    QAction *m_textAct;
+    QAction *m_handAct;
+    QAction *m_addPCAct;
+    QAction *m_delNPCAct;
+    QAction *m_movePCAct;
+    QAction *m_pcStateAct;
+    QAction *m_resetCountAct;
 
  /*   QAction* m_eraseAction;
     QAction* m_hideAction;

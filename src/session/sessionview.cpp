@@ -7,7 +7,7 @@
 SessionView::SessionView(QWidget *parent) :
     QTreeView(parent)
 {
-        //setContextMenuPolicy (Qt::CustomContextMenu);
+    //setContextMenuPolicy (Qt::CustomContextMenu);
     m_addChapterAction = new QAction(tr("Add Chapter…"),this);
     connect(m_addChapterAction,SIGNAL(triggered()),this,SLOT(onAddChapter()));
 
@@ -38,7 +38,7 @@ void SessionView::mouseDoubleClickEvent( QMouseEvent * event)
         return;
 
     emit onDoubleClick(index);
-
+    QTreeView::mouseDoubleClickEvent(event);
 }
 
 void SessionView::onAddChapter()

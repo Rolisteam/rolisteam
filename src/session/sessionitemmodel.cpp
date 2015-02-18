@@ -194,7 +194,6 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
             return QVariant();
         if(index.column()==0)// filename
         {
-
              ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
              if(tmp)
              {
