@@ -30,7 +30,7 @@
  *************************/
 
 PlayersListProxyModel::PlayersListProxyModel(QObject * parent)
-    : QAbstractProxyModel(parent)
+    : QAbstractProxyModel(parent), m_rowsAboutToBeInserted(false), m_rowsAboutToBeRemoved(false)
 {
     PlayersList & g_playersList = PlayersList::instance();
     setSourceModel(&g_playersList);
@@ -84,24 +84,46 @@ int PlayersListProxyModel::columnCount(const QModelIndex & parent) const
     return 1;
 }
 
+bool PlayersListProxyModel::filterChangingRows(QModelIndex & parent, int & start, int & end)
+{
+    Q_UNUSED(start);
+    Q_UNUSED(end);
+    parent = mapFromSource(parent);
+    return true;
+}
+
 void PlayersListProxyModel::p_rowsAboutToBeInserted(const QModelIndex & parent, int start, int end)
 {
-    beginInsertRows(mapFromSource(parent), start, end);
+    QModelIndex model(parent);
+    m_rowsAboutToBeInserted = this->filterChangingRows(model, start, end);
+    if (m_rowsAboutToBeInserted)
+        beginInsertRows(model, start, end);
 }
 
 void PlayersListProxyModel::p_rowsInserted()
 {
-    endInsertRows();
+    if (m_rowsAboutToBeInserted)
+    {
+        m_rowsAboutToBeInserted = false;
+        endInsertRows();
+    }
 }
 
 void PlayersListProxyModel::p_rowsAboutToBeRemoved(const QModelIndex & parent, int start, int end)
 {
-    beginRemoveRows(mapFromSource(parent), start, end);
+    QModelIndex model(parent);
+    m_rowsAboutToBeRemoved = this->filterChangingRows(model, start, end);
+    if (m_rowsAboutToBeRemoved)
+        beginRemoveRows(model, start, end);
 }
 
 void PlayersListProxyModel::p_rowsRemoved()
 {
-    endRemoveRows();
+    if (m_rowsAboutToBeRemoved)
+    {
+        m_rowsAboutToBeRemoved = false;
+        endRemoveRows();
+    }
 }
 
 void PlayersListProxyModel::p_dataChanged(const QModelIndex & from, const QModelIndex & to)

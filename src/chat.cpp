@@ -47,7 +47,11 @@ bool AbstractChat::belongsToLocalPlayer() const
  **************/
 
 PublicChat::PublicChat()
-{}
+{
+    PlayersList & g_playersList = PlayersList::instance();
+    connect(&g_playersList, SIGNAL(playerAdded(Player *)), this, SIGNAL(changedMembers()));
+    connect(&g_playersList, SIGNAL(playerDeleted(Player *)), this, SIGNAL(changedMembers()));
+}
 
 PublicChat::~PublicChat()
 {}
@@ -88,6 +92,8 @@ PlayerChat::PlayerChat(Player * player)
 {
     if (m_player == NULL)
         qFatal("PlayerChat with NULL player");
+    connect(&PlayersList::instance(), SIGNAL(playerChanged(Player *)),
+            this, SLOT(verifyName(Player *)));
 }
 
 PlayerChat::~PlayerChat()
@@ -123,6 +129,12 @@ void PlayerChat::sendThem(NetworkMessage & message, Liaison * but) const
 bool PlayerChat::everyPlayerHasFeature(const QString & feature, quint8 version) const
 {
     return m_player->hasFeature(feature, version);
+}
+
+void PlayerChat::verifyName(Player * player)
+{
+    if (player == m_player)
+        emit changedName();
 }
 
 
@@ -267,7 +279,10 @@ bool PrivateChat::removePlayer(Player * player)
         return false;
     }
 
-    return m_set.remove(player);
+    bool ret = m_set.remove(player);
+    if (ret)
+        emit changedMembers();
+    return ret;
 }
 
 QSet<Player *> PrivateChat::players() const
@@ -275,16 +290,6 @@ QSet<Player *> PrivateChat::players() const
     return m_set;
 }
 
-
-void PrivateChat::setPlayers(const QSet<Player *> & set)
-{
-    if (m_owner == PlayersList::instance().localPlayer())
-    {
-        m_set = set;
-    }
-    else
-        qWarning("Can't modify directly a private chat not owned by the local player.");
-}
 
 void PrivateChat::sendUpdate() const
 {
@@ -363,4 +368,5 @@ void PrivateChat::p_set(const QString & name, QSet<Player *> set, bool thenUpdat
     m_set  = set;
     if (thenUpdate)
         sendUpdate();
+    emit changedMembers();
 }

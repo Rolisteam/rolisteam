@@ -27,10 +27,14 @@
 #include <QDateTime>
 #include <QScrollBar>
 #include <QTextStream>
+#include <QTimer>
+#include <QToolBar>
+#include <QVBoxLayout>
 
 #include "chat.h"
 #include "networkmessagewriter.h"
 #include "initialisation.h"
+#include "localpersonmodel.h"
 #include "MainWindow.h"
 #include "persons.h"
 #include "playersList.h"
@@ -92,9 +96,31 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     zoneEdition->setAcceptRichText(false);
     zoneEdition->installEventFilter(this);
 
-    // Ajout des 2 zones dans le splitter
+    // SelectPersonComboBox
+    m_selectPersonComboBox = new QComboBox(this);
+    m_selectPersonComboBox->setModel(&LocalPersonModel::instance());
+    m_selectPersonComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    connect(m_chat, SIGNAL(changedMembers()), this, SLOT(scheduleUpdateChatMembers()));
+    scheduleUpdateChatMembers();
+
+    // Toolbar
+    QToolBar * toolBar = new QToolBar(this);
+    toolBar->addWidget(m_selectPersonComboBox);
+    toolBar->addAction(
+            QIcon::fromTheme("document-save", QIcon(":/resources/icones/save.png")),
+            tr("save"), this, SLOT(save()));
+
+    // Layout
+    QVBoxLayout * vboxLayout = new QVBoxLayout();
+    vboxLayout->setSpacing(0);
+    vboxLayout->setContentsMargins(0,0,0,0);
+    vboxLayout->addWidget(toolBar);
+    vboxLayout->addWidget(zoneEdition);
+    QWidget * bottomWidget = new QWidget(this);
+    bottomWidget->setLayout(vboxLayout);
+
     addWidget(zoneAffichage);
-    addWidget(zoneEdition);
+    addWidget(bottomWidget);
 
     // Initialisation des tailles des 2 widgets
     QList<int> tailles;
@@ -108,11 +134,14 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     connect(zoneEdition, SIGNAL(hautPressee()), this, SLOT(monterHistorique()));
     connect(zoneEdition, SIGNAL(basPressee()), this, SLOT(descendreHistorique()));
 
+    connect(zoneEdition, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
+    connect(zoneEdition, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
+
     connect(parent, SIGNAL(closing()), this, SLOT(save()));
 
     // Window initialisation
     setObjectName("ChatWindow");
-    setWindowIcon(QIcon(":/icones/vignette tchat.png"));
+    setWindowIcon(QIcon(":/resources/icones/vignette tchat.png"));
     setAttribute(Qt::WA_DeleteOnClose, false);
     parent->registerSubWindow(this);
     hide();
@@ -163,8 +192,8 @@ void ChatWindow::emettreTexte()
     zoneEdition->clear();
     QTextStream out(stderr,QIODevice::WriteOnly);
 
-    PlayersList & g_playersList = PlayersList::instance();
-    Player * localPlayer = g_playersList.localPlayer();
+    QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
+    Person * localPerson = PlayersList::instance().getPerson(localPersonIdentifier);
 
     QString tmpmessage=message.simplified();
     QString messageCorps="";
@@ -179,7 +208,7 @@ void ChatWindow::emettreTexte()
             {
                            messageCorps = tr("avez obtenu %1 à votre jet de dés [%2]").arg(result).arg(tirage);
                         messageTitle = tr("Vous");
-                        color = localPlayer->color();
+                        color = localPerson->color();
                         afficherMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
                             message = QString(tr("a obtenu %1 à  son jet de dés [%2]").arg(result).arg(tirage));
             }
@@ -221,7 +250,7 @@ void ChatWindow::emettreTexte()
                         messageCorps = tr("avez obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage);
                         messageTitle = tr("Vous");
                         // On affiche le resultat du tirage dans la zone d'affichage
-                        afficherMessage(messageTitle, localPlayer->color(),messageCorps ,NetMsg::DiceMessageAction);
+                        afficherMessage(messageTitle, localPerson->color(),messageCorps ,NetMsg::DiceMessageAction);
                         // On cree un nouveau message a envoyer aux autres utilisateurs
                         message = QString(tr("a obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage));
                     }
@@ -237,7 +266,7 @@ void ChatWindow::emettreTexte()
                 else
                 {
                         messageTitle = tr("Vous");
-                        afficherMessage(messageTitle, localPlayer->color(), message);
+                        afficherMessage(messageTitle, localPerson->color(), message);
                         // action is messageChatWindow only if there are no dices
                         action = NetMsg::ChatMessageAction;
                         break;
@@ -273,15 +302,15 @@ void ChatWindow::emettreTexte()
                     }
                         
                     
-                    afficherMessage(localPlayer->name(), localPlayer->color(), message,NetMsg::EmoteMessageAction);
+                    afficherMessage(localPerson->name(), localPerson->color(), message,NetMsg::EmoteMessageAction);
                     action = NetMsg::EmoteMessageAction;
                     break;
                 }
             }
 
         default:
-            messageTitle = localPlayer->name();
-            afficherMessage(messageTitle, localPlayer->color(), message);
+            messageTitle = localPerson->name();
+            afficherMessage(messageTitle, localPerson->color(), message);
             // action is messageChatWindow only if there are no dices
             action = NetMsg::ChatMessageAction;
             break;
@@ -292,7 +321,7 @@ void ChatWindow::emettreTexte()
 
     // Emission du message
     NetworkMessageWriter data(NetMsg::ChatCategory, action);
-    data.string8(localPlayer->uuid());
+    data.string8(localPersonIdentifier);
     data.string8(m_chat->identifier());
     data.string32(message);
     m_chat->sendThem(data);
@@ -808,4 +837,35 @@ bool ChatWindow::GetNumber(QString &str, int* value)
     *value = str.left(i).toUInt(&error, 10);
     str.remove(0, i);
     return error;
+}
+
+void ChatWindow::upSelectPerson()
+{
+    int pos = m_selectPersonComboBox->currentIndex();
+    if (pos == 0)
+        pos = m_selectPersonComboBox->count();
+    m_selectPersonComboBox->setCurrentIndex(pos - 1);
+}
+
+void ChatWindow::downSelectPerson()
+{
+    int pos = m_selectPersonComboBox->currentIndex() + 1;
+    if (pos == m_selectPersonComboBox->count())
+        pos = 0;
+    m_selectPersonComboBox->setCurrentIndex(pos);
+}
+
+void ChatWindow::scheduleUpdateChatMembers()
+{
+    qDebug("schedules");
+    QTimer::singleShot(300, this, SLOT(updateChatMembers()));
+}
+
+void ChatWindow::updateChatMembers()
+{
+    qDebug("doing it");
+    bool enable = m_chat->everyPlayerHasFeature(QString("MultiChat"));
+    if (!enable)
+        m_selectPersonComboBox->setCurrentIndex(0);
+    m_selectPersonComboBox->setEnabled(enable);
 }

@@ -63,6 +63,10 @@ class PlayersList : public QAbstractItemModel {
         // Proxy helpers
         static const quint32 NoParent = 0x7fffffff;
         QModelIndex mapIndexToMe(const QModelIndex & index) const;
+        enum ItemDataRole
+        {
+            IdentifierRole = Qt::UserRole,
+        };
 
         // Getters
         Player * localPlayer() const;

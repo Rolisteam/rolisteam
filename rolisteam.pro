@@ -29,6 +29,7 @@ HEADERS += src/AfficheurDisque.h \
            src/Image.h \
            src/initialisation.h \
            src/Liaison.h \
+           src/localpersonmodel.h \
            src/MainWindow.h \
            src/networkmessage.h \
            src/networkmessagereader.h \
@@ -70,6 +71,7 @@ SOURCES += src/AfficheurDisque.cpp \
            src/Image.cpp \
            src/initialisation.cpp \
            src/Liaison.cpp \
+           src/localpersonmodel.cpp \
            src/main.cpp \
            src/MainWindow.cpp \
            src/NouveauPlanVide.cpp \
@@ -122,6 +124,6 @@ QT += core \
  network
 
 #VERSION = 1.0.3
-DEFINES += VERSION=\\\"1.0d.904\\\"
+DEFINES += VERSION=\\\"1.0d.905\\\"
 UI_DIR = src
 #QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"

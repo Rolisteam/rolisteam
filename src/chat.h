@@ -45,6 +45,7 @@ class AbstractChat : public QObject
 
     signals:
         void changedName();
+        void changedMembers();
 };
 
 class PublicChat : public AbstractChat
@@ -78,6 +79,9 @@ class PlayerChat : public AbstractChat
 
     private:
         Player * m_player;
+
+    private slots:
+        void verifyName(Player * player);
 };
 
 class PrivateChat : public AbstractChat
@@ -112,13 +116,6 @@ class PrivateChat : public AbstractChat
         bool includeLocalPlayer() const;
         bool removePlayer(Player * player);
         QSet<Player *> players() const;
-
-        /**
-         * @brief Change players set silently.
-         * Only works on chat owned by local player.
-         * Does NOT send anything on net.
-         */
-        void setPlayers(const QSet<Player *> & set);
 
         void sendUpdate() const;
         void sendDel() const;

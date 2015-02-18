@@ -36,6 +36,7 @@
 extern bool G_client;
 extern bool G_joueur;
 
+
 /******************
  * Initialisation *
  ******************/
@@ -116,6 +117,8 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
             return QVariant(person->name());
         case Qt::DecorationRole:
             return QVariant(person->color());
+        case IdentifierRole:
+            return QVariant(person->uuid());
     }
 
     return QVariant();

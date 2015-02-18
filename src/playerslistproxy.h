@@ -26,7 +26,7 @@
 #include <QAbstractProxyModel>
 
 /**
- * @brief Now just implement :
+ * @brief You onbly need to implement :
  * Qt::ItemFlags flags(const QModelIndex &index) const;
  * QVariant data(const QModelIndex &index, int role) const;
  * bool setData(const QModelIndex &index, const QVariant &value, int role);
@@ -45,6 +45,13 @@ class PlayersListProxyModel : public QAbstractProxyModel
         QModelIndex parent(const QModelIndex &index) const;
         int rowCount(const QModelIndex &parent = QModelIndex()) const;
         int columnCount(const QModelIndex &parent = QModelIndex()) const;
+
+    protected:
+        virtual bool filterChangingRows(QModelIndex & parent, int & start, int & end);
+
+    private:
+        bool m_rowsAboutToBeInserted;
+        bool m_rowsAboutToBeRemoved;
 
     private slots:
         void p_rowsAboutToBeInserted(const QModelIndex & parent, int start, int end);

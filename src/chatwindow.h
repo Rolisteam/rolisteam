@@ -25,8 +25,9 @@
 #ifndef CHATWINDOW_H
 #define CHATWINDOW_H
 
-#include <QSplitter>
+#include <QComboBox>
 #include <QFile>
+#include <QSplitter>
 #include <QTextEdit>
 
 #include "networkmessage.h"
@@ -91,6 +92,7 @@ private :
     bool m_hasUnseenMessage;
 
     QTextEdit * zoneAffichage;         // Zone de texte ou s'affichent les messages
+    QComboBox * m_selectPersonComboBox;
     TextEditAmeliore * zoneEdition;    // Zone de texte ou l'utilisateur peut ecrire
     QAction * m_toggleViewAction;
 
@@ -104,6 +106,10 @@ private slots :
     void emettreTexte();
     void monterHistorique();
     void descendreHistorique();
+    void upSelectPerson();
+    void downSelectPerson();
+    void scheduleUpdateChatMembers();
+    void updateChatMembers();
 };
 
 #endif
