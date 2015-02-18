@@ -30,7 +30,10 @@ void MapWizzard::selectPath()
     ui->m_filepathDisplay->setText(filepath);
     QFileInfo info(filepath);
     m_preferences->registerValue("MapDirectory",info.absolutePath());
-    ui->m_titleEdit->setText(info.baseName());
+    if(ui->m_titleEdit->text().isEmpty())
+    {
+        ui->m_titleEdit->setText(info.baseName());
+    }
 }
 Carte::PermissionMode  MapWizzard::getPermissionMode() const
 {
