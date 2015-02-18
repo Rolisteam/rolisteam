@@ -1629,9 +1629,9 @@
 				QColor couleur = G_listeUtilisateurs->couleurUtilisateur(idJoueurEmetteur);
 				// Affichage du message dans le tchat, au format message ou tirage
 				if (entete.action == messageTchat)
-					tchat->afficherMessage(emetteur, couleur, message);
+                    tchat->afficherMessage(emetteur, couleur, message);
 				else
-					tchat->afficherTirage(emetteur, couleur, message);				
+                    tchat->afficherMessage(emetteur, couleur, message,true);
 			}
 			
 			// Si l'ordinateur local est le serveur il doit faire suivre le message

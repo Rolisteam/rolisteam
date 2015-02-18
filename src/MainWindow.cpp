@@ -2469,10 +2469,8 @@ void MainWindow::sauvegarderFichierInitialisation()
         // Nom du fichier d'initialisation
 #ifdef WIN32
         QString fichierInitialisation = QString(NOM_APPLICATION) + ".ini";
-#elif defined (MACOS)
-        QString fichierInitialisation = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".ini";
 #else
-        QString fichierInitialisation = QApplication::applicationDirPath()+"/."+QString(NOM_APPLICATION);
+        QString fichierInitialisation = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".ini";
 #endif
 
         // Creation du descripteur de fichier

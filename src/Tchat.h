@@ -46,7 +46,7 @@ public :
     ~Tchat();
 	QString identifiant();
 	void afficherMessage(QString &utilisateur, QColor &couleur, QString &message, bool tirage=false);
-    void afficherTirage(QString &utilisateur, QColor &couleur, QString &message);
+    //void afficherTirage(QString &utilisateur, QColor &couleur, QString &message);
 	void majAction();
 	void sauvegarderTchat(QFile &file);
 
@@ -59,12 +59,12 @@ protected :
 	 * \param[out] value of the readed number
 	 * \return true if no problem occured
 	 */
-	bool GetNumber(QString &str, unsigned short &value);
+    bool GetNumber(QString &str, int* value);
 
 private :
 	int calculerJetDes(QString &message, QString &tirage, bool &ok);
 	// Ultyme
-	int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok);
+    int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool ok);
 	// FIN Ultyme
 
 	QTextEdit *zoneAffichage;			// Zone de texte ou s'affichent les messages
