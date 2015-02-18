@@ -25,6 +25,7 @@
 #include <QFileDialog>
 #include "themelistmodel.h"
 #include <QDebug>
+#include <QSettings>
 PreferenceDialog::PreferenceDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PreferenceDialog)
@@ -33,7 +34,7 @@ PreferenceDialog::PreferenceDialog(QWidget *parent) :
     m_options = PreferencesManager::getInstance();
 
     m_listModel = new ThemeListModel();
-
+    m_currentThemeIndex = 0;
     //init value:
    // initValues();
     addDefaultTheme();
@@ -48,6 +49,8 @@ PreferenceDialog::PreferenceDialog(QWidget *parent) :
     connect(ui->m_themeList,SIGNAL(pressed(QModelIndex)),this,SLOT(currentChanged()));
 
     connect(ui->m_buttonbox,SIGNAL(clicked(QAbstractButton * )),this,SLOT(applyAllChanges(QAbstractButton * )));
+
+    ui->m_themeList->setCurrentIndex(m_listModel->index(m_currentThemeIndex));
 
 }
 
@@ -120,7 +123,7 @@ void PreferenceDialog::resetValues()
 void PreferenceDialog::changeBackgroundImage()
 {
     QString fileName = QFileDialog::getOpenFileName(this,tr("Rolisteam Background"),".",tr(
-        "Supported files (*.jpg *.png *.gif *.svg)"));
+        "Supported files (*.jpg *.png *.gif *.svg *.bmp)"));
 
     if(!fileName.isEmpty())
     {
@@ -137,9 +140,17 @@ void PreferenceDialog::applyAllChanges(QAbstractButton * button)
 {
     if(QDialogButtonBox::ApplyRole==ui->m_buttonbox->buttonRole(button))
     {
+        //Theme
+        /// @todo don't forget to set the new value into the selected theme.
         m_current.setBackgroundImage(ui->m_wsBgPathLine->text());
         m_options->registerValue("worspace/background/image",m_current.backgroundImage());
+        m_current.setBackgroundColor(ui->m_wsBgColorButton->color());
         m_options->registerValue("worspace/background/color",m_current.backgroundColor());
+
+
+
+
+        // Others values
         m_options->registerValue("mainwindow/network/checkupdate",ui->m_genUpdateCheck->isChecked());
 
 
@@ -182,6 +193,7 @@ void PreferenceDialog::removeSelectedTheme()
 void PreferenceDialog::currentChanged()
 {
     m_current=m_listModel->getTheme(ui->m_themeList->currentIndex().row());
+    m_currentThemeIndex = ui->m_themeList->currentIndex().row();
     refreshDialogWidgets();
 }
 void PreferenceDialog::refreshDialogWidgets()
@@ -192,12 +204,17 @@ void PreferenceDialog::refreshDialogWidgets()
 
 void PreferenceDialog::readSettings()
 {
-
-    qDebug() << "read setting in preference dialo";
+    QSettings settings("RolisteamTeam", "Rolisteam/currentTheme");
+    qDebug() << "read setting in preference dialog";
+    m_currentThemeIndex =  settings.value("currentTheme",m_currentThemeIndex).toInt();
     m_listModel->readSettings();
+
+    ui->m_themeList->update();
 }
 void PreferenceDialog::writeSettings()
 {
+    QSettings settings("RolisteamTeam", "Rolisteam/currentTheme");
     qDebug() << "write setting in preference dialog";
+    settings.setValue("currentTheme",m_currentThemeIndex);
     m_listModel->writeSettings();
 }

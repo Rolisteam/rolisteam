@@ -119,7 +119,7 @@ private:
     ThemeListModel* m_listModel;
 
     Theme m_current;
-
+    int m_currentThemeIndex;
 
 };
 

@@ -39,7 +39,8 @@ void UserListDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & 
 
         painter->fillRect(option.rect.x(),option.rect.y(),option.decorationSize.width(),option.rect.height(),p->getPerson()->getColor());
         tmp.adjust(option.decorationSize.width(),0,0,0);
-        painter->drawText(tmp,p->getPerson()->getName());
+
+        painter->drawText(tmp,Qt::AlignVCenter,p->getPerson()->getName());
 
 
     }
@@ -56,7 +57,8 @@ QSize UserListDelegate::sizeHint ( const QStyleOptionViewItem & option, const QM
     if(p!=NULL)
     {
         returnValue.setWidth(option.fontMetrics.width(p->getPerson()->getName()));
-        returnValue.setHeight(option.fontMetrics.height());
+        //if(option.decorationSize.height())
+        returnValue.setHeight(/*option.fontMetrics.height()*/option.decorationSize.height());
     }
   //  qDebug() << " height" << returnValue.height();
    // qDebug() << QItemDelegate::sizeHint(option,index);
