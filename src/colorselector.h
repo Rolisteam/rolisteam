@@ -77,11 +77,11 @@ protected:
 /**
   * @brief
   */
-class ColorButton : public QPushButton
+class BackgroundButton : public QPushButton
 {
     Q_OBJECT
 public:
-   ColorButton(QPixmap* p,QWidget * parent = 0);
+   BackgroundButton(QPixmap* p,QWidget * parent = 0);
 
 protected:
     virtual void paintEvent ( QPaintEvent * event );
@@ -118,9 +118,9 @@ private slots:
     void onGroupEdition(QAbstractButton*);
 private:
     ColorLabel *m_currentColorLabel;
-    ColorButton *m_eraseColor;
-    ColorButton *m_hideColor;
-    ColorButton *m_unveilColor;
+    BackgroundButton *m_eraseColor;
+    BackgroundButton *m_hideColor;
+    BackgroundButton *m_unveilColor;
 
 
     ColorLabel *couleurPredefinie[48];

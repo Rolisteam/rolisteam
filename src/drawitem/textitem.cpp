@@ -63,7 +63,15 @@ void TextItem::editingFinished()
         m_text = m_textEdit->text();
         m_textEdit->setVisible(false);
         update ();
-
     }
+
+}
+void TextItem::writeData(QDataStream& out) const
+{
+
+}
+
+void TextItem::readData(QDataStream& in)
+{
 
 }

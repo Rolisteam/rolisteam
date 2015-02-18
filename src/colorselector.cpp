@@ -50,7 +50,7 @@ void ColorLabel::paintEvent( QPaintEvent * event )
 
 }
 
-ColorButton::ColorButton(QPixmap* p,QWidget * parent )
+BackgroundButton::BackgroundButton(QPixmap* p,QWidget * parent )
     : QPushButton(parent),m_background(p)
 {
    /* setIcon(QIcon(*m_background));
@@ -58,7 +58,7 @@ ColorButton::ColorButton(QPixmap* p,QWidget * parent )
     setCheckable(true);
 }
 
-void ColorButton::paintEvent( QPaintEvent * event )
+void BackgroundButton::paintEvent( QPaintEvent * event )
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing,true);
@@ -195,7 +195,7 @@ ColorSelector::ColorSelector(QWidget *parent)
 
 
     efface_pix = new QPixmap(":/resources/icons/efface.png");
-    m_eraseColor = new ColorButton(efface_pix,this);
+    m_eraseColor = new BackgroundButton(efface_pix,this);
     m_eraseColor->setFixedHeight(17);
     m_eraseColor->setFixedWidth(17);
 
@@ -208,7 +208,7 @@ ColorSelector::ColorSelector(QWidget *parent)
 
 
     masque_pix = new QPixmap(":/resources/icons/masque.png");
-    m_hideColor = new ColorButton(masque_pix,this);
+    m_hideColor = new BackgroundButton(masque_pix,this);
     m_hideColor->setFixedHeight(17);
     m_hideColor->setFixedWidth(17);
 
@@ -219,7 +219,7 @@ ColorSelector::ColorSelector(QWidget *parent)
 
 
         unveil_pix = new QPixmap(":/resources/icons/demasque.png");
-        m_unveilColor = new ColorButton(unveil_pix,this);
+        m_unveilColor = new BackgroundButton(unveil_pix,this);
         m_unveilColor->setFixedHeight(17);
         m_unveilColor->setFixedWidth(17);
 

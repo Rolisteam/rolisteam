@@ -28,6 +28,7 @@ class QAbstractButton;
 namespace Ui {
     class PreferenceDialog;
 }
+class ThemeListModel;
 /**
   * @brief Display all required item to manage preferences
   *
@@ -51,6 +52,7 @@ signals:
       */
     void preferencesChanged();
 
+
 protected slots:
     /**
       * @brief is called when user wants to change the backgound color.
@@ -60,6 +62,12 @@ protected slots:
       * @brief Save all data into QSettings.
       */
     void applyAllChanges(QAbstractButton * button);
+
+    void modifiedSettings();
+
+    void initValues();
+    void resetValues();
+
 protected:
     /**
       * @brief callback receiving the change event.
@@ -77,6 +85,11 @@ private:
       * pointer to the unique instance of preference manager.
       */
     PreferencesManager* m_options;
+
+
+    ThemeListModel* m_listModel;
+
+
 };
 
 #endif // PREFERENCEDIALOG_H

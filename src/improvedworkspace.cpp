@@ -20,19 +20,16 @@
 
 
 #include <QtGui>
-
 #include "improvedworkspace.h"
-
 #include "preferencesmanager.h"
 #include <QPixmap>
-
 
 ImprovedWorkspace::ImprovedWorkspace(QColor& penColor,QWidget *parent)
 : QMdiArea(parent),m_currentPenColor(penColor)
 {
     m_options = PreferencesManager::getInstance();
 
-    m_backGroundColor = m_options->value("workspace/backgroundcolor",QColor(191,191,191)).value<QColor>();
+    m_backGroundColor = m_options->value("worspace/background/color",QColor(191,191,191)).value<QColor>();
 
     //m_currentPenColor = penColor;
     initCursors();

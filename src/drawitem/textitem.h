@@ -52,7 +52,8 @@ public:
       */
     virtual void setNewEnd(QPointF& nend);
 
-
+    virtual void writeData(QDataStream& out) const;
+    virtual void readData(QDataStream& in);
 public slots:
     /**
       * @brief called when edition is done, remove the editor and call update to draw the text as usual.

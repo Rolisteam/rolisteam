@@ -91,6 +91,7 @@ int MapFrame::editingMode()
 
 void MapFrame::startMoving(QPoint position)
 {
+    /// @todo check if this method is still used some where
     startingPoint = position;
     horizontalStart = m_graphicView->horizontalScrollBar()->value();
     verticalStart = m_graphicView->verticalScrollBar()->value();

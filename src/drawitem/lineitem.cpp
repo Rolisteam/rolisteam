@@ -46,3 +46,12 @@ void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     painter->restore();
 
 }
+void LineItem::writeData(QDataStream& out) const
+{
+
+}
+
+void LineItem::readData(QDataStream& in)
+{
+
+}

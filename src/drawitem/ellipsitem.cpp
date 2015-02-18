@@ -93,3 +93,12 @@ void EllipsItem::setNewEnd(QPointF& p)
     //m_rect.set(dy);
     //update(tmp);
 }
+void EllipsItem::writeData(QDataStream& out) const
+{
+
+}
+
+void EllipsItem::readData(QDataStream& in)
+{
+
+}

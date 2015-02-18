@@ -57,3 +57,12 @@ void PathItem::setNewEnd(QPointF& p)
     m_path.lineTo(p);
     //update(tmp);
 }
+void PathItem::writeData(QDataStream& out) const
+{
+
+}
+
+void PathItem::readData(QDataStream& in)
+{
+
+}

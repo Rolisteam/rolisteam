@@ -50,4 +50,16 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseReleaseEvent(event);
 }
 
+QDataStream& operator<<(QDataStream& os,const VisualItem& c)
+{
+
+  c.writeData(os);
+
+  return os;
+}
+QDataStream& operator>>(QDataStream& is,VisualItem& c)
+{
+  c.readData(is);
+  return is;
+}
 

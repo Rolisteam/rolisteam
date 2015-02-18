@@ -66,10 +66,11 @@ private:
     ToolsBar::SelectableTool m_selectedtool;
     QPointF m_first;
     QPointF m_end;
-    VisualItem* currentItem;
+    VisualItem* m_currentItem;
     QColor m_itemColor;
     int m_penSize;
     int m_npcSize;
+    QList<VisualItem*>* m_itemList;
 };
 
 #endif // MAP_H

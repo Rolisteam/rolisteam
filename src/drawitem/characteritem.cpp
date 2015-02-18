@@ -24,3 +24,14 @@ CharacterItem::CharacterItem(QColor& penColor,QGraphicsItem * parent)
 {
 
 }
+
+
+void CharacterItem::writeData(QDataStream& out) const
+{
+
+}
+
+void CharacterItem::readData(QDataStream& in)
+{
+
+}

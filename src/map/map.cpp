@@ -12,7 +12,8 @@
 Map::Map(QObject * parent)
     : QGraphicsScene(parent)
 {
-    currentItem = NULL;
+    m_currentItem = NULL;
+    m_itemList=new  QList<VisualItem*>;
 }
 
 
@@ -22,7 +23,8 @@ Map::Map(int width,int height,QString& title,QColor& bgColor,QObject * parent)
     m_title = title;
     m_bgColor = bgColor;
     setBackgroundBrush(m_bgColor);
-    currentItem = NULL;
+    m_currentItem = NULL;
+    m_itemList=new  QList<VisualItem*>;
 
 }
 
@@ -71,17 +73,17 @@ const QColor& Map::mapColor() const
  void Map::setCurrentTool(ToolsBar::SelectableTool selectedtool)
  {
     m_selectedtool = selectedtool;
-    currentItem = NULL;
+    m_currentItem = NULL;
  }
  void Map::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
  {
-     if(currentItem!=NULL)
+     if(m_currentItem!=NULL)
      {
       /*  if(m_selectedtool!=ToolsBar::LINE)
          {*/
 
              m_end = mouseEvent->scenePos ();
-             currentItem->setNewEnd( m_end);
+             m_currentItem->setNewEnd( m_end);
              update();
         // }
     }
@@ -95,29 +97,28 @@ void Map::addItem()
     switch(m_selectedtool)
     {
         case ToolsBar::PEN:
-             currentItem=new PathItem(m_first,m_itemColor,m_penSize);
+             m_currentItem=new PathItem(m_first,m_itemColor,m_penSize);
             break;
         case ToolsBar::LINE:
-            qDebug() << m_penSize;
-            currentItem= new LineItem(m_first,m_itemColor,m_penSize);
+            m_currentItem= new LineItem(m_first,m_itemColor,m_penSize);
             break;
         case ToolsBar::EMPTYRECT:
-            currentItem = new RectItem(m_first,m_end,false,m_itemColor);
+            m_currentItem = new RectItem(m_first,m_end,false,m_itemColor);
             break;
         case ToolsBar::FILLRECT:
-            currentItem = new RectItem(m_first,m_end,true,m_itemColor);
+            m_currentItem = new RectItem(m_first,m_end,true,m_itemColor);
             break;
         case ToolsBar::EMPTYELLIPSE:
-            currentItem = new EllipsItem(m_first,false,m_itemColor);
+            m_currentItem = new EllipsItem(m_first,false,m_itemColor);
             break;
         case ToolsBar::FILLEDELLIPSE:
-            currentItem = new EllipsItem(m_first,true,m_itemColor);
+            m_currentItem = new EllipsItem(m_first,true,m_itemColor);
             break;
         case ToolsBar::TEXT:
             {
                 QLineEdit* tempedit = new QLineEdit();
                 TextItem* temptext = new TextItem(m_first,tempedit,m_itemColor);
-                currentItem = temptext;
+                m_currentItem = temptext;
                 QGraphicsProxyWidget * tmp = QGraphicsScene::addWidget(tempedit);
                 tmp->setPos(m_first.x(),m_first.y()-tempedit->height());
                 tempedit->setEnabled(true);
@@ -142,8 +143,11 @@ void Map::addItem()
 
             break;
     }
-    if(currentItem!=NULL)
-        QGraphicsScene::addItem(currentItem);
+    if(m_currentItem!=NULL)
+    {
+        QGraphicsScene::addItem(m_currentItem);
+        m_itemList->append(m_currentItem);
+    }
 }
 void Map::setPenSize(int p)
 {
@@ -172,7 +176,7 @@ void Map::setNPCSize(int p)
  void Map::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
  {
      Q_UNUSED(mouseEvent);
-     currentItem = NULL;
+     m_currentItem = NULL;
      if(m_selectedtool==ToolsBar::HANDLER)
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
  }

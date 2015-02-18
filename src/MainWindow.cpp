@@ -124,10 +124,12 @@ MainWindow::MainWindow()
     m_diceManager=DicePlugInManager::instance();
     m_toolbar = new ToolsBar(this);
 
-    m_workspace = new ImprovedWorkspace(m_toolbar->currentColor());
-    readSettings();
 
-    /// all other allocation must be done after the settings reading.
+    readSettings();
+    m_workspace = new ImprovedWorkspace(m_toolbar->currentColor());
+    m_workspace->readSettings();
+
+    // all other allocation must be done after the settings reading.
     m_preferenceDialog = new PreferenceDialog(this);
     m_connectDialog = new ConnectionWizzard(this);
     m_subWindowList = new QMap<QAction*,SubMdiWindows*>;
@@ -574,7 +576,7 @@ void MainWindow::readSettings()
 
 
     m_options->readSettings();
-    m_workspace->readSettings();
+
     m_diceManager->readSettings();
 }
 void MainWindow::writeSettings()

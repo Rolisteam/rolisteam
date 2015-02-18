@@ -34,11 +34,18 @@ public:
     virtual void setNewEnd(QPointF& nend)=0;
     virtual void setPenColor(QColor& penColor);
 
+    virtual void writeData(QDataStream& out) const =0;
+    virtual void readData(QDataStream& in)=0;
+
+    friend QDataStream& operator<<(QDataStream& os,const VisualItem&);
+    friend QDataStream& operator>>(QDataStream& is,VisualItem&);
 
 protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+
+
     QColor m_color;
 
 };

@@ -33,7 +33,8 @@ public:
 
 
     virtual void setNewEnd(QPointF& nend);
-
+    virtual void writeData(QDataStream& out) const;
+    virtual void readData(QDataStream& in);
 private:
     QRectF m_rect;
     QPointF m_startPoint;

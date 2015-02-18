@@ -76,3 +76,12 @@ void RectItem::setNewEnd(QPointF& p)
 {
     m_rect.setBottomRight(p);
 }
+void RectItem::writeData(QDataStream& out) const
+{
+
+}
+
+void RectItem::readData(QDataStream& in)
+{
+
+}

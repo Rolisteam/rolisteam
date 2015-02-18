@@ -33,7 +33,8 @@ public:
 
     virtual void setNewEnd(QPointF& nend);
     virtual QPainterPath shape () const;
-
+    virtual void writeData(QDataStream& out) const;
+    virtual void readData(QDataStream& in);
 private:
     QPen m_pen;
     QPainterPath m_path;

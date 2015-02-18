@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Preference</string>
+   <string>Preferences[*]</string>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
@@ -117,7 +117,7 @@
             <enum>QLayout::SetMinimumSize</enum>
            </property>
            <item>
-            <widget class="QListWidget" name="listWidget_2">
+            <widget class="QListView" name="m_themeList">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
                <horstretch>0</horstretch>
@@ -138,7 +138,7 @@
               <enum>QLayout::SetMinimumSize</enum>
              </property>
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="m_addTheme">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                  <horstretch>0</horstretch>
@@ -157,7 +157,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="m_removeTheme">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                  <horstretch>0</horstretch>
@@ -330,7 +330,7 @@ border: 0px;
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="m_wsBgColorButton">
+                   <widget class="ColorButton" name="m_wsBgColorButton">
                     <property name="text">
                      <string/>
                     </property>
@@ -431,7 +431,7 @@ border: 0px;
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="m_tchatFontColor">
+                   <widget class="ColorButton" name="m_tchatFontColor">
                     <property name="text">
                      <string/>
                     </property>
@@ -458,7 +458,7 @@ border: 0px;
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="m_tchatBgFontColorButton">
+                   <widget class="ColorButton" name="m_tchatBgFontColorButton">
                     <property name="text">
                      <string/>
                     </property>
@@ -476,7 +476,7 @@ border: 0px;
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="m_tchatBgColorButton">
+                   <widget class="ColorButton" name="m_tchatBgColorButton">
                     <property name="text">
                      <string/>
                     </property>
@@ -567,6 +567,13 @@ border: 0px;
   <zorder>stackedWidget</zorder>
   <zorder>listWidget</zorder>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorButton</class>
+   <extends>QPushButton</extends>
+   <header>colorbutton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

@@ -25,6 +25,8 @@
   */
 class CharacterItem : public VisualItem
 {
+    virtual void writeData(QDataStream& out) const;
+    virtual void readData(QDataStream& in);
 public:
     CharacterItem(QColor& penColor,QGraphicsItem * parent = 0);
 };

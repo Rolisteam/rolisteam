@@ -21,8 +21,9 @@
 #include "preferencedialog.h"
 #include "ui_preferencedialog.h"
 #include "preferencesmanager.h"
-
+#include "theme.h"
 #include <QFileDialog>
+#include "themelistmodel.h"
 
 PreferenceDialog::PreferenceDialog(QWidget *parent) :
     QDialog(parent),
@@ -31,14 +32,17 @@ PreferenceDialog::PreferenceDialog(QWidget *parent) :
     ui->setupUi(this);
     m_options = PreferencesManager::getInstance();
 
+    m_listModel = new ThemeListModel();
+
     //init value:
-    ui->m_wsBgPathLine->setText(m_options->value("worspace/background/image",":/resources/icones/fond workspace macos.bmp").toString());
+    initValues();
+
     connect(ui->m_wsBgBrowserButton,SIGNAL(clicked()),this,SLOT(changeBackgroundImage()));
+    connect(ui->m_wsBgColorButton,SIGNAL(colorChanged(QColor)),this,SLOT(modifiedSettings()));
+    connect(ui->m_addTheme,SIGNAL(clicked()),m_listModel,SLOT(addTheme()));
+    connect(ui->m_removeTheme,SIGNAL(clicked()),m_listModel,SLOT(removeSelectedTheme()));
 
-
-
-
-
+    ui->m_themeList->setModel( m_listModel);
 
 
     connect(ui->m_buttonbox,SIGNAL(clicked(QAbstractButton * )),this,SLOT(applyAllChanges(QAbstractButton * )));
@@ -60,7 +64,17 @@ void PreferenceDialog::changeEvent(QEvent *e)
         break;
     }
 }
+void PreferenceDialog::initValues()
+{
+    ui->m_wsBgPathLine->setText(m_options->value("worspace/background/image",":/resources/icones/fond workspace macos.bmp").toString());
+    ui->m_wsBgColorButton->setColor(m_options->value("worspace/background/color",QColor(191,191,191)).value<QColor>());
+}
+void PreferenceDialog::resetValues()
+{
+    ui->m_wsBgPathLine->setText(":/resources/icones/fond workspace macos.bmp");
+    ui->m_wsBgColorButton->setColor(QColor(191,191,191));
 
+}
 void PreferenceDialog::changeBackgroundImage()
 {
     QString fileName = QFileDialog::getOpenFileName(this,tr("Rolisteam Background"),".",tr(
@@ -69,14 +83,24 @@ void PreferenceDialog::changeBackgroundImage()
     if(!fileName.isEmpty())
     {
         ui->m_wsBgPathLine->setText(fileName);
+        modifiedSettings();
     }
+}
+void PreferenceDialog::modifiedSettings()
+{
+    setWindowModified(true);
 }
 void PreferenceDialog::applyAllChanges(QAbstractButton * button)
 {
     if(QDialogButtonBox::ApplyRole==ui->m_buttonbox->buttonRole(button))
     {
         m_options->registerValue("worspace/background/image",ui->m_wsBgPathLine->text());
-
+        m_options->registerValue("worspace/background/color",ui->m_wsBgColorButton->color());
         emit preferencesChanged();
+
     }
+    setWindowModified(false);
 }
+
+
+
