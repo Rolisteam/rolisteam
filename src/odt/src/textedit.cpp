@@ -527,6 +527,24 @@ bool TextEdit::fileSave()
     }
     return true;
 }
+void TextEdit::saveFileAsBinary(QDataStream& data )
+{
+    data << textEdit->document()->toHtml("UTF-8");
+    textEdit->document()->setModified(false);
+}
+void TextEdit::readFromBinary(QDataStream& data)
+{
+    QString str;
+    data >> str;
+
+    if (Qt::mightBeRichText(str)) {
+        textEdit->setHtml(str);
+    } else {
+
+        textEdit->setPlainText(str);
+    }
+
+}
 
 bool TextEdit::fileSaveAs()
 {

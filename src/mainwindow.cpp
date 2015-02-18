@@ -239,7 +239,7 @@ void MainWindow::setupUi()
     m_noteEditor= new TextEdit(this);
     connect(m_noteEditor,SIGNAL(closed(bool)),m_noteEditorAct,SLOT(setChecked(bool)));
     workspace->addWindow(m_noteEditor);
-    m_noteEditor->setWindowTitle(tr("Minutes Editor"));
+    m_noteEditor->setWindowTitle(tr("Minutes Editor[*]"));
     m_noteEditor->setWindowIcon(QIcon(":/notes.png"));
     m_noteEditor->hide();
 
@@ -1523,16 +1523,21 @@ void MainWindow::ouvrirScenario()
         for (int i=0; i<nbrImages; ++i)
                 lireImage(in);
 
-        // Enfin on lit les notes
-        /// @warning disable code for testing reason.
-        //editeurNotes->openNoteBinary(in);
 
-        // Fermeture du fichier
+        //reading minutes
+        m_noteEditor->readFromBinary(in);
+
+        bool tempbool;
+        in >> tempbool;
+        m_noteEditor->setVisible(tempbool);
+        m_noteEditorAct->setChecked(tempbool);
+
+        // closing file
         file.close();
 }
 bool MainWindow::sauvegarderScenario()
 {
-        // Ouverture du selecteur de fichiers
+        // open file
         QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenarios"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
 
@@ -1567,7 +1572,10 @@ bool MainWindow::sauvegarderScenario()
         // Et enfin les notes
         /// @warning disable code for testing reason.
         //editeurNotes->saveNoteBinary(out);
-        // Fermeture du fichier
+        m_noteEditor->saveFileAsBinary(out);
+        out << m_noteEditor->isVisible();
+
+        // closing file
         file.close();
 
         return true;
@@ -1733,7 +1741,7 @@ void MainWindow::aPropos()
                             "</ul></p>"
                             "<p><h3>Current developers :</h3>"
                             "<ul>"
-                            "<li><a href=\"http://www.renaudguezennec.eu/accueil,3.html\">Renaud Guezennec</a></li>"
+                            "<li><a href=\"http://www.rolisteam.org/contact\">Renaud Guezennec</a></li>"
                             "<li><a href=\"mailto:joseph.boudou@matabio.net\">Joseph Boudou<a/></li>"
                             "</ul></p> "
                             "<p><h3>Retired developers :</h3>"

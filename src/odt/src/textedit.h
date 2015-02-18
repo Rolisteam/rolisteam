@@ -75,8 +75,8 @@ public slots:
     bool load(const QString &f);
     bool fileSave();
     void setCurrentFileName(const QString &fileName);
-
-
+    void saveFileAsBinary(QDataStream& data );
+    void readFromBinary(QDataStream& data);
 
 signals:
     void closed(bool);
