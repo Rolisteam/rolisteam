@@ -55,10 +55,6 @@ Chapter* SessionManager::getCurrentChapter()
 {
     return m_currentChapter;
 }
-void SessionManager::setCurrentChapter()
-{
-    //m_view->;
-}
 
 void SessionManager::setCurrentSession(Session* s)
 {
@@ -115,11 +111,10 @@ const QList<CleverURI*>& SessionManager::getRecentFiles()
 void SessionManager::addChapter(QModelIndex& index)
 {
     QString tmp = tr("Chapter %1").arg(m_currentSession->chapterCount());
-//<<<<<<< .mine
-  //  m_currentChapter = m_model->addChapter(tmp,m_view->currentIndex());
-//=======
-    m_model->addChapter(tmp,index);
-//>>>>>>> .r213
+
+   m_currentChapter = m_model->addChapter(tmp,m_view->currentIndex());
+   m_model->addChapter(tmp,index);
+
 }
 
 void SessionManager::writeSettings(QSettings & m)
@@ -149,13 +144,13 @@ void SessionManager::closeEvent ( QCloseEvent * event )
         emit changeVisibility(false);
     }
 }
-//<<<<<<< .mine
-//void SessionManager::setCurrentChapter()
-//{
-   // QModelIndex p = m_view->currentIndex();
- //   m_currentChapter = m_model->getChapter(p);
-//}
-//=======
+
+void SessionManager::setCurrentChapter()
+{
+    QModelIndex p = m_view->currentIndex();
+    m_currentChapter = m_model->getChapter(p);
+}
+
 void SessionManager::openResources(QModelIndex& index)
 {
       ResourcesItem* item = static_cast<ResourcesItem*>(index.internalPointer());
@@ -185,4 +180,4 @@ void SessionManager::removeSelectedItem()
         }
 //    }
 }
-//>>>>>>> .r213
+
