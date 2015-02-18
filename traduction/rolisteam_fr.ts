@@ -406,7 +406,7 @@
     <message>
         <location filename="../src/ClientServeur.cpp" line="211"/>
         <source>Server is on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le serveur est fonctionnel.</translation>
     </message>
     <message>
         <location filename="../src/ClientServeur.cpp" line="217"/>
@@ -426,12 +426,12 @@
     <message>
         <location filename="../src/ClientServeur.cpp" line="344"/>
         <source>Server has been closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le serveur a été fermé.</translation>
     </message>
     <message>
         <location filename="../src/ClientServeur.cpp" line="353"/>
         <source>Connection to the server has been closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>La liaison avec le serveur a été coupé.</translation>
     </message>
     <message>
         <source>Server has been close.</source>
@@ -546,12 +546,12 @@
     <message>
         <location filename="../src/DessinPerso.cpp" line="434"/>
         <source>Type de personnage inconnu (dessinerPersonnage - DessinPerso.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/DessinPerso.cpp" line="539"/>
         <source>Type de personnage inconnu (renommerPerso - DessinPerso.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -888,7 +888,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="302"/>
         <source>%1[*] - v%2 - %3 - %4</source>
-        <translation type="unfinished"></translation>
+        <translation>%1[*] - v%2 - %3 - %4</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="386"/>
@@ -944,12 +944,12 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="305"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Serveur</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="305"/>
         <source>Client</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="312"/>
@@ -1386,7 +1386,7 @@ It will be closed for everybody</translation>
     <message>
         <location filename="../src/odt/format_OO_oasis_/OOReader.cpp" line="264"/>
         <source>Unable to convert document body!</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de convertir le document!</translation>
     </message>
 </context>
 <context>
@@ -1623,195 +1623,196 @@ It will be closed for everybody</translation>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="104"/>
         <source>Help</source>
-        <translation type="unfinished">Aide</translation>
+        <translation>Aide</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="106"/>
         <location filename="../src/odt/src/textedit.cpp" line="730"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>A propos</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="107"/>
         <source>About &amp;Qt</source>
-        <translation type="unfinished"></translation>
+        <translation>A propos de &amp;Qt</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="184"/>
         <source>File Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Actions Fichiers</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="187"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fichier</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="192"/>
         <source>&amp;New</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nouveau</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="198"/>
         <source>&amp;Open...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ouvrir...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="206"/>
         <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Sauvegarder</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="213"/>
         <source>Save &amp;As...</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;auvegarder Sous...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="218"/>
         <source>&amp;Print...</source>
-        <translation type="unfinished"></translation>
+        <translation>Im&amp;primer...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="224"/>
         <source>Print Preview...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aperçu de l&apos;impression...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="228"/>
         <source>&amp;Export PDF...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Exportation PDF...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="236"/>
         <source>&amp;Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Quit</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="245"/>
         <source>Edit Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Actions Edition</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="248"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Edition</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="252"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Défaire</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="256"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Refaire</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="261"/>
         <source>Cu&amp;t</source>
-        <translation type="unfinished"></translation>
+        <translation>Coupe&amp;z</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="265"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Copiez</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="269"/>
         <source>&amp;Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Co&amp;ller</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="279"/>
         <location filename="../src/odt/src/textedit.cpp" line="348"/>
         <source>Format Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Actions Format</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="282"/>
         <source>F&amp;ormat</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="285"/>
         <source>&amp;Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Gras</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="295"/>
         <source>&amp;Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Italique</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="305"/>
         <source>&amp;Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>So&amp;ulignez</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="320"/>
         <source>&amp;Left</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Gauche</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="323"/>
         <source>C&amp;enter</source>
-        <translation type="unfinished"></translation>
+        <translation>C&amp;entre</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="326"/>
         <source>&amp;Right</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Droite</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="329"/>
         <source>&amp;Justify</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Justifier</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="340"/>
         <source>&amp;Color...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Couleur...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="452"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="453"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Le document a été modifié.
+Voulez-vous sauvegarder vos changements ?</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="488"/>
         <source>Open File...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir Fichier...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="531"/>
         <source>ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers ODF (*.odt);;HTML-Files (*.htm *.html);;Tous les fichiers (*)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="533"/>
         <source>HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers - HTML (*.htm *.html);;Tous les fichiers (*)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="535"/>
         <source>Save as...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder sous...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="553"/>
         <source>Print Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimer le document</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="730"/>
         <source>This example demonstrates Qt&apos;s rich text editing facilities in action, providing an example document for you to experiment with.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cet exemple démontre l&apos;édition de textes riches par Qt, il fournit un  document type pour vous aider.</translation>
     </message>
 </context>
 <context>
@@ -1819,47 +1820,47 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="53"/>
         <source>Found xml error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur XML trouvée</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="53"/>
         <source>Check line %1 column %2 on string &quot;%3&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérifiez la line %1 à l&apos;emplacement %2 sur le texte &quot;%3&quot;!</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="63"/>
         <source>XML valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>XML vailde.</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="63"/>
         <source>All tag are valid size %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tous les balises sont valides: size %1.</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="67"/>
         <source>XML not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>XML introuvable!</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="67"/>
         <source>Null size xml document!</source>
-        <translation type="unfinished"></translation>
+        <translation>Document XML vide!</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="81"/>
         <source>Zoom In CTRL/+</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom Avant Ctrl/+</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="82"/>
         <source>Zoom Out CTRL/-</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom arrière Ctrl/-</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="83"/>
         <source>Check xml syntax</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérification de la syntaxe XML</translation>
     </message>
 </context>
 </TS>
