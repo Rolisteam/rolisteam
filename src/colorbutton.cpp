@@ -30,7 +30,7 @@ ColorButton::ColorButton(const QColor & color, QWidget * parent)
     // XP and Vista styles don't allow us to set the PushButton background color.
     // If it's the case we switch to QPlastiqueStyle.
     // Warning: If a StyleSheet is used with XP or Vista, this workaround might not work.
-    if (style()->inherits("QWindowsXPStyle"))
+    if((style()->inherits("QWindowsXPStyle"))||(style()->inherits("QMacStyle")))
     {
         setStyle(new QPlastiqueStyle());
     }
