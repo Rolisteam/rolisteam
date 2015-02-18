@@ -238,7 +238,7 @@ QDockWidget* MainWindow::creerLogUtilisateur()
         // Creation du dockWidget contenant la fenetre de log utilisateur
         QDockWidget *dockLogUtil = new QDockWidget(tr("Evènements"), this);
         dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
-        dockLogUtil->setFeatures(QDockWidget::AllDockWidgetFeatures);
+	    dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 
         //Creation du log utilisateur
         logUtilisateur = new QTextEdit(dockLogUtil);
@@ -334,6 +334,7 @@ void MainWindow::creerMenu()
         menuFenetre->addSeparator();
 
         // Ajout des actions d'affichage des fenetres d'evenement, utilisateurs et lecteur audio
+        menuFenetre->addAction(barreOutils->toggleViewAction());
         menuFenetre->addAction(dockLogUtil->toggleViewAction());
         menuFenetre->addAction(G_listeUtilisateurs->toggleViewAction());
 #ifndef NULL_PLAYER

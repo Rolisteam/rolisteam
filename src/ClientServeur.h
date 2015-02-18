@@ -22,16 +22,6 @@
  *************************************************************************/
 
 
-/********************************************************************/
-/*                                                                  */
-/* Client/serveur et fenetre de connexion au lancement du soft. Le  */
-/* Client/serveur cree une Liaison pour chaque connexion avec un    */
-/* hote distant (client ou serveur), c'est ensuite la Liaison qui   */
-/* gere la reception et l'emission des messages.                    */
-/*                                                                  */
-/********************************************************************/    
-
-
 #ifndef CLIENT_SERVEUR_H
 #define CLIENT_SERVEUR_H
 

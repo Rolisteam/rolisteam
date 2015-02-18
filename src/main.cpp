@@ -112,8 +112,8 @@ int main(int argc, char *argv[])
 
     // Creation de l'application
     QApplication app(argc, argv);
-    app.setApplicationName("rolisteam");
-    app.setApplicationVersion("1.0.2");
+    app.setApplicationName(NOM_APPLICATION);
+    app.setApplicationVersion(VERSION_APPLICATION);
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
@@ -133,25 +133,20 @@ int main(int argc, char *argv[])
         app.setWindowIcon(QIcon(":/resources/icones/" + QString(NOM_APPLICATION) + ".png"));
     #endif
 
-
-
     // We need an Uuid for the local player
     G_idJoueurLocal = QUuid::createUuid().toString();
-
     g_featuresList.addLocal(G_idJoueurLocal);
 
-
-    // We have a connection, we create the main window.
+    // Create the main window
     G_mainWindow = new MainWindow;
     G_mainWindow->setWindowTitle(NOM_APPLICATION);
 
+    // Get a connection
     G_clientServeur = new ClientServeur;
     if (!G_clientServeur->configAndConnect())
         return 0;
-    
 
+    // We have a connection, we launch the main window.
     G_mainWindow->showNormal();
-
-    // Lancement de la boucle d'application
     return app.exec();
 } 
