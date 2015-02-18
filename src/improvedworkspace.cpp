@@ -48,6 +48,7 @@ ImprovedWorkspace::ImprovedWorkspace(QColor& penColor,QWidget *parent)
     m_currentCursor = m_handCursor;
     m_penSize = 1;
     m_npcSize =1;
+    connect(this,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(activeSubWindowChanged(QMdiSubWindow*)));
 
 }
 
@@ -177,6 +178,10 @@ void ImprovedWorkspace::addWidget(SubMdiWindows* subWindow)
 }
 
 
+void ImprovedWorkspace::setVariantMenu(QMenu* menu)//should be called only once.
+{
+    m_variantMenu = menu;
+}
 void ImprovedWorkspace::currentPenSizeChanged(int p)
 {
     m_penSize = p;
@@ -189,5 +194,12 @@ void ImprovedWorkspace::currentNPCSizeChanged(int p)
     m_npcSize = p;
     emit npcSizeChanged(p);
 }
-
+void ImprovedWorkspace::activeSubWindowChanged(QMdiSubWindow* wdw)
+{
+    SubMdiWindows* tmp = static_cast<SubMdiWindows*>(wdw);
+    if((tmp)&&(tmp->isVisible()))
+    {
+        tmp->defineMenu(m_variantMenu);
+    }
+}
 

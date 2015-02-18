@@ -32,20 +32,7 @@
 #include <QLabel>
 
 #include "submdiwindows.h"
-/*class LabelImage : public QLabel
-{
-    Q_OBJECT
-public:
-    LabelImage(QImage* image);
-    ~LabelImage();
 
-protected:
-    void paintEvent(QPaintEvent *paintEvent);
-
-
-private:
-    QImage* m_image;
-};*/
 
 
 class QScrollArea;
@@ -63,7 +50,7 @@ public :
 
 
 
-
+    virtual void defineMenu(QMenu* menu);
 
 
 public slots :
@@ -75,14 +62,22 @@ protected :
     bool  eventFilter(QObject *obj,QEvent *e);
     void setUi();
 
-    void fitWindow();
+
 
 
 private slots:
-    void setZoomLevel(int zoomlevel);
+    void setZoomLevel(double zoomlevel);
+    void zoomIn();
+    void zoomOut();
+    void resizeLabel();
+    void zoomLittle();
+    void zoomNormal();
+    void zoomBig();
+    void fitWindow();
 
 private :
-    void resizeLabel();
+
+    void createActions();
 
 
 
@@ -93,9 +88,13 @@ private :
     QScrollArea* m_scrollArea;
     double m_zoomLevel;
     QPixmap  m_pixMap;
-    QLabel* m_zoomLabel;
-    QSlider* m_zoomSlider;
-    QSpinBox* m_zoomSpinBox;
+
+    QAction* m_actionZoomIn;
+    QAction* m_actionZoomOut;
+    QAction* m_actionfitWorkspace;
+    QAction* m_actionNormalZoom; // *1
+    QAction* m_actionBigZoom;// * 4
+    QAction* m_actionlittleZoom;// * 0.2
 
     ImprovedWorkspace *m_parent;
 

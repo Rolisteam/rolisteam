@@ -160,3 +160,7 @@ void MapFrame::setEditingMode(int mode)
 {
     m_currentEditingMode = mode;
 }
+void MapFrame::defineMenu(QMenu* /*menu*/)
+{
+
+}

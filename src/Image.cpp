@@ -21,11 +21,8 @@
 
 
 #include <QtGui>
-
 #include "Image.h"
-
 #include <QHBoxLayout>
-
 #include "improvedworkspace.h"
 
 
@@ -36,10 +33,10 @@ Image::Image( QString& filename,  ImprovedWorkspace *parent)
     m_filename = filename;
     m_zoomLevel = 1;
     setUi();
-   // m_image = ;
+    createActions();
 
 	setObjectName("Image");
-    m_type == SubMdiWindows::PICTURE;
+    m_type = SubMdiWindows::PICTURE;
 
 	setWindowIcon(QIcon(":/icones/vignette image.png"));
 
@@ -50,14 +47,7 @@ Image::Image( QString& filename,  ImprovedWorkspace *parent)
     m_labelImage->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
     m_labelImage->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     m_labelImage->setScaledContents(true);
-
-
     m_labelImage->resize(m_pixMap.size());
-
-
-
-
-
     m_scrollArea->setAlignment(Qt::AlignCenter);
     m_scrollArea->setWidget(m_labelImage);
 
@@ -70,56 +60,66 @@ Image::Image( QString& filename,  ImprovedWorkspace *parent)
 Image::~Image()
 {
 
+
+
+
 }
+void Image::createActions()
+{
+    m_actionZoomIn = new QAction(tr("Zoom In"),this);
+    m_actionZoomIn->setShortcut(tr("Ctrl++"));
+    m_actionZoomIn->setToolTip(tr("increase zoom level"));
+    connect(m_actionZoomIn,SIGNAL(triggered()),this,SLOT(zoomIn()));
+
+    m_actionZoomOut = new QAction(tr("Zoom out"),this);
+    m_actionZoomOut->setShortcut(tr("Ctrl+-"));
+    m_actionZoomOut->setToolTip(tr("Reduce zoom level"));
+    connect(m_actionZoomOut,SIGNAL(triggered()),this,SLOT(zoomOut()));
+
+    m_actionfitWorkspace = new QAction(tr("Fit the workspace"),this);
+    m_actionfitWorkspace->setShortcut(tr("Ctrl+5"));
+    m_actionfitWorkspace->setToolTip(tr("The window and the image fit the workspace"));
+    connect(m_actionfitWorkspace,SIGNAL(triggered()),this,SLOT(fitWindow()));
+
+    m_actionlittleZoom = new QAction(tr("Little"),this);
+    m_actionlittleZoom->setShortcut(tr("Ctrl+1"));
+    m_actionZoomIn->setToolTip(tr("Set the zoom level at 20% "));
+    connect(m_actionlittleZoom,SIGNAL(triggered()),this,SLOT(zoomLittle()));
+
+    m_actionNormalZoom = new QAction(tr("Normal"),this);
+    m_actionNormalZoom->setShortcut(tr("Ctrl+0"));
+    m_actionZoomIn->setToolTip(tr("No Zoom"));
+    connect(m_actionNormalZoom,SIGNAL(triggered()),this,SLOT(zoomNormal()));
+
+
+    m_actionBigZoom = new QAction(tr("Big"),this);
+    m_actionBigZoom->setShortcut(tr("Ctrl+2"));
+    m_actionZoomIn->setToolTip(tr("Set the zoom level at 400%"));
+    connect(m_actionBigZoom,SIGNAL(triggered()),this,SLOT(zoomBig()));
+}
+
 void Image::setUi()
 {
     m_scrollArea = new QScrollArea;
-    QHBoxLayout* hlayout=new QHBoxLayout;
+
     QVBoxLayout* vlayout= new QVBoxLayout;
-    m_zoomLabel= new QLabel(tr("Zoom level"));
-    m_zoomSlider=new QSlider(Qt::Horizontal);
-    m_zoomSlider->setMaximum(300);
-    m_zoomSlider->setMinimum(25);
-    m_zoomSpinBox=new QSpinBox;
-    m_zoomSpinBox->setMaximum(300);
-    m_zoomSpinBox->setMinimum(25);
-    m_zoomSpinBox->setSuffix("%");
 
-    m_zoomSpinBox->setValue(m_zoomLevel*100);
-    m_zoomSlider->setValue(m_zoomLevel*100);
-
-    connect(m_zoomSpinBox,SIGNAL(valueChanged(int)),m_zoomSlider,SLOT(setValue(int)));
-    connect(m_zoomSlider,SIGNAL(valueChanged(int)),m_zoomSpinBox,SLOT(setValue(int)));
-    connect(m_zoomSlider,SIGNAL(valueChanged(int)),this,SLOT(setZoomLevel(int)));
-    connect(m_zoomSpinBox,SIGNAL(valueChanged(int)),this,SLOT(setZoomLevel(int)));
-
-    hlayout->addWidget(m_zoomLabel);
-    hlayout->addWidget(m_zoomSlider);
-    hlayout->addWidget(m_zoomSpinBox);
 
     vlayout->addWidget(m_scrollArea);
-    vlayout->addLayout(hlayout);
+
     m_scrollArea->installEventFilter(this);
+    this->installEventFilter(this);
 
     QWidget* tmp = new QWidget;
     tmp->setLayout(vlayout);
     setWidget(tmp);
 }
-void Image::setZoomLevel(int zoomlevel)
+void Image::setZoomLevel(double zoomlevel)
 {
-    if(zoomlevel > 300)
-    {
-        m_zoomSlider->setSingleStep(20);
-    }
-    else
-    {
-         m_zoomSlider->setSingleStep(1);
-    }
-    if((float)zoomlevel/100!=m_zoomLevel)
-    {
-        m_zoomLevel = (double)zoomlevel/100;
+
+        m_zoomLevel = zoomlevel;
         resizeLabel();
-    }
+
 }
 
 void Image::closeEvent(QCloseEvent *event)
@@ -135,18 +135,21 @@ bool  Image::eventFilter(QObject *obj,QEvent *e)
       QWheelEvent *event = static_cast<QWheelEvent *>(e);
         if(event->modifiers() == Qt::ControlModifier)
         {
+            qDebug()<< "event filter";
             int delta = event->delta();
-            int currentZoom = m_zoomSpinBox->value();
+            ;
             if(delta > 0)//zoomin
             {
-                currentZoom +=20;
+                m_zoomLevel +=0.2;
 
             }
             else//zoomOut
             {
-                currentZoom -=20;
+                m_zoomLevel -=0.2;
             }
-            m_zoomSpinBox->setValue(currentZoom);
+           // m_zoomSpinBox->setValue(currentZoom);
+            resizeLabel();
+            event->accept();
             return true;
         }
 
@@ -155,20 +158,31 @@ bool  Image::eventFilter(QObject *obj,QEvent *e)
     return QObject::eventFilter(obj, e);
 }
 
+void Image::zoomIn()
+{
+    m_zoomLevel +=0.2;
+    resizeLabel();
+}
 
+void Image::zoomOut()
+{
+    m_zoomLevel -=0.2;
+    resizeLabel();
+}
 
 
 void Image::fitWindow()
 {
     QSize windowsize = m_parent->viewport()->size();
-    while((windowsize.height()<(m_zoomLevel * m_pixMap.height()))&&(windowsize.width()<(m_zoomLevel * m_pixMap.width())))
+    while((windowsize.height()<(m_zoomLevel * m_pixMap.height()))||(windowsize.width()<(m_zoomLevel * m_pixMap.width())))
     {
         m_zoomLevel -= 0.2;
     }
     resizeLabel();
 
-    if(m_labelImage->rect().contains(geometry()))
+    if(!m_labelImage->rect().contains(geometry()))
         setGeometry(m_labelImage->rect());
+
 }
 
 
@@ -176,10 +190,6 @@ void Image::resizeLabel()
 {
     m_labelImage->resize(m_zoomLevel * m_pixMap.size());
 }
-
-
-
-		
 
 void Image::pointeurMain()
 {
@@ -191,4 +201,35 @@ void Image::pointeurNormal()
 {
     m_labelImage->setCursor(Qt::ForbiddenCursor);
 }
+void  Image::defineMenu(QMenu* menu)
+{
+    menu->addAction(m_actionZoomIn);
+    menu->addAction(m_actionZoomOut);
+    menu->addSeparator();
+    menu->addAction( m_actionfitWorkspace);
+    menu->addSeparator();
+    menu->addAction(m_actionlittleZoom);
+    menu->addAction(m_actionNormalZoom);
+    menu->addAction(m_actionBigZoom);
+}
+void Image::zoomLittle()
+{
+    m_zoomLevel =0.2;
+    resizeLabel();
+    if(!m_labelImage->rect().contains(geometry()))
+        setGeometry(m_labelImage->rect());
+}
 
+void Image::zoomNormal()
+{
+    m_zoomLevel =1.0;
+    resizeLabel();
+    if(!m_labelImage->rect().contains(geometry()))
+        setGeometry(m_labelImage->rect());
+}
+
+void Image::zoomBig()
+{
+    m_zoomLevel =4.0;
+    resizeLabel();
+}

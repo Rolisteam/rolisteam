@@ -896,3 +896,7 @@ void Tchat::showEvent(QShowEvent *event)
 }
 
 
+void Tchat::defineMenu(QMenu* /*menu*/)
+{
+
+}

@@ -41,6 +41,8 @@ public slots:
     virtual void currentNPCSizeChanged(int);
     virtual SubWindowType getType();
 
+    virtual void defineMenu(QMenu* menu)=0;
+
 protected:
     bool m_active;
     QCursor* m_currentCursor;

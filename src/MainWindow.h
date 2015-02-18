@@ -80,6 +80,7 @@ public :
         bool enleverCarteDeLaListe(QString idCarte);
         bool enleverImageDeLaListe(QString idImage);
 
+
 public slots :
      //   void changerTaillePj(int nouvelleTaille);
 
@@ -119,7 +120,7 @@ private :
         void writeSettings();
 
         QDockWidget *dockLogUtil;
-        ImprovedWorkspace* workspace;
+        ImprovedWorkspace* m_workspace;
         QMenu *menuFenetre;
         QMenu *sousMenuTchat;
         ToolsBar *m_toolbar;
@@ -156,6 +157,7 @@ private :
 
         QAction *actionAideLogiciel;
         QAction *actionAPropos;
+
        // ClientServeur* m_clientServer;
         /**
           * pointer to the unique instance of preference manager.
@@ -168,7 +170,7 @@ private :
         UserListDockWidget* m_playerListDockWidget;
 
 
-
+        QMenu* m_currentWindowMenu;
 
 private slots :
        /* void afficherNomsPj(bool afficher);

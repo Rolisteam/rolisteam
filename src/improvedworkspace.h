@@ -54,6 +54,12 @@ public:
       */
     void addWidget(SubMdiWindows* subWindow);
 
+    /**
+      * @brief set the pointer to display custom menu depending of the current window
+      * @param pointer to the menu
+      */
+    void setVariantMenu(QMenu* menu);
+
 public slots:
     /**
       * @brief is called when the current tool changed, raise the signal currentToolHasChanged, and it performs the first treatment
@@ -112,6 +118,7 @@ signals:
 
 
 
+
 protected:
     /**
       * @brief Overwrite of the resize event to perform an hack to display the correct background picture
@@ -122,7 +129,12 @@ protected:
 
 
 
-
+private slots:
+    /**
+      * @brief is called when active subwindow changed
+      * @param active subwindow
+      */
+    void activeSubWindowChanged(QMdiSubWindow* wdw);
 
 private:
     /**
@@ -206,6 +218,10 @@ private:
       */
     PreferencesManager* m_options;
 
+    /**
+      * pointer to the variant menu
+      */
+    QMenu* m_variantMenu;
 };
 
 #endif

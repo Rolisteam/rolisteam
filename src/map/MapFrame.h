@@ -48,6 +48,7 @@ public :
     QString IdMap();
 
     int editingMode();
+    void defineMenu(QMenu* /*menu*/);
 public slots :
         /**
          *  @brief called when the windows starts to move (not sure it's still used)

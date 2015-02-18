@@ -45,9 +45,6 @@ MainWindow::MainWindow()
         m_options = PreferencesManager::getInstance();
         readSettings();
 
-
-
-
         listeCarteFenetre.clear();
         listeImage.clear();
         listeTchat.clear();
@@ -57,29 +54,22 @@ MainWindow::MainWindow()
 
         setAnimated(false);
 
-        workspace = new ImprovedWorkspace(m_toolbar->currentColor());
+        m_workspace = new ImprovedWorkspace(m_toolbar->currentColor());
 
-        setCentralWidget(workspace);
+        setCentralWidget(m_workspace);
 
         addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
 
 
-        connect(m_toolbar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),workspace,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
-        connect(m_toolbar,SIGNAL(currentColorChanged(QColor&)),workspace,SLOT(currentColorChanged(QColor&)));
-        connect(m_toolbar,SIGNAL(currentModeChanged(int)),workspace,SIGNAL(currentModeChanged(int)));
-        connect(m_toolbar,SIGNAL(currentPenSizeChanged(int)),workspace,SLOT(currentPenSizeChanged(int)));
-        connect(m_toolbar,SIGNAL(currentPNCSizeChanged(int)),workspace,SLOT(currentNPCSizeChanged(int)));
-
-
-
+        connect(m_toolbar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),m_workspace,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
+        connect(m_toolbar,SIGNAL(currentColorChanged(QColor&)),m_workspace,SLOT(currentColorChanged(QColor&)));
+        connect(m_toolbar,SIGNAL(currentModeChanged(int)),m_workspace,SIGNAL(currentModeChanged(int)));
+        connect(m_toolbar,SIGNAL(currentPenSizeChanged(int)),m_workspace,SLOT(currentPenSizeChanged(int)));
+        connect(m_toolbar,SIGNAL(currentPNCSizeChanged(int)),m_workspace,SLOT(currentNPCSizeChanged(int)));
 
         dockLogUtil = creerLogUtilisateur();
 
         addDockWidget(Qt::RightDockWidgetArea, dockLogUtil);
-
-
-
-
 
         m_playerListDockWidget = new UserListDockWidget;
         addDockWidget(Qt::RightDockWidgetArea, m_playerListDockWidget);
@@ -99,21 +89,11 @@ MainWindow::MainWindow()
 
         editeurNotes = new EditeurNotes();
 
-        workspace->addWidget(editeurNotes);
+        m_workspace->addWidget(editeurNotes);
 
         editeurNotes->setWindowTitle(tr("Minutes editor"));
 
         editeurNotes->hide();
-
-
-
-
-
-
-
-
-
-
 
 
 }
@@ -147,7 +127,7 @@ void MainWindow::creerMenu()
         setMenuBar(barreMenus);
 
         // Creation du menu Fichier
-        QMenu *menuFichier = new QMenu (tr("Fichier"), barreMenus);
+        QMenu *menuFichier = new QMenu (tr("File"), barreMenus);
         newMapAction            = menuFichier->addAction(tr("&New empty map"));
         menuFichier->addSeparator();
         actionOuvrirPlan             = menuFichier->addAction(tr("Open Map"));
@@ -207,7 +187,7 @@ void MainWindow::creerMenu()
         actionSansGrille        ->setChecked(true);
 */
         // Creation du menu Fenetre
-        menuFenetre = new QMenu (tr("Fenêtre"), barreMenus);
+        menuFenetre = new QMenu (tr("Windows"), barreMenus);
 
         // Creation du sous-menu Reorganiser
         QMenu *sousMenuReorganise    = new QMenu (tr("Réorganiser"), barreMenus);
@@ -224,7 +204,7 @@ void MainWindow::creerMenu()
         menuFenetre->addSeparator();
 
         // Ajout de l'action d'affichage de l'editeur de notes
-        actionEditeurNotes = menuFenetre->addAction(tr("Editeur de notes"));
+        actionEditeurNotes = menuFenetre->addAction(tr("Note Editor"));
         actionEditeurNotes->setCheckable(true);
         actionEditeurNotes->setChecked(false);
         // Connexion de l'action avec l'affichage/masquage de l'editeur de notes
@@ -235,15 +215,15 @@ void MainWindow::creerMenu()
         menuFenetre->addMenu(sousMenuTchat);
 
         // Ajout de l'action d'affichage de la fenetre de tchat commun
-        actionTchatCommun = sousMenuTchat->addAction(tr("Tchat commun"));
+        actionTchatCommun = sousMenuTchat->addAction(tr("common Tchat"));
         actionTchatCommun->setCheckable(true);
         actionTchatCommun->setChecked(false);
         menuFenetre->addSeparator();
 
         // Creation du tchat commun
         listeTchat.append(new Tchat("", actionTchatCommun,NULL));
-        // Ajout du tchat commun au workspace
-        workspace->addWidget(listeTchat[0]);
+        // Ajout du tchat commun au m_workspace
+        m_workspace->addWidget(listeTchat[0]);
         // Mise a jour du titre du tchat commun
         listeTchat[0]->setWindowTitle(tr("Tchat commun"));
         // Masquage du tchat commun
@@ -251,15 +231,19 @@ void MainWindow::creerMenu()
         // Connexion de l'action avec l'affichage/masquage du tchat commun
         QObject::connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
 
-        // Creation du menu Aide
-        QMenu *menuAide = new QMenu (tr("Aide"), barreMenus);
-        actionAideLogiciel = menuAide->addAction(tr("Aide sur") + " " + APPLICATION_NAME);
-        menuAide->addSeparator();
-        actionAPropos = menuAide->addAction(tr("A propos de") + " " + APPLICATION_NAME);
 
-        // Ajout des menus a la barre de menus
+        QMenu *menuAide = new QMenu (tr("Help"), barreMenus);
+        actionAideLogiciel = menuAide->addAction(tr("Help of %1").arg(APPLICATION_NAME));
+        menuAide->addSeparator();
+        actionAPropos = menuAide->addAction(tr("About %1").arg(APPLICATION_NAME));
+
+        m_currentWindowMenu= new QMenu(tr("Current Window"),barreMenus);
+        m_workspace->setVariantMenu(m_currentWindowMenu);
+
+
         barreMenus->addMenu(menuFichier);
         barreMenus->addMenu(menuAffichage);
+        barreMenus->addMenu(m_currentWindowMenu);
         barreMenus->addMenu(menuFenetre);
         barreMenus->addMenu(menuAide);
 }
@@ -285,8 +269,8 @@ void MainWindow::associerActionsMenus()
 
 
         // Windows managing
-        QObject::connect(actionCascade, SIGNAL(triggered(bool)), workspace, SLOT(cascadeSubWindows()));
-        QObject::connect(actionTuiles, SIGNAL(triggered(bool)), workspace, SLOT(tileSubWindows()));
+        QObject::connect(actionCascade, SIGNAL(triggered(bool)), m_workspace, SLOT(cascadeSubWindows()));
+        QObject::connect(actionTuiles, SIGNAL(triggered(bool)), m_workspace, SLOT(tileSubWindows()));
 
         // Display
         QObject::connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
@@ -324,15 +308,15 @@ void MainWindow::autoriserOuInterdireActions()
 }
 
 /********************************************************************/
-/* Creation d'une nouvelle carte dans le workspace                  */
+/* Creation d'une nouvelle carte dans le m_workspace                  */
 /********************************************************************/
 /*void MainWindow::ajouterCarte(MapFrame *mapFrame, QString titre)
 {
         // Ajout de la CarteFenetre a la liste (permet par la suite de parcourir l'ensemble des cartes)
         listeCarteFenetre.append(mapFrame);
 
-        // Ajout de la carte au workspace
-        workspace->addWidget(mapFrame);
+        // Ajout de la carte au m_workspace
+        m_workspace->addWidget(mapFrame);
 
 
 
@@ -422,16 +406,17 @@ void MainWindow::autoriserOuInterdireActions()
         mapFrame->show();
 }*/
 
+
 /********************************************************************/
-/* Ajout de l'Image passee en parametre sans le workspace           */
+/* Ajout de l'Image passee en parametre sans le m_workspace           */
 /********************************************************************/
 /*void MainWindow::ajouterImage(Image *imageFenetre, QString titre)
 {
         // Ajout de la  a la liste (permet par la suite de parcourir l'ensemble des cartes)
         listeImage.append(imageFenetre);
 
-        // Ajout de la carte au workspace
-        workspace->addWidget(imageFenetre);
+        // Ajout de la carte au m_workspace
+        m_workspace->addWidget(imageFenetre);
 
         // Mise a jour du titre de la CarteFenetre
         imageFenetre->setWindowTitle(titre);
@@ -558,7 +543,7 @@ void MainWindow::autoriserOuInterdireActions()
             Map *carte = new Map(idCarte, &image, tailleDesPj, masquer,this);
                 // Creation de la CarteFenetre
             MapFrame *carteFenetre = new MapFrame(carte, this);
-                // Ajout de la carte au workspace
+                // Ajout de la carte au m_workspace
             ajouterCarte(carteFenetre, titre);
 
                 // Envoie de la carte aux autres utilisateurs
@@ -690,7 +675,7 @@ void MainWindow::autoriserOuInterdireActions()
     Carte *carte = new Carte(idCarte, &fondOriginal, &fond, &alpha, taillePj,this);
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte);
-        // Ajout de la carte au workspace : si aucun nom de fichier n'est passe en parametre, il s'agit d'une lecture de
+        // Ajout de la carte au m_workspace : si aucun nom de fichier n'est passe en parametre, il s'agit d'une lecture de
         // carte dans le cadre de l'ouverture d'un fichier scenario : on prend alors le titre associe a la carte. Sinon
         // il s'agit d'un fichier plan : on prend alors le nom du fichier
         if (nomFichier.isEmpty())
@@ -807,12 +792,12 @@ void MainWindow::autoriserOuInterdireActions()
 {
         // On recupere la fenetre active (qui est forcement de type CarteFenetre ou Image, sans quoi l'action
         // ne serait pas dispo dans le menu Fichier)
-        QMdiSubWindow *active = workspace->activeSubWindow();
+        QMdiSubWindow *active = m_workspace->activeSubWindow();
 
         // Ne devrait jamais arriver
         if (!active)
         {
-                qWarning("Action fermerPlan appelee alors qu'aucun widget n'est actif dans le workspace (fermerPlanOuImage - MainWindow.h)");
+                qWarning("Action fermerPlan appelee alors qu'aucun widget n'est actif dans le m_workspace (fermerPlanOuImage - MainWindow.h)");
                 return;
         }
 
@@ -961,8 +946,8 @@ void MainWindow::autoriserOuInterdireActions()
 /********************************************************************/
 /*void MainWindow::changerTaillePj(int nouvelleTaille)
 {
-        // On recupere le widget actif dans le workspace
-        QMdiSubWindow *widget = workspace->activeSubWindow();
+        // On recupere le widget actif dans le m_workspace
+        QMdiSubWindow *widget = m_workspace->activeSubWindow();
 
         // S'il y a un widget actif on verifie qu'il s'agit d'un objet "CarteFenetre"
         if (widget)
@@ -979,8 +964,8 @@ void MainWindow::autoriserOuInterdireActions()
 /********************************************************************/
 /*void MainWindow::emettreChangementTaillePj(int nouvelleTaille)
 {
-        // On recupere le widget actif dans le workspace
-       * QMdiSubWindow *widget = workspace->activeSubWindow();
+        // On recupere le widget actif dans le m_workspace
+       * QMdiSubWindow *widget = m_workspace->activeSubWindow();
 
         // S'il y a un widget actif on verifie qu'il s'agit d'un objet "mapFrame"
         if (widget)
@@ -1034,8 +1019,8 @@ void MainWindow::autoriserOuInterdireActions()
 /********************************************************************/
 /*void MainWindow::affichageDuPj(QString idPerso, bool afficher)
 {
-        // On recupere le widget actif dans le workspace
-        QMdiSubWindow *widget = workspace->activeSubWindow();
+        // On recupere le widget actif dans le m_workspace
+        QMdiSubWindow *widget = m_workspace->activeSubWindow();
 
         // S'il y a un widget actif on verifie qu'il s'agit d'un objet "CarteFenetre"
         if (widget)
@@ -1102,7 +1087,7 @@ void MainWindow::autoriserOuInterdireActions()
 /*void MainWindow::mettreAJourSelecteurTaille(QString idCarte, int taillePj)
 {
         // On recupere la fenetre active
-        QMdiSubWindow *active = workspace->activeSubWindow();
+        QMdiSubWindow *active = m_workspace->activeSubWindow();
 
         // S'il y a une fenetre active
        /* if (active)
@@ -1121,7 +1106,7 @@ void MainWindow::autoriserOuInterdireActions()
 /*void MainWindow::mettreAJourEspaceTravail()
 {
         // On recupere la fenetre active
-        QMdiSubWindow *active = workspace->activeSubWindow();
+        QMdiSubWindow *active = m_workspace->activeSubWindow();
 
         // S'il y a une fenetre active, on la passe a la fonction changementFenetreActive
         if (active)
@@ -1130,7 +1115,7 @@ void MainWindow::autoriserOuInterdireActions()
 
 /********************************************************************/
 /* Met a jour le selecteur de taille des PJ, ainsi que l'etat       */
-/* d'affichage des PJ, si la fenetre activee dans le workspace est  */
+/* d'affichage des PJ, si la fenetre activee dans le m_workspace est  */
 /* de type CarteFenetre                                             */
 /********************************************************************/
 void MainWindow::changementFenetreActive(QMdiSubWindow *widget)
@@ -1256,7 +1241,7 @@ void MainWindow::clickOnMapWizzard()
         Map* tempmap  = new Map();
         mapWizzard.setAllMap(tempmap);
         MapFrame* tmp = new MapFrame(tempmap);
-        workspace->addWidget(tmp);
+        m_workspace->addWidget(tmp);
         tmp->show();
 
     }
@@ -1268,9 +1253,9 @@ void MainWindow::openImage()
                 tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp)"));
 
 
-        Image* tmpImage=new Image(filepath,workspace);
+        Image* tmpImage=new Image(filepath,m_workspace);
 
-        workspace->addWidget(tmpImage);
+        m_workspace->addWidget(tmpImage);
         tmpImage->show();
 }
 
@@ -1394,8 +1379,8 @@ void MainWindow::masquerTchat(QString id)
         QObject::connect(action, SIGNAL(triggered(bool)), tchat, SLOT(setVisible(bool)));
         // Ajout du tchat a la liste
         listeTchat.append(tchat);
-        // Ajout du tchat au workspace
-        workspace->addWidget(tchat);
+        // Ajout du tchat au m_workspace
+        m_workspace->addWidget(tchat);
         // Mise a jour du titre du tchat
         tchat->setWindowTitle(tr("Tchat avec ") + nomJoueur);
         // Masquage du tchat
@@ -1460,16 +1445,16 @@ Tchat * MainWindow::trouverTchat(QString idJoueur)
 /********************************************************************/
 bool MainWindow::estLaFenetreActive(QWidget *widget)
 {
-        return widget == workspace->activeSubWindow() && widget->isVisible();
+        return widget == m_workspace->activeSubWindow() && widget->isVisible();
 }
 
 /********************************************************************/
-/* Change la fenetre active du workspace devient celle passee en    */
+/* Change la fenetre active du m_workspace devient celle passee en    */
 /* parametre                                                        */
 /********************************************************************/
 /*void MainWindow::devientFenetreActive(QMdiSubWindow *widget)
 {
-        workspace->setActiveSubWindow(widget);
+        m_workspace->setActiveSubWindow(widget);
         changementFenetreActive(widget);
 }*/
 
@@ -1502,7 +1487,7 @@ bool MainWindow::maybeSave()
             case QMessageBox::Discard:
                 return true;
                 break;
-            case QMessageBox::Cancel:
+            default:
                 return false;
             }
         }
@@ -1554,6 +1539,7 @@ Image *MainWindow::trouverImage(QString idImage)
         // Sinon on renvoie 0
         else
                 return 0;*/
+    return NULL;
 }
 
 /********************************************************************/
@@ -1606,6 +1592,7 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
         // Sinon on renvoie false
         else
                 return false;*/
+    return false;
 }
 
 /********************************************************************/
@@ -1615,7 +1602,7 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
 /*void MainWindow::sauvegarderPlan()
 {
         // On recupere la fenetre active
-        QMdiSubWindow *active = workspace->activeSubWindow();
+        QMdiSubWindow *active = m_workspace->activeSubWindow();
 
         // On verifie pour le principe qu'il s'agit bien d'une CarteFenetre
         if (active->objectName() != "CarteFenetre")
@@ -1930,8 +1917,8 @@ void MainWindow::afficherEditeurNotes(bool afficher, bool cocherAction)
         // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
         listeImage.append(imageFenetre);
 
-        // Ajout de l'image au workspace
-        workspace->addWidget(imageFenetre);
+        // Ajout de l'image au m_workspace
+        m_workspace->addWidget(imageFenetre);
 
         // Mise a jour du titre de l'image
         imageFenetre->setWindowTitle(titre);

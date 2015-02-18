@@ -31,41 +31,43 @@
 #ifndef EDITEUR_NOTES_H
 #define EDITEUR_NOTES_H
 
-    #include <QWidget>
-    #include <QMainWindow>
-    #include <QTextEdit>
-    #include <QCloseEvent>
-    #include <QToolBar>
-	#include <QComboBox>
-	#include <QFile>
+#include <QWidget>
+#include <QMainWindow>
+#include <QTextEdit>
+#include <QCloseEvent>
+#include <QToolBar>
+#include <QComboBox>
+#include <QFile>
 #include "submdiwindows.h"
 
-    class EditeurNotes : public SubMdiWindows
-    {
-	Q_OBJECT
+class EditeurNotes : public SubMdiWindows
+{
+Q_OBJECT
 
-    public :
-	    EditeurNotes();
-	    void sauvegarderNotes(QFile &file);
-	    void ouvrirNotes(QFile &file);
-		QSize sizeHint() const;
+public :
+    EditeurNotes();
+    void sauvegarderNotes(QFile &file);
+    void ouvrirNotes(QFile &file);
+    QSize sizeHint() const;
 
-    private :
-		QTextEdit *notes;			// Contient toutes les notes de l'utilisateur
-		QToolBar *barreFontes;		// Contient les boutons de formatage du texte
-		QComboBox *selecteurTaille;	// Permet de choisir la taille de la fonte
+    virtual void defineMenu(QMenu* menu);
 
-    private slots :
-		void styleNormal();
-		void styleGras();
-		void styleItalique();
-		void styleSouligne();
-		void mettreTailleAJour();
-		void changementTaille(int index);
+private :
+    QTextEdit *notes;			// Contient toutes les notes de l'utilisateur
+    QToolBar *barreFontes;		// Contient les boutons de formatage du texte
+    QComboBox *selecteurTaille;	// Permet de choisir la taille de la fonte
 
-	protected :
-		void closeEvent(QCloseEvent *event);
+private slots :
+    void styleNormal();
+    void styleGras();
+    void styleItalique();
+    void styleSouligne();
+    void mettreTailleAJour();
+    void changementTaille(int index);
 
-	};
+protected :
+    void closeEvent(QCloseEvent *event);
+
+};
 
 #endif
