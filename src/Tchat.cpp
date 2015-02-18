@@ -133,11 +133,11 @@ void Tchat::emettreTexte()
 			result = calculerJetDes(message, tirage, ok);
 			if(ok)
 			{
-                messageCorps = tr("avez obtenu  %1 à votre jet de dés [%2]").arg(result).arg(tirage);
+                messageCorps = tr("avez obtenu  %1 �  votre jet de dés [%2]").arg(result).arg(tirage);
                 messageTitle = tr("Vous");
                 color = G_couleurJoueurLocal;
                 afficherMessage(messageTitle, color, messageCorps,DICE_MESSAGE);
-                message = QString(tr("a obtenu %1 à  son jet de dés [%2]").arg(result).arg(tirage));
+                message = QString(tr("a obtenu %1 �   son jet de dés [%2]").arg(result).arg(tirage));
 			}
 			else
             {
@@ -151,7 +151,7 @@ void Tchat::emettreTexte()
 			result = calculerJetDes(message, tirage, ok);
 			if (ok)
             {
-                messageCorps = tr("vous avez obtenu %1 à  votre jet de dés secret [%2]").arg(result).arg(tirage);
+                messageCorps = tr("vous avez obtenu %1 �   votre jet de dés secret [%2]").arg(result).arg(tirage);
                 messageTitle = tr("Jet secret :");
                 color = Qt::magenta;
                 afficherMessage(messageTitle, color,messageCorps ,DICE_MESSAGE);
@@ -391,6 +391,8 @@ int Tchat::calculerJetDes(QString &message, QString &tirage, bool &ok)
 	int result = 0;
 	int nombre;
 	int faces;
+	int garde;
+	bool relance10;
 
 	// Mise a 0 de la chaine tirage
 	tirage.clear();
@@ -408,7 +410,7 @@ int Tchat::calculerJetDes(QString &message, QString &tirage, bool &ok)
 	
         ok = GetNumber(message,&nombre);
 		
-		// 2 cas de figure :
+		// 4 cas de figure :
 		// le nombre est suivi par un "D" : on recupere le nombre qui suit (nbr de faces du de)
 		if (message[0] == QChar('d') || message[0] == QChar('D'))
 		{
@@ -445,6 +447,98 @@ int Tchat::calculerJetDes(QString &message, QString &tirage, bool &ok)
 			}
 			tirage.append(QString(")"));
 			
+			result+=signOperator*sumDice;
+		} // Fin de la lecture et du tirage des des
+
+		// le nombre est suivi par un "G" : on recupere le nombre qui suit (nbr de des gard�s)
+		else if (message[0] == QChar('g') || message[0] == QChar('G'))
+		{
+			relance10=(message[0] == QChar('G'));
+			// On supprime le "G"
+			message.remove(0, 1);
+
+			// Si la taille est nulle, on quitte avec une erreur
+			if (!message.size())
+				return (ok = false);
+
+			ok = GetNumber(message,&garde);
+
+			// S'il y a un nombre de des ou de faces nul, on quitte
+			if (!nombre || !garde)
+				return (ok = false);
+
+            if(garde > nombre)
+                garde = nombre;
+
+            // The dices rolling
+            QList<int> listDices;
+            unsigned short tmpDice, dice, sumDice=0;
+            unsigned short min = 11;
+
+            for(unsigned short u=0;u<nombre;u++)
+            {
+                qDebug()<<garde;
+
+                tmpDice=(rand()%10)+1;
+                dice=tmpDice;
+                if(relance10)
+                    while((tmpDice==10))
+                    {
+                        tmpDice=(rand()%10)+1;
+                        dice+=tmpDice;
+                    }
+
+                listDices.append(dice);
+                //sumDice+=dice;
+            }
+            qSort(listDices.begin(), listDices.end(), qGreater<unsigned short>());
+            for(int it=0;it<garde;++it)
+            {
+                sumDice+=listDices[it];
+            }
+
+            // Formatting the "tirage" text
+            tirage.append(tr("%1g%2 (%3").arg(nombre).arg(garde).arg(listDices[0]));
+            for(unsigned short u=1;u<listDices.size();u++)
+            {
+                tirage.append(QString(","));
+                tirage.append(QString::number(listDices[u]));
+            }
+            tirage.append(QString(")"));
+
+			result+=signOperator*sumDice;
+		} // Fin de la lecture et du tirage des des
+
+		// le nombre est suivi par un "s" : on recupere pas le nombre qui suit (il n'y en a pas)
+		else if (message[0] == QChar('s') || message[0] == QChar('S'))
+		{
+			// On supprime le "S"
+			message.remove(0, 1);
+
+			// S'il y a un nombre de des ou de faces nul, on quitte
+			if (!nombre)
+				return (ok = false);
+
+            // The dices rolling
+            QList<int> listDices;
+            unsigned short dice, sumDice=0;
+            for(unsigned short u=0;u<nombre;u++)
+            {
+                dice=(rand()%6)+1;
+                listDices.append(dice);
+                if(dice>=5)
+                   ++sumDice ;
+            }
+
+            // Formatting the "tirage" text
+            tirage.append(tr("%1s (%3").arg(nombre).arg(listDices[0]));
+            for(unsigned short u=1;u<listDices.size();u++)
+            {
+                tirage.append(QString(","));
+                tirage.append(QString::number(listDices[u]));
+            }
+            tirage.append(QString(")"));
+
 			result+=signOperator*sumDice;
 		} // Fin de la lecture et du tirage des des
 
