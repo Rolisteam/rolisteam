@@ -319,7 +319,6 @@ void MainWindow::receiveData(quint64 readData,quint64 size)
     else if(readData!=size)
     {
         statusBar()->setVisible(true);
-               qDebug()<< readData << size;
         statusBar()->addWidget(m_downLoadProgressbar);
         m_downLoadProgressbar->setVisible(true);
         quint64 i = (size-readData)*100/size;

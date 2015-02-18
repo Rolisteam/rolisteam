@@ -4,7 +4,9 @@
 #include "newemptymapdialog.h"
 #include "ui_newemptymapdialog.h"
 
+#include "preferencesmanager.h"
 
+QStringList  NewEmptyMapDialog::m_permissionData = QStringList() ;
 
 NewEmptyMapDialog::NewEmptyMapDialog(QWidget *parent) :
     QDialog(parent),
@@ -23,10 +25,10 @@ NewEmptyMapDialog::NewEmptyMapDialog(QWidget *parent) :
     connect(ui->m_portraitCheckbox,SIGNAL(clicked()),this,SLOT(updateSize()));
     connect(ui->m_sqareCheckbox,SIGNAL(clicked()),this,SLOT(updateSize()));
 
-    QStringList data;
-    data << tr("No Right") << tr("His character") << tr("All Permissions");
-    ui->m_permissionSelector->addItems(data);
+    m_permissionData   << tr("No Right") << tr("His character") << tr("All Permissions");
+    ui->m_permissionSelector->addItems(m_permissionData);
 
+  //  ui->m_permissionSelector->setCurrentIndex(PreferencesManager::getInstance()->value("defaultPermissionMap",0).toInt());
     updateSize();
 }
 
@@ -38,11 +40,15 @@ NewEmptyMapDialog::~NewEmptyMapDialog()
 void NewEmptyMapDialog::resetData()
 {
     ui->m_titleEdit->setText("");
+    ui->m_permissionSelector->setCurrentIndex(PreferencesManager::getInstance()->value("defaultPermissionMap",0).toInt());
     m_colorButton->setColor(Qt::white);
-    ui->m_permissionSelector->setCurrentIndex(0);
     ui->m_landscapeCheckbox->setChecked(true);
     ui->m_middleRadio->setChecked(true);
     updateSize();
+}
+QStringList NewEmptyMapDialog::getPermissionData()
+{
+    return m_permissionData;
 }
 
 void NewEmptyMapDialog::updateSize()

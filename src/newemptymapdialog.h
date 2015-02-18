@@ -23,6 +23,7 @@ public:
     QString getTitle( ) const;
     QColor getColor( ) const;
     QSize getSize() const;
+    static QStringList getPermissionData();
 
 public slots:
     /**
@@ -38,6 +39,7 @@ private:
     Ui::NewEmptyMapDialog *ui;
 
     QStringList  m_labelModel;
+    static QStringList  m_permissionData;
     QList<QSize> m_landscapeModel;
     QList<QSize> m_portraitModel;
     QList<QSize> m_squareModel;

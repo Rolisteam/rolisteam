@@ -36,6 +36,8 @@
 
 #include "ui_preferencesdialogbox.h"
 
+#include "newemptymapdialog.h"
+
 /*********************
  * PreferencesDialog *
  *********************/
@@ -44,6 +46,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     : QDialog(parent, f), ui(new Ui::PreferencesDialogBox())
 {
     ui->setupUi(this);
+    ui->m_defaultMapModeCombo->addItems(NewEmptyMapDialog::getPermissionData());
 
     m_preferences = PreferencesManager::getInstance();
 
@@ -83,7 +86,7 @@ void PreferencesDialog::load()
     ui->m_opacitySlider->setValue(m_preferences->value("Fog_opacity",fog.red()).toInt());
     ui->m_opacitySpin->setValue(m_preferences->value("Fog_opacity",fog.red()).toInt());
 
-
+    ui->m_defaultMapModeCombo->setCurrentIndex(m_preferences->value("defaultPermissionMap",0).toInt());
     ui->m_fogColor->setColor(m_preferences->value("Mask_color",Qt::darkMagenta).value<QColor>());
 
     ui->m_pictureAdjust->setChecked(m_preferences->value("PictureAdjust",true).toBool());
@@ -101,6 +104,8 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("MinutesDirectory",ui->m_minuteDir->dirName());
     m_preferences->registerValue("ChatDirectory",ui->m_chatDir->dirName());
     m_preferences->registerValue("MainWindow_MustBeChecked",ui->m_checkUpdate->isChecked());
+    m_preferences->registerValue("defaultPermissionMap",ui->m_defaultMapModeCombo->currentIndex());
+
 
     QColor color;
     int opacity=ui->m_opacitySlider->value();

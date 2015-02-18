@@ -156,6 +156,20 @@
              </widget>
             </item>
             <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,1">
+              <item>
+               <widget class="QLabel" name="label_12">
+                <property name="text">
+                 <string>Default Permission:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="m_defaultMapModeCombo"/>
+              </item>
+             </layout>
+            </item>
+            <item>
              <widget class="QLabel" name="label_9">
               <property name="text">
                <string/>
