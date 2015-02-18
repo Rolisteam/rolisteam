@@ -36,6 +36,7 @@ signals:
 
 public slots:
     void onEditCurrentItemColor();
+    void customContextMenuEvent ( QPoint);
 
 protected slots:
     virtual void mouseDoubleClickEvent ( QMouseEvent * );

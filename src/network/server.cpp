@@ -19,11 +19,13 @@
  ***************************************************************************/
 
 #include "server.h"
+#include <QTcpSocket>
 
 Server::Server(int port,QObject *parent) :
     QTcpServer(parent),m_port(port)
 {
-
+    m_list = new QList<QTcpSocket*>;
+    connect(this,SIGNAL(newConnection()),this,SLOT(incommingTcpConnection()));
 }
 void Server::startConnection()
 {
@@ -31,4 +33,19 @@ void Server::startConnection()
     {
         emit error(tr("Enable to start the server"));
     }
+}
+void Server::incommingTcpConnection()
+{
+    if(hasPendingConnections())
+    {
+        QTcpSocket* tmp = nextPendingConnection();
+        connect(tmp,SIGNAL(readyRead()),this,SLOT(readDataFromClient()));
+        m_list->append(tmp);
+    }
+}
+void Server::readDataFromClient()
+{
+    QTcpSocket* tmp = static_cast<QTcpSocket*>(sender());
+    qDebug() << tmp->readAll();
+
 }

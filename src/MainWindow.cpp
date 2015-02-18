@@ -133,10 +133,11 @@ MainWindow::MainWindow()
     m_toolbar = new ToolsBar(this);
     m_preferenceDialog = new PreferenceDialog(this);
 
-    m_rclient=NULL;
+    m_rclient= new RClient();
 
     readSettings();
     m_workspace = new ImprovedWorkspace(m_toolbar->currentColor());
+    m_workspace->setRClient(m_rclient);
     m_workspace->readSettings();
 
     // all other allocation must be done after the settings reading.
@@ -654,8 +655,8 @@ void MainWindow::onConnection(QAction* p)
     if(m_connectionMap->contains(p))
     {
          m_currentConnection = m_connectionMap->value(p);
-         m_rclient = new RClient(m_currentConnection);
-         m_rclient->startConnection();
+         //m_rclient = new RClient();
+         m_rclient->startConnection(m_currentConnection);
     }
 }
 

@@ -28,6 +28,7 @@
 *
 */
 class PreferencesManager;
+class RClient;
 class SubMdiWindows : public QMdiSubWindow
 {
     Q_OBJECT
@@ -44,6 +45,7 @@ public:
 
     virtual void saveFile(QString & file)=0;
     virtual void openFile(QString & file)=0;
+    virtual void setRClient(RClient* t);
 
 public slots:
 	/**
@@ -121,6 +123,8 @@ protected:
 	*/
     SubWindowType m_type;
 
+
+    RClient* m_client;
     /**
       * pointer to the unique instance of preference manager.
       */

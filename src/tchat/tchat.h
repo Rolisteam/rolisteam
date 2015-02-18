@@ -19,14 +19,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-/********************************************************************/
-/*                                                                  */
-/* Fenetre permettant aux utilisateurs de communiquer entre eux par */
-/* ecrit. Il existe un tchat par utilisateur distant, et un tchat   */
-/* commun permettant de discuter avec tous les utilisateurs.        */
-/*                                                                  */
-/********************************************************************/	
-
 
 #ifndef TCHAT_H
 #define TCHAT_H

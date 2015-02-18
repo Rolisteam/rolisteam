@@ -63,7 +63,7 @@ public:
       */
     void setVariantMenu(QMenu* menu);
 
-
+    void setRClient(RClient* t);
 
     virtual void readSettings();
     virtual void writeSettings();
@@ -227,6 +227,8 @@ private:
       * pointer to the unique instance of preference manager.
       */
     PreferencesManager* m_options;
+
+    RClient* m_client;
 
     /**
       * pointer to the variant menu

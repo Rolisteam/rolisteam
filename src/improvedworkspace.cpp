@@ -155,6 +155,7 @@ void ImprovedWorkspace::initCursors()
 
 void ImprovedWorkspace::addWidget(SubMdiWindows* subWindow)
 {
+    subWindow->setRClient(m_client);
     addSubWindow(subWindow);
     connect(this,SIGNAL(currentCursorChanged(QCursor*)),subWindow,SLOT(currentCursorChanged(QCursor*)));
 
@@ -172,7 +173,10 @@ void ImprovedWorkspace::addWidget(SubMdiWindows* subWindow)
     connect(this,SIGNAL(currentColorHasChanged(QColor&)),subWindow,SLOT(currentColorChanged(QColor&)));
     connect(subWindow,SIGNAL(windowStateChanged(Qt::WindowStates,Qt::WindowStates)),subWindow,SLOT(changedStatus(Qt::WindowStates,Qt::WindowStates)));
 }
-
+void ImprovedWorkspace::setRClient(RClient* t)
+{
+    m_client=t;
+}
 
 void ImprovedWorkspace::setVariantMenu(QMenu* menu)//should be called only once.
 {

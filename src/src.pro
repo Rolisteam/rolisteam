@@ -76,11 +76,15 @@ HAVE_NULL {
 }
 RESOURCES += ../rolisteam.qrc
 documentation.path = bin/doc
+unix {
+    documentation.path = /usr/share/doc/rolisteam-doc/
+}
 macx { 
     QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
     documentation.path = bin/rolisteam.app/Contents/Resources/doc
 }
-documentation.files = resources/doc/*
+documentation.files = resources/doc/rolisteam.qhc
+target.path=/usr/bin/
 INSTALLS += documentation \
     target
 DEFINES += VERSION=\\\"2.0.0\\\"

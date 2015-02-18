@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Renaud Guezennec                                *
+ *     Copyright (C) 2009 by Renaud Guezennec                             *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This program is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,45 +17,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef MESSAGE_H
+#define MESSAGE_H
 
-#ifndef SERVER_H
-#define SERVER_H
+#include <QByteArray>
 
-#include <QTcpServer>
-/**
-  * @brief rolisteam server, core of the network feature.
-  */
-class Server : public QTcpServer
+class Message : public QByteArray
 {
-    Q_OBJECT
-
 public:
-    /**
-      * @brief constructor
-      */
-    explicit Server(int port=6660,QObject *parent = 0);
-    /**
-      * @brief start to listen the port. Waiting client connection
-      */
-    void startConnection();
-public slots:
-    void readDataFromClient();
-signals:
-    /**
-      * @brief is called when something wrong.
-      */
-    void error(QString);
-private slots:
-    void incommingTcpConnection();
+    Message();
+    //QByteArray& getDataArray();
 
-private:
-    /**
-      * @brief network port which be lockup by the server.
-      */
-    int m_port;
 
-    QList<QTcpSocket*>* m_list;
+//private:
+    //QByteArray m_internalData;
+
+
 
 };
 
-#endif // SERVER_H
+#endif // MESSAGE_H

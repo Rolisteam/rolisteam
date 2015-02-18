@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "submdiwindows.h"
 #include <QDebug>
+#include "rclient.h"
 #include "preferencesmanager.h"
 SubMdiWindows::SubMdiWindows(QWidget* parent)
     : QMdiSubWindow(parent)
@@ -51,6 +52,11 @@ void SubMdiWindows::currentCursorChanged(QCursor* cursor)
     m_currentCursor = cursor;
 
 }
+void SubMdiWindows::setRClient(RClient* t)
+{
+    m_client=t;
+}
+
 void SubMdiWindows::currentColorChanged(QColor& penColor)
 {
 m_penColor = penColor;

@@ -21,16 +21,20 @@
 #include "rclient.h"
 #include <QHostAddress>
 #include <QDebug>
+#include "readingthread.h"
 
-RClient::RClient(Connection& connectpar,QObject *parent) :
-    QObject(parent),m_connection(connectpar)
+RClient::RClient(QObject *parent)
+    : QObject(parent)
 {
     m_client = new QTcpSocket(this);
+    m_reading = new ReadingThread(m_client);
+    m_message = new QList<Message>();
     m_currentState =DISCONNECTED;
     connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(errorOccurs()));
     connect(m_client,SIGNAL(connected()),this,SLOT(isConnected()));
-    connect(m_client,SIGNAL(readyRead()),this,SLOT(readData()));
+    connect(m_client,SIGNAL(readyRead()),m_reading,SLOT(readDataFromSocket()));
 }
+
 RClient::~RClient()
 {
 
@@ -41,10 +45,10 @@ void RClient::errorOccurs()
     qDebug() << m_client->errorString();
 }
 
-void RClient::startConnection()
+void RClient::startConnection(Connection& connection)
 {
-    //QHostAddress addr(m_connection.getAddress());
-   // qDebug() << m_connection.getAddress() << m_connection.getPort();
+    m_connection = connection;
+    m_reading->start();
     m_client->connectToHost(m_connection.getAddress(),m_connection.getPort());
 }
 void RClient::isConnected()
@@ -54,6 +58,23 @@ void RClient::isConnected()
 }
 void RClient::readData()
 {
-    m_currentState=CONNECTED;
     qDebug() << "ready to read";
 }
+void RClient::addMessageToSendQueue(Message m)
+{
+    m_readingMutex.lock();
+        m_message->append(m);
+    m_readingMutex.unlock();
+}
+
+
+
+
+
+
+
+/*int RClient::getId(void* t)
+{/// @todo a better way should be found. Not network ready the server should give the id instead.
+        m_registedSender.append(t);
+        return m_registedSender.size();
+}*/

@@ -24,14 +24,17 @@
 #include <QMouseEvent>
 #include <QDebug>
 #include <QColorDialog>
+#include <QMenu>
 
 UserListView::UserListView(QWidget *parent) :
     QTreeView(parent)
 {
     setHeaderHidden(true);
     m_delegate = new UserListDelegate(this);
+    setContextMenuPolicy (Qt::CustomContextMenu);
     setItemDelegate(m_delegate);
     connect(this,SIGNAL(editCurrentItemColor()),this,SLOT(onEditCurrentItemColor()));
+    connect(this,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(customContextMenuEvent(QPoint)));
 }
 void UserListView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
@@ -62,6 +65,19 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
     }
     else
         QTreeView::mouseDoubleClickEvent(event);
+}
+void UserListView::customContextMenuEvent ( QPoint e )
+{
+    QMenu popMenu(this);
+    popMenu.addAction(tr("Set Avatar"));
+    /// @todo check if the position is a valid person (and belongs to the user)
+    if(popMenu.exec(this->mapToGlobal(e)))
+    {
+
+
+
+    }
+
 }
 void UserListView::onEditCurrentItemColor()
 {

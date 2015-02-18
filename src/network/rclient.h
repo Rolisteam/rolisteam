@@ -24,7 +24,11 @@
 #include <QObject>
 #include <QString>
 #include <QTcpSocket>
+#include <QMutex>
+#include "message.h"
 #include "connection.h"
+class ReadingThread;
+class WritingThread;
 /**
   * @brief Tcp client for establishing the connection with the server. It also manages data transfer from/to the server.
   *
@@ -39,17 +43,21 @@ public:
     enum State{DISCONNECTED,CONNECTED,ERROR};
     /**
       * @brief Constructor
-      * @param Connection which is gathering all data to reach the server
       */
-    explicit RClient(Connection& connect,QObject *parent = 0);
+    explicit RClient(QObject *parent = 0);
     /**
       * @brief destructor
       */
     ~RClient();
     /**
       * @brief initializes the connection.
+      * @param Connection which is gathering all data to reach the server
       */
-    void startConnection();
+    void startConnection(Connection& connection);
+
+    //int getId(void*);
+    void addMessageToSendQueue(Message m);
+
 protected slots:
     /**
       * @brief calls when an error occurs during the connection.
@@ -76,6 +84,12 @@ private:
       * @brief stores the current connection state.
       */
     State m_currentState;
+    ReadingThread* m_reading;
+
+    //QList<void*> m_registedSender;
+    QList<Message>* m_message;
+    QMutex m_readingMutex;
+    QMutex m_writingMutex;
 };
 
 #endif // RCLIENT_H

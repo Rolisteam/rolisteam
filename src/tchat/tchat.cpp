@@ -36,6 +36,8 @@
 #include "pluginmanager.h"
 #include "dicesysteminterface.h"
 #include <QDebug>
+#include "message.h"
+#include "rclient.h"
 
 Tchat::Tchat(QWidget *parent)
 : SubMdiWindows(parent)
@@ -217,6 +219,11 @@ void Tchat::onEntry()
         text = tmp->rollDice(m_tchatEditor->document()->toPlainText());
     }
     m_meetingRoom->append(text);
-
-
+    /// todo: send messages
+    // sendMessage();
+    Message mtmp;
+    QDataStream msg(&mtmp,QIODevice::ReadWrite);
+    /// @todo: add chat ID, sender and few other stuff
+    msg << objectName() << text;
+    m_client->addMessageToSendQueue(mtmp);
 }
