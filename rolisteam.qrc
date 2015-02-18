@@ -61,5 +61,14 @@
         <file alias="story.png">resources/icones/scenario.png</file>
         <file alias="exit.png">resources/icones/exit.png</file>
         <file alias="settings.png">resources/icones/settings.png</file>
+        <file alias="fit-page.png">resources/icones/fit-page-32.png</file>
+        <file alias="fit-window.png">resources/icones/fit-width-24.png</file>
+        <file>traduction/qt_fr.qm</file>
+        <file>traduction/rolisteam_de.qm</file>
+        <file>traduction/rolisteam_es.qm</file>
+        <file>traduction/rolisteam_fi.qm</file>
+        <file>traduction/rolisteam_it.qm</file>
+        <file>traduction/qt_de.qm</file>
+        <file>traduction/qt_es.qm</file>
     </qresource>
 </RCC>

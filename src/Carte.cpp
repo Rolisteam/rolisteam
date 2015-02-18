@@ -47,8 +47,6 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
     m_currentMode = Carte::GM_ONLY;
     m_currentTool = BarreOutils::main;
 
-    m_fogColor = PreferencesManager::getInstance()->value("Fog_color",QVariant(Qt::black)).value<QColor>();
-
     m_originalBackground = new QImage(image->size(), QImage::Format_ARGB32);
     *m_originalBackground = image->convertToFormat(QImage::Format_ARGB32);
     
@@ -57,7 +55,9 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
     *m_backgroundImage = image->convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
     m_alphaLayer = new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
-    m_alphaLayer->fill(masquer?m_fogColor:Qt::white);
+
+    QPainter painterAlpha(m_alphaLayer);
+    painterAlpha.fillRect(0, 0, image->width(), image->height(),masquer?getFogColor():Qt::white);
 
     p_init();
 }
@@ -75,13 +75,19 @@ void Carte::p_init()
     m_localPlayer = PlayersList::instance()->localPlayer();
 
     fondAlpha = new QImage(m_originalBackground->size(), QImage::Format_ARGB32);
+
+
+
     ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha);
+
+    QColor color(fondAlpha->pixel(10,10));
+    QColor color2(m_alphaLayer->pixel(10,10));
 
 
     setAutoFillBackground(true);
-    //QPalette pal = palette();
-    //pal.setColor(QPalette::Window, Qt::darkMagenta);
-   // setPalette(pal);
+    QPalette pal = palette();
+    pal.setColor(QPalette::Window, PreferencesManager::getInstance()->value("Mask_color",Qt::darkMagenta).value<QColor>());
+    setPalette(pal);
     
     // variable Initialisation
     taillePj = 12;
@@ -130,7 +136,7 @@ void Carte::p_init()
 Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
-    qDebug()<< "constructor 2 carte" ;
+
     m_currentMode = Carte::GM_ONLY;
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
@@ -187,7 +193,7 @@ void Carte::paintEvent(QPaintEvent *event)
 
     //painter.drawImage(event->rect(), *fondAlpha, event->rect());
     //qDebug()<<"zoneNouvelle" << m_refreshZone;
-    //painter.drawImage(rect(), *fondAlpha, fondAlpha->rect());
+    painter.drawImage(rect(), *fondAlpha, fondAlpha->rect());
 
 
     if (boutonGaucheEnfonce == false)
@@ -201,6 +207,9 @@ void Carte::paintEvent(QPaintEvent *event)
 
     dessiner(painter);
 
+
+   // painter.drawImage(rect(), *m_alphaLayer, m_alphaLayer->rect());
+
     /*painter.setBrush(Qt::black);
     painter.fillRect(m_refreshZone,Qt::black);*/
 }
@@ -213,7 +222,7 @@ QPoint Carte::mapToScale(const QPoint & p)
     tmp.setY(tmp.y()*m_scaleY);
 
 
-    //qDebug() << m_scaleX << m_scaleY << tmp << p;
+
 
     return tmp;
 }
@@ -599,7 +608,9 @@ void Carte::dessiner(QPainter &painter)
     if (G_couleurCourante.type == qcolor)
         couleurPinceau = G_couleurCourante.color;
     else if (G_couleurCourante.type == masque)
-        couleurPinceau = m_fogColor;
+    {
+        couleurPinceau = getFogColor();
+    }
     else if(G_couleurCourante.type == demasque)
         couleurPinceau = Qt::white;
     else if(G_couleurCourante.type == efface)
@@ -701,7 +712,6 @@ void Carte::dessiner(QPainter &painter)
         // On dessine un rectangle plein
         painter.fillRect(QRect(m_originePoint, m_mousePoint), couleurPinceau);
     }
-    
     else if (m_currentTool == BarreOutils::elliVide)
     {
         // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point d'origine
@@ -894,6 +904,8 @@ bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, con
             pixelDestination[x+y] = (pixelSource[x+y] & 0x00FFFFFF) | ((pixelAlpha[x+y] & 0x00FF0000) << 8);
         }
     }
+
+
         
     return true;
 }
@@ -1510,7 +1522,7 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
     message.string8(idCarte);
     message.uint8(taillePj);
     message.uint8(getPermissionMode());
-    message.uint8(m_fogColor.red());
+    message.uint8(getFogColor().red());
     message.byteArray32(baFondOriginal);
     message.byteArray32(baFond);
     message.byteArray32(baAlpha);
@@ -1926,7 +1938,7 @@ void Carte::dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichi
     else if (couleur.type == masque)
     {
         painter.begin(m_alphaLayer);
-        couleurPinceau = m_fogColor;
+        couleurPinceau = getFogColor();
     }
     else if (couleur.type == demasque)
     {
@@ -2013,7 +2025,7 @@ void Carte::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneA
     else if (couleur.type == masque)
     {
         painter.begin(m_alphaLayer);
-        couleurPinceau = m_fogColor;
+        couleurPinceau = getFogColor();
     }
     else if (couleur.type == demasque)
     {
@@ -2081,7 +2093,7 @@ void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arri
     else if (couleur.type == masque)
     {
         painter.begin(m_alphaLayer);
-        couleurPinceau = m_fogColor;
+        couleurPinceau = getFogColor();
     }
     else if (couleur.type == demasque)
     {
@@ -2210,17 +2222,27 @@ void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arri
     afficheOuMasquePnj();
 }
 
+QColor Carte::getFogColor()
+{
+    if(!G_joueur)
+    {
+       return PreferencesManager::getInstance()->value("Fog_color",QVariant(Qt::black)).value<QColor>();
+    }
+    else
+    {
+        return QColor(0,0,0);
+    }
+}
 
 void Carte::adapterCoucheAlpha(quint8 intensiteAlpha)
 {
-    // Si l'intensite passee en parametre correspond a celle utilisee par l'utilisateur, aucune modif n'est necessaire : on quitte la fonction
-    if (intensiteAlpha == m_fogColor.red())
+    if (intensiteAlpha == getFogColor().red())
         return;
         
     // Dans le cas contraire il faut modifier tous les pixels de la couche alpha
     
     // Calcul de la difference entre les 2 intensites
-    qint16 diff = (qint16)(m_fogColor.red()) - (qint16)intensiteAlpha;
+    qint16 diff = (qint16)(getFogColor().red()) - (qint16)intensiteAlpha;
     // Nbr de pixels de la couche alpha
     int tailleAlpha = m_alphaLayer->width() * m_alphaLayer->height();
     // Pointeur vers les donnees de l'image
@@ -2350,6 +2372,9 @@ void Carte::saveMap(QDataStream &out, QString titre)
     out << baFondOriginal;
     out << baFond;
     out << baAlpha;
+
+
+
 
     DessinPerso *perso;
     quint16 nombrePnj = 0;

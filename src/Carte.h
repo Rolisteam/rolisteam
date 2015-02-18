@@ -140,6 +140,7 @@ private :
     void emettreCarteGeneral(QString titre, Liaison * link = NULL, bool versLiaisonUniquement = false);
     void emettreTousLesPersonnagesGeneral(Liaison * link = NULL, bool versLiaisonUniquement = false);
     DessinPerso* dansDessinPerso(QPoint positionSouris);
+    QColor getFogColor();
 
     typedef struct
     {
@@ -163,7 +164,7 @@ private :
     QPoint m_origineScalePoint;
     QPoint m_scalePoint;
     QRect  m_refreshZone;
-    QColor m_fogColor;
+
 
     QPoint diffSourisDessinPerso;        // difference entre le coin sup gauche du PNJ selectionne (pnjSelectionne) et la position de la souris au moment du clic
     QRect zoneOrigine;                    // zone a rafraichir au 1er clic de la souris, puis zone precedemment rafraichie
