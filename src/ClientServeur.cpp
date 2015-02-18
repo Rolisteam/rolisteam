@@ -351,8 +351,8 @@ else
 	liaisons.removeAt(i);
 	// Recuperation de l'identifiant du joueur correspondant a la liaison
 	// (en tenant compte du fait que le 1er utilisateur est toujours le serveur)
-#ifndef NULL_PLAYER
 	QString identifiant = G_listeUtilisateurs->indentifiantUtilisateur(i+1);
+#ifndef NULL_PLAYER
 	// Si l'utilisateur etait le MJ, on reinitialise le lecteur audio
         if (G_listeUtilisateurs->estUnMj(i+1))
         {

@@ -103,7 +103,9 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 		// Creation de l'application
         QApplication app(argc, argv);
         QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-
+        QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+	
+        QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
 		// Creation de la fenetre de log
 		Log = new QTextEdit();
