@@ -1311,40 +1311,32 @@ void Carte::changerTaillePjCarte(int nouvelleTaille, bool updatePj)
         //emit changerTaillePj(nouvelleTaille);
 }
 
-/********************************************************************/
-/* Renvoie la taille des PJ de la carte                             */
-/********************************************************************/
 int Carte::tailleDesPj()
 {
     return taillePj;
 }
 
-/********************************************************************/
-/* Recherche dans la carte le personnage dont l'ID est passe en     */
-/* parametre. Renvoie 0 si le personnage n'est pas trouve           */
-/********************************************************************/
+
 DessinPerso* Carte::trouverPersonnage(QString idPerso)
 {
-    DessinPerso *perso;
-
-    // On recupere la liste des enfants de la carte (tous des DessinPerso)
-    QObjectList enfants = children();
-    // Taille de la liste
-    int tailleListe = enfants.size();
-    
+    DessinPerso *perso=NULL;
     bool ok = false;
-    // Parcours des DessinPerso
-    for (int i=0; i<tailleListe && !ok; i++)
+    for (int i=0; i<children().size() && !ok; i++)
     {
-        perso = (DessinPerso *)(enfants[i]);
-        // On cherche le perso dont l'identifiant correspond
-        if (perso->idPersonnage() == idPerso)
-            ok = true;
+        perso = dynamic_cast<DessinPerso *>(children().at(i));
+        if(NULL!=perso)
+        {
+            if (perso->idPersonnage() == idPerso)
+            {
+                ok = true;
+            }
+        }
+
     }
-    // Le personange n'a pas ete trouve
+
     if (!ok)
-        return 0;
-    // Le personnage a ete trouve
+        return NULL;
+
     return perso;
 }
 

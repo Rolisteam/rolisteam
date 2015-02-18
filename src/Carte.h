@@ -79,7 +79,14 @@ public :
     int tailleDesPj();
     bool pjAffiche(QString idPerso);
     QString identifiantCarte();
+
+    /**
+     * @brief trouverPersonnage
+     * @param idPerso id of the character
+     * @return the corresponding DessinPerso or NULL
+     */
     DessinPerso* trouverPersonnage(QString idPerso);
+
     QString getLastSelectedCharacterId();
     bool selectCharacter(QString& id);
     void setPermissionMode(NouveauPlanVide::PermissionMode mode);
