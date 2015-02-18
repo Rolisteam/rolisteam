@@ -79,6 +79,7 @@ MainWindow::MainWindow()
     // DockWidget Init
     ////////////
     m_sessionManager = new SessionManager();
+    connect( m_sessionManager,SIGNAL(openFile(CleverURI*)),this,SLOT(openFile(CleverURI*)));
     m_playerListWidget = new UserListWidget();
     m_audioPlayer = AudioPlayer::getInstance(this);
 
@@ -147,29 +148,29 @@ void MainWindow::createMenu()
     m_fileMenu = menuBar()->addMenu(tr("&File"));
     m_newMenu = m_fileMenu->addMenu(tr("&New"));
     m_newMapAct = m_newMenu->addAction(tr("&Map"));
-    m_newMapAct->setIcon(QIcon(":/resources/icons/map.png"));
+    m_newMapAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::MAP)));
     m_noteEditoAct = m_newMenu->addAction(tr("&Note Editor"));
-    m_noteEditoAct->setIcon(QIcon(":/resources/icons/notes.png"));
+    m_noteEditoAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::TEXT)));
     m_dataSheetAct = m_newMenu->addAction(tr("&CharacterSheet Viewer"));
-    m_dataSheetAct->setIcon(QIcon(":/resources/icons/treeview.png"));
+    m_dataSheetAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::CHARACTERSHEET)));
 
     m_newScenarioAct = m_newMenu->addAction(tr("&Scenario"));
-    m_newScenarioAct->setIcon(QIcon(":/resources/icons/scenario.png"));
+    m_newScenarioAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::SCENARIO)));
 
     m_openMenu = m_fileMenu->addMenu(tr("&Open"));
     m_openMapAct= m_openMenu->addAction(tr("&Map"));
-    m_openMapAct->setIcon(QIcon(":/resources/icons/map.png"));
+    m_openMapAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::MAP)));
 
     m_openScenarioAct= m_openMenu->addAction(tr("&Scenario"));
-    m_openScenarioAct->setIcon(QIcon(":/resources/icons/scenario.png"));
+    m_openScenarioAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::SCENARIO)));//QIcon(":/resources/icons/scenario.png"));
 
     m_openPictureAct= m_openMenu->addAction(tr("&Picture"));
-    m_openPictureAct->setIcon(QIcon(":/resources/icons/image.png"));
+    m_openPictureAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::PICTURE)));
     m_openCharacterSheetsAct = m_openMenu->addAction(tr("&CharacterSheet Viewer"));
-    m_openCharacterSheetsAct->setIcon(QIcon(":/resources/icons/treeview.png"));
+    m_openCharacterSheetsAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::CHARACTERSHEET)));
 
     m_openNoteAct= m_openMenu->addAction(tr("&Note"));
-    m_openNoteAct->setIcon(QIcon(":/resources/icons/notes.png"));
+    m_openNoteAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::TEXT)));
 
 
     m_recentFilesMenu = m_fileMenu->addMenu(tr("&Recent Files"));
@@ -288,7 +289,7 @@ void MainWindow::createMenu()
 void MainWindow::connectActions()
 {
     connect(m_newConnectionAct,SIGNAL(triggered()),this,SLOT(addConnection()));
-    connect(m_openPictureAct, SIGNAL(triggered(bool)), this, SLOT(askOpenImage()));
+    connect(m_openPictureAct, SIGNAL(triggered(bool)), this, SLOT(askPath()));
     connect(m_newMapAct, SIGNAL(triggered(bool)), this, SLOT(clickOnMapWizzard()));
     connect(m_helpAct, SIGNAL(triggered()), this, SLOT(help()));
     connect(m_aproposAct, SIGNAL(triggered()), this, SLOT(about()));
@@ -310,7 +311,7 @@ void MainWindow::connectActions()
     connect( m_cascadeSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(cascadeSubWindows()));
     connect( m_tileSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(tileSubWindows()));
 
-    connect(m_openCharacterSheetsAct,SIGNAL(triggered()),this,SLOT(AskCharacterSheets()));
+    connect(m_openCharacterSheetsAct,SIGNAL(triggered()),this,SLOT(askPath()));
     //connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
 
     connect(m_playerShower,SIGNAL(triggered(bool)),m_audioPlayer,SLOT(setVisible(bool)));
@@ -357,23 +358,19 @@ void MainWindow::addopenedFile(QString& urifile, CleverURI::ContentType type)
      //   m_recentFiles << uri;
 
 }
-void MainWindow::AskCharacterSheets()
-{
-    QString filepath = QFileDialog::getOpenFileName(this, tr("Open Character Sheets"), m_options->value(QString("DataDirectory"),QVariant(".")).toString(),
-            tr("Character Sheets files (*.xml)"));
-    openCharacterSheets(filepath);
-}
 
-void MainWindow::openCharacterSheets(QString filepath)
+bool MainWindow::openCharacterSheets(QString filepath)
 {
     if(!filepath.isEmpty())
     {
         CharacterSheetWindow* characterSheet = new CharacterSheetWindow();
-        addopenedFile(filepath,CleverURI::CHARACTERSHEET);
+        //addopenedFile(filepath,CleverURI::CHARACTERSHEET);
         characterSheet->openFile(filepath);
         addToWorkspace(characterSheet);
         characterSheet->setVisible(true);
+        return true;
     }
+    return false;
 }
 void MainWindow::hideShowWindow(QAction* p)
 {
@@ -423,23 +420,52 @@ void MainWindow::clickOnMapWizzard()
         tmp->show();
     }
 }
-void MainWindow::askOpenImage()
+void MainWindow::askPath()
 {
+    QAction* tmp = static_cast<QAction*>(sender());
+    QString filepath;
+    if(m_openPictureAct==tmp)
+    {
+        filepath = QFileDialog::getOpenFileName(this, tr("Open Image file"), m_options->value(QString("ImageDirectory"),QVariant(".")).toString(),
+               tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)"));
 
-    QString filepath = QFileDialog::getOpenFileName(this, tr("Open Image file"), m_options->value(QString("ImageDirectory"),QVariant(".")).toString(),
-            tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)"));
+        if(openImage(filepath))
+            addopenedFile(filepath,CleverURI::PICTURE);
 
-    openImage(filepath);
+    }
+    else if (m_openCharacterSheetsAct==tmp)
+    {
+        filepath = QFileDialog::getOpenFileName(this, tr("Open Character Sheets"), m_options->value(QString("DataDirectory"),QVariant(".")).toString(),
+                                                tr("Character Sheets files (*.xml)"));
+
+        if(openCharacterSheets(filepath))
+            addopenedFile(filepath,CleverURI::CHARACTERSHEET);
+    }
+
+ /*   case m_openPictureAct:
+
+            break;*/
+
+
+
+
+
+
+
+
 }
-void MainWindow::openImage(QString filepath)
+
+bool MainWindow::openImage(QString filepath)
 {
     if(!filepath.isEmpty())
     {
         Image* tmpImage=new Image(filepath,m_workspace);
-        addopenedFile(filepath,CleverURI::PICTURE);
+        //addopenedFile(filepath,CleverURI::PICTURE);
         addToWorkspace(tmpImage);
         tmpImage->show();
+        return true;
     }
+    return false;
 }
 
 void  MainWindow::onTabBar()
@@ -742,3 +768,23 @@ void MainWindow::help()
 
 
  }
+
+void MainWindow::openFile(CleverURI* uri)
+{
+
+    switch(uri->getType())
+    {
+    case CleverURI::CHARACTERSHEET:
+        openCharacterSheets(uri->getUri());
+        break;
+    case CleverURI::PICTURE:
+        openImage(uri->getUri());
+        break;
+    case CleverURI::MAP:
+        break;
+    case CleverURI::TCHAT:
+        break;
+
+    }
+
+}

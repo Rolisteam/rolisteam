@@ -30,10 +30,12 @@ public:
 
      CleverURI* addRessource(QString& urifile, CleverURI::ContentType type);
  public slots:
-     void addChapter();
+     void addChapter(QModelIndex&);
+     void openResources(QModelIndex&);
 
 signals:
      void changeVisibility(bool);
+     void openFile(CleverURI*);
 protected:
      void closeEvent ( QCloseEvent * event );
 

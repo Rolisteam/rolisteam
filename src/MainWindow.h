@@ -90,6 +90,7 @@ public slots :
         void checkUpdate();
 
         void refreshNetworkMenu();
+        void openFile(CleverURI* );
 
 
 protected :
@@ -146,8 +147,8 @@ private :
           */
         void addopenedFile(QString& , CleverURI::ContentType );
 
-
-
+        bool openImage(QString filepath);
+        bool openCharacterSheets(QString);
 
         /// members declarations.
         AudioPlayer* m_audioPlayer;
@@ -284,9 +285,8 @@ private slots :
         * @brief Show the map wizzard
         *
         */
-        void openImage(QString filepath);
+
         void tcpStateConnectionChanged(RClient::State);
-        void askOpenImage();
         /**
         * @brief Show the about dialog
         *
@@ -329,14 +329,11 @@ private slots :
         void onTabBar();
 
         void openRecentFile(QAction*);
-        void AskCharacterSheets();
-
-        void openCharacterSheets(QString);
 
         void openTchat();
 
         void updateMayBeNeeded();
-
+        void askPath();
 };
 
 #endif

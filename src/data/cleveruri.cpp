@@ -1,9 +1,15 @@
 #include "cleveruri.h"
-
+#include <QString>
 #include <QDebug>
 /////////////////
 // CleverUri
 /////////////////
+QString CleverURI::m_textIcon=QString(":/resources/icons/notes.png");
+QString CleverURI::m_mapIcon=QString(":/resources/icons/map.png");
+QString CleverURI::m_pictureIcon=QString(":/resources/icons/image.png");
+QString CleverURI::m_charactersheetIcon=QString(":/resources/icons/treeview.png");
+QString CleverURI::m_scenarioIcon=QString(":/resources/icons/scenario.png");
+QString CleverURI::m_tchatIcon=QString(":/resources/icons/scenario.png");
 
 CleverURI::CleverURI()
 {
@@ -15,6 +21,30 @@ CleverURI::CleverURI(const CleverURI & mp)
     m_type=mp.getType();
     m_uri=mp.getUri();
     defineShortName();
+}
+QString& CleverURI::getIcon(ContentType type)
+{
+    switch(type)
+    {
+    case CleverURI::CHARACTERSHEET:
+        return m_charactersheetIcon;
+        break;
+    case CleverURI::PICTURE:
+        return m_pictureIcon;
+        break;
+    case CleverURI::MAP:
+         return m_mapIcon;
+        break;
+    case CleverURI::TCHAT:
+        return m_tchatIcon;
+        break;
+    case CleverURI::TEXT:
+        return m_textIcon;
+        break;
+    case CleverURI::SCENARIO:
+        return m_scenarioIcon;
+        break;
+    }
 }
 
 CleverURI::CleverURI(QString uri,ContentType type)

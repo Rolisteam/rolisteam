@@ -151,6 +151,8 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
     if(!index.isValid())
         return QVariant();
 
+    if((role == Qt::TextAlignmentRole) && (index.column()!=0))
+        return Qt::AlignHCenter;
     if(role == Qt::DisplayRole)
     {
         if(index.column()==0)

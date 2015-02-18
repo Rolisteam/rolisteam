@@ -22,7 +22,8 @@ SessionManager::SessionManager()
     m_model = new SessionItemModel;
 
     m_view->setModel(m_model);
-    connect(m_view,SIGNAL(addChapter()),this,SLOT(addChapter()));
+    connect(m_view,SIGNAL(onDoubleClick(QModelIndex&)),this,SLOT(openResources(QModelIndex&)));
+    connect(m_view,SIGNAL(addChapter(QModelIndex&)),this,SLOT(addChapter(QModelIndex&)));
 }
 Chapter* SessionManager::getCurrentChapter()
 {
@@ -54,10 +55,10 @@ void SessionManager::readSettings(QSettings & m)
     m_model->addChapter(t);*/
 
 }
-void SessionManager::addChapter()
+void SessionManager::addChapter(QModelIndex& index)
 {
     QString tmp = tr("Chapter %1").arg(m_currentSession->chapterCount());
-    m_model->addChapter(tmp,m_view->currentIndex());
+    m_model->addChapter(tmp,index);
 }
 
 void SessionManager::writeSettings(QSettings & m)
@@ -75,4 +76,16 @@ void SessionManager::closeEvent ( QCloseEvent * event )
     {
         emit changeVisibility(false);
     }
+}
+void SessionManager::openResources(QModelIndex& index)
+{
+      ResourcesItem* item = static_cast<ResourcesItem*>(index.internalPointer());
+      if(item!=NULL)
+      {
+          CleverURI* uri = dynamic_cast<CleverURI*>(item->getData());
+          if(uri!=NULL)
+          {
+              emit openFile(uri);
+          }
+      }
 }

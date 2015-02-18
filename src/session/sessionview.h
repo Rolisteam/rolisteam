@@ -10,11 +10,20 @@ public:
     explicit SessionView(QWidget *parent = 0);
 protected:
     void contextMenuEvent ( QContextMenuEvent * event );
-signals:
-    void addChapter();
 
+    void mouseDoubleClickEvent( QMouseEvent * );
+signals:
+    void addChapter(QModelIndex&);
+    void removeSelection();
+    void onDoubleClick(QModelIndex&);
+
+private slots:
+    void onAddChapter();
 private:
     QAction* m_addChapterAction;
+    QAction* m_removeAction;
+
+    QPoint m_pointClick;
 
 };
 

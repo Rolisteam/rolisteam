@@ -2,7 +2,7 @@
 #include "cleveruri.h"
 #include "session.h"
 #include <QDebug>
-
+#include <QIcon>
 ResourcesItem::ResourcesItem(RessourcesNode* p,bool leaf)
     : m_data(p),m_isLeaf(leaf)
 {
@@ -156,7 +156,7 @@ int SessionItemModel::rowCount(const QModelIndex& index) const
 }
 int SessionItemModel::columnCount(const QModelIndex&) const
 {
-    return 3;
+    return 1;
 }
 QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
 {
@@ -164,7 +164,7 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
     {
         if(!index.isValid())
             return QVariant();
-        if(index.column()==0)
+        if(index.column()==0)// filename
         {
 
              ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
@@ -174,6 +174,24 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
                //qDebug() << tmp;
                return t->getShortName();
              }
+        }
+    }
+    if(role == Qt::DecorationRole)
+    {
+        if(index.column()==0)// type of file
+        {
+            ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
+            if(tmp)
+            {
+                CleverURI* t =  dynamic_cast<CleverURI*>(tmp->getData());
+                if(t==NULL)
+                    return QVariant();
+
+                 //   return CleverURI::getIcon((CleverURI::ContentType)t->getType());
+                return QIcon(CleverURI::getIcon((CleverURI::ContentType)t->getType()));
+
+               // return t->getShortName();
+            }
         }
     }
     return QVariant();
@@ -206,19 +224,32 @@ Chapter* SessionItemModel::addChapter(QString& name,QModelIndex parent)
     else
         tmp = static_cast<ResourcesItem*>(parent.internalPointer());
 
-    beginInsertRows(parent,tmp->childrenCount(),tmp->childrenCount());
+
     Chapter* t=NULL;
     if(!parent.isValid())
     {
+        beginInsertRows(parent,tmp->childrenCount(),tmp->childrenCount());
         t = m_session->addChapter(name);
+        tmp->addChild(new ResourcesItem(t,false));
+        endInsertRows();
+
+
     }
     else
     {
         Chapter* parentChapter = dynamic_cast<Chapter*>(tmp->getData());
-        t = parentChapter->addChapter(name);
+        if(parentChapter!=NULL)
+        {
+            beginInsertRows(parent,tmp->childrenCount(),tmp->childrenCount());
+            t = parentChapter->addChapter(name);
+            tmp->addChild(new ResourcesItem(t,false));
+            endInsertRows();
+
+        }
+
     }
-    tmp->addChild(new ResourcesItem(t,false));
-    endInsertRows();
+
+
     return t;
 }
 /*void SessionItemModel::refresh()

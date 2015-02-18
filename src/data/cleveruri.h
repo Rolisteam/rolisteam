@@ -9,7 +9,7 @@ class CleverURI : public RessourcesNode
 {
 
 public:
-    enum ContentType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET};
+    enum ContentType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET,SCENARIO};
     CleverURI();
     CleverURI(const CleverURI & mp);
     CleverURI(QString uri,ContentType type);
@@ -26,6 +26,8 @@ public:
     const QString& getShortName() const;
     virtual void setShortName(QString& name);
 
+    static QString& getIcon(ContentType type);
+
 private:
     void defineShortName();
 
@@ -37,7 +39,12 @@ private:
     QString m_shortname;
 
 
-
+    static QString m_textIcon;
+    static QString m_mapIcon;
+    static QString m_pictureIcon;
+    static QString m_charactersheetIcon;
+    static QString m_scenarioIcon;
+    static QString m_tchatIcon;
 
     friend QDataStream& operator<<(QDataStream& os,const CleverURI&);
     friend QDataStream& operator>>(QDataStream& is,CleverURI&);
