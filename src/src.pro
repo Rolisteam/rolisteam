@@ -1,6 +1,5 @@
 TEMPLATE = app
-CONFIG += qt \
-    phonon
+CONFIG += qt
 
 
 CONFIG += HAVE_PHONON
@@ -10,7 +9,16 @@ DEFINES += VERSION_MAJOR=2 VERSION_MIDDLE=0 VERSION_MINOR=0
 # CONFIG += HAVE_FMOD
 # CONFIG += HAVE_NULL
 
-
+isEmpty(QMAKE_LRELEASE) {
+    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]\lrelease.exe
+    else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
+}
+updateqm.input = TRANSLATIONS
+updateqm.output = ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
+updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
+updateqm.CONFIG += no_link
+QMAKE_EXTRA_COMPILERS += updateqm
+PRE_TARGETDEPS += compiler_updateqm_make_all
 
 
 
@@ -42,7 +50,7 @@ DEPENDPATH += . \
     session \
     network \
     minuteseditor \
-    tchat \
+    chat \
     map
 INCLUDEPATH += . \
     drawitem \
@@ -54,9 +62,9 @@ INCLUDEPATH += . \
     data \
     minuteseditor \
     network \
-    tchat \
     pdfviewer \
     charactersheet \
+    chat \
     map
 HEADERS += displaydisk.h \
     Image.h \
@@ -84,8 +92,6 @@ DEFINES += PHONON
 HEADERS += audioplayer.h \
 
 SOURCES += audioplayer.cpp \
-
-QT += phonon
 }
 
 HAVE_NULL { 
@@ -121,7 +127,7 @@ MOC_DIR = ../obj
 OBJECTS_DIR = ../obj
 
 
-
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 
 

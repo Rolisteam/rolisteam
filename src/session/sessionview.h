@@ -3,84 +3,84 @@
 
 #include <QTreeView>
 /**
-  * @brief SessionView is a QTreeView which displays all resources loaded by the user
-  *
-  */
+    * @brief SessionView is a QTreeView which displays all resources loaded by the user
+    *
+    */
 class SessionView : public QTreeView
 {
     Q_OBJECT
 public:
     /**
-      * @brief default constructor
-      *
-      */
+    * @brief default constructor
+    *
+    */
     explicit SessionView(QWidget *parent = 0);
     /**
-      * @brief accessor to the selected items
-      * @return list of selected item index
-      */
+    * @brief accessor to the selected items
+    * @return list of selected item index
+    */
     QModelIndexList getSelection();
-
+    
 protected:
     /**
-      * @brief catches the contextMenu event and shows a menu
-      *
-      */
+    * @brief catches the contextMenu event and shows a menu
+    *
+    */
     void contextMenuEvent ( QContextMenuEvent * event );
     /**
-      * @brief catches the double Click event and open the selected item
-      *
-      */
+    * @brief catches the double Click event and open the selected item
+    *
+    */
     void mouseDoubleClickEvent( QMouseEvent * );
 signals:
     /**
-      * @brief signal to notify one chapter has been added
-      * @param location in the model of the new chapter
-      */
+    * @brief signal to notify one chapter has been added
+    * @param location in the model of the new chapter
+    */
     void addChapter(QModelIndex&);
     /**
-      * @brief signal to notify the selection must be deleted
-      *
-      */
+    * @brief signal to notify the selection must be deleted
+    *
+    */
     void removeSelection();
     /**
-      * @brief signal to notify the double click on item
-      *
-      */
+    * @brief signal to notify the double click on item
+    *
+    */
     void onDoubleClick(QModelIndex&);
     /**
-      * @brief signal to notify the change of current chapter
-      *
-      */
+    * @brief signal to notify the change of current chapter
+    *
+    */
     void defineCurrentChapter();
 private slots:
     /**
-      * @brief slot to define the current chapter
-      */
+    * @brief slot to define the current chapter
+    */
     void onDefineChapter();
-
+    
     /**
-      * @brief slot to add chapter in the current item
-      */
+    * @brief slot to add chapter in the current item
+    */
     void onAddChapter();
 private:
     /**
-      * @brief action triggered for adding chapter
-      */
+    * @brief action triggered for adding chapter
+    */
     QAction* m_addChapterAction;
     /**
-      * @brief action triggered for deleting chapter
-      */
+    * @brief action triggered for deleting chapter
+    */
     QAction* m_removeAction;
     /**
-      * @brief action to select item as current one
-      */
+    * @brief action to select item as current one
+    */
     QAction* m_defineAsCurrent;
     /**
-      * @brief stores the position of the click
-      */
+    * @brief stores the position of the click
+    */
     QPoint m_pointClick;
-
+    
 };
 
 #endif // SESSIONVIEW_H

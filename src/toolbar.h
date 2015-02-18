@@ -62,7 +62,7 @@ public :
       * @brief accessor to the current color
       */
     QColor& currentColor();
-
+    
     // Selectable tools
     /**
       * @brief tools id
@@ -73,7 +73,7 @@ public :
       * @brief accessor to the current tool
       */
     ToolsBar::SelectableTool getCurrentTool();
-public slots :
+    public slots :
     /**
       * @brief increase NPC number
       * @todo rename it
@@ -83,7 +83,6 @@ public slots :
       * @brief accessor to set the current color
       */
     void changeCurrentColor(QColor color);
-
     /**
       * @brief set the size for the given NPC
       */
@@ -91,6 +90,7 @@ public slots :
 
 
 signals:
+
     /**
       * @brief emited when current tool has been changed by user
       */
@@ -117,8 +117,8 @@ private:
       * @brief constructor for Qt widget
       */
     ToolsBar(QWidget *parent = 0);
-
-
+    
+    
     static ToolsBar* m_sigleton;/// address of single instance
     void creerActions(); /// utily function
     void creerOutils(); /// utilyti function
@@ -146,26 +146,26 @@ private:
     QAction *m_movePCAct;
     QAction *m_pcStateAct;
     QAction *m_resetCountAct;
-
- /*   QAction* m_eraseAction;
+    
+    /*   QAction* m_eraseAction;
     QAction* m_hideAction;
     QAction* m_unveilAction;*/
-
-
-
+    
+    
+    
     QString m_currentNPCName;
     int m_currentNPCNumber;
-
-private slots :
+    
+    private slots :
     void resetNpcCount();
     void changeSize(bool floating);
     void changeText(const QString &texte);
     void npcNameChange(const QString &texte);
-
-
-
+    
+    
+    
     void currentActionChanged(QAction* p);
-
+    
 };
-
+    
 #endif

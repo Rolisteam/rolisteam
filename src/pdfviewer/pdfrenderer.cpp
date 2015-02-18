@@ -1,22 +1,22 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   Rolisteam is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *   Copyright (C) 2011 by Renaud Guezennec                                *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   Rolisteam is free software; you can redistribute it and/or modify     *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 
 #include <QtGui>
 
@@ -29,20 +29,23 @@ PDFRenderer::PDFRenderer()
     m_currentPage = 0;
     m_scaleFactor = 0.5;
     setAlignment(Qt::AlignCenter);
-
+    
 }
 
 
 void PDFRenderer::showPage(int page)
 {
-
+    qDebug() << "taill page " <<rect() << page << m_pdf->numPages();
+    if(page>m_pdf->numPages())
+        return;
+    
     QImage image = m_pdf->page(page)->renderToImage(
-                        m_scaleFactor * physicalDpiX(),
-                        m_scaleFactor * physicalDpiY());
-
+                m_scaleFactor * physicalDpiX(),
+                m_scaleFactor * physicalDpiY());
+    
     setPixmap(QPixmap::fromImage(image));
-
-    qDebug() << "taill page " <<rect() << image.rect();
+    
+    
 }
 
 void PDFRenderer::loadDocument(QString filename)
@@ -52,7 +55,7 @@ void PDFRenderer::loadDocument(QString filename)
         m_pdf->setRenderHint(Poppler::Document::Antialiasing);
         m_pdf->setRenderHint(Poppler::Document::TextAntialiasing);
     }
-
+    
 }
 quint32 PDFRenderer::getCurrentPage() const
 {
@@ -68,7 +71,7 @@ void PDFRenderer::mousePressEvent(QMouseEvent *event)
 {
     if (!m_pdf)
         return;
-
+    
     dragPosition = event->pos();
     if (!rubberBand)
         rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
@@ -80,8 +83,8 @@ void PDFRenderer::mouseMoveEvent(QMouseEvent *event)
 {
     if (!m_pdf)
         return;
-if (rubberBand)
-    rubberBand->setGeometry(QRect(dragPosition, event->pos()).normalized());
+    if (rubberBand)
+        rubberBand->setGeometry(QRect(dragPosition, event->pos()).normalized());
 }
 
 void PDFRenderer::mouseReleaseEvent(QMouseEvent *)
@@ -89,7 +92,7 @@ void PDFRenderer::mouseReleaseEvent(QMouseEvent *)
     if (!m_pdf)
         return;
     if (!rubberBand)
-      return;
+        return;
     if (!rubberBand->size().isEmpty()) {
         // Correct for the margin around the image in the label.
         QRectF rect = QRectF(rubberBand->pos(), rubberBand->size());
@@ -97,7 +100,7 @@ void PDFRenderer::mouseReleaseEvent(QMouseEvent *)
         rect.moveTop(rect.top() - (height() - pixmap()->height()) / 2.0);
         selectedText(rect);
     }
-
+    
     rubberBand->hide();
 }
 QMatrix PDFRenderer::matrix() const
@@ -110,7 +113,7 @@ void PDFRenderer::selectedText(const QRectF &rect)
 {
     QRectF selectedRect = matrix().inverted().mapRect(rect);
     // QString text = doc->page(currentPage)->text(selectedRect);
-
+    
     QString text;
     bool hadSpace = false;
     QPointF center;
@@ -125,7 +128,7 @@ void PDFRenderer::selectedText(const QRectF &rect)
             center = box->boundingBox().center();
         }
     }
-
+    
     if (!text.isEmpty())
         emit textSelected(text);
 }
@@ -139,36 +142,36 @@ qreal PDFRenderer::getScaleFactor() const
 }
 void PDFRenderer::wheelEvent(QWheelEvent *event)
 {
-        switch(event->modifiers())
+    switch(event->modifiers())
+    {
+    case Qt::ControlModifier:
+        if(event->delta()>=0)
         {
-            case Qt::ControlModifier:
-                if(event->delta()>=0)
-                {
-                    previousPage();
-                }
-                else
-                {
-                    nextPage();
-                }
-                showPage(m_currentPage);
-                event->accept();
-            break;
-            case Qt::ShiftModifier:
-            if(event->delta()>=0)
-            {
-                m_scaleFactor+=0.1;
-            }
-            else
-            {
-                m_scaleFactor-=0.1;
-            }
-            showPage(m_currentPage);
-            event->accept();
-            break;
-            default:
-            break;
+            previousPage();
         }
-        QLabel::wheelEvent(event);
+        else
+        {
+            nextPage();
+        }
+        showPage(m_currentPage);
+        event->accept();
+        break;
+    case Qt::ShiftModifier:
+        if(event->delta()>=0)
+        {
+            m_scaleFactor+=0.1;
+        }
+        else
+        {
+            m_scaleFactor-=0.1;
+        }
+        showPage(m_currentPage);
+        event->accept();
+        break;
+    default:
+        break;
+    }
+    QLabel::wheelEvent(event);
 }
 
 void PDFRenderer::nextPage()

@@ -32,7 +32,7 @@ class QVBoxLayout;
 class SaturationChooser : public QWidget
 {
     Q_OBJECT
- public:
+public:
     /**
       * @brief default constructor
       */
@@ -47,7 +47,7 @@ class SaturationChooser : public QWidget
       * @param base color
       */
     void setColor(QColor& color);
-
+    
 public slots:
     /**
       * @brief slot to handle change in the base color
@@ -55,15 +55,15 @@ public slots:
       * @param new color's lightness
       */
     void colorHasChanged(int,int);
-
+    
 signals:
     /**
       * @brief emited when saturation changes
       */
     void valueChanged(int);
-
+    
 protected:
-     /**
+    /**
        * @brief redefines the painting method to display the appropriate gradiant
        */
     void paintEvent ( QPaintEvent * event );
@@ -93,7 +93,7 @@ private:
 class ColorTable : public QWidget
 {
     Q_OBJECT
- public:
+public:
     /**
       * @brief default constructor
       */
@@ -103,7 +103,7 @@ signals:
       * @brief emited when user click on the widget to select another color.
       */
     int dataChanged(int,int);
-
+    
 protected:
     /**
       * @brief displays the large set of color thanks of gradiant use.
@@ -131,7 +131,7 @@ public:
       * @param parent widget
       */
     ColorTableChooser(QWidget* parent);
-
+    
 public slots:
     /**
       * @brief handle current color change, users click on the colortable
@@ -151,8 +151,8 @@ signals:
       * @brief emitted when user has selected another color.
       */
     void currentColorChanged(QColor);
-
-
+    
+    
 private:
     QColor m_color;/// current color.
     QVBoxLayout* m_layout;/// vertical layout
@@ -161,7 +161,7 @@ private:
     int m_h; /// current hue
     int m_s; /// current saturation
     //int v;
-
+    
 };
 
 #endif // COLORTABLE_H

@@ -1,22 +1,22 @@
 /***************************************************************************
- *	 Copyright (C) 2009 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *	 Copyright (C) 2009 by Renaud Guezennec                                *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   This program is free software; you can redistribute it and/or modify  *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 
 #include "charactersheet.h"
 #include <QDebug>
@@ -55,7 +55,7 @@ const QString CharacterSheet::getData(int section, int key)
 const  QString CharacterSheet::getTitleSection(int section)
 {
     Q_ASSERT(m_sectionList.size()>section);
-        return m_sectionList[section].getName();
+    return m_sectionList[section].getName();
 }
 const QString CharacterSheet::getSectionValue(int section)
 {
@@ -64,8 +64,8 @@ const QString CharacterSheet::getSectionValue(int section)
 }
 void CharacterSheet::setSectionValue(int section,QString& value)
 {
-      Q_ASSERT(m_sectionList.size()>section);
-       m_sectionList[section].setValue(value);
+    Q_ASSERT(m_sectionList.size()>section);
+    m_sectionList[section].setValue(value);
 }
 
 int CharacterSheet::getSection(int index)
@@ -81,7 +81,7 @@ int CharacterSheet::getSection(int index)
 
 const  QString CharacterSheet::getData(int index)
 {
-
+    
     int currentSection = getSection(index);
     if(index==0)
     {
@@ -93,7 +93,7 @@ const  QString CharacterSheet::getData(int index)
         //QList<QString> tmp = ;
         return m_sectionList[currentSection].at(index);
     }
-
+    
 }
 int CharacterSheet::getIndexCount()
 {
@@ -108,7 +108,7 @@ int CharacterSheet::getIndexCount()
 const QString CharacterSheet::getkey(int index)
 {
     int currentSection = getSection(index);
-
+    
     if(index==0)
     {
         return getTitleSection(currentSection);
@@ -116,7 +116,7 @@ const QString CharacterSheet::getkey(int index)
     else
     {
         index--;
-      //  QList<QString> tmp = m_sectionList[currentSection].keys();
+        //  QList<QString> tmp = m_sectionList[currentSection].keys();
         //return tmp.at(index);
         return QString();
 
@@ -134,19 +134,19 @@ const QString& CharacterSheet::owner() const
 
 void CharacterSheet::setData(int indexSec,int index,QVariant value,bool isHeader)
 {
-       while(index>=m_sectionList[indexSec].size())
-            m_sectionList[indexSec].insert(m_sectionList[indexSec].size(),"");
-       m_sectionList[indexSec].replace(index,value.toString());
+    while(index>=m_sectionList[indexSec].size())
+        m_sectionList[indexSec].insert(m_sectionList[indexSec].size(),"");
+    m_sectionList[indexSec].replace(index,value.toString());
 }
 void CharacterSheet::addData(int indexSec,int index,QVariant value)
 {
-        m_sectionList[indexSec].insert(index,value.toString());
+    m_sectionList[indexSec].insert(index,value.toString());
 }
 void CharacterSheet::appendLine(int sectionIndex)
 {
     if( sectionIndex < m_sectionList.size())
         m_sectionList[sectionIndex].append("");
-
+    
 }
 int CharacterSheet::getSectionCount()
 {
@@ -164,5 +164,5 @@ bool CharacterSheet::removeSection(Section* sec)
 
 void CharacterSheet::removeSectionAt(int index)
 {
-     m_sectionList.removeAt(index);
+    m_sectionList.removeAt(index);
 }

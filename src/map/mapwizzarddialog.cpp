@@ -1,22 +1,22 @@
 /***************************************************************************
-  *      Copyright (C) 2010 by Renaud Guezennec                             *
- *                                                                         *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *      Copyright (C) 2010 by Renaud Guezennec                             *
+    *                                                                         *
+    *                                                                         *
+    *   rolisteam is free software; you can redistribute it and/or modify     *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 #include <QButtonGroup>
 #include <QColorDialog>
 
@@ -34,24 +34,24 @@ MapWizzardDialog::MapWizzardDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     m_model = new PatternModel();
-
+    
     ui->m_gridPattern->setModel(m_model);
-
-
+    
+    
     m_options = PreferencesManager::getInstance();
     m_bgColor = QColor(255,255,255);
-
+    
     m_bgColor = m_options->value(QString("MapWizzard/backgroundcolor"),QVariant::fromValue(m_bgColor)).value<QColor>();
-
+    
     ui->m_colorButton->setStyleSheet(QString("background-color: rgb(%1,%2,%3)").arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()));
     connect(ui->m_colorButton,SIGNAL(clicked()),this,SLOT(clickOnColorButton()));
-
+    
     connect(ui->m_landscapeButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
     connect(ui->m_portraitButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
     connect(ui->m_squareButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
-
+    
     selectedShapeChanged();
-
+    
 }
 
 
@@ -73,7 +73,7 @@ void MapWizzardDialog::changeEvent(QEvent *e)
 }
 void MapWizzardDialog::selectedShapeChanged()
 {
-
+    
     if(ui->m_landscapeButton->isChecked())
     {
         ui->m_smallSizeButton->setText(tr("Small ( %1 x %2)").arg(600).arg(450));
@@ -97,18 +97,18 @@ void MapWizzardDialog::selectedShapeChanged()
         ui->m_bigSizeButton->setText(tr("Big ( %2 x %1)").arg(900).arg(900));
         ui->m_hugeSizeButton->setText(tr("Huge ( %2 x %1)").arg(1100).arg(1100));
     }
-
-
+    
+    
 }
 void MapWizzardDialog::setAllMap(Map* map)
 {
-
+    
     map->setPattern(m_model->getPatternAt(ui->m_gridPattern->currentIndex()));
     map->setPatternSize(ui->m_sizeGrid->value());
     map->setScale(ui->m_scaleOfGrid->value());
     map->setScaleUnit(ui->m_unitPattern->currentIndex());
     map->setBackGroundColor(m_bgColor);
-
+    
     if(ui->m_customSize->isChecked())
     {
         bool ok = false;

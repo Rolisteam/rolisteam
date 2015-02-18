@@ -6,8 +6,8 @@
 #include "character.h"
 
 /**
-  * @brief represents a player, herits from person, stores any fields
-  */
+    * @brief represents a player, herits from person, stores any fields
+    */
 class Player : public Person
 {
 public:
@@ -43,7 +43,7 @@ public:
     * @brief const accessor to the list of children
     */
     QList<Character*>* children() const;
-
+    
     int childrenCount() const;
 private:
     /**

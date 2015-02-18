@@ -1,22 +1,22 @@
 /***************************************************************************
- *	 Copyright (C) 2009 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *	 Copyright (C) 2009 by Renaud Guezennec                                *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   This program is free software; you can redistribute it and/or modify  *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 
 #include "charactersheetmodel.h"
 #include "charactersheet.h"
@@ -56,7 +56,7 @@ bool TreeItem::isLeaf()
 void TreeItem::setLeaf(bool leaf)
 {
     m_isLeaf=leaf;
-
+    
 }
 int TreeItem::childrenCount()
 {
@@ -72,7 +72,7 @@ TreeItem* TreeItem::child(int row)
 {
     if(row < m_children->size())
         return m_children->at(row);
-
+    
     return NULL;
 }
 int TreeItem::row()
@@ -110,47 +110,47 @@ int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
 }
 QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex & parent ) const
 {
-
+    
     if(row<0)
         return QModelIndex();
-
+    
     TreeItem* parentItem = NULL;
-
+    
     if (!parent.isValid())
         parentItem = m_rootItem;
     else
         parentItem = static_cast<TreeItem*>(parent.internalPointer());
-
+    
     TreeItem* childItem = parentItem->child(row);
     if (childItem)
         return createIndex(row, column, childItem);
     else
         return QModelIndex();
-
-
+    
+    
 }
 QModelIndex CharacterSheetModel::parent ( const QModelIndex & index ) const
 {
-
+    
     if (!index.isValid())
         return QModelIndex();
-
+    
     TreeItem *childItem = static_cast<TreeItem*>(index.internalPointer());
     TreeItem *parentItem = childItem->getParent();
-
+    
     if (parentItem == m_rootItem)
         return QModelIndex();
-
+    
     return createIndex(parentItem->row(), 0, parentItem);
-
-
+    
+    
 }
 
 QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) const
 {
     if(!index.isValid())
         return QVariant();
-
+    
     if((role == Qt::TextAlignmentRole) && (index.column()!=0))
         return Qt::AlignHCenter;
     if((role == Qt::DisplayRole)||(role == Qt::EditRole))
@@ -166,10 +166,10 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
                 }
                 else
                 {
-                     int row = index.row();
-                     if(row < childItem->getSection()->size())
+                    int row = index.row();
+                    if(row < childItem->getSection()->size())
                         return  childItem->getSection()->at(row);
-                     return QString("line");
+                    return QString("line");
                 }
             }
         }
@@ -183,7 +183,7 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
             }
             else
             {
-               return m_characterList->at(index.column()-1)->getData(childItem->getParent()->row(),index.row());
+                return m_characterList->at(index.column()-1)->getData(childItem->getParent()->row(),index.row());
             }
         }
 
@@ -212,25 +212,25 @@ bool CharacterSheetModel::setData ( const QModelIndex & index, const QVariant & 
         else
         {
 
-             TreeItem* childItem = static_cast<TreeItem*>(index.internalPointer());
-             if(!childItem->isLeaf())
-                 childItem->getSection()->setName(value.toString());
-             else
-             {
+            TreeItem* childItem = static_cast<TreeItem*>(index.internalPointer());
+            if(!childItem->isLeaf())
+                childItem->getSection()->setName(value.toString());
+            else
+            {
                 childItem->getSection()->replace(index.row(),value.toString());
-             }                       
+            }
         }
         return true;
     }
     return false;
-
+    
 }
 void CharacterSheetModel::addCharacterSheet()
 {
-
+    
     beginInsertColumns(QModelIndex(),m_characterList->size() ,m_characterList->size() );
     //if(m_characterList->size()==0)
-
+    
     CharacterSheet* sheet = new CharacterSheet;
     //sheet->appendSection();
     m_characterList->append(sheet);
@@ -246,16 +246,16 @@ void CharacterSheetModel::addCharacterSheet()
 
 
 QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientation,
-                               int role) const
+                                         int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
     {
         switch(section)
         {
-            case 0:
-                return tr("Fields name");
-            default:
-                return m_characterList->at(section-1)->owner();
+        case 0:
+            return tr("Fields name");
+        default:
+            return m_characterList->at(section-1)->owner();
         }
     }
     return QVariant();
@@ -264,7 +264,7 @@ Qt::ItemFlags CharacterSheetModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return Qt::ItemIsEnabled;
-
+    
     return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
 }
 void CharacterSheetModel::addSection()
@@ -273,26 +273,26 @@ void CharacterSheetModel::addSection()
 }
 TreeItem* CharacterSheetModel::addSection(QString title)
 {
-     beginInsertRows(QModelIndex(),m_rootItem->childrenCount(),m_rootItem->childrenCount());
-     Section* sec=new Section();
-     sec->setName(title);
-     TreeItem* tmp = new TreeItem(sec,false);
-     tmp->setParent(m_rootItem);
-     m_rootItem->addChild(tmp);
-     m_sectionList->append(sec);
-
-     m_sectionList->append(sec);
-     foreach(CharacterSheet* sheet,*m_characterList)
-     {
-         sheet->appendSection(sec);
-     }
-     endInsertRows();
+    beginInsertRows(QModelIndex(),m_rootItem->childrenCount(),m_rootItem->childrenCount());
+    Section* sec=new Section();
+    sec->setName(title);
+    TreeItem* tmp = new TreeItem(sec,false);
+    tmp->setParent(m_rootItem);
+    m_rootItem->addChild(tmp);
+    m_sectionList->append(sec);
+    
+    m_sectionList->append(sec);
+    foreach(CharacterSheet* sheet,*m_characterList)
+    {
+        sheet->appendSection(sec);
+    }
+    endInsertRows();
     return tmp;
 }
 
 void CharacterSheetModel::addLine(const QModelIndex & index /*Section* index*/)
 {
-
+    
     TreeItem* parentItem = static_cast<TreeItem*>(index.internalPointer());
     addLine(parentItem,tr("Field %1").arg(parentItem->childrenCount()));
     /*beginInsertRows(index,parentItem->childrenCount(),parentItem->childrenCount());
@@ -303,15 +303,15 @@ void CharacterSheetModel::addLine(const QModelIndex & index /*Section* index*/)
     parentItem->getSection()->append(*tmpstr);
     foreach(CharacterSheet* sheet,*m_characterList)
     {
-        sheet->appendLine(index.row());
+    sheet->appendLine(index.row());
     }
     endInsertRows();*/
-
+    
 }
 void CharacterSheetModel::addLine(TreeItem* parentItem,QString name)
 {
-
-
+    
+    
     beginInsertRows(QModelIndex ().sibling(m_rootItem->indexOfChild(parentItem),0),parentItem->childrenCount(),parentItem->childrenCount());
     TreeItem* tmp = new TreeItem(parentItem->getSection(),true);
     tmp->setParent(parentItem);
@@ -323,18 +323,18 @@ void CharacterSheetModel::addLine(TreeItem* parentItem,QString name)
         sheet->appendLine(sheet->getIndexCount());
     }
     endInsertRows();
-
+    
 }
 bool CharacterSheetModel::hasChildren ( const QModelIndex & parent  ) const
 {
-
+    
     if(!parent.isValid())//root
         return  m_sectionList->size()>0?true:false;
     else
     {
         TreeItem* childItem = static_cast<TreeItem*>(parent.internalPointer());
-       /* if(childItem->getSection() == NULL)
-            qDebug() << "section is null 5";*/
+        /* if(childItem->getSection() == NULL)
+    qDebug() << "section is null 5";*/
         if(childItem->isLeaf())
             return  false;
         else
@@ -364,8 +364,8 @@ bool CharacterSheetModel::writeModel(QTextStream& file, bool data)
     int sectionIndex = 0;
     QDomDocument doc;
     QDomElement root = doc.createElement("charactersheets");
-
-
+    
+    
     foreach(Section* tmp, *m_sectionList)
     {
         QDomElement section  = doc.createElement("section");
@@ -379,11 +379,11 @@ bool CharacterSheetModel::writeModel(QTextStream& file, bool data)
             {
                 foreach(CharacterSheet* character,*m_characterList)
                 {
-                        QDomElement value= doc.createElement("value");
-                         value.setAttribute("owner",character->owner());
-                         QDomText text = doc.createTextNode(character->getData(sectionIndex,fieldIndex));
-                         value.appendChild(text);
-                         fieldelement.appendChild(value);
+                    QDomElement value= doc.createElement("value");
+                    value.setAttribute("owner",character->owner());
+                    QDomText text = doc.createTextNode(character->getData(sectionIndex,fieldIndex));
+                    value.appendChild(text);
+                    fieldelement.appendChild(value);
                 }
             }
             section.appendChild(fieldelement);
@@ -395,7 +395,7 @@ bool CharacterSheetModel::writeModel(QTextStream& file, bool data)
     doc.appendChild(root);
     file << doc.toString();
     return true;
-
+    
 }
 
 bool CharacterSheetModel::readModel(QFile& file)

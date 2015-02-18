@@ -1,23 +1,23 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *	Copyright (C) 2007 by Romain Campioni   			   *
+    *	Copyright (C) 2009 by Renaud Guezennec                             *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   rolisteam is free software; you can redistribute it and/or modify  *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 
 
 #include <QtGui>
@@ -26,7 +26,7 @@
 
 #include "minuteseditor.h"
 MinutesEditor::MinutesEditor()
-: SubMdiWindows()
+    : SubMdiWindows()
 {
     /// @todo allocate all the stuff for Minute Editor
 }
@@ -39,7 +39,7 @@ MinutesEditor::MinutesEditor(CleverURI* uri)
     m_uri = uri;
     setWindowTitle(tr("Minutes Editor"));
     setWindowIcon(QIcon(":/resources/icons/notes.png"));
-
+    
     //////////////////
     // Style selector
     //////////////////
@@ -51,15 +51,15 @@ MinutesEditor::MinutesEditor(CleverURI* uri)
     m_styleSelector->addItem(tr("Ordered List (Decimal)"));
     m_styleSelector->addItem(tr("Ordered List (Alpha lower)"));
     m_styleSelector->addItem(tr("Ordered List (Alpha upper)"));
-
+    
     /////////////////
     // Font selector
     /////////////////
     m_fontSelector = new QFontComboBox;
     m_fontSelector->setEditable(false);
     m_fontSelector->setMaximumWidth(100);
-
-
+    
+    
     /////////////////
     // font size
     /////////////////
@@ -67,22 +67,22 @@ MinutesEditor::MinutesEditor(CleverURI* uri)
     sizeList << "8" << "10" << "12" << "14" << "16" << "18" << "20" << "22" << "26" << "30" << "40" << "50" << "70";
     m_sizeSelector = new QComboBox;
     m_sizeSelector->addItems(sizeList);
-
-
-
-
-
+    
+    
+    
+    
+    
     /////////////////
     // tool bar
     /////////////////
     m_styleBar = new QToolBar;
     m_styleBar->setStyleSheet("QToolBar { border: 0px }");
     m_styleBar->setIconSize(QSize(16, 16));
-
+    
     m_styleBar->addWidget(m_styleSelector);
     m_styleBar->addWidget(m_fontSelector);
     m_styleBar->addWidget(m_sizeSelector);
-
+    
     m_styleBar->addSeparator();
     /////////////////
     // Action
@@ -94,26 +94,26 @@ MinutesEditor::MinutesEditor(CleverURI* uri)
     m_centerAct = m_styleBar->addAction(QIcon(":/resources/icons/textcenter.png"), tr("Center"), this, SLOT(boldStyle()));
     m_rightAct= m_styleBar->addAction(QIcon(":/resources/icons/textright.png"), tr("Right"), this, SLOT(boldStyle()));
     m_justifyAct= m_styleBar->addAction(QIcon(":/resources/icons/textjustify.png"), tr("Justify"), this, SLOT(boldStyle()));
-
+    
     m_sizeSelector = new QComboBox();
     m_sizeSelector->setEditable(false);
     m_sizeSelector->setToolTip(tr("Font Size"));
-
+    
     m_minutes = new QTextEdit();
     m_minutes->setAcceptRichText(true);
     m_fontSelector->setCurrentFont(m_minutes->font());
-
+    
     layout->setContentsMargins(0,0,0,0);
     layout->setMenuBar(m_styleBar);
     layout->setSpacing(0);
     layout->addWidget(m_minutes);
-
-     main->setLayout(layout);
-     setWidget(main);
-
-     connect(m_sizeSelector, SIGNAL(activated(int)), this, SLOT(changeSize(int)));
-     connect(m_minutes, SIGNAL(cursorPositionChanged()), this, SLOT(updateSize()));
-
+    
+    main->setLayout(layout);
+    setWidget(main);
+    
+    connect(m_sizeSelector, SIGNAL(activated(int)), this, SLOT(changeSize(int)));
+    connect(m_minutes, SIGNAL(cursorPositionChanged()), this, SLOT(updateSize()));
+    
 }
 
 
@@ -138,24 +138,24 @@ void MinutesEditor::normalStyle()
 
 void MinutesEditor::boldStyle()
 {
-
+    
     QTextCursor zone = m_minutes->textCursor();
-
+    
     QTextCharFormat styleZone;
     if(m_minutes->textCursor().charFormat().fontWeight()==QFont::Bold)
         styleZone.setFontWeight(QFont::Normal);
     else
         styleZone.setFontWeight(QFont::Bold);
-
+    
     zone.mergeCharFormat(styleZone);
-
+    
     m_minutes->setTextCursor(zone);
 }
 
 
 void MinutesEditor::italicStyle()
 {
-
+    
     QTextCursor zone = m_minutes->textCursor();
     QTextCharFormat styleZone;
     styleZone.setFontItalic(!styleZone.fontItalic());
@@ -165,35 +165,35 @@ void MinutesEditor::italicStyle()
 
 void MinutesEditor::underlineStyle()
 {
-
+    
     QTextCursor zone = m_minutes->textCursor();
-
+    
     QTextCharFormat styleZone;
     styleZone.setFontUnderline(true);
-
+    
     zone.mergeCharFormat(styleZone);
-
+    
     m_minutes->setTextCursor(zone);
 }
 
 
 void MinutesEditor::updateSize()
 {
-
+    
     QTextCursor zone = m_minutes->textCursor();
-
+    
     QTextCharFormat styleActuel = zone.charFormat();
-
+    
     QFont fonte = styleActuel.font();
     int tailleFonte = fonte.pointSize();
-
+    
     int index = m_sizeSelector->findText(QString::number(tailleFonte));
-
-
+    
+    
     if (index != -1)
         m_sizeSelector->setCurrentIndex(index);
-
-
+    
+    
     else
     {
         int i;
@@ -214,11 +214,11 @@ void MinutesEditor::updateSize()
 
 
 void MinutesEditor::changeSize(int index)
-{   
+{
     int tailleFonte = m_sizeSelector->itemText(index).toInt();
     QTextCursor zone = m_minutes->textCursor();
     QTextCharFormat styleActuel = zone.charFormat();
-
+    
     bool souligne = styleActuel.fontUnderline();
     QFont fonte = styleActuel.font();
     fonte.setPointSize(tailleFonte);

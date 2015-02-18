@@ -28,18 +28,19 @@
 #include <QTextStream>
 #include <QVBoxLayout>
 
-#include "tchat.h"
-#include "tchateditor.h"
+#include "chat.h"
+#include "chateditor.h"
 //#include "types.h"
 
-#include "tchatlistmodel.h"
+#include "chatlistmodel.h"
 #include "pluginmanager.h"
 #include "dicesysteminterface.h"
 #include <QDebug>
 #include "message.h"
 #include "rclient.h"
 
-Tchat::Tchat(CleverURI* uri,QWidget *parent)
+
+Chat::Chat(CleverURI* uri,QWidget *parent)
 : SubMdiWindows(parent)
 {
     setObjectName("Tchat");
@@ -64,21 +65,21 @@ Tchat::Tchat(CleverURI* uri,QWidget *parent)
 }
 
 
-Tchat::~Tchat()
+Chat::~Chat()
 {
     delete m_listModel;
     delete m_listView;
     delete m_splitter;
 }
 
-void Tchat::setupUi()
+void Chat::setupUi()
 {
 
     m_meetingRoom = new QTextEdit();
     m_meetingRoom->setReadOnly(true);
     m_meetingRoom->setMinimumHeight(30);
 
-    m_tchatEditor = new TchatEditor();
+    m_tchatEditor = new ChatEditor();
     m_tchatEditor->setReadOnly(false);
     m_tchatEditor->setMinimumHeight(30);
     m_tchatEditor->setAcceptRichText(false);
@@ -120,7 +121,7 @@ void Tchat::setupUi()
     setWidget(m_splitter);
 }
 
-void Tchat::showMessage(QString utilisateur, QColor couleur, QString message)
+void Chat::showMessage(QString utilisateur, QColor couleur, QString message)
 {
         m_meetingRoom->moveCursor(QTextCursor::End);
         m_meetingRoom->setTextColor(couleur);
@@ -129,7 +130,7 @@ void Tchat::showMessage(QString utilisateur, QColor couleur, QString message)
         m_meetingRoom->insertPlainText(message);
         m_meetingRoom->verticalScrollBar()->setSliderPosition(m_meetingRoom->verticalScrollBar()->maximum());
 }
-void Tchat::showDiceRoll(QString utilisateur, QColor couleur, QString message)
+void Chat::showDiceRoll(QString utilisateur, QColor couleur, QString message)
 {
         m_meetingRoom->moveCursor(QTextCursor::End);
         m_meetingRoom->setTextColor(couleur);
@@ -138,28 +139,28 @@ void Tchat::showDiceRoll(QString utilisateur, QColor couleur, QString message)
         m_meetingRoom->insertPlainText(message);
         m_meetingRoom->verticalScrollBar()->setSliderPosition(m_meetingRoom->verticalScrollBar()->maximum());
 }
-void Tchat::closeEvent(QCloseEvent *event)
+void Chat::closeEvent(QCloseEvent *event)
 {
 	hide();
         event->ignore();
 }
-void Tchat::addPerson(Person* p)
+void Chat::addPerson(Person* p)
 {
     m_clientList->append(p);
 }
 
-void Tchat::removePerson(Person* p)
+void Chat::removePerson(Person* p)
 {
     m_clientList->removeOne(p);
 
 }
-void Tchat::setClients(QList<Person*>* tmp)
+void Chat::setClients(QList<Person*>* tmp)
 {
     m_listModel->setClients(tmp);
     m_listView->setModel(m_listModel);
 }
 
-void Tchat::getUpHistoric()
+void Chat::getUpHistoric()
 {
         if (m_messageHistoric.isEmpty())
                 return;
@@ -173,7 +174,7 @@ void Tchat::getUpHistoric()
         m_tchatEditor->clear();
         m_tchatEditor->append(m_messageHistoric[m_historicNumber]);
 }
-void Tchat::getDownHistoric()
+void Chat::getDownHistoric()
 {
         if (m_historicNumber < m_messageHistoric.size() - 1)
 	{
@@ -182,7 +183,7 @@ void Tchat::getDownHistoric()
                 m_tchatEditor->append(m_messageHistoric[m_historicNumber]);
 	}
 }
-void Tchat::saveFile(const QString &file)
+void Chat::saveFile(const QString &file)
 {
 
         QTextDocument *document = m_meetingRoom->document();
@@ -191,23 +192,23 @@ void Tchat::saveFile(const QString &file)
         QTextStream textfile(&tmp);
         textfile << html;
 }
-void Tchat::openFile(const QString& file)
+void Chat::openFile(const QString& file)
 {
     Q_UNUSED(file);
 }
 
-void Tchat::showEvent(QShowEvent *event)
+void Chat::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
     m_tchatEditor->setFocus(Qt::OtherFocusReason);
 }
 
 
-bool Tchat::defineMenu(QMenu* /*menu*/)
+bool Chat::defineMenu(QMenu* /*menu*/)
 {
     return false;
 }
-void Tchat::onEntry()
+void Chat::onEntry()
 {
     QString text= m_tchatEditor->document()->toPlainText();
     m_tchatEditor->document()->clear();
@@ -233,11 +234,11 @@ void Tchat::onEntry()
 
     m_client->addMessageToSendQueue(mtmp);
 }
-bool Tchat::hasDockWidget() const
+bool Chat::hasDockWidget() const
 {
     return false;
 }
-QDockWidget* Tchat::getDockWidget()
+QDockWidget* Chat::getDockWidget()
 {
     return NULL;
 }

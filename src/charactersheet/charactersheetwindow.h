@@ -1,22 +1,22 @@
 /***************************************************************************
- *	 Copyright (C) 2009 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *	 Copyright (C) 2009 by Renaud Guezennec                                *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   This program is free software; you can redistribute it and/or modify  *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 
 #ifndef CHARACTERSHEETWINDOW_H
 #define CHARACTERSHEETWINDOW_H
@@ -29,84 +29,84 @@
 #include "submdiwindows.h"
 #include "charactersheetmodel.h"
 /**
-* @brief herits from SubMdiWindows. It displays and manages all classes required to deal with the character sheet MVC architrecture.
-*/
+    * @brief herits from SubMdiWindows. It displays and manages all classes required to deal with the character sheet MVC architrecture.
+    */
 class CharacterSheetWindow : public SubMdiWindows
 {
     Q_OBJECT
 public:
-	/**
-	* @brief default construtor
-	*/
+    /**
+    * @brief default construtor
+    */
     CharacterSheetWindow(CleverURI* uri= NULL, QWidget* parent = NULL);
-
-	/**
-	* @brief compulsary function , it should set the custom window menu
-	* @param pointer to the menu of custom window
-	* @return bool : true if the characterSheetWindow has amend the menu, false if the custom menu is not required
-	*/
+    
+    /**
+    * @brief compulsary function , it should set the custom window menu
+    * @param pointer to the menu of custom window
+    * @return bool : true if the characterSheetWindow has amend the menu, false if the custom menu is not required
+    */
     virtual bool defineMenu(QMenu* menu);
-	/**
-	* @brief cumpulsary function, it returns the subwindows type.
-	* @return type of subwindows. 
-	*/
+    /**
+    * @brief cumpulsary function, it returns the subwindows type.
+    * @return type of subwindows.
+    */
     //virtual SubWindowType getType();
-
-
+    
+    
     void openFile(const QString& file);
     void saveFile(const QString & file);
     virtual bool hasDockWidget() const ;
     virtual QDockWidget* getDockWidget() ;
-
-
+    
+    
 protected slots:
-	/**
-	* @brief slot is called when the user click on the m_addLine button. That leads to add one line after the current position (in the current CharacterSheet).
-	*/
+    /**
+    * @brief slot is called when the user click on the m_addLine button. That leads to add one line after the current position (in the current CharacterSheet).
+    */
     void addLine();
-	/**
-	* @brief slot is called when the user click on the m_addSection button. That leads to add a section after the current section (in the current CharacterSheet).
-	*/
+    /**
+    * @brief slot is called when the user click on the m_addSection button. That leads to add a section after the current section (in the current CharacterSheet).
+    */
     void addSection();
-	/**
-	* @brief slot is called when the user click on the m_addCharacterSheet button. That Leads to add an empty characterSheet in the model (after all others).
-	*/
+    /**
+    * @brief slot is called when the user click on the m_addCharacterSheet button. That Leads to add an empty characterSheet in the model (after all others).
+    */
     void addCharacterSheet();
     /**
     * @brief slot is called when the user click on the  mice right button
     */
     void displayCustomMenu(const QPoint & pos);
-
+    
     void openCharacterSheet();
-
+    
     void saveCharacterSheet();
-
-
+    
+    
 protected:
     virtual void closeEvent ( QCloseEvent * event );
 private:
-	/**
-	* @brief The view class
-	*/
+    /**
+    * @brief The view class
+    */
     QTreeView m_view;
-	/**
-	* @brief the model for the characterSheet view
-	*/
+    /**
+    * @brief the model for the characterSheet view
+    */
     CharacterSheetModel m_model;
-
-
-	/**
-	* @brief event button
-	* @todo It should be a better idea to use QAction instead of Button and profide a contextual menu or a custom menu instead of these awful buttons.
-	*/
+    
+    
+    /**
+    * @brief event button
+    * @todo It should be a better idea to use QAction instead of Button and profide a contextual menu or a custom menu instead of these awful buttons.
+    */
     QAction* m_addSection;
-	/**
-	* @brief event button
-	*/
+    /**
+    * @brief event button
+    */
     QAction* m_addLine;
-	/**
-	* @brief event button
-	*/
+    /**
+    * @brief event button
+    */
     QAction* m_addCharacterSheet;
     /**
     * @brief event button
@@ -116,25 +116,25 @@ private:
     * @brief event button
     */
     QAction* m_openCharacterSheet;
-
-
-
-	/**
-	* @brief layout
-	*/
+    
+    
+    
+    /**
+    * @brief layout
+    */
     QVBoxLayout m_vertiLayout;
-	/**
-	* @brief layout
-	*/
+    /**
+    * @brief layout
+    */
     QHBoxLayout m_horizonLayout;
-	/**
-	* @brief gathering widget
-	*/
+    /**
+    * @brief gathering widget
+    */
     QWidget m_widget;
-
+    
     QString m_fileUri;
-
-
+    
+    
 };
 
 #endif // CHARACTERSHEETWINDOW_H

@@ -1,25 +1,25 @@
 /***************************************************************************
- *     Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *     Copyright (C) 2009 by Renaud Guezennec                             *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   This program is free software; you can redistribute it and/or modify     *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 #include "message.h"
 #include <QTcpSocket>
-
+#include <QDataStream>
 #include <QDebug>
 Message::Message()
 {
@@ -42,19 +42,19 @@ void Message::setCategory(Network::Category type)
 
 void Message::write(QTcpSocket* tmp)
 {
-
-
-   /* QByteArray msg;*/
-   QDataStream cout(&m_internalData,QIODevice::WriteOnly);
-   cout.setVersion(QDataStream::Qt_4_4);
-   cout.device()->seek(0);
-   //cout << (quint32)m_type<<((quint32)m_internalData.size() - sizeof(quint32) - sizeof(quint32));
+    
+    
+    /* QByteArray msg;*/
+    QDataStream cout(&m_internalData,QIODevice::WriteOnly);
+    cout.setVersion(QDataStream::Qt_4_4);
+    cout.device()->seek(0);
+    //cout << (quint32)m_type<<((quint32)m_internalData.size() - sizeof(quint32) - sizeof(quint32));
     //quint32 size= m_internalData.size();
     //cou << (quint32)m_type<<(quint32)size << m_internalData;
     //qDebug() <<(quint32)m_type<<(quint32)size;*/
 
 
-   qDebug() << tmp->write(m_internalData) << "Message::write(QTcpSocket* tmp)";
+    qDebug() << tmp->write(m_internalData) << "Message::write(QTcpSocket* tmp)";
 }
 void Message::clear()
 {
@@ -63,6 +63,7 @@ void Message::clear()
 
 QByteArray* Message::getDataArray()
 {
+
     return &m_internalData;
 }
 void Message::setSender(QTcpSocket* sender)
@@ -73,6 +74,7 @@ void Message::setSender(QTcpSocket* sender)
 QTcpSocket* Message::getSender()
 {
     return m_sender;
+
 }
 void Message::adduInt32(quint32 value)
 {
@@ -86,7 +88,7 @@ void Message::addString(QString value)
 {
     adduInt32(value.size());
     m_internalData.append(value);
-   // m_internalData << value.size() << value;
+    // m_internalData << value.size() << value;
 }
 
 void Message::addShort(quint16 value)
@@ -117,7 +119,7 @@ void Message::addDouble(qreal value)
     char* tmp= new char[sizeof(qreal)];
     tmp=(char*)&value;
     m_internalData.append(tmp,sizeof(qreal));
-   // m_internalData.append(m_tmp.setNum(value));
+    // m_internalData.append(m_tmp.setNum(value));
 }
 
 void Message::addLongInt(quint64 value)
@@ -131,7 +133,7 @@ quint32 Message::takeUInt32()
     char* tmp= new char[sizeof(quint32)];
     for(int i=0;((i<sizeof(quint32)) && (m_internalData.size()>i));i++)
     {
-         tmp[i]=m_internalData[i];
+        tmp[i]=m_internalData[i];
     }
 
     quint32* value=(quint32*)tmp;
@@ -149,10 +151,10 @@ QString Message::takeString()
     char* tmp= new char[size];
     for(int i=0;((i<size) && (m_internalData.size()>i));i++)
     {
-         tmp[i]=m_internalData[i];
+        tmp[i]=m_internalData[i];
     }
 
-    QString value = QString::fromAscii(tmp,size);
+    QString value = QString::fromLatin1(tmp,size);
     //QString copy = value;
 
     delete tmp;
@@ -166,7 +168,7 @@ quint16 Message::takeShort()
     char* tmp= new char[sizeof(quint16)];
     for(int i=0;((i<sizeof(quint16)) && (m_internalData.size()>i));i++)
     {
-         tmp[i]=m_internalData[i];
+        tmp[i]=m_internalData[i];
     }
 
     quint16* value=(quint16*)tmp;
@@ -182,7 +184,7 @@ quint8 Message::takeByte()
     char* tmp= new char[sizeof(quint8)];
     for(int i=0;((i<sizeof(quint8)) && (m_internalData.size()>i));i++)
     {
-         tmp[i]=m_internalData[i];
+        tmp[i]=m_internalData[i];
     }
 
     quint8* value=(quint8*)tmp;
@@ -203,7 +205,7 @@ qreal Message::takeDouble()
     char* tmp= new char[sizeof(qreal)];
     for(int i=0;((i<sizeof(qreal)) && (m_internalData.size()>i));i++)
     {
-         tmp[i]=m_internalData[i];
+        tmp[i]=m_internalData[i];
     }
 
     qreal* value=(qreal*)tmp;
@@ -219,7 +221,7 @@ quint64 Message::takeLongInt()
     char* tmp= new char[sizeof(quint64)];
     for(int i=0;((i<sizeof(quint64)) && (m_internalData.size()>i));i++)
     {
-         tmp[i]=m_internalData[i];
+        tmp[i]=m_internalData[i];
     }
 
     quint64* value=(quint64*)tmp;
@@ -229,3 +231,4 @@ quint64 Message::takeLongInt()
     m_internalData.remove(0,sizeof(quint64));
     return copy;
 }
+

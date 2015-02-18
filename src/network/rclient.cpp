@@ -1,22 +1,22 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *   Copyright (C) 2011 by Renaud Guezennec                                *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   rolisteam is free software; you can redistribute it and/or modify     *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 #include <QHostAddress>
 #include <QDebug>
 
@@ -30,10 +30,10 @@ RClient::RClient(QObject *parent)
     m_client = new QTcpSocket(this);
     m_messageToSendList = new QList<Message*>();
     m_messageReceivedList = new QList<Message*>();
-
+    
     //m_registedSender = new QMap<Network::Category,MessageManager*>;
     m_reading = new ReadingThread(m_client,m_messageReceivedList);
-
+    
     m_currentState =DISCONNECTED;
     connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(errorOccurs()));
     connect(m_client,SIGNAL(connected()),this,SLOT(connected()));
@@ -45,7 +45,7 @@ RClient::RClient(QObject *parent)
 
 RClient::~RClient()
 {
-
+    
 }
 void RClient::errorOccurs()
 {
@@ -62,9 +62,11 @@ void RClient::startConnection(Connection& connection)
 }
 void RClient::connected()
 {
-    m_currentState=CONNECTED;
+
+            m_currentState=CONNECTED;
     emit stateChanged(m_currentState);
     emit connectionEstablished();
+
     qDebug() << "connected established";
 }
 bool RClient::isConnected()
@@ -76,7 +78,8 @@ bool RClient::isConnected()
 
 void RClient::registerMessageManager(Network::Category cat,MessageManager* manager)
 {
-    m_registedSender.insert(cat,manager);
+
+            m_registedSender.insert(cat,manager);
 }
 
 void RClient::addMessageToSendQueue(Message* m)
@@ -84,7 +87,7 @@ void RClient::addMessageToSendQueue(Message* m)
     m_readingMutex.lock();
     m_messageToSendList->append(m);
     m_readingMutex.unlock();
-
+    
     emit messageInQueue();
 }
 void RClient::sendMessage()
@@ -99,13 +102,13 @@ void RClient::sendMessage()
 
         delete m;
         /*m_client->write(t.getType());
-        m_client->write(t.getSize());
-        m_client->write(t.getDataArray());*/
+    m_client->write(t.getSize());
+    m_client->write(t.getDataArray());*/
     }
 }
 void RClient::dispachRecievedMessage()
 {
-
+    
     while(!m_messageReceivedList->empty())
     {
         Message* m= m_messageReceivedList->takeFirst();
@@ -113,7 +116,7 @@ void RClient::dispachRecievedMessage()
         m_registedSender.value(m->getType())->processed(m);
 
     }
-
+    
 }
 
 
@@ -121,7 +124,7 @@ void RClient::dispachRecievedMessage()
 
 
 /*int RClient::getId(void* t)
-{/// @todo a better way should be found. Not network ready the server should give the id instead.
-        m_registedSender.append(t);
-        return m_registedSender.size();
-}*/
+    {/// @todo a better way should be found. Not network ready the server should give the id instead.
+    m_registedSender.append(t);
+    return m_registedSender.size();
+    }*/

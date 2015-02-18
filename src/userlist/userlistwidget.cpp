@@ -1,22 +1,22 @@
 /***************************************************************************
- *     Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *     Copyright (C) 2009 by Renaud Guezennec                             *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   This program is free software; you can redistribute it and/or modify     *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 #include <QPushButton>
 #include <QSlider>
 #include <QLCDNumber>
@@ -41,10 +41,10 @@ UserListWidget::UserListWidget(QWidget *parent) :
     setObjectName("UserListWidget");
     setupUI();
     setAction();
-
+    
     m_model = new UserListModel;
     m_view->setModel(m_model);
-
+    
 }
 UserListWidget::~UserListWidget()
 {
@@ -59,7 +59,7 @@ UserListWidget::~UserListWidget()
 }
 void UserListWidget::setupUI()
 {
-
+    
     m_tchatButton = new QPushButton(tr("Start Tchat"),this);
     m_addPC = new QPushButton(tr("Add PC"),this);
     m_delPC = new QPushButton(tr("delete selected PC"),this);
@@ -68,30 +68,30 @@ void UserListWidget::setupUI()
     m_sizePC->setMaximum(30);
     m_sizePC->setMinimum(0);
     m_sizePCNumber = new QLCDNumber(2,this);
-
+    
     m_verticalLayout = new QVBoxLayout;
     m_horizontalLayoutSlider = new QHBoxLayout;
     m_horizontalLayoutButton= new QHBoxLayout;
-
+    
     m_view = new UserListView(this);
-
+    
     m_horizontalLayoutSlider->addWidget(m_sizePC);
     m_horizontalLayoutSlider->addWidget(m_sizePCNumber);
     m_horizontalLayoutButton->addWidget(m_addPC);
     m_horizontalLayoutButton->addWidget(m_delPC);
-
-
+    
+    
     m_verticalLayout->addWidget(m_tchatButton);
     m_verticalLayout->addWidget(m_view);
     m_verticalLayout->addLayout(m_horizontalLayoutSlider);
     m_verticalLayout->addLayout(m_horizontalLayoutButton);
-
+    
     m_centralWidget = new QWidget();
     m_centralWidget->setLayout(m_verticalLayout);
-
-
-
-
+    
+    
+    
+    
     setWidget(m_centralWidget);
 }
 void UserListWidget::setAction()
@@ -115,7 +115,7 @@ void UserListWidget::addPlayerToModel(Player* p)
 void UserListWidget::addPC()
 {
     Character* charac = new Character(tr("New Character"),Qt::white,"");
-
+    
     m_local->addCharacter(charac);
     m_model->addCharacter(charac,m_local);
 }
@@ -126,7 +126,7 @@ void UserListWidget::delSelectedPC()
 }
 QList<Person*>* UserListWidget::getSelectedPerson()
 {
-   return m_model->getSelectedPerson();
+    return m_model->getSelectedPerson();
 }
 
 void UserListWidget::currentChanged(const QModelIndex& p)

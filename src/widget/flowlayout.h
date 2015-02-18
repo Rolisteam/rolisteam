@@ -69,7 +69,7 @@ public:
       * @brief destructor
       */
     ~FlowLayout();
-
+    
     /**
       * @brief add items to the layout
       */
@@ -119,11 +119,11 @@ public:
       * @brief constructor
       */
     QLayoutItem *takeAt(int index);
-
+    
 private:
     int doLayout(const QRect &rect, bool testOnly) const;/// compute the position
     int smartSpacing(QStyle::PixelMetric pm) const; /// compute the spacing
-
+    
     QList<QLayoutItem *> itemList;/// list of managed item
     int m_hSpace;/// horizontal space
     int m_vSpace;/// vertical space

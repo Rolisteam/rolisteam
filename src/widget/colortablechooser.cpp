@@ -38,24 +38,29 @@ SaturationChooser::SaturationChooser()
     setMinimumSize(40,10);
     setMaximumSize(maximumWidth(),10);
     m_gradianRect=rect();
-
-
+    
+    
     m_polygon.setPoint(0,0,5);
     m_polygon.setPoint(1,5,9);
     m_polygon.setPoint(2,-5,9);
+
 }
 int SaturationChooser::getValue() const
 {
+
     return m_currentValue;
+
 }
 void SaturationChooser::mousePressEvent(QMouseEvent* e)
 {
+
     if((e->pos().x()<=width())&&(e->pos().x()>=0))
     {
         m_currentValue = MAX_SATURATION*e->pos().x()/width();
         emit valueChanged(m_currentValue);
         update();
     }
+
 }
 void SaturationChooser::mouseMoveEvent(QMouseEvent* e)
 {
@@ -65,12 +70,13 @@ void SaturationChooser::mouseMoveEvent(QMouseEvent* e)
         emit valueChanged(m_currentValue);
         update();
     }
+
 }
 
 void SaturationChooser::wheelEvent ( QWheelEvent * event )
 {
     int step = event->delta() / 8;
-
+    
     if(step+m_currentValue>MAX_SATURATION)
         m_currentValue=MAX_SATURATION;
     else if(step+m_currentValue<0)
@@ -79,35 +85,39 @@ void SaturationChooser::wheelEvent ( QWheelEvent * event )
         m_currentValue+=step;
     emit valueChanged(m_currentValue);
     update();
+
 }
 
 void SaturationChooser::setColor(QColor& color)
 {
     m_color = color;
+
 }
 
 void SaturationChooser::paintEvent ( QPaintEvent * event )
 {
+
     QPainter painter(this);
     QLinearGradient linearGrad(QPointF(0, event->rect().height()/2), QPointF(event->rect().width(), event->rect().height()/2));
     linearGrad.setColorAt(0, Qt::black);
     linearGrad.setColorAt(1, m_color);
-
+    
     QBrush brush(linearGrad);
     m_gradianRect=event->rect();
     m_gradianRect.setHeight(m_gradianRect.height()/2);
     painter.fillRect(m_gradianRect,brush);
     painter.setPen(Qt::black);
-
+    
     int pos=m_currentValue*width()/MAX_SATURATION;
-
+    
     painter.drawPolygon( m_polygon.translated(pos,0));
+
 
 }
 void SaturationChooser::colorHasChanged(int h,int s)
 {
-        m_color.setHsv(h,s,MAX_SATURATION);
-        update();
+    m_color.setHsv(h,s,MAX_SATURATION);
+    update();
 }
 
 
@@ -116,6 +126,7 @@ void SaturationChooser::colorHasChanged(int h,int s)
 ////////////////////////////////////////
 ColorTable::ColorTable()
 {
+
     setStyleSheet("background-color: rgb(0,0,0)");
     setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
     setMinimumSize(40,40);
@@ -123,11 +134,11 @@ ColorTable::ColorTable()
 void ColorTable::paintEvent ( QPaintEvent * event )
 {
     QPainter painter(this);
-
+    
     int colorv;
     int saturation;
     QColor color;
-
+    
     for(int i=0;i<width();i++)
     {
         for(int j=0;j<height();j++)
@@ -139,7 +150,7 @@ void ColorTable::paintEvent ( QPaintEvent * event )
             painter.drawPoint(i,j);
         }
     }
-
+    
 }
 void ColorTable::mousePressEvent(QMouseEvent* e)
 {
@@ -174,16 +185,16 @@ ColorTableChooser::ColorTableChooser(QWidget* parent)
     m_layout->addWidget(m_valueChooser);
     setLayout(m_layout);
     setStyleSheet("background-color: rgb(0,0,0)");
-
+    
     connect(m_colorTable,SIGNAL(dataChanged(int,int)),this,SLOT(colorHasChanged(int,int)));
     connect(m_colorTable,SIGNAL(dataChanged(int,int)),m_valueChooser,SLOT(colorHasChanged(int,int)));
     connect(m_valueChooser,SIGNAL(valueChanged(int)),this,SLOT(valueHasChanged(int)));
     setMinimumSize(40,45);
     setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
-
+    
     m_h=0;
     m_s=MAX_SATURATION;
-
+    
 }
 void ColorTableChooser::resizeEvent(QResizeEvent * event)
 {

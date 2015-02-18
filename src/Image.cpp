@@ -1,23 +1,23 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *	Copyright (C) 2007 by Romain Campioni   			   *
+    *	Copyright (C) 2009 by Renaud Guezennec                             *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   rolisteam is free software; you can redistribute it and/or modify  *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 
 
 #include <QtGui>
@@ -33,31 +33,31 @@ Image::Image(ImprovedWorkspace *parent)
     m_parent = parent;
     setWindowIcon(QIcon(":/resources/icons/image.png"));
     m_zoomLevel = 1;
-
+    
     setUi();
     createActions();
     m_labelImage = new QLabel(this);
     setObjectName("Image");
-
+    
 }
 
 Image::Image( CleverURI* uri,  ImprovedWorkspace *parent)
-: SubMdiWindows(parent),m_NormalSize(0,0)
+    : SubMdiWindows(parent),m_NormalSize(0,0)
 {
     m_parent = parent;
     m_uri = uri;
     m_zoomLevel = 1;
     setUi();
     createActions();
-
+    
     setObjectName("Image");
-
+    
     setWindowTitle(m_uri->getShortName());
     setWindowIcon(QIcon(":/resources/icons/image.png"));
-
-
+    
+    
     m_labelImage = new QLabel(this);
-
+    
     updatePicture();
 }
 
@@ -72,7 +72,7 @@ Image::~Image()
     delete m_actionlittleZoom;
     delete m_actionNormalZoom;
     delete m_actionBigZoom;
-
+    
 }
 void Image::createActions()
 {
@@ -81,30 +81,30 @@ void Image::createActions()
     m_actionZoomIn->setToolTip(tr("increase zoom level"));
     m_actionZoomIn->setIcon(QIcon(":/resources/icons/zoom-in-32.png"));
     connect(m_actionZoomIn,SIGNAL(triggered()),this,SLOT(zoomIn()));
-
+    
     m_actionZoomOut = new QAction(tr("Zoom out"),this);
     m_actionZoomOut->setShortcut(tr("Ctrl+-"));
     m_actionZoomOut->setIcon(QIcon(":/resources/icons/zoom-out-32.png"));
     m_actionZoomOut->setToolTip(tr("Reduce zoom level"));
     connect(m_actionZoomOut,SIGNAL(triggered()),this,SLOT(zoomOut()));
-
+    
     m_actionfitWorkspace = new QAction(tr("Fit the workspace"),this);
     m_actionfitWorkspace->setIcon(QIcon(":/resources/icons/fit-page-32.png"));
     m_actionfitWorkspace->setShortcut(tr("Ctrl+5"));
     m_actionfitWorkspace->setToolTip(tr("The window and the image fit the workspace"));
     connect(m_actionfitWorkspace,SIGNAL(triggered()),this,SLOT(onFitWindow()));
-
+    
     m_actionlittleZoom = new QAction(tr("Little"),this);
     m_actionlittleZoom->setShortcut(tr("Ctrl+1"));
     m_actionZoomIn->setToolTip(tr("Set the zoom level at 20% "));
     connect(m_actionlittleZoom,SIGNAL(triggered()),this,SLOT(zoomLittle()));
-
+    
     m_actionNormalZoom = new QAction(tr("Normal"),this);
     m_actionNormalZoom->setShortcut(tr("Ctrl+0"));
     m_actionZoomIn->setToolTip(tr("No Zoom"));
     connect(m_actionNormalZoom,SIGNAL(triggered()),this,SLOT(zoomNormal()));
-
-
+    
+    
     m_actionBigZoom = new QAction(tr("Big"),this);
     m_actionBigZoom->setShortcut(tr("Ctrl+2"));
     m_actionZoomIn->setToolTip(tr("Set the zoom level at 400%"));
@@ -135,54 +135,54 @@ void Image::setUi()
 {
     m_scrollArea = new QScrollArea;
     m_scrollArea->setWidgetResizable(true);
-
+    
     QVBoxLayout* vlayout= new QVBoxLayout;
-
+    
     vlayout->setContentsMargins(0,0,0,0);
     vlayout->addWidget(m_scrollArea);
-
-
+    
+    
     //installEventFilter(this);
-
+    
     QWidget* tmp = new QWidget;
     tmp->setLayout(vlayout);
     setWidget(tmp);
     m_scrollArea->installEventFilter(this);
-
+    
     //
-
+    
 }
 void Image::setZoomLevel(double zoomlevel)
 {
-
-        m_zoomLevel = zoomlevel;
-        resizeLabel();
-
+    
+    m_zoomLevel = zoomlevel;
+    resizeLabel();
+    
 }
 
 void Image::closeEvent(QCloseEvent *event)
 {
-	hide();
-	event->ignore();
+    hide();
+    event->ignore();
 }
 
 bool Image::eventFilter(QObject *obj,QEvent *e)
 {
-
+    
     if(e->type() == QEvent::Wheel)
     {
 
-      QWheelEvent *event = static_cast<QWheelEvent *>(e);
+        QWheelEvent *event = static_cast<QWheelEvent *>(e);
         wheelEvent(event);
         return true;
 
     }
     else
-    return QObject::eventFilter(obj, e);
+        return QObject::eventFilter(obj, e);
 }
 void Image::wheelEvent(QWheelEvent *event)
 {
-
+    
     if(event->modifiers() == Qt::ControlModifier)
     {
         int delta = event->delta();
@@ -232,11 +232,11 @@ void Image::fitWindow()
     }
     m_labelImage->resize(m_pixMap.size());
     resizeLabel();
-   /*if(!m_labelImage->rect().contains(geometry()))
+    /*if(!m_labelImage->rect().contains(geometry()))
     {*/
-        setGeometry(m_labelImage->rect());
+    setGeometry(m_labelImage->rect());
     //}
-     qDebug()<< m_pixMap.width() << m_pixMap.height() << m_labelImage->rect() << geometry();
+    qDebug()<< m_pixMap.width() << m_pixMap.height() << m_labelImage->rect() << geometry();
     m_zoomLevel = 1.0;
 }
 
@@ -244,7 +244,7 @@ void Image::fitWindow()
 void Image::resizeLabel()
 {
     //qDebug()<< " cdcec"<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
-
+    
     if(m_zoomLevel<=0)
     {
         m_zoomLevel=0.2;
@@ -262,13 +262,13 @@ void Image::resizeLabel()
     //  qDebug()<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
 }
 
-void Image::pointeurMain()
+void Image::handCursor()
 {
     m_labelImage->setCursor(Qt::OpenHandCursor);
 }
 
 
-void Image::pointeurNormal()
+void Image::normalCursor()
 {
     m_labelImage->setCursor(Qt::ForbiddenCursor);
 }
@@ -283,27 +283,27 @@ bool  Image::defineMenu(QMenu* menu)
     menu->addAction(m_actionlittleZoom);
     menu->addAction(m_actionNormalZoom);
     menu->addAction(m_actionBigZoom);
-
+    
     return true;
 }
 void Image::zoomLittle()
 {
     m_zoomLevel =0.2;
     resizeLabel();
-
+    
 }
 
 void Image::zoomNormal()
 {
-
+    
     m_zoomLevel =1.0;
     resizeLabel();
-
+    
 }
 void Image::contextMenuEvent ( QContextMenuEvent * event )
 {
     QMenu menu(this);
-
+    
     menu.addAction(m_actionZoomIn);
     menu.addAction(m_actionZoomOut);
     menu.addSeparator();
@@ -312,10 +312,10 @@ void Image::contextMenuEvent ( QContextMenuEvent * event )
     menu.addAction(m_actionlittleZoom);
     menu.addAction(m_actionNormalZoom);
     menu.addAction(m_actionBigZoom);
-
-
+    
+    
     menu.exec(event->globalPos ()/*event->pos()*/);
-
+    
 }
 void Image::paintEvent ( QPaintEvent * event )
 {
@@ -352,6 +352,10 @@ void Image::openFile(const QString& file)
     {
 
     }
+}
+double Image::getZoomLevel()
+{
+    return m_zoomLevel;
 }
 
 bool Image::hasDockWidget() const

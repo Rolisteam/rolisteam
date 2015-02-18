@@ -39,32 +39,31 @@
 #include "themelistmodel.h"
 
 PreferenceDialog::PreferenceDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::PreferenceDialog)
+    QDialog(parent),ui(new Ui::PreferenceDialog)
 {
     ui->setupUi(this);
     m_options = PreferencesManager::getInstance();
-
+    
     m_listModel = new ThemeListModel();
     m_currentThemeIndex = 0;
     //init value:
-   // initValues();
+    // initValues();
     addDefaultTheme();
-
+    
     connect(ui->m_wsBgBrowserButton,SIGNAL(clicked()),this,SLOT(changeBackgroundImage()));
     connect(ui->m_wsBgColorButton,SIGNAL(colorChanged(QColor)),this,SLOT(modifiedSettings()));
     connect(ui->m_addTheme,SIGNAL(clicked()),this,SLOT(addTheme()));
     connect(ui->m_removeTheme,SIGNAL(clicked()),this,SLOT(removeSelectedTheme()));
     connect(ui->m_testStarter,SIGNAL(pressed()),this,SLOT(performCapabilityTests()));
-
+    
     ui->m_themeList->setModel(m_listModel);
-
+    
     connect(ui->m_themeList,SIGNAL(pressed(QModelIndex)),this,SLOT(currentChanged()));
-
+    
     connect(ui->m_buttonbox,SIGNAL(clicked(QAbstractButton * )),this,SLOT(applyAllChanges(QAbstractButton * )));
-
+    
     ui->m_themeList->setCurrentIndex(m_listModel->index(m_currentThemeIndex));
-
+    
 }
 
 PreferenceDialog::~PreferenceDialog()
@@ -87,44 +86,44 @@ void PreferenceDialog::changeEvent(QEvent *e)
 
 void PreferenceDialog::initValues()
 {
-     //qDebug() << "Init Value";
+    //qDebug() << "Init Value";
     // Look and feel panel
     ui->m_wsBgPathLine->setText(m_options->value("worspace/background/image",":/resources/icons/fond workspace macos.bmp").toString());
     ui->m_wsBgColorButton->setColor(m_options->value("worspace/background/color",QColor(191,191,191)).value<QColor>());
-
-
-
+    
+    
+    
     //General Panel
     ui->m_genUpdateCheck->setChecked(m_options->value("mainwindow/network/checkupdate",true).toBool());
-
+    
     ui->m_dataChooser->setPath(m_options->value("DataDirectory",QDir::homePath()).toString());
     ui->m_dataChooser->activeDirectory(true);
-
+    
     ui->m_imageChooser->setPath(m_options->value("ImageDirectory",QDir::homePath()).toString());
     ui->m_imageChooser->activeDirectory(true);
-
+    
     ui->m_mapsChooser->setPath(m_options->value("MapDirectory",QDir::homePath()).toString());
     ui->m_mapsChooser->activeDirectory(true);
-
+    
     ui->m_scriptChooser->setPath(m_options->value("ScriptDirectory",QDir::homePath()).toString());
     ui->m_scriptChooser->activeDirectory(true);
-
+    
     ui->m_minutesChooser->setPath(m_options->value("MinutesDirectory",QDir::homePath()).toString());
     ui->m_minutesChooser->activeDirectory(true);
-
+    
     ui->m_chatChooser->setPath(m_options->value("TchatDirectory",QDir::homePath()).toString());
     ui->m_chatChooser->activeDirectory(true);
-
+    
     ui->m_musicChooser->setPath(m_options->value("MusicDirectory",QDir::homePath()).toString());
     ui->m_musicChooser->activeDirectory(true);
-
+    
 }
 void PreferenceDialog::resetValues()
 {
     ui->m_wsBgPathLine->setText(":/resources/icons/fond workspace macos.bmp");
     ui->m_wsBgColorButton->setColor(QColor(191,191,191));
     ui->m_genUpdateCheck->setChecked(true);
-
+    
     ui->m_dataChooser->setPath(QDir::homePath());
     ui->m_scriptChooser->setPath(QDir::homePath());
     ui->m_mapsChooser->setPath(QDir::homePath());
@@ -136,8 +135,8 @@ void PreferenceDialog::resetValues()
 void PreferenceDialog::changeBackgroundImage()
 {
     QString fileName = QFileDialog::getOpenFileName(this,tr("Rolisteam Background"),".",tr(
-        "Supported files (*.jpg *.png *.gif *.svg *.bmp)"));
-
+                                                        "Supported files (*.jpg *.png *.gif *.svg *.bmp)"));
+    
     if(!fileName.isEmpty())
     {
         ui->m_wsBgPathLine->setText(fileName);
@@ -211,8 +210,8 @@ void PreferenceDialog::currentChanged()
 }
 void PreferenceDialog::refreshDialogWidgets()
 {
-     ui->m_wsBgPathLine->setText(m_current.backgroundImage());
-     ui->m_wsBgColorButton->setColor(m_current.backgroundColor());
+    ui->m_wsBgPathLine->setText(m_current.backgroundImage());
+    ui->m_wsBgColorButton->setColor(m_current.backgroundColor());
 }
 
 void PreferenceDialog::readSettings(QSettings & settings)
@@ -222,14 +221,14 @@ void PreferenceDialog::readSettings(QSettings & settings)
     //qDebug() << "read setting in preference dialog";
     m_currentThemeIndex =  settings.value("currentTheme",m_currentThemeIndex).toInt();
     m_listModel->readSettings();
-
+    
     ui->m_themeList->update();
     settings.endGroup();
 }
 void PreferenceDialog::writeSettings(QSettings & settings)
 {
     settings.beginGroup("rolisteam/currentTheme");
-   // qDebug() << "write setting in preference dialog";
+    // qDebug() << "write setting in preference dialog";
     settings.setValue("currentTheme",m_currentThemeIndex);
     m_listModel->writeSettings();
     settings.endGroup();
@@ -245,22 +244,22 @@ void PreferenceDialog::performCapabilityTests()
 }
 void PreferenceDialog::imageFormatTest()
 {
-        ui->m_testResult->append(tr("<h2>Image formats Test</h2>"));
-        QList<QByteArray> list = QImageReader::supportedImageFormats();
-        QString result;
-        result=tr("<h3>Reader</h3>");
-        foreach(QByteArray format, list)
-        {
-            result.append(tr("<span style=\"color:#F00\">%1</span> format is supported in reading<br/>").arg(QString(format)));
+    ui->m_testResult->append(tr("<h2>Image formats Test</h2>"));
+    QList<QByteArray> list = QImageReader::supportedImageFormats();
+    QString result;
+    result=tr("<h3>Reader</h3>");
+    foreach(QByteArray format, list)
+    {
+        result.append(tr("<span style=\"color:#F00\">%1</span> format is supported in reading<br/>").arg(QString(format)));
 
-        }
-        result+=tr("<h3>Writer</h3>");
-        list = QImageWriter::supportedImageFormats();
-        foreach(QByteArray format, list)
-        {
-            result.append(tr("<span style=\"color:#F00\">%1</span> format is supported in writing<br/>").arg(QString(format)));
-        }
-        ui->m_testResult->append(result);
+    }
+    result+=tr("<h3>Writer</h3>");
+    list = QImageWriter::supportedImageFormats();
+    foreach(QByteArray format, list)
+    {
+        result.append(tr("<span style=\"color:#F00\">%1</span> format is supported in writing<br/>").arg(QString(format)));
+    }
+    ui->m_testResult->append(result);
 }
 
 void PreferenceDialog::fontTest()
@@ -278,31 +277,31 @@ void PreferenceDialog::fontTest()
 void PreferenceDialog::phononTest()
 {
 #ifdef HAVE_PHONON
-   ui->m_testResult->append(tr("<h2>Multimedia Test</h2>"));
-
-   QString result;
-   result+=tr("<h3>Effect</h3>");
-   QList<Phonon::EffectDescription> list1 = Phonon::BackendCapabilities::availableAudioEffects();
-   foreach(Phonon::EffectDescription format, list1)
-   {
-       result.append(tr("<span style=\"color:#F00\">%1</span>%2<br/>").arg(QString(format.name()).arg(format.description())));
-   }
-   result+=tr("<h3>Audio Output Devices</h3>");
-   QList<Phonon::AudioOutputDevice > list2 = Phonon::BackendCapabilities::availableAudioOutputDevices();
-   foreach(Phonon::AudioOutputDevice  device, list2)
-   {
-       result.append(tr("<span style=\"color:#F00\">%1</span>%2<br/>").arg(QString(device.name()).arg(device.description())));
-   }
-
-   result+=tr("<h3>Audio Output Devices</h3>");
-   QStringList list3 = Phonon::BackendCapabilities::availableMimeTypes ();
-   foreach(QString type, list3)
-   {
-       result.append(tr("<span style=\"color:#F00\">%1</span> is supported<br/>").arg(QString(type)));
-   }
-
-
-   ui->m_testResult->append(result);
+    ui->m_testResult->append(tr("<h2>Multimedia Test</h2>"));
+    
+    QString result;
+    result+=tr("<h3>Effect</h3>");
+    QList<Phonon::EffectDescription> list1 = Phonon::BackendCapabilities::availableAudioEffects();
+    foreach(Phonon::EffectDescription format, list1)
+    {
+        result.append(tr("<span style=\"color:#F00\">%1</span>%2<br/>").arg(QString(format.name()).arg(format.description())));
+    }
+    result+=tr("<h3>Audio Output Devices</h3>");
+    QList<Phonon::AudioOutputDevice > list2 = Phonon::BackendCapabilities::availableAudioOutputDevices();
+    foreach(Phonon::AudioOutputDevice  device, list2)
+    {
+        result.append(tr("<span style=\"color:#F00\">%1</span>%2<br/>").arg(QString(device.name()).arg(device.description())));
+    }
+    
+    result+=tr("<h3>Audio Output Devices</h3>");
+    QStringList list3 = Phonon::BackendCapabilities::availableMimeTypes ();
+    foreach(QString type, list3)
+    {
+        result.append(tr("<span style=\"color:#F00\">%1</span> is supported<br/>").arg(QString(type)));
+    }
+    
+    
+    ui->m_testResult->append(result);
 #endif
-
+    
 }

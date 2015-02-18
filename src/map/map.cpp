@@ -32,7 +32,7 @@ Map::Map(int width,int height,QString& title,QColor& bgColor,QObject * parent)
     m_currentItem = NULL;
     m_itemList=new  QList<VisualItem*>;
     setItemIndexMethod(QGraphicsScene::NoIndex);
-
+    
 }
 
 void Map::setWidth(int width)
@@ -56,7 +56,7 @@ void Map::setBackGroundColor(QColor& bgcolor)
 {
     m_bgColor = bgcolor;
     generateBackground();
-
+    
 }
 void Map::generateBackground()
 {
@@ -95,78 +95,78 @@ const QColor& Map::mapColor() const
 {
     return m_bgColor;
 }
- void Map::setCurrentTool(ToolsBar::SelectableTool selectedtool)
- {
+void Map::setCurrentTool(ToolsBar::SelectableTool selectedtool)
+{
     m_selectedtool = selectedtool;
     m_currentItem = NULL;
- }
- void Map::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
- {
-     if(m_currentItem!=NULL)
-     {
-      /*  if(m_selectedtool!=ToolsBar::LINE)
-         {*/
+}
+void Map::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
+{
+    if(m_currentItem!=NULL)
+    {
+        /*  if(m_selectedtool!=ToolsBar::LINE)
+    {*/
 
-             m_end = mouseEvent->scenePos ();
-             m_currentItem->setNewEnd( m_end);
-             update();
+        m_end = mouseEvent->scenePos ();
+        m_currentItem->setNewEnd( m_end);
+        update();
         // }
     }
     if(m_selectedtool==ToolsBar::HANDLER)
-          QGraphicsScene::mouseMoveEvent(mouseEvent);
- }
+        QGraphicsScene::mouseMoveEvent(mouseEvent);
+}
 void Map::addItem()
 {
-   //QGraphicsItem* item = NULL;
-
+    //QGraphicsItem* item = NULL;
+    
     switch(m_selectedtool)
     {
-        case ToolsBar::PEN:
-             m_currentItem=new PathItem(m_first,m_itemColor,m_penSize);
-            break;
-        case ToolsBar::LINE:
-            m_currentItem= new LineItem(m_first,m_itemColor,m_penSize);
-            break;
-        case ToolsBar::EMPTYRECT:
-            m_currentItem = new RectItem(m_first,m_end,false,m_itemColor);
-            break;
-        case ToolsBar::FILLRECT:
-            m_currentItem = new RectItem(m_first,m_end,true,m_itemColor);
-            break;
-        case ToolsBar::EMPTYELLIPSE:
-            m_currentItem = new EllipsItem(m_first,false,m_itemColor);
-            break;
-        case ToolsBar::FILLEDELLIPSE:
-            m_currentItem = new EllipsItem(m_first,true,m_itemColor);
-            break;
-        case ToolsBar::TEXT:
-            {
-                QLineEdit* tempedit = new QLineEdit();
-                TextItem* temptext = new TextItem(m_first,tempedit,m_itemColor);
-                m_currentItem = temptext;
-                QGraphicsProxyWidget * tmp = QGraphicsScene::addWidget(tempedit);
-                tmp->setPos(m_first.x(),m_first.y()-tempedit->height());
-                tempedit->setEnabled(true);
-                tempedit->setFocus();
-                connect(tempedit,SIGNAL(editingFinished()),temptext,SLOT(editingFinished()));
-                connect(tempedit,SIGNAL(editingFinished()),this,SLOT(update()));
-            }
-            break;
-        case ToolsBar::HANDLER:
+    case ToolsBar::PEN:
+        m_currentItem=new PathItem(m_first,m_itemColor,m_penSize);
+        break;
+    case ToolsBar::LINE:
+        m_currentItem= new LineItem(m_first,m_itemColor,m_penSize);
+        break;
+    case ToolsBar::EMPTYRECT:
+        m_currentItem = new RectItem(m_first,m_end,false,m_itemColor);
+        break;
+    case ToolsBar::FILLRECT:
+        m_currentItem = new RectItem(m_first,m_end,true,m_itemColor);
+        break;
+    case ToolsBar::EMPTYELLIPSE:
+        m_currentItem = new EllipsItem(m_first,false,m_itemColor);
+        break;
+    case ToolsBar::FILLEDELLIPSE:
+        m_currentItem = new EllipsItem(m_first,true,m_itemColor);
+        break;
+    case ToolsBar::TEXT:
+    {
+        QLineEdit* tempedit = new QLineEdit();
+        TextItem* temptext = new TextItem(m_first,tempedit,m_itemColor);
+        m_currentItem = temptext;
+        QGraphicsProxyWidget * tmp = QGraphicsScene::addWidget(tempedit);
+        tmp->setPos(m_first.x(),m_first.y()-tempedit->height());
+        tempedit->setEnabled(true);
+        tempedit->setFocus();
+        connect(tempedit,SIGNAL(editingFinished()),temptext,SLOT(editingFinished()));
+        connect(tempedit,SIGNAL(editingFinished()),this,SLOT(update()));
+    }
+        break;
+    case ToolsBar::HANDLER:
 
-            break;
-        case ToolsBar::ADDNPC:
+        break;
+    case ToolsBar::ADDNPC:
 
-            break;
-        case ToolsBar::DELNPC:
+        break;
+    case ToolsBar::DELNPC:
 
-            break;
-        case ToolsBar::MOVECHARACTER:
+        break;
+    case ToolsBar::MOVECHARACTER:
 
-            break;
-        case ToolsBar::STATECHARACTER:
+        break;
+    case ToolsBar::STATECHARACTER:
 
-            break;
+        break;
     }
     if(m_currentItem!=NULL)
     {
@@ -183,81 +183,81 @@ void Map::setNPCSize(int p)
 {
     m_npcSize =p;
 }
- void Map::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
- {
-
-     if(m_selectedtool==ToolsBar::HANDLER)
-     {
-         //m_currentItem = dynamic_cast<VisualItem*>(itemAt(mouseEvent->scenePos()));
+void Map::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
+{
+    
+    if(m_selectedtool==ToolsBar::HANDLER)
+    {
+        //m_currentItem = dynamic_cast<VisualItem*>(itemAt(mouseEvent->scenePos()));
         QGraphicsScene::mousePressEvent(mouseEvent);
-     }
-     else if(mouseEvent->button() == Qt::LeftButton)
-     {
-         m_first = mouseEvent->scenePos();
-         m_end = m_first;
-         addItem();
-     }
+    }
+    else if(mouseEvent->button() == Qt::LeftButton)
+    {
+        m_first = mouseEvent->scenePos();
+        m_end = m_first;
+        addItem();
+    }
+    
+    
+    
+}
 
-
-
- }
-
- void Map::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
- {
-     Q_UNUSED(mouseEvent);
-     m_currentItem = NULL;
-     if(m_selectedtool==ToolsBar::HANDLER)
+void Map::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
+{
+    Q_UNUSED(mouseEvent);
+    m_currentItem = NULL;
+    if(m_selectedtool==ToolsBar::HANDLER)
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
- }
- void Map::setCurrentChosenColor(QColor& p)
- {
+}
+void Map::setCurrentChosenColor(QColor& p)
+{
     m_itemColor = p;
-
-
- }
+    
+    
+}
 
 QDataStream& operator<<(QDataStream& out, const Map& con)
 {
-   out << con.m_width;
-   out << con.m_height;
-   out << con.m_title;
-   out << con.m_bgColor;
-
+    out << con.m_width;
+    out << con.m_height;
+    out << con.m_title;
+    out << con.m_bgColor;
+    
     out << con.m_itemList->size();
-   for(int i = 0; i< con.m_itemList->size();i++)
-   {
-       VisualItem* item = con.m_itemList->at(i);
-       out << *item ;
-   }
-   return out;
+    for(int i = 0; i< con.m_itemList->size();i++)
+    {
+        VisualItem* item = con.m_itemList->at(i);
+        out << *item ;
+    }
+    return out;
 }
 
 QDataStream& operator>>(QDataStream& is,Map& con)
 {
-   is >>(con.m_width);
-   is >>(con.m_height);
-   is >>(con.m_title);
-   is >>(con.m_bgColor);
-
-   int size;
-   is >> size;
-
-
-
-   return is;
- }
+    is >>(con.m_width);
+    is >>(con.m_height);
+    is >>(con.m_title);
+    is >>(con.m_bgColor);
+    
+    int size;
+    is >> size;
+    
+    
+    
+    return is;
+}
 void Map::saveFile(QDataStream& out)
 {
     if(m_itemList->isEmpty())
         return;
-
+    
     out << m_width;
     out<< m_height;
     out<< m_title;
     out<< m_bgColor;
     out << m_itemList->size();
     qDebug()<< "m_itemList size" << m_itemList->size() <<  m_bgColor << m_width << m_height << m_title ;
-
+    
     foreach(VisualItem* tmp, *m_itemList)
     {
         out << tmp->getType() << *tmp;
@@ -278,8 +278,8 @@ void Map::openFile(QDataStream& in)
         qDebug()<< "m_itemList size" << numberOfItem <<  m_bgColor << m_width << m_height << m_title ;
         for(int i =0 ; i<numberOfItem;i++)
         {
-             VisualItem* item;
-             item=NULL;
+            VisualItem* item;
+            item=NULL;
             VisualItem::ItemType type;
             int tmptype;
             in >> tmptype;
@@ -287,28 +287,28 @@ void Map::openFile(QDataStream& in)
 
             switch(type)
             {
-                case VisualItem::TEXT:
-                    item=new TextItem();
+            case VisualItem::TEXT:
+                item=new TextItem();
 
                 break;
-                case VisualItem::CHARACTER:
-                    /// @TODO: Reimplement that feature
-                   // item=new CharacterItem();
+            case VisualItem::CHARACTER:
+                /// @TODO: Reimplement that feature
+                // item=new CharacterItem();
 
                 break;
-                case VisualItem::LINE:
-                    item=new LineItem();
+            case VisualItem::LINE:
+                item=new LineItem();
 
                 break;
-                case VisualItem::RECT:
-                    item=new RectItem();
+            case VisualItem::RECT:
+                item=new RectItem();
                 break;
-                case VisualItem::ELLISPE:
-                    item=new EllipsItem();
+            case VisualItem::ELLISPE:
+                item=new EllipsItem();
 
                 break;
-                case VisualItem::PATH:
-                    item=new PathItem();
+            case VisualItem::PATH:
+                item=new PathItem();
 
                 break;
 
@@ -316,7 +316,7 @@ void Map::openFile(QDataStream& in)
             in >> *item;
             QGraphicsScene::addItem(item);
             m_itemList->append(item);
-         }
+        }
         qDebug()<< m_itemList->size();
     }
 }
@@ -329,7 +329,7 @@ void Map::addCharacter(const Character* p, QPointF pos)
 
 void Map::setPatternSize(int p)
 {
-m_sizePattern = p;
+    m_sizePattern = p;
 }
 
 void Map::setPattern(QPixmap p)
@@ -346,17 +346,17 @@ void Map::setScaleUnit(int p)
 {
     switch(p)
     {
-        case PX:
-        case FEET:
-        case CM:
-        case INCH:
-        case M:
-            m_patternUnit = (Map::SCALE_UNIT)p;
+    case PX:
+    case FEET:
+    case CM:
+    case INCH:
+    case M:
+        m_patternUnit = (Map::SCALE_UNIT)p;
         break;
-        default:
-            m_patternUnit = PX;
+    default:
+        m_patternUnit = PX;
         break;
     }
-
-
+    
+    
 }

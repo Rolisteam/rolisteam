@@ -28,7 +28,7 @@
 #include <QSplitter>
 #include <QFile>
 #include <QList>
-#include "tchateditor.h"
+#include "chateditor.h"
 #include "submdiwindows.h"
 
 class Person;
@@ -39,7 +39,7 @@ class QComboBox;
 /**
   * @brief Chat window is the widget used for talking with other players in the game
   */
-class Tchat : public SubMdiWindows
+class Chat : public SubMdiWindows
 {
 Q_OBJECT
 
@@ -47,11 +47,11 @@ public :
     /**
       * @brief default constructor
       */
-    Tchat(CleverURI* uri,QWidget *parent = NULL);
+    Chat(CleverURI* uri,QWidget *parent = NULL);
     /**
       * @brief destructor
       */
-    ~Tchat();
+    ~Chat();
 
     /**
       * @brief called when message must be shown.
@@ -115,7 +115,7 @@ private :
     void setupUi();
 
     QTextEdit* m_meetingRoom;
-    TchatEditor* m_tchatEditor;
+    ChatEditor* m_tchatEditor;
     QStringList m_messageHistoric;
     int m_historicNumber;
     QSplitter* m_splitter;

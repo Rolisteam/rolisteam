@@ -21,7 +21,7 @@ public:
       */
     bool hasFormat ( const QString & mimeType ) const;
     //QStringList QMimeData::formats () const;
-
+    
     /**
       *  @brief to define the draged and droped person.
       */
@@ -34,7 +34,7 @@ public:
       *  @brief return the person instance.
       */
     const Person* getData() const;
-/*protected:
+    /*protected:
     QVariant retrieveData ( const QString & mimeType, QVariant::Type type ) const;*/
 private:
     QString m_format; /// const string representing the minetype of person

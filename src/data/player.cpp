@@ -15,10 +15,10 @@ Player::Player(QString name,QColor color,QString uri)
     m_children = new QList<Character*>;
 }
 Player::Player(const Player& p)
-        : Person()
+    : Person()
 {
     m_children = new QList<Character*>;
-
+    
     *m_children = *p.children();
     Person::m_name = p.getName();
     Person::m_color = p.getColor();
@@ -43,7 +43,7 @@ Character* Player::child(int row) const
 {
     if(row >= m_children->size())
         return NULL;
-
+    
     return m_children->at(row);
 }
 int Player::childrenCount() const
@@ -52,36 +52,36 @@ int Player::childrenCount() const
 }
 QList<Character*>* Player::children() const
 {
- return m_children;
+    return m_children;
 }
 QDataStream& operator<<(QDataStream& out, const Player& con)
 {
-  out << con.getName();
-  out << con.getColor();
-  out << con.getAvatar();
-  out << con.childrenCount();
-  for(int i =0;i<con.childrenCount();i++)
-  {
-      Character* tmp = con.child(i);
-      out << *tmp;
-  }
-  return out;
+    out << con.getName();
+    out << con.getColor();
+    out << con.getAvatar();
+    out << con.childrenCount();
+    for(int i =0;i<con.childrenCount();i++)
+    {
+        Character* tmp = con.child(i);
+        out << *tmp;
+    }
+    return out;
 }
 
 QDataStream& operator>>(QDataStream& is,Player& con)
 {
-  is >>(con.m_name);
-  is >>(con.m_color);
-  is >>(con.m_avatar);
-  int childCount;
-  is >>  childCount;
-  for(int i =0;i<childCount;i++)
-  {
-      Character* tmp = new Character();
-      is >> *tmp;
-      tmp->setParent(&con);
-      con.addCharacter(tmp);
-  }
-
-  return is;
+    is >>(con.m_name);
+    is >>(con.m_color);
+    is >>(con.m_avatar);
+    int childCount;
+    is >>  childCount;
+    for(int i =0;i<childCount;i++)
+    {
+        Character* tmp = new Character();
+        is >> *tmp;
+        tmp->setParent(&con);
+        con.addCharacter(tmp);
+    }
+    
+    return is;
 }

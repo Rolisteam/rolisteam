@@ -21,16 +21,16 @@
 
 
 #include <QtGui>
-#include "tchateditor.h"
+#include "chateditor.h"
 
 
-TchatEditor::TchatEditor(QWidget *parent)
+ChatEditor::ChatEditor(QWidget *parent)
 : QTextEdit(parent)
 {
 }
 
 
-void TchatEditor::keyPressEvent(QKeyEvent *e)
+void ChatEditor::keyPressEvent(QKeyEvent *e)
 {
         switch(e->key())
         {

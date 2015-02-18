@@ -28,11 +28,11 @@
 /**
   * @brief clever QTextEdit which deals with user inputs and trigger some action in response of some sort of input
   */
-class TchatEditor : public QTextEdit
+class ChatEditor : public QTextEdit
 {
 Q_OBJECT
 public :
-    TchatEditor(QWidget *parent = 0);
+    ChatEditor(QWidget *parent = 0);
 signals :
         void onEntry();
         void onArrowUp();

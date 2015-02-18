@@ -1,22 +1,22 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   Rolisteam is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *   Copyright (C) 2009 by Renaud Guezennec                             *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   Rolisteam is free software; you can redistribute it and/or modify     *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 #include "sessionmanager.h"
 #include <QTreeView>
 #include <QHBoxLayout>
@@ -41,11 +41,11 @@ SessionManager::SessionManager()
     m_internal = new QWidget();
     m_internal->setLayout(m_layout);
     setWidget(m_internal);
-
+    
     setWindowTitle(tr("Resources Explorer"));
-
+    
     m_model = new SessionItemModel;
-
+    
     m_view->setModel(m_model);
     connect(m_view,SIGNAL(onDoubleClick(QModelIndex&)),this,SLOT(openResources(QModelIndex&)));
     connect(m_view,SIGNAL(addChapter(QModelIndex&)),this,SLOT(addChapter(QModelIndex&)));
@@ -65,9 +65,9 @@ CleverURI* SessionManager::addRessource(CleverURI* tp)
 {
     QModelIndex index = m_view->currentIndex();
     m_model->addRessources(tp,index);
-
+    
     m_recentlist.prepend(tp);
-
+    
     if(m_recentlist.size()>m_recentfileCount)
     {
         m_recentlist.removeLast();
@@ -81,7 +81,7 @@ void SessionManager::readSettings(QSettings & m)
     QVariant r;
     r.setValue<Session>(*m_currentSession);
     *m_currentSession=m.value("Session",r).value<Session>();
-
+    
     // if no number that means no recenfile
     int number = m.value("numberRecentFile",0).toInt();
     qDebug()<< "number of recent file session manager" << number;
@@ -93,10 +93,10 @@ void SessionManager::readSettings(QSettings & m)
         m_recentlist.prepend(cleverURI);
         m.setValue(QString("recentfile%1").arg(i),r);
     }
-
-
+    
+    
     m.endGroup();
-
+    
     m_model->setSession(m_currentSession);
 }
 const QList<CleverURI*>& SessionManager::getRecentFiles()
@@ -109,7 +109,7 @@ void SessionManager::addChapter(QModelIndex& index)
     QString tmp = tr("Chapter %1").arg(m_currentSession->chapterCount());
     //m_currentChapter = m_model->addChapter(tmp,m_view->currentIndex());
     m_currentChapter =m_model->addChapter(tmp,index);
-
+    
 }
 
 void SessionManager::writeSettings(QSettings & m)
@@ -118,8 +118,8 @@ void SessionManager::writeSettings(QSettings & m)
     QVariant r;
     r.setValue<Session>(*m_currentSession);
     m.setValue("Session",r);
-
-
+    
+    
     m.setValue("numberRecentFile",m_recentlist.size());
     for(int i=0 ; i<m_recentlist.size() ; i++)
     {
@@ -128,7 +128,7 @@ void SessionManager::writeSettings(QSettings & m)
         m.setValue(QString("recentfile%1").arg(i),r);
         //con.m_recentlist.append(cleverURI);
     }
-
+    
     m.endGroup();
 }
 void SessionManager::closeEvent ( QCloseEvent * event )
@@ -148,31 +148,31 @@ void SessionManager::setCurrentChapter()
 
 void SessionManager::openResources(QModelIndex& index)
 {
-      ResourcesItem* item = static_cast<ResourcesItem*>(index.internalPointer());
-      if(item!=NULL)
-      {
-          CleverURI* uri = dynamic_cast<CleverURI*>(item->getData());
-          if(uri!=NULL)
-          {
-              emit openFile(uri);
-          }
-      }
+    ResourcesItem* item = static_cast<ResourcesItem*>(index.internalPointer());
+    if(item!=NULL)
+    {
+        CleverURI* uri = dynamic_cast<CleverURI*>(item->getData());
+        if(uri!=NULL)
+        {
+            emit openFile(uri);
+        }
+    }
 }
 void SessionManager::removeSelectedItem()
 {
-
+    
     QModelIndexList list=m_view->getSelection();
-//    if(list!=NULL)
-//    {
-        qDebug() << "size of the list= " <<list.size();
-        for(int i = 0 ; i < list.size(); i++)
-        {
-            QModelIndex index = list.at(i);
-            qDebug() << "coord= " <<index.column()<<index.row();
-            if(!index.isValid())
-                continue;
-            m_model->remove(index);
-        }
-//    }
+    //    if(list!=NULL)
+    //    {
+    qDebug() << "size of the list= " <<list.size();
+    for(int i = 0 ; i < list.size(); i++)
+    {
+        QModelIndex index = list.at(i);
+        qDebug() << "coord= " <<index.column()<<index.row();
+        if(!index.isValid())
+            continue;
+        m_model->remove(index);
+    }
+    //    }
 }
 

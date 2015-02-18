@@ -1,22 +1,22 @@
 /***************************************************************************
- *	Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   Rolisteam is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *	Copyright (C) 2009 by Renaud Guezennec                             *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   Rolisteam is free software; you can redistribute it and/or modify     *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 #include "sessionitemmodel.h"
 #include "cleveruri.h"
 #include "session.h"
@@ -26,7 +26,7 @@ ResourcesItem::ResourcesItem(RessourcesNode* p,bool leaf)
     : m_data(p),m_isLeaf(leaf)
 {
     m_children =new QList<ResourcesItem*>;
-
+    
 }
 ResourcesItem* ResourcesItem::getParent()
 {
@@ -35,7 +35,7 @@ ResourcesItem* ResourcesItem::getParent()
 ResourcesItem::~ResourcesItem()
 {
     delete m_data;
-   // delete m_parent;
+    // delete m_parent;
     delete m_children;
 }
 
@@ -66,7 +66,7 @@ bool ResourcesItem::isLeaf()
 void ResourcesItem::setLeaf(bool leaf)
 {
     m_isLeaf=leaf;
-
+    
 }
 int ResourcesItem::childrenCount()
 {
@@ -82,10 +82,10 @@ void ResourcesItem::addChild(ResourcesItem* child)
 
 ResourcesItem* ResourcesItem::child(int row)
 {
-   // qDebug() << "child row="<< row << m_children->size() << m_children->at(row);
+    // qDebug() << "child row="<< row << m_children->size() << m_children->at(row);
     if(row < m_children->size())
         return m_children->at(row);
-
+    
     return NULL;
 }
 int ResourcesItem::row()
@@ -104,37 +104,37 @@ QList<ResourcesItem*>* ResourcesItem::getChildren()
 
 SessionItemModel::SessionItemModel()
 {
-     m_rootItem = new ResourcesItem(NULL,false);
+    m_rootItem = new ResourcesItem(NULL,false);
 }
 QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & parent ) const
 {
-
+    
     if(row<0)
         return QModelIndex();
-
+    
     ResourcesItem* parentItem = NULL;
-
-   // qDebug()<< "Index session " <<row << column << parent;
+    
+    // qDebug()<< "Index session " <<row << column << parent;
     if (!parent.isValid())
         parentItem = m_rootItem;
     else
         parentItem = static_cast<ResourcesItem*>(parent.internalPointer());
-
+    
     ResourcesItem* childItem = parentItem->child(row);
     if (childItem)
         return createIndex(row, column, childItem);
     else
         return QModelIndex();
-
+    
 }
 bool  SessionItemModel::setData ( const QModelIndex & index, const QVariant & value, int role )
 {
     if(Qt::EditRole==role)
     {
-            ResourcesItem* childItem = static_cast<ResourcesItem*>(index.internalPointer());
-            QString st = value.toString();
-            childItem->getData()->setShortName(st);
-            return true;
+        ResourcesItem* childItem = static_cast<ResourcesItem*>(index.internalPointer());
+        QString st = value.toString();
+        childItem->getData()->setShortName(st);
+        return true;
     }
     return false;
 }
@@ -142,43 +142,43 @@ Qt::ItemFlags SessionItemModel::flags ( const QModelIndex & index ) const
 {
     if (!index.isValid())
         return Qt::ItemIsEnabled;
-
-        ResourcesItem* childItem = static_cast<ResourcesItem*>(index.internalPointer());
-        if(!childItem->isLeaf())
-            return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
-        else
-            return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
-
+    
+    ResourcesItem* childItem = static_cast<ResourcesItem*>(index.internalPointer());
+    if(!childItem->isLeaf())
+        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
+    else
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
+    
 }
 QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
 {
-
+    
     if (!index.isValid())
         return QModelIndex();
-
+    
     ResourcesItem *childItem = static_cast<ResourcesItem*>(index.internalPointer());
     ResourcesItem *parentItem = childItem->getParent();
-
+    
     if (parentItem == m_rootItem)
         return QModelIndex();
-
+    
     return createIndex(parentItem->row(), 0, parentItem);
-
-
-
+    
+    
+    
 }
 int SessionItemModel::rowCount(const QModelIndex& index) const
 {
-   // qDebug() << index;
+    // qDebug() << index;
     if(index.isValid())
     {
         ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
-    //    qDebug() << "rowCount tmp"<< tmp->childrenCount();
+        //    qDebug() << "rowCount tmp"<< tmp->childrenCount();
         return tmp->childrenCount();
     }
     else
     {
-      //  qDebug() << "rowCount root"<<  m_rootItem->childrenCount() << m_session->chapterList().size() << m_session->childrenCount();
+        //  qDebug() << "rowCount root"<<  m_rootItem->childrenCount() << m_session->chapterList().size() << m_session->childrenCount();
         return (m_session->childrenCount());//->childrenCount();
     }
 }
@@ -194,13 +194,13 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
             return QVariant();
         if(index.column()==0)// filename
         {
-             ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
-             if(tmp)
-             {
-               RessourcesNode* t =  tmp->getData();
-               //qDebug() << tmp;
-               return t->getShortName();
-             }
+            ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
+            if(tmp)
+            {
+                RessourcesNode* t =  tmp->getData();
+                //qDebug() << tmp;
+                return t->getShortName();
+            }
         }
     }
     if(role == Qt::DecorationRole)
@@ -214,10 +214,10 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
                 if(t==NULL)
                     return QVariant();
 
-                 //   return CleverURI::getIcon((CleverURI::ContentType)t->getType());
+                //   return CleverURI::getIcon((CleverURI::ContentType)t->getType());
                 return QIcon(CleverURI::getIcon((CleverURI::ContentType)t->getType()));
 
-               // return t->getShortName();
+                // return t->getShortName();
             }
         }
     }
@@ -250,8 +250,8 @@ Chapter* SessionItemModel::addChapter(QString& name,QModelIndex parent)
         tmp=m_rootItem;
     else
         tmp = static_cast<ResourcesItem*>(parent.internalPointer());
-
-
+    
+    
     Chapter* t=NULL;
     if(!parent.isValid())
     {
@@ -275,14 +275,14 @@ Chapter* SessionItemModel::addChapter(QString& name,QModelIndex parent)
         }
 
     }
-
-
+    
+    
     return t;
 }
 
 CleverURI* SessionItemModel::addRessources(CleverURI* uri,QModelIndex& parent)
 {
-     ResourcesItem* parentItem=NULL;
+    ResourcesItem* parentItem=NULL;
     if(!parent.isValid())
         parentItem=m_rootItem;
     else
@@ -290,15 +290,15 @@ CleverURI* SessionItemModel::addRessources(CleverURI* uri,QModelIndex& parent)
         parentItem = static_cast<ResourcesItem*>(parent.internalPointer());
     }
     beginInsertRows(QModelIndex(),parentItem->childrenCount(),parentItem->childrenCount());
-
+    
     if(parentItem->isLeaf())
     {
         parentItem=parentItem->getParent();//leaf's parent is not a leaf indeed
     }
-
-
+    
+    
     Chapter* chap=dynamic_cast<Chapter*>(parentItem->getData());// NULL when it is not a chapter.
-
+    
     m_session->addRessource(uri,chap);
     parentItem->addChild(new ResourcesItem(uri,true));
     endInsertRows();
@@ -327,12 +327,12 @@ void SessionItemModel::remove(QModelIndex& index)
     ResourcesItem* indexItem = static_cast<ResourcesItem*>(index.internalPointer());
     QModelIndex parent = index.parent();
     ResourcesItem* parentItem=NULL;
-
+    
     if(!parent.isValid())
         parentItem=m_rootItem;
     else
         parentItem= static_cast<ResourcesItem*>(parent.internalPointer());
-
+    
     if(indexItem->childrenCount()>0)
     {
         beginRemoveRows(index,0,indexItem->childrenCount());
@@ -342,17 +342,17 @@ void SessionItemModel::remove(QModelIndex& index)
 
         endRemoveRows();
     }
-
+    
     beginRemoveRows(index.parent(),index.row(),index.row());
     parentItem->getChildren()->removeOne(indexItem);
     //delete indexItem;
-
+    
     m_session->removeRessourcesNode(indexItem->getData());
-
+    
     endRemoveRows();
-
-
-
+    
+    
+    
 }
 
 QVariant SessionItemModel::headerData ( int section, Qt::Orientation orientation, int role  ) const
@@ -361,20 +361,20 @@ QVariant SessionItemModel::headerData ( int section, Qt::Orientation orientation
     {
         switch(section)
         {
-            case 0:
-                return tr("Name");
-                break;
-            case 1:
-                return tr("Type");
-                break;
-            case 2:
-                return tr("Other");
-                break;
-            default:
-                return QVariant();
+        case 0:
+            return tr("Name");
+            break;
+        case 1:
+            return tr("Type");
+            break;
+        case 2:
+            return tr("Other");
+            break;
+        default:
+            return QVariant();
         }
     }
-                    return QVariant();
+    return QVariant();
 }
 Chapter* SessionItemModel::getChapter(QModelIndex& index)
 {

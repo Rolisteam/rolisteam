@@ -1,4 +1,5 @@
-CONFIG      += designer plugin
+CONFIG      +=  plugin
+QT += designer
 
 HEADERS += \
     widget/colorbutton.h \

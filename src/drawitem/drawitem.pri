@@ -1,14 +1,14 @@
-HEADERS += visualitem.h \
-    rectitem.h \
-    ellipsitem.h \
-    pathitem.h \
-    characteritem.h \
-    lineitem.h \
-    textitem.h
-SOURCES += visualitem.cpp \
-    rectitem.cpp \
-    ellipsitem.cpp \
-    pathitem.cpp \
-    characteritem.cpp \
-    lineitem.cpp \
-    textitem.cpp
+HEADERS += $$PWD/visualitem.h \
+    $$PWD/rectitem.h \
+    $$PWD/ellipsitem.h \
+    $$PWD/pathitem.h \
+    $$PWD/characteritem.h \
+    $$PWD/lineitem.h \
+    $$PWD/textitem.h
+SOURCES += $$PWD/visualitem.cpp \
+    $$PWD/rectitem.cpp \
+    $$PWD/ellipsitem.cpp \
+    $$PWD/pathitem.cpp \
+    $$PWD/characteritem.cpp \
+    $$PWD/lineitem.cpp \
+    $$PWD/textitem.cpp

@@ -1,22 +1,22 @@
 /***************************************************************************
- *     Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *     Copyright (C) 2009 by Renaud Guezennec                             *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   This program is free software; you can redistribute it and/or modify     *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 #include "userlistmodel.h"
 
 #include <QDebug>
@@ -79,7 +79,7 @@ void PersonItem::addChild(PersonItem* child)
 {
     m_children->append(child);
     child->setParent(this);
-
+    
 }
 
 PersonItem* PersonItem::child(int row)
@@ -113,16 +113,16 @@ QModelIndex UserListModel::index ( int row, int column, const QModelIndex & pare
 {
     if(row<0)
         return QModelIndex();
-
+    
     PersonItem* parentItem = NULL;
-
+    
     if (!parent.isValid())
         parentItem = m_root;
     else
     {
         parentItem = static_cast<PersonItem*>(parent.internalPointer());
     }
-
+    
     PersonItem* childItem = parentItem->child(row);
     if (childItem)
         return createIndex(row, column, childItem);
@@ -135,31 +135,31 @@ bool UserListModel::isPlayer(const QModelIndex & index)
         return false;
     if(!index.parent().isValid())
         return true;
-
+    
     return false;
-
+    
 }
 
 QModelIndex UserListModel::parent ( const QModelIndex & index ) const
 {
     if (!index.isValid())
         return QModelIndex();
-
+    
     PersonItem *childItem = static_cast<PersonItem*>(index.internalPointer());
     PersonItem *parentItem = childItem->getParent();
-
+    
     if (parentItem == m_root)
         return QModelIndex();
-
+    
     return createIndex(parentItem->row(), 0, parentItem);
 }
 int UserListModel::rowCount ( const QModelIndex & parent  ) const
 {
-        PersonItem* tmp = static_cast<PersonItem*>(parent.internalPointer());
-        if(tmp!=NULL)
-            return tmp->childrenCount();
-        else
-            return m_root->childrenCount();
+    PersonItem* tmp = static_cast<PersonItem*>(parent.internalPointer());
+    if(tmp!=NULL)
+        return tmp->childrenCount();
+    else
+        return m_root->childrenCount();
 }
 int UserListModel::columnCount ( const QModelIndex & parent  ) const
 {
@@ -169,53 +169,53 @@ QVariant UserListModel::data ( const QModelIndex & index, int role  ) const
 {
     if(!index.isValid())
         return QVariant();
-
-   /* if((role == Qt::DisplayRole)||(role == Qt::DecorationRole)||(Qt::CheckStateRole == role))
+    
+    /* if((role == Qt::DisplayRole)||(role == Qt::DecorationRole)||(Qt::CheckStateRole == role))
     {*/
-        if(index.column()==0)
+    if(index.column()==0)
+    {
+        PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
+        if(childItem)
         {
-            PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
-            if(childItem)
+
+            switch(role)
             {
+            case Qt::EditRole:
+            case Qt::DisplayRole:
+                return childItem->getPerson()->getName();
 
-                switch(role)
-                {
-                    case Qt::EditRole:
-                    case Qt::DisplayRole:
-                        return childItem->getPerson()->getName();
+            case Qt::DecorationRole:
+                return childItem->getPerson()->getColor();
 
-                    case Qt::DecorationRole:
-                        return childItem->getPerson()->getColor();
+            case Qt::CheckStateRole:
+                return childItem->getPerson()->checkedState();
+            default:
+                return QVariant();
 
-                    case Qt::CheckStateRole:
-                        return childItem->getPerson()->checkedState();
-                    default:
-                        return QVariant();
-
-                }
             }
         }
-
+    }
+    
     return QVariant();
 }
 void UserListModel::addPlayer(Person* p)
 {
-
+    
     beginInsertRows(QModelIndex(),m_root->childrenCount(),m_root->childrenCount());
     m_root->addChild(new PersonItem(p,false));
     endInsertRows();
-
-
+    
+    
 }
 void UserListModel::removeCharacter(QModelIndex& a,Person* p)
 {
-        PersonItem* parentItem = static_cast<PersonItem*>(a.parent().internalPointer());
-        if(p==parentItem->getPerson())
-        {
-            beginRemoveRows(a,a.row(),a.row());
-            parentItem->removeChild(a.row());
-            endRemoveRows();
-        }
+    PersonItem* parentItem = static_cast<PersonItem*>(a.parent().internalPointer());
+    if(p==parentItem->getPerson())
+    {
+        beginRemoveRows(a,a.row(),a.row());
+        parentItem->removeChild(a.row());
+        endRemoveRows();
+    }
 }
 
 void UserListModel::addCharacter(Person* p,Person* parent)
@@ -240,10 +240,10 @@ bool UserListModel::setData ( const QModelIndex & index, const QVariant & value,
 {
     if(Qt::EditRole==role)
     {
-            PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
-            QString st = value.toString();
-            childItem->getPerson()->setName(st);
-            return true;
+        PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
+        QString st = value.toString();
+        childItem->getPerson()->setName(st);
+        return true;
     }
     else if(Qt::CheckStateRole == role)
     {
@@ -257,7 +257,7 @@ Qt::ItemFlags UserListModel::flags ( const QModelIndex & index )  const
 {
     if (!index.isValid())
         return Qt::ItemIsEnabled;
-
+    
     PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
     if((childItem->getPerson()==m_player)||(childItem->getParent()->getPerson() ==m_player))
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable ;
@@ -287,11 +287,11 @@ bool UserListModel::isLocalPlayer(QModelIndex& index)
         qDebug()<< "Index invalide" ;
         return false;
 
-     }
-
+    }
+    
     //PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
     return (Qt::ItemIsEditable | flags(index));
-
+    
     //return (p==m_player);
 }
 Person* UserListModel::getPersonAt(QModelIndex& l)

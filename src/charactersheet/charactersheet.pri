@@ -1,5 +1,5 @@
-HEADERS += charactersheetwindow.h \
-    charactersheetmodel.h
-SOURCES += charactersheetwindow.cpp \
-    charactersheetmodel.cpp
+HEADERS += $$PWD/charactersheetwindow.h \
+    $$PWD/charactersheetmodel.h
+SOURCES += $$PWD/charactersheetwindow.cpp \
+    $$PWD/charactersheetmodel.cpp
 QT += xml

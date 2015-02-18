@@ -1,32 +1,32 @@
 /***************************************************************************
- *	Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   Rolisteam is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+    *	Copyright (C) 2009 by Renaud Guezennec                             *
+    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *                                                                         *
+    *   Rolisteam is free software; you can redistribute it and/or modify     *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 #include <QDebug>
-
+#include <QDataStream>
 
 #include "session.h"
 
 Session::Session()
 {
-
-
-
+    
+    
+    
 }
 Session::Session(const Session& m)
 {
@@ -38,7 +38,7 @@ Session::Session(const Session& m)
 
 Session::~Session()
 {
-
+    
 }
 Chapter* Session::addChapter(QString& name)
 {
@@ -49,7 +49,7 @@ Chapter* Session::addChapter(QString& name)
 }
 int Session::childrenCount()
 {
-        return (m_chapterList.size()+m_ressoucelist.size());
+    return (m_chapterList.size()+m_ressoucelist.size());
 }
 int Session::chapterCount()
 {
@@ -74,7 +74,7 @@ void Session::removeRessourcesNode(RessourcesNode* item)
     bool suppr=false;
     if(itemURI!=NULL)
     {
-          suppr= m_ressoucelist.removeOne(itemURI);
+        suppr= m_ressoucelist.removeOne(itemURI);
     }
     else
     {
@@ -86,11 +86,11 @@ void Session::removeRessourcesNode(RessourcesNode* item)
     {
         suppr=m_chapterList.at(i)->removeRessourcesNode(item);
     }
-
-
-
-//    QList<Chapter> m_chapterList;
-//    QList<CleverURI> m_ressoucelist;
+    
+    
+    
+    //    QList<Chapter> m_chapterList;
+    //    QList<CleverURI> m_ressoucelist;
 }
 
 Chapter* Session::getChapter(int index)
@@ -112,12 +112,12 @@ QDataStream& operator<<(QDataStream& out, const Session& con)
     //   qDebug() << "SESSION " << con.m_chapterList.size();
     out << con.m_chapterList.size();
     foreach(Chapter* chapter, con.m_chapterList)
-      out << *chapter;
-
+        out << *chapter;
+    
     out << con.m_ressoucelist.size();
     foreach(CleverURI* uri, con.m_ressoucelist)
-      out << *uri;
-
+        out << *uri;
+    
     //   qDebug() << "SESSION  ressource" <<con.m_ressoucelist.size();
     return out;
 }
@@ -128,7 +128,7 @@ QDataStream& operator>>(QDataStream& is,Session& con)
     is >>(con.m_time);
     int sizeChapter=0;
     int sizeURI=0;
-
+    
     is >> sizeChapter; //(con.m_chapterList);
     for(int i=0 ; i<sizeChapter ; i++)
     {
@@ -136,7 +136,7 @@ QDataStream& operator>>(QDataStream& is,Session& con)
         is >>*chapter;
         con.m_chapterList.append(chapter);
     }
-
+    
     is >>sizeURI;
     for(int j=0 ; j<sizeURI ; j++)
     {
@@ -145,6 +145,6 @@ QDataStream& operator>>(QDataStream& is,Session& con)
         con.m_ressoucelist.append(uri);
     }
     //is >> (con.m_ressoucelist);
-
+    
     return is;
 }
