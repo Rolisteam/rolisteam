@@ -57,7 +57,7 @@ BarreOutils::BarreOutils(QWidget *parent)
 	setWindowTitle(tr("Outils"));
         setObjectName("BarreOutils");
 	// Parametrage du dockWidget
-    setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+        setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 	// Creation du widget contenant les boutons
 	outils = new QWidget(this);

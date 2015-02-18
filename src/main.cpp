@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
 
     // Create the main window
     G_mainWindow = new MainWindow;
-
+    G_mainWindow->checkUpdate();
     G_mainWindow->setWindowTitle(NOM_APPLICATION);
     // We have a connection, we launch the main window.
     G_mainWindow->showNormal();

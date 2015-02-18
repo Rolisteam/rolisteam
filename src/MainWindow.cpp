@@ -1967,7 +1967,7 @@ void MainWindow::updateMayBeNeeded()
 {
     if(m_updateChecker->mustBeUpdated())
     {
-        QMessageBox::information(this,tr("Update Monitor"),tr("The %1 version has been released. Please take a look at www.rolisteam.org for more information").arg(m_updateChecker->getLatestVersion()));
+        QMessageBox::information(this,tr("Update Monitor"),tr("The %1 version has been released. Please take a look at <a href=\"http://www.rolisteam.org/download\">Download page</a> for more information").arg(m_updateChecker->getLatestVersion()));
     }
     m_updateChecker->deleteLater();
 }

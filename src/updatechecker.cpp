@@ -12,7 +12,7 @@ UpdateChecker::UpdateChecker()
 }
 bool UpdateChecker::mustBeUpdated()
 {
-    return m_state;
+   return m_state;
 }
 
 void UpdateChecker::startChecking()
