@@ -137,7 +137,9 @@ Feature::send(int linkIndex) const
 
 FeaturesList::FeaturesList(QObject * parent)
  : QObject(parent)
-{}
+{
+    ReceiveEvent::registerReceiver(parametres, addFeature, this);
+}
 
 void
 FeaturesList::addLocal(const QString & userId)

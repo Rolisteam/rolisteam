@@ -33,7 +33,6 @@
 #include <QCursor>
 #include <QString>
 #include <QList>
-#include <QMutex>
 
 #include "SelecteurCouleur.h"
 #include "BarreOutils.h"
@@ -67,9 +66,6 @@ extern QString         G_idJoueurLocal;
 extern bool G_joueur;
 extern bool G_client;
 extern QColor G_couleurJoueurLocal;
-
-// Declared in Liaison.cpp
-extern QMutex G_mutexConnexion;
 
 // Declarees dans DessinPerso.cpp, initialiser dans MainWindow.cpp
 extern QList<DessinPerso::etatDeSante> G_etatsDeSante;

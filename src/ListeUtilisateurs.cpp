@@ -243,9 +243,6 @@ bool ListeUtilisateurs::ajouterJoueur(QString idJoueur, QString nomJoueur, QColo
 /********************************************************************/
 bool ListeUtilisateurs::supprimerJoueur(QString idJoueur)
 {
-    // We should not delete a player while we register another one.
-    QMutexLocker locker(&G_mutexConnexion);
-
         // Recherche du joueur dans la liste, en se basant sur l'idJoueur
         QList<QTreeWidgetItem *> listeItem = treeWidget->findItems(idJoueur, Qt::MatchExactly, 1);
         // Si la liste n'a pas un seul element, alors il y a un probleme
@@ -550,6 +547,8 @@ void ListeUtilisateurs::majTaillePj(int taille)
 /********************************************************************/
 void ListeUtilisateurs::nouveauPj(bool checked)
 {
+    Q_UNUSED(checked);
+
         // Creation de l'identifiant
         QString idPerso = QUuid::createUuid().toString();
         // Generation d'une couleur aleatoire
@@ -625,6 +624,8 @@ void ListeUtilisateurs::nouveauPj(bool checked)
 /********************************************************************/
 void ListeUtilisateurs::supprimerPjSelectionne(bool checked)
 {
+    Q_UNUSED(checked);
+
         // Recuperation de la liste des elements selectionnees
         QList<QTreeWidgetItem *> liste = treeWidget->selectedItems();
 

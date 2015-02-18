@@ -18,12 +18,19 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
+#include <QApplication>
 
 #include "receiveevent.h"
 
 #include "datareader.h"
 
 const int ReceiveEvent::Type = QEvent::registerEventType();
+QMap<quint16, QObject *> ReceiveEvent::s_receiverMap;
+
+quint16 makeKey(quint8 categorie, quint8 action)
+{
+    return ((quint16) categorie) + (((quint16) action) * 256);
+}
 
 ReceiveEvent::ReceiveEvent(quint8 categorie, quint8 action, quint32 bufferSize, const char * buffer)
     : QEvent((QEvent::Type)ReceiveEvent::Type), m_categorie(categorie), m_action(action)
@@ -35,6 +42,15 @@ ReceiveEvent::~ReceiveEvent()
 {
     delete m_data;
 }
+
+void
+ReceiveEvent::postToReceiver()
+{
+    quint16 key = makeKey(m_categorie, m_action);
+    if (s_receiverMap.contains(key))
+        QCoreApplication::postEvent(s_receiverMap.value(key), this, Qt::LowEventPriority);
+}
+
 
 quint8
 ReceiveEvent::categorie()
@@ -52,4 +68,22 @@ DataReader &
 ReceiveEvent::data()
 {
     return *m_data;
+}
+
+bool
+ReceiveEvent::hasReceiverFor(quint8 categorie, quint8 action)
+{
+    return s_receiverMap.contains(makeKey(categorie, action));
+}
+
+void
+ReceiveEvent::registerReceiver(quint8 categorie, quint8 action, QObject * receiver)
+{
+    quint16 key = makeKey(categorie, action);
+    if (s_receiverMap.contains(key))
+    {
+        qFatal("A receiver is allready registered for (%d,%d)", categorie, action);
+    }
+
+    s_receiverMap.insert(key, receiver);
 }

@@ -24,6 +24,7 @@
 
 #include <QEvent>
 #include <QString>
+#include <QMap>
 
 class DataReader;
 
@@ -36,14 +37,21 @@ class ReceiveEvent
 
         static const int Type;
 
+        void postToReceiver();
+
         quint8 categorie();
         quint8 action();
         DataReader & data();
+
+        static bool hasReceiverFor(quint8 categorie, quint8 action);
+        static void registerReceiver(quint8 categorie, quint8 action, QObject * receiver);
 
     private:
         quint8 m_categorie;
         quint8 m_action;
         DataReader * m_data;
+
+        static QMap<quint16, QObject *> s_receiverMap;
 };
 
 #endif

@@ -39,13 +39,6 @@
 #include "types.h"
 #include "variablesGlobales.h"
 
-/***********
- * Globals *
- *********** (We love them !) */
-
-// Mutex protegeant le code de connexion des joueurs
-QMutex G_mutexConnexion;
-
 
 /********************************************************************/
 /* Constructeur                                                     */
@@ -156,6 +149,13 @@ void Liaison::reception()
             // Envoie la notification sur la mainWindows
             QApplication::alert(G_mainWindow);
 
+            // Send event
+            if (ReceiveEvent::hasReceiverFor(entete.categorie, entete.action))
+            {
+                ReceiveEvent * event = new ReceiveEvent(entete.categorie, entete.action, entete.tailleDonnees, tampon);
+                event->postToReceiver();
+            }
+
             // On aiguille vers le traitement adapte
             switch((categorieAction)(entete.categorie))
             {
@@ -235,10 +235,6 @@ void Liaison::receptionMessageJoueur()
     // Un nouveau joueur vient de se connecter au serveur (serveur uniquement)
     if (entete.action == connexionJoueur)
     {
-        // On protege le code par un mutex : ceci evite des incoherences de connexion lorsque tous les clients se
-        // connectent au meme moment (joueurs declares en double, tchat inoperationnel, etc...)
-        G_mutexConnexion.lock();
-
         // Ajout de la liaison a la liste
         G_clientServeur->ajouterLiaison(this);
         // Connexion de la demande d'emission de donnees du client/serveur a la liaison
@@ -332,9 +328,6 @@ void Liaison::receptionMessageJoueur()
 
         // Ajout du tchat correspondant au nouveau joueur
         G_mainWindow->ajouterTchat(idJoueur, nomJoueur);
-
-        // Deblocage du mutex : les autres threads peuvent entrer dans la zone protegee
-        G_mutexConnexion.unlock();
     }
 
     // L'hote demande au soft local d'ajouter un joueur a la liste des utilisateurs
@@ -1791,17 +1784,9 @@ void Liaison::receptionMessageParametres()
 
     if (entete.action == addFeature)
     {
-        postTo(&g_featuresList);
         faireSuivreMessage(false);
     }
 }
-
-void Liaison::postTo(QObject * obj) const
-{
-    QEvent * event = new ReceiveEvent(entete.categorie, entete.action, entete.tailleDonnees, tampon);
-    QCoreApplication::postEvent(obj, event, Qt::LowEventPriority);
-}
-
 
 /********************************************************************/
 /* Fait suivre le message recu a l'ensemble des clients si tous =   */

@@ -1,4 +1,3 @@
-#QMAKE_CXXFLAGS += -g
 CONFIG += phonon debug console
 TEMPLATE = app
 TARGET = bin/rolisteam
