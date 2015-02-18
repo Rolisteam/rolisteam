@@ -142,11 +142,17 @@ void ConnectionConfigDialog::setUI()
     connectionGroup->setLayout(form);
 
     QDialogButtonBox * buttonBox = new QDialogButtonBox;
-    buttonBox->addButton(tr("Connection"), QDialogButtonBox::AcceptRole)->setDefault(true);
-    buttonBox->addButton(tr("Quit"),   QDialogButtonBox::RejectRole);
+    QPushButton* connection = buttonBox->addButton(tr("Connection"), QDialogButtonBox::AcceptRole);
+
+
+    QPushButton* quit = buttonBox->addButton(tr("Quit"),   QDialogButtonBox::RejectRole);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
+    quit->setAutoDefault(false);
+    quit->setDefault(false);
+    connection->setDefault(true);
+    connection->setAutoDefault(true);
     QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(playerGroup);
     mainLayout->addWidget(connectionGroup);

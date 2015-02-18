@@ -31,20 +31,23 @@ class PersonDialog
     : public QDialog {
     Q_OBJECT
 
-    public:
-        PersonDialog(QWidget * parent = NULL);
+public:
+    PersonDialog(QWidget * parent = NULL);
 
-        QString getName() const;
-        QColor  getColor() const;
+    QString getName() const;
+    QColor  getColor() const;
 
-    public slots :
-        int edit(QString title, QString name, QColor color);
+public slots :
+    int edit(QString title, QString name, QColor color);
 
-    private:
-        QLineEdit   * m_name_w;
-        ColorButton * m_color_w;
+protected:
+    void setVisible(bool visible);
 
-        void setUI();
+private:
+    QLineEdit   * m_name_w;
+    ColorButton * m_color_w;
+
+    void setUI();
 };
 
 #endif

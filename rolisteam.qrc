@@ -46,7 +46,7 @@
         <file>resources/logo/128.ico</file>
         <file alias="rolisteam250.png">resources/logo/250-rolisteam.png</file>
         <file>resources/logo/250-symbole.png</file>
-        <file>resources/logo/256-icone.png</file>
+        <file alias="256ico.png">resources/logo/256-icone.png</file>
         <file alias="logo-256.ico">resources/logo/256.ico</file>
         <file>resources/logo/500-rolisteam.png</file>
         <file>resources/logo/500-symbole.png</file>

@@ -11,7 +11,14 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Connetion fails!</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../rolisteam.qrc">
+    <normaloff>:/resources/logo/250-symbole.png</normaloff>:/resources/logo/250-symbole.png</iconset>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -36,7 +43,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../rolisteam.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

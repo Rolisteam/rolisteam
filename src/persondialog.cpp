@@ -29,6 +29,7 @@ PersonDialog::PersonDialog(QWidget * parent)
     : QDialog(parent)
 {
     setUI();
+
 }
 
 QString PersonDialog::getName() const
@@ -76,5 +77,12 @@ void PersonDialog::setUI()
     mainLayout->addLayout(formLayout);
     mainLayout->addWidget(buttonBox);
 
+
+
     setLayout(mainLayout);
+}
+void PersonDialog::setVisible(bool visible)
+{
+    m_name_w->selectAll();
+    QDialog::setVisible(visible);
 }

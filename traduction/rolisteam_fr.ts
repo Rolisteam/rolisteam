@@ -99,133 +99,137 @@
 <context>
     <name>Carte</name>
     <message>
-        <location filename="../src/Carte.cpp" line="577"/>
-        <location filename="../src/Carte.cpp" line="601"/>
-        <source>Type de couleur incorrecte (dessiner - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/Carte.cpp" line="733"/>
-        <source>Outil non défini lors du dessin (dessiner - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/Carte.cpp" line="815"/>
+        <location filename="../src/Carte.cpp" line="817"/>
         <source>Undefined tool  (drawing - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Outil inconnu (drawing - Carte.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="831"/>
-        <source>La source, la destination et la couche alpha n&apos;ont pas le meme nombre de pixels (ajouterAlpha - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/Carte.cpp" line="1015"/>
-        <source>Outil non défini lors du traitement d&apos;une action sur les PJ/PNJ (actionPnjBoutonEnfonce - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/Carte.cpp" line="1049"/>
+        <location filename="../src/Carte.cpp" line="1045"/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1051"/>
+        <location filename="../src/Carte.cpp" line="1047"/>
         <source>Inappropriate Color</source>
         <translation>Couleur inappropriée</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1056"/>
+        <location filename="../src/Carte.cpp" line="1052"/>
         <source>You can not select this color because
  It&apos;s a special color.</source>
         <translation>Celle couleur est utilée par rolisteam, vous ne pouvez pas la selectionnée.</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1085"/>
-        <source>Outil non défini lors du traitement d&apos;une action sur les PJ/PNJ (actionPnjBoutonRelache - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/Carte.cpp" line="579"/>
+        <source>color type not allowed (dessiner - Carte.cpp)</source>
+        <translation>Ce type de couleur n&apos;est pas autorisé(dessiner - Carte.cpp) </translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1131"/>
-        <source>Outil non défini lors du traitement d&apos;une action sur les PJ/PNJ (actionPnjMouvementSouris - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/Carte.cpp" line="603"/>
+        <source>color type not allowed  (dessiner - Carte.cpp)</source>
+        <translation>Ce type de couleur n&apos;est pas autorisé(dessiner - Carte.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1199"/>
-        <source>Widget inconnu sous le pointeur de la souris (dansDessinPerso - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/Carte.cpp" line="735"/>
+        <source>undefined drawing tools (dessiner - Carte.cpp)</source>
+        <translation>Outil inconnu (drawing - Carte.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1368"/>
-        <source>L&apos;identifiant du PJ n&apos;a pas ete trouve (affichageDuPj - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/Carte.cpp" line="833"/>
+        <source>Source, destination and alpha layer have not the same size  (ajouterAlpha - Carte.cpp)</source>
+        <translation>La source, la destination et la couche transparente n&apos;ont pas la même taille (ajouterAlpha - Carte.cpp) </translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1393"/>
-        <source>L&apos;identifiant %s n&apos;a pas ete trouve (pjAffiche - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/Carte.cpp" line="1008"/>
+        <source>undefine tool for processing action on NPC or PC (actionPnjBoutonEnfonce - Carte.cpp)</source>
+        <translation>outil inconnu pour la manipulation des PJ et des PNJ (actionPnjBoutonEnfonce - Carte.cpp) </translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1418"/>
+        <location filename="../src/Carte.cpp" line="1087"/>
+        <source>undefine tool for processing action on NPC or PC (actionPnjBoutonRelache - Carte.cpp)</source>
+        <translation>outil inconnu pour la manipulation des PJ et des PNJ (actionPnjBoutonRelache - Carte.cpp)</translation>
+    </message>
+    <message>
+        <location filename="../src/Carte.cpp" line="1134"/>
+        <source>undefine tool for processing action on NPC or PC (actionPnjMouvementSouris - Carte.cpp)</source>
+        <translation>outil inconnu pour la manipulation des PJ et des PNJ (actionPnjMouvementSouris - Carte.cpp)</translation>
+    </message>
+    <message>
+        <location filename="../src/Carte.cpp" line="1205"/>
+        <source>unknown widget under cursor (dansDessinPerso - Carte.cpp)</source>
+        <translation>Widget inconnu sous le curseur (dansDessinPerso - Carte.cpp)</translation>
+    </message>
+    <message>
+        <location filename="../src/Carte.cpp" line="1378"/>
+        <source>PC ID not found (affichageDuPj - Carte.cpp)</source>
+        <translation>Identifiant du PJ non trouvé (affichageDuPj - Carte.cpp) </translation>
+    </message>
+    <message>
+        <location filename="../src/Carte.cpp" line="1403"/>
+        <source>PC ID: %1 not found (pjAffiche - Carte.cpp)</source>
+        <translation>Identifiant Pj: %1 non trouvé (pjAffiche - Carte.cpp)</translation>
+    </message>
+    <message>
+        <location filename="../src/Carte.cpp" line="1428"/>
         <source>L&apos;identifiant du personnage n&apos;a pas ete trouve (effacerPerso - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1430"/>
-        <location filename="../src/Carte.cpp" line="1443"/>
+        <location filename="../src/Carte.cpp" line="1440"/>
+        <location filename="../src/Carte.cpp" line="1453"/>
         <source>Person %s %s unknown in Carte::changePerson</source>
-        <translation type="unfinished"></translation>
+        <translation>Personne %s %s inconnue dans Carte::changePerson</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1480"/>
+        <location filename="../src/Carte.cpp" line="1490"/>
         <source>Probleme de compression du fond original (emettreCarte - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1487"/>
+        <location filename="../src/Carte.cpp" line="1497"/>
         <source>Probleme de compression du fond (emettreCarte - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1494"/>
+        <location filename="../src/Carte.cpp" line="1504"/>
         <source>Probleme de compression de la couche alpha (emettreCarte - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1863"/>
+        <location filename="../src/Carte.cpp" line="1873"/>
         <source>Outil non défini lors de l&apos;emission d&apos;un trace (emettreTrace - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="2015"/>
-        <location filename="../src/Carte.cpp" line="2173"/>
+        <location filename="../src/Carte.cpp" line="2025"/>
+        <location filename="../src/Carte.cpp" line="2183"/>
         <source>Type de couleur incorrecte (dessinerTraceGeneral - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="2105"/>
+        <location filename="../src/Carte.cpp" line="2115"/>
         <source>Type de couleur incorrecte (dessinerTraceTexte - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="2265"/>
+        <location filename="../src/Carte.cpp" line="2275"/>
         <source>Outil non défini lors du dessin (dessinerTraceGeneral - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="2421"/>
+        <location filename="../src/Carte.cpp" line="2431"/>
         <source>Probleme de compression du fond original (sauvegarderCarte - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="2428"/>
+        <location filename="../src/Carte.cpp" line="2438"/>
         <source>Probleme de compression du fond (sauvegarderCarte - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="2435"/>
+        <location filename="../src/Carte.cpp" line="2445"/>
         <source>Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -385,22 +389,27 @@
 <context>
     <name>ClientServeur</name>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="103"/>
+        <location filename="../src/ClientServeur.cpp" line="118"/>
+        <source>Connection fails, retry in %1s.</source>
+        <translation>Connexion a échoué, tentative dans %1s.</translation>
+    </message>
+    <message>
+        <location filename="../src/ClientServeur.cpp" line="136"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="103"/>
+        <location filename="../src/ClientServeur.cpp" line="136"/>
         <source>Can not establish the connection.</source>
         <translation>Impossible d&apos;établir la connexion.</translation>
     </message>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="256"/>
+        <location filename="../src/ClientServeur.cpp" line="299"/>
         <source>NULL Liaison pointer (ClientServeur::finDeLiaison).</source>
         <translation>Pointer Null de la liaison (ClientServeur::finDeLiaison).</translation>
     </message>
     <message>
-        <location filename="../src/ClientServeur.cpp" line="263"/>
+        <location filename="../src/ClientServeur.cpp" line="306"/>
         <source>Un thread inconnu vient de se terminer (finDeLiaison - ClientServeur.cpp)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -408,48 +417,48 @@
 <context>
     <name>ConnectionConfigDialog</name>
     <message>
-        <location filename="../src/connectiondialog.cpp" line="113"/>
+        <location filename="../src/connectiondialog.cpp" line="114"/>
         <source>I&apos;m the Game Master.</source>
         <translation>Demander à être Mj.</translation>
     </message>
     <message>
-        <location filename="../src/connectiondialog.cpp" line="117"/>
+        <location filename="../src/connectiondialog.cpp" line="118"/>
         <source>Name : </source>
         <translation>Nom : </translation>
     </message>
     <message>
-        <location filename="../src/connectiondialog.cpp" line="118"/>
+        <location filename="../src/connectiondialog.cpp" line="119"/>
         <source>Color : </source>
         <translation>Couleur : </translation>
     </message>
     <message>
-        <location filename="../src/connectiondialog.cpp" line="121"/>
+        <location filename="../src/connectiondialog.cpp" line="122"/>
         <source>Player</source>
         <translation>Joueur</translation>
     </message>
     <message>
-        <location filename="../src/connectiondialog.cpp" line="124"/>
+        <location filename="../src/connectiondialog.cpp" line="125"/>
         <source>Address : </source>
         <translation>Adresse : </translation>
     </message>
     <message>
-        <location filename="../src/connectiondialog.cpp" line="131"/>
+        <location filename="../src/connectiondialog.cpp" line="132"/>
         <source>Host the game.</source>
         <translation>Héberger la partie.</translation>
     </message>
     <message>
-        <location filename="../src/connectiondialog.cpp" line="137"/>
+        <location filename="../src/connectiondialog.cpp" line="138"/>
         <source>Port : </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/connectiondialog.cpp" line="140"/>
-        <location filename="../src/connectiondialog.cpp" line="144"/>
+        <location filename="../src/connectiondialog.cpp" line="141"/>
+        <location filename="../src/connectiondialog.cpp" line="145"/>
         <source>Connection</source>
         <translation>Connexion</translation>
     </message>
     <message>
-        <location filename="../src/connectiondialog.cpp" line="145"/>
+        <location filename="../src/connectiondialog.cpp" line="148"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
@@ -465,6 +474,19 @@
         <location filename="../src/DessinPerso.cpp" line="539"/>
         <source>Type de personnage inconnu (renommerPerso - DessinPerso.cpp)</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Dialog</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="obsolete">Dialogue
+</translation>
+    </message>
+    <message>
+        <location filename="../src/timerdialog.ui" line="14"/>
+        <source>Connetion fails!</source>
+        <translation>Connexion échouée!</translation>
     </message>
 </context>
 <context>
@@ -506,24 +528,19 @@
 <context>
     <name>Image</name>
     <message>
-        <location filename="../src/Image.cpp" line="124"/>
-        <source>Probleme de compression de l&apos;image (emettreImage - Image.cpp)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="146"/>
-        <source>Probleme de compression de l&apos;image (sauvegarderImage - Image.cpp)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/Image.cpp" line="313"/>
         <source>Zoom In</source>
         <translation>Agrandir</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="314"/>
-        <source>Ctrl++</source>
-        <translation></translation>
+        <location filename="../src/Image.cpp" line="124"/>
+        <source>Image Compression fails (emettreImage - Image.cpp)</source>
+        <translation>Compression de l&apos;image a échoué (emettreImage - Image.cpp) </translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="146"/>
+        <source>Image Compression fails (sauvegarderImage - Image.cpp)</source>
+        <translation>Compression de l&apos;image a échoué (sauvegarderImage - Image.cpp)</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="315"/>
@@ -532,76 +549,87 @@
     </message>
     <message>
         <location filename="../src/Image.cpp" line="319"/>
+        <source>Ctrl++</source>
+        <comment>Zoom In</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="323"/>
         <source>Zoom out</source>
         <translation>Réduire</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="320"/>
-        <source>Ctrl+-</source>
+        <location filename="../src/Image.cpp" line="371"/>
+        <source>Ctrl+2</source>
+        <comment>Zoom Out</comment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="322"/>
+        <location filename="../src/Image.cpp" line="326"/>
         <source>Reduce zoom level</source>
         <translation>Réduire le zoom</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="325"/>
+        <location filename="../src/Image.cpp" line="329"/>
+        <source>Ctrl+-</source>
+        <comment>Zoom Out</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="334"/>
         <source>Fit the workspace</source>
         <translation>Ajuster à l&apos;espace de travail</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="327"/>
-        <source>Ctrl+5</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="328"/>
+        <location filename="../src/Image.cpp" line="337"/>
         <source>The window and the image fit the workspace</source>
         <translation>La fenêtre et l&apos;image rentre dans l&apos;espace de travail</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="331"/>
+        <location filename="../src/Image.cpp" line="340"/>
+        <source>Ctrl+5</source>
+        <comment>Fit the workspace</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="347"/>
         <source>Little</source>
         <translation>Petit</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="332"/>
-        <source>Ctrl+1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="333"/>
+        <location filename="../src/Image.cpp" line="349"/>
         <source>Set the zoom level at 20% </source>
         <translation>Zoomer à 20% </translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="336"/>
+        <location filename="../src/Image.cpp" line="351"/>
+        <source>Ctrl+1</source>
+        <comment>Set the zoom level at 20%</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="358"/>
         <source>Normal</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="337"/>
-        <source>Ctrl+0</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="338"/>
+        <location filename="../src/Image.cpp" line="360"/>
         <source>No Zoom</source>
         <translation>Aucun zoom</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="342"/>
+        <location filename="../src/Image.cpp" line="362"/>
+        <source>Ctrl+0</source>
+        <comment>Normal</comment>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="367"/>
         <source>Big</source>
         <translation>Grand</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="343"/>
-        <source>Ctrl+2</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="344"/>
+        <location filename="../src/Image.cpp" line="369"/>
         <source>Set the zoom level at 400%</source>
         <translation>Zoomer à 400%</translation>
     </message>
@@ -620,80 +648,80 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="89"/>
+        <location filename="../src/LecteurAudio.cpp" line="90"/>
         <source>Background Music</source>
         <translation>Musique d&apos;ambiance</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="111"/>
+        <location filename="../src/LecteurAudio.cpp" line="112"/>
         <source>Select the directory contening all music files</source>
         <translation>Choississez le dossier contenant tous les fichiers de musique</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="150"/>
+        <location filename="../src/LecteurAudio.cpp" line="151"/>
         <source>Loop</source>
         <translation>Boucle</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="151"/>
+        <location filename="../src/LecteurAudio.cpp" line="152"/>
         <source>Single shot</source>
         <translation>Unique</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="152"/>
+        <location filename="../src/LecteurAudio.cpp" line="153"/>
         <source>Add</source>
         <translation>Ajouter</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="153"/>
+        <location filename="../src/LecteurAudio.cpp" line="154"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="155"/>
+        <location filename="../src/LecteurAudio.cpp" line="156"/>
         <source>Play</source>
         <translation>Lecture</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="158"/>
+        <location filename="../src/LecteurAudio.cpp" line="159"/>
         <source>Pause</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="160"/>
+        <location filename="../src/LecteurAudio.cpp" line="161"/>
         <source>Stop</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="163"/>
+        <location filename="../src/LecteurAudio.cpp" line="164"/>
         <source>Add song to the list</source>
         <translation>Ajouter des musiques à la liste</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="164"/>
+        <location filename="../src/LecteurAudio.cpp" line="165"/>
         <source>Remove selected file</source>
         <translation>Supprimer le fichier selectionné</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="341"/>
+        <location filename="../src/LecteurAudio.cpp" line="342"/>
         <location filename="../src/LecteurAudio.cpp" line="603"/>
         <source>No songs</source>
         <translation>Aucune musique</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="376"/>
+        <location filename="../src/LecteurAudio.cpp" line="377"/>
         <source>Add song</source>
         <translation>Ajouter musique</translation>
     </message>
     <message>
-        <location filename="../src/LecteurAudio.cpp" line="376"/>
+        <location filename="../src/LecteurAudio.cpp" line="377"/>
         <source>Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)</source>
         <translation>Fichier audio (*.wav *.mp2 *.mp3 *.ogg *.flac)</translation>
     </message>
     <message>
         <location filename="../src/LecteurAudio.cpp" line="526"/>
-        <source>Commande inconnue envoyee aux lecteurs audio des autres utilisateurs</source>
-        <translation type="unfinished"></translation>
+        <source>Unknown command send to users</source>
+        <translation>Commande inconnue </translation>
     </message>
     <message>
         <location filename="../src/LecteurAudio.cpp" line="619"/>
@@ -732,34 +760,34 @@
         <translation>Fin du procéssus de connexion</translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="987"/>
+        <location filename="../src/Liaison.cpp" line="988"/>
         <source>New map: %1</source>
         <translation>Nouveau Plan: %1</translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1051"/>
-        <location filename="../src/Liaison.cpp" line="1144"/>
+        <location filename="../src/Liaison.cpp" line="1053"/>
+        <location filename="../src/Liaison.cpp" line="1147"/>
         <source>Receiving map: %1</source>
         <translation>réception Plan: %1</translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1176"/>
+        <location filename="../src/Liaison.cpp" line="1179"/>
         <source>The map %1 has been closed by the GM</source>
         <translation>Le plan %1 a été fermé par le MJ</translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1249"/>
-        <location filename="../src/Liaison.cpp" line="1283"/>
+        <location filename="../src/Liaison.cpp" line="1252"/>
+        <location filename="../src/Liaison.cpp" line="1286"/>
         <source> (Image)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1249"/>
+        <location filename="../src/Liaison.cpp" line="1252"/>
         <source>Receiving picture: %1</source>
         <translation>Réception Image: %1</translation>
     </message>
     <message>
-        <location filename="../src/Liaison.cpp" line="1283"/>
+        <location filename="../src/Liaison.cpp" line="1286"/>
         <source>Picture &quot;%1&quot; has been closed</source>
         <translation>Image &quot;%1&quot; a été fermé</translation>
     </message>
@@ -1230,22 +1258,22 @@ It will be closed for everybody</translation>
 <context>
     <name>PersonDialog</name>
     <message>
-        <location filename="../src/persondialog.cpp" line="59"/>
+        <location filename="../src/persondialog.cpp" line="60"/>
         <source>&amp;Name : </source>
         <translation>&amp;Nom : </translation>
     </message>
     <message>
-        <location filename="../src/persondialog.cpp" line="60"/>
+        <location filename="../src/persondialog.cpp" line="61"/>
         <source>&amp;Color : </source>
         <translation>&amp;Couleur : </translation>
     </message>
     <message>
-        <location filename="../src/persondialog.cpp" line="62"/>
+        <location filename="../src/persondialog.cpp" line="63"/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/persondialog.cpp" line="65"/>
+        <location filename="../src/persondialog.cpp" line="66"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annuler</translation>
     </message>
