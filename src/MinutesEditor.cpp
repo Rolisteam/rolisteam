@@ -43,7 +43,7 @@ MinutesEditor::MinutesEditor()
     m_minutes->setAcceptRichText(false);
 
 
-    QObject::connect(m_minutes, SIGNAL(cursorPositionChanged()), this, SLOT(mettreTailleAJour()));
+    QObject::connect(m_minutes, SIGNAL(cursorPositionChanged()), this, SLOT(updateSize()));
 
 
 
@@ -56,10 +56,10 @@ MinutesEditor::MinutesEditor()
     m_styleBar->setIconSize(QSize(16, 16));
 
 
-        QAction	*act1 = m_styleBar->addAction(QIcon(":/resources/icones/style normal.png"), tr("Normal"), this, SLOT(styleNormal()));
-        QAction	*act2 = m_styleBar->addAction(QIcon(":/resources/icones/style gras.png"), tr("Gras"), this, SLOT(styleGras()));
-        QAction	*act3 = m_styleBar->addAction(QIcon(":/resources/icones/style italique.png"), tr("Italique"), this, SLOT(styleItalique()));
-        QAction	*act4 = m_styleBar->addAction(QIcon(":/resources/icones/style souligne.png"), tr("Souligné"), this, SLOT(styleSouligne()));
+        QAction	*act1 = m_styleBar->addAction(QIcon(":/resources/icones/style normal.png"), tr("Normal"), this, SLOT(normalStyle()));
+        QAction	*act2 = m_styleBar->addAction(QIcon(":/resources/icones/style gras.png"), tr("Gras"), this, SLOT(boldStyle()));
+        QAction	*act3 = m_styleBar->addAction(QIcon(":/resources/icones/style italique.png"), tr("Italique"), this, SLOT(italicStyle()));
+        QAction	*act4 = m_styleBar->addAction(QIcon(":/resources/icones/style souligne.png"), tr("Souligné"), this, SLOT(underlineStyle()));
         Q_UNUSED(act1)
         Q_UNUSED(act2)
         Q_UNUSED(act3)
@@ -91,7 +91,7 @@ MinutesEditor::MinutesEditor()
 
     m_sizeSelector->addItems(listeTailles);
 
-    QObject::connect(m_sizeSelector, SIGNAL(activated(int)), this, SLOT(changementTaille(int)));
+    QObject::connect(m_sizeSelector, SIGNAL(activated(int)), this, SLOT(changeSize(int)));
 
 
     m_styleBar->addWidget(m_sizeSelector);

@@ -78,7 +78,7 @@ private:
 
 	/**
 	* @brief event button
-	* @TODO It should be a better idea to use QAction instead of Button and profide a contextual menu or a custom menu instead of these awful buttons.
+	* @todo It should be a better idea to use QAction instead of Button and profide a contextual menu or a custom menu instead of these awful buttons.
 	*/
     QPushButton m_addSection;
 	/**

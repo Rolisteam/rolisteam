@@ -111,7 +111,8 @@ private slots :
 	*/
     void updateSize();
 	/**
-	* @brief is called when the user has changed the size. 
+	* @brief is called when the user has changed the size.
+	* @param the new size 
 	*/
     void changeSize(int index);
 

@@ -39,22 +39,21 @@
 //#include "types.h"
 
 
-#ifdef PHONON
+
 #include <phonon/MediaObject>
 #include <phonon/MediaSource>
 #include <phonon/Path>
 #include <phonon/SeekSlider>
 #include <phonon/VolumeSlider>
 #include <phonon/AudioOutput>
-#endif
 
-/**!
-* \brief
-* This player can be used by the GM to play songs.
-* Regular players can just change the volume level.
-*/
+
 
 class PreferencesManager;
+/**
+* @brief This player can be used by the GM to play songs.
+* Regular players can just change the volume level.
+*/
 class AudioPlayer : public QDockWidget
 {
     Q_OBJECT
@@ -62,150 +61,118 @@ class AudioPlayer : public QDockWidget
 public :
 
 	/**
-	* \brief Not used with phonon - used for emit signal when the song is almost finished   
+	* @brief Send some informations to the given player
 	*/
-        void arriveeEnFinDeTitre();
+        void emitState(QString idJoueur);
+
 
 	/**
-	* \brief Not used with phonon - Called by global stuff to define the time displayed by the LCDNumber   
+	* @brief Players only, displays and plays the given filename
 	*/
-        void passageSurUnTag(QString tag);
+        //void playerNewFile(QString nomFichier);
 
 	/**
-	* \brief Send some informations to the given player
+	* @brief Players only, start or re-start the play of the current song
 	*/
-        void emettreEtat(QString idJoueur);
+        //void playerPlaying();
 
 	/**
-	* \brief Hide the control panel if the current user is not the GM
+	* @brief Players only, Pause the playing
 	*/
-        void autoriserOuIntedireCommandes();
+        //void playerPause();
 
 	/**
-	* \brief Players only, displays and plays the given filename
+	* @brief Players only, Stop the playing
 	*/
-        void joueurNouveauFichier(QString nomFichier);
+        //void stop();
 
 	/**
-	* \brief Players only, start or re-start the play of the current song
+	* @brief Players only, Change position of the song
 	*/
-        void joueurLectureMorceau();
+        void seek(int position);
 
 	/**
-	* \brief Players only, Pause the playing
-	*/
-        void joueurPauseMorceau();
-
-	/**
-	* \brief Players only, Stop the playing
-	*/
-        void joueurArretMorceau();
-
-	/**
-	* \brief Players only, Change position of the song
-	*/
-        void joueurChangerPosition(int position);
-
-	/**
-	* \brief provides the current volume level
+	* @brief provides the current volume level
 	*/
         qreal volume();
 
 	/**
-	* \brief return a pointer to the unique audio player. Sigleton pattern
+	* @brief add a new file in the list
+	*/
+        void addSong(QString titre, QString fichier);
+	
+	/**
+	* @brief return a pointer to the unique audio player. Sigleton pattern
 	*/
         static AudioPlayer*  getInstance(QWidget *parent = 0);
 
 signals :
 
 	/**
-	* \brief emitted when current song is finished
+	* @brief emitted when current song is finished
 	*/
-        void finDeTitreSignal();
+        void songFinished();
 
 private :
 
 	/**
-	* \brief private constructor
+	* @brief private constructor
 	*/
         AudioPlayer(QWidget *parent = 0);
 
 	/**
-	* \brief enum playingState
+        * @brief enum playerState
 	*/
-        enum etatLecteur {pause, arret, lecture};
+        enum PlayerState {PAUSE, STOP, PLAYING};
 
+
+
+	
+	
+	
+        
+
+
+        static AudioPlayer* singleton;//!< @brief static pointer to the unique instance of this audioplayer
 
 	/**
-	* \brief add a new file in the list
-	*/
-        void nouveauTitre(QString titre, QString fichier);
-
-	/**
-	* \brief stop the playing
-	*/
-        void arreter();
-
-	/**
-	* \brief Fmod only
-	*/
-	void ajouterTags();
-
-	/**
-	* \brief send command to a client
-	*/
-        //void emettreCommande(actionMusique action, QString nomFichier = "", quint64 position = 0, int numeroLiaison = -1);
-
-
-        static AudioPlayer* singleton;//!< \brief static pointer to the unique instance of this audioplayer
-
-#ifdef PHONON
-	/**
-	* \brief set the UI - Phonon only
+        * @brief set the UI
 	*/
         void setupUi();
 
 	/**
-	* \brief event filter to catch all signal emitted by phonon classes
+	* @brief event filter to catch all signal emitted by phonon classes
 	*/
 	bool eventFilter(QObject *object, QEvent *event);
 
-        qint64 m_time;//!< \brief current time
-        Phonon::MediaSource *currentsource;//!< \brief current audio source
-        Phonon::SeekSlider *seekSlider; //!< \brief Allows to seek in the song (Phonon only)
-        Phonon::MediaObject *mediaObject; //!<  (Phonon only)
-        Phonon::AudioOutput *audioOutput; //!< (Phonon only)
-        Phonon::VolumeSlider *volumeSlider; //!< \brief Allows to adjust the sound volume (Phonon only)
-        Phonon::Path* path; //!< (Phonon only)
-        Phonon::VolumeSlider *niveauVolume;//!< \brief Allows to adjust the sound volume (Phonon only)
-        Phonon::SeekSlider *positionTemps;//!< \brief Allows to seek in the song (Phonon only)
-#endif
+        qint64 m_time;//!< @brief current time
+        Phonon::MediaSource* m_currentsource;//!< @brief current audio source
+        Phonon::SeekSlider* m_seekSlider; //!< @brief Allows to seek in the song (Phonon only)
+        Phonon::MediaObject* m_mediaObject; //!<  (Phonon only)
+        Phonon::AudioOutput* m_audioOutput; //!< (Phonon only)
+        Phonon::VolumeSlider* m_volumeSlider; //!< @brief Allows to adjust the sound volume (Phonon only)
+        Phonon::Path* m_path; //!< (Phonon only)
+        Phonon::VolumeSlider* m_volumeLevel;//!< @brief Allows to adjust the sound volume (Phonon only)
+        Phonon::SeekSlider* m_timeSlider;//!< @brief Allows to seek in the song (Phonon only)
 
-#ifdef FMOD
-        FSOUND_STREAM *fluxAudio; //!< \brief fmod pointer
-#endif
-        QWidget *widgetPrincipal;		//!< \brief brings together all subwidget
-        QWidget *widgetAffichage;		//!< \brief Displays some gauges (for Player and GM.)
-        QWidget *widgetCommande;		//!< \brief Displays the control panel (GM only)
-        QVBoxLayout *layoutPrincipal;	//!< \brief layout
-        QLineEdit *afficheurTitre;		//!< \brief Displays the title of the played song
-
-#ifdef FMOD
-        QSlider *niveauVolume;			//!< \brief Allows to adjust the sound volume
-        QSlider *positionTemps;//!< \brief Allows to seek in the song 
-#endif
+        QWidget* m_mainWidget;		//!< @brief brings together all subwidget
+        QWidget* m_displayWidget;		//!< @brief Displays some gauges (for Player and GM.)
+        QWidget* m_commandWidget;		//!< @brief Displays the control panel (GM only)
+        QVBoxLayout* m_mainLayout;	//!< @brief layout
+        QLineEdit * m_informationScreen;	//!< @brief Displays the title of the played song
 
 
-        QLCDNumber *afficheurTemps;		//!< \brief displays the past time of the playing
-        QListWidget *listeTitres;		//!< \brief displays all avaliable songs 
-        QList<QString> listeChemins;	//!< \brief Path list 
-        QAction *actionLecture;			//!< \brief Play action
-        QAction *actionPause;			//!< \brief Pause action 
-        QAction *actionStop;			//!< \brief Stop action 
-        QAction *actionBoucle;			//!< \brief loop playing action 
-        QAction *actionUnique;			//!< \brief one song playing mode action
-        QAction *actionAjouter;			//!< \brief add song action
-        QAction *actionSupprimer;		//!< \brief remove song action
+
+        QLCDNumber * m_timeCounter;		//!< @brief displays the past time of the playing
+        QListWidget *m_songListWidget;		//!< @brief displays all avaliable songs 
+        QList<QString> m_pathList;	//!< @brief Path list 
+        QAction *m_playAct;			//!< @brief Play action
+        QAction *m_pauseAct;			//!< @brief Pause action 
+        QAction *m_stopAct;			//!< @brief Stop action 
+        QAction *m_repeatAct;			//!< @brief loop playing action 
+        QAction *m_oneperoneAct;			//!< @brief one song playing mode action
+        QAction *m_addAct;			//!< @brief add song action
+        QAction *m_removeAct;		//!< @brief remove song action
 
         /**
           * pointer to the unique instance of preference manager.
@@ -213,31 +180,30 @@ private :
         PreferencesManager* m_options;
 
 
-        int etatActuel;				//!< \brief current state of the player
-        int titreCourant;	//!< \brief index of the current song (must die)
-        int canalAudio;		//!< \brief index for fmod (must die)
-        bool enBoucle;		//!< \brief bool true if the playing is in loop mode. otherwise false.(must die)
-        bool lectureUnique;     //!< \brief bool true if the playing is in only one song mode. Otherwise false. (must die)
-        bool repriseDeLecture;			//!< \brief bool (must die)
-        int joueurPositionTemps;//!< \brief int starting time for players only
+        PlayerState m_currentState;				//!< @brief current state of the player
+        int m_currentSong;	//!< @brief index of the current song (must die)
+        int m_audioChannel;		//!< @brief index for fmod (must die)
+        bool m_repeated;		//!< @brief bool true if the playing is in loop mode. otherwise false.(must die)
+        bool m_oneperone;     //!< @brief bool true if the playing is in only one song mode. Otherwise false. (must die)
+        bool m_restartPlaying;			//!< @brief bool (must die)
+        int playerTimePosition;//!< @brief int starting time for players only
         
         
 
 
 private slots :
-#ifdef PHONON
 	/**
-	* \brief Phonon only - received the time
+	* @brief Phonon only - received the time
 	*/
         void tick(qint64 time);
 
 	/**
-	* \brief Phonon only - called when state has been changed
+	* @brief Phonon only - called when state has been changed
 	*/
         void stateChanged(Phonon::State newState, Phonon::State oldState);
 
 	/**
-	* \brief Phonon only - called when the audio source has been changed
+	* @brief Phonon only - called when the audio source has been changed
 	*/
         void sourceChanged(const Phonon::MediaSource &source);
 
@@ -245,74 +211,41 @@ private slots :
       * @brief Phonon only - called when user press the play button.
       */
        void pressPlay(bool state);
-#endif
-#ifdef FMOD
 	/**
-	* \brief Fmod only - slot which manage the click on pauseButton
+	* @brief  slot which setis/unsets loop playing
 	*/
-        void appuiPause(bool etatBouton);
+        void onRepeated(bool etatBouton);
 
 	/**
-	* \brief Fmod only - slot which manage the click on stopButton
+	* @brief  slot which sets/unsets only one song playing mode
 	*/
-        void appuiStop(bool etatBouton);
+        void onOnePerOne(bool etatBouton);
 
 	/**
-	* \brief Fmod only - slot which manage the click on playing
+	* @brief  slot which manages the click on add song button
 	*/
-        void appuiLecture(bool etatBouton);
-
-	/**
-	* \brief Fmod only - slot which manage the volume  change 
-	*/
-        void changementVolume(int valeur);
-
-	/**
-	* \brief Fmod only - slot which manage seeking 
-	*/
-        void changementTempsLecture();
-
-	/**
-	* \brief Fmod only - slot which manage seeking 
-	*/
-        void changementTempsAffichage(int valeur);
-
-#endif
-	/**
-	* \brief  slot which set/unset loop playing
-	*/
-        void appuiBoucle(bool etatBouton);
-
-	/**
-	* \brief  slot which set/unset only one song playing mode
-	*/
-        void appuiUnique(bool etatBouton);
-
-	/**
-	* \brief  slot which manage the click on add song button
-	*/
-        void ajouterTitre();
+        void addSong();
 
 
 	/**
-	* \brief  slot which manage the click on remove song button
+	* @brief  slot which manages the click on remove song button
 	*/
-        void supprimerTitre();
+        void removeSong();
 
 	/**
-	* \brief  slot which manage the tilte change
+	* @brief  slot which manages the tilte change
 	*/
-        void changementTitre(QListWidgetItem * p);
+        void changeSong(QListWidgetItem * p);
 
 	/**
-	* \brief  slot which is called when song is finished
+	* @brief  slot which is called when song is finished
 	*/
-        void finDeTitreSlot();
+        void finishedSongSlot();
 
 	/**
-	* \brief  slot which manage the player's root directory change
+	* @brief  slot which manages the player's root directory change
 	*/
-        void joueurChangerDossier();
+        void changeSongDirectory();
 
 
 

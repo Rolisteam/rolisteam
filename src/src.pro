@@ -28,7 +28,6 @@ INCLUDEPATH += . \
     map
 HEADERS += displaydisk.h \
     ToolBar.h \ # ClientServeur.h \
-    DessinPerso.h \
     MinutesEditor.h \
     Image.h \
     audioplayer.h \ # Liaison.h \
@@ -48,7 +47,6 @@ FORMS += LecteurAudio.ui \
     connectionwizzard.ui
 SOURCES += displaydisk.cpp \
     ToolBar.cpp \ # ClientServeur.cpp \
-    DessinPerso.cpp \
     MinutesEditor.cpp \
     Image.cpp \ # Liaison.cpp \
     main.cpp \
@@ -61,19 +59,12 @@ SOURCES += displaydisk.cpp \
     improvedworkspace.cpp \
     submdiwindows.cpp \
     userlistdockwidget.cpp
-#HAVE_FMOD {
-#    DEFINES += FMOD
-#    SOURCES += audioplayerwin.cpp
-#    HEADERS += fmod.h \
-#    fmod_errors.h
-#}
 
 
-HAVE_PHONON { 
-    DEFINES += PHONON
-    SOURCES += audioplayerunix.cpp
-    QT += phonon
-}
+DEFINES += PHONON
+SOURCES += audioplayer.cpp
+QT += phonon
+
 HAVE_NULL { 
     DEFINES += NULL_PLAYER
     SOURCES += audioplayerunix.cpp

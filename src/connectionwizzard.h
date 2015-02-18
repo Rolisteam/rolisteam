@@ -39,28 +39,67 @@ class QAbstractButton;
 class ConnectionWizzard : public QDialog {
     Q_OBJECT
 public:
+	/**
+	* @brief default constructor 
+	*/
     ConnectionWizzard(QWidget *parent = 0);
+	/**
+	* @brief destructor 
+	*/
     ~ConnectionWizzard();
 
 
 
 public slots:
+	/**
+	* @brief adds a new connection into the model 
+	*/
     void addNewConnection();
+	/**
+	* @brief removes connection from the model. 
+	*/
     void removeConnection();
 
 protected slots:
+	/**
+	* @brief is called when the selection has changed.
+	*/
     void selectionChanged();
+	/**
+	* @brief is called when user finished to edit the connection name.
+	*/
     void editionFinished();
+	/**
+	* @brief is called when user click on any bottom buttom [Apply, OK,Cancel], only the apply is handled here. Other buttons are linked to dialog signals. 
+	*/
     void onApply(QAbstractButton*);
+	/**
+	* @brief is called when some actions required to refresh the list.
+	*/
     void updateList();
 protected:
+	/**
+	* @brief handle for event, not used anymore.
+	*/
     void changeEvent(QEvent *e);
 
 private:
+	/**
+	* @brief pointeur to the GUI from Qtdesigner
+	*/
     Ui::ConnectionWizzard *ui;
+	/**
+	* @brief current row
+	*/
     int m_currentRow;
+	/**
+	* @brief storage structure which manages all connections.
+	*/
     ConnectionList m_connectionList;
 
+	/**
+	* @brief current connection
+	*/
     Connection* m_currentConnection;
     /**
       * @brief pointer to the unique instance of preference manager.

@@ -457,7 +457,7 @@ bool MainWindow::maybeSave()
 void MainWindow::saveAll()
 {
 /**
- @TODO : save all documents
+ @todo : save all documents
  */
 }
 void MainWindow::startServer()

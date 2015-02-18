@@ -117,7 +117,7 @@ void MapFrame::currentToolChanged(ToolsBar::SelectableTool selectedtool)
 void MapFrame::mousePressEvent(QMouseEvent* event)
 {
 /**
-  @TODO : stop the event when we are not in normal editing mode and make appropriate actions.
+  @todo : stop the event when we are not in normal editing mode and make appropriate actions.
   */
 
 

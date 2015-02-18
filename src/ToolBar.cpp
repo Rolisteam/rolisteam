@@ -211,7 +211,11 @@ void ToolsBar::creerActions()
 			boutonRazChrono  ->setStyle(styleBouton);
         #endif*/
 		
-        /// @TODO used preferencemanager to get icon Size.
+        /**
+	*
+	* @todo used preferencemanager to get icon Size.
+	*
+	*/
         QSize tailleIcones(20,20);
 		boutonCrayon     ->setIconSize(tailleIcones);
 		boutonLigne      ->setIconSize(tailleIcones);
