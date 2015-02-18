@@ -124,7 +124,7 @@ protected :
 
 private :
     void p_init();
-    bool ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, const QRect &rect = QRect());
+    bool ajouterAlpha(QImage *source, QImage *m_alphaLayer, QImage *destination, const QRect &rect = QRect());
     bool convertirARGB32(QImage *original, QImage *copie);
     QRect zoneARafraichir();
     void dessiner(QPainter &painter);
@@ -144,9 +144,9 @@ private :
     } PersoEnMouvement;
 
     int taillePj;                        // Taille courante des PJ de la carte
-    QImage *fond;                        // image de fond affichee dans la fenetre
-    QImage *fondOriginal;                // image qui servira a effacer les annotations
-    QImage *alpha;                        // image contenant la couche alpha
+    QImage *m_backgroundImage;                        // image de fond affichee dans la fenetre
+    QImage *m_originalBackground;                // image qui servira a effacer les annotations
+    QImage *m_alphaLayer;                        // image contenant la couche alpha
     QImage *fondAlpha;                    // image temporaire contenant le melange du fond et de la couche alpha
     QImage *effaceAlpha;                // image contenant la couche alpha permettant d'effacer le fond a l'aide du fond original
     bool boutonGaucheEnfonce;            // bouton gauche de la souris enfonce ou pas?

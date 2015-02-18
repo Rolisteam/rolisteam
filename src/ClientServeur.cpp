@@ -180,22 +180,10 @@ bool ClientServeur::startConnection()
 
 
     }
-    /*m_playersList = PlayersList::instance();
-    m_playersList->completeListClean();
-    m_playersList->setLocalPlayer(m_localPlayer);*/
+
     m_playersList->sendOffLocalPlayerInformations();
     m_playersList->sendOffFeatures(m_localPlayer);
-    /*if(m_disconnectAsked)
-    {
-         m_playersList->cleanList();
-         m_playersList->sendOffLocalPlayerInformations();
-         m_playersList->sendOffFeatures( m_playersList->getLocalPlayer());
 
-    }
-    else
-    {
-
-    }*/
     setConnectionState(true);
     return true;
 }
@@ -228,9 +216,7 @@ bool ClientServeur::startConnectionToServer()
     QTcpSocket * socket;
 
     socket = waitDialog.connectTo(m_address, m_port);
-    //qDebug()<< "connection retry,m_liaisonToServer:  " << m_liaisonToServer;
-    //QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
-    // connect successed
+
 
         if (socket != NULL)
         {
@@ -241,7 +227,7 @@ bool ClientServeur::startConnectionToServer()
             }
             else
             {
-                m_liaisonToServer->setSocket(socket,false);
+                m_liaisonToServer->setSocket(socket,true);
             }
 
             m_dialog->hide();
@@ -268,7 +254,6 @@ void ClientServeur::ajouterLiaison(Liaison *liaison)
     liaisons.append(liaison);
     connect(this, SIGNAL(emissionDonnees(char *, quint32, Liaison *)),liaison, SLOT(emissionDonnees(char *, quint32, Liaison *)));
     connect(liaison, SIGNAL(disconnected(Liaison *)),this, SLOT(finDeLiaison(Liaison *)));
-    //liaison->initialize();
     emit linkAdded(liaison);
 }
 
@@ -290,7 +275,6 @@ void ClientServeur::finDeLiaison(Liaison * link)
     if(!m_disconnectAsked)
     {
         link->deleteLater();
-        //qDebug()<< "disconnection not asked" << link << m_liaisonToServer;
 
         emit linkDeleted(link);
     }
@@ -298,16 +282,13 @@ void ClientServeur::finDeLiaison(Liaison * link)
 
     if (!m_configDialog->isServer())
     {
-        //On quitte l'application
-        //MainWindow::notifyUser(tr("Receiving picture: %1"));
-        if(link!=m_liaisonToServer)
+        if(link==m_liaisonToServer)
         {
-            //qDebug() << "link is NOT the link to the server ";
             setConnectionState(false);
+            MainWindow::notifyUser(tr("Connection with the Remote Server has been lost."));
+            m_liaisonToServer = NULL;
+            m_playersList->cleanListButLocal();
         }
-        /*else
-
-            qDebug() << "link is the link to the server ";*/
 
 
         if(!m_disconnectAsked)
@@ -316,8 +297,6 @@ void ClientServeur::finDeLiaison(Liaison * link)
             m_dialog->show();
         }
     }
-
-    // Si l'ordinateur local est le serveur
     else
     {
         if (link == NULL)
@@ -371,6 +350,10 @@ void ClientServeur::setConnectionState(bool state)
     if(m_connectionState!=state)
     {
         m_connectionState=state;
-        connectionStateChanged(m_connectionState);
+        emit connectionStateChanged(m_connectionState);
     }
+}
+Liaison* ClientServeur::getLinkToServer()
+{
+    return m_liaisonToServer;
 }

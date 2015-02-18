@@ -47,10 +47,10 @@ ClientServeur * G_clientServeur;
 *
 * @author Renaud Guezennec
 *
-* Rolisteam help you to manage role playing games with your friend all over the world.
-* Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to
-* perform Role playing games with remote friends.
-* It is based on Client/server architecture and it is written in C++ with Qt.
+* Rolisteam help you to manage role playing games with your friend all over the world.<br/>
+* Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to<br/>
+* perform Role playing games with remote friends.<br/>
+* It is based on Client/server architecture and it is written in C++ with Qt.<br/>
 *
 * <h2>Features</h2>:
 * <ul>

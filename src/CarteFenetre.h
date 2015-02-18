@@ -79,6 +79,7 @@ private :
     int verticalDepart;
     MainWindow* m_mainWindow;
     QAction* m_widgetResizeAct;
+    QSize m_originalSize;
 };
 
 #endif

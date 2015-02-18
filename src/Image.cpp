@@ -70,9 +70,13 @@ Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QIm
 /********************************************************************/	
 Image::~Image()
 {
-	// Destruction de l'action associee
-    delete actionAssociee;
-	// On enleve l'image de la liste des Images existantes
+
+    if(NULL!=actionAssociee)
+    {
+        delete actionAssociee;
+        actionAssociee=NULL;
+    }
+
     m_mainWindow->enleverImageDeLaListe(idImage);
 }
 

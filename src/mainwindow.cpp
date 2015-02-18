@@ -285,6 +285,7 @@ void MainWindow::setupUi()
     connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
 
     connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(updateWindowTitle()));
+    connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(networkStateChanged(bool)));
 }
 
 MainWindow::~MainWindow()
@@ -1162,6 +1163,7 @@ void MainWindow::aucunNouveauPlanVide()
 
 void MainWindow::emettreTousLesPlans(Liaison * link)
 {
+
         int tailleListe = listeCarteFenetre.size();
         for (int i=0; i<tailleListe; ++i)
         {
@@ -1174,6 +1176,8 @@ void MainWindow::emettreTousLesPlans(Liaison * link)
 
 void MainWindow::emettreToutesLesImages(Liaison * link)
 {
+
+        qDebug() << "truc muche:" <<link << m_networkManager->getLinkToServer();
         int tailleListe = listeImage.size();
         NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
         for (int i=0; i < tailleListe; ++i)
@@ -1941,6 +1945,19 @@ NouveauPlanVide::PermissionMode MainWindow::getPermission(int id)
         return NouveauPlanVide::GM_ONLY;
     }
 
+}
+void MainWindow::networkStateChanged(bool state)
+{
+    if(state)
+    {
+        m_reconnectAct->setEnabled(false);
+        m_disconnectAct->setEnabled(true);
+    }
+    else
+    {
+        m_reconnectAct->setEnabled(true);
+        m_disconnectAct->setEnabled(false);
+    }
 }
 void MainWindow::stopReconnection()
 {

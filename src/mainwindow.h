@@ -222,6 +222,46 @@ public slots :
 protected :
     void closeEvent(QCloseEvent *event);
 
+private slots :
+    void changementNatureUtilisateur();
+    void afficherNomsPj(bool afficher);
+    void afficherNomsPnj(bool afficher);
+    void afficherNumerosPnj(bool afficher);
+    void changementFenetreActive(QWidget *widget);
+    void nouveauPlan();
+    void ouvrirPlan(bool masquer = false);
+    void ouvrirImage();
+    void ouvrirEtMasquerPlan();
+    void ouvrirScenario();
+    void ouvrirNotes();
+    void fermerPlanOuImage();
+    void sauvegarderPlan();
+    void updateMayBeNeeded();
+    void emettreTousLesPlans(Liaison * link);
+    void emettreToutesLesImages(Liaison * link);
+
+
+    //Network private Slot
+    void stopReconnection();
+    void closeConnection();
+    void startReconnection();
+    void networkStateChanged(bool);
+
+
+    /**
+    * \brief Show the about dialog
+    *
+    */
+    void aPropos();
+
+    /// \brief open the Qt assistant with the rolisteam documentation
+    void helpOnLine();
+    bool sauvegarderScenario();
+    bool sauvegarderNotes();
+
+    void notifyAboutAddedPlayer(Player * player) const;
+    void notifyAboutDeletedPlayer(Player * player) const;
+
 private :
     MainWindow();
     static MainWindow* m_singleton;
@@ -321,43 +361,7 @@ private :
 //#ifndef NULL_PLAYER
 //    QDockWidget* m_audioDock;
 //#endif
-private slots :
-    void changementNatureUtilisateur();
-    void afficherNomsPj(bool afficher);
-    void afficherNomsPnj(bool afficher);
-    void afficherNumerosPnj(bool afficher);
-    void changementFenetreActive(QWidget *widget);
-    void nouveauPlan();
-    void ouvrirPlan(bool masquer = false);
-    void ouvrirImage();
-    void ouvrirEtMasquerPlan();
-    void ouvrirScenario();
-    void ouvrirNotes();
-    void fermerPlanOuImage();
-    void sauvegarderPlan();
-    void updateMayBeNeeded();
-    void emettreTousLesPlans(Liaison * link);
-    void emettreToutesLesImages(Liaison * link);
 
-
-    //Network private Slot
-    void stopReconnection();
-    void closeConnection();
-    void startReconnection();
-
-    /**
-    * \brief Show the about dialog
-    *
-    */
-    void aPropos();
-
-    /// \brief open the Qt assistant with the rolisteam documentation
-    void helpOnLine();
-    bool sauvegarderScenario();
-    bool sauvegarderNotes();
-
-    void notifyAboutAddedPlayer(Player * player) const;
-    void notifyAboutDeletedPlayer(Player * player) const;
 };
 
 #endif

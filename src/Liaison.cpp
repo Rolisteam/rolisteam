@@ -47,9 +47,7 @@
 
 
 
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/
+
 Liaison::Liaison(QTcpSocket *socket)
     : QObject(NULL),m_mainWindow(NULL)
 {
@@ -80,7 +78,10 @@ void Liaison::initialize()
 Liaison::~Liaison()
 {
     if(NULL!=m_socketTcp)
+    {
         delete m_socketTcp;
+        m_socketTcp=NULL;
+    }
 }
 void Liaison::makeSignalConnection()
 {
@@ -99,9 +100,7 @@ void Liaison::setMainWindow(MainWindow* mainWindow)
     m_mainWindow = mainWindow;
 }
 
-/********************************************************************/
-/* Erreur de connexion                                              */
-/********************************************************************/
+
 void Liaison::erreurDeConnexion(QAbstractSocket::SocketError erreur)
 {
     Q_UNUSED(erreur);
@@ -118,10 +117,7 @@ void Liaison::p_disconnect()
     emit disconnected(this);
 }
 
-/********************************************************************/
-/* Emission des donnees vers le socket de la liaison, sauf si le    */
-/* parametre "sauf" correspond a l'instance de la liaison           */
-/********************************************************************/
+
 void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
 {
     if(NULL==m_socketTcp)
@@ -141,15 +137,7 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
     }
 }
 
-/********************************************************************/
-/* Reception de donnees sur un socket. Cette fonction n'est jamais  */
-/* appelee recursivement (jamais de nouvel appel a la fonction      */
-/* lorsque celle-ci est en cours d'execution) : cela permet         */
-/* d'utiliser des variables globales pour l'entete et le corps du   */
-/* message. Il est part contre necessaire de verifier a la fin de   */
-/* chaque reception si nouveau message n'est pas arrive pendant le  */
-/* traitement                                                       */
-/********************************************************************/
+
 void Liaison::reception()
 {
     if(NULL==m_socketTcp)
@@ -1463,11 +1451,13 @@ void Liaison::faireSuivreMessage(bool tous)
         // Recopie du corps du message
         memcpy(&(donnees[sizeof(NetworkMessageHeader)]), tampon, entete.dataSize);
         if (tous)
-            // On envoie le message a l'ensemble des clients
+        {
             emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader));
+        }
         else
-            // On envoie le message a l'ensemble des clients sauf a l'emetteur initial
+        {
             emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader), this);
+        }
         delete[] donnees;
     }
 }
@@ -1581,9 +1571,12 @@ int Liaison::extrairePersonnage(Carte *carte, char *tampon)
 }
 void Liaison::disconnectAndClose()
 {
-    m_socketTcp->close();
-    delete m_socketTcp;
-    m_socketTcp=NULL;
+    if(NULL!=m_socketTcp)
+    {
+        m_socketTcp->close();
+        delete m_socketTcp;
+        m_socketTcp=NULL;
+    }
 }
 void Liaison::setSocket(QTcpSocket* socket, bool makeConnection)
 {

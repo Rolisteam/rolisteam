@@ -67,11 +67,13 @@ public :
 
     void ajouterLiaison(Liaison *liaison);
 
-    bool    isServer() const;
+    bool isServer() const;
 
 
 
     bool isConnected() const;
+
+    Liaison* getLinkToServer();
 
 
 public slots:

@@ -41,12 +41,15 @@ CarteFenetre::CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *pare
     setFocusPolicy(Qt::StrongFocus);
     setAlignment(Qt::AlignCenter);
 
+
+
     m_widgetResizeAct = new QAction(tr("Map fits window"),this);
     m_widgetResizeAct->setCheckable(true);
     m_widgetResizeAct->setChecked(false);
 
 
     carteAssociee = uneCarte;
+    m_originalSize = carteAssociee->size();
     setWidget(carteAssociee);
 
     #ifdef WIN32
@@ -108,6 +111,10 @@ void CarteFenetre::deplacer(QPoint position)
 void CarteFenetre::fitMapToWindow()
 {
     setWidgetResizable(m_widgetResizeAct->isChecked());
+    if(!m_widgetResizeAct->isChecked())
+    {
+        carteAssociee->resize(m_originalSize);
+    }
 }
 
 void CarteFenetre::focusInEvent(QFocusEvent * event)

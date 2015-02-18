@@ -38,27 +38,23 @@
 #include <QDebug>
 //GM_ONLY, PC_MOVE,PC_ALL
 
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/    
+
 Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
     m_currentMode = NouveauPlanVide::GM_ONLY;
     m_currentTool = BarreOutils::main;
-    // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
-    // Creation de l'image de fond originale qui servira a effacer
-    fondOriginal = new QImage(image->size(), QImage::Format_ARGB32);
-    *fondOriginal = image->convertToFormat(QImage::Format_ARGB32);
+    m_originalBackground = new QImage(image->size(), QImage::Format_ARGB32);
+    *m_originalBackground = image->convertToFormat(QImage::Format_ARGB32);
     
-    // Creation de l'image de fond
-    fond = new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
-    *fond = image->convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-    // Creation de la couche alpha qui sera utilisee avec fondAlpha
-    alpha = new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
-    QPainter painterAlpha(alpha);
+    m_backgroundImage = new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
+    *m_backgroundImage = image->convertToFormat(QImage::Format_ARGB32_Premultiplied);
+
+
+    m_alphaLayer = new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
+    QPainter painterAlpha(m_alphaLayer);
     painterAlpha.fillRect(0, 0, image->width(), image->height(), masquer?G_couleurMasque:Qt::white);
 
     p_init();
@@ -68,16 +64,16 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
 void Carte::p_init()
 {
 
-    effaceAlpha = new QImage(fondOriginal->size(), QImage::Format_ARGB32_Premultiplied);
+    effaceAlpha = new QImage(m_originalBackground->size(), QImage::Format_ARGB32_Premultiplied);
     QPainter painterEfface(effaceAlpha);
-    painterEfface.fillRect(0, 0, fondOriginal->width(), fondOriginal->height(), Qt::black);
+    painterEfface.fillRect(0, 0, m_originalBackground->width(), m_originalBackground->height(), Qt::black);
     // Ajout de la couche alpha effaceAlpha a l'image de fond originale
-    ajouterAlpha(fondOriginal, effaceAlpha, fondOriginal);
+    ajouterAlpha(m_originalBackground, effaceAlpha, m_originalBackground);
 
     m_localPlayer = PlayersList::instance()->localPlayer();
 
-    fondAlpha = new QImage(fondOriginal->size(), QImage::Format_ARGB32);
-    ajouterAlpha(fond, alpha, fondAlpha);
+    fondAlpha = new QImage(m_originalBackground->size(), QImage::Format_ARGB32);
+    ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha);
 
 
     setAutoFillBackground(true);
@@ -96,7 +92,7 @@ void Carte::p_init()
     dernierPnjSelectionne = 0;
 
     // Redimentionnement du widget
-    resize(fond->size());
+    resize(m_backgroundImage->size());
     // Initialisation de la liste de points du trace du crayon et de la liste de deplacement du PJ
     listePointsCrayon.clear();
     listeDeplacement.clear();
@@ -128,10 +124,7 @@ void Carte::p_init()
             this, SLOT(changeCharacter(Character *)));
 }
 
-/********************************************************************/
-/* Constructeur : cree un plan a partir des 3 images le composant   */
-/* (image d'origine, image avec les annotations, couche alpha)      */
-/********************************************************************/    
+
 Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
@@ -139,61 +132,56 @@ Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QIma
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
     // Creation de l'image de fond originale qui servira a effacer
-    fondOriginal = new QImage(original->size(), QImage::Format_ARGB32);
-    *fondOriginal = original->convertToFormat(QImage::Format_ARGB32);
+    m_originalBackground = new QImage(original->size(), QImage::Format_ARGB32);
+    *m_originalBackground = original->convertToFormat(QImage::Format_ARGB32);
     
     // Creation de l'image de fond
-    fond = new QImage(avecAnnotations->size(), QImage::Format_ARGB32_Premultiplied);
-    *fond = avecAnnotations->convertToFormat(QImage::Format_ARGB32_Premultiplied);
+    m_backgroundImage = new QImage(avecAnnotations->size(), QImage::Format_ARGB32_Premultiplied);
+    *m_backgroundImage = avecAnnotations->convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
     // Creation de la couche alpha qui sera utilisee avec fondAlpha
-    alpha = new QImage(coucheAlpha->size(), QImage::Format_ARGB32_Premultiplied);
-    *alpha = coucheAlpha->convertToFormat(QImage::Format_ARGB32_Premultiplied);
+    m_alphaLayer = new QImage(coucheAlpha->size(), QImage::Format_ARGB32_Premultiplied);
+    *m_alphaLayer = coucheAlpha->convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
     p_init();
 }
 
-/********************************************************************/
-/* Redessine le fond                                                */
-/********************************************************************/    
+
 void Carte::paintEvent(QPaintEvent *event)
 {
-    // Creation du painter pour pouvoir dessiner
+
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    // La ruse consiste a passer par une image ARGB32 pour avoir une couche alpha
-    // independante des couleurs, puis a lui rajouter la couche alpha
-    
-    // Recopie de fondAlpha (qui est m.a.j dans mouseReleaseEvent) dans la fenetre
-    painter.drawImage(event->rect(), *fondAlpha, event->rect());
 
-    // Si le bouton gauche n'est pas enfonce on sort de la fonction
+    //painter.drawImage(event->rect(), *fondAlpha, event->rect());
+    qDebug()<< event->rect() << rect() << fondAlpha->rect();
+    painter.drawImage(rect(), *fondAlpha, fondAlpha->rect());
+
+
     if (boutonGaucheEnfonce == false)
         return;
 
-    // Si un outils de manipulation de PJ/PNJ est selectionne, on sort de la fonction
+
     if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj ||
         m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
         return;
         
-    // Dessin temporaire sur le widget
+
     dessiner(painter);
 }
 
-/********************************************************************/
-/* Un bouton de la souris vient d'etre enfonce                      */
-/********************************************************************/    
+
 void Carte::mousePressEvent(QMouseEvent *event)
 {
-    // Si l'utilisateur a clique avec la bouton gauche
+
     if ((event->button() == Qt::LeftButton) && !boutonGaucheEnfonce && !boutonDroitEnfonce)
     {
-            // Bonton gauche enfonce
+
             boutonGaucheEnfonce = true;
 
 
-            // Il s'agit d'une action sur les PJ/PNJ
+
             if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj ||
                 m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
             {
@@ -318,15 +306,13 @@ void Carte::mousePressEvent(QMouseEvent *event)
         {
             boutonDroitEnfonce = true;
             setCursor(*G_pointeurPipette);
-            QColor couleur = QColor(fond->pixel(positionSouris.x(), positionSouris.y()));
+            QColor couleur = QColor(m_backgroundImage->pixel(positionSouris.x(), positionSouris.y()));
             emit changeCouleurActuelle(couleur);
         }
     }
 }
 
-/********************************************************************/
-/* Relache d'un bouton de la souris                                 */
-/********************************************************************/    
+
 void Carte::mouseReleaseEvent(QMouseEvent *event)
 {
     // Si le bouton gauche est relache
@@ -365,14 +351,14 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
         
                 // Choix de l'image sur laquelle dessiner, en fonction de la couleur actuelle
                 if (G_couleurCourante.type == qcolor)
-                    painter.begin(fond);
+                    painter.begin(m_backgroundImage);
                 else if (G_couleurCourante.type == masque || G_couleurCourante.type == demasque)
-                    painter.begin(alpha);
+                    painter.begin(m_alphaLayer);
                 else if (G_couleurCourante.type == efface)
                     painter.begin(effaceAlpha);
                 else
                 {
-                    painter.begin(fond);
+                    painter.begin(m_backgroundImage);
                     //qWarning(tr("Type de couleur incorrecte (mouseReleaseEvent - Carte.cpp)"));
                 }
                 painter.setRenderHint(QPainter::Antialiasing);
@@ -394,17 +380,17 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
                 if (G_couleurCourante.type == efface)
                 {
                     // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
-                    ajouterAlpha(fondOriginal, effaceAlpha, fondOriginal, zoneNouvelle);
+                    ajouterAlpha(m_originalBackground, effaceAlpha, m_originalBackground, zoneNouvelle);
                     // Apres quoi on recopie la zone concernee sur l'image de fond
-                    QPainter painterFond(fond);
-                    painterFond.drawImage(zoneNouvelle, *fondOriginal, zoneNouvelle);
+                    QPainter painterFond(m_backgroundImage);
+                    painterFond.drawImage(zoneNouvelle, *m_originalBackground, zoneNouvelle);
                     // Enfin on remet a zero effaceAlpha pour la prochaine utilisation
                     QPainter painterEfface(effaceAlpha);
                     painterEfface.fillRect(zoneNouvelle, Qt::black);
                 }
 
                 // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-                ajouterAlpha(fond, alpha, fondAlpha, zoneNouvelle);
+                ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha, zoneNouvelle);
                 // Demande de rafraichissement de la fenetre (appel a paintEvent)
                 update(zoneOrigine.unite(zoneNouvelle));
                 // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
@@ -483,9 +469,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
     }            // Fin du bouton droit relache
 }
 
-/********************************************************************/
-/* Deplacement de la souris                                         */
-/********************************************************************/    
+
 void Carte::mouseMoveEvent(QMouseEvent *event)
 {
     // Si le bouton gauche est enfonce
@@ -520,7 +504,7 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
     }
 
     // Si le bouton droit est enfonce et que le pointeur est dans l'image (evite un plantage)
-    else if (boutonDroitEnfonce && !boutonGaucheEnfonce && (fond->rect()).contains(event->pos()))
+    else if (boutonDroitEnfonce && !boutonGaucheEnfonce && (m_backgroundImage->rect()).contains(event->pos()))
     {
         // Recuperation de la position de la souris
         QPoint positionSouris = event->pos();
@@ -539,21 +523,18 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
         }
         else
         {
-            QColor couleur = QColor(fond->pixel(positionSouris.x(), positionSouris.y()));
+            QColor couleur = QColor(m_backgroundImage->pixel(positionSouris.x(), positionSouris.y()));
             emit changeCouleurActuelle(couleur);
         }
     }
 }
 
-/********************************************************************/
-/* Dessine les lignes, rectangles et autres sur le widget le fond,  */
-/* ou la couche alpha                                               */
-/********************************************************************/    
+
 void Carte::dessiner(QPainter &painter)
 {
     QColor couleurPinceau;
     
-    // Choix de le couleur du trait en fonction du type de couleur selectionne
+
     if (G_couleurCourante.type == qcolor)
         couleurPinceau = G_couleurCourante.color;
     else if (G_couleurCourante.type == masque)
@@ -565,28 +546,28 @@ void Carte::dessiner(QPainter &painter)
     else
         qWarning() << tr("color type not allowed (dessiner - Carte.cpp)");
 
-    // Reglage du pinceau
+
     QPen pen;
     pen.setWidth(G_diametreTraitCourant);
     pen.setJoinStyle(Qt::MiterJoin);
     pen.setColor(couleurPinceau);
     painter.setPen(pen);
 
-    // Action a effectuer en fonction de l'outil en cours d'utilisation
+
     if (m_currentTool == BarreOutils::crayon)
     {
-        // Seule exception : on cree un nouveau painter pour dessiner en permanence sur le fond ou la couche alpha
+
         QPainter painterCrayon;
         
         if (G_couleurCourante.type == qcolor)
-            painterCrayon.begin(fond);
+            painterCrayon.begin(m_backgroundImage);
         else if (G_couleurCourante.type == masque || G_couleurCourante.type == demasque)
-            painterCrayon.begin(alpha);
+            painterCrayon.begin(m_alphaLayer);
         else if (G_couleurCourante.type == efface)
             painterCrayon.begin(effaceAlpha);
         else
         {
-            painter.begin(fond);
+            painter.begin(m_backgroundImage);
             qWarning() << tr("color type not allowed  (dessiner - Carte.cpp)");
         }
         painterCrayon.setRenderHint(QPainter::Antialiasing);
@@ -607,16 +588,16 @@ void Carte::dessiner(QPainter &painter)
         if (G_couleurCourante.type == efface)
         {
             // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
-            ajouterAlpha(fondOriginal, effaceAlpha, fondOriginal, zoneNouvelle);
+            ajouterAlpha(m_originalBackground, effaceAlpha, m_originalBackground, zoneNouvelle);
             // Apres quoi on recopie la zone concernee sur l'image de fond
-            QPainter painterFond(fond);
-            painterFond.drawImage(zoneNouvelle, *fondOriginal, zoneNouvelle);
+            QPainter painterFond(m_backgroundImage);
+            painterFond.drawImage(zoneNouvelle, *m_originalBackground, zoneNouvelle);
             // Enfin on remet a zero effaceAlpha pour la prochaine utilisation
             painterCrayon.fillRect(zoneNouvelle, Qt::black);
         }
         
         // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-        ajouterAlpha(fond, alpha, fondAlpha, zoneNouvelle);
+        ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha, zoneNouvelle);
 
         // On ajoute la position de la souris a la liste de points destinee a l'emission
         listePointsCrayon.append(pointSouris);
@@ -722,10 +703,6 @@ void Carte::dessiner(QPainter &painter)
         qWarning() << tr("undefined drawing tools (dessiner - Carte.cpp)");
 }
 
-/********************************************************************/
-/* Calcule la zone occupee par le dessin en cours : permet de       */
-/* limiter la zone a rafraichir a un rectangle                      */
-/********************************************************************/    
 QRect Carte::zoneARafraichir()
 {
     QRect resultat;
@@ -793,7 +770,7 @@ QRect Carte::zoneARafraichir()
     
     else if (m_currentTool == BarreOutils::texte)
     {
-        resultat = QRect(QPoint(pointSouris.x()-2, pointSouris.y()-15), QPoint(fond->width(), pointSouris.y()+4));
+        resultat = QRect(QPoint(pointSouris.x()-2, pointSouris.y()-15), QPoint(m_backgroundImage->width(), pointSouris.y()+4));
     }
     
     else if (m_currentTool == BarreOutils::main)
@@ -803,15 +780,11 @@ QRect Carte::zoneARafraichir()
     else
         qWarning() <<  (tr("Undefined tool  (drawing - Carte.cpp)"));
 
-    // On coupe aux dimensions de l'image
-    return resultat.intersect(fond->rect());
+
+    return resultat.intersect(m_backgroundImage->rect());
 }
 
-/********************************************************************/
-/* Ajoute une couche alpha a une image. Ne marche que si la couche  */
-/* alpha de la source est egale a 255. Peut convertir une image     */
-/* ARGB32_Premultiplied en ARGB32                                   */
-/********************************************************************/    
+
 bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, const QRect &rect)
 {
     // On verifie que la source, la destination et la couche alpha ont le meme nombre de pixels
@@ -844,10 +817,7 @@ bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, con
     return true;
 }
 
-/********************************************************************/
-/* Traite les actions liees aux PNJ/PJ lorsque le bouton gauche de  */
-/* la souris est enfonce                                            */
-/********************************************************************/    
+
 void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
 {
     if (m_currentTool == BarreOutils::ajoutPnj)
@@ -999,10 +969,7 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
 
 }
 
-/********************************************************************/
-/* Traite les actions liees aux PNJ/PJ lorsque le bouton gauche de  */
-/* la souris est relache                                            */
-/********************************************************************/    
+
 void Carte::actionPnjBoutonRelache(QPoint positionSouris)
 {
              Q_UNUSED(positionSouris)
@@ -1075,10 +1042,7 @@ void Carte::actionPnjBoutonRelache(QPoint positionSouris)
 
 }
 
-/********************************************************************/
-/* Traite les actions liees aux PNJ/PJ lorsque la souris bouge et   */
-/* que le bouton gauche est enfonce                                 */
-/********************************************************************/    
+
 void Carte::actionPnjMouvementSouris(QPoint positionSouris)
 {
     if (m_currentTool == BarreOutils::ajoutPnj)
@@ -1087,7 +1051,7 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
         if (pnjSelectionne)
         {
             // On verifie que la souris reste dans les limites de la carte
-            if ( QRect(0, 0, fond->width(), fond->height()).contains(positionSouris, true) )
+            if ( QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris, true) )
                 pnjSelectionne->deplacePerso(positionSouris - diffSourisDessinPerso);
         }
     }
@@ -1105,7 +1069,7 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
                ((NouveauPlanVide::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
             {
                 // On verifie que la souris reste dans les limites de la carte
-                if ( QRect(0, 0, fond->width(), fond->height()).contains(positionSouris, true) )
+                if ( QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris, true) )
                 {
                     // Deplacement du perso
                     pnjSelectionne->deplacePerso(positionSouris - diffSourisDessinPerso);
@@ -1125,9 +1089,7 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
 
 }
 
-/********************************************************************/
-/* Renvoie le DessinPerso se trouvant sous le point, ou 0 sinon     */
-/********************************************************************/    
+
 DessinPerso* Carte::dansDessinPerso(QPoint positionSouris)
 {
     DessinPerso *resultat;
@@ -1201,19 +1163,14 @@ DessinPerso* Carte::dansDessinPerso(QPoint positionSouris)
     return resultat;
 }
 
-/********************************************************************/
-/* Inspecte tous les DessinPerso de la carte pour voir s'ils se       */
-/* trouvent dans une zone masquee ou pas. Si oui, le DessinPerso est  */
-/* masque, sinon il est affiche. Si le parametre pnjSeul est        */
-/* different de 0, alors seul ce PNJ est inspecte                   */
-/********************************************************************/    
+
 void Carte::afficheOuMasquePnj(DessinPerso *pnjSeul)
 {
     QObjectList enfants;
     int i, j, masque, affiche;
     QPoint contour[8];
     DessinPerso *pnj;
-    QRect limites = fond->rect();
+    QRect limites = m_backgroundImage->rect();
 
     // Si pnjSeul n'est pas nul, on le met en tete de liste, comme seul element
     if (pnjSeul)
@@ -1284,9 +1241,7 @@ void Carte::afficheOuMasquePnj(DessinPerso *pnjSeul)
     }        // Fin du parcours de la liste des enfants
 }
 
-/********************************************************************/
-/* Emssion d'une demande de changement de taille aux PJ de la carte */
-/********************************************************************/
+
 void Carte::changerTaillePjCarte(int nouvelleTaille, bool updatePj)
 {
     taillePj = nouvelleTaille;
@@ -1343,10 +1298,7 @@ void Carte::toggleCharacterView(Character * character)
 
 }
 
-/********************************************************************/
-/* Affiche ou masque le PJ dont l'indentifiant est passe en         */
-/* parametre                                                        */
-/********************************************************************/
+
 void Carte::affichageDuPj(QString idPerso, bool afficher)
 {
     // Recherche du PJ
@@ -1368,10 +1320,7 @@ void Carte::affichageDuPj(QString idPerso, bool afficher)
     }
 }
 
-/********************************************************************/
-/* Regarde si le PJ dont l'identifiant est passe en parametre est   */
-/* affiche ou masque                                                */
-/********************************************************************/
+
 bool Carte::pjAffiche(QString idPerso)
 {
     // Recherche du PJ
@@ -1386,17 +1335,12 @@ bool Carte::pjAffiche(QString idPerso)
     return pj->estVisible();
 }
 
-/********************************************************************/
-/* Ajoute un PJ dans la carte                                       */
-/********************************************************************/
 void Carte::addCharacter(Character * person)
 {
-    new DessinPerso(this, person->uuid(), person->name(), person->color(), taillePj, QPoint(fond->width()/2, fond->height()/2), DessinPerso::pj);
+    new DessinPerso(this, person->uuid(), person->name(), person->color(), taillePj, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), DessinPerso::pj);
 }
 
-/********************************************************************/
-/* Suprresion du personnage dont l'ID est passe en parametre        */
-/********************************************************************/
+
 void Carte::effacerPerso(QString idPerso)
 {
     // Recherche du personnage
@@ -1437,26 +1381,19 @@ void Carte::changeCharacter(Character * person)
     pj->changerCouleurPerso(person->color());
 }
 
-/********************************************************************/
-/* Emet la carte vers les autres utilisateurs                       */
-/********************************************************************/
+
 void Carte::emettreCarte(QString titre)
 {
     emettreCarteGeneral(titre);
 }
 
-/********************************************************************/
-/* Emet la carte vers la liaison passee en parametre                */
-/********************************************************************/
+
 void Carte::emettreCarte(QString titre, Liaison * link)
 {
     emettreCarteGeneral(titre, link, true);
 }
 
-/********************************************************************/
-/* Emet la carte vers la liaison passee en parametre si             */
-/* versLiaisonUniquement = true, vers tous les utilisateurs sinon   */
-/********************************************************************/
+
 void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonUniquement)
 {
     bool ok;
@@ -1464,21 +1401,21 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
     // On commence par compresser le fond original (format jpeg) dans un tableau
     QByteArray baFondOriginal;
     QBuffer bufFondOriginal(&baFondOriginal);
-    ok = fondOriginal->save(&bufFondOriginal, "jpeg", 70);
+    ok = m_originalBackground->save(&bufFondOriginal, "jpeg", 70);
     if (!ok)
         qWarning() << (tr("Probleme de compression du fond original (emettreCarte - Carte.cpp)"));
 
     // On compresse le fond (format jpeg) dans un tableau
     QByteArray baFond;
     QBuffer bufFond(&baFond);
-    ok = fond->save(&bufFond, "jpeg", 70);
+    ok = m_backgroundImage->save(&bufFond, "jpeg", 70);
     if (!ok)
         qWarning() << (tr("Probleme de compression du fond (emettreCarte - Carte.cpp)"));
 
     // Enfin on compresse la couche alpha (format jpeg) dans un tableau
     QByteArray baAlpha;
     QBuffer bufAlpha(&baAlpha);
-    ok = alpha->save(&bufAlpha, "jpeg", 100);
+    ok = m_alphaLayer->save(&bufAlpha, "jpeg", 100);
     if (!ok)
         qWarning() << (tr("Probleme de compression de la couche alpha (emettreCarte - Carte.cpp)"));
     
@@ -1573,29 +1510,19 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
     delete[] donnees;
 }
 
-/********************************************************************/    
-/* Envoie l'ensemble des personnages (PJ ou PNJ) se trouvant sur la */
-/* carte aux autres utilisateurs                                    */
-/********************************************************************/    
+
 void Carte::emettreTousLesPersonnages()
 {
     emettreTousLesPersonnagesGeneral();
 }
 
-/********************************************************************/    
-/* Envoie vers la liaison passee en parametre l'ensemble des        */
-/* personnages (PJ ou PNJ) se trouvant sur la carte                 */
-/********************************************************************/    
+
 void Carte::emettreTousLesPersonnages(Liaison * link)
 {
     emettreTousLesPersonnagesGeneral(link, true);
 }
 
-/********************************************************************/    
-/* Envoie l'ensemble des personnages (PJ ou PNJ) se trouvant sur    */
-/* la carte, vers la liaison passee en parametre si                 */
-/* versLiaisonUniquement = true, vers tous les utilisateurs sinon   */
-/********************************************************************/    
+
 void Carte::emettreTousLesPersonnagesGeneral(Liaison * link, bool versLiaisonUniquement)
 {
     // Taille des donnees
@@ -1660,10 +1587,7 @@ void Carte::emettreTousLesPersonnagesGeneral(Liaison * link, bool versLiaisonUni
     delete[] donnees;
 }
 
-/********************************************************************/    
-/* Envoie aux clients ou au serveur le trace dessine par            */
-/* l'utilisateur                                                    */
-/********************************************************************/    
+
 void Carte::emettreTrace()
 {
                 qint32 tailleCorps;
@@ -1909,10 +1833,7 @@ void Carte::emettreTrace()
     delete[] donnees;
 }
 
-/********************************************************************/    
-/* Emet la liste de points composant le trajet du personnage que    */
-/* l'utilisateur vient de deplacer, vers le serveur ou les clients  */
-/********************************************************************/    
+
 void Carte::emettreTrajetPersonnage()
 {
     // Recuperation de l'identifiant du perso
@@ -1974,10 +1895,7 @@ void Carte::emettreTrajetPersonnage()
     delete[] donnees;
 }
 
-/********************************************************************/    
-/* Dessine le trace au crayon dont les caracteristiques sont        */
-/* passees en parametre                                             */
-/********************************************************************/    
+
 void Carte::dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur, bool joueurLocal)
 {
     QPainter painter;
@@ -1986,17 +1904,17 @@ void Carte::dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichi
     // Choix de l'image sur laquelle dessiner et de la couleur du pinceau
     if (couleur.type == qcolor)
     {
-        painter.begin(fond);
+        painter.begin(m_backgroundImage);
         couleurPinceau = couleur.color;
     }            
     else if (couleur.type == masque)
     {
-        painter.begin(alpha);
+        painter.begin(m_alphaLayer);
         couleurPinceau = G_couleurMasque;
     }
     else if (couleur.type == demasque)
     {
-        painter.begin(alpha);
+        painter.begin(m_alphaLayer);
         couleurPinceau = Qt::white;
     }
     else if (couleur.type == efface)
@@ -2047,27 +1965,24 @@ void Carte::dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichi
     if (couleur.type == efface)
     {
         // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
-        ajouterAlpha(fondOriginal, effaceAlpha, fondOriginal, zoneARafraichir);
+        ajouterAlpha(m_originalBackground, effaceAlpha, m_originalBackground, zoneARafraichir);
         // Apres quoi on recopie la zone concernee sur l'image de fond
-        QPainter painterFond(fond);
-        painterFond.drawImage(zoneARafraichir, *fondOriginal, zoneARafraichir);
+        QPainter painterFond(m_backgroundImage);
+        painterFond.drawImage(zoneARafraichir, *m_originalBackground, zoneARafraichir);
         // Enfin on remet a zero effaceAlpha pour la prochaine utilisation
         QPainter painterEfface(effaceAlpha);
         painterEfface.fillRect(zoneARafraichir, Qt::black);
     }
     
     // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-    ajouterAlpha(fond, alpha, fondAlpha, zoneARafraichir);
+    ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha, zoneARafraichir);
     // Demande de rafraichissement de la fenetre (appel a paintEvent)
     update(zoneOrigine.unite(zoneARafraichir));
     // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
     afficheOuMasquePnj();
 }
 
-/********************************************************************/    
-/* Dessine le texte dont les caracteristiques sont passees en       */
-/* parametres                                                       */
-/********************************************************************/    
+
 void Carte::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneARafraichir, couleurSelectionee couleur)
 {
     QPainter painter;
@@ -2076,17 +1991,17 @@ void Carte::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneA
     // Choix de l'image sur laquelle dessiner et de la couleur du pinceau
     if (couleur.type == qcolor)
     {
-        painter.begin(fond);
+        painter.begin(m_backgroundImage);
         couleurPinceau = couleur.color;
     }            
     else if (couleur.type == masque)
     {
-        painter.begin(alpha);
+        painter.begin(m_alphaLayer);
         couleurPinceau = G_couleurMasque;
     }
     else if (couleur.type == demasque)
     {
-        painter.begin(alpha);
+        painter.begin(m_alphaLayer);
         couleurPinceau = Qt::white;
     }
     else if (couleur.type == efface)
@@ -2118,17 +2033,17 @@ void Carte::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneA
     if (couleur.type == efface)
     {
         // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
-        ajouterAlpha(fondOriginal, effaceAlpha, fondOriginal, zoneARafraichir);
+        ajouterAlpha(m_originalBackground, effaceAlpha, m_originalBackground, zoneARafraichir);
         // Apres quoi on recopie la zone concernee sur l'image de fond
-        QPainter painterFond(fond);
-        painterFond.drawImage(zoneARafraichir, *fondOriginal, zoneARafraichir);
+        QPainter painterFond(m_backgroundImage);
+        painterFond.drawImage(zoneARafraichir, *m_originalBackground, zoneARafraichir);
         // Enfin on remet a zero effaceAlpha pour la prochaine utilisation
         QPainter painterEfface(effaceAlpha);
         painterEfface.fillRect(zoneARafraichir, Qt::black);
     }
     
     // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-    ajouterAlpha(fond, alpha, fondAlpha, zoneARafraichir);
+    ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha, zoneARafraichir);
     // Demande de rafraichissement de la fenetre (appel a paintEvent)
     update(zoneOrigine.unite(zoneARafraichir));
     // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
@@ -2144,17 +2059,17 @@ void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arri
     // Choix de l'image sur laquelle dessiner et de la couleur du pinceau
     if (couleur.type == qcolor)
     {
-        painter.begin(fond);
+        painter.begin(m_backgroundImage);
         couleurPinceau = couleur.color;
     }            
     else if (couleur.type == masque)
     {
-        painter.begin(alpha);
+        painter.begin(m_alphaLayer);
         couleurPinceau = G_couleurMasque;
     }
     else if (couleur.type == demasque)
     {
-        painter.begin(alpha);
+        painter.begin(m_alphaLayer);
         couleurPinceau = Qt::white;
     }
     else if (couleur.type == efface)
@@ -2262,33 +2177,24 @@ void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arri
     if (couleur.type == efface)
     {
         // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
-        ajouterAlpha(fondOriginal, effaceAlpha, fondOriginal, zoneARafraichir);
+        ajouterAlpha(m_originalBackground, effaceAlpha, m_originalBackground, zoneARafraichir);
         // Apres quoi on recopie la zone concernee sur l'image de fond
-        QPainter painterFond(fond);
-        painterFond.drawImage(zoneARafraichir, *fondOriginal, zoneARafraichir);
+        QPainter painterFond(m_backgroundImage);
+        painterFond.drawImage(zoneARafraichir, *m_originalBackground, zoneARafraichir);
         // Enfin on remet a zero effaceAlpha pour la prochaine utilisation
         QPainter painterEfface(effaceAlpha);
         painterEfface.fillRect(zoneARafraichir, Qt::black);
     }
     
     // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-    ajouterAlpha(fond, alpha, fondAlpha, zoneARafraichir);
+    ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha, zoneARafraichir);
     // Demande de rafraichissement de la fenetre (appel a paintEvent)
     update(zoneOrigine.unite(zoneARafraichir));
     // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
     afficheOuMasquePnj();
 }
 
-/********************************************************************/    
-/* Verifie que l'intensite de la couche alpha passee en parametre   */
-/* (et qui correspond a l'intensite presente sur la couche alpha)   */
-/* est compatible avec la nature de l'utilisateur. Si ce n'est pas  */
-/* le cas la couche alpha est modifiee pour correspondre a la       */
-/* nature de l'utilisateur. Ceci est necessaire par ex lorsque le   */
-/* serveur est MJ (couche alpha partiellement transparente) et que  */
-/* le recepteur de la carte est un Joueur (la couche alpha doit     */
-/* etre totalement transparente)                                    */
-/********************************************************************/    
+
 void Carte::adapterCoucheAlpha(quint8 intensiteAlpha)
 {
     // Si l'intensite passee en parametre correspond a celle utilisee par l'utilisateur, aucune modif n'est necessaire : on quitte la fonction
@@ -2300,9 +2206,9 @@ void Carte::adapterCoucheAlpha(quint8 intensiteAlpha)
     // Calcul de la difference entre les 2 intensites
     qint16 diff = (qint16)(G_couleurMasque.red()) - (qint16)intensiteAlpha;
     // Nbr de pixels de la couche alpha
-    int tailleAlpha = alpha->width() * alpha->height();
+    int tailleAlpha = m_alphaLayer->width() * m_alphaLayer->height();
     // Pointeur vers les donnees de l'image
-    QRgb *pixelAlpha = (QRgb *)alpha->bits();
+    QRgb *pixelAlpha = (QRgb *)m_alphaLayer->bits();
 
     qint16 nouvelleIntensite;
     // Parcours des pixels de l'image
@@ -2325,12 +2231,9 @@ void Carte::adapterCoucheAlpha(quint8 intensiteAlpha)
         }
     }
     // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-    ajouterAlpha(fond, alpha, fondAlpha);
+    ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha);
 }
 
-/********************************************************************/    
-/* Initialise le deplacement d'un personnage                        */
-/********************************************************************/    
 void Carte::lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoints)
 {
     // On commence part verifier si le perso est deja present dans la liste des mouvements
@@ -2363,10 +2266,7 @@ void Carte::lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoin
     }
 }
 
-/********************************************************************/    
-/* Deplace l'ensemble des personnages dont le trajet est enregistre */
-/* dans la liste des mouvements                                     */
-/********************************************************************/    
+
 void Carte::deplacerLesPersonnages()
 {
     QPoint position;
@@ -2414,7 +2314,7 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     // On commence par compresser le fond original (format jpeg) dans un tableau
     QByteArray baFondOriginal;
     QBuffer bufFondOriginal(&baFondOriginal);
-    ok = fondOriginal->save(&bufFondOriginal, "jpeg", 100);
+    ok = m_originalBackground->save(&bufFondOriginal, "jpeg", 100);
     //qDebug() << fondOriginal->size();
     if (!ok)
         qWarning() << (tr("Probleme de compression du fond original (sauvegarderCarte - Carte.cpp)"));
@@ -2422,7 +2322,7 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     // On compresse le fond (format jpeg) dans un tableau
     QByteArray baFond;
     QBuffer bufFond(&baFond);
-    ok = fond->save(&bufFond, "jpeg", 100);
+    ok = m_backgroundImage->save(&bufFond, "jpeg", 100);
     //qDebug() << fond->size();
     if (!ok)
         qWarning() << (tr("Probleme de compression du fond (sauvegarderCarte - Carte.cpp)"));
@@ -2430,7 +2330,7 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     // Enfin on compresse la couche alpha (format jpeg) dans un tableau
     QByteArray baAlpha;
     QBuffer bufAlpha(&baAlpha);
-    ok = alpha->save(&bufAlpha, "jpeg", 100);
+    ok = m_alphaLayer->save(&bufAlpha, "jpeg", 100);
     //qDebug() << alpha->size();
     if (!ok)
         qWarning() << (tr("Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)"));
@@ -2445,7 +2345,7 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
 
     out << titre;
     out << pos();
-    out << alpha->size();
+    out << m_alphaLayer->size();
     out << taillePj;
     out << baFondOriginal;
     out << baFond;

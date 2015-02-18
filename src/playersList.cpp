@@ -420,11 +420,7 @@ void PlayersList::setLocalPlayer(Player * player)
         addPlayer(player);
     }
 }
-/*if (G_client)
-{
-    sendOffLocalPlayerInformations();
-}
-sendOffFeatures(player);*/
+
 void PlayersList::cleanListButLocal()
 {
     beginResetModel();
