@@ -34,7 +34,9 @@
 #include "variablesGlobales.h"
 #include "NouveauPlanVide.h"
 #include "Image.h"
+#ifndef NULL_PLAYER
 #include "LecteurAudio.h"
+#endif
 #include "EditeurNotes.h"
 #include "WorkspaceAmeliore.h"
 
@@ -169,12 +171,12 @@ MainWindow::MainWindow()
         new ListeUtilisateurs(this);
         // Ajout de la liste d'utilisateurs a la fenetre principale
         addDockWidget(Qt::RightDockWidgetArea, G_listeUtilisateurs);
-
+#ifndef NULL_PLAYER
         // Creation du lecteur audio
         G_lecteurAudio = LecteurAudio::getInstance(this);
         // Ajout du lecteur audio a la fenetre principale
         addDockWidget(Qt::RightDockWidgetArea, G_lecteurAudio);
-
+#endif
         // Creation de la barre de menus et des menus
         creerMenu();
         // Association des actions des menus avec des fonctions
@@ -351,7 +353,9 @@ void MainWindow::creerMenu()
         // Ajout des actions d'affichage des fenetres d'evenement, utilisateurs et lecteur audio
         menuFenetre->addAction(dockLogUtil->toggleViewAction());
         menuFenetre->addAction(G_listeUtilisateurs->toggleViewAction());
+#ifndef NULL_PLAYER
         menuFenetre->addAction(G_lecteurAudio->toggleViewAction());
+#endif
         menuFenetre->addSeparator();
 
         // Ajout de l'action d'affichage de l'editeur de notes
@@ -2076,11 +2080,14 @@ void MainWindow::changementNatureUtilisateur()
         autoriserOuInterdireActions();
         // M.a.j de la barre d'outils
         barreOutils->autoriserOuInterdireCouleurs();
-        // M.a.j du lecteur audio (pour que le changement de taille se passe correctement, on enleve puis on remet le dockWidget)
+      
+#ifndef NULL_PLAYER
+	// M.a.j du lecteur audio (pour que le changement de taille se passe correctement, on enleve puis on remet le dockWidget)
         removeDockWidget(G_lecteurAudio);
         G_lecteurAudio->autoriserOuIntedireCommandes();
         addDockWidget(Qt::RightDockWidgetArea, G_lecteurAudio);
         G_lecteurAudio->show();
+#endif
 }
 
 /********************************************************************/
@@ -2521,8 +2528,12 @@ void MainWindow::sauvegarderFichierInitialisation()
         for (int i=0; i<16; i++)
                 fluxFichier << barreOutils->donnerCouleurPersonnelle(i);
         // ...le volume du lecteur audio
-        fluxFichier << G_lecteurAudio->volume();
-
+     
+#ifndef NULL_PLAYER
+	fluxFichier << G_lecteurAudio->volume();
+#else
+	fluxFichier << (qreal)100;
+#endif
         // Fermeture du fichier
         file.close();
 }

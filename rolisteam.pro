@@ -7,9 +7,9 @@ LANGUAGE = C++
 MOC_DIR = bin
 OBJECTS_DIR = bin
 QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
-CONFIG += HAVE_PHONON
+#CONFIG += HAVE_PHONON
 #CONFIG += HAVE_FMOD
-#CONFIG += HAVE_NULL
+CONFIG += HAVE_NULL
 HEADERS += src/AfficheurDisque.h \
            src/BarreOutils.h \
            src/Carte.h \
@@ -19,7 +19,6 @@ HEADERS += src/AfficheurDisque.h \
            src/DessinPerso.h \
            src/EditeurNotes.h \
            src/Image.h \
-           src/LecteurAudio.h \
            src/Liaison.h \
            src/ListeUtilisateurs.h \
            src/MainWindow.h \
@@ -34,7 +33,6 @@ HEADERS += src/AfficheurDisque.h \
            src/variablesGlobales.h \
            src/wincompat.h \
            src/WorkspaceAmeliore.h
-FORMS += src/LecteurAudio.ui
 SOURCES += src/AfficheurDisque.cpp \
            src/BarreOutils.cpp \
            src/Carte.cpp \
@@ -59,19 +57,21 @@ SOURCES += src/AfficheurDisque.cpp \
 HAVE_FMOD {
  DEFINES+= FMOD
  SOURCES +=  src/LecteurAudiowin.cpp
- HEADERS +=  src/fmod.h  src/fmod_errors.h
+ HEADERS +=  src/fmod.h  src/fmod_errors.h \
+           src/LecteurAudio.h
+ FORMS += src/LecteurAudio.ui
 }
-
-
 
 HAVE_PHONON {
  DEFINES+= PHONON
+ HEADERS += src/LecteurAudio.h
+ FORMS += src/LecteurAudio.ui
  SOURCES +=  src/LecteurAudiounix.cpp
  QT += phonon
 }
+
 HAVE_NULL {
-DEFINES+= NULL_PLAYER
-SOURCES +=  src/LecteurAudiounix.cpp
+ DEFINES+= NULL_PLAYER
 }
 
 RESOURCES += rolisteam.qrc

@@ -40,8 +40,9 @@
 
 #include "Carte.h"
 #include "types.h"
+#ifndef NULL_PLAYER
 #include "LecteurAudio.h"
-
+#endif
 class Liaison : public QThread
 {
 Q_OBJECT
@@ -79,8 +80,9 @@ private :
     bool receptionEnCours;		// Indique si un message est actuellement en cours de reception
     char *tampon;				// Tampon contenant le message en court de reconstitution
     quint32 restant;			// Taille des donnees restant a receptionner
+#ifndef NULL_PLAYER
     LecteurAudio* G_lecteurAudio;
-
+#endif
 private slots :
     void reception();
     void erreurDeConnexion(QAbstractSocket::SocketError);

@@ -46,8 +46,9 @@
 #include "Image.h"
 #include "EditeurNotes.h"
 #include "WorkspaceAmeliore.h"
+#ifndef NULL_PLAYER
 #include "LecteurAudio.h"
-
+#endif
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -128,7 +129,9 @@ private :
     QList <CarteFenetre *> listeCarteFenetre;
     QList <Image *> listeImage;
     QList <Tchat *> listeTchat;
+#ifndef NULL_PLAYER   
     LecteurAudio* G_lecteurAudio;
+#endif
     QAction *actionNouveauPlan;
     QAction *actionOuvrirImage;
     QAction *actionOuvrirPlan;

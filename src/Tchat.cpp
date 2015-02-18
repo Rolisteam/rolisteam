@@ -133,15 +133,15 @@ void Tchat::emettreTexte()
 			result = calculerJetDes(message, tirage, ok);
 			if(ok)
 			{
-                messageCorps = tr("avez obtenu  %1 √† votre jet de d√©s [%2]").arg(result).arg(tirage);
+                messageCorps = tr("avez obtenu  %1 ‡ votre jet de dÈs [%2]").arg(result).arg(tirage);
                 messageTitle = tr("Vous");
                 color = G_couleurJoueurLocal;
                 afficherMessage(messageTitle, color, messageCorps,DICE_MESSAGE);
-                message = QString(tr("a obtenu %1 √† son jet de d√©s [%2]").arg(result).arg(tirage));
+                message = QString(tr("a obtenu %1 ‡  son jet de dÈs [%2]").arg(result).arg(tirage));
 			}
 			else
             {
-                messageCorps = tr("!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de d√©s est public (utilisez & pour un jet priv√©).");
+                messageCorps = tr("!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de dÈs est public (utilisez & pour un jet privÈ).");
                 messageTitle = tr("Syntaxe");
                 color = Qt::red;
                 afficherMessage(messageTitle, color, messageCorps);
@@ -151,14 +151,14 @@ void Tchat::emettreTexte()
 			result = calculerJetDes(message, tirage, ok);
 			if (ok)
             {
-                messageCorps = tr("vous avez obtenu %1 √† votre jet de d√©s secret [%2]").arg(result).arg(tirage);
+                messageCorps = tr("vous avez obtenu %1 ‡ votre jet de dÈs secret [%2]").arg(result).arg(tirage);
                 messageTitle = tr("Jet secret :");
                 color = Qt::magenta;
                 afficherMessage(messageTitle, color,messageCorps ,DICE_MESSAGE);
             }
 			else
             {
-                messageCorps = tr("!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de d√©s est public (utilisez & pour un jet priv√©).");
+                messageCorps = tr("!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de dÈs est public (utilisez & pour un jet privÈ).");
                 messageTitle = tr("Syntaxe");
                 color = Qt::red;
                 afficherMessage(messageTitle, color, messageCorps);
@@ -174,16 +174,16 @@ void Tchat::emettreTexte()
                     result = calculerJetDesSR4(message, tirage, glitch, ok);
                     if (ok)
                     {
-                        messageCorps = tr("avez obtenu %1 succ√®s %2%3").arg(result).arg(glitch).arg(tirage);
+                        messageCorps = tr("avez obtenu %1 succËs %2%3").arg(result).arg(glitch).arg(tirage);
                         messageTitle = tr("Vous");
                         // On affiche le resultat du tirage dans la zone d'affichage
                         afficherMessage(messageTitle, G_couleurJoueurLocal,messageCorps ,DICE_MESSAGE);
                         // On cree un nouveau message a envoyer aux autres utilisateurs
-                        message = QString(tr("a obtenu %1 succ√®s %2%3").arg(result).arg(glitch).arg(tirage));
+                        message = QString(tr("a obtenu %1 succËs %2%3").arg(result).arg(glitch).arg(tirage));
                     }
                     else
                     {
-                        messageCorps = tr("*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les d√©tails du lancer, et S pour n'afficher que les r√©sultats.");
+                        messageCorps = tr("*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les d√©tails du lancer, et S pour n'afficher que les rÈsultats.");
                         messageTitle = tr("Syntaxe SR4");
                          color = Qt::red;
                         afficherMessage(messageTitle, color, messageCorps);

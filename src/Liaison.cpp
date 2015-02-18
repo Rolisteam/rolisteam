@@ -40,10 +40,11 @@ Liaison::Liaison(QTcpSocket *socket, QObject * parent)
     : QThread(parent)
 {
     // Initialisation des variables
-    G_lecteurAudio = LecteurAudio::getInstance();
     socketTcp = socket;
     receptionEnCours = false;
-
+#ifndef NULL_PLAYER
+    G_lecteurAudio = LecteurAudio::getInstance();
+#endif
     // Connexion de la fin du thread a la fonction de fermeture de l'application ou de suppression d'un client
     QObject::connect(this, SIGNAL(finished()), G_clientServeur, SLOT(finDeLiaison()));
     // Connexion du signal de reception
@@ -291,11 +292,11 @@ void Liaison::receptionMessageJoueur()
 
         // On affiche un message dans la fenetre de log utilisateur
         ecrireLogUtilisateur(util.nomJoueur + tr(" vient de rejoindre la partie"));
-
+#ifndef NULL_PLAYER
         // Si le nouvel utilisateur n'est pas un MJ, on emet l'etat actuel du lecteur audio
         if (!mj)
             G_lecteurAudio->emettreEtat(idJoueur);
-
+#endif
         // On emet tous les plans deja ouverts au nouveau client
         G_mainWindow->emettreTousLesPlans(idJoueur);
 
@@ -402,9 +403,11 @@ void Liaison::receptionMessageJoueur()
         p+=tailleId*sizeof(QChar);
         QString idJoueur(tableauId, tailleId);
 
+#ifndef NULL_PLAYER
         // Si l'utilisateur etait le MJ, on reinitialise le lecteur audio
         if (G_listeUtilisateurs->estUnMj(idJoueur))
             G_lecteurAudio->joueurNouveauFichier("");
+#endif
         // On supprime le joueur de la liste
         G_listeUtilisateurs->supprimerJoueur(idJoueur);
         // On supprime le tchat
@@ -1683,6 +1686,7 @@ void Liaison::receptionMessageDiscussion()
 void Liaison::receptionMessageMusique()
 {
     qDebug("Reception d'un message de categorie Musique");
+#ifndef NULL_PLAYER
     int p = 0;
 
     // Si l'ordinateur local est le serveur, on fait suivre la commande du lecteur audio aux autres clients
@@ -1746,6 +1750,7 @@ void Liaison::receptionMessageMusique()
         qWarning("Action musique inconnue (receptionMessageMusique - Liaison.cpp)");
         return;
     }
+#endif
 }
 
 /********************************************************************/

@@ -88,8 +88,9 @@
 		bool client;						// True si l'ordinateur local est un client, false s'il est le serveur
 		bool enAttente;						// True si la fenetre d'attente de connexion est affichee
 		QString tempNomJoueur;				// Contient le nom du joueur avant son ajout a la liste des utilisateurs
+#ifndef NULL_PLAYER
         LecteurAudio* G_lecteurAudio;
-		
+#endif		
 	private slots :
 		void programmePrincipal();
 		void demandeConnexion();

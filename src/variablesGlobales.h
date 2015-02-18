@@ -42,8 +42,9 @@
 #include "MainWindow.h"
 #include "Liaison.h"
 #include "ClientServeur.h"
+#ifndef NULL_PLAYER
 #include "LecteurAudio.h"
-
+#endif
 
 // Fonction globale, declaree dans MainWindow.cpp
 void ecrireLogUtilisateur(QString message);
