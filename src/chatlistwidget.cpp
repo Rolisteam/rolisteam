@@ -22,7 +22,7 @@
 #include "chatlistwidget.h"
 
 #include <QEvent>
-#include <QListView>
+
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
@@ -47,21 +47,25 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
 
     m_privateChatDialog = new PrivateChatDialog(this);
 
-    QListView * listView = new QListView(this);
-    listView->setModel(m_chatList);
-    listView->setIconSize(QSize(28,20));
-    connect(listView, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(editChat(const QModelIndex &)));
+    m_listView = new QListView(this);
+    BlinkingDecorationDelegate* blinkingDelegate = new BlinkingDecorationDelegate();
+    connect(blinkingDelegate,SIGNAL(refresh()),this,SLOT(updateAllUnreadChat()));
 
-    m_selectionModel = listView->selectionModel();
+    m_listView->setItemDelegateForColumn(0,blinkingDelegate);
+    m_listView->setModel(m_chatList);
+    m_listView->setIconSize(QSize(28,20));
+    connect(m_listView, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(editChat(const QModelIndex &)));
+
+    m_selectionModel = m_listView->selectionModel();
     connect(m_selectionModel, SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
             this, SLOT(selectAnotherChat(const QModelIndex &)));
 //    listView->installEventFilter(this);
 
     QPushButton * addChatButton = new QPushButton(tr("Add a chat"));
-    connect(addChatButton, SIGNAL(pressed()), this, SLOT(createPrivateChat()));
+    connect(addChatButton, SIGNAL(clicked()), this, SLOT(createPrivateChat()));
 
     m_deleteButton = new QPushButton(tr("Remove a chat"));
-    connect(m_deleteButton, SIGNAL(pressed()), this, SLOT(deleteSelectedChat()));
+    connect(m_deleteButton, SIGNAL(clicked()), this, SLOT(deleteSelectedChat()));
     m_deleteButton->setEnabled(false);
 
     QHBoxLayout * buttonLayout = new QHBoxLayout;
@@ -70,7 +74,7 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
 
     QVBoxLayout * layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 3, 3);
-    layout->addWidget(listView);
+    layout->addWidget(m_listView);
     layout->addLayout(buttonLayout);
 
     QWidget * mainWidget = new QWidget(this);
@@ -81,7 +85,17 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
 ChatListWidget::~ChatListWidget()
 {
 }
-
+void ChatListWidget::updateAllUnreadChat()
+{
+    for(int i=0;i<m_chatList->rowCount();++i)
+    {
+        QModelIndex index = m_chatList->index(i,0);
+        if(index.data(Qt::DecorationRole).value<QColor>().red()==255)
+        {
+            m_listView->update(index);
+        }
+    }
+}
 QMenu * ChatListWidget::chatMenu() const
 {
     return m_chatList->chatMenu();

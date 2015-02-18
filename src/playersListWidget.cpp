@@ -323,8 +323,8 @@ void PlayersListWidget::setUI()
             this, SLOT(selectAnotherPerson(const QModelIndex &)));
     connect(m_model, SIGNAL(rowsRemoved( const QModelIndex &, int, int)),
             playersListView, SLOT(clearSelection()));
-    connect(addPlayerButton, SIGNAL(pressed()), this, SLOT(createLocalCharacter()));
-    connect(m_delButton, SIGNAL(pressed()), this, SLOT(deleteSelected()));
+    connect(addPlayerButton, SIGNAL(clicked()), this, SLOT(createLocalCharacter()));
+    connect(m_delButton, SIGNAL(clicked()), this, SLOT(deleteSelected()));
 
     // Dialog
     m_personDialog = new PersonDialog(this);

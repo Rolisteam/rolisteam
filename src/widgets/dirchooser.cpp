@@ -25,7 +25,7 @@ DirChooser::DirChooser(QWidget * parent)
     setLayout(layout);
 
     // Connections
-    connect(button, SIGNAL(pressed()), this, SLOT(browse()));
+    connect(button, SIGNAL(clicked()), this, SLOT(browse()));
 
     // Misc
     button->setMaximumWidth(28);

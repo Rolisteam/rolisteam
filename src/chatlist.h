@@ -26,6 +26,8 @@
 #include <QMdiSubWindow>
 #include <QMap>
 #include <QMenu>
+#include <QStyledItemDelegate>
+#include <QTimer>
 
 class AbstractChat;
 class ChatWindow;
@@ -33,16 +35,40 @@ class MainWindow;
 class Player;
 class PrivateChat;
 class ReceiveEvent;
+
+class BlinkingDecorationDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+public:
+    BlinkingDecorationDelegate();
+
+    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+public slots:
+    void timeOutCount();
+
+signals:
+    void refresh();
+private:
+    QTimer* m_timer;
+    bool m_red;
+    QList<const QModelIndex> m_list;
+};
+
+
 /**
  * @brief The ChatList class
  */
-class ChatList
- : public QAbstractItemModel
+class ChatList : public QAbstractItemModel
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief ChatList
+     * @param mainWindow
+     */
     ChatList(MainWindow * mainWindow=0);
+
     ~ChatList();
 
     // implements QAbstractItemModel
@@ -60,8 +86,17 @@ public:
     QMenu * chatMenu();
 
     AbstractChat * chat(const QModelIndex & index);
-
+    /**
+     * @brief addLocalChat
+     * @param chat
+     * @return
+     */
     bool addLocalChat(PrivateChat * chat);
+    /**
+     * @brief delLocalChat
+     * @param index
+     * @return
+     */
     bool delLocalChat(const QModelIndex & index);
 
     // Event handler
@@ -80,14 +115,37 @@ private:
     ChatWindow * getChatWindowByUuid(const QString & uuid) const;
     ChatWindow * getChatWindowByIndex(const QModelIndex & index) const;
     QMdiSubWindow * getChatSubWindowByIndex(const QModelIndex & index) const;
-
+    /**
+     * @brief dispatchMessage
+     * @param event
+     */
     void dispatchMessage(ReceiveEvent * event);
+    /**
+     * @brief updatePrivateChat
+     * @param event
+     */
     void updatePrivateChat(ReceiveEvent * event);
+    /**
+     * @brief deletePrivateChat
+     * @param event
+     */
     void deletePrivateChat(ReceiveEvent * event);
 
 private slots:
+    /**
+     * @brief addPlayerChat
+     * @param player
+     */
     void addPlayerChat(Player * player);
+    /**
+     * @brief delPlayer
+     * @param player
+     */
     void delPlayer(Player * player);
+    /**
+     * @brief changeChatWindow
+     * @param chat
+     */
     void changeChatWindow(ChatWindow * chat);
 };
 

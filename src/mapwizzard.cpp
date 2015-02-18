@@ -13,7 +13,7 @@ MapWizzard::MapWizzard(QWidget *parent) :
     ui->setupUi(this);
 
     m_preferences = PreferencesManager::getInstance();
-    connect(ui->m_browserPush,SIGNAL(pressed()),this,SLOT(selectPath()));
+    connect(ui->m_browserPush,SIGNAL(clicked()),this,SLOT(selectPath()));
     QStringList data;
     data << tr("No Right") << tr("His character") << tr("All Permissions");
     ui->m_permissionSelector->addItems(data);

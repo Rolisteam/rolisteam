@@ -21,6 +21,7 @@
 #include "chatlist.h"
 
 #include <QAbstractItemModel>
+#include <QApplication>
 
 #include "chat.h"
 #include "networkmessagereader.h"
@@ -29,8 +30,38 @@
 #include "receiveevent.h"
 #include "chatwindow.h"
 #include "mainwindow.h"
+#include "preferencesmanager.h"
 
+BlinkingDecorationDelegate::BlinkingDecorationDelegate()
+{
+    m_timer = new QTimer(this);
+    m_timer->start(1000);
+    connect(m_timer,SIGNAL(timeout()),this,SIGNAL(refresh()));
+    connect(m_timer,SIGNAL(timeout()),this,SLOT(timeOutCount()));
+    m_red=true;
+}
 
+void BlinkingDecorationDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    QStyledItemDelegate::paint(painter,option,index);
+    QVariant var = index.data(Qt::DecorationRole);
+    QColor color = var.value<QColor>();
+    if((color.red()==255)&&(!m_red))
+    {
+       QStyleOptionViewItemV4 opt = option;
+       QStyledItemDelegate::initStyleOption(&opt, index);
+       QStyle* style = opt.widget ? opt.widget->style() : QApplication::style();
+
+       QRect rect = style->subElementRect( QStyle::SE_ItemViewItemDecoration ,&opt);
+
+       painter->fillRect(rect,QColor(Qt::darkGreen));
+
+    }
+}
+void BlinkingDecorationDelegate::timeOutCount()
+{
+    m_red=!m_red;
+}
 
 ChatList::ChatList(MainWindow * mainWindow)
     : QAbstractItemModel(NULL), m_chatWindowList(), m_chatMenu(),m_mainWindow(mainWindow)

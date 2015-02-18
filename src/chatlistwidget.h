@@ -26,6 +26,7 @@
 #include <QItemSelectionModel>
 #include <QMenu>
 #include <QPushButton>
+#include <QListView>
 
 class ChatList;
 class MainWindow;
@@ -37,28 +38,30 @@ class ChatListWidget : public QDockWidget
 {
     Q_OBJECT
 
-    public:
-        ChatListWidget(MainWindow * parent=0);
-        ~ChatListWidget();
+public:
+    ChatListWidget(MainWindow * parent=0);
+    ~ChatListWidget();
 
-        QMenu * chatMenu() const;
+    QMenu * chatMenu() const;
 
-        // for connect, QObject is enought
-        QObject * chatList() const;
+    // for connect, QObject is enought
+    QObject * chatList() const;
 
-        bool eventFilter(QObject * object, QEvent * event);
+    bool eventFilter(QObject * object, QEvent * event);
 
-    private:
-        ChatList * m_chatList;
-        PrivateChatDialog * m_privateChatDialog;
-        QItemSelectionModel * m_selectionModel;
-        QPushButton * m_deleteButton;
+private:
+    ChatList * m_chatList;
+    PrivateChatDialog * m_privateChatDialog;
+    QItemSelectionModel * m_selectionModel;
+    QPushButton * m_deleteButton;
+    QListView* m_listView;
 
-    private slots:
-        void createPrivateChat();
-        void selectAnotherChat(const QModelIndex & index);
-        void editChat(const QModelIndex & index);
-        void deleteSelectedChat();
+private slots:
+    void createPrivateChat();
+    void selectAnotherChat(const QModelIndex & index);
+    void editChat(const QModelIndex & index);
+    void deleteSelectedChat();
+    void updateAllUnreadChat();
 };
 
 #endif
