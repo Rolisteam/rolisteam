@@ -71,6 +71,11 @@ protected slots:
       * @brief calls when data must be read.
       */
     void readData();
+
+    void sendMessage();
+signals:
+    void messageInQueue();
+
 private:
     /**
       * @brief gathering connection parameter: hostname, port...

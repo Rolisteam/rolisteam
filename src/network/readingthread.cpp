@@ -18,5 +18,5 @@ void ReadingThread::run()
 }
 void ReadingThread::readDataFromSocket()
 {
-
+    qDebug() << "data =" << m_socket->readAll();
 }

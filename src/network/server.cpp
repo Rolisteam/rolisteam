@@ -45,7 +45,23 @@ void Server::incommingTcpConnection()
 }
 void Server::readDataFromClient()
 {
+
     QTcpSocket* tmp = static_cast<QTcpSocket*>(sender());
-    qDebug() << tmp->readAll();
+    /// @todo: base line of server forward messages to all other clients.
+
+
+    foreach(QTcpSocket* tmpclient, *m_list)
+    {
+        QByteArray array = tmp->readAll();
+        QDataStream stream(array);
+        QString name;
+        QString type;
+
+        stream >> type;
+        stream >> name;
+
+        qDebug() << "data readDataFromClient =" << type << name << array.size();
+        tmpclient->write(tmp->readAll());
+    }
 
 }

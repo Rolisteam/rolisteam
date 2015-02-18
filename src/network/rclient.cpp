@@ -33,6 +33,7 @@ RClient::RClient(QObject *parent)
     connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(errorOccurs()));
     connect(m_client,SIGNAL(connected()),this,SLOT(isConnected()));
     connect(m_client,SIGNAL(readyRead()),m_reading,SLOT(readDataFromSocket()));
+    connect(this,SIGNAL(messageInQueue()),this,SLOT(sendMessage()));
 }
 
 RClient::~RClient()
@@ -65,8 +66,15 @@ void RClient::addMessageToSendQueue(Message m)
     m_readingMutex.lock();
         m_message->append(m);
     m_readingMutex.unlock();
+    emit messageInQueue();
 }
-
+void RClient::sendMessage()
+{
+    while(!m_message->empty())
+    {
+        m_client->write(m_message->takeFirst());
+    }
+}
 
 
 
