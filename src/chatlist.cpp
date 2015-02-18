@@ -37,7 +37,7 @@ ChatList::ChatList(MainWindow * mainWindow)
     m_chatMenu.setTitle(tr("ChatWindows"));
 
     // main (public) chat
-    addChat(new ChatWindow(new PublicChat(), mainWindow));
+    addChatWindow(new ChatWindow(new PublicChat(), mainWindow));
 
     // Stay sync with g_playersList
     PlayersList & g_playersList = PlayersList::instance();
@@ -61,6 +61,7 @@ ChatList::ChatList(MainWindow * mainWindow)
     ReceiveEvent::registerReceiver(NetMsg::ChatCategory, NetMsg::DiceMessageAction, this);
     ReceiveEvent::registerReceiver(NetMsg::ChatCategory, NetMsg::EmoteMessageAction, this);
     ReceiveEvent::registerReceiver(NetMsg::ChatCategory, NetMsg::UpdateChatAction, this);
+    ReceiveEvent::registerReceiver(NetMsg::ChatCategory, NetMsg::DelChatAction, this);
 }
 
 ChatList::~ChatList()
@@ -167,6 +168,14 @@ QMenu * ChatList::chatMenu()
     return &m_chatMenu;
 }
 
+AbstractChat * ChatList::chat(const QModelIndex & index)
+{
+    ChatWindow * chatw = chatWindow(index);
+    if (chatw == NULL)
+        return NULL;
+    return chatw->chat();
+}
+
 bool ChatList::addLocalChat(PrivateChat * chat)
 {
     if (!chat->belongsTo(PlayersList::instance().localPlayer()))
@@ -174,11 +183,28 @@ bool ChatList::addLocalChat(PrivateChat * chat)
 
     if (!G_client)
         m_privateChatMap.insert(chat->identifier(), chat);
-    addChat(new ChatWindow(chat));
+    addChatWindow(new ChatWindow(chat));
     return true;
 }
 
-void ChatList::addChat(ChatWindow * chatw)
+bool ChatList::delLocalChat(const QModelIndex & index)
+{
+    ChatWindow * chatw =  chatWindow(index);
+    PrivateChat * chat = qobject_cast<PrivateChat *>(chatw->chat());
+    if (chat == NULL || !chat->belongsTo(PlayersList::instance().localPlayer()))
+        return false;
+    
+    chat->sendDel();
+    delChatWindow(chatw);
+    if (!G_client)
+    {
+        m_privateChatMap.remove(chat->identifier());
+        delete chat;
+    }
+    return true;
+}
+
+void ChatList::addChatWindow(ChatWindow * chatw)
 {
     int listSize = m_chatWindowList.size();
     beginInsertRows(QModelIndex(), listSize, listSize);
@@ -235,7 +261,7 @@ void ChatList::addPlayerChat(Player * player, MainWindow * mainWindow)
     ChatWindow * chatw = chatWindow(player->uuid());
     if (chatw == NULL)
     {
-        addChat(new ChatWindow(new PlayerChat(player), mainWindow));
+        addChatWindow(new ChatWindow(new PlayerChat(player), mainWindow));
     }
 }
 
@@ -273,6 +299,9 @@ bool ChatList::event(QEvent * event)
                     return true;
                 case NetMsg::UpdateChatAction:
                     updatePrivateChat(netEvent);
+                    return true;
+                case NetMsg::DelChatAction:
+                    deletePrivateChat(netEvent);
                     return true;
                 default:
                     qWarning("Unknown chat action %d", action);
@@ -373,10 +402,39 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
 
     else if (newChat->includeLocalPlayer())
     {
-        addChat(new ChatWindow(newChat));
+        addChatWindow(new ChatWindow(newChat));
     }
 
 
     else if (G_client)
         delete newChat;
+}
+
+void ChatList::deletePrivateChat(ReceiveEvent * event)
+{
+    QString uuid = event->data().string8();
+
+    if (!G_client)
+    {
+        if (!m_privateChatMap.contains(uuid))
+        {
+            qWarning("Can't delete a unknown chat %s", qPrintable(uuid));
+            return;
+        }
+        
+        PrivateChat * chat = m_privateChatMap.value(uuid);
+        if (!chat->sameLink(event->link()))
+        {
+            qWarning("Not alloawed to delete chat %s", qPrintable(uuid));
+            return;
+        }
+
+        chat->sendDel();
+        chat->deleteLater();
+        m_privateChatMap.remove(uuid);
+    }
+
+    ChatWindow * chatw = chatWindow(uuid);
+    if (chatw != NULL)
+        delChatWindow(chatw);
 }

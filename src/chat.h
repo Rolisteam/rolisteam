@@ -103,6 +103,8 @@ class PrivateChat : public AbstractChat
         void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
         bool everyPlayerHasFeature(const QString & feature) const;
 
+        bool sameLink(Liaison * link);
+
         bool includeLocalPlayer() const;
         QSet<Player *> players() const;
 

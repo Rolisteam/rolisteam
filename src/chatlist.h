@@ -26,6 +26,7 @@
 #include <QMap>
 #include <QMenu>
 
+class AbstractChat;
 class ChatWindow;
 class MainWindow;
 class Player;
@@ -55,7 +56,10 @@ class ChatList
 
         QMenu * chatMenu();
 
+        AbstractChat * chat(const QModelIndex & index);
+
         bool addLocalChat(PrivateChat * chat);
+        bool delLocalChat(const QModelIndex & index);
 
         // Event handler
         virtual bool event(QEvent * event);
@@ -65,7 +69,7 @@ class ChatList
         QMap<QString, PrivateChat *> m_privateChatMap;
         QMenu m_chatMenu;
 
-        void addChat(ChatWindow * chat);
+        void addChatWindow(ChatWindow * chat);
         void delChatWindow(ChatWindow * chat);
 
         ChatWindow * chatWindow(const QString & uuid) const;
@@ -73,6 +77,7 @@ class ChatList
 
         void dispatchMessage(ReceiveEvent * event);
         void updatePrivateChat(ReceiveEvent * event);
+        void deletePrivateChat(ReceiveEvent * event);
 
     private slots:
         void addPlayerChat(Player * player, MainWindow * mainWindow = NULL);

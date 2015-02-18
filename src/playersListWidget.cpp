@@ -286,10 +286,11 @@ void PlayersListWidget::setUI()
     playersListView->setIconSize(QSize(28,20));
 
     // Add PJ button
-    QPushButton * addPlayerButton = new QPushButton(tr("Ajouter un PJ"), centralWidget);
+    QString what = (PlayersList::instance().localPlayer()->isGM() ? tr("PNJ") : tr("PJ"));
+    QPushButton * addPlayerButton = new QPushButton(tr("Ajouter un %1").arg(what), centralWidget);
 
     // Del PJ buttun
-    m_delButton = new QPushButton(tr("Supprimer un PJ"), centralWidget);
+    m_delButton = new QPushButton(tr("Supprimer le %1").arg(what), centralWidget);
     m_delButton->setEnabled(false);
 
     // Button layout

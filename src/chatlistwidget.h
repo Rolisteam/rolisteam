@@ -23,8 +23,9 @@
 #define CHATLISTWIDGET_H
 
 #include <QDockWidget>
-#include <QMenu>
 #include <QItemSelectionModel>
+#include <QMenu>
+#include <QPushButton>
 
 class ChatList;
 class MainWindow;
@@ -49,9 +50,12 @@ class ChatListWidget : public QDockWidget
         ChatList * m_chatList;
         PrivateChatDialog * m_privateChatDialog;
         QItemSelectionModel * m_selectionModel;
+        QPushButton * m_deleteButton;
 
     private slots:
-        void createPrivateChat(); // to del
+        void createPrivateChat();
+        void selectAnotherChat(const QModelIndex & index);
+        void deleteSelectedChat();
 };
 
 #endif

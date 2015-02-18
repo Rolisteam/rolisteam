@@ -23,12 +23,14 @@
 
 #include <QEvent>
 #include <QListView>
-#include <QPushButton>
+#include <QHBoxLayout>
 #include <QVBoxLayout>
 
 #include "chat.h"
 #include "chatlist.h"
 #include "MainWindow.h"
+// Just for Chat::belongsTo(...) TODO: del it
+#include "playersList.h"
 #include "privatechatdialog.h"
 
 
@@ -49,15 +51,25 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
     listView->setModel(m_chatList);
     listView->setIconSize(QSize(28,20));
     m_selectionModel = listView->selectionModel();
-    listView->installEventFilter(this);
+//    listView->installEventFilter(this);
 
     QPushButton * addChatButton = new QPushButton(tr("Ajouter un tchat"));
     connect(addChatButton, SIGNAL(pressed()), this, SLOT(createPrivateChat()));
 
+    m_deleteButton = new QPushButton(tr("Supprimer le tchat"));
+    connect(m_deleteButton, SIGNAL(pressed()), this, SLOT(deleteSelectedChat()));
+    m_deleteButton->setEnabled(false);
+    connect(m_selectionModel, SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
+            this, SLOT(selectAnotherChat(const QModelIndex &)));
+
+    QHBoxLayout * buttonLayout = new QHBoxLayout;
+    buttonLayout->addWidget(addChatButton);
+    buttonLayout->addWidget(m_deleteButton);
+
     QVBoxLayout * layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 3, 3);
     layout->addWidget(listView);
-    layout->addWidget(addChatButton);
+    layout->addLayout(buttonLayout);
 
     QWidget * mainWidget = new QWidget(this);
     mainWidget->setLayout(layout);
@@ -78,12 +90,16 @@ QObject * ChatListWidget::chatList() const
     return m_chatList;
 }
 
+// This function is never called now.
 bool ChatListWidget::eventFilter(QObject * object, QEvent * event)
 {
     Q_UNUSED(object);
 
     if (event->type() == QEvent::FocusOut)
+    {
         m_selectionModel->reset();
+        m_deleteButton->setEnabled(false);
+    }
     return false;
 }
 
@@ -96,4 +112,19 @@ void ChatListWidget::createPrivateChat()
     }
     else
         delete newChat;
+}
+
+void ChatListWidget::selectAnotherChat(const QModelIndex & index)
+{
+    AbstractChat * chat = m_chatList->chat(index);
+    m_deleteButton->setEnabled(
+            chat != NULL &&
+            chat->inherits("PrivateChat") &&
+            chat->belongsTo(PlayersList::instance().localPlayer())
+            );
+}
+
+void ChatListWidget::deleteSelectedChat()
+{
+    m_chatList->delLocalChat(m_selectionModel->currentIndex());
 }
