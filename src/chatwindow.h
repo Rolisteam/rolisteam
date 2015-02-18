@@ -33,6 +33,7 @@
 #include "networkmessage.h"
 #include "preferencesmanager.h"
 #include "colorbutton.h"
+#include "chatbrowser.h"
 
 class AbstractChat;
 class MainWindow;
@@ -73,8 +74,8 @@ public slots:
 
 protected :
     void init(MainWindow * parent);
+ //void contextMenuEvent ( QContextMenuEvent * event );
 
-    void contextMenuEvent ( QContextMenuEvent * event );
     void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent *event);
 
@@ -97,12 +98,12 @@ private :
 
     PreferencesManager* m_preferences;
 
-    QTextBrowser * zoneAffichage;         // Zone de texte ou s'affichent les messages
+    ChatBrowser * m_displayZone;         // Zone de texte ou s'affichent les messages
     QComboBox * m_selectPersonComboBox;
     TextEditAmeliore * zoneEdition;    // Zone de texte ou l'utilisateur peut ecrire
     QAction * m_toggleViewAction;
-    QColor m_bgColor;
-    QAction* m_bgColorAct;
+
+
 
     int calculerJetDes(QString &message, QString & tirage, bool &ok);
     int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok);
@@ -113,8 +114,6 @@ private slots :
     void downSelectPerson();
     void scheduleUpdateChatMembers();
     void updateChatMembers();
-    void backGrounChanged();
-    void showContextMenu(QPoint);
 };
 
 #endif

@@ -93,7 +93,8 @@ HEADERS += src/AfficheurDisque.h \
            src/WorkspaceAmeliore.h \
     src/connectionretrydialog.h \
     src/mainwindow.h \
-    src/preferencesmanager.h
+    src/preferencesmanager.h \
+    src/chatbrowser.h
 
 SOURCES += src/AfficheurDisque.cpp \
            src/BarreOutils.cpp \
@@ -134,7 +135,8 @@ SOURCES += src/AfficheurDisque.cpp \
            src/WorkspaceAmeliore.cpp \
     src/connectionretrydialog.cpp \
     src/mainwindow.cpp \
-    src/preferencesmanager.cpp
+    src/preferencesmanager.cpp \
+    src/chatbrowser.cpp
 #end source
 
 
