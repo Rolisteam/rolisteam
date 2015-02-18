@@ -568,7 +568,7 @@ mainWindow = new MainWindow;
 // Mise a jour du titre de la fenetre principale
 mainWindow->setWindowTitle(NOM_APPLICATION);
 // Ouverture de la fenetre principale en mode plein ecran
-mainWindow->showMaximized();
+mainWindow->showNormal();
 }
 
 /********************************************************************/	
