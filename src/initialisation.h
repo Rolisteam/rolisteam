@@ -26,6 +26,8 @@
 
 #include <QColor>
 
+
+#define COLOR_TAB_SIZE 16
 /**
  * @brief Hold session parameters
  * @note
@@ -34,42 +36,87 @@
  */
 class Initialisation
 {
-    public:
-        /**
-         * @brief Constructor
-         * Get last session parameters from file or set defaults.
-         */
-        Initialisation();
-
-        /**
-         * @brief Destructor
-         * Write parameters to file.
-         */
-        ~Initialisation();
+private:
+    /**
+     * @brief Constructor
+     * Get last session parameters from file or set defaults.
+     */
+    Initialisation();
+public:
 
 
+    /**
+     * @brief Destructor
+     * Write parameters to file.
+     */
+    ~Initialisation();
 
-        QString nomUtilisateur;        // Nom de l'utilisateur tel qu'indique dans la fenetre de connexion
-        QColor couleurUtilisateur;     // Couleur choisie par l'utilisateur
-        bool joueur;                   // True si l'utilisateur est joueur, false s'il est MJ
-        bool client;                   // True si l'utilisateur est client, false s'il est serveur
-        QString ipServeur;             // Adresse IP du serveur (renseigne par un utilisateur client)
-        quint16 portServeur;           // Port du serveur (renseigne par un utilisateur client)
-        QString portClient;            // Port de connexion pour les clients (renseigne par un utilisateur serveur)
-        QString dossierMusiquesMj;     // Dossier de chargement des musiques pour le MJ
-        QString dossierMusiquesJoueur; // Dossier de chargement des musiques pour les joueurs
-        QString dossierImages;         // Dossier de chargement des images
-        QString dossierPlans;          // Dossier de chargement et de sauvegarde des plans
-        QString dossierScenarii;       // Dossier de chargement et de sauvegarde des scenarii
-        QString dossierNotes;          // Dossier de chargement des notes
-        QString dossierTchats;         // Dossier de sauvegarde des tchats
-        QColor couleurPersonnelle[16]; // Couleurs personnelles definies par l'utilisateur
-        int niveauVolume;              // Volume du lecteur audio
+    void saveConfiguration();
+    QString getUserName() const;
+    QColor getUserColor() const;
+    bool isPlayer() const;
+    bool isClient() const;
+    QString getIpAddress() const;
+    quint16 getServerPort() const;
+    QString getClientPort() const;
+    QString getMusicDirectoryGM() const;
+    QString getMusicDirectoryPlayer() const;
+    QString getImageDirectory() const;
+    QString getMapDirectory() const;
+    QString getScenarioDirectory() const;
+    QString getMinutesDirectory() const;
+    QString getChatDirectory() const;
+    QColor getCustomColorAt(int) const;
+    int getVolumeLevel() const;
 
-    private:
-        QString m_confdir;
-        QString m_filename;
-        QString m_version;
+    void setUserName(QString);
+    void setUserColor(QColor);
+    void setPlayer(bool);
+    void setClient(bool);
+    void setIpAddress(QString);
+    void setServerPort(quint16);
+    void setClientPort(QString);
+    void setMusicDirectoryGM(QString);
+    void setMusicDirectoryPlayer(QString);
+    void setImageDirectory(QString);
+    void setMapDirectory(QString);
+    void setScenarioDirectory(QString);
+    void setMinutesDirectory(QString);
+    void setChatDirectory(QString);
+    void setCustomColorAt(int,QColor);
+    void setVolumeLevel(int);
+
+    QString getApplicationName() const;
+
+    static Initialisation* getInstance();
+
+
+    void createDirectories();
+
+private:
+    static Initialisation* m_singleton;
+    QString m_confdir;
+    QString m_filename;
+    QString m_version;
+    QString m_applicationName; /// store application name.
+
+
+    QString m_userName;
+    QColor m_userColor;
+    bool m_player;
+    bool m_client;
+    QString m_ipAddress;
+    quint16 m_serverPort;
+    QString m_clientPort;
+    QString m_musicDirectoryGM;
+    QString m_musicDirectoryPlayer;
+    QString m_imageDirectory;
+    QString m_mapDirectory;
+    QString m_scenarioDirectory;
+    QString m_minutesDirectory;
+    QString m_chatDirectory;
+    QColor m_customColor[COLOR_TAB_SIZE];
+    int m_volumeLevel;
 };
 
 #endif

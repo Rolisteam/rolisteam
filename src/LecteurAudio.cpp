@@ -39,6 +39,7 @@ LecteurAudio::LecteurAudio(QWidget *parent)
 : QDockWidget(parent)
 {
     setObjectName("LecteurAudio");
+    m_init = Initialisation::getInstance();
     m_endFile= false;
     m_currentPlayingMode = NEXT;
     m_formerItemFile =NULL;
@@ -60,9 +61,9 @@ LecteurAudio::LecteurAudio(QWidget *parent)
         connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreEtat(Liaison *)));
     }
     connect(m_mediaObject,SIGNAL(finished()),this,SLOT(onfinished()));
-
+     *path = Phonon::createPath(m_mediaObject, audioOutput);
     setupUi();
-    *path = Phonon::createPath(m_mediaObject, audioOutput);
+
     if(G_joueur)
         playerWidget();
     setWidget(widgetPrincipal);
@@ -381,12 +382,12 @@ void LecteurAudio::updatePlayingMode()
 void LecteurAudio::addFiles()
 {
 
-        QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Add song"), G_initialisation.dossierMusiquesMj, tr("Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)"));
+        QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Add song"), m_init->getMusicDirectoryGM(), tr("Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)"));
 
         if (listeFichiers.isEmpty())
                 return;
         QFileInfo fileinfo(listeFichiers[0]);
-        G_initialisation.dossierMusiquesMj = fileinfo.absolutePath();
+        m_init->setMusicDirectoryGM(fileinfo.absolutePath());
 
         while (!listeFichiers.isEmpty())
         {
@@ -596,7 +597,7 @@ void LecteurAudio::pselectNewFile(QString file)
     {
 
 
-        QString path(tr("%1/%2").arg(G_initialisation.dossierMusiquesMj).arg(m_currentFile));
+        QString path(tr("%1/%2").arg(m_init->getMusicDirectoryGM()).arg(m_currentFile));
 
         QFileInfo fileInfo(path);
         if (!fileInfo.exists())
@@ -634,8 +635,10 @@ void LecteurAudio::pseek(quint32 position)
 
 void LecteurAudio::pChangeDirectory()
 {
-        G_initialisation.dossierMusiquesMj = QFileDialog::getExistingDirectory(0 , tr("Select the songs directory"), G_initialisation.dossierMusiquesMj,
-        QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
+    QString tmp = QFileDialog::getExistingDirectory(0 , tr("Select the songs directory"), m_init->getMusicDirectoryPlayer(),
+            QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
+        m_init->setMusicDirectoryPlayer(tmp);
+
 }
 void LecteurAudio::selectionHasChanged()
 {

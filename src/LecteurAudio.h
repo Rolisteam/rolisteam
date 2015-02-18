@@ -54,6 +54,8 @@
 #include <path.h>
 #endif
 
+#include "initialisation.h"
+
 class Liaison;
     
 class LecteurAudio : public QDockWidget
@@ -147,7 +149,7 @@ private :
     bool m_endFile;
 
 
-
+    Initialisation* m_init;
 private slots :
     /**
     * @brief received the time

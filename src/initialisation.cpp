@@ -25,13 +25,15 @@
 #include "initialisation.h"
 
 #include <QDir>
+#include <QApplication>
 
-#include "constantesGlobales.h"
+Initialisation* Initialisation::m_singleton = NULL;
 
 Initialisation::Initialisation()
 {
-    m_confdir = QString("%1/.%2").arg(QDir::homePath(), QString(NOM_APPLICATION));
-    m_filename = QString("%1/%2.ini").arg(m_confdir, QString(NOM_APPLICATION));
+    m_applicationName = "rolisteam";//qApp->arguments().at(0);
+    m_confdir = QString("%1/.%2").arg(QDir::homePath(), m_applicationName);
+    m_filename = QString("%1/%2.ini").arg(m_confdir, m_applicationName);
 
     QFile file(m_filename);
     m_version = QObject::tr("Unknown");
@@ -53,42 +55,42 @@ Initialisation::Initialisation()
         // This field is ignored actually.
         fluxFichier >> m_version;
         // ...le nom de l'utilisateur
-        fluxFichier >> nomUtilisateur;
+        fluxFichier >> m_userName;
         // ...la couleur de l'utilisateur
-        fluxFichier >> couleurUtilisateur;
+        fluxFichier >> m_userColor;
         // ...la nature de l'utilisateur (joueur ou MJ)
-        fluxFichier >> joueur;
+        fluxFichier >> m_player;
         // ...la nature de l'ordinateur local
-        fluxFichier >> client;
+        fluxFichier >> m_client;
         // ...l'adresse IP du serveur
-        fluxFichier >> ipServeur;
+        fluxFichier >> m_ipAddress;
         // ...le port du serveur
-        fluxFichier >> portServeur;
-        if (portServeur < 1024)
-            portServeur = 6660;
+        fluxFichier >> m_serverPort;
+        if (m_serverPort < 1024)
+            m_serverPort = 6660;
         // ...le port de connexion pour les clients
-        fluxFichier >> portClient;
-        if (portClient.toInt() < 1024)
-            portClient = QString("6660");
+        fluxFichier >> m_clientPort;
+        if (m_clientPort.toInt() < 1024)
+            m_clientPort = QString("6660");
         // ...le chemin pour les musiques
-        fluxFichier >> dossierMusiquesMj;
+        fluxFichier >> m_musicDirectoryGM;
         // ...le chemin pour les musiques des joueurs
-        fluxFichier >> dossierMusiquesJoueur;
+        fluxFichier >> m_musicDirectoryPlayer;
         // ...le chemin pour les images
-        fluxFichier >> dossierImages;
+        fluxFichier >> m_imageDirectory;
         // ...le chemin pour les plans
-        fluxFichier >> dossierPlans;
+        fluxFichier >> m_mapDirectory;
         // ...le chemin pour les scenarii
-        fluxFichier >> dossierScenarii;
+        fluxFichier >> m_scenarioDirectory;
         // ...le chemin pour les notes
-        fluxFichier >> dossierNotes;
+        fluxFichier >> m_minutesDirectory;
         // ...le chemin pour les tchats
-        fluxFichier >> dossierTchats;
+        fluxFichier >> m_chatDirectory;
         // ...les couleurs personnelles
-        for (int i=0; i<16; i++)
-            fluxFichier >> couleurPersonnelle[i];
+        for (int i=0; i<COLOR_TAB_SIZE; i++)
+            fluxFichier >> m_customColor[i];
         // ...le volume du lecteur audio
-        fluxFichier >> niveauVolume;
+        fluxFichier >> m_volumeLevel;
         // Fermeture du fichier
         file.close();
     }
@@ -97,32 +99,36 @@ Initialisation::Initialisation()
     else
     {
 
-        nomUtilisateur        = QString();
-        couleurUtilisateur    = QColor();
-        couleurUtilisateur.setHsv(qrand()%360, qrand()%200 + 56, qrand()%190 + 50);
-        joueur                = true;
-        client                = true;
-        ipServeur             = QString();
-        portServeur           = 6660;
-        portClient            = QString().setNum(portServeur);
-        dossierMusiquesMj     = m_confdir + "/audio";
-        dossierMusiquesJoueur = dossierMusiquesMj;
-        dossierImages         = m_confdir + "/images";
-        dossierPlans          = m_confdir + "/plans";
-        dossierScenarii       = m_confdir + "/scenarii";
-        dossierNotes          = m_confdir + "/notes";
-        dossierTchats         = m_confdir + "/tchat";
-        for (int i=0; i<16; i++)
-            couleurPersonnelle[i] = QColor(i*16, i*16, i*16);
-        niveauVolume          = 100;
-    }
-}
+        m_userName        = QString();
+        m_userColor    = QColor();
+        m_userColor.setHsv(qrand()%360, qrand()%200 + 56, qrand()%190 + 50);
+        m_player                = true;
+        m_client                = true;
+        m_ipAddress             = QString();
+        m_serverPort           = 6660;
+        m_clientPort            = QString().setNum(m_serverPort);
+        m_musicDirectoryGM     = m_confdir + QObject::tr("/audio");
+        m_musicDirectoryPlayer = m_musicDirectoryGM;
+        m_imageDirectory         = m_confdir + QObject::tr("/images");
+        m_mapDirectory          = m_confdir + QObject::tr("/maps");
+        m_scenarioDirectory       = m_confdir + QObject::tr("/scenario");
+        m_minutesDirectory          = m_confdir + QObject::tr("/minutes");
+        m_chatDirectory         = m_confdir + QObject::tr("/chat");
+        for (int i=0; i<COLOR_TAB_SIZE; i++)
+            m_customColor[i] = QColor(i*COLOR_TAB_SIZE, i*COLOR_TAB_SIZE, i*COLOR_TAB_SIZE);
+        m_volumeLevel          = 100;
 
+    }
+    createDirectories();
+}
 Initialisation::~Initialisation()
 {
-    QDir  dir(m_confdir);
-    if (!dir.exists())
-        dir.mkpath(m_confdir);
+
+}
+
+void Initialisation::saveConfiguration()
+{
+    createDirectories();
     QFile file(m_filename);
 
     // Ouverture du fichier en ecriture seule
@@ -134,43 +140,223 @@ Initialisation::~Initialisation()
 
     // On cree un flux de donnees rattache au fichier
     QDataStream fluxFichier(&file);
-    // On sauvegarde la version de l'application
-    // We force the actual version string.
-    fluxFichier << m_version;
-    // ...le nom de l'utilisateur
-    fluxFichier << nomUtilisateur;
-    // ...la couleur de l'utilisateur
-    fluxFichier << couleurUtilisateur;
-    // ...la nature de l'utilisateur (joueur ou MJ)
-    fluxFichier << joueur;
-    // ...la nature de l'ordinateur local
-    fluxFichier << client;
-    // ...l'adresse IP du serveur
-    fluxFichier << ipServeur;
-    // ...le port du serveur
-    fluxFichier << portServeur;
-    // ...le port de connexion pour les clients
-    fluxFichier << portClient;
-    // ...le chemin pour les musiques
-    fluxFichier << dossierMusiquesMj;
-    // ...le chemin pour les musiques des joueurs
-    fluxFichier << dossierMusiquesJoueur;
-    // ...le chemin pour les images
-    fluxFichier << dossierImages;
-    // ...le chemin pour les plans
-    fluxFichier << dossierPlans;
-    // ...le chemin pour les scenarii
-    fluxFichier << dossierScenarii;
-    // ...le chemin pour les notes
-    fluxFichier << dossierNotes;
-    // ...le chemin pour les tchats
-    fluxFichier << dossierTchats;
-    // ...les couleurs personnelles
-    for (int i=0; i<16; i++)
-            fluxFichier << couleurPersonnelle[i];
-    // ...le volume du lecteur audio
-	fluxFichier << niveauVolume;
 
-    // Fermeture du fichier
+    fluxFichier << m_version;
+    fluxFichier << m_userName;
+    fluxFichier << m_userColor;
+    fluxFichier << m_player;
+    fluxFichier << m_client;
+    fluxFichier << m_ipAddress;
+    fluxFichier << m_serverPort;
+    fluxFichier << m_clientPort;
+    fluxFichier << m_musicDirectoryGM;
+    fluxFichier << m_musicDirectoryPlayer;
+    fluxFichier << m_imageDirectory;
+    fluxFichier << m_mapDirectory;
+    fluxFichier << m_scenarioDirectory;
+    fluxFichier << m_minutesDirectory;
+    fluxFichier << m_chatDirectory;
+    for (int i=0; i<COLOR_TAB_SIZE; i++)
+            fluxFichier << m_customColor[i];
+    fluxFichier << m_volumeLevel;
     file.close();
 }   
+Initialisation* Initialisation::getInstance()
+{
+    if(m_singleton==NULL)
+        m_singleton = new Initialisation();
+
+    return m_singleton;
+}
+QString Initialisation::getApplicationName() const
+{
+    return m_applicationName;
+}
+
+void Initialisation::createDirectories()
+{
+    QDir  dir(m_confdir);
+    if (!dir.exists())
+        dir.mkpath(m_confdir);
+
+    dir.setPath(m_musicDirectoryGM);
+    if (!dir.exists())
+        dir.mkpath(m_musicDirectoryGM);
+
+     dir.setPath(m_musicDirectoryPlayer);
+    if (!dir.exists())
+        dir.mkpath(m_musicDirectoryPlayer);
+
+     dir.setPath(m_imageDirectory);
+    if (!dir.exists())
+        dir.mkpath(m_imageDirectory);
+
+      dir.setPath(m_mapDirectory);
+    if (!dir.exists())
+        dir.mkpath(m_mapDirectory);
+
+     dir.setPath(m_scenarioDirectory);
+    if (!dir.exists())
+        dir.mkpath(m_scenarioDirectory);
+
+     dir.setPath(m_minutesDirectory);
+    if (!dir.exists())
+        dir.mkpath(m_minutesDirectory);
+
+
+     dir.setPath(m_chatDirectory);
+    if (!dir.exists())
+        dir.mkpath(m_chatDirectory);
+
+}
+
+
+
+QString Initialisation::getUserName() const
+{
+return m_userName;
+}
+
+QColor Initialisation::getUserColor() const
+{
+    return m_userColor;
+}
+
+bool Initialisation::isPlayer() const
+{
+return m_player;
+}
+
+bool Initialisation::isClient() const
+{
+    return m_client;
+}
+
+QString Initialisation::getIpAddress() const
+{
+return m_ipAddress;
+}
+
+quint16 Initialisation::getServerPort() const
+{
+return m_serverPort;
+}
+
+QString Initialisation::getClientPort() const
+{
+    return m_clientPort;
+}
+
+QString Initialisation::getMusicDirectoryGM() const
+{
+return m_musicDirectoryGM;
+}
+
+QString Initialisation::getMusicDirectoryPlayer() const
+{
+ return m_musicDirectoryPlayer;
+}
+
+QString Initialisation::getImageDirectory() const
+{
+return m_imageDirectory;
+}
+
+QString Initialisation::getMapDirectory() const
+{
+return m_mapDirectory;
+}
+
+QString Initialisation::getScenarioDirectory() const
+{
+return m_scenarioDirectory;
+}
+
+QString Initialisation::getMinutesDirectory() const
+{
+    return m_minutesDirectory;
+}
+
+QString Initialisation::getChatDirectory() const
+{
+    return m_chatDirectory;
+}
+
+QColor Initialisation::getCustomColorAt(int i) const
+{
+    Q_ASSERT(i < COLOR_TAB_SIZE);
+    return m_customColor[i];
+
+}
+
+int Initialisation::getVolumeLevel() const
+{
+    return m_volumeLevel;
+}
+
+void Initialisation::setUserName(QString value)
+{
+    m_userName = value;
+}
+
+void Initialisation::setUserColor(QColor  value)
+{
+    m_userColor = value;
+}
+void Initialisation::setPlayer(bool value)
+{
+    m_player = value;
+}
+void Initialisation::setClient(bool value)
+{
+    m_client = value;
+}
+void Initialisation::setIpAddress(QString value)
+{
+    m_ipAddress = value;
+}
+void Initialisation::setServerPort(quint16 value)
+{
+    m_serverPort = value;
+}
+void Initialisation::setClientPort(QString value)
+{
+    m_clientPort = value;
+}
+void Initialisation::setMusicDirectoryGM(QString value)
+{
+    m_musicDirectoryGM = value;
+}
+void Initialisation::setMusicDirectoryPlayer(QString value)
+{
+    m_musicDirectoryPlayer = value;
+}
+void Initialisation::setImageDirectory(QString value)
+{
+m_imageDirectory = value;
+}
+void Initialisation::setMapDirectory(QString value)
+{
+    m_mapDirectory = value;
+}
+void Initialisation::setScenarioDirectory(QString value)
+{
+    m_scenarioDirectory = value;
+}
+void Initialisation::setMinutesDirectory(QString value)
+{
+    m_minutesDirectory = value;
+}
+void Initialisation::setChatDirectory(QString value)
+{
+    m_chatDirectory = value;
+}
+void Initialisation::setCustomColorAt(int index,QColor value)
+{
+    Q_ASSERT(index < COLOR_TAB_SIZE);
+    m_customColor[index] = value;
+}
+void Initialisation::setVolumeLevel(int  value)
+{
+    m_volumeLevel = value;
+}

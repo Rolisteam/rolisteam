@@ -33,19 +33,12 @@
 #include "constantesGlobales.h"
 #include "variablesGlobales.h"
 
-// Inclusion de la librairie FMOD (librairie audio)
-#ifdef WIN32
-        #define DLL_EXPORTS
-        #include "fmod.h"
-#endif
-
 
 /*************************************/
 /* Variables globales (we love them) */
 /*************************************/
 
-// Contient tous les parametres extraits du fichier d'initialisation
-Initialisation  G_initialisation;
+
 
 // Identifiant du joueur en local sur la machine
 QString G_idJoueurLocal;
@@ -62,7 +55,9 @@ int main(int argc, char *argv[])
 {
     // Creation de l'application
     QApplication app(argc, argv);
-    app.setApplicationName(NOM_APPLICATION);
+    Initialisation* init= Initialisation::getInstance();
+
+    app.setApplicationName(init->getApplicationName());
     QString version = QObject::tr("Unknown");
     #ifdef VERSION_MINOR
         #ifdef VERSION_MAJOR
@@ -83,10 +78,8 @@ int main(int argc, char *argv[])
     app.installTranslator(&qtTranslator);
 
     // Ressources
-    QResource::registerResource(QString(NOM_APPLICATION) + ".rcc");
-    #ifdef WIN32
-        app.setWindowIcon(QIcon(":/resources/icons/" + QString(NOM_APPLICATION) + ".png"));
-    #endif
+    QResource::registerResource(init->getApplicationName() + ".rcc");
+
     QTranslator rolisteamTranslator;
     rolisteamTranslator.load(":/traduction/rolisteam_" + locale);
     app.installTranslator(&rolisteamTranslator);
@@ -107,9 +100,12 @@ int main(int argc, char *argv[])
     // Create the main window
     G_mainWindow = new MainWindow;
 
-    G_mainWindow->setWindowTitle(NOM_APPLICATION);
+    G_mainWindow->setWindowTitle(init->getApplicationName());
     G_mainWindow->checkUpdate();
     // We have a connection, we launch the main window.
     G_mainWindow->showNormal();
     return app.exec();
+
+    delete init;
+
 } 

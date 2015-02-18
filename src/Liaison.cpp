@@ -1249,7 +1249,8 @@ void Liaison::receptionMessageImage()
         G_mainWindow->ajouterImage(imageFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Receiving picture: %1").arg(titre.left(titre.size()-QString(tr(" (Image)")).size())));
+        qDebug() << titre;
+        ecrireLogUtilisateur(tr("Receiving picture: %1").arg(titre.left(titre.size()-QString(tr(" (Picture)")).size())));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;

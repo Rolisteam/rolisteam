@@ -25,6 +25,7 @@
 #include <QDialog>
 #include <QLineEdit>
 
+#include "initialisation.h"
 /**
  * @brief A LineEdit with a button to choose a directory.
  * @todo Make it private or in its own file.
@@ -33,18 +34,18 @@ class DirChooser : public QWidget
 {
     Q_OBJECT
 
-    public:
-        DirChooser(QWidget * parent = NULL);
-        ~DirChooser();
+public:
+    DirChooser(QWidget * parent = NULL);
+    ~DirChooser();
 
-        void setDirName(const QString & dirname);
-        QString dirName() const;
+    void setDirName(const QString & dirname);
+    QString dirName() const;
 
-    private slots:
-        void browse();
+private slots:
+    void browse();
 
-    private:
-        QLineEdit   * m_lineEdit;
+private:
+    QLineEdit   * m_lineEdit;
 };
 
 /**
@@ -54,27 +55,28 @@ class PreferencesDialog : public QDialog
 {
     Q_OBJECT
 
-    public:
-        PreferencesDialog(QWidget * parent = NULL, Qt::WindowFlags f = 0);
-        ~PreferencesDialog();
+public:
+    PreferencesDialog(QWidget * parent = NULL, Qt::WindowFlags f = 0);
+    ~PreferencesDialog();
 
-    public slots:
-        void show();
+public slots:
+    void show();
 
-    private slots:
-        void load();
-        void save() const;
+private slots:
+    void load();
+    void save() const;
 
-    private:
+private:
 #ifndef NULL_PLAYER
-        DirChooser * m_gmMusicDir;
-        DirChooser * m_playerMusicDir;
+    DirChooser * m_gmMusicDir;
+    DirChooser * m_playerMusicDir;
 #endif
-        DirChooser * m_picturesDir;
-        DirChooser * m_mapsDir;
-        DirChooser * m_sessionsDir;
-        DirChooser * m_notesDir;
-        DirChooser * m_chatsDir;
+    DirChooser * m_picturesDir;
+    DirChooser * m_mapsDir;
+    DirChooser * m_sessionsDir;
+    DirChooser * m_notesDir;
+    DirChooser * m_chatsDir;
+    Initialisation* m_init;
 };
 
 #endif

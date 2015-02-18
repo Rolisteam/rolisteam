@@ -32,6 +32,8 @@
 #include <QDialog>
 
 #include "ui_timerdialog.h"
+#include "initialisation.h"
+
 namespace Ui {
     class Dialog;
 }
@@ -95,7 +97,7 @@ private :
     QString m_address;
     QTimer* m_reconnect;
     Player * m_localPlayer;
-
+    Initialisation* m_init;
 
     TimerDialog* m_timerdialog;
 

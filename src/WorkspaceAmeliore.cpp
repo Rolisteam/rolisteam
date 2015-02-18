@@ -26,38 +26,23 @@
 #include "constantesGlobales.h"
 
 //#include <QTextStream>
+
+#define GRAY_SCALE 191
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/	
 WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
 : QWorkspace(parent)
 {
-  /*  QTextStream out(stderr,QIODevice::WriteOnly);
-    out << " Si l'utilisateur a ajoute une image de fond, on la charge " <<QString(NOM_APPLICATION);*/
-        // Nom du fichier image utilisateur, qui peut etre utilise pour le fond
-	#ifdef WIN32
-		QString fichierImage = QString(NOM_APPLICATION) + ".bmp";
-        #else
-               QString fichierImage = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".bmp";
-	#endif
-
-	// Si l'utilisateur a ajoute une image de fond, on la charge
+    m_init = Initialisation::getInstance();
+    QString fichierImage = QDir::homePath() + "/." + m_init->getApplicationName() + "/" + m_init->getApplicationName() + ".bmp";
 
     if (!QFile::exists(fichierImage))
     {
         fichierImage = ":/resources/icones/fond workspace macos.bmp";
     }
-    //		imageFond = new QImage(fichierImage);
-	// Sinon on utilise le fond par defaut
-    /*else
-	{
-               // #ifdef WIN32
-                    //    imageFond = new QImage(":/resources/icones/fond workspace win32.bmp");
-              //  #else
-                     //   imageFond = new QImage(":/resources/icones/fond workspace macos.bmp");
-                //#endif
-    }*/
-    m_color.setRgb(191,191,191);
+
+    m_color.setRgb(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE);
     m_background.setColor(m_color);
     setBackground(m_background);
 

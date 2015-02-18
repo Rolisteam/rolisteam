@@ -31,7 +31,7 @@
 #include <QTextEdit>
 
 #include "networkmessage.h"
-
+#include "initialisation.h"
 class AbstractChat;
 class MainWindow;
 class Player;
@@ -95,7 +95,7 @@ private :
     QComboBox * m_selectPersonComboBox;
     TextEditAmeliore * zoneEdition;    // Zone de texte ou l'utilisateur peut ecrire
     QAction * m_toggleViewAction;
-
+    Initialisation* m_init;
     int calculerJetDes(QString &message, QString & tirage, bool &ok);
     int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok);
 

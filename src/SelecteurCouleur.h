@@ -31,54 +31,56 @@
 #ifndef SELECTEUR_COULEUR_H
 #define SELECTEUR_COULEUR_H
 
-	#include <QWidget>
-	#include <QFrame>
-	#include <QColor>
-	#include <QLabel>
+#include <QWidget>
+#include <QFrame>
+#include <QColor>
+#include <QLabel>
 
-	#include "types.h"
+
+#include "initialisation.h"
+#include "types.h"
 
 class QHBoxLayout;
 class QGridLayout;
 class QVBoxLayout;
 class SelecteurCouleur : public QWidget
 {
-     Q_OBJECT
+    Q_OBJECT
 public:
-        SelecteurCouleur(QWidget *parent = 0);
-~SelecteurCouleur();
-        void changeCouleurActuelle(QColor couleur);
-        void majCouleursPersonnelles();
-        void autoriserOuInterdireCouleurs();
-        QColor donnerCouleurPersonnelle(int numero);
+    SelecteurCouleur(QWidget *parent = 0);
+    ~SelecteurCouleur();
+    void changeCouleurActuelle(QColor couleur);
+    void majCouleursPersonnelles();
+    void autoriserOuInterdireCouleurs();
+    QColor donnerCouleurPersonnelle(int numero);
 
 private:
-        void clicUtilisateur(QPoint positionSouris, bool move = false);
+    void clicUtilisateur(QPoint positionSouris, bool move = false);
 
-        QLabel *couleurActuelle;
-        QLabel *couleurEfface;
-        QLabel *couleurMasque;
-        QLabel *couleurDemasque;
-        QWidget *couleurPredefinie[48];
-        QWidget *couleurPersonnelle[16];
-        QWidget *separateur1;
-        QWidget *separateur2;
-        QPixmap *efface_pix;
-        QPixmap *masque_pix;
-        QPixmap *demasque_pix;
-QHBoxLayout *couleursSpeciales;
-QGridLayout *grillePerso;
-QVBoxLayout *selecteurLayout;
-QGridLayout *grillePredef;
-        bool boutonEnfonce;
-
+    QLabel *couleurActuelle;
+    QLabel *couleurEfface;
+    QLabel *couleurMasque;
+    QLabel *couleurDemasque;
+    QWidget *couleurPredefinie[48];
+    QWidget *couleurPersonnelle[16];
+    QWidget *separateur1;
+    QWidget *separateur2;
+    QPixmap *efface_pix;
+    QPixmap *masque_pix;
+    QPixmap *demasque_pix;
+    QHBoxLayout *couleursSpeciales;
+    QGridLayout *grillePerso;
+    QVBoxLayout *selecteurLayout;
+    QGridLayout *grillePredef;
+    bool boutonEnfonce;
+    Initialisation* m_init;
 protected:
-        void mousePressEvent(QMouseEvent *event);
-        void mouseMoveEvent(QMouseEvent *event);
-        void mouseReleaseEvent(QMouseEvent *event);
-        #ifdef MACOS
-                void mouseDoubleClickEvent (QMouseEvent *event);
-        #endif
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+#ifdef MACOS
+    void mouseDoubleClickEvent (QMouseEvent *event);
+#endif
 };
 
 #endif

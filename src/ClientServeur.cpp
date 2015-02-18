@@ -64,13 +64,18 @@ void emettre(char *donnees, quint32 taille, Liaison *sauf)
 
 static void synchronizeInitialisation(const ConnectionConfigDialog & dialog)
 {
-    G_initialisation.nomUtilisateur     = dialog.getName();
-    G_initialisation.couleurUtilisateur = dialog.getColor();
-    G_initialisation.joueur             = G_joueur             = !dialog.isGM();
-    G_initialisation.client             = G_client             = !dialog.isServer();
-    G_initialisation.ipServeur          = dialog.getHost();
-    G_initialisation.portServeur        = dialog.getPort();
-    G_initialisation.portClient.setNum(G_initialisation.portServeur);
+    Initialisation* init = Initialisation::getInstance();
+    init->setUserName(dialog.getName());
+    init->setUserColor(dialog.getColor());
+    init->setPlayer(!dialog.isGM());
+    init->setClient(!dialog.isServer());
+
+    G_joueur= !dialog.isGM();
+    G_client= !dialog.isServer();
+    init->setIpAddress(dialog.getHost());
+    init->setServerPort(dialog.getPort());
+    init->setClientPort(QString().setNum(dialog.getPort()));
+
 }
 /*****************
  * TimerDialog *
@@ -114,6 +119,7 @@ void TimerDialog::timeOut()
 ClientServeur::ClientServeur()
     : QObject(), m_server(NULL),m_liaisonToServer(NULL)
 {
+    m_init = Initialisation::getInstance();
     m_reconnect = new QTimer(this);
     m_timerdialog = new TimerDialog(10,tr("Connection fails, retry in %1s."),true);
     connect(m_reconnect, SIGNAL(timeout()), this, SLOT(startConnection()));
@@ -128,9 +134,7 @@ ClientServeur::~ClientServeur()
 bool ClientServeur::configAndConnect()
 {
     ConnectionConfigDialog configDialog(
-        G_initialisation.nomUtilisateur, G_initialisation.couleurUtilisateur, !G_initialisation.joueur,
-        G_initialisation.ipServeur, G_initialisation.portServeur, !G_initialisation.client
-    );
+        m_init->getUserName(),m_init->getUserColor(),!m_init->isPlayer(),m_init->getIpAddress(), m_init->getServerPort(), !m_init->isClient());
 
 
     QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
@@ -213,6 +217,7 @@ bool ClientServeur::startConnection()
 {
     ConnectionWaitDialog waitDialog;
     QTcpSocket * socket;
+
     socket = waitDialog.connectTo(m_address, m_port);
     qDebug()<< "connection retry";
     //QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
@@ -235,8 +240,7 @@ bool ClientServeur::startConnection()
     }
     else
     {
-    //    errorDialog.setInformativeText(waitDialog.getError());
-     //   errorDialog.exec();
+        sleep(2);
         return false;
     }
 }
@@ -251,10 +255,8 @@ void ClientServeur::emettreDonnees(char *donnees, quint32 taille, Liaison *sauf)
 void ClientServeur::ajouterLiaison(Liaison *liaison)
 {
     liaisons.append(liaison);
-    connect(this, SIGNAL(emissionDonnees(char *, quint32, Liaison *)),
-            liaison, SLOT(emissionDonnees(char *, quint32, Liaison *)));
-    connect(liaison, SIGNAL(disconnected(Liaison *)),
-            this, SLOT(finDeLiaison(Liaison *)));
+    connect(this, SIGNAL(emissionDonnees(char *, quint32, Liaison *)),liaison, SLOT(emissionDonnees(char *, quint32, Liaison *)));
+    connect(liaison, SIGNAL(disconnected(Liaison *)),this, SLOT(finDeLiaison(Liaison *)));
     emit linkAdded(liaison);
 }
 
@@ -278,8 +280,9 @@ void ClientServeur::finDeLiaison(Liaison * link)
     // Si l'ordinateur local est un client
     if (G_client)
     {
-        // On quitte l'application    
+        //On quitte l'application
         //G_mainWindow->quitterApplication(true);
+        ecrireLogUtilisateur(tr("Receiving picture: %1"));
         if(link!=m_liaisonToServer)
             qDebug() << "link is NOT the link to the server ";
         else

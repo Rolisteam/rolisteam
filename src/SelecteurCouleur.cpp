@@ -44,7 +44,8 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 {
 	// L'utilisateur n'a pas encore clique sur le selecteur de couleur
 	boutonEnfonce = false;
-	
+    m_init = Initialisation::getInstance();
+
 	// Initialisation des couleurs de base
 	int rouge[48] = {255,255,128,0,128,0,255,255, 255,255,128,0,0,0,128,255, 128,255,0,0,0,128,128,255, 128,255,0,0,0,0,128,128, 64,128,0,0,0,0,64,64, 0,128,128,128,64,192,64,255};
 	int vert[48] = {128,255,255,255,255,128,128,128, 0,255,255,255,255,128,128,0, 64,128,255,128,64,128,0,0, 0,128,128,128,0,0,0,0, 0,64,64,64,0,0,0,0, 0,128,128,128,128,192,64,255};
@@ -128,7 +129,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
                 couleurPersonnelle[i]->setToolTip(tr("Custom Color %1 ").arg(i+1));
 
 		// Mise a jour des couleurs personnelles de QColorDialog
-        QColorDialog::setCustomColor(i, G_initialisation.couleurPersonnelle[i].rgb());
+        QColorDialog::setCustomColor(i, m_init->getCustomColorAt(i).rgb());
 
 		// Ajout du widget au layout
 		grillePerso->addWidget(couleurPersonnelle[i], y, x);

@@ -40,7 +40,8 @@ DirChooser::DirChooser(QWidget * parent)
 {
     // Childrens
     m_lineEdit = new QLineEdit(this);
-    QPushButton * button = new QPushButton(QString("..."), this);
+    m_lineEdit->setText(QDir::homePath());
+    QPushButton * button = new QPushButton(tr("..."), this);
 
     // Layout
     QHBoxLayout * layout = new QHBoxLayout;
@@ -59,7 +60,7 @@ DirChooser::DirChooser(QWidget * parent)
 
 DirChooser::~DirChooser()
 {
-    // QObject should do it right for us allready.
+    // QObject should do it right for us already.
 }
 
 void DirChooser::setDirName(const QString & dirName)
@@ -92,6 +93,8 @@ void DirChooser::browse()
 PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
  : QDialog(parent, f)
 {
+
+    m_init = Initialisation::getInstance();
     // Children
 #ifndef NULL_PLAYER
     m_gmMusicDir     = new DirChooser;
@@ -131,7 +134,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
     // Misc
     setSizeGripEnabled(true);
-    setWindowTitle(QString("%1 - %2").arg(QString(NOM_APPLICATION),tr("Preferences")));
+    setWindowTitle(QString("%1 - %2").arg(m_init->getApplicationName(),tr("Preferences")));
     setWindowModality(Qt::ApplicationModal);
 }
 
@@ -149,25 +152,25 @@ void PreferencesDialog::show()
 void PreferencesDialog::load()
 {
 #ifndef NULL_PLAYER
-    m_gmMusicDir->setDirName(G_initialisation.dossierMusiquesMj);
-    m_playerMusicDir->setDirName(G_initialisation.dossierMusiquesJoueur);
+    m_gmMusicDir->setDirName(m_init->getMusicDirectoryGM());
+    m_playerMusicDir->setDirName(m_init->getMusicDirectoryPlayer());
 #endif
-    m_picturesDir->setDirName(G_initialisation.dossierImages);
-    m_mapsDir->setDirName(G_initialisation.dossierPlans);
-    m_sessionsDir->setDirName(G_initialisation.dossierScenarii);
-    m_notesDir->setDirName(G_initialisation.dossierNotes);
-    m_chatsDir->setDirName(G_initialisation.dossierTchats);
+    m_picturesDir->setDirName(m_init->getImageDirectory());
+    m_mapsDir->setDirName(m_init->getMapDirectory());
+    m_sessionsDir->setDirName(m_init->getScenarioDirectory());
+    m_notesDir->setDirName(m_init->getMinutesDirectory());
+    m_chatsDir->setDirName(m_init->getChatDirectory());
 }
 
 void PreferencesDialog::save() const
 {
 #ifndef NULL_PLAYER
-    G_initialisation.dossierMusiquesMj = m_gmMusicDir->dirName();
-    G_initialisation.dossierMusiquesJoueur = m_playerMusicDir->dirName();
+    m_init->setMusicDirectoryGM(m_gmMusicDir->dirName());
+    m_init->setMusicDirectoryPlayer(m_playerMusicDir->dirName());
 #endif
-    G_initialisation.dossierImages = m_picturesDir->dirName();
-    G_initialisation.dossierPlans = m_mapsDir->dirName();
-    G_initialisation.dossierScenarii = m_sessionsDir->dirName();
-    G_initialisation.dossierNotes = m_notesDir->dirName();
-    G_initialisation.dossierTchats = m_chatsDir->dirName();
+    m_init->setImageDirectory(m_picturesDir->dirName());
+    m_init->setMapDirectory(m_mapsDir->dirName());
+    m_init->setScenarioDirectory(m_sessionsDir->dirName());
+    m_init->setMinutesDirectory(m_notesDir->dirName());
+    m_init->setChatDirectory(m_chatsDir->dirName());
 }

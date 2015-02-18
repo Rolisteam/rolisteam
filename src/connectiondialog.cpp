@@ -166,24 +166,18 @@ void ConnectionConfigDialog::setUI()
  * ConnectionWaitDialog *
  ************************/
 
-// QTextCodec not initialized now. We have to wait before using tr().
-const char * ConnectionWaitDialog::s_message[4] =
-    {
-        "Non connecté",
-        "Résolution de l'adresse",
-        "Connexion à l'hôte",        
-        "Connecté"
-    };
+
 
 ConnectionWaitDialog::ConnectionWaitDialog()
     : QDialog(), m_socket(NULL)
 {
+
+    m_msg << tr("Not connected") << tr("Resolving address") << tr("Connection to Host") <<  tr("Connected");
     setUI();
 }
 
 ConnectionWaitDialog::~ConnectionWaitDialog()
 {
-    // Qt should delete m_label
     delete m_socket;
 }
 
@@ -206,7 +200,7 @@ QTcpSocket * ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
     }
 
     m_socket->connectToHost(host, port);
-    if (exec() == QDialog::Accepted)
+    if (m_socket->waitForConnected(1000)) //exec() == QDialog::Accepted)
     {
         QTcpSocket * tmp_socket = m_socket;
         m_socket->disconnect(this);
@@ -221,7 +215,7 @@ QTcpSocket * ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
 
 void ConnectionWaitDialog::setUI()
 {
-    m_label = new QLabel(tr(s_message[0]));
+    m_label = new QLabel(m_msg[0]);
 
     QProgressBar * progress = new QProgressBar();
     progress->setMinimum(0);
@@ -242,7 +236,7 @@ void ConnectionWaitDialog::setUI()
 
 void ConnectionWaitDialog::changeState(QAbstractSocket::SocketState socketState)
 {
-    m_label->setText(tr(s_message[socketState]));
+    m_label->setText(m_msg[socketState]);
     if (socketState == QAbstractSocket::ConnectedState)
     {
         accept();

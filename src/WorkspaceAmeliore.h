@@ -35,6 +35,9 @@
 #include <QPaintEvent>
 #include <QWorkspace>
 
+
+#include "initialisation.h"
+
 class WorkspaceAmeliore : public QWorkspace
 {
 public :
@@ -47,12 +50,12 @@ protected :
     //void paintEvent(QPaintEvent *event);
     void resizeEvent ( QResizeEvent * event );
 private:
-QBrush m_background;
-QColor m_color;
+    QBrush m_background;
+    QColor m_color;
 
-QPixmap* m_backgroundPicture;
-
-QPixmap* m_variableSizeBackground;
+    QPixmap* m_backgroundPicture;
+    Initialisation* m_init;
+    QPixmap* m_variableSizeBackground;
 };
 
 #endif

@@ -33,6 +33,8 @@
 
 #include "NouveauPlanVide.h"
 #include "DessinPerso.h"
+#include "initialisation.h"
+
 
 #ifndef NULL_PLAYER
 #include "LecteurAudio.h"
@@ -137,7 +139,7 @@ private :
     QList <CarteFenetre *> listeCarteFenetre;
     QList <Image *> listeImage;
 #ifndef NULL_PLAYER   
-    LecteurAudio* G_lecteurAudio;
+    LecteurAudio* m_audioPlayer;
 #endif
 
     PreferencesDialog * m_preferencesDialog;
@@ -174,6 +176,7 @@ private :
 
     QString m_version;
     QDockWidget* m_dockLogUtil;
+    Initialisation* m_init;
 private slots :
     void changementNatureUtilisateur();
     void afficherNomsPj(bool afficher);

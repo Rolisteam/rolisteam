@@ -117,7 +117,7 @@ class ConnectionWaitDialog
         QTcpSocket * m_socket;
         QString      m_error;
 
-        static const char * s_message[4];
+        QStringList m_msg;
 
         void setUI();
 
