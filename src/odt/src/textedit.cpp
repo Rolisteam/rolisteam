@@ -173,7 +173,10 @@ TextEdit::TextEdit(QWidget *parent)
 void TextEdit::closeEvent(QCloseEvent *e)
 {
     if (maybeSave())
+    {
         e->accept();
+        emit closed(false);
+    }
     else
         e->ignore();
 }

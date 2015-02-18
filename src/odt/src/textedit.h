@@ -70,6 +70,11 @@ class TextEdit : public QMainWindow
 public:
     TextEdit(QWidget *parent = 0);
 
+
+
+signals:
+    void closed(bool);
+
 protected:
     virtual void closeEvent(QCloseEvent *e);
 

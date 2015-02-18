@@ -122,6 +122,9 @@ protected :
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
 
+    QPoint mapToScale(const QPoint &);
+    QPoint mapToNormal(const QPoint & p);
+
 private :
     void p_init();
     bool ajouterAlpha(QImage *source, QImage *m_alphaLayer, QImage *destination, const QRect &rect = QRect());
@@ -151,8 +154,15 @@ private :
     QImage *effaceAlpha;                // image contenant la couche alpha permettant d'effacer le fond a l'aide du fond original
     bool boutonGaucheEnfonce;            // bouton gauche de la souris enfonce ou pas?
     bool boutonDroitEnfonce;            // bouton droit de la souris enfonce ou pas?
-    QPoint pointOrigine;                // point vise au moment du clic gauche
-    QPoint pointSouris;                    // point actuellement vise par la souris
+
+
+    QPoint m_originePoint;
+    QPoint m_mousePoint;
+
+    QPoint m_origineScalePoint;
+    QPoint m_scalePoint;
+    QRect  m_refreshZone;
+
     QPoint diffSourisDessinPerso;        // difference entre le coin sup gauche du PNJ selectionne (pnjSelectionne) et la position de la souris au moment du clic
     QRect zoneOrigine;                    // zone a rafraichir au 1er clic de la souris, puis zone precedemment rafraichie
     QRect zoneNouvelle;                    // zone a rafraichir au prochain affichage
@@ -167,6 +177,8 @@ private :
     NouveauPlanVide::PermissionMode m_currentMode;
     BarreOutils::Tool m_currentTool;
     Player* m_localPlayer;
+    qreal m_scaleY;
+    qreal m_scaleX;
 
     bool m_hasPermissionMode;
 

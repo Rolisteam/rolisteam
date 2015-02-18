@@ -172,5 +172,8 @@ QT += core \
 # Version
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=3
 
+unix{
+LIBS += -lz
+}
 FORMS += \
     src/connectionretrydialog.ui

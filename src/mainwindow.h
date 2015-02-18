@@ -341,7 +341,7 @@ private :
 
     QAction *actionCascade;
     QAction *actionTuiles;
-    QAction *actionEditeurNotes;
+    QAction *m_noteEditorAct;
 
     QAction *actionAideLogiciel;
     QAction *actionAPropos;

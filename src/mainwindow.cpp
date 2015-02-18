@@ -236,6 +236,7 @@ void MainWindow::setupUi()
 
     // Creation de l'editeur de notes
     m_noteEditor= new TextEdit(this);
+    connect(m_noteEditor,SIGNAL(closed(bool)),m_noteEditorAct,SLOT(setChecked(bool)));
     workspace->addWindow(m_noteEditor);
     m_noteEditor->setWindowTitle(tr("Minutes Editor"));
     m_noteEditor->hide();
@@ -375,8 +376,8 @@ void MainWindow::creerMenu()
 
 
         // Choix des actions selectionnees au depart
-        actionAfficherNomsPj        ->setChecked(true);
-        actionAfficherNomsPnj   ->setChecked(true);
+        actionAfficherNomsPj->setChecked(true);
+        actionAfficherNomsPnj->setChecked(true);
         actionAfficherNumerosPnj->setChecked(true);
 
         // Creation du menu Fenetre
@@ -401,11 +402,11 @@ void MainWindow::creerMenu()
         menuFenetre->addSeparator();
 
         // Ajout de l'action d'affichage de l'editeur de notes
-        actionEditeurNotes = menuFenetre->addAction(tr("Minutes Editor"));
-        actionEditeurNotes->setCheckable(true);
-        actionEditeurNotes->setChecked(false);
+        m_noteEditorAct = menuFenetre->addAction(tr("Minutes Editor"));
+        m_noteEditorAct->setCheckable(true);
+        m_noteEditorAct->setChecked(false);
         // Connexion de l'action avec l'affichage/masquage de l'editeur de notes
-        connect(actionEditeurNotes, SIGNAL(triggered(bool)), this, SLOT(afficherEditeurNotes(bool)));
+        connect(m_noteEditorAct, SIGNAL(triggered(bool)), this, SLOT(afficherEditeurNotes(bool)));
 
         // Ajout du sous-menu Tchat
         menuFenetre->addMenu(m_chatListWidget->chatMenu());
@@ -1450,7 +1451,7 @@ void MainWindow::afficherEditeurNotes(bool afficher, bool cocherAction)
     m_noteEditor->setVisible(afficher);
     if (cocherAction)
     {
-            actionEditeurNotes->setChecked(afficher);
+            m_noteEditorAct->setChecked(afficher);
     }
 
     /* // Affichage de l'editeur de notes

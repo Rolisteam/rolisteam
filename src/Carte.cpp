@@ -78,15 +78,15 @@ void Carte::p_init()
 
     setAutoFillBackground(true);
     QPalette pal = palette();
-    pal.setColor(QPalette::Window, Qt::darkMagenta);
+    //pal.setColor(QPalette::Window, Qt::darkMagenta);
     setPalette(pal);
     
     // variable Initialisation
     taillePj = 12;
     boutonGaucheEnfonce = false;
     boutonDroitEnfonce = false;
-    pointSouris = QPoint(0,0);
-    pointOrigine = QPoint(0,0);
+    m_mousePoint = QPoint(0,0);
+    m_originePoint = QPoint(0,0);
     diffSourisDessinPerso = QPoint(0,0);
     pnjSelectionne = 0;
     dernierPnjSelectionne = 0;
@@ -155,7 +155,7 @@ void Carte::paintEvent(QPaintEvent *event)
 
 
     //painter.drawImage(event->rect(), *fondAlpha, event->rect());
-    qDebug()<< event->rect() << rect() << fondAlpha->rect();
+    qDebug()<<"zoneNouvelle" << m_refreshZone;
     painter.drawImage(rect(), *fondAlpha, fondAlpha->rect());
 
 
@@ -169,11 +169,36 @@ void Carte::paintEvent(QPaintEvent *event)
         
 
     dessiner(painter);
+
+    painter.setBrush(Qt::black);
+    painter.fillRect(m_refreshZone,Qt::black);
 }
+QPoint Carte::mapToScale(const QPoint & p)
+{
+    QPoint tmp = p;
+    m_scaleX=(qreal)fondAlpha->rect().width()/rect().width();
+    m_scaleY=(qreal)fondAlpha->rect().height()/rect().height();
+    tmp.setX(tmp.x()*m_scaleX);
+    tmp.setY(tmp.y()*m_scaleY);
 
 
+    qDebug() << m_scaleX << m_scaleY << tmp << p;
+
+    return tmp;
+}
+QPoint Carte::mapToNormal(const QPoint & p)
+{
+    QPoint tmp = p;
+    m_origineScalePoint = m_scalePoint;
+    m_scalePoint = p;
+    tmp.setX(tmp.x()/m_scaleX);
+    tmp.setY(tmp.y()/m_scaleY);
+    return tmp;
+}
 void Carte::mousePressEvent(QMouseEvent *event)
 {
+    QPoint pos = mapToScale(event->pos());
+
 
     if ((event->button() == Qt::LeftButton) && !boutonGaucheEnfonce && !boutonDroitEnfonce)
     {
@@ -187,7 +212,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
             {
                 if((!G_joueur)||(NouveauPlanVide::PC_ALL==m_currentMode)||(NouveauPlanVide::PC_MOVE == m_currentMode))
                 {
-                    actionPnjBoutonEnfonce(event->pos());
+                    actionPnjBoutonEnfonce(pos);
                 }
             }
 
@@ -198,7 +223,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
                 if((!G_joueur)||
                   (((m_currentMode == NouveauPlanVide::PC_ALL))))
                 {
-                    emit commencerDeplacementCarteFenetre(mapToGlobal(event->pos()));
+                    emit commencerDeplacementCarteFenetre(mapToGlobal(pos));
                 }
 
         }
@@ -208,7 +233,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
                 if(((!G_joueur))||
                   (((m_currentMode == NouveauPlanVide::PC_ALL))))
                 {
-                        pointOrigine = pointSouris = event->pos();
+                        m_originePoint = m_mousePoint = pos;
                         zoneOrigine = zoneNouvelle = zoneARafraichir();
                         listePointsCrayon.clear();
                         zoneGlobaleCrayon = zoneNouvelle;
@@ -221,7 +246,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
     else if ((event->button() == Qt::RightButton) && !boutonGaucheEnfonce && !boutonDroitEnfonce)
     {
 
-        QPoint positionSouris = event->pos();
+        QPoint positionSouris = pos;
         
         if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj)
         {
@@ -315,7 +340,8 @@ void Carte::mousePressEvent(QMouseEvent *event)
 
 void Carte::mouseReleaseEvent(QMouseEvent *event)
 {
-    // Si le bouton gauche est relache
+      QPoint pos = mapToScale(event->pos());
+
     if (event->button() == Qt::LeftButton && boutonGaucheEnfonce)
     {
         // Bouton gauche relache
@@ -325,7 +351,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
         if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj ||
             m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
         {
-            actionPnjBoutonRelache(event->pos());
+            actionPnjBoutonRelache(pos);
         }
 
         // Il s'agit de l'outil main
@@ -472,21 +498,22 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
 
 void Carte::mouseMoveEvent(QMouseEvent *event)
 {
-    // Si le bouton gauche est enfonce
+      QPoint pos = mapToScale(event->pos());
+
     if (boutonGaucheEnfonce && !boutonDroitEnfonce)
     {
         // Il s'agit d'une action sur les PJ/PNJ
         if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj ||
             m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
         {
-            actionPnjMouvementSouris(event->pos());
+            actionPnjMouvementSouris(pos);
         }
 
         // Il s'agit de l'outil main
         else if (m_currentTool == BarreOutils::main)
         {
             // On deplace la Carte dans la CarteFenetre
-            emit deplacerCarteFenetre(mapToGlobal(event->pos()));
+            emit deplacerCarteFenetre(mapToGlobal(pos));
         }
 
         // Il s'agit d'une action de dessin
@@ -495,7 +522,7 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
             if((!G_joueur)||
               (((m_currentMode == NouveauPlanVide::PC_ALL))))
             {
-                pointSouris = event->pos();
+                m_mousePoint = pos;
                 zoneNouvelle = zoneARafraichir();
                 update(zoneOrigine.unite(zoneNouvelle));
                 zoneOrigine = zoneNouvelle;
@@ -504,10 +531,10 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
     }
 
     // Si le bouton droit est enfonce et que le pointeur est dans l'image (evite un plantage)
-    else if (boutonDroitEnfonce && !boutonGaucheEnfonce && (m_backgroundImage->rect()).contains(event->pos()))
+    else if (boutonDroitEnfonce && !boutonGaucheEnfonce && (m_backgroundImage->rect()).contains(pos))
     {
         // Recuperation de la position de la souris
-        QPoint positionSouris = event->pos();
+        QPoint positionSouris = pos;
         
         // Il s'agit d'une action d'ajout ou de suppression de PNJ
         if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj)
@@ -580,10 +607,10 @@ void Carte::dessiner(QPainter &painter)
         painterCrayon.setPen(pen);
         painter.setPen(pen);
         // On dessine une ligne entre le point d'origine et le pointeur de la souris, sur le fond et sur le widget
-        painterCrayon.drawLine(pointOrigine, pointSouris);
-        painter.drawLine(pointOrigine, pointSouris);
+        painterCrayon.drawLine(m_originePoint, m_mousePoint);
+        painter.drawLine(m_originePoint, m_mousePoint);
         // Dessin d'un point pour permettre a l'utilisateur de ne dessiner qu'un unique point (cas ou il ne deplace pas la souris)
-        painter.drawPoint(pointSouris);
+        painter.drawPoint(m_mousePoint);
         
         if (G_couleurCourante.type == efface)
         {
@@ -600,28 +627,28 @@ void Carte::dessiner(QPainter &painter)
         ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha, zoneNouvelle);
 
         // On ajoute la position de la souris a la liste de points destinee a l'emission
-        listePointsCrayon.append(pointSouris);
+        listePointsCrayon.append(m_mousePoint);
         // On agglomere les zones a rafraichir pour obtenir la zone globale du trace du crayon (pour l'emission)
         zoneGlobaleCrayon = zoneGlobaleCrayon.united(zoneNouvelle);
 
         // M.a.j du point d'origine
-        pointOrigine = pointSouris;
+        m_originePoint = m_mousePoint;
     }
     
     else if (m_currentTool == BarreOutils::ligne)
     {
         // On dessine une ligne entre le point d'origine et le pointeur de la souris
-        painter.drawLine(pointOrigine, pointSouris);
+        painter.drawLine(m_originePoint, m_mousePoint);
     }
     
     else if (m_currentTool == BarreOutils::rectVide)
     {
         // Creation des points du rectangle a partir du point d'origine et du pointeur de souris
         QPoint supGauche, infDroit;
-        supGauche.setX(pointOrigine.x()<pointSouris.x()?pointOrigine.x():pointSouris.x());
-        supGauche.setY(pointOrigine.y()<pointSouris.y()?pointOrigine.y():pointSouris.y());
-        infDroit.setX(pointOrigine.x()>pointSouris.x()?pointOrigine.x():pointSouris.x());
-        infDroit.setY(pointOrigine.y()>pointSouris.y()?pointOrigine.y():pointSouris.y());
+        supGauche.setX(m_originePoint.x()<m_mousePoint.x()?m_originePoint.x():m_mousePoint.x());
+        supGauche.setY(m_originePoint.y()<m_mousePoint.y()?m_originePoint.y():m_mousePoint.y());
+        infDroit.setX(m_originePoint.x()>m_mousePoint.x()?m_originePoint.x():m_mousePoint.x());
+        infDroit.setY(m_originePoint.y()>m_mousePoint.y()?m_originePoint.y():m_mousePoint.y());
 
         // Si le rectangle est petit on dessine un rectangle plein (correction d'un bug Qt)
         if ((infDroit.x()-supGauche.x() < G_diametreTraitCourant) && (infDroit.y()-supGauche.y() < G_diametreTraitCourant))
@@ -637,24 +664,24 @@ void Carte::dessiner(QPainter &painter)
     else if (m_currentTool == BarreOutils::rectPlein)
     {
         // On dessine un rectangle plein
-        painter.fillRect(QRect(pointOrigine, pointSouris), couleurPinceau);
+        painter.fillRect(QRect(m_originePoint, m_mousePoint), couleurPinceau);
     }
     
     else if (m_currentTool == BarreOutils::elliVide)
     {
         // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point d'origine
-        QPoint diff = pointSouris - pointOrigine;
-        QPoint nouveauPointOrigine = pointOrigine - diff;
+        QPoint diff = m_mousePoint - m_originePoint;
+        QPoint nouveauPointOrigine = m_originePoint - diff;
 
         // Si l'ellipse est petite on dessine une ellipse pleine (correction d'un bug Qt)
-        if (abs(pointSouris.x()-nouveauPointOrigine.x()) < G_diametreTraitCourant && abs(pointSouris.y()-nouveauPointOrigine.y()) < G_diametreTraitCourant)
+        if (abs(m_mousePoint.x()-nouveauPointOrigine.x()) < G_diametreTraitCourant && abs(m_mousePoint.y()-nouveauPointOrigine.y()) < G_diametreTraitCourant)
         {
             // Redefinition des points du rectangle
             QPoint supGauche, infDroit;
-            supGauche.setX(nouveauPointOrigine.x()<pointSouris.x()?nouveauPointOrigine.x():pointSouris.x());
-            supGauche.setY(nouveauPointOrigine.y()<pointSouris.y()?nouveauPointOrigine.y():pointSouris.y());
-            infDroit.setX(nouveauPointOrigine.x()>pointSouris.x()?nouveauPointOrigine.x():pointSouris.x());
-            infDroit.setY(nouveauPointOrigine.y()>pointSouris.y()?nouveauPointOrigine.y():pointSouris.y());
+            supGauche.setX(nouveauPointOrigine.x()<m_mousePoint.x()?nouveauPointOrigine.x():m_mousePoint.x());
+            supGauche.setY(nouveauPointOrigine.y()<m_mousePoint.y()?nouveauPointOrigine.y():m_mousePoint.y());
+            infDroit.setX(nouveauPointOrigine.x()>m_mousePoint.x()?nouveauPointOrigine.x():m_mousePoint.x());
+            infDroit.setY(nouveauPointOrigine.y()>m_mousePoint.y()?nouveauPointOrigine.y():m_mousePoint.y());
             
             // Parametrage pour une ellipse pleine
             QPen pen;
@@ -667,14 +694,14 @@ void Carte::dessiner(QPainter &painter)
         }
         // Sinon on dessine une ellipse vide
         else
-            painter.drawEllipse(QRect(nouveauPointOrigine, pointSouris));
+            painter.drawEllipse(QRect(nouveauPointOrigine, m_mousePoint));
     }
     
     else if (m_currentTool == BarreOutils::elliPlein)
     {
         // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point d'origine
-        QPoint diff = pointSouris - pointOrigine;
-        QPoint nouveauPointOrigine = pointOrigine - diff;
+        QPoint diff = m_mousePoint - m_originePoint;
+        QPoint nouveauPointOrigine = m_originePoint - diff;
 
         // On dessine une ellipse pleine    
         QPen pen;
@@ -682,7 +709,7 @@ void Carte::dessiner(QPainter &painter)
         pen.setWidth(0);
         painter.setPen(pen);
         painter.setBrush(couleurPinceau);
-        painter.drawEllipse(QRect(nouveauPointOrigine, pointSouris));
+        painter.drawEllipse(QRect(nouveauPointOrigine, m_mousePoint));
     }
     
     else if (m_currentTool == BarreOutils::texte)
@@ -692,7 +719,7 @@ void Carte::dessiner(QPainter &painter)
         font.setPixelSize(16);
         painter.setFont(font);
         // On affiche le texte de la zone de saisie
-        painter.drawText(pointSouris, G_texteCourant);  // + QPoint(2,7)
+        painter.drawText(m_mousePoint, G_texteCourant);  // + QPoint(2,7)
     }
     
     else if (m_currentTool == BarreOutils::main)
@@ -708,11 +735,17 @@ QRect Carte::zoneARafraichir()
     QRect resultat;
     
     // Creation des points superieur gauche et inferieur droit a partir du point d'origine et du pointeur de la souris
+
+
+
+    m_originePoint=mapToNormal(m_originePoint);
+    m_mousePoint=mapToNormal(m_mousePoint);
+
     QPoint supGauche, infDroit;
-    int gauche = pointOrigine.x()<pointSouris.x()?pointOrigine.x():pointSouris.x();
-    int haut = pointOrigine.y()<pointSouris.y()?pointOrigine.y():pointSouris.y();
-    int droit = pointOrigine.x()>pointSouris.x()?pointOrigine.x():pointSouris.x();
-    int bas = pointOrigine.y()>pointSouris.y()?pointOrigine.y():pointSouris.y();
+    int gauche = m_originePoint.x()<m_mousePoint.x()?m_originePoint.x():m_mousePoint.x();
+    int haut = m_originePoint.y()<m_mousePoint.y()?m_originePoint.y():m_mousePoint.y();
+    int droit = m_originePoint.x()>m_mousePoint.x()?m_originePoint.x():m_mousePoint.x();
+    int bas = m_originePoint.y()>m_mousePoint.y()?m_originePoint.y():m_mousePoint.y();
     // Calcul de la largeur et de la hauteur
     int largeur = droit - gauche + 1;
     int hauteur = bas - haut + 1;
@@ -740,13 +773,13 @@ QRect Carte::zoneARafraichir()
     
     else if (m_currentTool == BarreOutils::elliVide)
     {
-        QPoint diff = pointSouris - pointOrigine;
-        QPoint nouveauPointOrigine = pointOrigine - diff;
+        QPoint diff = m_mousePoint - m_originePoint;
+        QPoint nouveauPointOrigine = m_originePoint - diff;
         
-        int gauche = nouveauPointOrigine.x()<pointSouris.x()?nouveauPointOrigine.x():pointSouris.x();
-        int haut = nouveauPointOrigine.y()<pointSouris.y()?nouveauPointOrigine.y():pointSouris.y();
-        int droit = nouveauPointOrigine.x()>pointSouris.x()?nouveauPointOrigine.x():pointSouris.x();
-        int bas = nouveauPointOrigine.y()>pointSouris.y()?nouveauPointOrigine.y():pointSouris.y();
+        int gauche = nouveauPointOrigine.x()<m_mousePoint.x()?nouveauPointOrigine.x():m_mousePoint.x();
+        int haut = nouveauPointOrigine.y()<m_mousePoint.y()?nouveauPointOrigine.y():m_mousePoint.y();
+        int droit = nouveauPointOrigine.x()>m_mousePoint.x()?nouveauPointOrigine.x():m_mousePoint.x();
+        int bas = nouveauPointOrigine.y()>m_mousePoint.y()?nouveauPointOrigine.y():m_mousePoint.y();
         int largeur = droit - gauche + 1;
         int hauteur = bas - haut + 1;
 
@@ -755,13 +788,13 @@ QRect Carte::zoneARafraichir()
     
     else if (m_currentTool == BarreOutils::elliPlein)
     {
-        QPoint diff = pointSouris - pointOrigine;
-        QPoint nouveauPointOrigine = pointOrigine - diff;
+        QPoint diff = m_mousePoint - m_originePoint;
+        QPoint nouveauPointOrigine = m_originePoint - diff;
         
-        int gauche = nouveauPointOrigine.x()<pointSouris.x()?nouveauPointOrigine.x():pointSouris.x();
-        int haut = nouveauPointOrigine.y()<pointSouris.y()?nouveauPointOrigine.y():pointSouris.y();
-        int droit = nouveauPointOrigine.x()>pointSouris.x()?nouveauPointOrigine.x():pointSouris.x();
-        int bas = nouveauPointOrigine.y()>pointSouris.y()?nouveauPointOrigine.y():pointSouris.y();
+        int gauche = nouveauPointOrigine.x()<m_mousePoint.x()?nouveauPointOrigine.x():m_mousePoint.x();
+        int haut = nouveauPointOrigine.y()<m_mousePoint.y()?nouveauPointOrigine.y():m_mousePoint.y();
+        int droit = nouveauPointOrigine.x()>m_mousePoint.x()?nouveauPointOrigine.x():m_mousePoint.x();
+        int bas = nouveauPointOrigine.y()>m_mousePoint.y()?nouveauPointOrigine.y():m_mousePoint.y();
         int largeur = droit - gauche + 1;
         int hauteur = bas - haut + 1;
 
@@ -770,18 +803,22 @@ QRect Carte::zoneARafraichir()
     
     else if (m_currentTool == BarreOutils::texte)
     {
-        resultat = QRect(QPoint(pointSouris.x()-2, pointSouris.y()-15), QPoint(m_backgroundImage->width(), pointSouris.y()+4));
+        resultat = QRect(QPoint(m_mousePoint.x()-2, m_mousePoint.y()-15), QPoint(m_backgroundImage->width(), m_mousePoint.y()+4));
     }
     
     else if (m_currentTool == BarreOutils::main)
     {
-    }
-    
+
+    } 
     else
         qWarning() <<  (tr("Undefined tool  (drawing - Carte.cpp)"));
 
+    m_originePoint=m_origineScalePoint;
+    m_mousePoint=m_scalePoint;
 
-    return resultat.intersect(m_backgroundImage->rect());
+    qDebug() << "Refresh zone:" <<resultat.intersect(m_backgroundImage->rect()) << m_backgroundImage->rect() << resultat << m_mousePoint << m_originePoint;
+    m_refreshZone = resultat.intersect(m_backgroundImage->rect());
+    return rect();//resultat.intersect(m_backgroundImage->rect());
 }
 
 
@@ -1711,8 +1748,8 @@ void Carte::emettreTrace()
         memcpy(&(donnees[p]), G_texteCourant.data(), tailleTexte*sizeof(QChar));
         p+=tailleTexte*sizeof(QChar);
         // Ajout de la position de la souris
-        qint16 positionX = pointSouris.x();
-        qint16 positionY = pointSouris.y();
+        qint16 positionX = m_mousePoint.x();
+        qint16 positionY = m_mousePoint.y();
         memcpy(&(donnees[p]), &positionX, sizeof(qint16));
         p+=sizeof(qint16);
         memcpy(&(donnees[p]), &positionY, sizeof(qint16));
@@ -1792,15 +1829,15 @@ void Carte::emettreTrace()
         memcpy(&(donnees[p]), idCarte.data(), tailleId*sizeof(QChar));
         p+=tailleId*sizeof(QChar);
         // Ajout du point de depart
-        qint16 departX = pointOrigine.x();
-        qint16 departY = pointOrigine.y();
+        qint16 departX = m_originePoint.x();
+        qint16 departY = m_originePoint.y();
         memcpy(&(donnees[p]), &departX, sizeof(qint16));
         p+=sizeof(qint16);
         memcpy(&(donnees[p]), &departY, sizeof(qint16));
         p+=sizeof(qint16);
         // Ajout du point d'arrivee
-        qint16 arriveeX = pointSouris.x();
-        qint16 arriveeY = pointSouris.y();
+        qint16 arriveeX = m_mousePoint.x();
+        qint16 arriveeY = m_mousePoint.y();
         memcpy(&(donnees[p]), &arriveeX, sizeof(qint16));
         p+=sizeof(qint16);
         memcpy(&(donnees[p]), &arriveeY, sizeof(qint16));
