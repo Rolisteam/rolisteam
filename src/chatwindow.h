@@ -108,7 +108,7 @@ private :
     int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok);
 
 private slots :
-    void emettreTexte(QString message);
+    void emettreTexte(QString messagehtml,QString message);
     void upSelectPerson();
     void downSelectPerson();
     void scheduleUpdateChatMembers();

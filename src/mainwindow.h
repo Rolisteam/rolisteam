@@ -55,6 +55,7 @@ class Player;
 class PlayersListWidget;
 class WorkspaceAmeliore;
 class ClientServeur;
+class TextEdit;
 
 /**
  * @brief Fenêtre principale, contenant la palette d'outils, les tableaux de
@@ -198,6 +199,8 @@ private :
     ClientServeur* m_networkManager;
 
     QTextEdit* m_notifierDisplay;
+
+    TextEdit* m_noteEditor;
 //#ifndef NULL_PLAYER
 //    QDockWidget* m_audioDock;
 //#endif

@@ -54,6 +54,9 @@
 #include "updatechecker.h"
 #include "WorkspaceAmeliore.h"
 
+
+#include "textedit.h"
+
 #include "constantesGlobales.h"
 #include "variablesGlobales.h"
 
@@ -232,13 +235,18 @@ void MainWindow::setupUi()
     //autoriserOuInterdireActions();
 
     // Creation de l'editeur de notes
-    editeurNotes = new EditeurNotes(this);
+    m_noteEditor= new TextEdit(this);
+    workspace->addWindow(m_noteEditor);
+    m_noteEditor->setWindowTitle(tr("Minutes Editor"));
+    m_noteEditor->hide();
+
+   /* editeurNotes = new EditeurNotes(this);
     // Ajout de l'editeur de notes au workspace
     workspace->addWindow(editeurNotes);
     // Mise a jour du titre de l'editeur de notes
     editeurNotes->setWindowTitle(tr("Minutes Editor"));
     // Masquage de l'editeur de notes
-    editeurNotes->hide();
+    editeurNotes->hide();*/
 
     // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
     AddHealthState(Qt::black, tr("healthy"), G_etatsDeSante);
@@ -1441,7 +1449,14 @@ void MainWindow::changementNatureUtilisateur()
 
 void MainWindow::afficherEditeurNotes(bool afficher, bool cocherAction)
 {
-        // Affichage de l'editeur de notes
+
+    m_noteEditor->setVisible(afficher);
+    if (cocherAction)
+    {
+            actionEditeurNotes->setChecked(afficher);
+    }
+
+    /* // Affichage de l'editeur de notes
         editeurNotes->setVisible(afficher);
 
         // Si la fonction a pas ete appelee par la listeUtilisateurs ou par l'editeur lui-meme, on coche/decoche l'action associee
@@ -1452,7 +1467,7 @@ void MainWindow::afficherEditeurNotes(bool afficher, bool cocherAction)
         else
         {// Sinon on coche/decoche la case de l'editeur de notes dans la listeUtilisateurs
             /// @todo
-        }
+        }*/
 }
 void MainWindow::ouvrirNotes()
 {
@@ -1510,7 +1525,8 @@ bool MainWindow::sauvegarderNotes()
         }
         QTextStream in(&file);
         // On demande a l'editeur de notes de les sauvegarder dans le fichier
-        editeurNotes->sauvegarderNotes(in);
+        /// @warning disable code for testing reason.
+        //editeurNotes->sauvegarderNotes(in);
         // Fermeture du fichier
 
         file.close();
@@ -1558,7 +1574,8 @@ void MainWindow::ouvrirScenario()
                 lireImage(in);
 
         // Enfin on lit les notes
-        editeurNotes->openNoteBinary(in);
+        /// @warning disable code for testing reason.
+        //editeurNotes->openNoteBinary(in);
 
         // Fermeture du fichier
         file.close();
@@ -1598,7 +1615,8 @@ bool MainWindow::sauvegarderScenario()
         // Puis toutes les images
         sauvegarderToutesLesImages(out);
         // Et enfin les notes
-        editeurNotes->saveNoteBinary(out);
+        /// @warning disable code for testing reason.
+        //editeurNotes->saveNoteBinary(out);
         // Fermeture du fichier
         file.close();
 

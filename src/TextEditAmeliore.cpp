@@ -38,14 +38,15 @@ void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
         case Qt::Key_Enter:
         {
         /// @warning changing the method to get the text
-            QString text = toHtml().trimmed();//toPlainText().trimmed();
+            QString textHtml = toHtml().trimmed();//
+            QString text = toPlainText().trimmed();
             if (!text.isEmpty())
             {
                 m_history.append(text);
                 while (m_history.size() > MaxHistorySize)
                     m_history.removeFirst();
                 m_histPos = m_history.size();
-                emit textValidated(text);
+                emit textValidated(textHtml,text);
                 clear();
             }
         } break;

@@ -36,7 +36,7 @@ class TextEditAmeliore : public QTextEdit
         TextEditAmeliore(QWidget *parent = 0);
 
     signals :
-        void textValidated(QString text);
+        void textValidated(QString textHtml,QString text);
         void ctrlUp();
         void ctrlDown();
 

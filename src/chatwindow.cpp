@@ -148,7 +148,7 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     setSizes(tailles);
 
     // Connexion du signal de validation du text de la zone d'edition a la demande d'emission
-    connect(zoneEdition, SIGNAL(textValidated(QString)), this, SLOT(emettreTexte(QString)));
+    connect(zoneEdition, SIGNAL(textValidated(QString,QString)), this, SLOT(emettreTexte(QString,QString)));
 
     connect(zoneEdition, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
     connect(zoneEdition, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
@@ -196,7 +196,7 @@ AbstractChat * ChatWindow::chat() const
 
 
 // not (const QString & message), because we change it !
-void ChatWindow::emettreTexte(QString message)
+void ChatWindow::emettreTexte(QString messagehtml,QString message)
 {
     //NetMsg::ChatMessageAction, NetMsg::DiceMessageAction, NetMsg::EmoteMessageAction
     NetMsg::Action action = NetMsg::DiceMessageAction;
@@ -206,6 +206,7 @@ void ChatWindow::emettreTexte(QString message)
     int result;
     zoneEdition->clear();
     //QTextStream out(stderr,QIODevice::WriteOnly);
+    qDebug() << "Message=" <<message;
 
     QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
     Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
@@ -282,7 +283,9 @@ void ChatWindow::emettreTexte(QString message)
                 else
                 {
                         messageTitle = tr("You");
+                        message=messagehtml;
                         afficherMessage(messageTitle, localPerson->color(), message);
+
                         // action is messageChatWindow only if there are no dices
                         action = NetMsg::ChatMessageAction;
                         break;
@@ -326,6 +329,7 @@ void ChatWindow::emettreTexte(QString message)
 
         default:
             messageTitle = localPerson->name();
+            message=messagehtml;
             afficherMessage(messageTitle, localPerson->color(), message);
             // action is messageChatWindow only if there are no dices
             action = NetMsg::ChatMessageAction;
