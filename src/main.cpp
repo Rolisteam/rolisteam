@@ -35,8 +35,11 @@
         #include "fmod.h"
 #endif
 
-// Importation du plugin JPEG
-//	Q_IMPORT_PLUGIN(qjpeg)
+#ifdef WIN32
+ #include <QtPlugin>
+ Q_IMPORT_PLUGIN(qjpeg)
+#endif
+
 
 
 // Fenetre de log (utilise seulement dans ce fichier)
@@ -85,15 +88,15 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 
             // Affichage du texte
             Log->setFontWeight(QFont::Bold);
-    Log->setTextColor(couleur);
+            Log->setTextColor(couleur);
             Log->append(titre);
             Log->setFontWeight(QFont::Normal);
-    Log->setTextColor(Qt::black);
+            Log->setTextColor(Qt::black);
             Log->insertPlainText(msg);
 
             // Erreur fatale : on quitte
-            if (type == QtFatalMsg)
-                    abort();
+           /* if (type == QtFatalMsg)
+                    abort();*/
 }
 
 	/********************************************************************/
@@ -107,6 +110,11 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 		// Creation de l'application
         QApplication app(argc, argv);
                QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+
+
+
+
+
 
 		// Creation de la fenetre de log
 		Log = new QTextEdit();

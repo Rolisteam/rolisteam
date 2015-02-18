@@ -120,7 +120,7 @@ void ecrireLogUtilisateur(QString message)
         logUtilisateur->append(heure);
 
         // Affichage du texte
-    logUtilisateur->setTextColor(couleur);
+        logUtilisateur->setTextColor(couleur);
         logUtilisateur->insertPlainText(message);
 }
 
@@ -237,6 +237,16 @@ MainWindow::MainWindow()
     G_pointeurTexte = new QCursor(bitmapTexte/*, masqueTexte*/, 4, 13);
 #endif
 
+    QList<QByteArray> format(QImageReader::supportedImageFormats());
+    QString chaine="format : %1 valeur %2";
+    ecrireLogUtilisateur("Fomats d'images supportés?");
+    for(int i=0 ; i < format.size() ; ++i)
+    {
+        //std::cout << "format : " << i << " valeur : " << (std::string)format.at(i) << std::endl;
+
+         ecrireLogUtilisateur(chaine.arg(i).arg(QString(format.at(i))));
+    }
+    ecrireLogUtilisateur("Fin Formats");
 
         QPixmap pixmapDeplacer(":/resources/icones/pointeur deplacer.png");
         G_pointeurDeplacer = new QCursor(pixmapDeplacer, 0, 0);
