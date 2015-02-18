@@ -28,7 +28,7 @@
 #include <QMainWindow>
 #include <QAction>
 #include <QMenu>
-#include "ToolBar.h"
+#include "toolbar.h"
 
 
 #include "tchat.h"
@@ -281,7 +281,7 @@ private :
         Player* m_player;
 
         QMenu* m_currentWindowMenu;
-
+        ToolsBar* m_toolbar;
 
 
         /**

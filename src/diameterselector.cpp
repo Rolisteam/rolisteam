@@ -54,7 +54,8 @@ DiameterSelector::DiameterSelector(QWidget *parent, bool plein, int min, int max
 	frameLayout->setMargin(0);
 	
     // Creation de l'afficheur de disk
-    disk = new DisplayDisk(frame, plein, minimum);
+    disk = new DisplayDisk(frame, plein, minimum,maximum);
+
     disk->changeDiameter(minimum);
 	
     // Ajout de l'afficheur de disk au layout du QFrame
@@ -67,6 +68,8 @@ DiameterSelector::DiameterSelector(QWidget *parent, bool plein, int min, int max
     m_diameterSlider = new QSlider(Qt::Horizontal, this);
     m_diameterSlider->setRange(minimum, maximum);
     m_diameterSlider->setValue(minimum);
+
+    connect(disk,SIGNAL(diameterChanged(int)),m_diameterSlider,SLOT(setValue(int)));
 	// Ajout du QSlider au layout
     layout->addWidget(m_diameterSlider);
 

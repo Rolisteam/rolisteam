@@ -48,7 +48,6 @@ INCLUDEPATH += . \
     charactersheet \
     map
 HEADERS += displaydisk.h \
-    ToolBar.h \
     Image.h \
     audioplayer.h \
     MainWindow.h \
@@ -56,10 +55,10 @@ HEADERS += displaydisk.h \
     diameterselector.h \
     improvedworkspace.h \
     submdiwindows.h \
-    connectionwizzard.h
+    connectionwizzard.h \
+    toolbar.h
 FORMS += connectionwizzard.ui
 SOURCES += displaydisk.cpp \
-    ToolBar.cpp \
     Image.cpp \
     main.cpp \
     MainWindow.cpp \
@@ -67,7 +66,8 @@ SOURCES += displaydisk.cpp \
     diameterselector.cpp \
     connectionwizzard.cpp \
     improvedworkspace.cpp \
-    submdiwindows.cpp
+    submdiwindows.cpp \
+    toolbar.cpp
 
 
 DEFINES += PHONON
@@ -96,3 +96,7 @@ INSTALLS += documentation \
 UI_DIR = ../ui
 MOC_DIR = ../obj
 OBJECTS_DIR = ../obj
+
+
+
+

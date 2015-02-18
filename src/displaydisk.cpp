@@ -21,9 +21,12 @@
 
 
 #include <QtGui>
+#include <QWheelEvent>
+
+
+
 
 #include "displaydisk.h"
-
 
 /**
  * Define the current diameter for any disk
@@ -34,12 +37,13 @@ int g_currentDiameterLine;
  */
 int g_currentNPCDiameter;
 
-DisplayDisk::DisplayDisk(QWidget *parent, bool fill, int minimum)
+DisplayDisk::DisplayDisk(QWidget *parent, bool fill, int minimum,int maximum)
     : QWidget(parent)
 {
 
     m_currentDiameter = minimum;
     m_minimumDiameter = minimum;
+    m_maximumDiameter = maximum;
     m_fill = fill;
 
 
@@ -81,7 +85,19 @@ void DisplayDisk::paintEvent(QPaintEvent *event)
 
     painter.drawText(0, 0, width(), height(), Qt::AlignRight | Qt::AlignBottom, QString::number(displayedDiameter));
 }
+void DisplayDisk::wheelEvent ( QWheelEvent * event )
+{
+    int step = event->delta() / 8;
 
+    if(step+m_currentDiameter>m_maximumDiameter)
+        m_currentDiameter=m_maximumDiameter;
+    else if(step+m_currentDiameter<m_minimumDiameter)
+        m_currentDiameter=0;
+    else
+        m_currentDiameter+=step;
+    emit diameterChanged(m_currentDiameter);
+    update();
+}
 
 void DisplayDisk::changeDiameter(int diameter)
 {

@@ -49,7 +49,7 @@ class MinutesEditor : public SubMdiWindows
 Q_OBJECT
 
 public :
-	MinutesEditor();
+    MinutesEditor();
 	/**
 	* @brief the default constructor
 	*/

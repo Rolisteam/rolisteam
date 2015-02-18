@@ -34,7 +34,7 @@
 #include <QImage>
 #include <QPaintEvent>
 #include <QMdiArea>
-#include "ToolBar.h"
+#include "toolbar.h"
 #include "submdiwindows.h"
 
 class QPixmap;

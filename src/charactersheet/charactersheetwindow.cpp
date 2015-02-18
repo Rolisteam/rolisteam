@@ -25,9 +25,10 @@
 #include "charactersheet.h"
 #include "preferencesmanager.h"
 
-CharacterSheetWindow::CharacterSheetWindow(QWidget* parent)
+CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     : SubMdiWindows(parent)
 {
+    m_uri=uri;
     setObjectName("CharacterSheet");
 
     setWindowIcon(QIcon(":/resources/icons/treeview.png"));
@@ -73,10 +74,6 @@ bool CharacterSheetWindow::defineMenu(QMenu* menu)
     return true;
 }
 
-/*SubMdiWindows::SubWindowType CharacterSheetWindow::getType()
-{
-    return CHARACTERSHEET;
-}*/
 void CharacterSheetWindow::addLine()
 {
         m_model.addLine(m_view.currentIndex());

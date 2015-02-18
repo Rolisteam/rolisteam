@@ -38,7 +38,7 @@ public:
 	/**
 	* @brief default construtor
 	*/
-    CharacterSheetWindow(QWidget* parent = NULL);
+    CharacterSheetWindow(CleverURI* uri= NULL, QWidget* parent = NULL);
 
 	/**
 	* @brief compulsary function , it should set the custom window menu

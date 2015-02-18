@@ -22,7 +22,7 @@
 
 #include <QGraphicsScene>
 #include <QColor>
-#include "ToolBar.h"
+#include "toolbar.h"
 class VisualItem;
 /**
   * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...

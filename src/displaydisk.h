@@ -35,46 +35,53 @@ class DisplayDisk : public QWidget
 {
     Q_OBJECT
 
-    public :
-        /**
-         * @brief Constructor
-         *
-         * @param parent its parent widget
-         * @param fill the disk must be filled or not.
-         * @param minimum set the minimum diameter
-         */
-        DisplayDisk(QWidget *parent = 0, bool fill = true, int minimum = 1);
+public :
+    /**
+     * @brief Constructor
+     *
+     * @param parent its parent widget
+     * @param fill the disk must be filled or not.
+     * @param minimum set the minimum diameter
+     */
+    DisplayDisk(QWidget *parent = 0, bool fill = true, int minimum = 1,int maximum = 50);
 
-    public slots :
-        /**
-         * @brief Change the diameter of the disk and call to redraw it
-         *
-         * @param newDiameter the new diameter
-         */
-        void changeDiameter(int newDiameter);
-    protected:
-        /**
-         * @brief Overwriting the paintevent. To draw the disk.
-         *
-         * @param event gathering many details about the event.
-         */
-        void paintEvent(QPaintEvent *event);
-    private :
-        /**
-         * store the current diameter
-         */
-        int m_currentDiameter;
+signals:
+    void diameterChanged(int);
 
-        /**
-         * store the minimum diameter
-         */
-        int m_minimumDiameter;
+public slots :
+    /**
+     * @brief Change the diameter of the disk and call to redraw it
+     *
+     * @param newDiameter the new diameter
+     */
+    void changeDiameter(int newDiameter);
+protected:
+    /**
+     * @brief Overwriting the paintevent. To draw the disk.
+     *
+     * @param event gathering many details about the event.
+     */
+    void paintEvent(QPaintEvent *event);
+    void wheelEvent ( QWheelEvent * event );
+private :
+    /**
+     * store the current diameter
+     */
+    int m_currentDiameter;
 
+    /**
+     * store the minimum diameter
+     */
+    int m_minimumDiameter;
+    /**
+     * store the maximum diameter
+     */
+    int m_maximumDiameter;
 
-        /**
-         * store fill state
-         */
-        bool m_fill;
+    /**
+     * store fill state
+     */
+    bool m_fill;
 };
 
 #endif

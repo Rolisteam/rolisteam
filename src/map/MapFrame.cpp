@@ -232,9 +232,10 @@ void MapFrame::setCleverURI(CleverURI* uri)
 
 bool MapFrame::hasDockWidget() const
 {
-    return true;
+    return false;
 }
 QDockWidget* MapFrame::getDockWidget()
 {
-    return m_toolsbar;
+    return NULL;
+    //return m_toolsbar;
 }

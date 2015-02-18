@@ -134,7 +134,6 @@ const QString& CharacterSheet::owner() const
 
 void CharacterSheet::setData(int indexSec,int index,QVariant value,bool isHeader)
 {
-
        while(index>=m_sectionList[indexSec].size())
             m_sectionList[indexSec].insert(m_sectionList[indexSec].size(),"");
        m_sectionList[indexSec].replace(index,value.toString());
@@ -149,8 +148,21 @@ void CharacterSheet::appendLine(int sectionIndex)
         m_sectionList[sectionIndex].append("");
 
 }
+int CharacterSheet::getSectionCount()
+{
+    return m_sectionList.size();
+}
 
 void CharacterSheet::appendSection(Section* sec)
 {
     m_sectionList.append(*sec);
+}
+bool CharacterSheet::removeSection(Section* sec)
+{
+    return m_sectionList.removeOne(*sec);
+}
+
+void CharacterSheet::removeSectionAt(int index)
+{
+     m_sectionList.removeAt(index);
 }

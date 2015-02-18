@@ -28,7 +28,7 @@
 //former (but renamed) headers
 #include "MapFrame.h"
 #include "MainWindow.h"
-#include "ToolBar.h"
+#include "toolbar.h"
 #include "Image.h"
 #include "audioplayer.h"
 
@@ -54,7 +54,7 @@
 //session
 #include "session.h"
 #include "sessionmanager.h"
-
+#include "colortablechooser.h"
 
 
 /////////////////
@@ -69,11 +69,12 @@ MainWindow::MainWindow()
     m_options = PreferencesManager::getInstance();
     m_diceManager=DicePlugInManager::instance();
 
+
     m_supportedImage=tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)");
     m_supportedCharacterSheet=tr("Character Sheets files (*.xml)");
     m_supportedNotes=tr("Supported Text files (*.html *.txt)");
     m_supportedMap=tr("Supported Map files (*.map *.svg)");
-    //m_toolbar = ToolsBar::getInstance(this);//new ToolsBar(this);
+    m_toolbar = ToolsBar::getInstance(this);//new ToolsBar(this);
 
     m_version=tr("Unknown");
     #ifdef VERSION_MINOR
@@ -101,6 +102,7 @@ MainWindow::MainWindow()
     addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
     addDockWidget(Qt::RightDockWidgetArea, m_playerListWidget);
     addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
+    addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
     m_workspace = new ImprovedWorkspace(this/*m_toolbar->currentColor()*/);
     m_subWindowActGroup = new QActionGroup(this);
     m_recentFilesActGroup= new QActionGroup(this);
@@ -130,7 +132,8 @@ MainWindow::MainWindow()
 
     setWindowTitle(tr("Rolisteam - %1").arg(m_version));
     setCentralWidget(m_workspace);
-  // addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
+
+
 
     m_playerListWidget->setLocalPlayer(m_player);
 
@@ -391,7 +394,7 @@ void MainWindow::openTchat()
 
 void MainWindow::addCharacterSheet()
 {
-    CharacterSheetWindow* characterSheet = new CharacterSheetWindow();
+    CharacterSheetWindow* characterSheet = new CharacterSheetWindow(new CleverURI("",CleverURI::CHARACTERSHEET));
     addToWorkspace(characterSheet);
     characterSheet->setVisible(true);
 

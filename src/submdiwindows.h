@@ -22,7 +22,7 @@
 
 #include <QMdiSubWindow>
 
-#include "ToolBar.h"
+#include "toolbar.h"
 #include "cleveruri.h"
 
 class PreferencesManager;

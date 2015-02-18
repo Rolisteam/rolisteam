@@ -37,6 +37,7 @@
 #include <QPushButton>
 
 //#include "types.h"
+#include "colortablechooser.h"
 
 class PreferencesManager;
 /**
@@ -65,6 +66,9 @@ protected:
       * @brief redefine the drawing of the widget to show a colof filled square
       */
     void paintEvent( QPaintEvent * event );
+
+    virtual void resizeEvent(QResizeEvent * event);
+
     /**
       * @brief redefine the mousePressEvent behaviour to emit clickedColor signal
       */
@@ -238,6 +242,8 @@ private:
       * pointer to the button group which manage editing mode.
       */
     QButtonGroup* m_editingModeGroup;
+    ColorTableChooser* m_colorTableChooser;
+
 };
 
 #endif

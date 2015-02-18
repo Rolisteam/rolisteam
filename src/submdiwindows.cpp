@@ -45,7 +45,6 @@ void SubMdiWindows::changedStatus(Qt::WindowStates oldState,Qt::WindowStates new
 void SubMdiWindows::currentToolChanged(ToolsBar::SelectableTool selectedtool)
 {
     m_currentTool = selectedtool;
-
 }
 void SubMdiWindows::currentCursorChanged(QCursor* cursor)
 {
@@ -59,8 +58,7 @@ void SubMdiWindows::setRClient(RClient* t)
 
 void SubMdiWindows::currentColorChanged(QColor& penColor)
 {
-m_penColor = penColor;
-
+    m_penColor = penColor;
 }
 void SubMdiWindows::currentPenSizeChanged(int pensize)
 {

@@ -104,7 +104,7 @@ public:
     const QString getSectionValue(int section);
     void setSectionValue(int section,QString& value);
 	/**
-	* @brief global getter of data.  This function has been writen to make easier the MVC architecture.
+        * @brief global getter of data.  This function has been written to make easier the MVC architecture.
 	* @param int index : 0 refers to the title of the first section, 1 refers to the first data of the first section....
 	*/
     const  QString getData(int index);
@@ -138,8 +138,12 @@ public:
 	*/
     void appendSection(Section* sec);
 
+    bool removeSection(Section* sec);
+    void removeSectionAt(int index);
 
     void appendLine(int sectionIndex);
+
+    int getSectionCount();
 
     void setOwner(QString owner);
     const QString& owner() const;
