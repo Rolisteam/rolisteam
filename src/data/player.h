@@ -26,7 +26,7 @@ public:
     /**
     * @brief if the player has some characters, He has children.
     */
-    bool hasChildren() const;
+    bool isLeaf() const;
     /**
     * @brief adds character to this player
     */
@@ -43,6 +43,8 @@ public:
     * @brief const accessor to the list of children
     */
     QList<Character*>* children() const;
+
+    int childrenCount() const;
 private:
     /**
     * @brief stores the children's list

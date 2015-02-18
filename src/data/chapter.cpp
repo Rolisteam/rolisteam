@@ -70,6 +70,8 @@ QList<Chapter*>& Chapter::getChapterList()
 }
 bool Chapter::removeRessourcesNode(RessourcesNode* item)
 {
+
+
     CleverURI* itemURI= dynamic_cast<CleverURI*>(item);
     bool suppr=false;
     if(itemURI)
@@ -78,12 +80,11 @@ bool Chapter::removeRessourcesNode(RessourcesNode* item)
     }
     else
     {
-
         Chapter* imp= dynamic_cast<Chapter*>(item);
         suppr=m_chapterlist.removeOne(imp);
 
     }
-    for(int i = 0;(i>m_chapterlist.size()) && (!suppr); i++)
+    for(int i = 0;(i<m_chapterlist.size() && (!suppr)); i++)
     {
         suppr=m_chapterlist.at(i)->removeRessourcesNode(item);
     }

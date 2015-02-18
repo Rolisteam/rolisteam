@@ -45,7 +45,7 @@ public:
     /**
       * @brief pure virtual function, must be overriden in subclasses.
       */
-    virtual bool hasChildren() const =0;
+    virtual bool isLeaf() const =0;
     /**
       * @brief accessor function to the person's name.
       */

@@ -45,7 +45,7 @@ public:
       * @brief overridden function tell either are children or not.
       * @return true means it has children, otherwise false
       */
-    bool hasChildren() const;
+    bool isLeaf() const;
 
 private:
     /**

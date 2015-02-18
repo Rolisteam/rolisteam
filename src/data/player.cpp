@@ -25,9 +25,9 @@ Player::Player(const Player& p)
     Person::m_avatar = p.getAvatar();
 }
 
-bool Player::hasChildren() const
+bool Player::isLeaf() const
 {
-    return true;
+    return false;
 }
 void Player::addCharacter(Character* c)
 {
@@ -45,7 +45,10 @@ Character* Player::child(int row)
 
     return m_children->at(row);
 }
-
+int Player::childrenCount() const
+{
+    return m_children->size();
+}
 QList<Character*>* Player::children() const
 {
  return m_children;

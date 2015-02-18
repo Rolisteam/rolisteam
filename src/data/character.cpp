@@ -36,7 +36,7 @@ Character::Character(const Character& p)
     Person::m_color = p.getColor();
 }
 
-bool Character::hasChildren() const
+bool Character::isLeaf() const
 {
-    return false;
+    return true;
 }
