@@ -27,7 +27,7 @@ VisualItem::VisualItem(QColor& penColor,QGraphicsItem * parent )
     : QGraphicsItem(parent),m_color(penColor)
 {
     //m_state = IDLE;
-    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
+    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 }
 
 void VisualItem::setPenColor(QColor& penColor)
@@ -36,19 +36,18 @@ void VisualItem::setPenColor(QColor& penColor)
 }
 void VisualItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 {
-
-    QGraphicsItem::mouseMoveEvent(event);
     update();
+    QGraphicsItem::mouseMoveEvent(event);   
 }
 void VisualItem::mousePressEvent ( QGraphicsSceneMouseEvent * event )
 {
-    QGraphicsItem::mousePressEvent(event);
     update();
+    QGraphicsItem::mousePressEvent(event);
 }
 void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    QGraphicsItem::mouseReleaseEvent(event);
     update();
+    QGraphicsItem::mouseReleaseEvent(event);
 }
 
 
