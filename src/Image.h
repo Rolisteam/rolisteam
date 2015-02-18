@@ -50,7 +50,7 @@ public :
 
 
 
-    virtual void defineMenu(QMenu* menu);
+    virtual bool defineMenu(QMenu* menu);
 
 
 public slots :

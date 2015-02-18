@@ -50,7 +50,7 @@ public :
     void ouvrirNotes(QFile &file);
     QSize sizeHint() const;
 
-    virtual void defineMenu(QMenu* menu);
+    virtual bool defineMenu(QMenu* menu);
 
 private :
     QTextEdit *notes;			// Contient toutes les notes de l'utilisateur

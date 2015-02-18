@@ -41,14 +41,16 @@ MapFrame::MapFrame(Map *map)
     m_vlayout->addStretch(1);
     m_vlayout->addWidget(m_graphicView);
     m_vlayout->addStretch(1);
-
+    m_vlayout->setContentsMargins(0,0,0,0);
 
     m_hlayout->addStretch(1);
     m_hlayout->addLayout(m_vlayout);
     m_hlayout->addStretch(1);
+    m_hlayout->setContentsMargins(0,0,0,0);
     setWindowTitle(m_map->mapTitle());
     m_graphicView->setGeometry(0,0,m_map->mapWidth(),map->mapHeight());
     m_widgetLayout->setLayout(m_hlayout);
+
     setWidget(m_widgetLayout);
     //setLayout(hlayout);
     m_maskPixmap = new QPixmap(m_graphicView->size());
@@ -160,7 +162,7 @@ void MapFrame::setEditingMode(int mode)
 {
     m_currentEditingMode = mode;
 }
-void MapFrame::defineMenu(QMenu* /*menu*/)
+bool MapFrame::defineMenu(QMenu* /*menu*/)
 {
-
+    return false;
 }

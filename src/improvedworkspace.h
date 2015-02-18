@@ -146,6 +146,7 @@ private:
       * store the picture
       */
     QPixmap* m_backgroundPicture;
+
     /**
       * store the pixmap of the whole background
       */
@@ -204,12 +205,13 @@ private:
       * current pen color.
       */
     QColor m_backGroundColor;
+
     /**
       * current pen size.
       */
     int m_penSize;
     /**
-      * current npc color.
+      * current npc color
       */
     int m_npcSize;
 

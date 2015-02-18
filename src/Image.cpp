@@ -236,7 +236,7 @@ void Image::pointeurNormal()
 {
     m_labelImage->setCursor(Qt::ForbiddenCursor);
 }
-void  Image::defineMenu(QMenu* menu)
+bool  Image::defineMenu(QMenu* menu)
 {
     menu->addAction(m_actionZoomIn);
     menu->addAction(m_actionZoomOut);
@@ -246,6 +246,8 @@ void  Image::defineMenu(QMenu* menu)
     menu->addAction(m_actionlittleZoom);
     menu->addAction(m_actionNormalZoom);
     menu->addAction(m_actionBigZoom);
+
+    return true;
 }
 void Image::zoomLittle()
 {

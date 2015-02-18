@@ -97,7 +97,7 @@ protected :
 private :
         bool maybeSave();
         QDockWidget* creerLogUtilisateur();
-        void creerMenu();
+        void createMenu();
         void associerActionsMenus();
         void autoriserOuInterdireActions();
         void saveAll();
@@ -155,8 +155,12 @@ private :
         QAction *actionEditeurNotes;
         QAction *actionTchatCommun;
 
-        QAction *actionAideLogiciel;
+        QAction *actionHelp;
         QAction *actionAPropos;
+
+        QMenu *m_networkMenu;
+        /*QAction *actionHelp;
+        QAction *actionAPropos;*/
 
        // ClientServeur* m_clientServer;
         /**
@@ -171,6 +175,8 @@ private :
 
 
         QMenu* m_currentWindowMenu;
+
+
 
 private slots :
        /* void afficherNomsPj(bool afficher);

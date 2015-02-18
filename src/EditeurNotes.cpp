@@ -101,7 +101,7 @@ EditeurNotes::EditeurNotes()
     barreFontes->addWidget(selecteurTaille);
     layout->addWidget(notes);
 
-
+    layout->setContentsMargins(0,0,0,0);
      main->setLayout(layout);
      setWidget(main);
 
@@ -290,7 +290,7 @@ QSize EditeurNotes::sizeHint() const
     return QSize(600, 600);
 }
 
-void EditeurNotes::defineMenu(QMenu* /*menu*/)
+bool EditeurNotes::defineMenu(QMenu* /*menu*/)
 {
-
+    return false;
 }

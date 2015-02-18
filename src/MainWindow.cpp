@@ -80,7 +80,7 @@ MainWindow::MainWindow()
         addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
 
 
-        creerMenu();
+        createMenu();
 
         associerActionsMenus();
 
@@ -119,15 +119,15 @@ dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
 }
 
 
-void MainWindow::creerMenu()
+void MainWindow::createMenu()
 {
 
-        QMenuBar *barreMenus = new QMenuBar(this);
+        QMenuBar *menuBar = new QMenuBar(this);
 
-        setMenuBar(barreMenus);
+        setMenuBar(menuBar);
 
         // Creation du menu Fichier
-        QMenu *menuFichier = new QMenu (tr("File"), barreMenus);
+        QMenu *menuFichier = new QMenu (tr("File"), menuBar);
         newMapAction            = menuFichier->addAction(tr("&New empty map"));
         menuFichier->addSeparator();
         actionOuvrirPlan             = menuFichier->addAction(tr("Open Map"));
@@ -143,13 +143,13 @@ void MainWindow::creerMenu()
         actionSauvegarderNotes       = menuFichier->addAction(tr("Save text"));
 
         menuFichier->addSeparator();
-        actionPreferences            = menuFichier->addAction(tr("Settings"));
+        actionPreferences            = menuFichier->addAction(tr("preference"));
 
         menuFichier->addSeparator();
-        actionQuitter                = menuFichier->addAction(tr("Exit"));
+        actionQuitter                = menuFichier->addAction(tr("Quit"));
 
         // Creation du menu Affichage
-        QMenu *menuAffichage = new QMenu (tr("View"), barreMenus);
+        QMenu *menuAffichage = new QMenu (tr("View"), menuBar);
         actionAfficherNomsPj         = menuAffichage->addAction(tr("Show PC's names"));
         actionAfficherNomsPnj        = menuAffichage->addAction(tr("Show NPC's names"));
         actionAfficherNumerosPnj     = menuAffichage->addAction(tr("Show NPC's numbers"));
@@ -186,32 +186,32 @@ void MainWindow::creerMenu()
 /*
         actionSansGrille        ->setChecked(true);
 */
-        // Creation du menu Fenetre
-        menuFenetre = new QMenu (tr("Windows"), barreMenus);
 
-        // Creation du sous-menu Reorganiser
-        QMenu *sousMenuReorganise    = new QMenu (tr("Réorganiser"), barreMenus);
+        menuFenetre = new QMenu (tr("Windows"), menuBar);
+
+
+        QMenu *sousMenuReorganise    = new QMenu (tr("Réorganiser"), menuBar);
         actionCascade                = sousMenuReorganise->addAction(tr("Cascade"));
         actionTuiles                 = sousMenuReorganise->addAction(tr("Tuiles"));
-        // Ajout du sous-menu Reorganiser au menu Fenetre
+
         menuFenetre->addMenu(sousMenuReorganise);
         menuFenetre->addSeparator();
 
-        // Ajout des actions d'affichage des fenetres d'evenement, utilisateurs et lecteur audio
+
         menuFenetre->addAction(dockLogUtil->toggleViewAction());
-        //menuFenetre->addAction(G_listeUtilisateurs->toggleViewAction());
+
         menuFenetre->addAction(m_audioPlayer->toggleViewAction());
         menuFenetre->addSeparator();
 
-        // Ajout de l'action d'affichage de l'editeur de notes
-        actionEditeurNotes = menuFenetre->addAction(tr("Note Editor"));
+
+        actionEditeurNotes = menuFenetre->addAction(tr("Minutes Editor"));
         actionEditeurNotes->setCheckable(true);
         actionEditeurNotes->setChecked(false);
-        // Connexion de l'action avec l'affichage/masquage de l'editeur de notes
+
         QObject::connect(actionEditeurNotes, SIGNAL(triggered(bool)), this, SLOT(afficherEditeurNotes(bool)));
 
-        // Ajout du sous-menu Tchat
-        sousMenuTchat = new QMenu (tr("Tchats"), barreMenus);
+
+        sousMenuTchat = new QMenu (tr("Tchats"), menuBar);
         menuFenetre->addMenu(sousMenuTchat);
 
         // Ajout de l'action d'affichage de la fenetre de tchat commun
@@ -220,32 +220,45 @@ void MainWindow::creerMenu()
         actionTchatCommun->setChecked(false);
         menuFenetre->addSeparator();
 
-        // Creation du tchat commun
+
         listeTchat.append(new Tchat("", actionTchatCommun,NULL));
-        // Ajout du tchat commun au m_workspace
+
         m_workspace->addWidget(listeTchat[0]);
-        // Mise a jour du titre du tchat commun
+
         listeTchat[0]->setWindowTitle(tr("Tchat commun"));
-        // Masquage du tchat commun
+
         listeTchat[0]->hide();
-        // Connexion de l'action avec l'affichage/masquage du tchat commun
+
         QObject::connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
 
 
-        QMenu *menuAide = new QMenu (tr("Help"), barreMenus);
-        actionAideLogiciel = menuAide->addAction(tr("Help of %1").arg(APPLICATION_NAME));
-        menuAide->addSeparator();
-        actionAPropos = menuAide->addAction(tr("About %1").arg(APPLICATION_NAME));
+        QMenu *helpMenu = new QMenu (tr("Help"), menuBar);
+        actionHelp = helpMenu->addAction(tr("Help of %1").arg(APPLICATION_NAME));
+        helpMenu->addSeparator();
+        actionAPropos = helpMenu->addAction(tr("About %1").arg(APPLICATION_NAME));
 
-        m_currentWindowMenu= new QMenu(tr("Current Window"),barreMenus);
+        m_currentWindowMenu= new QMenu(tr("Current Window"),menuBar);
+
         m_workspace->setVariantMenu(m_currentWindowMenu);
 
 
-        barreMenus->addMenu(menuFichier);
-        barreMenus->addMenu(menuAffichage);
-        barreMenus->addMenu(m_currentWindowMenu);
-        barreMenus->addMenu(menuFenetre);
-        barreMenus->addMenu(menuAide);
+
+
+        m_networkMenu =  new QMenu(tr("Connections"),menuBar);
+        //m_networkMenu
+
+
+
+
+
+
+        menuBar->addMenu(menuFichier);
+        menuBar->addMenu(menuAffichage);
+        menuBar->addMenu(m_currentWindowMenu);
+        menuBar->addMenu(menuFenetre);
+        menuBar->addMenu(helpMenu);
+
+        menuBar->removeAction(m_currentWindowMenu->menuAction());
 }
 
 /********************************************************************/
@@ -280,7 +293,7 @@ void MainWindow::associerActionsMenus()
         // Help
         QObject::connect(actionQuitter, SIGNAL(triggered(bool)), this, SLOT(close()));
         QObject::connect(actionAPropos, SIGNAL(triggered()), this, SLOT(about()));
-        QObject::connect(actionAideLogiciel, SIGNAL(triggered()), this, SLOT(aideEnLigne()));
+        QObject::connect(actionHelp, SIGNAL(triggered()), this, SLOT(aideEnLigne()));
 }
 
 /********************************************************************/

@@ -52,7 +52,7 @@ public :
     void afficherTirage(QString utilisateur, QColor couleur, QString message);
 	void majAction();
 	void sauvegarderTchat(QFile &file);
-    void defineMenu(QMenu* /*menu*/);
+    bool defineMenu(QMenu* /*menu*/);
 
 protected :
 	void closeEvent(QCloseEvent *event);
