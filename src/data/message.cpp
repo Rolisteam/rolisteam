@@ -18,13 +18,39 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "message.h"
+#include <QTcpSocket>
 
+#include <QDebug>
 Message::Message()
 {
 }
+quint32  Message::getSize()
+{
+    return m_internalData.size();
+}
 
-/*
+quint32 Message::getType()
+{
+    return m_type;
+}
+
+void Message::setType(int type)
+{
+    m_type = type;
+}
+
+void Message::write(QTcpSocket* tpm)
+{
+    qDebug() << tpm->errorString () << tpm->isOpen() << tpm->write((char*)&m_type);
+    qDebug() << tpm->errorString ();
+    qDebug() << m_internalData.size();
+    quint32 size= m_internalData.size();
+    qDebug() << size;
+    qDebug() << tpm->write((char*)&size);
+    qDebug() << tpm->write(m_internalData);
+}
+
 QByteArray& Message::getDataArray()
 {
     return m_internalData;
-}*/
+}

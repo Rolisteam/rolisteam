@@ -29,7 +29,7 @@ void WritingThread::sendMessages()
 {
     foreach(Message* tmp,*m_sendingQueue)
     {
-        m_socket->write(*tmp);
+        tmp->write(m_socket);
     }
 }
 void WritingThread::addMessage(Message* m)

@@ -221,10 +221,14 @@ void Tchat::onEntry()
     m_meetingRoom->append(text);
     /// todo: send messages
     // sendMessage();
-    Message mtmp;
-    QDataStream msg(&mtmp,QIODevice::ReadWrite);
+    Message* mtmp = new Message;
+    QByteArray& tmpArray = mtmp->getDataArray();
+
+    QDataStream msg(&tmpArray,QIODevice::ReadWrite);
     /// @todo: add chat ID, sender and few other stuff
+    mtmp->setType(1);
     msg << objectName() << text;
+    qDebug() << tmpArray.size()<< mtmp->getDataArray().size();
     m_client->addMessageToSendQueue(mtmp);
 }
 bool Tchat::hasDockWidget() const

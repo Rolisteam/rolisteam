@@ -28,7 +28,7 @@ RClient::RClient(QObject *parent)
 {
     m_client = new QTcpSocket(this);
     m_reading = new ReadingThread(m_client);
-    m_message = new QList<Message>();
+    m_messageList = new QList<Message*>();
     m_currentState =DISCONNECTED;
     connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(errorOccurs()));
     //connect(m_client,SIGNAL(connected()),this,SLOT(isConnected()));
@@ -61,18 +61,26 @@ void RClient::isConnected()
     qDebug() << "connected established";
 }
 
-void RClient::addMessageToSendQueue(Message m)
+void RClient::addMessageToSendQueue(Message* m)
 {
     m_readingMutex.lock();
-        m_message->append(m);
+        m_messageList->append(m);
+         qDebug() <<  m->getDataArray().size();
     m_readingMutex.unlock();
     emit messageInQueue();
 }
 void RClient::sendMessage()
 {
-    while(!m_message->empty())
+    while(!m_messageList->empty())
     {
-        m_client->write(m_message->takeFirst());
+
+        Message* m= m_messageList->takeFirst();
+
+        qDebug() <<  m->getDataArray().size();
+        m->write(m_client);
+        /*m_client->write(t.getType());
+        m_client->write(t.getSize());
+        m_client->write(t.getDataArray());*/
     }
 }
 

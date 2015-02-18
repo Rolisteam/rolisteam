@@ -47,22 +47,43 @@ void Server::readDataFromClient()
 {
 
     QTcpSocket* tmp = static_cast<QTcpSocket*>(sender());
-    /// @todo: base line of server forward messages to all other clients.
-    QByteArray array = tmp->readAll();
+    /// @todo: base line of server, forward messages to all other clients.
 
-    QDataStream stream(array);
-    QString name;
-    QString type;
-    QString data;
-    stream >> type;
-    stream >> name;
+    QByteArray type =tmp->readAll();
+    QDataStream stream(type);
+
+    quint32 typeStr;
+    stream >> typeStr;
+    //stream >> name;
+
+
+
+    switch((int)type[0])
+    {
+        case 1:
+            qDebug() << "Type of tchat";
+            break;
+        default:
+            qDebug() << "Type ="<<typeStr << (int)type[0] << type.size();
+            break;
+    }
+
+
+
+
+   /* quint32 sizeint;
+    stream>> sizeint;*/
+    qDebug()  <<" size" << (int)type[1];
+
+
+
+   /* QString dataStr;
+    stream >> dataStr;*/
+
     foreach(QTcpSocket* tmpclient, *m_list)
     {
-
-
-
-        quint64 size=tmpclient->write(array);
-        qDebug() << "taille envoyé" <<size << m_list->size()<< type<<name ;
+       // quint64 size=tmpclient->write(data);
+        //qDebug() << "taille envoyé" <<size << m_list->size()<< type<<name ;
     }
 
 }

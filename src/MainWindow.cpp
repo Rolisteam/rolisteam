@@ -249,13 +249,16 @@ void MainWindow::createMenu()
     //Network Menu and actions
     //////////////////////////
     m_networkMenu = menuBar()->addMenu(tr("&Network"));
+    m_serverAct=new QAction(tr("&Start server..."),NULL);
+    m_newConnectionAct=new QAction(tr("&New Connection..."),NULL);
     refreshNetworkMenu();
+
   /*  m_serverAct = m_networkMenu->addAction(tr("&Start server..."));
 
-    m_newConnectionAct = m_networkMenu->addAction(tr("&New Connection..."));
+    m_newConnectionAct = m_networkMenu->addAction(tr("&New Connection..."));*/
 
 
-    m_connectionActGroup = new QActionGroup(this);
+   /* m_connectionActGroup = new QActionGroup(this);
     if(m_connectionList.size() > 0)//(m_connectionList != NULL)&&
     {
         m_connectionMap = new QMap<QAction*,Connection>;
@@ -647,16 +650,13 @@ void MainWindow::tcpStateConnectionChanged(RClient::State s)
 void MainWindow::refreshNetworkMenu()
 {
     m_networkMenu->clear();
-    if(m_serverAct==NULL)
-        m_serverAct = m_networkMenu->addAction(tr("&Start server..."));
-    else
-        m_networkMenu->addAction(m_serverAct);
+
+    //m_serverAct = m_networkMenu->addAction(tr("&Start server..."));
+    m_networkMenu->addAction(m_serverAct);
 
 
-    if(m_newConnectionAct==NULL)
-        m_newConnectionAct = m_networkMenu->addAction(tr("&New Connection..."));
-    else
-        m_networkMenu->addAction(m_newConnectionAct);
+   // m_newConnectionAct = m_networkMenu->addAction(tr("&New Connection..."));
+    m_networkMenu->addAction(m_newConnectionAct);
 
     QVariant tmp2;
     tmp2.setValue(ConnectionList());

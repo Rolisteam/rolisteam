@@ -56,7 +56,7 @@ public:
     void startConnection(Connection& connection);
 
     //int getId(void*);
-    void addMessageToSendQueue(Message m);
+    void addMessageToSendQueue(Message* m);
     /**
       * @brief calls when the connection is well established.
       */
@@ -97,7 +97,7 @@ private:
     ReadingThread* m_reading;
 
     //QList<void*> m_registedSender;
-    QList<Message>* m_message;
+    QList<Message*>* m_messageList;
     QMutex m_readingMutex;
     QMutex m_writingMutex;
 };

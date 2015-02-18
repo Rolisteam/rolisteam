@@ -39,7 +39,7 @@ void ReadingThread::readDataFromSocket()
 {
     Message* msg = new Message;
     QByteArray array = m_socket->readAll();
-    msg->append(array);
+    //msg->append(array);
     m_messageQueue->append(msg);
 
 }

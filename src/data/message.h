@@ -24,19 +24,23 @@
 /**
   * @brief storage class to store rolisteam protocole messages
   * @brief should implement some features to get important/compulsory fields
+  * @todo add operator << and >>
   */
-class Message : public QByteArray
+class QTcpSocket;
+class Message
 {
 public:
     Message();
-    //QByteArray& getDataArray();
+    QByteArray& getDataArray();
+    quint32 getSize();
+    quint32 getType();
+    void setType(int type);
 
+    void write(QTcpSocket* );
 
-//private:
-    //QByteArray m_internalData;
-
-
-
+private:
+    int m_type;
+    QByteArray m_internalData;
 };
 
 #endif // MESSAGE_H
