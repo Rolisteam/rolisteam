@@ -806,7 +806,7 @@ void PlayersList::delPlayerWithLink(Liaison * link)
         Player * player = m_playersList.at(i);
         if (player->link() == link)
         {
-            qWarning("Something wrong append to %s", qPrintable(player->name()));
+            qWarning("Something wrong happens to %s", qPrintable(player->name()));
             NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
             message.string8(player->uuid());
             message.sendAll(link);

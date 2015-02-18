@@ -23,6 +23,10 @@
 
 #include <QColorDialog>
 #include <QPlastiqueStyle>
+#include <QPainter>
+#include <QPaintEvent>
+#include <QStyleOptionFocusRect>
+#include <QDebug>
 
 ColorButton::ColorButton(const QColor & color, QWidget * parent)
     : QPushButton(parent), m_color(color), m_dialog(color, this)
@@ -35,6 +39,7 @@ ColorButton::ColorButton(const QColor & color, QWidget * parent)
         setStyle(new QPlastiqueStyle());
     //}
     setColor(m_color);
+
     setMaximumSize(sizeHint());
 
     // should never be the default button
@@ -63,5 +68,10 @@ void ColorButton::setColor(const QColor & color)
     tmp.setColor(QPalette::Button,m_color);
     tmp.setColor(QPalette::Window,m_color);
     setPalette(tmp);
+    setAutoFillBackground(true);
+    setStyleSheet(QString("ColorButton { background-color: rgb(%1,%2,%3);}").arg(color.red()).arg(color.green()).arg(color.blue()));
+    qDebug() << this->styleSheet();
     emit colorChanged(m_color);
 }
+
+

@@ -135,6 +135,7 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     // Window initialisation
     setObjectName("ChatWindow");
     setWindowIcon(QIcon(":/resources/icones/vignette tchat.png"));
+
     setAttribute(Qt::WA_DeleteOnClose, false);
     parent->registerSubWindow(this);
     hide();
