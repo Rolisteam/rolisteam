@@ -49,14 +49,28 @@ public:
 	*/
     void setName(QString name);
 
+    /**
+    * @brief allows to get the section's value.
+    * @return value QString
+    */
+    QString getValue();
 
+    /**
+    * @brief allows to set the value of this section.
+    * @param QString value
+    */
+    void setValue(QString& name);
 
 
 private:
-	/**
-	* @brief stores the section name
-	*/
+    /**
+    * @brief stores the section name
+    */
     QString m_name;
+    /**
+    * @brief can be used as default value for all subsections (Star Wars D6, some rolemaster editions and others...)
+    */
+    QString m_value;
 
 
 };
@@ -83,7 +97,12 @@ public:
 	* @param section id
 	*/
     const QString getTitleSection(int section);
-	
+        /**
+        * @brief allows to get the value of the given section
+        * @param section id
+        */
+    const QString getSectionValue(int section);
+    void setSectionValue(int section,QString& value);
 	/**
 	* @brief global getter of data.  This function has been writen to make easier the MVC architecture.
 	* @param int index : 0 refers to the title of the first section, 1 refers to the first data of the first section....

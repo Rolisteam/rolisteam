@@ -38,6 +38,7 @@ CharacterSheetWindow::CharacterSheetWindow(QWidget* parent)
     m_saveCharacterSheet = new QAction(tr("Save Character Sheets"),this);
     m_openCharacterSheet= new QAction(tr("Open Character Sheets"),this);
     m_view.setModel(&m_model);
+    m_view.setAlternatingRowColors(true);
     setWindowTitle(tr("Character Sheet Viewer"));
 
     m_widget.setLayout(&m_horizonLayout);

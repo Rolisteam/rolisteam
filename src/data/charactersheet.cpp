@@ -38,7 +38,14 @@ void Section::setName(QString name)
 CharacterSheet::CharacterSheet()
 {
 }
-
+QString Section::getValue()
+{
+    return m_value;
+}
+void Section::setValue(QString& name)
+{
+    m_value=name;
+}
 const QString CharacterSheet::getData(int section, int key)
 {
     Q_ASSERT(m_sectionList.size()>section);
@@ -50,6 +57,17 @@ const  QString CharacterSheet::getTitleSection(int section)
     Q_ASSERT(m_sectionList.size()>section);
         return m_sectionList[section].getName();
 }
+const QString CharacterSheet::getSectionValue(int section)
+{
+    Q_ASSERT(m_sectionList.size()>section);
+    return m_sectionList[section].getValue();
+}
+void CharacterSheet::setSectionValue(int section,QString& value)
+{
+      Q_ASSERT(m_sectionList.size()>section);
+       m_sectionList[section].setValue(value);
+}
+
 int CharacterSheet::getSection(int index)
 {
     int currentSection=0;
@@ -116,6 +134,9 @@ const QString& CharacterSheet::owner() const
 
 void CharacterSheet::setData(int indexSec,int index,QVariant value,bool isHeader)
 {
+
+       while(index>=m_sectionList[indexSec].size())
+            m_sectionList[indexSec].insert(m_sectionList[indexSec].size(),"");
        m_sectionList[indexSec].replace(index,value.toString());
 }
 void CharacterSheet::addData(int indexSec,int index,QVariant value)

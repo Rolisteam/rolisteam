@@ -41,11 +41,15 @@ ImprovedWorkspace::ImprovedWorkspace(QColor& penColor,QWidget *parent)
 
     m_backgroundPicture = new QPixmap(m_options->value("worspace/background/image",":/resources/icons/fond workspace macos.bmp").toString());
 
+    qDebug() << m_backgroundPicture->isNull();
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
     this->setBackground(QBrush(*m_variableSizeBackground));
     m_currentCursor = m_handCursor;
     m_penSize = 1;
     m_npcSize =1;
+
+
+
     connect(this,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(activeSubWindowChanged(QMdiSubWindow*)));
 
 }

@@ -27,7 +27,6 @@
 TreeItem::TreeItem(Section* p,bool leaf)
     : m_section(p),m_isLeaf(leaf)
 {
- //   qDebug() << " Creation TreeItem";
     m_children =new QList<TreeItem*>;
 }
 TreeItem* TreeItem::getParent()
@@ -171,7 +170,6 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
                      return QString("line");
                 }
             }
-
         }
         else
         {
@@ -179,12 +177,10 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
             TreeItem* childItem = static_cast<TreeItem*>(tmp.internalPointer());
             if(!childItem->isLeaf())
             {
-
-                return QVariant();
+                return m_characterList->at(index.column()-1)->getSectionValue(index.row());
             }
             else
             {
-
                return m_characterList->at(index.column()-1)->getData(childItem->getParent()->row(),index.row());
             }
         }
@@ -198,11 +194,17 @@ bool CharacterSheetModel::setData ( const QModelIndex & index, const QVariant & 
     {
         if(index.column()!=0)
         {
+            CharacterSheet* tmp = m_characterList->at(index.column()-1);
             if(index.parent().isValid())
             {
-                CharacterSheet* tmp = m_characterList->at(index.column()-1);
-                TreeItem* childItem = static_cast<TreeItem*>(index.parent().internalPointer());
-                tmp->setData(m_rootItem->indexOfChild(childItem),index.row(),value);
+
+                TreeItem* parentItem = static_cast<TreeItem*>(index.parent().internalPointer());
+                tmp->setData(m_rootItem->indexOfChild(parentItem),index.row(),value);
+            }
+            else
+            {
+                QString tmpstring=value.toString();
+                tmp->setSectionValue(index.row(),tmpstring);
             }
         }
         else

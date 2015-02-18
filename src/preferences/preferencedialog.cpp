@@ -68,7 +68,7 @@ void PreferenceDialog::changeEvent(QEvent *e)
 }
 void PreferenceDialog::initValues()
 {
-    ui->m_wsBgPathLine->setText(m_options->value("worspace/background/image",":/resources/icones/fond workspace macos.bmp").toString());
+    ui->m_wsBgPathLine->setText(m_options->value("worspace/background/image",":/resources/icons/fond workspace macos.bmp").toString());
     ui->m_wsBgColorButton->setColor(m_options->value("worspace/background/color",QColor(191,191,191)).value<QColor>());
 }
 void PreferenceDialog::resetValues()
@@ -97,6 +97,7 @@ void PreferenceDialog::applyAllChanges(QAbstractButton * button)
 {
     if(QDialogButtonBox::ApplyRole==ui->m_buttonbox->buttonRole(button))
     {
+        m_current.setBackgroundImage(ui->m_wsBgPathLine->text());
         m_options->registerValue("worspace/background/image",m_current.backgroundImage());
         m_options->registerValue("worspace/background/color",m_current.backgroundColor());
         emit preferencesChanged();
