@@ -132,6 +132,11 @@ int main(int argc, char *argv[])
         app.setWindowIcon(QIcon(":/resources/icons/" + QString(NOM_APPLICATION) + ".png"));
     #endif
 
+    // Seeds random generator
+    uint seed = quintptr(&app) + QDateTime::currentDateTime().toTime_t();
+    qDebug("Seed %x", seed);
+    qsrand(seed);
+
     // We need an Uuid for the local player
     G_idJoueurLocal = QUuid::createUuid().toString();
     g_featuresList.addLocal(G_idJoueurLocal);

@@ -36,8 +36,6 @@ Tchat::Tchat(QString id, QAction *action, /*QString tmp,*/QWidget *parent)
 {
 	// On donne un nom a l'objet "Tchat" pour le differencier des autres fenetres du workspace
 	setObjectName("Tchat");
-    // Initialisation du generateur de nombre aleatoire
-    qsrand(QDateTime::currentDateTime ().toTime_t ());
 	// Initialisation des variables
 	idJoueur = id;
 
@@ -455,8 +453,7 @@ int Tchat::calculerJetDes(QString &message, QString &tirage, bool &ok)
                 unsigned short dice, sumDice=0;
                 for(unsigned short u=0;u<nombre;u++)
                 {
-                    qDebug()<<faces;
-                    dice=(rand()%faces)+1;
+                    dice=(qrand()%faces)+1;
                     listDices.append(dice);
                     sumDice+=dice;
                 }
@@ -490,13 +487,12 @@ int Tchat::calculerJetDes(QString &message, QString &tirage, bool &ok)
                 unsigned short tmpDice, dice, sumDice=0;
                 for(unsigned short u=0;u<nombre;u++)
                 {
-                    qDebug()<<garde;
-                    tmpDice=(rand()%10)+1;
+                    tmpDice=(qrand()%10)+1;
                     dice=tmpDice;
                     if(relance10)
                         while((tmpDice==10))
                         {
-                            tmpDice=(rand()%10)+1;
+                            tmpDice=(qrand()%10)+1;
                             dice+=tmpDice;
                         }
                     listDices.append(dice);
@@ -530,7 +526,7 @@ int Tchat::calculerJetDes(QString &message, QString &tirage, bool &ok)
                 unsigned short dice, sumDice=0;
                 for(unsigned short u=0;u<nombre;u++)
                 {
-                    dice=(rand()%6)+1;
+                    dice=(qrand()%6)+1;
                     listDices.append(dice);
                     if(dice>=5)
                        ++sumDice ;
@@ -710,7 +706,7 @@ int Tchat::calculerJetDesSR4(QString &message, QString &tirage, QString &glitch,
 		for (int u=0; u<nbDesEnCours ; u++)
 		{
 			// Tirage du de
-			de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * nbFaces); //rand()%nbFaces + 1;
+			de = 1 + (int)((double)qrand() / ((double)RAND_MAX + 1) * nbFaces); //rand()%nbFaces + 1;
 			// Verification du succes
 			if (de >= seuilSucces)
 			{
