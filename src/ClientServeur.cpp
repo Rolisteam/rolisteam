@@ -227,6 +227,7 @@
 	/********************************************************************/
 	void ClientServeur::erreurDeConnexion(QAbstractSocket::SocketError srror)
 	{
+            Q_UNUSED(srror)
 		// Message d'erreur
 		qDebug("Une erreur réseau est survenue");
 
@@ -332,7 +333,7 @@
 			int i;
 			int n = liaisons.size();
 			// On recherche le thread qui vient de se terminer
-			for (i = 0; i<n & !trouve; i++)
+                        for (i = 0; ((i<n) && (!trouve)); i++)
 				if (liaisons[i]->isFinished())
 					trouve = true;
 			i--;
@@ -725,7 +726,9 @@
 		identifiantClient->hide();
 
 		// On fixe la taille de la fenetre
+
 		int tailleMaxIdentifiant = largeurIdentifiantServeur>largeurIdentifiantClient?largeurIdentifiantServeur:largeurIdentifiantClient;
+                Q_UNUSED(tailleMaxIdentifiant)
 		#ifdef WIN32
 			fenetreConnexion->setFixedSize(tailleMaxIdentifiant+86, 264);
 		#elif defined (MACOS)

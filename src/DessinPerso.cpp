@@ -329,19 +329,19 @@
 				
 		int x, y;
 		// Initialisation du point haut gauche
-		for (x=0, y=0; qAlpha(disque.pixel(x,y))!=255; x++, y++);
+                for (x=0, y=0; qAlpha(disque.pixel(x,y))!=255; x++, y++) ;
 		contour[4] = QPoint(x, y);
 		
 		// Initialisation du point haut droite
-		for (x=disque.width()-1, y=0; qAlpha(disque.pixel(x,y))!=255; x--, y++);
+                for (x=disque.width()-1, y=0; qAlpha(disque.pixel(x,y))!=255; x--, y++) ;
 		contour[5] = QPoint(x, y);
 
 		// Initialisation du point bas gauche
-		for (x=0, y=disque.height()-1; qAlpha(disque.pixel(x,y))!=255; x++, y--);
+                for (x=0, y=disque.height()-1; qAlpha(disque.pixel(x,y))!=255; x++, y--) ;
 		contour[6] = QPoint(x, y);
 		
 		// Initialisation du point bas gauche
-		for (x=disque.width()-1, y=disque.height()-1; qAlpha(disque.pixel(x,y))!=255; x--, y--);
+                for (x=disque.width()-1, y=disque.height()-1; qAlpha(disque.pixel(x,y))!=255; x--, y--) ;
 		contour[7] = QPoint(x, y);
 	}
 

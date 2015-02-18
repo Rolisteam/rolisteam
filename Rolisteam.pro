@@ -74,4 +74,4 @@ CONFIG += debug
 VERSION = 1.1
 MOC_DIR = src
 UI_DIR = src
-QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings"
+#QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"

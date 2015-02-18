@@ -203,7 +203,7 @@
 	{
 		qDebug("Reception d'un message de categorie Connexion");
 		int p = 0;
-
+                Q_UNUSED(p)
 		// Le serveur indique que la processus de connexion vient de se terminer
 		if (entete.action == finProcessusConnexion)
 		{
@@ -838,7 +838,7 @@
 			p+=tailleIdPerso*sizeof(QChar);
 			QString idPerso(tableauIdPerso, tailleIdPerso);
 			// On recupere le nbr de points du deplacement
-			quint32 nbrPoints;
+                        qint32 nbrPoints;
 			memcpy(&nbrPoints, &(tampon[p]), sizeof(quint32));
 			p+=sizeof(quint32);
 			// On recupere les points du deplacement
@@ -1048,7 +1048,7 @@
 			p+=tailleIdPlan*sizeof(QChar);
 			QString idPlan(tableauIdPlan, tailleIdPlan);
 			// On recupere le nombre de points
-			quint32 nbrPoints;
+                        qint32 nbrPoints;
 			memcpy(&nbrPoints, &(tampon[p]), sizeof(quint32));
 			p+=sizeof(quint32);
 			// On recupere les points du trace

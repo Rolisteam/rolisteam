@@ -58,7 +58,10 @@
                 QAction	*act2 = barreFontes->addAction(QIcon(":/resources/icones/style gras.png"), tr("Gras"), this, SLOT(styleGras()));
                 QAction	*act3 = barreFontes->addAction(QIcon(":/resources/icones/style italique.png"), tr("Italique"), this, SLOT(styleItalique()));
                 QAction	*act4 = barreFontes->addAction(QIcon(":/resources/icones/style souligne.png"), tr("Souligné"), this, SLOT(styleSouligne()));
-
+                Q_UNUSED(act1)
+                Q_UNUSED(act2)
+                Q_UNUSED(act3)
+                Q_UNUSED(act4)
 		#ifdef MACOS
 			// On change le style des icones
 			QPlastiqueStyle *style = new QPlastiqueStyle();
