@@ -724,6 +724,15 @@ void MainWindow::ouvrirPlan(bool masquer)
 
 void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichier)
 {
+
+
+    QPoint posWindow;
+    in >> posWindow;
+
+    QSize sizeWindow;
+    in >> sizeWindow;
+
+
     QString titre;
     in >> titre;
 
@@ -782,6 +791,8 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
         carte->setPointeur(m_toolBar->getCurrentTool());
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte,this,workspace);
+
+        carteFenetre->setGeometry(posWindow.x(),posWindow.y(),sizeWindow.width(),sizeWindow.height());
 
         // Ajout de la carte au workspace : si aucun nom de fichier n'est passe en parametre, il s'agit d'une lecture de
         // carte dans le cadre de l'ouverture d'un fichier scenario : on prend alors le titre associe a la carte. Sinon
@@ -1485,10 +1496,12 @@ void MainWindow::ouvrirScenario()
         int nbrCartes;
         in >> nbrCartes;
 
-        //file.read((char *)&nbrCartes, sizeof(quint16));
-        // On lit toutes les cartes presentes dans le fichier
+
         for (int i=0; i<nbrCartes; ++i)
-                lireCarteEtPnj(in);
+        {
+
+            lireCarteEtPnj(in);
+        }
 
         // On lit le nbr d'images a suivre
         int nbrImages;
@@ -1560,16 +1573,14 @@ void MainWindow::sauvegarderTousLesPlans(QDataStream &out)
     out << listeCarteFenetre.size();
     for (int i=0; i<listeCarteFenetre.size(); ++i)
     {
-        QTextStream out2(stderr,QIODevice::WriteOnly);
-        //out2 <<" save tous les plans " << listeCarteFenetre[i]->pos().x() << "," << listeCarteFenetre[i]->pos().y()  << " size=("<< listeCarteFenetre[i]->size().width()<<","<<listeCarteFenetre[i]->size().height() << endl;
+
+
         QPoint pos2 = listeCarteFenetre[i]->mapFromParent(listeCarteFenetre[i]->pos());
-       // out2 <<" save tous les plans " << pos2.x() << "," << pos2.y()  << " size=("<< listeCarteFenetre[i]->size().width()<<","<<listeCarteFenetre[i]->size().height() << endl;
+
 
         out << pos2;
         out << listeCarteFenetre[i]->size();
-        //QWidgetList list = workspace->windowList();
-        //list.indexOf()
-            listeCarteFenetre[i]->carte()->sauvegarderCarte(out, listeCarteFenetre[i]->windowTitle());
+        listeCarteFenetre[i]->carte()->sauvegarderCarte(out, listeCarteFenetre[i]->windowTitle());
     }
 }
 
@@ -1577,7 +1588,9 @@ void MainWindow::sauvegarderToutesLesImages(QDataStream &out)
 {
    out << listeImage.size();
    for (int i=0; i<listeImage.size(); ++i)
+   {
            listeImage[i]->sauvegarderImage(out, listeImage[i]->windowTitle());
+   }
 }
 
 
