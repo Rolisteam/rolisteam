@@ -469,11 +469,14 @@ int Tchat::calculerJetDes(QString message, QString *tirage, bool *ok)
 
 			int de;
 			int resultatDes = 0;
-			// Enfin on effectue le jet de des
+                        // The dices rolling
 			for (int u=0; u<nombre; u++)
 			{
 				// Tirage du de
-                                de = de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * (faces+1)); //rand()%faces + 1;
+                                /*de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * (faces)); //rand()%faces + 1;*/ //Okay
+                                //de = 1 + (faces * rand()) / (RAND_MAX+1);//Too bad
+                                de = 1 + ((double)faces*rand())/((double)RAND_MAX+1);
+
 				// Ajout du de au resultat final
 				resultatDes += de;
 				// Ajout du resultat a la chaine tirage

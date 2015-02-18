@@ -30,27 +30,23 @@
 #ifndef AFFICHEUR_DISQUE_H
 #define AFFICHEUR_DISQUE_H
 
-	#include <QWidget>
-	
+#include <QWidget>
 
-	class AfficheurDisque : public QWidget
-	{
-	Q_OBJECT
-	
-	public :
-		AfficheurDisque(QWidget *parent = 0, bool plein = true, int minimum = 1);
-	
-	public slots :
-		void changerDiametre(int diametre);
 
+class AfficheurDisque : public QWidget
+{
+    Q_OBJECT
+
+    public :
+        AfficheurDisque(QWidget *parent = 0, bool plein = true, int minimum = 1);
+    public slots :
+        void changerDiametre(int diametre);
     protected:
         void paintEvent(QPaintEvent *event);
-	
-	private :
-		int diametreCourant;
-		int diametreMinimum;
-		bool disquePlein;
-	
-	};
+    private :
+        int diametreCourant;
+        int diametreMinimum;
+        bool disquePlein;
+};
 
 #endif
