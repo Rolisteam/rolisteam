@@ -211,6 +211,7 @@ private :
         int canalAudio;		//!< @brief index for fmod (must die)
 
         PlayingMode m_currentPlayingMode;
+        bool m_endFile;
         //bool enBoucle;		//!< @brief bool true if the playing is in loop mode. otherwise false.(must die)
         //bool lectureUnique;     //!< @brief bool true if the playing is in only one song mode. Otherwise false. (must die)
 
@@ -272,7 +273,6 @@ private slots :
 	*/
         void changementTempsAffichage(int valeur);
 
-#endif
 	/**
     * @brief  slot which set/unset loop playing
 	*/
@@ -282,7 +282,7 @@ private slots :
     * @brief  slot which set/unset only one song playing mode
 	*/
         void appuiUnique(bool etatBouton);
-
+#endif
 	/**
     * @brief  slot which manage the click on add song button
 	*/
