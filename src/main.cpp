@@ -75,6 +75,7 @@ QString G_idJoueurLocal;
  */
 int main(int argc, char *argv[])
 {
+     qDebug()<< "start" << 1;
     // Creation de l'application
     QApplication app(argc, argv);
     Initialisation* init= Initialisation::getInstance();
@@ -126,11 +127,15 @@ int main(int argc, char *argv[])
     int value = 0;
     if(mainWindow->showConnectionDialog())
     {
-
+        qDebug()<< "start" << 1;
         mainWindow->setUpNetworkConnection();
+        qDebug()<< "start" << 21;
         mainWindow->updateWindowTitle();
+        qDebug()<< "start" << 31;
         mainWindow->checkUpdate();
+        qDebug()<< "start" << 41;
         mainWindow->updateUi();
+        qDebug()<< "start" << 51;
         // We have a connection, we launch the main window.
         mainWindow->showNormal();
         value = app.exec();

@@ -74,15 +74,15 @@
 
 static inline QString FileFilterHaving()
 {
-  QString filter;
-  filter = "";
-  ///////filter += QString( "FOP file" ) + " (*.fop *.fop.gz *.fo *.fo.gz *.xml);;";
-  /////filter+= QString( "MiniScribus binary stream file" ) + " (*.page);;"; 
-  //////filter+= QString( "OpenOffice 1.1 file format" ) + " (*.sxw *.stw);;"; 
-  filter+= QString( "OpenOffice 2.4 file format OASIS " ) + " (*.odt *.ott);;"; 
-  filter+= QString( "XHTML file format" ) + " (*.htm *.html);;"; 
-  //////filter += ")";
-  return filter;
+    QString filter;
+    filter = "";
+    ///////filter += QString( "FOP file" ) + " (*.fop *.fop.gz *.fo *.fo.gz *.xml);;";
+    /////filter+= QString( "MiniScribus binary stream file" ) + " (*.page);;";
+    //////filter+= QString( "OpenOffice 1.1 file format" ) + " (*.sxw *.stw);;";
+    filter+= QString( "OpenOffice 2.4 file format OASIS " ) + " (*.odt *.ott);;";
+    filter+= QString( "XHTML file format" ) + " (*.htm *.html);;";
+    //////filter += ")";
+    return filter;
 }
 
 QString TextEdit::m_filter = QString("%1 %2 %3 %4").arg(tr("OpenOffice 2.4 file format OASIS ")).arg(tr(" (*.odt *.ott);;")).arg(tr("XHTML file format")).arg(tr(" (*.htm *.html);;"));
@@ -102,12 +102,12 @@ TextEdit::TextEdit(QWidget *parent)
     setupEditActions();
     setupTextActions();
 
-//    {
-//        QMenu *helpMenu = new QMenu(tr("Help"), this);
-//        menuBar()->addMenu(helpMenu);
-//        helpMenu->addAction(tr("About"), this, SLOT(about()));
-//        helpMenu->addAction(tr("About &Qt"), qApp, SLOT(aboutQt()));
-//    }
+    //    {
+    //        QMenu *helpMenu = new QMenu(tr("Help"), this);
+    //        menuBar()->addMenu(helpMenu);
+    //        helpMenu->addAction(tr("About"), this, SLOT(about()));
+    //        helpMenu->addAction(tr("About &Qt"), qApp, SLOT(aboutQt()));
+    //    }
 
     textEdit = new QTextEdit(this);
     connect(textEdit, SIGNAL(currentCharFormatChanged(const QTextCharFormat &)),
@@ -400,8 +400,8 @@ void TextEdit::drawDoc()
 {
     /* remote image is loading after ..... */
     if (Ooo) {
-    textEdit->setDocument ( Ooo->document()->clone() );
-    delete Ooo;
+        textEdit->setDocument ( Ooo->document()->clone() );
+        delete Ooo;
     }
     
     if (force) {
@@ -421,40 +421,40 @@ bool TextEdit::load(const QString &f)
     QFileInfo fi(f);
     const QString ext = fi.completeSuffix().toLower();
     if (!fi.exists()) {
-    return false;
+        return false;
     }
     
     if ( ext ==  "odt" ||  ext ==  "ott" ) {
-    force = new PushDoc(this);
-    Ooo = new OOReader(f);
-    Ooo->moveToThread(force);
-    connect(force, SIGNAL(started()),Ooo,SLOT(read())); 
-    connect(Ooo, SIGNAL(ready()), this, SLOT(drawDoc()));
-    connect(Ooo, SIGNAL(statusRead(int,int)), this, SLOT(onRead(int,int)));    
-    force->start();
+        force = new PushDoc(this);
+        Ooo = new OOReader(f);
+        Ooo->moveToThread(force);
+        connect(force, SIGNAL(started()),Ooo,SLOT(read()));
+        connect(Ooo, SIGNAL(ready()), this, SLOT(drawDoc()));
+        connect(Ooo, SIGNAL(statusRead(int,int)), this, SLOT(onRead(int,int)));
+        force->start();
         
         
-    setCurrentFileName(f);
-    return true;
+        setCurrentFileName(f);
+        return true;
     } else {
-   
-    QFile file(f);
-    if (!file.open(QFile::ReadOnly))
-        return false;
 
-    QByteArray data = file.readAll();
-    QTextCodec *codec = Qt::codecForHtml(data);
-    QString str = codec->toUnicode(data);
-    if (Qt::mightBeRichText(str)) {
-        textEdit->setHtml(str);
-    } else {
-        str = QString::fromLocal8Bit(data);
-        textEdit->setPlainText(str);
+        QFile file(f);
+        if (!file.open(QFile::ReadOnly))
+            return false;
+
+        QByteArray data = file.readAll();
+        QTextCodec *codec = Qt::codecForHtml(data);
+        QString str = codec->toUnicode(data);
+        if (Qt::mightBeRichText(str)) {
+            textEdit->setHtml(str);
+        } else {
+            str = QString::fromLocal8Bit(data);
+            textEdit->setPlainText(str);
+        }
+
+        setCurrentFileName(f);
+        return true;
     }
-
-    setCurrentFileName(f);
-    return true;
-   }
 }
 
 bool TextEdit::maybeSave()
@@ -516,24 +516,24 @@ bool TextEdit::fileSave()
         return fileSaveAs();
     
     bool canodt = false;
-    #if QT_VERSION >= 0x040500
+#if QT_VERSION >= 0x040500
     canodt = true;
-    #endif
+#endif
     const QString ext = QFileInfo(fileName).completeSuffix().toLower();
     if (ext == "odt" && canodt) {
-    #if QT_VERSION >= 0x040500 
-    QTextDocumentWriter writer(fileName);
-    return writer.write(textEdit->document());
-    #endif
-    return false;
-    } else {
-    QFile file(fileName);
-    if (!file.open(QFile::WriteOnly))
+#if QT_VERSION >= 0x040500
+        QTextDocumentWriter writer(fileName);
+        return writer.write(textEdit->document());
+#endif
         return false;
-    QTextStream ts(&file);
-    ts.setCodec(QTextCodec::codecForName("UTF-8"));
-    ts << textEdit->document()->toHtml("UTF-8");
-    textEdit->document()->setModified(false);
+    } else {
+        QFile file(fileName);
+        if (!file.open(QFile::WriteOnly))
+            return false;
+        QTextStream ts(&file);
+        ts.setCodec(QTextCodec::codecForName("UTF-8"));
+        ts << textEdit->document()->toHtml("UTF-8");
+        textEdit->document()->setModified(false);
     }
     return true;
 }
@@ -560,13 +560,13 @@ bool TextEdit::fileSaveAs()
 {
     
     QString support;
-    #if QT_VERSION >= 0x040500
+#if QT_VERSION >= 0x040500
     support = tr("ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)");
-    #else
+#else
     support = tr("HTML-Files (*.htm *.html);;All Files (*)");
-    #endif
+#endif
     QString fn = QFileDialog::getSaveFileName(this, tr("Save as..."),
-    QString(),support);
+                                              QString(),support);
     
     
     
@@ -613,7 +613,7 @@ void TextEdit::printPreview(QPrinter *printer)
 void TextEdit::filePrintPdf()
 {
 #ifndef QT_NO_PRINTER
-//! [0]
+    //! [0]
     QString fileName = QFileDialog::getSaveFileName(this, "Export PDF",
                                                     QString(), "*.pdf");
     if (!fileName.isEmpty()) {
@@ -624,7 +624,7 @@ void TextEdit::filePrintPdf()
         printer.setOutputFileName(fileName);
         textEdit->document()->print(&printer);
     }
-//! [0]
+    //! [0]
 #endif
 }
 
@@ -671,25 +671,25 @@ void TextEdit::textStyle(int styleIndex)
         QTextListFormat::Style style = QTextListFormat::ListDisc;
 
         switch (styleIndex) {
-            default:
-            case 1:
-                style = QTextListFormat::ListDisc;
-                break;
-            case 2:
-                style = QTextListFormat::ListCircle;
-                break;
-            case 3:
-                style = QTextListFormat::ListSquare;
-                break;
-            case 4:
-                style = QTextListFormat::ListDecimal;
-                break;
-            case 5:
-                style = QTextListFormat::ListLowerAlpha;
-                break;
-            case 6:
-                style = QTextListFormat::ListUpperAlpha;
-                break;
+        default:
+        case 1:
+            style = QTextListFormat::ListDisc;
+            break;
+        case 2:
+            style = QTextListFormat::ListCircle;
+            break;
+        case 3:
+            style = QTextListFormat::ListSquare;
+            break;
+        case 4:
+            style = QTextListFormat::ListDecimal;
+            break;
+        case 5:
+            style = QTextListFormat::ListLowerAlpha;
+            break;
+        case 6:
+            style = QTextListFormat::ListUpperAlpha;
+            break;
         }
 
         cursor.beginEditBlock();
@@ -761,8 +761,8 @@ void TextEdit::clipboardDataChanged()
 void TextEdit::about()
 {
     QMessageBox::about(this, tr("About"), tr("This example demonstrates Qt's "
-        "rich text editing facilities in action, providing an example "
-        "document for you to experiment with."));
+                                             "rich text editing facilities in action, providing an example "
+                                             "document for you to experiment with."));
 }
 
 void TextEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
@@ -803,7 +803,7 @@ void TextEdit::alignmentChanged(Qt::Alignment a)
     }
 }
 
- QString TextEdit::getFilter()
- {
-     return m_filter;
- }
+QString TextEdit::getFilter()
+{
+    return m_filter;
+}

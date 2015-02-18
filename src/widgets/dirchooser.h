@@ -4,13 +4,13 @@
 #include <QWidget>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QtDesigner/QDesignerExportWidget>
+
 
 /**
  * @brief A LineEdit with a button to choose a directory.
  * @todo Make it private or in its own file.
  */
-class QDESIGNER_WIDGET_EXPORT DirChooser : public QWidget
+class DirChooser : public QWidget
 {
     Q_OBJECT
 

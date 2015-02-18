@@ -26,7 +26,7 @@
 #include <QDialogButtonBox>
 #include <QProgressBar>
 
-#include "colorbutton.h"
+#include "widgets/colorbutton.h"
 
 #define MIN 1
 #define MAX 65535
@@ -36,16 +36,16 @@
  * ConnectionConfigDialog *
  **************************/
 
-ConnectionConfigDialog::ConnectionConfigDialog()
-    : QDialog()
+ConnectionConfigDialog::ConnectionConfigDialog(QWidget* parent)
+    : QDialog(parent)
 {
     setUI();
 }
 
-ConnectionConfigDialog::ConnectionConfigDialog(
+ConnectionConfigDialog::ConnectionConfigDialog(QWidget* parent,
         const QString & name, const QColor & color, bool master,
         const QString & host, quint16 port, bool server)
-    : QDialog()
+    : QDialog(parent)
 {
     setUI();
     m_name->setText(name);

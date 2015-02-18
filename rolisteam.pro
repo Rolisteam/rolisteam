@@ -5,7 +5,8 @@
 ##################################################
 
 ## Generic parameter
-CONFIG += phonon -console
+CONFIG += phonon console
+#-console
 TEMPLATE = app
 TARGET = bin/rolisteam
 DEPENDPATH += . src
@@ -206,7 +207,7 @@ UI_DIR = src
 unix{
 LIBS += -lz
 }
-
+CONFIG += embed_manifest_exe
 FORMS += \
     src/connectionretrydialog.ui \
     src/mapwizzard.ui \

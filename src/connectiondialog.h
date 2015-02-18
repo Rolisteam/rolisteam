@@ -41,7 +41,7 @@ class ConnectionConfigDialog : public QDialog
     Q_OBJECT
 
     public:
-        ConnectionConfigDialog();
+        ConnectionConfigDialog(QWidget* parent  = NULL);
         ~ConnectionConfigDialog();
 
         /**
@@ -53,7 +53,7 @@ class ConnectionConfigDialog : public QDialog
          * @param port port number.
          * @param server set to true if it connects as server.
          */
-        ConnectionConfigDialog(const QString & name, const QColor & color, bool master = false,
+        ConnectionConfigDialog(QWidget* parent,const QString & name, const QColor & color, bool master = false,
                 const QString & host = QString(""), quint16 port = 6660, bool server = false);
 
 

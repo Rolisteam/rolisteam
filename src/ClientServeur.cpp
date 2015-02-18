@@ -105,10 +105,10 @@ void ClientServeur::synchronizePreferences()
 
 bool ClientServeur::configAndConnect()
 {
-    m_configDialog = new ConnectionConfigDialog(
+    m_configDialog = new ConnectionConfigDialog(NULL,
                 m_preferences->value("UserName",tr("UserName")).toString(),
                 m_preferences->value("UserColor",QColor(255,255,255)).value<QColor>(),
-                !m_preferences->value("isPlayer",true).toBool(),
+                !m_preferences->value("isPlayer",false).toBool(),
                 m_preferences->value("ipaddress","").toString(),
                 m_preferences->value("ServerPort",6660).toInt(),
                 !m_preferences->value("isClient",true).toBool());
@@ -121,17 +121,22 @@ bool ClientServeur::configAndConnect()
 
     // If the user abort configDialog, we quit
     bool isConnected = false;
+    qDebug() <<  m_configDialog << 0 << m_preferences;
+
+
+    m_configDialog->show();
     while((!isConnected) && (m_configDialog->exec() != QDialog::Rejected))
     {
-
+        qDebug() << 1;
         m_isClient = !m_configDialog->isServer();
         m_playersList->completeListClean();
+        qDebug() << 2;
         if(m_localPlayer!=NULL)
         {
             delete m_localPlayer;
             m_localPlayer = NULL;
         }
-
+        qDebug() << 3;
         synchronizePreferences();
         m_localPlayer = new Player(
                 QUuid(G_idJoueurLocal),
@@ -143,6 +148,7 @@ bool ClientServeur::configAndConnect()
 
            isConnected = startConnection();
     }
+    qDebug() << 4;
     return isConnected;
 
 }

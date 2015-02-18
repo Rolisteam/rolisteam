@@ -524,69 +524,6 @@ int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
                 tirage.append(QString(")"));
                 result+=signOperator*sumDice;
             } // Fin de la lecture et du tirage des des
-            //////// End of Cheating For L5R
-            else if (message[0] == QChar('t') || message[0] == QChar('T'))
-            {
-
-
-                message.remove(0, 1);
-
-                if (!message.size())
-                    return (ok = false);
-                ok = GetNumber(message,&garde);
-
-                if (!nombre || !garde)
-                    return (ok = false);
-
-                if(garde > nombre)
-                    garde = nombre;
-
-                message.remove(0, 1);
-
-                int score=0;
-
-                ok = GetNumber(message,&score);
-                unsigned short tmpDice, dice, sumDice=0;
-                // The dices rolling
-                QList<int> listDices;
-                while((sumDice<score)||(sumDice>score+10))
-                {
-                    listDices.clear();
-                    sumDice=0;
-
-                    for(unsigned short u=0;u<nombre;u++)
-                    {
-                        tmpDice=(qrand()%10)+1;
-                        dice=tmpDice;
-                        if(relance10)
-                        {
-                            while((tmpDice==10))
-                            {
-                                tmpDice=(qrand()%10)+1;
-                                dice+=tmpDice;
-                            }
-                        }
-                        listDices.append(dice);
-                        //sumDice+=dice;
-                    }
-
-                    qSort(listDices.begin(), listDices.end(), qGreater<unsigned short>());
-                    for(int it=0;it<garde;++it)
-                    {
-                        sumDice+=listDices[it];
-                    }
-                }
-                // Formatting the "tirage" text
-                tirage.append(tr("%1g%2 (%3").arg(nombre).arg(garde).arg(listDices[0]));
-                for(unsigned short u=1;u<listDices.size();u++)
-                {
-                    tirage.append(QString(","));
-                    tirage.append(QString::number(listDices[u]));
-                }
-                tirage.append(QString(")"));
-                result+=signOperator*sumDice;
-            }
-            //////// End of Cheating For L5R
             else if (message[0] == QChar('g') || message[0] == QChar('G'))
             {
                 relance10=(message[0] == QChar('G'));
