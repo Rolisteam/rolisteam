@@ -56,16 +56,20 @@ public :
     Carte *carte();
     QString identifiantCarte();
 
+
+
 signals:
     void activated(Carte * carte);
 
 public slots :
     void commencerDeplacement(QPoint position);
     void deplacer(QPoint position);
+    void fitMapToWindow();
 
 protected :
     void closeEvent(QCloseEvent *event);
     void focusInEvent(QFocusEvent * event);
+    void contextMenuEvent( QContextMenuEvent * event );
 
 private :
     Carte *carteAssociee;
@@ -74,6 +78,7 @@ private :
     int horizontalDepart;
     int verticalDepart;
     MainWindow* m_mainWindow;
+    QAction* m_widgetResizeAct;
 };
 
 #endif

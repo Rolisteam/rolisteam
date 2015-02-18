@@ -67,7 +67,7 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
 
 void Carte::p_init()
 {
-    // Creation de la couche alpha qui sera utilisee pour effacer fond a l'aide de fondOriginal
+
     effaceAlpha = new QImage(fondOriginal->size(), QImage::Format_ARGB32_Premultiplied);
     QPainter painterEfface(effaceAlpha);
     painterEfface.fillRect(0, 0, fondOriginal->width(), fondOriginal->height(), Qt::black);
@@ -76,18 +76,16 @@ void Carte::p_init()
 
     m_localPlayer = PlayersList::instance()->localPlayer();
 
-    // Creation d'une image en mode ARGB32 qui sert a mixer le fond et la couche alpha
     fondAlpha = new QImage(fondOriginal->size(), QImage::Format_ARGB32);
-                // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
     ajouterAlpha(fond, alpha, fondAlpha);
 
-    // Le fond du widget est automatiquement rempli avec une couleur a chaque reaffichage
+
     setAutoFillBackground(true);
     QPalette pal = palette();
     pal.setColor(QPalette::Window, Qt::darkMagenta);
     setPalette(pal);
     
-    // Initialisation des variables
+    // variable Initialisation
     taillePj = 12;
     boutonGaucheEnfonce = false;
     boutonDroitEnfonce = false;
@@ -234,35 +232,29 @@ void Carte::mousePressEvent(QMouseEvent *event)
     // Si l'utilisateur a clique avec le bouton droit
     else if ((event->button() == Qt::RightButton) && !boutonGaucheEnfonce && !boutonDroitEnfonce)
     {
-        // Bouton droit enfonce
-        boutonDroitEnfonce = true;
-        // Recuperation de la position de la souris
+
         QPoint positionSouris = event->pos();
         
-        // Il s'agit d'une action d'ajout ou de suppression de PNJ
         if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj)
         {
-            // Changement de curseur
+            boutonDroitEnfonce = true;
+
             setCursor(Qt::WhatsThisCursor);
-            // On regarde s'il y a un PNJ sous la souris
             DessinPerso *pnj = dansDessinPerso(positionSouris);
             if (pnj)
             {
                 int diametre;
                 QColor couleur;
                 QString nomPnj;
-                // On reucpere le nom et le diametre du PNJ
+
                 pnj->diametreCouleurNom(&diametre, &couleur, &nomPnj);
-                // On met a jour le diametre et le nom du PNJ dans la barre d'outils...
                 emit mettreAJourPnj(diametre, nomPnj);
-                // ...ainsi que la couleur actuelle
                 emit changeCouleurActuelle(couleur);
             }
         }
-        // Il s'agit d'une action de deplacement ou de l'action de changement d'etat du PNJ
         else if (m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
         {
-            // Changement de curseur
+            boutonDroitEnfonce = true;
             setCursor(*G_pointeurOrienter);
             // On regarde s'il y a un PNJ sous la souris
             DessinPerso *pnj = dansDessinPerso(positionSouris);        
@@ -316,20 +308,17 @@ void Carte::mousePressEvent(QMouseEvent *event)
                 // Liberation du buffer d'emission
                 delete[] donnees;
             }
-            // Sinon on met a jour l'orientation du PNJ
             else if (dernierPnjSelectionne)
             {
+                boutonDroitEnfonce = true;
                 dernierPnjSelectionne->dessinerPersonnage(positionSouris);
             }
         }
-        // Il s'agit d'une action de dessin on met a jour la couleur courante
-        else
+        else if(event->modifiers()==Qt::ControlModifier)
         {
-            // Changement de curseur
+            boutonDroitEnfonce = true;
             setCursor(*G_pointeurPipette);
-            // Recuperation de la couleur sous le pointeur de la souris
             QColor couleur = QColor(fond->pixel(positionSouris.x(), positionSouris.y()));
-            // Emission du signal demandant le changement de la couleur courante
             emit changeCouleurActuelle(couleur);
         }
     }
@@ -548,12 +537,9 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
             if (dernierPnjSelectionne && !dansDessinPerso(positionSouris))
                 dernierPnjSelectionne->dessinerPersonnage(positionSouris);
         }
-        // Il s'agit d'une action de dessin
         else
         {
-            // Recuperation de la couleur sous le pointeur de la souris
             QColor couleur = QColor(fond->pixel(positionSouris.x(), positionSouris.y()));
-            // Emission du signal demandant le changement de la couleur courante
             emit changeCouleurActuelle(couleur);
         }
     }

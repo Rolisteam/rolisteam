@@ -283,7 +283,7 @@ Player * PlayersList::getPlayer(int index) const
 
 Person * PlayersList::getPerson(const QString & uuid) const
 {
-    qDebug()<< "uuid person:" << uuid ;
+    //qDebug()<< "uuid person:" << uuid ;
     return m_uuidMap.value(uuid);
 }
 

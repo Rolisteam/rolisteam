@@ -340,7 +340,7 @@ void LecteurAudio::emitCurrentState()
         case Phonon::BufferingState:
         case Phonon::LoadingState:
         default:
-                qDebug() << "default State";
+                //qDebug() << "default State";
              break;
     }
 }
@@ -357,7 +357,7 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
             qDebug() << "error State" << m_mediaObject->errorString();
              break;
          case Phonon::PlayingState:
-             qDebug() << "playing State";
+             //qDebug() << "playing State";
                  m_playAction->setEnabled(false);
                  m_playAction->setChecked(true);
                  m_pauseAction->setEnabled(true);
@@ -377,7 +377,7 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
                      m_timerDisplay->display("00:00");
                  break;
          case Phonon::PausedState:
-                 qDebug() << "paused State";
+                 //qDebug() << "paused State";
                  /// @attention Workaround for phonon issue with some file. Pause state is sometime
                      if(!m_pauseAction->isChecked())
                      {
@@ -393,13 +393,13 @@ void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
                     }
                  break;
          case Phonon::BufferingState:
-                 qDebug() << "buffering State";
+                 //qDebug() << "buffering State";
                  break;
          case Phonon::LoadingState:
-                 qDebug() << "Phonon::LoadingState State";
+                 //qDebug() << "Phonon::LoadingState State";
               break;
          default:
-                 qDebug() << "default State";
+                 //qDebug() << "default State";
               break;
      }
 
@@ -503,7 +503,7 @@ void LecteurAudio::removeFile()
 
 void LecteurAudio::isAboutToFinish()
 {
-    qDebug() << m_currentPlayingMode << "joueur" << G_joueur;
+    //qDebug() << m_currentPlayingMode << "joueur" << G_joueur;
         if(G_joueur)
         {
             return;
@@ -513,7 +513,7 @@ void LecteurAudio::isAboutToFinish()
         {
                 emettreCommande(arretMorceau);
                 m_mediaObject->stop();
-                qDebug() << "finDeTitreSlot" << "lecture unique";
+                //qDebug() << "finDeTitreSlot" << "lecture unique";
         }
         else if (m_currentPlayingMode==NEXT)
         {
@@ -535,7 +535,7 @@ void LecteurAudio::isAboutToFinish()
             setSource(m_pathList[position]);
             m_mediaObject->setCurrentSource(*m_currentSource);
             emettreCommande(nouveauMorceau, m_currentItemFile->text());
-            qDebug() << "Changement de titre 2" << m_pathList[position] << m_currentItemFile->text();
+            //qDebug() << "Changement de titre 2" << m_pathList[position] << m_currentItemFile->text();
             m_mediaObject->play();
 
         }
@@ -660,11 +660,11 @@ void LecteurAudio::pstop()
 void LecteurAudio::pselectNewFile(QString file)
 {
         m_currentFile = file;
-        qDebug() << " file = " << m_currentFile;
+        //qDebug() << " file = " << m_currentFile;
 
     if(m_currentFile.isEmpty())
     {
-        qDebug() << " file vide= " << m_currentFile;
+        //qDebug() << " file vide= " << m_currentFile;
         m_titleDisplay->clear();
         m_titleDisplay->setToolTip(tr("No songs"));
         m_mediaObject->stop();
@@ -678,7 +678,7 @@ void LecteurAudio::pselectNewFile(QString file)
         QFileInfo fileInfo(path);
         if (!fileInfo.exists())
         {
-            qDebug() << " file n'existe pas = " << path;
+            //qDebug() << " file n'existe pas = " << path;
             QPalette palette(m_titleDisplay->palette());
             palette.setColor(QPalette::Normal, QPalette::Text, Qt::red);
             m_titleDisplay->setEchoMode(QLineEdit::Normal);
@@ -688,7 +688,7 @@ void LecteurAudio::pselectNewFile(QString file)
         }
         else
         {
-            qDebug() << " file existe = " << path;
+            //qDebug() << " file existe = " << path;
             //m_currentSource = new Phonon::MediaSource(path);
             setSource(path);
             m_mediaObject->setCurrentSource(*m_currentSource);
@@ -706,7 +706,7 @@ void LecteurAudio::pselectNewFile(QString file)
 }
 void LecteurAudio::pseek(quint32 position)
 {
-    qDebug()<< "is Seekable" << m_mediaObject->isSeekable()<< m_mediaObject->state();
+    //qDebug()<< "is Seekable" << m_mediaObject->isSeekable()<< m_mediaObject->state();
     if(m_mediaObject->isSeekable())
     {
             m_mediaObject->seek(position);

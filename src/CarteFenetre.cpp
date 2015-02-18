@@ -41,6 +41,11 @@ CarteFenetre::CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *pare
     setFocusPolicy(Qt::StrongFocus);
     setAlignment(Qt::AlignCenter);
 
+    m_widgetResizeAct = new QAction(tr("Map fits window"),this);
+    m_widgetResizeAct->setCheckable(true);
+    m_widgetResizeAct->setChecked(false);
+
+
     carteAssociee = uneCarte;
     setWidget(carteAssociee);
 
@@ -56,6 +61,7 @@ CarteFenetre::CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *pare
             this, SLOT(commencerDeplacement(QPoint)));
     connect(carteAssociee, SIGNAL(deplacerCarteFenetre(QPoint)),
             this, SLOT(deplacer(QPoint)));
+    connect(m_widgetResizeAct,SIGNAL(triggered()),this,SLOT(fitMapToWindow()));
 }
 
 
@@ -99,11 +105,26 @@ void CarteFenetre::deplacer(QPoint position)
     horizontalScrollBar()->setValue(horizontalDepart + diff.x());
     verticalScrollBar()->setValue(verticalDepart + diff.y());
 }
-
+void CarteFenetre::fitMapToWindow()
+{
+    setWidgetResizable(m_widgetResizeAct->isChecked());
+}
 
 void CarteFenetre::focusInEvent(QFocusEvent * event)
 {
     emit activated(carteAssociee);
 
     QWidget::focusInEvent(event);
+}
+void CarteFenetre::contextMenuEvent( QContextMenuEvent * event )
+{
+    if(event->modifiers()==Qt::NoModifier)
+    {
+        QMenu pop;
+
+        event->accept();
+        pop.addAction(m_widgetResizeAct);
+
+        pop.exec(event->globalPos());
+    }
 }

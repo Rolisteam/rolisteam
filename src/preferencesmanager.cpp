@@ -70,7 +70,7 @@ bool PreferencesManager::registerValue(QString key,QVariant value, bool overwrit
 }
 const QVariant PreferencesManager::value(QString key,QVariant defaultValue)
 {
-    qDebug() << m_optionDictionary;
+    //qDebug() << m_optionDictionary;
     if(m_optionDictionary->contains(key))
     {
         return m_optionDictionary->value(key);

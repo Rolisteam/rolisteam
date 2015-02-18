@@ -228,7 +228,7 @@ bool ClientServeur::startConnectionToServer()
     QTcpSocket * socket;
 
     socket = waitDialog.connectTo(m_address, m_port);
-    qDebug()<< "connection retry,m_liaisonToServer:  " << m_liaisonToServer;
+    //qDebug()<< "connection retry,m_liaisonToServer:  " << m_liaisonToServer;
     //QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
     // connect successed
 
@@ -290,7 +290,7 @@ void ClientServeur::finDeLiaison(Liaison * link)
     if(!m_disconnectAsked)
     {
         link->deleteLater();
-        qDebug()<< "disconnection not asked" << link << m_liaisonToServer;
+        //qDebug()<< "disconnection not asked" << link << m_liaisonToServer;
 
         emit linkDeleted(link);
     }
@@ -302,11 +302,12 @@ void ClientServeur::finDeLiaison(Liaison * link)
         //MainWindow::notifyUser(tr("Receiving picture: %1"));
         if(link!=m_liaisonToServer)
         {
-            qDebug() << "link is NOT the link to the server ";
+            //qDebug() << "link is NOT the link to the server ";
             setConnectionState(false);
         }
-        else
-            qDebug() << "link is the link to the server ";
+        /*else
+
+            qDebug() << "link is the link to the server ";*/
 
 
         if(!m_disconnectAsked)

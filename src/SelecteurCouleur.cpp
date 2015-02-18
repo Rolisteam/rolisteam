@@ -318,7 +318,7 @@ void SelecteurCouleur::clicUtilisateur(QPoint positionSouris, bool move)
 			G_couleurCourante.type = qcolor;
 			G_couleurCourante.color = couleur;
 			// Mise a jour de la bulle d'aide
-                        couleurActuelle->setToolTip(tr("Red: %1, Green: %1, Blue: %1").arg(couleur.red()).arg(couleur.green()).arg(couleur.blue()));
+            couleurActuelle->setToolTip(tr("Red: %1, Green: %1, Blue: %1").arg(couleur.red()).arg(couleur.green()).arg(couleur.blue()));
 		}
 
 		// Recuperation des couleurs personnelles
