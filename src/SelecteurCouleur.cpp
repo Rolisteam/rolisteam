@@ -199,7 +199,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 
 
 	// On autorise ou pas la selection des couleurs de masquage/demasquage en fonction de la nature de l'utilisateur (MJ/joueur)
-	autoriserOuInterdireCouleurs();
+    //autoriserOuInterdireCouleurs();
 }
 SelecteurCouleur::~SelecteurCouleur()
 {
@@ -235,7 +235,7 @@ void SelecteurCouleur::autoriserOuInterdireCouleurs()
 	if (G_joueur)
 	{
 		// Le masquage est total
-        PreferencesManager::getInstance()->registerValue("Fog_color",QColor(0,0,0));
+        PreferencesManager::getInstance()->registerValue("Fog_color",QColor(0,0,0),false);
 		// Message d'interdiction pour les couleurs de masquage et de demasquage
         couleurMasque->setToolTip(tr("Hide (GM only)"));
         couleurDemasque->setToolTip(tr("Unveil (GM only)"));
@@ -248,7 +248,7 @@ void SelecteurCouleur::autoriserOuInterdireCouleurs()
 	else
 	{
 		// Le masque est transparent
-        PreferencesManager::getInstance()->registerValue("Fog_color",QColor(50,50,50));
+        PreferencesManager::getInstance()->registerValue("Fog_color",QColor(50,50,50),false);
 		// Tooltip normaux pour les couleurs de masquage et de demasquage
         couleurMasque->setToolTip(tr("Hide"));
         couleurDemasque->setToolTip(tr("Unveil"));
