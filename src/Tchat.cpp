@@ -309,7 +309,7 @@ void Tchat::emettreTexte()
             }
 
         default:
-            messageTitle = tr("Vous");
+            messageTitle = localPlayer->name();
             afficherMessage(messageTitle, localPlayer->color(), message);
             // action is messageTchat only if there are no dices
             action = TCHAT_MESSAGE;
@@ -806,7 +806,7 @@ void Tchat::save()
     }
 
     QTextStream stream (&file);
-    stream << zoneAffichage->toHtml();
+    stream << zoneAffichage->document()->toHtml(QByteArray("utf-8"));
 
     file.close();
 }

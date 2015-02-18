@@ -24,6 +24,7 @@
 
 #include "LecteurAudio.h"
 
+#include "ClientServeur.h"
 #include "Liaison.h"
 
 #include "variablesGlobales.h"

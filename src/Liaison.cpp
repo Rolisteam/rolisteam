@@ -83,10 +83,11 @@ Liaison::~Liaison()
 /********************************************************************/
 void Liaison::erreurDeConnexion(QAbstractSocket::SocketError erreur)
 {
-    qDebug("Une erreur réseau est survenue : %d", erreur);
+    Q_UNUSED(erreur);
+    qDebug("Une erreur réseau est survenue : %s", qPrintable(socketTcp->errorString()));
 
     // Si la connexion est perdue on quitte le thread
-    if (erreur == QAbstractSocket::RemoteHostClosedError)
+    if (socketTcp->state() != QAbstractSocket::ConnectedState)
     {
         G_clientServeur->finDeLiaison(this);
     }
