@@ -26,7 +26,7 @@
 #include <QAbstractItemModel>
 
 class Character;
-class DataReader;
+class NetworkMessageReader;
 class Liaison;
 class Person;
 class Player;
@@ -75,9 +75,16 @@ class PlayersList : public QAbstractItemModel {
         Player * getPlayer(const QString & uuid) const;
         Character * getCharacter(const QString & uuid) const;
 
+        /**
+         * @brief Same as getPlayer(uuid), if getPerson(uuid) is a Player.
+         * Same as getPerson(uuid)->parent() if it's a Character.
+         */
+        Player * getParent(const QString & uuid) const;
+
         Person * getPerson(const QModelIndex & index) const;
         Player * getPlayer(const QModelIndex & index) const;
         Character * getCharacter(const QModelIndex & index) const;
+
 
         bool everyPlayerHasFeature(const QString & name, quint8 version = 0) const;
 
@@ -131,13 +138,13 @@ class PlayersList : public QAbstractItemModel {
         void delPlayer(Player * player);
         void delCharacter(Player * parent, int index);
 
-        void addPlayer(DataReader & data);
+        void addPlayer(NetworkMessageReader & data);
         void addPlayerAsServer(ReceiveEvent * event);
-        void delPlayer(DataReader & data);
-        void setPersonName(DataReader & data);
-        void setPersonColor(DataReader & data);
-        void addCharacter(DataReader & data);
-        void delCharacter(DataReader & data);
+        void delPlayer(NetworkMessageReader & data);
+        void setPersonName(NetworkMessageReader & data);
+        void setPersonColor(NetworkMessageReader & data);
+        void addCharacter(NetworkMessageReader & data);
+        void delCharacter(NetworkMessageReader & data);
 
         bool p_setLocalPersonName(Person * person, const QString & name);
         bool p_setLocalPersonColor(Person * person, const QColor & color);

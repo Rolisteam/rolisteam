@@ -20,60 +20,38 @@
  *************************************************************************/
 
 
-#ifndef RECEIVE_EVENT_H
-#define RECEIVE_EVENT_H
+#ifndef PLAYERS_LIST_PROXY_MODEL_H
+#define PLAYERS_LIST_PROXY_MODEL_H
 
-#include <QEvent>
-#include <QString>
-#include <QMap>
+#include <QAbstractProxyModel>
 
-#include "networkmessagereader.h"
-
-class Liaison;
-
-class ReceiveEvent : public QEvent
+/**
+ * @brief Now just implement :
+ * Qt::ItemFlags flags(const QModelIndex &index) const;
+ * QVariant data(const QModelIndex &index, int role) const;
+ * bool setData(const QModelIndex &index, const QVariant &value, int role);
+ */
+class PlayersListProxyModel : public QAbstractProxyModel
 {
-    public:
-        ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, Liaison * link);
-        ReceiveEvent(const ReceiveEvent & other);
-        ~ReceiveEvent();
-
-        static const int Type;
-
-        void postToReceiver();
-
-        /**
-         * @brief Post again this same event after a delay.
-         */
-        void repostLater() const;
-
-        Liaison * link() const;
-        NetworkMessageReader & data();
-
-        static bool hasReceiverFor(quint8 categorie, quint8 action);
-        static void registerReceiver(NetMsg::Category categorie, NetMsg::Action action, QObject * receiver);
-
-    private:
-        NetworkMessageReader m_data;
-        Liaison * m_link;
-        quint8 m_repost;
-
-        static QMap<quint16, QObject *> s_receiverMap;
-};
-
-class DelayReceiveEvent : public QObject
-{
-    Q_OBJECT;
+    Q_OBJECT
 
     public:
-        DelayReceiveEvent(const ReceiveEvent & event);
-        ~DelayReceiveEvent();
+        PlayersListProxyModel(QObject * parent = 0);
 
-    private:
-        ReceiveEvent * m_event;
+        QModelIndex mapFromSource(const QModelIndex & sourceIndex) const;
+        QModelIndex mapToSource(const QModelIndex & proxyIndex) const;
+
+        QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+        QModelIndex parent(const QModelIndex &index) const;
+        int rowCount(const QModelIndex &parent = QModelIndex()) const;
+        int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
     private slots:
-        void postEvent();
+        void p_rowsAboutToBeInserted(const QModelIndex & parent, int start, int end);
+        void p_rowsInserted();
+        void p_rowsAboutToBeRemoved(const QModelIndex & parent, int start, int end);
+        void p_rowsRemoved();
+        void p_dataChanged(const QModelIndex & from, const QModelIndex & to);
 };
 
 #endif

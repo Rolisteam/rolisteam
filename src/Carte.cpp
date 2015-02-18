@@ -28,7 +28,7 @@
 #include <QUuid>
 #include <QBuffer>
 
-#include "datawriter.h"
+#include "networkmessagewriter.h"
 #include "DessinPerso.h"
 #include "Liaison.h"
 #include "persons.h"
@@ -1357,7 +1357,7 @@ void Carte::toggleCharacterView(Character * character)
     bool newState = !pjAffiche(uuid);
     affichageDuPj(uuid, newState);
 
-    DataWriter message (persoJoueur, afficherMasquerPersoJoueur);
+    NetworkMessageWriter message(NetMsg::CharacterCategory, NetMsg::ToggleViewCharacterAction);
     message.string8(idCarte);
     message.string8(uuid);
     message.uint8(newState ? 1 : 0);
@@ -1412,7 +1412,6 @@ bool Carte::pjAffiche(QString idPerso)
 /********************************************************************/
 void Carte::addCharacter(Character * person)
 {
-    qDebug("Carte.cpp : ajout de %s %s", qPrintable(person->name()), qPrintable(person->uuid()));
     new DessinPerso(this, person->uuid(), person->name(), person->color(), taillePj, QPoint(fond->width()/2, fond->height()/2), DessinPerso::pj);
 }
 

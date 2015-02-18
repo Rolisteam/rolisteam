@@ -25,14 +25,14 @@
 #include <QMapIterator>
 #include <QString>
 
-#include "datawriter.h"
+#include "networkmessagewriter.h"
 
-class DataReader;
+class ReceiveEvent;
 class Player;
 
 
 extern void setLocalFeatures(Player & player);
-extern void addFeature(DataReader & data);
+extern void addFeature(ReceiveEvent & data);
 
 class SendFeaturesIterator : public QMapIterator<QString, quint8>
 {
@@ -41,13 +41,13 @@ class SendFeaturesIterator : public QMapIterator<QString, quint8>
         SendFeaturesIterator(const Player & player);
         ~SendFeaturesIterator();
 
-        DataWriter & message();
+        NetworkMessageWriter & message();
 
         SendFeaturesIterator & operator=(const Player * player);
     
     private:
         const Player * m_player;
-        DataWriter m_message;
+        NetworkMessageWriter m_message;
 };
 
 #endif

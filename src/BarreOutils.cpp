@@ -27,7 +27,7 @@
 #include "BarreOutils.h"
 
 #include "Carte.h"
-#include "datawriter.h"
+#include "networkmessagewriter.h"
 #include "SelecteurCouleur.h"
 #include "SelecteurDiametre.h"
 
@@ -604,7 +604,7 @@ void BarreOutils::sendNewCharacterSize(int size)
 
     changeCharacterSize(size);
 
-    DataWriter message (persoJoueur, changerTaillePersoJoueur);
+    NetworkMessageWriter message (NetMsg::CharacterCategory, NetMsg::ChangeCharacterSizeAction);
     message.string8(m_map->identifiantCarte());
     message.uint8(size - 11);
     message.sendAll();

@@ -14,13 +14,12 @@ HEADERS += src/AfficheurDisque.h \
            src/BarreOutils.h \
            src/Carte.h \
            src/CarteFenetre.h \
+           src/chat.h \
            src/chatlist.h \
            src/chatlistwidget.h \
            src/ClientServeur.h \
            src/colorbutton.h \
            src/connectiondialog.h \
-           src/datareader.h \
-           src/datawriter.h \
            src/delegate.h \
            src/DessinPerso.h \
            src/EditeurNotes.h \
@@ -29,17 +28,22 @@ HEADERS += src/AfficheurDisque.h \
            src/initialisation.h \
            src/Liaison.h \
            src/MainWindow.h \
+           src/networkmessage.h \
+           src/networkmessagereader.h \
+           src/networkmessagewriter.h \
            src/NouveauPlanVide.h \
            src/persons.h \
            src/persondialog.h \
            src/playersList.h \
+           src/playerslistproxy.h \
            src/playersListWidget.h \
            src/preferencesdialog.h \
+           src/privatechatdialog.h \
            src/receiveevent.h \
            src/Rolisteam_private.h \
            src/SelecteurCouleur.h \
            src/SelecteurDiametre.h \
-           src/Tchat.h \
+           src/chatwindow.h \
            src/TextEditAmeliore.h \
            src/types.h \
            src/typesApplication.h \
@@ -51,13 +55,12 @@ SOURCES += src/AfficheurDisque.cpp \
            src/BarreOutils.cpp \
            src/Carte.cpp \
            src/CarteFenetre.cpp \
+           src/chat.cpp \
            src/chatlist.cpp \
            src/chatlistwidget.cpp \
            src/ClientServeur.cpp \
            src/colorbutton.cpp \
            src/connectiondialog.cpp \
-           src/datareader.cpp \
-           src/datawriter.cpp \
            src/delegate.cpp \
            src/DessinPerso.cpp \
            src/EditeurNotes.cpp \
@@ -68,15 +71,20 @@ SOURCES += src/AfficheurDisque.cpp \
            src/main.cpp \
            src/MainWindow.cpp \
            src/NouveauPlanVide.cpp \
+           src/networkmessage.cpp \
+           src/networkmessagereader.cpp \
+           src/networkmessagewriter.cpp \
            src/persons.cpp \
            src/persondialog.cpp \
            src/playersList.cpp \
+           src/playerslistproxy.cpp \
            src/playersListWidget.cpp \
            src/preferencesdialog.cpp \
+           src/privatechatdialog.cpp \
            src/receiveevent.cpp \
            src/SelecteurCouleur.cpp \
            src/SelecteurDiametre.cpp \
-           src/Tchat.cpp \
+           src/chatwindow.cpp \
            src/TextEditAmeliore.cpp \
            src/updatechecker.cpp \
            src/WorkspaceAmeliore.cpp

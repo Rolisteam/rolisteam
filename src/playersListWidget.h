@@ -30,24 +30,18 @@
 #include <QSet>
 #include <QTreeView>
 
+#include "playerslistproxy.h"
+
 class Carte;
 class PersonDialog;
 class Person;
 
-class PlayersListWidgetModel : public QAbstractProxyModel
+class PlayersListWidgetModel : public PlayersListProxyModel
 {
     Q_OBJECT
 
     public:
         PlayersListWidgetModel(QObject * parent = 0);
-
-        QModelIndex mapFromSource(const QModelIndex & sourceIndex) const;
-        QModelIndex mapToSource(const QModelIndex & proxyIndex) const;
-
-        QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-        QModelIndex parent(const QModelIndex &index) const;
-        int rowCount(const QModelIndex &parent = QModelIndex()) const;
-        int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
         Qt::ItemFlags flags(const QModelIndex &index) const;
         QVariant data(const QModelIndex &index, int role) const;
@@ -60,13 +54,6 @@ class PlayersListWidgetModel : public QAbstractProxyModel
        Carte * m_map;
 
        bool isCheckable(const QModelIndex &index) const;
-
-    private slots:
-        void p_rowsAboutToBeInserted(const QModelIndex & parent, int start, int end);
-        void p_rowsInserted();
-        void p_rowsAboutToBeRemoved(const QModelIndex & parent, int start, int end);
-        void p_rowsRemoved();
-        void p_dataChanged(const QModelIndex & from, const QModelIndex & to);
 };
 
 /**

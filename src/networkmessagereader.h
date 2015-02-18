@@ -1,9 +1,8 @@
 /*************************************************************************
  *     Copyright (C) 2011 by Joseph Boudou                               *
- *                                                                       *
  *     http://www.rolisteam.org/                                         *
  *                                                                       *
- *   Rolisteam is free software; you can redistribute it and/or modify   *
+ *   rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
  *   by the Free Software Foundation; either version 2 of the License,   *
  *   or (at your option) any later version.                              *
@@ -20,60 +19,48 @@
  *************************************************************************/
 
 
-#ifndef RECEIVE_EVENT_H
-#define RECEIVE_EVENT_H
+#ifndef DATA_READER_H
+#define DATA_READER_H
 
-#include <QEvent>
 #include <QString>
-#include <QMap>
+#include <QColor>
 
-#include "networkmessagereader.h"
+#include "networkmessage.h"
 
-class Liaison;
-
-class ReceiveEvent : public QEvent
+class NetworkMessageReader : public NetworkMessage
 {
     public:
-        ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, Liaison * link);
-        ReceiveEvent(const ReceiveEvent & other);
-        ~ReceiveEvent();
+        NetworkMessageReader(const NetworkMessageHeader & header, const char * buffer);
+        NetworkMessageReader(const NetworkMessageReader & other);
+        ~NetworkMessageReader();
 
-        static const int Type;
+        NetMsg::Category category() const;
+        NetMsg::Action action() const;
 
-        void postToReceiver();
+        void reset();
 
-        /**
-         * @brief Post again this same event after a delay.
-         */
-        void repostLater() const;
+        size_t left() const;
 
-        Liaison * link() const;
-        NetworkMessageReader & data();
+        quint8  uint8();
+        quint16 uint16();
+        quint32 uint32();
 
-        static bool hasReceiverFor(quint8 categorie, quint8 action);
-        static void registerReceiver(NetMsg::Category categorie, NetMsg::Action action, QObject * receiver);
+        QString string8();
+        QString string16();
+        QString string32();
 
-    private:
-        NetworkMessageReader m_data;
-        Liaison * m_link;
-        quint8 m_repost;
+        QString string(int size);
 
-        static QMap<quint16, QObject *> s_receiverMap;
-};
+        QRgb rgb();
 
-class DelayReceiveEvent : public QObject
-{
-    Q_OBJECT;
-
-    public:
-        DelayReceiveEvent(const ReceiveEvent & event);
-        ~DelayReceiveEvent();
+    protected:
+        NetworkMessageHeader * buffer();
 
     private:
-        ReceiveEvent * m_event;
-
-    private slots:
-        void postEvent();
+        NetworkMessageHeader * m_header;
+        char * m_buffer;
+        const char * m_pos;
+        const char * m_end;
 };
 
 #endif

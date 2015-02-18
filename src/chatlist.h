@@ -23,12 +23,14 @@
 #define CHATLIST_H
 
 #include <QAbstractItemModel>
+#include <QMap>
 #include <QMenu>
 
+class ChatWindow;
 class MainWindow;
 class Player;
+class PrivateChat;
 class ReceiveEvent;
-class Tchat;
 
 class ChatList
  : public QAbstractItemModel
@@ -53,25 +55,29 @@ class ChatList
 
         QMenu * chatMenu();
 
+        bool addLocalChat(PrivateChat * chat);
+
         // Event handler
         virtual bool event(QEvent * event);
 
     private:
-        QList<Tchat *> m_chatList;
-        QMenu          m_chatMenu;
+        QList<ChatWindow *> m_chatWindowList;
+        QMap<QString, PrivateChat *> m_privateChatMap;
+        QMenu m_chatMenu;
 
-        void addChat(Tchat * chat);
-        void delChat(Tchat * chat);
+        void addChat(ChatWindow * chat);
+        void delChatWindow(ChatWindow * chat);
 
-        Tchat * getChat(const QString & uuid) const;
-        Tchat * getChat(const QModelIndex & index) const;
+        ChatWindow * chatWindow(const QString & uuid) const;
+        ChatWindow * chatWindow(const QModelIndex & index) const;
 
         void dispatchMessage(ReceiveEvent * event);
+        void updatePrivateChat(ReceiveEvent * event);
 
     private slots:
         void addPlayerChat(Player * player, MainWindow * mainWindow = NULL);
         void delPlayer(Player * player);
-        void chatChanged(Tchat * chat);
+        void changeChatWindow(ChatWindow * chat);
 };
 
 #endif

@@ -24,8 +24,8 @@
 
 #include <QUuid>
 
-#include "datareader.h"
-#include "datawriter.h"
+#include "networkmessagereader.h"
+#include "networkmessagewriter.h"
 
 /**********
  * Person *
@@ -98,7 +98,7 @@ Player::Player(const QString & uuid, const QString & nom, const QColor & color, 
 {
 }
 
-Player::Player(DataReader & data, Liaison * link)
+Player::Player(NetworkMessageReader & data, Liaison * link)
  : Person(), m_link(link)
 {
     m_name = data.string16();
@@ -118,7 +118,7 @@ Player::~Player()
     }
 }
 
-void Player::fill(DataWriter & message)
+void Player::fill(NetworkMessageWriter & message)
 {
     message.string16(m_name);
     message.string8(m_uuid);
@@ -212,7 +212,7 @@ Character::Character(const QString & uuid, const QString & nom, const QColor & c
 {
 }
 
-Character::Character(DataReader & data)
+Character::Character(NetworkMessageReader & data)
  : Person(), m_parent(NULL)
 {
     m_uuid = data.string8();
@@ -220,7 +220,7 @@ Character::Character(DataReader & data)
     m_color = QColor(data.rgb());
 }
 
-void Character::fill(DataWriter & message)
+void Character::fill(NetworkMessageWriter & message)
 {
     message.string8(m_parent->uuid());
     message.string8(m_uuid);

@@ -19,13 +19,17 @@
  *************************************************************************/
 
 
-#include <QListView>
-#include <QEvent>
+#include "chatlistwidget.h"
 
+#include <QEvent>
+#include <QListView>
+#include <QPushButton>
+#include <QVBoxLayout>
+
+#include "chat.h"
 #include "chatlist.h"
 #include "MainWindow.h"
-
-#include "chatlistwidget.h"
+#include "privatechatdialog.h"
 
 
 ChatListWidget::ChatListWidget(MainWindow * parent)
@@ -37,13 +41,27 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
 
     m_chatList = new ChatList(parent);
 
+    // UI
+
+    m_privateChatDialog = new PrivateChatDialog(this);
+
     QListView * listView = new QListView(this);
     listView->setModel(m_chatList);
     listView->setIconSize(QSize(28,20));
-    setWidget(listView);
-
     m_selectionModel = listView->selectionModel();
     listView->installEventFilter(this);
+
+    QPushButton * addChatButton = new QPushButton(tr("Ajouter un tchat"));
+    connect(addChatButton, SIGNAL(pressed()), this, SLOT(createPrivateChat()));
+
+    QVBoxLayout * layout = new QVBoxLayout;
+    layout->setContentsMargins(0, 0, 3, 3);
+    layout->addWidget(listView);
+    layout->addWidget(addChatButton);
+
+    QWidget * mainWidget = new QWidget(this);
+    mainWidget->setLayout(layout);
+    setWidget(mainWidget);
 }
 
 ChatListWidget::~ChatListWidget()
@@ -67,4 +85,15 @@ bool ChatListWidget::eventFilter(QObject * object, QEvent * event)
     if (event->type() == QEvent::FocusOut)
         m_selectionModel->reset();
     return false;
+}
+
+void ChatListWidget::createPrivateChat()
+{
+    PrivateChat * newChat = new PrivateChat(tr("Nouveau Tchat"));
+    if (m_privateChatDialog->edit(newChat) == QDialog::Accepted)
+    {
+        m_chatList->addLocalChat(newChat);
+    }
+    else
+        delete newChat;
 }

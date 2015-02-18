@@ -22,21 +22,22 @@
 
 #include <QAbstractItemModel>
 
-#include "datareader.h"
+#include "chat.h"
+#include "networkmessagereader.h"
 #include "persons.h"
 #include "playersList.h"
 #include "receiveevent.h"
-#include "Tchat.h"
+#include "chatwindow.h"
 
-#include "types.h"
+extern bool G_client;
 
 ChatList::ChatList(MainWindow * mainWindow)
-    : QAbstractItemModel(NULL), m_chatList(), m_chatMenu()
+    : QAbstractItemModel(NULL), m_chatWindowList(), m_chatMenu()
 {
-    m_chatMenu.setTitle(tr("Tchats"));
+    m_chatMenu.setTitle(tr("ChatWindows"));
 
     // main (public) chat
-    addChat(new Tchat(QString(), tr("Tchat commun"), mainWindow));
+    addChat(new ChatWindow(new PublicChat(), mainWindow));
 
     // Stay sync with g_playersList
     PlayersList & g_playersList = PlayersList::instance();
@@ -56,39 +57,40 @@ ChatList::ChatList(MainWindow * mainWindow)
     }
 
     // Receive events
-    ReceiveEvent::registerReceiver(discussion, TCHAT_MESSAGE, this);
-    ReceiveEvent::registerReceiver(discussion, DICE_MESSAGE, this);
-    ReceiveEvent::registerReceiver(discussion, EMOTE_MESSAGE, this);
+    ReceiveEvent::registerReceiver(NetMsg::ChatCategory, NetMsg::ChatMessageAction, this);
+    ReceiveEvent::registerReceiver(NetMsg::ChatCategory, NetMsg::DiceMessageAction, this);
+    ReceiveEvent::registerReceiver(NetMsg::ChatCategory, NetMsg::EmoteMessageAction, this);
+    ReceiveEvent::registerReceiver(NetMsg::ChatCategory, NetMsg::UpdateChatAction, this);
 }
 
 ChatList::~ChatList()
 {
     m_chatMenu.clear();
 
-    int maxChatIndex = m_chatList.size();
+    int maxChatIndex = m_chatWindowList.size();
     for (int i = 0 ; i < maxChatIndex ; i++)
     {
-        delete m_chatList.at(i);
+        delete m_chatWindowList.at(i);
     }
 }
 
 
 QVariant ChatList::data(const QModelIndex &index, int role) const
 {
-    Tchat * chat = getChat(index);
+    ChatWindow * chatw = chatWindow(index);
 
-    if (chat == NULL)
+    if (chatw == NULL)
         return QVariant();
 
     switch (role)
     {
         case Qt::DisplayRole:
         case Qt::EditRole:
-            return QVariant(chat->name());
+            return QVariant(chatw->chat()->name());
         case Qt::DecorationRole:
-            return QVariant(QColor(chat->hasUnseenMessage() ? "red" : "green"));
+            return QVariant(QColor(chatw->hasUnseenMessage() ? "red" : "green"));
         case Qt::CheckStateRole:
-            return QVariant(chat->isVisible());
+            return QVariant(chatw->isVisible());
     }
 
     return QVariant();
@@ -110,7 +112,7 @@ QVariant ChatList::headerData(int section, Qt::Orientation orientation, int role
 
 QModelIndex ChatList::index(int row, int column, const QModelIndex &parent) const
 {
-    if (parent.isValid() || column != 0 || row < 0 || row >= m_chatList.size())
+    if (parent.isValid() || column != 0 || row < 0 || row >= m_chatWindowList.size())
         return QModelIndex();
 
     return createIndex(row, column);
@@ -127,7 +129,7 @@ int ChatList::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return m_chatList.size();
+    return m_chatWindowList.size();
 }
 
 int ChatList::columnCount(const QModelIndex &parent) const
@@ -142,15 +144,15 @@ bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role
 {
     Q_UNUSED(value);
 
-    Tchat * chat = getChat(index);
+    ChatWindow * chatw = chatWindow(index);
 
-    if (chat == NULL)
+    if (chatw == NULL)
         return false;
 
     switch (role)
     {
         case Qt::CheckStateRole:
-            chat->toggleViewAction()->toggle();
+            chatw->toggleViewAction()->toggle();
         default:
             return false;
     }
@@ -165,129 +167,216 @@ QMenu * ChatList::chatMenu()
     return &m_chatMenu;
 }
 
+bool ChatList::addLocalChat(PrivateChat * chat)
+{
+    if (!chat->belongsTo(PlayersList::instance().localPlayer()))
+        return false;
+
+    if (!G_client)
+        m_privateChatMap.insert(chat->identifier(), chat);
+    addChat(new ChatWindow(chat));
+    return true;
+}
+
+void ChatList::addChat(ChatWindow * chatw)
+{
+    int listSize = m_chatWindowList.size();
+    beginInsertRows(QModelIndex(), listSize, listSize);
+
+    m_chatWindowList.append(chatw);
+    m_chatMenu.addAction(chatw->toggleViewAction());
+    connect(chatw, SIGNAL(changed(ChatWindow *)), this, SLOT(changeChatWindow(ChatWindow *)));
+
+    endInsertRows();
+}
+
+void ChatList::delChatWindow(ChatWindow * chatw)
+{
+    int pos = m_chatWindowList.indexOf(chatw);
+    if (pos < 0)
+        return;
+
+    beginRemoveRows(QModelIndex(), pos, pos);
+
+    m_chatMenu.removeAction(chatw->toggleViewAction());
+    m_chatWindowList.removeOne(chatw);
+    delete chatw;
+
+    endRemoveRows();
+}
+
+
+ChatWindow * ChatList::chatWindow(const QString & uuid) const
+{
+    int maxChatIndex = m_chatWindowList.size();
+    for (int i = 0 ; i < maxChatIndex ; i++)
+    {
+        ChatWindow * chatw = m_chatWindowList.at(i);
+        if (uuid == chatw->chat()->identifier())
+            return chatw;
+    }
+    return NULL;
+}
+
+ChatWindow * ChatList::chatWindow(const QModelIndex & index) const
+{
+    if (!index.isValid() || index.parent().isValid() || index.column() != 0)
+        return NULL;
+
+    int row = index.row();
+    if (row < 0 || row >= m_chatWindowList.size())
+        return NULL;
+
+    return m_chatWindowList.at(row);
+}
+
+void ChatList::addPlayerChat(Player * player, MainWindow * mainWindow)
+{
+    ChatWindow * chatw = chatWindow(player->uuid());
+    if (chatw == NULL)
+    {
+        addChat(new ChatWindow(new PlayerChat(player), mainWindow));
+    }
+}
+
+void ChatList::delPlayer(Player * player)
+{
+    ChatWindow * chatw = chatWindow(player->uuid());
+    if (chatw != NULL)
+    {
+        delChatWindow(chatw);
+    }
+}
+
+void ChatList::changeChatWindow(ChatWindow * chat)
+{
+    QModelIndex modelIndex = createIndex(m_chatWindowList.indexOf(chat), 0);
+    emit dataChanged(modelIndex, modelIndex);
+}
+
 bool ChatList::event(QEvent * event)
 {
     if (event->type() == ReceiveEvent::Type)
     {
         ReceiveEvent * netEvent = static_cast<ReceiveEvent *>(event);
-        actionDiscussion action = (actionDiscussion) netEvent->action();
+        NetworkMessageReader & data = netEvent->data();
 
-        if ( netEvent->categorie() == discussion &&
-             (action == TCHAT_MESSAGE || action == DICE_MESSAGE  || action == EMOTE_MESSAGE)
-           )
+        if ( data.category() == NetMsg::ChatCategory)
         {
-            dispatchMessage(netEvent);
-            return true;
+            NetMsg::Action action = data.action();
+            switch (action)
+            {
+                case NetMsg::ChatMessageAction:
+                case NetMsg::DiceMessageAction:
+                case NetMsg::EmoteMessageAction:
+                    dispatchMessage(netEvent);
+                    return true;
+                case NetMsg::UpdateChatAction:
+                    updatePrivateChat(netEvent);
+                    return true;
+                default:
+                    qWarning("Unknown chat action %d", action);
+            }
         }
     }
 
     return QObject::event(event);
 }
 
-void ChatList::addChat(Tchat * chat)
-{
-    int listSize = m_chatList.size();
-    beginInsertRows(QModelIndex(), listSize, listSize);
-
-    m_chatList.append(chat);
-    m_chatMenu.addAction(chat->toggleViewAction());
-    connect(chat, SIGNAL(changed(Tchat *)), this, SLOT(chatChanged(Tchat *)));
-
-    endInsertRows();
-}
-
-void ChatList::delChat(Tchat * chat)
-{
-    int pos = m_chatList.indexOf(chat);
-    if (pos < 0)
-        return;
-
-    beginRemoveRows(QModelIndex(), pos, pos);
-
-    m_chatMenu.removeAction(chat->toggleViewAction());
-    m_chatList.removeOne(chat);
-    delete chat;
-
-    endRemoveRows();
-}
-
-
-Tchat * ChatList::getChat(const QString & uuid) const
-{
-    int maxChatIndex = m_chatList.size();
-    for (int i = 0 ; i < maxChatIndex ; i++)
-    {
-        Tchat * chat = m_chatList.at(i);
-        if (uuid == chat->identifiant())
-            return chat;
-    }
-    return NULL;
-}
-
-Tchat * ChatList::getChat(const QModelIndex & index) const
-{
-    if (!index.isValid() || index.parent().isValid() || index.column() != 0)
-        return NULL;
-
-    int row = index.row();
-    if (row < 0 || row >= m_chatList.size())
-        return NULL;
-
-    return m_chatList.at(row);
-}
-
 void ChatList::dispatchMessage(ReceiveEvent * event)
 {
-    DataReader & data = event->data();
+    NetworkMessageReader & data = event->data();
     QString from = data.string8();
     QString to   = data.string8();
     QString msg  = data.string32();
 
     PlayersList & g_playersList = PlayersList::instance();
 
-    QString chatUuid = to;
-    if (to == g_playersList.localPlayer()->uuid())
-        chatUuid = from;
-    else if (not to.isEmpty())
-        return;
-
-    Tchat * chat = getChat(chatUuid);
-    if (chat == NULL)
-    {
-        qWarning("Message for unknown chat %s", qPrintable(chatUuid));
-        return;
-    }
-    
-    Person * person = g_playersList.getPerson(from);
-    if (person == NULL)
+    Person * sender = g_playersList.getPerson(from);
+    if (sender == NULL)
     {
         qWarning("Message from unknown person %s", qPrintable(from));
         return;
     }
 
-    chat->afficherMessage(person->name(), person->color(), msg, (actionDiscussion)event->action());
-}
-
-void ChatList::addPlayerChat(Player * player, MainWindow * mainWindow)
-{
-    Tchat * chat = getChat(player->uuid());
-    if (chat == NULL)
+    if (to == g_playersList.localPlayer()->uuid())
     {
-        addChat(new Tchat(player, mainWindow));
+        Player * owner = g_playersList.getParent(from);
+        chatWindow(owner->uuid())->afficherMessage(sender->name(), sender->color(), msg, data.action());
+        return;
+    }
+
+    else
+    {
+        Player * addressee = g_playersList.getPlayer(to);
+        if (addressee != NULL)
+        {
+            if (!G_client)
+                data.sendTo(addressee->link());
+            return;
+        }
+    }
+
+    ChatWindow * chatw = chatWindow(to);
+    if (chatw != NULL)
+        chatw->afficherMessage(sender->name(), sender->color(), msg, data.action());
+
+    if (!G_client)
+    {
+        if (m_privateChatMap.contains(to))
+            m_privateChatMap.value(to)->sendThem(data, event->link());
+        else if (to.isEmpty())
+            data.sendAll(event->link());
     }
 }
 
-void ChatList::delPlayer(Player * player)
+void ChatList::updatePrivateChat(ReceiveEvent * event)
 {
-    Tchat * chat = getChat(player->uuid());
-    if (chat != NULL)
-    {
-        delChat(chat);
-    }
-}
+    PrivateChat * newChat = new PrivateChat(*event);
 
-void ChatList::chatChanged(Tchat * chat)
-{
-    QModelIndex modelIndex = createIndex(m_chatList.indexOf(chat), 0);
-    emit dataChanged(modelIndex, modelIndex);
+    if (!G_client)
+    {
+        if (m_privateChatMap.contains(newChat->identifier()))
+        {
+            PrivateChat * oldChat = m_privateChatMap[newChat->identifier()];
+            oldChat->set(*newChat);
+            delete newChat;
+            newChat = oldChat;
+        }
+        else
+        {
+            m_privateChatMap.insert(newChat->identifier(), newChat);
+            newChat->sendUpdate();
+        }
+    }
+
+    ChatWindow * chatw = chatWindow(newChat->identifier());
+    if (chatw != NULL)
+    {
+        if (newChat->includeLocalPlayer())
+        {
+            if (G_client)
+            {
+                PrivateChat * oldChat = qobject_cast<PrivateChat *>(chatw->chat());
+                if (oldChat == NULL)
+                {
+                    qWarning("%s is not a private chat", qPrintable(newChat->identifier()));
+                    return;
+                }
+                oldChat->set(*newChat);
+                delete newChat;
+            }
+        }
+        else
+            delChatWindow(chatw);
+    }
+
+    else if (newChat->includeLocalPlayer())
+    {
+        addChat(new ChatWindow(newChat));
+    }
+
+
+    else if (G_client)
+        delete newChat;
 }

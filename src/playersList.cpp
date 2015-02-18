@@ -24,8 +24,8 @@
 
 #include "playersList.h"
 
-#include "datareader.h"
-#include "datawriter.h"
+#include "networkmessagereader.h"
+#include "networkmessagewriter.h"
 #include "Features.h"
 #include "persons.h"
 #include "receiveevent.h"
@@ -43,16 +43,17 @@ extern bool G_joueur;
 PlayersList::PlayersList()
  : QAbstractItemModel(NULL), m_gmCount(0)
 {
-    ReceiveEvent::registerReceiver(joueur, connexionJoueur, this);
-    ReceiveEvent::registerReceiver(joueur, ajouterJoueur, this);
-    ReceiveEvent::registerReceiver(joueur, supprimerJoueur, this);
-    ReceiveEvent::registerReceiver(joueur, changerNomJoueur, this);
-    ReceiveEvent::registerReceiver(joueur, changerCouleurJoueur, this);
-    ReceiveEvent::registerReceiver(persoJoueur, ajouterPersoJoueur, this);
-    ReceiveEvent::registerReceiver(persoJoueur, supprimerPersoJoueur, this);
-    ReceiveEvent::registerReceiver(persoJoueur, changerNomPersoJoueur, this);
-    ReceiveEvent::registerReceiver(persoJoueur, changerCouleurPersoJoueur, this);
-    ReceiveEvent::registerReceiver(parametres, AddFeatureAction, this);
+    using namespace NetMsg;
+    ReceiveEvent::registerReceiver(PlayerCategory, PlayerConnectionAction, this);
+    ReceiveEvent::registerReceiver(PlayerCategory, AddPlayerAction, this);
+    ReceiveEvent::registerReceiver(PlayerCategory, DelPlayerAction, this);
+    ReceiveEvent::registerReceiver(PlayerCategory, ChangePlayerNameAction, this);
+    ReceiveEvent::registerReceiver(PlayerCategory, ChangePlayerColorAction, this);
+    ReceiveEvent::registerReceiver(CharacterCategory, AddCharacterAction, this);
+    ReceiveEvent::registerReceiver(CharacterCategory, DelCharacterAction, this);
+    ReceiveEvent::registerReceiver(CharacterCategory, ChangeCharacterNameAction, this);
+    ReceiveEvent::registerReceiver(CharacterCategory, ChangeCharacterColorAction, this);
+    ReceiveEvent::registerReceiver(SetupCategory, AddFeatureAction, this);
     
     connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(sendDelLocalPlayer()));
 }
@@ -288,6 +289,18 @@ Character * PlayersList::getCharacter(const QString & uuid) const
     return static_cast<Character *>(person);
 }
 
+Player * PlayersList::getParent(const QString & uuid) const
+{
+    Person * person = m_uuidMap.value(uuid);
+    if (person == NULL)
+        return NULL;
+    
+    Player * parent = person->parent();
+    if (parent == NULL)
+        return static_cast<Player *>(person);
+    return parent;
+}
+
 Person * PlayersList::getPerson(const QModelIndex & index) const
 {
     if (!index.isValid() || index.column() != 0)
@@ -370,7 +383,7 @@ void PlayersList::setLocalPlayer(Player * player)
 
     if (G_client)
     {
-        DataWriter message (joueur, connexionJoueur);
+        NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
         player->fill(message);
         message.sendAll();
     }
@@ -388,7 +401,7 @@ void PlayersList::addLocalCharacter(Character * newCharacter)
 {
     addCharacter(localPlayer(), newCharacter);
 
-    DataWriter message (persoJoueur, ajouterPersoJoueur);
+    NetworkMessageWriter message (NetMsg::CharacterCategory, NetMsg::AddCharacterAction);
     newCharacter->fill(message);
     message.uint8(1); // add it to the map
     message.sendAll();
@@ -425,12 +438,12 @@ bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
 {
     if (person->setName(name))
     {
-        DataWriter * message;
+        NetworkMessageWriter * message;
 
         if (person->parent() == NULL)
-            message = new DataWriter(joueur, changerNomJoueur);
+            message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerNameAction);
         else
-            message = new DataWriter(persoJoueur, changerNomPersoJoueur);
+            message = new NetworkMessageWriter(NetMsg::CharacterCategory, NetMsg::ChangeCharacterNameAction);
 
         message->string16(person->name());
         message->string8(person->uuid());
@@ -445,12 +458,12 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
 {
     if (person->setColor(color))
     {
-        DataWriter * message;
+        NetworkMessageWriter * message;
 
         if (person->parent() == NULL)
-            message = new DataWriter(joueur, changerCouleurJoueur);
+            message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerColorAction);
         else
-            message = new DataWriter(persoJoueur, changerCouleurPersoJoueur);
+            message = new NetworkMessageWriter(NetMsg::CharacterCategory, NetMsg::ChangeCharacterColorAction);
 
         message->string8(person->uuid());
         message->rgb(person->color());
@@ -468,7 +481,7 @@ void PlayersList::delLocalCharacter(int index)
 
     Player * parent = localPlayer();
 
-    DataWriter message (persoJoueur, supprimerPersoJoueur);
+    NetworkMessageWriter message (NetMsg::CharacterCategory, NetMsg::DelCharacterAction);
     message.string8(parent->getCharacterByIndex(index)->uuid());
     message.sendAll();
 
@@ -507,8 +520,6 @@ void PlayersList::addCharacter(Player * player, Character * character)
 
     player->addCharacter(character);
     m_uuidMap.insert(uuid, character);
-
-    qDebug("New character %s %s", qPrintable(character->name()), qPrintable(uuid));
 
     emit characterAdded(character);
 
@@ -573,70 +584,71 @@ bool PlayersList::event(QEvent * event)
 {
     if (event->type() == ReceiveEvent::Type)
     {
+        using namespace NetMsg;
         ReceiveEvent * rEvent = static_cast<ReceiveEvent *>(event);
-        DataReader & data = rEvent->data();
-        switch ((categorieAction)rEvent->categorie())
+        NetworkMessageReader & data = rEvent->data();
+        switch (data.category())
         {
-            case joueur:
-                switch ((actionJoueur)rEvent->action())
+            case PlayerCategory:
+                switch (data.action())
                 {
-                    case connexionJoueur:
+                    case PlayerConnectionAction:
                         addPlayerAsServer(rEvent);
                         return true;
-                    case ajouterJoueur:
+                    case AddPlayerAction:
                         addPlayer(data);
                         return true;
-                    case supprimerJoueur:
+                    case DelPlayerAction:
                         delPlayer(data);
                         return true;
-                    case changerNomJoueur:
+                    case ChangePlayerNameAction:
                         setPersonName(data);
                         return true;
-                    case changerCouleurJoueur:
+                    case ChangePlayerColorAction:
                         setPersonColor(data);
                         return true;
                     default:
-                        qWarning("PlayersList : message of categorie \"joueur\" with unknown action (%d)", rEvent->action());
+                        qWarning("PlayersList : message of categorie \"joueur\" with unknown action (%d)", data.action());
                 }
                 break;
-            case persoJoueur:
-                switch ((actionPj)rEvent->action())
+            case CharacterCategory:
+                switch (data.action())
                 {
-                    case ajouterPersoJoueur:
+                    case AddCharacterAction:
                         addCharacter(data);
                         return true;
-                    case supprimerPersoJoueur:
+                    case DelCharacterAction:
                         delCharacter(data);
                         return true;
-                    case changerNomPersoJoueur:
+                    case ChangeCharacterNameAction:
                         setPersonName(data);
                         return true;
-                    case changerCouleurPersoJoueur:
+                    case ChangeCharacterColorAction:
                         setPersonColor(data);
                         return true;
                     default:
-                        qWarning("PlayersList : message of categorie \"persoJoueur\" with unknown action (%d)", rEvent->action());
+                        qWarning("PlayersList : message of categorie \"persoJoueur\" with unknown action (%d)", data.action());
                 }
                 break;
-            case parametres:
-                switch ((actionParametres)rEvent->action())
+            case SetupCategory:
+                switch (data.action())
                 {
                     case AddFeatureAction:
-                        addFeature(data);
+                        addFeature(*rEvent);
                         return true;
                     default:
-                        qWarning("PlayersList : message of categorie \"parametres\" with unknown action (%d)", rEvent->action());
+                        qWarning("PlayersList : message of categorie \"parametres\" with unknown action (%d)", data.action());
                 }
                 break;
             default:
-                qWarning("PlayersList : message of unknown categorie (%d)", rEvent->categorie());
+                qWarning("PlayersList : message of unknown categorie (%d)", data.category());
         }
     }
 
     return QObject::event(event);
 }
 
-void PlayersList::addPlayer(DataReader & data)
+void PlayersList::addPlayer(NetworkMessageReader & data)
 {
     Player * newPlayer = new Player(data);
 
@@ -672,13 +684,13 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 
     addPlayer(player);
 
-    DataWriter msgPlayer (joueur, ajouterJoueur);
+    NetworkMessageWriter msgPlayer (NetMsg::PlayerCategory, NetMsg::AddPlayerAction);
     player->fill(msgPlayer);
     // display it in the log
     msgPlayer.uint8(1);
     msgPlayer.sendAll();
 
-    DataWriter msgCharacter (persoJoueur, ajouterPersoJoueur);
+    NetworkMessageWriter msgCharacter (NetMsg::CharacterCategory, NetMsg::AddCharacterAction);
     SendFeaturesIterator featuresIterator;
 
     int playersListSize = m_playersList.size();
@@ -712,7 +724,7 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
     }
 }
 
-void PlayersList::delPlayer(DataReader & data)
+void PlayersList::delPlayer(NetworkMessageReader & data)
 {
     /* TODO:
      * - If the player is the GM, call LecteurAudio::pselectNewFile("").
@@ -724,7 +736,7 @@ void PlayersList::delPlayer(DataReader & data)
         delPlayer(player);
 }
 
-void PlayersList::setPersonName(DataReader & data)
+void PlayersList::setPersonName(NetworkMessageReader & data)
 {
     QString name = data.string16();
     QString uuid = data.string8();
@@ -737,7 +749,7 @@ void PlayersList::setPersonName(DataReader & data)
         notifyPersonChanged(person);
 }
 
-void PlayersList::setPersonColor(DataReader & data)
+void PlayersList::setPersonColor(NetworkMessageReader & data)
 {
     QString uuid = data.string8();
     QColor color = QColor(data.rgb());
@@ -750,7 +762,7 @@ void PlayersList::setPersonColor(DataReader & data)
         notifyPersonChanged(person);
 }
 
-void PlayersList::addCharacter(DataReader & data)
+void PlayersList::addCharacter(NetworkMessageReader & data)
 {
     QString uuid = data.string8();
     Player * player = getPlayer(uuid);
@@ -761,7 +773,7 @@ void PlayersList::addCharacter(DataReader & data)
     addCharacter(player, character);
 }
 
-void PlayersList::delCharacter(DataReader & data)
+void PlayersList::delCharacter(NetworkMessageReader & data)
 {
     QString uuid = data.string8();
     Character * character = getCharacter(uuid);
@@ -774,8 +786,7 @@ void PlayersList::delCharacter(DataReader & data)
 
 void PlayersList::sendDelLocalPlayer()
 {
-    qDebug("sendDelLocalPlayer");
-    DataWriter message (joueur, supprimerJoueur);
+    NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
     message.string8(localPlayer()->uuid());
     message.sendAll();
 }
@@ -794,7 +805,7 @@ void PlayersList::delPlayerWithLink(Liaison * link)
         if (player->link() == link)
         {
             qWarning("Something wrong append to %s", qPrintable(player->name()));
-            DataWriter message (joueur, supprimerJoueur);
+            NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
             message.string8(player->uuid());
             message.sendAll(link);
 

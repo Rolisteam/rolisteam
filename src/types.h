@@ -58,7 +58,7 @@
     enum actionDiscussion {TCHAT_MESSAGE, DICE_MESSAGE, EMOTE_MESSAGE};
 	enum actionMusique {nouveauMorceau, lectureMorceau, pauseMorceau, arretMorceau, nouvellePositionMorceau};
         //enum actionMusic {nouveauMorceau, lectureMorceau, pauseMorceau, arretMorceau, nouvellePositionMorceau};
-	enum actionParametres {changerListeEtats, autoriserDeplacementPersos, AddFeatureAction};
+	enum actionParametres {changerListeEtats, autoriserDeplacementPersos};
 	
 	// Entete des messages envoyes et recus via les sockets
 	typedef struct

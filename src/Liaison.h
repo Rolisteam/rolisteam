@@ -26,7 +26,7 @@
 #include <QtNetwork>
 #include <QTcpSocket>
 
-#include "types.h"
+#include "networkmessage.h"
 
 class Carte;
 #ifndef NULL_PLAYER
@@ -41,6 +41,9 @@ Q_OBJECT
 public :
     Liaison(QTcpSocket *socket);
     ~Liaison();
+
+signals:
+    void disconnected(Liaison * link);
 
 public slots :
     void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf = 0);
@@ -62,11 +65,11 @@ private :
     void faireSuivreMessage(bool tous);
     int extrairePersonnage(Carte *carte, char *tampon);
 
-    QTcpSocket *socketTcp;		// Socket gere par le thread
-    enteteMessage entete;		// Contient l'entete du message en cours de reception
-    bool receptionEnCours;		// Indique si un message est actuellement en cours de reception
-    char *tampon;				// Tampon contenant le message en court de reconstitution
-    quint32 restant;			// Taille des donnees restant a receptionner
+    QTcpSocket *socketTcp;		 // Socket gere par le thread
+    NetworkMessageHeader entete; // Contient l'entete du message en cours de reception
+    bool receptionEnCours;		 // Indique si un message est actuellement en cours de reception
+    char *tampon;				 // Tampon contenant le message en court de reconstitution
+    quint32 restant;			 // Taille des donnees restant a receptionner
 #ifndef NULL_PLAYER
     LecteurAudio* G_lecteurAudio;
 #endif
@@ -74,7 +77,7 @@ private :
 private slots :
     void reception();
     void erreurDeConnexion(QAbstractSocket::SocketError);
-
+    void p_disconnect();
 };
 
 #endif

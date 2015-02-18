@@ -1,11 +1,9 @@
 /*************************************************************************
- *   Copyright (C) 2007 by Romain Campioni                                *
- *   Copyright (C) 2009 by Renaud Guezennec                              *
- *   Copyrigth (C) 2010 by Joseph Boudou                                 *
+ *     Copyright (C) 2011 by Joseph Boudou                               *
  *                                                                       *
- *   http://www.rolisteam.org/                                           *
+ *     http://www.rolisteam.org/                                         *
  *                                                                       *
- *   rolisteam is free software; you can redistribute it and/or modify   *
+ *   Rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
  *   by the Free Software Foundation; either version 2 of the License,   *
  *   or (at your option) any later version.                              *
@@ -22,51 +20,51 @@
  *************************************************************************/
 
 
-#ifndef CLIENT_SERVEUR_H
-#define CLIENT_SERVEUR_H
+#ifndef PRIVATE_CHAT_DIALOG_H
+#define PRIVATE_CHAT_DIALOG_H
 
-#include <QTcpServer>
-#include <QList>
-#include <QColor>
+#include <QDialog>
+#include <QLineEdit>
+#include <QSet>
+
+#include "playerslistproxy.h"
 
 class Player;
-class Liaison;
+class PrivateChat;
 
-/**
- * @brief hold the list of socket (Liaison).
- * On startup displays the configDialog.
- */
-class ClientServeur : public QObject
+class PrivateChatDialogModel : public PlayersListProxyModel
 {
     Q_OBJECT
 
-public :
-    ClientServeur();
-    ~ClientServeur();
+    public:
+        PrivateChatDialogModel(const QSet<Player *> & set, QObject * parent = 0);
 
-    /**
-     * @brief Display the configDialog and make the connection.
-     * @return true if connection has been established, false if the user has clicked on the Quit button.
-     */
-    bool configAndConnect();
+        Qt::ItemFlags flags(const QModelIndex &index) const;
+        QVariant data(const QModelIndex &index, int role) const;
+        bool setData(const QModelIndex &index, const QVariant &value, int role);
 
-    void emettreDonnees(char *donnees, quint32 taille, Liaison *sauf);
+        QSet<Player *> & playersSet();
+        void setPlayersSet(const QSet<Player *> & set);
 
-    void ajouterLiaison(Liaison *liaison);
+    private:
+       QSet<Player *> m_set;
+};
 
-signals :
-    void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);
+class PrivateChatDialog : public QDialog
+{
+    Q_OBJECT
 
-    void linkAdded(Liaison * link);
-    void linkDeleted(Liaison * link);
+    public:
+        PrivateChatDialog(QWidget * parent = NULL);
 
-private :
-    QTcpServer * m_server;
-    QList<Liaison *> liaisons;
+        QSize sizeHint() const;
 
-private slots :
-    void nouveauClientConnecte();
-    void finDeLiaison(Liaison * link);
+    public slots:
+        int edit(PrivateChat * chat = NULL);
+
+    private:
+        QLineEdit * m_name_w;
+        PrivateChatDialogModel m_model;
 };
 
 #endif

@@ -19,10 +19,16 @@
  *************************************************************************/
 
 #include <QApplication>
+#include <QTimer>
 
 #include "receiveevent.h"
 
-#include "datareader.h"
+#include "networkmessagereader.h"
+
+
+/****************
+ * ReceiveEvent *
+ ****************/
 
 const int ReceiveEvent::Type = QEvent::registerEventType();
 QMap<quint16, QObject *> ReceiveEvent::s_receiverMap;
@@ -33,33 +39,28 @@ quint16 makeKey(quint8 categorie, quint8 action)
 }
 
 
+ReceiveEvent::ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, Liaison * link)
+    : QEvent((QEvent::Type)ReceiveEvent::Type), m_data(header, buffer), m_link(link), m_repost(0)
+{}
 
-ReceiveEvent::ReceiveEvent(quint8 categorie, quint8 action, quint32 bufferSize, const char * buffer, Liaison * link)
-    : QEvent((QEvent::Type)ReceiveEvent::Type), m_categorie(categorie), m_action(action), m_link(link)
-{
-    m_data = new DataReader(bufferSize, buffer);
-}
+ReceiveEvent::ReceiveEvent(const ReceiveEvent & other)
+    : QEvent((QEvent::Type)ReceiveEvent::Type), m_data(other.m_data), m_link(other.m_link), m_repost(other.m_repost + 1)
+{}
 
 ReceiveEvent::~ReceiveEvent()
-{
-    delete m_data;
-}
+{}
 
 void ReceiveEvent::postToReceiver()
 {
-    quint16 key = makeKey(m_categorie, m_action);
+    quint16 key = makeKey(m_data.category(), m_data.action());
     if (s_receiverMap.contains(key))
         QCoreApplication::postEvent(s_receiverMap.value(key), this, Qt::LowEventPriority);
 }
 
-quint8 ReceiveEvent::categorie() const
+void ReceiveEvent::repostLater() const
 {
-    return m_categorie;
-}
-
-quint8 ReceiveEvent::action() const
-{
-    return m_action;
+    if (m_repost < 25)
+        new DelayReceiveEvent(*this);
 }
 
 Liaison * ReceiveEvent::link() const
@@ -67,9 +68,9 @@ Liaison * ReceiveEvent::link() const
     return m_link;
 }
 
-DataReader & ReceiveEvent::data()
+NetworkMessageReader & ReceiveEvent::data()
 {
-    return *m_data;
+    return m_data;
 }
 
 bool ReceiveEvent::hasReceiverFor(quint8 categorie, quint8 action)
@@ -77,7 +78,7 @@ bool ReceiveEvent::hasReceiverFor(quint8 categorie, quint8 action)
     return s_receiverMap.contains(makeKey(categorie, action));
 }
 
-void ReceiveEvent::registerReceiver(quint8 categorie, quint8 action, QObject * receiver)
+void ReceiveEvent::registerReceiver(NetMsg::Category categorie, NetMsg::Action action, QObject * receiver)
 {
     quint16 key = makeKey(categorie, action);
     if (s_receiverMap.contains(key))
@@ -86,4 +87,24 @@ void ReceiveEvent::registerReceiver(quint8 categorie, quint8 action, QObject * r
     }
 
     s_receiverMap.insert(key, receiver);
+}
+
+
+/*********************
+ * DelayReceiveEvent *
+ *********************/
+
+DelayReceiveEvent::DelayReceiveEvent(const ReceiveEvent & event)
+{
+    m_event = new ReceiveEvent(event);
+    QTimer::singleShot(200, this, SLOT(postEvent()));
+}
+
+DelayReceiveEvent::~DelayReceiveEvent()
+{}
+
+void DelayReceiveEvent::postEvent()
+{
+    m_event->postToReceiver();
+    deleteLater();
 }

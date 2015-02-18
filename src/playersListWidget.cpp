@@ -36,59 +36,8 @@
  **************************/
 
 PlayersListWidgetModel::PlayersListWidgetModel(QObject * parent)
-    : QAbstractProxyModel(parent), m_map(NULL)
+    : PlayersListProxyModel(parent), m_map(NULL)
 {
-    PlayersList & g_playersList = PlayersList::instance();
-    setSourceModel(&g_playersList);
-
-    // Proxy mecanic
-    connect(&g_playersList, SIGNAL(rowsAboutToBeInserted(const QModelIndex &,int,int)),
-            this, SLOT(p_rowsAboutToBeInserted(const QModelIndex &,int,int)));
-    connect(&g_playersList, SIGNAL(rowsInserted(const QModelIndex &,int,int)),
-            this, SLOT(p_rowsInserted()));
-    connect(&g_playersList, SIGNAL(rowsAboutToBeRemoved(const QModelIndex &,int,int)),
-            this, SLOT(p_rowsAboutToBeRemoved(const QModelIndex &,int,int)));
-    connect(&g_playersList, SIGNAL(rowsRemoved(const QModelIndex &,int,int)),
-            this, SLOT(p_rowsRemoved()));
-    connect(&g_playersList, SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &)),
-            this, SLOT(p_dataChanged(const QModelIndex &, const QModelIndex &)));
-}
-
-QModelIndex PlayersListWidgetModel::mapFromSource(const QModelIndex & sourceIndex) const
-{
-    if (!sourceIndex.isValid())
-        return QModelIndex();
-
-    quint32 parentRow = (quint32)(sourceIndex.internalId() & PlayersList::NoParent);
-    return createIndex(sourceIndex.row(), sourceIndex.column(), parentRow);
-}
-
-QModelIndex PlayersListWidgetModel::mapToSource(const QModelIndex & proxyIndex) const
-{
-    return PlayersList::instance().mapIndexToMe(proxyIndex);
-}
-
-QModelIndex PlayersListWidgetModel::index(int row, int column, const QModelIndex &parent) const
-{
-    QModelIndex sourceIndex = sourceModel()->index(row, column, mapToSource(parent));
-    return mapFromSource(sourceIndex);
-}
-
-QModelIndex PlayersListWidgetModel::parent(const QModelIndex &index) const
-{
-    QModelIndex sourceIndex = sourceModel()->parent(mapToSource(index));
-    return mapFromSource(sourceIndex);
-}
-
-int PlayersListWidgetModel::rowCount(const QModelIndex &parent) const
-{
-    return sourceModel()->rowCount(mapToSource(parent));
-}
-
-int PlayersListWidgetModel::columnCount(const QModelIndex & parent) const
-{
-    Q_UNUSED(parent);
-    return 1;
 }
 
 Qt::ItemFlags PlayersListWidgetModel::flags(const QModelIndex &index) const
@@ -210,30 +159,6 @@ bool PlayersListWidgetModel::isCheckable(const QModelIndex &index) const
             (localPlayer->isGM() && index.parent().isValid()));
 }
 
-void PlayersListWidgetModel::p_rowsAboutToBeInserted(const QModelIndex & parent, int start, int end)
-{
-    beginInsertRows(mapFromSource(parent), start, end);
-}
-
-void PlayersListWidgetModel::p_rowsInserted()
-{
-    endInsertRows();
-}
-
-void PlayersListWidgetModel::p_rowsAboutToBeRemoved(const QModelIndex & parent, int start, int end)
-{
-    beginRemoveRows(mapFromSource(parent), start, end);
-}
-
-void PlayersListWidgetModel::p_rowsRemoved()
-{
-    endRemoveRows();
-}
-
-void PlayersListWidgetModel::p_dataChanged(const QModelIndex & from, const QModelIndex & to)
-{
-    emit dataChanged(mapFromSource(from), mapFromSource(to));
-}
 
 /*******************
  * PlayersListView *

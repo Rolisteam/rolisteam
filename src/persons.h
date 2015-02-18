@@ -28,8 +28,8 @@
 #include <QMap>
 
 class Character;
-class DataReader;
-class DataWriter;
+class NetworkMessageReader;
+class NetworkMessageWriter;
 class Liaison;
 class Player;
 
@@ -47,7 +47,7 @@ class Person
         QColor  color() const;
         virtual Player * parent() const;
 
-        virtual void fill(DataWriter & message) = 0;
+        virtual void fill(NetworkMessageWriter & message) = 0;
 
     protected:
         Person();
@@ -72,10 +72,10 @@ class Player : public Person {
     public:
         Player(const QString & name, const QColor & color, bool master = false, Liaison * link = NULL);
         Player(const QString & uuid, const QString & name, const QColor & color, bool master = false, Liaison * link = NULL);
-        Player(DataReader & data, Liaison * link = NULL);
+        Player(NetworkMessageReader & data, Liaison * link = NULL);
         ~Player();
 
-        void fill(DataWriter & message);
+        void fill(NetworkMessageWriter & message);
 
         Liaison * link() const;
 
@@ -114,9 +114,9 @@ class Character : public Person {
     public:
         Character(const QString & name, const QColor & color);
         Character(const QString & uuid, const QString & name, const QColor & color);
-        Character(DataReader & data);
+        Character(NetworkMessageReader & data);
 
-        void fill(DataWriter & message);
+        void fill(NetworkMessageWriter & message);
 
         Player * parent() const;
 

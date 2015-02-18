@@ -50,26 +50,24 @@
 Liaison::Liaison(QTcpSocket *socket)
     : QObject(NULL)
 {
-    // Initialisation des variables
     socketTcp = socket;
     receptionEnCours = false;
 #ifndef NULL_PLAYER
     G_lecteurAudio = LecteurAudio::getInstance();
 #endif
 
-    // Connexion du signal de reception
-    QObject::connect(socketTcp, SIGNAL(readyRead()), this, SLOT(reception()));
-    // Connexion du signal d'erreur
-    QObject::connect(socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(erreurDeConnexion(QAbstractSocket::SocketError)));
+    connect(socketTcp, SIGNAL(readyRead()),
+            this, SLOT(reception()));
+    connect(socketTcp, SIGNAL(error(QAbstractSocket::SocketError)),
+            this, SLOT(erreurDeConnexion(QAbstractSocket::SocketError)));
+    connect(socketTcp, SIGNAL(disconnected()),
+            this, SLOT(p_disconnect()));
 
     // Si l'ordi local est un client, on ajoute tt de suite la liaison a la liste, et on connecte le signal d'emission des donnees
     // Le serveur effectue cette operation a la fin de la procedure de connexion du client
     if (G_client)
     {
-        // Ajout de la liaison a la liste
         G_clientServeur->ajouterLiaison(this);
-        // Connexion de la demande d'emission de donnees du client/serveur a la liaison
-        QObject::connect(G_clientServeur, SIGNAL(emissionDonnees(char *, quint32, Liaison *)), this, SLOT(emissionDonnees(char *, quint32, Liaison *)));
     }
 }
 
@@ -84,13 +82,12 @@ Liaison::~Liaison()
 void Liaison::erreurDeConnexion(QAbstractSocket::SocketError erreur)
 {
     Q_UNUSED(erreur);
-    qDebug("Une erreur réseau est survenue : %s", qPrintable(socketTcp->errorString()));
+    qWarning("Une erreur réseau est survenue : %s", qPrintable(socketTcp->errorString()));
+}
 
-    // Si la connexion est perdue on quitte le thread
-    if (socketTcp->state() != QAbstractSocket::ConnectedState)
-    {
-        G_clientServeur->finDeLiaison(this);
-    }
+void Liaison::p_disconnect()
+{
+    emit disconnected(this);
 }
 
 /********************************************************************/
@@ -103,7 +100,12 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
     {
         // Emission des donnees
         int t = socketTcp->write(donnees, taille);
-        qDebug("Emission - Taille donnees : %d", t);
+        if (t < 0)
+        {
+            qWarning("Erreur réseau lors d'une transmission : %s", qPrintable(socketTcp->errorString()));
+        }
+        else
+            qDebug("Emission - Taille donnees : %d", t);
     }
 }
 
@@ -127,15 +129,15 @@ void Liaison::reception()
         if (!receptionEnCours)
         {
             // On recupere l'entete du message
-            socketTcp->read((char *)&entete, sizeof(enteteMessage));
+            socketTcp->read((char *)&entete, sizeof(NetworkMessageHeader));
             // Reservation du tampon
-            tampon = new char[entete.tailleDonnees];
+            tampon = new char[entete.dataSize];
             // Initialisation du restant a lire
-            restant = entete.tailleDonnees;
+            restant = entete.dataSize;
         }
 
         // Lecture des donnees a partir du dernier point
-        lu = socketTcp->read(&(tampon[entete.tailleDonnees-restant]), restant);
+        lu = socketTcp->read(&(tampon[entete.dataSize-restant]), restant);
 
         // Si toutes les donnees n'ont pu etre lues
         if (lu < restant)
@@ -151,23 +153,19 @@ void Liaison::reception()
         // Si toutes les donnees ont pu etre lu
         else
         {
-            qDebug("Reception terminee");
+            qDebug("Reception - Taille donnees : %d", entete.dataSize);
             // Envoie la notification sur la mainWindows
             QApplication::alert(G_mainWindow);
 
             // Send event
-            if (ReceiveEvent::hasReceiverFor(entete.categorie, entete.action))
+            if (ReceiveEvent::hasReceiverFor(entete.category, entete.action))
             {
-                ReceiveEvent * event = new ReceiveEvent(
-                        entete.categorie, entete.action, entete.tailleDonnees,
-                        tampon,
-                        this
-                    );
+                ReceiveEvent * event = new ReceiveEvent(entete, tampon, this);
                 event->postToReceiver();
             }
 
             // On aiguille vers le traitement adapte
-            switch((categorieAction)(entete.categorie))
+            switch((categorieAction)(entete.category))
             {
                 case connexion :
                     receptionMessageConnexion();
@@ -241,16 +239,14 @@ void Liaison::receptionMessageJoueur()
     {
         // Ajout de la liaison a la liste
         G_clientServeur->ajouterLiaison(this);
-        // Connexion de la demande d'emission de donnees du client/serveur a la liaison
-        QObject::connect(G_clientServeur, SIGNAL(emissionDonnees(char *, quint32, Liaison *)), this, SLOT(emissionDonnees(char *, quint32, Liaison *)));
 
         // On indique au nouveau joueur que le processus de connexion vient d'arriver a son terme
-        enteteMessage uneEntete;
-        uneEntete.categorie = connexion;
+        NetworkMessageHeader uneEntete;
+        uneEntete.category = connexion;
         uneEntete.action = finProcessusConnexion;
-        uneEntete.tailleDonnees = 0;
+        uneEntete.dataSize = 0;
 
-        emissionDonnees((char *)&uneEntete, sizeof(enteteMessage));
+        emissionDonnees((char *)&uneEntete, sizeof(NetworkMessageHeader));
     }
 
     // L'hote demande au soft local d'ajouter un joueur a la liste des utilisateurs
@@ -1279,52 +1275,7 @@ void Liaison::receptionMessageImage()
 /********************************************************************/
 void Liaison::receptionMessageDiscussion()
 {
-    int p = 0;
-
-    // Reception d'un message a afficher, et eventuellement a retransmettre
-    //TCHAT_MESSAGE, DICE_MESSAGE, EMOTE_MESSAGE
-    if (entete.action == TCHAT_MESSAGE || entete.action == DICE_MESSAGE || entete.action == EMOTE_MESSAGE)
-    {
-        // On recupere l'identifiant du joueur emetteur
-        quint8 tailleIdJoueurEmetteur;
-        memcpy(&tailleIdJoueurEmetteur, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdJoueurEmetteur = new QChar[tailleIdJoueurEmetteur];
-        memcpy(tableauIdJoueurEmetteur, &(tampon[p]), tailleIdJoueurEmetteur*sizeof(QChar));
-        p+=tailleIdJoueurEmetteur*sizeof(QChar);
-        QString idJoueurEmetteur(tableauIdJoueurEmetteur, tailleIdJoueurEmetteur);
-        // On recupere l'identifiant du joueur recepteur
-        quint8 tailleIdJoueurRecepteur;
-        memcpy(&tailleIdJoueurRecepteur, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdJoueurRecepteur = new QChar[tailleIdJoueurRecepteur];
-        memcpy(tableauIdJoueurRecepteur, &(tampon[p]), tailleIdJoueurRecepteur*sizeof(QChar));
-        p+=tailleIdJoueurRecepteur*sizeof(QChar);
-        QString idJoueurRecepteur(tableauIdJoueurRecepteur, tailleIdJoueurRecepteur);
-
-        // Si l'ordinateur local est le serveur il doit faire suivre le message
-        if (!G_client)
-        {
-            PlayersList & g_playersList = PlayersList::instance();
-
-            // Le message est destine a tt le monde : on retransmet vers l'ensemble des utilisateur sauf l'emetteur
-            if (idJoueurRecepteur.isEmpty())
-                faireSuivreMessage(false);
-
-            // Le message a un destinataire precis : on retransmet vers cet utilisateur
-            else if (idJoueurRecepteur != g_playersList.localPlayer()->uuid())
-            {
-                Liaison * link = g_playersList.getPlayer(idJoueurRecepteur)->link();
-                if (link == NULL)
-                    qFatal("A non-local player don't have a link.");
-                link->emissionDonnees(tampon, entete.tailleDonnees + sizeof(enteteMessage));
-            }
-        }
-
-        // Liberation de la memoire allouee
-        delete[] tableauIdJoueurEmetteur;
-        delete[] tableauIdJoueurRecepteur;
-    }
+    // All should be done by ChatList.
 }
 
 /********************************************************************/
@@ -1423,7 +1374,7 @@ void Liaison::receptionMessageMusique()
 /********************************************************************/
 void Liaison::receptionMessageParametres()
 {
-    if (entete.action == AddFeatureAction)
+    if (entete.action == NetMsg::AddFeatureAction)
     {
         faireSuivreMessage(false);
     }
@@ -1439,17 +1390,17 @@ void Liaison::faireSuivreMessage(bool tous)
     // Uniquement si l'ordinateur local est le serveur
     if (!G_client)
     {
-        char *donnees = new char[entete.tailleDonnees + sizeof(enteteMessage)];
+        char *donnees = new char[entete.dataSize + sizeof(NetworkMessageHeader)];
         // Recopie de l'entete
-        memcpy(donnees, &entete, sizeof(enteteMessage));
+        memcpy(donnees, &entete, sizeof(NetworkMessageHeader));
         // Recopie du corps du message
-        memcpy(&(donnees[sizeof(enteteMessage)]), tampon, entete.tailleDonnees);
+        memcpy(&(donnees[sizeof(NetworkMessageHeader)]), tampon, entete.dataSize);
         if (tous)
             // On envoie le message a l'ensemble des clients
-            emettre(donnees, entete.tailleDonnees + sizeof(enteteMessage));
+            emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader));
         else
             // On envoie le message a l'ensemble des clients sauf a l'emetteur initial
-            emettre(donnees, entete.tailleDonnees + sizeof(enteteMessage), this);
+            emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader), this);
         delete[] donnees;
     }
 }

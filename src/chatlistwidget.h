@@ -28,6 +28,7 @@
 
 class ChatList;
 class MainWindow;
+class PrivateChatDialog;
 
 class ChatListWidget : public QDockWidget
 {
@@ -46,7 +47,11 @@ class ChatListWidget : public QDockWidget
 
     private:
         ChatList * m_chatList;
+        PrivateChatDialog * m_privateChatDialog;
         QItemSelectionModel * m_selectionModel;
+
+    private slots:
+        void createPrivateChat(); // to del
 };
 
 #endif

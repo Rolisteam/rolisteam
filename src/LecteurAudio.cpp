@@ -105,7 +105,6 @@ void LecteurAudio::setupUi()
         afficheurTitre->setReadOnly(true);
 
         layoutAffichage->addWidget(afficheurTitre);
-        qDebug() << (G_joueur ? "Joueur": "MJ");
         if (G_joueur)
         {
                 QAction *actionChangerDossier = new QAction(QIcon(":/resources/icones/dossier.png"), tr("Choisir le répertoire de stockage des musiques"), widgetAffichage);

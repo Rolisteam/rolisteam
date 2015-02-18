@@ -49,7 +49,6 @@ class ListeUtilisateurs;
 class NouveauPlanVide;
 class PreferencesDialog;
 class PlayersListWidget;
-class Tchat;
 class WorkspaceAmeliore;
 
 

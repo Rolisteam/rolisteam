@@ -1,11 +1,9 @@
 /*************************************************************************
- *   Copyright (C) 2007 by Romain Campioni                                *
- *   Copyright (C) 2009 by Renaud Guezennec                              *
- *   Copyrigth (C) 2010 by Joseph Boudou                                 *
+ *   Copyright (C) 2011 by Joseph Boudou                                 *
  *                                                                       *
  *   http://www.rolisteam.org/                                           *
  *                                                                       *
- *   rolisteam is free software; you can redistribute it and/or modify   *
+ *   Rolisteam is free software; you can redistribute it and/or modify   *
  *   it under the terms of the GNU General Public License as published   *
  *   by the Free Software Foundation; either version 2 of the License,   *
  *   or (at your option) any later version.                              *
@@ -21,52 +19,27 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
+#include "networkmessage.h"
 
-#ifndef CLIENT_SERVEUR_H
-#define CLIENT_SERVEUR_H
+#include "ClientServeur.h"
+#include "Liaison.h"
 
-#include <QTcpServer>
-#include <QList>
-#include <QColor>
+extern ClientServeur * G_clientServeur;
 
-class Player;
-class Liaison;
-
-/**
- * @brief hold the list of socket (Liaison).
- * On startup displays the configDialog.
- */
-class ClientServeur : public QObject
+void NetworkMessage::sendTo(Liaison * link)
 {
-    Q_OBJECT
+    if (link == NULL)
+    {
+        sendAll();
+        return;
+    }
 
-public :
-    ClientServeur();
-    ~ClientServeur();
+    NetworkMessageHeader * header = buffer();
+    link->emissionDonnees((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
+}
 
-    /**
-     * @brief Display the configDialog and make the connection.
-     * @return true if connection has been established, false if the user has clicked on the Quit button.
-     */
-    bool configAndConnect();
-
-    void emettreDonnees(char *donnees, quint32 taille, Liaison *sauf);
-
-    void ajouterLiaison(Liaison *liaison);
-
-signals :
-    void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);
-
-    void linkAdded(Liaison * link);
-    void linkDeleted(Liaison * link);
-
-private :
-    QTcpServer * m_server;
-    QList<Liaison *> liaisons;
-
-private slots :
-    void nouveauClientConnecte();
-    void finDeLiaison(Liaison * link);
-};
-
-#endif
+void NetworkMessage::sendAll(Liaison * butLink)
+{
+    NetworkMessageHeader * header = buffer();
+    G_clientServeur->emettreDonnees((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
+}

@@ -427,7 +427,6 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
 
         // Ajout de la carte au workspace
         QWidget* tmp = workspace->addWindow(carteFenetre);
-        qDebug() << mapsize << pos;
         if(mapsize.isValid())
             tmp->resize(mapsize);
         if(!pos.isNull())

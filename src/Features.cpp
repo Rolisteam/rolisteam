@@ -21,9 +21,10 @@
 
 #include "Features.h"
 
-#include "datareader.h"
+#include "networkmessagereader.h"
 #include "persons.h"
 #include "playersList.h"
+#include "receiveevent.h"
 #include "types.h"
 
 
@@ -37,7 +38,8 @@ static struct {
     QString name;
     quint8  version;
 } localFeatures[] = {
-    {QString("Emote"), 0}
+    {QString("Emote"), 0},
+    {QString("MultiChat"), 0},
 };
 
 
@@ -54,8 +56,9 @@ void setLocalFeatures(Player & player)
     }
 }
 
-void addFeature(DataReader & data)
+void addFeature(ReceiveEvent & event)
 {
+    NetworkMessageReader & data = event.data();
     QString uuid   = data.string8();
     QString name   = data.string8();
     quint8 version = data.uint8();
@@ -64,6 +67,7 @@ void addFeature(DataReader & data)
     if (player == NULL)
     {
         qWarning("Feature %s for unknown player %s", qPrintable(name), qPrintable(uuid));
+        event.repostLater();
         return;
     }
 
@@ -75,12 +79,12 @@ void addFeature(DataReader & data)
  ************************/
 
 SendFeaturesIterator::SendFeaturesIterator()
-    : QMapIterator<QString, quint8>(QMap<QString, quint8>()), m_player(NULL), m_message(parametres, AddFeatureAction)
+    : QMapIterator<QString, quint8>(QMap<QString, quint8>()), m_player(NULL), m_message(NetMsg::SetupCategory, NetMsg::AddFeatureAction)
 {
 }
 
 SendFeaturesIterator::SendFeaturesIterator(const Player & player)
-    : QMapIterator<QString, quint8>(player.m_features), m_player(&player), m_message(parametres, AddFeatureAction)
+    : QMapIterator<QString, quint8>(player.m_features), m_player(&player), m_message(NetMsg::SetupCategory, NetMsg::AddFeatureAction)
 {
 }
 
@@ -97,7 +101,7 @@ SendFeaturesIterator::~SendFeaturesIterator()
 {
 }
 
-DataWriter & SendFeaturesIterator::message()
+NetworkMessageWriter & SendFeaturesIterator::message()
 {
     m_message.reset();
     if (m_player != NULL)
