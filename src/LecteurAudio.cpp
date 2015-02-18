@@ -681,11 +681,8 @@ void LecteurAudio::pstop()
 void LecteurAudio::pselectNewFile(QString file)
 {
         m_currentFile = file;
-        qDebug() << " file = " << m_currentFile;
-
     if(m_currentFile.isEmpty())
     {
-        qDebug() << " file vide= " << m_currentFile;
         m_titleDisplay->clear();
         m_titleDisplay->setToolTip(tr("No songs"));
         m_mediaObject->stop();
@@ -709,7 +706,7 @@ void LecteurAudio::pselectNewFile(QString file)
         }
         else
         {
-            qDebug() << " file existe = " << path;
+           // qDebug() << " file existe = " << path;
             //m_currentSource = new Phonon::MediaSource(path);
             setSource(path);
             m_mediaObject->setCurrentSource(*m_currentSource);

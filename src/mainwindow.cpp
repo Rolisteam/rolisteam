@@ -965,13 +965,15 @@ void MainWindow::closeMapOrImage()
         QAction* associatedAct = NULL;
         mapImageTitle = active->windowTitle();
         bool image=false;
+        //it is image
         if(NULL!=imageFenetre)
         {
+            m_pictureList.removeOne(subactive);
             associatedAct = imageFenetre->getAssociatedAction();
             mapImageId = imageFenetre->getImageId();
             image = true;
         }
-        else
+        else//it is a map
         {
             carteFenetre= dynamic_cast<CarteFenetre*>(active);
             if(NULL!=carteFenetre)
@@ -979,7 +981,7 @@ void MainWindow::closeMapOrImage()
                 mapImageId = carteFenetre->getMapId();
                 associatedAct = m_mapAction->value(carteFenetre);
             }
-            else
+            else// it is undefined
             {
                 return;
             }
@@ -1228,7 +1230,7 @@ void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond,
 
 void MainWindow::emettreTousLesPlans(Liaison * link)
 {
-    qDebug() << "emettreTousLesPlans " << link;
+   // qDebug() << "emettreTousLesPlans " << link;
     int tailleListe = m_mapWindowList.size();
     for (int i=0; i<tailleListe; ++i)
     {
@@ -1242,9 +1244,10 @@ void MainWindow::emettreTousLesPlans(Liaison * link)
 void MainWindow::emettreToutesLesImages(Liaison * link)
 {
     NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
+
     foreach(QMdiSubWindow* sub, m_pictureList)
     {
-        Image* img = static_cast<Image*>(sub->widget());
+        Image* img = dynamic_cast<Image*>(sub->widget());
         if(NULL!=img)
         {
             img->fill(message);
@@ -1390,6 +1393,7 @@ void MainWindow::removePictureFromId(QString idImage)
 
         if(NULL!=imageWindow)
         {
+            m_pictureList.removeOne(tmp);
 
             delete imageWindow->getAssociatedAction();
             delete imageWindow;
@@ -1944,6 +1948,10 @@ void MainWindow::stopReconnection()
 }
 void MainWindow::startReconnection()
 {
+    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
+    {
+    //    closeAll();
+    }
     if(m_networkManager->startConnection())
     {
         m_reconnectAct->setEnabled(false);
@@ -1963,8 +1971,6 @@ void MainWindow::setUpNetworkConnection()
 {
     if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
-
-        qDebug() << "user is client";
         // We want to know if the server refuses local player to be GM
         connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
         // We send a message to del local player when we quit
@@ -1972,7 +1978,6 @@ void MainWindow::setUpNetworkConnection()
     }
     else
     {
-        qDebug() << "user is server";
         // send datas on new connection if we are the server
         // send datas on new connection if we are the server
 //        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
