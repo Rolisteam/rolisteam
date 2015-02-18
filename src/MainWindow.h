@@ -169,6 +169,8 @@ private :
     QAction *actionAPropos;
     UpdateChecker* m_updateChecker;
 
+    QString m_version;
+
 private slots :
     void changementNatureUtilisateur();
     void afficherNomsPj(bool afficher);

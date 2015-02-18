@@ -44,8 +44,15 @@ private slots:
     void readXML(QNetworkReply* p);
 
 private:
+ bool inferiorVersion();
+
+private:
     QString m_version;
+    int m_versionMinor;
+    int m_versionMajor;
+    int m_versionMiddle;
     QString m_versionDate;
+    QString m_versionChangelog;
     QTcpSocket m_socket;
     QNetworkAccessManager* m_manager;
     bool m_state;

@@ -28,95 +28,7 @@
 #include <QNetworkReply>
 #include <QRegExp>
 #include <QStringList>
-
-/*****************
- * VersionParser *
- *****************/
-
-class VersionParser
-{
-    public:
-        VersionParser(const QString & version)
-            : m_version(version), m_pos(0)
-        {};
-
-        int getNumber()
-        {
-            int ret = 0;
-            int size = m_version.size();
-            QChar current;
-
-            while (m_pos < size && (current = m_version.at(m_pos++)).isDigit())
-                ret = ret * 10 + current.digitValue();
-
-            while (current == QChar('-') && m_pos < size)
-                current = m_version.at(m_pos++);
-
-            m_pos -= 1;
-            return ret;
-        }
-
-        QChar getChar()
-        {
-            QChar ret;
-            int size = m_version.size();
-
-            if (m_pos >= size)
-                return ret;
-
-            ret = m_version.at(m_pos);
-
-            if (ret.isDigit())
-                return QChar();
-
-            if (ret == QChar('.'))
-            {
-                while (m_version.at(++m_pos) == QChar('.')) {}
-                return QChar();
-            }
-
-            m_pos += 1;
-            return ret;
-        }
-
-        bool hasFinished()
-        {   return m_pos >= m_version.size(); }
-
-    private:
-        QString m_version;
-        int     m_pos;
-};
-
-bool inferiorVersion(const QString & version, const QString & than)
-{
-    VersionParser a(version);
-    VersionParser b(than);
-    int na, nb;
-    QChar ca, cb;
-
-    while (true)
-    {
-        na = a.getNumber();
-        nb = b.getNumber();
-        if (na != nb)
-            return na < nb;
-
-        do
-        {
-            ca = a.getChar();
-            cb = b.getChar();
-            if (ca != cb)
-                return ca < cb;
-        } while (!ca.isNull() && !cb.isNull());
-
-        if (b.hasFinished())
-            return false;
-        if (a.hasFinished())
-            return true;
-    }
-}
-
-
+#include <QDebug>
 /*****************
  * UpdateChecker *
  *****************/
@@ -133,13 +45,18 @@ bool UpdateChecker::mustBeUpdated()
 
 void UpdateChecker::startChecking()
 {
-#ifdef VERSION
-    m_manager = new QNetworkAccessManager(this);
-    connect(m_manager, SIGNAL(finished(QNetworkReply*)),
-             this, SLOT(readXML(QNetworkReply*)));
+#ifdef VERSION_MINOR
+    #ifdef VERSION_MAJOR
+        #ifdef VERSION_MIDDLE
+            m_manager = new QNetworkAccessManager(this);
+            connect(m_manager, SIGNAL(finished(QNetworkReply*)),
+                     this, SLOT(readXML(QNetworkReply*)));
 
-     m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/version.xml")));
+             m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/version.xml")));
+        #endif
+    #endif
 #endif
+
 }
 
 QString& UpdateChecker::getLatestVersion()
@@ -153,26 +70,59 @@ QString& UpdateChecker::getLatestVersionDate()
 }
 void UpdateChecker::readXML(QNetworkReply* p)
 {
-#ifdef VERSION
+#ifdef VERSION_MINOR
+    #ifdef VERSION_MAJOR
+        #ifdef VERSION_MIDDLE
     QByteArray a= p->readAll();
 
-    QRegExp version("<version>(.*)</version>");
+    QRegExp versionMajor("<version_major>(.*)</version_major>");
+    QRegExp versionMiddle("<version_middle>(.*)</version_middle>");
+    QRegExp versionMinor("<version_minor>(.*)</version_minor>");
     QRegExp date("<date>(.*)</date>");
+    QRegExp changelog("<date>(.*)</date>");
 
     QString string(a);
-    int pos = version.indexIn(string);
+    int pos = versionMajor.indexIn(string);
     if(pos!=-1)
     {
-        m_version = version.capturedTexts().at(1);
+        m_versionMajor = versionMajor.capturedTexts().at(1).toInt();
+    }
+    pos = versionMiddle.indexIn(string);
+    if(pos!=-1)
+    {
+        m_versionMiddle = versionMiddle.capturedTexts().at(1).toInt();
+    }
+    pos = versionMinor.indexIn(string);
+    if(pos!=-1)
+    {
+        m_versionMinor = versionMinor.capturedTexts().at(1).toInt();
     }
      pos = date.indexIn(string);
      if(pos!=-1)
      {
           m_versionDate = date.capturedTexts().at(1);
      }
-
-     m_state = inferiorVersion(VERSION, m_version);
-
-    emit checkFinished();
+     pos = changelog.indexIn(string);
+     if(pos!=-1)
+     {
+          m_versionChangelog = changelog.capturedTexts().at(1);
+     }
+     m_state = inferiorVersion();
+     m_version = QString("%1.%2.%3").arg(m_versionMajor).arg(m_versionMiddle).arg(m_versionMinor);
+     emit checkFinished();
+        #endif
+    #endif
 #endif
+
+}
+bool UpdateChecker::inferiorVersion()
+{
+    if(m_versionMajor>VERSION_MAJOR)
+        return true;
+    else if((m_versionMajor==VERSION_MAJOR)&&(m_versionMiddle>VERSION_MIDDLE))
+        return true;
+    else if((m_versionMajor==VERSION_MAJOR)&&(m_versionMiddle==VERSION_MIDDLE)&&(m_versionMinor>VERSION_MINOR))
+        return true;
+    else
+        return false;
 }

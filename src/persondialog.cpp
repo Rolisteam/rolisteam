@@ -59,7 +59,16 @@ void PersonDialog::setUI()
     formLayout->addRow(tr("&Nom : "), m_name_w);
     formLayout->addRow(tr("&Couleur : "), m_color_w);
 
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    QPushButton* okButton = new QPushButton(tr("OK"));
+    okButton->setDefault(true);
+
+    QPushButton* cancelButton = new QPushButton(tr("&Cancel"));
+    cancelButton->setAutoDefault(false);
+
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(Qt::Horizontal);
+    buttonBox->addButton(cancelButton,QDialogButtonBox::RejectRole);
+    buttonBox->addButton(okButton,QDialogButtonBox::AcceptRole);
+
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 

@@ -61,11 +61,8 @@
 #include "LecteurAudio.h"
 #endif
 
-// Necessaires pour utiliser l'instruction ShellExecute
-#ifdef WIN32
-#include <windows.h>
-#include <shellapi.h>
-#endif
+
+
 
 /********************************************************************/
 /* Variables globales utilisees par tous les elements de                */
@@ -148,6 +145,17 @@ MainWindow::MainWindow()
 
         // Initialisation du pointeur vers la fenetre de parametrage de nouveau plan
         fenetreNouveauPlan = 0;
+        m_version=tr("unknown");
+        #ifdef VERSION_MINOR
+            #ifdef VERSION_MAJOR
+                #ifdef VERSION_MIDDLE
+                    m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+                #endif
+            #endif
+        #endif
+
+
+
 
         // Desactivation des animations
         setAnimated(false);
@@ -1918,14 +1926,12 @@ void MainWindow::sauvegarderFichierInitialisation()
 #endif
 }
 
-#ifndef VERSION
-#define VERSION "(unknown)"
-#endif
+
 void MainWindow::aPropos()
 {
         QMessageBox::about(this, tr("About Rolisteam"),
                             tr("<h1>Rolisteam v%1</h1>"
-                            "<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others and to share maps and pictures. Rolisteam also provides many features for : permission management, background music and dice roll. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.</p>").arg(VERSION) %
+                            "<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others and to share maps and pictures. Rolisteam also provides many features for : permission management, background music and dice roll. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.</p>").arg(m_version) %
                             tr("<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>") %
                             tr("<p><h3>Web Sites :</h3>"
                             "<ul>"
