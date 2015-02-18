@@ -120,15 +120,14 @@ void LecteurAudio::setupUi()
         m_titleDisplay->setReadOnly(true);
 
         layoutAffichage->addWidget(m_titleDisplay);
-        if (PreferencesManager::getInstance()->value("isPlayer",true).toBool())
-        {
+
                 QAction *actionChangerDossier = new QAction(QIcon(":/resources/icones/dossier.png"), tr("Select the directory contening all music files"), m_displayWidget);
                 QToolButton *boutonChangerDossier = new QToolButton(m_displayWidget);
                 boutonChangerDossier->setDefaultAction(actionChangerDossier);
                 boutonChangerDossier->setFixedSize(20, 20);
                 layoutAffichage->addWidget(boutonChangerDossier);
                 connect(actionChangerDossier, SIGNAL(triggered()), this, SLOT(pChangeDirectory()));
-        }
+
 
         m_volumeLevelSlider = new Phonon::VolumeSlider(this);
         m_volumeLevelSlider->setAudioOutput(audioOutput);
@@ -688,9 +687,9 @@ void LecteurAudio::pselectNewFile(QString file)
     }
     else
     {
+        QString key = getDirectoryKey();
 
-
-        QString path(tr("%1/%2").arg(m_preferences->value("MusicDirectoryPlayer",QDir::homePath()).toString()).arg(m_currentFile));
+        QString path(tr("%1/%2").arg(m_preferences->value(key,QDir::homePath()).toString()).arg(m_currentFile));
 
         QFileInfo fileInfo(path);
         if (!fileInfo.exists())
@@ -729,12 +728,29 @@ void LecteurAudio::pseek(quint32 position)
             m_mediaObject->seek(position);
     }
 }
+QString LecteurAudio::getDirectoryKey()
+{
+    QString key;
+    if (PreferencesManager::getInstance()->value("isPlayer",true).toBool())
+    {
+        key="MusicDirectoryPlayer";
+    }
+    else
+    {
+        key="MusicDirectoryGM";
+    }
+    return key;
+}
 
 void LecteurAudio::pChangeDirectory()
 {
-    QString tmp = QFileDialog::getExistingDirectory(0 , tr("Select the songs directory"), m_preferences->value("MusicDirectoryPlayer",QDir::homePath()).toString(),
+
+    QString key = getDirectoryKey();
+
+
+    QString tmp = QFileDialog::getExistingDirectory(0 , tr("Select the songs directory"), m_preferences->value(key,QDir::homePath()).toString(),
             QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
-        m_preferences->registerValue("MusicDirectoryPlayer",tmp);
+        m_preferences->registerValue(key,tmp);
 
 }
 void LecteurAudio::selectionHasChanged()

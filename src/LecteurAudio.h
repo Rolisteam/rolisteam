@@ -91,6 +91,8 @@ public :
     void setSource(QString path);
 
     void updateUi();
+
+
 public slots:
     void pstop();
 
@@ -105,7 +107,7 @@ private :
     LecteurAudio(QWidget *parent = 0);
 
 
-
+    QString getDirectoryKey();
     void playerWidget();
 
     void defineSource(QListWidgetItem*);
