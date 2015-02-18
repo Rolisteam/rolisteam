@@ -121,6 +121,7 @@ public:
     CleverURI* addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& index);
 
     void populateChapter(Chapter* t,ResourcesItem* parentIte);
+    Chapter* getChapter(QModelIndex& index);
 
     virtual bool setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole );
     virtual Qt::ItemFlags flags ( const QModelIndex & index ) const;

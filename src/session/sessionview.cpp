@@ -1,6 +1,8 @@
 #include "sessionview.h"
 #include <QMenu>
 #include <QContextMenuEvent>
+#include "chapter.h"
+
 
 SessionView::SessionView(QWidget *parent) :
     QTreeView(parent)
@@ -11,7 +13,15 @@ SessionView::SessionView(QWidget *parent) :
 
     m_removeAction = new QAction(tr("Remove items"),this);
     connect(m_removeAction,SIGNAL(triggered()),this,SIGNAL(removeSelection()));
+
+    m_defineAsCurrent = new QAction(tr("Current Chapter"),this);
+    connect(m_defineAsCurrent,SIGNAL(triggered()),this,SIGNAL(defineCurrentChapter()));
 }
+void SessionView::onDefineChapter()
+{
+    emit defineCurrentChapter();
+}
+
 void SessionView::contextMenuEvent ( QContextMenuEvent * event )
 {
     QMenu popMenu(this);

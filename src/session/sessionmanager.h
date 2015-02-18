@@ -53,6 +53,7 @@ public:
  public slots:
      void addChapter(QModelIndex&);
      void openResources(QModelIndex&);
+     void setCurrentChapter();
 
      void removeSelectedItem();
 
@@ -73,6 +74,7 @@ private:
     SessionItemModel* m_model;
     Session* m_currentSession;
 
+    Chapter* m_currentChapter;
     /**
       * pointer to the unique instance of preference manager.
       */

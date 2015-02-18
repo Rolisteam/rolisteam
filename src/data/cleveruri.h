@@ -24,49 +24,111 @@
 #include <QMetaType>
 #include "ressourcesnode.h"
 
+/**
+  * @brief This class stores data refering to file, uri and type
+  * @brief as a file can be loaded as different type.
+  * @brief E.g: an image can be loaded as Picture or as Background for map.
+  *
+  */
+
 class CleverURI : public RessourcesNode
 {
 
 public:
+    /**
+      * @brief enum of all available type.
+      *
+      */
     enum ContentType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG};
+    /**
+      * @brief default constructor
+      *
+      */
     CleverURI();
+    /**
+      * @brief copy constructor
+      *
+      */
     CleverURI(const CleverURI & mp);
+    /**
+      * @brief constructor with parameter
+      *
+      */
     CleverURI(QString uri,ContentType type);
+    /**
+      * @brief Destructor
+      *
+      */
     ~CleverURI();
 
+    /**
+      * @brief set the URI parameter
+      * @param new uri
+      */
     void setUri(QString& uri);
+    /**
+      * @brief set the type
+      * @param the new type
+      */
     void setType(int type);
-
+    /**
+      * @brief accessor to the URI
+      * @return the URI
+      */
     const QString getUri() const;
+    /**
+      * @brief accessor to the type
+      * @return the type
+      */
     int getType() const;
     bool operator==(const CleverURI& uri1) const;
 
+    /**
+      * @brief overriden method from RessourceNode
+      * @return always false
+      */
     bool hasChildren() const;
+    /**
+      * @brief accessor to a shorter uri (only the filename)
+      * @return the filename
+      */
     const QString& getShortName() const;
+    /**
+      * @brief change the short name
+      * @param new short name
+      */
     virtual void setShortName(QString& name);
-
+    /**
+      * @brief static method which returns the appropriate icon path given the type
+      * @param type of the content
+      * @return the path to the icon
+      */
     static QString& getIcon(ContentType type);
 
 private:
+    /**
+      * @brief split the uri to get the shortname
+      *
+      */
     void defineShortName();
 
 
 
 
-    QString m_uri;
-    int m_type;
-    QString m_shortname;
+    QString m_uri; ///< member to store the uri
+    int m_type;///< member to store the content type
+    QString m_shortname; ///< member to store the shortname
 
-    static QString m_musicIcon;
-    static QString m_textIcon;
-    static QString m_mapIcon;
-    static QString m_pictureIcon;
-    static QString m_charactersheetIcon;
-    static QString m_scenarioIcon;
-    static QString m_tchatIcon;
+    static QString m_musicIcon; ///< static member to store the music icon
+    static QString m_textIcon;///< static member to store the text icon
+    static QString m_mapIcon; ///< static member to store the map icon
+    static QString m_pictureIcon; ///< static member to store the picture icon
+    static QString m_charactersheetIcon; ///< static member to store the character icon
+    static QString m_scenarioIcon; ///< static member to store the scenario icon
+    static QString m_tchatIcon; ///< static member to store the chat icon
 
-    friend QDataStream& operator<<(QDataStream& os,const CleverURI&);
-    friend QDataStream& operator>>(QDataStream& is,CleverURI&);
+    friend QDataStream& operator<<(QDataStream& os,const CleverURI&); ///< operator for serialisation (writing)
+    friend QDataStream& operator>>(QDataStream& is,CleverURI&); ///< operator for serialisation (reading)
 };
 typedef QList<CleverURI> CleverUriList;
 Q_DECLARE_METATYPE(CleverURI)

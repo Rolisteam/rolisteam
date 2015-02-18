@@ -85,7 +85,8 @@ MainWindow::MainWindow()
     addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
     addDockWidget(Qt::RightDockWidgetArea, m_playerListWidget);
     addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
-
+    m_workspace = new ImprovedWorkspace(this/*m_toolbar->currentColor()*/);
+    createMenu();
 
     /////////////
     // Read Settings
@@ -95,7 +96,7 @@ MainWindow::MainWindow()
 
     m_preferenceDialog->initValues();
 
-    m_workspace = new ImprovedWorkspace(this/*m_toolbar->currentColor()*/);
+
     m_workspace->setRClient(m_rclient);
     m_workspace->readSettings();
 
@@ -124,7 +125,7 @@ MainWindow::MainWindow()
 
 
 
-    createMenu();
+
     connectActions();
 
 
@@ -659,6 +660,13 @@ void MainWindow::readSettings()
     variant.setValue(*m_player);
     *m_player = settings.value("player", variant).value<Player>();
 
+    settings.beginGroup("MenuAction");
+    m_playerShower->setChecked(settings.value("playeraudio",m_playerShower->isChecked()).toBool());
+    m_userlistShower->setChecked(settings.value("userlist",m_userlistShower->isChecked()).toBool());
+    m_sessionShower->setChecked(settings.value("SessionManager",m_sessionShower->isChecked()).toBool());
+    settings.endGroup();
+
+
     m_options->readSettings();
     m_sessionManager->readSettings(settings);
     m_diceManager->readSettings();
@@ -671,6 +679,12 @@ void MainWindow::writeSettings()
   settings.setValue("size", size());
   settings.setValue("geometry", saveGeometry());
   settings.setValue("windowState", saveState());
+
+  settings.beginGroup("MenuAction");
+  settings.setValue("playeraudio",m_playerShower->isChecked());
+  settings.setValue("userlist",m_userlistShower->isChecked());
+  settings.setValue("SessionManager",m_sessionShower->isChecked());
+  settings.endGroup();
 
 
   QVariant variant;

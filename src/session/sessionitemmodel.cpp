@@ -377,3 +377,11 @@ QVariant SessionItemModel::headerData ( int section, Qt::Orientation orientation
     }
                     return QVariant();
 }
+Chapter* SessionItemModel::getChapter(QModelIndex& index)
+{
+    ResourcesItem* childItem = static_cast<ResourcesItem*>(index.internalPointer());
+    if(!childItem->isLeaf())
+        return NULL;
+    else
+        return static_cast<Chapter*>(childItem->getData());
+}
