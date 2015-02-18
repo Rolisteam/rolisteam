@@ -45,7 +45,9 @@ LecteurAudio::LecteurAudio(QWidget *parent)
     m_formerItemFile =NULL;
     m_currentItemFile =NULL;
     if(G_joueur)/// fully defined by the GM
+    {
             m_currentPlayingMode=UNIQUE;
+    }
     audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
     m_mediaObject = new Phonon::MediaObject(this);
     path = new Phonon::Path();
@@ -65,14 +67,18 @@ LecteurAudio::LecteurAudio(QWidget *parent)
     setupUi();
 
     if(G_joueur)
+    {
         playerWidget();
+    }
     setWidget(widgetPrincipal);
 }
 
 LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
  {
         if(m_singleton==NULL)
+        {
             m_singleton = new LecteurAudio(parent);
+        }
         return m_singleton;
 }
 void LecteurAudio::onfinished()
@@ -84,6 +90,7 @@ void LecteurAudio::onfinished()
         {
             m_mediaObject->setCurrentSource(*m_currentSource);
             m_mediaObject->play();
+
         }
         else
         {
@@ -91,7 +98,9 @@ void LecteurAudio::onfinished()
         }
     }
     if(G_joueur)
+    {
         m_mediaObject->stop();
+    }
 }
 
 void LecteurAudio::setupUi()
@@ -269,6 +278,7 @@ void LecteurAudio::tick(qint64 time)
      if((!G_joueur) && ((time>m_time+(FACTOR_WAIT*m_mediaObject->tickInterval()))||(time<m_time)))
      {
           emettreCommande(nouvellePositionMorceau, "", time);
+          emitCurrentState();
      }
      m_time = time;
      m_timerDisplay->display(displayTime.toString("mm:ss"));
@@ -297,6 +307,29 @@ void LecteurAudio::sourceChanged(const Phonon::MediaSource &source)
 
      m_timerDisplay->display("00:00");
 }
+void LecteurAudio::emitCurrentState()
+{
+    switch (m_mediaObject->state())
+    {
+        case Phonon::ErrorState:
+            break;
+        case Phonon::PlayingState:
+                emettreCommande(lectureMorceau,"",m_time);
+                break;
+        case Phonon::StoppedState:
+                emettreCommande(arretMorceau);
+                break;
+        case Phonon::PausedState:
+                emettreCommande(pauseMorceau);
+                break;
+        case Phonon::BufferingState:
+        case Phonon::LoadingState:
+        default:
+                qDebug() << "default State";
+             break;
+    }
+}
+
 void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State oldState)
 {
     Q_UNUSED(oldState);
@@ -391,10 +424,6 @@ void LecteurAudio::updatePlayingMode()
     {
         m_currentPlayingMode=NEXT;
     }
-
-
-
-
 }
 void LecteurAudio::addFiles()
 {
@@ -551,9 +580,13 @@ void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, qui
         memcpy(donnees, &uneEntete, sizeof(enteteMessage));
 
         if (link == NULL)
+        {
             emettre(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage));
+        }
         else
+        {
             link->emissionDonnees(donnees, uneEntete.tailleDonnees + sizeof(enteteMessage));
+        }
 
         delete[] donnees;
 }
@@ -657,7 +690,7 @@ void LecteurAudio::pselectNewFile(QString file)
 }
 void LecteurAudio::pseek(quint32 position)
 {
-    qDebug()<< "is Seekable" << m_mediaObject->isSeekable();
+    qDebug()<< "is Seekable" << m_mediaObject->isSeekable()<< m_mediaObject->state();
     if(m_mediaObject->isSeekable())
     {
             m_mediaObject->seek(position);

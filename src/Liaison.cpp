@@ -1362,6 +1362,7 @@ void Liaison::receptionMessageMusique()
     else if (entete.action == lectureMorceau)
     {
         // On demande au lecteur audio de mettre la lecture en pause
+        qDebug() << " pplay";
         G_lecteurAudio->pplay();
     }
 
@@ -1369,6 +1370,7 @@ void Liaison::receptionMessageMusique()
     else if (entete.action == pauseMorceau)
     {
         // On demande au lecteur audio de mettre la lecture en pause
+        qDebug() << " ppause";
         G_lecteurAudio->ppause();
     }
 
@@ -1376,6 +1378,7 @@ void Liaison::receptionMessageMusique()
     else if (entete.action == arretMorceau)
     {
         // On demande au lecteur audio de mettre la lecture en pause
+         qDebug() << " pstop";
         G_lecteurAudio->pstop();
     }
 

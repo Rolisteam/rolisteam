@@ -207,6 +207,8 @@ private slots :
     * @brief called when selection on list has changed
     */
     void selectionHasChanged();
+
+    void emitCurrentState();
 };
 
 #endif
