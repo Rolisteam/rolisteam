@@ -36,6 +36,8 @@ MapFrame::MapFrame(Map *map)
     m_vlayout= new QVBoxLayout();
     m_hlayout = new QHBoxLayout();
 
+
+
     m_vlayout->addStretch(1);
     m_vlayout->addWidget(m_graphicView);
     m_vlayout->addStretch(1);
@@ -49,6 +51,9 @@ MapFrame::MapFrame(Map *map)
     m_widgetLayout->setLayout(m_hlayout);
     setWidget(m_widgetLayout);
     //setLayout(hlayout);
+    m_maskPixmap = new QPixmap(m_graphicView->size());
+
+    m_currentEditingMode=NORMAL;
 
 }
 
@@ -59,6 +64,7 @@ MapFrame::~MapFrame()
     delete m_graphicView;
     delete m_hlayout;
     delete m_vlayout;
+    delete m_maskPixmap;
 
 }
 
@@ -75,7 +81,10 @@ Map * MapFrame::map()
 {
     return m_map;
 }
-
+MapFrame::EditingMode MapFrame::editingMode()
+{
+    return m_currentEditingMode;
+}
 
 void MapFrame::startMoving(QPoint position)
 {
@@ -104,6 +113,14 @@ void MapFrame::currentToolChanged(ToolsBar::SelectableTool selectedtool)
 
 }
 
+void MapFrame::paintEvent(QPaintEvent* event)
+{
+    if(m_currentEditingMode != NORMAL)
+        event->accept();
+    else
+        SubMdiWindows::paintEvent(event);
+}
+
 void MapFrame::currentPenSizeChanged(int ps)
 {
     if(m_map != NULL)
@@ -121,4 +138,8 @@ void MapFrame::currentColorChanged(QColor& penColor)
 
     if(m_map !=NULL)
         m_map->setCurrentChosenColor(m_penColor);
+}
+void MapFrame::setEditingMode(EditingMode mode)
+{
+    m_currentEditingMode = mode;
 }

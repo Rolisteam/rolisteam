@@ -1,9 +1,9 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *	Copyright (C) 2007 by Romain Campioni                                  *
+ *	Copyright (C) 2009 by Renaud Guezennec                                 *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify  *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -39,13 +39,14 @@ class MapFrame : public SubMdiWindows
 {
     Q_OBJECT
 
+    enum EditingMode{NORMAL,MASK,UNMASK,ERASE};
 public :
     MapFrame(Map *map);
     ~MapFrame();
     Map *map();
     QString IdMap();
 
-
+    MapFrame::EditingMode editingMode();
 public slots :
         /**
          *  @brief called when the windows starts to move (not sure it's still used)
@@ -84,6 +85,11 @@ public slots :
      *  @param  new size
      */
     virtual void currentNPCSizeChanged(int);
+    /**
+     *  @brief change the current editing  behavior to MaskMode.
+     */
+    virtual void setEditingMode(EditingMode mode);
+
 
 protected :
         /**
@@ -91,6 +97,8 @@ protected :
          *  @param event discribe the context of the event
          */
     void closeEvent(QCloseEvent *event);
+
+    virtual void paintEvent(QPaintEvent* event);
 
 
 private :
@@ -132,7 +140,14 @@ private :
      * horizontal layout
      */
     QHBoxLayout* m_hlayout;
-
+    /**
+     * mask pixmak
+     */
+    QPixmap* m_maskPixmap;
+    /**
+     * current edition mode
+     */
+    EditingMode m_currentEditingMode;
 };
 
 #endif

@@ -109,10 +109,9 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
         QApplication app(argc, argv);
         QCoreApplication::setApplicationName(QCoreApplication::tr(APPLICATION_NAME));
         QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+        QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+        QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
-
-    /*	// Installation du handler de debugage
-        qInstallMsgHandler(handlerAffichageMsg);*/
 
 		// Chargement du traducteur de Qt
 		QTranslator qtTranslator;
@@ -134,76 +133,6 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 		// Par defaut la variable d'initialisation n'est pas utilisable
 		G_initialisation.initialisee = false;
 
-		// Nom du fichier d'initialisation
-    /*	#ifdef WIN32
-			QString fichierInitialisation = QString(APPLICATION_NAME) + ".ini";
-		#elif defined (MACOS)
-			// Creation du repertoire ou sont stockees les preferences, si celui-ci n'existe pas
-			if (!(QDir(QDir::homePath() + "/." + QString(APPLICATION_NAME)).exists()))
-				QDir::home().mkdir("." + QString(APPLICATION_NAME));
-                        QString fichierInitialisation = QDir::homePath() + "/." + QString(APPLICATION_NAME) + "/" + QString(APPLICATION_NAME) + ".ini";
-                #else
-                        QString fichierInitialisation = qApp->applicationDirPath()+"/."+QString(APPLICATION_NAME);
-		#endif
- 
-		// Si le fichier d'initialisation existe, on le charge
-		if (QFile::exists(fichierInitialisation))
-		{
-			// Creation du descripteur de fichier
-			QFile file(fichierInitialisation);
-			// Ouverture du fichier en lecture seule
-			if (!file.open(QIODevice::ReadOnly))
-			{
-				qWarning("Probleme a l'ouverture du fichier d'initialisation (main - main.cpp)");
-			}
-			
-			// L'ouverture s'est correctement passee
-			else
-			{
-				// On indique que la variable d'initilisation est utilisable
-				G_initialisation.initialisee = true;
-				// On cree un flux de donnees rattache au fichier
-				QDataStream fluxFichier(&file);
-				
-				// On recupere la version de l'application
-				fluxFichier >> G_initialisation.versionApplication;
-				// ...le nom de l'utilisateur
-				fluxFichier >> G_initialisation.nomUtilisateur;
-				// ...la couleur de l'utilisateur
-				fluxFichier >> G_initialisation.couleurUtilisateur;
-				// ...la nature de l'utilisateur (joueur ou MJ)
-				fluxFichier >> G_initialisation.joueur;
-				// ...la nature de l'ordinateur local
-				fluxFichier >> G_initialisation.client;
-				// ...l'adresse IP du serveur
-				fluxFichier >> G_initialisation.ipServeur;
-				// ...le port du serveur
-				fluxFichier >> G_initialisation.portServeur;
-				// ...le port de connexion pour les clients
-				fluxFichier >> G_initialisation.portClient;
-				// ...le chemin pour les musiques
-				fluxFichier >> G_initialisation.dossierMusiquesMj;
-				// ...le chemin pour les musiques des joueurs
-				fluxFichier >> G_initialisation.dossierMusiquesJoueur;
-				// ...le chemin pour les images
-				fluxFichier >> G_initialisation.dossierImages;
-				// ...le chemin pour les plans
-				fluxFichier >> G_initialisation.dossierPlans;
-				// ...le chemin pour les scenarii
-				fluxFichier >> G_initialisation.dossierScenarii;
-				// ...le chemin pour les notes
-				fluxFichier >> G_initialisation.dossierNotes;
-				// ...le chemin pour les tchats
-				fluxFichier >> G_initialisation.dossierTchats;
-				// ...les couleurs personnelles
-				for (int i=0; i<16; i++)
-					fluxFichier >> G_initialisation.couleurPersonnelle[i];
-				// ...le volume du lecteur audio
-				fluxFichier >> G_initialisation.niveauVolume;
-				// Fermeture du fichier
-				file.close();
-			}
-        }*/
 
 		// Creation du client/serveur : si la connexion reussie alors
 		// le programme principal est lance

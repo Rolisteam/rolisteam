@@ -34,7 +34,7 @@
 #include <QWidget>
 #include <QFrame>
 #include <QColor>
-#include <QLabel>
+#include <QPushButton>
 
 #include "types.h"
 
@@ -52,31 +52,47 @@ protected:
     virtual void mouseDoubleClickEvent (QMouseEvent *event);
 };
 
+class ColorButton : public QAbstractButton
+{
+    Q_OBJECT
+public:
+   ColorButton(QPixmap* p,QWidget * parent = 0);
 
+protected:
+    virtual void paintEvent ( QPaintEvent * event );
+
+
+private:
+   QPixmap* m_background;
+
+};
 
 
 class ColorSelector : public QWidget
 {
     Q_OBJECT
+
+    enum PAINTINGMODE{NORMAL,HIDING,ERASING};
 public:
     ColorSelector(QWidget *parent = 0);
     void setCurrentColor(QColor& color);
     QColor& currentColor();
-    void majCouleursPersonnelles();
-    void autoriserOuInterdireCouleurs();
-    QColor donnerCouleurPersonnelle(int numero);
+    void customColorUpdate();
+    void allowOrForbideColors();
+    QColor getPersonalColor(int numero);
 
 signals:
     void currentColorChanged(QColor&);
+    void currentModeChanged(PAINTINGMODE);
 
 private slots:
     void selectColor(const QColor& color);
     void colorSelectorDialog();
 private:
     ColorLabel *m_currentColorLabel;
-    QLabel *couleurEfface;
-    QLabel *couleurMasque;
-    QLabel *couleurDemasque;
+    ColorButton *eraseColor;
+    ColorButton *HideColor;
+    ColorButton *unveilColor;
     ColorLabel *couleurPredefinie[48];
     ColorLabel *couleurPersonnelle[16];
     QWidget *separateur1;

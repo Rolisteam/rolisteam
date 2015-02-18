@@ -32,17 +32,33 @@
 #include <QLabel>
 
 #include "submdiwindows.h"
+/*class LabelImage : public QLabel
+{
+    Q_OBJECT
+public:
+    LabelImage(QImage* image);
+    ~LabelImage();
+
+protected:
+    void paintEvent(QPaintEvent *paintEvent);
+
+
+private:
+    QImage* m_image;
+};*/
+
 
 class QScrollArea;
 class QLabel;
 class QSpinBox;
 class QSlider;
+class ImprovedWorkspace;
 class Image : public SubMdiWindows //public QScrollArea
 {
     Q_OBJECT
 
 public :
-    Image(QString& m_filename, QWidget *parent = 0);
+    Image(QString& m_filename, ImprovedWorkspace *parent = 0);
     ~Image();
 
 
@@ -55,29 +71,33 @@ public slots :
     void pointeurNormal();
 
 protected :
-    void closeEvent(QCloseEvent *event);
-
-
-
+    virtual void closeEvent(QCloseEvent *event);
+    bool  eventFilter(QObject *obj,QEvent *e);
     void setUi();
-   /* void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);*/
+
+    void fitWindow();
+
 
 private slots:
     void setZoomLevel(int zoomlevel);
+
 private :
+    void resizeLabel();
+
+
+
     QString m_filename;
     QLabel * m_labelImage;
-    QImage* m_image;
+    //QImage* m_image;
 
     QScrollArea* m_scrollArea;
-    float m_zoomLevel;
+    double m_zoomLevel;
     QPixmap  m_pixMap;
     QLabel* m_zoomLabel;
     QSlider* m_zoomSlider;
     QSpinBox* m_zoomSpinBox;
 
+    ImprovedWorkspace *m_parent;
 
 
 };

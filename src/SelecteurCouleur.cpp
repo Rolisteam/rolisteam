@@ -40,6 +40,28 @@ void ColorLabel::mouseDoubleClickEvent (QMouseEvent *event)
     Q_UNUSED(event);
     emit doubledclicked();
 }
+
+ColorButton::ColorButton(QPixmap* p,QWidget * parent )
+    : QAbstractButton(parent),m_background(p)
+{
+
+    setCheckable(true);
+}
+
+void ColorButton::paintEvent( QPaintEvent * event )
+{
+    QPainter painter(this);
+    QRect r=rect();
+    r.setBottom(r.bottom()-2);
+    r.setTop(r.top()+2);
+    r.setLeft(r.left()+2);
+    r.setRight(r.right()-2);
+    painter.drawPixmap(r,*m_background);
+    if(isChecked())
+        painter.drawRect(rect());
+}
+
+
 ColorSelector::ColorSelector(QWidget *parent)
 	: QWidget(parent)
 {
@@ -136,7 +158,7 @@ ColorSelector::ColorSelector(QWidget *parent)
 	}
 
 	// On met a jour les widgets des couleurs personnelles
-	majCouleursPersonnelles();
+    customColorUpdate();
 
 	// Ajout d'un separateur entre les couleurs personnelles et les couleurs speciales
 	separateur2 = new QWidget(this);
@@ -151,51 +173,59 @@ ColorSelector::ColorSelector(QWidget *parent)
 	selecteurLayout->addLayout(couleursSpeciales);
 
 	// Ajout de la couleur speciale qui efface
-	couleurEfface = new QLabel(this);
-	couleurEfface->setFrameStyle(QFrame::Box | QFrame::Raised);
-	couleurEfface->setLineWidth(0);
-	couleurEfface->setMidLineWidth(1);
-	couleurEfface->setFixedHeight(15);
-        efface_pix = new QPixmap(":/resources/icones/efface.png");
-	couleurEfface->setPixmap(*efface_pix);
-	couleurEfface->setScaledContents(true);
-	couleurEfface->setToolTip(tr("Effacer"));
-	couleurEfface->setPalette(QPalette(Qt::white));
-	couleurEfface->setAutoFillBackground(true);
-	couleursSpeciales->addWidget(couleurEfface);
+
+    //eraseColor->setFrameStyle(QFrame::Box | QFrame::Raised);
+    //eraseColor->setLineWidth(0);
+    //eraseColor->setMidLineWidth(1);
+
+
+
+    efface_pix = new QPixmap(":/resources/icones/efface.png");
+    eraseColor = new ColorButton(efface_pix,this);
+      eraseColor->setFixedHeight(15);
+    //eraseColor->setPixmap(*efface_pix);
+    //eraseColor->setScaledContents(true);
+    eraseColor->setToolTip(tr("Effacer"));
+    eraseColor->setPalette(QPalette(Qt::white));
+    eraseColor->setAutoFillBackground(true);
+    couleursSpeciales->addWidget(eraseColor);
 	
 	// Ajout de la couleur speciale qui masque
-	couleurMasque = new QLabel(this);
-	couleurMasque->setFrameStyle(QFrame::Box | QFrame::Raised);
-	couleurMasque->setLineWidth(0);
-	couleurMasque->setMidLineWidth(1);
-	couleurMasque->setFixedHeight(15);
-        masque_pix = new QPixmap(":/resources/icones/masque.png");
-	couleurMasque->setPixmap(*masque_pix);
-	couleurMasque->setScaledContents(true);
-	couleurMasque->setPalette(QPalette(Qt::white));
-	couleurMasque->setAutoFillBackground(true);
-	couleursSpeciales->addWidget(couleurMasque);
+
+   // HideColor->setFrameStyle(QFrame::Box | QFrame::Raised);
+    //HideColor->setLineWidth(0);
+   // HideColor->setMidLineWidth(1);
+
+    masque_pix = new QPixmap(":/resources/icones/masque.png");
+    HideColor = new ColorButton(    masque_pix,this);
+        HideColor->setFixedHeight(15);
+   // HideColor->setPixmap(*masque_pix);
+   // HideColor->setScaledContents(true);
+    HideColor->setPalette(QPalette(Qt::white));
+    HideColor->setAutoFillBackground(true);
+    couleursSpeciales->addWidget(HideColor);
 
 	// Ajout de la couleur speciale qui demasque
-	couleurDemasque = new QLabel(this);
-	couleurDemasque->setFrameStyle(QFrame::Box | QFrame::Raised);
-	couleurDemasque->setLineWidth(0);
-	couleurDemasque->setMidLineWidth(1);
-	couleurDemasque->setFixedHeight(15);
+
+  //  unveilColor->setFrameStyle(QFrame::Box | QFrame::Raised);
+  // unveilColor->setLineWidth(0);
+   // unveilColor->setMidLineWidth(1);
+
         demasque_pix = new QPixmap(":/resources/icones/demasque.png");
-	couleurDemasque->setPixmap(*demasque_pix);
-	couleurDemasque->setScaledContents(true);
-	couleurDemasque->setPalette(QPalette(Qt::white));
-	couleurDemasque->setAutoFillBackground(true);
-	couleursSpeciales->addWidget(couleurDemasque);
+        unveilColor = new ColorButton(demasque_pix,this);
+        unveilColor->setFixedHeight(15);
+   // unveilColor->setPixmap(*demasque_pix);
+   // unveilColor->setScaledContents(true);
+    unveilColor->setPalette(QPalette(Qt::white));
+    unveilColor->setAutoFillBackground(true);
+    couleursSpeciales->addWidget(unveilColor);
 
 	// Taille de la palette
 	setFixedHeight(126);
 	//setMaximumWidth((TAILLE_ICONES+7)*2);
 
 	// On autorise ou pas la selection des couleurs de masquage/demasquage en fonction de la nature de l'utilisateur (MJ/joueur)
-	autoriserOuInterdireCouleurs();
+    allowOrForbideColors();
 }
 void ColorSelector::selectColor(const QColor& color)
 {
@@ -210,7 +240,7 @@ void ColorSelector::selectColor(const QColor& color)
 
 
 
-void ColorSelector::autoriserOuInterdireCouleurs()
+void ColorSelector::allowOrForbideColors()
 {
 	// L'utilisateur est un joueur
 /*	if (G_joueur)
@@ -219,10 +249,10 @@ void ColorSelector::autoriserOuInterdireCouleurs()
 		G_couleurMasque = QColor(0,0,0);
 		// Message d'interdiction pour les couleurs de masquage et de demasquage
 		couleurMasque->setToolTip(tr("Masquer (MJ seulement)"));
-		couleurDemasque->setToolTip(tr("Démasquer (MJ seulement)"));
+        unveilColor->setToolTip(tr("Démasquer (MJ seulement)"));
 		// Il est impossible de selectionner les couleurs de masquage et de demasquage
 		couleurMasque->setEnabled(false);
-		couleurDemasque->setEnabled(false);
+        unveilColor->setEnabled(false);
 	}
 
 	// L'utilisateur est un MJ
@@ -232,7 +262,7 @@ void ColorSelector::autoriserOuInterdireCouleurs()
 		G_couleurMasque = QColor(50,50,50);
 		// Tooltip normaux pour les couleurs de masquage et de demasquage
 		couleurMasque->setToolTip(tr("Masquer"));
-		couleurDemasque->setToolTip(tr("Démasquer"));
+        unveilColor->setToolTip(tr("Démasquer"));
     }*/
 }
 
@@ -260,7 +290,7 @@ QColor& ColorSelector::currentColor()
 /********************************************************************/	
 /* M.a.j des couleurs personnelles                                  */
 /********************************************************************/	
-void ColorSelector::majCouleursPersonnelles()
+void ColorSelector::customColorUpdate()
 {
 	for (int i=0, j=0; i<16; i++)
 	{
@@ -274,7 +304,7 @@ void ColorSelector::majCouleursPersonnelles()
 /* Renvoie la couleur personnelle dont le numero est passe en       */
 /* parametre                                                        */
 /********************************************************************/	
-QColor ColorSelector::donnerCouleurPersonnelle(int numero)
+QColor ColorSelector::getPersonalColor(int numero)
 {
 	int numCouleur;
 

@@ -26,25 +26,33 @@
 
 #include <QHBoxLayout>
 
+#include "WorkspaceAmeliore.h"
 
-Image::Image( QString& filename,  QWidget *parent)
-: SubMdiWindows(parent),m_image(NULL)
+
+Image::Image( QString& filename,  ImprovedWorkspace *parent)
+: SubMdiWindows(parent)
 {
-
+    m_parent = parent;
     m_filename = filename;
+    m_zoomLevel = 1;
     setUi();
-    m_image = new QImage(m_filename);
+   // m_image = ;
 
 	setObjectName("Image");
 
-    m_zoomLevel = 1;
+
 	setWindowIcon(QIcon(":/icones/vignette image.png"));
 
 
     m_labelImage = new QLabel(this);
-    m_pixMap = QPixmap::fromImage(*m_image);
+    m_pixMap = QPixmap::fromImage(QImage(m_filename));
+   //m_labelImage->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     m_labelImage->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
-    //m_labelImage->resize(m_image->width()*m_zoomLevel, m_image->height()*m_zoomLevel);
+    m_labelImage->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    m_labelImage->setScaledContents(true);
+
+
+    m_labelImage->resize(m_pixMap.size());
 
 
 
@@ -52,7 +60,10 @@ Image::Image( QString& filename,  QWidget *parent)
 
     m_scrollArea->setAlignment(Qt::AlignCenter);
     m_scrollArea->setWidget(m_labelImage);
-    m_scrollArea->resize(m_image->width()+2, m_image->height()+2);
+
+
+    fitWindow();
+
 }
 
 
@@ -67,25 +78,28 @@ void Image::setUi()
     QVBoxLayout* vlayout= new QVBoxLayout;
     m_zoomLabel= new QLabel(tr("Zoom level"));
     m_zoomSlider=new QSlider(Qt::Horizontal);
-    m_zoomSlider->setMaximum(800);
+    m_zoomSlider->setMaximum(300);
     m_zoomSlider->setMinimum(25);
     m_zoomSpinBox=new QSpinBox;
-    m_zoomSpinBox->setMaximum(800);
+    m_zoomSpinBox->setMaximum(300);
     m_zoomSpinBox->setMinimum(25);
     m_zoomSpinBox->setSuffix("%");
+
+    m_zoomSpinBox->setValue(m_zoomLevel*100);
+    m_zoomSlider->setValue(m_zoomLevel*100);
 
     connect(m_zoomSpinBox,SIGNAL(valueChanged(int)),m_zoomSlider,SLOT(setValue(int)));
     connect(m_zoomSlider,SIGNAL(valueChanged(int)),m_zoomSpinBox,SLOT(setValue(int)));
     connect(m_zoomSlider,SIGNAL(valueChanged(int)),this,SLOT(setZoomLevel(int)));
     connect(m_zoomSpinBox,SIGNAL(valueChanged(int)),this,SLOT(setZoomLevel(int)));
-    m_zoomSpinBox->setValue(m_zoomLevel*100);
-    m_zoomSlider->setValue(m_zoomLevel*100);
+
     hlayout->addWidget(m_zoomLabel);
     hlayout->addWidget(m_zoomSlider);
     hlayout->addWidget(m_zoomSpinBox);
 
     vlayout->addWidget(m_scrollArea);
     vlayout->addLayout(hlayout);
+    m_scrollArea->installEventFilter(this);
 
     QWidget* tmp = new QWidget;
     tmp->setLayout(vlayout);
@@ -93,11 +107,18 @@ void Image::setUi()
 }
 void Image::setZoomLevel(int zoomlevel)
 {
+    if(zoomlevel > 300)
+    {
+        m_zoomSlider->setSingleStep(20);
+    }
+    else
+    {
+         m_zoomSlider->setSingleStep(1);
+    }
     if((float)zoomlevel/100!=m_zoomLevel)
     {
-        m_zoomLevel = (float)zoomlevel/100;
-        m_labelImage->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
-        m_labelImage->resize(m_image->width()*m_zoomLevel, m_image->height()*m_zoomLevel);
+        m_zoomLevel = (double)zoomlevel/100;
+        resizeLabel();
     }
 }
 
@@ -107,54 +128,57 @@ void Image::closeEvent(QCloseEvent *event)
 	event->ignore();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*void Image::mousePressEvent(QMouseEvent *event)
+bool  Image::eventFilter(QObject *obj,QEvent *e)
 {
-	// Si l'utilisateur a clique avec la bouton gauche et que l'outil main est selectionne
-    if (event->button() == Qt::LeftButton && G_outilCourant == BarreOutils::main)
-	{
-		// Le deplacement est autorise
-		deplacementAutorise = true;
-		// On memorise la position du point de depart
-		pointDepart = event->pos();
-		// On releve les valeurs des barres de defilement
-        horizontalDepart = m_scrollArea->horizontalScrollBar()->value();
-        verticalDepart = m_scrollArea->verticalScrollBar()->value();
+    if(e->type() == QEvent::Wheel)
+    {
+      QWheelEvent *event = static_cast<QWheelEvent *>(e);
+        if(event->modifiers() == Qt::ControlModifier)
+        {
+            int delta = event->delta();
+            int currentZoom = m_zoomSpinBox->value();
+            if(delta > 0)//zoomin
+            {
+                currentZoom +=20;
+
+            }
+            else//zoomOut
+            {
+                currentZoom -=20;
+            }
+            m_zoomSpinBox->setValue(currentZoom);
+            return true;
+        }
+
     }
-}*/
+
+    return QObject::eventFilter(obj, e);
+}
 
 
-/*void Image::mouseReleaseEvent(QMouseEvent *event)
+
+
+void Image::fitWindow()
 {
-	// Si le bouton gauche est relache on interdit le deplacement de la carte
-	if (event->button() == Qt::LeftButton)
-		deplacementAutorise = false;
-}*/
+    QSize windowsize = m_parent->viewport()->size();
+    while((windowsize.height()<(m_zoomLevel * m_pixMap.height()))&&(windowsize.width()<(m_zoomLevel * m_pixMap.width())))
+    {
+        m_zoomLevel -= 0.2;
+    }
+    resizeLabel();
+
+    if(m_labelImage->rect().contains(geometry()))
+        setGeometry(m_labelImage->rect());
+}
 
 
-/*void Image::mouseMoveEvent(QMouseEvent *event)
+void Image::resizeLabel()
 {
-	// Si le deplacement est autorise
-	if (deplacementAutorise)
-	{
-		// On calcule la cifference de position entre le depart et maintenant
-		QPoint diff = pointDepart - event->pos();
-		// On change la position des barres de defilement
-        m_scrollArea->horizontalScrollBar()->setValue(horizontalDepart + diff.x());
-        m_scrollArea->verticalScrollBar()->setValue(verticalDepart + diff.y());
-	}
-}*/
+    m_labelImage->resize(m_zoomLevel * m_pixMap.size());
+}
+
+
+
 		
 
 void Image::pointeurMain()

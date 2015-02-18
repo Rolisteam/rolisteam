@@ -21,37 +21,31 @@ INCLUDEPATH += . \
     preferences \
     map
 HEADERS += displaydisk.h \
-    ToolBar.h \
-#    ClientServeur.h \
+    ToolBar.h \ # ClientServeur.h \
     DessinPerso.h \
     EditeurNotes.h \
     Image.h \
-    audioplayer.h \
-#    Liaison.h \
-#    ListeUtilisateurs.h \
-    MainWindow.h \
-#    Rolisteam_private.h \
+    audioplayer.h \ # Liaison.h \
+# ListeUtilisateurs.h \
+    MainWindow.h \ # Rolisteam_private.h \
     SelecteurCouleur.h \
     SelecteurDiametre.h \
     Tchat.h \
     TextEditAmeliore.h \
     types.h \
-    typesApplication.h \
-#    variablesGlobales.h \
-#   wincompat.h \
+    typesApplication.h \ # variablesGlobales.h \
+# wincompat.h \
     WorkspaceAmeliore.h \
     submdiwindows.h \
     userlistdockwidget.h
 FORMS += LecteurAudio.ui \
     userlistdockwidget.ui
 SOURCES += displaydisk.cpp \
-    ToolBar.cpp \
-#    ClientServeur.cpp \
+    ToolBar.cpp \ # ClientServeur.cpp \
     DessinPerso.cpp \
     EditeurNotes.cpp \
-    Image.cpp \
-#    Liaison.cpp \
-#    ListeUtilisateurs.cpp \
+    Image.cpp \ # Liaison.cpp \
+# ListeUtilisateurs.cpp \
     main.cpp \
     MainWindow.cpp \
     SelecteurCouleur.cpp \
@@ -61,13 +55,13 @@ SOURCES += displaydisk.cpp \
     WorkspaceAmeliore.cpp \
     submdiwindows.cpp \
     userlistdockwidget.cpp
-
 HAVE_FMOD { 
     DEFINES += FMOD
     SOURCES += audioplayerwin.cpp
-#    HEADERS += fmod.h \
-#        fmod_errors.h
 }
+
+# HEADERS += fmod.h \
+# fmod_errors.h
 HAVE_PHONON { 
     DEFINES += PHONON
     SOURCES += audioplayerunix.cpp
