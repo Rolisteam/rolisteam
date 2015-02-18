@@ -43,7 +43,7 @@
     #include <QPainter>
     #include <QTimer>
 	#include <QFile>
-    
+    #include <QDataStream>
     #include "DessinPerso.h"
     #include "types.h"
 
@@ -67,7 +67,8 @@
 		void dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur);
 		void adapterCoucheAlpha(quint8 intensiteAlpha);
 		void lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoints);
-		void sauvegarderCarte(QFile &file, QString titre = "");
+        //void sauvegarderCarte(QFile &file, QString titre = "");
+        void sauvegarderCarte(QDataStream &out, QString titre = "");
 		int tailleDesPj();
 		bool pjAffiche(QString idPerso);
 		QString identifiantCarte();

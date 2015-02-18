@@ -176,7 +176,7 @@ void Image::emettreImage(QString titre, int numeroLiaison)
 /********************************************************************/
 /* Sauvegarde l'image dans le fichier passe en parametre            */
 /********************************************************************/
-void Image::sauvegarderImage(QFile &file, QString titre)
+/*void Image::sauvegarderImage(QFile &file, QString titre)
 {
 	bool ok;
 
@@ -197,8 +197,34 @@ void Image::sauvegarderImage(QFile &file, QString titre)
 	quint32 tailleImage = baImage.size();
 	file.write((char *)&tailleImage, sizeof(quint32));
 	file.write(baImage.data(), tailleImage);
-}
+}*/
+/********************************************************************/
+/* Sauvegarde l'image dans le fichier passe en parametre            */
+/********************************************************************/
+void Image::sauvegarderImage(QDataStream &out, QString titre)
+{
+    bool ok;
 
+    // On commence par compresser l'image (format jpeg) dans un tableau
+    QByteArray baImage;
+    QBuffer bufImage(&baImage);
+    ok = labelImage->pixmap()->save(&bufImage, "jpeg", 100);
+    if (!ok)
+        qWarning("Probleme de compression de l'image (sauvegarderImage - Image.cpp)");
+
+    // Ecriture de l'image dans le fichier
+
+    // Ecriture du titre
+    //quint16 tailleTitre = titre.size();
+    out<< titre;
+    //file.write((char *)&tailleTitre, sizeof(quint16));
+    //file.write((char *)titre.data(), tailleTitre*sizeof(QChar));
+    // Ajout de l'image
+    out << baImage;
+    //quint32 tailleImage = baImage.size();
+    //file.write((char *)&tailleImage, sizeof(quint32));
+   // file.write(baImage.data(), tailleImage);
+}
 /********************************************************************/
 /* Un bouton de la souris vient d'etre enfonce                      */
 /********************************************************************/	

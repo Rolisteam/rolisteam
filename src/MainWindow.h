@@ -91,10 +91,14 @@ private :
     void creerMenu();
     void associerActionsMenus();
     void autoriserOuInterdireActions();
-    void lireCarteEtPnj(QFile &file, bool masquer = false, QString nomFichier = "");
-    void lireImage(QFile &file);
-    void sauvegarderTousLesPlans(QFile &file);
-    void sauvegarderToutesLesImages(QFile &file);
+    //void lireCarteEtPnj(QFile &file, bool masquer = false, QString nomFichier = "");
+    void lireCarteEtPnj(QDataStream &file, bool masquer = false, QString nomFichier = "");
+   // void lireImage(QFile &file);
+    void lireImage(QDataStream &file);
+    /*void sauvegarderTousLesPlans(QFile &file);
+    void sauvegarderToutesLesImages(QFile &file);*/
+    void sauvegarderTousLesPlans(QDataStream &file);
+    void sauvegarderToutesLesImages(QDataStream &file);
     void sauvegarderTousLesTchats();
     void sauvegarderFichierInitialisation();
 

@@ -81,6 +81,7 @@
     	int preparerPourEmission(char *tampon, bool convertirEnPnj = false);
 		int tailleDonneesAEmettre();
 		int numeroEtatSante();
+        void write(QDataStream &out);
 
 	public slots :
 		void afficherNomsPj(bool afficher);

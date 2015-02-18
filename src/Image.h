@@ -52,6 +52,7 @@
 		void associerAction(QAction *action);
 		void emettreImage(QString titre, int numeroLiaison);
 		void sauvegarderImage(QFile &file, QString titre);
+        void sauvegarderImage(QDataStream& out, QString titre);
 		bool proprietaireImage();
 		QString identifiantImage();
 

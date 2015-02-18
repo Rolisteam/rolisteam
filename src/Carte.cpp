@@ -2383,118 +2383,95 @@
 		if (!mouvements.isEmpty())
 			QTimer::singleShot(10, this, SLOT(deplacerLesPersonnages()));;
 	}
+void Carte::sauvegarderCarte(QDataStream &out, QString titre)
+{
+    bool ok;
+    // On commence par compresser le fond original (format jpeg) dans un tableau
+    QByteArray baFondOriginal;
+    QBuffer bufFondOriginal(&baFondOriginal);
+    ok = fondOriginal->save(&bufFondOriginal, "jpeg", 100);
+    if (!ok)
+        qWarning("Probleme de compression du fond original (sauvegarderCarte - Carte.cpp)");
 
-	/********************************************************************/
-	/* Sauvegarde la carte dans le fichier passe en parametre           */
-	/********************************************************************/
-	void Carte::sauvegarderCarte(QFile &file, QString titre)
-	{
-		bool ok;
+    // On compresse le fond (format jpeg) dans un tableau
+    QByteArray baFond;
+    QBuffer bufFond(&baFond);
+    ok = fond->save(&bufFond, "jpeg", 100);
+    if (!ok)
+        qWarning("Probleme de compression du fond (sauvegarderCarte - Carte.cpp)");
 
-		// On commence par compresser le fond original (format jpeg) dans un tableau
-		QByteArray baFondOriginal;
-		QBuffer bufFondOriginal(&baFondOriginal);
-		ok = fondOriginal->save(&bufFondOriginal, "jpeg", 100);
-		if (!ok)
-			qWarning("Probleme de compression du fond original (sauvegarderCarte - Carte.cpp)");
+    // Enfin on compresse la couche alpha (format jpeg) dans un tableau
+    QByteArray baAlpha;
+    QBuffer bufAlpha(&baAlpha);
+    ok = alpha->save(&bufAlpha, "jpeg", 100);
+    if (!ok)
+        qWarning("Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)");
 
-		// On compresse le fond (format jpeg) dans un tableau
-		QByteArray baFond;
-		QBuffer bufFond(&baFond);
-		ok = fond->save(&bufFond, "jpeg", 100);
-		if (!ok)
-			qWarning("Probleme de compression du fond (sauvegarderCarte - Carte.cpp)");
+    // Ecriture de la carte dans le fichier
 
-		// Enfin on compresse la couche alpha (format jpeg) dans un tableau
-		QByteArray baAlpha;
-		QBuffer bufAlpha(&baAlpha);
-		ok = alpha->save(&bufAlpha, "jpeg", 100);
-		if (!ok)
-			qWarning("Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)");
-		
-		// Ecriture de la carte dans le fichier
+    // Ecriture du titre
+    //out << titre.size();
+    out << titre;
+    out << taillePj;
+    out << baFondOriginal;
+    out << baFond;
+    out << baAlpha;
 
-		// Ecriture du titre
-		quint16 tailleTitre = titre.size();
-		file.write((char *)&tailleTitre, sizeof(quint16));
-		file.write((char *)titre.data(), tailleTitre*sizeof(QChar));
-		// Ajout de la taille des PJ
-		file.write((char *)&taillePj, sizeof(quint8));
-		// Ajout du fond d'origine
-		quint32 tailleFondOriginal = baFondOriginal.size();
-		file.write((char *)&tailleFondOriginal, sizeof(quint32));
-		file.write(baFondOriginal.data(), tailleFondOriginal);
-		// Ajout du fond
-		quint32 tailleFond = baFond.size();
-		file.write((char *)&tailleFond, sizeof(quint32));
-		file.write(baFond.data(), tailleFond);
-		// Ajout de la couche alpha
-		quint32 tailleAlpha = baAlpha.size();
-		file.write((char *)&tailleAlpha, sizeof(quint32));
-		file.write(baAlpha.data(), tailleAlpha);
+    // Ecriture des PNJ (les PJ sont convertis en PNJ) dans le fichier
 
-		// Ecriture des PNJ (les PJ sont convertis en PNJ) dans le fichier
-		
-		DessinPerso *perso;
-		// Nombre de PNJ presents sur la carte
-		quint16 nombrePnj = 0;
-		
-		// On recupere la liste des enfants de la carte (tous des DessinPerso)
-		QObjectList enfants = children();
-		// Taille de la liste
-		int tailleListe = enfants.size();
-		
-		// On parcourt une premiere fois la liste des DessinPerso pour connaitre le nombre de PJ/PNJ visibles
-		for (int i=0; i<tailleListe; i++)
-		{
-			perso = (DessinPerso *)(enfants[i]);
-			// On regarde si le personnage est visible
-			if (perso->estVisible())
-				nombrePnj++;
-		}
+    DessinPerso *perso;
+    // Nombre de PNJ presents sur la carte
+    quint16 nombrePnj = 0;
 
-		// Ajout du nbr de PNJ presents dans le fichier
-		file.write((char *)&nombrePnj, sizeof(quint16));
-		
-		int tailleDonneesPerso;
-		char *donneesPerso;
-		// On parcourt la liste des DessinPerso une 2eme fois pour ajouter les donnees de chaque PNJ
-		for (int i=0; i<tailleListe; i++)
-		{
-			perso = (DessinPerso *)(enfants[i]);
-			// Si le perso est visible, on procede a l'ecriture de ses donnees
-			if (perso->estVisible())
-			{
-				// Taille des donnees liees au PJ/PNJ
-				tailleDonneesPerso = perso->tailleDonneesAEmettre();
-				// Allocation d'un buffer pour stocker temporairement les donnees
-				donneesPerso = new char[tailleDonneesPerso];
-				// Recuperation des donnees dans le buffer
-				perso->preparerPourEmission(donneesPerso, true);
-				// Ecriture des donnees dans le fichier
-				file.write(donneesPerso, tailleDonneesPerso);
-				// Liberation du buffer
-				delete [] donneesPerso;
-			}
-		}
-	}
+    // On recupere la liste des enfants de la carte (tous des DessinPerso)
+    QObjectList enfants = children();
+    // Taille de la liste
+    int tailleListe = enfants.size();
 
-	/********************************************************************/	
-	/* Renvoie l'identifiant de la carte                                */
-	/********************************************************************/	
-	QString Carte::identifiantCarte()
-	{
-		return idCarte;
-	}
+    // On parcourt une premiere fois la liste des DessinPerso pour connaitre le nombre de PJ/PNJ visibles
+    for (int i=0; i<tailleListe; i++)
+    {
+        perso = (DessinPerso *)(enfants[i]);
+        // On regarde si le personnage est visible
+        if (perso->estVisible())
+            nombrePnj++;
+    }
 
-	/********************************************************************/
-	/* Changement du pointeur de souris pour l'outil crayon             */
-	/********************************************************************/	
-	void Carte::pointeurCrayon()
-	{
-		pointeur = *G_pointeurDessin;
-		setCursor(pointeur);
-	}
+    // Ajout du nbr de PNJ presents dans le fichier
+    //file.write((char *)&nombrePnj, sizeof(quint16));
+    out << nombrePnj;
+
+    int tailleDonneesPerso;
+    char *donneesPerso;
+    // On parcourt la liste des DessinPerso une 2eme fois pour ajouter les donnees de chaque PNJ
+    for (int i=0; i<tailleListe; i++)
+    {
+        perso = (DessinPerso *)(enfants[i]);
+        // Si le perso est visible, on procede a l'ecriture de ses donnees
+        if (perso->estVisible())
+        {
+            perso->write(out);
+        }
+    }
+}
+
+
+/********************************************************************/
+/* Renvoie l'identifiant de la carte                                */
+/********************************************************************/
+QString Carte::identifiantCarte()
+{
+    return idCarte;
+}
+
+/********************************************************************/
+/* Changement du pointeur de souris pour l'outil crayon             */
+/********************************************************************/
+void Carte::pointeurCrayon()
+{
+    pointeur = *G_pointeurDessin;
+    setCursor(pointeur);
+}
 	
 	/********************************************************************/
 	/* Changement du pointeur de souris pour l'outil ligne              */

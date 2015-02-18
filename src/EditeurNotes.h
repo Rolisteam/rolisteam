@@ -46,8 +46,8 @@
 
     public :
 	    EditeurNotes();
-	    void sauvegarderNotes(QFile &file);
-	    void ouvrirNotes(QFile &file);
+        void sauvegarderNotes(QDataStream &file);
+        void ouvrirNotes(QDataStream &file);
 		QSize sizeHint() const;
 
     private :

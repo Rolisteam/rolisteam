@@ -95,6 +95,11 @@ WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
 void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )
 {
     Q_UNUSED(event);
+    if((m_variableSizeBackground)&&(m_variableSizeBackground->size()==this->size()))
+    {
+        return;
+    }
+
     delete m_variableSizeBackground;
 
     m_variableSizeBackground = new QPixmap(this->size());
@@ -104,5 +109,5 @@ void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
     this->setBackground(QBrush(*m_variableSizeBackground));
 
-
+    QWorkspace::resizeEvent(event);
 }

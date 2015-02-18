@@ -630,37 +630,51 @@
 	/* Renvoie la taille du tampon a reserver pour stocker les info     */
 	/* relativent au personnage (avant l'appel a preparerPourEmission)  */
 	/********************************************************************/
-	int DessinPerso::tailleDonneesAEmettre()
-	{
-		// Taille des donnees
-		quint32 tailleDonnees =
-			// Taille du nom
-			sizeof(quint16) + nomPerso.size()*sizeof(QChar) +
-			// Taille de l'identifiant
-			sizeof(quint8) + identifiant.size()*sizeof(QChar) +
-			// Taille du type de personnage (PJ ou PNJ)
-			sizeof(quint8) +
-			// Taille du numero de PNJ
-			sizeof(quint8) +
-			// Taille du diametre
-			sizeof(quint8) +
-			// Taille de la couleur
-			sizeof(QRgb) +
-			// Taille de la position du centre du personnage
-			sizeof(qint16) + sizeof(qint16) +
-			// Taille de l'orientation du personnage
-			sizeof(qint16) + sizeof(qint16) +
-			// Taille de l'etat de sante
-			sizeof(QRgb) + sizeof(quint16) + etat.nomEtat.size()*sizeof(QChar) +
-			// Taille du numero d'etat de sante
-			sizeof(quint16) +
-			// Taille de l'information visible/cache
-			sizeof(quint8) +
-			// Taille de l'information orientation affichee/masquee
-			sizeof(quint8);
-		
-		return tailleDonnees;
-	}
+int DessinPerso::tailleDonneesAEmettre()
+{
+    // Taille des donnees
+    quint32 tailleDonnees =
+        // Taille du nom
+        sizeof(quint16) + nomPerso.size()*sizeof(QChar) +
+        // Taille de l'identifiant
+        sizeof(quint8) + identifiant.size()*sizeof(QChar) +
+        // Taille du type de personnage (PJ ou PNJ)
+        sizeof(quint8) +
+        // Taille du numero de PNJ
+        sizeof(quint8) +
+        // Taille du diametre
+        sizeof(quint8) +
+        // Taille de la couleur
+        sizeof(QRgb) +
+        // Taille de la position du centre du personnage
+        sizeof(qint16) + sizeof(qint16) +
+        // Taille de l'orientation du personnage
+        sizeof(qint16) + sizeof(qint16) +
+        // Taille de l'etat de sante
+        sizeof(QRgb) + sizeof(quint16) + etat.nomEtat.size()*sizeof(QChar) +
+        // Taille du numero d'etat de sante
+        sizeof(quint16) +
+        // Taille de l'information visible/cache
+        sizeof(quint8) +
+        // Taille de l'information orientation affichee/masquee
+        sizeof(quint8);
+
+    return tailleDonnees;
+}
+void DessinPerso::write(QDataStream &out)
+{
+
+    QString ident = QUuid::createUuid().toString();
+    int numeroDuPnj = numeroPnj;
+    if (type==pj)
+        numeroDuPnj = 0;
+
+
+    out << nomPerso << ident << pnj << numeroDuPnj << diametre << couleur << positionCentrePerso() << orientation << etat.couleurEtat << etat.nomEtat << numeroEtat << visible << orientationAffichee;
+
+
+
+}
 
 	/********************************************************************/
 	/* Ecrit a l'adresse passee en parametre les elements necessaires a */
@@ -678,8 +692,7 @@
 		p+=sizeof(quint16);
 		memcpy(&(tampon[p]), nomPerso.data(), tailleNom*sizeof(QChar));
 		p+=tailleNom*sizeof(QChar);
-		// Ajout de l'identifiant
-		quint8 tailleId = identifiant.size();
+
 		QString ident;
 		// Si on convertit le PJ en PNJ, on change son ID pour eviter les erreurs en cas de sauvegarde/fermture/ouverture
 		// de la carte (1 PJ et 1 PNJ se retrouvent avec le meme ID)
@@ -687,6 +700,8 @@
 			ident = QUuid::createUuid().toString();
 		else
 			ident = identifiant;
+        // Ajout de l'identifiant
+        quint8 tailleId = ident.size();
 		memcpy(&(tampon[p]), &tailleId, sizeof(quint8));
 		p+=sizeof(quint8);
 		memcpy(&(tampon[p]), ident.data(), tailleId*sizeof(QChar));
@@ -715,7 +730,7 @@
 		memcpy(&(tampon[p]), &couleurPersoRgb, sizeof(QRgb));
 		p+=sizeof(QRgb);
 		// Ajout de la position du centre du personnage
-		QPoint positionDuCentre = positionCentrePerso();
+        QPoint positionDuCentre = positionCentrePerso();
 		qint16 centreX = positionDuCentre.x();
 		qint16 centreY = positionDuCentre.y();
 		memcpy(&(tampon[p]), &centreX, sizeof(qint16));

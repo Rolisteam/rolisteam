@@ -678,8 +678,9 @@ void MainWindow::ouvrirPlan(bool masquer)
                         qWarning("Probleme a l'ouverture du fichier .pla (ouvrirPlan - MainWindow.cpp)");
                         return;
                 }
+                QDataStream in(&file);
                 // Lecture de la carte et des PNJ
-                lireCarteEtPnj(file, masquer, titre);
+                lireCarteEtPnj(in, masquer, titre);
                 // Fermeture du fichier
                 file.close();
         }
@@ -773,39 +774,27 @@ void MainWindow::ouvrirPlan(bool masquer)
         }
 }
 
-/********************************************************************/
-/* Reconstitue la carte et les PNJ associes se trouvant dans le         */
-/* fichier passe en parametre. Si le parametre masquer = true, on   */
-/* masque l'ensemble du plan                                        */
-/********************************************************************/
-void MainWindow::lireCarteEtPnj(QFile &file, bool masquer, QString nomFichier)
+void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichier)
 {
-        // Lecture de la carte
 
-        // On recupere le titre
-        quint16 tailleTitre;
-        file.read((char *)&tailleTitre, sizeof(quint16));
-        QChar *tableauTitre = new QChar[tailleTitre];
-        file.read((char *)tableauTitre, tailleTitre*sizeof(QChar));
-        QString titre(tableauTitre, tailleTitre);
+        QString titre;
+
+        in >> titre;
+        ///QString titre(tableauTitre, tailleTitre);
         // On recupere la taille des PJ
-        quint8 taillePj;
-        file.read((char *)&taillePj, sizeof(quint8));
-        // On recupere le fond original
-        quint32 tailleFondOriginal;
-        file.read((char *)&tailleFondOriginal, sizeof(quint32));
-        QByteArray baFondOriginal(tailleFondOriginal, 0);
-        file.read(baFondOriginal.data(), tailleFondOriginal);
-        // On recupere le fond
-        quint32 tailleFond;
-        file.read((char *)&tailleFond, sizeof(quint32));
-        QByteArray baFond(tailleFond, 0);
-        file.read((char *)baFond.data(), tailleFond);
-        // On recupere la couche alpha
-        quint32 tailleAlpha;
-        file.read((char *)&tailleAlpha, sizeof(quint32));
-        QByteArray baAlpha(tailleAlpha, 0);
-        file.read((char *)baAlpha.data(), tailleAlpha);
+        int taillePj;
+        in >> taillePj;
+
+        QByteArray baFondOriginal;
+        in >> baFondOriginal;
+
+        QByteArray baFond;
+        in >> baFond;
+
+        QByteArray baAlpha;
+        in>> baAlpha;
+
+
 
         bool ok;
         // Creation de l'image de fond original
@@ -844,101 +833,63 @@ void MainWindow::lireCarteEtPnj(QFile &file, bool masquer, QString nomFichier)
         else
                 G_mainWindow->ajouterCarte(carteFenetre, nomFichier);
 
-        // Liberation de la memoire allouee
-        delete[] tableauTitre;
-
-        // Lecture des PNJ
 
         // On recupere le nombre de personnages presents dans le message
         quint16 nbrPersonnages;
-        file.read((char *)&nbrPersonnages, sizeof(quint16));
+        in >>  nbrPersonnages;
 
         for (int i=0; i<nbrPersonnages; i++)
         {
-                // On recupere le nom
-                quint16 tailleNom;
-                file.read((char *)&tailleNom, sizeof(quint16));
-                QChar *tableauNom = new QChar[tailleNom];
-                file.read((char *)tableauNom, tailleNom*sizeof(QChar));
-                QString nomPerso(tableauNom, tailleNom);
-                // On recupere l'identifiant du perso
-                quint8 tailleIdPerso;
-                file.read((char *)&tailleIdPerso, sizeof(quint8));
-                QChar *tableauIdPerso = new QChar[tailleIdPerso];
-                file.read((char *)tableauIdPerso, tailleIdPerso*sizeof(QChar));
-                QString idPerso(tableauIdPerso, tailleIdPerso);
-                // On recupere le type du personnage
-                quint8 type;
-                file.read((char *)&type, sizeof(quint8));
-                DessinPerso::typePersonnage typePerso = (DessinPerso::typePersonnage)type;
-                // On recupere le numero de PNJ
-                quint8 numeroPnj;
-                file.read((char *)&numeroPnj, sizeof(quint8));
-                // On recupere le diametre
-                quint8 diametre;
-                file.read((char *)&diametre, sizeof(quint8));
-                // On recupere la couleur
-                QRgb rgb;
-                file.read((char *)&rgb, sizeof(QRgb));
-                QColor couleurPerso(rgb);
-                // On recupere le point central du perso
-                qint16 centreX, centreY;
-                file.read((char *)&centreX, sizeof(qint16));
-                file.read((char *)&centreY, sizeof(qint16));
-                QPoint centre(centreX, centreY);
-                // On recupere l'orientation du perso
-                qint16 orientationX, orientationY;
-                file.read((char *)&orientationX, sizeof(qint16));
-                file.read((char *)&orientationY, sizeof(qint16));
-                QPoint orientation(orientationX, orientationY);
-                // On recupere la couleur de l'etat de sante
-                file.read((char *)&rgb, sizeof(QRgb));
-                QColor couleurEtat(rgb);
-                // On recupere le nom de l'etat
-                quint16 tailleEtat;
-                file.read((char *)&tailleEtat, sizeof(quint16));
-                QChar *tableauEtat = new QChar[tailleEtat];
-                file.read((char *)tableauEtat, tailleEtat*sizeof(QChar));
-                QString nomEtat(tableauEtat, tailleEtat);
-                // On recupere le numero de l'etat de sante
-                quint16 numEtat;
-                file.read((char *)&numEtat, sizeof(quint16));
-                // On recupere l'information visible/cache
-                quint8 visible;
-                file.read((char *)&visible, sizeof(quint8));
-                // On recupere l'information orientation affichee/masquee
-                quint8 orientationAffichee;
-                file.read((char *)&orientationAffichee, sizeof(quint8));
 
-                // Creation du PNJ dans la carte
-                DessinPerso *pnj = new DessinPerso(carte, idPerso, nomPerso, couleurPerso, diametre, centre, typePerso, numeroPnj);
-                // S'il doit etre visible, on l'affiche (s'il s'agit d'un PNJ [c'est tjrs le cas] et que l'utilisateur est le MJ, alors on affiche automatiquement le perso)
-                if (visible || (typePerso == DessinPerso::pnj && !G_joueur))
+
+            QString nomPerso,ident;
+            DessinPerso::typePersonnage type;
+            int numeroDuPnj;
+            uchar diametre;
+
+            QColor couleur;
+            DessinPerso::etatDeSante sante;
+
+            QPoint centre;
+            QPoint orientation;
+            int numeroEtat;
+            bool visible;
+            bool orientationAffichee;
+
+
+            in >> nomPerso;
+            in >> ident ;
+            int typeint;
+            in >> typeint;
+            type=(DessinPerso::typePersonnage) typeint;
+            in >> numeroDuPnj ;
+            in >> diametre;
+            in >> couleur ;
+            in >> centre ;
+            in >> orientation ;
+            in >>sante.couleurEtat ;
+            in >> sante.nomEtat ;
+            in >> numeroEtat ;
+            in>> visible;
+            in >> orientationAffichee;
+
+            DessinPerso *pnj = new DessinPerso(carte, ident, nomPerso, couleur, diametre, centre, type, numeroDuPnj);
+
+                if (visible || (type == DessinPerso::pnj && !G_joueur))
                         pnj->afficherPerso();
                 // On m.a.j l'orientation
                 pnj->nouvelleOrientation(orientation);
                 // Affichage de l'orientation si besoin
                 if (orientationAffichee)
                         pnj->afficheOuMasqueOrientation();
-                // M.a.j de l'etat de sante du personnage
-                DessinPerso::etatDeSante sante;
-                sante.couleurEtat = couleurEtat;
-                sante.nomEtat = nomEtat;
-                pnj->nouvelEtatDeSante(sante, numEtat);
-                // Affiche ou masque le PNJ selon qu'il se trouve sur une zone masquee ou pas
+
+                pnj->nouvelEtatDeSante(sante, numeroEtat);
+
                 carte->afficheOuMasquePnj(pnj);
 
-                // Liberation de la memoire allouee
-                delete[] tableauNom;
-                delete[] tableauIdPerso;
-                delete[] tableauEtat;
+
         }
-
-        // Emission de la carte et des PNJ
-
-        // On demande a la carte de s'emettre vers les autres utilisateurs
         carte->emettreCarte(carteFenetre->windowTitle());
-        // On emet egalement l'ensemble des personnages presents sur la carte
         carte->emettreTousLesPersonnages();
 }
 
@@ -2052,8 +2003,9 @@ void MainWindow::sauvegarderPlan()
                 qWarning("Probleme a l'ouverture du fichier (sauvegarderPlan - MainWindow.cpp)");
                 return;
         }
+        QDataStream out(&file);
         // On demande a la carte de se sauvegarder dans le fichier
-        ((CarteFenetre *)active)->carte()->sauvegarderCarte(file);
+        ((CarteFenetre *)active)->carte()->sauvegarderCarte(out);
         // Fermeture du fichier
         file.close();
 }
@@ -2130,8 +2082,9 @@ void MainWindow::ouvrirNotes()
                 qWarning("Probleme a l'ouverture du fichier (ouvrirNotes - MainWindow.cpp)");
                 return;
         }
+        QDataStream out(&file);
         // On demande a l'editeur de notes de charger le fichier
-        editeurNotes->ouvrirNotes(file);
+        editeurNotes->ouvrirNotes(out);
         // Fermeture du fichier
         file.close();
 }
@@ -2166,9 +2119,11 @@ bool MainWindow::sauvegarderNotes()
                 qWarning("Probleme a l'ouverture du fichier (sauvegarderNotes - MainWindow.cpp)");
                 return false;
         }
+        QDataStream in(&file);
         // On demande a l'editeur de notes de les sauvegarder dans le fichier
-        editeurNotes->sauvegarderNotes(file);
+        editeurNotes->sauvegarderNotes(in);
         // Fermeture du fichier
+
         file.close();
 
         return true;
@@ -2198,23 +2153,27 @@ void MainWindow::ouvrirScenario()
                 qWarning("Probleme a l'ouverture du fichier (ouvrirScenario - MainWindow.cpp)");
                 return;
         }
+        QDataStream in(&file);
 
-        // On commence par lire le nbr de cartes a suivre
-        quint16 nbrCartes;
-        file.read((char *)&nbrCartes, sizeof(quint16));
+
+        int nbrCartes;
+        in >> nbrCartes;
+
+        //file.read((char *)&nbrCartes, sizeof(quint16));
         // On lit toutes les cartes presentes dans le fichier
         for (int i=0; i<nbrCartes; i++)
-                lireCarteEtPnj(file);
+                lireCarteEtPnj(in);
 
         // On lit le nbr d'images a suivre
-        quint16 nbrImages;
-        file.read((char *)&nbrImages, sizeof(quint16));
-        // On lit toutes les images presentes dans le fichier
+        int nbrImages;
+        //file.read((char *)&nbrImages, sizeof(quint16));
+        in >>nbrImages;
+        // in >>On lit toutes les images presentes dans le fichier
         for (int i=0; i<nbrImages; i++)
-                lireImage(file);
+                lireImage(in);
 
         // Enfin on lit les notes
-        editeurNotes->ouvrirNotes(file);
+        editeurNotes->ouvrirNotes(in);
 
         // Fermeture du fichier
         file.close();
@@ -2226,7 +2185,7 @@ void MainWindow::ouvrirScenario()
 /* les cartes, les images (qui deviennent proprietes du MJ), et les */
 /* notes                                                                */
 /********************************************************************/
-bool MainWindow::sauvegarderScenario()
+/*bool MainWindow::sauvegarderScenario()
 {
         // Ouverture du selecteur de fichiers
         QString filename = QFileDialog::getSaveFileName(this, tr("Sauvegarder scénario"), G_dossierScenarii, tr("Scénarios (*.sce)"));
@@ -2262,59 +2221,72 @@ bool MainWindow::sauvegarderScenario()
         file.close();
 
         return true;
-}
-
-/********************************************************************/
-/* Sauvegarde toutes les cartes dans le fichier file                */
-/********************************************************************/
-void MainWindow::sauvegarderTousLesPlans(QFile &file)
+}*/
+bool MainWindow::sauvegarderScenario()
 {
-        // Taille de la liste des CarteFenetre
-        quint16 tailleListe = listeCarteFenetre.size();
-        // On ecrit le nbr de cartes a suivre
-        file.write((char *)&tailleListe, sizeof(quint16));
+        // Ouverture du selecteur de fichiers
+        QString filename = QFileDialog::getSaveFileName(this, tr("Sauvegarder scénario"), G_dossierScenarii, tr("Scénarios (*.sce)"));
 
-        // Parcours de la liste
-        for (int i=0; i<tailleListe; i++)
-                // On demande a la carte contenue dans la CarteFenetre de se sauvegarder dans le fichier
-                listeCarteFenetre[i]->carte()->sauvegarderCarte(file, listeCarteFenetre[i]->windowTitle());
+
+        if (filename.isNull())
+                return false;
+
+        if(!filename.endsWith(".sce"))
+                filename += ".sce";
+
+
+        // On met a jour le chemin vers les scenarii
+        int dernierSlash = filename.lastIndexOf("/");
+        G_dossierScenarii = filename.left(dernierSlash);
+
+        // Creation du descripteur de fichier
+        QFile file(filename);
+        // Ouverture du fichier en ecriture seule
+        if (!file.open(QIODevice::WriteOnly))
+        {
+                qWarning("Probleme a l'ouverture du fichier (sauvegarderScenario - MainWindow.cpp)");
+                return false;
+        }
+
+        QDataStream out(&file);
+
+        // On commence par sauvegarder toutes les cartes
+        sauvegarderTousLesPlans(out);
+        // Puis toutes les images
+        sauvegarderToutesLesImages(out);
+        // Et enfin les notes
+        editeurNotes->sauvegarderNotes(out);
+        // Fermeture du fichier
+        file.close();
+
+        return true;
 }
-
-/********************************************************************/
-/* Sauvegarde toutes les cartes dans le fichier file                */
-/********************************************************************/
-void MainWindow::sauvegarderToutesLesImages(QFile &file)
+void MainWindow::sauvegarderTousLesPlans(QDataStream &out)
 {
-        // Taille de la liste des images
-        quint16 tailleListe = listeImage.size();
-        // On ecrit le nbr d'images a suivre
-        file.write((char *)&tailleListe, sizeof(quint16));
-
-        // Parcours de la liste
-        for (int i=0; i<tailleListe; i++)
-                // On demande a l'image de se sauvegarder dans le fichier
-                listeImage[i]->sauvegarderImage(file, listeImage[i]->windowTitle());
+    out << listeCarteFenetre.size();
+    for (int i=0; i<listeCarteFenetre.size(); i++)
+           listeCarteFenetre[i]->carte()->sauvegarderCarte(out, listeCarteFenetre[i]->windowTitle());
 }
 
-/********************************************************************/
-/* Reconstitue l'image se trouvant dans le fichier passe en         */
-/* parametre                                                        */
-/********************************************************************/
-void MainWindow::lireImage(QFile &file)
+void MainWindow::sauvegarderToutesLesImages(QDataStream &out)
+{
+   out << listeImage.size();
+   for (int i=0; i<listeImage.size(); i++)
+           listeImage[i]->sauvegarderImage(out, listeImage[i]->windowTitle());
+}
+
+
+void MainWindow::lireImage(QDataStream &file)
 {
         // Lecture de l'image
 
         // On recupere le titre
-        quint16 tailleTitre;
-        file.read((char *)&tailleTitre, sizeof(quint16));
-        QChar *tableauTitre = new QChar[tailleTitre];
-        file.read((char *)tableauTitre, tailleTitre*sizeof(QChar));
-        QString titre(tableauTitre, tailleTitre);
-        // On recupere l'image
-        quint32 tailleImage;
-        file.read((char *)&tailleImage, sizeof(quint32));
-        QByteArray baImage(tailleImage, 0);
-        file.read(baImage.data(), tailleImage);
+
+        QString titre;
+        QByteArray baImage;
+
+        file >> titre;
+        file >> baImage;
 
         bool ok;
         // Creation de l'image
@@ -2349,8 +2321,6 @@ void MainWindow::lireImage(QFile &file)
         // Affichage de l'image
         imageFenetre->show();
 
-        // Liberation de la memoire allouee
-        delete [] tableauTitre;
 
         // Envoie de l'image aux autres utilisateurs
 

@@ -248,12 +248,14 @@
 	/********************************************************************/
 	/* Ouvre les notes contenues dans le fichier passe en parametre     */
 	/********************************************************************/
-	void EditeurNotes::ouvrirNotes(QFile &file)
+    void EditeurNotes::ouvrirNotes(QDataStream &file)
     {
 		// On cree un flux de donnees rattache au fichier
-		QTextStream fichier(&file);
+        //QTextStream fichier(&file);
 		// On recupere le fichier HTML sous forme de string
-		QString html = fichier.readAll();
+        //QString html  fichier.readAll();
+        QString html;
+        file >> html;
 		// On ecrit le contenu HTML dans les notes
 		notes->setHtml(html);
 	}
@@ -261,16 +263,16 @@
 	/********************************************************************/
 	/* Sauvegarde les notes dans le fichier passe en parametre          */
 	/********************************************************************/
-	void EditeurNotes::sauvegarderNotes(QFile &file)
+    void EditeurNotes::sauvegarderNotes(QDataStream &file)
     {
 		// On recupere le document contenant les notes
 		QTextDocument *document = notes->document();
 		// On convertit le document en HTML
 		QString html = document->toHtml(QByteArray("UTF-8"));
 		// On cree un flux de donnees rattache au fichier
-		QTextStream fichier(&file);
+        //QTextStream fichier(&file);
 		// On envoie le document HTML dans le flux
-		fichier << html;
+        file << html;
 	}
 
 	/********************************************************************/
