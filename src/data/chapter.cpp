@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "chapter.h"
-
+#include <QDebug>
 Chapter::Chapter()
 {
 }
@@ -36,7 +36,7 @@ Chapter::~Chapter()
 
 bool Chapter::hasChildren() const
 {
-    return (m_ressoucelist.size()>0)?true:false;
+    return (m_ressoucelist.size()+m_chapterlist.size()>0)?true:false;
 }
 const QString& Chapter::getShortName() const
 {
@@ -72,12 +72,13 @@ bool Chapter::removeRessourcesNode(RessourcesNode* item)
 {
     CleverURI* itemURI= dynamic_cast<CleverURI*>(item);
     bool suppr=false;
-    if(item)
+    if(itemURI)
     {
           suppr= m_ressoucelist.removeOne(itemURI);
     }
     else
     {
+
         Chapter* imp= dynamic_cast<Chapter*>(item);
         suppr=m_chapterlist.removeOne(imp);
 

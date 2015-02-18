@@ -1,14 +1,15 @@
-HEADERS += connection.h \
-    charactersheet.h \
+HEADERS += data/connection.h \
+    data/charactersheet.h \
     data/person.h \
     data/player.h \
     data/character.h \
     data/message.h \
     data/session.h \
+    data/ressourcesnode.h \
     data/cleveruri.h \
     data/chapter.h
-SOURCES += connection.cpp \
-    charactersheet.cpp \
+SOURCES += data/connection.cpp \
+    data/charactersheet.cpp \
     data/person.cpp \
     data/player.cpp \
     data/character.cpp \
