@@ -297,7 +297,6 @@ void Map::openFile(QDataStream& in)
 
 void Map::addCharacter(const Character* p, QPointF pos)
 {
-
     CharacterItem* item= new CharacterItem(p,pos);
-
+    QGraphicsScene::addItem(item);
 }

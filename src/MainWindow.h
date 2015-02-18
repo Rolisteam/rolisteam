@@ -225,7 +225,9 @@ private :
 
         QMenu* m_openMenu;
         QAction* m_openMapAct;
-        QAction* m_openPDFAct;
+        #ifdef WITH_PDF
+            QAction* m_openPDFAct;
+        #endif
         QAction* m_openPictureAct;
         QAction* m_openScenarioAct;
         QAction* m_openCharacterSheetsAct;

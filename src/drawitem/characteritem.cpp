@@ -18,6 +18,10 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "characteritem.h"
+#include <QPainter>
+
+
+#include <QDebug>
 CharacterItem::CharacterItem(const Character* m,QPointF pos)
     : VisualItem(),m_character(m),m_center(pos)
 {
@@ -49,7 +53,7 @@ QRectF CharacterItem::boundingRect() const
     /**
       * @todo must be changed and managed by preference system
       */
-    return QRectF(0,0,20,20);
+    return QRectF(m_center.x(),m_center.y(),200,200);
 }
 void CharacterItem::setNewEnd(QPointF& nend)
 {
@@ -57,5 +61,15 @@ void CharacterItem::setNewEnd(QPointF& nend)
 }
 void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
+    qDebug() << "paint du character" << m_center ;
     /// @todo implemented it, get the image and display it
+    if(m_character->hasAvatar())
+    {
+        painter->drawImage(m_center, m_character->getAvatar());
+    }
+    else
+    {
+        painter->setPen(m_character->getColor());
+        painter->fillRect(m_center.x(),m_center.y(),200,200,m_character->getColor());
+    }
 }

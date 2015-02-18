@@ -41,8 +41,10 @@
 #include "charactersheetwindow.h"
 #include "pluginmanager.h"
 #include "minuteseditor.h"
-#include "pdfviewer.h"
 
+#ifdef WITH_PDF
+    #include "pdfviewer.h"
+#endif
 //network module
 #include "servermanager.h"
 #include "serverdialog.h"
@@ -206,8 +208,10 @@ void MainWindow::createMenu()
     m_openScenarioAct= m_openMenu->addAction(tr("&Scenario"));
     m_openScenarioAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::SCENARIO)));//QIcon(":/resources/icons/scenario.png"));
 
+#ifdef WITH_PDF
     m_openPDFAct= m_openMenu->addAction(tr("&PDF"));
     m_openPDFAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::PDF)));
+#endif
 
     m_openPictureAct= m_openMenu->addAction(tr("&Picture"));
     m_openPictureAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::PICTURE)));
@@ -335,7 +339,9 @@ void MainWindow::connectActions()
     connect(m_openScenarioAct,SIGNAL(triggered()),this,SLOT(openContent()));
     connect(m_openMapAct,SIGNAL(triggered()),this,SLOT(openContent()));
     connect(m_openPictureAct, SIGNAL(triggered(bool)), this, SLOT(openContent()));
+#ifdef WITH_PDF
     connect(m_openPDFAct, SIGNAL(triggered(bool)), this, SLOT(openContent()));
+#endif
     connect(m_recentFilesActGroup,SIGNAL(triggered(QAction*)),this,SLOT(openRecentFile(QAction*)));
 
 
@@ -833,10 +839,12 @@ void MainWindow::openContent()
     {
         type = CleverURI::TEXT;
     }
+#ifdef WITH_PDF
     else if(action == m_openPDFAct)
     {
         type = CleverURI::PDF;
     }
+#endif
     else
     {
         return;

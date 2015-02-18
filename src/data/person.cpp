@@ -64,3 +64,7 @@ Qt::CheckState Person::checkedState()
     return m_state;
 }
 
+bool Person::hasAvatar() const
+{
+    return !m_avatar.isNull();
+}

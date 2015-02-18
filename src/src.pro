@@ -1,10 +1,11 @@
 TEMPLATE = app
 CONFIG += qt \
     phonon
-CONFIG += HAVE_PHONON
+CONFIG += HAVE_PHONON WITH_PDF
 DEFINES += VERSION_MAJOR=2 VERSION_MIDDLE=0 VERSION_MINOR=0
 # CONFIG += HAVE_FMOD
 # CONFIG += HAVE_NULL
+
 
 INCLUDEPATH  += /usr/include/poppler/qt4
 LIBS         += -L/usr/lib -lpoppler-qt4
@@ -13,7 +14,7 @@ QT += core \
     gui \
     network
 TARGET = ../bin/rolisteam
-include(pdfviewer/pdfviewer.pri)
+
 include(preferences/preferences.pri)
 include(map/map.pri)
 include(drawitem/drawitem.pri)
@@ -36,7 +37,6 @@ DEPENDPATH += . \
     widget \
     session \
     network \
-    pdfviewer \
     minuteseditor \
     tchat \
     map
@@ -84,6 +84,13 @@ QT += phonon
 HAVE_NULL { 
     DEFINES += NULL_PLAYER
     SOURCES += audioplayerunix.cpp
+}
+WITH_PDF {
+    DEFINES += WITH_PDF
+    include(pdfviewer/pdfviewer.pri)
+    #SOURCES +=
+    DEPENDPATH += pdfviewer
+
 }
 RESOURCES += ../rolisteam.qrc
 documentation.path = bin/doc

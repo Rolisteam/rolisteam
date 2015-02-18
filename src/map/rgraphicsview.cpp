@@ -82,8 +82,11 @@ void RGraphicsView::dropEvent ( QDropEvent * event )
             const Person* item = data->getData();
             const Character* character = dynamic_cast<const Character*>(item);
             if(character)
+            {
                 m_map->addCharacter(character,mapToScene(event->pos()));
+                qDebug() << "add character";
+            }
         }
     }
-        qDebug() << "drop event2";
+
 }

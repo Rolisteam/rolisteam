@@ -67,6 +67,10 @@ public:
       */
     virtual const QImage& getAvatar() const;
     /**
+      * @brief gives access to person's avatar.
+      */
+    virtual bool hasAvatar() const ;
+    /**
       * @brief set the person's avatar.
       */
     virtual void setAvatar(QImage& p);

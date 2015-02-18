@@ -126,6 +126,8 @@ void UserListView::mousePressEvent ( QMouseEvent * event)
 {
     QModelIndex tmp = indexAt(event->pos());
 
+    QTreeView::mousePressEvent(event);
+
     if ((event->button() == Qt::LeftButton) && (tmp.isValid()))
     {
             Person* tmpperso = m_model->getPersonAt(tmp);
@@ -139,10 +141,6 @@ void UserListView::mousePressEvent ( QMouseEvent * event)
                 //drag->setPixmap(tmpperso->getAvatar());
 
                 Qt::DropAction dropAction = drag->exec();
-            }
-            else
-            {
-                QTreeView::mousePressEvent (event);
             }
         }
 }
