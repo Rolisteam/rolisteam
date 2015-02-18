@@ -105,12 +105,21 @@ bool ClientServeur::configAndConnect()
 
     PlayersList & g_playersList = PlayersList::instance();
 
+    // If the user abort configDialog, we quit
+    if (configDialog.exec() == QDialog::Rejected)
+        return false;
+    synchronizeInitialisation(configDialog);
+    m_localPlayer = new Player(
+            QUuid(G_idJoueurLocal),
+            configDialog.getName(),
+            configDialog.getColor(),
+            configDialog.isGM()
+        );
+
     bool cont = true;
     while (cont)
     {
-        // If the user abort configDialog, we quit
-        if (configDialog.exec() == QDialog::Rejected)
-            return false;
+
 
         // Server setup
         if (configDialog.isServer())
@@ -124,7 +133,7 @@ bool ClientServeur::configAndConnect()
             // Listen successed
             if (m_server->listen(QHostAddress::Any, configDialog.getPort()))
             {
-                synchronizeInitialisation(configDialog);
+                //synchronizeInitialisation(configDialog);
                 connect(this, SIGNAL(linkDeleted(Liaison *)), &g_playersList, SLOT(delPlayerWithLink(Liaison *)));
                 cont = false;
             }
@@ -135,6 +144,7 @@ bool ClientServeur::configAndConnect()
                 errorDialog.setInformativeText(m_server->errorString());
                 errorDialog.exec();
             }
+
         }
 
         // Client setup
@@ -144,20 +154,15 @@ bool ClientServeur::configAndConnect()
             m_address = configDialog.getHost();
             if(startConnection())
             {
-                synchronizeInitialisation(configDialog);
+
                 cont = false;
             }
         }
     }
 
-    Player * localPlayer = new Player(
-            QUuid(G_idJoueurLocal),
-            configDialog.getName(),
-            configDialog.getColor(),
-            configDialog.isGM()
-        );
-    g_playersList.setLocalPlayer(localPlayer);
 
+
+    g_playersList.setLocalPlayer(m_localPlayer);
     return true;
 }
 
@@ -171,17 +176,17 @@ bool ClientServeur::startConnection()
     // connect successed
     if (socket != NULL)
     {
-        G_client=true;
-
+        //G_client=true;
        m_liaisonToServer = new Liaison(socket);
-
+       PlayersList & g_playersList = PlayersList::instance();
        if( m_reconnect->isActive ())
        {
             m_reconnect->stop();
-            PlayersList & g_playersList = PlayersList::instance();
+            g_playersList.cleanList();
             g_playersList.sendOffLocalPlayerInformations();
-            g_playersList.sendOffFeatures(g_playersList.getLocalPlayer());
+            g_playersList.sendOffFeatures( g_playersList.getLocalPlayer());
        }
+
        return true;
 
     }

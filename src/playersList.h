@@ -80,6 +80,7 @@ class PlayersList : public QAbstractItemModel {
         Player * getPlayer(const QString & uuid) const;
         Character * getCharacter(const QString & uuid) const;
         Player* getLocalPlayer() const;
+        void cleanList();
 
         /**
          * @brief Same as getPlayer(uuid), if getPerson(uuid) is a Player.

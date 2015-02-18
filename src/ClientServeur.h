@@ -68,6 +68,7 @@ private :
     quint16 m_port;
     QString m_address;
     QTimer* m_reconnect;
+    Player * m_localPlayer;
 
 private slots :
     void nouveauClientConnecte();

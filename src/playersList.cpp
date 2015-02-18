@@ -380,9 +380,6 @@ void PlayersList::sendOffLocalPlayerInformations()
     NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
     m_localPlayer->fill(message);
     message.sendAll();
-
-
-    
 }
 void PlayersList::sendOffFeatures(Player* player)
 {
@@ -423,6 +420,14 @@ void PlayersList::setLocalPlayer(Player * player)
         i.next();
         i.message().sendAll();
     }*/
+}
+void PlayersList::cleanList()
+{
+    foreach(Player* tmp,m_playersList )
+    {
+        if(tmp != m_localPlayer)
+            delPlayer(tmp);
+    }
 }
 
 void PlayersList::addLocalCharacter(Character * newCharacter)
