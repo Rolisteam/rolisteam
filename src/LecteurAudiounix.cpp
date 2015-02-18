@@ -1,24 +1,23 @@
-/*
-Rolistik - logiciel collaboratif d'aide aux jeux de roles en ligne
-Copyright (C) 2007 - Romain Campioni  Tous droits rservs.
-
-Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le
-modifier suivant les termes de la GNU General Public License telle que
-publie par la Free Software Foundation : soit la version 2 de cette
-licence, soit ( votre gr) toute version ultrieure.
-
-Ce programme est distribué dans l'espoir qu'il vous sera utile, mais SANS
-AUCUNE GARANTIE : sans même la garantie implicite de COMMERCIALISABILIT
-ni dADQUATION  UN OBJECTIF PARTICULIER. Consultez la Licence Gnrale
-Publique GNU pour plus de dtails.
-
-Vous devriez avoir reu une copie de la Licence Gnrale Publique GNU avec
-ce programme ; si ce nest pas le cas, consultez :
-<http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
-
-Par ailleurs ce logiciel est gratuit et ne peut en aucun cas tre
-commercialis, conformment  la "FMOD Non-Commercial License".
-*/
+/***************************************************************************
+ *	Copyright (C) 2007 by Romain Campioni   			   *
+ *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *                                                                         *
+ *   rolisteam is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 
 
 #include <QtGui>
