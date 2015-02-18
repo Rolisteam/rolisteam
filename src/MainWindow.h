@@ -53,26 +53,17 @@ class PreferencesManager;
 class ImprovedWorkspace;
 class MapFrame;
 class Carte;
+class Connection;
+class QActionGroup;
+class PreferenceDialog;
+class ConnectionWizzard;
 class MainWindow : public QMainWindow
 {
 Q_OBJECT
 
 public :
         MainWindow();
-        /*void affichageDuPj(QString idPerso, bool afficher);
-        void majCouleursPersonnelles();
-        void ajouterCarte(MapFrame *carteFenetre, QString titre);
-        void ajouterImage(Image *imageFenetre, QString titre);
-        void emettreTousLesPlans(QString idJoueur);
-        void emettreToutesLesImages(QString idJoueur);
-        void mettreAJourEspaceTravail();
-        void mettreAJourSelecteurTaille(QString idCarte, int taillePj);
-        void emettreChangementTaillePj(int nouvelleTaille);
-        void ajouterTchat(QString idJoueur, QString nomJoueur);
-        void supprimerTchat(QString idJoueur);
-        void devientFenetreActive(QMdiSubWindow *widget);
-        void cocherActionTchatCommun();
-        void changementNatureUtilisateur();*/
+
 
         Image* trouverImage(QString idImage);
         Tchat* trouverTchat(QString idJoueur);
@@ -82,17 +73,33 @@ public :
 
 
 public slots :
-     //   void changerTaillePj(int nouvelleTaille);
-
-        void afficherTchat(QString id);
-        void masquerTchat(QString id);
-        void afficherEditeurNotes(bool afficher, bool cocherAction = false);
+        void displayTchat(QString id);
+        void hideTchat(QString id);
+        void displayMinutesEditor(bool display, bool checkAction = false);
 
 
 
 protected :
         void closeEvent(QCloseEvent *event);
 
+private slots:
+    /**
+     * @brief is called when user click on start server item menu.
+     */
+    void startServer();
+    /**
+     * @brief is called when user click on add connection item menu.
+     */
+    void addConnection();
+    /**
+     * @brief is called when user click on connection manager item menu.
+     */
+    void showConnectionManager();
+
+    /**
+     * @brief is called when user click on preference item menu.
+     */
+    void showPreferenceManager();
 
 private :
         bool maybeSave();
@@ -101,11 +108,6 @@ private :
         void associerActionsMenus();
         void autoriserOuInterdireActions();
         void saveAll();
-       /* void lireCarteEtPnj(QFile &file, bool masquer = false, QString nomFichier = "");
-        void lireImage(QFile &file);
-        void sauvegarderTousLesPlans(QFile &file);
-        void sauvegarderToutesLesImages(QFile &file);
-        void sauvegarderTousLesTchats();*/
 
 
 
@@ -140,7 +142,7 @@ private :
         QAction *actionSauvegarderPlan;
         QAction *actionSauvegarderScenario;
         QAction *actionSauvegarderNotes;
-        QAction *actionPreferences;
+        QAction *m_preferencesAct;
         QAction *actionQuitter;
 
         QAction *actionAfficherNomsPj;
@@ -158,11 +160,8 @@ private :
         QAction *actionHelp;
         QAction *actionAPropos;
 
-        QMenu *m_networkMenu;
-        /*QAction *actionHelp;
-        QAction *actionAPropos;*/
 
-       // ClientServeur* m_clientServer;
+
         /**
           * pointer to the unique instance of preference manager.
           */
@@ -178,10 +177,44 @@ private :
 
 
 
+        /**
+          * pointer to the network menu
+          */
+        QMenu* m_networkMenu;
+        /**
+          * action to start the server in the localhost
+          */
+        QAction* m_serverAct;
+        /**
+          * action to display new connection dialog
+          */
+        QAction* m_newConnectionAct;
+
+        /**
+          * action to display the connection manager
+          */
+        QAction* m_manageConnectionAct;
+
+        QActionGroup* m_connectionActGroup;
+        //QList<QAction*> m_registedConnectionList;
+
+        /**
+          * List of connections
+          */
+        QList<Connection*> m_connectionList;
+
+
+        /**
+          * preference wizzard.
+          */
+        PreferenceDialog* m_preferenceDialog;
+
+        /**
+          * preference wizzard.
+          */
+        ConnectionWizzard* m_connectDialog;
+
 private slots :
-       /* void afficherNomsPj(bool afficher);
-        void afficherNomsPnj(bool afficher);
-        void afficherNumerosPnj(bool afficher);*/
         void changementFenetreActive(QMdiSubWindow *widget);
 
         /**
@@ -196,14 +229,6 @@ private slots :
         */
         void openImage();
 
-       /* void ouvrirPlan(bool masquer = false);
-
-        void ouvrirEtMasquerPlan();
-        void ouvrirScenario();
-        void ouvrirNotes();
-        void fermerPlanOuImage();
-        void sauvegarderPlan();*/
-
         /**
         * \brief Show the about dialog
         *
@@ -213,8 +238,7 @@ private slots :
 
         /// \brief open the Qt assistant with the rolisteam documentation
         void aideEnLigne();
-        /*bool sauvegarderScenario();
-        bool sauvegarderNotes();*/
+
 
 
 

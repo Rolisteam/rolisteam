@@ -23,7 +23,7 @@
 #include <QtGui>
 
 
-#include "constantesGlobales.h"
+
 #include "types.h"
 #include <time.h>
 
@@ -42,6 +42,9 @@
 
 // Fenetre de log (utilise seulement dans ce fichier)
 static QTextEdit *Log;
+
+
+#define APPLICATION_NAME "rolisteam"
 
 
 /********************************************************************/
@@ -119,11 +122,11 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 		app.installTranslator(&qtTranslator);
 
 		// On charge le fichier de ressources qui contient ttes les images
-		QResource::registerResource(QString(APPLICATION_NAME) + ".rcc");
+        //QResource::registerResource(QString(APPLICATION_NAME) + ".rcc");
 
 
 
-         app.setWindowIcon(QIcon(":/resources/icones/" + QString(APPLICATION_NAME) + ".png"));
+         //app.setWindowIcon(QIcon(":/resources/icones/" + QString(APPLICATION_NAME) + ".png"));
 
 
   		// Initialisation de la librairie FMOD
@@ -131,7 +134,7 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
                         qWarning("Probleme d'initialisation de la librairie FMOD (main - main.cpp)");*/
 
 		// Par defaut la variable d'initialisation n'est pas utilisable
-		G_initialisation.initialisee = false;
+        //G_initialisation.initialisee = false;
 
 
 		// Creation du client/serveur : si la connexion reussie alors

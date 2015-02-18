@@ -1,5 +1,4 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			                   *
  *	Copyright (C) 2009 by Renaud Guezennec                                 *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
@@ -23,7 +22,7 @@
 #include <QtGui>
 
 #include "improvedworkspace.h"
-#include "constantesGlobales.h"
+
 #include "preferencesmanager.h"
 #include <QPixmap>
 
@@ -106,7 +105,6 @@ void ImprovedWorkspace::currentToolChanged(ToolsBar::SelectableTool tool)
 }
 void ImprovedWorkspace::currentColorChanged(QColor& color)
 {
-
     m_currentPenColor = color;
     emit currentColorHasChanged(m_currentPenColor);
 }

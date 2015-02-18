@@ -12,13 +12,16 @@ TARGET = ../bin/rolisteam
 include(preferences/preferences.pri)
 include(map/map.pri)
 include(drawitem/drawitem.pri)
+include(data/data.pri)
 DEPENDPATH += . \
     drawitem \
     preferences \
+    data \
     map
 INCLUDEPATH += . \
     drawitem \
     preferences \
+    data \
     map
 HEADERS += displaydisk.h \
     ToolBar.h \ # ClientServeur.h \
@@ -35,9 +38,11 @@ HEADERS += displaydisk.h \
     typesApplication.h \ # variablesGlobales.h \
     improvedworkspace.h \
     submdiwindows.h \
+    connectionwizzard.h \
     userlistdockwidget.h
 FORMS += LecteurAudio.ui \
-    userlistdockwidget.ui
+    userlistdockwidget.ui \
+    connectionwizzard.ui
 SOURCES += displaydisk.cpp \
     ToolBar.cpp \ # ClientServeur.cpp \
     DessinPerso.cpp \
@@ -49,6 +54,7 @@ SOURCES += displaydisk.cpp \
     SelecteurDiametre.cpp \
     Tchat.cpp \
     TextEditAmeliore.cpp \
+    connectionwizzard.cpp \
     improvedworkspace.cpp \
     submdiwindows.cpp \
     userlistdockwidget.cpp

@@ -25,7 +25,7 @@
 #include "ToolBar.h"
 #include "colorselector.h"
 #include "SelecteurDiametre.h"
-#include "constantesGlobales.h"
+
 	
 	
 
@@ -211,8 +211,8 @@ void ToolsBar::creerActions()
 			boutonRazChrono  ->setStyle(styleBouton);
         #endif*/
 		
-		// Changement de la taille des icones
-		QSize tailleIcones(TAILLE_ICONES,TAILLE_ICONES);
+        /// @TODO used preferencemanager to get icon Size.
+        QSize tailleIcones(20,20);
 		boutonCrayon     ->setIconSize(tailleIcones);
 		boutonLigne      ->setIconSize(tailleIcones);
 		boutonRectVide   ->setIconSize(tailleIcones);
@@ -266,7 +266,8 @@ void ToolsBar::creerActions()
 		// Creation de l'afficheur du numero de PNJ
 		afficheNumeroPnj = new QLCDNumber(2, outils);
 		afficheNumeroPnj->setSegmentStyle(QLCDNumber::Flat);
-		afficheNumeroPnj->setMaximumSize(TAILLE_ICONES + 7, TAILLE_ICONES);
+        /// @todo used preferencemanager
+        afficheNumeroPnj->setMaximumSize(20 + 7, 20);
 		afficheNumeroPnj->display(1);
                 afficheNumeroPnj->setToolTip(tr("NPC's number"));
 		// Initialisation de la variable globale indiquant le numero de PNJ courant
@@ -362,8 +363,9 @@ void ToolsBar::creerActions()
 		// Alignement du widget outils sur le haut du dockWidget
 		layout()->setAlignment(outils, Qt::AlignTop | Qt::AlignHCenter);
 		// Contraintes de taille sur la barre d'outils
-		outils->setFixedWidth((TAILLE_ICONES+8)*layoutDessin->columnCount());
-		setMaximumWidth((TAILLE_ICONES+8)*layoutDessin->columnCount()+10);
+        /// @todo used preferencemanager
+        outils->setFixedWidth((20+8)*layoutDessin->columnCount());
+        setMaximumWidth((20+8)*layoutDessin->columnCount()+10);
 	}
 
 
