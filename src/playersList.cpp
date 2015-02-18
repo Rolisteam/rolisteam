@@ -476,10 +476,9 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
 
 void PlayersList::delLocalCharacter(int index)
 {
-    if (index < 0 || index >= m_playersList.size())
-        return;
-
     Player * parent = localPlayer();
+    if (index < 0 || index >= parent->getCharactersCount())
+        return;
 
     NetworkMessageWriter message (NetMsg::CharacterCategory, NetMsg::DelCharacterAction);
     message.string8(parent->getCharacterByIndex(index)->uuid());

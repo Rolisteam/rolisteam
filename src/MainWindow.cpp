@@ -211,9 +211,9 @@ MainWindow::MainWindow()
         G_pointeurSupprimer = new QCursor(QPixmap(":/resources/icones/pointeur supprimer.png"), 6, 0);
         G_pointeurEtat      = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
 
+        PlayersList & g_playersList = PlayersList::instance();
         if (G_client)
         {
-            PlayersList & g_playersList = PlayersList::instance();
             // We want to know if the server refuses local player to be GM
             connect(&g_playersList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
             // We send a message to del local player when we quit
@@ -225,6 +225,8 @@ MainWindow::MainWindow()
             connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
             connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
         }
+        connect(&g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
+        connect(&g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
 }
 
 /********************************************************************/
@@ -2014,4 +2016,14 @@ void MainWindow::writeSettings()
     settings.setValue("windowState", saveState());
 
 
+}
+
+void MainWindow::notifyAboutAddedPlayer(Player * player) const
+{
+    ecrireLogUtilisateur(tr("%1 vient de rejoindre la partie.").arg(player->name()));
+}
+
+void MainWindow::notifyAboutDeletedPlayer(Player * player) const
+{
+    ecrireLogUtilisateur(tr("%1 vient de quitter la partie.").arg(player->name()));
 }

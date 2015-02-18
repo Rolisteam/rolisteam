@@ -48,6 +48,7 @@ class Liaison;
 class ListeUtilisateurs;
 class NouveauPlanVide;
 class PreferencesDialog;
+class Player;
 class PlayersListWidget;
 class WorkspaceAmeliore;
 
@@ -196,6 +197,9 @@ private slots :
     void aideEnLigne();
     bool sauvegarderScenario();
     bool sauvegarderNotes();
+
+    void notifyAboutAddedPlayer(Player * player) const;
+    void notifyAboutDeletedPlayer(Player * player) const;
 };
 
 #endif
