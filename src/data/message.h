@@ -21,6 +21,7 @@
 #define MESSAGE_H
 
 #include <QByteArray>
+#include  "networkmisc.h"
 /**
   * @brief storage class to store rolisteam protocole messages
   * @brief should implement some features to get important/compulsory fields
@@ -33,14 +34,18 @@ public:
     Message();
     QByteArray* getDataArray();
     quint32 getSize();
-    quint32 getType();
-    void setType(int type);
+    Network::Category getType();
+    void setCategory(Network::Category cat);
 
     void write(QTcpSocket* );
 
+    void setSender(QTcpSocket*);
+    QTcpSocket* getSender();
 private:
-    int m_type;
+    Network::Category m_type;
     QByteArray m_internalData;
+
+    QTcpSocket* m_sender;
 };
 
 #endif // MESSAGE_H

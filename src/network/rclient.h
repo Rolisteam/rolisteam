@@ -27,6 +27,9 @@
 #include <QMutex>
 #include "message.h"
 #include "connection.h"
+
+#include  "networkmisc.h"
+
 class ReadingThread;
 class WritingThread;
 /**
@@ -57,6 +60,8 @@ public:
 
     //int getId(void*);
     void addMessageToSendQueue(Message* m);
+
+public slots:
     /**
       * @brief calls when the connection is well established.
       */

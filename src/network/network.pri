@@ -6,7 +6,9 @@ HEADERS += \
     network/readingthread.h \
     network/writingthread.h \
     network/rclient.h \
-    network/updatechecker.h
+    network/updatechecker.h \
+    network/networkmisc.h \
+    network/sendertoclient.h
 
 SOURCES += \
     network/servermanager.cpp \
@@ -15,7 +17,8 @@ SOURCES += \
     network/readingthread.cpp \
     network/writingthread.cpp \
     network/rclient.cpp \
-    network/updatechecker.cpp
+    network/updatechecker.cpp \
+    network/sendertoclient.cpp
 
 FORMS += \
     network/serverdialog.ui

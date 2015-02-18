@@ -227,7 +227,7 @@ void Tchat::onEntry()
     QDataStream msg(tmpArray,QIODevice::WriteOnly);
     /// @todo: add chat ID, sender and few other stuff
 
-    mtmp->setType(1);
+  //  mtmp->setCategory(1);
     msg << objectName() << text;
 
     m_client->addMessageToSendQueue(mtmp);

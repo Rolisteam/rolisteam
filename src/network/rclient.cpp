@@ -31,7 +31,7 @@ RClient::RClient(QObject *parent)
     m_messageList = new QList<Message*>();
     m_currentState =DISCONNECTED;
     connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(errorOccurs()));
-    //connect(m_client,SIGNAL(connected()),this,SLOT(isConnected()));
+    connect(m_client,SIGNAL(connected()),this,SLOT(isConnected()));
     connect(m_client,SIGNAL(readyRead()),m_reading,SLOT(readDataFromSocket()));
     connect(this,SIGNAL(messageInQueue()),this,SLOT(sendMessage()));
 }
@@ -78,6 +78,8 @@ void RClient::sendMessage()
 
         qDebug() <<  m->getDataArray()->size();
         m->write(m_client);
+
+        delete m;
         /*m_client->write(t.getType());
         m_client->write(t.getSize());
         m_client->write(t.getDataArray());*/

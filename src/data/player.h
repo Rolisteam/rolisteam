@@ -4,6 +4,7 @@
 #include <QMetaType>
 #include "person.h"
 #include "character.h"
+
 /**
   * @brief represents a player, herits from person, stores any fields
   */

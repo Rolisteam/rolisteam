@@ -74,7 +74,7 @@ MainWindow::MainWindow()
     m_preferenceDialog = new PreferenceDialog(this);
 
     m_rclient= new RClient();
-
+    connect(m_rclient,SIGNAL(stateChanged(RClient::State)),this,SLOT(tcpStateConnectionChanged(RClient::State)));
     ////////////
     // DockWidget Init
     ////////////
@@ -504,8 +504,8 @@ void MainWindow::startServer()
         m_currentConnection.setAddress("localhost");
         m_currentConnection.setName("localhost");
         m_currentConnection.setPort(tmpdialog.getPort());//m_connectionMap->value(p);
-        m_rclient = new RClient(this);
-        connect(m_rclient,SIGNAL(stateChanged(RClient::State)),this,SLOT(tcpStateConnectionChanged(RClient::State)));
+        //m_rclient = new RClient(this);
+
         m_rclient->startConnection(m_currentConnection);
     }
 
@@ -641,7 +641,20 @@ void MainWindow::tcpStateConnectionChanged(RClient::State s)
             m_connectionActGroup->setEnabled(true);
         break;
         case RClient::CONNECTED:
+        {
             m_connectionActGroup->setEnabled(false);
+            Message* mtmp = new Message;
+            QByteArray* tmpArray = mtmp->getDataArray();
+
+            QDataStream msg(tmpArray,QIODevice::WriteOnly);
+            msg.setVersion(QDataStream::Qt_4_4);
+            /// @todo: Clean up this thing
+
+            mtmp->setCategory(Network::UsersCategory);
+            msg <<  (quint32)0 << (quint32)0 << *m_player;
+
+            m_rclient->addMessageToSendQueue(mtmp);
+        }
         break;
         case RClient::ERROR:
             m_connectionActGroup->setEnabled(true);

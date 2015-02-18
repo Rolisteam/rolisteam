@@ -20,12 +20,22 @@
 
 #include "server.h"
 #include <QTcpSocket>
-
+#include "message.h"
+#include "player.h"
+#include "sendertoclient.h"
 Server::Server(int port,QObject *parent) :
     QTcpServer(parent),m_port(port)
 {
     m_list = new QList<QTcpSocket*>;
+    m_messageQueue =new QList<Message*>;
+    m_clientSender = new SenderToClient(m_messageQueue,m_list,this);
+
+
+
+    m_clientSender->start();
+
     connect(this,SIGNAL(newConnection()),this,SLOT(incommingTcpConnection()));
+    connect(this,SIGNAL(messageToAnalyse()),m_clientSender,SLOT(messageToSend()));
 }
 void Server::startConnection()
 {
@@ -50,40 +60,48 @@ void Server::readDataFromClient()
     /// @todo: base line of server, forward messages to all other clients.
 
     QByteArray type =tmp->readAll();
+    qDebug() <<  type.size() << "size readAll";
     QDataStream stream(type);
+    stream.setVersion(QDataStream::Qt_4_4);
 
-    quint32 typeStr;
-    stream >> typeStr;
-    //stream >> name;
 
-    qDebug() << "Type ="<<typeStr;
-
-    switch(typeStr)
+    while(!stream.atEnd())
     {
-        case 1:
-            qDebug() << "Type of tchat";
-            break;
-        default:
-            qDebug() << "Type ="<<typeStr << (int)type[0] << type.size();
-            break;
+        quint32 cat;
+        stream >> cat;
+        //stream >> name;
+        Message* msg = new Message;
+        quint32 size;
+        stream >> size;
+        msg->setCategory((Network::Category)cat);
+        switch(msg->getType())
+        {
+            case  Network::ChatCategory:
+                qDebug() << "Type of tchat";
+                break;
+            case  Network::UsersCategory:
+                {
+                    qDebug() << "Type of User" << size;
+                    Player* player = new Player();
+                    stream >> *player;
+                    qDebug() << player->getColor() << player->getName();
+
+                    QByteArray* tmpArray = msg->getDataArray();
+
+                    QDataStream msgs(tmpArray,QIODevice::WriteOnly);
+                    msgs.setVersion(QDataStream::Qt_4_4);
+                    /// @todo: Clean up this thing
+
+                    msg->setCategory(Network::UsersCategory);
+                    msgs <<  (quint32)0 << (quint32)0 << *player;
+                }
+                break;
+            default:
+                //qDebug() << "Type ="<< (int)type[0] << type.size();
+                break;
+        }
+        msg->setSender(tmp);
+        m_messageQueue->append(msg);
+        emit messageToAnalyse();
     }
-
-
-
-
-    quint32 sizeint;
-    stream>> sizeint;
-    qDebug()  <<" size" << sizeint;
-
-
-
-    QString dataStr;
-    stream >> dataStr;
-
-    foreach(QTcpSocket* tmpclient, *m_list)
-    {
-       // quint64 size=tmpclient->write(data);
-        //qDebug() << "taille envoyé" <<size << m_list->size()<< type<<name ;
-    }
-
 }

@@ -1,8 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Renaud Guezennec                                *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *     Copyright (C) 2009 by Renaud Guezennec                              *
+ *   http://www.rolisteam.org                                              *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify     *
+ *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -18,59 +18,28 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef SERVER_H
-#define SERVER_H
+#ifndef SENDERTOCLIENT_H
+#define SENDERTOCLIENT_H
 
-#include <QTcpServer>
-#include  "networkmisc.h"
-
-class SenderToClient;
+#include <QThread>
 class Message;
-/**
-  * @brief rolisteam server, core of the network feature.
-  */
-class Server : public QTcpServer
+class QTcpSocket;
+
+class SenderToClient : public QThread
 {
     Q_OBJECT
-
 public:
-    /**
-      * @brief constructor
-      */
-    explicit Server(int port=6660,QObject *parent = 0);
-    /**
-      * @brief start to listen the port. Waiting client connection
-      */
-    void startConnection();
+    explicit SenderToClient(QList<Message*>* listm,  QList<QTcpSocket*>* listsoc ,QObject *parent = 0);
+    void run();
+signals:
 
 
 public slots:
-    void readDataFromClient();
-
-
-signals:
-    /**
-      * @brief is called when something wrong.
-      */
-    void error(QString);
-
-    void messageToAnalyse();
-
-
-private slots:
-    void incommingTcpConnection();
+    void messageToSend();
 
 private:
-    /**
-      * @brief network port which be lockup by the server.
-      */
-    int m_port;
-
-    QList<QTcpSocket*>* m_list;
     QList<Message*>* m_messageQueue;
-
-    SenderToClient* m_clientSender;
-
+    QList<QTcpSocket*>* m_clientsList;
 };
 
-#endif // SERVER_H
+#endif // SENDERTOCLIENT_H

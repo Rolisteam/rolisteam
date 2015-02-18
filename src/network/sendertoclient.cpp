@@ -1,8 +1,8 @@
 /***************************************************************************
- *     Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *     Copyright (C) 2009 by Renaud Guezennec                              *
+ *   http://www.rolisteam.org                                              *
  *                                                                         *
- *   This program is free software; you can redistribute it and/or modify     *
+ *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -17,56 +17,35 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "message.h"
+
+#include "sendertoclient.h"
 #include <QTcpSocket>
+#include "message.h"
 
-#include <QDebug>
-Message::Message()
+SenderToClient::SenderToClient(QList<Message*>* list,QList<QTcpSocket*>* listsoc ,QObject *parent) :
+    m_messageQueue(list),m_clientsList(listsoc),QThread(parent)
 {
-    //m_internalData << (quint32)0 << (quint32)0;
-}
-quint32  Message::getSize()
-{
-    return m_internalData.size();
+    QObject::moveToThread(this);
 }
 
-Network::Category Message::getType()
+void SenderToClient::run()
 {
-    return m_type;
+    exec();
 }
-
-void Message::setCategory(Network::Category type)
+void SenderToClient::messageToSend()
 {
-    m_type = type;
-}
-
-void Message::write(QTcpSocket* tmp)
-{
-
-
-   /* QByteArray msg;*/
-   QDataStream cout(&m_internalData,QIODevice::WriteOnly);
-   cout.setVersion(QDataStream::Qt_4_4);
-   cout.device()->seek(0);
-   cout << (quint32)m_type<<((quint32)m_internalData.size() - sizeof(quint32) - sizeof(quint32));
-    //quint32 size= m_internalData.size();
-    //cou << (quint32)m_type<<(quint32)size << m_internalData;
-    //qDebug() <<(quint32)m_type<<(quint32)size;*/
+    foreach(Message* tmpMsg, *m_messageQueue)
+    {
+        foreach(QTcpSocket* soc,*m_clientsList)
+        {
+            /// @todo add permission management
+            if(tmpMsg->getSender()!=soc)
+            {
+                tmpMsg->write(soc);
+            }
+        }
+    }
 
 
-    qDebug() << tmp->write(m_internalData);
-}
 
-QByteArray* Message::getDataArray()
-{
-    return &m_internalData;
-}
-void Message::setSender(QTcpSocket* sender)
-{
-    m_sender = sender;
-}
-
-QTcpSocket* Message::getSender()
-{
-    return m_sender;
 }
