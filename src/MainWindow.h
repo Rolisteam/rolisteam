@@ -20,12 +20,6 @@
  ***************************************************************************/
 
 
-/********************************************************************/
-/*                                                                  */
-/* Fenetre principale, contenant la palette d'outils, les tableaux  */
-/* de joueurs et de PJ, les cartes et les fenetres de dialogue.     */
-/*                                                                  */
-/********************************************************************/
 
 
 #ifndef MAIN_WINDOW_H
@@ -61,15 +55,32 @@ class PreferenceDialog;
 class ConnectionWizzard;
 class CharacterSheetWindow;
 class Player;
+/**
+  * @brief is the main GUI of rolisteam, bring together all piece of software components, read the settings, set the graphical interface.
+  */
 class MainWindow : public QMainWindow
 {
 Q_OBJECT
 
 public :
+        /**
+          * @brief default constructor
+          */
         MainWindow();
+        /**
+          * @brief destructor
+          */
         ~MainWindow();
+        /**
+          * @brief allows to know if the given widget is the active Window
+          * @param widget (subwindows)
+          * @return true when given widget is the active one, otherwise false.
+          */
         bool isActiveWindow(QWidget *widget);
 public slots :     
+        /**
+          * @brief
+          */
         void displayMinutesEditor();
         void addCharacterSheet();
 

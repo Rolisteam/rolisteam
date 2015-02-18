@@ -44,34 +44,80 @@ class QListView;
 class TchatListModel;
 class DicePlugInManager;
 class QComboBox;
+/**
+  * @brief Chat window is the widget used for talking with other players in the game
+  */
 class Tchat : public SubMdiWindows
 {
 Q_OBJECT
 
 public :
-    Tchat(QWidget *parent);
+    /**
+      * @brief default constructor
+      */
+    Tchat(QWidget *parent = NULL);
+    /**
+      * @brief destructor
+      */
     ~Tchat();
 
+    /**
+      * @brief called when message must be shown.
+      */
     void showMessage(QString user, QColor color, QString msg);
+    /**
+      * @brief called when result from dice roll must be shown.
+      */
     void showDiceRoll(QString user, QColor color, QString msg);
-    void updateActions();
+
+    /**
+      * @brief must save conversation into the given file.
+      * @param file's uri
+      */
     virtual void saveFile(QString& file);
+    /**
+      * @brief read conversation from the given file
+      * @param file's uri
+      */
     virtual void openFile(QString& file);
+    /**
+     * @brief define menu for this window.
+     */
     bool defineMenu(QMenu* /*menu*/);
 
+    /**
+      * @brief define all people involve in this conversation.
+      * @param tmp : new client list
+      */
     void setClients(QList<Person*>* tmp);
 
 public slots:
+    /**
+      * @brief add person to the client list
+      * @param person : pointer to the person
+      */
     void addPerson(Person* );
+    /**
+      * @brief remove person from the client list
+      * @param person : pointer to the person
+      */
     void removePerson(Person*);
 
 
 protected :
+        /**
+          * @brief catches the close event to hide the windows instead of close it.
+          */
     void closeEvent(QCloseEvent *event);
+    /**
+      *  @brief catches show event to change the focus to the typing zone.
+      */
     void showEvent(QShowEvent *event);
 
 private :
-
+    /**
+      * @brief creates the graphical interface
+      */
     void setupUi();
 
     QTextEdit* m_meetingRoom;
@@ -88,8 +134,17 @@ private :
 
 
 private slots :
+    /**
+      * @brief called when user needs to go backward in his historic
+      */
     void getUpHistoric();
+    /**
+      * @brief called when user needs to go forward in his historic
+      */
     void getDownHistoric();
+    /**
+      * @brief called when user presses entry key, call the dice rolling system and send off the message to other clients.
+      */
     void onEntry();
 
 };

@@ -1,5 +1,5 @@
 /***************************************************************************
-  *      Copyright (C) 2010 by Renaud Guezennec                             *
+ *      Copyright (C) 2010 by Renaud Guezennec                             *
  *                                                                         *
  *                                                                         *
  *   rolisteam is free software; you can redistribute it and/or modify     *
@@ -26,19 +26,37 @@
 
 
 class QLineEdit;
+/**
+  * @brief displays and manages text on map, part of QGraphicsScene/view.
+  * @todo add features for amend font size, text orientation,
+  */
 class TextItem : public QObject ,public VisualItem
 {
     Q_OBJECT
 public:
+    /**
+      * @brief Constructor with parameters
+      * @param start, starting point, it represents the bottom right rectangle corner where the text willbe displayed
+      */
     TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsItem * parent = 0);
+    /**
+      * @brief paint the item into the scene.
+      */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
-
+    /**
+      * @brief accessor to the bounding rect, helpful for focus and collision detection
+      */
     virtual QRectF boundingRect() const ;
-
+    /**
+      * @brief amends the position of the end point, not really useful for this kind of graphical item.
+      */
     virtual void setNewEnd(QPointF& nend);
 
 
 public slots:
+    /**
+      * @brief called when edition is done, remove the editor and call update to draw the text as usual.
+      */
     void editingFinished();
 
 private:

@@ -29,13 +29,14 @@
 *
 * @author Renaud Guezennec
 *
-*
 * Rolisteam help you to manage role playing games with your friend all over the world.
 * Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to
 * perform Role playing games with remote friends.
 * It is based on Client/server architecture and it is written in C++ with Qt.
+* 
 *
-*
+* <h2>How to stay in touch ? </h2>
+* Please take a look to <a href="http://www.rolisteam.org/">Rolisteam Web Site</a>
 *
 *
 *
@@ -44,8 +45,6 @@
 int main(int argc, char *argv[])
 {
     qsrand(QDateTime::currentDateTime ().toTime_t ());
-
-
     QApplication app(argc, argv);
     QCoreApplication::setApplicationName(QCoreApplication::tr("rolisteam"));
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
@@ -61,7 +60,5 @@ int main(int argc, char *argv[])
 
     MainWindow* mw =new MainWindow();
     mw->show();
-
-    // Lancement de la boucle d'application
     return app.exec();
 }

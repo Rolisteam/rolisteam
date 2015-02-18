@@ -39,6 +39,9 @@
 
 class QPixmap;
 class PreferencesManager;
+/**
+  * @brief central widget of the MainWindow, it is a QMdiArea which displays many kind of subwindows.
+  */
 class ImprovedWorkspace : public QMdiArea
 {
     Q_OBJECT

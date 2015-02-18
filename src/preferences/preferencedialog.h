@@ -37,7 +37,6 @@ class PreferenceDialog : public QDialog {
 public:
     /**
       * @brief default constructor.
-      *
       * @return parent QWidget
       */
     PreferenceDialog(QWidget *parent = 0);
@@ -47,11 +46,19 @@ public:
     ~PreferenceDialog();
 
 signals:
+    /**
+      * @brief emited when preferences have been changed
+      */
     void preferencesChanged();
 
 protected slots:
+    /**
+      * @brief is called when user wants to change the backgound color.
+      */
     void changeBackgroundImage();
-
+    /**
+      * @brief Save all data into QSettings.
+      */
     void applyAllChanges(QAbstractButton * button);
 protected:
     /**

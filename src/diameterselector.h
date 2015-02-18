@@ -1,6 +1,6 @@
 /***************************************************************************
  *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2010 by Renaud Guezennec                             *
+ *	Copyright (C) 2009 by Renaud Guezennec                             *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
  *   rolisteam is free software; you can redistribute it and/or modify  *
@@ -19,26 +19,55 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef TEXTEDIT_AMELIORE_H
-#define TEXTEDIT_AMELIORE_H
 
-#include <QTextEdit>
-#include <QKeyEvent>
+/********************************************************************/
+/*                                                                  */
+/* Dessine un disque dont le diametre varie grace a un QSlider.     */
+/*                                                                  */
+/********************************************************************/
+
+
+#ifndef SELECTEUR_DIAMETRE_H
+#define SELECTEUR_DIAMETRE_H
+
+#include <QWidget>
+#include <QSlider>
+
+#include "displaydisk.h"
 
 /**
-  * @brief clever QTextEdit which deals with user inputs and trigger some action in response of some sort of input
-  */
-class TchatEditor : public QTextEdit
+* @brief widget to select diameter used into the toolbar
+*/
+class DiameterSelector : public QWidget
 {
-Q_OBJECT
+    Q_OBJECT
 public :
-    TchatEditor(QWidget *parent = 0);
-signals :
-        void onEntry();
-        void onArrowUp();
-        void onArrowDown();
-protected :
-        void keyPressEvent(QKeyEvent *e);
+    /**
+    * @brief constuctor with arguments
+    * @param parent widget
+    * @param full or not
+    * @param minimum value
+    * @param maximum value
+    * @todo Make real default constructor of DiameterSelector
+    */
+    DiameterSelector(QWidget *parent = 0, bool plein = true, int minimum = 1, int maximum = 50);
+    /**
+    * @brief sets the new diameter
+    * @param new diameter value
+    */
+    void changerDiametre(int nouvelleValeur);
+
+signals:
+    /**
+    * @brief is emited when the value has been changed
+    */
+    void diameterChanged(int);
+
+private :
+    int minimum;
+    int maximum;
+    DisplayDisk *disk;
+    QSlider *m_diameterSlider;
 };
 
 #endif

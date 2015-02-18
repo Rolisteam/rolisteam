@@ -36,22 +36,53 @@
 #include "map.h"
 #include "MainWindow.h"
 
+/**
+  * @brief displays, stores and manages a map and its items
+  *
+  */
 class MapFrame : public SubMdiWindows
 {
     Q_OBJECT
 
 
 public :
+     /**
+       * @brief constructor
+       * @todo default constructor missing
+       */
     MapFrame(Map *map);
+    /**
+      * @brief destructor
+      */
     ~MapFrame();
+    /**
+      * @brief accessor to get the map.
+      */
     Map *map();
+    /**
+      * @brief accessor for the map Id
+      */
     QString IdMap();
 
+    /**
+     * @brief get the current editing mode.
+     */
     int editingMode();
+
+    /**
+      * @brief fills up the current window menu
+      */
     bool defineMenu(QMenu* /*menu*/);
 
+    /**
+      * @brief writes the map into the given file
+      * @param uri of the file
+      */
     void saveFile(QString & file);
-
+    /**
+      * @brief reads the map into the given file
+      * @param uri of the file
+      */
     void openFile(QString& file);
 
 public slots :
@@ -100,13 +131,20 @@ public slots :
 
 protected :
         /**
-         *  @brief catch the closeEvent to hide itself (not delete)
+         *  @brief catches the closeEvent to hide itself (not delete)
          *  @param event discribe the context of the event
          */
     void closeEvent(QCloseEvent *event);
-
+    /**
+     *  @brief called when painting the widget is required
+     *  @param event discribe the context of the event
+     */
     virtual void paintEvent(QPaintEvent* event);
 
+    /**
+     *  @brief catches the mousePressEvent to active the selection and edition
+     *  @param event discribe the context of the event
+     */
     virtual void mousePressEvent(QMouseEvent* event);
 
 

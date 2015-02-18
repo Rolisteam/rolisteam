@@ -30,7 +30,7 @@
 #include <QResizeEvent>
 
 #include "colorselector.h"
-#include "SelecteurDiametre.h"
+#include "diameterselector.h"
 
 
 class ToolsBar : public QDockWidget

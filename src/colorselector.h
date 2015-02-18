@@ -39,23 +39,44 @@
 //#include "types.h"
 
 class PreferencesManager;
+/**
+  * @brief shows selected color and detect any event such as click or doubleclick
+  */
 class ColorLabel : public QAbstractButton
 {
     Q_OBJECT
 public:
+    /**
+      * @brief default constructor
+      */
    ColorLabel(QWidget * parent = 0);
 signals:
+   /**
+     * @brief send off the current color
+     */
     void clickedColor(const QColor& p);
+    /**
+      * @brief is emitted when users doubleclick on it.
+      */
     void doubledclicked();
 
 protected:
+    /**
+      * @brief redefine the drawing of the widget to show a colof filled square
+      */
     void paintEvent( QPaintEvent * event );
+    /**
+      * @brief redefine the mousePressEvent behaviour to emit clickedColor signal
+      */
     virtual void mousePressEvent(QMouseEvent *ev);
+    /**
+      * @brief redefine mouseDoubleClickEvent to emit the doubledclicked signal
+      */
     virtual void mouseDoubleClickEvent (QMouseEvent *event);
-
-
 };
-
+/**
+  * @brief
+  */
 class ColorButton : public QPushButton
 {
     Q_OBJECT

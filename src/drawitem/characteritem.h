@@ -20,6 +20,9 @@
 #ifndef CHARACTERITEM_H
 #define CHARACTERITEM_H
 #include "visualitem.h"
+/**
+  * @brief represents any character on map.
+  */
 class CharacterItem : public VisualItem
 {
 public:
