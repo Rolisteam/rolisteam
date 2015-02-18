@@ -253,9 +253,9 @@ void NouveauPlanVide::ouvrirSelecteurCouleur()
         couleurFond->setPalette(QPalette(couleur));
 
     // On recopie les couleurs personnelles
-#ifdef WIN32
-    G_mainWindow->majCouleursPersonnelles();
-#endif
+//#ifdef WIN32
+//    G_mainWindow->majCouleursPersonnelles();
+//#endif
 }
 
 /********************************************************************/	

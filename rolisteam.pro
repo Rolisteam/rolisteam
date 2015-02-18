@@ -26,8 +26,11 @@ TRANSLATIONS = traduction/rolisteam_fr.ts
 CODECFORTR = UTF-8
 
 isEmpty(QMAKE_LRELEASE) {
-    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]\lrelease.exe
+    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease.exe
     else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
+	
+
+	
 }
 #isEmpty(QMAKE_LUPDATE) {
 #    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]\lupdate.exe
@@ -162,12 +165,12 @@ QT += core \
  gui \
  network
 
+# Flags
+ 	win32:QMAKE_CXXFLAGS = "/Wall /GS /Ob2t"
+	else:QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
+ 
 # Version
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=3
-
-
-# Flags of compilation
-QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
 
 FORMS += \
     src/connectionretrydialog.ui

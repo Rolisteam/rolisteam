@@ -15,7 +15,7 @@ CONFIG   +=  qt warn_off
 ##########LIBS   += -lz
 win32:LIBS	+= -luser32
 
-win32:RC_FILE = win.rc
+win32:RC_FILE = src/odt/src/win.rc
 
 ### compiler default
 LIB_EXTENSION = a  
