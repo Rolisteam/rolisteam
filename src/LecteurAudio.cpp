@@ -408,16 +408,23 @@ void LecteurAudio::addFiles()
 }
 void LecteurAudio::removeFile()
 {
-       qDebug() << "removeFile";
+
         QList<QListWidgetItem *> titreSelectionne = listeTitres->selectedItems();
         if (titreSelectionne.isEmpty())
                 return;
 
-        listeTitres->removeItemWidget(titreSelectionne[0]);
-        listeChemins.removeAt(listeTitres->row(titreSelectionne[0]));
-        if (titreSelectionne[0]->text() == m_currentFile)
+        foreach(QListWidgetItem * tmp, titreSelectionne)
         {
-                /*if (titreCourant < listeChemins.size())
+            listeChemins.removeAt(listeTitres->row(tmp));
+            delete tmp;
+        }
+
+
+
+
+       // if (titreSelectionne[0]->text() == m_currentFile)
+        //{
+               /* if (titreCourant < listeChemins.size())
                 {
                         emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
                         //nouveauTitre(listeTitres->item(titreCourant)->text(), listeChemins[titreCourant]);
@@ -442,7 +449,7 @@ void LecteurAudio::removeFile()
                         actionSupprimer->setEnabled(false);
                         positionTemps->setEnabled(false);
                 }*/
-        }
+        //}
        // else if (ligne < titreCourant)
        //         titreCourant--;
 }
