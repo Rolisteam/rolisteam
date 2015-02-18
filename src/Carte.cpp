@@ -154,6 +154,13 @@ void Carte::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing);
 
 
+    // La ruse consiste a passer par une image ARGB32 pour avoir une couche alpha
+    // independante des couleurs, puis a lui rajouter la couche alpha
+    
+
+    painter.drawImage(event->rect(), *fondAlpha, event->rect());
+
+
     //painter.drawImage(event->rect(), *fondAlpha, event->rect());
     qDebug()<<"zoneNouvelle" << m_refreshZone;
     painter.drawImage(rect(), *fondAlpha, fondAlpha->rect());
@@ -170,8 +177,8 @@ void Carte::paintEvent(QPaintEvent *event)
 
     dessiner(painter);
 
-    painter.setBrush(Qt::black);
-    painter.fillRect(m_refreshZone,Qt::black);
+    /*painter.setBrush(Qt::black);
+    painter.fillRect(m_refreshZone,Qt::black);*/
 }
 QPoint Carte::mapToScale(const QPoint & p)
 {
@@ -824,7 +831,7 @@ QRect Carte::zoneARafraichir()
 
 bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, const QRect &rect)
 {
-    // On verifie que la source, la destination et la couche alpha ont le meme nombre de pixels
+
     if (source->size() != destination->size() || source->size() != alpha->size())
     {
         qWarning() << (tr("Source, destination and alpha layer have not the same size  (ajouterAlpha - Carte.cpp)"));
@@ -834,7 +841,14 @@ bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, con
     // Initialisation de la zone a mettre a jour
     QRect zone = rect;
     if (rect.isNull())
+    {
         zone = QRect(0, 0, source->width(), source->height());
+    }
+    if((zone.height() > source->height())||(zone.width() > source->width()))
+    {
+        zone.setWidth(source->width());
+        zone.setHeight(source->height());
+    }
 
     // Calcule de la position de fin
     int finX = zone.left() + zone.width();
@@ -848,8 +862,12 @@ bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, con
     int x, y;
     // Destination = Source + couche alpha (pas propre, mais rapide)
     for (y=zone.top()*source->width(); y<finY; y+=source->width())
+    {
         for (x=zone.left(); x<finX; x++)
+        {
             pixelDestination[x+y] = (pixelSource[x+y] & 0x00FFFFFF) | ((pixelAlpha[x+y] & 0x00FF0000) << 8);
+        }
+    }
         
     return true;
 }

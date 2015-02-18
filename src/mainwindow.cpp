@@ -214,6 +214,7 @@ void MainWindow::setupUi()
     setWindowIcon(QIcon(":/logo.png"));
 
 
+
 #ifndef NULL_PLAYER
     // Creation du lecteur audio
     m_audioPlayer = LecteurAudio::getInstance(this);
@@ -239,6 +240,7 @@ void MainWindow::setupUi()
     connect(m_noteEditor,SIGNAL(closed(bool)),m_noteEditorAct,SLOT(setChecked(bool)));
     workspace->addWindow(m_noteEditor);
     m_noteEditor->setWindowTitle(tr("Minutes Editor"));
+    m_noteEditor->setWindowIcon(QIcon(":/notes.png"));
     m_noteEditor->hide();
 
    /* editeurNotes = new EditeurNotes(this);
@@ -476,8 +478,13 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         if(!pos.isNull())
             tmp->move(pos);
 
+        //tmp->setParent(this);
+        tmp->setWindowIcon(QIcon(":/map.png"));
 
         // Mise a jour du titre de la CarteFenetre
+        //carteFenetre->setWindowFlags(carteFenetre->windowFlags() | Qt::SubWindow);
+
+        carteFenetre->setWindowIcon(QIcon(":/map.png"));
         carteFenetre->setWindowTitle(titre);
 
         // Creation de l'action correspondante
@@ -1288,6 +1295,7 @@ void MainWindow::quitterApplication(bool perteConnexion)
         {
             emit closing();
             writeSettings();
+            m_noteEditor->close();
 
         /// @todo : make sure custom colors are saved.
             // On quitte l'application
@@ -1310,6 +1318,7 @@ void MainWindow::quitterApplication(bool perteConnexion)
                 {
                     emit closing();
                     writeSettings();
+                    m_noteEditor->close();
                     // On sauvegarde le fichier d'initialisation
                     /// @todo : make sure custom colors are saved.
                     // On quitte l'application
@@ -1632,6 +1641,7 @@ void MainWindow::lireImage(QDataStream &file)
 
         // Ajout de l'image au workspace
         QWidget* tmp = workspace->addWindow(imageFenetre);
+        tmp->setWindowIcon(QIcon(":/picture.png"));
         tmp->move(topleft);
         tmp->resize(size);
 

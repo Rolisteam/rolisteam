@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     Initialisation* init= Initialisation::getInstance();
 
+
     app.setApplicationName(init->getApplicationName());
     QString version = QObject::tr("Unknown");
     #ifdef VERSION_MINOR

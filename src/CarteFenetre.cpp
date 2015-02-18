@@ -37,7 +37,7 @@ CarteFenetre::CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *pare
     : QScrollArea(parent),m_mainWindow(mainWindow)
 {
     setObjectName("CarteFenetre");
-    setWindowIcon(QIcon(":/resources/icones/vignette plan.png"));
+    setWindowIcon(QIcon(":/map.png"));
     setFocusPolicy(Qt::StrongFocus);
     setAlignment(Qt::AlignCenter);
 
