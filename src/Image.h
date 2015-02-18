@@ -65,8 +65,10 @@ public :
     void sauvegarderImage(QFile &file, QString titre);
     void sauvegarderImage(QDataStream& out, QString titre);
     bool proprietaireImage();
-    QString getImageTitle();
+    QString getImageId();
     void setParent(WorkspaceAmeliore *parent);
+    QString getImageTitle();
+    void setImageTitle(QString title);
 
 
 
@@ -183,6 +185,8 @@ private :
     //fit window keeping ratio
     QAction* m_fitWindowAct;// * 0.2
     QShortcut* m_fitWindowShort;
+
+    QString m_title;
 
     double m_ratioImage;
     double m_ratioImageBis;

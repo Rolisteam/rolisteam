@@ -112,24 +112,29 @@ bool Image::proprietaireImage()
 /********************************************************************/
 /* Renvoie l'identifiant de l'image                                 */
 /********************************************************************/
-QString Image::getImageTitle()
+QString Image::getImageId()
 {
 	return idImage;
 }
+QString Image::getImageTitle()
+{
+    return m_title;
+}
+void Image::setImageTitle(QString title)
+{
+    m_title=title;
+}
 
-/********************************************************************/
-/* Emet l'Image vers la liaison passee en parametre                 */
-/********************************************************************/
 void Image::fill(NetworkMessageWriter & message) const
 {
 	QByteArray baImage;
 	QBuffer bufImage(&baImage);
-	if (!labelImage->pixmap()->save(&bufImage, "jpeg", 70))
+    if (!labelImage->pixmap()->save(&bufImage, "png", 70))
                 qWarning() << tr("Image Compression fails (emettreImage - Image.cpp)");
 
 
     message.reset();
-    message.string16(windowTitle());
+    message.string16(m_title);
     message.string8(idImage);
     message.string8(idJoueur);
     message.byteArray32(baImage);

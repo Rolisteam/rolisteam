@@ -625,6 +625,8 @@ void MainWindow::addImageToMdiArea(Image *imageFenetre, QString titre)
     // Ajout de l'image a la liste (permet par la suite de parcourir l'ensemble des images)
     listeImage.append(imageFenetre);
 
+    imageFenetre->setImageTitle(titre);
+
     // Creation de l'action correspondante
     QAction *action = menuFenetre->addAction(titre);
     action->setCheckable(true);
@@ -955,7 +957,7 @@ void MainWindow::closeMapOrImage()
             if(NULL!=imageFenetre)
             {
                 associatedAction = imageFenetre->getAssociatedAction();
-                mapImageId = imageFenetre->getImageTitle();
+                mapImageId = imageFenetre->getImageId();
                 image = true;
             }
             else
@@ -1398,7 +1400,7 @@ Image *MainWindow::trouverImage(QString idImage)
         bool ok = false;
         int i;
         for (i=0; i<tailleListe && !ok; ++i)
-                if (listeImage[i]->getImageTitle() == idImage)
+                if (listeImage[i]->getImageId() == idImage)
                         ok = true;
 
         // Si l'Image vient d'etre trouve on renvoie son pointeur
@@ -1437,7 +1439,7 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
         bool ok = false;
         int i;
         for (i=0; i<tailleListe && !ok; ++i)
-                if (listeImage[i]->getImageTitle() == idImage)
+                if (listeImage[i]->getImageId() == idImage)
                         ok = true;
 
         // Si l'image vient d'etre trouvee on supprime l'element
@@ -1757,6 +1759,7 @@ void MainWindow::lireImage(QDataStream &file)
         uneEntete->categorie = image;
         uneEntete->action = chargerImage;
         uneEntete->tailleDonnees = tailleCorps;
+
 
         // Creation du corps du message
         int p = sizeof(enteteMessage);
