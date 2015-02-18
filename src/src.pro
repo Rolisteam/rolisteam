@@ -5,10 +5,15 @@ CONFIG += HAVE_PHONON
 DEFINES += VERSION_MAJOR=2 VERSION_MIDDLE=0 VERSION_MINOR=0
 # CONFIG += HAVE_FMOD
 # CONFIG += HAVE_NULL
+
+INCLUDEPATH  += /usr/include/poppler/qt4
+LIBS         += -L/usr/lib -lpoppler-qt4
+
 QT += core \
     gui \
     network
 TARGET = ../bin/rolisteam
+include(pdfviewer/pdfviewer.pri)
 include(preferences/preferences.pri)
 include(map/map.pri)
 include(drawitem/drawitem.pri)
@@ -31,6 +36,7 @@ DEPENDPATH += . \
     widget \
     session \
     network \
+    pdfviewer \
     minuteseditor \
     tchat \
     map
@@ -45,6 +51,7 @@ INCLUDEPATH += . \
     minuteseditor \
     network \
     tchat \
+    pdfviewer \
     charactersheet \
     map
 HEADERS += displaydisk.h \
@@ -96,6 +103,8 @@ INSTALLS += documentation \
 UI_DIR = ../ui
 MOC_DIR = ../obj
 OBJECTS_DIR = ../obj
+
+
 
 
 

@@ -41,6 +41,7 @@
 #include "charactersheetwindow.h"
 #include "pluginmanager.h"
 #include "minuteseditor.h"
+#include "pdfviewer.h"
 
 //network module
 #include "servermanager.h"
@@ -72,6 +73,7 @@ MainWindow::MainWindow()
 
     m_supportedImage=tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)");
     m_supportedCharacterSheet=tr("Character Sheets files (*.xml)");
+    m_pdfFiles=tr("Pdf File (*.pdf)");
     m_supportedNotes=tr("Supported Text files (*.html *.txt)");
     m_supportedMap=tr("Supported Map files (*.map *.svg)");
     m_toolbar = ToolsBar::getInstance(this);//new ToolsBar(this);
@@ -204,8 +206,12 @@ void MainWindow::createMenu()
     m_openScenarioAct= m_openMenu->addAction(tr("&Scenario"));
     m_openScenarioAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::SCENARIO)));//QIcon(":/resources/icons/scenario.png"));
 
+    m_openPDFAct= m_openMenu->addAction(tr("&PDF"));
+
+
     m_openPictureAct= m_openMenu->addAction(tr("&Picture"));
     m_openPictureAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::PICTURE)));
+
     m_openCharacterSheetsAct = m_openMenu->addAction(tr("&CharacterSheet Viewer"));
     m_openCharacterSheetsAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::CHARACTERSHEET)));
 
@@ -329,6 +335,7 @@ void MainWindow::connectActions()
     connect(m_openScenarioAct,SIGNAL(triggered()),this,SLOT(openContent()));
     connect(m_openMapAct,SIGNAL(triggered()),this,SLOT(openContent()));
     connect(m_openPictureAct, SIGNAL(triggered(bool)), this, SLOT(openContent()));
+    connect(m_openPDFAct, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_recentFilesActGroup,SIGNAL(triggered(QAction*)),this,SLOT(openRecentFile(QAction*)));
 
 
@@ -439,6 +446,11 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
             title = tr("Open Character Sheets");
             folder = m_options->value(QString("DataDirectory"),".").toString();
             break;
+        case CleverURI::PDF:
+            filter = m_pdfFiles;
+            title = tr("Open Pdf file");
+            folder = m_options->value(QString("DataDirectory"),".").toString();
+            break;
         default:
             break;
     }
@@ -449,9 +461,6 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
             filepath= QFileDialog ::getSaveFileName(this,title,folder,filter);
         else
             filepath= QFileDialog::getOpenFileName(this,title,folder,filter);
-
-
-
 
         return new CleverURI(filepath,type);
     }
@@ -824,9 +833,17 @@ void MainWindow::openContent()
     {
         type = CleverURI::TEXT;
     }
+    else if(action == m_openPDFAct)
+    {
+        type = CleverURI::PDF;
+    }
     CleverURI* path = contentToPath(type,false);
 
-    openCleverURI(path,true);
+    if(path)
+        openCleverURI(path,true);
+    else
+        qDebug() << "Error, the clever uri is not valid";
+
 
 }
 void MainWindow::reOpenURI(CleverURI* uri )
@@ -837,9 +854,32 @@ void MainWindow::reOpenURI(CleverURI* uri )
 void MainWindow::openCleverURI(CleverURI* uri,bool addSession)
 {
     SubMdiWindows* tmp=NULL;
-    if(uri->getType() == CleverURI::MAP)
+
+    switch(uri->getType())
     {
-        tmp = new MapFrame();
+        case CleverURI::MAP:
+             tmp = new MapFrame();
+        break;
+        case CleverURI::PICTURE:
+            tmp = new Image(m_workspace);
+        break;
+        case CleverURI::SCENARIO:
+
+        break;
+        case CleverURI::CHARACTERSHEET:
+            tmp = new CharacterSheetWindow();
+        break;
+        case CleverURI::TEXT:
+            tmp = new MinutesEditor();
+        break;
+        case CleverURI::PDF:
+            tmp = new PDFViewer();
+        break;
+    }
+
+   /* if(uri->getType() == CleverURI::MAP)
+    {
+
     }
     else if(uri->getType() == CleverURI::PICTURE)
     {
@@ -850,12 +890,12 @@ void MainWindow::openCleverURI(CleverURI* uri,bool addSession)
     }
     else if(uri->getType()== CleverURI::CHARACTERSHEET)
     {
-        tmp = new CharacterSheetWindow();
+
     }
     else if(uri->getType() == CleverURI::TEXT)
     {
-        tmp = new MinutesEditor();
-    }
+
+    }*/
     if(tmp!=NULL)
     {
         tmp->setCleverURI(uri);

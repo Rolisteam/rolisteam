@@ -225,6 +225,7 @@ private :
 
         QMenu* m_openMenu;
         QAction* m_openMapAct;
+        QAction* m_openPDFAct;
         QAction* m_openPictureAct;
         QAction* m_openScenarioAct;
         QAction* m_openCharacterSheetsAct;
@@ -340,6 +341,7 @@ private :
         QString m_supportedCharacterSheet;
         QString m_supportedNotes;
         QString m_supportedMap;
+        QString m_pdfFiles;
 
 
         QString m_version;

@@ -39,7 +39,7 @@ public:
       * @brief enum of all available type.
       *
       */
-    enum ContentType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG};
+    enum ContentType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,PDF};
     /**
       * @brief default constructor
       *
