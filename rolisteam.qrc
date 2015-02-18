@@ -58,5 +58,19 @@
         <file>resources/icons/treeview.png</file>
         <file>resources/icons/tchat_icon.png</file>
         <file>resources/icons/music.svg</file>
+        <file>resources/logo/128.ico</file>
+        <file alias="rolisteam-250.png">resources/logo/250-rolisteam.png</file>
+        <file>resources/logo/250-symbole.png</file>
+        <file>resources/logo/256-icone.png</file>
+        <file>resources/logo/256.ico</file>
+        <file alias="rolisteam-500.png">resources/logo/500-rolisteam.png</file>
+        <file>resources/logo/500-symbole.png</file>
+        <file>resources/logo/1000-fond.png</file>
+        <file>resources/logo/1000-rolisteam.png</file>
+        <file>resources/logo/1000-symbole.png</file>
+        <file>resources/logo/1500-rolisteam.png</file>
+        <file>resources/logo/Rolisteam-fond.svg</file>
+        <file alias="rolisteam.svg">resources/logo/Rolisteam.svg</file>
+        <file alias="logo.svg">resources/logo/symbole.svg</file>
     </qresource>
 </RCC>
