@@ -1780,7 +1780,7 @@ void MainWindow::aPropos()
                             "</ul></p>"
                             "<p><h3>Current developers :</h3>"
                             "<ul>"
-                            "<li><a href=\"http://renaudguezennec.homelinux.org/accueil,3.html\">Renaud Guezennec</a></li>"
+                            "<li><a href=\"http://www.renaudguezennec.eu/accueil,3.html\">Renaud Guezennec</a></li>"
                             "<li><a href=\"mailto:joseph.boudou@matabio.net\">Joseph Boudou<a/></li>"
                             "</ul></p> "
                             "<p><h3>Retired developers :</h3>"
