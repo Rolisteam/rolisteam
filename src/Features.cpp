@@ -22,6 +22,7 @@
 #include "Features.h"
 
 #include "datareader.h"
+#include "datawriter.h"
 #include "receiveevent.h"
 
 #include "variablesGlobales.h"
@@ -121,46 +122,13 @@ Feature::send(int linkIndex) const
 {
     qDebug("Send feature %s to %d", qPrintable(toString()), linkIndex);
     
-    int bodySize = 
-        // userId (uuid)
-        sizeof(quint8) + m_userId.size() * sizeof(QChar) +
-        // Name
-        sizeof(quint8) + m_name.size() * sizeof(QChar) +
-        // Version
-        sizeof(quint8);
+    DataWriter writer(parametres, addFeature);
 
-    char * data = new char[sizeof(enteteMessage) + bodySize];
+    writer.string8(m_userId);
+    writer.string8(m_name);
+    writer.uint8(m_version);
 
-    // fill header
-    enteteMessage * header = (enteteMessage *) data;
-    header->categorie     = parametres;
-    header->action        = addFeature;
-    header->tailleDonnees = bodySize;
-
-    char * p = data + sizeof(enteteMessage);
-    quint8 tmpSize;
-
-    // fill userId
-    tmpSize = m_userId.size();
-    memcpy(p, &tmpSize, sizeof(quint8));
-    p += sizeof(quint8);
-    memcpy(p, m_userId.data(), tmpSize * sizeof(QChar));
-    p += tmpSize * sizeof(QChar);
-
-    // fill name
-    tmpSize = m_name.size();
-    memcpy(p, &tmpSize, sizeof(quint8));
-    p += sizeof(quint8);
-    memcpy(p, m_name.data(), tmpSize * sizeof(QChar));
-    p += tmpSize * sizeof(QChar);
-
-    // fill version
-    memcpy(p, &m_version , sizeof(quint8));
-
-    // send
-    emettre(data, sizeof(enteteMessage) + bodySize, linkIndex);
-
-    delete[] data;
+    writer.sendTo(linkIndex);
 }
 
 /****************

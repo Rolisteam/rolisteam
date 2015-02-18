@@ -19,6 +19,7 @@ HEADERS += src/AfficheurDisque.h \
            src/colorbutton.h \
            src/connectiondialog.h \
            src/datareader.h \
+           src/datawriter.h \
            src/DessinPerso.h \
            src/EditeurNotes.h \
            src/Features.h \
@@ -48,6 +49,7 @@ SOURCES += src/AfficheurDisque.cpp \
            src/colorbutton.cpp \
            src/connectiondialog.cpp \
            src/datareader.cpp \
+           src/datawriter.cpp \
            src/DessinPerso.cpp \
            src/EditeurNotes.cpp \
            src/Features.cpp \
