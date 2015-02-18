@@ -24,9 +24,20 @@
 
 
 
-TreeItem::TreeItem(Section* p)
-    : m_section(p)
+TreeItem::TreeItem(Section* p,bool leaf)
+    : m_section(p),m_isLeaf(leaf)
 {
+    qDebug() << " Creation TreeItem";
+    m_children =new QList<TreeItem*>;
+}
+TreeItem* TreeItem::getParent()
+{
+    return m_parent;
+}
+
+void TreeItem::setParent(TreeItem* p)
+{
+    m_parent = p;
 }
 
 void TreeItem::setSection(Section* p)
@@ -38,68 +49,74 @@ Section* TreeItem::getSection()
     return m_section;
 }
 
+bool TreeItem::isLeaf()
+{
+    return m_isLeaf;
+}
 
+void TreeItem::setLeaf(bool leaf)
+{
+    m_isLeaf=leaf;
+
+}
+int TreeItem::childrenCount()
+{
+    return m_children->size();
+}
+
+void TreeItem::addChild(TreeItem* child)
+{
+    m_children->append(child);
+}
+
+TreeItem* TreeItem::child(int row)
+{
+    if(row < m_children->size())
+        return m_children->at(row);
+
+    return NULL;
+}
+int TreeItem::row()
+{
+    return m_parent->indexOfChild(this);
+}
+int TreeItem::indexOfChild(TreeItem* itm)
+{
+    return m_children->indexOf(itm);
+}
 
 CharacterSheetModel::CharacterSheetModel()
 {
     m_characterList = new QList<CharacterSheet*>;
     m_sectionList =new QList<Section*>;
+    m_rootItem = new TreeItem(NULL,false);
 }
 
 int CharacterSheetModel::rowCount ( const QModelIndex & parent  ) const
 {
 
 
-qDebug() << " merde rowcount ";
+
     if (parent.isValid())
     {
-        Section* tmp = static_cast<Section*>(parent.internalPointer());
-        if(tmp)
+        TreeItem* tmp = static_cast<TreeItem*>(parent.internalPointer());
+        if(!tmp->isLeaf())
         {
-            qDebug() << "section " << m_sectionList->size();
-            return tmp->size();
+            if(tmp->getSection() == NULL)
+                qDebug() << "section is null";
+            return tmp->getSection()->size();
         }
         else
         {
-            qDebug() << "section zero 0 ";
             return 0;
         }
     }
     else
     {
-        qDebug() << "sectionlist " << m_sectionList->size();
+
         return m_sectionList->size();
     }
-    /*if(parent.isValid())
-    {
-        int row = parent.row();
 
-        if(row < m_sectionList->size())
-        {
-            qDebug() << "rowcount" << m_sectionList->at(row)->count();
-            return m_sectionList->at(row)->count();
-        }
-        else
-        {
-            qDebug() << "rowcount zero";
-            return 0;
-        }
-    }
-    else
-    {
-        qDebug() << "rowcount section" << m_sectionList->size();
-        return m_sectionList->size();
-    }*/
-
-
-    /*int max = 0;
-    for(int i = 0;i<m_characterList->size();i++)
-    {
-        max += m_characterList->at(i)->getIndexCount();
-
-    }
-
-    return max;*/
 }
 int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
 {
@@ -110,44 +127,53 @@ int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
 QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex & parent ) const
 {
 
-
+    TreeItem* parentItem = NULL;
 
     if (!parent.isValid())
+        parentItem = m_rootItem;
+    else
+        parentItem = static_cast<TreeItem*>(parent.internalPointer());
+
+
+
+    TreeItem* childItem = parentItem->child(row);
+    if (childItem)
+        return createIndex(row, column, childItem);
+    else
+        return QModelIndex();
+
+  /*  if (!parent.isValid())
     {
         Section *childItem = m_sectionList->at(row);
         if (childItem)
-            return createIndex(row, column, childItem);
-        else
-            return QModelIndex();
+            return createIndex(row, column, new TreeItem(childItem,false) );//add section
+
+
     }
     else
     {
-        Section* parentItem = static_cast<Section*>(parent.internalPointer());
+        TreeItem* parentItem = static_cast<TreeItem*>(parent.internalPointer());
+        if (parentItem)
+            return createIndex(row,column,new TreeItem(parentItem->getSection(),true));//add leaf
 
-        return createIndex(row,column,new TreeItem(parentItem));
     }
+    return QModelIndex();*/
 }
 QModelIndex CharacterSheetModel::parent ( const QModelIndex & index ) const
 {
+
     if (!index.isValid())
         return QModelIndex();
 
-    Section* childItem = static_cast<Section*>(index.internalPointer());
-    if(childItem)
-    {
-       /* Section* parentItem = childItem->parent();
+    TreeItem *childItem = static_cast<TreeItem*>(index.internalPointer());
+    TreeItem *parentItem = childItem->getParent();
 
-        if(parentItem == rootItem)*/
-            return QModelIndex();
+    if (parentItem == m_rootItem)
+        return QModelIndex();
 
-        //return createIndex(parentItem->row(), 0, parentItem);
-    }
-    else
-    {
-        TreeItem* childItem = static_cast<TreeItem*>(index.internalPointer());
+    return createIndex(parentItem->row(), 0, parentItem);
 
-        return createIndex(m_sectionList->indexOf(childItem->getSection()), 0, childItem->getSection());
-    }
+
 }
 
 QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) const
@@ -157,19 +183,29 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
 
     if(role == Qt::DisplayRole)
     {
-        Section* childItem = static_cast<Section*>(index.internalPointer());
+        TreeItem* childItem = static_cast<TreeItem*>(index.internalPointer());
+        qDebug() << "pointeur=" << childItem << " feuille" <<childItem->isLeaf() << index;
+
         if(childItem)
-            return childItem->getName();
-        else
         {
-             TreeItem* childItem = static_cast<TreeItem*>(index.internalPointer());
-             childItem->getSection();
-                return QVariant();
+            if(!childItem->isLeaf())
+            {
+                return childItem->getSection()->getName();
+            }
+            else
+            {
+
+
+
+                 int row = index.row();
+
+                 if(row < childItem->getSection()->size())
+                    return  childItem->getSection()->at(row);
+
+                 return QString("line");
+            }
         }
-
-
     }
-
     return QVariant();
 }
 bool CharacterSheetModel::setData ( const QModelIndex & index, const QVariant & value, int role  )
@@ -183,9 +219,14 @@ bool CharacterSheetModel::setData ( const QModelIndex & index, const QVariant & 
         }
         else
         {
-             Section* childItem = static_cast<Section*>(index.internalPointer());
-             if(childItem)
-                 childItem->setName(value.toString());
+
+             TreeItem* childItem = static_cast<TreeItem*>(index.internalPointer());
+             if(!childItem->isLeaf())
+                 childItem->getSection()->setName(value.toString());
+             else
+             {
+                childItem->getSection()->replace(index.row(),value.toString());
+             }
             //CharacterSheet* tmp = m_characterList->at(index.column()-1);
             //tmp->setData(index.row(),0,true);
         }
@@ -237,9 +278,12 @@ Qt::ItemFlags CharacterSheetModel::flags(const QModelIndex &index) const
 void CharacterSheetModel::addSection()
 {
     qDebug() << "in add section";
-    beginInsertRows(QModelIndex(),m_sectionList->size(),m_sectionList->size());
+    beginInsertRows(QModelIndex(),m_rootItem->childrenCount(),m_rootItem->childrenCount());
     Section* sec=new Section();
-    sec->setName(tr("Empty Section %1").arg(m_sectionList->size()+1));
+    sec->setName(tr("Empty Section %1").arg(m_rootItem->childrenCount()+1));
+    TreeItem* tmp = new TreeItem(sec,false);
+    tmp->setParent(m_rootItem);
+    m_rootItem->addChild(tmp);
     m_sectionList->append(sec);
     foreach(CharacterSheet* sheet,*m_characterList)
     {
@@ -249,9 +293,30 @@ void CharacterSheetModel::addSection()
 
 }
 
-void CharacterSheetModel::addLine(int index)
+void CharacterSheetModel::addLine(const QModelIndex & index /*Section* index*/)
 {
 
+    TreeItem* parentItem = static_cast<TreeItem*>(index.internalPointer());
+    beginInsertRows(index,parentItem->childrenCount(),parentItem->childrenCount());
+    TreeItem* tmp = new TreeItem(parentItem->getSection(),true);
+    tmp->setParent(parentItem);
+    parentItem->addChild( tmp);
+    QString* tmpstr = new QString(tr("Field %1").arg(parentItem->childrenCount()));
+    parentItem->getSection()->append(*tmpstr);
+    endInsertRows();
+        /*Section* sec = indexToSection(index);
+
+        if(tmp == NULL)
+            qDebug() << "section is null 8";
+        else
+             qDebug() <<"taille=" <<tmp->size() << index << tmp;
+
+        beginInsertRows(indexToSectionIndex(index),tmp->size(),tmp->size());
+        QString* tmpstr = new QString(tr("Field %1").arg(tmp->size()));
+        TreeItem* tmp = new TreeItem(sec,false);
+        sec->insert(*tmpstr,*tmpstr);
+
+        endInsertRows();*/
 }
 bool CharacterSheetModel::hasChildren ( const QModelIndex & parent  ) const
 {
@@ -260,12 +325,34 @@ bool CharacterSheetModel::hasChildren ( const QModelIndex & parent  ) const
         return  m_sectionList->size()>0?true:false;
     else
     {
-        Section* childItem = static_cast<Section*>(parent.internalPointer());
-        if(childItem)
-            return  childItem->size()>0?true:false;
+        TreeItem* childItem = static_cast<TreeItem*>(parent.internalPointer());
+        if(childItem->getSection() == NULL)
+            qDebug() << "section is null 5";
+        if(childItem->isLeaf())
+            return  false;
         else
         {
-          return false;
+            return childItem->getSection()->size()?true:false;
         }
     }
+}
+Section* CharacterSheetModel::indexToSection(const QModelIndex & index)
+{
+    TreeItem* childItem = static_cast<TreeItem*>(index.internalPointer());
+    if(childItem)
+    {
+        if(childItem->getSection()==NULL)
+            qDebug() << " getsection return NULL dans indexToSection";
+        return childItem->getSection();
+    }
+
+    qDebug() << "return NULL dans indexToSection";
+    return  NULL;
+}
+QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex & index)
+{
+    if(index.parent().isValid())//if parent is valid it's a field, return its parent (the section).
+        return index.parent();
+    else
+        return index;
 }

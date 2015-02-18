@@ -21,43 +21,38 @@
 #include "charactersheetwindow.h"
 #include "charactersheet.h"
 #include "headermodel.h"
- #include <QHeaderView>
+#include <QMenu>
+
 CharacterSheetWindow::CharacterSheetWindow()
     //: m_vheader(Qt::Vertical)
 {
     setObjectName("CharacterSheet");
 
 
-    m_addSection.setText(tr("Add Section"));
-    m_addLine.setText(tr("Add line"));
-    m_addCharacterSheet.setText(tr("Add CharacterSheet"));
-    m_vertiLayout.addWidget(&m_addCharacterSheet);
-    m_vertiLayout.addWidget(&m_addSection);
-    m_vertiLayout.addWidget(&m_addLine);
-    //HeaderModel* tmp= new HeaderModel;
+    m_addSection = new QAction(tr("Add Section"),this);
+    m_addLine= new QAction(tr("Add line"),this);
+    m_addCharacterSheet= new QAction(tr("Add CharacterSheet"),this);
 
-    QHBoxLayout horizonLayout;
-    //m_vheader.setModel(tmp);
-    //m_vheader.setEditTriggers(QAbstractItemView::DoubleClicked);
-    //m_view.setVerticalHeader(&m_vheader);
-    //m_view.verticalHeader()->setModel(tmp);
-    m_horizonLayout.addLayout(&m_vertiLayout);
-    m_horizonLayout.addWidget(&m_view);
     m_view.setModel(&m_model);
 
 
     m_widget.setLayout(&m_horizonLayout);
-    setWidget(&m_widget);
+    setWidget(&m_view);
+    m_view.setContextMenuPolicy(Qt::CustomContextMenu);
 
 
+    connect(m_addLine,SIGNAL(triggered()),this,SLOT(addLine()));
+    connect(m_addSection,SIGNAL(triggered()),this,SLOT(addSection()));
+    connect(m_addCharacterSheet,SIGNAL(triggered()),this,SLOT(addCharacterSheet()));
 
-    connect(&m_addLine,SIGNAL(clicked()),this,SLOT(addLine()));
-    connect(&m_addSection,SIGNAL(clicked()),this,SLOT(addSection()));
-    connect(&m_addCharacterSheet,SIGNAL(clicked()),this,SLOT(addCharacterSheet()));
+    connect(&m_view,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(displayCustomMenu(QPoint)));
 }
 bool CharacterSheetWindow::defineMenu(QMenu* menu)
 {
-    return false;
+    menu->addAction(m_addCharacterSheet);
+    menu->addAction(m_addSection);
+    menu->addAction(m_addLine);
+    return true;
 }
 
 SubMdiWindows::SubWindowType CharacterSheetWindow::getType()
@@ -66,7 +61,29 @@ SubMdiWindows::SubWindowType CharacterSheetWindow::getType()
 }
 void CharacterSheetWindow::addLine()
 {
+        m_model.addLine(m_view.currentIndex());
+}
+void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
+{
+    QMenu menu(this);
 
+    menu.addAction(m_addCharacterSheet);
+    menu.addAction(m_addSection);
+    menu.addAction(m_addLine);
+    if(!(m_view.indexAt(pos).isValid()))
+    {
+        m_addSection->setEnabled(true);
+        m_addLine->setEnabled(false);
+        m_addCharacterSheet->setEnabled(true);
+    }
+    else
+    {
+      m_addSection->setEnabled(true);
+      m_addLine->setEnabled(true);
+      m_addCharacterSheet->setEnabled(true);
+
+    }
+    menu.exec(QCursor::pos());
 }
 
 void CharacterSheetWindow::addSection()

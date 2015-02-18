@@ -33,12 +33,30 @@ class Section;
 class TreeItem
 {
 public:
-    TreeItem(Section* p);
+    TreeItem(Section* p,bool isLeaf);
 
     void setSection(Section* p);
     Section* getSection();
+
+    bool isLeaf();
+    void setLeaf(bool leaf);
+
+    TreeItem* getParent();
+    void setParent(TreeItem* p);
+
+    void addChild(TreeItem* child);
+    TreeItem* child(int row);
+
+    int row();
+    int indexOfChild(TreeItem* itm);
+
+    int childrenCount();
 private:
     Section* m_section;
+    bool m_isLeaf;
+    TreeItem* m_parent;
+    QList<TreeItem*>* m_children;
+
 };
 
 
@@ -101,12 +119,12 @@ public:
 	* @brief adds section after the given Index.
 	* @param index location of the new section
 	*/
-    void addSection(/*int index*/);
+    void addSection( /*int index*/);
 	/**
 	* @brief adds line at the given index
 	* @param index location of the new line. 
 	*/
-    void addLine(int index);
+    void addLine(const QModelIndex & index);
 
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -115,6 +133,10 @@ public:
 
     QVariant headerData(int section, Qt::Orientation orientation,
                                    int role) const;
+
+
+    Section* indexToSection(const QModelIndex & index);
+    QModelIndex indexToSectionIndex(const QModelIndex & index);
 
 private:
 	/**
@@ -129,7 +151,9 @@ private:
     QList<Section*>* m_sectionList;
 
 
-    Section* m_rootItem;
+    Section* m_rootSection;
+
+    TreeItem* m_rootItem;
 };
 
 #endif // CHARACTERSHEETMODEL_H

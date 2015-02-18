@@ -66,6 +66,11 @@ protected slots:
 	* @brief slot is called when the user click on the m_addCharacterSheet button. That Leads to add an empty characterSheet in the model (after all others).
 	*/
     void addCharacterSheet();
+    /**
+    * @brief slot is called when the user click on the  mice right button
+    */
+    void displayCustomMenu(const QPoint & pos);
+
 
 private:
 	/**
@@ -78,25 +83,19 @@ private:
     CharacterSheetModel m_model;
 
 
-
-    /**
-    * @brief make headers editable.
-    */
-    //HeaderView m_vheader;
-
 	/**
 	* @brief event button
 	* @todo It should be a better idea to use QAction instead of Button and profide a contextual menu or a custom menu instead of these awful buttons.
 	*/
-    QPushButton m_addSection;
+    QAction* m_addSection;
 	/**
 	* @brief event button
 	*/
-    QPushButton m_addLine;
+    QAction* m_addLine;
 	/**
 	* @brief event button
 	*/
-    QPushButton m_addCharacterSheet;
+    QAction* m_addCharacterSheet;
 
 	/**
 	* @brief layout

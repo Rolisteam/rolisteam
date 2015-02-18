@@ -27,8 +27,9 @@
 /**
  * @brief Section stores any fields of specific section
  */
-class Section : public QMap<QString,QString>
+class Section : public QList<QString>
 {
+
 public:
 	/**
 	* Constructor
@@ -76,7 +77,7 @@ public:
 	* @param section Id of section
 	* @param key the id key. 
 	*/
-    const QString getData(int section,const QString& key);
+    const QString getData(int section,int key);
 	/**
 	* @brief allows to get the title(name) of the given section
 	* @param section id
