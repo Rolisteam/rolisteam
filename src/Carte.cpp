@@ -2141,11 +2141,7 @@ void Carte::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneA
     afficheOuMasquePnj();
 }
 
-/********************************************************************/    
-/* Dessine un trace dont les composants sont passes en parametres.  */
-/* Le trace peut etre une ligne, un rectangle plein ou vide, une    */
-/* ellipse pleine ou vide                                           */
-/********************************************************************/    
+
 void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur)
 {
     QPainter painter;

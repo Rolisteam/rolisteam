@@ -45,7 +45,7 @@
 
 class Liaison;
 class NetworkMessageWriter;
-
+class QShortcut;
 class Image : public QScrollArea
 {
 Q_OBJECT
@@ -137,11 +137,23 @@ private :
     QPixmap  m_pixMap;
 
     QAction* m_actionZoomIn;
+    QShortcut* m_zoomInShort;
+
     QAction* m_actionZoomOut;
+    QShortcut* m_zoomOutShort;
+
+
     QAction* m_actionfitWorkspace;
+    QShortcut* m_fitShort;
+
     QAction* m_actionNormalZoom; // *1
+     QShortcut* m_normalShort;
+
     QAction* m_actionBigZoom;// * 4
+    QShortcut* m_bigShort;
+
     QAction* m_actionlittleZoom;// * 0.2
+    QShortcut* m_littleShort;
 };
 
 #endif

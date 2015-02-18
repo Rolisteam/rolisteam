@@ -70,7 +70,7 @@ Image::Image(QString identImage, QString identJoueur, QImage *image, QAction *ac
 Image::~Image()
 {
 	// Destruction de l'action associee
-	actionAssociee->~QAction();
+    delete actionAssociee;
 	// On enleve l'image de la liste des Images existantes
 	G_mainWindow->enleverImageDeLaListe(idImage);
 }
@@ -121,7 +121,7 @@ void Image::fill(NetworkMessageWriter & message) const
 	QByteArray baImage;
 	QBuffer bufImage(&baImage);
 	if (!labelImage->pixmap()->save(&bufImage, "jpeg", 70))
-                qWarning() << tr("Probleme de compression de l'image (emettreImage - Image.cpp)");
+                qWarning() << tr("Image Compression fails (emettreImage - Image.cpp)");
 
 
     message.reset();
@@ -143,7 +143,7 @@ void Image::sauvegarderImage(QDataStream &out, QString titre)
     QBuffer bufImage(&baImage);
     ok = labelImage->pixmap()->save(&bufImage, "jpeg", 100);
     if (!ok)
-        qWarning() <<(tr("Probleme de compression de l'image (sauvegarderImage - Image.cpp)"));
+        qWarning() <<(tr("Image Compression fails (sauvegarderImage - Image.cpp)"));
 
     // Ecriture de l'image dans le fichier
     out<< titre;
@@ -310,39 +310,73 @@ void Image::zoomBig()
 }
 void Image::createActions()
 {
+
+
+
     m_actionZoomIn = new QAction(tr("Zoom In"),this);
-    m_actionZoomIn->setShortcut(tr("Ctrl++"));
+   //m_actionZoomIn->setShortcut(tr("Ctrl++"));
     m_actionZoomIn->setToolTip(tr("increase zoom level"));
     m_actionZoomIn->setIcon(QIcon(":/resources/icons/zoom-in-32.png"));
     connect(m_actionZoomIn,SIGNAL(triggered()),this,SLOT(zoomIn()));
 
+    m_zoomInShort = new QShortcut(QKeySequence(tr("Ctrl++", "Zoom In")), this);
+    m_zoomInShort->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(m_zoomInShort, SIGNAL(activated ()), this, SLOT(zoomIn()));
+
     m_actionZoomOut = new QAction(tr("Zoom out"),this);
-    m_actionZoomOut->setShortcut(tr("Ctrl+-"));
+    //m_actionZoomOut->setShortcut(tr("Ctrl+-"));
     m_actionZoomOut->setIcon(QIcon(":/resources/icons/zoom-out-32.png"));
     m_actionZoomOut->setToolTip(tr("Reduce zoom level"));
     connect(m_actionZoomOut,SIGNAL(triggered()),this,SLOT(zoomOut()));
 
+    m_zoomOutShort = new QShortcut(QKeySequence(tr("Ctrl+-", "Zoom Out")), this);
+    m_zoomOutShort->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(m_zoomOutShort, SIGNAL(activated ()), this, SLOT(zoomOut()));
+    connect(m_zoomOutShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomOut()));
+
     m_actionfitWorkspace = new QAction(tr("Fit the workspace"),this);
     m_actionfitWorkspace->setIcon(QIcon(":/resources/icons/fit-page-32.png"));
-    m_actionfitWorkspace->setShortcut(tr("Ctrl+5"));
+    //m_actionfitWorkspace->setShortcut(tr("Ctrl+5"));
     m_actionfitWorkspace->setToolTip(tr("The window and the image fit the workspace"));
     connect(m_actionfitWorkspace,SIGNAL(triggered()),this,SLOT(onFitWindow()));
 
+    m_fitShort = new QShortcut(QKeySequence(tr("Ctrl+5", "Fit the workspace")), this);
+    m_fitShort->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(m_fitShort, SIGNAL(activated ()), this, SLOT(onFitWindow()));
+    connect(m_fitShort, SIGNAL(activatedAmbiguously()), this, SLOT(onFitWindow()));
+
+
+
     m_actionlittleZoom = new QAction(tr("Little"),this);
-    m_actionlittleZoom->setShortcut(tr("Ctrl+1"));
+    //m_actionlittleZoom->setShortcut(tr("Ctrl+1"));
     m_actionlittleZoom->setToolTip(tr("Set the zoom level at 20% "));
     connect(m_actionlittleZoom,SIGNAL(triggered()),this,SLOT(zoomLittle()));
+    m_littleShort = new QShortcut(QKeySequence(tr("Ctrl+1", "Set the zoom level at 20%")), this);
+    m_littleShort->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(m_littleShort, SIGNAL(activated ()), this, SLOT(zoomLittle()));
+    connect(m_littleShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomLittle()));
+
+
 
     m_actionNormalZoom = new QAction(tr("Normal"),this);
-    m_actionNormalZoom->setShortcut(tr("Ctrl+0"));
+    //m_actionNormalZoom->setShortcut(tr("Ctrl+0"));
     m_actionNormalZoom->setToolTip(tr("No Zoom"));
     connect(m_actionNormalZoom,SIGNAL(triggered()),this,SLOT(zoomNormal()));
-
+    m_normalShort = new QShortcut(QKeySequence(tr("Ctrl+0", "Normal")), this);
+    m_normalShort->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(m_normalShort, SIGNAL(activated ()), this, SLOT(zoomNormal()));
+    connect(m_normalShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomNormal()));
 
     m_actionBigZoom = new QAction(tr("Big"),this);
-    m_actionBigZoom->setShortcut(tr("Ctrl+2"));
+    //m_actionBigZoom->setShortcut(tr("Ctrl+2"));
     m_actionBigZoom->setToolTip(tr("Set the zoom level at 400%"));
     connect(m_actionBigZoom,SIGNAL(triggered()),this,SLOT(zoomBig()));
+    m_bigShort = new QShortcut(QKeySequence(tr("Ctrl+2", "Zoom Out")), this);
+    m_bigShort->setContext(Qt::WidgetWithChildrenShortcut);
+    connect(m_bigShort, SIGNAL(activated ()), this, SLOT(zoomBig()));
+    connect(m_bigShort, SIGNAL(activatedAmbiguously()), this, SLOT(zoomBig()));
+
+
 }
 void Image::contextMenuEvent ( QContextMenuEvent * event )
 {
