@@ -264,7 +264,11 @@ void LecteurAudio::tick(qint64 time)
 void LecteurAudio::sourceChanged(const Phonon::MediaSource &source)
 {
      qDebug() << "sourceChanged" << source.fileName();
+     if(m_currentItemFile==NULL)
+         return;
      m_titleDisplay->setText(source.fileName().right(source.fileName().length()-source.fileName().lastIndexOf("/")-1));
+
+
      QFont ft = m_currentItemFile->font();
      ft.setBold(true);
      m_currentItemFile->setFont(ft);
@@ -430,53 +434,12 @@ void LecteurAudio::removeFile()
                 delete tmp;
                 tmp = NULL;
                 m_currentItemFile = NULL;
+                m_mediaObject->clear();
                 isAboutToFinish();
             }
             if(tmp!=NULL)
                 delete tmp;
-
-
-
-            /*if (m_currentItemFile < listeChemins.size())
-            {
-                    emettreCommande(nouveauMorceau, m_songList->item(titreCourant)->text());
-                    //nouveauTitre(listeTitres->item(titreCourant)->text(), listeChemins[titreCourant]);
-            }
-            else if (titreCourant != 0)
-            {
-                    titreCourant--;
-                    emettreCommande(nouveauMorceau, m_songList->item(titreCourant)->text());
-                    //nouveauTitre(listeTitres->item(titreCourant)->text(), listeChemins[titreCourant]);
-            }
-            else
-            {
-                    emettreCommande(nouveauMorceau, "");
-                    //arreter();
-                    afficheurTitre->clear();
-                    afficheurTitre->setToolTip("");
-                    m_playAction->setEnabled(false);
-                    m_pauseAction->setEnabled(false);
-                    actionStop->setEnabled(false);
-                    m_loopAction->setEnabled(false);
-                    m_uniqueAction->setEnabled(false);
-                    m_deleteAction->setEnabled(false);
-                    positionTemps->setEnabled(false);
-            }*/
-
-
-
-
         }
-
-
-
-/// @todo able this code and make it working.
-       // if (titreSelectionne[0]->text() == m_currentFile)
-        //{
-               /* */
-        //}
-       // else if (ligne < titreCourant)
-       //         titreCourant--;
 }
 
 void LecteurAudio::isAboutToFinish()
