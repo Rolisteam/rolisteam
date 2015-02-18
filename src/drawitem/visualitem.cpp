@@ -27,32 +27,28 @@ VisualItem::VisualItem(QColor& penColor,QGraphicsItem * parent )
     : QGraphicsItem(parent),m_color(penColor)
 {
     //m_state = IDLE;
+    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 }
 
 void VisualItem::setPenColor(QColor& penColor)
 {
     m_color = penColor;
 }
-/*void VisualItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
+void VisualItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 {
 
+    QGraphicsItem::mouseMoveEvent(event);
+    update();
 }
 void VisualItem::mousePressEvent ( QGraphicsSceneMouseEvent * event )
 {
-    if(event->button()==Qt::LeftButton)
-    {
-
-    }
-}*/
-void VisualItem::hoverEnterEvent ( QGraphicsSceneHoverEvent * event )
-{
-
-    qreal distanceToTopLeft = sqrt(event->lastPos().x()*boundingRect().topLeft().y()+event->lastPos().y()*boundingRect().topLeft().x());
-
-
-    qDebug()<< "distance" << distanceToTopLeft;
-    if(distanceToTopLeft<=5)
-    {
-        setCursor(QCursor(Qt::SizeFDiagCursor));
-    }
+    QGraphicsItem::mousePressEvent(event);
+    update();
 }
+void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mouseReleaseEvent(event);
+    update();
+}
+
+

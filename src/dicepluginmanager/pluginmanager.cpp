@@ -76,7 +76,7 @@ void DicePlugInManager::writeSettings()
         tmp->writeSettings();
     }
 }
-void showUISettings(QString& name)
+void DicePlugInManager::showUISettings(QString& name)
 {
     foreach(DiceSystemInterface* tmp,*m_interfaceList)
     {
@@ -85,7 +85,7 @@ void showUISettings(QString& name)
     }
 }
 
-bool hasUISettings(QString& name)
+bool DicePlugInManager::hasUISettings(QString& name)
 {
     foreach(DiceSystemInterface* tmp,*m_interfaceList)
     {

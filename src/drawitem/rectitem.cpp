@@ -20,6 +20,8 @@
 #include "rectitem.h"
 
 #include <QPainter>
+#include <QStyleOptionGraphicsItem>
+#include <QDebug>
 RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
 {
@@ -37,6 +39,10 @@ QRectF RectItem::boundingRect() const
 void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->save();
+    if(option->state & QStyle::State_Selected)
+    {
+        qDebug() << "id selected"<< m_rect;
+    }
     if(!m_filled)
     {
         painter->setPen(m_color);
@@ -48,12 +54,11 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         painter->fillRect(m_rect, m_color);
 
     }
+
     painter->restore();
 
 }
 void RectItem::setNewEnd(QPointF& p)
 {
-    //QRectF tmp= m_rect;
     m_rect.setBottomRight(p);
-    //update(tmp);
 }

@@ -36,8 +36,9 @@ public:
 
 
 protected:
-    virtual void hoverEnterEvent ( QGraphicsSceneHoverEvent * event );
-
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
+    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
     QColor m_color;
 
 };
