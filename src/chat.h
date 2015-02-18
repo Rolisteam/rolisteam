@@ -30,7 +30,9 @@ class Liaison;
 class NetworkMessage;
 class Player;
 class ReceiveEvent;
-
+/**
+ * @brief The AbstractChat class
+ */
 class AbstractChat : public QObject
 {
     Q_OBJECT
@@ -47,7 +49,9 @@ class AbstractChat : public QObject
         void changedName();
         void changedMembers();
 };
-
+/**
+ * @brief The PublicChat class
+ */
 class PublicChat : public AbstractChat
 {
     Q_OBJECT
@@ -62,7 +66,9 @@ class PublicChat : public AbstractChat
         void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
         bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 };
-
+/**
+ * @brief The PlayerChat class
+ */
 class PlayerChat : public AbstractChat
 {
     Q_OBJECT
@@ -83,7 +89,9 @@ class PlayerChat : public AbstractChat
     private slots:
         void verifyName(Player * player);
 };
-
+/**
+ * @brief The PrivateChat class
+ */
 class PrivateChat : public AbstractChat
 {
     Q_OBJECT

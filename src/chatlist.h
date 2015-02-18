@@ -32,7 +32,9 @@ class MainWindow;
 class Player;
 class PrivateChat;
 class ReceiveEvent;
-
+/**
+ * @brief The ChatList class
+ */
 class ChatList
  : public QAbstractItemModel
 {

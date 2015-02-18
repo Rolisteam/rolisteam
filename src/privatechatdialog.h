@@ -32,7 +32,9 @@
 
 class Player;
 class PrivateChat;
-
+/**
+ * @brief The PrivateChatDialogModel class
+ */
 class PrivateChatDialogModel : public PlayersListProxyModel
 {
     Q_OBJECT

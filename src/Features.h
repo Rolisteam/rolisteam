@@ -33,7 +33,9 @@ class Player;
 
 extern void setLocalFeatures(Player & player);
 extern void addFeature(ReceiveEvent & data);
-
+/**
+ * @brief The SendFeaturesIterator class
+ */
 class SendFeaturesIterator : public QMapIterator<QString, quint8>
 {
     public:

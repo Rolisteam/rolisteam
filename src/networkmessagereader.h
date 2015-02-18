@@ -26,7 +26,9 @@
 #include <QColor>
 
 #include "networkmessage.h"
-
+/**
+ * @brief The NetworkMessageReader class
+ */
 class NetworkMessageReader : public NetworkMessage
 {
     public:

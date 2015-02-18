@@ -40,7 +40,9 @@
 #include <QFile>
 
 #include "mainwindow.h"
-
+/**
+ * @brief The EditeurNotes class
+ */
 class EditeurNotes : public QMainWindow
 {
 Q_OBJECT

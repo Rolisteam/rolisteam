@@ -27,7 +27,9 @@
 namespace Ui {
 class ConnectionRetryDialog;
 }
-
+/**
+ * @brief The ConnectionRetryDialog class
+ */
 class ConnectionRetryDialog : public QDialog
 {
     Q_OBJECT

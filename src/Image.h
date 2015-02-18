@@ -48,6 +48,9 @@
 class Liaison;
 class NetworkMessageWriter;
 class QShortcut;
+/**
+ * @brief The Image class
+ */
 class Image : public QScrollArea
 {
 Q_OBJECT

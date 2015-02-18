@@ -39,7 +39,9 @@
 #include <QComboBox>
 
 class MainWindow;
-
+/**
+ * @brief The NouveauPlanVide class
+ */
 class NouveauPlanVide : public QDialog
 {
     Q_OBJECT

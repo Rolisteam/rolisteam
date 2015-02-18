@@ -48,10 +48,8 @@ class Liaison;
 
 
 /**
- * @brief Zone d'affichage d'une carte. Sur ce widget s'affiche la carte sur
- * laquelle sont dessinées les annotations. Une couche alpha permet de cacher
- * certaines parties de l'image. Une copie originale de la carte permet
- * d'effacer les annotations. Les personnages sont representés par des widgets
+ * @brief Display area for map. this widget displays the map and allows users to draw on it. The alpha layer allows
+ * to hide part of the picture. Character are displayed thank to widgets
  * DessinPerso.
  */
 class Carte : public QWidget

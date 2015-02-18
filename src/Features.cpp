@@ -40,6 +40,8 @@ static struct {
 } localFeatures[] = {
     {QString("Emote"), 0},
     {QString("MultiChat"), 0},
+    {QString("RichTextChat"), 0},
+    {QString("MapPermission"), 0}
 };
 
 

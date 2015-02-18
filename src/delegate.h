@@ -24,7 +24,9 @@
 #define DELEGATE_H
 
 #include <QItemDelegate>
-
+/**
+ * @brief The Delegate class
+ */
 class Delegate : public QItemDelegate
 {
     Q_OBJECT

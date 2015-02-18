@@ -37,7 +37,9 @@
 
 
 #include "preferencesmanager.h"
-
+/**
+ * @brief The WorkspaceAmeliore class
+ */
 class WorkspaceAmeliore : public QWorkspace
 {
 public :

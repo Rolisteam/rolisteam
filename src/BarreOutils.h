@@ -39,7 +39,9 @@
 class SelecteurCouleur;
 class SelecteurDiametre;
 class Carte;
-
+/**
+ * @brief The BarreOutils class is gathering all tool and manages selection of them.
+ */
 class BarreOutils : public QDockWidget
 {
     Q_OBJECT

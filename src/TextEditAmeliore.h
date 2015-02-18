@@ -27,7 +27,9 @@
 #include <QTextEdit>
 #include <QKeyEvent>
 
-
+/**
+ * @brief The TextEditAmeliore class
+ */
 class TextEditAmeliore : public QTextEdit
 {
     Q_OBJECT

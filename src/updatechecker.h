@@ -25,7 +25,9 @@
 #include <QString>
 #include <QTcpSocket>
 #include <QNetworkAccessManager>
-
+/**
+ * @brief The UpdateChecker class
+ */
 class UpdateChecker : public QObject
 {
     Q_OBJECT

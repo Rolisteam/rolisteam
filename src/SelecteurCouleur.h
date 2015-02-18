@@ -43,6 +43,9 @@
 class QHBoxLayout;
 class QGridLayout;
 class QVBoxLayout;
+/**
+ * @brief The SelecteurCouleur class
+ */
 class SelecteurCouleur : public QWidget
 {
     Q_OBJECT

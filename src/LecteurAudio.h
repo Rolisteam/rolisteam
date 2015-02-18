@@ -63,7 +63,9 @@
 #include "preferencesmanager.h"
 
 class Liaison;
-    
+/**
+ * @brief The LecteurAudio class
+ */
 class LecteurAudio : public QDockWidget//QDockWidget
 {
     Q_OBJECT

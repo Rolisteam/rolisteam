@@ -80,7 +80,7 @@ public:
     Player * getPlayer(const QString & uuid) const;
     Character * getCharacter(const QString & uuid) const;
     Player* getLocalPlayer() const;
-    void cleanList();
+    void cleanListButLocal();
     void completeListClean();
     /**
          * @brief Same as getPlayer(uuid), if getPerson(uuid) is a Player.
@@ -119,6 +119,8 @@ signals:
          * @brief Send when local is client and the server refused local player to be GM.
          */
     void localGMRefused();
+
+
 
 private:
     QList<Player *> m_playersList;

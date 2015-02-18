@@ -30,7 +30,9 @@
 class ChatList;
 class MainWindow;
 class PrivateChatDialog;
-
+/**
+ * @brief The ChatListWidget class
+ */
 class ChatListWidget : public QDockWidget
 {
     Q_OBJECT

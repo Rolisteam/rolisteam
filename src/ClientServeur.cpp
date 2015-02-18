@@ -58,7 +58,7 @@ void emettre(char *donnees, quint32 taille, Liaison *sauf)
  *****************/
 
 ClientServeur::ClientServeur()
-    : QObject(), m_server(NULL),m_liaisonToServer(NULL),m_disconnectAsked(false),m_connectionState(false)
+    : QObject(), m_server(NULL),m_liaisonToServer(NULL),m_disconnectAsked(false),m_connectionState(false),m_localPlayer(NULL)
 {
 
     m_reconnect = new QTimer(this);
@@ -118,24 +118,29 @@ bool ClientServeur::configAndConnect()
     m_playersList = PlayersList::instance();
 
     // If the user abort configDialog, we quit
-    if (m_configDialog->exec() == QDialog::Rejected)
+    bool isConnected = false;
+    while((!isConnected) && (m_configDialog->exec() != QDialog::Rejected))
     {
-        return false;
+        m_playersList->completeListClean();
+        if(m_localPlayer!=NULL)
+        {
+            delete m_localPlayer;
+            m_localPlayer = NULL;
+        }
+
+        synchronizePreferences();
+        m_localPlayer = new Player(
+                QUuid(G_idJoueurLocal),
+                m_configDialog->getName(),
+                m_configDialog->getColor(),
+                m_configDialog->isGM()
+            );
+            m_playersList->setLocalPlayer(m_localPlayer);
+
+           isConnected = startConnection();
     }
-    synchronizePreferences();
-    m_localPlayer = new Player(
-            QUuid(G_idJoueurLocal),
-            m_configDialog->getName(),
-            m_configDialog->getColor(),
-            m_configDialog->isGM()
-        );
+    return isConnected;
 
-
-    startConnection();
-
-
-    setConnectionState(true);
-    return true;
 }
 bool ClientServeur::startConnection()
 {
@@ -159,15 +164,27 @@ bool ClientServeur::startConnection()
         if(cont)
         {
             m_dialog->startTimer();
-            m_dialog->show();//exec();
+           int value = m_dialog->exec();
+
+           if(value == QDialog::Accepted)
+           {
+               cont = true;
+           }
+           else
+           {
+               cont = false;
+               return false;
+           }
         }
 
 
 
     }
-    m_playersList = PlayersList::instance();
+    /*m_playersList = PlayersList::instance();
     m_playersList->completeListClean();
-    m_playersList->setLocalPlayer(m_localPlayer);
+    m_playersList->setLocalPlayer(m_localPlayer);*/
+    m_playersList->sendOffLocalPlayerInformations();
+    m_playersList->sendOffFeatures(m_localPlayer);
     /*if(m_disconnectAsked)
     {
          m_playersList->cleanList();
@@ -179,6 +196,7 @@ bool ClientServeur::startConnection()
     {
 
     }*/
+    setConnectionState(true);
     return true;
 }
 bool  ClientServeur::startListening()
@@ -210,7 +228,7 @@ bool ClientServeur::startConnectionToServer()
     QTcpSocket * socket;
 
     socket = waitDialog.connectTo(m_address, m_port);
-    //qDebug()<< "connection retry";
+    qDebug()<< "connection retry,m_liaisonToServer:  " << m_liaisonToServer;
     //QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
     // connect successed
 
@@ -257,7 +275,7 @@ void ClientServeur::ajouterLiaison(Liaison *liaison)
 
 void ClientServeur::nouveauClientConnecte()
 {
-    // Recuperation du socket lie a la demande de connexion
+
     QTcpSocket *socketTcp = m_server->nextPendingConnection();
 
 
@@ -272,7 +290,7 @@ void ClientServeur::finDeLiaison(Liaison * link)
     if(!m_disconnectAsked)
     {
         link->deleteLater();
-        qDebug()<< "disconnection non asked" << link << m_liaisonToServer;
+        qDebug()<< "disconnection not asked" << link << m_liaisonToServer;
 
         emit linkDeleted(link);
     }
@@ -322,7 +340,7 @@ void ClientServeur::disconnectAndClose()
     if (m_configDialog->isServer())
     {
         m_server->close();
-        MainWindow::notifyUser(tr("Server has been close."));
+        MainWindow::notifyUser(tr("Server has been closed."));
         foreach(Liaison * tmp,liaisons)
         {
             tmp->disconnectAndClose();
@@ -330,9 +348,11 @@ void ClientServeur::disconnectAndClose()
     }
     else
     {
-
         m_liaisonToServer->disconnectAndClose();
-        MainWindow::notifyUser(tr("Connection to the server has been close."));
+        MainWindow::notifyUser(tr("Connection to the server has been closed."));
+        m_playersList->cleanListButLocal();
+        delete m_liaisonToServer;
+        m_liaisonToServer=NULL;
     }
     setConnectionState(false);
 }

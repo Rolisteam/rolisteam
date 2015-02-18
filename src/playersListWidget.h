@@ -35,7 +35,9 @@
 class Carte;
 class PersonDialog;
 class Person;
-
+/**
+ * @brief The PlayersListWidgetModel class
+ */
 class PlayersListWidgetModel : public PlayersListProxyModel
 {
     Q_OBJECT

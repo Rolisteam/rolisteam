@@ -30,7 +30,9 @@
 #include "networkmessagereader.h"
 
 class Liaison;
-
+/**
+ * @brief The ReceiveEvent class
+ */
 class ReceiveEvent : public QEvent
 {
     public:

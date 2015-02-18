@@ -64,7 +64,8 @@ void  ConnectionRetryDialog::decreaseCounter()
     ui->m_label->setText(m_msg.arg(m_counter));
     if(0>=m_counter)
     {
-        emit tryConnection();
+        //emit tryConnection();
+        accept();
         resetCounter();
     }
 

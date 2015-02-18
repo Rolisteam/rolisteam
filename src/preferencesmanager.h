@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
     *	Copyright (C) 2010 by Renaud Guezennec                             *
     *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
     *                                                                         *
@@ -17,16 +17,16 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-    #ifndef PREFERENCESMANAGER_H
-    #define PREFERENCESMANAGER_H
-    
-    #include <QVariant>
-    #include <QString>
-    #include <QMap>
-    #include <QSettings>
-    
-    
-    /**
+#ifndef PREFERENCESMANAGER_H
+#define PREFERENCESMANAGER_H
+
+#include <QVariant>
+#include <QString>
+#include <QMap>
+#include <QSettings>
+
+
+/**
     * @index <h2>How To use the Preference Manager.</h2>
     *  <p>It is always painful to manage of data between two sessions of Rolisteam.
     * We implemented a powerful tool which helps contributors to make it easier.
@@ -36,13 +36,13 @@
     * Now, it's better if you get the address of the unique instance of the preferences manager, this can be done by calling the static function PreferencesManager::getInstance();
     *
     */
-    /**
+/**
     * @brief Store options and manage access to their value.
     * Save/load values in/from QSetting instance.
     */
-    class PreferencesManager
-    {
-    public:
+class PreferencesManager
+{
+public:
     /**
     * @brief Must be called instead of the constructor.
     *
@@ -86,7 +86,7 @@
     */
     void writeSettings(QSettings & settings);
     
-    private:
+private:
     /**
     * @brief Private constructor to make sure there is only one instance of this.
     */
@@ -110,6 +110,6 @@
     * The key is a QString, the value is a QVariant.
     */
     QMap<QString,QVariant>* m_optionDictionary;
-    };
-    
-    #endif // PREFERENCESMANAGER_H
+};
+
+#endif // PREFERENCESMANAGER_H

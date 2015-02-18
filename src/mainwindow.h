@@ -58,8 +58,7 @@ class ClientServeur;
 class TextEdit;
 
 /**
- * @brief Fenêtre principale, contenant la palette d'outils, les tableaux de
- * joueurs et de PJ, les cartes et les fenêtres de dialogue.
+ * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
 class MainWindow : public QMainWindow
 {
@@ -67,28 +66,112 @@ class MainWindow : public QMainWindow
 
 public :
 
+    /**
+     *
+     */
     ~MainWindow();
+    /**
+     * @brief getInstance
+     * @return
+     */
     static MainWindow* getInstance();
+    /**
+     * @brief majCouleursPersonnelles
+     */
     void majCouleursPersonnelles();
+
+    /**
+     * @brief ajouterCarte
+     * @param carteFenetre
+     * @param titre
+     * @param mapsize
+     * @param pos
+     */
     void ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
+    /**
+     * @brief ajouterImage
+     * @param imageFenetre
+     * @param titre
+     */
     void ajouterImage(Image *imageFenetre, QString titre);
+    /**
+     * @brief mettreAJourEspaceTravail
+     */
     void mettreAJourEspaceTravail();
+    /**
+     * @brief trouverCarte
+     * @param idCarte
+     * @return
+     */
     Carte *trouverCarte(QString idCarte);
+    /**
+     * @brief trouverCarteFenetre
+     * @param idCarte
+     * @return
+     */
     CarteFenetre *trouverCarteFenetre(QString idCarte);
+    /**
+     * @brief trouverImage
+     * @param idImage
+     * @return
+     */
     Image *trouverImage(QString idImage);
+    /**
+     * @brief estLaFenetreActive
+     * @param widget
+     * @return
+     */
     bool estLaFenetreActive(QWidget *widget);
+    /**
+     * @brief enleverCarteDeLaListe
+     * @param idCarte
+     * @return
+     */
     bool enleverCarteDeLaListe(QString idCarte);
+    /**
+     * @brief enleverImageDeLaListe
+     * @param idImage
+     * @return
+     */
     bool enleverImageDeLaListe(QString idImage);
 
+    /**
+     * @brief registerSubWindow
+     * @param subWindow
+     */
     void registerSubWindow(QWidget * subWindow);
+    /**
+     * @brief showConnectionDialog
+     * @return
+     */
     bool showConnectionDialog();
+    /**
+     * @brief setupUi
+     */
     void setupUi();
+    /**
+     * @brief getPermission
+     * @param id
+     * @return
+     */
     NouveauPlanVide::PermissionMode getPermission(int id);
+    /**
+     * @brief readSettings
+     */
     void readSettings();
+    /**
+     * @brief writeSettings
+     */
     void writeSettings();
-
+    /**
+     * @brief notifyUser
+     * @param msg
+     */
     static void notifyUser(QString msg);
-
+    /**
+     * @brief notifyUser_p
+     * @param msg
+     */
     void notifyUser_p(QString msg);
 
 
@@ -96,13 +179,45 @@ signals:
     void closing();
 
 public slots :
+    /**
+     * @brief creerNouveauPlanVide
+     * @param titre
+     * @param idCarte
+     * @param couleurFond
+     * @param largeur
+     * @param hauteur
+     */
     void creerNouveauPlanVide(QString titre, QString idCarte, QColor couleurFond, quint16 largeur, quint16 hauteur,quint8);
+    /**
+     * @brief aucunNouveauPlanVide
+     */
     void aucunNouveauPlanVide();
+    /**
+     * @brief afficherEditeurNotes
+     * @param afficher
+     * @param cocherAction
+     */
     void afficherEditeurNotes(bool afficher, bool cocherAction = false);
+    /**
+     * @brief quitterApplication
+     * @param perteConnexion
+     */
     void quitterApplication(bool perteConnexion = false);
+    /**
+     * @brief checkUpdate
+     */
     void checkUpdate();
+    /**
+     * @brief setNetworkManager
+     */
     void setNetworkManager(ClientServeur*);
+    /**
+     * @brief updateUi
+     */
     void updateUi();
+    /**
+     * @brief updateWindowTitle
+     */
     void updateWindowTitle();
 
 protected :
@@ -143,7 +258,9 @@ private :
      */
     void InitMousePointer(QCursor **pointer, const QString &iconFileName, const int hotX, const int hotY);
 
-
+    /**
+     * @brief workspace
+     */
     WorkspaceAmeliore *workspace;
     ListeUtilisateurs* m_listeUtilisateurs;
     PlayersListWidget * m_playersList;

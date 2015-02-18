@@ -34,7 +34,9 @@ class Carte;
     class LecteurAudio;
 #endif
 
-
+/**
+ * @brief The Liaison class
+ */
 class Liaison : public QObject
 {
 Q_OBJECT

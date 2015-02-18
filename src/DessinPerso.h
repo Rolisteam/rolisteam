@@ -40,7 +40,9 @@
 #include <QPoint>
 
 //#include "playersList.h"
-
+/**
+ * @brief The DessinPerso class
+ */
 class DessinPerso : public QWidget
 {
     Q_OBJECT

@@ -88,7 +88,9 @@ namespace NetMsg
         AddFeatureAction = 2
     };
 }
-
+/**
+ * @brief The NetworkMessage class
+ */
 class NetworkMessage
 {
 

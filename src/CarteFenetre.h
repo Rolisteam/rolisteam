@@ -42,7 +42,9 @@
 
 class Carte;
 
-
+/**
+ * @brief The CarteFenetre class
+ */
 class CarteFenetre : public QScrollArea
 {
 Q_OBJECT

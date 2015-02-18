@@ -419,35 +419,24 @@ void PlayersList::setLocalPlayer(Player * player)
         m_localPlayer=player;
         addPlayer(player);
     }
-
-
-
-
-    //qDebug("LocalPlayer %s %s %s", qPrintable(player->name()), qPrintable(player->uuid()), (G_client ? "client" : "server"));
-
-    if (G_client)
-    {
-    /*    NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
-        player->fill(message);
-        message.sendAll();*/
-        sendOffLocalPlayerInformations();
-    }
-    sendOffFeatures(player);
-    /*setLocalFeatures(*player);
-    SendFeaturesIterator i(*player);
-    while (i.hasNext())
-    {
-        i.next();
-        i.message().sendAll();
-    }*/
 }
-void PlayersList::cleanList()
+/*if (G_client)
 {
+    sendOffLocalPlayerInformations();
+}
+sendOffFeatures(player);*/
+void PlayersList::cleanListButLocal()
+{
+    beginResetModel();
     foreach(Player* tmp,m_playersList )
     {
         if(tmp != m_localPlayer)
+        {
             delPlayer(tmp);
+        }
     }
+    endResetModel();
+
 }
 
 void PlayersList::addLocalCharacter(Character * newCharacter)

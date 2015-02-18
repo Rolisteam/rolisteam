@@ -26,7 +26,9 @@
 #include "playerslistproxy.h"
 #include "playersList.h"
 
-
+/**
+ * @brief The LocalPersonModel class
+ */
 class LocalPersonModel : public PlayersListProxyModel
 {
     Q_OBJECT

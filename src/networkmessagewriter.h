@@ -27,7 +27,9 @@
 
 #include "networkmessage.h"
 
-
+/**
+ * @brief The NetworkMessageWriter class
+ */
 class NetworkMessageWriter : public NetworkMessage
 {
     public:

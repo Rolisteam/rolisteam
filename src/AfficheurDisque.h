@@ -32,7 +32,9 @@
 
 #include <QWidget>
 
-
+/**
+ * @brief The AfficheurDisque class display a size selector for circle.
+ */
 class AfficheurDisque : public QWidget
 {
     Q_OBJECT

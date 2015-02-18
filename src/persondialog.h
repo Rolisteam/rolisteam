@@ -26,7 +26,9 @@
 #include <QLineEdit>
 
 #include "colorbutton.h"
-
+/**
+ * @brief The PersonDialog class
+ */
 class PersonDialog
     : public QDialog {
     Q_OBJECT
