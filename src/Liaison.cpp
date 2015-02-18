@@ -82,7 +82,7 @@ Liaison::~Liaison()
 void Liaison::erreurDeConnexion(QAbstractSocket::SocketError erreur)
 {
     Q_UNUSED(erreur);
-    qWarning("Une erreur rÈseau est survenue : %s", qPrintable(socketTcp->errorString()));
+    qWarning("Une erreur r√©seau est survenue : %s", qPrintable(socketTcp->errorString()));
 }
 
 void Liaison::p_disconnect()
@@ -102,7 +102,7 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
         int t = socketTcp->write(donnees, taille);
         if (t < 0)
         {
-            qWarning("Erreur rÈseau lors d'une transmission : %s", qPrintable(socketTcp->errorString()));
+            qWarning("Erreur r√©seau lors d'une transmission : %s", qPrintable(socketTcp->errorString()));
         }
         else
             qDebug("Emission - Taille donnees : %d/%d", t, taille);
@@ -1029,7 +1029,7 @@ void Liaison::receptionMessagePlan()
         G_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("RÈception du plan: %1").arg(titre));
+        ecrireLogUtilisateur(tr("R√©ception du plan: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1115,7 +1115,7 @@ void Liaison::receptionMessagePlan()
         G_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("RÈception du plan: %1").arg(titre));
+        ecrireLogUtilisateur(tr("R√©ception du plan: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1147,7 +1147,7 @@ void Liaison::receptionMessagePlan()
         else
         {
             // Message sur le log utilisateur
-            ecrireLogUtilisateur(tr("Le plan %1 vient d'Ítre fermÈ par le MJ").arg(carteFenetre->windowTitle()));
+            ecrireLogUtilisateur(tr("Le plan %1 vient d'√™tre ferm√© par le MJ").arg(carteFenetre->windowTitle()));
             // Suppression du plan
             carteFenetre->~CarteFenetre();
         }
@@ -1220,7 +1220,7 @@ void Liaison::receptionMessageImage()
         G_mainWindow->ajouterImage(imageFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("RÈception de l'image %1").arg(titre.left(titre.size()-QString(tr(" (Image)")).size())));
+        ecrireLogUtilisateur(tr("R√©ception de l'image %1").arg(titre.left(titre.size()-QString(tr(" (Image)")).size())));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1254,7 +1254,7 @@ void Liaison::receptionMessageImage()
         {
             // Message sur le log utilisateur
             QString titre = imageFenetre->windowTitle();
-            ecrireLogUtilisateur(tr("L'image \"") + titre.left(titre.size() - QString(tr(" (Image)")).size() ) + tr("\" vient d'√™tre ferm√©e"));
+            ecrireLogUtilisateur(tr("L'image \"%1\" a √©t√© ferm√©e.").arg(titre.left(titre.size() - QString(tr(" (Image)")).size())));
             // Suppression de l'image
             imageFenetre->~Image();
         }
@@ -1265,7 +1265,7 @@ void Liaison::receptionMessageImage()
 
     else
     {
-        qWarning("Action image inconnue (r√©ceptionMessageImage - Liaison.cpp)");
+        qWarning("Action image inconnue (receptionMessageImage - Liaison.cpp)");
         return;
     }
 }

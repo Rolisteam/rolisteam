@@ -10,6 +10,8 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
 CONFIG += HAVE_PHONON
 #CONFIG += HAVE_FMOD
 #CONFIG += HAVE_NULL
+TRANSLATIONS = traduction/rolisteam_fr.ts
+CODECFORTR = UTF-8
 HEADERS += src/AfficheurDisque.h \
            src/BarreOutils.h \
            src/Carte.h \
@@ -120,6 +122,6 @@ QT += core \
  network
 
 #VERSION = 1.0.3
-DEFINES += VERSION=\\\"1.0.3\\\"
+DEFINES += VERSION=\\\"1.0d.904\\\"
 UI_DIR = src
 #QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"

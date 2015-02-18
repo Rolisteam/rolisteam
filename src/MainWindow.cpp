@@ -22,9 +22,19 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-
-#include <QtGui>
-#include <QDebug>
+#include <QApplication>
+#include <QBitmap>
+#include <QBuffer>
+#include <QDesktopServices>
+#include <QFileDialog>
+#include <QMenuBar>
+#include <QMessageBox>
+#include <QProcess>
+#include <QSettings>
+#include <QStringBuilder>
+#include <QTime>
+#include <QUrl>
+#include <QUuid>
 
 #include "MainWindow.h"
 
@@ -1903,24 +1913,29 @@ void MainWindow::sauvegarderFichierInitialisation()
 #endif
 }
 
-
+#ifndef VERSION
+#define VERSION "(unknown)"
+#endif
 void MainWindow::aPropos()
 {
         QMessageBox::about(this, tr("About Rolisteam"),
-                                           tr("<h1>Rolisteam v1.0.2</h1>"
-                                                  "<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others, share maps or picture. Rolisteam also provides many features for: permission management, sharing background music and dices throw. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.</p>"
-                                                  "<p>Rolisteam may contain some files from the FMOD library. This point prevents commercial use of the software.</p> "
-                                                  "<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>"
-                                                  "<p><h3>URL:</h3>  <a href=\"http://code.google.com/p/rolisteam/\">http://code.google.com/p/rolisteam/</a></p> "
-                                                  "<p><h3>BugTracker:</h3> <a href=\"http://code.google.com/p/rolisteam/issues/list\">http://code.google.com/p/rolisteam/issues/list</a></p> "
-                                                  "<p><h3>Current developers :</h3> "
-                                                  "<ul>"
-                                                  "<li><a href=\"http://renaudguezennec.homelinux.org/accueil,3.html\">Renaud Guezennec</a></li>"
-                                                  "</ul></p> "
-                                                  "<p><h3>Retired developers :</h3>"
-                                                  "<ul>"
-                                                  "<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni<a/> (rolistik)  </li>"
-                                                  "</ul></p>"));
+                            tr("<h1>Rolisteam v%1</h1>"
+                            "<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others and to share maps and pictures. Rolisteam also provides many features for : permission management, background music and dice roll. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.</p>").arg(VERSION) %
+                            tr("<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>") %
+                            tr("<p><h3>Web Sites :</h3>"
+                            "<ul>"
+                            "<li><a href=\"http://www.rolisteam.org/\">Official Rolisteam Site</a></li> "
+                            "<li><a href=\"http://code.google.com/p/rolisteam/issues/list\">Bug Tracker</a></li> "
+                            "</ul></p>"
+                            "<p><h3>Current developers :</h3>"
+                            "<ul>"
+                            "<li><a href=\"http://renaudguezennec.homelinux.org/accueil,3.html\">Renaud Guezennec</a></li>"
+                            "<li><a href=\"mailto:joseph.boudou@matabio.net\">Joseph Boudou<a/></li>"
+                            "</ul></p> "
+                            "<p><h3>Retired developers :</h3>"
+                            "<ul>"
+                            "<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni<a/> (rolistik)  </li>"
+                            "</ul></p>"));
 }
 
 
