@@ -473,7 +473,7 @@ int Tchat::calculerJetDes(QString message, QString *tirage, bool *ok)
 			for (int u=0; u<nombre; u++)
 			{
 				// Tirage du de
-				de = rand()%faces + 1;
+                                de = de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * (faces+1)); //rand()%faces + 1;
 				// Ajout du de au resultat final
 				resultatDes += de;
 				// Ajout du resultat a la chaine tirage
@@ -758,7 +758,7 @@ nbPasses++;
 for (int u=0; u<nbDesEnCours ; u++)
 {
   // Tirage du de
-	  de = rand()%nbFaces + 1;
+          de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * (nbFaces+1)); //rand()%nbFaces + 1;
 	  // Verification du succes
 	  if (de >= seuilSucces)
 	  {

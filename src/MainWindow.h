@@ -148,10 +148,15 @@ private slots :
         void ouvrirNotes();
         void fermerPlanOuImage();
         void sauvegarderPlan();
+
+        /**
+        * \brief Show the about dialog
+        *
+        */
         void aPropos();
 
 
-        /// @brief open the Qt assistant with the rolisteam documentation
+        /// \brief open the Qt assistant with the rolisteam documentation
         void aideEnLigne();
         bool sauvegarderScenario();
         bool sauvegarderNotes();

@@ -605,7 +605,7 @@ void ListeUtilisateurs::nouveauPj(bool checked)
         p+=sizeof(QRgb);
         // Ajout d'une information indiquant si les DesinPerso associes doivent etre ajoutes (1) ou pas (0) dans les cartes
         quint8 dessin = 1;
-        memcpy(&(donnees[p]), &dessin, sizeof(QRgb));
+        memcpy(&(donnees[p]), &dessin, sizeof(quint8));
         p+=sizeof(quint8);
 
         // Emission de la demande de creation de PJ au serveur ou a l'ensemble des clients
