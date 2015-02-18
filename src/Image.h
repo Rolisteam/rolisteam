@@ -99,6 +99,8 @@ public slots :
 	*/
     void pointeurNormal();
 
+    void setCleverURI(CleverURI* uri);
+
 protected :
 	/**
 	* @brief is used for handle the close event and hide the subwindows (not close it) 
@@ -168,6 +170,7 @@ private slots:
     void onFitWindow();
 
 private :
+    void updatePicture();
 	/**
 	* @brief adapt the size window to fit the MdiArea size and no scrollbar (if possible)
 	*/

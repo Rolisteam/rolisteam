@@ -93,7 +93,7 @@ MainWindow::MainWindow()
     // DockWidget Init
     ////////////
     m_sessionManager = new SessionManager();
-    connect( m_sessionManager,SIGNAL(openFile(CleverURI*)),this,SLOT(openFile(CleverURI*)));
+    connect( m_sessionManager,SIGNAL(openFile(CleverURI*)),this,SLOT(reOpenURI(CleverURI*)));
     m_playerListWidget = new UserListWidget();
     m_rclient->registerMessageManager(Network::UsersCategory,m_playerListWidget);
     m_audioPlayer = AudioPlayer::getInstance(this);
@@ -102,6 +102,10 @@ MainWindow::MainWindow()
     addDockWidget(Qt::RightDockWidgetArea, m_playerListWidget);
     addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
     m_workspace = new ImprovedWorkspace(this/*m_toolbar->currentColor()*/);
+    m_subWindowActGroup = new QActionGroup(this);
+    m_recentFilesActGroup= new QActionGroup(this);
+    m_connectDialog = new ConnectionWizzard(this);
+    m_subWindowList = new QMap<QAction*,SubMdiWindows*>;
 
     createMenu();
 
@@ -121,10 +125,8 @@ MainWindow::MainWindow()
 
     // all other allocation must be done after the settings reading.
 
-    m_connectDialog = new ConnectionWizzard(this); 
-    m_subWindowList = new QMap<QAction*,SubMdiWindows*>;
-    m_subWindowActGroup = new QActionGroup(this);
-    m_recentFilesActGroup= new QActionGroup(this);
+
+
 
     setWindowTitle(tr("Rolisteam - %1").arg(m_version));
     setCentralWidget(m_workspace);
@@ -141,9 +143,6 @@ MainWindow::MainWindow()
     tmp2.setValue(ConnectionList());
     QVariant tmp = m_options->value("network/connectionsList",tmp2);
     m_connectionList = tmp.value<ConnectionList>();
-
-
-
 
     connectActions();
 
@@ -164,8 +163,8 @@ void MainWindow::updateRecentFilesMenu()
     qDebug() << "Number of RecentFiles" << m_sessionManager->getRecentFiles().size();
     foreach(CleverURI* path,m_sessionManager->getRecentFiles())
     {
-        //qDebug() << "shortname ://///"<< path->getShortName() << path->getUri();
-        QAction* act = m_recentFilesActGroup->addAction(path->getShortName());
+        //qDebug() << "shortname ://///"<< path->getShortName() << ;
+        QAction* act = m_recentFilesActGroup->addAction(path->getUri());
         act->setIcon(QIcon(CleverURI::getIcon(static_cast<CleverURI::ContentType>(path->getType()))));
         QVariant* tmp = new QVariant;
         tmp->setValue(*path);
@@ -212,17 +211,6 @@ void MainWindow::createMenu()
 
 
     m_recentFilesMenu = m_fileMenu->addMenu(tr("&Recent Files"));
-
-
-// strange stuff 
-/*        QAction* act = m_recentFilesActGroup->addAction(path->getShortName());
-        act->setIcon(QIcon(CleverURI::getIcon(static_cast<CleverURI::ContentType>(path->getType()))));
-        QVariant temp;
-        temp.setValue(*path);
-        act->setData(temp);
-        m_recentFilesMenu->addAction(act);
-
-  */  
 
 
     m_fileMenu->addSeparator();
@@ -295,45 +283,66 @@ void MainWindow::createMenu()
 }
 void MainWindow::connectActions()
 {
-    connect(m_newConnectionAct,SIGNAL(triggered()),this,SLOT(addConnection()));
-    connect(m_openPictureAct, SIGNAL(triggered(bool)), this, SLOT(askPath()));
 
-    connect(m_newMapAct, SIGNAL(triggered(bool)), this, SLOT(clickOnMapWizzard()));
+    ////////
+    // Menu Network
+    ////////
+    connect(m_newConnectionAct,SIGNAL(triggered()),this,SLOT(addConnection()));
+    connect(m_serverAct,SIGNAL(triggered()),this,SLOT(startServer()));
+    connect(m_manageConnectionAct,SIGNAL(triggered()),this,SLOT(showConnectionManager()));
+
+    ////////
+    // Menu Misc
+    ////////
     connect(m_helpAct, SIGNAL(triggered()), this, SLOT(help()));
     connect(m_aproposAct, SIGNAL(triggered()), this, SLOT(about()));
     connect(m_quitAct, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(m_preferencesAct,SIGNAL(triggered()),this,SLOT(showPreferenceManager()));
-    connect(m_openNoteAct,SIGNAL(triggered(bool)), this, SLOT(askPath()));
-    connect(m_manageConnectionAct,SIGNAL(triggered()),this,SLOT(showConnectionManager()));
-    connect(m_serverAct,SIGNAL(triggered()),this,SLOT(startServer()));
 
-    connect(m_openMapAct,SIGNAL(triggered()),this,SLOT(open()));
+
+
+
+    ////////
+    // Menu Save
+    ////////
 
     connect(m_saveAsAct,SIGNAL(triggered()),this,SLOT(saveAs()));
 
-
+    ////////
+    // Menu New
+    ////////
     connect(m_dataSheetAct, SIGNAL(triggered()), this, SLOT(addCharacterSheet()));
     connect(m_noteEditoAct, SIGNAL(triggered()), this, SLOT(displayMinutesEditor()));
+    connect(m_newMapAct, SIGNAL(triggered(bool)), this, SLOT(clickOnMapWizzard()));
 
-    connect(m_usedTabBarAct,SIGNAL(toggled(bool)),m_organizeMenu,SLOT(setDisabled(bool)));
-    connect(m_usedTabBarAct,SIGNAL(triggered()),this,SLOT(onTabBar()));
 
-    connect(m_subWindowActGroup,SIGNAL(triggered(QAction*)),this,SLOT(hideShowWindow(QAction*)));
+
+
+    ////////
+    // Menu Open
+    ////////
+    connect(m_openNoteAct,SIGNAL(triggered(bool)), this, SLOT(openContent()));
+    connect(m_openCharacterSheetsAct,SIGNAL(triggered()),this,SLOT(openContent()));
+    connect(m_openScenarioAct,SIGNAL(triggered()),this,SLOT(openContent()));
+    connect(m_openMapAct,SIGNAL(triggered()),this,SLOT(openContent()));
+    connect(m_openPictureAct, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_recentFilesActGroup,SIGNAL(triggered(QAction*)),this,SLOT(openRecentFile(QAction*)));
 
-    connect( m_cascadeSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(cascadeSubWindows()));
-    connect( m_tileSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(tileSubWindows()));
 
-    connect(m_openCharacterSheetsAct,SIGNAL(triggered()),this,SLOT(askPath()));
-    //connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
 
+    ////////
+    // Menu View
+    ////////
     connect(m_playerShower,SIGNAL(triggered(bool)),m_audioPlayer,SLOT(setVisible(bool)));
     connect(m_sessionShower,SIGNAL(triggered(bool)),m_sessionManager,SLOT(setVisible(bool)));
     connect(m_userlistShower,SIGNAL(triggered(bool)),m_playerListWidget,SLOT(setVisible(bool)));
     connect(m_sessionManager,SIGNAL(changeVisibility(bool)),m_sessionShower,SLOT(setChecked(bool)));
-
+    connect(m_usedTabBarAct,SIGNAL(toggled(bool)),m_organizeMenu,SLOT(setDisabled(bool)));
+    connect(m_usedTabBarAct,SIGNAL(triggered()),this,SLOT(onTabBar()));
+    connect(m_subWindowActGroup,SIGNAL(triggered(QAction*)),this,SLOT(hideShowWindow(QAction*)));
+    connect( m_cascadeSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(cascadeSubWindows()));
+    connect( m_tileSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(tileSubWindows()));
     connect(m_audioPlayer,SIGNAL(changeVisibility(bool)),m_playerShower,SLOT(setChecked(bool)));
-
     connect(m_playerListWidget,SIGNAL(changeVisibility(bool)),m_userlistShower,SLOT(setChecked(bool)));
 }
 void MainWindow::allowActions()
@@ -344,33 +353,13 @@ void MainWindow::openRecentFile(QAction* pathAct)
 {
     QVariant r=pathAct->data();
     CleverURI uri=r.value<CleverURI>();
-//    openFile(&uri);
 }
 void MainWindow::addopenedFile(CleverURI* uri)
 {
-
     /// @todo Manage the list size in the option/preferences system
-
     m_sessionManager->addRessource(uri);
-    //if(m_recentFiles.indexOf(uri)==-1)//if it's not here, it is added to the list.
-     //   m_recentFiles << uri;
-
 }
 
-bool MainWindow::openCharacterSheets(CleverURI* uri)
-{
-    if(!uri->getUri().isEmpty())
-    {
-        CharacterSheetWindow* characterSheet = new CharacterSheetWindow();
-        characterSheet->setCleverURI(uri);
-        //addopenedFile(filepath,CleverURI::CHARACTERSHEET);
-        characterSheet->openFile(uri->getUri());
-        addToWorkspace(characterSheet);
-        characterSheet->setVisible(true);
-        return true;
-    }
-    return false;
-}
 void MainWindow::hideShowWindow(QAction* p)
 {
     SubMdiWindows* tmp = (*m_subWindowList)[p];
@@ -412,27 +401,13 @@ void MainWindow::clickOnMapWizzard()
     MapWizzardDialog mapWizzard;
     if(mapWizzard.exec())
     {
-        Map* tempmap  = new Map();
+        Map* tempmap = new Map();
         mapWizzard.setAllMap(tempmap);
         MapFrame* tmp = new MapFrame(new CleverURI("",CleverURI::MAP),tempmap);
         addToWorkspace(tmp);
         tmp->show();
     }
 }
-bool MainWindow::openMinutes(CleverURI* uri)
-{
-    if(!uri->getUri().isEmpty())
-    {
-        MinutesEditor* minutesEditor = new MinutesEditor(uri);
-        minutesEditor->openFile(uri->getUri());
-        addToWorkspace(minutesEditor);
-        minutesEditor->setVisible(true);
-        return true;
-    }
-    return false;
-}
-
-
 
 CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
 {
@@ -456,6 +431,11 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
             title = tr("Open Minutes");
             folder = m_options->value(QString("MinutesDirectory"),".").toString();
             break;
+        case CleverURI::CHARACTERSHEET:
+            filter = m_supportedCharacterSheet;
+            title = tr("Open Character Sheets");
+            folder = m_options->value(QString("DataDirectory"),".").toString();
+            break;
         default:
             break;
     }
@@ -472,19 +452,7 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
 
         return new CleverURI(filepath,type);
     }
-}
-
-bool MainWindow::openImage(CleverURI* filepath)
-{
-    if(!filepath->getUri().isEmpty())
-    {
-        Image* tmpImage=new Image(filepath,m_workspace);
-        //addopenedFile(filepath,CleverURI::PICTURE);
-        addToWorkspace(tmpImage);
-        tmpImage->show();
-        return true;
-    }
-    return false;
+    return NULL;
 }
 
 void  MainWindow::onTabBar()
@@ -828,21 +796,18 @@ void MainWindow::saveAs()
         tmp->saveFile(filename->getUri());
     }
 }
-void MainWindow::open()
+void MainWindow::openContent()
 {
     QAction* action=static_cast<QAction*>(sender());
     CleverURI::ContentType type;
-    SubMdiWindows* tmp=NULL;
     if(action == m_openMapAct)
     {
         type=CleverURI::MAP;
-
-        //tmp = new
     }
     else if(action == m_openPictureAct)
     {
         type=CleverURI::PICTURE;
-        tmp = new Image(m_workspace);
+
     }
     else if(action == m_openScenarioAct)
     {
@@ -851,50 +816,51 @@ void MainWindow::open()
     else if(action== m_openCharacterSheetsAct)
     {
         type = CleverURI::CHARACTERSHEET;
-        tmp = new CharacterSheetWindow();
     }
     else if(action == m_openNoteAct)
     {
         type = CleverURI::TEXT;
+    }
+    CleverURI* path = contentToPath(type,false);
+
+    openCleverURI(path,true);
+
+}
+void MainWindow::reOpenURI(CleverURI* uri )
+{
+    openCleverURI(uri,false);
+}
+
+void MainWindow::openCleverURI(CleverURI* uri,bool addSession)
+{
+    SubMdiWindows* tmp=NULL;
+    if(uri->getType() == CleverURI::MAP)
+    {
+        tmp = new MapFrame();
+    }
+    else if(uri->getType() == CleverURI::PICTURE)
+    {
+        tmp = new Image(m_workspace);
+    }
+    else if(uri->getType() == CleverURI::SCENARIO)
+    {
+    }
+    else if(uri->getType()== CleverURI::CHARACTERSHEET)
+    {
+        tmp = new CharacterSheetWindow();
+    }
+    else if(uri->getType() == CleverURI::TEXT)
+    {
         tmp = new MinutesEditor();
     }
-
-    CleverURI* path = contentToPath(type,false);
     if(tmp!=NULL)
     {
-        tmp->setCleverURI(path);
-        tmp->openFile(path->getUri());
+        tmp->setCleverURI(uri);
+        tmp->openFile(uri->getUri());
         addToWorkspace(tmp);
+        tmp->setVisible(true);
+        if(addSession)
+            addopenedFile(uri);
     }
 
 }
-/*
-void MainWindow::askPath()
-{
-    QAction* tmp = static_cast<QAction*>(sender());
-    CleverURI* filepath;
-    if(m_openPictureAct==tmp)
-    {
-        filepath = contentToPath(CleverURI::PICTURE,false);
-        if(openImage(filepath))
-            addopenedFile(filepath);
-
-    }
-    else if (m_openCharacterSheetsAct==tmp)
-    {
-        filepath = contentToPath(CleverURI::CHARACTERSHEET,false);
-
-        if(openCharacterSheets(filepath))
-            addopenedFile(filepath);
-    }
-    else if (m_openNoteAct == tmp)
-    {
-        filepath = contentToPath(CleverURI::TEXT
-                                 ,false);
-        if(openMinutes(filepath))
-            addopenedFile(filepath);
-    }
-
-
-
- }*/

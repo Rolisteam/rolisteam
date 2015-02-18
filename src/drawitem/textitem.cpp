@@ -23,7 +23,7 @@
 #include <QObject>
 TextItem::TextItem()
 {
-
+m_metricFont = new QFontMetrics(QFont());
 }
 
 TextItem::TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsItem * parent)
@@ -78,10 +78,12 @@ void TextItem::writeData(QDataStream& out) const
 {
     out << m_start;
     out << m_text;
+    out << m_color;
 }
 
 void TextItem::readData(QDataStream& in)
 {
     in >> m_start;
     in >> m_text;
+    in >> m_color;
 }

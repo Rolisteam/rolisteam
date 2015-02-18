@@ -28,6 +28,14 @@
 Image::Image(ImprovedWorkspace *parent)
     : SubMdiWindows(parent),m_NormalSize(0,0)
 {
+    m_parent = parent;
+    setWindowIcon(QIcon(":/resources/icons/image.png"));
+    m_zoomLevel = 1;
+
+    setUi();
+    createActions();
+    m_labelImage = new QLabel(this);
+    setObjectName("Image");
 
 }
 
@@ -47,18 +55,8 @@ Image::Image( CleverURI* uri,  ImprovedWorkspace *parent)
 
 
     m_labelImage = new QLabel(this);
-    m_pixMap = QPixmap::fromImage(QImage(m_uri->getUri()));
-   //m_labelImage->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
-    m_labelImage->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
-    m_labelImage->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    m_labelImage->setScaledContents(true);
-    m_labelImage->resize(m_pixMap.size());
-    m_scrollArea->setAlignment(Qt::AlignCenter);
-    m_scrollArea->setWidget(m_labelImage);
-    setWindowFlags(Qt::Window);
-    m_labelImage->installEventFilter(this);
-    fitWindow();
 
+    updatePicture();
 }
 
 
@@ -109,6 +107,26 @@ void Image::createActions()
     m_actionBigZoom->setShortcut(tr("Ctrl+2"));
     m_actionZoomIn->setToolTip(tr("Set the zoom level at 400%"));
     connect(m_actionBigZoom,SIGNAL(triggered()),this,SLOT(zoomBig()));
+}
+void Image::setCleverURI(CleverURI* uri)
+{
+    m_uri=uri;
+    updatePicture();
+}
+
+void Image::updatePicture()
+{
+    setWindowTitle(m_uri->getShortName());
+    m_pixMap = QPixmap::fromImage(QImage(m_uri->getUri()));
+    m_labelImage->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
+    m_labelImage->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    m_labelImage->setScaledContents(true);
+    m_labelImage->resize(m_pixMap.size());
+    m_scrollArea->setAlignment(Qt::AlignCenter);
+    m_scrollArea->setWidget(m_labelImage);
+    setWindowFlags(Qt::Window);
+    m_labelImage->installEventFilter(this);
+    fitWindow();
 }
 
 void Image::setUi()

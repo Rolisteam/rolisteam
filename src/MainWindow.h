@@ -90,13 +90,78 @@ public slots :
         void checkUpdate();
 
         void refreshNetworkMenu();
-        //void openFile(CleverURI* );
-
+        void openCleverURI(CleverURI* ,bool addSession = true);
+        void reOpenURI(CleverURI* );
 
 protected :
         void closeEvent(QCloseEvent *event);
         CleverURI* contentToPath(CleverURI::ContentType type,bool save);
 
+private slots :
+        /**
+        * @brief Show the map wizzard
+        *
+        */
+        void clickOnMapWizzard();
+
+        /**
+        * @brief Show the map wizzard
+        *
+        */
+
+        void tcpStateConnectionChanged(RClient::State);
+        /**
+        * @brief Show the about dialog
+        *
+        */
+        void about();
+        /**
+        * @brief click on selected connection
+        *
+        */
+        void onConnection(QAction*);
+
+        /// @brief open the Qt assistant with the rolisteam documentation
+        void help();
+
+
+        void hideShowWindow(QAction*);
+
+
+        /**
+         * @brief is called when user click on start server item menu.
+         */
+        void startServer();
+        /**
+         * @brief is called when user click on add connection item menu.
+         */
+        void addConnection();
+        /**
+         * @brief is called when user click on connection manager item menu.
+         */
+        void showConnectionManager();
+
+        /**
+         * @brief is called when user click on preference item menu.
+         */
+        void showPreferenceManager();
+
+        /**
+         * @brief is called when user click on usedTabBarAct item menu.
+         */
+        void onTabBar();
+
+        void openRecentFile(QAction*);
+
+        void openTchat();
+
+        void updateMayBeNeeded();
+        //void askPath();
+
+
+        void saveAs();
+        void updateRecentFilesMenu();
+        void openContent();
 
 private :
 
@@ -148,9 +213,7 @@ private :
           */
         void addopenedFile(CleverURI* uri );
 
-        bool openImage(CleverURI* uri);
-        bool openCharacterSheets(CleverURI* uri);
-        bool openMinutes(CleverURI* uri);
+
         /// members declarations.
         AudioPlayer* m_audioPlayer;
 
@@ -268,10 +331,6 @@ private :
         /**
           * @brief QStringList of opened documents : file paths
           */
-      /*  QStringList m_recentFiles;
-        QList<int> m_recentTypes;*/
-        //QList<CleverURI> m_recentFiles;
-
         SessionManager* m_sessionManager;
 
         UpdateChecker* m_updateChecker;
@@ -285,71 +344,8 @@ private :
 
         QString m_version;
 
-private slots :
-        /**
-        * @brief Show the map wizzard
-        *
-        */
-        void clickOnMapWizzard();
-
-        /**
-        * @brief Show the map wizzard
-        *
-        */
-
-        void tcpStateConnectionChanged(RClient::State);
-        /**
-        * @brief Show the about dialog
-        *
-        */
-        void about();
-        /**
-        * @brief click on selected connection
-        *
-        */
-        void onConnection(QAction*);
-
-        /// @brief open the Qt assistant with the rolisteam documentation
-        void help();
 
 
-        void hideShowWindow(QAction*);
-
-
-        /**
-         * @brief is called when user click on start server item menu.
-         */
-        void startServer();
-        /**
-         * @brief is called when user click on add connection item menu.
-         */
-        void addConnection();
-        /**
-         * @brief is called when user click on connection manager item menu.
-         */
-        void showConnectionManager();
-
-        /**
-         * @brief is called when user click on preference item menu.
-         */
-        void showPreferenceManager();
-
-        /**
-         * @brief is called when user click on usedTabBarAct item menu.
-         */
-        void onTabBar();
-
-        void openRecentFile(QAction*);
-
-        void openTchat();
-
-        void updateMayBeNeeded();
-        //void askPath();
-
-
-        void saveAs();
-        void updateRecentFilesMenu();
-        void open();
 };
 
 #endif

@@ -20,6 +20,13 @@
 #include "pathitem.h"
  #include <QPainterPath>
 #include <QPainter>
+
+PathItem::PathItem()
+: VisualItem()
+{
+
+}
+
 PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,QGraphicsItem * parent)
          : VisualItem(penColor,parent)
 {
@@ -49,7 +56,6 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     painter->setPen(m_pen);
     painter->drawPath(m_path);
     painter->restore();
-
 }
 void PathItem::setNewEnd(QPointF& p)
 {
@@ -59,12 +65,14 @@ void PathItem::setNewEnd(QPointF& p)
 }
 void PathItem::writeData(QDataStream& out) const
 {
-
+    out << m_path;
+    out << m_pen;
 }
 
 void PathItem::readData(QDataStream& in)
 {
-
+    in >> m_path;
+    in >> m_pen;
 }
 VisualItem::ItemType PathItem::getType()
 {

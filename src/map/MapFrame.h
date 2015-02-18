@@ -46,6 +46,7 @@ class MapFrame : public SubMdiWindows
 
 
 public :
+    MapFrame();
      /**
        * @brief constructor
        * @todo default constructor missing
@@ -89,6 +90,7 @@ public :
     virtual QDockWidget* getDockWidget() ;
 
 public slots :
+    virtual void setCleverURI(CleverURI* uri);
         /**
          *  @brief called when the windows starts to move (not sure it's still used)
          *  @param the new location
@@ -152,8 +154,10 @@ protected :
     virtual void mousePressEvent(QMouseEvent* event);
 
 
-private :
 
+private :
+    void createAction();
+    void updateMap();
     /**
      *  pointer to the map, the place where all items are added and displayed
      */

@@ -164,7 +164,6 @@ void Map::setNPCSize(int p)
 
      if(mouseEvent->button() == Qt::LeftButton)
      {
-
          m_first = mouseEvent->scenePos();
          m_end = m_first;
          addItem();
@@ -187,48 +186,69 @@ void Map::setNPCSize(int p)
 
 
  }
+
+ QDataStream& operator<<(QDataStream& out, const Map& con)
+ {
+   out << con.m_width;
+   out << con.m_height;
+   out << con.m_title;
+   out << con.m_bgColor;
+
+    out << con.m_itemList->size();
+   for(int i = 0; i< con.m_itemList->size();i++)
+   {
+       VisualItem* item = con.m_itemList->at(i);
+       out << *item ;
+   }
+   return out;
+ }
+
+ QDataStream& operator>>(QDataStream& is,Map& con)
+ {
+   is >>(con.m_width);
+   is >>(con.m_height);
+   is >>(con.m_title);
+   is >>(con.m_bgColor);
+
+   int size;
+   is >> size;
+
+
+
+   return is;
+ }
+
  void Map::saveFile(QDataStream& out)
  {
      if(m_itemList->isEmpty())
          return;
 
      out << m_width;
-
      out<< m_height;
-
      out<< m_title;
-
      out<< m_bgColor;
-
      out << m_itemList->size();
+     qDebug()<< "m_itemList size" << m_itemList->size() <<  m_bgColor << m_width << m_height << m_title ;
 
      foreach(VisualItem* tmp, *m_itemList)
      {
         out << tmp->getType() << *tmp;
      }
-
-
-
-
  }
 void Map::openFile(QDataStream& in)
 {
     if(m_itemList!=NULL)
     {
         in >> m_width;
-
         in >> m_height;
-
         in>> m_title;
-
         in>> m_bgColor;
 
-         int numberOfItem;
-         in >> numberOfItem;
-
-
-         for(int i =0 ; i<numberOfItem;i++)
-         {
+        int numberOfItem;
+        in >> numberOfItem;
+        qDebug()<< "m_itemList size" << numberOfItem <<  m_bgColor << m_width << m_height << m_title ;
+        for(int i =0 ; i<numberOfItem;i++)
+        {
              VisualItem* item;
              item=NULL;
             VisualItem::ItemType type;
@@ -257,9 +277,17 @@ void Map::openFile(QDataStream& in)
                     item=new EllipsItem();
 
                 break;
+                case VisualItem::PATH:
+                    item=new PathItem();
+
+                break;
 
             }
             in >> *item;
+            QGraphicsScene::addItem(item);
+            m_itemList->append(item);
          }
+        qDebug()<< m_itemList->size();
     }
 }
+

@@ -103,10 +103,12 @@ void RectItem::writeData(QDataStream& out) const
 {
     out << m_rect;
     out << m_filled;
+    out << m_color;
 }
 
 void RectItem::readData(QDataStream& in)
 {
     in >> m_rect;
     in >> m_filled;
+    in >> m_color;
 }

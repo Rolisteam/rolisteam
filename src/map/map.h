@@ -178,6 +178,9 @@ private:
       * @brief Items list which are part of the map.
       */
     QList<VisualItem*>* m_itemList;
+
+    friend QDataStream& operator<<(QDataStream& os,const Map&);
+    friend QDataStream& operator>>(QDataStream& is,Map&);
 };
 
 #endif // MAP_H

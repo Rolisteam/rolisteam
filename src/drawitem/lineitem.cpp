@@ -60,6 +60,7 @@ void LineItem::writeData(QDataStream& out) const
     out << m_endPoint;
     out << m_pen;
     out << m_filled;
+    out << m_color;
 }
 
 void LineItem::readData(QDataStream& in)
@@ -69,6 +70,7 @@ void LineItem::readData(QDataStream& in)
     in >> m_endPoint;
     in >> m_pen;
     in >> m_filled;
+    in >> m_color;
 }
 VisualItem::ItemType LineItem::getType()
 {

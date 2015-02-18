@@ -106,6 +106,7 @@ void EllipsItem::writeData(QDataStream& out) const
     out << m_rect;
     out << m_center;
     out << m_filled;
+    out << m_color;
 }
 VisualItem::ItemType EllipsItem::getType()
 {
@@ -117,4 +118,5 @@ void EllipsItem::readData(QDataStream& in)
     in >> m_rect;
     in >> m_center;
     in >> m_filled;
+    in >> m_color;
 }

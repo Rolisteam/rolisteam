@@ -28,6 +28,7 @@
 class PathItem : public VisualItem
 {
 public:
+    PathItem();
     /**
       * @brief constructor with parameters
       * @param nend starting point
