@@ -61,6 +61,8 @@ protected slots:
       * @brief defines new behaviours for mouseDoubleClickEvent
       */
     virtual void mouseDoubleClickEvent ( QMouseEvent * );
+
+    virtual void mousePressEvent ( QMouseEvent * );
     /**
       * @brief called when current item changed
       */

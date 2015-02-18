@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "characteritem.h"
-CharacterItem::CharacterItem()
-    : VisualItem()
+CharacterItem::CharacterItem(const Character* m,QPointF pos)
+    : VisualItem(),m_character(m),m_center(pos)
 {
 
 }

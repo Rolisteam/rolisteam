@@ -15,7 +15,8 @@ Map::Map(QObject * parent)
 {
     m_currentItem = NULL;
     m_itemList=new  QList<VisualItem*>;
-	setItemIndexMethod(QGraphicsScene::NoIndex);
+    setItemIndexMethod(QGraphicsScene::NoIndex);
+
 }
 
 
@@ -27,7 +28,7 @@ Map::Map(int width,int height,QString& title,QColor& bgColor,QObject * parent)
     setBackgroundBrush(m_bgColor);
     m_currentItem = NULL;
     m_itemList=new  QList<VisualItem*>;
-	setItemIndexMethod(QGraphicsScene::NoIndex);
+    setItemIndexMethod(QGraphicsScene::NoIndex);
 
 }
 
@@ -265,7 +266,8 @@ void Map::openFile(QDataStream& in)
 
                 break;
                 case VisualItem::CHARACTER:
-                    item=new CharacterItem();
+                    /// @TODO: Reimplement that feature
+                   // item=new CharacterItem();
 
                 break;
                 case VisualItem::LINE:
@@ -291,4 +293,11 @@ void Map::openFile(QDataStream& in)
          }
         qDebug()<< m_itemList->size();
     }
+}
+
+void Map::addCharacter(const Character* p, QPointF pos)
+{
+
+    CharacterItem* item= new CharacterItem(p,pos);
+
 }

@@ -837,6 +837,10 @@ void MainWindow::openContent()
     {
         type = CleverURI::PDF;
     }
+    else
+    {
+        return;
+    }
     CleverURI* path = contentToPath(type,false);
 
     if(path)
@@ -875,27 +879,11 @@ void MainWindow::openCleverURI(CleverURI* uri,bool addSession)
         case CleverURI::PDF:
             tmp = new PDFViewer();
         break;
+        case CleverURI::TCHAT:
+        case CleverURI::SONG:
+        break;
     }
 
-   /* if(uri->getType() == CleverURI::MAP)
-    {
-
-    }
-    else if(uri->getType() == CleverURI::PICTURE)
-    {
-        tmp = new Image(m_workspace);
-    }
-    else if(uri->getType() == CleverURI::SCENARIO)
-    {
-    }
-    else if(uri->getType()== CleverURI::CHARACTERSHEET)
-    {
-
-    }
-    else if(uri->getType() == CleverURI::TEXT)
-    {
-
-    }*/
     if(tmp!=NULL)
     {
         tmp->setCleverURI(uri);

@@ -17,15 +17,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "userlistview.h"
+
 #include <QHeaderView>
-#include "userlistmodel.h"
-#include <userlistdelegate.h>
 #include <QMouseEvent>
 #include <QDebug>
 #include <QColorDialog>
 #include <QMenu>
 #include <QFileDialog>
+
+#include <userlistdelegate.h>
+#include "userlistview.h"
+#include "userlistmodel.h"
+#include "rolisteammimedata.h"
 
 UserListView::UserListView(QWidget *parent) :
     QTreeView(parent)
@@ -67,8 +70,6 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
             depth++;
             tmp=tmp.parent();
         }
-       // qDebug() << "indentationValue" << indentationValue << iconSize() << event->pos().x() << depth << ((depth)*indentationValue+icon);
-        //if the click is on the color icon.
         if((depth*indentationValue<event->pos().x())&&((depth)*indentationValue+icon>=event->pos().x()))
         {
             emit editCurrentItemColor();
@@ -120,4 +121,28 @@ void UserListView::setModel(UserListModel *model)
 {
     QTreeView::setModel(model);
     m_model = model;
+}
+void UserListView::mousePressEvent ( QMouseEvent * event)
+{
+    QModelIndex tmp = indexAt(event->pos());
+
+    if ((event->button() == Qt::LeftButton) && (tmp.isValid()))
+    {
+            Person* tmpperso = m_model->getPersonAt(tmp);
+            if(tmpperso->isLeaf())
+            {
+                QDrag *drag = new QDrag(this);
+                RolisteamMimeData *mimeData = new RolisteamMimeData();
+
+                mimeData->setPerson(tmpperso);
+                drag->setMimeData(mimeData);
+                //drag->setPixmap(tmpperso->getAvatar());
+
+                Qt::DropAction dropAction = drag->exec();
+            }
+            else
+            {
+                QTreeView::mousePressEvent (event);
+            }
+        }
 }

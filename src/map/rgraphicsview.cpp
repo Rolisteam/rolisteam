@@ -20,12 +20,13 @@
 
 #include <QDebug>
 
-
+#include "character.h"
 #include "rgraphicsview.h"
-
+#include "rolisteammimedata.h"
 RGraphicsView::RGraphicsView(Map *map)
-    : QGraphicsView(map)
+    : QGraphicsView(map),m_map(map)
 {
+    setAcceptDrops(true);
 }
 void RGraphicsView::keyPressEvent ( QKeyEvent * event)
 {
@@ -49,6 +50,40 @@ void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 }
 void RGraphicsView::focusInEvent ( QFocusEvent * event )
 {
-
     QGraphicsView::focusInEvent (event);
+}
+void RGraphicsView::dragEnterEvent ( QDragEnterEvent * event )
+{
+    const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
+    if(data)
+    {
+        if (data->hasFormat("rolisteam/userlist-item"))
+        {
+            qDebug() << "Valide modelindex";
+            event->acceptProposedAction();
+        }
+    }
+
+}
+void RGraphicsView::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->acceptProposedAction();
+    qDebug() << "dragMoveEvent event2";
+}
+
+void RGraphicsView::dropEvent ( QDropEvent * event )
+{
+    qDebug() << "drop event";
+    const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
+    if(data)
+    {
+        if (data->hasFormat("rolisteam/userlist-item"))
+        {
+            const Person* item = data->getData();
+            const Character* character = dynamic_cast<const Character*>(item);
+            if(character)
+                m_map->addCharacter(character,mapToScene(event->pos()));
+        }
+    }
+        qDebug() << "drop event2";
 }

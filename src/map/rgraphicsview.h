@@ -40,8 +40,11 @@ protected:
    void keyPressEvent ( QKeyEvent * event);
    void mousePressEvent ( QMouseEvent * event);
    void focusInEvent ( QFocusEvent * event );
-
+   void dragEnterEvent ( QDragEnterEvent * event );
+   void dropEvent ( QDropEvent * event );
+   void dragMoveEvent( QDragMoveEvent * event );
 private:
+   Map* m_map;
 
 };
 

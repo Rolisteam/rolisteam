@@ -28,7 +28,7 @@ class CharacterItem : public VisualItem
 {
 
 public:
-    CharacterItem();
+    CharacterItem(const Character* m,QPointF center);
     /**
       * @brief constructor
       */
@@ -59,7 +59,7 @@ public:
       */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 private:
-    Character* m_character;
+    const Character* m_character;
     QPointF m_center;
     quint32 size;
 

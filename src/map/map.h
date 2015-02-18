@@ -23,6 +23,9 @@
 #include <QGraphicsScene>
 #include <QColor>
 #include "toolbar.h"
+
+#include "character.h"
+
 class VisualItem;
 /**
   * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
@@ -86,6 +89,8 @@ public:
     void saveFile(QDataStream& );
 
     void openFile(QDataStream& );
+
+    void addCharacter(const Character* p, QPointF pos);
 
 public slots:
     /**

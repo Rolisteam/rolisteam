@@ -290,3 +290,8 @@ bool UserListModel::isLocalPlayer(QModelIndex& index)
 
     //return (p==m_player);
 }
+Person* UserListModel::getPersonAt(QModelIndex& l)
+{
+    PersonItem* childItem = static_cast<PersonItem*>(l.internalPointer());
+    return childItem->getPerson();
+}
