@@ -23,12 +23,12 @@
 #include <QMdiSubWindow>
 
 #include "ToolBar.h"
-/**
-* @brief is an abstract class which defines interfaces with all kinds of subwindows.
-*
-*/
+
 class PreferencesManager;
 class RClient;
+/**
+* @brief is an abstract class which defines interfaces with all kinds of subwindows.
+*/
 class SubMdiWindows : public QMdiSubWindow
 {
     Q_OBJECT

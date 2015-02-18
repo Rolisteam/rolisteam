@@ -84,6 +84,7 @@ macx {
     documentation.path = bin/rolisteam.app/Contents/Resources/doc
 }
 documentation.files = resources/doc/rolisteam.qhc
+target.file= ../bin/rolisteam
 target.path=/usr/bin/
 INSTALLS += documentation \
     target
