@@ -52,7 +52,7 @@ ChatList::ChatList(MainWindow * mainWindow)
         Player * player = g_playersList.getPlayer(i);
         if (player != localPlayer)
         {
-            addPlayerChat(player, mainWindow);
+            addPlayerChat(player);//m_mainWindow
         }
     }
 
@@ -256,12 +256,12 @@ ChatWindow * ChatList::chatWindow(const QModelIndex & index) const
     return m_chatWindowList.at(row);
 }
 
-void ChatList::addPlayerChat(Player * player, MainWindow * mainWindow)
+void ChatList::addPlayerChat(Player * player)
 {
     ChatWindow * chatw = chatWindow(player->uuid());
     if (chatw == NULL)
     {
-        addChatWindow(new ChatWindow(new PlayerChat(player), mainWindow));
+        addChatWindow(new ChatWindow(new PlayerChat(player), m_mainWindow));
     }
 }
 

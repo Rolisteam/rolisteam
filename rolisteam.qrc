@@ -36,7 +36,6 @@
         <file>resources/icones/style souligne.png</file>
         <file>resources/icones/supprimer PNJ.png</file>
         <file>resources/icones/vignette plan.png</file>
-        <file alias="chatvignette">resources/icones/vignette tchat.png</file>
         <file>traduction/rolisteam_fr.qm</file>
         <file>resources/icones/deplacer PNJ.png</file>
         <file>resources/icones/ligne.png</file>
@@ -57,5 +56,6 @@
         <file>resources/logo/Rolisteam-fond.svg</file>
         <file>resources/logo/Rolisteam.svg</file>
         <file alias="logo.svg">resources/logo/symbole.svg</file>
+        <file>resources/icones/chatIcone.png</file>
     </qresource>
 </RCC>

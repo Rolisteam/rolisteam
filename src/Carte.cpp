@@ -2373,7 +2373,9 @@ void Carte::lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoin
         mouvements.append(trajetPerso);
         // Si l'element ajoute est le seul de la liste, on relance le timer
         if (mouvements.size() == 1)
-            QTimer::singleShot(10, this, SLOT(deplacerLesPersonnages()));;
+        {
+            QTimer::singleShot(10, this, SLOT(deplacerLesPersonnages()));
+        }
     }
 }
 
@@ -2416,7 +2418,9 @@ void Carte::deplacerLesPersonnages()
 
     // Si la liste n'est pas vide on relance le timer
     if (!mouvements.isEmpty())
-        QTimer::singleShot(10, this, SLOT(deplacerLesPersonnages()));;
+    {
+        QTimer::singleShot(10, this, SLOT(deplacerLesPersonnages()));
+    }
 }
 
 

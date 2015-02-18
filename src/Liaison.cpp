@@ -49,6 +49,7 @@
 Liaison::Liaison(QTcpSocket *socket)
     : QObject(NULL),m_mainWindow(NULL)
 {
+    m_mainWindow = MainWindow::getInstance();
     socketTcp = socket;
     receptionEnCours = false;
 #ifndef NULL_PLAYER

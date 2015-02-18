@@ -57,10 +57,14 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
 {
     m_init = Initialisation::getInstance();
     if (m_chat == NULL)
+    {
         qFatal("ChatWindow with NULL chat");
+    }
 
     if (parent == NULL)
+    {
         parent = m_mainWindow;
+    }
 
     // Initialisation des variables
     m_warnedEmoteUnavailable = false;
@@ -68,12 +72,16 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
 
     // static members
     if (m_keyWordList.size() == 0)
+    {
         m_keyWordList << "e " << "em " << "me " << "emote ";
+    }
 
     // create and connect toggleViewAction
     m_toggleViewAction = new QAction(this);
     m_toggleViewAction->setCheckable(true);
     connect(m_toggleViewAction, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
+
+    //setWindowIcon(QIcon(":/resources/icones/chatvignette.png"));
 
     // Les 2 parties du tchat seront positionnees verticalement dans la fenetre
     setOrientation(Qt::Vertical);
@@ -104,8 +112,8 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     QToolBar * toolBar = new QToolBar(this);
     toolBar->addWidget(m_selectPersonComboBox);
     toolBar->addAction(
-            QIcon::fromTheme("document-save", QIcon(":/resources/icones/save.png")),
-            tr("save"), this, SLOT(save()));
+    QIcon::fromTheme("document-save", QIcon(":/resources/icones/save.png")),
+    tr("save"), this, SLOT(save()));
 
     // Layout
     QVBoxLayout * vboxLayout = new QVBoxLayout();
@@ -135,10 +143,11 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
 
     // Window initialisation
     setObjectName("ChatWindow");
-    setWindowIcon(QIcon(":/resources/icones/vignette tchat.png"));
+
 
     setAttribute(Qt::WA_DeleteOnClose, false);
     parent->registerSubWindow(this);
+    setWindowIcon(QIcon(":/resources/icones/chatIcone.png"));
     hide();
 
     updateTitleFromChat();

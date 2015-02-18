@@ -87,7 +87,7 @@ QCursor *G_pointeurEtat;
 
 // Pointeur vers la fenetre de log utilisateur (utilise seulement dans ce fichier)
 static QTextEdit *logUtilisateur;
-
+MainWindow* MainWindow::m_singleton= NULL;
 
 void ecrireLogUtilisateur(QString message)
 {
@@ -115,128 +115,150 @@ void ecrireLogUtilisateur(QString message)
         logUtilisateur->setTextColor(couleur);
         logUtilisateur->insertPlainText(message);
 }
+bool  MainWindow::showConnectionDialog()
+{
+    // Get a connection
+    G_clientServeur = new ClientServeur;
+    setNetworkManager(G_clientServeur);
+    return G_clientServeur->configAndConnect();
+
+}
+
+MainWindow* MainWindow::getInstance()
+{
+    if(NULL==m_singleton)
+    {
+        m_singleton = new MainWindow();
+    }
+    return m_singleton;
+}
 
 MainWindow::MainWindow()
         : QMainWindow()
 {
-        m_init = Initialisation::getInstance();
-        // Initialisation des variables globales
-        G_affichageNomPj = true;
-        G_affichageNomPnj = true;
-        G_affichageNumeroPnj = true;
 
-        // Initialisation de la liste des CarteFenetre, des Image et des Tchat
-        listeCarteFenetre.clear();
-        listeImage.clear();
+}
+void MainWindow::setupUi()
+{
+    m_init = Initialisation::getInstance();
+    // Initialisation des variables globales
+    G_affichageNomPj = true;
+    G_affichageNomPnj = true;
+    G_affichageNumeroPnj = true;
 
-        // Initialisation du pointeur vers la fenetre de parametrage de nouveau plan
-        fenetreNouveauPlan = 0;
-        m_version=tr("unknown");
-        #ifdef VERSION_MINOR
-            #ifdef VERSION_MAJOR
-                #ifdef VERSION_MIDDLE
-                    m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-                #endif
+    // Initialisation de la liste des CarteFenetre, des Image et des Tchat
+    listeCarteFenetre.clear();
+    listeImage.clear();
+
+    // Initialisation du pointeur vers la fenetre de parametrage de nouveau plan
+    fenetreNouveauPlan = 0;
+    m_version=tr("unknown");
+    #ifdef VERSION_MINOR
+        #ifdef VERSION_MAJOR
+            #ifdef VERSION_MIDDLE
+                m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
             #endif
         #endif
+    #endif
 
 
 
 
-        // Desactivation des animations
-        setAnimated(false);
-        // Creation de l'espace de travail
-        workspace = new WorkspaceAmeliore();
-        // Ajout de l'espace de travail dans la fenetre principale
-        setCentralWidget(workspace);
-        // Connexion du changement de fenetre active avec la fonction de m.a.j du selecteur de taille des PJ
-        connect(workspace, SIGNAL(windowActivated(QWidget *)), this, SLOT(changementFenetreActive(QWidget *)));
+    // Desactivation des animations
+    setAnimated(false);
+    // Creation de l'espace de travail
+    workspace = new WorkspaceAmeliore();
+    // Ajout de l'espace de travail dans la fenetre principale
+    setCentralWidget(workspace);
+    // Connexion du changement de fenetre active avec la fonction de m.a.j du selecteur de taille des PJ
+    connect(workspace, SIGNAL(windowActivated(QWidget *)), this, SLOT(changementFenetreActive(QWidget *)));
 
-        // Creation de la barre d'outils
-        barreOutils = new BarreOutils(this);
-        // Ajout de la barre d'outils a la fenetre principale
-        addDockWidget(Qt::LeftDockWidgetArea, barreOutils);
+    // Creation de la barre d'outils
+    barreOutils = new BarreOutils(this);
+    // Ajout de la barre d'outils a la fenetre principale
+    addDockWidget(Qt::LeftDockWidgetArea, barreOutils);
 
-        // Creation du log utilisateur
-        dockLogUtil = creerLogUtilisateur();
-        // Ajout du log utilisateur a la fenetre principale
-        addDockWidget(Qt::RightDockWidgetArea, dockLogUtil);
+    // Creation du log utilisateur
+    dockLogUtil = creerLogUtilisateur();
+    // Ajout du log utilisateur a la fenetre principale
+    addDockWidget(Qt::RightDockWidgetArea, dockLogUtil);
 
-        // Add chatListWidget
-        m_chatListWidget = new ChatListWidget(this);
-        addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
+    // Add chatListWidget
+    m_chatListWidget = new ChatListWidget(this);
+    addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
 
-        // Ajout de la liste d'utilisateurs a la fenetre principale
-        m_playersList = new PlayersListWidget(this);
-        addDockWidget(Qt::RightDockWidgetArea, m_playersList);
+    // Ajout de la liste d'utilisateurs a la fenetre principale
+    m_playersList = new PlayersListWidget(this);
+    addDockWidget(Qt::RightDockWidgetArea, m_playersList);
 
 
 
-        setWindowIcon(QIcon(":/logo.svg"));
+    setWindowIcon(QIcon(":/logo.svg"));
 
 
 #ifndef NULL_PLAYER
-        // Creation du lecteur audio
-        m_audioPlayer = LecteurAudio::getInstance(this);
-        // Ajout du lecteur audio a la fenetre principale
-        addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
+    // Creation du lecteur audio
+    m_audioPlayer = LecteurAudio::getInstance(this);
+    // Ajout du lecteur audio a la fenetre principale
+    addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
 #endif
-        readSettings();
-        // Create Preference dialog
-        m_preferencesDialog = new PreferencesDialog(this);
+    readSettings();
+    // Create Preference dialog
+    m_preferencesDialog = new PreferencesDialog(this);
 
-        // Creation de la barre de menus et des menus
-        creerMenu();
-        // Association des actions des menus avec des fonctions
-        associerActionsMenus();
-        // Autoriser/interdire action en fonction de la nature de l'utilisateur (joueur ou MJ)
-        autoriserOuInterdireActions();
+    // Creation de la barre de menus et des menus
+    creerMenu();
+    // Association des actions des menus avec des fonctions
+    associerActionsMenus();
+    // Autoriser/interdire action en fonction de la nature de l'utilisateur (joueur ou MJ)
+    autoriserOuInterdireActions();
 
-        // Creation de l'editeur de notes
-        editeurNotes = new EditeurNotes(this);
-        // Ajout de l'editeur de notes au workspace
-        workspace->addWindow(editeurNotes);
-        // Mise a jour du titre de l'editeur de notes
-        editeurNotes->setWindowTitle(tr("Minutes Editor"));
-        // Masquage de l'editeur de notes
-        editeurNotes->hide();
+    // Creation de l'editeur de notes
+    editeurNotes = new EditeurNotes(this);
+    // Ajout de l'editeur de notes au workspace
+    workspace->addWindow(editeurNotes);
+    // Mise a jour du titre de l'editeur de notes
+    editeurNotes->setWindowTitle(tr("Minutes Editor"));
+    // Masquage de l'editeur de notes
+    editeurNotes->hide();
 
-        // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
-        AddHealthState(Qt::black, tr("healthy"), G_etatsDeSante);
-        AddHealthState(QColor(255, 100, 100),tr("lightly wounded"),G_etatsDeSante);
-        AddHealthState(QColor(255, 0, 0),tr("seriously injured"),G_etatsDeSante);
-        AddHealthState(Qt::gray,tr("Dead"),G_etatsDeSante);
-        AddHealthState(QColor(80, 80, 255),tr("Sleeping"),G_etatsDeSante);
-        AddHealthState(QColor(0, 200, 0),tr("Bewitched"),G_etatsDeSante);
+    // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
+    AddHealthState(Qt::black, tr("healthy"), G_etatsDeSante);
+    AddHealthState(QColor(255, 100, 100),tr("lightly wounded"),G_etatsDeSante);
+    AddHealthState(QColor(255, 0, 0),tr("seriously injured"),G_etatsDeSante);
+    AddHealthState(Qt::gray,tr("Dead"),G_etatsDeSante);
+    AddHealthState(QColor(80, 80, 255),tr("Sleeping"),G_etatsDeSante);
+    AddHealthState(QColor(0, 200, 0),tr("Bewitched"),G_etatsDeSante);
 
-        // Initialisation des pointeurs de souris
-        InitMousePointer(&G_pointeurDessin, ":/resources/icones/pointeur dessin.png", 8, 8);
-        InitMousePointer(&G_pointeurTexte, ":/resources/icones/pointeur texte.png", 4, 13); //strange values here
+    // Initialisation des pointeurs de souris
+    InitMousePointer(&G_pointeurDessin, ":/resources/icones/pointeur dessin.png", 8, 8);
+    InitMousePointer(&G_pointeurTexte, ":/resources/icones/pointeur texte.png", 4, 13); //strange values here
 
-        G_pointeurDeplacer  = new QCursor(QPixmap(":/resources/icones/pointeur deplacer.png"), 0, 0);
-        G_pointeurOrienter  = new QCursor(QPixmap(":/resources/icones/pointeur orienter.png"), 10, 12);
-        G_pointeurPipette   = new QCursor(QPixmap(":/resources/icones/pointeur pipette.png"), 1, 19);
-        G_pointeurAjouter   = new QCursor(QPixmap(":/resources/icones/pointeur ajouter.png"), 6, 0);
-        G_pointeurSupprimer = new QCursor(QPixmap(":/resources/icones/pointeur supprimer.png"), 6, 0);
-        G_pointeurEtat      = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
+    G_pointeurDeplacer  = new QCursor(QPixmap(":/resources/icones/pointeur deplacer.png"), 0, 0);
+    G_pointeurOrienter  = new QCursor(QPixmap(":/resources/icones/pointeur orienter.png"), 10, 12);
+    G_pointeurPipette   = new QCursor(QPixmap(":/resources/icones/pointeur pipette.png"), 1, 19);
+    G_pointeurAjouter   = new QCursor(QPixmap(":/resources/icones/pointeur ajouter.png"), 6, 0);
+    G_pointeurSupprimer = new QCursor(QPixmap(":/resources/icones/pointeur supprimer.png"), 6, 0);
+    G_pointeurEtat      = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
 
-        PlayersList & g_playersList = PlayersList::instance();
-        if (G_client)
-        {
-            // We want to know if the server refuses local player to be GM
-            connect(&g_playersList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
-            // We send a message to del local player when we quit
-            connect(this, SIGNAL(closing()), &g_playersList, SLOT(sendDelLocalPlayer()));
-        }
-        else
-        {
-            // send datas on new connection if we are the server
-            connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
-            connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
-        }
-        connect(&g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
-        connect(&g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
+    PlayersList & g_playersList = PlayersList::instance();
+    if (G_client)
+    {
+        // We want to know if the server refuses local player to be GM
+        connect(&g_playersList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
+        // We send a message to del local player when we quit
+        connect(this, SIGNAL(closing()), &g_playersList, SLOT(sendDelLocalPlayer()));
+    }
+    else
+    {
+        // send datas on new connection if we are the server
+        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
+        connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
+    }
+    connect(&g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
+    connect(&g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
 }
+
 MainWindow::~MainWindow()
 {
     delete m_dockLogUtil;
@@ -245,8 +267,7 @@ void MainWindow::setNetworkManager(ClientServeur* tmp)
 {
     m_networkManager = tmp;
     tmp->setParent(this);
-    connect(m_networkManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
-    connect(m_disconnectAct,SIGNAL(triggered()),m_networkManager,SLOT(disconnect()));
+
 }
 
 
@@ -384,7 +405,9 @@ void MainWindow::associerActionsMenus()
         // close
         connect(actionQuitter, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
 
-
+        // network
+        connect(m_networkManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
+        connect(m_disconnectAct,SIGNAL(triggered()),m_networkManager,SLOT(disconnect()));
 
         // Windows managing
         connect(actionCascade, SIGNAL(triggered(bool)), workspace, SLOT(cascade()));
@@ -403,7 +426,8 @@ void MainWindow::associerActionsMenus()
 void MainWindow::autoriserOuInterdireActions()
 {
         // L'utilisateur est un joueur
-        if (!PlayersList::instance().localPlayer()->isGM())
+        Player* tmp = PlayersList::instance().localPlayer();
+        if (NULL==tmp)//!tmp->isGM()
         {
                 actionNouveauPlan->setEnabled(false);
                 actionOuvrirPlan->setEnabled(false);
@@ -474,6 +498,8 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
 
         // Affichage de la carte
         carteFenetre->show();
+        tmp->setWindowIcon(QIcon(":/resources/icones/chatIcone.png"));
+        carteFenetre->setWindowIcon(QIcon(":/resources/icones/chatIcone.png"));
 }
 
 void MainWindow::ajouterImage(Image *imageFenetre, QString titre)

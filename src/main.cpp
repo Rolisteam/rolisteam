@@ -93,21 +93,25 @@ int main(int argc, char *argv[])
     G_idJoueurLocal = QUuid::createUuid().toString();
 
 
-    // Get a connection
-    G_clientServeur = new ClientServeur;
-    if (!G_clientServeur->configAndConnect())
-        return 0;
+
 
     // Create the main window
-    MainWindow* mainWindow = new MainWindow();
-    mainWindow->setNetworkManager(G_clientServeur);
+    MainWindow* mainWindow =MainWindow::getInstance();
+    if(mainWindow->showConnectionDialog())
+    {
+        mainWindow->setupUi();
+        mainWindow->setWindowTitle(init->getApplicationName());
+        mainWindow->checkUpdate();
+        // We have a connection, we launch the main window.
+        mainWindow->showNormal();
+        return app.exec();
+    }
+    else
+    {
+        return 0;
+    }
 
-    mainWindow->setWindowTitle(init->getApplicationName());
-    mainWindow->checkUpdate();
-    // We have a connection, we launch the main window.
-    mainWindow->showNormal();
-    return app.exec();
 
-    delete init;
+
 
 } 

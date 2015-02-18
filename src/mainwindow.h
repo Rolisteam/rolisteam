@@ -64,8 +64,9 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public :
-    MainWindow();
+
     ~MainWindow();
+    static MainWindow* getInstance();
     void majCouleursPersonnelles();
     void ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
     void ajouterImage(Image *imageFenetre, QString titre);
@@ -78,7 +79,8 @@ public :
     bool enleverImageDeLaListe(QString idImage);
 
     void registerSubWindow(QWidget * subWindow);
-
+    bool showConnectionDialog();
+    void setupUi();
     NouveauPlanVide::PermissionMode getPermission(int id);
 
 signals:
@@ -92,10 +94,13 @@ public slots :
     void checkUpdate();
     void setNetworkManager(ClientServeur*);
 
+
 protected :
     void closeEvent(QCloseEvent *event);
 
 private :
+    MainWindow();
+    static MainWindow* m_singleton;
     QDockWidget* creerLogUtilisateur();
     void creerMenu();
     void associerActionsMenus();

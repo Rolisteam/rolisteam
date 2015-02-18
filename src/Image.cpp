@@ -42,6 +42,7 @@ Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QIm
     m_zoomLevel = 1;
     m_parent=parent;
     setWindowIcon(QIcon(":/resources/icones/image.png"));
+
     createActions();
 
 	labelImage = new QLabel(this);

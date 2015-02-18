@@ -245,8 +245,12 @@ QModelIndex PlayersList::createIndex(Person * person) const
  * Getters *
  ***********/
 
-Player * PlayersList::localPlayer() const
+Player* PlayersList::localPlayer() const
 {
+    if(m_playersList.isEmpty())
+    {
+        return NULL;
+    }
     return m_playersList.first();
 }
 
@@ -758,9 +762,8 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 
 void PlayersList::delPlayer(NetworkMessageReader & data)
 {
-    /* @todo:
-     * - If the player is the GM, call LecteurAudio::pselectNewFile("").
-     */
+    /// @todo: If the player is the GM, call LecteurAudio::pselectNewFile("").
+
 
     QString uuid = data.string8();
     Player * player = getPlayer(uuid);

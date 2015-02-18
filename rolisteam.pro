@@ -129,5 +129,4 @@ UI_DIR = src
 QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"
 
 FORMS += \
-    src/timerdialog.ui \
     src/connectionretrydialog.ui

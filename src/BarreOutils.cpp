@@ -327,23 +327,19 @@ void BarreOutils::creerOutils()
         diametreTrait = new SelecteurDiametre(outils, true, 1, 45);
         diametreTrait->setToolTip(tr("Line's Width"));
 
-     /*   if(PlayersList::instance().localPlayer()->isGM())
-        {*/
-            // Creation du selecteur de diametre des PNJ
-            diametrePnj = new SelecteurDiametre(outils, false, 12, 200);
-            diametrePnj->setToolTip(tr("NPC Size"));
-            connect(diametrePnj, SIGNAL(valueChanging(int)),this, SLOT(changeCharacterSize(int)));
-            connect(diametrePnj, SIGNAL(valueChanged(int)),this, SLOT(sendNewCharacterSize(int)));
-    //    }
-    if(!PlayersList::instance().localPlayer()->isGM())
-        diametrePnj->setVisible(false);
-    /*m_pcDiameter = new SelecteurDiametre(outils, false, 2, 45);
-    m_pcDiameter->setToolTip(tr("PC size"));
 
-    connect(m_pcDiameter, SIGNAL(valueChanging(int)),
-            this, SLOT(changeCharacterSize(int)));
-    connect(m_pcDiameter, SIGNAL(valueChanged(int)),
-            this, SLOT(sendNewCharacterSize(int)));*/
+    // Creation du selecteur de diametre des PNJ
+    diametrePnj = new SelecteurDiametre(outils, false, 12, 200);
+    diametrePnj->setToolTip(tr("NPC Size"));
+    connect(diametrePnj, SIGNAL(valueChanging(int)),this, SLOT(changeCharacterSize(int)));
+    connect(diametrePnj, SIGNAL(valueChanged(int)),this, SLOT(sendNewCharacterSize(int)));
+
+    /// @todo hide diametrePNj for players.
+    if(!PlayersList::instance().localPlayer()->isGM())
+    {
+        diametrePnj->setVisible(false);
+    }
+
 
 	//Creation du separateur se trouvant entre le selecteur de couleur et les outils de dessin
 	QFrame *separateur1 = new QFrame(outils);

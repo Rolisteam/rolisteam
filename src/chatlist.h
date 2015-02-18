@@ -38,52 +38,52 @@ class ChatList
 {
     Q_OBJECT
 
-    public:
-        ChatList(MainWindow * mainWindow);
-        ~ChatList();
+public:
+    ChatList(MainWindow * mainWindow);
+    ~ChatList();
 
-        // implements QAbstractItemModel
-        virtual QVariant data(const QModelIndex &index, int role) const;
-        virtual Qt::ItemFlags flags(const QModelIndex &index) const;
-        virtual QVariant headerData(int section, Qt::Orientation orientation,
-                             int role = Qt::DisplayRole) const;
-        virtual QModelIndex index(int row, int column,
-                           const QModelIndex &parent = QModelIndex()) const;
-        virtual QModelIndex parent(const QModelIndex &index) const;
-        virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
-        virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
-        virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
+    // implements QAbstractItemModel
+    virtual QVariant data(const QModelIndex &index, int role) const;
+    virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+    virtual QVariant headerData(int section, Qt::Orientation orientation,
+                         int role = Qt::DisplayRole) const;
+    virtual QModelIndex index(int row, int column,
+                       const QModelIndex &parent = QModelIndex()) const;
+    virtual QModelIndex parent(const QModelIndex &index) const;
+    virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
 
-        QMenu * chatMenu();
+    QMenu * chatMenu();
 
-        AbstractChat * chat(const QModelIndex & index);
+    AbstractChat * chat(const QModelIndex & index);
 
-        bool addLocalChat(PrivateChat * chat);
-        bool delLocalChat(const QModelIndex & index);
+    bool addLocalChat(PrivateChat * chat);
+    bool delLocalChat(const QModelIndex & index);
 
-        // Event handler
-        virtual bool event(QEvent * event);
+    // Event handler
+    virtual bool event(QEvent * event);
 
-    private:
-        QList<ChatWindow *> m_chatWindowList;
-        QMap<QString, PrivateChat *> m_privateChatMap;
-        QMenu m_chatMenu;
-        MainWindow * m_mainWindow;
+private:
+    QList<ChatWindow *> m_chatWindowList;
+    QMap<QString, PrivateChat *> m_privateChatMap;
+    QMenu m_chatMenu;
+    MainWindow * m_mainWindow;
 
-        void addChatWindow(ChatWindow * chat);
-        void delChatWindow(ChatWindow * chat);
+    void addChatWindow(ChatWindow * chat);
+    void delChatWindow(ChatWindow * chat);
 
-        ChatWindow * chatWindow(const QString & uuid) const;
-        ChatWindow * chatWindow(const QModelIndex & index) const;
+    ChatWindow * chatWindow(const QString & uuid) const;
+    ChatWindow * chatWindow(const QModelIndex & index) const;
 
-        void dispatchMessage(ReceiveEvent * event);
-        void updatePrivateChat(ReceiveEvent * event);
-        void deletePrivateChat(ReceiveEvent * event);
+    void dispatchMessage(ReceiveEvent * event);
+    void updatePrivateChat(ReceiveEvent * event);
+    void deletePrivateChat(ReceiveEvent * event);
 
-    private slots:
-        void addPlayerChat(Player * player, MainWindow * mainWindow = NULL);
-        void delPlayer(Player * player);
-        void changeChatWindow(ChatWindow * chat);
+private slots:
+    void addPlayerChat(Player * player);
+    void delPlayer(Player * player);
+    void changeChatWindow(ChatWindow * chat);
 };
 
 #endif

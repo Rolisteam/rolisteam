@@ -99,7 +99,16 @@ int LocalPersonModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    return 1 + PlayersList::instance().localPlayer()->getCharactersCount();
+    Player* tmp = PlayersList::instance().localPlayer();
+    if(NULL!=tmp)
+    {
+       return 1 + PlayersList::instance().localPlayer()->getCharactersCount();
+    }
+    else
+    {
+        return 1;
+    }
+
 }
 
 bool LocalPersonModel::filterChangingRows(QModelIndex & parent, int & start, int & end)

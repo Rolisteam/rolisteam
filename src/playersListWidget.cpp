@@ -287,7 +287,18 @@ void PlayersListWidget::setUI()
     playersListView->setIconSize(QSize(28,20));
 
     // Add PJ button
-    QString what = (PlayersList::instance().localPlayer()->isGM() ? tr("NPC") : tr("PC"));
+    Player* tmp = PlayersList::instance().localPlayer();
+    //PlayersList::instance().localPlayer()->isGM()
+    QString what;
+    if(NULL!=tmp)
+    {
+        what = (tmp->isGM() ? tr("NPC") : tr("PC"));
+    }
+    else
+    {
+        what = tr("PC");
+    }
+
     QPushButton * addPlayerButton = new QPushButton(tr("Add a %1").arg(what), centralWidget);
 
     // Del PJ buttun
