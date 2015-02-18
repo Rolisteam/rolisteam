@@ -65,6 +65,8 @@ public :
 
     void ajouterLiaison(Liaison *liaison);
 
+    bool    isServer() const;
+
 public slots:
     void disconnect();
 

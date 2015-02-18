@@ -50,17 +50,17 @@ Liaison::Liaison(QTcpSocket *socket)
     : QObject(NULL),m_mainWindow(NULL)
 {
     m_mainWindow = MainWindow::getInstance();
-    socketTcp = socket;
+    m_socketTcp = socket;
     receptionEnCours = false;
 #ifndef NULL_PLAYER
     G_lecteurAudio = LecteurAudio::getInstance();
 #endif
 
-    connect(socketTcp, SIGNAL(readyRead()),
+    connect(m_socketTcp, SIGNAL(readyRead()),
             this, SLOT(reception()));
-    connect(socketTcp, SIGNAL(error(QAbstractSocket::SocketError)),
+    connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(erreurDeConnexion(QAbstractSocket::SocketError)));
-    connect(socketTcp, SIGNAL(disconnected()),
+    connect(m_socketTcp, SIGNAL(disconnected()),
             this, SLOT(p_disconnect()));
 
     // Si l'ordi local est un client, on ajoute tt de suite la liaison a la liste, et on connecte le signal d'emission des donnees
@@ -73,7 +73,7 @@ Liaison::Liaison(QTcpSocket *socket)
 
 Liaison::~Liaison()
 {
-    delete socketTcp;
+    delete m_socketTcp;
 }
 void Liaison::setMainWindow(MainWindow* mainWindow)
 {
@@ -86,7 +86,7 @@ void Liaison::setMainWindow(MainWindow* mainWindow)
 void Liaison::erreurDeConnexion(QAbstractSocket::SocketError erreur)
 {
     Q_UNUSED(erreur);
-    qWarning("Une erreur réseau est survenue : %s", qPrintable(socketTcp->errorString()));
+    qWarning("Une erreur réseau est survenue : %s", qPrintable(m_socketTcp->errorString()));
 }
 
 void Liaison::p_disconnect()
@@ -103,10 +103,10 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
     if (sauf != this)
     {
         // Emission des donnees
-        int t = socketTcp->write(donnees, taille);
+        int t = m_socketTcp->write(donnees, taille);
         if (t < 0)
         {
-            qWarning("Erreur réseau lors d'une transmission : %s", qPrintable(socketTcp->errorString()));
+            qWarning("Erreur réseau lors d'une transmission : %s", qPrintable(m_socketTcp->errorString()));
         }
         else
             qDebug("Emission - Taille donnees : %d/%d", t, taille);
@@ -127,13 +127,13 @@ void Liaison::reception()
     quint32 lu;
 
     // La boucle permet de lire plusieurs messages concatenes
-    while (socketTcp->bytesAvailable())
+    while (m_socketTcp->bytesAvailable())
     {
         // S'il s'agit d'un nouveau message
         if (!receptionEnCours)
         {
             // On recupere l'entete du message
-            socketTcp->read((char *)&entete, sizeof(NetworkMessageHeader));
+            m_socketTcp->read((char *)&entete, sizeof(NetworkMessageHeader));
             // Reservation du tampon
             tampon = new char[entete.dataSize];
             // Initialisation du restant a lire
@@ -141,7 +141,7 @@ void Liaison::reception()
         }
 
         // Lecture des donnees a partir du dernier point
-        lu = socketTcp->read(&(tampon[entete.dataSize-restant]), restant);
+        lu = m_socketTcp->read(&(tampon[entete.dataSize-restant]), restant);
 
         // Si toutes les donnees n'ont pu etre lues
         if (lu < restant)
@@ -1548,4 +1548,8 @@ int Liaison::extrairePersonnage(Carte *carte, char *tampon)
 
     // On renvoie le nbr d'octets lus
     return p;
+}
+void Liaison::disconnectAndClose()
+{
+    m_socketTcp->close();
 }

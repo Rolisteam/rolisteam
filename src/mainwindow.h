@@ -106,8 +106,8 @@ private :
     static MainWindow* m_singleton;
     void creerLogUtilisateur();
     void creerMenu();
-    void associerActionsMenus();
-    void autoriserOuInterdireActions();
+    void linkActionToMenu();
+
     void lireCarteEtPnj(QDataStream &file, bool masquer = false, QString nomFichier = "");
     void lireImage(QDataStream &file);
     void sauvegarderTousLesPlans(QDataStream &file);
@@ -154,18 +154,18 @@ private :
 
     ChatListWidget * m_chatListWidget;
 
-    QAction *actionNouveauPlan;
-    QAction *actionOuvrirImage;
-    QAction *actionOuvrirPlan;
-    QAction *actionOuvrirEtMasquerPlan;
-    QAction *actionOuvrirScenario;
-    QAction *actionOuvrirNotes;
-    QAction *actionFermerPlan;
-    QAction *actionSauvegarderPlan;
-    QAction *actionSauvegarderScenario;
-    QAction *actionSauvegarderNotes;
-    QAction *actionPreferences;
-    QAction *actionQuitter;
+    QAction* actionNouveauPlan;
+    QAction* actionOuvrirImage;
+    QAction* actionOuvrirPlan;
+    QAction* actionOuvrirEtMasquerPlan;
+    QAction* actionOuvrirScenario;
+    QAction* actionOuvrirNotes;
+    QAction* actionFermerPlan;
+    QAction* actionSauvegarderPlan;
+    QAction* actionSauvegarderScenario;
+    QAction* actionSauvegarderNotes;
+    QAction* actionPreferences;
+    QAction* actionQuitter;
 
     QAction* m_reconnectAct;
     QAction* m_disconnectAct;
@@ -220,7 +220,7 @@ private slots :
     void aPropos();
 
     /// \brief open the Qt assistant with the rolisteam documentation
-    void aideEnLigne();
+    void helpOnLine();
     bool sauvegarderScenario();
     bool sauvegarderNotes();
 

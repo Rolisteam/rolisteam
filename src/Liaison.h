@@ -43,6 +43,8 @@ public :
     Liaison(QTcpSocket *socket);
     ~Liaison();
 
+    void disconnectAndClose();
+
 signals:
     void disconnected(Liaison * link);
 
@@ -67,7 +69,7 @@ private :
     void faireSuivreMessage(bool tous);
     int extrairePersonnage(Carte *carte, char *tampon);
 
-    QTcpSocket *socketTcp;		 // Socket gere par le thread
+    QTcpSocket* m_socketTcp;		 // Socket gere par le thread
     NetworkMessageHeader entete; // Contient l'entete du message en cours de reception
     bool receptionEnCours;		 // Indique si un message est actuellement en cours de reception
     char *tampon;				 // Tampon contenant le message en court de reconstitution

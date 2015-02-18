@@ -218,7 +218,7 @@ void MainWindow::setupUi()
     // Creation de la barre de menus et des menus
     creerMenu();
     // Association des actions des menus avec des fonctions
-    associerActionsMenus();
+    linkActionToMenu();
     // Autoriser/interdire action en fonction de la nature de l'utilisateur (joueur ou MJ)
     //autoriserOuInterdireActions();
 
@@ -396,7 +396,7 @@ void MainWindow::creerMenu()
         barreMenus->addMenu(menuAide);
 }
 
-void MainWindow::associerActionsMenus()
+void MainWindow::linkActionToMenu()
 {
         // file menu
         connect(actionNouveauPlan, SIGNAL(triggered(bool)), this, SLOT(nouveauPlan()));
@@ -429,28 +429,7 @@ void MainWindow::associerActionsMenus()
 
         // Help
         connect(actionAPropos, SIGNAL(triggered()), this, SLOT(aPropos()));
-        connect(actionAideLogiciel, SIGNAL(triggered()), this, SLOT(aideEnLigne()));
-}
-
-void MainWindow::autoriserOuInterdireActions()
-{
-        // L'utilisateur est un joueur
-//        Player* tmp = PlayersList::instance().localPlayer();
-//        if (NULL==tmp)//!tmp->isGM()
-//        {
-//                actionNouveauPlan->setEnabled(false);
-//                actionOuvrirPlan->setEnabled(false);
-//                actionOuvrirEtMasquerPlan->setEnabled(false);
-//                actionOuvrirScenario->setEnabled(false);
-//                actionFermerPlan->setEnabled(false);
-//                actionSauvegarderPlan->setEnabled(false);
-//                actionSauvegarderScenario->setEnabled(false);
-//        }
-
-//        // L'utilisateur est un MJ
-//        else
-//        {
-//        }
+        connect(actionAideLogiciel, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 }
 
 void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize,QPoint pos )
@@ -1420,14 +1399,11 @@ void MainWindow::sauvegarderPlan()
 
 void MainWindow::changementNatureUtilisateur()
 {
-        // M.a.j des menus du mainWindow
-        autoriserOuInterdireActions();
-        // M.a.j de la barre d'outils
-        //m_toolBar->updateUi();
+
+        m_toolBar->updateUi();
         updateUi();
 #ifndef NULL_PLAYER
         removeDockWidget(m_audioPlayer);
-        //addDockWidget(Qt::RightDockWidgetArea, m_audioDock);
         m_audioPlayer->show();
 #endif
 }
@@ -1780,7 +1756,7 @@ void MainWindow::aPropos()
 }
 
 
-void MainWindow::aideEnLigne()
+void MainWindow::helpOnLine()
 {
     QProcess *process = new QProcess;
             QStringList args;
@@ -1826,9 +1802,6 @@ void MainWindow::checkUpdate()
 void MainWindow::updateUi()
 {
 /// @todo hide diametrePNj for players.
-    /*
-        diametrePnj->setVisible(false);
-    }*/
     m_toolBar->updateUi();
     #ifndef NULL_PLAYER
         m_audioPlayer->updateUi();
@@ -1842,7 +1815,24 @@ void MainWindow::updateUi()
         actionFermerPlan->setEnabled(false);
         actionSauvegarderPlan->setEnabled(false);
         actionSauvegarderScenario->setEnabled(false);
+
     }
+
+    if(m_networkManager->isServer())
+    {
+        m_reconnectAct->setEnabled(false);
+        m_disconnectAct->setEnabled(true);
+    }
+    else
+    {
+        m_reconnectAct->setEnabled(false);
+        m_disconnectAct->setEnabled(true);
+    }
+
+
+
+
+
 
 }
 void MainWindow::updateMayBeNeeded()

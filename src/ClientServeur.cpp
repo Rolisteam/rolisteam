@@ -293,4 +293,16 @@ void ClientServeur::finDeLiaison(Liaison * link)
 void ClientServeur::disconnect()
 {
     /// @todo does nothing, must be implemented.
+    if (m_configDialog->isServer())
+    {
+        m_server->close();
+    }
+    else
+    {
+        m_liaisonToServer->disconnectAndClose();
+    }
+}
+bool ClientServeur::isServer() const
+{
+    return m_configDialog->isServer();
 }

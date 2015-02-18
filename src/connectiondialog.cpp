@@ -30,6 +30,8 @@
 
 #define MIN 1
 #define MAX 65535
+
+#define WAITING_TIME 1000
 /**************************
  * ConnectionConfigDialog *
  **************************/
@@ -200,7 +202,7 @@ QTcpSocket * ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
     }
 
     m_socket->connectToHost(host, port);
-    if (m_socket->waitForConnected(1000)) //exec() == QDialog::Accepted)
+    if (m_socket->waitForConnected(WAITING_TIME)) //exec() == QDialog::Accepted)
     {
         QTcpSocket * tmp_socket = m_socket;
         m_socket->disconnect(this);
