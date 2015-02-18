@@ -43,23 +43,41 @@ WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
 
 	// Si l'utilisateur a ajoute une image de fond, on la charge
 
-	if (QFile::exists(fichierImage))
-			imageFond = new QImage(fichierImage);
+    if (!QFile::exists(fichierImage))
+    {
+        fichierImage = ":/resources/icones/fond workspace macos.bmp";
+    }
+    //		imageFond = new QImage(fichierImage);
 	// Sinon on utilise le fond par defaut
-	else
+    /*else
 	{
-                #ifdef WIN32
-                        imageFond = new QImage(":/resources/icones/fond workspace win32.bmp");
-                #else
-                        imageFond = new QImage(":/resources/icones/fond workspace macos.bmp");
-                #endif
-	}
+               // #ifdef WIN32
+                    //    imageFond = new QImage(":/resources/icones/fond workspace win32.bmp");
+              //  #else
+                     //   imageFond = new QImage(":/resources/icones/fond workspace macos.bmp");
+                //#endif
+    }*/
+    m_color.setRgb(191,191,191);
+    m_background.setColor(m_color);
+    setBackground(m_background);
+
+
+    m_variableSizeBackground = new QPixmap(this->size());
+
+    m_variableSizeBackground->fill(m_color);
+    QPainter painter(m_variableSizeBackground);
+
+
+    m_backgroundPicture = new QPixmap(fichierImage);
+
+    painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
+    this->setBackground(QBrush(*m_variableSizeBackground));
 }
 
 /********************************************************************/
 /* Redessine le fond                                                */
 /********************************************************************/	
-void WorkspaceAmeliore::paintEvent(QPaintEvent *event)
+/*void WorkspaceAmeliore::paintEvent(QPaintEvent *event)
 {
 	// Creation du painter pour pouvoir dessiner
 	QPainter painter(this);
@@ -70,4 +88,21 @@ void WorkspaceAmeliore::paintEvent(QPaintEvent *event)
 	// Si la zone n'est pas vide, on recopie l'image de fond dans le workspace
 	if (!zoneARecopier.isEmpty())
 		painter.drawImage(zoneARecopier, *imageFond, zoneARecopier);
+
+
+    QWorkspace::paintEvent(event);
+}*/
+void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )
+{
+    Q_UNUSED(event);
+    delete m_variableSizeBackground;
+
+    m_variableSizeBackground = new QPixmap(this->size());
+    m_variableSizeBackground->fill(m_color);
+    QPainter painter(m_variableSizeBackground);
+
+    painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
+    this->setBackground(QBrush(*m_variableSizeBackground));
+
+
 }

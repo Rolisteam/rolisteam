@@ -44,8 +44,15 @@ private :
 	QImage *imageFond;		// Image de fond du workspace
 
 protected :
-	void paintEvent(QPaintEvent *event);
+    //void paintEvent(QPaintEvent *event);
+    void resizeEvent ( QResizeEvent * event );
+private:
+QBrush m_background;
+QColor m_color;
 
+QPixmap* m_backgroundPicture;
+
+QPixmap* m_variableSizeBackground;
 };
 
 #endif

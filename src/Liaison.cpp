@@ -530,7 +530,7 @@ void Liaison::receptionMessagePersoJoueur()
 
         // S'il ne s'agit pas d'un ajout de PJ consecutif a la connexion, on ecrit un message sur le log utilisateur
         if (dessin)
-            ecrireLogUtilisateur(G_listeUtilisateurs->nomUtilisateur(idJoueur) + tr(" vient de crÃ©er un nouveau personnage"));
+            ecrireLogUtilisateur(G_listeUtilisateurs->nomUtilisateur(idJoueur) + tr(" vient de créer un nouveau personnage"));
 
         // Liberation de la memoire allouee
         delete[] tableauIdJoueur;
@@ -1458,7 +1458,7 @@ void Liaison::receptionMessagePlan()
         else
         {
             // Message sur le log utilisateur
-            ecrireLogUtilisateur(tr("Le plan \"") + carteFenetre->windowTitle() + tr("\" vient d'Ãªtre fermÃ© par le MJ"));
+            ecrireLogUtilisateur(tr("Le plan \"") + carteFenetre->windowTitle() + tr("\" vient d'être fermé par le MJ"));
             // Suppression du plan
             carteFenetre->~CarteFenetre();
         }
