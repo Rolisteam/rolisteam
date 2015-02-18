@@ -1,9 +1,9 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
+ *	Copyright (C) 2007 by Romain Campioni                                  *
+ *	Copyright (C) 2009 by Renaud Guezennec                                 *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify  *
+ *   rolisteam is free software; you can redistribute it and/or modify     *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
@@ -34,13 +34,6 @@
 
         #include "fmod.h"
 #endif
-
-#ifdef WIN32
- #include <QtPlugin>
- Q_IMPORT_PLUGIN(qjpeg)
-#endif
-
-
 
 // Fenetre de log (utilise seulement dans ce fichier)
 static QTextEdit *Log;
