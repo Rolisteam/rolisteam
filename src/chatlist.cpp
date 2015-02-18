@@ -265,7 +265,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
     endInsertRows();
 }
 
-void ChatList::delChatWindow(ChatWindow * chatw)
+void ChatList::delChatWindow(ChatWindow* chatw)
 {
     int pos = m_chatWindowList.indexOf(chatw);
     if (pos < 0)
@@ -275,7 +275,12 @@ void ChatList::delChatWindow(ChatWindow * chatw)
 
     m_chatMenu.removeAction(chatw->toggleViewAction());
     m_chatWindowList.removeOne(chatw);
+
+    QMdiSubWindow* subWindow = m_chatSubWindowList.takeAt(pos);
+    subWindow->setVisible(false);
+
     delete chatw;
+    delete subWindow;
 
     endRemoveRows();
 }
