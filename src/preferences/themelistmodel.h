@@ -3,7 +3,8 @@
 
 #include <QAbstractListModel>
 #include <QList>
-class Theme;
+#include "theme.h"
+
 class ThemeListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -13,11 +14,14 @@ public:
     QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
     Qt::ItemFlags flags ( const QModelIndex & index ) const;
     bool setData ( const QModelIndex & index, const QVariant & value, int role);
+
+
+    Theme* getTheme(int row);
 public slots:
-    void removeSelectedTheme();
-    void addTheme();
+    void removeSelectedTheme(int row);
+    void addTheme(Theme* tmp);
 private:
-        QList<Theme*>* m_themeList;
+        ThemeList* m_themeList;
 };
 
 #endif // THEMELISTMODEL_H

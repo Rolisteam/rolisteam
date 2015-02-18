@@ -22,18 +22,21 @@
 #define PREFERENCEDIALOG_H
 
 #include <QDialog>
+#include <QWidget>
 class PreferencesManager;
 class QAbstractButton;
 
 namespace Ui {
     class PreferenceDialog;
 }
+class Theme;
 class ThemeListModel;
 /**
   * @brief Display all required item to manage preferences
   *
   */
-class PreferenceDialog : public QDialog {
+class PreferenceDialog : public QDialog
+{
     Q_OBJECT
 public:
     /**
@@ -68,6 +71,24 @@ protected slots:
     void initValues();
     void resetValues();
 
+    void addTheme();
+    void removeSelectedTheme();
+
+
+    void currentChanged();
+
+    void refreshDialogWidgets();
+
+    /**
+     * Load informations from the previous rolisteam's execution
+     */
+    void readSettings();
+
+    /**
+     * Save parameters for next executions.
+     */
+    void writeSettings();
+
 protected:
     /**
       * @brief callback receiving the change event.
@@ -76,6 +97,9 @@ protected:
     void changeEvent(QEvent *e);
 
 private:
+    void addDefaultTheme();
+
+
     /**
       * Pointer to the GUI made with QDesigner
       */
@@ -88,6 +112,8 @@ private:
 
 
     ThemeListModel* m_listModel;
+
+    Theme* m_current;
 
 
 };

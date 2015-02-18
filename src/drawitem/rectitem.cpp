@@ -29,7 +29,6 @@ RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,QColor& pen
 
     m_rect.setBottomRight(buttomright);
     m_rect.setTopLeft(topleft);
-
      m_filled= filled;
 }
 
@@ -40,7 +39,6 @@ QRectF RectItem::boundingRect() const
 void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->save();
-
     if(!m_filled)
     {
         painter->setPen(m_color);
@@ -56,15 +54,18 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     {
         painter->save();
         painter->setBrush(Qt::NoBrush);
-        QRectF tmp_rect=m_rect.adjusted(15,15,-15,-15);
+        QRectF tmp_rect=m_rect.adjusted(5,5,-5,-5);
         QPen pen=painter->pen();
-        pen.setWidth(1);
+        pen.setWidth(2);
         pen.setStyle(Qt::SolidLine);
         pen.setColor(Qt::white);
         painter->setPen(pen);
         painter->drawRect(tmp_rect);
         pen.setColor(Qt::black);
-        pen.setStyle(Qt::DashLine);
+        QVector<qreal> dashes;
+        dashes << tmp_rect.width()/20 << tmp_rect.width()/20;
+        pen.setDashPattern(dashes);
+
         painter->setPen(pen);
         painter->drawRect(tmp_rect);
         painter->restore();

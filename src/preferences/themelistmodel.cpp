@@ -3,21 +3,14 @@
 ThemeListModel::ThemeListModel(QObject *parent) :
     QAbstractListModel(parent)
 {
-        m_themeList=new QList<Theme*>();
+        m_themeList=new ThemeList();
 }
-void ThemeListModel::addTheme()
+void ThemeListModel::addTheme(Theme* tmp)
 {
     beginInsertRows (QModelIndex(),  m_themeList->size(), m_themeList->size()+1 );
-    Theme* tmp=new Theme();
-    tmp->setName(tr("Theme %1").arg(m_themeList->size()));
+
     m_themeList->append(tmp);
     endInsertRows ();
-    //reset();
-    //insertRows(m_themeList->size(),1);
-    //tmpitem->setFlags(Qt::ItemIsEditable|Qt::ItemIsSelectable|Qt::ItemIsEnabled);
-
-    //ui->m_themeList->addItem(tmpitem);
-
 }
 int ThemeListModel::rowCount ( const QModelIndex & parent) const
 {
@@ -33,7 +26,7 @@ bool ThemeListModel::setData ( const QModelIndex & index, const QVariant & value
 {
     if(!index.isValid())
         return false;
-    if(role==Qt::DisplayRole)
+    if(role==Qt::EditRole)
     {
         m_themeList->at(index.row())->setName(value.toString());
         return true;
@@ -56,10 +49,16 @@ QVariant ThemeListModel::data ( const QModelIndex & index, int role ) const
     }
     return QVariant();
 }
-void ThemeListModel::removeSelectedTheme()
+void ThemeListModel::removeSelectedTheme(int row)
 {
-   /* int index = ui->m_themeList->currentRow();
-    m_themeList->removeAt(index);
-    ui->m_themeList->removeItemWidget(ui->m_themeList->currentItem());*/
+    beginRemoveRows(QModelIndex(),row,row+1);
+    m_themeList->removeAt(row);
+    endRemoveRows();
+}
+Theme* ThemeListModel::getTheme(int row)
+{
+    if(row>=m_themeList->size())
+        return NULL;
 
+    return m_themeList->at(row);
 }
