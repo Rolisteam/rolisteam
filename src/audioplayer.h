@@ -113,6 +113,11 @@ signals :
 	*/
         void songFinished();
 
+        void changeVisibility(bool);
+
+protected:
+             void closeEvent ( QCloseEvent * event );
+
 private :
 
 	/**

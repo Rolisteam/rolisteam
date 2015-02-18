@@ -23,6 +23,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLayout>
+#include <QCloseEvent>
 
 #include "userlistwidget.h"
 #include "userlistview.h"
@@ -137,4 +138,12 @@ void UserListWidget::setLocalPlayer(Player* p)
     m_local = p;
     addUser(m_local);
     m_model->setLocalPlayer(p);
+}
+void UserListWidget::closeEvent ( QCloseEvent * event )
+{
+    QDockWidget::closeEvent(event);
+    if(event->isAccepted())
+    {
+        emit changeVisibility(false);
+    }
 }

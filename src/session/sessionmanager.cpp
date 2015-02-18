@@ -1,6 +1,7 @@
 #include "sessionmanager.h"
 #include <QTreeView>
 #include <QHBoxLayout>
+#include <QCloseEvent>
 
 #include "sessionitemmodel.h"
 #include "session.h"
@@ -66,4 +67,12 @@ void SessionManager::writeSettings(QSettings & m)
     r.setValue<Session>(*m_currentSession);
     m.setValue("Session",r);
     m.endGroup();
+}
+void SessionManager::closeEvent ( QCloseEvent * event )
+{
+    QDockWidget::closeEvent(event);
+    if(event->isAccepted())
+    {
+        emit changeVisibility(false);
+    }
 }

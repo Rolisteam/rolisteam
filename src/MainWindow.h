@@ -95,6 +95,7 @@ public slots :
 protected :
         void closeEvent(QCloseEvent *event);
 
+
 private :
 
         /**
@@ -185,6 +186,9 @@ private :
         QAction* m_noteEditoAct;
         QAction* m_dataSheetAct;
 
+        QAction* m_playerShower;
+        QAction* m_userlistShower;
+        QAction* m_sessionShower;
 
         //Help menu
         QMenu *m_helpMenu;

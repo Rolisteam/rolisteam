@@ -65,11 +65,14 @@ MainWindow::MainWindow()
         : QMainWindow()
 {
     m_manageConnectionAct=NULL;
+    m_newConnectionAct = NULL;
+    m_serverAct = NULL;
     m_options = PreferencesManager::getInstance();
     m_diceManager=DicePlugInManager::instance();
     //m_toolbar = ToolsBar::getInstance(this);//new ToolsBar(this);
 
     m_preferenceDialog = new PreferenceDialog(this);
+
     m_rclient= new RClient();
 
     ////////////
@@ -220,6 +223,21 @@ void MainWindow::createMenu()
     m_organizeMenu = m_viewMenu->addMenu(tr("Organize"));
     m_cascadeSubWindowsAct= m_organizeMenu->addAction(tr("&Cascade Windows"));
     m_tileSubWindowsAct= m_organizeMenu->addAction(tr("&Tile Windows"));
+    m_viewMenu->addSeparator();
+
+    m_playerShower = m_viewMenu->addAction(tr("Show the Audio Player"));
+    m_playerShower->setCheckable(true);
+    m_playerShower->setChecked(m_audioPlayer->isVisible());
+    m_userlistShower= m_viewMenu->addAction(tr("Show the userlist"));
+    m_userlistShower->setCheckable(true);
+    m_userlistShower->setChecked(m_playerListWidget->isVisible());
+    m_sessionShower= m_viewMenu->addAction(tr("Show the session manager"));
+    m_sessionShower->setCheckable(true);
+    m_sessionShower->setChecked(m_sessionManager->isVisible());
+
+
+
+
 
     ///////////////
     // Custom Menu
@@ -290,6 +308,15 @@ void MainWindow::connectActions()
 
     connect(m_openCharacterSheetsAct,SIGNAL(triggered()),this,SLOT(AskCharacterSheets()));
     //connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
+
+    connect(m_playerShower,SIGNAL(triggered(bool)),m_audioPlayer,SLOT(setVisible(bool)));
+    connect(m_sessionShower,SIGNAL(triggered(bool)),m_sessionManager,SLOT(setVisible(bool)));
+    connect(m_userlistShower,SIGNAL(triggered(bool)),m_playerListWidget,SLOT(setVisible(bool)));
+    connect(m_sessionManager,SIGNAL(changeVisibility(bool)),m_sessionShower,SLOT(setChecked(bool)));
+
+    connect(m_audioPlayer,SIGNAL(changeVisibility(bool)),m_playerShower,SLOT(setChecked(bool)));
+
+    connect(m_playerListWidget,SIGNAL(changeVisibility(bool)),m_userlistShower,SLOT(setChecked(bool)));
 }
 void MainWindow::allowActions()
 {
@@ -372,6 +399,7 @@ void MainWindow::openTchat()
     addToWorkspace(tchat);
     tchat->setVisible(true);
 }
+
 void MainWindow::addCharacterSheet()
 {
     CharacterSheetWindow* characterSheet = new CharacterSheetWindow();
@@ -577,11 +605,6 @@ void MainWindow::readSettings()
     variant.setValue(*m_player);
     *m_player = settings.value("player", variant).value<Player>();
 
-   /* QVariant tmp3;
-    tmp3.setValue(CleverUriList());
-    QVariant tmp4= settings.value("session", tmp3);*/
-    //m_recentFiles=tmp4.value<CleverUriList>();
-
     m_options->readSettings();
     m_sessionManager->readSettings(settings);
     m_diceManager->readSettings();
@@ -599,10 +622,6 @@ void MainWindow::writeSettings()
   QVariant variant;
   variant.setValue(*m_player);
   settings.setValue("player", variant);
-  /*variant.setValue(*m_session);
-  settings.setValue("session",variant);*/
-
-
 
   m_options->writeSettings();
   m_sessionManager->writeSettings(settings);

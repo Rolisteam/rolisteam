@@ -32,6 +32,11 @@ public:
  public slots:
      void addChapter();
 
+signals:
+     void changeVisibility(bool);
+protected:
+     void closeEvent ( QCloseEvent * event );
+
 private:
     SessionView* m_view;
     QHBoxLayout* m_layout;

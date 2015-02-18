@@ -40,17 +40,21 @@ public:
     ~UserListWidget();
 
     QList<Person*>* getSelectedPerson();
-protected:
-    void setupUI();
-    void setAction();
+
 signals:
     void sizePcChanged(int);
     void opentchat();
+    void changeVisibility(bool);
 
 public slots:
     void addUser(Person* p);
     void setLocalPlayer(Player* p);
 
+
+protected:
+    void setupUI();
+    void setAction();
+    void closeEvent ( QCloseEvent * event );
 
 protected slots:
     void addPC();

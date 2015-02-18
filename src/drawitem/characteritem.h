@@ -42,7 +42,7 @@ public:
     virtual void readData(QDataStream& in);
 
 private:
-    Character* m_character;
+    //Character* m_character;
 
 };
 

@@ -21,6 +21,7 @@
 
 
 #include <QtGui>
+#include <QCloseEvent>
 #include "audioplayer.h"
 
 
@@ -586,4 +587,11 @@ void AudioPlayer::changeSongDirectory()
         m_options->registerValue("MusicDirectory",QFileDialog::getExistingDirectory(0 , tr("Music directory"), m_options->value("MusicDirectory",QVariant(".")).toString(),
                 QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks));
 }
-
+void AudioPlayer::closeEvent ( QCloseEvent * event )
+{
+    QDockWidget::closeEvent(event);
+    if(event->isAccepted())
+    {
+        emit changeVisibility(false);
+    }
+}
