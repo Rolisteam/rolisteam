@@ -886,20 +886,22 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
 {
     if (m_currentTool == BarreOutils::ajoutPnj)
     {
-        // On verifie que la couleur courante peut etre utilisee pour dessiner un PNJ
-        if (G_couleurCourante.type == qcolor)
+        if((!G_joueur)||(Carte::PC_ALL==m_currentMode))
         {
-            // Creation de l'identifiant du PNJ
-            QString idPnj = QUuid::createUuid().toString();
-            // Creation du dessin du PNJ qui s'affiche dans le widget
-            DessinPerso *pnj = new DessinPerso(this, idPnj, G_nomPnjCourant, G_couleurCourante.color, taillePj, positionSouris, DessinPerso::pnj, G_numeroPnjCourant);
-            pnj->afficherPerso();
-            // Un PNJ est selectionne
-            pnjSelectionne = pnj;
-            // On calcule la difference entre le coin sup gauche du PNJ et le pointeur de la souris
-            diffSourisDessinPerso = pnjSelectionne->mapFromParent(positionSouris);
-            // Demande d'incrementation du numero de PNJ (envoyee a la barre d'outils)
-            emit incrementeNumeroPnj();
+            if (G_couleurCourante.type == qcolor)
+            {
+                // Creation de l'identifiant du PNJ
+                QString idPnj = QUuid::createUuid().toString();
+                // Creation du dessin du PNJ qui s'affiche dans le widget
+                DessinPerso *pnj = new DessinPerso(this, idPnj, G_nomPnjCourant, G_couleurCourante.color, taillePj, positionSouris, DessinPerso::pnj, G_numeroPnjCourant);
+                pnj->afficherPerso();
+                // Un PNJ est selectionne
+                pnjSelectionne = pnj;
+                // On calcule la difference entre le coin sup gauche du PNJ et le pointeur de la souris
+                diffSourisDessinPerso = pnjSelectionne->mapFromParent(positionSouris);
+                // Demande d'incrementation du numero de PNJ (envoyee a la barre d'outils)
+                emit incrementeNumeroPnj();
+            }
         }
     }
     else
@@ -909,7 +911,7 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
         {
             if((!G_joueur)||
                (Carte::PC_ALL==m_currentMode)||
-                    ((Carte::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )
+                    ((Carte::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )//if not found -1
             {
                 if (m_currentTool == BarreOutils::supprPnj)
                 {
