@@ -1,23 +1,23 @@
-/***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+/*************************************************************************
+ *	   Copyright (C) 2007 by Romain Campioni   			                 *
+ *	   Copyright (C) 2009 by Renaud Guezennec                            *
+ *       http://renaudguezennec.homelinux.org/accueil,3.html             *
+ *                                                                       *
+ *   rolisteam is free software; you can redistribute it and/or modify   *
+ *   it under the terms of the GNU General Public License as published   *
+ *   by the Free Software Foundation; either version 2 of the License,   *
+ *   or (at your option) any later version.                              *
+ *                                                                       *
+ *   This program is distributed in the hope that it will be useful,     *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of      *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the       *
+ *   GNU General Public License for more details.                        *
+ *                                                                       *
+ *   You should have received a copy of the GNU General Public License   *
+ *   along with this program; if not, write to the                       *
+ *   Free Software Foundation, Inc.,                                     *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
+ *************************************************************************/
 
 
 /********************************************************************/
@@ -46,6 +46,7 @@
 #include "LecteurAudio.h"
 #endif
 #include "Features.h"
+#include "initialisation.h"
 
 // Fonction globale, declaree dans MainWindow.cpp
 void ecrireLogUtilisateur(QString message);
@@ -56,15 +57,18 @@ void emettre(char *donnees, quint32 taille, int numeroLiaison);
 
 
 // Declarees dans main.cpp
-extern initialisation G_initialisation;
+extern Initialisation  G_initialisation;
+extern ClientServeur * G_clientServeur;
+extern MainWindow    * G_mainWindow;
+extern QString         G_idJoueurLocal;
 
 // Declarees dans ClientServeur.cpp
-extern ClientServeur *G_clientServeur;
-extern QMutex G_mutexConnexion;
 extern bool G_joueur;
 extern bool G_client;
-extern QString G_idJoueurLocal;
 extern QColor G_couleurJoueurLocal;
+
+// Declared in Liaison.cpp
+extern QMutex G_mutexConnexion;
 
 // Declarees dans DessinPerso.cpp, initialiser dans MainWindow.cpp
 extern QList<DessinPerso::etatDeSante> G_etatsDeSante;
@@ -84,7 +88,6 @@ extern int G_diametreTraitCourant;
 extern int G_diametrePnjCourant;
 
 // Declarees dans MainWindow.cpp
-extern MainWindow *G_mainWindow;
 extern bool G_affichageNomPj;
 extern bool G_affichageNomPnj;
 extern bool G_affichageNumeroPnj;

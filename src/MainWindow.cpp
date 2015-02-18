@@ -50,8 +50,6 @@
 /* Variables globales utilisees par tous les elements de                */
 /* l'application                                                        */
 /********************************************************************/
-// Pointeur vers l'unique instance de la fenetre principale
-MainWindow *G_mainWindow;
 // Indique si le nom des PJ doit etre affiche ou pas
 bool G_affichageNomPj;
 // Indique si le nom des PNJ doit etre affiche ou pas
@@ -134,7 +132,6 @@ MainWindow::MainWindow()
         : QMainWindow()
 {
         // Initialisation des variables globales
-        G_mainWindow = this;
         G_affichageNomPj = true;
         G_affichageNomPnj = true;
         G_affichageNumeroPnj = true;
@@ -167,8 +164,6 @@ MainWindow::MainWindow()
         // Ajout du log utilisateur a la fenetre principale
         addDockWidget(Qt::RightDockWidgetArea, dockLogUtil);
 
-        // Creation de la liste d'utilisateurs
-        new ListeUtilisateurs(this);
         // Ajout de la liste d'utilisateurs a la fenetre principale
         addDockWidget(Qt::RightDockWidgetArea, G_listeUtilisateurs);
 #ifndef NULL_PLAYER
@@ -224,27 +219,13 @@ MainWindow::MainWindow()
         G_pointeurEtat                = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
 
         // Initialisations' order: GameMaster's musics; Players' musics; images; plans; scenarii; notes; tchats
-        if (G_initialisation.initialisee)
-        {
-                G_dossierMusiquesMj         = G_initialisation.dossierMusiquesMj;
-                G_dossierMusiquesJoueur = G_initialisation.dossierMusiquesJoueur;
-                G_dossierImages                 = G_initialisation.dossierImages;
-                G_dossierPlans                         = G_initialisation.dossierPlans;
-                G_dossierScenarii                 = G_initialisation.dossierScenarii;
-                G_dossierNotes                         = G_initialisation.dossierNotes;
-                G_dossierTchats                 = G_initialisation.dossierTchats;
-        }
-        else
-        {
-                // in old code: MACOS and Q_WS_X11 were strictly identical, and the WIN32 specification useless and dirty. Windows use homePath too.
-                G_dossierMusiquesMj                = QDir::homePath()+"/." + QString(NOM_APPLICATION)+"/audio";
-                G_dossierMusiquesJoueur        = QDir::homePath()+"/." + QString(NOM_APPLICATION)+"/audio";
-                G_dossierImages                        = QDir::homePath()+"/." + QString(NOM_APPLICATION)+"/images";
-                G_dossierPlans                         = QDir::homePath()+"/." + QString(NOM_APPLICATION)+"/plans";
-                G_dossierScenarii                = QDir::homePath()+"/." + QString(NOM_APPLICATION)+"/scenarii";
-                G_dossierNotes                         = QDir::homePath()+"/." + QString(NOM_APPLICATION)+"/notes";
-                G_dossierTchats                 = QDir::homePath()+"/." + QString(NOM_APPLICATION)+"/tchat";
-        }
+        G_dossierMusiquesMj     = G_initialisation.dossierMusiquesMj;
+        G_dossierMusiquesJoueur = G_initialisation.dossierMusiquesJoueur;
+        G_dossierImages         = G_initialisation.dossierImages;
+        G_dossierPlans          = G_initialisation.dossierPlans;
+        G_dossierScenarii       = G_initialisation.dossierScenarii;
+        G_dossierNotes          = G_initialisation.dossierNotes;
+        G_dossierTchats         = G_initialisation.dossierTchats;
 }
 
 /********************************************************************/
@@ -2418,84 +2399,31 @@ void MainWindow::sauvegarderTousLesTchats()
 /********************************************************************/
 void MainWindow::sauvegarderFichierInitialisation()
 {
-        // Memorisation du chemin vers les musiques du MJ dans la variable d'initialisation
-        G_initialisation.dossierMusiquesMj = G_dossierMusiquesMj;
-        // ...du chemin vers les musiques des joueurs
-        G_initialisation.dossierMusiquesJoueur = G_dossierMusiquesJoueur;
-        // ...du chemin vers les images
-        G_initialisation.dossierImages = G_dossierImages;
-        // ...du chemin vers les plans
-        G_initialisation.dossierPlans = G_dossierPlans;
-        // ...du chemin vers les scenarii
-        G_initialisation.dossierScenarii = G_dossierScenarii;
-        // ...du chemin vers les notes
-        G_initialisation.dossierNotes = G_dossierNotes;
-        // ...du chemin vers les tchats
-        G_initialisation.dossierTchats = G_dossierTchats;
+    // Don't really write anything to the filesystem, but store new values in G_initialisation.
 
-        // Nom du fichier d'initialisation
-        QDir storageFolder = QDir::homePath();
-        if(!storageFolder.exists(QString(".%1").arg(NOM_APPLICATION)))
-        {
-            storageFolder.mkdir(QString(".%1").arg(NOM_APPLICATION));
-        }
-        QString fichierInitialisation = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".ini";
+    // Memorisation du chemin vers les musiques du MJ dans la variable d'initialisation
+    G_initialisation.dossierMusiquesMj = G_dossierMusiquesMj;
+    // ...du chemin vers les musiques des joueurs
+    G_initialisation.dossierMusiquesJoueur = G_dossierMusiquesJoueur;
+    // ...du chemin vers les images
+    G_initialisation.dossierImages = G_dossierImages;
+    // ...du chemin vers les plans
+    G_initialisation.dossierPlans = G_dossierPlans;
+    // ...du chemin vers les scenarii
+    G_initialisation.dossierScenarii = G_dossierScenarii;
+    // ...du chemin vers les notes
+    G_initialisation.dossierNotes = G_dossierNotes;
+    // ...du chemin vers les tchats
+    G_initialisation.dossierTchats = G_dossierTchats;
 
+    // ...les couleurs personnelles
+    for (int i=0; i<16; i++)
+            G_initialisation.couleurPersonnelle[i] = barreOutils->donnerCouleurPersonnelle(i);
 
-        // Creation du descripteur de fichier
-        QFile file(fichierInitialisation);
-
-        // Ouverture du fichier en ecriture seule
-        if (!file.open(QIODevice::WriteOnly))
-        {
-                qWarning("Probleme a la creation du fichier d'initialisation (sauvegarderFichierInitialisation - MainWindow.cpp)");
-                return;
-        }
-
-        // On cree un flux de donnees rattache au fichier
-        QDataStream fluxFichier(&file);
-        // On sauvegarde la version de l'application
-        fluxFichier << G_initialisation.versionApplication;
-        // ...le nom de l'utilisateur
-        fluxFichier << G_initialisation.nomUtilisateur;
-        // ...la couleur de l'utilisateur
-        fluxFichier << G_initialisation.couleurUtilisateur;
-        // ...la nature de l'utilisateur (joueur ou MJ)
-        fluxFichier << G_initialisation.joueur;
-        // ...la nature de l'ordinateur local
-        fluxFichier << G_initialisation.client;
-        // ...l'adresse IP du serveur
-        fluxFichier << G_initialisation.ipServeur;
-        // ...le port du serveur
-        fluxFichier << G_initialisation.portServeur;
-        // ...le port de connexion pour les clients
-        fluxFichier << G_initialisation.portClient;
-        // ...le chemin pour les musiques
-        fluxFichier << G_initialisation.dossierMusiquesMj;
-        // ...le chemin pour les musiques des joueurs
-        fluxFichier << G_initialisation.dossierMusiquesJoueur;
-        // ...le chemin pour les images
-        fluxFichier << G_initialisation.dossierImages;
-        // ...le chemin pour les plans
-        fluxFichier << G_initialisation.dossierPlans;
-        // ...le chemin pour les scenarii
-        fluxFichier << G_initialisation.dossierScenarii;
-        // ...le chemin pour les notes
-        fluxFichier << G_initialisation.dossierNotes;
-        // ...le chemin pour les tchats
-        fluxFichier << G_initialisation.dossierTchats;
-        // ...les couleurs personnelles
-        for (int i=0; i<16; i++)
-                fluxFichier << barreOutils->donnerCouleurPersonnelle(i);
-        // ...le volume du lecteur audio
-     
 #ifndef NULL_PLAYER
-	fluxFichier << G_lecteurAudio->volume();
-#else
-	fluxFichier << (qreal)100;
+    // ...le volume du lecteur audio
+    G_initialisation.niveauVolume = G_lecteurAudio->volume();
 #endif
-        // Fermeture du fichier
-        file.close();
 }
 
 

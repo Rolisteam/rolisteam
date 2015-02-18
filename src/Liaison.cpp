@@ -32,6 +32,13 @@
 #include "variablesGlobales.h"
 #include "types.h"
 
+/***********
+ * Globals *
+ *********** (We love them !) */
+
+// Mutex protegeant le code de connexion des joueurs
+QMutex G_mutexConnexion;
+
 
 /********************************************************************/
 /* Constructeur                                                     */

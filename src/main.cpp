@@ -22,10 +22,13 @@
 
 #include <QtGui>
 
-#include "ClientServeur.h"
-#include "constantesGlobales.h"
-#include "types.h"
 #include <time.h>
+
+#include "ClientServeur.h"
+#include "initialisation.h"
+#include "MainWindow.h"
+#include "constantesGlobales.h"
+#include "variablesGlobales.h"
 
 
 // Inclusion de la librairie FMOD (librairie audio)
@@ -43,8 +46,15 @@ static QTextEdit *Log;
 /* Variables globales utilisees par tous les elements de            */
 /* l'application                                                    */
 /********************************************************************/
+
 // Contient tous les parametres extraits du fichier d'initialisation
-initialisation G_initialisation;
+Initialisation  G_initialisation;
+
+// Identifiant du joueur en local sur la machine
+QString G_idJoueurLocal;
+
+ClientServeur * G_clientServeur;
+MainWindow    * G_mainWindow;
 
 
 /********************************************************************/
@@ -52,10 +62,10 @@ initialisation G_initialisation;
 /********************************************************************/
 void handlerAffichageMsg(QtMsgType type, const char *msg)
 {
-            QString titre;
-            Qt::GlobalColor couleur;
+    QString titre;
+    Qt::GlobalColor couleur;
 
-            // Parametrage du titre et de la couleur
+    // Parametrage du titre et de la couleur
     switch (type) {
     case QtDebugMsg:
         titre = "Debug : ";
@@ -74,134 +84,83 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
         couleur = Qt::darkGray;
         break;
     default :
-                    titre = "Type de message inconnu : ";
-                    couleur = Qt::magenta;
-                    break;
+        titre = "Type de message inconnu : ";
+        couleur = Qt::magenta;
+        break;
     }
 
-            // Affichage du texte
-            Log->setFontWeight(QFont::Bold);
-            Log->setTextColor(couleur);
-            Log->append(titre);
-            Log->setFontWeight(QFont::Normal);
-            Log->setTextColor(Qt::black);
-            Log->insertPlainText(msg);
+    // Affichage du texte
+    Log->setFontWeight(QFont::Bold);
+    Log->setTextColor(couleur);
+    Log->append(titre);
+    Log->setFontWeight(QFont::Normal);
+    Log->setTextColor(Qt::black);
+    Log->insertPlainText(msg);
 
-            // Erreur fatale : on quitte
-           /* if (type == QtFatalMsg)
-                    abort();*/
+    // Erreur fatale : on quitte
+    /* if (type == QtFatalMsg)
+            abort();*/
 }
 
-	/********************************************************************/
-	/* main                                                             */
-	/********************************************************************/	
-    int main(int argc, char *argv[])
-    {
-		// Initialisation du generateur de nombre aleatoire
-        qsrand(QDateTime::currentDateTime ().toTime_t ());
-	
-		// Creation de l'application
-        QApplication app(argc, argv);
-        QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-        QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-	
-        QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+/********************************************************************/
+/* main                                                             */
+/********************************************************************/	
+int main(int argc, char *argv[])
+{
+    // Initialisation du generateur de nombre aleatoire
+    qsrand(QDateTime::currentDateTime ().toTime_t ());
 
-		// Creation de la fenetre de log
-		Log = new QTextEdit();
-		Log->setWindowTitle("Log");
-		Log->setReadOnly(true);
-	//	Log->show();
+    // Creation de l'application
+    QApplication app(argc, argv);
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 
-		// Installation du handler de debugage
-		qInstallMsgHandler(handlerAffichageMsg);
+    // Creation de la fenetre de log
+    Log = new QTextEdit();
+    Log->setWindowTitle("Log");
+    Log->setReadOnly(true);
+//	Log->show();
 
-		// Chargement du traducteur de Qt
-		QTranslator qtTranslator;
-		qtTranslator.load("qt_" + QLocale::system().name());
-		app.installTranslator(&qtTranslator);
+    // Installation du handler de debugage
+    qInstallMsgHandler(handlerAffichageMsg);
 
-		// On charge le fichier de ressources qui contient ttes les images
-		QResource::registerResource(QString(NOM_APPLICATION) + ".rcc");
+    // Chargement du traducteur de Qt
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name());
+    app.installTranslator(&qtTranslator);
 
-		#ifdef WIN32
-			// M.a.j de l'icone de l'application
-			app.setWindowIcon(QIcon(":/resources/icones/" + QString(NOM_APPLICATION) + ".png"));
-		#endif
+    // On charge le fichier de ressources qui contient ttes les images
+    QResource::registerResource(QString(NOM_APPLICATION) + ".rcc");
 
-  		// Initialisation de la librairie FMOD
+    #ifdef WIN32
+        // M.a.j de l'icone de l'application
+        app.setWindowIcon(QIcon(":/resources/icones/" + QString(NOM_APPLICATION) + ".png"));
+    #endif
+
+    // Initialisation de la librairie FMOD
 /*		if (!FSOUND_Init(FREQUENCE_AUDIO, 32, 0))
-			qWarning("Probleme d'initialisation de la librairie FMOD (main - main.cpp)");*/
+        qWarning("Probleme d'initialisation de la librairie FMOD (main - main.cpp)");*/
 
-		// Par defaut la variable d'initialisation n'est pas utilisable
-		G_initialisation.initialisee = false;
+    // We need an Uuid for the local player
+    G_idJoueurLocal = QUuid::createUuid().toString();
+    // and a list to store it into
+    new ListeUtilisateurs;
 
-		// Nom du fichier d'initialisation
-         QString fichierInitialisation = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".ini";
- 
-		// Si le fichier d'initialisation existe, on le charge
-		if (QFile::exists(fichierInitialisation))
-		{
-			// Creation du descripteur de fichier
-			QFile file(fichierInitialisation);
-			// Ouverture du fichier en lecture seule
-			if (!file.open(QIODevice::ReadOnly))
-			{
-				qWarning("Probleme a l'ouverture du fichier d'initialisation (main - main.cpp)");
-			}
-			
-			// L'ouverture s'est correctement passee
-			else
-			{
-				// On indique que la variable d'initilisation est utilisable
-				G_initialisation.initialisee = true;
-				// On cree un flux de donnees rattache au fichier
-				QDataStream fluxFichier(&file);
-				
-				// On recupere la version de l'application
-				fluxFichier >> G_initialisation.versionApplication;
-				// ...le nom de l'utilisateur
-				fluxFichier >> G_initialisation.nomUtilisateur;
-				// ...la couleur de l'utilisateur
-				fluxFichier >> G_initialisation.couleurUtilisateur;
-				// ...la nature de l'utilisateur (joueur ou MJ)
-				fluxFichier >> G_initialisation.joueur;
-				// ...la nature de l'ordinateur local
-				fluxFichier >> G_initialisation.client;
-				// ...l'adresse IP du serveur
-				fluxFichier >> G_initialisation.ipServeur;
-				// ...le port du serveur
-				fluxFichier >> G_initialisation.portServeur;
-				// ...le port de connexion pour les clients
-				fluxFichier >> G_initialisation.portClient;
-				// ...le chemin pour les musiques
-				fluxFichier >> G_initialisation.dossierMusiquesMj;
-				// ...le chemin pour les musiques des joueurs
-				fluxFichier >> G_initialisation.dossierMusiquesJoueur;
-				// ...le chemin pour les images
-				fluxFichier >> G_initialisation.dossierImages;
-				// ...le chemin pour les plans
-				fluxFichier >> G_initialisation.dossierPlans;
-				// ...le chemin pour les scenarii
-				fluxFichier >> G_initialisation.dossierScenarii;
-				// ...le chemin pour les notes
-				fluxFichier >> G_initialisation.dossierNotes;
-				// ...le chemin pour les tchats
-				fluxFichier >> G_initialisation.dossierTchats;
-				// ...les couleurs personnelles
-				for (int i=0; i<16; i++)
-					fluxFichier >> G_initialisation.couleurPersonnelle[i];
-				// ...le volume du lecteur audio
-				fluxFichier >> G_initialisation.niveauVolume;
-				// Fermeture du fichier
-				file.close();
-			}
-		}
+    // Initialise features database with local features
+    g_featuresList.addLocal(G_idJoueurLocal);
 
-		// Creation du client/serveur : si la connexion reussie alors
-		// le programme principal est lance
-		ClientServeur *clientServeur = new ClientServeur();
-		
-		// Lancement de la boucle d'application
-        return app.exec();
-    } 
+    // Creation du client/serveur : si la connexion reussie alors
+    // le programme principal est lance
+    G_clientServeur = new ClientServeur;
+    if (!G_clientServeur->configAndConnect())
+        return 0;
+    
+    // We have a connection, we create the main window.
+    G_mainWindow = new MainWindow;
+    G_mainWindow->setWindowTitle(NOM_APPLICATION);
+    G_mainWindow->showNormal();
+
+    // Lancement de la boucle d'application
+    return app.exec();
+} 

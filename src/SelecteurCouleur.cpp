@@ -127,13 +127,8 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 		couleurPersonnelle[i]->setFixedHeight(5);
 		couleurPersonnelle[i]->setToolTip(tr("Couleur personnelle ") + QString::number(i+1));
 
-		// Mise a jour des couleurs personnelles de QColorDialog dans le cas ou la variable d'initialisation est utilisable
-		if (G_initialisation.initialisee == true)
-			QColorDialog::setCustomColor(i, G_initialisation.couleurPersonnelle[i].rgb());
-		
-		// Sinon on met une couleur par defaut
-		else
-			QColorDialog::setCustomColor(i, QColor(i*16, i*16, i*16).rgb());
+		// Mise a jour des couleurs personnelles de QColorDialog
+        QColorDialog::setCustomColor(i, G_initialisation.couleurPersonnelle[i].rgb());
 
 		// Ajout du widget au layout
 		grillePerso->addWidget(couleurPersonnelle[i], y, x);

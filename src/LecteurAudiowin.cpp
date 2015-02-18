@@ -132,9 +132,7 @@
 		niveauVolume->setFixedWidth(50);
 		niveauVolume->setToolTip(tr("Volume"));
 		niveauVolume->setRange(0, 255);
-		// Si la variable d'initialisation est utilisable, on initialise le volume
-		if (G_initialisation.initialisee)
-			niveauVolume->setValue(G_initialisation.niveauVolume);
+        niveauVolume->setValue(G_initialisation.niveauVolume);
 		// Sinon on met une valeur par defaut
 		else
 			niveauVolume->setValue(100);

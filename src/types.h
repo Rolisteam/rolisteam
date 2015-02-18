@@ -76,27 +76,4 @@
 		bool mj;						// True si l'utilisateur est un MJ, false sinon
 	} utilisateur;
 
-	// Definition du contenu du fichier d'initialisation
-	typedef struct
-	{
-		bool initialisee;				// True si la structure a ete initialisee (le fichier d'initialisation etait present)
-		QString versionApplication;		// Version de l'application ayant cree le fichier d'initialisation
-		QString nomUtilisateur;			// Nom de l'utilisateur tel qu'indique dans la fenetre de connexion
-		QColor couleurUtilisateur;		// Couleur choisie par l'utilisateur
-		bool joueur;					// True si l'utilisateur est joueur, false s'il est MJ
-		bool client;					// True si l'utilisateur est client, false s'il est serveur
-		QString ipServeur;				// Adresse IP du serveur (renseigne par un utilisateur client)
-		QString portServeur;			// Port du serveur (renseigne par un utilisateur client)
-		QString portClient;				// Port de connexion pour les clients (renseigne par un utilisateur serveur)
-		QString dossierMusiquesMj;		// Dossier de chargement des musiques pour le MJ
-		QString dossierMusiquesJoueur;	// Dossier de chargement des musiques pour les joueurs
-		QString dossierImages;			// Dossier de chargement des images
-		QString dossierPlans;			// Dossier de chargement et de sauvegarde des plans
-		QString dossierScenarii;		// Dossier de chargement et de sauvegarde des scenarii
-		QString dossierNotes;			// Dossier de chargement des notes
-		QString dossierTchats;			// Dossier de sauvegarde des tchats
-		QColor couleurPersonnelle[16];	// Couleurs personnelles definies par l'utilisateur
-		int niveauVolume;				// Volume du lecteur audio
-	} initialisation;
-
 #endif
