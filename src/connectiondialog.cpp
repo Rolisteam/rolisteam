@@ -29,7 +29,7 @@
 #include "colorbutton.h"
 
 #define MIN 1
-#define MAX 32767
+#define MAX 65535
 /**************************
  * ConnectionConfigDialog *
  **************************/
