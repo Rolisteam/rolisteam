@@ -22,6 +22,7 @@ HEADERS += src/AfficheurDisque.h \
            src/DessinPerso.h \
            src/EditeurNotes.h \
            src/Features.h \
+            src/updatechecker.h \
            src/Image.h \
            src/initialisation.h \
            src/Liaison.h \
@@ -42,6 +43,7 @@ HEADERS += src/AfficheurDisque.h \
            src/WorkspaceAmeliore.h
 SOURCES += src/AfficheurDisque.cpp \
            src/BarreOutils.cpp \
+            src/updatechecker.cpp \
            src/Carte.cpp \
            src/CarteFenetre.cpp \
            src/ClientServeur.cpp \

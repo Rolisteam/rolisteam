@@ -41,6 +41,7 @@
 #include "EditeurNotes.h"
 #include "WorkspaceAmeliore.h"
 #include "preferencesdialog.h"
+#include "updatechecker.h"
 
 // Necessaires pour utiliser l'instruction ShellExecute
 #ifdef WIN32
@@ -2418,13 +2419,8 @@ void MainWindow::aPropos()
 
 void MainWindow::aideEnLigne()
 {
-
-
-
     QProcess *process = new QProcess;
             QStringList args;
-
-
     #ifdef Q_WS_X11
             args << QLatin1String("-collectionFile")
             << QLatin1String("/usr/share/doc/rolisteam-doc/rolisteam.qhc");
@@ -2455,7 +2451,20 @@ void MainWindow::aideEnLigne()
             }
 }
 
-
+void MainWindow::checkUpdate()
+{
+    m_updateChecker = new UpdateChecker();
+    m_updateChecker->startChecking();
+    connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
+}
+void MainWindow::updateMayBeNeeded()
+{
+    if(m_updateChecker->mustBeUpdated())
+    {
+        QMessageBox::information(this,tr("Update Monitor"),tr("The %1 version has been released. Please take a look at www.rolisteam.org for more information").arg(m_updateChecker->getLatestVersion()));
+    }
+    m_updateChecker->deleteLater();
+}
 void MainWindow::AddHealthState(const QColor &color, const QString &label, QList<DessinPerso::etatDeSante> &listHealthState)
 {
         DessinPerso::etatDeSante state;

@@ -49,7 +49,7 @@
 #ifndef NULL_PLAYER
 #include "LecteurAudio.h"
 #endif
-
+class UpdateChecker;
 class PreferencesDialog;
 
 class MainWindow : public QMainWindow
@@ -170,7 +170,7 @@ private :
 
     QAction *actionAideLogiciel;
     QAction *actionAPropos;
-
+    UpdateChecker* m_updateChecker;
 private slots :
     void afficherNomsPj(bool afficher);
     void afficherNomsPnj(bool afficher);
