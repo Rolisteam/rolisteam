@@ -106,6 +106,16 @@ const QString CharacterSheet::getkey(int index)
 
     }
 }
+void  CharacterSheet::setOwner(QString owner)
+{
+    m_owner = owner;
+}
+
+const QString& CharacterSheet::owner() const
+{
+    return m_owner;
+}
+
 void CharacterSheet::setData(int indexSec,int index,QVariant value,bool isHeader)
 {
 
@@ -114,6 +124,10 @@ void CharacterSheet::setData(int indexSec,int index,QVariant value,bool isHeader
 
 
 
+}
+void CharacterSheet::addData(int indexSec,int index,QVariant value)
+{
+        m_sectionList[indexSec].insert(index,value.toString());
 }
 void CharacterSheet::appendLine(int sectionIndex)
 {

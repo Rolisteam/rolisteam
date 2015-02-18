@@ -22,9 +22,11 @@
 #include "charactersheet.h"
 #include "headermodel.h"
 #include <QMenu>
-
-CharacterSheetWindow::CharacterSheetWindow()
-    //: m_vheader(Qt::Vertical)
+#include <QFile>
+#include <QFileDialog>
+#include "preferencesmanager.h"
+CharacterSheetWindow::CharacterSheetWindow(QWidget* parent)
+    : SubMdiWindows(parent)
 {
     setObjectName("CharacterSheet");
 
@@ -32,7 +34,8 @@ CharacterSheetWindow::CharacterSheetWindow()
     m_addSection = new QAction(tr("Add Section"),this);
     m_addLine= new QAction(tr("Add line"),this);
     m_addCharacterSheet= new QAction(tr("Add CharacterSheet"),this);
-
+    m_saveCharacterSheet = new QAction(tr("Save Character Sheets"),this);
+    m_openCharacterSheet= new QAction(tr("Open Character Sheets"),this);
     m_view.setModel(&m_model);
 
 
@@ -45,6 +48,9 @@ CharacterSheetWindow::CharacterSheetWindow()
     connect(m_addSection,SIGNAL(triggered()),this,SLOT(addSection()));
     connect(m_addCharacterSheet,SIGNAL(triggered()),this,SLOT(addCharacterSheet()));
 
+    connect(m_saveCharacterSheet,SIGNAL(triggered()),this,SLOT(saveCharacterSheet()));
+    connect(m_openCharacterSheet,SIGNAL(triggered()),this,SLOT(openCharacterSheet()));
+
     connect(&m_view,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(displayCustomMenu(QPoint)));
 }
 bool CharacterSheetWindow::defineMenu(QMenu* menu)
@@ -52,6 +58,10 @@ bool CharacterSheetWindow::defineMenu(QMenu* menu)
     menu->addAction(m_addCharacterSheet);
     menu->addAction(m_addSection);
     menu->addAction(m_addLine);
+    menu->addSeparator();
+    menu->addAction(m_openCharacterSheet);
+    menu->addAction(m_saveCharacterSheet);
+
     return true;
 }
 
@@ -70,6 +80,11 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
     menu.addAction(m_addCharacterSheet);
     menu.addAction(m_addSection);
     menu.addAction(m_addLine);
+    menu.addSeparator();
+    menu.addAction(m_openCharacterSheet);
+    menu.addAction(m_saveCharacterSheet);
+
+
     if(!(m_view.indexAt(pos).isValid()))
     {
         m_addSection->setEnabled(true);
@@ -93,4 +108,38 @@ void CharacterSheetWindow::addSection()
 void CharacterSheetWindow::addCharacterSheet()
 {
     m_model.addCharacterSheet();
+}
+void  CharacterSheetWindow::saveCharacterSheet()
+{
+    if(m_fileUri.isEmpty())
+    {
+        m_fileUri = QFileDialog::getSaveFileName(this, tr("Save Character Sheets"), m_options->value(QString("DataDirectory"),QVariant(".")).toString(),
+                tr("Xml files (*.xml)"));
+    }
+    if(!m_fileUri.isEmpty())
+    {
+        QFile url(m_fileUri);
+        if(!url.open(QIODevice::WriteOnly | QIODevice::Text))
+            return;
+
+        QTextStream in(&url);
+        m_model.writeModel(in,true);
+        url.close();
+    }
+
+}
+void CharacterSheetWindow::openCharacterSheet()
+{
+    m_fileUri = QFileDialog::getOpenFileName(this, tr("Save Character Sheets"), m_options->value(QString("DataDirectory"),QVariant(".")).toString(),
+                    tr("Xml files (*.xml)"));
+    if(!m_fileUri.isEmpty())
+    {
+        QFile url(m_fileUri);
+        if(!url.open(QIODevice::ReadOnly))
+            return;
+
+
+        m_model.readModel(url);
+        url.close();
+    }
 }

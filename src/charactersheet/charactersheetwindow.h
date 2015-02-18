@@ -38,7 +38,7 @@ public:
 	/**
 	* @brief default construtor
 	*/
-    CharacterSheetWindow();
+    CharacterSheetWindow(QWidget* parent = NULL);
 
 	/**
 	* @brief compulsary function , it should set the custom window menu
@@ -71,6 +71,8 @@ protected slots:
     */
     void displayCustomMenu(const QPoint & pos);
 
+    void saveCharacterSheet();
+    void openCharacterSheet();
 
 private:
 	/**
@@ -96,6 +98,16 @@ private:
 	* @brief event button
 	*/
     QAction* m_addCharacterSheet;
+    /**
+    * @brief event button
+    */
+    QAction* m_saveCharacterSheet;
+    /**
+    * @brief event button
+    */
+    QAction* m_openCharacterSheet;
+
+
 
 	/**
 	* @brief layout
@@ -109,6 +121,8 @@ private:
 	* @brief gathering widget
 	*/
     QWidget m_widget;
+
+    QString m_fileUri;
 
 };
 

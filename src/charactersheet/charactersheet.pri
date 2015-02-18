@@ -6,3 +6,4 @@ SOURCES += charactersheetwindow.cpp \
     charactersheetmodel.cpp \
     headermodel.cpp \
     headerview.cpp
+QT += xml

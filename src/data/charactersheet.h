@@ -27,7 +27,7 @@
 /**
  * @brief Section stores any fields of specific section
  */
-class Section : public QList<QString>
+class  Section : public QList<QString>
 {
 
 public:
@@ -108,6 +108,7 @@ public:
 	* @param isHeader true when add a section. 
 	*/
     void setData(int indexSec,int index,QVariant value,bool isHeader = false);
+    void addData(int indexSec,int index,QVariant value);
 	/**
 	* @brief return the number of fields: Sum(number of section + sum of all sections items.)
 	*/
@@ -120,6 +121,9 @@ public:
 
 
     void appendLine(int sectionIndex);
+
+    void setOwner(QString owner);
+    const QString& owner() const;
 
 private:
 	/**

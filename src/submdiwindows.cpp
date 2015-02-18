@@ -19,12 +19,13 @@
  ***************************************************************************/
 #include "submdiwindows.h"
 #include <QDebug>
-
+#include "preferencesmanager.h"
 SubMdiWindows::SubMdiWindows(QWidget* parent)
     : QMdiSubWindow(parent)
 {
 
     m_currentTool = ToolsBar::HANDLER;
+    m_options = PreferencesManager::getInstance();
 }
 
 void SubMdiWindows::changedStatus(Qt::WindowStates oldState,Qt::WindowStates newState)

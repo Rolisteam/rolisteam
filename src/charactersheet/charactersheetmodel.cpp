@@ -21,13 +21,13 @@
 #include "charactersheetmodel.h"
 #include "charactersheet.h"
 #include <QDebug>
-
+#include <QDomDocument>
 
 
 TreeItem::TreeItem(Section* p,bool leaf)
     : m_section(p),m_isLeaf(leaf)
 {
-    qDebug() << " Creation TreeItem";
+ //   qDebug() << " Creation TreeItem";
     m_children =new QList<TreeItem*>;
 }
 TreeItem* TreeItem::getParent()
@@ -102,8 +102,8 @@ int CharacterSheetModel::rowCount ( const QModelIndex & parent  ) const
         TreeItem* tmp = static_cast<TreeItem*>(parent.internalPointer());
         if(!tmp->isLeaf())
         {
-            if(tmp->getSection() == NULL)
-                qDebug() << "section is null";
+            //if(tmp->getSection() == NULL)
+           //     qDebug() << "section is null";
             return tmp->getSection()->size();
         }
         else
@@ -121,7 +121,7 @@ int CharacterSheetModel::rowCount ( const QModelIndex & parent  ) const
 int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
 {
     Q_UNUSED(parent)
-    qDebug() << "columnCount" << m_characterList->size()+1;
+   // qDebug() << "columnCount" << m_characterList->size()+1;
     return m_characterList->size()+1;
 }
 QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex & parent ) const
@@ -277,9 +277,10 @@ QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientatio
             case 0:
                 return tr("field name");
             default:
-                m_characterList->at(section-1);
+                return m_characterList->at(section-1)->owner();
         }
     }
+
 
 
     return QVariant();
@@ -293,27 +294,38 @@ Qt::ItemFlags CharacterSheetModel::flags(const QModelIndex &index) const
 }
 void CharacterSheetModel::addSection()
 {
-    qDebug() << "in add section";
-    beginInsertRows(QModelIndex(),m_rootItem->childrenCount(),m_rootItem->childrenCount());
-    Section* sec=new Section();
-    sec->setName(tr("Empty Section %1").arg(m_rootItem->childrenCount()+1));
-    TreeItem* tmp = new TreeItem(sec,false);
-    tmp->setParent(m_rootItem);
-    m_rootItem->addChild(tmp);
-    m_sectionList->append(sec);
-    foreach(CharacterSheet* sheet,*m_characterList)
-    {
-        sheet->appendSection(sec);
-    }
-    endInsertRows();
 
+
+
+    addSection(tr("Empty Section %1").arg(m_rootItem->childrenCount()+1));
+
+
+}
+TreeItem* CharacterSheetModel::addSection(QString title)
+{
+     beginInsertRows(QModelIndex(),m_rootItem->childrenCount(),m_rootItem->childrenCount());
+     Section* sec=new Section();
+     sec->setName(title);
+     TreeItem* tmp = new TreeItem(sec,false);
+     tmp->setParent(m_rootItem);
+     m_rootItem->addChild(tmp);
+     m_sectionList->append(sec);
+
+     m_sectionList->append(sec);
+     foreach(CharacterSheet* sheet,*m_characterList)
+     {
+         sheet->appendSection(sec);
+     }
+     endInsertRows();
+    return tmp;
 }
 
 void CharacterSheetModel::addLine(const QModelIndex & index /*Section* index*/)
 {
 
     TreeItem* parentItem = static_cast<TreeItem*>(index.internalPointer());
-    beginInsertRows(index,parentItem->childrenCount(),parentItem->childrenCount());
+    addLine(parentItem,tr("Field %1").arg(parentItem->childrenCount()));
+    /*beginInsertRows(index,parentItem->childrenCount(),parentItem->childrenCount());
     TreeItem* tmp = new TreeItem(parentItem->getSection(),true);
     tmp->setParent(parentItem);
     parentItem->addChild( tmp);
@@ -322,6 +334,23 @@ void CharacterSheetModel::addLine(const QModelIndex & index /*Section* index*/)
     foreach(CharacterSheet* sheet,*m_characterList)
     {
         sheet->appendLine(index.row());
+    }
+    endInsertRows();*/
+
+}
+void CharacterSheetModel::addLine(TreeItem* parentItem,QString name)
+{
+
+
+    beginInsertRows(QModelIndex ().sibling(m_rootItem->indexOfChild(parentItem),0),parentItem->childrenCount(),parentItem->childrenCount());
+    TreeItem* tmp = new TreeItem(parentItem->getSection(),true);
+    tmp->setParent(parentItem);
+    parentItem->addChild( tmp);
+    QString* tmpstr = new QString(name);//tr("Field %1").arg(parentItem->childrenCount())
+    parentItem->getSection()->append(*tmpstr);
+    foreach(CharacterSheet* sheet,*m_characterList)
+    {
+        sheet->appendLine(sheet->getIndexCount());
     }
     endInsertRows();
 
@@ -334,8 +363,8 @@ bool CharacterSheetModel::hasChildren ( const QModelIndex & parent  ) const
     else
     {
         TreeItem* childItem = static_cast<TreeItem*>(parent.internalPointer());
-        if(childItem->getSection() == NULL)
-            qDebug() << "section is null 5";
+       /* if(childItem->getSection() == NULL)
+            qDebug() << "section is null 5";*/
         if(childItem->isLeaf())
             return  false;
         else
@@ -349,12 +378,12 @@ Section* CharacterSheetModel::indexToSection(const QModelIndex & index)
     TreeItem* childItem = static_cast<TreeItem*>(index.internalPointer());
     if(childItem)
     {
-        if(childItem->getSection()==NULL)
-            qDebug() << " getsection return NULL dans indexToSection";
+      /*  if(childItem->getSection()==NULL)
+            qDebug() << " getsection return NULL dans indexToSection";*/
         return childItem->getSection();
     }
 
-    qDebug() << "return NULL dans indexToSection";
+   // qDebug() << "return NULL dans indexToSection";
     return  NULL;
 }
 QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex & index)
@@ -363,4 +392,117 @@ QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex & index)
         return index.parent();
     else
         return index;
+}
+bool CharacterSheetModel::writeModel(QTextStream& file, bool data)
+{
+    int sectionIndex = 0;
+    QDomDocument doc;
+    QDomElement root = doc.createElement("charactersheets");
+
+
+    foreach(Section* tmp, *m_sectionList)
+    {
+        QDomElement section  = doc.createElement("section");
+        section.setAttribute("title",tmp->getName());
+        int fieldIndex =0;
+        foreach(QString field , *tmp)
+        {
+            QDomElement fieldelement  = doc.createElement("field");
+            fieldelement.setAttribute("name",field);
+            if(data)
+            {
+                foreach(CharacterSheet* character,*m_characterList)
+                {
+                        QDomElement value= doc.createElement("value");
+                         value.setAttribute("owner",character->owner());
+                         QDomText text = doc.createTextNode(character->getData(sectionIndex,fieldIndex));
+                         value.appendChild(text);
+                         fieldelement.appendChild(value);
+                }
+            }
+            section.appendChild(fieldelement);
+            fieldIndex++;
+        }
+        root.appendChild(section);
+        sectionIndex++;
+    }
+    doc.appendChild(root);
+    file << doc.toString();
+    return true;
+
+}
+
+bool CharacterSheetModel::readModel(QFile& file)
+{
+    QDomDocument doc;
+    if(doc.setContent(&file))
+    {
+
+        QDomElement element = doc.documentElement();
+        QDomNode node = element.firstChild();
+        int sectionIndex = 0;
+        while(!node.isNull())//get all sections
+        {
+            if(node.isElement())
+            {
+                QDomElement elementTemp =node.toElement();
+
+                TreeItem* indexSec=  addSection(elementTemp.attribute("title","title"));
+                QDomNode node2 = elementTemp.firstChild();
+                int i = 0;
+                while(!node2.isNull())//loop on fields
+                {
+
+                    if(node.isElement())
+                    {
+                        QDomElement elementField =node2.toElement();
+                        addLine(indexSec,elementField.attribute("name","name"));
+                        QDomNode node3 = elementField.firstChild();
+                        int j=0;
+                        while(!node3.isNull())//loop on Value - Data only
+                        {
+                            if(node.isElement())
+                            {
+                                QDomElement elementValue =node3.toElement();
+                                if(j>=m_characterList->size())
+                                {
+                                    m_characterList->append(new CharacterSheet());
+                                    m_characterList->at(j)->setOwner(elementValue.attribute("owner",""));
+                                    foreach(Section* sec,*m_sectionList)
+                                        m_characterList->at(j)->appendSection(sec);
+                                }
+                                QDomNode node4 = elementValue.firstChild();
+                                while(!node4.isNull())
+                                {
+                                    m_characterList->at(j)->addData(sectionIndex,i,node4.toText().data());
+                                    node4 = node4.nextSibling();
+                                }
+
+                            }
+                            node3 = node3.nextSibling();
+                            j++;
+                        }
+
+
+                    }
+                    i++;
+                    node2 = node2.nextSibling();
+                }
+
+
+
+
+
+            }
+            sectionIndex++;
+            node = node.nextSibling();
+        }
+
+
+
+
+        return true;
+    }
+    //QDomElement root=doc.documentElement();
+    return false;
 }

@@ -40,6 +40,7 @@ PreferencesManager::PreferencesManager()
     m_optionDictionary->insert("ScriptDirectory",QDir::homePath());
     m_optionDictionary->insert("MinutesDirectory",QDir::homePath());
     m_optionDictionary->insert("TchatDirectory",QDir::homePath());
+    m_optionDictionary->insert("DataDirectory",QDir::homePath());
 }
 
 PreferencesManager::~PreferencesManager()

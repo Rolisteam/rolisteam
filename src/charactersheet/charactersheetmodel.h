@@ -23,8 +23,8 @@
 
 #include <QAbstractItemModel>
 
-
-
+#include <QTextStream>
+#include <QFile>
 
 class CharacterSheet;
 class Section;
@@ -137,6 +137,14 @@ public:
 
     Section* indexToSection(const QModelIndex & index);
     QModelIndex indexToSectionIndex(const QModelIndex & index);
+
+
+
+    bool writeModel(QTextStream& file, bool data= true);
+    bool readModel(QFile& file);
+
+    TreeItem* addSection(QString title);
+    void addLine(TreeItem* parentItem,QString name);
 
 private:
 	/**

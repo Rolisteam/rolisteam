@@ -27,6 +27,7 @@
 * @brief is an abstract class which defines interfaces with all kinds of subwindows.
 *
 */
+class PreferencesManager;
 class SubMdiWindows : public QMdiSubWindow
 {
     Q_OBJECT
@@ -115,6 +116,11 @@ protected:
 	* @brief subwindows type.
 	*/
     SubWindowType m_type;
+
+    /**
+      * pointer to the unique instance of preference manager.
+      */
+    PreferencesManager* m_options;
 
 };
 

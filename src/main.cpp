@@ -86,7 +86,7 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 
 int main(int argc, char *argv[])
 {
-    srand(clock());
+   qsrand(QDateTime::currentDateTime ().toTime_t ());
 
 
     QApplication app(argc, argv);
