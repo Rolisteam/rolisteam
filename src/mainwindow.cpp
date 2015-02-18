@@ -147,6 +147,7 @@ MainWindow* MainWindow::getInstance()
 MainWindow::MainWindow()
     : QMainWindow(),m_networkManager(NULL)
 {
+    m_shownProgress=false;
     m_preferences = PreferencesManager::getInstance();
     m_newEmptyMapDialog = new NewEmptyMapDialog(this);
     m_downLoadProgressbar = new QProgressBar();
@@ -308,7 +309,11 @@ void MainWindow::receiveData(quint64 readData,quint64 size)
     if(size==0)
     {
         m_downLoadProgressbar->setVisible(false);
-        statusBar()->removeWidget(m_downLoadProgressbar);
+        if(m_shownProgress)
+        {
+            statusBar()->removeWidget(m_downLoadProgressbar);
+        }
+        m_shownProgress=false;
         statusBar()->setVisible(false);
     }
     else if(readData!=size)
@@ -320,6 +325,7 @@ void MainWindow::receiveData(quint64 readData,quint64 size)
         quint64 i = (size-readData)*100/size;
 
         m_downLoadProgressbar->setValue(i);
+        m_shownProgress=true;
     }
 
 }
@@ -842,7 +848,7 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
     if (masquer)
     {
         QPainter painterAlpha(&alpha);
-        painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), PreferencesManager::getInstance()->value("fog_color",QColor(0,0,0)).value<QColor>());
+        painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), PreferencesManager::getInstance()->value("Fog_color",QColor(0,0,0)).value<QColor>());
     }
 
     QString idCarte = QUuid::createUuid().toString();

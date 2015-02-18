@@ -395,6 +395,7 @@ private :
     //subwindow
     QMdiSubWindow* m_noteEditorSub;
     QProgressBar* m_downLoadProgressbar;
+    bool m_shownProgress;
 };
 
 #endif

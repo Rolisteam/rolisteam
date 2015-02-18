@@ -187,6 +187,11 @@ void Image::resizeLabel()
     {
         m_zoomLevel=0.2;
     }
+    else if(m_zoomLevel>3.0)
+    {
+         m_zoomLevel=3.0;
+    }
+
 
     if(m_fitWindowAct->isChecked())
     {

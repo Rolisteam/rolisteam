@@ -38,7 +38,6 @@ void MapWizzard::selectPath()
 }
 Carte::PermissionMode  MapWizzard::getPermissionMode() const
 {
-
     Carte::PermissionMode result;
     switch (ui->m_permissionSelector->currentIndex()) {
     case 0:
