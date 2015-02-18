@@ -1,157 +1,122 @@
-/*************************************************************************
- *    Copyright (C) 2007 by Romain Campioni                              *
- *    Copyright (C) 2009 by Renaud Guezennec                             *
- *    Copyright (C) 2011 by Joseph Boudou                                *
- *                                                                       *
- *      http://www.rolisteam.org/                                        *
- *                                                                       *
- *   Rolisteam is free software; you can redistribute it and/or modify   *
- *   it under the terms of the GNU General Public License as published   *
- *   by the Free Software Foundation; either version 2 of the License,   *
- *   or (at your option) any later version.                              *
- *                                                                       *
- *   This program is distributed in the hope that it will be useful,     *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of      *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the       *
- *   GNU General Public License for more details.                        *
- *                                                                       *
- *   You should have received a copy of the GNU General Public License   *
- *   along with this program; if not, write to the                       *
- *   Free Software Foundation, Inc.,                                     *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
- *************************************************************************/
+/*
+	Rolistik - logiciel collaboratif d'aide aux jeux de roles en ligne
+	Copyright (C) 2007 - Romain Campioni  Tous droits réservés.
+
+	Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le
+	modifier suivant les termes de la GNU General Public License telle que
+	publiée par la Free Software Foundation : soit la version 2 de cette
+	licence, soit (à votre gré) toute version ultérieure.
+
+	Ce programme est distribué dans lespoir quil vous sera utile, mais SANS
+	AUCUNE GARANTIE : sans même la garantie implicite de COMMERCIALISABILITÉ
+	ni dADÉQUATION À UN OBJECTIF PARTICULIER. Consultez la Licence Générale
+	Publique GNU pour plus de détails.
+
+	Vous devriez avoir reçu une copie de la Licence Générale Publique GNU avec
+	ce programme ; si ce nest pas le cas, consultez :
+	<http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+
+	Par ailleurs ce logiciel est gratuit et ne peut en aucun cas être
+	commercialisé, conformément à la "FMOD Non-Commercial License".
+*/
 
 
-#include "CarteFenetre.h"
+	#include <QtGui>
 
-#include <QtGui>
-
-#include "Carte.h"
-
-
-#include "variablesGlobales.h"
+	#include "CarteFenetre.h"
+	#include "variablesGlobales.h"
 
 
-
-CarteFenetre::CarteFenetre(Carte *uneCarte, QWidget *parent)
-    : QScrollArea(parent)
-{
-    setObjectName("CarteFenetre");
-    setWindowIcon(QIcon(":/map.png"));
-    setFocusPolicy(Qt::StrongFocus);
-    setAlignment(Qt::AlignCenter);
-
-
-
-    m_widgetResizeAct = new QAction(tr("Map fits window"),this);
-    m_widgetResizeAct->setCheckable(true);
-    m_widgetResizeAct->setChecked(false);
-
-
-    carteAssociee = uneCarte;
-    m_originalSize = carteAssociee->size();
-    setWidget(carteAssociee);
-    setViewportMargins(0,0,0,0);
-
-    resize(carteAssociee->width()+4, carteAssociee->height()+4);
-
-
-    connect(carteAssociee, SIGNAL(commencerDeplacementCarteFenetre(QPoint)),
-            this, SLOT(commencerDeplacement(QPoint)));
-    connect(carteAssociee, SIGNAL(deplacerCarteFenetre(QPoint)),
-            this, SLOT(deplacer(QPoint)));
-    connect(m_widgetResizeAct,SIGNAL(triggered()),this,SLOT(fitMapToWindow()));
-}
-
-
-CarteFenetre::~CarteFenetre()
-{
-    //no need to delete, actionAssociee it is delete when qmenu is deleted
-    //m_mainWindow->enleverCarteDeLaListe(carteAssociee->identifiantCarte());
-}
-//QAction* CarteFenetre::getAssociatedAction() const
-//{
-//    return carteAssociee;
-//}
-/*void CarteFenetre::closeEvent(QCloseEvent *event)
-{
-    hide();
-    actionAssociee->setChecked(false);
-    event->ignore();
-}*/
-
-void CarteFenetre::hideEvent ( QHideEvent * event )
-{
-    emit visibleChanged(false);
-    QScrollArea::hideEvent(event);
-}
-void CarteFenetre::showEvent ( QShowEvent * event )
-{
-    emit visibleChanged(true);
-   QScrollArea::showEvent(event);
-}
-//void CarteFenetre::associerAction(QAction *action)
-//{
-//    actionAssociee = action;
-//}
-
-
-Carte * CarteFenetre::carte()
-{
-    return carteAssociee;
-}
-
-
-void CarteFenetre::commencerDeplacement(QPoint position)
-{
-    pointDepart = position;
-    horizontalDepart = horizontalScrollBar()->value();
-    verticalDepart = verticalScrollBar()->value();
-}
-
-void CarteFenetre::deplacer(QPoint position)
-{
-    QPoint diff = pointDepart - position;
-    horizontalScrollBar()->setValue(horizontalDepart + diff.x());
-    verticalScrollBar()->setValue(verticalDepart + diff.y());
-}
-QString CarteFenetre::getMapId()
-{
-    if(NULL!=carteAssociee)
+	/********************************************************************/
+	/* Constructeur                                                     */
+	/********************************************************************/	
+    CarteFenetre::CarteFenetre(Carte *uneCarte, QWidget *parent)
+        : QScrollArea(parent)
     {
-        return carteAssociee->identifiantCarte();
-    }
-    else
-    {
-        return QString();
-    }
+		// On donne un nom a l'objet "CarteFenetre" pour le differencier des autres fenetres du workspace
+		setObjectName("CarteFenetre");
+		// On change l'icone de la fenetre
+                setWindowIcon(QIcon(":/resources/icones/vignette plan.png"));
+		// Sauvegarde de la reference de la carte
+        carteAssociee = uneCarte;
+		// On aligne la carte au centre de la CarteFenetre
+        setAlignment(Qt::AlignCenter);
+		// Association de la carte avec le scrollArea
+		setWidget(carteAssociee);
+		// Redimentionement de la taille du scrollArea
+		#ifdef WIN32
+			resize(carteAssociee->width()+2, carteAssociee->height()+2);
+		#elif defined (MACOS)
+			resize(carteAssociee->width()+4, carteAssociee->height()+4);
+                #elif defined Q_WS_X11
+                        resize(carteAssociee->width()+2, carteAssociee->height()+2);
+		#endif
+		// Connexion des signaux de deplacement de la Carte
+		QObject::connect(carteAssociee, SIGNAL(commencerDeplacementCarteFenetre(QPoint)), this, SLOT(commencerDeplacement(QPoint)));
+		QObject::connect(carteAssociee, SIGNAL(deplacerCarteFenetre(QPoint)), this, SLOT(deplacer(QPoint)));
+	}
 
-}
+	/********************************************************************/	
+	/* Destructeur                                                      */
+	/********************************************************************/	
+	CarteFenetre::~CarteFenetre()
+	{
+		// Destruction de l'action associee
+		actionAssociee->~QAction();
+		// On enleve la carte de la liste des cartes existantes
+		G_mainWindow->enleverCarteDeLaListe(carteAssociee->identifiantCarte());
+	}
 
-void CarteFenetre::fitMapToWindow()
-{
-    setWidgetResizable(m_widgetResizeAct->isChecked());
-    if(!m_widgetResizeAct->isChecked())
-    {
-        carteAssociee->resize(m_originalSize);
-    }
-}
+	/********************************************************************/
+	/* Cache la fenetre au lieu de la detruire                          */
+	/********************************************************************/
+	void CarteFenetre::closeEvent(QCloseEvent *event)
+	{
+		// Masquage de la fenetre
+		hide();
+		// Deselection de l'action associee
+		actionAssociee->setChecked(false);
+		// Arret de la procedure de fermeture		
+		event->ignore();
+	}
+	
+	/********************************************************************/
+	/* Associe l'action d'affichage/masquage a la carte                 */
+	/********************************************************************/
+	void CarteFenetre::associerAction(QAction *action)
+	{
+		actionAssociee = action;
+	}
 
-void CarteFenetre::focusInEvent(QFocusEvent * event)
-{
-    emit activated(carteAssociee);
+	/********************************************************************/
+	/* Renvoie la carte contenue dans la scrollArea                     */
+	/********************************************************************/
+	Carte * CarteFenetre::carte()
+	{
+		return carteAssociee;
+	}
 
-    QWidget::focusInEvent(event);
-}
-void CarteFenetre::contextMenuEvent( QContextMenuEvent * event )
-{
-   /* if(event->modifiers()==Qt::NoModifier)
-    {
-        QMenu pop;
-
-        event->accept();
-        pop.addAction(m_widgetResizeAct);
-
-        pop.exec(event->globalPos());
-    }*/
-}
+	/********************************************************************/
+	/* Initialise le point de depart du deplacement dans la fenetre     */
+	/********************************************************************/
+	void CarteFenetre::commencerDeplacement(QPoint position)
+	{
+		// On memorise la position du point de depart
+		pointDepart = position;
+		// On releve les valeurs des barres de defilement
+		horizontalDepart = horizontalScrollBar()->value();
+		verticalDepart = verticalScrollBar()->value();
+	}
+	
+	/********************************************************************/
+	/* Deplace le contenu de la fenetre en comparant le point de depart */
+	/* du deplacement a la position passee en parametre                 */
+	/********************************************************************/
+	void CarteFenetre::deplacer(QPoint position)
+	{
+		// On calcule la cifference de position entre le depart et maintenant
+		QPoint diff = pointDepart - position;
+		// On change la position des barres de defilement
+		horizontalScrollBar()->setValue(horizontalDepart + diff.x());
+		verticalScrollBar()->setValue(verticalDepart + diff.y());
+	}

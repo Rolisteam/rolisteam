@@ -1,206 +1,76 @@
-/***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+/*
+	Rolistik - logiciel collaboratif d'aide aux jeux de roles en ligne
+	Copyright (C) 2007 - Romain Campioni  Tous droits rservs.
+
+	Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le
+	modifier suivant les termes de la GNU General Public License telle que
+	publie par la Free Software Foundation : soit la version 2 de cette
+	licence, soit ( votre gr) toute version ultrieure.
+
+	Ce programme est distribu dans lespoir quil vous sera utile, mais SANS
+	AUCUNE GARANTIE : sans mme la garantie implicite de COMMERCIALISABILIT
+	ni dADQUATION  UN OBJECTIF PARTICULIER. Consultez la Licence Gnrale
+	Publique GNU pour plus de dtails.
+
+	Vous devriez avoir reu une copie de la Licence Gnrale Publique GNU avec
+	ce programme ; si ce nest pas le cas, consultez :
+	<http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+
+	Par ailleurs ce logiciel est gratuit et ne peut en aucun cas tre
+	commercialis, conformment  la "FMOD Non-Commercial License".
+*/
 
 
-#include <QtGui>
+	#include <QtGui>
 
-#include "WorkspaceAmeliore.h"
+	#include "WorkspaceAmeliore.h"
+	#include "constantesGlobales.h"
 
-#include "CarteFenetre.h"
-#include "Image.h"
 
-//#include <QTextStream>
-
-#define GRAY_SCALE 191
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/	
-WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
-: QMdiArea(parent),m_variableSizeBackground(size())
-{
-    m_preferences =  PreferencesManager::getInstance();
-    m_map = new QMap<QAction*,QMdiSubWindow*>();
-
-    m_backgroundPicture = new QPixmap(size());
-
-    updateBackGround();
-
-}
-
-WorkspaceAmeliore::~WorkspaceAmeliore()
-{
-    delete m_backgroundPicture;
-}
-void WorkspaceAmeliore::updateBackGround()
-{
-    m_color = m_preferences->value("BackGroundColor",QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE)).value<QColor>();
-    m_background.setColor(m_color);
-    setBackground(m_background);
-
-    QString fileName = m_preferences->value("PathOfBackgroundImage",":/resources/icones/fond workspace macos.bmp").toString();
-    if (!QFile::exists(fileName))
+	/********************************************************************/
+	/* Constructeur                                                     */
+	/********************************************************************/	
+    WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
+        : QWorkspace(parent)
     {
-        fileName = ":/resources/icones/fond workspace macos.bmp";
-    }
+                // Nom du fichier image utilisateur, qui peut etre utilise pour le fond
+		#ifdef WIN32
+			QString fichierImage = QString(NOM_APPLICATION) + ".bmp";
+		#elif defined (MACOS)
+                        QString fichierImage = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".bmp";
+                #else
+                       QString fichierImage = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".bmp";
+		#endif
+ 
+		// Si l'utilisateur a ajoute une image de fond, on la charge
+		if (QFile::exists(fichierImage))
+				imageFond = new QImage(fichierImage);
 
-    m_variableSizeBackground = m_variableSizeBackground.scaled(size());
+		// Sinon on utilise le fond par defaut
+		else
+		{
+			#ifdef WIN32
+                                imageFond = new QImage(":/resources/icones/fond workspace win32.bmp");
+			#elif defined (MACOS)
+                                imageFond = new QImage(":/resources/icones/fond workspace macos.bmp");
+                        #else
+                                imageFond = new QImage(":/resources/icones/fond workspace macos.bmp");
+			#endif
+		}
+	}
 
-    m_variableSizeBackground.fill(m_color);
-    QPainter painter(&m_variableSizeBackground);
+	/********************************************************************/
+	/* Redessine le fond                                                */
+	/********************************************************************/	
+	void WorkspaceAmeliore::paintEvent(QPaintEvent *event)
+	{
+		// Creation du painter pour pouvoir dessiner
+		QPainter painter(this);
 
-    if(m_fileName!=fileName)
-    {
-        m_fileName = fileName;
-        if(NULL!=m_backgroundPicture)
-        {
-            delete m_backgroundPicture;
-        }
-        m_backgroundPicture = new QPixmap(m_fileName);
-    }
+		// On calcule l'intersection de la zone a repeindre avec la taille de l'image
+		QRect zoneARecopier = event->rect().intersected(QRect(0, 0, imageFond->width(), imageFond->height()));
 
-
-
-    painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
-    setBackground(QBrush(m_variableSizeBackground));
-}
-
-void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )
-{
-    Q_UNUSED(event);
-    if((m_variableSizeBackground.size()==this->size()))
-    {
-        return;
-    }
-
-    updateBackGround();
-
-    QMdiArea::resizeEvent(event);
-}
-QWidget*  WorkspaceAmeliore::addWindow(QWidget* child,QAction* action)
-{
-    QMdiSubWindow* sub = addSubWindow(child);
-    if(viewMode()==QMdiArea::TabbedView)
-    {
-        action->setChecked(true);
-        sub->setVisible(true);
-        child->setVisible(true);
-    }
-    insertActionAndSubWindow(action,sub);
-    connect(action,SIGNAL(triggered()),this,SLOT(ensurePresent()));
-    sub->setAttribute(Qt::WA_DeleteOnClose, false);
-    child->setAttribute(Qt::WA_DeleteOnClose, false);
-    sub->setObjectName(child->objectName());
-
-    sub->installEventFilter(this);
-    return sub;
-}
-QWidget* WorkspaceAmeliore::activeWindow()
-{
-    return currentSubWindow();
-}
-void WorkspaceAmeliore::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
-{
-    m_map->insert(act,sub);
-}
-void WorkspaceAmeliore::setTabbedMode(bool isTabbed)
-{
-    if(isTabbed)
-    {
-        setViewMode(QMdiArea::TabbedView);
-
-        //setTabsClosable ( true );
-        setTabsMovable ( true );
-        setTabPosition(QTabWidget::North);
-
-        /// make all subwindows visible.
-
-        foreach(QMdiSubWindow* tmp, subWindowList())
-        {
-            tmp->setVisible(true);
-            m_map->key(tmp)->setChecked(true);
-            if(NULL!=tmp->widget())
-            {
-                tmp->widget()->setVisible(true);
-            }
-        }
-    }
-    else
-    {
-        setViewMode(QMdiArea::SubWindowView);
-    }
-}
-
-bool WorkspaceAmeliore::eventFilter(QObject *object, QEvent *event)
-{
-    if(event->type()==QEvent::Close)
-    {
-        QMdiSubWindow* sub = dynamic_cast<QMdiSubWindow*>(object);
-        if(NULL!=sub)
-        {
-            removeSubWindow(sub);
-            return true;
-        }
-
-    }
-    return QMdiArea::eventFilter(object,event);
-}
-void WorkspaceAmeliore::ensurePresent()
-{
-    QAction* act = qobject_cast<QAction*>(sender());
-    if(NULL!=act)
-    {
-        if(!subWindowList().contains(m_map->value(act)))
-        {
-            m_map->value(act)->widget()->setVisible(true);
-            addSubWindow(m_map->value(act));
-        }
-    }
-}
-
-QMdiSubWindow* WorkspaceAmeliore::getSubWindowFromId(QString id)
-{
-    foreach(QMdiSubWindow* tmp, subWindowList())
-    {
-        if(NULL!=tmp->widget())
-        {
-            CarteFenetre* tmpWindow = dynamic_cast<CarteFenetre*>(tmp->widget());
-            if(NULL!=tmpWindow)
-            {
-                if(tmpWindow->getMapId() == id)
-                {
-                    return tmp;
-                }
-            }
-            else
-            {
-                Image* img = dynamic_cast<Image*>(tmp->widget());
-                if(NULL!=img)
-                {
-                    if(img->getImageId() == id)
-                    {
-                        return tmp;
-                    }
-                }
-            }
-        }
-    }
-    return NULL;
-}
+		// Si la zone n'est pas vide, on recopie l'image de fond dans le workspace
+		if (!zoneARecopier.isEmpty())
+			painter.drawImage(zoneARecopier, *imageFond, zoneARecopier);
+	}

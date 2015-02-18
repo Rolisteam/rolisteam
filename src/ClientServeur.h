@@ -1,136 +1,107 @@
-/*************************************************************************
- *   Copyright (C) 2007 by Romain Campioni                                *
- *   Copyright (C) 2009 by Renaud Guezennec                              *
- *   Copyrigth (C) 2010 by Joseph Boudou                                 *
- *                                                                       *
- *   http://www.rolisteam.org/                                           *
- *                                                                       *
- *   rolisteam is free software; you can redistribute it and/or modify   *
- *   it under the terms of the GNU General Public License as published   *
- *   by the Free Software Foundation; either version 2 of the License,   *
- *   or (at your option) any later version.                              *
- *                                                                       *
- *   This program is distributed in the hope that it will be useful,     *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of      *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the       *
- *   GNU General Public License for more details.                        *
- *                                                                       *
- *   You should have received a copy of the GNU General Public License   *
- *   along with this program; if not, write to the                       *
- *   Free Software Foundation, Inc.,                                     *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
- *************************************************************************/
+/*
+	Rolistik - logiciel collaboratif d'aide aux jeux de roles en ligne
+	Copyright (C) 2007 - Romain Campioni  Tous droits réservés.
+
+	Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le
+	modifier suivant les termes de la GNU General Public License telle que
+	publiée par la Free Software Foundation : soit la version 2 de cette
+	licence, soit (à votre gré) toute version ultérieure.
+
+	Ce programme est distribué dans lespoir quil vous sera utile, mais SANS
+	AUCUNE GARANTIE : sans même la garantie implicite de COMMERCIALISABILITÉ
+	ni dADÉQUATION À UN OBJECTIF PARTICULIER. Consultez la Licence Générale
+	Publique GNU pour plus de détails.
+
+	Vous devriez avoir reçu une copie de la Licence Générale Publique GNU avec
+	ce programme ; si ce nest pas le cas, consultez :
+	<http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+
+	Par ailleurs ce logiciel est gratuit et ne peut en aucun cas être
+	commercialisé, conformément à la "FMOD Non-Commercial License".
+*/
+
+
+/********************************************************************/
+/*                                                                  */
+/* Client/serveur et fenetre de connexion au lancement du soft. Le  */
+/* Client/serveur cree une Liaison pour chaque connexion avec un    */
+/* hote distant (client ou serveur), c'est ensuite la Liaison qui   */
+/* gere la reception et l'emission des messages.                    */
+/*                                                                  */
+/********************************************************************/	
 
 
 #ifndef CLIENT_SERVEUR_H
 #define CLIENT_SERVEUR_H
 
-#include <QTcpServer>
-#include <QList>
-#include <QColor>
-#include <QTimer>
-#include <QDialog>
+	#include <QtNetwork> 
+        #include <QWidget>
+	#include <QLineEdit>
+	#include <QLabel>
+	#include <QPushButton>
+	#include <QRadioButton>
+	
+	#include "MainWindow.h"
+	#include "ListeUtilisateurs.h"
+	#include "Liaison.h"
+        #include  "LecteurAudio.h"
 
+    class ClientServeur : public QObject
+    {
+	Q_OBJECT
 
-#include "connectiondialog.h"
-//#include "ui_timerdialog.h"
-#include "initialisation.h"
-#include "connectionretrydialog.h"
-#include "preferencesmanager.h"
-#include "playersList.h"
+    public :
+		ClientServeur();
+		void emettreDonnees(char *donnees, quint32 taille, Liaison *sauf);
+		void emettreDonnees(char *donnees, quint32 taille, int numeroLiaison);
+		void ajouterLiaison(Liaison *liaison);
+		
+    signals :
+		void connexionEtablie();
+		void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);
 
+    private :
+		void creerFenetreConnexion();
+		void detruireFenetreConnexion();
+		void creerFenetreAttenteConnexion();
+		void detruireFenetreAttenteConnexion();
+		void emettreIdentite();
+		void majParametresInitialisation();
+		bool verifierParametres();
+		
+		MainWindow *mainWindow;				// Principale fenetre de l'application
+		QLineEdit *nomJoueur;				// Contient le nom choisi par le joueur
+		QLineEdit *adresseServeur;			// Contient l'adresse du serveur
+		QLineEdit *portServeur;				// Contient le port du serveur
+		QLineEdit *portClient;				// Contient le port de la machine locale, a donner aux clients
+		QDialog *fenetreAttente;			// Fenetre affichee pendant l'etablissement de la connexion
+		QDialog *fenetreConnexion;			// Fenetre de connexion
+		QWidget *identifiantServeur;		// Ligne affichant l'adresse et le port du serveur
+		QWidget *identifiantClient;			// Ligne affichant l'adresse et le port de la machine, a donner aux clients
+		QPushButton *couleurJoueur;			// Contient la couleur choisie par le joueur
+		QRadioButton *boutonJoueur;			// Bouton enfonce si l'utilisateur est un joueur
+		QRadioButton *boutonMj;				// Bouton enfonce si l'utilisateur est le MJ
+		QRadioButton *boutonClient;			// Bouton enfonce si l'ordinateur local est un client
+		QRadioButton *boutonServeur;		// Bouton enfonce si l'ordinateur local est le serveur
+		QTcpServer *serveurTcp;				// Serveur TCP (si l'ordinateur local est le serveur)
+		QTcpSocket *socketTcp;				// Socket utilise temporairement par un client lors de l'etablissement de la connexion
+		QList<Liaison *> liaisons;			// Liste des liaisons vers le serveur ou les clients
+		bool client;						// True si l'ordinateur local est un client, false s'il est le serveur
+		bool enAttente;						// True si la fenetre d'attente de connexion est affichee
+		QString tempNomJoueur;				// Contient le nom du joueur avant son ajout a la liste des utilisateurs
+                LecteurAudio* G_lecteurAudio;
+	private slots :
+		void programmePrincipal();
+		void demandeConnexion();
+		void afficherIdentifiantClient();
+		void afficherIdentifiantServeur();
+		void ouvrirSelecteurCouleur();
+		void nouveauClientConnecte();
+		void connexionAuServeurEtablie();
+		void erreurDeConnexion(QAbstractSocket::SocketError);
+		void connexionAnnulee();
+		void finDeLiaison();
 
-class Player;
-class Liaison;
-
-
-
-/**
- * @brief hold the list of socket (Liaison).
- * On startup displays the configDialog.
- */
-class ClientServeur : public QObject
-{
-    Q_OBJECT
-
-public :
-    ClientServeur();
-    ~ClientServeur();
-
-    /**
-     * @brief Display the configDialog and make the connection.
-     * @return true if connection has been established, false if the user has clicked on the Quit button.
-     */
-    bool configAndConnect();
-
-    void emettreDonnees(char *donnees, quint32 taille, Liaison *sauf);
-
-    void ajouterLiaison(Liaison *liaison);
-
-    bool isServer() const;
-
-
-
-    bool isConnected() const;
-
-    Liaison* getLinkToServer();
-
-    quint16 getPort() const;
-
-
-public slots:
-    void disconnectAndClose();
-    /**
-     * @brief startConnection try to connect to the server or to start it.
-     * @return true everything goes fine, otherwise false.
-     */
-    bool startConnection();
-
-signals :
-    void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);
-
-    void linkAdded(Liaison * link);
-    void linkDeleted(Liaison * link);
-    void dataReceived(quint64,quint64);
-
-
-    void stopConnectionTry();
-
-    void connectionStateChanged(bool);
-
-
-
-
-private :
-    void synchronizePreferences();
-    void setConnectionState(bool);
-
-    QTcpServer * m_server;
-    QList<Liaison *> liaisons;
-    Liaison * m_liaisonToServer;
-    quint16 m_port;
-    quint16 m_listeningPort;
-    QString m_address;
-    QTimer* m_reconnect;
-    Player * m_localPlayer;
-    bool m_disconnectAsked;
-    PreferencesManager* m_preferences;
-
-    ConnectionRetryDialog* m_dialog;
-    ConnectionConfigDialog* m_configDialog;
-
-    PlayersList* m_playersList;
-
-    bool m_connectionState;
-
-    bool m_isClient;
-
-
-private slots :
-    void nouveauClientConnecte();
-    void finDeLiaison(Liaison * link);
-    bool startConnectionToServer();
-    bool startListening();
-};
+	};
 
 #endif

@@ -1,144 +1,217 @@
-/*************************************************************************
- *	 Copyright (C) 2007 by Romain Campioni                               *
- *	 Copyright (C) 2009 by Renaud Guezennec                              *
- *   Copyright (C) 2011 by Joseph Boudou                                 *
- *   http://www.rolisteam.org/                                           *
- *                                                                       *
- *   Rolisteam is free software; you can redistribute it and/or modify   *
- *   it under the terms of the GNU General Public License as published   *
- *   by the Free Software Foundation; either version 2 of the License,   *
- *   or (at your option) any later version.                              *
- *                                                                       *
- *   This program is distributed in the hope that it will be useful,     *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of      *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the       *
- *   GNU General Public License for more details.                        *
- *                                                                       *
- *   You should have received a copy of the GNU General Public License   *
- *   along with this program; if not, write to the                       *
- *   Free Software Foundation, Inc.,                                     *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
- *************************************************************************/
+/*
+	Rolistik - logiciel collaboratif d'aide aux jeux de roles en ligne
+	Copyright (C) 2007 - Romain Campioni  Tous droits rservs.
 
+	Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le
+	modifier suivant les termes de la GNU General Public License telle que
+	publie par la Free Software Foundation : soit la version 2 de cette
+	licence, soit ( votre gr) toute version ultrieure.
 
-#include <QtGui>
+	Ce programme est distribu dans lespoir quil vous sera utile, mais SANS
+	AUCUNE GARANTIE : sans mme la garantie implicite de COMMERCIALISABILIT
+	ni dADQUATION  UN OBJECTIF PARTICULIER. Consultez la Licence Gnrale
+	Publique GNU pour plus de dtails.
 
-#include <time.h>
+	Vous devriez avoir reu une copie de la Licence Gnrale Publique GNU avec
+	ce programme ; si ce nest pas le cas, consultez :
+	<http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
 
-#include "ClientServeur.h"
-#include "initialisation.h"
-#include "mainwindow.h"
-#include "persons.h"
-
-
-#include "variablesGlobales.h"
-
-
-
-
-
-// Identifiant du joueur en local sur la machine
-QString G_idJoueurLocal;
-
-
-
-/**
-* @mainpage Rolisteam Documentation
-*
-* @author Renaud Guezennec
-*
-* Rolisteam help you to manage role playing games with your friend all over the world.<br/>
-* Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to<br/>
-* perform Role playing games with remote friends.<br/>
-* It is based on Client/server architecture and it is written in C++ with Qt.<br/>
-*
-* <h2>Features</h2>:
-* <ul>
-*    <li>Chat with one, many and all players</li>
-*    <li>Sharing images and many other media type</li>
-*    <li>Drawing maps on the fly</li>
-*    <li>Sharing environment sound</li>
-*    <li>Multi-platform: Windows, Linux and Mac OS X</li>
-* </ul>
-* <h2>How to stay in touch ? </h2>
-* Please take a look to <a href="http://www.rolisteam.org/">Rolisteam Web Site</a>
-*
-*
-*
+	Par ailleurs ce logiciel est gratuit et ne peut en aucun cas tre
+	commercialis, conformment  la "FMOD Non-Commercial License".
 */
 
-/**
- * @brief main
- * @param argc
- * @param argv
- * @return
- */
-int main(int argc, char *argv[])
-{
-    // Creation de l'application
-    QApplication app(argc, argv);
-    Initialisation* init= Initialisation::getInstance();
+
+	#include <QtGui>
+
+	#include "ClientServeur.h"
+	#include "constantesGlobales.h"
+	#include "types.h"
 
 
-    app.setApplicationName(init->getApplicationName());
-    QString version = QObject::tr("Unknown");
-    #ifdef VERSION_MINOR
-        #ifdef VERSION_MAJOR
-            #ifdef VERSION_MIDDLE
-                version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-            #endif
+	// Inclusion de la librairie FMOD (librairie audio)
+	#ifdef WIN32
+		#define DLL_EXPORTS
+
+                #include "fmod.h"
         #endif
-    #endif
-    app.setApplicationVersion(version);
 
-    // Internationalization
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
-    QString locale = QLocale::system().name();
-
-    // Ressources
-    QResource::registerResource(init->getApplicationName() + ".rcc");
-
-    QTranslator rolisteamTranslator;
-    rolisteamTranslator.load(":/traduction/rolisteam_" + locale);
-    app.installTranslator(&rolisteamTranslator);
-
-    QTranslator qtTranslator;
-    qtTranslator.load(":/traduction/qt_" + locale);
-    app.installTranslator(&qtTranslator);
-
-    // Seeds random generator
-    uint seed = quintptr(&app) + QDateTime::currentDateTime().toTime_t();
-    //qDebug("Seed %x", seed);
-    qsrand(seed);
-
-    // We need an Uuid for the local player (do we ?)
-    G_idJoueurLocal = QUuid::createUuid().toString();
+	// Importation du plugin JPEG
+//	Q_IMPORT_PLUGIN(qjpeg)
 
 
+	// Fenetre de log (utilise seulement dans ce fichier)
+	static QTextEdit *Log;
 
 
-    // Create the main window
-    MainWindow* mainWindow =MainWindow::getInstance();
+	/********************************************************************/
+	/* Variables globales utilisees par tous les elements de            */
+	/* l'application                                                    */
+	/********************************************************************/
+	// Contient tous les parametres extraits du fichier d'initialisation
+	initialisation G_initialisation;
 
-    mainWindow->setupUi();
-    mainWindow->readSettings();
-    int value = 0;
-    if(mainWindow->showConnectionDialog())
+
+	/********************************************************************/
+	/* handler d'affichage des messages d'erreur et de debug            */
+	/********************************************************************/	
+    void handlerAffichageMsg(QtMsgType type, const char *msg)
     {
-        mainWindow->setUpNetworkConnection();
-        mainWindow->updateWindowTitle();
-        mainWindow->checkUpdate();
-        mainWindow->updateUi();
-        // We have a connection, we launch the main window.
-        mainWindow->showNormal();
-        value = app.exec();
+		QString titre;
+		Qt::GlobalColor couleur;
+		
+		// Parametrage du titre et de la couleur
+        switch (type) {
+        case QtDebugMsg:
+            titre = "Debug : ";
+            couleur = Qt::green;
+            break;
+        case QtWarningMsg:
+            titre = "Warning : ";
+            couleur = Qt::blue;
+            break;
+        case QtCriticalMsg:
+            titre = "Critical : ";
+            couleur = Qt::red;
+            break;
+        case QtFatalMsg:
+            titre = "Fatal : ";
+            couleur = Qt::darkGray;
+            break;
+        default :
+			titre = "Type de message inconnu : ";
+			couleur = Qt::magenta;
+			break;
+        }
+
+		// Affichage du texte
+		Log->setFontWeight(QFont::Bold);
+        Log->setTextColor(couleur);
+		Log->append(titre);
+ 		Log->setFontWeight(QFont::Normal);
+    	Log->setTextColor(Qt::black);
+		Log->insertPlainText(msg);
+		
+		// Erreur fatale : on quitte
+		if (type == QtFatalMsg)
+			abort();
     }
-    QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 
-    delete mainWindow;
-    return value;
+	/********************************************************************/
+	/* main                                                             */
+	/********************************************************************/	
+    int main(int argc, char *argv[])
+    {
+		// Initialisation du generateur de nombre aleatoire
+		srand(clock());
+	
+		// Creation de l'application
+        QApplication app(argc, argv);
+               QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
+		// Creation de la fenetre de log
+		Log = new QTextEdit();
+		Log->setWindowTitle("Log");
+		Log->setReadOnly(true);
+	//	Log->show();
 
-} 
+		// Installation du handler de debugage
+		qInstallMsgHandler(handlerAffichageMsg);
+
+		// Chargement du traducteur de Qt
+		QTranslator qtTranslator;
+		qtTranslator.load("qt_" + QLocale::system().name());
+		app.installTranslator(&qtTranslator);
+
+		// On charge le fichier de ressources qui contient ttes les images
+		QResource::registerResource(QString(NOM_APPLICATION) + ".rcc");
+
+		#ifdef WIN32
+			// M.a.j de l'icone de l'application
+                        app.setWindowIcon(QIcon(":/resources/icones/" + QString(NOM_APPLICATION) + ".png"));
+		#endif
+
+  		// Initialisation de la librairie FMOD
+/*		if (!FSOUND_Init(FREQUENCE_AUDIO, 32, 0))
+                        qWarning("Probleme d'initialisation de la librairie FMOD (main - main.cpp)");*/
+
+		// Par defaut la variable d'initialisation n'est pas utilisable
+		G_initialisation.initialisee = false;
+
+		// Nom du fichier d'initialisation
+		#ifdef WIN32
+			QString fichierInitialisation = QString(NOM_APPLICATION) + ".ini";
+		#elif defined (MACOS)
+			// Creation du repertoire ou sont stockees les preferences, si celui-ci n'existe pas
+			if (!(QDir(QDir::homePath() + "/." + QString(NOM_APPLICATION)).exists()))
+				QDir::home().mkdir("." + QString(NOM_APPLICATION));
+                        QString fichierInitialisation = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".ini";
+                #else
+                        QString fichierInitialisation = qApp->applicationDirPath()+"/."+QString(NOM_APPLICATION);
+		#endif
+ 
+		// Si le fichier d'initialisation existe, on le charge
+		if (QFile::exists(fichierInitialisation))
+		{
+			// Creation du descripteur de fichier
+			QFile file(fichierInitialisation);
+			// Ouverture du fichier en lecture seule
+			if (!file.open(QIODevice::ReadOnly))
+			{
+				qWarning("Probleme a l'ouverture du fichier d'initialisation (main - main.cpp)");
+			}
+			
+			// L'ouverture s'est correctement passee
+			else
+			{
+				// On indique que la variable d'initilisation est utilisable
+				G_initialisation.initialisee = true;
+				// On cree un flux de donnees rattache au fichier
+				QDataStream fluxFichier(&file);
+				
+				// On recupere la version de l'application
+				fluxFichier >> G_initialisation.versionApplication;
+				// ...le nom de l'utilisateur
+				fluxFichier >> G_initialisation.nomUtilisateur;
+				// ...la couleur de l'utilisateur
+				fluxFichier >> G_initialisation.couleurUtilisateur;
+				// ...la nature de l'utilisateur (joueur ou MJ)
+				fluxFichier >> G_initialisation.joueur;
+				// ...la nature de l'ordinateur local
+				fluxFichier >> G_initialisation.client;
+				// ...l'adresse IP du serveur
+				fluxFichier >> G_initialisation.ipServeur;
+				// ...le port du serveur
+				fluxFichier >> G_initialisation.portServeur;
+				// ...le port de connexion pour les clients
+				fluxFichier >> G_initialisation.portClient;
+				// ...le chemin pour les musiques
+				fluxFichier >> G_initialisation.dossierMusiquesMj;
+				// ...le chemin pour les musiques des joueurs
+				fluxFichier >> G_initialisation.dossierMusiquesJoueur;
+				// ...le chemin pour les images
+				fluxFichier >> G_initialisation.dossierImages;
+				// ...le chemin pour les plans
+				fluxFichier >> G_initialisation.dossierPlans;
+				// ...le chemin pour les scenarii
+				fluxFichier >> G_initialisation.dossierScenarii;
+				// ...le chemin pour les notes
+				fluxFichier >> G_initialisation.dossierNotes;
+				// ...le chemin pour les tchats
+				fluxFichier >> G_initialisation.dossierTchats;
+				// ...les couleurs personnelles
+				for (int i=0; i<16; i++)
+					fluxFichier >> G_initialisation.couleurPersonnelle[i];
+				// ...le volume du lecteur audio
+				fluxFichier >> G_initialisation.niveauVolume;
+				// Fermeture du fichier
+				file.close();
+			}
+		}
+
+		// Creation du client/serveur : si la connexion reussie alors
+		// le programme principal est lance
+		ClientServeur *clientServeur = new ClientServeur();
+		
+		// Lancement de la boucle d'application
+        return app.exec();
+    } 

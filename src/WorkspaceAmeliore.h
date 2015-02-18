@@ -1,23 +1,24 @@
-/***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
- *	Copyright (C) 2009 by Renaud Guezennec                             *
- *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
- *                                                                         *
- *   rolisteam is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************/
+/*
+	Rolistik - logiciel collaboratif d'aide aux jeux de roles en ligne
+	Copyright (C) 2007 - Romain Campioni  Tous droits réservés.
+
+	Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le
+	modifier suivant les termes de la GNU General Public License telle que
+	publiée par la Free Software Foundation : soit la version 2 de cette
+	licence, soit (à votre gré) toute version ultérieure.
+
+	Ce programme est distribué dans lespoir quil vous sera utile, mais SANS
+	AUCUNE GARANTIE : sans même la garantie implicite de COMMERCIALISABILITÉ
+	ni dADÉQUATION À UN OBJECTIF PARTICULIER. Consultez la Licence Générale
+	Publique GNU pour plus de détails.
+
+	Vous devriez avoir reçu une copie de la Licence Générale Publique GNU avec
+	ce programme ; si ce nest pas le cas, consultez :
+	<http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
+
+	Par ailleurs ce logiciel est gratuit et ne peut en aucun cas être
+	commercialisé, conformément à la "FMOD Non-Commercial License".
+*/
 
 
 /********************************************************************/
@@ -30,61 +31,22 @@
 #ifndef WORKSPACE_AMELIORE_H
 #define WORKSPACE_AMELIORE_H
 
-#include <QWidget>
-#include <QImage>
-#include <QPaintEvent>
-//#include <QWorkspace>
-#include <QMdiArea>
+    #include <QWidget>
+    #include <QImage>
+    #include <QPaintEvent>
 
 
-#include "preferencesmanager.h"
-/**
- * @brief The WorkspaceAmeliore class
- */
-class WorkspaceAmeliore : public QMdiArea
-{
-    Q_OBJECT
-public :
-    WorkspaceAmeliore(QWidget *parent = 0);
-    ~WorkspaceAmeliore();
+    class WorkspaceAmeliore : public QWorkspace
+    {
+    public :
+	    WorkspaceAmeliore(QWidget *parent = 0);
 
-    QWidget* addWindow(QWidget*,QAction* action);
-    QWidget* activeWindow();
+    private :
+		QImage *imageFond;		// Image de fond du workspace
 
-    void insertActionAndSubWindow(QAction*, QMdiSubWindow*);
-    /**
-     * @brief getSubWindowFromId must be improved with polymorphism
-     * @param id
-     */
-    QMdiSubWindow* getSubWindowFromId(QString id);
+	protected :
+		void paintEvent(QPaintEvent *event);
 
-signals:
-    void removedAction(QAction*);
-
-public slots:
-    void setTabbedMode(bool );
-    void ensurePresent();
-
-protected :
-    //void paintEvent(QPaintEvent *event);
-    void resizeEvent ( QResizeEvent * event );
-    bool eventFilter(QObject *object, QEvent *event);
-private :
-    void updateBackGround();
-
-
-private:
-    QBrush m_background;
-    QColor m_color;
-
-    QPixmap* m_backgroundPicture;
-    QPixmap m_variableSizeBackground;
-
-    PreferencesManager* m_preferences;
-    QMap<QAction*,QMdiSubWindow*>* m_map;
-    QImage *imageFond;		// Image de fond du workspace
-
-    QString m_fileName;
-};
+	};
 
 #endif

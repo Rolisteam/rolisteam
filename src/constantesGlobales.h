@@ -23,35 +23,18 @@
 
 /********************************************************************/
 /*                                                                  */
-/* Widget affichant un disque : utilise par SelecteurDiametre.      */
+/* Constantes utilisees dans l'application.                         */
 /*                                                                  */
 /********************************************************************/
 
 
-#ifndef AFFICHEUR_DISQUE_H
-#define AFFICHEUR_DISQUE_H
+#ifndef CONSTANTES_GLOBALES_H
+#define CONSTANTES_GLOBALES_H
 
-	#include <QWidget>
-	
-
-	class AfficheurDisque : public QWidget
-	{
-	Q_OBJECT
-	
-	public :
-		AfficheurDisque(QWidget *parent = 0, bool plein = true, int minimum = 1);
-	
-	public slots :
-		void changerDiametre(int diametre);
-
-    protected:
-        void paintEvent(QPaintEvent *event);
-	
-	private :
-		int diametreCourant;
-		int diametreMinimum;
-		bool disquePlein;
-	
-	};
+#define NOM_APPLICATION			"Rolisteam"		// Nom de l'application
+#define VERSION_APPLICATION		"1.1"			// Version de l'application
+#define TAILLE_ICONES			20				// Taille des icones de la barre d'outils
+#define PORT_SERVEUR			6660			// Port par defaut du serveur TCP
+#define FREQUENCE_AUDIO			44100			// Frequence de sortie des musiques
 
 #endif
