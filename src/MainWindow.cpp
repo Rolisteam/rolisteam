@@ -207,7 +207,7 @@ void MainWindow::createMenu()
     m_openScenarioAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::SCENARIO)));//QIcon(":/resources/icons/scenario.png"));
 
     m_openPDFAct= m_openMenu->addAction(tr("&PDF"));
-
+    m_openPDFAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::PDF)));
 
     m_openPictureAct= m_openMenu->addAction(tr("&Picture"));
     m_openPictureAct->setIcon(QIcon(CleverURI::getIcon(CleverURI::PICTURE)));

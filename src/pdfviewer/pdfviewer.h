@@ -25,7 +25,10 @@
 
 #include "submdiwindows.h"
 
+
 class QRubberBand;
+class PDFRenderer;
+class QScrollArea;
 class PDFViewer : public SubMdiWindows
 {
 public:
@@ -41,14 +44,12 @@ public:
     virtual bool defineMenu(QMenu* menu);
     virtual void setCleverURI(CleverURI* uri);
 
-    //void showPage(int page);
-protected:
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
 
+protected:
+    void wheelEvent(QWheelEvent *);
 private:
-    PDFRenderer* m_label;
+    PDFRenderer* m_render;
+    QScrollArea* m_scrollArea;
 };
 
 #endif // PDFVIEWER_H

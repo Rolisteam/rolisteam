@@ -18,27 +18,48 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PDFVIEWER_H
-#define PDFVIEWER_H
+#ifndef PDFRENDERER_H
+#define PDFRENDERER_H
 #include <poppler-qt4.h>
 #include <QLabel>
 
-class QRubberBand
+class QRubberBand;
 class PDFRenderer : public QLabel
 {
+
+    Q_OBJECT
 public:
     PDFRenderer();
 
     
     void showPage(int page);
-    void loadDocument();
+    void loadDocument(QString filename);
+    void setScaleFactor(qreal factor);
+
+    quint32 getCurrentPage() const;
+    void setCurrentPage(quint32 currentpage);
+    QMatrix matrix() const;
+    qreal getScaleFactor() const;
+
+signals:
+    void textSelected(QString str);
+
 protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
 
 private:
+    void selectedText(const QRectF &rect);
+
+private:
     Poppler::Document* m_pdf;
-    QLabel* m_label;
     QRubberBand *rubberBand;
     QPoint dragPosition;
+    quint32 m_currentPage;
+    qreal m_scaleFactor;
+
+};
+
+
+#endif // PDFRENDERER_H

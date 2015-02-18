@@ -125,7 +125,8 @@ private:
     static QString m_pictureIcon; ///< static member to store the picture icon
     static QString m_charactersheetIcon; ///< static member to store the character icon
     static QString m_scenarioIcon; ///< static member to store the scenario icon
-    static QString m_tchatIcon; ///< static member to store the chat icon
+    static QString m_chatIcon; ///< static member to store the chat icon
+    static QString m_pdfIcon;///< static member to store the pdf icon
 
     friend QDataStream& operator<<(QDataStream& os,const CleverURI&); ///< operator for serialisation (writing)
     friend QDataStream& operator>>(QDataStream& is,CleverURI&); ///< operator for serialisation (reading)

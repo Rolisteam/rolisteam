@@ -28,8 +28,9 @@ QString CleverURI::m_mapIcon=QString(":/resources/icons/map.png");
 QString CleverURI::m_pictureIcon=QString(":/resources/icons/image.png");
 QString CleverURI::m_charactersheetIcon=QString(":/resources/icons/treeview.png");
 QString CleverURI::m_scenarioIcon=QString(":/resources/icons/scenario.png");
-QString CleverURI::m_tchatIcon=QString(":/resources/icons/scenario.png");
+QString CleverURI::m_chatIcon=QString(":/resources/icons/scenario.png");
 QString CleverURI::m_musicIcon=QString(":/resources/icons/music.svg");
+QString CleverURI::m_pdfIcon=QString(":/iconpdf");
 
 CleverURI::CleverURI()
 {
@@ -56,7 +57,7 @@ QString& CleverURI::getIcon(ContentType type)
          return m_mapIcon;
         break;
     case CleverURI::TCHAT:
-        return m_tchatIcon;
+        return m_chatIcon;
         break;
     case CleverURI::TEXT:
         return m_textIcon;
@@ -66,6 +67,9 @@ QString& CleverURI::getIcon(ContentType type)
         break;
     case CleverURI::SONG:
         return m_musicIcon;
+        break;
+    case CleverURI::PDF:
+        return m_pdfIcon;
         break;
     default:
         return m_pictureIcon;

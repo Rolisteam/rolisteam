@@ -72,5 +72,6 @@
         <file>resources/logo/Rolisteam-fond.svg</file>
         <file alias="rolisteam.svg">resources/logo/Rolisteam.svg</file>
         <file alias="logo.svg">resources/logo/symbole.svg</file>
+        <file alias="iconpdf">resources/icons/iconpdf.png</file>
     </qresource>
 </RCC>

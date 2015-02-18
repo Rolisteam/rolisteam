@@ -21,13 +21,22 @@
 
 
 #include "pdfviewer.h"
-
+#include "pdfrenderer.h"
 
 PDFViewer::PDFViewer()
 {
-    m_label = new QLabel();
-    setWidget(m_label);
-    rubberBand = NULL;
+    setWindowIcon(QIcon(CleverURI::getIcon(CleverURI::PDF)));
+    m_render = new PDFRenderer();
+    m_scrollArea = new QScrollArea(this);
+    QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+    sizePolicy.setHorizontalStretch(0);
+    sizePolicy.setVerticalStretch(0);
+    setSizePolicy(sizePolicy);
+    m_scrollArea->setWidgetResizable(true);
+    m_scrollArea->setAlignment(Qt::AlignCenter);
+    m_scrollArea->setWidget(m_render);
+    setWidget(m_scrollArea);
+
 }
 void PDFViewer::saveFile(const QString & file)
 {
@@ -36,16 +45,9 @@ void PDFViewer::saveFile(const QString & file)
 
 void PDFViewer::openFile(const QString & file)
 {
-    m_pdf = Poppler::Document::load(file);
-    showPage(0);
-}
-void PDFViewer::showPage(int page)
-{
-    QImage image = m_pdf->page(page)->renderToImage(
-                        1 * physicalDpiX(),
-                        1 * physicalDpiY());
+    m_render->loadDocument(file);
+    m_render->showPage(m_render->getCurrentPage());
 
-    m_label->setPixmap(QPixmap::fromImage(image));
 }
 bool PDFViewer::defineMenu(QMenu* menu)
 {
@@ -65,40 +67,14 @@ QDockWidget* PDFViewer::getDockWidget()
 {
     return NULL;
 }
-
-void PDFViewer::mousePressEvent(QMouseEvent *event)
+void PDFViewer::wheelEvent(QWheelEvent *event)
 {
-    if (!m_pdf)
-        return;
-
-    dragPosition = event->pos();
-    if (!rubberBand)
-        rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
-    rubberBand->setGeometry(QRect(dragPosition, QSize()));
-    rubberBand->show();
-}
-
-void PDFViewer::mouseMoveEvent(QMouseEvent *event)
-{
-    if (!m_pdf)
-        return;
-if (rubberBand)
-    rubberBand->setGeometry(QRect(dragPosition, event->pos()).normalized());
-}
-
-void PDFViewer::mouseReleaseEvent(QMouseEvent *)
-{
-    if (!m_pdf)
-        return;
-    if (!rubberBand)
-      return;
-    if (!rubberBand->size().isEmpty()) {
-        // Correct for the margin around the image in the label.
-        QRectF rect = QRectF(rubberBand->pos(), rubberBand->size());
-        rect.moveLeft(rect.left() - (width() - m_label->pixmap()->width()) / 2.0);
-        rect.moveTop(rect.top() - (height() - m_label->pixmap()->height()) / 2.0);
-        //m_label->selectedText(rect);
+    if(event->modifiers() == Qt::ControlModifier)
+    {
+      qreal scale = m_render->getScaleFactor() + event->delta() / 120;
+      m_render->setScaleFactor(scale);
     }
-
-    rubberBand->hide();
+    else
+        SubMdiWindows::wheelEvent(event);
 }
+
