@@ -40,7 +40,7 @@
 #include <QList>
 #include <QString>
 #include <QVBoxLayout>
-
+#include <QMutex>
 #include "types.h"
 
 
@@ -80,7 +80,7 @@ public :
     void pselectNewFile(QString file);
     void pseek(quint32 position);
 
-
+    void setSource(QString path);
 
 signals :
 
@@ -150,6 +150,7 @@ private :
 
 
     Initialisation* m_init;
+    QMutex m_mutex;
 private slots :
     /**
     * @brief received the time

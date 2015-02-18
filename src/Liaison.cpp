@@ -1383,17 +1383,17 @@ void Liaison::receptionMessageMusique()
     else if (entete.action == nouvellePositionMorceau)
     {
         // On recupere la nouvelle position
-        quint32 nouvellePosition;
-        memcpy(&nouvellePosition, &(tampon[p]), sizeof(quint32));
+        quint32 newPosition;
+        memcpy(&newPosition, &(tampon[p]), sizeof(quint32));
         p+=sizeof(quint32);
 
-        // On demande au lecteur audio de changer la position de la lecture
-        G_lecteurAudio->pseek(nouvellePosition);
+        qDebug() << "new position" << newPosition;
+        G_lecteurAudio->pseek(newPosition);
     }
 
     else
     {
-        qWarning("Action musique inconnue (receptionMessageMusique - Liaison.cpp)");
+        qWarning("Unknown music Action (receptionMessageMusique - Liaison.cpp)");
         return;
     }
 #endif
