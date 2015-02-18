@@ -55,6 +55,7 @@ class ChatListWidget : public QDockWidget
     private slots:
         void createPrivateChat();
         void selectAnotherChat(const QModelIndex & index);
+        void editChat(const QModelIndex & index);
         void deleteSelectedChat();
 };
 

@@ -35,7 +35,6 @@ PlayersListProxyModel::PlayersListProxyModel(QObject * parent)
     PlayersList & g_playersList = PlayersList::instance();
     setSourceModel(&g_playersList);
 
-    // Proxy mecanic
     connect(&g_playersList, SIGNAL(rowsAboutToBeInserted(const QModelIndex &,int,int)),
             this, SLOT(p_rowsAboutToBeInserted(const QModelIndex &,int,int)));
     connect(&g_playersList, SIGNAL(rowsInserted(const QModelIndex &,int,int)),

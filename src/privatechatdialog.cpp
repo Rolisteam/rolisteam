@@ -22,7 +22,6 @@
 
 #include "privatechatdialog.h"
 
-#include <QDialogButtonBox>
 #include <QFormLayout>
 #include <QListView>
 #include <QVBoxLayout>
@@ -36,21 +35,26 @@
  * PrivateChatDialogModel *
  **************************/
 
-PrivateChatDialogModel::PrivateChatDialogModel(const QSet<Player *> & set, QObject * parent)
-    : PlayersListProxyModel(parent), m_set(set)
+PrivateChatDialogModel::PrivateChatDialogModel(QObject * parent)
+    : PlayersListProxyModel(parent)
 {
-    m_set.insert(PlayersList::instance().localPlayer());
 }
 
 Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex &index) const
 {
+    if (!index.isValid())
+        return Qt::NoItemFlags;
+
+    if (!m_isEditable)
+        return Qt::ItemIsEnabled;
+
     PlayersList & g_playersList = PlayersList::instance();
     Player * player = g_playersList.getPlayer(index);
 
-    if (player == NULL)
-        return Qt::NoItemFlags;
-
-    if (player == g_playersList.localPlayer())
+    // We should return Qt::NoItemFlags when (player == NULL),
+    // but this cause an infinite loop when the last entry is deleted.
+    // This is a workaround of a Qt's bug.
+    if (player == NULL || player == g_playersList.localPlayer())
         return Qt::ItemIsEnabled;
 
     if (player->hasFeature("MultiChat"))
@@ -71,6 +75,9 @@ QVariant PrivateChatDialogModel::data(const QModelIndex &index, int role) const
 
 bool PrivateChatDialogModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    if (!m_isEditable)
+        return false;
+
     if (role == Qt::CheckStateRole && (index.flags() & Qt::ItemIsUserCheckable))
     {
         Player * player = PlayersList::instance().getPlayer(index);
@@ -96,29 +103,38 @@ void PrivateChatDialogModel::setPlayersSet(const QSet<Player *> & set)
             createIndex(PlayersList::instance().numPlayers() - 1, 0, PlayersList::NoParent));
 }
 
+void PrivateChatDialogModel::setEditable(bool isEditable)
+{
+    m_isEditable = isEditable;
+}
+
 /*********************
  * PrivateChatDialog *
  *********************/
 
 PrivateChatDialog::PrivateChatDialog(QWidget * parent)
-    : QDialog(parent), m_model(QSet<Player *>())
+    : QDialog(parent)
 {
     m_name_w = new QLineEdit;
+
+    m_owner_w = new QLineEdit;
+    m_owner_w->setReadOnly(true);
 
     QListView * listView = new QListView;
     listView->setModel(&m_model);
 
     QFormLayout * formLayout = new QFormLayout;
     formLayout->addRow(tr("&Nom : "), m_name_w);
+    formLayout->addRow(tr("&Créateur : "), m_owner_w);
     formLayout->addRow(tr("&Joueurs : "), listView);
 
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    m_buttonBox = new QDialogButtonBox;
+    connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addLayout(formLayout);
-    mainLayout->addWidget(buttonBox);
+    mainLayout->addWidget(m_buttonBox);
 
     setLayout(mainLayout);
 
@@ -135,10 +151,19 @@ int PrivateChatDialog::edit(PrivateChat * chat)
     if (chat == NULL)
         return QDialog::Rejected;
 
+    bool isEditable = chat->belongsTo(PlayersList::instance().localPlayer());
     m_name_w->setText(chat->name());
+    m_name_w->setReadOnly(!isEditable);
+    m_owner_w->setText(chat->owner()->name());
     m_model.setPlayersSet(chat->players());
-    int ret = exec();
+    m_model.setEditable(isEditable);
 
+    if (isEditable)
+        m_buttonBox->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    else
+        m_buttonBox->setStandardButtons(QDialogButtonBox::Cancel);
+
+    int ret = exec();
     if (ret == QDialog::Accepted)
         chat->set(m_name_w->text(), m_model.playersSet());
 

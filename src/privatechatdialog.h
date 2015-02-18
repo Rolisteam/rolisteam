@@ -24,6 +24,7 @@
 #define PRIVATE_CHAT_DIALOG_H
 
 #include <QDialog>
+#include <QDialogButtonBox>
 #include <QLineEdit>
 #include <QSet>
 
@@ -37,7 +38,7 @@ class PrivateChatDialogModel : public PlayersListProxyModel
     Q_OBJECT
 
     public:
-        PrivateChatDialogModel(const QSet<Player *> & set, QObject * parent = 0);
+        PrivateChatDialogModel(QObject * parent = 0);
 
         Qt::ItemFlags flags(const QModelIndex &index) const;
         QVariant data(const QModelIndex &index, int role) const;
@@ -45,9 +46,11 @@ class PrivateChatDialogModel : public PlayersListProxyModel
 
         QSet<Player *> & playersSet();
         void setPlayersSet(const QSet<Player *> & set);
+        void setEditable(bool isEditable);
 
     private:
        QSet<Player *> m_set;
+       bool m_isEditable;
 };
 
 class PrivateChatDialog : public QDialog
@@ -64,7 +67,9 @@ class PrivateChatDialog : public QDialog
 
     private:
         QLineEdit * m_name_w;
+        QLineEdit * m_owner_w;
         PrivateChatDialogModel m_model;
+        QDialogButtonBox * m_buttonBox;
 };
 
 #endif

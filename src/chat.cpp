@@ -223,6 +223,11 @@ bool PrivateChat::everyPlayerHasFeature(const QString & feature) const
     return true;
 }
 
+Player * PrivateChat::owner() const
+{
+    return m_owner;
+}
+
 bool PrivateChat::sameLink(Liaison * link)
 {
     return (link == m_owner->link());
@@ -231,6 +236,17 @@ bool PrivateChat::sameLink(Liaison * link)
 bool PrivateChat::includeLocalPlayer() const
 {
     return m_set.contains(PlayersList::instance().localPlayer());
+}
+
+bool PrivateChat::removePlayer(Player * player)
+{
+    if (G_client)
+    {
+        qWarning("You're not allowed to delete a player from %s", qPrintable(m_uuid));
+        return false;
+    }
+
+    return m_set.remove(player);
 }
 
 QSet<Player *> PrivateChat::players() const

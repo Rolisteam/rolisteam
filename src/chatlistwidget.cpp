@@ -51,7 +51,11 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
     QListView * listView = new QListView(this);
     listView->setModel(m_chatList);
     listView->setIconSize(QSize(28,20));
+    connect(listView, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(editChat(const QModelIndex &)));
+
     m_selectionModel = listView->selectionModel();
+    connect(m_selectionModel, SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
+            this, SLOT(selectAnotherChat(const QModelIndex &)));
 //    listView->installEventFilter(this);
 
     QPushButton * addChatButton = new QPushButton(tr("Ajouter un tchat"));
@@ -60,8 +64,6 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
     m_deleteButton = new QPushButton(tr("Supprimer le tchat"));
     connect(m_deleteButton, SIGNAL(pressed()), this, SLOT(deleteSelectedChat()));
     m_deleteButton->setEnabled(false);
-    connect(m_selectionModel, SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
-            this, SLOT(selectAnotherChat(const QModelIndex &)));
 
     QHBoxLayout * buttonLayout = new QHBoxLayout;
     buttonLayout->addWidget(addChatButton);
@@ -123,6 +125,13 @@ void ChatListWidget::selectAnotherChat(const QModelIndex & index)
             chat->inherits("PrivateChat") &&
             chat->belongsTo(PlayersList::instance().localPlayer())
             );
+}
+
+void ChatListWidget::editChat(const QModelIndex & index)
+{
+    PrivateChat * chat = qobject_cast<PrivateChat *>(m_chatList->chat(index));
+    if (chat != NULL)
+        m_privateChatDialog->edit(chat);
 }
 
 void ChatListWidget::deleteSelectedChat()
