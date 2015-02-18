@@ -35,7 +35,7 @@
 #include "networkmessagewriter.h"
 #include "initialisation.h"
 #include "localpersonmodel.h"
-#include "MainWindow.h"
+#include "mainwindow.h"
 #include "persons.h"
 #include "playersList.h"
 #include "TextEditAmeliore.h"
@@ -53,14 +53,14 @@ QStringList ChatWindow::m_keyWordList;
 /* Constructeur                                                     */
 /********************************************************************/    
 ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
- : QSplitter(parent), m_chat(chat), m_filename("%1/%2.html")
+    : QSplitter(parent), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)
 {
     m_init = Initialisation::getInstance();
     if (m_chat == NULL)
         qFatal("ChatWindow with NULL chat");
 
     if (parent == NULL)
-        parent = G_mainWindow;
+        parent = m_mainWindow;
 
     // Initialisation des variables
     m_warnedEmoteUnavailable = false;

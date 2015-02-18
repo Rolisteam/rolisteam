@@ -68,6 +68,7 @@ class ChatList
         QList<ChatWindow *> m_chatWindowList;
         QMap<QString, PrivateChat *> m_privateChatMap;
         QMenu m_chatMenu;
+        MainWindow * m_mainWindow;
 
         void addChatWindow(ChatWindow * chat);
         void delChatWindow(ChatWindow * chat);

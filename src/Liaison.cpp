@@ -31,7 +31,6 @@
 #include "ClientServeur.h"
 #include "DessinPerso.h"
 #include "Image.h"
-#include "MainWindow.h"
 #include "persons.h"
 #include "playersList.h"
 #include "receiveevent.h"
@@ -48,7 +47,7 @@
 /* Constructeur                                                     */
 /********************************************************************/
 Liaison::Liaison(QTcpSocket *socket)
-    : QObject(NULL)
+    : QObject(NULL),m_mainWindow(NULL)
 {
     socketTcp = socket;
     receptionEnCours = false;
@@ -74,6 +73,10 @@ Liaison::Liaison(QTcpSocket *socket)
 Liaison::~Liaison()
 {
     delete socketTcp;
+}
+void Liaison::setMainWindow(MainWindow* mainWindow)
+{
+    m_mainWindow = mainWindow;
 }
 
 /********************************************************************/
@@ -155,7 +158,7 @@ void Liaison::reception()
         {
             qDebug("Reception - Taille donnees : %d", entete.dataSize);
             // Envoie la notification sur la mainWindows
-            QApplication::alert(G_mainWindow);
+            QApplication::alert(m_mainWindow);
 
             // Send event
             if (ReceiveEvent::hasReceiverFor(entete.category, entete.action))
@@ -224,7 +227,7 @@ void Liaison::receptionMessageConnexion()
         // Message sur le log utilisateur
         ecrireLogUtilisateur(tr("End of the connection process"));
         // On met a jour l'espace de travail
-        G_mainWindow->mettreAJourEspaceTravail();
+        m_mainWindow->mettreAJourEspaceTravail();
     }
 }
 
@@ -327,7 +330,7 @@ void Liaison::receptionMessagePersoJoueur()
         p+=sizeof(quint8);
 
         // On recherche la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'une demande d'affichage/masquage de PJ (receptionMessagePersoJoueur - Liaison.cpp)");
@@ -372,7 +375,7 @@ void Liaison::receptionMessagePersoJoueur()
         p+=sizeof(quint8);
 
         // On recherche la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'une demande de changement de taille des PJ (receptionMessagePersoJoueur - Liaison.cpp)");
@@ -431,7 +434,7 @@ void Liaison::receptionMessagePersoNonJoueur()
         QString idPlan(tableauIdPlan, tailleIdPlan);
 
         // Recherche de la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'un PNJ a ajouter (receptionMessagePersoNonJoueur - Liaison.cpp)");
@@ -466,7 +469,7 @@ void Liaison::receptionMessagePersoNonJoueur()
         QString idPerso(tableauIdPnj, tailleIdPnj);
 
         // Recherche de la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'un PNJ a supprimer (receptionMessagePersoNonJoueur - Liaison.cpp)");
@@ -512,7 +515,7 @@ void Liaison::receptionMessagePersonnage()
         p+=sizeof(quint16);
 
         // Recherche de la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'une liste de personnages a ajouter (receptionMessagePersonnage - Liaison.cpp)");
@@ -565,7 +568,7 @@ void Liaison::receptionMessagePersonnage()
         }
 
         // Recherche de la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'un deplacement de personnage (receptionMessagePersonnage - Liaison.cpp)");
@@ -605,7 +608,7 @@ void Liaison::receptionMessagePersonnage()
         p+=sizeof(quint16);
 
         // Recherche de la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'un changement d'etat de perso (receptionMessagePersonnage - Liaison.cpp)");
@@ -656,7 +659,7 @@ void Liaison::receptionMessagePersonnage()
         QPoint orientation(pointX, pointY);
 
         // Recherche de la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'un changement d'orientation (receptionMessagePersonnage - Liaison.cpp)");
@@ -704,7 +707,7 @@ void Liaison::receptionMessagePersonnage()
         p+=sizeof(quint8);
 
         // Recherche de la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'un affichage/masquage d'orientation (receptionMessagePersonnage - Liaison.cpp)");
@@ -793,7 +796,7 @@ void Liaison::receptionMessageDessin()
         p+=sizeof(couleurSelectionee);
 
         // Recherche de la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'un trace de crayon (receptionMessageDessin - Liaison.cpp)");
@@ -852,7 +855,7 @@ void Liaison::receptionMessageDessin()
         p+=sizeof(couleurSelectionee);
 
         // Recherche de la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'un trace texte (receptionMessageDessin - Liaison.cpp)");
@@ -919,7 +922,7 @@ void Liaison::receptionMessageDessin()
         p+=sizeof(couleurSelectionee);
 
         // Recherche de la carte concernee
-        Carte *carte = G_mainWindow->trouverCarte(idPlan);
+        Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
             qWarning("Carte introuvable a la reception d'un trace general (receptionMessageDessin - Liaison.cpp)");
@@ -982,7 +985,7 @@ void Liaison::receptionMessagePlan()
         p+=sizeof(quint8);
 
         // On cree la carte
-        G_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur,permission);
+        m_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur,permission);
         qDebug() << "permission " << permission;
         // Message sur le log utilisateur
         ecrireLogUtilisateur(tr("New map: %1").arg(titre));
@@ -1045,9 +1048,9 @@ void Liaison::receptionMessagePlan()
         Carte *carte = new Carte(idPlan, &image, masquerPlan);
         carte->setPermissionMode((NouveauPlanVide::PermissionMode)permission);
         // Creation de la CarteFenetre
-        CarteFenetre *carteFenetre = new CarteFenetre(carte);
+        CarteFenetre *carteFenetre = new CarteFenetre(carte,m_mainWindow);
         // Ajout de la carte au workspace
-        G_mainWindow->ajouterCarte(carteFenetre, titre);
+        m_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
         ecrireLogUtilisateur(tr("Receiving map: %1").arg(titre));
@@ -1139,9 +1142,9 @@ void Liaison::receptionMessagePlan()
         // On adapte la couche alpha a la nature de l'utilisateur local (MJ ou joueur)
         carte->adapterCoucheAlpha(intensiteAlpha);
         // Creation de la CarteFenetre
-        CarteFenetre *carteFenetre = new CarteFenetre(carte);
+        CarteFenetre *carteFenetre = new CarteFenetre(carte,m_mainWindow);
         // Ajout de la carte au workspace
-        G_mainWindow->ajouterCarte(carteFenetre, titre);
+        m_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
         ecrireLogUtilisateur(tr("Receiving map: %1").arg(titre));
@@ -1167,7 +1170,7 @@ void Liaison::receptionMessagePlan()
         QString idPlan(tableauIdPlan, tailleIdPlan);
 
         // On recherche la CarteFenetre concernee
-        CarteFenetre *carteFenetre = G_mainWindow->trouverCarteFenetre(idPlan);
+        CarteFenetre *carteFenetre = m_mainWindow->trouverCarteFenetre(idPlan);
         // Si la CarteFenetre est introuvable on affiche un message d'erreur
         if (!carteFenetre)
             qWarning("CarteFenetre introuvable a la reception d'une demande de fermture d'un plan (receptionMessagePlan - Liaison.cpp)");
@@ -1244,9 +1247,9 @@ void Liaison::receptionMessageImage()
             qWarning("Cannot read received image (receptionMessageImage - Liaison.cpp)");
 
         // Creation de l'Image
-        Image *imageFenetre = new Image(idImage, idJoueur, img);
+        Image *imageFenetre = new Image(m_mainWindow,idImage, idJoueur, img);
         // Ajout de la carte au workspace
-        G_mainWindow->ajouterImage(imageFenetre, titre);
+        m_mainWindow->ajouterImage(imageFenetre, titre);
 
         // Message sur le log utilisateur
         qDebug() << titre;
@@ -1274,7 +1277,7 @@ void Liaison::receptionMessageImage()
         QString idImage(tableauIdImage, tailleIdImage);
 
         // On recherche l'image concernee
-        Image *imageFenetre = G_mainWindow->trouverImage(idImage);
+        Image *imageFenetre = m_mainWindow->trouverImage(idImage);
         // Si l'image est introuvable on affiche un message d'erreur
         if (!imageFenetre)
             qWarning("Image introuvable a la reception d'une demande de fermeture d'une image (receptionMessageImage - Liaison.cpp)");

@@ -30,7 +30,7 @@
 #include "connectiondialog.h"
 #include "initialisation.h"
 #include "Liaison.h"
-#include "MainWindow.h"
+#include "mainwindow.h"
 #include "persons.h"
 #include "playersList.h"
 
@@ -77,40 +77,7 @@ static void synchronizeInitialisation(const ConnectionConfigDialog & dialog)
     init->setClientPort(QString().setNum(dialog.getPort()));
 
 }
-/*****************
- * TimerDialog *
- *****************/
-TimerDialog::TimerDialog(int interval,QString message, bool refreshMsg)
-    : m_interval(interval),m_message(message), m_refresh(refreshMsg),m_dialog(new Ui::Dialog)
-{
-    m_dialog->setupUi(this);
 
-    if(refreshMsg)
-    {
-        m_timer = new QTimer();
-
-        m_timer->setInterval(second);
-        m_timer->start();
-        connect(m_timer,SIGNAL(timeout()),this,SLOT(timeOut()));
-
-
-    }
-    m_dialog->textEdit->setText(m_message.arg(m_interval));
-}
-void TimerDialog::setInterval(int val)
-{
-    m_interval=val;
-}
-
-void TimerDialog::timeOut()
-{
-
-    m_dialog->textEdit->setText(m_message.arg(--m_interval));
-    if(m_interval==0)
-    {
-        accept();
-    }
-}
 
 /*****************
  * ClientServeur *
@@ -121,8 +88,12 @@ ClientServeur::ClientServeur()
 {
     m_init = Initialisation::getInstance();
     m_reconnect = new QTimer(this);
-    m_timerdialog = new TimerDialog(10,tr("Connection fails, retry in %1s."),true);
-    connect(m_reconnect, SIGNAL(timeout()), this, SLOT(startConnection()));
+
+    //m_thread = new ConnectionRetryThread();
+    m_dialog = new ConnectionRetryDialog();
+    connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
+    connect(m_dialog,SIGNAL(rejected()),this,SIGNAL(stopConnectionTry()));
+
 }
 
 
@@ -196,11 +167,8 @@ bool ClientServeur::configAndConnect()
         }
         if(cont)
         {
-            m_timerdialog->setInterval(10);
-            if(m_timerdialog->exec()==QDialog::Rejected)
-            {
-                exit(0);
-            }
+            m_dialog->startTimer();
+            m_dialog->exec();
         }
 
 
@@ -281,16 +249,17 @@ void ClientServeur::finDeLiaison(Liaison * link)
     if (G_client)
     {
         //On quitte l'application
-        //G_mainWindow->quitterApplication(true);
         ecrireLogUtilisateur(tr("Receiving picture: %1"));
         if(link!=m_liaisonToServer)
             qDebug() << "link is NOT the link to the server ";
         else
             qDebug() << "link is the link to the server ";
 
-        //startConnection();
+       //m_reconnect->start(1000);
+       // m_thread->start();
+        m_dialog->startTimer();
 
-        m_reconnect->start(1000);
+        m_dialog->show();
 
     }
 
@@ -313,4 +282,8 @@ void ClientServeur::finDeLiaison(Liaison * link)
         // On supprime la liaison de la liste, apres l'avoir detruite
         liaisons.removeAt(i);
     }
+}
+void ClientServeur::disconnect()
+{
+    /// @todo does nothing, must be implemented.
 }

@@ -47,7 +47,7 @@ class ChatWindow : public QSplitter
 Q_OBJECT
 
 public :
-    ChatWindow(AbstractChat * chat, MainWindow * parent = NULL);
+    ChatWindow(AbstractChat * chat, MainWindow * parent);
     ~ChatWindow();
 
     AbstractChat * chat() const;
@@ -90,6 +90,7 @@ private :
     QString m_filename;
     bool m_warnedEmoteUnavailable;
     bool m_hasUnseenMessage;
+    MainWindow* m_mainWindow;
 
     QTextEdit * zoneAffichage;         // Zone de texte ou s'affichent les messages
     QComboBox * m_selectPersonComboBox;

@@ -27,6 +27,7 @@
 #include <QTcpSocket>
 
 #include "networkmessage.h"
+#include "mainwindow.h"
 
 class Carte;
 #ifndef NULL_PLAYER
@@ -47,6 +48,7 @@ signals:
 
 public slots :
     void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf = 0);
+    void setMainWindow(MainWindow* mainWindow);
 
 private :
     void receptionMessageConnexion();
@@ -73,6 +75,7 @@ private :
 #ifndef NULL_PLAYER
     LecteurAudio* G_lecteurAudio;
 #endif
+    MainWindow* m_mainWindow;
 
 private slots :
     void reception();

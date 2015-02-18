@@ -28,7 +28,7 @@
 
 #include "chat.h"
 #include "chatlist.h"
-#include "MainWindow.h"
+#include "mainwindow.h"
 #include "privatechatdialog.h"
 
 

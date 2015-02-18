@@ -38,6 +38,8 @@
 #include <QGroupBox>
 #include <QComboBox>
 
+class MainWindow;
+
 class NouveauPlanVide : public QDialog
 {
     Q_OBJECT
@@ -45,7 +47,7 @@ class NouveauPlanVide : public QDialog
 public :
     enum PermissionMode{GM_ONLY, PC_MOVE,PC_ALL };
 
-    NouveauPlanVide(QWidget *parent = 0);
+    NouveauPlanVide(MainWindow* mainWindow,QWidget *parent = 0);
 
 
 signals :
@@ -76,6 +78,7 @@ private :
         QRadioButton *boutonPersonnalise;
         QWidget *taillePersonnalisee;
         QComboBox* m_permissionMode;
+        MainWindow* m_mainWindow;
 
 
         int format;							// Indice dans les tableaux ci-dessous correspondant au format selectionne

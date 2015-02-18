@@ -26,7 +26,7 @@
 #include "Image.h"
 
 #include "Liaison.h"
-#include "MainWindow.h"
+#include "mainwindow.h"
 #include "networkmessagewriter.h"
 
 #include "variablesGlobales.h"
@@ -34,8 +34,8 @@
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/	
-Image::Image(QString identImage, QString identJoueur, QImage *image, QAction *action, WorkspaceAmeliore *parent)
-: QScrollArea(parent),m_NormalSize(0,0)
+Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QImage *image, QAction *action, WorkspaceAmeliore *parent)
+: QScrollArea(parent),m_mainWindow(mainWindow),m_NormalSize(0,0)
 {
 
 	setObjectName("Image");
@@ -72,7 +72,7 @@ Image::~Image()
 	// Destruction de l'action associee
     delete actionAssociee;
 	// On enleve l'image de la liste des Images existantes
-	G_mainWindow->enleverImageDeLaListe(idImage);
+    m_mainWindow->enleverImageDeLaListe(idImage);
 }
 
 /********************************************************************/

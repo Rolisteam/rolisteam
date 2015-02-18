@@ -24,7 +24,7 @@
 
 #include "NouveauPlanVide.h"
 
-#include "MainWindow.h"
+#include "mainwindow.h"
 
 #include "variablesGlobales.h"
 
@@ -37,8 +37,8 @@ quint16 NouveauPlanVide::hauteur[3][4] = { {450, 600, 750, 900}, {600, 800, 1000
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/	
-NouveauPlanVide::NouveauPlanVide(QWidget *parent)
-    : QDialog(parent)
+NouveauPlanVide::NouveauPlanVide(MainWindow* mainWindow,QWidget *parent)
+    : QDialog(parent),m_mainWindow(mainWindow)
 {
     // Initialisation des variables
     format = 0;
@@ -55,7 +55,7 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
 
     // Connexion de la demande de creation d'un plan du widget vers le mainWindow
     QObject::connect(this, SIGNAL(creerNouveauPlanVide(QString, QString, QColor, quint16, quint16,quint8)),
-                     G_mainWindow, SLOT(creerNouveauPlanVide(QString, QString, QColor, quint16, quint16,quint8)));
+                     m_mainWindow, SLOT(creerNouveauPlanVide(QString, QString, QColor, quint16, quint16,quint8)));
 
     // Creation du layout principal
     QVBoxLayout *layoutPrincipal = new QVBoxLayout(this);
@@ -217,7 +217,7 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
     // Connexion du bouton OK a la demande de connexion
     QObject::connect(boutonOK, SIGNAL(clicked()), this, SLOT(validerDimensions()));
     // Connexion du bouton Annuler a la fermeture de la fenetre
-    QObject::connect(boutonAnnuler, SIGNAL(clicked()), G_mainWindow, SLOT(aucunNouveauPlanVide()));
+    QObject::connect(boutonAnnuler, SIGNAL(clicked()), m_mainWindow, SLOT(aucunNouveauPlanVide()));
     // Ajout au layout principal
     layoutPrincipal->addLayout(layoutBoutons);
 
@@ -235,7 +235,7 @@ NouveauPlanVide::NouveauPlanVide(QWidget *parent)
 #endif*/
     groupeFormat->setFixedSize(150, 100);
     // Affichage de la fenetre
-    move(G_mainWindow->width()/2 - 175, G_mainWindow->height()/2 - 130);
+    move(m_mainWindow->width()/2 - 175, m_mainWindow->height()/2 - 130);
     show();
 }
 

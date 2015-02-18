@@ -38,37 +38,40 @@
 #include <QAction>
 #include <QScrollArea>
 
+#include "mainwindow.h"
+
 class Carte;
 
 
 class CarteFenetre : public QScrollArea
 {
-    Q_OBJECT
-        
-    public :
-        CarteFenetre(Carte *uneCarte, QWidget *parent = 0);
-        ~CarteFenetre();
-        void associerAction(QAction *action);
-        Carte *carte();
-        QString identifiantCarte();
+Q_OBJECT
 
-    signals:
-        void activated(Carte * carte);
+public :
+    CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *parent = 0);
+    ~CarteFenetre();
+    void associerAction(QAction *action);
+    Carte *carte();
+    QString identifiantCarte();
 
-    public slots :
-        void commencerDeplacement(QPoint position);
-        void deplacer(QPoint position);
+signals:
+    void activated(Carte * carte);
 
-    protected :
-        void closeEvent(QCloseEvent *event);
-        void focusInEvent(QFocusEvent * event);
+public slots :
+    void commencerDeplacement(QPoint position);
+    void deplacer(QPoint position);
 
-    private :
-        Carte *carteAssociee;
-        QAction *actionAssociee;
-        QPoint pointDepart;
-        int horizontalDepart;
-        int verticalDepart;
+protected :
+    void closeEvent(QCloseEvent *event);
+    void focusInEvent(QFocusEvent * event);
+
+private :
+    Carte *carteAssociee;
+    QAction *actionAssociee;
+    QPoint pointDepart;
+    int horizontalDepart;
+    int verticalDepart;
+    MainWindow* m_mainWindow;
 };
 
 #endif

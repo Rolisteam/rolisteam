@@ -32,12 +32,12 @@
 extern bool G_client;
 
 ChatList::ChatList(MainWindow * mainWindow)
-    : QAbstractItemModel(NULL), m_chatWindowList(), m_chatMenu()
+    : QAbstractItemModel(NULL), m_chatWindowList(), m_chatMenu(),m_mainWindow(mainWindow)
 {
     m_chatMenu.setTitle(tr("ChatWindows"));
 
     // main (public) chat
-    addChatWindow(new ChatWindow(new PublicChat(), mainWindow));
+    addChatWindow(new ChatWindow(new PublicChat(), m_mainWindow));
 
     // Stay sync with g_playersList
     PlayersList & g_playersList = PlayersList::instance();
@@ -183,7 +183,7 @@ bool ChatList::addLocalChat(PrivateChat * chat)
 
     if (!G_client)
         m_privateChatMap.insert(chat->identifier(), chat);
-    addChatWindow(new ChatWindow(chat));
+    addChatWindow(new ChatWindow(chat,m_mainWindow));
     return true;
 }
 
@@ -435,7 +435,7 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
 
     else if (newChat->includeLocalPlayer())
     {
-        addChatWindow(new ChatWindow(newChat));
+        addChatWindow(new ChatWindow(newChat,m_mainWindow));
     }
 
 

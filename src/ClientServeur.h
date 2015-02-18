@@ -33,33 +33,12 @@
 
 #include "ui_timerdialog.h"
 #include "initialisation.h"
+#include "connectionretrydialog.h"
 
-namespace Ui {
-    class Dialog;
-}
 class Player;
 class Liaison;
 
-class TimerDialog: public QDialog
-{
-    Q_OBJECT
-public:
-    TimerDialog(int interval,QString message, bool refreshMsg);
-    void setInterval(int val);
 
-public slots:
-    void timeOut();
-
-private:
-    int m_interval;
-    QString m_message;
-     bool m_refresh;
-
-    QTimer* m_timer;
-
-    Ui::Dialog* m_dialog;
-
-};
 
 /**
  * @brief hold the list of socket (Liaison).
@@ -83,11 +62,19 @@ public :
 
     void ajouterLiaison(Liaison *liaison);
 
+public slots:
+    void disconnect();
+
 signals :
     void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);
 
     void linkAdded(Liaison * link);
     void linkDeleted(Liaison * link);
+
+    void stopConnectionTry();
+
+
+
 
 private :
     QTcpServer * m_server;
@@ -99,7 +86,8 @@ private :
     Player * m_localPlayer;
     Initialisation* m_init;
 
-    TimerDialog* m_timerdialog;
+    ConnectionRetryDialog* m_dialog;
+
 
 private slots :
     void nouveauClientConnecte();

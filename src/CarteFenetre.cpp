@@ -27,14 +27,14 @@
 #include <QtGui>
 
 #include "Carte.h"
-#include "MainWindow.h"
+
 
 #include "variablesGlobales.h"
 
 
 
-CarteFenetre::CarteFenetre(Carte *uneCarte, QWidget *parent)
-    : QScrollArea(parent)
+CarteFenetre::CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *parent)
+    : QScrollArea(parent),m_mainWindow(mainWindow)
 {
     setObjectName("CarteFenetre");
     setWindowIcon(QIcon(":/resources/icones/vignette plan.png"));
@@ -62,7 +62,7 @@ CarteFenetre::CarteFenetre(Carte *uneCarte, QWidget *parent)
 CarteFenetre::~CarteFenetre()
 {
     actionAssociee->~QAction();
-    G_mainWindow->enleverCarteDeLaListe(carteAssociee->identifiantCarte());
+    m_mainWindow->enleverCarteDeLaListe(carteAssociee->identifiantCarte());
 }
 
 void CarteFenetre::closeEvent(QCloseEvent *event)

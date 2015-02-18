@@ -42,6 +42,8 @@
 #include <QLabel>
 
 #include "WorkspaceAmeliore.h"
+#include "mainwindow.h"
+
 
 class Liaison;
 class NetworkMessageWriter;
@@ -51,7 +53,7 @@ class Image : public QScrollArea
 Q_OBJECT
 
 public :
-    Image(QString identImage, QString identJoueur, QImage *image, QAction *action = 0, WorkspaceAmeliore *parent = 0);
+    Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QImage *image, QAction *action = 0, WorkspaceAmeliore *parent = 0);
     ~Image();
     void associerAction(QAction *action);
     void fill(NetworkMessageWriter & message) const;
@@ -121,6 +123,7 @@ private :
     void fitWindow();
     void createActions();
 private :
+    MainWindow* m_mainWindow;
     QString idImage;
     QString idJoueur;
     QAction *actionAssociee;
@@ -154,6 +157,8 @@ private :
 
     QAction* m_actionlittleZoom;// * 0.2
     QShortcut* m_littleShort;
+
+
 };
 
 #endif

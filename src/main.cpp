@@ -27,7 +27,7 @@
 
 #include "ClientServeur.h"
 #include "initialisation.h"
-#include "MainWindow.h"
+#include "mainwindow.h"
 #include "persons.h"
 
 #include "constantesGlobales.h"
@@ -44,7 +44,7 @@
 QString G_idJoueurLocal;
 
 ClientServeur * G_clientServeur;
-MainWindow    * G_mainWindow;
+//MainWindow    * G_mainWindow;
 
 
 /********/
@@ -92,18 +92,20 @@ int main(int argc, char *argv[])
     // We need an Uuid for the local player (do we ?)
     G_idJoueurLocal = QUuid::createUuid().toString();
 
+
     // Get a connection
     G_clientServeur = new ClientServeur;
     if (!G_clientServeur->configAndConnect())
         return 0;
 
     // Create the main window
-    G_mainWindow = new MainWindow;
+    MainWindow* mainWindow = new MainWindow();
+    mainWindow->setNetworkManager(G_clientServeur);
 
-    G_mainWindow->setWindowTitle(init->getApplicationName());
-    G_mainWindow->checkUpdate();
+    mainWindow->setWindowTitle(init->getApplicationName());
+    mainWindow->checkUpdate();
     // We have a connection, we launch the main window.
-    G_mainWindow->showNormal();
+    mainWindow->showNormal();
     return app.exec();
 
     delete init;

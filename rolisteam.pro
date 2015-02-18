@@ -13,7 +13,6 @@ CONFIG += HAVE_PHONON
 TRANSLATIONS = traduction/rolisteam_fr.ts
 CODECFORTR = UTF-8
 HEADERS += src/AfficheurDisque.h \
-            src/constantesGlobles.h \
            src/BarreOutils.h \
            src/Carte.h \
            src/CarteFenetre.h \
@@ -31,7 +30,6 @@ HEADERS += src/AfficheurDisque.h \
            src/initialisation.h \
            src/Liaison.h \
            src/localpersonmodel.h \
-           src/MainWindow.h \
            src/networkmessage.h \
            src/networkmessagereader.h \
            src/networkmessagewriter.h \
@@ -52,8 +50,10 @@ HEADERS += src/AfficheurDisque.h \
            src/typesApplication.h \
            src/updatechecker.h \
            src/variablesGlobales.h \
-           src/wincompat.h \
-           src/WorkspaceAmeliore.h
+           src/WorkspaceAmeliore.h \
+    src/connectionretrydialog.h \
+    src/mainwindow.h
+
 SOURCES += src/AfficheurDisque.cpp \
            src/BarreOutils.cpp \
            src/Carte.cpp \
@@ -73,7 +73,6 @@ SOURCES += src/AfficheurDisque.cpp \
            src/Liaison.cpp \
            src/localpersonmodel.cpp \
            src/main.cpp \
-           src/MainWindow.cpp \
            src/NouveauPlanVide.cpp \
            src/networkmessage.cpp \
            src/networkmessagereader.cpp \
@@ -91,7 +90,9 @@ SOURCES += src/AfficheurDisque.cpp \
            src/chatwindow.cpp \
            src/TextEditAmeliore.cpp \
            src/updatechecker.cpp \
-           src/WorkspaceAmeliore.cpp
+           src/WorkspaceAmeliore.cpp \
+    src/connectionretrydialog.cpp \
+    src/mainwindow.cpp
 
 HAVE_PHONON {
  DEFINES+= PHONON
@@ -128,4 +129,5 @@ UI_DIR = src
 QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"
 
 FORMS += \
-    src/timerdialog.ui
+    src/timerdialog.ui \
+    src/connectionretrydialog.ui
