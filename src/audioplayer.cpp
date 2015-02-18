@@ -34,7 +34,7 @@ AudioPlayer::AudioPlayer(QWidget *parent)
 : QDockWidget(parent)
 {
     m_options = PreferencesManager::getInstance();
-
+    setObjectName("AudioPlayer");
     m_audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
     m_mediaObject = new Phonon::MediaObject(this);
     m_path = new Phonon::Path();
@@ -51,7 +51,7 @@ connect(m_mediaObject, SIGNAL(aboutToFinish()), this, SLOT(finishedSongSlot()));
         *m_path = Phonon::createPath(m_mediaObject, m_audioOutput);
 setupUi();
 
-        //autoriserOuIntedireCommandes();
+
         setWidget(m_mainWidget);
     }
 

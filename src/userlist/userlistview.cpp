@@ -41,7 +41,7 @@ UserListView::UserListView(QWidget *parent) :
 
     m_avatar = new QAction(tr("Set Avatar..."),this);
     connect(m_avatar,SIGNAL(triggered()),this,SLOT(onAvatar()));
-    //setIconSize(QSize(64,64));
+    setIconSize(QSize(64,64));
 }
 void UserListView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {

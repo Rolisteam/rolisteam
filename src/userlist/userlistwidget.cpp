@@ -34,7 +34,7 @@
 UserListWidget::UserListWidget(QWidget *parent) :
     QDockWidget(parent)
 {
-
+    setObjectName("UserListWidget");
     setupUI();
     setAction();
 

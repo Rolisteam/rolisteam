@@ -71,12 +71,24 @@ MainWindow::MainWindow()
     m_preferenceDialog = new PreferenceDialog(this);
     m_rclient= new RClient();
 
-    readSettings();
-    m_session = new Session();
+    ////////////
+    // DockWidget Init
+    ////////////
     m_sessionManager = new SessionManager();
-    m_sessionManager->setCurrentSession(m_session);
+    m_playerListWidget = new UserListWidget();
+    m_audioPlayer = AudioPlayer::getInstance(this);
 
     addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
+    addDockWidget(Qt::RightDockWidgetArea, m_playerListWidget);
+    addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
+
+
+    /////////////
+    // Read Settings
+    ////////////
+    readSettings();
+
+
     m_preferenceDialog->initValues();
 
     m_workspace = new ImprovedWorkspace(this/*m_toolbar->currentColor()*/);
@@ -94,24 +106,14 @@ MainWindow::MainWindow()
     setCentralWidget(m_workspace);
   // addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
 
-   /*
-    connect(m_toolbar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),m_workspace,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
-    connect(m_toolbar,SIGNAL(currentColorChanged(QColor&)),m_workspace,SLOT(currentColorChanged(QColor&)));
-    connect(m_toolbar,SIGNAL(currentModeChanged(int)),m_workspace,SIGNAL(currentModeChanged(int)));
-    connect(m_toolbar,SIGNAL(currentPenSizeChanged(int)),m_workspace,SLOT(currentPenSizeChanged(int)));
-    connect(m_toolbar,SIGNAL(currentPNCSizeChanged(int)),m_workspace,SLOT(currentNPCSizeChanged(int)));
-*/
 
-    m_playerListWidget = new UserListWidget;
+
     m_playerListWidget->setLocalPlayer(m_player);
 
 
     connect(m_playerListWidget,SIGNAL(opentchat()),this,SLOT(openTchat()));
 
-    addDockWidget(Qt::RightDockWidgetArea, m_playerListWidget);
 
-    m_audioPlayer = AudioPlayer::getInstance(this);
-    addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
 
     // Read connection list form preferences manager
     QVariant tmp2;
@@ -320,7 +322,7 @@ void MainWindow::addopenedFile(QString& urifile, CleverURI::ContentType type)
 
     /// @todo Manage the list size in the option/preferences system
 
-    m_session->addRessource(urifile,type,m_sessionManager->getCurrentChapter());
+   // m_session->addRessource(urifile,type,m_sessionManager->getCurrentChapter());
     //if(m_recentFiles.indexOf(uri)==-1)//if it's not here, it is added to the list.
      //   m_recentFiles << uri;
 
@@ -546,7 +548,7 @@ QMessageBox::about(this, tr("About Rolisteam"),
 }
 void MainWindow::readSettings()
 {
-    QSettings settings("rolisteam","rolisteam");
+    QSettings settings("rolisteam","rolisteam/preferences");
     qRegisterMetaTypeStreamOperators<Player>("Player");
 
     qRegisterMetaType<CleverURI>("CleverURI");
@@ -556,39 +558,34 @@ void MainWindow::readSettings()
 
 
 
-    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-    QSize size = settings.value("size", QSize(600, 400)).toSize();
-    /**
-      *  @warning empty avatar uri.
-      */
+    move(settings.value("pos", QPoint(200, 200)).toPoint());
+    resize(settings.value("size", QSize(600, 400)).toSize());
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("windowState").toByteArray());
+
+    ///  @warning empty avatar uri.
     m_player= new Player(tr("Player Unknown"),QColor(Qt::black),"");
     QVariant variant;
     variant.setValue(*m_player);
     *m_player = settings.value("player", variant).value<Player>();
-    resize(size);
-    move(pos);
-
-
-
 
     QVariant tmp3;
     tmp3.setValue(CleverUriList());
     QVariant tmp4= settings.value("session", tmp3);
     //m_recentFiles=tmp4.value<CleverUriList>();
 
-
-
-
     m_options->readSettings();
-
     m_diceManager->readSettings();
     m_preferenceDialog->readSettings();
 }
 void MainWindow::writeSettings()
 {
-  QSettings settings("rolisteam");
+  QSettings settings("rolisteam","rolisteam/preferences");
   settings.setValue("pos", pos());
   settings.setValue("size", size());
+  settings.setValue("geometry", saveGeometry());
+  settings.setValue("windowState", saveState());
+
 
   QVariant variant;
   variant.setValue(*m_player);

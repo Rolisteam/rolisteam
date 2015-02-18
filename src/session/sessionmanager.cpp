@@ -7,6 +7,7 @@
 SessionManager::SessionManager()
 {
     m_currentSession = NULL;
+    setObjectName("SessionManager");
     m_view =new QTreeView;
     m_layout = new QHBoxLayout;
     m_layout->addWidget(m_view);

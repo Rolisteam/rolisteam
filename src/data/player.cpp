@@ -22,7 +22,7 @@ Player::Player(const Player& p)
     *m_children = *p.children();
     Person::m_name = p.getName();
     Person::m_color = p.getColor();
-
+    Person::m_avatar = p.getAvatar();
 }
 
 bool Player::hasChildren() const
@@ -54,8 +54,6 @@ QDataStream& operator<<(QDataStream& out, const Player& con)
 {
   out << con.getName();
   out << con.getColor();
-  //QVariant tmp = con.getAvatar();
-  qDebug() << "write" <<con.m_avatar.isNull();
   out << con.getAvatar();
   return out;
 }
@@ -64,7 +62,6 @@ QDataStream& operator>>(QDataStream& is,Player& con)
 {
   is >>(con.m_name);
   is >>(con.m_color);
-  is >>con.m_avatar;
-  qDebug() << con.m_avatar.isNull();
+  is >>(con.m_avatar);
   return is;
 }
