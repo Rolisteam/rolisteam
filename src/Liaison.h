@@ -40,9 +40,10 @@
 #include "types.h"
 
 class Carte;
-
-class Liaison
- : public QObject
+#ifndef NULL_PLAYER
+    class LecteurAudio;
+#endif
+class Liaison : public QObject
 {
 Q_OBJECT
 

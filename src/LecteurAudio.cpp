@@ -71,7 +71,7 @@ void LecteurAudio::onfinished()
 {
     if (m_currentPlayingMode==LOOP)
     {
-        mediaObject->setCurrentSource(*currentsource);
+        mediaObject->setCurrentSource(*m_currentsource);
         mediaObject->play();
     }
     if(G_joueur)
@@ -231,8 +231,8 @@ void LecteurAudio::clickOnList(QListWidgetItem * p)//double click
 {
             m_formerItemFile = m_currentItemFile;
              m_currentItemFile = p;
-             currentsource = new Phonon::MediaSource(listeChemins[listeTitres->row(m_currentItemFile)]);
-             mediaObject->setCurrentSource(*currentsource);
+             m_currentsource = new Phonon::MediaSource(listeChemins[listeTitres->row(m_currentItemFile)]);
+             mediaObject->setCurrentSource(*m_currentsource);
              emettreCommande(nouveauMorceau, p->text());
              qDebug() << "Changement de titre" << listeChemins[listeTitres->row(p)] << p->text();
              mediaObject->play();
@@ -463,8 +463,8 @@ void LecteurAudio::isAboutToFinish()
             m_formerItemFile = m_currentItemFile;
             m_currentItemFile = listeTitres->item(position);
 
-            currentsource = new Phonon::MediaSource(listeChemins[position]);
-            mediaObject->setCurrentSource(*currentsource);
+            m_currentsource = new Phonon::MediaSource(listeChemins[position]);
+            mediaObject->setCurrentSource(*m_currentsource);
             emettreCommande(nouveauMorceau, m_currentItemFile->text());
             qDebug() << "Changement de titre 2" << listeChemins[position] << m_currentItemFile->text();
             mediaObject->play();
@@ -616,8 +616,8 @@ void LecteurAudio::pselectNewFile(QString file)
         else
         {
             qDebug() << " file existe = " << path;
-            currentsource = new Phonon::MediaSource(path);
-            mediaObject->setCurrentSource(*currentsource);
+            m_currentsource = new Phonon::MediaSource(path);
+            mediaObject->setCurrentSource(*m_currentsource);
             afficheurTitre->setEchoMode(QLineEdit::Password);
             QPalette palette(afficheurTitre->palette());
             palette.setColor(QPalette::Normal, QPalette::Text, Qt::black);
@@ -642,3 +642,4 @@ void LecteurAudio::pChangeDirectory()
         G_initialisation.dossierMusiquesMj = QFileDialog::getExistingDirectory(0 , tr("Choix du répertoire des musiques"), G_initialisation.dossierMusiquesMj,
         QFileDialog::ShowDirsOnly|QFileDialog::DontResolveSymlinks);
 }
+

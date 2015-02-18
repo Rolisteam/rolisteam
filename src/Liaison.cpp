@@ -386,7 +386,7 @@ void Liaison::receptionMessageJoueur()
                 // On met a jour l'espace de travail en consequence (limitation des droits)
                 G_mainWindow->changementNatureUtilisateur();
                 // On affiche un message dans le log utilisateur
-                ecrireLogUtilisateur(tr("Un MJ est déj�   connecté au serveur, celui-ci vous donne donc le statut de joueur"));
+                ecrireLogUtilisateur(tr("Un MJ est déjà connecté au serveur, celui-ci vous donne donc le statut de joueur"));
             }
         }
 
@@ -1294,7 +1294,7 @@ void Liaison::receptionMessagePlan()
         G_mainWindow->creerNouveauPlanVide(titre, idPlan, couleur, largeur, hauteur, taillePj);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Nouveau plan \"") + titre + "\"");
+        ecrireLogUtilisateur(tr("Nouveau plan: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1353,7 +1353,7 @@ void Liaison::receptionMessagePlan()
         G_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Réception du plan \"") + titre + "\"");
+        ecrireLogUtilisateur(tr("Réception du plan: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1439,7 +1439,7 @@ void Liaison::receptionMessagePlan()
         G_mainWindow->ajouterCarte(carteFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Réception du plan \"") + titre + "\"");
+        ecrireLogUtilisateur(tr("Réception du plan: %1").arg(titre));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1471,7 +1471,7 @@ void Liaison::receptionMessagePlan()
         else
         {
             // Message sur le log utilisateur
-            ecrireLogUtilisateur(tr("Le plan \"") + carteFenetre->windowTitle() + tr("\" vient d'être fermé par le MJ"));
+            ecrireLogUtilisateur(tr("Le plan %1 vient d'être fermé par le MJ").arg(carteFenetre->windowTitle()));
             // Suppression du plan
             carteFenetre->~CarteFenetre();
         }
@@ -1537,7 +1537,7 @@ void Liaison::receptionMessageImage()
         QImage *img = new QImage;
         bool ok = img->loadFromData(byteArray, "jpeg");
         if (!ok)
-            qWarning("Problème de decompression de l'image (réceptionMessageImage - Liaison.cpp)");
+            qWarning("Probleme de decompression de l'image (receptionMessageImage - Liaison.cpp)");
 
         // Creation de l'Image
         Image *imageFenetre = new Image(idImage, idJoueur, img);
@@ -1545,7 +1545,7 @@ void Liaison::receptionMessageImage()
         G_mainWindow->ajouterImage(imageFenetre, titre);
 
         // Message sur le log utilisateur
-        ecrireLogUtilisateur(tr("Réception de l'image \"") + titre.left(titre.size() - QString(tr(" (Image)")).size() ) + "\"");
+        ecrireLogUtilisateur(tr("Réception de l'image %1").arg(titre.left(titre.size()-QString(tr(" (Image)")).size())));
 
         // Liberation de la memoire allouee
         delete[] tableauTitre;
@@ -1787,7 +1787,7 @@ void Liaison::receptionMessageMusique()
 /********************************************************************/
 void Liaison::receptionMessageParametres()
 {
-    qDebug("Reception d'un message de categorie Paramètres");
+    qDebug("Reception d'un message de categorie Parametres");
 
     if (entete.action == addFeature)
     {

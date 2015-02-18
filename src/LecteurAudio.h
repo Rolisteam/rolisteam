@@ -111,7 +111,7 @@ private :
          */
         void setupUi();
         qint64 m_time;//!< @brief current time
-        Phonon::MediaSource *currentsource;//!< @brief current audio source
+        Phonon::MediaSource *m_currentsource;//!< @brief current audio source
         Phonon::SeekSlider *seekSlider; //!< @brief Allows to seek in the song (Phonon only)
         Phonon::MediaObject *mediaObject; //!<  (Phonon only)
         Phonon::AudioOutput *audioOutput; //!< (Phonon only)
@@ -133,7 +133,7 @@ private :
 
         QLCDNumber *afficheurTemps;		//!< @brief displays the past time of the playing
         QListWidget *listeTitres;		//!< @brief displays all avaliable songs
-        QList<QString> listeChemins;	//!< @brief Path list
+        QList<QString> listeChemins;	        //!< @brief Path list
         QActionGroup* m_playingMode;
         QAction *actionLecture;			//!< @brief Play action
         QAction *actionPause;			//!< @brief Pause action
