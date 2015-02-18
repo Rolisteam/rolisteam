@@ -47,6 +47,45 @@ bool G_client;
 QColor G_couleurJoueurLocal;
 
 
+
+
+
+PlayerTransfer::PlayerTransfer(QString id,QString name,QColor color,bool gm)
+    : m_id(id),m_name(name),m_color(color),m_GM(gm)
+{
+
+}
+
+
+QString PlayerTransfer::name()
+{
+    return m_name;
+}
+
+QColor PlayerTransfer::color()
+{
+    return m_color;
+}
+
+bool PlayerTransfer::isGM()
+{
+    return m_GM;
+}
+
+QString PlayerTransfer::id()
+{
+    return m_id;
+}
+
+
+
+
+
+
+
+
+
+
 /********************
  * Global functions *
  ********************/
@@ -66,8 +105,7 @@ void emettre(char *donnees, quint32 taille, int numeroLiaison)
  * Private non-member functions *
  ********************************/
 
-void
-synchronizeInitialisation(const ConnectionConfigDialog & dialog)
+void synchronizeInitialisation(const ConnectionConfigDialog & dialog)
 {
     G_initialisation.nomUtilisateur     = dialog.getName();
     G_initialisation.couleurUtilisateur = G_couleurJoueurLocal = dialog.getColor();
@@ -79,8 +117,7 @@ synchronizeInitialisation(const ConnectionConfigDialog & dialog)
 }
 
 
-void
-emettreIdentite(const QString & playerName)
+void emettreIdentite(const QString & playerName)
 {
     // Taille des donnees
     quint32 tailleCorps =
@@ -147,9 +184,12 @@ ClientServeur::~ClientServeur()
     // QObject should delete all for us.
 }
 
+PlayerTransfer* ClientServeur::currentUser()
+{
+       return m_user;
+}
 
-bool
-ClientServeur::configAndConnect()
+bool ClientServeur::configAndConnect()
 {
     ConnectionConfigDialog configDialog(
     G_initialisation.nomUtilisateur, G_initialisation.couleurUtilisateur, !G_initialisation.joueur,
@@ -183,9 +223,9 @@ ClientServeur::configAndConnect()
             if (m_server->listen(QHostAddress::Any, configDialog.getPort()))
             {
                 synchronizeInitialisation(configDialog);
-                G_listeUtilisateurs->ajouterJoueur(
-                    G_idJoueurLocal, configDialog.getName(), configDialog.getColor(), true, configDialog.isGM()
-                );
+                m_user = new PlayerTransfer(G_idJoueurLocal,configDialog.getName(),configDialog.getColor(),configDialog.isGM());
+
+
 //                ecrireLogUtilisateur(tr("Serveur en place sur le port ") + G_initialisation.portServeur);
                 cont = false;
             }
@@ -208,17 +248,13 @@ ClientServeur::configAndConnect()
             {
                 synchronizeInitialisation(configDialog);
                 Liaison * link = new Liaison(socket, this);
+                m_user = new PlayerTransfer(G_idJoueurLocal,configDialog.getName(),configDialog.getColor(),configDialog.isGM());
                 link->start();
-//                ecrireLogUtilisateur(
-//                    QString(tr("Vous êtes connecté au serveur %1:%2"))
-//                    .arg(configDialog.getHost()).arg(configDialog.getPort())
-//                );
+
                 emettreIdentite(configDialog.getName());
                 g_featuresList.sendThemAll();
                 cont = false;
             }
-
-            // Connect failed
             else
             {
                 errorDialog.setInformativeText(waitDialog.getError());

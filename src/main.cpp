@@ -130,22 +130,26 @@ int main(int argc, char *argv[])
     QResource::registerResource(QString(NOM_APPLICATION) + ".rcc");
 
     #ifdef WIN32
-        app.setWindowIcon(QIcon(":/resources/icones/" + QString(NOM_APPLICATION) + ".png"));
+        app.setWindowIcon(QIcon(":/resources/icons/" + QString(NOM_APPLICATION) + ".png"));
     #endif
 
     // We need an Uuid for the local player
     G_idJoueurLocal = QUuid::createUuid().toString();
     g_featuresList.addLocal(G_idJoueurLocal);
 
-    // Create the main window
-    G_mainWindow = new MainWindow;
-    G_mainWindow->setWindowTitle(NOM_APPLICATION);
+
 
     // Get a connection
     G_clientServeur = new ClientServeur;
     if (!G_clientServeur->configAndConnect())
         return 0;
 
+    // Create the main window
+    G_mainWindow = new MainWindow;
+    if(G_clientServeur->currentUser()->isGM())
+        G_listeUtilisateurs->ajouterJoueur(G_clientServeur->currentUser()->id(), G_clientServeur->currentUser()->name(), G_clientServeur->currentUser()->color(), true, G_clientServeur->currentUser()->isGM());
+
+    G_mainWindow->setWindowTitle(NOM_APPLICATION);
     // We have a connection, we launch the main window.
     G_mainWindow->showNormal();
     return app.exec();

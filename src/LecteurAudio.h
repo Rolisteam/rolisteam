@@ -68,12 +68,12 @@ public :
 	* \brief Not used with phonon - used for emit signal when the song is almost finished   
 	*/
         void arriveeEnFinDeTitre();
-
+#ifdef FMOD
 	/**
 	* \brief Not used with phonon - Called by global stuff to define the time displayed by the LCDNumber   
 	*/
         void passageSurUnTag(QString tag);
-
+#endif
 	/**
 	* \brief Send some informations to the given player
 	*/
@@ -148,12 +148,12 @@ private :
 	* \brief stop the playing
 	*/
         void arreter();
-
+#ifdef FMOD
 	/**
 	* \brief Fmod only
 	*/
 	void ajouterTags();
-
+#endif
 	/**
 	* \brief send command to a client
 	*/
@@ -168,10 +168,6 @@ private :
 	*/
         void setupUi();
 
-	/**
-	* \brief event filter to catch all signal emitted by phonon classes
-	*/
-	bool eventFilter(QObject *object, QEvent *event);
 
         qint64 m_time;//!< \brief current time
         Phonon::MediaSource *currentsource;//!< \brief current audio source

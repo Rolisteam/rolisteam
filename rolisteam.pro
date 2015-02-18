@@ -1,5 +1,5 @@
 #QMAKE_CXXFLAGS += -g
-CONFIG += phonon
+CONFIG += phonon console
 TEMPLATE = app
 TARGET = bin/rolisteam
 DEPENDPATH += . src

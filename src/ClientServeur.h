@@ -27,9 +27,29 @@
 
 #include <QTcpServer>
 #include <QList>
+#include <QColor>
+
+class PlayerTransfer
+{
+public:
+    PlayerTransfer(QString id,QString name,QColor color,bool gm);
+
+
+    QString name();
+    QColor color();
+    bool isGM();
+    QString id();
+
+private:
+    QString m_id;
+    QString m_name;
+    QColor m_color;
+    bool m_GM;
+//G_idJoueurLocal, configDialog.getName(), configDialog.getColor(), true, configDialog.isGM()
+};
+
 
 class Liaison;
-
 /**
  * @brief hold the list of socket (Liaison).
  * On startup displays the configDialog.
@@ -39,31 +59,35 @@ class ClientServeur
 {
     Q_OBJECT
 
-    public :
-        ClientServeur();
-        ~ClientServeur();
+public :
+    ClientServeur();
+    ~ClientServeur();
 
-        /**
-         * @brief Display the configDialog and make the connection.
-         * @return true if connection has been established, false if the user has clicked on the Quit button.
-         */
-        bool configAndConnect();
+    /**
+     * @brief Display the configDialog and make the connection.
+     * @return true if connection has been established, false if the user has clicked on the Quit button.
+     */
+    bool configAndConnect();
 
-        void emettreDonnees(char *donnees, quint32 taille, Liaison *sauf);
-        void emettreDonnees(char *donnees, quint32 taille, int numeroLiaison);
+    void emettreDonnees(char *donnees, quint32 taille, Liaison *sauf);
+    void emettreDonnees(char *donnees, quint32 taille, int numeroLiaison);
 
-        void ajouterLiaison(Liaison *liaison);
-        
-    signals :
-        void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);
+    void ajouterLiaison(Liaison *liaison);
 
-    private :
-        QTcpServer * m_server;
-        QList<Liaison *> liaisons;
+    PlayerTransfer* currentUser();
 
-    private slots :
-        void nouveauClientConnecte();
-        void finDeLiaison();
+signals :
+    void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);
+
+private :
+    QTcpServer * m_server;
+    QList<Liaison *> liaisons;
+    PlayerTransfer* m_user;
+
+
+private slots :
+    void nouveauClientConnecte();
+    void finDeLiaison();
 };
 
 #endif
