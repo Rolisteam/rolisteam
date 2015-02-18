@@ -62,8 +62,9 @@ protected :
     bool  eventFilter(QObject *obj,QEvent *e);
     void setUi();
 
-
-
+    void contextMenuEvent ( QContextMenuEvent * event );
+    virtual void paintEvent ( QPaintEvent * event );
+    void wheelEvent(QWheelEvent *event);
 
 private slots:
     void setZoomLevel(double zoomlevel);
@@ -73,10 +74,10 @@ private slots:
     void zoomLittle();
     void zoomNormal();
     void zoomBig();
-    void fitWindow();
+    void onFitWindow();
 
 private :
-
+    void fitWindow();
     void createActions();
 
 
@@ -98,7 +99,8 @@ private :
 
     ImprovedWorkspace *m_parent;
 
-
+    QSize m_NormalSize;
+    QSize m_windowSize;
 };
 
 #endif

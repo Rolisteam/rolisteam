@@ -23,11 +23,12 @@
 #include <QtGui>
 #include "Image.h"
 #include <QHBoxLayout>
+#include <QFileInfo>
 #include "improvedworkspace.h"
 
 
 Image::Image( QString& filename,  ImprovedWorkspace *parent)
-: SubMdiWindows(parent)
+: SubMdiWindows(parent),m_NormalSize(0,0)
 {
     m_parent = parent;
     m_filename = filename;
@@ -37,8 +38,9 @@ Image::Image( QString& filename,  ImprovedWorkspace *parent)
 
 	setObjectName("Image");
     m_type = SubMdiWindows::PICTURE;
+    setWindowTitle(QFileInfo(filename).baseName());
 
-	setWindowIcon(QIcon(":/icones/vignette image.png"));
+    setWindowIcon(QIcon(":/resources/icones/vignette image.png"));
 
 
     m_labelImage = new QLabel(this);
@@ -50,8 +52,8 @@ Image::Image( QString& filename,  ImprovedWorkspace *parent)
     m_labelImage->resize(m_pixMap.size());
     m_scrollArea->setAlignment(Qt::AlignCenter);
     m_scrollArea->setWidget(m_labelImage);
-
-
+    setWindowFlags(Qt::Window);
+    m_labelImage->installEventFilter(this);
     fitWindow();
 
 }
@@ -60,8 +62,14 @@ Image::Image( QString& filename,  ImprovedWorkspace *parent)
 Image::~Image()
 {
 
-
-
+    delete m_labelImage;
+    delete m_scrollArea;
+    delete m_actionZoomIn;
+    delete m_actionZoomOut;
+    delete m_actionfitWorkspace;
+    delete m_actionlittleZoom;
+    delete m_actionNormalZoom;
+    delete m_actionBigZoom;
 
 }
 void Image::createActions()
@@ -79,7 +87,7 @@ void Image::createActions()
     m_actionfitWorkspace = new QAction(tr("Fit the workspace"),this);
     m_actionfitWorkspace->setShortcut(tr("Ctrl+5"));
     m_actionfitWorkspace->setToolTip(tr("The window and the image fit the workspace"));
-    connect(m_actionfitWorkspace,SIGNAL(triggered()),this,SLOT(fitWindow()));
+    connect(m_actionfitWorkspace,SIGNAL(triggered()),this,SLOT(onFitWindow()));
 
     m_actionlittleZoom = new QAction(tr("Little"),this);
     m_actionlittleZoom->setShortcut(tr("Ctrl+1"));
@@ -101,18 +109,23 @@ void Image::createActions()
 void Image::setUi()
 {
     m_scrollArea = new QScrollArea;
+    m_scrollArea->setWidgetResizable(true);
 
     QVBoxLayout* vlayout= new QVBoxLayout;
 
-
+    vlayout->setContentsMargins(0,0,0,0);
     vlayout->addWidget(m_scrollArea);
 
-    m_scrollArea->installEventFilter(this);
-    this->installEventFilter(this);
+
+    //installEventFilter(this);
 
     QWidget* tmp = new QWidget;
     tmp->setLayout(vlayout);
     setWidget(tmp);
+    m_scrollArea->installEventFilter(this);
+
+    //
+
 }
 void Image::setZoomLevel(double zoomlevel)
 {
@@ -128,34 +141,36 @@ void Image::closeEvent(QCloseEvent *event)
 	event->ignore();
 }
 
-bool  Image::eventFilter(QObject *obj,QEvent *e)
+bool Image::eventFilter(QObject *obj,QEvent *e)
 {
+
     if(e->type() == QEvent::Wheel)
     {
-      QWheelEvent *event = static_cast<QWheelEvent *>(e);
-        if(event->modifiers() == Qt::ControlModifier)
-        {
-            qDebug()<< "event filter";
-            int delta = event->delta();
-            ;
-            if(delta > 0)//zoomin
-            {
-                m_zoomLevel +=0.2;
 
-            }
-            else//zoomOut
-            {
-                m_zoomLevel -=0.2;
-            }
-           // m_zoomSpinBox->setValue(currentZoom);
-            resizeLabel();
-            event->accept();
-            return true;
-        }
+      QWheelEvent *event = static_cast<QWheelEvent *>(e);
+        wheelEvent(event);
 
     }
-
     return QObject::eventFilter(obj, e);
+}
+void Image::wheelEvent(QWheelEvent *event)
+{
+    if(event->modifiers() == Qt::ControlModifier)
+    {
+        qDebug() << "event 1";
+        int delta = event->delta();
+        if(delta > 0)//zoomin
+        {
+            m_zoomLevel +=0.2;
+        }
+        else//zoomOut
+        {
+            m_zoomLevel -=0.2;
+        }
+        resizeLabel();
+        event->ignore();
+
+    }
 }
 
 void Image::zoomIn()
@@ -170,25 +185,45 @@ void Image::zoomOut()
     resizeLabel();
 }
 
+void Image::onFitWindow()
+{
+    resize(m_windowSize);
+    m_zoomLevel = 1;
+}
 
 void Image::fitWindow()
 {
     QSize windowsize = m_parent->viewport()->size();
+    qDebug()<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
     while((windowsize.height()<(m_zoomLevel * m_pixMap.height()))||(windowsize.width()<(m_zoomLevel * m_pixMap.width())))
     {
         m_zoomLevel -= 0.2;
     }
+    m_labelImage->resize(m_pixMap.size());
     resizeLabel();
-
-    if(!m_labelImage->rect().contains(geometry()))
+   /*if(!m_labelImage->rect().contains(geometry()))
+    {*/
         setGeometry(m_labelImage->rect());
-
+    //}
+     qDebug()<< m_pixMap.width() << m_pixMap.height() << m_labelImage->rect() << geometry();
+    m_zoomLevel = 1.0;
 }
 
 
 void Image::resizeLabel()
 {
-    m_labelImage->resize(m_zoomLevel * m_pixMap.size());
+qDebug()<< " cdcec"<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
+    if((m_NormalSize.height()!=0)&&(m_NormalSize.width()!=0))
+    {
+        m_labelImage->resize(m_zoomLevel * m_NormalSize);
+    }
+    else
+    {
+
+        m_labelImage->resize(m_zoomLevel * m_pixMap.size());
+        m_NormalSize = m_scrollArea->widget()->size();
+    }
+    qDebug()<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
 }
 
 void Image::pointeurMain()
@@ -216,16 +251,47 @@ void Image::zoomLittle()
 {
     m_zoomLevel =0.2;
     resizeLabel();
-    if(!m_labelImage->rect().contains(geometry()))
-        setGeometry(m_labelImage->rect());
+
 }
 
 void Image::zoomNormal()
 {
+
     m_zoomLevel =1.0;
     resizeLabel();
-    if(!m_labelImage->rect().contains(geometry()))
-        setGeometry(m_labelImage->rect());
+
+}
+void Image::contextMenuEvent ( QContextMenuEvent * event )
+{
+    QMenu menu(this);
+
+    menu.addAction(m_actionZoomIn);
+    menu.addAction(m_actionZoomOut);
+    menu.addSeparator();
+    menu.addAction( m_actionfitWorkspace);
+    menu.addSeparator();
+    menu.addAction(m_actionlittleZoom);
+    menu.addAction(m_actionNormalZoom);
+    menu.addAction(m_actionBigZoom);
+
+
+    menu.exec(event->globalPos ()/*event->pos()*/);
+
+}
+void Image::paintEvent ( QPaintEvent * event )
+{
+    SubMdiWindows::paintEvent(event);
+    if(m_scrollArea->widgetResizable())
+    {
+
+        m_scrollArea->setWidgetResizable(false);
+
+    }
+    if((m_NormalSize * m_zoomLevel) != m_labelImage->size())
+    {
+        m_NormalSize = m_labelImage->size() / m_zoomLevel;
+        m_windowSize = size();
+    }
 }
 
 void Image::zoomBig()

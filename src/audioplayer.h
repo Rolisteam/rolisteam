@@ -42,12 +42,12 @@
 #endif
 
 #ifdef PHONON
-#include <Phonon/MediaObject>
-#include <Phonon/MediaSource>
-#include <Phonon/Path>
-#include <Phonon/SeekSlider>
-#include <Phonon/VolumeSlider>
-#include <Phonon/AudioOutput>
+#include <phonon/MediaObject>
+#include <phonon/MediaSource>
+#include <phonon/Path>
+#include <phonon/SeekSlider>
+#include <phonon/VolumeSlider>
+#include <phonon/AudioOutput>
 #endif
 
 /**!
