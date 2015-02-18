@@ -33,7 +33,7 @@ public:
     /**
       * @brief constructor with parameters
       */
-    explicit ReadingThread(QTcpSocket* l,QObject *parent = 0);
+    explicit ReadingThread(QTcpSocket* l,QList<Message*>* list,QObject *parent = 0);
     /**
       * @brief defines the connection used
       */
@@ -44,7 +44,7 @@ protected:
 
 signals:
     //void readingFinished();
-    void messageRecieved(Message&);
+    void messageRecieved();
 
 public slots:
     void readDataFromSocket();

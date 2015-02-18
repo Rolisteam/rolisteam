@@ -70,6 +70,15 @@ MainWindow::MainWindow()
     m_diceManager=DicePlugInManager::instance();
     //m_toolbar = ToolsBar::getInstance(this);//new ToolsBar(this);
 
+    m_version=tr("Unknown");
+    #ifdef VERSION_MINOR
+        #ifdef VERSION_MAJOR
+            #ifdef VERSION_MIDDLE
+                m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+            #endif
+        #endif
+    #endif
+
     m_preferenceDialog = new PreferenceDialog(this);
     setWindowIcon(QIcon(":/logo.svg"));
 
@@ -81,6 +90,7 @@ MainWindow::MainWindow()
     m_sessionManager = new SessionManager();
     connect( m_sessionManager,SIGNAL(openFile(CleverURI*)),this,SLOT(openFile(CleverURI*)));
     m_playerListWidget = new UserListWidget();
+    m_rclient->registerMessageManager(Network::UsersCategory,m_playerListWidget);
     m_audioPlayer = AudioPlayer::getInstance(this);
 
     addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
@@ -94,6 +104,7 @@ MainWindow::MainWindow()
     ////////////
     readSettings();
 
+    refreshNetworkMenu();
 
     m_preferenceDialog->initValues();
 
@@ -108,7 +119,7 @@ MainWindow::MainWindow()
     m_subWindowActGroup = new QActionGroup(this);
     m_recentFilesActGroup= new QActionGroup(this);
 
-    setWindowTitle(tr("Rolisteam - %1").arg(VERSION));
+    setWindowTitle(tr("Rolisteam - %1").arg(m_version));
     setCentralWidget(m_workspace);
   // addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
 
@@ -179,24 +190,11 @@ void MainWindow::createMenu()
     foreach(CleverURI* path,m_sessionManager->getRecentFiles())
     {
 
-        QAction* act = m_recentFilesActGroup->addAction(path->getUri());
+        QAction* act = m_recentFilesActGroup->addAction(path->getShortName());
         act->setIcon(QIcon(CleverURI::getIcon(static_cast<CleverURI::ContentType>(path->getType()))));
-        /*switch(path.getType())
-        {
-            case CleverURI::CHARACTERSHEET:
-                act->setIcon(QIcon(":/resources/icons/treeview.png"));
-                break;
-            case CleverURI::MAP:
-                act->setIcon(QIcon(":/resources/icons/map.png"));
-                break;
-            case CleverURI::TEXT:
-                    act->setIcon(QIcon(":/resources/icons/notes.png"));
-                    break;
-            case CleverURI::PICTURE:
-                    act->setIcon(QIcon(":/resources/icons/image.png"));
-                    break;
-        }*/
-        act->setData(path->getType());
+        QVariant temp;
+        temp.setValue(*path);
+        act->setData(temp);
         m_recentFilesMenu->addAction(act);
 
     }
@@ -256,28 +254,6 @@ void MainWindow::createMenu()
     m_serverAct=new QAction(tr("&Start server..."),NULL);
     m_newConnectionAct=new QAction(tr("&New Connection..."),NULL);
     m_manageConnectionAct = new QAction(tr("Manage connections..."),NULL);
-    refreshNetworkMenu();
-
-  /*  m_serverAct = m_networkMenu->addAction(tr("&Start server..."));
-
-    m_newConnectionAct = m_networkMenu->addAction(tr("&New Connection..."));*/
-
-
-   /* m_connectionActGroup = new QActionGroup(this);
-    if(m_connectionList.size() > 0)//(m_connectionList != NULL)&&
-    {
-        m_connectionMap = new QMap<QAction*,Connection>;
-        m_networkMenu->addSeparator();
-        foreach(Connection tmp, m_connectionList )
-        {
-           QAction* p=m_connectionActGroup->addAction(tmp.getName());
-           m_networkMenu->addAction(p);
-           m_connectionMap->insert(p,tmp);
-        }
-    }
-    connect(m_connectionActGroup,SIGNAL(triggered(QAction*)),this,SLOT(onConnection(QAction*)));
-    m_networkMenu->addSeparator();
-    m_manageConnectionAct = m_networkMenu->addAction(tr("Manage connections..."));*/
 
     ///////////////
     // Help Menu
@@ -334,22 +310,10 @@ void MainWindow::allowActions()
 }
 void MainWindow::openRecentFile(QAction* pathAct)
 {
+    QVariant r=pathAct->data();
+    CleverURI uri=r.value<CleverURI>();
+    openFile(&uri);
 
-    switch(pathAct->data().toInt())
-    {
-        case CleverURI::MAP:
-
-            break;
-        case CleverURI::CHARACTERSHEET:
-            openCharacterSheets(pathAct->text());
-            break;
-        case CleverURI::PICTURE:
-            openImage(pathAct->text());
-            break;
-        case CleverURI::TCHAT:
-        case CleverURI::TEXT:
-            break;
-    }
 
 
 }
@@ -472,14 +436,7 @@ void MainWindow::askPath()
 
             break;*/
 
-
-
-
-
-
-
-
-}
+ }
 
 bool MainWindow::openImage(QString filepath)
 {
@@ -548,7 +505,7 @@ void MainWindow::startServer()
     {
         tmpdialog.writePrefences();
         /** @todo: add parameters to use password  */
-        ServerManager* tmp = new ServerManager(tmpdialog.getPort(),this);
+        ServerManager* tmp = new ServerManager(tmpdialog.getPort());
         tmp->start();
 
 
@@ -622,27 +579,26 @@ void MainWindow::updateMayBeNeeded()
     }
     m_updateChecker->deleteLater();
 }
-#ifndef VERSION
-#define    VERSION "unkown"
-#endif
+
 void MainWindow::about()
 {
 
     QMessageBox info( QMessageBox::Information , tr("About Rolisteam"),
-                      tr("<h1>Rolisteam v%1</h1>"
-     "<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others, share maps or picture. Rolisteam also provides many features for: permission management, sharing background music and dices throw. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.</p>"
-     "<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>"
-     "<p><h3>URL:</h3>  <a href=\"http://www.rolisteam.org\">www.rolisteam.org</a></p> "
-     "<p><h3>BugTracker:</h3> <a href=\"http://code.google.com/p/rolisteam/issues/list\">http://code.google.com/p/rolisteam/issues/list</a></p> "
-     "<p><h3>Current developers :</h3> "
-     "<ul>"
-     "<li><a href=\"http://renaudguezennec.homelinux.org/accueil,3.html\">Renaud Guezennec</a></li>"
-     "</ul></p> "
-     "<p><h3>Retired developers :</h3>"
-     "<ul>"
-     "<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni<a/> (rolistik)  </li>"
-                         "</ul></p>").arg(VERSION),
-                      QMessageBox::Ok, this);
+                          tr("<h1>Rolisteam v%1</h1>"
+         "<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others, share maps or picture. Rolisteam also provides many features for: permission management, sharing background music and dices throw. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.</p>"
+         "<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>"
+         "<p><h3>URL:</h3>  <a href=\"http://www.rolisteam.org\">www.rolisteam.org</a></p> "
+         "<p><h3>BugTracker:</h3> <a href=\"http://code.google.com/p/rolisteam/issues/list\">http://code.google.com/p/rolisteam/issues/list</a></p> "
+         "<p><h3>Current developers :</h3> "
+         "<ul>"
+         "<li><a href=\"http://renaudguezennec.homelinux.org/accueil,3.html\">Renaud Guezennec</a></li>"
+         "</ul></p> "
+         "<p><h3>Retired developers :</h3>"
+         "<ul>"
+         "<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni<a/> (rolistik)  </li>"
+                             "</ul></p>").arg(m_version),
+                          QMessageBox::Ok, this);
+
     QPixmap pix(":/rolisteam-250.png");
 
     info.setIconPixmap( pix.scaled(QSize(100,150),Qt::KeepAspectRatio,Qt::SmoothTransformation));
@@ -731,11 +687,12 @@ void MainWindow::tcpStateConnectionChanged(RClient::State s)
             QByteArray* tmpArray = mtmp->getDataArray();
 
             QDataStream msg(tmpArray,QIODevice::WriteOnly);
-            msg.setVersion(QDataStream::Qt_4_4);
+            //msg.setVersion(QDataStream::Qt_4_4);
             /// @todo: Clean up this thing
 
             mtmp->setCategory(Network::UsersCategory);
             msg <<  (quint32)0 << (quint32)0 << *m_player;
+            qDebug()<< "tcpStateConnectionChanged(RClient::State s)";
 
             m_rclient->addMessageToSendQueue(mtmp);
         }
@@ -777,7 +734,7 @@ void MainWindow::refreshNetworkMenu()
     connect(m_connectionActGroup,SIGNAL(triggered(QAction*)),this,SLOT(onConnection(QAction*)));
     m_networkMenu->addSeparator();
 
-     m_networkMenu->addAction(m_manageConnectionAct);
+    m_networkMenu->addAction(m_manageConnectionAct);
     //connect(m_manageConnectionAct,SIGNAL(triggered()),this,SLOT(showConnectionManager()));
 }
 

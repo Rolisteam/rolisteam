@@ -36,9 +36,12 @@ void UserListDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & 
         if (option.state & QStyle::State_Selected)
             painter->fillRect(option.rect, option.palette.highlight());
 
-
+        //QRectF rectangle(option.rect.x(),option.rect.y(),option.decorationSize.width(),option.rect.height());
+        //painter->setPen(Qt::NoPen);
+        //QBrush brush(p->getPerson()->getColor());
+        //painter->setBrush(brush);
         painter->fillRect(option.rect.x(),option.rect.y(),option.decorationSize.width(),option.rect.height(),p->getPerson()->getColor());
-
+        //painter->drawRoundedRect(rectangle, 15.0, 15.0);
 
         QRectF target(option.rect.x(), option.rect.y(),option.decorationSize.width(), option.rect.height());
 

@@ -36,12 +36,14 @@ bool UpdateChecker::mustBeUpdated()
 
 void UpdateChecker::startChecking()
 {
-#ifdef VERSION
-    m_manager = new QNetworkAccessManager(this);
-    connect(m_manager, SIGNAL(finished(QNetworkReply*)),
-             this, SLOT(readXML(QNetworkReply*)));
-
-     m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/version.xml")));
+#ifdef VERSION_MINOR
+    #ifdef VERSION_MAJOR
+        #ifdef VERSION_MIDDLE
+            m_manager = new QNetworkAccessManager(this);
+            connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(readXML(QNetworkReply*)));
+            m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/version.xml")));
+        #endif
+    #endif
 #endif
 }
 

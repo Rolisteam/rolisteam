@@ -24,6 +24,7 @@
 #include <QHBoxLayout>
 #include <QLayout>
 #include <QCloseEvent>
+#include <QDebug>
 
 #include "userlistwidget.h"
 #include "userlistview.h"
@@ -31,6 +32,8 @@
 
 #include "person.h"
 #include "player.h"
+
+#include "message.h"
 
 UserListWidget::UserListWidget(QWidget *parent) :
     QDockWidget(parent)
@@ -146,4 +149,8 @@ void UserListWidget::closeEvent ( QCloseEvent * event )
     {
         emit changeVisibility(false);
     }
+}
+void UserListWidget::processed(Message *m)
+{
+    qDebug() << m->getSize() << "UserListWidget::processed(Message *m)";
 }

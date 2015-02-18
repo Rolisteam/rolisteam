@@ -23,6 +23,8 @@
 #include <QDockWidget>
 #include <QModelIndex>
 
+#include "messagemanager.h"
+
 class QPushButton;
 class QSlider;
 class QLCDNumber;
@@ -35,7 +37,7 @@ class Player;
 /**
   * @brief UserListWidget is dedicated to show informations about connected player and their character.
   */
-class UserListWidget : public QDockWidget
+class UserListWidget : public QDockWidget, public MessageManager
 {
     Q_OBJECT
 public:
@@ -51,6 +53,11 @@ public:
       * @brief transforms the selection into list of Person
       */
     QList<Person*>* getSelectedPerson();
+
+    /**
+      * @brief performs the message management
+      */
+    void processed(Message *);
 
 signals:
     /**

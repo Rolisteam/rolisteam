@@ -28,7 +28,7 @@ Server::Server(int port,QObject *parent) :
 {
     m_list = new QList<QTcpSocket*>;
     m_messageQueue =new QList<Message*>;
-    m_clientSender = new SenderToClient(m_messageQueue,m_list,this);
+    m_clientSender = new SenderToClient(m_messageQueue,m_list);
 
 
 
@@ -48,6 +48,8 @@ void Server::incommingTcpConnection()
 {
     if(hasPendingConnections())
     {
+       // qDebug() <<  type.size() << "size readAll";
+        emit error(tr("size readAll "));
         QTcpSocket* tmp = nextPendingConnection();
         connect(tmp,SIGNAL(readyRead()),this,SLOT(readDataFromClient()));
         m_list->append(tmp);
@@ -61,6 +63,7 @@ void Server::readDataFromClient()
 
     QByteArray type =tmp->readAll();
     qDebug() <<  type.size() << "size readAll";
+     emit error(tr("size readAll %1").arg(type.size()));
     QDataStream stream(type);
     stream.setVersion(QDataStream::Qt_4_4);
 
@@ -78,10 +81,12 @@ void Server::readDataFromClient()
         {
             case  Network::ChatCategory:
                 qDebug() << "Type of tchat";
+                 emit error(tr("Type of tchat"));
                 break;
             case  Network::UsersCategory:
                 {
                     qDebug() << "Type of User" << size;
+                    emit error(tr("Type of user %1").arg(size));
                     Player* player = new Player();
                     stream >> *player;
                     qDebug() << player->getColor() << player->getName();

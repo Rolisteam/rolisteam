@@ -274,6 +274,8 @@ private :
         SessionManager* m_sessionManager;
 
         UpdateChecker* m_updateChecker;
+
+        QString m_version;
 private slots :
         /**
         * @brief Show the map wizzard

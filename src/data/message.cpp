@@ -54,7 +54,7 @@ void Message::write(QTcpSocket* tmp)
     //qDebug() <<(quint32)m_type<<(quint32)size;*/
 
 
-    qDebug() << tmp->write(m_internalData);
+   qDebug() << tmp->write(m_internalData) << "Message::write(QTcpSocket* tmp)";
 }
 
 QByteArray* Message::getDataArray()

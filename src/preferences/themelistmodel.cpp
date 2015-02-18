@@ -88,7 +88,7 @@ void ThemeListModel::readSettings()
     qRegisterMetaTypeStreamOperators<Theme>("Theme");
     qRegisterMetaTypeStreamOperators<ThemeList>("ThemeList");
 
-    QSettings settings("RolisteamTeam", "Rolisteam/preferencesDialog");
+    QSettings settings("rolisteam", "rolisteam/preferencesDialog");
     QVariant variantmp;
     variantmp.setValue(*m_themeList);
     QVariant variant = settings.value("themeslist",variantmp);
@@ -102,7 +102,7 @@ void ThemeListModel::readSettings()
 void ThemeListModel::writeSettings()
 {
     qDebug() << "write setting in theme model" << m_themeList->size();
-    QSettings settings("RolisteamTeam", "Rolisteam/preferencesDialog");
+    QSettings settings("rolisteam", "rolisteam/preferencesDialog");
     QVariant variantmp;
     variantmp.setValue(*m_themeList);
     settings.setValue("themeslist",variantmp);

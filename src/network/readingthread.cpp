@@ -19,10 +19,10 @@
  ***************************************************************************/
 #include "readingthread.h"
 #include <QTcpSocket>
-ReadingThread::ReadingThread(QTcpSocket* l,QObject *parent) :
+ReadingThread::ReadingThread(QTcpSocket* l,QList<Message*>* list,QObject *parent) :
     QThread(parent),m_socket(l)
 {
-    m_messageQueue = new QList<Message*>;
+    m_messageQueue = list;
 }
 
 void ReadingThread::setConnection(Connection& m)
@@ -41,5 +41,6 @@ void ReadingThread::readDataFromSocket()
     QByteArray array = m_socket->readAll();
     //msg->append(array);
     m_messageQueue->append(msg);
+    emit messageRecieved();
 
 }

@@ -17,22 +17,29 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-#include "rclient.h"
 #include <QHostAddress>
 #include <QDebug>
+
+#include "rclient.h"
+#include "messagemanager.h"
 #include "readingthread.h"
 
 RClient::RClient(QObject *parent)
     : QObject(parent)
 {
     m_client = new QTcpSocket(this);
-    m_reading = new ReadingThread(m_client);
-    m_messageList = new QList<Message*>();
+    m_messageToSendList = new QList<Message*>();
+    m_messageReceivedList = new QList<Message*>();
+
+    //m_registedSender = new QMap<Network::Category,MessageManager*>;
+    m_reading = new ReadingThread(m_client,m_messageReceivedList);
+
     m_currentState =DISCONNECTED;
     connect(m_client,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(errorOccurs()));
     connect(m_client,SIGNAL(connected()),this,SLOT(isConnected()));
     connect(m_client,SIGNAL(readyRead()),m_reading,SLOT(readDataFromSocket()));
+    connect(m_client,SIGNAL(readyRead()),m_reading,SLOT(readDataFromSocket()));
+    connect(m_reading,SIGNAL(messageRecieved()),this,SLOT(dispachRecievedMessage()));
     connect(this,SIGNAL(messageInQueue()),this,SLOT(sendMessage()));
 }
 
@@ -60,23 +67,27 @@ void RClient::isConnected()
     emit connectionEstablished();
     qDebug() << "connected established";
 }
+void RClient::registerMessageManager(Network::Category cat,MessageManager* manager)
+{
+    m_registedSender.insert(cat,manager);
+}
 
 void RClient::addMessageToSendQueue(Message* m)
 {
     m_readingMutex.lock();
-        m_messageList->append(m);
-
+    m_messageToSendList->append(m);
     m_readingMutex.unlock();
+
     emit messageInQueue();
 }
 void RClient::sendMessage()
 {
-    while(!m_messageList->empty())
+    while(!m_messageToSendList->empty())
     {
 
-        Message* m= m_messageList->takeFirst();
+        Message* m= m_messageToSendList->takeFirst();
 
-        qDebug() <<  m->getDataArray()->size();
+        qDebug() <<  m->getDataArray()->size() << "RClient::sendMessage()";
         m->write(m_client);
 
         delete m;
@@ -85,7 +96,18 @@ void RClient::sendMessage()
         m_client->write(t.getDataArray());*/
     }
 }
+void RClient::dispachRecievedMessage()
+{
 
+    while(!m_messageReceivedList->empty())
+    {
+        Message* m= m_messageReceivedList->takeFirst();
+        /// callback system
+        m_registedSender.value(m->getType())->processed(m);
+
+    }
+
+}
 
 
 

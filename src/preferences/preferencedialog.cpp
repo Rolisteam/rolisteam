@@ -204,7 +204,7 @@ void PreferenceDialog::refreshDialogWidgets()
 
 void PreferenceDialog::readSettings()
 {
-    QSettings settings("RolisteamTeam", "Rolisteam/currentTheme");
+    QSettings settings("rolisteam", "rolisteam/currentTheme");
     //qDebug() << "read setting in preference dialog";
     m_currentThemeIndex =  settings.value("currentTheme",m_currentThemeIndex).toInt();
     m_listModel->readSettings();
@@ -213,7 +213,7 @@ void PreferenceDialog::readSettings()
 }
 void PreferenceDialog::writeSettings()
 {
-    QSettings settings("RolisteamTeam", "Rolisteam/currentTheme");
+    QSettings settings("rolisteam", "rolisteam/currentTheme");
    // qDebug() << "write setting in preference dialog";
     settings.setValue("currentTheme",m_currentThemeIndex);
     m_listModel->writeSettings();

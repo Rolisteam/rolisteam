@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Server</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../rolisteam.qrc">
+    <normaloff>:/resources/logo/256-icone.png</normaloff>:/resources/logo/256-icone.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -85,7 +89,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../rolisteam.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>m_passwordrequired</sender>

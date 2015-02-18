@@ -150,12 +150,15 @@ bool Image::eventFilter(QObject *obj,QEvent *e)
 
       QWheelEvent *event = static_cast<QWheelEvent *>(e);
         wheelEvent(event);
+        return true;
 
     }
+    else
     return QObject::eventFilter(obj, e);
 }
 void Image::wheelEvent(QWheelEvent *event)
 {
+
     if(event->modifiers() == Qt::ControlModifier)
     {
         int delta = event->delta();
@@ -167,9 +170,13 @@ void Image::wheelEvent(QWheelEvent *event)
         {
             m_zoomLevel -=0.2;
         }
-        resizeLabel();
-        event->ignore();
 
+        resizeLabel();
+        event->accept();
+    }
+    else
+    {
+        SubMdiWindows::wheelEvent(event);
     }
 }
 
@@ -194,7 +201,7 @@ void Image::onFitWindow()
 void Image::fitWindow()
 {
     QSize windowsize = m_parent->viewport()->size();
-    qDebug()<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
+    //qDebug()<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
     while((windowsize.height()<(m_zoomLevel * m_pixMap.height()))||(windowsize.width()<(m_zoomLevel * m_pixMap.width())))
     {
         m_zoomLevel -= 0.2;
@@ -212,7 +219,12 @@ void Image::fitWindow()
 
 void Image::resizeLabel()
 {
-    qDebug()<< " cdcec"<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
+    //qDebug()<< " cdcec"<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
+
+    if(m_zoomLevel<=0)
+    {
+        m_zoomLevel=0.2;
+    }
     if((m_NormalSize.height()!=0)&&(m_NormalSize.width()!=0))
     {
         m_labelImage->resize(m_zoomLevel * m_NormalSize);
@@ -223,7 +235,7 @@ void Image::resizeLabel()
         m_labelImage->resize(m_zoomLevel * m_pixMap.size());
         m_NormalSize = m_scrollArea->widget()->size();
     }
-    qDebug()<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
+    //  qDebug()<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
 }
 
 void Image::pointeurMain()

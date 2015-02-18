@@ -32,6 +32,7 @@
 
 class ReadingThread;
 class WritingThread;
+class MessageManager;
 /**
   * @brief Tcp client for establishing the connection with the server. It also manages data transfer from/to the server.
   *
@@ -60,12 +61,14 @@ public:
 
     //int getId(void*);
     void addMessageToSendQueue(Message* m);
-
+    void registerMessageManager(Network::Category,MessageManager*);
 public slots:
     /**
       * @brief calls when the connection is well established.
       */
     void isConnected();
+
+    void dispachRecievedMessage();
 
 signals:
     void stateChanged(RClient::State state);
@@ -101,8 +104,9 @@ private:
     State m_currentState;
     ReadingThread* m_reading;
 
-    //QList<void*> m_registedSender;
-    QList<Message*>* m_messageList;
+    QMap<Network::Category,MessageManager*> m_registedSender;
+    QList<Message*>* m_messageToSendList;
+    QList<Message*>* m_messageReceivedList;
     QMutex m_readingMutex;
     QMutex m_writingMutex;
 };

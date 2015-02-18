@@ -2,7 +2,7 @@ TEMPLATE = app
 CONFIG += qt \
     phonon
 CONFIG += HAVE_PHONON
-
+DEFINES += VERSION_MAJOR=2 VERSION_MIDDLE=0 VERSION_MINOR=0
 # CONFIG += HAVE_FMOD
 # CONFIG += HAVE_NULL
 QT += core \
@@ -92,7 +92,7 @@ target.file= ../bin/rolisteam
 target.path=/usr/bin/
 INSTALLS += documentation \
     target
-DEFINES += VERSION=\\\"2.0.0\\\"
+
 UI_DIR = ../ui
 MOC_DIR = ../obj
 OBJECTS_DIR = ../obj
