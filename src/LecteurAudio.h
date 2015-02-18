@@ -98,7 +98,7 @@ private :
     void emettreCommande(actionMusique action, QString nomFichier = "", quint64 position = 0, Liaison * link = NULL);
 
 
-    static LecteurAudio* singleton;//!< @brief static pointer to the unique instance of this audioplayer
+    static LecteurAudio* m_singleton;//!< @brief static pointer to the unique instance of this audioplayer
 
 
         /**
@@ -106,9 +106,9 @@ private :
         */
     void setupUi();
     qint64 m_time;//!< @brief current time
-    Phonon::MediaSource *m_currentsource;//!< @brief current audio source
+    Phonon::MediaSource *m_currentSource;//!< @brief current audio source
     Phonon::SeekSlider *seekSlider; //!< @brief Allows to seek in the song (Phonon only)
-    Phonon::MediaObject *mediaObject; //!<  (Phonon only)
+    Phonon::MediaObject *m_mediaObject; //!<  (Phonon only)
     Phonon::AudioOutput *audioOutput; //!< (Phonon only)
     Phonon::VolumeSlider *volumeSlider; //!< @brief Allows to adjust the sound volume (Phonon only)
     Phonon::Path* path; //!< (Phonon only)
@@ -119,7 +119,7 @@ private :
     QWidget *widgetAffichage;        //!< @brief Displays some gauges (for Player and GM.)
     QWidget *widgetCommande;        //!< @brief Displays the control panel (GM only)
     QVBoxLayout *layoutPrincipal;    //!< @brief layout
-    QLineEdit *afficheurTitre;        //!< @brief Displays the title of the played song
+    QLineEdit *m_titleDisplay;        //!< @brief Displays the title of the played song
 
     QString m_currentFile;
     QListWidgetItem* m_currentItemFile;
@@ -127,16 +127,16 @@ private :
 
 
     QLCDNumber *afficheurTemps;        //!< @brief displays the past time of the playing
-    QListWidget *listeTitres;        //!< @brief displays all avaliable songs
-    QList<QString> listeChemins;            //!< @brief Path list
+    QListWidget *m_songList;        //!< @brief displays all avaliable songs
+    QList<QString> m_pathList;            //!< @brief Path list
     QActionGroup* m_playingMode;
-    QAction *actionLecture;            //!< @brief Play action
-    QAction *actionPause;            //!< @brief Pause action
-    QAction *m_actionStop;            //!< @brief Stop action
-    QAction *actionBoucle;            //!< @brief loop playing action
-    QAction *actionUnique;            //!< @brief one song playing mode action
-    QAction *actionAjouter;            //!< @brief add song action
-    QAction *actionSupprimer;        //!< @brief remove song action
+    QAction *m_playAction;            //!< @brief Play action
+    QAction *m_pauseAction;            //!< @brief Pause action
+    QAction *m_stopAction;            //!< @brief Stop action
+    QAction *m_loopAction;            //!< @brief loop playing action
+    QAction *m_uniqueAction;            //!< @brief one song playing mode action
+    QAction *m_addAction;            //!< @brief add song action
+    QAction *m_deleteAction;        //!< @brief remove song action
 
 
     PlayingMode m_currentPlayingMode;
