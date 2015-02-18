@@ -50,7 +50,7 @@ public :
     void initialize();
 signals:
     void disconnected(Liaison * link);
-    void receptionSpeed(qreal);
+    void readDataReceived(quint64,quint64);
 
 public slots :
     void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf = 0);

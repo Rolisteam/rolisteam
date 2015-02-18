@@ -91,6 +91,8 @@ signals :
 
     void linkAdded(Liaison * link);
     void linkDeleted(Liaison * link);
+    void dataReceived(quint64,quint64);
+
 
     void stopConnectionTry();
 

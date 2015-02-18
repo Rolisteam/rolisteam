@@ -149,6 +149,13 @@ MainWindow::MainWindow()
 {
     m_preferences = PreferencesManager::getInstance();
     m_newEmptyMapDialog = new NewEmptyMapDialog(this);
+    m_downLoadProgressbar = new QProgressBar();
+    m_downLoadProgressbar->setRange(0,100);
+
+
+
+    m_downLoadProgressbar->setVisible(false);
+
 
     m_mapWizzard = new MapWizzard(this);
     m_networkManager = new ClientServeur;
@@ -305,6 +312,26 @@ void MainWindow::updateWindowTitle()
                    .arg(m_networkManager->isServer() ? tr("Server") : tr("Client")).arg(m_playerList->localPlayer()->isGM() ? tr("GM") : tr("Player")));
 
 
+
+}
+void MainWindow::receiveData(quint64 readData,quint64 size)
+{
+    if(size==0)
+    {
+        m_downLoadProgressbar->setVisible(false);
+        statusBar()->removeWidget(m_downLoadProgressbar);
+        statusBar()->setVisible(false);
+    }
+    else if(readData!=size)
+    {
+        statusBar()->setVisible(true);
+               qDebug()<< readData << size;
+        statusBar()->addWidget(m_downLoadProgressbar);
+        m_downLoadProgressbar->setVisible(true);
+        quint64 i = (size-readData)*100/size;
+
+        m_downLoadProgressbar->setValue(i);
+    }
 
 }
 
@@ -1037,7 +1064,7 @@ void MainWindow::mettreAJourEspaceTravail()
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
 
 
-    if (active)
+    if (NULL!=active)
     {
         changementFenetreActive(active);
     }
@@ -1913,9 +1940,19 @@ void MainWindow::setUpNetworkConnection()
     {
         qDebug() << "user is server";
         // send datas on new connection if we are the server
-        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
-        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
+        // send datas on new connection if we are the server
+//        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
+//        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
+          connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(updateSessionToNewClient(Liaison*)));
     }
+    connect(m_networkManager, SIGNAL(dataReceived(quint64,quint64)), this, SLOT(receiveData(quint64,quint64)));
+
+}
+void MainWindow::updateSessionToNewClient(Liaison* link)
+{
+   // m_playersListWidget->throwUserInfoToNewClient(link);
+    emettreTousLesPlans(link);
+    emettreToutesLesImages(link);
 }
 
 void MainWindow::setNetworkManager(ClientServeur* tmp)

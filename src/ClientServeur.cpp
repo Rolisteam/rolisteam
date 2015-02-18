@@ -258,6 +258,7 @@ void ClientServeur::ajouterLiaison(Liaison *liaison)
     liaisons.append(liaison);
     connect(this, SIGNAL(emissionDonnees(char *, quint32, Liaison *)),liaison, SLOT(emissionDonnees(char *, quint32, Liaison *)));
     connect(liaison, SIGNAL(disconnected(Liaison *)),this, SLOT(finDeLiaison(Liaison *)));
+    connect(liaison,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
     emit linkAdded(liaison);
 }
 

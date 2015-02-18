@@ -149,8 +149,7 @@ void Liaison::reception()
     quint32 lu=0;
 
 
-    static quint64 readDataSum=0;
-    static quint64 readDataSum2=0;
+
 
     static int laps=0;
     while (m_socketTcp->bytesAvailable())
@@ -158,14 +157,14 @@ void Liaison::reception()
         // S'il s'agit d'un nouveau message
         if (!receptionEnCours)
         {
-            m_time.start();
-            m_time2.start();
             // On recupere l'entete du message
             m_socketTcp->read((char *)&entete, sizeof(NetworkMessageHeader));
             // Reservation du tampon
             tampon = new char[entete.dataSize];
             // Initialisation du restant a lire
             restant = entete.dataSize;
+            emit readDataReceived(entete.dataSize,entete.dataSize);
+
         }
 
         // Lecture des donnees a partir du dernier point
@@ -176,28 +175,8 @@ void Liaison::reception()
         {
             restant-=lu;
             receptionEnCours = true;
-
-            readDataSum+=lu;
-            readDataSum2+=lu;
-
-            if(laps%10)
-            {
-                int millisec = m_time.elapsed();
-                int millisec2 = m_time2.elapsed();
-
-                if(millisec>0)
-                {
-                    qDebug() << (readDataSum/(millisec/1000.0)) << "ko/s firstMethod" << m_time.secsTo(QTime::currentTime());
-                    qDebug() << (readDataSum2*(1000.0/millisec2)) << "ko/s second Method";
-                }
-
-                laps = 0;
-                m_time2.restart();
-                readDataSum2=0;
-            }
-            laps++;
-
-
+            emit readDataReceived(restant,entete.dataSize);
+            //qDebug("Reception par morceau");
         }
 
         // Si toutes les donnees ont pu etre lu
@@ -206,6 +185,7 @@ void Liaison::reception()
 
             // Envoie la notification sur la mainWindows
             QApplication::alert(m_mainWindow);
+            emit readDataReceived(0,0);
 
             // Send event
             if (ReceiveEvent::hasReceiverFor(entete.category, entete.action))

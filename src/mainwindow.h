@@ -30,7 +30,7 @@
 #include <QAction>
 #include <QTextEdit>
 #include <QMenu>
-#include <QWorkspace>
+#include <QProgressBar>
 #include <QMdiSubWindow>
 
 
@@ -246,6 +246,8 @@ private slots :
     void updateMayBeNeeded();
     void emettreTousLesPlans(Liaison * link);
     void emettreToutesLesImages(Liaison * link);
+    void updateSessionToNewClient(Liaison* link);
+    void receiveData(quint64 readData,quint64 size);
 
 
     //Network private Slot
@@ -392,6 +394,7 @@ private :
 
     //subwindow
     QMdiSubWindow* m_noteEditorSub;
+    QProgressBar* m_downLoadProgressbar;
 };
 
 #endif
