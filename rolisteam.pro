@@ -153,7 +153,7 @@ HAVE_NULL {
  DEFINES+= NULL_PLAYER
 }
 # End of audio
-
+ICON = resources/logo/256-icon.icns
 
 RESOURCES += rolisteam.qrc
 
@@ -177,7 +177,7 @@ win32:INCLUDEPATH+="C:/Program Files (x86)/GnuWin32/include"
 # Version
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=6 VERSION_MINOR=0
 
-RC_FILE = "resources/logo/rolisteam.rc"
+win32:RC_FILE = "resources/logo/rolisteam.rc"
 
 #DEFINES += QT_NO_WARNING_OUTPUT
 #}
