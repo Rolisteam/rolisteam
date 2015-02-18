@@ -1894,7 +1894,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferencesdialogbox.ui" line="204"/>
         <source>Default Permission:</source>
-        <translation>Premission des plans par défaut:</translation>
+        <translation>Permissions des plans par défaut:</translation>
     </message>
     <message>
         <location filename="../src/preferencesdialogbox.ui" line="230"/>
@@ -2188,7 +2188,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="320"/>
         <source>&amp;Underline</source>
-        <translation>So&amp;ulignez</translation>
+        <translation>So&amp;ulignage</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="335"/>

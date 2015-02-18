@@ -98,6 +98,7 @@ TextEdit::TextEdit(QWidget *parent)
     : QMainWindow(parent)
 {
 
+    setObjectName("TextEdit");
     setupFileActions();
     setupEditActions();
     setupTextActions();

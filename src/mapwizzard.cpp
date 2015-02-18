@@ -75,6 +75,6 @@ void MapWizzard::resetData()
 {
     ui->m_titleEdit->setText("");
     ui->m_hiddenCheckbox->setChecked(false);
-    ui->m_permissionSelector->setCurrentIndex(0);
+    ui->m_permissionSelector->setCurrentIndex(m_preferences->value("defaultPermissionMap",0).toInt());
     ui->m_filepathDisplay->setText("");
 }

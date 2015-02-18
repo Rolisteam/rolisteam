@@ -976,8 +976,6 @@ QString ChatWindow::getTitleFromChat()
 
 void ChatWindow::showEvent(QShowEvent *event)
 {
-      qDebug()<< "showEvent " << this;
-
     m_editionZone->setFocus(Qt::OtherFocusReason);
     if(m_selectPersonComboBox->currentText().isEmpty())
     {
@@ -992,7 +990,6 @@ void ChatWindow::showEvent(QShowEvent *event)
 }
 void ChatWindow::hideEvent(QHideEvent *event)
 {
-    qDebug()<< "hideEvent ChatWindow" << this;
     if(NULL!=m_toggleViewAction)
     {
         m_toggleViewAction->setChecked(false);
