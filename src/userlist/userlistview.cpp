@@ -49,6 +49,8 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
     int icon = 0;
     if(iconSize().isValid())
         icon = iconSize().width();
+    else
+        icon = indentationValue;
 
     if(tmp.isValid())
     {
@@ -59,9 +61,9 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
             depth++;
             tmp=tmp.parent();
         }
-        qDebug() << "indentationValue" << indentationValue << iconSize() << event->pos().x() << depth << ((depth+1)*indentationValue+icon);
+       // qDebug() << "indentationValue" << indentationValue << iconSize() << event->pos().x() << depth << ((depth)*indentationValue+icon);
         //if the click is on the color icon.
-        if((depth*indentationValue+indentationValue<event->pos().x())&&((++depth)*indentationValue+icon>=event->pos().x()))
+        if((depth*indentationValue<event->pos().x())&&((depth)*indentationValue+icon>=event->pos().x()))
         {
             emit editCurrentItemColor();
         }
@@ -75,7 +77,7 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
 void UserListView::customContextMenuEvent ( QPoint e )
 {
     QMenu popMenu(this);
-    popMenu.addAction(tr("Set Avatar"));
+    popMenu.addAction(tr("Set Avatar..."));
     /// @todo check if the position is a valid person (and belongs to the user)
     if(popMenu.exec(this->mapToGlobal(e)))
     {

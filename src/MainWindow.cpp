@@ -54,7 +54,7 @@
 
 //session
 #include "session.h"
-
+#include "sessionmanager.h"
 
 
 
@@ -72,7 +72,8 @@ MainWindow::MainWindow()
     m_rclient= new RClient();
 
     readSettings();
-
+    m_sessionManager = new SessionManager();
+    addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
     m_preferenceDialog->initValues();
 
     m_workspace = new ImprovedWorkspace(this/*m_toolbar->currentColor()*/);

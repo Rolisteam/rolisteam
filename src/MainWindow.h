@@ -53,74 +53,16 @@ class CharacterSheetWindow;
 class Player;
 class DicePlugInManager;
 class UpdateChecker;
+class SessionManager;
 class Session;
+
+
+
 
 
 /**
   * @brief stores file URIs and keeps its type, useful for recent opened files
   */
-
-<<<<<<< .mine
-=======
-public:
-    /**
-      * @brief content type, some file can be opened by several module
-      */
-    enum ContentType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET};
-    /**
-      * @brief default constructor
-      */
-    CleverURI();
-    /**
-      * @brief copy constructor
-      */
-    CleverURI(const CleverURI & mp);
-    /**
-      * @brief constructor with parameters
-      */
-    CleverURI(QString uri,ContentType type);
-    /**
-      * @brief virtual destructor
-      */
-    ~CleverURI();
-    /**
-      * @brief defines the uri stored
-      */
-    void setUri(QString& uri);
-    /**
-      * @brief defines the media type.
-      */
-    void setType(int type);
-    /**
-      * @brief accessor to get the uri
-      */
-    const QString& getUri() const;
-    /**
-      * @brief accessor to get the type
-      */
-    int getType() const;
-    /**
-      * @brief compare operator useful for removing any doubling into the list
-      */
-    bool operator==(const CleverURI& uri1) const;
-private:
-    /**
-      * @brief Uri
-      */
-    QString m_uri;
-    /**
-      * @brief type
-      * @todo could be of another type
-      */
-    int m_type;
-
-    friend QDataStream& operator<<(QDataStream& os,const CleverURI&);
-    friend QDataStream& operator>>(QDataStream& is,CleverURI&);
-};
-typedef QList<CleverURI> CleverUriList;
-Q_DECLARE_METATYPE(CleverURI)
-Q_DECLARE_METATYPE(CleverUriList)
-
 #include "rclient.h"
 
 /**
@@ -325,12 +267,15 @@ private :
         /**
           * @brief QStringList of opened documents : file paths
           */
+
       /*  QStringList m_recentFiles;
         QList<int> m_recentTypes;*/
         //QList<CleverURI> m_recentFiles;
         Session* m_session;
 
         UpdateChecker* m_updateChecker;
+
+        SessionManager* m_sessionManager;
 private slots :
         /**
         * @brief Show the map wizzard

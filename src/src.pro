@@ -19,6 +19,8 @@ include(tchat/tchat.pri)
 include(dicepluginmanager/dicepluginmanager.pri)
 include(widget/widget.pri)
 include(network/network.pri)
+include(session/session.pri)
+
 DEPENDPATH += . \
     drawitem \
     preferences \
@@ -27,6 +29,7 @@ DEPENDPATH += . \
     charactersheet \
     dicepluginmanager \
     widget \
+    session \
     network \
     tchat \
     map
@@ -34,6 +37,7 @@ INCLUDEPATH += . \
     drawitem \
     preferences \
     widget \
+    session \
     userlist \
     dicepluginmanager \
     data \

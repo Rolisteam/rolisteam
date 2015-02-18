@@ -33,6 +33,8 @@ void UserListDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & 
     {
         QRect tmp = option.rect;
         //tmp.setLeft();
+        if (option.state & QStyle::State_Selected)
+            painter->fillRect(option.rect, option.palette.highlight());
 
 
         painter->fillRect(option.rect.x(),option.rect.y(),option.decorationSize.width(),option.rect.height(),p->getPerson()->getColor());
@@ -42,8 +44,9 @@ void UserListDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & 
 
     }
     painter->restore();
-    qDebug() << option.decorationSize << option.rect << p->getPerson()->getColor()<< option.decorationPosition;
-   // QItemDelegate::paint(painter,option,index);
+    //qDebug() << option.decorationSize << option.rect << p->getPerson()->getColor()<< option.decorationPosition;
+    //QItemDelegate::paint(painter,option,index);
+    //QApplication::style()->drawControl(QStyle::CE_ComboBoxLabel, box, painter);
 
 }
 QSize UserListDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
@@ -54,9 +57,8 @@ QSize UserListDelegate::sizeHint ( const QStyleOptionViewItem & option, const QM
     {
         returnValue.setWidth(option.fontMetrics.width(p->getPerson()->getName()));
         returnValue.setHeight(option.fontMetrics.height());
-
     }
-    qDebug() << " height" << returnValue.height();
+  //  qDebug() << " height" << returnValue.height();
    // qDebug() << QItemDelegate::sizeHint(option,index);
     return returnValue;
    // return QItemDelegate::sizeHint(option,index);

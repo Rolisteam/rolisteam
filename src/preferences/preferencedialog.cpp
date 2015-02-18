@@ -163,7 +163,6 @@ void PreferenceDialog::applyAllChanges(QAbstractButton * button)
 }
 void PreferenceDialog::addDefaultTheme()
 {
-
     m_current.setName(tr("Default"));
     m_current.setBackgroundColor(m_options->value("worspace/background/color",QColor(191,191,191)).value<QColor>());
     m_current.setBackgroundImage(m_options->value("worspace/background/image",":/resources/icones/fond workspace macos.bmp").toString());
