@@ -213,9 +213,15 @@ bool PrivateChat::belongsTo(Player * player) const
 
 void PrivateChat::sendThem(NetworkMessage & message, Liaison * but) const
 {
+    p_sendThem(message, but, false);
+}
+
+void PrivateChat::p_sendThem(NetworkMessage & message, Liaison * but, bool force) const
+{
     if (G_client)
     {
-        message.sendAll(but);
+        if (force || m_set.size() > 1)
+            message.sendAll(but);
         return;
     }
 
@@ -308,7 +314,7 @@ void PrivateChat::sendUpdate() const
         i++;
     }
 
-    sendThem(message, m_owner->link());
+    p_sendThem(message, m_owner->link(), true);
 }
 
 
@@ -338,7 +344,7 @@ void PrivateChat::set(const QString & name, const QSet<Player *> & set)
         qWarning("Can't change this private chat locally.");
         return;
     }
-    p_set(name, set);
+    p_set(name, set, true);
 }
 
 void PrivateChat::p_set(const QString & name, QSet<Player *> set, bool thenUpdate)

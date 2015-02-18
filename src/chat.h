@@ -141,7 +141,8 @@ class PrivateChat : public AbstractChat
         Player * m_owner;
         QSet<Player *> m_set;
 
-        void p_set(const QString & name, QSet<Player *> set, bool update = true);
+        void p_sendThem(NetworkMessage & message, Liaison * but, bool force) const;
+        void p_set(const QString & name, QSet<Player *> set, bool update);
 };
 
 #endif
