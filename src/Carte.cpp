@@ -46,7 +46,7 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
     m_currentMode = Carte::GM_ONLY;
     m_currentTool = BarreOutils::main;
 
-    m_fogColor = PreferencesManager::getInstance()->value("fog_color",QVariant(Qt::black)).value<QColor>();
+    m_fogColor = PreferencesManager::getInstance()->value("Fog_color",QVariant(Qt::black)).value<QColor>();
 
     m_originalBackground = new QImage(image->size(), QImage::Format_ARGB32);
     *m_originalBackground = image->convertToFormat(QImage::Format_ARGB32);
@@ -58,7 +58,7 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
 
     m_alphaLayer = new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
     QPainter painterAlpha(m_alphaLayer);
-    painterAlpha.fillRect(0, 0, image->width(), image->height(), masquer?m_fogColor:Qt::white);
+    painterAlpha.fillRect(0, 0, image->width(), image->height(), masquer?m_fogColor:Qt::transparent);
 
     p_init();
 }
@@ -251,8 +251,8 @@ void Carte::mousePressEvent(QMouseEvent *event)
             else if (m_currentTool == BarreOutils::main)
             {
                 // On initialise le deplacement de la Carte
-                if((!G_joueur)||
-                  (((m_currentMode == Carte::PC_ALL))))
+                //if((!G_joueur)||
+               //   (((m_currentMode == Carte::PC_ALL))))
                 {
                     emit commencerDeplacementCarteFenetre(mapToGlobal(pos));
                 }

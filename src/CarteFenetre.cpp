@@ -104,6 +104,7 @@ Carte * CarteFenetre::carte()
 
 void CarteFenetre::commencerDeplacement(QPoint position)
 {
+    qDebug() << "commencer"<<position;
     pointDepart = position;
     horizontalDepart = horizontalScrollBar()->value();
     verticalDepart = verticalScrollBar()->value();
@@ -111,7 +112,7 @@ void CarteFenetre::commencerDeplacement(QPoint position)
 
 void CarteFenetre::deplacer(QPoint position)
 {
-
+    qDebug() << "deplacer"<<position;
     QPoint diff = pointDepart - position;
     horizontalScrollBar()->setValue(horizontalDepart + diff.x());
     verticalScrollBar()->setValue(verticalDepart + diff.y());
