@@ -339,7 +339,7 @@ void ClientServeur::finDeLiaison()
                 LecteurAudio * lecteurAudio = LecteurAudio::getInstance();
                 if(lecteurAudio==NULL)
                     lecteurAudio = LecteurAudio::getInstance();
-                lecteurAudio->joueurNouveauFichier("");
+                lecteurAudio->pselectNewFile("");
             }
 #endif
         // Suppression de l'utilisateur dans la liste

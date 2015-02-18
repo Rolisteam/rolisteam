@@ -2007,7 +2007,7 @@ void MainWindow::changementNatureUtilisateur()
 #ifndef NULL_PLAYER
     // M.a.j du lecteur audio (pour que le changement de taille se passe correctement, on enleve puis on remet le dockWidget)
         removeDockWidget(G_lecteurAudio);
-        G_lecteurAudio->autoriserOuIntedireCommandes();
+        //G_lecteurAudio->autoriserOuIntedireCommandes();
         addDockWidget(Qt::RightDockWidgetArea, G_lecteurAudio);
         G_lecteurAudio->show();
 #endif

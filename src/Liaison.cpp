@@ -391,7 +391,7 @@ void Liaison::receptionMessageJoueur()
                 // On met a jour l'espace de travail en consequence (limitation des droits)
                 G_mainWindow->changementNatureUtilisateur();
                 // On affiche un message dans le log utilisateur
-                ecrireLogUtilisateur(tr("Un MJ est déjà  connecté au serveur, celui-ci vous donne donc le statut de joueur"));
+                ecrireLogUtilisateur(tr("Un MJ est déj�   connecté au serveur, celui-ci vous donne donc le statut de joueur"));
             }
         }
 
@@ -421,7 +421,7 @@ void Liaison::receptionMessageJoueur()
 #ifndef NULL_PLAYER
         // Si l'utilisateur etait le MJ, on reinitialise le lecteur audio
         if (G_listeUtilisateurs->estUnMj(idJoueur))
-            G_lecteurAudio->joueurNouveauFichier("");
+            G_lecteurAudio->pselectNewFile("");
 #endif
         // On supprime le joueur de la liste
         G_listeUtilisateurs->supprimerJoueur(idJoueur);
@@ -1706,6 +1706,25 @@ void Liaison::receptionMessageMusique()
 
     // Si l'ordinateur local est le serveur, on fait suivre la commande du lecteur audio aux autres clients
     faireSuivreMessage(false);
+    switch(entete.action)
+    {
+        case nouveauMorceau:
+            qDebug() << " nouveau morceau";
+            break;
+        case lectureMorceau:
+            qDebug() << " lecture morceau";
+            break;
+        case pauseMorceau:
+            qDebug() << " pause morceau";
+            break;
+        case arretMorceau:
+            qDebug() << " arret morceau";
+            break;
+        case nouvellePositionMorceau:
+            qDebug() << " nouvelle position morceau";
+            break;
+    }
+
 
     // L'hote demande a l'ordinateur local de charger la musique dont le nom est passe en parametre
     if (entete.action == nouveauMorceau)
@@ -1721,7 +1740,7 @@ void Liaison::receptionMessageMusique()
 
         // On charge le nouveau fichier dans le lecteur
                     qDebug() << nomFichier <<endl;
-        G_lecteurAudio->joueurNouveauFichier(nomFichier);
+        G_lecteurAudio->pselectNewFile(nomFichier);
 
         // Liberation de la memoire allouee
         delete[] tableauNomFichier;
@@ -1731,21 +1750,21 @@ void Liaison::receptionMessageMusique()
     else if (entete.action == lectureMorceau)
     {
         // On demande au lecteur audio de mettre la lecture en pause
-        G_lecteurAudio->joueurLectureMorceau();
+        G_lecteurAudio->pplay();
     }
 
     // Demande de mise en pause de la lecture
     else if (entete.action == pauseMorceau)
     {
         // On demande au lecteur audio de mettre la lecture en pause
-        G_lecteurAudio->joueurPauseMorceau();
+        G_lecteurAudio->ppause();
     }
 
     // Demande d'arret de la lecture
     else if (entete.action == arretMorceau)
     {
         // On demande au lecteur audio de mettre la lecture en pause
-        G_lecteurAudio->joueurArretMorceau();
+        G_lecteurAudio->pstop();
     }
 
     // Demande de changement de position de la lecture
@@ -1757,7 +1776,7 @@ void Liaison::receptionMessageMusique()
         p+=sizeof(quint32);
 
         // On demande au lecteur audio de changer la position de la lecture
-        G_lecteurAudio->joueurChangerPosition(nouvellePosition);
+        G_lecteurAudio->pseek(nouvellePosition);
     }
 
     else
