@@ -39,14 +39,14 @@
 
 
 #include "ToolBar.h"
-//#include "ListeUtilisateurs.h"
+
 
 #include "Tchat.h"
 #include "Image.h"
 #include "MinutesEditor.h"
 //#include "ClientServeur.h"
 #include "audioplayer.h"
-#include "userlistdockwidget.h"
+#include "userlistwidget.h"
 #include "mapwizzarddialog.h"
 
 
@@ -60,6 +60,7 @@ class QActionGroup;
 class PreferenceDialog;
 class ConnectionWizzard;
 class CharacterSheetWindow;
+class Player;
 class MainWindow : public QMainWindow
 {
 Q_OBJECT
@@ -68,11 +69,8 @@ public :
         MainWindow();
 
 
-        Image* trouverImage(QString idImage);
         Tchat* trouverTchat(QString idJoueur);
-        bool estLaFenetreActive(QWidget *widget);
-        bool enleverCarteDeLaListe(QString idCarte);
-        bool enleverImageDeLaListe(QString idImage);
+        bool isActiveWindow(QWidget *widget);
 
 
 public slots :
@@ -104,15 +102,17 @@ private slots:
      */
     void showPreferenceManager();
 
+    /**
+     * @brief is called when user click on usedTabBarAct item menu.
+     */
+    void onTabBar();
+
 private :
         bool maybeSave();
-        QDockWidget* creerLogUtilisateur();
         void createMenu();
-        void associerActionsMenus();
-        void autoriserOuInterdireActions();
+        void connectActions();
+        void allowActions();
         void saveAll();
-
-
 
         /**
          * Load informations from the previous rolisteam's execution
@@ -124,10 +124,9 @@ private :
          */
         void writeSettings();
 
-        QDockWidget *dockLogUtil;
         ImprovedWorkspace* m_workspace;
-        QMenu *menuFenetre;
-        QMenu *sousMenuTchat;
+        QMenu *windowMenu;
+        QMenu *tchatSubMenu;
         ToolsBar *m_toolbar;
 
         MinutesEditor* minutesEditor;
@@ -136,35 +135,47 @@ private :
         QList <Tchat *> listeTchat;
         AudioPlayer* m_audioPlayer;
 
-        QAction *newMapAction;
-        QAction *OpenImageAction;
-        QAction *actionOuvrirPlan;
-        QAction *actionOuvrirEtMasquerPlan;
-        QAction *actionOuvrirScenario;
-        QAction *actionOuvrirNotes;
-        QAction *actionFermerPlan;
-        QAction *actionSauvegarderPlan;
-        QAction *actionSauvegarderScenario;
-        QAction *actionSauvegarderNotes;
+        QMenu *m_fileMenu;
+        QMenu* m_newMenu;
+        QAction* m_newMapAct;
+        QAction* m_newNoteAct;
+        QAction* m_newScenarioAct;
+
+        QMenu* m_openMenu;
+        QAction* m_openMapAct;
+        QAction* m_openMapHiddenAct;
+        QAction* m_openPictureAct;
+        QAction* m_openScenarioAct;
+        QAction* m_openNoteAct;
+
+        QMenu* m_recentlyOpened;
+
+        QAction* m_saveAct;
+        QAction* m_saveAsAct;
+        QAction* m_saveAllAct;
+        QAction* m_saveAllIntoScenarioAct;
+
         QAction *m_preferencesAct;
-        QAction *actionQuitter;
 
-        QAction *actionAfficherNomsPj;
-        QAction *actionAfficherNomsPnj;
-        QAction *actionAfficherNumerosPnj;
-        QAction *actionSansGrille;
-        QAction *actionCarre;
-        QAction *actionHexagones;
+        QAction* m_closeAct;
+        QAction* m_quitAct;
 
-        QAction *actionCascade;
-        QAction *actionTuiles;
-        QAction *actionEditeurNotes;
-        QAction *actionTchatCommun;
-        QAction* m_showDataSheet;
+        //QMenu *m_editMenu;
 
-        QAction *actionHelp;
-        QAction *actionAPropos;
+        QMenu *m_viewMenu;
 
+        QAction* m_usedTabBarAct;
+        QMenu* m_organizeMenu;
+        QAction* m_cascadeSubWindowsAct;
+        QAction* m_tileSubWindowsAct;
+        QAction* m_noteEditoAct;
+        QAction* m_dataSheetAct;
+
+
+        //Help menu
+        QMenu *m_helpMenu;
+        QAction *m_helpAct;
+        QAction *m_aproposAct;
 
 
         /**
@@ -175,8 +186,11 @@ private :
         /**
           * pointer to the userlist widget.
           */
-        UserListDockWidget* m_playerListDockWidget;
-
+        UserListWidget* m_playerListWidget;
+        /**
+          *
+          */
+        Player* m_player;
 
         QMenu* m_currentWindowMenu;
 
@@ -226,8 +240,6 @@ private :
         CharacterSheetWindow* m_characterSheet;
 
 private slots :
-        void changementFenetreActive(QMdiSubWindow *widget);
-
         /**
         * @brief Show the map wizzard
         *
@@ -248,7 +260,7 @@ private slots :
 
 
         /// \brief open the Qt assistant with the rolisteam documentation
-        void aideEnLigne();
+        void help();
 
 
 

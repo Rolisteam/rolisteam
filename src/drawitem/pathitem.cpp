@@ -27,6 +27,8 @@ PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,QGraphicsItem * p
     m_pen.setColor(penColor);
     m_pen.setWidth(penSize);
     m_pen.setCapStyle(Qt::RoundCap);
+    m_pen.setJoinStyle(Qt::RoundJoin);
+
 }
 QRectF PathItem::boundingRect() const
 {

@@ -52,7 +52,8 @@ MapFrame::MapFrame(Map *map)
     m_widgetLayout->setLayout(m_hlayout);
 
     setWidget(m_widgetLayout);
-    //setLayout(hlayout);
+    setWindowIcon(QIcon(":/resources/icons/icone plan.png"));
+
     m_maskPixmap = new QPixmap(m_graphicView->size());
 
     m_currentEditingMode=ColorSelector::NORMAL;

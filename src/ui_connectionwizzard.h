@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'connectionwizzard.ui'
 **
-** Created: Sat Aug 28 14:22:00 2010
-**      by: Qt User Interface Compiler version 4.6.3
+** Created: Mon Nov 1 11:13:39 2010
+**      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/

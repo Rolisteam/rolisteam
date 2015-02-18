@@ -42,7 +42,7 @@ ImprovedWorkspace::ImprovedWorkspace(QColor& penColor,QWidget *parent)
     QPainter painter(m_variableSizeBackground);
 
 
-    m_backgroundPicture = new QPixmap(m_options->value("worspace/background/image",":/resources/icones/fond workspace macos.bmp").toString());
+    m_backgroundPicture = new QPixmap(m_options->value("worspace/background/image",":/resources/icons/fond workspace macos.bmp").toString());
 
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
     this->setBackground(QBrush(*m_variableSizeBackground));
@@ -113,7 +113,7 @@ void ImprovedWorkspace::currentColorChanged(QColor& color)
 
 void ImprovedWorkspace::initCursors()
 {
-        QBitmap bitmap(":/resources/icones/pointeur dessin.png");
+        QBitmap bitmap(":/resources/icons/pointeur dessin.png");
         #ifdef Q_WS_MAC
             QBitmap drawmask(32,32);
             drawmask.fill(Qt::color0);
@@ -122,7 +122,7 @@ void ImprovedWorkspace::initCursors()
             m_drawingCursor = new QCursor(bitmap, 8, 8);
         #endif
 
-            QBitmap textBitmap(":/resources/icones/pointeur texte.png");
+            QBitmap textBitmap(":/resources/icons/pointeur texte.png");
         #ifdef Q_WS_MAC
             QBitmap drawmask(32,32);
             drawmask.fill(Qt::color0);
@@ -132,22 +132,22 @@ void ImprovedWorkspace::initCursors()
         #endif
 
 
-        QPixmap movePixmap(":/resources/icones/pointeur deplacer.png");
+        QPixmap movePixmap(":/resources/icons/pointeur deplacer.png");
         m_moveCursor = new QCursor(movePixmap, 0, 0);
 
-        QPixmap rotatePixmap(":/resources/icones/pointeur orienter.png");
+        QPixmap rotatePixmap(":/resources/icons/pointeur orienter.png");
         m_rotateCursor = new QCursor(rotatePixmap, 10, 12);
 
-        QPixmap pipettePixmap(":/resources/icones/pointeur pipette.png");
+        QPixmap pipettePixmap(":/resources/icons/pointeur pipette.png");
         m_pipetteCursor = new QCursor(pipettePixmap, 1, 19);
 
-        QPixmap addPixmap(":/resources/icones/pointeur ajouter.png");
+        QPixmap addPixmap(":/resources/icons/pointeur ajouter.png");
         m_addCursor = new QCursor(addPixmap, 6, 0);
 
-        QPixmap deletePixmap(":/resources/icones/pointeur supprimer.png");
+        QPixmap deletePixmap(":/resources/icons/pointeur supprimer.png");
         m_deleteCursor = new QCursor(deletePixmap, 6, 0);
 
-        QPixmap StatePixmap(":/resources/icones/pointeur etat.png");
+        QPixmap StatePixmap(":/resources/icons/pointeur etat.png");
         m_stateCursor = new QCursor(StatePixmap, 0, 0);
 
         m_handCursor = new QCursor(Qt::OpenHandCursor);

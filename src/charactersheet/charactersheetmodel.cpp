@@ -94,34 +94,19 @@ CharacterSheetModel::CharacterSheetModel()
 
 int CharacterSheetModel::rowCount ( const QModelIndex & parent  ) const
 {
-
-
-
     if (parent.isValid())
     {
         TreeItem* tmp = static_cast<TreeItem*>(parent.internalPointer());
-        if(!tmp->isLeaf())
-        {
-            //if(tmp->getSection() == NULL)
-           //     qDebug() << "section is null";
-            return tmp->getSection()->size();
-        }
-        else
-        {
-            return 0;
-        }
+        return tmp->childrenCount();
     }
     else
     {
-
-        return m_sectionList->size();
+        return m_rootItem->childrenCount();
     }
-
 }
 int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
 {
     Q_UNUSED(parent)
-   // qDebug() << "columnCount" << m_characterList->size()+1;
     return m_characterList->size()+1;
 }
 QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex & parent ) const
@@ -136,8 +121,6 @@ QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex 
         parentItem = m_rootItem;
     else
         parentItem = static_cast<TreeItem*>(parent.internalPointer());
-
-
 
     TreeItem* childItem = parentItem->child(row);
     if (childItem)
@@ -173,12 +156,9 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
     {
         if(index.column()==0)
         {
-
             TreeItem* childItem = static_cast<TreeItem*>(index.internalPointer());
-
             if(childItem)
             {
-
                 if(!childItem->isLeaf())
                 {
                     return childItem->getSection()->getName();
@@ -199,12 +179,12 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
             TreeItem* childItem = static_cast<TreeItem*>(tmp.internalPointer());
             if(!childItem->isLeaf())
             {
-                qDebug()<< "section sur les feuilles de perso";
+
                 return QVariant();
             }
             else
             {
-                qDebug()<< "feuille sur les feuilles de perso";
+
                return m_characterList->at(index.column()-1)->getData(childItem->getParent()->row(),index.row());
             }
         }
@@ -221,7 +201,6 @@ bool CharacterSheetModel::setData ( const QModelIndex & index, const QVariant & 
             if(index.parent().isValid())
             {
                 CharacterSheet* tmp = m_characterList->at(index.column()-1);
-                //QModelIndex tmp2 = index.sibling(index.row(),0);
                 TreeItem* childItem = static_cast<TreeItem*>(index.parent().internalPointer());
                 tmp->setData(m_rootItem->indexOfChild(childItem),index.row(),value);
             }
@@ -235,9 +214,7 @@ bool CharacterSheetModel::setData ( const QModelIndex & index, const QVariant & 
              else
              {
                 childItem->getSection()->replace(index.row(),value.toString());
-             }
-            //CharacterSheet* tmp = m_characterList->at(index.column()-1);
-            //tmp->setData(index.row(),0,true);
+             }                       
         }
         return true;
     }
@@ -260,10 +237,7 @@ void CharacterSheetModel::addCharacterSheet()
             sheet->appendSection(sec);
         }
     }
-
     endInsertColumns();
-
-
 }
 
 
@@ -280,9 +254,6 @@ QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientatio
                 return m_characterList->at(section-1)->owner();
         }
     }
-
-
-
     return QVariant();
 }
 Qt::ItemFlags CharacterSheetModel::flags(const QModelIndex &index) const
@@ -294,12 +265,7 @@ Qt::ItemFlags CharacterSheetModel::flags(const QModelIndex &index) const
 }
 void CharacterSheetModel::addSection()
 {
-
-
-
     addSection(tr("Empty Section %1").arg(m_rootItem->childrenCount()+1));
-
-
 }
 TreeItem* CharacterSheetModel::addSection(QString title)
 {
@@ -378,12 +344,8 @@ Section* CharacterSheetModel::indexToSection(const QModelIndex & index)
     TreeItem* childItem = static_cast<TreeItem*>(index.internalPointer());
     if(childItem)
     {
-      /*  if(childItem->getSection()==NULL)
-            qDebug() << " getsection return NULL dans indexToSection";*/
         return childItem->getSection();
     }
-
-   // qDebug() << "return NULL dans indexToSection";
     return  NULL;
 }
 QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex & index)

@@ -39,8 +39,7 @@ Image::Image( QString& filename,  ImprovedWorkspace *parent)
 	setObjectName("Image");
     m_type = SubMdiWindows::PICTURE;
     setWindowTitle(QFileInfo(filename).baseName());
-
-    setWindowIcon(QIcon(":/resources/icones/vignette image.png"));
+    setWindowIcon(QIcon(":/resources/icons/vignette image.png"));
 
 
     m_labelImage = new QLabel(this);

@@ -194,7 +194,7 @@ ColorSelector::ColorSelector(QWidget *parent)
 
 
 
-    efface_pix = new QPixmap(":/resources/icones/efface.png");
+    efface_pix = new QPixmap(":/resources/icons/efface.png");
     m_eraseColor = new ColorButton(efface_pix,this);
     m_eraseColor->setFixedHeight(17);
     m_eraseColor->setFixedWidth(17);
@@ -207,7 +207,7 @@ ColorSelector::ColorSelector(QWidget *parent)
 	
 
 
-    masque_pix = new QPixmap(":/resources/icones/masque.png");
+    masque_pix = new QPixmap(":/resources/icons/masque.png");
     m_hideColor = new ColorButton(masque_pix,this);
     m_hideColor->setFixedHeight(17);
     m_hideColor->setFixedWidth(17);
@@ -218,7 +218,7 @@ ColorSelector::ColorSelector(QWidget *parent)
 
 
 
-        unveil_pix = new QPixmap(":/resources/icones/demasque.png");
+        unveil_pix = new QPixmap(":/resources/icons/demasque.png");
         m_unveilColor = new ColorButton(unveil_pix,this);
         m_unveilColor->setFixedHeight(17);
         m_unveilColor->setFixedWidth(17);

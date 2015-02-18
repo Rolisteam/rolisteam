@@ -89,25 +89,25 @@ void ToolsBar::creerActions()
     m_toolsGroup = new QActionGroup(this);
 
     // Creation des actions
-            actionCrayon 	= new QAction(QIcon(":/resources/icones/crayon.png"), tr("Crayon"), m_toolsGroup);
-            actionLigne 	= new QAction(QIcon(":/resources/icones/ligne.png"), tr("Ligne"), m_toolsGroup);
-            actionRectVide 	= new QAction(QIcon(":/resources/icones/rectangle vide.png"), tr("Rectangle vide"), m_toolsGroup);
-            actionRectPlein	= new QAction(QIcon(":/resources/icones/rectangle plein.png"), tr("Rectangle plein"), m_toolsGroup);
-            actionElliVide 	= new QAction(QIcon(":/resources/icones/ellipse vide.png"), tr("Ellipse vide"), m_toolsGroup);
-            actionElliPlein	= new QAction(QIcon(":/resources/icones/ellipse pleine.png"), tr("Ellipse pleine"), m_toolsGroup);
-            actionTexte 	= new QAction(QIcon(":/resources/icones/texte.png"), tr("Texte"), m_toolsGroup);
-            actionMain		= new QAction(QIcon(":/resources/icones/main.png"), tr("Déplacer"), m_toolsGroup);
-            actionAjoutPnj 	= new QAction(QIcon(":/resources/icones/ajouter PNJ.png"), tr("Ajouter un PNJ"), m_toolsGroup);
-            actionSupprPnj 	= new QAction(QIcon(":/resources/icones/supprimer PNJ.png"), tr("Supprimer un PNJ"), m_toolsGroup);
-            actionDeplacePnj= new QAction(QIcon(":/resources/icones/deplacer PNJ.png"), tr("Déplacer/Orienter un personnage"), m_toolsGroup);
-            actionEtatPnj	= new QAction(QIcon(":/resources/icones/etat.png"), tr("Changer l'état d'un personnage"), m_toolsGroup);
+            actionCrayon 	= new QAction(QIcon(":/resources/icons/crayon.png"), tr("Crayon"), m_toolsGroup);
+            actionLigne 	= new QAction(QIcon(":/resources/icons/ligne.png"), tr("Ligne"), m_toolsGroup);
+            actionRectVide 	= new QAction(QIcon(":/resources/icons/rectangle vide.png"), tr("Rectangle vide"), m_toolsGroup);
+            actionRectPlein	= new QAction(QIcon(":/resources/icons/rectangle plein.png"), tr("Rectangle plein"), m_toolsGroup);
+            actionElliVide 	= new QAction(QIcon(":/resources/icons/ellipse vide.png"), tr("Ellipse vide"), m_toolsGroup);
+            actionElliPlein	= new QAction(QIcon(":/resources/icons/ellipse pleine.png"), tr("Ellipse pleine"), m_toolsGroup);
+            actionTexte 	= new QAction(QIcon(":/resources/icons/texte.png"), tr("Texte"), m_toolsGroup);
+            actionMain		= new QAction(QIcon(":/resources/icons/main.png"), tr("Déplacer"), m_toolsGroup);
+            actionAjoutPnj 	= new QAction(QIcon(":/resources/icons/ajouter PNJ.png"), tr("Ajouter un PNJ"), m_toolsGroup);
+            actionSupprPnj 	= new QAction(QIcon(":/resources/icons/supprimer PNJ.png"), tr("Supprimer un PNJ"), m_toolsGroup);
+            actionDeplacePnj= new QAction(QIcon(":/resources/icons/deplacer PNJ.png"), tr("Déplacer/Orienter un personnage"), m_toolsGroup);
+            actionEtatPnj	= new QAction(QIcon(":/resources/icons/etat.png"), tr("Changer l'état d'un personnage"), m_toolsGroup);
 
     // Action independante : remise a 0 des numeros de PNJ
-            actionRazChrono	= new QAction(QIcon(":/resources/icones/chronometre.png"), tr("RAZ numéros de PNJ"), this);
+            actionRazChrono	= new QAction(QIcon(":/resources/icons/chronometre.png"), tr("RAZ numéros de PNJ"), this);
 
-           /* m_eraseAction= new QAction(QIcon(":/resources/icones/efface.png"), tr("Erase"), m_toolsGroup);
-            m_hideAction= new QAction(QIcon(":/resources/icones/masque.png"), tr("Hide"), m_toolsGroup);
-            m_unveilAction= new QAction(QIcon(":/resources/icones/demasque.png"), tr("Unveil"), m_toolsGroup);*/
+           /* m_eraseAction= new QAction(QIcon(":/resources/icons/efface.png"), tr("Erase"), m_toolsGroup);
+            m_hideAction= new QAction(QIcon(":/resources/icons/masque.png"), tr("Hide"), m_toolsGroup);
+            m_unveilAction= new QAction(QIcon(":/resources/icons/demasque.png"), tr("Unveil"), m_toolsGroup);*/
 
     // Les actions sont checkable
     actionCrayon	->setCheckable(true);

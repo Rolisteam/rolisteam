@@ -117,7 +117,7 @@ void Map::addItem()
                 TextItem* temptext = new TextItem(m_first,tempedit,m_itemColor);
                 currentItem = temptext;
                 QGraphicsProxyWidget * tmp = QGraphicsScene::addWidget(tempedit);
-                tmp->setPos(m_first);
+                tmp->setPos(m_first.x(),m_first.y()-tempedit->height());
                 tempedit->setEnabled(true);
                 tempedit->setFocus();
                 connect(tempedit,SIGNAL(editingFinished()),temptext,SLOT(editingFinished()));
@@ -145,7 +145,6 @@ void Map::addItem()
 }
 void Map::setPenSize(int p)
 {
-    qDebug() << m_penSize;
     m_penSize =p;
 }
 

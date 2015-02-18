@@ -14,15 +14,18 @@ include(map/map.pri)
 include(drawitem/drawitem.pri)
 include(data/data.pri)
 include(charactersheet/charactersheet.pri)
+include(userlist/userlist.pri)
 DEPENDPATH += . \
     drawitem \
     preferences \
     data \
+    userlist \
     charactersheet \
     map
 INCLUDEPATH += . \
     drawitem \
     preferences \
+    userlist \
     data \
     charactersheet \
     map
