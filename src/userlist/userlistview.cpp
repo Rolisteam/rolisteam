@@ -24,6 +24,9 @@
 #include <QColorDialog>
 #include <QMenu>
 #include <QFileDialog>
+#include <QPainter>
+
+
 
 #include <userlistdelegate.h>
 #include "userlistview.h"
@@ -138,9 +141,33 @@ void UserListView::mousePressEvent ( QMouseEvent * event)
 
                 mimeData->setPerson(tmpperso);
                 drag->setMimeData(mimeData);
-                //drag->setPixmap(tmpperso->getAvatar());
+                drag->setPixmap(generateAvatar(tmpperso));
 
                 Qt::DropAction dropAction = drag->exec();
             }
-        }
+     }
+}
+QPixmap UserListView::generateAvatar(Person* p)
+{
+    int diameter = 80;
+    QPixmap img(diameter,diameter);
+    img.fill(Qt::transparent);
+    QPainter painter(&img);
+    QBrush brush;
+    if(p->getAvatar().isNull())
+    {
+        painter.setPen(p->getColor());
+        brush.setColor(p->getColor());
+        brush.setStyle(Qt::SolidPattern);
+    }
+    else
+    {
+        QImage img =p->getAvatar();
+        brush.setTextureImage(img.scaled(diameter,diameter));
+    }
+
+    painter.setBrush(brush);
+    painter.drawRoundedRect(0,0,diameter,diameter,diameter/10,diameter/10);
+
+    return img;
 }

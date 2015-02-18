@@ -79,9 +79,10 @@ const QVariant PreferencesManager::value(QString key,QVariant defaultValue)
 
 }
 
-void PreferencesManager::readSettings()
+void PreferencesManager::readSettings(QSettings & settings)
 {
-        QSettings settings("rolisteam", "rolisteam/preferences");
+        //QSettings settings("rolisteam", "rolisteam/preferences");
+            settings.beginGroup("rolisteam/preferences");
         QVariant variant = settings.value("map",*m_optionDictionary);
         if(variant.canConvert<QMap<QString,QVariant> >())
             *m_optionDictionary = variant.value<QMap<QString,QVariant> >();
@@ -94,12 +95,13 @@ void PreferencesManager::readSettings()
             //    qDebug() << "value " << m_optionDictionary->value(m_optionDictionary->keys().at(i),true).toBool();
         }
 
-
+    settings.endGroup();
 
 }
-void PreferencesManager::writeSettings()
+void PreferencesManager::writeSettings(QSettings & settings)
 {
-      QSettings settings("rolisteam", "rolisteam/preferences");
+      settings.beginGroup("rolisteam/preferences");
       settings.setValue("map",*m_optionDictionary);
     //  qDebug() << "size writing dico" << m_optionDictionary->size();
+      settings.endGroup();
 }

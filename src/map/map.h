@@ -35,6 +35,7 @@ class Map : public QGraphicsScene
 {
     Q_OBJECT
 public:
+    enum SCALE_UNIT{CM,M,INCH,FEET,PX};
     /**
       * @brief default constructor
       */
@@ -112,6 +113,12 @@ public slots:
       */
     void setNPCSize(int);
 
+
+    void setPatternSize(int);
+    void setPattern(QPixmap);
+    void setScale(int);
+    void setScaleUnit(int);
+
 protected:
     /**
       * @brief catches move event with the mouse, useful for allowing move of item
@@ -132,6 +139,8 @@ protected:
     void addItem();
 /*private slots:
     void editingFinished();*/
+
+    void generateBackground();
 
 
 private:
@@ -183,6 +192,23 @@ private:
       * @brief Items list which are part of the map.
       */
     QList<VisualItem*>* m_itemList;
+    /**
+      * @brief Pattern Of grid, pattern must be square shaped.
+      */
+    QPixmap m_gridPattern;
+    /**
+      * @brief size of the pattern edge.
+      */
+    int m_sizePattern;
+    /**
+      * @brief scale of on Pattern edge.
+      */
+    int m_patternScale;
+    /**
+      * @brief unit of Pattern scale.
+      */
+    SCALE_UNIT m_patternUnit;
+
 
     friend QDataStream& operator<<(QDataStream& os,const Map&);
     friend QDataStream& operator>>(QDataStream& is,Map&);

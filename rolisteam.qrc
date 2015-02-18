@@ -74,4 +74,9 @@
         <file alias="logo.svg">resources/logo/symbole.svg</file>
         <file alias="iconpdf">resources/icons/iconpdf.png</file>
     </qresource>
+    <qresource prefix="/grid">
+        <file alias="01_square.png">resources/gridpattern/01_sqare.png</file>
+        <file alias="02_octo.png">resources/gridpattern/02_octo.png</file>
+        <file alias="03_hexa.png">resources/gridpattern/03_hexa.png</file>
+    </qresource>
 </RCC>

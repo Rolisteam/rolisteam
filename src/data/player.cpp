@@ -31,6 +31,7 @@ bool Player::isLeaf() const
 }
 void Player::addCharacter(Character* c)
 {
+    c->setParent(this);
     m_children->append(c);
 }
 
@@ -38,7 +39,7 @@ void Player::removeCharacter(int row )
 {
     m_children->removeAt(row);
 }
-Character* Player::child(int row)
+Character* Player::child(int row) const
 {
     if(row >= m_children->size())
         return NULL;
@@ -58,6 +59,12 @@ QDataStream& operator<<(QDataStream& out, const Player& con)
   out << con.getName();
   out << con.getColor();
   out << con.getAvatar();
+  out << con.childrenCount();
+  for(int i =0;i<con.childrenCount();i++)
+  {
+      Character* tmp = con.child(i);
+      out << *tmp;
+  }
   return out;
 }
 
@@ -66,5 +73,15 @@ QDataStream& operator>>(QDataStream& is,Player& con)
   is >>(con.m_name);
   is >>(con.m_color);
   is >>(con.m_avatar);
+  int childCount;
+  is >>  childCount;
+  for(int i =0;i<childCount;i++)
+  {
+      Character* tmp = new Character();
+      is >> *tmp;
+      tmp->setParent(&con);
+      con.addCharacter(tmp);
+  }
+
   return is;
 }

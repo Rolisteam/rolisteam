@@ -18,50 +18,27 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PDFRENDERER_H
-#define PDFRENDERER_H
-#include <poppler-qt4.h>
-#include <QLabel>
+#ifndef PATTERNMODEL_H
+#define PATTERNMODEL_H
 
-class QRubberBand;
-class PDFRenderer : public QLabel
+#include <QAbstractListModel>
+#include <QPixmap>
+#include <QStyledItemDelegate>
+
+
+
+class PatternModel : public QAbstractListModel
 {
-
-    Q_OBJECT
 public:
-    PDFRenderer();
+    PatternModel();
 
-    
-    void showPage(int page);
-    void loadDocument(QString filename);
-    void setScaleFactor(qreal factor);
+    QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
+    int rowCount ( const QModelIndex & parent = QModelIndex() ) const;
 
-    quint32 getCurrentPage() const;
-    void setCurrentPage(quint32 currentpage);
-    QMatrix matrix() const;
-    qreal getScaleFactor() const;
-
-signals:
-    void textSelected(QString str);
-
-protected:
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void wheelEvent(QWheelEvent *);
-
+    QPixmap getPatternAt(int i);
 private:
-    void selectedText(const QRectF &rect);
-    void nextPage();
-    void previousPage();
-private:
-    Poppler::Document* m_pdf;
-    QRubberBand *rubberBand;
-    QPoint dragPosition;
-    qint32 m_currentPage;
-    qreal m_scaleFactor;
-
+    QList<QPixmap> m_list;
+    QStringList m_listGrille;
 };
 
-
-#endif // PDFRENDERER_H
+#endif // PATTERNMODEL_H

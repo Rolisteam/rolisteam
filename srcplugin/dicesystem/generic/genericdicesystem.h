@@ -36,11 +36,11 @@ public:
     /**
      * @brief read the plugin settings
      */
-    virtual void readSettings();
+    virtual void readSettings(QSettings& setting);
     /**
      * @brief write the plugin settings
      */
-    virtual void writeSettings();
+    virtual void writeSettings(QSettings& setting);
 
     /**
      * @brief Part of the dice system API, this plugin does not have GUI for its settings.

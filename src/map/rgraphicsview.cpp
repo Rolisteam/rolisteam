@@ -59,7 +59,6 @@ void RGraphicsView::dragEnterEvent ( QDragEnterEvent * event )
     {
         if (data->hasFormat("rolisteam/userlist-item"))
         {
-            qDebug() << "Valide modelindex";
             event->acceptProposedAction();
         }
     }
@@ -68,12 +67,10 @@ void RGraphicsView::dragEnterEvent ( QDragEnterEvent * event )
 void RGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
     event->acceptProposedAction();
-    qDebug() << "dragMoveEvent event2";
 }
 
 void RGraphicsView::dropEvent ( QDropEvent * event )
 {
-    qDebug() << "drop event";
     const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
     if(data)
     {
@@ -84,7 +81,6 @@ void RGraphicsView::dropEvent ( QDropEvent * event )
             if(character)
             {
                 m_map->addCharacter(character,mapToScene(event->pos()));
-                qDebug() << "add character";
             }
         }
     }

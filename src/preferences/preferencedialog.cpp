@@ -17,15 +17,20 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <QDebug>
+#include <QSettings>
+#include <QImageWriter>
+#include <QFileDialog>
+#include <QImageReader>
+#include <Phonon>
+#include <phonon/ObjectDescription>
 
 #include "preferencedialog.h"
 #include "ui_preferencedialog.h"
 #include "preferencesmanager.h"
 #include "theme.h"
-#include <QFileDialog>
 #include "themelistmodel.h"
-#include <QDebug>
-#include <QSettings>
+
 PreferenceDialog::PreferenceDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PreferenceDialog)
@@ -43,6 +48,7 @@ PreferenceDialog::PreferenceDialog(QWidget *parent) :
     connect(ui->m_wsBgColorButton,SIGNAL(colorChanged(QColor)),this,SLOT(modifiedSettings()));
     connect(ui->m_addTheme,SIGNAL(clicked()),this,SLOT(addTheme()));
     connect(ui->m_removeTheme,SIGNAL(clicked()),this,SLOT(removeSelectedTheme()));
+    connect(ui->m_testStarter,SIGNAL(pressed()),this,SLOT(performCapabilityTests()));
 
     ui->m_themeList->setModel(m_listModel);
 
@@ -202,19 +208,93 @@ void PreferenceDialog::refreshDialogWidgets()
      ui->m_wsBgColorButton->setColor(m_current.backgroundColor());
 }
 
-void PreferenceDialog::readSettings()
+void PreferenceDialog::readSettings(QSettings & settings)
 {
-    QSettings settings("rolisteam", "rolisteam/currentTheme");
+    //QSettings settings("rolisteam", "rolisteam/currentTheme");
+    settings.beginGroup("rolisteam/currentTheme");
     //qDebug() << "read setting in preference dialog";
     m_currentThemeIndex =  settings.value("currentTheme",m_currentThemeIndex).toInt();
     m_listModel->readSettings();
 
     ui->m_themeList->update();
+    settings.endGroup();
 }
-void PreferenceDialog::writeSettings()
+void PreferenceDialog::writeSettings(QSettings & settings)
 {
-    QSettings settings("rolisteam", "rolisteam/currentTheme");
+    settings.beginGroup("rolisteam/currentTheme");
    // qDebug() << "write setting in preference dialog";
     settings.setValue("currentTheme",m_currentThemeIndex);
     m_listModel->writeSettings();
+    settings.endGroup();
+}
+void PreferenceDialog::performCapabilityTests()
+{
+    ui->m_testResult->clear();
+    ui->m_testResult->append(tr("<h1>Capability Test</h1>"));
+    ui->m_testResult->append(tr("<p>Informations diplayed here are relevant to your system. Please provide them if you are getting any problem with %1 - version %2</p>"));
+    imageFormatTest();
+    fontTest();
+    phononTest();
+}
+void PreferenceDialog::imageFormatTest()
+{
+        ui->m_testResult->append(tr("<h2>Image formats Test</h2>"));
+        QList<QByteArray> list = QImageReader::supportedImageFormats();
+        QString result;
+        result=tr("<h3>Reader</h3>");
+        foreach(QByteArray format, list)
+        {
+            result.append(tr("<span style=\"color:#F00\">%1</span> format is supported in reading<br/>").arg(QString(format)));
+
+        }
+        result+=tr("<h3>Writer</h3>");
+        list = QImageWriter::supportedImageFormats();
+        foreach(QByteArray format, list)
+        {
+            result.append(tr("<span style=\"color:#F00\">%1</span> format is supported in writing<br/>").arg(QString(format)));
+        }
+        ui->m_testResult->append(result);
+}
+
+void PreferenceDialog::fontTest()
+{
+    ui->m_testResult->append(tr("<h2>Fonts Test</h2>"));
+    QString result;
+    QFontDatabase fdb;
+    foreach(const QString font,fdb.families())
+    {
+        result.append(tr("<span style=\"color:#F00\">%1</span> is installed on your system<br/>").arg(QString(font)));
+    }
+    ui->m_testResult->append(result);
+}
+
+void PreferenceDialog::phononTest()
+{
+   ui->m_testResult->append(tr("<h2>Multimedia Test</h2>"));
+   ;
+   QString result;
+   result+=tr("<h3>Effect</h3>");
+   QList<Phonon::EffectDescription> list1 = Phonon::BackendCapabilities::availableAudioEffects();
+   foreach(Phonon::EffectDescription format, list1)
+   {
+       result.append(tr("<span style=\"color:#F00\">%1</span>%2<br/>").arg(QString(format.name()).arg(format.description())));
+   }
+   result+=tr("<h3>Audio Output Devices</h3>");
+   QList<Phonon::AudioOutputDevice > list2 = Phonon::BackendCapabilities::availableAudioOutputDevices();
+   foreach(Phonon::AudioOutputDevice  device, list2)
+   {
+       result.append(tr("<span style=\"color:#F00\">%1</span>%2<br/>").arg(QString(device.name()).arg(device.description())));
+   }
+
+   result+=tr("<h3>Audio Output Devices</h3>");
+   QStringList list3 = Phonon::BackendCapabilities::availableMimeTypes ();
+   foreach(QString type, list3)
+   {
+       result.append(tr("<span style=\"color:#F00\">%1</span> is supported<br/>").arg(QString(type)));
+   }
+
+
+   ui->m_testResult->append(result);
+
+
 }

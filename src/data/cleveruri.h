@@ -39,7 +39,11 @@ public:
       * @brief enum of all available type.
       *
       */
-    enum ContentType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,PDF};
+    enum ContentType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG
+                        #ifdef WITH_PDF
+                      ,PDF
+                        #endif
+        };
     /**
       * @brief default constructor
       *
@@ -126,7 +130,10 @@ private:
     static QString m_charactersheetIcon; ///< static member to store the character icon
     static QString m_scenarioIcon; ///< static member to store the scenario icon
     static QString m_chatIcon; ///< static member to store the chat icon
+#ifdef WITH_PDF
     static QString m_pdfIcon;///< static member to store the pdf icon
+#endif
+    static QString m_empty;
 
     friend QDataStream& operator<<(QDataStream& os,const CleverURI&); ///< operator for serialisation (writing)
     friend QDataStream& operator>>(QDataStream& is,CleverURI&); ///< operator for serialisation (reading)

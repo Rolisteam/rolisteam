@@ -21,11 +21,11 @@ QString GenericDiceSystem::rollDice(QString diceCmd) const
     return tr("not implemented yet");
 }
 
-void GenericDiceSystem::readSettings()
+void GenericDiceSystem::readSettings(QSettings& setting)
 {
 
 }
-void GenericDiceSystem::writeSettings()
+void GenericDiceSystem::writeSettings(QSettings& setting)
 {
 
 }

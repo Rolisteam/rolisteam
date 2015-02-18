@@ -37,6 +37,8 @@ PDFViewer::PDFViewer()
     m_scrollArea->setWidget(m_render);
     setWidget(m_scrollArea);
 
+
+
 }
 void PDFViewer::saveFile(const QString & file)
 {
@@ -57,6 +59,10 @@ bool PDFViewer::defineMenu(QMenu* menu)
 void PDFViewer::setCleverURI(CleverURI* uri)
 {
     openFile(uri->getUri());
+
+
+    setWindowTitle(uri->getShortName());
+
     SubMdiWindows::setCleverURI(uri);
 }
 bool PDFViewer::hasDockWidget() const

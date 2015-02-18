@@ -24,13 +24,13 @@
 #include <QDebug>
 
 VisualItem::VisualItem()
-: QGraphicsItem()
+: QGraphicsObject()
 {
 
 }
 
 VisualItem::VisualItem(QColor& penColor,QGraphicsItem * parent )
-    : QGraphicsItem(parent),m_color(penColor)
+    : QGraphicsObject(parent),m_color(penColor)
 {
     //m_state = IDLE;
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);

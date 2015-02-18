@@ -102,16 +102,22 @@ void UserListWidget::setAction()
     connect(m_tchatButton,SIGNAL(clicked()),this,SIGNAL(opentchat()));
     connect(m_view,SIGNAL(currentItemChanged(QModelIndex)),this,SLOT(currentChanged(QModelIndex)));
 }
-void UserListWidget::addUser(Person* p)
+void UserListWidget::addPlayerToModel(Player* p)
 {
+    int place = m_model->rootChildCount();
     m_model->addPlayer(p);
+    for(int i = 0; i< p->childrenCount(); i++)
+    {
+        m_model->addCharacter(p->child(i),p);
+    }
+    m_view->expand(m_model->index(place,0));
 }
 void UserListWidget::addPC()
 {
-    /**
-     * @todo Add features to amend the avatar.
-     */
-    m_model->addCharacter(new Character(tr("New Character"),Qt::white,""),m_local);
+    Character* charac = new Character(tr("New Character"),Qt::white,"");
+
+    m_local->addCharacter(charac);
+    m_model->addCharacter(charac,m_local);
 }
 void UserListWidget::delSelectedPC()
 {
@@ -139,7 +145,7 @@ void UserListWidget::currentChanged(const QModelIndex& p)
 void UserListWidget::setLocalPlayer(Player* p)
 {
     m_local = p;
-    addUser(m_local);
+    addPlayerToModel(m_local);
     m_model->setLocalPlayer(p);
 }
 void UserListWidget::closeEvent ( QCloseEvent * event )
@@ -153,4 +159,22 @@ void UserListWidget::closeEvent ( QCloseEvent * event )
 void UserListWidget::processed(Message *m)
 {
     qDebug() << m->getSize() << "UserListWidget::processed(Message *m)";
+}
+void UserListWidget::readSettings(QSettings &settings)
+{
+    settings.beginGroup("UserListWidget");
+    m_local = new Player(tr("Player Unknown"),QColor(Qt::black),"");
+    QVariant variant;
+    variant.setValue(*m_local);
+    *m_local = settings.value("player", variant).value<Player>();
+    setLocalPlayer(m_local);
+    settings.endGroup();
+}
+void UserListWidget::writeSettings(QSettings &settings)
+{
+    settings.beginGroup("UserListWidget");
+    QVariant variant;
+    variant.setValue(*m_local);
+    settings.setValue("player", variant);
+    settings.endGroup();
 }

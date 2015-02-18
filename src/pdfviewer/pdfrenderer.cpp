@@ -137,3 +137,50 @@ qreal PDFRenderer::getScaleFactor() const
 {
     return m_scaleFactor;
 }
+void PDFRenderer::wheelEvent(QWheelEvent *event)
+{
+        switch(event->modifiers())
+        {
+            case Qt::ControlModifier:
+                if(event->delta()>=0)
+                {
+                    previousPage();
+                }
+                else
+                {
+                    nextPage();
+                }
+                showPage(m_currentPage);
+                event->accept();
+            break;
+            case Qt::ShiftModifier:
+            if(event->delta()>=0)
+            {
+                m_scaleFactor+=0.1;
+            }
+            else
+            {
+                m_scaleFactor-=0.1;
+            }
+            showPage(m_currentPage);
+            event->accept();
+            break;
+            default:
+            break;
+        }
+        QLabel::wheelEvent(event);
+}
+
+void PDFRenderer::nextPage()
+{
+    m_currentPage+=1;
+    if(m_currentPage>m_pdf->numPages())
+        m_currentPage=m_pdf->numPages()-1;
+}
+
+void PDFRenderer::previousPage()
+{
+    m_currentPage-=1;
+    if(m_currentPage<0)
+        m_currentPage=0;
+}

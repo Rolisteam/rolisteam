@@ -17,27 +17,31 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <QButtonGroup>
+#include <QColorDialog>
+
+
 
 #include "mapwizzarddialog.h"
 #include "ui_mapwizzarddialog.h"
 
 #include "preferencesmanager.h"
 
-#include <QButtonGroup>
-#include <QColorDialog>
 
 MapWizzardDialog::MapWizzardDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MapWizzardDialog)
 {
     ui->setupUi(this);
+    m_model = new PatternModel();
+
+    ui->m_gridPattern->setModel(m_model);
+
 
     m_options = PreferencesManager::getInstance();
     m_bgColor = QColor(255,255,255);
 
-
-
-     m_bgColor = m_options->value(QString("MapWizzard/backgroundcolor"),QVariant::fromValue(m_bgColor)).value<QColor>();
+    m_bgColor = m_options->value(QString("MapWizzard/backgroundcolor"),QVariant::fromValue(m_bgColor)).value<QColor>();
 
     ui->m_colorButton->setStyleSheet(QString("background-color: rgb(%1,%2,%3)").arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()));
     connect(ui->m_colorButton,SIGNAL(clicked()),this,SLOT(clickOnColorButton()));
@@ -98,6 +102,11 @@ void MapWizzardDialog::selectedShapeChanged()
 }
 void MapWizzardDialog::setAllMap(Map* map)
 {
+
+    map->setPattern(m_model->getPatternAt(ui->m_gridPattern->currentIndex()));
+    map->setPatternSize(ui->m_sizeGrid->value());
+    map->setScale(ui->m_scaleOfGrid->value());
+    map->setScaleUnit(ui->m_unitPattern->currentIndex());
     map->setBackGroundColor(m_bgColor);
 
     if(ui->m_customSize->isChecked())
@@ -193,6 +202,7 @@ void MapWizzardDialog::setAllMap(Map* map)
             }
 
         }
+
     }
     map->setTitle(ui->m_titleLineedit->text());
 }

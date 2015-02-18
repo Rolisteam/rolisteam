@@ -37,12 +37,12 @@ QString ScriptDiceSystem::rollDice(QString diceCmd) const
 {
     return QString("Script plugin not yet implemented");
 }
-void ScriptDiceSystem::readSettings()
+void ScriptDiceSystem::readSettings(QSettings& setting)
 {
 
 }
 
-void ScriptDiceSystem::writeSettings()
+void ScriptDiceSystem::writeSettings(QSettings& setting)
 {
 
 }

@@ -23,6 +23,8 @@
 #include <QVariant>
 #include <QString>
 #include <QMap>
+#include <QSettings>
+
 
 /**
   * @index <h2>How To use the Preference Manager.</h2>
@@ -77,12 +79,12 @@ public:
     /**
      * Load informations from the previous rolisteam's execution
      */
-    void readSettings();
+    void readSettings(QSettings & settings);
 
     /**
      * Save parameters for next executions.
      */
-    void writeSettings();
+    void writeSettings(QSettings & settings);
 
 private:
     /**

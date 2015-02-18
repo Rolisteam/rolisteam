@@ -19,20 +19,21 @@
  ***************************************************************************/
 #include "characteritem.h"
 #include <QPainter>
-
+#include <QStyleOptionGraphicsItem>
 
 #include <QDebug>
-CharacterItem::CharacterItem(const Character* m,QPointF pos,quint32 diameter)
-    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter)
-{
 
+CharacterItem::CharacterItem(const Character* m,QPointF pos,int diameter)
+    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL)
+{
+    connect(m_character,SIGNAL(avatarChanged()),this,SLOT(generatedThumbnail()));
 }
 
-CharacterItem::CharacterItem(QColor& penColor,QGraphicsItem * parent)
+/*CharacterItem::CharacterItem(QColor& penColor,QGraphicsItem * parent)
             : VisualItem(penColor,parent)
 {
 
-}
+}*/
 
 
 void CharacterItem::writeData(QDataStream& out) const
@@ -51,7 +52,7 @@ VisualItem::ItemType CharacterItem::getType()
 QRectF CharacterItem::boundingRect() const
 {
     /**
-      * @todo must be changed and managed by preference system
+      * @todo must be changed and managed by tool from toolbar
       */
     return QRectF((m_center.x()-m_diameter/2),m_center.y()-m_diameter/2,m_diameter,m_diameter);
 }
@@ -61,20 +62,45 @@ void CharacterItem::setNewEnd(QPointF& nend)
 }
 void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
-    qDebug() << "paint du character" << m_center ;
-    /// @todo implemented it, get the image and display it
-    QBrush brush;
-    if(m_character->hasAvatar())
+    if(m_thumnails==NULL)
     {
-        //painter->drawImage(m_center, );
-        brush.setTextureImage(m_character->getAvatar());
+        generatedThumbnail();
     }
-    else
+    if(option->state & QStyle::State_Selected)
     {
-        painter->setPen(m_character->getColor());
+
+        painter->drawRect(m_thumnails->rect());
+    }
+    painter->drawPixmap(m_center.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter,*m_thumnails);
+}
+void CharacterItem::sizeChanged(int m_size)
+{
+    m_diameter=m_size;
+    generatedThumbnail();
+}
+void CharacterItem::generatedThumbnail()
+{
+    if(m_thumnails!=NULL)
+    {
+        delete m_thumnails;
+        m_thumnails = NULL;
+    }
+    m_thumnails=new QPixmap(m_diameter,m_diameter);
+    m_thumnails->fill(Qt::transparent);
+    QPainter painter(m_thumnails);
+    QBrush brush;
+    if(m_character->getAvatar().isNull())
+    {
+        painter.setPen(m_character->getColor());
         brush.setColor(m_character->getColor());
         brush.setStyle(Qt::SolidPattern);
     }
-    painter->setBrush(brush);
-    painter->drawRoundedRect(m_center.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
+    else
+    {
+        QImage img =m_character->getAvatar();
+        brush.setTextureImage(img.scaled(m_diameter,m_diameter));
+    }
+
+    painter.setBrush(brush);
+    painter.drawRoundedRect(0,0,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
 }

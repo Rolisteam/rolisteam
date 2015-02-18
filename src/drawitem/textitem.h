@@ -30,7 +30,7 @@ class QLineEdit;
   * @brief displays and manages text on map, part of QGraphicsScene/view.
   * @todo add features for amend font size, text orientation,
   */
-class TextItem : public QObject ,public VisualItem
+class TextItem : public VisualItem
 {
     Q_OBJECT
 public:

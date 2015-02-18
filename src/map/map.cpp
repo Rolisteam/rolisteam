@@ -1,3 +1,11 @@
+#include <QGraphicsSceneMouseEvent>
+#include <QDebug>
+#include <QGraphicsProxyWidget>
+#include <QLineEdit>
+#include <QPainter>
+#include <QPixmap>
+
+
 #include "map.h"
 #include "rectitem.h"
 #include "ellipsitem.h"
@@ -6,17 +14,12 @@
 #include "textitem.h"
 #include "characteritem.h"
 
-#include <QGraphicsSceneMouseEvent>
-#include <QDebug>
-#include <QGraphicsProxyWidget>
-#include <QLineEdit>
 Map::Map(QObject * parent)
     : QGraphicsScene(parent)
 {
     m_currentItem = NULL;
     m_itemList=new  QList<VisualItem*>;
     setItemIndexMethod(QGraphicsScene::NoIndex);
-
 }
 
 
@@ -52,8 +55,26 @@ void Map::setTitle(QString title)
 void Map::setBackGroundColor(QColor& bgcolor)
 {
     m_bgColor = bgcolor;
-    setBackgroundBrush(bgcolor);
+    generateBackground();
+
 }
+void Map::generateBackground()
+{
+    if(m_gridPattern.isNull())
+    {
+        setBackgroundBrush(m_bgColor);
+    }
+    else
+    {
+        QPixmap p(m_gridPattern);
+        p.fill(m_bgColor);
+        QPainter painter(&p);
+        painter.drawPixmap(0,0,m_gridPattern);
+        painter.end();
+        setBackgroundBrush(p);
+    }
+}
+
 void Map::setSceneRect()
 {
     QGraphicsScene::setSceneRect(0,0,m_width,m_height);
@@ -165,15 +186,20 @@ void Map::setNPCSize(int p)
  void Map::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
  {
 
-     if(mouseEvent->button() == Qt::LeftButton)
+     if(m_selectedtool==ToolsBar::HANDLER)
+     {
+         //m_currentItem = dynamic_cast<VisualItem*>(itemAt(mouseEvent->scenePos()));
+        QGraphicsScene::mousePressEvent(mouseEvent);
+     }
+     else if(mouseEvent->button() == Qt::LeftButton)
      {
          m_first = mouseEvent->scenePos();
          m_end = m_first;
          addItem();
      }
 
-     if(m_selectedtool==ToolsBar::HANDLER)
-        QGraphicsScene::mousePressEvent(mouseEvent);
+
+
  }
 
  void Map::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
@@ -299,4 +325,38 @@ void Map::addCharacter(const Character* p, QPointF pos)
 {
     CharacterItem* item= new CharacterItem(p,pos);
     QGraphicsScene::addItem(item);
+}
+
+void Map::setPatternSize(int p)
+{
+m_sizePattern = p;
+}
+
+void Map::setPattern(QPixmap p)
+{
+    m_gridPattern = p;
+}
+
+void Map::setScale(int p)
+{
+    m_patternScale = p;
+}
+
+void Map::setScaleUnit(int p)
+{
+    switch(p)
+    {
+        case PX:
+        case FEET:
+        case CM:
+        case INCH:
+        case M:
+            m_patternUnit = (Map::SCALE_UNIT)p;
+        break;
+        default:
+            m_patternUnit = PX;
+        break;
+    }
+
+
 }

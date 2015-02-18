@@ -26,8 +26,9 @@
 * @brief this class is part of Composite pattern.
 *
 */
-class Character : public Person
+class Character : public QObject, public Person
 {
+    Q_OBJECT
 public:
     /**
       * @brief Constructor with argument
@@ -47,8 +48,21 @@ public:
       */
     bool isLeaf() const;
 
+    void setParent(Person* person);
 
+    virtual void setAvatar(QImage &p);
+signals:
+    void avatarChanged();
 
+private:
+    /**
+    * @brief writing serialization operator
+    */
+    friend QDataStream& operator<<(QDataStream& os,const Character&);
+    /**
+    * @brief reading serialization operator
+    */
+    friend QDataStream& operator>>(QDataStream& is,Character&);
 
 private:
     /**

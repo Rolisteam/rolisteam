@@ -30,10 +30,14 @@
 #ifndef WORKSPACE_AMELIORE_H
 #define WORKSPACE_AMELIORE_H
 
+#include <QSettings>
 #include <QWidget>
 #include <QImage>
 #include <QPaintEvent>
 #include <QMdiArea>
+#include <QUrl>
+
+
 #include "toolbar.h"
 #include "submdiwindows.h"
 
@@ -66,8 +70,8 @@ public:
 
     void setRClient(RClient* t);
 
-    virtual void readSettings();
-    virtual void writeSettings();
+    virtual void readSettings(QSettings & settings);
+    virtual void writeSettings(QSettings & settings);
 
     SubMdiWindows* activeSubMdiWindow();
 
@@ -128,7 +132,11 @@ signals:
     void currentModeChanged(int);
 
 
+    void openCleverUri(CleverURI*);
 
+    void openNote(QString,bool);
+
+    void openPicture(QImage);
 
 protected:
     /**
@@ -136,8 +144,9 @@ protected:
       * @param event context of the event raising
       */
     void resizeEvent ( QResizeEvent * event );
-
-
+    void dropEvent ( QDropEvent * event );
+    void dragEnterEvent ( QDragEnterEvent * event );
+    void dragMoveEvent(QDragMoveEvent *event);
 
 
 private slots:
@@ -148,6 +157,7 @@ private slots:
     void activeSubWindowChanged(QMdiSubWindow* wdw);
 
 private:
+    CleverURI::ContentType fileToCleverUriType(QString path, bool& ok);
     /**
       * initialize all cursor
       */

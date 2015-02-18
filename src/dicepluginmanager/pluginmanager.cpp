@@ -81,19 +81,19 @@ QStringList DicePlugInManager::getInterfaceList()
     }
     return interfaceNames;
 }
-void DicePlugInManager::readSettings()
+void DicePlugInManager::readSettings(QSettings& setting)
 {
     foreach(DiceSystemInterface* tmp,*m_interfaceList)
     {
-        tmp->readSettings();
+        tmp->readSettings(setting);
     }
 }
 
-void DicePlugInManager::writeSettings()
+void DicePlugInManager::writeSettings(QSettings& setting)
 {
     foreach(DiceSystemInterface* tmp,*m_interfaceList)
     {
-        tmp->writeSettings();
+        tmp->writeSettings(setting);
     }
 }
 void DicePlugInManager::showUISettings(QString& name)

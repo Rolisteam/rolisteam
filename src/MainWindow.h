@@ -93,6 +93,8 @@ public slots :
         void openCleverURI(CleverURI* ,bool addSession = true);
         void reOpenURI(CleverURI* );
 
+
+
 protected :
         void closeEvent(QCloseEvent *event);
         CleverURI* contentToPath(CleverURI::ContentType type,bool save);
@@ -347,6 +349,8 @@ private :
 
 
         QString m_version;
+
+
 
 
 

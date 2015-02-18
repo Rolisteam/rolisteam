@@ -48,11 +48,12 @@ public :
 
     // Selectable tools
     enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
-
+    
+    ToolsBar::SelectableTool getCurrentTool();
 public slots :
     void incrementeNumeroPnj();
     void changeCurrentColor(QColor color);
-    void mettreAJourPnj(int diametre, QString nom);
+    void updateNPCSize(int diametre, QString nom);
 
 
 signals:

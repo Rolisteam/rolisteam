@@ -22,6 +22,8 @@
 
 #include <QDockWidget>
 #include <QModelIndex>
+#include <QSettings>
+
 
 #include "messagemanager.h"
 
@@ -59,6 +61,16 @@ public:
       */
     void processed(Message *);
 
+    /**
+     * @brief Load informations from the previous rolisteam's execution
+     */
+    void readSettings(QSettings &m);
+
+    /**
+     * @brief Save parameters for next executions.
+     */
+    void writeSettings(QSettings &m);
+
 signals:
     /**
       * @brief emitted when Playable character has changed
@@ -75,9 +87,9 @@ signals:
 
 public slots:
     /**
-      * @brief adding Person into the model
+      * @brief adding Player and his characters into the model
       */
-    void addUser(Person* p);
+    void addPlayerToModel(Player* p);
     /**
       * @brief defines the given Player as the local one
       */

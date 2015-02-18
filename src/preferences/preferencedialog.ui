@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>731</width>
+    <width>737</width>
     <height>548</height>
    </rect>
   </property>
@@ -72,7 +72,7 @@
    </item>
    <item>
     <property name="text">
-     <string>Available Resources</string>
+     <string>System Capability</string>
     </property>
    </item>
   </widget>
@@ -81,8 +81,8 @@
     <rect>
      <x>158</x>
      <y>4</y>
-     <width>538</width>
-     <height>540</height>
+     <width>575</width>
+     <height>542</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -92,7 +92,7 @@
        <locale language="English" country="UnitedStates"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="page">
        <widget class="QCheckBox" name="m_genUpdateCheck">
@@ -784,7 +784,41 @@ border: 0px;
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="ResourcesPage"/>
+      <widget class="QWidget" name="ResourcesPage">
+       <layout class="QVBoxLayout" name="verticalLayout_10">
+        <item>
+         <widget class="QTextEdit" name="m_testResult">
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>358</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="m_testStarter">
+            <property name="text">
+             <string>Test!</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item>

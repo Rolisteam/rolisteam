@@ -108,6 +108,7 @@ MainWindow::MainWindow()
     addDockWidget(Qt::RightDockWidgetArea, m_audioPlayer);
     addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
     m_workspace = new ImprovedWorkspace(this/*m_toolbar->currentColor()*/);
+    connect(m_workspace,SIGNAL(openCleverUri(CleverURI*)),this,SLOT(openCleverURI(CleverURI*)));
     m_subWindowActGroup = new QActionGroup(this);
     m_recentFilesActGroup= new QActionGroup(this);
     m_connectDialog = new ConnectionWizzard(this);
@@ -127,19 +128,19 @@ MainWindow::MainWindow()
 
 
     m_workspace->setRClient(m_rclient);
-    m_workspace->readSettings();
+
 
     // all other allocation must be done after the settings reading.
 
 
 
 
-    setWindowTitle(tr("Rolisteam - %1").arg(m_version));
+    setWindowTitle(tr("Rolisteam[*] - %1").arg(m_version));
     setCentralWidget(m_workspace);
 
 
 
-    m_playerListWidget->setLocalPlayer(m_player);
+    //m_playerListWidget->setLocalPlayer(m_player);
 
     connect(m_playerListWidget,SIGNAL(opentchat()),this,SLOT(openTchat()));
     connect(m_connectDialog,SIGNAL(connectionApply()),this,SLOT(refreshNetworkMenu()));
@@ -420,6 +421,7 @@ void MainWindow::clickOnMapWizzard()
         Map* tempmap = new Map();
         mapWizzard.setAllMap(tempmap);
         MapFrame* tmp = new MapFrame(new CleverURI("",CleverURI::MAP),tempmap);
+        tempmap->setCurrentTool(m_toolbar->getCurrentTool());
         addToWorkspace(tmp);
         tmp->show();
     }
@@ -452,11 +454,13 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
             title = tr("Open Character Sheets");
             folder = m_options->value(QString("DataDirectory"),".").toString();
             break;
+#ifdef WITH _PDF
         case CleverURI::PDF:
             filter = m_pdfFiles;
             title = tr("Open Pdf file");
             folder = m_options->value(QString("DataDirectory"),".").toString();
             break;
+#endif
         default:
             break;
     }
@@ -653,10 +657,11 @@ void MainWindow::readSettings()
     restoreState(settings.value("windowState").toByteArray());
 
     ///  @warning empty avatar uri.
-    m_player= new Player(tr("Player Unknown"),QColor(Qt::black),"");
+    /*m_player= new Player(tr("Player Unknown"),QColor(Qt::black),"");
     QVariant variant;
     variant.setValue(*m_player);
-    *m_player = settings.value("player", variant).value<Player>();
+    *m_player = settings.value("player", variant).value<Player>();*/
+
 
     settings.beginGroup("MenuAction");
     m_playerShower->setChecked(settings.value("playeraudio",m_playerShower->isChecked()).toBool());
@@ -665,10 +670,12 @@ void MainWindow::readSettings()
     settings.endGroup();
 
 
-    m_options->readSettings();
+    m_options->readSettings(settings);
     m_sessionManager->readSettings(settings);
-    m_diceManager->readSettings();
-    m_preferenceDialog->readSettings();
+    m_playerListWidget->readSettings(settings);
+    m_workspace->readSettings(settings);
+    m_diceManager->readSettings(settings);
+    m_preferenceDialog->readSettings(settings);
 }
 void MainWindow::writeSettings()
 {
@@ -685,15 +692,16 @@ void MainWindow::writeSettings()
   settings.endGroup();
 
 
-  QVariant variant;
+  /*QVariant variant;
   variant.setValue(*m_player);
-  settings.setValue("player", variant);
+  settings.setValue("player", variant);*/
 
-  m_options->writeSettings();
+  m_options->writeSettings(settings);
   m_sessionManager->writeSettings(settings);
-  m_workspace->writeSettings();
-  m_diceManager->writeSettings();
-  m_preferenceDialog->writeSettings();
+  m_playerListWidget->writeSettings(settings);
+  m_workspace->writeSettings(settings);
+  m_diceManager->writeSettings(settings);
+  m_preferenceDialog->writeSettings(settings);
 }
 void MainWindow::tcpStateConnectionChanged(RClient::State s)
 {
@@ -882,11 +890,14 @@ void MainWindow::openCleverURI(CleverURI* uri,bool addSession)
             tmp = new CharacterSheetWindow();
         break;
         case CleverURI::TEXT:
-            tmp = new MinutesEditor();
+            tmp = new MinutesEditor(uri);
         break;
+   #ifdef WITH_PDF
         case CleverURI::PDF:
             tmp = new PDFViewer();
         break;
+    #endif
+
         case CleverURI::TCHAT:
         case CleverURI::SONG:
         break;

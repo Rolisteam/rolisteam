@@ -28,6 +28,7 @@
 MinutesEditor::MinutesEditor()
 : SubMdiWindows()
 {
+    /// @todo allocate all the stuff for Minute Editor
 }
 MinutesEditor::MinutesEditor(CleverURI* uri)
     : SubMdiWindows()
@@ -269,6 +270,7 @@ void MinutesEditor::openFile(const QString& file)
         {
             QTextStream fichier(&textfile);
             QString html = fichier.readAll();
+
             m_minutes->setHtml(html);
         }
     }

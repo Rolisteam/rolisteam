@@ -21,8 +21,15 @@
 #define USERLISTVIEW_H
 
 #include <QTreeView>
+
+
+
+
 class UserListModel;
 class UserListDelegate;
+class Person;
+
+
 /**
   * @brief custom view to display tree person
   */
@@ -69,6 +76,8 @@ protected slots:
     void currentChanged(const QModelIndex &current, const QModelIndex &previous);
 
     void onAvatar();
+
+    QPixmap generateAvatar(Person* p);
 
 private:
     /**

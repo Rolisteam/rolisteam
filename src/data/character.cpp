@@ -17,7 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <QBrush>
+
 #include "character.h"
+
+
+
 Character::Character()
     : Person()
 {
@@ -39,4 +44,30 @@ Character::Character(const Character& p)
 bool Character::isLeaf() const
 {
     return true;
+}
+
+void Character::setParent(Person* person)
+{
+    m_parent = person;
+}
+void Character::setAvatar(QImage &p)
+{
+    Person::setAvatar(p);
+    emit avatarChanged();
+}
+
+QDataStream& operator<<(QDataStream& out, const Character& con)
+{
+  out << con.getName();
+  out << con.getColor();
+  out << con.getAvatar();
+  return out;
+}
+
+QDataStream& operator>>(QDataStream& is,Character& con)
+{
+  is >>(con.m_name);
+  is >>(con.m_color);
+  is >>(con.m_avatar);
+  return is;
 }

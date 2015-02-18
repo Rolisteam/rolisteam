@@ -18,50 +18,45 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef PDFRENDERER_H
-#define PDFRENDERER_H
-#include <poppler-qt4.h>
-#include <QLabel>
+#include <QPainter>
+#include <QImage>
 
-class QRubberBand;
-class PDFRenderer : public QLabel
+
+#include "patternmodel.h"
+
+//////IMPLEMENTATION of PatternModel
+PatternModel::PatternModel()
 {
+    m_list.append(QPixmap());
+    m_list.append(QPixmap(":/grid/01_square.png"));
+    m_list.append(QPixmap(":/grid/02_octo.png"));
+    m_list.append(QPixmap(":/grid/03_hexa.png"));
 
-    Q_OBJECT
-public:
-    PDFRenderer();
+    m_listGrille << tr("NoGrid") << tr("Square") << tr("Octogon") << tr("Hexagon");
+}
+QVariant PatternModel::data ( const QModelIndex & index, int role ) const
+{
+    if(Qt::DisplayRole == role)
+    {
+            QVariant variant =m_listGrille.at(index.row());
+            return variant;
+    }
+    else if(role == Qt::DecorationRole)
+    {
+        QVariant variant =m_list.at(index.row());
+        return variant;
+    }
+    else
+    {
+        return QVariant();
+    }
+}
+int PatternModel::rowCount ( const QModelIndex &  ) const
+{
+    return m_list.size();
+}
 
-    
-    void showPage(int page);
-    void loadDocument(QString filename);
-    void setScaleFactor(qreal factor);
-
-    quint32 getCurrentPage() const;
-    void setCurrentPage(quint32 currentpage);
-    QMatrix matrix() const;
-    qreal getScaleFactor() const;
-
-signals:
-    void textSelected(QString str);
-
-protected:
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void wheelEvent(QWheelEvent *);
-
-private:
-    void selectedText(const QRectF &rect);
-    void nextPage();
-    void previousPage();
-private:
-    Poppler::Document* m_pdf;
-    QRubberBand *rubberBand;
-    QPoint dragPosition;
-    qint32 m_currentPage;
-    qreal m_scaleFactor;
-
-};
-
-
-#endif // PDFRENDERER_H
+QPixmap PatternModel::getPatternAt(int i)
+{
+    return m_list.at(i);
+}

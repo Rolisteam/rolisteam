@@ -25,7 +25,7 @@
   * @brief abstract class which defines interface for all map items.
   * @todo Allows the modification of item's geometry, enable the selection.
   */
-class VisualItem : public QGraphicsItem
+class VisualItem : public QGraphicsObject
 {
 public:
     enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT};

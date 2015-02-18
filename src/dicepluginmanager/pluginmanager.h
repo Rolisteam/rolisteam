@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QList>
 #include <QStringList>
+#include <QSettings>
 
 class DiceSystemInterface;
 /**
@@ -52,12 +53,12 @@ public:
     /**
       * @brief calls every interfaces to read their settings
       */
-    void readSettings();
+    void readSettings(QSettings& setting);
 
     /**
       * @brief calls every interfaces to write their settings.
       */
-    void writeSettings();
+    void writeSettings(QSettings& setting);
     /**
       * @brief calls the same function to the given interface.
       */

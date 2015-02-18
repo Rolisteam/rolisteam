@@ -238,7 +238,7 @@ void ToolsBar::creerOutils()
         connect(m_lineDiameter,SIGNAL(diameterChanged(int)),this,SIGNAL(currentPenSizeChanged(int)));
 
 
-        m_NpcDiameter = new DiameterSelector(m_centralWidget, false, 12, 41);
+        m_NpcDiameter = new DiameterSelector(m_centralWidget, false, 12, 60);
         connect(m_NpcDiameter,SIGNAL(diameterChanged(int)),this,SIGNAL(currentPNCSizeChanged(int)));
         m_NpcDiameter->setToolTip(tr("Size of NPC"));
 
@@ -317,11 +317,11 @@ QColor& ToolsBar::currentColor()
 }
 
 
-void ToolsBar::mettreAJourPnj(int diametre, QString nom)
+void ToolsBar::updateNPCSize(int diameter, QString name)
 {
-    m_NpcDiameter->changerDiametre(diametre);
-    m_npcNameTextEdit->setText(nom);
-    m_currentNPCName = nom;
+    m_NpcDiameter->changerDiametre(diameter);
+    m_npcNameTextEdit->setText(name);
+    m_currentNPCName = name;
 }
 
 
@@ -334,7 +334,10 @@ QColor ToolsBar::donnerCouleurPersonnelle(int numero)
 {
     return m_colorSelector->getPersonalColor(numero);
 }
-
+ToolsBar::SelectableTool ToolsBar::getCurrentTool()
+{
+    return m_currentTool;
+}
 
 
 

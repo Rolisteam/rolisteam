@@ -57,11 +57,11 @@ public:
     /**
       * @brief read setting for this particular plugin
       */
-    virtual void readSettings();
+    virtual void readSettings(QSettings& setting);
     /**
       * @brief write setting at the end of each session
       */
-    virtual void writeSettings();
+    virtual void writeSettings(QSettings& setting);
     /**
       * @brief either has UI setting or not
       */

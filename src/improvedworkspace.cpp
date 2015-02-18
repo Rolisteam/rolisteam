@@ -18,11 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
+#include <QMimeData>
+#include <QPixmap>
 #include <QtGui>
+
 #include "improvedworkspace.h"
 #include "preferencesmanager.h"
-#include <QPixmap>
 #include "MainWindow.h"
 
 ImprovedWorkspace::ImprovedWorkspace(/*QColor& penColor,*/MainWindow *parent)
@@ -30,7 +31,7 @@ ImprovedWorkspace::ImprovedWorkspace(/*QColor& penColor,*/MainWindow *parent)
 {
     m_options = PreferencesManager::getInstance();
     m_parentWindow = parent;
-
+    setAcceptDrops(true);
     m_currentPenColor.setRgb(0,0,0);
     m_previousWidget = NULL;
     m_backGroundColor = m_options->value("worspace/background/color",QColor(191,191,191)).value<QColor>();
@@ -239,7 +240,7 @@ void ImprovedWorkspace::activeSubWindowChanged(QMdiSubWindow* wdw)
         }
     }
 }
-void ImprovedWorkspace::readSettings()
+void ImprovedWorkspace::readSettings(QSettings & settings)
 {
     /*foreach(QMdiSubWindow * t, subWindowList())
     {
@@ -252,7 +253,7 @@ void ImprovedWorkspace::readSettings()
 
 }
 
-void ImprovedWorkspace::writeSettings()
+void ImprovedWorkspace::writeSettings(QSettings & settings)
 {
     /*foreach(QMdiSubWindow * t, subWindowList())
     {
@@ -262,4 +263,85 @@ void ImprovedWorkspace::writeSettings()
             tmp->readSettings();
         }
     }*/
+}
+void ImprovedWorkspace::dragEnterEvent ( QDragEnterEvent * event )
+{
+    const QMimeData* data = event->mimeData();
+
+    if(data->hasText()||data->hasImage()||data->hasHtml()||data->hasUrls())
+        event->acceptProposedAction();
+
+}
+void ImprovedWorkspace::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void ImprovedWorkspace::dropEvent ( QDropEvent * event )
+{
+    const QMimeData* data = event->mimeData();
+    if(data->hasUrls())
+    {
+        bool ok;
+        foreach(QUrl url ,data->urls())
+        {
+            qDebug() << url.path();
+           CleverURI::ContentType type = fileToCleverUriType(url.path(),ok);
+            if(ok)
+                emit openCleverUri(new CleverURI(url.path(),type));
+        }
+    }
+    else if ((data->hasText())||data->hasHtml())
+    {
+        QString tmp;
+        bool b = false;
+        if(data->hasHtml())
+        {
+            b=true;
+             tmp=data->html();
+        }
+        else
+            tmp=data->text();
+
+        emit openNote(tmp,b);
+    }
+    else if(data->hasImage())
+    {
+            QImage image = qvariant_cast<QImage>(event->mimeData()->imageData());
+            emit openPicture(image);
+    }
+}
+/// may be place inside the cleveruri as static fonction
+CleverURI::ContentType ImprovedWorkspace::fileToCleverUriType(QString path, bool& ok)
+{
+    /// @todo make it more suitable for incresing the number of supported file.
+    /// @todo stronger tests must be performed
+    QFileInfo file(path);
+    QImage img;
+    if((file.exists())&&(file.isReadable()))
+    {
+        ok=true;
+
+        QString extension = file.suffix();
+        if((extension == "html")||(extension == "txt"))
+        {
+            return CleverURI::TEXT;
+        }
+        else if((extension == "xml"))
+        {
+            return CleverURI::CHARACTERSHEET;
+        }
+#ifdef WITH_PDF
+       else if(extension=="pdf")
+        {
+            return CleverURI::PDF;
+        }
+ #endif
+        else if(img.load(path))
+        {
+            return CleverURI::PICTURE;
+        }
+    }
+    ok=false;
+    return CleverURI::TEXT;
 }

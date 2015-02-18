@@ -30,7 +30,10 @@ QString CleverURI::m_charactersheetIcon=QString(":/resources/icons/treeview.png"
 QString CleverURI::m_scenarioIcon=QString(":/resources/icons/scenario.png");
 QString CleverURI::m_chatIcon=QString(":/resources/icons/scenario.png");
 QString CleverURI::m_musicIcon=QString(":/resources/icons/music.svg");
-QString CleverURI::m_pdfIcon=QString(":/iconpdf");
+#ifdef WITH_PDF
+    QString CleverURI::m_pdfIcon=QString(":/iconpdf");
+#endif
+QString CleverURI::m_empty=QString("");
 
 CleverURI::CleverURI()
 {
@@ -68,11 +71,13 @@ QString& CleverURI::getIcon(ContentType type)
     case CleverURI::SONG:
         return m_musicIcon;
         break;
+#ifdef WITH_PDF
     case CleverURI::PDF:
         return m_pdfIcon;
         break;
+#endif
     default:
-        return m_pictureIcon;
+        return m_empty;
         break;
     }
 }
@@ -129,7 +134,7 @@ const QString& CleverURI::getShortName() const
 }
 void CleverURI::setShortName(QString& name)
 {
-    //m_shortname = name;
+    m_shortname = name;
 }
 
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)

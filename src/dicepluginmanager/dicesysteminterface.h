@@ -22,6 +22,9 @@
 #define DICESYSTEMINTERFACE_H
 
 //#include <QString>
+
+#include <QSettings>
+
 class QString;
 #include <QtPlugin>
 /**
@@ -47,11 +50,11 @@ public:
     /**
       * @brief read setting (typically: configuration file)
       */
-    virtual void readSettings() =0;
+    virtual void readSettings(QSettings& setting) =0;
     /**
       * @brief write setting to save any changes
       */
-    virtual void writeSettings() =0;
+    virtual void writeSettings(QSettings& setting) =0;
     /**
       * @brief asks if the plugin provides GUI for its settings
       */

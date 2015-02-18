@@ -155,6 +155,7 @@ public:
     virtual bool isLocalPlayer(QModelIndex& p);
 
     Person* getPersonAt(QModelIndex& l);
+    int rootChildCount();
 private:
     /**
       * @brief put all checked item into the list

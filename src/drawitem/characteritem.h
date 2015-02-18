@@ -26,13 +26,13 @@
   */
 class CharacterItem : public VisualItem
 {
-
+    Q_OBJECT
 public:
-    CharacterItem(const Character* m,QPointF center,quint32 diameter = 40);
+    CharacterItem(const Character* m,QPointF center,int diameter = 40);
     /**
       * @brief constructor
       */
-    CharacterItem(QColor& penColor,QGraphicsItem * parent = 0);
+    //CharacterItem(QColor& penColor,QGraphicsItem * parent = 0);
     /**
       * @brief serialisation function to write data
       */
@@ -58,10 +58,16 @@ public:
       * @brief paint the ellipse at the correct position
       */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+public slots:
+    void sizeChanged(int m_size);
+
+private slots:
+    void generatedThumbnail();
 private:
     const Character* m_character;
     QPointF m_center;
-    quint32 m_diameter;
+    int m_diameter;
+    QPixmap* m_thumnails;
 
 
 };

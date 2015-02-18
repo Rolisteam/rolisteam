@@ -126,9 +126,9 @@ void  CharacterSheetWindow::saveCharacterSheet()
 }
 void CharacterSheetWindow::saveFile(const QString & file)
 {
-    if(!m_fileUri.isEmpty())
+    if(!file.isEmpty())
     {
-        QFile url(m_fileUri);
+        QFile url(file);
         if(!url.open(QIODevice::WriteOnly | QIODevice::Text))
             return;
 
@@ -138,11 +138,11 @@ void CharacterSheetWindow::saveFile(const QString & file)
     }
 }
 
-void CharacterSheetWindow::openFile(const QString& m_fileUri)
+void CharacterSheetWindow::openFile(const QString& fileUri)
 {
-    if(!m_fileUri.isEmpty())
+    if(!fileUri.isEmpty())
     {
-        QFile url(m_fileUri);
+        QFile url(fileUri);
         if(!url.open(QIODevice::ReadOnly))
             return;
 

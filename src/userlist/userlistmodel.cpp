@@ -79,6 +79,7 @@ void PersonItem::addChild(PersonItem* child)
 {
     m_children->append(child);
     child->setParent(this);
+
 }
 
 PersonItem* PersonItem::child(int row)
@@ -199,9 +200,12 @@ QVariant UserListModel::data ( const QModelIndex & index, int role  ) const
 }
 void UserListModel::addPlayer(Person* p)
 {
+
     beginInsertRows(QModelIndex(),m_root->childrenCount(),m_root->childrenCount());
     m_root->addChild(new PersonItem(p,false));
     endInsertRows();
+
+
 }
 void UserListModel::removeCharacter(QModelIndex& a,Person* p)
 {
@@ -294,4 +298,8 @@ Person* UserListModel::getPersonAt(QModelIndex& l)
 {
     PersonItem* childItem = static_cast<PersonItem*>(l.internalPointer());
     return childItem->getPerson();
+}
+int UserListModel::rootChildCount()
+{
+    return m_root->childrenCount();
 }

@@ -38,7 +38,7 @@ public:
     /**
     * @brief child accessor given row.
     */
-    Character* child(int row);
+    Character* child(int row) const;
     /**
     * @brief const accessor to the list of children
     */

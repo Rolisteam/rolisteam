@@ -24,6 +24,8 @@
 #include <QColor>
 
 #include "map.h"
+#include "patternmodel.h"
+
 namespace Ui {
     class MapWizzardDialog;
 }
@@ -72,20 +74,23 @@ private slots:
 
 private:
     /**
-      * pointer to the user interface Qt designer
+      * @brief pointer to the user interface Qt designer
       */
     Ui::MapWizzardDialog *ui;
     /**
-      * color used for painting the background
+      * @brief color used for painting the background
       */
     QColor m_bgColor;
 
     /**
-      * pointer to the unique instance of preference manager.
+      * @brief pointer to the unique instance of preference manager.
       */
     PreferencesManager* m_options;
 
-
-};
+    /**
+      * @brief model gathering all grid patterns.
+      */
+    PatternModel* m_model;
+ };
 
 #endif // MAPWIZZARDDIALOG_H

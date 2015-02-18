@@ -42,6 +42,7 @@ int ThemeListModel::rowCount ( const QModelIndex & parent) const
 }
 Qt::ItemFlags ThemeListModel::flags ( const QModelIndex & index ) const
 {
+    Q_UNUSED(index);
     return Qt::ItemIsSelectable|Qt::ItemIsEditable|Qt::ItemIsEnabled;
 }
 bool ThemeListModel::setData ( const QModelIndex & index, const QVariant & value, int role)

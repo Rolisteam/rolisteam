@@ -20,9 +20,11 @@
 
 #ifndef PREFERENCEDIALOG_H
 #define PREFERENCEDIALOG_H
-
+#include <QSettings>
 #include <QDialog>
 #include <QWidget>
+
+
 #include "theme.h"
 class PreferencesManager;
 class QAbstractButton;
@@ -53,12 +55,12 @@ public:
     /**
      * Load informations from the previous rolisteam's execution
      */
-    void readSettings();
+    void readSettings(QSettings & settings);
 
     /**
      * Save parameters for next executions.
      */
-    void writeSettings();
+    void writeSettings(QSettings & settings);
 
         void initValues();
 
@@ -92,6 +94,10 @@ protected slots:
 
     void refreshDialogWidgets();
 
+    void performCapabilityTests();
+    void imageFormatTest();
+    void fontTest();
+    void phononTest();
 
 
 protected:
