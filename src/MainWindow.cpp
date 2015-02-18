@@ -2303,23 +2303,22 @@ void MainWindow::ouvrirScenario()
 bool MainWindow::sauvegarderScenario()
 {
         // Ouverture du selecteur de fichiers
-        QString fichier = QFileDialog::getSaveFileName(this, tr("Sauvegarder scénario"), G_dossierScenarii, tr("Scénarios (*.sce)"));
+        QString filename = QFileDialog::getSaveFileName(this, tr("Sauvegarder scénario"), G_dossierScenarii, tr("Scénarios (*.sce)"));
 
-        // Si l'utilisateur a clique sur "Annuler", on quitte la fonction
-        if (fichier.isNull())
+
+        if (filename.isNull())
                 return false;
 
-        #ifdef MACOS
-                // On rajoute l'extension
-                fichier += ".sce";
-        #endif
+       if(!filename.endsWith(".sce"))
+                filename += ".sce";
+
 
         // On met a jour le chemin vers les scenarii
-        int dernierSlash = fichier.lastIndexOf("/");
-        G_dossierScenarii = fichier.left(dernierSlash);
+        int dernierSlash = filename.lastIndexOf("/");
+        G_dossierScenarii = filename.left(dernierSlash);
 
         // Creation du descripteur de fichier
-        QFile file(fichier);
+        QFile file(filename);
         // Ouverture du fichier en ecriture seule
         if (!file.open(QIODevice::WriteOnly))
         {
