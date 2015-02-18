@@ -209,6 +209,21 @@ void MainWindow::createMenu()
     {
 
         QAction* act = m_recentFilesActGroup->addAction(path.getUri());
+        switch(path.getType())
+        {
+            case CleverURI::CHARACTERSHEET:
+                act->setIcon(QIcon(":/resources/icons/treeview.png"));
+                break;
+            case CleverURI::MAP:
+                act->setIcon(QIcon(":/resources/icons/map.png"));
+                break;
+            case CleverURI::TEXT:
+                    act->setIcon(QIcon(":/resources/icons/notes.png"));
+                    break;
+            case CleverURI::PICTURE:
+                    act->setIcon(QIcon(":/resources/icons/image.png"));
+                    break;
+        }
         act->setData((int)path.getType());
         m_recentFilesMenu->addAction(act);
 
@@ -339,8 +354,12 @@ void MainWindow::addopenedFile(QString& urifile, CleverURI::ContentType type)
 {
     CleverURI uri(urifile,type);
 
+    qDebug() <<m_recentFiles.size();
+
     if(m_recentFiles.indexOf(uri)==-1)
         m_recentFiles << uri;
+
+    qDebug() <<m_recentFiles.size() << m_recentFiles.indexOf(uri) ;
 
 }
 void MainWindow::AskCharacterSheets()
@@ -532,10 +551,10 @@ void MainWindow::readSettings()
     QSettings settings("rolisteam");
     qRegisterMetaTypeStreamOperators<Player>("Player");
 
-    qRegisterMetaType<CleverURI>("Connection");
-    qRegisterMetaType<CleverUriList>("ConnectionList");
+    qRegisterMetaType<CleverURI>("CleverURI");
+    qRegisterMetaType<CleverUriList>("CleverUriList");
     qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
-    qRegisterMetaTypeStreamOperators<CleverUriList>("ConnectionList");
+    qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
 
 
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
@@ -551,6 +570,7 @@ void MainWindow::readSettings()
     tmp2.setValue(ConnectionList());
     QVariant tmp = m_options->value("network/connectionsList",tmp2);
     m_connectionList = tmp.value<ConnectionList>();
+
 
     QVariant tmp3;
     tmp3.setValue(CleverUriList());
@@ -574,9 +594,9 @@ void MainWindow::writeSettings()
   settings.setValue("player", variant);
   variant.setValue(m_recentFiles);
   settings.setValue("recentfiles",variant);
+
   m_options->writeSettings();
   m_workspace->writeSettings();
-
 }
 
 

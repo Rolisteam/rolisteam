@@ -29,7 +29,7 @@ void GenericDiceSystem::writeSettings()
 }
 bool GenericDiceSystem::hasUiSettings() const
 {
-
+    return false;
 }
 
 void GenericDiceSystem::showUiSettings()
