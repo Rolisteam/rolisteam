@@ -16,18 +16,21 @@ include(data/data.pri)
 include(charactersheet/charactersheet.pri)
 include(userlist/userlist.pri)
 include(tchat/tchat.pri)
+include(dicepluginmanager/dicepluginmanager.pri)
 DEPENDPATH += . \
     drawitem \
     preferences \
     data \
     userlist \
     charactersheet \
+    dicepluginmanager \
     tchat \
     map
 INCLUDEPATH += . \
     drawitem \
     preferences \
     userlist \
+    dicepluginmanager \
     data \
     tchat \
     charactersheet \

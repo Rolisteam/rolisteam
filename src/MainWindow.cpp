@@ -275,6 +275,8 @@ void MainWindow::addToWorkspace(SubMdiWindows* subWindow)
 void MainWindow::openTchat()
 {
     Tchat* tchat=new Tchat(this);
+
+    tchat->setClients(m_playerListWidget->getSelectedPerson());
     addToWorkspace(tchat);
     tchat->setVisible(true);
 }

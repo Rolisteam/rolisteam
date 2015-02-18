@@ -51,11 +51,13 @@ public:
     virtual void addCharacter(Person* p,Person* parent);
     Qt::ItemFlags flags ( const QModelIndex & index )  const;
     virtual void setLocalPlayer(Person* p);
-signals:
+    QList<Person*>* getSelectedPerson();
 
-public slots:
 
 private:
+    void addCheckedItem(QList<Person*>* tmp,PersonItem* itm);
+
+
     PersonItem* m_root;
     Person* m_player;
 };

@@ -158,9 +158,11 @@ QVariant UserListModel::data ( const QModelIndex & index, int role  ) const
 
                     case Qt::CheckStateRole:
                         return childItem->getPerson()->checkedState();
+                    default:
+                        return QVariant();
 
+                }
             }
-        }
         }
 
     return QVariant();
@@ -215,4 +217,20 @@ Qt::ItemFlags UserListModel::flags ( const QModelIndex & index )  const
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable ;
     else
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable;
+}
+QList<Person*>* UserListModel::getSelectedPerson()
+{
+    QList<Person*>* tmp = new QList<Person*>();
+    addCheckedItem(tmp,m_root);
+    return tmp;
+}
+void UserListModel::addCheckedItem(QList<Person*>* tmp,PersonItem* itm)
+{
+    for(int i = 0;i<itm->childrenCount();i++)
+    {
+        Person* tmpPerson = itm->child(i)->getPerson();
+        if(tmpPerson->checkedState()==Qt::Checked)
+            tmp->append(tmpPerson);
+        addCheckedItem(tmp,itm->child(i));
+    }
 }

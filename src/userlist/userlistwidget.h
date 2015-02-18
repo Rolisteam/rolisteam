@@ -20,6 +20,7 @@ public:
     explicit UserListWidget(QWidget *parent = 0);
     ~UserListWidget();
 
+    QList<Person*>* getSelectedPerson();
 protected:
     void setupUI();
     void setAction();
@@ -30,6 +31,7 @@ signals:
 public slots:
     void addUser(Person* p);
     void setLocalPlayer(Player* p);
+
 
 protected slots:
     void addPC();

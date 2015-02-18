@@ -22,7 +22,7 @@ void UserListView::currentChanged(const QModelIndex &current, const QModelIndex 
 void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
 {
     QModelIndex tmp = indexAt(event->pos());
-
+    int indentationValue = indentation();
     if(tmp.isValid())
     {
         event->pos();
@@ -32,7 +32,8 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
             depth++;
             tmp=tmp.parent();
         }
-        if((depth*20+20<event->pos().x())&&((depth+1)*20+20>event->pos().x()))
+        //if the click is on the color icon.
+        if((depth*indentationValue+indentationValue<event->pos().x())&&((++depth)*indentationValue+indentationValue>event->pos().x()))
         {
             emit editCurrentItemColor();
         }
@@ -51,7 +52,8 @@ void UserListView::onEditCurrentItemColor()
 
 
     QColor color= QColorDialog::getColor(childItem->getPerson()->getColor(),this);
-    qDebug() << color;
-    childItem->getPerson()->setColor(color);
+
+    if(color.isValid())
+        childItem->getPerson()->setColor(color);
 
 }

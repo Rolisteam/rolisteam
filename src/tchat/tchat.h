@@ -42,6 +42,8 @@
 class Person;
 class QListView;
 class TchatListModel;
+class DicePlugInManager;
+class QComboBox;
 class Tchat : public SubMdiWindows
 {
 Q_OBJECT
@@ -57,6 +59,7 @@ public :
     virtual void openFile(QString& file);
     bool defineMenu(QMenu* /*menu*/);
 
+    void setClients(QList<Person*>* tmp);
 
 public slots:
     void addPerson(Person* );
@@ -68,9 +71,7 @@ protected :
     void showEvent(QShowEvent *event);
 
 private :
-    int rollDices(QString message, QString *tirage, bool *ok);
 
-    int rollDicesSR4(QString message, QString *tirage, QString *glitch, bool *ok);
     void setupUi();
 
     QTextEdit* m_meetingRoom;
@@ -82,6 +83,8 @@ private :
     QList<Person*>* m_clientList;
     QListView* m_listView;
     TchatListModel* m_listModel;
+    QComboBox* m_combobox;
+    DicePlugInManager* m_diceManager;
 
 
 private slots :

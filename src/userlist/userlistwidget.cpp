@@ -91,6 +91,11 @@ void UserListWidget::delSelectedPC()
 {
 
 }
+QList<Person*>* UserListWidget::getSelectedPerson()
+{
+   return m_model->getSelectedPerson();
+}
+
 void UserListWidget::currentChanged(const QModelIndex& p)
 {
     if(m_model->isPlayer(p))

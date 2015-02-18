@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>resources/doc/rolisteam.qhc</file>
-        <file>resources/a propos.htm</file>
         <file>resources/icons/Rolisteam.png</file>
         <file>resources/icons/ajouter PNJ.png</file>
         <file>resources/icons/boucle.png</file>
