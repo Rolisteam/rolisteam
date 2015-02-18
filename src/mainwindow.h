@@ -134,7 +134,7 @@ public :
      * @param idImage
      * @return
      */
-    bool enleverImageDeLaListe(QString idImage);
+    //bool enleverImageDeLaListe(QString idImage);
 
     /**
      * @brief registerSubWindow

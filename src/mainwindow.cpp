@@ -1371,7 +1371,7 @@ bool MainWindow::enleverCarteDeLaListe(QString idCarte)
     else
         return false;
 }
-bool MainWindow::enleverImageDeLaListe(QString idImage)
+/*bool MainWindow::enleverImageDeLaListe(QString idImage)
 {
     foreach(QMdiSubWindow* sub, m_pictureList)
     {
@@ -1387,7 +1387,7 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
 
     }
     return false;
-}
+}*/
 
 QWidget* MainWindow::registerSubWindow(QWidget * subWindow,QAction* action)
 {

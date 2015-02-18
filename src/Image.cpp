@@ -78,7 +78,7 @@ Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QIm
 Image::~Image()
 {
     /// @todo fix this, cause crash at the destruction of the application.
-    m_mainWindow->enleverImageDeLaListe(idImage);
+    //m_mainWindow->enleverImageDeLaListe(idImage);
 }
 QAction* Image::getAssociatedAction() const
 {
