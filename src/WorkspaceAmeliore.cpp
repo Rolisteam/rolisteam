@@ -32,7 +32,7 @@
 /* Constructeur                                                     */
 /********************************************************************/	
 WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
-: QWorkspace(parent)
+: QMdiArea(parent)
 {
     m_preferences =  PreferencesManager::getInstance();
     QString fichierImage = QDir::homePath() + "/." + m_preferences->value("Application_Name","rolisteam").toString() + "/" + m_preferences->value("Application_Name","rolisteam").toString() + ".bmp";
@@ -85,5 +85,16 @@ void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
     setBackground(QBrush(*m_variableSizeBackground));
 
-    QWorkspace::resizeEvent(event);
+    QMdiArea::resizeEvent(event);
+}
+QWidget*  WorkspaceAmeliore::addWindow(QWidget* child)
+{
+    QMdiSubWindow* sub = addSubWindow(child);
+    sub->setAttribute(Qt::WA_DeleteOnClose, false);
+    child->setAttribute(Qt::WA_DeleteOnClose, false);
+    return sub;
+}
+QWidget* WorkspaceAmeliore::activeWindow()
+{
+    return currentSubWindow();
 }

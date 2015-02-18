@@ -134,7 +134,7 @@ bool PlayerChat::everyPlayerHasFeature(const QString & feature, quint8 version) 
 void PlayerChat::verifyName(Player * player)
 {
     if (player == m_player)
-        emit changedName();
+        emit changedName(m_player->name());
 }
 
 
@@ -364,7 +364,7 @@ void PrivateChat::p_set(const QString & name, QSet<Player *> set, bool thenUpdat
     }
 
     m_name = name;
-    emit changedName();
+    emit changedName(m_name);
     m_set  = set;
     if (thenUpdate)
         sendUpdate();

@@ -126,10 +126,21 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     // Buttons
     QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
+
+
+
     // Main layout
     QVBoxLayout * layout = new QVBoxLayout;
     layout->addLayout(layoutH);
     layout->addLayout(formLayout);
+
+
+    layoutH = new QHBoxLayout;
+    layoutH->addWidget(new QLabel(tr("Select color for Fog:")));
+    m_fogColor = new ColorButton();
+    layoutH->addWidget(m_fogColor);
+    layout->addLayout(layoutH);
+
     layout->addWidget(buttonBox);
 
     setLayout(layout);
@@ -168,6 +179,8 @@ void PreferencesDialog::load()
     m_notesDir->setDirName(m_preferences->value("MinutesDirectory",QDir::homePath()).toString());
     m_chatsDir->setDirName(m_preferences->value("ChatDirectory",QDir::homePath()).toString());
     m_checkUpdateAtStartUp->setChecked(m_preferences->value("MainWindow_MustBeChecked",true).toBool());
+
+    m_fogColor->setColor(m_preferences->value("Fog_color",Qt::black).value<QColor>());
 }
 
 void PreferencesDialog::save() const
@@ -182,4 +195,5 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("MinutesDirectory",m_notesDir->dirName());
     m_preferences->registerValue("ChatDirectory",m_chatsDir->dirName());
     m_preferences->registerValue("MainWindow_MustBeChecked",m_checkUpdateAtStartUp->isChecked());
+    m_preferences->registerValue("Fog_color",m_fogColor->color());
 }

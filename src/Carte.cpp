@@ -36,6 +36,7 @@
 
 #include "variablesGlobales.h"
 #include <QDebug>
+#include "preferencesmanager.h"
 //GM_ONLY, PC_MOVE,PC_ALL
 
 
@@ -44,6 +45,8 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
 {
     m_currentMode = Carte::GM_ONLY;
     m_currentTool = BarreOutils::main;
+
+    m_fogColor = PreferencesManager::getInstance()->value("fog_color",QVariant(Qt::black)).value<QColor>();
 
     m_originalBackground = new QImage(image->size(), QImage::Format_ARGB32);
     *m_originalBackground = image->convertToFormat(QImage::Format_ARGB32);
@@ -55,7 +58,7 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
 
     m_alphaLayer = new QImage(image->size(), QImage::Format_ARGB32_Premultiplied);
     QPainter painterAlpha(m_alphaLayer);
-    painterAlpha.fillRect(0, 0, image->width(), image->height(), masquer?G_couleurMasque:Qt::white);
+    painterAlpha.fillRect(0, 0, image->width(), image->height(), masquer?m_fogColor:Qt::white);
 
     p_init();
 }
@@ -575,7 +578,7 @@ void Carte::dessiner(QPainter &painter)
     if (G_couleurCourante.type == qcolor)
         couleurPinceau = G_couleurCourante.color;
     else if (G_couleurCourante.type == masque)
-        couleurPinceau = G_couleurMasque;
+        couleurPinceau = m_fogColor;
     else if(G_couleurCourante.type == demasque)
         couleurPinceau = Qt::white;
     else if(G_couleurCourante.type == efface)
@@ -1543,7 +1546,7 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
     }
 
     // Ajout de l'intensite de la couche alpha
-    quint8 intensiteAlpha = G_couleurMasque.red();
+    quint8 intensiteAlpha = m_fogColor.red();
     memcpy(&(donnees[p]), &intensiteAlpha, sizeof(quint8));
     p+=sizeof(quint8);        
     // Ajout du fond d'origine
@@ -1976,7 +1979,7 @@ void Carte::dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichi
     else if (couleur.type == masque)
     {
         painter.begin(m_alphaLayer);
-        couleurPinceau = G_couleurMasque;
+        couleurPinceau = m_fogColor;
     }
     else if (couleur.type == demasque)
     {
@@ -2063,7 +2066,7 @@ void Carte::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneA
     else if (couleur.type == masque)
     {
         painter.begin(m_alphaLayer);
-        couleurPinceau = G_couleurMasque;
+        couleurPinceau = m_fogColor;
     }
     else if (couleur.type == demasque)
     {
@@ -2131,7 +2134,7 @@ void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arri
     else if (couleur.type == masque)
     {
         painter.begin(m_alphaLayer);
-        couleurPinceau = G_couleurMasque;
+        couleurPinceau = m_fogColor;
     }
     else if (couleur.type == demasque)
     {
@@ -2264,13 +2267,13 @@ void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arri
 void Carte::adapterCoucheAlpha(quint8 intensiteAlpha)
 {
     // Si l'intensite passee en parametre correspond a celle utilisee par l'utilisateur, aucune modif n'est necessaire : on quitte la fonction
-    if (intensiteAlpha == G_couleurMasque.red())
+    if (intensiteAlpha == m_fogColor.red())
         return;
         
     // Dans le cas contraire il faut modifier tous les pixels de la couche alpha
     
     // Calcul de la difference entre les 2 intensites
-    qint16 diff = (qint16)(G_couleurMasque.red()) - (qint16)intensiteAlpha;
+    qint16 diff = (qint16)(m_fogColor.red()) - (qint16)intensiteAlpha;
     // Nbr de pixels de la couche alpha
     int tailleAlpha = m_alphaLayer->width() * m_alphaLayer->height();
     // Pointeur vers les donnees de l'image

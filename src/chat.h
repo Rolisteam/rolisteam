@@ -37,17 +37,17 @@ class AbstractChat : public QObject
 {
     Q_OBJECT
 
-    public:
-        virtual QString identifier() const =0;
-        virtual QString name() const =0;
-        virtual bool belongsToLocalPlayer() const;
-        virtual bool belongsTo(Player * player) const =0;
-        virtual void sendThem(NetworkMessage & message, Liaison * but = NULL) const =0;
-        virtual bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const =0;
+public:
+    virtual QString identifier() const =0;
+    virtual QString name() const =0;
+    virtual bool belongsToLocalPlayer() const;
+    virtual bool belongsTo(Player * player) const =0;
+    virtual void sendThem(NetworkMessage & message, Liaison * but = NULL) const =0;
+    virtual bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const =0;
 
-    signals:
-        void changedName();
-        void changedMembers();
+signals:
+    void changedName(QString);
+    void changedMembers();
 };
 /**
  * @brief The PublicChat class
@@ -56,15 +56,15 @@ class PublicChat : public AbstractChat
 {
     Q_OBJECT
 
-    public:
-        PublicChat();
-        ~PublicChat();
+public:
+    PublicChat();
+    ~PublicChat();
 
-        QString identifier() const;
-        QString name() const;
-        bool belongsTo(Player * player) const;
-        void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
-        bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
+    QString identifier() const;
+    QString name() const;
+    bool belongsTo(Player * player) const;
+    void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
+    bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 };
 /**
  * @brief The PlayerChat class
@@ -73,21 +73,21 @@ class PlayerChat : public AbstractChat
 {
     Q_OBJECT
 
-    public:
-        PlayerChat(Player * player);
-        ~PlayerChat();
+public:
+    PlayerChat(Player * player);
+    ~PlayerChat();
 
-        QString identifier() const;
-        QString name() const;
-        bool belongsTo(Player * player) const;
-        void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
-        bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
+    QString identifier() const;
+    QString name() const;
+    bool belongsTo(Player * player) const;
+    void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
+    bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 
-    private:
-        Player * m_player;
+private:
+    Player * m_player;
 
-    private slots:
-        void verifyName(Player * player);
+private slots:
+    void verifyName(Player * player);
 };
 /**
  * @brief The PrivateChat class
@@ -96,58 +96,58 @@ class PrivateChat : public AbstractChat
 {
     Q_OBJECT
 
-    public:
-        /**
+public:
+    /**
          * @brief Create a chat owned by the local player
          */
-        PrivateChat(const QString & name);
+    PrivateChat(const QString & name);
 
-        /**
+    /**
          * @brief Create a chat from the network.
          * If something went wrong, the identifier will be invalid.
          */
-        PrivateChat(ReceiveEvent & event);
+    PrivateChat(ReceiveEvent & event);
 
-        ~PrivateChat();
+    ~PrivateChat();
 
-        QString identifier() const;
-        QString name() const;
-        bool belongsToLocalPlayer() const;
-        bool belongsTo(Player * player) const;
-        void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
-        bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
+    QString identifier() const;
+    QString name() const;
+    bool belongsToLocalPlayer() const;
+    bool belongsTo(Player * player) const;
+    void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
+    bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 
-        Player * owner() const;
+    Player * owner() const;
 
-        bool sameLink(Liaison * link);
+    bool sameLink(Liaison * link);
 
-        bool includeLocalPlayer() const;
-        bool removePlayer(Player * player);
-        QSet<Player *> players() const;
+    bool includeLocalPlayer() const;
+    bool removePlayer(Player * player);
+    QSet<Player *> players() const;
 
-        void sendUpdate() const;
-        void sendDel() const;
+    void sendUpdate() const;
+    void sendDel() const;
 
-        /**
+    /**
          * @brief Update the current chat to the other chat if they have the same owner.
          * Then send update.
          */
-        void set(const PrivateChat & data, bool update = true);
+    void set(const PrivateChat & data, bool update = true);
 
-        /**
+    /**
          * @brief Update chat owned by local player.
          * Then send update.
          */
-        void set(const QString & name, const QSet<Player *> & set);
+    void set(const QString & name, const QSet<Player *> & set);
 
-    private:
-        QString  m_uuid;
-        QString  m_name;
-        Player * m_owner;
-        QSet<Player *> m_set;
+private:
+    QString  m_uuid;
+    QString  m_name;
+    Player * m_owner;
+    QSet<Player *> m_set;
 
-        void p_sendThem(NetworkMessage & message, Liaison * but, bool force) const;
-        void p_set(const QString & name, QSet<Player *> set, bool update);
+    void p_sendThem(NetworkMessage & message, Liaison * but, bool force) const;
+    void p_set(const QString & name, QSet<Player *> set, bool update);
 };
 
 #endif

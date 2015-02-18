@@ -31,7 +31,7 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 #include <QDir>
-
+#include <QPushButton>
 
 #include "chat.h"
 #include "networkmessagewriter.h"
@@ -57,18 +57,18 @@ QStringList ChatWindow::m_keyWordList;
 /* Constructeur                                                     */
 /********************************************************************/    
 ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
-    : QSplitter(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)
+    : QWidget(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent),ui(new Ui::ChatWindow)
 {
     m_preferences = PreferencesManager::getInstance();
+    //ui->setupUi(this);
+
     if (m_chat == NULL)
     {
         qFatal("ChatWindow with NULL chat");
     }
-
-    if (parent == NULL)
-    {
-        parent = m_mainWindow;
-    }
+    //ui->m_characterComboBox->setModel(&LocalPersonModel::instance());
+    //ui->m_displayArea = new ChatBrowser();
+    //ui->m_typingArea = new TextEditAmeliore();
 
     // Initialisation des variables
     m_warnedEmoteUnavailable = false;
@@ -79,90 +79,151 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     {
         m_keyWordList << "e " << "em " << "me " << "emote ";
     }
+    setupUi();
 
-    // create and connect toggleViewAction
+    connect(zoneEdition, SIGNAL(textValidated(QString,QString)), this, SLOT(emettreTexte(QString,QString)));
+
+    connect(zoneEdition, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
+    connect(zoneEdition, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
+
+    connect(m_mainWindow, SIGNAL(closing()), this, SLOT(save()));
+    //connect(m_chat, SIGNAL(changedName()), this, SLOT(updateTitleFromChat()));
+    //connect(m_save,SIGNAL(clicked()),this,SLOT(save()));
+     connect(m_chat, SIGNAL(changedMembers()), this, SLOT(scheduleUpdateChatMembers()));
+
     m_toggleViewAction = new QAction(this);
     m_toggleViewAction->setCheckable(true);
+
     connect(m_toggleViewAction, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
 
+}
+QMdiSubWindow* ChatWindow::getSubWindow()
+{
+    return m_window;
+}
+
+void ChatWindow::setupUi()
+{
+
+    // create and connect toggleViewAction
 
 
-    //setWindowIcon(QIcon(":/resources/icones/chatvignette.png"));
 
-    // Les 2 parties du tchat seront positionnees verticalement dans la fenetre
-    setOrientation(Qt::Vertical);
-    // Les widgets contenus ne peuvent pas avoir une taille de 0
-    setChildrenCollapsible(false);
 
-    // Creation de la zone affichant le texte des utilisateurs tiers
-    m_displayZone = new ChatBrowser();
+    m_splitter = new QSplitter();
+    m_splitter->setOrientation(Qt::Vertical);
 
+
+
+
+
+    //ChatRoom
+    QVBoxLayout * vboxLayout = new QVBoxLayout();
+    vboxLayout->setMargin(0);
+    vboxLayout->setSpacing(0);
+
+
+    vboxLayout->addWidget(m_splitter);
+    m_displayZone= new ChatBrowser();
     m_displayZone->setOpenExternalLinks(true);
-   // zoneAffichage->setOpenLinks(false);
     m_displayZone->setReadOnly(true);
     m_displayZone->setMinimumHeight(30);
-    //zoneAffichage->setFocusPolicy(Qt::NoFocus);
-    //zoneAffichage->installEventFilter(this);
-    //zoneAffichage->setTextInteractionFlags(Qt::TextBrowserInteraction);
-    
-    // Creation de la zone editable contenant les messages de l'utilisateur local
+
+
+
     zoneEdition = new TextEditAmeliore();
     zoneEdition->setReadOnly(false);
     zoneEdition->setMinimumHeight(30);
     zoneEdition->setAcceptRichText(false);
     zoneEdition->installEventFilter(this);
 
-    // SelectPersonComboBox
-    m_selectPersonComboBox = new QComboBox(this);
-    m_selectPersonComboBox->setModel(&LocalPersonModel::instance());
-    m_selectPersonComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    connect(m_chat, SIGNAL(changedMembers()), this, SLOT(scheduleUpdateChatMembers()));
-    scheduleUpdateChatMembers();
 
-    // Toolbar
-    QToolBar * toolBar = new QToolBar(this);
-    toolBar->addWidget(m_selectPersonComboBox);
-    toolBar->addAction(
-    QIcon::fromTheme("document-save", QIcon(":/resources/icones/save.png")),
-    tr("save"), this, SLOT(save()));
+
+
+
+
+
+
+
+
+
+
+
 
     // Layout
-    QVBoxLayout * vboxLayout = new QVBoxLayout();
-    vboxLayout->setSpacing(0);
-    vboxLayout->setContentsMargins(0,0,0,0);
-    vboxLayout->addWidget(toolBar);
-    vboxLayout->addWidget(zoneEdition);
-    QWidget * bottomWidget = new QWidget(this);
-    bottomWidget->setLayout(vboxLayout);
+    m_bottomWidget = new QWidget();
 
-    addWidget(m_displayZone);
-    addWidget(bottomWidget);
+    m_selectPersonComboBox = new QComboBox();
+    m_selectPersonComboBox->setModel(&LocalPersonModel::instance());
+    m_selectPersonComboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+//    if()
+//    m_selectPersonComboBox->setCurrentIndex(0);
+
+    // Toolbar
+    QToolBar * toolBar = new QToolBar();
+    //toolBar->setOrientation(Qt::Horizontal);
+    toolBar->addWidget(m_selectPersonComboBox);
+    toolBar->addAction(QIcon::fromTheme("document-save", QIcon(":/resources/icones/save.png")),tr("save"), this, SLOT(save()));
+
+    // SelectPersonComboBox
+
+
+
+    scheduleUpdateChatMembers();
+
+
+
+
+    //m_save = new QPushButton(QIcon::fromTheme("document-save", QIcon(":/resources/icones/save.png")),tr("save"),this);
+
+
+
+    //Typing Zone
+
+
+
+
+
+
+
+
+
+
+    QVBoxLayout * internalVLayout = new QVBoxLayout();
+    internalVLayout->setMargin(0);
+    internalVLayout->setSpacing(0);
+
+    internalVLayout->addWidget(toolBar);
+    internalVLayout->addWidget(zoneEdition);
+//zoneEdition
+    m_bottomWidget->setLayout(internalVLayout);
+
+
+
+    m_splitter->addWidget(m_displayZone);
+    m_splitter->addWidget(m_bottomWidget);
+
 
     // Initialisation des tailles des 2 widgets
     QList<int> tailles;
     tailles.append(200);
     tailles.append(40);
-    setSizes(tailles);
+    m_splitter->setSizes(tailles);
 
     // Connexion du signal de validation du text de la zone d'edition a la demande d'emission
-    connect(zoneEdition, SIGNAL(textValidated(QString,QString)), this, SLOT(emettreTexte(QString,QString)));
-
-    connect(zoneEdition, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
-    connect(zoneEdition, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
-
-    connect(parent, SIGNAL(closing()), this, SLOT(save()));
 
     // Window initialisation
     setObjectName("ChatWindow");
 
 
-    setAttribute(Qt::WA_DeleteOnClose, false);
-    parent->registerSubWindow(this);
-    setWindowIcon(QIcon(":/resources/icones/chatIcone.png"));
-    hide();
 
-    updateTitleFromChat();
-    connect(m_chat, SIGNAL(changedName()), this, SLOT(updateTitleFromChat()));
+
+
+
+    setAttribute(Qt::WA_DeleteOnClose, false);
+
+    setLayout(vboxLayout);
+
 }
 
 /********************************************************************/    
@@ -181,7 +242,13 @@ AbstractChat * ChatWindow::chat() const
 {
     return m_chat;
 }
-
+bool ChatWindow::isVisible()
+{
+    if(NULL!=m_window)
+        return m_window->isVisible();
+    else
+        return false;
+}
 
 // not (const QString & message), because we change it !
 void ChatWindow::emettreTexte(QString messagehtml,QString message)
@@ -206,128 +273,128 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
 
     switch(tmpmessage[0].toAscii())
     {
-        case '!':
-            result = calculerJetDes(message, tirage, ok);
-            if(ok)
-            {
-                           messageCorps = tr("got %1 at your dice roll [%2]").arg(result).arg(tirage);
-                        messageTitle = tr("You");
-                        color = localPerson->color();
-                        afficherMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
-                            message = QString(tr("got %1 at his dice roll [%2]").arg(result).arg(tirage));
-            }
-            else
-            {
-                messageCorps = tr("!1d6 or !5d10+3 or !2d20-3d10+1d6+5 etc... The dice roll is public (For private roll, use & ).");
-                messageTitle = tr("Syntax");
-                color = Qt::red;
-                afficherMessage(messageTitle, color, messageCorps);
-            }
-            break;
-        case '&':
-            result = calculerJetDes(message, tirage, ok);
+    case '!':
+        result = calculerJetDes(message, tirage, ok);
+        if(ok)
+        {
+            messageCorps = tr("got %1 at your dice roll [%2]").arg(result).arg(tirage);
+            messageTitle = tr("You");
+            color = localPerson->color();
+            afficherMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
+            message = QString(tr("got %1 at his dice roll [%2]").arg(result).arg(tirage));
+        }
+        else
+        {
+            messageCorps = tr("!1d6 or !5d10+3 or !2d20-3d10+1d6+5 etc... The dice roll is public (For private roll, use & ).");
+            messageTitle = tr("Syntax");
+            color = Qt::red;
+            afficherMessage(messageTitle, color, messageCorps);
+        }
+        break;
+    case '&':
+        result = calculerJetDes(message, tirage, ok);
+        if (ok)
+        {
+            messageCorps = tr("You got %1 at your secret dice roll [%2]").arg(result).arg(tirage);
+            messageTitle = tr("Secret Roll:");
+            color = Qt::magenta;
+            afficherMessage(messageTitle, color,messageCorps ,NetMsg::DiceMessageAction);
+        }
+        else
+        {
+            messageCorps = tr("!1d6 or !5d10+3 or !2d20-3d10+1d6+5 etc... The dice roll is public (For private roll, use & ).");
+            messageTitle = tr("Syntax");
+            color = Qt::red;
+            afficherMessage(messageTitle, color, messageCorps);
+        }
+        return;
+        break;
+    case '*':
+    {
+        QRegExp exp("\\*[0-9]+[dD].*");
+        if(exp.exactMatch(message))
+        {
+            QString glitch;
+            result = calculerJetDesSR4(message, tirage, glitch, ok);
             if (ok)
             {
-                messageCorps = tr("You got %1 at your secret dice roll [%2]").arg(result).arg(tirage);
-                messageTitle = tr("Secret Roll:");
-                color = Qt::magenta;
-                afficherMessage(messageTitle, color,messageCorps ,NetMsg::DiceMessageAction);
+                messageCorps = tr("got %1 successes %2%3").arg(result).arg(glitch).arg(tirage);
+                messageTitle = tr("You");
+                // On affiche le resultat du tirage dans la zone d'affichage
+                afficherMessage(messageTitle, localPerson->color(),messageCorps ,NetMsg::DiceMessageAction);
+                // On cree un nouveau message a envoyer aux autres utilisateurs
+                message = QString(tr("got %1 successes %2%3").arg(result).arg(glitch).arg(tirage));
             }
             else
             {
-                messageCorps = tr("!1d6 or !5d10+3 or !2d20-3d10+1d6+5 etc... The dice roll is public (For private roll, use & ).");
-                messageTitle = tr("Syntax");
+                //*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n'afficher que les résultats.
+                messageCorps = tr("*12D ... Add R for rusher, G3 for Gremlins index of 3 and + for reroll 6 ... Adde C hide roll detail, and S to display the result only.");
+                messageTitle = tr("Syntax SR4");
                 color = Qt::red;
                 afficherMessage(messageTitle, color, messageCorps);
             }
-            return;
             break;
-        case '*':
-            {
-                QRegExp exp("\\*[0-9]+[dD].*");
-                if(exp.exactMatch(message))
-                {
-                    QString glitch;
-                    result = calculerJetDesSR4(message, tirage, glitch, ok);
-                    if (ok)
-                    {
-                        messageCorps = tr("got %1 successes %2%3").arg(result).arg(glitch).arg(tirage);
-                        messageTitle = tr("You");
-                        // On affiche le resultat du tirage dans la zone d'affichage
-                        afficherMessage(messageTitle, localPerson->color(),messageCorps ,NetMsg::DiceMessageAction);
-                        // On cree un nouveau message a envoyer aux autres utilisateurs
-                        message = QString(tr("got %1 successes %2%3").arg(result).arg(glitch).arg(tirage));
-                    }
-                    else
-                    {
-                        //*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n'afficher que les résultats.
-                        messageCorps = tr("*12D ... Add R for rusher, G3 for Gremlins index of 3 and + for reroll 6 ... Adde C hide roll detail, and S to display the result only.");
-                        messageTitle = tr("Syntax SR4");
-                         color = Qt::red;
-                        afficherMessage(messageTitle, color, messageCorps);
-                    }
-                    break;
-                }
-                else
-                {
-                        messageTitle = tr("You");
-                        /*if(m_chat->everyPlayerHasFeature(QString("RichTextChat")))
+        }
+        else
+        {
+            messageTitle = tr("You");
+            /*if(m_chat->everyPlayerHasFeature(QString("RichTextChat")))
                         {
                             message=messagehtml;
                         }*/
-                        afficherMessage(messageTitle, localPerson->color(), message);
-
-                        // action is messageChatWindow only if there are no dices
-                        action = NetMsg::ChatMessageAction;
-                        break;
-                }
-            }
-
-        case '/':
-            {
-                bool emote = false;
-
-                for(int i = 0;((i < m_keyWordList.size())&&(!emote)); i++)
-                {
-                    QString s = m_keyWordList[i];
-
-                    if(tmpmessage.indexOf(s) == 1)
-                    {
-                        emote = true;
-
-                        message.remove(0,s.length()+1);
-                    }
-
-                }
-                if(emote)
-                {
-                    // Warn if some users don't have Emote(0) feature
-                    if (!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
-                    {
-                        messageTitle = tr("Warning");
-                        messageCorps = tr("Some users won't be enable to see your emotes.");
-                        color = Qt::red;
-                        afficherMessage(messageTitle, color, messageCorps);
-                        m_warnedEmoteUnavailable = true;
-                    }
-                        
-                    
-                    afficherMessage(localPerson->name(), localPerson->color(), message,NetMsg::EmoteMessageAction);
-                    action = NetMsg::EmoteMessageAction;
-                    break;
-                }
-            }
-
-        default:
-            messageTitle = localPerson->name();
-           /* if(m_chat->everyPlayerHasFeature(QString("RichTextChat")))
-            {
-                message=messagehtml;
-            }*/
             afficherMessage(messageTitle, localPerson->color(), message);
+
             // action is messageChatWindow only if there are no dices
             action = NetMsg::ChatMessageAction;
             break;
+        }
+    }
+
+    case '/':
+    {
+        bool emote = false;
+
+        for(int i = 0;((i < m_keyWordList.size())&&(!emote)); i++)
+        {
+            QString s = m_keyWordList[i];
+
+            if(tmpmessage.indexOf(s) == 1)
+            {
+                emote = true;
+
+                message.remove(0,s.length()+1);
+            }
+
+        }
+        if(emote)
+        {
+            // Warn if some users don't have Emote(0) feature
+            if (!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
+            {
+                messageTitle = tr("Warning");
+                messageCorps = tr("Some users won't be enable to see your emotes.");
+                color = Qt::red;
+                afficherMessage(messageTitle, color, messageCorps);
+                m_warnedEmoteUnavailable = true;
+            }
+
+
+            afficherMessage(localPerson->name(), localPerson->color(), message,NetMsg::EmoteMessageAction);
+            action = NetMsg::EmoteMessageAction;
+            break;
+        }
+    }
+
+    default:
+        messageTitle = localPerson->name();
+        /* if(m_chat->everyPlayerHasFeature(QString("RichTextChat")))
+            {
+                message=messagehtml;
+            }*/
+        afficherMessage(messageTitle, localPerson->color(), message);
+        // action is messageChatWindow only if there are no dices
+        action = NetMsg::ChatMessageAction;
+        break;
     }
 
     if(!ok)
@@ -387,7 +454,7 @@ void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& coule
 
 
     m_displayZone->insertHtml(message);
-    qDebug() << message;
+   // qDebug() << message;
     if(msgtype==NetMsg::EmoteMessageAction)
     {
         m_displayZone->setFontItalic(false);
@@ -396,17 +463,13 @@ void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& coule
     m_displayZone->verticalScrollBar()->setSliderPosition(m_displayZone->verticalScrollBar()->maximum());
 }
 
-/********************************************************************/
-/* Cache la fenetre au lieu de la detruire et demande le decochage  */
-/* de la case de l'utilisateur correspondant dans la liste des      */
-/* utilisateurs                                                     */
-/********************************************************************/    
-void ChatWindow::closeEvent(QCloseEvent *event)
-{
-    // Decoche l'action associee dans le sous-menu ChatWindows
-    m_toggleViewAction->setChecked(false);
-    QWidget::closeEvent(event);
-}
+
+//void ChatWindow::closeEvent(QCloseEvent *event)
+//{
+//    // Decoche l'action associee dans le sous-menu ChatWindows
+//    m_toggleViewAction->setChecked(false);
+//    QWidget::closeEvent(event);
+//}
 
 int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
 {
@@ -431,7 +494,7 @@ int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
 
     while(message.size())
     {
-    
+
         if(GetNumber(message,&nombre))///  @attention : former fashion did not take care of the return value.
         {
             // 4 cas de figure :
@@ -528,7 +591,7 @@ int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
                     dice=(qrand()%6)+1;
                     listDices.append(dice);
                     if(dice>=5)
-                       ++sumDice ;
+                        ++sumDice ;
                 }
                 // Formatting the "tirage" text
                 tirage.append(tr("%1s (%3").arg(nombre).arg(listDices[0]));
@@ -566,10 +629,10 @@ int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
                             tmpDice=(qrand()%10)+1;
                             dice+=tmpDice;
                         }
-                    listDices.append(dice); 
+                    listDices.append(dice);
                 }
                 qSort(listDices.begin(), listDices.end(), qGreater<unsigned short>());
-			int it =0;
+                int it =0;
                 while (sumDice<seuil)
                 {
                     sumDice+=listDices[it];
@@ -610,11 +673,11 @@ int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
                         nombre++;                     							    listDices.append(dice);
                 }
                 for (int it=0; it<nombre; it++)
-			{
-				if (listDices[it]>=seuil)
-					success++;
-			}
-			
+                {
+                    if (listDices[it]>=seuil)
+                        success++;
+                }
+
                 // Formatting the "tirage" text
                 tirage.append(tr("%1v%2 (%3").arg(nombre).arg(seuil).arg(listDices[0]));
                 for(unsigned short u=1;u<listDices.size();u++)
@@ -641,8 +704,8 @@ int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
                 // The dices rolling
                 QList<int> listDices;
                 unsigned short dice;
-			int success=0;
-			bool  critique=true;
+                int success=0;
+                bool  critique=true;
                 for(unsigned short u=0;u<nombre;u++)
                 {
                     dice=(qrand()%10)+1;
@@ -655,14 +718,14 @@ int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
                     {
                         success++;
                         critique=false;
-					
+
                     }
                     if (listDices[it]==1)
-					success--;
+                        success--;
                 }
                 if (success<0 && !critique)
                     success=0;
-			
+
                 // Formatting the "tirage" text
                 tirage.append(tr("%1w%2 (%3").arg(nombre).arg(seuil).arg(listDices[0]));
                 for(unsigned short u=1;u<listDices.size();u++)
@@ -762,49 +825,49 @@ int ChatWindow::calculerJetDesSR4(QString &message, QString &tirage, QString &gl
         //if the first character of message is a letter, put it to lowercase
         if(firstChar.isLetter())
             firstChar.toCaseFolded ();
-            
+
         switch(firstChar.toAscii())
         {
-            case '+':
-                if (sixAgainActif)
-                    return (ok=false);
-
-                sixAgainActif = true;
-                break;
-            case 'g':
-                if (gremlinsActif)
-                    return (ok=false);
-
-                gremlinsActif = true;
-                message.remove(0, 1);
-
-                // the function need to have a message and that message[0] is a digit to continue
-                if (!(message.size() && message[0].isDigit()))
-                    return (ok=false);
-                indiceGremlinsStr = message.left(1);
-                indiceGremlins = indiceGremlinsStr.toUInt(&estOK, 10);
-                break;
-            case 'r':
-                if (rushActif)
-                    return (ok=false);
-
-                rushActif = true;
-                seuilGlitch = 2;
-                break;
-            case 'c':
-                if (modeCourtActif)
-                    return (ok=false);
-
-                modeCourtActif = true;
-                break;
-            case 's':
-                if (modeSecretActif)
-                    return (ok=false);
-
-                modeSecretActif = true;
-                break;
-            default:
+        case '+':
+            if (sixAgainActif)
                 return (ok=false);
+
+            sixAgainActif = true;
+            break;
+        case 'g':
+            if (gremlinsActif)
+                return (ok=false);
+
+            gremlinsActif = true;
+            message.remove(0, 1);
+
+            // the function need to have a message and that message[0] is a digit to continue
+            if (!(message.size() && message[0].isDigit()))
+                return (ok=false);
+            indiceGremlinsStr = message.left(1);
+            indiceGremlins = indiceGremlinsStr.toUInt(&estOK, 10);
+            break;
+        case 'r':
+            if (rushActif)
+                return (ok=false);
+
+            rushActif = true;
+            seuilGlitch = 2;
+            break;
+        case 'c':
+            if (modeCourtActif)
+                return (ok=false);
+
+            modeCourtActif = true;
+            break;
+        case 's':
+            if (modeSecretActif)
+                return (ok=false);
+
+            modeSecretActif = true;
+            break;
+        default:
+            return (ok=false);
         }
         message.remove(0, 1);
     }
@@ -816,13 +879,13 @@ int ChatWindow::calculerJetDesSR4(QString &message, QString &tirage, QString &gl
 
     if (!modeSecretActif)
     {
-                tirage.append(QString(tr(" (%1 dices").arg(nbDes)));
+        tirage.append(QString(tr(" (%1 dices").arg(nbDes)));
         if (rushActif)
             tirage.append(QString(tr(" in rushing")));
         if (gremlinsActif)
             tirage.append(QString(tr(" with Gremlins %1").arg(indiceGremlinsStr)));
         if (sixAgainActif)
-                        tirage.append(QString(tr(" - 6 are reroll")));
+            tirage.append(QString(tr(" - 6 are reroll")));
         if (!modeCourtActif)
             tirage.append(QString(tr(" : ")));
         else
@@ -886,11 +949,7 @@ bool ChatWindow::hasUnseenMessage() const
     return m_hasUnseenMessage;
 }
 
-void ChatWindow::setVisible(bool visible)
-{
-    emit changed(this);
-    QWidget::setVisible(visible);
-}
+
 
 void ChatWindow::save()
 {
@@ -908,18 +967,19 @@ void ChatWindow::save()
     file.close();
 }
 
-void ChatWindow::updateTitleFromChat()
+QString ChatWindow::getTitleFromChat()
 {
-    const QString & name = m_chat->name();
+    m_toggleViewAction->setText(m_chat->name());
+    return m_chat->name();
 
-    setWindowTitle(tr("%1 (Chat)").arg(name));
-    m_toggleViewAction->setText(name);
+    /*if(NULL!=m_window)
+    {
+        m_window->setWindowTitle(tr("%1 (Chat)").arg(name));
+
+    }*/
 }
 
-/********************************************************************/
-/* Lorsque la fenetre s'ouvre, on positionne le curseur sur la zone */
-/* d'edition                                                        */
-/********************************************************************/
+
 void ChatWindow::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event);
@@ -929,38 +989,39 @@ void ChatWindow::showEvent(QShowEvent *event)
     {
         m_selectPersonComboBox->setCurrentIndex(0);
     }
+   // QWidget::showEvent(event);
 }
 
-bool ChatWindow::eventFilter(QObject *obj, QEvent *event)
-{
-    if (obj == zoneEdition)
-    {
-        if (event->type() == QEvent::FocusIn)
-        {
-            if (m_hasUnseenMessage)
-            {
-                m_hasUnseenMessage = false;
-                emit changed(this);
-            }
-        }
-    }
-   /* else if(obj == m_displayZone)
-    {
-        //qDebug() << "Event Type: "<< event->type();
-        if(event->type() == QEvent::ContextMenu)
-        {
-            QContextMenuEvent* eventCustom = dynamic_cast<QContextMenuEvent*>(event);
-            if(eventCustom!=NULL)
-            {
-                showContextMenu(eventCustom->globalPos());
-                event->accept();
-                return true;
-            }
-        }
-    }*/
+//bool ChatWindow::eventFilter(QObject *obj, QEvent *event)
+//{
+//    if (obj == zoneEdition)
+//    {
+//        if (event->type() == QEvent::FocusIn)
+//        {
+//            if (m_hasUnseenMessage)
+//            {
+//                m_hasUnseenMessage = false;
+//                emit changed(this);
+//            }
+//        }
+//    }
+//    /* else if(obj == m_displayZone)
+//    {
+//        //qDebug() << "Event Type: "<< event->type();
+//        if(event->type() == QEvent::ContextMenu)
+//        {
+//            QContextMenuEvent* eventCustom = dynamic_cast<QContextMenuEvent*>(event);
+//            if(eventCustom!=NULL)
+//            {
+//                showContextMenu(eventCustom->globalPos());
+//                event->accept();
+//                return true;
+//            }
+//        }
+//    }*/
 
-    return false;
-}
+//    return false;
+//}
 
 bool ChatWindow::GetNumber(QString &str, int* value)
 {
@@ -1004,8 +1065,20 @@ void ChatWindow::updateChatMembers()
     //qDebug("doing it");
     bool enable = m_chat->everyPlayerHasFeature(QString("MultiChat"));
     if (!enable)
+    {
         m_selectPersonComboBox->setCurrentIndex(0);
+    }
     m_selectPersonComboBox->setEnabled(enable);
+}
+void ChatWindow::setSubWindow(QMdiSubWindow* subWindow)
+{
+    m_window = subWindow;
+
+
+    connect(m_toggleViewAction, SIGNAL(toggled(bool)), m_window, SLOT(setVisible(bool)));
+
+
+    //updateTitleFromChat();
 }
 
 /*void ChatWindow::contextMenuEvent ( QContextMenuEvent * event )

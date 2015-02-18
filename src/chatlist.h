@@ -23,6 +23,7 @@
 #define CHATLIST_H
 
 #include <QAbstractItemModel>
+#include <QMdiSubWindow>
 #include <QMap>
 #include <QMenu>
 
@@ -67,6 +68,7 @@ public:
     virtual bool event(QEvent * event);
 
 private:
+    QList<QMdiSubWindow*> m_chatSubWindowList;
     QList<ChatWindow *> m_chatWindowList;
     QMap<QString, PrivateChat *> m_privateChatMap;
     QMenu m_chatMenu;
@@ -75,8 +77,9 @@ private:
     void addChatWindow(ChatWindow * chat);
     void delChatWindow(ChatWindow * chat);
 
-    ChatWindow * chatWindow(const QString & uuid) const;
-    ChatWindow * chatWindow(const QModelIndex & index) const;
+    ChatWindow * getChatWindowByUuid(const QString & uuid) const;
+    ChatWindow * getChatWindowByIndex(const QModelIndex & index) const;
+    QMdiSubWindow * getChatSubWindowByIndex(const QModelIndex & index) const;
 
     void dispatchMessage(ReceiveEvent * event);
     void updatePrivateChat(ReceiveEvent * event);

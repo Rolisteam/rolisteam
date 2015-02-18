@@ -31,7 +31,7 @@ private slots:
     void selectPath();
 
 private:
-    Ui::MapWizzard *ui;
+    Ui::MapWizzard* ui;
     PreferencesManager* m_preferences;
 };
 

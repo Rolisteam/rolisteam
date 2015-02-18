@@ -69,22 +69,31 @@ CarteFenetre::~CarteFenetre()
     //no need to delete, actionAssociee it is delete when qmenu is deleted
     m_mainWindow->enleverCarteDeLaListe(carteAssociee->identifiantCarte());
 }
-QAction* CarteFenetre::getAssociatedAction() const
-{
-    return actionAssociee;
-}
-void CarteFenetre::closeEvent(QCloseEvent *event)
+//QAction* CarteFenetre::getAssociatedAction() const
+//{
+ //   return actionAssociee;
+//}
+/*void CarteFenetre::closeEvent(QCloseEvent *event)
 {
     hide();
     actionAssociee->setChecked(false);
     event->ignore();
-}
+}*/
 
-
-void CarteFenetre::associerAction(QAction *action)
+void CarteFenetre::hideEvent ( QHideEvent * event )
 {
-    actionAssociee = action;
+    emit visibleChanged(false);
+    QScrollArea::hideEvent(event);
 }
+void CarteFenetre::showEvent ( QShowEvent * event )
+{
+    emit visibleChanged(true);
+   QScrollArea::showEvent(event);
+}
+//void CarteFenetre::associerAction(QAction *action)
+//{
+//    actionAssociee = action;
+//}
 
 
 Carte * CarteFenetre::carte()

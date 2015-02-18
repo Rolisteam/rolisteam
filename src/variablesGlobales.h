@@ -62,7 +62,7 @@ extern QList<DessinPerso::etatDeSante> G_etatsDeSante;
 
 // Declarees dans SelecteurCouleur.cpp
 extern couleurSelectionee G_couleurCourante;
-extern QColor G_couleurMasque;
+//extern QColor G_couleurMasque;
 
 // Declarees dans BarreOutils.cpp
 //extern BarreOutils::Tool G_outilCourant;

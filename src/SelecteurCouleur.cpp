@@ -33,7 +33,7 @@
 // Definit la couleur courante
 couleurSelectionee G_couleurCourante;
 // Intensite du masque affichant ou masquant le plan
-QColor G_couleurMasque;
+//QColor G_couleurMasque;
 
 
 /********************************************************************/
@@ -235,10 +235,10 @@ void SelecteurCouleur::autoriserOuInterdireCouleurs()
 	if (G_joueur)
 	{
 		// Le masquage est total
-		G_couleurMasque = QColor(0,0,0);
+        PreferencesManager::getInstance()->registerValue("fog_color",QColor(0,0,0));
 		// Message d'interdiction pour les couleurs de masquage et de demasquage
-                couleurMasque->setToolTip(tr("Hide (GM only)"));
-                couleurDemasque->setToolTip(tr("Unveil (GM only)"));
+        couleurMasque->setToolTip(tr("Hide (GM only)"));
+        couleurDemasque->setToolTip(tr("Unveil (GM only)"));
 		// Il est impossible de selectionner les couleurs de masquage et de demasquage
 		couleurMasque->setEnabled(false);
 		couleurDemasque->setEnabled(false);
@@ -248,10 +248,10 @@ void SelecteurCouleur::autoriserOuInterdireCouleurs()
 	else
 	{
 		// Le masque est transparent
-		G_couleurMasque = QColor(50,50,50);
+        PreferencesManager::getInstance()->registerValue("fog_color",QColor(50,50,50));
 		// Tooltip normaux pour les couleurs de masquage et de demasquage
-                couleurMasque->setToolTip(tr("Hide"));
-                couleurDemasque->setToolTip(tr("Unveil"));
+        couleurMasque->setToolTip(tr("Hide"));
+        couleurDemasque->setToolTip(tr("Unveil"));
 	}
 }
 

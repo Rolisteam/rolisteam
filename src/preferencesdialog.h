@@ -28,6 +28,9 @@
 
 
 #include "preferencesmanager.h"
+#include "colorbutton.h"
+
+
 /**
  * @brief A LineEdit with a button to choose a directory.
  * @todo Make it private or in its own file.
@@ -81,6 +84,7 @@ private:
 
     PreferencesManager* m_preferences;
     QCheckBox* m_checkUpdateAtStartUp;
+    ColorButton* m_fogColor;
 };
 
 #endif

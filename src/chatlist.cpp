@@ -28,6 +28,7 @@
 #include "playersList.h"
 #include "receiveevent.h"
 #include "chatwindow.h"
+#include "mainwindow.h"
 
 extern bool G_client;
 
@@ -74,13 +75,37 @@ ChatList::~ChatList()
         delete m_chatWindowList.at(i);
     }
 }
+bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    QMdiSubWindow * chatw = getChatSubWindowByIndex(index);
+    if (chatw == NULL)
+        return false;
 
+    switch (role)
+    {
+        default:
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+        case Qt::DecorationRole:
+            return false;
+        case Qt::CheckStateRole:
+            chatw->setVisible(!chatw->isVisible());
+            return true;
+    }
+
+
+
+}
 
 QVariant ChatList::data(const QModelIndex &index, int role) const
 {
-    ChatWindow * chatw = chatWindow(index);
+    QMdiSubWindow * chatw2 = getChatSubWindowByIndex(index);
+    ChatWindow * chatw = getChatWindowByIndex(index);
 
     if (chatw == NULL)
+        return QVariant();
+
+    if (chatw->chat() == NULL)
         return QVariant();
 
     switch (role)
@@ -91,7 +116,7 @@ QVariant ChatList::data(const QModelIndex &index, int role) const
         case Qt::DecorationRole:
             return QVariant(QColor(chatw->hasUnseenMessage() ? "red" : "green"));
         case Qt::CheckStateRole:
-            return QVariant(chatw->isVisible());
+            return QVariant(chatw2->isVisible());
     }
 
     return QVariant();
@@ -141,7 +166,7 @@ int ChatList::columnCount(const QModelIndex &parent) const
     return 1;
 }
 
-bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role)
+/*bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     Q_UNUSED(value);
 
@@ -161,7 +186,7 @@ bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role
     // this signal won't probably be emited for every changes
     emit dataChanged(index, index);
     return true;
-}
+}*/
 
 QMenu * ChatList::chatMenu()
 {
@@ -170,7 +195,7 @@ QMenu * ChatList::chatMenu()
 
 AbstractChat * ChatList::chat(const QModelIndex & index)
 {
-    ChatWindow * chatw = chatWindow(index);
+    ChatWindow * chatw = getChatWindowByIndex(index);
     if (chatw == NULL)
         return NULL;
     return chatw->chat();
@@ -189,7 +214,7 @@ bool ChatList::addLocalChat(PrivateChat * chat)
 
 bool ChatList::delLocalChat(const QModelIndex & index)
 {
-    ChatWindow * chatw =  chatWindow(index);
+    ChatWindow * chatw =  getChatWindowByIndex(index);
     PrivateChat * chat = qobject_cast<PrivateChat *>(chatw->chat());
     if (chat == NULL || !chat->belongsToLocalPlayer())
         return false;
@@ -204,14 +229,32 @@ bool ChatList::delLocalChat(const QModelIndex & index)
     return true;
 }
 
-void ChatList::addChatWindow(ChatWindow * chatw)
+void ChatList::addChatWindow(ChatWindow* chatw)
 {
     int listSize = m_chatWindowList.size();
     beginInsertRows(QModelIndex(), listSize, listSize);
 
-    m_chatWindowList.append(chatw);
+
     m_chatMenu.addAction(chatw->toggleViewAction());
     connect(chatw, SIGNAL(changed(ChatWindow *)), this, SLOT(changeChatWindow(ChatWindow *)));
+
+    QMdiSubWindow* widget = static_cast<QMdiSubWindow*>(m_mainWindow->registerSubWindow(chatw));
+
+    connect(chatw->chat(), SIGNAL(changedName(QString)), widget, SLOT(setWindowTitle(QString)));
+    //chatw->setSubWindow(widget);
+    m_chatWindowList.append(chatw);
+    m_chatSubWindowList.append(widget);
+
+    if(NULL!=widget)
+    {
+        chatw->setSubWindow(widget);
+        widget->setWindowTitle(tr("%1 (Chat)").arg(chatw->getTitleFromChat()));
+        widget->setWindowIcon(QIcon(":/chat.png"));
+        widget->setAttribute(Qt::WA_DeleteOnClose, false);
+        //m_window->setWindowTitle(tr(""));
+        widget->setVisible(false);
+    }
+
 
     endInsertRows();
 }
@@ -232,7 +275,7 @@ void ChatList::delChatWindow(ChatWindow * chatw)
 }
 
 
-ChatWindow * ChatList::chatWindow(const QString & uuid) const
+ChatWindow * ChatList::getChatWindowByUuid(const QString & uuid) const
 {
     int maxChatIndex = m_chatWindowList.size();
     for (int i = 0 ; i < maxChatIndex ; i++)
@@ -244,7 +287,7 @@ ChatWindow * ChatList::chatWindow(const QString & uuid) const
     return NULL;
 }
 
-ChatWindow * ChatList::chatWindow(const QModelIndex & index) const
+ChatWindow * ChatList::getChatWindowByIndex(const QModelIndex & index) const
 {
     if (!index.isValid() || index.parent().isValid() || index.column() != 0)
         return NULL;
@@ -255,10 +298,20 @@ ChatWindow * ChatList::chatWindow(const QModelIndex & index) const
 
     return m_chatWindowList.at(row);
 }
+QMdiSubWindow * ChatList::getChatSubWindowByIndex(const QModelIndex & index) const
+{
+    if (!index.isValid() || index.parent().isValid() || index.column() != 0)
+        return NULL;
 
+    int row = index.row();
+    if (row < 0 || row >= m_chatSubWindowList.size())
+        return NULL;
+
+    return m_chatSubWindowList.at(row);
+}
 void ChatList::addPlayerChat(Player * player)
 {
-    ChatWindow * chatw = chatWindow(player->uuid());
+    ChatWindow * chatw = getChatWindowByUuid(player->uuid());
     if (chatw == NULL)
     {
         addChatWindow(new ChatWindow(new PlayerChat(player), m_mainWindow));
@@ -358,7 +411,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     if (to == g_playersList->localPlayer()->uuid())
     {
         Player * owner = g_playersList->getParent(from);
-        chatWindow(owner->uuid())->afficherMessage(sender->name(), sender->color(), msg, data.action());
+        getChatWindowByUuid(owner->uuid())->afficherMessage(sender->name(), sender->color(), msg, data.action());
         return;
     }
 
@@ -373,7 +426,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
         }
     }
 
-    ChatWindow * chatw = chatWindow(to);
+    ChatWindow * chatw = getChatWindowByUuid(to);
     if (chatw != NULL)
         chatw->afficherMessage(sender->name(), sender->color(), msg, data.action());
 
@@ -412,7 +465,7 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
         }
     }
 
-    ChatWindow * chatw = chatWindow(newChat->identifier());
+    ChatWindow * chatw = getChatWindowByUuid(newChat->identifier());
     if (chatw != NULL)
     {
         if (newChat->includeLocalPlayer())
@@ -467,7 +520,7 @@ void ChatList::deletePrivateChat(ReceiveEvent * event)
         m_privateChatMap.remove(uuid);
     }
 
-    ChatWindow * chatw = chatWindow(uuid);
+    ChatWindow * chatw = getChatWindowByUuid(uuid);
     if (chatw != NULL)
         delChatWindow(chatw);
 }

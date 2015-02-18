@@ -52,15 +52,16 @@ Q_OBJECT
 public :
     CarteFenetre(Carte *uneCarte,MainWindow* mainWindow, QWidget *parent = 0);
     ~CarteFenetre();
-    void associerAction(QAction *action);
+    //void associerAction(QAction *action);
     Carte *carte();
     QString getMapId();
-    QAction* getAssociatedAction() const;
+    //QAction* getAssociatedAction() const;
 
 
 
 signals:
     void activated(Carte * carte);
+    void visibleChanged(bool);
 
 public slots :
     void commencerDeplacement(QPoint position);
@@ -68,13 +69,15 @@ public slots :
     void fitMapToWindow();
 
 protected :
-    void closeEvent(QCloseEvent *event);
+    //void closeEvent(QCloseEvent *event);
     void focusInEvent(QFocusEvent * event);
     void contextMenuEvent( QContextMenuEvent * event );
+    void hideEvent ( QHideEvent * event );
+    void showEvent ( QShowEvent * event );
 
 private :
     Carte *carteAssociee;
-    QAction *actionAssociee;
+    //QAction *actionAssociee;
     QPoint pointDepart;
     int horizontalDepart;
     int verticalDepart;

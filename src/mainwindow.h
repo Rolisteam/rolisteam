@@ -31,6 +31,10 @@
 #include <QTextEdit>
 #include <QMenu>
 #include <QWorkspace>
+#include <QMdiSubWindow>
+
+
+
 
 #include "DessinPerso.h"
 #include "initialisation.h"
@@ -140,7 +144,7 @@ public :
      * @brief registerSubWindow
      * @param subWindow
      */
-    void registerSubWindow(QWidget * subWindow);
+    QWidget* registerSubWindow(QWidget * subWindow);
     /**
      * @brief showConnectionDialog
      * @return
@@ -225,7 +229,7 @@ private slots :
     void afficherNomsPj(bool afficher);
     void afficherNomsPnj(bool afficher);
     void afficherNumerosPnj(bool afficher);
-    void changementFenetreActive(QWidget *widget);
+    void changementFenetreActive(QMdiSubWindow* widget);
     void newMap();
     void openMap(Carte::PermissionMode Permission,QString filepath,QString title,bool masquer = false);
     void ouvrirImage();
@@ -373,7 +377,8 @@ private :
 
     MapWizzard* m_mapWizzard;
 
-
+    //subwindow
+    QMdiSubWindow* m_noteEditorSub;
 };
 
 #endif

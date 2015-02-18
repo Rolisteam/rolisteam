@@ -29,23 +29,28 @@
 #include <QFile>
 #include <QSplitter>
 #include <QTextBrowser>
+#include <QMdiSubWindow>
 
 #include "networkmessage.h"
 #include "preferencesmanager.h"
 #include "colorbutton.h"
 #include "chatbrowser.h"
 
+#include "ui_chatwindow.h"
+
 class AbstractChat;
 class MainWindow;
 class Player;
 class TextEditAmeliore;
 
-
+namespace Ui {
+class ChatWindow;
+}
 /**
  * @brief Fenêtre permettant aux utilisateurs de communiquer entre eux par
  * écrit.
  */    
-class ChatWindow : public QSplitter
+class ChatWindow : public QWidget
 {
 Q_OBJECT
 
@@ -62,21 +67,24 @@ public :
     bool hasUnseenMessage() const;
 
     // events handler
-    bool eventFilter(QObject *obj, QEvent *event);
+   // bool eventFilter(QObject *obj, QEvent *event);
+    void setSubWindow(QMdiSubWindow* subWindow);
+    QMdiSubWindow* getSubWindow();
 
 signals:
     void changed(ChatWindow * what);
 
 public slots:
-    virtual void setVisible(bool visible);
+    //virtual void setVisible(bool visible);
+    virtual bool isVisible();
     void save();
-    void updateTitleFromChat();
+    QString getTitleFromChat();
 
 protected :
     void init(MainWindow * parent);
  //void contextMenuEvent ( QContextMenuEvent * event );
 
-    void closeEvent(QCloseEvent *event);
+    //void closeEvent(QCloseEvent *event);
     void showEvent(QShowEvent *event);
 
     /**
@@ -90,11 +98,16 @@ protected :
 private :
     static QStringList m_keyWordList;
 
+    Ui::ChatWindow* ui;
+
+    QMdiSubWindow* m_window;
+
     AbstractChat * m_chat;
     QString m_filename;
     bool m_warnedEmoteUnavailable;
     bool m_hasUnseenMessage;
     MainWindow* m_mainWindow;
+    QPushButton* m_save;
 
     PreferencesManager* m_preferences;
 
@@ -102,11 +115,14 @@ private :
     QComboBox * m_selectPersonComboBox;
     TextEditAmeliore * zoneEdition;    // Zone de texte ou l'utilisateur peut ecrire
     QAction * m_toggleViewAction;
+    QSplitter* m_splitter;
+    QWidget * m_bottomWidget;
 
 
 
     int calculerJetDes(QString &message, QString & tirage, bool &ok);
     int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok);
+    void setupUi();
 
 private slots :
     void emettreTexte(QString messagehtml,QString message);

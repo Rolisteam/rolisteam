@@ -206,4 +206,6 @@ LIBS += -lz
 FORMS += \
     src/connectionretrydialog.ui \
     src/mapwizzard.ui \
-    src/newemptymapdialog.ui
+    src/newemptymapdialog.ui \
+    src/chatwindow.ui \
+    preferencesdialogbox.ui

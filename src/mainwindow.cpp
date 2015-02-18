@@ -190,7 +190,7 @@ void MainWindow::setupUi()
     // Ajout de l'espace de travail dans la fenetre principale
     setCentralWidget(workspace);
     // Connexion du changement de fenetre active avec la fonction de m.a.j du selecteur de taille des PJ
-    connect(workspace, SIGNAL(windowActivated(QWidget *)), this, SLOT(changementFenetreActive(QWidget *)));
+    connect(workspace, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(changementFenetreActive(QMdiSubWindow *)));
 
     // Creation de la barre d'outils
     //barreOutils = new BarreOutils(this);
@@ -242,10 +242,13 @@ void MainWindow::setupUi()
     // Creation de l'editeur de notes
     m_noteEditor= new TextEdit(this);
     connect(m_noteEditor,SIGNAL(closed(bool)),m_noteEditorAct,SLOT(setChecked(bool)));
-    workspace->addWindow(m_noteEditor);
-    m_noteEditor->setWindowTitle(tr("Minutes Editor[*]"));
-    m_noteEditor->setWindowIcon(QIcon(":/notes.png"));
-    m_noteEditor->hide();
+    m_noteEditorSub  = static_cast<QMdiSubWindow*>(workspace->addWindow(m_noteEditor));
+    if(NULL!=m_noteEditorSub)
+    {
+        m_noteEditorSub->setWindowTitle(tr("Minutes Editor[*]"));
+        m_noteEditorSub->setWindowIcon(QIcon(":/notes.png"));
+        m_noteEditorSub->hide();
+    }
 
    /* editeurNotes = new EditeurNotes(this);
     // Ajout de l'editeur de notes au workspace
@@ -461,8 +464,8 @@ void MainWindow::linkActionToMenu()
         connect(m_reconnectAct,SIGNAL(triggered()),this,SLOT(startReconnection()));
 
         // Windows managing
-        connect(actionCascade, SIGNAL(triggered(bool)), workspace, SLOT(cascade()));
-        connect(actionTuiles, SIGNAL(triggered(bool)), workspace, SLOT(tile()));
+        connect(actionCascade, SIGNAL(triggered(bool)), workspace, SLOT(cascadeSubWindows()));
+        connect(actionTuiles, SIGNAL(triggered(bool)), workspace, SLOT(tileSubWindows()));
 
         // Display
         connect(actionAfficherNomsPj, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
@@ -486,8 +489,14 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         if(!pos.isNull())
             tmp->move(pos);
 
+        if(titre.isEmpty())
+        {
+            titre = tr("Unknown Map");
+        }
+
         //tmp->setParent(this);
         tmp->setWindowIcon(QIcon(":/map.png"));
+        tmp->setWindowTitle(titre);
 
         // Mise a jour du titre de la CarteFenetre
         //carteFenetre->setWindowFlags(carteFenetre->windowFlags() | Qt::SubWindow);
@@ -501,11 +510,12 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         action->setChecked(true);
 
         // Association de l'action avec la carte
-        carteFenetre->associerAction(action);
+        //carteFenetre->associerAction(action);
 
         // Connexion de l'action avec l'affichage/masquage de la fenetre
+        connect(action, SIGNAL(triggered(bool)), tmp, SLOT(setVisible(bool)));
         connect(action, SIGNAL(triggered(bool)), carteFenetre, SLOT(setVisible(bool)));
-
+        connect(carteFenetre,SIGNAL(visibleChanged(bool)),action,SLOT(setChecked(bool)));
 
         Carte *carte = carteFenetre->carte();
         carte->setPointeur(m_toolBar->getCurrentTool());
@@ -531,7 +541,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
         connect(carteFenetre, SIGNAL(activated(Carte *)), m_toolBar, SLOT(changeMap(Carte *)));
 
         // Affichage de la carte
-        carteFenetre->show();
+        tmp->setVisible(true);
 
 }
 void  MainWindow::closeConnection()
@@ -776,7 +786,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
         if (masquer)
         {
                 QPainter painterAlpha(&alpha);
-                painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), G_couleurMasque);
+                painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), PreferencesManager::getInstance()->value("fog_color",QColor(0,0,0)).value<QColor>());
         }
 
         // Creation de l'identifiant de la carte
@@ -967,7 +977,7 @@ void MainWindow::closeMapOrImage()
                 if(NULL!=carteFenetre)
                 {
                     mapImageId = carteFenetre->getMapId();
-                    associatedAction = carteFenetre->getAssociatedAction();
+                    associatedAction = NULL;
                 }
                 else
                 {
@@ -1093,15 +1103,23 @@ void MainWindow::afficherNumerosPnj(bool afficher)
 void MainWindow::mettreAJourEspaceTravail()
 {
         // On recupere la fenetre active
-        QWidget *active = workspace->activeWindow();
+        QMdiSubWindow* active = workspace->currentSubWindow();
 
         // S'il y a une fenetre active, on la passe a la fonction changementFenetreActive
         if (active)
+        {
                 changementFenetreActive(active);
+        }
 }
 
-void MainWindow::changementFenetreActive(QWidget *widget)
+void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
 {
+    QWidget* widget=NULL;
+    if(NULL!=subWindow)
+    {
+         widget = subWindow->widget();
+    }
+
     bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
     if (widget != NULL && widget->objectName() == QString("CarteFenetre") && localPlayerIsGM)
     {
@@ -1446,10 +1464,9 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
                 return false;
 }
 
-void MainWindow::registerSubWindow(QWidget * subWindow)
+QWidget* MainWindow::registerSubWindow(QWidget * subWindow)
 {
-
-    workspace->addWindow(subWindow);
+    return workspace->addWindow(subWindow);
 }
 
 void MainWindow::sauvegarderPlan()
@@ -1511,7 +1528,11 @@ void MainWindow::changementNatureUtilisateur()
 void MainWindow::displayMinutesEditor(bool visible, bool isCheck)
 {
 
-    m_noteEditor->setVisible(visible);
+    //m_noteEditor->setVisible(visible);
+    if(NULL!=m_noteEditorSub)
+    {
+        m_noteEditorSub->setVisible(visible);
+    }
     if (isCheck)
     {
             m_noteEditorAct->setChecked(visible);

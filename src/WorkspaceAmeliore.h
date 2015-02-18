@@ -33,18 +33,22 @@
 #include <QWidget>
 #include <QImage>
 #include <QPaintEvent>
-#include <QWorkspace>
+//#include <QWorkspace>
+#include <QMdiArea>
 
 
 #include "preferencesmanager.h"
 /**
  * @brief The WorkspaceAmeliore class
  */
-class WorkspaceAmeliore : public QWorkspace
+class WorkspaceAmeliore : public QMdiArea
 {
 public :
     WorkspaceAmeliore(QWidget *parent = 0);
     ~WorkspaceAmeliore();
+
+    QWidget* addWindow(QWidget*);
+    QWidget* activeWindow();
 
 private :
 	QImage *imageFond;		// Image de fond du workspace
