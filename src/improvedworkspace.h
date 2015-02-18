@@ -63,6 +63,11 @@ public:
       */
     void setVariantMenu(QMenu* menu);
 
+
+
+    virtual void readSettings();
+    virtual void writeSettings();
+
 public slots:
     /**
       * @brief is called when the current tool changed, raise the signal currentToolHasChanged, and it performs the first treatment

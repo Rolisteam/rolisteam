@@ -212,7 +212,7 @@ void Image::fitWindow()
 
 void Image::resizeLabel()
 {
-qDebug()<< " cdcec"<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
+    qDebug()<< " cdcec"<< m_pixMap.height() << m_pixMap.width() << m_labelImage->rect() << geometry();
     if((m_NormalSize.height()!=0)&&(m_NormalSize.width()!=0))
     {
         m_labelImage->resize(m_zoomLevel * m_NormalSize);

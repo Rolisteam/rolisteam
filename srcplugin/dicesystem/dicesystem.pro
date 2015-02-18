@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS = generic
+SUBDIRS = generic script

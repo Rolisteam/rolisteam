@@ -25,7 +25,6 @@
 #include "ToolBar.h"
 #include "colorselector.h"
 #include "diameterselector.h"
-
 	
 	
 

@@ -100,6 +100,4 @@ void PreferencesManager::writeSettings()
       QSettings settings("RolisteamTeam", "Rolisteam/preferences");
       settings.setValue("map",*m_optionDictionary);
       qDebug() << "size writing dico" << m_optionDictionary->size();
-
-
 }

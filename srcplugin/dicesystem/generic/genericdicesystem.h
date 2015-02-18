@@ -1,7 +1,9 @@
 #ifndef GENERICDICESYSTEM_H
 #define GENERICDICESYSTEM_H
-#include "dicesysteminterface.h"
+
 #include <QObject>
+#include "dicesysteminterface.h"
+
 
 class GenericDiceSystem : public QObject,public DiceSystemInterface
 {
@@ -14,6 +16,12 @@ public:
     ~GenericDiceSystem();
     virtual QString getName() const;
     virtual QString rollDice(QString diceCmd) const;
+
+    virtual void readSettings();
+    virtual void writeSettings();
+
+    virtual bool hasUiSettings() const;
+    virtual void showUiSettings();
 };
 
 

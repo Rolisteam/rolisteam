@@ -210,4 +210,27 @@ void ImprovedWorkspace::activeSubWindowChanged(QMdiSubWindow* wdw)
         }
     }
 }
+void ImprovedWorkspace::readSettings()
+{
+    /*foreach(QMdiSubWindow * t, subWindowList())
+    {
+        SubMdiWindows* tmp = dynamic_cast<SubMdiWindows*>(t);
+        if(tmp!=NULL)
+        {
+            tmp->readSettings();
+        }
+    }*/
 
+}
+
+void ImprovedWorkspace::writeSettings()
+{
+    /*foreach(QMdiSubWindow * t, subWindowList())
+    {
+        SubMdiWindows* tmp = dynamic_cast<SubMdiWindows*>(t);
+        if(tmp!=NULL)
+        {
+            tmp->readSettings();
+        }
+    }*/
+}

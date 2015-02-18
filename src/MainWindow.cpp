@@ -41,15 +41,90 @@
 #include "preferencesmanager.h"
 #include "connectionwizzard.h"
 #include "charactersheetwindow.h"
+#include "pluginmanager.h"
 
 //for the new userlist
 #include "player.h"
 
+/////////////////
+// CleverUri
+/////////////////
 
+CleverURI::CleverURI()
+{
+
+}
+
+CleverURI::CleverURI(const CleverURI & mp)
+{
+    m_type=mp.getType();
+    m_uri=mp.getUri();
+}
+
+CleverURI::CleverURI(QString uri,ContentType type)
+    : m_uri(uri),m_type(type)
+{
+
+}
+
+CleverURI::~CleverURI()
+{
+
+}
+bool CleverURI::operator==(const CleverURI& uri) const
+{
+    if((uri.getUri()==getUri())&&(uri.getType()==getType()))
+        return true;
+    return false;
+}
+
+void CleverURI::setUri(QString& uri)
+{
+ m_uri=uri;
+}
+
+void CleverURI::setType(int type)
+{
+    m_type=type;
+}
+
+const QString& CleverURI::getUri() const
+{
+    return m_uri;
+}
+
+int CleverURI::getType() const
+{
+    return m_type;
+}
+
+QDataStream& operator<<(QDataStream& out, const CleverURI& con)
+{
+  out << con.getUri();
+  out << con.getType();
+  return out;
+}
+
+QDataStream& operator>>(QDataStream& is,CleverURI& con)
+{
+  is >>(con.m_uri);
+  is >>(con.m_type);
+  return is;
+}
+
+
+
+/////////////////
+// MainWindow
+/////////////////
 MainWindow::MainWindow()
         : QMainWindow()
 {
     m_options = PreferencesManager::getInstance();
+    m_diceManager=DicePlugInManager::instance();
+    m_toolbar = new ToolsBar(this);
+
+    m_workspace = new ImprovedWorkspace(m_toolbar->currentColor());
     readSettings();
 
     /// all other allocation must be done after the settings reading.
@@ -59,9 +134,7 @@ MainWindow::MainWindow()
     m_subWindowActGroup = new QActionGroup(this);
     m_recentFilesActGroup= new QActionGroup(this);
 
-    m_toolbar = new ToolsBar(this);
 
-    m_workspace = new ImprovedWorkspace(m_toolbar->currentColor());
     setCentralWidget(m_workspace);
     addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
 
@@ -131,10 +204,14 @@ void MainWindow::createMenu()
 
 
     m_recentFilesMenu = m_fileMenu->addMenu(tr("&Recent Files"));
-    m_recentFiles.removeDuplicates();
-    foreach(QString path,m_recentFiles)
+    //m_recentFiles.removeDuplicates();
+    foreach(CleverURI path,m_recentFiles)
     {
-        m_recentFilesMenu->addAction(m_recentFilesActGroup->addAction(path));
+
+        QAction* act = m_recentFilesActGroup->addAction(path.getUri());
+        act->setData((int)path.getType());
+        m_recentFilesMenu->addAction(act);
+
     }
 
     m_fileMenu->addSeparator();
@@ -176,7 +253,7 @@ void MainWindow::createMenu()
     m_serverAct = m_networkMenu->addAction(tr("&Start server..."));
 
     m_newConnectionAct = m_networkMenu->addAction(tr("&New Connection..."));
-    connect(m_newConnectionAct,SIGNAL(triggered()),this,SLOT(addConnection()));
+
 
     m_connectionActGroup = new QActionGroup(this);
     if(m_connectionList.size() > 0)//(m_connectionList != NULL)&&
@@ -202,7 +279,8 @@ void MainWindow::createMenu()
 }
 void MainWindow::connectActions()
 {
-    connect(m_openPictureAct, SIGNAL(triggered(bool)), this, SLOT(openImage()));
+    connect(m_newConnectionAct,SIGNAL(triggered()),this,SLOT(addConnection()));
+    connect(m_openPictureAct, SIGNAL(triggered(bool)), this, SLOT(askOpenImage()));
     connect(m_newMapAct, SIGNAL(triggered(bool)), this, SLOT(clickOnMapWizzard()));
     connect(m_helpAct, SIGNAL(triggered()), this, SLOT(help()));
     connect(m_aproposAct, SIGNAL(triggered()), this, SLOT(about()));
@@ -224,7 +302,7 @@ void MainWindow::connectActions()
     connect( m_cascadeSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(cascadeSubWindows()));
     connect( m_tileSubWindowsAct,SIGNAL(triggered()),m_workspace,SLOT(tileSubWindows()));
 
-    connect(m_openCharacterSheetsAct,SIGNAL(triggered()),this,SLOT(openCharacterSheets()));
+    connect(m_openCharacterSheetsAct,SIGNAL(triggered()),this,SLOT(AskCharacterSheets()));
     //connect(actionTchatCommun, SIGNAL(triggered(bool)), listeTchat[0], SLOT(setVisible(bool)));
 }
 void MainWindow::allowActions()
@@ -234,22 +312,53 @@ void MainWindow::allowActions()
 void MainWindow::openRecentFile(QAction* pathAct)
 {
     qDebug() << pathAct->text();
+    pathAct->data();
+
+    switch(pathAct->data().toInt())
+    {
+    case CleverURI::MAP:
+
+        break;
+    case CleverURI::CHARACTERSHEET:
+        openCharacterSheets(pathAct->text());
+        break;
+    case CleverURI::PICTURE:
+        openImage(pathAct->text());
+        break;
+    case CleverURI::TCHAT:
+    case CleverURI::TEXT:
+        break;
+    }
+
+    /*foreach(CleverURI uri, m_recentFiles)
+    {
+
+    }*/
 }
-void MainWindow::openCharacterSheets()
+void MainWindow::addopenedFile(QString& urifile, CleverURI::ContentType type)
+{
+    CleverURI uri(urifile,type);
+
+    if(m_recentFiles.indexOf(uri)==-1)
+        m_recentFiles << uri;
+
+}
+void MainWindow::AskCharacterSheets()
 {
     QString filepath = QFileDialog::getOpenFileName(this, tr("Open Character Sheets"), m_options->value(QString("DataDirectory"),QVariant(".")).toString(),
             tr("Character Sheets files (*.xml)"));
+    openCharacterSheets(filepath);
+}
 
+void MainWindow::openCharacterSheets(QString filepath)
+{
     if(!filepath.isEmpty())
     {
         CharacterSheetWindow* characterSheet = new CharacterSheetWindow();
-        m_recentFiles << filepath;
-        m_recentFiles.removeDuplicates();
+        addopenedFile(filepath,CleverURI::CHARACTERSHEET);
         characterSheet->openFile(filepath);
         addToWorkspace(characterSheet);
-
         characterSheet->setVisible(true);
-
     }
 }
 void MainWindow::hideShowWindow(QAction* p)
@@ -299,21 +408,25 @@ void MainWindow::clickOnMapWizzard()
         tmp->show();
     }
 }
-void MainWindow::openImage()
+void MainWindow::askOpenImage()
 {
 
     QString filepath = QFileDialog::getOpenFileName(this, tr("Open Image file"), m_options->value(QString("ImageDirectory"),QVariant(".")).toString(),
-            tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp)"));
+            tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)"));
 
+    openImage(filepath);
+}
+void MainWindow::openImage(QString filepath)
+{
     if(!filepath.isEmpty())
     {
         Image* tmpImage=new Image(filepath,m_workspace);
-        m_recentFiles << filepath;
-        m_recentFiles.removeDuplicates();
+        addopenedFile(filepath,CleverURI::PICTURE);
         addToWorkspace(tmpImage);
         tmpImage->show();
     }
 }
+
 void  MainWindow::onTabBar()
 {
     if(m_usedTabBarAct->isChecked())
@@ -418,6 +531,13 @@ void MainWindow::readSettings()
 {
     QSettings settings("rolisteam");
     qRegisterMetaTypeStreamOperators<Player>("Player");
+
+    qRegisterMetaType<CleverURI>("Connection");
+    qRegisterMetaType<CleverUriList>("ConnectionList");
+    qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
+    qRegisterMetaTypeStreamOperators<CleverUriList>("ConnectionList");
+
+
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(600, 400)).toSize();
     m_player= new Player(tr("Player Unknown"),QColor(Qt::black));
@@ -431,8 +551,18 @@ void MainWindow::readSettings()
     tmp2.setValue(ConnectionList());
     QVariant tmp = m_options->value("network/connectionsList",tmp2);
     m_connectionList = tmp.value<ConnectionList>();
-    m_recentFiles = settings.value("recentfiles", QStringList()).toStringList();
+
+    QVariant tmp3;
+    tmp3.setValue(CleverUriList());
+    QVariant tmp4= settings.value("recentfiles", tmp3);
+    m_recentFiles=tmp4.value<CleverUriList>();
+
+
+
+
     m_options->readSettings();
+    m_workspace->readSettings();
+    m_diceManager->readSettings();
 }
 void MainWindow::writeSettings()
 {
@@ -442,8 +572,11 @@ void MainWindow::writeSettings()
   QVariant variant;
   variant.setValue(*m_player);
   settings.setValue("player", variant);
-  settings.setValue("recentfiles", m_recentFiles);
+  variant.setValue(m_recentFiles);
+  settings.setValue("recentfiles",variant);
   m_options->writeSettings();
+  m_workspace->writeSettings();
+
 }
 
 

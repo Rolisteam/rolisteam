@@ -16,7 +16,8 @@ public:
     DiceSystemInterface* getInterface(QString& name);
     QStringList getInterfaceList();
 
-
+    void readSettings();
+    void writeSettings();
 private:
     DicePlugInManager(QObject *parent = 0);
 

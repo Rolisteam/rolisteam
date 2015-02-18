@@ -38,7 +38,6 @@
 #include "tchat.h"
 #include "Image.h"
 #include "MinutesEditor.h"
-//#include "ClientServeur.h"
 #include "audioplayer.h"
 #include "userlistwidget.h"
 #include "mapwizzarddialog.h"
@@ -55,6 +54,36 @@ class PreferenceDialog;
 class ConnectionWizzard;
 class CharacterSheetWindow;
 class Player;
+class DicePlugInManager;
+
+class CleverURI
+{
+
+public:
+    enum ContentType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET};
+    CleverURI();
+    CleverURI(const CleverURI & mp);
+    CleverURI(QString uri,ContentType type);
+    ~CleverURI();
+
+    void setUri(QString& uri);
+    void setType(int type);
+
+    const QString& getUri() const;
+    int getType() const;
+    bool operator==(const CleverURI& uri1) const;
+private:
+    QString m_uri;
+    int m_type;
+
+    friend QDataStream& operator<<(QDataStream& os,const CleverURI&);
+    friend QDataStream& operator>>(QDataStream& is,CleverURI&);
+};
+typedef QList<CleverURI> CleverUriList;
+Q_DECLARE_METATYPE(CleverURI)
+Q_DECLARE_METATYPE(CleverUriList)
+
+
 /**
   * @brief is the main GUI of rolisteam, bring together all piece of software components, read the settings, set the graphical interface.
   */
@@ -88,37 +117,8 @@ public slots :
 protected :
         void closeEvent(QCloseEvent *event);
 
-private slots:
-    /**
-     * @brief is called when user click on start server item menu.
-     */
-    void startServer();
-    /**
-     * @brief is called when user click on add connection item menu.
-     */
-    void addConnection();
-    /**
-     * @brief is called when user click on connection manager item menu.
-     */
-    void showConnectionManager();
-
-    /**
-     * @brief is called when user click on preference item menu.
-     */
-    void showPreferenceManager();
-
-    /**
-     * @brief is called when user click on usedTabBarAct item menu.
-     */
-    void onTabBar();
-
-    void openRecentFile(QAction*);
-
-    void openCharacterSheets();
-
-    void openTchat();
-
 private :
+
         /**
          * @brief determine either the current content should be save or not
          */
@@ -162,6 +162,11 @@ private :
          * @brief Save parameters for next executions.
          */
         ToolsBar *m_toolbar;
+        /**
+          * @brief unique acces to recentfile management
+          */
+        void addopenedFile(QString& , CleverURI::ContentType );
+
 
         AudioPlayer* m_audioPlayer;
 
@@ -210,6 +215,11 @@ private :
           * pointer to the unique instance of preference manager.
           */
         PreferencesManager* m_options;
+
+        /**
+          * pointer to the unique instance of dice plugin manager.
+          */
+        DicePlugInManager* m_diceManager;
 
         /**
           * pointer to the userlist widget.
@@ -269,7 +279,9 @@ private :
         /**
           * @brief QStringList of opened documents : file paths
           */
-        QStringList m_recentFiles;
+      /*  QStringList m_recentFiles;
+        QList<int> m_recentTypes;*/
+        QList<CleverURI> m_recentFiles;
 
 
 private slots :
@@ -283,23 +295,51 @@ private slots :
         * @brief Show the map wizzard
         *
         */
-        void openImage();
-
+        void openImage(QString filepath);
+        void askOpenImage();
         /**
-        * \brief Show the about dialog
+        * @brief Show the about dialog
         *
         */
         void about();
 
 
-        /// \brief open the Qt assistant with the rolisteam documentation
+        /// @brief open the Qt assistant with the rolisteam documentation
         void help();
 
 
         void hideShowWindow(QAction*);
 
 
+        /**
+         * @brief is called when user click on start server item menu.
+         */
+        void startServer();
+        /**
+         * @brief is called when user click on add connection item menu.
+         */
+        void addConnection();
+        /**
+         * @brief is called when user click on connection manager item menu.
+         */
+        void showConnectionManager();
 
+        /**
+         * @brief is called when user click on preference item menu.
+         */
+        void showPreferenceManager();
+
+        /**
+         * @brief is called when user click on usedTabBarAct item menu.
+         */
+        void onTabBar();
+
+        void openRecentFile(QAction*);
+        void AskCharacterSheets();
+
+        void openCharacterSheets(QString );
+
+        void openTchat();
 
 };
 

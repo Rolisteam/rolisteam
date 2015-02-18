@@ -10,38 +10,23 @@ DicePlugInManager::DicePlugInManager(QObject *parent) :
     QObject(parent)
 {
     m_interfaceList = new QList<DiceSystemInterface*>;
-
     QDir pluginsDir = QDir(qApp->applicationDirPath());
-
-       pluginsDir.cd("plugins");
-
-
-       foreach (QString fileName, pluginsDir.entryList(QDir::Files))
+    pluginsDir.cd("plugins");
+    foreach (QString fileName, pluginsDir.entryList(QDir::Files))
+    {
+       QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+       QObject *plugin = loader.instance();
+       if (plugin)
        {
-
-           QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
-
-           QObject *plugin = loader.instance();
-
-
-           if (plugin)
+           DiceSystemInterface * op = qobject_cast<DiceSystemInterface *>(plugin);
+           if (op)
            {
-
-               DiceSystemInterface * op = qobject_cast<DiceSystemInterface *>(plugin);
-               if (op)
-               {
-                  m_interfaceList->append(op);
-
-                  //op->getName();
-
-
-
-               }
-
+              m_interfaceList->append(op);
            }
-           else
-               qDebug() << loader.errorString ();
        }
+       else
+           qDebug() << loader.errorString ();
+    }
 
 }
 DicePlugInManager::~DicePlugInManager()
@@ -75,4 +60,19 @@ QStringList DicePlugInManager::getInterfaceList()
         interfaceNames << tmp->getName();
     }
     return interfaceNames;
+}
+void DicePlugInManager::readSettings()
+{
+    foreach(DiceSystemInterface* tmp,*m_interfaceList)
+    {
+        tmp->readSettings();
+    }
+}
+
+void DicePlugInManager::writeSettings()
+{
+    foreach(DiceSystemInterface* tmp,*m_interfaceList)
+    {
+        tmp->writeSettings();
+    }
 }

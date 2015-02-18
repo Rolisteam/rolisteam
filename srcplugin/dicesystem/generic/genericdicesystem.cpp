@@ -18,4 +18,23 @@ QString GenericDiceSystem::rollDice(QString diceCmd) const
 {
     return tr("not implemented yet");
 }
+
+void GenericDiceSystem::readSettings()
+{
+
+}
+void GenericDiceSystem::writeSettings()
+{
+
+}
+bool GenericDiceSystem::hasUiSettings() const
+{
+
+}
+
+void GenericDiceSystem::showUiSettings()
+{
+
+}
+
 Q_EXPORT_PLUGIN2(generic,GenericDiceSystem);
