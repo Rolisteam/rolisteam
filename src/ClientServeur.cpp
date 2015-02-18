@@ -835,7 +835,7 @@ fenetreConnexion->setWindowTitle(QString(NOM_APPLICATION) + " - " + tr("Fenêtre
 #ifdef WIN32
 	fenetreConnexion->move(400, 300);
 #endif
-fenetreConnexion->show();
+fenetreConnexion->setVisible(true);
 }
 
 /********************************************************************/	

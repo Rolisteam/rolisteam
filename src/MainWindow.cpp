@@ -2531,7 +2531,7 @@ void MainWindow::sauvegarderFichierInitialisation()
 void MainWindow::aPropos()
 {
         QMessageBox::about(this, tr("About Rolisteam"),
-                                           tr("<h1>Rolisteam v1.0.1</h1>"
+                                           tr("<h1>Rolisteam v1.0.2</h1>"
                                                   "<p>Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others, share maps or picture. Rolisteam also provides many features for: permission management, sharing background music and dices throw. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.</p>"
                                                   "<p>Rolisteam may contain some files from the FMOD library. This point prevents commercial use of the software.</p> "
                                                   "<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>"

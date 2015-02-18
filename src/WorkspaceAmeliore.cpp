@@ -37,8 +37,6 @@ WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
         // Nom du fichier image utilisateur, qui peut etre utilise pour le fond
 	#ifdef WIN32
 		QString fichierImage = QString(NOM_APPLICATION) + ".bmp";
-	#elif defined (MACOS)
-                QString fichierImage = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".bmp";
         #else
                QString fichierImage = QDir::homePath() + "/." + QString(NOM_APPLICATION) + "/" + QString(NOM_APPLICATION) + ".bmp";
 	#endif
@@ -52,8 +50,6 @@ WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
 	{
                 #ifdef WIN32
                         imageFond = new QImage(":/resources/icones/fond workspace win32.bmp");
-		#elif defined (MACOS)
-                        imageFond = new QImage(":/resources/icones/fond workspace macos.bmp");
                 #else
                         imageFond = new QImage(":/resources/icones/fond workspace macos.bmp");
                 #endif
