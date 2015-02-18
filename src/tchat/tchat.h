@@ -36,7 +36,7 @@
 #include <QSplitter>
 #include <QFile>
 
-#include "textEditor.h"
+#include "tchateditor.h"
 #include "submdiwindows.h"
 
 
@@ -45,38 +45,36 @@ class Tchat : public SubMdiWindows
 Q_OBJECT
 
 public :
-    Tchat(QString id, QAction *action, QWidget *parent);
+    Tchat(QString id, QWidget *parent);
     ~Tchat();
-	QString identifiant();
-	void afficherMessage(QString utilisateur, QColor couleur, QString message);
-    void afficherTirage(QString utilisateur, QColor couleur, QString message);
-	void majAction();
-	void sauvegarderTchat(QFile &file);
+
+    void showMessage(QString user, QColor color, QString msg);
+    void showDiceRoll(QString user, QColor color, QString msg);
+    void updateActions();
+    virtual void saveFile(QString& file);
+    virtual void openFile(QString& file);
     bool defineMenu(QMenu* /*menu*/);
 
 protected :
-	void closeEvent(QCloseEvent *event);
-	void showEvent(QShowEvent *event);
+    void closeEvent(QCloseEvent *event);
+    void showEvent(QShowEvent *event);
 
 private :
-	int calculerJetDes(QString message, QString *tirage, bool *ok);
-	// Ultyme
-	int calculerJetDesSR4(QString message, QString *tirage, QString *glitch, bool *ok);
-	// FIN Ultyme
+    int rollDices(QString message, QString *tirage, bool *ok);
+    // Ultyme
+    int rollDicesSR4(QString message, QString *tirage, QString *glitch, bool *ok);
+    // FIN Ultyme
 
-	QTextEdit *zoneAffichage;			// Zone de texte ou s'affichent les messages
-	TextEditAmeliore *zoneEdition;		// Zone de texte ou l'utilisateur peut ecrire
-	QString idJoueur;					// Contient l'ID du jouer a qui doit etre envoye les messages (vide = tous les utilisateurs)
-	QList<QString> historiqueMessages;	// Contient l'historique des anciens messages
-	int numHistorique;					// Numero de la ligne de l'historique actuellement affichee
-	QAction *actionAssociee;			// Action permettant d'afficher/masquer le tchat
-        QSplitter* m_splitter;
+    QTextEdit* m_meetingRoom;
+    TchatEditor* m_tchatEditor;
+    QStringList m_messageHistoric;
+    int m_historicNumber;
+    QSplitter* m_splitter;
 
 private slots :
-	void emettreTexte();
-	void monterHistorique();
-	void descendreHistorique();
-	void changerEtatCase(bool coche);
+    void getUpHistoric();
+    void getDownHistoric();
+
 
 };
 

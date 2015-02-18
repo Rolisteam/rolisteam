@@ -67,6 +67,7 @@ HAVE_NULL {
     SOURCES += audioplayerunix.cpp
 }
 RESOURCES += ../rolisteam.qrc
+documentation.path = bin/doc
 macx { 
     QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
     documentation.path = bin/rolisteam.app/Contents/Resources/doc
