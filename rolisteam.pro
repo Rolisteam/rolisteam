@@ -11,7 +11,7 @@ QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
 CONFIG += HAVE_PHONON
 #CONFIG += HAVE_FMOD
 #CONFIG += HAVE_NULL
-HEADERS += src/AfficheurDisque.h \
+HEADERS += src/displaydisk.h \
            src/BarreOutils.h \
            src/Carte.h \
            src/CarteFenetre.h \
@@ -36,7 +36,7 @@ HEADERS += src/AfficheurDisque.h \
            src/wincompat.h \
            src/WorkspaceAmeliore.h
 FORMS += src/LecteurAudio.ui
-SOURCES += src/AfficheurDisque.cpp \
+SOURCES += src/displaydisk.cpp \
            src/BarreOutils.cpp \
            src/Carte.cpp \
            src/CarteFenetre.cpp \

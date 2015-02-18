@@ -561,7 +561,7 @@
 
 		// Reglage du pinceau
 		QPen pen;
-		pen.setWidth(G_diametreTraitCourant);
+		pen.setWidth(g_currentDiameterLine);
 		pen.setJoinStyle(Qt::MiterJoin);
 		pen.setColor(couleurPinceau);
 		painter.setPen(pen);
@@ -588,7 +588,7 @@
 			// M.a.j du pinceau pour avoir des bouts arrondis
 			QPen pen;
 			pen.setColor(couleurPinceau);
-			pen.setWidth(G_diametreTraitCourant);
+			pen.setWidth(g_currentDiameterLine);
 			pen.setCapStyle(Qt::RoundCap);
 			painterCrayon.setPen(pen);
 			painter.setPen(pen);
@@ -637,9 +637,9 @@
 			infDroit.setY(pointOrigine.y()>pointSouris.y()?pointOrigine.y():pointSouris.y());
 
 			// Si le rectangle est petit on dessine un rectangle plein (correction d'un bug Qt)
-			if ((infDroit.x()-supGauche.x() < G_diametreTraitCourant) && (infDroit.y()-supGauche.y() < G_diametreTraitCourant))
+			if ((infDroit.x()-supGauche.x() < g_currentDiameterLine) && (infDroit.y()-supGauche.y() < g_currentDiameterLine))
 			{
-				QPoint delta(G_diametreTraitCourant/2, G_diametreTraitCourant/2);
+				QPoint delta(g_currentDiameterLine/2, g_currentDiameterLine/2);
 				painter.fillRect(QRect(supGauche - delta, infDroit + delta), couleurPinceau);
 			}
 			// Sinon on dessine un rectangle vide
@@ -660,7 +660,7 @@
 			QPoint nouveauPointOrigine = pointOrigine - diff;
 
 			// Si l'ellipse est petite on dessine une ellipse pleine (correction d'un bug Qt)
-			if (abs(pointSouris.x()-nouveauPointOrigine.x()) < G_diametreTraitCourant && abs(pointSouris.y()-nouveauPointOrigine.y()) < G_diametreTraitCourant)
+			if (abs(pointSouris.x()-nouveauPointOrigine.x()) < g_currentDiameterLine && abs(pointSouris.y()-nouveauPointOrigine.y()) < g_currentDiameterLine)
 			{
 				// Redefinition des points du rectangle
 				QPoint supGauche, infDroit;
@@ -675,7 +675,7 @@
 				pen.setWidth(0);
 				painter.setPen(pen);
 				painter.setBrush(couleurPinceau);
-				QPoint delta(G_diametreTraitCourant/2, G_diametreTraitCourant/2);
+				QPoint delta(g_currentDiameterLine/2, g_currentDiameterLine/2);
 				painter.drawEllipse(QRect(supGauche - delta, infDroit + delta));
 			}
 			// Sinon on dessine une ellipse vide
@@ -737,17 +737,17 @@
 		// Action a effectuer en fonction de l'outil en cours d'utilisation
 		if (G_outilCourant == BarreOutils::crayon)
 		{
-			resultat = QRect(gauche-G_diametreTraitCourant/2-2, haut-G_diametreTraitCourant/2-2, largeur+G_diametreTraitCourant+4, hauteur+G_diametreTraitCourant+4);
+			resultat = QRect(gauche-g_currentDiameterLine/2-2, haut-g_currentDiameterLine/2-2, largeur+g_currentDiameterLine+4, hauteur+g_currentDiameterLine+4);
 		}
 		
 		else if (G_outilCourant == BarreOutils::ligne)
 		{
-			resultat = QRect(gauche-G_diametreTraitCourant, haut-G_diametreTraitCourant, largeur+G_diametreTraitCourant*2, hauteur+G_diametreTraitCourant*2);
+			resultat = QRect(gauche-g_currentDiameterLine, haut-g_currentDiameterLine, largeur+g_currentDiameterLine*2, hauteur+g_currentDiameterLine*2);
 		}
 		
 		else if (G_outilCourant == BarreOutils::rectVide)
 		{
-			resultat = QRect(gauche-G_diametreTraitCourant/2-2, haut-G_diametreTraitCourant/2-2, largeur+G_diametreTraitCourant+4, hauteur+G_diametreTraitCourant+4);
+			resultat = QRect(gauche-g_currentDiameterLine/2-2, haut-g_currentDiameterLine/2-2, largeur+g_currentDiameterLine+4, hauteur+g_currentDiameterLine+4);
 		}
 		
 		else if (G_outilCourant == BarreOutils::rectPlein)
@@ -767,7 +767,7 @@
 			int largeur = droit - gauche + 1;
 			int hauteur = bas - haut + 1;
 
-			resultat = QRect(gauche-G_diametreTraitCourant/2-2, haut-G_diametreTraitCourant/2-2, largeur+G_diametreTraitCourant+4, hauteur+G_diametreTraitCourant+4);
+			resultat = QRect(gauche-g_currentDiameterLine/2-2, haut-g_currentDiameterLine/2-2, largeur+g_currentDiameterLine+4, hauteur+g_currentDiameterLine+4);
 		}
 		
 		else if (G_outilCourant == BarreOutils::elliPlein)
@@ -852,7 +852,7 @@
 				// Creation de l'identifiant du PNJ
 			    QString idPnj = QUuid::createUuid().toString();
 				// Creation du dessin du PNJ qui s'affiche dans le widget
-				DessinPerso *pnj = new DessinPerso(this, idPnj, G_nomPnjCourant, G_couleurCourante.color, G_diametrePnjCourant, positionSouris, DessinPerso::pnj, G_numeroPnjCourant);
+				DessinPerso *pnj = new DessinPerso(this, idPnj, G_nomPnjCourant, G_couleurCourante.color, g_currentNPCDiameter, positionSouris, DessinPerso::pnj, G_numeroPnjCourant);
 				pnj->afficherPerso();
 				// Un PNJ est selectionne
 				pnjSelectionne = pnj;
@@ -1717,7 +1717,7 @@
 			memcpy(&(donnees[p]), &zoneH, sizeof(qint16));
 			p+=sizeof(qint16);
 			// Ajout du diametre du trait
-			quint8 diametre = G_diametreTraitCourant;
+			quint8 diametre = g_currentDiameterLine;
 			memcpy(&(donnees[p]), &diametre, sizeof(quint8));
 			p+=sizeof(quint8);
 			// Ajout de la couleur
@@ -1872,7 +1872,7 @@
 			memcpy(&(donnees[p]), &zoneH, sizeof(qint16));
 			p+=sizeof(qint16);
 			// Ajout du diametre du trait
-			quint8 diametre = G_diametreTraitCourant;
+			quint8 diametre = g_currentDiameterLine;
 			memcpy(&(donnees[p]), &diametre, sizeof(quint8));
 			p+=sizeof(quint8);
 			// Ajout de la couleur

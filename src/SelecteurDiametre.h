@@ -33,7 +33,7 @@
 #include <QWidget>
 #include <QSlider>
 
-#include "AfficheurDisque.h"
+#include "displaydisk.h"
 
 
 class SelecteurDiametre : public QWidget
@@ -45,7 +45,7 @@ public :
 private :
 	int minimum;
 	int maximum;
-	AfficheurDisque *disque;
+    DisplayDisk *disk;
 	QSlider *diametre;
 };
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
+ *	Copyright (C) 2007 by Romain Campioni   			     *
  *	Copyright (C) 2009 by Renaud Guezennec                             *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *
@@ -22,7 +22,7 @@
 #include <QtGui>
 
 #include "SelecteurDiametre.h"
-#include "AfficheurDisque.h"
+#include "displaydisk.h"
 #include "constantesGlobales.h"
 
 
@@ -43,7 +43,7 @@ SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int m
 		layout->setSpacing(0);
 	#endif
 	
-	// Creation du QFrame qui va contenir l'afficheur de disque
+    // Creation du QFrame qui va contenir l'afficheur de disk
 	QFrame *frame = new QFrame(this);
 	frame->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 	frame->setLineWidth(2);
@@ -55,14 +55,14 @@ SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int m
 	QVBoxLayout *frameLayout = new QVBoxLayout(frame);
 	frameLayout->setMargin(0);
 	
-	// Creation de l'afficheur de disque
-	disque = new AfficheurDisque(frame, plein, minimum);
-	disque->changerDiametre(minimum);
+    // Creation de l'afficheur de disk
+    disk = new DisplayDisk(frame, plein, minimum);
+    disk->changeDiameter(minimum);
 	
-	// Ajout de l'afficheur de disque au layout du QFrame
-	frameLayout->addWidget(disque);
+    // Ajout de l'afficheur de disk au layout du QFrame
+    frameLayout->addWidget(disk);
 
-	// Ajout du QFrame contenant l'afficheur de disque au layout
+    // Ajout du QFrame contenant l'afficheur de disk au layout
 	layout->addWidget(frame);
 	
 	// Creation du QSlider permettant de faire varier le diametre
@@ -78,7 +78,7 @@ SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int m
 	#endif
 	
 	// Connection des signaux
-	QObject::connect(diametre, SIGNAL(valueChanged(int)), disque, SLOT(changerDiametre(int)));
+    QObject::connect(diametre, SIGNAL(valueChanged(int)), disk, SLOT(changeDiameter(int)));
 }
 
 /********************************************************************/
@@ -94,6 +94,6 @@ void SelecteurDiametre::changerDiametre(int nouvelleValeur)
 	if (nouvelleValeur > maximum)
 		valeur = maximum;
 	
-	// Mise a jour du slider (un signal est envoye a l'afficheur de disque)
+    // Mise a jour du slider (un signal est envoye a l'afficheur de disk)
 	diametre->setValue(valeur);
 }

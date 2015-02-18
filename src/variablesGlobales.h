@@ -78,8 +78,8 @@ extern QString G_nomPnjCourant;
 extern int G_numeroPnjCourant;
 
 // Declarees dans AfficheurDisque.cpp
-extern int G_diametreTraitCourant;
-extern int G_diametrePnjCourant;
+extern int g_currentDiameterLine;
+extern int g_currentNPCDiameter;
 
 // Declarees dans MainWindow.cpp
 extern MainWindow *G_mainWindow;
