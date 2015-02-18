@@ -27,7 +27,7 @@ public:
     void writeSettings(QSettings & m);
 
      CleverURI* addRessource(QString& urifile, CleverURI::ContentType type);
- private:
+private:
     QTreeView* m_view;
     QHBoxLayout* m_layout;
 

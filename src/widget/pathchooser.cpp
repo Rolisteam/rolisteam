@@ -19,6 +19,7 @@
  ***************************************************************************/
 #include "pathchooser.h"
 #include <QFileDialog>
+#include <QLabel>
 
 PathChooser::PathChooser(QWidget *parent) :
     QWidget(parent)
@@ -91,10 +92,10 @@ void PathChooser::checkPermission()
     QFileInfo file(m_path);
     if(file.isWritable())
     {
-        m_label->setPixmap();
+        //m_label->setPixmap();
     }
     else
     {
-        m_label->setPixmap();
+        //m_label->setPixmap();
     }
 }

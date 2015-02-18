@@ -25,6 +25,8 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QtDesigner/QDesignerExportWidget>
+
+class QLabel;
 /**
   * @brief composite widget which brings together a lineEdit and a pushbutton to select path (directory or file).
   */

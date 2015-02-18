@@ -68,6 +68,8 @@ public:
       * @brief accessor to the children count.
       */
     int childrenCount();
+
+    void clean();
 private:
     RessourcesNode* m_data;
     bool m_isLeaf; /// @brief true when no child and has valid parent
@@ -94,6 +96,8 @@ public:
     void setSession(Session* s);
     void addChapter(Chapter* c );
     CleverURI* addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& index);
+
+    void populateChapter(Chapter& t,ResourcesItem* parentIte);
 private:
     //Section* m_rootSection;
 

@@ -1,10 +1,13 @@
 #include "sessionitemmodel.h"
 #include "cleveruri.h"
 #include "session.h"
+#include <QDebug>
+
 ResourcesItem::ResourcesItem(RessourcesNode* p,bool leaf)
     : m_data(p),m_isLeaf(leaf)
 {
     m_children =new QList<ResourcesItem*>;
+
 }
 ResourcesItem* ResourcesItem::getParent()
 {
@@ -20,6 +23,11 @@ void ResourcesItem::setData(RessourcesNode* p)
 {
     m_data = p;
 }
+void ResourcesItem::clean()
+{
+    m_children->clear();
+}
+
 RessourcesNode* ResourcesItem::getData()
 {
     return m_data;
@@ -46,8 +54,10 @@ void ResourcesItem::addChild(ResourcesItem* child)
     m_children->append(child);
 }
 
+
 ResourcesItem* ResourcesItem::child(int row)
 {
+   // qDebug() << "child row="<< row << m_children->size() << m_children->at(row);
     if(row < m_children->size())
         return m_children->at(row);
 
@@ -70,11 +80,13 @@ SessionItemModel::SessionItemModel()
 }
 QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & parent ) const
 {
+
     if(row<0)
         return QModelIndex();
 
     ResourcesItem* parentItem = NULL;
 
+    qDebug()<< "Index session " <<row << column << parent;
     if (!parent.isValid())
         parentItem = m_rootItem;
     else
@@ -106,14 +118,17 @@ QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
 }
 int SessionItemModel::rowCount(const QModelIndex& index) const
 {
+    qDebug() << index;
     if(index.isValid())
     {
         ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
+        qDebug() << "rowCount tmp"<< tmp->childrenCount();
         return tmp->childrenCount();
     }
     else
     {
-        return m_rootItem->childrenCount();
+        qDebug() << "rowCount root"<<  m_rootItem->childrenCount() << m_session->chapterList().size() << m_session->childrenCount();
+        return (m_session->childrenCount());//->childrenCount();
     }
 }
 int SessionItemModel::columnCount(const QModelIndex&) const
@@ -132,7 +147,9 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
              ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
              if(tmp)
              {
-               return tmp->getData()->getShortName();
+               RessourcesNode* t =  tmp->getData();
+               qDebug() << tmp;
+               return t->getShortName();
              }
         }
     }
@@ -142,27 +159,36 @@ void SessionItemModel::setSession(Session* s)
 {
     /// @todo parse the session and build appropriate ressources items.
     m_session = s;
-    foreach(Chapter* tmp,m_session->chapterList())
+    m_rootItem->clean();
+    for(int i =0;i<m_session->chapterList().size();i++)
     {
-        ResourcesItem* rt = new ResourcesItem(tmp,false);
+        Chapter& tmp = m_session->chapterList()[i];
+        ResourcesItem* rt = new ResourcesItem(&tmp,false);
         m_rootItem->addChild(rt);
-
+        populateChapter(tmp,rt);
     }
-    foreach(CleverURI* tmp2,m_session->getUnclassedList())
+    for(int i = 0;i<m_session->getUnclassedList().size();i++)
     {
-        ResourcesItem* rt = new ResourcesItem(tmp2,true);
+        CleverURI& tmp2 = m_session->getUnclassedList()[i];
+        ResourcesItem* rt = new ResourcesItem(&tmp2,true);
         m_rootItem->addChild(rt);
     }
 }
 
 Chapter* SessionItemModel::addChapter(QString& name)
 {
-    beginInsertRows(parentIndex,childItem->childrenCount(),childItem->childrenCount());
+    beginInsertRows(QModelIndex(),m_session->chapterList().size(),m_session->chapterList().size());
     Chapter* t = m_session->addChapter(name);
     endInsertRows();
     return t;
 }
-
+/*void SessionItemModel::refresh()
+{
+  * foreach(Chapter tmp,m_session->chapterList())
+    {
+        m_rootItemm_parent
+    }*
+}*/
 CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& parent)
 {
      ResourcesItem* parentItem=NULL;
@@ -173,10 +199,34 @@ CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentT
         parentItem = static_cast<ResourcesItem*>(parent.internalPointer());
     }
     beginInsertRows(QModelIndex(),parentItem->childrenCount(),parentItem->childrenCount());
-    Chapter* chap=static_cast<Chapter*>(parentItem->getData());
+
+    if(parentItem->isLeaf())
+    {
+        parentItem=parentItem->getParent();//leaf's parent is not a leaf indeed
+    }
+
+
+    Chapter* chap=dynamic_cast<Chapter*>(parentItem->getData());// NULL when it is not a chapter.
+
     CleverURI* tmp = m_session->addRessource(urifile,type,chap);
     parentItem->addChild(new ResourcesItem(tmp,true));
     endInsertRows();
     return tmp;
 }
+void SessionItemModel::populateChapter(Chapter& t,ResourcesItem* parentItem)
+{
 
+    for(int i =0;i<t.getChapterList().size();i++)
+    {
+        Chapter& tmp = t.getChapterList()[i];
+        ResourcesItem* rt = new ResourcesItem(&tmp,false);
+        parentItem->addChild(rt);
+        populateChapter(tmp,rt);
+    }
+    for(int i = 0;i<t.getResourceList().size();i++)
+    {
+        CleverURI& tmp2 = t.getResourceList()[i];
+        ResourcesItem* rt = new ResourcesItem(&tmp2,true);
+        parentItem->addChild(rt);
+    }
+}

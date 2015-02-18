@@ -18,8 +18,8 @@ SessionManager::SessionManager()
 
     setWindowTitle(tr("Resources Explorer"));
 
-
     m_model = new SessionItemModel;
+
     m_view->setModel(m_model);
 }
 Chapter* SessionManager::getCurrentChapter()
@@ -29,9 +29,6 @@ Chapter* SessionManager::getCurrentChapter()
 void SessionManager::setCurrentSession(Session* s)
 {
     m_currentSession=s;
-    /// @todo test code, should be removed
-    QString t = tr("Chapter 1");
-    m_currentSession->addChapter(t);
     m_model->setSession(m_currentSession);
 }
 CleverURI* SessionManager::addRessource(QString& urifile, CleverURI::ContentType type)
@@ -48,6 +45,11 @@ void SessionManager::readSettings(QSettings & m)
     *m_currentSession=m.value("Session",r).value<Session>();
     m.endGroup();
 
+    m_model->setSession(m_currentSession);
+
+    /// @todo test code, should be removed
+   /* QString t = tr("Chapter 1");
+    m_model->addChapter(t);*/
 
 }
 

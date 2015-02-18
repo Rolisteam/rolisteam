@@ -552,6 +552,11 @@ void MainWindow::readSettings()
     qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
     qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
 
+    qRegisterMetaType<Chapter>("Chapter");
+    qRegisterMetaType<ChapterList>("ChapterList");
+    qRegisterMetaTypeStreamOperators<Chapter>("Chapter");
+    qRegisterMetaTypeStreamOperators<ChapterList>("ChapterList");
+
     qRegisterMetaType<Session>("Session");
     qRegisterMetaTypeStreamOperators<Session>("Session");
 

@@ -9,9 +9,9 @@
   * @brief will store any ressources of a compagne
   *
   */
-class Session : public QObject
+class Session
 {
-    Q_OBJECT
+
 
 public:
     Session();
@@ -23,13 +23,15 @@ public:
 
     Chapter* getChapter(int index);
 
-    QList<Chapter*>& chapterList();
-    QList<CleverURI*>& getUnclassedList();
+    QList<Chapter>& chapterList();
+    QList<CleverURI>& getUnclassedList();
+
+    int childrenCount();
 
 
 private:
-    QList<Chapter*> m_chapterList;
-    QList<CleverURI*> m_ressoucelist;
+    QList<Chapter> m_chapterList;
+    QList<CleverURI> m_ressoucelist;
     QTime m_time;
     int m_gameCount;
 

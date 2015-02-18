@@ -1,5 +1,6 @@
 #include "cleveruri.h"
 
+#include <QDebug>
 /////////////////
 // CleverUri
 /////////////////
@@ -23,7 +24,7 @@ CleverURI::CleverURI(QString uri,ContentType type)
 
 CleverURI::~CleverURI()
 {
-
+    qDebug() << "Destructor of CleverURI";
 }
 bool CleverURI::operator==(const CleverURI& uri) const
 {
