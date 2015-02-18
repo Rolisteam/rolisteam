@@ -31,7 +31,7 @@ commercialis, conformment  la "FMOD Non-Commercial License".
 
 
 // Pointeur vers l'unique instance du lecteur audio
-LecteurAudio *G_lecteurAudio;
+LecteurAudio * LecteurAudio::singleton = NULL;
 
 
 
@@ -41,12 +41,12 @@ LecteurAudio *G_lecteurAudio;
 LecteurAudio::LecteurAudio(QWidget *parent)
 : QDockWidget(parent)
 {
-G_lecteurAudio = this;
-audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
-mediaObject = new Phonon::MediaObject(this);
-path = new Phonon::Path();
 
+    audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+    mediaObject = new Phonon::MediaObject(this);
+    path = new Phonon::Path();
 
+    m_time = 0;
      connect(mediaObject, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
 connect(mediaObject, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
      this, SLOT(stateChanged(Phonon::State, Phonon::State)));
@@ -61,6 +61,16 @@ setupUi();
         autoriserOuIntedireCommandes();
         setWidget(widgetPrincipal);
     }
+
+
+
+
+LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
+ {
+        if(singleton==NULL)
+            singleton = new LecteurAudio(parent);
+        return singleton;
+}
 void LecteurAudio::setupUi()
 {
         setWindowTitle(tr("Musiques d'ambiance"));
@@ -268,6 +278,7 @@ void LecteurAudio::changementTitre(QListWidgetItem * p)
 {
              currentsource = new Phonon::MediaSource(listeChemins[listeTitres->row(p)]);
              mediaObject->setCurrentSource(*currentsource);
+             titreCourant = listeTitres->row(p);
              emettreCommande(nouveauMorceau, listeTitres->item(titreCourant)->text());
              mediaObject->play();
 
@@ -282,10 +293,11 @@ void LecteurAudio::tick(qint64 time)
 {
      QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
 
+            if((!G_joueur) && ((time>m_time+(2*mediaObject->tickInterval()))||(time<m_time)))
+                    emettreCommande(nouvellePositionMorceau, "", time, -1);
 
 
-
-
+        m_time = time;
         afficheurTemps->display(displayTime.toString("mm:ss"));
         //  out << mediaObject->totalTime() << " " << time << endl;
        /* if(mediaObject->totalTime()==time)
@@ -321,6 +333,17 @@ void LecteurAudio::autoriserOuIntedireCommandes()
                 setFixedHeight(66);
         }
 }
+
+
+
+/********************************************************************************/
+/* Not used                                                                      */
+/*                                                                              */
+/********************************************************************************/
+ bool LecteurAudio::eventFilter(QObject *object, QEvent *event)
+ {
+     return false;
+ }
 void LecteurAudio::stateChanged(Phonon::State newState, Phonon::State /*oldState*/)
 {
 
@@ -682,7 +705,7 @@ void LecteurAudio::passageSurUnTag(QString tag)
 /* Emet une commande pour le lecteur audio vers le serveur ou       */
 /* les clients                                                      */
 /********************************************************************/
-void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, quint32 position, int numeroLiaison)
+void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, quint64 position, int numeroLiaison)
 {
         int p;
         quint16 tailleNomFichier;
@@ -780,18 +803,18 @@ void LecteurAudio::emettreEtat(QString idJoueur)
         {
                 // Dans le cas de la pause on releve le point de lecture actuel et on l'envoie
                 case pause :
-//				emettreCommande(nouvellePositionMorceau, "", FSOUND_Stream_GetTime(fluxAudio), numeroLiaison);
+                                emettreCommande(nouvellePositionMorceau, "", m_time, numeroLiaison);
                         break;
 
                 // A l'arret on emet le position du curseur de temps
                 case arret :
-//				emettreCommande(nouvellePositionMorceau, "", G_joueur?joueurPositionTemps:positionTemps->value(), numeroLiaison);
+                                 emettreCommande(nouvellePositionMorceau, "", G_joueur?joueurPositionTemps:m_time, numeroLiaison);
                         break;
 
                 // Pour la lecture on emet la position actuelle et l'ordre de lecture
                 case lecture :
-//				emettreCommande(nouvellePositionMorceau, "", FSOUND_Stream_GetTime(fluxAudio), numeroLiaison);
-//				emettreCommande(lectureMorceau, "", 0, numeroLiaison);
+                            emettreCommande(nouvellePositionMorceau, "", m_time, numeroLiaison);
+                            emettreCommande(lectureMorceau, "", 0, numeroLiaison);
                         break;
 
                 default :
@@ -803,10 +826,10 @@ void LecteurAudio::emettreEtat(QString idJoueur)
 /********************************************************************/
 /* Retourne le volume courant                                       */
 /********************************************************************/
-int LecteurAudio::volume()
+qreal LecteurAudio::volume()
 {
 //		return niveauVolume->value();
-	return 50;
+        return audioOutput->volume();
 }
 
 /********************************************************************/
@@ -839,8 +862,8 @@ void LecteurAudio::joueurNouveauFichier(QString nomFichier)
         // Creation du chemin complet du fichier
         QString chemin(G_dossierMusiquesJoueur + "/" + nomFichier);
         QFileInfo fileInfo(chemin);
-        QTextStream cout(stderr,QIODevice::WriteOnly);
-        cout << "joueur "<<chemin << endl;
+       /* QTextStream cout(stderr,QIODevice::WriteOnly);
+        cout << "joueur "<<chemin << endl;*/
         // Si l'ouverture s'est mal passee on affiche un message
         if (!fileInfo.exists())
         {
@@ -864,6 +887,7 @@ void LecteurAudio::joueurNouveauFichier(QString nomFichier)
         {
                 currentsource = new Phonon::MediaSource(chemin);
                 mediaObject->setCurrentSource(*currentsource);
+                mediaObject->play();
                 afficheurTitre->setEchoMode(QLineEdit::Password);
                 // On ecrit en noir
                 QPalette palette(afficheurTitre->palette());

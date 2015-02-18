@@ -21,17 +21,17 @@
 */
 
 
-	#include <QtGui>
-	#include <QtNetwork> 
+#include <QtGui>
+#include <QtNetwork>
 
-	#include "Carte.h"
-	#include "CarteFenetre.h"
-	#include "DessinPerso.h"
-	#include "Liaison.h"
-	#include "ClientServeur.h"
-	#include "Tchat.h"
-	#include "variablesGlobales.h"
-	#include "types.h"
+#include "Carte.h"
+#include "CarteFenetre.h"
+#include "DessinPerso.h"
+#include "Liaison.h"
+#include "ClientServeur.h"
+#include "Tchat.h"
+#include "variablesGlobales.h"
+#include "types.h"
 
 
 	/********************************************************************/
@@ -41,7 +41,7 @@
 		: QThread(parent)
     {
 		// Initialisation des variables
-            G_lecteurAudio = LecteurAudio::getInstance();
+                G_lecteurAudio = LecteurAudio::getInstance();
 		socketTcp = socket;
 		receptionEnCours = false;
 

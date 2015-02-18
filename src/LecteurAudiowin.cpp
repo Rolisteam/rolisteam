@@ -21,13 +21,13 @@
 */
 
 
-	#include <QtGui>
+#include <QtGui>
 
-	#include "LecteurAudio.h"
-	#include "variablesGlobales.h"
-	#include "constantesGlobales.h"
-    #include "types.h"
-	#include "fmod.h"
+#include "LecteurAudio.h"
+#include "variablesGlobales.h"
+#include "constantesGlobales.h"
+#include "types.h"
+#include "fmod.h"
 
 
 	/********************************************************************/
@@ -35,7 +35,7 @@
 	/* l'application                                                    */
 	/********************************************************************/	
 	// Pointeur vers l'unique instance du lecteur audio
-	LecteurAudio *G_lecteurAudio;
+        LecteurAudio * LecteurAudio::singleton = NULL;
 
 	/********************************************************************/
 	/* Fonction de callback hors classe appelee par FMOD a chaque fois  */
@@ -265,7 +265,12 @@
 		// Insertion du widget principal dans le dockWidget
 		setWidget(widgetPrincipal);
 	}
-
+LecteurAudio*  LecteurAudio::getInstance(QWidget *parent)
+ {
+        if(singleton==NULL)
+            singleton = new LecteurAudio(parent);
+        return singleton;
+}
 	/********************************************************************/
 	/* Masque le widget de commande si l'utilisateur local n'est pas MJ */
 	/********************************************************************/

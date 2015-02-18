@@ -35,13 +35,13 @@
 #ifndef LIAISON_H
 #define LIAISON_H
 
-	#include <QtNetwork>
-	#include <QThread>
-	#include <QTcpSocket>
-	
-	#include "Carte.h"
-	#include "types.h"
-        #include "LecteurAudio.h"
+#include <QtNetwork>
+#include <QThread>
+#include <QTcpSocket>
+
+#include "Carte.h"
+#include "types.h"
+#include "LecteurAudio.h"
 
     class Liaison : public QThread
     {
