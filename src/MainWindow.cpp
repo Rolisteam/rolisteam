@@ -128,14 +128,16 @@ MainWindow::MainWindow()
     m_options = PreferencesManager::getInstance();
     m_diceManager=DicePlugInManager::instance();
     m_toolbar = new ToolsBar(this);
+    m_preferenceDialog = new PreferenceDialog(this);
 
     m_rclient=NULL;
+
     readSettings();
     m_workspace = new ImprovedWorkspace(m_toolbar->currentColor());
     m_workspace->readSettings();
 
     // all other allocation must be done after the settings reading.
-    m_preferenceDialog = new PreferenceDialog(this);
+
     m_connectDialog = new ConnectionWizzard(this);
     m_subWindowList = new QMap<QAction*,SubMdiWindows*>;
     m_subWindowActGroup = new QActionGroup(this);
@@ -581,9 +583,13 @@ void MainWindow::readSettings()
     qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
 
 
+
     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
     QSize size = settings.value("size", QSize(600, 400)).toSize();
-    m_player= new Player(tr("Player Unknown"),QColor(Qt::black));
+    /**
+      *  @warning empty avatar uri.
+      */
+    m_player= new Player(tr("Player Unknown"),QColor(Qt::black),"");
     QVariant variant;
     variant.setValue(*m_player);
     *m_player = settings.value("player", variant).value<Player>();
@@ -604,6 +610,7 @@ void MainWindow::readSettings()
     m_options->readSettings();
 
     m_diceManager->readSettings();
+    m_preferenceDialog->readSettings();
 }
 void MainWindow::writeSettings()
 {
@@ -622,6 +629,7 @@ void MainWindow::writeSettings()
   m_options->writeSettings();
   m_workspace->writeSettings();
   m_diceManager->writeSettings();
+  m_preferenceDialog->writeSettings();
 }
 void MainWindow::onConnection(QAction* p)
 {

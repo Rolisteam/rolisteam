@@ -13,7 +13,13 @@ public:
       * @brief default constructor
       */
     ColorButton(QWidget * parent = 0);
+    /**
+      * @brief defines the color of the colorbutton
+      */
    void setColor(QColor color);
+   /**
+     * @brief accessor to the color.
+     */
    const QColor& color() const;
 signals:
    /**
@@ -22,6 +28,9 @@ signals:
     void colorChanged(const QColor& p);
 
 private slots:
+    /**
+      * @brief is called when color has changed.
+      */
     void changeColor();
 
 

@@ -28,20 +28,47 @@
 class RectItem : public VisualItem
 {
 public:
+    /**
+      * @brief Constructor with parameters.
+      * @param topleft corner of the rectangle.
+      * @param buttom right corner of the rectangle
+      * @param filled either we paint filled rectange or just uts border
+      * @param color
+      */
     RectItem(QPointF& topleft,QPointF& buttomright,bool filled,QColor& penColor,QGraphicsItem * parent = 0);
 
 
-
+    /**
+      * @brief paint the current rectangle into the scene.
+      * @see Qt documentation
+      */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
+    /**
+      * @brief gives bounding rect. Return rect geometry into the QRectF
+      */
     virtual QRectF boundingRect() const ;
 
+    /**
+      * @brief defines new end point.
+      */
     virtual void setNewEnd(QPointF& nend);
+    /**
+      * @brief serialization function to write data.
+      */
     virtual void writeData(QDataStream& out) const;
+    /**
+      * @brief serialization function to read data from stream.
+      */
     virtual void readData(QDataStream& in);
 private:
+    /**
+      * @brief geometry of the widget.
+      */
     QRectF m_rect;
-
+    /**
+      * @brief stores the filled state.
+      */
     bool m_filled;
 
 

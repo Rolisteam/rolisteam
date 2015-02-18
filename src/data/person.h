@@ -21,6 +21,7 @@
 #define PERSON_H
 #include <QString>
 #include <QColor>
+#include <QImage>
 
 /**
   * @brief is an abstract class which is part of composite pattern, it's representing any kind of person (real or character)
@@ -30,9 +31,12 @@ class Person
 public:
     /**
       * @brief constructor with argument
+      * @param name of the person
+      * @param Person's color
+      * @param Person's avatar uri
       *
       */
-    Person(QString name,QColor color);
+    Person(QString name,QColor color,QString uri);
     /**
       * @brief default constructor
       */
@@ -45,11 +49,11 @@ public:
     /**
       * @brief accessor function to the person's name.
       */
-    virtual QString getName() const;
+    virtual const QString& getName() const;
     /**
       * @brief accessor function to the person's color.
       */
-    virtual QColor getColor() const;
+    virtual const QColor& getColor() const;
     /**
       * @brief set the person's name.
       */
@@ -58,7 +62,14 @@ public:
       * @brief set the person's color.
       */
     virtual void setColor(QColor);
-
+    /**
+      * @brief gives access to person's avatar.
+      */
+    virtual const QImage& getAvatar() const;
+    /**
+      * @brief set the person's avatar.
+      */
+    virtual void setAvatar(QImage& p);
     /**
       * @brief set the person state.
       */
@@ -72,6 +83,7 @@ protected:
     QString m_name;
     QColor m_color;
     Qt::CheckState m_state;
+    QImage m_avatar;
 };
 
 #endif // PERSON_H

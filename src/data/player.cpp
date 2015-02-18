@@ -7,8 +7,8 @@ Player::Player()
     m_color.setRed(0);
     m_children = new QList<Character*>;
 }
-Player::Player(QString name,QColor color)
-    : Person(name, color)
+Player::Player(QString name,QColor color,QString uri)
+    : Person(name, color,uri)
 {
     m_children = new QList<Character*>;
 }

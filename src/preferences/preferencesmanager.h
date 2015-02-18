@@ -23,6 +23,17 @@
 #include <QVariant>
 #include <QString>
 #include <QMap>
+
+/**
+  * @index <h2>How To use the Preference Manager.</h2>
+  *  <p>It is always painful to manage of data between two sessions of Rolisteam.
+  * We implemented a powerful tool which helps contributors to make it easier.
+  * We will see all required steps to load/save and update data.
+  * </p>
+  * <h3>First thing at all</h3> You need to get pointer to this class by including preferencesmanager.h. Don't forget to add pointer to PreferencesManager into your class.
+  * Now, it's better if you get the address of the unique instance of the preferences manager, this can be done by calling the static function PreferencesManager::getInstance();
+  *
+  */
 /**
   * @brief Store options and manage access to their value.
   * Save/load values in/from QSetting instance.

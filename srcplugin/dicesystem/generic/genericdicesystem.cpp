@@ -2,7 +2,9 @@
 #include <QtGui>
 
 GenericDiceSystem::GenericDiceSystem()
+    : m_regexp("![1-9]+d[1-9]+")
 {
+    //m_regexp =QString("![1-9]+d[1-9]+");
 }
 GenericDiceSystem::~GenericDiceSystem()
 {
@@ -36,5 +38,8 @@ void GenericDiceSystem::showUiSettings()
 {
 
 }
-
+const QString& GenericDiceSystem::catchRegExp() const
+{
+    return m_regexp;
+}
 Q_EXPORT_PLUGIN2(generic,GenericDiceSystem);

@@ -21,7 +21,9 @@ public:
     virtual bool hasUiSettings() const;
     virtual void showUiSettings();
 
-
+virtual const QString& catchRegExp() const;
+private:
+    QString m_regexp;
 };
 
 #endif // SCRIPTDICESYSTEM_H

@@ -32,7 +32,7 @@ public:
     /**
       * @brief Constructor with argument
       */
-    Character(QString name,QColor color);
+    Character(QString name,QColor color,QString uri);
     /**
       * @brief default constructor
       */

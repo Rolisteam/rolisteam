@@ -7,7 +7,7 @@
 class Player : public Person
 {
 public:
-    Player(QString name,QColor color);
+    Player(QString name,QColor color,QString uri);
     Player();
     Player(const Player& p);
 

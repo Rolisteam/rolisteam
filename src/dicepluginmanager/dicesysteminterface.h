@@ -61,6 +61,9 @@ public:
       */
     virtual void showUiSettings() = 0;
 
+    virtual const QString& catchRegExp() const = 0;
+/*protected:
+    QString m_regexp;*/
 };
 Q_DECLARE_INTERFACE(DiceSystemInterface,"org.rolisteam.DiceSystemInterface/1.0")
 #endif // DICESYSTEMINTERFACE_H

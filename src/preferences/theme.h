@@ -4,28 +4,66 @@
 #include <QString>
 #include <QFont>
 #include <QColor>
-
+/**
+  * @brief is dedicated to store all attributes which defines customisation of the Graphical User Interface.
+  */
 class Theme
 {
 public:
+    /**
+      * @brief default constructor
+      */
     Theme();
-
+    /**
+      * @brief accessor to the name
+      */
     QString name() const;
+    /**
+      * @brief sets the theme's name
+      */
     void setName(QString name);
-
+    /**
+      * @brief accessor to the background Image
+      */
     QString backgroundImage() const;
+    /**
+      * @brief sets the theme's Image
+      */
     void setBackgroundImage(QString bgimage);
-
+    /**
+      * @brief accessor to the background color
+      */
     QColor backgroundColor()const;
+    /**
+      * @brief sets the background color
+      */
     void setBackgroundColor(QColor color);
 
+    /**
+      * @brief accessor to the chat font of this theme.
+      */
     QFont chatFont() const;
+    /**
+      * @brief sets the chat font.
+      */
     void setChatFont(QFont font);
-
+    /**
+      * @brief accessor to the color chat.
+      * @todo may be it should be useful to remake the design of this class
+      * @todo and used flyweight pattern (or something).
+      */
     QColor chatColor() const;
+    /**
+      * @brief sets the tchat color.
+      */
     void setChatColor(QColor color);
-
+    /**
+      * @brief accessor to the chat background image
+      */
     QString chatBackGroundImage() const;
+    /**
+      * @brief sets the chat background Image.
+      */
     void setChatBackGroundImage(QString uri);
 
 

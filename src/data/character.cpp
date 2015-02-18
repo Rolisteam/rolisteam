@@ -24,8 +24,8 @@ Character::Character()
 
 }
 
-Character::Character(QString name,QColor color)
-    : Person(name,color)
+Character::Character(QString name,QColor color,QString uri)
+    : Person(name,color,uri )
 {
 
 }

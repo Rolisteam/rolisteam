@@ -18,24 +18,35 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "person.h"
+
 Person::Person()
 {
     m_state = Qt::Unchecked;
 }
 
-Person::Person(QString name,QColor color)
+Person::Person(QString name,QColor color,QString uri)
     : m_name(name),m_color(color)
 {
     m_state = Qt::Unchecked;
+    m_avatar.load(uri);
 }
-QString Person::getName() const
+const QString& Person::getName() const
 {
     return m_name;
 }
-QColor Person::getColor() const
+const QColor& Person::getColor() const
 {
     return m_color;
 }
+const QImage& Person::getAvatar() const
+{
+    return m_avatar;
+}
+void Person::setAvatar(QImage &p)
+{
+    m_avatar=p;
+}
+
 void Person::setName(QString p)
 {
     m_name = p;

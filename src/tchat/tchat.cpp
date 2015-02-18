@@ -34,7 +34,7 @@
 
 #include "tchatlistmodel.h"
 #include "pluginmanager.h"
-
+#include "dicesysteminterface.h"
 #include <QDebug>
 
 Tchat::Tchat(QWidget *parent)
@@ -85,7 +85,6 @@ void Tchat::setupUi()
     m_combobox->addItems(m_diceManager->getInterfaceList());
 
     m_listView=new QListView(this);
-
 
     QVBoxLayout* layout=new QVBoxLayout;
     layout->setMargin(0);
@@ -207,6 +206,17 @@ bool Tchat::defineMenu(QMenu* /*menu*/)
 }
 void Tchat::onEntry()
 {
+    QString text= m_tchatEditor->document()->toPlainText();
+    m_tchatEditor->document()->clear();
+    QString item= m_combobox->currentText();
+    DiceSystemInterface* tmp = m_diceManager->getInterface(item);
+    qDebug() << "regexp=" << tmp->catchRegExp();
+    QRegExp exp(tmp->catchRegExp());
+    if(exp.indexIn(text)!=-1)
+    {
+        text = tmp->rollDice(m_tchatEditor->document()->toPlainText());
+    }
+    m_meetingRoom->append(text);
 
 
 }

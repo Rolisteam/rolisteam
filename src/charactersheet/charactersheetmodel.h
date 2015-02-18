@@ -29,27 +29,70 @@
 class CharacterSheet;
 class Section;
 
-
+/**
+  * @brief stores section and represent it into the tree model.
+  */
 class TreeItem
 {
 public:
+    /**
+      * @brief constructor with parameter
+      * @param Section pointer
+      * @param isLeaf either the item is a leaf or not.
+      */
     TreeItem(Section* p,bool isLeaf);
 
+    /**
+      * @brief defines the stored section
+      */
     void setSection(Section* p);
+    /**
+      * @brief accessor to the stored section
+      */
     Section* getSection();
 
+    /**
+      * @brief return either the item is a leaf or note.
+      */
     bool isLeaf();
+    /**
+      * @brief defines if the item is a leaf or not
+      */
     void setLeaf(bool leaf);
-
+    /**
+      * @brief get the item's parent
+      * @return pointer to its parent
+      */
     TreeItem* getParent();
+    /**
+      * @brief defines the item's parent
+      * @param new parent
+      */
     void setParent(TreeItem* p);
-
+    /**
+      * @brief adds child in this item.
+      * @param new child
+      */
     void addChild(TreeItem* child);
+    /**
+      * @brief gives the child at the given position
+      * @param the position (row) of the wanted item.
+      * @return TreeItem's pointer or NULL if row is out of range.
+      */
     TreeItem* child(int row);
-
+    /**
+      * @brief gives the position of the current item into is father.
+      */
     int row();
+    /**
+      * @brief gives the position of the given child in the children list.
+      * @param the child
+      * @return position of child, -1 if not matched.
+      */
     int indexOfChild(TreeItem* itm);
-
+    /**
+      * @brief accessor to the children count.
+      */
     int childrenCount();
 private:
     Section* m_section;

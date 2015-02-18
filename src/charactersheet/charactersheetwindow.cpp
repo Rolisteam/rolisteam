@@ -38,6 +38,7 @@ CharacterSheetWindow::CharacterSheetWindow(QWidget* parent)
     m_saveCharacterSheet = new QAction(tr("Save Character Sheets"),this);
     m_openCharacterSheet= new QAction(tr("Open Character Sheets"),this);
     m_view.setModel(&m_model);
+    resize(m_options->value("charactersheetwindows/width",400).toInt(),m_options->value("charactersheetwindows/height",200).toInt());
     m_view.setAlternatingRowColors(true);
     setWindowTitle(tr("Character Sheet Viewer"));
 
@@ -164,4 +165,5 @@ void CharacterSheetWindow::closeEvent(QCloseEvent *event)
 {
     setVisible(false);
     event->ignore();
+
 }

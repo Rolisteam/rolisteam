@@ -104,7 +104,10 @@ void UserListWidget::addUser(Person* p)
 }
 void UserListWidget::addPC()
 {
-    m_model->addCharacter(new Character(tr("New Character"),Qt::white),m_local);
+    /**
+     * @todo Add features to amend the avatar.
+     */
+    m_model->addCharacter(new Character(tr("New Character"),Qt::white,""),m_local);
 }
 void UserListWidget::delSelectedPC()
 {
