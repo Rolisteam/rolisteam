@@ -106,6 +106,8 @@ void ConnectionConfigDialog::changeConnectionType(int state)
 
 void ConnectionConfigDialog::setUI()
 {
+
+    setWindowIcon(QIcon(":/logo.svg"));
     m_name  = new QLineEdit;
     m_color = new ColorButton;
     m_gm    = new QCheckBox(tr("Demander à être le MJ."));

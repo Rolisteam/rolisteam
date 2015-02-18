@@ -176,6 +176,11 @@ MainWindow::MainWindow()
         m_playersList = new PlayersListWidget(this);
         addDockWidget(Qt::RightDockWidgetArea, m_playersList);
 
+
+
+        setWindowIcon(QIcon(":/logo.svg"));
+
+
 #ifndef NULL_PLAYER
         // Creation du lecteur audio
         G_lecteurAudio = LecteurAudio::getInstance(this);

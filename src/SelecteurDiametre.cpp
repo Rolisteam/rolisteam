@@ -61,7 +61,7 @@ SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int m
     frameLayout->setMargin(0);
     
     // Creation de l'afficheur de disque
-    disque = new AfficheurDisque(frame, plein, minimum);
+    disque = new AfficheurDisque(frame, plein, minimum,maximum);
     disque->changerDiametre(minimum);
     
     // Ajout de l'afficheur de disque au layout du QFrame

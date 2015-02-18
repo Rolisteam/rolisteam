@@ -21,6 +21,7 @@
 
 
 #include <QtGui>
+#include <QDebug>
 
 #include "AfficheurDisque.h"
 
@@ -36,17 +37,27 @@ int G_diametreTraitCourant;
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/
-AfficheurDisque::AfficheurDisque(QWidget *parent, bool plein, int minimum)
+AfficheurDisque::AfficheurDisque(QWidget *parent, bool plein, int minimum,int maximum)
     : QWidget(parent)
 {
     // Initialisation des variables de la classe
     diametreCourant = minimum;
     diametreMinimum = minimum;
+    m_maxDiameter=maximum;
+
+
     disquePlein = plein;
 
+    int marge=10;
     // Mise a jour des variables globales (Argh...)
     if (disquePlein)
+      {
         G_diametreTraitCourant = minimum;
+        marge=5;
+
+      }
+    m_scale = (float)(width()-marge)/(float)(maximum*2);
+    qDebug() << "scale ://" << m_scale <<width() ;
 }
 
 /********************************************************************/
@@ -79,7 +90,7 @@ void AfficheurDisque::paintEvent(QPaintEvent *event)
     }
 
     // Dessin du disque
-    painter.drawEllipse((width()-diametreCourant)/2, (height()-diametreCourant)/2, diametreCourant, diametreCourant);
+    painter.drawEllipse((width()-(diametreCourant*m_scale))/2, (height()-(diametreCourant*m_scale))/2, diametreCourant*m_scale, diametreCourant*m_scale);
     painter.setPen(Qt::darkGray);
     // Affichage du diametre
     painter.drawText(0, 0, width(), height(), Qt::AlignRight | Qt::AlignBottom, QString::number(diametreAffiche));

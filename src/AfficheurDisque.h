@@ -38,7 +38,7 @@ class AfficheurDisque : public QWidget
     Q_OBJECT
 
     public :
-        AfficheurDisque(QWidget *parent = 0, bool plein = true, int minimum = 1);
+        AfficheurDisque(QWidget *parent = 0, bool plein = true, int minimum = 1,int maximum=50);
     public slots :
         void changerDiametre(int diametre);
     protected:
@@ -46,6 +46,8 @@ class AfficheurDisque : public QWidget
     private :
         int diametreCourant;
         int diametreMinimum;
+        int m_maxDiameter;
+        float m_scale;
         bool disquePlein;
 };
 

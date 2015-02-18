@@ -292,11 +292,11 @@ void BarreOutils::creerOutils()
 	layoutAjoutPnj->addWidget(afficheNumeroPnj, 1, 1, Qt::AlignHCenter);
 	
 	// Creation du selecteur de diametre du trait
-	diametreTrait = new SelecteurDiametre(outils, true, 1, 45);
+        diametreTrait = new SelecteurDiametre(outils, true, 1, 45);
 	diametreTrait->setToolTip(tr("Grosseur du trait"));
 
 	// Creation du selecteur de diametre des PNJ
-	diametrePnj = new SelecteurDiametre(outils, false, 12, 41);
+        diametrePnj = new SelecteurDiametre(outils, false, 12, 200);
 	diametrePnj->setToolTip(tr("Taille du PNJ"));
     connect(diametrePnj, SIGNAL(valueChanging(int)),
             this, SLOT(changeCharacterSize(int)));
