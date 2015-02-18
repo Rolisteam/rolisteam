@@ -721,17 +721,19 @@ void MainWindow::ouvrirPlan(bool masquer)
 
 void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichier)
 {
-        QPoint topleft;
-        in >>topleft;
+    QString titre;
+    in >> titre;
 
-        QSize mapsize;
-        in >> mapsize;
+    QPoint pos;
+    in >>pos;
 
-        QString titre;
-        in >> titre;
+    QSize size;
+    in >> size;
 
-        QTextStream out2(stderr,QIODevice::WriteOnly);
-        out2 <<" lire plan " << topleft.x() << "," << topleft.y()  << " size=("<< mapsize.width()<<","<<mapsize.height() << endl;
+
+
+
+    qDebug() <<" lire plan " << titre << "pos"<< pos<<"size"<<size;
 
         ///QString titre(tableauTitre, tailleTitre);
         // On recupere la taille des PJ (ignored)
@@ -781,13 +783,13 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
         // carte dans le cadre de l'ouverture d'un fichier scenario : on prend alors le titre associe a la carte. Sinon
         // il s'agit d'un fichier plan : on prend alors le nom du fichier
 
-        QPoint pos2 = carteFenetre->mapFromParent(topleft);
-        out2 <<" lire plan 2 " << pos2.x() << "," << pos2.y()  << " size=("<< mapsize.width()<<","<<mapsize.height() << endl;
+        QPoint pos2 = carteFenetre->mapFromParent(pos);
+        qDebug() <<" lire plan 2 " << pos2.x() << "," << pos2.y()  << " size="<< size << endl;
 
         if (nomFichier.isEmpty())
-                ajouterCarte(carteFenetre, titre,mapsize,topleft);
+                ajouterCarte(carteFenetre, titre,size,pos);
         else
-                ajouterCarte(carteFenetre, nomFichier,mapsize,topleft);
+                ajouterCarte(carteFenetre, nomFichier,size,pos);
 
         // On recupere le nombre de personnages presents dans le message
         quint16 nbrPersonnages;

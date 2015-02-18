@@ -35,6 +35,7 @@
 #include "playersList.h"
 
 #include "variablesGlobales.h"
+#include <QDebug>
 //GM_ONLY, PC_MOVE,PC_ALL
 
 /********************************************************************/
@@ -2431,6 +2432,7 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     QByteArray baFondOriginal;
     QBuffer bufFondOriginal(&baFondOriginal);
     ok = fondOriginal->save(&bufFondOriginal, "jpeg", 100);
+    qDebug() << fondOriginal->size();
     if (!ok)
         qWarning() << (tr("Probleme de compression du fond original (sauvegarderCarte - Carte.cpp)"));
 
@@ -2438,6 +2440,7 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     QByteArray baFond;
     QBuffer bufFond(&baFond);
     ok = fond->save(&bufFond, "jpeg", 100);
+    qDebug() << fond->size();
     if (!ok)
         qWarning() << (tr("Probleme de compression du fond (sauvegarderCarte - Carte.cpp)"));
 
@@ -2445,6 +2448,7 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     QByteArray baAlpha;
     QBuffer bufAlpha(&baAlpha);
     ok = alpha->save(&bufAlpha, "jpeg", 100);
+    qDebug() << alpha->size();
     if (!ok)
         qWarning() << (tr("Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)"));
 
@@ -2457,8 +2461,8 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     //out2 << "save plan" << pos().x() << "," << pos().y()  << " size=("<< size().width()<<","<<size().height() << endl;
 
     out << titre;
-   // out << pos();
-   // out << size();
+    out << pos();
+    out << alpha->size();
     out << taillePj;
     out << baFondOriginal;
     out << baFond;
