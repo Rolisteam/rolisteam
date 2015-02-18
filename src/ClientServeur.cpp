@@ -843,7 +843,8 @@ fenetreConnexion->show();
 /********************************************************************/	
 void ClientServeur::detruireFenetreConnexion()
 {
-fenetreConnexion->~QWidget();
+    delete fenetreConnexion;
+    fenetreConnexion = NULL;
 }
 
 /********************************************************************/	

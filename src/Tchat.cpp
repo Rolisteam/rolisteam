@@ -124,10 +124,10 @@ void Tchat::emettreTexte()
 		if (ok)
 		{
 			// On affiche le resultat du tirage dans la zone d'affichage
-			QString messageTemp = QString(tr("avez obtenu  ")) + QString::number(result) + QString(tr("  à votre jet de dés  [")) + tirage + QString("]");
+                        QString messageTemp = QString(tr("avez obtenu  ")) + QString::number(result) + QString(tr("  à  votre jet de dés  [")) + tirage + QString("]");
 			afficherTirage(tr("Vous"), G_couleurJoueurLocal, messageTemp);
 			// On cree un nouveau message a envoyer aux autres utilisateurs
-			message = QString(tr("a obtenu  ")) + QString::number(result) + QString(tr("  à son jet de dés  [")) + tirage + QString("]");
+                        message = QString(tr("a obtenu  ")) + QString::number(result) + QString(tr("  à  son jet de dés  [")) + tirage + QString("]");
 			// M.a.j de l'action a emettre
 			action = messageTirage;
 		}
@@ -135,7 +135,7 @@ void Tchat::emettreTexte()
 		// S'il y a eu une erreur de syntaxe
 		else
 		{
-			afficherMessage(tr("Syntaxe"), Qt::red, tr("!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de dés est public (utilisez & pour un jet privé)."));
+                        afficherMessage(tr("Syntaxe"), Qt::red, tr("!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de dés est public (utilisez & pour un jet privé)."));
 			// On efface la zone d'edition
 			zoneEdition->clear();
 			// On quitte la fonction
@@ -155,7 +155,7 @@ void Tchat::emettreTexte()
 		if (ok)
 		{
 			// On affiche le resultat du tirage dans la zone d'affichage
-			QString messageTemp = QString(tr("vous avez obtenu  ")) + QString::number(result) + QString(tr("  à votre jet de dés secret  [")) + tirage + QString("]");
+                        QString messageTemp = QString(tr("vous avez obtenu  ")) + QString::number(result) + QString(tr("  à  votre jet de dés secret  [")) + tirage + QString("]");
 			afficherTirage(tr("Jet secret :"), Qt::magenta, messageTemp);
 			// On efface la zone d'edition
 			zoneEdition->clear();
@@ -166,7 +166,7 @@ void Tchat::emettreTexte()
 		// S'il y a eu une erreur de syntaxe
 		else
 		{
-			afficherMessage(tr("Syntaxe"), Qt::red, tr("&1d6 ou &5d10+3 ou &2d20-3d10+1d6+5 etc... Le jet de dés ne s'affiche pas chez les autres utilisateurs (utilisez ! pour un jet public)."));
+                        afficherMessage(tr("Syntaxe"), Qt::red, tr("&1d6 ou &5d10+3 ou &2d20-3d10+1d6+5 etc... Le jet de dés ne s'affiche pas chez les autres utilisateurs (utilisez ! pour un jet public)."));
 			// On efface la zone d'edition
 			zoneEdition->clear();
 			// On quitte la fonction
@@ -188,17 +188,17 @@ void Tchat::emettreTexte()
 		if (ok)
 		{
 			// On affiche le resultat du tirage dans la zone d'affichage
-			QString messageTemp = QString(tr("avez obtenu ")) + QString::number(result) + QString(tr(" succès")) + glitch + tirage;
+                        QString messageTemp = QString(tr("avez obtenu ")) + QString::number(result) + QString(tr(" succés")) + glitch + tirage;
 			afficherTirage(tr("Vous"), G_couleurJoueurLocal, messageTemp);
 			// On cree un nouveau message a envoyer aux autres utilisateurs
-			message = QString(tr("a obtenu ")) + QString::number(result) + QString(tr(" succès")) + glitch + tirage;
+                        message = QString(tr("a obtenu ")) + QString::number(result) + QString(tr(" succés")) + glitch + tirage;
 			// M.a.j de l'action a emettre
 			action = messageTirage;
 		}
 		// S'il y a eu une erreur de syntaxe
 		else
 		{
-			afficherMessage(tr("Syntaxe SR4"), Qt::red, tr("*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n'afficher que les résultats."));
+                        afficherMessage(tr("Syntaxe SR4"), Qt::red, tr("*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n'afficher que les résultats."));
 			// On efface la zone d'edition
 			zoneEdition->clear();
 			// On quitte la fonction
@@ -475,7 +475,9 @@ int Tchat::calculerJetDes(QString message, QString *tirage, bool *ok)
 				// Tirage du de
                                 /*de = 1 + (int)((double)rand() / ((double)RAND_MAX + 1) * (faces)); //rand()%faces + 1;*/ //Okay
                                 //de = 1 + (faces * rand()) / (RAND_MAX+1);//Too bad
-                                de = 1 + ((double)faces*rand())/((double)RAND_MAX+1);
+                                //de = 1 + ((double)faces*rand())/((double)RAND_MAX);
+                                qDebug() << faces ;
+                                de = (rand() % faces)+1;
 
 				// Ajout du de au resultat final
 				resultatDes += de;
