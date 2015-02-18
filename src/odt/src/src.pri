@@ -32,7 +32,11 @@ DEFINES += MINGWCC_
 message(win32 MINGW Compiler setting ....................) 
 }
 
-
+macx {
+    DEFINES += GCC_
+    LIBS += -lz
+    message(Mac)
+}
 
 
 contains(CONFIG, static): {

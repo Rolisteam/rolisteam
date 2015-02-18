@@ -22,6 +22,7 @@
 #include "networkmessagereader.h"
 
 NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, const char * buffer)
+    : NetworkMessage()
 {
     size_t headerSize = sizeof(NetworkMessageHeader);
     m_buffer = new char[header.dataSize + headerSize];
@@ -36,6 +37,7 @@ NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, 
 }
 
 NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader & other)
+: NetworkMessage()
 {
     size_t size = other.m_end - ((char *)other.m_header);
     char * copy = new char[size];

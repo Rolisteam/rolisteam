@@ -91,7 +91,9 @@ namespace NetMsg
 
 class NetworkMessage
 {
+
     public:
+        virtual ~NetworkMessage();
         void sendTo(Liaison * link);
         void sendAll(Liaison * butLink = NULL);
 

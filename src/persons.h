@@ -38,7 +38,9 @@ class Player;
  */
 class Person 
 {
+
     public:
+        virtual ~Person();
         Person(const QString & name, const QColor & color);
         Person(const QString & uuid, const QString & name, const QColor & color);
 
@@ -69,11 +71,12 @@ class Person
  * Players are stored in PlayersList. A player may have some characters.
  */
 class Player : public Person {
+
     public:
         Player(const QString & name, const QColor & color, bool master = false, Liaison * link = NULL);
         Player(const QString & uuid, const QString & name, const QColor & color, bool master = false, Liaison * link = NULL);
         Player(NetworkMessageReader & data, Liaison * link = NULL);
-        ~Player();
+        virtual ~Player();
 
         void fill(NetworkMessageWriter & message);
 

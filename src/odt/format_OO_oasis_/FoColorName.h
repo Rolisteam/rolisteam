@@ -174,7 +174,7 @@ public:
   QByteArray edom;   /* dome element*/
 };
 
-Q_DECLARE_METATYPE(FoRegion);
+Q_DECLARE_METATYPE(FoRegion)
 
 
 

@@ -76,6 +76,7 @@
 
 
 
+
 static inline uint readUInt(const uchar *data)
 {
     return (data[0]) + (data[1]<<8) + (data[2]<<16) + (data[3]<<24);

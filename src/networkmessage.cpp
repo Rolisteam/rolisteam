@@ -26,6 +26,11 @@
 
 extern ClientServeur * G_clientServeur;
 
+NetworkMessage::~NetworkMessage()
+{
+
+}
+
 void NetworkMessage::sendTo(Liaison * link)
 {
     if (link == NULL)

@@ -46,7 +46,9 @@ Person::Person(const QString & uuid, const QString & name, const QColor & color)
 Person::Person()
 {
 }
-
+Person::~Person()
+{
+}
 const QString Person::uuid() const
 {
     return m_uuid;

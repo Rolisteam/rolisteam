@@ -33,7 +33,7 @@
 
 
 #include "connectiondialog.h"
-#include "ui_timerdialog.h"
+//#include "ui_timerdialog.h"
 #include "initialisation.h"
 #include "connectionretrydialog.h"
 #include "preferencesmanager.h"

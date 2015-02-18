@@ -17,8 +17,7 @@ UI_DIR = src
 
 
 
-
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.5
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 CONFIG += HAVE_PHONON
 #CONFIG += HAVE_NULL
 
@@ -168,7 +167,7 @@ DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=5 VERSION_MINOR=3
 
 
 # Flags of compilation
-QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"
+QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
 
 FORMS += \
     src/connectionretrydialog.ui
