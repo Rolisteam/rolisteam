@@ -968,8 +968,8 @@ void MainWindow::closeMapOrImage()
             }
 
             QMessageBox msgBox(this);
-            msgBox.addButton(QMessageBox::Yes);
-            msgBox.addButton(QMessageBox::Cancel);
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel );
+            msgBox.setDefaultButton(QMessageBox::Cancel);
             msgBox.setIcon(QMessageBox::Information);
             msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
             Qt::WindowFlags flags = msgBox.windowFlags();
@@ -985,10 +985,11 @@ void MainWindow::closeMapOrImage()
                     msgBox.setWindowTitle(tr("Close Picture"));
             }
             msgBox.setText(tr("Do you want to close %1 %2?\nIt will be closed for everybody").arg(mapImageTitle).arg(image?tr(""):tr("(Map)")));
+
+
+
             msgBox.exec();
-
-
-            if (msgBox.result() != QMessageBox::YesRole)
+            if (msgBox.result() != QMessageBox::Yes)
                     return;
 
             if (!image)
