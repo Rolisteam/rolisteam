@@ -1032,12 +1032,12 @@ void MainWindow::fermerPlanOuImage()
         if (active->objectName() == "CarteFenetre")
         {
                 msgBox.setWindowTitle(tr("Close Map"));
-                msgBox.setText(tr("Do you want to clos this map?\nIt will be closed for everybody"));
+                msgBox.setText(tr("Do you want to close this map?\nIt will be closed for everybody"));
         }
         else
         {
                 msgBox.setWindowTitle(tr("Close Picture"));
-                msgBox.setText(tr("Do you want to clos this picture?\nIt will be closed for everybody"));
+                msgBox.setText(tr("Do you want to close this picture?\nIt will be closed for everybody"));
         }
         msgBox.exec();
 
