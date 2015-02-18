@@ -206,8 +206,7 @@ void AudioPlayer::setupUi()
 
 
         connect(m_songListWidget, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(changeSong(QListWidgetItem *)));
-
-        connect(this, SIGNAL(finishedSongSignal()), this, SLOT(finishedSongSlot()));
+        connect(m_mediaObject, SIGNAL(finished()), this, SLOT(finishedSongSlot()));
 
         m_playAct->setEnabled(false);
         m_pauseAct->setEnabled(false);
@@ -224,8 +223,6 @@ void AudioPlayer::changeSong(QListWidgetItem * p)
              m_mediaObject->setCurrentSource(*m_currentsource);
              m_currentSong = m_songListWidget->row(p);
              m_mediaObject->play();
-
-
 }
 
 void AudioPlayer::pressPlay(bool state)

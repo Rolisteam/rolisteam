@@ -19,7 +19,11 @@
  ***************************************************************************/
 
 #include "charactersheet.h"
+#include <QDebug>
+Section::Section()
+{
 
+}
 
 QString Section::getName()
 {
@@ -86,8 +90,10 @@ const  QString CharacterSheet::getData(int index)
 int CharacterSheet::getIndexCount()
 {
     int index =0;
+    qDebug() << "section count" << m_sectionList.size();
     for(int i = 0;i<m_sectionList.size();i++)
     {
+         qDebug() << "sections size i" << m_sectionList[i].size();
         index+=m_sectionList[i].size()+1;//size plus the title
     }
     return index;
@@ -121,7 +127,7 @@ void CharacterSheet::setData(int index,QVariant value,bool isHeader)
     }
 
 }
-void CharacterSheet::appendSection()
+void CharacterSheet::appendSection(Section* sec)
 {
-
+    m_sectionList.append(*sec);
 }

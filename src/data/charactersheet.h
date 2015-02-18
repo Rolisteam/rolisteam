@@ -48,6 +48,9 @@ public:
 	*/
     void setName(QString name);
 
+
+
+
 private:
 	/**
 	* @brief stores the section name
@@ -112,7 +115,7 @@ public:
 	/**
 	*@brief create an empty section with one row. useful for editing.
 	*/
-    void appendSection();
+    void appendSection(Section* sec);
 
 private:
 	/**

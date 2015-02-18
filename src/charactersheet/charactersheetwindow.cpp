@@ -20,8 +20,10 @@
 
 #include "charactersheetwindow.h"
 #include "charactersheet.h"
-
+#include "headermodel.h"
+ #include <QHeaderView>
 CharacterSheetWindow::CharacterSheetWindow()
+    //: m_vheader(Qt::Vertical)
 {
     setObjectName("CharacterSheet");
 
@@ -32,10 +34,13 @@ CharacterSheetWindow::CharacterSheetWindow()
     m_vertiLayout.addWidget(&m_addCharacterSheet);
     m_vertiLayout.addWidget(&m_addSection);
     m_vertiLayout.addWidget(&m_addLine);
-
+    //HeaderModel* tmp= new HeaderModel;
 
     QHBoxLayout horizonLayout;
-
+    //m_vheader.setModel(tmp);
+    //m_vheader.setEditTriggers(QAbstractItemView::DoubleClicked);
+    //m_view.setVerticalHeader(&m_vheader);
+    //m_view.verticalHeader()->setModel(tmp);
     m_horizonLayout.addLayout(&m_vertiLayout);
     m_horizonLayout.addWidget(&m_view);
     m_view.setModel(&m_model);
@@ -66,10 +71,9 @@ void CharacterSheetWindow::addLine()
 
 void CharacterSheetWindow::addSection()
 {
-
+    m_model.addSection();
 }
 void CharacterSheetWindow::addCharacterSheet()
 {
     m_model.addCharacterSheet();
-
 }

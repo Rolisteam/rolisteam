@@ -20,11 +20,12 @@
 
 #ifndef CHARACTERSHEETWINDOW_H
 #define CHARACTERSHEETWINDOW_H
-#include <QTableView>
+#include <QTreeView>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
+#include "headerview.h"
 #include "submdiwindows.h"
 #include "charactersheetmodel.h"
 /**
@@ -70,11 +71,18 @@ private:
 	/**
 	* @brief The view class
 	*/
-    QTableView m_view;
+    QTreeView m_view;
 	/**
 	* @brief the model for the characterSheet view
 	*/
     CharacterSheetModel m_model;
+
+
+
+    /**
+    * @brief make headers editable.
+    */
+    //HeaderView m_vheader;
 
 	/**
 	* @brief event button

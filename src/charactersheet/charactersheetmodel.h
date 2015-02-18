@@ -23,7 +23,25 @@
 
 #include <QAbstractItemModel>
 
+
+
+
 class CharacterSheet;
+class Section;
+
+
+class TreeItem
+{
+public:
+    TreeItem(Section* p);
+
+    void setSection(Section* p);
+    Section* getSection();
+private:
+    Section* m_section;
+};
+
+
 /**
 * @brief CharacterSheetModel is part of the MVC architecture for charactersheet viewer. it herits from QAbstractItemModel
 * it also provides features for adding data into stored CharacterSheet.  
@@ -83,18 +101,35 @@ public:
 	* @brief adds section after the given Index.
 	* @param index location of the new section
 	*/
-    void addSection(int index);
+    void addSection(/*int index*/);
 	/**
 	* @brief adds line at the given index
 	* @param index location of the new line. 
 	*/
     void addLine(int index);
 
+
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    bool hasChildren ( const QModelIndex & parent  ) const;
+
+
+    QVariant headerData(int section, Qt::Orientation orientation,
+                                   int role) const;
+
 private:
 	/**
 	* @brief QList which stores pointer to CharacterSheet. 
 	*/ 
     QList<CharacterSheet*>* m_characterList;
+
+
+    /**
+    * @brief QList which stores pointer to CharacterSheet.
+    */
+    QList<Section*>* m_sectionList;
+
+
+    Section* m_rootItem;
 };
 
 #endif // CHARACTERSHEETMODEL_H

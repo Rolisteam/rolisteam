@@ -1,4 +1,8 @@
 HEADERS += charactersheetwindow.h \
-    charactersheetmodel.h
+    charactersheetmodel.h \
+    headermodel.h \
+    headerview.h
 SOURCES += charactersheetwindow.cpp \
-    charactersheetmodel.cpp
+    charactersheetmodel.cpp \
+    headermodel.cpp \
+    headerview.cpp
