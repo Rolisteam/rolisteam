@@ -171,6 +171,7 @@ void MainWindow::setupUi()
 
 
     m_version=tr("unknown");
+
     #ifdef VERSION_MINOR
         #ifdef VERSION_MAJOR
             #ifdef VERSION_MIDDLE
@@ -1900,7 +1901,7 @@ void MainWindow::InitMousePointer(QCursor **pointer, const QString &iconFileName
 }
 void MainWindow::readSettings()
 {
-    QSettings settings("rolisteam","rolisteam1/preferences");
+    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
 
     move(settings.value("pos", QPoint(200, 200)).toPoint());
     resize(settings.value("size", QSize(600, 400)).toSize());
@@ -1912,7 +1913,7 @@ void MainWindow::readSettings()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings("rolisteam","rolisteam1/preferences");
+    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
     settings.setValue("pos", pos());
     settings.setValue("size", size());
     settings.setValue("geometry", saveGeometry());

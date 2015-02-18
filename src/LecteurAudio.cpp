@@ -130,11 +130,11 @@ void LecteurAudio::setupUi()
                 connect(actionChangerDossier, SIGNAL(triggered()), this, SLOT(pChangeDirectory()));
         }
 
-        niveauVolume = new Phonon::VolumeSlider(this);
-        niveauVolume->setAudioOutput(audioOutput);
-        niveauVolume->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        m_volumeLevelSlider = new Phonon::VolumeSlider(this);
+        m_volumeLevelSlider->setAudioOutput(audioOutput);
+        m_volumeLevelSlider->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
-        layoutAffichage->addWidget(niveauVolume);
+        layoutAffichage->addWidget(m_volumeLevelSlider);
 
         QVBoxLayout *layoutCommande = new QVBoxLayout(m_commandWidget);
         layoutCommande->setMargin(0);
@@ -240,6 +240,7 @@ void LecteurAudio::setupUi()
         connect(m_songList,SIGNAL(itemSelectionChanged()),this,SLOT(selectionHasChanged()));
         connect(m_mediaObject, SIGNAL(finished()), this, SLOT(isAboutToFinish()));
 
+
         m_playAction->setEnabled(false);
         m_pauseAction->setEnabled(false);
         m_stopAction->setEnabled(false);
@@ -279,10 +280,11 @@ void LecteurAudio::defineSource(QListWidgetItem * p)
      m_mutex.lock();
      setSource(m_pathList[m_songList->row(m_currentItemFile)]);
      m_mutex.unlock();
-
+     m_mediaObject->clear();
      m_mediaObject->setCurrentSource(*m_currentSource);
      emettreCommande(nouveauMorceau, p->text());
 }
+
 
 void LecteurAudio::tick(qint64 time)
 {
@@ -541,6 +543,7 @@ void LecteurAudio::isAboutToFinish()
 
             // m_currentSource = new Phonon::MediaSource();
             setSource(m_pathList[position]);
+            m_mediaObject->clear();
             m_mediaObject->setCurrentSource(*m_currentSource);
             emettreCommande(nouveauMorceau, m_currentItemFile->text());
 

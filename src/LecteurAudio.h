@@ -94,6 +94,7 @@ public :
 public slots:
     void pstop();
 
+
 signals :
 
 
@@ -125,12 +126,10 @@ private :
     void setupUi();
     qint64 m_time;//!< @brief current time
     Phonon::MediaSource *m_currentSource;//!< @brief current audio source
-    Phonon::SeekSlider *seekSlider; //!< @brief Allows to seek in the song (Phonon only)
     Phonon::MediaObject *m_mediaObject; //!<  (Phonon only)
     Phonon::AudioOutput *audioOutput; //!< (Phonon only)
-    Phonon::VolumeSlider *volumeSlider; //!< @brief Allows to adjust the sound volume (Phonon only)
     Phonon::Path* path; //!< (Phonon only)
-    Phonon::VolumeSlider *niveauVolume;//!< @brief Allows to adjust the sound volume (Phonon only)
+    Phonon::VolumeSlider *m_volumeLevelSlider;//!< @brief Allows to adjust the sound volume (Phonon only)
     Phonon::SeekSlider *m_timePosition;//!< @brief Allows to seek in the song (Phonon only)
 
     QWidget* m_mainWidget;        //!< @brief brings together all subwidget
