@@ -36,7 +36,8 @@ Tchat::Tchat(QString id, QAction *action, /*QString tmp,*/QWidget *parent)
 {
 	// On donne un nom a l'objet "Tchat" pour le differencier des autres fenetres du workspace
 	setObjectName("Tchat");
-
+    // Initialisation du generateur de nombre aleatoire
+    qsrand(QDateTime::currentDateTime ().toTime_t ());
 	// Initialisation des variables
 	idJoueur = id;
 

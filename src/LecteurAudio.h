@@ -127,6 +127,8 @@ private :
         QLineEdit *afficheurTitre;		//!< @brief Displays the title of the played song
 
         QString m_currentFile;
+        QListWidgetItem* m_currentItemFile;
+        QListWidgetItem* m_formerItemFile;
 
 
         QLCDNumber *afficheurTemps;		//!< @brief displays the past time of the playing

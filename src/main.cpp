@@ -107,8 +107,7 @@ void handlerAffichageMsg(QtMsgType type, const char *msg)
 /********************************************************************/	
 int main(int argc, char *argv[])
 {
-    // Initialisation du generateur de nombre aleatoire
-    qsrand(QDateTime::currentDateTime ().toTime_t ());
+
 
     // Creation de l'application
     QApplication app(argc, argv);
