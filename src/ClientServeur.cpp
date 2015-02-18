@@ -262,7 +262,7 @@ void ClientServeur::nouveauClientConnecte()
 {
 
     QTcpSocket *socketTcp = m_server->nextPendingConnection();
-
+    qDebug() << "New pending connection" << socketTcp;
 
     new Liaison(socketTcp);
 

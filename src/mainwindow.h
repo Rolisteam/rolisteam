@@ -245,7 +245,7 @@ private slots :
     void stopReconnection();
     void closeConnection();
     void startReconnection();
-    void networkStateChanged(bool);
+    void networkStateChanged(bool state);
 
 
     /**

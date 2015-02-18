@@ -128,12 +128,13 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
     {
         // Emission des donnees
         int t = m_socketTcp->write(donnees, taille);
+        qDebug() << QString(donnees);
         if (t < 0)
         {
             qWarning("Erreur réseau lors d'une transmission : %s", qPrintable(m_socketTcp->errorString()));
         }
         else
-            qDebug("Emission - Taille donnees : %d/%d", t, taille);
+            qDebug("Emit - data size : %d/%d", t, taille);
     }
 }
 
@@ -189,7 +190,7 @@ void Liaison::reception()
                 event->postToReceiver();
             }
 
-            // On aiguille vers le traitement adapte
+            qDebug() << "Category:" <<entete.category;
             switch((categorieAction)(entete.category))
             {
                 case connexion :
