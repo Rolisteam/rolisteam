@@ -99,135 +99,135 @@
 <context>
     <name>Carte</name>
     <message>
-        <location filename="../src/Carte.cpp" line="821"/>
+        <location filename="../src/Carte.cpp" line="827"/>
         <source>Undefined tool  (drawing - Carte.cpp)</source>
         <translation>Outil inconnu (drawing - Carte.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1054"/>
+        <location filename="../src/Carte.cpp" line="1063"/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1056"/>
+        <location filename="../src/Carte.cpp" line="1065"/>
         <source>Inappropriate Color</source>
         <translation>Couleur inappropriée</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1061"/>
+        <location filename="../src/Carte.cpp" line="1070"/>
         <source>You can not select this color because
  It&apos;s a special color.</source>
         <translation>Celle couleur est utilée par rolisteam, vous ne pouvez pas la selectionnée.</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="581"/>
+        <location filename="../src/Carte.cpp" line="584"/>
         <source>color type not allowed (dessiner - Carte.cpp)</source>
         <translation>Ce type de couleur n&apos;est pas autorisé(dessiner - Carte.cpp) </translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="605"/>
+        <location filename="../src/Carte.cpp" line="608"/>
         <source>color type not allowed  (dessiner - Carte.cpp)</source>
         <translation>Ce type de couleur n&apos;est pas autorisé(dessiner - Carte.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="737"/>
+        <location filename="../src/Carte.cpp" line="741"/>
         <source>undefined drawing tools (dessiner - Carte.cpp)</source>
         <translation>Outil inconnu (drawing - Carte.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="837"/>
+        <location filename="../src/Carte.cpp" line="846"/>
         <source>Source, destination and alpha layer have not the same size  (ajouterAlpha - Carte.cpp)</source>
         <translation>La source, la destination et la couche transparente n&apos;ont pas la même taille (ajouterAlpha - Carte.cpp) </translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1020"/>
+        <location filename="../src/Carte.cpp" line="1029"/>
         <source>undefine tool for processing action on NPC or PC (actionPnjBoutonEnfonce - Carte.cpp)</source>
         <translation>outil inconnu pour la manipulation des PJ et des PNJ (actionPnjBoutonEnfonce - Carte.cpp) </translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1096"/>
+        <location filename="../src/Carte.cpp" line="1105"/>
         <source>undefine tool for processing action on NPC or PC (actionPnjBoutonRelache - Carte.cpp)</source>
         <translation>outil inconnu pour la manipulation des PJ et des PNJ (actionPnjBoutonRelache - Carte.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1140"/>
+        <location filename="../src/Carte.cpp" line="1149"/>
         <source>undefine tool for processing action on NPC or PC (actionPnjMouvementSouris - Carte.cpp)</source>
         <translation>outil inconnu pour la manipulation des PJ et des PNJ (actionPnjMouvementSouris - Carte.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1209"/>
+        <location filename="../src/Carte.cpp" line="1218"/>
         <source>unknown widget under cursor (dansDessinPerso - Carte.cpp)</source>
         <translation>Widget inconnu sous le curseur (dansDessinPerso - Carte.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1364"/>
+        <location filename="../src/Carte.cpp" line="1373"/>
         <source>PC ID not found (affichageDuPj - Carte.cpp)</source>
         <translation>Identifiant du PJ non trouvé (affichageDuPj - Carte.cpp) </translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1386"/>
+        <location filename="../src/Carte.cpp" line="1395"/>
         <source>PC ID: %1 not found (pjAffiche - Carte.cpp)</source>
         <translation>Identifiant Pj: %1 non trouvé (pjAffiche - Carte.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1406"/>
+        <location filename="../src/Carte.cpp" line="1415"/>
         <source>L&apos;identifiant du personnage n&apos;a pas ete trouve (effacerPerso - Carte.cpp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1418"/>
-        <location filename="../src/Carte.cpp" line="1431"/>
+        <location filename="../src/Carte.cpp" line="1427"/>
+        <location filename="../src/Carte.cpp" line="1440"/>
         <source>Person %s %s unknown in Carte::changePerson</source>
         <translation>Personne %s %s inconnue dans Carte::changePerson</translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1461"/>
+        <location filename="../src/Carte.cpp" line="1470"/>
         <source>Probleme de compression du fond original (emettreCarte - Carte.cpp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1468"/>
+        <location filename="../src/Carte.cpp" line="1477"/>
         <source>Probleme de compression du fond (emettreCarte - Carte.cpp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1475"/>
+        <location filename="../src/Carte.cpp" line="1484"/>
         <source>Probleme de compression de la couche alpha (emettreCarte - Carte.cpp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1836"/>
+        <location filename="../src/Carte.cpp" line="1845"/>
         <source>Outil non défini lors de l&apos;emission d&apos;un trace (emettreTrace - Carte.cpp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="1982"/>
-        <location filename="../src/Carte.cpp" line="2137"/>
+        <location filename="../src/Carte.cpp" line="1991"/>
+        <location filename="../src/Carte.cpp" line="2146"/>
         <source>Type de couleur incorrecte (dessinerTraceGeneral - Carte.cpp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="2069"/>
+        <location filename="../src/Carte.cpp" line="2078"/>
         <source>Type de couleur incorrecte (dessinerTraceTexte - Carte.cpp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="2229"/>
+        <location filename="../src/Carte.cpp" line="2238"/>
         <source>Outil non défini lors du dessin (dessinerTraceGeneral - Carte.cpp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="2375"/>
+        <location filename="../src/Carte.cpp" line="2384"/>
         <source>Probleme de compression du fond original (sauvegarderCarte - Carte.cpp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="2383"/>
+        <location filename="../src/Carte.cpp" line="2392"/>
         <source>Probleme de compression du fond (sauvegarderCarte - Carte.cpp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Carte.cpp" line="2391"/>
+        <location filename="../src/Carte.cpp" line="2400"/>
         <source>Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)</source>
         <translation></translation>
     </message>
@@ -353,47 +353,47 @@
         <translation>certains utilisateurs ne verrons pas vos emotes.</translation>
     </message>
     <message>
-        <location filename="../src/chatwindow.cpp" line="456"/>
+        <location filename="../src/chatwindow.cpp" line="459"/>
         <source>%1d%2 (%3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/chatwindow.cpp" line="502"/>
+        <location filename="../src/chatwindow.cpp" line="505"/>
         <source>%1g%2 (%3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/chatwindow.cpp" line="530"/>
+        <location filename="../src/chatwindow.cpp" line="533"/>
         <source>%1s (%3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/chatwindow.cpp" line="681"/>
+        <location filename="../src/chatwindow.cpp" line="684"/>
         <source> (%1 dices</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/chatwindow.cpp" line="683"/>
+        <location filename="../src/chatwindow.cpp" line="686"/>
         <source> in rushing</source>
         <translation> en rushant</translation>
     </message>
     <message>
-        <location filename="../src/chatwindow.cpp" line="685"/>
+        <location filename="../src/chatwindow.cpp" line="688"/>
         <source> with Gremlins %1</source>
         <translation> avec Gremlins %1</translation>
     </message>
     <message>
-        <location filename="../src/chatwindow.cpp" line="687"/>
+        <location filename="../src/chatwindow.cpp" line="690"/>
         <source> - 6 are reroll</source>
         <translation> - les 6 sont rejoués</translation>
     </message>
     <message>
-        <location filename="../src/chatwindow.cpp" line="777"/>
+        <location filename="../src/chatwindow.cpp" line="780"/>
         <source>%1 (Chat)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/chatwindow.cpp" line="689"/>
+        <location filename="../src/chatwindow.cpp" line="692"/>
         <source> : </source>
         <translation></translation>
     </message>
@@ -402,7 +402,7 @@
         <translation type="obsolete">Couleur de fond</translation>
     </message>
     <message>
-        <location filename="../src/chatwindow.cpp" line="691"/>
+        <location filename="../src/chatwindow.cpp" line="694"/>
         <source>)</source>
         <translation></translation>
     </message>
@@ -630,108 +630,135 @@
 <context>
     <name>Image</name>
     <message>
-        <location filename="../src/Image.cpp" line="318"/>
+        <location filename="../src/Image.cpp" line="331"/>
         <source>Zoom In</source>
         <translation>Agrandir</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="129"/>
+        <location filename="../src/Image.cpp" line="127"/>
         <source>Image Compression fails (emettreImage - Image.cpp)</source>
         <translation>Compression de l&apos;image a échoué (emettreImage - Image.cpp) </translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="151"/>
+        <location filename="../src/Image.cpp" line="149"/>
         <source>Image Compression fails (sauvegarderImage - Image.cpp)</source>
         <translation>Compression de l&apos;image a échoué (sauvegarderImage - Image.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="320"/>
+        <location filename="../src/Image.cpp" line="332"/>
         <source>increase zoom level</source>
         <translation>Augmenter le zoom</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="324"/>
+        <location filename="../src/Image.cpp" line="336"/>
         <source>Ctrl++</source>
         <comment>Zoom In</comment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="328"/>
+        <location filename="../src/Image.cpp" line="341"/>
         <source>Zoom out</source>
         <translation>Réduire</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="376"/>
-        <source>Ctrl+2</source>
-        <comment>Zoom Out</comment>
-        <translation></translation>
+        <location filename="../src/Image.cpp" line="358"/>
+        <source>Ctrl+m</source>
+        <comment>Fit the workspace</comment>
+        <translatorcomment>S&apos;adapte à l&apos;espace de travail</translatorcomment>
+        <translation>Ctrl+m</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="331"/>
+        <location filename="../src/Image.cpp" line="364"/>
+        <source>Fit Window</source>
+        <translation>S&apos;adapter à la fenêtre</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="367"/>
+        <source>Image will take the best dimension to fit the window.</source>
+        <translation>L&apos;image prendra la dimension la plus adaptée.</translation>
+    </message>
+    <message>
+        <source>Ctrl+p</source>
+        <comment>Fit the window</comment>
+        <translatorcomment>S&apos;adapte à la fenêtre</translatorcomment>
+        <translation type="obsolete">Ctrl+p</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="381"/>
+        <source>Ctrl+l</source>
+        <comment>Set the zoom level at 20%</comment>
+        <translatorcomment>Definit le zoom à 20%</translatorcomment>
+        <translation>Ctrl+l</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="390"/>
+        <source>Ctrl+n</source>
+        <comment>Normal</comment>
+        <translatorcomment>Normal</translatorcomment>
+        <translation>Ctrl+n</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="400"/>
+        <source>Ctrl+b</source>
+        <comment>Zoom Out</comment>
+        <translatorcomment>Zoom Arrière</translatorcomment>
+        <translation>Ctrl+G</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="343"/>
         <source>Reduce zoom level</source>
         <translation>Réduire le zoom</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="334"/>
+        <location filename="../src/Image.cpp" line="346"/>
         <source>Ctrl+-</source>
         <comment>Zoom Out</comment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="339"/>
+        <location filename="../src/Image.cpp" line="353"/>
         <source>Fit the workspace</source>
         <translation>Ajuster à l&apos;espace de travail</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="342"/>
+        <location filename="../src/Image.cpp" line="355"/>
         <source>The window and the image fit the workspace</source>
         <translation>La fenêtre et l&apos;image rentre dans l&apos;espace de travail</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="345"/>
-        <source>Ctrl+5</source>
-        <comment>Fit the workspace</comment>
-        <translation></translation>
+        <location filename="../src/Image.cpp" line="370"/>
+        <source>Ctrl+f</source>
+        <comment>Fit the window</comment>
+        <translatorcomment>S&apos;adapte à la fenêtre</translatorcomment>
+        <translation>Ctrl+f</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="352"/>
+        <location filename="../src/Image.cpp" line="377"/>
         <source>Little</source>
         <translation>Petit</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="354"/>
+        <location filename="../src/Image.cpp" line="378"/>
         <source>Set the zoom level at 20% </source>
         <translation>Zoomer à 20% </translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="356"/>
-        <source>Ctrl+1</source>
-        <comment>Set the zoom level at 20%</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="363"/>
+        <location filename="../src/Image.cpp" line="386"/>
         <source>Normal</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="365"/>
+        <location filename="../src/Image.cpp" line="387"/>
         <source>No Zoom</source>
         <translation>Aucun zoom</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="367"/>
-        <source>Ctrl+0</source>
-        <comment>Normal</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="372"/>
+        <location filename="../src/Image.cpp" line="396"/>
         <source>Big</source>
         <translation>Grand</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="374"/>
+        <location filename="../src/Image.cpp" line="397"/>
         <source>Set the zoom level at 400%</source>
         <translation>Zoomer à 400%</translation>
     </message>
@@ -921,7 +948,6 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="242"/>
         <location filename="../src/mainwindow.cpp" line="409"/>
         <source>Minutes Editor</source>
         <translation>Editeur de notes</translation>
@@ -930,6 +956,11 @@
         <location filename="../src/mainwindow.cpp" line="255"/>
         <source>healthy</source>
         <translation>Sain</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="242"/>
+        <source>Minutes Editor[*]</source>
+        <translation>Editeur de Notes[*]</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="256"/>
@@ -992,7 +1023,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="347"/>
-        <location filename="../src/mainwindow.cpp" line="603"/>
+        <location filename="../src/mainwindow.cpp" line="582"/>
         <source>Open Map</source>
         <translation>Ouvrir Plan</translation>
     </message>
@@ -1003,19 +1034,19 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="349"/>
-        <location filename="../src/mainwindow.cpp" line="1489"/>
+        <location filename="../src/mainwindow.cpp" line="1460"/>
         <source>Open scenario</source>
         <translation>Ouvrir Scénario</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="350"/>
-        <location filename="../src/mainwindow.cpp" line="873"/>
+        <location filename="../src/mainwindow.cpp" line="854"/>
         <source>Open Picture</source>
         <translation>Ouvrir Image</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="351"/>
-        <location filename="../src/mainwindow.cpp" line="1472"/>
+        <location filename="../src/mainwindow.cpp" line="1443"/>
         <source>Open Minutes</source>
         <translation>Ouvrir Notes</translation>
     </message>
@@ -1026,7 +1057,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="355"/>
-        <location filename="../src/mainwindow.cpp" line="1416"/>
+        <location filename="../src/mainwindow.cpp" line="1387"/>
         <source>Save Map</source>
         <translation>Sauvegarder Plan</translation>
     </message>
@@ -1047,7 +1078,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="361"/>
-        <location filename="../src/mainwindow.cpp" line="1247"/>
+        <location filename="../src/mainwindow.cpp" line="1218"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
@@ -1103,7 +1134,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="419"/>
-        <location filename="../src/mainwindow.cpp" line="1770"/>
+        <location filename="../src/mainwindow.cpp" line="1751"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
@@ -1118,63 +1149,65 @@
         <translation>About %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="603"/>
+        <location filename="../src/mainwindow.cpp" line="582"/>
         <source>Open and Hide Map</source>
         <translation>Ouvrir et Cacher Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="604"/>
+        <location filename="../src/mainwindow.cpp" line="583"/>
         <source>Map (*.pla *.jpg *.jpeg *.png *.bmp)</source>
         <translation>Plan (*.pla *.jpg *.jpeg *.png *.bmp)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="614"/>
-        <location filename="../src/mainwindow.cpp" line="884"/>
+        <location filename="../src/mainwindow.cpp" line="593"/>
+        <location filename="../src/mainwindow.cpp" line="865"/>
         <source>Loading error</source>
         <translation>Erreur de chargement</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="655"/>
-        <location filename="../src/mainwindow.cpp" line="899"/>
+        <location filename="../src/mainwindow.cpp" line="634"/>
+        <location filename="../src/mainwindow.cpp" line="880"/>
         <source>Unsupported file format</source>
         <translation>Format de fichier non supporté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="874"/>
+        <location filename="../src/mainwindow.cpp" line="855"/>
         <source>Picture (*.jpg *.jpeg *.png *.bmp)</source>
         <translation>Image (*.jpg *.jpeg *.png *.bmp)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1004"/>
         <source>Do you want to close this map?
 It will be closed for everybody</source>
-        <translation>Voulez vous vraiment fermer ce plan ?
+        <translation type="obsolete">Voulez vous vraiment fermer ce plan ?
 Il sera fermé pour tout le monde</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1009"/>
         <source>Do you want to close this picture?
 It will be closed for everybody</source>
-        <translation>Voulez vous vraiment fermer cette image ?
+        <translation type="obsolete">Voulez vous vraiment fermer cette image ?
 Elle sera fermée pour tout le monde</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1729"/>
-        <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.renaudguezennec.eu/accueil,3.html&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;&lt;h3&gt;Site Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Official de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bu. Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.renaudguezennec.eu/accueil,3.html&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Anciens developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
+        <location filename="../src/mainwindow.cpp" line="1710"/>
+        <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;&lt;h3&gt;Site Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Official de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bu. Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Anciens developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1771"/>
+        <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.renaudguezennec.eu/accueil,3.html&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
+        <translation type="obsolete">&lt;p&gt;&lt;h3&gt;Site Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Official de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bu. Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.renaudguezennec.eu/accueil,3.html&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Anciens developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1752"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>La documentation de %1 est accessible sur le web :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="909"/>
+        <location filename="../src/mainwindow.cpp" line="890"/>
         <source> (Picture)</source>
         <translation> (Image)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1003"/>
+        <location filename="../src/mainwindow.cpp" line="981"/>
         <source>Close Map</source>
         <translation>Fermer Plan</translation>
     </message>
@@ -1185,37 +1218,49 @@ It will be closed for everybody</source>
 It will be closed for everybody</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1008"/>
+        <location filename="../src/mainwindow.cpp" line="985"/>
         <source>Close Picture</source>
         <translation>Fermer Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1260"/>
+        <location filename="../src/mainwindow.cpp" line="987"/>
+        <source>Do you want to close %1 %2?
+It will be closed for everybody</source>
+        <translation>Voulez-vous fermer %1 %2?
+Il sera fermé pour tout le monde</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="987"/>
+        <source>(Map)</source>
+        <translation>(Plan)</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1231"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>La connexion a été perdue. %1 va s&apos;arrêter </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1264"/>
+        <location filename="../src/mainwindow.cpp" line="1235"/>
         <source>Connection lost</source>
         <translation>Connexion perdue</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1273"/>
+        <location filename="../src/mainwindow.cpp" line="1244"/>
         <source>Quit %1 </source>
         <translation>Quitter %1 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1279"/>
+        <location filename="../src/mainwindow.cpp" line="1250"/>
         <source>Do you want to save your minutes before to quit %1?</source>
         <translation>Voulez-vous sauvegarder vos notes avant de quitter %1 ?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1284"/>
+        <location filename="../src/mainwindow.cpp" line="1255"/>
         <source>Do you want to save your scenario before to quit %1?</source>
         <translation>Voulez-vous sauvegarder votre scénario avant de quitter %1 ?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1416"/>
+        <location filename="../src/mainwindow.cpp" line="1387"/>
         <source>Map (*.pla)</source>
         <translation>Plan (*.pla)</translation>
     </message>
@@ -1228,28 +1273,28 @@ It will be closed for everybody</translation>
         <translation type="obsolete">Documents HTML (*.htm *.html)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1489"/>
-        <location filename="../src/mainwindow.cpp" line="1536"/>
+        <location filename="../src/mainwindow.cpp" line="1460"/>
+        <location filename="../src/mainwindow.cpp" line="1512"/>
         <source>Scenarios (*.sce)</source>
         <translation>Scénarios (*.sce)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1536"/>
+        <location filename="../src/mainwindow.cpp" line="1512"/>
         <source>Save Scenarios</source>
         <translation>Sauvegarder Scénarios</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1725"/>
+        <location filename="../src/mainwindow.cpp" line="1706"/>
         <source>About Rolisteam</source>
         <translation>À propose de Rolisteam</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1726"/>
+        <location filename="../src/mainwindow.cpp" line="1707"/>
         <source>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others and to share maps and pictures. Rolisteam also provides many features for : permission management, background music and dice roll. Rolisteam is written in Qt4. Its dependencies are : Qt4 and Phonon.&lt;/p&gt;</source>
         <translation>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam facilite la maîtrise de n&apos;importe quel jeu de rôle. Il permet aux joueurs de communiquer entre eux et de partager des images et des cartes. Il gère aussi différents niveau de persmission, la musique de fond et les lancers de dés. Rolisteam est écrit en Qt4. Ses dépendances sont : Qt4 et Phonon.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1728"/>
+        <location filename="../src/mainwindow.cpp" line="1709"/>
         <source>&lt;p&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later).  A copy of the GPL is contained in the &apos;COPYING&apos; file distributed with Rolisteam.  Rolisteam is copyrighted by its contributors.  See the &apos;COPYRIGHT&apos; file for the complete list of contributors.  We provide no warranty for this program.&lt;/p&gt;</source>
         <translation></translation>
     </message>
@@ -1258,22 +1303,22 @@ It will be closed for everybody</translation>
         <translation type="obsolete">&lt;p&gt;&lt;h3&gt;Sites Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Officiel de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developeurs actuels :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://renaudguezennec.homelinux.org/accueil,3.html&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Ancien developeur :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1829"/>
+        <location filename="../src/mainwindow.cpp" line="1810"/>
         <source>Update Monitor</source>
         <translation>Mises à jour</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1829"/>
+        <location filename="../src/mainwindow.cpp" line="1810"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>La version %1 est disponible. Pour plus d&apos;informations veuillez consulter &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;la page de téléchargement&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1881"/>
+        <location filename="../src/mainwindow.cpp" line="1862"/>
         <source>%1 just joins the game.</source>
         <translation>%1 vient de rejoindre la partie.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1886"/>
+        <location filename="../src/mainwindow.cpp" line="1867"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 vient de quitter la partie.</translation>
     </message>
@@ -1652,7 +1697,7 @@ It will be closed for everybody</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="108"/>
-        <location filename="../src/odt/src/textedit.cpp" line="735"/>
+        <location filename="../src/odt/src/textedit.cpp" line="753"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
@@ -1815,27 +1860,27 @@ Voulez-vous sauvegarder vos changements ?</translation>
         <translation>Ouvrir Fichier...</translation>
     </message>
     <message>
-        <location filename="../src/odt/src/textedit.cpp" line="536"/>
+        <location filename="../src/odt/src/textedit.cpp" line="554"/>
         <source>ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)</source>
         <translation>Fichiers ODF (*.odt);;HTML-Files (*.htm *.html);;Tous les fichiers (*)</translation>
     </message>
     <message>
-        <location filename="../src/odt/src/textedit.cpp" line="538"/>
+        <location filename="../src/odt/src/textedit.cpp" line="556"/>
         <source>HTML-Files (*.htm *.html);;All Files (*)</source>
         <translation>Fichiers - HTML (*.htm *.html);;Tous les fichiers (*)</translation>
     </message>
     <message>
-        <location filename="../src/odt/src/textedit.cpp" line="540"/>
+        <location filename="../src/odt/src/textedit.cpp" line="558"/>
         <source>Save as...</source>
         <translation>Sauvegarder sous...</translation>
     </message>
     <message>
-        <location filename="../src/odt/src/textedit.cpp" line="558"/>
+        <location filename="../src/odt/src/textedit.cpp" line="576"/>
         <source>Print Document</source>
         <translation>Imprimer le document</translation>
     </message>
     <message>
-        <location filename="../src/odt/src/textedit.cpp" line="735"/>
+        <location filename="../src/odt/src/textedit.cpp" line="753"/>
         <source>This example demonstrates Qt&apos;s rich text editing facilities in action, providing an example document for you to experiment with.</source>
         <translation>Cet exemple démontre l&apos;édition de textes riches par Qt, il fournit un  document type pour vous aider.</translation>
     </message>

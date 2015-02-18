@@ -111,7 +111,7 @@ bool Image::proprietaireImage()
 /********************************************************************/
 /* Renvoie l'identifiant de l'image                                 */
 /********************************************************************/
-QString Image::identifiantImage()
+QString Image::getImageTitle()
 {
 	return idImage;
 }

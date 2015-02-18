@@ -234,7 +234,7 @@ private slots :
     void ouvrirEtMasquerPlan();
     void ouvrirScenario();
     void openNote();
-    void fermerPlanOuImage();
+    void closeMapOrImage();
     void sauvegarderPlan();
     void updateMayBeNeeded();
     void emettreTousLesPlans(Liaison * link);

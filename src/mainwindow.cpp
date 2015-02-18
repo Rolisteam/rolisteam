@@ -438,7 +438,7 @@ void MainWindow::linkActionToMenu()
         connect(actionOuvrirEtMasquerPlan, SIGNAL(triggered(bool)), this, SLOT(ouvrirEtMasquerPlan()));
         connect(actionOuvrirScenario, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
         connect(m_openMinutesAct, SIGNAL(triggered(bool)), this, SLOT(openNote()));
-        connect(actionFermerPlan, SIGNAL(triggered(bool)), this, SLOT(fermerPlanOuImage()));
+        connect(actionFermerPlan, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
         connect(actionSauvegarderPlan, SIGNAL(triggered(bool)), this, SLOT(sauvegarderPlan()));
         connect(actionSauvegarderScenario, SIGNAL(triggered(bool)), this, SLOT(sauvegarderScenario()));
         connect(actionSauvegarderNotes, SIGNAL(triggered(bool)), this, SLOT(sauvegarderNotes()));
@@ -929,128 +929,137 @@ void MainWindow::ouvrirImage()
 }
 
 
-void MainWindow::fermerPlanOuImage()
+void MainWindow::closeMapOrImage()
 {
-        // On recupere la fenetre active (qui est forcement de type CarteFenetre ou Image, sans quoi l'action
-        // ne serait pas dispo dans le menu Fichier)
-        QWidget *active = workspace->activeWindow();
 
-        // Ne devrait jamais arriver
-        if (!active)
+        QWidget* active = workspace->activeWindow();
+
+
+
+        if (NULL!=active)
         {
-                qWarning("Close map action called when no widget is active in the workspace (fermerPlanOuImage - MainWindow.h)");
-                return;
-        }
 
-        // On verifie pour le principe qu'il s'agit bien d'une CarteFenetre ou d'une Image
-        if (active->objectName() != "CarteFenetre" && active->objectName() != "Image")
-        {
-                qWarning("not expected type of windows (fermerPlanOuImage - MainWindow.h)");
-                return;
-        }
 
-        // Creation de la boite d'alerte
-        QMessageBox msgBox(this);
-        msgBox.addButton(QMessageBox::Yes);
-        msgBox.addButton(QMessageBox::Cancel);
-        msgBox.setIcon(QMessageBox::Information);
-        msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
-        // On supprime l'icone de la barre de titre
-        Qt::WindowFlags flags = msgBox.windowFlags();
-        msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
-        // M.a.j du titre et du message
-        if (active->objectName() == "CarteFenetre")
-        {
-                msgBox.setWindowTitle(tr("Close Map"));
-                msgBox.setText(tr("Do you want to close this map?\nIt will be closed for everybody"));
-        }
-        else
-        {
-                msgBox.setWindowTitle(tr("Close Picture"));
-                msgBox.setText(tr("Do you want to close this picture?\nIt will be closed for everybody"));
-        }
-        msgBox.exec();
 
-        // Si l'utilisateur n'a pas clique sur "Fermer", on quitte
-        if (msgBox.result() != QMessageBox::YesRole)
-                return;
 
-        // Emission de la demande de fermeture de la carte
-        if (active->objectName() == "CarteFenetre")
-        {
-                // Recuperation de l'identifiant de la carte
-                QString idCarte = ((CarteFenetre *)active)->carte()->identifiantCarte();
+            Image*  imageFenetre = dynamic_cast<Image*>(active);
 
-                // Taille des donnees
-                quint32 tailleCorps =
-                        // Taille de l'identifiant de la carte
-                        sizeof(quint8) + idCarte.size()*sizeof(QChar);
+            QString mapImageId;
+            QString mapImageTitle;
+            mapImageTitle = active->windowTitle();
+            bool image=false;
+            if(NULL!=imageFenetre)
+            {
 
-                // Buffer d'emission
-                char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
+                mapImageId = imageFenetre->getImageTitle();
+                image = true;
+            }
+            else
+            {
+               CarteFenetre *carteFenetre= dynamic_cast<CarteFenetre*>(active);
+                if(NULL!=carteFenetre)
+                {
+                    mapImageId = carteFenetre->getMapId();
+                }
+                else
+                {
+                    return;
+                }
+            }
 
-                // Creation de l'entete du message
-                enteteMessage *uneEntete;
-                uneEntete = (enteteMessage *) donnees;
-                uneEntete->categorie = plan;
-                uneEntete->action = fermerPlan;
-                uneEntete->tailleDonnees = tailleCorps;
+            QMessageBox msgBox(this);
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::Cancel);
+            msgBox.setIcon(QMessageBox::Information);
+            msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
+            Qt::WindowFlags flags = msgBox.windowFlags();
+            msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
-                // Creation du corps du message
-                int p = sizeof(enteteMessage);
-                // Ajout de l'identifiant de la carte
-                quint8 tailleIdCarte = idCarte.size();
-                memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-                p+=sizeof(quint8);
-                memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
-                p+=tailleIdCarte*sizeof(QChar);
 
-                // Emission de la demande de fermeture de la carte au serveur ou a l'ensemble des clients
-                emettre(donnees, tailleCorps + sizeof(enteteMessage));
-                // Liberation du buffer d'emission
-                delete[] donnees;
+            if (!image)
+            {
+                    msgBox.setWindowTitle(tr("Close Map"));
+            }
+            else
+            {
+                    msgBox.setWindowTitle(tr("Close Picture"));
+            }
+            msgBox.setText(tr("Do you want to close %1 %2?\nIt will be closed for everybody").arg(mapImageTitle).arg(image?tr(""):tr("(Map)")));
+            msgBox.exec();
 
-                // Suppression de la CarteFenetre et de l'action associee sur l'ordinateur local
-                ((CarteFenetre *)active)->~CarteFenetre();
-        }
 
-        // Emission de la demande de fermeture de l'image
-        else
-        {
-                // Recuperation de l'identifiant de la carte
-                QString idImage = ((Image *)active)->identifiantImage();
+            if (msgBox.result() != QMessageBox::YesRole)
+                    return;
 
-                // Taille des donnees
-                quint32 tailleCorps =
-                        // Taille de l'identifiant de la carte
-                        sizeof(quint8) + idImage.size()*sizeof(QChar);
+            if (!image)
+            {
+                    // Taille des donnees
+                    quint32 tailleCorps =
+                            // Taille de l'identifiant de la carte
+                            sizeof(quint8) + mapImageId.size()*sizeof(QChar);
 
-                // Buffer d'emission
-                char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
+                    // Buffer d'emission
+                    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
 
-                // Creation de l'entete du message
-                enteteMessage *uneEntete;
-                uneEntete = (enteteMessage *) donnees;
-                uneEntete->categorie = image;
-                uneEntete->action = fermerImage;
-                uneEntete->tailleDonnees = tailleCorps;
+                    // Creation de l'entete du message
+                    enteteMessage *uneEntete;
+                    uneEntete = (enteteMessage *) donnees;
+                    uneEntete->categorie = plan;
+                    uneEntete->action = fermerPlan;
+                    uneEntete->tailleDonnees = tailleCorps;
 
-                // Creation du corps du message
-                int p = sizeof(enteteMessage);
-                // Ajout de l'identifiant de la carte
-                quint8 tailleIdImage = idImage.size();
-                memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
-                p+=sizeof(quint8);
-                memcpy(&(donnees[p]), idImage.data(), tailleIdImage*sizeof(QChar));
-                p+=tailleIdImage*sizeof(QChar);
+                    // Creation du corps du message
+                    int p = sizeof(enteteMessage);
+                    // Ajout de l'identifiant de la carte
+                    quint8 tailleIdCarte = mapImageId.size();
+                    memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
+                    p+=sizeof(quint8);
+                    memcpy(&(donnees[p]), mapImageId.data(), tailleIdCarte*sizeof(QChar));
+                    p+=tailleIdCarte*sizeof(QChar);
 
-                // Emission de la demande de fermeture de l'image au serveur ou a l'ensemble des clients
-                emettre(donnees, tailleCorps + sizeof(enteteMessage));
-                // Liberation du buffer d'emission
-                delete[] donnees;
+                    // Emission de la demande de fermeture de la carte au serveur ou a l'ensemble des clients
+                    emettre(donnees, tailleCorps + sizeof(enteteMessage));
+                    // Liberation du buffer d'emission
+                    delete[] donnees;
 
-                // Suppression de l'Image et de l'action associee sur l'ordinateur local
-                ((Image *)active)->~Image();
+
+                    //((CarteFenetre *)active)->~CarteFenetre();
+
+            }
+            else
+            {
+                    // Taille des donnees
+                    quint32 tailleCorps =
+                            // Taille de l'identifiant de la carte
+                            sizeof(quint8) + mapImageId.size()*sizeof(QChar);
+
+                    // Buffer d'emission
+                    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
+
+                    // Creation de l'entete du message
+                    enteteMessage *uneEntete;
+                    uneEntete = (enteteMessage *) donnees;
+                    uneEntete->categorie = image;
+                    uneEntete->action = fermerImage;
+                    uneEntete->tailleDonnees = tailleCorps;
+
+                    // Creation du corps du message
+                    int p = sizeof(enteteMessage);
+                    // Ajout de l'identifiant de la carte
+                    quint8 tailleIdImage = mapImageId.size();
+                    memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
+                    p+=sizeof(quint8);
+                    memcpy(&(donnees[p]), mapImageId.data(), tailleIdImage*sizeof(QChar));
+                    p+=tailleIdImage*sizeof(QChar);
+
+                    // Emission de la demande de fermeture de l'image au serveur ou a l'ensemble des clients
+                    emettre(donnees, tailleCorps + sizeof(enteteMessage));
+
+                    delete[] donnees;
+
+                   //((Image *)active)->~Image();
+            }
+            delete active;
         }
 }
 
@@ -1303,7 +1312,7 @@ Image *MainWindow::trouverImage(QString idImage)
         bool ok = false;
         int i;
         for (i=0; i<tailleListe && !ok; ++i)
-                if (listeImage[i]->identifiantImage() == idImage)
+                if (listeImage[i]->getImageTitle() == idImage)
                         ok = true;
 
         // Si l'Image vient d'etre trouve on renvoie son pointeur
@@ -1342,7 +1351,7 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
         bool ok = false;
         int i;
         for (i=0; i<tailleListe && !ok; ++i)
-                if (listeImage[i]->identifiantImage() == idImage)
+                if (listeImage[i]->getImageTitle() == idImage)
                         ok = true;
 
         // Si l'image vient d'etre trouvee on supprime l'element

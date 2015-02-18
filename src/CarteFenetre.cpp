@@ -104,6 +104,11 @@ void CarteFenetre::deplacer(QPoint position)
     horizontalScrollBar()->setValue(horizontalDepart + diff.x());
     verticalScrollBar()->setValue(verticalDepart + diff.y());
 }
+QString CarteFenetre::getMapId()
+{
+    return carteAssociee->identifiantCarte();
+}
+
 void CarteFenetre::fitMapToWindow()
 {
     setWidgetResizable(m_widgetResizeAct->isChecked());

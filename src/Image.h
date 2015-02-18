@@ -63,7 +63,7 @@ public :
     void sauvegarderImage(QFile &file, QString titre);
     void sauvegarderImage(QDataStream& out, QString titre);
     bool proprietaireImage();
-    QString identifiantImage();
+    QString getImageTitle();
     void setParent(WorkspaceAmeliore *parent);
 
 

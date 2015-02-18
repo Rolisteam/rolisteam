@@ -54,7 +54,8 @@ public :
     ~CarteFenetre();
     void associerAction(QAction *action);
     Carte *carte();
-    QString identifiantCarte();
+    QString getMapId();
+
 
 
 
