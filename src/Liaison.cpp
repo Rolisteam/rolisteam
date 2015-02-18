@@ -1583,7 +1583,8 @@
 		int p = 0;
 
 		// Reception d'un message a afficher, et eventuellement a retransmettre
-		if (entete.action == messageTchat || entete.action == messageTirage)
+        //TCHAT_MESSAGE, DICE_MESSAGE, EMOTE_MESSAGE
+        if (entete.action == TCHAT_MESSAGE || entete.action == DICE_MESSAGE || entete.action == EMOTE_MESSAGE)
 		{
 			// On recupere l'identifiant du joueur emetteur
 			quint8 tailleIdJoueurEmetteur;
@@ -1628,10 +1629,10 @@
 				// Recherche de la couleur du joueur emetteur
 				QColor couleur = G_listeUtilisateurs->couleurUtilisateur(idJoueurEmetteur);
 				// Affichage du message dans le tchat, au format message ou tirage
-				if (entete.action == messageTchat)
-                    tchat->afficherMessage(emetteur, couleur, message);
-				else
-                    tchat->afficherMessage(emetteur, couleur, message,true);
+/*                if (entete.action == TCHAT_MESSAGE)
+                    tchat->afficherMessage(emetteur, couleur, message);*/
+
+                 tchat->afficherMessage(emetteur, couleur, message,(actionDiscussion)entete.action);
 			}
 			
 			// Si l'ordinateur local est le serveur il doit faire suivre le message

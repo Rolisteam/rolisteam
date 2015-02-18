@@ -33,6 +33,7 @@
 
 #include <QSplitter>
 #include <QFile>
+#include "types.h"
 
 #include "TextEditAmeliore.h"
 
@@ -41,11 +42,13 @@ class Tchat : public QSplitter
 {
 Q_OBJECT
 
+   // enum MessageType { TEXT,DICE,EMOTE};
+//enum actionDiscussion {TCHAT_MESSAGE, DICE_MESSAGE, EMOTE_MESSAGE};
 public :
-    Tchat(QString id, QAction *action, QWidget *parent = 0);
+    Tchat(QString id, QAction *action,/* QString tmp,*/QWidget *parent = 0);
     ~Tchat();
 	QString identifiant();
-	void afficherMessage(QString &utilisateur, QColor &couleur, QString &message, bool tirage=false);
+    void afficherMessage(QString &utilisateur, QColor &couleur, QString &message, actionDiscussion msgtype = TCHAT_MESSAGE);
     //void afficherTirage(QString &utilisateur, QColor &couleur, QString &message);
 	void majAction();
 	void sauvegarderTchat(QFile &file);
@@ -73,6 +76,10 @@ private :
 	QList<QString> historiqueMessages;	// Contient l'historique des anciens messages
 	int numHistorique;					// Numero de la ligne de l'historique actuellement affichee
 	QAction *actionAssociee;			// Action permettant d'afficher/masquer le tchat
+
+    QStringList m_keyWordList;
+
+    QString m_owner;
 
 private slots :
 	void emettreTexte();

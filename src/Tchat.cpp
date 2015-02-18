@@ -21,7 +21,7 @@
 
 
 #include <QtGui>
-
+#include <QDebug>
 #include "Tchat.h"
 #include "TextEditAmeliore.h"
 #include "types.h"
@@ -31,7 +31,7 @@
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/	
-Tchat::Tchat(QString id, QAction *action, QWidget *parent)
+Tchat::Tchat(QString id, QAction *action, /*QString tmp,*/QWidget *parent)
 : QSplitter(parent)
 {
 	// On donne un nom a l'objet "Tchat" pour le differencier des autres fenetres du workspace
@@ -39,6 +39,7 @@ Tchat::Tchat(QString id, QAction *action, QWidget *parent)
 
 	// Initialisation des variables
 	idJoueur = id;
+
 	numHistorique = 0;
 	actionAssociee = action;
 
@@ -77,6 +78,8 @@ Tchat::Tchat(QString id, QAction *action, QWidget *parent)
 	tailles.append(40);
 	setSizes(tailles);
 
+    m_keyWordList << "e " << "em " << "me " << "emote ";
+
 	// Connexion du signal de validation du text de la zone d'edition a la demande d'emission
 	QObject::connect(zoneEdition, SIGNAL(entreePressee()), this, SLOT(emettreTexte()));
 	// Connexion des signaux haut et bas au defilement des anciens messages
@@ -99,7 +102,8 @@ Tchat::~Tchat()
 /********************************************************************/	
 void Tchat::emettreTexte()
 {
-	quint8 action=messageTirage;
+    //TCHAT_MESSAGE, DICE_MESSAGE, EMOTE_MESSAGE
+    quint8 action=DICE_MESSAGE;
 
 	// On recupere le texte de la zone d'edition
 	QString message = zoneEdition->toPlainText();
@@ -116,11 +120,13 @@ void Tchat::emettreTexte()
 	QString tirage;
 	int result;
 	zoneEdition->clear();
+    QTextStream out(stderr,QIODevice::WriteOnly);
 
 	QString tmpmessage=message.simplified();
     QString messageCorps="";
     QString messageTitle="";
     QColor color;
+
     switch(tmpmessage[0].toAscii())
 	{
 		case '!':
@@ -130,7 +136,7 @@ void Tchat::emettreTexte()
                 messageCorps = tr("avez obtenu  %1 à votre jet de dés [%2]").arg(result).arg(tirage);
                 messageTitle = tr("Vous");
                 color = G_couleurJoueurLocal;
-                afficherMessage(messageTitle, color, messageCorps,true);
+                afficherMessage(messageTitle, color, messageCorps,DICE_MESSAGE);
                 message = QString(tr("a obtenu %1 à  son jet de dés [%2]").arg(result).arg(tirage));
 			}
 			else
@@ -148,7 +154,7 @@ void Tchat::emettreTexte()
                 messageCorps = tr("vous avez obtenu %1 à  votre jet de dés secret [%2]").arg(result).arg(tirage);
                 messageTitle = tr("Jet secret :");
                 color = Qt::magenta;
-                afficherMessage(messageTitle, color,messageCorps ,true);
+                afficherMessage(messageTitle, color,messageCorps ,DICE_MESSAGE);
             }
 			else
             {
@@ -161,33 +167,71 @@ void Tchat::emettreTexte()
 			break;
 		case '*':
             {
-                QString glitch;
-                result = calculerJetDesSR4(message, tirage, glitch, ok);
-                if (ok)
+                QRegExp exp("\\*[0-9]+D.*");
+                if(exp.exactMatch(message))
                 {
-                    messageCorps = tr("avez obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage);
-                    messageTitle = tr("Vous");
-                    // On affiche le resultat du tirage dans la zone d'affichage
-                    afficherMessage(messageTitle, G_couleurJoueurLocal,messageCorps ,true);
-                    // On cree un nouveau message a envoyer aux autres utilisateurs
-                    message = QString(tr("a obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage));
+                    QString glitch;
+                    result = calculerJetDesSR4(message, tirage, glitch, ok);
+                    if (ok)
+                    {
+                        messageCorps = tr("avez obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage);
+                        messageTitle = tr("Vous");
+                        // On affiche le resultat du tirage dans la zone d'affichage
+                        afficherMessage(messageTitle, G_couleurJoueurLocal,messageCorps ,DICE_MESSAGE);
+                        // On cree un nouveau message a envoyer aux autres utilisateurs
+                        message = QString(tr("a obtenu %1 succès %2%3").arg(result).arg(glitch).arg(tirage));
+                    }
+                    else
+                    {
+                        messageCorps = tr("*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n'afficher que les résultats.");
+                        messageTitle = tr("Syntaxe SR4");
+                         color = Qt::red;
+                        afficherMessage(messageTitle, color, messageCorps);
+                    }
+                    break;
                 }
                 else
                 {
-                    messageCorps = tr("*12D ... ajoutez R pour rusher, G3 pour les Gremlins d'indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n'afficher que les résultats.");
-                    messageTitle = tr("Syntaxe SR4");
-                     color = Qt::red;
-                    afficherMessage(messageTitle, color, messageCorps);
+                        messageTitle = tr("Vous");
+                        afficherMessage(messageTitle, G_couleurJoueurLocal, message);
+                        // action is messageTchat only if there are no dices
+                        action = TCHAT_MESSAGE;
+                        break;
                 }
             }
-            break;
+
+        case '/':
+            {
+                bool emote = false;
+
+                for(int i = 0;((i < m_keyWordList.size())&&(!emote)); i++)
+                {
+                    QString s = m_keyWordList[i];
+
+                    if(tmpmessage.indexOf(s) == 1)
+                    {
+                        emote = true;
+
+                        message.remove(0,s.length()+1);
+
+                       // tmpmessage.prepend(idJoueur);
+                    }
+
+                }
+                if(emote)
+                {
+                   m_owner = G_listeUtilisateurs->nomUtilisateur(G_idJoueurLocal);
+                   afficherMessage(m_owner, G_couleurJoueurLocal, message,EMOTE_MESSAGE);
+                   action = EMOTE_MESSAGE;
+                   break;
+                }
+            }
 
 		default:
-
             messageTitle = tr("Vous");
             afficherMessage(messageTitle, G_couleurJoueurLocal, message);
 			// action is messageTchat only if there are no dices
-			action = messageTchat;
+            action = TCHAT_MESSAGE;
             break;
 	}
 
@@ -277,19 +321,37 @@ QString Tchat::identifiant()
 /* Ecrit le message dans la zone d'affichage, precede par le nom de */
 /* l'emetteur (avec la couleur passee en parametre)                 */
 /********************************************************************/	
-void Tchat::afficherMessage(QString& utilisateur, QColor& couleur, QString& message, bool tirage)
+void Tchat::afficherMessage(QString& utilisateur, QColor& couleur, QString& message, actionDiscussion msgtype)
 {
 	// On repositionne le curseur a la fin du QTexEdit
 	zoneAffichage->moveCursor(QTextCursor::End);
 	// Affichage du nom de l'utilisateur
 	zoneAffichage->setTextColor(couleur);
-	if(tirage)
-		zoneAffichage->append(utilisateur + " ");
-	else
-		zoneAffichage->append(utilisateur + " : ");
+    switch(msgtype)
+    {
+    case TCHAT_MESSAGE://TCHAT_MESSAGE, DICE_MESSAGE, EMOTE_MESSAGE
+        zoneAffichage->setFontItalic(false);
+        zoneAffichage->append(QString("%1 : ").arg(utilisateur));
+        break;
+    case EMOTE_MESSAGE:
+        zoneAffichage->setFontItalic(true);
+        zoneAffichage->append(QString("%1 ").arg(utilisateur));
+
+        break;
+    case DICE_MESSAGE:
+        zoneAffichage->setFontItalic(false);
+        zoneAffichage->append(QString("%1 ").arg(utilisateur));
+        break;
+    }
+
+
+
 	// Affichage du message
 	zoneAffichage->setTextColor(Qt::black);
+
 	zoneAffichage->insertPlainText(message);
+    if(msgtype==EMOTE_MESSAGE)
+        zoneAffichage->setFontItalic(false);
 	// On repositionne la barre de defilement, pour pouvoir voir le texte qui vient d'etre affiche
 	zoneAffichage->verticalScrollBar()->setSliderPosition(zoneAffichage->verticalScrollBar()->maximum());
 

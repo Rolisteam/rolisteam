@@ -55,7 +55,7 @@
 	enum actionDessin {traceCrayon, traceLigne, traceRectangleVide, traceRectanglePlein, traceEllipseVide, traceEllipsePleine, traceTexte, traceMain};
 	enum actionPlan {nouveauPlanVide, chargerPlan, importerPlanComplet, fermerPlan};
 	enum actionImage {chargerImage, fermerImage};
-	enum actionDiscussion {messageTchat, messageTirage};
+    enum actionDiscussion {TCHAT_MESSAGE, DICE_MESSAGE, EMOTE_MESSAGE};
 	enum actionMusique {nouveauMorceau, lectureMorceau, pauseMorceau, arretMorceau, nouvellePositionMorceau};
 	enum actionParametres {changerListeEtats, autoriserDeplacementPersos};
 	
