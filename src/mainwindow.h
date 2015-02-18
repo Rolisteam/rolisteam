@@ -49,14 +49,13 @@ class ChatListWidget;
 class EditeurNotes;
 class Image;
 class Liaison;
-class ListeUtilisateurs;
 class PreferencesDialog;
 class Player;
 class PlayersListWidget;
 class WorkspaceAmeliore;
 class ClientServeur;
 class TextEdit;
-
+class PlayersList;
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
@@ -262,8 +261,7 @@ private :
      * @brief workspace
      */
     WorkspaceAmeliore *workspace;
-    ListeUtilisateurs* m_listeUtilisateurs;
-    PlayersListWidget * m_playersList;
+    PlayersListWidget * m_playersListWidget;
     QMenu *menuFenetre;
     BarreOutils *m_toolBar;
     NouveauPlanVide *fenetreNouveauPlan;
@@ -318,6 +316,8 @@ private :
     QTextEdit* m_notifierDisplay;
 
     TextEdit* m_noteEditor;
+
+    PlayersList* m_playerList;
 //#ifndef NULL_PLAYER
 //    QDockWidget* m_audioDock;
 //#endif

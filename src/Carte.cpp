@@ -42,7 +42,7 @@
 /* Constructeur                                                     */
 /********************************************************************/    
 Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
-    : QWidget(parent), idCarte(identCarte)
+    : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
     m_currentMode = NouveauPlanVide::GM_ONLY;
     m_currentTool = BarreOutils::main;
@@ -135,7 +135,7 @@ void Carte::p_init()
 /* (image d'origine, image avec les annotations, couche alpha)      */
 /********************************************************************/    
 Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
-    : QWidget(parent), idCarte(identCarte)
+    : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
     m_currentMode = NouveauPlanVide::GM_ONLY;
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
@@ -1503,7 +1503,7 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
         // Taille de l'identifiant
         sizeof(quint8) + idCarte.size()*sizeof(QChar) +
         // Taille des PJ
-        sizeof(quint8) + sizeof(quint8) +
+        sizeof(quint8) +
         // Taille de l'intensite de la couche alpha
         sizeof(quint8) +
         // Taille du fond original
@@ -1512,6 +1512,8 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
         sizeof(quint32) + baFond.size() +
         // Taille de la couche alpha
         sizeof(quint32) + baAlpha.size();
+
+
             
     // Buffer d'emission
     char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
@@ -1542,11 +1544,14 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
     memcpy(&(donnees[p]), &taillePj, sizeof(quint8));
     p+=sizeof(quint8);
 
+    if(m_hasPermissionMode)
+    {
+        tailleCorps += sizeof(quint8);
 
-    quint8 mode = getPermissionMode();
-    memcpy(&(donnees[p]), &mode, sizeof(quint8));
-    p+=sizeof(quint8);
-
+        quint8 mode = getPermissionMode();
+        memcpy(&(donnees[p]), &mode, sizeof(quint8));
+        p+=sizeof(quint8);
+    }
 
     // Ajout de l'intensite de la couche alpha
     quint8 intensiteAlpha = G_couleurMasque.red();
@@ -2525,6 +2530,15 @@ NouveauPlanVide::PermissionMode Carte::getPermissionMode()
 {
     return m_currentMode;
 }
+void Carte::setHasPermissionMode(bool b)
+{
+    m_hasPermissionMode =b;
+}
+bool Carte::hasPermissionMode()
+{
+    return m_hasPermissionMode;
+}
+
 void Carte::setPointeur(BarreOutils::Tool currentTool)
 {
     m_currentTool = currentTool;

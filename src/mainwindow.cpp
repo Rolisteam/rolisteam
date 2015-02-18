@@ -205,9 +205,9 @@ void MainWindow::setupUi()
     addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
 
     // Ajout de la liste d'utilisateurs a la fenetre principale
-    m_playersList = new PlayersListWidget(this);
+    m_playersListWidget = new PlayersListWidget(this);
     //m_playersList = new PlayersListWidget();
-    addDockWidget(Qt::RightDockWidgetArea, m_playersList);
+    addDockWidget(Qt::RightDockWidgetArea, m_playersListWidget);
 
 
 
@@ -267,13 +267,13 @@ void MainWindow::setupUi()
     G_pointeurSupprimer = new QCursor(QPixmap(":/resources/icones/pointeur supprimer.png"), 6, 0);
     G_pointeurEtat      = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
 
-    PlayersList * g_playersList = PlayersList::instance();
+    m_playerList = PlayersList::instance();
     if (G_client)
     {
         // We want to know if the server refuses local player to be GM
-        connect(g_playersList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
+        connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
         // We send a message to del local player when we quit
-        connect(this, SIGNAL(closing()), g_playersList, SLOT(sendDelLocalPlayer()));
+        connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
     }
     else
     {
@@ -281,8 +281,8 @@ void MainWindow::setupUi()
         connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
         connect(G_clientServeur, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
     }
-    connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
-    connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
+    connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
+    connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
 
     connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(updateWindowTitle()));
 }
@@ -393,7 +393,7 @@ void MainWindow::creerMenu()
         menuFenetre->addAction(m_toolBar->toggleViewAction());
         menuFenetre->addAction(m_dockLogUtil->toggleViewAction());
         menuFenetre->addAction(m_chatListWidget->toggleViewAction());
-        menuFenetre->addAction(m_playersList->toggleViewAction());
+        menuFenetre->addAction(m_playersListWidget->toggleViewAction());
 #ifndef NULL_PLAYER
         menuFenetre->addAction(m_audioPlayer->toggleViewAction());
 #endif
@@ -509,7 +509,7 @@ void MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize ma
 
         
         // new PlayersList connection
-        connect(carteFenetre, SIGNAL(activated(Carte *)), m_playersList->model(), SLOT(changeMap(Carte *)));
+        connect(carteFenetre, SIGNAL(activated(Carte *)), m_playersListWidget->model(), SLOT(changeMap(Carte *)));
         connect(carteFenetre, SIGNAL(activated(Carte *)), m_toolBar, SLOT(changeMap(Carte *)));
 
         // Affichage de la carte
@@ -804,7 +804,7 @@ void MainWindow::lireCarteEtPnj(QDataStream &in, bool masquer, QString nomFichie
         quint16 nbrPersonnages;
         in >>  nbrPersonnages;
 
-        for (int i=0; i<nbrPersonnages; i++)
+        for (int i=0; i<nbrPersonnages; ++i)
         {
             QString nomPerso,ident;
             DessinPerso::typePersonnage type;
@@ -1143,15 +1143,12 @@ void MainWindow::creerNouveauPlanVide(QString titre, QString idCarte, QColor cou
                 fenetreNouveauPlan = 0;
         }
 
-        // Creation de l'image
+
         QImage image(largeur, hauteur, QImage::Format_ARGB32_Premultiplied);
         image.fill(couleurFond.rgb());
-        // Creation de la carte
         Carte *carte = new Carte(idCarte, &image);
         carte->setPermissionMode(getPermission(mode));
-        // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte,this, workspace);
-        // Ajout de la carte au workspace
         ajouterCarte(carteFenetre, titre);
 }
 
@@ -1165,16 +1162,11 @@ void MainWindow::aucunNouveauPlanVide()
 
 void MainWindow::emettreTousLesPlans(Liaison * link)
 {
-        // Taille de la liste des CarteFenetre
         int tailleListe = listeCarteFenetre.size();
-
-        // Parcours de la liste
-        for (int i=0; i<tailleListe; i++)
+        for (int i=0; i<tailleListe; ++i)
         {
-                // On demande a la carte contenue dans la CarteFenetre de s'emettre vers
-                // l'utilisateur dont la liaison est passee en parametre
+                listeCarteFenetre[i]->carte()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
                 listeCarteFenetre[i]->carte()->emettreCarte(listeCarteFenetre[i]->windowTitle(), link);
-                // On emet egalement vers la liaison l'ensemble des personnages presents sur la carte
                 listeCarteFenetre[i]->carte()->emettreTousLesPersonnages(link);
         }
 }
@@ -1184,7 +1176,7 @@ void MainWindow::emettreToutesLesImages(Liaison * link)
 {
         int tailleListe = listeImage.size();
         NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
-        for (int i=0; i < tailleListe; i++)
+        for (int i=0; i < tailleListe; ++i)
         {
                 listeImage[i]->fill(message);
                 message.sendTo(link);
@@ -1198,7 +1190,7 @@ Carte * MainWindow::trouverCarte(QString idCarte)
 
         bool ok = false;
         int i;
-        for (i=0; i<tailleListe && !ok; i++)
+        for (i=0; i<tailleListe && !ok; ++i)
                 if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
                         ok = true;
 
@@ -1217,7 +1209,7 @@ CarteFenetre * MainWindow::trouverCarteFenetre(QString idCarte)
 
         bool ok = false;
         int i;
-        for (i=0; i<tailleListe && !ok; i++)
+        for (i=0; i<tailleListe && !ok; ++i)
                 if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
                         ok = true;
 
@@ -1332,7 +1324,7 @@ Image *MainWindow::trouverImage(QString idImage)
 
         bool ok = false;
         int i;
-        for (i=0; i<tailleListe && !ok; i++)
+        for (i=0; i<tailleListe && !ok; ++i)
                 if (listeImage[i]->identifiantImage() == idImage)
                         ok = true;
 
@@ -1350,7 +1342,7 @@ bool MainWindow::enleverCarteDeLaListe(QString idCarte)
 
         bool ok = false;
         int i;
-        for (i=0; i<tailleListe && !ok; i++)
+        for (i=0; i<tailleListe && !ok; ++i)
                 if ( listeCarteFenetre[i]->carte()->identifiantCarte() == idCarte )
                         ok = true;
 
@@ -1371,7 +1363,7 @@ bool MainWindow::enleverImageDeLaListe(QString idImage)
 
         bool ok = false;
         int i;
-        for (i=0; i<tailleListe && !ok; i++)
+        for (i=0; i<tailleListe && !ok; ++i)
                 if (listeImage[i]->identifiantImage() == idImage)
                         ok = true;
 
@@ -1563,7 +1555,7 @@ void MainWindow::ouvrirScenario()
 
         //file.read((char *)&nbrCartes, sizeof(quint16));
         // On lit toutes les cartes presentes dans le fichier
-        for (int i=0; i<nbrCartes; i++)
+        for (int i=0; i<nbrCartes; ++i)
                 lireCarteEtPnj(in);
 
         // On lit le nbr d'images a suivre
@@ -1571,7 +1563,7 @@ void MainWindow::ouvrirScenario()
         //file.read((char *)&nbrImages, sizeof(quint16));
         in >>nbrImages;
         // in >>On lit toutes les images presentes dans le fichier
-        for (int i=0; i<nbrImages; i++)
+        for (int i=0; i<nbrImages; ++i)
                 lireImage(in);
 
         // Enfin on lit les notes
@@ -1626,7 +1618,7 @@ bool MainWindow::sauvegarderScenario()
 void MainWindow::sauvegarderTousLesPlans(QDataStream &out)
 {
     out << listeCarteFenetre.size();
-    for (int i=0; i<listeCarteFenetre.size(); i++)
+    for (int i=0; i<listeCarteFenetre.size(); ++i)
     {
         QTextStream out2(stderr,QIODevice::WriteOnly);
         //out2 <<" save tous les plans " << listeCarteFenetre[i]->pos().x() << "," << listeCarteFenetre[i]->pos().y()  << " size=("<< listeCarteFenetre[i]->size().width()<<","<<listeCarteFenetre[i]->size().height() << endl;
@@ -1644,7 +1636,7 @@ void MainWindow::sauvegarderTousLesPlans(QDataStream &out)
 void MainWindow::sauvegarderToutesLesImages(QDataStream &out)
 {
    out << listeImage.size();
-   for (int i=0; i<listeImage.size(); i++)
+   for (int i=0; i<listeImage.size(); ++i)
            listeImage[i]->sauvegarderImage(out, listeImage[i]->windowTitle());
 }
 
@@ -1767,19 +1759,7 @@ void MainWindow::lireImage(QDataStream &file)
         // Liberation du buffer d'emission
         delete[] donnees;
 }
-//void MainWindow::sauvegarderFichierInitialisation()
-//{
-//    // Don't really write anything to the filesystem, but store new values in G_initialisation.
 
-//    // ...les couleurs personnelles
-//    for (int i=0; i<16; i++)
-//            m_preferences->setCustomColorAt(i,barreOutils->donnerCouleurPersonnelle(i));
-
-//#ifndef NULL_PLAYER
-//    // ...le volume du lecteur audio
-//    m_preferences->setVolumeLevel(m_audioPlayer->volume());
-//#endif
-//}
 
 
 void MainWindow::aPropos()

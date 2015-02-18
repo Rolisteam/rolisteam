@@ -283,7 +283,10 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
                 else
                 {
                         messageTitle = tr("You");
-                        message=messagehtml;
+                        if(m_chat->everyPlayerHasFeature(QString("RichTextChat")))
+                        {
+                            message=messagehtml;
+                        }
                         afficherMessage(messageTitle, localPerson->color(), message);
 
                         // action is messageChatWindow only if there are no dices
@@ -329,7 +332,10 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
 
         default:
             messageTitle = localPerson->name();
-            message=messagehtml;
+            if(m_chat->everyPlayerHasFeature(QString("RichTextChat")))
+            {
+                message=messagehtml;
+            }
             afficherMessage(messageTitle, localPerson->color(), message);
             // action is messageChatWindow only if there are no dices
             action = NetMsg::ChatMessageAction;

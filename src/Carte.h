@@ -90,6 +90,9 @@ public :
     void setPermissionMode(NouveauPlanVide::PermissionMode mode);
     NouveauPlanVide::PermissionMode getPermissionMode();
 
+    void setHasPermissionMode(bool b);
+    bool hasPermissionMode();
+
 signals :
     void incrementeNumeroPnj();
     void changeCouleurActuelle(QColor couleur);
@@ -164,6 +167,8 @@ private :
     NouveauPlanVide::PermissionMode m_currentMode;
     BarreOutils::Tool m_currentTool;
     Player* m_localPlayer;
+
+    bool m_hasPermissionMode;
 
 };
 
