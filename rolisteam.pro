@@ -18,7 +18,7 @@ UI_DIR = src
 
 
 
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
+macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 CONFIG += HAVE_PHONON
 #CONFIG += HAVE_NULL
 
@@ -34,9 +34,6 @@ CODECFORTR = UTF-8
 isEmpty(QMAKE_LRELEASE) {
     win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease.exe
     else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
-	
-
-	
 }
 #isEmpty(QMAKE_LUPDATE) {
 #    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]\lupdate.exe
@@ -55,10 +52,15 @@ updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 PRE_TARGETDEPS += compiler_updateqm_make_all
 ## End of Translation
+
+##Installation
+binaries.files = bin/rolisteam
+binaries.path = /usr/local/bin/
+DEPLOYMENT += binaries
+INSTALLS +=binaries
 }
 
 include(src/odt/src/src.pri)
-
 
 ## Source
 HEADERS += src/AfficheurDisque.h \
@@ -153,7 +155,6 @@ SOURCES += src/AfficheurDisque.cpp \
     src/newemptymapdialog.cpp \
     src/widgets/colorbutton.cpp \
     src/widgets/filedirchooser.cpp
-
 #end source
 
 
@@ -175,8 +176,12 @@ ICON = resources/logo/256-icon.icns
 RESOURCES += rolisteam.qrc
 
 # Installs
-
+macx{
 documentation.path = bin/rolisteam.app/Contents/Resources/doc
+}
+unix:!macx{
+documentation.path = /usr/local/share/rolisteam/
+}
 documentation.files = resources/doc/*
 INSTALLS += documentation
 
@@ -191,20 +196,9 @@ QT += core \
 
 # Version
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=6 VERSION_MINOR=1
-win32:RC_FILE = "resources/logo/rolisteam.rc"
-win32:DEFINES  += ZLIB_WINAPI
 
-#DEFINES += QT_NO_WARNING_OUTPUT
-#}
-#release {
-#DEFINES += QT_FATAL_WARNINGS
-#}
 
-#IDI_ICON1               ICON    DISCARDABLE     "256_beta.ico"
 UI_DIR = src
-#QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Wno-overlength-strings -Werror"
-#QMAKE_CXXFLAGS = "-W -Wall -Wextra -pedantic -Wno-long-long -Wno-overlength-strings -Werror"
-win32:QMAKE_LFLAGS_RELEASE += /INCREMENTAL:NO
 
 unix{
 LIBS += -lz
@@ -220,18 +214,13 @@ FORMS += \
 OTHER_FILES += \
     src/widgets/widgets.pro \
 
+#Windows
+win32:DEFINES  += ZLIB_WINAPI
+win32:RC_FILE = "resources/logo/rolisteam.rc"
+win32:QMAKE_LFLAGS_RELEASE += /INCREMENTAL:NO
 win32:OTHER_FILES +=resources/logo/rolisteam.rc
-#include path to zlib file
-#win32:INCLUDEPATH+="E:/documents/applications/lib/zlib/include"
-#win32:LIBS += "E:/documents/applications/lib/zlib/lib/zlib.lib"
-
-
-
 win32:LIBS += -L$$PWD/../lib/zlibapi/dll32/ -lzlibwapi
-
-
 win32:INCLUDEPATH += $$PWD/../lib/zlibapi/include
 win32:DEPENDPATH += $$PWD/../lib/zlibapi/include
-
 win32:PRE_TARGETDEPS += $$PWD/../lib/zlibapi/dll32/zlibwapi.lib
 
