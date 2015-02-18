@@ -28,9 +28,9 @@
 #include "SelecteurDiametre.h"
 
 #include "AfficheurDisque.h"
-#include "constantesGlobales.h"
 
 
+#define DEFAULT_ICON_SIZE 20
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/    
@@ -53,8 +53,8 @@ SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int m
     frame->setFrameStyle(QFrame::Panel | QFrame::Sunken);
     frame->setLineWidth(2);
     frame->setMidLineWidth(2);
-    frame->setFixedHeight(TAILLE_ICONES * 2 + 12);
-    frame->setMaximumWidth(TAILLE_ICONES * 2 + 12);
+    frame->setFixedHeight(DEFAULT_ICON_SIZE * 2 + 12);
+    frame->setMaximumWidth(DEFAULT_ICON_SIZE * 2 + 12);
     
     // Creation du layout du QFrame
     QVBoxLayout *frameLayout = new QVBoxLayout(frame);

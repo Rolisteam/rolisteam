@@ -57,7 +57,7 @@
 
 #include "textedit.h"
 
-#include "constantesGlobales.h"
+
 #include "variablesGlobales.h"
 
 #ifndef NULL_PLAYER

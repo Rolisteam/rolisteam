@@ -28,7 +28,7 @@
 #include "Liaison.h"
 
 #include "variablesGlobales.h"
-#include "constantesGlobales.h"
+
 #include "types.h"
 
 #include <QDebug>

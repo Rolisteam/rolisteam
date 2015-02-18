@@ -30,7 +30,7 @@
 #include "mainwindow.h"
 #include "persons.h"
 
-#include "constantesGlobales.h"
+
 #include "variablesGlobales.h"
 
 

@@ -23,7 +23,7 @@
 #include <QtGui>
 
 #include "WorkspaceAmeliore.h"
-#include "constantesGlobales.h"
+
 #include "CarteFenetre.h"
 #include "Image.h"
 

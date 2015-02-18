@@ -21,7 +21,7 @@
 
 #include <QtGui>
 
-#include "constantesGlobales.h"
+
 #include "SelecteurCouleur.h"
 #include "variablesGlobales.h"
 
@@ -196,7 +196,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 
 	// Taille de la palette
 	setFixedHeight(126);
-	//setMaximumWidth((TAILLE_ICONES+7)*2);
+
 
 	// On autorise ou pas la selection des couleurs de masquage/demasquage en fonction de la nature de l'utilisateur (MJ/joueur)
 	autoriserOuInterdireCouleurs();

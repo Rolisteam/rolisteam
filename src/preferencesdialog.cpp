@@ -21,7 +21,7 @@
  *************************************************************************/
 
 #include "preferencesdialog.h"
-#include "constantesGlobales.h"
+
 #include "variablesGlobales.h"
 #include "initialisation.h"
 

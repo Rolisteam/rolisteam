@@ -34,16 +34,14 @@
 #include "SelecteurDiametre.h"
 #include "playersList.h"
 #include "persons.h"
-#include "constantesGlobales.h"
+
 #include "variablesGlobales.h"
 
-/********************************************************************/
-/* Variables globales utilisees par tous les elements de            */
-/* l'application                                                    */
-/********************************************************************/	
-// Definit l'outil courant
-//BarreOutils::Tool G_outilCourant;
-// Contient le texte de la zone de texte
+#define DEFAULT_ICON_SIZE 20
+
+
+
+
 QString G_texteCourant;
 // Contient le texte de la zone "nom du PNJ"
 QString G_nomPnjCourant;
@@ -250,7 +248,7 @@ void BarreOutils::creerOutils()
 	#endif
 	
 	// Changement de la taille des icones
-	QSize tailleIcones(TAILLE_ICONES,TAILLE_ICONES);
+	QSize tailleIcones(DEFAULT_ICON_SIZE,DEFAULT_ICON_SIZE);
 	boutonCrayon     ->setIconSize(tailleIcones);
 	boutonLigne      ->setIconSize(tailleIcones);
 	boutonRectVide   ->setIconSize(tailleIcones);
@@ -298,7 +296,7 @@ void BarreOutils::creerOutils()
 	// Creation de l'afficheur du numero de PNJ
 	afficheNumeroPnj = new QLCDNumber(2, outils);
 	afficheNumeroPnj->setSegmentStyle(QLCDNumber::Flat);
-	afficheNumeroPnj->setMaximumSize(TAILLE_ICONES + 7, TAILLE_ICONES);
+	afficheNumeroPnj->setMaximumSize(DEFAULT_ICON_SIZE + 7, DEFAULT_ICON_SIZE);
 	afficheNumeroPnj->display(1);
                 afficheNumeroPnj->setToolTip(tr("NPC Number"));
 	// Initialisation de la variable globale indiquant le numero de PNJ courant
@@ -399,8 +397,8 @@ void BarreOutils::creerOutils()
 	// Alignement du widget outils sur le haut du dockWidget
 	layout()->setAlignment(outils, Qt::AlignTop | Qt::AlignHCenter);
 	// Contraintes de taille sur la barre d'outils
-	outils->setFixedWidth((TAILLE_ICONES+8)*layoutDessin->columnCount());
-	setMaximumWidth((TAILLE_ICONES+8)*layoutDessin->columnCount()+10);
+	outils->setFixedWidth((DEFAULT_ICON_SIZE+8)*layoutDessin->columnCount());
+	setMaximumWidth((DEFAULT_ICON_SIZE+8)*layoutDessin->columnCount()+10);
 }
 
 /********************************************************************/
