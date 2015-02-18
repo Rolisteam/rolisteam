@@ -43,9 +43,9 @@ void RClient::errorOccurs()
 
 void RClient::startConnection()
 {
-    QHostAddress addr(m_connection.getAddress());
-    qDebug() << m_connection.getAddress() << m_connection.getPort();
-    m_client->connectToHost(addr,m_connection.getPort());
+    //QHostAddress addr(m_connection.getAddress());
+   // qDebug() << m_connection.getAddress() << m_connection.getPort();
+    m_client->connectToHost(m_connection.getAddress(),m_connection.getPort());
 }
 void RClient::isConnected()
 {

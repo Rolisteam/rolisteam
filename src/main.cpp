@@ -60,5 +60,7 @@ int main(int argc, char *argv[])
 
     MainWindow* mw =new MainWindow();
     mw->show();
+    mw->checkUpdate();
+
     return app.exec();
 }

@@ -83,7 +83,7 @@ macx {
 documentation.files = resources/doc/*
 INSTALLS += documentation \
     target
-VERSION = 2.0.0
+DEFINES += VERSION=\\\"2.0.0\\\"
 UI_DIR = ../ui
 MOC_DIR = ../obj
 OBJECTS_DIR = ../obj

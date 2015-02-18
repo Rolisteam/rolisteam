@@ -23,7 +23,7 @@
 #include <QtGui>
 #include <QDebug>
 #include <QActionGroup>
-
+#include <QMessageBox>
 
 //former (but renamed) headers
 #include "MapFrame.h"
@@ -47,9 +47,12 @@
 #include "servermanager.h"
 #include "serverdialog.h"
 #include "rclient.h"
+#include "updatechecker.h"
 
 //for the new userlist
 #include "player.h"
+
+
 
 /////////////////
 // CleverUri
@@ -553,7 +556,22 @@ void MainWindow::displayMinutesEditor()
     addToWorkspace(minutesEditor);
     minutesEditor->setVisible(true);
 }
-
+void MainWindow::checkUpdate()
+{
+    qDebug() << "checkupdate";
+    m_updateChecker = new UpdateChecker();
+    m_updateChecker->startChecking();
+    connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
+}
+void MainWindow::updateMayBeNeeded()
+{
+    qDebug() << "may be needed checkupdate";
+    if(m_updateChecker->mustBeUpdated())
+    {
+        QMessageBox::information(this,tr("Update Monitor"),tr("The %1 version has been released. Please take a look at www.rolisteam.org for more information").arg(m_updateChecker->getLatestVersion()));
+    }
+    m_updateChecker->deleteLater();
+}
 void MainWindow::about()
 {
 QMessageBox::about(this, tr("About Rolisteam"),

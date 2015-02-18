@@ -55,6 +55,9 @@ class ConnectionWizzard;
 class CharacterSheetWindow;
 class Player;
 class DicePlugInManager;
+class UpdateChecker;
+
+
 
 class CleverURI
 {
@@ -114,6 +117,8 @@ public slots :
         void displayMinutesEditor();
         void addCharacterSheet();
 
+        void checkUpdate();
+
 
 protected :
         void closeEvent(QCloseEvent *event);
@@ -169,6 +174,9 @@ private :
         void addopenedFile(QString& , CleverURI::ContentType );
 
 
+
+
+        /// members declarations.
         AudioPlayer* m_audioPlayer;
 
         QMenu *m_fileMenu;
@@ -286,7 +294,7 @@ private :
         QList<int> m_recentTypes;*/
         QList<CleverURI> m_recentFiles;
 
-
+        UpdateChecker* m_updateChecker;
 private slots :
         /**
         * @brief Show the map wizzard
@@ -347,6 +355,8 @@ private slots :
         void openCharacterSheets(QString);
 
         void openTchat();
+
+        void updateMayBeNeeded();
 
 };
 
