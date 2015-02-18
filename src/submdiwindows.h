@@ -23,33 +23,97 @@
 #include <QMdiSubWindow>
 
 #include "ToolBar.h"
+/**
+* @brief is an abstract class which defines interfaces with all kinds of subwindows.
+*
+*/
 class SubMdiWindows : public QMdiSubWindow
 {
     Q_OBJECT
 public:
+	/**
+	* @brief default constructor
+	*/
     SubMdiWindows(QWidget* parent=0 );
+	/**
+	* @brief enum which lists all type of subwindow
+	*/
     enum SubWindowType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET};
 
 public slots:
+	/**
+	* @brief is called when the window' state changes
+	* @param the previous state.
+	* @param the new state.
+	*/
     void changedStatus(Qt::WindowStates oldState,Qt::WindowStates newState);
+	/**
+	* @brief is called when the selected tool changes.
+	* @param the current tool.
+	*/
     virtual void currentToolChanged(ToolsBar::SelectableTool);
+	/**
+	* @brief is called when the cursor must be changed. 
+	* @param the new cursor.
+	* @todo gathering this function and currentToolChanged should be a better choice.
+	*/
     virtual void currentCursorChanged(QCursor*);
+	/**
+	* @brief is called when the user has changed the selected color.
+	* @param the new color.
+	*/
     virtual void currentColorChanged(QColor&);
 
+	/**
+	* @brief is called when the user has changed the pen size.
+	* @param the new pen size.
+	*/
     virtual void currentPenSizeChanged(int);
 
+	/**
+	* @brief is called when user has changed the NPC size.
+	* @param the new size.
+	*/
     virtual void currentNPCSizeChanged(int);
+	/**
+	* @brief virtual function which allows controlor class to know the type of the current instance.
+	*/
     virtual SubWindowType getType();
 
+	/**
+	* @brief must be overriden in subclasses. It allows to define the custom menu
+	* @param the new size.
+	*/
     virtual bool defineMenu(QMenu* menu)=0;
 
 protected:
+	/**
+	* @brief true if the subwindows is active. Otherwise, false.
+	*/
     bool m_active;
+	/**
+	* @brief pointeur to the current cursor.
+	*/
     QCursor* m_currentCursor;
+	/**
+	* @brief the current tool, it is an enum item.
+	*/
     ToolsBar::SelectableTool m_currentTool;
+	/**
+	* @brief the current color of the pen.
+	*/
     QColor m_penColor;
+	/**
+	* @brief the pen size.
+	*/
     int m_penSize;
+	/**
+	* @brief the NPC size.
+	*/
     int m_npcSize;
+	/**
+	* @brief subwindows type.
+	*/
     SubWindowType m_type;
 
 };

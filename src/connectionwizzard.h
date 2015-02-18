@@ -30,6 +30,12 @@ class QListWidgetItem;
 class PreferencesManager;
 class QAbstractButton;
 
+/**
+* @brief is a dialog box display to define all parameter required for establishing a TCP/IP connection.
+* @author Renaud Guezennec
+*
+*
+*/
 class ConnectionWizzard : public QDialog {
     Q_OBJECT
 public:
@@ -57,7 +63,7 @@ private:
 
     Connection* m_currentConnection;
     /**
-      * pointer to the unique instance of preference manager.
+      * @brief pointer to the unique instance of preference manager.
       */
     PreferencesManager* m_options;
 };

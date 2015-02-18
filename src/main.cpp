@@ -28,6 +28,20 @@ static QTextEdit *Log;
 #define APPLICATION_NAME "rolisteam"
 //initialisation G_initialisation;
 
+/**
+* @mainpage Rolisteam Documentation 
+*
+* @author Renaud Guezennec
+*
+*
+* Rolisteam help you to manage role playing games with your friend all over the world.
+*
+*
+*
+*
+*
+*/
+
 void handlerAffichageMsg(QtMsgType type, const char *msg)
 {
             QString titre;

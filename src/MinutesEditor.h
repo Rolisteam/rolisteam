@@ -40,32 +40,85 @@
 #include <QFile>
 #include "submdiwindows.h"
 
+/**
+* @brief MinutesEditor is dedicated to be a simple text processor. It provides some helpful features, such as Font style, and save/load mechanism.
+* @todo we should improve MinutesEditor to support openDocument file.  
+*/
 class MinutesEditor : public SubMdiWindows
 {
 Q_OBJECT
 
 public :
+	/**
+	* @brief the default constructor
+	*/
     MinutesEditor();
-    void sauvegarderNotes(QFile &file);
-    void ouvrirNotes(QFile &file);
+	/**
+	* @brief writes all contents of the instance into a file. 
+	* @param file which must be writen.
+	* @todo perhaps it should be useful to override operator << and >> for QDataStream and QTextStream?
+	*/
+    void saveMinutes(QFile &file);
+	/**
+	* @brief read data from a file and set the appropriate member.
+	* @param file which must be read.
+	*/
+    void openMinutes(QFile &file);
+	/**
+	* @brief allows to determine how the window must be resized.
+	*/
     QSize sizeHint() const;
+	/**
+	* @brief allows to amend the custom menu.
+	* @param menu ; pointeur to the custom menu.
+	*/
 
     virtual bool defineMenu(QMenu* menu);
 
 private :
-    QTextEdit *notes;			// Contient toutes les notes de l'utilisateur
-    QToolBar *barreFontes;		// Contient les boutons de formatage du texte
-    QComboBox *selecteurTaille;	// Permet de choisir la taille de la fonte
+	/**
+	* @brief pointeur to the texteditor 
+	*/
+    QTextEdit* m_minutes;			
+	/**
+	* @brief pointeur to the fontstyle toolbar
+	*/
+    QToolBar* m_styleBar;		
+	/**
+	* @brief allows to change font size.
+	*/
+    QComboBox* m_sizeSelector;	
 
 private slots :
-    void styleNormal();
-    void styleGras();
-    void styleItalique();
-    void styleSouligne();
-    void mettreTailleAJour();
-    void changementTaille(int index);
+	/**
+	* @brief is called when the user has clicked on normal style button.
+	*/
+    void normalStyle();
+	/**
+	* @brief is called when the user has clicked on bold style button
+	*/
+    void boldStyle();
+	/**
+	* @brief is called when the user has clicked on italic style button.
+	*/
+    void italicStyle();
+	/**
+	* @brief is called when the user has clicked on underline style
+	*/
+    void underlineStyle();
+	/**
+	* @brief force the size update
+	*/
+    void updateSize();
+	/**
+	* @brief is called when the user has changed the size. 
+	*/
+    void changeSize(int index);
 
 protected :
+	/**
+	* @brief handle the close event to make some backup (useless at the moment).
+	*/
     void closeEvent(QCloseEvent *event);
 
 };
