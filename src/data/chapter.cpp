@@ -12,7 +12,11 @@ const QString& Chapter::getShortName() const
 {
     return m_name;
 }
- void Chapter::setName(QString& p )
- {
-     m_name =p;
- }
+void Chapter::setName(QString& p )
+{
+ m_name =p;
+}
+void Chapter::addResource(CleverURI* cluri)
+{
+    m_ressoucelist.append(cluri);
+}

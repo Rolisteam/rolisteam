@@ -2,7 +2,7 @@
 #define SESSIONITEMMODEL_H
 
 #include <QAbstractItemModel>
-class CleverURI;
+#include "cleveruri.h"
 class RessourcesNode;
 class ResourcesItem
 {
@@ -78,6 +78,7 @@ private:
 };
 
 class Session;
+class Chapter;
 class SessionItemModel : public QAbstractItemModel
 {
 public:
@@ -90,7 +91,8 @@ public:
    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
     void setSession(Session* s);
-   // void addChapter(Chapter* c );
+    void addChapter(Chapter* c );
+    CleverURI* addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& index);
 private:
     //Section* m_rootSection;
 

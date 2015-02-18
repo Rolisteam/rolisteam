@@ -25,6 +25,7 @@ public:
 
 private:
     QList<Chapter*> m_chapterList;
+    QList<CleverURI*> m_ressoucelist;
     QTime m_time;
     int m_gameCount;
 

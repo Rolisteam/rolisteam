@@ -2,12 +2,14 @@
 #define SESSIONMANAGER_H
 
 #include <QDockWidget>
-
+#include <QSettings>
+#include "cleveruri.h"
 class QHBoxLayout;
 class QTreeView;
 class SessionItemModel;
 class Chapter;
 class Session;
+
 class SessionManager : public QDockWidget
 {
 
@@ -16,6 +18,15 @@ public:
 
     Chapter* getCurrentChapter();
     void setCurrentSession(Session* s);
+
+    void readSettings(QSettings & m);
+
+    /**
+     * @brief Save parameters for next executions.
+     */
+    void writeSettings(QSettings & m);
+
+     CleverURI* addRessource(QString& urifile, CleverURI::ContentType type);
  private:
     QTreeView* m_view;
     QHBoxLayout* m_layout;

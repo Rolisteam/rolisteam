@@ -149,3 +149,19 @@ void SessionItemModel::setSession(Session* s)
 
     }
 }
+CleverURI* SessionItemModel::addRessources(QString& urifile, CleverURI::ContentType& type,QModelIndex& parent)
+{
+     ResourcesItem* parentItem=NULL;
+    if(!parent.isValid())
+        parentItem=m_rootItem;
+    else
+    {
+        parentItem = static_cast<ResourcesItem*>(parent.internalPointer());
+    }
+    beginInsertRows(QModelIndex(),parentItem->childrenCount(),parentItem->childrenCount());
+    Chapter* chap=static_cast<Chapter*>(parentItem->getData());
+    CleverURI* tmp = m_session->addRessource(urifile,type,chap);
+    parentItem->addChild(new ResourcesItem(tmp,true));
+    endInsertRows();
+    return tmp;
+}

@@ -12,8 +12,9 @@ public:
     virtual const QString& getShortName() const;
     virtual bool hasChildren() const;
     void setName(QString& p );
+    void addResource(CleverURI* );
 private:
-    QList<CleverURI> m_ressoucelist;
+    QList<CleverURI*> m_ressoucelist;
     QString m_name;
 };
 

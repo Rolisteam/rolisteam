@@ -263,7 +263,7 @@ private :
       /*  QStringList m_recentFiles;
         QList<int> m_recentTypes;*/
         //QList<CleverURI> m_recentFiles;
-        Session* m_session;
+
         SessionManager* m_sessionManager;
 
         UpdateChecker* m_updateChecker;

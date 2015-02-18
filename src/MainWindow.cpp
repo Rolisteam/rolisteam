@@ -106,11 +106,7 @@ MainWindow::MainWindow()
     setCentralWidget(m_workspace);
   // addDockWidget(Qt::LeftDockWidgetArea, m_toolbar);
 
-
-
     m_playerListWidget->setLocalPlayer(m_player);
-
-
     connect(m_playerListWidget,SIGNAL(opentchat()),this,SLOT(openTchat()));
 
 
@@ -322,7 +318,7 @@ void MainWindow::addopenedFile(QString& urifile, CleverURI::ContentType type)
 
     /// @todo Manage the list size in the option/preferences system
 
-   // m_session->addRessource(urifile,type,m_sessionManager->getCurrentChapter());
+    m_sessionManager->addRessource(urifile,type);
     //if(m_recentFiles.indexOf(uri)==-1)//if it's not here, it is added to the list.
      //   m_recentFiles << uri;
 
@@ -556,6 +552,8 @@ void MainWindow::readSettings()
     qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
     qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
 
+    qRegisterMetaType<Session>("Session");
+    qRegisterMetaTypeStreamOperators<Session>("Session");
 
 
     move(settings.value("pos", QPoint(200, 200)).toPoint());
@@ -569,12 +567,13 @@ void MainWindow::readSettings()
     variant.setValue(*m_player);
     *m_player = settings.value("player", variant).value<Player>();
 
-    QVariant tmp3;
+   /* QVariant tmp3;
     tmp3.setValue(CleverUriList());
-    QVariant tmp4= settings.value("session", tmp3);
+    QVariant tmp4= settings.value("session", tmp3);*/
     //m_recentFiles=tmp4.value<CleverUriList>();
 
     m_options->readSettings();
+    m_sessionManager->readSettings(settings);
     m_diceManager->readSettings();
     m_preferenceDialog->readSettings();
 }
@@ -590,12 +589,13 @@ void MainWindow::writeSettings()
   QVariant variant;
   variant.setValue(*m_player);
   settings.setValue("player", variant);
-  variant.setValue(*m_session);
-  settings.setValue("session",variant);
+  /*variant.setValue(*m_session);
+  settings.setValue("session",variant);*/
 
 
 
   m_options->writeSettings();
+  m_sessionManager->writeSettings(settings);
   m_workspace->writeSettings();
   m_diceManager->writeSettings();
   m_preferenceDialog->writeSettings();
