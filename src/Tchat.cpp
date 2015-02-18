@@ -133,11 +133,11 @@ void Tchat::emettreTexte()
 			result = calculerJetDes(message, tirage, ok);
 			if(ok)
 			{
-                messageCorps = tr("avez obtenu  %1 �  votre jet de dés [%2]").arg(result).arg(tirage);
+                messageCorps = tr("avez obtenu  %1 à votre jet de dés [%2]").arg(result).arg(tirage);
                 messageTitle = tr("Vous");
                 color = G_couleurJoueurLocal;
                 afficherMessage(messageTitle, color, messageCorps,DICE_MESSAGE);
-                message = QString(tr("a obtenu %1 �   son jet de dés [%2]").arg(result).arg(tirage));
+                message = QString(tr("a obtenu %1 à son jet de dés [%2]").arg(result).arg(tirage));
 			}
 			else
             {
@@ -151,7 +151,7 @@ void Tchat::emettreTexte()
 			result = calculerJetDes(message, tirage, ok);
 			if (ok)
             {
-                messageCorps = tr("vous avez obtenu %1 �   votre jet de dés secret [%2]").arg(result).arg(tirage);
+                messageCorps = tr("vous avez obtenu %1 à votre jet de dés secret [%2]").arg(result).arg(tirage);
                 messageTitle = tr("Jet secret :");
                 color = Qt::magenta;
                 afficherMessage(messageTitle, color,messageCorps ,DICE_MESSAGE);
@@ -450,7 +450,7 @@ int Tchat::calculerJetDes(QString &message, QString &tirage, bool &ok)
 			result+=signOperator*sumDice;
 		} // Fin de la lecture et du tirage des des
 
-		// le nombre est suivi par un "G" : on recupere le nombre qui suit (nbr de des gard�s)
+		// le nombre est suivi par un "G" : on recupere le nombre qui suit (nbr de des gardés)
 		else if (message[0] == QChar('g') || message[0] == QChar('G'))
 		{
 			relance10=(message[0] == QChar('G'));
@@ -681,13 +681,13 @@ int Tchat::calculerJetDesSR4(QString &message, QString &tirage, QString &glitch,
 
 	if (!modeSecretActif)
 	{
-		tirage.append(QString(tr(" (%1 dés").arg(nbDes)));
+                tirage.append(QString(tr(" (%1 dés").arg(nbDes)));
 		if (rushActif)
 			tirage.append(QString(tr(" en rushant")));
 		if (gremlinsActif)
 			tirage.append(QString(tr(" avec Gremlins %1").arg(indiceGremlinsStr)));
 		if (sixAgainActif)
-			tirage.append(QString(tr(" - les 6 sont relancés")));
+                        tirage.append(QString(tr(" - les 6 sont relancés")));
 		if (!modeCourtActif)
 			tirage.append(QString(tr(" : ")));
 		else
@@ -721,7 +721,7 @@ int Tchat::calculerJetDesSR4(QString &message, QString &tirage, QString &glitch,
 			if (!modeCourtActif && !modeSecretActif)
 			{
 				tirage.append(QString::number(de));
-				// Ajout d'un espace, d'un "puis" entre deux series ou d'une parenthèse pour finir
+				// Ajout d'un espace, d'un "puis" entre deux series ou d'une parenthese pour finir
 				if (u < nbDesEnCours-1)
 					tirage.append(QString(" "));
 				else if (nbDesEnsuite > 0)
