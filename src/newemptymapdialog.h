@@ -2,7 +2,7 @@
 #define NEWEMPTYMAPDIALOG_H
 
 #include <QDialog>
-#include "colorbutton.h"
+#include "widgets/colorbutton.h"
 
 #include "Carte.h"
 

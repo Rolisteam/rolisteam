@@ -55,7 +55,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="General">
         <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -282,7 +282,7 @@
   <customwidget>
    <class>ColorButton</class>
    <extends>QPushButton</extends>
-   <header>colorbutton.h</header>
+   <header>widgets/colorbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
