@@ -19,7 +19,7 @@ public:
     Chapter* addChapter();
     CleverURI* addRessource(QString uri, CleverURI::ContentType type, Chapter* chapter);
 
-    Chapter* getCurrentChapter();
+
 
 private:
     QList<Chapter> m_chapterList;

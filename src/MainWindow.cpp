@@ -73,6 +73,7 @@ MainWindow::MainWindow()
 
     readSettings();
     m_sessionManager = new SessionManager();
+    m_sessionManager->setCurrentSession(m_session);
     addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
     m_preferenceDialog->initValues();
 
@@ -317,7 +318,7 @@ void MainWindow::addopenedFile(QString& urifile, CleverURI::ContentType type)
 
     /// @todo Manage the list size in the option/preferences system
 
-    m_session->addRessource(urifile,type,m_session->getCurrentChapter());
+    m_session->addRessource(urifile,type,m_sessionManager->getCurrentChapter());
     //if(m_recentFiles.indexOf(uri)==-1)//if it's not here, it is added to the list.
      //   m_recentFiles << uri;
 
@@ -543,7 +544,7 @@ QMessageBox::about(this, tr("About Rolisteam"),
 }
 void MainWindow::readSettings()
 {
-    QSettings settings("rolisteam");
+    QSettings settings("rolisteam","rolisteam");
     qRegisterMetaTypeStreamOperators<Player>("Player");
 
     qRegisterMetaType<CleverURI>("CleverURI");
