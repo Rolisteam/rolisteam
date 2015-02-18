@@ -59,6 +59,7 @@
 	/********************************************************************/	
 	void AfficheurDisque::paintEvent(QPaintEvent *event)
 	{
+            Q_UNUSED(event)
 		int diametreAffiche;
 		// Creation du painter
 		QPainter painter(this);

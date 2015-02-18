@@ -1,7 +1,7 @@
 /*
-	Rolistik - logiciel collaboratif d'aide aux jeux de roles en ligne
+        Rolisteam - logiciel collaboratif d'aide aux jeux de roles en ligne
 	Copyright (C) 2007 - Romain Campioni  Tous droits réservés.
-
+        Copyright (C) 2009 - Renaud Guezennec
 	Ce programme est un logiciel libre ; vous pouvez le redistribuer ou le
 	modifier suivant les termes de la GNU General Public License telle que
 	publiée par la Free Software Foundation : soit la version 2 de cette
@@ -21,12 +21,12 @@
 */
 
 
-	#include <QtGui>
+#include <QtGui>
 
-	#include "Carte.h"
-    #include "CarteFenetre.h"
-	#include "DessinPerso.h"
-	#include "variablesGlobales.h"
+#include "Carte.h"
+#include "CarteFenetre.h"
+#include "DessinPerso.h"
+#include "variablesGlobales.h"
 
 
 	/********************************************************************/
@@ -1006,11 +1006,14 @@
 	/********************************************************************/	
 	void Carte::actionPnjBoutonRelache(QPoint positionSouris)
 	{
+             Q_UNUSED(positionSouris)
 		if (G_outilCourant == BarreOutils::ajoutPnj)
 		{
 			// On verifie que la couleur courante peut etre utilisee pour dessiner un PNJ
 			if (G_couleurCourante.type == qcolor)
 			{
+                            if (pnjSelectionne)
+                            {
 				// Affiche ou masque le PNJ selon qu'il se trouve sur une zone masquee ou pas
 				afficheOuMasquePnj(pnjSelectionne);
 				// sauvegarde du dernier PNJ selectionne
@@ -1019,6 +1022,7 @@
 				pnjSelectionne = 0;
 				// Emission du PNJ vers les clients ou le serveur
 				dernierPnjSelectionne->emettrePnj(idCarte);
+                           }
 			}
 
 			// S'il s'agit d'une couleur speciale, on affiche une boite d'alerte
@@ -1367,7 +1371,9 @@
 	void Carte::ajouterPj(QString idPerso, QString nomPerso, QColor couleur)
 	{
 		// Creation du dessin du PJ qui est place au centre du widget
-		DessinPerso *pj = new DessinPerso(this, idPerso, nomPerso, couleur, taillePj+11, QPoint(fond->width()/2, fond->height()/2), DessinPerso::pj);
+
+                new DessinPerso(this, idPerso, nomPerso, couleur, taillePj+11, QPoint(fond->width()/2, fond->height()/2), DessinPerso::pj);
+
 	}
 	
 	/********************************************************************/
@@ -1638,14 +1644,14 @@
 	/********************************************************************/	
 	void Carte::emettreTrace()
 	{
-		quint32 tailleCorps;
+                qint32 tailleCorps;
 		char *donnees;
 		enteteMessage *uneEntete;
 
 		// Parametres du message en fonction de l'outil en cours d'utilisation
 		if (G_outilCourant == BarreOutils::crayon)
 		{
-			quint32 tailleListe = listePointsCrayon.size();
+                        qint32 tailleListe = listePointsCrayon.size();
 
 			// Taille des donnees
 			tailleCorps =
@@ -1891,7 +1897,7 @@
 		QString idPerso = pnjSelectionne->idPersonnage();
 		
 		// Taille de la liste
-		quint32 tailleListe = listeDeplacement.size();
+                qint32 tailleListe = listeDeplacement.size();
 
 		// Taille des donnees
 		quint32 tailleCorps =
