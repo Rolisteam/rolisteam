@@ -523,7 +523,7 @@ void LecteurAudio::emettreCommande(actionMusique action, QString nomFichier, qui
                         break;
 
                 default :
-                        qWarning("Commande inconnue envoyee aux lecteurs audio des autres utilisateurs");
+                        qWarning(tr("Commande inconnue envoyee aux lecteurs audio des autres utilisateurs"));
                         break;
         }
         if(donnees == NULL)

@@ -431,7 +431,7 @@
 		else if (type == pnj)
 			disquePerso->setToolTip(nomPerso + (nomPerso.isEmpty()?"":" - ") + QString::number(numeroPnj) + " (" + etat.nomEtat + ")");
 		else
-			qWarning ("Type de personnage inconnu (dessinerPersonnage - DessinPerso.cpp)");
+                        qWarning (tr("Type de personnage inconnu (dessinerPersonnage - DessinPerso.cpp)"));
 
 	}
 
@@ -536,7 +536,7 @@
 		else if (type == pnj)
 			disquePerso->setToolTip(nomPerso + (nomPerso.isEmpty()?"":" - ") + QString::number(numeroPnj) + " (" + etat.nomEtat + ")");
 		else
-			qWarning ("Type de personnage inconnu (renommerPerso - DessinPerso.cpp)");
+                        qWarning (tr("Type de personnage inconnu (renommerPerso - DessinPerso.cpp)"));
 	}
 
 	/********************************************************************/

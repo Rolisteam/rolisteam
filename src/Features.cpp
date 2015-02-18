@@ -66,7 +66,7 @@ void addFeature(ReceiveEvent & event)
     Player * player = PlayersList::instance().getPlayer(uuid);
     if (player == NULL)
     {
-        qWarning("Feature %s for unknown player %s", qPrintable(name), qPrintable(uuid));
+        qWarning(tr("Feature %s for unknown player %s"), qPrintable(name), qPrintable(uuid));
         event.repostLater();
         return;
     }

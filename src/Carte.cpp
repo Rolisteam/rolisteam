@@ -371,7 +371,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
                 else
                 {
                     painter.begin(fond);
-                    qWarning("Type de couleur incorrecte (mouseReleaseEvent - Carte.cpp)");
+                    //qWarning(tr("Type de couleur incorrecte (mouseReleaseEvent - Carte.cpp)"));
                 }
                 painter.setRenderHint(QPainter::Antialiasing);
                 
@@ -557,7 +557,7 @@ void Carte::dessiner(QPainter &painter)
     else if(G_couleurCourante.type == efface)
         couleurPinceau = Qt::white;
     else
-        qWarning("Type de couleur incorrecte (dessiner - Carte.cpp)");
+        qWarning(tr("Type de couleur incorrecte (dessiner - Carte.cpp)"));
 
     // Reglage du pinceau
     QPen pen;
@@ -581,7 +581,7 @@ void Carte::dessiner(QPainter &painter)
         else
         {
             painter.begin(fond);
-            qWarning("Type de couleur incorrecte (dessiner - Carte.cpp)");
+            qWarning(tr("Type de couleur incorrecte (dessiner - Carte.cpp)"));
         }
         painterCrayon.setRenderHint(QPainter::Antialiasing);
         
@@ -713,7 +713,7 @@ void Carte::dessiner(QPainter &painter)
     }
             
     else
-        qWarning("Outil non défini lors du dessin (dessiner - Carte.cpp)");
+        qWarning(tr("Outil non défini lors du dessin (dessiner - Carte.cpp)"));
 }
 
 /********************************************************************/
@@ -795,7 +795,7 @@ QRect Carte::zoneARafraichir()
     }
     
     else
-        qWarning("Outil non défini lors du dessin (dessiner - Carte.cpp)");
+        qWarning(tr("Outil non défini lors du dessin (dessiner - Carte.cpp)"));
 
     // On coupe aux dimensions de l'image
     return resultat.intersect(fond->rect());
@@ -811,7 +811,7 @@ bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, con
     // On verifie que la source, la destination et la couche alpha ont le meme nombre de pixels
     if (source->size() != destination->size() || source->size() != alpha->size())
     {
-        qWarning("La source, la destination et la couche alpha n'ont pas le meme nombre de pixels (ajouterAlpha - Carte.cpp)");
+        qWarning(tr("La source, la destination et la couche alpha n'ont pas le meme nombre de pixels (ajouterAlpha - Carte.cpp)"));
         return false;
     }
 
@@ -995,7 +995,7 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
     }
 
     else
-        qWarning("Outil non défini lors du traitement d'une action sur les PJ/PNJ (actionPnjBoutonEnfonce - Carte.cpp)");
+        qWarning(tr("Outil non défini lors du traitement d'une action sur les PJ/PNJ (actionPnjBoutonEnfonce - Carte.cpp)"));
 
 }
 
@@ -1065,7 +1065,7 @@ void Carte::actionPnjBoutonRelache(QPoint positionSouris)
     }
 
     else
-        qWarning("Outil non défini lors du traitement d'une action sur les PJ/PNJ (actionPnjBoutonRelache - Carte.cpp)");
+        qWarning(tr("Outil non défini lors du traitement d'une action sur les PJ/PNJ (actionPnjBoutonRelache - Carte.cpp)"));
 
 }
 
@@ -1111,7 +1111,7 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
     }
 
     else
-        qWarning("Outil non défini lors du traitement d'une action sur les PJ/PNJ (actionPnjMouvementSouris - Carte.cpp)");
+        qWarning(tr("Outil non défini lors du traitement d'une action sur les PJ/PNJ (actionPnjMouvementSouris - Carte.cpp)"));
 
 }
 
@@ -1179,7 +1179,7 @@ DessinPerso* Carte::dansDessinPerso(QPoint positionSouris)
         // Cas qui ne devrait jamais arriver
         else
         {
-            qWarning ("Widget inconnu sous le pointeur de la souris (dansDessinPerso - Carte.cpp)");
+            qWarning (tr("Widget inconnu sous le pointeur de la souris (dansDessinPerso - Carte.cpp)"));
             resultat = 0;
         }
     }
@@ -1348,7 +1348,7 @@ void Carte::affichageDuPj(QString idPerso, bool afficher)
     // Ne devrait jamais arriver
     if (!pj)
     {
-        qWarning("L'identifiant du PJ n'a pas ete trouve (affichageDuPj - Carte.cpp)");
+        qWarning(tr("L'identifiant du PJ n'a pas ete trouve (affichageDuPj - Carte.cpp)"));
         return;
     }
     // On masque ou on affiche le PJ
@@ -1373,7 +1373,7 @@ bool Carte::pjAffiche(QString idPerso)
     // Ne devrait jamais arriver
     if (!pj)
     {
-        qWarning("L'identifiant %s n'a pas ete trouve (pjAffiche - Carte.cpp)", qPrintable(idPerso));
+        qWarning(tr("L'identifiant %s n'a pas ete trouve (pjAffiche - Carte.cpp)"), qPrintable(idPerso));
         return false;
     }
 
@@ -1398,7 +1398,7 @@ void Carte::effacerPerso(QString idPerso)
     // Ne devrait jamais arriver
     if (!perso)
     {
-        qWarning("L'identifiant du personnage n'a pas ete trouve (effacerPerso - Carte.cpp)");
+        qWarning(tr("L'identifiant du personnage n'a pas ete trouve (effacerPerso - Carte.cpp)"));
         return;
     }
     // Suppression du personnage
@@ -1410,7 +1410,7 @@ void Carte::delCharacter(Character * person)
     DessinPerso * pj = trouverPersonnage(person->uuid());
     if (pj == NULL)
     {
-        qWarning( "Person %s %s unknown in Carte::changePerson",
+        qWarning( tr("Person %s %s unknown in Carte::changePerson"),
                 qPrintable(person->uuid()), qPrintable(person->name()) );
         return;
     }
@@ -1423,7 +1423,7 @@ void Carte::changeCharacter(Character * person)
     DessinPerso * pj = trouverPersonnage(person->uuid());
     if (pj == NULL)
     {
-        qWarning( "Person %s %s unknown in Carte::changePerson",
+        qWarning( tr("Person %s %s unknown in Carte::changePerson"),
                 qPrintable(person->uuid()), qPrintable(person->name()) );
         return;
     }
@@ -1461,21 +1461,21 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
     QBuffer bufFondOriginal(&baFondOriginal);
     ok = fondOriginal->save(&bufFondOriginal, "jpeg", 70);
     if (!ok)
-        qWarning("Probleme de compression du fond original (emettreCarte - Carte.cpp)");
+        qWarning(tr("Probleme de compression du fond original (emettreCarte - Carte.cpp)"));
 
     // On compresse le fond (format jpeg) dans un tableau
     QByteArray baFond;
     QBuffer bufFond(&baFond);
     ok = fond->save(&bufFond, "jpeg", 70);
     if (!ok)
-        qWarning("Probleme de compression du fond (emettreCarte - Carte.cpp)");
+        qWarning(tr("Probleme de compression du fond (emettreCarte - Carte.cpp)"));
 
     // Enfin on compresse la couche alpha (format jpeg) dans un tableau
     QByteArray baAlpha;
     QBuffer bufAlpha(&baAlpha);
     ok = alpha->save(&bufAlpha, "jpeg", 100);
     if (!ok)
-        qWarning("Probleme de compression de la couche alpha (emettreCarte - Carte.cpp)");
+        qWarning(tr("Probleme de compression de la couche alpha (emettreCarte - Carte.cpp)"));
     
     // Taille des donnees
     quint32 tailleCorps =
@@ -1836,7 +1836,7 @@ void Carte::emettreTrace()
             uneEntete->action = traceEllipsePleine;
         else
         {
-            qWarning("Outil non défini lors de l'emission d'un trace (emettreTrace - Carte.cpp)");
+            qWarning(tr("Outil non défini lors de l'emission d'un trace (emettreTrace - Carte.cpp)"));
             delete[] donnees;
             return;
         }
@@ -1988,7 +1988,7 @@ void Carte::dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichi
     }
     else
     {
-        qWarning("Type de couleur incorrecte (dessinerTraceGeneral - Carte.cpp)");
+        qWarning(tr("Type de couleur incorrecte (dessinerTraceGeneral - Carte.cpp)"));
         return;
     }
     painter.setRenderHint(QPainter::Antialiasing);
@@ -2078,7 +2078,7 @@ void Carte::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneA
     }
     else
     {
-        qWarning("Type de couleur incorrecte (dessinerTraceTexte - Carte.cpp)");
+        qWarning(tr("Type de couleur incorrecte (dessinerTraceTexte - Carte.cpp)"));
         return;
     }
     painter.setRenderHint(QPainter::Antialiasing);
@@ -2150,7 +2150,7 @@ void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arri
     }
     else
     {
-        qWarning("Type de couleur incorrecte (dessinerTraceGeneral - Carte.cpp)");
+        qWarning(tr("Type de couleur incorrecte (dessinerTraceGeneral - Carte.cpp)"));
         return;
     }
     painter.setRenderHint(QPainter::Antialiasing);
@@ -2242,7 +2242,7 @@ void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arri
     }
             
     else
-        qWarning("Outil non défini lors du dessin (dessinerTraceGeneral - Carte.cpp)");
+        qWarning(tr("Outil non défini lors du dessin (dessinerTraceGeneral - Carte.cpp)"));
 
     // Si le trace effacait, on recopie de fond original sur le fond
     if (couleur.type == efface)
@@ -2398,21 +2398,21 @@ void Carte::sauvegarderCarte(QDataStream &out, QString titre)
     QBuffer bufFondOriginal(&baFondOriginal);
     ok = fondOriginal->save(&bufFondOriginal, "jpeg", 100);
     if (!ok)
-        qWarning("Probleme de compression du fond original (sauvegarderCarte - Carte.cpp)");
+        qWarning(tr("Probleme de compression du fond original (sauvegarderCarte - Carte.cpp)"));
 
     // On compresse le fond (format jpeg) dans un tableau
     QByteArray baFond;
     QBuffer bufFond(&baFond);
     ok = fond->save(&bufFond, "jpeg", 100);
     if (!ok)
-        qWarning("Probleme de compression du fond (sauvegarderCarte - Carte.cpp)");
+        qWarning(tr("Probleme de compression du fond (sauvegarderCarte - Carte.cpp)"));
 
     // Enfin on compresse la couche alpha (format jpeg) dans un tableau
     QByteArray baAlpha;
     QBuffer bufAlpha(&baAlpha);
     ok = alpha->save(&bufAlpha, "jpeg", 100);
     if (!ok)
-        qWarning("Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)");
+        qWarning(tr("Probleme de compression de la couche alpha (sauvegarderCarte - Carte.cpp)"));
 
     // Ecriture de la carte dans le fichier
 

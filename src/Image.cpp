@@ -121,7 +121,7 @@ void Image::fill(NetworkMessageWriter & message) const
 	QByteArray baImage;
 	QBuffer bufImage(&baImage);
 	if (!labelImage->pixmap()->save(&bufImage, "jpeg", 70))
-		qWarning("Probleme de compression de l'image (emettreImage - Image.cpp)");
+                qWarning(tr("Probleme de compression de l'image (emettreImage - Image.cpp)"));
 
 
     message.reset();
@@ -143,7 +143,7 @@ void Image::sauvegarderImage(QDataStream &out, QString titre)
     QBuffer bufImage(&baImage);
     ok = labelImage->pixmap()->save(&bufImage, "jpeg", 100);
     if (!ok)
-        qWarning("Probleme de compression de l'image (sauvegarderImage - Image.cpp)");
+        qWarning(tr("Probleme de compression de l'image (sauvegarderImage - Image.cpp)"));
 
     // Ecriture de l'image dans le fichier
     out<< titre;
