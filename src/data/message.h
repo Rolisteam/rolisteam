@@ -22,30 +22,55 @@
 
 #include <QByteArray>
 #include  "networkmisc.h"
+class QTcpSocket;
 /**
   * @brief storage class to store rolisteam protocole messages
   * @brief should implement some features to get important/compulsory fields
   * @todo add operator << and >>
   */
-class QTcpSocket;
 class Message
 {
 public:
+    /**
+      * @brief default constructor
+      */
     Message();
+    /**
+      * @brief accessor to the raw data
+      * @return Data address
+      */
     QByteArray* getDataArray();
+    /**
+      * @brief allows to know the size of data
+      */
     quint32 getSize();
+    /**
+      * @brief allows to know the type of message
+      */
     Network::Category getType();
+    /**
+      * @brief set the categorie
+      */
     void setCategory(Network::Category cat);
-
+    /**
+      * @brief write the message into the given socket
+      * @param address of TCP socket
+      */
     void write(QTcpSocket* );
-
+    /**
+      * @brief defines the sender of this message
+      */
     void setSender(QTcpSocket*);
+    /**
+      * @brief accessor to the sender
+      * @return tcp socket address
+      */
     QTcpSocket* getSender();
 private:
-    Network::Category m_type;
-    QByteArray m_internalData;
+    Network::Category m_type;/// type of message
+    QByteArray m_internalData;/// internal data
 
-    QTcpSocket* m_sender;
+    QTcpSocket* m_sender;/// address of the sender
 };
 
 #endif // MESSAGE_H

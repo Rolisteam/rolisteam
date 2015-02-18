@@ -1,9 +1,5 @@
 HEADERS += charactersheetwindow.h \
-    charactersheetmodel.h \
-    headermodel.h \
-    headerview.h
+    charactersheetmodel.h
 SOURCES += charactersheetwindow.cpp \
-    charactersheetmodel.cpp \
-    headermodel.cpp \
-    headerview.cpp
+    charactersheetmodel.cpp
 QT += xml

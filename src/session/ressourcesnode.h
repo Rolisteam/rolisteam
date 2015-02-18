@@ -21,11 +21,27 @@
 #define RESSOURCESNODE_H
 #include <QString>
 
+/**
+  * @brief RessourceNode is part of the composite design pattern, it's the abstract class
+  * @brief providing the basic API for ressources, Shortname and has children.
+  */
 class RessourcesNode
 {
 public:
+    /**
+      * @brief pure virtual method to get the shortname
+      * @return reference to the short name
+      */
     virtual const QString& getShortName() const=0;
+    /**
+      * @brief pure virtual shortname setter
+      * @param new value
+      */
     virtual void setShortName(QString& name)=0;
+    /**
+      * @brief allows to know if this node has children
+      * @return either has children or not
+      */
     virtual bool hasChildren() const =0;
 //    virtual void addChild(RessourcesNode*) =0;
 };

@@ -25,7 +25,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-#include "headerview.h"
+
 #include "submdiwindows.h"
 #include "charactersheetmodel.h"
 /**

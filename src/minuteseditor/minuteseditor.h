@@ -39,12 +39,11 @@
 #include <QComboBox>
 #include <QFile>
 #include "submdiwindows.h"
-
+class QFontComboBox;
 /**
 * @brief MinutesEditor is dedicated to be a simple text processor. It provides some helpful features, such as Font style, and save/load mechanism.
 * @todo we should improve MinutesEditor to support openDocument file.  
 */
-class QFontComboBox;
 class MinutesEditor : public SubMdiWindows
 {
 Q_OBJECT

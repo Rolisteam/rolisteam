@@ -98,10 +98,6 @@ void SessionManager::readSettings(QSettings & m)
     m.endGroup();
 
     m_model->setSession(m_currentSession);
-
-
-
-
 }
 const QList<CleverURI*>& SessionManager::getRecentFiles()
 {
@@ -111,9 +107,8 @@ const QList<CleverURI*>& SessionManager::getRecentFiles()
 void SessionManager::addChapter(QModelIndex& index)
 {
     QString tmp = tr("Chapter %1").arg(m_currentSession->chapterCount());
-
-   m_currentChapter = m_model->addChapter(tmp,m_view->currentIndex());
-   m_model->addChapter(tmp,index);
+    m_currentChapter = m_model->addChapter(tmp,m_view->currentIndex());
+    m_model->addChapter(tmp,index);
 
 }
 

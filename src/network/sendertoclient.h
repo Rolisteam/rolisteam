@@ -24,22 +24,35 @@
 #include <QThread>
 class Message;
 class QTcpSocket;
-
+/**
+  * @brief SenderToClient sends messages from the queue to appropriate client
+  */
 class SenderToClient : public QThread
 {
     Q_OBJECT
 public:
+    /**
+      * @brief construct with parameter
+      * @param listm : address of list of message (perhaps it should be protected with mutex)
+      * @param listsoc : address of client socket's list
+      */
     explicit SenderToClient(QList<Message*>* listm,  QList<QTcpSocket*>* listsoc ,QObject *parent = 0);
+    /**
+      * @brief overriden method, called when the QThread is started
+      */
     void run();
 signals:
 
 
 public slots:
+    /**
+      * @brief performs the sending
+      */
     void messageToSend();
 
 private:
-    QList<Message*>* m_messageQueue;
-    QList<QTcpSocket*>* m_clientsList;
+    QList<Message*>* m_messageQueue;/// shared queue of messages
+    QList<QTcpSocket*>* m_clientsList; /// shared list of client
 };
 
 #endif // SENDERTOCLIENT_H

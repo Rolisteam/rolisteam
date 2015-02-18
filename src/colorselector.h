@@ -75,63 +75,159 @@ protected:
     virtual void mouseDoubleClickEvent (QMouseEvent *event);
 };
 /**
-  * @brief
+  * @brief custom pushbutton to display a pixmap as background
+  * @todo Should be moved into stand alone files (h and cpp) and put them in the widget directory
+  *
   */
 class BackgroundButton : public QPushButton
 {
     Q_OBJECT
 public:
+    /**
+      * @brief constructor with arguments
+      * @param pixmap
+      */
    BackgroundButton(QPixmap* p,QWidget * parent = 0);
 
 protected:
+   /**
+     * @brief draw the button
+     */
     virtual void paintEvent ( QPaintEvent * event );
 
 
 private:
+   /**
+     * @brief stores the background picture
+     */
    QPixmap* m_background;
 
 };
 
-
+/**
+  * @brief custom widget to display many color squares, click select the color.
+  */
 class ColorSelector : public QWidget
 {
     Q_OBJECT
 
 
 public:
+    /**
+      * @brief Painting mode
+      */
     enum PAINTINGMODE{NORMAL,HIDING,UNVEIL,ERASING};
+    /**
+      * @brief Constructor compliant with QWidget constructor
+      */
     ColorSelector(QWidget *parent = 0);
+    /**
+      * @brief define the current color
+      * @param new color
+      */
     void setCurrentColor(QColor& color);
+    /**
+      * @brief accessor to the current color
+      * @return current color
+      */
     QColor& currentColor();
+    /**
+      * @brief draw previously selected color in another section
+      */
     void customColorUpdate();
+    /**
+      * @brief no longer use method
+      * @todo must be removed
+      */
     void allowOrForbideColors();
+    /**
+      * @brief accessor to personnal color
+      */
     QColor getPersonalColor(int numero);
 
 signals:
+    /**
+      * @brief emitted when color changed
+      */
     void currentColorChanged(QColor&);
+    /**
+      * @brief emitted when current painting mode has changed
+      */
     void currentModeChanged(int);
 
 
 private slots:
+    /**
+      * @brief select the color as current
+      * @param new color
+      * @todo Dupplicate with the setter ?
+      */
     void selectColor(const QColor& color);
+    /**
+      * @brief open the color selector dialog box
+      */
     void colorSelectorDialog();
+    /**
+      * @brief slot called when user click on painting mode button
+      * @param changed the mode
+      */
     void onGroupEdition(QAbstractButton*);
 private:
+    /**
+      * @brief current colorlabel
+      */
     ColorLabel *m_currentColorLabel;
+    /**
+      * @brief erase tool button
+      */
     BackgroundButton *m_eraseColor;
+    /**
+      * @brief hide (fog of war) button
+      */
     BackgroundButton *m_hideColor;
+    /**
+      * @brief removed fog of war.
+      */
     BackgroundButton *m_unveilColor;
 
-
+    /**
+      * @brief array of color label
+      * @todo perhaps QList will be more efficient
+      * @todo name it in english
+      */
     ColorLabel *couleurPredefinie[48];
+    /**
+      * @brief array of personal color
+      */
     ColorLabel *couleurPersonnelle[16];
+    /**
+      * @brief widget to split the tool bar
+      */
     QWidget *separateur1;
+    /**
+      * @brief widget to split the tool bar
+      */
     QWidget *separateur2;
+    /**
+      * @brief erase icon
+      * @todo be removed, no need to be a member of the class
+      */
     QPixmap *efface_pix;
+    /**
+      * @brief hide icon
+            * @todo be removed, no need to be a member of the class
+      */
     QPixmap *masque_pix;
+    /**
+      * @brief unveil icon
+            * @todo be removed, no need to be a member of the class
+      */
     QPixmap *unveil_pix;
  //   bool boutonEnfonce;
 
+    /**
+      * @brief current color
+      */
     QColor m_currentColor;
 
     /**

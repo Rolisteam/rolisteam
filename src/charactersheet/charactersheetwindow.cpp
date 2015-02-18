@@ -17,13 +17,12 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-#include "charactersheetwindow.h"
-#include "charactersheet.h"
-#include "headermodel.h"
 #include <QMenu>
 #include <QFile>
 #include <QFileDialog>
+
+#include "charactersheetwindow.h"
+#include "charactersheet.h"
 #include "preferencesmanager.h"
 
 CharacterSheetWindow::CharacterSheetWindow(QWidget* parent)

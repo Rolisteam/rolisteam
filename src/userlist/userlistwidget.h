@@ -32,46 +32,90 @@ class QVBoxLayout;
 class QHBoxLayout;
 class Person;
 class Player;
+/**
+  * @brief UserListWidget is dedicated to show informations about connected player and their character.
+  */
 class UserListWidget : public QDockWidget
 {
     Q_OBJECT
 public:
+    /**
+      * @brief default constructor
+      */
     explicit UserListWidget(QWidget *parent = 0);
+    /**
+      * @brief destructor
+      */
     ~UserListWidget();
-
+    /**
+      * @brief transforms the selection into list of Person
+      */
     QList<Person*>* getSelectedPerson();
 
 signals:
+    /**
+      * @brief emitted when Playable character has changed
+      */
     void sizePcChanged(int);
+    /**
+      * @brief emitted when user required opening Instant messaging with someone
+      */
     void opentchat();
+    /**
+      * @brief emitted when the widget is shown or hidden
+      */
     void changeVisibility(bool);
 
 public slots:
+    /**
+      * @brief adding Person into the model
+      */
     void addUser(Person* p);
+    /**
+      * @brief defines the given Player as the local one
+      */
     void setLocalPlayer(Player* p);
 
 
 protected:
+    /**
+      * @brief performs some task about user interface
+      */
     void setupUI();
+    /**
+      * @brief initialisation of QAction
+      */
     void setAction();
+    /**
+      * @brief catches closeevent to hide the widget instead of destroy it
+      */
     void closeEvent ( QCloseEvent * event );
 
 protected slots:
+    /**
+      * @brief add blank character to the local player
+      */
     void addPC();
+    /**
+      * @brief deletes selected character
+      */
     void delSelectedPC();
+    /**
+      * @brief update the current item (we must know the current item all the time)
+      */
     void currentChanged(const QModelIndex&);
 
 
 private:
-    QPushButton* m_tchatButton;
-    QPushButton* m_addPC;
-    QPushButton* m_delPC;
-    QSlider* m_sizePC;
-    QLCDNumber* m_sizePCNumber;
-    UserListView* m_view;
-    UserListModel* m_model;
+    QPushButton* m_tchatButton; /// start chat
+    QPushButton* m_addPC; /// add character to the local player
+    QPushButton* m_delPC; /// delete caracter
+    QSlider* m_sizePC; /// change size of character
+    QLCDNumber* m_sizePCNumber; /// Diplays the size
+    UserListView* m_view; ///  View of player/character tree
+    UserListModel* m_model; /// Model of player/character tree
 
-    QVBoxLayout* m_verticalLayout;
+    QVBoxLayout* m_verticalLayout; /// layout
     QHBoxLayout* m_horizontalLayoutSlider;
     QHBoxLayout* m_horizontalLayoutButton;
     QWidget* m_centralWidget;

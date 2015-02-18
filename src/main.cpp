@@ -33,8 +33,15 @@
 * Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to
 * perform Role playing games with remote friends.
 * It is based on Client/server architecture and it is written in C++ with Qt.
-* 
 *
+* <h2>Features</h2>:
+* <ul>
+*    <li>Chat with one, many and all players</li>
+*    <li>Sharing images and many other media type</li>
+*    <li>Drawing maps on the fly</li>
+*    <li>Sharing environment sound</li>
+*    <li>Multi-platform: Windows, Linux and Mac OS X</li>
+* </ul>
 * <h2>How to stay in touch ? </h2>
 * Please take a look to <a href="http://www.rolisteam.org/">Rolisteam Web Site</a>
 *

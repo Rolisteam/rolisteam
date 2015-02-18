@@ -54,14 +54,31 @@ signals:
       */
     void defineCurrentChapter();
 private slots:
+    /**
+      * @brief slot to define the current chapter
+      */
     void onDefineChapter();
-private slots:
+
+    /**
+      * @brief slot to add chapter in the current item
+      */
     void onAddChapter();
 private:
+    /**
+      * @brief action triggered for adding chapter
+      */
     QAction* m_addChapterAction;
+    /**
+      * @brief action triggered for deleting chapter
+      */
     QAction* m_removeAction;
+    /**
+      * @brief action to select item as current one
+      */
     QAction* m_defineAsCurrent;
-
+    /**
+      * @brief stores the position of the click
+      */
     QPoint m_pointClick;
 
 };

@@ -270,7 +270,7 @@ Chapter* SessionItemModel::addChapter(QString& name,QModelIndex parent)
         {
             beginInsertRows(parent,tmp->childrenCount(),tmp->childrenCount());
             t = parentChapter->addChapter(name);
-            tmp->addChild(new ResourcesItem(t,false));
+            //tmp->addChild(new ResourcesItem(t,false));
             endInsertRows();
 
         }

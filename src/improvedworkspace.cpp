@@ -47,7 +47,7 @@ ImprovedWorkspace::ImprovedWorkspace(/*QColor& penColor,*/MainWindow *parent)
 
     qDebug() << m_backgroundPicture->isNull() << m_options->value("worspace/background/image",":/resources/icons/fond workspace macos.bmp").toString();
     painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
-    this->setBackground(QBrush(*m_variableSizeBackground));
+    setBackground(QBrush(*m_variableSizeBackground));
     m_currentCursor = m_handCursor;
     m_penSize = 1;
     m_npcSize =1;
@@ -61,6 +61,7 @@ void ImprovedWorkspace::resizeEvent ( QResizeEvent * event )
 {
     Q_UNUSED(event);
     delete m_variableSizeBackground;
+    m_backgroundPicture = new QPixmap(m_options->value("worspace/background/image",":/resources/icons/fond workspace macos.bmp").toString());
 
     m_variableSizeBackground = new QPixmap(this->viewport()->size());
     m_variableSizeBackground->fill(m_backGroundColor);

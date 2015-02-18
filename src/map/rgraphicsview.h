@@ -22,10 +22,16 @@
 
 #include <QGraphicsView>
 #include "map.h"
-
+/**
+  * @brief RGraphicsView is custom graphicsview to fit rolisteam needs. It will implement some important feature
+  */
 class RGraphicsView : public QGraphicsView
 {
 public:
+    /**
+      * @brief constructor with parameters
+      * @param Map address which it will be displayed by the graphicsview
+      */
     RGraphicsView(Map *map);
 };
 

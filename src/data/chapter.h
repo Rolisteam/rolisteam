@@ -23,26 +23,67 @@
 #include <QList>
 #include "cleveruri.h"
 #include "ressourcesnode.h"
-
+/**
+  * @brief chapter stores ressources and can be identified by a name, Resources can be subchapter or CleverURI
+  * @brief it is part of the composite pattern
+  */
 class Chapter : public RessourcesNode
 {
 public:
+    /**
+      * @brief default constructor
+      */
     Chapter();
+    /**
+      * @brief copy constructor
+      */
     Chapter(const Chapter& m);
+    /**
+      * @brief destructor
+      */
     ~Chapter();
+    /**
+      * @brief overridden method to get the shortname. Shortname is just the filename (without path)
+      * @return the shortname
+      */
     virtual const QString& getShortName() const;
+    /**
+      * @brief define the shortname (overridden method)
+      * @param new value
+      */
     virtual void setShortName(QString& name);
+    /**
+      * @brief overridden method, is leaf or not
+      */
     virtual bool hasChildren() const;
+    /**
+      * @brief add resource into the chapter
+      * @param CleverURI address
+      */
     void addResource(CleverURI* );
+    /**
+      * @brief create and add chapter as a child this one,
+      * @param name of the chapter
+      * @return chapter's created address
+      */
     Chapter* addChapter(QString& name);
+    /**
+      * @brief removes node (chapter or ressource)
+      */
     bool removeRessourcesNode(RessourcesNode* item);
-
+    /**
+      * @brief accessor to the resources list
+      */
     QList<CleverURI*>& getResourceList();
+    /**
+      * @brief accessor to the chapter list
+      */
     QList<Chapter*>& getChapterList();
 private:
-    QList<CleverURI*> m_ressoucelist;
-    QList<Chapter*> m_chapterlist;
-    QString m_name;
+
+    QList<CleverURI*> m_ressoucelist;/// list of resource
+    QList<Chapter*> m_chapterlist;/// list of chapter
+    QString m_name; /// name of chapter
 
 
     friend QDataStream& operator<<(QDataStream& os,const Chapter&);
