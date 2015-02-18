@@ -50,7 +50,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="General">
         <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -368,7 +368,7 @@
   <customwidget>
    <class>FileDirChooser</class>
    <extends>QWidget</extends>
-   <header>widgets/filedirchooser.h</header>
+   <header location="global">widgets/filedirchooser.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

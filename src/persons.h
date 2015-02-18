@@ -120,6 +120,9 @@ private:
 class Character : public Person
 {
 public:
+    /**
+     * @brief construtor
+     */
     Character(const QString & name, const QColor & color);
     Character(const QString & uuid, const QString & name, const QColor & color);
     Character(NetworkMessageReader & data);

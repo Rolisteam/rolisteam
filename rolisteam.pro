@@ -18,7 +18,7 @@ UI_DIR = src
 
 
 
-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
 CONFIG += HAVE_PHONON
 #CONFIG += HAVE_NULL
 
@@ -45,6 +45,8 @@ isEmpty(QMAKE_LRELEASE) {
 #updateTrans.input = rolisteam.pro
 #updateTrans.output= ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.ts
 
+unix:!macx{
+# linux only
 
 updateqm.input = TRANSLATIONS
 updateqm.output = ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
@@ -53,7 +55,7 @@ updateqm.CONFIG += no_link
 QMAKE_EXTRA_COMPILERS += updateqm
 PRE_TARGETDEPS += compiler_updateqm_make_all
 ## End of Translation
-
+}
 
 include(src/odt/src/src.pri)
 
