@@ -79,8 +79,11 @@ static void synchronizeInitialisation(const ConnectionConfigDialog & dialog)
  *****************/
 
 ClientServeur::ClientServeur()
-: QObject(), m_server(NULL)
+    : QObject(), m_server(NULL),m_liaisonToServer(NULL)
 {
+    m_reconnect = new QTimer(this);
+
+    connect(m_reconnect, SIGNAL(timeout()), this, SLOT(startConnection()));
 }
 
 
@@ -96,9 +99,9 @@ bool ClientServeur::configAndConnect()
         G_initialisation.ipServeur, G_initialisation.portServeur, !G_initialisation.client
     );
 
-    ConnectionWaitDialog waitDialog;
+
     QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
-    QTcpSocket * socket;
+
 
     PlayersList & g_playersList = PlayersList::instance();
 
@@ -137,19 +140,12 @@ bool ClientServeur::configAndConnect()
         // Client setup
         else
         {
-            socket = waitDialog.connectTo(configDialog.getHost(), configDialog.getPort());
-
-            // connect successed
-            if (socket != NULL)
+            m_port = configDialog.getPort();
+            m_address = configDialog.getHost();
+            if(startConnection())
             {
                 synchronizeInitialisation(configDialog);
-                new Liaison(socket);
                 cont = false;
-            }
-            else
-            {
-                errorDialog.setInformativeText(waitDialog.getError());
-                errorDialog.exec();
             }
         }
     }
@@ -165,6 +161,37 @@ bool ClientServeur::configAndConnect()
     return true;
 }
 
+bool ClientServeur::startConnection()
+{
+    ConnectionWaitDialog waitDialog;
+    QTcpSocket * socket;
+    socket = waitDialog.connectTo(m_address, m_port);
+    qDebug()<< "connection retry";
+    //QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
+    // connect successed
+    if (socket != NULL)
+    {
+        G_client=true;
+
+       m_liaisonToServer = new Liaison(socket);
+
+       if( m_reconnect->isActive ())
+       {
+            m_reconnect->stop();
+            PlayersList & g_playersList = PlayersList::instance();
+            g_playersList.sendOffLocalPlayerInformations();
+            g_playersList.sendOffFeatures(g_playersList.getLocalPlayer());
+       }
+       return true;
+
+    }
+    else
+    {
+    //    errorDialog.setInformativeText(waitDialog.getError());
+     //   errorDialog.exec();
+        return false;
+    }
+}
 
 void ClientServeur::emettreDonnees(char *donnees, quint32 taille, Liaison *sauf)
 {
@@ -204,7 +231,16 @@ void ClientServeur::finDeLiaison(Liaison * link)
     if (G_client)
     {
         // On quitte l'application    
-        G_mainWindow->quitterApplication(true);
+        //G_mainWindow->quitterApplication(true);
+        if(link!=m_liaisonToServer)
+            qDebug() << "link is NOT the link to the server ";
+        else
+            qDebug() << "link is the link to the server ";
+
+        //startConnection();
+
+        m_reconnect->start(1000);
+
     }
 
     // Si l'ordinateur local est le serveur

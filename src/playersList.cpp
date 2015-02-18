@@ -370,7 +370,30 @@ bool PlayersList::everyPlayerHasFeature(const QString & name, quint8 version) co
     }
     return true;
 }
+Player* PlayersList::getLocalPlayer() const
+{
+    return m_localPlayer;
+}
 
+void PlayersList::sendOffLocalPlayerInformations()
+{
+    NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
+    m_localPlayer->fill(message);
+    message.sendAll();
+
+
+    
+}
+void PlayersList::sendOffFeatures(Player* player)
+{
+    setLocalFeatures(*player);
+    SendFeaturesIterator i(*player);
+    while (i.hasNext())
+    {
+        i.next();
+        i.message().sendAll();
+    }
+}
 
 /***********
  * Setters *
@@ -380,24 +403,26 @@ void PlayersList::setLocalPlayer(Player * player)
 {
     if (m_playersList.size() > 0)
         qFatal("We have too many local players.");
+    m_localPlayer=player;
     addPlayer(player);
 
     qDebug("LocalPlayer %s %s %s", qPrintable(player->name()), qPrintable(player->uuid()), (G_client ? "client" : "server"));
 
     if (G_client)
     {
-        NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
+    /*    NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
         player->fill(message);
-        message.sendAll();
+        message.sendAll();*/
+        sendOffLocalPlayerInformations();
     }
-
-    setLocalFeatures(*player);
+    sendOffFeatures(player);
+    /*setLocalFeatures(*player);
     SendFeaturesIterator i(*player);
     while (i.hasNext())
     {
         i.next();
         i.message().sendAll();
-    }
+    }*/
 }
 
 void PlayersList::addLocalCharacter(Character * newCharacter)
@@ -728,7 +753,7 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 
 void PlayersList::delPlayer(NetworkMessageReader & data)
 {
-    /* TODO:
+    /* @todo:
      * - If the player is the GM, call LecteurAudio::pselectNewFile("").
      */
 

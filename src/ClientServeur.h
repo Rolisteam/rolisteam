@@ -28,6 +28,7 @@
 #include <QTcpServer>
 #include <QList>
 #include <QColor>
+#include <QTimer>
 
 class Player;
 class Liaison;
@@ -63,10 +64,15 @@ signals :
 private :
     QTcpServer * m_server;
     QList<Liaison *> liaisons;
+    Liaison * m_liaisonToServer;
+    quint16 m_port;
+    QString m_address;
+    QTimer* m_reconnect;
 
 private slots :
     void nouveauClientConnecte();
     void finDeLiaison(Liaison * link);
+    bool startConnection();
 };
 
 #endif

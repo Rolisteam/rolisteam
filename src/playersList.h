@@ -56,7 +56,8 @@ class PlayersList : public QAbstractItemModel {
         int rowCount(const QModelIndex &parent = QModelIndex()) const;
         int columnCount(const QModelIndex &parent = QModelIndex()) const;
         bool setData(const QModelIndex &index, const QVariant &value, int role);
-
+        void sendOffLocalPlayerInformations();
+        void sendOffFeatures(Player* player);
         // Event handlers
         bool event(QEvent * event);
 
@@ -78,6 +79,7 @@ class PlayersList : public QAbstractItemModel {
         Person * getPerson(const QString & uuid) const;
         Player * getPlayer(const QString & uuid) const;
         Character * getCharacter(const QString & uuid) const;
+        Player* getLocalPlayer() const;
 
         /**
          * @brief Same as getPlayer(uuid), if getPerson(uuid) is a Player.
@@ -120,6 +122,7 @@ class PlayersList : public QAbstractItemModel {
     private:
         QList<Player *> m_playersList;
         QMap<QString, Person *> m_uuidMap;
+        Player* m_localPlayer;
         int m_gmCount;
 
         /**
