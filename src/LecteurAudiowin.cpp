@@ -116,7 +116,7 @@
 		// ou se trouve les musiques qui vont etre jouees
 		if (G_joueur)
 		{
-			QAction *actionChangerDossier = new QAction(QIcon(":/icones/dossier.png"), tr("Choisir le répertoire où sont stockées les musiques"), widgetAffichage);
+            QAction *actionChangerDossier = new QAction(QIcon(":/resources/icones/dossier.png"), tr("Choisir le répertoire où sont stockées les musiques"), widgetAffichage);
 			QToolButton *boutonChangerDossier = new QToolButton(widgetAffichage);
 			boutonChangerDossier->setDefaultAction(actionChangerDossier);
 			boutonChangerDossier->setFixedSize(20, 20);

@@ -38,11 +38,14 @@
 
 	#include "types.h"
 
-
+class QHBoxLayout;
+class QGridLayout;
+class QVBoxLayout;
 	class SelecteurCouleur : public QWidget
 	{
 	public:
 		SelecteurCouleur(QWidget *parent = 0);
+        ~SelecteurCouleur();
 		void changeCouleurActuelle(QColor couleur);
 		void majCouleursPersonnelles();
 		void autoriserOuInterdireCouleurs();
@@ -62,6 +65,10 @@
 		QPixmap *efface_pix;
 		QPixmap *masque_pix;
 		QPixmap *demasque_pix;
+        QHBoxLayout *couleursSpeciales;
+        QGridLayout *grillePerso;
+        QVBoxLayout *selecteurLayout;
+        QGridLayout *grillePredef;
 		bool boutonEnfonce;
 
 	protected:

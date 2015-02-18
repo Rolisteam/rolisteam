@@ -51,7 +51,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 	int bleu[48] = {128,128,128,128,255,255,192,255, 0,0,0,64,255,192,192,255, 64,64,0,128,128,255,64,128, 0,0,0,64,255,160,128,255, 0,0,0,64,128,64,64,128, 0,0,64,128,128,192,64,255};
 
 	// Creation du layout principale
-	QVBoxLayout *selecteurLayout = new QVBoxLayout(this);
+    selecteurLayout = new QVBoxLayout(this);
 	selecteurLayout->setMargin(2);
 	selecteurLayout->setSpacing(1);
 
@@ -75,7 +75,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 	selecteurLayout->setAlignment(couleurActuelle, Qt::AlignHCenter | Qt::AlignTop);
 			
 	// Création du layout de la grille de couleurs predefinies
-	QGridLayout *grillePredef = new QGridLayout();
+    grillePredef = new QGridLayout();
 	grillePredef->setSpacing(1);
 	grillePredef->setMargin(1);
 	// Ajout de la grille de couleurs predefinies dans le layout principal
@@ -112,7 +112,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 	selecteurLayout->addWidget(separateur1);
 
 	// Création du layout de la grille de couleurs personnelles
-	QGridLayout *grillePerso = new QGridLayout();
+    grillePerso = new QGridLayout();
 	grillePerso->setSpacing(1);
 	grillePerso->setMargin(1);
 	// Ajout de la grille de couleurs personnelles dans le layout principal
@@ -152,7 +152,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 	selecteurLayout->addWidget(separateur2);
 
 	// Création du layout des couleurs speciales
-	QHBoxLayout *couleursSpeciales = new QHBoxLayout();
+    couleursSpeciales = new QHBoxLayout();
 	couleursSpeciales->setSpacing(1);
 	couleursSpeciales->setMargin(0);
 	// Ajout du layout des couleurs specuales dans le layout principal
@@ -204,6 +204,23 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 
 	// On autorise ou pas la selection des couleurs de masquage/demasquage en fonction de la nature de l'utilisateur (MJ/joueur)
 	autoriserOuInterdireCouleurs();
+}
+SelecteurCouleur::~SelecteurCouleur()
+{
+    delete couleurActuelle;
+    delete couleurEfface;
+    delete couleurMasque;
+    delete couleurDemasque;
+    delete[] couleurPredefinie;
+    delete[] couleurPersonnelle;
+    delete separateur1;
+    delete separateur2;
+    delete efface_pix;
+    delete masque_pix;
+    delete demasque_pix;
+    delete couleursSpeciales;
+    delete grillePerso;
+    delete selecteurLayout;
 }
 
 /********************************************************************/		

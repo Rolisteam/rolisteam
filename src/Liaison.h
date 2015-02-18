@@ -42,48 +42,49 @@
 #include "types.h"
 #include "LecteurAudio.h"
 
-    class Liaison : public QThread
-    {
-	Q_OBJECT
+class Liaison : public QThread
+{
+Q_OBJECT
 
-    public :
-		Liaison(QTcpSocket *socket, QObject * parent = 0);
+public :
+    Liaison(QTcpSocket *socket, QObject * parent = 0);
+    ~Liaison();
 
-	public slots :
-		void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf = 0);
-		
-    signals :
+public slots :
+    void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf = 0);
 
-	protected :
-		void run();
+signals :
 
-    private :
-		void receptionMessageConnexion();
-		void receptionMessageJoueur();
-		void receptionMessagePersoJoueur();
-		void receptionMessagePersoNonJoueur();
-		void receptionMessagePersonnage();
-		void receptionMessageDessin();
-		void receptionMessagePlan();
-		void receptionMessageImage();
-		void receptionMessageDiscussion();
-		void receptionMessageMusique();
-		void receptionMessageParametres();
-		void faireSuivreMessage(bool tous);
-		void emettreUtilisateur(utilisateur *util, bool multi = false);
-		int extrairePersonnage(Carte *carte, char *tampon);
+protected :
+    void run();
 
-		QTcpSocket *socketTcp;		// Socket gere par le thread
-		enteteMessage entete;		// Contient l'entete du message en cours de reception
-		bool receptionEnCours;		// Indique si un message est actuellement en cours de reception
-		char *tampon;				// Tampon contenant le message en court de reconstitution
-		quint32 restant;			// Taille des donnees restant a receptionner
-		LecteurAudio* G_lecteurAudio;
+private :
+    void receptionMessageConnexion();
+    void receptionMessageJoueur();
+    void receptionMessagePersoJoueur();
+    void receptionMessagePersoNonJoueur();
+    void receptionMessagePersonnage();
+    void receptionMessageDessin();
+    void receptionMessagePlan();
+    void receptionMessageImage();
+    void receptionMessageDiscussion();
+    void receptionMessageMusique();
+    void receptionMessageParametres();
+    void faireSuivreMessage(bool tous);
+    void emettreUtilisateur(utilisateur *util, bool multi = false);
+    int extrairePersonnage(Carte *carte, char *tampon);
 
-	private slots :
-		void reception();
-		void erreurDeConnexion(QAbstractSocket::SocketError);
+    QTcpSocket *socketTcp;		// Socket gere par le thread
+    enteteMessage entete;		// Contient l'entete du message en cours de reception
+    bool receptionEnCours;		// Indique si un message est actuellement en cours de reception
+    char *tampon;				// Tampon contenant le message en court de reconstitution
+    quint32 restant;			// Taille des donnees restant a receptionner
+    LecteurAudio* G_lecteurAudio;
 
-	};
+private slots :
+    void reception();
+    void erreurDeConnexion(QAbstractSocket::SocketError);
+
+};
 
 #endif
