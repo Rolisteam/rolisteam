@@ -1,0 +1,13 @@
+//////////////////////////////////////////////////////////////////////
+/
+/
+/
+/			Rolisteam - Unit Test Tools
+/
+/
+/
+/////////////////////////////////////////////////////////////////////
+
+To compile and test the application
+Please set the path to rolisteam (V2) in TestUnitRolisteamV2.pri
+ROLISTEAMSRC must point to the rolisteam directory. 
