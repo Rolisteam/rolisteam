@@ -1,0 +1,13 @@
+[Desktop Entry]
+X-AppInstall-Package=rolisteam
+X-AppInstall-Section=universe
+
+Type=Application
+Name=Rolisteam
+Icon=/usr/share/app-install/icons/rolisteam.svg
+Version=1.5.0
+Comment=Manage your role playing game
+Exec=/usr/bin/rolisteam
+Terminal=false
+Categories=Game;
+

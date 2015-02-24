@@ -1,0 +1,23 @@
+Source: rolisteam
+Section: unknown
+Priority: extra
+Maintainer: Renaud Guezennec <renaud@rolisteam.org>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.8.0
+Homepage: http://code.google.com/p/rolisteam/
+
+Package: rolisteam
+Section: games
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Manage easily your role playing games
+ Rolisteam can help you to manage a role playing game. It allows you to share
+ maps with your players, private or global chat and control music player.
+
+Package: rolisteam-doc
+Section: doc
+Architecture: all
+Depends: rolisteam (>= 1.0.0)
+Description: Documentation for rolisteam
+ Technical Documentation of rolisteam
+
