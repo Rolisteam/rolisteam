@@ -25,6 +25,7 @@
 
 #include <QSet>
 #include <QString>
+#include <QObject>
 
 class Liaison;
 class NetworkMessage;

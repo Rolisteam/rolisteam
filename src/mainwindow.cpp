@@ -35,6 +35,9 @@
 #include <QTime>
 #include <QUrl>
 #include <QUuid>
+#include <QStatusBar>
+
+
 
 #include "mainwindow.h"
 
@@ -61,7 +64,7 @@
 #include "variablesGlobales.h"
 
 #ifndef NULL_PLAYER
-#include "LecteurAudio.h"
+#include "audioPlayer.h"
 #endif
 
 // Indique si le nom des PJ doit etre affiche ou pas
@@ -231,7 +234,7 @@ void MainWindow::setupUi()
 
 
 #ifndef NULL_PLAYER
-    m_audioPlayer = LecteurAudio::getInstance(this);
+    m_audioPlayer = AudioPlayer::getInstance(this);
     addDockWidget(Qt::RightDockWidgetArea,m_audioPlayer );
 #endif
     //readSettings();

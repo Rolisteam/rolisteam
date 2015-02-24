@@ -31,7 +31,7 @@
 
 class Carte;
 #ifndef NULL_PLAYER
-    class LecteurAudio;
+    class AudioPlayer;
 #endif
 
 /**
@@ -80,7 +80,7 @@ private :
     char *tampon;				 // Tampon contenant le message en court de reconstitution
     quint32 restant;			 // Taille des donnees restant a receptionner
 #ifndef NULL_PLAYER
-    LecteurAudio* m_audioPlayer;
+    AudioPlayer* m_audioPlayer;
 #endif
     MainWindow* m_mainWindow;
     ClientServeur* m_networkManager;

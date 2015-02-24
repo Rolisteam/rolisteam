@@ -365,22 +365,22 @@ void ChatList::addPlayerChat(Player * player)
 
 void ChatList::delPlayer(Player * player)
 {
-    bool shouldReset = false;
     foreach (QMdiSubWindow* tmp, m_chatSubWindowList)
     {
         ChatWindow* chatw = static_cast<ChatWindow*>(tmp->widget());
         if((NULL!=chatw) && (chatw->chat()->belongsTo(player)))
         {
-            m_chatSubWindowList.removeOne(tmp);
-            m_chatWindowList.removeOne(chatw);
-            chatw->deleteLater();
-            shouldReset = true;
-            delete tmp;
+            int pos = m_chatWindowList.indexOf(chatw);
+            if (pos >= 0)
+            {
+                beginRemoveRows(QModelIndex(), pos, pos);
+                m_chatSubWindowList.removeOne(tmp);
+                m_chatWindowList.removeOne(chatw);
+                chatw->deleteLater();
+                endRemoveRows();
+                delete tmp;
+            }
         }
-    }
-    if (shouldReset)
-    {
-        reset();
     }
 }
 

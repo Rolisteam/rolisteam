@@ -5,7 +5,7 @@
 #include <QtCore>
 #include <QtGui>
 #include <QDebug>
-#include <QHttpRequestHeader>
+#include <QNetworkAccessManager>
 
 #include <QDomDocument>
 #include <QTextTableFormat>
@@ -43,24 +43,25 @@ void copyDeep( QIODevice* device , QXmlStreamWriter &out  );
 };
 
 
-class LoadGetImage : public QHttp
+class LoadGetImage : public QObject
 {
     Q_OBJECT
 //
 public: 
      LoadGetImage( const QString nr , QUrl url_send );
      void Start();
-     inline int Htpp_id() { return Http_id; } 
+    // inline int Htpp_id() { return Http_id; }
      inline QPixmap pics() { return resultimage; } 
      QString cid;
-     int Http_id;
-    QHttpRequestHeader header;
+     //int Http_id;
     QUrl url;
     QPixmap resultimage;
     signals:
       void take(QString);
     public slots:
-     void ImageReady( bool error );
+     void ImageReady(QNetworkReply* reply  );
+private:
+     QNetworkAccessManager* m_manager;
 };
 
 

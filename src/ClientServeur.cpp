@@ -133,7 +133,7 @@ bool ClientServeur::configAndConnect()
         }
         synchronizePreferences();
         m_localPlayer = new Player(
-                QUuid(G_idJoueurLocal),
+                QUuid(G_idJoueurLocal).toString(),
                 m_configDialog->getName(),
                 m_configDialog->getColor(),
                 m_configDialog->isGM()

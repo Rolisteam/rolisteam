@@ -66,7 +66,7 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <QPrintPreviewDialog>
-
+#include <QStatusBar>
 
 ////// #include "OOReader.h"
 

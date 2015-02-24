@@ -47,6 +47,7 @@
 #include <QMainWindow>
 #include <QMap>
 #include <QPointer>
+#include <QPrinter>
 
 #include "OOReader.h"
 

@@ -44,7 +44,7 @@
 #include "newemptymapdialog.h"
 
 #ifndef NULL_PLAYER
-#include "LecteurAudio.h"
+#include "audioPlayer.h"
 #endif
 
 class UpdateChecker;
@@ -336,7 +336,7 @@ private :
     QList <QMdiSubWindow*> m_pictureList;
     QMap<CarteFenetre*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
-    LecteurAudio* m_audioPlayer;
+    AudioPlayer* m_audioPlayer;
 #endif
 
     PreferencesDialog * m_preferencesDialog;

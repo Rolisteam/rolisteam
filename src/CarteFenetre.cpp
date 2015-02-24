@@ -30,7 +30,7 @@
 
 
 #include "variablesGlobales.h"
-
+#include <QScrollBar>
 
 
 CarteFenetre::CarteFenetre(Carte *uneCarte, QWidget *parent)

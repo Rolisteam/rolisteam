@@ -1,4 +1,7 @@
 #include "XML_Editor.h"
+#include <QScrollBar>
+#include <QMessageBox>
+#include <QMenu>
 
 XMLTextEdit::XMLTextEdit(QWidget *parent)
   : QTextEdit(parent)
@@ -7,7 +10,7 @@ XMLTextEdit::XMLTextEdit(QWidget *parent)
   highlight = new XmlHighlighter(document());
   setLineWrapMode ( QTextEdit::NoWrap );
   setAcceptRichText ( false );
-  connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(update()));
+  QObject::connect(verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(update()));
   connect(this, SIGNAL(textChanged()), this, SLOT(update()));
 }
 
@@ -263,7 +266,7 @@ void XmlHighlighter::highlightBlock(const QString& text)
 
 	for (; i < text.length(); i++)
 	{
-		switch (text.at(i).toAscii())
+        switch (text.at(i).toLatin1())
 		{
 		case '<':
 			brackets++;

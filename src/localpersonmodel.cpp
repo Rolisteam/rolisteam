@@ -46,7 +46,7 @@ QModelIndex LocalPersonModel::mapFromSource(const QModelIndex & sourceIndex) con
     switch (parentRow)
     {
         case 0:
-            return createIndex(sourceIndex.row() + 1, sourceIndex.column(), 0);
+            return createIndex(sourceIndex.row() + 1, sourceIndex.column(), parentRow);
         case PlayersList::NoParent:
             if (sourceIndex.row() == 0)
                 return createIndex(0, sourceIndex.column(), parentRow);

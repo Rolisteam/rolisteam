@@ -86,7 +86,7 @@ void Carte::p_init()
 
     setAutoFillBackground(true);
     QPalette pal = palette();
-    pal.setColor(QPalette::Window, PreferencesManager::getInstance()->value("Mask_color",Qt::darkMagenta).value<QColor>());
+    pal.setColor(QPalette::Window, PreferencesManager::getInstance()->value("Mask_color",QColor(Qt::darkMagenta)).value<QColor>());
     setPalette(pal);
     
     // variable Initialisation
@@ -860,7 +860,7 @@ QRect Carte::zoneARafraichir()
     m_mousePoint=mapToScale(m_mousePoint);*/
 
    // qDebug() << "Refresh zone1: " << m_backgroundImage->rect() << resultat << m_mousePoint << m_originePoint ;
-    m_refreshZone = resultat.intersect(m_backgroundImage->rect());
+    m_refreshZone = resultat.intersected(m_backgroundImage->rect());
    //qDebug() << "Refresh zone2: " <<resultat.intersect(m_backgroundImage->rect()) << width() << height();
     return m_refreshZone;//rect();
 }
@@ -2226,7 +2226,7 @@ QColor Carte::getFogColor()
 {
     if(!G_joueur)
     {
-       return PreferencesManager::getInstance()->value("Fog_color",QVariant(Qt::black)).value<QColor>();
+       return PreferencesManager::getInstance()->value("Fog_color",QColor(Qt::black)).value<QColor>();
     }
     else
     {

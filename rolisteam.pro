@@ -5,7 +5,8 @@
 ##################################################
 
 ## Generic parameter
-CONFIG += phonon -console
+CONFIG +=  -console
+QT += widgets printsupport
 #-console
 TEMPLATE = app
 TARGET = bin/rolisteam
@@ -19,7 +20,7 @@ UI_DIR = src
 
 
 macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
-CONFIG += HAVE_PHONON
+CONFIG += HAVE_SOUND
 #CONFIG += HAVE_NULL
 
 ## Translation
@@ -107,7 +108,8 @@ HEADERS += src/AfficheurDisque.h \
     src/mapwizzard.h \
     src/newemptymapdialog.h \
     src/widgets/colorbutton.h \
-    src/widgets/filedirchooser.h
+    src/widgets/filedirchooser.h \
+    src/audioPlayer.h
 
 
 
@@ -154,17 +156,17 @@ SOURCES += src/AfficheurDisque.cpp \
     src/mapwizzard.cpp \
     src/newemptymapdialog.cpp \
     src/widgets/colorbutton.cpp \
-    src/widgets/filedirchooser.cpp
+    src/widgets/filedirchooser.cpp \
+    src/audioPlayer.cpp
 #end source
 
 
 #Audio configuration
-HAVE_PHONON {
- DEFINES+= PHONON
- HEADERS += src/LecteurAudio.h
- FORMS += src/LecteurAudio.ui
- SOURCES +=  src/LecteurAudio.cpp
- QT += phonon
+HAVE_SOUND {
+ DEFINES+= HAVE_SOUND
+ HEADERS +=
+ SOURCES += 
+# QT += phonon
 }
 
 HAVE_NULL {
@@ -208,6 +210,7 @@ FORMS += \
     src/connectionretrydialog.ui \
     src/mapwizzard.ui \
     src/newemptymapdialog.ui \
+    src/AudioPlayer.ui \
     src/chatwindow.ui \
     src/preferencesdialogbox.ui
 

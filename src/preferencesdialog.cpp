@@ -88,10 +88,10 @@ void PreferencesDialog::load()
     //MAP
     ///////////////////////
     //Fog of WAR
-    QColor fog=m_preferences->value("Fog_color",Qt::black).value<QColor>();
+    QColor fog=m_preferences->value("Fog_color",QColor(Qt::black)).value<QColor>();
     ui->m_opacitySlider->setValue(m_preferences->value("Fog_opacity",fog.red()).toInt());
     ui->m_opacitySpin->setValue(m_preferences->value("Fog_opacity",fog.red()).toInt());
-    ui->m_fogColor->setColor(m_preferences->value("Mask_color",Qt::darkMagenta).value<QColor>());
+    ui->m_fogColor->setColor(m_preferences->value("Mask_color",QColor(Qt::darkMagenta)).value<QColor>());
 
     //Default Permission
     ui->m_defaultMapModeCombo->setCurrentIndex(m_preferences->value("defaultPermissionMap",0).toInt());

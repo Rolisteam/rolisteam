@@ -22,6 +22,8 @@
 
 #include <QtGui>
 #include <QDebug>
+#include <QScrollBar>
+#include <QShortcut>
 
 #include "Image.h"
 

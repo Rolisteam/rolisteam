@@ -267,7 +267,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     QString messageTitle="";
     QColor color;
 
-    switch(tmpmessage[0].toAscii())
+    switch(tmpmessage[0].toLatin1())
     {
     case '!':
         result = calculerJetDes(message, tirage, ok);
@@ -820,7 +820,7 @@ int ChatWindow::calculerJetDesSR4(QString &message, QString &tirage, QString &gl
         if(firstChar.isLetter())
             firstChar.toCaseFolded ();
 
-        switch(firstChar.toAscii())
+        switch(firstChar.toLatin1())
         {
         case '+':
             if (sixAgainActif)

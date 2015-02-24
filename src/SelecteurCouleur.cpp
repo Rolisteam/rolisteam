@@ -19,8 +19,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QtGui>
-
+#include <QVBoxLayout>
+#include <QMouseEvent>
+#include <QColorDialog>
 
 #include "SelecteurCouleur.h"
 #include "variablesGlobales.h"
@@ -129,7 +130,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
                 couleurPersonnelle[i]->setToolTip(tr("Custom Color %1 ").arg(i+1));
 
 		// Mise a jour des couleurs personnelles de QColorDialog
-                QColorDialog::setCustomColor(i, m_preferences->value(QString("customcolors%1").arg(i),Qt::white).value<QColor>().rgb());
+                QColorDialog::setCustomColor(i, m_preferences->value(QString("customcolors%1").arg(i),QColor(Qt::white)).value<QColor>().rgb());
 
 		// Ajout du widget au layout
 		grillePerso->addWidget(couleurPersonnelle[i], y, x);

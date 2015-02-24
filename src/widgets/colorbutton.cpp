@@ -23,18 +23,17 @@
 #include "colorbutton.h"
 
 #include <QColorDialog>
-#include <QPlastiqueStyle>
-#include <QCleanlooksStyle>
 #include <QPaintEvent>
 #include <QStyleOptionFocusRect>
 #include <QDebug>
+#include <QStyleFactory>
 
 
 ColorButton::ColorButton(QWidget * parent,bool transparency)
     : QPushButton(parent), m_color(QColor("tan")), m_dialog(QColor("tan"), this)
 {
 
-    setStyle(new QCleanlooksStyle());
+    setStyle(QStyleFactory::create("fusion"));
     //}
     setColor(m_color);
 
@@ -53,7 +52,7 @@ ColorButton::ColorButton(const QColor & color, QWidget * parent)
     : QPushButton(parent), m_color(color), m_dialog(color, this)
 {
 
-    setStyle(new QCleanlooksStyle());
+    setStyle(QStyleFactory::create("fusion"));
 
     setColor(m_color);
 

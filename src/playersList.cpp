@@ -768,7 +768,7 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 
 void PlayersList::delPlayer(NetworkMessageReader & data)
 {
-    /// @todo: If the player is the GM, call LecteurAudio::pselectNewFile("").
+    /// @todo: If the player is the GM, call AudioPlayer::pselectNewFile("").
 
 
     QString uuid = data.string8();
@@ -835,10 +835,12 @@ void PlayersList::sendDelLocalPlayer()
 }
 void PlayersList::completeListClean()
 {
+    beginResetModel();
     m_playersList.clear();
     m_uuidMap.clear();
-    reset();
+    //reset();
     m_localPlayer=NULL;
+    endResetModel();
 }
 
 /*********

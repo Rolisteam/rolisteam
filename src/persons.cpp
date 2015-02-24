@@ -36,7 +36,7 @@
 Person::Person(const QString & name, const QColor & color)
     : m_name(name), m_color(color)
 {
-    m_uuid = QUuid::createUuid();
+    m_uuid = QUuid::createUuid().toString();
 }
 
 Person::Person(const QString & uuid, const QString & name, const QColor & color)

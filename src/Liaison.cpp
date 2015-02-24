@@ -36,7 +36,7 @@
 #include "receiveevent.h"
 
 #ifndef NULL_PLAYER
-#include "LecteurAudio.h"
+#include "audioPlayer.h"
 #endif
 
 #include "types.h"
@@ -56,7 +56,7 @@ Liaison::Liaison(QTcpSocket *socket)
     m_socketTcp = socket;
     receptionEnCours = false;
 #ifndef NULL_PLAYER
-    m_audioPlayer = LecteurAudio::getInstance();
+    m_audioPlayer = AudioPlayer::getInstance();
 #endif
 
     setSocket(socket);

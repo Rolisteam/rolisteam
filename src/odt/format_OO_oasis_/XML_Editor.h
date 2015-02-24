@@ -11,7 +11,7 @@
 #include <QDebug>
 #include <QWidget>
 
-
+#include <QObject>
 class XmlHighlighter : public QSyntaxHighlighter
 {
 public:

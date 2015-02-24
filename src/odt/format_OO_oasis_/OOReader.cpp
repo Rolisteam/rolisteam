@@ -8,7 +8,8 @@
 #include "GZipWriter.h"
 #include "GZipReader.h"
 
-
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 /*                    file name and path , his data */
 QMap<QString,QByteArray> unzipstream( const QString file )
@@ -63,29 +64,27 @@ QMap<QString,QByteArray> unzipstream( const QString file )
 
 
 LoadGetImage::LoadGetImage( const QString nr , QUrl url_send  )
-		: QHttp(url_send.host(),QHttp::ConnectionModeHttp ,80)
+        //: QHttp(url_send.host(),QHttp::ConnectionModeHttp ,80)
 {
-	url = url_send;
+    m_manager = new QNetworkAccessManager();
+    url = url_send;
 	cid = nr;
-	setHost(url_send.host() , 80);
+
+
 }
 
 void LoadGetImage::Start()
 {
-	const QString METHOD =  "GET";
-	const QString agent = QString("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)");
-	header.setRequest(METHOD,url.path(),1,1);
-	header.setValue("Accept-Charset","ISO-8859-1,utf-8;q=0.7,*;q=0.7");
-	header.setValue("Host",url.host());
-	header.setValue("User-Agent",agent);
-	connect(this, SIGNAL(done(bool)), this , SLOT(ImageReady(bool)));
-	Http_id = request(header,0,0);
+    connect(m_manager, SIGNAL(finished(QNetworkReply*)), this , SLOT(ImageReady(QNetworkReply*)));
+    m_manager->get(QNetworkRequest(QUrl(url)));
+    //Http_id = request(header,0,0);
 }
 
-void LoadGetImage::ImageReady( bool error )
+void LoadGetImage::ImageReady( QNetworkReply* reply )
 {
-	if (!error) {
-		resultimage.loadFromData(readAll());
+    if (reply->error() == QNetworkReply::NoError)
+    {
+        resultimage.loadFromData(reply->readAll());
 		if (!resultimage.isNull()) {
 			emit take(cid);
 		}
@@ -485,8 +484,9 @@ bool OOReader::convertBlock( QTextCursor &cur , QDomElement e  , const int proce
 		else if (child.isText()) {
 			insertTextLine(cur,child.nodeValue().split("\n"),spanFor);
 		}
-		else if (child.isCDATASection()) {
-			QString pretag = Qt::escape(child.nodeValue());
+        else if (child.isCDATASection())
+        {
+            QString pretag = QString(child.nodeValue()).toHtmlEscaped();
 			pretag.prepend("<pre>");
 			pretag.append("</pre>");
 			QTextDocumentFragment fragment = QTextDocumentFragment::fromHtml(pretag);

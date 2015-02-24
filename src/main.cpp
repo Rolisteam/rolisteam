@@ -21,7 +21,15 @@
  *************************************************************************/
 
 
-#include <QtGui>
+#include <QApplication>
+#include <QTextCodec>
+#include <QResource>
+#include <QTranslator>
+#include <QDateTime>
+#include <QUuid>
+
+
+
 
 #include <time.h>
 
@@ -92,9 +100,9 @@ int main(int argc, char *argv[])
     app.setApplicationVersion(version);
 
     // Internationalization
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+   // QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+    //QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
     QString locale = QLocale::system().name();
 
     // Ressources

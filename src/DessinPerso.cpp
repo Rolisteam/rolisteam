@@ -21,11 +21,13 @@
 
 
 #include <QtGui>
+#include <QVBoxLayout>
+
+
 #include <math.h>
 
-#include "DessinPerso.h"
 #include "variablesGlobales.h"
-
+#include "DessinPerso.h"
 
 /********************************************************************/
 /* Variables globales utilisees par tous les elements de            */
