@@ -6,7 +6,7 @@
 
 ## Generic parameter
 CONFIG +=  -console
-QT += widgets printsupport
+QT += widgets printsupport multimedia
 #-console
 TEMPLATE = app
 TARGET = bin/rolisteam
@@ -109,7 +109,7 @@ HEADERS += src/AfficheurDisque.h \
     src/newemptymapdialog.h \
     src/widgets/colorbutton.h \
     src/widgets/filedirchooser.h \
-    src/audioPlayer.h
+    src/audio/audioPlayer.h
 
 
 
@@ -157,7 +157,7 @@ SOURCES += src/AfficheurDisque.cpp \
     src/newemptymapdialog.cpp \
     src/widgets/colorbutton.cpp \
     src/widgets/filedirchooser.cpp \
-    src/audioPlayer.cpp
+    src/audio/audioPlayer.cpp
 #end source
 
 
@@ -210,9 +210,11 @@ FORMS += \
     src/connectionretrydialog.ui \
     src/mapwizzard.ui \
     src/newemptymapdialog.ui \
-    src/AudioPlayer.ui \
     src/chatwindow.ui \
-    src/preferencesdialogbox.ui
+    src/preferencesdialogbox.ui \
+    src/audio/audiowidget.ui
+
+INCLUDEPATH +=src/audio
 
 OTHER_FILES += \
     src/widgets/widgets.pro \

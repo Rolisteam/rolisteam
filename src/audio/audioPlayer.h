@@ -41,27 +41,54 @@
 #include <QVBoxLayout>
 #include <QMutex>
 #include "types.h"
+#include <QMediaPlayer>
 
-
-#ifdef PHONON
-    #ifndef _PHONON_INCLUDE_QT_
-        #include <Phonon/MediaSource>
-        #include <Phonon/SeekSlider>
-        #include <Phonon/MediaObject>
-        #include <Phonon/AudioOutput>
-        #include <Phonon/VolumeSlider>
-        #include <Phonon/Path>
-    #else
-        #include <mediasource.h>
-        #include <seekslider.h>
-        #include <mediaobject.h>
-        #include <volumeslider.h>
-        #include <audiooutput.h>
-    #endif
-#endif
 #include "preferencesmanager.h"
 
 class Liaison;
+
+
+namespace Ui {
+class AudioWidgetUI;
+}
+/**
+ * @brief The PlayerWidget class
+ */
+class PlayerWidget : public QWidget
+{
+    Q_OBJECT
+public:
+    PlayerWidget(QWidget* parent = NULL);
+    void startMedia(QMediaContent*);
+    void stop();
+    void pause();
+
+private:
+    void setupUi();
+    void updateIcon();
+
+signals:
+    void positionChanged(int);
+    void volumeChanged(int);
+    void askNext();
+    void askPrevious();
+
+
+private:
+    QSlider* m_volume;
+    QSlider* m_seek;
+    QMediaPlayer m_player;
+    QMediaContent* m_content;
+    QAction* m_playAct;
+    QAction* m_stopAct;
+    QAction* m_pauseAct;
+    QAction* m_nextAct;
+    QAction* m_previousAct;
+    QAction* m_volumeMutedAct;
+
+    Ui::AudioWidgetUI* m_ui;
+};
+
 /**
     * @brief This player can be used by the GM to play songs.
     * Regular players can just change the volume level.
@@ -88,7 +115,7 @@ public :
     void pselectNewFile(QString file);
     void pseek(quint32 position);
 
-    void setSource(QString path);
+    QMediaContent* setSource(QString p);
 
     void updateUi();
 
@@ -127,17 +154,13 @@ private :
         */
     void setupUi();
     qint64 m_time;//!< @brief current time
-/*    Phonon::MediaSource *m_currentSource;//!< @brief current audio source
-    Phonon::MediaObject *m_mediaObject; //!<  (Phonon only)
-    Phonon::AudioOutput *audioOutput; //!< (Phonon only)
-    Phonon::Path* path; //!< (Phonon only)
-    Phonon::VolumeSlider *m_volumeLevelSlider;//!< @brief Allows to adjust the sound volume (Phonon only)
-    Phonon::SeekSlider *m_timePosition;//!< @brief Allows to seek in the song (Phonon only)*/
+    QSlider* m_volumeSlider;
+    QMediaPlayer* m_mediaPlayer;
 
     QWidget* m_mainWidget;        //!< @brief brings together all subwidget
     QWidget* m_displayWidget;        //!< @brief Displays some gauges (for Player and GM.)
     QWidget* m_commandWidget;        //!< @brief Displays the control panel (GM only)
-    QVBoxLayout *layoutPrincipal;    //!< @brief layout
+    QVBoxLayout *m_mainLayout;    //!< @brief layout
     QLineEdit *m_titleDisplay;        //!< @brief Displays the title of the played song
 
     QString m_currentFile;
@@ -173,14 +196,16 @@ private slots :
     void tick(qint64 time);
 
     /**
-    * @brief called when state has been changed
+    * @brief statusChanged called when state has been changed
     */
-//    void stateChanged(Phonon::State newState, Phonon::State oldState);
+    void statusChanged(QMediaPlayer::MediaStatus status);
 
     /**
     * @brief called when the audio source has been changed
     */
-  //  void sourceChanged(const Phonon::MediaSource &source);
+    void playerStatusChanged(QMediaPlayer::State state);
+    void sourceChanged(const QMediaContent & media);
+
     /**
     * @brief Send some informations to the given player
     */
