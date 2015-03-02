@@ -96,7 +96,6 @@ HEADERS += src/AfficheurDisque.h \
            src/chatwindow.h \
            src/TextEditAmeliore.h \
            src/types.h \
-           src/typesApplication.h \
            src/updatechecker.h \
            src/variablesGlobales.h \
            src/WorkspaceAmeliore.h \
@@ -109,7 +108,9 @@ HEADERS += src/AfficheurDisque.h \
     src/newemptymapdialog.h \
     src/widgets/colorbutton.h \
     src/widgets/filedirchooser.h \
-    src/audio/audioPlayer.h
+    src/audio/audioPlayer.h \
+    src/audio/musicmodel.h \
+    src/audio/playerwidget.h
 
 
 
@@ -157,7 +158,9 @@ SOURCES += src/AfficheurDisque.cpp \
     src/newemptymapdialog.cpp \
     src/widgets/colorbutton.cpp \
     src/widgets/filedirchooser.cpp \
-    src/audio/audioPlayer.cpp
+    src/audio/audioPlayer.cpp \
+    src/audio/musicmodel.cpp \
+    src/audio/playerwidget.cpp
 #end source
 
 
