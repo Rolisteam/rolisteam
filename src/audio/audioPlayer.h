@@ -35,60 +35,19 @@
 #include <QSlider>
 #include <QAction>
 #include <QLCDNumber>
-#include <QListWidget>
+#include <QListView>
 #include <QList>
 #include <QString>
 #include <QVBoxLayout>
 #include <QMutex>
-#include "types.h"
 #include <QMediaPlayer>
+#include <QEvent>
 
+#include "types.h"
 #include "preferencesmanager.h"
-
+#include "musicmodel.h"
+#include "playerwidget.h"
 class Liaison;
-
-
-namespace Ui {
-class AudioWidgetUI;
-}
-/**
- * @brief The PlayerWidget class
- */
-class PlayerWidget : public QWidget
-{
-    Q_OBJECT
-public:
-    PlayerWidget(QWidget* parent = NULL);
-    void startMedia(QMediaContent*);
-    void stop();
-    void pause();
-
-private:
-    void setupUi();
-    void updateIcon();
-
-signals:
-    void positionChanged(int);
-    void volumeChanged(int);
-    void askNext();
-    void askPrevious();
-
-
-private:
-    QSlider* m_volume;
-    QSlider* m_seek;
-    QMediaPlayer m_player;
-    QMediaContent* m_content;
-    QAction* m_playAct;
-    QAction* m_stopAct;
-    QAction* m_pauseAct;
-    QAction* m_nextAct;
-    QAction* m_previousAct;
-    QAction* m_volumeMutedAct;
-
-    Ui::AudioWidgetUI* m_ui;
-};
-
 /**
     * @brief This player can be used by the GM to play songs.
     * Regular players can just change the volume level.
@@ -115,10 +74,13 @@ public :
     void pselectNewFile(QString file);
     void pseek(quint32 position);
 
-    QMediaContent* setSource(QString p);
+    //QMediaContent* setSource(QModelIndex p);
 
     void updateUi();
 
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+    void showContextMenu(QContextMenuEvent* ev);
 
 public slots:
     void pstop();
@@ -137,9 +99,6 @@ private :
     QString getDirectoryKey();
     void playerWidget();
 
-    void defineSource(QListWidgetItem*);
-
-
         /**
         * @brief send command to a client
         */
@@ -154,33 +113,34 @@ private :
         */
     void setupUi();
     qint64 m_time;//!< @brief current time
-    QSlider* m_volumeSlider;
-    QMediaPlayer* m_mediaPlayer;
+
+
 
     QWidget* m_mainWidget;        //!< @brief brings together all subwidget
-    QWidget* m_displayWidget;        //!< @brief Displays some gauges (for Player and GM.)
-    QWidget* m_commandWidget;        //!< @brief Displays the control panel (GM only)
-    QVBoxLayout *m_mainLayout;    //!< @brief layout
-    QLineEdit *m_titleDisplay;        //!< @brief Displays the title of the played song
+    QVBoxLayout* m_mainLayout;
+
 
     QString m_currentFile;
-    QListWidgetItem* m_currentItemFile;
-    QListWidgetItem* m_formerItemFile;
+    //QListWidgetItem* m_currentItemFile;
+   // QListWidgetItem* m_formerItemFile;
 
 
-    QLCDNumber* m_timerDisplay;        //!< @brief displays the past time of the playing
-    QListWidget* m_songList;        //!< @brief displays all avaliable songs
+
+    QListView* m_songList;        //!< @brief displays all avaliable songs
+    MusicModel* m_model;
     QList<QString> m_pathList;            //!< @brief Path list
     QActionGroup* m_playingMode;
-    QAction* m_playAction;            //!< @brief Play action
-    QAction* m_pauseAction;            //!< @brief Pause action
-    QAction* m_stopAction;            //!< @brief Stop action
+    QAction* m_playOnFirstAction;            //!< @brief Play action
+    QAction* m_playOnSecondAction;            //!< @brief Pause action
+    QAction* m_playOnThirdAction;            //!< @brief Stop action
     QAction* m_loopAction;            //!< @brief loop playing action
     QAction* m_uniqueAction;            //!< @brief one song playing mode action
     QAction* m_addAction;            //!< @brief add song action
     QAction* m_deleteAction;        //!< @brief remove song action
 
-
+    PlayerWidget* m_mainPlayer;
+    PlayerWidget* m_secondPlayer;
+    PlayerWidget* m_thirdPlayer;
 
 
     PlayingMode m_currentPlayingMode;
@@ -193,7 +153,7 @@ private slots :
     /**
     * @brief received the time
     */
-    void tick(qint64 time);
+    //void tick(qint64 time);
 
     /**
     * @brief statusChanged called when state has been changed
@@ -204,7 +164,7 @@ private slots :
     * @brief called when the audio source has been changed
     */
     void playerStatusChanged(QMediaPlayer::State state);
-    void sourceChanged(const QMediaContent & media);
+
 
     /**
     * @brief Send some informations to the given player
@@ -219,7 +179,7 @@ private slots :
     /**
     * @brief  slot which manage the click on add song button
     */
-    void clickOnList(QListWidgetItem * p);
+    void clickOnList(QModelIndex p);
     /**
     * @brief  slot which manage the click on remove song button
     */
@@ -251,6 +211,8 @@ private slots :
     void emitCurrentState();
 
     void volumeHasChanged(qreal);
+
+    void startSongOnSpecificPlayer();
 };
 
 #endif

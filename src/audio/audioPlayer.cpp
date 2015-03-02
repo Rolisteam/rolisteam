@@ -18,92 +18,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include "audioPlayer.h"
 
 
 #include <QToolButton>
 #include <QFileDialog>
 #include <QPushButton>
+#include <QMenu>
+#include <QContextMenuEvent>
+#include <QListView>
+#include <QDebug>
 
-
-#include "audioPlayer.h"
 
 #include "ClientServeur.h"
 #include "Liaison.h"
-
 #include "variablesGlobales.h"
-
 #include "types.h"
-
-#include <QDebug>
 #define FACTOR_WAIT 4
-
-
-#include "ui_audiowidget.h"
-
-
-
-PlayerWidget::PlayerWidget(QWidget* parent)
-    : QWidget(parent),m_ui(new Ui::AudioWidgetUI)
-{
-    m_ui->setupUi(this);
-    setupUi();
-}
-
-void PlayerWidget::startMedia(QMediaContent*)
-{
-
-}
-
-void PlayerWidget::stop()
-{
-
-}
-
-void PlayerWidget::pause()
-{
-
-}
-
-void PlayerWidget::setupUi()
-{
-    m_playAct = new QAction(style()->standardIcon(QStyle::SP_MediaPlay),tr("Play"),this);
-    m_pauseAct = new QAction(style()->standardIcon(QStyle::SP_MediaPause),tr("Pause"),this);
-    m_stopAct = new QAction(style()->standardIcon(QStyle::SP_MediaStop),tr("Stop"),this);
-    m_nextAct = new QAction(style()->standardIcon(QStyle::SP_MediaSkipForward),tr("Next"),this);
-    m_previousAct = new QAction(style()->standardIcon(QStyle::SP_MediaSkipBackward),tr("Previous"),this);
-    m_volumeMutedAct = new QAction(this);
-    updateIcon();
-
-    m_ui->m_volumeMutedButton->setDefaultAction(m_volumeMutedAct);
-    m_ui->m_playButton->setDefaultAction(m_playAct);
-    m_ui->m_pauseButton->setDefaultAction(m_pauseAct);
-    m_ui->m_stopButton->setDefaultAction(m_stopAct);
-    m_ui->m_nextButton->setDefaultAction(m_nextAct);
-    m_ui->m_previousButton->setDefaultAction(m_previousAct);
-
-
-
-}
-
-
-void PlayerWidget::updateIcon()
-{
-    if(m_volumeMutedAct->isChecked())
-    {
-        m_volumeMutedAct->setIcon(style()->standardIcon(QStyle::SP_MediaVolumeMuted));
-    }
-    else
-    {
-       m_volumeMutedAct->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
-    }
-}
-
-
-
-
-
-
-
 
 AudioPlayer * AudioPlayer::m_singleton = NULL;
 
@@ -116,14 +47,22 @@ AudioPlayer::AudioPlayer(QWidget *parent)
 
     m_endFile= false;
     m_currentPlayingMode = NEXT;
-    m_formerItemFile =NULL;
-    m_currentItemFile =NULL;
+
     if(G_joueur)/// fully defined by the GM
     {
             m_currentPlayingMode=UNIQUE;
     }
     //m_mediaPlayer = new QMediaPlayer(this);
 
+    m_playOnFirstAction = new QAction(tr("Play on First Player"),this);
+    m_playOnSecondAction = new QAction(tr("Play on second Player"),this);
+    m_playOnThirdAction = new QAction(tr("Play on third Player"),this);
+
+
+
+    connect(m_playOnFirstAction,SIGNAL(triggered()),this,SLOT(startSongOnSpecificPlayer()));
+    connect(m_playOnSecondAction,SIGNAL(triggered()),this,SLOT(startSongOnSpecificPlayer()));
+    connect(m_playOnThirdAction,SIGNAL(triggered()),this,SLOT(startSongOnSpecificPlayer()));
 
 
     setupUi();
@@ -140,27 +79,32 @@ AudioPlayer*  AudioPlayer::getInstance(QWidget *parent)
         }
         return m_singleton;
 }
-void AudioPlayer::onfinished()
-{
-    /// @todo the m_currentsource must be checked
-//    if (m_currentPlayingMode==LOOP)
-//    {
-//        if(m_currentSource!=NULL)
-//        {
-//            m_mediaObject->setCurrentSource(*m_currentSource);
-//            m_mediaObject->play();
 
-//        }
-//        else
-//        {
-//            m_mediaObject->stop();
-//        }
-//    }
-//    if(G_joueur)
-//    {
-//        m_mediaObject->stop();
-//    }
+void AudioPlayer::startSongOnSpecificPlayer()
+{
+    QAction* act = qobject_cast<QAction*>(sender());
+    if(NULL!=act)
+    {
+        PlayerWidget* destination = NULL;
+
+        if(act == m_playOnFirstAction)
+         {
+           destination= m_mainPlayer ;
+        }
+        else if(act == m_playOnSecondAction)
+        {
+           destination=m_secondPlayer;
+        }
+        else
+        {
+            destination=m_thirdPlayer;
+        }
+        destination->startMedia(m_model->getMediaByModelIndex(m_songList->currentIndex()));
+        //m_mainPlayer->startMedia(m_model->getMediaByModelIndex(p));
+    }
+
 }
+
 AudioPlayer::~AudioPlayer()
 {
     //m_preferences->registerValue("MusicVolume",audioOutput->volume());
@@ -177,10 +121,16 @@ void AudioPlayer::setupUi()
         m_mainWidget = new QWidget();
 
         m_mainLayout = new QVBoxLayout();
+        QString title(tr("Player %1"));
 
-        m_mainLayout->addWidget(new PlayerWidget());
-        m_mainLayout->addWidget(new PlayerWidget());
-        m_mainLayout->addWidget(new PlayerWidget());
+        m_mainPlayer = new PlayerWidget(title.arg(1));
+        m_secondPlayer = new PlayerWidget(title.arg(2));
+        m_thirdPlayer = new PlayerWidget(title.arg(3));
+
+
+        m_mainLayout->addWidget(m_mainPlayer);
+        m_mainLayout->addWidget(m_secondPlayer);
+        m_mainLayout->addWidget(m_thirdPlayer);
 
 
         QHBoxLayout* buttonLayout = new QHBoxLayout();
@@ -192,239 +142,78 @@ void AudioPlayer::setupUi()
         QToolButton *delButton= new QToolButton(this);
         QToolButton *addButton= new QToolButton(this);
 
+        delButton->setDefaultAction(m_deleteAction);
+        addButton->setDefaultAction(m_addAction);
+
         buttonLayout->addWidget(addButton);
         buttonLayout->addStretch();
         buttonLayout->addWidget(delButton);
 
         m_mainLayout->addLayout(buttonLayout);
 
-        m_songList = new QListWidget(this);
+        m_songList = new QListView(this);
+        m_songList->installEventFilter(this);
+        m_model = new MusicModel(this);
         m_songList->setSelectionMode(QAbstractItemView::SingleSelection);
+        m_songList->setModel(m_model);
 
         m_mainLayout->addWidget(m_songList);
 
         m_mainWidget->setLayout(m_mainLayout);
 
-       /* m_mainWidget = new QWidget();
-        m_displayWidget = new QWidget();
-        m_commandWidget = new QWidget();
-        layoutPrincipal = new QVBoxLayout(m_mainWidget);
-        //layoutPrincipal = new QVBoxLayout(this);
-        layoutPrincipal->setMargin(0);
-        QWidget *separateur1 = new QWidget();
-        separateur1->setFixedHeight(2);
-        layoutPrincipal->addWidget(separateur1);
-        layoutPrincipal->addWidget(m_displayWidget);
-        layoutPrincipal->addWidget(m_commandWidget);
-        QHBoxLayout *layoutAffichage = new QHBoxLayout(m_displayWidget);
-        layoutAffichage->setMargin(0);
-        m_titleDisplay = new QLineEdit();
-        m_titleDisplay->setReadOnly(true);
 
-        layoutAffichage->addWidget(m_titleDisplay);
-
-                QAction *actionChangerDossier = new QAction(QIcon(":/resources/icones/dossier.png"), tr("Select the directory contening all music files"), m_displayWidget);
-                QToolButton *boutonChangerDossier = new QToolButton(m_displayWidget);
-                boutonChangerDossier->setDefaultAction(actionChangerDossier);
-                boutonChangerDossier->setFixedSize(20, 20);
-                layoutAffichage->addWidget(boutonChangerDossier);
-                connect(actionChangerDossier, SIGNAL(triggered()), this, SLOT(pChangeDirectory()));
-
-
-        //m_volumeLevelSlider = new Phonon::VolumeSlider(this);
-       // audioOutput->setVolume(m_preferences->value("MusicVolume",1.0).toReal());
-        //m_volumeLevelSlider->setAudioOutput(audioOutput);
-        //m_volumeLevelSlider->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-
-        //layoutAffichage->addWidget(m_volumeLevelSlider);
-
-        QVBoxLayout *layoutCommande = new QVBoxLayout(m_commandWidget);
-        layoutCommande->setMargin(0);
-
-        QHBoxLayout *layoutTemps = new QHBoxLayout();
-        layoutTemps->setMargin(0);
-
-       // m_timePosition = new Phonon::SeekSlider(this);
-      //  m_timePosition->setMediaObject(m_mediaObject);
-       // m_timePosition->setStyle(new QCleanlooksStyle());
-
-        m_timerDisplay = new QLCDNumber();
-        m_timerDisplay->setDigitCount(5);
-        m_timerDisplay->setSegmentStyle(QLCDNumber::Flat);
-        m_timerDisplay->display("0:00");
-        m_timerDisplay->setFixedWidth(40);
-
-        //layoutTemps->addWidget(m_timePosition);
-        layoutTemps->addWidget(m_timerDisplay);
-
-        layoutCommande->addLayout(layoutTemps);
-
-        QHBoxLayout *layoutBoutons = new QHBoxLayout();
-        layoutBoutons->setMargin(0);
-        layoutBoutons->setSpacing(0);
-
-        m_loopAction	= new QAction(QIcon(":/resources/icones/boucle.png"), tr("Loop"), m_commandWidget);
-        m_uniqueAction	= new QAction(QIcon(":/resources/icones/lecture unique.png"), tr("Single shot"), m_commandWidget);
-
-
-        m_playAction = new QAction(style()->standardIcon(QStyle::SP_MediaPlay), tr("Play"), this);
-        m_playAction->setShortcut(Qt::Key_Space);
-        m_playAction->setDisabled(true);
-        m_pauseAction = new QAction(style()->standardIcon(QStyle::SP_MediaPause), tr("Pause"), this);
-        m_pauseAction->setDisabled(true);
-        m_stopAction = new QAction(style()->standardIcon(QStyle::SP_MediaStop), tr("Stop"), this);
-        m_stopAction->setDisabled(true);
-        m_stopAction->setCheckable(true);
-
-        m_playAction->setCheckable(true);
-        m_pauseAction->setCheckable(true);
-        m_loopAction->setCheckable(true);
-        m_uniqueAction->setCheckable(true);
-
-        QToolButton *boutonLecture= new QToolButton(m_commandWidget);
-        QToolButton *boutonPause= new QToolButton(m_commandWidget);
-        QToolButton *boutonStop= new QToolButton(m_commandWidget);
-        QToolButton *boutonBoucle= new QToolButton(m_commandWidget);
-        QToolButton *boutonUnique= new QToolButton(m_commandWidget);
-
-        boutonLecture->setDefaultAction(m_playAction);
-        boutonPause->setDefaultAction(m_pauseAction);
-        boutonStop->setDefaultAction(m_stopAction);
-        boutonBoucle->setDefaultAction(m_loopAction);
-        boutonUnique->setDefaultAction(m_uniqueAction);
-        boutonAjouter->setDefaultAction(m_addAction);
-        boutonSupprimer->setDefaultAction(m_deleteAction);
-
-        boutonLecture->setAutoRaise(true);
-        boutonPause->setAutoRaise(true);
-        boutonStop->setAutoRaise(true);
-        boutonBoucle->setAutoRaise(true);
-        boutonUnique->setAutoRaise(true);
-
-        boutonLecture->setFixedSize(20, 20);
-        boutonPause->setFixedSize(20, 20);
-        boutonStop->setFixedSize(20, 20);
-        boutonBoucle->setFixedSize(20, 20);
-        boutonUnique->setFixedSize(20, 20);
-        boutonAjouter->setFixedSize(70, 20);
-        boutonSupprimer->setFixedSize(70, 20);
-
-        QWidget *separateur2 = new QWidget();
-
-        layoutBoutons->addWidget(boutonLecture);
-        layoutBoutons->addWidget(boutonPause);
-        layoutBoutons->addWidget(boutonStop);
-        layoutBoutons->addWidget(boutonBoucle);
-        layoutBoutons->addWidget(boutonUnique);
-        layoutBoutons->addWidget(separateur2);
-        layoutBoutons->addWidget(boutonAjouter);
-        layoutBoutons->addWidget(boutonSupprimer);
-
-        layoutCommande->addLayout(layoutBoutons);
-        layoutCommande->addWidget(m_songList);
-
-        //connect(m_playAction, SIGNAL(triggered()), m_mediaObject, SLOT(play()));
-        //connect(m_pauseAction, SIGNAL(triggered()), m_mediaObject, SLOT(pause()));
-       // connect(m_stopAction, SIGNAL(triggered()), m_mediaObject, SLOT(stop()));
-
-        connect(m_mediaPlayer,SIGNAL(positionChanged(qint64)),this,SLOT(tick(qint64)));
-        connect(m_mediaPlayer,SIGNAL(durationChanged(qint64)),this,SLOT(setDuration(qint64)));
-
-       // connect(m_mediaObject, SIGNAL(finished()), this, SLOT(isAboutToFinish()));
-     //   connect(audioOutput,SIGNAL(volumeChanged(qreal)),this,SLOT(volumeHasChanged(qreal)));
-
-
-        m_playAction->setEnabled(false);
-        m_pauseAction->setEnabled(false);
-        m_stopAction->setEnabled(false);
-
-        m_deleteAction->setEnabled(false);
-    //    m_timePosition->setEnabled(false);*/
-        //connect(m_stopAction, SIGNAL(triggered()), this, SLOT(pstop()));
-        //connect(m_loopAction, SIGNAL(triggered()), this, SLOT(updatePlayingMode()));
-        //connect(m_uniqueAction, SIGNAL(triggered()), this, SLOT(updatePlayingMode()));
         connect(m_addAction, SIGNAL(triggered(bool)), this, SLOT(addFiles()));
         connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(removeFile()));
-        connect(m_songList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(clickOnList(QListWidgetItem *)));
-        connect(m_songList,SIGNAL(itemSelectionChanged()),this,SLOT(selectionHasChanged()),Qt::QueuedConnection);
+        connect(m_songList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickOnList(QModelIndex)));
+        //connect(m_songList,SIGNAL(itemSelectionChanged()),this,SLOT(selectionHasChanged()),Qt::QueuedConnection);
 
 }
-void AudioPlayer::clickOnList(QListWidgetItem * p)//double click
+void AudioPlayer::clickOnList(QModelIndex p)//double click
 {
-            defineSource(p);
+        if(NULL!=m_mainPlayer)
+        {
+            m_mainPlayer->startMedia(m_model->getMediaByModelIndex(p));
+        }
           //  m_mediaObject->play();
 }
-void AudioPlayer::updateUi()
-{
-    if(!G_joueur)
-    {
-     //   connect(m_mediaObject, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
-       // connect(m_mediaObject, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
-      //  this, SLOT(stateChanged(Phonon::State, Phonon::State)));
-     //   connect(m_mediaObject, SIGNAL(currentSourceChanged(const Phonon::MediaSource &)),
-     //   this, SLOT(sourceChanged(const Phonon::MediaSource &)));
-      //  connect(MainWindow::getInstance()->getNetWorkManager(), SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreEtat(Liaison *)));
-    }
-    else
-    {
-           playerWidget();
-    }
-}
-
-void AudioPlayer::defineSource(QListWidgetItem * p)
-{
-
-     m_formerItemFile = m_currentItemFile;
-     m_currentItemFile = p;
-
-     if(m_mutex.tryLock())
+bool AudioPlayer::eventFilter(QObject *obj, QEvent *event)
+ {
+     if (event->type() == QEvent::ContextMenu)
      {
-         //setSource(m_pathList[m_songList->row(m_currentItemFile)]);
-         QMediaContent* source = setSource(m_pathList[m_songList->row(m_currentItemFile)]);
-         m_mutex.unlock();
-      //   m_mediaObject->clear();
-      //   m_mediaObject->setCurrentSource(*m_currentSource);
-         m_mediaPlayer->setMedia(*source);
-         m_mediaPlayer->play();
-         emettreCommande(nouveauMorceau, p->text());
+         if(obj == m_songList)
+         {
+             QContextMenuEvent *menuEvent = static_cast<QContextMenuEvent *>(event);
+             showContextMenu(menuEvent);
+
+         }
+         return true;
      }
-}
-
-QMediaContent* AudioPlayer::setSource(QString p)
-{
-    //QFile* file = new QFile(p->getURI());
-
-    if(QFile::exists(p))
-    {
-        return new QMediaContent(QUrl::fromLocalFile(p));
-    }
-    else
-    {
-        //next();
-        //return setSource(m_current);
-    }
-}
-void AudioPlayer::tick(qint64 time)
-{
-
-
-     QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
-     if((!G_joueur) && ((time>m_time+(FACTOR_WAIT*m_mediaPlayer->notifyInterval()))||(time<m_time)))
+     else
      {
-          emettreCommande(nouvellePositionMorceau, "", time);
-          emitCurrentState();
+         // standard event processing
+         return QObject::eventFilter(obj, event);
      }
-     m_time = time;
-     m_timerDisplay->display(displayTime.toString("mm:ss"));
+ }
+void AudioPlayer::showContextMenu(QContextMenuEvent* ev)
+{
+    QMenu menu;
 
+
+    menu.addAction(m_playOnFirstAction);
+    menu.addAction(m_playOnSecondAction);
+    menu.addAction(m_playOnThirdAction);
+
+
+
+    menu.exec(ev->globalPos());
 }
 
-void AudioPlayer::sourceChanged( QMediaContent const & source)
-{
+//void AudioPlayer::sourceChanged( QMediaContent const & source)
+//{
   //   qDebug() << "sourceChanged" << source.fileName() << m_currentItemFile;
 
 
-     if(m_currentItemFile==NULL)
+     /*if(m_currentItemFile==NULL)
      {
          return;
      }
@@ -443,8 +232,8 @@ void AudioPlayer::sourceChanged( QMediaContent const & source)
      ft2.setBold(true);
      m_currentItemFile->setFont(ft2);
 
-     m_timerDisplay->display("00:00");
-}
+     m_timerDisplay->display("00:00");*/
+//}
 void AudioPlayer::emitCurrentState()
 {
    /* switch (m_mediaObject->state())
@@ -466,6 +255,43 @@ void AudioPlayer::emitCurrentState()
                 qDebug() << "default State";
              break;
     }*/
+}
+void AudioPlayer::updateUi()
+{
+    if(!G_joueur)
+    {
+     //   connect(m_mediaObject, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
+       // connect(m_mediaObject, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
+      //  this, SLOT(stateChanged(Phonon::State, Phonon::State)));
+     //   connect(m_mediaObject, SIGNAL(currentSourceChanged(const Phonon::MediaSource &)),
+     //   this, SLOT(sourceChanged(const Phonon::MediaSource &)));
+      //  connect(MainWindow::getInstance()->getNetWorkManager(), SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreEtat(Liaison *)));
+    }
+    else
+    {
+           playerWidget();
+    }
+}
+void AudioPlayer::onfinished()
+{
+    /// @todo the m_currentsource must be checked
+//    if (m_currentPlayingMode==LOOP)
+//    {
+//        if(m_currentSource!=NULL)
+//        {
+//            m_mediaObject->setCurrentSource(*m_currentSource);
+//            m_mediaObject->play();
+
+//        }
+//        else
+//        {
+//            m_mediaObject->stop();
+//        }
+//    }
+//    if(G_joueur)
+//    {
+//        m_mediaObject->stop();
+//    }
 }
 void AudioPlayer::statusChanged(QMediaPlayer::MediaStatus newState)
 {
@@ -539,8 +365,8 @@ void AudioPlayer::playerStatusChanged(QMediaPlayer::State newState)
 }
 void AudioPlayer::playerWidget()
 {
-    m_titleDisplay->setToolTip(tr("No songs"));
-    m_commandWidget->hide();
+    /*m_titleDisplay->setToolTip(tr("No songs"));
+    m_commandWidget->hide();*/
     QWidget *separateur3 = new QWidget();
     separateur3->setFixedHeight(2);
     m_mainLayout->addWidget(separateur3);
@@ -576,17 +402,18 @@ void AudioPlayer::updatePlayingMode()
 void AudioPlayer::addFiles()
 {
 
-    QStringList listeFichiers = QFileDialog::getOpenFileNames(this, tr("Add song"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)"));
+    QStringList fileList = QFileDialog::getOpenFileNames(this, tr("Add song"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)\n PlayList (*.m3u)"));
 
-        if (listeFichiers.isEmpty())
+        if (fileList.isEmpty())
                 return;
-        QFileInfo fileinfo(listeFichiers[0]);
+        QFileInfo fileinfo(fileList[0]);
         m_preferences->registerValue("MusicDirectoryGM",fileinfo.absolutePath());
 
+        m_model->addSong(fileList);
 
-        while (!listeFichiers.isEmpty())
+        while (!fileList.isEmpty())
         {
-                QString fichier = listeFichiers.takeFirst();
+                QString fichier = fileList.takeFirst();
 
                 QFileInfo fi(fichier);
                 QString titre = fi.fileName();
@@ -599,8 +426,7 @@ void AudioPlayer::addFiles()
 
 
                 }
-                QListWidgetItem *morceau = new QListWidgetItem(titre, m_songList);
-                morceau->setToolTip(fichier);
+                //morceau->setToolTip(fichier);
                 m_pathList.append(fichier);
         }
 }
@@ -608,7 +434,7 @@ void AudioPlayer::removeFile()
 {
 
 /// @todo test to perform with several computers. The sound must stop on both side.
-        QList<QListWidgetItem *> titreSelectionne = m_songList->selectedItems();
+        /*QList<QListWidgetItem *> titreSelectionne = m_songList->selectedItems();
         if (titreSelectionne.isEmpty())
         {
                 return;
@@ -632,12 +458,12 @@ void AudioPlayer::removeFile()
                 delete tmp;
             }
         }
-        m_mutex.unlock();
+        m_mutex.unlock();*/
 }
 
 void AudioPlayer::isAboutToFinish()
 {
-    qDebug() << m_currentPlayingMode << "joueur" << G_joueur;
+   /* qDebug() << m_currentPlayingMode << "joueur" << G_joueur;
         if(G_joueur)
         {
             return;
@@ -667,7 +493,7 @@ void AudioPlayer::isAboutToFinish()
             m_currentItemFile = m_songList->item(position);
 
             // m_currentSource = new Phonon::MediaSource();
-            setSource(m_pathList[position]);
+            //setSource(m_pathList[position]);
 //            m_mediaObject->clear();
           // m_mediaObject->setCurrentSource(*m_currentSource);
             emettreCommande(nouveauMorceau, m_currentItemFile->text());
@@ -680,7 +506,7 @@ void AudioPlayer::isAboutToFinish()
         {
          //   m_mediaObject->setCurrentSource(*m_currentSource);
          //   m_mediaObject->play();
-        }
+        }*/
 }
 
 void AudioPlayer::emettreCommande(actionMusique action, QString nomFichier, quint64 position, Liaison * link)
@@ -751,13 +577,13 @@ void AudioPlayer::emettreCommande(actionMusique action, QString nomFichier, quin
 
 void AudioPlayer::emettreEtat(Liaison * link)
 {
-        if(m_titleDisplay->text().isEmpty())
-        {
-           emettreCommande(nouveauMorceau, "", 0, link);
-        }
-        else
-        {
-            emettreCommande(nouveauMorceau, m_titleDisplay->text(), 0, link);
+        //if(m_titleDisplay->text().isEmpty())
+    //    {
+     //      emettreCommande(nouveauMorceau, "", 0, link);
+    //    }
+   //     else
+   //     {
+     //       emettreCommande(nouveauMorceau, m_titleDisplay->text(), 0, link);
          //   switch(m_mediaObject->state())
             {
                 /*case Phonon::PausedState:
@@ -775,7 +601,7 @@ void AudioPlayer::emettreEtat(Liaison * link)
                 default :
                     break;*/
             }
-        }
+     //   }
 }
 
 qreal AudioPlayer::volume()
@@ -801,7 +627,7 @@ void AudioPlayer::pstop()
 }
 void AudioPlayer::pselectNewFile(QString file)
 {
-        m_currentFile = file;
+    /*m_currentFile = file;
     if(m_currentFile.isEmpty())
     {
         m_titleDisplay->clear();
@@ -829,7 +655,7 @@ void AudioPlayer::pselectNewFile(QString file)
         {
            // qDebug() << " file existe = " << path;
             //m_currentSource = new Phonon::MediaSource(path);
-            setSource(path);
+            //setSource(path);
           //  m_mediaObject->setCurrentSource(*m_currentSource);
             m_titleDisplay->setEchoMode(QLineEdit::Password);
             QPalette palette(m_titleDisplay->palette());
@@ -840,8 +666,7 @@ void AudioPlayer::pselectNewFile(QString file)
 
 
 
-    }
-
+    }*/
 }
 void AudioPlayer::pseek(quint32 position)
 {
@@ -877,14 +702,14 @@ void AudioPlayer::pChangeDirectory()
 }
 void AudioPlayer::selectionHasChanged()
 {
-     QList<QListWidgetItem *> selection = m_songList->selectedItems();
+     /*QList<QListWidgetItem *> selection = m_songList->selectedItems();
 
 
     if(selection.size()>0)
     {
        // switch(m_mediaObject->state())
         {
-        /*    case Phonon::PlayingState:
+            case Phonon::PlayingState:
 
             break;
             case Phonon::BufferingState:
@@ -893,7 +718,7 @@ void AudioPlayer::selectionHasChanged()
             case Phonon::LoadingState:
             case Phonon::ErrorState:
                     defineSource(selection[0]);
-            break;*/
+            break;
        }
        m_deleteAction->setEnabled(true);
 
@@ -905,7 +730,7 @@ void AudioPlayer::selectionHasChanged()
     {
         m_deleteAction->setEnabled(false);
 
-    }
+    }*/
 }
 
 void AudioPlayer::volumeHasChanged(qreal newVolume)

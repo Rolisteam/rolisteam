@@ -86,7 +86,14 @@ enum Action {
     UpdateChatAction,
     DelChatAction,
 
-    // TODO
+    // MusicCategory
+    StopSong =0,
+    PlaySong,
+    PauseSong,
+    NewSong,
+    ChangePositionSong,
+
+
 
     // SetupCategory
     AddFeatureAction = 2
