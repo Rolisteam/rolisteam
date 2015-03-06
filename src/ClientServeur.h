@@ -63,14 +63,32 @@ public :
      */
     bool configAndConnect();
 
+    /**
+     * @brief emettreDonnees
+     * @param donnees
+     * @param taille
+     * @param sauf
+     */
     void emettreDonnees(char *donnees, quint32 taille, Liaison *sauf);
 
+    /**
+     * @brief ajouterLiaison
+     * @param liaison
+     */
     void ajouterLiaison(Liaison *liaison);
 
+    /**
+     * @brief isServer
+     * @return
+     */
     bool isServer() const;
 
 
 
+    /**
+     * @brief isConnected
+     * @return
+     */
     bool isConnected() const;
 
     Liaison* getLinkToServer();
