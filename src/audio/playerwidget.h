@@ -25,7 +25,8 @@
 #include <QMediaContent>
 
 
-
+#include "preferencesmanager.h"
+#include "musicmodel.h"
 
 namespace Ui {
 class AudioWidgetUI;
@@ -42,7 +43,7 @@ public:
      * @brief PlayerWidget
      * @param parent
      */
-    PlayerWidget(QString title, QWidget* parent = NULL);
+    PlayerWidget(int id, QWidget* parent = NULL);
     /**
      * @brief startMedia
      */
@@ -56,6 +57,7 @@ public:
      */
     //void pause();
 
+    void updateUi();
 private:
     /**
      * @brief setupUi
@@ -94,6 +96,24 @@ private slots:
      * @param newState
      */
     void playerStatusChanged(QMediaPlayer::State newState);
+    /**
+    * @brief  slot which manage the click on add song button
+    * @param QModelIndex
+    */
+    void clickOnList(QModelIndex p);
+    /**
+    * @brief  slot which manage the click on remove song button
+    */
+    void removeFile();
+    /**
+    * @brief  slot which manage the click on remove song button
+    */
+    void addFiles();
+    void openPlayList();
+
+    void saveVolumeValue(int);
+    void readM3uPlayList(QString filepath);
+
 
 signals:
     /**
@@ -125,6 +145,16 @@ private:
     QAction* m_uniqueAct;
     QAction* m_repeatAct;
     QAction* m_volumeMutedAct;
+    PreferencesManager* m_preferences;
+    MusicModel* m_model;
+    QAction* m_addAction;            //!< @brief add song action
+    QAction* m_deleteAction;        //!< @brief remove song action
+    QAction* m_openPlayList;
+    QAction* m_savePlayList;
+    QAction* m_clearList;
+
+    int m_id;
+
 
     Ui::AudioWidgetUI* m_ui;
 };
