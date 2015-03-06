@@ -133,8 +133,9 @@ void MainWindow::notifyUser_p(QString message)
 bool  MainWindow::showConnectionDialog()
 {
     // Get a connection
-
-    return m_networkManager->configAndConnect();
+    bool result = m_networkManager->configAndConnect();
+    m_audioPlayer->updateUi();
+    return result;
 
 }
 
