@@ -58,10 +58,7 @@ class AudioPlayer : public QDockWidget
 
 public :
     enum PlayingMode { LOOP, UNIQUE , NEXT };
-        /**
-        * @brief provides the current volume level
-        */
-    qreal volume();
+
     ~AudioPlayer();
     /**
     * @brief return a pointer to the unique audio player. Sigleton pattern
@@ -78,9 +75,6 @@ public :
 
     void updateUi();
 
-protected:
-    bool eventFilter(QObject *obj, QEvent *event);
-    void showContextMenu(QContextMenuEvent* ev);
 
 public slots:
     void pstop();
@@ -120,31 +114,16 @@ private :
     QVBoxLayout* m_mainLayout;
 
 
-    QString m_currentFile;
-    //QListWidgetItem* m_currentItemFile;
-   // QListWidgetItem* m_formerItemFile;
-
-
-
-    QListView* m_songList;        //!< @brief displays all avaliable songs
-    MusicModel* m_model;
-    QList<QString> m_pathList;            //!< @brief Path list
     QActionGroup* m_playingMode;
-    QAction* m_playOnFirstAction;            //!< @brief Play action
-    QAction* m_playOnSecondAction;            //!< @brief Pause action
-    QAction* m_playOnThirdAction;            //!< @brief Stop action
     QAction* m_loopAction;            //!< @brief loop playing action
     QAction* m_uniqueAction;            //!< @brief one song playing mode action
     QAction* m_addAction;            //!< @brief add song action
     QAction* m_deleteAction;        //!< @brief remove song action
 
+
     PlayerWidget* m_mainPlayer;
     PlayerWidget* m_secondPlayer;
     PlayerWidget* m_thirdPlayer;
-
-
-    PlayingMode m_currentPlayingMode;
-    bool m_endFile;
 
 
     PreferencesManager* m_preferences;
@@ -176,18 +155,6 @@ private slots :
     */
     void onfinished();
 
-    /**
-    * @brief  slot which manage the click on add song button
-    */
-    void clickOnList(QModelIndex p);
-    /**
-    * @brief  slot which manage the click on remove song button
-    */
-    void removeFile();
-    /**
-    * @brief  slot which manage the click on remove song button
-    */
-    void addFiles();
 
     /**
     * @brief  slot which is called when song is finished

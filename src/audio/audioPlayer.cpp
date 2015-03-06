@@ -45,24 +45,15 @@ AudioPlayer::AudioPlayer(QWidget *parent)
     m_preferences = PreferencesManager::getInstance();
     setObjectName("MusicPlayer");
 
-    m_endFile= false;
-    m_currentPlayingMode = NEXT;
+
+  //  m_currentPlayingMode = NEXT;
 
     if(G_joueur)/// fully defined by the GM
     {
-            m_currentPlayingMode=UNIQUE;
+            //m_currentPlayingMode=UNIQUE;
     }
     //m_mediaPlayer = new QMediaPlayer(this);
 
-    m_playOnFirstAction = new QAction(tr("Play on First Player"),this);
-    m_playOnSecondAction = new QAction(tr("Play on second Player"),this);
-    m_playOnThirdAction = new QAction(tr("Play on third Player"),this);
-
-
-
-    connect(m_playOnFirstAction,SIGNAL(triggered()),this,SLOT(startSongOnSpecificPlayer()));
-    connect(m_playOnSecondAction,SIGNAL(triggered()),this,SLOT(startSongOnSpecificPlayer()));
-    connect(m_playOnThirdAction,SIGNAL(triggered()),this,SLOT(startSongOnSpecificPlayer()));
 
 
     setupUi();
@@ -82,7 +73,7 @@ AudioPlayer*  AudioPlayer::getInstance(QWidget *parent)
 
 void AudioPlayer::startSongOnSpecificPlayer()
 {
-    QAction* act = qobject_cast<QAction*>(sender());
+    /*QAction* act = qobject_cast<QAction*>(sender());
     if(NULL!=act)
     {
         PlayerWidget* destination = NULL;
@@ -100,8 +91,8 @@ void AudioPlayer::startSongOnSpecificPlayer()
             destination=m_thirdPlayer;
         }
         destination->startMedia(m_model->getMediaByModelIndex(m_songList->currentIndex()));
-        //m_mainPlayer->startMedia(m_model->getMediaByModelIndex(p));
-    }
+        //m_mainPlayer->startMedia(m_model->getMediaByModelIndex(p));*/
+  //  }
 
 }
 
@@ -121,11 +112,12 @@ void AudioPlayer::setupUi()
         m_mainWidget = new QWidget();
 
         m_mainLayout = new QVBoxLayout();
-        QString title(tr("Player %1"));
+        m_mainLayout->setSpacing(0);
+        m_mainLayout->setMargin(0);
 
-        m_mainPlayer = new PlayerWidget(title.arg(1));
-        m_secondPlayer = new PlayerWidget(title.arg(2));
-        m_thirdPlayer = new PlayerWidget(title.arg(3));
+        m_mainPlayer = new PlayerWidget(1,this);
+        m_secondPlayer = new PlayerWidget(2,this);
+        m_thirdPlayer = new PlayerWidget(3,this);
 
 
         m_mainLayout->addWidget(m_mainPlayer);
@@ -133,80 +125,12 @@ void AudioPlayer::setupUi()
         m_mainLayout->addWidget(m_thirdPlayer);
 
 
-        QHBoxLayout* buttonLayout = new QHBoxLayout();
-        m_addAction 	= new QAction(tr("Add"), this);
-        m_deleteAction	= new QAction(tr("Remove"), this);
-        m_addAction->setToolTip(tr("Add song to the list"));
-        m_deleteAction->setToolTip(tr("Remove selected file"));
-
-        QToolButton *delButton= new QToolButton(this);
-        QToolButton *addButton= new QToolButton(this);
-
-        delButton->setDefaultAction(m_deleteAction);
-        addButton->setDefaultAction(m_addAction);
-
-        buttonLayout->addWidget(addButton);
-        buttonLayout->addStretch();
-        buttonLayout->addWidget(delButton);
-
-        m_mainLayout->addLayout(buttonLayout);
-
-        m_songList = new QListView(this);
-        m_songList->installEventFilter(this);
-        m_model = new MusicModel(this);
-        m_songList->setSelectionMode(QAbstractItemView::SingleSelection);
-        m_songList->setModel(m_model);
-
-        m_mainLayout->addWidget(m_songList);
-
         m_mainWidget->setLayout(m_mainLayout);
 
-
-        connect(m_addAction, SIGNAL(triggered(bool)), this, SLOT(addFiles()));
-        connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(removeFile()));
-        connect(m_songList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickOnList(QModelIndex)));
         //connect(m_songList,SIGNAL(itemSelectionChanged()),this,SLOT(selectionHasChanged()),Qt::QueuedConnection);
 
 }
-void AudioPlayer::clickOnList(QModelIndex p)//double click
-{
-        if(NULL!=m_mainPlayer)
-        {
-            m_mainPlayer->startMedia(m_model->getMediaByModelIndex(p));
-        }
-          //  m_mediaObject->play();
-}
-bool AudioPlayer::eventFilter(QObject *obj, QEvent *event)
- {
-     if (event->type() == QEvent::ContextMenu)
-     {
-         if(obj == m_songList)
-         {
-             QContextMenuEvent *menuEvent = static_cast<QContextMenuEvent *>(event);
-             showContextMenu(menuEvent);
 
-         }
-         return true;
-     }
-     else
-     {
-         // standard event processing
-         return QObject::eventFilter(obj, event);
-     }
- }
-void AudioPlayer::showContextMenu(QContextMenuEvent* ev)
-{
-    QMenu menu;
-
-
-    menu.addAction(m_playOnFirstAction);
-    menu.addAction(m_playOnSecondAction);
-    menu.addAction(m_playOnThirdAction);
-
-
-
-    menu.exec(ev->globalPos());
-}
 
 //void AudioPlayer::sourceChanged( QMediaContent const & source)
 //{
@@ -258,16 +182,12 @@ void AudioPlayer::emitCurrentState()
 }
 void AudioPlayer::updateUi()
 {
-    if(!G_joueur)
-    {
-     //   connect(m_mediaObject, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
-       // connect(m_mediaObject, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
-      //  this, SLOT(stateChanged(Phonon::State, Phonon::State)));
-     //   connect(m_mediaObject, SIGNAL(currentSourceChanged(const Phonon::MediaSource &)),
-     //   this, SLOT(sourceChanged(const Phonon::MediaSource &)));
-      //  connect(MainWindow::getInstance()->getNetWorkManager(), SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreEtat(Liaison *)));
-    }
-    else
+
+   /* m_mainPlayer->updateUi();
+    m_secondPlayer->updateUi();
+    m_thirdPlayer->updateUi();*/
+
+     if(m_preferences->value("isPlayer",false).toBool())
     {
            playerWidget();
     }
@@ -366,11 +286,15 @@ void AudioPlayer::playerStatusChanged(QMediaPlayer::State newState)
 void AudioPlayer::playerWidget()
 {
     /*m_titleDisplay->setToolTip(tr("No songs"));
-    m_commandWidget->hide();*/
+    m_commandWidget->hide();
     QWidget *separateur3 = new QWidget();
     separateur3->setFixedHeight(2);
     m_mainLayout->addWidget(separateur3);
-    setFixedHeight(66);
+    setFixedHeight(66);*/
+ /*   m_songList->setVisible(false);
+    m_addButton->setVisible(false);
+    m_delButton->setVisible(false);*/
+
 
 }
 void AudioPlayer::updatePlayingMode()
@@ -388,77 +312,16 @@ void AudioPlayer::updatePlayingMode()
 
     if(m_loopAction->isChecked())
     {
-        m_currentPlayingMode=LOOP;
+       // m_currentPlayingMode=LOOP;
     }
     else if(m_uniqueAction->isChecked())
     {
-        m_currentPlayingMode=UNIQUE;
+     //   m_currentPlayingMode=UNIQUE;
     }
     else if((!m_uniqueAction->isChecked())&&(!m_loopAction->isChecked()))
     {
-        m_currentPlayingMode=NEXT;
+      //  m_currentPlayingMode=NEXT;
     }
-}
-void AudioPlayer::addFiles()
-{
-
-    QStringList fileList = QFileDialog::getOpenFileNames(this, tr("Add song"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)\n PlayList (*.m3u)"));
-
-        if (fileList.isEmpty())
-                return;
-        QFileInfo fileinfo(fileList[0]);
-        m_preferences->registerValue("MusicDirectoryGM",fileinfo.absolutePath());
-
-        m_model->addSong(fileList);
-
-        while (!fileList.isEmpty())
-        {
-                QString fichier = fileList.takeFirst();
-
-                QFileInfo fi(fichier);
-                QString titre = fi.fileName();
-                if (m_pathList.isEmpty())
-                {
-
-                        emettreCommande(nouveauMorceau, titre);
-                        // On active tous les boutons
-
-
-
-                }
-                //morceau->setToolTip(fichier);
-                m_pathList.append(fichier);
-        }
-}
-void AudioPlayer::removeFile()
-{
-
-/// @todo test to perform with several computers. The sound must stop on both side.
-        /*QList<QListWidgetItem *> titreSelectionne = m_songList->selectedItems();
-        if (titreSelectionne.isEmpty())
-        {
-                return;
-        }
-        m_mutex.lock();
-        foreach(QListWidgetItem * tmp, titreSelectionne)
-        {
-            m_pathList.removeAt(m_songList->row(tmp));
-            if(m_currentItemFile == tmp)
-            {
-                //delete m_currentSource;
-                //m_currentSource = NULL;
-                delete tmp;
-                tmp = NULL;
-                m_currentItemFile = NULL;
-             //   m_mediaObject->clear();
-                isAboutToFinish();
-            }
-            if(tmp!=NULL)
-            {
-                delete tmp;
-            }
-        }
-        m_mutex.unlock();*/
 }
 
 void AudioPlayer::isAboutToFinish()
@@ -604,10 +467,6 @@ void AudioPlayer::emettreEtat(Liaison * link)
      //   }
 }
 
-qreal AudioPlayer::volume()
-{
-        return 0;//return audioOutput->volume();
-}
 
 
 
