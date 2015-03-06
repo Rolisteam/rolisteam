@@ -60,3 +60,9 @@ QMediaContent* MusicModel::getMediaByModelIndex(QModelIndex index)
 {
     return m_data.at(index.row());
 }
+void MusicModel::removeAll()
+{
+    beginResetModel();
+    m_data.clear();
+    endResetModel();
+}

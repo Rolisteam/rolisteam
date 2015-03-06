@@ -50,6 +50,8 @@ public:
      * @return
      */
     QMediaContent* getMediaByModelIndex(QModelIndex);
+
+    void removeAll();
 signals:
 
 public slots:
