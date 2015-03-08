@@ -80,9 +80,9 @@ HEADERS += src/AfficheurDisque.h \
            src/Image.h \
            src/Liaison.h \
            src/localpersonmodel.h \
-           src/networkmessage.h \
-           src/networkmessagereader.h \
-           src/networkmessagewriter.h \
+           src/network/networkmessage.h \
+           src/network/networkmessagereader.h \
+           src/network/networkmessagewriter.h \
            src/persons.h \
            src/persondialog.h \
            src/playersList.h \
@@ -110,7 +110,8 @@ HEADERS += src/AfficheurDisque.h \
     src/widgets/filedirchooser.h \
     src/audio/audioPlayer.h \
     src/audio/musicmodel.h \
-    src/audio/playerwidget.h
+    src/audio/playerwidget.h \
+    src/network/networkreceiver.h
 
 
 
@@ -132,9 +133,9 @@ SOURCES += src/AfficheurDisque.cpp \
            src/Liaison.cpp \
            src/localpersonmodel.cpp \
            src/main.cpp \
-           src/networkmessage.cpp \
-           src/networkmessagereader.cpp \
-           src/networkmessagewriter.cpp \
+           src/network/networkmessage.cpp \
+           src/network/networkmessagereader.cpp \
+           src/network/networkmessagewriter.cpp \
            src/persons.cpp \
            src/persondialog.cpp \
            src/playersList.cpp \
