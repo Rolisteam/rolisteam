@@ -193,7 +193,13 @@ void Liaison::reception()
                 ReceiveEvent * event = new ReceiveEvent(entete, tampon, this);
                 event->postToReceiver();
             }
+            if(m_receiverMap.contains((NetMsg::Category)entete.category))
+            {
+                NetworkMessageReader data(entete,tampon);
+                NetWorkReceiver* tmp = m_receiverMap.value((NetMsg::Category)entete.category);
+                tmp->processMessage(&data);
 
+            }
 
             switch((categorieAction)(entete.category))
             {
@@ -225,7 +231,7 @@ void Liaison::reception()
                     receptionMessageDiscussion();
                     break;
                 case musique :
-                    receptionMessageMusique();
+                    receivesMusicMessage();
                     break;
                 case parametres :
                     receptionMessageParametres();
@@ -1322,8 +1328,12 @@ void Liaison::receptionMessageDiscussion()
 /********************************************************************/
 /* Reception d'un message de categorie Musique                      */
 /********************************************************************/
-void Liaison::receptionMessageMusique()
+void Liaison::receivesMusicMessage()
 {
+     // All should be done by AudioPlayer.
+    return;
+
+
 #ifndef NULL_PLAYER
     int p = 0;
 
@@ -1569,4 +1579,8 @@ void Liaison::setSocket(QTcpSocket* socket, bool makeConnection)
         makeSignalConnection();
     }
 
+}
+void Liaison::insertNetWortReceiver(NetWorkReceiver* receiver,NetMsg::Category cat)
+{
+    m_receiverMap.insert(cat,receiver);
 }

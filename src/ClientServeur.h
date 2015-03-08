@@ -38,12 +38,12 @@
 #include "connectionretrydialog.h"
 #include "preferencesmanager.h"
 #include "playersList.h"
-
+#include "variablesGlobales.h"
 
 class Player;
 class Liaison;
 
-
+class AudioPlayer;
 
 /**
  * @brief hold the list of socket (Liaison).
@@ -95,6 +95,8 @@ public :
 
     quint16 getPort() const;
 
+    void setAudioPlayer(AudioPlayer*);
+
 
 public slots:
     void disconnectAndClose();
@@ -142,6 +144,8 @@ private :
     bool m_connectionState;
 
     bool m_isClient;
+
+    AudioPlayer* m_audioPlayer;
 
 
 private slots :

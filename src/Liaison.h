@@ -26,7 +26,7 @@
 #include <QtNetwork>
 #include <QTcpSocket>
 
-#include "networkmessage.h"
+#include "network/networkmessage.h"
 #include "mainwindow.h"
 
 class Carte;
@@ -48,6 +48,8 @@ public :
     void setSocket(QTcpSocket* socket, bool makeConnection = true);
     void disconnectAndClose();
     void initialize();
+    void insertNetWortReceiver(NetWorkReceiver*,NetMsg::Category cat);
+
 signals:
     void disconnected(Liaison * link);
     void readDataReceived(quint64,quint64);
@@ -67,12 +69,13 @@ private :
     void receptionMessagePlan();
     void receptionMessageImage();
     void receptionMessageDiscussion();
-    void receptionMessageMusique();
+    void receivesMusicMessage();
     void receptionMessageParametres();
 
     void postTo(QObject * obj) const;
     void faireSuivreMessage(bool tous);
     int extrairePersonnage(Carte *carte, char *tampon);
+
 
     QTcpSocket* m_socketTcp;		 // Socket gere par le thread
     NetworkMessageHeader entete; // Contient l'entete du message en cours de reception
@@ -86,6 +89,7 @@ private :
     ClientServeur* m_networkManager;
     QTime m_time;
     QTime m_time2;
+    QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
 
 private slots :
     void reception();

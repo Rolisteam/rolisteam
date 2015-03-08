@@ -32,9 +32,8 @@
 #include "Liaison.h"
 #include "mainwindow.h"
 #include "persons.h"
+#include "audio/audioPlayer.h"
 
-
-#include "variablesGlobales.h"
 
 
 
@@ -60,7 +59,7 @@ void emettre(char *donnees, quint32 taille, Liaison *sauf)
  *****************/
 
 ClientServeur::ClientServeur()
-    : QObject(), m_server(NULL),m_liaisonToServer(NULL),m_disconnectAsked(false),m_connectionState(false),m_localPlayer(NULL)
+    : QObject(), m_server(NULL),m_liaisonToServer(NULL),m_disconnectAsked(false),m_connectionState(false),m_localPlayer(NULL),m_audioPlayer(NULL)
 {
 
     m_reconnect = new QTimer(this);
@@ -256,6 +255,10 @@ void ClientServeur::emettreDonnees(char *donnees, quint32 taille, Liaison *sauf)
 void ClientServeur::ajouterLiaison(Liaison *liaison)
 {
     liaisons.append(liaison);
+    if(NULL!=m_audioPlayer)
+    {
+        liaison->insertNetWortReceiver(m_audioPlayer,NetMsg::MusicCategory);
+    }
     connect(this, SIGNAL(emissionDonnees(char *, quint32, Liaison *)),liaison, SLOT(emissionDonnees(char *, quint32, Liaison *)));
     connect(liaison, SIGNAL(disconnected(Liaison *)),this, SLOT(finDeLiaison(Liaison *)));
     connect(liaison,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
@@ -272,7 +275,10 @@ void ClientServeur::nouveauClientConnecte()
     new Liaison(socketTcp);
 
 }
-
+void ClientServeur::setAudioPlayer(AudioPlayer* audio)
+{
+    m_audioPlayer = audio;
+}
 
 void ClientServeur::finDeLiaison(Liaison * link)
 {
