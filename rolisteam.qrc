@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>resources/doc/rolisteam.qhc</file>
         <file>resources/a propos.htm</file>
-        <file>resources/icones/ajouter PNJ.png</file>
+        <file>resources/icones/add.png</file>
         <file>resources/icones/playloop.png</file>
         <file>resources/icones/chronometre.png</file>
         <file>resources/icones/crayon.png</file>
@@ -34,7 +34,7 @@
         <file>resources/icones/style italique.png</file>
         <file>resources/icones/style normal.png</file>
         <file>resources/icones/style souligne.png</file>
-        <file>resources/icones/supprimer PNJ.png</file>
+        <file>resources/icones/remove.png</file>
         <file alias="map.png">resources/icones/vignette plan.png</file>
         <file>traduction/rolisteam_fr.qm</file>
         <file>resources/icones/deplacer PNJ.png</file>

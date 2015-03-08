@@ -29,7 +29,7 @@
 #include "BarreOutils.h"
 
 #include "Carte.h"
-#include "networkmessagewriter.h"
+#include "network/networkmessagewriter.h"
 #include "SelecteurCouleur.h"
 #include "SelecteurDiametre.h"
 #include "playersList.h"
@@ -123,8 +123,8 @@ void BarreOutils::creerActions()
                 actionElliPlein	= new QAction(QIcon(":/resources/icones/ellipse pleine.png"), tr("Filled Ellipse"), groupOutils);
                 actionTexte 	= new QAction(QIcon(":/textevignette"), tr("Text"), groupOutils);
                 actionMain		= new QAction(QIcon(":/resources/icones/main.png"), tr("Move"), groupOutils);
-                actionAjoutPnj 	= new QAction(QIcon(":/resources/icones/ajouter PNJ.png"), tr("Add NPC"), groupOutils);
-                actionSupprPnj 	= new QAction(QIcon(":/resources/icones/supprimer PNJ.png"), tr("Remove NPC"), groupOutils);
+                actionAjoutPnj 	= new QAction(QIcon("://resources/icones/add.png"), tr("Add NPC"), groupOutils);
+                actionSupprPnj 	= new QAction(QIcon("://resources/icones/remove.png"), tr("Remove NPC"), groupOutils);
                 actionDeplacePnj= new QAction(QIcon(":/resources/icones/deplacer PNJ.png"), tr("Move/Turn Character"), groupOutils);
                 actionEtatPnj	= new QAction(QIcon(":/resources/icones/etat.png"), tr("Change Character's State"), groupOutils);
 
