@@ -3,7 +3,7 @@
         <file>resources/doc/rolisteam.qhc</file>
         <file>resources/a propos.htm</file>
         <file>resources/icones/ajouter PNJ.png</file>
-        <file>resources/icones/boucle.png</file>
+        <file>resources/icones/playloop.png</file>
         <file>resources/icones/chronometre.png</file>
         <file>resources/icones/crayon.png</file>
         <file>resources/icones/demasque.png</file>
@@ -14,7 +14,7 @@
         <file>resources/icones/etat.png</file>
         <file>resources/icones/fond workspace macos.bmp</file>
         <file>resources/icones/fond workspace win32.bmp</file>
-        <file>resources/icones/lecture unique.png</file>
+        <file>resources/icones/playunique.png</file>
         <file>resources/icones/lecture.png</file>
         <file>resources/icones/main.png</file>
         <file>resources/icones/masque.png</file>
