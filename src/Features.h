@@ -26,7 +26,7 @@
 #include <QMapIterator>
 #include <QString>
 
-#include "networkmessagewriter.h"
+#include "network/networkmessagewriter.h"
 
 class ReceiveEvent;
 class Player;

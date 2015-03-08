@@ -27,8 +27,8 @@
 
 #include "playersList.h"
 
-#include "networkmessagereader.h"
-#include "networkmessagewriter.h"
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 #include "Features.h"
 #include "persons.h"
 #include "receiveevent.h"

@@ -23,8 +23,8 @@
 
 #include <QUuid>
 
-#include "networkmessagereader.h"
-#include "networkmessagewriter.h"
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 #include "persons.h"
 #include "playersList.h"
 #include "receiveevent.h"

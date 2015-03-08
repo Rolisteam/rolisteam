@@ -34,7 +34,7 @@
 #include <QPushButton>
 
 #include "chat.h"
-#include "networkmessagewriter.h"
+#include "network/networkmessagewriter.h"
 #include "initialisation.h"
 #include "localpersonmodel.h"
 #include "mainwindow.h"

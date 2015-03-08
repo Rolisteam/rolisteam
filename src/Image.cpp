@@ -29,7 +29,7 @@
 
 #include "Liaison.h"
 #include "mainwindow.h"
-#include "networkmessagewriter.h"
+#include "network/networkmessagewriter.h"
 
 #include "variablesGlobales.h"
 

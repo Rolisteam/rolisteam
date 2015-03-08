@@ -48,7 +48,7 @@
 #include "ClientServeur.h"
 #include "EditeurNotes.h"
 #include "Image.h"
-#include "networkmessagewriter.h"
+#include "network/networkmessagewriter.h"
 
 #include "persons.h"
 #include "playersList.h"
@@ -73,22 +73,7 @@ bool G_affichageNomPj;
 bool G_affichageNomPnj;
 // Indique si le numero des PNJ doit etre affiche ou pas
 bool G_affichageNumeroPnj;
-// Contient le pointeur de souris pour dessiner
-//QCursor *G_pointeurDessin;
-// Contient le pointeur de souris pour le texte
-//QCursor *G_pointeurTexte;
-// Contient le pointeur de souris pour deplacer les PJ/PNJ
-//QCursor *G_pointeurDeplacer;
-// Contient le pointeur de souris pour orienter les PJ/PNJ
-//QCursor *G_pointeurOrienter;
-// Contient le pointeur de souris pour la pipette (clic droit)
-//QCursor *G_pointeurPipette;
-// Contient le pointeur de souris pour ajouter un PNJ
-//QCursor *G_pointeurAjouter;
-// Contient le pointeur de souris pour supprimer en PNJ
-//QCursor *G_pointeurSupprimer;
-// Contient le pointeur de souris pour changer l'etat des PJ/PNJ
-//QCursor *G_pointeurEtat;
+
 
 
 // Pointeur vers la fenetre de log utilisateur (utilise seulement dans ce fichier)
@@ -236,6 +221,7 @@ void MainWindow::setupUi()
 
 #ifndef NULL_PLAYER
     m_audioPlayer = AudioPlayer::getInstance(this);
+    m_networkManager->setAudioPlayer(m_audioPlayer);
     addDockWidget(Qt::RightDockWidgetArea,m_audioPlayer );
 #endif
     //readSettings();

@@ -28,7 +28,7 @@
 #include <QUuid>
 #include <QBuffer>
 
-#include "networkmessagewriter.h"
+#include "network/networkmessagewriter.h"
 #include "DessinPerso.h"
 #include "Liaison.h"
 #include "persons.h"

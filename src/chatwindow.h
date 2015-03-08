@@ -31,7 +31,7 @@
 #include <QTextBrowser>
 #include <QMdiSubWindow>
 
-#include "networkmessage.h"
+#include "network/networkmessage.h"
 #include "preferencesmanager.h"
 #include "widgets/colorbutton.h"
 #include "chatbrowser.h"

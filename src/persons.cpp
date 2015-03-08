@@ -26,8 +26,8 @@
 #include <QUuid>
 
 
-#include "networkmessagereader.h"
-#include "networkmessagewriter.h"
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 
 /**********
  * Person *
