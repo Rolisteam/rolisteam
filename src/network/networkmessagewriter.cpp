@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-#include "networkmessagewriter.h"
+#include "network/networkmessagewriter.h"
 #include "mainwindow.h"
 #include <QDebug>
 
@@ -100,6 +100,14 @@ void NetworkMessageWriter::uint32(quint32 data)
     *((quint32 *)m_currentPos) = data;
     m_currentPos += size;
 }
+ void NetworkMessageWriter::uint64(quint64 data)
+ {
+     int size = sizeof(quint64);
+     makeRoom(size);
+
+     *((quint64 *)m_currentPos) = data;
+     m_currentPos += size;
+ }
 
 void NetworkMessageWriter::string8(const QString & data)
 {

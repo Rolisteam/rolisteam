@@ -19,7 +19,7 @@
  *************************************************************************/
 
 #include "mainwindow.h"
-#include "networkmessagereader.h"
+#include "network/networkmessagereader.h"
 
 NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, const char * buffer)
     : NetworkMessage()
@@ -117,7 +117,18 @@ quint32 NetworkMessageReader::uint32()
     }
     return 0;
 }
-
+quint64 NetworkMessageReader::uint64()
+{
+    size_t size = sizeof(quint64);
+    if (left() >= size)
+    {
+        quint32 ret;
+        memcpy(&ret, m_pos, size);
+        m_pos += size;
+        return ret;
+    }
+    return 0;
+}
 QString NetworkMessageReader::string8()
 {
     return string(uint8());

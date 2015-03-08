@@ -25,7 +25,7 @@
 #include <QColor>
 #include <QString>
 
-#include "networkmessage.h"
+#include "network/networkmessage.h"
 
 /**
  * @brief The NetworkMessageWriter class
@@ -44,6 +44,7 @@ class NetworkMessageWriter : public NetworkMessage
         void uint8(quint8 data);
         void uint16(quint16 data);
         void uint32(quint32 data);
+        void uint64(quint64 data);
 
         void string8(const QString & data);
         void string16(const QString & data);

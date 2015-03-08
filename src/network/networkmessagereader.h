@@ -25,7 +25,7 @@
 #include <QString>
 #include <QColor>
 
-#include "networkmessage.h"
+#include "network/networkmessage.h"
 /**
  * @brief The NetworkMessageReader class
  */
@@ -46,6 +46,7 @@ class NetworkMessageReader : public NetworkMessage
         quint8  uint8();
         quint16 uint16();
         quint32 uint32();
+        quint64 uint64();
 
         QString string8();
         QString string16();
