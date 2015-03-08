@@ -28,7 +28,7 @@
 #include <QString>
 #include <QMap>
 
-#include "networkmessagereader.h"
+#include "network/networkmessagereader.h"
 
 class Liaison;
 /**

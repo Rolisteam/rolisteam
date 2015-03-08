@@ -24,7 +24,7 @@
 
 #include "receiveevent.h"
 
-#include "networkmessagereader.h"
+#include "network/networkmessagereader.h"
 
 
 /****************
