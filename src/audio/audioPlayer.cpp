@@ -34,7 +34,10 @@
 #include "Liaison.h"
 #include "variablesGlobales.h"
 #include "types.h"
-#define FACTOR_WAIT 4
+#include "network/networkmessagewriter.h"
+
+
+
 
 AudioPlayer * AudioPlayer::m_singleton = NULL;
 
@@ -73,12 +76,15 @@ AudioPlayer*  AudioPlayer::getInstance(QWidget *parent)
 void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
 {
     QMenu menu;
-    foreach(PlayerWidget* tmp,m_players)
+    if(!PreferencesManager::getInstance()->value("isPlayer",true).toBool())
     {
-        if((tmp->geometry().contains(ev->pos(),true))&&(tmp->isVisible()))
+        foreach(PlayerWidget* tmp,m_players)
         {
-            tmp->addActionsIntoMenu(&menu);
-            menu.addSeparator();
+            if((tmp->geometry().contains(ev->pos(),true))&&(tmp->isVisible()))
+            {
+                tmp->addActionsIntoMenu(&menu);
+                menu.addSeparator();
+            }
         }
     }
     foreach(QAction* act,m_playerActionsList)
@@ -112,14 +118,22 @@ void AudioPlayer::setupUi()
 
         for(int i = 0;i < 3; ++i)
         {
-            m_players.append(new PlayerWidget(i,this));
+            PlayerWidget*  playerWidget = new PlayerWidget(i,this);
+            connect(playerWidget,SIGNAL(newSongPlayed(int,QString)),this,SLOT(onePlayerHasNewSong(int,QString)));
+            connect(playerWidget,SIGNAL(playerIsPaused(int)),this,SLOT(onePlayerIsPaused(int)));
+            connect(playerWidget,SIGNAL(playerStopped(int)),this,SLOT(onePlayerHasStopped(int)));
+            connect(playerWidget,SIGNAL(playerIsPlaying(int,quint64)),this,SLOT(onePlayerPlays(int,quint64)));
+            connect(playerWidget,SIGNAL(playerPositionChanged(int,quint64)),this,SLOT(onePlayerHasChangedPosition(int,quint64)));
+
+            m_players.append(playerWidget);
             QAction* act = new QAction(tr("Show/hide Player %1").arg(i),this);
             act->setCheckable(true);
             act->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i),true).toBool());
-            connect(act,SIGNAL(triggered()),this,SLOT(showMusicPlayer()));
+            connect(act,SIGNAL(toggled(bool)),this,SLOT(showMusicPlayer(bool)));
             m_playerActionsList.append(act);
             m_mainLayout->addWidget(m_players[i]);
         }
+        m_mainLayout->addStretch(1);
 
 
         /*m_mainLayout->addWidget(m_secondPlayer);
@@ -131,17 +145,19 @@ void AudioPlayer::setupUi()
         //connect(m_songList,SIGNAL(itemSelectionChanged()),this,SLOT(selectionHasChanged()),Qt::QueuedConnection);
 
 }
-void AudioPlayer::showMusicPlayer()
+void AudioPlayer::showMusicPlayer(bool status)
 {
     QAction* act = qobject_cast<QAction*>(sender());
 
     if(NULL!=act)
     {
         int i = m_playerActionsList.indexOf(act);
+
         if(-1!=1)
         {
             PlayerWidget* tmp = m_players[i];
-            tmp->setVisible(!tmp->isVisible());
+            tmp->setVisible(status);
+            m_preferences->registerValue(QString("music_player_%1_status").arg(i),status);
         }
     }
 }
@@ -196,14 +212,14 @@ void AudioPlayer::emitCurrentState()
 }
 void AudioPlayer::updateUi()
 {
-
-   /* m_mainPlayer->updateUi();
-    m_secondPlayer->updateUi();
-    m_thirdPlayer->updateUi();*/
-
-     if(m_preferences->value("isPlayer",false).toBool())
+    foreach(PlayerWidget* tmp,m_players)
     {
-           playerWidget();
+        tmp->updateUi();
+    }
+    for(int i = 0; i< m_players.size(); ++i)
+    {
+        m_playerActionsList[i]->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i),true).toBool());
+        //setVisible();
     }
 }
 void AudioPlayer::onfinished()
@@ -297,20 +313,7 @@ void AudioPlayer::playerStatusChanged(QMediaPlayer::State newState)
      }
 
 }
-void AudioPlayer::playerWidget()
-{
-    /*m_titleDisplay->setToolTip(tr("No songs"));
-    m_commandWidget->hide();
-    QWidget *separateur3 = new QWidget();
-    separateur3->setFixedHeight(2);
-    m_mainLayout->addWidget(separateur3);
-    setFixedHeight(66);*/
- /*   m_songList->setVisible(false);
-    m_addButton->setVisible(false);
-    m_delButton->setVisible(false);*/
 
-
-}
 void AudioPlayer::updatePlayingMode()
 {
     QAction* tmp = static_cast<QAction*>(sender());
@@ -338,55 +341,7 @@ void AudioPlayer::updatePlayingMode()
     }
 }
 
-void AudioPlayer::isAboutToFinish()
-{
-   /* qDebug() << m_currentPlayingMode << "joueur" << G_joueur;
-        if(G_joueur)
-        {
-            return;
-        }
-        else if (m_currentPlayingMode==UNIQUE)
-        {
-                emettreCommande(arretMorceau);
-                //m_mediaObject->stop();
-                qDebug() << "finDeTitreSlot" << "lecture unique";
-        }
-        else if (m_currentPlayingMode==NEXT)
-        {
-            int position= m_songList->row(m_currentItemFile);
-            if(position<0)
-            {
-                //m_mediaObject->stop();
-                return;
-            }
-
-            position++;
-            if(position>=m_pathList.size())
-            {
-                position =0;
-            }
-           // m_mediaObject->stop();
-            m_formerItemFile = m_currentItemFile;
-            m_currentItemFile = m_songList->item(position);
-
-            // m_currentSource = new Phonon::MediaSource();
-            //setSource(m_pathList[position]);
-//            m_mediaObject->clear();
-          // m_mediaObject->setCurrentSource(*m_currentSource);
-            emettreCommande(nouveauMorceau, m_currentItemFile->text());
-
-            qDebug() << "Changement de titre 2" << m_pathList[position] << m_currentItemFile->text();
-            //m_mediaObject->play();
-
-        }
-        else if(m_currentPlayingMode==LOOP)
-        {
-         //   m_mediaObject->setCurrentSource(*m_currentSource);
-         //   m_mediaObject->play();
-        }*/
-}
-
-void AudioPlayer::emettreCommande(actionMusique action, QString nomFichier, quint64 position, Liaison * link)
+void AudioPlayer::sendCommand(actionMusique action, QString nomFichier, quint64 position, Liaison * link)
 {
 
         int p;
@@ -451,36 +406,64 @@ void AudioPlayer::emettreCommande(actionMusique action, QString nomFichier, quin
         delete[] donnees;
 }
 
-
-void AudioPlayer::emettreEtat(Liaison * link)
+void AudioPlayer::onePlayerHasStopped(int id)
 {
-        //if(m_titleDisplay->text().isEmpty())
-    //    {
-     //      emettreCommande(nouveauMorceau, "", 0, link);
-    //    }
-   //     else
-   //     {
-     //       emettreCommande(nouveauMorceau, m_titleDisplay->text(), 0, link);
-         //   switch(m_mediaObject->state())
-            {
-                /*case Phonon::PausedState:
-                    emettreCommande(pauseMorceau,"", 0, link);
-                    emettreCommande(nouvellePositionMorceau, "", m_time, link);
-                    break;
-                case Phonon::StoppedState:
-                    emettreCommande(arretMorceau, "",0, link);
-                    break;
-            case Phonon::PlayingState :
-                    emettreCommande(pauseMorceau,"", 0, link);
-                    emettreCommande(nouvellePositionMorceau, "", m_time, link);
-                    emettreCommande(lectureMorceau, "", 0, link);
-                    break;
-                default :
-                    break;*/
-            }
-     //   }
+    qDebug() << "audio player onePlayerHasStopped"<< id;
+    if(!m_preferences->value("isPlayer",false).toBool())
+    {
+    NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::StopSong);
+    message.uint8(id);
+    message.sendAll();
+    }
 }
 
+void AudioPlayer::onePlayerIsPaused(int id)
+{
+     qDebug() << "audio player onePlayerIsPaused"<< id;
+     if(!m_preferences->value("isPlayer",false).toBool())
+     {
+    NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PauseSong);
+    message.uint8(id);
+    message.sendAll();
+     }
+}
+
+void AudioPlayer::onePlayerPlays(int id,quint64 pos)
+{
+     qDebug() << "audio player onePlayerPlays"<< id;
+     if(!m_preferences->value("isPlayer",false).toBool())
+     {
+    NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PlaySong);
+    message.uint8(id);
+    message.uint64(pos);
+    message.sendAll();
+     }
+}
+
+
+void AudioPlayer::onePlayerHasNewSong(int id,QString str)
+{
+     qDebug() << "audio player onePlayerHasNewSong"<< id;
+     if(!m_preferences->value("isPlayer",false).toBool())
+     {
+    NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::NewSong);
+    message.uint8(id);
+    message.string32(str);
+    message.sendAll();
+     }
+}
+
+void AudioPlayer::onePlayerHasChangedPosition(int id,quint64 pos)
+{
+     qDebug() << "audio player onePlayerHasChangedPosition"<< id;
+     if(!m_preferences->value("isPlayer",false).toBool())
+     {
+        NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::ChangePositionSong);
+        message.uint8(id);
+        message.uint64(pos);
+        message.sendAll();
+     }
+}
 
 
 
@@ -612,3 +595,39 @@ void AudioPlayer::selectionHasChanged()
 //    m_preferences->registerValue("MusicVolume",newVolume);
 
 //}
+void AudioPlayer::processMessage(NetworkMessageReader* msg)
+{
+    qDebug() << "network debug";
+    int id = msg->uint8();
+    NetMsg::Action action = msg->action();
+    switch (action) {
+    case NetMsg::PlaySong:
+        qDebug() << "playSong";
+        m_players[id]->playSong(msg->uint64());
+        break;
+    case NetMsg::PauseSong:
+        qDebug() << "pauseSong";
+        m_players[id]->pause();
+        break;
+    case NetMsg::ChangePositionSong:
+    {
+        qDebug() << "change position";
+        int pos= msg->uint64();
+        m_players[id]->setPositionAt(pos);
+        }
+        break;
+    case NetMsg::StopSong:
+        qDebug() << "stop";
+        m_players[id]->stop();
+        break;
+    case NetMsg::NewSong:
+    {
+        qDebug() << "new";
+        QString file = msg->string32();
+        m_players[id]->setSourceSong(file);
+    }
+        break;
+    default:
+        break;
+    }
+}

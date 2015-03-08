@@ -47,17 +47,18 @@
 #include "preferencesmanager.h"
 #include "musicmodel.h"
 #include "playerwidget.h"
+#include "network/networkreceiver.h"
 class Liaison;
 /**
     * @brief This player can be used by the GM to play songs.
     * Regular players can just change the volume level.
     */
-class AudioPlayer : public QDockWidget
+class AudioPlayer : public QDockWidget, public NetWorkReceiver
 {
     Q_OBJECT
 
 public :
-    enum PlayingMode { LOOP, UNIQUE , NEXT };
+
 
     ~AudioPlayer();
     /**
@@ -75,9 +76,23 @@ public :
 
     void updateUi();
 
+    virtual void processMessage(NetworkMessageReader* msg);
+
 
 public slots:
     void pstop();
+
+
+
+
+
+    void onePlayerHasStopped(int);
+    void onePlayerIsPaused(int);
+    void onePlayerPlays(int,quint64);
+    void onePlayerHasNewSong(int,QString);
+    void onePlayerHasChangedPosition(int,quint64);
+
+
 protected:
     void contextMenuEvent(QContextMenuEvent* ev);
 
@@ -94,7 +109,7 @@ private :
         /**
         * @brief send command to a client
         */
-    void emettreCommande(actionMusique action, QString nomFichier = "", quint64 position = 0, Liaison * link = NULL);
+    void sendCommand(actionMusique action, QString nomFichier = "", quint64 position = 0, Liaison * link = NULL);
 
 
     static AudioPlayer* m_singleton;//!< @brief static pointer to the unique instance of this audioplayer
@@ -160,7 +175,7 @@ private slots :
     /**
     * @brief  slot which is called when song is finished
     */
-    void isAboutToFinish();
+//    void isAboutToFinish();
 
     /**
     * @brief  slot which manage the player's root directory change
@@ -170,7 +185,7 @@ private slots :
     /**
     * @brief Send some informations to the given player
     */
-    void emettreEtat(Liaison * link);
+ //   void emettreEtat(Liaison * link);
     /**
     * @brief called when selection on list has changed
     */
@@ -178,7 +193,7 @@ private slots :
 
     void emitCurrentState();
 
-    void showMusicPlayer();
+    void showMusicPlayer(bool);
 };
 
 #endif

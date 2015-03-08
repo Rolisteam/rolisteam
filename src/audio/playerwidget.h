@@ -40,6 +40,7 @@ class PlayerWidget : public QWidget
 {
     Q_OBJECT
 public:
+    enum PlayingMode { LOOP, UNIQUE , NEXT };
     /**
      * @brief PlayerWidget
      * @param parent
@@ -61,6 +62,15 @@ public:
     void updateUi();
 
     void addActionsIntoMenu(QMenu* menu);
+
+public slots:
+    // ********************** Slots from network *************************** //
+
+    void playSong(quint64 pos);
+    void stop();
+    void pause();
+    void setPositionAt(quint64 pos);
+    void setSourceSong(QString file);
 protected:
         void contextMenuEvent(QContextMenuEvent* ev);
 private:
@@ -119,6 +129,7 @@ private slots:
     void saveVolumeValue(int);
     void readM3uPlayList(QString filepath);
     void removeAll();
+    void changeDirectory();
 
 
 
@@ -144,6 +155,31 @@ signals:
 
 
 
+
+    // ****************** For NetWork ******** //
+    /**
+     * @brief playerStopped
+     */
+    void playerStopped(int);
+    /**
+     * @brief playerIsPaused
+     */
+    void playerIsPaused(int);
+    /**
+     * @brief playerIsPlaying
+     */
+    void playerIsPlaying(int,quint64);
+    /**
+     * @brief newSongPlayed
+     */
+    void newSongPlayed(int,QString);
+    /**
+     * @brief playerPositionChanged
+     */
+    void playerPositionChanged(int,quint64);
+
+
+
 private:
     QSlider* m_volume;
     QSlider* m_seek;
@@ -154,6 +190,7 @@ private:
     QAction* m_pauseAct;
     QAction* m_uniqueAct;
     QAction* m_repeatAct;
+    QAction* m_changeDirectoryAct;
     QAction* m_volumeMutedAct;
     PreferencesManager* m_preferences;
     MusicModel* m_model;
@@ -162,9 +199,11 @@ private:
     QAction* m_openPlayList;
     QAction* m_savePlayList;
     QAction* m_clearList;
+    PlayingMode m_playingMode;
+    QMediaContent* m_currentContent;
 
     int m_id;
-
+    quint64 m_time;
 
     Ui::AudioWidgetUI* m_ui;
 };
