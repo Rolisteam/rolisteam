@@ -23,7 +23,8 @@
 #include <QTime>
 #include <QMediaPlayer>
 #include <QMediaContent>
-
+#include <QContextMenuEvent>
+#include <QMenu>
 
 #include "preferencesmanager.h"
 #include "musicmodel.h"
@@ -58,17 +59,21 @@ public:
     //void pause();
 
     void updateUi();
+
+    void addActionsIntoMenu(QMenu* menu);
+protected:
+        void contextMenuEvent(QContextMenuEvent* ev);
 private:
     /**
      * @brief setupUi
      */
     void setupUi();
+
+private slots:
     /**
      * @brief updateIcon
      */
     void updateIcon();
-
-private slots:
     /**
      * @brief setTime
      * @param time
@@ -113,6 +118,10 @@ private slots:
 
     void saveVolumeValue(int);
     void readM3uPlayList(QString filepath);
+    void removeAll();
+
+
+
 
 
 signals:
@@ -132,6 +141,7 @@ signals:
      * @brief askPrevious
      */
     void askPrevious();
+
 
 
 private:

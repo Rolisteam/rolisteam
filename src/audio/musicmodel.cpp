@@ -66,3 +66,18 @@ void MusicModel::removeAll()
     m_data.clear();
     endResetModel();
 }
+void MusicModel::removeSong(QModelIndexList& list)
+{
+    if(list.isEmpty())
+        return;
+
+    QModelIndex first=list[0];
+    QModelIndex end=list.last();
+    beginRemoveRows(first.parent(),first.row(),end.row());
+    for(int i = list.size()-1;i>=0;--i)
+    {
+        QModelIndex index=list[i];
+        m_data.removeAt(index.row());
+    }
+    endRemoveRows();
+}

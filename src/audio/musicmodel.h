@@ -52,6 +52,8 @@ public:
     QMediaContent* getMediaByModelIndex(QModelIndex);
 
     void removeAll();
+
+    void removeSong(QModelIndexList& list);
 signals:
 
 public slots:

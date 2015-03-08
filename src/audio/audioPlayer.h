@@ -78,10 +78,8 @@ public :
 
 public slots:
     void pstop();
-
-
-signals :
-
+protected:
+    void contextMenuEvent(QContextMenuEvent* ev);
 
 private :
         /**
@@ -124,6 +122,9 @@ private :
     PlayerWidget* m_mainPlayer;
     PlayerWidget* m_secondPlayer;
     PlayerWidget* m_thirdPlayer;
+
+    QList<PlayerWidget*> m_players;
+    QList<QAction*> m_playerActionsList;
 
 
     PreferencesManager* m_preferences;
@@ -177,9 +178,7 @@ private slots :
 
     void emitCurrentState();
 
-    void volumeHasChanged(qreal);
-
-    void startSongOnSpecificPlayer();
+    void showMusicPlayer();
 };
 
 #endif

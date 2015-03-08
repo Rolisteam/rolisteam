@@ -70,31 +70,26 @@ AudioPlayer*  AudioPlayer::getInstance(QWidget *parent)
         }
         return m_singleton;
 }
-
-void AudioPlayer::startSongOnSpecificPlayer()
+void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
 {
-    /*QAction* act = qobject_cast<QAction*>(sender());
-    if(NULL!=act)
+    QMenu menu;
+    foreach(PlayerWidget* tmp,m_players)
     {
-        PlayerWidget* destination = NULL;
-
-        if(act == m_playOnFirstAction)
-         {
-           destination= m_mainPlayer ;
-        }
-        else if(act == m_playOnSecondAction)
+        if((tmp->geometry().contains(ev->pos(),true))&&(tmp->isVisible()))
         {
-           destination=m_secondPlayer;
+            tmp->addActionsIntoMenu(&menu);
+            menu.addSeparator();
         }
-        else
-        {
-            destination=m_thirdPlayer;
-        }
-        destination->startMedia(m_model->getMediaByModelIndex(m_songList->currentIndex()));
-        //m_mainPlayer->startMedia(m_model->getMediaByModelIndex(p));*/
-  //  }
+    }
+    foreach(QAction* act,m_playerActionsList)
+    {
+        menu.addAction(act);
+    }
 
+    menu.exec(ev->globalPos());
+     ev->accept();
 }
+
 
 AudioPlayer::~AudioPlayer()
 {
@@ -115,14 +110,20 @@ void AudioPlayer::setupUi()
         m_mainLayout->setSpacing(0);
         m_mainLayout->setMargin(0);
 
-        m_mainPlayer = new PlayerWidget(1,this);
-        m_secondPlayer = new PlayerWidget(2,this);
-        m_thirdPlayer = new PlayerWidget(3,this);
+        for(int i = 0;i < 3; ++i)
+        {
+            m_players.append(new PlayerWidget(i,this));
+            QAction* act = new QAction(tr("Show/hide Player %1").arg(i),this);
+            act->setCheckable(true);
+            act->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i),true).toBool());
+            connect(act,SIGNAL(triggered()),this,SLOT(showMusicPlayer()));
+            m_playerActionsList.append(act);
+            m_mainLayout->addWidget(m_players[i]);
+        }
 
 
-        m_mainLayout->addWidget(m_mainPlayer);
-        m_mainLayout->addWidget(m_secondPlayer);
-        m_mainLayout->addWidget(m_thirdPlayer);
+        /*m_mainLayout->addWidget(m_secondPlayer);
+        m_mainLayout->addWidget(m_thirdPlayer);*/
 
 
         m_mainWidget->setLayout(m_mainLayout);
@@ -130,7 +131,20 @@ void AudioPlayer::setupUi()
         //connect(m_songList,SIGNAL(itemSelectionChanged()),this,SLOT(selectionHasChanged()),Qt::QueuedConnection);
 
 }
+void AudioPlayer::showMusicPlayer()
+{
+    QAction* act = qobject_cast<QAction*>(sender());
 
+    if(NULL!=act)
+    {
+        int i = m_playerActionsList.indexOf(act);
+        if(-1!=1)
+        {
+            PlayerWidget* tmp = m_players[i];
+            tmp->setVisible(!tmp->isVisible());
+        }
+    }
+}
 
 //void AudioPlayer::sourceChanged( QMediaContent const & source)
 //{
@@ -592,9 +606,9 @@ void AudioPlayer::selectionHasChanged()
     }*/
 }
 
-void AudioPlayer::volumeHasChanged(qreal newVolume)
-{
-    qDebug()<< "new volume"<< newVolume;
-    m_preferences->registerValue("MusicVolume",newVolume);
+//void AudioPlayer::volumeHasChanged(qreal newVolume)
+//{
+//    qDebug()<< "new volume"<< newVolume;
+//    m_preferences->registerValue("MusicVolume",newVolume);
 
-}
+//}

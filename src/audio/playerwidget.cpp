@@ -55,9 +55,11 @@ void PlayerWidget::setupUi()
     m_playAct = new QAction(style()->standardIcon(QStyle::SP_MediaPlay),tr("Play"),this);
     m_pauseAct = new QAction(style()->standardIcon(QStyle::SP_MediaPause),tr("Pause"),this);
     m_stopAct = new QAction(style()->standardIcon(QStyle::SP_MediaStop),tr("Stop"),this);
-    m_uniqueAct = new QAction(style()->standardIcon(QStyle::SP_MediaSkipForward),tr("Next"),this);
-    m_repeatAct = new QAction(style()->standardIcon(QStyle::SP_MediaSkipBackward),tr("Previous"),this);
+    m_uniqueAct = new QAction(QIcon("://resources/icones/playunique.png"),tr("Next"),this);
+    m_repeatAct = new QAction(QIcon("://resources/icones/playloop.png"),tr("Previous"),this);
     m_volumeMutedAct = new QAction(this);
+    m_volumeMutedAct->setCheckable(true);
+
 
     m_openPlayList= new QAction(style()->standardIcon(QStyle::SP_DialogOpenButton),tr("Open Playlist"),this);
     m_savePlayList= new QAction(style()->standardIcon(QStyle::SP_DialogSaveButton),tr("Save"),this);
@@ -95,6 +97,7 @@ void PlayerWidget::setupUi()
     connect(m_addAction, SIGNAL(triggered(bool)), this, SLOT(addFiles()));
     connect(m_openPlayList, SIGNAL(triggered(bool)), this, SLOT(openPlayList()));
     connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(removeFile()));
+    connect(m_clearList,SIGNAL(triggered(bool)),this,SLOT(removeAll()));
     connect(m_ui->m_songList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickOnList(QModelIndex)));
     updateIcon();
     connect(&m_player,SIGNAL(positionChanged(qint64)),this,SLOT(positionChanged(qint64)));
@@ -106,7 +109,8 @@ void PlayerWidget::setupUi()
     connect(m_ui->m_volumeSlider,SIGNAL(valueChanged(int)),&m_player,SLOT(setVolume(int)));
     connect(&m_player,SIGNAL(currentMediaChanged(QMediaContent)),this,SLOT(sourceChanged(QMediaContent)));
     connect(&m_player,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(playerStatusChanged(QMediaPlayer::State)));
-
+    connect(m_volumeMutedAct,SIGNAL(toggled(bool)),&m_player,SLOT(setMuted(bool)));
+    connect(m_volumeMutedAct,SIGNAL(toggled(bool)),this,SLOT(updateIcon()));
 
 
 }
@@ -119,7 +123,8 @@ void PlayerWidget::clickOnList(QModelIndex p)//double click
 
 void PlayerWidget::removeFile()
 {
-
+    QModelIndexList list = m_ui->m_songList->selectionModel()->selectedIndexes();
+    m_model->removeSong(list);
 }
 
 
@@ -189,6 +194,23 @@ void PlayerWidget::readM3uPlayList(QString filepath)
 
     }
 }
+void PlayerWidget::contextMenuEvent(QContextMenuEvent* ev)
+{
+    ev->ignore();
+}
+void PlayerWidget::addActionsIntoMenu(QMenu* menu)
+{
+    menu->addAction(m_playAct);
+    menu->addAction(m_pauseAct);
+    menu->addAction(m_stopAct);
+    menu->addSeparator();
+    menu->addAction(m_addAction);
+    menu->addAction(m_openPlayList);
+    menu->addAction(m_savePlayList);
+    menu->addAction(m_clearList);
+    menu->addAction(m_deleteAction);
+    menu->addSeparator();
+}
 
 void PlayerWidget::updateUi()
 {
@@ -253,4 +275,8 @@ void PlayerWidget::playerStatusChanged(QMediaPlayer::State newState)
 void PlayerWidget::saveVolumeValue(int volume)
 {
     m_preferences->registerValue(QString("volume_player_%1").arg(m_id),volume,true);
+}
+void PlayerWidget::removeAll()
+{
+    m_model->removeAll();
 }
