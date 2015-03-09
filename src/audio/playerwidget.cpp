@@ -175,6 +175,7 @@ void PlayerWidget::setupUi()
     connect(m_volumeMutedAct,SIGNAL(toggled(bool)),&m_player,SLOT(setMuted(bool)));
     connect(m_volumeMutedAct,SIGNAL(toggled(bool)),this,SLOT(updateIcon()));
     connect(m_changeDirectoryAct,SIGNAL(triggered()),this,SLOT(changeDirectory()));
+    connect(&m_player,SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)),this,SLOT(mediaStatusChanged(QMediaPlayer::MediaStatus)));
 
     connect(m_repeatAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
     connect(m_uniqueAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
