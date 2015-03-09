@@ -65,35 +65,46 @@ public :
     * @brief return a pointer to the unique audio player. Sigleton pattern
     */
     static AudioPlayer*  getInstance(QWidget *parent = 0);
-
-    void pplay();
-    void ppause();
-    //void pstop();
-    void pselectNewFile(QString file);
-    void pseek(quint32 position);
-
-    //QMediaContent* setSource(QModelIndex p);
-
+    /**
+     * @brief updateUi
+     */
     void updateUi();
 
+    /**
+     * @brief processMessage
+     * @param msg
+     */
     virtual void processMessage(NetworkMessageReader* msg);
 
 
 public slots:
-    void pstop();
-
-
-
-
-
+    /**
+     * @brief onePlayerHasStopped
+     */
     void onePlayerHasStopped(int);
+    /**
+     * @brief onePlayerIsPaused
+     */
     void onePlayerIsPaused(int);
+    /**
+     * @brief onePlayerPlays
+     */
     void onePlayerPlays(int,quint64);
+    /**
+     * @brief onePlayerHasNewSong
+     */
     void onePlayerHasNewSong(int,QString);
+    /**
+     * @brief onePlayerHasChangedPosition
+     */
     void onePlayerHasChangedPosition(int,quint64);
 
 
 protected:
+    /**
+     * @brief contextMenuEvent
+     * @param ev
+     */
     void contextMenuEvent(QContextMenuEvent* ev);
 
 private :
@@ -146,53 +157,16 @@ private :
     QMutex m_mutex;
 private slots :
     /**
-    * @brief received the time
-    */
-    //void tick(qint64 time);
-
-    /**
-    * @brief statusChanged called when state has been changed
-    */
-    void statusChanged(QMediaPlayer::MediaStatus status);
-
-    /**
-    * @brief called when the audio source has been changed
-    */
-    void playerStatusChanged(QMediaPlayer::State state);
-
-
-    /**
     * @brief Send some informations to the given player
     */
     void updatePlayingMode();
-
-    /**
-    * @brief slot which manage the click on playing
-    */
-    void onfinished();
-
-
-    /**
-    * @brief  slot which is called when song is finished
-    */
-//    void isAboutToFinish();
-
     /**
     * @brief  slot which manage the player's root directory change
     */
     void pChangeDirectory();
-
     /**
-    * @brief Send some informations to the given player
-    */
- //   void emettreEtat(Liaison * link);
-    /**
-    * @brief called when selection on list has changed
-    */
-    void selectionHasChanged();
-
-    void emitCurrentState();
-
+     * @brief showMusicPlayer
+     */
     void showMusicPlayer(bool);
 };
 

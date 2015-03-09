@@ -1,3 +1,22 @@
+/***************************************************************************
+ *	Copyright (C) 2009 by Renaud Guezennec                                 *
+ *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+ *                                                                         *
+ *   This software is free software; you can redistribute it and/or modify *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -50,6 +69,41 @@ void PlayerWidget::positionChanged(qint64 time)
      //m_timerDisplay->display(displayTime.toString("mm:ss"));
 
 }
+void PlayerWidget::mediaStatusChanged(QMediaPlayer::MediaStatus status)
+{
+    switch (status)
+    {
+    case QMediaPlayer::EndOfMedia:
+        findNext();
+        break;
+    default:
+        break;
+    }
+}
+void PlayerWidget::findNext()
+{
+    switch (m_playingMode)
+    {
+    case NEXT:
+    {
+        QModelIndex index = m_ui->m_songList->currentIndex();
+        int next=index.row()+1;
+        QModelIndex newIndex = index.sibling(next,0);
+        if(newIndex.isValid())
+        {
+            startMediaByModelIndex(newIndex);
+        }
+
+    }
+        break;
+    case UNIQUE:
+        //nothing
+        break;
+    case LOOP:
+        m_player.play();
+        break;
+    }
+}
 
 void PlayerWidget::setupUi()
 {
@@ -60,7 +114,9 @@ void PlayerWidget::setupUi()
     m_pauseAct = new QAction(style()->standardIcon(QStyle::SP_MediaPause),tr("Pause"),this);
     m_stopAct = new QAction(style()->standardIcon(QStyle::SP_MediaStop),tr("Stop"),this);
     m_uniqueAct = new QAction(QIcon("://resources/icones/playunique.png"),tr("Next"),this);
+    m_uniqueAct->setCheckable(true);
     m_repeatAct = new QAction(QIcon("://resources/icones/playloop.png"),tr("Previous"),this);
+    m_repeatAct->setCheckable(true);
     m_changeDirectoryAct = new QAction(style()->standardIcon(QStyle::SP_DirIcon),tr("Open Directory"),this);
     m_volumeMutedAct = new QAction(this);
     m_volumeMutedAct->setCheckable(true);
@@ -72,6 +128,7 @@ void PlayerWidget::setupUi()
 
     m_addAction 	= new QAction(QIcon("://resources/icones/add.png"),tr("Add"), this);
     m_deleteAction	= new QAction(QIcon("://resources/icones/remove.png"),tr("Remove"), this);
+
 
     m_ui->m_volumeSlider->setValue(m_preferences->value(QString("volume_player_%1").arg(m_id),50).toInt());
 
@@ -104,7 +161,7 @@ void PlayerWidget::setupUi()
     connect(m_openPlayList, SIGNAL(triggered(bool)), this, SLOT(openPlayList()));
     connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(removeFile()));
     connect(m_clearList,SIGNAL(triggered(bool)),this,SLOT(removeAll()));
-    connect(m_ui->m_songList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickOnList(QModelIndex)));
+    connect(m_ui->m_songList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(startMediaByModelIndex(QModelIndex)));
     updateIcon();
     connect(&m_player,SIGNAL(positionChanged(qint64)),this,SLOT(positionChanged(qint64)));
     connect(&m_player,SIGNAL(durationChanged(qint64)),this,SLOT(setDuration(qint64)));
@@ -119,9 +176,12 @@ void PlayerWidget::setupUi()
     connect(m_volumeMutedAct,SIGNAL(toggled(bool)),this,SLOT(updateIcon()));
     connect(m_changeDirectoryAct,SIGNAL(triggered()),this,SLOT(changeDirectory()));
 
+    connect(m_repeatAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
+    connect(m_uniqueAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
+
 
 }
-void PlayerWidget::clickOnList(QModelIndex p)//double click
+void PlayerWidget::startMediaByModelIndex(QModelIndex p)//double click
 {
 
       startMedia(m_model->getMediaByModelIndex(p));   
@@ -147,15 +207,6 @@ void PlayerWidget::addFiles()
     {
         QString fichier = fileList.takeFirst();
         QFileInfo fi(fichier);
-       // QString titre = fi.fileName();
-
-        {
-
-            //sendCommand(nouveauMorceau, titre);
-            // On active tous les boutons
-        }
-        //morceau->setToolTip(fichier);
-
     }
 }
 void PlayerWidget::openPlayList()
@@ -336,4 +387,37 @@ void PlayerWidget::changeDirectory()
     {
         m_preferences->registerValue(QString("MusicDirectoryPlayer_%1").arg(m_id),dir,true);
     }
+}
+void PlayerWidget::modeHasBeenChanged()
+{
+    if(m_repeatAct->isChecked())
+    {
+        m_playingMode = LOOP;
+    }
+    else if(m_uniqueAct->isChecked())
+    {
+        m_playingMode = UNIQUE;
+    }
+    else
+    {
+        m_playingMode = NEXT;
+    }
+
+}
+void PlayerWidget::triggeredPlayingModeAction()
+{
+    QAction* act = qobject_cast<QAction*>(sender());
+    bool status = act->isChecked();
+    if(status)
+    {
+        if(m_uniqueAct == act)
+        {
+            m_repeatAct->setChecked(false);
+        }
+        else if(m_repeatAct == act)
+        {
+            m_uniqueAct->setChecked(false);
+        }
+    }
+
 }

@@ -34,7 +34,7 @@ class AudioWidgetUI;
 }
 
 /**
- * @brief The PlayerWidget class
+ * @brief The PlayerWidget class manages all widgets requiered for playing music.
  */
 class PlayerWidget : public QWidget
 {
@@ -51,27 +51,46 @@ public:
      */
     void startMedia(QMediaContent*);
     /**
-     * @brief stop
+     * @brief updateUi
      */
-   // void stop();
-    /**
-     * @brief pause
-     */
-    //void pause();
-
     void updateUi();
-
+    /**
+     * @brief addActionsIntoMenu
+     * @param menu
+     */
     void addActionsIntoMenu(QMenu* menu);
 
 public slots:
     // ********************** Slots from network *************************** //
-
+    /**
+     * @brief playSong
+     * @param pos
+     */
     void playSong(quint64 pos);
+    /**
+     * @brief stop
+     */
     void stop();
+    /**
+     * @brief pause
+     */
     void pause();
+    /**
+     * @brief setPositionAt
+     * @param pos
+     */
     void setPositionAt(quint64 pos);
+    /**
+     * @brief setSourceSong
+     * @param file
+     */
     void setSourceSong(QString file);
+    void triggeredPlayingModeAction();
 protected:
+    /**
+         * @brief contextMenuEvent
+         * @param ev
+         */
         void contextMenuEvent(QContextMenuEvent* ev);
 private:
     /**
@@ -112,10 +131,15 @@ private slots:
      */
     void playerStatusChanged(QMediaPlayer::State newState);
     /**
+     * @brief mediaStatusChanged
+     * @param status
+     */
+    void mediaStatusChanged(QMediaPlayer::MediaStatus status);
+    /**
     * @brief  slot which manage the click on add song button
     * @param QModelIndex
     */
-    void clickOnList(QModelIndex p);
+    void startMediaByModelIndex(QModelIndex p);
     /**
     * @brief  slot which manage the click on remove song button
     */
@@ -124,16 +148,32 @@ private slots:
     * @brief  slot which manage the click on remove song button
     */
     void addFiles();
+    /**
+     * @brief openPlayList
+     */
     void openPlayList();
-
+    /**
+     * @brief saveVolumeValue
+     */
     void saveVolumeValue(int);
+    /**
+     * @brief readM3uPlayList
+     * @param filepath
+     */
     void readM3uPlayList(QString filepath);
+    /**
+     * @brief removeAll
+     */
     void removeAll();
+    /**
+     * @brief changeDirectory
+     */
     void changeDirectory();
 
 
+    void modeHasBeenChanged();
 
-
+    void findNext();
 
 signals:
     /**
