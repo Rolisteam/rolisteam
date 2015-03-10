@@ -3,6 +3,7 @@
 
 #include <QUrl>
 #include <QMediaContent>
+#include <QFont>
 
 MusicModel::MusicModel(QObject *parent) :
     QAbstractListModel(parent)
@@ -38,10 +39,27 @@ QVariant MusicModel::data(const QModelIndex &index, int role) const
     {
         if(index.column() == TITLE)
         {
-
-            return m_data.at(index.row())->canonicalUrl().fileName();
+            QUrl url = m_data.at(index.row())->canonicalUrl();
+            if(url.isLocalFile())
+            {
+                return url.fileName();
+            }
+            else if(url.host().contains("tabletopaudio.com"))
+            {
+                //download.php?downld_file=70_Age_of_Steam.mp3
+                QString str = url.toString();
+                str = str.right(str.size() - (str.lastIndexOf("=")+1));
+                return  str.replace(".mp3","").replace("_"," ");
+            }
         }
     }
+    else if((index == m_currentSong)&&(Qt::FontRole == role))
+    {
+        QFont font;
+        font.setBold(true);
+        return font;
+    }
+
     return QVariant();
 }
 void MusicModel::addSong(QStringList list)
@@ -52,7 +70,17 @@ void MusicModel::addSong(QStringList list)
     beginInsertRows(QModelIndex(),m_data.size(),m_data.size()+list.size()-1);
     foreach ( QString tmp, list)
     {
-        m_data.append(new QMediaContent(QUrl::fromLocalFile(tmp)));
+        //QMediaContent* tmpMedia = new QMediaContent(tmp);
+        QUrl tmpUrl(tmp);
+
+        if(tmpUrl.isValid())
+        {
+            m_data.append(new QMediaContent(tmpUrl));
+        }
+        else
+        {
+            m_data.append(new QMediaContent(QUrl::fromLocalFile(tmp)));
+        }
     }
     endInsertRows();
 }
@@ -80,4 +108,20 @@ void MusicModel::removeSong(QModelIndexList& list)
         m_data.removeAt(index.row());
     }
     endRemoveRows();
+}
+void MusicModel::setCurrentSong(QModelIndex& p)
+{
+    m_currentSong = p;
+    dataChanged(p,p);
+}
+QModelIndex& MusicModel::getCurrentSong()
+{
+    return m_currentSong;
+}
+void MusicModel::saveIn(QTextStream& file)
+{
+    foreach (QMediaContent* tmp, m_data)
+    {
+        file << tmp->canonicalUrl().toString() << "\n";
+    }
 }

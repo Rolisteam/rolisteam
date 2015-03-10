@@ -54,14 +54,16 @@ public:
     void removeAll();
 
     void removeSong(QModelIndexList& list);
-signals:
+    void setCurrentSong(QModelIndex& p);
+    QModelIndex& getCurrentSong();
 
-public slots:
+    void saveIn(QTextStream& file);
 
 private:
     QStringList m_header;
     QList<QMediaContent*> m_data;
     QMediaPlayer* m_player;
+    QModelIndex m_currentSong;
 };
 
 #endif // MUSICMODEL_H
