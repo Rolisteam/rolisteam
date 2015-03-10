@@ -19,7 +19,7 @@ to get information about rolisteam compilation.
 
 
 Bug report:
-http://code.google.com/p/rolisteam/issues/entry
+https://github.com/obiwankennedy/rolisteam/issues
 
 
 
