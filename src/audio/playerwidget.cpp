@@ -66,7 +66,7 @@ void PlayerWidget::positionChanged(qint64 time)
      }
      m_time = time;
      m_ui->m_timeSlider->setValue(time);
-     //m_timerDisplay->display(displayTime.toString("mm:ss"));
+     m_ui->m_timerDisplay->display(displayTime.toString("mm:ss"));
 
 }
 void PlayerWidget::mediaStatusChanged(QMediaPlayer::MediaStatus status)
@@ -82,11 +82,12 @@ void PlayerWidget::mediaStatusChanged(QMediaPlayer::MediaStatus status)
 }
 void PlayerWidget::findNext()
 {
+    modeHasBeenChanged();
     switch (m_playingMode)
     {
     case NEXT:
     {
-        QModelIndex index = m_ui->m_songList->currentIndex();
+        QModelIndex index = m_model->getCurrentSong();
         int next=index.row()+1;
         QModelIndex newIndex = index.sibling(next,0);
         if(newIndex.isValid())
@@ -120,14 +121,15 @@ void PlayerWidget::setupUi()
     m_changeDirectoryAct = new QAction(style()->standardIcon(QStyle::SP_DirIcon),tr("Open Directory"),this);
     m_volumeMutedAct = new QAction(this);
     m_volumeMutedAct->setCheckable(true);
+    m_loadTableTopAudioPlayListAct = new QAction(tr("load TableTopAudio.com playlist"),this);
 
 
     m_openPlayList= new QAction(style()->standardIcon(QStyle::SP_DialogOpenButton),tr("Open Playlist"),this);
-    m_savePlayList= new QAction(style()->standardIcon(QStyle::SP_DialogSaveButton),tr("Save"),this);
+    m_savePlayList= new QAction(style()->standardIcon(QStyle::SP_DialogSaveButton),tr("Save Playlist"),this);
     m_clearList= new QAction(style()->standardIcon(QStyle::SP_DialogResetButton),tr("Clear"),this);
 
-    m_addAction 	= new QAction(QIcon("://resources/icones/add.png"),tr("Add"), this);
-    m_deleteAction	= new QAction(QIcon("://resources/icones/remove.png"),tr("Remove"), this);
+    m_addAction 	= new QAction(QIcon("://resources/icones/add.png"),tr("Add Songs"), this);
+    m_deleteAction	= new QAction(QIcon("://resources/icones/remove.png"),tr("Remove Song"), this);
 
 
     m_ui->m_volumeSlider->setValue(m_preferences->value(QString("volume_player_%1").arg(m_id),50).toInt());
@@ -146,6 +148,7 @@ void PlayerWidget::setupUi()
     m_ui->m_savePlaylist->setDefaultAction(m_savePlayList);
     m_ui->m_addButton->setDefaultAction(m_addAction);
     m_ui->m_addButton->addAction(m_openPlayList);
+    m_ui->m_addButton->addAction(m_loadTableTopAudioPlayListAct);
 
     m_ui->m_volumeMutedButton->setDefaultAction(m_volumeMutedAct);
     m_ui->m_playButton->setDefaultAction(m_playAct);
@@ -170,6 +173,7 @@ void PlayerWidget::setupUi()
     connect(m_pauseAct,SIGNAL(triggered()),&m_player,SLOT(pause()));
     connect(m_ui->m_timeSlider,SIGNAL(sliderMoved(int)),this,SLOT(setTime(int)));
     connect(m_ui->m_volumeSlider,SIGNAL(valueChanged(int)),&m_player,SLOT(setVolume(int)));
+    connect(m_ui->m_volumeSlider,SIGNAL(valueChanged(int)),this,SLOT(saveVolumeValue(int)));
     connect(&m_player,SIGNAL(currentMediaChanged(QMediaContent)),this,SLOT(sourceChanged(QMediaContent)));
     connect(&m_player,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(playerStatusChanged(QMediaPlayer::State)));
     connect(m_volumeMutedAct,SIGNAL(toggled(bool)),&m_player,SLOT(setMuted(bool)));
@@ -180,12 +184,16 @@ void PlayerWidget::setupUi()
     connect(m_repeatAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
     connect(m_uniqueAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
 
+    connect(m_loadTableTopAudioPlayListAct,SIGNAL(triggered()),this,SLOT(loadPlayList()));
+    connect(m_savePlayList,SIGNAL(triggered()),this,SLOT(savePlaylist()));
+
 
 }
 void PlayerWidget::startMediaByModelIndex(QModelIndex p)//double click
 {
 
-      startMedia(m_model->getMediaByModelIndex(p));   
+      startMedia(m_model->getMediaByModelIndex(p));
+      m_model->setCurrentSong(p);
           //  m_mediaObject->play();
 }
 
@@ -210,26 +218,33 @@ void PlayerWidget::addFiles()
         QFileInfo fi(fichier);
     }
 }
-void PlayerWidget::openPlayList()
+bool PlayerWidget::askToDeleteAll()
 {
     if(m_model->rowCount()!=0)
     {
         if(QMessageBox::Ok == QMessageBox::warning(this,tr("Attention!"),tr("You are about to load an new playlist. All previously load file will be dropped."),QMessageBox::Ok, QMessageBox::Cancel))
         {
             m_model->removeAll();
+            return true;
         }
         else
         {
-            return;
+            return false;
         }
     }
-    QString filename = QFileDialog::getOpenFileName(this, tr("Open Play List"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("PlayList (*.m3u)"));
-    if (filename.isEmpty())
-        return;
-    QFileInfo fileinfo(filename);
-    m_preferences->registerValue("MusicDirectoryGM",fileinfo.absolutePath());
-    readM3uPlayList(filename);
-
+    return true;
+}
+void PlayerWidget::openPlayList()
+{
+    if(askToDeleteAll())
+    {
+        QString filename = QFileDialog::getOpenFileName(this, tr("Open Play List"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("PlayList (*.m3u)"));
+        if (filename.isEmpty())
+            return;
+        QFileInfo fileinfo(filename);
+        m_preferences->registerValue("MusicDirectoryGM",fileinfo.absolutePath());
+        readM3uPlayList(filename);
+    }
 
 }
 void PlayerWidget::readM3uPlayList(QString filepath)
@@ -265,6 +280,7 @@ void PlayerWidget::addActionsIntoMenu(QMenu* menu)
     menu->addSeparator();
     menu->addAction(m_addAction);
     menu->addAction(m_openPlayList);
+    menu->addAction(m_loadTableTopAudioPlayListAct);
     menu->addAction(m_savePlayList);
     menu->addAction(m_clearList);
     menu->addAction(m_deleteAction);
@@ -420,5 +436,112 @@ void PlayerWidget::triggeredPlayingModeAction()
             m_uniqueAct->setChecked(false);
         }
     }
+
+}
+void PlayerWidget::loadPlayList()
+{
+    QStringList list;
+    list << "http://tabletopaudio.com/download.php?downld_file=70_Age_of_Steam.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=69_Forest_Night.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=68_1940s_Office.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=67_Asylum.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=66_Royal_Salon.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=65_Dungeon_I.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=64_Mountain_Pass.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=63_Industrial_Shipyard.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=62_Middle_Earth_Dawn.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=61_Orbital_Platform.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=60_Dark_and_Stormy.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=59_Dinotopia.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=58_Terror.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=57_Colosseum.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=56_Medieval_Town.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=55_Ice_Cavern.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=54_Mountain_Tavern.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=53_Strangers_on_a_Train.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=52_Warehouse_13.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=51_Woodland_Campsite.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=50_Super_Hero.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=49_Goblin's_Cave.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=48_Overland_with_Oxen.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=47_There_be_Dragons.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=46_Cathedral.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=45_Samurai_HQ.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=44_Victorian_London.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=43_Dome_City_Center.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=42_Rise_of_the_Ancients.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=41_Starship_Bridge.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=40_The_Long_Rain.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=39_Temple_of_the_Eye.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=38_Into_the_Deep.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=34_Clash_of_Kings.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=36_Down_by_the_Sea.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=37_Catacombs.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=30_Los_Vangeles_3030.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=35_Swamplandia.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=33_Far_Above_the_World.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=32_City_and_the_City.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=29_Kaltoran_Craft_FE.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=28_Nephilim_Labs_FE.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=31_Frozen_Wastes.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=26_Uncommon_Valor_a.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=27_Xingu_Nights.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=25_Deep_Space_EVA.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=24_Forbidden_Galaxy.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=23_The_Slaughtered_Ox.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=21_Derelict_Freighter.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=22_True_West_a.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=20_Dark_Continent_aa.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=19_Age_of_Sail.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=18_House_on_the_Hill.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=17_Alien_Night_Club.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=15_Alien_Machine_Shop.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=16_Busy_Space_Port.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=4_Solemn_Vow-a.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=6_Abyssal_Gaze.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=7_The_Desert_Awaits.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=8_New_Dust_to_Dust.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=9_Before_The_Storm.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=10_In_The_Shadows.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=11_Shelter_from_the_Storm.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=12_Disembodied_Spirits.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=13_Cave_of_Time.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=14_Protean_Fields.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=1_The_Inner_Core.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=2_Bubbling_Pools.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=5_Desert_Bazaar.mp3"
+        << "http://tabletopaudio.com/download.php?downld_file=3_The_March_of_the_Faithful.mp3";
+
+    if(askToDeleteAll())
+    {
+        list.sort();
+        m_model->removeAll();
+        m_model->addSong(list);
+    }
+}
+void  PlayerWidget::savePlaylist()
+{
+    QString filename = QFileDialog::getSaveFileName(this, tr("Open Play List"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("PlayList (*.m3u)"));
+    if (filename.isEmpty())
+        return;
+
+
+    if(!filename.endsWith(".m3u"))
+    {
+        filename.append(".m3u");
+    }
+    QFile file(filename);
+    if(file.exists())
+    {
+
+    }
+
+   // if(file.isWritable())
+    {
+        file.open(QIODevice::WriteOnly);
+        QTextStream in(&file);
+        m_model->saveIn(in);
+    }
+
 
 }

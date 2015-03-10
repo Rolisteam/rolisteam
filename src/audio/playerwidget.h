@@ -100,6 +100,10 @@ private:
 
 private slots:
     /**
+     * @brief savePlaylist
+     */
+    void  savePlaylist();
+    /**
      * @brief updateIcon
      */
     void updateIcon();
@@ -170,10 +174,23 @@ private slots:
      */
     void changeDirectory();
 
-
+    /**
+     * @brief modeHasBeenChanged
+     */
     void modeHasBeenChanged();
-
+    /**
+     * @brief findNext
+     */
     void findNext();
+    /**
+     * @brief loadPlayList
+     */
+    void loadPlayList();
+    /**
+     * @brief askToDeleteAll
+     * @return
+     */
+    bool askToDeleteAll();
 
 signals:
     /**
@@ -219,7 +236,6 @@ signals:
     void playerPositionChanged(int,quint64);
 
 
-
 private:
     QSlider* m_volume;
     QSlider* m_seek;
@@ -232,6 +248,7 @@ private:
     QAction* m_repeatAct;
     QAction* m_changeDirectoryAct;
     QAction* m_volumeMutedAct;
+    QAction* m_loadTableTopAudioPlayListAct;
     PreferencesManager* m_preferences;
     MusicModel* m_model;
     QAction* m_addAction;            //!< @brief add song action
