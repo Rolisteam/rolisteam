@@ -155,39 +155,8 @@ void AudioPlayer::updateUi()
 
 //    }
 }
-
-
-
-
-void AudioPlayer::updatePlayingMode()
-{
-    QAction* tmp = static_cast<QAction*>(sender());
-    if((tmp==m_loopAction)&&(m_loopAction->isChecked())&&(m_uniqueAction->isChecked()))
-    {
-        m_uniqueAction->setChecked(false);
-    }
-    if((tmp==m_uniqueAction)&&(m_loopAction->isChecked())&&(m_uniqueAction->isChecked()))
-    {
-        m_loopAction->setChecked(false);
-    }
-
-
-    if(m_loopAction->isChecked())
-    {
-        // m_currentPlayingMode=LOOP;
-    }
-    else if(m_uniqueAction->isChecked())
-    {
-        //   m_currentPlayingMode=UNIQUE;
-    }
-    else if((!m_uniqueAction->isChecked())&&(!m_loopAction->isChecked()))
-    {
-        //  m_currentPlayingMode=NEXT;
-    }
-}
 void AudioPlayer::onePlayerHasStopped(int id)
 {
-    qDebug() << "audio player onePlayerHasStopped"<< id;
     if(!m_preferences->value("isPlayer",false).toBool())
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::StopSong);

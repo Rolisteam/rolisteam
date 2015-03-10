@@ -107,6 +107,15 @@ protected:
      */
     void contextMenuEvent(QContextMenuEvent* ev);
 
+private slots :
+    /**
+    * @brief  slot which manage the player's root directory change
+    */
+    void pChangeDirectory();
+    /**
+     * @brief showMusicPlayer
+     */
+    void showMusicPlayer(bool);
 private :
         /**
         * @brief private constructor
@@ -130,19 +139,11 @@ private :
         * @brief set the UI - Phonon only
         */
     void setupUi();
-    qint64 m_time;//!< @brief current time
 
-
-
+// ################ MEMBERS ########################## //
+private:
     QWidget* m_mainWidget;        //!< @brief brings together all subwidget
     QVBoxLayout* m_mainLayout;
-
-
-    QActionGroup* m_playingMode;
-    QAction* m_loopAction;            //!< @brief loop playing action
-    QAction* m_uniqueAction;            //!< @brief one song playing mode action
-    QAction* m_addAction;            //!< @brief add song action
-    QAction* m_deleteAction;        //!< @brief remove song action
 
 
     PlayerWidget* m_mainPlayer;
@@ -155,19 +156,7 @@ private :
 
     PreferencesManager* m_preferences;
     QMutex m_mutex;
-private slots :
-    /**
-    * @brief Send some informations to the given player
-    */
-    void updatePlayingMode();
-    /**
-    * @brief  slot which manage the player's root directory change
-    */
-    void pChangeDirectory();
-    /**
-     * @brief showMusicPlayer
-     */
-    void showMusicPlayer(bool);
+    qint64 m_time;//!< @brief current time
 };
 
 #endif
