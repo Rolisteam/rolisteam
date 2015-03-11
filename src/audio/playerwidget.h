@@ -85,7 +85,14 @@ public slots:
      * @param file
      */
     void setSourceSong(QString file);
+    /**
+     * @brief triggeredPlayingModeAction
+     */
     void triggeredPlayingModeAction();
+    /**
+     * @brief errorOccurs
+     */
+    void errorOccurs(QMediaPlayer::Error);
 protected:
     /**
          * @brief contextMenuEvent
@@ -173,6 +180,10 @@ private slots:
      * @brief changeDirectory
      */
     void changeDirectory();
+    /**
+     * @brief labelTextChanged
+     */
+    void labelTextChanged();
 
     /**
      * @brief modeHasBeenChanged

@@ -115,30 +115,55 @@ void PlayerWidget::setupUi()
     m_pauseAct = new QAction(style()->standardIcon(QStyle::SP_MediaPause),tr("Pause"),this);
     m_stopAct = new QAction(style()->standardIcon(QStyle::SP_MediaStop),tr("Stop"),this);
     m_uniqueAct = new QAction(QIcon("://resources/icones/playunique.png"),tr("Next"),this);
+    m_uniqueAct->setShortcut(QKeySequence("Ctrl+U"));
     m_uniqueAct->setCheckable(true);
     m_repeatAct = new QAction(QIcon("://resources/icones/playloop.png"),tr("Previous"),this);
     m_repeatAct->setCheckable(true);
+    m_repeatAct->setShortcut(QKeySequence("Ctrl+R"));
     m_changeDirectoryAct = new QAction(style()->standardIcon(QStyle::SP_DirIcon),tr("Open Directory"),this);
     m_volumeMutedAct = new QAction(this);
     m_volumeMutedAct->setCheckable(true);
+    m_volumeMutedAct->setShortcut(QKeySequence("Ctrl+M"));
     m_loadTableTopAudioPlayListAct = new QAction(tr("load TableTopAudio.com playlist"),this);
 
 
     m_openPlayList= new QAction(style()->standardIcon(QStyle::SP_DialogOpenButton),tr("Open Playlist"),this);
+    m_openPlayList->setShortcut(QKeySequence("Ctrl+O"));
     m_savePlayList= new QAction(style()->standardIcon(QStyle::SP_DialogSaveButton),tr("Save Playlist"),this);
+    m_savePlayList->setShortcut(QKeySequence("Ctrl+S"));
     m_clearList= new QAction(style()->standardIcon(QStyle::SP_DialogResetButton),tr("Clear"),this);
+    m_clearList->setShortcut(QKeySequence("Ctrl+Del"));
 
     m_addAction 	= new QAction(QIcon("://resources/icones/add.png"),tr("Add Songs"), this);
+    m_addAction->setShortcut(QKeySequence("Ctrl+A"));
     m_deleteAction	= new QAction(QIcon("://resources/icones/remove.png"),tr("Remove Song"), this);
+    m_deleteAction->setShortcut(QKeySequence("Del"));
 
 
     m_ui->m_volumeSlider->setValue(m_preferences->value(QString("volume_player_%1").arg(m_id),50).toInt());
 
+    // **************** Add ACTIONS ********************************
 
+    addAction(m_uniqueAct);
+    addAction(m_repeatAct);
+    addAction(m_volumeMutedAct);
+    addAction(m_openPlayList);
+    addAction(m_savePlayList);
+    addAction(m_clearList);
+    addAction(m_deleteAction);
+    addAction(m_addAction);
 
     // **************** TOOLTIP ACTIONS ********************************
     m_addAction->setToolTip(tr("Add song to the list"));
     m_deleteAction->setToolTip(tr("Remove selected file"));
+
+
+
+
+
+
+
+
 
 
 
@@ -180,6 +205,9 @@ void PlayerWidget::setupUi()
     connect(m_volumeMutedAct,SIGNAL(toggled(bool)),this,SLOT(updateIcon()));
     connect(m_changeDirectoryAct,SIGNAL(triggered()),this,SLOT(changeDirectory()));
     connect(&m_player,SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)),this,SLOT(mediaStatusChanged(QMediaPlayer::MediaStatus)));
+
+    connect(&m_player,SIGNAL(error(QMediaPlayer::Error)),this,SLOT(errorOccurs(QMediaPlayer::Error)));
+    connect(m_ui->m_label,SIGNAL(textChanged(QString)),this,SLOT(labelTextChanged()));
 
     connect(m_repeatAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
     connect(m_uniqueAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
@@ -290,7 +318,7 @@ void PlayerWidget::addActionsIntoMenu(QMenu* menu)
 void PlayerWidget::updateUi()
 {
     if(!m_preferences->value("isPlayer",false).toBool())
-    {
+    {// Game Master
         m_ui->m_playButton->setVisible(true);
         m_ui->m_stopButton->setVisible(true);
         m_ui->m_pauseButton->setVisible(true);
@@ -303,8 +331,9 @@ void PlayerWidget::updateUi()
         m_ui->m_songList->setVisible(true);
         m_ui->m_savePlaylist->setVisible(true);
         m_ui->m_changeDirectory->setVisible(false);
+        m_ui->m_timerDisplay->setVisible(true);
     }
-    else
+    else//Player
     {
         m_ui->m_playButton->setVisible(false);
         m_ui->m_stopButton->setVisible(false);
@@ -318,6 +347,9 @@ void PlayerWidget::updateUi()
         m_ui->m_songList->setVisible(false);
         m_ui->m_savePlaylist->setVisible(false);
         m_ui->m_changeDirectory->setVisible(true);
+        m_ui->m_timerDisplay->setVisible(false);
+
+        m_ui->m_label->setEchoMode(QLineEdit::Password);
 
     }
     m_ui->m_volumeSlider->setValue(m_preferences->value(QString("volume_player_%1").arg(m_id),50).toInt());
@@ -341,7 +373,14 @@ void PlayerWidget::setTime(int time)
 }
 void PlayerWidget::sourceChanged(const QMediaContent & media)
 {
-   emit newSongPlayed(m_id,media.canonicalUrl().fileName());
+    if(media.canonicalUrl().isLocalFile())
+    {
+        emit newSongPlayed(m_id,media.canonicalUrl().fileName());
+    }
+    else
+    {
+        emit newSongPlayed(m_id,media.canonicalUrl().toString());
+    }
 }
 void PlayerWidget::playerStatusChanged(QMediaPlayer::State newState)
 {
@@ -391,15 +430,19 @@ void PlayerWidget::setSourceSong(QString file)
 
     QString path("%1/%2");
     QString dir = m_preferences->value(QString("MusicDirectoryPlayer_%1").arg(m_id),QDir::homePath()).toString();
+    QUrl url(file);
+    if(!url.isValid())
+    {
+        url = QUrl::fromLocalFile(path.arg(dir).arg(file));
+    }
 
-    QMediaContent currentContent(QUrl::fromLocalFile(path.arg(dir).arg(file)));
-    qDebug() << dir << file;
+    QMediaContent currentContent(url);
+
     m_player.setMedia(currentContent);
 }
 void PlayerWidget::changeDirectory()
 {
     QString dir = QFileDialog::getExistingDirectory(this, tr("Load Directory"), m_preferences->value(QString("MusicDirectoryPlayer_%1").arg(m_id),QDir::homePath()).toString());
-    qDebug() << "directory change"<< dir;
     if(!dir.isEmpty())
     {
         m_preferences->registerValue(QString("MusicDirectoryPlayer_%1").arg(m_id),dir,true);
@@ -544,4 +587,27 @@ void  PlayerWidget::savePlaylist()
     }
 
 
+}
+void PlayerWidget::errorOccurs(QMediaPlayer::Error e)
+{
+    QString Error("Error %1 : %2");
+    m_ui->m_label->setText(Error.arg(m_player.errorString()).arg(m_player.currentMedia().canonicalUrl().toString()));
+}
+void PlayerWidget::labelTextChanged()
+{
+
+    if(m_ui->m_label->text().startsWith("Error") && m_player.error()!=QMediaPlayer::NoError)
+    {
+        m_ui->m_label->setStyleSheet("color: red");
+        m_ui->m_label->setEchoMode(QLineEdit::Normal);
+
+    }
+    else
+    {
+        m_ui->m_label->setStyleSheet("color: black");
+        if(m_preferences->value("isPlayer",false).toBool())
+        {// Player
+                m_ui->m_label->setEchoMode(QLineEdit::Password);
+        }
+    }
 }
