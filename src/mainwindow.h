@@ -48,7 +48,7 @@
 #endif
 
 class UpdateChecker;
-class BarreOutils;
+class ToolBar;
 class CarteFenetre;
 class Carte;
 class ChatListWidget;
@@ -328,7 +328,7 @@ private :
     WorkspaceAmeliore* m_mdiArea;
     PlayersListWidget * m_playersListWidget;
     QMenu *m_windowMenu;
-    BarreOutils *m_toolBar;
+    ToolBar *m_toolBar;
 
     EditeurNotes *editeurNotes;
     QList <CarteFenetre *> m_mapWindowList;

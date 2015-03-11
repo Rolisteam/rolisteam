@@ -43,7 +43,7 @@
 
 #include "WorkspaceAmeliore.h"
 #include "mainwindow.h"
-#include "BarreOutils.h"
+#include "toolbar.h"
 #include "preferencesmanager.h"
 
 class Liaison;
@@ -76,7 +76,7 @@ public :
 public slots :
     void pointeurMain();
     void pointeurNormal();
-    void setCurrentTool(BarreOutils::Tool tool);
+    void setCurrentTool(ToolBar::Tool tool);
 
 protected:
     /**
@@ -193,7 +193,7 @@ private :
     double m_ratioImage;
     double m_ratioImageBis;
 
-    BarreOutils::Tool m_currentTool;
+    ToolBar::Tool m_currentTool;
 
 };
 

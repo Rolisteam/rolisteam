@@ -26,7 +26,7 @@
 #include <QDebug>
 
 
-#include "BarreOutils.h"
+#include "toolbar.h"
 
 #include "Carte.h"
 #include "network/networkmessagewriter.h"
@@ -52,12 +52,12 @@ int G_numeroPnjCourant;
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/	
-BarreOutils::BarreOutils(QWidget *parent)
+ToolBar::ToolBar(QWidget *parent)
 	: QDockWidget(parent), m_map(NULL)
 {
     m_currentTool = main;
         setWindowTitle(tr("Tools"));
-        setObjectName("BarreOutils");
+        setObjectName("ToolBar");
 	// Parametrage du dockWidget
     setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
@@ -87,7 +87,7 @@ BarreOutils::BarreOutils(QWidget *parent)
 
 	setFloating(false);
 }
-BarreOutils::~BarreOutils()
+ToolBar::~ToolBar()
 {
     delete ligneDeTexte;
     delete nomPnj;
@@ -97,7 +97,7 @@ BarreOutils::~BarreOutils()
 /* Autorise ou pas la selection des couleurs de masquage et         */
 /* demasquage en fonction de la nature de l'utilisateur (MJ/joueur) */
 /********************************************************************/	
-void BarreOutils::updateUi()
+void ToolBar::updateUi()
 {
 	couleur->autoriserOuInterdireCouleurs();
         if(!PlayersList::instance()->localPlayer()->isGM())
@@ -109,7 +109,7 @@ void BarreOutils::updateUi()
 /********************************************************************/
 /* Creation des actions                                             */
 /********************************************************************/	
-void BarreOutils::creerActions()
+void ToolBar::creerActions()
 {
 	// Creation du groupe d'action
 	QActionGroup *groupOutils = new QActionGroup(this);
@@ -152,7 +152,7 @@ void BarreOutils::creerActions()
 /********************************************************************/
 /* Creation des boutons et du widget qui les contient               */
 /********************************************************************/	
-void BarreOutils::creerOutils()
+void ToolBar::creerOutils()
 {
     // Creationm_actionGroup des boutons du toolBar
     m_actionGroup = new QActionGroup(this);
@@ -404,7 +404,7 @@ void BarreOutils::creerOutils()
 /********************************************************************/
 /* Incrementation du numero de PNJ                                   */
 /********************************************************************/	
-void BarreOutils::incrementeNumeroPnj()
+void ToolBar::incrementeNumeroPnj()
 {
 	// Recuperation de la valeur actuelle
 	int numeroActuel = (int) afficheNumeroPnj->value();
@@ -424,7 +424,7 @@ void BarreOutils::incrementeNumeroPnj()
 /********************************************************************/
 /* Remise a 1 du numero de PNJ                                      */
 /********************************************************************/	
-void BarreOutils::razNumeroPnj()
+void ToolBar::razNumeroPnj()
 {
 	afficheNumeroPnj->display(1);
 	// Mise a jour de la variable globale indiquant le numero de PNJ
@@ -434,7 +434,7 @@ void BarreOutils::razNumeroPnj()
 /********************************************************************/
 /* Changement de taille en fonction de l'etat du dockwidget         */
 /********************************************************************/	
-void BarreOutils::changementTaille(bool floating)
+void ToolBar::changementTaille(bool floating)
 {
                 if (floating)
                 {
@@ -451,7 +451,7 @@ void BarreOutils::changementTaille(bool floating)
 /********************************************************************/
 /* Mise a jour de la variable globale contenant le texte            */
 /********************************************************************/	
-void BarreOutils::texteChange(const QString &texte)
+void ToolBar::texteChange(const QString &texte)
 {
 	// M.a.j automatique de la variable globale contenant le texte
 	G_texteCourant = texte;
@@ -462,7 +462,7 @@ void BarreOutils::texteChange(const QString &texte)
 /********************************************************************/
 /* Mise a jour de la variable globale contenant le nom du PNJ       */
 /********************************************************************/	
-void BarreOutils::nomPnjChange(const QString &texte)
+void ToolBar::nomPnjChange(const QString &texte)
 {
 	// M.a.j de la variable globale contenant le nom du PNJ
 	G_nomPnjCourant = texte;
@@ -474,7 +474,7 @@ void BarreOutils::nomPnjChange(const QString &texte)
 /* Fait suivre une demande de changement de couleur au selecteur    */
 /* de couleur                                                       */
 /********************************************************************/
-void BarreOutils::changeCouleurActuelle(QColor coul)
+void ToolBar::changeCouleurActuelle(QColor coul)
 {
 	couleur->changeCouleurActuelle(coul);
 }
@@ -482,7 +482,7 @@ void BarreOutils::changeCouleurActuelle(QColor coul)
 /********************************************************************/
 /* M.a.j le nom et le diametre du PNJ                               */
 /********************************************************************/
-void BarreOutils::mettreAJourPnj(int diametre, QString nom)
+void ToolBar::mettreAJourPnj(int diametre, QString nom)
 {
 	// M.a.j du diametre du PNJ (ce qui met a jour la variable globale)
     m_npcDiameter->changerDiametre(diametre);
@@ -492,7 +492,7 @@ void BarreOutils::mettreAJourPnj(int diametre, QString nom)
 	G_nomPnjCourant = nom;
 }
 
-void BarreOutils::changeMap(Carte * map)
+void ToolBar::changeMap(Carte * map)
 {
     m_map = map;
     if (m_map != NULL)
@@ -505,7 +505,7 @@ void BarreOutils::changeMap(Carte * map)
 /* Demande une m.a.j des couleurs personnelles au selecteur de      */
 /* couleurs                                                         */
 /********************************************************************/	
-void BarreOutils::majCouleursPersonnelles()
+void ToolBar::majCouleursPersonnelles()
 {
 	couleur->majCouleursPersonnelles();
 }
@@ -514,7 +514,7 @@ void BarreOutils::majCouleursPersonnelles()
 /* Renvoie la couleur personnelle dont le numero est passe en       */
 /* parametre                                                        */
 /********************************************************************/	
-QColor BarreOutils::donnerCouleurPersonnelle(int numero)
+QColor ToolBar::donnerCouleurPersonnelle(int numero)
 {
 	return couleur->donnerCouleurPersonnelle(numero);
 }
@@ -522,7 +522,7 @@ QColor BarreOutils::donnerCouleurPersonnelle(int numero)
 /********************************************************************/
 /* Selectionne l'outil crayon                                       */
 /********************************************************************/	
-void BarreOutils::crayonSelectionne()
+void ToolBar::crayonSelectionne()
 {
     m_currentTool = crayon;
 }
@@ -530,7 +530,7 @@ void BarreOutils::crayonSelectionne()
 /********************************************************************/
 /* Selectionne l'outil ligne                                        */
 /********************************************************************/	
-void BarreOutils::ligneSelectionne()
+void ToolBar::ligneSelectionne()
 {
     m_currentTool = ligne;
 }
@@ -538,7 +538,7 @@ void BarreOutils::ligneSelectionne()
 /********************************************************************/
 /* Selectionne l'outil rectangle vide                               */
 /********************************************************************/	
-void BarreOutils::rectVideSelectionne()
+void ToolBar::rectVideSelectionne()
 {
     m_currentTool = rectVide;
 }
@@ -546,7 +546,7 @@ void BarreOutils::rectVideSelectionne()
 /********************************************************************/
 /* Selectionne l'outil rectangle plein                              */
 /********************************************************************/	
-void BarreOutils::rectPleinSelectionne()
+void ToolBar::rectPleinSelectionne()
 {
     m_currentTool = rectPlein;
 }
@@ -554,7 +554,7 @@ void BarreOutils::rectPleinSelectionne()
 /********************************************************************/
 /* Selectionne l'outil ellipse vide                                 */
 /********************************************************************/	
-void BarreOutils::elliVideSelectionne()
+void ToolBar::elliVideSelectionne()
 {
     m_currentTool = elliVide;
 }
@@ -562,7 +562,7 @@ void BarreOutils::elliVideSelectionne()
 /********************************************************************/
 /* Selectionne l'outil ellipse pleine                               */
 /********************************************************************/	
-void BarreOutils::elliPleinSelectionne()
+void ToolBar::elliPleinSelectionne()
 {
     m_currentTool = elliPlein;
 }
@@ -570,7 +570,7 @@ void BarreOutils::elliPleinSelectionne()
 /********************************************************************/
 /* Selectionne l'outil texte                                        */
 /********************************************************************/	
-void BarreOutils::texteSelectionne()
+void ToolBar::texteSelectionne()
 {
 	// Le focus du clavier est oriente vers la zone de texte
 	if (!(ligneDeTexte->hasFocus()))
@@ -584,7 +584,7 @@ void BarreOutils::texteSelectionne()
 /********************************************************************/
 /* Selectionne l'outil main                                         */
 /********************************************************************/	
-void BarreOutils::mainSelectionne()
+void ToolBar::mainSelectionne()
 {
     m_currentTool = main;
 }
@@ -592,7 +592,7 @@ void BarreOutils::mainSelectionne()
 /********************************************************************/
 /* Selectionne l'outil ajouter PNJ                                  */
 /********************************************************************/	
-void BarreOutils::ajoutPnjSelectionne()
+void ToolBar::ajoutPnjSelectionne()
 {
 	// Le focus du clavier est oriente vers la zone de nom de PNJ
 	if (!(nomPnj->hasFocus()))
@@ -606,7 +606,7 @@ void BarreOutils::ajoutPnjSelectionne()
 /********************************************************************/
 /* Selectionne l'outil supprimer PNJ                                */
 /********************************************************************/	
-void BarreOutils::supprPnjSelectionne()
+void ToolBar::supprPnjSelectionne()
 {
     m_currentTool = supprPnj;
 }
@@ -614,7 +614,7 @@ void BarreOutils::supprPnjSelectionne()
 /********************************************************************/
 /* Selectionne l'outil deplacer PNJ                                 */
 /********************************************************************/	
-void BarreOutils::deplacePersoSelectionne()
+void ToolBar::deplacePersoSelectionne()
 {
     m_currentTool = deplacePerso;
 }
@@ -622,18 +622,18 @@ void BarreOutils::deplacePersoSelectionne()
 /********************************************************************/
 /* Selectionne l'outil changer etat PNJ                             */
 /********************************************************************/	
-void BarreOutils::etatPersoSelectionne()
+void ToolBar::etatPersoSelectionne()
 {
     m_currentTool = etatPerso;
 }
 
-void BarreOutils::changeCharacterSize(int size)
+void ToolBar::changeCharacterSize(int size)
 {
     if (m_map != NULL)
         m_map->changerTaillePjCarte(size, m_currentTool != ajoutPnj);
 }
 
-void BarreOutils::sendNewCharacterSize(int size)
+void ToolBar::sendNewCharacterSize(int size)
 {
     if (m_map == NULL)
         return;
@@ -650,7 +650,7 @@ void BarreOutils::sendNewCharacterSize(int size)
 }
 
 
-void BarreOutils::currentToolHasChanged(QAction* bt)
+void ToolBar::currentToolHasChanged(QAction* bt)
 {
     Tool previous = m_currentTool;
     if(bt==actionCrayon)
@@ -717,8 +717,8 @@ void BarreOutils::currentToolHasChanged(QAction* bt)
     }
 
 }
-//BarreOutils::Tool m_currentTool;
-BarreOutils::Tool BarreOutils::getCurrentTool() const
+//ToolBar::Tool m_currentTool;
+ToolBar::Tool ToolBar::getCurrentTool() const
 {
     return m_currentTool;
 }

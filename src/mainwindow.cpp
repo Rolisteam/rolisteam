@@ -41,7 +41,7 @@
 
 #include "mainwindow.h"
 
-#include "BarreOutils.h"
+#include "toolbar.h"
 #include "CarteFenetre.h"
 #include "Carte.h"
 #include "chatlistwidget.h"
@@ -193,8 +193,8 @@ void MainWindow::setupUi()
     connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(changementFenetreActive(QMdiSubWindow *)));
 
     // Creation de la barre d'outils
-    //barreOutils = new BarreOutils(this);
-    m_toolBar = new BarreOutils();
+    //ToolBar = new ToolBar(this);
+    m_toolBar = new ToolBar();
     // Ajout de la barre d'outils a la fenetre principale
     addDockWidget(Qt::LeftDockWidgetArea, m_toolBar);
 
@@ -523,7 +523,7 @@ QWidget* MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSiz
     Carte *carte = carteFenetre->carte();
     carte->setPointeur(m_toolBar->getCurrentTool());
 
-    connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),carte,SLOT(setPointeur(BarreOutils::Tool)));
+    connect(m_toolBar,SIGNAL(currentToolChanged(ToolBar::Tool)),carte,SLOT(setPointeur(ToolBar::Tool)));
     connect(carte, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCouleurActuelle(QColor)));
     connect(carte, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementeNumeroPnj()));
     connect(carte, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(mettreAJourPnj(int, QString)));
@@ -634,7 +634,7 @@ void MainWindow::addImageToMdiArea(Image *imageFenetre, QString titre)
     sub->setWindowIcon(QIcon(":/picture.png"));
 
 
-    connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),imageFenetre,SLOT(setCurrentTool(BarreOutils::Tool)));
+    connect(m_toolBar,SIGNAL(currentToolChanged(ToolBar::Tool)),imageFenetre,SLOT(setCurrentTool(ToolBar::Tool)));
 
     imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
     connect(action, SIGNAL(triggered(bool)), sub, SLOT(setVisible(bool)));
@@ -1696,7 +1696,7 @@ void MainWindow::lireImage(QDataStream &file)
 
     // Connexion de l'action avec l'affichage/masquage de la fenetre
     //connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
-    connect(m_toolBar,SIGNAL(currentToolChanged(BarreOutils::Tool)),imageFenetre,SLOT(setCurrentTool(BarreOutils::Tool)));
+    connect(m_toolBar,SIGNAL(currentToolChanged(ToolBar::Tool)),imageFenetre,SLOT(setCurrentTool(ToolBar::Tool)));
     imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
 
     // Affichage de l'image

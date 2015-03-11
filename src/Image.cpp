@@ -149,7 +149,7 @@ void Image::sauvegarderImage(QDataStream &out, QString titre)
 void Image::mousePressEvent(QMouseEvent *event)
 {
 	// Si l'utilisateur a clique avec la bouton gauche et que l'outil main est selectionne
-    if (event->button() == Qt::LeftButton && m_currentTool == BarreOutils::main)
+    if (event->button() == Qt::LeftButton && m_currentTool == ToolBar::main)
 	{
 		// Le deplacement est autorise
 		deplacementAutorise = true;
@@ -478,14 +478,14 @@ void Image::setParent(WorkspaceAmeliore *parent)
         fitWorkSpace();
 }
 
-void Image::setCurrentTool(BarreOutils::Tool tool)
+void Image::setCurrentTool(ToolBar::Tool tool)
 {
     m_currentTool = tool;
 
     /// @todo code inline to remove useless functions.
     switch(m_currentTool)
     {
-    case BarreOutils::main :
+    case ToolBar::main :
             pointeurMain();
             break;
     default :

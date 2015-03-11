@@ -65,7 +65,6 @@ include(src/odt/src/src.pri)
 
 ## Source
 HEADERS += src/AfficheurDisque.h \
-           src/BarreOutils.h \
            src/Carte.h \
            src/CarteFenetre.h \
            src/chat.h \
@@ -111,12 +110,12 @@ HEADERS += src/AfficheurDisque.h \
     src/audio/audioPlayer.h \
     src/audio/musicmodel.h \
     src/audio/playerwidget.h \
-    src/network/networkreceiver.h
+    src/network/networkreceiver.h \
+    src/toolbar.h
 
 
 
 SOURCES += src/AfficheurDisque.cpp \
-           src/BarreOutils.cpp \
            src/Carte.cpp \
            src/CarteFenetre.cpp \
            src/chat.cpp \
@@ -161,7 +160,8 @@ SOURCES += src/AfficheurDisque.cpp \
     src/widgets/filedirchooser.cpp \
     src/audio/audioPlayer.cpp \
     src/audio/musicmodel.cpp \
-    src/audio/playerwidget.cpp
+    src/audio/playerwidget.cpp \
+    src/toolbar.cpp
 #end source
 
 

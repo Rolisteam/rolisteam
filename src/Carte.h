@@ -37,7 +37,7 @@
 
 #include "types.h"
 
-#include "BarreOutils.h"
+#include "toolbar.h"
 
 #include "playersList.h"
 
@@ -109,7 +109,7 @@ signals :
     void deplacerCarteFenetre(QPoint position);
 
 public slots :
-    void setPointeur(BarreOutils::Tool currentTool);
+    void setPointeur(ToolBar::Tool currentTool);
     void moveAllCharacters();
     void eraseCharacter(QString idPerso);
     void addCharacter(Character * person);
@@ -178,7 +178,7 @@ private :
     QList<QPoint> listeDeplacement;        // liste des points composant le deplacement du perso qui vient d'etre deplace par l'utilisateur
     QList<PersoEnMouvement> mouvements;    // liste des personnages a deplacer, ainsi que leur trajectoire
     Carte::PermissionMode m_currentMode;
-    BarreOutils::Tool m_currentTool;
+    ToolBar::Tool m_currentTool;
     Player* m_localPlayer;
     qreal m_scaleY;
     qreal m_scaleX;

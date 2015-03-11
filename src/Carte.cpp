@@ -45,7 +45,7 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
 {
 
     m_currentMode = Carte::GM_ONLY;
-    m_currentTool = BarreOutils::main;
+    m_currentTool = ToolBar::main;
 
     m_originalBackground = new QImage(image->size(), QImage::Format_ARGB32);
     *m_originalBackground = image->convertToFormat(QImage::Format_ARGB32);
@@ -200,8 +200,8 @@ void Carte::paintEvent(QPaintEvent *event)
         return;
 
 
-    if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj ||
-        m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
+    if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj ||
+        m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
         return;
         
 
@@ -247,8 +247,8 @@ void Carte::mousePressEvent(QMouseEvent *event)
 
 
 
-            if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj ||
-                m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
+            if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj ||
+                m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
             {
                 if((!G_joueur)||(Carte::PC_ALL==m_currentMode)||(Carte::PC_MOVE == m_currentMode))
                 {
@@ -257,7 +257,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
             }
 
             // Il s'agit de l'outil main
-            else if (m_currentTool == BarreOutils::main)
+            else if (m_currentTool == ToolBar::main)
             {
                 // On initialise le deplacement de la Carte
                 //if((!G_joueur)||
@@ -288,7 +288,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
 
         QPoint positionSouris = pos;
         
-        if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj)
+        if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj)
         {
             boutonDroitEnfonce = true;
 
@@ -305,7 +305,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
                 emit changeCurrentColor(couleur);
             }
         }
-        else if (m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
+        else if (m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
         {
             boutonDroitEnfonce = true;
             setCursor(*m_orientCursor);
@@ -388,14 +388,14 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
         boutonGaucheEnfonce = false;
 
         // Il s'agit d'une action sur les PJ/PNJ
-        if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj ||
-            m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
+        if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj ||
+            m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
         {
             actionPnjBoutonRelache(pos);
         }
 
         // Il s'agit de l'outil main
-        else if (m_currentTool == BarreOutils::main)
+        else if (m_currentTool == ToolBar::main)
         {
             // On ne fait rien
         }
@@ -482,7 +482,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
         setCursor(pointeur);
 
         // Il s'agit d'une action de deplacement ou de l'action de changement d'etat du perso et qu'un perso a ete selectionne
-        if ((m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso) && dernierPnjSelectionne)
+        if ((m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso) && dernierPnjSelectionne)
         {
             // Emission de la nouvelle orientation
             
@@ -544,14 +544,14 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
     if (boutonGaucheEnfonce && !boutonDroitEnfonce)
     {
         // Il s'agit d'une action sur les PJ/PNJ
-        if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj ||
-            m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
+        if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj ||
+            m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
         {
             actionPnjMouvementSouris(pos);
         }
 
         // Il s'agit de l'outil main
-        else if (m_currentTool == BarreOutils::main)
+        else if (m_currentTool == ToolBar::main)
         {
             // On deplace la Carte dans la CarteFenetre
             emit deplacerCarteFenetre(mapToGlobal(pos));
@@ -580,11 +580,11 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
         QPoint positionSouris = pos;
         
         // Il s'agit d'une action d'ajout ou de suppression de PNJ
-        if (m_currentTool == BarreOutils::ajoutPnj || m_currentTool == BarreOutils::supprPnj)
+        if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj)
         {
         }
         // Il s'agit d'une action de deplacement ou de changement d'etat de PNJ
-        else if (m_currentTool == BarreOutils::deplacePerso || m_currentTool == BarreOutils::etatPerso)
+        else if (m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
         {
             // On met a jour l'orientation du PNJ (si la souris n'est pas sur un PNJ
             // et qu'il en existe un de selectionne)
@@ -626,7 +626,7 @@ void Carte::dessiner(QPainter &painter)
     painter.setPen(pen);
 
 
-    if (m_currentTool == BarreOutils::crayon)
+    if (m_currentTool == ToolBar::crayon)
     {
 
         QPainter painterCrayon;
@@ -681,13 +681,13 @@ void Carte::dessiner(QPainter &painter)
         m_originePoint = m_mousePoint;
     }
     
-    else if (m_currentTool == BarreOutils::ligne)
+    else if (m_currentTool == ToolBar::ligne)
     {
         // On dessine une ligne entre le point d'origine et le pointeur de la souris
         painter.drawLine(m_originePoint, m_mousePoint);
     }
     
-    else if (m_currentTool == BarreOutils::rectVide)
+    else if (m_currentTool == ToolBar::rectVide)
     {
         // Creation des points du rectangle a partir du point d'origine et du pointeur de souris
         QPoint supGauche, infDroit;
@@ -707,12 +707,12 @@ void Carte::dessiner(QPainter &painter)
             painter.drawRect(QRect(supGauche, infDroit));
     }
     
-    else if (m_currentTool == BarreOutils::rectPlein)
+    else if (m_currentTool == ToolBar::rectPlein)
     {
         // On dessine un rectangle plein
         painter.fillRect(QRect(m_originePoint, m_mousePoint), couleurPinceau);
     }
-    else if (m_currentTool == BarreOutils::elliVide)
+    else if (m_currentTool == ToolBar::elliVide)
     {
         // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point d'origine
         QPoint diff = m_mousePoint - m_originePoint;
@@ -742,7 +742,7 @@ void Carte::dessiner(QPainter &painter)
             painter.drawEllipse(QRect(nouveauPointOrigine, m_mousePoint));
     }
     
-    else if (m_currentTool == BarreOutils::elliPlein)
+    else if (m_currentTool == ToolBar::elliPlein)
     {
         // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point d'origine
         QPoint diff = m_mousePoint - m_originePoint;
@@ -757,7 +757,7 @@ void Carte::dessiner(QPainter &painter)
         painter.drawEllipse(QRect(nouveauPointOrigine, m_mousePoint));
     }
     
-    else if (m_currentTool == BarreOutils::texte)
+    else if (m_currentTool == ToolBar::texte)
     {
         // Parametrage de la fonte
         QFont font;
@@ -767,7 +767,7 @@ void Carte::dessiner(QPainter &painter)
         painter.drawText(m_mousePoint, G_texteCourant);  // + QPoint(2,7)
     }
     
-    else if (m_currentTool == BarreOutils::main)
+    else if (m_currentTool == ToolBar::main)
     {
     }
             
@@ -792,27 +792,27 @@ QRect Carte::zoneARafraichir()
     //qDebug() << "Refresh Haut: " << haut << gauche << droit << bas << m_originePoint << m_mousePoint;
 
     // Action a effectuer en fonction de l'outil en cours d'utilisation
-    if (m_currentTool == BarreOutils::crayon)
+    if (m_currentTool == ToolBar::crayon)
     {
         resultat = QRect(gauche-G_diametreTraitCourant/2-2, haut-G_diametreTraitCourant/2-2, largeur+G_diametreTraitCourant+4, hauteur+G_diametreTraitCourant+4);
     }
     
-    else if (m_currentTool == BarreOutils::ligne)
+    else if (m_currentTool == ToolBar::ligne)
     {
         resultat = QRect(gauche-G_diametreTraitCourant, haut-G_diametreTraitCourant, largeur+G_diametreTraitCourant*2, hauteur+G_diametreTraitCourant*2);
     }
     
-    else if (m_currentTool == BarreOutils::rectVide)
+    else if (m_currentTool == ToolBar::rectVide)
     {
         resultat = QRect(gauche-G_diametreTraitCourant/2-2, haut-G_diametreTraitCourant/2-2, largeur+G_diametreTraitCourant+4, hauteur+G_diametreTraitCourant+4);
     }
     
-    else if (m_currentTool == BarreOutils::rectPlein)
+    else if (m_currentTool == ToolBar::rectPlein)
     {
         resultat = QRect(gauche-2, haut-2, largeur+4, hauteur+4);
     }
     
-    else if (m_currentTool == BarreOutils::elliVide)
+    else if (m_currentTool == ToolBar::elliVide)
     {
         QPoint diff = m_mousePoint - m_originePoint;
         QPoint nouveauPointOrigine = m_originePoint - diff;
@@ -827,7 +827,7 @@ QRect Carte::zoneARafraichir()
         resultat = QRect(gauche-G_diametreTraitCourant/2-2, haut-G_diametreTraitCourant/2-2, largeur+G_diametreTraitCourant+4, hauteur+G_diametreTraitCourant+4);
     }
     
-    else if (m_currentTool == BarreOutils::elliPlein)
+    else if (m_currentTool == ToolBar::elliPlein)
     {
         QPoint diff = m_mousePoint - m_originePoint;
         QPoint nouveauPointOrigine = m_originePoint - diff;
@@ -842,12 +842,12 @@ QRect Carte::zoneARafraichir()
         resultat = QRect(gauche-2, haut-2, largeur+4, hauteur+4);
     }
     
-    else if (m_currentTool == BarreOutils::texte)
+    else if (m_currentTool == ToolBar::texte)
     {
         resultat = QRect(QPoint(m_mousePoint.x()-2, m_mousePoint.y()-15), QPoint(m_backgroundImage->width(), m_mousePoint.y()+4));
     }
     
-    else if (m_currentTool == BarreOutils::main)
+    else if (m_currentTool == ToolBar::main)
     {
 
     } 
@@ -913,7 +913,7 @@ bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, con
 
 void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
 {
-    if (m_currentTool == BarreOutils::ajoutPnj)
+    if (m_currentTool == ToolBar::ajoutPnj)
     {
         if((!G_joueur)||(Carte::PC_ALL==m_currentMode))
         {
@@ -942,7 +942,7 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
                (Carte::PC_ALL==m_currentMode)||
                     ((Carte::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )//if not found -1
             {
-                if (m_currentTool == BarreOutils::supprPnj)
+                if (m_currentTool == ToolBar::supprPnj)
                 {
                         if (!pnj->estUnPj())
                         {
@@ -994,7 +994,7 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
 
                 }
 
-                else if (m_currentTool == BarreOutils::deplacePerso)
+                else if (m_currentTool == ToolBar::deplacePerso)
                 {
                             pnjSelectionne = pnj;
                             // On calcule la difference entre le coin sup gauche du PNJ et le pointeur de la souris
@@ -1006,7 +1006,7 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
 
 
                 }
-                else if (m_currentTool == BarreOutils::etatPerso)
+                else if (m_currentTool == ToolBar::etatPerso)
                 {
                         // changement d'etat du personnage
                         pnj->changerEtat();
@@ -1068,7 +1068,7 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
 void Carte::actionPnjBoutonRelache(QPoint positionSouris)
 {
              Q_UNUSED(positionSouris)
-    if (m_currentTool == BarreOutils::ajoutPnj)
+    if (m_currentTool == ToolBar::ajoutPnj)
     {
         // On verifie que la couleur courante peut etre utilisee pour dessiner un PNJ
         if (G_couleurCourante.type == qcolor)
@@ -1103,11 +1103,11 @@ void Carte::actionPnjBoutonRelache(QPoint positionSouris)
         }
     }
     
-    else if (m_currentTool == BarreOutils::supprPnj)
+    else if (m_currentTool == ToolBar::supprPnj)
     {
     }
     
-    else if (m_currentTool == BarreOutils::deplacePerso)
+    else if (m_currentTool == ToolBar::deplacePerso)
     {
         if (pnjSelectionne)
         {
@@ -1128,7 +1128,7 @@ void Carte::actionPnjBoutonRelache(QPoint positionSouris)
         }
     }
     
-    else if (m_currentTool == BarreOutils::etatPerso)
+    else if (m_currentTool == ToolBar::etatPerso)
     {
     }
 
@@ -1140,7 +1140,7 @@ void Carte::actionPnjBoutonRelache(QPoint positionSouris)
 
 void Carte::actionPnjMouvementSouris(QPoint positionSouris)
 {
-    if (m_currentTool == BarreOutils::ajoutPnj)
+    if (m_currentTool == ToolBar::ajoutPnj)
     {
         // Si un PNJ est selectionne, on le deplace
         if (pnjSelectionne)
@@ -1151,11 +1151,11 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
         }
     }
     
-    else if (m_currentTool == BarreOutils::supprPnj)
+    else if (m_currentTool == ToolBar::supprPnj)
     {
     }
     
-    else if (m_currentTool == BarreOutils::deplacePerso)
+    else if (m_currentTool == ToolBar::deplacePerso)
     {
         if (pnjSelectionne)
         {
@@ -1175,7 +1175,7 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
         }
     }
     
-    else if (m_currentTool != BarreOutils::etatPerso)
+    else if (m_currentTool != ToolBar::etatPerso)
     {
         qWarning() << (tr("undefine tool for processing action on NPC or PC (actionPnjMouvementSouris - Carte.cpp)"));
     }
@@ -1623,7 +1623,7 @@ void Carte::emettreTrace()
     enteteMessage *uneEntete;
 
     // Parametres du message en fonction de l'outil en cours d'utilisation
-    if (m_currentTool == BarreOutils::crayon)
+    if (m_currentTool == ToolBar::crayon)
     {
                         qint32 tailleListe = listePointsCrayon.size();
 
@@ -1700,7 +1700,7 @@ void Carte::emettreTrace()
         p+=sizeof(couleurSelectionee);
     }
     
-    else if (m_currentTool == BarreOutils::texte)
+    else if (m_currentTool == ToolBar::texte)
     {
         // Taille des donnees
         tailleCorps =
@@ -1763,7 +1763,7 @@ void Carte::emettreTrace()
         p+=sizeof(couleurSelectionee);
     }
     
-    else if (m_currentTool == BarreOutils::main)
+    else if (m_currentTool == ToolBar::main)
     {
         return;
     }
@@ -1794,15 +1794,15 @@ void Carte::emettreTrace()
         uneEntete->categorie = dessin;
         uneEntete->tailleDonnees = tailleCorps;
 
-        if (m_currentTool == BarreOutils::ligne)
+        if (m_currentTool == ToolBar::ligne)
             uneEntete->action = traceLigne;
-        else if (m_currentTool == BarreOutils::rectVide)
+        else if (m_currentTool == ToolBar::rectVide)
             uneEntete->action = traceRectangleVide;
-        else if (m_currentTool == BarreOutils::rectPlein)
+        else if (m_currentTool == ToolBar::rectPlein)
             uneEntete->action = traceRectanglePlein;
-        else if (m_currentTool == BarreOutils::elliVide)
+        else if (m_currentTool == ToolBar::elliVide)
             uneEntete->action = traceEllipseVide;
-        else if (m_currentTool == BarreOutils::elliPlein)
+        else if (m_currentTool == ToolBar::elliPlein)
             uneEntete->action = traceEllipsePleine;
         else
         {
@@ -2437,35 +2437,35 @@ bool Carte::hasPermissionMode()
     return m_hasPermissionMode;
 }
 
-void Carte::setPointeur(BarreOutils::Tool currentTool)
+void Carte::setPointeur(ToolBar::Tool currentTool)
 {
     m_currentTool = currentTool;
     switch(currentTool)
     {
-        case BarreOutils::crayon:
-        case BarreOutils::ligne:
-        case BarreOutils::rectVide:
-        case BarreOutils::rectPlein:
-        case BarreOutils::elliVide:
-        case BarreOutils::elliPlein:
+        case ToolBar::crayon:
+        case ToolBar::ligne:
+        case ToolBar::rectVide:
+        case ToolBar::rectPlein:
+        case ToolBar::elliVide:
+        case ToolBar::elliPlein:
             pointeur = *m_pencilCursor;
         break;
-        case BarreOutils::texte:
+        case ToolBar::texte:
             pointeur = *m_textCursor;
         break;
-        case BarreOutils::main:
+        case ToolBar::main:
             pointeur =  Qt::OpenHandCursor;
         break;
-        case BarreOutils::ajoutPnj:
+        case ToolBar::ajoutPnj:
             pointeur =*m_addCursor;
         break;
-        case BarreOutils::supprPnj:
+        case ToolBar::supprPnj:
             pointeur =*m_delCursor;
         break;
-        case BarreOutils::deplacePerso:
+        case ToolBar::deplacePerso:
             pointeur =*m_movCursor;
         break;
-        case BarreOutils::etatPerso:
+        case ToolBar::etatPerso:
             pointeur = *m_stateCursor;
         break;
     }

@@ -32,7 +32,7 @@
 #include <QString>
 #include <QList>
 
-#include "BarreOutils.h"
+#include "toolbar.h"
 #include "DessinPerso.h"
 #include "initialisation.h"
 #include "SelecteurCouleur.h"
@@ -64,8 +64,8 @@ extern QList<DessinPerso::etatDeSante> G_etatsDeSante;
 extern couleurSelectionee G_couleurCourante;
 //extern QColor G_couleurMasque;
 
-// Declarees dans BarreOutils.cpp
-//extern BarreOutils::Tool G_outilCourant;
+// Declarees dans ToolBar.cpp
+//extern ToolBar::Tool G_outilCourant;
 extern QString G_texteCourant;
 extern QString G_nomPnjCourant;
 extern int G_numeroPnjCourant;

@@ -40,15 +40,15 @@ class SelecteurCouleur;
 class SelecteurDiametre;
 class Carte;
 /**
- * @brief The BarreOutils class is gathering all tool and manages selection of them.
+ * @brief The ToolBar class is gathering all tool and manages selection of them.
  */
-class BarreOutils : public QDockWidget
+class ToolBar : public QDockWidget
 {
     Q_OBJECT
     
 public :
-    BarreOutils(QWidget *parent = 0);
-    virtual ~BarreOutils();
+    ToolBar(QWidget *parent = 0);
+    virtual ~ToolBar();
     void majCouleursPersonnelles();
     QColor donnerCouleurPersonnelle(int numero);
     void updateUi();
@@ -70,9 +70,9 @@ public :
     // Outils selectionnables par l'utilisateur
     enum Tool {crayon, ligne, rectVide, rectPlein, elliVide, elliPlein, texte, main, ajoutPnj, supprPnj, deplacePerso, etatPerso};
 
-    BarreOutils::Tool getCurrentTool() const;
+    ToolBar::Tool getCurrentTool() const;
 signals:
-    void currentToolChanged(BarreOutils::Tool);
+    void currentToolChanged(ToolBar::Tool);
 
 public slots :
     void incrementeNumeroPnj();
@@ -123,7 +123,7 @@ private slots :
 
 private:
     QActionGroup* m_actionGroup;
-    BarreOutils::Tool m_currentTool;
+    ToolBar::Tool m_currentTool;
 };
 
 #endif
