@@ -196,8 +196,8 @@ QT += core \
  network
 
 # Flags
- 	win32:QMAKE_CXXFLAGS = "/Wall /GS /Ob2t"
-	else:QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
+        #win32:QMAKE_CXXFLAGS = "/Wall /GS /Ob2t"
+        #else:QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
 
 
 # Version
@@ -228,8 +228,8 @@ win32:DEFINES  += ZLIB_WINAPI
 win32:RC_FILE = "resources/logo/rolisteam.rc"
 win32:QMAKE_LFLAGS_RELEASE += /INCREMENTAL:NO
 win32:OTHER_FILES +=resources/logo/rolisteam.rc
-win32:LIBS += -L$$PWD/../lib/zlibapi/dll32/ -lzlibwapi
-win32:INCLUDEPATH += $$PWD/../lib/zlibapi/include
-win32:DEPENDPATH += $$PWD/../lib/zlibapi/include
-win32:PRE_TARGETDEPS += $$PWD/../lib/zlibapi/dll32/zlibwapi.lib
+win32:LIBS += -L$$PWD/../../lib/zlibapi/dll32/ -lzlibwapi
+win32:INCLUDEPATH += $$PWD/../../lib/zlibapi/include
+win32:DEPENDPATH += $$PWD/../../lib/zlibapi/include
+win32:PRE_TARGETDEPS += $$PWD/../../lib/zlibapi/dll32/zlibwapi.lib
 

@@ -42,6 +42,7 @@ QVariant MusicModel::data(const QModelIndex &index, int role) const
             QUrl url = m_data.at(index.row())->canonicalUrl();
             if(url.isLocalFile())
             {
+                qDebug() << url.fileName();
                 return url.fileName();
             }
             else if(url.host().contains("tabletopaudio.com"))
@@ -50,6 +51,11 @@ QVariant MusicModel::data(const QModelIndex &index, int role) const
                 QString str = url.toString();
                 str = str.right(str.size() - (str.lastIndexOf("=")+1));
                 return  str.replace(".mp3","").replace("_"," ");
+            }
+            else
+            {
+                qDebug() << "Queslque chose" << url.fileName() <<url ;
+                return url.fileName();
             }
         }
     }
@@ -72,13 +78,15 @@ void MusicModel::addSong(QStringList list)
     {
         //QMediaContent* tmpMedia = new QMediaContent(tmp);
         QUrl tmpUrl(tmp);
-
+        qDebug()<<tmpUrl;
         if(tmpUrl.isValid())
         {
             m_data.append(new QMediaContent(tmpUrl));
+            qDebug()<< "is valid";
         }
         else
         {
+             qDebug()<< "new super";
             m_data.append(new QMediaContent(QUrl::fromLocalFile(tmp)));
         }
     }

@@ -240,11 +240,11 @@ void PlayerWidget::addFiles()
     QFileInfo fileinfo(fileList[0]);
     m_preferences->registerValue("MusicDirectoryGM",fileinfo.absolutePath());
     m_model->addSong(fileList);
-    while (!fileList.isEmpty())
-    {
-        QString fichier = fileList.takeFirst();
-        QFileInfo fi(fichier);
-    }
+//    while (!fileList.isEmpty())
+//    {
+//        QString fichier = fileList.takeFirst();
+//        QFileInfo fi(fichier);
+//    }
 }
 bool PlayerWidget::askToDeleteAll()
 {
