@@ -17,6 +17,11 @@ MOC_DIR = bin
 OBJECTS_DIR = bin
 UI_DIR = src
 
+isEmpty(PREFIX) {
+ PREFIX = /usr/local
+}
+
+
 
 
 macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
@@ -55,10 +60,10 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 ## End of Translation
 
 ##Installation
-binaries.files = bin/rolisteam
-binaries.path = /usr/local/bin/
-DEPLOYMENT += binaries
-INSTALLS +=binaries
+#binaries.files = bin/rolisteam
+TARGET.path = $$PREFIX/
+DEPLOYMENT += TARGET
+INSTALLS +=TARGET
 }
 
 include(src/odt/src/src.pri)
