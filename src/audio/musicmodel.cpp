@@ -42,19 +42,16 @@ QVariant MusicModel::data(const QModelIndex &index, int role) const
             QUrl url = m_data.at(index.row())->canonicalUrl();
             if(url.isLocalFile())
             {
-                qDebug() << url.fileName();
                 return url.fileName();
             }
             else if(url.host().contains("tabletopaudio.com"))
             {
-                //download.php?downld_file=70_Age_of_Steam.mp3
                 QString str = url.toString();
                 str = str.right(str.size() - (str.lastIndexOf("=")+1));
                 return  str.replace(".mp3","").replace("_"," ");
             }
             else
             {
-                qDebug() << "Queslque chose" << url.fileName() <<url ;
                 return url.fileName();
             }
         }
@@ -77,16 +74,13 @@ void MusicModel::addSong(QStringList list)
     foreach ( QString tmp, list)
     {
         //QMediaContent* tmpMedia = new QMediaContent(tmp);
-        QUrl tmpUrl(tmp);
-        qDebug()<<tmpUrl;
-        if(tmpUrl.isValid())
+        QUrl tmpUrl= QUrl::fromUserInput(tmp);//,QUrl::StrictMode
+        if((tmpUrl.isValid())&&(!tmpUrl.isLocalFile()))
         {
             m_data.append(new QMediaContent(tmpUrl));
-            qDebug()<< "is valid";
         }
-        else
+        else if(tmpUrl.isLocalFile())
         {
-             qDebug()<< "new super";
             m_data.append(new QMediaContent(QUrl::fromLocalFile(tmp)));
         }
     }

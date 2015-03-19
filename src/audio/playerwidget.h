@@ -49,7 +49,7 @@ public:
     /**
      * @brief startMedia
      */
-    void startMedia(QMediaContent*);
+    void startMedia(QMediaContent*,QString title = QString());
     /**
      * @brief updateUi
      */
@@ -202,6 +202,10 @@ private slots:
      * @return
      */
     bool askToDeleteAll();
+    /**
+     * @brief seekHasChanged
+     */
+    void seekHasChanged(bool);
 
 signals:
     /**

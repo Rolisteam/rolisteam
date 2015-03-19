@@ -35,19 +35,25 @@ PlayerWidget::PlayerWidget(int id, QWidget* parent)
     m_playingMode = NEXT;
 
     setupUi();
-    //m_ui->m_groupBox->setTitle(title);
     m_model = new MusicModel(this);
     m_ui->m_songList->setModel(m_model);
 
     updateUi();
 }
 
-void PlayerWidget::startMedia(QMediaContent* p)
+void PlayerWidget::startMedia(QMediaContent* p,QString title)
 {
     m_content = p;
     m_player.setMedia(*m_content);
     m_ui->m_timeSlider->setMinimum(0);
-    m_ui->m_label->setText(p->canonicalUrl().fileName());
+    if(title.isEmpty())
+    {
+        m_ui->m_label->setText(p->canonicalUrl().fileName());
+    }
+    else
+    {
+        m_ui->m_label->setText(title);
+    }
 
     m_player.play();
 }
@@ -207,6 +213,7 @@ void PlayerWidget::setupUi()
     connect(&m_player,SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)),this,SLOT(mediaStatusChanged(QMediaPlayer::MediaStatus)));
 
     connect(&m_player,SIGNAL(error(QMediaPlayer::Error)),this,SLOT(errorOccurs(QMediaPlayer::Error)));
+    connect(&m_player,SIGNAL(seekableChanged(bool)),this,SLOT(seekHasChanged(bool)));
     connect(m_ui->m_label,SIGNAL(textChanged(QString)),this,SLOT(labelTextChanged()));
 
     connect(m_repeatAct,SIGNAL(triggered()),this,SLOT(triggeredPlayingModeAction()));
@@ -220,7 +227,7 @@ void PlayerWidget::setupUi()
 void PlayerWidget::startMediaByModelIndex(QModelIndex p)//double click
 {
 
-      startMedia(m_model->getMediaByModelIndex(p));
+      startMedia(m_model->getMediaByModelIndex(p),m_model->data(p).toString());
       m_model->setCurrentSong(p);
           //  m_mediaObject->play();
 }
@@ -240,11 +247,6 @@ void PlayerWidget::addFiles()
     QFileInfo fileinfo(fileList[0]);
     m_preferences->registerValue("MusicDirectoryGM",fileinfo.absolutePath());
     m_model->addSong(fileList);
-//    while (!fileList.isEmpty())
-//    {
-//        QString fichier = fileList.takeFirst();
-//        QFileInfo fi(fichier);
-//    }
 }
 bool PlayerWidget::askToDeleteAll()
 {
@@ -430,14 +432,14 @@ void PlayerWidget::setSourceSong(QString file)
 
     QString path("%1/%2");
     QString dir = m_preferences->value(QString("MusicDirectoryPlayer_%1").arg(m_id),QDir::homePath()).toString();
-    QUrl url(file);
-    if(!url.isValid())
+    QUrl url(file,QUrl::StrictMode);
+    if((!url.isValid())||(url.isRelative()))
     {
         url = QUrl::fromLocalFile(path.arg(dir).arg(file));
     }
-
     QMediaContent currentContent(url);
 
+    m_ui->m_label->setText(file);
     m_player.setMedia(currentContent);
 }
 void PlayerWidget::changeDirectory()
@@ -574,40 +576,38 @@ void  PlayerWidget::savePlaylist()
         filename.append(".m3u");
     }
     QFile file(filename);
-    if(file.exists())
-    {
 
-    }
-
-   // if(file.isWritable())
-    {
-        file.open(QIODevice::WriteOnly);
-        QTextStream in(&file);
-        m_model->saveIn(in);
-    }
+    // if(file.isWritable())
+     {
+         file.open(QIODevice::WriteOnly);
+         QTextStream in(&file);
+         m_model->saveIn(in);
+     }
 
 
-}
-void PlayerWidget::errorOccurs(QMediaPlayer::Error e)
-{
-    QString Error("Error %1 : %2");
-    m_ui->m_label->setText(Error.arg(m_player.errorString()).arg(m_player.currentMedia().canonicalUrl().toString()));
-}
-void PlayerWidget::labelTextChanged()
-{
-
-    if(m_ui->m_label->text().startsWith("Error") && m_player.error()!=QMediaPlayer::NoError)
-    {
-        m_ui->m_label->setStyleSheet("color: red");
-        m_ui->m_label->setEchoMode(QLineEdit::Normal);
-
-    }
-    else
-    {
-        m_ui->m_label->setStyleSheet("color: black");
-        if(m_preferences->value("isPlayer",false).toBool())
-        {// Player
-                m_ui->m_label->setEchoMode(QLineEdit::Password);
-        }
-    }
-}
+ }
+ void PlayerWidget::errorOccurs(QMediaPlayer::Error e)
+ {
+     QString Error("Error %1 : %2");
+     m_ui->m_label->setText(Error.arg(m_player.errorString()).arg(m_player.currentMedia().canonicalUrl().toString()));
+ }
+ void PlayerWidget::labelTextChanged()
+ {
+     if(m_ui->m_label->text().startsWith("Error") && m_player.error()!=QMediaPlayer::NoError)
+     {
+         m_ui->m_label->setStyleSheet("color: red");
+         m_ui->m_label->setEchoMode(QLineEdit::Normal);
+     }
+     else
+     {
+         m_ui->m_label->setStyleSheet("color: black");
+         if(m_preferences->value("isPlayer",false).toBool())
+         {// Player
+                 m_ui->m_label->setEchoMode(QLineEdit::Password);
+         }
+     }
+ }
+ void PlayerWidget::seekHasChanged(bool seekable)
+ {
+  //   m_ui->m_timeSlider->setEnabled(seekable);
+ }
