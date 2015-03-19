@@ -182,7 +182,7 @@ public :
 
     ClientServeur* getNetWorkManager();
 
-
+    void parseCommandLineArguments(QStringList);
 signals:
     void closing();
 
