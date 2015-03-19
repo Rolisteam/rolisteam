@@ -132,6 +132,7 @@ int main(int argc, char *argv[])
 
     mainWindow->setupUi();
     mainWindow->readSettings();
+    mainWindow->parseCommandLineArguments(app.arguments());
     int value = 0;
     if(mainWindow->showConnectionDialog())
     {

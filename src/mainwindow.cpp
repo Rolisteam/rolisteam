@@ -36,6 +36,7 @@
 #include <QUrl>
 #include <QUuid>
 #include <QStatusBar>
+#include <QCommandLineParser>
 
 
 
@@ -2026,4 +2027,18 @@ void MainWindow::writeSettings()
     settings.setValue("windowState", saveState());
 
     m_preferences->writeSettings(settings);
+}
+void MainWindow::parseCommandLineArguments(QStringList list)
+{
+        QCommandLineParser parser;
+        parser.addHelpOption();
+        parser.addVersionOption();
+
+
+
+
+
+
+
+        parser.process(list);
 }
