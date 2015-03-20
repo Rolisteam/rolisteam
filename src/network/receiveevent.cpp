@@ -22,7 +22,7 @@
 #include <QApplication>
 #include <QTimer>
 
-#include "receiveevent.h"
+#include "network/receiveevent.h"
 
 #include "network/networkmessagereader.h"
 
@@ -41,7 +41,7 @@ quint16 makeKey(quint8 categorie, quint8 action)
 }
 
 
-ReceiveEvent::ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, Liaison * link)
+ReceiveEvent::ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, NetworkLink * link)
     : QEvent((QEvent::Type)ReceiveEvent::Type), m_data(header, buffer), m_link(link), m_repost(0)
 {}
 
@@ -65,7 +65,7 @@ void ReceiveEvent::repostLater() const
         new DelayReceiveEvent(*this);
 }
 
-Liaison * ReceiveEvent::link() const
+NetworkLink * ReceiveEvent::link() const
 {
     return m_link;
 }
@@ -92,12 +92,7 @@ void ReceiveEvent::registerReceiver(NetMsg::Category categorie, NetMsg::Action a
 }
 void ReceiveEvent::registerNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver)
 {
-    if (ms_netWorkReceiverMap.contains(categorie))
-    {
-        qFatal("A receiver is already registered for (%d)", categorie);
-    }
-
-    ms_netWorkReceiverMap.insert(categorie, receiver);
+	ms_netWorkReceiverMap.insert(categorie, receiver);
 }
 bool ReceiveEvent::hasNetworkReceiverFor(NetMsg::Category categorie)
 {

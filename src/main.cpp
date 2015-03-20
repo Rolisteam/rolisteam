@@ -33,7 +33,7 @@
 
 #include <time.h>
 
-#include "ClientServeur.h"
+#include "network/networkmanager.h"
 #include "initialisation.h"
 #include "mainwindow.h"
 #include "persons.h"

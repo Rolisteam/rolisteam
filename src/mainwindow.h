@@ -36,12 +36,15 @@
 
 
 
-#include "DessinPerso.h"
+#include "map/DessinPerso.h"
 #include "initialisation.h"
 #include "preferencesmanager.h"
 #include "ipchecker.h"
-#include "mapwizzard.h"
-#include "newemptymapdialog.h"
+#include "map/mapwizzard.h"
+#include "map/newemptymapdialog.h"
+
+#include "network/networkreceiver.h"
+#include "network/networkmessagereader.h"
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
@@ -49,31 +52,30 @@
 
 class UpdateChecker;
 class ToolBar;
-class CarteFenetre;
+class BipMapWindow;
 class Carte;
 class ChatListWidget;
-class EditeurNotes;
 class Image;
-class Liaison;
+class NetworkLink;
 class PreferencesDialog;
 class Player;
 class PlayersListWidget;
-class WorkspaceAmeliore;
-class ClientServeur;
+class ImprovedWorkspace;
+class NetworkManager;
 class TextEdit;
 class PlayersList;
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public NetWorkReceiver
 {
     Q_OBJECT
 
 public :
 
-    /**
-     *
-     */
+	/**
+	*
+	*/
     ~MainWindow();
     /**
      * @brief getInstance
@@ -87,12 +89,12 @@ public :
 
     /**
      * @brief addMap
-     * @param carteFenetre
+	 * @param BipMapWindow
      * @param titre
      * @param mapsize
      * @param pos
      */
-    QWidget* addMap(CarteFenetre *carteFenetre, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
+	QWidget* addMap(BipMapWindow *BipMapWindow, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
     /**
      * @brief addImage
      * @param imageFenetre
@@ -179,16 +181,27 @@ public :
      * @brief setUpNetworkConnection
      */
     void setUpNetworkConnection();
-
-    ClientServeur* getNetWorkManager();
-
+	/**
+	 * @brief getNetWorkManager
+	 * @return
+	 */
+	NetworkManager* getNetWorkManager();
+	/**
+	 * @brief parseCommandLineArguments
+	 */
     void parseCommandLineArguments(QStringList);
+
+	/**
+	 * @brief processMessage
+	 * @param msg
+	 */
+	virtual void processMessage(NetworkMessageReader* msg);
 signals:
     void closing();
 
 public slots :
     /**
-     * @brief creerNouveauPlanVide
+	 * @brief buildNewMap
      * @param titre
      * @param idCarte
      * @param couleurFond
@@ -197,7 +210,7 @@ public slots :
      */
     void buildNewMap(QString titre, QString idCarte, QColor couleurFond, QSize size,Carte::PermissionMode mode );
     /**
-     * @brief afficherEditeurNotes
+	 * @brief displayMinutesEditor
      * @param afficher
      * @param cocherAction
      */
@@ -214,7 +227,7 @@ public slots :
     /**
      * @brief setNetworkManager
      */
-    void setNetworkManager(ClientServeur*);
+	void setNetworkManager(NetworkManager*);
     /**
      * @brief updateUi
      */
@@ -234,6 +247,8 @@ protected :
 
     void addImageToMdiArea(Image *imageFenetre, QString titre);
 
+	void processImageMessage(NetworkMessageReader* msg);
+
 private slots :
     void changementNatureUtilisateur();
     void afficherNomsPj(bool afficher);
@@ -249,9 +264,9 @@ private slots :
     void closeMapOrImage();
     void saveMap();
     void updateMayBeNeeded();
-    void emettreTousLesPlans(Liaison * link);
-    void emettreToutesLesImages(Liaison * link);
-    void updateSessionToNewClient(Liaison* link);
+	void emettreTousLesPlans(NetworkLink * link);
+	void emettreToutesLesImages(NetworkLink * link);
+	void updateSessionToNewClient(NetworkLink* link);
     void receiveData(quint64 readData,quint64 size);
 
 
@@ -325,16 +340,15 @@ private :
     /**
      * @brief workspace
      */
-    WorkspaceAmeliore* m_mdiArea;
+	ImprovedWorkspace* m_mdiArea;
     PlayersListWidget * m_playersListWidget;
     QMenu *m_windowMenu;
     ToolBar *m_toolBar;
 
-    EditeurNotes *editeurNotes;
-    QList <CarteFenetre *> m_mapWindowList;
+	QList <BipMapWindow *> m_mapWindowList;
     //QList <Image *> listeImage;
     QList <QMdiSubWindow*> m_pictureList;
-    QMap<CarteFenetre*,QAction*>* m_mapAction;
+	QMap<BipMapWindow*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
     AudioPlayer* m_audioPlayer;
 #endif
@@ -380,7 +394,7 @@ private :
     QDockWidget* m_dockLogUtil;
     PreferencesManager* m_preferences;
 
-    ClientServeur* m_networkManager;
+	NetworkManager* m_networkManager;
 
     QTextEdit* m_notifierDisplay;
 

@@ -22,9 +22,9 @@
 
 #include <QtGui>
 
-#include "WorkspaceAmeliore.h"
+#include "improvedworkspace.h"
 
-#include "CarteFenetre.h"
+#include "map/bipmapwindow.h"
 #include "Image.h"
 
 //#include <QTextStream>
@@ -33,7 +33,7 @@
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/	
-WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
+ImprovedWorkspace::ImprovedWorkspace(QWidget *parent)
 : QMdiArea(parent),m_variableSizeBackground(size())
 {
     m_preferences =  PreferencesManager::getInstance();
@@ -45,11 +45,11 @@ WorkspaceAmeliore::WorkspaceAmeliore(QWidget *parent)
 
 }
 
-WorkspaceAmeliore::~WorkspaceAmeliore()
+ImprovedWorkspace::~ImprovedWorkspace()
 {
     delete m_backgroundPicture;
 }
-void WorkspaceAmeliore::updateBackGround()
+void ImprovedWorkspace::updateBackGround()
 {
     m_color = m_preferences->value("BackGroundColor",QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE)).value<QColor>();
     m_background.setColor(m_color);
@@ -82,7 +82,7 @@ void WorkspaceAmeliore::updateBackGround()
     setBackground(QBrush(m_variableSizeBackground));
 }
 
-void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )
+void ImprovedWorkspace::resizeEvent ( QResizeEvent * event )
 {
     Q_UNUSED(event);
     if((m_variableSizeBackground.size()==this->size()))
@@ -94,7 +94,7 @@ void WorkspaceAmeliore::resizeEvent ( QResizeEvent * event )
 
     QMdiArea::resizeEvent(event);
 }
-QWidget*  WorkspaceAmeliore::addWindow(QWidget* child,QAction* action)
+QWidget*  ImprovedWorkspace::addWindow(QWidget* child,QAction* action)
 {
     QMdiSubWindow* sub = addSubWindow(child);
     if(viewMode()==QMdiArea::TabbedView)
@@ -112,15 +112,15 @@ QWidget*  WorkspaceAmeliore::addWindow(QWidget* child,QAction* action)
     sub->installEventFilter(this);
     return sub;
 }
-QWidget* WorkspaceAmeliore::activeWindow()
+QWidget* ImprovedWorkspace::activeWindow()
 {
     return currentSubWindow();
 }
-void WorkspaceAmeliore::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
+void ImprovedWorkspace::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
 {
     m_map->insert(act,sub);
 }
-void WorkspaceAmeliore::setTabbedMode(bool isTabbed)
+void ImprovedWorkspace::setTabbedMode(bool isTabbed)
 {
     if(isTabbed)
     {
@@ -148,7 +148,7 @@ void WorkspaceAmeliore::setTabbedMode(bool isTabbed)
     }
 }
 
-bool WorkspaceAmeliore::eventFilter(QObject *object, QEvent *event)
+bool ImprovedWorkspace::eventFilter(QObject *object, QEvent *event)
 {
     if(event->type()==QEvent::Close)
     {
@@ -162,7 +162,7 @@ bool WorkspaceAmeliore::eventFilter(QObject *object, QEvent *event)
     }
     return QMdiArea::eventFilter(object,event);
 }
-void WorkspaceAmeliore::ensurePresent()
+void ImprovedWorkspace::ensurePresent()
 {
     QAction* act = qobject_cast<QAction*>(sender());
     if(NULL!=act)
@@ -175,13 +175,13 @@ void WorkspaceAmeliore::ensurePresent()
     }
 }
 
-QMdiSubWindow* WorkspaceAmeliore::getSubWindowFromId(QString id)
+QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
 {
     foreach(QMdiSubWindow* tmp, subWindowList())
     {
         if(NULL!=tmp->widget())
         {
-            CarteFenetre* tmpWindow = dynamic_cast<CarteFenetre*>(tmp->widget());
+            BipMapWindow* tmpWindow = dynamic_cast<BipMapWindow*>(tmp->widget());
             if(NULL!=tmpWindow)
             {
                 if(tmpWindow->getMapId() == id)
@@ -204,3 +204,4 @@ QMdiSubWindow* WorkspaceAmeliore::getSubWindowFromId(QString id)
     }
     return NULL;
 }
+

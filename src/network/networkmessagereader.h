@@ -52,6 +52,8 @@ class NetworkMessageReader : public NetworkMessage
         QString string16();
         QString string32();
 
+		QByteArray byteArray32();
+
         QString string(int size);
 
         QRgb rgb();

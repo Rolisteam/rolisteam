@@ -92,17 +92,17 @@ bool Person::setName(const QString & name)
  * Player *
  **********/
 
-Player::Player(const QString & nom, const QColor & color, bool master, Liaison * link)
+Player::Player(const QString & nom, const QColor & color, bool master, NetworkLink * link)
  : Person(nom, color), m_gameMaster(master), m_link(link)
 {
 }
 
-Player::Player(const QString & uuid, const QString & nom, const QColor & color, bool master, Liaison * link)
+Player::Player(const QString & uuid, const QString & nom, const QColor & color, bool master, NetworkLink * link)
  : Person(uuid, nom, color), m_gameMaster(master), m_link(link)
 {
 }
 
-Player::Player(NetworkMessageReader & data, Liaison * link)
+Player::Player(NetworkMessageReader & data, NetworkLink * link)
  : Person(), m_link(link)
 {
     m_name = data.string16();
@@ -130,7 +130,7 @@ void Player::fill(NetworkMessageWriter & message)
     message.uint8(m_gameMaster ? 1 : 0);
 }
 
-Liaison * Player::link() const
+NetworkLink * Player::link() const
 {
     return m_link;
 }

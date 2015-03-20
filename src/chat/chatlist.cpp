@@ -23,11 +23,11 @@
 #include <QAbstractItemModel>
 #include <QApplication>
 
-#include "chat.h"
+#include "chat/chat.h"
 #include "network/networkmessagereader.h"
 #include "persons.h"
 #include "playersList.h"
-#include "receiveevent.h"
+#include "network/receiveevent.h"
 #include "chatwindow.h"
 #include "mainwindow.h"
 #include "preferencesmanager.h"

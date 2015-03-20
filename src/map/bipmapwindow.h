@@ -37,23 +37,23 @@
 class Carte;
 
 /**
- * @brief The CarteFenetre class - is the scroll area which manages the display of map.
+ * @brief The BipMapWindow class - is the scroll area which manages the display of map.
  */
-class CarteFenetre : public QScrollArea
+class BipMapWindow : public QScrollArea
 {
 Q_OBJECT
 
 public :
     /**
-     * @brief CarteFenetre
+     * @brief BipMapWindow
      * @param uneCarte - the embedded map
      * @param parent - parent QWidget
      */
-    CarteFenetre(Carte *uneCarte, QWidget *parent = 0);
+    BipMapWindow(Carte *uneCarte, QWidget *parent = 0);
     /**
      *
      */
-    ~CarteFenetre();
+    ~BipMapWindow();
     /**
      * @brief carte
      * @return

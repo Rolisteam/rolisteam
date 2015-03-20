@@ -27,7 +27,7 @@
 #include <QListView>
 #include <QVBoxLayout>
 
-#include "chat.h"
+#include "chat/chat.h"
 #include "persons.h"
 #include "playersList.h"
 

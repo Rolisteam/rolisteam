@@ -33,27 +33,24 @@
 #include <QList>
 
 #include "toolbar.h"
-#include "DessinPerso.h"
+#include "map/DessinPerso.h"
 #include "initialisation.h"
 #include "SelecteurCouleur.h"
 
-class ClientServeur;
-class Liaison;
+class NetworkManager;
+class NetworkLink;
 class MainWindow;
 
 // Fonction globale, declaree dans MainWindow.cpp
 void notifyUser(QString message);
 
-// Fonctions globales, declaree dans ClientServeur.cpp
-void emettre(char *donnees, quint32 taille, Liaison *sauf = 0);
+// Fonctions globales, declaree dans NetworkManager.cpp
+void emettre(char *donnees, quint32 taille, NetworkLink *sauf = 0);
 
 
-
-//extern ClientServeur * G_clientServeur;
-//extern MainWindow    * G_mainWindow;
 extern QString         G_idJoueurLocal;
 
-// Declarees dans ClientServeur.cpp
+// Declarees dans NetworkManager.cpp
 extern bool G_joueur;
 
 

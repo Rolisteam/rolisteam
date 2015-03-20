@@ -36,7 +36,7 @@
 
 #include "ui_preferencesdialogbox.h"
 
-#include "newemptymapdialog.h"
+#include "map/newemptymapdialog.h"
 
 /*********************
  * PreferencesDialog *

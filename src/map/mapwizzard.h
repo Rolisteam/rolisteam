@@ -6,7 +6,7 @@
 
 
 #include "preferencesmanager.h"
-#include "Carte.h"
+#include "map/Carte.h"
 
 namespace Ui {
 class MapWizzard;

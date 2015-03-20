@@ -22,21 +22,20 @@
  *************************************************************************/
 
 
-#include "CarteFenetre.h"
+#include "map/bipmapwindow.h"
 
-#include <QtGui>
 
-#include "Carte.h"
+#include "map/Carte.h"
 
 
 #include "variablesGlobales.h"
 #include <QScrollBar>
 
 
-CarteFenetre::CarteFenetre(Carte *uneCarte, QWidget *parent)
+BipMapWindow::BipMapWindow(Carte *uneCarte, QWidget *parent)
     : QScrollArea(parent)
 {
-    setObjectName("CarteFenetre");
+	setObjectName("BipMapWindow");
     setWindowIcon(QIcon(":/map.png"));
     setFocusPolicy(Qt::StrongFocus);
     setAlignment(Qt::AlignCenter);
@@ -56,66 +55,66 @@ CarteFenetre::CarteFenetre(Carte *uneCarte, QWidget *parent)
     resize(carteAssociee->width()+4, carteAssociee->height()+4);
 
 
-    connect(carteAssociee, SIGNAL(commencerDeplacementCarteFenetre(QPoint)),
+	connect(carteAssociee, SIGNAL(commencerDeplacementBipMapWindow(QPoint)),
             this, SLOT(commencerDeplacement(QPoint)));
-    connect(carteAssociee, SIGNAL(deplacerCarteFenetre(QPoint)),
+	connect(carteAssociee, SIGNAL(deplacerBipMapWindow(QPoint)),
             this, SLOT(deplacer(QPoint)));
     connect(m_widgetResizeAct,SIGNAL(triggered()),this,SLOT(fitMapToWindow()));
 }
 
 
-CarteFenetre::~CarteFenetre()
+BipMapWindow::~BipMapWindow()
 {
     //no need to delete, actionAssociee it is delete when qmenu is deleted
     //m_mainWindow->enleverCarteDeLaListe(carteAssociee->identifiantCarte());
 }
-//QAction* CarteFenetre::getAssociatedAction() const
+//QAction* BipMapWindow::getAssociatedAction() const
 //{
 //    return carteAssociee;
 //}
-/*void CarteFenetre::closeEvent(QCloseEvent *event)
+/*void BipMapWindow::closeEvent(QCloseEvent *event)
 {
     hide();
     actionAssociee->setChecked(false);
     event->ignore();
 }*/
 
-void CarteFenetre::hideEvent ( QHideEvent * event )
+void BipMapWindow::hideEvent ( QHideEvent * event )
 {
     emit visibleChanged(false);
     QScrollArea::hideEvent(event);
 }
-void CarteFenetre::showEvent ( QShowEvent * event )
+void BipMapWindow::showEvent ( QShowEvent * event )
 {
     emit visibleChanged(true);
    QScrollArea::showEvent(event);
 }
-//void CarteFenetre::associerAction(QAction *action)
+//void BipMapWindow::associerAction(QAction *action)
 //{
 //    actionAssociee = action;
 //}
 
 
-Carte * CarteFenetre::carte()
+Carte * BipMapWindow::carte()
 {
     return carteAssociee;
 }
 
 
-void CarteFenetre::commencerDeplacement(QPoint position)
+void BipMapWindow::commencerDeplacement(QPoint position)
 {
     pointDepart = position;
     horizontalDepart = horizontalScrollBar()->value();
     verticalDepart = verticalScrollBar()->value();
 }
 
-void CarteFenetre::deplacer(QPoint position)
+void BipMapWindow::deplacer(QPoint position)
 {
     QPoint diff = pointDepart - position;
     horizontalScrollBar()->setValue(horizontalDepart + diff.x());
     verticalScrollBar()->setValue(verticalDepart + diff.y());
 }
-QString CarteFenetre::getMapId()
+QString BipMapWindow::getMapId()
 {
     if(NULL!=carteAssociee)
     {
@@ -128,7 +127,7 @@ QString CarteFenetre::getMapId()
 
 }
 
-void CarteFenetre::fitMapToWindow()
+void BipMapWindow::fitMapToWindow()
 {
     setWidgetResizable(m_widgetResizeAct->isChecked());
     if(!m_widgetResizeAct->isChecked())
@@ -137,13 +136,13 @@ void CarteFenetre::fitMapToWindow()
     }
 }
 
-void CarteFenetre::focusInEvent(QFocusEvent * event)
+void BipMapWindow::focusInEvent(QFocusEvent * event)
 {
     emit activated(carteAssociee);
 
     QWidget::focusInEvent(event);
 }
-void CarteFenetre::contextMenuEvent( QContextMenuEvent * event )
+void BipMapWindow::contextMenuEvent( QContextMenuEvent * event )
 {
    /* if(event->modifiers()==Qt::NoModifier)
     {

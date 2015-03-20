@@ -18,35 +18,28 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-
-
-/********************************************************************/
-/*                                                                  */
-/* QWorkspace avec une image de fond                                */
-/*                                                                  */
-/********************************************************************/	
-
-
 #ifndef WORKSPACE_AMELIORE_H
 #define WORKSPACE_AMELIORE_H
 
 #include <QWidget>
 #include <QImage>
 #include <QPaintEvent>
-//#include <QWorkspace>
 #include <QMdiArea>
 
 
 #include "preferencesmanager.h"
+
+
+
 /**
- * @brief The WorkspaceAmeliore class
+ * @brief The ImprovedWorkspace class
  */
-class WorkspaceAmeliore : public QMdiArea
+class ImprovedWorkspace : public QMdiArea
 {
     Q_OBJECT
 public :
-    WorkspaceAmeliore(QWidget *parent = 0);
-    ~WorkspaceAmeliore();
+	ImprovedWorkspace(QWidget *parent = 0);
+	~ImprovedWorkspace();
 
     QWidget* addWindow(QWidget*,QAction* action);
     QWidget* activeWindow();

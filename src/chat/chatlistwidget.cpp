@@ -19,14 +19,14 @@
  *************************************************************************/
 
 
-#include "chatlistwidget.h"
+#include "chat/chatlistwidget.h"
 
 #include <QEvent>
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-#include "chat.h"
+#include "chat/chat.h"
 #include "chatlist.h"
 #include "mainwindow.h"
 #include "privatechatdialog.h"

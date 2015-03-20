@@ -22,7 +22,7 @@
 #include "networkmessage.h"
 
 
-#include "Liaison.h"
+#include "network/networklink.h"
 
 
 
@@ -31,7 +31,7 @@ NetworkMessage::~NetworkMessage()
 
 }
 
-void NetworkMessage::sendTo(Liaison * link)
+void NetworkMessage::sendTo(NetworkLink * link)
 {
     if (link == NULL)
     {
@@ -43,7 +43,7 @@ void NetworkMessage::sendTo(Liaison * link)
     link->emissionDonnees((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
 }
 
-void NetworkMessage::sendAll(Liaison * butLink)
+void NetworkMessage::sendAll(NetworkLink * butLink)
 {
     NetworkMessageHeader * header = buffer();
     m_server->emettreDonnees((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);

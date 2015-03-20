@@ -27,7 +27,7 @@
 #include <QString>
 #include <QObject>
 
-class Liaison;
+class NetworkLink;
 class NetworkMessage;
 class Player;
 class ReceiveEvent;
@@ -43,7 +43,7 @@ public:
     virtual QString name() const =0;
     virtual bool belongsToLocalPlayer() const;
     virtual bool belongsTo(Player * player) const =0;
-    virtual void sendThem(NetworkMessage & message, Liaison * but = NULL) const =0;
+    virtual void sendThem(NetworkMessage & message, NetworkLink * but = NULL) const =0;
     virtual bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const =0;
 
 signals:
@@ -64,7 +64,7 @@ public:
     QString identifier() const;
     QString name() const;
     bool belongsTo(Player * player) const;
-    void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
+    void sendThem(NetworkMessage & message, NetworkLink * but = NULL) const;
     bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 };
 /**
@@ -81,7 +81,7 @@ public:
     QString identifier() const;
     QString name() const;
     bool belongsTo(Player * player) const;
-    void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
+    void sendThem(NetworkMessage & message, NetworkLink * but = NULL) const;
     bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 
 private:
@@ -115,12 +115,12 @@ public:
     QString name() const;
     bool belongsToLocalPlayer() const;
     bool belongsTo(Player * player) const;
-    void sendThem(NetworkMessage & message, Liaison * but = NULL) const;
+    void sendThem(NetworkMessage & message, NetworkLink * but = NULL) const;
     bool everyPlayerHasFeature(const QString & feature, quint8 version = 0) const;
 
     Player * owner() const;
 
-    bool sameLink(Liaison * link);
+    bool sameLink(NetworkLink * link);
 
     bool includeLocalPlayer() const;
     bool removePlayer(Player * player);
@@ -147,7 +147,7 @@ private:
     Player * m_owner;
     QSet<Player *> m_set;
 
-    void p_sendThem(NetworkMessage & message, Liaison * but, bool force) const;
+    void p_sendThem(NetworkMessage & message, NetworkLink * but, bool force) const;
     void p_set(const QString & name, QSet<Player *> set, bool update);
 };
 

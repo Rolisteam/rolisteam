@@ -1,7 +1,7 @@
 #include <QDebug>
 
 
-#include "newemptymapdialog.h"
+#include "map/newemptymapdialog.h"
 #include "ui_newemptymapdialog.h"
 
 #include "preferencesmanager.h"

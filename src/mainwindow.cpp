@@ -43,11 +43,10 @@
 #include "mainwindow.h"
 
 #include "toolbar.h"
-#include "CarteFenetre.h"
-#include "Carte.h"
-#include "chatlistwidget.h"
-#include "ClientServeur.h"
-#include "EditeurNotes.h"
+#include "map/bipmapwindow.h"
+#include "map/Carte.h"
+#include "chat/chatlistwidget.h"
+#include "network/networkmanager.h"
 #include "Image.h"
 #include "network/networkmessagewriter.h"
 
@@ -56,7 +55,7 @@
 #include "playersListWidget.h"
 #include "preferencesdialog.h"
 #include "updatechecker.h"
-#include "WorkspaceAmeliore.h"
+#include "improvedworkspace.h"
 
 
 #include "textedit.h"
@@ -141,7 +140,7 @@ MainWindow::MainWindow()
     m_preferences = PreferencesManager::getInstance();
     m_newEmptyMapDialog = new NewEmptyMapDialog(this);
     m_downLoadProgressbar = new QProgressBar();
-    m_downLoadProgressbar->setRange(0,100);
+	m_downLoadProgressbar->setRange(0,100);
 
 
 
@@ -149,10 +148,11 @@ MainWindow::MainWindow()
 
 
     m_mapWizzard = new MapWizzard(this);
-    m_networkManager = new ClientServeur;
+	m_networkManager = new NetworkManager;
     m_ipChecker = new IpChecker(this);
-    //G_clientServeur = m_networkManager;
-    m_mapAction = new QMap<CarteFenetre*,QAction*>();
+	//G_NetworkManager = m_networkManager;
+	m_mapAction = new QMap<BipMapWindow*,QAction*>();
+
 
 }
 void MainWindow::setupUi()
@@ -164,7 +164,7 @@ void MainWindow::setupUi()
     G_affichageNomPnj = true;
     G_affichageNumeroPnj = true;
 
-    // Initialisation de la liste des CarteFenetre, des Image et des Tchat
+	// Initialisation de la liste des BipMapWindow, des Image et des Tchat
     m_mapWindowList.clear();
     m_pictureList.clear();
 
@@ -185,7 +185,7 @@ void MainWindow::setupUi()
 
     setAnimated(false);
 
-    m_mdiArea = new WorkspaceAmeliore();
+	m_mdiArea = new ImprovedWorkspace();
 
 
 
@@ -280,7 +280,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     quitterApplication();
 }
 
-ClientServeur* MainWindow::getNetWorkManager()
+NetworkManager* MainWindow::getNetWorkManager()
 {
     return m_networkManager;
 }
@@ -487,16 +487,16 @@ void MainWindow::linkActionToMenu()
     connect(m_helpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 }
 
-QWidget* MainWindow::addMap(CarteFenetre *carteFenetre, QString titre,QSize mapsize,QPoint pos )
+QWidget* MainWindow::addMap(BipMapWindow *BipMapWindow, QString titre,QSize mapsize,QPoint pos )
 {
     QAction *action = m_windowMenu->addAction(titre);
     action->setCheckable(true);
     action->setChecked(true);
 
-    m_mapWindowList.append(carteFenetre);
+	m_mapWindowList.append(BipMapWindow);
 
     // Ajout de la carte au workspace
-    QWidget* tmp = m_mdiArea->addWindow(carteFenetre,action);
+	QWidget* tmp = m_mdiArea->addWindow(BipMapWindow,action);
     if(mapsize.isValid())
         tmp->resize(mapsize);
     if(!pos.isNull())
@@ -511,17 +511,17 @@ QWidget* MainWindow::addMap(CarteFenetre *carteFenetre, QString titre,QSize maps
     tmp->setWindowIcon(QIcon(":/map.png"));
     tmp->setWindowTitle(titre);
 
-    carteFenetre->setWindowIcon(QIcon(":/map.png"));
-    carteFenetre->setWindowTitle(titre);
+	BipMapWindow->setWindowIcon(QIcon(":/map.png"));
+	BipMapWindow->setWindowTitle(titre);
 
-    m_mapAction->insert(carteFenetre,action);
+	m_mapAction->insert(BipMapWindow,action);
 
     // Connexion de l'action avec l'affichage/masquage de la fenetre
     connect(action, SIGNAL(triggered(bool)), tmp, SLOT(setVisible(bool)));
-    connect(action, SIGNAL(triggered(bool)), carteFenetre, SLOT(setVisible(bool)));
-    connect(carteFenetre,SIGNAL(visibleChanged(bool)),action,SLOT(setChecked(bool)));
+	connect(action, SIGNAL(triggered(bool)), BipMapWindow, SLOT(setVisible(bool)));
+	connect(BipMapWindow,SIGNAL(visibleChanged(bool)),action,SLOT(setChecked(bool)));
 
-    Carte *carte = carteFenetre->carte();
+	Carte *carte = BipMapWindow->carte();
     carte->setPointeur(m_toolBar->getCurrentTool());
 
     connect(m_toolBar,SIGNAL(currentToolChanged(ToolBar::Tool)),carte,SLOT(setPointeur(ToolBar::Tool)));
@@ -534,8 +534,8 @@ QWidget* MainWindow::addMap(CarteFenetre *carteFenetre, QString titre,QSize maps
     connect(m_showNPCNumberAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
 
     // new PlayersList connection
-    connect(carteFenetre, SIGNAL(activated(Carte *)), m_playersListWidget->model(), SLOT(changeMap(Carte *)));
-    connect(carteFenetre, SIGNAL(activated(Carte *)), m_toolBar, SLOT(changeMap(Carte *)));
+	connect(BipMapWindow, SIGNAL(activated(Carte *)), m_playersListWidget->model(), SLOT(changeMap(Carte *)));
+	connect(BipMapWindow, SIGNAL(activated(Carte *)), m_toolBar, SLOT(changeMap(Carte *)));
 
     // Affichage de la carte
     tmp->setVisible(true);
@@ -608,7 +608,7 @@ void MainWindow::openImage()
     addImageToMdiArea(imageFenetre,titre);
 
     // Envoie de l'image aux autres utilisateurs
-    NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
+	NetworkMessageWriter message(NetMsg::PictureCategory, NetMsg::AddPictureAction);
     imageFenetre->fill(message);
     message.sendAll();
 }
@@ -699,10 +699,10 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
         Carte *carte = new Carte(idCarte, &image, masquer);
         carte->setPermissionMode(Permission);
         carte->setPointeur(m_toolBar->getCurrentTool());
-        // Creation de la CarteFenetre
-        CarteFenetre *carteFenetre = new CarteFenetre(carte, m_mdiArea);
+		// Creation de la BipMapWindow
+		BipMapWindow* bipMapWindow = new BipMapWindow(carte, m_mdiArea);
         // Ajout de la carte au workspace
-        addMap(carteFenetre, title);
+		addMap(bipMapWindow, title);
 
         // Envoie de la carte aux autres utilisateurs
         // On commence par compresser l'image (format jpeg) dans un tableau
@@ -864,19 +864,19 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
     Carte* map = new Carte(idCarte, &fondOriginal, &fond, &alpha);
     map->setPermissionMode(myPermission);
     map->setPointeur(m_toolBar->getCurrentTool());
-    CarteFenetre *carteFenetre = new CarteFenetre(map,m_mdiArea);
+	BipMapWindow* bipMapWindow = new BipMapWindow(map,m_mdiArea);
 
 
 
 
 
-    QPoint pos2 = carteFenetre->mapFromParent(pos);
+	QPoint pos2 = bipMapWindow->mapFromParent(pos);
 
     QMdiSubWindow* m_widget=NULL;
     if (nomFichier.isEmpty())
-        m_widget=static_cast<QMdiSubWindow*>(addMap(carteFenetre, titre,size,pos));
+		m_widget=static_cast<QMdiSubWindow*>(addMap(bipMapWindow, titre,size,pos));
     else
-        m_widget=static_cast<QMdiSubWindow*>(addMap(carteFenetre, nomFichier,size,pos));
+		m_widget=static_cast<QMdiSubWindow*>(addMap(bipMapWindow, nomFichier,size,pos));
 
     // On recupere le nombre de personnages presents dans le message
     quint16 nbrPersonnages;
@@ -929,7 +929,7 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
         map->afficheOuMasquePnj(pnj);
 
     }
-    map->emettreCarte(carteFenetre->windowTitle());
+	map->emettreCarte(bipMapWindow->windowTitle());
     map->emettreTousLesPersonnages();
 
     return m_widget;
@@ -944,7 +944,7 @@ void MainWindow::closeMapOrImage()
 
     QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
     QWidget* active = subactive->widget();
-    CarteFenetre* carteFenetre = NULL;
+	BipMapWindow* bipMapWindow = NULL;
 
     if (NULL!=active)
     {
@@ -966,12 +966,12 @@ void MainWindow::closeMapOrImage()
         }
         else//it is a map
         {
-            carteFenetre= dynamic_cast<CarteFenetre*>(active);
-            if(NULL!=carteFenetre)
+			bipMapWindow= dynamic_cast<BipMapWindow*>(active);
+			if(NULL!=bipMapWindow)
             {
-                mapImageId = carteFenetre->getMapId();
-                associatedAct = m_mapAction->value(carteFenetre);
-            }
+				mapImageId = bipMapWindow->getMapId();
+				associatedAct = m_mapAction->value(bipMapWindow);
+			}
             else// it is undefined
             {
                 return;
@@ -1035,7 +1035,7 @@ void MainWindow::closeMapOrImage()
             delete[] donnees;
 
 
-            m_mapWindowList.removeAll(carteFenetre);
+			m_mapWindowList.removeAll(bipMapWindow);
             m_playersListWidget->model()->changeMap(NULL);
             m_toolBar->changeMap(NULL);
 
@@ -1099,7 +1099,7 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
     }
 
     bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
-    if (widget != NULL && widget->objectName() == QString("CarteFenetre") && localPlayerIsGM)
+	if (widget != NULL && widget->objectName() == QString("BipMapWindow") && localPlayerIsGM)
     {
         m_closeMap->setEnabled(true);
         m_saveMapAct->setEnabled(true);
@@ -1211,15 +1211,15 @@ void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond,
     Carte *carte = new Carte(idCarte, &image);
     carte->setPermissionMode(getPermission(mode));
     carte->setPointeur(m_toolBar->getCurrentTool());
-    CarteFenetre *carteFenetre = new CarteFenetre(carte, m_mdiArea);
-    addMap(carteFenetre, titre);
+	BipMapWindow* bipMapWindow = new BipMapWindow(carte, m_mdiArea);
+	addMap(bipMapWindow, titre);
 }
 
 
 
 
 
-void MainWindow::emettreTousLesPlans(Liaison * link)
+void MainWindow::emettreTousLesPlans(NetworkLink * link)
 {
    // qDebug() << "emettreTousLesPlans " << link;
     int tailleListe = m_mapWindowList.size();
@@ -1232,7 +1232,7 @@ void MainWindow::emettreTousLesPlans(Liaison * link)
 }
 
 
-void MainWindow::emettreToutesLesImages(Liaison * link)
+void MainWindow::emettreToutesLesImages(NetworkLink * link)
 {
     NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
 
@@ -1256,7 +1256,7 @@ void MainWindow::removeMapFromId(QString idCarte)
     if(NULL!=tmp)
     {
 
-        CarteFenetre* mapWindow = dynamic_cast<CarteFenetre*>(tmp->widget());
+		BipMapWindow* mapWindow = dynamic_cast<BipMapWindow*>(tmp->widget());
         m_playersListWidget->model()->changeMap(NULL);
         m_toolBar->changeMap(NULL);
         if(NULL!=mapWindow)
@@ -1270,7 +1270,7 @@ void MainWindow::removeMapFromId(QString idCarte)
 }
 Carte * MainWindow::trouverCarte(QString idCarte)
 {
-    // Taille de la liste des CarteFenetre
+	// Taille de la liste des BipMapWindow
     int tailleListe = m_mapWindowList.size();
 
     bool ok = false;
@@ -1398,7 +1398,7 @@ void MainWindow::removePictureFromId(QString idImage)
 }
 bool MainWindow::enleverCarteDeLaListe(QString idCarte)
 {
-    // Taille de la liste des CarteFenetre
+	// Taille de la liste des BipMapWindow
     int tailleListe = m_mapWindowList.size();
 
     bool ok = false;
@@ -1440,12 +1440,12 @@ void MainWindow::saveMap()
 
     QWidget *active = m_mdiArea->activeWindow();
     QMdiSubWindow* subWindow = static_cast<QMdiSubWindow*>(active);
-    CarteFenetre* mapWindow = static_cast<CarteFenetre*>(subWindow->widget());
+	BipMapWindow* mapWindow = static_cast<BipMapWindow*>(subWindow->widget());
 
 
 
 
-    if ((NULL==mapWindow) || (mapWindow->objectName() != "CarteFenetre"))
+	if ((NULL==mapWindow) || (mapWindow->objectName() != "BipMapWindow"))
     {
         qWarning("Not a map (sauvegarderPlan - MainWindow.h)");
         return;
@@ -1956,7 +1956,7 @@ void MainWindow::closeAllImagesAndMaps()
         }
     }
 
-    foreach(CarteFenetre* tmp,m_mapWindowList)
+	foreach(BipMapWindow* tmp,m_mapWindowList)
     {
         if(NULL!=tmp)
         {
@@ -1999,21 +1999,21 @@ void MainWindow::setUpNetworkConnection()
     {
         // send datas on new connection if we are the server
         // send datas on new connection if we are the server
-//        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreTousLesPlans(Liaison *)));
-//        connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(emettreToutesLesImages(Liaison *)));
-          connect(m_networkManager, SIGNAL(linkAdded(Liaison *)), this, SLOT(updateSessionToNewClient(Liaison*)));
+//        connect(m_networkManager, SIGNAL(linkAdded(NetworkLink *)), this, SLOT(emettreTousLesPlans(NetworkLink *)));
+//        connect(m_networkManager, SIGNAL(linkAdded(NetworkLink *)), this, SLOT(emettreToutesLesImages(NetworkLink *)));
+		  connect(m_networkManager, SIGNAL(linkAdded(NetworkLink *)), this, SLOT(updateSessionToNewClient(NetworkLink*)));
     }
     connect(m_networkManager, SIGNAL(dataReceived(quint64,quint64)), this, SLOT(receiveData(quint64,quint64)));
 
 }
-void MainWindow::updateSessionToNewClient(Liaison* link)
+void MainWindow::updateSessionToNewClient(NetworkLink* link)
 {
    // m_playersListWidget->throwUserInfoToNewClient(link);
     emettreTousLesPlans(link);
     emettreToutesLesImages(link);
 }
 
-void MainWindow::setNetworkManager(ClientServeur* tmp)
+void MainWindow::setNetworkManager(NetworkManager* tmp)
 {
     m_networkManager = tmp;
     m_networkManager->setParent(this);
@@ -2065,8 +2065,46 @@ void MainWindow::parseCommandLineArguments(QStringList list)
             roleValue = parser.value(role);
         }
 
-        qDebug() << roleValue << hostnameValue << portValue;
+		if(!(roleValue.isNull()&&hostnameValue.isNull()&&portValue.isNull()))
+		{
+			qDebug() << roleValue << hostnameValue << portValue<<"inside";
+			m_networkManager->setValueConnection(portValue,hostnameValue,roleValue);
+		}
 
-        m_networkManager->setValueConnection(portValue,hostnameValue,roleValue);
+}
+void MainWindow::processMessage(NetworkMessageReader* msg)
+{
+	switch(msg->category())
+	{
+		case NetMsg::PictureCategory:
+			processImageMessage(msg);
+			break;
+	}
+}
 
+void MainWindow::processImageMessage(NetworkMessageReader* msg)
+{
+		qDebug() << "ProcessImageMessage";
+		if(msg->action() == NetMsg::AddPictureAction)
+		{
+			QString title = msg->string16();
+			QString idImage = msg->string8();
+			QString idPlayer = msg->string8();
+			QByteArray dataImage = msg->byteArray32();
+
+			QImage *img = new QImage;
+			if (!img->loadFromData(dataImage, "jpg"))
+			{
+				qWarning("Cannot read received image (receptionMessageImage - NetworkLink.cpp)");
+			}
+			Image *image = new Image(this,idImage, idPlayer, img);
+			addImage(image, title);
+
+
+		}
+		else if(msg->action() == NetMsg::DelPictureAction)
+		{
+			QString idImage = msg->string8();
+			removePictureFromId(idImage);
+		}
 }

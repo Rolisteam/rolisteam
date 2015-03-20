@@ -41,12 +41,12 @@
 #include <QString>
 #include <QLabel>
 
-#include "WorkspaceAmeliore.h"
+#include "improvedworkspace.h"
 #include "mainwindow.h"
 #include "toolbar.h"
 #include "preferencesmanager.h"
 
-class Liaison;
+class NetworkLink;
 class NetworkMessageWriter;
 class QShortcut;
 /**
@@ -57,7 +57,7 @@ class Image : public QScrollArea
 Q_OBJECT
 
 public :
-    Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QImage *image, QAction *action = 0, WorkspaceAmeliore *parent = 0);
+    Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QImage *image, QAction *action = 0, ImprovedWorkspace *parent = 0);
     ~Image();
     void setInternalAction(QAction *action);
     QAction* getAssociatedAction() const;
@@ -67,7 +67,7 @@ public :
     void sauvegarderImage(QDataStream& out, QString titre);
     bool proprietaireImage();
     QString getImageId();
-    void setParent(WorkspaceAmeliore *parent);
+    void setParent(ImprovedWorkspace *parent);
     QString getImageTitle();
     void setImageTitle(QString title);
 
@@ -158,7 +158,7 @@ private :
     int verticalDepart;
     bool deplacementAutorise;
     double m_zoomLevel;
-    WorkspaceAmeliore* m_parent;
+    ImprovedWorkspace* m_parent;
     PreferencesManager* m_prefManager;
 
     QSize m_NormalSize;

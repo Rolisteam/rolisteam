@@ -24,16 +24,16 @@
 #include <QApplication>
 #include <QTcpSocket>
 
-#include "Liaison.h"
+#include "network/networklink.h"
 
-#include "Carte.h"
-#include "CarteFenetre.h"
-#include "ClientServeur.h"
-#include "DessinPerso.h"
+#include "map/Carte.h"
+#include "map/bipmapwindow.h"
+#include "network/networkmanager.h"
+#include "map/DessinPerso.h"
 #include "Image.h"
 #include "persons.h"
 #include "playersList.h"
-#include "receiveevent.h"
+#include "network/receiveevent.h"
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
@@ -48,13 +48,15 @@
 
 
 
-Liaison::Liaison(QTcpSocket *socket)
+NetworkLink::NetworkLink(QTcpSocket *socket)
     : QObject(NULL),m_mainWindow(NULL)
 {
     m_mainWindow = MainWindow::getInstance();
     m_networkManager = m_mainWindow->getNetWorkManager();
     m_socketTcp = socket;
     receptionEnCours = false;
+	ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,m_mainWindow);
+
 #ifndef NULL_PLAYER
     m_audioPlayer = AudioPlayer::getInstance();
     ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
@@ -65,19 +67,19 @@ Liaison::Liaison(QTcpSocket *socket)
 
 
 
-    // Si l'ordi local est un client, on ajoute tt de suite la liaison a la liste, et on connecte le signal d'emission des donnees
+	// Si l'ordi local est un client, on ajoute tt de suite la NetworkLink a la liste, et on connecte le signal d'emission des donnees
     // Le serveur effectue cette operation a la fin de la procedure de connexion du client
     if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
-        m_networkManager->ajouterLiaison(this);
+		m_networkManager->ajouterNetworkLink(this);
     }
 }
-void Liaison::initialize()
+void NetworkLink::initialize()
 {
     makeSignalConnection();
 }
 
-Liaison::~Liaison()
+NetworkLink::~NetworkLink()
 {
     if(NULL!=m_socketTcp)
     {
@@ -85,7 +87,7 @@ Liaison::~Liaison()
         m_socketTcp=NULL;
     }
 }
-void Liaison::makeSignalConnection()
+void NetworkLink::makeSignalConnection()
 {
 
 
@@ -97,13 +99,13 @@ void Liaison::makeSignalConnection()
             this, SLOT(p_disconnect()));
 }
 
-void Liaison::setMainWindow(MainWindow* mainWindow)
+void NetworkLink::setMainWindow(MainWindow* mainWindow)
 {
     m_mainWindow = mainWindow;
 }
 
 
-void Liaison::erreurDeConnexion(QAbstractSocket::SocketError erreur)
+void NetworkLink::erreurDeConnexion(QAbstractSocket::SocketError erreur)
 {
     Q_UNUSED(erreur);
     if(NULL==m_socketTcp)
@@ -113,14 +115,14 @@ void Liaison::erreurDeConnexion(QAbstractSocket::SocketError erreur)
     qWarning("Une erreur réseau est survenue : %s", qPrintable(m_socketTcp->errorString()));
 }
 
-void Liaison::p_disconnect()
+void NetworkLink::p_disconnect()
 {
     qWarning("Emit disconneted signal : s");
     emit disconnected(this);
 }
 
 
-void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
+void NetworkLink::emissionDonnees(char *donnees, quint32 taille, NetworkLink *sauf)
 {
     if(NULL==m_socketTcp)
     {
@@ -141,7 +143,7 @@ void Liaison::emissionDonnees(char *donnees, quint32 taille, Liaison *sauf)
 }
 
 
-void Liaison::reception()
+void NetworkLink::reception()
 {
     if(NULL==m_socketTcp)
     {
@@ -194,12 +196,15 @@ void Liaison::reception()
                 ReceiveEvent * event = new ReceiveEvent(entete, tampon, this);
                 event->postToReceiver();
             }
+			qDebug() << "before recevert"<<entete.category;
             //if(m_receiverMap.contains((NetMsg::Category)entete.category))
             if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)entete.category))
             {
+				qDebug() << "HasReceiver"<<entete.category;
                 NetworkMessageReader data(entete,tampon);
                 NetWorkReceiver* tmp = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)entete.category);
                 tmp->processMessage(&data);
+				qDebug() << "HasReceiver"<<tmp;
 
             }
 
@@ -227,7 +232,6 @@ void Liaison::reception()
                     receptionMessagePlan();
                     break;
                 case image :
-                    receptionMessageImage();
                     break;
                 case discussion :
                     receptionMessageDiscussion();
@@ -256,7 +260,7 @@ void Liaison::reception()
 /********************************************************************/
 /* Reception d'un message de categorie Joueur                       */
 /********************************************************************/
-void Liaison::receptionMessageConnexion()
+void NetworkLink::receptionMessageConnexion()
 {
     // Le serveur indique que la processus de connexion vient de se terminer
     if (entete.action == finProcessusConnexion)
@@ -271,14 +275,14 @@ void Liaison::receptionMessageConnexion()
 /********************************************************************/
 /* Reception d'un message de categorie Joueur                       */
 /********************************************************************/
-void Liaison::receptionMessageJoueur()
+void NetworkLink::receptionMessageJoueur()
 {
 
     // Un nouveau joueur vient de se connecter au serveur (serveur uniquement)
     if (entete.action == connexionJoueur)
     {
-        // Ajout de la liaison a la liste
-        m_networkManager->ajouterLiaison(this);
+		// Ajout de la NetworkLink a la liste
+		m_networkManager->ajouterNetworkLink(this);
 
         // On indique au nouveau joueur que le processus de connexion vient d'arriver a son terme
         NetworkMessageHeader uneEntete;
@@ -316,7 +320,7 @@ void Liaison::receptionMessageJoueur()
 
     else
     {
-        qWarning("Action Joueur inconnue (receptionMessageJoueur - Liaison.cpp)");
+		qWarning("Action Joueur inconnue (receptionMessageJoueur - NetworkLink.cpp)");
         return;
     }
 }
@@ -324,7 +328,7 @@ void Liaison::receptionMessageJoueur()
 /********************************************************************/
 /* Reception d'un message de categorie PersoJoueur                  */
 /********************************************************************/
-void Liaison::receptionMessagePersoJoueur()
+void NetworkLink::receptionMessagePersoJoueur()
 {
     int p = 0;
 
@@ -370,7 +374,7 @@ void Liaison::receptionMessagePersoJoueur()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'une demande d'affichage/masquage de PJ (receptionMessagePersoJoueur - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'une demande d'affichage/masquage de PJ (receptionMessagePersoJoueur - NetworkLink.cpp)");
 
         // Si la carte a ete trouvee
         else
@@ -415,7 +419,7 @@ void Liaison::receptionMessagePersoJoueur()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'une demande de changement de taille des PJ (receptionMessagePersoJoueur - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'une demande de changement de taille des PJ (receptionMessagePersoJoueur - NetworkLink.cpp)");
 
         // Si la carte a ete trouvee
         else
@@ -444,7 +448,7 @@ void Liaison::receptionMessagePersoJoueur()
 
     else
     {
-        qWarning("Action persoJoueur inconnue (receptionMessagePersoJoueur - Liaison.cpp)");
+		qWarning("Action persoJoueur inconnue (receptionMessagePersoJoueur - NetworkLink.cpp)");
         return;
     }
 }
@@ -452,7 +456,7 @@ void Liaison::receptionMessagePersoJoueur()
 /********************************************************************/
 /* Reception d'un message de categorie PersoNonJoueur               */
 /********************************************************************/
-void Liaison::receptionMessagePersoNonJoueur()
+void NetworkLink::receptionMessagePersoNonJoueur()
 {
     int p = 0;
 
@@ -474,7 +478,7 @@ void Liaison::receptionMessagePersoNonJoueur()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'un PNJ a ajouter (receptionMessagePersoNonJoueur - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'un PNJ a ajouter (receptionMessagePersoNonJoueur - NetworkLink.cpp)");
         // Sinon on ajoute le PNJ a la carte
         else
             extrairePersonnage(carte, &(tampon[p]));
@@ -509,7 +513,7 @@ void Liaison::receptionMessagePersoNonJoueur()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'un PNJ a supprimer (receptionMessagePersoNonJoueur - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'un PNJ a supprimer (receptionMessagePersoNonJoueur - NetworkLink.cpp)");
         // Sinon on supprime le PNJ de la carte
         else
             carte->eraseCharacter(idPerso);
@@ -521,7 +525,7 @@ void Liaison::receptionMessagePersoNonJoueur()
 
     else
     {
-        qWarning("Action persoNonJoueur inconnue (receptionMessagePnj - Liaison.cpp)");
+		qWarning("Action persoNonJoueur inconnue (receptionMessagePnj - NetworkLink.cpp)");
         return;
     }
 }
@@ -529,7 +533,7 @@ void Liaison::receptionMessagePersoNonJoueur()
 /********************************************************************/
 /* Reception d'un message de categorie Personnage                   */
 /********************************************************************/
-void Liaison::receptionMessagePersonnage()
+void NetworkLink::receptionMessagePersonnage()
 {
     int p = 0;
 
@@ -555,7 +559,7 @@ void Liaison::receptionMessagePersonnage()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'une liste de personnages a ajouter (receptionMessagePersonnage - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'une liste de personnages a ajouter (receptionMessagePersonnage - NetworkLink.cpp)");
         // Sinon on recupere l'ensemble des personnages et on les ajoute a la carte
         else
             for (int i=0; i<nbrPersonnages; i++)
@@ -608,7 +612,7 @@ void Liaison::receptionMessagePersonnage()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'un deplacement de personnage (receptionMessagePersonnage - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'un deplacement de personnage (receptionMessagePersonnage - NetworkLink.cpp)");
         // Sinon lance le deplacement du personnage
         else
             carte->lancerDeplacementPersonnage(idPerso, listeDeplacement);
@@ -648,7 +652,7 @@ void Liaison::receptionMessagePersonnage()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'un changement d'etat de perso (receptionMessagePersonnage - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'un changement d'etat de perso (receptionMessagePersonnage - NetworkLink.cpp)");
         // Sinon on change l'etat du perso
         else
         {
@@ -657,7 +661,7 @@ void Liaison::receptionMessagePersonnage()
             if (NULL!=perso)
                 perso->changerEtatDeSante(numEtat);
             else
-                qWarning("Personnage introuvable a la reception d'un changement d'etat de perso (receptionMessagePersonnage - Liaison.cpp)");
+				qWarning("Personnage introuvable a la reception d'un changement d'etat de perso (receptionMessagePersonnage - NetworkLink.cpp)");
         }
 
         // Liberation de la memoire allouee
@@ -698,7 +702,7 @@ void Liaison::receptionMessagePersonnage()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'un changement d'orientation (receptionMessagePersonnage - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'un changement d'orientation (receptionMessagePersonnage - NetworkLink.cpp)");
         // Sinon on change l'orientation du personnage
         else
         {
@@ -707,7 +711,7 @@ void Liaison::receptionMessagePersonnage()
             if (NULL!=perso)
                 perso->nouvelleOrientation(orientation);
             else
-                qWarning("Personnage introuvable a la reception d'un changement d'orientation (receptionMessagePersonnage - Liaison.cpp)");
+				qWarning("Personnage introuvable a la reception d'un changement d'orientation (receptionMessagePersonnage - NetworkLink.cpp)");
         }
 
         // Liberation de la memoire allouee
@@ -745,7 +749,7 @@ void Liaison::receptionMessagePersonnage()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'un affichage/masquage d'orientation (receptionMessagePersonnage - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'un affichage/masquage d'orientation (receptionMessagePersonnage - NetworkLink.cpp)");
         // Sinon on change l'etat de l'affichage de l'orientation du personnage
         else
         {
@@ -754,7 +758,7 @@ void Liaison::receptionMessagePersonnage()
             if (NULL!=perso)
                 perso->afficherOrientation(afficheOrientation);
             else
-                qWarning("Personnage introuvable a la reception d'un affichage/masquage d'orientation (receptionMessagePersonnage - Liaison.cpp)");
+				qWarning("Personnage introuvable a la reception d'un affichage/masquage d'orientation (receptionMessagePersonnage - NetworkLink.cpp)");
         }
 
         // Liberation de la memoire allouee
@@ -766,7 +770,7 @@ void Liaison::receptionMessagePersonnage()
 /********************************************************************/
 /* Reception d'un message de categorie Dessin                       */
 /********************************************************************/
-void Liaison::receptionMessageDessin()
+void NetworkLink::receptionMessageDessin()
 {
     int p = 0;
 
@@ -833,7 +837,7 @@ void Liaison::receptionMessageDessin()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'un trace de crayon (receptionMessageDessin - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'un trace de crayon (receptionMessageDessin - NetworkLink.cpp)");
         // Sinon on demande le dessin du trace
         else
             carte->dessinerTraceCrayon(&listePoints, zoneARafraichir, diametre, couleur, idJoueur==G_idJoueurLocal);
@@ -892,7 +896,7 @@ void Liaison::receptionMessageDessin()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'un trace texte (receptionMessageDessin - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'un trace texte (receptionMessageDessin - NetworkLink.cpp)");
         // Sinon on demande le dessin du trace
         else
             carte->dessinerTraceTexte(texte, positionSouris, zoneARafraichir, couleur);
@@ -959,7 +963,7 @@ void Liaison::receptionMessageDessin()
         Carte *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
-            qWarning("Carte introuvable a la reception d'un trace general (receptionMessageDessin - Liaison.cpp)");
+			qWarning("Carte introuvable a la reception d'un trace general (receptionMessageDessin - NetworkLink.cpp)");
         // Sinon on demande le dessin du trace
         else
             carte->dessinerTraceGeneral((actionDessin)(entete.action), pointDepart, pointArrivee, zoneARafraichir, diametre, couleur);
@@ -972,7 +976,7 @@ void Liaison::receptionMessageDessin()
 /********************************************************************/
 /* Reception d'un message de categorie Plan                         */
 /********************************************************************/
-void Liaison::receptionMessagePlan()
+void NetworkLink::receptionMessagePlan()
 {
     int p = 0;
 
@@ -1081,15 +1085,15 @@ void Liaison::receptionMessagePlan()
         QImage image;
         bool ok = image.loadFromData(byteArray, "jpeg");
         if (!ok)
-            qWarning("Probleme de decompression de l'image (receptionMessagePlan - Liaison.cpp)");
+			qWarning("Probleme de decompression de l'image (receptionMessagePlan - NetworkLink.cpp)");
 
         // Creation de la carte
         Carte *carte = new Carte(idPlan, &image, masquerPlan);
         carte->setPermissionMode((Carte::PermissionMode)permission);
-        // Creation de la CarteFenetre
-        CarteFenetre *carteFenetre = new CarteFenetre(carte,m_mainWindow);
+		// Creation de la BipMapWindow
+		BipMapWindow* bipMapWindow = new BipMapWindow(carte,m_mainWindow);
         // Ajout de la carte au workspace
-        m_mainWindow->addMap(carteFenetre, titre);
+		m_mainWindow->addMap(bipMapWindow, titre);
 
         // Message sur le log utilisateur
         MainWindow::notifyUser(tr("Receiving map: %1").arg(titre));
@@ -1163,27 +1167,27 @@ void Liaison::receptionMessagePlan()
         QImage fondOriginal;
         ok = fondOriginal.loadFromData(baFondOriginal, "jpeg");
         if (!ok)
-            qWarning("Probleme de decompression du fond original (receptionMessagePlan - Liaison.cpp)");
+			qWarning("Probleme de decompression du fond original (receptionMessagePlan - NetworkLink.cpp)");
         // Creation de l'image de fond
         QImage fond;
         ok = fond.loadFromData(baFond, "jpeg");
         if (!ok)
-            qWarning("Probleme de decompression du fond (receptionMessagePlan - Liaison.cpp)");
+			qWarning("Probleme de decompression du fond (receptionMessagePlan - NetworkLink.cpp)");
         // Creation de la couche alpha
         QImage alpha;
         ok = alpha.loadFromData(baAlpha, "jpeg");
         if (!ok)
-            qWarning("Probleme de decompression de la couche alpha (receptionMessagePlan - Liaison.cpp)");
+			qWarning("Probleme de decompression de la couche alpha (receptionMessagePlan - NetworkLink.cpp)");
 
         // Creation de la carte
         Carte *carte = new Carte(idPlan, &fondOriginal, &fond, &alpha);
         carte->setPermissionMode((Carte::PermissionMode)permission);
         // On adapte la couche alpha a la nature de l'utilisateur local (MJ ou joueur)
         carte->adapterCoucheAlpha(intensiteAlpha);
-        // Creation de la CarteFenetre
-        CarteFenetre *carteFenetre = new CarteFenetre(carte,m_mainWindow);
+		// Creation de la BipMapWindow
+		BipMapWindow* bipMapWindow = new BipMapWindow(carte,m_mainWindow);
         // Ajout de la carte au workspace
-        m_mainWindow->addMap(carteFenetre, titre);
+		m_mainWindow->addMap(bipMapWindow, titre);
 
         // Message sur le log utilisateur
         MainWindow::notifyUser(tr("Receiving map: %1").arg(titre));
@@ -1215,114 +1219,16 @@ void Liaison::receptionMessagePlan()
 
     else
     {
-        qWarning()<< "Unknown map Action (receptionMessagePlan - Liaison.cpp)";
+		qWarning()<< "Unknown map Action (receptionMessagePlan - NetworkLink.cpp)";
         return;
     }
 }
 
-/********************************************************************/
-/* Reception d'un message de categorie Image                        */
-/********************************************************************/
-void Liaison::receptionMessageImage()
-{
-    int p = 0;
-
-    // L'hote demande a l'ordinateur local de creer l'image passee dans le message
-    if (entete.action == chargerImage)
-    {
-        // Si l'ordinateur local est le serveur, on renvoie le messages aux clients
-        faireSuivreMessage(false);
-
-        // On recupere le titre
-        quint16 tailleTitre;
-        memcpy(&tailleTitre, &(tampon[p]), sizeof(quint16));
-        p+=sizeof(quint16);
-        QChar *tableauTitre = new QChar[tailleTitre];
-        memcpy(tableauTitre, &(tampon[p]), tailleTitre*sizeof(QChar));
-        p+=tailleTitre*sizeof(QChar);
-        QString titre(tableauTitre, tailleTitre);
-        // On recupere l'identifiant de l'image
-        quint8 tailleIdImage;
-        memcpy(&tailleIdImage, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdImage = new QChar[tailleIdImage];
-        memcpy(tableauIdImage, &(tampon[p]), tailleIdImage*sizeof(QChar));
-        p+=tailleIdImage*sizeof(QChar);
-        QString idImage(tableauIdImage, tailleIdImage);
-        // On recupere l'identifiant du joueur
-        quint8 tailleIdJoueur;
-        memcpy(&tailleIdJoueur, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdJoueur = new QChar[tailleIdJoueur];
-        memcpy(tableauIdJoueur, &(tampon[p]), tailleIdJoueur*sizeof(QChar));
-        p+=tailleIdJoueur*sizeof(QChar);
-        QString idJoueur(tableauIdJoueur, tailleIdJoueur);
-        // On recupere l'image
-        quint32 tailleImage;
-        memcpy(&tailleImage, &(tampon[p]), sizeof(quint32));
-        p+=sizeof(quint32);
-        QByteArray byteArray(tailleImage, 0);
-        memcpy(byteArray.data(), &(tampon[p]), tailleImage);
-        p+=tailleImage;
-
-       /* qDebug() << "taille donnee" << tailleTitre*sizeof(QChar)+sizeof(quint16)
-                                      +tailleIdImage*sizeof(QChar)+sizeof(quint8)
-                                      +sizeof(quint8) +tailleIdJoueur*sizeof(QChar)
-                                      +tailleImage+sizeof(quint32) << "taille image:"<< tailleImage << tailleTitre << tailleIdJoueur << tailleIdImage;*/
-
-        // Creation de l'image
-        QImage *img = new QImage;
-        bool ok = img->loadFromData(byteArray, "jpg");
-        if (!ok)
-            qWarning("Cannot read received image (receptionMessageImage - Liaison.cpp)");
-
-        // Creation de l'Image
-        Image *imageFenetre = new Image(m_mainWindow,idImage, idJoueur, img);
-        // Ajout de la carte au workspace
-        m_mainWindow->addImage(imageFenetre, titre);
-
-
-        //qDebug() << "titre" << titre;
-        MainWindow::notifyUser(tr("Receiving picture: %1").arg(titre.left(titre.size()-QString(tr(" (Picture)")).size())));
-
-        // Liberation de la memoire allouee
-        delete[] tableauTitre;
-        delete[] tableauIdImage;
-        delete[] tableauIdJoueur;
-    }
-
-    // Demande de fermeture d'une image
-    else if (entete.action == fermerImage)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre la fermeture de l'image aux autres clients
-        faireSuivreMessage(false);
-
-        // On recupere l'identifiant de la carte
-        quint8 tailleIdImage;
-        memcpy(&tailleIdImage, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdImage = new QChar[tailleIdImage];
-        memcpy(tableauIdImage, &(tampon[p]), tailleIdImage*sizeof(QChar));
-        p+=tailleIdImage*sizeof(QChar);
-        QString idImage(tableauIdImage, tailleIdImage);
-
-
-        m_mainWindow->removePictureFromId(idImage);
-
-        delete[] tableauIdImage;
-    }
-
-    else
-    {
-        qWarning("Action image inconnue (receptionMessageImage - Liaison.cpp)");
-        return;
-    }
-}
 
 /********************************************************************/
 /* Reception d'un message de categorie Discussion                   */
 /********************************************************************/
-void Liaison::receptionMessageDiscussion()
+void NetworkLink::receptionMessageDiscussion()
 {
     // All should be done by ChatList.
 }
@@ -1330,14 +1236,14 @@ void Liaison::receptionMessageDiscussion()
 /********************************************************************/
 /* Reception d'un message de categorie Musique                      */
 /********************************************************************/
-void Liaison::receivesMusicMessage()
+void NetworkLink::receivesMusicMessage()
 {
      // All should be done by AudioPlayer.
     return;
 }
 
 
-void Liaison::receptionMessageParametres()
+void NetworkLink::receptionMessageParametres()
 {
     if (entete.action == NetMsg::AddFeatureAction)
     {
@@ -1346,7 +1252,7 @@ void Liaison::receptionMessageParametres()
 }
 
 
-void Liaison::faireSuivreMessage(bool tous)
+void NetworkLink::faireSuivreMessage(bool tous)
 {
     // Uniquement si l'ordinateur local est le serveur
     if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
@@ -1372,7 +1278,7 @@ void Liaison::faireSuivreMessage(bool tous)
 /* Extrait un personnage d'un message et l'ajoute a la carte passee */
 /* en parametre                                                     */
 /********************************************************************/
-int Liaison::extrairePersonnage(Carte *carte, char *tampon)
+int NetworkLink::extrairePersonnage(Carte *carte, char *tampon)
 {
     int p=0;
 
@@ -1475,7 +1381,7 @@ int Liaison::extrairePersonnage(Carte *carte, char *tampon)
     // On renvoie le nbr d'octets lus
     return p;
 }
-void Liaison::disconnectAndClose()
+void NetworkLink::disconnectAndClose()
 {
     if(NULL!=m_socketTcp)
     {
@@ -1484,7 +1390,7 @@ void Liaison::disconnectAndClose()
         m_socketTcp=NULL;
     }
 }
-void Liaison::setSocket(QTcpSocket* socket, bool makeConnection)
+void NetworkLink::setSocket(QTcpSocket* socket, bool makeConnection)
 {
     m_socketTcp=socket;
     if(makeConnection)
@@ -1493,7 +1399,7 @@ void Liaison::setSocket(QTcpSocket* socket, bool makeConnection)
     }
 
 }
-void Liaison::insertNetWortReceiver(NetWorkReceiver* receiver,NetMsg::Category cat)
+void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver,NetMsg::Category cat)
 {
     m_receiverMap.insert(cat,receiver);
 }

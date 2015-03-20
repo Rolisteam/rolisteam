@@ -27,7 +27,7 @@
 #include <math.h>
 
 #include "variablesGlobales.h"
-#include "DessinPerso.h"
+#include "map/DessinPerso.h"
 
 /********************************************************************/
 /* Variables globales utilisees par tous les elements de            */

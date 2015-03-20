@@ -31,7 +31,7 @@
 class Character;
 class NetworkMessageReader;
 class NetworkMessageWriter;
-class Liaison;
+class NetworkLink;
 class Player;
 
 /**
@@ -75,14 +75,14 @@ class Player : public Person
 {
 
 public:
-    Player(const QString & name, const QColor & color, bool master = false, Liaison * link = NULL);
-    Player(const QString & uuid, const QString & name, const QColor & color, bool master = false, Liaison * link = NULL);
-    Player(NetworkMessageReader & data, Liaison * link = NULL);
+    Player(const QString & name, const QColor & color, bool master = false, NetworkLink * link = NULL);
+    Player(const QString & uuid, const QString & name, const QColor & color, bool master = false, NetworkLink * link = NULL);
+    Player(NetworkMessageReader & data, NetworkLink * link = NULL);
     virtual ~Player();
 
     void fill(NetworkMessageWriter & message);
 
-    Liaison * link() const;
+    NetworkLink * link() const;
 
     int         getCharactersCount() const;
     Character * getCharacterByIndex(int index) const;
@@ -105,7 +105,7 @@ private:
     void setGM(bool value);
 
     bool m_gameMaster;
-    Liaison * m_link;
+    NetworkLink * m_link;
     QList<Character *> m_characters;
     QMap<QString, quint8> m_features;
 };

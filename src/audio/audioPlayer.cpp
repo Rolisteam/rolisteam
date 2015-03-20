@@ -31,8 +31,8 @@
 
 
 
-#include "ClientServeur.h"
-#include "Liaison.h"
+#include "network/networkmanager.h"
+#include "network/networklink.h"
 #include "variablesGlobales.h"
 #include "types.h"
 #include "network/networkmessagewriter.h"

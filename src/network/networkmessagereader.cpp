@@ -168,3 +168,11 @@ QRgb NetworkMessageReader::rgb()
     }
     return qRgb(255, 255, 255);
 }
+QByteArray NetworkMessageReader::byteArray32()
+{
+	int size = uint32();
+	QByteArray result(m_pos,size);
+	m_pos += size;
+	return result;
+
+}

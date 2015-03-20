@@ -27,7 +27,7 @@
 
 #include "Image.h"
 
-#include "Liaison.h"
+#include "network/networklink.h"
 #include "mainwindow.h"
 #include "network/networkmessagewriter.h"
 
@@ -36,7 +36,7 @@
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/	
-Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QImage *image, QAction *action, WorkspaceAmeliore *parent)
+Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QImage *image, QAction *action, ImprovedWorkspace *parent)
 : QScrollArea(parent),m_mainWindow(mainWindow),m_NormalSize(0,0)
 {
 
@@ -470,7 +470,7 @@ void Image::resizeEvent(QResizeEvent *event)
 
 }
 
-void Image::setParent(WorkspaceAmeliore *parent)
+void Image::setParent(ImprovedWorkspace *parent)
 {
     m_parent=parent;
     QScrollArea::setParent(parent);

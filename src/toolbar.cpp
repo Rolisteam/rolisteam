@@ -28,7 +28,7 @@
 
 #include "toolbar.h"
 
-#include "Carte.h"
+#include "map/Carte.h"
 #include "network/networkmessagewriter.h"
 #include "SelecteurCouleur.h"
 #include "SelecteurDiametre.h"

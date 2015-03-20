@@ -28,7 +28,7 @@
 
 class Character;
 class NetworkMessageReader;
-class Liaison;
+class NetworkLink;
 class Person;
 class Player;
 class ReceiveEvent;
@@ -167,7 +167,7 @@ private:
     void notifyPersonChanged(Person * person);
 
 private slots:
-    void delPlayerWithLink(Liaison * link);
+    void delPlayerWithLink(NetworkLink * link);
     void sendDelLocalPlayer();
 };
 

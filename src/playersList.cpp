@@ -31,7 +31,7 @@
 #include "network/networkmessagewriter.h"
 #include "Features.h"
 #include "persons.h"
-#include "receiveevent.h"
+#include "network/receiveevent.h"
 
 #include "types.h"
 
@@ -719,7 +719,7 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
 
 void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 {
-    Liaison * link = event->link();
+    NetworkLink * link = event->link();
     Player * player = new Player(event->data(), link);
     if (player->isGM() && m_gmCount > 0)
         player->setGM(false);
@@ -847,7 +847,7 @@ void PlayersList::completeListClean()
  * Other *
  *********/
 
-void PlayersList::delPlayerWithLink(Liaison * link)
+void PlayersList::delPlayerWithLink(NetworkLink * link)
 {
     int playersCount = m_playersList.size();
     for (int i = 0; i < playersCount ; i++)

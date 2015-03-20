@@ -33,7 +33,7 @@
 #include <QDir>
 #include <QPushButton>
 
-#include "chat.h"
+#include "chat/chat.h"
 #include "network/networkmessagewriter.h"
 #include "initialisation.h"
 #include "localpersonmodel.h"

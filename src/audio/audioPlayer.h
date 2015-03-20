@@ -48,7 +48,7 @@
 #include "musicmodel.h"
 #include "playerwidget.h"
 #include "network/networkreceiver.h"
-class Liaison;
+class NetworkLink;
 /**
     * @brief This player can be used by the GM to play songs.
     * Regular players can just change the volume level.
@@ -129,15 +129,15 @@ private :
         /**
         * @brief send command to a client
         */
-    void sendCommand(actionMusique action, QString nomFichier = "", quint64 position = 0, Liaison * link = NULL);
+    void sendCommand(actionMusique action, QString nomFichier = "", quint64 position = 0, NetworkLink * link = NULL);
 
 
     static AudioPlayer* m_singleton;//!< @brief static pointer to the unique instance of this audioplayer
 
 
-        /**
-        * @brief set the UI - Phonon only
-        */
+	/**
+	* @brief set the UI - Phonon only
+	*/
     void setupUi();
 
 // ################ MEMBERS ########################## //

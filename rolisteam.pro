@@ -70,19 +70,15 @@ include(src/odt/src/src.pri)
 
 ## Source
 HEADERS += src/AfficheurDisque.h \
-           src/Carte.h \
-           src/CarteFenetre.h \
-           src/chat.h \
-           src/chatlist.h \
-           src/chatlistwidget.h \
-           src/ClientServeur.h \
-           src/connectiondialog.h \
+	   src/map/Carte.h \
+	   src/chat/chat.h \
+	   src/chat/chatlist.h \
+	   src/chat/chatlistwidget.h \
+	   src/network/connectiondialog.h \
            src/delegate.h \
-           src/DessinPerso.h \
-           src/EditeurNotes.h \
+	   src/map/DessinPerso.h \
            src/Features.h \
            src/Image.h \
-           src/Liaison.h \
            src/localpersonmodel.h \
            src/network/networkmessage.h \
            src/network/networkmessagereader.h \
@@ -94,47 +90,46 @@ HEADERS += src/AfficheurDisque.h \
            src/playersListWidget.h \
            src/preferencesdialog.h \
            src/privatechatdialog.h \
-           src/receiveevent.h \
+	   src/network/receiveevent.h \
            src/SelecteurCouleur.h \
            src/SelecteurDiametre.h \
-           src/chatwindow.h \
+	   src/chat/chatwindow.h \
            src/TextEditAmeliore.h \
            src/types.h \
            src/updatechecker.h \
            src/variablesGlobales.h \
-           src/WorkspaceAmeliore.h \
-    src/connectionretrydialog.h \
+    src/network/connectionretrydialog.h \
     src/mainwindow.h \
     src/preferencesmanager.h \
-    src/chatbrowser.h \
+    src/chat/chatbrowser.h \
     src/ipchecker.h \
-    src/mapwizzard.h \
-    src/newemptymapdialog.h \
+    src/map/mapwizzard.h \
+    src/map/newemptymapdialog.h \
     src/widgets/colorbutton.h \
     src/widgets/filedirchooser.h \
     src/audio/audioPlayer.h \
     src/audio/musicmodel.h \
     src/audio/playerwidget.h \
     src/network/networkreceiver.h \
-    src/toolbar.h
+    src/toolbar.h \
+    src/network/networkmanager.h \
+    src/improvedworkspace.h \
+    src/network/networklink.h \
+    src/map/bipmapwindow.h
 
 
 
 SOURCES += src/AfficheurDisque.cpp \
-           src/Carte.cpp \
-           src/CarteFenetre.cpp \
-           src/chat.cpp \
-           src/chatlist.cpp \
-           src/chatlistwidget.cpp \
-           src/ClientServeur.cpp \
-           src/connectiondialog.cpp \
+	   src/map/Carte.cpp \
+	   src/chat/chat.cpp \
+	   src/chat/chatlist.cpp \
+	   src/chat/chatlistwidget.cpp \
+	   src/network/connectiondialog.cpp \
            src/delegate.cpp \
-           src/DessinPerso.cpp \
-           src/EditeurNotes.cpp \
+	   src/map/DessinPerso.cpp \
            src/Features.cpp \
            src/Image.cpp \
            src/initialisation.cpp \
-           src/Liaison.cpp \
            src/localpersonmodel.cpp \
            src/main.cpp \
            src/network/networkmessage.cpp \
@@ -147,26 +142,29 @@ SOURCES += src/AfficheurDisque.cpp \
            src/playersListWidget.cpp \
            src/preferencesdialog.cpp \
            src/privatechatdialog.cpp \
-           src/receiveevent.cpp \
+	   src/network/receiveevent.cpp \
            src/SelecteurCouleur.cpp \
            src/SelecteurDiametre.cpp \
-           src/chatwindow.cpp \
+	   src/chat/chatwindow.cpp \
            src/TextEditAmeliore.cpp \
            src/updatechecker.cpp \
-           src/WorkspaceAmeliore.cpp \
-    src/connectionretrydialog.cpp \
+    src/network/connectionretrydialog.cpp \
     src/mainwindow.cpp \
     src/preferencesmanager.cpp \
-    src/chatbrowser.cpp \
+    src/chat/chatbrowser.cpp \
     src/ipchecker.cpp \
-    src/mapwizzard.cpp \
-    src/newemptymapdialog.cpp \
+    src/map/mapwizzard.cpp \
+    src/map/newemptymapdialog.cpp \
     src/widgets/colorbutton.cpp \
     src/widgets/filedirchooser.cpp \
     src/audio/audioPlayer.cpp \
     src/audio/musicmodel.cpp \
     src/audio/playerwidget.cpp \
-    src/toolbar.cpp
+    src/toolbar.cpp \
+    src/network/networkmanager.cpp \
+    src/improvedworkspace.cpp \
+    src/network/networklink.cpp \
+    src/map/bipmapwindow.cpp
 #end source
 
 
@@ -216,10 +214,10 @@ LIBS += -lz
 }
 CONFIG += embed_manifest_exe
 FORMS += \
-    src/connectionretrydialog.ui \
-    src/mapwizzard.ui \
-    src/newemptymapdialog.ui \
-    src/chatwindow.ui \
+    src/network/connectionretrydialog.ui \
+    src/map/mapwizzard.ui \
+    src/map/newemptymapdialog.ui \
+    src/chat/chatwindow.ui \
     src/preferencesdialogbox.ui \
     src/audio/audiowidget.ui
 

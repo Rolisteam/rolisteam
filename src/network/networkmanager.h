@@ -22,8 +22,8 @@
  *************************************************************************/
 
 
-#ifndef CLIENT_SERVEUR_H
-#define CLIENT_SERVEUR_H
+#ifndef NETWORKMANAGER_H
+#define NETWORKMANAGER_H
 
 #include <QTcpServer>
 #include <QList>
@@ -41,21 +41,21 @@
 #include "variablesGlobales.h"
 
 class Player;
-class Liaison;
+class NetworkLink;
 
 class AudioPlayer;
 
 /**
- * @brief hold the list of socket (Liaison).
+ * @brief hold the list of socket (NetworkLink).
  * On startup displays the configDialog.
  */
-class ClientServeur : public QObject
+class NetworkManager : public QObject
 {
     Q_OBJECT
 
 public :
-    ClientServeur();
-    ~ClientServeur();
+	NetworkManager();
+	~NetworkManager();
 
     /**
      * @brief Display the configDialog and make the connection.
@@ -69,13 +69,13 @@ public :
      * @param taille
      * @param sauf
      */
-    void emettreDonnees(char *donnees, quint32 taille, Liaison *sauf);
+    void emettreDonnees(char *donnees, quint32 taille, NetworkLink *sauf);
 
     /**
-     * @brief ajouterLiaison
-     * @param liaison
+     * @brief ajouterNetworkLink
+     * @param NetworkLink
      */
-    void ajouterLiaison(Liaison *liaison);
+    void ajouterNetworkLink(NetworkLink *NetworkLink);
 
     /**
      * @brief isServer
@@ -91,7 +91,7 @@ public :
      */
     bool isConnected() const;
 
-    Liaison* getLinkToServer();
+    NetworkLink* getLinkToServer();
 
     quint16 getPort() const;
 
@@ -109,10 +109,10 @@ public slots:
     bool startConnection();
 
 signals :
-    void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf);
+    void emissionDonnees(char *donnees, quint32 taille, NetworkLink *sauf);
 
-    void linkAdded(Liaison * link);
-    void linkDeleted(Liaison * link);
+    void linkAdded(NetworkLink * link);
+    void linkDeleted(NetworkLink * link);
     void dataReceived(quint64,quint64);
 
 
@@ -123,7 +123,7 @@ signals :
 
 private slots :
     void nouveauClientConnecte();
-    void finDeLiaison(Liaison * link);
+    void finDeNetworkLink(NetworkLink * link);
     bool startConnectionToServer();
     bool startListening();
 
@@ -133,8 +133,8 @@ private :
     void setConnectionState(bool);
 
     QTcpServer * m_server;
-    QList<Liaison *> liaisons;
-    Liaison * m_liaisonToServer;
+    QList<NetworkLink *> NetworkLinks;
+    NetworkLink * m_NetworkLinkToServer;
     quint16 m_port;
     quint16 m_listeningPort;
     QString m_address;

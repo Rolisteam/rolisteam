@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-#include "chat.h"
+#include "chat/chat.h"
 
 #include <QUuid>
 
@@ -27,7 +27,7 @@
 #include "network/networkmessagewriter.h"
 #include "persons.h"
 #include "playersList.h"
-#include "receiveevent.h"
+#include "network/receiveevent.h"
 #include "preferencesmanager.h"
 
 
@@ -72,7 +72,7 @@ bool PublicChat::belongsTo(Player * player) const
     return false;
 }
 
-void PublicChat::sendThem(NetworkMessage & message, Liaison * but) const
+void PublicChat::sendThem(NetworkMessage & message, NetworkLink * but) const
 {
     message.sendAll(but);
 }
@@ -114,13 +114,13 @@ bool PlayerChat::belongsTo(Player * player) const
     return (m_player == player);
 }
 
-void PlayerChat::sendThem(NetworkMessage & message, Liaison * but) const
+void PlayerChat::sendThem(NetworkMessage & message, NetworkLink * but) const
 {
     if (PreferencesManager::getInstance()->value("isClient",true).toBool())
         message.sendAll(but);
     else
     {
-        Liaison * to = m_player->link();
+        NetworkLink * to = m_player->link();
         if (to != but)
             message.sendTo(to);
     }
@@ -223,12 +223,12 @@ bool PrivateChat::belongsTo(Player * player) const
 }
 
 
-void PrivateChat::sendThem(NetworkMessage & message, Liaison * but) const
+void PrivateChat::sendThem(NetworkMessage & message, NetworkLink * but) const
 {
     p_sendThem(message, but, false);
 }
 
-void PrivateChat::p_sendThem(NetworkMessage & message, Liaison * but, bool force) const
+void PrivateChat::p_sendThem(NetworkMessage & message, NetworkLink * but, bool force) const
 {
     if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
@@ -261,7 +261,7 @@ Player * PrivateChat::owner() const
     return m_owner;
 }
 
-bool PrivateChat::sameLink(Liaison * link)
+bool PrivateChat::sameLink(NetworkLink * link)
 {
     return (link == m_owner->link());
 }

@@ -24,8 +24,8 @@
 #define NETWORK_MESSAGE_H
 
 #include <QtGlobal>
-#include "ClientServeur.h"
-class Liaison;
+#include "network/networkmanager.h"
+class NetworkLink;
 
 struct NetworkMessageHeader
 {
@@ -107,8 +107,8 @@ class NetworkMessage
 
 public:
     virtual ~NetworkMessage();
-    void sendTo(Liaison * link);
-    void sendAll(Liaison * butLink = NULL);
+	void sendTo(NetworkLink * link);
+	void sendAll(NetworkLink * butLink = NULL);
 
     virtual NetMsg::Category category() const =0;
     virtual NetMsg::Action action() const =0;
@@ -117,7 +117,7 @@ protected:
     virtual NetworkMessageHeader *  buffer() =0;
 
 protected:
-    ClientServeur* m_server;
+    NetworkManager* m_server;
 };
 
 #endif

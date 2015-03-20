@@ -20,8 +20,8 @@
  *************************************************************************/
 
 
-#ifndef LIAISON_H
-#define LIAISON_H
+#ifndef NetworkLink_H
+#define NetworkLink_H
 
 #include <QtNetwork>
 #include <QTcpSocket>
@@ -35,15 +35,15 @@ class Carte;
 #endif
 
 /**
- * @brief The Liaison class
+ * @brief The NetworkLink class
  */
-class Liaison : public QObject
+class NetworkLink : public QObject
 {
 Q_OBJECT
 
 public :
-    Liaison(QTcpSocket *socket);
-    ~Liaison();
+	NetworkLink(QTcpSocket *socket);
+	~NetworkLink();
 
     void setSocket(QTcpSocket* socket, bool makeConnection = true);
     void disconnectAndClose();
@@ -51,11 +51,11 @@ public :
     void insertNetWortReceiver(NetWorkReceiver*,NetMsg::Category cat);
 
 signals:
-    void disconnected(Liaison * link);
+	void disconnected(NetworkLink * link);
     void readDataReceived(quint64,quint64);
 
 public slots :
-    void emissionDonnees(char *donnees, quint32 taille, Liaison *sauf = 0);
+	void emissionDonnees(char *donnees, quint32 taille, NetworkLink *sauf = 0);
     void setMainWindow(MainWindow* mainWindow);
 
 private :
@@ -67,7 +67,6 @@ private :
     void receptionMessagePersonnage();
     void receptionMessageDessin();
     void receptionMessagePlan();
-    void receptionMessageImage();
     void receptionMessageDiscussion();
     void receivesMusicMessage();
     void receptionMessageParametres();
@@ -86,7 +85,7 @@ private :
     AudioPlayer* m_audioPlayer;
 #endif
     MainWindow* m_mainWindow;
-    ClientServeur* m_networkManager;
+    NetworkManager* m_networkManager;
     QTime m_time;
     QTime m_time2;
     QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;

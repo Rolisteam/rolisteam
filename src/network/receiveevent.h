@@ -31,14 +31,14 @@
 #include "network/networkmessagereader.h"
 #include "network/networkreceiver.h"
 
-class Liaison;
+class NetworkLink;
 /**
  * @brief The ReceiveEvent class
  */
 class ReceiveEvent : public QEvent
 {
     public:
-        ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, Liaison * link);
+		ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, NetworkLink * link);
         ReceiveEvent(const ReceiveEvent & other);
         ~ReceiveEvent();
 
@@ -56,7 +56,7 @@ class ReceiveEvent : public QEvent
          * @brief link
          * @return
          */
-        Liaison * link() const;
+		NetworkLink * link() const;
         /**
          * @brief data
          * @return
@@ -99,7 +99,7 @@ class ReceiveEvent : public QEvent
 
     private:
         NetworkMessageReader m_data;
-        Liaison * m_link;
+		NetworkLink * m_link;
         quint8 m_repost;
 
         static QMap<quint16, QObject *> s_receiverMap;

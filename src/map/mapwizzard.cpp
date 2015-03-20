@@ -1,7 +1,7 @@
 #include <QFileInfo>
 #include <QFileDialog>
 
-#include "mapwizzard.h"
+#include "map/mapwizzard.h"
 #include "ui_mapwizzard.h"
 
 

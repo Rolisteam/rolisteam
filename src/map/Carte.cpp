@@ -22,15 +22,15 @@
  *************************************************************************/
 
 
-#include "Carte.h"
+#include "map/Carte.h"
 
 #include <QMessageBox>
 #include <QUuid>
 #include <QBuffer>
 
 #include "network/networkmessagewriter.h"
-#include "DessinPerso.h"
-#include "Liaison.h"
+#include "map/DessinPerso.h"
+#include "network/networklink.h"
 #include "persons.h"
 #include "playersList.h"
 
@@ -263,7 +263,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
                 //if((!G_joueur)||
                //   (((m_currentMode == Carte::PC_ALL))))
                 {
-                    emit commencerDeplacementCarteFenetre(mapToGlobal(pos));
+					emit commencerDeplacementBipMapWindow(mapToGlobal(pos));
                 }
 
         }
@@ -553,8 +553,8 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
         // Il s'agit de l'outil main
         else if (m_currentTool == ToolBar::main)
         {
-            // On deplace la Carte dans la CarteFenetre
-            emit deplacerCarteFenetre(mapToGlobal(pos));
+			// On deplace la Carte dans la BipMapWindow
+			emit deplacerBipMapWindow(mapToGlobal(pos));
         }
 
         // Il s'agit d'une action de dessin
@@ -1483,13 +1483,13 @@ void Carte::emettreCarte(QString titre)
 }
 
 
-void Carte::emettreCarte(QString titre, Liaison * link)
+void Carte::emettreCarte(QString titre, NetworkLink * link)
 {
     emettreCarteGeneral(titre, link, true);
 }
 
 
-void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonUniquement)
+void Carte::emettreCarteGeneral(QString titre, NetworkLink * link, bool versNetworkLinkUniquement)
 {
 
     // On commence par compresser le fond original (format jpeg) dans un tableau
@@ -1527,7 +1527,7 @@ void Carte::emettreCarteGeneral(QString titre, Liaison * link, bool versLiaisonU
     message.byteArray32(baFond);
     message.byteArray32(baAlpha);
 
-    if (versLiaisonUniquement)
+    if (versNetworkLinkUniquement)
     {
      message.sendTo(link);
     }
@@ -1545,13 +1545,13 @@ void Carte::emettreTousLesPersonnages()
 }
 
 
-void Carte::emettreTousLesPersonnages(Liaison * link)
+void Carte::emettreTousLesPersonnages(NetworkLink * link)
 {
     emettreTousLesPersonnagesGeneral(link, true);
 }
 
 
-void Carte::emettreTousLesPersonnagesGeneral(Liaison * link, bool versLiaisonUniquement)
+void Carte::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetworkLinkUniquement)
 {
     // Taille des donnees
     quint32 tailleCorps =
@@ -1604,8 +1604,8 @@ void Carte::emettreTousLesPersonnagesGeneral(Liaison * link, bool versLiaisonUni
         p += perso->preparerPourEmission(&(donnees[p]));
     }        
 
-    if (versLiaisonUniquement)
-        // Emission de la carte vers la liaison indiquee
+    if (versNetworkLinkUniquement)
+        // Emission de la carte vers la NetworkLink indiquee
         link->emissionDonnees(donnees, tailleCorps + sizeof(enteteMessage));
     else
         // Emission de la carte vers tous les autres utilisateurs

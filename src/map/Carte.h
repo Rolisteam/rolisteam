@@ -44,7 +44,7 @@
 
 class Character;
 class DessinPerso;
-class Liaison;
+class NetworkLink;
 
 
 /**
@@ -68,9 +68,9 @@ public :
     void affichageDuPj(QString idPerso, bool afficher);
     void changerTaillePjCarte(int nouvelleTaille, bool updatePj = true);
     void emettreCarte(QString titre);
-    void emettreCarte(QString titre, Liaison * link);
+    void emettreCarte(QString titre, NetworkLink * link);
     void emettreTousLesPersonnages();
-    void emettreTousLesPersonnages(Liaison * link);
+    void emettreTousLesPersonnages(NetworkLink * link);
     void dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur, bool joueurLocal);
     void dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneARafraichir, couleurSelectionee couleur);
     void dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur);
@@ -105,8 +105,8 @@ signals :
     void afficherNomsPnj(bool afficher);
     void afficherNumerosPnj(bool afficher);
     void changerTaillePj(int nouvelleTaille);
-    void commencerDeplacementCarteFenetre(QPoint position);
-    void deplacerCarteFenetre(QPoint position);
+    void commencerDeplacementBipMapWindow(QPoint position);
+    void deplacerBipMapWindow(QPoint position);
 
 public slots :
     void setPointeur(ToolBar::Tool currentTool);
@@ -137,8 +137,8 @@ private :
     void actionPnjBoutonEnfonce(QPoint positionSouris);
     void actionPnjBoutonRelache(QPoint positionSouris);
     void actionPnjMouvementSouris(QPoint positionSouris);
-    void emettreCarteGeneral(QString titre, Liaison * link = NULL, bool versLiaisonUniquement = false);
-    void emettreTousLesPersonnagesGeneral(Liaison * link = NULL, bool versLiaisonUniquement = false);
+    void emettreCarteGeneral(QString titre, NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
+    void emettreTousLesPersonnagesGeneral(NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
     DessinPerso* dansDessinPerso(QPoint positionSouris);
     QColor getFogColor();
 
