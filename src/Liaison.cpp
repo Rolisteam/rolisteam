@@ -57,6 +57,7 @@ Liaison::Liaison(QTcpSocket *socket)
     receptionEnCours = false;
 #ifndef NULL_PLAYER
     m_audioPlayer = AudioPlayer::getInstance();
+    ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
 #endif
 
     setSocket(socket);
@@ -193,10 +194,11 @@ void Liaison::reception()
                 ReceiveEvent * event = new ReceiveEvent(entete, tampon, this);
                 event->postToReceiver();
             }
-            if(m_receiverMap.contains((NetMsg::Category)entete.category))
+            //if(m_receiverMap.contains((NetMsg::Category)entete.category))
+            if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)entete.category))
             {
                 NetworkMessageReader data(entete,tampon);
-                NetWorkReceiver* tmp = m_receiverMap.value((NetMsg::Category)entete.category);
+                NetWorkReceiver* tmp = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)entete.category);
                 tmp->processMessage(&data);
 
             }
@@ -1087,7 +1089,7 @@ void Liaison::receptionMessagePlan()
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte,m_mainWindow);
         // Ajout de la carte au workspace
-        m_mainWindow->ajouterCarte(carteFenetre, titre);
+        m_mainWindow->addMap(carteFenetre, titre);
 
         // Message sur le log utilisateur
         MainWindow::notifyUser(tr("Receiving map: %1").arg(titre));
@@ -1181,7 +1183,7 @@ void Liaison::receptionMessagePlan()
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte,m_mainWindow);
         // Ajout de la carte au workspace
-        m_mainWindow->ajouterCarte(carteFenetre, titre);
+        m_mainWindow->addMap(carteFenetre, titre);
 
         // Message sur le log utilisateur
         MainWindow::notifyUser(tr("Receiving map: %1").arg(titre));
@@ -1277,7 +1279,7 @@ void Liaison::receptionMessageImage()
         // Creation de l'Image
         Image *imageFenetre = new Image(m_mainWindow,idImage, idJoueur, img);
         // Ajout de la carte au workspace
-        m_mainWindow->ajouterImage(imageFenetre, titre);
+        m_mainWindow->addImage(imageFenetre, titre);
 
 
         //qDebug() << "titre" << titre;

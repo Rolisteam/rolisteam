@@ -86,19 +86,19 @@ public :
     void majCouleursPersonnelles();
 
     /**
-     * @brief ajouterCarte
+     * @brief addMap
      * @param carteFenetre
      * @param titre
      * @param mapsize
      * @param pos
      */
-    QWidget* ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
+    QWidget* addMap(CarteFenetre *carteFenetre, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
     /**
-     * @brief ajouterImage
+     * @brief addImage
      * @param imageFenetre
      * @param titre
      */
-    void ajouterImage(Image *imageFenetre, QString titre);
+    void addImage(Image *imageFenetre, QString titre);
     /**
      * @brief mettreAJourEspaceTravail
      */
@@ -242,7 +242,7 @@ private slots :
     void changementFenetreActive(QMdiSubWindow* widget);
     void newMap();
     void openMap(Carte::PermissionMode Permission,QString filepath,QString title,bool masquer = false);
-    void ouvrirImage();
+    void openImage();
     void openMapWizzard();
     void ouvrirScenario();
     void openNote();

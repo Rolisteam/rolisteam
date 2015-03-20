@@ -97,6 +97,8 @@ public :
 
     void setAudioPlayer(AudioPlayer*);
 
+    void setValueConnection(QString portValue,QString hostnameValue,QString roleValue);
+
 
 public slots:
     void disconnectAndClose();
@@ -119,6 +121,11 @@ signals :
     void connectionStateChanged(bool);
 
 
+private slots :
+    void nouveauClientConnecte();
+    void finDeLiaison(Liaison * link);
+    bool startConnectionToServer();
+    bool startListening();
 
 
 private :
@@ -147,12 +154,12 @@ private :
 
     AudioPlayer* m_audioPlayer;
 
+    bool m_commandLineValue;
+    QString m_portStr;
+    QString m_host;
+    QString m_role;
 
-private slots :
-    void nouveauClientConnecte();
-    void finDeLiaison(Liaison * link);
-    bool startConnectionToServer();
-    bool startListening();
+
 };
 
 #endif

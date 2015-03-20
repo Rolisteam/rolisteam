@@ -33,6 +33,7 @@
 
 const int ReceiveEvent::Type = QEvent::registerEventType();
 QMap<quint16, QObject *> ReceiveEvent::s_receiverMap;
+QMap<NetMsg::Category, NetWorkReceiver*> ReceiveEvent::ms_netWorkReceiverMap;
 
 quint16 makeKey(quint8 categorie, quint8 action)
 {
@@ -84,12 +85,29 @@ void ReceiveEvent::registerReceiver(NetMsg::Category categorie, NetMsg::Action a
     quint16 key = makeKey(categorie, action);
     if (s_receiverMap.contains(key))
     {
-        qFatal("A receiver is allready registered for (%d,%d)", categorie, action);
+        qFatal("A receiver is already registered for (%d,%d)", categorie, action);
     }
 
     s_receiverMap.insert(key, receiver);
 }
+void ReceiveEvent::registerNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver)
+{
+    if (ms_netWorkReceiverMap.contains(categorie))
+    {
+        qFatal("A receiver is already registered for (%d)", categorie);
+    }
 
+    ms_netWorkReceiverMap.insert(categorie, receiver);
+}
+bool ReceiveEvent::hasNetworkReceiverFor(NetMsg::Category categorie)
+{
+    return ms_netWorkReceiverMap.contains(categorie);
+}
+
+NetWorkReceiver* ReceiveEvent::getNetWorkReceiverFor(NetMsg::Category categorie)
+{
+    return ms_netWorkReceiverMap.value(categorie);
+}
 
 /*********************
  * DelayReceiveEvent *

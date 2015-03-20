@@ -449,7 +449,7 @@ void MainWindow::linkActionToMenu()
 {
     // file menu
     connect(m_newMapAct, SIGNAL(triggered(bool)), this, SLOT(newMap()));
-    connect(m_openImageAct, SIGNAL(triggered(bool)), this, SLOT(ouvrirImage()));
+    connect(m_openImageAct, SIGNAL(triggered(bool)), this, SLOT(openImage()));
     connect(m_openMapAct, SIGNAL(triggered(bool)), this, SLOT(openMapWizzard()));
 
     connect(m_openStoryAct, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
@@ -487,7 +487,7 @@ void MainWindow::linkActionToMenu()
     connect(m_helpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 }
 
-QWidget* MainWindow::ajouterCarte(CarteFenetre *carteFenetre, QString titre,QSize mapsize,QPoint pos )
+QWidget* MainWindow::addMap(CarteFenetre *carteFenetre, QString titre,QSize mapsize,QPoint pos )
 {
     QAction *action = m_windowMenu->addAction(titre);
     action->setCheckable(true);
@@ -552,12 +552,12 @@ void  MainWindow::closeConnection()
     }
 }
 
-void MainWindow::ajouterImage(Image* pictureWindow, QString title)
+void MainWindow::addImage(Image* pictureWindow, QString title)
 {
     pictureWindow->setParent(m_mdiArea);
     addImageToMdiArea(pictureWindow,title);
 }
-void MainWindow::ouvrirImage()
+void MainWindow::openImage()
 {
 
     QString fichier = QFileDialog::getOpenFileName(this, tr("Open Picture"), m_preferences->value("ImageDirectory",QDir::homePath()).toString(),
@@ -702,7 +702,7 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
         // Creation de la CarteFenetre
         CarteFenetre *carteFenetre = new CarteFenetre(carte, m_mdiArea);
         // Ajout de la carte au workspace
-        ajouterCarte(carteFenetre, title);
+        addMap(carteFenetre, title);
 
         // Envoie de la carte aux autres utilisateurs
         // On commence par compresser l'image (format jpeg) dans un tableau
@@ -874,9 +874,9 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
 
     QMdiSubWindow* m_widget=NULL;
     if (nomFichier.isEmpty())
-        m_widget=static_cast<QMdiSubWindow*>(ajouterCarte(carteFenetre, titre,size,pos));
+        m_widget=static_cast<QMdiSubWindow*>(addMap(carteFenetre, titre,size,pos));
     else
-        m_widget=static_cast<QMdiSubWindow*>(ajouterCarte(carteFenetre, nomFichier,size,pos));
+        m_widget=static_cast<QMdiSubWindow*>(addMap(carteFenetre, nomFichier,size,pos));
 
     // On recupere le nombre de personnages presents dans le message
     quint16 nbrPersonnages;
@@ -1212,7 +1212,7 @@ void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond,
     carte->setPermissionMode(getPermission(mode));
     carte->setPointeur(m_toolBar->getCurrentTool());
     CarteFenetre *carteFenetre = new CarteFenetre(carte, m_mdiArea);
-    ajouterCarte(carteFenetre, titre);
+    addMap(carteFenetre, titre);
 }
 
 
@@ -2034,11 +2034,39 @@ void MainWindow::parseCommandLineArguments(QStringList list)
         parser.addHelpOption();
         parser.addVersionOption();
 
+        QCommandLineOption port(QStringList() << "p"<< "port", tr("Set rolisteam to use <port> for the connection"),"port");
+        QCommandLineOption hostname(QStringList() << "s"<< "server", tr("Set rolisteam to connect to <server>."),"server");
+        QCommandLineOption role(QStringList() << "r"<< "role", tr("Define the <role>: gm or pc"),"role");
 
 
-
-
+        parser.addOption(port);
+        parser.addOption(hostname);
+        parser.addOption(role);
 
 
         parser.process(list);
+
+        bool hasPort = parser.isSet(port);
+        bool hasHostname = parser.isSet(hostname);
+        bool hasRole = parser.isSet(role);
+        QString portValue;
+        QString hostnameValue;
+        QString roleValue;
+        if(hasPort)
+        {
+            portValue = parser.value(port);
+        }
+        if(hasHostname)
+        {
+            hostnameValue = parser.value(hostname);
+        }
+        if(hasRole)
+        {
+            roleValue = parser.value(role);
+        }
+
+        qDebug() << roleValue << hostnameValue << portValue;
+
+        m_networkManager->setValueConnection(portValue,hostnameValue,roleValue);
+
 }

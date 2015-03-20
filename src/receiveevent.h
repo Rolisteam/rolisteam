@@ -29,6 +29,7 @@
 #include <QMap>
 
 #include "network/networkmessagereader.h"
+#include "network/networkreceiver.h"
 
 class Liaison;
 /**
@@ -42,19 +43,59 @@ class ReceiveEvent : public QEvent
         ~ReceiveEvent();
 
         static const int Type;
-
+        /**
+         * @brief postToReceiver
+         */
         void postToReceiver();
 
         /**
          * @brief Post again this same event after a delay.
          */
         void repostLater() const;
-
+        /**
+         * @brief link
+         * @return
+         */
         Liaison * link() const;
+        /**
+         * @brief data
+         * @return
+         */
         NetworkMessageReader & data();
 
+        /**
+         * @brief hasReceiverFor
+         * @param categorie
+         * @param action
+         * @return
+         */
         static bool hasReceiverFor(quint8 categorie, quint8 action);
+        /**
+         * @brief registerReceiver
+         * @param categorie
+         * @param action
+         * @param receiver
+         */
         static void registerReceiver(NetMsg::Category categorie, NetMsg::Action action, QObject * receiver);
+
+        /**
+         * @brief hasNetworkReceiverFor
+         * @param categorie
+         * @return
+         */
+        static bool hasNetworkReceiverFor(NetMsg::Category categorie);
+        /**
+         * @brief getNetWorkReceiverFor
+         * @param categorie
+         * @return
+         */
+        static NetWorkReceiver* getNetWorkReceiverFor(NetMsg::Category categorie);
+        /**
+         * @brief registerNetworkReceiver
+         * @param categorie
+         * @param receiver
+         */
+        static void registerNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver);
 
     private:
         NetworkMessageReader m_data;
@@ -62,8 +103,11 @@ class ReceiveEvent : public QEvent
         quint8 m_repost;
 
         static QMap<quint16, QObject *> s_receiverMap;
+        static QMap<NetMsg::Category, NetWorkReceiver *> ms_netWorkReceiverMap;
 };
-
+/**
+ * @brief The DelayReceiveEvent class
+ */
 class DelayReceiveEvent : public QObject
 {
     Q_OBJECT

@@ -167,7 +167,6 @@ void AudioPlayer::onePlayerHasStopped(int id)
 
 void AudioPlayer::onePlayerIsPaused(int id)
 {
-    qDebug() << "audio player onePlayerIsPaused"<< id;
     if(!m_preferences->value("isPlayer",false).toBool())
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PauseSong);
@@ -178,7 +177,6 @@ void AudioPlayer::onePlayerIsPaused(int id)
 
 void AudioPlayer::onePlayerPlays(int id,quint64 pos)
 {
-    qDebug() << "audio player onePlayerPlays"<< id;
     if(!m_preferences->value("isPlayer",false).toBool())
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PlaySong);
@@ -191,7 +189,6 @@ void AudioPlayer::onePlayerPlays(int id,quint64 pos)
 
 void AudioPlayer::onePlayerHasNewSong(int id,QString str)
 {
-    qDebug() << "audio player onePlayerHasNewSong"<< id;
     if(!m_preferences->value("isPlayer",false).toBool())
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::NewSong);
@@ -203,7 +200,6 @@ void AudioPlayer::onePlayerHasNewSong(int id,QString str)
 
 void AudioPlayer::onePlayerHasChangedPosition(int id,quint64 pos)
 {
-    qDebug() << "audio player onePlayerHasChangedPosition"<< id;
     if(!m_preferences->value("isPlayer",false).toBool())
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::ChangePositionSong);
@@ -244,32 +240,26 @@ void AudioPlayer::pChangeDirectory()
 
 void AudioPlayer::processMessage(NetworkMessageReader* msg)
 {
-    qDebug() << "network debug";
     int id = msg->uint8();
     NetMsg::Action action = msg->action();
     switch (action) {
     case NetMsg::PlaySong:
-        qDebug() << "playSong";
         m_players[id]->playSong(msg->uint64());
         break;
     case NetMsg::PauseSong:
-        qDebug() << "pauseSong";
         m_players[id]->pause();
         break;
     case NetMsg::ChangePositionSong:
     {
-        qDebug() << "change position";
         int pos= msg->uint64();
         m_players[id]->setPositionAt(pos);
     }
         break;
     case NetMsg::StopSong:
-        qDebug() << "stop";
         m_players[id]->stop();
         break;
     case NetMsg::NewSong:
     {
-        qDebug() << "new";
         QString file = msg->string32();
         m_players[id]->setSourceSong(file);
     }

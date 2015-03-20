@@ -100,16 +100,41 @@ void ClientServeur::synchronizePreferences()
     m_preferences->registerValue("clientPort",m_configDialog->getPort());
 
 }
+void ClientServeur::setValueConnection(QString portValue,QString hostnameValue,QString roleValue)
+{
+    m_portStr = portValue;
+    m_host = hostnameValue;
+    m_role = roleValue;
+    m_commandLineValue = true;
+}
 
 bool ClientServeur::configAndConnect()
 {
+    bool isServer = !m_preferences->value("isClient",true).toBool();
+    bool isGM =  !m_preferences->value("isPlayer",false).toBool();
+
+
+    if(m_portStr.isNull())
+    {
+        m_portStr = m_preferences->value("ServerPort",6660).toInt();
+    }
+    if(m_host.isNull())
+    {
+        m_host = m_preferences->value("ipaddress","").toString();
+        isServer = false;
+    }
+    if(!m_role.isNull())
+    {
+        isGM = m_role.compare("gm")==0 ? true : false;
+    }
+
     m_configDialog = new ConnectionConfigDialog(NULL,
                 m_preferences->value("UserName",tr("UserName")).toString(),
                 m_preferences->value("UserColor",QColor(255,255,255)).value<QColor>(),
-                !m_preferences->value("isPlayer",false).toBool(),
-                m_preferences->value("ipaddress","").toString(),
-                m_preferences->value("ServerPort",6660).toInt(),
-                !m_preferences->value("isClient",true).toBool());
+                isGM,
+                m_host,
+                m_portStr.toInt(),
+                isServer);
 
 
 
@@ -255,10 +280,10 @@ void ClientServeur::emettreDonnees(char *donnees, quint32 taille, Liaison *sauf)
 void ClientServeur::ajouterLiaison(Liaison *liaison)
 {
     liaisons.append(liaison);
-    if(NULL!=m_audioPlayer)
+    /*if(NULL!=m_audioPlayer)
     {
-        liaison->insertNetWortReceiver(m_audioPlayer,NetMsg::MusicCategory);
-    }
+        insertNetWortReceiver(m_audioPlayer,NetMsg::MusicCategory);
+    }*/
     connect(this, SIGNAL(emissionDonnees(char *, quint32, Liaison *)),liaison, SLOT(emissionDonnees(char *, quint32, Liaison *)));
     connect(liaison, SIGNAL(disconnected(Liaison *)),this, SLOT(finDeLiaison(Liaison *)));
     connect(liaison,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
