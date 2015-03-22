@@ -27,8 +27,9 @@
 #include <QString>
 #include <QObject>
 
+#include "network/networkmessage.h"
+
 class NetworkLink;
-class NetworkMessage;
 class Player;
 class ReceiveEvent;
 /**

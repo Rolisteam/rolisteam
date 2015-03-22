@@ -24,8 +24,9 @@
 #define NETWORK_MESSAGE_H
 
 #include <QtGlobal>
-#include "network/networkmanager.h"
+//#include "network/networkmanager.h"
 class NetworkLink;
+class NetworkManager;
 
 struct NetworkMessageHeader
 {
@@ -61,13 +62,13 @@ enum Action {
     ChangePlayerNameAction,
     ChangePlayerColorAction,
 
-    // CharacterCategory
-    AddCharacterAction = 0,
-    DelCharacterAction,
-    ToggleViewCharacterAction,
-    ChangeCharacterSizeAction,
-    ChangeCharacterNameAction,
-    ChangeCharacterColorAction,
+    // CharacterPlayerCategory
+    AddPlayerCharacterAction = 0,
+    DelPlayerCharacterAction,
+    ToggleViewPlayerCharacterAction,
+    ChangePlayerCharacterSizeAction,
+    ChangePlayerCharacterNameAction,
+    ChangePlayerCharacterColorAction,
 
     //NPCCategory
     addNpc =0,

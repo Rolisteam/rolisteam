@@ -54,10 +54,10 @@ PlayersList::PlayersList()
     ReceiveEvent::registerReceiver(PlayerCategory, DelPlayerAction, this);
     ReceiveEvent::registerReceiver(PlayerCategory, ChangePlayerNameAction, this);
     ReceiveEvent::registerReceiver(PlayerCategory, ChangePlayerColorAction, this);
-    ReceiveEvent::registerReceiver(CharacterPlayerCategory, AddCharacterAction, this);
-    ReceiveEvent::registerReceiver(CharacterPlayerCategory, DelCharacterAction, this);
-    ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangeCharacterNameAction, this);
-    ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangeCharacterColorAction, this);
+    ReceiveEvent::registerReceiver(CharacterPlayerCategory, AddPlayerCharacterAction, this);
+    ReceiveEvent::registerReceiver(CharacterPlayerCategory, DelPlayerCharacterAction, this);
+    ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterNameAction, this);
+    ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterColorAction, this);
     ReceiveEvent::registerReceiver(SetupCategory, AddFeatureAction, this);
     
     connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(sendDelLocalPlayer()));
@@ -443,7 +443,7 @@ void PlayersList::addLocalCharacter(Character * newCharacter)
 {
     addCharacter(localPlayer(), newCharacter);
 
-    NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::AddCharacterAction);
+    NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::AddPlayerCharacterAction);
     newCharacter->fill(message);
     message.uint8(1); // add it to the map
     message.sendAll();
@@ -485,7 +485,7 @@ bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
         if (person->parent() == NULL)
             message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerNameAction);
         else
-            message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangeCharacterNameAction);
+            message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);
 
         message->string16(person->name());
         message->string8(person->uuid());
@@ -505,7 +505,7 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
         if (person->parent() == NULL)
             message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerColorAction);
         else
-            message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangeCharacterColorAction);
+            message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterColorAction);
 
         message->string8(person->uuid());
         message->rgb(person->color());
@@ -522,7 +522,7 @@ void PlayersList::delLocalCharacter(int index)
     if (index < 0 || index >= parent->getCharactersCount())
         return;
 
-    NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::DelCharacterAction);
+    NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::DelPlayerCharacterAction);
     message.string8(parent->getCharacterByIndex(index)->uuid());
     message.sendAll();
 
@@ -655,16 +655,16 @@ bool PlayersList::event(QEvent * event)
             case CharacterPlayerCategory:
                 switch (data.action())
                 {
-                    case AddCharacterAction:
+                    case AddPlayerCharacterAction:
                         addCharacter(data);
                         return true;
-                    case DelCharacterAction:
+                    case DelPlayerCharacterAction:
                         delCharacter(data);
                         return true;
-                    case ChangeCharacterNameAction:
+                    case ChangePlayerCharacterNameAction:
                         setPersonName(data);
                         return true;
-                    case ChangeCharacterColorAction:
+                    case ChangePlayerCharacterColorAction:
                         setPersonColor(data);
                         return true;
                     default:
@@ -732,7 +732,7 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
     msgPlayer.uint8(1);
     msgPlayer.sendAll();
 
-    NetworkMessageWriter msgCharacter (NetMsg::CharacterPlayerCategory, NetMsg::AddCharacterAction);
+    NetworkMessageWriter msgCharacter (NetMsg::CharacterPlayerCategory, NetMsg::AddPlayerCharacterAction);
     SendFeaturesIterator featuresIterator;
 
     int playersListSize = m_playersList.size();

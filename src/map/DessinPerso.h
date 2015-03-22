@@ -33,12 +33,14 @@
 #ifndef DESSIN_PERSO_H
 #define DESSIN_PERSO_H
 
+
 #include <QLabel>
 #include <QString>
 #include <QWidget>
 #include <QColor>
 #include <QPoint>
 
+#include "network/networkmessagewriter.h"
 //#include "playersList.h"
 /**
  * @brief The DessinPerso class
@@ -81,7 +83,7 @@ public :
     QString idPersonnage();
     QPoint positionCentrePerso();
     QPoint orientationPersonnage();
-    int preparerPourEmission(char *tampon, bool convertirEnPnj = false);
+    int preparerPourEmission(NetworkMessageWriter* msg, bool convertirEnPnj = false);
     int tailleDonneesAEmettre();
     int numeroEtatSante();
     void write(QDataStream &out);

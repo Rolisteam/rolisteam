@@ -25,6 +25,7 @@
 #include <QColor>
 #include <QString>
 
+
 #include "network/networkmessage.h"
 
 /**
@@ -55,6 +56,12 @@ class NetworkMessageWriter : public NetworkMessage
         void rgb(const QColor & color);
 
         int getDataSize();
+
+        void int8(qint8 data);
+        void int16(qint16 data);
+        void int32(qint32 data);
+        void int64(qint64 data);
+
 
     protected:
         NetworkMessageHeader * buffer();

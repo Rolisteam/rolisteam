@@ -45,6 +45,7 @@
 
 #include "network/networkreceiver.h"
 #include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
@@ -254,6 +255,7 @@ protected :
     void processPaintingMessage(NetworkMessageReader* msg);
     void processCharacterMessage(NetworkMessageReader* msg);
     void processConnectionMessage(NetworkMessageReader* msg);
+    void processCharacterPlayerMessage(NetworkMessageReader* msg);
 
 
     void extractCharacter(Map* map,NetworkMessageReader* msg);
@@ -318,7 +320,7 @@ private :
     void linkActionToMenu();
 
     QMdiSubWindow*  readMapAndNpc(QDataStream &file, bool masquer = false, QString nomFichier = "");
-    void lireImage(QDataStream &file);
+    void readImageFromStream(QDataStream &file);
     void saveAllMap(QDataStream &file);
     void saveAllImages(QDataStream &file);
 

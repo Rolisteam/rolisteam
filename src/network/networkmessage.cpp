@@ -24,7 +24,7 @@
 
 #include "network/networklink.h"
 
-
+#include "network/networkmanager.h"
 
 NetworkMessage::~NetworkMessage()
 {
