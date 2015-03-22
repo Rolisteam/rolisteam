@@ -23,50 +23,26 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-	#include <QColor>
-	#include <QString>
+#include <QColor>
+#include <QString>
 
 
 
-	enum typeCouleur {qcolor, efface, masque, demasque};
+enum typeCouleur {qcolor, efface, masque, demasque};
 
 
-	typedef struct
-	{
-		typeCouleur type;
-		QColor color;
-	} couleurSelectionee;
+typedef struct
+{
+    typeCouleur type;
+    QColor color;
+} couleurSelectionee;
 
-	// Categories de messages envoyes et recus via les sockets
-	enum categorieAction {connexion, joueur, persoJoueur, persoNonJoueur, personnage, dessin, plan, image, discussion, musique, parametres};
-	enum actionConnexion {finProcessusConnexion};
-	enum actionJoueur {connexionJoueur, ajouterJoueur, supprimerJoueur, changerNomJoueur, changerCouleurJoueur};
-	enum actionPj {ajouterPersoJoueur, supprimerPersoJoueur, afficherMasquerPersoJoueur, changerTaillePersoJoueur, changerNomPersoJoueur, changerCouleurPersoJoueur};
-	enum actionPnj {ajouterPersoNonJoueur, supprimerPersoNonJoueur};
-	enum actionPersonnages {ajouterListePerso, deplacerPerso, changerEtatPerso, changerOrientationPerso, afficherMasquerOrientationPerso};
-	enum actionDessin {traceCrayon, traceLigne, traceRectangleVide, traceRectanglePlein, traceEllipseVide, traceEllipsePleine, traceTexte, traceMain};
-	enum actionPlan {nouveauPlanVide, chargerPlan, importerPlanComplet, fermerPlan};
-	enum actionImage {chargerImage, fermerImage};
-    enum actionDiscussion {TCHAT_MESSAGE, DICE_MESSAGE, EMOTE_MESSAGE};
-	enum actionMusique {nouveauMorceau, lectureMorceau, pauseMorceau, arretMorceau, nouvellePositionMorceau};
-        //enum actionMusic {nouveauMorceau, lectureMorceau, pauseMorceau, arretMorceau, nouvellePositionMorceau};
-	enum actionParametres {changerListeEtats, autoriserDeplacementPersos};
-	
-	// Entete des messages envoyes et recus via les sockets
-	typedef struct
-	{ 
-		quint8 categorie;				// Contient une categorie d'action
-		quint8 action;					// Contient l'action a effectuer
-		quint32 tailleDonnees;			// Indique la taille des donnees suivant l'entete
-	} enteteMessage;
-
-
-    /*typedef struct
-	{
-		QString idJoueur;				// Identifiant du joueur
-		QString nomJoueur;				// Nom du joueur
-		QColor couleurJoueur;			// Couleur du joueur
-		bool mj;						// True si l'utilisateur est un MJ, false sinon
-    } utilisateur;*/
+// Entete des messages envoyes et recus via les sockets
+typedef struct
+{
+    quint8 categorie;				// Contient une categorie d'action
+    quint8 action;					// Contient l'action a effectuer
+    quint32 tailleDonnees;			// Indique la taille des donnees suivant l'entete
+} enteteMessage;
 
 #endif

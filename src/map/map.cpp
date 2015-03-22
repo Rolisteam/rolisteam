@@ -316,50 +316,12 @@ void Map::mousePressEvent(QMouseEvent *event)
             {
                 pnj->afficheOuMasqueOrientation();
                 dernierPnjSelectionne = pnj;
-                
-                // Emission de la demande d'affichage/masquage de l'orientation
-                
-                // Taille des donnees
-                quint32 tailleCorps =
-                    // Taille de l'identifiant de la carte
-                    sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-                    // Taille de l'identifiant du perso
-                    sizeof(quint8) + pnj->idPersonnage().size()*sizeof(QChar) +
-                    // Taille de l'info affichage/masquage de l'orientation
-                    sizeof(quint8);
-                                            
-                // Buffer d'emission
-                char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-        
-                // Creation de l'entete du message
-                enteteMessage *uneEntete;
-                uneEntete = (enteteMessage *) donnees;
-                uneEntete->categorie = personnage;
-                uneEntete->action = afficherMasquerOrientationPerso;
-                uneEntete->tailleDonnees = tailleCorps;
-                
-                // Creation du corps du message
-                int p = sizeof(enteteMessage);
-                // Ajout de l'identifiant de la carte
-                quint8 tailleIdCarte = idCarte.size();
-                memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-                p+=sizeof(quint8);
-                memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
-                p+=tailleIdCarte*sizeof(QChar);
-                // Ajout de l'identifiant du perso
-                quint8 tailleIdPnj = pnj->idPersonnage().size();
-                memcpy(&(donnees[p]), &tailleIdPnj, sizeof(quint8));
-                p+=sizeof(quint8);
-                memcpy(&(donnees[p]), pnj->idPersonnage().data(), tailleIdPnj*sizeof(QChar));
-                p+=tailleIdPnj*sizeof(QChar);
-                // Ajout du numero d'etat
-                quint8 afficheOrientation = pnj->orientationEstAffichee();
-                memcpy(&(donnees[p]), &afficheOrientation, sizeof(quint8));
-                p+=sizeof(quint8);
-                // Emission du changement d'etat de perso au serveur ou aux clients
-                emettre(donnees, tailleCorps + sizeof(enteteMessage));
-                // Liberation du buffer d'emission
-                delete[] donnees;
+
+                NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::showCharecterOrientation);
+                msg.string8(idCarte);
+                msg.string8(pnj->idPersonnage());
+                msg.uint8(pnj->orientationEstAffichee());
+                msg.sendAll();
             }
             else if (dernierPnjSelectionne)
             {
@@ -483,57 +445,16 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
 
         // Il s'agit d'une action de deplacement ou de l'action de changement d'etat du perso et qu'un perso a ete selectionne
         if ((m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso) && dernierPnjSelectionne)
-        {
-            // Emission de la nouvelle orientation
-            
-            // Taille des donnees
-            quint32 tailleCorps =
-                // Taille de l'identifiant de la carte
-                sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-                // Taille de l'identifiant du perso
-                sizeof(quint8) + dernierPnjSelectionne->idPersonnage().size()*sizeof(QChar) +
-                // Taille de l'orientation
-                sizeof(qint16) + sizeof(qint16);
-            
-            // Buffer d'emission
-            char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-    
-            // Creation de l'entete du message
-            enteteMessage *uneEntete;
-            uneEntete = (enteteMessage *) donnees;
-            uneEntete->categorie = personnage;
-            uneEntete->action = changerOrientationPerso;
-            uneEntete->tailleDonnees = tailleCorps;
-            
-            // Creation du corps du message
-            int p = sizeof(enteteMessage);
-            // Ajout de l'identifiant de la carte
-            quint8 tailleIdCarte = idCarte.size();
-            memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-            p+=sizeof(quint8);
-            memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
-            p+=tailleIdCarte*sizeof(QChar);
-            // Ajout de l'identifiant du perso
-            quint8 tailleIdPnj = dernierPnjSelectionne->idPersonnage().size();
-            memcpy(&(donnees[p]), &tailleIdPnj, sizeof(quint8));
-            p+=sizeof(quint8);
-            memcpy(&(donnees[p]), dernierPnjSelectionne->idPersonnage().data(), tailleIdPnj*sizeof(QChar));
-            p+=tailleIdPnj*sizeof(QChar);
-            // Ajout de l'orientation
+        {///@todo test orientation pnj
             QPoint orientation =  dernierPnjSelectionne->orientationPersonnage();
-            qint16 orientationX = orientation.x();
-            qint16 orientationY = orientation.y();
-            memcpy(&(donnees[p]), &orientationX, sizeof(qint16));
-            p+=sizeof(qint16);
-            memcpy(&(donnees[p]), &orientationY, sizeof(qint16));
-            p+=sizeof(qint16);
-            // Emission du changement d'orientation au serveur ou aux clients
-            emettre(donnees, tailleCorps + sizeof(enteteMessage));
-            // Liberation du buffer d'emission
-            delete[] donnees;
-            
-        }        // Fin de l'outil de deplacement ou de changement d'etat de perso
-    }            // Fin du bouton droit relache
+            NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::changeCharacterOrientation);
+            msg.string8(idCarte);
+            msg.string8(dernierPnjSelectionne->idPersonnage());
+            msg.int16(orientation.x());
+            msg.int16(orientation.y());
+            msg.sendAll();
+        }
+    }
 }
 
 
@@ -950,43 +871,10 @@ void Map::actionPnjBoutonEnfonce(QPoint positionSouris)
                                 dernierPnjSelectionne = 0;
 
                             // Emission de la demande de suppression de de PNJ
-
-                            // Taille des donnees
-                            quint32 tailleCorps =
-                                // Taille de l'identifiant de la carte
-                                sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-                                // Taille de l'identifiant du PNJ
-                                sizeof(quint8) + pnj->idPersonnage().size()*sizeof(QChar);
-
-                            // Buffer d'emission
-                            char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-                            // Creation de l'entete du message
-                            enteteMessage *uneEntete;
-                            uneEntete = (enteteMessage *) donnees;
-                            uneEntete->categorie = persoNonJoueur;
-                            uneEntete->action = supprimerPersoNonJoueur;
-                            uneEntete->tailleDonnees = tailleCorps;
-
-                            // Creation du corps du message
-                            int p = sizeof(enteteMessage);
-                            // Ajout de l'identifiant de la carte
-                            quint8 tailleIdCarte = idCarte.size();
-                            memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-                            p+=sizeof(quint8);
-                            memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
-                            p+=tailleIdCarte*sizeof(QChar);
-                            // Ajout de l'identifiant du PNJ
-                            quint8 tailleIdPnj = pnj->idPersonnage().size();
-                            memcpy(&(donnees[p]), &tailleIdPnj, sizeof(quint8));
-                            p+=sizeof(quint8);
-                            memcpy(&(donnees[p]), pnj->idPersonnage().data(), tailleIdPnj*sizeof(QChar));
-                            p+=tailleIdPnj*sizeof(QChar);
-
-                            // Emission de la suppression de PNJ au serveur ou aux clients
-                            emettre(donnees, tailleCorps + sizeof(enteteMessage));
-                            // Liberation du buffer d'emission
-                            delete[] donnees;
+                            NetworkMessageWriter msg(NetMsg::NPCCategory,NetMsg::delNpc);
+                            msg.string8(idCarte);
+                            msg.string8(pnj->idPersonnage());
+                            msg.sendAll();
 
                             // Destruction du personnage
                             pnj->~DessinPerso();
@@ -1003,8 +891,6 @@ void Map::actionPnjBoutonEnfonce(QPoint positionSouris)
                             listeDeplacement.clear();
                             // Ajout de la position actuelle du perso dans la liste
                             listeDeplacement.append(pnj->positionCentrePerso());
-
-
                 }
                 else if (m_currentTool == ToolBar::etatPerso)
                 {
@@ -1012,49 +898,11 @@ void Map::actionPnjBoutonEnfonce(QPoint positionSouris)
                         pnj->changerEtat();
                         dernierPnjSelectionne = pnj;
 
-                        // Emission de la demande de changement d'etat du perso
-
-                        // Taille des donnees
-                        quint32 tailleCorps =
-                            // Taille de l'identifiant de la carte
-                            sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-                            // Taille de l'identifiant du perso
-                            sizeof(quint8) + pnj->idPersonnage().size()*sizeof(QChar) +
-                            // Taille du numero d'etat
-                            sizeof(quint16);
-
-                        // Buffer d'emission
-                        char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-                        // Creation de l'entete du message
-                        enteteMessage *uneEntete;
-                        uneEntete = (enteteMessage *) donnees;
-                        uneEntete->categorie = personnage;
-                        uneEntete->action = changerEtatPerso;
-                        uneEntete->tailleDonnees = tailleCorps;
-
-                        // Creation du corps du message
-                        int p = sizeof(enteteMessage);
-                        // Ajout de l'identifiant de la carte
-                        quint8 tailleIdCarte = idCarte.size();
-                        memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-                        p+=sizeof(quint8);
-                        memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
-                        p+=tailleIdCarte*sizeof(QChar);
-                        // Ajout de l'identifiant du perso
-                        quint8 tailleIdPnj = pnj->idPersonnage().size();
-                        memcpy(&(donnees[p]), &tailleIdPnj, sizeof(quint8));
-                        p+=sizeof(quint8);
-                        memcpy(&(donnees[p]), pnj->idPersonnage().data(), tailleIdPnj*sizeof(QChar));
-                        p+=tailleIdPnj*sizeof(QChar);
-                        // Ajout du numero d'etat
-                        quint16 numEtat = pnj->numeroEtatSante();
-                        memcpy(&(donnees[p]), &numEtat, sizeof(quint16));
-                        p+=sizeof(quint16);
-                        // Emission du changement d'etat de perso au serveur ou aux clients
-                        emettre(donnees, tailleCorps + sizeof(enteteMessage));
-                        // Liberation du buffer d'emission
-                        delete[] donnees;
+                        NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::changeCharacterState);
+                        msg.string8(idCarte);
+                        msg.string8(pnj->idPersonnage());
+                        msg.uint16(pnj->numeroEtatSante());
+                        msg.sendAll();
                 }
                 else
                     qWarning() << (tr("undefine tool for processing action on NPC or PC (actionPnjBoutonEnfonce - Carte.cpp)"));
@@ -1849,7 +1697,7 @@ void Map::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneARa
 }
 
 
-void Map::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur)
+void Map::dessinerTraceGeneral(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur)
 {
     QPainter painter;
     QColor couleurPinceau;
@@ -1891,13 +1739,13 @@ void Map::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrive
 
     // Dessin du trace en fonction de l'outil employe
 
-    if (action == traceLigne)
+    if (action == NetMsg::linePainting)
     {
         // On dessine une ligne entre le point de depart et d'arrivee
         painter.drawLine(depart, arrivee);
     }
     
-    else if (action == traceRectangleVide)
+    else if (action == NetMsg::emptyRectanglePainting)
     {
         // Creation des points du rectangle a partir des points de depart et d'arrivee
         QPoint supGauche, infDroit;
@@ -1917,13 +1765,13 @@ void Map::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrive
             painter.drawRect(QRect(supGauche, infDroit));
     }
     
-    else if (action == traceRectanglePlein)
+    else if (action == NetMsg::filledRectanglePainting)
     {
         // On dessine un rectangle plein
         painter.fillRect(QRect(depart, arrivee), couleurPinceau);
     }
     
-    else if (action == traceEllipseVide)
+    else if (action == NetMsg::emptyEllipsePainting)
     {
         // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point de depart
         QPoint diff = arrivee - depart;
@@ -1953,7 +1801,7 @@ void Map::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrive
             painter.drawEllipse(QRect(nouveauPointOrigine, arrivee));
     }
     
-    else if (action == traceEllipsePleine)
+    else if (action == NetMsg::filledEllipsePainting)
     {
         // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point de depart
         QPoint diff = arrivee - depart;

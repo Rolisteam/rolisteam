@@ -2082,7 +2082,7 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
             selectedColor.color = color;
             selectedColor.type = (typeCouleur)colorType;
 
-            map->dessinerTraceGeneral((actionDessin)msg->action(),startPos,endPos,zoneToRefresh,diameter,selectedColor);
+            map->dessinerTraceGeneral(msg->action(),startPos,endPos,zoneToRefresh,diameter,selectedColor);
         }
 
 

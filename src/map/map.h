@@ -41,7 +41,7 @@
 
 #include "playersList.h"
 
-
+#include "network/networkmessage.h"
 class Character;
 class DessinPerso;
 class NetworkLink;
@@ -73,7 +73,7 @@ public :
     void emettreTousLesPersonnages(NetworkLink * link);
     void dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur, bool joueurLocal);
     void dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneARafraichir, couleurSelectionee couleur);
-    void dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur);
+    void dessinerTraceGeneral(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur);
     void adapterCoucheAlpha(quint8 intensiteAlpha);
     void lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoints);
 

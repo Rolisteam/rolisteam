@@ -126,20 +126,40 @@ enum Action {
 };
 }
 /**
- * @brief The NetworkMessage class
+ * @brief The NetworkMessage class - pure virtual class to manage network message.
  */
 class NetworkMessage
 {
 
 public:
     virtual ~NetworkMessage();
+    /**
+     * @brief sendTo
+     * @param link
+     */
 	void sendTo(NetworkLink * link);
+    /**
+     * @brief sendAll
+     * @param butLink
+     */
 	void sendAll(NetworkLink * butLink = NULL);
+    /**
+     * @brief category
+     * @return
+     */
 
     virtual NetMsg::Category category() const =0;
+    /**
+     * @brief action
+     * @return
+     */
     virtual NetMsg::Action action() const =0;
 
 protected:
+    /**
+     * @brief buffer
+     * @return
+     */
     virtual NetworkMessageHeader *  buffer() =0;
 
 protected:

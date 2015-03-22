@@ -231,8 +231,8 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
 
             // On indique au nouveau joueur que le processus de connexion vient d'arriver a son terme
             NetworkMessageHeader uneEntete;
-            uneEntete.category = connexion;
-            uneEntete.action = finProcessusConnexion;
+            uneEntete.category = NetMsg::SetupCategory;
+            uneEntete.action = NetMsg::EndConnectionAction;
             uneEntete.dataSize = 0;
 
             emissionDonnees((char *)&uneEntete, sizeof(NetworkMessageHeader));

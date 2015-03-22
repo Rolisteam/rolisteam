@@ -126,17 +126,9 @@ private :
     QString getDirectoryKey();
     void playerWidget();
 
-        /**
-        * @brief send command to a client
-        */
-    void sendCommand(actionMusique action, QString nomFichier = "", quint64 position = 0, NetworkLink * link = NULL);
-
-
     static AudioPlayer* m_singleton;//!< @brief static pointer to the unique instance of this audioplayer
-
-
 	/**
-	* @brief set the UI - Phonon only
+    * @brief set the UI
 	*/
     void setupUi();
 
