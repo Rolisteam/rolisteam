@@ -6,7 +6,8 @@
 class NetWorkReceiver
 {
 public:
-    virtual void processMessage(NetworkMessageReader* msg) = 0;
+    enum SendType { NONE, ALL,AllExceptMe};
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg) = 0;
 };
 
 #endif // NETWORKRECEIVER_H

@@ -74,7 +74,7 @@ public :
      * @brief processMessage
      * @param msg
      */
-    virtual void processMessage(NetworkMessageReader* msg);
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
 
 public slots:

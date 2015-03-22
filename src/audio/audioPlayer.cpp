@@ -238,11 +238,13 @@ void AudioPlayer::pChangeDirectory()
 
 }
 
-void AudioPlayer::processMessage(NetworkMessageReader* msg)
+NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
 {
     int id = msg->uint8();
     NetMsg::Action action = msg->action();
-    switch (action) {
+    qDebug() << "action "<< action << "play" << NetMsg::PlaySong << "change position"<<NetMsg::ChangePositionSong;
+    switch (action)
+    {
     case NetMsg::PlaySong:
         m_players[id]->playSong(msg->uint64());
         break;
@@ -267,4 +269,5 @@ void AudioPlayer::processMessage(NetworkMessageReader* msg)
     default:
         break;
     }
+    return NetWorkReceiver::AllExceptMe;
 }
