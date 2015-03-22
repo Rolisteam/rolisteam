@@ -49,6 +49,8 @@ public :
     void disconnectAndClose();
     void initialize();
     void insertNetWortReceiver(NetWorkReceiver*,NetMsg::Category cat);
+    void processPlayerMessage(NetworkMessageReader* msg);
+    void processSetupMessage(NetworkMessageReader* msg);
 
 signals:
 	void disconnected(NetworkLink * link);
@@ -56,7 +58,6 @@ signals:
 
 public slots :
 	void emissionDonnees(char *donnees, quint32 taille, NetworkLink *sauf = 0);
-    void setMainWindow(MainWindow* mainWindow);
 
 private :
     void makeSignalConnection();

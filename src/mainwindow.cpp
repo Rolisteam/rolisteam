@@ -44,7 +44,7 @@
 
 #include "toolbar.h"
 #include "map/bipmapwindow.h"
-#include "map/Carte.h"
+#include "map/map.h"
 #include "chat/chatlistwidget.h"
 #include "network/networkmanager.h"
 #include "Image.h"
@@ -142,10 +142,7 @@ MainWindow::MainWindow()
     m_downLoadProgressbar = new QProgressBar();
 	m_downLoadProgressbar->setRange(0,100);
 
-
-
     m_downLoadProgressbar->setVisible(false);
-
 
     m_mapWizzard = new MapWizzard(this);
 	m_networkManager = new NetworkManager;
@@ -178,10 +175,6 @@ void MainWindow::setupUi()
 #endif
 #endif
 #endif
-
-
-
-
 
     setAnimated(false);
 
@@ -272,8 +265,6 @@ MainWindow::~MainWindow()
     delete m_dockLogUtil;
 }
 
-
-
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     event->ignore();
@@ -337,8 +328,6 @@ void MainWindow::creerLogUtilisateur()
     m_dockLogUtil->setWidget(m_notifierDisplay);
     // Largeur minimum du log utilisateur
     m_dockLogUtil->setMinimumWidth(125);
-
-
 }
 
 void MainWindow::creerMenu()
@@ -559,7 +548,6 @@ void MainWindow::addImage(Image* pictureWindow, QString title)
 }
 void MainWindow::openImage()
 {
-
     QString fichier = QFileDialog::getOpenFileName(this, tr("Open Picture"), m_preferences->value("ImageDirectory",QDir::homePath()).toString(),
                                                    tr("Picture (*.jpg *.jpeg *.png *.bmp)"));
 
@@ -645,8 +633,6 @@ void MainWindow::addImageToMdiArea(Image *imageFenetre, QString titre)
 
 void MainWindow::openMapWizzard()
 {
-
-
     m_mapWizzard->resetData();
     if(m_mapWizzard->exec()==QMessageBox::Accepted)
     {
@@ -684,9 +670,7 @@ void MainWindow::openMap(Map::PermissionMode Permission,QString filepath,QString
     }
     else
     {
-        // Chargement de l'image
         QImage image(filepath);
-        // Verification du chargement de l'image
         if (image.isNull())
         {
             msgBox.setText(tr("Unsupported file format"));
@@ -694,18 +678,16 @@ void MainWindow::openMap(Map::PermissionMode Permission,QString filepath,QString
             return;
         }
         // Creation de l'identifiant
-        QString idCarte = QUuid::createUuid().toString();
+        QString idMap = QUuid::createUuid().toString();
         // Creation de la carte
-        Map *carte = new Map(idCarte, &image, masquer);
-        carte->setPermissionMode(Permission);
-        carte->setPointeur(m_toolBar->getCurrentTool());
+        Map* map = new Map(idMap, &image, masquer);
+        map->setPermissionMode(Permission);
+        map->setPointeur(m_toolBar->getCurrentTool());
 		// Creation de la BipMapWindow
-		BipMapWindow* bipMapWindow = new BipMapWindow(carte, m_mdiArea);
+        BipMapWindow* bipMapWindow = new BipMapWindow(map, m_mdiArea);
         // Ajout de la carte au workspace
 		addMap(bipMapWindow, title);
 
-        // Envoie de la carte aux autres utilisateurs
-        // On commence par compresser l'image (format jpeg) dans un tableau
         QByteArray byteArray;
         QBuffer buffer(&byteArray);
         bool ok = image.save(&buffer, "jpeg", 60);
@@ -714,86 +696,19 @@ void MainWindow::openMap(Map::PermissionMode Permission,QString filepath,QString
             qWarning() << tr("Compressing image goes wrong (ouvrirPlan - MainWindow.cpp)");
         }
 
-        // Taille des donnees
-        quint32 tailleCorps =
-                // Taille du titre
-                sizeof(quint16) + title.size()*sizeof(QChar) +
-                // Taille de l'identifiant
-                sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-                // Taille des PJ
-                sizeof(quint8) +
-                // Taille de l'info "masquer ou pas"
-                sizeof(quint8) + sizeof(quint8) +
-                // Taille de l'image
-                sizeof(quint32) + byteArray.size();
-
-        // Buffer d'emission
-        char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-        // Creation de l'entete du message
-        enteteMessage *uneEntete;
-        uneEntete = (enteteMessage *) donnees;
-        uneEntete->categorie = plan;
-        uneEntete->action = chargerPlan;
-        uneEntete->tailleDonnees = tailleCorps;
-
-        // Creation du corps du message
-        int p = sizeof(enteteMessage);
-        // Ajout du titre
-        quint16 tailleTitre = title.size();
-        memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
-        p+=sizeof(quint16);
-        memcpy(&(donnees[p]), title.data(), tailleTitre*sizeof(QChar));
-        p+=tailleTitre*sizeof(QChar);
-        // Ajout de l'identifiant
-        quint8 tailleId = idCarte.size();
-        memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), idCarte.data(), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        // Ajout de la taille des PJ
-        quint8 tailleDesPj = 12;
-        memcpy(&(donnees[p]), &tailleDesPj, sizeof(quint8));
-        p+=sizeof(quint8);
-
-
-
-        quint8 permission = carte->getPermissionMode();
-        memcpy(&(donnees[p]), &permission, sizeof(quint8));
-        p+=sizeof(quint8);
-
-        // Ajout de l'info "plan masque au chargement?"
-        quint8 masquerPlan = masquer;
-        memcpy(&(donnees[p]), &masquerPlan, sizeof(quint8));
-        p+=sizeof(quint8);
-
-        // Ajout de l'image
-        quint32 tailleImage = byteArray.size();
-        memcpy(&(donnees[p]), &tailleImage, sizeof(quint32));
-        p+=sizeof(quint32);
-        memcpy(&(donnees[p]), byteArray.data(), tailleImage);
-        p+=tailleImage;
-
-        // Emission de l'image au serveur ou a l'ensemble des clients
-        emettre(donnees, tailleCorps + sizeof(enteteMessage));
-        // Liberation du buffer d'emission
-        delete[] donnees;
+        NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::LoadMap);
+        msg.string16(title);
+        msg.string8(idMap);
+        msg.uint8(12);
+        msg.uint8(map->getPermissionMode());
+        msg.uint8(masquer);
+        msg.byteArray32(byteArray);
+        msg.sendAll();
     }
 }
 
 QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString nomFichier)
 {
-    /*out << titre;
-    out << pos();
-    out << (quint32)m_currentMode;
-    out << m_alphaLayer->size();
-    out << taillePj;
-    out << baFondOriginal;
-    out << baFond;
-    out << baAlpha;
-*/
-
-
     QString titre;
     in >> titre;
 
@@ -819,8 +734,6 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
 
     QByteArray baAlpha;
     in>> baAlpha;
-
-    qDebug()<< "read map" <<baAlpha.size()<< baFond.size() << baFondOriginal.size() ;
 
     bool ok;
 
@@ -854,8 +767,6 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
     {
         QPainter painterAlpha(&alpha);
         QColor color = PreferencesManager::getInstance()->value("Fog_color",QColor(0,0,0)).value<QColor>();
-        qDebug()<< "masquer"<< color;
-        qDebug() << alpha.size() << size;
         painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), color);
     }
 
@@ -865,10 +776,6 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
     map->setPermissionMode(myPermission);
     map->setPointeur(m_toolBar->getCurrentTool());
 	BipMapWindow* bipMapWindow = new BipMapWindow(map,m_mdiArea);
-
-
-
-
 
 	QPoint pos2 = bipMapWindow->mapFromParent(pos);
 
@@ -934,11 +841,6 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
 
     return m_widget;
 }
-
-
-
-
-
 void MainWindow::closeMapOrImage()
 {
 
@@ -997,43 +899,15 @@ void MainWindow::closeMapOrImage()
         }
         msgBox.setText(tr("Do you want to close %1 %2?\nIt will be closed for everybody").arg(mapImageTitle).arg(image?tr(""):tr("(Map)")));
 
-
-
         msgBox.exec();
         if (msgBox.result() != QMessageBox::Yes)
             return;
 
         if (!image)
         {
-            // Taille des donnees
-            quint32 tailleCorps =
-                    // Taille de l'identifiant de la carte
-                    sizeof(quint8) + mapImageId.size()*sizeof(QChar);
-
-            // Buffer d'emission
-            char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-            // Creation de l'entete du message
-            enteteMessage *uneEntete;
-            uneEntete = (enteteMessage *) donnees;
-            uneEntete->categorie = plan;
-            uneEntete->action = fermerPlan;
-            uneEntete->tailleDonnees = tailleCorps;
-
-            // Creation du corps du message
-            int p = sizeof(enteteMessage);
-            // Ajout de l'identifiant de la carte
-            quint8 tailleIdCarte = mapImageId.size();
-            memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-            p+=sizeof(quint8);
-            memcpy(&(donnees[p]), mapImageId.data(), tailleIdCarte*sizeof(QChar));
-            p+=tailleIdCarte*sizeof(QChar);
-
-            // Emission de la demande de fermeture de la carte au serveur ou a l'ensemble des clients
-            emettre(donnees, tailleCorps + sizeof(enteteMessage));
-            // Liberation du buffer d'emission
-            delete[] donnees;
-
+            NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::CloseMap);
+            msg.string8(mapImageId);
+            msg.sendAll();
 
 			m_mapWindowList.removeAll(bipMapWindow);
             m_playersListWidget->model()->changeMap(NULL);
@@ -1059,7 +933,6 @@ void MainWindow::afficherNomsPj(bool afficher)
 {
     G_affichageNomPj = afficher;
 }
-
 void MainWindow::afficherNomsPnj(bool afficher)
 {
     G_affichageNomPnj = afficher;
@@ -1068,13 +941,9 @@ void MainWindow::afficherNumerosPnj(bool afficher)
 {
     G_affichageNumeroPnj = afficher;
 }
-
 void MainWindow::updateWorkspace()
 {
-
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
-
-
     if (NULL!=active)
     {
         changementFenetreActive(active);
@@ -1088,7 +957,6 @@ void MainWindow::checkUpdate()
         m_updateChecker->startChecking();
         connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
     }
-
 }
 void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
 {
@@ -1123,86 +991,27 @@ void MainWindow::majCouleursPersonnelles()
 
 void MainWindow::newMap()
 {
-    // fenetreNouveauPlan = new NouveauPlanVide(this);
-
-
     m_newEmptyMapDialog->resetData();
     if(m_newEmptyMapDialog->exec()==QMessageBox::Accepted)
     {
-
-
         QString idMap = QUuid::createUuid().toString();
         buildNewMap(m_newEmptyMapDialog->getTitle(),idMap,m_newEmptyMapDialog->getColor(),m_newEmptyMapDialog->getSize(),m_newEmptyMapDialog->getPermission());
 
+        QString title = m_newEmptyMapDialog->getTitle();
+        QColor color = m_newEmptyMapDialog->getColor();
+        quint16 width = m_newEmptyMapDialog->getSize().width();
+        quint16 height = m_newEmptyMapDialog->getSize().height();
 
-        QString titre = m_newEmptyMapDialog->getTitle();
-        // On recupere la couleur du fond
-        QColor couleur = m_newEmptyMapDialog->getColor();
-        quint16 larg = m_newEmptyMapDialog->getSize().width();
-        quint16 haut = m_newEmptyMapDialog->getSize().height();
-
-        // Emission de la demande de creation d'un plan vide
-        // Taille des donnees
-        quint32 tailleCorps =
-                // Taille du nom
-                sizeof(quint16) + titre.size()*sizeof(QChar) +
-                // Taille de l'identifiant
-                sizeof(quint8) + idMap.size()*sizeof(QChar) +
-                // Taille de la couleur
-                sizeof(QRgb) +
-                // Taille des dimensions de la carte
-                sizeof(quint16) + sizeof(quint16) +
-                // Taille des PJ
-                sizeof(quint8) + sizeof(Map::PermissionMode);
-
-        // Buffer d'emission
-        char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-        // Creation de l'entete du message
-        enteteMessage *uneEntete;
-        uneEntete = (enteteMessage *) donnees;
-        uneEntete->categorie = plan;
-        uneEntete->action = nouveauPlanVide;
-        uneEntete->tailleDonnees = tailleCorps;
-
-        // Creation du corps du message
-        int p = sizeof(enteteMessage);
-        // Ajout du titre
-        quint16 tailleTitre = titre.size();
-        memcpy(&(donnees[p]), &tailleTitre, sizeof(quint16));
-        p+=sizeof(quint16);
-        memcpy(&(donnees[p]), titre.data(), tailleTitre*sizeof(QChar));
-        p+=tailleTitre*sizeof(QChar);
-        // Ajout de l'identifiant
-        quint8 tailleId = idMap.size();
-        memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), idMap.data(), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        // Ajout de la couleur
-        QRgb rgb = couleur.rgb();
-        memcpy(&(donnees[p]), &rgb, sizeof(QRgb));
-        p+=sizeof(QRgb);
-        // Ajout de la largeur et de la hauteur de la carte
-        memcpy(&(donnees[p]), &larg, sizeof(quint16));
-        p+=sizeof(quint16);
-        memcpy(&(donnees[p]), &haut, sizeof(quint16));
-        p+=sizeof(quint16);
-        // Ajout de la taille des PJ
-        quint8 taillePj = 1;
-        memcpy(&(donnees[p]), &taillePj, sizeof(quint8));
-        p+=sizeof(quint8);
-
-        quint8 mode = (quint8)m_newEmptyMapDialog->getPermission();
-        memcpy(&(donnees[p]), &mode, sizeof(quint8));
-        p+=sizeof(quint8);
-
-        // On emet vers les clients ou le serveur
-        emettre(donnees, tailleCorps + sizeof(enteteMessage));
-        // Liberation du buffer d'emission
-        delete[] donnees;
+        NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::AddEmptyMap);
+        msg.string8(title);
+        msg.string8(idMap);
+        msg.rgb(color);
+        msg.uint16(width);
+        msg.uint16(height);
+        msg.uint8(1);
+        msg.uint8((quint8)m_newEmptyMapDialog->getPermission());
+        msg.sendAll();
     }
-
 }
 void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond, QSize size,Map::PermissionMode mode)
 {
@@ -1214,11 +1023,6 @@ void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond,
 	BipMapWindow* bipMapWindow = new BipMapWindow(carte, m_mdiArea);
 	addMap(bipMapWindow, titre);
 }
-
-
-
-
-
 void MainWindow::emettreTousLesPlans(NetworkLink * link)
 {
    // qDebug() << "emettreTousLesPlans " << link;
@@ -1230,7 +1034,6 @@ void MainWindow::emettreTousLesPlans(NetworkLink * link)
         m_mapWindowList[i]->carte()->emettreTousLesPersonnages(link);
     }
 }
-
 
 void MainWindow::emettreToutesLesImages(NetworkLink * link)
 {
@@ -1417,8 +1220,6 @@ bool MainWindow::enleverCarteDeLaListe(QString idCarte)
 
         }
     }
-
-
     // Si la carte vient d'etre trouvee on supprime l'element
     if (ok)
     {
@@ -1570,7 +1371,7 @@ void MainWindow::ouvrirScenario()
     in >>nbrImages;
     // in >>On lit toutes les images presentes dans le fichier
     for (int i=0; i<nbrImages; ++i)
-        lireImage(in);
+        readImageFromStream(in);
 
 
     //reading minutes
@@ -1651,31 +1452,28 @@ void MainWindow::saveAllImages(QDataStream &out)
 }
 
 
-void MainWindow::lireImage(QDataStream &file)
+void MainWindow::readImageFromStream(QDataStream &file)
 {
     // Lecture de l'image
 
     // On recupere le titre
 
-    QString titre;
+    QString title;
     QByteArray baImage;
     QPoint topleft;
     QSize size;
 
-    file >> titre;
+    file >> title;
     file >>topleft;
     file >> size;
-
-
-
     file >> baImage;
 
-    bool ok;
-    // Creation de l'image
+
     QImage img;
-    ok = img.loadFromData(baImage, "jpg");
-    if (!ok)
-        qWarning("Probleme de decompression de l'image (lireImage - Mainwindow.cpp)");
+    if (!img.loadFromData(baImage, "jpg"))
+    {
+        qWarning()<< tr("Image compression error (readImageFromStream - MainWindow.cpp)");
+    }
 
 
 
@@ -1686,87 +1484,25 @@ void MainWindow::lireImage(QDataStream &file)
     Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, &img, NULL,m_mdiArea);
 
 
-    addImageToMdiArea(imageFenetre,titre);
+    addImageToMdiArea(imageFenetre,title);
 
-
-
-    /* tmp->move(topleft);
-    tmp->resize(size);*/
-
-
-
-    // Connexion de l'action avec l'affichage/masquage de la fenetre
-    //connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
     connect(m_toolBar,SIGNAL(currentToolChanged(ToolBar::Tool)),imageFenetre,SLOT(setCurrentTool(ToolBar::Tool)));
     imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
 
-    // Affichage de l'image
-    //imageFenetre->show();
-
-
-
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
-    ok = img.save(&buffer, "jpg", 70);
-    if (!ok)
-        qWarning("Probleme de compression de l'image (lireImage - MainWindow.cpp)");
+    if (!img.save(&buffer, "jpg", 70))
+    {
+        qWarning()<< tr("Image compression error (readImageFromStream - MainWindow.cpp)");
+    }
 
-    // Taille des donnees
-    quint32 tailleCorps =
-            // Taille du titre
-            sizeof(quint16) + titre.size()*sizeof(QChar) +
-            // Taille de l'identifiant de l'image
-            sizeof(quint8) + idImage.size()*sizeof(QChar) +
-            // Taille de l'identifiant du joueur
-            sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
-            // Taille de l'image
-            sizeof(quint32) + byteArray.size();
-
-    // Buffer d'emission
-    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-    // Creation de l'entete du message
-    enteteMessage *uneEntete;
-    uneEntete = (enteteMessage *) donnees;
-    uneEntete->categorie = image;
-    uneEntete->action = chargerImage;
-    uneEntete->tailleDonnees = tailleCorps;
-
-    // Creation du corps du message
-    int p = sizeof(enteteMessage);
-    // Ajout du titre
-    quint16 tailleDuTitre = titre.size();
-    memcpy(&(donnees[p]), &tailleDuTitre, sizeof(quint16));
-    p+=sizeof(quint16);
-    memcpy(&(donnees[p]), titre.data(), tailleDuTitre*sizeof(QChar));
-    p+=tailleDuTitre*sizeof(QChar);
-    // Ajout de l'identifiant de l'image
-    quint8 tailleIdImage = idImage.size();
-    memcpy(&(donnees[p]), &tailleIdImage, sizeof(quint8));
-    p+=sizeof(quint8);
-    memcpy(&(donnees[p]), idImage.data(), tailleIdImage*sizeof(QChar));
-    p+=tailleIdImage*sizeof(QChar);
-    // Ajout de l'identifiant du joueur
-    quint8 tailleIdJoueur = G_idJoueurLocal.size();
-    memcpy(&(donnees[p]), &tailleIdJoueur, sizeof(quint8));
-    p+=sizeof(quint8);
-    memcpy(&(donnees[p]), G_idJoueurLocal.data(), tailleIdJoueur*sizeof(QChar));
-    p+=tailleIdJoueur*sizeof(QChar);
-    // Ajout de l'image
-    quint32 tailleDeImage = byteArray.size();
-    memcpy(&(donnees[p]), &tailleDeImage, sizeof(quint32));
-    p+=sizeof(quint32);
-    memcpy(&(donnees[p]), byteArray.data(), tailleDeImage);
-    p+=tailleDeImage;
-
-    // Emission de l'image au serveur ou a l'ensemble des clients
-    emettre(donnees, tailleCorps + sizeof(enteteMessage));
-    // Liberation du buffer d'emission
-    delete[] donnees;
+    NetworkMessageWriter msg(NetMsg::PictureCategory,NetMsg::AddPictureAction);
+    msg.string16(title);
+    msg.string8(idImage);
+    msg.string8(G_idJoueurLocal);
+    msg.byteArray32(byteArray);
+    msg.sendAll();
 }
-
-
-
 void MainWindow::aboutRolisteam()
 {
     QMessageBox::about(this, tr("About Rolisteam"),
@@ -1839,12 +1575,6 @@ void MainWindow::updateUi()
         m_reconnectAct->setEnabled(false);
         m_disconnectAct->setEnabled(true);
     }
-
-
-
-
-
-
 }
 void MainWindow::updateMayBeNeeded()
 {
@@ -1854,8 +1584,6 @@ void MainWindow::updateMayBeNeeded()
     }
     m_updateChecker->deleteLater();
 }
-
-
 void MainWindow::AddHealthState(const QColor &color, const QString &label, QList<DessinPerso::etatDeSante> &listHealthState)
 {
     DessinPerso::etatDeSante state;
@@ -2067,7 +1795,6 @@ void MainWindow::parseCommandLineArguments(QStringList list)
 
 		if(!(roleValue.isNull()&&hostnameValue.isNull()&&portValue.isNull()))
 		{
-			qDebug() << roleValue << hostnameValue << portValue<<"inside";
 			m_networkManager->setValueConnection(portValue,hostnameValue,roleValue);
 		}
 
@@ -2099,7 +1826,11 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
         break;
     case NetMsg::ConnectionCategory:
         processConnectionMessage(msg);
-        type = NONE;
+        type = NetWorkReceiver::NONE;
+        break;
+    case NetMsg::CharacterPlayerCategory:
+        processCharacterPlayerMessage(msg);
+        type = NetWorkReceiver::AllExceptMe;
         break;
     }
     return type;//NetWorkReceiver::AllExceptMe;
@@ -2118,7 +1849,7 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
 
     if(msg->action() == NetMsg::AddEmptyMap)
     {
-        QString title = msg->string16();
+        QString title = msg->string8();
         QString idMap = msg->string8();
         QColor color = msg->rgb();
         quint16 width = msg->uint16();
@@ -2231,6 +1962,7 @@ void MainWindow::processImageMessage(NetworkMessageReader* msg)
 }
 void MainWindow::processNpcMessage(NetworkMessageReader* msg)
 {
+
         QString idMap = msg->string8();
         if(msg->action() == NetMsg::addNpc)
         {
@@ -2250,7 +1982,6 @@ void MainWindow::processNpcMessage(NetworkMessageReader* msg)
 }
 void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
 {
-    qDebug() << msg->action() << "Painting";
     if(msg->action() == NetMsg::penPainting)
     {
         QString idPlayer = msg->string8();
@@ -2370,8 +2101,8 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
         quint16 npcXpos = msg->uint16();
         quint16 npcYpos = msg->uint16();
 
-        quint16 npcXorient = msg->uint16();
-        quint16 npcYorient = msg->uint16();
+        qint16 npcXorient = msg->int16();
+        qint16 npcYorient = msg->int16();
 
         QColor npcState(msg->rgb());
         QString npcStateName = msg->string16();
@@ -2383,6 +2114,7 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
          QPoint orientation(npcXorient, npcYorient);
 
         QPoint npcPos(npcXpos, npcYpos);
+
         DessinPerso* npc = new DessinPerso(map, npcId, npcName, npcColor, npcDiameter, npcPos, (DessinPerso::typePersonnage)npcType, npcNumber);
 
         if((npcVisible)||(npcType == DessinPerso::pnj && !G_joueur))
@@ -2473,7 +2205,6 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
                 character->nouvelleOrientation(orientation);
             }
         }
-
     }
     else if(NetMsg::showCharecterOrientation == msg->action())
     {
@@ -2491,4 +2222,36 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         }
     }
 }
-
+void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::ToggleViewPlayerCharacterAction)
+    {
+        QString idMap = msg->string8();
+        QString idCharacter = msg->string8();
+        quint8 display = msg->uint8();
+        Map* map=trouverCarte(idMap);
+        if(NULL!=map)
+        {
+            map->affichageDuPj(idCharacter,display);
+        }
+    }
+    else if(msg->action() == NetMsg::ChangePlayerCharacterSizeAction)
+    {
+        /// @warning overweird
+        QString idMap = msg->string8();
+        QString idCharacter = msg->string8();
+        quint8 size = msg->uint8();
+        Map* map=trouverCarte(idMap);
+        if(NULL!=map)
+        {
+            map->selectCharacter(idCharacter);
+            map->changerTaillePjCarte(size + 11);
+        }
+    }
+    /*
+        Other actions form the same category:
+    ToggleViewPlayerCharacterAction,
+    ChangePlayerCharacterNameAction,
+    ChangePlayerCharacterColorAction,
+    */
+}

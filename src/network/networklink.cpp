@@ -26,7 +26,7 @@
 
 #include "network/networklink.h"
 
-#include "map/Carte.h"
+#include "map/map.h"
 #include "map/bipmapwindow.h"
 #include "network/networkmanager.h"
 #include "map/DessinPerso.h"
@@ -55,18 +55,14 @@ NetworkLink::NetworkLink(QTcpSocket *socket)
     ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::ConnectionCategory,m_mainWindow);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,m_mainWindow);
 #ifndef NULL_PLAYER
     m_audioPlayer = AudioPlayer::getInstance();
     ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
 #endif
 
     setSocket(socket);
-    //makeSignalConnection();
 
-
-
-	// Si l'ordi local est un client, on ajoute tt de suite la NetworkLink a la liste, et on connecte le signal d'emission des donnees
-    // Le serveur effectue cette operation a la fin de la procedure de connexion du client
     if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
 		m_networkManager->ajouterNetworkLink(this);
@@ -87,19 +83,12 @@ NetworkLink::~NetworkLink()
 }
 void NetworkLink::makeSignalConnection()
 {
-
-
     connect(m_socketTcp, SIGNAL(readyRead()),
             this, SLOT(reception()));
     connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(erreurDeConnexion(QAbstractSocket::SocketError)));
     connect(m_socketTcp, SIGNAL(disconnected()),
             this, SLOT(p_disconnect()));
-}
-
-void NetworkLink::setMainWindow(MainWindow* mainWindow)
-{
-    m_mainWindow = mainWindow;
 }
 
 
@@ -110,7 +99,7 @@ void NetworkLink::erreurDeConnexion(QAbstractSocket::SocketError erreur)
     {
         return;
     }
-    qWarning("Une erreur réseau est survenue : %s", qPrintable(m_socketTcp->errorString()));
+    qWarning() << tr("Network error occurs :") << m_socketTcp->errorString();
 }
 
 void NetworkLink::p_disconnect()
@@ -135,8 +124,6 @@ void NetworkLink::emissionDonnees(char *donnees, quint32 taille, NetworkLink *sa
         {
             qWarning() << "Tranmission error :" << m_socketTcp->errorString();
         }
-      /*  else
-            qDebug() << "Emit - data size : " << t << taille;*/
     }
 }
 
@@ -194,10 +181,10 @@ void NetworkLink::reception()
                 ReceiveEvent * event = new ReceiveEvent(entete, tampon, this);
                 event->postToReceiver();
             }
-            //if(m_receiverMap.contains((NetMsg::Category)entete.category))
+            NetworkMessageReader data(entete,tampon);
             if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)entete.category))
             {
-                NetworkMessageReader data(entete,tampon);
+
                 NetWorkReceiver* tmp = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)entete.category);
                 switch(tmp->processMessage(&data))
                 {
@@ -212,16 +199,13 @@ void NetworkLink::reception()
                 }
             }
 
-            switch((categorieAction)(entete.category))
+            switch(data.category())
             {
-                case joueur :
-                    receptionMessageJoueur();
+                case NetMsg::PlayerCategory :
+                    processPlayerMessage(&data);
                     break;
-                case persoJoueur :
-                    receptionMessagePersoJoueur();
-                    break;
-                case parametres :
-                    receptionMessageParametres();
+                case NetMsg::SetupCategory :
+                    processSetupMessage(&data);
                     break;
                 default :
                     qWarning()<< tr("Unknown network package received!");
@@ -237,192 +221,47 @@ void NetworkLink::reception()
     } // Fin du while
 
 }
-void NetworkLink::receptionMessageJoueur()
+void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
 {
-
-    // Un nouveau joueur vient de se connecter au serveur (serveur uniquement)
-    if (entete.action == connexionJoueur)
+    if(NetMsg::PlayerCategory==msg->category())
     {
-		// Ajout de la NetworkLink a la liste
-		m_networkManager->ajouterNetworkLink(this);
-
-        // On indique au nouveau joueur que le processus de connexion vient d'arriver a son terme
-        NetworkMessageHeader uneEntete;
-        uneEntete.category = connexion;
-        uneEntete.action = finProcessusConnexion;
-        uneEntete.dataSize = 0;
-
-        emissionDonnees((char *)&uneEntete, sizeof(NetworkMessageHeader));
-    }
-
-    // L'hote demande au soft local d'ajouter un joueur a la liste des utilisateurs
-    else if (entete.action == ajouterJoueur)
-    {
-    }
-
-    // Suppression d'un joueur qui vient de se deconnecter
-    else if (entete.action == supprimerJoueur)
-    {
-        faireSuivreMessage(false);
-    }
-
-    // L'hote demande au soft local de changer le nom d'un joueur
-    else if (entete.action == changerNomJoueur)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre le changement de nom a l'ensemble des clients
-        faireSuivreMessage(false);
-    }
-
-    // L'hote demande au soft local de changer la couleur d'un joueur
-    else if (entete.action == changerCouleurJoueur)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre le changement de couleur a l'ensemble des clients
-        faireSuivreMessage(false);
-    }
-
-    else
-    {
-		qWarning("Action Joueur inconnue (receptionMessageJoueur - NetworkLink.cpp)");
-        return;
-    }
-}
-
-/********************************************************************/
-/* Reception d'un message de categorie PersoJoueur                  */
-/********************************************************************/
-void NetworkLink::receptionMessagePersoJoueur()
-{
-    int p = 0;
-
-    if (entete.action == ajouterPersoJoueur)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre la creation de PJ aux autres clients
-        faireSuivreMessage(false);
-    }
-
-    else if (entete.action == supprimerPersoJoueur)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre la suppression de PJ aux autres clients
-        faireSuivreMessage(false);
-    }
-
-    else if (entete.action == afficherMasquerPersoJoueur)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre l'affichage/masquage de PJ aux autres clients
-        faireSuivreMessage(false);
-
-        // On recupere l'identifiant de la carte
-        quint8 tailleIdPlan;
-        memcpy(&tailleIdPlan, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdPlan = new QChar[tailleIdPlan];
-        memcpy(tableauIdPlan, &(tampon[p]), tailleIdPlan*sizeof(QChar));
-        p+=tailleIdPlan*sizeof(QChar);
-        QString idPlan(tableauIdPlan, tailleIdPlan);
-        // On recupere l'identifiant du PJ
-        quint8 tailleIdPj;
-        memcpy(&tailleIdPj, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdPj = new QChar[tailleIdPj];
-        memcpy(tableauIdPj, &(tampon[p]), tailleIdPj*sizeof(QChar));
-        p+=tailleIdPj*sizeof(QChar);
-        QString idPerso(tableauIdPj, tailleIdPj);
-        // On recupere l'info affichage/masquage
-        quint8 affichage;
-        memcpy(&affichage, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-
-        // On recherche la carte concernee
-        Map *carte = m_mainWindow->trouverCarte(idPlan);
-        // Si la carte est introuvable on affiche un message d'erreur
-        if (!carte)
-			qWarning("Carte introuvable a la reception d'une demande d'affichage/masquage de PJ (receptionMessagePersoJoueur - NetworkLink.cpp)");
-
-        // Si la carte a ete trouvee
-        else
+        if(NetMsg::PlayerConnectionAction == msg->action())
         {
-            // On affiche/masque le PJ sur la carte
-            carte->affichageDuPj(idPerso, affichage);
+            m_networkManager->ajouterNetworkLink(this);
+
+            // On indique au nouveau joueur que le processus de connexion vient d'arriver a son terme
+            NetworkMessageHeader uneEntete;
+            uneEntete.category = connexion;
+            uneEntete.action = finProcessusConnexion;
+            uneEntete.dataSize = 0;
+
+            emissionDonnees((char *)&uneEntete, sizeof(NetworkMessageHeader));
         }
-
-        // Liberation de la memoire allouee
-        delete[] tableauIdPlan;
-        delete[] tableauIdPj;
-    }
-
-    else if (entete.action == changerTaillePersoJoueur)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre le changement de taille de PJ aux autres clients
-        faireSuivreMessage(false);
-
-        // On recupere l'identifiant de la carte
-        quint8 tailleIdPlan;
-        memcpy(&tailleIdPlan, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdPlan = new QChar[tailleIdPlan];
-        memcpy(tableauIdPlan, &(tampon[p]), tailleIdPlan*sizeof(QChar));
-        p+=tailleIdPlan*sizeof(QChar);
-
-        // extract character Id
-        quint8 charIdPlanSize;
-        memcpy(&charIdPlanSize, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *charIdPlan = new QChar[charIdPlanSize];
-        memcpy(charIdPlan, &(tampon[p]), charIdPlanSize*sizeof(QChar));
-        p+=tailleIdPlan*sizeof(QChar);
-
-        QString idPlan(tableauIdPlan, tailleIdPlan);
-        // On recupere la nouvelle taille des PJ
-        quint8 taillePj;
-        memcpy(&taillePj, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-
-        // On recherche la carte concernee
-        Map *carte = m_mainWindow->trouverCarte(idPlan);
-        // Si la carte est introuvable on affiche un message d'erreur
-        if (!carte)
-			qWarning("Carte introuvable a la reception d'une demande de changement de taille des PJ (receptionMessagePersoJoueur - NetworkLink.cpp)");
-
-        // Si la carte a ete trouvee
-        else
+        else if(NetMsg::AddPlayerAction == msg->action())
         {
-            // On met a jour les PJ sur la carte
-            QString tmp(charIdPlan,charIdPlanSize);
-            carte->selectCharacter(tmp);
-            carte->changerTaillePjCarte(taillePj + 11);
+
         }
-
-        // Liberation de la memoire allouee
-        delete[] tableauIdPlan;
-    }
-
-    else if (entete.action == changerNomPersoJoueur)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre le changement de nom a l'ensemble des clients
-        faireSuivreMessage(false);
-    }
-
-    else if (entete.action == changerCouleurPersoJoueur)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre le changement de couleur a l'ensemble des clients
-        faireSuivreMessage(false);
-    }
-
-    else
-    {
-		qWarning("Action persoJoueur inconnue (receptionMessagePersoJoueur - NetworkLink.cpp)");
-        return;
+        else if(NetMsg::DelPlayerAction == msg->action())
+        {
+            faireSuivreMessage(false);
+        }
+        else if(NetMsg::ChangePlayerNameAction == msg->action())
+        {
+           faireSuivreMessage(false);
+        }
+        else if(NetMsg::ChangePlayerColorAction == msg->action())
+        {
+           faireSuivreMessage(false);
+        }
     }
 }
-void NetworkLink::receptionMessageParametres()
+void NetworkLink::processSetupMessage(NetworkMessageReader* msg)
 {
-    if (entete.action == NetMsg::AddFeatureAction)
+    if (msg->action() == NetMsg::AddFeatureAction)
     {
         faireSuivreMessage(false);
     }
 }
-
-
 void NetworkLink::faireSuivreMessage(bool tous)
 {
     // Uniquement si l'ordinateur local est le serveur

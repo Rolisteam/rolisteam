@@ -22,7 +22,7 @@
  *************************************************************************/
 
 
-#include "map/Carte.h"
+#include "map/map.h"
 
 #include <QMessageBox>
 #include <QUuid>
@@ -37,7 +37,7 @@
 #include "variablesGlobales.h"
 #include <QDebug>
 #include "preferencesmanager.h"
-//GM_ONLY, PC_MOVE,PC_ALL
+
 
 
 Map::Map(QString identCarte, QImage *image, bool masquer, QWidget *parent)
@@ -1384,7 +1384,7 @@ void Map::toggleCharacterView(Character * character)
     {
         affichageDuPj(uuid, newState);
 
-        NetworkMessageWriter message(NetMsg::CharacterPlayerCategory, NetMsg::ToggleViewCharacterAction);
+        NetworkMessageWriter message(NetMsg::CharacterPlayerCategory, NetMsg::ToggleViewPlayerCharacterAction);
         message.string8(idCarte);
         message.string8(uuid);
         message.uint8(newState ? 1 : 0);
@@ -1553,66 +1553,33 @@ void Map::emettreTousLesPersonnages(NetworkLink * link)
 
 void Map::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetworkLinkUniquement)
 {
-    // Taille des donnees
-    quint32 tailleCorps =
-        // Taille de l'identifiant de la carte
-        sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-        // Taille du nombre de personnages presents dans le message
-        sizeof(quint16);
 
-    DessinPerso *perso;
-    // On recupere la liste des enfants de la carte (tous des DessinPerso)
+    NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterList);
+    msg.string8(idCarte);
+    msg.uint16(children().size());
+
+     msg.string8(idCarte);
+
+
+      msg.string8(idCarte);
     QObjectList enfants = children();
     // Taille de la liste
     int tailleListe = enfants.size();
-    
-    // On parcourt une premiere fois la liste des DessinPerso pour calculer la taille des donnees a emettre
+    DessinPerso* character;
     for (int i=0; i<tailleListe; i++)
     {
-        perso = (DessinPerso *)(enfants[i]);
-        // On ajoute la taille du personnage a la taille totale
-        tailleCorps += perso->tailleDonneesAEmettre();
+        character = (DessinPerso *)(enfants[i]);
+        character->preparerPourEmission(&msg);
     }
 
-    // Reservation du buffer d'emission
-    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-    // Creation de l'entete du message
-    enteteMessage *uneEntete = (enteteMessage *) donnees;
-    uneEntete->categorie = personnage;
-    uneEntete->action = ajouterListePerso;
-    uneEntete->tailleDonnees = tailleCorps;
-        
-    // Creation du corps du message
-    int p = sizeof(enteteMessage);
-    // Ajout de l'identifiant de la carte
-    quint8 tailleIdCarte = idCarte.size();
-    memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-    p+=sizeof(quint8);
-    memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
-    p+=tailleIdCarte*sizeof(QChar);
-    // Ajout du nbr de personnages presents dans le message
-    quint16 nbrPersonnages = tailleListe;
-    memcpy(&(donnees[p]), &nbrPersonnages, sizeof(quint16));
-    p+=sizeof(quint16);
-    
-    // On parcourt la liste des DessinPerso une 2eme fois pour ajouter les donnees de chaque personnage
-    for (int i=0; i<tailleListe; i++)
-    {
-        perso = (DessinPerso *)(enfants[i]);
-        // Ajout des donnees du personnage au buffer d'emission
-        p += perso->preparerPourEmission(&(donnees[p]));
-    }        
-
     if (versNetworkLinkUniquement)
-        // Emission de la carte vers la NetworkLink indiquee
-        link->emissionDonnees(donnees, tailleCorps + sizeof(enteteMessage));
+    {
+        //link->emissionDonnees(donnees, tailleCorps + sizeof(enteteMessage));
+        msg.sendTo(link);
+    }
     else
-        // Emission de la carte vers tous les autres utilisateurs
-        emettre(donnees, tailleCorps + sizeof(enteteMessage));
+        msg.sendAll();
 
-    // Liberation du buffer d'emission
-    delete[] donnees;
 }
 
 
@@ -1711,63 +1678,19 @@ void Map::emettreTrace()
 
 void Map::emettreTrajetPersonnage()
 {
-    // Recuperation de l'identifiant du perso
     QString idPerso = pnjSelectionne->idPersonnage();
-    
-    // Taille de la liste
-                qint32 tailleListe = listeDeplacement.size();
+    quint32 tailleListe = listeDeplacement.size();
 
-    // Taille des donnees
-    quint32 tailleCorps =
-        // Taille de l'identifiant de la carte
-        sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-        // Taille de l'identifiant du personnage
-        sizeof(quint8) + idPerso.size()*sizeof(QChar) +
-        // Taille de la liste de points
-        sizeof(quint32) + (sizeof(qint16) + sizeof(qint16)) * tailleListe;
-
-    // Buffer d'emission
-    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-    // Creation de l'entete du message
-    enteteMessage *uneEntete = (enteteMessage *) donnees;
-    uneEntete->categorie = personnage;
-    uneEntete->action = deplacerPerso;
-    uneEntete->tailleDonnees = tailleCorps;
-
-    // Creation du corps du message
-    int p = sizeof(enteteMessage);
-    // Ajout de l'identifiant de la carte
-    quint8 tailleIdCarte = idCarte.size();
-    memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-    p+=sizeof(quint8);
-    memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
-    p+=tailleIdCarte*sizeof(QChar);
-    // Ajout de l'identifiant du perso
-    quint8 tailleIdPerso = idPerso.size();
-    memcpy(&(donnees[p]), &tailleIdPerso, sizeof(quint8));
-    p+=sizeof(quint8);
-    memcpy(&(donnees[p]), idPerso.data(), tailleIdPerso*sizeof(QChar));
-    p+=tailleIdPerso*sizeof(QChar);
-    // Ajout du nbr de points de la liste
-    memcpy(&(donnees[p]), &tailleListe, sizeof(quint32));
-    p+=sizeof(quint32);
-    // Ajout de la liste de points
-    qint16 positionX, positionY;
+    NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::moveCharacter);
+    msg.string8(idCarte);
+    msg.string8(idPerso);
+    msg.uint32(tailleListe);
     for (int i=0; i<tailleListe; i++)
     {
-        positionX = listeDeplacement[i].x();
-        positionY = listeDeplacement[i].y();
-        memcpy(&(donnees[p]), &positionX, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &positionY, sizeof(qint16));
-        p+=sizeof(qint16);
+        msg.uint16(listeDeplacement[i].x());
+        msg.uint16(listeDeplacement[i].y());
     }
-
-    // Emission du deplacement
-    emettre(donnees, tailleCorps + sizeof(enteteMessage));
-    // Liberation du buffer d'emission
-    delete[] donnees;
+    msg.sendAll();
 }
 
 

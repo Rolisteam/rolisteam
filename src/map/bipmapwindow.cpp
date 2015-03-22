@@ -25,7 +25,7 @@
 #include "map/bipmapwindow.h"
 
 
-#include "map/Carte.h"
+#include "map/map.h"
 
 
 #include "variablesGlobales.h"

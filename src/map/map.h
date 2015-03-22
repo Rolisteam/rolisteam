@@ -22,8 +22,8 @@
 
 
 
-#ifndef CARTE_H
-#define CARTE_H
+#ifndef MAP_H
+#define MAP_H
 
 #include <QWidget>
 #include <QImage>

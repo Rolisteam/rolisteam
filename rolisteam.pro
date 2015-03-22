@@ -70,7 +70,6 @@ include(src/odt/src/src.pri)
 
 ## Source
 HEADERS += src/AfficheurDisque.h \
-	   src/map/Carte.h \
 	   src/chat/chat.h \
 	   src/chat/chatlist.h \
 	   src/chat/chatlistwidget.h \
@@ -115,12 +114,12 @@ HEADERS += src/AfficheurDisque.h \
     src/network/networkmanager.h \
     src/improvedworkspace.h \
     src/network/networklink.h \
-    src/map/bipmapwindow.h
+    src/map/bipmapwindow.h \
+    src/map/map.h
 
 
 
 SOURCES += src/AfficheurDisque.cpp \
-	   src/map/Carte.cpp \
 	   src/chat/chat.cpp \
 	   src/chat/chatlist.cpp \
 	   src/chat/chatlistwidget.cpp \
@@ -164,7 +163,8 @@ SOURCES += src/AfficheurDisque.cpp \
     src/network/networkmanager.cpp \
     src/improvedworkspace.cpp \
     src/network/networklink.cpp \
-    src/map/bipmapwindow.cpp
+    src/map/bipmapwindow.cpp \
+    src/map/map.cpp
 #end source
 
 

@@ -28,7 +28,7 @@
 
 #include "toolbar.h"
 
-#include "map/Carte.h"
+#include "map/map.h"
 #include "network/networkmessagewriter.h"
 #include "SelecteurCouleur.h"
 #include "SelecteurDiametre.h"
@@ -641,7 +641,7 @@ void ToolBar::sendNewCharacterSize(int size)
     changeCharacterSize(size);
     if(m_currentTool != ajoutPnj)
     {
-        NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::ChangeCharacterSizeAction);
+        NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterSizeAction);
         message.string8(m_map->identifiantCarte());
         message.string8(m_map->getLastSelectedCharacterId());
         message.uint8(size - 11);

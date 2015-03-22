@@ -4,7 +4,7 @@
 #include <QDialog>
 #include "widgets/colorbutton.h"
 
-#include "map/Carte.h"
+#include "map/map.h"
 
 
 namespace Ui {
