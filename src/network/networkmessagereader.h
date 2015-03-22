@@ -58,6 +58,12 @@ class NetworkMessageReader : public NetworkMessage
 
         QRgb rgb();
 
+
+        qint8  int8();
+        qint16 int16();
+        qint32 int32();
+        qint64 int64();
+
     protected:
         NetworkMessageHeader * buffer();
 

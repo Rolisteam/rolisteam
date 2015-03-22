@@ -122,7 +122,7 @@ quint64 NetworkMessageReader::uint64()
     size_t size = sizeof(quint64);
     if (left() >= size)
     {
-        quint32 ret;
+        quint64 ret;
         memcpy(&ret, m_pos, size);
         m_pos += size;
         return ret;
@@ -175,4 +175,53 @@ QByteArray NetworkMessageReader::byteArray32()
 	m_pos += size;
 	return result;
 
+}
+qint8 NetworkMessageReader::int8()
+{
+    size_t size = sizeof(qint8);
+    if (left() >= size)
+    {
+        qint8 ret = (qint8) *m_pos;
+        m_pos += size;
+        return ret;
+    }
+    return 0;
+}
+
+qint16 NetworkMessageReader::int16()
+{
+    size_t size = sizeof(qint16);
+    if (left() >= size)
+    {
+        qint16 ret;
+        memcpy(&ret, m_pos, size);
+        m_pos += size;
+        return ret;
+    }
+    return 0;
+}
+
+qint32 NetworkMessageReader::int32()
+{
+    size_t size = sizeof(qint32);
+    if (left() >= size)
+    {
+        qint32 ret;
+        memcpy(&ret, m_pos, size);
+        m_pos += size;
+        return ret;
+    }
+    return 0;
+}
+qint64 NetworkMessageReader::int64()
+{
+    size_t size = sizeof(qint64);
+    if (left() >= size)
+    {
+        qint64 ret;
+        memcpy(&ret, m_pos, size);
+        m_pos += size;
+        return ret;
+    }
+    return 0;
 }
