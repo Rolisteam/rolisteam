@@ -196,6 +196,7 @@ public :
 	 * @param msg
 	 */
     virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+
 signals:
     void closing();
 
