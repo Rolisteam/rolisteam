@@ -69,6 +69,10 @@ enum Action {
     ChangeCharacterNameAction,
     ChangeCharacterColorAction,
 
+    //NPCCategory
+    addNpc =0,
+    delNpc,
+
     // MapCategory
     AddEmptyMap = 0,
     LoadMap,
@@ -78,6 +82,19 @@ enum Action {
     // PictureCategory
     AddPictureAction = 0,
     DelPictureAction,
+
+    // Painting
+    penPainting =0,
+    linePainting,
+    emptyRectanglePainting,
+    filledRectanglePainting,
+    emptyEllipsePainting,
+    filledEllipsePainting,
+    textPainting,
+    handPainting,
+
+
+
 
     // ChatCategory
     ChatMessageAction = 0,

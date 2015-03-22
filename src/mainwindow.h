@@ -53,7 +53,7 @@
 class UpdateChecker;
 class ToolBar;
 class BipMapWindow;
-class Carte;
+class Map;
 class ChatListWidget;
 class Image;
 class NetworkLink;
@@ -110,7 +110,7 @@ public :
      * @param idCarte
      * @return
      */
-    Carte *trouverCarte(QString idCarte);
+    Map *trouverCarte(QString idCarte);
     /**
      * @brief removeMapFromId
      * @param idCarte
@@ -157,7 +157,7 @@ public :
      * @param id
      * @return
      */
-    Carte::PermissionMode getPermission(int id);
+    Map::PermissionMode getPermission(int id);
     /**
      * @brief readSettings
      */
@@ -195,7 +195,7 @@ public :
 	 * @brief processMessage
 	 * @param msg
 	 */
-	virtual void processMessage(NetworkMessageReader* msg);
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 signals:
     void closing();
 
@@ -208,7 +208,7 @@ public slots :
      * @param largeur
      * @param hauteur
      */
-    void buildNewMap(QString titre, QString idCarte, QColor couleurFond, QSize size,Carte::PermissionMode mode );
+    void buildNewMap(QString titre, QString idCarte, QColor couleurFond, QSize size,Map::PermissionMode mode );
     /**
 	 * @brief displayMinutesEditor
      * @param afficher
@@ -248,7 +248,9 @@ protected :
     void addImageToMdiArea(Image *imageFenetre, QString titre);
 
 	void processImageMessage(NetworkMessageReader* msg);
-
+    void processMapMessage(NetworkMessageReader* msg);
+    void processNpcMessage(NetworkMessageReader* msg);
+    void processPaintingMessage(NetworkMessageReader* msg);
 private slots :
     void changementNatureUtilisateur();
     void afficherNomsPj(bool afficher);
@@ -256,7 +258,7 @@ private slots :
     void afficherNumerosPnj(bool afficher);
     void changementFenetreActive(QMdiSubWindow* widget);
     void newMap();
-    void openMap(Carte::PermissionMode Permission,QString filepath,QString title,bool masquer = false);
+    void openMap(Map::PermissionMode Permission,QString filepath,QString title,bool masquer = false);
     void openImage();
     void openMapWizzard();
     void ouvrirScenario();
@@ -284,7 +286,7 @@ private slots :
     * \brief Show the about dialog
     *
     */
-    void aPropos();
+    void aboutRolisteam();
 
     /// \brief open the Qt assistant with the rolisteam documentation
     void helpOnLine();

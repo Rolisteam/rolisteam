@@ -483,7 +483,7 @@ void MainWindow::linkActionToMenu()
     connect(m_showNPCNumberAct, SIGNAL(triggered(bool)), this, SLOT(afficherNumerosPnj(bool)));
 
     // Help
-    connect(m_aboutAct, SIGNAL(triggered()), this, SLOT(aPropos()));
+    connect(m_aboutAct, SIGNAL(triggered()), this, SLOT(aboutRolisteam()));
     connect(m_helpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 }
 
@@ -521,7 +521,7 @@ QWidget* MainWindow::addMap(BipMapWindow *BipMapWindow, QString titre,QSize maps
 	connect(action, SIGNAL(triggered(bool)), BipMapWindow, SLOT(setVisible(bool)));
 	connect(BipMapWindow,SIGNAL(visibleChanged(bool)),action,SLOT(setChecked(bool)));
 
-	Carte *carte = BipMapWindow->carte();
+    Map *carte = BipMapWindow->carte();
     carte->setPointeur(m_toolBar->getCurrentTool());
 
     connect(m_toolBar,SIGNAL(currentToolChanged(ToolBar::Tool)),carte,SLOT(setPointeur(ToolBar::Tool)));
@@ -534,8 +534,8 @@ QWidget* MainWindow::addMap(BipMapWindow *BipMapWindow, QString titre,QSize maps
     connect(m_showNPCNumberAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
 
     // new PlayersList connection
-	connect(BipMapWindow, SIGNAL(activated(Carte *)), m_playersListWidget->model(), SLOT(changeMap(Carte *)));
-	connect(BipMapWindow, SIGNAL(activated(Carte *)), m_toolBar, SLOT(changeMap(Carte *)));
+    connect(BipMapWindow, SIGNAL(activated(Map *)), m_playersListWidget->model(), SLOT(changeMap(Map *)));
+    connect(BipMapWindow, SIGNAL(activated(Map *)), m_toolBar, SLOT(changeMap(Map *)));
 
     // Affichage de la carte
     tmp->setVisible(true);
@@ -657,7 +657,7 @@ void MainWindow::openMapWizzard()
     }
 }
 
-void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QString title, bool masquer)
+void MainWindow::openMap(Map::PermissionMode Permission,QString filepath,QString title, bool masquer)
 {
     QMessageBox msgBox(this);
     msgBox.addButton(QMessageBox::Cancel);
@@ -696,7 +696,7 @@ void MainWindow::openMap(Carte::PermissionMode Permission,QString filepath,QStri
         // Creation de l'identifiant
         QString idCarte = QUuid::createUuid().toString();
         // Creation de la carte
-        Carte *carte = new Carte(idCarte, &image, masquer);
+        Map *carte = new Map(idCarte, &image, masquer);
         carte->setPermissionMode(Permission);
         carte->setPointeur(m_toolBar->getCurrentTool());
 		// Creation de la BipMapWindow
@@ -800,10 +800,10 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
     QPoint pos;
     in >>pos;
 
-    Carte::PermissionMode myPermission;
+    Map::PermissionMode myPermission;
     quint32 permiInt;
     in >> permiInt;
-    myPermission = (Carte::PermissionMode) permiInt;
+    myPermission = (Map::PermissionMode) permiInt;
 
     QSize size;
     in >> size;
@@ -861,7 +861,7 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
 
     QString idCarte = QUuid::createUuid().toString();
 
-    Carte* map = new Carte(idCarte, &fondOriginal, &fond, &alpha);
+    Map* map = new Map(idCarte, &fondOriginal, &fond, &alpha);
     map->setPermissionMode(myPermission);
     map->setPointeur(m_toolBar->getCurrentTool());
 	BipMapWindow* bipMapWindow = new BipMapWindow(map,m_mdiArea);
@@ -1153,7 +1153,7 @@ void MainWindow::newMap()
                 // Taille des dimensions de la carte
                 sizeof(quint16) + sizeof(quint16) +
                 // Taille des PJ
-                sizeof(quint8) + sizeof(Carte::PermissionMode);
+                sizeof(quint8) + sizeof(Map::PermissionMode);
 
         // Buffer d'emission
         char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
@@ -1204,11 +1204,11 @@ void MainWindow::newMap()
     }
 
 }
-void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond, QSize size,Carte::PermissionMode mode)
+void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond, QSize size,Map::PermissionMode mode)
 {
     QImage image(size, QImage::Format_ARGB32_Premultiplied);
     image.fill(couleurFond.rgb());
-    Carte *carte = new Carte(idCarte, &image);
+    Map *carte = new Map(idCarte, &image);
     carte->setPermissionMode(getPermission(mode));
     carte->setPointeur(m_toolBar->getCurrentTool());
 	BipMapWindow* bipMapWindow = new BipMapWindow(carte, m_mdiArea);
@@ -1268,7 +1268,7 @@ void MainWindow::removeMapFromId(QString idCarte)
         }
     }
 }
-Carte * MainWindow::trouverCarte(QString idCarte)
+Map* MainWindow::trouverCarte(QString idCarte)
 {
 	// Taille de la liste des BipMapWindow
     int tailleListe = m_mapWindowList.size();
@@ -1767,7 +1767,7 @@ void MainWindow::lireImage(QDataStream &file)
 
 
 
-void MainWindow::aPropos()
+void MainWindow::aboutRolisteam()
 {
     QMessageBox::about(this, tr("About Rolisteam"),
                        tr("<h1>Rolisteam v%1</h1>"
@@ -1892,18 +1892,18 @@ void MainWindow::readSettings()
 
 
 
-Carte::PermissionMode MainWindow::getPermission(int id)
+Map::PermissionMode MainWindow::getPermission(int id)
 {
     switch(id)
     {
     case 0:
-        return Carte::GM_ONLY;
+        return Map::GM_ONLY;
     case 1:
-        return Carte::PC_MOVE;
+        return Map::PC_MOVE;
     case 2:
-        return Carte::PC_ALL;
+        return Map::PC_ALL;
     default:
-        return Carte::GM_ONLY;
+        return Map::GM_ONLY;
     }
 
 }
@@ -2072,19 +2072,123 @@ void MainWindow::parseCommandLineArguments(QStringList list)
 		}
 
 }
-void MainWindow::processMessage(NetworkMessageReader* msg)
+NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
 {
+    NetWorkReceiver::SendType type;
 	switch(msg->category())
 	{
 		case NetMsg::PictureCategory:
 			processImageMessage(msg);
+            type = NetWorkReceiver::AllExceptMe;
 			break;
+        case NetMsg::MapCategory:
+            processMapMessage(msg);
+            type = NetWorkReceiver::AllExceptMe;
+            break;
+        case NetMsg::NPCCategory:
+            processNpcMessage(msg);
+            type = NetWorkReceiver::AllExceptMe;
+            break;
+    case NetMsg::DrawCategory:
+        processPaintingMessage(msg);
+        type = NetWorkReceiver::ALL;
+        break;
 	}
+    return type;//NetWorkReceiver::AllExceptMe;
+}
+void MainWindow::processMapMessage(NetworkMessageReader* msg)
+{
+
+    if(msg->action() == NetMsg::AddEmptyMap)
+    {
+        QString title = msg->string16();
+        QString idMap = msg->string8();
+        QColor color = msg->rgb();
+        quint16 width = msg->uint16();
+        quint16 height = msg->uint16();
+        quint8 npSize = msg->uint8();
+        quint8 permission = msg->uint8();
+        QSize mapSize(width,height);
+        /**
+         * @warning @todo use npSize.
+         */
+        buildNewMap(title,idMap,color,mapSize,(Map::PermissionMode)permission);
+        notifyUser(tr("New map: %1").arg(title));
+
+    }
+    else if(msg->action() == NetMsg::LoadMap)
+    {
+        QString title = msg->string16();
+        QString idMap = msg->string8();
+        quint8 npSize = msg->uint8();
+        quint8 permission = msg->uint8();
+        quint8 maskPlan = msg->uint8();
+        QByteArray mapData = msg->byteArray32();
+         QImage image;
+        if (! image.loadFromData(mapData, "jpeg"))
+        {
+            qWarning("Compression Error (processMapMessage - NetworkLink.cpp)");
+        }
+        Map* map = new Map(idMap, &image, maskPlan);
+        map->changerTaillePjCarte(npSize,false);
+        map->setPermissionMode((Map::PermissionMode)permission);
+
+        BipMapWindow* bipMapWindow = new BipMapWindow(map,this);
+
+        addMap(bipMapWindow,title);
+
+        notifyUser(tr("Receiving map: %1").arg(title));
+
+
+    }
+    else if(msg->action() == NetMsg::ImportMap)
+    {
+        QString title = msg->string16();
+        QString idMap = msg->string8();
+        quint8 npSize = msg->uint8();
+        quint8 permission = msg->uint8();
+        quint8 alphaValue = msg->uint8();
+        QByteArray originBackground = msg->byteArray32();
+        QByteArray background = msg->byteArray32();
+        QByteArray bgAlpha = msg->byteArray32();
+
+        QImage originalBackgroundImage;
+        if (!originalBackgroundImage.loadFromData(originBackground, "jpeg"))
+        {
+            qWarning() << tr("Extract original background information Failed (processMapMessage - mainwindow.cpp)");
+        }
+        // Creation de l'image de fond
+        QImage backgroundImage;
+        if (!backgroundImage.loadFromData(background, "jpeg"))
+        {
+            qWarning() << tr("Extract background information Failed (processMapMessage - mainwindow.cpp)");
+        }
+        // Creation de la couche alpha
+        QImage alphaImage;
+        if (!alphaImage.loadFromData(bgAlpha, "jpeg"))
+        {
+            qWarning() << tr("Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)");
+        }
+        Map* map = new Map(idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
+        map->changerTaillePjCarte(npSize,false);
+
+        map->setPermissionMode((Map::PermissionMode)permission);
+        map->adapterCoucheAlpha(alphaValue);
+        BipMapWindow* bipMapWindow = new BipMapWindow(map,this);
+        addMap(bipMapWindow,title);
+        notifyUser(tr("Receiving map: %1").arg(title));
+
+    }
+    else if(msg->action() == NetMsg::CloseMap)
+    {
+        QString idMap = msg->string8();
+        removeMapFromId(idMap);
+
+    }
 }
 
 void MainWindow::processImageMessage(NetworkMessageReader* msg)
 {
-		qDebug() << "ProcessImageMessage";
 		if(msg->action() == NetMsg::AddPictureAction)
 		{
 			QString title = msg->string16();
@@ -2107,4 +2211,175 @@ void MainWindow::processImageMessage(NetworkMessageReader* msg)
 			QString idImage = msg->string8();
 			removePictureFromId(idImage);
 		}
+}
+void MainWindow::processNpcMessage(NetworkMessageReader* msg)
+{
+        QString idMap = msg->string8();
+        if(msg->action() == NetMsg::addNpc)
+        {
+            Map* map = trouverCarte(idMap);
+            if(NULL!=map)
+            {
+                QString npcName = msg->string16();
+                QString npcId = msg->string8();
+                quint8 npcType = msg->uint8();
+                quint8 npcNumber = msg->uint8();
+                quint8 npcDiameter = msg->uint8();
+                QColor npcColor(msg->rgb());
+                quint16 npcXpos = msg->uint16();
+                quint16 npcYpos = msg->uint16();
+
+                quint16 npcXorient = msg->uint16();
+                quint16 npcYorient = msg->uint16();
+
+                QColor npcState(msg->rgb());
+                QString npcStateName = msg->string16();
+                quint16 npcStateNum = msg->uint16();
+
+                quint8 npcVisible = msg->uint8();
+                quint8 npcVisibleOrient = msg->uint8();
+
+                 QPoint orientation(npcXorient, npcYorient);
+
+                QPoint npcPos(npcXpos, npcYpos);
+                DessinPerso* npc = new DessinPerso(map, npcId, npcName, npcColor, npcDiameter, npcPos, (DessinPerso::typePersonnage)npcType, npcNumber);
+
+                if((npcVisible)||(npcType == DessinPerso::pnj && !G_joueur))
+                {
+                    npc->afficherPerso();
+                }
+                npc->nouvelleOrientation(orientation);
+                if(npcVisibleOrient)
+                {
+                    npc->afficheOuMasqueOrientation();
+                }
+
+                DessinPerso::etatDeSante health;
+                health.couleurEtat = npcState;
+                health.nomEtat = npcStateName;
+                npc->nouvelEtatDeSante(health, npcStateNum);
+                map->afficheOuMasquePnj(npc);
+
+
+            }
+
+        }
+        else if(msg->action() == NetMsg::delNpc)
+        {
+            QString idNpc = msg->string8();
+            Map* map = trouverCarte(idMap);
+            if(NULL!=map)
+            {
+                map->eraseCharacter(idNpc);
+            }
+        }
+}
+void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
+{
+    qDebug() << msg->action() << "Painting";
+    if(msg->action() == NetMsg::penPainting)
+    {
+        QString idPlayer = msg->string8();
+        QString idMap = msg->string8();
+
+        quint32 pointNumber = msg->uint32();
+
+        QList<QPoint> pointList;
+        QPoint point;
+        for (int i=0; i<pointNumber; i++)
+        {
+            quint16 pointX = msg->uint16();
+            quint16 pointY = msg->uint16();
+            point = QPoint(pointX, pointY);
+            pointList.append(point);
+        }
+        quint16 zoneX = msg->uint16();
+        quint16 zoneY = msg->uint16();
+        quint16 zoneW = msg->uint16();
+        quint16 zoneH = msg->uint16();
+
+        QRect zoneToRefresh(zoneX,zoneY,zoneW,zoneH);
+
+        quint8 diameter = msg->uint8();
+        quint8 colorType = msg->uint8();
+        QColor color(msg->rgb());
+
+        Map* map = trouverCarte(idMap);
+
+        if(NULL!=map)
+        {
+            couleurSelectionee selectedColor;
+            selectedColor.color = color;
+            selectedColor.type = (typeCouleur)colorType;
+            map->dessinerTraceCrayon(&pointList,zoneToRefresh,diameter,selectedColor,idPlayer==G_idJoueurLocal);
+        }
+    }
+    else if(msg->action() == NetMsg::textPainting)
+    {
+        QString idMap = msg->string8();
+        QString text = msg->string16();
+        quint16 posx = msg->uint16();
+        quint16 posy = msg->uint16();
+        QPoint pos(posx,posy);
+
+        quint16 zoneX = msg->uint16();
+        quint16 zoneY = msg->uint16();
+        quint16 zoneW = msg->uint16();
+        quint16 zoneH = msg->uint16();
+
+        QRect zoneToRefresh(zoneX,zoneY,zoneW,zoneH);
+        quint8 colorType = msg->uint8();
+        QColor color(msg->rgb());
+
+        Map* map = trouverCarte(idMap);
+
+        if(NULL!=map)
+        {
+            couleurSelectionee selectedColor;
+            selectedColor.color = color;
+            selectedColor.type = (typeCouleur)colorType;
+
+            map->dessinerTraceTexte(text,pos,zoneToRefresh,selectedColor);
+
+        }
+    }
+    else if(msg->action() == NetMsg::handPainting)
+    {
+
+    }
+    else
+    {
+        QString idMap = msg->string8();
+        quint16 posx = msg->uint16();
+        quint16 posy = msg->uint16();
+        QPoint startPos(posx,posy);
+
+        quint16 endposx = msg->uint16();
+        quint16 endposy = msg->uint16();
+        QPoint endPos(endposx,endposy);
+
+
+        quint16 zoneX = msg->uint16();
+        quint16 zoneY = msg->uint16();
+        quint16 zoneW = msg->uint16();
+        quint16 zoneH = msg->uint16();
+
+        QRect zoneToRefresh(zoneX,zoneY,zoneW,zoneH);
+
+        quint8 diameter = msg->uint8();
+        quint8 colorType = msg->uint8();
+        QColor color(msg->rgb());
+        Map* map = trouverCarte(idMap);
+
+        if(NULL!=map)
+        {
+            couleurSelectionee selectedColor;
+            selectedColor.color = color;
+            selectedColor.type = (typeCouleur)colorType;
+
+            map->dessinerTraceGeneral((actionDessin)msg->action(),startPos,endPos,zoneToRefresh,diameter,selectedColor);
+        }
+
+
+    }
 }
