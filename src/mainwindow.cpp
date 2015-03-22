@@ -1069,7 +1069,7 @@ void MainWindow::afficherNumerosPnj(bool afficher)
     G_affichageNumeroPnj = afficher;
 }
 
-void MainWindow::mettreAJourEspaceTravail()
+void MainWindow::updateWorkspace()
 {
 
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
@@ -2075,27 +2075,44 @@ void MainWindow::parseCommandLineArguments(QStringList list)
 NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
 {
     NetWorkReceiver::SendType type;
-	switch(msg->category())
-	{
-		case NetMsg::PictureCategory:
-			processImageMessage(msg);
-            type = NetWorkReceiver::AllExceptMe;
-			break;
-        case NetMsg::MapCategory:
-            processMapMessage(msg);
-            type = NetWorkReceiver::AllExceptMe;
-            break;
-        case NetMsg::NPCCategory:
-            processNpcMessage(msg);
-            type = NetWorkReceiver::AllExceptMe;
-            break;
+    switch(msg->category())
+    {
+    case NetMsg::PictureCategory:
+        processImageMessage(msg);
+        type = NetWorkReceiver::AllExceptMe;
+        break;
+    case NetMsg::MapCategory:
+        processMapMessage(msg);
+        type = NetWorkReceiver::AllExceptMe;
+        break;
+    case NetMsg::NPCCategory:
+        processNpcMessage(msg);
+        type = NetWorkReceiver::AllExceptMe;
+        break;
     case NetMsg::DrawCategory:
         processPaintingMessage(msg);
         type = NetWorkReceiver::ALL;
         break;
-	}
+    case NetMsg::CharacterCategory:
+        processCharacterMessage(msg);
+        type = NetWorkReceiver::AllExceptMe;
+        break;
+    case NetMsg::ConnectionCategory:
+        processConnectionMessage(msg);
+        type = NONE;
+        break;
+    }
     return type;//NetWorkReceiver::AllExceptMe;
 }
+void MainWindow::processConnectionMessage(NetworkMessageReader* msg)
+{
+    if(msg->action() == NetMsg::EndConnectionAction)
+    {
+        notifyUser(tr("End of the connection process"));
+        updateWorkspace();
+    }
+}
+
 void MainWindow::processMapMessage(NetworkMessageReader* msg)
 {
 
@@ -2218,50 +2235,7 @@ void MainWindow::processNpcMessage(NetworkMessageReader* msg)
         if(msg->action() == NetMsg::addNpc)
         {
             Map* map = trouverCarte(idMap);
-            if(NULL!=map)
-            {
-                QString npcName = msg->string16();
-                QString npcId = msg->string8();
-                quint8 npcType = msg->uint8();
-                quint8 npcNumber = msg->uint8();
-                quint8 npcDiameter = msg->uint8();
-                QColor npcColor(msg->rgb());
-                quint16 npcXpos = msg->uint16();
-                quint16 npcYpos = msg->uint16();
-
-                quint16 npcXorient = msg->uint16();
-                quint16 npcYorient = msg->uint16();
-
-                QColor npcState(msg->rgb());
-                QString npcStateName = msg->string16();
-                quint16 npcStateNum = msg->uint16();
-
-                quint8 npcVisible = msg->uint8();
-                quint8 npcVisibleOrient = msg->uint8();
-
-                 QPoint orientation(npcXorient, npcYorient);
-
-                QPoint npcPos(npcXpos, npcYpos);
-                DessinPerso* npc = new DessinPerso(map, npcId, npcName, npcColor, npcDiameter, npcPos, (DessinPerso::typePersonnage)npcType, npcNumber);
-
-                if((npcVisible)||(npcType == DessinPerso::pnj && !G_joueur))
-                {
-                    npc->afficherPerso();
-                }
-                npc->nouvelleOrientation(orientation);
-                if(npcVisibleOrient)
-                {
-                    npc->afficheOuMasqueOrientation();
-                }
-
-                DessinPerso::etatDeSante health;
-                health.couleurEtat = npcState;
-                health.nomEtat = npcStateName;
-                npc->nouvelEtatDeSante(health, npcStateNum);
-                map->afficheOuMasquePnj(npc);
-
-
-            }
+            extractCharacter(map,msg);
 
         }
         else if(msg->action() == NetMsg::delNpc)
@@ -2383,3 +2357,138 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
 
     }
 }
+void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
+{
+    if(NULL!=map)
+    {
+        QString npcName = msg->string16();
+        QString npcId = msg->string8();
+        quint8 npcType = msg->uint8();
+        quint8 npcNumber = msg->uint8();
+        quint8 npcDiameter = msg->uint8();
+        QColor npcColor(msg->rgb());
+        quint16 npcXpos = msg->uint16();
+        quint16 npcYpos = msg->uint16();
+
+        quint16 npcXorient = msg->uint16();
+        quint16 npcYorient = msg->uint16();
+
+        QColor npcState(msg->rgb());
+        QString npcStateName = msg->string16();
+        quint16 npcStateNum = msg->uint16();
+
+        quint8 npcVisible = msg->uint8();
+        quint8 npcVisibleOrient = msg->uint8();
+
+         QPoint orientation(npcXorient, npcYorient);
+
+        QPoint npcPos(npcXpos, npcYpos);
+        DessinPerso* npc = new DessinPerso(map, npcId, npcName, npcColor, npcDiameter, npcPos, (DessinPerso::typePersonnage)npcType, npcNumber);
+
+        if((npcVisible)||(npcType == DessinPerso::pnj && !G_joueur))
+        {
+            npc->afficherPerso();
+        }
+        npc->nouvelleOrientation(orientation);
+        if(npcVisibleOrient)
+        {
+            npc->afficheOuMasqueOrientation();
+        }
+
+        DessinPerso::etatDeSante health;
+        health.couleurEtat = npcState;
+        health.nomEtat = npcStateName;
+        npc->nouvelEtatDeSante(health, npcStateNum);
+        map->afficheOuMasquePnj(npc);
+
+    }
+}
+
+void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
+{
+    if(NetMsg::addCharacterList == msg->action())
+    {
+        QString idMap = msg->string8();
+        quint16 characterNumber = msg->uint16();
+        Map* map = trouverCarte(idMap);
+
+        if(NULL!=map)
+        {
+            for(int i=0;i<characterNumber;++i)
+            {
+                extractCharacter(map,msg);
+            }
+        }
+    }
+    else if(NetMsg::moveCharacter == msg->action())
+    {
+        QString idMap = msg->string8();
+        QString idCharacter = msg->string8();
+        quint32 pointNumber = msg->uint32();
+
+
+        QList<QPoint> moveList;
+        QPoint point;
+        for (int i=0; i<pointNumber; i++)
+        {
+            quint16 posX = msg->uint16();
+            quint16 posY = msg->uint16();
+            point = QPoint(posX, posY);
+            moveList.append(point);
+        }
+        Map* map=trouverCarte(idMap);
+        if(NULL!=map)
+        {
+            map->lancerDeplacementPersonnage(idCharacter,moveList);
+        }
+    }
+    else if(NetMsg::changeCharacterState == msg->action())
+    {
+        QString idMap = msg->string8();
+        QString idCharacter = msg->string8();
+        quint16 stateNumber = msg->uint16();
+        Map* map=trouverCarte(idMap);
+        if(NULL!=map)
+        {
+            DessinPerso* character = map->trouverPersonnage(idCharacter);
+            if(NULL!=character)
+            {
+                character->changerEtatDeSante(stateNumber);
+            }
+        }
+    }
+    else if(NetMsg::changeCharacterOrientation == msg->action())
+    {
+        QString idMap = msg->string8();
+        QString idCharacter = msg->string8();
+        qint16 posX = msg->int16();
+        qint16 posY = msg->int16();
+        QPoint orientation(posX, posY);
+        Map* map=trouverCarte(idMap);
+        if(NULL!=map)
+        {
+            DessinPerso* character = map->trouverPersonnage(idCharacter);
+            if(NULL!=character)
+            {
+                character->nouvelleOrientation(orientation);
+            }
+        }
+
+    }
+    else if(NetMsg::showCharecterOrientation == msg->action())
+    {
+        QString idMap = msg->string8();
+        QString idCharacter = msg->string8();
+        quint8 showOrientation = msg->uint8();
+        Map* map=trouverCarte(idMap);
+        if(NULL!=map)
+        {
+            DessinPerso* character = map->trouverPersonnage(idCharacter);
+            if(NULL!=character)
+            {
+                character->afficherOrientation(showOrientation);
+            }
+        }
+    }
+}
+

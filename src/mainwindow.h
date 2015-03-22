@@ -104,7 +104,7 @@ public :
     /**
      * @brief mettreAJourEspaceTravail
      */
-    void mettreAJourEspaceTravail();
+    void updateWorkspace();
     /**
      * @brief trouverCarte
      * @param idCarte
@@ -252,6 +252,11 @@ protected :
     void processMapMessage(NetworkMessageReader* msg);
     void processNpcMessage(NetworkMessageReader* msg);
     void processPaintingMessage(NetworkMessageReader* msg);
+    void processCharacterMessage(NetworkMessageReader* msg);
+    void processConnectionMessage(NetworkMessageReader* msg);
+
+
+    void extractCharacter(Map* map,NetworkMessageReader* msg);
 private slots :
     void changementNatureUtilisateur();
     void afficherNomsPj(bool afficher);

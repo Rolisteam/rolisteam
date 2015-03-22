@@ -64,10 +64,8 @@ private :
     void receptionMessageJoueur();
     void receptionMessagePersoJoueur();
     void receptionMessagePersoNonJoueur();
-    void receptionMessagePersonnage();
-    void receptionMessageDessin();
-    void receptionMessageDiscussion();
-    void receivesMusicMessage();
+    //void receptionMessagePersonnage();
+   // void receptionMessageDessin();
     void receptionMessageParametres();
 
     void postTo(QObject * obj) const;

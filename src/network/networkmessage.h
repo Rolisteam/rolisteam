@@ -39,9 +39,9 @@ namespace NetMsg
 enum Category {
     ConnectionCategory,
     PlayerCategory,
-    CharacterCategory,
+    CharacterPlayerCategory,
     NPCCategory,
-    PersonCategory,
+    CharacterCategory,
     DrawCategory,
     MapCategory,
     PictureCategory,
@@ -72,6 +72,14 @@ enum Action {
     //NPCCategory
     addNpc =0,
     delNpc,
+
+    //CharacterCategory
+    addCharacterList=0,
+    moveCharacter,
+    changeCharacterState,
+    changeCharacterOrientation,
+    showCharecterOrientation,
+
 
     // MapCategory
     AddEmptyMap = 0,

@@ -641,7 +641,7 @@ void ToolBar::sendNewCharacterSize(int size)
     changeCharacterSize(size);
     if(m_currentTool != ajoutPnj)
     {
-        NetworkMessageWriter message (NetMsg::CharacterCategory, NetMsg::ChangeCharacterSizeAction);
+        NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::ChangeCharacterSizeAction);
         message.string8(m_map->identifiantCarte());
         message.string8(m_map->getLastSelectedCharacterId());
         message.uint8(size - 11);

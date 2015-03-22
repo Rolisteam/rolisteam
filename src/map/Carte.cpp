@@ -1384,7 +1384,7 @@ void Map::toggleCharacterView(Character * character)
     {
         affichageDuPj(uuid, newState);
 
-        NetworkMessageWriter message(NetMsg::CharacterCategory, NetMsg::ToggleViewCharacterAction);
+        NetworkMessageWriter message(NetMsg::CharacterPlayerCategory, NetMsg::ToggleViewCharacterAction);
         message.string8(idCarte);
         message.string8(uuid);
         message.uint8(newState ? 1 : 0);
