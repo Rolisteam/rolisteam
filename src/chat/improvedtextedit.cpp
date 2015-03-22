@@ -21,16 +21,16 @@
  *************************************************************************/
 
 
-#include "TextEditAmeliore.h"
+#include "chat/improvedtextedit.h"
 
 static const int MaxHistorySize = 100;
 
-TextEditAmeliore::TextEditAmeliore(QWidget *parent)
+ImprovedTextEdit::ImprovedTextEdit(QWidget *parent)
     : QTextEdit(parent)
 {
 }
 
-void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
+void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key())
     {
@@ -99,7 +99,7 @@ void TextEditAmeliore::keyPressEvent(QKeyEvent *e)
             QTextEdit::keyPressEvent(e);
     }
 }
-void TextEditAmeliore::focusInEvent(QFocusEvent *e)
+void ImprovedTextEdit::focusInEvent(QFocusEvent *e)
 {
     if(e->gotFocus())
     {

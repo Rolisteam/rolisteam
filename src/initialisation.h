@@ -31,8 +31,8 @@
 /**
  * @brief Hold session parameters
  * @note
- * This class comes from a struct. A usefull constructor and destructor that read and write from/to
- * a file has been haded. But all members are still publics.
+ * This class comes from a struct. A useful constructor and destructor that read and write from/to
+ * a file has been added.
  */
 class Initialisation
 {

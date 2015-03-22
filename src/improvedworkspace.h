@@ -27,7 +27,7 @@
 #include <QMdiArea>
 
 
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 
 
 

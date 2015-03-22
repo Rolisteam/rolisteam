@@ -29,7 +29,7 @@
 #include <QLineEdit>
 #include <QSet>
 
-#include "playerslistproxy.h"
+#include "userlist/playerslistproxy.h"
 
 class Player;
 class PrivateChat;

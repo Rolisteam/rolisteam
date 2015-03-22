@@ -30,10 +30,10 @@
 
 #include "map/map.h"
 #include "network/networkmessagewriter.h"
-#include "SelecteurCouleur.h"
-#include "SelecteurDiametre.h"
-#include "playersList.h"
-#include "persons.h"
+#include "widgets/colorselector.h"
+#include "widgets/diameterselector.h"
+#include "userlist/playersList.h"
+#include "data/persons.h"
 
 #include "variablesGlobales.h"
 

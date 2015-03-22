@@ -23,7 +23,7 @@
 #include <QtGui>
 #include <QDebug>
 
-#include "AfficheurDisque.h"
+#include "widgets/circledisplayer.h"
 
 #define MARGIN_NPC 10
 #define MARGIN_PC 5

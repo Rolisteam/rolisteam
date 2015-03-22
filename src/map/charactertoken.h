@@ -41,7 +41,7 @@
 #include <QPoint>
 
 #include "network/networkmessagewriter.h"
-//#include "playersList.h"
+//#include "userlist/playersList.h"
 /**
  * @brief The DessinPerso class
  */

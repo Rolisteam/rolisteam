@@ -31,7 +31,7 @@
 #include <QSet>
 #include <QTreeView>
 
-#include "playerslistproxy.h"
+#include "userlist/playerslistproxy.h"
 
 class Map;
 class PersonDialog;

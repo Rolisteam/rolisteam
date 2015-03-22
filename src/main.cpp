@@ -36,7 +36,7 @@
 #include "network/networkmanager.h"
 #include "initialisation.h"
 #include "mainwindow.h"
-#include "persons.h"
+#include "data/persons.h"
 
 
 #include "variablesGlobales.h"

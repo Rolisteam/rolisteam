@@ -38,9 +38,9 @@
 #include "initialisation.h"
 #include "localpersonmodel.h"
 #include "mainwindow.h"
-#include "persons.h"
-#include "playersList.h"
-#include "TextEditAmeliore.h"
+#include "data/persons.h"
+#include "userlist/playersList.h"
+#include "chat/improvedtextedit.h"
 
 #include "types.h"
 #include "variablesGlobales.h"
@@ -68,7 +68,7 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     }
     //ui->m_characterComboBox->setModel(&LocalPersonModel::instance());
     //ui->m_displayArea = new ChatBrowser();
-    //ui->m_typingArea = new TextEditAmeliore();
+    //ui->m_typingArea = new ImprovedTextEdit();
 
     // Initialisation des variables
     m_warnedEmoteUnavailable = false;
@@ -131,7 +131,7 @@ void ChatWindow::setupUi()
 
 
 
-    m_editionZone = new TextEditAmeliore();
+    m_editionZone = new ImprovedTextEdit();
     m_editionZone->setReadOnly(false);
     m_editionZone->setMinimumHeight(30);
     m_editionZone->setAcceptRichText(false);

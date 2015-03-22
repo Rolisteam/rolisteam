@@ -23,8 +23,8 @@
 #ifndef LOCAL_PERSON_MODEL_H
 #define LOCAL_PERSON_MODEL_H
 
-#include "playerslistproxy.h"
-#include "playersList.h"
+#include "userlist/playerslistproxy.h"
+#include "userlist/playersList.h"
 
 /**
  * @brief The LocalPersonModel class

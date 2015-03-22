@@ -28,8 +28,8 @@
 #include <QVBoxLayout>
 
 #include "chat/chat.h"
-#include "persons.h"
-#include "playersList.h"
+#include "data/persons.h"
+#include "userlist/playersList.h"
 
 
 /**************************

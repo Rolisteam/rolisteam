@@ -39,7 +39,7 @@
 
 #include "toolbar.h"
 
-#include "playersList.h"
+#include "userlist/playersList.h"
 
 #include "network/networkmessage.h"
 class Character;

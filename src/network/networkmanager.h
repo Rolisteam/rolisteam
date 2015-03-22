@@ -36,8 +36,8 @@
 
 #include "initialisation.h"
 #include "connectionretrydialog.h"
-#include "preferencesmanager.h"
-#include "playersList.h"
+#include "preferences/preferencesmanager.h"
+#include "userlist/playersList.h"
 #include "variablesGlobales.h"
 
 class Player;

@@ -29,10 +29,10 @@
 #include "map/map.h"
 #include "map/bipmapwindow.h"
 #include "network/networkmanager.h"
-#include "map/DessinPerso.h"
+#include "map/charactertoken.h"
 #include "Image.h"
-#include "persons.h"
-#include "playersList.h"
+#include "data/persons.h"
+#include "userlist/playersList.h"
 #include "network/receiveevent.h"
 
 #ifndef NULL_PLAYER
@@ -207,10 +207,6 @@ void NetworkLink::reception()
                 case NetMsg::SetupCategory :
                     processSetupMessage(&data);
                     break;
-                default :
-                    qWarning()<< tr("Unknown network package received!");
-                    //receptionEnCours = false;
-                    break;
             }
             // On libere le tampon
             delete[] tampon;
@@ -264,7 +260,6 @@ void NetworkLink::processSetupMessage(NetworkMessageReader* msg)
 }
 void NetworkLink::faireSuivreMessage(bool tous)
 {
-    // Uniquement si l'ordinateur local est le serveur
     if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         char *donnees = new char[entete.dataSize + sizeof(NetworkMessageHeader)];

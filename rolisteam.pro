@@ -69,39 +69,35 @@ INSTALLS +=TARGET
 include(src/odt/src/src.pri)
 
 ## Source
-HEADERS += src/AfficheurDisque.h \
+HEADERS += \
 	   src/chat/chat.h \
 	   src/chat/chatlist.h \
 	   src/chat/chatlistwidget.h \
 	   src/network/connectiondialog.h \
            src/delegate.h \
-	   src/map/DessinPerso.h \
            src/Features.h \
            src/Image.h \
            src/localpersonmodel.h \
            src/network/networkmessage.h \
            src/network/networkmessagereader.h \
            src/network/networkmessagewriter.h \
-           src/persons.h \
+           src/data/persons.h \
            src/persondialog.h \
-           src/playersList.h \
-           src/playerslistproxy.h \
-           src/playersListWidget.h \
-           src/preferencesdialog.h \
-           src/privatechatdialog.h \
+           src/userlist/playersList.h \
+           src/userlist/playerslistproxy.h \
+           src/userlist/playersListWidget.h \
+           src/preferences/preferencesdialog.h \
+           src/chat/privatechatdialog.h \
 	   src/network/receiveevent.h \
-           src/SelecteurCouleur.h \
-           src/SelecteurDiametre.h \
 	   src/chat/chatwindow.h \
-           src/TextEditAmeliore.h \
            src/types.h \
-           src/updatechecker.h \
+           src/services/updatechecker.h \
            src/variablesGlobales.h \
     src/network/connectionretrydialog.h \
     src/mainwindow.h \
-    src/preferencesmanager.h \
+    src/preferences/preferencesmanager.h \
     src/chat/chatbrowser.h \
-    src/ipchecker.h \
+    src/services/ipchecker.h \
     src/map/mapwizzard.h \
     src/map/newemptymapdialog.h \
     src/widgets/colorbutton.h \
@@ -115,17 +111,21 @@ HEADERS += src/AfficheurDisque.h \
     src/improvedworkspace.h \
     src/network/networklink.h \
     src/map/bipmapwindow.h \
-    src/map/map.h
+    src/map/map.h \
+    src/widgets/colorselector.h \
+    src/widgets/diameterselector.h \
+    src/chat/improvedtextedit.h \
+    src/widgets/circledisplayer.h \
+    src/map/charactertoken.h
 
 
 
-SOURCES += src/AfficheurDisque.cpp \
+SOURCES += \
 	   src/chat/chat.cpp \
 	   src/chat/chatlist.cpp \
 	   src/chat/chatlistwidget.cpp \
 	   src/network/connectiondialog.cpp \
            src/delegate.cpp \
-	   src/map/DessinPerso.cpp \
            src/Features.cpp \
            src/Image.cpp \
            src/initialisation.cpp \
@@ -134,24 +134,21 @@ SOURCES += src/AfficheurDisque.cpp \
            src/network/networkmessage.cpp \
            src/network/networkmessagereader.cpp \
            src/network/networkmessagewriter.cpp \
-           src/persons.cpp \
+           src/data/persons.cpp \
            src/persondialog.cpp \
-           src/playersList.cpp \
-           src/playerslistproxy.cpp \
-           src/playersListWidget.cpp \
-           src/preferencesdialog.cpp \
-           src/privatechatdialog.cpp \
+           src/userlist/playersList.cpp \
+           src/userlist/playerslistproxy.cpp \
+           src/userlist/playersListWidget.cpp \
+           src/preferences/preferencesdialog.cpp \
+           src/chat/privatechatdialog.cpp \
 	   src/network/receiveevent.cpp \
-           src/SelecteurCouleur.cpp \
-           src/SelecteurDiametre.cpp \
 	   src/chat/chatwindow.cpp \
-           src/TextEditAmeliore.cpp \
-           src/updatechecker.cpp \
+           src/services/updatechecker.cpp \
     src/network/connectionretrydialog.cpp \
     src/mainwindow.cpp \
-    src/preferencesmanager.cpp \
+    src/preferences/preferencesmanager.cpp \
     src/chat/chatbrowser.cpp \
-    src/ipchecker.cpp \
+    src/services/ipchecker.cpp \
     src/map/mapwizzard.cpp \
     src/map/newemptymapdialog.cpp \
     src/widgets/colorbutton.cpp \
@@ -164,7 +161,12 @@ SOURCES += src/AfficheurDisque.cpp \
     src/improvedworkspace.cpp \
     src/network/networklink.cpp \
     src/map/bipmapwindow.cpp \
-    src/map/map.cpp
+    src/map/map.cpp \
+    src/widgets/colorselector.cpp \
+    src/widgets/diameterselector.cpp \
+    src/chat/improvedtextedit.cpp \
+    src/map/characterdtoken.cpp \
+    src/widgets/circledisplayer.cpp
 #end source
 
 
@@ -218,7 +220,7 @@ FORMS += \
     src/map/mapwizzard.ui \
     src/map/newemptymapdialog.ui \
     src/chat/chatwindow.ui \
-    src/preferencesdialogbox.ui \
+    src/preferences/preferencesdialogbox.ui \
     src/audio/audiowidget.ui
 
 INCLUDEPATH +=src/audio

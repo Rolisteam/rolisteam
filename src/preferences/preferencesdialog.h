@@ -28,7 +28,7 @@
 #include <QCheckBox>
 
 
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 #include "widgets/colorbutton.h"
 
 

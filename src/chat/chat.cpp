@@ -25,10 +25,10 @@
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "persons.h"
-#include "playersList.h"
+#include "data/persons.h"
+#include "userlist/playersList.h"
 #include "network/receiveevent.h"
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 
 
 /****************

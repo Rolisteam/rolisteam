@@ -44,7 +44,7 @@
 #include <QEvent>
 
 #include "types.h"
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 #include "musicmodel.h"
 #include "playerwidget.h"
 #include "network/networkreceiver.h"

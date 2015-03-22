@@ -21,7 +21,7 @@
  *************************************************************************/
 
 
-#include "persons.h"
+#include "data/persons.h"
 
 #include <QUuid>
 

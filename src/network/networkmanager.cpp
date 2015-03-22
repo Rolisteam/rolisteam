@@ -31,7 +31,7 @@
 #include "initialisation.h"
 #include "network/networklink.h"
 #include "mainwindow.h"
-#include "persons.h"
+#include "data/persons.h"
 #include "audio/audioPlayer.h"
 
 

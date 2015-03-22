@@ -5,7 +5,7 @@
 
 
 
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 #include "map/map.h"
 
 namespace Ui {

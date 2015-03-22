@@ -28,28 +28,28 @@
 #include <QKeyEvent>
 
 /**
- * @brief The TextEditAmeliore class
+ * @brief The ImprovedTextEdit class
  */
-class TextEditAmeliore : public QTextEdit
+class ImprovedTextEdit : public QTextEdit
 {
-    Q_OBJECT
+Q_OBJECT
 
-    public :
-        TextEditAmeliore(QWidget *parent = 0);
+public :
+    ImprovedTextEdit(QWidget *parent = 0);
 
-    signals :
-        void textValidated(QString textHtml,QString text);
-        void ctrlUp();
-        void ctrlDown();
+signals :
+    void textValidated(QString textHtml,QString text);
+    void ctrlUp();
+    void ctrlDown();
     void receivedFocus();
 
-    protected :
-        void keyPressEvent(QKeyEvent *e);
-    void focusInEvent(QFocusEvent *e);
+protected :
+    void keyPressEvent(QKeyEvent *e);
+void focusInEvent(QFocusEvent *e);
 
-    private:
-        QStringList m_history;
-        int m_histPos;
+private:
+    QStringList m_history;
+    int m_histPos;
 };
 
 #endif

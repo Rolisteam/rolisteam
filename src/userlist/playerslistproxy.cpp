@@ -21,9 +21,9 @@
  *************************************************************************/
 
 
-#include "playerslistproxy.h"
+#include "userlist/playerslistproxy.h"
 
-#include "playersList.h"
+#include "userlist/playersList.h"
 
 
 /*************************

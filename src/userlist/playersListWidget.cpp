@@ -27,9 +27,9 @@
 
 #include "map/map.h"
 #include "delegate.h"
-#include "persons.h"
+#include "data/persons.h"
 #include "persondialog.h"
-#include "playersList.h"
+#include "userlist/playersList.h"
 
 
 /**************************

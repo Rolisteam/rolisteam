@@ -25,12 +25,12 @@
 #include <QDebug>
 
 
-#include "playersList.h"
+#include "userlist/playersList.h"
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "Features.h"
-#include "persons.h"
+#include "data/persons.h"
 #include "network/receiveevent.h"
 
 #include "types.h"

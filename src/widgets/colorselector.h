@@ -37,7 +37,7 @@
 #include <QLabel>
 
 
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 #include "types.h"
 
 class QHBoxLayout;

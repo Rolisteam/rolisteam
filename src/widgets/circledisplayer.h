@@ -19,14 +19,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-/********************************************************************/
-/*                                                                  */
-/* Widget affichant un disque : utilise par SelecteurDiametre.      */
-/*                                                                  */
-/********************************************************************/
-
-
 #ifndef AFFICHEUR_DISQUE_H
 #define AFFICHEUR_DISQUE_H
 

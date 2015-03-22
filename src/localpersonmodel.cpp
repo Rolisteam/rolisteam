@@ -22,7 +22,7 @@
 
 #include "localpersonmodel.h"
 
-#include "persons.h"
+#include "data/persons.h"
 
 
 LocalPersonModel::LocalPersonModel()

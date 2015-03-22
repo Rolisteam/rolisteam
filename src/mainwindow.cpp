@@ -50,11 +50,11 @@
 #include "Image.h"
 #include "network/networkmessagewriter.h"
 
-#include "persons.h"
-#include "playersList.h"
-#include "playersListWidget.h"
-#include "preferencesdialog.h"
-#include "updatechecker.h"
+#include "data/persons.h"
+#include "userlist/playersList.h"
+#include "userlist/playersListWidget.h"
+#include "preferences/preferencesdialog.h"
+#include "services/updatechecker.h"
 #include "improvedworkspace.h"
 
 

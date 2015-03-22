@@ -44,7 +44,7 @@
 #include "improvedworkspace.h"
 #include "mainwindow.h"
 #include "toolbar.h"
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 
 class NetworkLink;
 class NetworkMessageWriter;

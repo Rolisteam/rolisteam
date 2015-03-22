@@ -26,7 +26,7 @@
 #include <QContextMenuEvent>
 #include <QMenu>
 
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 #include "musicmodel.h"
 
 namespace Ui {

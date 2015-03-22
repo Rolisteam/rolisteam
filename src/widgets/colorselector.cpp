@@ -23,7 +23,7 @@
 #include <QMouseEvent>
 #include <QColorDialog>
 
-#include "SelecteurCouleur.h"
+#include "widgets/colorselector.h"
 #include "variablesGlobales.h"
 
 

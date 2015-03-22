@@ -25,12 +25,12 @@
 
 #include "chat/chat.h"
 #include "network/networkmessagereader.h"
-#include "persons.h"
-#include "playersList.h"
+#include "data/persons.h"
+#include "userlist/playersList.h"
 #include "network/receiveevent.h"
 #include "chatwindow.h"
 #include "mainwindow.h"
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 
 BlinkingDecorationDelegate::BlinkingDecorationDelegate()
 {

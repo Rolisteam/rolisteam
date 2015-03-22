@@ -32,7 +32,7 @@
 #include <QMdiSubWindow>
 
 #include "network/networkmessage.h"
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 #include "widgets/colorbutton.h"
 #include "chatbrowser.h"
 
@@ -41,7 +41,7 @@
 class AbstractChat;
 class MainWindow;
 class Player;
-class TextEditAmeliore;
+class ImprovedTextEdit;
 
 namespace Ui {
 class ChatWindow;
@@ -108,7 +108,7 @@ private :
 
     ChatBrowser * m_displayZone;         // Zone de texte ou s'affichent les messages
     QComboBox * m_selectPersonComboBox;
-    TextEditAmeliore * m_editionZone;    // Zone de texte ou l'utilisateur peut ecrire
+    ImprovedTextEdit * m_editionZone;    // Zone de texte ou l'utilisateur peut ecrire
     QAction * m_toggleViewAction;
     QSplitter* m_splitter;
     QWidget * m_bottomWidget;

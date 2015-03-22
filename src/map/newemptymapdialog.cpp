@@ -4,7 +4,7 @@
 #include "map/newemptymapdialog.h"
 #include "ui_newemptymapdialog.h"
 
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 
 QStringList  NewEmptyMapDialog::m_permissionData = QStringList() ;
 

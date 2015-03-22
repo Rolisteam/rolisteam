@@ -29,14 +29,14 @@
 #include <QBuffer>
 
 #include "network/networkmessagewriter.h"
-#include "map/DessinPerso.h"
+#include "map/charactertoken.h"
 #include "network/networklink.h"
-#include "persons.h"
-#include "playersList.h"
+#include "data/persons.h"
+#include "userlist/playersList.h"
 
 #include "variablesGlobales.h"
 #include <QDebug>
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 
 
 

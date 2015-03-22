@@ -36,10 +36,10 @@
 
 
 
-#include "map/DessinPerso.h"
+#include "map/charactertoken.h"
 #include "initialisation.h"
-#include "preferencesmanager.h"
-#include "ipchecker.h"
+#include "preferences/preferencesmanager.h"
+#include "services/ipchecker.h"
 #include "map/mapwizzard.h"
 #include "map/newemptymapdialog.h"
 

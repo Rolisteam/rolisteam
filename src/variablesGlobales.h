@@ -33,9 +33,9 @@
 #include <QList>
 
 #include "toolbar.h"
-#include "map/DessinPerso.h"
+#include "map/charactertoken.h"
 #include "initialisation.h"
-#include "SelecteurCouleur.h"
+#include "widgets/colorselector.h"
 
 class NetworkManager;
 class NetworkLink;
