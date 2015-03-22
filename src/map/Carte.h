@@ -52,14 +52,14 @@ class NetworkLink;
  * to hide part of the picture. Character are displayed thank to widgets
  * DessinPerso.
  */
-class Carte : public QWidget
+class Map : public QWidget
 {
     Q_OBJECT
 
 
 public :
-    Carte(QString identCarte, QImage *image, bool masquer = false, QWidget *parent = 0);
-    Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent = 0);
+    Map(QString identCarte, QImage *image, bool masquer = false, QWidget *parent = 0);
+    Map(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent = 0);
 
     enum PermissionMode{GM_ONLY, PC_MOVE,PC_ALL };
 
@@ -91,8 +91,8 @@ public :
 
     QString getLastSelectedCharacterId();
     bool selectCharacter(QString& id);
-    void setPermissionMode(Carte::PermissionMode mode);
-    Carte::PermissionMode getPermissionMode();
+    void setPermissionMode(Map::PermissionMode mode);
+    Map::PermissionMode getPermissionMode();
 
     void setHasPermissionMode(bool b);
     bool hasPermissionMode();
@@ -177,7 +177,7 @@ private :
     QList<QPoint> listePointsCrayon;    // liste des points composant le trace du crayon, qui sera emise aux autres utilisateurs
     QList<QPoint> listeDeplacement;        // liste des points composant le deplacement du perso qui vient d'etre deplace par l'utilisateur
     QList<PersoEnMouvement> mouvements;    // liste des personnages a deplacer, ainsi que leur trajectoire
-    Carte::PermissionMode m_currentMode;
+    Map::PermissionMode m_currentMode;
     ToolBar::Tool m_currentTool;
     Player* m_localPlayer;
     qreal m_scaleY;

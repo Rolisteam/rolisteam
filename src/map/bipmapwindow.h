@@ -34,7 +34,7 @@
 
 #include "mainwindow.h"
 
-class Carte;
+class Map;
 
 /**
  * @brief The BipMapWindow class - is the scroll area which manages the display of map.
@@ -49,7 +49,7 @@ public :
      * @param uneCarte - the embedded map
      * @param parent - parent QWidget
      */
-    BipMapWindow(Carte *uneCarte, QWidget *parent = 0);
+    BipMapWindow(Map *uneCarte, QWidget *parent = 0);
     /**
      *
      */
@@ -58,7 +58,7 @@ public :
      * @brief carte
      * @return
      */
-    Carte *carte();
+    Map *carte();
     /**
      * @brief getMapId
      * @return
@@ -77,7 +77,7 @@ signals:
      * @brief activated
      * @param carte
      */
-    void activated(Carte * carte);
+    void activated(Map * carte);
     /**
      * @brief visibleChanged
      */
@@ -122,7 +122,7 @@ protected :
     void showEvent ( QShowEvent * event );
 
 private :
-    Carte *carteAssociee;
+    Map *carteAssociee;
     QPoint pointDepart;
     int horizontalDepart;
     int verticalDepart;

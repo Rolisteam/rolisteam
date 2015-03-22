@@ -103,7 +103,7 @@ bool PlayersListWidgetModel::setData(const QModelIndex &index, const QVariant &v
     return QAbstractProxyModel::setData(index, value, role);
 }
 
-void PlayersListWidgetModel::changeMap(Carte * map)
+void PlayersListWidgetModel::changeMap(Map * map)
 {
     if (map == m_map)
         return;

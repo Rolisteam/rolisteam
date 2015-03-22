@@ -40,11 +40,11 @@
 //GM_ONLY, PC_MOVE,PC_ALL
 
 
-Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
+Map::Map(QString identCarte, QImage *image, bool masquer, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
 
-    m_currentMode = Carte::GM_ONLY;
+    m_currentMode = Map::GM_ONLY;
     m_currentTool = ToolBar::main;
 
     m_originalBackground = new QImage(image->size(), QImage::Format_ARGB32);
@@ -63,7 +63,7 @@ Carte::Carte(QString identCarte, QImage *image, bool masquer, QWidget *parent)
 }
 
 
-void Carte::p_init()
+void Map::p_init()
 {
     initCursor();
     effaceAlpha = new QImage(m_originalBackground->size(), QImage::Format_ARGB32_Premultiplied);
@@ -133,11 +133,11 @@ void Carte::p_init()
 }
 
 
-Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
+Map::Map(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
 
-    m_currentMode = Carte::GM_ONLY;
+    m_currentMode = Map::GM_ONLY;
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
     // Creation de l'image de fond originale qui servira a effacer
@@ -155,7 +155,7 @@ Carte::Carte(QString identCarte, QImage *original, QImage *avecAnnotations, QIma
     p_init();
 }
 
-void Carte::initCursor()
+void Map::initCursor()
 {
 
     //InitMousePointer(&G_pointeurTexte, ":/resources/icones/pointeur texte.png", 4, 13); //strange values here
@@ -177,7 +177,7 @@ void Carte::initCursor()
 
 }
 
-void Carte::paintEvent(QPaintEvent *event)
+void Map::paintEvent(QPaintEvent *event)
 {
 
     QPainter painter(this);
@@ -213,7 +213,7 @@ void Carte::paintEvent(QPaintEvent *event)
     /*painter.setBrush(Qt::black);
     painter.fillRect(m_refreshZone,Qt::black);*/
 }
-QPoint Carte::mapToScale(const QPoint & p)
+QPoint Map::mapToScale(const QPoint & p)
 {
     QPoint tmp = p;
     m_scaleX=(qreal)fondAlpha->rect().width()/rect().width();
@@ -226,7 +226,7 @@ QPoint Carte::mapToScale(const QPoint & p)
 
     return tmp;
 }
-QPoint Carte::mapToNormal(const QPoint & p)
+QPoint Map::mapToNormal(const QPoint & p)
 {
     QPoint tmp;
    /* m_origineScalePoint = m_scalePoint;
@@ -235,7 +235,7 @@ QPoint Carte::mapToNormal(const QPoint & p)
     tmp.setY(p.y()/m_scaleY);
     return tmp;
 }
-void Carte::mousePressEvent(QMouseEvent *event)
+void Map::mousePressEvent(QMouseEvent *event)
 {
     QPoint pos = mapToScale(event->pos());
 
@@ -250,7 +250,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
             if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj ||
                 m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
             {
-                if((!G_joueur)||(Carte::PC_ALL==m_currentMode)||(Carte::PC_MOVE == m_currentMode))
+                if((!G_joueur)||(Map::PC_ALL==m_currentMode)||(Map::PC_MOVE == m_currentMode))
                 {
                     actionPnjBoutonEnfonce(pos);
                 }
@@ -271,7 +271,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
         else
         {
                 if(((!G_joueur))||
-                  (((m_currentMode == Carte::PC_ALL))))
+                  (((m_currentMode == Map::PC_ALL))))
                 {
                         m_originePoint = m_mousePoint = pos;
                         zoneOrigine = zoneNouvelle = zoneARafraichir();
@@ -378,7 +378,7 @@ void Carte::mousePressEvent(QMouseEvent *event)
 }
 
 
-void Carte::mouseReleaseEvent(QMouseEvent *event)
+void Map::mouseReleaseEvent(QMouseEvent *event)
 {
       QPoint pos = mapToScale(event->pos());
 
@@ -435,7 +435,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
             }
 
             if(((!G_joueur))||
-              (((m_currentMode == Carte::PC_ALL))))
+              (((m_currentMode == Map::PC_ALL))))
             {
                  m_mousePoint = pos;
                 zoneNouvelle = zoneARafraichir();
@@ -464,7 +464,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
                 afficheOuMasquePnj();
             }
             if((!G_joueur)||
-              (((m_currentMode == Carte::PC_ALL))))
+              (((m_currentMode == Map::PC_ALL))))
             {
 
                 emettreTrace();
@@ -537,7 +537,7 @@ void Carte::mouseReleaseEvent(QMouseEvent *event)
 }
 
 
-void Carte::mouseMoveEvent(QMouseEvent *event)
+void Map::mouseMoveEvent(QMouseEvent *event)
 {
       QPoint pos = mapToScale(event->pos());
 
@@ -561,7 +561,7 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
         else
         {
             if((!G_joueur)||
-              (((m_currentMode == Carte::PC_ALL))))
+              (((m_currentMode == Map::PC_ALL))))
             {
                 //m_originePoint = m_mousePoint;
                 m_mousePoint = pos;
@@ -600,7 +600,7 @@ void Carte::mouseMoveEvent(QMouseEvent *event)
 }
 
 
-void Carte::dessiner(QPainter &painter)
+void Map::dessiner(QPainter &painter)
 {
     QColor couleurPinceau;
     
@@ -775,7 +775,7 @@ void Carte::dessiner(QPainter &painter)
         qWarning() << tr("undefined drawing tools (dessiner - Carte.cpp)");
 }
 
-QRect Carte::zoneARafraichir()
+QRect Map::zoneARafraichir()
 {
     QRect resultat;
     
@@ -866,7 +866,7 @@ QRect Carte::zoneARafraichir()
 }
 
 
-bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, const QRect &rect)
+bool Map::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, const QRect &rect)
 {
     if (source->size() != destination->size() || source->size() != alpha->size())
     {
@@ -911,11 +911,11 @@ bool Carte::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, con
 }
 
 
-void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
+void Map::actionPnjBoutonEnfonce(QPoint positionSouris)
 {
     if (m_currentTool == ToolBar::ajoutPnj)
     {
-        if((!G_joueur)||(Carte::PC_ALL==m_currentMode))
+        if((!G_joueur)||(Map::PC_ALL==m_currentMode))
         {
             if (G_couleurCourante.type == qcolor)
             {
@@ -939,8 +939,8 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
         if (pnj)
         {
             if((!G_joueur)||
-               (Carte::PC_ALL==m_currentMode)||
-                    ((Carte::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )//if not found -1
+               (Map::PC_ALL==m_currentMode)||
+                    ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )//if not found -1
             {
                 if (m_currentTool == ToolBar::supprPnj)
                 {
@@ -1065,7 +1065,7 @@ void Carte::actionPnjBoutonEnfonce(QPoint positionSouris)
 }
 
 
-void Carte::actionPnjBoutonRelache(QPoint positionSouris)
+void Map::actionPnjBoutonRelache(QPoint positionSouris)
 {
              Q_UNUSED(positionSouris)
     if (m_currentTool == ToolBar::ajoutPnj)
@@ -1112,8 +1112,8 @@ void Carte::actionPnjBoutonRelache(QPoint positionSouris)
         if (pnjSelectionne)
         {
             if((!G_joueur)||
-               (Carte::PC_ALL==m_currentMode)||
-               ((Carte::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
+               (Map::PC_ALL==m_currentMode)||
+               ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
             {
                 // Affiche ou masque le PNJ selon qu'il se trouve sur une zone masquee ou pas
                 afficheOuMasquePnj(pnjSelectionne);
@@ -1138,7 +1138,7 @@ void Carte::actionPnjBoutonRelache(QPoint positionSouris)
 }
 
 
-void Carte::actionPnjMouvementSouris(QPoint positionSouris)
+void Map::actionPnjMouvementSouris(QPoint positionSouris)
 {
     if (m_currentTool == ToolBar::ajoutPnj)
     {
@@ -1160,8 +1160,8 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
         if (pnjSelectionne)
         {
             if((!G_joueur)||
-               (Carte::PC_ALL==m_currentMode)||
-               ((Carte::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
+               (Map::PC_ALL==m_currentMode)||
+               ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
             {
                 // On verifie que la souris reste dans les limites de la carte
                 if ( QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris, true) )
@@ -1185,7 +1185,7 @@ void Carte::actionPnjMouvementSouris(QPoint positionSouris)
 }
 
 
-DessinPerso* Carte::dansDessinPerso(QPoint positionSouris)
+DessinPerso* Map::dansDessinPerso(QPoint positionSouris)
 {
     DessinPerso *resultat;
     DessinPerso *dessinPnj;
@@ -1259,7 +1259,7 @@ DessinPerso* Carte::dansDessinPerso(QPoint positionSouris)
 }
 
 
-void Carte::afficheOuMasquePnj(DessinPerso *pnjSeul)
+void Map::afficheOuMasquePnj(DessinPerso *pnjSeul)
 {
     QObjectList enfants;
     int i, j, masque, affiche;
@@ -1337,7 +1337,7 @@ void Carte::afficheOuMasquePnj(DessinPerso *pnjSeul)
 }
 
 
-void Carte::changerTaillePjCarte(int nouvelleTaille, bool updatePj)
+void Map::changerTaillePjCarte(int nouvelleTaille, bool updatePj)
 {
     taillePj = nouvelleTaille;
     if((updatePj)&&(dernierPnjSelectionne!=NULL))
@@ -1347,13 +1347,13 @@ void Carte::changerTaillePjCarte(int nouvelleTaille, bool updatePj)
         //emit changerTaillePj(nouvelleTaille);
 }
 
-int Carte::tailleDesPj()
+int Map::tailleDesPj()
 {
     return taillePj;
 }
 
 
-DessinPerso* Carte::trouverPersonnage(QString idPerso)
+DessinPerso* Map::trouverPersonnage(QString idPerso)
 {
     DessinPerso *perso=NULL;
     bool ok = false;
@@ -1376,11 +1376,11 @@ DessinPerso* Carte::trouverPersonnage(QString idPerso)
     return perso;
 }
 
-void Carte::toggleCharacterView(Character * character)
+void Map::toggleCharacterView(Character * character)
 {
     QString uuid = character->uuid();
     bool newState = !pjAffiche(uuid);
-    if((!G_joueur)||(Carte::PC_ALL==m_currentMode)||(Carte::PC_MOVE == m_currentMode))
+    if((!G_joueur)||(Map::PC_ALL==m_currentMode)||(Map::PC_MOVE == m_currentMode))
     {
         affichageDuPj(uuid, newState);
 
@@ -1394,7 +1394,7 @@ void Carte::toggleCharacterView(Character * character)
 }
 
 
-void Carte::affichageDuPj(QString idPerso, bool afficher)
+void Map::affichageDuPj(QString idPerso, bool afficher)
 {
     // Recherche du PJ
     DessinPerso *pj = trouverPersonnage(idPerso);
@@ -1416,7 +1416,7 @@ void Carte::affichageDuPj(QString idPerso, bool afficher)
 }
 
 
-bool Carte::pjAffiche(QString idPerso)
+bool Map::pjAffiche(QString idPerso)
 {
     // Recherche du PJ
     DessinPerso *pj = trouverPersonnage(idPerso);
@@ -1430,13 +1430,13 @@ bool Carte::pjAffiche(QString idPerso)
     return pj->estVisible();
 }
 
-void Carte::addCharacter(Character * person)
+void Map::addCharacter(Character * person)
 {
     new DessinPerso(this, person->uuid(), person->name(), person->color(), taillePj, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), DessinPerso::pj);
 }
 
 
-void Carte::eraseCharacter(QString idPerso)
+void Map::eraseCharacter(QString idPerso)
 {
     // Recherche du personnage
     DessinPerso *perso = trouverPersonnage(idPerso);
@@ -1450,7 +1450,7 @@ void Carte::eraseCharacter(QString idPerso)
     perso->~DessinPerso();
 }
 
-void Carte::delCharacter(Character * person)
+void Map::delCharacter(Character * person)
 {
     DessinPerso * pj = trouverPersonnage(person->uuid());
     if (pj == NULL)
@@ -1463,7 +1463,7 @@ void Carte::delCharacter(Character * person)
     delete pj;
 }
 
-void Carte::changeCharacter(Character * person)
+void Map::changeCharacter(Character * person)
 {
     DessinPerso * pj = trouverPersonnage(person->uuid());
     if (pj == NULL)
@@ -1477,19 +1477,19 @@ void Carte::changeCharacter(Character * person)
 }
 
 
-void Carte::emettreCarte(QString titre)
+void Map::emettreCarte(QString titre)
 {
     emettreCarteGeneral(titre);
 }
 
 
-void Carte::emettreCarte(QString titre, NetworkLink * link)
+void Map::emettreCarte(QString titre, NetworkLink * link)
 {
     emettreCarteGeneral(titre, link, true);
 }
 
 
-void Carte::emettreCarteGeneral(QString titre, NetworkLink * link, bool versNetworkLinkUniquement)
+void Map::emettreCarteGeneral(QString titre, NetworkLink * link, bool versNetworkLinkUniquement)
 {
 
     // On commence par compresser le fond original (format jpeg) dans un tableau
@@ -1539,19 +1539,19 @@ void Carte::emettreCarteGeneral(QString titre, NetworkLink * link, bool versNetw
 }
 
 
-void Carte::emettreTousLesPersonnages()
+void Map::emettreTousLesPersonnages()
 {
     emettreTousLesPersonnagesGeneral();
 }
 
 
-void Carte::emettreTousLesPersonnages(NetworkLink * link)
+void Map::emettreTousLesPersonnages(NetworkLink * link)
 {
     emettreTousLesPersonnagesGeneral(link, true);
 }
 
 
-void Carte::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetworkLinkUniquement)
+void Map::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetworkLinkUniquement)
 {
     // Taille des donnees
     quint32 tailleCorps =
@@ -1616,253 +1616,100 @@ void Carte::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetwor
 }
 
 
-void Carte::emettreTrace()
+void Map::emettreTrace()
 {
-                qint32 tailleCorps;
-    char *donnees;
-    enteteMessage *uneEntete;
+    NetworkMessageWriter* msg = NULL;
 
-    // Parametres du message en fonction de l'outil en cours d'utilisation
-    if (m_currentTool == ToolBar::crayon)
+    if(ToolBar::crayon == m_currentTool )
     {
-                        qint32 tailleListe = listePointsCrayon.size();
-
-        // Taille des donnees
-        tailleCorps =
-            // Taille de l'identifiant du joueur
-            sizeof(quint8) + G_idJoueurLocal.size()*sizeof(QChar) +
-            // Taille de l'identifiant de la carte
-            sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-            // Taille de la liste de points
-            sizeof(quint32) + (sizeof(qint16) + sizeof(qint16)) * tailleListe +
-            // Taille du rectangle a rafraichir
-            sizeof(qint16) + sizeof(qint16) + sizeof(qint16) + sizeof(qint16) +
-            // Taille du diametre du trait
-            sizeof(quint8) +
-            // Taille de la couleur
-            sizeof(couleurSelectionee);
-
-        // Buffer d'emission
-        donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-        // Creation de l'entete du message
-        uneEntete = (enteteMessage *) donnees;
-        uneEntete->categorie = dessin;
-        uneEntete->action = traceCrayon;
-        uneEntete->tailleDonnees = tailleCorps;
-        
-        // Creation du corps du message
-        int p = sizeof(enteteMessage);
-        // Ajout de l'identifiant de la carte
-        quint8 tailleIdJoueur = G_idJoueurLocal.size();
-        memcpy(&(donnees[p]), &tailleIdJoueur, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), G_idJoueurLocal.data(), tailleIdJoueur*sizeof(QChar));
-        p+=tailleIdJoueur*sizeof(QChar);
-        // Ajout de l'identifiant de la carte
-        quint8 tailleIdCarte = idCarte.size();
-        memcpy(&(donnees[p]), &tailleIdCarte, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), idCarte.data(), tailleIdCarte*sizeof(QChar));
-        p+=tailleIdCarte*sizeof(QChar);
-        // Ajout du nombre de points du trace
-        memcpy(&(donnees[p]), &tailleListe, sizeof(quint32));
-        p+=sizeof(quint32);
-        // Ajout des points de la liste
-        for (int i=0; i<tailleListe; i++)
+        msg = new NetworkMessageWriter(NetMsg::DrawCategory,NetMsg::penPainting);
+        msg->string8(G_idJoueurLocal);
+        msg->string8(idCarte);
+        msg->uint32(listePointsCrayon.size());
+        for (int i=0; i<listePointsCrayon.size(); i++)
         {
-            qint16 pointX = listePointsCrayon[i].x();
-            qint16 pointY = listePointsCrayon[i].y();
-            memcpy(&(donnees[p]), &pointX, sizeof(qint16));
-            p+=sizeof(qint16);
-            memcpy(&(donnees[p]), &pointY, sizeof(qint16));
-            p+=sizeof(qint16);
+            msg->uint16(listePointsCrayon[i].x());
+            msg->uint16(listePointsCrayon[i].y());
         }
-        // Ajout du rectangle a rafraichir
-        qint16 zoneX = zoneGlobaleCrayon.x();
-        qint16 zoneY = zoneGlobaleCrayon.y();
-        qint16 zoneW = zoneGlobaleCrayon.width();
-        qint16 zoneH = zoneGlobaleCrayon.height();
-        memcpy(&(donnees[p]), &zoneX, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &zoneY, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &zoneW, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &zoneH, sizeof(qint16));
-        p+=sizeof(qint16);
-        // Ajout du diametre du trait
-        quint8 diametre = G_diametreTraitCourant;
-        memcpy(&(donnees[p]), &diametre, sizeof(quint8));
-        p+=sizeof(quint8);
-        // Ajout de la couleur
-        memcpy(&(donnees[p]), &G_couleurCourante, sizeof(couleurSelectionee));
-        p+=sizeof(couleurSelectionee);
+        msg->uint16(zoneGlobaleCrayon.x());
+        msg->uint16(zoneGlobaleCrayon.y());
+        msg->uint16(zoneGlobaleCrayon.width());
+        msg->uint16(zoneGlobaleCrayon.height());
+
+        msg->uint8(G_diametreTraitCourant);
+        msg->uint8(G_couleurCourante.type);
+        msg->rgb(G_couleurCourante.color);
     }
-    
-    else if (m_currentTool == ToolBar::texte)
+    else if(m_currentTool == ToolBar::texte)
     {
-        // Taille des donnees
-        tailleCorps =
-            // Taille de l'identifiant de la carte
-            sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-            // Taille du texte
-            sizeof(quint16) + G_texteCourant.size()*sizeof(QChar) +
-            // Taille de la position de la souris
-            sizeof(qint16) + sizeof(qint16) +
-            // Taille du rectangle a rafraichir
-            sizeof(qint16) + sizeof(qint16) + sizeof(qint16) + sizeof(qint16) +
-            // Taille de la couleur
-            sizeof(couleurSelectionee);
+        msg = new NetworkMessageWriter(NetMsg::DrawCategory,NetMsg::textPainting);
+        msg->string8(idCarte);
+        msg->string16(G_texteCourant);
+        msg->uint16(m_mousePoint.x());
+        msg->uint16(m_mousePoint.y());
 
-        // Buffer d'emission
-        donnees = new char[tailleCorps + sizeof(enteteMessage)];
+        msg->uint16(zoneNouvelle.x());
+        msg->uint16(zoneNouvelle.y());
+        msg->uint16(zoneNouvelle.width());
+        msg->uint16(zoneNouvelle.height());
 
-        // Creation de l'entete du message
-        uneEntete = (enteteMessage *) donnees;
-        uneEntete->categorie = dessin;
-        uneEntete->action = traceTexte;
-        uneEntete->tailleDonnees = tailleCorps;
+        msg->uint8(G_couleurCourante.type);
+        msg->rgb(G_couleurCourante.color);
 
-        // Creation du corps du message
-        int p = sizeof(enteteMessage);
-        // Ajout de l'identifiant
-        quint8 tailleId = idCarte.size();
-        memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), idCarte.data(), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        // Ajout du texte
-        quint16 tailleTexte = G_texteCourant.size();
-        memcpy(&(donnees[p]), &tailleTexte, sizeof(quint16));
-        p+=sizeof(quint16);
-        memcpy(&(donnees[p]), G_texteCourant.data(), tailleTexte*sizeof(QChar));
-        p+=tailleTexte*sizeof(QChar);
-        // Ajout de la position de la souris
-        qint16 positionX = m_mousePoint.x();
-        qint16 positionY = m_mousePoint.y();
-        memcpy(&(donnees[p]), &positionX, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &positionY, sizeof(qint16));
-        p+=sizeof(qint16);
-        // Ajout du rectangle a rafraichir
-        qint16 zoneX = zoneNouvelle.x();
-        qint16 zoneY = zoneNouvelle.y();
-        qint16 zoneW = zoneNouvelle.width();
-        qint16 zoneH = zoneNouvelle.height();
-        memcpy(&(donnees[p]), &zoneX, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &zoneY, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &zoneW, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &zoneH, sizeof(qint16));
-        p+=sizeof(qint16);
-        // Ajout de la couleur
-        memcpy(&(donnees[p]), &G_couleurCourante, sizeof(couleurSelectionee));
-        p+=sizeof(couleurSelectionee);
     }
-    
     else if (m_currentTool == ToolBar::main)
     {
         return;
     }
-
-    // Tous les autres outils
-    else 
+    else
     {
-        // Taille des donnees
-        tailleCorps =
-            // Taille de l'identifiant de la carte
-            sizeof(quint8) + idCarte.size()*sizeof(QChar) +
-            // Taille du point de depart
-            sizeof(qint16) + sizeof(qint16) +
-            // Taille du point d'arrivee
-            sizeof(qint16) + sizeof(qint16) +
-            // Taille du rectangle a rafraichir
-            sizeof(qint16) + sizeof(qint16) + sizeof(qint16) + sizeof(qint16) +
-            // Taille du diametre du trait
-            sizeof(quint8) +
-            // Taille de la couleur
-            sizeof(couleurSelectionee);
-
-        // Buffer d'emission
-        donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-        // Creation de l'entete du message
-        uneEntete = (enteteMessage *) donnees;
-        uneEntete->categorie = dessin;
-        uneEntete->tailleDonnees = tailleCorps;
-
-        if (m_currentTool == ToolBar::ligne)
-            uneEntete->action = traceLigne;
-        else if (m_currentTool == ToolBar::rectVide)
-            uneEntete->action = traceRectangleVide;
-        else if (m_currentTool == ToolBar::rectPlein)
-            uneEntete->action = traceRectanglePlein;
-        else if (m_currentTool == ToolBar::elliVide)
-            uneEntete->action = traceEllipseVide;
-        else if (m_currentTool == ToolBar::elliPlein)
-            uneEntete->action = traceEllipsePleine;
-        else
+        NetMsg::Action action;
+        switch(m_currentTool)
         {
-            qWarning() << (tr("Outil non défini lors de l'emission d'un trace (emettreTrace - Carte.cpp)"));
-            delete[] donnees;
-            return;
+        case ToolBar::ligne:
+            action = NetMsg::linePainting;
+            break;
+        case ToolBar::rectVide:
+            action = NetMsg::emptyRectanglePainting;
+            break;
+        case ToolBar::rectPlein:
+            action = NetMsg::filledRectanglePainting;
+            break;
+        case ToolBar::elliVide:
+            action = NetMsg::emptyEllipsePainting;
+            break;
+        case ToolBar::elliPlein:
+            action = NetMsg::filledEllipsePainting;
+            break;
         }
-        
-        // Creation du corps du message
-        int p = sizeof(enteteMessage);
-        // Ajout de l'identifiant
-        quint8 tailleId = idCarte.size();
-        memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
-        p+=sizeof(quint8);
-        memcpy(&(donnees[p]), idCarte.data(), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        // Ajout du point de depart
-        qint16 departX = m_originePoint.x();
-        qint16 departY = m_originePoint.y();
-        memcpy(&(donnees[p]), &departX, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &departY, sizeof(qint16));
-        p+=sizeof(qint16);
-        // Ajout du point d'arrivee
-        qint16 arriveeX = m_mousePoint.x();
-        qint16 arriveeY = m_mousePoint.y();
-        memcpy(&(donnees[p]), &arriveeX, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &arriveeY, sizeof(qint16));
-        p+=sizeof(qint16);
-        // Ajout du rectangle a rafraichir
-        qint16 zoneX = zoneNouvelle.x();
-        qint16 zoneY = zoneNouvelle.y();
-        qint16 zoneW = zoneNouvelle.width();
-        qint16 zoneH = zoneNouvelle.height();
-        memcpy(&(donnees[p]), &zoneX, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &zoneY, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &zoneW, sizeof(qint16));
-        p+=sizeof(qint16);
-        memcpy(&(donnees[p]), &zoneH, sizeof(qint16));
-        p+=sizeof(qint16);
-        // Ajout du diametre du trait
-        quint8 diametre = G_diametreTraitCourant;
-        memcpy(&(donnees[p]), &diametre, sizeof(quint8));
-        p+=sizeof(quint8);
-        // Ajout de la couleur
-        memcpy(&(donnees[p]), &G_couleurCourante, sizeof(couleurSelectionee));
-        p+=sizeof(couleurSelectionee);
-    }        
-    
-    // Emission du trace
-    emettre(donnees, tailleCorps + sizeof(enteteMessage));
-    // Liberation du buffer d'emission
-    delete[] donnees;
+
+        msg = new NetworkMessageWriter(NetMsg::DrawCategory,action);
+        msg->string8(idCarte);
+        msg->uint16(m_originePoint.x());
+        msg->uint16(m_originePoint.y());
+
+        msg->uint16(m_mousePoint.x());
+        msg->uint16(m_mousePoint.y());
+
+        msg->uint16(zoneNouvelle.x());
+        msg->uint16(zoneNouvelle.y());
+        msg->uint16(zoneNouvelle.width());
+        msg->uint16(zoneNouvelle.height());
+
+        msg->uint8(G_diametreTraitCourant);
+
+        msg->uint8(G_couleurCourante.type);
+        msg->rgb(G_couleurCourante.color);
+    }
+
+    if(NULL!=msg)
+    {
+        msg->sendAll();
+    }
 }
 
 
-void Carte::emettreTrajetPersonnage()
+void Map::emettreTrajetPersonnage()
 {
     // Recuperation de l'identifiant du perso
     QString idPerso = pnjSelectionne->idPersonnage();
@@ -1924,7 +1771,7 @@ void Carte::emettreTrajetPersonnage()
 }
 
 
-void Carte::dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur, bool joueurLocal)
+void Map::dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur, bool joueurLocal)
 {
     QPainter painter;
     QColor couleurPinceau;
@@ -2011,7 +1858,7 @@ void Carte::dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichi
 }
 
 
-void Carte::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneARafraichir, couleurSelectionee couleur)
+void Map::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneARafraichir, couleurSelectionee couleur)
 {
     QPainter painter;
     QColor couleurPinceau;
@@ -2079,7 +1926,7 @@ void Carte::dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneA
 }
 
 
-void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur)
+void Map::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur)
 {
     QPainter painter;
     QColor couleurPinceau;
@@ -2222,7 +2069,7 @@ void Carte::dessinerTraceGeneral(actionDessin action, QPoint depart, QPoint arri
     afficheOuMasquePnj();
 }
 
-QColor Carte::getFogColor()
+QColor Map::getFogColor()
 {
     if(!G_joueur)
     {
@@ -2234,7 +2081,7 @@ QColor Carte::getFogColor()
     }
 }
 
-void Carte::adapterCoucheAlpha(quint8 intensiteAlpha)
+void Map::adapterCoucheAlpha(quint8 intensiteAlpha)
 {
     if (intensiteAlpha == getFogColor().red())
         return;
@@ -2272,7 +2119,7 @@ void Carte::adapterCoucheAlpha(quint8 intensiteAlpha)
     ajouterAlpha(m_backgroundImage, m_alphaLayer, fondAlpha);
 }
 
-void Carte::lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoints)
+void Map::lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoints)
 {
     // On commence part verifier si le perso est deja present dans la liste des mouvements
     int i;
@@ -2305,7 +2152,7 @@ void Carte::lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoin
 }
 
 
-void Carte::moveAllCharacters()
+void Map::moveAllCharacters()
 {
     QPoint position;
     int i=0;
@@ -2335,7 +2182,7 @@ void Carte::moveAllCharacters()
 }
 
 
-void Carte::saveMap(QDataStream &out, QString titre)
+void Map::saveMap(QDataStream &out, QString titre)
 {
     bool ok;
     QByteArray baFondOriginal;
@@ -2399,18 +2246,18 @@ void Carte::saveMap(QDataStream &out, QString titre)
     }
 }
 
-QString Carte::identifiantCarte()
+QString Map::identifiantCarte()
 {
     return idCarte;
 }
 
-QString Carte::getLastSelectedCharacterId()
+QString Map::getLastSelectedCharacterId()
 {
     if(dernierPnjSelectionne==NULL)
         return QString();
     return dernierPnjSelectionne->idPersonnage();
 }
-bool Carte::selectCharacter(QString& id)
+bool Map::selectCharacter(QString& id)
 {
     DessinPerso* tmp=trouverPersonnage(id);
     if(tmp!=NULL)
@@ -2420,24 +2267,24 @@ bool Carte::selectCharacter(QString& id)
 
     return true;
 }
-void Carte::setPermissionMode(Carte::PermissionMode mode)
+void Map::setPermissionMode(Map::PermissionMode mode)
 {
     m_currentMode = mode;
 }
-Carte::PermissionMode Carte::getPermissionMode()
+Map::PermissionMode Map::getPermissionMode()
 {
     return m_currentMode;
 }
-void Carte::setHasPermissionMode(bool b)
+void Map::setHasPermissionMode(bool b)
 {
     m_hasPermissionMode =b;
 }
-bool Carte::hasPermissionMode()
+bool Map::hasPermissionMode()
 {
     return m_hasPermissionMode;
 }
 
-void Carte::setPointeur(ToolBar::Tool currentTool)
+void Map::setPointeur(ToolBar::Tool currentTool)
 {
     m_currentTool = currentTool;
     switch(currentTool)

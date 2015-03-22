@@ -29,7 +29,7 @@
 #include "network/networkmessage.h"
 #include "mainwindow.h"
 
-class Carte;
+class Map;
 #ifndef NULL_PLAYER
     class AudioPlayer;
 #endif
@@ -66,14 +66,13 @@ private :
     void receptionMessagePersoNonJoueur();
     void receptionMessagePersonnage();
     void receptionMessageDessin();
-    void receptionMessagePlan();
     void receptionMessageDiscussion();
     void receivesMusicMessage();
     void receptionMessageParametres();
 
     void postTo(QObject * obj) const;
     void faireSuivreMessage(bool tous);
-    int extrairePersonnage(Carte *carte, char *tampon);
+    int extrairePersonnage(Map *carte, char *tampon);
 
 
     QTcpSocket* m_socketTcp;		 // Socket gere par le thread

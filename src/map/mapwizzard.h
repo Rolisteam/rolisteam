@@ -20,7 +20,7 @@ public:
     explicit MapWizzard(QWidget *parent = 0);
     ~MapWizzard();
 
-    Carte::PermissionMode getPermissionMode() const;
+    Map::PermissionMode getPermissionMode() const;
     QString getFilepath() const;
     bool getHidden() const;
     QString getTitle() const;

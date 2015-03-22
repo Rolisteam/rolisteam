@@ -38,7 +38,7 @@
 
 class SelecteurCouleur;
 class SelecteurDiametre;
-class Carte;
+class Map;
 /**
  * @brief The ToolBar class is gathering all tool and manages selection of them.
  */
@@ -78,7 +78,7 @@ public slots :
     void incrementeNumeroPnj();
     void changeCouleurActuelle(QColor coul);
     void mettreAJourPnj(int diametre, QString nom);
-    void changeMap(Carte * map);
+    void changeMap(Map * map);
 
     
 private :
@@ -92,7 +92,7 @@ private :
     SelecteurCouleur *couleur;
     SelecteurDiametre *diametreTrait;
     SelecteurDiametre *m_npcDiameter;
-    Carte * m_map;
+    Map * m_map;
     //SelecteurDiametre* m_pcDiameter;
 
 

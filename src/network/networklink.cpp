@@ -42,12 +42,6 @@
 #include "types.h"
 #include "variablesGlobales.h"
 
-
-
-
-
-
-
 NetworkLink::NetworkLink(QTcpSocket *socket)
     : QObject(NULL),m_mainWindow(NULL)
 {
@@ -56,7 +50,9 @@ NetworkLink::NetworkLink(QTcpSocket *socket)
     m_socketTcp = socket;
     receptionEnCours = false;
 	ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,m_mainWindow);
-
+    ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,m_mainWindow);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,m_mainWindow);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory,m_mainWindow);
 #ifndef NULL_PLAYER
     m_audioPlayer = AudioPlayer::getInstance();
     ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
@@ -196,16 +192,22 @@ void NetworkLink::reception()
                 ReceiveEvent * event = new ReceiveEvent(entete, tampon, this);
                 event->postToReceiver();
             }
-			qDebug() << "before recevert"<<entete.category;
             //if(m_receiverMap.contains((NetMsg::Category)entete.category))
             if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)entete.category))
             {
-				qDebug() << "HasReceiver"<<entete.category;
                 NetworkMessageReader data(entete,tampon);
                 NetWorkReceiver* tmp = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)entete.category);
-                tmp->processMessage(&data);
-				qDebug() << "HasReceiver"<<tmp;
-
+                switch(tmp->processMessage(&data))
+                {
+                 case NetWorkReceiver::AllExceptMe:
+                    faireSuivreMessage(false);
+                    break;
+                case NetWorkReceiver::ALL:
+                    faireSuivreMessage(true);
+                    break;
+                case NetWorkReceiver::NONE:
+                    break;
+                }
             }
 
             switch((categorieAction)(entete.category))
@@ -219,33 +221,22 @@ void NetworkLink::reception()
                 case persoJoueur :
                     receptionMessagePersoJoueur();
                     break;
-                case persoNonJoueur :
-                    receptionMessagePersoNonJoueur();
-                    break;
                 case personnage :
                     receptionMessagePersonnage();
                     break;
                 case dessin :
                     receptionMessageDessin();
                     break;
-                case plan :
-                    receptionMessagePlan();
-                    break;
-                case image :
-                    break;
                 case discussion :
                     receptionMessageDiscussion();
-                    break;
-                case musique :
-                    receivesMusicMessage();
                     break;
                 case parametres :
                     receptionMessageParametres();
                     break;
                 default :
                     qWarning()<< tr("Unknown network package received!");
-                    receptionEnCours = false;
-                    return;
+                    //receptionEnCours = false;
+                    break;
             }
             // On libere le tampon
             delete[] tampon;
@@ -371,7 +362,7 @@ void NetworkLink::receptionMessagePersoJoueur()
         p+=sizeof(quint8);
 
         // On recherche la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
+        Map *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
 			qWarning("Carte introuvable a la reception d'une demande d'affichage/masquage de PJ (receptionMessagePersoJoueur - NetworkLink.cpp)");
@@ -416,7 +407,7 @@ void NetworkLink::receptionMessagePersoJoueur()
         p+=sizeof(quint8);
 
         // On recherche la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
+        Map *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
 			qWarning("Carte introuvable a la reception d'une demande de changement de taille des PJ (receptionMessagePersoJoueur - NetworkLink.cpp)");
@@ -453,88 +444,9 @@ void NetworkLink::receptionMessagePersoJoueur()
     }
 }
 
-/********************************************************************/
-/* Reception d'un message de categorie PersoNonJoueur               */
-/********************************************************************/
-void NetworkLink::receptionMessagePersoNonJoueur()
-{
-    int p = 0;
-
-    if (entete.action == ajouterPersoNonJoueur)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre l'ajout de PNJ a l'ensemble des autres clients
-        faireSuivreMessage(false);
-
-        // On recupere l'identifiant de la carte
-        quint8 tailleIdPlan;
-        memcpy(&tailleIdPlan, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdPlan = new QChar[tailleIdPlan];
-        memcpy(tableauIdPlan, &(tampon[p]), tailleIdPlan*sizeof(QChar));
-        p+=tailleIdPlan*sizeof(QChar);
-        QString idPlan(tableauIdPlan, tailleIdPlan);
-
-        // Recherche de la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
-        // Si la carte est introuvable on affiche une erreur
-        if (!carte)
-			qWarning("Carte introuvable a la reception d'un PNJ a ajouter (receptionMessagePersoNonJoueur - NetworkLink.cpp)");
-        // Sinon on ajoute le PNJ a la carte
-        else
-            extrairePersonnage(carte, &(tampon[p]));
-
-        // Liberation de la memoire allouee
-        delete[] tableauIdPlan;
-    }
-
-    else if (entete.action == supprimerPersoNonJoueur)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre l'ajout de PNJ a l'ensemble des autres clients
-        faireSuivreMessage(false);
-
-        // On recupere l'identifiant de la carte
-        quint8 tailleIdPlan;
-        memcpy(&tailleIdPlan, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdPlan = new QChar[tailleIdPlan];
-        memcpy(tableauIdPlan, &(tampon[p]), tailleIdPlan*sizeof(QChar));
-        p+=tailleIdPlan*sizeof(QChar);
-        QString idPlan(tableauIdPlan, tailleIdPlan);
-        // On recupere l'identifiant du PNJ
-        quint8 tailleIdPnj;
-        memcpy(&tailleIdPnj, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdPnj = new QChar[tailleIdPnj];
-        memcpy(tableauIdPnj, &(tampon[p]), tailleIdPnj*sizeof(QChar));
-        p+=tailleIdPnj*sizeof(QChar);
-        QString idPerso(tableauIdPnj, tailleIdPnj);
-
-        // Recherche de la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
-        // Si la carte est introuvable on affiche une erreur
-        if (!carte)
-			qWarning("Carte introuvable a la reception d'un PNJ a supprimer (receptionMessagePersoNonJoueur - NetworkLink.cpp)");
-        // Sinon on supprime le PNJ de la carte
-        else
-            carte->eraseCharacter(idPerso);
-
-        // Liberation de la memoire allouee
-        delete[] tableauIdPlan;
-        delete[] tableauIdPnj;
-    }
-
-    else
-    {
-		qWarning("Action persoNonJoueur inconnue (receptionMessagePnj - NetworkLink.cpp)");
-        return;
-    }
-}
-
-/********************************************************************/
-/* Reception d'un message de categorie Personnage                   */
-/********************************************************************/
 void NetworkLink::receptionMessagePersonnage()
 {
+    return;
     int p = 0;
 
     if (entete.action == ajouterListePerso)
@@ -556,7 +468,7 @@ void NetworkLink::receptionMessagePersonnage()
         p+=sizeof(quint16);
 
         // Recherche de la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
+        Map *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
 			qWarning("Carte introuvable a la reception d'une liste de personnages a ajouter (receptionMessagePersonnage - NetworkLink.cpp)");
@@ -609,7 +521,7 @@ void NetworkLink::receptionMessagePersonnage()
         }
 
         // Recherche de la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
+        Map *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
 			qWarning("Carte introuvable a la reception d'un deplacement de personnage (receptionMessagePersonnage - NetworkLink.cpp)");
@@ -649,7 +561,7 @@ void NetworkLink::receptionMessagePersonnage()
         p+=sizeof(quint16);
 
         // Recherche de la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
+        Map *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
 			qWarning("Carte introuvable a la reception d'un changement d'etat de perso (receptionMessagePersonnage - NetworkLink.cpp)");
@@ -699,7 +611,7 @@ void NetworkLink::receptionMessagePersonnage()
         QPoint orientation(pointX, pointY);
 
         // Recherche de la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
+        Map *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
 			qWarning("Carte introuvable a la reception d'un changement d'orientation (receptionMessagePersonnage - NetworkLink.cpp)");
@@ -746,7 +658,7 @@ void NetworkLink::receptionMessagePersonnage()
         p+=sizeof(quint8);
 
         // Recherche de la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
+        Map *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche une erreur
         if (!carte)
 			qWarning("Carte introuvable a la reception d'un affichage/masquage d'orientation (receptionMessagePersonnage - NetworkLink.cpp)");
@@ -772,6 +684,7 @@ void NetworkLink::receptionMessagePersonnage()
 /********************************************************************/
 void NetworkLink::receptionMessageDessin()
 {
+    return;
     int p = 0;
 
     if (entete.action == traceCrayon)
@@ -834,7 +747,7 @@ void NetworkLink::receptionMessageDessin()
         p+=sizeof(couleurSelectionee);
 
         // Recherche de la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
+        Map *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
 			qWarning("Carte introuvable a la reception d'un trace de crayon (receptionMessageDessin - NetworkLink.cpp)");
@@ -893,7 +806,7 @@ void NetworkLink::receptionMessageDessin()
         p+=sizeof(couleurSelectionee);
 
         // Recherche de la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
+        Map *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
 			qWarning("Carte introuvable a la reception d'un trace texte (receptionMessageDessin - NetworkLink.cpp)");
@@ -960,7 +873,7 @@ void NetworkLink::receptionMessageDessin()
         p+=sizeof(couleurSelectionee);
 
         // Recherche de la carte concernee
-        Carte *carte = m_mainWindow->trouverCarte(idPlan);
+        Map *carte = m_mainWindow->trouverCarte(idPlan);
         // Si la carte est introuvable on affiche un message d'erreur
         if (!carte)
 			qWarning("Carte introuvable a la reception d'un trace general (receptionMessageDessin - NetworkLink.cpp)");
@@ -973,256 +886,6 @@ void NetworkLink::receptionMessageDessin()
     }
 }
 
-/********************************************************************/
-/* Reception d'un message de categorie Plan                         */
-/********************************************************************/
-void NetworkLink::receptionMessagePlan()
-{
-    int p = 0;
-
-    // L'hote demande a l'ordinateur local de creer un nouveau plan vide
-    if (entete.action == nouveauPlanVide)
-    {
-        // Si l'ordinateur local est le serveur, on renvoie le messages aux clients
-        faireSuivreMessage(false);
-
-        // On recupere le titre
-        quint16 tailleTitre;
-        memcpy(&tailleTitre, &(tampon[p]), sizeof(quint16));
-        p+=sizeof(quint16);
-        QChar *tableauTitre = new QChar[tailleTitre];
-        memcpy(tableauTitre, &(tampon[p]), tailleTitre*sizeof(QChar));
-        p+=tailleTitre*sizeof(QChar);
-        QString titre(tableauTitre, tailleTitre);
-        // On recupere l'identifiant
-        quint8 tailleId;
-        memcpy(&tailleId, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauId = new QChar[tailleId];
-        memcpy(tableauId, &(tampon[p]), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        QString idPlan(tableauId, tailleId);
-        // On recupere la couleur
-        QRgb rgb;
-        memcpy(&rgb, &(tampon[p]), sizeof(QRgb));
-        p+=sizeof(QRgb);
-        QColor couleur(rgb);
-        // On recupere les dimensions du plan
-        quint16 largeur, hauteur;
-        memcpy(&largeur, &(tampon[p]), sizeof(quint16));
-        p+=sizeof(quint16);
-        memcpy(&hauteur, &(tampon[p]), sizeof(quint16));
-        p+=sizeof(quint16);
-        // On recupere la taille des PJ
-        quint8 taillePj;
-        memcpy(&taillePj, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        // Permission analyse
-        quint8 permission;
-        memcpy(&permission,&(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-
-        // On cree la carte
-        QSize mapSize(largeur,hauteur);
-        m_mainWindow->buildNewMap(titre, idPlan,couleur, mapSize,(Carte::PermissionMode)permission);
-
-        // Message sur le log utilisateur
-        MainWindow::notifyUser(tr("New map: %1").arg(titre));
-
-        // Liberation de la memoire allouee
-        delete[] tableauTitre;
-        delete[] tableauId;
-    }
-
-    // L'hote demande a l'ordinateur local de creer un plan a partir de l'image passee dans le message
-    else if (entete.action == chargerPlan)
-    {
-        // Si l'ordinateur local est le serveur, on renvoie le messages aux clients
-        faireSuivreMessage(false);
-
-        // On recupere le titre
-        quint16 tailleTitre;
-        memcpy(&tailleTitre, &(tampon[p]), sizeof(quint16));
-        p+=sizeof(quint16);
-        QChar *tableauTitre = new QChar[tailleTitre];
-        memcpy(tableauTitre, &(tampon[p]), tailleTitre*sizeof(QChar));
-        p+=tailleTitre*sizeof(QChar);
-        QString titre(tableauTitre, tailleTitre);
-        // On recupere l'identifiant
-        quint8 tailleId;
-        memcpy(&tailleId, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauId = new QChar[tailleId];
-        memcpy(tableauId, &(tampon[p]), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        QString idPlan(tableauId, tailleId);
-        // On recupere la taille des PJ
-        quint8 taillePj;
-        memcpy(&taillePj, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-
-        quint8 permission;
-        memcpy(&permission,&(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-
-        qDebug() << permission << "Permission chargerPlan" << taillePj << tailleId << tableauTitre;
-
-        // On recupere l'information "plan masque a l'ouverture?"
-        quint8 masquerPlan;
-        memcpy(&masquerPlan, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-
-        //qDebug() << permission << "Permission chargerPlan" << taillePj << tailleId << tableauTitre << "masquer le plan" <<masquerPlan;
-        // On recupere l'image
-        quint32 tailleImage;
-        memcpy(&tailleImage, &(tampon[p]), sizeof(quint32));
-        p+=sizeof(quint32);
-        QByteArray byteArray(tailleImage, 0);
-        memcpy(byteArray.data(), &(tampon[p]), tailleImage);
-        p+=tailleImage;
-
-        // Creation de l'image
-        QImage image;
-        bool ok = image.loadFromData(byteArray, "jpeg");
-        if (!ok)
-			qWarning("Probleme de decompression de l'image (receptionMessagePlan - NetworkLink.cpp)");
-
-        // Creation de la carte
-        Carte *carte = new Carte(idPlan, &image, masquerPlan);
-        carte->setPermissionMode((Carte::PermissionMode)permission);
-		// Creation de la BipMapWindow
-		BipMapWindow* bipMapWindow = new BipMapWindow(carte,m_mainWindow);
-        // Ajout de la carte au workspace
-		m_mainWindow->addMap(bipMapWindow, titre);
-
-        // Message sur le log utilisateur
-        MainWindow::notifyUser(tr("Receiving map: %1").arg(titre));
-
-        // Liberation de la memoire allouee
-        delete[] tableauTitre;
-        delete[] tableauId;
-    }
-
-    // Reception d'un plan complet
-    else if (entete.action == importerPlanComplet)
-    {
-        // Si l'ordinateur local est le serveur, on renvoie le messages aux clients
-        faireSuivreMessage(false);
-
-        // On recupere le titre
-        quint16 tailleTitre;
-        memcpy(&tailleTitre, &(tampon[p]), sizeof(quint16));
-        p+=sizeof(quint16);
-        QChar *tableauTitre = new QChar[tailleTitre];
-        memcpy(tableauTitre, &(tampon[p]), tailleTitre*sizeof(QChar));
-        p+=tailleTitre*sizeof(QChar);
-        QString titre(tableauTitre, tailleTitre);
-        // On recupere l'identifiant
-        quint8 tailleId;
-        memcpy(&tailleId, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauId = new QChar[tailleId];
-        memcpy(tableauId, &(tampon[p]), tailleId*sizeof(QChar));
-        p+=tailleId*sizeof(QChar);
-        QString idPlan(tableauId, tailleId);
-        // On recupere la taille des PJ
-        quint8 taillePj;
-        memcpy(&taillePj, &(tampon[p]), sizeof(quint8));
-
-
-        p+=sizeof(quint8);
-        quint8 permission;
-        memcpy(&permission,&(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-
-
-        // On recupere l'intensite de la couche alpha
-        quint8 intensiteAlpha;
-        memcpy(&intensiteAlpha, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        // On recupere le fond original
-        quint32 tailleFondOriginal;
-        memcpy(&tailleFondOriginal, &(tampon[p]), sizeof(quint32));
-        p+=sizeof(quint32);
-        QByteArray baFondOriginal(tailleFondOriginal, 0);
-        memcpy(baFondOriginal.data(), &(tampon[p]), tailleFondOriginal);
-        p+=tailleFondOriginal;
-        // On recupere le fond
-        quint32 tailleFond;
-        memcpy(&tailleFond, &(tampon[p]), sizeof(quint32));
-        p+=sizeof(quint32);
-        QByteArray baFond(tailleFond, 0);
-        memcpy(baFond.data(), &(tampon[p]), tailleFond);
-        p+=tailleFond;
-        // On recupere le fond original
-        quint32 tailleAlpha;
-        memcpy(&tailleAlpha, &(tampon[p]), sizeof(quint32));
-        p+=sizeof(quint32);
-        QByteArray baAlpha(tailleAlpha, 0);
-        memcpy(baAlpha.data(), &(tampon[p]), tailleAlpha);
-        p+=tailleAlpha;
-
-        bool ok;
-        // Creation de l'image de fond original
-        QImage fondOriginal;
-        ok = fondOriginal.loadFromData(baFondOriginal, "jpeg");
-        if (!ok)
-			qWarning("Probleme de decompression du fond original (receptionMessagePlan - NetworkLink.cpp)");
-        // Creation de l'image de fond
-        QImage fond;
-        ok = fond.loadFromData(baFond, "jpeg");
-        if (!ok)
-			qWarning("Probleme de decompression du fond (receptionMessagePlan - NetworkLink.cpp)");
-        // Creation de la couche alpha
-        QImage alpha;
-        ok = alpha.loadFromData(baAlpha, "jpeg");
-        if (!ok)
-			qWarning("Probleme de decompression de la couche alpha (receptionMessagePlan - NetworkLink.cpp)");
-
-        // Creation de la carte
-        Carte *carte = new Carte(idPlan, &fondOriginal, &fond, &alpha);
-        carte->setPermissionMode((Carte::PermissionMode)permission);
-        // On adapte la couche alpha a la nature de l'utilisateur local (MJ ou joueur)
-        carte->adapterCoucheAlpha(intensiteAlpha);
-		// Creation de la BipMapWindow
-		BipMapWindow* bipMapWindow = new BipMapWindow(carte,m_mainWindow);
-        // Ajout de la carte au workspace
-		m_mainWindow->addMap(bipMapWindow, titre);
-
-        // Message sur le log utilisateur
-        MainWindow::notifyUser(tr("Receiving map: %1").arg(titre));
-
-        // Liberation de la memoire allouee
-        delete[] tableauTitre;
-        delete[] tableauId;
-    }
-
-    // Demande de fermeture d'un plan
-    else if (entete.action == fermerPlan)
-    {
-        // Si l'ordinateur local est le serveur, on fait suivre la fermeture de plan aux autres clients
-        faireSuivreMessage(false);
-
-        // On recupere l'identifiant de la carte
-        quint8 tailleIdPlan;
-        memcpy(&tailleIdPlan, &(tampon[p]), sizeof(quint8));
-        p+=sizeof(quint8);
-        QChar *tableauIdPlan = new QChar[tailleIdPlan];
-        memcpy(tableauIdPlan, &(tampon[p]), tailleIdPlan*sizeof(QChar));
-        p+=tailleIdPlan*sizeof(QChar);
-        QString idPlan(tableauIdPlan, tailleIdPlan);
-
-
-        m_mainWindow->removeMapFromId(idPlan);
-        delete[] tableauIdPlan;
-    }
-
-    else
-    {
-		qWarning()<< "Unknown map Action (receptionMessagePlan - NetworkLink.cpp)";
-        return;
-    }
-}
 
 
 /********************************************************************/
@@ -1272,114 +935,6 @@ void NetworkLink::faireSuivreMessage(bool tous)
         }
         delete[] donnees;
     }
-}
-
-/********************************************************************/
-/* Extrait un personnage d'un message et l'ajoute a la carte passee */
-/* en parametre                                                     */
-/********************************************************************/
-int NetworkLink::extrairePersonnage(Carte *carte, char *tampon)
-{
-    int p=0;
-
-    // On recupere le nom
-    quint16 tailleNom;
-    memcpy(&tailleNom, &(tampon[p]), sizeof(quint16));
-    p+=sizeof(quint16);
-    QChar *tableauNom = new QChar[tailleNom];
-    memcpy(tableauNom, &(tampon[p]), tailleNom*sizeof(QChar));
-    p+=tailleNom*sizeof(QChar);
-    QString nomPerso(tableauNom, tailleNom);
-    // On recupere l'identifiant du perso
-    quint8 tailleIdPerso;
-    memcpy(&tailleIdPerso, &(tampon[p]), sizeof(quint8));
-    p+=sizeof(quint8);
-    QChar *tableauIdPerso = new QChar[tailleIdPerso];
-    memcpy(tableauIdPerso, &(tampon[p]), tailleIdPerso*sizeof(QChar));
-    p+=tailleIdPerso*sizeof(QChar);
-    QString idPerso(tableauIdPerso, tailleIdPerso);
-    // On recupere le type du personnage
-    quint8 type;
-    memcpy(&type, &(tampon[p]), sizeof(quint8));
-    p+=sizeof(quint8);
-    DessinPerso::typePersonnage typePerso = (DessinPerso::typePersonnage)type;
-    // On recupere le numero de PNJ
-    quint8 numeroPnj;
-    memcpy(&numeroPnj, &(tampon[p]), sizeof(quint8));
-    p+=sizeof(quint8);
-    // On recupere le diametre
-    quint8 diametre;
-    memcpy(&diametre, &(tampon[p]), sizeof(quint8));
-    p+=sizeof(quint8);
-    // On recupere la couleur
-    QRgb rgb;
-    memcpy(&rgb, &(tampon[p]), sizeof(QRgb));
-    p+=sizeof(QRgb);
-    QColor couleurPerso(rgb);
-    // On recupere le point central du perso
-    qint16 centreX, centreY;
-    memcpy(&centreX, &(tampon[p]), sizeof(qint16));
-    p+=sizeof(qint16);
-    memcpy(&centreY, &(tampon[p]), sizeof(qint16));
-    p+=sizeof(qint16);
-    QPoint centre(centreX, centreY);
-    // On recupere l'orientation du perso
-    qint16 orientationX, orientationY;
-    memcpy(&orientationX, &(tampon[p]), sizeof(qint16));
-    p+=sizeof(qint16);
-    memcpy(&orientationY, &(tampon[p]), sizeof(qint16));
-    p+=sizeof(qint16);
-    QPoint orientation(orientationX, orientationY);
-    // On recupere la couleur de l'etat de sante
-    memcpy(&rgb, &(tampon[p]), sizeof(QRgb));
-    p+=sizeof(QRgb);
-    QColor couleurEtat(rgb);
-    // On recupere le nom de l'etat
-    quint16 tailleEtat;
-    memcpy(&tailleEtat, &(tampon[p]), sizeof(quint16));
-    p+=sizeof(quint16);
-    QChar *tableauEtat = new QChar[tailleEtat];
-    memcpy(tableauEtat, &(tampon[p]), tailleEtat*sizeof(QChar));
-    p+=tailleEtat*sizeof(QChar);
-    QString nomEtat(tableauEtat, tailleEtat);
-    // On recupere le numero de l'etat de sante
-    quint16 numEtat;
-    memcpy(&numEtat, &(tampon[p]), sizeof(quint16));
-    p+=sizeof(quint16);
-    // On recupere l'information visible/cache
-    quint8 visible;
-    memcpy(&visible, &(tampon[p]), sizeof(quint8));
-    p+=sizeof(quint8);
-    // On recupere l'information orientation affichee/masquee
-    quint8 orientationAffichee;
-    memcpy(&orientationAffichee, &(tampon[p]), sizeof(quint8));
-    p+=sizeof(quint8);
-
-    // Creation du PNJ dans la carte
-    DessinPerso *pnj = new DessinPerso(carte, idPerso, nomPerso, couleurPerso, diametre, centre, typePerso, numeroPnj);
-    // S'il doit etre visible, on l'affiche (s'il s'agit d'un PNJ et que l'utilisateur est le MJ, alors on affiche automatiquement le perso)
-    if (visible || (typePerso == DessinPerso::pnj && !G_joueur))
-        pnj->afficherPerso();
-    // On m.a.j l'orientation
-    pnj->nouvelleOrientation(orientation);
-    // Affichage de l'orientation si besoin
-    if (orientationAffichee)
-        pnj->afficheOuMasqueOrientation();
-    // M.a.j de l'etat de sante du personnage
-    DessinPerso::etatDeSante sante;
-    sante.couleurEtat = couleurEtat;
-    sante.nomEtat = nomEtat;
-    pnj->nouvelEtatDeSante(sante, numEtat);
-    // Affiche ou masque le PNJ selon qu'il se trouve sur une zone masquee ou pas
-    carte->afficheOuMasquePnj(pnj);
-
-    // Liberation de la memoire allouee
-    delete[] tableauNom;
-    delete[] tableauIdPerso;
-    delete[] tableauEtat;
-
-    // On renvoie le nbr d'octets lus
-    return p;
 }
 void NetworkLink::disconnectAndClose()
 {

@@ -492,7 +492,7 @@ void ToolBar::mettreAJourPnj(int diametre, QString nom)
 	G_nomPnjCourant = nom;
 }
 
-void ToolBar::changeMap(Carte * map)
+void ToolBar::changeMap(Map * map)
 {
     m_map = map;
     if (m_map != NULL)

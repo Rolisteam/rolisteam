@@ -32,7 +32,7 @@
 #include <QScrollBar>
 
 
-BipMapWindow::BipMapWindow(Carte *uneCarte, QWidget *parent)
+BipMapWindow::BipMapWindow(Map *uneCarte, QWidget *parent)
     : QScrollArea(parent)
 {
 	setObjectName("BipMapWindow");
@@ -95,7 +95,7 @@ void BipMapWindow::showEvent ( QShowEvent * event )
 //}
 
 
-Carte * BipMapWindow::carte()
+Map * BipMapWindow::carte()
 {
     return carteAssociee;
 }

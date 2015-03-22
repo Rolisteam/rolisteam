@@ -76,22 +76,22 @@ void NewEmptyMapDialog::updateSize()
     //huge
     ui->m_hugeRadio->setText(m_labelModel.at(3).arg(tmpModel.at(3).width()).arg(tmpModel.at(3).height()));
 }
-Carte::PermissionMode NewEmptyMapDialog::getPermission() const
+Map::PermissionMode NewEmptyMapDialog::getPermission() const
 {
-    Carte::PermissionMode result;
+    Map::PermissionMode result;
     switch (ui->m_permissionSelector->currentIndex())
     {
     case 0:
-        result = Carte::GM_ONLY;
+        result = Map::GM_ONLY;
         break;
     case 1:
-        result = Carte::PC_MOVE;
+        result = Map::PC_MOVE;
         break;
     case 2:
-        result = Carte::PC_ALL;
+        result = Map::PC_ALL;
         break;
     default:
-        result = Carte::GM_ONLY;
+        result = Map::GM_ONLY;
         break;
     }
   return result;

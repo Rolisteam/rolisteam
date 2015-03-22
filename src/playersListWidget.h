@@ -33,7 +33,7 @@
 
 #include "playerslistproxy.h"
 
-class Carte;
+class Map;
 class PersonDialog;
 class Person;
 /**
@@ -51,10 +51,10 @@ class PlayersListWidgetModel : public PlayersListProxyModel
         bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     public slots:
-        void changeMap(Carte * map);
+        void changeMap(Map * map);
 
     private:
-       Carte * m_map;
+       Map * m_map;
 
        bool isCheckable(const QModelIndex &index) const;
 };
