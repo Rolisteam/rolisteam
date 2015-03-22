@@ -29,17 +29,10 @@
 #include "variablesGlobales.h"
 #include "map/DessinPerso.h"
 
-/********************************************************************/
-/* Variables globales utilisees par tous les elements de            */
-/* l'application                                                    */
-/********************************************************************/
 // Liste des etats de sante des PJ/PNJ (initialisee dans MainWindow.cpp)
 QList<DessinPerso::etatDeSante> G_etatsDeSante;
 
 
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/
 DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, int numero,bool isLocal)
     : QWidget(parent),m_localPerso(isLocal)
 {
@@ -128,26 +121,16 @@ DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor c
     hide();
 }
 
-/********************************************************************/
-/* Deplace le dessin du personnage                                  */
-/********************************************************************/
 void DessinPerso::deplacePerso(QPoint position)
 {
     move(position);
 }
 
-/********************************************************************/
-/* Deplace le dessin du personnage                                  */
-/********************************************************************/
 void DessinPerso::deplacePerso(int x, int y)
 {
     move(x, y);
 }
 
-/********************************************************************/
-/* Deplace le dessin du personnage, les coordonnees sont celles du  */
-/* centre du disque reprensentant le perso                          */
-/********************************************************************/
 void DessinPerso::deplaceCentrePerso(QPoint position)
 {
     // On calcule la nouvelle position de disquePerso par rapport a DessinPerso
@@ -158,10 +141,7 @@ void DessinPerso::deplaceCentrePerso(QPoint position)
     move (pos()-delta);
 }
 
-/********************************************************************/
-/* Renvoie les coordonnees du centre du disque representant le      */
-/* personnage                                                       */
-/********************************************************************/
+
 QPoint DessinPerso::positionCentrePerso()
 {
     // On recupere la position de disquePerso par rapport aux coordonnees de la carte
@@ -169,9 +149,6 @@ QPoint DessinPerso::positionCentrePerso()
     return mapTo(parentWidget(), disquePerso->pos()) + QPoint(disquePerso->width()/2, disquePerso->height()/2);
 }
 
-/********************************************************************/
-/* Renvoie le diametre et le nom du personnage                      */
-/********************************************************************/
 void DessinPerso::diametreCouleurNom(int *diam, QColor *coul, QString *nom)
 {
     *diam = diametre;
@@ -179,11 +156,6 @@ void DessinPerso::diametreCouleurNom(int *diam, QColor *coul, QString *nom)
     *nom = nomPerso;
 }
 
-/********************************************************************/
-/* Renvoie true si le point se trouve dans la partie transparente   */
-/* de la pixmap de disquePerso. Le point se trouve dans l'espace de   */
-/* coordonnees de la carte (le parent direct de DessinPerso)          */
-/********************************************************************/
 bool DessinPerso::dansPartieTransparente(QPoint position)
 {
     // On translate le point dans l'espace des coordonnees de disquePerso
@@ -194,47 +166,29 @@ bool DessinPerso::dansPartieTransparente(QPoint position)
     return qAlpha(image.pixel(positionDansDisquePerso.x(), positionDansDisquePerso.y())) == 0;
 }
 
-/********************************************************************/
-/* Affiche/masque le nom du PJ                                      */
-/********************************************************************/
 void DessinPerso::afficherNomsPj(bool afficher)
 {
     nomAffiche = afficher;
     mettreIntituleAJour();
 }
 
-/********************************************************************/
-/* Affiche/masque le nom du PNJ                                     */
-/********************************************************************/
 void DessinPerso::afficherNomsPnj(bool afficher)
 {
     nomAffiche = afficher;
     mettreIntituleAJour();
 }
 
-/********************************************************************/
-/* Affiche/masque le numero du PNJ                                  */
-/********************************************************************/
 void DessinPerso::afficherNumerosPnj(bool afficher)
 {
     numeroAffiche = afficher;
     mettreIntituleAJour();
 }
 
-/********************************************************************/
-/* Renvoie true si le personnage est actuellement affiche. La       */
-/* fonction isVisible() du widget n'est pas utilisee car son        */
-/* resultat depend de la visibilite de ses ancetres; hors la carte  */
-/* est parfois cachee (lorsque l'utilisateur la ferme)              */
-/********************************************************************/
 bool DessinPerso::estVisible()
 {
     return visible;
 }
 
-/********************************************************************/
-/* Affiche le personnage                                            */
-/********************************************************************/
 void DessinPerso::afficherPerso()
 {
     visible = true;
@@ -243,9 +197,6 @@ void DessinPerso::afficherPerso()
     deplaceCentrePerso(centre);
 }
 
-/********************************************************************/
-/* Cache le personnage                                              */
-/********************************************************************/
 void DessinPerso::cacherPerso()
 {
     // On memorise la position du centre avant de cacher le personnage
@@ -254,10 +205,6 @@ void DessinPerso::cacherPerso()
     hide();
 }
 
-/********************************************************************/
-/* Met a jour l'intitule du personnage, et met le DessinPerso a la  */
-/* taille adequate                                                  */
-/********************************************************************/
 void DessinPerso::mettreIntituleAJour()
 {
     // Recuperation de la position centrale du perso
@@ -316,10 +263,7 @@ void DessinPerso::mettreIntituleAJour()
     }
 }
 
-/********************************************************************/
-/* Initialise le tableau contenant les coordonnees (dans l'espace   */
-/* du disque) de 8 points repartis le long du contour du disque     */
-/********************************************************************/
+
 void DessinPerso::initialiserContour(QImage &disque)
 {
     // Initialisation des 4 points haut, bas, gauche et droite
@@ -346,20 +290,12 @@ void DessinPerso::initialiserContour(QImage &disque)
     contour[7] = QPoint(x, y);
 }
 
-/********************************************************************/
-/* Renvoie les points du contour dans l'espace de coordonnees de la */
-/* carte                                                            */
-/********************************************************************/
 void DessinPerso::contourDisque(QPoint *coordonnees)
 {
     for (int i=0; i<8; i++)
         coordonnees[i] = disquePerso->mapTo(parentWidget(), contour[i]);
 }
 
-/********************************************************************/
-/* Dessine le personnage. Si positionSouris est differente de (0,0) */
-/* l'orientation du personnage est mise a jour                      */
-/********************************************************************/
 void DessinPerso::dessinerPersonnage(QPoint positionSouris)
 {
     // Si la position de la souris est passee en parametre
@@ -442,31 +378,18 @@ void DessinPerso::dessinerPersonnage(QPoint positionSouris)
 
 }
 
-/********************************************************************/
-/* Change l'etat de orientationAffichee                             */
-/********************************************************************/
 void DessinPerso::afficheOuMasqueOrientation()
 {
     orientationAffichee = !orientationAffichee;
     dessinerPersonnage();
 }
 
-/********************************************************************/
-/* Affiche l'orientation du personnage si afficher = true, la       */
-/* masque si afficher = false                                       */
-/********************************************************************/
 void DessinPerso::afficherOrientation(bool afficher)
 {
     orientationAffichee = afficher;
     dessinerPersonnage();
 }
 
-/********************************************************************/
-/* Change l'etat du perso (permet d'indiquer si le personnage est   */
-/* blesse, malade, mort, etc...). Dans les autres fonctions on      */
-/* utilise l'etat de sante et non le numero dans la liste, ainsi si */
-/* la liste change on evite les plantages                           */
-/********************************************************************/
 void DessinPerso::changerEtat()
 {
     numeroEtat = numeroEtat<G_etatsDeSante.size()-1?numeroEtat+1:0;
@@ -474,41 +397,26 @@ void DessinPerso::changerEtat()
     dessinerPersonnage();
 }
 
-/********************************************************************/
-/* Renvoie true si le personnage est un PJ                          */
-/********************************************************************/
 bool DessinPerso::estUnPj()
 {
     return type == pj;
 }
 
-/********************************************************************/
-/* Renvoie true si l'orientation est affichee, false sinon          */
-/********************************************************************/
 bool DessinPerso::orientationEstAffichee()
 {
     return orientationAffichee;
 }
 
-/********************************************************************/
-/* Renvoie l'identifiant du personnage                              */
-/********************************************************************/
 QString DessinPerso::idPersonnage()
 {
     return identifiant;
 }
 
-/********************************************************************/
-/* Renvoie l'orientation du personnage                              */
-/********************************************************************/
 QPoint DessinPerso::orientationPersonnage()
 {
     return orientation;
 }
 
-/********************************************************************/
-/* Changement de la taille du PJ                                    */
-/********************************************************************/
 void DessinPerso::changerTaillePj(int nouvelleTaille)
 {
     // Recuperation de la position centrale du PJ
@@ -528,9 +436,7 @@ void DessinPerso::changerTaillePj(int nouvelleTaille)
     deplaceCentrePerso(position);
 }
 
-/********************************************************************/
-/* Renomme le personnage                                            */
-/********************************************************************/
+
 void DessinPerso::renommerPerso(QString nouveauNom)
 {
     // M.a.j du nom du perso
@@ -546,9 +452,6 @@ void DessinPerso::renommerPerso(QString nouveauNom)
         qWarning()<< (tr("Type de personnage inconnu (renommerPerso - DessinPerso.cpp)"));
 }
 
-/********************************************************************/
-/* Change la couleur du personnage                                  */
-/********************************************************************/
 void DessinPerso::changerCouleurPerso(QColor coul)
 {
     couleur = coul;
@@ -558,11 +461,6 @@ void DessinPerso::changerCouleurPerso(QColor coul)
     mettreIntituleAJour();
 }
 
-/********************************************************************/
-/* L'orientation du personnage est m.a.j avec le parametre de la    */
-/* fonction (il s'agit de la difference entre le point vers lequel  */
-/* regarde le personnage, et la position de ce dernier)             */
-/********************************************************************/
 void DessinPerso::nouvelleOrientation(QPoint uneOrientation)
 {
     orientation = uneOrientation;
@@ -570,10 +468,6 @@ void DessinPerso::nouvelleOrientation(QPoint uneOrientation)
     dessinerPersonnage();
 }
 
-/********************************************************************/
-/* L'etat de sante du personnage est m.a.j avec les parametres de   */
-/* la fonction (utilisee lors du chargement d'une carte)            */
-/********************************************************************/
 void DessinPerso::nouvelEtatDeSante(etatDeSante sante, int numeroSante)
 {
     numeroEtat = numeroSante;
@@ -581,10 +475,6 @@ void DessinPerso::nouvelEtatDeSante(etatDeSante sante, int numeroSante)
     dessinerPersonnage();
 }
 
-/********************************************************************/
-/* M.a.j l'etat de sante du personnage a partir du numero d'etat    */
-/* passe en parametre                                               */
-/********************************************************************/
 void DessinPerso::changerEtatDeSante(int numEtat)
 {
     numeroEtat = numEtat<=G_etatsDeSante.size()-1?numEtat:0;
@@ -592,189 +482,62 @@ void DessinPerso::changerEtatDeSante(int numEtat)
     dessinerPersonnage();
 }
 
-/********************************************************************/
-/* Renvoie le numero de l'etat de sante dans lequel se trouve le    */
-/* personnage                                                       */
-/********************************************************************/
 int DessinPerso::numeroEtatSante()
 {
     return numeroEtat;
 }
 
-/********************************************************************/
-/* Emet un pnj vers les clients ou le serveur                       */
-/********************************************************************/
 void DessinPerso::emettrePnj(QString idCarte)
 {
-    // Taille des donnees a emettre (sans l'entete)
-    quint32 tailleCorps = sizeof(quint8) + idCarte.size()*sizeof(QChar) + tailleDonneesAEmettre();
+    NetworkMessageWriter msg(NetMsg::NPCCategory,NetMsg::addNpc);
+    msg.string8(idCarte);
+    preparerPourEmission(&msg);
+    msg.sendAll();
 
-    // Buffer d'emission
-    char *donnees = new char[tailleCorps + sizeof(enteteMessage)];
-
-    // Creation de l'entete du message
-    enteteMessage *uneEntete;
-    uneEntete = (enteteMessage *) donnees;
-    uneEntete->categorie = persoNonJoueur;
-    uneEntete->action = ajouterPersoNonJoueur;
-    uneEntete->tailleDonnees = tailleCorps;
-
-    int p = sizeof(enteteMessage);
-    // Ajout de l'identifiant de la carte
-    quint8 tailleId = idCarte.size();
-    memcpy(&(donnees[p]), &tailleId, sizeof(quint8));
-    p+=sizeof(quint8);
-    memcpy(&(donnees[p]), idCarte.data(), tailleId*sizeof(QChar));
-    p+=tailleId*sizeof(QChar);
-    // Ajout des donnees du PNJ
-    preparerPourEmission(&(donnees[p]));
-    // Emission des donnees
-    emettre(donnees, tailleCorps + sizeof(enteteMessage));
-    delete[] donnees;
-}
-
-/********************************************************************/
-/* Renvoie la taille du tampon a reserver pour stocker les info     */
-/* relativent au personnage (avant l'appel a preparerPourEmission)  */
-/********************************************************************/
-int DessinPerso::tailleDonneesAEmettre()
-{
-    // Taille des donnees
-    quint32 tailleDonnees =
-            // Taille du nom
-            sizeof(quint16) + nomPerso.size()*sizeof(QChar) +
-            // Taille de l'identifiant
-            sizeof(quint8) + identifiant.size()*sizeof(QChar) +
-            // Taille du type de personnage (PJ ou PNJ)
-            sizeof(quint8) +
-            // Taille du numero de PNJ
-            sizeof(quint8) +
-            // Taille du diametre
-            sizeof(quint8) +
-            // Taille de la couleur
-            sizeof(QRgb) +
-            // Taille de la position du centre du personnage
-            sizeof(qint16) + sizeof(qint16) +
-            // Taille de l'orientation du personnage
-            sizeof(qint16) + sizeof(qint16) +
-            // Taille de l'etat de sante
-            sizeof(QRgb) + sizeof(quint16) + etat.nomEtat.size()*sizeof(QChar) +
-            // Taille du numero d'etat de sante
-            sizeof(quint16) +
-            // Taille de l'information visible/cache
-            sizeof(quint8) +
-            // Taille de l'information orientation affichee/masquee
-            sizeof(quint8);
-
-    return tailleDonnees;
 }
 void DessinPerso::write(QDataStream &out)
 {
-
     QString ident = QUuid::createUuid().toString();
     int numeroDuPnj = numeroPnj;
     if (type==pj)
         numeroDuPnj = 0;
-
-
     out << nomPerso << ident << pnj << numeroDuPnj << diametre << couleur << positionCentrePerso() << orientation << etat.couleurEtat << etat.nomEtat << numeroEtat << visible << orientationAffichee;
-
-
-
 }
-
-/********************************************************************/
-/* Ecrit a l'adresse passee en parametre les elements necessaires a */
-/* l'emission d'un personnage (corps du message uniquement) et      */
-/* renvoie la taille des donnees ecritent. S'il est a true le       */
-/* parametre "convertirEnPnj" entraine la convertion en PNJ de tous */
-/* les PJ presents sur la carte                                     */
-/********************************************************************/
-int DessinPerso::preparerPourEmission(char *tampon, bool convertirEnPnj)
+int DessinPerso::preparerPourEmission(NetworkMessageWriter* msg, bool convertirEnPnj)
 {
-    int p = 0;
-    // Ajout du nom
-    quint16 tailleNom = nomPerso.size();
-    memcpy(&(tampon[p]), &tailleNom, sizeof(quint16));
-    p+=sizeof(quint16);
-    memcpy(&(tampon[p]), nomPerso.data(), tailleNom*sizeof(QChar));
-    p+=tailleNom*sizeof(QChar);
 
     QString ident;
-    // Si on convertit le PJ en PNJ, on change son ID pour eviter les erreurs en cas de sauvegarde/fermture/ouverture
-    // de la carte (1 PJ et 1 PNJ se retrouvent avec le meme ID)
+    quint8 characterType;
+    quint8 characterNum = numeroPnj;
     if (convertirEnPnj)
+    {
         ident = QUuid::createUuid().toString();
+        characterType = pnj;
+        characterNum = type==pj ? 0 : numeroPnj;
+    }
     else
+    {
         ident = identifiant;
-    // Ajout de l'identifiant
-    quint8 tailleId = ident.size();
-    memcpy(&(tampon[p]), &tailleId, sizeof(quint8));
-    p+=sizeof(quint8);
-    memcpy(&(tampon[p]), ident.data(), tailleId*sizeof(QChar));
-    p+=tailleId*sizeof(QChar);
-    // Ajout du type
-    quint8 typeDuPerso;
-    if (convertirEnPnj)
-        typeDuPerso = pnj;
-    else
-        typeDuPerso = type;
-    memcpy(&(tampon[p]), &typeDuPerso, sizeof(quint8));
-    p+=sizeof(quint8);
-    // Ajout du numero de PNJ
-    quint8 numeroDuPnj;
-    if (type==pj && convertirEnPnj)
-        numeroDuPnj = 0;
-    else
-        numeroDuPnj = numeroPnj;
-    memcpy(&(tampon[p]), &numeroDuPnj, sizeof(quint8));
-    p+=sizeof(quint8);
-    // Ajout du diametre
-    memcpy(&(tampon[p]), &diametre, sizeof(quint8));
-    p+=sizeof(quint8);
-    // Ajout de la couleur
-    QRgb couleurPersoRgb = couleur.rgb();
-    memcpy(&(tampon[p]), &couleurPersoRgb, sizeof(QRgb));
-    p+=sizeof(QRgb);
-    // Ajout de la position du centre du personnage
-    QPoint positionDuCentre = positionCentrePerso();
-    qint16 centreX = positionDuCentre.x();
-    qint16 centreY = positionDuCentre.y();
-    memcpy(&(tampon[p]), &centreX, sizeof(qint16));
-    p+=sizeof(qint16);
-    memcpy(&(tampon[p]), &centreY, sizeof(qint16));
-    p+=sizeof(qint16);
-    // Ajout de l'orientation du personnage
-    qint16 orientationX = orientation.x();
-    qint16 orientationY = orientation.y();
-    memcpy(&(tampon[p]), &orientationX, sizeof(qint16));
-    p+=sizeof(qint16);
-    memcpy(&(tampon[p]), &orientationY, sizeof(qint16));
-    p+=sizeof(qint16);
-    // Ajout de l'etat de sante (couleur)
-    QRgb couleurEtatRgb = etat.couleurEtat.rgb();
-    memcpy(&(tampon[p]), &couleurEtatRgb, sizeof(QRgb));
-    p+=sizeof(QRgb);
-    // Ajout de l'etat de sante (nom)
-    quint16 tailleEtatSante = etat.nomEtat.size();
-    memcpy(&(tampon[p]), &tailleEtatSante, sizeof(quint16));
-    p+=sizeof(quint16);
-    memcpy(&(tampon[p]), etat.nomEtat.data(), tailleEtatSante*sizeof(QChar));
-    p+=tailleEtatSante*sizeof(QChar);
-    // Ajout du numero d'etat de sante
-    quint16 numEtatDeSante = numeroEtat;
-    memcpy(&(tampon[p]), &numEtatDeSante, sizeof(quint16));
-    p+=sizeof(quint16);
-    // Ajout de l'information visible/cache
-    quint8 persoVisible;
-    persoVisible = visible;
-    memcpy(&(tampon[p]), &persoVisible, sizeof(quint8));
-    p+=sizeof(quint8);
-    // Ajout de l'information orientation affichee/masquee
-    quint8 orientationVisible = orientationAffichee;
-    memcpy(&(tampon[p]), &orientationVisible, sizeof(quint8));
-    p+=sizeof(quint8);
+        characterType = type;
+    }
 
-    // On renvoie le nbr d'octets ecrits
-    return p;
+    msg->string16(nomPerso);
+    msg->string8(ident);
+    msg->uint8(characterType);
+    msg->uint8(characterNum);
+    msg->uint8(diametre);
+    msg->rgb(couleur);
+
+    msg->uint16(positionCentrePerso().x());
+    msg->uint16(positionCentrePerso().y());
+
+    msg->int16(orientation.x());
+    msg->int16(orientation.y());
+
+    msg->rgb(etat.couleurEtat);
+
+    msg->string16(etat.nomEtat);
+    msg->uint16(numeroEtat);
+    msg->uint8( visible);
+    msg->uint8(orientationAffichee);
 }

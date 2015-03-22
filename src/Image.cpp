@@ -115,7 +115,7 @@ void Image::fill(NetworkMessageWriter & message) const
 	QBuffer bufImage(&baImage);
     if (!labelImage->pixmap()->save(&bufImage, "jpg", 70))
     {
-        qDebug() << "png size:" << bufImage.size();
+     //   qDebug() << "png size:" << bufImage.size();
     }
 
 

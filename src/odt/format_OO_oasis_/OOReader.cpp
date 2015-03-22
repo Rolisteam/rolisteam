@@ -123,8 +123,9 @@ OOReader::OOReader( const QString file , OOReader::WIDGEDEST e , QObject* parent
 		construct_modus(e),sumOfBlocks(0),fileHash("250186"),fontTotal(0)
 {
 
-	if (qApp->thread() != QThread::currentThread()) {
-		qDebug() << "### Heya speed other  QThread as Apps....";
+    if (qApp->thread() != QThread::currentThread())
+    {
+
 	}
 	odtzipfile = file;
 	reset();

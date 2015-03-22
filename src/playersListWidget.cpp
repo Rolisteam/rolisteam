@@ -25,7 +25,7 @@
 
 #include "playersListWidget.h"
 
-#include "map/Carte.h"
+#include "map/map.h"
 #include "delegate.h"
 #include "persons.h"
 #include "persondialog.h"

@@ -242,7 +242,6 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
 {
     int id = msg->uint8();
     NetMsg::Action action = msg->action();
-    qDebug() << "action "<< action << "play" << NetMsg::PlaySong << "change position"<<NetMsg::ChangePositionSong;
     switch (action)
     {
     case NetMsg::PlaySong:
