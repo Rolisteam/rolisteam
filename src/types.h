@@ -60,13 +60,13 @@
 		quint32 tailleDonnees;			// Indique la taille des donnees suivant l'entete
 	} enteteMessage;
 
-	// Definition d'un utilisateur
-	typedef struct
+
+    /*typedef struct
 	{
 		QString idJoueur;				// Identifiant du joueur
 		QString nomJoueur;				// Nom du joueur
 		QColor couleurJoueur;			// Couleur du joueur
 		bool mj;						// True si l'utilisateur est un MJ, false sinon
-	} utilisateur;
+    } utilisateur;*/
 
 #endif
