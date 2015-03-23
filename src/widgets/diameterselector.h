@@ -28,17 +28,17 @@
 #include <QWidget>
 #include <QSlider>
 
-class AfficheurDisque;
+class CircleDisplayer;
 
 
 /**
  * @brief Dessine un disque dont le diamêtre varie grace a un QSlider.
  */
-class SelecteurDiametre : public QWidget
+class DiameterSelector : public QWidget
 {
     Q_OBJECT
 public :
-    SelecteurDiametre(QWidget *parent = 0, bool plein = true, int minimum = 1, int maximum = 50);
+    DiameterSelector(QWidget *parent = 0, bool plein = true, int minimum = 1, int maximum = 50);
     void changerDiametre(int nouvelleValeur);
 
 signals:
@@ -48,8 +48,8 @@ signals:
 private :
     int minimum;
     int maximum;
-    AfficheurDisque *disque;
-    QSlider *diametre;
+    CircleDisplayer* m_circle;
+    QSlider* m_diameter;
 };
 
 #endif

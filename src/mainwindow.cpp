@@ -134,7 +134,7 @@ MainWindow* MainWindow::getInstance()
 }
 
 MainWindow::MainWindow()
-    : QMainWindow(),m_networkManager(NULL)
+    : QMainWindow(),m_networkManager(NULL),m_localPlayerId(QUuid::createUuid().toString())
 {
     m_shownProgress=false;
     m_preferences = PreferencesManager::getInstance();
@@ -145,7 +145,7 @@ MainWindow::MainWindow()
     m_downLoadProgressbar->setVisible(false);
 
     m_mapWizzard = new MapWizzard(this);
-	m_networkManager = new NetworkManager;
+    m_networkManager = new NetworkManager(m_localPlayerId);
     m_ipChecker = new IpChecker(this);
 	//G_NetworkManager = m_networkManager;
 	m_mapAction = new QMap<BipMapWindow*,QAction*>();
@@ -591,7 +591,7 @@ void MainWindow::openImage()
     QString idImage = QUuid::createUuid().toString();
 
     // Creation de la fenetre image
-    Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, img, NULL,m_mdiArea);
+    Image *imageFenetre = new Image(titre,idImage, m_localPlayerId, img, NULL,m_mdiArea);
 
     addImageToMdiArea(imageFenetre,titre);
 
@@ -680,7 +680,7 @@ void MainWindow::openMap(Map::PermissionMode Permission,QString filepath,QString
         // Creation de l'identifiant
         QString idMap = QUuid::createUuid().toString();
         // Creation de la carte
-        Map* map = new Map(idMap, &image, masquer);
+        Map* map = new Map(m_localPlayerId,idMap, &image, masquer);
         map->setPermissionMode(Permission);
         map->setPointeur(m_toolBar->getCurrentTool());
 		// Creation de la BipMapWindow
@@ -772,7 +772,7 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
 
     QString idCarte = QUuid::createUuid().toString();
 
-    Map* map = new Map(idCarte, &fondOriginal, &fond, &alpha);
+    Map* map = new Map(m_localPlayerId,idCarte, &fondOriginal, &fond, &alpha);
     map->setPermissionMode(myPermission);
     map->setPointeur(m_toolBar->getCurrentTool());
 	BipMapWindow* bipMapWindow = new BipMapWindow(map,m_mdiArea);
@@ -973,7 +973,7 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
         m_saveMapAct->setEnabled(true);
     }
     else if (widget != NULL && widget->objectName() == QString("Image") &&
-             (localPlayerIsGM || static_cast<Image *>(widget)->proprietaireImage()))
+             (localPlayerIsGM || static_cast<Image *>(widget)->isImageOwner(m_localPlayerId)))
     {
         m_closeMap->setEnabled(true);
         m_saveMapAct->setEnabled(false);
@@ -1017,7 +1017,7 @@ void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond,
 {
     QImage image(size, QImage::Format_ARGB32_Premultiplied);
     image.fill(couleurFond.rgb());
-    Map *carte = new Map(idCarte, &image);
+    Map *carte = new Map(m_localPlayerId,idCarte, &image);
     carte->setPermissionMode(getPermission(mode));
     carte->setPointeur(m_toolBar->getCurrentTool());
 	BipMapWindow* bipMapWindow = new BipMapWindow(carte, m_mdiArea);
@@ -1445,7 +1445,7 @@ void MainWindow::saveAllImages(QDataStream &out)
         Image* img = static_cast<Image*>(sub->widget());
         if(NULL!=img)
         {
-            img->sauvegarderImage(out,sub->windowTitle());
+            img->saveImageToFile(out);
         }
 
     }
@@ -1481,7 +1481,7 @@ void MainWindow::readImageFromStream(QDataStream &file)
     QString idImage = QUuid::createUuid().toString();
 
     // Creation de la fenetre image
-    Image *imageFenetre = new Image(this,idImage, G_idJoueurLocal, &img, NULL,m_mdiArea);
+    Image *imageFenetre = new Image(title,idImage, m_localPlayerId, &img, NULL,m_mdiArea);
 
 
     addImageToMdiArea(imageFenetre,title);
@@ -1499,7 +1499,7 @@ void MainWindow::readImageFromStream(QDataStream &file)
     NetworkMessageWriter msg(NetMsg::PictureCategory,NetMsg::AddPictureAction);
     msg.string16(title);
     msg.string8(idImage);
-    msg.string8(G_idJoueurLocal);
+    msg.string8(m_localPlayerId);
     msg.byteArray32(byteArray);
     msg.sendAll();
 }
@@ -1877,7 +1877,7 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
         {
             qWarning("Compression Error (processMapMessage - NetworkLink.cpp)");
         }
-        Map* map = new Map(idMap, &image, maskPlan);
+        Map* map = new Map(m_localPlayerId,idMap, &image, maskPlan);
         map->changerTaillePjCarte(npSize,false);
         map->setPermissionMode((Map::PermissionMode)permission);
 
@@ -1917,7 +1917,7 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
         {
             qWarning() << tr("Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)");
         }
-        Map* map = new Map(idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
+        Map* map = new Map(m_localPlayerId,idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
         map->changerTaillePjCarte(npSize,false);
 
         map->setPermissionMode((Map::PermissionMode)permission);
@@ -1949,7 +1949,7 @@ void MainWindow::processImageMessage(NetworkMessageReader* msg)
 			{
 				qWarning("Cannot read received image (receptionMessageImage - NetworkLink.cpp)");
 			}
-			Image *image = new Image(this,idImage, idPlayer, img);
+            Image *image = new Image(title,idImage, idPlayer, img);
 			addImage(image, title);
 
 
@@ -2016,7 +2016,7 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
             couleurSelectionee selectedColor;
             selectedColor.color = color;
             selectedColor.type = (typeCouleur)colorType;
-            map->dessinerTraceCrayon(&pointList,zoneToRefresh,diameter,selectedColor,idPlayer==G_idJoueurLocal);
+            map->dessinerTraceCrayon(&pointList,zoneToRefresh,diameter,selectedColor,idPlayer==m_localPlayerId);
         }
     }
     else if(msg->action() == NetMsg::textPainting)

@@ -36,8 +36,8 @@
 #include <QDockWidget>
 #include <QActionGroup>
 
-class SelecteurCouleur;
-class SelecteurDiametre;
+class ColorSelector;
+class DiameterSelector;
 class Map;
 /**
  * @brief The ToolBar class is gathering all tool and manages selection of them.
@@ -89,11 +89,11 @@ private :
     QLineEdit *ligneDeTexte;
     QLineEdit *nomPnj;
     QLCDNumber *afficheNumeroPnj;
-    SelecteurCouleur *couleur;
-    SelecteurDiametre *diametreTrait;
-    SelecteurDiametre *m_npcDiameter;
+    ColorSelector* m_color;
+    DiameterSelector *diametreTrait;
+    DiameterSelector *m_npcDiameter;
     Map * m_map;
-    //SelecteurDiametre* m_pcDiameter;
+    //DiameterSelector* m_pcDiameter;
 
 
 private slots :

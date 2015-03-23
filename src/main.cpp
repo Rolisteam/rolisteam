@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
     qsrand(seed);
 
     // We need an Uuid for the local player (do we ?)
-    G_idJoueurLocal = QUuid::createUuid().toString();
+    //G_idJoueurLocal = QUuid::createUuid().toString();
 
 
 

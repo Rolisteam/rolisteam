@@ -40,7 +40,7 @@ int G_diametreTraitCourant;
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/
-AfficheurDisque::AfficheurDisque(QWidget *parent, bool plein, int minimum,int maximum)
+CircleDisplayer::CircleDisplayer(QWidget *parent, bool plein, int minimum,int maximum)
     : QWidget(parent)
 {
     // Initialisation des variables de la classe
@@ -65,7 +65,7 @@ AfficheurDisque::AfficheurDisque(QWidget *parent, bool plein, int minimum,int ma
 /********************************************************************/
 /* Dessine le contenu du widget                                     */
 /********************************************************************/
-void AfficheurDisque::paintEvent(QPaintEvent *event)
+void CircleDisplayer::paintEvent(QPaintEvent *event)
 {
         Q_UNUSED(event)
     int diametreAffiche;
@@ -108,7 +108,7 @@ void AfficheurDisque::paintEvent(QPaintEvent *event)
 /********************************************************************/
 /* Modifie le diametre du disque et le redessine                    */
 /********************************************************************/
-void AfficheurDisque::changerDiametre(int diametre)
+void CircleDisplayer::changerDiametre(int diametre)
 {
     diametreCourant = diametre;
 

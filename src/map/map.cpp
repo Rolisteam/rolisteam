@@ -40,10 +40,10 @@
 
 
 
-Map::Map(QString identCarte, QImage *image, bool masquer, QWidget *parent)
+Map::Map(QString localPlayerId,QString identCarte, QImage *image, bool masquer, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
-
+    m_localPlayerId = localPlayerId;
     m_currentMode = Map::GM_ONLY;
     m_currentTool = ToolBar::main;
 
@@ -133,9 +133,10 @@ void Map::p_init()
 }
 
 
-Map::Map(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
+Map::Map(QString localPlayerId,QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
+       m_localPlayerId = localPlayerId;
 
     m_currentMode = Map::GM_ONLY;
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
@@ -1438,7 +1439,7 @@ void Map::emettreTrace()
     if(ToolBar::crayon == m_currentTool )
     {
         msg = new NetworkMessageWriter(NetMsg::DrawCategory,NetMsg::penPainting);
-        msg->string8(G_idJoueurLocal);
+        msg->string8(m_localPlayerId);
         msg->string8(idCarte);
         msg->uint32(listePointsCrayon.size());
         for (int i=0; i<listePointsCrayon.size(); i++)

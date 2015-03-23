@@ -116,7 +116,8 @@ HEADERS += \
     src/widgets/diameterselector.h \
     src/chat/improvedtextedit.h \
     src/widgets/circledisplayer.h \
-    src/map/charactertoken.h
+    src/map/charactertoken.h \
+    src/data/mediacontainer.h
 
 
 
@@ -166,7 +167,8 @@ SOURCES += \
     src/widgets/diameterselector.cpp \
     src/chat/improvedtextedit.cpp \
     src/map/characterdtoken.cpp \
-    src/widgets/circledisplayer.cpp
+    src/widgets/circledisplayer.cpp \
+    src/data/mediacontainer.cpp
 #end source
 
 

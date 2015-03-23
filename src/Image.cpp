@@ -35,9 +35,9 @@
 
 /********************************************************************/
 /* Constructeur                                                     */
-/********************************************************************/	
-Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QImage *image, QAction *action, ImprovedWorkspace *parent)
-: QScrollArea(parent),m_mainWindow(mainWindow),m_NormalSize(0,0)
+/********************************************************************/
+Image::Image(QString title,QString identImage, QString identJoueur, QImage *image, QAction *action, ImprovedWorkspace *parent)
+: QScrollArea(parent),m_NormalSize(0,0),m_title(title)
 {
 
 	setObjectName("Image");
@@ -49,19 +49,19 @@ Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QIm
 
     m_prefManager = PreferencesManager::getInstance();
 
-	labelImage = new QLabel(this);
+    m_imageLabel = new QLabel(this);
     m_pixMap = QPixmap::fromImage(*image);
-    labelImage->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
-	labelImage->resize(image->width(), image->height());
-    labelImage->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    labelImage->setScaledContents(true);
-    labelImage->resize(m_pixMap.size());
+    m_imageLabel->setPixmap(m_pixMap.scaled(m_pixMap.width()*m_zoomLevel,m_pixMap.height()*m_zoomLevel));
+    m_imageLabel->resize(image->width(), image->height());
+    m_imageLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    m_imageLabel->setScaledContents(true);
+    m_imageLabel->resize(m_pixMap.size());
 
     m_internalAction = action;
-    idImage = identImage;
-	idJoueur = identJoueur;
+    m_idImage = identImage;
+    m_idPlayer = identJoueur;
     setAlignment(Qt::AlignCenter);
-    setWidget(labelImage);
+    setWidget(m_imageLabel);
 
     m_ratioImage = (double)m_pixMap.size().width()/m_pixMap.size().height();
     m_ratioImageBis = (double)m_pixMap.size().height()/m_pixMap.size().width();
@@ -79,8 +79,7 @@ Image::Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QIm
 
 Image::~Image()
 {
-    /// @todo fix this, cause crash at the destruction of the application.
-    //m_mainWindow->enleverImageDeLaListe(idImage);
+
 }
 QAction* Image::getAssociatedAction() const
 {
@@ -90,15 +89,15 @@ void Image::setInternalAction(QAction *action)
 {
     m_internalAction = action;
 }
-bool Image::proprietaireImage()
+bool Image::isImageOwner(QString id)
 {
-	return idJoueur == G_idJoueurLocal;
+    return m_idPlayer == id;
 }
 
 
 QString Image::getImageId()
 {
-	return idImage;
+    return m_idImage;
 }
 QString Image::getImageTitle()
 {
@@ -113,7 +112,7 @@ void Image::fill(NetworkMessageWriter & message) const
 {
 	QByteArray baImage;
 	QBuffer bufImage(&baImage);
-    if (!labelImage->pixmap()->save(&bufImage, "jpg", 70))
+    if (!m_imageLabel->pixmap()->save(&bufImage, "jpg", 70))
     {
      //   qDebug() << "png size:" << bufImage.size();
     }
@@ -122,25 +121,25 @@ void Image::fill(NetworkMessageWriter & message) const
 
     message.reset();
     message.string16(m_title);
-    message.string8(idImage);
-    message.string8(idJoueur);
+    message.string8(m_idImage);
+    message.string8(m_idPlayer);
     message.byteArray32(baImage);
 }
 
 
-void Image::sauvegarderImage(QDataStream &out, QString titre)
+void Image::saveImageToFile(QDataStream &out)
 {
     bool ok;
 
     // compression is done in PNG allowing transparency.
     QByteArray baImage;
     QBuffer bufImage(&baImage);
-    ok = labelImage->pixmap()->save(&bufImage, "jpg", 70);
+    ok = m_imageLabel->pixmap()->save(&bufImage, "jpg", 70);
     if (!ok)
         qWarning() <<(tr("Image Compression fails (sauvegarderImage - Image.cpp)"));
 
     // Ecriture de l'image dans le fichier
-    out<< titre;
+    out<< m_title;
     out << pos();
     out << size();
     out << baImage;
@@ -152,12 +151,12 @@ void Image::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton && m_currentTool == ToolBar::main)
 	{
 		// Le deplacement est autorise
-		deplacementAutorise = true;
+        m_allowedMove = true;
 		// On memorise la position du point de depart
-		pointDepart = event->pos();
+        m_startingPoint = event->pos();
 		// On releve les valeurs des barres de defilement
-		horizontalDepart = horizontalScrollBar()->value();
-		verticalDepart = verticalScrollBar()->value();
+        m_horizontalStart = horizontalScrollBar()->value();
+        m_verticalStart = verticalScrollBar()->value();
 	}
 }
 
@@ -166,20 +165,20 @@ void Image::mouseReleaseEvent(QMouseEvent *event)
 {
 	// Si le bouton gauche est relache on interdit le deplacement de la carte
 	if (event->button() == Qt::LeftButton)
-		deplacementAutorise = false;
+        m_allowedMove = false;
 }
 
 
 void Image::mouseMoveEvent(QMouseEvent *event)
 {
 	// Si le deplacement est autorise
-	if (deplacementAutorise)
+    if (m_allowedMove)
 	{
 		// On calcule la cifference de position entre le depart et maintenant
-		QPoint diff = pointDepart - event->pos();
+        QPoint diff = m_startingPoint - event->pos();
 		// On change la position des barres de defilement
-		horizontalScrollBar()->setValue(horizontalDepart + diff.x());
-		verticalScrollBar()->setValue(verticalDepart + diff.y());
+        horizontalScrollBar()->setValue(m_horizontalStart + diff.x());
+        verticalScrollBar()->setValue(m_verticalStart + diff.y());
 	}
 }
 		
@@ -199,30 +198,30 @@ void Image::resizeLabel()
     {
         if(width()>height()*m_ratioImage)
         {
-            labelImage->resize(height()*m_ratioImage,height());
+            m_imageLabel->resize(height()*m_ratioImage,height());
         }
         else
         {
-            labelImage->resize(width(),width()*m_ratioImageBis);
+            m_imageLabel->resize(width(),width()*m_ratioImageBis);
         }
     }
     else if((m_NormalSize.height()!=0)&&(m_NormalSize.width()!=0))
     {
-        labelImage->resize(m_zoomLevel * m_NormalSize);
+        m_imageLabel->resize(m_zoomLevel * m_NormalSize);
     }
     else
     {
-        labelImage->resize(m_zoomLevel * m_pixMap.size());
+        m_imageLabel->resize(m_zoomLevel * m_pixMap.size());
         m_NormalSize = widget()->size();
     }
 }
 void Image::pointeurMain()
 {
-	labelImage->setCursor(Qt::OpenHandCursor);
+    m_imageLabel->setCursor(Qt::OpenHandCursor);
 }
 void Image::pointeurNormal()
 {
-	labelImage->setCursor(Qt::ForbiddenCursor);
+    m_imageLabel->setCursor(Qt::ForbiddenCursor);
 }
 void Image::zoomIn()
 {
@@ -238,7 +237,7 @@ void Image::zoomOut()
 
 void Image::onFitWorkSpace()
 {
-    labelImage->resize(m_parent->size());
+    m_imageLabel->resize(m_parent->size());
     fitWorkSpace();
     //m_zoomLevel = 1;
 }
@@ -250,10 +249,10 @@ void Image::fitWorkSpace()
     {
         m_zoomLevel -= 0.1;
     }
-    labelImage->resize(m_pixMap.size());
+    m_imageLabel->resize(m_pixMap.size());
     m_NormalSize = QSize(0,0);
     resizeLabel();
-    setGeometry(labelImage->rect().adjusted(0,0,4,4));
+    setGeometry(m_imageLabel->rect().adjusted(0,0,4,4));
     m_zoomLevel = 1.0;
 }
 void Image::wheelEvent(QWheelEvent *event)
@@ -297,9 +296,9 @@ void Image::paintEvent ( QPaintEvent * event )
     {
 
     }
-    else if((m_NormalSize * m_zoomLevel) != labelImage->size())
+    else if((m_NormalSize * m_zoomLevel) != m_imageLabel->size())
     {
-        m_NormalSize = labelImage->size() / m_zoomLevel;
+        m_NormalSize = m_imageLabel->size() / m_zoomLevel;
         m_windowSize = size();
     }
 }

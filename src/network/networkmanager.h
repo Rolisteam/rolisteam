@@ -54,7 +54,7 @@ class NetworkManager : public QObject
     Q_OBJECT
 
 public :
-	NetworkManager();
+    NetworkManager(QString localPlayerId);
 	~NetworkManager();
 
     /**
@@ -140,6 +140,7 @@ private :
     QString m_address;
     QTimer* m_reconnect;
     Player * m_localPlayer;
+    QString  m_localPlayerId;
     bool m_disconnectAsked;
     PreferencesManager* m_preferences;
 

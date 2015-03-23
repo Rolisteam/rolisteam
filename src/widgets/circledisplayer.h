@@ -25,14 +25,14 @@
 #include <QWidget>
 
 /**
- * @brief The AfficheurDisque class display a size selector for circle.
+ * @brief The CircleDisplayer class display a size selector for circle.
  */
-class AfficheurDisque : public QWidget
+class CircleDisplayer : public QWidget
 {
     Q_OBJECT
 
     public :
-        AfficheurDisque(QWidget *parent = 0, bool plein = true, int minimum = 1,int maximum=50);
+        CircleDisplayer(QWidget *parent = 0, bool plein = true, int minimum = 1,int maximum=50);
     public slots :
         void changerDiametre(int diametre);
     protected:

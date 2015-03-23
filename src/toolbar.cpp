@@ -93,22 +93,15 @@ ToolBar::~ToolBar()
     delete nomPnj;
 }
 
-/********************************************************************/	
-/* Autorise ou pas la selection des couleurs de masquage et         */
-/* demasquage en fonction de la nature de l'utilisateur (MJ/joueur) */
-/********************************************************************/	
 void ToolBar::updateUi()
 {
-	couleur->autoriserOuInterdireCouleurs();
+    m_color->autoriserOuInterdireCouleurs();
         if(!PlayersList::instance()->localPlayer()->isGM())
         {
             m_npcDiameter->setVisible(false);
         }
 }
 
-/********************************************************************/
-/* Creation des actions                                             */
-/********************************************************************/	
 void ToolBar::creerActions()
 {
 	// Creation du groupe d'action
@@ -302,8 +295,8 @@ void ToolBar::creerOutils()
 	// Initialisation de la variable globale indiquant le numero de PNJ courant
 	G_numeroPnjCourant = 1;
 	
-	// Creation du selecteur de couleur
-	couleur = new SelecteurCouleur(outils);
+    // Creation du selecteur de m_color
+    m_color = new ColorSelector(outils);
 
 	// Creation du layout contient les outils de deplcement des PNJ
 	QHBoxLayout *layoutMouvementPnj = new QHBoxLayout();
@@ -322,12 +315,12 @@ void ToolBar::creerOutils()
 	layoutAjoutPnj->addWidget(afficheNumeroPnj, 1, 1, Qt::AlignHCenter);
 	
 	// Creation du selecteur de diametre du trait
-        diametreTrait = new SelecteurDiametre(outils, true, 1, 45);
+        diametreTrait = new DiameterSelector(outils, true, 1, 45);
         diametreTrait->setToolTip(tr("Line's Width"));
 
 
     // Creation du selecteur de diametre des PNJ
-    m_npcDiameter = new SelecteurDiametre(outils, false, 12, 200);
+    m_npcDiameter = new DiameterSelector(outils, false, 12, 200);
     m_npcDiameter->setToolTip(tr("NPC Size"));
     connect(m_npcDiameter, SIGNAL(valueChanging(int)),this, SLOT(changeCharacterSize(int)));
     connect(m_npcDiameter, SIGNAL(valueChanged(int)),this, SLOT(sendNewCharacterSize(int)));
@@ -373,7 +366,7 @@ void ToolBar::creerOutils()
 	#endif
 	
 	// Ajout des differents layouts et widgets dans outilsLayout
-	outilsLayout->addWidget(couleur);
+    outilsLayout->addWidget(m_color);
 	outilsLayout->addWidget(separateur1);
 	outilsLayout->addLayout(layoutDessin);
 	#ifdef MACOS
@@ -448,14 +441,9 @@ void ToolBar::changementTaille(bool floating)
 		setMaximumHeight(0xFFFFFF);
 }
 
-/********************************************************************/
-/* Mise a jour de la variable globale contenant le texte            */
-/********************************************************************/	
 void ToolBar::texteChange(const QString &texte)
 {
-	// M.a.j automatique de la variable globale contenant le texte
 	G_texteCourant = texte;
-	// Selection automatique de l'action Texte
 	actionTexte->trigger();
 }
 
@@ -476,7 +464,7 @@ void ToolBar::nomPnjChange(const QString &texte)
 /********************************************************************/
 void ToolBar::changeCouleurActuelle(QColor coul)
 {
-	couleur->changeCouleurActuelle(coul);
+    m_color->changeCouleurActuelle(coul);
 }
 
 /********************************************************************/
@@ -507,7 +495,7 @@ void ToolBar::changeMap(Map * map)
 /********************************************************************/	
 void ToolBar::majCouleursPersonnelles()
 {
-	couleur->majCouleursPersonnelles();
+    m_color->majCouleursPersonnelles();
 }
 
 /********************************************************************/	
@@ -516,7 +504,7 @@ void ToolBar::majCouleursPersonnelles()
 /********************************************************************/	
 QColor ToolBar::donnerCouleurPersonnelle(int numero)
 {
-	return couleur->donnerCouleurPersonnelle(numero);
+    return m_color->donnerCouleurPersonnelle(numero);
 }
 
 /********************************************************************/

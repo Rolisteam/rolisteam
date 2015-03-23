@@ -48,7 +48,7 @@ void notifyUser(QString message);
 void emettre(char *donnees, quint32 taille, NetworkLink *sauf = 0);
 
 
-extern QString         G_idJoueurLocal;
+//extern QString         G_idJoueurLocal;
 
 // Declarees dans NetworkManager.cpp
 extern bool G_joueur;
@@ -57,7 +57,7 @@ extern bool G_joueur;
 // Declarees dans DessinPerso.cpp, initialiser dans MainWindow.cpp
 extern QList<DessinPerso::etatDeSante> G_etatsDeSante;
 
-// Declarees dans SelecteurCouleur.cpp
+// Declarees dans ColorSelector.cpp
 extern couleurSelectionee G_couleurCourante;
 //extern QColor G_couleurMasque;
 
@@ -67,7 +67,7 @@ extern QString G_texteCourant;
 extern QString G_nomPnjCourant;
 extern int G_numeroPnjCourant;
 
-// Declarees dans AfficheurDisque.cpp
+// Declarees dans CircleDisplayer.cpp
 extern int G_diametreTraitCourant;
 
 // Declarees dans MainWindow.cpp

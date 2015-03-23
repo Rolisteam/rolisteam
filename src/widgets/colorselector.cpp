@@ -40,7 +40,7 @@ couleurSelectionee G_couleurCourante;
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/	
-SelecteurCouleur::SelecteurCouleur(QWidget *parent)
+ColorSelector::ColorSelector(QWidget *parent)
 	: QWidget(parent)
 {
 	// L'utilisateur n'a pas encore clique sur le selecteur de couleur
@@ -202,7 +202,7 @@ SelecteurCouleur::SelecteurCouleur(QWidget *parent)
 	// On autorise ou pas la selection des couleurs de masquage/demasquage en fonction de la nature de l'utilisateur (MJ/joueur)
     //autoriserOuInterdireCouleurs();
 }
-SelecteurCouleur::~SelecteurCouleur()
+ColorSelector::~ColorSelector()
 {
     delete couleurActuelle;
     delete couleurEfface;
@@ -231,7 +231,7 @@ SelecteurCouleur::~SelecteurCouleur()
 /* Autorise ou pas la selection des couleurs de masquage et         */
 /* demasquage selon que l'utilisateur local est MJ ou joueur        */
 /********************************************************************/		
-void SelecteurCouleur::autoriserOuInterdireCouleurs()
+void ColorSelector::autoriserOuInterdireCouleurs()
 {
 	// L'utilisateur est un joueur
 	if (G_joueur)
@@ -260,7 +260,7 @@ void SelecteurCouleur::autoriserOuInterdireCouleurs()
 /********************************************************************/
 /* L'utilisateur a clique dans le selecteur de couleur              */
 /********************************************************************/		
-void SelecteurCouleur::mousePressEvent(QMouseEvent *event)
+void ColorSelector::mousePressEvent(QMouseEvent *event)
 {
 	// Si le bouton gauche est enfonce...
 	if (event->button() == Qt::LeftButton)
@@ -274,7 +274,7 @@ void SelecteurCouleur::mousePressEvent(QMouseEvent *event)
 /* L'utilisateur a clique dans le selecteur de couleur et bouge la  */
 /* souris                                                           */
 /********************************************************************/		
-void SelecteurCouleur::mouseMoveEvent(QMouseEvent *event)
+void ColorSelector::mouseMoveEvent(QMouseEvent *event)
 {
 	// Si le bouton gauche est enfonce...
 	if (boutonEnfonce)
@@ -284,7 +284,7 @@ void SelecteurCouleur::mouseMoveEvent(QMouseEvent *event)
 /********************************************************************/
 /* L'utilisateur relache le bouton de la souris                     */
 /********************************************************************/		
-void SelecteurCouleur::mouseReleaseEvent(QMouseEvent *event)
+void ColorSelector::mouseReleaseEvent(QMouseEvent *event)
 {
 	// Si le bouton gauche est relache...
 	if (event->button() == Qt::LeftButton)
@@ -296,7 +296,7 @@ void SelecteurCouleur::mouseReleaseEvent(QMouseEvent *event)
 /* parametre move indique si l'utilisateur vient de deplacer la     */
 /* souris ou s'il s'agit d'un simple clic                           */
 /********************************************************************/
-void SelecteurCouleur::clicUtilisateur(QPoint positionSouris, bool move)
+void ColorSelector::clicUtilisateur(QPoint positionSouris, bool move)
 {
 	QWidget *enfant = childAt(positionSouris);
 	
@@ -388,7 +388,7 @@ void SelecteurCouleur::clicUtilisateur(QPoint positionSouris, bool move)
 /********************************************************************/
 /* Change la couleur actuelle                                       */
 /********************************************************************/		
-void SelecteurCouleur::changeCouleurActuelle(QColor color)
+void ColorSelector::changeCouleurActuelle(QColor color)
 {
 	// M.a.j du widget affichant la couleur actuelle
 	couleurActuelle->clear();
@@ -403,7 +403,7 @@ void SelecteurCouleur::changeCouleurActuelle(QColor color)
 /********************************************************************/	
 /* M.a.j des couleurs personnelles                                  */
 /********************************************************************/	
-void SelecteurCouleur::majCouleursPersonnelles()
+void ColorSelector::majCouleursPersonnelles()
 {
 	for (int i=0, j=0; i<16; i++)
 	{
@@ -417,7 +417,7 @@ void SelecteurCouleur::majCouleursPersonnelles()
 /* Renvoie la couleur personnelle dont le numero est passe en       */
 /* parametre                                                        */
 /********************************************************************/	
-QColor SelecteurCouleur::donnerCouleurPersonnelle(int numero)
+QColor ColorSelector::donnerCouleurPersonnelle(int numero)
 {
 	int numCouleur;
 

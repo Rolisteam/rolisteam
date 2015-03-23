@@ -34,7 +34,7 @@
 /********************************************************************/
 /* Constructeur                                                     */
 /********************************************************************/    
-SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int max)
+DiameterSelector::DiameterSelector(QWidget *parent, bool plein, int min, int max)
     : QWidget(parent)
 {
     // Initialisation des minimum et maximum
@@ -61,22 +61,22 @@ SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int m
     frameLayout->setMargin(0);
     
     // Creation de l'afficheur de disque
-    disque = new AfficheurDisque(frame, plein, minimum,maximum);
-    disque->changerDiametre(minimum);
+    m_circle = new CircleDisplayer(frame, plein, minimum,maximum);
+    m_circle->changerDiametre(minimum);
     
     // Ajout de l'afficheur de disque au layout du QFrame
-    frameLayout->addWidget(disque);
+    frameLayout->addWidget(m_circle);
 
     // Ajout du QFrame contenant l'afficheur de disque au layout
     layout->addWidget(frame);
     
     // Creation du QSlider permettant de faire varier le diametre
-    diametre = new QSlider(Qt::Horizontal, this);
-    diametre->setRange(minimum, maximum);
-    diametre->setValue(minimum);
-    diametre->setTracking(false);
+    m_diameter = new QSlider(Qt::Horizontal, this);
+    m_diameter->setRange(minimum, maximum);
+    m_diameter->setValue(minimum);
+    m_diameter->setTracking(false);
     // Ajout du QSlider au layout
-    layout->addWidget(diametre);
+    layout->addWidget(m_diameter);
 
     #ifdef MACOS
         layout->setSpacing(0);
@@ -84,15 +84,15 @@ SelecteurDiametre::SelecteurDiametre(QWidget *parent, bool plein, int min, int m
     #endif
     
     // Connection des signaux
-    connect(diametre, SIGNAL(sliderMoved(int)), disque, SLOT(changerDiametre(int)));
-    connect(diametre, SIGNAL(sliderMoved(int)), this, SIGNAL(valueChanging(int)));
-    connect(diametre, SIGNAL(valueChanged(int)), this, SIGNAL(valueChanged(int)));
+    connect(m_diameter, SIGNAL(sliderMoved(int)), m_circle, SLOT(changerDiametre(int)));
+    connect(m_diameter, SIGNAL(sliderMoved(int)), this, SIGNAL(valueChanging(int)));
+    connect(m_diameter, SIGNAL(valueChanged(int)), this, SIGNAL(valueChanged(int)));
 }
 
 /********************************************************************/
 /* Change la valeur du selecteur de diametre                        */
 /********************************************************************/    
-void SelecteurDiametre::changerDiametre(int valeur)
+void DiameterSelector::changerDiametre(int valeur)
 {
     // On verifie que la nouvelle valeur est entre les bornes min et max
     if (valeur < minimum)
@@ -101,5 +101,5 @@ void SelecteurDiametre::changerDiametre(int valeur)
         valeur = maximum;
     
     // Mise a jour du slider (un signal est envoye a l'afficheur de disque)
-    diametre->setValue(valeur);
+    m_diameter->setValue(valeur);
 }

@@ -58,8 +58,8 @@ void emettre(char *donnees, quint32 taille, NetworkLink *sauf)
  * NetworkManager *
  *****************/
 
-NetworkManager::NetworkManager()
-    : QObject(), m_server(NULL),m_NetworkLinkToServer(NULL),m_disconnectAsked(false),m_connectionState(false),m_localPlayer(NULL),m_audioPlayer(NULL)
+NetworkManager::NetworkManager(QString localPlayerId)
+    : QObject(), m_server(NULL),m_NetworkLinkToServer(NULL),m_disconnectAsked(false),m_connectionState(false),m_localPlayer(NULL),m_audioPlayer(NULL),m_localPlayerId(localPlayerId)
 {
 
     m_reconnect = new QTimer(this);
@@ -162,7 +162,7 @@ bool NetworkManager::configAndConnect()
         }
         synchronizePreferences();
         m_localPlayer = new Player(
-                QUuid(G_idJoueurLocal).toString(),
+                m_localPlayerId,
                 m_configDialog->getName(),
                 m_configDialog->getColor(),
                 m_configDialog->isGM()

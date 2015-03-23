@@ -46,26 +46,28 @@
 #include "toolbar.h"
 #include "preferences/preferencesmanager.h"
 
+#include "data/mediacontainer.h"
+
 class NetworkLink;
 class NetworkMessageWriter;
 class QShortcut;
 /**
  * @brief The Image class
  */
-class Image : public QScrollArea
+class Image : public QScrollArea, public MediaContainer
 {
 Q_OBJECT
 
 public :
-    Image(MainWindow* mainWindow,QString identImage, QString identJoueur, QImage *image, QAction *action = 0, ImprovedWorkspace *parent = 0);
+    Image(QString title, QString identImage, QString identJoueur, QImage *image, QAction *action = 0, ImprovedWorkspace *parent = 0);
     ~Image();
     void setInternalAction(QAction *action);
     QAction* getAssociatedAction() const;
 
     void fill(NetworkMessageWriter & message) const;
-    void sauvegarderImage(QFile &file, QString titre);
-    void sauvegarderImage(QDataStream& out, QString titre);
-    bool proprietaireImage();
+    void saveImageToFile(QFile &file);
+    void saveImageToFile(QDataStream& out);
+    bool isImageOwner(QString id);
     QString getImageId();
     void setParent(ImprovedWorkspace *parent);
     QString getImageTitle();
@@ -148,15 +150,15 @@ private :
 
 
 private :
-    MainWindow* m_mainWindow;
-    QString idImage;
-    QString idJoueur;
-    QAction *m_internalAction;
-    QLabel *labelImage;
-    QPoint pointDepart;
-    int horizontalDepart;
-    int verticalDepart;
-    bool deplacementAutorise;
+    QString m_title;
+    QString m_idImage;
+    QString m_idPlayer;
+    QAction* m_internalAction;
+    QLabel* m_imageLabel;
+    QPoint m_startingPoint;
+    int m_horizontalStart;
+    int m_verticalStart;
+    bool m_allowedMove;
     double m_zoomLevel;
     ImprovedWorkspace* m_parent;
     PreferencesManager* m_prefManager;
@@ -176,7 +178,7 @@ private :
     QShortcut* m_fitShort;
 
     QAction* m_actionNormalZoom; // *1
-     QShortcut* m_normalShort;
+    QShortcut* m_normalShort;
 
     QAction* m_actionBigZoom;// * 4
     QShortcut* m_bigShort;
@@ -187,8 +189,6 @@ private :
     //fit window keeping ratio
     QAction* m_fitWindowAct;// * 0.2
     QShortcut* m_fitWindowShort;
-
-    QString m_title;
 
     double m_ratioImage;
     double m_ratioImageBis;

@@ -44,14 +44,14 @@ class QHBoxLayout;
 class QGridLayout;
 class QVBoxLayout;
 /**
- * @brief The SelecteurCouleur class
+ * @brief The ColorSelector class
  */
-class SelecteurCouleur : public QWidget
+class ColorSelector : public QWidget
 {
     Q_OBJECT
 public:
-    SelecteurCouleur(QWidget *parent = 0);
-    ~SelecteurCouleur();
+    ColorSelector(QWidget *parent = 0);
+    ~ColorSelector();
     void changeCouleurActuelle(QColor couleur);
     void majCouleursPersonnelles();
     void autoriserOuInterdireCouleurs();

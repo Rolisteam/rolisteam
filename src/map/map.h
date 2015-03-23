@@ -18,10 +18,6 @@
  *   Free Software Foundation, Inc.,                                     *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
-
-
-
-
 #ifndef MAP_H
 #define MAP_H
 
@@ -36,12 +32,11 @@
 #include <QDataStream>
 
 #include "types.h"
-
 #include "toolbar.h"
-
 #include "userlist/playersList.h"
-
+#include "data/mediacontainer.h"
 #include "network/networkmessage.h"
+
 class Character;
 class DessinPerso;
 class NetworkLink;
@@ -52,14 +47,14 @@ class NetworkLink;
  * to hide part of the picture. Character are displayed thank to widgets
  * DessinPerso.
  */
-class Map : public QWidget
+class Map : public QWidget, public MediaContainer
 {
     Q_OBJECT
 
 
 public :
-    Map(QString identCarte, QImage *image, bool masquer = false, QWidget *parent = 0);
-    Map(QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent = 0);
+    Map(QString localPlayerId,QString identCarte, QImage *image, bool masquer = false, QWidget *parent = 0);
+    Map(QString localPlayerId,QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent = 0);
 
     enum PermissionMode{GM_ONLY, PC_MOVE,PC_ALL };
 
