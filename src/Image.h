@@ -43,7 +43,7 @@
 
 #include "improvedworkspace.h"
 #include "mainwindow.h"
-#include "toolbar.h"
+#include "toolsbar.h"
 #include "preferences/preferencesmanager.h"
 
 #include "data/mediacontainer.h"
@@ -78,7 +78,7 @@ public :
 public slots :
     void pointeurMain();
     void pointeurNormal();
-    void setCurrentTool(ToolBar::Tool tool);
+    void setCurrentTool(ToolsBar::SelectableTool tool);
 
 protected:
     /**
@@ -193,7 +193,7 @@ private :
     double m_ratioImage;
     double m_ratioImageBis;
 
-    ToolBar::Tool m_currentTool;
+    ToolsBar::SelectableTool m_currentTool;
 
 };
 

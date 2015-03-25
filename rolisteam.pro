@@ -106,7 +106,6 @@ HEADERS += \
     src/audio/musicmodel.h \
     src/audio/playerwidget.h \
     src/network/networkreceiver.h \
-    src/toolbar.h \
     src/network/networkmanager.h \
     src/improvedworkspace.h \
     src/network/networklink.h \
@@ -117,7 +116,8 @@ HEADERS += \
     src/chat/improvedtextedit.h \
     src/widgets/circledisplayer.h \
     src/map/charactertoken.h \
-    src/data/mediacontainer.h
+    src/data/mediacontainer.h \
+    src/toolsbar.h
 
 
 
@@ -157,7 +157,6 @@ SOURCES += \
     src/audio/audioPlayer.cpp \
     src/audio/musicmodel.cpp \
     src/audio/playerwidget.cpp \
-    src/toolbar.cpp \
     src/network/networkmanager.cpp \
     src/improvedworkspace.cpp \
     src/network/networklink.cpp \
@@ -168,7 +167,8 @@ SOURCES += \
     src/chat/improvedtextedit.cpp \
     src/map/characterdtoken.cpp \
     src/widgets/circledisplayer.cpp \
-    src/data/mediacontainer.cpp
+    src/data/mediacontainer.cpp \
+    src/toolsbar.cpp
 #end source
 
 
