@@ -32,7 +32,7 @@
 #include <QDataStream>
 
 #include "types.h"
-#include "toolbar.h"
+#include "toolsbar.h"
 #include "userlist/playersList.h"
 #include "data/mediacontainer.h"
 #include "network/networkmessage.h"
@@ -61,7 +61,7 @@ public :
     void afficheOuMasquePnj(DessinPerso *pnjSeul = 0);
     void toggleCharacterView(Character * character);
     void affichageDuPj(QString idPerso, bool afficher);
-    void changerTaillePjCarte(int nouvelleTaille, bool updatePj = true);
+	void changePjSize(int nouvelleTaille, bool updatePj = true);
     void emettreCarte(QString titre);
     void emettreCarte(QString titre, NetworkLink * link);
     void emettreTousLesPersonnages();
@@ -91,6 +91,19 @@ public :
 
     void setHasPermissionMode(bool b);
     bool hasPermissionMode();
+public slots :
+	void setPointeur(ToolsBar::SelectableTool currentTool);
+	void moveAllCharacters();
+	void eraseCharacter(QString idPerso);
+	void addCharacter(Character * person);
+	void changeCharacter(Character * person);
+	void delCharacter(Character * person);
+	void setCurrentText(QString text);
+	void setCurrentNpcName(QString text);
+	void setCurrentNpcNumber(int number);
+	void setPenSize(int number);
+	void setCharacterSize(int number);
+
 
 signals :
     void incrementeNumeroPnj();
@@ -103,13 +116,6 @@ signals :
     void commencerDeplacementBipMapWindow(QPoint position);
     void deplacerBipMapWindow(QPoint position);
 
-public slots :
-    void setPointeur(ToolBar::Tool currentTool);
-    void moveAllCharacters();
-    void eraseCharacter(QString idPerso);
-    void addCharacter(Character * person);
-    void changeCharacter(Character * person);
-    void delCharacter(Character * person);
 
 protected :
     void paintEvent(QPaintEvent *event);
@@ -173,7 +179,7 @@ private :
     QList<QPoint> listeDeplacement;        // liste des points composant le deplacement du perso qui vient d'etre deplace par l'utilisateur
     QList<PersoEnMouvement> mouvements;    // liste des personnages a deplacer, ainsi que leur trajectoire
     Map::PermissionMode m_currentMode;
-    ToolBar::Tool m_currentTool;
+    ToolsBar::SelectableTool m_currentTool;
     Player* m_localPlayer;
     qreal m_scaleY;
     qreal m_scaleX;
@@ -188,6 +194,12 @@ private :
     QCursor* m_pipetteCursor;
 
     bool m_hasPermissionMode;
+
+	QString m_currentText;
+	QString m_currentNpcName;
+	int m_currentNpcNumber;
+	int m_penSize;
+	int m_npcSize;
 
 };
 

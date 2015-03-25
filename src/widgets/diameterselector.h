@@ -38,18 +38,28 @@ class DiameterSelector : public QWidget
 {
     Q_OBJECT
 public :
+	/**
+   * @brief constuctor with arguments
+   * @param parent widget
+   * @param full or not
+   * @param minimum value
+   * @param maximum value
+   * @todo Make real default constructor of DiameterSelector
+   */
     DiameterSelector(QWidget *parent = 0, bool plein = true, int minimum = 1, int maximum = 50);
     void changerDiametre(int nouvelleValeur);
 
 signals:
-    void valueChanging(int value);
-    void valueChanged(int value);
+	/**
+   * @brief is emited when the value has been changed
+   */
+	void diameterChanged(int);
 
 private :
     int minimum;
     int maximum;
     CircleDisplayer* m_circle;
-    QSlider* m_diameter;
+	QSlider* m_diameterSlider;
 };
 
 #endif

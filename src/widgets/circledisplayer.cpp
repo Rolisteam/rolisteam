@@ -29,94 +29,76 @@
 #define MARGIN_PC 5
 
 #define PEN_SIZE 4
-/********************************************************************/
-/* Variables globales utilisees par tous les elements de            */
-/* l'application                                                    */
-/********************************************************************/
+
 // Definit la taille courante du trait
-int G_diametreTraitCourant;
+//int G_diametreTraitCourant;
 
 
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/
+
 CircleDisplayer::CircleDisplayer(QWidget *parent, bool plein, int minimum,int maximum)
     : QWidget(parent)
 {
     // Initialisation des variables de la classe
-    diametreCourant = minimum;
-    diametreMinimum = minimum;
-    m_maxDiameter=maximum;
+	m_currentDiameter = minimum;
+	m_minimumDiameter = minimum;
+	m_maximumDiameter = maximum;
 
 
-    disquePlein = plein;
+	m_full = plein;
 
     int marge=MARGIN_NPC;
-    // Mise a jour des variables globales (Argh...)
-    if (disquePlein)
-      {
-        G_diametreTraitCourant = minimum;
-        marge=MARGIN_PC;
-      }
-    m_scale = (float)(width()-marge)/(float)(m_maxDiameter*2+PEN_SIZE*2);
-    //qDebug() << "scale ://" << m_scale <<width() ;
+	if (m_full)
+	{
+	//	G_diametreTraitCourant = minimum;
+		marge=MARGIN_PC;
+	}
+	//m_scale = (float)(width()-marge)/(float)(m_maximumDiameter*2+PEN_SIZE*2);
+
 }
 
-/********************************************************************/
-/* Dessine le contenu du widget                                     */
-/********************************************************************/
 void CircleDisplayer::paintEvent(QPaintEvent *event)
 {
-        Q_UNUSED(event)
-    int diametreAffiche;
-    // Creation du painter
-    QPainter painter(this);
-    // Antialiasing pour les dessins
-    painter.setRenderHint(QPainter::Antialiasing, true);
-
-    // Si le disque est plein (utilise pour le diametre du trait)
-    if (disquePlein)
-    {
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(Qt::black);
-        diametreAffiche = diametreCourant;
-    }
-    // Si le disque est vide (utilise pour le diametre des PNJ)
-    else
-    {
-        QPen pen(Qt::black);
-        pen.setWidth(PEN_SIZE);
-        painter.setPen(pen);
-        painter.setBrush(Qt::white);
-        diametreAffiche = diametreCourant - diametreMinimum +1;
-        //qDebug() << diametreAffiche << diametreCourant << diametreMinimum;
-    }
-
-    int valueDiameter=m_scale*diametreCourant;
-    if (valueDiameter==0)
-    {
-        valueDiameter=1;
-    }
-
-    // Dessin du disque
-    painter.drawEllipse((width()-valueDiameter)/2, (height()-valueDiameter)/2, (valueDiameter) , valueDiameter);
-    painter.setPen(Qt::darkGray);
-    // Affichage du diametre
-    painter.drawText(0, 0, width(), height(), Qt::AlignRight | Qt::AlignBottom, QString::number(diametreAffiche));
+	Q_UNUSED(event)
+	int displayedDiameter;
+	QPainter painter(this);
+	painter.setRenderHint(QPainter::Antialiasing, true);
+	if (m_full)
+	{
+		painter.setPen(Qt::NoPen);
+		painter.setBrush(Qt::black);
+		displayedDiameter = m_currentDiameter;
+	}
+	else
+	{
+		QPen pen(Qt::black);
+		pen.setWidth(4);
+		painter.setPen(pen);
+		painter.setBrush(Qt::white);
+		displayedDiameter = m_currentDiameter - m_minimumDiameter +1;
+	}
+	painter.drawEllipse((width()-m_currentDiameter)/2, (height()-m_currentDiameter)/2, m_currentDiameter, m_currentDiameter);
+	painter.setPen(Qt::darkGray);
+	painter.drawText(0, 0, width(), height(), Qt::AlignRight | Qt::AlignBottom, QString::number(displayedDiameter));
 }
-
-/********************************************************************/
-/* Modifie le diametre du disque et le redessine                    */
-/********************************************************************/
-void CircleDisplayer::changerDiametre(int diametre)
+void CircleDisplayer::wheelEvent ( QWheelEvent * event )
 {
-    diametreCourant = diametre;
-
-    // Mise a jour des variables globales
-    if (disquePlein)
-        G_diametreTraitCourant = diametre;
-
-    // Rafraichissement du widget
-    update();
+	int step = event->delta() / 8;
+	if(step+m_currentDiameter>m_maximumDiameter)
+		m_currentDiameter=m_maximumDiameter;
+	else if(step+m_currentDiameter<m_minimumDiameter)
+		m_currentDiameter=0;
+	else
+		m_currentDiameter+=step;
+	emit diameterChanged(m_currentDiameter);
+	update();
+}
+void CircleDisplayer::changeDiameter(int diameter)
+{
+	m_currentDiameter = diameter;
+//	if (m_full)
+//		g_currentDiameterLine = diameter;
+//	else
+//		g_currentNPCDiameter = diameter;
+	update();
 }
 

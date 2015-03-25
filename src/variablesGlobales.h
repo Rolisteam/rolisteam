@@ -32,7 +32,7 @@
 #include <QString>
 #include <QList>
 
-#include "toolbar.h"
+#include "toolsbar.h"
 #include "map/charactertoken.h"
 #include "initialisation.h"
 #include "widgets/colorselector.h"
@@ -63,12 +63,12 @@ extern couleurSelectionee G_couleurCourante;
 
 // Declarees dans ToolBar.cpp
 //extern ToolBar::Tool G_outilCourant;
-extern QString G_texteCourant;
-extern QString G_nomPnjCourant;
-extern int G_numeroPnjCourant;
+//extern QString G_texteCourant;
+//extern QString G_nomPnjCourant;
+//extern int G_numeroPnjCourant;
 
 // Declarees dans CircleDisplayer.cpp
-extern int G_diametreTraitCourant;
+//extern int G_diametreTraitCourant;
 
 // Declarees dans MainWindow.cpp
 extern bool G_affichageNomPj;

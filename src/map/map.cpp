@@ -45,7 +45,7 @@ Map::Map(QString localPlayerId,QString identCarte, QImage *image, bool masquer, 
 {
     m_localPlayerId = localPlayerId;
     m_currentMode = Map::GM_ONLY;
-    m_currentTool = ToolBar::main;
+    m_currentTool = ToolsBar::Handler;
 
     m_originalBackground = new QImage(image->size(), QImage::Format_ARGB32);
     *m_originalBackground = image->convertToFormat(QImage::Format_ARGB32);
@@ -90,7 +90,7 @@ void Map::p_init()
     setPalette(pal);
     
     // variable Initialisation
-    taillePj = 12;
+	m_npcSize = 12;
     boutonGaucheEnfonce = false;
     boutonDroitEnfonce = false;
     m_mousePoint = QPoint(0,0);
@@ -201,8 +201,8 @@ void Map::paintEvent(QPaintEvent *event)
         return;
 
 
-    if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj ||
-        m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
+    if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc ||
+        m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         return;
         
 
@@ -248,8 +248,8 @@ void Map::mousePressEvent(QMouseEvent *event)
 
 
 
-            if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj ||
-                m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
+            if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc ||
+                m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
             {
                 if((!G_joueur)||(Map::PC_ALL==m_currentMode)||(Map::PC_MOVE == m_currentMode))
                 {
@@ -258,7 +258,7 @@ void Map::mousePressEvent(QMouseEvent *event)
             }
 
             // Il s'agit de l'outil main
-            else if (m_currentTool == ToolBar::main)
+            else if (m_currentTool == ToolsBar::Handler)
             {
                 // On initialise le deplacement de la Carte
                 //if((!G_joueur)||
@@ -289,7 +289,7 @@ void Map::mousePressEvent(QMouseEvent *event)
 
         QPoint positionSouris = pos;
         
-        if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj)
+        if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc)
         {
             boutonDroitEnfonce = true;
 
@@ -306,7 +306,7 @@ void Map::mousePressEvent(QMouseEvent *event)
                 emit changeCurrentColor(couleur);
             }
         }
-        else if (m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
+        else if (m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
             boutonDroitEnfonce = true;
             setCursor(*m_orientCursor);
@@ -351,14 +351,14 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
         boutonGaucheEnfonce = false;
 
         // Il s'agit d'une action sur les PJ/PNJ
-        if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj ||
-            m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
+        if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc ||
+            m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
             actionPnjBoutonRelache(pos);
         }
 
         // Il s'agit de l'outil main
-        else if (m_currentTool == ToolBar::main)
+        else if (m_currentTool == ToolsBar::Handler)
         {
             // On ne fait rien
         }
@@ -445,7 +445,7 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
         setCursor(pointeur);
 
         // Il s'agit d'une action de deplacement ou de l'action de changement d'etat du perso et qu'un perso a ete selectionne
-        if ((m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso) && dernierPnjSelectionne)
+        if ((m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState) && dernierPnjSelectionne)
         {///@todo test orientation pnj
             QPoint orientation =  dernierPnjSelectionne->orientationPersonnage();
             NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::changeCharacterOrientation);
@@ -466,14 +466,14 @@ void Map::mouseMoveEvent(QMouseEvent *event)
     if (boutonGaucheEnfonce && !boutonDroitEnfonce)
     {
         // Il s'agit d'une action sur les PJ/PNJ
-        if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj ||
-            m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
+        if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc ||
+            m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
             actionPnjMouvementSouris(pos);
         }
 
         // Il s'agit de l'outil main
-        else if (m_currentTool == ToolBar::main)
+        else if (m_currentTool == ToolsBar::Handler)
         {
 			// On deplace la Carte dans la BipMapWindow
 			emit deplacerBipMapWindow(mapToGlobal(pos));
@@ -502,11 +502,11 @@ void Map::mouseMoveEvent(QMouseEvent *event)
         QPoint positionSouris = pos;
         
         // Il s'agit d'une action d'ajout ou de suppression de PNJ
-        if (m_currentTool == ToolBar::ajoutPnj || m_currentTool == ToolBar::supprPnj)
+        if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc)
         {
         }
         // Il s'agit d'une action de deplacement ou de changement d'etat de PNJ
-        else if (m_currentTool == ToolBar::deplacePerso || m_currentTool == ToolBar::etatPerso)
+        else if (m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
             // On met a jour l'orientation du PNJ (si la souris n'est pas sur un PNJ
             // et qu'il en existe un de selectionne)
@@ -542,13 +542,13 @@ void Map::dessiner(QPainter &painter)
 
 
     QPen pen;
-    pen.setWidth(G_diametreTraitCourant);
+	pen.setWidth(m_penSize);
     pen.setJoinStyle(Qt::MiterJoin);
     pen.setColor(couleurPinceau);
     painter.setPen(pen);
 
 
-    if (m_currentTool == ToolBar::crayon)
+    if (m_currentTool == ToolsBar::Pen)
     {
 
         QPainter painterCrayon;
@@ -569,7 +569,7 @@ void Map::dessiner(QPainter &painter)
         // M.a.j du pinceau pour avoir des bouts arrondis
         QPen pen;
         pen.setColor(couleurPinceau);
-        pen.setWidth(G_diametreTraitCourant);
+		pen.setWidth(m_penSize);
         pen.setCapStyle(Qt::RoundCap);
         painterCrayon.setPen(pen);
         painter.setPen(pen);
@@ -603,13 +603,13 @@ void Map::dessiner(QPainter &painter)
         m_originePoint = m_mousePoint;
     }
     
-    else if (m_currentTool == ToolBar::ligne)
+    else if (m_currentTool == ToolsBar::Line)
     {
         // On dessine une ligne entre le point d'origine et le pointeur de la souris
         painter.drawLine(m_originePoint, m_mousePoint);
     }
     
-    else if (m_currentTool == ToolBar::rectVide)
+    else if (m_currentTool == ToolsBar::EmptyRect)
     {
         // Creation des points du rectangle a partir du point d'origine et du pointeur de souris
         QPoint supGauche, infDroit;
@@ -619,9 +619,9 @@ void Map::dessiner(QPainter &painter)
         infDroit.setY(m_originePoint.y()>m_mousePoint.y()?m_originePoint.y():m_mousePoint.y());
 
         // Si le rectangle est petit on dessine un rectangle plein (correction d'un bug Qt)
-        if ((infDroit.x()-supGauche.x() < G_diametreTraitCourant) && (infDroit.y()-supGauche.y() < G_diametreTraitCourant))
+		if ((infDroit.x()-supGauche.x() < m_penSize) && (infDroit.y()-supGauche.y() < m_penSize))
         {
-            QPoint delta(G_diametreTraitCourant/2, G_diametreTraitCourant/2);
+			QPoint delta(m_penSize/2, m_penSize/2);
             painter.fillRect(QRect(supGauche - delta, infDroit + delta), couleurPinceau);
         }
         // Sinon on dessine un rectangle vide
@@ -629,19 +629,19 @@ void Map::dessiner(QPainter &painter)
             painter.drawRect(QRect(supGauche, infDroit));
     }
     
-    else if (m_currentTool == ToolBar::rectPlein)
+    else if (m_currentTool == ToolsBar::FilledRect)
     {
         // On dessine un rectangle plein
         painter.fillRect(QRect(m_originePoint, m_mousePoint), couleurPinceau);
     }
-    else if (m_currentTool == ToolBar::elliVide)
+    else if (m_currentTool == ToolsBar::EmptyEllipse)
     {
         // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point d'origine
         QPoint diff = m_mousePoint - m_originePoint;
         QPoint nouveauPointOrigine = m_originePoint - diff;
 
         // Si l'ellipse est petite on dessine une ellipse pleine (correction d'un bug Qt)
-        if (abs(m_mousePoint.x()-nouveauPointOrigine.x()) < G_diametreTraitCourant && abs(m_mousePoint.y()-nouveauPointOrigine.y()) < G_diametreTraitCourant)
+		if (abs(m_mousePoint.x()-nouveauPointOrigine.x()) < m_penSize && abs(m_mousePoint.y()-nouveauPointOrigine.y()) < m_penSize)
         {
             // Redefinition des points du rectangle
             QPoint supGauche, infDroit;
@@ -656,7 +656,7 @@ void Map::dessiner(QPainter &painter)
             pen.setWidth(0);
             painter.setPen(pen);
             painter.setBrush(couleurPinceau);
-            QPoint delta(G_diametreTraitCourant/2, G_diametreTraitCourant/2);
+			QPoint delta(m_penSize/2, m_penSize/2);
             painter.drawEllipse(QRect(supGauche - delta, infDroit + delta));
         }
         // Sinon on dessine une ellipse vide
@@ -664,7 +664,7 @@ void Map::dessiner(QPainter &painter)
             painter.drawEllipse(QRect(nouveauPointOrigine, m_mousePoint));
     }
     
-    else if (m_currentTool == ToolBar::elliPlein)
+    else if (m_currentTool == ToolsBar::FilledEllipse)
     {
         // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point d'origine
         QPoint diff = m_mousePoint - m_originePoint;
@@ -679,17 +679,17 @@ void Map::dessiner(QPainter &painter)
         painter.drawEllipse(QRect(nouveauPointOrigine, m_mousePoint));
     }
     
-    else if (m_currentTool == ToolBar::texte)
+    else if (m_currentTool == ToolsBar::Text)
     {
         // Parametrage de la fonte
         QFont font;
         font.setPixelSize(16);
         painter.setFont(font);
         // On affiche le texte de la zone de saisie
-        painter.drawText(m_mousePoint, G_texteCourant);  // + QPoint(2,7)
+		painter.drawText(m_mousePoint, m_currentText);  // + QPoint(2,7)
     }
     
-    else if (m_currentTool == ToolBar::main)
+    else if (m_currentTool == ToolsBar::Handler)
     {
     }
             
@@ -714,27 +714,27 @@ QRect Map::zoneARafraichir()
     //qDebug() << "Refresh Haut: " << haut << gauche << droit << bas << m_originePoint << m_mousePoint;
 
     // Action a effectuer en fonction de l'outil en cours d'utilisation
-    if (m_currentTool == ToolBar::crayon)
+    if (m_currentTool == ToolsBar::Pen)
     {
-        resultat = QRect(gauche-G_diametreTraitCourant/2-2, haut-G_diametreTraitCourant/2-2, largeur+G_diametreTraitCourant+4, hauteur+G_diametreTraitCourant+4);
+		resultat = QRect(gauche-m_penSize/2-2, haut-m_penSize/2-2, largeur+m_penSize+4, hauteur+m_penSize+4);
     }
     
-    else if (m_currentTool == ToolBar::ligne)
+    else if (m_currentTool == ToolsBar::Line)
     {
-        resultat = QRect(gauche-G_diametreTraitCourant, haut-G_diametreTraitCourant, largeur+G_diametreTraitCourant*2, hauteur+G_diametreTraitCourant*2);
+		resultat = QRect(gauche-m_penSize, haut-m_penSize, largeur+m_penSize*2, hauteur+m_penSize*2);
     }
     
-    else if (m_currentTool == ToolBar::rectVide)
+    else if (m_currentTool == ToolsBar::EmptyRect)
     {
-        resultat = QRect(gauche-G_diametreTraitCourant/2-2, haut-G_diametreTraitCourant/2-2, largeur+G_diametreTraitCourant+4, hauteur+G_diametreTraitCourant+4);
+		resultat = QRect(gauche-m_penSize/2-2, haut-m_penSize/2-2, largeur+m_penSize+4, hauteur+m_penSize+4);
     }
     
-    else if (m_currentTool == ToolBar::rectPlein)
+    else if (m_currentTool == ToolsBar::FilledRect)
     {
         resultat = QRect(gauche-2, haut-2, largeur+4, hauteur+4);
     }
     
-    else if (m_currentTool == ToolBar::elliVide)
+    else if (m_currentTool == ToolsBar::EmptyEllipse)
     {
         QPoint diff = m_mousePoint - m_originePoint;
         QPoint nouveauPointOrigine = m_originePoint - diff;
@@ -746,10 +746,10 @@ QRect Map::zoneARafraichir()
         int largeur = droit - gauche + 1;
         int hauteur = bas - haut + 1;
 
-        resultat = QRect(gauche-G_diametreTraitCourant/2-2, haut-G_diametreTraitCourant/2-2, largeur+G_diametreTraitCourant+4, hauteur+G_diametreTraitCourant+4);
+		resultat = QRect(gauche-m_penSize/2-2, haut-m_penSize/2-2, largeur+m_penSize+4, hauteur+m_penSize+4);
     }
     
-    else if (m_currentTool == ToolBar::elliPlein)
+    else if (m_currentTool == ToolsBar::FilledEllipse)
     {
         QPoint diff = m_mousePoint - m_originePoint;
         QPoint nouveauPointOrigine = m_originePoint - diff;
@@ -764,12 +764,12 @@ QRect Map::zoneARafraichir()
         resultat = QRect(gauche-2, haut-2, largeur+4, hauteur+4);
     }
     
-    else if (m_currentTool == ToolBar::texte)
+    else if (m_currentTool == ToolsBar::Text)
     {
         resultat = QRect(QPoint(m_mousePoint.x()-2, m_mousePoint.y()-15), QPoint(m_backgroundImage->width(), m_mousePoint.y()+4));
     }
     
-    else if (m_currentTool == ToolBar::main)
+    else if (m_currentTool == ToolsBar::Handler)
     {
 
     } 
@@ -835,7 +835,7 @@ bool Map::ajouterAlpha(QImage *source, QImage *alpha, QImage *destination, const
 
 void Map::actionPnjBoutonEnfonce(QPoint positionSouris)
 {
-    if (m_currentTool == ToolBar::ajoutPnj)
+    if (m_currentTool == ToolsBar::AddNpc)
     {
         if((!G_joueur)||(Map::PC_ALL==m_currentMode))
         {
@@ -844,7 +844,7 @@ void Map::actionPnjBoutonEnfonce(QPoint positionSouris)
                 // Creation de l'identifiant du PNJ
                 QString idPnj = QUuid::createUuid().toString();
                 // Creation du dessin du PNJ qui s'affiche dans le widget
-                DessinPerso *pnj = new DessinPerso(this, idPnj, G_nomPnjCourant, G_couleurCourante.color, taillePj, positionSouris, DessinPerso::pnj, G_numeroPnjCourant);
+				DessinPerso *pnj = new DessinPerso(this, idPnj, m_currentNpcName, G_couleurCourante.color, m_npcSize, positionSouris, DessinPerso::pnj, m_currentNpcNumber);
                 pnj->afficherPerso();
                 // Un PNJ est selectionne
                 pnjSelectionne = pnj;
@@ -864,7 +864,7 @@ void Map::actionPnjBoutonEnfonce(QPoint positionSouris)
                (Map::PC_ALL==m_currentMode)||
                     ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )//if not found -1
             {
-                if (m_currentTool == ToolBar::supprPnj)
+                if (m_currentTool == ToolsBar::DelNpc)
                 {
                         if (!pnj->estUnPj())
                         {
@@ -883,7 +883,7 @@ void Map::actionPnjBoutonEnfonce(QPoint positionSouris)
 
                 }
 
-                else if (m_currentTool == ToolBar::deplacePerso)
+                else if (m_currentTool == ToolsBar::MoveCharacterToken)
                 {
                             pnjSelectionne = pnj;
                             // On calcule la difference entre le coin sup gauche du PNJ et le pointeur de la souris
@@ -893,7 +893,7 @@ void Map::actionPnjBoutonEnfonce(QPoint positionSouris)
                             // Ajout de la position actuelle du perso dans la liste
                             listeDeplacement.append(pnj->positionCentrePerso());
                 }
-                else if (m_currentTool == ToolBar::etatPerso)
+                else if (m_currentTool == ToolsBar::ChangeCharacterState)
                 {
                         // changement d'etat du personnage
                         pnj->changerEtat();
@@ -917,7 +917,7 @@ void Map::actionPnjBoutonEnfonce(QPoint positionSouris)
 void Map::actionPnjBoutonRelache(QPoint positionSouris)
 {
              Q_UNUSED(positionSouris)
-    if (m_currentTool == ToolBar::ajoutPnj)
+    if (m_currentTool == ToolsBar::AddNpc)
     {
         // On verifie que la couleur courante peut etre utilisee pour dessiner un PNJ
         if (G_couleurCourante.type == qcolor)
@@ -952,11 +952,11 @@ void Map::actionPnjBoutonRelache(QPoint positionSouris)
         }
     }
     
-    else if (m_currentTool == ToolBar::supprPnj)
+    else if (m_currentTool == ToolsBar::DelNpc)
     {
     }
     
-    else if (m_currentTool == ToolBar::deplacePerso)
+    else if (m_currentTool == ToolsBar::MoveCharacterToken)
     {
         if (pnjSelectionne)
         {
@@ -977,7 +977,7 @@ void Map::actionPnjBoutonRelache(QPoint positionSouris)
         }
     }
     
-    else if (m_currentTool == ToolBar::etatPerso)
+    else if (m_currentTool == ToolsBar::ChangeCharacterState)
     {
     }
 
@@ -989,7 +989,7 @@ void Map::actionPnjBoutonRelache(QPoint positionSouris)
 
 void Map::actionPnjMouvementSouris(QPoint positionSouris)
 {
-    if (m_currentTool == ToolBar::ajoutPnj)
+    if (m_currentTool == ToolsBar::AddNpc)
     {
         // Si un PNJ est selectionne, on le deplace
         if (pnjSelectionne)
@@ -1000,11 +1000,11 @@ void Map::actionPnjMouvementSouris(QPoint positionSouris)
         }
     }
     
-    else if (m_currentTool == ToolBar::supprPnj)
+    else if (m_currentTool == ToolsBar::DelNpc)
     {
     }
     
-    else if (m_currentTool == ToolBar::deplacePerso)
+    else if (m_currentTool == ToolsBar::MoveCharacterToken)
     {
         if (pnjSelectionne)
         {
@@ -1024,7 +1024,7 @@ void Map::actionPnjMouvementSouris(QPoint positionSouris)
         }
     }
     
-    else if (m_currentTool != ToolBar::etatPerso)
+    else if (m_currentTool != ToolsBar::ChangeCharacterState)
     {
         qWarning() << (tr("undefine tool for processing action on NPC or PC (actionPnjMouvementSouris - Carte.cpp)"));
     }
@@ -1186,19 +1186,19 @@ void Map::afficheOuMasquePnj(DessinPerso *pnjSeul)
 }
 
 
-void Map::changerTaillePjCarte(int nouvelleTaille, bool updatePj)
+void Map::changePjSize(int nouvelleTaille, bool updatePj)
 {
-    taillePj = nouvelleTaille;
+	m_npcSize = nouvelleTaille;
     if((updatePj)&&(dernierPnjSelectionne!=NULL))
     {
-        dernierPnjSelectionne->changerTaillePj(nouvelleTaille);
+		dernierPnjSelectionne->changerTaillePj(nouvelleTaille);
     }
-        //emit changerTaillePj(nouvelleTaille);
+		//emit changerm_npcSize(nouvelleTaille);
 }
 
 int Map::tailleDesPj()
 {
-    return taillePj;
+	return m_npcSize;
 }
 
 
@@ -1281,7 +1281,7 @@ bool Map::pjAffiche(QString idPerso)
 
 void Map::addCharacter(Character * person)
 {
-    new DessinPerso(this, person->uuid(), person->name(), person->color(), taillePj, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), DessinPerso::pj);
+	new DessinPerso(this, person->uuid(), person->name(), person->color(), m_npcSize, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), DessinPerso::pj);
 }
 
 
@@ -1369,7 +1369,7 @@ void Map::emettreCarteGeneral(QString titre, NetworkLink * link, bool versNetwor
     NetworkMessageWriter message(NetMsg::MapCategory, NetMsg::ImportMap);
     message.string16(titre);
     message.string8(idCarte);
-    message.uint8(taillePj);
+	message.uint8(m_npcSize);
     message.uint8(getPermissionMode());
     message.uint8(getFogColor().red());
     message.byteArray32(baFondOriginal);
@@ -1436,7 +1436,7 @@ void Map::emettreTrace()
 {
     NetworkMessageWriter* msg = NULL;
 
-    if(ToolBar::crayon == m_currentTool )
+    if(ToolsBar::Pen == m_currentTool )
     {
         msg = new NetworkMessageWriter(NetMsg::DrawCategory,NetMsg::penPainting);
         msg->string8(m_localPlayerId);
@@ -1452,15 +1452,15 @@ void Map::emettreTrace()
         msg->uint16(zoneGlobaleCrayon.width());
         msg->uint16(zoneGlobaleCrayon.height());
 
-        msg->uint8(G_diametreTraitCourant);
+		msg->uint8(m_penSize);
         msg->uint8(G_couleurCourante.type);
         msg->rgb(G_couleurCourante.color);
     }
-    else if(m_currentTool == ToolBar::texte)
+    else if(m_currentTool == ToolsBar::Text)
     {
         msg = new NetworkMessageWriter(NetMsg::DrawCategory,NetMsg::textPainting);
         msg->string8(idCarte);
-        msg->string16(G_texteCourant);
+		msg->string16(m_currentText);
         msg->uint16(m_mousePoint.x());
         msg->uint16(m_mousePoint.y());
 
@@ -1473,7 +1473,7 @@ void Map::emettreTrace()
         msg->rgb(G_couleurCourante.color);
 
     }
-    else if (m_currentTool == ToolBar::main)
+    else if (m_currentTool == ToolsBar::Handler)
     {
         return;
     }
@@ -1482,19 +1482,19 @@ void Map::emettreTrace()
         NetMsg::Action action;
         switch(m_currentTool)
         {
-        case ToolBar::ligne:
+        case ToolsBar::Line:
             action = NetMsg::linePainting;
             break;
-        case ToolBar::rectVide:
+        case ToolsBar::EmptyRect:
             action = NetMsg::emptyRectanglePainting;
             break;
-        case ToolBar::rectPlein:
+        case ToolsBar::FilledRect:
             action = NetMsg::filledRectanglePainting;
             break;
-        case ToolBar::elliVide:
+        case ToolsBar::EmptyEllipse:
             action = NetMsg::emptyEllipsePainting;
             break;
-        case ToolBar::elliPlein:
+        case ToolsBar::FilledEllipse:
             action = NetMsg::filledEllipsePainting;
             break;
         }
@@ -1512,7 +1512,7 @@ void Map::emettreTrace()
         msg->uint16(zoneNouvelle.width());
         msg->uint16(zoneNouvelle.height());
 
-        msg->uint8(G_diametreTraitCourant);
+		msg->uint8(m_penSize);
 
         msg->uint8(G_couleurCourante.type);
         msg->rgb(G_couleurCourante.color);
@@ -1987,7 +1987,7 @@ void Map::saveMap(QDataStream &out, QString titre)
     out << pos();
     out << (quint32)m_currentMode;
     out << m_alphaLayer->size();
-    out << taillePj;
+	out << m_npcSize;
     out << baFondOriginal;
     out << baFond;
     out << baAlpha;
@@ -2056,37 +2056,59 @@ bool Map::hasPermissionMode()
     return m_hasPermissionMode;
 }
 
-void Map::setPointeur(ToolBar::Tool currentTool)
+void Map::setPointeur(ToolsBar::SelectableTool currentTool)
 {
     m_currentTool = currentTool;
     switch(currentTool)
     {
-        case ToolBar::crayon:
-        case ToolBar::ligne:
-        case ToolBar::rectVide:
-        case ToolBar::rectPlein:
-        case ToolBar::elliVide:
-        case ToolBar::elliPlein:
+        case ToolsBar::Pen:
+        case ToolsBar::Line:
+        case ToolsBar::EmptyRect:
+        case ToolsBar::FilledRect:
+        case ToolsBar::EmptyEllipse:
+        case ToolsBar::FilledEllipse:
             pointeur = *m_pencilCursor;
         break;
-        case ToolBar::texte:
+        case ToolsBar::Text:
             pointeur = *m_textCursor;
         break;
-        case ToolBar::main:
+        case ToolsBar::Handler:
             pointeur =  Qt::OpenHandCursor;
         break;
-        case ToolBar::ajoutPnj:
+        case ToolsBar::AddNpc:
             pointeur =*m_addCursor;
         break;
-        case ToolBar::supprPnj:
+        case ToolsBar::DelNpc:
             pointeur =*m_delCursor;
         break;
-        case ToolBar::deplacePerso:
+        case ToolsBar::MoveCharacterToken:
             pointeur =*m_movCursor;
         break;
-        case ToolBar::etatPerso:
+        case ToolsBar::ChangeCharacterState:
             pointeur = *m_stateCursor;
         break;
     }
     setCursor(pointeur);
+}
+void Map::setCurrentText(QString text)
+{
+	m_currentText= text;
+}
+void Map::setCurrentNpcName(QString text)
+{
+	m_currentNpcName= text;
+}
+void Map::setCurrentNpcNumber(int number)
+{
+	m_currentNpcNumber= number;
+}
+void Map::setPenSize(int number)
+{
+	m_penSize=number;
+}
+
+void Map::setCharacterSize(int number)
+{
+	m_npcSize=number;
+
 }

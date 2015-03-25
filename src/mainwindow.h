@@ -52,7 +52,7 @@
 #endif
 
 class UpdateChecker;
-class ToolBar;
+class ToolsBar;
 class BipMapWindow;
 class Map;
 class ChatListWidget;
@@ -353,7 +353,7 @@ private :
 	ImprovedWorkspace* m_mdiArea;
     PlayersListWidget * m_playersListWidget;
     QMenu *m_windowMenu;
-    ToolBar *m_toolBar;
+    ToolsBar *m_toolBar;
 
 	QList <BipMapWindow *> m_mapWindowList;
     //QList <Image *> listeImage;

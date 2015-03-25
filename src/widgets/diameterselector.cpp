@@ -62,7 +62,7 @@ DiameterSelector::DiameterSelector(QWidget *parent, bool plein, int min, int max
     
     // Creation de l'afficheur de disque
     m_circle = new CircleDisplayer(frame, plein, minimum,maximum);
-    m_circle->changerDiametre(minimum);
+	m_circle->changeDiameter(minimum);
     
     // Ajout de l'afficheur de disque au layout du QFrame
     frameLayout->addWidget(m_circle);
@@ -70,36 +70,24 @@ DiameterSelector::DiameterSelector(QWidget *parent, bool plein, int min, int max
     // Ajout du QFrame contenant l'afficheur de disque au layout
     layout->addWidget(frame);
     
-    // Creation du QSlider permettant de faire varier le diametre
-    m_diameter = new QSlider(Qt::Horizontal, this);
-    m_diameter->setRange(minimum, maximum);
-    m_diameter->setValue(minimum);
-    m_diameter->setTracking(false);
-    // Ajout du QSlider au layout
-    layout->addWidget(m_diameter);
 
-    #ifdef MACOS
-        layout->setSpacing(0);
-        diametre->setFixedHeight(20);
-    #endif
-    
-    // Connection des signaux
-    connect(m_diameter, SIGNAL(sliderMoved(int)), m_circle, SLOT(changerDiametre(int)));
-    connect(m_diameter, SIGNAL(sliderMoved(int)), this, SIGNAL(valueChanging(int)));
-    connect(m_diameter, SIGNAL(valueChanged(int)), this, SIGNAL(valueChanged(int)));
+	m_diameterSlider = new QSlider(Qt::Horizontal, this);
+	m_diameterSlider->setRange(minimum, maximum);
+	m_diameterSlider->setValue(minimum);
+	m_diameterSlider->setTracking(false);
+
+	layout->addWidget(m_diameterSlider);
+
+	connect(m_diameterSlider, SIGNAL(sliderMoved(int)), m_circle, SLOT(changeDiameter(int)));
+	connect(m_diameterSlider, SIGNAL(sliderMoved(int)), this, SIGNAL(diameterChanged(int)));
 }
 
-/********************************************************************/
-/* Change la valeur du selecteur de diametre                        */
-/********************************************************************/    
 void DiameterSelector::changerDiametre(int valeur)
 {
-    // On verifie que la nouvelle valeur est entre les bornes min et max
     if (valeur < minimum)
         valeur = minimum;
     else if (valeur > maximum)
         valeur = maximum;
-    
-    // Mise a jour du slider (un signal est envoye a l'afficheur de disque)
-    m_diameter->setValue(valeur);
+
+	m_diameterSlider->setValue(valeur);
 }

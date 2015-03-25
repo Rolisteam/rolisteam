@@ -42,7 +42,7 @@
 
 #include "mainwindow.h"
 
-#include "toolbar.h"
+#include "toolsbar.h"
 #include "map/bipmapwindow.h"
 #include "map/map.h"
 #include "chat/chatlistwidget.h"
@@ -188,7 +188,7 @@ void MainWindow::setupUi()
 
     // Creation de la barre d'outils
     //ToolBar = new ToolBar(this);
-    m_toolBar = new ToolBar();
+    m_toolBar = new ToolsBar();
     // Ajout de la barre d'outils a la fenetre principale
     addDockWidget(Qt::LeftDockWidgetArea, m_toolBar);
 
@@ -513,9 +513,15 @@ QWidget* MainWindow::addMap(BipMapWindow *BipMapWindow, QString titre,QSize maps
     Map *carte = BipMapWindow->carte();
     carte->setPointeur(m_toolBar->getCurrentTool());
 
-    connect(m_toolBar,SIGNAL(currentToolChanged(ToolBar::Tool)),carte,SLOT(setPointeur(ToolBar::Tool)));
-    connect(carte, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCouleurActuelle(QColor)));
-    connect(carte, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementeNumeroPnj()));
+    connect(m_toolBar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),carte,SLOT(setPointeur(ToolsBar::SelectableTool)));
+
+	connect(m_toolBar,SIGNAL(currentNpcSizeChanged(int)),carte,SLOT(setCharacterSize(int)));
+	connect(m_toolBar,SIGNAL(currentPenSizeChanged(int)),carte,SLOT(setPenSize(int)));
+	connect(m_toolBar,SIGNAL(currentTextChanged(QString)),carte,SLOT(setCurrentText(QString)));
+	connect(m_toolBar,SIGNAL(currentNpcNameChanged(QString)),carte,SLOT(setCurrentNpcName(QString)));
+
+	connect(carte, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCurrentColor(QColor)));
+	connect(carte, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementNpcNumber()));
     connect(carte, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(mettreAJourPnj(int, QString)));
 
     connect(m_showPCAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
@@ -623,7 +629,7 @@ void MainWindow::addImageToMdiArea(Image *imageFenetre, QString titre)
     sub->setWindowIcon(QIcon(":/picture.png"));
 
 
-    connect(m_toolBar,SIGNAL(currentToolChanged(ToolBar::Tool)),imageFenetre,SLOT(setCurrentTool(ToolBar::Tool)));
+    connect(m_toolBar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),imageFenetre,SLOT(setCurrentTool(ToolsBar::SelectableTool)));
 
     imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
     connect(action, SIGNAL(triggered(bool)), sub, SLOT(setVisible(bool)));
@@ -1486,7 +1492,7 @@ void MainWindow::readImageFromStream(QDataStream &file)
 
     addImageToMdiArea(imageFenetre,title);
 
-    connect(m_toolBar,SIGNAL(currentToolChanged(ToolBar::Tool)),imageFenetre,SLOT(setCurrentTool(ToolBar::Tool)));
+    connect(m_toolBar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),imageFenetre,SLOT(setCurrentTool(ToolsBar::SelectableTool)));
     imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
 
     QByteArray byteArray;
@@ -1878,7 +1884,7 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
             qWarning("Compression Error (processMapMessage - NetworkLink.cpp)");
         }
         Map* map = new Map(m_localPlayerId,idMap, &image, maskPlan);
-        map->changerTaillePjCarte(npSize,false);
+		map->changePjSize(npSize,false);
         map->setPermissionMode((Map::PermissionMode)permission);
 
         BipMapWindow* bipMapWindow = new BipMapWindow(map,this);
@@ -1918,7 +1924,7 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
             qWarning() << tr("Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)");
         }
         Map* map = new Map(m_localPlayerId,idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
-        map->changerTaillePjCarte(npSize,false);
+		map->changePjSize(npSize,false);
 
         map->setPermissionMode((Map::PermissionMode)permission);
         map->adapterCoucheAlpha(alphaValue);
@@ -2245,7 +2251,7 @@ void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
         if(NULL!=map)
         {
             map->selectCharacter(idCharacter);
-            map->changerTaillePjCarte(size + 11);
+			map->changePjSize(size + 11);
         }
     }
     /*

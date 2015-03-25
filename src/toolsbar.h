@@ -42,41 +42,50 @@ class Map;
 /**
  * @brief The ToolBar class is gathering all tool and manages selection of them.
  */
-class ToolBar : public QDockWidget
+class ToolsBar : public QDockWidget
 {
     Q_OBJECT
     
 public :
-    ToolBar(QWidget *parent = 0);
-    virtual ~ToolBar();
+	ToolsBar(QWidget *parent = 0);
+	virtual ~ToolsBar();
     void majCouleursPersonnelles();
     QColor donnerCouleurPersonnelle(int numero);
     void updateUi();
 
-    QAction *actionCrayon;
-    QAction *actionLigne;
-    QAction *actionRectVide;
-    QAction *actionRectPlein;
-    QAction *actionElliVide;
-    QAction *actionElliPlein;
-    QAction *actionTexte;
-    QAction *actionMain;
-    QAction *actionAjoutPnj;
-    QAction *actionSupprPnj;
-    QAction *actionDeplacePnj;
-    QAction *actionEtatPnj;
-    QAction *actionRazChrono;
 
     // Outils selectionnables par l'utilisateur
-    enum Tool {crayon, ligne, rectVide, rectPlein, elliVide, elliPlein, texte, main, ajoutPnj, supprPnj, deplacePerso, etatPerso};
+	enum SelectableTool {Pen, Line, EmptyRect, FilledRect, EmptyEllipse, FilledEllipse, Text, Handler, AddNpc, DelNpc, MoveCharacterToken, ChangeCharacterState};
 
-    ToolBar::Tool getCurrentTool() const;
+	ToolsBar::SelectableTool getCurrentTool() const;
 signals:
-    void currentToolChanged(ToolBar::Tool);
+	/**
+	* @brief emited when current tool has been changed by user
+	*/
+	void currentToolChanged(ToolsBar::SelectableTool);
+	/**
+	* @brief emitted when current color has been changed by user
+	*/
+	void currentColorChanged(QColor&);
+	/**
+	* @brief emitted when user has changed the pen size.
+	*/
+	void currentPenSizeChanged(int);
+	/**
+	* @brief emitted when current NPC size has changed
+	*/
+	void currentNpcSizeChanged(int);
+	/**
+	* @brief emitted when current mode has changed
+	*/
+	void currentModeChanged(int);
+
+	void currentTextChanged(QString);
+	void currentNpcNameChanged(QString);
 
 public slots :
-    void incrementeNumeroPnj();
-    void changeCouleurActuelle(QColor coul);
+	void incrementNpcNumber();
+	void changeCurrentColor(QColor coul);
     void mettreAJourPnj(int diametre, QString nom);
     void changeMap(Map * map);
 
@@ -86,11 +95,11 @@ private :
     void creerOutils();
 
     QWidget *outils;
-    QLineEdit *ligneDeTexte;
-    QLineEdit *nomPnj;
+	QLineEdit *m_textEdit;
+	QLineEdit *m_npcNameEdit;
     QLCDNumber *afficheNumeroPnj;
     ColorSelector* m_color;
-    DiameterSelector *diametreTrait;
+	DiameterSelector *m_lineDiameter;
     DiameterSelector *m_npcDiameter;
     Map * m_map;
     //DiameterSelector* m_pcDiameter;
@@ -98,11 +107,10 @@ private :
 
 private slots :
     void razNumeroPnj();
-    void changementTaille(bool floating);
-    void texteChange(const QString &texte);
-    void nomPnjChange(const QString &texte);
+	void changeSize(bool floating);
 
-    void crayonSelectionne();
+
+ /*   void crayonSelectionne();
     void ligneSelectionne();
     void rectVideSelectionne();
     void rectPleinSelectionne();
@@ -113,17 +121,34 @@ private slots :
     void ajoutPnjSelectionne();
     void supprPnjSelectionne();
     void deplacePersoSelectionne();
-    void etatPersoSelectionne();
+	void etatPersoSelectionne();*/
 
     void currentToolHasChanged(QAction*);
 
-    void changeCharacterSize(int size);
-    void sendNewCharacterSize(int size);
+//    void changeCharacterSize(int size);
+//    void sendNewCharacterSize(int size);
 
 
 private:
+	QString m_currentNPCName;
+	QString m_currentText;
+
+	int m_currentNpcNumber;
     QActionGroup* m_actionGroup;
-    ToolBar::Tool m_currentTool;
+	ToolsBar::SelectableTool m_currentTool;
+	QAction* m_pencilAct;
+	QAction* m_lineAct;
+	QAction* m_rectAct;
+	QAction* m_filledRectAct;
+	QAction* m_ellipseAct;
+	QAction* m_filledEllipseAct;
+	QAction* m_textAct;
+	QAction* m_handAct;
+	QAction* m_addNpcAct;
+	QAction* m_delNpcAct;
+	QAction* m_moveCharacterAct;
+	QAction* m_changeCharacterState;
+	QAction* m_resetCountAct;
 };
 
 #endif
