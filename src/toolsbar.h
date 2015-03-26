@@ -52,6 +52,7 @@ public :
     void majCouleursPersonnelles();
     QColor donnerCouleurPersonnelle(int numero);
     void updateUi();
+    int getCurrentNpcNumber() const;
 
 
     // Outils selectionnables par l'utilisateur
@@ -79,9 +80,16 @@ signals:
 	* @brief emitted when current mode has changed
 	*/
 	void currentModeChanged(int);
-
+    /**
+     * @brief currentTextChanged
+     */
 	void currentTextChanged(QString);
+    /**
+     * @brief currentNpcNameChanged
+     */
 	void currentNpcNameChanged(QString);
+
+    void currentNpcNumberChanged(int);
 
 public slots :
 	void incrementNpcNumber();

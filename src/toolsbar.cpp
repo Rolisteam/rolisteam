@@ -341,7 +341,7 @@ void ToolsBar::creerOutils()
 	outilsLayout->addWidget(m_npcNameEdit);
 	outilsLayout->addWidget(separateur5);
         //if(PlayersList::instance().localPlayer()->isGM())
-        outilsLayout->addWidget(m_npcDiameter);
+    outilsLayout->addWidget(m_npcDiameter);
         //outilsLayout->addWidget(m_pcDiameter);
 	// Alignement du widget outils sur le haut du dockWidget
 	layout()->setAlignment(outils, Qt::AlignTop | Qt::AlignHCenter);
@@ -365,6 +365,7 @@ void ToolsBar::incrementNpcNumber()
 		
 
 	m_currentNpcNumber = (int) afficheNumeroPnj->value();
+    emit currentNpcNumberChanged(m_currentNpcNumber);
 }
 
 void ToolsBar::razNumeroPnj()
@@ -393,11 +394,8 @@ void ToolsBar::changeCurrentColor(QColor col)
 
 void ToolsBar::mettreAJourPnj(int diametre, QString nom)
 {
-
     m_npcDiameter->changerDiametre(diametre);
-
 	m_npcNameEdit->setText(nom);
-
 	m_currentNPCName = nom;
 }
 
@@ -513,4 +511,8 @@ void ToolsBar::currentToolHasChanged(QAction* bt)
 ToolsBar::SelectableTool ToolsBar::getCurrentTool() const
 {
     return m_currentTool;
+}
+int ToolsBar::getCurrentNpcNumber() const
+{
+    return m_currentNpcNumber;
 }

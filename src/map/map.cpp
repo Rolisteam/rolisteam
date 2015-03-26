@@ -844,7 +844,7 @@ void Map::actionPnjBoutonEnfonce(QPoint positionSouris)
                 // Creation de l'identifiant du PNJ
                 QString idPnj = QUuid::createUuid().toString();
                 // Creation du dessin du PNJ qui s'affiche dans le widget
-				DessinPerso *pnj = new DessinPerso(this, idPnj, m_currentNpcName, G_couleurCourante.color, m_npcSize, positionSouris, DessinPerso::pnj, m_currentNpcNumber);
+                DessinPerso *pnj = new DessinPerso(this, idPnj, m_currentNpcName, G_couleurCourante.color, m_npcSize, positionSouris, DessinPerso::pnj, m_showNpcNumber, m_showNpcName, m_currentNpcNumber);
                 pnj->afficherPerso();
                 // Un PNJ est selectionne
                 pnjSelectionne = pnj;
@@ -1281,7 +1281,7 @@ bool Map::pjAffiche(QString idPerso)
 
 void Map::addCharacter(Character * person)
 {
-	new DessinPerso(this, person->uuid(), person->name(), person->color(), m_npcSize, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), DessinPerso::pj);
+    new DessinPerso(this, person->uuid(), person->name(), person->color(), m_npcSize, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), DessinPerso::pj, false, m_showPcName);
 }
 
 
@@ -2111,4 +2111,17 @@ void Map::setCharacterSize(int number)
 {
 	m_npcSize=number;
 
+}
+void Map::setNpcNameVisible(bool b)
+{
+    m_showNpcName = b;
+}
+
+void Map::setPcNameVisible(bool b)
+{
+    m_showPcName =b;
+}
+void Map::setNpcNumberVisible(bool b)
+{
+    m_showNpcNumber = b;
 }

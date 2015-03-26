@@ -426,6 +426,7 @@ private :
     QProgressBar* m_downLoadProgressbar;
     bool m_shownProgress;
     QString m_localPlayerId;
+    bool m_showNpcName;
 };
 
 #endif

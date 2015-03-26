@@ -33,7 +33,7 @@
 QList<DessinPerso::etatDeSante> G_etatsDeSante;
 
 
-DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, int numero,bool isLocal)
+DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType,bool showNpcNumber,bool showName, int numero,bool isLocal)
     : QWidget(parent),m_localPerso(isLocal)
 {
     // Initiatialisation des variables
@@ -51,13 +51,13 @@ DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor c
 
     if (type == pj)
     {
-        numeroAffiche = false;
-        nomAffiche = G_affichageNomPj;
+        m_showNpcNumber = false;
+        m_showPcName = showName;
     }
     else
     {
-        numeroAffiche = G_affichageNumeroPnj;
-        nomAffiche = G_affichageNomPnj;
+        m_showNpcNumber = showNpcNumber;
+        m_showNpcName = showName;
     }
 
     // Creation du label contenant le dessin du personnage
@@ -99,16 +99,13 @@ DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor c
     // Connexion des signaux
     if (type == pj)
     {
-        // Connexion des demandes d'affichage/masquage des noms de PJ
-        QObject::connect(parent, SIGNAL(afficherNomsPj(bool)), this, SLOT(afficherNomsPj(bool)));
-        // Connexion de la demande de changement de taille du PJ
-        QObject::connect(parent, SIGNAL(changerTaillePj(int)), this, SLOT(changerTaillePj(int)));
+        connect(parent, SIGNAL(afficherNomsPj(bool)), this, SLOT(afficherNomsPj(bool)));
+        connect(parent, SIGNAL(changerTaillePj(int)), this, SLOT(changerTaillePj(int)));
     }
     else
     {
-        // Connexion des demandes d'affichage/masquage des noms et numeros de PNJ
-        QObject::connect(parent, SIGNAL(afficherNomsPnj(bool)), this, SLOT(afficherNomsPnj(bool)));
-        QObject::connect(parent, SIGNAL(afficherNumerosPnj(bool)), this, SLOT(afficherNumerosPnj(bool)));
+        connect(parent, SIGNAL(afficherNomsPnj(bool)), this, SLOT(afficherNomsPnj(bool)));
+        connect(parent, SIGNAL(afficherNumerosPnj(bool)), this, SLOT(afficherNumerosPnj(bool)));
     }
 
     // On donne un nom au widget (pour pouvoir ensuite differencier les enfants de la carte)
@@ -168,19 +165,19 @@ bool DessinPerso::dansPartieTransparente(QPoint position)
 
 void DessinPerso::afficherNomsPj(bool afficher)
 {
-    nomAffiche = afficher;
+    m_showPcName = afficher;
     mettreIntituleAJour();
 }
 
 void DessinPerso::afficherNomsPnj(bool afficher)
 {
-    nomAffiche = afficher;
+    m_showNpcName = afficher;
     mettreIntituleAJour();
 }
 
 void DessinPerso::afficherNumerosPnj(bool afficher)
 {
-    numeroAffiche = afficher;
+    m_showNpcNumber = afficher;
     mettreIntituleAJour();
 }
 
@@ -212,12 +209,22 @@ void DessinPerso::mettreIntituleAJour()
     // recuperation de l'ancien texte du label
     QString ancienTexte = intitulePerso->text();
 
-    // Creation du texte du label
-    QString texteNom = nomAffiche?nomPerso:"";
-    QString texteNumero = numeroAffiche?QString::number(numeroPnj):"";
+    QString nameText="";
+    switch(type)
+    {
+    case pj:
+        nameText=m_showPcName?nomPerso:"";
+        break;
+    case pnj:
+         nameText=m_showNpcName?nomPerso:"";
+        break;
+    }
+
+
+    QString texteNumero = m_showNpcNumber?QString::number(numeroPnj):"";
 
     // Ajout du texte au label
-    intitulePerso->setText(texteNom + (texteNom.isEmpty() || texteNumero.isEmpty()?"":" - ") + texteNumero);
+    intitulePerso->setText(nameText + (nameText.isEmpty() || texteNumero.isEmpty()?"":" - ") + texteNumero);
 
     // Parametrage de la fonte (taille et couleur)
     QFont font;

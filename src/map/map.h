@@ -103,6 +103,9 @@ public slots :
 	void setCurrentNpcNumber(int number);
 	void setPenSize(int number);
 	void setCharacterSize(int number);
+    void setNpcNameVisible(bool);
+    void setPcNameVisible(bool);
+    void setNpcNumberVisible(bool);
 
 
 signals :
@@ -200,6 +203,10 @@ private :
 	int m_currentNpcNumber;
 	int m_penSize;
 	int m_npcSize;
+
+    bool m_showNpcName;
+    bool m_showPcName;
+    bool m_showNpcNumber;
 
 };
 

@@ -42,7 +42,7 @@ class NetworkLink;
 class MainWindow;
 
 // Fonction globale, declaree dans MainWindow.cpp
-void notifyUser(QString message);
+//void notifyUser(QString message);
 
 // Fonctions globales, declaree dans NetworkManager.cpp
 void emettre(char *donnees, quint32 taille, NetworkLink *sauf = 0);
@@ -71,7 +71,7 @@ extern couleurSelectionee G_couleurCourante;
 //extern int G_diametreTraitCourant;
 
 // Declarees dans MainWindow.cpp
-extern bool G_affichageNomPj;
+//extern bool G_affichageNomPj;
 extern bool G_affichageNomPnj;
 extern bool G_affichageNumeroPnj;
 

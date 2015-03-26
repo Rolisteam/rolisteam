@@ -58,7 +58,7 @@ public :
         QString nomEtat;
     } etatDeSante;
 
-    DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, int numero = 0,bool isLocal=false);
+    DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, bool showNpcNumber,bool showName,int numero = 0,bool isLocal=false);
     void deplacePerso(QPoint position);
     void deplacePerso(int x, int y);
     void diametreCouleurNom(int *diam, QColor *coul, QString *nom);
@@ -113,8 +113,9 @@ private :
     QColor couleur;				// Couleur du personnage
     QLabel *disquePerso;		// Contient le pixmap d'un disque representant le personnage
     QLabel *intitulePerso;		// Affiche le nom et le numero du personnage
-    bool nomAffiche;			// True si le nom du personnage est actuellement affiche
-    bool numeroAffiche;			// True si le numero du PNJ est actuellement affiche
+    bool m_showNpcName;			// True si le nom du personnage est actuellement affiche
+    bool m_showPcName;
+    bool m_showNpcNumber;			// True si le numero du PNJ est actuellement affiche
     bool visible;				// True si le personnage est actuellement affiche
     bool orientationAffichee;	// True si l'orientation du personnage est actuellement affichee
     QPoint contour[8];			// 8 points formant le contour du disque (dans l'espace de coordonnees de disquePerso)

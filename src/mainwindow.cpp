@@ -67,8 +67,6 @@
 #include "audioPlayer.h"
 #endif
 
-// Indique si le nom des PJ doit etre affiche ou pas
-bool G_affichageNomPj;
 // Indique si le nom des PNJ doit etre affiche ou pas
 bool G_affichageNomPnj;
 // Indique si le numero des PNJ doit etre affiche ou pas
@@ -157,7 +155,7 @@ void MainWindow::setupUi()
     //m_preferences = Initialisation::getInstance();
 
     // Initialisation des variables globales
-    G_affichageNomPj = true;
+    m_showNpcName = true;
     G_affichageNomPnj = true;
     G_affichageNumeroPnj = true;
 
@@ -519,6 +517,7 @@ QWidget* MainWindow::addMap(BipMapWindow *BipMapWindow, QString titre,QSize maps
 	connect(m_toolBar,SIGNAL(currentPenSizeChanged(int)),carte,SLOT(setPenSize(int)));
 	connect(m_toolBar,SIGNAL(currentTextChanged(QString)),carte,SLOT(setCurrentText(QString)));
 	connect(m_toolBar,SIGNAL(currentNpcNameChanged(QString)),carte,SLOT(setCurrentNpcName(QString)));
+    connect(m_toolBar,SIGNAL(currentNpcNumberChanged(int)),carte,SLOT(setCurrentNpcNumber(int)));
 
 	connect(carte, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCurrentColor(QColor)));
 	connect(carte, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementNpcNumber()));
@@ -527,6 +526,15 @@ QWidget* MainWindow::addMap(BipMapWindow *BipMapWindow, QString titre,QSize maps
     connect(m_showPCAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
     connect(m_showNpcNameAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
     connect(m_showNPCNumberAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
+
+    connect(m_showNpcNameAct, SIGNAL(triggered(bool)), carte, SLOT(setNpcNameVisible(bool)));
+    connect(m_showPCAct, SIGNAL(triggered(bool)), carte, SLOT(setPcNameVisible(bool)));
+    connect(m_showNPCNumberAct,SIGNAL(triggered(bool)),carte,SLOT(setNpcNumberVisible(bool)));
+
+    carte->setNpcNameVisible(m_showNpcNameAct->isChecked());
+    carte->setPcNameVisible(m_showPCAct->isChecked());
+    carte->setNpcNumberVisible(m_showNPCNumberAct->isChecked());
+    carte->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
 
     // new PlayersList connection
     connect(BipMapWindow, SIGNAL(activated(Map *)), m_playersListWidget->model(), SLOT(changeMap(Map *)));
@@ -827,7 +835,10 @@ QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString 
         in>> visible;
         in >> orientationAffichee;
 
-        DessinPerso *pnj = new DessinPerso(map, ident, nomPerso, couleur, diametre, centre, type, numeroDuPnj);
+        bool showNumber=(type == DessinPerso::pnj)?m_showNPCNumberAct->isChecked():false;
+        bool showName=(type == DessinPerso::pnj)? m_showNpcNameAct->isChecked():m_showPCAct->isChecked();
+
+        DessinPerso *pnj = new DessinPerso(map, ident, nomPerso, couleur, diametre, centre, type,showNumber,showName, numeroDuPnj);
 
         if (visible || (type == DessinPerso::pnj && PlayersList::instance()->localPlayer()->isGM()))
             pnj->afficherPerso();
@@ -937,7 +948,7 @@ void MainWindow::closeMapOrImage()
 
 void MainWindow::afficherNomsPj(bool afficher)
 {
-    G_affichageNomPj = afficher;
+    m_showNpcName = afficher;
 }
 void MainWindow::afficherNomsPnj(bool afficher)
 {
@@ -2121,7 +2132,10 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
 
         QPoint npcPos(npcXpos, npcYpos);
 
-        DessinPerso* npc = new DessinPerso(map, npcId, npcName, npcColor, npcDiameter, npcPos, (DessinPerso::typePersonnage)npcType, npcNumber);
+        bool showNumber=(npcType == DessinPerso::pnj)?m_showNPCNumberAct->isChecked():false;
+        bool showName=(npcType == DessinPerso::pnj)? m_showNpcNameAct->isChecked():m_showPCAct->isChecked();
+
+        DessinPerso* npc = new DessinPerso(map, npcId, npcName, npcColor, npcDiameter, npcPos, (DessinPerso::typePersonnage)npcType,showNumber,showName, npcNumber);
 
         if((npcVisible)||(npcType == DessinPerso::pnj && !G_joueur))
         {

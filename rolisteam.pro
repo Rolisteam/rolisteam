@@ -165,10 +165,10 @@ SOURCES += \
     src/widgets/colorselector.cpp \
     src/widgets/diameterselector.cpp \
     src/chat/improvedtextedit.cpp \
-    src/map/characterdtoken.cpp \
     src/widgets/circledisplayer.cpp \
     src/data/mediacontainer.cpp \
-    src/toolsbar.cpp
+    src/toolsbar.cpp \
+    src/map/charactertoken.cpp
 #end source
 
 
