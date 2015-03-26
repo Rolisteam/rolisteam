@@ -129,10 +129,10 @@ int main(int argc, char *argv[])
 
     // Create the main window
     MainWindow* mainWindow =MainWindow::getInstance();
+	mainWindow->parseCommandLineArguments(app.arguments());
 
     mainWindow->setupUi();
     mainWindow->readSettings();
-    mainWindow->parseCommandLineArguments(app.arguments());
     int value = 0;
     if(mainWindow->showConnectionDialog())
     {
