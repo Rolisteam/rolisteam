@@ -39,40 +39,25 @@
 
 #define DEFAULT_ICON_SIZE 20
 
-
-
-
-//QString G_texteCourant;
-// Contient le texte de la zone "nom du PNJ"
-//QString G_nomPnjCourant;
-// Numero de PNJ courant
-//int G_numeroPnjCourant;
-
-
 ToolsBar::ToolsBar(QWidget *parent)
-	: QDockWidget(parent), m_map(NULL)
+    : QDockWidget(parent)
 {
 	m_currentTool = Handler;
 	setWindowTitle(tr("Tools"));
 	setObjectName("ToolsBar");
-	// Parametrage du dockWidget
+
     setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-	// Creation du widget contenant les boutons
-	outils = new QWidget(this);
-	// Insertion du widget dans le dockWidget
-	setWidget(outils);
 
-	// Creation des actions
-	creerActions();
-	// Creation des outils
-	creerOutils();
+    m_mainWidget = new QWidget(this);
 
-	// Initialisation de la variable globale indiquant l'outil courant
-    //G_outilCourant = main;
-	
+    setWidget(m_mainWidget);
+
+    createActions();
+    createTools();
+
 	// Connexion de l'action RazChrono avec le slot razNumeroPnj
-	connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(razNumeroPnj()));
+    connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcNumber()));
 	connect(m_textEdit, SIGNAL(textEdited(const QString &)), this, SIGNAL(currentTextChanged(QString)));
 	connect(m_npcNameEdit, SIGNAL(textEdited(const QString &)), this, SIGNAL(currentNpcNameChanged(QString)));
 
@@ -96,7 +81,7 @@ void ToolsBar::updateUi()
         }
 }
 
-void ToolsBar::creerActions()
+void ToolsBar::createActions()
 {
 	// Creation du groupe d'action
 	QActionGroup *groupOutils = new QActionGroup(this);
@@ -136,52 +121,38 @@ void ToolsBar::creerActions()
 	m_handAct->setChecked(true);
 }	
 
-/********************************************************************/
-/* Creation des boutons et du widget qui les contient               */
-/********************************************************************/	
-void ToolsBar::creerOutils()
+void ToolsBar::createTools()
 {
     // Creationm_actionGroup des boutons du toolBar
     m_actionGroup = new QActionGroup(this);
-	QToolButton *boutonCrayon     = new QToolButton(outils);
-	QToolButton *boutonLigne      = new QToolButton(outils);
-	QToolButton *boutonRectVide   = new QToolButton(outils);
-	QToolButton *boutonRectPlein  = new QToolButton(outils);
-	QToolButton *boutonElliVide   = new QToolButton(outils);
-	QToolButton *boutonElliPlein  = new QToolButton(outils);
-	QToolButton *boutonTexte      = new QToolButton(outils);
-	QToolButton *boutonMain       = new QToolButton(outils);
-	QToolButton *boutonAjoutPnj   = new QToolButton(outils);
-	QToolButton *boutonSupprPnj   = new QToolButton(outils);
-	QToolButton *boutonDeplacePnj = new QToolButton(outils);
-	QToolButton *boutonEtatPnj    = new QToolButton(outils);
-	QToolButton *boutonRazChrono  = new QToolButton(outils);
-
-
-
-
-
-
-
-
-
-
-
+    QToolButton *penButton     = new QToolButton(m_mainWidget);
+    QToolButton *LineButton      = new QToolButton(m_mainWidget);
+    QToolButton *emptyRectButton   = new QToolButton(m_mainWidget);
+    QToolButton *filledRectButton  = new QToolButton(m_mainWidget);
+    QToolButton *emptyEllipseButton   = new QToolButton(m_mainWidget);
+    QToolButton *FilledEllipseButton  = new QToolButton(m_mainWidget);
+    QToolButton *textButton      = new QToolButton(m_mainWidget);
+    QToolButton *handButton       = new QToolButton(m_mainWidget);
+    QToolButton *addNpcButton   = new QToolButton(m_mainWidget);
+    QToolButton *delNpcButton   = new QToolButton(m_mainWidget);
+    QToolButton *moveNpcButton = new QToolButton(m_mainWidget);
+    QToolButton *stateNpcButton    = new QToolButton(m_mainWidget);
+    QToolButton *resetNumberButton  = new QToolButton(m_mainWidget);
 
 	// Association des boutons avec les actions
-	boutonCrayon     ->setDefaultAction(m_pencilAct);
-	boutonLigne      ->setDefaultAction(m_lineAct);
-	boutonRectVide   ->setDefaultAction(m_rectAct);
-	boutonRectPlein  ->setDefaultAction(m_filledRectAct);
-	boutonElliVide   ->setDefaultAction(m_ellipseAct);
-	boutonElliPlein  ->setDefaultAction(m_filledEllipseAct);
-	boutonTexte      ->setDefaultAction(m_textAct);
-	boutonMain       ->setDefaultAction(m_handAct);
-	boutonAjoutPnj   ->setDefaultAction(m_addNpcAct);
-	boutonSupprPnj   ->setDefaultAction(m_delNpcAct);
-	boutonDeplacePnj ->setDefaultAction(m_moveCharacterAct);
-	boutonEtatPnj    ->setDefaultAction(m_changeCharacterState);
-	boutonRazChrono  ->setDefaultAction(m_resetCountAct);
+    penButton     ->setDefaultAction(m_pencilAct);
+    LineButton      ->setDefaultAction(m_lineAct);
+    emptyRectButton   ->setDefaultAction(m_rectAct);
+    filledRectButton  ->setDefaultAction(m_filledRectAct);
+    emptyEllipseButton   ->setDefaultAction(m_ellipseAct);
+    FilledEllipseButton  ->setDefaultAction(m_filledEllipseAct);
+    textButton      ->setDefaultAction(m_textAct);
+    handButton       ->setDefaultAction(m_handAct);
+    addNpcButton   ->setDefaultAction(m_addNpcAct);
+    delNpcButton   ->setDefaultAction(m_delNpcAct);
+    moveNpcButton ->setDefaultAction(m_moveCharacterAct);
+    stateNpcButton    ->setDefaultAction(m_changeCharacterState);
+    resetNumberButton  ->setDefaultAction(m_resetCountAct);
 
 
 	m_actionGroup->addAction(m_pencilAct);
@@ -202,38 +173,38 @@ void ToolsBar::creerOutils()
     connect(m_actionGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentToolHasChanged(QAction*)));
 
 	// Boutons en mode AutoRaise, plus lisible
-	boutonCrayon     ->setAutoRaise(true);
-	boutonLigne      ->setAutoRaise(true);
-	boutonRectVide   ->setAutoRaise(true);
-	boutonRectPlein  ->setAutoRaise(true);
-	boutonElliVide   ->setAutoRaise(true);
-	boutonElliPlein  ->setAutoRaise(true);
-	boutonTexte      ->setAutoRaise(true);
-	boutonMain       ->setAutoRaise(true);
-	boutonAjoutPnj   ->setAutoRaise(true);
-	boutonSupprPnj   ->setAutoRaise(true);
-	boutonDeplacePnj ->setAutoRaise(true);
-	boutonEtatPnj    ->setAutoRaise(true);
-	boutonRazChrono  ->setAutoRaise(true);
+    penButton->setAutoRaise(true);
+    LineButton->setAutoRaise(true);
+    emptyRectButton->setAutoRaise(true);
+    filledRectButton->setAutoRaise(true);
+    emptyEllipseButton->setAutoRaise(true);
+    FilledEllipseButton->setAutoRaise(true);
+    textButton->setAutoRaise(true);
+    handButton->setAutoRaise(true);
+    addNpcButton->setAutoRaise(true);
+    delNpcButton->setAutoRaise(true);
+    moveNpcButton->setAutoRaise(true);
+    stateNpcButton->setAutoRaise(true);
+    resetNumberButton->setAutoRaise(true);
 	
 	// Changement de la taille des icones
 	QSize tailleIcones(DEFAULT_ICON_SIZE,DEFAULT_ICON_SIZE);
-	boutonCrayon     ->setIconSize(tailleIcones);
-	boutonLigne      ->setIconSize(tailleIcones);
-	boutonRectVide   ->setIconSize(tailleIcones);
-	boutonRectPlein  ->setIconSize(tailleIcones);
-	boutonElliVide   ->setIconSize(tailleIcones);
-	boutonElliPlein  ->setIconSize(tailleIcones);
-	boutonTexte      ->setIconSize(tailleIcones);
-	boutonMain       ->setIconSize(tailleIcones);
-	boutonAjoutPnj   ->setIconSize(tailleIcones);
-	boutonSupprPnj   ->setIconSize(tailleIcones);
-	boutonDeplacePnj ->setIconSize(tailleIcones);
-	boutonEtatPnj    ->setIconSize(tailleIcones);
-	boutonRazChrono  ->setIconSize(tailleIcones);
+    penButton     ->setIconSize(tailleIcones);
+    LineButton      ->setIconSize(tailleIcones);
+    emptyRectButton   ->setIconSize(tailleIcones);
+    filledRectButton  ->setIconSize(tailleIcones);
+    emptyEllipseButton   ->setIconSize(tailleIcones);
+    FilledEllipseButton  ->setIconSize(tailleIcones);
+    textButton      ->setIconSize(tailleIcones);
+    handButton       ->setIconSize(tailleIcones);
+    addNpcButton   ->setIconSize(tailleIcones);
+    delNpcButton   ->setIconSize(tailleIcones);
+    moveNpcButton ->setIconSize(tailleIcones);
+    stateNpcButton    ->setIconSize(tailleIcones);
+    resetNumberButton  ->setIconSize(tailleIcones);
 				
 	// Creation du layout vertical qui constitue la barre d'outils
-	QVBoxLayout *outilsLayout = new QVBoxLayout(outils);
+    QVBoxLayout *outilsLayout = new QVBoxLayout(m_mainWidget);
 	outilsLayout->setSpacing(0);
 	outilsLayout->setMargin(2);
 
@@ -241,88 +212,89 @@ void ToolsBar::creerOutils()
 	QGridLayout *layoutDessin = new QGridLayout();
 	layoutDessin->setSpacing(0);
 	layoutDessin->setMargin(0);
-	layoutDessin->addWidget(boutonCrayon, 0, 0);
-	layoutDessin->addWidget(boutonLigne, 0, 1);
-	layoutDessin->addWidget(boutonRectVide, 1, 0);
-	layoutDessin->addWidget(boutonRectPlein, 1, 1);
-	layoutDessin->addWidget(boutonElliVide, 2, 0);
-	layoutDessin->addWidget(boutonElliPlein, 2, 1);
-	layoutDessin->addWidget(boutonTexte, 3, 0);
-	layoutDessin->addWidget(boutonMain, 3, 1);
+    layoutDessin->addWidget(penButton, 0, 0);
+    layoutDessin->addWidget(LineButton, 0, 1);
+    layoutDessin->addWidget(emptyRectButton, 1, 0);
+    layoutDessin->addWidget(filledRectButton, 1, 1);
+    layoutDessin->addWidget(emptyEllipseButton, 2, 0);
+    layoutDessin->addWidget(FilledEllipseButton, 2, 1);
+    layoutDessin->addWidget(textButton, 3, 0);
+    layoutDessin->addWidget(handButton, 3, 1);
 
 	// Creation des zones de texte et de nom de PNJ
-	m_textEdit = new QLineEdit(outils);
-		m_textEdit->setToolTip(tr("Text"));
+    m_textEdit = new QLineEdit(m_mainWidget);
+    m_textEdit->setToolTip(tr("Text"));
 
-	m_npcNameEdit = new QLineEdit(outils);
-		m_npcNameEdit->setToolTip(tr("NPC name"));
+    m_npcNameEdit = new QLineEdit(m_mainWidget);
+    m_npcNameEdit->setToolTip(tr("NPC name"));
 	
 	// Creation de l'afficheur du numero de PNJ
-	afficheNumeroPnj = new QLCDNumber(2, outils);
-	afficheNumeroPnj->setSegmentStyle(QLCDNumber::Flat);
-	afficheNumeroPnj->setMaximumSize(DEFAULT_ICON_SIZE + 7, DEFAULT_ICON_SIZE);
-	afficheNumeroPnj->display(1);
-                afficheNumeroPnj->setToolTip(tr("NPC Number"));
+    m_showPnjNumber = new QLCDNumber(2, m_mainWidget);
+    m_showPnjNumber->setSegmentStyle(QLCDNumber::Flat);
+    m_showPnjNumber->setMaximumSize(DEFAULT_ICON_SIZE + 7, DEFAULT_ICON_SIZE);
+    m_showPnjNumber->display(1);
+    m_showPnjNumber->setToolTip(tr("NPC Number"));
+
 	// Initialisation de la variable globale indiquant le numero de PNJ courant
 	m_currentNpcNumber = 1;
 	
     // Creation du selecteur de m_color
-    m_color = new ColorSelector(outils);
+    m_color = new ColorSelector(m_mainWidget);
 
 	// Creation du layout contient les outils de deplcement des PNJ
 	QHBoxLayout *layoutMouvementPnj = new QHBoxLayout();
 	layoutMouvementPnj->setSpacing(0);
 	layoutMouvementPnj->setMargin(0);
-	layoutMouvementPnj->addWidget(boutonDeplacePnj);
-	layoutMouvementPnj->addWidget(boutonEtatPnj);
+    layoutMouvementPnj->addWidget(moveNpcButton);
+    layoutMouvementPnj->addWidget(stateNpcButton);
 
 	// Creation du layout contient les outils d'ajout et de suppression des PNJ
 	QGridLayout *layoutAjoutPnj = new QGridLayout();
 	layoutAjoutPnj->setSpacing(0);
 	layoutAjoutPnj->setMargin(0);
-	layoutAjoutPnj->addWidget(boutonAjoutPnj, 0, 0);
-	layoutAjoutPnj->addWidget(boutonSupprPnj, 0, 1);
-	layoutAjoutPnj->addWidget(boutonRazChrono, 1, 0);
-	layoutAjoutPnj->addWidget(afficheNumeroPnj, 1, 1, Qt::AlignHCenter);
+    layoutAjoutPnj->addWidget(addNpcButton, 0, 0);
+    layoutAjoutPnj->addWidget(delNpcButton, 0, 1);
+    layoutAjoutPnj->addWidget(resetNumberButton, 1, 0);
+    layoutAjoutPnj->addWidget(m_showPnjNumber, 1, 1, Qt::AlignHCenter);
 	
 	// Creation du selecteur de diametre du trait
-	m_lineDiameter = new DiameterSelector(outils, true, 1, 45);
+    m_lineDiameter = new DiameterSelector(m_mainWidget, true, 1, 45);
 	m_lineDiameter->setToolTip(tr("Line's Width"));
 	connect(m_lineDiameter,SIGNAL(diameterChanged(int)),this,SIGNAL(currentPenSizeChanged(int)));
 
 
     // Creation du selecteur de diametre des PNJ
-    m_npcDiameter = new DiameterSelector(outils, false, 12, 200);
+    m_npcDiameter = new DiameterSelector(m_mainWidget, false, 12, 200);
     m_npcDiameter->setToolTip(tr("NPC Size"));
 	connect(m_npcDiameter,SIGNAL(diameterChanged(int)),this,SIGNAL(currentNpcSizeChanged(int)));
 
 	//Creation du separateur se trouvant entre le selecteur de couleur et les outils de dessin
-	QFrame *separateur1 = new QFrame(outils);
+    QFrame *separateur1 = new QFrame(m_mainWidget);
 	separateur1->setFrameStyle(QFrame::HLine | QFrame::Sunken);
 	separateur1->setMinimumHeight(15);
 	separateur1->setLineWidth(1);
 	separateur1->setMidLineWidth(0);
 	
 	// Creation du separateur se trouvant entre les outils de dessin et le selecteur de diametre du trait
-	QWidget *separateur2 = new QWidget(outils);
+    QWidget *separateur2 = new QWidget(m_mainWidget);
 	separateur2->setFixedHeight(3);
 	
 	//Creation du separateur se trouvant entre les outils de dessin et ceux de deplacement des PNJ
-	QFrame *separateur3 = new QFrame(outils);
+    QFrame *separateur3 = new QFrame(m_mainWidget);
 	separateur3->setFrameStyle(QFrame::HLine | QFrame::Sunken);
 	separateur3->setMinimumHeight(10);
 	separateur3->setLineWidth(1);
 	separateur3->setMidLineWidth(0);
 
 	//Creation du separateur se trouvant entre les outils de deplacement et ceux d'ajout des PNJ
-	QFrame *separateur4 = new QFrame(outils);
+    QFrame *separateur4 = new QFrame(m_mainWidget);
 	separateur4->setFrameStyle(QFrame::HLine | QFrame::Sunken);
 	separateur4->setMinimumHeight(10);
 	separateur4->setLineWidth(1);
 	separateur4->setMidLineWidth(0);
 
 	// Creation du separateur se trouvant au dessus du selecteur de diametre des PNJ
-	QWidget *separateur5 = new QWidget(outils);
+    QWidget *separateur5 = new QWidget(m_mainWidget);
 	separateur5->setFixedHeight(3);
 	
 	// Ajout des differents layouts et widgets dans outilsLayout
@@ -344,34 +316,33 @@ void ToolsBar::creerOutils()
     outilsLayout->addWidget(m_npcDiameter);
         //outilsLayout->addWidget(m_pcDiameter);
 	// Alignement du widget outils sur le haut du dockWidget
-	layout()->setAlignment(outils, Qt::AlignTop | Qt::AlignHCenter);
+    layout()->setAlignment(m_mainWidget, Qt::AlignTop | Qt::AlignHCenter);
 	// Contraintes de taille sur la barre d'outils
-	outils->setFixedWidth((DEFAULT_ICON_SIZE+8)*layoutDessin->columnCount());
+    m_mainWidget->setFixedWidth((DEFAULT_ICON_SIZE+8)*layoutDessin->columnCount());
 	setMaximumWidth((DEFAULT_ICON_SIZE+8)*layoutDessin->columnCount()+10);
 }
 
 void ToolsBar::incrementNpcNumber()
 {
 	// Recuperation de la valeur actuelle
-	int numeroActuel = (int) afficheNumeroPnj->value();
+    int numeroActuel = (int) m_showPnjNumber->value();
 	
 	// Incrementation
 	numeroActuel++;
 	// MAJ de la valeur; si la nouvelle valeur ne rentre pas, on la met a 1
-	if (afficheNumeroPnj->checkOverflow(numeroActuel))
-		afficheNumeroPnj->display(1);
+    if (m_showPnjNumber->checkOverflow(numeroActuel))
+        m_showPnjNumber->display(1);
 	else
-		afficheNumeroPnj->display(numeroActuel);
+        m_showPnjNumber->display(numeroActuel);
 		
 
-	m_currentNpcNumber = (int) afficheNumeroPnj->value();
+    m_currentNpcNumber = (int) m_showPnjNumber->value();
     emit currentNpcNumberChanged(m_currentNpcNumber);
 }
 
-void ToolsBar::razNumeroPnj()
+void ToolsBar::resetNpcNumber()
 {
-	afficheNumeroPnj->display(1);
-	// Mise a jour de la variable globale indiquant le numero de PNJ
+    m_showPnjNumber->display(1);
 	m_currentNpcNumber = 1;
 }
 
@@ -392,54 +363,30 @@ void ToolsBar::changeCurrentColor(QColor col)
 	emit currentColorChanged(col);
 }
 
-void ToolsBar::mettreAJourPnj(int diametre, QString nom)
+void ToolsBar::updateNpc(int diametre, QString nom)
 {
     m_npcDiameter->changerDiametre(diametre);
 	m_npcNameEdit->setText(nom);
 	m_currentNPCName = nom;
 }
 
-void ToolsBar::changeMap(Map * map)
+void ToolsBar::changeMap(Map* map)
 {
-    m_map = map;
-    if (m_map != NULL)
+    if (map != NULL)
     {
         m_npcDiameter->changerDiametre(map->tailleDesPj());
     }
 }
 
-void ToolsBar::majCouleursPersonnelles()
+void ToolsBar::updatePersonalColor()
 {
     m_color->majCouleursPersonnelles();
 }
 
-QColor ToolsBar::donnerCouleurPersonnelle(int numero)
+QColor ToolsBar::getPersonalColor(int numero)
 {
     return m_color->donnerCouleurPersonnelle(numero);
 }
-
-//void ToolsBar::changeCharacterSize(int size)
-//{
-//    if (m_map != NULL)
-//		m_map->changerTaillePjCarte(size, m_currentTool != AddNpc);
-//}
-
-//void ToolsBar::sendNewCharacterSize(int size)
-//{
-//    if (m_map == NULL)
-//        return;
-
-//    changeCharacterSize(size);
-//	if(m_currentTool != AddNpc)
-//    {
-//        NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterSizeAction);
-//        message.string8(m_map->identifiantCarte());
-//        message.string8(m_map->getLastSelectedCharacterId());
-//        message.uint8(size - 11);
-//        message.sendAll();
-//    }
-//}
-
 
 void ToolsBar::currentToolHasChanged(QAction* bt)
 {

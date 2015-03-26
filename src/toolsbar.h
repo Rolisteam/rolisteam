@@ -49,8 +49,8 @@ class ToolsBar : public QDockWidget
 public :
 	ToolsBar(QWidget *parent = 0);
 	virtual ~ToolsBar();
-    void majCouleursPersonnelles();
-    QColor donnerCouleurPersonnelle(int numero);
+    void updatePersonalColor();
+    QColor getPersonalColor(int numero);
     void updateUi();
     int getCurrentNpcNumber() const;
 
@@ -88,54 +88,50 @@ signals:
      * @brief currentNpcNameChanged
      */
 	void currentNpcNameChanged(QString);
-
+    /**
+     * @brief currentNpcNumberChanged
+     */
     void currentNpcNumberChanged(int);
 
 public slots :
+    /**
+     * @brief incrementNpcNumber
+     */
 	void incrementNpcNumber();
+    /**
+     * @brief changeCurrentColor
+     * @param coul
+     */
 	void changeCurrentColor(QColor coul);
-    void mettreAJourPnj(int diametre, QString nom);
+    /**
+     * @brief updateNpc
+     * @param diametre
+     * @param nom
+     */
+    void updateNpc(int diametre, QString nom);
+    /**
+     * @brief changeMap
+     * @param map
+     */
     void changeMap(Map * map);
 
     
 private :
-    void creerActions();
-    void creerOutils();
+    void createActions();
+    void createTools();
 
-    QWidget *outils;
-	QLineEdit *m_textEdit;
-	QLineEdit *m_npcNameEdit;
-    QLCDNumber *afficheNumeroPnj;
+    QWidget* m_mainWidget;
+    QLineEdit* m_textEdit;
+    QLineEdit* m_npcNameEdit;
+    QLCDNumber* m_showPnjNumber;
     ColorSelector* m_color;
 	DiameterSelector *m_lineDiameter;
     DiameterSelector *m_npcDiameter;
-    Map * m_map;
-    //DiameterSelector* m_pcDiameter;
-
 
 private slots :
-    void razNumeroPnj();
+    void resetNpcNumber();
 	void changeSize(bool floating);
-
-
- /*   void crayonSelectionne();
-    void ligneSelectionne();
-    void rectVideSelectionne();
-    void rectPleinSelectionne();
-    void elliVideSelectionne();
-    void elliPleinSelectionne();
-    void texteSelectionne();
-    void mainSelectionne();
-    void ajoutPnjSelectionne();
-    void supprPnjSelectionne();
-    void deplacePersoSelectionne();
-	void etatPersoSelectionne();*/
-
     void currentToolHasChanged(QAction*);
-
-//    void changeCharacterSize(int size);
-//    void sendNewCharacterSize(int size);
-
 
 private:
 	QString m_currentNPCName;
