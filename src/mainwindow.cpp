@@ -68,9 +68,9 @@
 #endif
 
 // Indique si le nom des PNJ doit etre affiche ou pas
-bool G_affichageNomPnj;
+//bool G_affichageNomPnj;
 // Indique si le numero des PNJ doit etre affiche ou pas
-bool G_affichageNumeroPnj;
+//bool G_affichageNumeroPnj;
 
 
 
@@ -152,13 +152,6 @@ MainWindow::MainWindow()
 }
 void MainWindow::setupUi()
 {
-    //m_preferences = Initialisation::getInstance();
-
-    // Initialisation des variables globales
-    m_showNpcName = true;
-    G_affichageNomPnj = true;
-    G_affichageNumeroPnj = true;
-
 	// Initialisation de la liste des BipMapWindow, des Image et des Tchat
     m_mapWindowList.clear();
     m_pictureList.clear();
@@ -167,11 +160,11 @@ void MainWindow::setupUi()
     m_version=tr("unknown");
 
 #ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-#endif
-#endif
+	#ifdef VERSION_MAJOR
+		#ifdef VERSION_MIDDLE
+			m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+		#endif
+	#endif
 #endif
 
     setAnimated(false);
@@ -185,7 +178,6 @@ void MainWindow::setupUi()
     connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(changementFenetreActive(QMdiSubWindow *)));
 
     // Creation de la barre d'outils
-    //ToolBar = new ToolBar(this);
     m_toolBar = new ToolsBar();
     // Ajout de la barre d'outils a la fenetre principale
     addDockWidget(Qt::LeftDockWidgetArea, m_toolBar);
@@ -240,12 +232,7 @@ void MainWindow::setupUi()
 
 
     // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
-    AddHealthState(Qt::black, tr("healthy"), G_etatsDeSante);
-    AddHealthState(QColor(255, 100, 100),tr("lightly wounded"),G_etatsDeSante);
-    AddHealthState(QColor(255, 0, 0),tr("seriously injured"),G_etatsDeSante);
-    AddHealthState(Qt::gray,tr("Dead"),G_etatsDeSante);
-    AddHealthState(QColor(80, 80, 255),tr("Sleeping"),G_etatsDeSante);
-    AddHealthState(QColor(0, 200, 0),tr("Bewitched"),G_etatsDeSante);
+
 
     m_playerList = PlayersList::instance();
 
@@ -457,17 +444,10 @@ void MainWindow::linkActionToMenu()
 
     // Windows managing
     connect(m_cascadeAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
-
     connect(m_tabOrdering,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
-
     connect(m_tabOrdering,SIGNAL(triggered(bool)),m_cascadeAction,SLOT(setDisabled(bool)));
     connect(m_tabOrdering,SIGNAL(triggered(bool)),m_tuleAction,SLOT(setDisabled(bool)));
     connect(m_tuleAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
-
-    // Display
-    connect(m_showPCAct, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPj(bool)));
-    connect(m_showNpcNameAct, SIGNAL(triggered(bool)), this, SLOT(afficherNomsPnj(bool)));
-    connect(m_showNPCNumberAct, SIGNAL(triggered(bool)), this, SLOT(afficherNumerosPnj(bool)));
 
     // Help
     connect(m_aboutAct, SIGNAL(triggered()), this, SLOT(aboutRolisteam()));
@@ -508,33 +488,34 @@ QWidget* MainWindow::addMap(BipMapWindow *BipMapWindow, QString titre,QSize maps
 	connect(action, SIGNAL(triggered(bool)), BipMapWindow, SLOT(setVisible(bool)));
 	connect(BipMapWindow,SIGNAL(visibleChanged(bool)),action,SLOT(setChecked(bool)));
 
-    Map *carte = BipMapWindow->carte();
-    carte->setPointeur(m_toolBar->getCurrentTool());
+	Map* map = BipMapWindow->carte();
+	map->setPointeur(m_toolBar->getCurrentTool());
+	map->setLocalIsPlayer(m_preferences->value("isPlayer",false).toBool());
 
-    connect(m_toolBar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),carte,SLOT(setPointeur(ToolsBar::SelectableTool)));
+	connect(m_toolBar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),map,SLOT(setPointeur(ToolsBar::SelectableTool)));
 
-	connect(m_toolBar,SIGNAL(currentNpcSizeChanged(int)),carte,SLOT(setCharacterSize(int)));
-	connect(m_toolBar,SIGNAL(currentPenSizeChanged(int)),carte,SLOT(setPenSize(int)));
-	connect(m_toolBar,SIGNAL(currentTextChanged(QString)),carte,SLOT(setCurrentText(QString)));
-	connect(m_toolBar,SIGNAL(currentNpcNameChanged(QString)),carte,SLOT(setCurrentNpcName(QString)));
-    connect(m_toolBar,SIGNAL(currentNpcNumberChanged(int)),carte,SLOT(setCurrentNpcNumber(int)));
+	connect(m_toolBar,SIGNAL(currentNpcSizeChanged(int)),map,SLOT(setCharacterSize(int)));
+	connect(m_toolBar,SIGNAL(currentPenSizeChanged(int)),map,SLOT(setPenSize(int)));
+	connect(m_toolBar,SIGNAL(currentTextChanged(QString)),map,SLOT(setCurrentText(QString)));
+	connect(m_toolBar,SIGNAL(currentNpcNameChanged(QString)),map,SLOT(setCurrentNpcName(QString)));
+	connect(m_toolBar,SIGNAL(currentNpcNumberChanged(int)),map,SLOT(setCurrentNpcNumber(int)));
 
-	connect(carte, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCurrentColor(QColor)));
-	connect(carte, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementNpcNumber()));
-    connect(carte, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(mettreAJourPnj(int, QString)));
+	connect(map, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCurrentColor(QColor)));
+	connect(map, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementNpcNumber()));
+	connect(map, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(mettreAJourPnj(int, QString)));
 
-    connect(m_showPCAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPj(bool)));
-    connect(m_showNpcNameAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNomsPnj(bool)));
-    connect(m_showNPCNumberAct, SIGNAL(triggered(bool)), carte, SIGNAL(afficherNumerosPnj(bool)));
+	connect(m_showPCAct, SIGNAL(triggered(bool)), map, SIGNAL(afficherNomsPj(bool)));
+	connect(m_showNpcNameAct, SIGNAL(triggered(bool)), map, SIGNAL(afficherNomsPnj(bool)));
+	connect(m_showNPCNumberAct, SIGNAL(triggered(bool)), map, SIGNAL(afficherNumerosPnj(bool)));
 
-    connect(m_showNpcNameAct, SIGNAL(triggered(bool)), carte, SLOT(setNpcNameVisible(bool)));
-    connect(m_showPCAct, SIGNAL(triggered(bool)), carte, SLOT(setPcNameVisible(bool)));
-    connect(m_showNPCNumberAct,SIGNAL(triggered(bool)),carte,SLOT(setNpcNumberVisible(bool)));
+	connect(m_showNpcNameAct, SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
+	connect(m_showPCAct, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
+	connect(m_showNPCNumberAct,SIGNAL(triggered(bool)),map,SLOT(setNpcNumberVisible(bool)));
 
-    carte->setNpcNameVisible(m_showNpcNameAct->isChecked());
-    carte->setPcNameVisible(m_showPCAct->isChecked());
-    carte->setNpcNumberVisible(m_showNPCNumberAct->isChecked());
-    carte->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
+	map->setNpcNameVisible(m_showNpcNameAct->isChecked());
+	map->setPcNameVisible(m_showPCAct->isChecked());
+	map->setNpcNumberVisible(m_showNPCNumberAct->isChecked());
+	map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
 
     // new PlayersList connection
     connect(BipMapWindow, SIGNAL(activated(Map *)), m_playersListWidget->model(), SLOT(changeMap(Map *)));
@@ -945,19 +926,6 @@ void MainWindow::closeMapOrImage()
         delete subactive;
     }
 }
-
-void MainWindow::afficherNomsPj(bool afficher)
-{
-    m_showNpcName = afficher;
-}
-void MainWindow::afficherNomsPnj(bool afficher)
-{
-    G_affichageNomPnj = afficher;
-}
-void MainWindow::afficherNumerosPnj(bool afficher)
-{
-    G_affichageNumeroPnj = afficher;
-}
 void MainWindow::updateWorkspace()
 {
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
@@ -1090,7 +1058,7 @@ void MainWindow::removeMapFromId(QString idCarte)
 }
 Map* MainWindow::trouverCarte(QString idCarte)
 {
-	// Taille de la liste des BipMapWindow
+	/// @todo @warning complexity of the method is N, it should be 1. Replace list by map or hash.
     int tailleListe = m_mapWindowList.size();
 
     bool ok = false;
@@ -1622,20 +1590,6 @@ void MainWindow::InitMousePointer(QCursor **pointer, const QString &iconFileName
 #endif
 
 }
-void MainWindow::readSettings()
-{
-    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
-
-    move(settings.value("pos", QPoint(200, 200)).toPoint());
-    resize(settings.value("size", QSize(600, 400)).toSize());
-    restoreGeometry(settings.value("geometry").toByteArray());
-    restoreState(settings.value("windowState").toByteArray());
-
-    m_preferences->readSettings(settings);
-}
-
-
-
 
 Map::PermissionMode MainWindow::getPermission(int id)
 {
@@ -1742,10 +1696,6 @@ void MainWindow::setUpNetworkConnection()
     }
     else
     {
-        // send datas on new connection if we are the server
-        // send datas on new connection if we are the server
-//        connect(m_networkManager, SIGNAL(linkAdded(NetworkLink *)), this, SLOT(emettreTousLesPlans(NetworkLink *)));
-//        connect(m_networkManager, SIGNAL(linkAdded(NetworkLink *)), this, SLOT(emettreToutesLesImages(NetworkLink *)));
 		  connect(m_networkManager, SIGNAL(linkAdded(NetworkLink *)), this, SLOT(updateSessionToNewClient(NetworkLink*)));
     }
     connect(m_networkManager, SIGNAL(dataReceived(quint64,quint64)), this, SLOT(receiveData(quint64,quint64)));
@@ -1753,7 +1703,6 @@ void MainWindow::setUpNetworkConnection()
 }
 void MainWindow::updateSessionToNewClient(NetworkLink* link)
 {
-   // m_playersListWidget->throwUserInfoToNewClient(link);
     emettreTousLesPlans(link);
     emettreToutesLesImages(link);
 }
@@ -1763,18 +1712,37 @@ void MainWindow::setNetworkManager(NetworkManager* tmp)
     m_networkManager = tmp;
     m_networkManager->setParent(this);
 }
+void MainWindow::readSettings()
+{
+	QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
+
+	if(m_resetSettings)
+	{
+		settings.clear();
+	}
+
+	restoreState(settings.value("windowState").toByteArray());
+	bool  maxi = settings.value("Maximized", false).toBool();
+	if(!maxi)
+	{
+		restoreGeometry(settings.value("geometry").toByteArray());
+	}
+
+	m_preferences->readSettings(settings);
+}
 void MainWindow::writeSettings()
 {
     QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
-    settings.setValue("pos", pos());
-    settings.setValue("size", size());
+
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
+	settings.setValue("Maximized", isMaximized());
 
     m_preferences->writeSettings(settings);
 }
 void MainWindow::parseCommandLineArguments(QStringList list)
 {
+
         QCommandLineParser parser;
         parser.addHelpOption();
         parser.addVersionOption();
@@ -1782,11 +1750,13 @@ void MainWindow::parseCommandLineArguments(QStringList list)
         QCommandLineOption port(QStringList() << "p"<< "port", tr("Set rolisteam to use <port> for the connection"),"port");
         QCommandLineOption hostname(QStringList() << "s"<< "server", tr("Set rolisteam to connect to <server>."),"server");
         QCommandLineOption role(QStringList() << "r"<< "role", tr("Define the <role>: gm or pc"),"role");
+		QCommandLineOption reset(QStringList() << "reset-settings", tr("Erase the settings and use the default parameters"));
 
 
         parser.addOption(port);
         parser.addOption(hostname);
         parser.addOption(role);
+		parser.addOption(reset);
 
 
         parser.process(list);
@@ -1794,6 +1764,8 @@ void MainWindow::parseCommandLineArguments(QStringList list)
         bool hasPort = parser.isSet(port);
         bool hasHostname = parser.isSet(hostname);
         bool hasRole = parser.isSet(role);
+		m_resetSettings = parser.isSet(reset);
+
         QString portValue;
         QString hostnameValue;
         QString roleValue;
@@ -2030,10 +2002,10 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
 
         if(NULL!=map)
         {
-            couleurSelectionee selectedColor;
+            SelectedColor selectedColor;
             selectedColor.color = color;
-            selectedColor.type = (typeCouleur)colorType;
-            map->dessinerTraceCrayon(&pointList,zoneToRefresh,diameter,selectedColor,idPlayer==m_localPlayerId);
+            selectedColor.type = (ColorKind)colorType;
+			map->paintPenLine(&pointList,zoneToRefresh,diameter,selectedColor,idPlayer==m_localPlayerId);
         }
     }
     else if(msg->action() == NetMsg::textPainting)
@@ -2057,11 +2029,11 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
 
         if(NULL!=map)
         {
-            couleurSelectionee selectedColor;
+            SelectedColor selectedColor;
             selectedColor.color = color;
-            selectedColor.type = (typeCouleur)colorType;
+            selectedColor.type = (ColorKind)colorType;
 
-            map->dessinerTraceTexte(text,pos,zoneToRefresh,selectedColor);
+			map->paintText(text,pos,zoneToRefresh,selectedColor);
 
         }
     }
@@ -2095,11 +2067,11 @@ void MainWindow::processPaintingMessage(NetworkMessageReader* msg)
 
         if(NULL!=map)
         {
-            couleurSelectionee selectedColor;
+            SelectedColor selectedColor;
             selectedColor.color = color;
-            selectedColor.type = (typeCouleur)colorType;
+            selectedColor.type = (ColorKind)colorType;
 
-            map->dessinerTraceGeneral(msg->action(),startPos,endPos,zoneToRefresh,diameter,selectedColor);
+			map->paintOther(msg->action(),startPos,endPos,zoneToRefresh,diameter,selectedColor);
         }
 
 
@@ -2137,7 +2109,7 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
 
         DessinPerso* npc = new DessinPerso(map, npcId, npcName, npcColor, npcDiameter, npcPos, (DessinPerso::typePersonnage)npcType,showNumber,showName, npcNumber);
 
-        if((npcVisible)||(npcType == DessinPerso::pnj && !G_joueur))
+		if((npcVisible)||(npcType == DessinPerso::pnj && !m_preferences->value("isPlayer",false).toBool()))
         {
             npc->afficherPerso();
         }
@@ -2252,7 +2224,7 @@ void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
         Map* map=trouverCarte(idMap);
         if(NULL!=map)
         {
-            map->affichageDuPj(idCharacter,display);
+			map->showPc(idCharacter,display);
         }
     }
     else if(msg->action() == NetMsg::ChangePlayerCharacterSizeAction)

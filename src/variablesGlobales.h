@@ -20,11 +20,6 @@
  *************************************************************************/
 
 
-/********************************************************************/
-/* Variables globales utilisees dans l'application.                 */
-/********************************************************************/
-
-
 #ifndef VARIABLES_GLOBALES_H
 #define VARIABLES_GLOBALES_H
 
@@ -41,39 +36,15 @@ class NetworkManager;
 class NetworkLink;
 class MainWindow;
 
-// Fonction globale, declaree dans MainWindow.cpp
-//void notifyUser(QString message);
-
-// Fonctions globales, declaree dans NetworkManager.cpp
-void emettre(char *donnees, quint32 taille, NetworkLink *sauf = 0);
-
-
-//extern QString         G_idJoueurLocal;
-
 // Declarees dans NetworkManager.cpp
-extern bool G_joueur;
-
+//extern bool G_joueur;
 
 // Declarees dans DessinPerso.cpp, initialiser dans MainWindow.cpp
-extern QList<DessinPerso::etatDeSante> G_etatsDeSante;
+//extern QList<DessinPerso::etatDeSante> G_etatsDeSante;
 
 // Declarees dans ColorSelector.cpp
-extern couleurSelectionee G_couleurCourante;
-//extern QColor G_couleurMasque;
+extern SelectedColor G_couleurCourante;
 
-// Declarees dans ToolBar.cpp
-//extern ToolBar::Tool G_outilCourant;
-//extern QString G_texteCourant;
-//extern QString G_nomPnjCourant;
-//extern int G_numeroPnjCourant;
-
-// Declarees dans CircleDisplayer.cpp
-//extern int G_diametreTraitCourant;
-
-// Declarees dans MainWindow.cpp
-//extern bool G_affichageNomPj;
-extern bool G_affichageNomPnj;
-extern bool G_affichageNumeroPnj;
 
 
 #endif

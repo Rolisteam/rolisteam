@@ -261,9 +261,6 @@ protected :
     void extractCharacter(Map* map,NetworkMessageReader* msg);
 private slots :
     void changementNatureUtilisateur();
-    void afficherNomsPj(bool afficher);
-    void afficherNomsPnj(bool afficher);
-    void afficherNumerosPnj(bool afficher);
     void changementFenetreActive(QMdiSubWindow* widget);
     void newMap();
     void openMap(Map::PermissionMode Permission,QString filepath,QString title,bool masquer = false);
@@ -426,7 +423,7 @@ private :
     QProgressBar* m_downLoadProgressbar;
     bool m_shownProgress;
     QString m_localPlayerId;
-    bool m_showNpcName;
+	bool m_resetSettings;
 };
 
 #endif
