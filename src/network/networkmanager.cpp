@@ -38,7 +38,7 @@
 
 
 // True si l'utilisateur est un joueur, false s'il est MJ
-bool G_joueur;
+//bool G_joueur;
 
 
 #define second 1000
@@ -94,7 +94,7 @@ void NetworkManager::synchronizePreferences()
     m_preferences->registerValue("UserColor",m_configDialog->getColor());
     m_preferences->registerValue("isPlayer",!m_configDialog->isGM());
     m_preferences->registerValue("ipaddress",m_configDialog->getHost());
-    G_joueur= !m_configDialog->isGM();
+	//G_joueur= !m_configDialog->isGM();
     m_preferences->registerValue("ServerPort",m_configDialog->getPort());
     m_preferences->registerValue("isClient",!m_configDialog->isServer());
     m_preferences->registerValue("clientPort",m_configDialog->getPort());

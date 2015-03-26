@@ -102,7 +102,9 @@ public slots :
 private :
     void mettreIntituleAJour();
     void initialiserContour(QImage &disque);
+	void AddHealthState(const QColor &color, const QString &label);
 
+private:
     typePersonnage type;		// Indique si le personnage est un PJ ou un PNJ
     etatDeSante etat;			// Etat se sante actuel du personnage
     int numeroEtat;				// Numero de l'etat de sante dans la liste G_etatsDeSante
@@ -122,6 +124,8 @@ private :
     QPoint orientation;			// Orientation du personnage (difference entre le centre du disque et la souris)
     QPoint centre;				// Sert a memoriser la position du centre pendant que le personnage est cache
     bool m_localPerso;
+
+	QList<DessinPerso::etatDeSante> m_healtStateList;
 
     //Character * person;
 

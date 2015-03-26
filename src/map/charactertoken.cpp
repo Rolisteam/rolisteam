@@ -36,6 +36,14 @@ QList<DessinPerso::etatDeSante> G_etatsDeSante;
 DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType,bool showNpcNumber,bool showName, int numero,bool isLocal)
     : QWidget(parent),m_localPerso(isLocal)
 {
+
+	AddHealthState(Qt::black, tr("healthy"));
+	AddHealthState(QColor(255, 100, 100),tr("lightly wounded"));
+	AddHealthState(QColor(255, 0, 0),tr("seriously injured"));
+	AddHealthState(Qt::gray,tr("Dead"));
+	AddHealthState(QColor(80, 80, 255),tr("Sleeping"));
+	AddHealthState(QColor(0, 200, 0),tr("Bewitched"));
+
     // Initiatialisation des variables
     nomPerso = nom;
     numeroPnj = (uchar) numero;
@@ -547,4 +555,11 @@ int DessinPerso::preparerPourEmission(NetworkMessageWriter* msg, bool convertirE
     msg->uint16(numeroEtat);
     msg->uint8( visible);
     msg->uint8(orientationAffichee);
+}
+void DessinPerso::AddHealthState(const QColor &color, const QString &label)
+{
+	DessinPerso::etatDeSante state;
+	state.couleurEtat = color;
+	state.nomEtat = label;
+	m_healtStateList.append(state);
 }

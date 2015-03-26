@@ -269,11 +269,13 @@ void NetworkLink::faireSuivreMessage(bool tous)
         memcpy(&(donnees[sizeof(NetworkMessageHeader)]), tampon, entete.dataSize);
         if (tous)
         {
-            emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader));
+			//emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader));
+			m_networkManager->emettreDonnees(donnees,entete.dataSize + sizeof(NetworkMessageHeader),NULL);
         }
         else
         {
-            emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader), this);
+			//emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader), this);
+			m_networkManager->emettreDonnees(donnees,entete.dataSize + sizeof(NetworkMessageHeader),this);
         }
         delete[] donnees;
     }

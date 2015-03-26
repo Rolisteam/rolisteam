@@ -28,21 +28,21 @@
 
 
 
-enum typeCouleur {qcolor, efface, masque, demasque};
+enum ColorKind {ColorType, Erase, Veil, Unveil};
 
 
 typedef struct
 {
-    typeCouleur type;
+	ColorKind type;
     QColor color;
-} couleurSelectionee;
+} SelectedColor;
 
 // Entete des messages envoyes et recus via les sockets
 typedef struct
 {
     quint8 categorie;				// Contient une categorie d'action
     quint8 action;					// Contient l'action a effectuer
-    quint32 tailleDonnees;			// Indique la taille des donnees suivant l'entete
-} enteteMessage;
+	quint32 dataSize;			// Indique la taille des donnees suivant l'entete
+} MsgHeader;
 
 #endif

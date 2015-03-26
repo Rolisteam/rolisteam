@@ -32,7 +32,7 @@
 /* l'application                                                    */
 /********************************************************************/	
 // Definit la couleur courante
-couleurSelectionee G_couleurCourante;
+SelectedColor G_couleurCourante;
 // Intensite du masque affichant ou masquant le plan
 //QColor G_couleurMasque;
 
@@ -69,7 +69,7 @@ ColorSelector::ColorSelector(QWidget *parent)
 	couleurActuelle->setScaledContents(true);
 
 	// Mise a jour de la variable globale
-	G_couleurCourante.type = qcolor;
+	G_couleurCourante.type = ColorType;
 	G_couleurCourante.color = QColor(rouge[0],vert[0],bleu[0]);
 
 	// Ajout de la couleur actuelle au layout principal
@@ -234,7 +234,7 @@ ColorSelector::~ColorSelector()
 void ColorSelector::autoriserOuInterdireCouleurs()
 {
 	// L'utilisateur est un joueur
-	if (G_joueur)
+	if (m_preferences->value("isPlayer",false).toBool())
 	{
 		// Le masquage est total
         PreferencesManager::getInstance()->registerValue("Fog_color",QColor(0,0,0),false);
@@ -317,7 +317,7 @@ void ColorSelector::clicUtilisateur(QPoint positionSouris, bool move)
 			couleurActuelle->clear();
 			couleurActuelle->setPalette(QPalette(couleur));
 			// Mise a jour de la variable globale
-			G_couleurCourante.type = qcolor;
+			G_couleurCourante.type = ColorType;
 			G_couleurCourante.color = couleur;
 			// Mise a jour de la bulle d'aide
             couleurActuelle->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(couleur.red()).arg(couleur.green()).arg(couleur.blue()));
@@ -337,7 +337,7 @@ void ColorSelector::clicUtilisateur(QPoint positionSouris, bool move)
 		couleurActuelle->setPixmap(*efface_pix);
 		couleurActuelle->setPalette(QPalette(Qt::white));
 		// Mise a jour de la variable globale
-		G_couleurCourante.type = efface;
+		G_couleurCourante.type = Erase;
 		// Mise a jour de la bulle d'aide
 		couleurActuelle->setToolTip(enfant->toolTip());
 		return;
@@ -347,13 +347,13 @@ void ColorSelector::clicUtilisateur(QPoint positionSouris, bool move)
 	if (enfant == couleurMasque)
 	{
 		// Si l'utilisateur est un joueur (et non un MJ) il n'a pas le droit de selectionner cette couleur
-		if (G_joueur)
+		if (m_preferences->value("isPlayer",false).toBool())
 			return;
 		// Mise a jour du widget affichant la couleur
 		couleurActuelle->setPixmap(*masque_pix);
 		couleurActuelle->setPalette(QPalette(Qt::white));
 		// Mise a jour de la variable globale
-		G_couleurCourante.type = masque;
+		G_couleurCourante.type = Veil;
 		// Mise a jour de la bulle d'aide
 		couleurActuelle->setToolTip(enfant->toolTip());
 		return;
@@ -363,13 +363,13 @@ void ColorSelector::clicUtilisateur(QPoint positionSouris, bool move)
 	if (enfant == couleurDemasque)
 	{
 		// Si l'utilisateur est un joueur (et non un MJ) il n'a pas le droit de selectionner cette couleur
-		if (G_joueur)
+		if (m_preferences->value("isPlayer",false).toBool())
 			return;
 		// Mise a jour du widget affichant la couleur
 		couleurActuelle->setPixmap(*demasque_pix);
 		couleurActuelle->setPalette(QPalette(Qt::white));
 		// Mise a jour de la variable globale
-		G_couleurCourante.type = demasque;
+		G_couleurCourante.type = Unveil;
 		// Mise a jour de la bulle d'aide
 		couleurActuelle->setToolTip(enfant->toolTip());
 		return;
@@ -379,7 +379,7 @@ void ColorSelector::clicUtilisateur(QPoint positionSouris, bool move)
 	couleurActuelle->clear();
 	couleurActuelle->setPalette(enfant->palette());
 	// Mise a jour de la variable globale
-	G_couleurCourante.type = qcolor;
+	G_couleurCourante.type = ColorType;
 	G_couleurCourante.color = (enfant->palette()).color(QPalette::Window);
 	// Mise a jour de la bulle d'aide
 	couleurActuelle->setToolTip(enfant->toolTip());
@@ -396,7 +396,7 @@ void ColorSelector::changeCouleurActuelle(QColor color)
 	// M.a.j de la bulle d'aide
         couleurActuelle->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(color.red()).arg(color.green()).arg(color.blue()));
 	// M.a.j de la variable globale
-	G_couleurCourante.type = qcolor;
+	G_couleurCourante.type = ColorType;
         G_couleurCourante.color = color;
 }
 

@@ -60,21 +60,21 @@ public :
 
     void afficheOuMasquePnj(DessinPerso *pnjSeul = 0);
     void toggleCharacterView(Character * character);
-    void affichageDuPj(QString idPerso, bool afficher);
+	void showPc(QString idPerso, bool afficher);
 	void changePjSize(int nouvelleTaille, bool updatePj = true);
     void emettreCarte(QString titre);
     void emettreCarte(QString titre, NetworkLink * link);
     void emettreTousLesPersonnages();
     void emettreTousLesPersonnages(NetworkLink * link);
-    void dessinerTraceCrayon(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur, bool joueurLocal);
-    void dessinerTraceTexte(QString texte, QPoint positionSouris, QRect zoneARafraichir, couleurSelectionee couleur);
-    void dessinerTraceGeneral(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, couleurSelectionee couleur);
+	void paintPenLine(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8 diametre, SelectedColor couleur, bool joueurLocal);
+	void paintText(QString texte, QPoint positionSouris, QRect zoneARafraichir, SelectedColor couleur);
+	void paintOther(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, SelectedColor couleur);
     void adapterCoucheAlpha(quint8 intensiteAlpha);
     void lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoints);
 
     void saveMap(QDataStream &out, QString titre = "");
     int tailleDesPj();
-    bool pjAffiche(QString idPerso);
+	bool isVisiblePc(QString idPerso);
     QString identifiantCarte();
 
     /**
@@ -106,6 +106,7 @@ public slots :
     void setNpcNameVisible(bool);
     void setPcNameVisible(bool);
     void setNpcNumberVisible(bool);
+	void setLocalIsPlayer(bool b);
 
 
 signals :
@@ -132,18 +133,18 @@ protected :
 private :
     void p_init();
     void initCursor();
-    bool ajouterAlpha(QImage *source, QImage *m_alphaLayer, QImage *destination, const QRect &rect = QRect());
+	bool addAlphaLayer(QImage *source, QImage *m_alphaLayer, QImage *destination, const QRect &rect = QRect());
     bool convertirARGB32(QImage *original, QImage *copie);
     QRect zoneARafraichir();
-    void dessiner(QPainter &painter);
+	void paintMap(QPainter &painter);
     void emettreTrace();
     void emettreTrajetPersonnage();
-    void actionPnjBoutonEnfonce(QPoint positionSouris);
-    void actionPnjBoutonRelache(QPoint positionSouris);
-    void actionPnjMouvementSouris(QPoint positionSouris);
+	void processNpcAction(QPoint positionSouris);
+	void processNpcActionReleased(QPoint positionSouris);
+	void processNpcMove(QPoint positionSouris);
     void emettreCarteGeneral(QString titre, NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
     void emettreTousLesPersonnagesGeneral(NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
-    DessinPerso* dansDessinPerso(QPoint positionSouris);
+	DessinPerso* paintCharacter(QPoint positionSouris);
     QColor getFogColor();
 
     typedef struct
@@ -207,6 +208,7 @@ private :
     bool m_showNpcName;
     bool m_showPcName;
     bool m_showNpcNumber;
+	bool m_localIsPlayer;
 
 };
 

@@ -37,7 +37,7 @@
 
 // we don't want to include variablesGlobales.h just for some bool
 
-extern bool G_joueur;
+//extern bool G_joueur;
 
 
 /******************
@@ -704,7 +704,7 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
             if (m_localPlayer->isGM() != isGM)
             {
                 m_localPlayer->setGM(false);
-                G_joueur = !isGM;
+			   // G_joueur = !isGM;
                 notifyPersonChanged(actualPlayer);
                 emit localGMRefused();
             }
