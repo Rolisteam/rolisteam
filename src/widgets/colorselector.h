@@ -50,32 +50,59 @@ class ColorSelector : public QWidget
 {
     Q_OBJECT
 public:
+    /**
+     * @brief ColorSelector
+     * @param parent
+     */
     ColorSelector(QWidget *parent = 0);
+    /**
+      *
+      */
     ~ColorSelector();
-    void changeCouleurActuelle(QColor couleur);
-    void majCouleursPersonnelles();
-    void autoriserOuInterdireCouleurs();
-    QColor donnerCouleurPersonnelle(int numero);
+    /**
+     * @brief changeCouleurActuelle
+     * @param couleur
+     */
+    void changeCurrentColor(QColor couleur);
+    /**
+     * @brief majCouleursPersonnelles
+     */
+    void updatePersonalColor();
+    /**
+     * @brief autoriserOuInterdireCouleurs
+     */
+    void checkPermissionColor();
+    /**
+     * @brief donnerCouleurPersonnelle
+     * @param numero
+     * @return
+     */
+    QColor getPersonColor(int numero);
 
 private:
-    void clicUtilisateur(QPoint positionSouris, bool move = false);
+    /**
+     * @brief userMousePress
+     * @param positionSouris
+     * @param move
+     */
+    void userMousePress(QPoint positionSouris, bool move = false);
 
-    QLabel *couleurActuelle;
-    QLabel *couleurEfface;
-    QLabel *couleurMasque;
-    QLabel *couleurDemasque;
-    QWidget *couleurPredefinie[48];
-    QWidget *couleurPersonnelle[16];
-    QWidget *separateur1;
-    QWidget *separateur2;
-    QPixmap *efface_pix;
-    QPixmap *masque_pix;
-    QPixmap *demasque_pix;
-    QHBoxLayout *couleursSpeciales;
-    QGridLayout *grillePerso;
-    QVBoxLayout *selecteurLayout;
-    QGridLayout *grillePredef;
-    bool boutonEnfonce;
+    QLabel *m_currentColor;
+    QLabel *m_eraseColor;
+    QLabel *m_maskColor;
+    QLabel *m_unveilColor;
+    QWidget *m_predefinedColor[48];
+    QWidget *m_personalColor[16];
+    QWidget *m_separator1;
+    QWidget *m_separator2;
+    QPixmap *m_pixelErase;
+    QPixmap *m_maskPixel;
+    QPixmap *m_unveilPixel;
+    QHBoxLayout *m_specialColor;
+    QGridLayout *m_characterGrid;
+    QVBoxLayout *m_layoutSelector;
+    QGridLayout *m_predefinedGrid;
+    bool m_pressedButton;
     PreferencesManager* m_preferences;
 
 protected:

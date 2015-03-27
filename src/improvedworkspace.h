@@ -59,7 +59,6 @@ public slots:
     void ensurePresent();
 
 protected :
-    //void paintEvent(QPaintEvent *event);
     void resizeEvent ( QResizeEvent * event );
     bool eventFilter(QObject *object, QEvent *event);
 private :

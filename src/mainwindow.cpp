@@ -971,7 +971,7 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
 }
 void MainWindow::majCouleursPersonnelles()
 {
-    m_toolBar->majCouleursPersonnelles();
+    m_toolBar->updatePersonalColor();
 }
 
 void MainWindow::newMap()

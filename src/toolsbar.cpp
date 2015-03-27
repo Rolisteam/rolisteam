@@ -56,12 +56,10 @@ ToolsBar::ToolsBar(QWidget *parent)
     createActions();
     createTools();
 
-	// Connexion de l'action RazChrono avec le slot razNumeroPnj
     connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcNumber()));
 	connect(m_textEdit, SIGNAL(textEdited(const QString &)), this, SIGNAL(currentTextChanged(QString)));
 	connect(m_npcNameEdit, SIGNAL(textEdited(const QString &)), this, SIGNAL(currentNpcNameChanged(QString)));
 
-	// Connection du changement d'etat (floating / no floating) avec le changement de taille
 	connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changeSize(bool)));
 
 	setFloating(false);
@@ -74,7 +72,7 @@ ToolsBar::~ToolsBar()
 
 void ToolsBar::updateUi()
 {
-    m_color->autoriserOuInterdireCouleurs();
+    m_color->checkPermissionColor();
         if(!PlayersList::instance()->localPlayer()->isGM())
         {
             m_npcDiameter->setVisible(false);
@@ -235,7 +233,6 @@ void ToolsBar::createTools()
     m_showPnjNumber->display(1);
     m_showPnjNumber->setToolTip(tr("NPC Number"));
 
-	// Initialisation de la variable globale indiquant le numero de PNJ courant
 	m_currentNpcNumber = 1;
 	
     // Creation du selecteur de m_color
@@ -359,7 +356,7 @@ void ToolsBar::changeSize(bool floating)
 }
 void ToolsBar::changeCurrentColor(QColor col)
 {
-	m_color->changeCouleurActuelle(col);
+    m_color->changeCurrentColor(col);
 	emit currentColorChanged(col);
 }
 
@@ -380,12 +377,12 @@ void ToolsBar::changeMap(Map* map)
 
 void ToolsBar::updatePersonalColor()
 {
-    m_color->majCouleursPersonnelles();
+    m_color->updatePersonalColor();
 }
 
 QColor ToolsBar::getPersonalColor(int numero)
 {
-    return m_color->donnerCouleurPersonnelle(numero);
+    return m_color->getPersonColor(numero);
 }
 
 void ToolsBar::currentToolHasChanged(QAction* bt)
