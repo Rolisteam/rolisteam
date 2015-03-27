@@ -117,7 +117,9 @@ HEADERS += \
     src/widgets/circledisplayer.h \
     src/map/charactertoken.h \
     src/data/mediacontainer.h \
-    src/toolsbar.h
+    src/toolsbar.h \
+    src/data/cleveruri.h \
+    src/data/ressourcesnode.h
 
 
 
@@ -168,7 +170,8 @@ SOURCES += \
     src/widgets/circledisplayer.cpp \
     src/data/mediacontainer.cpp \
     src/toolsbar.cpp \
-    src/map/charactertoken.cpp
+    src/map/charactertoken.cpp \
+    src/data/cleveruri.cpp
 #end source
 
 
@@ -223,7 +226,8 @@ FORMS += \
     src/map/newemptymapdialog.ui \
     src/chat/chatwindow.ui \
     src/preferences/preferencesdialogbox.ui \
-    src/audio/audiowidget.ui
+    src/audio/audiowidget.ui \
+    src/mainwindow.ui
 
 INCLUDEPATH +=src/audio
 
