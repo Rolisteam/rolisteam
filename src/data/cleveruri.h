@@ -22,6 +22,7 @@
 
 
 #include <QString>
+#include <QList>
 #include <QMetaType>
 #include "ressourcesnode.h"
 
