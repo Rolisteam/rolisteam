@@ -35,6 +35,10 @@ class ImprovedTextEdit : public QTextEdit
 Q_OBJECT
 
 public :
+    /**
+     * @brief ImprovedTextEdit
+     * @param parent
+     */
     ImprovedTextEdit(QWidget *parent = 0);
 
 signals :
@@ -44,8 +48,16 @@ signals :
     void receivedFocus();
 
 protected :
+    /**
+     * @brief keyPressEvent
+     * @param e
+     */
     void keyPressEvent(QKeyEvent *e);
-void focusInEvent(QFocusEvent *e);
+    /**
+     * @brief focusInEvent
+     * @param e
+     */
+    void focusInEvent(QFocusEvent *e);
 
 private:
     QStringList m_history;

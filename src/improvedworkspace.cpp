@@ -174,7 +174,6 @@ void ImprovedWorkspace::ensurePresent()
         }
     }
 }
-
 QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
 {
     foreach(QMdiSubWindow* tmp, subWindowList())

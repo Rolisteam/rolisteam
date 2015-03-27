@@ -441,7 +441,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     if (to == g_playersList->localPlayer()->uuid())
     {
         Player * owner = g_playersList->getParent(from);
-        getChatWindowByUuid(owner->uuid())->afficherMessage(sender->name(), sender->color(), msg, data.action());
+        getChatWindowByUuid(owner->uuid())->showMessage(sender->name(), sender->color(), msg, data.action());
         return;
     }
 
@@ -458,7 +458,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
 
     ChatWindow * chatw = getChatWindowByUuid(to);
     if (chatw != NULL)
-        chatw->afficherMessage(sender->name(), sender->color(), msg, data.action());
+        chatw->showMessage(sender->name(), sender->color(), msg, data.action());
 
     if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {

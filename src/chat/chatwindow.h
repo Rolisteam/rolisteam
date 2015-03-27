@@ -60,7 +60,7 @@ public :
 
     AbstractChat * chat() const;
     QAction * toggleViewAction() const;
-    void afficherMessage(const QString &utilisateur, const QColor &couleur,const QString &message, NetMsg::Action msgtype = NetMsg::ChatMessageAction);
+    void showMessage(const QString &utilisateur, const QColor &couleur,const QString &message, NetMsg::Action msgtype = NetMsg::ChatMessageAction);
     bool hasUnseenMessage() const;
     void setSubWindow(QMdiSubWindow* subWindow);
     QMdiSubWindow* getSubWindow();

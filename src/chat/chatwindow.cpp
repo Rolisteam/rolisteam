@@ -43,19 +43,9 @@
 #include "chat/improvedtextedit.h"
 
 #include "types.h"
-#include "variablesGlobales.h"
-
-/******************
- * Static members *
- ******************/
 
 QStringList ChatWindow::m_keyWordList;
 
-
-
-/********************************************************************/
-/* Constructeur                                                     */
-/********************************************************************/    
 ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     : QWidget(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)/*,ui(new Ui::ChatWindow)*/
 {
@@ -66,9 +56,6 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     {
         qFatal("ChatWindow with NULL chat");
     }
-    //ui->m_characterComboBox->setModel(&LocalPersonModel::instance());
-    //ui->m_displayArea = new ChatBrowser();
-    //ui->m_typingArea = new ImprovedTextEdit();
 
     // Initialisation des variables
     m_warnedEmoteUnavailable = false;
@@ -87,15 +74,10 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     connect(m_editionZone, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
 
     connect(m_mainWindow, SIGNAL(closing()), this, SLOT(save()));
-    //connect(m_chat, SIGNAL(changedName()), this, SLOT(updateTitleFromChat()));
-    //connect(m_save,SIGNAL(clicked()),this,SLOT(save()));
      connect(m_chat, SIGNAL(changedMembers()), this, SLOT(scheduleUpdateChatMembers()));
 
     m_toggleViewAction = new QAction(this);
     m_toggleViewAction->setCheckable(true);
-
-    //connect(m_toggleViewAction, SIGNAL(triggered(bool)), this, SLOT(setVisible(bool)));
-
 }
 QMdiSubWindow* ChatWindow::getSubWindow()
 {
@@ -276,7 +258,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
             messageCorps = tr("got %1 at your dice roll [%2]").arg(result).arg(tirage);
             messageTitle = tr("You");
             color = localPerson->color();
-            afficherMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
+            showMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
             message = QString(tr("got %1 at his dice roll [%2]").arg(result).arg(tirage));
         }
         else
@@ -284,7 +266,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
             messageCorps = tr("!1d6 or !5d10+3 or !2d20-3d10+1d6+5 etc... The dice roll is public (For private roll, use & ).");
             messageTitle = tr("Syntax");
             color = Qt::red;
-            afficherMessage(messageTitle, color, messageCorps);
+            showMessage(messageTitle, color, messageCorps);
         }
         break;
     case '&':
@@ -294,14 +276,14 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
             messageCorps = tr("You got %1 at your secret dice roll [%2]").arg(result).arg(tirage);
             messageTitle = tr("Secret Roll:");
             color = Qt::magenta;
-            afficherMessage(messageTitle, color,messageCorps ,NetMsg::DiceMessageAction);
+            showMessage(messageTitle, color,messageCorps ,NetMsg::DiceMessageAction);
         }
         else
         {
             messageCorps = tr("!1d6 or !5d10+3 or !2d20-3d10+1d6+5 etc... The dice roll is public (For private roll, use & ).");
             messageTitle = tr("Syntax");
             color = Qt::red;
-            afficherMessage(messageTitle, color, messageCorps);
+            showMessage(messageTitle, color, messageCorps);
         }
         return;
         break;
@@ -317,7 +299,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
                 messageCorps = tr("got %1 successes %2%3").arg(result).arg(glitch).arg(tirage);
                 messageTitle = tr("You");
                 // On affiche le resultat du tirage dans la zone d'affichage
-                afficherMessage(messageTitle, localPerson->color(),messageCorps ,NetMsg::DiceMessageAction);
+                showMessage(messageTitle, localPerson->color(),messageCorps ,NetMsg::DiceMessageAction);
                 // On cree un nouveau message a envoyer aux autres utilisateurs
                 message = QString(tr("got %1 successes %2%3").arg(result).arg(glitch).arg(tirage));
             }
@@ -327,7 +309,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
                 messageCorps = tr("*12D ... Add R for rusher, G3 for Gremlins index of 3 and + for reroll 6 ... Adde C hide roll detail, and S to display the result only.");
                 messageTitle = tr("Syntax SR4");
                 color = Qt::red;
-                afficherMessage(messageTitle, color, messageCorps);
+                showMessage(messageTitle, color, messageCorps);
             }
             break;
         }
@@ -338,7 +320,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
                         {
                             message=messagehtml;
                         }*/
-            afficherMessage(messageTitle, localPerson->color(), message);
+            showMessage(messageTitle, localPerson->color(), message);
 
             // action is messageChatWindow only if there are no dices
             action = NetMsg::ChatMessageAction;
@@ -370,12 +352,12 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
                 messageTitle = tr("Warning");
                 messageCorps = tr("Some users won't be enable to see your emotes.");
                 color = Qt::red;
-                afficherMessage(messageTitle, color, messageCorps);
+                showMessage(messageTitle, color, messageCorps);
                 m_warnedEmoteUnavailable = true;
             }
 
 
-            afficherMessage(localPerson->name(), localPerson->color(), message,NetMsg::EmoteMessageAction);
+            showMessage(localPerson->name(), localPerson->color(), message,NetMsg::EmoteMessageAction);
             action = NetMsg::EmoteMessageAction;
             break;
         }
@@ -387,7 +369,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
             {
                 message=messagehtml;
             }*/
-        afficherMessage(messageTitle, localPerson->color(), message);
+        showMessage(messageTitle, localPerson->color(), message);
         // action is messageChatWindow only if there are no dices
         action = NetMsg::ChatMessageAction;
         break;
@@ -411,7 +393,7 @@ QAction * ChatWindow::toggleViewAction() const
 }
 
 
-void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& couleur, const QString& message, NetMsg::Action msgtype)
+void ChatWindow::showMessage(const QString& utilisateur, const QColor& couleur, const QString& message, NetMsg::Action msgtype)
 {
     // On repositionne le curseur a la fin du QTexEdit
     m_displayZone->moveCursor(QTextCursor::End);
@@ -457,14 +439,6 @@ void ChatWindow::afficherMessage(const QString& utilisateur, const QColor& coule
     // On repositionne la barre de defilement, pour pouvoir voir le texte qui vient d'etre affiche
     m_displayZone->verticalScrollBar()->setSliderPosition(m_displayZone->verticalScrollBar()->maximum());
 }
-
-
-//void ChatWindow::closeEvent(QCloseEvent *event)
-//{
-//    // Decoche l'action associee dans le sous-menu ChatWindows
-//    m_toggleViewAction->setChecked(false);
-//    QWidget::closeEvent(event);
-//}
 
 int ChatWindow::calculerJetDes(QString & message, QString & tirage, bool &ok)
 {
@@ -927,9 +901,9 @@ int ChatWindow::calculerJetDesSR4(QString &message, QString &tirage, QString &gl
     if (nbGlitch>0 && nbGlitch>((nbDes/2)-indiceGremlins))
     {
         if (nbSucces == 0)
-            glitch.append(QString(" et une complication critique !! "));
+            glitch.append(QString(tr(" and one critical complication ")));
         else
-            glitch.append(QString(" et une complication !! "));
+            glitch.append(QString(" and one complication "));
     }
 
 
@@ -965,12 +939,6 @@ QString ChatWindow::getTitleFromChat()
 {
     m_toggleViewAction->setText(m_chat->name());
     return m_chat->name();
-
-    /*if(NULL!=m_window)
-    {
-        m_window->setWindowTitle(tr("%1 (Chat)").arg(name));
-
-    }*/
 }
 
 
@@ -1055,17 +1023,6 @@ void ChatWindow::updateChatMembers()
 void ChatWindow::setSubWindow(QMdiSubWindow* subWindow)
 {
     m_window = subWindow;
-
-
     connect(m_toggleViewAction, SIGNAL(triggered(bool)), m_window, SLOT(setVisible(bool)));
-
-
-    //updateTitleFromChat();
 }
-//void ChatWindow::setVisible(bool visible)
-//{
-//    qDebug()<< "ChatWindow " << visible;
-//    QWidget::setVisible(visible);
-//    m_window->setVisible(visible);
-//    emit ChatWindowHasChanged(this);
-//}
+
