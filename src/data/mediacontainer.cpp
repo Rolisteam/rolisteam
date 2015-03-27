@@ -12,3 +12,15 @@ QString MediaContainer::getLocalPlayerId()
 {
     return m_localPlayerId;
 }
+void MediaContainer::setCleverUri(CleverURI* uri)
+{
+	m_uri = uri;
+}
+QString MediaContainer::getTitle() const
+{
+	return m_title;
+}
+void MediaContainer::openMedia()
+{
+
+}

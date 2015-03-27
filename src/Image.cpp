@@ -492,3 +492,7 @@ void Image::setCurrentTool(ToolsBar::SelectableTool tool)
             break;
     }
 }
+bool Image::readFileFromUri()
+{
+	/// @todo readFileFromUri
+}

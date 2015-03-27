@@ -74,6 +74,9 @@ public :
     void setImageTitle(QString title);
 
 
+	virtual bool readFileFromUri();
+
+
 
 public slots :
     void pointeurMain();
