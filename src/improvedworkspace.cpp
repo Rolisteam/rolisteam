@@ -180,7 +180,7 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
     {
         if(NULL!=tmp->widget())
         {
-            BipMapWindow* tmpWindow = dynamic_cast<BipMapWindow*>(tmp->widget());
+            MapFrame* tmpWindow = dynamic_cast<MapFrame*>(tmp->widget());
             if(NULL!=tmpWindow)
             {
                 if(tmpWindow->getMapId() == id)

@@ -33,13 +33,15 @@
 #include <QScrollArea>
 
 #include "mainwindow.h"
+#include "map/mapwizzard.h"
+#include "data/mediacontainer.h"
 
 class Map;
 
 /**
  * @brief The BipMapWindow class - is the scroll area which manages the display of map.
  */
-class BipMapWindow : public QScrollArea
+class MapFrame : public QScrollArea, public MediaContainer
 {
 Q_OBJECT
 
@@ -49,27 +51,47 @@ public :
      * @param uneCarte - the embedded map
      * @param parent - parent QWidget
      */
-    BipMapWindow(Map *uneCarte, QWidget *parent = 0);
+	MapFrame(Map* map =NULL, QWidget* parent = NULL);
     /**
      *
      */
-    ~BipMapWindow();
+    ~MapFrame();
     /**
      * @brief carte
      * @return
      */
-    Map *carte();
+	Map* getMap();
+	/**
+	 * @brief setMap
+	 */
+	void setMap(Map*);
     /**
      * @brief getMapId
      * @return
      */
     QString getMapId();
+
     /**
      * @brief getAssociatedAction
      * @return
      */
     QAction* getAssociatedAction() const;
 
+	/**
+	 * @brief setCleverUri
+	 * @param uri
+	 */
+	bool readFileFromUri();
+	/**
+	 * @brief openMedia
+	 */
+	void openMedia();
+    /**
+     * @brief createMap
+     * @return
+     */
+    bool createMap();
+    bool processMapMessage(NetworkMessageReader* msg);
 
 
 signals:
@@ -77,11 +99,16 @@ signals:
      * @brief activated
      * @param carte
      */
-    void activated(Map * carte);
+	void activated(Map * getMap);
     /**
      * @brief visibleChanged
      */
     void visibleChanged(bool);
+    /**
+     * @brief notifyUser
+     * @param str
+     */
+    void notifyUser(QString str);
 
 public slots :
     /**
@@ -94,10 +121,7 @@ public slots :
      * @param position
      */
     void deplacer(QPoint position);
-    /**
-     * @brief fitMapToWindow
-     */
-    void fitMapToWindow();
+
 
 protected :
     /**
@@ -105,11 +129,7 @@ protected :
      * @param event
      */
     void focusInEvent(QFocusEvent * event);
-    /**
-     * @brief contextMenuEvent
-     * @param event
-     */
-    void contextMenuEvent( QContextMenuEvent * event );
+
     /**
      * @brief hideEvent
      * @param event
@@ -121,13 +141,35 @@ protected :
      */
     void showEvent ( QShowEvent * event );
 
+	/**
+	 * @brief initMap
+	 */
+	void initMap();
+
+	/**
+	 * @brief error
+	 * @param err - error message to display
+	 */
+	void error(QString err);
+	/**
+	 * @brief readMapAndNpc
+	 * @param in
+	 * @param hidden
+	 * @param nomFichier
+	 * @return
+	 */
+	bool readMapAndNpc(QDataStream &in, bool hidden, QString fileName);
+
 private :
-    Map *carteAssociee;
+	Map* m_map;
     QPoint pointDepart;
     int horizontalDepart;
     int verticalDepart;
-    QAction* m_widgetResizeAct;
     QSize m_originalSize;
+	MapWizzard* m_mapWizzard;
+	PreferencesManager* m_preferences;
+
+    //NewEmptyMapDialog* m_newEmptyMapDialog;/// @brief dialog to create new map.
 };
 
 #endif
