@@ -100,11 +100,12 @@ void NetworkManager::synchronizePreferences()
     m_preferences->registerValue("clientPort",m_configDialog->getPort());
 
 }
-void NetworkManager::setValueConnection(QString portValue,QString hostnameValue,QString roleValue)
+void NetworkManager::setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue)
 {
     m_portStr = portValue;
     m_host = hostnameValue;
     m_role = roleValue;
+    m_username = username;
     m_commandLineValue = true;
 }
 
@@ -119,6 +120,10 @@ bool NetworkManager::configAndConnect()
     {
 		m_portStr = m_preferences->value("ServerPort",6660).toString();
 	}
+    if(m_username.isEmpty())
+    {
+        m_username = m_preferences->value("UserName",tr("UserName")).toString();
+    }
 	if(m_host.isEmpty())
     {
         m_host = m_preferences->value("ipaddress","").toString();
@@ -134,7 +139,7 @@ bool NetworkManager::configAndConnect()
 
 
     m_configDialog = new ConnectionConfigDialog(NULL,
-                m_preferences->value("UserName",tr("UserName")).toString(),
+                m_username,
                 m_preferences->value("UserColor",QColor(255,255,255)).value<QColor>(),
 				isGM,
 				m_host,

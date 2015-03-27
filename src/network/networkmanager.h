@@ -97,7 +97,7 @@ public :
 
     void setAudioPlayer(AudioPlayer*);
 
-    void setValueConnection(QString portValue,QString hostnameValue,QString roleValue);
+    void setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue);
 
 
 public slots:
@@ -159,7 +159,7 @@ private :
     QString m_portStr;
     QString m_host;
     QString m_role;
-
+    QString m_username;
 
 };
 
