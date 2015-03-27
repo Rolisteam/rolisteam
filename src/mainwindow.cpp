@@ -39,8 +39,8 @@
 #include <QCommandLineParser>
 
 
-
 #include "mainwindow.h"
+#include "ui_mainwindow.h"
 
 #include "toolsbar.h"
 #include "map/bipmapwindow.h"
@@ -59,23 +59,13 @@
 
 
 #include "textedit.h"
-
-
 #include "variablesGlobales.h"
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
 #endif
 
-// Indique si le nom des PNJ doit etre affiche ou pas
-//bool G_affichageNomPnj;
-// Indique si le numero des PNJ doit etre affiche ou pas
-//bool G_affichageNumeroPnj;
-
-
-
 // Pointeur vers la fenetre de log utilisateur (utilise seulement dans ce fichier)
-
 MainWindow* MainWindow::m_singleton= NULL;
 
 void MainWindow::notifyUser(QString msg)
@@ -132,8 +122,9 @@ MainWindow* MainWindow::getInstance()
 }
 
 MainWindow::MainWindow()
-    : QMainWindow(),m_networkManager(NULL),m_localPlayerId(QUuid::createUuid().toString())
+    : QMainWindow(),m_networkManager(NULL),m_localPlayerId(QUuid::createUuid().toString()),m_ui(new Ui::MainWindow)
 {
+    m_ui->setupUi(this);
     m_shownProgress=false;
     m_preferences = PreferencesManager::getInstance();
     m_newEmptyMapDialog = new NewEmptyMapDialog(this);
@@ -318,9 +309,10 @@ void MainWindow::creerLogUtilisateur()
 void MainWindow::creerMenu()
 {
     // Creation de la barre de menus
-    m_menuBar = new QMenuBar(this);
+   // m_menuBar = new QMenuBar(this);
+    m_menuBar = menuBar();
     // Ajout de la barre de menus a la fenetre principale
-    setMenuBar(m_menuBar);
+    //setMenuBar(m_menuBar);
 
     // Creation du menu Fichier
     QMenu *menuFichier = new QMenu (tr("File"), m_menuBar);
@@ -502,7 +494,7 @@ QWidget* MainWindow::addMap(BipMapWindow *BipMapWindow, QString titre,QSize maps
 
 	connect(map, SIGNAL(changeCurrentColor(QColor)), m_toolBar, SLOT(changeCurrentColor(QColor)));
 	connect(map, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementNpcNumber()));
-	connect(map, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(mettreAJourPnj(int, QString)));
+    connect(map, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(updateNpc(int,QString)));
 
 	connect(m_showPCAct, SIGNAL(triggered(bool)), map, SIGNAL(afficherNomsPj(bool)));
 	connect(m_showNpcNameAct, SIGNAL(triggered(bool)), map, SIGNAL(afficherNomsPnj(bool)));
@@ -2240,10 +2232,97 @@ void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
 			map->changePjSize(size + 11);
         }
     }
-    /*
-        Other actions form the same category:
-    ToggleViewPlayerCharacterAction,
-    ChangePlayerCharacterNameAction,
-    ChangePlayerCharacterColorAction,
-    */
+}
+CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
+{
+ /*   QString filter;
+    QString folder;
+    QString title;
+    switch(type)
+    {
+        case CleverURI::PICTURE:
+            filter = m_supportedImage;
+            title = tr("Open Picture");
+            folder = m_options->value(QString("PicturesDirectory"),".").toString();
+            break;
+        case CleverURI::MAP:
+            filter = m_supportedMap;
+            title = tr("Open Map");
+            folder = m_options->value(QString("MapsDirectory"),".").toString();
+            break;
+        case CleverURI::TEXT:
+            filter = m_supportedNotes;
+            title = tr("Open Minutes");
+            folder = m_options->value(QString("MinutesDirectory"),".").toString();
+            break;
+        case CleverURI::CHARACTERSHEET:
+            filter = m_supportedCharacterSheet;
+            title = tr("Open Character Sheets");
+            folder = m_options->value(QString("DataDirectory"),".").toString();
+            break;
+#ifdef WITH _PDF
+            case CleverURI::PDF:
+            filter = m_pdfFiles;
+            title = tr("Open Pdf file");
+            folder = m_options->value(QString("DataDirectory"),".").toString();
+            break;
+#endif
+    default:
+            break;
+    }
+    if(!filter.isNull())
+    {
+        QString filepath;
+        if(save)
+            filepath= QFileDialog ::getSaveFileName(this,title,folder,filter);
+        else
+            filepath= QFileDialog::getOpenFileName(this,title,folder,filter);
+
+        return new CleverURI(filepath,type);
+    }*/
+    return NULL;
+}
+void MainWindow::openContent()
+{
+    QAction* action=static_cast<QAction*>(sender());
+    CleverURI::ContentType type;
+  /*  if(action == m_openMapAct)
+    {
+        type=CleverURI::MAP;
+    }
+    else if(action == m_openPictureAct)
+    {
+        type=CleverURI::PICTURE;
+
+    }
+    else if(action == m_openScenarioAct)
+    {
+        type = CleverURI::SCENARIO;
+    }
+    else if(action== m_openCharacterSheetsAct)
+    {
+        type = CleverURI::CHARACTERSHEET;
+    }
+    else if(action == m_openNoteAct)
+    {
+        type = CleverURI::TEXT;
+    }
+#ifdef WITH_PDF
+    else if(action == m_openPDFAct)
+    {
+        type = CleverURI::PDF;
+    }
+#endif
+    else
+    {
+        return;
+    }
+    CleverURI* path = contentToPath(type,false);
+
+    if(path)
+        openCleverURI(path,true);
+    else
+        qDebug() << "Error, the clever uri is not valid";*/
+
+
 }

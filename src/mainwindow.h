@@ -33,7 +33,7 @@
 #include <QProgressBar>
 #include <QMdiSubWindow>
 
-
+#include "data/cleveruri.h"
 
 
 #include "map/charactertoken.h"
@@ -50,6 +50,10 @@
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
 #endif
+
+namespace Ui {
+class MainWindow;
+}
 
 class UpdateChecker;
 class ToolsBar;
@@ -256,9 +260,11 @@ protected :
     void processCharacterMessage(NetworkMessageReader* msg);
     void processConnectionMessage(NetworkMessageReader* msg);
     void processCharacterPlayerMessage(NetworkMessageReader* msg);
-
-
     void extractCharacter(Map* map,NetworkMessageReader* msg);
+
+    CleverURI* contentToPath(CleverURI::ContentType type,bool save);
+
+
 private slots :
     void changementNatureUtilisateur();
     void changementFenetreActive(QMdiSubWindow* widget);
@@ -275,6 +281,7 @@ private slots :
 	void emettreToutesLesImages(NetworkLink * link);
 	void updateSessionToNewClient(NetworkLink* link);
     void receiveData(quint64 readData,quint64 size);
+    void openContent();
 
 
     //Network private Slot
@@ -282,7 +289,6 @@ private slots :
     void closeConnection();
     void startReconnection();
     void networkStateChanged(bool state);
-
 
 
 
@@ -424,6 +430,8 @@ private :
     bool m_shownProgress;
     QString m_localPlayerId;
 	bool m_resetSettings;
+
+    Ui::MainWindow* m_ui;
 };
 
 #endif

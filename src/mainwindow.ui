@@ -1,10 +1,8 @@
-<ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -12,13 +10,164 @@
     <height>600</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QMenuBar" name="menubar" />
-  <widget class="QWidget" name="centralwidget" />
-  <widget class="QStatusBar" name="statusbar" />
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_File">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="m_newAction"/>
+    <addaction name="m_openAction"/>
+    <addaction name="m_recentFileMenu"/>
+    <addaction name="separator"/>
+    <addaction name="m_saveAction"/>
+    <addaction name="m_saveAsAction"/>
+    <addaction name="m_saveAllAction"/>
+    <addaction name="m_saveScenarioAction"/>
+    <addaction name="separator"/>
+    <addaction name="m_closeAction"/>
+    <addaction name="separator"/>
+    <addaction name="m_preferencesAction"/>
+    <addaction name="separator"/>
+    <addaction name="m_quitAction"/>
+   </widget>
+   <widget class="QMenu" name="menuSub_Windows">
+    <property name="title">
+     <string>Sub-Windows</string>
+    </property>
+    <widget class="QMenu" name="menuReorganize">
+     <property name="title">
+      <string>Reorganize</string>
+     </property>
+     <addaction name="actionTab"/>
+     <addaction name="actionCascade"/>
+     <addaction name="actionTuile"/>
+    </widget>
+    <addaction name="menuReorganize"/>
+   </widget>
+   <widget class="QMenu" name="menuNetwork">
+    <property name="title">
+     <string>Network</string>
+    </property>
+    <addaction name="actionConne"/>
+    <addaction name="actionDisconnection"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionOnline_Help"/>
+    <addaction name="separator"/>
+    <addaction name="actionAbout_Rolisteam"/>
+   </widget>
+   <addaction name="menu_File"/>
+   <addaction name="menuSub_Windows"/>
+   <addaction name="menuNetwork"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="m_newAction">
+   <property name="text">
+    <string>&amp;New</string>
+   </property>
+  </action>
+  <action name="m_openAction">
+   <property name="text">
+    <string>&amp;Open</string>
+   </property>
+  </action>
+  <action name="m_recentFileMenu">
+   <property name="text">
+    <string>Recent Files</string>
+   </property>
+  </action>
+  <action name="m_saveAction">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="m_saveAsAction">
+   <property name="text">
+    <string>Save as</string>
+   </property>
+  </action>
+  <action name="m_saveAllAction">
+   <property name="text">
+    <string>Save All</string>
+   </property>
+  </action>
+  <action name="m_saveScenarioAction">
+   <property name="text">
+    <string>Save into Scenario</string>
+   </property>
+  </action>
+  <action name="m_closeAction">
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </action>
+  <action name="m_preferencesAction">
+   <property name="text">
+    <string>Preferences</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="m_quitAction">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionTab">
+   <property name="text">
+    <string>Tab</string>
+   </property>
+  </action>
+  <action name="actionCascade">
+   <property name="text">
+    <string>Cascade</string>
+   </property>
+  </action>
+  <action name="actionTuile">
+   <property name="text">
+    <string>Tile</string>
+   </property>
+  </action>
+  <action name="actionConne">
+   <property name="text">
+    <string>Connection</string>
+   </property>
+  </action>
+  <action name="actionDisconnection">
+   <property name="text">
+    <string>Disconnection</string>
+   </property>
+  </action>
+  <action name="actionOnline_Help">
+   <property name="text">
+    <string>Online Help</string>
+   </property>
+  </action>
+  <action name="actionAbout_Rolisteam">
+   <property name="text">
+    <string>About Rolisteam</string>
+   </property>
+  </action>
  </widget>
- <pixmapfunction></pixmapfunction>
+ <resources/>
  <connections/>
 </ui>
