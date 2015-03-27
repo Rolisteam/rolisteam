@@ -1412,10 +1412,6 @@ void Map::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetworkL
     msg.string8(idCarte);
     msg.uint16(children().size());
 
-     msg.string8(idCarte);
-
-
-      msg.string8(idCarte);
     QObjectList enfants = children();
     // Taille de la liste
     int tailleListe = enfants.size();

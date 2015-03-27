@@ -34,7 +34,7 @@
 #include "types.h"
 #include "toolsbar.h"
 #include "userlist/playersList.h"
-#include "data/mediacontainer.h"
+//#include "data/mediacontainer.h"
 #include "network/networkmessage.h"
 
 class Character;
@@ -47,7 +47,7 @@ class NetworkLink;
  * to hide part of the picture. Character are displayed thank to widgets
  * DessinPerso.
  */
-class Map : public QWidget, public MediaContainer
+class Map : public QWidget//, public MediaContainer
 {
     Q_OBJECT
 
@@ -209,6 +209,8 @@ private :
     bool m_showPcName;
     bool m_showNpcNumber;
 	bool m_localIsPlayer;
+
+	QString m_localPlayerId;
 
 };
 
