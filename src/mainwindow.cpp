@@ -124,20 +124,28 @@ MainWindow* MainWindow::getInstance()
 MainWindow::MainWindow()
     : QMainWindow(),m_networkManager(NULL),m_localPlayerId(QUuid::createUuid().toString()),m_ui(new Ui::MainWindow)
 {
+
+
+	m_supportedImage=tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)");
+	m_supportedCharacterSheet=tr("Character Sheets files (*.xml)");
+	m_pdfFiles=tr("Pdf File (*.pdf)");
+	m_supportedNotes=tr("Supported Text files (*.html *.txt)");
+	m_supportedMap=tr("Supported Map files (*.pla )");
+
+
     m_ui->setupUi(this);
     m_shownProgress=false;
     m_preferences = PreferencesManager::getInstance();
-    m_newEmptyMapDialog = new NewEmptyMapDialog(this);
     m_downLoadProgressbar = new QProgressBar();
 	m_downLoadProgressbar->setRange(0,100);
 
     m_downLoadProgressbar->setVisible(false);
 
-    m_mapWizzard = new MapWizzard(this);
+	//m_mapWizzard = new MapWizzard(this);
     m_networkManager = new NetworkManager(m_localPlayerId);
     m_ipChecker = new IpChecker(this);
 	//G_NetworkManager = m_networkManager;
-	m_mapAction = new QMap<BipMapWindow*,QAction*>();
+    m_mapAction = new QMap<MapFrame*,QAction*>();
 
 
 }
@@ -202,23 +210,20 @@ void MainWindow::setupUi()
     //readSettings();
     m_preferencesDialog = new PreferencesDialog(this);
 
-
-    creerMenu();
-
     linkActionToMenu();
 
 
     // Creation de l'editeur de notes
     m_noteEditor= new TextEdit(this);
 
-    m_noteEditorSub  = static_cast<QMdiSubWindow*>(m_mdiArea->addWindow(m_noteEditor,m_noteEditorAct));
+	m_noteEditorSub  = static_cast<QMdiSubWindow*>(m_mdiArea->addWindow(m_noteEditor,m_ui->m_showMinutesEditorAction));
     if(NULL!=m_noteEditorSub)
     {
         m_noteEditorSub->setWindowTitle(tr("Minutes Editor[*]"));
         m_noteEditorSub->setWindowIcon(QIcon(":/notes.png"));
         m_noteEditorSub->hide();
     }
-    connect(m_noteEditor,SIGNAL(closed(bool)),m_noteEditorAct,SLOT(setChecked(bool)));
+	connect(m_noteEditor,SIGNAL(closed(bool)),m_ui->m_newNoteAction,SLOT(setChecked(bool)));
     connect(m_noteEditor,SIGNAL(closed(bool)),m_noteEditorSub,SLOT(setVisible(bool)));
 
 
@@ -306,149 +311,47 @@ void MainWindow::creerLogUtilisateur()
     m_dockLogUtil->setMinimumWidth(125);
 }
 
-void MainWindow::creerMenu()
-{
-    // Creation de la barre de menus
-   // m_menuBar = new QMenuBar(this);
-    m_menuBar = menuBar();
-    // Ajout de la barre de menus a la fenetre principale
-    //setMenuBar(m_menuBar);
-
-    // Creation du menu Fichier
-    QMenu *menuFichier = new QMenu (tr("File"), m_menuBar);
-    m_newMapAct                = menuFichier->addAction(QIcon(":/map.png"),tr("&New empty Map"));
-
-
-    menuFichier->addSeparator();
-    m_openMapAct                 = menuFichier->addAction(QIcon(":/map.png"),tr("Open Map…"));
-    //actionOuvrirEtMasquerPlan        = menuFichier->addAction(QIcon(":/map.png"),tr("Open And hide Map"));
-    m_openStoryAct         = menuFichier->addAction(QIcon(":/story.png"),tr("Open scenario"));
-    m_openImageAct                 = menuFichier->addAction(QIcon(":/picture.png"),tr("Open Picture"));
-    m_openMinutesAct = menuFichier->addAction(QIcon(":/notes.png"),tr("Open Minutes"));
-    menuFichier->addSeparator();
-    m_closeMap                 = menuFichier->addAction(tr("Close Map/Picture"));
-    menuFichier->addSeparator();
-    m_saveMapAct        = menuFichier->addAction(QIcon(":/map.png"),tr("Save Map"));
-    m_saveStoryAct        = menuFichier->addAction(QIcon(":/story.png"),tr("Save scenario"));
-    m_saveMinuteAct           = menuFichier->addAction(QIcon(":/notes.png"),tr("Save Minutes"));
-    menuFichier->addSeparator();
-    m_preferencesAct = menuFichier->addAction(QIcon(":/settings.png"),tr("Preferences"));
-
-    m_preferencesAct->setShortcut(QKeySequence("Ctrl+P"));
-    menuFichier->addSeparator();
-    m_quitAct = menuFichier->addAction(QIcon(":/exit.png"),tr("Quit"));
-    m_quitAct->setShortcut(QKeySequence::Quit);
-
-    // Network action
-    QMenu *networkMenu = new QMenu (tr("Network"), m_menuBar);
-    m_reconnectAct  = networkMenu->addAction(tr("Reconnection"));
-    m_disconnectAct = networkMenu->addAction(tr("Disconnect"));
-
-
-    // Creation du menu Affichage
-    QMenu *menuAffichage = new QMenu (tr("View"), m_menuBar);
-    m_showPCAct         = menuAffichage->addAction(tr("Display PC names"));
-    m_showNpcNameAct        = menuAffichage->addAction(tr("Display NPC names"));
-    m_showNPCNumberAct = menuAffichage->addAction(tr("Display NPC number"));
-
-
-    // Actions checkables
-    m_showPCAct->setCheckable(true);
-    m_showNpcNameAct->setCheckable(true);
-    m_showNPCNumberAct->setCheckable(true);
-
-
-    // Choix des actions selectionnees au depart
-    m_showPCAct->setChecked(true);
-    m_showNpcNameAct->setChecked(true);
-    m_showNPCNumberAct->setChecked(true);
-
-    // Creation du menu Fenetre
-    m_windowMenu = new QMenu (tr("Sub-Windows"), m_menuBar);
-
-    // Creation du sous-menu Reorganiser
-    QMenu* organizeSubMenu        = new QMenu (tr("Reorganize"), m_menuBar);
-    m_tabOrdering  = organizeSubMenu->addAction(tr("Tabs"));
-    m_tabOrdering->setCheckable(true);
-    m_cascadeAction  = organizeSubMenu->addAction(tr("Cascade"));
-    m_tuleAction   = organizeSubMenu->addAction(tr("Tile"));
-    // Ajout du sous-menu Reorganiser au menu Fenetre
-    m_windowMenu->addMenu(organizeSubMenu);
-    m_windowMenu->addSeparator();
-
-    // Ajout des actions d'affichage des fenetres d'evenement, utilisateurs et lecteur audio
-    m_windowMenu->addAction(m_toolBar->toggleViewAction());
-    m_windowMenu->addAction(m_dockLogUtil->toggleViewAction());
-    m_windowMenu->addAction(m_chatListWidget->toggleViewAction());
-    m_windowMenu->addAction(m_playersListWidget->toggleViewAction());
-#ifndef NULL_PLAYER
-    m_windowMenu->addAction(m_audioPlayer->toggleViewAction());
-#endif
-    m_windowMenu->addSeparator();
-
-    // Ajout de l'action d'affichage de l'editeur de notes
-    m_noteEditorAct = m_windowMenu->addAction(tr("Minutes Editor"));
-    m_noteEditorAct->setCheckable(true);
-    m_noteEditorAct->setChecked(false);
-    // Connexion de l'action avec l'affichage/masquage de l'editeur de notes
-    connect(m_noteEditorAct, SIGNAL(triggered(bool)), this, SLOT(displayMinutesEditor(bool)));
-
-    // Ajout du sous-menu Tchat
-    m_windowMenu->addMenu(m_chatListWidget->chatMenu());
-
-    // Creation du menu Aide
-    QMenu *menuAide = new QMenu (tr("Help"), m_menuBar);
-    m_helpAct = menuAide->addAction(tr("Help about %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
-    m_helpAct->setShortcut(QKeySequence::HelpContents);
-    menuAide->addSeparator();
-    m_aboutAct = menuAide->addAction(tr("About %1").arg(m_preferences->value("Application_Name","rolisteam").toString()));
-
-    // Ajout des menus a la barre de menus
-    m_menuBar->addMenu(menuFichier);
-    m_menuBar->addMenu(menuAffichage);
-    m_menuBar->addMenu(m_windowMenu);
-    m_menuBar->addMenu(networkMenu);
-    m_menuBar->addMenu(menuAide);
-}
-
 void MainWindow::linkActionToMenu()
 {
     // file menu
-    connect(m_newMapAct, SIGNAL(triggered(bool)), this, SLOT(newMap()));
-    connect(m_openImageAct, SIGNAL(triggered(bool)), this, SLOT(openImage()));
-    connect(m_openMapAct, SIGNAL(triggered(bool)), this, SLOT(openMapWizzard()));
+	connect(m_ui->m_newMapAction, SIGNAL(triggered(bool)), this, SLOT(newMap()));
+	connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openImage()));
+	//connect(m_ui->m_openMapAction, SIGNAL(triggered(bool)), this, SLOT(openMapWizzard()));
+	connect(m_ui->m_openMapAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
 
-    connect(m_openStoryAct, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
-    connect(m_openMinutesAct, SIGNAL(triggered(bool)), this, SLOT(openNote()));
-    connect(m_closeMap, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
-    connect(m_saveMapAct, SIGNAL(triggered(bool)), this, SLOT(saveMap()));
-    connect(m_saveStoryAct, SIGNAL(triggered(bool)), this, SLOT(sauvegarderScenario()));
-    connect(m_saveMinuteAct, SIGNAL(triggered(bool)), this, SLOT(saveMinutes()));
-    connect(m_preferencesAct, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
+	connect(m_ui->m_openStoryAction, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
+	connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openNote()));
+	connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
+	connect(m_ui->m_saveAction, SIGNAL(triggered(bool)), this, SLOT(saveMap()));
+	connect(m_ui->m_saveScenarioAction, SIGNAL(triggered(bool)), this, SLOT(sauvegarderScenario()));
+	//connect(m_ui->m_saveMinuteAct, SIGNAL(triggered(bool)), this, SLOT(saveMinutes()));
+	connect(m_ui->m_preferencesAction, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
 
     // close
-    connect(m_quitAct, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
+	connect(m_ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
 
     // network
-    connect(m_networkManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
-    connect(m_disconnectAct,SIGNAL(triggered()),this,SLOT(closeConnection()));
-    connect(m_reconnectAct,SIGNAL(triggered()),this,SLOT(startReconnection()));
+	connect(m_networkManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
+	connect(m_ui->m_disconnectAction,SIGNAL(triggered()),this,SLOT(closeConnection()));
+	connect(m_ui->m_connectionAction,SIGNAL(triggered()),this,SLOT(startReconnection()));
 
     // Windows managing
-    connect(m_cascadeAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
-    connect(m_tabOrdering,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
-    connect(m_tabOrdering,SIGNAL(triggered(bool)),m_cascadeAction,SLOT(setDisabled(bool)));
-    connect(m_tabOrdering,SIGNAL(triggered(bool)),m_tuleAction,SLOT(setDisabled(bool)));
-    connect(m_tuleAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
+	connect(m_ui->m_cascadeViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
+	connect(m_ui->m_tabViewAction,SIGNAL(triggered(bool)),m_mdiArea,SLOT(setTabbedMode(bool)));
+	connect(m_ui->m_tileViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(tileSubWindows()));
 
     // Help
-    connect(m_aboutAct, SIGNAL(triggered()), this, SLOT(aboutRolisteam()));
-    connect(m_helpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
+	connect(m_ui->m_aboutAction, SIGNAL(triggered()), this, SLOT(aboutRolisteam()));
+	connect(m_ui->m_onlineHelpAction, SIGNAL(triggered()), this, SLOT(helpOnLine()));
+
+
+	//Note Editor
+	connect(m_ui->m_showMinutesEditorAction, SIGNAL(triggered(bool)), this, SLOT(displayMinutesEditor(bool)));
 }
 
-QWidget* MainWindow::addMap(BipMapWindow *BipMapWindow, QString titre,QSize mapsize,QPoint pos )
+QWidget* MainWindow::addMap(MapFrame *BipMapWindow, QString titre,QSize mapsize,QPoint pos )
 {
-    QAction *action = m_windowMenu->addAction(titre);
+	QAction *action = m_ui->m_menuSubWindows->addAction(titre);
     action->setCheckable(true);
     action->setChecked(true);
 
@@ -480,7 +383,7 @@ QWidget* MainWindow::addMap(BipMapWindow *BipMapWindow, QString titre,QSize maps
 	connect(action, SIGNAL(triggered(bool)), BipMapWindow, SLOT(setVisible(bool)));
 	connect(BipMapWindow,SIGNAL(visibleChanged(bool)),action,SLOT(setChecked(bool)));
 
-	Map* map = BipMapWindow->carte();
+	Map* map = BipMapWindow->getMap();
 	map->setPointeur(m_toolBar->getCurrentTool());
 	map->setLocalIsPlayer(m_preferences->value("isPlayer",false).toBool());
 
@@ -496,17 +399,17 @@ QWidget* MainWindow::addMap(BipMapWindow *BipMapWindow, QString titre,QSize maps
 	connect(map, SIGNAL(incrementeNumeroPnj()), m_toolBar, SLOT(incrementNpcNumber()));
     connect(map, SIGNAL(mettreAJourPnj(int, QString)), m_toolBar, SLOT(updateNpc(int,QString)));
 
-	connect(m_showPCAct, SIGNAL(triggered(bool)), map, SIGNAL(afficherNomsPj(bool)));
-	connect(m_showNpcNameAct, SIGNAL(triggered(bool)), map, SIGNAL(afficherNomsPnj(bool)));
-	connect(m_showNPCNumberAct, SIGNAL(triggered(bool)), map, SIGNAL(afficherNumerosPnj(bool)));
+	connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SIGNAL(afficherNomsPj(bool)));
+	connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SIGNAL(afficherNomsPnj(bool)));
+	connect(m_ui->m_showNpcNumberAction, SIGNAL(triggered(bool)), map, SIGNAL(afficherNumerosPnj(bool)));
 
-	connect(m_showNpcNameAct, SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
-	connect(m_showPCAct, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
-	connect(m_showNPCNumberAct,SIGNAL(triggered(bool)),map,SLOT(setNpcNumberVisible(bool)));
+	connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
+	connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
+	connect(m_ui->m_showNpcNumberAction,SIGNAL(triggered(bool)),map,SLOT(setNpcNumberVisible(bool)));
 
-	map->setNpcNameVisible(m_showNpcNameAct->isChecked());
-	map->setPcNameVisible(m_showPCAct->isChecked());
-	map->setNpcNumberVisible(m_showNPCNumberAct->isChecked());
+	map->setNpcNameVisible(m_ui->m_showNpcNameAction->isChecked());
+	map->setPcNameVisible(m_ui->m_showPcNameAction->isChecked());
+	map->setNpcNumberVisible(m_ui->m_showNpcNumberAction->isChecked());
 	map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
 
     // new PlayersList connection
@@ -523,8 +426,8 @@ void  MainWindow::closeConnection()
     if(NULL!=m_networkManager)
     {
         m_networkManager->disconnectAndClose();
-        m_reconnectAct->setEnabled(true);
-        m_disconnectAct->setEnabled(false);
+		m_ui->m_connectionAction->setEnabled(true);
+		m_ui->m_disconnectAction->setEnabled(false);
     }
 }
 
@@ -595,7 +498,7 @@ void MainWindow::addImageToMdiArea(Image *imageFenetre, QString titre)
     imageFenetre->setImageTitle(titre);
 
     // Creation de l'action correspondante
-    QAction *action = m_windowMenu->addAction(titre);
+	QAction *action = m_ui->m_menuSubWindows->addAction(titre);
     action->setCheckable(true);
     action->setChecked(true);
     imageFenetre->setInternalAction(action);
@@ -617,226 +520,12 @@ void MainWindow::addImageToMdiArea(Image *imageFenetre, QString titre)
     connect(action, SIGNAL(triggered(bool)), imageFenetre, SLOT(setVisible(bool)));
     sub->show();
 }
-
-void MainWindow::openMapWizzard()
-{
-    m_mapWizzard->resetData();
-    if(m_mapWizzard->exec()==QMessageBox::Accepted)
-    {
-        QFileInfo info(m_mapWizzard->getFilepath());
-
-        m_preferences->registerValue("MapDirectory",info.absolutePath());
-        openMap(m_mapWizzard->getPermissionMode(),m_mapWizzard->getFilepath(),m_mapWizzard->getTitle(),m_mapWizzard->getHidden());
-    }
-}
-
-void MainWindow::openMap(Map::PermissionMode Permission,QString filepath,QString title, bool masquer)
-{
-    QMessageBox msgBox(this);
-    msgBox.addButton(QMessageBox::Cancel);
-    msgBox.setIcon(QMessageBox::Critical);
-    msgBox.setWindowTitle(tr("Loading error"));
-    msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
-
-    Qt::WindowFlags flags = msgBox.windowFlags();
-    msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
-
-
-    if (filepath.endsWith(".pla"))
-    {
-        QFile file(filepath);
-        if (!file.open(QIODevice::ReadOnly))
-        {
-            msgBox.setText(tr("Unsupported file format"));
-            msgBox.exec();
-            return;
-        }
-        QDataStream in(&file);
-        readMapAndNpc(in, masquer, title);
-        file.close();
-    }
-    else
-    {
-        QImage image(filepath);
-        if (image.isNull())
-        {
-            msgBox.setText(tr("Unsupported file format"));
-            msgBox.exec();
-            return;
-        }
-        // Creation de l'identifiant
-        QString idMap = QUuid::createUuid().toString();
-        // Creation de la carte
-        Map* map = new Map(m_localPlayerId,idMap, &image, masquer);
-        map->setPermissionMode(Permission);
-        map->setPointeur(m_toolBar->getCurrentTool());
-		// Creation de la BipMapWindow
-        BipMapWindow* bipMapWindow = new BipMapWindow(map, m_mdiArea);
-        // Ajout de la carte au workspace
-		addMap(bipMapWindow, title);
-
-        QByteArray byteArray;
-        QBuffer buffer(&byteArray);
-        bool ok = image.save(&buffer, "jpeg", 60);
-        if (!ok)
-        {
-            qWarning() << tr("Compressing image goes wrong (ouvrirPlan - MainWindow.cpp)");
-        }
-
-        NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::LoadMap);
-        msg.string16(title);
-        msg.string8(idMap);
-        msg.uint8(12);
-        msg.uint8(map->getPermissionMode());
-        msg.uint8(masquer);
-        msg.byteArray32(byteArray);
-        msg.sendAll();
-    }
-}
-
-QMdiSubWindow* MainWindow::readMapAndNpc(QDataStream &in, bool masquer, QString nomFichier)
-{
-    QString titre;
-    in >> titre;
-
-    QPoint pos;
-    in >>pos;
-
-    Map::PermissionMode myPermission;
-    quint32 permiInt;
-    in >> permiInt;
-    myPermission = (Map::PermissionMode) permiInt;
-
-    QSize size;
-    in >> size;
-
-    int taillePj;
-    in >> taillePj;
-
-    QByteArray baFondOriginal;
-    in >> baFondOriginal;
-
-    QByteArray baFond;
-    in >> baFond;
-
-    QByteArray baAlpha;
-    in>> baAlpha;
-
-    bool ok;
-
-
-    //////////////////
-    // Manage Data to create the map.
-    //////////////////
-
-    QImage fondOriginal;
-    ok = fondOriginal.loadFromData(baFondOriginal, "jpeg");
-    if (!ok)
-    {
-        qWarning("Probleme de decompression du fond original (readMapAndNpc - Mainwindow.cpp)");
-    }
-
-    QImage fond;
-    ok = fond.loadFromData(baFond, "jpeg");
-    if (!ok)
-    {
-        qWarning("Probleme de decompression du fond (readMapAndNpc - Mainwindow.cpp)");
-    }
-
-    QImage alpha;
-    ok = alpha.loadFromData(baAlpha, "jpeg");
-    if (!ok)
-    {
-        qWarning("Probleme de decompression de la couche alpha (readMapAndNpc - Mainwindow.cpp)");
-    }
-
-    if (masquer)
-    {
-        QPainter painterAlpha(&alpha);
-        QColor color = PreferencesManager::getInstance()->value("Fog_color",QColor(0,0,0)).value<QColor>();
-        painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), color);
-    }
-
-    QString idCarte = QUuid::createUuid().toString();
-
-    Map* map = new Map(m_localPlayerId,idCarte, &fondOriginal, &fond, &alpha);
-    map->setPermissionMode(myPermission);
-    map->setPointeur(m_toolBar->getCurrentTool());
-	BipMapWindow* bipMapWindow = new BipMapWindow(map,m_mdiArea);
-
-	QPoint pos2 = bipMapWindow->mapFromParent(pos);
-
-    QMdiSubWindow* m_widget=NULL;
-    if (nomFichier.isEmpty())
-		m_widget=static_cast<QMdiSubWindow*>(addMap(bipMapWindow, titre,size,pos));
-    else
-		m_widget=static_cast<QMdiSubWindow*>(addMap(bipMapWindow, nomFichier,size,pos));
-
-    // On recupere le nombre de personnages presents dans le message
-    quint16 nbrPersonnages;
-    in >>  nbrPersonnages;
-
-    for (int i=0; i<nbrPersonnages; ++i)
-    {
-        QString nomPerso,ident;
-        DessinPerso::typePersonnage type;
-        int numeroDuPnj;
-        uchar diametre;
-
-        QColor couleur;
-        DessinPerso::etatDeSante sante;
-
-        QPoint centre;
-        QPoint orientation;
-        int numeroEtat;
-        bool visible;
-        bool orientationAffichee;
-
-        in >> nomPerso;
-        in >> ident ;
-        int typeint;
-        in >> typeint;
-        type=(DessinPerso::typePersonnage) typeint;
-        in >> numeroDuPnj ;
-        in >> diametre;
-        in >> couleur ;
-        in >> centre ;
-        in >> orientation ;
-        in >>sante.couleurEtat ;
-        in >> sante.nomEtat ;
-        in >> numeroEtat ;
-        in>> visible;
-        in >> orientationAffichee;
-
-        bool showNumber=(type == DessinPerso::pnj)?m_showNPCNumberAct->isChecked():false;
-        bool showName=(type == DessinPerso::pnj)? m_showNpcNameAct->isChecked():m_showPCAct->isChecked();
-
-        DessinPerso *pnj = new DessinPerso(map, ident, nomPerso, couleur, diametre, centre, type,showNumber,showName, numeroDuPnj);
-
-        if (visible || (type == DessinPerso::pnj && PlayersList::instance()->localPlayer()->isGM()))
-            pnj->afficherPerso();
-        // On m.a.j l'orientation
-        pnj->nouvelleOrientation(orientation);
-        // Affichage de l'orientation si besoin
-        if (orientationAffichee)
-            pnj->afficheOuMasqueOrientation();
-
-        pnj->nouvelEtatDeSante(sante, numeroEtat);
-
-        map->afficheOuMasquePnj(pnj);
-
-    }
-	map->emettreCarte(bipMapWindow->windowTitle());
-    map->emettreTousLesPersonnages();
-
-    return m_widget;
-}
 void MainWindow::closeMapOrImage()
 {
 
     QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
     QWidget* active = subactive->widget();
-	BipMapWindow* bipMapWindow = NULL;
+    MapFrame* bipMapWindow = NULL;
 
     if (NULL!=active)
     {
@@ -858,7 +547,7 @@ void MainWindow::closeMapOrImage()
         }
         else//it is a map
         {
-			bipMapWindow= dynamic_cast<BipMapWindow*>(active);
+            bipMapWindow= dynamic_cast<MapFrame*>(active);
 			if(NULL!=bipMapWindow)
             {
 				mapImageId = bipMapWindow->getMapId();
@@ -946,19 +635,20 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
     bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
 	if (widget != NULL && widget->objectName() == QString("BipMapWindow") && localPlayerIsGM)
     {
-        m_closeMap->setEnabled(true);
-        m_saveMapAct->setEnabled(true);
+
+		m_ui->m_closeAction->setEnabled(true);
+		m_ui->m_saveAction->setEnabled(true);
     }
     else if (widget != NULL && widget->objectName() == QString("Image") &&
              (localPlayerIsGM || static_cast<Image *>(widget)->isImageOwner(m_localPlayerId)))
     {
-        m_closeMap->setEnabled(true);
-        m_saveMapAct->setEnabled(false);
+		m_ui->m_closeAction->setEnabled(true);
+		m_ui->m_saveAction->setEnabled(false);
     }
     else
     {
-        m_closeMap->setEnabled(false);
-        m_saveMapAct->setEnabled(false);
+		m_ui->m_closeAction->setEnabled(false);
+		m_ui->m_saveAction->setEnabled(false);
     }
 }
 void MainWindow::majCouleursPersonnelles()
@@ -968,47 +658,26 @@ void MainWindow::majCouleursPersonnelles()
 
 void MainWindow::newMap()
 {
-    m_newEmptyMapDialog->resetData();
-    if(m_newEmptyMapDialog->exec()==QMessageBox::Accepted)
+    MapFrame* bipMapWindow = new MapFrame(NULL, m_mdiArea);
+    if(!bipMapWindow->createMap())
     {
-        QString idMap = QUuid::createUuid().toString();
-        buildNewMap(m_newEmptyMapDialog->getTitle(),idMap,m_newEmptyMapDialog->getColor(),m_newEmptyMapDialog->getSize(),m_newEmptyMapDialog->getPermission());
-
-        QString title = m_newEmptyMapDialog->getTitle();
-        QColor color = m_newEmptyMapDialog->getColor();
-        quint16 width = m_newEmptyMapDialog->getSize().width();
-        quint16 height = m_newEmptyMapDialog->getSize().height();
-
-        NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::AddEmptyMap);
-        msg.string8(title);
-        msg.string8(idMap);
-        msg.rgb(color);
-        msg.uint16(width);
-        msg.uint16(height);
-        msg.uint8(1);
-        msg.uint8((quint8)m_newEmptyMapDialog->getPermission());
-        msg.sendAll();
+        delete bipMapWindow;
+    }
+    else
+    {
+        addMap(bipMapWindow,bipMapWindow->getTitle());
     }
 }
-void MainWindow::buildNewMap(QString titre, QString idCarte, QColor couleurFond, QSize size,Map::PermissionMode mode)
-{
-    QImage image(size, QImage::Format_ARGB32_Premultiplied);
-    image.fill(couleurFond.rgb());
-    Map *carte = new Map(m_localPlayerId,idCarte, &image);
-    carte->setPermissionMode(getPermission(mode));
-    carte->setPointeur(m_toolBar->getCurrentTool());
-	BipMapWindow* bipMapWindow = new BipMapWindow(carte, m_mdiArea);
-	addMap(bipMapWindow, titre);
-}
+
 void MainWindow::emettreTousLesPlans(NetworkLink * link)
 {
    // qDebug() << "emettreTousLesPlans " << link;
     int tailleListe = m_mapWindowList.size();
     for (int i=0; i<tailleListe; ++i)
     {
-        m_mapWindowList[i]->carte()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
-        m_mapWindowList[i]->carte()->emettreCarte(m_mapWindowList[i]->windowTitle(), link);
-        m_mapWindowList[i]->carte()->emettreTousLesPersonnages(link);
+		m_mapWindowList[i]->getMap()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
+		m_mapWindowList[i]->getMap()->emettreCarte(m_mapWindowList[i]->windowTitle(), link);
+		m_mapWindowList[i]->getMap()->emettreTousLesPersonnages(link);
     }
 }
 
@@ -1036,7 +705,7 @@ void MainWindow::removeMapFromId(QString idCarte)
     if(NULL!=tmp)
     {
 
-		BipMapWindow* mapWindow = dynamic_cast<BipMapWindow*>(tmp->widget());
+        MapFrame* mapWindow = dynamic_cast<MapFrame*>(tmp->widget());
         m_playersListWidget->model()->changeMap(NULL);
         m_toolBar->changeMap(NULL);
         if(NULL!=mapWindow)
@@ -1056,12 +725,12 @@ Map* MainWindow::trouverCarte(QString idCarte)
     bool ok = false;
     int i;
     for (i=0; i<tailleListe && !ok; ++i)
-        if ( m_mapWindowList[i]->carte()->identifiantCarte() == idCarte )
+		if ( m_mapWindowList[i]->getMap()->identifiantCarte() == idCarte )
             ok = true;
 
     // Si la carte vient d'etre trouvee on renvoie son pointeur
     if (ok)
-        return m_mapWindowList[i-1]->carte();
+		return m_mapWindowList[i-1]->getMap();
     // Sinon on renvoie -1
     else
         return 0;
@@ -1187,9 +856,9 @@ bool MainWindow::enleverCarteDeLaListe(QString idCarte)
     {
         if(NULL != m_mapWindowList[i])
         {
-            if(NULL!=m_mapWindowList[i]->carte())
+			if(NULL!=m_mapWindowList[i]->getMap())
             {
-                if ( m_mapWindowList[i]->carte()->identifiantCarte() == idCarte )
+				if ( m_mapWindowList[i]->getMap()->identifiantCarte() == idCarte )
                 {
                     ok = true;
                 }
@@ -1218,7 +887,7 @@ void MainWindow::saveMap()
 
     QWidget *active = m_mdiArea->activeWindow();
     QMdiSubWindow* subWindow = static_cast<QMdiSubWindow*>(active);
-	BipMapWindow* mapWindow = static_cast<BipMapWindow*>(subWindow->widget());
+    MapFrame* mapWindow = static_cast<MapFrame*>(subWindow->widget());
 
 
 
@@ -1254,7 +923,7 @@ void MainWindow::saveMap()
         return;
     }
     QDataStream out(&file);
-    mapWindow->carte()->saveMap(out);
+	mapWindow->getMap()->saveMap(out);
     file.close();
 }
 
@@ -1283,7 +952,7 @@ void MainWindow::displayMinutesEditor(bool visible, bool isCheck)
     }
     if (isCheck)
     {
-        m_noteEditorAct->setChecked(visible);
+		m_ui->m_showMinutesEditorAction->setChecked(visible);
     }
 
 }
@@ -1336,7 +1005,7 @@ void MainWindow::ouvrirScenario()
         QSize sizeWindow;
         in >> sizeWindow;
 
-        QMdiSubWindow* mapWindow = readMapAndNpc(in);
+		QMdiSubWindow* mapWindow = NULL;//readMapAndNpc(in);
         if(NULL!=mapWindow)
         {
             mapWindow->setGeometry(posWindow.x(),posWindow.y(),sizeWindow.width(),sizeWindow.height());
@@ -1357,7 +1026,7 @@ void MainWindow::ouvrirScenario()
     bool tempbool;
     in >> tempbool;
     m_noteEditor->setVisible(tempbool);
-    m_noteEditorAct->setChecked(tempbool);
+	m_ui->m_showMinutesEditorAction->setChecked(tempbool);
 
     // closing file
     file.close();
@@ -1410,7 +1079,7 @@ void MainWindow::saveAllMap(QDataStream &out)
         QPoint pos2 = m_mapWindowList[i]->mapFromParent(m_mapWindowList[i]->pos());
         out << pos2;
         out << m_mapWindowList[i]->size();
-        m_mapWindowList[i]->carte()->saveMap(out, m_mapWindowList[i]->windowTitle());
+		m_mapWindowList[i]->getMap()->saveMap(out, m_mapWindowList[i]->windowTitle());
     }
 }
 
@@ -1532,25 +1201,25 @@ void MainWindow::updateUi()
 #endif
     if(!PlayersList::instance()->localPlayer()->isGM())
     {
-        m_newMapAct->setEnabled(false);
-        m_openMapAct->setEnabled(false);
+		m_ui->m_newMapAction->setEnabled(false);
+		m_ui->m_openMapAction->setEnabled(false);
 
-        m_openStoryAct->setEnabled(false);
-        m_closeMap->setEnabled(false);
-        m_saveMapAct->setEnabled(false);
-        m_saveStoryAct->setEnabled(false);
+		m_ui->m_openStoryAction->setEnabled(false);
+		m_ui->m_closeAction->setEnabled(false);
+		m_ui->m_saveAction->setEnabled(false);
+		m_ui->m_saveScenarioAction->setEnabled(false);
 
     }
 
     if(m_networkManager->isServer())
     {
-        m_reconnectAct->setEnabled(false);
-        m_disconnectAct->setEnabled(true);
+		m_ui->m_connectionAction->setEnabled(false);
+		m_ui->m_disconnectAction->setEnabled(true);
     }
     else
     {
-        m_reconnectAct->setEnabled(false);
-        m_disconnectAct->setEnabled(true);
+		m_ui->m_connectionAction->setEnabled(false);
+		m_ui->m_disconnectAction->setEnabled(true);
     }
 }
 void MainWindow::updateMayBeNeeded()
@@ -1602,8 +1271,8 @@ void MainWindow::networkStateChanged(bool state)
 {
     if(state)
     {
-        m_reconnectAct->setEnabled(false);
-        m_disconnectAct->setEnabled(true);
+		m_ui->m_connectionAction->setEnabled(false);
+		m_ui->m_disconnectAction->setEnabled(true);
 
         if((m_networkManager->isConnected())&&(m_networkManager->isServer())&&(NULL!=m_ipChecker))
         {
@@ -1612,8 +1281,8 @@ void MainWindow::networkStateChanged(bool state)
     }
     else
     {
-        m_reconnectAct->setEnabled(true);
-        m_disconnectAct->setEnabled(false);
+		m_ui->m_connectionAction->setEnabled(true);
+		m_ui->m_disconnectAction->setEnabled(false);
     }
 }
 
@@ -1628,8 +1297,8 @@ void MainWindow::notifyAboutDeletedPlayer(Player * player) const
 }
 void MainWindow::stopReconnection()
 {
-    m_reconnectAct->setEnabled(true);
-    m_disconnectAct->setEnabled(false);
+	m_ui->m_connectionAction->setEnabled(true);
+	m_ui->m_disconnectAction->setEnabled(false);
 }
 void MainWindow::closeAllImagesAndMaps()
 {
@@ -1647,7 +1316,7 @@ void MainWindow::closeAllImagesAndMaps()
         }
     }
 
-	foreach(BipMapWindow* tmp,m_mapWindowList)
+    foreach(MapFrame* tmp,m_mapWindowList)
     {
         if(NULL!=tmp)
         {
@@ -1664,13 +1333,13 @@ void MainWindow::startReconnection()
     }
     if(m_networkManager->startConnection())
     {
-        m_reconnectAct->setEnabled(false);
-        m_disconnectAct->setEnabled(true);
+		m_ui->m_connectionAction->setEnabled(false);
+		m_ui->m_disconnectAction->setEnabled(true);
     }
     else
     {
-        m_reconnectAct->setEnabled(true);
-        m_disconnectAct->setEnabled(false);
+		m_ui->m_connectionAction->setEnabled(true);
+		m_ui->m_disconnectAction->setEnabled(false);
     }
 }
 void MainWindow::showIp(QString ip)
@@ -1743,24 +1412,27 @@ void MainWindow::parseCommandLineArguments(QStringList list)
         QCommandLineOption hostname(QStringList() << "s"<< "server", tr("Set rolisteam to connect to <server>."),"server");
         QCommandLineOption role(QStringList() << "r"<< "role", tr("Define the <role>: gm or pc"),"role");
 		QCommandLineOption reset(QStringList() << "reset-settings", tr("Erase the settings and use the default parameters"));
+        QCommandLineOption user(QStringList() << "u"<<"user", tr("Define the <username>"),"username");
 
 
         parser.addOption(port);
         parser.addOption(hostname);
         parser.addOption(role);
 		parser.addOption(reset);
-
+        parser.addOption(user);
 
         parser.process(list);
 
         bool hasPort = parser.isSet(port);
         bool hasHostname = parser.isSet(hostname);
         bool hasRole = parser.isSet(role);
+        bool hasUser = parser.isSet(user);
 		m_resetSettings = parser.isSet(reset);
 
         QString portValue;
         QString hostnameValue;
         QString roleValue;
+        QString username;
         if(hasPort)
         {
             portValue = parser.value(port);
@@ -1773,10 +1445,13 @@ void MainWindow::parseCommandLineArguments(QStringList list)
         {
             roleValue = parser.value(role);
         }
-
-		if(!(roleValue.isNull()&&hostnameValue.isNull()&&portValue.isNull()))
+        if(hasUser)
+        {
+            username = parser.value(user);
+        }
+        if(!(roleValue.isNull()&&hostnameValue.isNull()&&portValue.isNull()&&username.isNull()))
 		{
-			m_networkManager->setValueConnection(portValue,hostnameValue,roleValue);
+            m_networkManager->setValueConnection(portValue,hostnameValue,username,roleValue);
 		}
 
 }
@@ -1786,30 +1461,37 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
     switch(msg->category())
     {
     case NetMsg::PictureCategory:
+        qDebug() << "picture";
         processImageMessage(msg);
         type = NetWorkReceiver::AllExceptMe;
         break;
     case NetMsg::MapCategory:
+        qDebug() << "MapCategory";
         processMapMessage(msg);
         type = NetWorkReceiver::AllExceptMe;
         break;
     case NetMsg::NPCCategory:
+        qDebug() << "NPCCategory";
         processNpcMessage(msg);
         type = NetWorkReceiver::AllExceptMe;
         break;
     case NetMsg::DrawCategory:
+        qDebug() << "DrawCategory";
         processPaintingMessage(msg);
         type = NetWorkReceiver::ALL;
         break;
     case NetMsg::CharacterCategory:
+        qDebug() << "CharacterCategory";
         processCharacterMessage(msg);
         type = NetWorkReceiver::AllExceptMe;
         break;
     case NetMsg::ConnectionCategory:
+        qDebug() << "ConnectionCategory";
         processConnectionMessage(msg);
         type = NetWorkReceiver::NONE;
         break;
     case NetMsg::CharacterPlayerCategory:
+        qDebug() << "CharacterPlayerCategory";
         processCharacterPlayerMessage(msg);
         type = NetWorkReceiver::AllExceptMe;
         break;
@@ -1827,92 +1509,22 @@ void MainWindow::processConnectionMessage(NetworkMessageReader* msg)
 
 void MainWindow::processMapMessage(NetworkMessageReader* msg)
 {
-
-    if(msg->action() == NetMsg::AddEmptyMap)
-    {
-        QString title = msg->string8();
-        QString idMap = msg->string8();
-        QColor color = msg->rgb();
-        quint16 width = msg->uint16();
-        quint16 height = msg->uint16();
-        quint8 npSize = msg->uint8();
-        quint8 permission = msg->uint8();
-        QSize mapSize(width,height);
-        /**
-         * @warning @todo use npSize.
-         */
-        buildNewMap(title,idMap,color,mapSize,(Map::PermissionMode)permission);
-        notifyUser(tr("New map: %1").arg(title));
-
-    }
-    else if(msg->action() == NetMsg::LoadMap)
-    {
-        QString title = msg->string16();
-        QString idMap = msg->string8();
-        quint8 npSize = msg->uint8();
-        quint8 permission = msg->uint8();
-        quint8 maskPlan = msg->uint8();
-        QByteArray mapData = msg->byteArray32();
-         QImage image;
-        if (! image.loadFromData(mapData, "jpeg"))
-        {
-            qWarning("Compression Error (processMapMessage - NetworkLink.cpp)");
-        }
-        Map* map = new Map(m_localPlayerId,idMap, &image, maskPlan);
-		map->changePjSize(npSize,false);
-        map->setPermissionMode((Map::PermissionMode)permission);
-
-        BipMapWindow* bipMapWindow = new BipMapWindow(map,this);
-
-        addMap(bipMapWindow,title);
-
-        notifyUser(tr("Receiving map: %1").arg(title));
-
-
-    }
-    else if(msg->action() == NetMsg::ImportMap)
-    {
-        QString title = msg->string16();
-        QString idMap = msg->string8();
-        quint8 npSize = msg->uint8();
-        quint8 permission = msg->uint8();
-        quint8 alphaValue = msg->uint8();
-        QByteArray originBackground = msg->byteArray32();
-        QByteArray background = msg->byteArray32();
-        QByteArray bgAlpha = msg->byteArray32();
-
-        QImage originalBackgroundImage;
-        if (!originalBackgroundImage.loadFromData(originBackground, "jpeg"))
-        {
-            qWarning() << tr("Extract original background information Failed (processMapMessage - mainwindow.cpp)");
-        }
-        // Creation de l'image de fond
-        QImage backgroundImage;
-        if (!backgroundImage.loadFromData(background, "jpeg"))
-        {
-            qWarning() << tr("Extract background information Failed (processMapMessage - mainwindow.cpp)");
-        }
-        // Creation de la couche alpha
-        QImage alphaImage;
-        if (!alphaImage.loadFromData(bgAlpha, "jpeg"))
-        {
-            qWarning() << tr("Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)");
-        }
-        Map* map = new Map(m_localPlayerId,idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
-		map->changePjSize(npSize,false);
-
-        map->setPermissionMode((Map::PermissionMode)permission);
-        map->adapterCoucheAlpha(alphaValue);
-        BipMapWindow* bipMapWindow = new BipMapWindow(map,this);
-        addMap(bipMapWindow,title);
-        notifyUser(tr("Receiving map: %1").arg(title));
-
-    }
-    else if(msg->action() == NetMsg::CloseMap)
+    if(msg->action() == NetMsg::CloseMap)
     {
         QString idMap = msg->string8();
         removeMapFromId(idMap);
-
+    }
+    else
+    {
+        MapFrame* bipMapWindow = new MapFrame(NULL, m_mdiArea);
+        if(!bipMapWindow->processMapMessage(msg))
+        {
+            delete bipMapWindow;
+        }
+        else
+        {
+            addMap(bipMapWindow,bipMapWindow->getTitle());
+        }
     }
 }
 
@@ -2096,8 +1708,8 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
 
         QPoint npcPos(npcXpos, npcYpos);
 
-        bool showNumber=(npcType == DessinPerso::pnj)?m_showNPCNumberAct->isChecked():false;
-        bool showName=(npcType == DessinPerso::pnj)? m_showNpcNameAct->isChecked():m_showPCAct->isChecked();
+		bool showNumber=(npcType == DessinPerso::pnj)?m_ui->m_showNpcNumberAction->isChecked():false;
+		bool showName=(npcType == DessinPerso::pnj)? m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
 
         DessinPerso* npc = new DessinPerso(map, npcId, npcName, npcColor, npcDiameter, npcPos, (DessinPerso::typePersonnage)npcType,showNumber,showName, npcNumber);
 
@@ -2235,7 +1847,7 @@ void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
 }
 CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
 {
- /*   QString filter;
+	QString filter;
     QString folder;
     QString title;
     switch(type)
@@ -2243,30 +1855,28 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
         case CleverURI::PICTURE:
             filter = m_supportedImage;
             title = tr("Open Picture");
-            folder = m_options->value(QString("PicturesDirectory"),".").toString();
+			folder = m_preferences->value(QString("PicturesDirectory"),".").toString();
             break;
         case CleverURI::MAP:
             filter = m_supportedMap;
             title = tr("Open Map");
-            folder = m_options->value(QString("MapsDirectory"),".").toString();
+			folder = m_preferences->value(QString("MapsDirectory"),".").toString();
             break;
         case CleverURI::TEXT:
             filter = m_supportedNotes;
             title = tr("Open Minutes");
-            folder = m_options->value(QString("MinutesDirectory"),".").toString();
-            break;
-        case CleverURI::CHARACTERSHEET:
+			folder = m_preferences->value(QString("MinutesDirectory"),".").toString();
+			break;
+	   /* case CleverURI::CHARACTERSHEET:
             filter = m_supportedCharacterSheet;
             title = tr("Open Character Sheets");
             folder = m_options->value(QString("DataDirectory"),".").toString();
-            break;
-#ifdef WITH _PDF
+			break;
             case CleverURI::PDF:
             filter = m_pdfFiles;
             title = tr("Open Pdf file");
             folder = m_options->value(QString("DataDirectory"),".").toString();
-            break;
-#endif
+			break;*/
     default:
             break;
     }
@@ -2279,31 +1889,31 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
             filepath= QFileDialog::getOpenFileName(this,title,folder,filter);
 
         return new CleverURI(filepath,type);
-    }*/
+	}
     return NULL;
 }
 void MainWindow::openContent()
 {
     QAction* action=static_cast<QAction*>(sender());
     CleverURI::ContentType type;
-  /*  if(action == m_openMapAct)
+	if(action == m_ui->m_openMapAction)
     {
         type=CleverURI::MAP;
     }
-    else if(action == m_openPictureAct)
+	else if(action == m_ui->m_openPictureAction)
     {
         type=CleverURI::PICTURE;
 
     }
-    else if(action == m_openScenarioAct)
+	else if(action == m_ui->m_openStoryAction)
     {
         type = CleverURI::SCENARIO;
     }
-    else if(action== m_openCharacterSheetsAct)
+	/*else if(action== m_openCharacterSheetsAct)
     {
         type = CleverURI::CHARACTERSHEET;
-    }
-    else if(action == m_openNoteAct)
+	}*/
+	else if(action == m_ui->m_openNoteAction)
     {
         type = CleverURI::TEXT;
     }
@@ -2317,12 +1927,46 @@ void MainWindow::openContent()
     {
         return;
     }
-    CleverURI* path = contentToPath(type,false);
+	//CleverURI* path = contentToPath(type,false);
 
-    if(path)
-        openCleverURI(path,true);
-    else
-        qDebug() << "Error, the clever uri is not valid";*/
-
-
+	openCleverURI(type);
+}
+void MainWindow::openCleverURI(CleverURI::ContentType type)
+{
+	MediaContainer* tmp=NULL;
+	switch(type)
+	{
+	case CleverURI::MAP:
+        tmp = new MapFrame();
+		break;
+	case CleverURI::PICTURE:
+		//tmp = new Image(m_workspace);
+		break;
+	case CleverURI::SCENARIO:
+		break;
+	case CleverURI::TEXT:
+		//tmp = new MinutesEditor(uri);
+		break;
+/*	case CleverURI::CHARACTERSHEET:
+		tmp = new CharacterSheetWindow();
+		break;
+	case CleverURI::PDF:
+		tmp = new PDFViewer();
+		break;
+	case CleverURI::TCHAT:
+	case CleverURI::SONG:
+		break;*/
+	default:
+		break;
+	}
+	if(tmp!=NULL)
+	{
+		tmp->openMedia();
+		if(tmp->readFileFromUri())
+		{
+            addMap((MapFrame*)tmp,tmp->getTitle());
+            ((MapFrame*)tmp)->setVisible(true);
+		}
+		//addToWorkspace(tmp);
+	}
 }

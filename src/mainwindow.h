@@ -34,14 +34,14 @@
 #include <QMdiSubWindow>
 
 #include "data/cleveruri.h"
-
+#include "map/map.h"
 
 #include "map/charactertoken.h"
 #include "initialisation.h"
 #include "preferences/preferencesmanager.h"
 #include "services/ipchecker.h"
-#include "map/mapwizzard.h"
-#include "map/newemptymapdialog.h"
+
+
 
 #include "network/networkreceiver.h"
 #include "network/networkmessagereader.h"
@@ -57,7 +57,7 @@ class MainWindow;
 
 class UpdateChecker;
 class ToolsBar;
-class BipMapWindow;
+class MapFrame;
 class Map;
 class ChatListWidget;
 class Image;
@@ -99,7 +99,7 @@ public :
      * @param mapsize
      * @param pos
      */
-	QWidget* addMap(BipMapWindow *BipMapWindow, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
+	QWidget* addMap(MapFrame *MapFrame, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
     /**
      * @brief addImage
      * @param imageFenetre
@@ -207,15 +207,6 @@ signals:
 
 public slots :
     /**
-	 * @brief buildNewMap
-     * @param titre
-     * @param idCarte
-     * @param couleurFond
-     * @param largeur
-     * @param hauteur
-     */
-    void buildNewMap(QString titre, QString idCarte, QColor couleurFond, QSize size,Map::PermissionMode mode );
-    /**
 	 * @brief displayMinutesEditor
      * @param afficher
      * @param cocherAction
@@ -269,9 +260,9 @@ private slots :
     void changementNatureUtilisateur();
     void changementFenetreActive(QMdiSubWindow* widget);
     void newMap();
-    void openMap(Map::PermissionMode Permission,QString filepath,QString title,bool masquer = false);
+   // void openMap(Map::PermissionMode Permission,QString filepath,QString title,bool masquer = false);
     void openImage();
-    void openMapWizzard();
+	//void openMapWizzard();
     void ouvrirScenario();
     void openNote();
     void closeMapOrImage();
@@ -289,6 +280,9 @@ private slots :
     void closeConnection();
     void startReconnection();
     void networkStateChanged(bool state);
+
+
+	void openCleverURI(CleverURI::ContentType type);
 
 
 
@@ -319,10 +313,9 @@ private :
     MainWindow();
     static MainWindow* m_singleton;
     void creerLogUtilisateur();
-    void creerMenu();
     void linkActionToMenu();
 
-    QMdiSubWindow*  readMapAndNpc(QDataStream &file, bool masquer = false, QString nomFichier = "");
+	//QMdiSubWindow*  readMapAndNpc(QDataStream &file, bool masquer = false, QString nomFichier = "");
     void readImageFromStream(QDataStream &file);
     void saveAllMap(QDataStream &file);
     void saveAllImages(QDataStream &file);
@@ -355,57 +348,26 @@ private :
      */
 	ImprovedWorkspace* m_mdiArea;
     PlayersListWidget * m_playersListWidget;
-    QMenu *m_windowMenu;
-    ToolsBar *m_toolBar;
+	ToolsBar* m_toolBar;
 
-	QList <BipMapWindow *> m_mapWindowList;
+	QList <MapFrame *> m_mapWindowList;
     //QList <Image *> listeImage;
     QList <QMdiSubWindow*> m_pictureList;
-	QMap<BipMapWindow*,QAction*>* m_mapAction;
+	QMap<MapFrame*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
     AudioPlayer* m_audioPlayer;
 #endif
 
     PreferencesDialog * m_preferencesDialog;
+	PreferencesManager* m_preferences;
 
     ChatListWidget * m_chatListWidget;
 
-    //submenu and action for map and parameters.
-    QAction* m_newMapAct;
-    QAction* m_openImageAct;
-    QAction* m_openMapAct;
-    //QAction* actionOuvrirEtMasquerPlan;
-    QAction* m_openStoryAct;
-    QAction* m_openMinutesAct;
-    QAction* m_closeMap;
-    QAction* m_saveMapAct;
-    QAction* m_saveStoryAct;
-    QAction* m_saveMinuteAct;
-    QAction* m_preferencesAct;
-    QAction* m_quitAct;
 
-    QAction* m_reconnectAct;
-    QAction* m_disconnectAct;
-
-    QAction *m_showPCAct;
-    QAction *m_showNpcNameAct;
-    QAction *m_showNPCNumberAct;
-    QAction *actionSansGrille;
-    QAction *actionCarre;
-    QAction *actionHexagones;
-
-    QAction *m_cascadeAction;
-    QAction *m_tuleAction;
-    QAction* m_tabOrdering;
-    QAction *m_noteEditorAct;
-
-    QAction *m_helpAct;
-    QAction *m_aboutAct;
     UpdateChecker* m_updateChecker;
 
     QString m_version;
     QDockWidget* m_dockLogUtil;
-    PreferencesManager* m_preferences;
 
 	NetworkManager* m_networkManager;
 
@@ -414,15 +376,10 @@ private :
     TextEdit* m_noteEditor;
 
     PlayersList* m_playerList;
-    QMenuBar* m_menuBar;
+	//QMenuBar* m_menuBar;
 
     /// @brief get the server IP.
     IpChecker* m_ipChecker;
-
-
-    NewEmptyMapDialog* m_newEmptyMapDialog;/// @brief dialog to create new map.
-
-    MapWizzard* m_mapWizzard;
 
     //subwindow
     QMdiSubWindow* m_noteEditorSub;
@@ -432,6 +389,13 @@ private :
 	bool m_resetSettings;
 
     Ui::MainWindow* m_ui;
+
+//filters
+	QString m_supportedImage;
+	QString m_supportedCharacterSheet;
+	QString m_supportedNotes;
+	QString m_supportedMap;
+	QString m_pdfFiles;
 };
 
 #endif
