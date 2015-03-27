@@ -30,7 +30,7 @@
 #include "map/charactertoken.h"
 
 // Liste des etats de sante des PJ/PNJ (initialisee dans MainWindow.cpp)
-QList<DessinPerso::etatDeSante> G_etatsDeSante;
+//QList<DessinPerso::etatDeSante> G_etatsDeSante;
 
 
 DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType,bool showNpcNumber,bool showName, int numero,bool isLocal)
@@ -54,7 +54,7 @@ DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor c
     orientationAffichee = false;
     numeroEtat = 0;
     diametre = taille;
-    etat = G_etatsDeSante[numeroEtat];
+    etat = m_healtStateList[numeroEtat];
     type = leType;
 
     if (type == pj)
@@ -407,8 +407,8 @@ void DessinPerso::afficherOrientation(bool afficher)
 
 void DessinPerso::changerEtat()
 {
-    numeroEtat = numeroEtat<G_etatsDeSante.size()-1?numeroEtat+1:0;
-    etat = G_etatsDeSante[numeroEtat];
+    numeroEtat = numeroEtat<m_healtStateList.size()-1?numeroEtat+1:0;
+    etat = m_healtStateList[numeroEtat];
     dessinerPersonnage();
 }
 
@@ -492,8 +492,8 @@ void DessinPerso::nouvelEtatDeSante(etatDeSante sante, int numeroSante)
 
 void DessinPerso::changerEtatDeSante(int numEtat)
 {
-    numeroEtat = numEtat<=G_etatsDeSante.size()-1?numEtat:0;
-    etat = G_etatsDeSante[numeroEtat];
+    numeroEtat = numEtat<=m_healtStateList.size()-1?numEtat:0;
+    etat = m_healtStateList[numeroEtat];
     dessinerPersonnage();
 }
 
