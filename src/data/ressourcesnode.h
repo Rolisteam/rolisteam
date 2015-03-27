@@ -1,0 +1,4 @@
+#ifndef RESSOURCESNODE_H
+#define RESSOURCESNODE_H
+
+#endif // RESSOURCESNODE_H
