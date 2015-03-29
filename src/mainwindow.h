@@ -266,9 +266,6 @@ private slots :
     void changementNatureUtilisateur();
     void changementFenetreActive(QMdiSubWindow* widget);
     void newMap();
-   // void openMap(Map::PermissionMode Permission,QString filepath,QString title,bool masquer = false);
-  //  void openImage();
-	//void openMapWizzard();
     void ouvrirScenario();
     void openNote();
     void closeMapOrImage();
@@ -280,19 +277,20 @@ private slots :
     void receiveData(quint64 readData,quint64 size);
     void openContent();
 
-
     //Network private Slot
     void stopReconnection();
     void closeConnection();
     void startReconnection();
     void networkStateChanged(bool state);
 
-
-	void openCleverURI(CleverURI::ContentType type);
+    void openContentFromType(CleverURI::ContentType type);
+    void openCleverURI(CleverURI* uri);
     void newNoteDocument();
 
 
-
+    void setLatestFile(CleverURI* fileName);
+    void updateRecentFileActions();
+    void openRecentFile();
 
     /**
     * \brief Show the about dialog
@@ -380,6 +378,10 @@ private :
 	QString m_supportedNotes;
 	QString m_supportedMap;
 	QString m_pdfFiles;
+
+    //Recent files managment
+    int m_maxSizeRecentFile;
+    QList<QAction*> m_recentFileActs;
 };
 
 #endif

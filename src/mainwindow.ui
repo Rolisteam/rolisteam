@@ -44,14 +44,14 @@
      <addaction name="m_openNoteAction"/>
      <addaction name="m_openStoryAction"/>
     </widget>
-    <widget class="QMenu" name="m_recentFileMenu_2">
+    <widget class="QMenu" name="m_recentFileMenu">
      <property name="title">
       <string>Recent Files</string>
      </property>
     </widget>
     <addaction name="menu_New"/>
     <addaction name="menu_Open"/>
-    <addaction name="m_recentFileMenu_2"/>
+    <addaction name="m_recentFileMenu"/>
     <addaction name="separator"/>
     <addaction name="m_saveAction"/>
     <addaction name="m_saveAsAction"/>

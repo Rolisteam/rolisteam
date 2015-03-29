@@ -80,6 +80,7 @@ MainWindow::MainWindow()
 
     m_ui->setupUi(this);
     m_shownProgress=false;
+
     m_preferences = PreferencesManager::getInstance();
     m_downLoadProgressbar = new QProgressBar();
     m_downLoadProgressbar->setRange(0,100);
@@ -131,6 +132,7 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
     action->setChecked(true);
 
     mediac->setAction(action);
+    setLatestFile(mediac->getCleverUri());
 
     m_mdiArea->addContainerMedia(mediac);
 
@@ -417,6 +419,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_newNoteAction, SIGNAL(triggered(bool)), this, SLOT(newNoteDocument()));
     connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
 	connect(m_ui->m_openMapAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
+    m_ui->m_recentFileMenu->setVisible(false);
 
 	connect(m_ui->m_openStoryAction, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
 	connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openNote()));
@@ -447,6 +450,7 @@ void MainWindow::linkActionToMenu()
 
 	//Note Editor
 	connect(m_ui->m_showMinutesEditorAction, SIGNAL(triggered(bool)), this, SLOT(displayMinutesEditor(bool)));
+
 }
 void MainWindow::prepareMap(MapFrame* mapFrame)
 {
@@ -1143,6 +1147,21 @@ void MainWindow::readSettings()
 	}
 
 	m_preferences->readSettings(settings);
+
+    /**
+      * management of recentFileActs
+      * */
+    m_maxSizeRecentFile = m_preferences->value("recentfilemax",5).toInt();
+    for (int i = 0; i < m_maxSizeRecentFile; ++i)
+    {
+             m_recentFileActs.insert(i,new QAction(m_ui->m_recentFileMenu));
+             m_recentFileActs[i]->setVisible(false);
+             connect(m_recentFileActs[i], SIGNAL(triggered()),
+                     this, SLOT(openRecentFile()));
+
+            // m_ui->m_recentFileMenu->addAction(m_recentFileActs[i]);
+    }
+    updateRecentFileActions();
 }
 void MainWindow::writeSettings()
 {
@@ -1762,16 +1781,6 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
             title = tr("Open Minutes");
 			folder = m_preferences->value(QString("MinutesDirectory"),".").toString();
 			break;
-	   /* case CleverURI::CHARACTERSHEET:
-            filter = m_supportedCharacterSheet;
-            title = tr("Open Character Sheets");
-            folder = m_options->value(QString("DataDirectory"),".").toString();
-			break;
-            case CleverURI::PDF:
-            filter = m_pdfFiles;
-            title = tr("Open Pdf file");
-            folder = m_options->value(QString("DataDirectory"),".").toString();
-			break;*/
     default:
             break;
     }
@@ -1804,10 +1813,6 @@ void MainWindow::openContent()
     {
         type = CleverURI::SCENARIO;
     }
-//	else if(action== m_openCharacterSheetsAct)
-//    {
-//        type = CleverURI::CHARACTERSHEET;
-//	}
 	else if(action == m_ui->m_openNoteAction)
     {
         type = CleverURI::TEXT;
@@ -1822,9 +1827,97 @@ void MainWindow::openContent()
     {
         return;
     }
-	openCleverURI(type);
+    openContentFromType(type);
 }
-void MainWindow::openCleverURI(CleverURI::ContentType type)
+void MainWindow::openRecentFile()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (action)
+    {
+        CleverURI uri = action->data().value<CleverURI>();
+        openCleverURI(&uri);
+    }
+}
+void MainWindow::updateRecentFileActions()
+{
+    QVariant var(CleverUriList);
+    CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList >();
+
+    int numRecentFiles = qMin(files.size(), m_maxSizeRecentFile);
+
+    for (int i = 0; i < numRecentFiles; ++i)
+    {
+        QString text = tr("&%1 %2").arg(i + 1).arg(files[i].getShortName());
+        m_recentFileActs[i]->setText(text);
+        QVariant var;
+        var.setValue(files[i]);
+        m_recentFileActs[i]->setData(var);
+        m_recentFileActs[i]->setIcon(QIcon(files[i].getIcon()));
+        m_recentFileActs[i]->setVisible(true);
+    }
+    for (int j = numRecentFiles; j < m_recentFileActs.size() ; ++j)
+    {
+        m_recentFileActs[j]->setVisible(false);
+    }
+
+    m_ui->m_recentFileMenu->setVisible(numRecentFiles > 0);
+}
+void MainWindow::setLatestFile(CleverURI* fileName)
+{
+    QVariant var(CleverUriList());
+
+    CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList >();
+
+    files.removeAll(*fileName);
+    files.prepend(*fileName);
+    while (files.size() > m_maxSizeRecentFile)
+    {
+        files.removeLast();
+    }
+    QVariant var3;
+    var3.setValue(files);
+
+    m_preferences->registerValue("recentFileList", var3,true);
+
+
+    updateRecentFileActions();
+
+}
+void MainWindow::openCleverURI(CleverURI* uri)
+{
+    MediaContainer* tmp=NULL;
+    switch(uri->getType())
+    {
+    case CleverURI::MAP:
+        tmp = new MapFrame();
+        break;
+    case CleverURI::PICTURE:
+        tmp = new Image();
+        break;
+    case CleverURI::SCENARIO:
+        break;
+    default:
+        break;
+    }
+    if(tmp!=NULL)
+    {
+        tmp->setCleverUri(uri);
+        if(tmp->readFileFromUri())
+        {
+            if(uri->getType()==CleverURI::MAP)
+            {
+                prepareMap((MapFrame*)tmp);
+            }
+            else if(uri->getType()==CleverURI::PICTURE)
+            {
+                prepareImage((Image*)tmp);
+            }
+            addMediaToMdiArea(tmp);
+            tmp->setVisible(true);
+        }
+    }
+}
+void MainWindow::openContentFromType(CleverURI::ContentType type)
 {
 	MediaContainer* tmp=NULL;
 	switch(type)
@@ -1837,18 +1930,6 @@ void MainWindow::openCleverURI(CleverURI::ContentType type)
 		break;
 	case CleverURI::SCENARIO:
 		break;
-	case CleverURI::TEXT:
-		//tmp = new MinutesEditor(uri);
-		break;
-/*	case CleverURI::CHARACTERSHEET:
-		tmp = new CharacterSheetWindow();
-		break;
-	case CleverURI::PDF:
-		tmp = new PDFViewer();
-		break;
-	case CleverURI::TCHAT:
-	case CleverURI::SONG:
-		break;*/
 	default:
 		break;
 	}

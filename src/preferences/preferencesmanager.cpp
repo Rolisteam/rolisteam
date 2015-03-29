@@ -21,15 +21,21 @@
 #include <QSettings>
 #include <QDir>
 #include <QDebug>
+#include <QMetaType>
 
-
+#include "data/cleveruri.h"
 PreferencesManager::PreferencesManager()
     : m_optionDictionary(NULL)
 {
     m_optionDictionary = new QMap<QString,QVariant>;
     
 
-    
+    qRegisterMetaType<CleverURI>("CleverURI");
+    qRegisterMetaType<CleverUriList>("CleverUriList");
+    qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
+    qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
+
+
     //Default value
     m_optionDictionary->insert("MusicDirectory",QDir::homePath());
     m_optionDictionary->insert("ImageDirectory",QDir::homePath());
@@ -94,6 +100,8 @@ void PreferencesManager::readSettings(QSettings & settings)
 }
 void PreferencesManager::writeSettings(QSettings & settings)
 {
+    qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
+
     settings.beginGroup("rolisteam/preferences");
     settings.setValue("map",*m_optionDictionary);
     settings.endGroup();
