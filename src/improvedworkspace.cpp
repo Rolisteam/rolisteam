@@ -24,7 +24,7 @@
 
 #include "improvedworkspace.h"
 
-#include "map/bipmapwindow.h"
+#include "map/mapframe.h"
 #include "Image.h"
 
 //#include <QTextStream>
@@ -112,6 +112,24 @@ QWidget*  ImprovedWorkspace::addWindow(QWidget* child,QAction* action)
     sub->installEventFilter(this);
     return sub;
 }
+void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
+{
+    if(NULL!=mediac)
+    {
+        addSubWindow(mediac);
+        if(viewMode()==QMdiArea::TabbedView)
+        {
+            mediac->setVisible(true);
+        }
+        mediac->setAttribute(Qt::WA_DeleteOnClose, false);
+        if(NULL!=mediac->widget())
+        {
+            mediac->widget()->setAttribute(Qt::WA_DeleteOnClose, false);
+        }
+        mediac->installEventFilter(this);
+    }
+}
+
 QWidget* ImprovedWorkspace::activeWindow()
 {
     return currentSubWindow();
@@ -125,13 +143,11 @@ void ImprovedWorkspace::setTabbedMode(bool isTabbed)
     if(isTabbed)
     {
         setViewMode(QMdiArea::TabbedView);
-
         //setTabsClosable ( true );
         setTabsMovable ( true );
         setTabPosition(QTabWidget::North);
 
         /// make all subwindows visible.
-
         foreach(QMdiSubWindow* tmp, subWindowList())
         {
             tmp->setVisible(true);
@@ -155,10 +171,10 @@ bool ImprovedWorkspace::eventFilter(QObject *object, QEvent *event)
         QMdiSubWindow* sub = dynamic_cast<QMdiSubWindow*>(object);
         if(NULL!=sub)
         {
-            removeSubWindow(sub);
+            //removeSubWindow(sub);
+            sub->setVisible(false);
             return true;
         }
-
     }
     return QMdiArea::eventFilter(object,event);
 }

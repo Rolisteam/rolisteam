@@ -28,7 +28,7 @@
 
 
 #include "preferences/preferencesmanager.h"
-
+#include "data/mediacontainer.h"
 
 
 /**
@@ -50,6 +50,11 @@ public :
      * @param id
      */
     QMdiSubWindow* getSubWindowFromId(QString id);
+    /**
+     * @brief addComteneurMedia
+     * @param mediac
+     */
+    void addContainerMedia(MediaContainer* mediac);
 
 signals:
     void removedAction(QAction*);
