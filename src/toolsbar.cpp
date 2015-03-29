@@ -460,3 +460,7 @@ int ToolsBar::getCurrentNpcNumber() const
 {
     return m_currentNpcNumber;
 }
+int ToolsBar::getCurrentPenSize()const
+{
+    return m_lineDiameter->getCurrentValue();
+}

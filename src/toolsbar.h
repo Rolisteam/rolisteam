@@ -53,6 +53,7 @@ public :
     QColor getPersonalColor(int numero);
     void updateUi();
     int getCurrentNpcNumber() const;
+    int getCurrentPenSize()const;
 
 
     // Outils selectionnables par l'utilisateur
