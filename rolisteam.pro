@@ -29,11 +29,12 @@ CONFIG += HAVE_SOUND
 #CONFIG += HAVE_NULL
 
 ## Translation
-TRANSLATIONS =  traduction/rolisteam_fr.ts \
-                traduction/rolisteam_de.ts \
-                traduction/rolisteam_it.ts \
-                traduction/rolisteam_es.ts \
-                traduction/rolisteam_fi.ts \
+TRANSLATIONS =  translations/rolisteam_fr.ts \
+                translations/rolisteam_de.ts \
+                translations/rolisteam_it.ts \
+                translations/rolisteam_es.ts \
+                translations/rolisteam_fi.ts \
+                translations/rolisteam_pt_BR.ts \
 
 CODECFORTR = UTF-8
 

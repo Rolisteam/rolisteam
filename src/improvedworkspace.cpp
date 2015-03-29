@@ -55,10 +55,10 @@ void ImprovedWorkspace::updateBackGround()
     m_background.setColor(m_color);
     setBackground(m_background);
 
-    QString fileName = m_preferences->value("PathOfBackgroundImage",":/resources/icones/fond workspace macos.bmp").toString();
+    QString fileName = m_preferences->value("PathOfBackgroundImage",":/resources/icons/workspacebackground.bmp").toString();
     if (!QFile::exists(fileName))
     {
-        fileName = ":/resources/icones/fond workspace macos.bmp";
+        fileName = ":/resources/icons/workspacebackground.bmp";
     }
 
     m_variableSizeBackground = m_variableSizeBackground.scaled(size());

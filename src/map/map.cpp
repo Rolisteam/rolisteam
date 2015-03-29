@@ -159,21 +159,21 @@ Map::Map(QString localPlayerId,QString identCarte, QImage *original, QImage *ave
 void Map::initCursor()
 {
 
-    //InitMousePointer(&G_pointeurTexte, ":/resources/icones/pointeur texte.png", 4, 13); //strange values here
+    //InitMousePointer(&G_pointeurTexte, ":/resources/icons/pointeur texte.png", 4, 13); //strange values here
 
     //G_pointeurDeplacer
-    m_orientCursor  = new QCursor(QPixmap(":/resources/icones/pointeur orienter.png"), 10, 12);
-    m_pipetteCursor   = new QCursor(QPixmap(":/resources/icones/pointeur pipette.png"), 1, 19);
+    m_orientCursor  = new QCursor(QPixmap(":/resources/icons/pointeur orienter.png"), 10, 12);
+    m_pipetteCursor   = new QCursor(QPixmap(":/resources/icons/pointeur pipette.png"), 1, 19);
     //G_pointeurAjouter
     //G_pointeurSupprimer
 
-    m_addCursor= new QCursor(QPixmap(":/resources/icones/pointeur ajouter.png"), 6, 0);
-    m_delCursor = new QCursor(QPixmap(":/resources/icones/pointeur supprimer.png"), 6, 0);
-    m_movCursor= new QCursor(QPixmap(":/resources/icones/pointeur deplacer.png"), 0, 0);
-    m_textCursor= new QCursor(QPixmap(":/resources/icones/pointeur texte.png"), 4, 13);
-    m_pencilCursor = new QCursor(QPixmap(":/resources/icones/pointeur dessin.png"), 8, 8);
+    m_addCursor= new QCursor(QPixmap(":/resources/icons/pointeur ajouter.png"), 6, 0);
+    m_delCursor = new QCursor(QPixmap(":/resources/icons/pointeur supprimer.png"), 6, 0);
+    m_movCursor= new QCursor(QPixmap(":/resources/icons/pointeur deplacer.png"), 0, 0);
+    m_textCursor= new QCursor(QPixmap(":/resources/icons/pointeur texte.png"), 4, 13);
+    m_pencilCursor = new QCursor(QPixmap(":/resources/icons/pointeur dessin.png"), 8, 8);
 
-    m_stateCursor = new QCursor(QPixmap(":/resources/icones/pointeur etat.png"), 0, 0);
+    m_stateCursor = new QCursor(QPixmap(":/resources/icons/pointeur etat.png"), 0, 0);
 
 
 }

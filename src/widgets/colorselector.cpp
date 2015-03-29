@@ -152,7 +152,7 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_eraseColor->setLineWidth(0);
     m_eraseColor->setMidLineWidth(1);
     m_eraseColor->setFixedHeight(15);
-    m_pixelErase = new QPixmap(":/resources/icones/efface.png");
+    m_pixelErase = new QPixmap(":/resources/icons/erase.png");
     m_eraseColor->setPixmap(*m_pixelErase);
     m_eraseColor->setScaledContents(true);
     m_eraseColor->setToolTip(tr("Erase"));
@@ -166,7 +166,7 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_maskColor->setLineWidth(0);
     m_maskColor->setMidLineWidth(1);
     m_maskColor->setFixedHeight(15);
-    m_maskPixel = new QPixmap(":/resources/icones/masque.png");
+    m_maskPixel = new QPixmap(":/resources/icons/hide.png");
     m_maskColor->setPixmap(*m_maskPixel);
     m_maskColor->setScaledContents(true);
     m_maskColor->setPalette(QPalette(Qt::white));
@@ -179,7 +179,7 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_unveilColor->setLineWidth(0);
     m_unveilColor->setMidLineWidth(1);
     m_unveilColor->setFixedHeight(15);
-    m_unveilPixel = new QPixmap(":/resources/icones/demasque.png");
+    m_unveilPixel = new QPixmap(":/resources/icons/showMap.png");
     m_unveilColor->setPixmap(*m_unveilPixel);
     m_unveilColor->setScaledContents(true);
     m_unveilColor->setPalette(QPalette(Qt::white));

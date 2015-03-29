@@ -145,7 +145,7 @@ void ChatWindow::setupUi()
     QToolBar * toolBar = new QToolBar();
     //toolBar->setOrientation(Qt::Horizontal);
     toolBar->addWidget(m_selectPersonComboBox);
-    toolBar->addAction(QIcon::fromTheme("document-save", QIcon(":/resources/icones/save.png")),tr("save"), this, SLOT(save()));
+    toolBar->addAction(QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")),tr("save"), this, SLOT(save()));
 
     // SelectPersonComboBox
 
@@ -156,7 +156,7 @@ void ChatWindow::setupUi()
 
 
 
-    //m_save = new QPushButton(QIcon::fromTheme("document-save", QIcon(":/resources/icones/save.png")),tr("save"),this);
+    //m_save = new QPushButton(QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")),tr("save"),this);
 
 
 

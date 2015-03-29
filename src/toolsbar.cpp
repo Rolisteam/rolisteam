@@ -85,21 +85,21 @@ void ToolsBar::createActions()
 	QActionGroup *groupOutils = new QActionGroup(this);
 
 	// Creation des actions
-	m_pencilAct				= new QAction(QIcon(":/resources/icones/crayon.png"), tr("Pen"), groupOutils);
-	m_lineAct				= new QAction(QIcon(":/resources/icones/ligne.png"), tr("Line"), groupOutils);
-	m_rectAct				= new QAction(QIcon(":/resources/icones/rectangle vide.png"), tr("Empty Rectangle"), groupOutils);
-	m_filledRectAct			= new QAction(QIcon(":/resources/icones/rectangle plein.png"), tr("filled Rectangle"), groupOutils);
-	m_ellipseAct			= new QAction(QIcon(":/resources/icones/ellipse vide.png"), tr("Empty Ellipse"), groupOutils);
-	m_filledEllipseAct		= new QAction(QIcon(":/resources/icones/ellipse pleine.png"), tr("Filled Ellipse"), groupOutils);
-	m_textAct				= new QAction(QIcon(":/textevignette"), tr("Text"), groupOutils);
-	m_handAct				= new QAction(QIcon(":/resources/icones/main.png"), tr("Move"), groupOutils);
-	m_addNpcAct				= new QAction(QIcon("://resources/icones/add.png"), tr("Add NPC"), groupOutils);
-	m_delNpcAct				= new QAction(QIcon("://resources/icones/remove.png"), tr("Remove NPC"), groupOutils);
-	m_moveCharacterAct		= new QAction(QIcon(":/resources/icones/deplacer PNJ.png"), tr("Move/Turn Character"), groupOutils);
-	m_changeCharacterState	= new QAction(QIcon(":/resources/icones/etat.png"), tr("Change Character's State"), groupOutils);
+    m_pencilAct				= new QAction(QIcon(":/resources/icons/pen.png"), tr("Pen"), groupOutils);
+    m_lineAct				= new QAction(QIcon(":/resources/icons/line.png"), tr("Line"), groupOutils);
+    m_rectAct				= new QAction(QIcon(":/resources/icons/emptyrectangle.png"), tr("Empty Rectangle"), groupOutils);
+    m_filledRectAct			= new QAction(QIcon(":/resources/icons/filledrectangle.png"), tr("filled Rectangle"), groupOutils);
+    m_ellipseAct			= new QAction(QIcon(":/resources/icons/emptyellipse.png"), tr("Empty Ellipse"), groupOutils);
+    m_filledEllipseAct		= new QAction(QIcon(":/resources/icons/filledellipse.png"), tr("Filled Ellipse"), groupOutils);
+    m_textAct				= new QAction(QIcon(":/resources/icons/text.png"), tr("Text"), groupOutils);
+    m_handAct				= new QAction(QIcon(":/resources/icons/hand.png"), tr("Move"), groupOutils);
+    m_addNpcAct				= new QAction(QIcon(":/resources/icons/add.png"), tr("Add NPC"), groupOutils);
+    m_delNpcAct				= new QAction(QIcon(":/resources/icons/remove.png"), tr("Remove NPC"), groupOutils);
+    m_moveCharacterAct		= new QAction(QIcon(":/resources/icons/moveNpc.png"), tr("Move/Turn Character"), groupOutils);
+    m_changeCharacterState	= new QAction(QIcon(":/resources/icons/state.png"), tr("Change Character's State"), groupOutils);
 
 	// Action independante : remise a 0 des numeros de PNJ
-	m_resetCountAct	= new QAction(QIcon(":/resources/icones/chronometre.png"), tr("Reset NPC counter"), this);
+	m_resetCountAct	= new QAction(QIcon(":/resources/icons/chronometre.png"), tr("Reset NPC counter"), this);
 
 	// Les actions sont checkable
 	m_pencilAct	->setCheckable(true);

@@ -120,10 +120,10 @@ void PlayerWidget::setupUi()
     m_playAct = new QAction(style()->standardIcon(QStyle::SP_MediaPlay),tr("Play"),this);
     m_pauseAct = new QAction(style()->standardIcon(QStyle::SP_MediaPause),tr("Pause"),this);
     m_stopAct = new QAction(style()->standardIcon(QStyle::SP_MediaStop),tr("Stop"),this);
-    m_uniqueAct = new QAction(QIcon("://resources/icones/playunique.png"),tr("Next"),this);
+    m_uniqueAct = new QAction(QIcon(":/resources/icons/playunique.png"),tr("Next"),this);
     m_uniqueAct->setShortcut(QKeySequence("Ctrl+U"));
     m_uniqueAct->setCheckable(true);
-    m_repeatAct = new QAction(QIcon("://resources/icones/playloop.png"),tr("Previous"),this);
+    m_repeatAct = new QAction(QIcon(":/resources/icons/playloop.png"),tr("Previous"),this);
     m_repeatAct->setCheckable(true);
     m_repeatAct->setShortcut(QKeySequence("Ctrl+R"));
     m_changeDirectoryAct = new QAction(style()->standardIcon(QStyle::SP_DirIcon),tr("Open Directory"),this);
@@ -140,9 +140,9 @@ void PlayerWidget::setupUi()
     m_clearList= new QAction(style()->standardIcon(QStyle::SP_DialogResetButton),tr("Clear"),this);
     m_clearList->setShortcut(QKeySequence("Ctrl+Del"));
 
-    m_addAction 	= new QAction(QIcon("://resources/icones/add.png"),tr("Add Songs"), this);
+    m_addAction 	= new QAction(QIcon(":/resources/icons/add.png"),tr("Add Songs"), this);
     m_addAction->setShortcut(QKeySequence("Ctrl+A"));
-    m_deleteAction	= new QAction(QIcon("://resources/icones/remove.png"),tr("Remove Song"), this);
+    m_deleteAction	= new QAction(QIcon(":/resources/icons/remove.png"),tr("Remove Song"), this);
     m_deleteAction->setShortcut(QKeySequence("Del"));
 
 

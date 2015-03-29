@@ -95,14 +95,12 @@ void PreferencesDialog::load()
 
     //Default Permission
     ui->m_defaultMapModeCombo->setCurrentIndex(m_preferences->value("defaultPermissionMap",0).toInt());
-
-
     ui->m_pictureAdjust->setChecked(m_preferences->value("PictureAdjust",true).toBool());
 
 
     //Background
     ui->m_bgColorPush->setColor(m_preferences->value("BackGroundColor",QColor(191,191,191)).value<QColor>());
-    ui->m_backgroundImage->setPath(m_preferences->value("PathOfBackgroundImage",":/resources/icones/fond workspace macos.bmp").toString());
+    ui->m_backgroundImage->setPath(m_preferences->value("PathOfBackgroundImage",":/resources/icons/workspacebackground.bmp").toString());
     ui->m_backgroundImage->setMode(false);
     ui->m_backgroundImage->setFilter(tr("Images (*.png *.xpm *.jpg *.gif *.bmp)"));
 
@@ -112,7 +110,6 @@ void PreferencesDialog::load()
 
 void PreferencesDialog::save() const
 {
-
     m_preferences->registerValue("MusicDirectoryGM",ui->m_musicDirGM->path());
     m_preferences->registerValue("MusicDirectoryPlayer",ui->m_musicDirPlayer->path());
     m_preferences->registerValue("ImageDirectory",ui->m_pictureDir->path());
@@ -123,18 +120,13 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("MainWindow_MustBeChecked",ui->m_checkUpdate->isChecked());
     m_preferences->registerValue("defaultPermissionMap",ui->m_defaultMapModeCombo->currentIndex());
 
-
     QColor color;
     int opacity=ui->m_opacitySlider->value();
     color.setRgb(opacity,opacity,opacity);
     m_preferences->registerValue("Fog_color", color);
 
-
     m_preferences->registerValue("Mask_color", ui->m_fogColor->color());
-
     m_preferences->registerValue("PictureAdjust",ui->m_pictureAdjust->isChecked());
-
-
 
     //Background
     m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
