@@ -23,6 +23,8 @@
 
 
 #include <QDataStream>
+#include <QFileInfo>
+
 
 /////////////////
 // CleverUri
@@ -63,7 +65,7 @@ QString& CleverURI::getIcon(ContentType type)
     case CleverURI::MAP:
         return m_mapIcon;
         break;
-    case CleverURI::TCHAT:
+    case CleverURI::CHAT:
         return m_chatIcon;
         break;
     case CleverURI::TEXT:
@@ -129,9 +131,16 @@ bool CleverURI::hasChildren() const
 }
 void CleverURI::defineShortName()
 {
-    m_shortname = m_uri.mid(m_uri.lastIndexOf('/')+1);
-}
+    QFileInfo info(m_uri);
 
+    m_shortname = info.baseName();
+}
+const QString CleverURI::getAbsolueDir() const
+{
+    QFileInfo info(m_uri);
+
+    return info.absolutePath();
+}
 const QString& CleverURI::getShortName() const
 {
     return m_shortname;

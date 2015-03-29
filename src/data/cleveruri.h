@@ -41,7 +41,7 @@ public:
     * @brief enum of all available type.
     *
     */
-    enum ContentType {MAP,TCHAT,PICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG
+    enum ContentType {MAP,CHAT,PICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG
               #ifdef WITH_PDF
                       ,PDF
               #endif
@@ -110,6 +110,11 @@ public:
     * @return the path to the icon
     */
     static QString& getIcon(ContentType type);
+    /**
+     * @brief CleverURI::getAbsolueDir
+     * @return
+     */
+    const QString getAbsolueDir() const;
 
 private:
     /**
