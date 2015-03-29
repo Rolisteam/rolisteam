@@ -27,7 +27,7 @@
 #include "network/networklink.h"
 
 #include "map/map.h"
-#include "map/bipmapwindow.h"
+#include "map/mapframe.h"
 #include "network/networkmanager.h"
 #include "map/charactertoken.h"
 #include "Image.h"

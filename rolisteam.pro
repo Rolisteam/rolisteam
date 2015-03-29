@@ -109,7 +109,6 @@ HEADERS += \
     src/network/networkmanager.h \
     src/improvedworkspace.h \
     src/network/networklink.h \
-    src/map/bipmapwindow.h \
     src/map/map.h \
     src/widgets/colorselector.h \
     src/widgets/diameterselector.h \
@@ -119,7 +118,8 @@ HEADERS += \
     src/data/mediacontainer.h \
     src/toolsbar.h \
     src/data/cleveruri.h \
-    src/data/ressourcesnode.h
+    src/data/ressourcesnode.h \
+    src/map/mapframe.h
 
 
 
@@ -162,7 +162,6 @@ SOURCES += \
     src/network/networkmanager.cpp \
     src/improvedworkspace.cpp \
     src/network/networklink.cpp \
-    src/map/bipmapwindow.cpp \
     src/map/map.cpp \
     src/widgets/colorselector.cpp \
     src/widgets/diameterselector.cpp \
@@ -171,7 +170,8 @@ SOURCES += \
     src/data/mediacontainer.cpp \
     src/toolsbar.cpp \
     src/map/charactertoken.cpp \
-    src/data/cleveruri.cpp
+    src/data/cleveruri.cpp \
+    src/map/mapframe.cpp
 #end source
 
 
