@@ -49,6 +49,9 @@ public:
 
     bool eventFilter(QObject * object, QEvent * event);
 
+public slots:
+    void createPrivateChat();
+
 private:
     ChatList * m_chatList;
     PrivateChatDialog * m_privateChatDialog;
@@ -57,7 +60,6 @@ private:
     QListView* m_listView;
 
 private slots:
-    void createPrivateChat();
     void selectAnotherChat(const QModelIndex & index);
     void editChat(const QModelIndex & index);
     void deleteSelectedChat();
