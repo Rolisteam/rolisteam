@@ -390,7 +390,8 @@ bool OOReader::convertList( QTextCursor &cur , QDomElement e  , const int proces
 		cur.setBlockFormat(paraFormat);
 		cur.setCharFormat(spanFor);
 		styleCurrentCount++;  /* count block to all doc */
-		if (convertBlock(cur,firstpara,0)) {
+        if (convertBlock(cur,firstpara,0))
+        {
 			cur.endEditBlock();
 		}
 	}
@@ -398,8 +399,8 @@ bool OOReader::convertList( QTextCursor &cur , QDomElement e  , const int proces
 
 	int lisumm = 1;
 	QTextList *Uls = cur.createList( ulinit );
-	Uls->add( cur.block() );
-	cur.endEditBlock();
+    Uls->add( cur.block() );
+    cur.endEditBlock();
 	return true;
 }
 

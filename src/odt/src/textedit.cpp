@@ -178,20 +178,20 @@ void TextEdit::closeEvent(QCloseEvent *e)
     if (maybeSave())
     {
         e->accept();
-        emit closed(false);
+        emit showed(false);
     }
     else
         e->ignore();
 }
 void TextEdit::showEvent(QShowEvent *e)
 {
-    emit showed();
-    emit closed(true);
+    emit showed(true);
+    QMainWindow::showEvent(e);
 }
 void TextEdit::hideEvent(QHideEvent *e)
 {
-    emit hidden();
-    emit closed(false);
+    emit showed(false);
+    QMainWindow::hideEvent(e);
 }
 
 void TextEdit::setupFileActions()

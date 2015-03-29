@@ -78,11 +78,10 @@ public slots:
     void setCurrentFileName(const QString &fileName);
     void saveFileAsBinary(QDataStream& data );
     void readFromBinary(QDataStream& data);
+    void fileNew();
 
 signals:
-    void closed(bool);
-    void showed();
-    void hidden();
+    void showed(bool);
 
 protected:
     virtual void closeEvent(QCloseEvent *e);
@@ -97,7 +96,6 @@ private:
     bool maybeSave();
 
 private slots:
-    void fileNew();
     void fileOpen();
 
     bool fileSaveAs();
