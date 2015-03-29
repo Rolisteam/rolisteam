@@ -1,0 +1,3 @@
+[submodule "src/dicepraser"]
+	path = src/diceparser
+	url = git@github.com:obiwankennedy/DiceParser.git
