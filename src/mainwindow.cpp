@@ -1119,12 +1119,14 @@ void MainWindow::parseCommandLineArguments(QStringList list)
     QCommandLineOption role(QStringList() << "r"<< "role", tr("Define the <role>: gm or pc"),"role");
     QCommandLineOption reset(QStringList() << "reset-settings", tr("Erase the settings and use the default parameters"));
     QCommandLineOption user(QStringList() << "u"<<"user", tr("Define the <username>"),"username");
+    QCommandLineOption translation(QStringList() << "t"<<"translation", QObject::tr("path to the translation file: <translationfile>"),"translationfile");
 
     parser.addOption(port);
     parser.addOption(hostname);
     parser.addOption(role);
     parser.addOption(reset);
     parser.addOption(user);
+    parser.addOption(translation);
 
     parser.process(list);
 
@@ -1226,9 +1228,6 @@ bool  MainWindow::showConnectionDialog()
     m_audioPlayer->updateUi();
     return result;
 }
-
-
-
 void MainWindow::setupUi()
 {
     // Initialisation de la liste des BipMapWindow, des Image et des Tchat

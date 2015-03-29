@@ -27,10 +27,8 @@
 #include <QTranslator>
 #include <QDateTime>
 #include <QUuid>
-
-
-
-
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 #include <time.h>
 
 #include "network/networkmanager.h"
@@ -38,17 +36,7 @@
 #include "mainwindow.h"
 #include "data/persons.h"
 
-
 #include "variablesGlobales.h"
-
-
-
-
-
-// Identifiant du joueur en local sur la machine
-QString G_idJoueurLocal;
-
-
 
 /**
 * @mainpage Rolisteam Documentation
@@ -99,21 +87,36 @@ int main(int argc, char *argv[])
     #endif
     app.setApplicationVersion(version);
 
-    // Internationalization
-   // QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    //QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
     QString locale = QLocale::system().name();
 
     // Ressources
     QResource::registerResource(init->getApplicationName() + ".rcc");
 
+    QStringList translationCLI;
+    translationCLI << "-t"<<"--translation";
+    QStringList argList = app.arguments();
+    foreach(QString str, translationCLI)
+    {
+        QTranslator*  cliTranslator=NULL;
+        int pos = argList.indexOf(str);
+        if(pos!=-1)
+        {
+            if(argList.size()>pos+1)
+            {
+            cliTranslator = new QTranslator();
+            cliTranslator->load(argList.at(pos+1));
+            app.installTranslator(cliTranslator);
+            }
+        }
+    }
+
     QTranslator rolisteamTranslator;
-    rolisteamTranslator.load(":/traduction/rolisteam_" + locale);
+    rolisteamTranslator.load(":/translations/rolisteam_" + locale);
     app.installTranslator(&rolisteamTranslator);
 
     QTranslator qtTranslator;
-    qtTranslator.load(":/traduction/qt_" + locale);
+    qtTranslator.load(":/translations/qt_" + locale);
     app.installTranslator(&qtTranslator);
 
     // Seeds random generator
@@ -121,15 +124,9 @@ int main(int argc, char *argv[])
     //qDebug("Seed %x", seed);
     qsrand(seed);
 
-    // We need an Uuid for the local player (do we ?)
-    //G_idJoueurLocal = QUuid::createUuid().toString();
-
-
-
-
     // Create the main window
     MainWindow* mainWindow =MainWindow::getInstance();
-	mainWindow->parseCommandLineArguments(app.arguments());
+    mainWindow->parseCommandLineArguments(app.arguments());
 
     mainWindow->setupUi();
     mainWindow->readSettings();
