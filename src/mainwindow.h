@@ -41,11 +41,11 @@
 #include "preferences/preferencesmanager.h"
 #include "services/ipchecker.h"
 
-
-
 #include "network/networkreceiver.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+
+#include "data/mediacontainer.h"
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
@@ -131,12 +131,6 @@ public :
     void removePictureFromId(QString idImage);
 
     /**
-     * @brief enleverCarteDeLaListe
-     * @param idCarte
-     * @return
-     */
-    bool enleverCarteDeLaListe(QString idCarte);
-    /**
      * @brief enleverImageDeLaListe
      * @param idImage
      * @return
@@ -202,6 +196,18 @@ public :
 	 */
     virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
+    /**
+     * @brief prepareMap
+     * @param mapFrame
+     */
+    void prepareMap(MapFrame* mapFrame);
+    /**
+     * @brief addMediaToMdiArea
+     * @param mediac
+     */
+    void addMediaToMdiArea(MediaContainer* mediac );
+
+
 signals:
     void closing();
 
@@ -242,7 +248,7 @@ public slots :
 protected :
     void closeEvent(QCloseEvent *event);
 
-    void addImageToMdiArea(Image *imageFenetre, QString titre);
+    void prepareImage(Image *imageFenetre);
 
 	void processImageMessage(NetworkMessageReader* msg);
     void processMapMessage(NetworkMessageReader* msg);
@@ -261,7 +267,7 @@ private slots :
     void changementFenetreActive(QMdiSubWindow* widget);
     void newMap();
    // void openMap(Map::PermissionMode Permission,QString filepath,QString title,bool masquer = false);
-    void openImage();
+  //  void openImage();
 	//void openMapWizzard();
     void ouvrirScenario();
     void openNote();
@@ -283,6 +289,7 @@ private slots :
 
 
 	void openCleverURI(CleverURI::ContentType type);
+    void newNoteDocument();
 
 
 
@@ -295,7 +302,7 @@ private slots :
 
     /// \brief open the Qt assistant with the rolisteam documentation
     void helpOnLine();
-    bool sauvegarderScenario();
+    bool saveStory();
     bool saveMinutes();
 
     void notifyAboutAddedPlayer(Player * player) const;
@@ -320,18 +327,6 @@ private :
     void saveAllMap(QDataStream &file);
     void saveAllImages(QDataStream &file);
 
-
-
-    /**
-     * @brief Add a health state to a list
-     *
-     * @param &color QColor reference to use to initialise the state
-     * @param &label QString reference that contain... the label of the state
-     * @param &listHealthState reference to the list
-     * @return Whether or not the windows was successfully hidden.
-     */
-    void AddHealthState(const QColor &color, const QString &label, QList<DessinPerso::etatDeSante> &listHealthState);
-
     /**
      * @brief Initialize a mouse pointer
      *
@@ -352,44 +347,33 @@ private :
 
 	QList <MapFrame *> m_mapWindowList;
     //QList <Image *> listeImage;
-    QList <QMdiSubWindow*> m_pictureList;
-	QMap<MapFrame*,QAction*>* m_mapAction;
+    QList <Image*> m_pictureList;
+    QMap<MediaContainer*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
     AudioPlayer* m_audioPlayer;
 #endif
 
     PreferencesDialog * m_preferencesDialog;
 	PreferencesManager* m_preferences;
-
     ChatListWidget * m_chatListWidget;
-
-
     UpdateChecker* m_updateChecker;
 
     QString m_version;
     QDockWidget* m_dockLogUtil;
-
 	NetworkManager* m_networkManager;
-
     QTextEdit* m_notifierDisplay;
-
     TextEdit* m_noteEditor;
-
     PlayersList* m_playerList;
 	//QMenuBar* m_menuBar;
-
     /// @brief get the server IP.
     IpChecker* m_ipChecker;
-
     //subwindow
     QMdiSubWindow* m_noteEditorSub;
     QProgressBar* m_downLoadProgressbar;
     bool m_shownProgress;
     QString m_localPlayerId;
 	bool m_resetSettings;
-
     Ui::MainWindow* m_ui;
-
 //filters
 	QString m_supportedImage;
 	QString m_supportedCharacterSheet;

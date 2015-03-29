@@ -250,6 +250,9 @@
    <property name="text">
     <string>Map</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="m_newChatAction">
    <property name="icon">
@@ -277,6 +280,9 @@
    <property name="text">
     <string>Map</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="m_openPictureAction">
    <property name="icon">
@@ -285,6 +291,9 @@
    </property>
    <property name="text">
     <string>Picture</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
   <action name="m_openNoteAction">
