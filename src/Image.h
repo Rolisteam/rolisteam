@@ -54,12 +54,13 @@ class QShortcut;
 /**
  * @brief The Image class
  */
-class Image : public QScrollArea, public MediaContainer
+class Image : public MediaContainer
 {
 Q_OBJECT
 
 public :
-    Image(QString title, QString identImage, QString identJoueur, QImage *image, QAction *action = 0, ImprovedWorkspace *parent = 0);
+    //Image(QString title, QString identImage, QString identJoueur, QImage *image, QAction *action = 0, ImprovedWorkspace *parent = 0);
+    Image(ImprovedWorkspace* parent = NULL);
     ~Image();
     void setInternalAction(QAction *action);
     QAction* getAssociatedAction() const;
@@ -70,11 +71,13 @@ public :
     bool isImageOwner(QString id);
     QString getImageId();
     void setParent(ImprovedWorkspace *parent);
-    QString getImageTitle();
-    void setImageTitle(QString title);
-
+    void setImage(QImage& img);
+    void setIdImage(QString);
+    void setIdOwner(QString);
+    void setAction(QAction*);
 
 	virtual bool readFileFromUri();
+    virtual void openMedia();
 
 
 
@@ -96,8 +99,6 @@ protected:
     void resizeEvent(QResizeEvent *event);
 
    // void closeEvent(QCloseEvent *event);
-    void hideEvent(QHideEvent* event);
-    void showEvent(QShowEvent* event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
@@ -149,14 +150,10 @@ private :
     */
     void fitWorkSpace();
     void createActions();
-
-
-
+    void initImage();
 private :
-    QString m_title;
     QString m_idImage;
     QString m_idPlayer;
-    QAction* m_internalAction;
     QLabel* m_imageLabel;
     QPoint m_startingPoint;
     int m_horizontalStart;
@@ -164,7 +161,6 @@ private :
     bool m_allowedMove;
     double m_zoomLevel;
     ImprovedWorkspace* m_parent;
-    PreferencesManager* m_prefManager;
 
     QSize m_NormalSize;
     QSize m_windowSize;
@@ -197,6 +193,8 @@ private :
     double m_ratioImageBis;
 
     ToolsBar::SelectableTool m_currentTool;
+
+    QScrollArea* m_widgetArea;
 
 };
 
