@@ -48,6 +48,7 @@ public :
    */
     DiameterSelector(QWidget *parent = 0, bool plein = true, int minimum = 1, int maximum = 50);
     void changerDiametre(int nouvelleValeur);
+    int getCurrentValue()const ;
 
 signals:
 	/**

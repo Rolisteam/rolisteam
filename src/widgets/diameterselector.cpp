@@ -91,3 +91,7 @@ void DiameterSelector::changerDiametre(int valeur)
 
 	m_diameterSlider->setValue(valeur);
 }
+int DiameterSelector::getCurrentValue()const
+{
+    return m_diameterSlider->value();
+}
