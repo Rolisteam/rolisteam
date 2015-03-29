@@ -30,10 +30,10 @@
 // CleverUri
 /////////////////
 QString CleverURI::m_textIcon=QString(":/resources/icons/notes.png");
-QString CleverURI::m_mapIcon=QString(":/resources/icons/map.png");
-QString CleverURI::m_pictureIcon=QString(":/resources/icons/image.png");
+QString CleverURI::m_mapIcon=QString(":/map.png");
+QString CleverURI::m_pictureIcon=QString(":/picture.png");
 QString CleverURI::m_charactersheetIcon=QString(":/resources/icons/treeview.png");
-QString CleverURI::m_scenarioIcon=QString(":/resources/icons/scenario.png");
+QString CleverURI::m_scenarioIcon=QString(":/story.png");
 QString CleverURI::m_chatIcon=QString(":/resources/icons/scenario.png");
 QString CleverURI::m_musicIcon=QString(":/resources/icons/music.svg");
 #ifdef WITH_PDF
@@ -52,9 +52,9 @@ CleverURI::CleverURI(const CleverURI & mp)
     m_uri=mp.getUri();
     defineShortName();
 }
-QString& CleverURI::getIcon(ContentType type)
+QString& CleverURI::getIcon()
 {
-    switch(type)
+    switch(m_type)
     {
     case CleverURI::CHARACTERSHEET:
         return m_charactersheetIcon;

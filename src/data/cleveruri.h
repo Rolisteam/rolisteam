@@ -109,7 +109,7 @@ public:
     * @param type of the content
     * @return the path to the icon
     */
-    static QString& getIcon(ContentType type);
+    QString& getIcon();
     /**
      * @brief CleverURI::getAbsolueDir
      * @return
@@ -148,5 +148,6 @@ private:
 typedef QList<CleverURI> CleverUriList;
 Q_DECLARE_METATYPE(CleverURI)
 Q_DECLARE_METATYPE(CleverUriList)
+
 
 #endif // CLEVERURI_H
