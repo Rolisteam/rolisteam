@@ -285,7 +285,7 @@ void ColorSelector::userMousePress(QPoint positionSouris, bool move)
 
 		// Recuperation des couleurs personnelles
 		#ifdef WIN32
-			majCouleursPersonnelles();
+            updatePersonalColor();
 		#endif
 		return;
 	}
