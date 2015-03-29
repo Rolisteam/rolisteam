@@ -22,7 +22,7 @@
  *************************************************************************/
 
 
-#include "map/bipmapwindow.h"
+#include "map/mapframe.h"
 #include "userlist/playersList.h"
 #include "data/persons.h"
 #include "map/newemptymapdialog.h"
@@ -38,35 +38,35 @@
 #include <QImage>
 
 MapFrame::MapFrame(Map* map, QWidget *parent)
-	: QScrollArea(parent),m_map(map)
+    : MediaContainer(parent),m_map(map)
 {
-	setObjectName("BipMapWindow");
+    setObjectName("MapFrame");
+    m_widgetArea = new QScrollArea(this);
     setWindowIcon(QIcon(":/map.png"));
     setFocusPolicy(Qt::StrongFocus);
-    setAlignment(Qt::AlignCenter);
+    m_widgetArea->setAlignment(Qt::AlignCenter);
 
 	m_mapWizzard = new MapWizzard(this);
 
-	m_preferences = PreferencesManager::getInstance();
-
 	initMap();
 
+    setWidget(m_widgetArea);
 
 }
 
 
 MapFrame::~MapFrame()
 {
-    //no need to delete, actionAssociee it is delete when qmenu is deleted
-    //m_mainWindow->enleverCarteDeLaListe(carteAssociee->identifiantCarte());
+
 }
 void MapFrame::initMap()
 {
 	if(NULL!=m_map)
 	{
+        setTitle(m_title);
 		m_originalSize = m_map->size();
-		setWidget(m_map);
-		setViewportMargins(0,0,0,0);
+        m_widgetArea->setWidget(m_map);
+        //m_widgetArea->setViewportMargins(0,0,0,0);
 
 		resize(m_map->width()+4, m_map->height()+4);
 
@@ -76,18 +76,6 @@ void MapFrame::initMap()
 				this, SLOT(deplacer(QPoint)));
 	}
 }
-
-void MapFrame::hideEvent ( QHideEvent * event )
-{
-    emit visibleChanged(false);
-    QScrollArea::hideEvent(event);
-}
-void MapFrame::showEvent ( QShowEvent * event )
-{
-    emit visibleChanged(true);
-   QScrollArea::showEvent(event);
-}
-
 Map* MapFrame::getMap()
 {
 	return m_map;
@@ -101,15 +89,15 @@ void MapFrame::setMap(Map* map)
 void MapFrame::commencerDeplacement(QPoint position)
 {
     pointDepart = position;
-    horizontalDepart = horizontalScrollBar()->value();
-    verticalDepart = verticalScrollBar()->value();
+    horizontalDepart = m_widgetArea->horizontalScrollBar()->value();
+    verticalDepart = m_widgetArea->verticalScrollBar()->value();
 }
 
 void MapFrame::deplacer(QPoint position)
 {
     QPoint diff = pointDepart - position;
-    horizontalScrollBar()->setValue(horizontalDepart + diff.x());
-    verticalScrollBar()->setValue(verticalDepart + diff.y());
+    m_widgetArea->horizontalScrollBar()->setValue(horizontalDepart + diff.x());
+    m_widgetArea->verticalScrollBar()->setValue(verticalDepart + diff.y());
 }
 QString MapFrame::getMapId()
 {
@@ -128,7 +116,7 @@ void MapFrame::focusInEvent(QFocusEvent * event)
 {
 	emit activated(m_map);
 
-    QWidget::focusInEvent(event);
+    MediaContainer::focusInEvent(event);
 }
 void MapFrame::openMedia()
 {
@@ -155,11 +143,11 @@ bool MapFrame::readFileFromUri()
 		QFile file(filepath);
 		if (!file.open(QIODevice::ReadOnly))
 		{
-			error(tr("Unsupported file format"));
+            error(tr("Unsupported file format"),this);
 			return false;
 		}
 		QDataStream in(&file);
-		if(!readMapAndNpc(in, hidden, m_title))
+        if(!readMapAndNpc(in, hidden))
 		{
 			return false;
 		}
@@ -170,7 +158,7 @@ bool MapFrame::readFileFromUri()
 		QImage image(filepath);
 		if (image.isNull())
 		{
-			error(tr("Unsupported file format"));
+            error(tr("Unsupported file format"),this);
 			return false;
 		}
 		// Creation de l'identifiant
@@ -178,8 +166,6 @@ bool MapFrame::readFileFromUri()
 		// Creation de la carte
 		m_map = new Map(m_localPlayerId,idMap, &image, hidden);
 		m_map->setPermissionMode(Permission);
-		//m_map->setPointeur(m_toolBar->getCurrentTool());
-
 
 		//addMap(bipMapWindow, title);
 
@@ -188,7 +174,7 @@ bool MapFrame::readFileFromUri()
 		bool ok = image.save(&buffer, "jpeg", 60);
 		if (!ok)
 		{
-			error(tr("Compressing image goes wrong (ouvrirPlan - MainWindow.cpp)"));
+            error(tr("Compressing image goes wrong (ouvrirPlan - MainWindow.cpp)"),this);
 			return false;
 		}
 
@@ -205,10 +191,9 @@ bool MapFrame::readFileFromUri()
 	initMap();
 	return true;
 }
-bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden, QString nomFichier)
+bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 {
-	QString titre;
-	in >> titre;
+    in >> m_title;
 
 	QPoint pos;
 	in >>pos;
@@ -244,7 +229,7 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden, QString nomFichier)
 	ok = fondOriginal.loadFromData(baFondOriginal, "jpeg");
 	if (!ok)
 	{
-		error(tr("Extract original background information Failed (readMapAndNpc - bipmapwindow.cpp)"));
+        error(tr("Extract original background information Failed (readMapAndNpc - bipmapwindow.cpp)"),this);
 		return false;
 	}
 
@@ -252,7 +237,7 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden, QString nomFichier)
 	ok = fond.loadFromData(baFond, "jpeg");
 	if (!ok)
 	{
-		error(tr("Extract background information Failed (readMapAndNpc - bipmapwindow.cpp)"));
+        error(tr("Extract background information Failed (readMapAndNpc - bipmapwindow.cpp)"),this);
 		return false;
 	}
 
@@ -260,7 +245,7 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden, QString nomFichier)
 	ok = alpha.loadFromData(baAlpha, "jpeg");
 	if (!ok)
 	{
-		error(tr("Extract alpha layer information Failed (readMapAndNpc - bipmapwindow.cpp)"));
+        error(tr("Extract alpha layer information Failed (readMapAndNpc - bipmapwindow.cpp)"),this);
 		return false;
 	}
 
@@ -277,16 +262,9 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden, QString nomFichier)
 	m_map->setPermissionMode(myPermission);
 	//m_map->setPointeur(m_toolBar->getCurrentTool());
 
-
+    initMap();
 	QPoint pos2 = mapFromParent(pos);
 
-	/*QMdiSubWindow* m_widget=NULL;
-	if (nomFichier.isEmpty())
-		m_widget=static_cast<QMdiSubWindow*>(addMap(bipMapWindow, titre,size,pos));
-	else
-		m_widget=static_cast<QMdiSubWindow*>(addMap(bipMapWindow, nomFichier,size,pos));*/
-
-	// On recupere le nombre de personnages presents dans le message
 	quint16 nbrPersonnages;
 	in >>  nbrPersonnages;
 
@@ -346,20 +324,7 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden, QString nomFichier)
 
 	return true;
 }
-void MapFrame::error(QString err)
-{
-	QMessageBox msgBox(this);
-	msgBox.addButton(QMessageBox::Cancel);
-	msgBox.setIcon(QMessageBox::Critical);
-	msgBox.setWindowTitle(tr("Loading error"));
-	msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
 
-	Qt::WindowFlags flags = msgBox.windowFlags();
-	msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
-
-	msgBox.setText(err);
-	msgBox.exec();
-}
 bool MapFrame::createMap()
 {
     NewEmptyMapDialog mapDialog;
@@ -372,9 +337,9 @@ bool MapFrame::createMap()
 
         m_map = new Map(m_localPlayerId,idMap, &image);
         m_map->setPermissionMode(mapDialog.getPermission());
-        //m_map->setPointeur(m_toolBar->getCurrentTool());
 
         m_title = mapDialog.getTitle();
+        setTitle(m_title);
         QColor color = mapDialog.getColor();
         quint16 width = mapDialog.getSize().width();
         quint16 height = mapDialog.getSize().height();
@@ -398,6 +363,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg)
 {
     m_title = msg->string16();
     QString idMap = msg->string8();
+    setTitle(m_title);
 
     if(msg->action() == NetMsg::AddEmptyMap)
     {
@@ -427,7 +393,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg)
          QImage image;
         if (! image.loadFromData(mapData, "jpeg"))
         {
-            error(tr("Compression Error (processMapMessage - NetworkLink.cpp)"));
+            error(tr("Compression Error (processMapMessage - NetworkLink.cpp)"),this);
             return false;
         }
         m_map= new Map(m_localPlayerId,idMap, &image, maskPlan);
@@ -447,21 +413,21 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg)
         QImage originalBackgroundImage;
         if (!originalBackgroundImage.loadFromData(originBackground, "jpeg"))
         {
-            error(tr("Extract original background information Failed (processMapMessage - mainwindow.cpp)"));
+            error(tr("Extract original background information Failed (processMapMessage - mainwindow.cpp)"),this);
             return false;
         }
         // Creation de l'image de fond
         QImage backgroundImage;
         if (!backgroundImage.loadFromData(background, "jpeg"))
         {
-            error(tr("Extract background information Failed (processMapMessage - mainwindow.cpp)"));
+            error(tr("Extract background information Failed (processMapMessage - mainwindow.cpp)"),this);
             return false;
         }
         // Creation de la couche alpha
         QImage alphaImage;
         if (!alphaImage.loadFromData(bgAlpha, "jpeg"))
         {
-            error(tr("Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)"));
+            error(tr("Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)"),this);
             return false;
         }
         m_map = new Map(m_localPlayerId,idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);

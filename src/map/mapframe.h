@@ -41,7 +41,7 @@ class Map;
 /**
  * @brief The BipMapWindow class - is the scroll area which manages the display of map.
  */
-class MapFrame : public QScrollArea, public MediaContainer
+class MapFrame : /*public QScrollArea,*/ public MediaContainer
 {
 Q_OBJECT
 
@@ -71,12 +71,6 @@ public :
      */
     QString getMapId();
 
-    /**
-     * @brief getAssociatedAction
-     * @return
-     */
-    QAction* getAssociatedAction() const;
-
 	/**
 	 * @brief setCleverUri
 	 * @param uri
@@ -91,7 +85,20 @@ public :
      * @return
      */
     bool createMap();
+    /**
+     * @brief processMapMessage
+     * @param msg
+     * @return
+     */
     bool processMapMessage(NetworkMessageReader* msg);
+    /**
+     * @brief readMapAndNpc
+     * @param in
+     * @param hidden
+     * @param nomFichier
+     * @return
+     */
+    bool readMapAndNpc(QDataStream &in, bool hidden=false);
 
 
 signals:
@@ -100,10 +107,7 @@ signals:
      * @param carte
      */
 	void activated(Map * getMap);
-    /**
-     * @brief visibleChanged
-     */
-    void visibleChanged(bool);
+
     /**
      * @brief notifyUser
      * @param str
@@ -129,36 +133,10 @@ protected :
      * @param event
      */
     void focusInEvent(QFocusEvent * event);
-
-    /**
-     * @brief hideEvent
-     * @param event
-     */
-    void hideEvent ( QHideEvent * event );
-    /**
-     * @brief showEvent
-     * @param event
-     */
-    void showEvent ( QShowEvent * event );
-
 	/**
 	 * @brief initMap
 	 */
 	void initMap();
-
-	/**
-	 * @brief error
-	 * @param err - error message to display
-	 */
-	void error(QString err);
-	/**
-	 * @brief readMapAndNpc
-	 * @param in
-	 * @param hidden
-	 * @param nomFichier
-	 * @return
-	 */
-	bool readMapAndNpc(QDataStream &in, bool hidden, QString fileName);
 
 private :
 	Map* m_map;
@@ -167,9 +145,7 @@ private :
     int verticalDepart;
     QSize m_originalSize;
 	MapWizzard* m_mapWizzard;
-	PreferencesManager* m_preferences;
-
-    //NewEmptyMapDialog* m_newEmptyMapDialog;/// @brief dialog to create new map.
+    QScrollArea* m_widgetArea;
 };
 
 #endif
