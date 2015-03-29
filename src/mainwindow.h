@@ -87,10 +87,10 @@ public :
      * @return
      */
     static MainWindow* getInstance();
-    /**
-     * @brief majCouleursPersonnelles
-     */
-    void majCouleursPersonnelles();
+//    /**
+//     * @brief majCouleursPersonnelles
+//     */
+//    void majCouleursPersonnelles();
 
     /**
      * @brief addMap
@@ -115,7 +115,7 @@ public :
      * @param idCarte
      * @return
      */
-    Map *trouverCarte(QString idCarte);
+    Map *findMapById(QString idCarte);
     /**
      * @brief removeMapFromId
      * @param idCarte
@@ -165,16 +165,7 @@ public :
      * @brief writeSettings
      */
     void writeSettings();
-    /**
-     * @brief notifyUser
-     * @param msg
-     */
-    static void notifyUser(QString msg);
-    /**
-     * @brief notifyUser_p
-     * @param msg
-     */
-    void notifyUser_p(QString msg);
+
 
     /**
      * @brief setUpNetworkConnection
@@ -207,11 +198,15 @@ public :
      */
     void addMediaToMdiArea(MediaContainer* mediac );
 
-
 signals:
     void closing();
 
 public slots :
+    /**
+     * @brief notifyUser
+     * @param msg
+     */
+    void notifyUser(QString msg) const;
     /**
 	 * @brief displayMinutesEditor
      * @param afficher
@@ -239,7 +234,6 @@ public slots :
      * @brief updateWindowTitle
      */
     void updateWindowTitle();
-
     /**
      * @brief closeAllImagesAndMap - remove all maps and Pictures
      */
@@ -247,9 +241,7 @@ public slots :
 
 protected :
     void closeEvent(QCloseEvent *event);
-
     void prepareImage(Image *imageFenetre);
-
 	void processImageMessage(NetworkMessageReader* msg);
     void processMapMessage(NetworkMessageReader* msg);
     void processNpcMessage(NetworkMessageReader* msg);
@@ -258,9 +250,7 @@ protected :
     void processConnectionMessage(NetworkMessageReader* msg);
     void processCharacterPlayerMessage(NetworkMessageReader* msg);
     void extractCharacter(Map* map,NetworkMessageReader* msg);
-
     CleverURI* contentToPath(CleverURI::ContentType type,bool save);
-
 
 private slots :
     void changementNatureUtilisateur();
@@ -282,12 +272,9 @@ private slots :
     void closeConnection();
     void startReconnection();
     void networkStateChanged(bool state);
-
     void openContentFromType(CleverURI::ContentType type);
     void openCleverURI(CleverURI* uri);
     void newNoteDocument();
-
-
     void setLatestFile(CleverURI* fileName);
     void updateRecentFileActions();
     void openRecentFile();
@@ -302,7 +289,6 @@ private slots :
     void helpOnLine();
     bool saveStory();
     bool saveMinutes();
-
     void notifyAboutAddedPlayer(Player * player) const;
     void notifyAboutDeletedPlayer(Player * player) const;
 
@@ -311,8 +297,6 @@ private slots :
      * @param ip
      */
     void showIp(QString ip);
-
-
 
 private :
     MainWindow();
@@ -324,27 +308,13 @@ private :
     void readImageFromStream(QDataStream &file);
     void saveAllMap(QDataStream &file);
     void saveAllImages(QDataStream &file);
-
-    /**
-     * @brief Initialize a mouse pointer
-     *
-     * @param *pointer QCursor pointer to the cursor to initialise
-     * @param iconFileName Filename of the icon to use
-     * @param hotX same as in QCursor's constructor
-     * @param hotY same as in QCursor's constructor
-     * @return Whether or not the windows was successfully hidden.
-     */
-    void InitMousePointer(QCursor **pointer, const QString &iconFileName, const int hotX, const int hotY);
-
     /**
      * @brief workspace
      */
 	ImprovedWorkspace* m_mdiArea;
     PlayersListWidget * m_playersListWidget;
 	ToolsBar* m_toolBar;
-
-	QList <MapFrame *> m_mapWindowList;
-    //QList <Image *> listeImage;
+    QMap<QString,MapFrame *> m_mapWindowMap;
     QList <Image*> m_pictureList;
     QMap<MediaContainer*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   

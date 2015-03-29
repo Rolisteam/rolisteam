@@ -30,21 +30,10 @@
 
 #include "initialisation.h"
 #include "network/networklink.h"
-#include "mainwindow.h"
 #include "data/persons.h"
 #include "audio/audioPlayer.h"
 
-
-
-
-// True si l'utilisateur est un joueur, false s'il est MJ
-//bool G_joueur;
-
-
 #define second 1000
-/********************
- * Global functions *
- ********************/
 
 void emettre(char *donnees, quint32 taille, NetworkLink *sauf)
 {
@@ -57,7 +46,6 @@ void emettre(char *donnees, quint32 taille, NetworkLink *sauf)
 /*****************
  * NetworkManager *
  *****************/
-
 NetworkManager::NetworkManager(QString localPlayerId)
     : QObject(), m_server(NULL),m_NetworkLinkToServer(NULL),m_disconnectAsked(false),m_connectionState(false),m_localPlayer(NULL),m_audioPlayer(NULL),m_localPlayerId(localPlayerId)
 {
@@ -68,9 +56,6 @@ NetworkManager::NetworkManager(QString localPlayerId)
     m_dialog = new ConnectionRetryDialog();
     connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
     connect(m_dialog,SIGNAL(rejected()),this,SIGNAL(stopConnectionTry()));
-
-
-
 }
 
 
@@ -234,7 +219,7 @@ bool  NetworkManager::startListening()
     }
     if (m_server->listen(QHostAddress::Any, m_configDialog->getPort()))
     {
-        MainWindow::notifyUser(tr("Server is on."));
+        emit notifyUser(tr("Server is on."));
         connect(this, SIGNAL(linkDeleted(NetworkLink *)), m_playersList, SLOT(delPlayerWithLink(NetworkLink *)));
         return true;
     }
@@ -276,8 +261,6 @@ bool NetworkManager::startConnectionToServer()
         {
             return false;
         }
-
-
 }
 
 void NetworkManager::emettreDonnees(char *donnees, quint32 taille, NetworkLink *sauf)
@@ -331,7 +314,7 @@ void NetworkManager::finDeNetworkLink(NetworkLink * link)
         if(link==m_NetworkLinkToServer)
         {
             setConnectionState(false);
-            MainWindow::notifyUser(tr("Connection with the Remote Server has been lost."));
+            emit notifyUser(tr("Connection with the Remote Server has been lost."));
             m_NetworkLinkToServer = NULL;
             m_playersList->cleanListButLocal();
         }
@@ -366,7 +349,7 @@ void NetworkManager::disconnectAndClose()
     if (m_configDialog->isServer())
     {
         m_server->close();
-        MainWindow::notifyUser(tr("Server has been closed."));
+        emit notifyUser(tr("Server has been closed."));
         m_playersList->cleanListButLocal();
         foreach(NetworkLink * tmp,NetworkLinks)
         {
@@ -377,7 +360,7 @@ void NetworkManager::disconnectAndClose()
     else
     {
         m_NetworkLinkToServer->disconnectAndClose();
-        MainWindow::notifyUser(tr("Connection to the server has been closed."));
+        emit notifyUser(tr("Connection to the server has been closed."));
         m_playersList->cleanListButLocal();
         delete m_NetworkLinkToServer;
         m_NetworkLinkToServer=NULL;

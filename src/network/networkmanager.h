@@ -90,16 +90,10 @@ public :
      * @return
      */
     bool isConnected() const;
-
     NetworkLink* getLinkToServer();
-
     quint16 getPort() const;
-
     void setAudioPlayer(AudioPlayer*);
-
     void setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue);
-
-
 public slots:
     void disconnectAndClose();
     /**
@@ -114,12 +108,9 @@ signals :
     void linkAdded(NetworkLink * link);
     void linkDeleted(NetworkLink * link);
     void dataReceived(quint64,quint64);
-
-
     void stopConnectionTry();
-
     void connectionStateChanged(bool);
-
+    void notifyUser(QString);
 
 private slots :
     void nouveauClientConnecte();
@@ -132,6 +123,7 @@ private :
     void synchronizePreferences();
     void setConnectionState(bool);
 
+private:
     QTcpServer * m_server;
     QList<NetworkLink *> NetworkLinks;
     NetworkLink * m_NetworkLinkToServer;
@@ -143,24 +135,17 @@ private :
     QString  m_localPlayerId;
     bool m_disconnectAsked;
     PreferencesManager* m_preferences;
-
     ConnectionRetryDialog* m_dialog;
     ConnectionConfigDialog* m_configDialog;
-
     PlayersList* m_playersList;
-
     bool m_connectionState;
-
     bool m_isClient;
-
     AudioPlayer* m_audioPlayer;
-
     bool m_commandLineValue;
     QString m_portStr;
     QString m_host;
     QString m_role;
     QString m_username;
-
 };
 
 #endif
