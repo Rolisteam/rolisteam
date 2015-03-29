@@ -2007,7 +2007,7 @@ void Map::saveMap(QDataStream &out, QString titre)
             nombrePnj++;
     }
 
-    // Write NPC
+
     out << nombrePnj;
     for (int i=0; i<tailleListe; i++)
     {
