@@ -36,6 +36,8 @@
 #include "widgets/colorbutton.h"
 #include "chatbrowser.h"
 
+#include "diceparser.h"
+
 //#include "ui_chatwindow.h"
 
 class AbstractChat;
@@ -47,8 +49,7 @@ namespace Ui {
 class ChatWindow;
 }
 /**
- * @brief Fenêtre permettant aux utilisateurs de communiquer entre eux par
- * écrit.
+ * @brief chat window.
  */    
 class ChatWindow : public QWidget
 {
@@ -57,7 +58,6 @@ Q_OBJECT
 public :
     ChatWindow(AbstractChat * chat, MainWindow * parent);
     ~ChatWindow();
-
     AbstractChat * chat() const;
     QAction * toggleViewAction() const;
     void showMessage(const QString &utilisateur, const QColor &couleur,const QString &message, NetMsg::Action msgtype = NetMsg::ChatMessageAction);
@@ -69,55 +69,15 @@ signals:
     void ChatWindowHasChanged(ChatWindow * what);
 
 public slots:
-    //virtual void setVisible(bool visible);
     virtual bool isVisible();
     void save();
     QString getTitleFromChat();
-
     void editionGetFocus();
 
 protected :
     void init(MainWindow * parent);
-
     void showEvent(QShowEvent *event);
     void hideEvent(QHideEvent *event);
-
-    /**
-     * @brief read and remove a number from a string.
-     * \param[in/out] string from wich the number will be read and removed
-     * \param[out] value of the readed number
-     * \return true if no problem occured
-     */
-    bool GetNumber(QString &str, int* value);
-
-private :
-    static QStringList m_keyWordList;
-
-    //Ui::ChatWindow* ui;
-
-    QMdiSubWindow* m_window;
-
-    AbstractChat * m_chat;
-    QString m_filename;
-    bool m_warnedEmoteUnavailable;
-    bool m_hasUnseenMessage;
-    MainWindow* m_mainWindow;
-    QPushButton* m_save;
-
-    PreferencesManager* m_preferences;
-
-    ChatBrowser * m_displayZone;         // Zone de texte ou s'affichent les messages
-    QComboBox * m_selectPersonComboBox;
-    ImprovedTextEdit * m_editionZone;    // Zone de texte ou l'utilisateur peut ecrire
-    QAction * m_toggleViewAction;
-    QSplitter* m_splitter;
-    QWidget * m_bottomWidget;
-
-
-
-    int calculerJetDes(QString &message, QString & tirage, bool &ok);
-    int calculerJetDesSR4(QString &message, QString &tirage, QString &glitch, bool &ok);
-    void setupUi();
 
 private slots :
     void emettreTexte(QString messagehtml,QString message);
@@ -125,6 +85,25 @@ private slots :
     void downSelectPerson();
     void scheduleUpdateChatMembers();
     void updateChatMembers();
+    void setupUi();
+
+private :
+    static QStringList m_keyWordList;
+    QMdiSubWindow* m_window;
+    AbstractChat * m_chat;
+    QString m_filename;
+    bool m_warnedEmoteUnavailable;
+    bool m_hasUnseenMessage;
+    MainWindow* m_mainWindow;
+    QPushButton* m_save;
+    PreferencesManager* m_preferences;
+    ChatBrowser * m_displayZone;
+    QComboBox * m_selectPersonComboBox;
+    ImprovedTextEdit * m_editionZone;
+    QAction * m_toggleViewAction;
+    QSplitter* m_splitter;
+    QWidget * m_bottomWidget;
+    DiceParser* m_diceParser;
 };
 
 #endif
