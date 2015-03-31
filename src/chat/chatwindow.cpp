@@ -194,7 +194,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
         if(m_diceParser->parseLine(tmpmessage))
         {
             m_diceParser->Start();
-            messageCorps = m_diceParser->displayResult();
+            getMessageResult(messageCorps);
             messageTitle = tr("You");
             color = localPerson->color();
             showMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
@@ -283,6 +283,33 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     m_chat->sendThem(data);
 }
 
+void ChatWindow::getMessageResult(QString& str)
+{
+    QString scalarText;
+    QString diceText;
+    bool hasDiceList = false;
+    if(m_diceParser->hasDiceResult())
+    {
+        diceText = tr("%1").arg(m_diceParser->getLastDiceResult());
+        hasDiceList= true;
+    }
+    if(m_diceParser->hasIntegerResultNotInFirst())
+    {
+        scalarText = tr("got %1").arg(m_diceParser->getLastIntegerResult());
+    }
+    else if(hasDiceList)
+    {
+        scalarText = tr("%1").arg(m_diceParser->getSumOfDiceResult());
+    }
+
+    str = tr("got %1, %2").arg(scalarText).arg(diceText);
+
+    if(m_diceParser->hasStringResult())
+    {
+        str = m_diceParser->getStringResult();
+    }
+    str += tr(", you rolled:%1").arg(m_diceParser->getDiceCommand());
+}
 
 QAction * ChatWindow::toggleViewAction() const
 {

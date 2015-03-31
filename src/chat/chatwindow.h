@@ -86,6 +86,7 @@ private slots :
     void scheduleUpdateChatMembers();
     void updateChatMembers();
     void setupUi();
+    void getMessageResult(QString&);
 
 private :
     static QStringList m_keyWordList;
