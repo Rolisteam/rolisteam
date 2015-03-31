@@ -202,7 +202,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
         }
         else
         {
-            messageCorps = tr("!1d6 or !5d10+3 or !2d20-3d10+1d6+5 etc... The dice roll is public (For private roll, use & ).");
+            messageCorps = m_diceParser->humanReadableError();
             messageTitle = tr("Syntax");
             color = Qt::red;
             showMessage(messageTitle, color, messageCorps);
