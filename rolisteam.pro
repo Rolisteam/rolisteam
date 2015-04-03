@@ -121,7 +121,8 @@ HEADERS += \
     src/toolsbar.h \
     src/data/cleveruri.h \
     src/data/ressourcesnode.h \
-    src/map/mapframe.h
+    src/map/mapframe.h \
+    src/preferences/dicealiasmodel.h
 
 
 
@@ -173,7 +174,8 @@ SOURCES += \
     src/toolsbar.cpp \
     src/map/charactertoken.cpp \
     src/data/cleveruri.cpp \
-    src/map/mapframe.cpp
+    src/map/mapframe.cpp \
+    src/preferences/dicealiasmodel.cpp
 #end source
 
 
