@@ -3,10 +3,14 @@
 
 #include <QAbstractListModel>
 
+#include "dicealias.h"
+
+//typedef QPair<QString,QString> DiceAlias;
+
 class DiceAliasModel : public QAbstractListModel
 {
 public:
-    enum COLUMN_TYPE {PATTERN,VALUE};
+    enum COLUMN_TYPE {PATTERN,VALUE,METHOD};
     DiceAliasModel();
     ~DiceAliasModel();
 
@@ -14,10 +18,15 @@ public:
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
 
 
+	///new methods
+    void setAliases(QList<DiceAlias*>* map);
+	void appendAlias();
 private:
-    QMap<QString,QString> m_DiceAliasMap;
+    QList<DiceAlias*>* m_diceAliasList;
     QStringList m_header;
 };
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>626</width>
-    <height>463</height>
+    <height>479</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -318,10 +318,32 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="page">
+       <widget class="QWidget" name="DiceSystem">
         <layout class="QHBoxLayout" name="horizontalLayout_10">
          <item>
-          <widget class="QTableView" name="m_tableViewAlias"/>
+          <widget class="QTableView" name="m_tableViewAlias">
+           <property name="dragEnabled">
+            <bool>true</bool>
+           </property>
+           <property name="dragDropMode">
+            <enum>QAbstractItemView::DragDrop</enum>
+           </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <property name="sortingEnabled">
+            <bool>false</bool>
+           </property>
+           <attribute name="horizontalHeaderStretchLastSection">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+          </widget>
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -384,7 +406,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="Diag">
+       <widget class="QWidget" name="Diagnotic">
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
           <widget class="QTextEdit" name="m_diagDisplay">

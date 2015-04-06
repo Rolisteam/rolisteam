@@ -28,10 +28,12 @@
 #include <QCheckBox>
 
 
+#include "preferences/dicealiasmodel.h"
 #include "preferences/preferencesmanager.h"
 #include "widgets/colorbutton.h"
 
 
+#include "diceparser/diceparser.h"
 
 #include "widgets/filedirchooser.h"
 
@@ -61,10 +63,19 @@ private slots:
      * @brief performDiag start diagnostic and Display some value about current qt version.
      */
     void performDiag();
+	//Management of DiceAliases
+	void addAlias();
+	void delAlias();
+	void upAlias();
+	void downAlias();
+	void moveAliasToTop();
+	void moveAliasToBottum();
 
 private:
     PreferencesManager* m_preferences;
     Ui::PreferencesDialogBox* ui;
+	DiceParser* m_diceParser;
+	DiceAliasModel* m_aliasModel;
 };
 
 #endif

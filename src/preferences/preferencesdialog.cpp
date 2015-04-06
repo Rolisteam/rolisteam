@@ -37,6 +37,7 @@
 #include "ui_preferencesdialogbox.h"
 
 #include "map/newemptymapdialog.h"
+#include "diceparser/diceparser.h"
 
 /*********************
  * PreferencesDialog *
@@ -48,6 +49,13 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     ui->setupUi(this);
 
     ui->m_defaultMapModeCombo->addItems(NewEmptyMapDialog::getPermissionData());
+	m_aliasModel = new DiceAliasModel();
+	m_diceParser = new DiceParser();
+	m_aliasModel->setAliases(m_diceParser->getAliases());
+
+	ui->m_tableViewAlias->setModel(m_aliasModel);
+    QHeaderView* horizontalHeader = ui->m_tableViewAlias->horizontalHeader();
+    horizontalHeader->setSectionResizeMode(DiceAliasModel::VALUE,QHeaderView::Stretch);
 
     m_preferences = PreferencesManager::getInstance();
 
@@ -55,6 +63,8 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_startDiag,SIGNAL(clicked()),this,SLOT(performDiag()));
     //ui->m_fogColor->setTransparency(true);
 
+	//aliases
+	connect(ui->m_addDiceAliasAct,SIGNAL(clicked()),this,SLOT(addAlias()));
     // Misc
     setSizeGripEnabled(true);
     setWindowTitle(QString("%1 - %2").arg(m_preferences->value("Application_Name","rolisteam").toString(),tr("Preferences")));
@@ -154,4 +164,31 @@ void PreferencesDialog::performDiag()
           ui->m_diagDisplay->append(family);
     }
     ui->m_diagDisplay->append(tr("End of Font families:"));
+}
+void PreferencesDialog::addAlias()
+{
+	m_aliasModel->appendAlias();
+}
+
+void PreferencesDialog::delAlias()
+{
+
+}
+void PreferencesDialog::upAlias()
+{
+
+}
+
+void PreferencesDialog::downAlias()
+{
+
+}
+
+void PreferencesDialog::moveAliasToTop()
+{
+
+}
+
+void PreferencesDialog::moveAliasToBottum()
+{
 }
