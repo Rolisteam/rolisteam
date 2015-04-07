@@ -74,10 +74,23 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     m_toggleViewAction->setCheckable(true);
 
     m_diceParser = new DiceParser();
+
 }
 QMdiSubWindow* ChatWindow::getSubWindow()
 {
     return m_window;
+}
+void ChatWindow::updateListAlias()
+{
+    QList<DiceAlias*>* list = m_diceParser->getAliases();
+    int size = m_preferences->value("DiceAliasNumber",0).toInt();
+    for(int i = 0; i < size ; ++i)
+    {
+        QString cmd = m_preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
+        QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
+        bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
+        list->append(new DiceAlias(cmd,value,replace));
+    }
 }
 
 void ChatWindow::setupUi()
@@ -114,7 +127,8 @@ void ChatWindow::setupUi()
     QToolBar * toolBar = new QToolBar();
     //toolBar->setOrientation(Qt::Horizontal);
     toolBar->addWidget(m_selectPersonComboBox);
-    toolBar->addAction(QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")),tr("save"), this, SLOT(save()));
+    QAction* action = toolBar->addAction(QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")),tr("save"), this, SLOT(save()));
+    action->setToolTip(tr("Save all messages from this window in %1/%2.html").arg(m_preferences->value("ChatDirectory",QDir::homePath()).toString(), m_chat->name()));
 
     // SelectPersonComboBox
     scheduleUpdateChatMembers();
@@ -186,6 +200,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     QString messageCorps="";
     QString messageTitle="";
     QColor color;
+    updateListAlias();
 
     switch(tmpmessage[0].toLatin1())
     {
@@ -306,7 +321,7 @@ void ChatWindow::getMessageResult(QString& str)
 
     if(m_diceParser->hasStringResult())
     {
-        str = m_diceParser->getStringResult();
+        str = m_diceParser->getStringResult().replace("\n","<br/>");
     }
     str += tr(", you rolled:%1").arg(m_diceParser->getDiceCommand());
 }

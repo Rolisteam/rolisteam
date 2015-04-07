@@ -56,36 +56,128 @@ class ChatWindow : public QWidget
 Q_OBJECT
 
 public :
+    /**
+     * @brief ChatWindow
+     * @param chat
+     * @param parent
+     */
     ChatWindow(AbstractChat * chat, MainWindow * parent);
-    ~ChatWindow();
+    /**
+     * @brief ~ChatWindow
+     */
+    virtual ~ChatWindow();
+    /**
+     * @brief chat
+     * @return
+     */
     AbstractChat * chat() const;
+    /**
+     * @brief toggleViewAction
+     * @return
+     */
     QAction * toggleViewAction() const;
+    /**
+     * @brief showMessage
+     * @param utilisateur
+     * @param couleur
+     * @param message
+     * @param msgtype
+     */
     void showMessage(const QString &utilisateur, const QColor &couleur,const QString &message, NetMsg::Action msgtype = NetMsg::ChatMessageAction);
+    /**
+     * @brief hasUnseenMessage
+     * @return
+     */
     bool hasUnseenMessage() const;
+    /**
+     * @brief setSubWindow
+     * @param subWindow
+     */
     void setSubWindow(QMdiSubWindow* subWindow);
+    /**
+     * @brief getSubWindow
+     * @return
+     */
     QMdiSubWindow* getSubWindow();
 
 signals:
+    /**
+     * @brief ChatWindowHasChanged
+     * @param what
+     */
     void ChatWindowHasChanged(ChatWindow * what);
 
 public slots:
+    /**
+     * @brief isVisible
+     * @return
+     */
     virtual bool isVisible();
+    /**
+     * @brief save
+     */
     void save();
+    /**
+     * @brief getTitleFromChat
+     * @return
+     */
     QString getTitleFromChat();
+    /**
+     * @brief editionGetFocus
+     */
     void editionGetFocus();
 
 protected :
+    /**
+     * @brief init
+     * @param parent
+     */
     void init(MainWindow * parent);
+    /**
+     * @brief showEvent
+     * @param event
+     */
     void showEvent(QShowEvent *event);
+    /**
+     * @brief hideEvent
+     * @param event
+     */
     void hideEvent(QHideEvent *event);
+    /**
+     * @brief updateListAlias
+     */
+    void updateListAlias();
 
 private slots :
+    /**
+     * @brief emettreTexte
+     * @param messagehtml
+     * @param message
+     */
     void emettreTexte(QString messagehtml,QString message);
+    /**
+     * @brief upSelectPerson
+     */
     void upSelectPerson();
+    /**
+     * @brief downSelectPerson
+     */
     void downSelectPerson();
+    /**
+     * @brief scheduleUpdateChatMembers
+     */
     void scheduleUpdateChatMembers();
+    /**
+     * @brief updateChatMembers
+     */
     void updateChatMembers();
+    /**
+     * @brief setupUi
+     */
     void setupUi();
+    /**
+     * @brief getMessageResult
+     */
     void getMessageResult(QString&);
 
 private :
