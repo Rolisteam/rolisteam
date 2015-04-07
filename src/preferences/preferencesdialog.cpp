@@ -114,8 +114,18 @@ void PreferencesDialog::load()
     ui->m_backgroundImage->setMode(false);
     ui->m_backgroundImage->setFilter(tr("Images (*.png *.xpm *.jpg *.gif *.bmp)"));
 
+    //DiceSystem
+    int size = m_preferences->value("DiceAliasNumber",0).toInt();
+    for(int i = 0; i < size ; ++i)
+    {
+        QString cmd = m_preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
+        QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
+        bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
 
-   // ui->m_transColor->setColor(m_preferences->value("TransparencyColor",QColor(200,200,200,120)).value<QColor>());
+        DiceAlias* tmpAlias = new DiceAlias(cmd,value,replace);
+        m_aliasModel->addAlias(tmpAlias);
+    }
+
 }
 
 void PreferencesDialog::save() const
@@ -141,6 +151,19 @@ void PreferencesDialog::save() const
     //Background
     m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
     m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
+
+    //DiceSystem
+    QList<DiceAlias*>* aliasList = m_aliasModel->getAliases();
+    m_preferences->registerValue("DiceAliasNumber",aliasList->size());
+    for(int i = 0; i < aliasList->size() ; ++i)
+    {
+        DiceAlias* tmpAlias = aliasList->at(i);
+        m_preferences->registerValue(QString("DiceAlias_%1_command").arg(i),tmpAlias->getCommand());
+        m_preferences->registerValue(QString("DiceAlias_%1_value").arg(i),tmpAlias->getValue());
+        m_preferences->registerValue(QString("DiceAlias_%1_type").arg(i),tmpAlias->isReplace());
+    }
+
+
 
 
 }

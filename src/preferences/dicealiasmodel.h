@@ -25,6 +25,8 @@ public:
 	///new methods
     void setAliases(QList<DiceAlias*>* map);
 	void appendAlias();
+    QList<DiceAlias*>* getAliases();
+    void addAlias(DiceAlias* alias);
 private:
     QList<DiceAlias*>* m_diceAliasList;
     QStringList m_header;

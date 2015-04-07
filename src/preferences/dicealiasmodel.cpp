@@ -77,9 +77,13 @@ void DiceAliasModel::setAliases(QList<DiceAlias*>* lst)
 }
 void DiceAliasModel::appendAlias()
 {
+    addAlias(new DiceAlias(tr("New Alias%1").arg(m_diceAliasList->size()),""));
+}
+void DiceAliasModel::addAlias(DiceAlias* alias)
+{
     beginInsertRows(QModelIndex(),m_diceAliasList->size(),m_diceAliasList->size());
-    m_diceAliasList->append(new DiceAlias(tr("New Alias%1").arg(m_diceAliasList->size()),""));
-	endInsertRows();
+    m_diceAliasList->append(alias);
+    endInsertRows();
 }
 Qt::ItemFlags DiceAliasModel::flags(const QModelIndex &index) const
 {
@@ -120,4 +124,8 @@ bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, in
         }
     }
     return result;
+}
+QList<DiceAlias*>* DiceAliasModel::getAliases()
+{
+    return m_diceAliasList;
 }
