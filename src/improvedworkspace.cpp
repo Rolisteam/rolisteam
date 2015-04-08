@@ -34,10 +34,10 @@
 /* Constructeur                                                     */
 /********************************************************************/	
 ImprovedWorkspace::ImprovedWorkspace(QWidget *parent)
-: QMdiArea(parent),m_variableSizeBackground(size())
+: QMdiArea(parent),m_variableSizeBackground(size()),m_map(new QMap<QAction*,QMdiSubWindow*>())
 {
     m_preferences =  PreferencesManager::getInstance();
-    m_map = new QMap<QAction*,QMdiSubWindow*>();
+
 
     m_backgroundPicture = new QPixmap(size());
 
@@ -47,7 +47,17 @@ ImprovedWorkspace::ImprovedWorkspace(QWidget *parent)
 
 ImprovedWorkspace::~ImprovedWorkspace()
 {
-    delete m_backgroundPicture;
+	if(NULL!=m_backgroundPicture)
+	{
+		delete m_backgroundPicture;
+		m_backgroundPicture = NULL;
+	}
+
+	if(NULL!=m_map)
+	{
+		delete m_map;
+		m_map = NULL;
+	}
 }
 void ImprovedWorkspace::updateBackGround()
 {
