@@ -47,21 +47,20 @@
 QStringList ChatWindow::m_keyWordList;
 
 ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
-    : QWidget(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)/*,ui(new Ui::ChatWindow)*/
+    : QWidget(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)
 {
     m_preferences = PreferencesManager::getInstance();
     if (m_chat == NULL)
     {
         qFatal("ChatWindow with NULL chat");
     }
-    // Initialisation des variables
     m_warnedEmoteUnavailable = false;
     m_hasUnseenMessage = false;
 
     // static members
     if (m_keyWordList.size() == 0)
     {
-        m_keyWordList << "e " << "em " << "me " << "emote ";
+        m_keyWordList << "e" << "em" << "me" << "emote";
     }
     setupUi();
     connect(m_editionZone, SIGNAL(textValidated(QString,QString)), this, SLOT(emettreTexte(QString,QString)));
@@ -243,11 +242,11 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
             break;
         case COMMAND:
         {
-            //bool emote = false;
             int pos = tmpmessage.indexOf(' ');
             QString cmd = tmpmessage.left(pos);
             if(m_keyWordList.contains(cmd))
             {
+                tmpmessage=tmpmessage.remove(0,pos);
                 if (!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
                 {
                     messageTitle = tr("Warning");
@@ -258,7 +257,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
                 }
 
 
-                showMessage(localPerson->name(), localPerson->color(), message,NetMsg::EmoteMessageAction);
+                showMessage(localPerson->name(), localPerson->color(), tmpmessage,NetMsg::EmoteMessageAction);
                 action = NetMsg::EmoteMessageAction;
                 break;
 
@@ -321,48 +320,26 @@ QAction * ChatWindow::toggleViewAction() const
 }
 
 
-void ChatWindow::showMessage(const QString& utilisateur, const QColor& couleur, const QString& message, NetMsg::Action msgtype)
+void ChatWindow::showMessage(const QString& user, const QColor& color, const QString& message, NetMsg::Action msgtype)
 {
     m_displayZone->moveCursor(QTextCursor::End);
-    m_displayZone->setTextColor(couleur);
+    m_displayZone->setTextColor(color);
     QString msg = message;
-    switch(msgtype)
-    {
-    case NetMsg::ChatMessageAction:
-        m_displayZone->setFontItalic(false);
-        m_displayZone->append(QString("%1 : ").arg(utilisateur));
-        break;
-    case NetMsg::EmoteMessageAction:
-        m_displayZone->setFontItalic(true);
-        m_displayZone->append(QString("%1 ").arg(utilisateur));
-        msg=QString("<i>%1</i>").arg(message);
-        break;
-    case NetMsg::DiceMessageAction:
-        m_displayZone->setFontItalic(false);
-        m_displayZone->append(QString("%1 ").arg(utilisateur));
-        break;
-    default:
-        qWarning("Can't type unknown message type %d", msgtype);
-        return;
-    }
-
-    if (!m_editionZone->hasFocus() && !m_hasUnseenMessage)
-    {
-        m_hasUnseenMessage = true;
-        emit ChatWindowHasChanged(this);
-    }
-
-    // Affichage du message
-    m_displayZone->setTextColor(Qt::black);
-
-
-    m_displayZone->insertHtml(msg);
-   // qDebug() << message;
+    QString pattern("%1 : %2");
     if(msgtype==NetMsg::EmoteMessageAction)
     {
-        m_displayZone->setFontItalic(false);
+        pattern = "<i>%1 %2</i>";
     }
-    // On repositionne la barre de defilement, pour pouvoir voir le texte qui vient d'etre affiche
+
+    else if(msgtype==NetMsg::DiceMessageAction)
+    {
+        pattern = "%1 %2";
+    }
+    QString userSpan("<span style=\"color:rgb(%2,%3,%4);\">%1</span>");
+    userSpan = userSpan.arg(user).arg(color.red()).arg(color.green()).arg(color.blue());
+
+    m_displayZone->append(pattern.arg(userSpan).arg(message));
+
     m_displayZone->verticalScrollBar()->setSliderPosition(m_displayZone->verticalScrollBar()->maximum());
 }
 
