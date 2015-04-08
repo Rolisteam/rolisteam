@@ -21,6 +21,7 @@
  *************************************************************************/
 
 
+#include <QRegularExpression>
 #include "chat/improvedtextedit.h"
 
 static const int MaxHistorySize = 100;
@@ -38,14 +39,18 @@ void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
         case Qt::Key_Enter:
         {
         /// @warning changing the method to get the text
-            QString textHtml = toHtml().trimmed();//
+            QString textHtml = toHtml().trimmed();
             QString text = toPlainText().trimmed();
             if (!text.isEmpty())
             {
                 m_history.append(text);
                 while (m_history.size() > MaxHistorySize)
+                {
                     m_history.removeFirst();
+                }
                 m_histPos = m_history.size();
+                text.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
+                text.replace(QRegularExpression("((?:www)\\S+)"), "<a href=\"http://\\1\">\\1</a>");
                 emit textValidated(textHtml,text);
                 clear();
             }
@@ -53,7 +58,9 @@ void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
 
         case Qt::Key_Up:
             if (e->modifiers() & Qt::ControlModifier)
+            {
                 emit ctrlUp();
+            }
             else if ((m_histPos > 0)&&(!m_history.empty()))
             {
                 /// @warning changing the method to get the text
@@ -73,7 +80,9 @@ void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
 
         case Qt::Key_Down:
             if (e->modifiers() & Qt::ControlModifier)
+            {
                 emit ctrlDown();
+            }
             else if(!m_history.empty())
             {
                 /// @warning changing the method to get the text
