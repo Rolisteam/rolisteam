@@ -206,6 +206,10 @@ private slots:
      * @brief seekHasChanged
      */
     void seekHasChanged(bool);
+    /**
+     * @brief openStream
+     */
+    void openStream();
 
 signals:
     /**
@@ -267,6 +271,7 @@ private:
     PreferencesManager* m_preferences;
     MusicModel* m_model;
     QAction* m_addAction;            //!< @brief add song action
+    QAction* m_addStreamAction;
     QAction* m_deleteAction;        //!< @brief remove song action
     QAction* m_openPlayList;
     QAction* m_savePlayList;

@@ -122,10 +122,18 @@ private :
         */
     AudioPlayer(QWidget *parent = 0);
 
-
+    /**
+     * @brief getDirectoryKey
+     * @return
+     */
     QString getDirectoryKey();
+    /**
+     * @brief playerWidget
+     */
     void playerWidget();
-
+    /**
+     * @brief m_singleton
+     */
     static AudioPlayer* m_singleton;//!< @brief static pointer to the unique instance of this audioplayer
 	/**
     * @brief set the UI

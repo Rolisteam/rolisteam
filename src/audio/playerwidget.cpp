@@ -19,12 +19,12 @@
  ***************************************************************************/
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QInputDialog>
 
 #include "playerwidget.h"
 
 #include "ui_audiowidget.h"
 #include "network/networkmessage.h"
-
 #define FACTOR_WAIT 4
 
 PlayerWidget::PlayerWidget(int id, QWidget* parent)
@@ -142,6 +142,8 @@ void PlayerWidget::setupUi()
 
     m_addAction 	= new QAction(QIcon(":/resources/icons/add.png"),tr("Add Songs"), this);
     m_addAction->setShortcut(QKeySequence("Ctrl+A"));
+    m_addStreamAction = new QAction(tr("Open Stream"),this);
+
     m_deleteAction	= new QAction(QIcon(":/resources/icons/remove.png"),tr("Remove Song"), this);
     m_deleteAction->setShortcut(QKeySequence("Del"));
 
@@ -158,18 +160,11 @@ void PlayerWidget::setupUi()
     addAction(m_clearList);
     addAction(m_deleteAction);
     addAction(m_addAction);
+    addAction(m_addStreamAction);
 
     // **************** TOOLTIP ACTIONS ********************************
     m_addAction->setToolTip(tr("Add song to the list"));
     m_deleteAction->setToolTip(tr("Remove selected file"));
-
-
-
-
-
-
-
-
 
 
 
@@ -180,6 +175,7 @@ void PlayerWidget::setupUi()
     m_ui->m_addButton->setDefaultAction(m_addAction);
     m_ui->m_addButton->addAction(m_openPlayList);
     m_ui->m_addButton->addAction(m_loadTableTopAudioPlayListAct);
+    m_ui->m_addButton->addAction(m_addStreamAction);
 
     m_ui->m_volumeMutedButton->setDefaultAction(m_volumeMutedAct);
     m_ui->m_playButton->setDefaultAction(m_playAct);
@@ -193,6 +189,7 @@ void PlayerWidget::setupUi()
     // **************** CONNECT ********************************
     connect(m_addAction, SIGNAL(triggered(bool)), this, SLOT(addFiles()));
     connect(m_openPlayList, SIGNAL(triggered(bool)), this, SLOT(openPlayList()));
+    connect(m_addStreamAction, SIGNAL(triggered(bool)), this, SLOT(openStream()));
     connect(m_deleteAction, SIGNAL(triggered(bool)), this, SLOT(removeFile()));
     connect(m_clearList,SIGNAL(triggered(bool)),this,SLOT(removeAll()));
     connect(m_ui->m_songList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(startMediaByModelIndex(QModelIndex)));
@@ -277,6 +274,22 @@ void PlayerWidget::openPlayList()
     }
 
 }
+void PlayerWidget::openStream()
+{
+    bool a;
+    QString value = QInputDialog::getText(this,tr("Open audio Stream"),tr("URL"),QLineEdit::Normal,QString(),&a);
+    if(a)
+    {
+        QUrl url(value);
+        if(url.isValid())
+        {
+            QStringList values;
+            values << value;
+            m_model->addSong(values);
+        }
+    }
+}
+
 void PlayerWidget::readM3uPlayList(QString filepath)
 {
     QFile file(filepath);
