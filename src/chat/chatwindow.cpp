@@ -75,6 +75,11 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
 
     m_diceParser = new DiceParser();
 
+    m_operatorMap = new QMap<QString,CHAT_OPERATOR>();
+    m_operatorMap->insert("/",COMMAND);
+    m_operatorMap->insert("!",DICEROLL);
+    m_operatorMap->insert("&",SECRET_DICEROLL);
+
 }
 QMdiSubWindow* ChatWindow::getSubWindow()
 {
@@ -180,16 +185,38 @@ bool ChatWindow::isVisible()
 {
     return (m_window->isVisible() & QWidget::isVisible());
 }
+void ChatWindow::manageDiceRoll(QString str,bool secret,QString& messageTitle,QString& message)
+{
+    QString messageCorps;
+    QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
+    Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
+    QColor color;
+    if(m_diceParser->parseLine(str))
+    {
+        m_diceParser->Start();
+        getMessageResult(messageCorps);
+        messageTitle = tr("You");
+        color = localPerson->color();
+        showMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
+        message = messageCorps;
+    }
+    else
+    {
+        messageCorps = m_diceParser->humanReadableError();
+        messageTitle = tr("Syntax");
+        color = Qt::red;
+        showMessage(messageTitle, color, messageCorps);
+    }
+}
 
 // not (const QString & message), because we change it !
 void ChatWindow::emettreTexte(QString messagehtml,QString message)
 {
     //NetMsg::ChatMessageAction, NetMsg::DiceMessageAction, NetMsg::EmoteMessageAction
     NetMsg::Action action = NetMsg::DiceMessageAction;
+    Q_UNUSED(messagehtml);
 
     bool ok=true;
-    QString tirage;
-    int result;
     m_editionZone->clear();
 
 
@@ -201,91 +228,53 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     QString messageTitle="";
     QColor color;
     updateListAlias();
-
-    switch(tmpmessage[0].toLatin1())
+    if(m_operatorMap->contains(tmpmessage.left(1)))
     {
-    case '!':
+        CHAT_OPERATOR chatOperator = m_operatorMap->value(tmpmessage.left(1));
         tmpmessage=tmpmessage.remove(0,1);
-        if(m_diceParser->parseLine(tmpmessage))
+        switch(chatOperator)
         {
-            m_diceParser->Start();
-            getMessageResult(messageCorps);
-            messageTitle = tr("You");
-            color = localPerson->color();
-            showMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
-            message = messageCorps;
-        }
-        else
-        {
-            messageCorps = m_diceParser->humanReadableError();
-            messageTitle = tr("Syntax");
-            color = Qt::red;
-            showMessage(messageTitle, color, messageCorps);
-        }
-        break;
-    case '&':
-        if (ok)
-        {
-            messageCorps = tr("You got %1 at your secret dice roll [%2]").arg(result).arg(tirage);
-            messageTitle = tr("Secret Roll:");
-            color = Qt::magenta;
-            showMessage(messageTitle, color,messageCorps ,NetMsg::DiceMessageAction);
-        }
-        else
-        {
-            messageCorps = tr("!1d6 or !5d10+3 or !2d20-3d10+1d6+5 etc... The dice roll is public (For private roll, use & ).");
-            messageTitle = tr("Syntax");
-            color = Qt::red;
-            showMessage(messageTitle, color, messageCorps);
-        }
-        return;
-        break;
-    case '/':
-    {
-        bool emote = false;
-
-        for(int i = 0;((i < m_keyWordList.size())&&(!emote)); i++)
-        {
-            QString s = m_keyWordList[i];
-
-            if(tmpmessage.indexOf(s) == 1)
-            {
-                emote = true;
-
-                message.remove(0,s.length()+1);
-            }
-
-        }
-        if(emote)
-        {
-            // Warn if some users don't have Emote(0) feature
-            if (!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
-            {
-                messageTitle = tr("Warning");
-                messageCorps = tr("Some users won't be enable to see your emotes.");
-                color = Qt::red;
-                showMessage(messageTitle, color, messageCorps);
-                m_warnedEmoteUnavailable = true;
-            }
-
-
-            showMessage(localPerson->name(), localPerson->color(), message,NetMsg::EmoteMessageAction);
-            action = NetMsg::EmoteMessageAction;
+        case DICEROLL:
+            manageDiceRoll(tmpmessage,false,messageTitle,message);
             break;
+        case SECRET_DICEROLL:
+            manageDiceRoll(tmpmessage,true,messageTitle,message);
+            return;
+            break;
+        case COMMAND:
+        {
+            //bool emote = false;
+            int pos = tmpmessage.indexOf(' ');
+            QString cmd = tmpmessage.left(pos);
+            if(m_keyWordList.contains(cmd))
+            {
+                if (!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
+                {
+                    messageTitle = tr("Warning");
+                    messageCorps = tr("Some users won't be enable to see your emotes.");
+                    color = Qt::red;
+                    showMessage(messageTitle, color, messageCorps);
+                    m_warnedEmoteUnavailable = true;
+                }
+
+
+                showMessage(localPerson->name(), localPerson->color(), message,NetMsg::EmoteMessageAction);
+                action = NetMsg::EmoteMessageAction;
+                break;
+
+            }
+        }
+
         }
     }
-
-    default:
+    else
+    {
         messageTitle = localPerson->name();
-        /* if(m_chat->everyPlayerHasFeature(QString("RichTextChat")))
-            {
-                message=messagehtml;
-            }*/
         showMessage(messageTitle, localPerson->color(), message);
         // action is messageChatWindow only if there are no dices
         action = NetMsg::ChatMessageAction;
-        break;
     }
+
 
     if(!ok)
         return;
@@ -310,7 +299,7 @@ void ChatWindow::getMessageResult(QString& str)
     }
     if(m_diceParser->hasIntegerResultNotInFirst())
     {
-        scalarText = tr("got %1").arg(m_diceParser->getLastIntegerResult());
+        scalarText = tr("%1").arg(m_diceParser->getLastIntegerResult());
     }
     else if(hasDiceList)
     {
@@ -323,7 +312,7 @@ void ChatWindow::getMessageResult(QString& str)
     {
         str = m_diceParser->getStringResult().replace("\n","<br/>");
     }
-    str += tr(", you rolled:%1").arg(m_diceParser->getDiceCommand());
+    str += tr(", you rolled: %1").arg(m_diceParser->getDiceCommand());
 }
 
 QAction * ChatWindow::toggleViewAction() const

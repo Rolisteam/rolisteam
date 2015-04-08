@@ -56,6 +56,7 @@ class ChatWindow : public QWidget
 Q_OBJECT
 
 public :
+    enum CHAT_OPERATOR {DICEROLL,SECRET_DICEROLL,COMMAND};
     /**
      * @brief ChatWindow
      * @param chat
@@ -179,6 +180,12 @@ private slots :
      * @brief getMessageResult
      */
     void getMessageResult(QString&);
+    /**
+     * @brief manageDiceRoll
+     * @param str
+     * @param secret
+     */
+    void manageDiceRoll(QString str,bool secret,QString& messageTitle,QString& message);
 
 private :
     static QStringList m_keyWordList;
@@ -197,6 +204,7 @@ private :
     QSplitter* m_splitter;
     QWidget * m_bottomWidget;
     DiceParser* m_diceParser;
+    QMap<QString,CHAT_OPERATOR>* m_operatorMap;
 };
 
 #endif
