@@ -27,6 +27,12 @@ public:
 	void appendAlias();
     QList<DiceAlias*>* getAliases();
     void addAlias(DiceAlias* alias);
+    void deleteAlias(QModelIndex& index);
+    void upAlias(QModelIndex& index);
+    void downAlias(QModelIndex& index);
+    void topAlias(QModelIndex& index);
+    void bottomAlias(QModelIndex& index);
+
 private:
     QList<DiceAlias*>* m_diceAliasList;
     QStringList m_header;

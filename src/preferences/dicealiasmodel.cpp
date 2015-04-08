@@ -129,3 +129,55 @@ QList<DiceAlias*>* DiceAliasModel::getAliases()
 {
     return m_diceAliasList;
 }
+void DiceAliasModel::deleteAlias(QModelIndex& index)
+{
+    beginRemoveRows(QModelIndex(),index.row(),index.row());
+    m_diceAliasList->removeAt(index.row());
+    endRemoveRows();
+}
+void DiceAliasModel::upAlias(QModelIndex& index)
+{
+    if(index.row()==0)
+        return;
+    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),index.row()-1))
+    {
+        m_diceAliasList->swap(index.row(),index.row()-1);
+        endMoveRows();
+    }
+}
+
+void DiceAliasModel::downAlias(QModelIndex& index)
+{
+    if(index.row()==m_diceAliasList->size()-1)
+        return;
+
+    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),index.row()+2))
+    {
+        m_diceAliasList->swap(index.row(),index.row()+1);
+        endMoveRows();
+    }
+}
+
+void DiceAliasModel::topAlias(QModelIndex& index)
+{
+    if(index.row()==0)
+        return;
+    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),0))
+    {
+        DiceAlias* dice = m_diceAliasList->takeAt(index.row());
+        m_diceAliasList->prepend(dice);
+        endMoveRows();
+    }
+}
+
+void DiceAliasModel::bottomAlias(QModelIndex& index)
+{
+    if(index.row()==m_diceAliasList->size()-1)
+        return;
+    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),m_diceAliasList->size()))
+    {
+        DiceAlias* dice = m_diceAliasList->takeAt(index.row());
+        m_diceAliasList->append(dice);
+        endMoveRows();
+    }
+}

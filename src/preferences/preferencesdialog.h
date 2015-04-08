@@ -64,12 +64,8 @@ private slots:
      */
     void performDiag();
 	//Management of DiceAliases
-	void addAlias();
-	void delAlias();
-	void upAlias();
-	void downAlias();
-	void moveAliasToTop();
-	void moveAliasToBottum();
+    void managedAction();
+    void testAliasCommand();
 
 private:
     PreferencesManager* m_preferences;

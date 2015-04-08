@@ -64,7 +64,14 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     //ui->m_fogColor->setTransparency(true);
 
 	//aliases
-	connect(ui->m_addDiceAliasAct,SIGNAL(clicked()),this,SLOT(addAlias()));
+    connect(ui->m_addDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
+    connect(ui->m_delDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
+    connect(ui->m_upDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
+    connect(ui->m_downDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
+    connect(ui->m_topDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
+    connect(ui->m_bottomDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
+    connect(ui->m_testPushButton,SIGNAL(clicked()),this,SLOT(testAliasCommand()));
+
     // Misc
     setSizeGripEnabled(true);
     setWindowTitle(QString("%1 - %2").arg(m_preferences->value("Application_Name","rolisteam").toString(),tr("Preferences")));
@@ -163,9 +170,6 @@ void PreferencesDialog::save() const
         m_preferences->registerValue(QString("DiceAlias_%1_type").arg(i),tmpAlias->isReplace());
     }
 
-
-
-
 }
 void PreferencesDialog::performDiag()
 {
@@ -188,30 +192,42 @@ void PreferencesDialog::performDiag()
     }
     ui->m_diagDisplay->append(tr("End of Font families:"));
 }
-void PreferencesDialog::addAlias()
+
+void PreferencesDialog::managedAction()
 {
-	m_aliasModel->appendAlias();
+    QPushButton* act = qobject_cast<QPushButton*>(sender());
+
+    if(act == ui->m_addDiceAliasAct)
+    {
+            m_aliasModel->appendAlias();
+    }
+    else
+    {
+        QModelIndex index = ui->m_tableViewAlias->currentIndex();
+        if(act == ui->m_delDiceAliasAct)
+        {
+            m_aliasModel->deleteAlias(index);
+        }
+        else if(act == ui->m_upDiceAliasAct)
+        {
+            m_aliasModel->upAlias(index);
+        }
+        else if(act == ui->m_downDiceAliasAct)
+        {
+            m_aliasModel->downAlias(index);
+        }
+        else if(act == ui->m_topDiceAliasAct)
+        {
+            m_aliasModel->topAlias(index);
+        }
+        else if(act == ui->m_bottomDiceAliasAct)
+        {
+            m_aliasModel->bottomAlias(index);
+        }
+    }
 }
-
-void PreferencesDialog::delAlias()
+void PreferencesDialog::testAliasCommand()
 {
-
-}
-void PreferencesDialog::upAlias()
-{
-
-}
-
-void PreferencesDialog::downAlias()
-{
-
-}
-
-void PreferencesDialog::moveAliasToTop()
-{
-
-}
-
-void PreferencesDialog::moveAliasToBottum()
-{
+    QString result = m_diceParser->convertAlias(ui->m_cmdDiceEdit->text());
+    ui->m_convertedCmdEdit->setText(result);
 }
