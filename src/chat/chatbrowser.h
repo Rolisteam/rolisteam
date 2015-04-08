@@ -15,7 +15,7 @@ protected:
         //void contextMenuEvent ( QContextMenuEvent * event );
     
 private slots:
-    void backGrounChanged();
+    void backGroundChanged();
     void showContextMenu(QPoint pos);
 
 

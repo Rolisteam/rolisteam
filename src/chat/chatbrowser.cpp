@@ -10,12 +10,12 @@ ChatBrowser::ChatBrowser(QWidget *parent) :
     //setOpenLinks(true);
     m_bgColorAct= new QAction(tr("Background Color"),this); //toolBar->addWidget(m_bgColorSelector);
     m_bgColorAct->setToolTip(tr("Background Color"));
-    connect(m_bgColorAct,SIGNAL(triggered()),this, SLOT(backGrounChanged()));
+    connect(m_bgColorAct,SIGNAL(triggered()),this, SLOT(backGroundChanged()));
 
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(showContextMenu(QPoint)));
 }
-void ChatBrowser::backGrounChanged()
+void ChatBrowser::backGroundChanged()
 {
     QColorDialog dialog;
     dialog.setCurrentColor(m_bgColor);
