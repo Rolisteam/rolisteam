@@ -68,5 +68,6 @@
         <file>translations/rolisteam_pt_BR.qm</file>
         <file>translations/qt_de.qm</file>
         <file>translations/qt_es.qm</file>
+        <file>resources/icons/preview.png</file>
     </qresource>
 </RCC>

@@ -122,7 +122,8 @@ HEADERS += \
     src/data/cleveruri.h \
     src/data/ressourcesnode.h \
     src/map/mapframe.h \
-    src/preferences/dicealiasmodel.h
+    src/preferences/dicealiasmodel.h \
+    src/widgets/onlinepicturedialog.h
 
 
 
@@ -175,7 +176,8 @@ SOURCES += \
     src/map/charactertoken.cpp \
     src/data/cleveruri.cpp \
     src/map/mapframe.cpp \
-    src/preferences/dicealiasmodel.cpp
+    src/preferences/dicealiasmodel.cpp \
+    src/widgets/onlinepicturedialog.cpp
 #end source
 
 
@@ -231,7 +233,8 @@ FORMS += \
     src/chat/chatwindow.ui \
     src/preferences/preferencesdialogbox.ui \
     src/audio/audiowidget.ui \
-    src/mainwindow.ui
+    src/mainwindow.ui \
+    src/widgets/onlinepicturedialog.ui
 
 INCLUDEPATH +=src/audio
 
