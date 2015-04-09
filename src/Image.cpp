@@ -33,6 +33,7 @@
 #include "mainwindow.h"
 #include "network/networkmessagewriter.h"
 #include "variablesGlobales.h"
+#include "widgets/onlinepicturedialog.h"
 
 /********************************************************************/
 /* Constructeur                                                     */
@@ -495,15 +496,25 @@ bool Image::readFileFromUri()
     {
         return false;
     }
-    m_preferences->registerValue("ImageDirectory",m_uri->getAbsolueDir());
-    QImage img(m_uri->getUri());
-    if (img.isNull())
+    if(CleverURI::PICTURE == m_uri->getType())
     {
-        error(tr("Unsupported file format"),this);
-        return false;
+        m_preferences->registerValue("ImageDirectory",m_uri->getAbsolueDir());
+        QImage img(m_uri->getUri());
+        if (img.isNull())
+        {
+            error(tr("Unsupported file format"),this);
+            return false;
+        }
+        setImage(img);
+        setTitle(m_uri->getShortName()+tr(" (Picture)"));
     }
-    setImage(img);
-    setTitle(m_uri->getShortName()+tr(" (Picture)"));
+    else if(CleverURI::ONLINEPICTURE == m_uri->getType())
+    {
+        if(!m_pixMap.isNull())
+        {
+            initImage();
+        }
+    }
 
     NetworkMessageWriter message(NetMsg::PictureCategory, NetMsg::AddPictureAction);
     fill(message);
@@ -512,11 +523,25 @@ bool Image::readFileFromUri()
 }
 void Image::openMedia()
 {
-    QString filter = tr("Supported Image formats %1").arg("(*.jpg *.jpeg *.png *.bmp *.svg)");
+    QString filepath;
+    if(CleverURI::PICTURE == m_uri->getType())
+    {
+        QString filter = tr("Supported Image formats %1").arg("(*.jpg *.jpeg *.png *.bmp *.svg)");
 
-    QString title = tr("Open Picture");
-    QString folder = m_preferences->value(QString("ImageDirectory"),".").toString();
-    QString filepath = QFileDialog::getOpenFileName(this,title,folder,filter);
-    m_uri = new CleverURI(filepath,CleverURI::PICTURE);
+        QString title = tr("Open Picture");
+        QString folder = m_preferences->value(QString("ImageDirectory"),".").toString();
+        filepath = QFileDialog::getOpenFileName(this,title,folder,filter);
+    }
+    else if(CleverURI::ONLINEPICTURE == m_uri->getType())
+    {
+        OnlinePictureDialog dialog;
+        if(QDialog::Accepted == dialog.exec())
+        {
+            filepath = dialog.getPath();
+            m_pixMap = dialog.getPixmap();
+            setTitle(dialog.getTitle()+tr(" (Picture)"));
+        }
+    }
+    m_uri->setUri(filepath);
 
 }

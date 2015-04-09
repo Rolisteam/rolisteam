@@ -40,9 +40,15 @@ public:
 	 * @param uri
 	 */
 	virtual void setCleverUri(CleverURI* uri);
-
+    /**
+     * @brief getCleverUri
+     * @return
+     */
     virtual CleverURI* getCleverUri() const;
-
+    /**
+     * @brief isUriEndWith
+     * @return
+     */
     virtual bool isUriEndWith(QString);
 
 	/**
@@ -50,8 +56,6 @@ public:
 	 * @return
 	 */
 	virtual bool readFileFromUri()=0;
-
-
 	/**
 	 * @brief openFile
 	 * @return
@@ -73,8 +77,19 @@ public:
      * @param err - error message to display
      */
     void error(QString err,QWidget* parent);
+    /**
+     * @brief setAction
+     */
     void setAction(QAction*);
+    /**
+     * @brief getAction
+     * @return
+     */
     QAction* getAction();
+    /**
+     * @brief setCleverUriType
+     */
+    void setCleverUriType(CleverURI::ContentType);
 
 
 signals:

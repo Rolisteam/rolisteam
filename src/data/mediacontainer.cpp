@@ -89,3 +89,7 @@ QAction* MediaContainer::getAction()
 {
     return m_action;
 }
+void MediaContainer::setCleverUriType(CleverURI::ContentType type)
+{
+    m_uri = new CleverURI("",type);
+}
