@@ -421,6 +421,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
     connect(m_ui->m_newNoteAction, SIGNAL(triggered(bool)), this, SLOT(newNoteDocument()));
     connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
+    connect(m_ui->m_openOnlinePictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openMapAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     m_ui->m_recentFileMenu->setVisible(false);
 
@@ -1700,6 +1701,10 @@ void MainWindow::openContent()
     {
         type = CleverURI::TEXT;
     }
+    else if(action == m_ui->m_openOnlinePictureAction)
+    {
+        type = CleverURI::ONLINEPICTURE;
+    }
 #ifdef WITH_PDF
     else if(action == m_openPDFAct)
     {
@@ -1813,13 +1818,18 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
     case CleverURI::PICTURE:
         tmp = new Image();
         break;
+    case CleverURI::ONLINEPICTURE:
+        tmp = new Image();
+        break;
     case CleverURI::SCENARIO:
         break;
     default:
         break;
     }
+
     if(tmp!=NULL)
     {
+        tmp->setCleverUriType(type);
         tmp->openMedia();
         if(tmp->readFileFromUri())
         {

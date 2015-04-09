@@ -41,6 +41,7 @@
      </property>
      <addaction name="m_openMapAction"/>
      <addaction name="m_openPictureAction"/>
+     <addaction name="m_openOnlinePictureAction"/>
      <addaction name="m_openNoteAction"/>
      <addaction name="m_openStoryAction"/>
     </widget>
@@ -365,6 +366,15 @@
    </property>
    <property name="shortcut">
     <string>Alt+M</string>
+   </property>
+  </action>
+  <action name="m_openOnlinePictureAction">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/picture.png</normaloff>:/picture.png</iconset>
+   </property>
+   <property name="text">
+    <string>Online Picture</string>
    </property>
   </action>
  </widget>
