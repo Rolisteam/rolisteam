@@ -256,14 +256,14 @@ private slots :
     void changementNatureUtilisateur();
     void changementFenetreActive(QMdiSubWindow* widget);
     void newMap();
-    void ouvrirScenario();
+    void openStory();
     void openNote();
     void closeMapOrImage();
     void saveMap();
     void updateMayBeNeeded();
 	void emettreTousLesPlans(NetworkLink * link);
 	void emettreToutesLesImages(NetworkLink * link);
-	void updateSessionToNewClient(NetworkLink* link);
+    void updateSessionToNewClient(Player* player);
     void receiveData(quint64 readData,quint64 size);
     void openContent();
 

@@ -649,7 +649,7 @@ bool PlayersList::event(QEvent * event)
                         setPersonColor(data);
                         return true;
                     default:
-                        qWarning("PlayersList : message of categorie \"joueur\" with unknown action (%d)", data.action());
+                        qWarning() << tr("PlayersList [PlayerCategory]: unknown action (%d)").arg(data.action());
                 }
                 break;
             case CharacterPlayerCategory:
@@ -668,7 +668,8 @@ bool PlayersList::event(QEvent * event)
                         setPersonColor(data);
                         return true;
                     default:
-                        qWarning("PlayersList : message of categorie \"persoJoueur\" with unknown action (%d)", data.action());
+                        qWarning() << tr("PlayersList [CharacterPlayerCategory]: unknown action (%d)").arg(data.action());
+
                 }
                 break;
             case SetupCategory:
@@ -728,7 +729,6 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 
     NetworkMessageWriter msgPlayer (NetMsg::PlayerCategory, NetMsg::AddPlayerAction);
     player->fill(msgPlayer);
-    // display it in the log
     msgPlayer.uint8(1);
     msgPlayer.sendAll();
 
@@ -764,6 +764,7 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
             featuresIterator.message().sendTo(link);
         }
     }
+    emit playerAddedAsClient(player);
 }
 
 void PlayersList::delPlayer(NetworkMessageReader & data)

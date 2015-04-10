@@ -425,7 +425,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_openMapAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     m_ui->m_recentFileMenu->setVisible(false);
 
-    connect(m_ui->m_openStoryAction, SIGNAL(triggered(bool)), this, SLOT(ouvrirScenario()));
+    connect(m_ui->m_openStoryAction, SIGNAL(triggered(bool)), this, SLOT(openStory()));
     connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openNote()));
     connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
     connect(m_ui->m_saveAction, SIGNAL(triggered(bool)), this, SLOT(saveMap()));
@@ -708,7 +708,7 @@ void MainWindow::openNote()
     }
 }
 
-void MainWindow::ouvrirScenario()
+void MainWindow::openStory()
 {
     QString fichier = QFileDialog::getOpenFileName(this, tr("Open scenario"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
@@ -925,7 +925,7 @@ void MainWindow::setUpNetworkConnection()
     }
     else
     {
-        connect(m_networkManager, SIGNAL(linkAdded(NetworkLink *)), this, SLOT(updateSessionToNewClient(NetworkLink*)));
+        //connect(m_networkManager, SIGNAL(linkAdded(NetworkLink *)), this, SLOT(updateSessionToNewClient(NetworkLink*)));
     }
     connect(m_networkManager, SIGNAL(dataReceived(quint64,quint64)), this, SLOT(receiveData(quint64,quint64)));
 
@@ -1056,10 +1056,13 @@ void MainWindow::notifyAboutDeletedPlayer(Player * player) const
     notifyUser(tr("%1 just leaves the game.").arg(player->name()));
 }
 
-void MainWindow::updateSessionToNewClient(NetworkLink* link)
+void MainWindow::updateSessionToNewClient(Player* player)
 {
-    emettreTousLesPlans(link);
-    emettreToutesLesImages(link);
+    if(NULL!=player)
+    {
+        emettreTousLesPlans(player->link());
+        emettreToutesLesImages(player->link());
+    }
 }
 
 void MainWindow::setNetworkManager(NetworkManager* tmp)
@@ -1290,6 +1293,7 @@ void MainWindow::setupUi()
     // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
     m_playerList = PlayersList::instance();
     connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
+    connect(m_playerList, SIGNAL(playerAddedAsClient(Player*)), this, SLOT(updateSessionToNewClient(Player*)));
     connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
     connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(updateWindowTitle()));
     connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(networkStateChanged(bool)));
@@ -1752,7 +1756,8 @@ void MainWindow::updateRecentFileActions()
 }
 void MainWindow::setLatestFile(CleverURI* fileName)
 {
-    if(NULL!=fileName)
+    // no online picture because they are handled in a really different way.
+    if((NULL!=fileName)&&(fileName->getType()!=CleverURI::ONLINEPICTURE))
     {
         QVariant var(CleverUriList());
 
@@ -1830,19 +1835,21 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
     if(tmp!=NULL)
     {
         tmp->setCleverUriType(type);
-        tmp->openMedia();
-        if(tmp->readFileFromUri())
+        if(tmp->openMedia())
         {
-            if(type==CleverURI::MAP)
+            if(tmp->readFileFromUri())
             {
-                prepareMap((MapFrame*)tmp);
+                if(type==CleverURI::MAP)
+                {
+                    prepareMap((MapFrame*)tmp);
+                }
+                else if((type==CleverURI::PICTURE)||(type==CleverURI::ONLINEPICTURE))
+                {
+                    prepareImage((Image*)tmp);
+                }
+                addMediaToMdiArea(tmp);
+                tmp->setVisible(true);
             }
-            else if(type==CleverURI::PICTURE)
-            {
-                prepareImage((Image*)tmp);
-            }
-            addMediaToMdiArea(tmp);
-            tmp->setVisible(true);
         }
         //addToWorkspace(tmp);
     }

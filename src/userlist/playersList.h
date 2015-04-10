@@ -52,8 +52,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const;
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex index(int row, int column,const QModelIndex &parent = QModelIndex()) const;
     QModelIndex parent(const QModelIndex &index) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -72,14 +71,14 @@ public:
     };
 
     // Getters
-    Player * localPlayer() const;
+    Player* localPlayer() const;
     bool isLocal(Person * person) const;
 
     int numPlayers() const;
-    Player * getPlayer(int index) const;
+    Player* getPlayer(int index) const;
 
-    Person * getPerson(const QString & uuid) const;
-    Player * getPlayer(const QString & uuid) const;
+    Person* getPerson(const QString & uuid) const;
+    Player* getPlayer(const QString & uuid) const;
     Character * getCharacter(const QString & uuid) const;
     Player* getLocalPlayer() const;
     void cleanListButLocal();
@@ -88,13 +87,11 @@ public:
          * @brief Same as getPlayer(uuid), if getPerson(uuid) is a Player.
          * Same as getPerson(uuid)->parent() if it's a Character.
          */
-    Player * getParent(const QString & uuid) const;
+    Player* getParent(const QString & uuid) const;
 
-    Person * getPerson(const QModelIndex & index) const;
-    Player * getPlayer(const QModelIndex & index) const;
+    Person* getPerson(const QModelIndex & index) const;
+    Player* getPlayer(const QModelIndex & index) const;
     Character * getCharacter(const QModelIndex & index) const;
-
-
     bool everyPlayerHasFeature(const QString & name, quint8 version = 0) const;
 
     // Setters
@@ -116,7 +113,7 @@ signals:
 
     void playerDeleted(Player * player);
     void characterDeleted(Character * character);
-
+    void playerAddedAsClient(Player *player);
     /**
          * @brief Send when local is client and the server refused local player to be GM.
          */
