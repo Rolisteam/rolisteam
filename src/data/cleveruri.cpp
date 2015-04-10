@@ -77,6 +77,9 @@ QString& CleverURI::getIcon()
     case CleverURI::SONG:
         return m_musicIcon;
         break;
+    case CleverURI::ONLINEPICTURE:
+        return m_pictureIcon;
+        break;
 #ifdef WITH_PDF
     case CleverURI::PDF:
         return m_pdfIcon;

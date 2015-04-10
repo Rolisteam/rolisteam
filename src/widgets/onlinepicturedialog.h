@@ -23,29 +23,71 @@
 #define ONLINEPICTUREDIALOG_H
 
 #include <QDialog>
+#include <QLabel>
 #include <QNetworkAccessManager>
 namespace Ui {
 class OnlinePictureDialog;
 }
-
+/**
+ * @brief The OnlinePictureDialog class
+ */
 class OnlinePictureDialog : public QDialog
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief OnlinePictureDialog
+     * @param parent
+     */
     explicit OnlinePictureDialog(QWidget *parent = 0);
-    ~OnlinePictureDialog();
+    /**
+     * @brief ~OnlinePictureDialog
+     */
+    virtual ~OnlinePictureDialog();
+    /**
+     * @brief getPath
+     * @return
+     */
     QString getPath();
+    /**
+     * @brief getPixmap
+     * @return
+     */
     QPixmap getPixmap();
+    /**
+     * @brief getTitle
+     * @return
+     */
     QString getTitle();
 private slots:
+    /**
+     * @brief uriChanged
+     */
     void uriChanged();
+    /**
+     * @brief replyFinished
+     * @param reply
+     */
     void replyFinished(QNetworkReply* reply);
+
+protected:
+    /**
+     * @brief resizeLabel
+     */
+    void resizeLabel();
+    /**
+     * @brief resizeEvent
+     * @param event
+     */
+    void resizeEvent(QResizeEvent *event);
 
 private:
     Ui::OnlinePictureDialog* ui;
     QNetworkAccessManager* m_manager;
     QPixmap m_pix;
+    double m_zoomLevel;
+    QLabel* m_imageViewerLabel;
 };
 
 #endif // ONLINEPICTUREDIALOG_H

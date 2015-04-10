@@ -37,6 +37,20 @@ OnlinePictureDialog::OnlinePictureDialog(QWidget *parent) :
     m_manager = new QNetworkAccessManager(this);
     connect(m_manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(replyFinished(QNetworkReply*)));
+
+    ui->scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    ui->scrollArea->setAlignment(Qt::AlignCenter);
+    m_imageViewerLabel = new QLabel();
+    m_imageViewerLabel->setPixmap(QPixmap(QString::fromUtf8(":/resources/icons/preview.png")));
+    m_imageViewerLabel->setLineWidth(0);
+    m_imageViewerLabel->setFrameStyle(QFrame::NoFrame);
+    m_imageViewerLabel->setScaledContents(true);
+    m_imageViewerLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    m_imageViewerLabel->resize(m_pix.size());
+
+    ui->scrollArea->setWidget(m_imageViewerLabel);
 }
 
 OnlinePictureDialog::~OnlinePictureDialog()
@@ -46,7 +60,7 @@ OnlinePictureDialog::~OnlinePictureDialog()
 void OnlinePictureDialog::uriChanged()
 {
     QFileInfo info(ui->m_urlField->text());
-    if(ui->m_titleLineEdit->text().isEmpty())
+    //if(ui->m_titleLineEdit->text().isEmpty())
     {
         ui->m_titleLineEdit->setText(info.baseName());
     }
@@ -55,8 +69,11 @@ void OnlinePictureDialog::uriChanged()
 void OnlinePictureDialog::replyFinished(QNetworkReply* reply)
 {
     QByteArray data = reply->readAll();
-    m_pix.loadFromData(data);
-    ui->m_imageViewerLabel->setPixmap(m_pix);
+    bool ok = m_pix.loadFromData(data);
+    m_imageViewerLabel->setPixmap(m_pix);
+    m_imageViewerLabel->resize(m_pix.size());
+    resizeLabel();
+    update();
 }
 QString OnlinePictureDialog::getPath()
 {
@@ -70,4 +87,26 @@ QPixmap OnlinePictureDialog::getPixmap()
 QString OnlinePictureDialog::getTitle()
 {
     return ui->m_titleLineEdit->text();
+}
+void OnlinePictureDialog::resizeLabel()
+{
+    int w = ui->scrollArea->viewport()->rect().width();
+    int h = ui->scrollArea->viewport()->rect().height();
+
+    double ratioImage = (double)m_pix.size().width()/m_pix.size().height();
+    double ratioImageBis = (double)m_pix.size().height()/m_pix.size().width();
+
+    if(w>h*ratioImage)
+    {
+        m_imageViewerLabel->resize(h*ratioImage,h);
+    }
+    else
+    {
+        m_imageViewerLabel->resize(w,w*ratioImageBis);
+    }
+}
+void OnlinePictureDialog::resizeEvent(QResizeEvent *event)
+{
+    resizeLabel();
+    QDialog::resizeEvent(event);
 }
