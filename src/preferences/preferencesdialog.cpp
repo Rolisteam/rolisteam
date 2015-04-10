@@ -60,6 +60,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     m_preferences = PreferencesManager::getInstance();
 
     connect(this, SIGNAL(accepted()), this, SLOT(save()));
+    connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
     connect(ui->m_startDiag,SIGNAL(clicked()),this,SLOT(performDiag()));
     //ui->m_fogColor->setTransparency(true);
 
@@ -120,6 +121,8 @@ void PreferencesDialog::load()
     ui->m_backgroundImage->setPath(m_preferences->value("PathOfBackgroundImage",":/resources/icons/workspacebackground.bmp").toString());
     ui->m_backgroundImage->setMode(false);
     ui->m_backgroundImage->setFilter(tr("Images (*.png *.xpm *.jpg *.gif *.bmp)"));
+    //Positioning Bg
+    ui->m_positioningComboBox->setCurrentIndex(m_preferences->value("BackGroundPositioning",0).value<int>());
 
     //DiceSystem
     int size = m_preferences->value("DiceAliasNumber",0).toInt();
@@ -158,6 +161,7 @@ void PreferencesDialog::save() const
     //Background
     m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
     m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
+    m_preferences->registerValue("BackGroundPositioning",ui->m_positioningComboBox->currentIndex());
 
     //DiceSystem
     QList<DiceAlias*>* aliasList = m_aliasModel->getAliases();
@@ -230,4 +234,10 @@ void PreferencesDialog::testAliasCommand()
 {
     QString result = m_diceParser->convertAlias(ui->m_cmdDiceEdit->text());
     ui->m_convertedCmdEdit->setText(result);
+}
+void PreferencesDialog::applyBackground()
+{
+    m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
+    m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
+    m_preferences->registerValue("BackGroundPositioning",ui->m_positioningComboBox->currentIndex());
 }

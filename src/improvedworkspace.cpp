@@ -38,6 +38,9 @@ ImprovedWorkspace::ImprovedWorkspace(QWidget *parent)
 {
     m_preferences =  PreferencesManager::getInstance();
 
+    m_preferences->registerListener("BackGroundPositioning",this);
+    m_preferences->registerListener("PathOfBackgroundImage",this);
+    m_preferences->registerListener("BackGroundColor",this);
 
     m_backgroundPicture = new QPixmap(size());
 
@@ -85,10 +88,37 @@ void ImprovedWorkspace::updateBackGround()
         }
         m_backgroundPicture = new QPixmap(m_fileName);
     }
+    int x=0;
+    int y=0;
+    int w = m_backgroundPicture->width();
+    int h = m_backgroundPicture->height();
+    switch((Positioning)m_preferences->value("BackGroundPositioning",0).toInt())
+    {
+    case TopLeft:
+        break;
+    case BottomLeft:
+        y = m_variableSizeBackground.size().height()-h;
+        break;
+    case Center:
+        x = m_variableSizeBackground.width()/2-w/2;
+        y = m_variableSizeBackground.height()/2-h/2;
+        break;
+    case TopRight:
+        x = m_variableSizeBackground.width()-w;
+        break;
+    case BottomRight:
+        x = m_variableSizeBackground.width()-w;
+        y = m_variableSizeBackground.height()-h;
+        break;
+    case Scaled:
+        break;
+    case Filled:
+        w = m_variableSizeBackground.width();
+        h = m_variableSizeBackground.height();
+        break;
+    }
 
-
-
-    painter.drawPixmap(0,0,m_backgroundPicture->width(),m_backgroundPicture->height(),*m_backgroundPicture);
+    painter.drawPixmap(x,y,w,h,*m_backgroundPicture);
     setBackground(QBrush(m_variableSizeBackground));
 }
 
@@ -230,3 +260,8 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
     return NULL;
 }
 
+void ImprovedWorkspace::preferencesHasChanged(QString str)
+{
+    updateBackGround();
+    update();
+}

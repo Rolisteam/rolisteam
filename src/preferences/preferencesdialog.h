@@ -66,12 +66,14 @@ private slots:
 	//Management of DiceAliases
     void managedAction();
     void testAliasCommand();
+    void applyBackground();
 
 private:
     PreferencesManager* m_preferences;
     Ui::PreferencesDialogBox* ui;
 	DiceParser* m_diceParser;
 	DiceAliasModel* m_aliasModel;
+    QPushButton* m_applyBtn;
 };
 
 #endif

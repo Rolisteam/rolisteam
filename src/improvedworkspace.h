@@ -28,16 +28,17 @@
 
 
 #include "preferences/preferencesmanager.h"
+#include "preferences/preferenceslistener.h"
 #include "data/mediacontainer.h"
-
 
 /**
  * @brief The ImprovedWorkspace class
  */
-class ImprovedWorkspace : public QMdiArea
+class ImprovedWorkspace : public QMdiArea,public PreferencesListener
 {
     Q_OBJECT
 public :
+    enum Positioning {TopLeft,BottomLeft,Center,TopRight,BottomRight,Scaled,Filled};
 	ImprovedWorkspace(QWidget *parent = 0);
 	~ImprovedWorkspace();
 
@@ -55,6 +56,10 @@ public :
      * @param mediac
      */
     void addContainerMedia(MediaContainer* mediac);
+    /**
+     * @brief preferencesHasChanged
+     */
+    void preferencesHasChanged(QString);
 
 signals:
     void removedAction(QAction*);

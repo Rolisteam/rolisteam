@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>626</width>
-    <height>479</height>
+    <height>595</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,7 +55,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="General">
         <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -178,6 +178,63 @@
               </item>
              </layout>
             </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <item>
+               <widget class="QLabel" name="label_17">
+                <property name="text">
+                 <string>Positioning:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="m_positioningComboBox">
+                <item>
+                 <property name="text">
+                  <string>TopLeftCorner</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>BottomLeftCorner</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Center</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>TopRightCorner</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>BottomRightCorner</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Scaled</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Filled</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>Restarting rolisteam is required</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
          </item>
@@ -206,7 +263,7 @@
               <item>
                <widget class="QLabel" name="label_12">
                 <property name="text">
-                 <string>Default Permission:</string>
+                 <string>Default Map Permission:</string>
                 </property>
                </widget>
               </item>
