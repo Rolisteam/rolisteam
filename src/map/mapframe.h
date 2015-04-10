@@ -79,7 +79,7 @@ public :
 	/**
 	 * @brief openMedia
 	 */
-	void openMedia();
+    bool openMedia();
     /**
      * @brief createMap
      * @return

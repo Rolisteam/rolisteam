@@ -33,7 +33,7 @@ CleverURI*  MediaContainer::getCleverUri() const
 {
     return  m_uri;
 }
-void MediaContainer::openMedia()
+bool MediaContainer::openMedia()
 {
 
 }

@@ -514,6 +514,10 @@ bool Image::readFileFromUri()
         {
             initImage();
         }
+        else
+        {
+            return false;
+        }
     }
 
     NetworkMessageWriter message(NetMsg::PictureCategory, NetMsg::AddPictureAction);
@@ -521,7 +525,7 @@ bool Image::readFileFromUri()
     message.sendAll();
     return true;
 }
-void Image::openMedia()
+bool Image::openMedia()
 {
     QString filepath;
     if(CleverURI::PICTURE == m_uri->getType())
@@ -542,6 +546,13 @@ void Image::openMedia()
             setTitle(dialog.getTitle()+tr(" (Picture)"));
         }
     }
-    m_uri->setUri(filepath);
-
+    if(filepath.isEmpty())
+    {
+        return false;
+    }
+    else
+    {
+        m_uri->setUri(filepath);
+        return true;
+    }
 }

@@ -77,7 +77,7 @@ public :
     void setAction(QAction*);
 
 	virtual bool readFileFromUri();
-    virtual void openMedia();
+    virtual bool openMedia();
 
 
 

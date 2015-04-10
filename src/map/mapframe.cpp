@@ -118,7 +118,7 @@ void MapFrame::focusInEvent(QFocusEvent * event)
 
     MediaContainer::focusInEvent(event);
 }
-void MapFrame::openMedia()
+bool MapFrame::openMedia()
 {
 	m_mapWizzard->resetData();
 	if(m_mapWizzard->exec()==QMessageBox::Accepted)
@@ -126,7 +126,9 @@ void MapFrame::openMedia()
 		QFileInfo info(m_mapWizzard->getFilepath());
 
 		m_preferences->registerValue("MapDirectory",info.absolutePath());
+        return true;
 	}
+    return false;
 }
 bool MapFrame::readFileFromUri()
 {

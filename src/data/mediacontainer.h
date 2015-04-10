@@ -60,7 +60,7 @@ public:
 	 * @brief openFile
 	 * @return
 	 */
-	virtual void openMedia();
+    virtual bool openMedia();
 
 	/**
 	 * @brief getTitle
