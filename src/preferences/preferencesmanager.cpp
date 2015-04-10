@@ -59,16 +59,26 @@ PreferencesManager* PreferencesManager::getInstance()
 {
     
     if(m_singleton == NULL)
+    {
         m_singleton = new PreferencesManager;
+    }
     
     return m_singleton;
 }
 bool PreferencesManager::registerValue(QString key,QVariant value, bool overwrite)
 {
-    //qDebug() << "registervalue" << key << value;
     if((overwrite)||(!m_optionDictionary->contains(key)))
     {
+        QVariant oldValue;
+        if(m_optionDictionary->contains(key))
+        {
+            oldValue = m_optionDictionary->value(key);
+        }
         m_optionDictionary->insert(key,value);
+        if(oldValue != value)
+        {
+            notifyListener(key);
+        }
         return true;
     }
     else
@@ -105,4 +115,16 @@ void PreferencesManager::writeSettings(QSettings & settings)
     settings.beginGroup("rolisteam/preferences");
     settings.setValue("map",*m_optionDictionary);
     settings.endGroup();
+}
+void PreferencesManager::registerListener(QString str, PreferencesListener* listerner)
+{
+   m_listernerMap.insert(str,listerner);
+}
+void PreferencesManager::notifyListener(QString str)
+{
+    PreferencesListener* tmp = m_listernerMap.value(str);
+    if(NULL!=tmp)
+    {
+        tmp->preferencesHasChanged(str);
+    }
 }

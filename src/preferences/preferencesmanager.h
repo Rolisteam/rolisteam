@@ -25,7 +25,7 @@
 #include <QMap>
 #include <QSettings>
 
-
+#include "preferences/preferenceslistener.h"
 /**
     * @index <h2>How To use the Preference Manager.</h2>
     *  <p>It is always painful to manage of data between two sessions of Rolisteam.
@@ -85,21 +85,24 @@ public:
     * Save parameters for next executions.
     */
     void writeSettings(QSettings & settings);
+    /**
+     * @brief registerListener
+     */
+    void registerListener(QString ,PreferencesListener* );
     
 private:
     /**
     * @brief Private constructor to make sure there is only one instance of this.
     */
     PreferencesManager();
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    /**
+     * @brief notifyListener
+     */
+    void notifyListener(QString);
+
+
+
+private:
     /**
     * Static reference, part of the singleton pattern
     */
@@ -110,6 +113,10 @@ private:
     * The key is a QString, the value is a QVariant.
     */
     QMap<QString,QVariant>* m_optionDictionary;
+    /**
+     * @brief m_listernerMap
+     */
+    QMap<QString,PreferencesListener*> m_listernerMap;
 };
 
 #endif // PREFERENCESMANAGER_H
