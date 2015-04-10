@@ -123,7 +123,8 @@ HEADERS += \
     src/data/ressourcesnode.h \
     src/map/mapframe.h \
     src/preferences/dicealiasmodel.h \
-    src/widgets/onlinepicturedialog.h
+    src/widgets/onlinepicturedialog.h \
+    src/preferences/preferenceslistener.h
 
 
 
@@ -177,7 +178,8 @@ SOURCES += \
     src/data/cleveruri.cpp \
     src/map/mapframe.cpp \
     src/preferences/dicealiasmodel.cpp \
-    src/widgets/onlinepicturedialog.cpp
+    src/widgets/onlinepicturedialog.cpp \
+    src/preferences/preferenceslistener.cpp
 #end source
 
 
