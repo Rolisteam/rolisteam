@@ -24,3 +24,4 @@ https://lists.fdn.fr/wws/info/rolisteam
  
 
 
+clients server architecture 
