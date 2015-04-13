@@ -23,6 +23,3 @@ We also use this mailing to speak technical issues or roadmap.
 https://lists.fdn.fr/wws/info/rolisteam
  
 
-
-clients server architecture 
-omment
