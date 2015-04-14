@@ -45,6 +45,7 @@
 #include "types.h"
 
 QStringList ChatWindow::m_keyWordList;
+QMap<int,DiceAlias*>* ChatWindow::m_receivedAlias = NULL;
 
 ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     : QWidget(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)
@@ -87,6 +88,7 @@ QMdiSubWindow* ChatWindow::getSubWindow()
 void ChatWindow::updateListAlias()
 {
     QList<DiceAlias*>* list = m_diceParser->getAliases();
+    list->clear();
     int size = m_preferences->value("DiceAliasNumber",0).toInt();
     for(int i = 0; i < size ; ++i)
     {
@@ -94,6 +96,14 @@ void ChatWindow::updateListAlias()
         QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
         bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
         list->append(new DiceAlias(cmd,value,replace));
+    }
+    if(NULL!=m_receivedAlias)
+    {
+        foreach(int id,m_receivedAlias->keys())
+        {
+            DiceAlias* dicealias = m_receivedAlias->value(id);
+            list->append(dicealias);
+        }
     }
 }
 
@@ -186,6 +196,7 @@ bool ChatWindow::isVisible()
 }
 void ChatWindow::manageDiceRoll(QString str,bool secret,QString& messageTitle,QString& message)
 {
+    updateListAlias();
     QString messageCorps;
     QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
     Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
@@ -226,7 +237,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     QString messageCorps="";
     QString messageTitle="";
     QColor color;
-    updateListAlias();
+
     if(m_operatorMap->contains(tmpmessage.left(1)))
     {
         CHAT_OPERATOR chatOperator = m_operatorMap->value(tmpmessage.left(1));
@@ -335,10 +346,17 @@ void ChatWindow::showMessage(const QString& user, const QColor& color, const QSt
     {
         pattern = "%1 %2";
     }
+
+
     QString userSpan("<span style=\"color:rgb(%2,%3,%4);\">%1</span>");
     userSpan = userSpan.arg(user).arg(color.red()).arg(color.green()).arg(color.blue());
 
     m_displayZone->append(pattern.arg(userSpan).arg(message));
+    if (!m_editionZone->hasFocus() && !m_hasUnseenMessage)
+    {
+        m_hasUnseenMessage = true;
+        emit ChatWindowHasChanged(this);
+    }
 
     m_displayZone->verticalScrollBar()->setSliderPosition(m_displayZone->verticalScrollBar()->maximum());
 }
@@ -442,4 +460,7 @@ void ChatWindow::setSubWindow(QMdiSubWindow* subWindow)
     m_window = subWindow;
     connect(m_toggleViewAction, SIGNAL(triggered(bool)), m_window, SLOT(setVisible(bool)));
 }
-
+void ChatWindow::updateDiceAliases(QMap<int,DiceAlias*>* map)
+{
+    m_receivedAlias = map;
+}

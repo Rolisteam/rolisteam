@@ -101,12 +101,18 @@ public :
      */
     QMdiSubWindow* getSubWindow();
 
+    /**
+     * @brief updateDiceAliases
+     * @param map
+     */
+    static void updateDiceAliases(QMap<int,DiceAlias*>* map);
 signals:
     /**
      * @brief ChatWindowHasChanged
      * @param what
      */
     void ChatWindowHasChanged(ChatWindow * what);
+
 
 public slots:
     /**
@@ -205,6 +211,8 @@ private :
     QWidget * m_bottomWidget;
     DiceParser* m_diceParser;
     QMap<QString,CHAT_OPERATOR>* m_operatorMap;
+    static QMap<int,DiceAlias*>* m_receivedAlias;
+
 };
 
 #endif

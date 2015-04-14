@@ -203,28 +203,6 @@ int ChatList::columnCount(const QModelIndex &parent) const
     return 1;
 }
 
-/*bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-    Q_UNUSED(value);
-
-    ChatWindow * chatw = chatWindow(index);
-
-    if (chatw == NULL)
-        return false;
-
-    switch (role)
-    {
-        case Qt::CheckStateRole:
-            chatw->toggleViewAction()->toggle();
-        default:
-            return false;
-    }
-
-    // this signal won't probably be emited for every changes
-    emit dataChanged(index, index);
-    return true;
-}*/
-
 QMenu * ChatList::chatMenu()
 {
     return &m_chatMenu;
@@ -553,4 +531,12 @@ void ChatList::deletePrivateChat(ReceiveEvent * event)
     ChatWindow * chatw = getChatWindowByUuid(uuid);
     if (chatw != NULL)
         delChatWindow(chatw);
+}
+void ChatList::updateDiceAliases(QMap<int,DiceAlias*>* map)
+{
+    foreach(ChatWindow* tmp, m_chatWindowList)
+    {
+        tmp->updateDiceAliases(map);
+    }
+
 }

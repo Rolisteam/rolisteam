@@ -35,6 +35,7 @@ class MainWindow;
 class Player;
 class PrivateChat;
 class ReceiveEvent;
+class DiceAlias;
 
 class BlinkingDecorationDelegate : public QStyledItemDelegate
 {
@@ -74,10 +75,8 @@ public:
     // implements QAbstractItemModel
     virtual QVariant data(const QModelIndex &index, int role) const;
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
-    virtual QVariant headerData(int section, Qt::Orientation orientation,
-                         int role = Qt::DisplayRole) const;
-    virtual QModelIndex index(int row, int column,
-                       const QModelIndex &parent = QModelIndex()) const;
+    virtual QVariant headerData(int section, Qt::Orientation orientation,int role = Qt::DisplayRole) const;
+    virtual QModelIndex index(int row, int column,const QModelIndex &parent = QModelIndex()) const;
     virtual QModelIndex parent(const QModelIndex &index) const;
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -102,19 +101,9 @@ public:
     // Event handler
     virtual bool event(QEvent * event);
 
+    void updateDiceAliases(QMap<int,DiceAlias*>* map);
+
 private:
-    QList<QMdiSubWindow*> m_chatSubWindowList;
-    QList<ChatWindow *> m_chatWindowList;
-    QMap<QString, PrivateChat *> m_privateChatMap;
-    QMenu m_chatMenu;
-    MainWindow * m_mainWindow;
-
-    void addChatWindow(ChatWindow * chat);
-    void delChatWindow(ChatWindow * chat);
-
-    ChatWindow * getChatWindowByUuid(const QString & uuid) const;
-    ChatWindow * getChatWindowByIndex(const QModelIndex & index) const;
-    QMdiSubWindow * getChatSubWindowByIndex(const QModelIndex & index) const;
     /**
      * @brief dispatchMessage
      * @param event
@@ -130,6 +119,14 @@ private:
      * @param event
      */
     void deletePrivateChat(ReceiveEvent * event);
+
+    void addChatWindow(ChatWindow * chat);
+    void delChatWindow(ChatWindow * chat);
+
+    ChatWindow * getChatWindowByUuid(const QString & uuid) const;
+    ChatWindow * getChatWindowByIndex(const QModelIndex & index) const;
+    QMdiSubWindow * getChatSubWindowByIndex(const QModelIndex & index) const;
+
 
 private slots:
     /**
@@ -147,6 +144,14 @@ private slots:
      * @param chat
      */
     void changeChatWindow(ChatWindow * chat);
+
+private:
+    QList<QMdiSubWindow*> m_chatSubWindowList;
+    QList<ChatWindow *> m_chatWindowList;
+    QMap<QString, PrivateChat *> m_privateChatMap;
+    QMenu m_chatMenu;
+    MainWindow * m_mainWindow;
+
 };
 
 #endif
