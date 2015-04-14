@@ -1,5 +1,4 @@
 /***************************************************************************
- *	Copyright (C) 2007 by Romain Campioni   			   *
  *	Copyright (C) 2009 by Renaud Guezennec                             *
  *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
  *                                                                         *

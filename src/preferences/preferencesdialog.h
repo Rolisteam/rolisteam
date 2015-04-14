@@ -37,6 +37,7 @@
 
 #include "widgets/filedirchooser.h"
 
+
 namespace Ui {
 class PreferencesDialogBox;
 }
@@ -49,14 +50,33 @@ class PreferencesDialog : public QDialog
     Q_OBJECT
 
 public:
+    /**
+     * @brief PreferencesDialog
+     * @param parent
+     * @param f
+     */
     PreferencesDialog(QWidget * parent = NULL, Qt::WindowFlags f = 0);
+    /**
+     * @brief ~PreferencesDialog
+     */
     virtual ~PreferencesDialog();
 
+
+
 public slots:
+    /**
+     * @brief show
+     */
     void show();
 
 private slots:
+    /**
+     * @brief load
+     */
     void load();
+    /**
+     * @brief save
+     */
     void save() const;
 
     /**
@@ -64,8 +84,17 @@ private slots:
      */
     void performDiag();
 	//Management of DiceAliases
+    /**
+     * @brief managedAction
+     */
     void managedAction();
+    /**
+     * @brief testAliasCommand
+     */
     void testAliasCommand();
+    /**
+     * @brief applyBackground
+     */
     void applyBackground();
 
 private:

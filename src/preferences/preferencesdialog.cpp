@@ -49,15 +49,17 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     ui->setupUi(this);
 
     ui->m_defaultMapModeCombo->addItems(NewEmptyMapDialog::getPermissionData());
-	m_aliasModel = new DiceAliasModel();
-	m_diceParser = new DiceParser();
-	m_aliasModel->setAliases(m_diceParser->getAliases());
 
-	ui->m_tableViewAlias->setModel(m_aliasModel);
-    QHeaderView* horizontalHeader = ui->m_tableViewAlias->horizontalHeader();
-    horizontalHeader->setSectionResizeMode(DiceAliasModel::VALUE,QHeaderView::Stretch);
 
     m_preferences = PreferencesManager::getInstance();
+
+    m_aliasModel = new DiceAliasModel();
+    ui->m_tableViewAlias->setModel(m_aliasModel);
+    m_diceParser = new DiceParser();
+    m_aliasModel->setAliases(m_diceParser->getAliases());
+
+    QHeaderView* horizontalHeader = ui->m_tableViewAlias->horizontalHeader();
+    horizontalHeader->setSectionResizeMode(DiceAliasModel::VALUE,QHeaderView::Stretch);
 
     connect(this, SIGNAL(accepted()), this, SLOT(save()));
     connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
@@ -77,6 +79,10 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     setSizeGripEnabled(true);
     setWindowTitle(QString("%1 - %2").arg(m_preferences->value("Application_Name","rolisteam").toString(),tr("Preferences")));
     setWindowModality(Qt::ApplicationModal);
+
+
+    m_preferences->registerListener("isPlayer",m_aliasModel);
+    m_aliasModel->setGM(!m_preferences->value("isPlayer",false).toBool());
 }
 
 PreferencesDialog::~PreferencesDialog()
@@ -241,3 +247,4 @@ void PreferencesDialog::applyBackground()
     m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
     m_preferences->registerValue("BackGroundPositioning",ui->m_positioningComboBox->currentIndex());
 }
+
