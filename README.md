@@ -1,10 +1,12 @@
 [![Build Status](http://www.rolisteam.org/sites/default/files/pixture_reloaded_logo.png)](http://www.rolisteam.org)
 
-#  Compile Rolisteam:
+#  Compile Rolisteam (windows) : 
 Please visit: http://wiki.rolisteam.org/index.php/Compilation
 to get information about rolisteam compilation. 
 
-
+#  Compile Rolisteam (Linux) : 
+Please visit: http://wiki.rolisteam.org/index.php/CompilationLinux
+to get information about rolisteam compilation. 
 
 #  Bug report:
 https://github.com/obiwankennedy/rolisteam/issues
@@ -22,5 +24,4 @@ http://forum.rolisteam.org
 We also use this mailing to speak technical issues or roadmap.
 https://lists.fdn.fr/wws/info/rolisteam
  
-
 
