@@ -57,7 +57,7 @@
 #include "services/updatechecker.h"
 #include "improvedworkspace.h"
 #include "data/mediacontainer.h"
-
+#include "network/receiveevent.h"
 #include "textedit.h"
 #include "variablesGlobales.h"
 
@@ -1239,11 +1239,11 @@ void MainWindow::setupUi()
     m_pictureList.clear();
     m_version=tr("unknown");
 #ifdef VERSION_MINOR
-#ifdef VERSION_MAJOR
-#ifdef VERSION_MIDDLE
-    m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
-#endif
-#endif
+    #ifdef VERSION_MAJOR
+        #ifdef VERSION_MIDDLE
+            m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+        #endif
+    #endif
 #endif
     setAnimated(false);
     m_mdiArea = new ImprovedWorkspace();
@@ -1261,14 +1261,12 @@ void MainWindow::setupUi()
     // Ajout du log utilisateur a la fenetre principale
     addDockWidget(Qt::RightDockWidgetArea, m_dockLogUtil);
 
-    // Add chatListWidget
+
     m_chatListWidget = new ChatListWidget(this);
-    //m_chatListWidget = new ChatListWidget();
+    ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_chatListWidget);
     addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
 
-    // Ajout de la liste d'utilisateurs a la fenetre principale
     m_playersListWidget = new PlayersListWidget(this);
-    //m_playersList = new PlayersListWidget();
     addDockWidget(Qt::RightDockWidgetArea, m_playersListWidget);
     setWindowIcon(QIcon(":/logo.png"));
 #ifndef NULL_PLAYER
@@ -1861,3 +1859,4 @@ void MainWindow::updateWindowTitle()
                    .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected"))
                    .arg(m_networkManager->isServer() ? tr("Server") : tr("Client")).arg(m_playerList->localPlayer()->isGM() ? tr("GM") : tr("Player")));
 }
+
