@@ -30,10 +30,10 @@
 #include "chatlist.h"
 #include "mainwindow.h"
 #include "privatechatdialog.h"
-
+#include "dicealias.h"
 
 ChatListWidget::ChatListWidget(MainWindow * parent)
-    : QDockWidget(/*parent*/)
+    : QDockWidget(/*parent*/),m_diceAliasMapFromGM(new QMap<int,DiceAlias*>())
 {
     Q_UNUSED(parent);
     setWindowTitle(tr("Chat messaging"));
@@ -132,7 +132,7 @@ void ChatListWidget::createPrivateChat()
 
 void ChatListWidget::selectAnotherChat(const QModelIndex & index)
 {
-    AbstractChat * chat = m_chatList->chat(index);
+    AbstractChat* chat = m_chatList->chat(index);
     m_deleteButton->setEnabled(
             chat != NULL &&
             chat->inherits("PrivateChat") &&
@@ -150,4 +150,35 @@ void ChatListWidget::editChat(const QModelIndex & index)
 void ChatListWidget::deleteSelectedChat()
 {
     m_chatList->delLocalChat(m_selectionModel->currentIndex());
+}
+NetWorkReceiver::SendType ChatListWidget::processMessage(NetworkMessageReader* msg)
+{
+    switch (msg->action())
+    {
+    case NetMsg::addDiceAlias:
+        processAddDiceAlias(msg);
+        break;
+    case NetMsg::removeDiceAlias:
+        processRemoveDiceALias(msg);
+        break;
+    default:
+        break;
+    }
+}
+void ChatListWidget::processAddDiceAlias(NetworkMessageReader* msg)
+{
+  int pos = msg->int64();
+  QString regex = msg->string32();
+  QString value = msg->string32();
+  bool isReplace = (bool)msg->int8();
+  DiceAlias* tmp = new DiceAlias(regex,value,isReplace);
+
+  m_diceAliasMapFromGM->insert(pos,tmp);
+
+  m_chatList->updateDiceAliases(m_diceAliasMapFromGM);
+}
+void ChatListWidget::processAddDiceAlias(NetworkMessageReader* msg)
+{
+    int pos = msg->int64();
+    m_diceAliasMapFromGM->remove(pos);
 }

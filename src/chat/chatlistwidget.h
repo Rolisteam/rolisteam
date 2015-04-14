@@ -28,13 +28,16 @@
 #include <QPushButton>
 #include <QListView>
 
+#include "network/networkreceiver.h"
+
 class ChatList;
 class MainWindow;
 class PrivateChatDialog;
+class DiceAlias;
 /**
  * @brief The ChatListWidget class
  */
-class ChatListWidget : public QDockWidget
+class ChatListWidget : public QDockWidget, public NetWorkReceiver
 {
     Q_OBJECT
 
@@ -49,8 +52,18 @@ public:
 
     bool eventFilter(QObject * object, QEvent * event);
 
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+
 public slots:
     void createPrivateChat();
+
+private slots:
+    void selectAnotherChat(const QModelIndex & index);
+    void editChat(const QModelIndex & index);
+    void deleteSelectedChat();
+    void updateAllUnreadChat();
+    void processAddDiceAlias(NetworkMessageReader* msg);
+
 
 private:
     ChatList * m_chatList;
@@ -58,12 +71,7 @@ private:
     QItemSelectionModel * m_selectionModel;
     QPushButton * m_deleteButton;
     QListView* m_listView;
-
-private slots:
-    void selectAnotherChat(const QModelIndex & index);
-    void editChat(const QModelIndex & index);
-    void deleteSelectedChat();
-    void updateAllUnreadChat();
+    QMap<int,DiceAlias*>* m_diceAliasMapFromGM;
 };
 
 #endif

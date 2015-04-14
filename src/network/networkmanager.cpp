@@ -273,10 +273,6 @@ void NetworkManager::emettreDonnees(char *donnees, quint32 taille, NetworkLink *
 void NetworkManager::ajouterNetworkLink(NetworkLink *NetworkLink)
 {
     NetworkLinks.append(NetworkLink);
-    /*if(NULL!=m_audioPlayer)
-    {
-        insertNetWortReceiver(m_audioPlayer,NetMsg::MusicCategory);
-    }*/
     connect(this, SIGNAL(emissionDonnees(char *, quint32, NetworkLink *)),NetworkLink, SLOT(emissionDonnees(char *, quint32, NetworkLink *)));
     connect(NetworkLink, SIGNAL(disconnected(NetworkLink *)),this, SLOT(finDeNetworkLink(NetworkLink *)));
     connect(NetworkLink,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));

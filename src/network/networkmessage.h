@@ -1,5 +1,6 @@
 /*************************************************************************
  *   Copyright (C) 2011 by Joseph Boudou                                 *
+ *   Copyright (C) 2015 by Renaud Guezennec                              *
  *                                                                       *
  *   http://www.rolisteam.org/                                           *
  *                                                                       *
@@ -48,7 +49,8 @@ enum Category {
     PictureCategory,
     ChatCategory,
     MusicCategory,
-    SetupCategory
+    SetupCategory,
+    SharePreferencesCategory
 };
 
 enum Action {
@@ -122,7 +124,12 @@ enum Action {
 
 
     // SetupCategory
-    AddFeatureAction = 2
+    AddFeatureAction = 2,
+
+    //SharePreferencesCategory
+    addDiceAlias = 0,
+    removeDiceAlias
+
 };
 }
 /**
