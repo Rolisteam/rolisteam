@@ -101,6 +101,11 @@ public:
     void topAlias(QModelIndex& index);
     void bottomAlias(QModelIndex& index);
     void setGM(bool);
+    void clear();
+    /**
+     * @brief sendOffAllDiceAlias
+     */
+    void sendOffAllDiceAlias(NetworkLink*);
 
 private:
     QList<DiceAlias*>* m_diceAliasList;

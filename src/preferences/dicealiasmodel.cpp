@@ -52,15 +52,12 @@ QVariant DiceAliasModel::data(const QModelIndex &index, int role) const
                 {
                     return diceAlias->getValue();
                 }
+                else if(index.column()==METHOD)
+                {
+                    return !diceAlias->isReplace();
+                }
             }
 		}
-        else if(Qt::CheckStateRole == role)
-        {
-            if(index.column()==METHOD)
-            {
-                return diceAlias->isReplace() ? Qt::Unchecked : Qt::Checked ;
-            }
-        }
         else if(Qt::TextAlignmentRole== role)
         {
             if(index.column()==METHOD)
@@ -135,20 +132,30 @@ bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, in
                 diceAlias->setValue(value.toString());
                 result = true;
                 break;
+            case METHOD:
+                if(value.toBool())
+                {
+                    diceAlias->setType(DiceAlias::REGEXP);
+                }
+                else
+                {
+                    diceAlias->setType(DiceAlias::REPLACE);
+                }
+                result = true;
+                break;
             }
         }
         else if(role==Qt::CheckStateRole)
         {
-            if(value.toInt() == Qt::Checked )
-            {
-                    diceAlias->setType(DiceAlias::REGEXP);
-                    result = true;
-            }
-            else
-            {
-                diceAlias->setType(DiceAlias::REPLACE);
-                result = true;
-            }
+//            if(value.toInt() == Qt::Checked )
+//            {
+//                    diceAlias->setType(DiceAlias::REGEXP);
+//                    result = true;
+//            }
+//            else
+//            {
+//                diceAlias->setType(DiceAlias::REPLACE);
+//            }
         }
         if((result)&&(m_isGM))
         {
@@ -235,4 +242,23 @@ void DiceAliasModel::bottomAlias(QModelIndex& index)
 void DiceAliasModel::setGM(bool b)
 {
     m_isGM = b;
+}
+void DiceAliasModel::clear()
+{
+    beginResetModel();
+    qDeleteAll(m_diceAliasList->begin(),m_diceAliasList->end());
+    m_diceAliasList->clear();
+    endResetModel();
+}
+void DiceAliasModel::sendOffAllDiceAlias(NetworkLink* link)
+{
+    foreach(DiceAlias* alias,*m_diceAliasList)
+    {
+        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addDiceAlias);
+        msg.int64(m_diceAliasList->indexOf(alias));
+        msg.string32(alias->getCommand());
+        msg.string32(alias->getValue());
+        msg.int8(alias->isReplace());
+        msg.sendTo(link);
+    }
 }
