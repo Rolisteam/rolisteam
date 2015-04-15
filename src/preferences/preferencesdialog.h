@@ -26,17 +26,24 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QCheckBox>
+#include <QStyledItemDelegate>
 
 
 #include "preferences/dicealiasmodel.h"
 #include "preferences/preferencesmanager.h"
 #include "widgets/colorbutton.h"
 
-
 #include "diceparser/diceparser.h"
 
 #include "widgets/filedirchooser.h"
 
+class CheckBoxDelegate : public QStyledItemDelegate
+{
+public:
+    virtual QWidget*	createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const;
+    virtual void	setEditorData(QWidget * editor, const QModelIndex & index) const;
+    virtual void	setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const;
+};
 
 namespace Ui {
 class PreferencesDialogBox;
@@ -61,7 +68,10 @@ public:
      */
     virtual ~PreferencesDialog();
 
-
+    /**
+     * @brief sendOffAllDiceAlias
+     */
+    void sendOffAllDiceAlias(NetworkLink*);
 
 public slots:
     /**

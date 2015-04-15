@@ -39,6 +39,37 @@
 #include "map/newemptymapdialog.h"
 #include "diceparser/diceparser.h"
 
+
+
+
+
+
+
+QWidget* CheckBoxDelegate::createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const
+{
+    QCheckBox* cb = new QCheckBox(parent);
+    return cb;
+}
+void CheckBoxDelegate::setEditorData(QWidget * editor, const QModelIndex & index) const
+{
+     QCheckBox* cb = qobject_cast<QCheckBox*>(editor);
+     bool checked = index.data().toBool();
+     cb->setChecked(checked);
+}
+void CheckBoxDelegate::setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const
+{
+     QCheckBox* cb = qobject_cast<QCheckBox*>(editor);
+    model->setData(index,cb->isChecked());
+}
+
+
+
+
+
+
+
+
+
 /*********************
  * PreferencesDialog *
  *********************/
@@ -60,6 +91,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
     QHeaderView* horizontalHeader = ui->m_tableViewAlias->horizontalHeader();
     horizontalHeader->setSectionResizeMode(DiceAliasModel::VALUE,QHeaderView::Stretch);
+    ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::METHOD,new CheckBoxDelegate());
 
     connect(this, SIGNAL(accepted()), this, SLOT(save()));
     connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
@@ -98,6 +130,7 @@ void PreferencesDialog::show()
 
 void PreferencesDialog::load()
 {
+    static bool firstLoad = true;
     //Direcotry PATH
     ui->m_musicDirGM->setPath(m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString());
     ui->m_musicDirPlayer->setPath(m_preferences->value("MusicDirectoryPlayer",QDir::homePath()).toString());
@@ -131,16 +164,20 @@ void PreferencesDialog::load()
     ui->m_positioningComboBox->setCurrentIndex(m_preferences->value("BackGroundPositioning",0).value<int>());
 
     //DiceSystem
-    int size = m_preferences->value("DiceAliasNumber",0).toInt();
-    for(int i = 0; i < size ; ++i)
+    if(firstLoad)
     {
-        QString cmd = m_preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
-        QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
-        bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
+        int size = m_preferences->value("DiceAliasNumber",0).toInt();
+        for(int i = 0; i < size ; ++i)
+        {
+            QString cmd = m_preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
+            QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
+            bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
 
-        DiceAlias* tmpAlias = new DiceAlias(cmd,value,replace);
-        m_aliasModel->addAlias(tmpAlias);
+            DiceAlias* tmpAlias = new DiceAlias(cmd,value,replace);
+            m_aliasModel->addAlias(tmpAlias);
+        }
     }
+    firstLoad=false;
 
 }
 
@@ -247,4 +284,10 @@ void PreferencesDialog::applyBackground()
     m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
     m_preferences->registerValue("BackGroundPositioning",ui->m_positioningComboBox->currentIndex());
 }
-
+void PreferencesDialog::sendOffAllDiceAlias(NetworkLink* link)
+{
+    if(NULL!=m_aliasModel)
+    {
+        m_aliasModel->sendOffAllDiceAlias(link);
+    }
+}
