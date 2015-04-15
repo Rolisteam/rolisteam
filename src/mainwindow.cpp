@@ -397,20 +397,13 @@ void MainWindow::receiveData(quint64 readData,quint64 size)
 
 void MainWindow::creerLogUtilisateur()
 {
-    // Creation du dockWidget contenant la fenetre de log utilisateur
     m_dockLogUtil = new QDockWidget(tr("Events"), this);
-    //m_dockLogUtil = new QDockWidget(tr("Events"));
     m_dockLogUtil->setObjectName("dockLogUtil");
     m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-
-    //Creation du log utilisateur
     m_notifierDisplay = new QTextEdit(m_dockLogUtil);
     m_notifierDisplay->setReadOnly(true);
-
-    // Insertion de la fenetre de log utilisateur dans le dockWidget
     m_dockLogUtil->setWidget(m_notifierDisplay);
-    // Largeur minimum du log utilisateur
     m_dockLogUtil->setMinimumWidth(125);
 }
 
@@ -510,11 +503,6 @@ void MainWindow::updateWorkspace()
         changementFenetreActive(active);
     }
 }
-//void MainWindow::majCouleursPersonnelles()
-//{
-//    m_toolBar->updatePersonalColor();
-//}
-
 void MainWindow::newMap()
 {
     MapFrame* mapFrame = new MapFrame(NULL, m_mdiArea);
@@ -534,7 +522,7 @@ void MainWindow::newNoteDocument()
     m_noteEditor->fileNew();
     displayMinutesEditor(true,true);
 }
-void MainWindow::emettreTousLesPlans(NetworkLink * link)
+void MainWindow::sendOffAllMaps(NetworkLink * link)
 {
     QMapIterator<QString, MapFrame*> i(m_mapWindowMap);
     while (i.hasNext())
@@ -546,8 +534,7 @@ void MainWindow::emettreTousLesPlans(NetworkLink * link)
     }
 
 }
-
-void MainWindow::emettreToutesLesImages(NetworkLink * link)
+void MainWindow::sendOffAllImages(NetworkLink * link)
 {
     NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
 
@@ -1060,8 +1047,9 @@ void MainWindow::updateSessionToNewClient(Player* player)
 {
     if(NULL!=player)
     {
-        emettreTousLesPlans(player->link());
-        emettreToutesLesImages(player->link());
+        sendOffAllMaps(player->link());
+        sendOffAllImages(player->link());
+        m_preferencesDialog->sendOffAllDiceAlias(player->link());
     }
 }
 

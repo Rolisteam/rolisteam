@@ -261,8 +261,8 @@ private slots :
     void closeMapOrImage();
     void saveMap();
     void updateMayBeNeeded();
-	void emettreTousLesPlans(NetworkLink * link);
-	void emettreToutesLesImages(NetworkLink * link);
+	void sendOffAllMaps(NetworkLink * link);
+	void sendOffAllImages(NetworkLink * link);
     void updateSessionToNewClient(Player* player);
     void receiveData(quint64 readData,quint64 size);
     void openContent();
@@ -321,7 +321,7 @@ private :
     AudioPlayer* m_audioPlayer;
 #endif
 
-    PreferencesDialog * m_preferencesDialog;
+    PreferencesDialog* m_preferencesDialog;
 	PreferencesManager* m_preferences;
     ChatListWidget * m_chatListWidget;
     UpdateChecker* m_updateChecker;
