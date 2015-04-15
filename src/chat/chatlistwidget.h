@@ -63,6 +63,7 @@ private slots:
     void deleteSelectedChat();
     void updateAllUnreadChat();
     void processAddDiceAlias(NetworkMessageReader* msg);
+    void processRemoveDiceALias(NetworkMessageReader* msg);
 
 
 private:

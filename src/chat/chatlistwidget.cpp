@@ -177,7 +177,7 @@ void ChatListWidget::processAddDiceAlias(NetworkMessageReader* msg)
 
   m_chatList->updateDiceAliases(m_diceAliasMapFromGM);
 }
-void ChatListWidget::processAddDiceAlias(NetworkMessageReader* msg)
+void ChatListWidget::processRemoveDiceALias(NetworkMessageReader* msg)
 {
     int pos = msg->int64();
     m_diceAliasMapFromGM->remove(pos);
