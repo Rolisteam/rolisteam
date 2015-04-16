@@ -24,6 +24,7 @@
 #include "data/persons.h"
 
 #include <QUuid>
+#include <QApplication>
 
 
 #include "network/networkmessagereader.h"
@@ -109,6 +110,7 @@ Player::Player(NetworkMessageReader & data, NetworkLink * link)
     m_uuid = data.string8();
     m_color = QColor(data.rgb());
     m_gameMaster  = (data.uint8() != 0);
+    m_softVersion = data.string16();
 }
 
 Player::~Player()
@@ -128,6 +130,7 @@ void Player::fill(NetworkMessageWriter & message)
     message.string8(m_uuid);
     message.rgb(m_color);
     message.uint8(m_gameMaster ? 1 : 0);
+    message.string16(qApp->applicationVersion());
 }
 
 NetworkLink * Player::link() const
@@ -210,7 +213,15 @@ void Player::setFeature(const QString & name, quint8 version)
 
     m_features.insert(name, version);
 }
+QString Player::getUserVersion()
+{
+    return m_softVersion;
+}
 
+void Player::setUserVersion(QString softV)
+{
+    m_softVersion = softV;
+}
 
 /*************
  * Character *
