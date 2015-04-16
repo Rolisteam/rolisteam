@@ -124,7 +124,8 @@ HEADERS += \
     src/map/mapframe.h \
     src/preferences/dicealiasmodel.h \
     src/widgets/onlinepicturedialog.h \
-    src/preferences/preferenceslistener.h
+    src/preferences/preferenceslistener.h \
+    src/widgets/centeredcheckbox.h
 
 
 
@@ -136,7 +137,6 @@ SOURCES += \
            src/delegate.cpp \
            src/Features.cpp \
            src/Image.cpp \
-           src/initialisation.cpp \
            src/localpersonmodel.cpp \
            src/main.cpp \
            src/network/networkmessage.cpp \
@@ -179,7 +179,8 @@ SOURCES += \
     src/map/mapframe.cpp \
     src/preferences/dicealiasmodel.cpp \
     src/widgets/onlinepicturedialog.cpp \
-    src/preferences/preferenceslistener.cpp
+    src/preferences/preferenceslistener.cpp \
+    src/widgets/centeredcheckbox.cpp
 #end source
 
 
