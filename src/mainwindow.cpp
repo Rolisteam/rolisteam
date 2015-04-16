@@ -1036,6 +1036,10 @@ void MainWindow::networkStateChanged(bool state)
 void MainWindow::notifyAboutAddedPlayer(Player * player) const
 {
     notifyUser(tr("%1 just joins the game.").arg(player->name()));
+    if(player->getUserVersion().compare(m_version)!=0)
+    {
+        notifyUser(tr("%1 has not the right version: %2.").arg(player->name()).arg(player->getUserVersion()),Error);
+    }
 }
 
 void MainWindow::notifyAboutDeletedPlayer(Player * player) const
@@ -1197,26 +1201,47 @@ void MainWindow::processConnectionMessage(NetworkMessageReader* msg)
         updateWorkspace();
     }
 }
-void MainWindow::notifyUser(QString message) const
+void MainWindow::notifyUser(QString message, MessageType type) const
 {
     static bool alternance = false;
-    QColor couleur;
+    QColor color;
     alternance = !alternance;
+
     if (alternance)
-        couleur = Qt::darkBlue;
+        color = Qt::darkBlue;
     else
-        couleur = Qt::darkRed;
-    QString heure = QTime::currentTime().toString("hh:mm:ss") + " - ";
+        color = Qt::darkRed;
+
+    switch (type)
+    {
+    case Information:
+
+        break;
+    case Error:
+        color = Qt::red;
+        message.prepend(tr("Error:"));
+        break;
+    case Warning:
+        color = Qt::darkRed;
+        message.prepend(tr("Warning:"));
+        break;
+    case Notice:
+
+        break;
+
+    }
+
+    QString time = QTime::currentTime().toString("hh:mm:ss") + " - ";
     m_notifierDisplay->moveCursor(QTextCursor::End);
     m_notifierDisplay->setTextColor(Qt::darkGreen);
-    m_notifierDisplay->append(heure);
-    m_notifierDisplay->setTextColor(couleur);
+    m_notifierDisplay->append(time);
+    m_notifierDisplay->setTextColor(color);
     m_notifierDisplay->insertPlainText(message);
 }
 bool  MainWindow::showConnectionDialog()
 {
     // Get a connection
-    bool result = m_networkManager->configAndConnect();
+    bool result = m_networkManager->configAndConnect(m_version);
     m_audioPlayer->updateUi();
     return result;
 }

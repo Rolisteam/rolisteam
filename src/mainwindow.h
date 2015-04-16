@@ -37,7 +37,6 @@
 #include "map/map.h"
 
 #include "map/charactertoken.h"
-#include "initialisation.h"
 #include "preferences/preferencesmanager.h"
 #include "services/ipchecker.h"
 
@@ -77,7 +76,7 @@ class MainWindow : public QMainWindow, public NetWorkReceiver
     Q_OBJECT
 
 public :
-
+    enum MessageType {Information,Notice,Warning,Error};
 	/**
 	*
 	*/
@@ -87,10 +86,6 @@ public :
      * @return
      */
     static MainWindow* getInstance();
-//    /**
-//     * @brief majCouleursPersonnelles
-//     */
-//    void majCouleursPersonnelles();
 
     /**
      * @brief addMap
@@ -206,7 +201,7 @@ public slots :
      * @brief notifyUser
      * @param msg
      */
-    void notifyUser(QString msg) const;
+    void notifyUser(QString msg,MessageType msgType = Information) const;
     /**
 	 * @brief displayMinutesEditor
      * @param afficher
