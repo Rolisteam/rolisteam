@@ -70,4 +70,7 @@
         <file>translations/qt_es.qm</file>
         <file>resources/icons/preview.png</file>
     </qresource>
+    <qresource prefix="/stylesheet">
+        <file>resources/stylesheet/darkorange.qss</file>
+    </qresource>
 </RCC>

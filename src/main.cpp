@@ -32,7 +32,6 @@
 #include <time.h>
 
 #include "network/networkmanager.h"
-#include "initialisation.h"
 #include "mainwindow.h"
 #include "data/persons.h"
 
@@ -73,10 +72,10 @@ int main(int argc, char *argv[])
 {
     // Creation de l'application
     QApplication app(argc, argv);
-    Initialisation* init= Initialisation::getInstance();
 
+    QString appName="rolisteam";
 
-    app.setApplicationName(init->getApplicationName());
+    app.setApplicationName(appName);
     QString version = QObject::tr("Unknown");
     #ifdef VERSION_MINOR
         #ifdef VERSION_MAJOR
@@ -91,7 +90,7 @@ int main(int argc, char *argv[])
     QString locale = QLocale::system().name();
 
     // Ressources
-    QResource::registerResource(init->getApplicationName() + ".rcc");
+    QResource::registerResource(appName+".rcc");
 
     QStringList translationCLI;
     translationCLI << "-t"<<"--translation";
@@ -118,6 +117,11 @@ int main(int argc, char *argv[])
     QTranslator qtTranslator;
     qtTranslator.load(":/translations/qt_" + locale);
     app.installTranslator(&qtTranslator);
+
+    QFile styleFile(":/stylesheet/resources/stylesheet/darkorange.qss");
+    styleFile.open(QFile::ReadOnly);
+    QByteArray bytes = styleFile.readAll();
+    app.setStyleSheet(bytes);
 
     // Seeds random generator
     uint seed = quintptr(&app) + QDateTime::currentDateTime().toTime_t();
