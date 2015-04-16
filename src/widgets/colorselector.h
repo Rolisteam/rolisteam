@@ -19,15 +19,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-/********************************************************************/
-/*                                                                  */
-/* Permet de selectionner une couleur dans une palette predefinie   */
-/* qui peut etre en partie modifiee.                                */
-/*                                                                  */
-/********************************************************************/
-
-
 #ifndef SELECTEUR_COULEUR_H
 #define SELECTEUR_COULEUR_H
 

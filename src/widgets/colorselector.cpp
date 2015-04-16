@@ -53,11 +53,15 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_currentColor->setFrameStyle(QFrame::Panel | QFrame::Raised);
     m_currentColor->setLineWidth(1);
     m_currentColor->setMidLineWidth(1);
+   // QPixmap* map = new QPixmap(45,40);
+   // map->fill(QColor(rouge[0],vert[0],bleu[0]));
     m_currentColor->setFixedSize(45,40);
-    m_currentColor->setPalette(QPalette(QColor(rouge[0],vert[0],bleu[0])));
+    m_currentColor->setStyleSheet(QString("background: rgb(%1,%2,%3)").arg(rouge[0]).arg(vert[0]).arg(bleu[0]));
     m_currentColor->setToolTip(tr("Predefine color 1"));
     m_currentColor->setAutoFillBackground(true);
     m_currentColor->setScaledContents(true);
+  //  m_currentColor->setPixmap(*map);
+
 
     // Mise a jour de la variable globale
     G_couleurCourante.type = ColorType;
