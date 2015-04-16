@@ -22,7 +22,7 @@ void ChatBrowser::backGroundChanged()
     if(dialog.exec()==QDialog::Accepted)
     {
         m_bgColor=dialog.currentColor();
-        setStyleSheet(QString("background:rgb(%1,%2,%3)").arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()));
+        setStyleSheet(QString("background:rgb(%1,%2,%3);").arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()));
     }
 }
 void ChatBrowser::showContextMenu(QPoint pos)
