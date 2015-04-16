@@ -1,5 +1,4 @@
 /*************************************************************************
- *     Copyright (C) 2010 by Joseph Boudou                               *
  *     Copyright (C) 2011 by Renaud Guezennec                            *
  *                                                                       *
  *     http://www.rolisteam.org/                                         *
@@ -31,18 +30,66 @@
 
 #include "preferences/dicealiasmodel.h"
 #include "preferences/preferencesmanager.h"
-#include "widgets/colorbutton.h"
-
 #include "diceparser/diceparser.h"
-
+#include "widgets/colorbutton.h"
 #include "widgets/filedirchooser.h"
+#include "widgets/centeredcheckbox.h"
 
+
+/**
+ * @brief The CheckBoxDelegate class
+ */
 class CheckBoxDelegate : public QStyledItemDelegate
 {
+     Q_OBJECT
 public:
+    /**
+     * @brief CheckBoxDelegate
+     * @param aRedCheckBox
+     * @param parent
+     */
+    CheckBoxDelegate(bool aRedCheckBox = false, QObject *parent = 0);
+    /**
+     * @brief createEditor
+     * @param parent
+     * @param option
+     * @param index
+     * @return
+     */
     virtual QWidget*	createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const;
+    /**
+     * @brief setEditorData
+     * @param editor
+     * @param index
+     */
     virtual void	setEditorData(QWidget * editor, const QModelIndex & index) const;
+    /**
+     * @brief setModelData
+     * @param editor
+     * @param model
+     * @param index
+     */
     virtual void	setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const;
+    /**
+     * @brief sizeHint
+     * @param option
+     * @param index
+     * @return
+     */
+    QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+    /**
+     * @brief paint
+     * @param painter
+     * @param option
+     * @param index
+     */
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
+public slots:
+    void commitEditor();
+
+private:
+    CenteredCheckBox* m_editor;
 };
 
 namespace Ui {

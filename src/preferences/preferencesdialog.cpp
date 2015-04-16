@@ -1,5 +1,4 @@
 /*************************************************************************
- *     Copyright (C) 2010 by Joseph Boudou                               *
  *     Copyright (C) 2014 by Renaud Guezennec                            *
  *                                                                       *
  *     http://www.rolisteam.org/                                         *
@@ -23,7 +22,6 @@
 #include "preferencesdialog.h"
 
 #include "variablesGlobales.h"
-#include "initialisation.h"
 
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -34,6 +32,10 @@
 #include <QImageReader>
 #include <QFontDatabase>
 
+#ifdef HAVE_SOUND
+    #include <QMediaPlayer>
+#endif
+
 #include "ui_preferencesdialogbox.h"
 
 #include "map/newemptymapdialog.h"
@@ -41,34 +43,79 @@
 
 
 
+CheckBoxDelegate::CheckBoxDelegate(bool aRedCheckBox, QObject *parent)
+{
+    m_editor = new CenteredCheckBox();
+    connect( m_editor, SIGNAL(commitEditor()),
+             this, SLOT(commitEditor()) );
+}
 
 
 
 
 QWidget* CheckBoxDelegate::createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const
 {
-    QCheckBox* cb = new QCheckBox(parent);
+    CenteredCheckBox* cb = new CenteredCheckBox(parent);
     return cb;
 }
 void CheckBoxDelegate::setEditorData(QWidget * editor, const QModelIndex & index) const
 {
-     QCheckBox* cb = qobject_cast<QCheckBox*>(editor);
+     CenteredCheckBox* cb = qobject_cast<CenteredCheckBox*>(editor);
      bool checked = index.data().toBool();
-     cb->setChecked(checked);
+     cb->setCheckedDelegate(!checked);
 }
 void CheckBoxDelegate::setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const
 {
-     QCheckBox* cb = qobject_cast<QCheckBox*>(editor);
-    model->setData(index,cb->isChecked());
+     CenteredCheckBox* cb = qobject_cast<CenteredCheckBox*>(editor);
+    model->setData(index,cb->isCheckedDelegate());
+    QStyledItemDelegate::setEditorData(editor, index);
+}
+QSize CheckBoxDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
+{
+    QSize a = QStyledItemDelegate::sizeHint(option,index);
+    a.setHeight(30);
+    a.setWidth(150);
+    return a;
 }
 
+void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    painter->save();
+
+    if (!index.isValid())
+    {
+        return;
+    }
+
+    QStyleOptionViewItemV4 opt = option;
+    QStyledItemDelegate::initStyleOption(&opt, index);
+
+    QVariant var= index.data();
+
+    bool checked = var.toBool();
+    QVariant color= index.data(Qt::BackgroundRole);
+
+    if (option.state & QStyle::State_Selected)
+    {
+        painter->fillRect(option.rect, option.palette.highlight());
+    }
+
+    m_editor->setCheckedDelegate(checked);
+
+    m_editor->resize( option.rect.size() );
+    m_editor->setAutoFillBackground(false);
+    painter->translate(option.rect.topLeft());
+    m_editor->render(painter, QPoint(), QRegion(), QWidget::DrawChildren );
 
 
-
-
-
-
-
+    painter->restore();
+}
+void CheckBoxDelegate::commitEditor()
+{
+    CenteredCheckBox *editor = qobject_cast<CenteredCheckBox *>(sender());
+//	std::cout<<"commitEditor "<<(editor==m_editor)<<"  "<<editor->isCheckedDelegate()<<std::endl;
+    emit commitData(editor);
+}
 
 /*********************
  * PreferencesDialog *
@@ -90,7 +137,9 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     m_aliasModel->setAliases(m_diceParser->getAliases());
 
     QHeaderView* horizontalHeader = ui->m_tableViewAlias->horizontalHeader();
+    horizontalHeader->setSectionResizeMode(DiceAliasModel::PATTERN,QHeaderView::ResizeToContents);
     horizontalHeader->setSectionResizeMode(DiceAliasModel::VALUE,QHeaderView::Stretch);
+    horizontalHeader->setSectionResizeMode(DiceAliasModel::METHOD,QHeaderView::ResizeToContents);
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::METHOD,new CheckBoxDelegate());
 
     connect(this, SIGNAL(accepted()), this, SLOT(save()));
@@ -223,21 +272,68 @@ void PreferencesDialog::performDiag()
     ui->m_diagDisplay->clear();
     
     QList<QByteArray> format(QImageReader::supportedImageFormats());
-    QString chaine=tr("Image Format : %1 value %2");
-    ui->m_diagDisplay->setText(tr("Supported Image Formats:"));
+
+    QString htmlResult;
+    QString linePattern=tr("<li>Image Format : %1 value %2</li>");
+    htmlResult = tr("<h2>Supported Image Formats:</h2><ul>");
+    QString result="";
     for(int i=0 ; i < format.size() ; ++i)
     {
-        ui->m_diagDisplay->append(chaine.arg(i).arg(QString(format.at(i))));
+        result+=linePattern.arg(i).arg(QString(format.at(i)));
     }
-    ui->m_diagDisplay->append(tr("End of Image Format"));
-
+    htmlResult +=result;
+    htmlResult+= tr("</ul>End of Image Format");
+    result="";
     QFontDatabase database;
-    ui->m_diagDisplay->append(tr("Font families:"));
+    htmlResult+= tr("<h2>Font families:</h2><ul>");
+    linePattern = "<li>%1</li>";
     foreach (const QString &family, database.families())
     {
-          ui->m_diagDisplay->append(family);
+          result+= linePattern.arg(family);
     }
-    ui->m_diagDisplay->append(tr("End of Font families:"));
+    htmlResult +=result;
+    htmlResult+= tr("</ul>End of Font families");
+#ifdef HAVE_SOUND
+    result="";
+    htmlResult+= tr("<h2>Audio file formats Support:</h2><ul>");
+    QStringList commonAudioMimeType;
+    commonAudioMimeType << "audio/basic"
+                        << "audio/L24"
+                        << "audio/mid"
+                        << "audio/mpeg"
+                        << "audio/mp4"
+                        << "audio/x-aiff"
+                        << "audio/x-mpegurl"
+                        << "audio/vnd.rn-realaudio"
+                        << "audio/ogg"
+                        << "audio/vorbis"
+                        << "audio/vnd.wav"
+                        << "audio/x-ms-wma"
+                        << "audio/x-wav"
+                        << "audio/wav"
+                        << "audio/webm"
+                        << "audio/flac";
+    foreach (const QString &type, commonAudioMimeType)
+    {
+        switch (QMediaPlayer::hasSupport(type))
+        {
+        case QMultimedia::NotSupported:
+            result+=tr("<li>Unsupported format: %1</li>").arg(type);
+            break;
+        case QMultimedia::MaybeSupported:
+            result+=tr("<li>Maybe supported format: %1</li>").arg(type);
+            break;
+        case QMultimedia::ProbablySupported:
+        case QMultimedia::PreferredService:
+            result+= tr("<li>Supported format: %1</li>").arg(type);
+            break;
+        }
+    }
+    htmlResult +=result;
+    htmlResult+= tr("</ul>End of Supported Audio file formats");
+
+#endif
+    ui->m_diagDisplay->setHtml(htmlResult);
 }
 
 void PreferencesDialog::managedAction()
@@ -291,3 +387,4 @@ void PreferencesDialog::sendOffAllDiceAlias(NetworkLink* link)
         m_aliasModel->sendOffAllDiceAlias(link);
     }
 }
+
