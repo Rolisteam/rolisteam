@@ -26,9 +26,6 @@
 
 #include <QTcpSocket>
 #include <QMessageBox>
-
-
-#include "initialisation.h"
 #include "network/networklink.h"
 #include "data/persons.h"
 #include "audio/audioPlayer.h"
@@ -94,7 +91,7 @@ void NetworkManager::setValueConnection(QString portValue,QString hostnameValue,
     m_commandLineValue = true;
 }
 
-bool NetworkManager::configAndConnect()
+bool NetworkManager::configAndConnect(QString version)
 {
     bool isServer = !m_preferences->value("isClient",true).toBool();
     bool isGM =  !m_preferences->value("isPlayer",false).toBool();
@@ -157,6 +154,7 @@ bool NetworkManager::configAndConnect()
                 m_configDialog->getColor(),
                 m_configDialog->isGM()
             );
+        m_localPlayer->setUserVersion(version);
             m_playersList->setLocalPlayer(m_localPlayer);
 
            isConnected = startConnection();

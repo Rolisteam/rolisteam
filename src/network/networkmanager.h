@@ -33,8 +33,6 @@
 
 
 #include "connectiondialog.h"
-
-#include "initialisation.h"
 #include "connectionretrydialog.h"
 #include "preferences/preferencesmanager.h"
 #include "userlist/playersList.h"
@@ -61,7 +59,7 @@ public :
      * @brief Display the configDialog and make the connection.
      * @return true if connection has been established, false if the user has clicked on the Quit button.
      */
-    bool configAndConnect();
+    bool configAndConnect(QString version);
 
     /**
      * @brief emettreDonnees
