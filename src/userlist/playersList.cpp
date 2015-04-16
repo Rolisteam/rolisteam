@@ -35,9 +35,6 @@
 
 #include "types.h"
 
-// we don't want to include variablesGlobales.h just for some bool
-
-//extern bool G_joueur;
 
 
 /******************
@@ -723,7 +720,9 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
     NetworkLink * link = event->link();
     Player * player = new Player(event->data(), link);
     if (player->isGM() && m_gmCount > 0)
+    {
         player->setGM(false);
+    }
 
     addPlayer(player);
 
