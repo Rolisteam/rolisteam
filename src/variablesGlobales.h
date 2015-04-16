@@ -29,20 +29,12 @@
 
 #include "toolsbar.h"
 #include "map/charactertoken.h"
-#include "initialisation.h"
 #include "widgets/colorselector.h"
 
 class NetworkManager;
 class NetworkLink;
 class MainWindow;
 
-// Declarees dans NetworkManager.cpp
-//extern bool G_joueur;
-
-// Declarees dans DessinPerso.cpp, initialiser dans MainWindow.cpp
-//extern QList<DessinPerso::etatDeSante> G_etatsDeSante;
-
-// Declarees dans ColorSelector.cpp
 extern SelectedColor G_couleurCourante;
 
 
