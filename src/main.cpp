@@ -118,10 +118,10 @@ int main(int argc, char *argv[])
     qtTranslator.load(":/translations/qt_" + locale);
     app.installTranslator(&qtTranslator);
 
-    QFile styleFile(":/stylesheet/resources/stylesheet/darkorange.qss");
+    /*QFile styleFile(":/stylesheet/resources/stylesheet/darkorange.qss");
     styleFile.open(QFile::ReadOnly);
     QByteArray bytes = styleFile.readAll();
-    app.setStyleSheet(bytes);
+    app.setStyleSheet(bytes);*/
 
     // Seeds random generator
     uint seed = quintptr(&app) + QDateTime::currentDateTime().toTime_t();
