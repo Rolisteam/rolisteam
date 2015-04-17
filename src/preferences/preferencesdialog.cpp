@@ -142,6 +142,13 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     horizontalHeader->setSectionResizeMode(DiceAliasModel::METHOD,QHeaderView::ResizeToContents);
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::METHOD,new CheckBoxDelegate());
 
+    m_paletteModel = new PaletteModel();
+    m_paletteModel->setPalette(palette());
+    ui->m_paletteTableView->setModel(m_paletteModel);
+    horizontalHeader = ui->m_paletteTableView->horizontalHeader();
+    horizontalHeader->setSectionResizeMode(0,QHeaderView::Stretch);
+
+
     connect(this, SIGNAL(accepted()), this, SLOT(save()));
     connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
     connect(ui->m_startDiag,SIGNAL(clicked()),this,SLOT(performDiag()));

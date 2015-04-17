@@ -34,6 +34,7 @@
 #include "widgets/colorbutton.h"
 #include "widgets/filedirchooser.h"
 #include "widgets/centeredcheckbox.h"
+#include "preferences/palettemodel.h"
 
 
 /**
@@ -160,6 +161,7 @@ private:
 	DiceParser* m_diceParser;
 	DiceAliasModel* m_aliasModel;
     QPushButton* m_applyBtn;
+    PaletteModel* m_paletteModel;
 };
 
 #endif
