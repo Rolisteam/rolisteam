@@ -125,7 +125,9 @@ HEADERS += \
     src/preferences/dicealiasmodel.h \
     src/widgets/onlinepicturedialog.h \
     src/preferences/preferenceslistener.h \
-    src/widgets/centeredcheckbox.h
+    src/widgets/centeredcheckbox.h \
+    src/preferences/palettemodel.h \
+    src/preferences/rolisteamtheme.h
 
 
 
@@ -180,7 +182,9 @@ SOURCES += \
     src/preferences/dicealiasmodel.cpp \
     src/widgets/onlinepicturedialog.cpp \
     src/preferences/preferenceslistener.cpp \
-    src/widgets/centeredcheckbox.cpp
+    src/widgets/centeredcheckbox.cpp \
+    src/preferences/palettemodel.cpp \
+    src/preferences/rolisteamtheme.cpp
 #end source
 
 
