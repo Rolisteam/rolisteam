@@ -35,6 +35,49 @@ class QHBoxLayout;
 class QGridLayout;
 class QVBoxLayout;
 /**
+ * @brief The ColorWidget class - small widget to display color and select it.
+ */
+class ColorWidget : public QWidget
+{
+    Q_OBJECT
+public:
+    /**
+     * @brief ColorWidget
+     * @param parent
+     */
+    ColorWidget(QWidget* parent = NULL);
+    /**
+     * @brief setColor
+     */
+    void setColor(QColor);
+    /**
+     * @brief getColor
+     * @return
+     */
+    QColor getColor();
+
+
+signals:
+    void clicked(QColor);
+
+protected:
+    /**
+     * @brief mousePressEvent
+     * @param event
+     */
+    void mousePressEvent(QMouseEvent* event);
+    /**
+     * @brief paintEvent
+     * @param event
+     */
+    void paintEvent(QPaintEvent* event);
+
+
+private:
+    QColor m_color;
+};
+
+/**
  * @brief The ColorSelector class
  */
 class ColorSelector : public QWidget
@@ -51,11 +94,6 @@ public:
       */
     ~ColorSelector();
     /**
-     * @brief changeCouleurActuelle
-     * @param couleur
-     */
-    void changeCurrentColor(QColor couleur);
-    /**
      * @brief majCouleursPersonnelles
      */
     void updatePersonalColor();
@@ -69,21 +107,30 @@ public:
      * @return
      */
     QColor getPersonColor(int numero);
-
-private:
     /**
-     * @brief userMousePress
-     * @param positionSouris
-     * @param move
+     * @brief setBackgroundColorToWidget
+     * @param wid
+     * @param color
      */
-    void userMousePress(QPoint positionSouris, bool move = false);
-
-    QLabel *m_currentColor;
-    QLabel *m_eraseColor;
-    QLabel *m_maskColor;
-    QLabel *m_unveilColor;
-    QWidget *m_predefinedColor[48];
-    QWidget *m_personalColor[16];
+    void setBackgroundColorToWidget(QWidget* wid,QColor color);
+    /**
+     * @brief eventFilter
+     * @return
+     */
+    virtual bool eventFilter(QObject *, QEvent *);
+public slots:
+    /**
+     * @brief changeCouleurActuelle
+     * @param couleur
+     */
+    void changeCurrentColor(QColor couleur);
+private:
+    QLabel* m_currentColor;
+    QLabel* m_eraseColor;
+    QLabel* m_maskColor;
+    QLabel* m_unveilColor;
+    QList<ColorWidget*> m_predefinedColor;
+    QList<ColorWidget*> m_personalColor;
     QWidget *m_separator1;
     QWidget *m_separator2;
     QPixmap *m_pixelErase;
@@ -96,10 +143,6 @@ private:
     bool m_pressedButton;
     PreferencesManager* m_preferences;
 
-protected:
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
 
 };
 
