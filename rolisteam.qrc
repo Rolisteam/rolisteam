@@ -72,5 +72,8 @@
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
+        <file>resources/stylesheet/images/checkbox.png</file>
+        <file>resources/stylesheet/images/down_arrow.png</file>
+        <file>resources/stylesheet/images/handle.png</file>
     </qresource>
 </RCC>

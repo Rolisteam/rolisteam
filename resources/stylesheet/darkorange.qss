@@ -79,7 +79,7 @@ QAbstractItemView
 
 QWidget:focus
 {
-    /*border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);*/
+    border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
 }
 
 QLineEdit
@@ -154,7 +154,7 @@ QComboBox::drop-down
 
 QComboBox::down-arrow
 {
-     image: url(:/down_arrow.png);
+     image: url(:/stylesheet/resources/stylesheet/down_arrow.png);
 }
 
 QGroupBox:focus
@@ -330,7 +330,7 @@ QMainWindow::separator:hover
 QToolBar::handle
 {
      spacing: 3px; /* spacing between items in the tool bar */
-     background: url(:/images/handle.png);
+     background: url(:/stylesheet/resources/stylesheet/images/handle.png);
 }
 
 QMenu::separator
@@ -448,10 +448,10 @@ QRadioButton::indicator:hover, QCheckBox::indicator:hover
     border: 1px solid #ffaa00;
 }
 
-/*QCheckBox::indicator:checked
+QCheckBox::indicator:checked
 {
-    image:url(:/images/checkbox.png);
-}*/
+    image:url(:/stylesheet/resources/stylesheet/images/checkbox.png);
+}
 
 QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
 {
