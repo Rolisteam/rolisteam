@@ -69,10 +69,10 @@ void ImprovedWorkspace::updateBackGround()
     setBackground(m_background);
 
     QString fileName = m_preferences->value("PathOfBackgroundImage",":/resources/icons/workspacebackground.bmp").toString();
-    if (!QFile::exists(fileName))
-    {
-        fileName = ":/resources/icons/workspacebackground.bmp";
-    }
+//    if (!QFile::exists(fileName))
+//    {
+//        fileName = ":/resources/icons/workspacebackground.bmp";
+//    }
 
     m_variableSizeBackground = m_variableSizeBackground.scaled(size());
 
