@@ -1,3 +1,31 @@
+rolisteam (1.6.1ubuntu3) trusty; urgency=medium
+
+  [Renaud Guezennec]
+  * Fix package system
+
+ -- Renaud Guezennec <renaud@rolisteam.org>  Sat, 18 Apr 2015 11:26:18 +0200
+
+rolisteam (1.6.1ubuntu2) trusty; urgency=medium
+
+  [Renaud Guezennec]
+  * Fix package system
+
+ -- Renaud Guezennec <renaud@rolisteam.org>  Sat, 18 Apr 2015 11:17:18 +0200
+
+rolisteam (1.6.1ubuntu1) trusty; urgency=medium
+
+  [Renaud Guezennec]
+  * Add possibility to change the background color and picture of the workspace (need restart of rolisteam to be applied).
+  * The background color of chat window can be changed
+  * Implementation of #60: Blinking chat
+  * Add preferences system to select the default behaviour for map permission.
+  * Show progress while receiving data.
+  * Fog of war color can be decided.
+  * Fix bug #99 italic text on emote
+  * Windows can now be shown in tab mode.
+
+ -- Renaud Guezennec <renaud@rolisteam.org>  Sat, 18 Apr 2015 03:48:18 +0200
+
 rolisteam (1.6.0ubuntu1) saucy; urgency=low
 
   [Renaud Guezennec]
@@ -138,21 +166,21 @@ rolisteam (1.6.0ubuntu1) saucy; urgency=low
 
 
 
- -- renaud <renaud@r4-p17>  Fri, 08 Nov 2013 00:54:12 +0100
+ -- Renaud Guezennec <renaud@rolisteam.org>  Fri, 08 Nov 2013 00:54:12 +0100
 
 rolisteam (1.5.2) maverick; urgency=low
 
   [Renaud GUEZENNEC]
   * Fix issue #53
 
- -- Renaud Guezennec <renaud@markIV>  Sat, 30 Sep 2011 22:19:01 +0200
+ -- Renaud Guezennec <renaud@rolisteam.org>  Sat, 30 Sep 2011 22:19:01 +0200
 
 rolisteam (1.5.1) maverick; urgency=low
 
   [Renaud GUEZENNEC]
   * Fix issue #47
 
- -- Renaud Guezennec <renaud@markIV>  Sat, 06 Aug 2011 22:19:01 +0200
+ -- Renaud Guezennec <renaud@rolisteam.org>  Sat, 06 Aug 2011 22:19:01 +0200
 
 rolisteam (1.5.0) maverick; urgency=low
 
@@ -257,7 +285,7 @@ rolisteam (1.5.0) maverick; urgency=low
   * Change default button for persondialog, now it's the Ok button.
   * Improve translation.     
 
- -- Renaud Guezennec <renaud@markIV>  Sat, 06 Aug 2011 22:19:01 +0200
+ -- Renaud Guezennec <renaud@rolisteam.org>  Sat, 06 Aug 2011 22:19:01 +0200
 
 rolisteam (1.0.2) lucid; urgency=low
 
@@ -286,7 +314,7 @@ rolisteam (1.0.2) lucid; urgency=low
   * specific platform code changed to allow BSD and other x11 user.
   * Hide the audio player when the HAVE_NULL flag is set.
 
- -- Renaud Guezennec <renaud@markIV>  Sat, 30 Oct 2010 16:42:47 +0200
+ -- Renaud Guezennec <renaud@rolisteam.org>  Sat, 30 Oct 2010 16:42:47 +0200
 
 rolisteam (1.0.0) unstable; urgency=low
 
@@ -307,4 +335,4 @@ rolisteam (1.0.0) unstable; urgency=low
   [ Renaud Guezennec ]
   * Documentation has been really improved  
 
- -- Renaud Guezennec <renaud@R4P17>  Mon, 31 Aug 2009 00:22:48 +0200
+ -- Renaud Guezennec <renaud@rolisteam.org>  Mon, 31 Aug 2009 00:22:48 +0200
