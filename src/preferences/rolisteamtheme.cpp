@@ -19,7 +19,8 @@
 ***************************************************************************/
 #include "rolisteamtheme.h"
 
-RolisteamTheme::RolisteamTheme()
+RolisteamTheme::RolisteamTheme(QPalette pal,QString name,QString css,QStyle* style,QString bgPath,int pos, QColor bgColor, bool isRemovable)
+    : m_palette(pal),m_name(name),m_css(css),m_removable(isRemovable),m_style(style),m_bgPath(bgPath),m_bgColor(bgColor),m_position(pos)
 {
 
 }
@@ -29,3 +30,78 @@ RolisteamTheme::~RolisteamTheme()
 
 }
 
+void RolisteamTheme::setPalette(QPalette pal)
+{
+    m_palette=pal;
+}
+
+void RolisteamTheme::setName(QString str)
+{
+    m_name=str;
+}
+
+void RolisteamTheme::setCss(QString str)
+{
+    m_css = str;
+}
+
+void RolisteamTheme::setRemovable(bool b)
+{
+    m_removable = b;
+}
+
+
+const QPalette& RolisteamTheme::getPalette() const
+{
+    return m_palette;
+}
+const QString& RolisteamTheme::getName() const
+{
+    return m_name;
+}
+const QString& RolisteamTheme::getCss() const
+{
+    return m_css;
+}
+bool RolisteamTheme::isRemovable()
+{
+    return m_removable;
+}
+QStyle* RolisteamTheme::getStyle() const
+{
+    return m_style;
+}
+void RolisteamTheme::setStyle(QStyle* style)
+{
+    m_style = style;
+}
+void RolisteamTheme::setBackgroundColor(QColor c)
+{
+    m_bgColor = c;
+}
+
+void RolisteamTheme::setBackgroundPosition(int p)
+{
+    m_position = p;
+}
+
+void RolisteamTheme::setBackgroundImage(QString img)
+{
+    m_bgPath = img;
+}
+
+
+QString RolisteamTheme::getBackgroundImage()
+{
+    return m_bgPath;
+}
+
+int RolisteamTheme::getBackgroundPosition()
+{
+    return m_position;
+}
+
+QColor RolisteamTheme::getBackgroundColor()
+{
+    return m_bgColor;
+}

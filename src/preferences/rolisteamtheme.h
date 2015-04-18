@@ -21,33 +21,94 @@
 #define ROLISTEAMTHEME_H
 
 #include <QObject>
+#include <QPalette>
+#include <QString>
+#include <QStyle>
 /**
  * @brief The RolisteamTheme class should store all data required for theme.
  */
 class RolisteamTheme
 {
-    Q_OBJECT
 public:
-    RolisteamTheme();
-    ~RolisteamTheme();
+    /**
+     * @brief RolisteamTheme
+     * @param pal
+     * @param name
+     * @param css
+     */
+    RolisteamTheme(QPalette pal,QString name,QString css,QStyle* style,QString bgPath,int pos, QColor bgColor,bool);
+    /**
+     * @brief ~RolisteamTheme
+     */
+    virtual ~RolisteamTheme();
 
-
+    /**
+     * @brief setPalette
+     */
     void setPalette(QPalette);
+    /**
+     * @brief setName
+     */
     void setName(QString);
+    /**
+     * @brief setCss
+     */
     void setCss(QString);
+    /**
+     * @brief setRemovable
+     */
     void setRemovable(bool);
 
-
+    /**
+     * @brief getPalette
+     * @return
+     */
     const QPalette& getPalette() const;
+    /**
+     * @brief getName
+     * @return
+     */
     const QString& getName() const;
+    /**
+     * @brief getCss
+     * @return
+     */
     const QString& getCss() const;
+    /**
+     * @brief isRemovable
+     * @return
+     */
     bool isRemovable();
+    /**
+     * @brief getStyle
+     * @return
+     */
+    QStyle* getStyle() const;
+    /**
+     * @brief setStyle
+     * @param style
+     */
+    void setStyle(QStyle* style);
+
+
+    void setBackgroundColor(QColor);
+    void setBackgroundPosition(int);
+    void setBackgroundImage(QString img);
+
+    QString getBackgroundImage();
+    int getBackgroundPosition();
+    QColor getBackgroundColor();
 
 private:
     QPalette m_palette;
     QString m_name;
     QString m_css;
     bool m_removable;
+    QStyle* m_style;
+    int m_position;
+    QString m_bgPath;
+    QColor m_bgColor;
+    QColor m_gmColor;
 };
 
 #endif // ROLISTEAMTHEME_H

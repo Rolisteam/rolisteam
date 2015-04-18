@@ -35,7 +35,7 @@
 #include "widgets/filedirchooser.h"
 #include "widgets/centeredcheckbox.h"
 #include "preferences/palettemodel.h"
-
+#include "preferences/rolisteamtheme.h"
 
 /**
  * @brief The CheckBoxDelegate class
@@ -154,6 +154,13 @@ private slots:
      * @brief applyBackground
      */
     void applyBackground();
+    /**
+     * @brief updateTheme
+     */
+    void updateTheme();
+    void dupplicateTheme();
+    void setTitleAtCurrentTheme();
+    void setStyle();
 
 private:
     PreferencesManager* m_preferences;
@@ -162,6 +169,7 @@ private:
 	DiceAliasModel* m_aliasModel;
     QPushButton* m_applyBtn;
     PaletteModel* m_paletteModel;
+    QList<RolisteamTheme*> m_themes;
 };
 
 #endif

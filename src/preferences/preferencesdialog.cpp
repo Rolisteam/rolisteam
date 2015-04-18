@@ -31,6 +31,7 @@
 #include <QPushButton>
 #include <QImageReader>
 #include <QFontDatabase>
+#include <QStyleFactory>
 
 #ifdef HAVE_SOUND
     #include <QMediaPlayer>
@@ -40,7 +41,7 @@
 
 #include "map/newemptymapdialog.h"
 #include "diceparser/diceparser.h"
-
+#define GRAY_SCALE 191
 
 
 CheckBoxDelegate::CheckBoxDelegate(bool aRedCheckBox, QObject *parent)
@@ -150,7 +151,10 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
 
     connect(this, SIGNAL(accepted()), this, SLOT(save()));
+
     connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
+    connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(applyBackground()));
+
     connect(ui->m_startDiag,SIGNAL(clicked()),this,SLOT(performDiag()));
     //ui->m_fogColor->setTransparency(true);
 
@@ -171,6 +175,57 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
     m_preferences->registerListener("isPlayer",m_aliasModel);
     m_aliasModel->setGM(!m_preferences->value("isPlayer",false).toBool());
+
+
+    //themes
+    connect(ui->m_copyThemeButton,SIGNAL(clicked()),this,SLOT(dupplicateTheme()));
+    connect(ui->m_themeNameLineEdit,SIGNAL(textEdited(QString)),this,SLOT(setTitleAtCurrentTheme()));
+
+
+    //normal
+    m_themes.append(new RolisteamTheme(QPalette(),tr("default"),"",QApplication::style(),":/resources/icons/workspacebackground.bmp",0,QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE),false));
+    QFile styleFile(":/stylesheet/resources/stylesheet/darkorange.qss");
+    styleFile.open(QFile::ReadOnly);
+    QByteArray bytes = styleFile.readAll();
+    QString css(bytes);
+
+    //DarkOrange
+    m_themes.append(new RolisteamTheme(QPalette(),tr("darkorange"),css,QApplication::style(),"",0,QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE),false));
+
+    //DarkFusion
+    QPalette palette;
+    palette.setColor(QPalette::Window, QColor(53,53,53));
+    palette.setColor(QPalette::WindowText, Qt::white);
+    palette.setColor(QPalette::Base, QColor(15,15,15));
+    palette.setColor(QPalette::AlternateBase, QColor(53,53,53));
+    palette.setColor(QPalette::ToolTipBase, Qt::white);
+    palette.setColor(QPalette::ToolTipText, Qt::white);
+    palette.setColor(QPalette::Text, Qt::white);
+    palette.setColor(QPalette::Button, QColor(53,53,53));
+    palette.setColor(QPalette::ButtonText, Qt::white);
+    palette.setColor(QPalette::BrightText, Qt::red);
+
+    palette.setColor(QPalette::Highlight, QColor(142,45,197).lighter());
+    palette.setColor(QPalette::HighlightedText, Qt::black);
+    palette.setColor(QPalette::Disabled, QPalette::Text, Qt::darkGray);
+    palette.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
+
+    m_themes.append(new RolisteamTheme(palette,tr("darkfusion"),"",QStyleFactory::create("fusion"),"",0,QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE),false));
+
+    /// theming
+    foreach (RolisteamTheme* theme, m_themes)
+    {
+       ui->m_themeComboBox->addItem(theme->getName());
+    }
+
+    QString defaultStyle = QApplication::style()->metaObject()->className();
+    ui->m_styleCombo->addItems(QStyleFactory::keys());
+    defaultStyle.remove(0,1).replace("Style","");
+    ui->m_styleCombo->setCurrentIndex(ui->m_styleCombo->findText(defaultStyle, Qt::MatchContains));
+
+
+    connect(ui->m_themeComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(updateTheme()));
+    connect(ui->m_styleCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(setStyle()));
 }
 
 PreferencesDialog::~PreferencesDialog()
@@ -213,11 +268,11 @@ void PreferencesDialog::load()
 
     //Background
     ui->m_bgColorPush->setColor(m_preferences->value("BackGroundColor",QColor(191,191,191)).value<QColor>());
-    ui->m_backgroundImage->setPath(m_preferences->value("PathOfBackgroundImage",":/resources/icons/workspacebackground.bmp").toString());
+    //ui->m_backgroundImage->setPath(m_preferences->value("PathOfBackgroundImage",":/resources/icons/workspacebackground.bmp").toString());
     ui->m_backgroundImage->setMode(false);
     ui->m_backgroundImage->setFilter(tr("Images (*.png *.xpm *.jpg *.gif *.bmp)"));
     //Positioning Bg
-    ui->m_positioningComboBox->setCurrentIndex(m_preferences->value("BackGroundPositioning",0).value<int>());
+    //ui->m_positioningComboBox->setCurrentIndex(m_preferences->value("BackGroundPositioning",0).value<int>());
 
     //DiceSystem
     if(firstLoad)
@@ -235,6 +290,67 @@ void PreferencesDialog::load()
     }
     firstLoad=false;
 
+    updateTheme();
+}
+void PreferencesDialog::updateTheme()
+{
+    int i = ui->m_themeComboBox->currentIndex();
+    if((i>=0)&&(i<m_themes.size()))
+    {
+        RolisteamTheme* theme = m_themes.at(i);
+        m_paletteModel->setPalette(theme->getPalette());
+        ui->m_themeNameLineEdit->setText(theme->getName());
+        qDebug() << theme->getBackgroundImage();
+        ui->m_backgroundImage->setPath(theme->getBackgroundImage());
+        ui->m_bgColorPush->setColor(theme->getBackgroundColor());
+        ui->m_positioningComboBox->setCurrentIndex(theme->getBackgroundPosition());
+
+        QString defaultStyle = theme->getStyle()->metaObject()->className();
+        defaultStyle.remove(0,1).replace("Style","");
+        ui->m_styleCombo->setCurrentIndex(ui->m_styleCombo->findText(defaultStyle, Qt::MatchContains));
+
+        qApp->setStyleSheet(theme->getCss());
+
+        qApp->setStyle(theme->getStyle());
+        qApp->setPalette(theme->getPalette());
+        applyBackground();
+    }
+}
+void PreferencesDialog::setStyle()
+{
+    int i = ui->m_themeComboBox->currentIndex();
+    if((i>=0)&&(i<m_themes.size()))
+    {
+        RolisteamTheme* theme = m_themes.at(i);
+
+        theme->setStyle(QStyleFactory::create(ui->m_styleCombo->currentText()));
+        qApp->setStyle(theme->getStyle());
+    }
+}
+
+void PreferencesDialog::dupplicateTheme()
+{
+    int i = ui->m_themeComboBox->currentIndex();
+    if((i>=0)&&(i<m_themes.size()))
+    {
+        RolisteamTheme* theme = m_themes.at(i);
+        QString str = theme->getName();
+        str.append(tr(" (copy)"));
+        RolisteamTheme* newTheme = new RolisteamTheme(theme->getPalette(),str,theme->getCss(),theme->getStyle(),theme->getBackgroundImage(),theme->getBackgroundPosition(),theme->getBackgroundColor(),true);
+        ui->m_themeComboBox->addItem(str);
+        m_themes.append(newTheme);
+        ui->m_themeComboBox->setCurrentIndex(m_themes.size()-1);
+    }
+}
+void PreferencesDialog::setTitleAtCurrentTheme()
+{
+    int i = ui->m_themeComboBox->currentIndex();
+    if((i>=0)&&(i<m_themes.size()))
+    {
+        RolisteamTheme* theme = m_themes.at(i);
+        theme->setName(ui->m_themeNameLineEdit->text());
+        ui->m_themeComboBox->setItemText(i,theme->getName());
+    }
 }
 
 void PreferencesDialog::save() const
@@ -383,6 +499,15 @@ void PreferencesDialog::testAliasCommand()
 }
 void PreferencesDialog::applyBackground()
 {
+    int i = ui->m_themeComboBox->currentIndex();
+    if((i>=0)&&(i<m_themes.size()))
+    {
+        RolisteamTheme* theme = m_themes.at(i);
+        theme->setBackgroundColor(ui->m_bgColorPush->color());
+        theme->setBackgroundPosition(ui->m_positioningComboBox->currentIndex());
+        theme->setBackgroundImage(ui->m_backgroundImage->path());
+    }
+
     m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
     m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
     m_preferences->registerValue("BackGroundPositioning",ui->m_positioningComboBox->currentIndex());
