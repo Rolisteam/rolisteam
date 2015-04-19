@@ -120,6 +120,10 @@ public:
      * @brief sendOffAllDiceAlias
      */
     void sendOffAllDiceAlias(NetworkLink*);
+    /**
+     * @brief initializeStyle
+     */
+    void initializeStyle();
 
 public slots:
     /**
@@ -161,6 +165,8 @@ private slots:
     void dupplicateTheme();
     void setTitleAtCurrentTheme();
     void setStyle();
+    void editColor(QModelIndex);
+    void editCss();
 
 private:
     PreferencesManager* m_preferences;

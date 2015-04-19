@@ -60,6 +60,7 @@ QPalette::ColorRole PaletteColor::getRole()
 PaletteModel::PaletteModel()
 {
     m_header << tr("Role") << tr("Group");
+    m_groupList << tr("Active") << tr("Disable")<< tr("Inactive");
     initData();
 }
 
@@ -67,7 +68,17 @@ PaletteModel::~PaletteModel()
 {
 
 }
-
+QVariant PaletteModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if(Qt::DisplayRole == role)
+    {
+        if(orientation==Qt::Horizontal)
+        {
+            return m_header.at(section);
+        }
+    }
+    return QVariant();
+}
 void PaletteModel::initData()
 {
     PaletteColor* color = NULL;
@@ -218,8 +229,8 @@ QVariant PaletteModel::data(const QModelIndex &index, int role) const
             return color->getName();
         }
         else
-        {
-            return (int)color->getGroup();
+        {            
+            return m_groupList.at((int)color->getGroup());
         }
     }
     return QVariant();
@@ -233,4 +244,18 @@ void PaletteModel::setPalette(QPalette palette)
        color->setColor(palette.color(color->getGroup(),color->getRole()));
     }
     endResetModel();
+}
+void PaletteModel::setColor(const QModelIndex & index, QColor color)
+{
+    m_data[index.row()]->setColor(color);
+    dataChanged(index,index);
+}
+QPalette PaletteModel::getPalette()
+{
+    QPalette palette;
+    foreach (PaletteColor* tmp,m_data)
+    {
+        palette.setColor(tmp->getGroup(),tmp->getRole(),tmp->getColor());
+    }
+    return palette;
 }

@@ -198,7 +198,7 @@
            <property name="title">
             <string>Theme</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_29">
+           <layout class="QVBoxLayout" name="verticalLayout_14">
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_15">
               <item>
@@ -258,7 +258,21 @@
                    <widget class="QComboBox" name="m_styleCombo"/>
                   </item>
                   <item>
-                   <spacer name="horizontalSpacer_4">
+                   <widget class="QLabel" name="label_38">
+                    <property name="text">
+                     <string>Css:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="m_cssEdit">
+                    <property name="text">
+                     <string>Edit...</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_2">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -391,18 +405,31 @@
              <widget class="QTableView" name="m_paletteTableView"/>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_27">
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
               <item>
-               <widget class="QLabel" name="label_38">
-                <property name="text">
-                 <string>Css:</string>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
                 </property>
-               </widget>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>168</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_2">
                 <property name="text">
-                 <string>Edit...</string>
+                 <string>Import…</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton">
+                <property name="text">
+                 <string>Export…</string>
                 </property>
                </widget>
               </item>
