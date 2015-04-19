@@ -23,7 +23,7 @@
 
 #include <QApplication>
 #include <QDebug>
-
+#include <QPalette>
 
 #include "userlist/playersList.h"
 
@@ -102,8 +102,12 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
 
         Player * player = m_playersList.at(row);
         person = player;
+
         if (role == Qt::BackgroundRole && player->isGM())
-            return QVariant(QColor(200, 255, 200));
+        {
+            QPalette pal = qApp->palette();
+            return QVariant(pal.color(QPalette::Active,QPalette::Button));
+        }
     }
     else
     {

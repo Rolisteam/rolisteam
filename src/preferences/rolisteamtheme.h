@@ -99,16 +99,18 @@ public:
     int getBackgroundPosition();
     QColor getBackgroundColor();
 
+    QString getStyleName();
+
 private:
     QPalette m_palette;
     QString m_name;
     QString m_css;
     bool m_removable;
-    QStyle* m_style;
     int m_position;
     QString m_bgPath;
     QColor m_bgColor;
     QColor m_gmColor;
+    QString m_styleName;
 };
 
 #endif // ROLISTEAMTHEME_H

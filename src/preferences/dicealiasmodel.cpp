@@ -46,7 +46,6 @@ QVariant DiceAliasModel::data(const QModelIndex &index, int role) const
                 if(index.column()==PATTERN)
                 {
                     return diceAlias->getCommand();
-
                 }
                 else if(index.column()==VALUE)
                 {

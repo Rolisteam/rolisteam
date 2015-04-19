@@ -1094,6 +1094,7 @@ void MainWindow::readSettings()
         m_ui->m_recentFileMenu->addAction(m_recentFileActs[i]);
     }
     updateRecentFileActions();
+    m_preferencesDialog->initializeStyle();
 }
 void MainWindow::writeSettings()
 {
