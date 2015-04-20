@@ -24,6 +24,8 @@
 #include <QPalette>
 #include <QString>
 #include <QStyle>
+#include <QJsonObject>
+
 /**
  * @brief The RolisteamTheme class should store all data required for theme.
  */
@@ -100,6 +102,9 @@ public:
     QColor getBackgroundColor();
 
     QString getStyleName();
+
+    void writeTo(QJsonObject& json);
+    bool readFrom(const QJsonObject& json);
 
 private:
     QPalette m_palette;

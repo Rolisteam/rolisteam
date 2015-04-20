@@ -33,9 +33,11 @@
 #include <QFontDatabase>
 #include <QStyleFactory>
 #include <QInputDialog>
+#include <QJsonDocument>
+
 
 #ifdef HAVE_SOUND
-    #include <QMediaPlayer>
+#include <QMediaPlayer>
 #endif
 
 #include "ui_preferencesdialogbox.h"
@@ -59,13 +61,13 @@ QWidget* CheckBoxDelegate::createEditor(QWidget * parent, const QStyleOptionView
 }
 void CheckBoxDelegate::setEditorData(QWidget * editor, const QModelIndex & index) const
 {
-     CenteredCheckBox* cb = qobject_cast<CenteredCheckBox*>(editor);
-     bool checked = index.data().toBool();
-     cb->setCheckedDelegate(!checked);
+    CenteredCheckBox* cb = qobject_cast<CenteredCheckBox*>(editor);
+    bool checked = index.data().toBool();
+    cb->setCheckedDelegate(!checked);
 }
 void CheckBoxDelegate::setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const
 {
-     CenteredCheckBox* cb = qobject_cast<CenteredCheckBox*>(editor);
+    CenteredCheckBox* cb = qobject_cast<CenteredCheckBox*>(editor);
     model->setData(index,cb->isCheckedDelegate());
     QStyledItemDelegate::setEditorData(editor, index);
 }
@@ -112,7 +114,7 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 void CheckBoxDelegate::commitEditor()
 {
     CenteredCheckBox *editor = qobject_cast<CenteredCheckBox *>(sender());
-//	std::cout<<"commitEditor "<<(editor==m_editor)<<"  "<<editor->isCheckedDelegate()<<std::endl;
+    //	std::cout<<"commitEditor "<<(editor==m_editor)<<"  "<<editor->isCheckedDelegate()<<std::endl;
     emit commitData(editor);
 }
 
@@ -156,7 +158,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_startDiag,SIGNAL(clicked()),this,SLOT(performDiag()));
     //ui->m_fogColor->setTransparency(true);
 
-	//aliases
+    //aliases
     connect(ui->m_addDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
     connect(ui->m_delDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
     connect(ui->m_upDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
@@ -183,6 +185,8 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_styleCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(setStyle()));
     connect(ui->m_paletteTableView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editColor(QModelIndex)));
     connect(ui->m_cssEdit,SIGNAL(clicked()),this,SLOT(editCss()));
+    connect(ui->m_exportBtn,SIGNAL(clicked()),this,SLOT(exportTheme()));
+    connect(ui->m_importBtn,SIGNAL(clicked()),this,SLOT(importTheme()));
 }
 
 PreferencesDialog::~PreferencesDialog()
@@ -286,7 +290,7 @@ void PreferencesDialog::initializeStyle()
 
             RolisteamTheme* tmp = new RolisteamTheme(pal,name,css,QStyleFactory::create(style),path,pos,color,isRemovable);
             m_themes.append(tmp);
-           // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
+            // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
         }
     }
     else //theme provided by default
@@ -325,7 +329,7 @@ void PreferencesDialog::initializeStyle()
 
     foreach (RolisteamTheme* theme, m_themes)
     {
-       ui->m_themeComboBox->addItem(theme->getName());
+        ui->m_themeComboBox->addItem(theme->getName());
     }
     ui->m_styleCombo->clear();
     ui->m_styleCombo->addItems(QStyleFactory::keys());
@@ -439,7 +443,7 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("PictureAdjust",ui->m_pictureAdjust->isChecked());
 
     //Background
-   /* m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
+    /* m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
     m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
     m_preferences->registerValue("BackGroundPositioning",ui->m_positioningComboBox->currentIndex());*/
 
@@ -458,7 +462,7 @@ void PreferencesDialog::save() const
         m_preferences->registerValue(QString("Theme_%1_bgPosition").arg(i),tmp->getBackgroundPosition());
         m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getCss());
         m_preferences->registerValue(QString("Theme_%1_removable").arg(i),tmp->isRemovable());
-       // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
+        // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
         ++i;
     }
 
@@ -499,7 +503,7 @@ void PreferencesDialog::performDiag()
     linePattern = "<li>%1</li>";
     foreach (const QString &family, database.families())
     {
-          result+= linePattern.arg(family);
+        result+= linePattern.arg(family);
     }
     htmlResult +=result;
     htmlResult+= tr("</ul>End of Font families");
@@ -552,7 +556,7 @@ void PreferencesDialog::managedAction()
 
     if(act == ui->m_addDiceAliasAct)
     {
-            m_aliasModel->appendAlias();
+        m_aliasModel->appendAlias();
     }
     else
     {
@@ -606,4 +610,56 @@ void PreferencesDialog::sendOffAllDiceAlias(NetworkLink* link)
         m_aliasModel->sendOffAllDiceAlias(link);
     }
 }
+void PreferencesDialog::exportTheme()
+{
+    int i = ui->m_themeComboBox->currentIndex();
+    if((i>=0)&&(i<m_themes.size()))
+    {
+        RolisteamTheme* theme = m_themes.at(i);
+        QString pathExport = QFileDialog::getSaveFileName(this,tr("Export Rolisteam Theme"),
+                                                          m_preferences->value("ThemeDirectory",QDir::homePath()).toString().append("/%1.rskin").arg(theme->getName()),
+                                                          tr("Rolisteam Theme: %1").arg("*.rskin"));
+        if(!pathExport.isEmpty())
+        {
+            QFile exportFile(pathExport);
+            if(!exportFile.open(QIODevice::WriteOnly))
+            {
+                return;
+            }
+            QJsonObject skinObject;
+            theme->writeTo(skinObject);
+            m_paletteModel->writeTo(skinObject);
+            QJsonDocument saveDoc(skinObject);
+            exportFile.write(saveDoc.toJson());
 
+        }
+
+    }
+}
+
+bool PreferencesDialog::importTheme()
+{
+    QString pathImport = QFileDialog::getOpenFileName(this,tr("Import Rolisteam Theme"),m_preferences->value("ThemeDirectory",QDir::homePath()).toString(),tr("Rolisteam Theme: %1").arg("*.rskin"));
+    if(!pathImport.isEmpty())
+    {
+        QFile importFile(pathImport);
+        if(!importFile.open(QIODevice::ReadOnly))
+        {
+            return false;
+        }
+        QByteArray saveData = importFile.readAll();
+        QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+        RolisteamTheme* theme = new RolisteamTheme(QPalette(),"","",QStyleFactory::create("fusion"),"",0,QColor(),false);
+        theme->readFrom(loadDoc.object());
+        m_paletteModel->readFrom(loadDoc.object());
+        theme->setPalette(m_paletteModel->getPalette());
+
+
+        ui->m_themeComboBox->addItem(theme->getName());
+        m_themes.append(theme);
+        ui->m_themeComboBox->setCurrentIndex(m_themes.size()-1);
+        updateTheme();
+
+        return true;
+    }
+}

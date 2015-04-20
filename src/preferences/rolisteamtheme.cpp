@@ -114,3 +114,24 @@ QColor RolisteamTheme::getBackgroundColor()
 {
     return m_bgColor;
 }
+void RolisteamTheme::writeTo(QJsonObject& json)
+{
+    json["name"]=m_name;
+    json["removable"]=m_removable;
+    json["css"]=m_css;
+    json["position"]=m_position;
+    json["bgColor"]=m_bgColor.name();
+    json["bgPath"]=m_bgPath;
+    json["stylename"]=m_styleName;
+}
+bool RolisteamTheme::readFrom(const QJsonObject& json)
+{
+    m_name = json["name"].toString();
+    m_removable= json["removable"].toBool();
+    m_css=json["css"].toString();
+    m_position= json["position"].toInt();
+    QString bgColorName = json["bgColor"].toString();
+    m_bgColor.setNamedColor(bgColorName);
+    m_bgPath= json["bgPath"].toString();
+    m_styleName=json["stylename"].toString();
+}

@@ -18,7 +18,7 @@
 *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
 ***************************************************************************/
 #include "palettemodel.h"
-
+#include <QJsonArray>
 
 
 PaletteColor::PaletteColor(QColor color,QString str,QPalette::ColorGroup group,QPalette::ColorRole role)
@@ -52,6 +52,22 @@ QPalette::ColorGroup PaletteColor::getGroup()
 QPalette::ColorRole PaletteColor::getRole()
 {
     return m_role;
+}
+void PaletteColor::writeTo(QJsonObject& json)
+{
+    json["role"]=(int)m_role;
+    json["group"]=(int)m_group;
+    json["name"]=m_name;
+    json["color"]=m_color.name();
+}
+bool PaletteColor::readFrom(QJsonObject& json)
+{
+    m_role=(QPalette::ColorRole)json["role"].toInt();
+    m_group=(QPalette::ColorGroup)json["group"].toInt();
+    m_name=json["name"].toString();
+    QString colorName=json["color"].toString();
+    m_color.setNamedColor(colorName);
+    return true;
 }
 
 /////////////////////////////////
@@ -219,7 +235,7 @@ QVariant PaletteModel::data(const QModelIndex &index, int role) const
     {
         if(index.column()==0)
         {
-         return color->getColor();
+            return color->getColor();
         }
     }
     else if(Qt::DisplayRole == role)
@@ -229,7 +245,7 @@ QVariant PaletteModel::data(const QModelIndex &index, int role) const
             return color->getName();
         }
         else
-        {            
+        {
             return m_groupList.at((int)color->getGroup());
         }
     }
@@ -241,7 +257,7 @@ void PaletteModel::setPalette(QPalette palette)
     beginResetModel();
     foreach(PaletteColor* color, m_data)
     {
-       color->setColor(palette.color(color->getGroup(),color->getRole()));
+        color->setColor(palette.color(color->getGroup(),color->getRole()));
     }
     endResetModel();
 }
@@ -258,4 +274,31 @@ QPalette PaletteModel::getPalette()
         palette.setColor(tmp->getGroup(),tmp->getRole(),tmp->getColor());
     }
     return palette;
+}
+void PaletteModel::writeTo(QJsonObject& json)
+{
+    QJsonArray colors;
+
+    foreach (PaletteColor* tmp,m_data)
+    {
+        QJsonObject paletteObject;
+        tmp->writeTo(paletteObject);
+        colors.append(paletteObject);
+    }
+    json["colors"]=colors;
+
+}
+bool PaletteModel::readFrom(const QJsonObject& json)
+{
+    QJsonArray colors = json["levels"].toArray();
+
+    for(int index = 0;index<colors.size();++index)
+    {
+        QJsonObject paletteObject = colors[index].toObject();
+        if((index<m_data.size()&&index>=0))
+        {
+            m_data[index]->readFrom(paletteObject);
+        }
+    }
+    return true;
 }

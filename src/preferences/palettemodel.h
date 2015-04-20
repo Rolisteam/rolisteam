@@ -21,6 +21,8 @@
 #define PALETTEMODEL_H
 
 #include <QAbstractTableModel>
+#include <QJsonObject>
+
 
 #include <QPalette>
 #include <QColor>
@@ -29,6 +31,7 @@
  */
 class PaletteColor
 {
+
 public:
     PaletteColor(QColor,QString,QPalette::ColorGroup group,QPalette::ColorRole role);
     void setColor(QColor);
@@ -38,6 +41,8 @@ public:
     QString getName();
     QPalette::ColorGroup getGroup();
     QPalette::ColorRole getRole();
+    void writeTo(QJsonObject& json);
+    bool readFrom(QJsonObject& json);
 private:
     QColor m_color;
     QString m_name;
@@ -49,6 +54,7 @@ private:
  */
 class PaletteModel : public QAbstractTableModel
 {
+        Q_OBJECT
 public:
 
     PaletteModel();
@@ -64,6 +70,8 @@ public:
 
     void setPalette(QPalette);
     QPalette getPalette();
+    void writeTo(QJsonObject& json);
+    bool readFrom(const QJsonObject& json);
     void setColor(const QModelIndex &, QColor);
 private:
     QList<PaletteColor*> m_data;

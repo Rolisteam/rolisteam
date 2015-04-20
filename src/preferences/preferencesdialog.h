@@ -167,6 +167,8 @@ private slots:
     void setStyle();
     void editColor(QModelIndex);
     void editCss();
+    void exportTheme();
+    bool importTheme();
 
 private:
     PreferencesManager* m_preferences;
