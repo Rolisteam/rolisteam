@@ -30,6 +30,7 @@
  */
 class DiceAliasModel : public QAbstractListModel, public PreferencesListener
 {
+    Q_OBJECT
 public:
     /**
      * @brief The COLUMN_TYPE enum
