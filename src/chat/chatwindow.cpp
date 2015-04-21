@@ -314,14 +314,16 @@ void ChatWindow::getMessageResult(QString& str)
     {
         scalarText = tr("%1").arg(m_diceParser->getSumOfDiceResult());
     }
+    QPalette pal(palette());
+    QColor color = pal.color(QPalette::Active,QPalette::Highlight);
 
-    str = tr("got %1, %2").arg(scalarText).arg(diceText);
+    str = tr("got <span style=\"font-weight: bold;\">%1</span> at your dice roll, [%3 (%2)]").arg(scalarText).arg(diceText).arg(m_diceParser->getDiceCommand());//.arg(color.name())
 
     if(m_diceParser->hasStringResult())
     {
         str = m_diceParser->getStringResult().replace("\n","<br/>");
     }
-    str += tr(", you rolled: %1").arg(m_diceParser->getDiceCommand());
+   // str += tr(", you rolled: %1").arg(m_diceParser->getDiceCommand());
 }
 
 QAction * ChatWindow::toggleViewAction() const
