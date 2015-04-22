@@ -290,7 +290,7 @@ void PaletteModel::writeTo(QJsonObject& json)
 }
 bool PaletteModel::readFrom(const QJsonObject& json)
 {
-    QJsonArray colors = json["levels"].toArray();
+    QJsonArray colors = json["colors"].toArray();
 
     for(int index = 0;index<colors.size();++index)
     {

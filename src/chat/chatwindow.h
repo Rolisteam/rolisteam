@@ -73,6 +73,12 @@ public :
      */
     AbstractChat * chat() const;
     /**
+     * @brief diceToText
+     * @param dice
+     * @return
+     */
+    QString diceToText(ExportedDiceResult& dice);
+    /**
      * @brief toggleViewAction
      * @return
      */

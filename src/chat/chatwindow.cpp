@@ -295,6 +295,55 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     data.string32(message);
     m_chat->sendThem(data);
 }
+QString ChatWindow::diceToText(ExportedDiceResult& dice)
+{
+    QStringList result;
+    QStringList resultGlobal;
+    foreach(int face, dice.keys())
+    {
+           ListDiceResult diceResult =  dice.value(face);
+           foreach (DiceAndHighlight tmp, diceResult)
+           {
+               QString pattern("%1");
+                if(tmp.second)
+                {
+                    pattern=QString("<span style=\"color:%1;font-weight: bold;\">%2</span>").arg(m_preferences->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>().name()).arg(pattern);
+                }
+                QStringList diceListStr;
+                QStringList diceListChildren;
+                for(int i =0; i < tmp.first.size(); ++i)
+                {
+                    quint64 dievalue = tmp.first[i];
+                    if(i==0)
+                    {
+                        diceListStr << QString::number(dievalue);
+                    }
+                    else
+                    {
+                        diceListChildren << QString::number(dievalue);
+                    }
+                }
+                if(!diceListChildren.isEmpty())
+                {
+                    diceListStr << QString("[%1]").arg(diceListChildren.join(','));
+                }
+                qDebug() << diceListStr.join(',');
+                result << pattern.arg(diceListStr.join(' '));
+           }
+           if(dice.keys().size()>1)
+           {
+              resultGlobal << QString("d%2: (%1)").arg(result.join(',')).arg(face);
+
+
+           }
+           else
+           {
+               resultGlobal << result.join(',');
+           }
+    }
+    qDebug() << result;
+    return resultGlobal.join(',');
+}
 
 void ChatWindow::getMessageResult(QString& str)
 {
@@ -303,7 +352,9 @@ void ChatWindow::getMessageResult(QString& str)
     bool hasDiceList = false;
     if(m_diceParser->hasDiceResult())
     {
-        diceText = tr("%1").arg(m_diceParser->getLastDiceResult());
+        ExportedDiceResult list;
+        m_diceParser->getLastDiceResult(list);//fills the ExportedDiceResult
+        diceText = diceToText(list);
         hasDiceList= true;
     }
     if(m_diceParser->hasIntegerResultNotInFirst())
@@ -317,7 +368,7 @@ void ChatWindow::getMessageResult(QString& str)
     QPalette pal(palette());
     QColor color = pal.color(QPalette::Active,QPalette::Highlight);
 
-    str = tr("got <span style=\"font-weight: bold;\">%1</span> at your dice roll, [%3 (%2)]").arg(scalarText).arg(diceText).arg(m_diceParser->getDiceCommand());//.arg(color.name())
+    str = tr("got <span style=\"font-weight: bold;\">%1</span> at your dice roll, [%3 %2]").arg(scalarText).arg(diceText).arg(m_diceParser->getDiceCommand());//.arg(color.name())
 
     if(m_diceParser->hasStringResult())
     {
