@@ -302,15 +302,18 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
     foreach(int face, dice.keys())
     {
            ListDiceResult diceResult =  dice.value(face);
+           bool previousHighlight=false;
+           QString patternColor("<span style=\"color:%1;font-weight: bold;\">");
+           patternColor = patternColor.arg(m_preferences->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>().name());
            foreach (DiceAndHighlight tmp, diceResult)
            {
-               QString pattern("%1");
-                if(tmp.second)
-                {
-                    pattern=QString("<span style=\"color:%1;font-weight: bold;\">%2</span>").arg(m_preferences->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>().name()).arg(pattern);
-                }
                 QStringList diceListStr;
                 QStringList diceListChildren;
+                 if((previousHighlight)&&(!tmp.second))
+                {
+                    result << patternColor << result.join(',') <<"</span>";
+                }
+                 previousHighlight = tmp.second;
                 for(int i =0; i < tmp.first.size(); ++i)
                 {
                     quint64 dievalue = tmp.first[i];
@@ -327,22 +330,26 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
                 {
                     diceListStr << QString("[%1]").arg(diceListChildren.join(','));
                 }
-                qDebug() << diceListStr.join(',');
-                result << pattern.arg(diceListStr.join(' '));
+
+                result << diceListStr.join(' ');
+           }
+           if(previousHighlight)
+           {
+               QStringList list;
+               list << patternColor << result.join(',') << "</span>";
+               result = list;
            }
            if(dice.keys().size()>1)
            {
-              resultGlobal << QString("d%2: (%1)").arg(result.join(',')).arg(face);
-
-
+              resultGlobal << QString(" d%2:(%1)").arg(result.join(' ')).arg(face);
            }
            else
            {
-               resultGlobal << result.join(',');
+               resultGlobal << result;
            }
     }
-    qDebug() << result;
-    return resultGlobal.join(',');
+   // qDebug() << resultGlobal<<  result;
+    return resultGlobal.join(' ');
 }
 
 void ChatWindow::getMessageResult(QString& str)
@@ -403,7 +410,18 @@ void ChatWindow::showMessage(const QString& user, const QColor& color, const QSt
     QString userSpan("<span style=\"color:rgb(%2,%3,%4);\">%1</span>");
     userSpan = userSpan.arg(user).arg(color.red()).arg(color.green()).arg(color.blue());
 
-    m_displayZone->append(pattern.arg(userSpan).arg(message));
+    setUpdatesEnabled(false);
+    QString a = message;
+    int i =0;
+    for(i = 100;i<message.size();i+=100)
+    {
+        int pos=message.indexOf(',',i);
+        QString y = ",<br/>";
+        a = a.replace(pos,1,y);
+    }
+    qDebug() << i << message.size();
+    m_displayZone->insertHtml(pattern.arg(userSpan).arg(a));
+    setUpdatesEnabled(true);
     if (!m_editionZone->hasFocus() && !m_hasUnseenMessage)
     {
         m_hasUnseenMessage = true;

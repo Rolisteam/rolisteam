@@ -14,6 +14,14 @@ ChatBrowser::ChatBrowser(QWidget *parent) :
 
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(showContextMenu(QPoint)));
+
+    setAcceptRichText(false);
+    //setContextMenuPolicy(Qt::NoContextMenu);
+    setOpenLinks(false);
+    setReadOnly(true);
+    setUndoRedoEnabled(false);
+    setWordWrapMode(QTextOption::WrapAnywhere);
+
 }
 void ChatBrowser::backGroundChanged()
 {
