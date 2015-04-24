@@ -654,9 +654,6 @@ void MainWindow::quitterApplication(bool perteConnexion)
             emit closing();
             writeSettings();
             m_noteEditor->close();
-            // On sauvegarde le fichier d'initialisation
-            /// @todo : make sure custom colors are saved.
-            // On quitte l'application
             qApp->quit();
         }
     }
