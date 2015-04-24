@@ -250,6 +250,13 @@ void PreferencesDialog::load()
             DiceAlias* tmpAlias = new DiceAlias(cmd,value,replace);
             m_aliasModel->addAlias(tmpAlias);
         }
+        if(size==0)
+        {//default alias
+            m_aliasModel->addAlias(new DiceAlias("l5r","D10k"));
+            m_aliasModel->addAlias(new DiceAlias("l5R","D10K"));
+            m_aliasModel->addAlias(new DiceAlias("nwod","D10e10c[>7]"));
+            m_aliasModel->addAlias(new DiceAlias("(.*)wod(.*)","\\1d10e[=10]c[>=\\2]-@c[=1]",false));
+        }
     }
     firstLoad=false;
 
@@ -381,16 +388,14 @@ void PreferencesDialog::editCss()
     if((i>=0)&&(i<m_themes.size()))
     {
         RolisteamTheme* theme = m_themes.at(i);
-        if(theme->isRemovable())
+        bool ok=false;
+        QString text = QInputDialog::getMultiLineText(this, tr("Css Editor"),tr("Css"), theme->getCss(),&ok);
+        if((ok)&&(theme->isRemovable()))
         {
-            bool ok=false;
-            QString text = QInputDialog::getMultiLineText(this, tr("Css Editor"),tr("Css"), theme->getCss(),&ok);
-            if(ok)
-            {
-                theme->setCss(text);
-                qApp->setStyleSheet(theme->getCss());
-            }
+            theme->setCss(text);
+            qApp->setStyleSheet(theme->getCss());
         }
+
     }
 }
 

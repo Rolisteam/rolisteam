@@ -44,10 +44,17 @@
         <property name="text">
          <string>Application Paths</string>
         </property>
+        <property name="icon">
+         <iconset theme="QStyle::SP_DirHomeIcon"/>
+        </property>
        </item>
        <item>
         <property name="text">
          <string>Dice System</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../rolisteam.qrc">
+          <normaloff>:/256ico.png</normaloff>:/256ico.png</iconset>
         </property>
        </item>
        <item>
@@ -192,13 +199,13 @@
         </layout>
        </widget>
        <widget class="QWidget" name="page">
-        <layout class="QVBoxLayout" name="verticalLayout_8">
+        <layout class="QVBoxLayout" name="verticalLayout_14">
          <item>
           <widget class="QGroupBox" name="groupBox_8">
            <property name="title">
             <string>Theme</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_14">
+           <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_15">
               <item>
@@ -393,6 +400,37 @@
                </item>
               </layout>
              </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Dice Highlight Color</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="ColorButton" name="m_diceHighlightColorBtn">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QLabel" name="label_13">
@@ -752,7 +790,9 @@
    <header>widgets/colorbutton.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../rolisteam.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
