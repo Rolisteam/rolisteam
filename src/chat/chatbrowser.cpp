@@ -2,6 +2,8 @@
 #include <QColorDialog>
 #include <QMenu>
 
+#include "preferences/preferencesmanager.h"
+
 #define MAX_COLOR_CHANNEL 255
 
 ChatBrowser::ChatBrowser(QWidget *parent) :
@@ -22,6 +24,9 @@ ChatBrowser::ChatBrowser(QWidget *parent) :
     setUndoRedoEnabled(false);
     setWordWrapMode(QTextOption::WrapAnywhere);
 
+   // setLineWrapMode(QTextEdit::FixedPixelWidth);
+
+    document()->setDefaultStyleSheet(QString(".dice {color:%1;font-weight: bold;}").arg(PreferencesManager::getInstance()->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>().name()));
 }
 void ChatBrowser::backGroundChanged()
 {
@@ -30,7 +35,7 @@ void ChatBrowser::backGroundChanged()
     if(dialog.exec()==QDialog::Accepted)
     {
         m_bgColor=dialog.currentColor();
-        setStyleSheet(QString("background:rgb(%1,%2,%3);").arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()));
+        setStyleSheet(QString("QTextBrowser { background:rgb(%1,%2,%3);}").arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()));
     }
 }
 void ChatBrowser::showContextMenu(QPoint pos)
@@ -42,4 +47,8 @@ void ChatBrowser::showContextMenu(QPoint pos)
 
 
     menu->exec(mapToGlobal(pos));
+}
+void ChatBrowser::resizeEvent(QResizeEvent *e)
+{
+    QTextBrowser::resizeEvent(e);
 }

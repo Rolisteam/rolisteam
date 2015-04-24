@@ -3,6 +3,8 @@
 
 #include <QTextBrowser>
 #include <QAction>
+#include <QResizeEvent>
+
 class ChatBrowser : public QTextBrowser
 {
     Q_OBJECT
@@ -13,6 +15,7 @@ signals:
 
 protected:
         //void contextMenuEvent ( QContextMenuEvent * event );
+    virtual void resizeEvent(QResizeEvent *e);
     
 private slots:
     void backGroundChanged();
