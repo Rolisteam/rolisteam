@@ -101,6 +101,9 @@ public:
     int getBackgroundPosition();
     QColor getBackgroundColor();
 
+    QColor getDiceHighlightColor();
+    void  setDiceHighlightColor(QColor c);
+
     QString getStyleName();
 
     void writeTo(QJsonObject& json);
@@ -114,6 +117,7 @@ private:
     int m_position;
     QString m_bgPath;
     QColor m_bgColor;
+    QColor m_diceHighlightColor;
     QColor m_gmColor;
     QString m_styleName;
 };

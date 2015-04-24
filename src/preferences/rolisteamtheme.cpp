@@ -114,6 +114,14 @@ QColor RolisteamTheme::getBackgroundColor()
 {
     return m_bgColor;
 }
+void RolisteamTheme::setDiceHighlightColor(QColor c)
+{
+    m_diceHighlightColor = c;
+}
+QColor RolisteamTheme::getDiceHighlightColor()
+{
+    return m_diceHighlightColor;
+}
 void RolisteamTheme::writeTo(QJsonObject& json)
 {
     json["name"]=m_name;
@@ -121,6 +129,7 @@ void RolisteamTheme::writeTo(QJsonObject& json)
     json["css"]=m_css;
     json["position"]=m_position;
     json["bgColor"]=m_bgColor.name();
+    json["diceHighlight"]=m_diceHighlightColor.name();
     json["bgPath"]=m_bgPath;
     json["stylename"]=m_styleName;
 }
@@ -134,4 +143,6 @@ bool RolisteamTheme::readFrom(const QJsonObject& json)
     m_bgColor.setNamedColor(bgColorName);
     m_bgPath= json["bgPath"].toString();
     m_styleName=json["stylename"].toString();
+    QString diceColorName =json["diceHighlight"].toString();
+    m_diceHighlightColor.setNamedColor(bgColorName);
 }
