@@ -109,7 +109,7 @@ ChatList::~ChatList()
 }
 bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    QMdiSubWindow * chatw = getChatSubWindowByIndex(index);
+    QMdiSubWindow* chatw = getChatSubWindowByIndex(index);
     if (chatw == NULL)
         return false;
 
@@ -125,6 +125,7 @@ bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role
         bool visible = chatw->isVisible();
         chatw->widget()->setVisible(!visible);
         chatw->setVisible(!visible);
+
     }
 
         return true;
@@ -258,6 +259,11 @@ void ChatList::addChatWindow(ChatWindow* chatw)
     connect(chatw->chat(), SIGNAL(changedName(QString)), subWindowChat, SLOT(setWindowTitle(QString)));
     m_chatWindowList.append(chatw);
     m_chatSubWindowList.append(subWindowChat);
+
+    if((subWindowChat->height()<451)||(subWindowChat->width()<264))
+    {
+        subWindowChat->resize(264,451);
+    }
 
     if(NULL!=subWindowChat)
     {
