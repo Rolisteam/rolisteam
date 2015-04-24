@@ -298,7 +298,6 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
            ListDiceResult diceResult =  dice.value(face);
            bool previousHighlight=false;
            QString patternColor("<span class=\"dice\">");
-           //patternColor = patternColorarg();
            foreach (DiceAndHighlight tmp, diceResult)
            {
                 QStringList diceListStr;
