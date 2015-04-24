@@ -138,7 +138,6 @@ void ChatWindow::setupUi()
 
     // Toolbar
     QToolBar * toolBar = new QToolBar();
-    //toolBar->setOrientation(Qt::Horizontal);
     toolBar->addWidget(m_selectPersonComboBox);
     QAction* action = toolBar->addAction(QIcon::fromTheme("document-save", QIcon(":/resources/icons/save.png")),tr("save"), this, SLOT(save()));
     action->setToolTip(tr("Save all messages from this window in %1/%2.html").arg(m_preferences->value("ChatDirectory",QDir::homePath()).toString(), m_chat->name()));
@@ -152,21 +151,16 @@ void ChatWindow::setupUi()
 
     internalVLayout->addWidget(toolBar);
     internalVLayout->addWidget(m_editionZone);
-//zoneEdition
     m_bottomWidget->setLayout(internalVLayout);
-
 
     m_splitter->addWidget(m_displayZone);
     m_splitter->addWidget(m_bottomWidget);
 
-
-    // Initialisation des tailles des 2 widgets
     QList<int> tailles;
     tailles.append(200);
     tailles.append(40);
     m_splitter->setSizes(tailles);
 
-    // Window initialisation
     setObjectName("ChatWindow");
     setAttribute(Qt::WA_DeleteOnClose, false);
     setLayout(vboxLayout);
@@ -297,14 +291,14 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
 }
 QString ChatWindow::diceToText(ExportedDiceResult& dice)
 {
-    QStringList result;
     QStringList resultGlobal;
     foreach(int face, dice.keys())
     {
+        QStringList result;
            ListDiceResult diceResult =  dice.value(face);
            bool previousHighlight=false;
-           QString patternColor("<span style=\"color:%1;font-weight: bold;\">");
-           patternColor = patternColor.arg(m_preferences->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>().name());
+           QString patternColor("<span class=\"dice\">");
+           //patternColor = patternColorarg();
            foreach (DiceAndHighlight tmp, diceResult)
            {
                 QStringList diceListStr;
@@ -348,7 +342,6 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
                resultGlobal << result;
            }
     }
-   // qDebug() << resultGlobal<<  result;
     return resultGlobal.join(' ');
 }
 
@@ -372,10 +365,9 @@ void ChatWindow::getMessageResult(QString& str)
     {
         scalarText = tr("%1").arg(m_diceParser->getSumOfDiceResult());
     }
-    QPalette pal(palette());
-    QColor color = pal.color(QPalette::Active,QPalette::Highlight);
 
-    str = tr("got <span style=\"font-weight: bold;\">%1</span> at your dice roll, [%3 %2]").arg(scalarText).arg(diceText).arg(m_diceParser->getDiceCommand());//.arg(color.name())
+    QColor color = m_preferences->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>();
+    str = tr("got <span class=\"dice\">%1</span> at your dice roll, [%3 %2]").arg(scalarText).arg(diceText).arg(m_diceParser->getDiceCommand()).arg(color.name());
 
     if(m_diceParser->hasStringResult())
     {
@@ -407,20 +399,19 @@ void ChatWindow::showMessage(const QString& user, const QColor& color, const QSt
     }
 
 
-    QString userSpan("<span style=\"color:rgb(%2,%3,%4);\">%1</span>");
-    userSpan = userSpan.arg(user).arg(color.red()).arg(color.green()).arg(color.blue());
+    QString userSpan("<span style=\"color:%2;\">%1</span>");
+    userSpan = userSpan.arg(user).arg(color.name());
 
     setUpdatesEnabled(false);
     QString a = message;
     int i =0;
-    for(i = 100;i<message.size();i+=100)
+    /*for(i = 100;i<message.size();i+=100)
     {
         int pos=message.indexOf(',',i);
         QString y = ",<br/>";
         a = a.replace(pos,1,y);
-    }
-    qDebug() << i << message.size();
-    m_displayZone->insertHtml(pattern.arg(userSpan).arg(a));
+    }*/
+    m_displayZone->append(pattern.arg(userSpan).arg(a));
     setUpdatesEnabled(true);
     if (!m_editionZone->hasFocus() && !m_hasUnseenMessage)
     {
