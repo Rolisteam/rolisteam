@@ -23,9 +23,7 @@ ChatBrowser::ChatBrowser(QWidget *parent) :
     setReadOnly(true);
     setUndoRedoEnabled(false);
     setWordWrapMode(QTextOption::WrapAnywhere);
-
    // setLineWrapMode(QTextEdit::FixedPixelWidth);
-
     document()->setDefaultStyleSheet(QString(".dice {color:%1;font-weight: bold;}").arg(PreferencesManager::getInstance()->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>().name()));
 }
 void ChatBrowser::backGroundChanged()
@@ -35,17 +33,13 @@ void ChatBrowser::backGroundChanged()
     if(dialog.exec()==QDialog::Accepted)
     {
         m_bgColor=dialog.currentColor();
-        setStyleSheet(QString("QTextBrowser { background:rgb(%1,%2,%3);}").arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()));
+        setStyleSheet(QString("QTextBrowser { background:%1;}").arg(m_bgColor.name()));
     }
 }
 void ChatBrowser::showContextMenu(QPoint pos)
 {
     QMenu* menu = createStandardContextMenu(pos);
-
-
     menu->addAction(m_bgColorAct);
-
-
     menu->exec(mapToGlobal(pos));
 }
 void ChatBrowser::resizeEvent(QResizeEvent *e)
