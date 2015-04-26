@@ -45,7 +45,9 @@
          <string>Application Paths</string>
         </property>
         <property name="icon">
-         <iconset theme="QStyle::SP_DirHomeIcon"/>
+         <iconset theme="QStyle::SP_DirHomeIcon">
+          <normaloff/>
+         </iconset>
         </property>
        </item>
        <item>
@@ -59,7 +61,7 @@
        </item>
        <item>
         <property name="text">
-         <string>Diagnotic</string>
+         <string>Diagnostic</string>
         </property>
        </item>
       </widget>
