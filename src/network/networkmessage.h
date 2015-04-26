@@ -128,6 +128,7 @@ enum Action {
 
     //SharePreferencesCategory
     addDiceAlias = 0,
+    moveDiceAlias,
     removeDiceAlias
 
 };
