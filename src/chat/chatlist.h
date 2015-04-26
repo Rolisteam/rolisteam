@@ -101,7 +101,7 @@ public:
     // Event handler
     virtual bool event(QEvent * event);
 
-    void updateDiceAliases(QMap<int,DiceAlias*>* map);
+    void updateDiceAliases(QList<DiceAlias*>* map);
 
 private:
     /**

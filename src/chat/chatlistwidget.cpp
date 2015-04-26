@@ -33,7 +33,7 @@
 #include "dicealias.h"
 
 ChatListWidget::ChatListWidget(MainWindow * parent)
-    : QDockWidget(/*parent*/),m_diceAliasMapFromGM(new QMap<int,DiceAlias*>())
+    : QDockWidget(/*parent*/),m_diceAliasMapFromGM(new QList<DiceAlias*>())
 {
     Q_UNUSED(parent);
     setWindowTitle(tr("Chat messaging"));
@@ -161,6 +161,9 @@ NetWorkReceiver::SendType ChatListWidget::processMessage(NetworkMessageReader* m
     case NetMsg::removeDiceAlias:
         processRemoveDiceALias(msg);
         break;
+    case NetMsg::moveDiceAlias:
+        processMoveDiceALias(msg);
+        break;
     default:
         break;
     }
@@ -180,5 +183,22 @@ void ChatListWidget::processAddDiceAlias(NetworkMessageReader* msg)
 void ChatListWidget::processRemoveDiceALias(NetworkMessageReader* msg)
 {
     int pos = msg->int64();
-    m_diceAliasMapFromGM->remove(pos);
+    if(m_diceAliasMapFromGM->size()>pos)
+    {
+        m_diceAliasMapFromGM->removeAt(pos);
+    }
+}
+void ChatListWidget::processMoveDiceALias(NetworkMessageReader* msg)
+{
+    int from = msg->int64();
+    int to   = msg->int64();
+    qDebug() << from << to;
+    if((from>=0)&&(from<m_diceAliasMapFromGM->size()))
+    {
+        qDebug() << from << to;
+        DiceAlias* tpm = m_diceAliasMapFromGM->takeAt(from);
+        m_diceAliasMapFromGM->insert(to,tpm);
+
+    }
+
 }

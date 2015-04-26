@@ -111,7 +111,7 @@ public :
      * @brief updateDiceAliases
      * @param map
      */
-    static void updateDiceAliases(QMap<int,DiceAlias*>* map);
+    static void updateDiceAliases(QList<DiceAlias*>* map);
 signals:
     /**
      * @brief ChatWindowHasChanged
@@ -217,7 +217,7 @@ private :
     QWidget * m_bottomWidget;
     DiceParser* m_diceParser;
     QMap<QString,CHAT_OPERATOR>* m_operatorMap;
-    static QMap<int,DiceAlias*>* m_receivedAlias;
+    static QList<DiceAlias*>* m_receivedAlias;
 
 };
 

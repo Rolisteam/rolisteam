@@ -538,7 +538,7 @@ void ChatList::deletePrivateChat(ReceiveEvent * event)
     if (chatw != NULL)
         delChatWindow(chatw);
 }
-void ChatList::updateDiceAliases(QMap<int,DiceAlias*>* map)
+void ChatList::updateDiceAliases(QList<DiceAlias*>* map)
 {
     foreach(ChatWindow* tmp, m_chatWindowList)
     {

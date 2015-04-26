@@ -44,7 +44,7 @@
 #include "types.h"
 
 QStringList ChatWindow::m_keyWordList;
-QMap<int,DiceAlias*>* ChatWindow::m_receivedAlias = NULL;
+QList<DiceAlias*>* ChatWindow::m_receivedAlias = NULL;
 
 ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     : QWidget(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)
@@ -98,11 +98,11 @@ void ChatWindow::updateListAlias()
     }
     if(NULL!=m_receivedAlias)
     {
-        foreach(int id,m_receivedAlias->keys())
-        {
-            DiceAlias* dicealias = m_receivedAlias->value(id);
-            list->append(dicealias);
-        }
+        /*foreach(int id,m_receivedAlias->keys())
+        {*/
+           // DiceAlias* dicealias = m_receivedAlias->value(id);
+            list->append(*m_receivedAlias);
+        //}
     }
 }
 
@@ -520,7 +520,7 @@ void ChatWindow::setSubWindow(QMdiSubWindow* subWindow)
     m_window = subWindow;
     connect(m_toggleViewAction, SIGNAL(triggered(bool)), m_window, SLOT(setVisible(bool)));
 }
-void ChatWindow::updateDiceAliases(QMap<int,DiceAlias*>* map)
+void ChatWindow::updateDiceAliases(QList<DiceAlias*>* map)
 {
     m_receivedAlias = map;
 }

@@ -174,6 +174,8 @@ QList<DiceAlias*>* DiceAliasModel::getAliases()
 }
 void DiceAliasModel::deleteAlias(QModelIndex& index)
 {
+    if(!index.isValid())
+        return;
     beginRemoveRows(QModelIndex(),index.row(),index.row());
     m_diceAliasList->removeAt(index.row());
     endRemoveRows();
@@ -191,6 +193,7 @@ void DiceAliasModel::upAlias(QModelIndex& index)
     if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),index.row()-1))
     {
         m_diceAliasList->swap(index.row(),index.row()-1);
+        moveAlias(index.row(),index.row()-1);
         endMoveRows();
     }
 }
@@ -206,6 +209,7 @@ void DiceAliasModel::downAlias(QModelIndex& index)
     if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),index.row()+2))
     {
         m_diceAliasList->swap(index.row(),index.row()+1);
+        moveAlias(index.row(),index.row()+1);
         endMoveRows();
     }
 }
@@ -220,6 +224,7 @@ void DiceAliasModel::topAlias(QModelIndex& index)
     if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),0))
     {
         DiceAlias* dice = m_diceAliasList->takeAt(index.row());
+        moveAlias(index.row(),0);
         m_diceAliasList->prepend(dice);
         endMoveRows();
     }
@@ -234,6 +239,7 @@ void DiceAliasModel::bottomAlias(QModelIndex& index)
     if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),m_diceAliasList->size()))
     {
         DiceAlias* dice = m_diceAliasList->takeAt(index.row());
+        moveAlias(index.row(),m_diceAliasList->size());
         m_diceAliasList->append(dice);
         endMoveRows();
     }
@@ -259,5 +265,15 @@ void DiceAliasModel::sendOffAllDiceAlias(NetworkLink* link)
         msg.string32(alias->getValue());
         msg.int8(alias->isReplace());
         msg.sendTo(link);
+    }
+}
+void DiceAliasModel::moveAlias(int from,int to)
+{
+    if(m_isGM)
+    {
+        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::moveDiceAlias);
+        msg.int64(from);
+        msg.int64(to);
+        msg.sendAll();
     }
 }

@@ -100,6 +100,7 @@ public:
     void upAlias(QModelIndex& index);
     void downAlias(QModelIndex& index);
     void topAlias(QModelIndex& index);
+    void moveAlias(int,int);
     void bottomAlias(QModelIndex& index);
     void setGM(bool);
     void clear();

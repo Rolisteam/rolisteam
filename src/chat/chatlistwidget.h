@@ -64,6 +64,7 @@ private slots:
     void updateAllUnreadChat();
     void processAddDiceAlias(NetworkMessageReader* msg);
     void processRemoveDiceALias(NetworkMessageReader* msg);
+    void processMoveDiceALias(NetworkMessageReader* msg);
 
 
 private:
@@ -72,7 +73,7 @@ private:
     QItemSelectionModel * m_selectionModel;
     QPushButton * m_deleteButton;
     QListView* m_listView;
-    QMap<int,DiceAlias*>* m_diceAliasMapFromGM;
+    QList<DiceAlias*>* m_diceAliasMapFromGM;
 };
 
 #endif
