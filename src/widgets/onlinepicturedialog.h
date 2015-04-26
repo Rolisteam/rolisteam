@@ -88,6 +88,8 @@ private:
     QPixmap m_pix;
     double m_zoomLevel;
     QLabel* m_imageViewerLabel;
+    bool m_isPosting;
+    QString m_postingStr;
 };
 
 #endif // ONLINEPICTUREDIALOG_H

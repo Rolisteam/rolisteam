@@ -23,13 +23,14 @@
 #include <QNetworkReply>
 #include <QFileInfo>
 #include <QNetworkRequest>
+#include <QDebug>
 
 #include "onlinepicturedialog.h"
 #include "ui_onlinepicturedialog.h"
 
 OnlinePictureDialog::OnlinePictureDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::OnlinePictureDialog)
+    ui(new Ui::OnlinePictureDialog),m_isPosting(false)
 {
     ui->setupUi(this);
     connect(ui->m_urlField,SIGNAL(editingFinished()),this,SLOT(uriChanged()));
@@ -37,6 +38,7 @@ OnlinePictureDialog::OnlinePictureDialog(QWidget *parent) :
     m_manager = new QNetworkAccessManager(this);
     connect(m_manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(replyFinished(QNetworkReply*)));
+
 
     ui->scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -64,14 +66,22 @@ void OnlinePictureDialog::uriChanged()
     {
         ui->m_titleLineEdit->setText(info.baseName());
     }
-   m_manager->get(QNetworkRequest(QUrl(ui->m_urlField->text())));
+    if((!m_isPosting)||(ui->m_urlField->text()!=m_postingStr))
+    {
+        m_isPosting = true;
+        m_postingStr = ui->m_urlField->text();
+        m_manager->get(QNetworkRequest(QUrl(ui->m_urlField->text())));
+    }
 }
 void OnlinePictureDialog::replyFinished(QNetworkReply* reply)
 {
+    m_isPosting = false;
     QByteArray data = reply->readAll();
-    bool ok = m_pix.loadFromData(data);
-    m_imageViewerLabel->setPixmap(m_pix);
-    m_imageViewerLabel->resize(m_pix.size());
+    QPixmap map;
+    bool ok = map.loadFromData(data);
+    m_imageViewerLabel->setPixmap(map);
+    m_imageViewerLabel->resize(map.size());
+    m_pix = map;
     resizeLabel();
     update();
 }
