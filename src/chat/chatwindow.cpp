@@ -197,11 +197,21 @@ void ChatWindow::manageDiceRoll(QString str,bool secret,QString& messageTitle,QS
     if(m_diceParser->parseLine(str))
     {
         m_diceParser->Start();
-        getMessageResult(messageCorps);
-        messageTitle = tr("You");
-        color = localPerson->color();
-        showMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
-        message = messageCorps;
+        if(m_diceParser->getErrorMap().isEmpty())
+        {
+            getMessageResult(messageCorps);
+            messageTitle = tr("You");
+            color = localPerson->color();
+            showMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
+            message = messageCorps;
+        }
+        else
+        {
+            messageCorps = m_diceParser->humanReadableError();
+            messageTitle = tr("Syntax");
+            color = Qt::red;
+            showMessage(messageTitle, color, messageCorps);
+        }
     }
     else
     {
@@ -334,14 +344,14 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
            }
            if(dice.keys().size()>1)
            {
-              resultGlobal << QString(" d%2:(%1)").arg(result.join(' ')).arg(face);
+              resultGlobal << QString(" d%2:(%1)").arg(result.join("")).arg(face);
            }
            else
            {
                resultGlobal << result;
            }
     }
-    return resultGlobal.join(' ');
+    return resultGlobal.join("");
 }
 
 void ChatWindow::getMessageResult(QString& str)
@@ -366,7 +376,7 @@ void ChatWindow::getMessageResult(QString& str)
     }
 
     QColor color = m_preferences->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>();
-    str = tr("got <span class=\"dice\">%1</span> at your dice roll, [%3 %2]").arg(scalarText).arg(diceText).arg(m_diceParser->getDiceCommand()).arg(color.name());
+    str = tr("got <span class=\"dice\">%1</span> at your dice roll, [%3 (%2)]").arg(scalarText).arg(diceText.trimmed()).arg(m_diceParser->getDiceCommand());
 
     if(m_diceParser->hasStringResult())
     {
