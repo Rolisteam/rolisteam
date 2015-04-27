@@ -221,6 +221,7 @@ void PreferencesDialog::load()
     ui->m_opacitySlider->setValue(m_preferences->value("Fog_opacity",fog.red()).toInt());
     ui->m_opacitySpin->setValue(m_preferences->value("Fog_opacity",fog.red()).toInt());
     ui->m_fogColor->setColor(m_preferences->value("Mask_color",QColor(Qt::darkMagenta)).value<QColor>());
+    ui->m_fullScreenCheckbox->setChecked(m_preferences->value("FullScreenAtStarting",true).toBool());
 
     //Default Permission
     ui->m_defaultMapModeCombo->setCurrentIndex(m_preferences->value("defaultPermissionMap",0).toInt());
@@ -446,6 +447,8 @@ void PreferencesDialog::save() const
 
     m_preferences->registerValue("Mask_color", ui->m_fogColor->color());
     m_preferences->registerValue("PictureAdjust",ui->m_pictureAdjust->isChecked());
+
+    m_preferences->registerValue("FullScreenAtStarting",ui->m_fullScreenCheckbox->isChecked());
 
     //Background
     /* m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());

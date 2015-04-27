@@ -69,7 +69,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="General">
         <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -151,6 +151,13 @@
              <widget class="QCheckBox" name="m_checkUpdate">
               <property name="text">
                <string>Check for Update</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="m_fullScreenCheckbox">
+              <property name="text">
+               <string>Full Screen at launch</string>
               </property>
              </widget>
             </item>
@@ -487,84 +494,101 @@
            <property name="title">
             <string>Directories</string>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
+           <layout class="QVBoxLayout" name="verticalLayout_19">
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout">
+             <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
               <item>
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>Music (GM) :</string>
-                </property>
-               </widget>
+               <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                 <widget class="QLabel" name="label_2">
+                  <property name="text">
+                   <string>Music (GM) :</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_3">
+                  <property name="text">
+                   <string>Music (Player) :</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_4">
+                  <property name="text">
+                   <string>Pictures :</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_5">
+                  <property name="text">
+                   <string>Map :</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_6">
+                  <property name="text">
+                   <string>Scenarios :</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_7">
+                  <property name="text">
+                   <string>Minutes :</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_8">
+                  <property name="text">
+                   <string>Chat :</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
-               <widget class="QLabel" name="label_3">
-                <property name="text">
-                 <string>Music (Player) :</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_4">
-                <property name="text">
-                 <string>Pictures :</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_5">
-                <property name="text">
-                 <string>Map :</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_6">
-                <property name="text">
-                 <string>Scenarios :</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_7">
-                <property name="text">
-                 <string>Minutes :</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_8">
-                <property name="text">
-                 <string>Chat :</string>
-                </property>
-               </widget>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                 <widget class="FileDirChooser" name="m_musicDirGM" native="true"/>
+                </item>
+                <item>
+                 <widget class="FileDirChooser" name="m_musicDirPlayer" native="true"/>
+                </item>
+                <item>
+                 <widget class="FileDirChooser" name="m_pictureDir" native="true"/>
+                </item>
+                <item>
+                 <widget class="FileDirChooser" name="m_mapDir" native="true"/>
+                </item>
+                <item>
+                 <widget class="FileDirChooser" name="m_scenarioDir" native="true"/>
+                </item>
+                <item>
+                 <widget class="FileDirChooser" name="m_minuteDir" native="true"/>
+                </item>
+                <item>
+                 <widget class="FileDirChooser" name="m_chatDir" native="true"/>
+                </item>
+               </layout>
               </item>
              </layout>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_2">
-              <item>
-               <widget class="FileDirChooser" name="m_musicDirGM" native="true"/>
-              </item>
-              <item>
-               <widget class="FileDirChooser" name="m_musicDirPlayer" native="true"/>
-              </item>
-              <item>
-               <widget class="FileDirChooser" name="m_pictureDir" native="true"/>
-              </item>
-              <item>
-               <widget class="FileDirChooser" name="m_mapDir" native="true"/>
-              </item>
-              <item>
-               <widget class="FileDirChooser" name="m_scenarioDir" native="true"/>
-              </item>
-              <item>
-               <widget class="FileDirChooser" name="m_minuteDir" native="true"/>
-              </item>
-              <item>
-               <widget class="FileDirChooser" name="m_chatDir" native="true"/>
-              </item>
-             </layout>
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>314</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>

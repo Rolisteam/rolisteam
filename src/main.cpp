@@ -34,6 +34,7 @@
 #include "network/networkmanager.h"
 #include "mainwindow.h"
 #include "data/persons.h"
+#include "preferences/preferencesmanager.h"
 
 #include "variablesGlobales.h"
 
@@ -136,8 +137,14 @@ int main(int argc, char *argv[])
         mainWindow->updateWindowTitle();
         mainWindow->checkUpdate();
         mainWindow->updateUi();
-        // We have a connection, we launch the main window.
-        mainWindow->showNormal();
+        if(PreferencesManager::getInstance()->value("FullScreenAtStarting",true).toBool())
+        {
+            mainWindow->showMaximized();
+        }
+        else
+        {
+            mainWindow->show();
+        }
         value = app.exec();
     }
     QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
