@@ -63,6 +63,9 @@
 *
 */
 
+
+
+
 /**
  * @brief main
  * @param argc
@@ -93,6 +96,15 @@ int main(int argc, char *argv[])
     // Ressources
     QResource::registerResource(appName+".rcc");
 
+    QTranslator rolisteamTranslator;
+    rolisteamTranslator.load(":/translations/rolisteam_" + locale);
+    app.installTranslator(&rolisteamTranslator);
+
+    QTranslator qtTranslator;
+    qtTranslator.load(":/translations/qt_" + locale);
+    app.installTranslator(&qtTranslator);
+
+
     QStringList translationCLI;
     translationCLI << "-t"<<"--translation";
     QStringList argList = app.arguments();
@@ -111,18 +123,32 @@ int main(int argc, char *argv[])
         }
     }
 
-    QTranslator rolisteamTranslator;
-    rolisteamTranslator.load(":/translations/rolisteam_" + locale);
-    app.installTranslator(&rolisteamTranslator);
 
-    QTranslator qtTranslator;
-    qtTranslator.load(":/translations/qt_" + locale);
-    app.installTranslator(&qtTranslator);
+    // Settings
+    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(version));
+    settings.beginGroup("rolisteam/preferences");
 
-    // Seeds random generator
-    uint seed = quintptr(&app) + QDateTime::currentDateTime().toTime_t();
-    //qDebug("Seed %x", seed);
-    qsrand(seed);
+    QMap<QString,QVariant> map;
+    QVariant variant = settings.value("map",map);
+    if(variant.canConvert<QMap<QString,QVariant> >())
+    {
+        map = variant.value<QMap<QString,QVariant> >();
+    }
+    settings.endGroup();
+
+    QString file = map.value("currentTranslationFile","").toString();
+    if(!file.isEmpty())
+    {
+        qDebug() << file<< "current translation file";
+        QTranslator* currentTranslator = new QTranslator();
+        currentTranslator->load(file);
+        app.installTranslator(currentTranslator);
+    }
+
+
+
+
+
 
     // Create the main window
     MainWindow* mainWindow =MainWindow::getInstance();
@@ -130,6 +156,10 @@ int main(int argc, char *argv[])
 
     mainWindow->setupUi();
     mainWindow->readSettings();
+
+
+
+
     int value = 0;
     if(mainWindow->showConnectionDialog())
     {
