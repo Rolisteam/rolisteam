@@ -204,6 +204,8 @@ void PreferencesDialog::load()
 {
     static bool firstLoad = true;
     //Direcotry PATH
+    ui->m_translationFileEdit->setMode(false);
+    ui->m_translationFileEdit->setFilter("Translation File: (*.qm)");
     ui->m_musicDirGM->setPath(m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString());
     ui->m_musicDirPlayer->setPath(m_preferences->value("MusicDirectoryPlayer",QDir::homePath()).toString());
     ui->m_pictureDir->setPath(m_preferences->value("ImageDirectory",QDir::homePath()).toString());
@@ -211,6 +213,7 @@ void PreferencesDialog::load()
     ui->m_scenarioDir->setPath(m_preferences->value("SessionDirectory",QDir::homePath()).toString());
     ui->m_minuteDir->setPath(m_preferences->value("MinutesDirectory",QDir::homePath()).toString());
     ui->m_chatDir->setPath(m_preferences->value("ChatDirectory",QDir::homePath()).toString());
+    ui->m_translationFileEdit->setPath(m_preferences->value("currentTranslationFile","").toString());
     ui->m_checkUpdate->setChecked(m_preferences->value("MainWindow_MustBeChecked",true).toBool());
 
     ////////////////////////
@@ -437,6 +440,7 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("SessionDirectory",ui->m_scenarioDir->path());
     m_preferences->registerValue("MinutesDirectory",ui->m_minuteDir->path());
     m_preferences->registerValue("ChatDirectory",ui->m_chatDir->path());
+    m_preferences->registerValue("currentTranslationFile",ui->m_translationFileEdit->path());
     m_preferences->registerValue("MainWindow_MustBeChecked",ui->m_checkUpdate->isChecked());
     m_preferences->registerValue("defaultPermissionMap",ui->m_defaultMapModeCombo->currentIndex());
 

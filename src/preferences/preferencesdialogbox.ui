@@ -183,9 +183,23 @@
              </layout>
             </item>
             <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <item>
+               <widget class="QLabel" name="label_17">
+                <property name="text">
+                 <string>Translation File*:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="FileDirChooser" name="m_translationFileEdit" native="true"/>
+              </item>
+             </layout>
+            </item>
+            <item>
              <widget class="QLabel" name="label_9">
               <property name="text">
-               <string/>
+               <string>* : need restart</string>
               </property>
              </widget>
             </item>
