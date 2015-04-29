@@ -89,6 +89,12 @@
     <addaction name="separator"/>
     <addaction name="menuMap"/>
     <addaction name="separator"/>
+    <addaction name="m_audioPlayerAct"/>
+    <addaction name="m_characterListAct"/>
+    <addaction name="m_chatListAct"/>
+    <addaction name="m_toolBarAct"/>
+    <addaction name="m_notificationAct"/>
+    <addaction name="separator"/>
     <addaction name="m_showMinutesEditorAction"/>
    </widget>
    <widget class="QMenu" name="menuNetwork">
@@ -375,6 +381,46 @@
    </property>
    <property name="text">
     <string>Online Picture</string>
+   </property>
+  </action>
+  <action name="m_audioPlayerAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Audio Player</string>
+   </property>
+  </action>
+  <action name="m_notificationAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Notification Zone</string>
+   </property>
+  </action>
+  <action name="m_chatListAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Chat List</string>
+   </property>
+  </action>
+  <action name="m_characterListAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Character List</string>
+   </property>
+  </action>
+  <action name="m_toolBarAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ToolBar</string>
    </property>
   </action>
  </widget>

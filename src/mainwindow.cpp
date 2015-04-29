@@ -395,9 +395,9 @@ void MainWindow::receiveData(quint64 readData,quint64 size)
 }
 
 
-void MainWindow::creerLogUtilisateur()
+void MainWindow::createNotificationZone()
 {
-    m_dockLogUtil = new QDockWidget(tr("Events"), this);
+    m_dockLogUtil = new QDockWidget(tr("Notification Zone"), this);
     m_dockLogUtil->setObjectName("dockLogUtil");
     m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
@@ -1259,31 +1259,44 @@ void MainWindow::setupUi()
     setAnimated(false);
     m_mdiArea = new ImprovedWorkspace();
     setCentralWidget(m_mdiArea);
-    // Connexion du changement de fenetre active avec la fonction de m.a.j du selecteur de taille des PJ
     connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(changementFenetreActive(QMdiSubWindow *)));
 
-    // Creation de la barre d'outils
     m_toolBar = new ToolsBar();
-    // Ajout de la barre d'outils a la fenetre principale
     addDockWidget(Qt::LeftDockWidgetArea, m_toolBar);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,m_toolBar->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
 
-    // Creation du log utilisateur
-    creerLogUtilisateur();
-    // Ajout du log utilisateur a la fenetre principale
+    createNotificationZone();
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_notificationAct,m_dockLogUtil->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_notificationAct);
     addDockWidget(Qt::RightDockWidgetArea, m_dockLogUtil);
 
 
     m_chatListWidget = new ChatListWidget(this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_chatListWidget);
     addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_chatListWidget->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
 
+
+    ///////////////////
+    //PlayerList
+    ///////////////////
     m_playersListWidget = new PlayersListWidget(this);
     addDockWidget(Qt::RightDockWidgetArea, m_playersListWidget);
     setWindowIcon(QIcon(":/logo.png"));
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_characterListAct,m_playersListWidget->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_characterListAct);
+
+    ///////////////////
+    //Audio Player
+    ///////////////////
 #ifndef NULL_PLAYER
     m_audioPlayer = AudioPlayer::getInstance(this);
     m_networkManager->setAudioPlayer(m_audioPlayer);
     addDockWidget(Qt::RightDockWidgetArea,m_audioPlayer );
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct,m_audioPlayer->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_audioPlayerAct);
 #endif
     //readSettings();
     m_preferencesDialog = new PreferencesDialog(this);

@@ -211,7 +211,7 @@ PlayersListWidget::PlayersListWidget(QWidget * parent)
 {
     setAllowedAreas(Qt::AllDockWidgetAreas);
 	setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-    setWindowTitle(tr("Player"));
+    setWindowTitle(tr("Player List"));
     setObjectName("PlayersListWidget");
 
     setUI();

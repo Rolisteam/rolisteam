@@ -296,7 +296,7 @@ private slots :
 private :
     MainWindow();
     static MainWindow* m_singleton;
-    void creerLogUtilisateur();
+    void createNotificationZone();
     void linkActionToMenu();
 
 	//QMdiSubWindow*  readMapAndNpc(QDataStream &file, bool masquer = false, QString nomFichier = "");
