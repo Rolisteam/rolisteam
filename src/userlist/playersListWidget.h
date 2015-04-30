@@ -19,8 +19,6 @@
  *   Free Software Foundation, Inc.,                                     *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
-
-
 #ifndef PLAYERS_LIST_WIDGET_H
 #define PLAYERS_LIST_WIDGET_H
 
@@ -74,7 +72,10 @@ class PlayersListView : public QTreeView
     protected:
         void mouseDoubleClickEvent(QMouseEvent * event);
 };
-
+/**
+ * @brief The PlayersListWidget class is the QDockWidget which display the PlayersListView. It is part of the MVC pattern as the Controler.
+ *
+ */
 class PlayersListWidget : public QDockWidget
 {
     Q_OBJECT

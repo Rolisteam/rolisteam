@@ -30,14 +30,19 @@
 
 enum ColorKind {ColorType, Erase, Veil, Unveil};
 
-
+/**
+  * @brief SelectedColor is used to store the current color and its kind. It must disappear form the software in future release.
+  */
 typedef struct
 {
 	ColorKind type;
     QColor color;
 } SelectedColor;
 
-// Entete des messages envoyes et recus via les sockets
+/**
+  * @brief MsgHeader is used to store meta data for network message. It must disappear form the software in future release.
+  * @note Replaced by NetworkMessageHeader
+  */
 typedef struct
 {
     quint8 categorie;				// Contient une categorie d'action

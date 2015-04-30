@@ -34,45 +34,91 @@
 class Player;
 class PrivateChat;
 /**
- * @brief The PrivateChatDialogModel class
+ * @brief The PrivateChatDialogModel class is the model which stored all opened chat room.
  */
 class PrivateChatDialogModel : public PlayersListProxyModel
 {
     Q_OBJECT
 
-    public:
-        PrivateChatDialogModel(QObject * parent = 0);
+public:
+    /**
+     * @brief PrivateChatDialogModel
+     * @param parent
+     */
+    PrivateChatDialogModel(QObject * parent = 0);
+    /**
+     * @brief flags
+     * @param index
+     * @return
+     */
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    /**
+     * @brief data
+     * @param index
+     * @param role
+     * @return
+     */
+    QVariant data(const QModelIndex &index, int role) const;
+    /**
+     * @brief setData
+     * @param index
+     * @param value
+     * @param role
+     * @return
+     */
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    /**
+     * @brief playersSet
+     * @return
+     */
+    QSet<Player *> & playersSet();
+    /**
+     * @brief setPlayersSet
+     * @param set
+     */
+    void setPlayersSet(const QSet<Player *> & set);
+    /**
+     * @brief setEditable
+     * @param isEditable
+     */
+    void setEditable(bool isEditable);
 
-        Qt::ItemFlags flags(const QModelIndex &index) const;
-        QVariant data(const QModelIndex &index, int role) const;
-        bool setData(const QModelIndex &index, const QVariant &value, int role);
-
-        QSet<Player *> & playersSet();
-        void setPlayersSet(const QSet<Player *> & set);
-        void setEditable(bool isEditable);
-
-    private:
-       QSet<Player *> m_set;
-       bool m_isEditable;
+private:
+   QSet<Player *> m_set;
+   bool m_isEditable;
 };
-
+/**
+ * @brief The PrivateChatDialog class is the dialog box displayed when the user wants to create new chat room.
+ */
 class PrivateChatDialog : public QDialog
 {
     Q_OBJECT
 
-    public:
-        PrivateChatDialog(QWidget * parent = NULL);
+public:
+    /**
+     * @brief PrivateChatDialog
+     * @param parent
+     */
+    PrivateChatDialog(QWidget * parent = NULL);
+    /**
+     * @brief sizeHint
+     * @return
+     */
+    QSize sizeHint() const;
 
-        QSize sizeHint() const;
+public slots:
+    /**
+     * @brief edit
+     * @param chat
+     * @return
+     */
+    int edit(PrivateChat * chat = NULL);
 
-    public slots:
-        int edit(PrivateChat * chat = NULL);
-
-    private:
-        QLineEdit * m_name_w;
-        QLineEdit * m_owner_w;
-        PrivateChatDialogModel m_model;
-        QDialogButtonBox * m_buttonBox;
+private:
+    QLineEdit * m_name_w;
+    QLineEdit * m_owner_w;
+    PrivateChatDialogModel m_model;
+    QDialogButtonBox * m_buttonBox;
 };
 
 #endif

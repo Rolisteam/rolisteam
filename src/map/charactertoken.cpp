@@ -399,7 +399,7 @@ void DessinPerso::afficheOuMasqueOrientation()
     dessinerPersonnage();
 }
 
-void DessinPerso::afficherOrientation(bool afficher)
+void DessinPerso::showOrientation(bool afficher)
 {
     orientationAffichee = afficher;
     dessinerPersonnage();

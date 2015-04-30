@@ -75,7 +75,7 @@ public :
     void nouvelEtatDeSante(etatDeSante sante, int numeroSante);
     void emettrePnj(QString idCarte);
     void changerEtatDeSante(int numEtat);
-    void afficherOrientation(bool afficher);
+    void showOrientation(bool afficher);
     bool dansPartieTransparente(QPoint position);
     bool estVisible();
     bool estUnPj();

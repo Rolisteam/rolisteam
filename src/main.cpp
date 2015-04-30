@@ -43,6 +43,7 @@
 *
 * @author Renaud Guezennec
 *
+*  @section intro_sec Introduction
 * Rolisteam help you to manage role playing games with your friend all over the world.<br/>
 * Rolisteam is a free software under GNU/GPL. Its purpose is to provide all features required to<br/>
 * perform Role playing games with remote friends.<br/>
@@ -56,9 +57,22 @@
 *    <li>Sharing environment sound</li>
 *    <li>Multi-platform: Windows, Linux and Mac OS X</li>
 * </ul>
+*
+*
+* @section install_sec Installation
 * <h2>How to stay in touch ? </h2>
 * Please take a look to <a href="http://www.rolisteam.org/">Rolisteam Web Site</a>
 *
+* @subsection tools_subsec Tools required&#58;
+* Qt5, zlib.
+* @subpage DiceParser
+*
+* @subsection running Running the program
+*
+* @section copyright Copyright and License
+* GNU/GPLv2
+*
+* <BR><BR>
 *
 *
 */

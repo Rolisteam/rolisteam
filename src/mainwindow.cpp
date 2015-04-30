@@ -1637,7 +1637,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
             DessinPerso* character = map->trouverPersonnage(idCharacter);
             if(NULL!=character)
             {
-                character->afficherOrientation(showOrientation);
+                character->showOrientation(showOrientation);
             }
         }
     }

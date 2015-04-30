@@ -35,7 +35,8 @@ class QHBoxLayout;
 class QGridLayout;
 class QVBoxLayout;
 /**
- * @brief The ColorWidget class - small widget to display color and select it.
+ * @brief The ColorWidget class is small widget to display color and select it. It is used a lot of timer
+ * by ColorSelector.
  */
 class ColorWidget : public QWidget
 {
@@ -78,7 +79,7 @@ private:
 };
 
 /**
- * @brief The ColorSelector class
+ * @brief The ColorSelector class is displayed in Toolsbar for color selection.
  */
 class ColorSelector : public QWidget
 {
@@ -120,7 +121,7 @@ public:
     virtual bool eventFilter(QObject *, QEvent *);
 public slots:
     /**
-     * @brief changeCouleurActuelle
+     * @brief changeCurrentColor
      * @param couleur
      */
     void changeCurrentColor(QColor couleur);
