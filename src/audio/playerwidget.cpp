@@ -149,6 +149,7 @@ void PlayerWidget::setupUi()
 
 
     m_ui->m_volumeSlider->setValue(m_preferences->value(QString("volume_player_%1").arg(m_id),50).toInt());
+    m_audioFileFilter = m_preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString();
 
     // **************** Add ACTIONS ********************************
 
@@ -235,10 +236,16 @@ void PlayerWidget::removeFile()
     m_model->removeSong(list);
 }
 
+void PlayerWidget::addSongIntoModel(QString str)
+{
+    QStringList songs;
+    songs<< str;
+    m_model->addSong(songs);
+}
 
 void PlayerWidget::addFiles()
 {
-    QStringList fileList = QFileDialog::getOpenFileNames(this, tr("Add song"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)"));
+    QStringList fileList = QFileDialog::getOpenFileNames(this, tr("Add song"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("Audio files (%1)").arg(m_audioFileFilter));
     if (fileList.isEmpty())
         return;
     QFileInfo fileinfo(fileList[0]);

@@ -60,6 +60,16 @@ public:
      */
     void addActionsIntoMenu(QMenu* menu);
 
+    /**
+     * @brief readM3uPlayList
+     * @param filepath
+     */
+    void readM3uPlayList(QString filepath);
+    /**
+     * @brief addSongIntoModel
+     * @param str
+     */
+    void addSongIntoModel(QString str);
 public slots:
     // ********************** Slots from network *************************** //
     /**
@@ -168,11 +178,6 @@ private slots:
      */
     void saveVolumeValue(int);
     /**
-     * @brief readM3uPlayList
-     * @param filepath
-     */
-    void readM3uPlayList(QString filepath);
-    /**
      * @brief removeAll
      */
     void removeAll();
@@ -278,6 +283,7 @@ private:
     QAction* m_clearList;
     PlayingMode m_playingMode;
     QMediaContent* m_currentContent;
+    QString m_audioFileFilter;
 
     int m_id;
     quint64 m_time;
