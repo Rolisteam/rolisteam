@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{0AD9B759-512C-4B8E-A0ED-69DE0D361570}
 AppName=Rolisteam
-AppVerName=Rolisteam 1.6.1
+AppVerName=Rolisteam 1.7.0a
 AppPublisher=rolisteamTeam
 AppPublisherURL=http://www.rolisteam.org
 AppSupportURL=http://wiki.rolisteam.org                                                                                                                           
@@ -16,10 +16,10 @@ DefaultDirName={pf}\Rolisteam
 DefaultGroupName=Rolisteam
 LicenseFile=D:\documents\applications\rolisteam\COPYING.txt
 OutputDir=D:\documents\softwares
-OutputBaseFilename=Rolisteam-1.6.1-setup
+OutputBaseFilename=Rolisteam-1.7.0a-setup
 Compression=lzma
 SolidCompression=yes
-SetupIconFile=D:\documents\applications\rolisteam\resources\logo\256.ico
+SetupIconFile=D:\documents\applications\git\rolisteam\resources\logo\256.ico
 ;UninstallIconFile=D:\applications\rolisteam\resources\logo\256.ico
 
 [Languages]
@@ -31,18 +31,28 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\documents\applications\build-rolisteam-Qt4_8-Release\release\bin\rolisteam.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\4.8.6\bin\QtXml4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\4.8.6\bin\phonon4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\4.8.6\bin\QtCore4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\4.8.6\bin\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\4.8.6\bin\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\4.8.6\bin\QtOpenGL4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\4.8.6\bin\QtSvg4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\documents\applications\git\build-rolisteam-Desktop_Qt_5_4_0_MinGW_32bit-Release\release\bin\rolisteam.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Enginio.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\icudt53.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\icuin53.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\icuuc53.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Declarative.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Qt5OpenGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Qml.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Quick.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Xml.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\Tools\mingw491_32\bin\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\Tools\mingw491_32\bin\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\Tools\mingw491_32\bin\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\bin\Qt5XmlPatterns.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Qt\5.4\mingw491_32\plugins\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\Qt\5.4\mingw491_32\plugins\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "D:\documents\applications\lib\zlibapi\dll32\zlibwapi.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\4.8.6\plugins\*"; DestDir: "{app}"; Excludes: "*\sqldrivers\*,*\graphicssystems\*,*\designer\*,*\accessible\*"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\documents\applications\lib\msdistrib\msvcr100.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\documents\applications\lib\msdistrib\msvcp100.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
