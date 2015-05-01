@@ -193,6 +193,7 @@ public :
      */
     void addMediaToMdiArea(MediaContainer* mediac );
 
+
 signals:
     void closing();
 
@@ -246,6 +247,8 @@ protected :
     void processCharacterPlayerMessage(NetworkMessageReader* msg);
     void extractCharacter(Map* map,NetworkMessageReader* msg);
     CleverURI* contentToPath(CleverURI::ContentType type,bool save);
+    void dropEvent(QDropEvent* event);
+    void dragEnterEvent(QDragEnterEvent* ev);
 
 private slots :
     void changementNatureUtilisateur();
@@ -303,6 +306,7 @@ private :
     void readImageFromStream(QDataStream &file);
     void saveAllMap(QDataStream &file);
     void saveAllImages(QDataStream &file);
+    CleverURI::ContentType getContentType(QString str);
     /**
      * @brief workspace
      */

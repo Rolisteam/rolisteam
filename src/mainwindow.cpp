@@ -71,7 +71,7 @@ MainWindow* MainWindow::m_singleton= NULL;
 MainWindow::MainWindow()
     : QMainWindow(),m_networkManager(NULL),m_localPlayerId(QUuid::createUuid().toString()),m_ui(new Ui::MainWindow)
 {
-
+    setAcceptDrops(true);
     m_supportedCharacterSheet=tr("Character Sheets files (*.xml)");
     m_pdfFiles=tr("Pdf File (*.pdf)");
     m_supportedNotes=tr("Supported Text files (*.html *.txt)");
@@ -1883,4 +1883,85 @@ void MainWindow::updateWindowTitle()
                    .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected"))
                    .arg(m_networkManager->isServer() ? tr("Server") : tr("Client")).arg(m_playerList->localPlayer()->isGM() ? tr("GM") : tr("Player")));
 }
+CleverURI::ContentType MainWindow::getContentType(QString str)
+{
+    qDebug()<< str;
+    QImage imag(str);
+    if(str.endsWith(".pla"))
+    {
+        return CleverURI::MAP;
+    }
+    else if(!imag.isNull())
+    {
+        return CleverURI::PICTURE;
+    }
+    else if(str.endsWith(".m3u"))
+    {
+        return CleverURI::SONGLIST;
+    }
+    else if(str.endsWith(".sce"))
+    {
+        return CleverURI::SCENARIO;
+    }
+    else
+    {
+        QStringList list = m_preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString().split(' ');
+        //QStringList list = audioFileFilter.split(' ');
+        int i=0;
+        while(i<list.size())
+        {
+            QString filter = list.at(i);
+            filter.replace("*","");
+            if(str.endsWith(filter))
+            {
+                return CleverURI::SONG;
+            }
+            ++i;
+        }
+    }
+}
 
+void MainWindow::dropEvent(QDropEvent* event)
+{
+    const QMimeData* data = event->mimeData();
+    if(data->hasUrls())
+    {
+        QList<QUrl> list = data->urls();
+        for(int i = 0; i< list.size();++i)
+        {
+            CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
+            qDebug()<< "dropEvent"<< type;
+            MediaContainer* tmp=NULL;
+            switch(type)
+            {
+            case CleverURI::MAP:
+                tmp = new MapFrame();
+                prepareMap((MapFrame*)tmp);
+                addMediaToMdiArea(tmp);
+                tmp->setVisible(true);
+                break;
+            case CleverURI::PICTURE:
+                tmp = new Image();
+                tmp->setCleverUri(new CleverURI(list.at(i).toLocalFile(),CleverURI::PICTURE));
+                tmp->readFileFromUri();
+                prepareImage((Image*)tmp);
+                addMediaToMdiArea(tmp);
+                tmp->setVisible(true);
+                break;
+            case CleverURI::SONG:
+                //m_audioPlayer->;
+                break;
+            case CleverURI::SONGLIST:
+
+                break;
+            }
+        }
+        event->acceptProposedAction();
+    }
+}
+void MainWindow::dragEnterEvent(QDragEnterEvent* ev)
+{
+    qDebug()<< "dragMoveEvent";
+   // if(ev->)
+    ev->acceptProposedAction();
+}
