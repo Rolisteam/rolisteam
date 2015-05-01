@@ -270,3 +270,15 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
     }
     return NetWorkReceiver::AllExceptMe;
 }
+void AudioPlayer::openSongList(QString str)
+{
+    if(!m_players.isEmpty())
+    {
+        m_players.at(0)->readM3uPlayList(str);
+    }
+}
+
+void AudioPlayer::openSong(QString str)
+{
+
+}

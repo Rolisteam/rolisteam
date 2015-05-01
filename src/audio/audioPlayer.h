@@ -77,6 +77,10 @@ public :
     virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
 
+    virtual void openSongList(QString str);
+    virtual void openSong(QString str);
+
+
 public slots:
     /**
      * @brief onePlayerHasStopped
