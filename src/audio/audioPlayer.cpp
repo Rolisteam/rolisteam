@@ -280,5 +280,8 @@ void AudioPlayer::openSongList(QString str)
 
 void AudioPlayer::openSong(QString str)
 {
-
+    if(!m_players.isEmpty())
+    {
+        m_players.at(0)->addSongIntoModel(str);
+    }
 }
