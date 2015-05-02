@@ -258,3 +258,6 @@ win32:INCLUDEPATH += $$PWD/../../lib/zlibapi/include
 win32:DEPENDPATH += $$PWD/../../lib/zlibapi/include
 win32:PRE_TARGETDEPS += $$PWD/../../lib/zlibapi/dll32/zlibwapi.lib
 
+DISTFILES += \
+    rolisteam.dox
+
