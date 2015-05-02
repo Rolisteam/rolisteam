@@ -906,7 +906,7 @@ void Map::processNpcAction(QPoint positionSouris)
                         msg.sendAll();
                 }
                 else
-					qWarning() << (tr("undefine tool for processing action on NPC or PC (processNpcAction - map.cpp)"));
+                    qWarning() << (tr("undefined tool for processing action on NPC or PC (processNpcAction - map.cpp)"));
             }
     }
 }
@@ -982,7 +982,7 @@ void Map::processNpcActionReleased(QPoint positionSouris)
     }
 
     else
-		qWarning() << (tr("undefine tool for processing action on NPC or PC (processNpcActionReleased - map.cpp)"));
+        qWarning() << (tr("undefined tool for processing action on NPC or PC (processNpcActionReleased - map.cpp)"));
 
 }
 
@@ -1026,7 +1026,7 @@ void Map::processNpcMove(QPoint positionSouris)
     
     else if (m_currentTool != ToolsBar::ChangeCharacterState)
     {
-		qWarning() << (tr("undefine tool for processing action on NPC or PC (processNpcMove - map.cpp)"));
+        qWarning() << (tr("undefined tool for processing action on NPC or PC (processNpcMove - map.cpp)"));
     }
 
 

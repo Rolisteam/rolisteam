@@ -251,7 +251,7 @@ OTHER_FILES += \
 #Windows
 win32:DEFINES  += ZLIB_WINAPI
 win32:RC_FILE = "resources/logo/rolisteam.rc"
-win32:QMAKE_LFLAGS_RELEASE += /INCREMENTAL:NO
+#win32:QMAKE_LFLAGS_RELEASE += /INCREMENTAL:NO
 win32:OTHER_FILES +=resources/logo/rolisteam.rc
 win32:LIBS += -L$$PWD/../../lib/zlibapi/dll32/ -lzlibwapi
 win32:INCLUDEPATH += $$PWD/../../lib/zlibapi/include

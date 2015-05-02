@@ -221,8 +221,8 @@
 <context>
     <name>ChatBrowser</name>
     <message>
-        <location filename="../src/chat/chatbrowser.cpp" line="11"/>
-        <location filename="../src/chat/chatbrowser.cpp" line="12"/>
+        <location filename="../src/chat/chatbrowser.cpp" line="13"/>
+        <location filename="../src/chat/chatbrowser.cpp" line="14"/>
         <source>Background Color</source>
         <translation>Couleur de fond</translation>
     </message>
@@ -235,7 +235,7 @@
         <translation>Fenêtre de tchat</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatlist.cpp" line="265"/>
+        <location filename="../src/chat/chatlist.cpp" line="271"/>
         <source>%1 (Chat)</source>
         <translation></translation>
     </message>
@@ -266,7 +266,7 @@
 <context>
     <name>ChatWindow</name>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="143"/>
+        <location filename="../src/chat/chatwindow.cpp" line="142"/>
         <source>save</source>
         <translation>sauvegarde</translation>
     </message>
@@ -275,7 +275,7 @@
         <translation type="vanished">avez obtenu %1 à votre jet de dés [%2]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="207"/>
+        <location filename="../src/chat/chatwindow.cpp" line="203"/>
         <source>You</source>
         <translation>Vous</translation>
     </message>
@@ -288,7 +288,8 @@
         <translation type="vanished">!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de dés est public (Pour des jets secrets, utilisez &amp; ).</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="215"/>
+        <location filename="../src/chat/chatwindow.cpp" line="211"/>
+        <location filename="../src/chat/chatwindow.cpp" line="219"/>
         <source>Syntax</source>
         <translation>Syntaxe</translation>
     </message>
@@ -313,36 +314,30 @@
         <translation type="vanished">Syntaxe SR4</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="144"/>
+        <location filename="../src/chat/chatwindow.cpp" line="143"/>
         <source>Save all messages from this window in %1/%2.html</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarde tous les messages de cette fenêtre dans %1/%2.html</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="262"/>
+        <location filename="../src/chat/chatwindow.cpp" line="266"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="263"/>
+        <location filename="../src/chat/chatwindow.cpp" line="267"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation>certains utilisateurs ne verrons pas vos emotes.</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="306"/>
-        <location filename="../src/chat/chatwindow.cpp" line="311"/>
-        <location filename="../src/chat/chatwindow.cpp" line="315"/>
+        <location filename="../src/chat/chatwindow.cpp" line="371"/>
+        <location filename="../src/chat/chatwindow.cpp" line="375"/>
         <source>%1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="318"/>
-        <source>got %1, %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/chat/chatwindow.cpp" line="324"/>
-        <source>, you rolled: %1</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/chat/chatwindow.cpp" line="379"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll, [%3 (%2)]</source>
+        <translation>avez obtenu &lt;span class=\&quot;dice\&quot;&gt;%1&lt;/span&gt; à votre lancer de dés, [%3 (%2)]</translation>
     </message>
     <message>
         <source> in rushing</source>
@@ -361,7 +356,7 @@
         <translation type="obsolete">Couleur de fond</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.ui" line="14"/>
+        <location filename="../src/chat/chatwindow.ui" line="20"/>
         <source>ChatWindow</source>
         <translation></translation>
     </message>
@@ -625,22 +620,22 @@
     <message>
         <location filename="../src/preferences/dicealiasmodel.cpp" line="29"/>
         <source>Pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Schéma</translation>
     </message>
     <message>
         <location filename="../src/preferences/dicealiasmodel.cpp" line="29"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Traduction</translation>
     </message>
     <message>
         <location filename="../src/preferences/dicealiasmodel.cpp" line="29"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Expression Régulière</translation>
     </message>
     <message>
         <location filename="../src/preferences/dicealiasmodel.cpp" line="96"/>
         <source>New Alias%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouvel Alias %1</translation>
     </message>
 </context>
 <context>
@@ -770,7 +765,7 @@
     <message>
         <location filename="../src/Image.cpp" line="147"/>
         <source>Image Compression fails (saveImageToFile - Image.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>La compression d&apos;image a échoué (saveImageToFile - Image.cpp)</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="349"/>
@@ -828,23 +823,23 @@
     <message>
         <location filename="../src/Image.cpp" line="505"/>
         <source>Unsupported file format</source>
-        <translation type="unfinished">Format de fichier non supporté</translation>
+        <translation>Format de fichier non supporté</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="509"/>
         <location filename="../src/Image.cpp" line="546"/>
         <source> (Picture)</source>
-        <translation type="unfinished"> (Image)</translation>
+        <translation> (Image)</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="533"/>
         <source>Supported Image formats %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Formats d&apos;images supportées %1</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="535"/>
         <source>Open Picture</source>
-        <translation type="unfinished">Ouvrir Image</translation>
+        <translation>Ouvrir Image</translation>
     </message>
 </context>
 <context>
@@ -968,7 +963,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1254"/>
+        <location filename="../src/mainwindow.cpp" line="1251"/>
         <source>unknown</source>
         <translation>inconnue</translation>
     </message>
@@ -985,7 +980,7 @@
         <translation type="vanished">Ouvrir Plan…</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="206"/>
+        <location filename="../src/mainwindow.ui" line="212"/>
         <source>Cascade</source>
         <translation></translation>
     </message>
@@ -998,7 +993,7 @@
         <translation type="vanished">Sain</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1299"/>
+        <location filename="../src/mainwindow.cpp" line="1309"/>
         <source>Minutes Editor[*]</source>
         <translation>Editeur de Notes[*]</translation>
     </message>
@@ -1023,44 +1018,43 @@
         <translation type="vanished">Ensorcelé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1871"/>
+        <location filename="../src/mainwindow.cpp" line="1881"/>
         <source>%1[*] - v%2 - %3 - %4 - %5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1873"/>
+        <location filename="../src/mainwindow.cpp" line="1883"/>
         <source>Connected</source>
         <translation>Connecté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1873"/>
+        <location filename="../src/mainwindow.cpp" line="1883"/>
         <source>Not Connected</source>
         <translation>Non connecté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1874"/>
+        <location filename="../src/mainwindow.cpp" line="1884"/>
         <source>Server</source>
         <translation>Serveur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1874"/>
+        <location filename="../src/mainwindow.cpp" line="1884"/>
         <source>Client</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1874"/>
+        <location filename="../src/mainwindow.cpp" line="1884"/>
         <source>GM</source>
         <translation>MJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1874"/>
+        <location filename="../src/mainwindow.cpp" line="1884"/>
         <source>Player</source>
         <translation>Joueur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="400"/>
         <source>Events</source>
-        <translation>Évènements</translation>
+        <translation type="vanished">Évènements</translation>
     </message>
     <message>
         <source>File</source>
@@ -1071,27 +1065,27 @@
         <translation type="obsolete">Nouveau Plan vide</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1676"/>
+        <location filename="../src/mainwindow.cpp" line="1686"/>
         <source>Open Map</source>
-        <translation type="unfinished">Ouvrir Plan</translation>
+        <translation>Ouvrir Plan</translation>
     </message>
     <message>
         <source>Open And hide Map</source>
         <translation type="obsolete">Ouvrir et cacher Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="700"/>
+        <location filename="../src/mainwindow.cpp" line="697"/>
         <source>Open scenario</source>
         <translation>Ouvrir Scénario</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1671"/>
+        <location filename="../src/mainwindow.cpp" line="1681"/>
         <source>Open Picture</source>
         <translation>Ouvrir Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="687"/>
-        <location filename="../src/mainwindow.cpp" line="1681"/>
+        <location filename="../src/mainwindow.cpp" line="684"/>
+        <location filename="../src/mainwindow.cpp" line="1691"/>
         <source>Open Minutes</source>
         <translation>Ouvrir Notes</translation>
     </message>
@@ -1100,7 +1094,7 @@
         <translation type="vanished">Fermer Plan/Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="785"/>
+        <location filename="../src/mainwindow.cpp" line="782"/>
         <source>Save Map</source>
         <translation>Sauvegarder Plan</translation>
     </message>
@@ -1115,234 +1109,260 @@
     <message>
         <location filename="../src/mainwindow.ui" line="14"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="28"/>
         <source>&amp;File</source>
-        <translation type="unfinished">&amp;Fichier</translation>
+        <translation>&amp;Fichier</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="32"/>
         <source>&amp;New</source>
-        <translation type="unfinished">&amp;Nouveau</translation>
+        <translation>&amp;Nouveau</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="40"/>
         <source>&amp;Open</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ouvrir</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="50"/>
         <source>Recent Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers Récents</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="82"/>
-        <location filename="../src/mainwindow.ui" line="252"/>
-        <location filename="../src/mainwindow.ui" line="282"/>
+        <location filename="../src/mainwindow.ui" line="258"/>
+        <location filename="../src/mainwindow.ui" line="288"/>
         <source>Map</source>
-        <translation type="unfinished">Carte</translation>
+        <translation>Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="122"/>
+        <location filename="../src/mainwindow.ui" line="128"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="125"/>
+        <location filename="../src/mainwindow.ui" line="131"/>
         <source>Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="135"/>
+        <location filename="../src/mainwindow.ui" line="141"/>
         <source>Save as</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer Sous</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="138"/>
+        <location filename="../src/mainwindow.ui" line="144"/>
         <source>Ctrl+Shift+S</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="143"/>
+        <location filename="../src/mainwindow.ui" line="149"/>
         <source>Save All</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer tout</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="146"/>
+        <location filename="../src/mainwindow.ui" line="152"/>
         <source>Ctrl+Shift+A</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="155"/>
+        <location filename="../src/mainwindow.ui" line="161"/>
         <source>Save into Scenario</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer dans un Scénario</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="158"/>
+        <location filename="../src/mainwindow.ui" line="164"/>
         <source>Meta+Ctrl+S</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="163"/>
+        <location filename="../src/mainwindow.ui" line="169"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Fermez</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="166"/>
+        <location filename="../src/mainwindow.ui" line="172"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="175"/>
+        <location filename="../src/mainwindow.ui" line="181"/>
         <source>Preferences</source>
         <translation>Préférences</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="178"/>
+        <location filename="../src/mainwindow.ui" line="184"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="187"/>
+        <location filename="../src/mainwindow.ui" line="193"/>
         <location filename="../src/mainwindow.cpp" line="582"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="190"/>
+        <location filename="../src/mainwindow.ui" line="196"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="198"/>
+        <location filename="../src/mainwindow.ui" line="204"/>
         <source>Tab</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="201"/>
+        <location filename="../src/mainwindow.ui" line="207"/>
         <source>Alt+O</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="209"/>
+        <location filename="../src/mainwindow.ui" line="215"/>
         <source>Alt+C</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="217"/>
+        <location filename="../src/mainwindow.ui" line="223"/>
         <source>Alt+T</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="222"/>
+        <location filename="../src/mainwindow.ui" line="228"/>
         <source>Connection</source>
-        <translation type="unfinished">Connexion</translation>
+        <translation>Connexion</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="227"/>
+        <location filename="../src/mainwindow.ui" line="233"/>
         <source>Disconnection</source>
-        <translation type="unfinished"></translation>
+        <translation>Déconnexion</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="232"/>
+        <location filename="../src/mainwindow.ui" line="238"/>
         <source>Online Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Aide En Ligne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="235"/>
+        <location filename="../src/mainwindow.ui" line="241"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="243"/>
+        <location filename="../src/mainwindow.ui" line="249"/>
         <source>F12</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="255"/>
+        <location filename="../src/mainwindow.ui" line="261"/>
         <source>Ctrl+N</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="264"/>
+        <location filename="../src/mainwindow.ui" line="270"/>
         <source>Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Tchat</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="273"/>
-        <location filename="../src/mainwindow.ui" line="306"/>
+        <location filename="../src/mainwindow.ui" line="279"/>
+        <location filename="../src/mainwindow.ui" line="312"/>
         <source>Note</source>
-        <translation type="unfinished"></translation>
+        <translation>Notes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="285"/>
+        <location filename="../src/mainwindow.ui" line="291"/>
         <source>Ctrl+O</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="294"/>
+        <location filename="../src/mainwindow.ui" line="300"/>
         <source>Picture</source>
-        <translation type="unfinished"></translation>
+        <translation>Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="297"/>
+        <location filename="../src/mainwindow.ui" line="303"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="315"/>
+        <location filename="../src/mainwindow.ui" line="321"/>
         <source>Scenario</source>
-        <translation type="unfinished"></translation>
+        <translation>Scénario</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="326"/>
+        <location filename="../src/mainwindow.ui" line="332"/>
         <source>Show PC Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Affiche le nom des PJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="329"/>
+        <location filename="../src/mainwindow.ui" line="335"/>
         <source>F5</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="340"/>
+        <location filename="../src/mainwindow.ui" line="346"/>
         <source>Show Npc Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Affiche le nom des PJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="343"/>
+        <location filename="../src/mainwindow.ui" line="349"/>
         <source>F6</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="354"/>
+        <location filename="../src/mainwindow.ui" line="360"/>
         <source>Show Npc Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Affiche le numéros des PNJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="357"/>
+        <location filename="../src/mainwindow.ui" line="363"/>
         <source>F7</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="365"/>
+        <location filename="../src/mainwindow.ui" line="371"/>
         <source>Minute Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur de notes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="368"/>
+        <location filename="../src/mainwindow.ui" line="374"/>
         <source>Alt+M</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="377"/>
+        <location filename="../src/mainwindow.ui" line="383"/>
         <source>Online Picture</source>
-        <translation type="unfinished"></translation>
+        <translation>Image En Ligne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="96"/>
+        <location filename="../src/mainwindow.ui" line="391"/>
+        <source>Audio Player</source>
+        <translation>Lecteur Audio</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="399"/>
+        <location filename="../src/mainwindow.cpp" line="400"/>
+        <source>Notification Zone</source>
+        <translation>Zone de notification</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="407"/>
+        <source>Chat List</source>
+        <translation>Liste des Tchats</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="415"/>
+        <source>Character List</source>
+        <translation>Liste Des Personnages</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="423"/>
+        <source>ToolBar</source>
+        <translation>Barre d&apos;Outils</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="102"/>
         <source>Network</source>
         <translation>Réseau</translation>
     </message>
@@ -1385,13 +1405,13 @@
         <translation type="vanished">Onglets</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="214"/>
+        <location filename="../src/mainwindow.ui" line="220"/>
         <source>Tile</source>
         <translation>Tuile</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="103"/>
-        <location filename="../src/mainwindow.cpp" line="973"/>
+        <location filename="../src/mainwindow.ui" line="109"/>
+        <location filename="../src/mainwindow.cpp" line="970"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
@@ -1413,8 +1433,8 @@
         <translation type="vanished">La compression de l&apos;image a échoué (ouvrirPlan--MainWindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="935"/>
-        <location filename="../src/mainwindow.cpp" line="957"/>
+        <location filename="../src/mainwindow.cpp" line="932"/>
+        <location filename="../src/mainwindow.cpp" line="954"/>
         <source>Image compression error (readImageFromStream - MainWindow.cpp)</source>
         <translation>Erreur durant la compression (readImageFromStream - MainWindow.cpp) </translation>
     </message>
@@ -1428,39 +1448,39 @@
         <translation>&lt;p&gt;Vous pouvez modifier et redistribuer le programme sous les termes de la GPL (version 2 ou supérieure).Une copie de la GPL est présente dans le fichier &apos;COPYING&apos; distribuer avec rolisteam. Rolisteam appartient à ses contributeurs  Voir le fichier &apos;COPYRIGHT&apos;  pour voir la liste complète des contributeur. Nous fournissons aucune garantie pour ce programme.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="902"/>
+        <location filename="../src/mainwindow.cpp" line="899"/>
         <source>Server Ip Address:%1
 Port:%2</source>
         <translation>Adresse IP du serveur:%1
 Port:%2</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1114"/>
+        <location filename="../src/mainwindow.cpp" line="1111"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam utilise le port &lt;port&gt; pour la connexion</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1115"/>
+        <location filename="../src/mainwindow.cpp" line="1112"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam se connecte à &lt;server&gt;.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1116"/>
+        <location filename="../src/mainwindow.cpp" line="1113"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>Définie le &lt;role&gt;: gm ou pc</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1117"/>
+        <location filename="../src/mainwindow.cpp" line="1114"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Efface les réglages et utilise les parametres par défaut</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1118"/>
+        <location filename="../src/mainwindow.cpp" line="1115"/>
         <source>Define the &lt;username&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Définie le nom d&apos;&lt;utilisateur&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1201"/>
+        <location filename="../src/mainwindow.cpp" line="1198"/>
         <source>End of the connection process</source>
         <translation>Fin du procéssus de connexion</translation>
     </message>
@@ -1525,7 +1545,7 @@ Elle sera fermée pour tout le monde</translation>
         <translation type="obsolete">&lt;p&gt;&lt;h3&gt;Site Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Official de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bu. Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.renaudguezennec.eu/accueil,3.html&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Anciens developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="974"/>
+        <location filename="../src/mainwindow.cpp" line="971"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>La documentation de %1 est accessible sur le web :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
@@ -1547,32 +1567,32 @@ It will be closed for everybody</translation>
     <message>
         <location filename="../src/mainwindow.cpp" line="75"/>
         <source>Character Sheets files (*.xml)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier de fiches de Personnages (*.xml)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="76"/>
         <source>Pdf File (*.pdf)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier Pdf (*.pdf)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="77"/>
         <source>Supported Text files (*.html *.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers textes (*.html *.txt)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="78"/>
         <source>Supported Map files (*.pla )</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier de plan (*.pla)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="108"/>
         <source>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam facilite la maîtrise de n&apos;importe quel jeu de rôle à distance. Il permet aux joueurs de communiquer entre eux et de partager des images et des cartes. Il gère aussi différents niveau de persmission, la musique de fond et les lancers de dés. Rolisteam est écrit en Qt5</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="116"/>
         <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;&lt;h3&gt;Site Web:&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Official de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Gestion des bugs&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developpeurs actuels :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Ancien Developpeurs:&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;li&gt;Romain Campioni (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="248"/>
@@ -1617,29 +1637,29 @@ Il sera fermé pour tout le monde</translation>
         <translation>Voulez-vous sauvegarder votre scénario avant de quitter %1 ?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="785"/>
+        <location filename="../src/mainwindow.cpp" line="782"/>
         <source>Map (*.pla)</source>
         <translation>Plan (*.pla)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1041"/>
+        <location filename="../src/mainwindow.cpp" line="1038"/>
         <source>%1 has not the right version: %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 n&apos;a pas la même version: %2.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1223"/>
+        <location filename="../src/mainwindow.cpp" line="1220"/>
         <source>Error:</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1227"/>
+        <location filename="../src/mainwindow.cpp" line="1224"/>
         <source>Warning:</source>
-        <translation type="unfinished"></translation>
+        <translation>Avertissement:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1754"/>
+        <location filename="../src/mainwindow.cpp" line="1764"/>
         <source>&amp;%1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Html Documents (*.htm *.html)</source>
@@ -1650,18 +1670,18 @@ Il sera fermé pour tout le monde</translation>
         <translation type="obsolete">Documents HTML (*.htm *.html)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="700"/>
-        <location filename="../src/mainwindow.cpp" line="821"/>
+        <location filename="../src/mainwindow.cpp" line="697"/>
+        <location filename="../src/mainwindow.cpp" line="818"/>
         <source>Scenarios (*.sce)</source>
         <translation>Scénarios (*.sce)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="821"/>
+        <location filename="../src/mainwindow.cpp" line="818"/>
         <source>Save Scenarios</source>
         <translation>Sauvegarder Scénarios</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="240"/>
+        <location filename="../src/mainwindow.ui" line="246"/>
         <location filename="../src/mainwindow.cpp" line="107"/>
         <source>About Rolisteam</source>
         <translation>À propos de Rolisteam</translation>
@@ -1675,22 +1695,22 @@ Il sera fermé pour tout le monde</translation>
         <translation type="obsolete">&lt;p&gt;&lt;h3&gt;Sites Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Officiel de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developeurs actuels :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://renaudguezennec.homelinux.org/accueil,3.html&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Ancien developeur :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1013"/>
+        <location filename="../src/mainwindow.cpp" line="1010"/>
         <source>Update Monitor</source>
         <translation>Mises à jour</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1013"/>
+        <location filename="../src/mainwindow.cpp" line="1010"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>La version %1 est disponible. Pour plus d&apos;informations veuillez consulter &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;la page de téléchargement&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1038"/>
+        <location filename="../src/mainwindow.cpp" line="1035"/>
         <source>%1 just joins the game.</source>
         <translation>%1 vient de rejoindre la partie.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1047"/>
+        <location filename="../src/mainwindow.cpp" line="1044"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 vient de quitter la partie.</translation>
     </message>
@@ -1700,32 +1720,32 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/map/map.cpp" line="541"/>
         <source>color type not allowed (paintMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce type de couleur n&apos;est pas autorisé (paintMap - mapp.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="565"/>
         <source>color type not allowed  (paintMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce type de couleur n&apos;est pas autorisé (paintMap - mapp.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="697"/>
         <source>undefined drawing tools (paintMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Outil de dessin inconnu (paintMap - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="777"/>
         <source>Undefined tool  (paintMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Outil inconnu (paintMap - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="795"/>
         <source>Source, destination and alpha layer have not the same size  (addAlphaLayer - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Source, destination et la couche alpha n&apos;ont pas la même taille (addAlphaLayer - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="909"/>
         <source>undefine tool for processing action on NPC or PC (processNpcAction - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Outil inconnu pour gérer l&apos;action sur les PNJ ou PJ (proceeNpcAction - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="943"/>
@@ -1746,32 +1766,32 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/map/map.cpp" line="985"/>
         <source>undefine tool for processing action on NPC or PC (processNpcActionReleased - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Outil inconnu pour gérer l&apos;action sur les PNJ ou PJ (processNpcActionReleased - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1029"/>
         <source>undefine tool for processing action on NPC or PC (processNpcMove - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Outil inconnu pour gérer l&apos;action sur les PNJ ou PJ (processNpcMove - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1098"/>
         <source>unknown widget under cursor (paintCharacter - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Widget inconnu sous le cursor (paintCharacter - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1253"/>
         <source>PC ID not found (showPc - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>PJ non trouvé (showPc - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1275"/>
         <source>PC ID: %1 not found (isVisiblePc - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>PJ: %1 non trouvé (isVisiblePc - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1295"/>
         <source>No character with this id: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun personnage avec l&apos;id: %1</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1310"/>
@@ -1784,34 +1804,34 @@ Il sera fermé pour tout le monde</translation>
         <location filename="../src/map/map.cpp" line="1363"/>
         <location filename="../src/map/map.cpp" line="1370"/>
         <source>Codec Error (emettreCarte - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur encodage (emettreCarte - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1575"/>
         <location filename="../src/map/map.cpp" line="1662"/>
         <location filename="../src/map/map.cpp" line="1730"/>
         <source>Color type is not correct</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de couleur est incorrect</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1822"/>
         <source>Undefined Tool (paintOther - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Outil inconnu (paintOther - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1966"/>
         <source>Compression issue on original background(saveMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de compression sur le fond original (saveMap - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1975"/>
         <source>Compression issue on background(saveMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de compression sur le fond (saveMap - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1984"/>
         <source>Compression issue on alpha layer (saveMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de compression sur la couche alpha (saveMap - map.cpp)</translation>
     </message>
 </context>
 <context>
@@ -1820,58 +1840,58 @@ Il sera fermé pour tout le monde</translation>
         <location filename="../src/map/mapframe.cpp" line="148"/>
         <location filename="../src/map/mapframe.cpp" line="163"/>
         <source>Unsupported file format</source>
-        <translation type="unfinished">Format de fichier non supporté</translation>
+        <translation>Format de fichier non supporté</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="179"/>
         <source>Compressing image goes wrong (ouvrirPlan - MainWindow.cpp)</source>
-        <translation type="unfinished">La compression de l&apos;image a échoué (ouvrirPlan--MainWindow.cpp)</translation>
+        <translation>La compression de l&apos;image a échoué (ouvrirPlan--MainWindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="234"/>
         <source>Extract original background information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;extraction du fond original a échoué (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="242"/>
         <source>Extract background information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;extraction du fond a échoué (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="250"/>
         <source>Extract alpha layer information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;extraction de la couche alpha a échoué (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="386"/>
         <source>New map: %1</source>
-        <translation type="unfinished">Nouveau Plan: %1</translation>
+        <translation>Nouveau Plan: %1</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="398"/>
         <source>Compression Error (processMapMessage - NetworkLink.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de compression (processMapMessage - NetworkLink.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="404"/>
         <location filename="../src/map/mapframe.cpp" line="441"/>
         <source>Receiving map: %1</source>
-        <translation type="unfinished">réception Plan: %1</translation>
+        <translation>Réception de Plan: %1</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="418"/>
         <source>Extract original background information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="unfinished">Extraction du background original a échoué (processMapMessage - mainwindow.cpp) </translation>
+        <translation>Extraction du fond original a échoué (processMapMessage - mainwindow.cpp) </translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="425"/>
         <source>Extract background information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="unfinished">Extraction du background a échoué (processMapMessage - mainwindow.cpp)</translation>
+        <translation>Extraction du fond a échoué (processMapMessage - mainwindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="432"/>
         <source>Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="unfinished">Extraction de la couche alpha a échoué (processMapMessage - mainwindow.cpp)</translation>
+        <translation>Extraction de la couche alpha a échoué (processMapMessage - mainwindow.cpp)</translation>
     </message>
 </context>
 <context>
@@ -1940,7 +1960,7 @@ Il sera fermé pour tout le monde</translation>
 <context>
     <name>MusicModel</name>
     <message>
-        <location filename="../src/audio/musicmodel.cpp" line="11"/>
+        <location filename="../src/audio/musicmodel.cpp" line="30"/>
         <source>Title</source>
         <translation>Titre</translation>
     </message>
@@ -1950,7 +1970,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/network/networklink.cpp" line="102"/>
         <source>Network error occurs :</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur réseau :</translation>
     </message>
 </context>
 <context>
@@ -1983,12 +2003,12 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="327"/>
         <source>NULL NetworkLink pointer (NetworkManager::finDeNetworkLink).</source>
-        <translation type="unfinished"></translation>
+        <translation>Lien Réseau Nul (NetworkManager::finDeNetworkLink).</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="334"/>
         <source>Unknown thread joined, (finDeNetworkLink - NetworkManager.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fin d&apos;un thread inconnu, (finDeNetworkLink - NetworkManager.cpp)</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="346"/>
@@ -2085,37 +2105,37 @@ Il sera fermé pour tout le monde</translation>
         <translation>Hauteur:</translation>
     </message>
     <message>
-        <location filename="../src/map/newemptymapdialog.cpp" line="18"/>
+        <location filename="../src/map/newemptymapdialog.cpp" line="37"/>
         <source>Small (%1 x %2)</source>
         <translation>Petit (%1 x %2)</translation>
     </message>
     <message>
-        <location filename="../src/map/newemptymapdialog.cpp" line="18"/>
+        <location filename="../src/map/newemptymapdialog.cpp" line="37"/>
         <source>Middle (%1 x %2)</source>
         <translation>Moyen (%1 x %2)</translation>
     </message>
     <message>
-        <location filename="../src/map/newemptymapdialog.cpp" line="18"/>
+        <location filename="../src/map/newemptymapdialog.cpp" line="37"/>
         <source>Big (%1 x %2)</source>
         <translation>Grand (%1 x %2 )</translation>
     </message>
     <message>
-        <location filename="../src/map/newemptymapdialog.cpp" line="18"/>
+        <location filename="../src/map/newemptymapdialog.cpp" line="37"/>
         <source>Huge (%1 x %2)</source>
         <translation>Énorme (%1 x %2)</translation>
     </message>
     <message>
-        <location filename="../src/map/newemptymapdialog.cpp" line="28"/>
+        <location filename="../src/map/newemptymapdialog.cpp" line="47"/>
         <source>No Right</source>
         <translation>Aucun droit</translation>
     </message>
     <message>
-        <location filename="../src/map/newemptymapdialog.cpp" line="28"/>
+        <location filename="../src/map/newemptymapdialog.cpp" line="47"/>
         <source>His character</source>
         <translation>Personnage</translation>
     </message>
     <message>
-        <location filename="../src/map/newemptymapdialog.cpp" line="28"/>
+        <location filename="../src/map/newemptymapdialog.cpp" line="47"/>
         <source>All Permissions</source>
         <translation>Tous les droits</translation>
     </message>
@@ -2224,27 +2244,27 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/widgets/onlinepicturedialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialogue</translation>
     </message>
     <message>
         <location filename="../src/widgets/onlinepicturedialog.ui" line="24"/>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse:</translation>
     </message>
     <message>
         <location filename="../src/widgets/onlinepicturedialog.ui" line="31"/>
         <source>Title:</source>
-        <translation type="unfinished">Titre:</translation>
+        <translation>Titre:</translation>
     </message>
     <message>
         <location filename="../src/widgets/onlinepicturedialog.ui" line="44"/>
         <source>http://www.l5r.com/files/images/ParagonsofBushido.jpg</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/widgets/onlinepicturedialog.ui" line="58"/>
         <source>download</source>
-        <translation type="unfinished"></translation>
+        <translation>Télécharge</translation>
     </message>
 </context>
 <context>
@@ -2252,27 +2272,27 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="78"/>
         <source>Role</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="78"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe</translation>
     </message>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="79"/>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="79"/>
         <source>Disable</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactivé</translation>
     </message>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="79"/>
         <source>Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2308,119 +2328,123 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="121"/>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="122"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="123"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Suivant</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="126"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Précedent</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="129"/>
         <source>Open Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir un répertoire</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="133"/>
         <source>load TableTopAudio.com playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Charger la liste de lecture de TableTopAudio.com</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="136"/>
         <source>Open Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir Liste de Lecture</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="138"/>
         <source>Save Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer la Liste de Lecture</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="140"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Videz</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="143"/>
         <source>Add Songs</source>
-        <translation type="unfinished"></translation>
+        <translation>Add chansons</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="145"/>
         <source>Open Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir un flux</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="147"/>
         <source>Remove Song</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer une chanson</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="166"/>
+        <location filename="../src/audio/playerwidget.cpp" line="167"/>
         <source>Add song to the list</source>
         <translation>Ajouter des musiques à la liste</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="167"/>
+        <location filename="../src/audio/playerwidget.cpp" line="168"/>
         <source>Remove selected file</source>
         <translation>Supprimer le fichier selectionné</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="241"/>
+        <location filename="../src/audio/playerwidget.cpp" line="248"/>
         <source>Add song</source>
         <translation>Ajouter musique</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="241"/>
+        <location filename="../src/audio/playerwidget.cpp" line="248"/>
+        <source>Audio files (%1)</source>
+        <translation>Fichiers Audios: (%1)</translation>
+    </message>
+    <message>
         <source>Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)</source>
-        <translation>Fichier audio (*.wav *.mp2 *.mp3 *.ogg *.flac)</translation>
+        <translation type="vanished">Fichier audio (*.wav *.mp2 *.mp3 *.ogg *.flac)</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="252"/>
+        <location filename="../src/audio/playerwidget.cpp" line="259"/>
         <source>Attention!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="252"/>
+        <location filename="../src/audio/playerwidget.cpp" line="259"/>
         <source>You are about to load an new playlist. All previously load file will be dropped.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous êtes sur le point de charger une playlist. Tous les fichiers précédement chargés seront perdus.</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="268"/>
-        <location filename="../src/audio/playerwidget.cpp" line="582"/>
+        <location filename="../src/audio/playerwidget.cpp" line="275"/>
+        <location filename="../src/audio/playerwidget.cpp" line="589"/>
         <source>Open Play List</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir Liste de Lecture</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="268"/>
-        <location filename="../src/audio/playerwidget.cpp" line="582"/>
+        <location filename="../src/audio/playerwidget.cpp" line="275"/>
+        <location filename="../src/audio/playerwidget.cpp" line="589"/>
         <source>PlayList (*.m3u)</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste de Lecture (*.m3u)</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="280"/>
+        <location filename="../src/audio/playerwidget.cpp" line="287"/>
         <source>Open audio Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir Flux Audio</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="280"/>
+        <location filename="../src/audio/playerwidget.cpp" line="287"/>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="460"/>
+        <location filename="../src/audio/playerwidget.cpp" line="467"/>
         <source>Load Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Charger un répertoire</translation>
     </message>
 </context>
 <context>
@@ -2428,20 +2452,24 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/userlist/playersList.cpp" line="653"/>
         <source>PlayersList [PlayerCategory]: unknown action (%d)</source>
-        <translation type="unfinished"></translation>
+        <translation>PlayersList [PlayerCategory]: action inconnue (%d)</translation>
     </message>
     <message>
         <location filename="../src/userlist/playersList.cpp" line="672"/>
         <source>PlayersList [CharacterPlayerCategory]: unknown action (%d)</source>
-        <translation type="unfinished"></translation>
+        <translation>PlayersList [CharacterPlayerCategory]: action inconnue (%d)</translation>
     </message>
 </context>
 <context>
     <name>PlayersListWidget</name>
     <message>
-        <location filename="../src/userlist/playersListWidget.cpp" line="214"/>
         <source>Player</source>
-        <translation>Joueur</translation>
+        <translation type="vanished">Joueur</translation>
+    </message>
+    <message>
+        <location filename="../src/userlist/playersListWidget.cpp" line="214"/>
+        <source>Player List</source>
+        <translation>Liste de Joueurs</translation>
     </message>
     <message>
         <location filename="../src/userlist/playersListWidget.cpp" line="239"/>
@@ -2515,105 +2543,105 @@ Il sera fermé pour tout le monde</translation>
         <translation>Préférences </translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="236"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="240"/>
         <source>Images (*.png *.xpm *.jpg *.gif *.bmp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="299"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="310"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>defaut</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="306"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="317"/>
         <source>darkorange</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="326"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="337"/>
         <source>darkfusion</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="387"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="396"/>
         <source>Css Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Editeur Css</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="387"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="396"/>
         <source>Css</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="404"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="413"/>
         <source> (copy)</source>
-        <translation type="unfinished"></translation>
+        <translation> (copie)</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="491"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="503"/>
         <source>&lt;li&gt;Image Format : %1 value %2&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Format d&apos;image: %1 valeur %2&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="492"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="504"/>
         <source>&lt;h2&gt;Supported Image Formats:&lt;/h2&gt;&lt;ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Formats d&apos;images supportés:&lt;/h2&gt;&lt;ul&gt;</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="499"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="511"/>
         <source>&lt;/ul&gt;End of Image Format</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;/ul&gt;Fin des formats d&apos;images</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="502"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="514"/>
         <source>&lt;h2&gt;Font families:&lt;/h2&gt;&lt;ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Familles de Polices&lt;/h2&gt;&lt;ul&gt;</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="509"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="521"/>
         <source>&lt;/ul&gt;End of Font families</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;/ul&gt;Fin des Familles de Polices</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="512"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="524"/>
         <source>&lt;h2&gt;Audio file formats Support:&lt;/h2&gt;&lt;ul&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="535"/>
-        <source>&lt;li&gt;Unsupported format: %1&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="538"/>
-        <source>&lt;li&gt;Maybe supported format: %1&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="542"/>
-        <source>&lt;li&gt;Supported format: %1&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Formats Audio supportés:&lt;/h2&gt;&lt;ul&gt;</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="547"/>
+        <source>&lt;li&gt;Unsupported format: %1&lt;/li&gt;</source>
+        <translation>&lt;li&gt;format non supporté: %1&lt;/li&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="550"/>
+        <source>&lt;li&gt;Maybe supported format: %1&lt;/li&gt;</source>
+        <translation>&lt;li&gt;Format probablement supporté: %1&lt;/li&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="554"/>
+        <source>&lt;li&gt;Supported format: %1&lt;/li&gt;</source>
+        <translation>&lt;li&gt;Format supporté: %1&lt;/li&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="559"/>
         <source>&lt;/ul&gt;End of Supported Audio file formats</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;/ul&gt;Fin des Fichiers Audios Supportés</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="619"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="631"/>
         <source>Export Rolisteam Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporter le thème</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="621"/>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="642"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="633"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="654"/>
         <source>Rolisteam Theme: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Thème de Rolisteam: %1</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialog.cpp" line="642"/>
+        <location filename="../src/preferences/preferencesdialog.cpp" line="654"/>
         <source>Import Rolisteam Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Importer un thème</translation>
     </message>
     <message>
         <source>Image Format : %1 value %2</source>
@@ -2651,7 +2679,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="40"/>
         <source>Themes</source>
-        <translation type="unfinished"></translation>
+        <translation>Thèmes</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="45"/>
@@ -2663,12 +2691,11 @@ Il sera fermé pour tout le monde</translation>
         <translation type="obsolete">Carte</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="55"/>
         <source>Diagnotic</source>
-        <translation>Diagnostique</translation>
+        <translation type="vanished">Diagnostique</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="70"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="79"/>
         <source>Color</source>
         <translation>Couleur</translation>
     </message>
@@ -2677,153 +2704,178 @@ Il sera fermé pour tout le monde</translation>
         <translation type="obsolete">Couleur de transparence:</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="78"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="87"/>
         <source>Fog Of War:</source>
         <translation>Masque des Plans:</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="96"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="105"/>
         <source>Opacity Value:</source>
         <translation>Valeur d&apos;opacité:</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="128"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="137"/>
         <source>Only apply on future maps.</source>
         <translation>*Ne s&apos;applique qu&apos;aux futures cartes (reçues ou créées).</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="160"/>
+        <source>Full Screen at launch</source>
+        <translation>Plein écran au démarrage</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="176"/>
         <source>Default Map Permission:</source>
-        <translation type="unfinished"></translation>
+        <translation>Permission des plans habituelles:</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="199"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="190"/>
+        <source>Translation File*:</source>
+        <translation>Fichier de traduction*:</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="202"/>
+        <source>* : need restart</source>
+        <translation>*: redémarrage nécessaire</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="229"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="209"/>
-        <source>Current Theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="216"/>
-        <source>Theme name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="223"/>
-        <source>Styles:</source>
-        <translation type="unfinished"></translation>
+        <translation>Thème</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="239"/>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <source>Current Theme</source>
+        <translation>Thème courant</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="246"/>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="640"/>
+        <source>Theme name</source>
+        <translation>Nom du Thème</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="253"/>
+        <source>Styles:</source>
+        <translation>Style:</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="269"/>
+        <source>Copy</source>
+        <translation>Copie</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="276"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="718"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprime</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="263"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="293"/>
         <source>Css:</source>
-        <translation type="unfinished"></translation>
+        <translation>Css:</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="270"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="300"/>
         <source>Edit...</source>
-        <translation type="unfinished"></translation>
+        <translation>Edition...</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="296"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="326"/>
         <source>Background</source>
         <translation>Arrière-plan</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="304"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="334"/>
         <source>Color:</source>
         <translation>Couleur:</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="335"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="365"/>
         <source>Image:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="349"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="379"/>
         <source>Positioning:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="357"/>
-        <source>TopLeftCorner</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="362"/>
-        <source>BottomLeftCorner</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="367"/>
-        <source>Center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="372"/>
-        <source>TopRightCorner</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="377"/>
-        <source>BottomRightCorner</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="382"/>
-        <source>Scaled</source>
-        <translation type="unfinished"></translation>
+        <translation>Positionnement:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="387"/>
+        <source>TopLeftCorner</source>
+        <translation>Coin gauche haut</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="392"/>
+        <source>BottomLeftCorner</source>
+        <translation>Coint Gauche Bas</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="397"/>
+        <source>Center</source>
+        <translation>Centre</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="402"/>
+        <source>TopRightCorner</source>
+        <translation>Coin droit haut</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="407"/>
+        <source>BottomRightCorner</source>
+        <translation>Coin Droit Bas</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="412"/>
+        <source>Scaled</source>
+        <translation>Mise à l&apos;échelle</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="417"/>
         <source>Filled</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="400"/>
-        <source>Color Palette</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="425"/>
-        <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiré</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="432"/>
-        <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <source>Dice Highlight Color</source>
+        <translation>Couleur de surbrillance des Dés</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="138"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="461"/>
+        <source>Color Palette</source>
+        <translation>Palette de couleurs</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="486"/>
+        <source>Import…</source>
+        <translation>Importer...</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="493"/>
+        <source>Export…</source>
+        <translation>Exporter...</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="147"/>
         <source>Behaviour</source>
         <translation>Comportement</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="50"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="55"/>
         <source>Dice System</source>
-        <translation type="unfinished"></translation>
+        <translation>Système de dés</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="144"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="64"/>
+        <source>Diagnostic</source>
+        <translation>Diagnostic</translation>
+    </message>
+    <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="153"/>
         <source>Check for Update</source>
         <translation>Vérification des mises à jour</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="151"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="167"/>
         <source>Pictures fit their Windows (at the opening)</source>
         <translation>Les images s&apos;adaptent à leur fenêtre (à l&apos;ouverture)</translation>
     </message>
@@ -2832,87 +2884,87 @@ Il sera fermé pour tout le monde</translation>
         <translation type="vanished">Permissions des plans par défaut:</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="448"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="509"/>
         <source>Directories</source>
         <translation>Répertoires</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="456"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="519"/>
         <source>Music (GM) :</source>
         <translation>Musique (Mj):</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="463"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="526"/>
         <source>Music (Player) :</source>
         <translation>Musique (Joueur):</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="470"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="533"/>
         <source>Pictures :</source>
         <translation>Images:</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="477"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="540"/>
         <source>Map :</source>
         <translation>Carte :</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="484"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="547"/>
         <source>Scenarios :</source>
         <translation>Scénarios :</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="491"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="554"/>
         <source>Minutes :</source>
         <translation>Notes :</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="498"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="561"/>
         <source>Chat :</source>
         <translation>Tchat :</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="543"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="621"/>
         <source>Dice Command</source>
-        <translation type="unfinished"></translation>
+        <translation>Commande de Dés</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="573"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="651"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Test</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="584"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="662"/>
         <source>Converted</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertie</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="633"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="711"/>
         <source>Add</source>
-        <translation type="unfinished">Ajouter</translation>
+        <translation>Ajouter</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="647"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="725"/>
         <source>Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Monter</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="654"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="732"/>
         <source>Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Descendre</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="661"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="739"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>En Haut</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="668"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="746"/>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>en Bas</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="718"/>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="796"/>
         <source>Start</source>
         <translation>Démarrage</translation>
     </message>
@@ -2946,9 +2998,9 @@ Il sera fermé pour tout le monde</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="79"/>
+        <location filename="../src/main.cpp" line="97"/>
         <source>Unknown</source>
-        <translation>Inconnue</translation>
+        <translation>Inconnu</translation>
     </message>
     <message>
         <source>/maps</source>
@@ -2961,94 +3013,99 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/data/mediacontainer.cpp" line="47"/>
         <source>Loading error</source>
-        <translation type="unfinished">Erreur de chargement</translation>
+        <translation>Erreur de chargement</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="54"/>
         <source>k</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="55"/>
         <source>K</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="56"/>
         <source>s</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="57"/>
         <source>c</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="58"/>
         <source>r</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="59"/>
         <source>e</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="60"/>
         <source>a</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="75"/>
         <source>help</source>
-        <translation type="unfinished"></translation>
+        <translation>aide</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="76"/>
         <source>la</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="560"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="556"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow]</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste manquante après l&apos;opérateur L. Veuillez l&apos;ajouter (e.g : 1L[sword,spear,gun,arrow])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="827"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="807"/>
         <source>Validator is missing after the c operator. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>Validateur est manquant après l&apos;opérateur c. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="853"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="831"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>Validateur est manquant après l&apos;opérateur %1. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="865"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="843"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>La condition %1 introduit une boucle infinie. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="876"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="854"/>
         <source>Validator is missing after the e operator. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>Validateur est manquant après l&apos;opérateur e. Veuillez le changer</translation>
     </message>
     <message>
         <location filename="../src/diceparser/node/helpnode.cpp" line="33"/>
         <source>Rolisteam Dice Parser: Full documentation at: &lt;a href=&quot;https://github.com/obiwankennedy/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/obiwankennedy/DiceParser/blob/master/HelpMe.md&lt;/a&gt; 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Rolisteam Dice Parser: Documentation  complète sur: &lt;a href=&quot;https://github.com/obiwankennedy/DiceParser/blob/master/HelpMe.md&quot;&gt;https://github.com/obiwankennedy/DiceParser/blob/master/HelpMe.md&lt;/a&gt; </translation>
     </message>
     <message>
         <location filename="../src/diceparser/node/listaliasnode.cpp" line="34"/>
         <source>List of Alias:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des alias:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1119"/>
+        <location filename="../src/mainwindow.cpp" line="1116"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>chemin vers le fichier de traduction: &lt;traduction&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/diceparser/node/scalaroperatornode.cpp" line="131"/>
+        <source>Division by zero</source>
+        <translation>Division par zéro</translation>
     </message>
 </context>
 <context>
@@ -3116,22 +3173,22 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
         <source>OpenOffice 2.4 file format OASIS </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
         <source> (*.odt *.ott);;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
         <source>XHTML file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier XHTML</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
         <source> (*.htm *.html);;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="200"/>
