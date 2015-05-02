@@ -37,6 +37,8 @@ PlayerWidget::PlayerWidget(int id, QWidget* parent)
     setupUi();
     m_model = new MusicModel(this);
     m_ui->m_songList->setModel(m_model);
+    m_ui->m_songList->setAcceptDrops(true);
+    m_ui->m_songList->setDropIndicatorShown(true);
 
     updateUi();
 }

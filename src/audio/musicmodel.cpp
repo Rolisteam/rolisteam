@@ -146,3 +146,81 @@ void MusicModel::saveIn(QTextStream& file)
         file << tmp->canonicalUrl().toString() << "\n";
     }
 }
+Qt::DropActions MusicModel::supportedDropActions() const
+{
+    return Qt::CopyAction | Qt::MoveAction;
+}
+bool DragDropListModel::dropMimeData(const QMimeData *data,
+    Qt::DropAction action, int row, int column, const QModelIndex &parent)
+{
+    if (action == Qt::IgnoreAction)
+        return true;
+
+    int beginRow;
+
+        if (row != -1)
+            beginRow = row;
+        else if (parent.isValid())
+              beginRow = parent.row();
+        else
+            beginRow = rowCount(QModelIndex());
+
+
+        if(data->hasUrls())
+        {
+            QList<QUrl> list = data->urls();
+            for(int i = 0; i< list.size();++i)
+            {
+                CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
+                qDebug()<< "dropEvent"<< type;
+                if(str.endsWith(".m3u"))
+                {
+                    return CleverURI::SONGLIST;
+                }
+                else
+                {
+                    QStringList list = m_preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString().split(' ');
+                    //QStringList list = audioFileFilter.split(' ');
+                    int i=0;
+                    while(i<list.size())
+                    {
+                        QString filter = list.at(i);
+                        filter.replace("*","");
+                        if(str.endsWith(filter))
+                        {
+                            return CleverURI::SONG;
+                        }
+                        ++i;
+                    }
+                }
+                MediaContainer* tmp=NULL;
+                switch(type)
+                {
+                case CleverURI::MAP:
+                    tmp = new MapFrame();
+                    prepareMap((MapFrame*)tmp);
+                    tmp->setCleverUri(new CleverURI(list.at(i).toLocalFile(),CleverURI::MAP));
+                    tmp->readFileFromUri();
+                    addMediaToMdiArea(tmp);
+                    tmp->setVisible(true);
+                    break;
+                case CleverURI::PICTURE:
+                    tmp = new Image();
+                    tmp->setCleverUri(new CleverURI(list.at(i).toLocalFile(),CleverURI::PICTURE));
+                    tmp->readFileFromUri();
+                    prepareImage((Image*)tmp);
+                    addMediaToMdiArea(tmp);
+                    tmp->setVisible(true);
+                    break;
+                case CleverURI::SONG:
+                    m_audioPlayer->openSong(list.at(i).toLocalFile());
+                    break;
+                case CleverURI::SONGLIST:
+                    m_audioPlayer->openSongList(list.at(i).toLocalFile());
+                    break;
+                }
+            }
+            event->acceptProposedAction();
+        }
+        return true;
+}
