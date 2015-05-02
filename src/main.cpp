@@ -49,25 +49,27 @@
 * perform Role playing games with remote friends.<br/>
 * It is based on Client/server architecture and it is written in C++ with Qt.<br/>
 *
-* <h2>Features</h2>:
-* <ul>
-*    <li>Chat with one, many and all players</li>
-*    <li>Sharing images and many other media type</li>
-*    <li>Drawing maps on the fly</li>
-*    <li>Sharing environment sound</li>
-*    <li>Multi-platform: Windows, Linux and Mac OS X</li>
-* </ul>
+* @section features_sec Features:
+* - Chat with one, many and all players
+* - Sharing images and many other media type
+* - Drawing maps on the fly
+* - Sharing environment sound
+* - Multi-platform: Windows, Linux and Mac OS X
+* - Powerful die rolling syntax
+* - Theme and skin: make your own skin, save it, share it.
+* - Useful preferences systems
+*
 *
 *
 * @section install_sec Installation
-* <h2>How to stay in touch ? </h2>
-* Please take a look to <a href="http://www.rolisteam.org/">Rolisteam Web Site</a>
+* To get documentation on how to install rolisteam: http://wiki.rolisteam.org/
 *
-* @subsection tools_subsec Tools required&#58;
+* @section How to stay in touch ?
+* Please, visit: http://www.rolisteam.org/
+*
+* @section tools_subsec Dependencies:
 * Qt5, zlib.
 * @subpage DiceParser
-*
-* @subsection running Running the program
 *
 * @section copyright Copyright and License
 * GNU/GPLv2

@@ -134,7 +134,7 @@ enum Action {
 };
 }
 /**
- * @brief The NetworkMessage class - pure virtual class to manage network message.
+ * @brief The NetworkMessage class is pure virtual class to manage network message.
  */
 class NetworkMessage
 {

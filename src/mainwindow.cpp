@@ -1937,6 +1937,8 @@ void MainWindow::dropEvent(QDropEvent* event)
             case CleverURI::MAP:
                 tmp = new MapFrame();
                 prepareMap((MapFrame*)tmp);
+                tmp->setCleverUri(new CleverURI(list.at(i).toLocalFile(),CleverURI::MAP));
+                tmp->readFileFromUri();
                 addMediaToMdiArea(tmp);
                 tmp->setVisible(true);
                 break;
@@ -1949,10 +1951,10 @@ void MainWindow::dropEvent(QDropEvent* event)
                 tmp->setVisible(true);
                 break;
             case CleverURI::SONG:
-                //m_audioPlayer->;
+                m_audioPlayer->openSong(list.at(i).toLocalFile());
                 break;
             case CleverURI::SONGLIST:
-
+                m_audioPlayer->openSongList(list.at(i).toLocalFile());
                 break;
             }
         }

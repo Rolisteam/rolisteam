@@ -5,6 +5,10 @@
 #include <QAction>
 #include <QResizeEvent>
 
+/**
+ * @brief The ChatBrowser class is the widget in charge of showing to the user all messages from one chat.
+ * It also displays dice roll results, help and error message.
+ */
 class ChatBrowser : public QTextBrowser
 {
     Q_OBJECT

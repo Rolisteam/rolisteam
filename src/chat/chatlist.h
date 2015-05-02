@@ -36,7 +36,9 @@ class Player;
 class PrivateChat;
 class ReceiveEvent;
 class DiceAlias;
-
+/**
+ * @brief The BlinkingDecorationDelegate class is dedicated to show to user when chat has unread message.
+ */
 class BlinkingDecorationDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
