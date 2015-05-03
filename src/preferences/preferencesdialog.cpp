@@ -187,6 +187,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_cssEdit,SIGNAL(clicked()),this,SLOT(editCss()));
     connect(ui->m_exportBtn,SIGNAL(clicked()),this,SLOT(exportTheme()));
     connect(ui->m_importBtn,SIGNAL(clicked()),this,SLOT(importTheme()));
+    connect(ui->m_deleteTheme,SIGNAL(clicked()),this,SLOT(deleteTheme()));
 }
 
 PreferencesDialog::~PreferencesDialog()
@@ -673,5 +674,13 @@ bool PreferencesDialog::importTheme()
         updateTheme();
 
         return true;
+    }
+}
+void PreferencesDialog::deleteTheme()
+{
+    int i = ui->m_themeComboBox->currentIndex();
+    if((i>=0)&&(i<m_themes.size()))
+    {
+        ui->m_themeComboBox->removeItem(i);
     }
 }

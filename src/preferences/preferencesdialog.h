@@ -169,6 +169,7 @@ private slots:
     void editCss();
     void exportTheme();
     bool importTheme();
+    void deleteTheme();
 
 private:
     PreferencesManager* m_preferences;
