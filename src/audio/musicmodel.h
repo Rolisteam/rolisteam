@@ -29,6 +29,9 @@ class MusicModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
+    /**
+     * @brief The COLUMN enum
+     */
     enum COLUMN { TITLE };
     /**
      * @brief MusicModel
@@ -67,18 +70,53 @@ public:
      */
     void addSong(QStringList );
     /**
+     * @brief insertSong
+     * @param i
+     * @param str
+     */
+    void insertSong(int i,QString str);
+    /**
      * @brief getMediaByModelIndex
      * @return
      */
     QMediaContent* getMediaByModelIndex(QModelIndex);
-
+    /**
+     * @brief removeAll
+     */
     void removeAll();
-
+    /**
+     * @brief removeSong
+     * @param list
+     */
     void removeSong(QModelIndexList& list);
+    /**
+     * @brief setCurrentSong
+     * @param p
+     */
     void setCurrentSong(QModelIndex& p);
+    /**
+     * @brief getCurrentSong
+     * @return
+     */
     QModelIndex& getCurrentSong();
-
+    /**
+     * @brief saveIn
+     * @param file
+     */
     void saveIn(QTextStream& file);
+    /**
+     * @brief flags
+     * @param index
+     * @return
+     */
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    /**
+     * @brief ​mimeTypes
+     */
+    QStringList mimeTypes() const;
+protected:
+    Qt::DropActions supportedDropActions() const;
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
 
 private:
     QStringList m_header;

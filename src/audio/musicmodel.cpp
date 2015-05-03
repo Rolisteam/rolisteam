@@ -19,16 +19,20 @@
  ***************************************************************************/
 #include "musicmodel.h"
 
+#include "preferences/preferencesmanager.h"
 
 #include <QUrl>
 #include <QMediaContent>
 #include <QFont>
+#include <QMimeData>
+
 
 MusicModel::MusicModel(QObject *parent) :
     QAbstractListModel(parent)
 {
     m_header << tr("Title") /*<< tr("duration")*/;
     m_player = new QMediaPlayer();
+
 
 }
 int MusicModel::rowCount(const QModelIndex & parent) const
@@ -105,6 +109,27 @@ void MusicModel::addSong(QStringList list)
     }
     endInsertRows();
 }
+void MusicModel::insertSong(int i,QString str)
+{
+    if(str.isEmpty())
+        return;
+    if(0>i)
+    {
+        i = m_data.size();
+    }
+
+    beginInsertRows(QModelIndex(),i,i);
+    QUrl tmpUrl= QUrl::fromUserInput(str);//,QUrl::StrictMode
+    if((tmpUrl.isValid())&&(!tmpUrl.isLocalFile()))
+    {
+        m_data.insert(i,new QMediaContent(tmpUrl));
+    }
+    else if(tmpUrl.isLocalFile())
+    {
+        m_data.insert(i,new QMediaContent(QUrl::fromLocalFile(str)));
+    }
+    endInsertRows();
+}
 QMediaContent* MusicModel::getMediaByModelIndex(QModelIndex index)
 {
     return m_data.at(index.row());
@@ -146,81 +171,69 @@ void MusicModel::saveIn(QTextStream& file)
         file << tmp->canonicalUrl().toString() << "\n";
     }
 }
+QStringList MusicModel::mimeTypes() const
+{
+    QStringList types;
+    types << "text/uri-list";
+    return types;
+}
 Qt::DropActions MusicModel::supportedDropActions() const
 {
     return Qt::CopyAction | Qt::MoveAction;
 }
-bool DragDropListModel::dropMimeData(const QMimeData *data,
-    Qt::DropAction action, int row, int column, const QModelIndex &parent)
+bool MusicModel::dropMimeData(const QMimeData *data,Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
     if (action == Qt::IgnoreAction)
         return true;
 
     int beginRow;
 
-        if (row != -1)
-            beginRow = row;
-        else if (parent.isValid())
-              beginRow = parent.row();
-        else
-            beginRow = rowCount(QModelIndex());
+    if (row != -1)
+        beginRow = row;
+    else if (parent.isValid())
+        beginRow = parent.row();
+    else
+        beginRow = rowCount(QModelIndex());
 
 
-        if(data->hasUrls())
+    if(data->hasUrls())
+    {
+        QList<QUrl> list = data->urls();
+        for(int i = 0; i< list.size();++i)
         {
-            QList<QUrl> list = data->urls();
-            for(int i = 0; i< list.size();++i)
+            QString str = list[i].toLocalFile();
+            if(str.endsWith(".m3u"))
             {
-                CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
-                qDebug()<< "dropEvent"<< type;
-                if(str.endsWith(".m3u"))
+
+            }
+            else
+            {
+                QStringList list = PreferencesManager::getInstance()->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString().split(' ');
+                //QStringList list = audioFileFilter.split(' ');
+                int i=0;
+                while(i<list.size())
                 {
-                    return CleverURI::SONGLIST;
-                }
-                else
-                {
-                    QStringList list = m_preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString().split(' ');
-                    //QStringList list = audioFileFilter.split(' ');
-                    int i=0;
-                    while(i<list.size())
+                    QString filter = list.at(i);
+                    filter.replace("*","");
+                    if(str.endsWith(filter))
                     {
-                        QString filter = list.at(i);
-                        filter.replace("*","");
-                        if(str.endsWith(filter))
-                        {
-                            return CleverURI::SONG;
-                        }
-                        ++i;
+                        insertSong(row,str);
                     }
-                }
-                MediaContainer* tmp=NULL;
-                switch(type)
-                {
-                case CleverURI::MAP:
-                    tmp = new MapFrame();
-                    prepareMap((MapFrame*)tmp);
-                    tmp->setCleverUri(new CleverURI(list.at(i).toLocalFile(),CleverURI::MAP));
-                    tmp->readFileFromUri();
-                    addMediaToMdiArea(tmp);
-                    tmp->setVisible(true);
-                    break;
-                case CleverURI::PICTURE:
-                    tmp = new Image();
-                    tmp->setCleverUri(new CleverURI(list.at(i).toLocalFile(),CleverURI::PICTURE));
-                    tmp->readFileFromUri();
-                    prepareImage((Image*)tmp);
-                    addMediaToMdiArea(tmp);
-                    tmp->setVisible(true);
-                    break;
-                case CleverURI::SONG:
-                    m_audioPlayer->openSong(list.at(i).toLocalFile());
-                    break;
-                case CleverURI::SONGLIST:
-                    m_audioPlayer->openSongList(list.at(i).toLocalFile());
-                    break;
+                    ++i;
                 }
             }
-            event->acceptProposedAction();
         }
+
         return true;
+    }
+    return false;
+}
+Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags defaultFlags = QAbstractListModel::flags(index);
+
+    if (index.isValid())
+        return defaultFlags;
+    else
+        return Qt::ItemIsDropEnabled | defaultFlags;
 }
