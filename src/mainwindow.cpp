@@ -1885,7 +1885,6 @@ void MainWindow::updateWindowTitle()
 }
 CleverURI::ContentType MainWindow::getContentType(QString str)
 {
-    qDebug()<< str;
     QImage imag(str);
     if(str.endsWith(".pla"))
     {
@@ -1930,7 +1929,6 @@ void MainWindow::dropEvent(QDropEvent* event)
         for(int i = 0; i< list.size();++i)
         {
             CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
-            qDebug()<< "dropEvent"<< type;
             MediaContainer* tmp=NULL;
             switch(type)
             {
@@ -1963,7 +1961,6 @@ void MainWindow::dropEvent(QDropEvent* event)
 }
 void MainWindow::dragEnterEvent(QDragEnterEvent* ev)
 {
-    qDebug()<< "dragMoveEvent";
    // if(ev->)
     ev->acceptProposedAction();
 }
