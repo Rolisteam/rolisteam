@@ -192,10 +192,8 @@ void ChatListWidget::processMoveDiceALias(NetworkMessageReader* msg)
 {
     int from = msg->int64();
     int to   = msg->int64();
-    qDebug() << from << to;
     if((from>=0)&&(from<m_diceAliasMapFromGM->size()))
     {
-        qDebug() << from << to;
         DiceAlias* tpm = m_diceAliasMapFromGM->takeAt(from);
         m_diceAliasMapFromGM->insert(to,tpm);
 
