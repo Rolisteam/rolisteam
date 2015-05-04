@@ -76,6 +76,9 @@ class MainWindow : public QMainWindow, public NetWorkReceiver
     Q_OBJECT
 
 public :
+    /**
+     * @brief The MessageType enum
+     */
     enum MessageType {Information,Notice,Warning,Error};
 	/**
 	*
@@ -195,6 +198,9 @@ public :
 
 
 signals:
+    /**
+     * @brief closing
+     */
     void closing();
 
 public slots :
