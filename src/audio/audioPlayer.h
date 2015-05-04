@@ -76,8 +76,15 @@ public :
      */
     virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
 
-
+    /**
+     * @brief openSongList
+     * @param str
+     */
     virtual void openSongList(QString str);
+    /**
+     * @brief openSong
+     * @param str
+     */
     virtual void openSong(QString str);
 
 
