@@ -65,7 +65,7 @@
 #include "audioPlayer.h"
 #endif
 
-// Pointeur vers la fenetre de log utilisateur (utilise seulement dans ce fichier)
+// singleton to the mainwindow
 MainWindow* MainWindow::m_singleton= NULL;
 
 MainWindow::MainWindow()
@@ -1843,8 +1843,6 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
         tmp = new MapFrame();
         break;
     case CleverURI::PICTURE:
-        tmp = new Image();
-        break;
     case CleverURI::ONLINEPICTURE:
         tmp = new Image();
         break;
@@ -1882,6 +1880,15 @@ void MainWindow::updateWindowTitle()
                    .arg(m_version)
                    .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected"))
                    .arg(m_networkManager->isServer() ? tr("Server") : tr("Client")).arg(m_playerList->localPlayer()->isGM() ? tr("GM") : tr("Player")));
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent * event)
+{
+    if(event->mimeData()->hasUrls())
+    {
+        event->acceptProposedAction();
+    }
+
 }
 CleverURI::ContentType MainWindow::getContentType(QString str)
 {
@@ -1959,8 +1966,4 @@ void MainWindow::dropEvent(QDropEvent* event)
         event->acceptProposedAction();
     }
 }
-void MainWindow::dragEnterEvent(QDragEnterEvent* ev)
-{
-   // if(ev->)
-    ev->acceptProposedAction();
-}
+
