@@ -35,22 +35,22 @@ class Player;
 extern void setLocalFeatures(Player & player);
 extern void addFeature(ReceiveEvent & data);
 /**
- * @brief The SendFeaturesIterator class
+ * @brief The SendFeaturesIterator class is use to check if all players connected to the same server have the same features.
  */
 class SendFeaturesIterator : public QMapIterator<QString, quint8>
 {
-    public:
-        SendFeaturesIterator();
-        SendFeaturesIterator(const Player & player);
-        ~SendFeaturesIterator();
+public:
+    SendFeaturesIterator();
+    SendFeaturesIterator(const Player & player);
+    ~SendFeaturesIterator();
 
-        NetworkMessageWriter & message();
+    NetworkMessageWriter & message();
 
-        SendFeaturesIterator & operator=(const Player * player);
-    
-    private:
-        const Player * m_player;
-        NetworkMessageWriter m_message;
+    SendFeaturesIterator & operator=(const Player * player);
+
+private:
+    const Player * m_player;
+    NetworkMessageWriter m_message;
 };
 
 #endif
