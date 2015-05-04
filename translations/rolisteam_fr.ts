@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<TS version="2.0" language="fr_FR">
 <context>
     <name>AudioPlayer</name>
     <message>
@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/audio/audioPlayer.cpp" line="112"/>
         <source>Show/hide Player %1</source>
-        <translation>Montre/Cache le Joueur %1</translation>
+        <translation>Montre/Cache le lecteur Audio %1</translation>
     </message>
     <message>
         <location filename="../src/audio/audioPlayer.cpp" line="235"/>
@@ -69,153 +69,153 @@
     <name>BarreOutils</name>
     <message>
         <source>Tools</source>
-        <translation type="vanished">Outils</translation>
+        <translation>Outils</translation>
     </message>
     <message>
         <source>Pen</source>
-        <translation type="vanished">Crayon</translation>
+        <translation>Crayon</translation>
     </message>
     <message>
         <source>Line</source>
-        <translation type="vanished">Ligne</translation>
+        <translation>Ligne</translation>
     </message>
     <message>
         <source>Empty Rectangle</source>
-        <translation type="vanished">Rectangle vide</translation>
+        <translation>Rectangle vide</translation>
     </message>
     <message>
         <source>filled Rectangle</source>
-        <translation type="vanished">Rectangle plein</translation>
+        <translation>Rectangle plein</translation>
     </message>
     <message>
         <source>Empty Ellipse</source>
-        <translation type="vanished">Ellipse vide</translation>
+        <translation>Ellipse vide</translation>
     </message>
     <message>
         <source>Filled Ellipse</source>
-        <translation type="vanished">Ellipse pleine</translation>
+        <translation>Ellipse pleine</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="vanished">Texte</translation>
+        <translation>Texte</translation>
     </message>
     <message>
         <source>Move</source>
-        <translation type="vanished">Déplacer</translation>
+        <translation>Déplacer</translation>
     </message>
     <message>
         <source>Add NPC</source>
-        <translation type="vanished">Ajouter PJ</translation>
+        <translation>Ajouter PJ</translation>
     </message>
     <message>
         <source>Remove NPC</source>
-        <translation type="vanished">Supprimer PNJ</translation>
+        <translation>Supprimer PNJ</translation>
     </message>
     <message>
         <source>Move/Turn Character</source>
-        <translation type="vanished">Déplacer/Orienter Personnage</translation>
+        <translation>Déplacer/Orienter Personnage</translation>
     </message>
     <message>
         <source>Change Character&apos;s State</source>
-        <translation type="vanished">Changer l&apos;état du personnage</translation>
+        <translation>Changer l&apos;état du personnage</translation>
     </message>
     <message>
         <source>Reset NPC counter</source>
-        <translation type="vanished">Redémarrer le counteur des PNJ</translation>
+        <translation>Redémarrer le counteur des PNJ</translation>
     </message>
     <message>
         <source>NPC name</source>
-        <translation type="vanished">Nom du PNJ</translation>
+        <translation>Nom du PNJ</translation>
     </message>
     <message>
         <source>NPC Number</source>
-        <translation type="vanished">Numéro PNJ</translation>
+        <translation>Numéro PNJ</translation>
     </message>
     <message>
         <source>Line&apos;s Width</source>
-        <translation type="vanished">épaisseur du trait</translation>
+        <translation>épaisseur du trait</translation>
     </message>
     <message>
         <source>NPC Size</source>
-        <translation type="vanished">Taille PNJ</translation>
+        <translation>Taille PNJ</translation>
     </message>
 </context>
 <context>
     <name>BipMapWindow</name>
     <message>
         <source>Map fits window</source>
-        <translation type="vanished">Adapter la carte à la fenêtre</translation>
+        <translation>Adapter la carte à la fenêtre</translation>
     </message>
 </context>
 <context>
     <name>Carte</name>
     <message>
         <source>Undefined tool  (drawing - Carte.cpp)</source>
-        <translation type="vanished">Outil inconnu (drawing - Carte.cpp)</translation>
+        <translation>Outil inconnu (drawing - Carte.cpp)</translation>
     </message>
     <message>
         <source>Inappropriate Color</source>
-        <translation type="vanished">Couleur inappropriée</translation>
+        <translation>Couleur inappropriée</translation>
     </message>
     <message>
         <source>You can not select this color because
  It&apos;s a special color.</source>
-        <translation type="vanished">Celle couleur est utilée par rolisteam, vous ne pouvez pas la selectionnée.</translation>
+        <translation>Celle couleur est utilée par rolisteam, vous ne pouvez pas la selectionnée.</translation>
     </message>
     <message>
         <source>color type not allowed (dessiner - Carte.cpp)</source>
-        <translation type="vanished">Ce type de couleur n&apos;est pas autorisé(dessiner - Carte.cpp) </translation>
+        <translation>Ce type de couleur n&apos;est pas autorisé(dessiner - Carte.cpp) </translation>
     </message>
     <message>
         <source>color type not allowed  (dessiner - Carte.cpp)</source>
-        <translation type="vanished">Ce type de couleur n&apos;est pas autorisé(dessiner - Carte.cpp)</translation>
+        <translation>Ce type de couleur n&apos;est pas autorisé(dessiner - Carte.cpp)</translation>
     </message>
     <message>
         <source>undefined drawing tools (dessiner - Carte.cpp)</source>
-        <translation type="vanished">Outil inconnu (drawing - Carte.cpp)</translation>
+        <translation>Outil inconnu (drawing - Carte.cpp)</translation>
     </message>
     <message>
         <source>Source, destination and alpha layer have not the same size  (ajouterAlpha - Carte.cpp)</source>
-        <translation type="vanished">La source, la destination et la couche transparente n&apos;ont pas la même taille (ajouterAlpha - Carte.cpp) </translation>
+        <translation>La source, la destination et la couche transparente n&apos;ont pas la même taille (ajouterAlpha - Carte.cpp) </translation>
     </message>
     <message>
         <source>undefine tool for processing action on NPC or PC (actionPnjBoutonEnfonce - Carte.cpp)</source>
-        <translation type="vanished">outil inconnu pour la manipulation des PJ et des PNJ (actionPnjBoutonEnfonce - Carte.cpp) </translation>
+        <translation>outil inconnu pour la manipulation des PJ et des PNJ (actionPnjBoutonEnfonce - Carte.cpp) </translation>
     </message>
     <message>
         <source>undefine tool for processing action on NPC or PC (actionPnjBoutonRelache - Carte.cpp)</source>
-        <translation type="vanished">outil inconnu pour la manipulation des PJ et des PNJ (actionPnjBoutonRelache - Carte.cpp)</translation>
+        <translation>outil inconnu pour la manipulation des PJ et des PNJ (actionPnjBoutonRelache - Carte.cpp)</translation>
     </message>
     <message>
         <source>undefine tool for processing action on NPC or PC (actionPnjMouvementSouris - Carte.cpp)</source>
-        <translation type="vanished">outil inconnu pour la manipulation des PJ et des PNJ (actionPnjMouvementSouris - Carte.cpp)</translation>
+        <translation>outil inconnu pour la manipulation des PJ et des PNJ (actionPnjMouvementSouris - Carte.cpp)</translation>
     </message>
     <message>
         <source>unknown widget under cursor (dansDessinPerso - Carte.cpp)</source>
-        <translation type="vanished">Widget inconnu sous le curseur (dansDessinPerso - Carte.cpp)</translation>
+        <translation>Widget inconnu sous le curseur (dansDessinPerso - Carte.cpp)</translation>
     </message>
     <message>
         <source>PC ID not found (affichageDuPj - Carte.cpp)</source>
-        <translation type="vanished">Identifiant du PJ non trouvé (affichageDuPj - Carte.cpp) </translation>
+        <translation>Identifiant du PJ non trouvé (affichageDuPj - Carte.cpp) </translation>
     </message>
     <message>
         <source>PC ID: %1 not found (pjAffiche - Carte.cpp)</source>
-        <translation type="vanished">Identifiant Pj: %1 non trouvé (pjAffiche - Carte.cpp)</translation>
+        <translation>Identifiant Pj: %1 non trouvé (pjAffiche - Carte.cpp)</translation>
     </message>
     <message>
         <source>Person %s %s unknown in Carte::changePerson</source>
-        <translation type="vanished">Personne %s %s inconnue dans Carte::changePerson</translation>
+        <translation>Personne %s %s inconnue dans Carte::changePerson</translation>
     </message>
     <message>
         <source>Codec Error (emettreCarte - Carte.cpp)</source>
-        <translation type="vanished">Erreur de codec (emettreCarte-Carte.cpp)</translation>
+        <translation>Erreur de codec (emettreCarte-Carte.cpp)</translation>
     </message>
 </context>
 <context>
     <name>CarteFenetre</name>
     <message>
         <source>Map fits window</source>
-        <translation type="vanished">Adapter la carte à la fenêtre</translation>
+        <translation>Adapter la carte à la fenêtre</translation>
     </message>
 </context>
 <context>
@@ -272,7 +272,7 @@
     </message>
     <message>
         <source>got %1 at your dice roll [%2]</source>
-        <translation type="vanished">avez obtenu %1 à votre jet de dés [%2]</translation>
+        <translation>avez obtenu %1 à votre jet de dés [%2]</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="203"/>
@@ -281,11 +281,11 @@
     </message>
     <message>
         <source>got %1 at his dice roll [%2]</source>
-        <translation type="vanished">a obtenu %1 à son jet de dés [%2]</translation>
+        <translation>a obtenu %1 à son jet de dés [%2]</translation>
     </message>
     <message>
         <source>!1d6 or !5d10+3 or !2d20-3d10+1d6+5 etc... The dice roll is public (For private roll, use &amp; ).</source>
-        <translation type="vanished">!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de dés est public (Pour des jets secrets, utilisez &amp; ).</translation>
+        <translation>!1d6 ou !5d10+3 ou !2d20-3d10+1d6+5 etc... Le jet de dés est public (Pour des jets secrets, utilisez &amp; ).</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="211"/>
@@ -295,23 +295,23 @@
     </message>
     <message>
         <source>You got %1 at your secret dice roll [%2]</source>
-        <translation type="vanished">Vous avez obtenu %1 à votre jet secret [%2]</translation>
+        <translation>Vous avez obtenu %1 à votre jet secret [%2]</translation>
     </message>
     <message>
         <source>Secret Roll:</source>
-        <translation type="vanished">Jet Secret:</translation>
+        <translation>Jet Secret:</translation>
     </message>
     <message>
         <source>got %1 successes %2%3</source>
-        <translation type="vanished">avez obtenue %1 succés %2%3</translation>
+        <translation>avez obtenue %1 succés %2%3</translation>
     </message>
     <message>
         <source>*12D ... Add R for rusher, G3 for Gremlins index of 3 and + for reroll 6 ... Adde C hide roll detail, and S to display the result only.</source>
-        <translation type="vanished">*12D ... ajoutez R pour rusher, G3 pour les Gremlins d&apos;indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n&apos;afficher que les résultats.</translation>
+        <translation>*12D ... ajoutez R pour rusher, G3 pour les Gremlins d&apos;indice 3 et + pour relancer les 6 ... ajouter C pour ne pas afficher les détails du lancer, et S pour n&apos;afficher que les résultats.</translation>
     </message>
     <message>
         <source>Syntax SR4</source>
-        <translation type="vanished">Syntaxe SR4</translation>
+        <translation>Syntaxe SR4</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="143"/>
@@ -341,15 +341,15 @@
     </message>
     <message>
         <source> in rushing</source>
-        <translation type="vanished"> en rushant</translation>
+        <translation> en rushant</translation>
     </message>
     <message>
         <source> with Gremlins %1</source>
-        <translation type="vanished"> avec Gremlins %1</translation>
+        <translation> avec Gremlins %1</translation>
     </message>
     <message>
         <source> - 6 are reroll</source>
-        <translation type="vanished"> - les 6 sont rejoués</translation>
+        <translation> - les 6 sont rejoués</translation>
     </message>
     <message>
         <source>Background Color</source>
@@ -374,35 +374,35 @@
     </message>
     <message>
         <source>UserName</source>
-        <translation type="vanished">Nom</translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <source>Server is on.</source>
-        <translation type="vanished">Le serveur est fonctionnel.</translation>
+        <translation>Le serveur est fonctionnel.</translation>
     </message>
     <message>
         <source>Error</source>
-        <translation type="vanished">Erreur</translation>
+        <translation>Erreur</translation>
     </message>
     <message>
         <source>Can not establish the connection.</source>
-        <translation type="vanished">Impossible d&apos;établir la connexion.</translation>
+        <translation>Impossible d&apos;établir la connexion.</translation>
     </message>
     <message>
         <source>Connection with the Remote Server has been lost.</source>
-        <translation type="vanished">Connexion avec le serveur distant a été perdu.</translation>
+        <translation>Connexion avec le serveur distant a été perdu.</translation>
     </message>
     <message>
         <source>Unknown thread joined, (finDeLiaison - ClientServeur.cpp)</source>
-        <translation type="vanished">Un thread inconnu a fini.(finDeLiaison - ClientServeur.cpp) </translation>
+        <translation>Un thread inconnu a fini.(finDeLiaison - ClientServeur.cpp) </translation>
     </message>
     <message>
         <source>Server has been closed.</source>
-        <translation type="vanished">Le serveur a été fermé.</translation>
+        <translation>Le serveur a été fermé.</translation>
     </message>
     <message>
         <source>Connection to the server has been closed.</source>
-        <translation type="vanished">La liaison avec le serveur a été coupée.</translation>
+        <translation>La liaison avec le serveur a été coupée.</translation>
     </message>
     <message>
         <source>Server has been close.</source>
@@ -418,7 +418,7 @@
     </message>
     <message>
         <source>NULL Liaison pointer (ClientServeur::finDeLiaison).</source>
-        <translation type="vanished">Pointer Null de la liaison (ClientServeur::finDeLiaison).</translation>
+        <translation>Pointer Null de la liaison (ClientServeur::finDeLiaison).</translation>
     </message>
 </context>
 <context>
@@ -649,19 +649,19 @@
     <name>EditeurNotes</name>
     <message>
         <source>Bold</source>
-        <translation type="vanished">Gras</translation>
+        <translation>Gras</translation>
     </message>
     <message>
         <source>Italic</source>
-        <translation type="vanished">Italique</translation>
+        <translation>Italique</translation>
     </message>
     <message>
         <source>Underline</source>
-        <translation type="vanished">Souligner</translation>
+        <translation>Souligner</translation>
     </message>
     <message>
         <source>Font size</source>
-        <translation type="vanished">Taille de police</translation>
+        <translation>Taille de police</translation>
     </message>
 </context>
 <context>
@@ -695,7 +695,7 @@
     </message>
     <message>
         <source>Image Compression fails (sauvegarderImage - Image.cpp)</source>
-        <translation type="vanished">Compression de l&apos;image a échoué (sauvegarderImage - Image.cpp)</translation>
+        <translation>Compression de l&apos;image a échoué (sauvegarderImage - Image.cpp)</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="335"/>
@@ -854,67 +854,67 @@
     <name>LecteurAudio</name>
     <message>
         <source>Background Music</source>
-        <translation type="vanished">Musique d&apos;ambiance</translation>
+        <translation>Musique d&apos;ambiance</translation>
     </message>
     <message>
         <source>Select the directory contening all music files</source>
-        <translation type="vanished">Choississez le dossier contenant tous les fichiers de musique</translation>
+        <translation>Choississez le dossier contenant tous les fichiers de musique</translation>
     </message>
     <message>
         <source>Loop</source>
-        <translation type="vanished">Boucle</translation>
+        <translation>Boucle</translation>
     </message>
     <message>
         <source>Single shot</source>
-        <translation type="vanished">Unique</translation>
+        <translation>Unique</translation>
     </message>
     <message>
         <source>Add</source>
-        <translation type="vanished">Ajouter</translation>
+        <translation>Ajouter</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="vanished">Supprimer</translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="vanished">Lecture</translation>
+        <translation>Lecture</translation>
     </message>
     <message>
         <source>Add song to the list</source>
-        <translation type="vanished">Ajouter des musiques à la liste</translation>
+        <translation>Ajouter des musiques à la liste</translation>
     </message>
     <message>
         <source>Remove selected file</source>
-        <translation type="vanished">Supprimer le fichier selectionné</translation>
+        <translation>Supprimer le fichier selectionné</translation>
     </message>
     <message>
         <source>No songs</source>
-        <translation type="vanished">Aucune musique</translation>
+        <translation>Aucune musique</translation>
     </message>
     <message>
         <source>Add song</source>
-        <translation type="vanished">Ajouter musique</translation>
+        <translation>Ajouter musique</translation>
     </message>
     <message>
         <source>Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)</source>
-        <translation type="vanished">Fichier audio (*.wav *.mp2 *.mp3 *.ogg *.flac)</translation>
+        <translation>Fichier audio (*.wav *.mp2 *.mp3 *.ogg *.flac)</translation>
     </message>
     <message>
         <source>Unknown command send to users</source>
-        <translation type="vanished">Commande inconnue </translation>
+        <translation>Commande inconnue </translation>
     </message>
     <message>
         <source>%1 : file can not be found or opened</source>
-        <translation type="vanished">%1 : fichier introuvable ou illisible</translation>
+        <translation>%1 : fichier introuvable ou illisible</translation>
     </message>
     <message>
         <source>File can not be found or opened : %1</source>
-        <translation type="vanished">Fichier introuvable ou illisible : %1</translation>
+        <translation>Fichier introuvable ou illisible : %1</translation>
     </message>
     <message>
         <source>Select the songs directory</source>
-        <translation type="vanished">Choississez le dossier des musiques</translation>
+        <translation>Choississez le dossier des musiques</translation>
     </message>
     <message>
         <source>Ajouter un titre Ã  la liste</source>
@@ -929,19 +929,19 @@
     <name>Liaison</name>
     <message>
         <source>Unknown network package received!</source>
-        <translation type="vanished">Un pacquet réseau inconnu a été reçu!  </translation>
+        <translation>Un pacquet réseau inconnu a été reçu!  </translation>
     </message>
     <message>
         <source>End of the connection process</source>
-        <translation type="vanished">Fin du procéssus de connexion</translation>
+        <translation>Fin du procéssus de connexion</translation>
     </message>
     <message>
         <source>New map: %1</source>
-        <translation type="vanished">Nouveau Plan: %1</translation>
+        <translation>Nouveau Plan: %1</translation>
     </message>
     <message>
         <source>Receiving map: %1</source>
-        <translation type="vanished">réception Plan: %1</translation>
+        <translation>réception Plan: %1</translation>
     </message>
     <message>
         <source>The map %1 has been closed by the GM</source>
@@ -949,11 +949,11 @@
     </message>
     <message>
         <source> (Picture)</source>
-        <translation type="vanished"> (Image)</translation>
+        <translation> (Image)</translation>
     </message>
     <message>
         <source>Receiving picture: %1</source>
-        <translation type="vanished">Réception Image: %1</translation>
+        <translation>Réception Image: %1</translation>
     </message>
     <message>
         <source>Picture &quot;%1&quot; has been closed</source>
@@ -973,11 +973,11 @@
     </message>
     <message>
         <source>&amp;New empty Map</source>
-        <translation type="vanished">&amp;Nouveau Plan Vide</translation>
+        <translation>&amp;Nouveau Plan Vide</translation>
     </message>
     <message>
         <source>Open Map…</source>
-        <translation type="vanished">Ouvrir Plan…</translation>
+        <translation>Ouvrir Plan…</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="212"/>
@@ -986,11 +986,11 @@
     </message>
     <message>
         <source>Minutes Editor</source>
-        <translation type="vanished">Editeur de notes</translation>
+        <translation>Editeur de notes</translation>
     </message>
     <message>
         <source>healthy</source>
-        <translation type="vanished">Sain</translation>
+        <translation>Sain</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1309"/>
@@ -999,23 +999,23 @@
     </message>
     <message>
         <source>lightly wounded</source>
-        <translation type="vanished">légèrement blessé</translation>
+        <translation>légèrement blessé</translation>
     </message>
     <message>
         <source>seriously injured</source>
-        <translation type="vanished">gravement blessé</translation>
+        <translation>gravement blessé</translation>
     </message>
     <message>
         <source>Dead</source>
-        <translation type="vanished">Mort</translation>
+        <translation>Mort</translation>
     </message>
     <message>
         <source>Sleeping</source>
-        <translation type="vanished">Dormant</translation>
+        <translation>Dormant</translation>
     </message>
     <message>
         <source>Bewitched</source>
-        <translation type="vanished">Ensorcelé</translation>
+        <translation>Ensorcelé</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1881"/>
@@ -1054,11 +1054,11 @@
     </message>
     <message>
         <source>Events</source>
-        <translation type="vanished">Évènements</translation>
+        <translation>Évènements</translation>
     </message>
     <message>
         <source>File</source>
-        <translation type="vanished">Fichier</translation>
+        <translation>Fichier</translation>
     </message>
     <message>
         <source>New empty Map</source>
@@ -1091,7 +1091,7 @@
     </message>
     <message>
         <source>Close Map/Picture</source>
-        <translation type="vanished">Fermer Plan/Image</translation>
+        <translation>Fermer Plan/Image</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="782"/>
@@ -1100,11 +1100,11 @@
     </message>
     <message>
         <source>Save scenario</source>
-        <translation type="vanished">Sauvegarder Scénario</translation>
+        <translation>Sauvegarder Scénario</translation>
     </message>
     <message>
         <source>Save Minutes</source>
-        <translation type="vanished">Sauvegarder Notes</translation>
+        <translation>Sauvegarder Notes</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="14"/>
@@ -1368,27 +1368,27 @@
     </message>
     <message>
         <source>Reconnection</source>
-        <translation type="vanished">Reconnexion</translation>
+        <translation>Reconnexion</translation>
     </message>
     <message>
         <source>Disconnect</source>
-        <translation type="vanished">Déconnecter</translation>
+        <translation>Déconnecter</translation>
     </message>
     <message>
         <source>View</source>
-        <translation type="vanished">Affichage</translation>
+        <translation>Affichage</translation>
     </message>
     <message>
         <source>Display PC names</source>
-        <translation type="vanished">Afficher le nom des PJ</translation>
+        <translation>Afficher le nom des PJ</translation>
     </message>
     <message>
         <source>Display NPC names</source>
-        <translation type="vanished">Afficher le nom des PNJ</translation>
+        <translation>Afficher le nom des PNJ</translation>
     </message>
     <message>
         <source>Display NPC number</source>
-        <translation type="vanished">Afficher le numéro des PNJ</translation>
+        <translation>Afficher le numéro des PNJ</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="70"/>
@@ -1402,7 +1402,7 @@
     </message>
     <message>
         <source>Tabs</source>
-        <translation type="vanished">Onglets</translation>
+        <translation>Onglets</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="220"/>
@@ -1417,11 +1417,11 @@
     </message>
     <message>
         <source>Help about %1</source>
-        <translation type="vanished">Aide à propos de %1</translation>
+        <translation>Aide à propos de %1</translation>
     </message>
     <message>
         <source>About %1</source>
-        <translation type="vanished">À propos de %1</translation>
+        <translation>À propos de %1</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="144"/>
@@ -1430,7 +1430,7 @@
     </message>
     <message>
         <source>Compressing image goes wrong (ouvrirPlan - MainWindow.cpp)</source>
-        <translation type="vanished">La compression de l&apos;image a échoué (ouvrirPlan--MainWindow.cpp)</translation>
+        <translation>La compression de l&apos;image a échoué (ouvrirPlan--MainWindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="932"/>
@@ -1440,7 +1440,7 @@
     </message>
     <message>
         <source>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam makes easy the management of any role playing games. It allows players to communicate to each others and to share maps and pictures.Rolisteam also provides many features for : permission management, background music and dice roll. Rolisteam is written in Qt4.Its dependencies are : Qt4 and Phonon.&lt;/p&gt;</source>
-        <translation type="vanished">&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam facilite la maîtrise de n&apos;importe quel jeu de rôle. Il permet aux joueurs de communiquer entre eux et de partager des images et des cartes. Il gère aussi différents niveau de persmission, la musique de fond et les lancers de dés. Rolisteam est écrit en Qt4. Ses dépendances sont : Qt4 et Phonon.&lt;/p&gt;</translation>
+        <translation>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam facilite la maîtrise de n&apos;importe quel jeu de rôle. Il permet aux joueurs de communiquer entre eux et de partager des images et des cartes. Il gère aussi différents niveau de persmission, la musique de fond et les lancers de dés. Rolisteam est écrit en Qt4. Ses dépendances sont : Qt4 et Phonon.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="113"/>
@@ -1486,23 +1486,23 @@ Port:%2</translation>
     </message>
     <message>
         <source>New map: %1</source>
-        <translation type="vanished">Nouveau Plan: %1</translation>
+        <translation>Nouveau Plan: %1</translation>
     </message>
     <message>
         <source>Receiving map: %1</source>
-        <translation type="vanished">réception Plan: %1</translation>
+        <translation>réception Plan: %1</translation>
     </message>
     <message>
         <source>Extract original background information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="vanished">Extraction du background original a échoué (processMapMessage - mainwindow.cpp) </translation>
+        <translation>Extraction du background original a échoué (processMapMessage - mainwindow.cpp) </translation>
     </message>
     <message>
         <source>Extract background information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="vanished">Extraction du background a échoué (processMapMessage - mainwindow.cpp)</translation>
+        <translation>Extraction du background a échoué (processMapMessage - mainwindow.cpp)</translation>
     </message>
     <message>
         <source>Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="vanished">Extraction de la couche alpha a échoué (processMapMessage - mainwindow.cpp)</translation>
+        <translation>Extraction de la couche alpha a échoué (processMapMessage - mainwindow.cpp)</translation>
     </message>
     <message>
         <source>Open and Hide Map</source>
@@ -1514,15 +1514,15 @@ Port:%2</translation>
     </message>
     <message>
         <source>Loading error</source>
-        <translation type="vanished">Erreur de chargement</translation>
+        <translation>Erreur de chargement</translation>
     </message>
     <message>
         <source>Unsupported file format</source>
-        <translation type="vanished">Format de fichier non supporté</translation>
+        <translation>Format de fichier non supporté</translation>
     </message>
     <message>
         <source>Picture (*.jpg *.jpeg *.png *.bmp)</source>
-        <translation type="vanished">Image (*.jpg *.jpeg *.png *.bmp)</translation>
+        <translation>Image (*.jpg *.jpeg *.png *.bmp)</translation>
     </message>
     <message>
         <source>Do you want to close this map?
@@ -1538,7 +1538,7 @@ Elle sera fermée pour tout le monde</translation>
     </message>
     <message>
         <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;&lt;h3&gt;Site Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Official de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Anciens developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;&lt;h3&gt;Site Web :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Official de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Anciens developpeurs :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;http://code.google.com/p/rolisteam/issues/list&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.renaudguezennec.eu/accueil,3.html&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
@@ -1551,7 +1551,7 @@ Elle sera fermée pour tout le monde</translation>
     </message>
     <message>
         <source> (Picture)</source>
-        <translation type="vanished"> (Image)</translation>
+        <translation> (Image)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="244"/>
@@ -2407,7 +2407,7 @@ Il sera fermé pour tout le monde</translation>
     </message>
     <message>
         <source>Audio files (*.wav *.mp2 *.mp3 *.ogg *.flac)</source>
-        <translation type="vanished">Fichier audio (*.wav *.mp2 *.mp3 *.ogg *.flac)</translation>
+        <translation>Fichier audio (*.wav *.mp2 *.mp3 *.ogg *.flac)</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="259"/>
@@ -2464,7 +2464,7 @@ Il sera fermé pour tout le monde</translation>
     <name>PlayersListWidget</name>
     <message>
         <source>Player</source>
-        <translation type="vanished">Joueur</translation>
+        <translation>Joueur</translation>
     </message>
     <message>
         <location filename="../src/userlist/playersListWidget.cpp" line="214"/>
@@ -2645,23 +2645,23 @@ Il sera fermé pour tout le monde</translation>
     </message>
     <message>
         <source>Image Format : %1 value %2</source>
-        <translation type="vanished">Format d&apos;image: %1 valeur %2 </translation>
+        <translation>Format d&apos;image: %1 valeur %2 </translation>
     </message>
     <message>
         <source>Supported Image Formats:</source>
-        <translation type="vanished">Formats d&apos;images supportés:</translation>
+        <translation>Formats d&apos;images supportés:</translation>
     </message>
     <message>
         <source>End of Image Format</source>
-        <translation type="vanished">Fin des formats d&apos;images</translation>
+        <translation>Fin des formats d&apos;images</translation>
     </message>
     <message>
         <source>Font families:</source>
-        <translation type="vanished">Les familles de Police de charactères:</translation>
+        <translation>Les familles de Police de charactères:</translation>
     </message>
     <message>
         <source>End of Font families:</source>
-        <translation type="vanished">Fin des familles de Police de charactères:</translation>
+        <translation>Fin des familles de Police de charactères:</translation>
     </message>
 </context>
 <context>
@@ -2692,7 +2692,7 @@ Il sera fermé pour tout le monde</translation>
     </message>
     <message>
         <source>Diagnotic</source>
-        <translation type="vanished">Diagnostique</translation>
+        <translation>Diagnostique</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="79"/>
@@ -2881,7 +2881,7 @@ Il sera fermé pour tout le monde</translation>
     </message>
     <message>
         <source>Default Permission:</source>
-        <translation type="vanished">Permissions des plans par défaut:</translation>
+        <translation>Permissions des plans par défaut:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="509"/>
@@ -3004,11 +3004,11 @@ Il sera fermé pour tout le monde</translation>
     </message>
     <message>
         <source>/maps</source>
-        <translation type="vanished">/plan</translation>
+        <translation>/plan</translation>
     </message>
     <message>
         <source>/minutes</source>
-        <translation type="vanished">/notes</translation>
+        <translation>/notes</translation>
     </message>
     <message>
         <location filename="../src/data/mediacontainer.cpp" line="47"/>
@@ -3112,39 +3112,39 @@ Il sera fermé pour tout le monde</translation>
     <name>SelecteurCouleur</name>
     <message>
         <source>Predefine color 1</source>
-        <translation type="vanished">Couleur Prédefinie 1</translation>
+        <translation>Couleur Prédefinie 1</translation>
     </message>
     <message>
         <source>Predefine color %1 </source>
-        <translation type="vanished">Couleur Prédefinie %1</translation>
+        <translation>Couleur Prédefinie %1</translation>
     </message>
     <message>
         <source>Custom Color %1 </source>
-        <translation type="vanished">Couleur Personnalisée %1</translation>
+        <translation>Couleur Personnalisée %1</translation>
     </message>
     <message>
         <source>Erase</source>
-        <translation type="vanished">Effacer</translation>
+        <translation>Effacer</translation>
     </message>
     <message>
         <source>Hide (GM only)</source>
-        <translation type="vanished">Cacher (Mj seulement)</translation>
+        <translation>Cacher (Mj seulement)</translation>
     </message>
     <message>
         <source>Unveil (GM only)</source>
-        <translation type="vanished">Dévoiler (Mj seulement)</translation>
+        <translation>Dévoiler (Mj seulement)</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation type="vanished">Cacher</translation>
+        <translation>Cacher</translation>
     </message>
     <message>
         <source>Unveil</source>
-        <translation type="vanished">Dévoiler</translation>
+        <translation>Dévoiler</translation>
     </message>
     <message>
         <source>Red: %1, Green: %2, Blue: %3</source>
-        <translation type="vanished">Rouge: %1, Vert: %2, Bleu: %3</translation>
+        <translation>Rouge: %1, Vert: %2, Bleu: %3</translation>
     </message>
     <message>
         <source>Red: %1, Green: %1, Blue: %1</source>
