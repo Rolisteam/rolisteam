@@ -21,7 +21,6 @@
 #include <QUrl>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-
 #include "ipchecker.h"
 
 IpChecker::IpChecker(QObject *parent) :
@@ -31,7 +30,6 @@ IpChecker::IpChecker(QObject *parent) :
 }
 void IpChecker::readText(QNetworkReply* p)
 {
-
     if(p->error()!=QNetworkReply::NoError)
     {
         m_ip = tr("Error to read server IP.");
@@ -41,14 +39,11 @@ void IpChecker::readText(QNetworkReply* p)
         m_ip = p->readAll();
         emit finished(m_ip);
     }
-
-
 }
 void IpChecker::startCheck()
 {
     m_manager = new QNetworkAccessManager(this);
     connect(m_manager, SIGNAL(finished(QNetworkReply*)),
              this, SLOT(readText(QNetworkReply*)));
-
      m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/ip.php")));
 }

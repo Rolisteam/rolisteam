@@ -26,19 +26,36 @@
 #include <QTcpSocket>
 #include <QNetworkAccessManager>
 
+/**
+ * @brief The IpChecker class is dedicated to reach http://www.rolisteam.org/ip.php to read the public ip.
+ */
 class IpChecker : public QObject
 {
     Q_OBJECT
 public:
+    /**
+     * @brief IpChecker
+     * @param parent
+     */
     explicit IpChecker(QObject *parent = 0);
     
 signals:
+    /**
+     * @brief finished
+     */
     void finished(QString);
 
 public slots:
+    /**
+     * @brief startCheck
+     */
     void startCheck();
 
 private slots:
+    /**
+     * @brief readText
+     * @param p
+     */
     void readText(QNetworkReply* p);
 
 private:

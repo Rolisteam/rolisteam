@@ -80,10 +80,10 @@ public :
      * @brief The MessageType enum
      */
     enum MessageType {Information,Notice,Warning,Error};
-	/**
-	*
-	*/
-    ~MainWindow();
+    /**
+     * @brief ~MainWindow
+     */
+    virtual ~MainWindow();
     /**
      * @brief getInstance
      * @return
