@@ -28,24 +28,50 @@
 /**
  * @brief A button to choose a color.
  */
-class ColorButton
-        : public QPushButton
+class ColorButton : public QPushButton
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief ColorButton
+     * @param parent
+     * @param transparency
+     */
     ColorButton(QWidget * parent, bool transparency=false);
+    /**
+     * @brief ColorButton
+     * @param color
+     * @param parent
+     */
     ColorButton(const QColor & color = QColor("tan"), QWidget * parent = NULL);
-
+    /**
+     * @brief color
+     * @return
+     */
     QColor color() const;
-
+    /**
+     * @brief sizeHint
+     * @return
+     */
     virtual QSize sizeHint() const;
+    /**
+     * @brief setTransparency
+     */
     void setTransparency(bool);
 
 signals:
+    /**
+     * @brief colorChanged
+     * @param color
+     */
     void colorChanged(const QColor & color);
 
 public slots:
+    /**
+     * @brief setColor
+     * @param color
+     */
     void setColor(const QColor & color);
 
 
