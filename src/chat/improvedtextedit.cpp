@@ -23,6 +23,7 @@
 
 #include <QRegularExpression>
 #include "chat/improvedtextedit.h"
+#include <QDebug>
 
 static const int MaxHistorySize = 100;
 
@@ -49,8 +50,14 @@ void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
                     m_history.removeFirst();
                 }
                 m_histPos = m_history.size();
-                text.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
-                text.replace(QRegularExpression("((?:www)\\S+)"), "<a href=\"http://\\1\">\\1</a>");
+
+                QString result = text;
+                QString result2 = text.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
+                Q_UNUSED(result2)
+                if(text==result)
+                {
+                    text.replace(QRegularExpression("((?:www)\\S+)"), "<a href=\"http://\\1\">\\1</a>");
+                }
                 emit textValidated(textHtml,text);
                 clear();
             }
