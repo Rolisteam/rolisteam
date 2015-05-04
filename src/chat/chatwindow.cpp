@@ -412,15 +412,14 @@ void ChatWindow::showMessage(const QString& user, const QColor& color, const QSt
     userSpan = userSpan.arg(user).arg(color.name());
 
     setUpdatesEnabled(false);
-    QString a = message;
-    int i =0;
+
     /*for(i = 100;i<message.size();i+=100)
     {
         int pos=message.indexOf(',',i);
         QString y = ",<br/>";
         a = a.replace(pos,1,y);
     }*/
-    m_displayZone->append(pattern.arg(userSpan).arg(a));
+    m_displayZone->append(pattern.arg(userSpan).arg(msg));
     setUpdatesEnabled(true);
     if (!m_editionZone->hasFocus() && !m_hasUnseenMessage)
     {
