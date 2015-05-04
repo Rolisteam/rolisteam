@@ -19,7 +19,7 @@ ChatBrowser::ChatBrowser(QWidget *parent) :
 
     setAcceptRichText(false);
     //setContextMenuPolicy(Qt::NoContextMenu);
-    setOpenLinks(false);
+    setOpenLinks(true);
     setReadOnly(true);
     setUndoRedoEnabled(false);
     setWordWrapMode(QTextOption::WrapAnywhere);
