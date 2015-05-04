@@ -39,15 +39,5 @@ typedef struct
     QColor color;
 } SelectedColor;
 
-/**
-  * @brief MsgHeader is used to store meta data for network message. It must disappear form the software in future release.
-  * @note Replaced by NetworkMessageHeader
-  */
-typedef struct
-{
-    quint8 categorie;				// Contient une categorie d'action
-    quint8 action;					// Contient l'action a effectuer
-	quint32 dataSize;			// Indique la taille des donnees suivant l'entete
-} MsgHeader;
 
 #endif
