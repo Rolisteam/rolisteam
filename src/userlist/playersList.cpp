@@ -145,7 +145,7 @@ QVariant PlayersList::headerData(int section, Qt::Orientation orientation, int r
 {
     Q_UNUSED(section);
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return QVariant("Liste des Joueurs");
+        return QVariant(tr("Players List"));
     return QVariant();
 }
 
@@ -419,7 +419,7 @@ void PlayersList::setLocalPlayer(Player * player)
     {
         if (m_playersList.size() > 0)
         {
-            qFatal("We have too many local players.");
+            return;
         }
         m_localPlayer=player;
         addPlayer(player);
@@ -536,7 +536,7 @@ void PlayersList::addPlayer(Player * player)
     QString uuid = player->uuid();
 
     if (m_uuidMap.contains(uuid))
-        qFatal("Uuid %s For this player already in use.", qPrintable(uuid));
+        return;
 
     beginInsertRows(QModelIndex(), size, size);
 
@@ -556,7 +556,7 @@ void PlayersList::addCharacter(Player * player, Character * character)
     QString uuid = character->uuid();
 
     if (m_uuidMap.contains(uuid))
-        qFatal("Uuid %s for this character already in use.", qPrintable(uuid));
+       return;
 
     beginInsertRows(createIndex(player), size, size);
 
