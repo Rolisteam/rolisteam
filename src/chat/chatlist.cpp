@@ -62,7 +62,9 @@ void BlinkingDecorationDelegate::timeOutCount()
 {
     m_red=!m_red;
 }
-
+////////////////////////////////
+// Code for ChatList class
+////////////////////////////////
 ChatList::ChatList(MainWindow * mainWindow)
     : QAbstractItemModel(NULL), m_chatWindowList(), m_chatMenu(),m_mainWindow(mainWindow)
 {
