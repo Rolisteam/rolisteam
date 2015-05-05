@@ -87,6 +87,11 @@ public:
     * @return the type
     */
     CleverURI::ContentType getType() const;
+    /**
+     * @brief operator ==
+     * @param uri1
+     * @return
+     */
     bool operator==(const CleverURI& uri1) const;
 
     /**
