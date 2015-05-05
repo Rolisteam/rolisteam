@@ -401,7 +401,6 @@ void ChatWindow::showMessage(const QString& user, const QColor& color, const QSt
     {
         pattern = "<i>%1 %2</i>";
     }
-
     else if(msgtype==NetMsg::DiceMessageAction)
     {
         pattern = "%1 %2";
@@ -413,12 +412,6 @@ void ChatWindow::showMessage(const QString& user, const QColor& color, const QSt
 
     setUpdatesEnabled(false);
 
-    /*for(i = 100;i<message.size();i+=100)
-    {
-        int pos=message.indexOf(',',i);
-        QString y = ",<br/>";
-        a = a.replace(pos,1,y);
-    }*/
     m_displayZone->append(pattern.arg(userSpan).arg(msg));
     setUpdatesEnabled(true);
     if (!m_editionZone->hasFocus() && !m_hasUnseenMessage)
