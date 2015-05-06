@@ -100,8 +100,8 @@ void ChatWindow::updateListAlias()
     {
         /*foreach(int id,m_receivedAlias->keys())
         {*/
-           // DiceAlias* dicealias = m_receivedAlias->value(id);
-            list->append(*m_receivedAlias);
+        // DiceAlias* dicealias = m_receivedAlias->value(id);
+        list->append(*m_receivedAlias);
         //}
     }
 }
@@ -305,51 +305,74 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
     foreach(int face, dice.keys())
     {
         QStringList result;
-           ListDiceResult diceResult =  dice.value(face);
-           bool previousHighlight=false;
-           QString patternColor("<span class=\"dice\">");
-           foreach (DiceAndHighlight tmp, diceResult)
-           {
-                QStringList diceListStr;
-                QStringList diceListChildren;
-                 if((previousHighlight)&&(!tmp.second))
+        QStringList currentStreak;
+        QList<QStringList> allStreakList;
+        ListDiceResult diceResult =  dice.value(face);
+        bool previousHighlight=false;
+        QString patternColor("<span class=\"dice\">");
+        foreach (DiceAndHighlight tmp, diceResult)
+        {
+            QStringList diceListStr;
+            if((previousHighlight)&&(!tmp.second))
+            {
+                QStringList list;
+                list << patternColor+currentStreak.join(',')+"</span>";
+                allStreakList.append(list);
+                currentStreak.clear();
+            }
+            else if((!previousHighlight)&&(tmp.second))
+            {
+                if(!currentStreak.isEmpty())
                 {
-                    result << patternColor << result.join(',') <<"</span>";
+                    QStringList list;
+                    list << currentStreak.join(',');
+                    allStreakList.append(list);
+                    currentStreak.clear();
                 }
-                 previousHighlight = tmp.second;
-                for(int i =0; i < tmp.first.size(); ++i)
-                {
-                    quint64 dievalue = tmp.first[i];
-                    if(i==0)
-                    {
-                        diceListStr << QString::number(dievalue);
-                    }
-                    else
-                    {
-                        diceListChildren << QString::number(dievalue);
-                    }
-                }
-                if(!diceListChildren.isEmpty())
-                {
-                    diceListStr << QString("[%1]").arg(diceListChildren.join(','));
-                }
+            }
+            previousHighlight = tmp.second;
+            for(int i =0; i < tmp.first.size(); ++i)
+            {
+                quint64 dievalue = tmp.first[i];
+                diceListStr << QString::number(dievalue);
+            }
+            if(diceListStr.size()>1)
+            {
+                QString first = diceListStr.takeFirst();
+                first = QString("%1 [%2]").arg(first).arg(diceListStr.join(','));
+                diceListStr.clear();
+                diceListStr << first;
+            }
+            currentStreak << diceListStr.join(' ');
+        }
 
-                result << diceListStr.join(' ');
-           }
-           if(previousHighlight)
-           {
-               QStringList list;
-               list << patternColor << result.join(',') << "</span>";
-               result = list;
-           }
-           if(dice.keys().size()>1)
-           {
-              resultGlobal << QString(" d%2:(%1)").arg(result.join("")).arg(face);
-           }
-           else
-           {
-               resultGlobal << result;
-           }
+        if(previousHighlight)
+        {
+            QStringList list;
+            list <<  patternColor+currentStreak.join(',')+"</span>";
+            allStreakList.append(list);
+        }
+        else
+        {
+            if(!currentStreak.isEmpty())
+            {
+                QStringList list;
+                list << currentStreak.join(',');
+                allStreakList.append(list);
+            }
+        }
+        foreach(QStringList a, allStreakList)
+        {
+            result << a;
+        }
+        if(dice.keys().size()>1)
+        {
+            resultGlobal << QString(" d%2:(%1)").arg(result.join(",")).arg(face);
+        }
+        else
+        {
+            resultGlobal << result.join(",");
+        }
     }
     return resultGlobal.join("");
 }
@@ -358,6 +381,7 @@ void ChatWindow::getMessageResult(QString& str)
 {
     QString scalarText;
     QString diceText;
+    QString diceOutput(tr("got <span class=\"dice\">%1</span> at your dice roll, [%3 (%2)]"));
     bool hasDiceList = false;
     if(m_diceParser->hasDiceResult())
     {
@@ -374,15 +398,13 @@ void ChatWindow::getMessageResult(QString& str)
     {
         scalarText = tr("%1").arg(m_diceParser->getSumOfDiceResult());
     }
-
-    QColor color = m_preferences->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>();
-    str = tr("got <span class=\"dice\">%1</span> at your dice roll, [%3 (%2)]").arg(scalarText).arg(diceText.trimmed()).arg(m_diceParser->getDiceCommand());
-
+    str = diceOutput.arg(scalarText).arg(diceText.trimmed()).arg(m_diceParser->getDiceCommand());
+    qDebug() << str;
     if(m_diceParser->hasStringResult())
     {
         str = m_diceParser->getStringResult().replace("\n","<br/>");
     }
-   // str += tr(", you rolled: %1").arg(m_diceParser->getDiceCommand());
+    // str += tr(", you rolled: %1").arg(m_diceParser->getDiceCommand());
 }
 
 QAction * ChatWindow::toggleViewAction() const
