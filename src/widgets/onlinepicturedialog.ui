@@ -41,7 +41,7 @@
          <item>
           <widget class="QLineEdit" name="m_urlField">
            <property name="text">
-            <string>http://www.l5r.com/files/images/ParagonsofBushido.jpg</string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -83,7 +83,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>9</y>
         <width>370</width>
         <height>241</height>
        </rect>
