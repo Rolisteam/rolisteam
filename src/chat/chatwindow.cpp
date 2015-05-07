@@ -381,7 +381,8 @@ void ChatWindow::getMessageResult(QString& str)
 {
     QString scalarText;
     QString diceText;
-    QString diceOutput(tr("got <span class=\"dice\">%1</span> at your dice roll, [%3 (%2)]"));
+    QString pattern("<span class=\"dice\">");
+    QString diceOutput(tr("got %1%2</span> at your dice roll, [%4 (%3)]"));
     bool hasDiceList = false;
     if(m_diceParser->hasDiceResult())
     {
@@ -398,8 +399,7 @@ void ChatWindow::getMessageResult(QString& str)
     {
         scalarText = tr("%1").arg(m_diceParser->getSumOfDiceResult());
     }
-    str = diceOutput.arg(scalarText).arg(diceText.trimmed()).arg(m_diceParser->getDiceCommand());
-    qDebug() << str;
+    str = diceOutput.arg(pattern).arg(scalarText).arg(diceText.trimmed()).arg(m_diceParser->getDiceCommand());
     if(m_diceParser->hasStringResult())
     {
         str = m_diceParser->getStringResult().replace("\n","<br/>");
