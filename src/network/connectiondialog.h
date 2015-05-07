@@ -40,45 +40,82 @@ class ConnectionConfigDialog : public QDialog
 {
     Q_OBJECT
 
-    public:
-        ConnectionConfigDialog(QWidget* parent  = NULL);
-        ~ConnectionConfigDialog();
+public:
+    /**
+     * @brief ConnectionConfigDialog
+     * @param parent
+     */
+    ConnectionConfigDialog(QWidget* parent  = NULL);
+    /**
+     * @brief ~ConnectionConfigDialog
+     */
+    virtual ~ConnectionConfigDialog();
 
-        /**
-         * @brief set default values.
-         * @param name player's name.
-         * @param color player's color.
-         * @param master set to true if the player is the GM.
-         * @param host hostname or address (useless for server).
-         * @param port port number.
-         * @param server set to true if it connects as server.
-         */
-        ConnectionConfigDialog(QWidget* parent,const QString & name, const QColor & color, bool master = false,
-                const QString & host = QString(""), quint16 port = 6660, bool server = false);
+    /**
+     * @brief set default values.
+     * @param name player's name.
+     * @param color player's color.
+     * @param master set to true if the player is the GM.
+     * @param host hostname or address (useless for server).
+     * @param port port number.
+     * @param server set to true if it connects as server.
+     */
+    ConnectionConfigDialog(QWidget* parent,const QString & name, const QColor & color, bool master = false,
+            const QString & host = QString(""), quint16 port = 6660, bool server = false);
+
+    /**
+     * @brief getName
+     * @return
+     */
+    QString getName()  const;
+    /**
+     * @brief getColor
+     * @return
+     */
+    QColor  getColor() const;
+    /**
+     * @brief isGM
+     * @return
+     */
+    bool    isGM()     const;
+    /**
+     * @brief getHost
+     * @return
+     */
+    QString getHost()  const;
+    /**
+     * @brief getPort
+     * @return
+     */
+    quint16 getPort()  const;
+    /**
+     * @brief isServer
+     * @return
+     */
+    bool    isServer() const;
+
+private slots:
+    /**
+     * @brief changeConnectionType
+     * @param state
+     */
+    void changeConnectionType(int state);
+
+private:
+    /**
+     * @brief setUI
+     */
+    void setUI();
+
+    QLineEdit   * m_name;
+    ColorButton * m_color;
+    QCheckBox   * m_gm;
+    QLabel      * m_hostLabel;
+    QLineEdit   * m_host;
+    QSpinBox    * m_port;
+    QCheckBox   * m_server;
 
 
-        QString getName()  const;
-        QColor  getColor() const;
-        bool    isGM()     const;
-
-        QString getHost()  const;
-        quint16 getPort()  const;
-        bool    isServer() const;
-
-
-    private:
-        void setUI();
-
-        QLineEdit   * m_name;
-        ColorButton * m_color;
-        QCheckBox   * m_gm;
-        QLabel      * m_hostLabel;
-        QLineEdit   * m_host;
-        QSpinBox    * m_port;
-        QCheckBox   * m_server;
-
-    private slots:
-        void changeConnectionType(int state);
 };
 
 
@@ -91,40 +128,60 @@ class ConnectionWaitDialog
 {
     Q_OBJECT
 
-    public:
-        ConnectionWaitDialog();
-        ~ConnectionWaitDialog();
+public:
+    /**
+     * @brief ConnectionWaitDialog
+     */
+    ConnectionWaitDialog();
+    /**
+     * @brief ~ConnectionWaitDialog
+     */
+    virtual ~ConnectionWaitDialog();
 
-        /**
-         * @brief Return message of the last socket error.
-         * Null QString if no error (for example on user's abort).
-         */
-        QString getError() const;
+    /**
+     * @brief Return message of the last socket error.
+     * Null QString if no error (for example on user's abort).
+     */
+    QString getError() const;
 
-    public slots:
+public slots:
 
-        /**
-         * @brief Exec this dialog with the given parameters.
-         * @param host hostname or address to connect to.
-         * @param port TCP port to connect to.
-         * @return a connected QTcpSocket on success, NULL otherwise.
-         */
-        QTcpSocket * connectTo(const QString & host, quint16 port);
+    /**
+     * @brief Exec this dialog with the given parameters.
+     * @param host hostname or address to connect to.
+     * @param port TCP port to connect to.
+     * @return a connected QTcpSocket on success, NULL otherwise.
+     */
+    QTcpSocket * connectTo(const QString & host, quint16 port);
 
-    private:
-        QLabel       * m_label;
+private slots:
+    /**
+     * @brief changeState
+     * @param socketState
+     */
+    void changeState(QAbstractSocket::SocketState socketState);
+    /**
+     * @brief socketError
+     * @param socketError
+     */
+    void socketError(QAbstractSocket::SocketError socketError);
+    /**
+     * @brief canceledConnection
+     */
+    void canceledConnection();
+private:
+    /**
+     * @brief setUI
+     */
+    void setUI();
 
-        QTcpSocket * m_socket;
-        QString      m_error;
+private:
+    QLabel       * m_label;
+    QTcpSocket * m_socket;
+    QString      m_error;
+    QStringList m_msg;
 
-        QStringList m_msg;
 
-        void setUI();
-
-    private slots:
-        void changeState(QAbstractSocket::SocketState socketState);
-        void socketError(QAbstractSocket::SocketError socketError);
-        void canceledConnection();
 };
 
 #endif
