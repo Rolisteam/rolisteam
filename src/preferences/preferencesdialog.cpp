@@ -127,7 +127,9 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 {
     ui->setupUi(this);
 
-    ui->m_defaultMapModeCombo->addItems(NewEmptyMapDialog::getPermissionData());
+    NewEmptyMapDialog dialog;
+
+    ui->m_defaultMapModeCombo->addItems(dialog.getPermissionData());
 
 
     m_preferences = PreferencesManager::getInstance();
@@ -539,9 +541,10 @@ void PreferencesDialog::performDiag()
                         << "audio/x-wav"
                         << "audio/wav"
                         << "audio/webm"
-                        << "audio/flac";
+                        << "audio/flac";//
     foreach (const QString &type, commonAudioMimeType)
     {
+        qDebug() << type;
         switch (QMediaPlayer::hasSupport(type))
         {
         case QMultimedia::NotSupported:
