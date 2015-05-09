@@ -25,7 +25,7 @@
 
 #include "preferences/preferencesmanager.h"
 
-QStringList  NewEmptyMapDialog::m_permissionData = QStringList() ;
+//QStringList  NewEmptyMapDialog::m_permissionData = QStringList() ;
 
 NewEmptyMapDialog::NewEmptyMapDialog(QWidget *parent) :
     QDialog(parent),
