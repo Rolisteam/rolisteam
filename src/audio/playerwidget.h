@@ -49,7 +49,7 @@ public:
     /**
      * @brief startMedia
      */
-    void startMedia(QMediaContent*,QString title = QString());
+    void startMedia(QMediaContent*,QString title = QString(),bool play = true);
     /**
      * @brief updateUi
      */
@@ -103,12 +103,21 @@ public slots:
      * @brief errorOccurs
      */
     void errorOccurs(QMediaPlayer::Error);
+    void playSelectedSong();
 protected:
     /**
          * @brief contextMenuEvent
          * @param ev
          */
         void contextMenuEvent(QContextMenuEvent* ev);
+protected slots:
+        /**
+         * @brief setCurrentFile
+         * @param current
+         * @param previous
+         */
+        virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
+
 private:
     /**
      * @brief setupUi
@@ -215,6 +224,7 @@ private slots:
      * @brief openStream
      */
     void openStream();
+
 
 signals:
     /**

@@ -45,7 +45,7 @@ PlayerWidget::PlayerWidget(int id, QWidget* parent)
     updateUi();
 }
 
-void PlayerWidget::startMedia(QMediaContent* p,QString title)
+void PlayerWidget::startMedia(QMediaContent* p,QString title,bool play)
 {
     m_content = p;
     m_player.setMedia(*m_content);
@@ -58,8 +58,10 @@ void PlayerWidget::startMedia(QMediaContent* p,QString title)
     {
         m_ui->m_label->setText(title);
     }
-
-    m_player.play();
+    if(play)
+    {
+        m_player.play();
+    }
 }
 void PlayerWidget::setDuration(qint64 duration)
 {
@@ -201,7 +203,9 @@ void PlayerWidget::setupUi()
     updateIcon();
     connect(&m_player,SIGNAL(positionChanged(qint64)),this,SLOT(positionChanged(qint64)));
     connect(&m_player,SIGNAL(durationChanged(qint64)),this,SLOT(setDuration(qint64)));
-    connect(m_playAct,SIGNAL(triggered()),&m_player,SLOT(play()));
+   // connect(m_playAct,SIGNAL(triggered()),&m_player,SLOT(play()));
+    connect(m_playAct,SIGNAL(triggered()),this,SLOT(playSelectedSong()));
+
     connect(m_stopAct,SIGNAL(triggered()),&m_player,SLOT(stop()));
     connect(m_pauseAct,SIGNAL(triggered()),&m_player,SLOT(pause()));
     connect(m_ui->m_timeSlider,SIGNAL(sliderMoved(int)),this,SLOT(setTime(int)));
@@ -239,7 +243,27 @@ void PlayerWidget::removeFile()
     QModelIndexList list = m_ui->m_songList->selectionModel()->selectedIndexes();
     m_model->removeSong(list);
 }
-
+void PlayerWidget::currentChanged(const QModelIndex& current, const QModelIndex& previous)
+{
+    qDebug() << current << m_player.mediaStatus();
+    if((current.isValid())&&(m_player.mediaStatus() == QMediaPlayer::NoMedia))
+    {
+            startMedia(m_model->getMediaByModelIndex(current),current.data().toString(),false);
+    }
+}
+void PlayerWidget::playSelectedSong()
+{
+    QModelIndex current = m_ui->m_songList->currentIndex();
+    qDebug() << "playSelected Song"<< current << m_player.mediaStatus();
+    if((current.isValid())&&((m_player.mediaStatus() == QMediaPlayer::NoMedia)||(m_player.mediaStatus()==QMediaPlayer::EndOfMedia)||(m_player.state()==QMediaPlayer::StoppedState)))
+    {
+            startMedia(m_model->getMediaByModelIndex(current),current.data().toString());
+    }
+    else
+    {
+        m_player.play();
+    }
+}
 void PlayerWidget::addSongIntoModel(QString str)
 {
     QStringList songs;
