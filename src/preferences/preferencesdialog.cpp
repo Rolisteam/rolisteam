@@ -344,6 +344,11 @@ void PreferencesDialog::initializeStyle()
     foreach (RolisteamTheme* theme, m_themes)
     {
         ui->m_themeComboBox->addItem(theme->getName());
+        if(!theme->isRemovable())
+        {
+            ui->m_themeComboBox->setItemIcon(ui->m_themeComboBox->count()-1,QIcon(":/resources/icons/lock.png"));
+        }
+
     }
     ui->m_styleCombo->clear();
     ui->m_styleCombo->addItems(QStyleFactory::keys());
