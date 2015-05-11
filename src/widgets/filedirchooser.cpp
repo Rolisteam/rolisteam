@@ -101,5 +101,6 @@ void FileDirChooser::browse()
     if (!result.isEmpty())
     {
         m_lineEdit->setText(result);
+        emit pathChanged();
     }
 }

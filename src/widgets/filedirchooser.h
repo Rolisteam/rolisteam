@@ -34,8 +34,6 @@
 class FileDirChooser : public QWidget
 {
     Q_OBJECT
-
-
 public:
     /**
      * @brief FileDirChooser
@@ -69,6 +67,12 @@ public:
      * @param isDirectory
      */
     void setMode(bool isDirectory);
+
+signals:
+    /**
+     * @brief pathChanged
+     */
+    void pathChanged();
 
 
 private slots:
