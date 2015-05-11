@@ -39,9 +39,9 @@
 #include "variablesGlobales.h"
 
 /**
-* @mainpage Rolisteam Documentation
+* @mainpage Rolisteam
 *
-* @author Renaud Guezennec
+* @section @author Renaud Guezennec
 *
 *  @section intro_sec Introduction
 * Rolisteam help you to manage role playing games with your friend all over the world.<br/>
@@ -155,7 +155,6 @@ int main(int argc, char *argv[])
     QString file = map.value("currentTranslationFile","").toString();
     if(!file.isEmpty())
     {
-        qDebug() << file<< "current translation file";
         QTranslator* currentTranslator = new QTranslator();
         currentTranslator->load(file);
         app.installTranslator(currentTranslator);
