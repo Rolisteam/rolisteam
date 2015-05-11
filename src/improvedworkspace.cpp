@@ -111,6 +111,21 @@ void ImprovedWorkspace::updateBackGround()
         y = m_variableSizeBackground.height()-h;
         break;
     case Scaled:
+    {
+        qreal rd=(qreal)w/(qreal)h;
+        if(rd>1)
+        {
+            w=m_variableSizeBackground.width();
+            h=w/rd;
+        }
+        else
+        {
+            h=m_variableSizeBackground.height();
+            w=h/rd;
+        }
+        x = m_variableSizeBackground.width()/2-w/2;
+        y = m_variableSizeBackground.height()/2-h/2;
+    }
         break;
     case Filled:
         w = m_variableSizeBackground.width();
@@ -120,6 +135,7 @@ void ImprovedWorkspace::updateBackGround()
 
     painter.drawPixmap(x,y,w,h,*m_backgroundPicture);
     setBackground(QBrush(m_variableSizeBackground));
+    update();
 }
 
 void ImprovedWorkspace::resizeEvent ( QResizeEvent * event )
