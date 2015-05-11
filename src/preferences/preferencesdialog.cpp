@@ -128,9 +128,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     ui->setupUi(this);
 
     NewEmptyMapDialog dialog;
-
     ui->m_defaultMapModeCombo->addItems(dialog.getPermissionData());
-
 
     m_preferences = PreferencesManager::getInstance();
 
@@ -151,11 +149,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     horizontalHeader = ui->m_paletteTableView->horizontalHeader();
     horizontalHeader->setSectionResizeMode(0,QHeaderView::Stretch);
 
-
     connect(this, SIGNAL(accepted()), this, SLOT(save()));
-
-    connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
-    connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(applyBackground()));
 
     connect(ui->m_startDiag,SIGNAL(clicked()),this,SLOT(performDiag()));
     //ui->m_fogColor->setTransparency(true);
@@ -178,6 +172,11 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     m_preferences->registerListener("isPlayer",m_aliasModel);
     m_aliasModel->setGM(!m_preferences->value("isPlayer",false).toBool());
 
+
+    // background
+    connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
+    connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(applyBackground()));
+    connect(ui->m_backgroundImage,SIGNAL(pathChanged()),this,SLOT(applyBackground()));
 
     //themes
     connect(ui->m_copyThemeButton,SIGNAL(clicked()),this,SLOT(dupplicateTheme()));
@@ -236,13 +235,8 @@ void PreferencesDialog::load()
 
     //theme
     //initializeStyle();
-
-    //ui->m_bgColorPush->setColor(m_preferences->value("BackGroundColor",QColor(191,191,191)).value<QColor>());
-    //ui->m_backgroundImage->setPath(m_preferences->value("PathOfBackgroundImage",":/resources/icons/workspacebackground.bmp").toString());
     ui->m_backgroundImage->setMode(false);
     ui->m_backgroundImage->setFilter(tr("Images (*.png *.xpm *.jpg *.gif *.bmp)"));
-    //Positioning Bg
-    //ui->m_positioningComboBox->setCurrentIndex(m_preferences->value("BackGroundPositioning",0).value<int>());
 
     //DiceSystem
     if(firstLoad)
@@ -266,7 +260,6 @@ void PreferencesDialog::load()
         }
     }
     firstLoad=false;
-
     updateTheme();
 }
 void PreferencesDialog::editColor(QModelIndex index)
@@ -283,7 +276,6 @@ void PreferencesDialog::editColor(QModelIndex index)
             qApp->setPalette(theme->getPalette());
         }
     }
-
 }
 
 void PreferencesDialog::initializeStyle()
@@ -380,6 +372,7 @@ void PreferencesDialog::updateTheme()
         qApp->setPalette(theme->getPalette());
         applyBackground();
     }
+
 }
 void PreferencesDialog::setStyle()
 {
@@ -387,28 +380,27 @@ void PreferencesDialog::setStyle()
     if((i>=0)&&(i<m_themes.size()))
     {
         RolisteamTheme* theme = m_themes.at(i);
-        if(theme->isRemovable())
-        {
-            theme->setStyle(QStyleFactory::create(ui->m_styleCombo->currentText()));
-            qApp->setStyle(theme->getStyle());
-        }
+        theme->setStyle(QStyleFactory::create(ui->m_styleCombo->currentText()));
+        qApp->setStyle(theme->getStyle());
     }
 }
 void PreferencesDialog::editCss()
 {
-    int i = ui->m_themeComboBox->currentIndex();
-    if((i>=0)&&(i<m_themes.size()))
-    {
-        RolisteamTheme* theme = m_themes.at(i);
-        bool ok=false;
-        QString text = QInputDialog::getMultiLineText(this, tr("Css Editor"),tr("Css"), theme->getCss(),&ok);
-        if((ok)&&(theme->isRemovable()))
-        {
-            theme->setCss(text);
-            qApp->setStyleSheet(theme->getCss());
-        }
+    RolisteamTheme* theme =getCurrentRemovableTheme();
 
+    if(NULL==theme)
+    {
+        return;
     }
+    bool ok=false;
+    QString text = QInputDialog::getMultiLineText(this, tr("Css Editor"),tr("Css"), theme->getCss(),&ok);
+    if((ok)&&(theme->isRemovable()))
+    {
+        theme->setCss(text);
+        qApp->setStyleSheet(theme->getCss());
+    }
+
+
 }
 
 void PreferencesDialog::dupplicateTheme()
@@ -424,19 +416,27 @@ void PreferencesDialog::dupplicateTheme()
         m_themes.append(newTheme);
         ui->m_themeComboBox->setCurrentIndex(m_themes.size()-1);
     }
+
 }
 void PreferencesDialog::setTitleAtCurrentTheme()
 {
-    int i = ui->m_themeComboBox->currentIndex();
-    if((i>=0)&&(i<m_themes.size()))
+    RolisteamTheme* theme =getCurrentRemovableTheme();
+
+    if(NULL==theme)
     {
-        RolisteamTheme* theme = m_themes.at(i);
-        if(theme->isRemovable())
-        {
-            theme->setName(ui->m_themeNameLineEdit->text());
-            ui->m_themeComboBox->setItemText(i,theme->getName());
-        }
+        return;
     }
+    if(!theme->isRemovable())
+    {
+        dupplicateTheme();
+    }
+    if(theme->isRemovable())
+    {
+        theme->setName(ui->m_themeNameLineEdit->text());
+        int i = ui->m_themeComboBox->currentIndex();
+        ui->m_themeComboBox->setItemText(i,theme->getName());
+    }
+
 }
 
 void PreferencesDialog::save() const
@@ -456,16 +456,9 @@ void PreferencesDialog::save() const
     int opacity=ui->m_opacitySlider->value();
     color.setRgb(opacity,opacity,opacity);
     m_preferences->registerValue("Fog_color", color);
-
     m_preferences->registerValue("Mask_color", ui->m_fogColor->color());
     m_preferences->registerValue("PictureAdjust",ui->m_pictureAdjust->isChecked());
-
     m_preferences->registerValue("FullScreenAtStarting",ui->m_fullScreenCheckbox->isChecked());
-
-    //Background
-    /* m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
-    m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
-    m_preferences->registerValue("BackGroundPositioning",ui->m_positioningComboBox->currentIndex());*/
 
     //theme
     m_preferences->registerValue("currentTheme", ui->m_themeComboBox->currentText());
@@ -615,14 +608,16 @@ void PreferencesDialog::applyBackground()
     if((i>=0)&&(i<m_themes.size()))
     {
         RolisteamTheme* theme = m_themes.at(i);
+
         theme->setBackgroundColor(ui->m_bgColorPush->color());
         theme->setBackgroundPosition(ui->m_positioningComboBox->currentIndex());
         theme->setBackgroundImage(ui->m_backgroundImage->path());
-    }
 
-    m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
-    m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
-    m_preferences->registerValue("BackGroundPositioning",ui->m_positioningComboBox->currentIndex());
+
+        m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
+        m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
+        m_preferences->registerValue("BackGroundPositioning",ui->m_positioningComboBox->currentIndex());
+    }
 }
 void PreferencesDialog::sendOffAllDiceAlias(NetworkLink* link)
 {
@@ -684,6 +679,27 @@ bool PreferencesDialog::importTheme()
         return true;
     }
 }
+RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme()
+{
+    int i = ui->m_themeComboBox->currentIndex();
+    if((i>=0)&&(i<m_themes.size()))
+    {
+        RolisteamTheme* theme = m_themes.at(i);
+        if(!theme->isRemovable())
+        {
+            dupplicateTheme();
+        }
+        i = ui->m_themeComboBox->currentIndex();
+        if(i>0)
+        {
+            theme = m_themes.at(i);
+        }
+        return theme;
+    }
+    else
+        return NULL;
+}
+
 void PreferencesDialog::deleteTheme()
 {
     int i = ui->m_themeComboBox->currentIndex();

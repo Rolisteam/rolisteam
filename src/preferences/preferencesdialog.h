@@ -172,6 +172,9 @@ private slots:
     void deleteTheme();
 
 private:
+    RolisteamTheme* getCurrentRemovableTheme();
+
+private:
     PreferencesManager* m_preferences;
     Ui::PreferencesDialogBox* ui;
 	DiceParser* m_diceParser;
