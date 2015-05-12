@@ -26,7 +26,7 @@
 #include <QTcpSocket>
 #include <QNetworkAccessManager>
 /**
- * @brief The UpdateChecker class
+ * @brief The UpdateChecker class is dedicated to check if there is new release of rolisteam.
  */
 class UpdateChecker : public QObject
 {

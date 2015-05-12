@@ -29,7 +29,8 @@ namespace Ui {
 class OnlinePictureDialog;
 }
 /**
- * @brief The OnlinePictureDialog class
+ * @brief The OnlinePictureDialog class is dedicated to download image from the Internet. The user copies/pastes the url, then the download starts. A preview of the image shows the image to the user.
+ * If the user valids the picture is added in rolisteam. otherwise, the image is dropped.
  */
 class OnlinePictureDialog : public QDialog
 {

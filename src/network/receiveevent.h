@@ -33,7 +33,7 @@
 
 class NetworkLink;
 /**
- * @brief The ReceiveEvent class
+ * @brief The ReceiveEvent class is an QEvent posted to the appplication to notify network message arrival.
  */
 class ReceiveEvent : public QEvent
 {

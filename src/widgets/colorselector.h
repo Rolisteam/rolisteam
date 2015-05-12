@@ -144,7 +144,6 @@ private:
     bool m_pressedButton;
     PreferencesManager* m_preferences;
 
-
 };
 
 #endif
