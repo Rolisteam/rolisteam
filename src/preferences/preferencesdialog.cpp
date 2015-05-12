@@ -182,8 +182,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_copyThemeButton,SIGNAL(clicked()),this,SLOT(dupplicateTheme()));
     connect(ui->m_themeNameLineEdit,SIGNAL(textEdited(QString)),this,SLOT(setTitleAtCurrentTheme()));
 
-    connect(ui->m_themeComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(updateTheme()));
-    connect(ui->m_styleCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(setStyle()));
+
     connect(ui->m_paletteTableView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editColor(QModelIndex)));
     connect(ui->m_cssEdit,SIGNAL(clicked()),this,SLOT(editCss()));
     connect(ui->m_exportBtn,SIGNAL(clicked()),this,SLOT(exportTheme()));
@@ -303,12 +302,12 @@ void PreferencesDialog::initializeStyle()
     {
         //normal
         m_themes.append(new RolisteamTheme(QPalette(),tr("default"),"",QStyleFactory::create("fusion"),":/resources/icons/workspacebackground.bmp",0,QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE),false));
+
+        //DarkOrange
         QFile styleFile(":/stylesheet/resources/stylesheet/darkorange.qss");
         styleFile.open(QFile::ReadOnly);
         QByteArray bytes = styleFile.readAll();
         QString css(bytes);
-
-        //DarkOrange
         m_themes.append(new RolisteamTheme(QPalette(),tr("darkorange"),css,QStyleFactory::create("fusion"),":/resources/icons/workspacebackground.bmp",0,QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE),false));
 
         //DarkFusion
@@ -347,7 +346,11 @@ void PreferencesDialog::initializeStyle()
 
     QString theme = m_preferences->value("currentTheme","Default").toString();
     ui->m_themeComboBox->setCurrentText(theme);
+
     updateTheme();
+
+    connect(ui->m_themeComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(updateTheme()));
+    connect(ui->m_styleCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(setStyle()));
 }
 
 void PreferencesDialog::updateTheme()
@@ -363,8 +366,7 @@ void PreferencesDialog::updateTheme()
         ui->m_positioningComboBox->setCurrentIndex(theme->getBackgroundPosition());
 
         QString defaultStyle = theme->getStyleName();
-
-        ui->m_styleCombo->setCurrentIndex(ui->m_styleCombo->findText(defaultStyle, Qt::MatchContains));
+        ui->m_styleCombo->setCurrentIndex(ui->m_styleCombo->findText(defaultStyle.toUpper(), Qt::MatchContains));
 
         qApp->setStyleSheet(theme->getCss());
 
