@@ -1837,41 +1837,63 @@ void MainWindow::openCleverURI(CleverURI* uri)
 void MainWindow::openContentFromType(CleverURI::ContentType type)
 {
     MediaContainer* tmp=NULL;
-    switch(type)
-    {
-    case CleverURI::MAP:
-        tmp = new MapFrame();
-        break;
-    case CleverURI::PICTURE:
-    case CleverURI::ONLINEPICTURE:
-        tmp = new Image();
-        break;
-    case CleverURI::SCENARIO:
-        break;
-    default:
-        break;
-    }
+    QString filter = CleverURI::getFilterForType(type);
 
-    if(tmp!=NULL)
+
+    if(!filter.isEmpty())
     {
-        tmp->setCleverUriType(type);
-        if(tmp->openMedia())
+       QString folder = m_preferences->value(QString("ImageDirectory"),".").toString();
+       QString title = tr("Open Picture");
+       QStringList filepath = QFileDialog::getOpenFileNames(this,title,folder,filter);
+       QStringList list = filepath;
+       QStringList::Iterator it = list.begin();
+       while(it != list.end())
+       {
+
+           openCleverURI(new CleverURI(*it,type));
+           ++it;
+       }
+
+    }
+    else
+    {
+        switch(type)
         {
-            if(tmp->readFileFromUri())
-            {
-                if(type==CleverURI::MAP)
-                {
-                    prepareMap((MapFrame*)tmp);
-                }
-                else if((type==CleverURI::PICTURE)||(type==CleverURI::ONLINEPICTURE))
-                {
-                    prepareImage((Image*)tmp);
-                }
-                addMediaToMdiArea(tmp);
-                tmp->setVisible(true);
-            }
+        case CleverURI::MAP:
+            filter=CleverURI::getFilterForType(type);
+            tmp = new MapFrame();
+            break;
+        case CleverURI::PICTURE:
+        case CleverURI::ONLINEPICTURE:
+            tmp = new Image();
+            break;
+        case CleverURI::SCENARIO:
+            break;
+        default:
+            break;
         }
-        //addToWorkspace(tmp);
+
+        if(tmp!=NULL)
+        {
+            tmp->setCleverUriType(type);
+            if(tmp->openMedia())
+            {
+                if(tmp->readFileFromUri())
+                {
+                    if(type==CleverURI::MAP)
+                    {
+                        prepareMap((MapFrame*)tmp);
+                    }
+                    else if((type==CleverURI::PICTURE)||(type==CleverURI::ONLINEPICTURE))
+                    {
+                        prepareImage((Image*)tmp);
+                    }
+                    addMediaToMdiArea(tmp);
+                    tmp->setVisible(true);
+                }
+            }
+            //addToWorkspace(tmp);
+        }
     }
 }
 void MainWindow::updateWindowTitle()
