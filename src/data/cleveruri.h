@@ -121,6 +121,12 @@ public:
      */
     const QString getAbsolueDir() const;
 
+    /**
+     * @brief getFilterForType
+     * @return
+     */
+    static QString getFilterForType(CleverURI::ContentType);
+
 private:
     /**
     * @brief split the uri to get the shortname

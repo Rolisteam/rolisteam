@@ -26,6 +26,8 @@
 #include <QFileInfo>
 
 
+#include "preferences/preferencesmanager.h"
+
 /////////////////
 // CleverUri
 /////////////////
@@ -151,6 +153,45 @@ const QString& CleverURI::getShortName() const
 void CleverURI::setShortName(QString& name)
 {
     m_shortname = name;
+}
+QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
+{
+    PreferencesManager* preferences=PreferencesManager::getInstance();
+    switch(type)
+    {
+    case CleverURI::CHARACTERSHEET:
+       return QString();
+        break;
+    case CleverURI::PICTURE:
+        return QObject::tr("Supported Image formats (%1)").arg(preferences->value("ImageFileFilter","*.jpg *.jpeg *.png *.bmp *.svg").toString());
+        break;
+    case CleverURI::MAP:
+        return QString();
+        break;
+    case CleverURI::CHAT:
+        return QString();
+        break;
+    case CleverURI::TEXT:
+        return QString();
+        break;
+    case CleverURI::SCENARIO:
+        return QString();
+        break;
+    case CleverURI::SONG:
+        return QObject::tr("Supported Audio formats (%1)").arg(preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString());
+        break;
+    case CleverURI::ONLINEPICTURE:
+        return QString();
+        break;
+#ifdef WITH_PDF
+    case CleverURI::PDF:
+        return m_pdfIcon;
+        break;
+#endif
+    default:
+        return m_empty;
+        break;
+    }
 }
 
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)
