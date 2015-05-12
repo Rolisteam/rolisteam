@@ -528,7 +528,7 @@ bool Image::readFileFromUri()
 bool Image::openMedia()
 {
     QString filepath;
-    if(CleverURI::PICTURE == m_uri->getType())
+    /*if(CleverURI::PICTURE == m_uri->getType())
     {
         QString filter = tr("Supported Image formats %1").arg("(*.jpg *.jpeg *.png *.bmp *.svg)");
 
@@ -536,7 +536,8 @@ bool Image::openMedia()
         QString folder = m_preferences->value(QString("ImageDirectory"),".").toString();
         filepath = QFileDialog::getOpenFileName(this,title,folder,filter);
     }
-    else if(CleverURI::ONLINEPICTURE == m_uri->getType())
+    else*/
+    if(CleverURI::ONLINEPICTURE == m_uri->getType())
     {
         OnlinePictureDialog dialog;
         if(QDialog::Accepted == dialog.exec())
