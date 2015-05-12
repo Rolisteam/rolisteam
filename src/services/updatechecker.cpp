@@ -59,8 +59,7 @@ void UpdateChecker::startChecking()
     #ifdef VERSION_MAJOR
         #ifdef VERSION_MIDDLE
             m_manager = new QNetworkAccessManager(this);
-            connect(m_manager, SIGNAL(finished(QNetworkReply*)),
-                     this, SLOT(readXML(QNetworkReply*)));
+            connect(m_manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(readXML(QNetworkReply*)));
 
              m_manager->get(QNetworkRequest(QUrl("http://www.rolisteam.org/version.xml")));
         #endif
@@ -126,6 +125,7 @@ void UpdateChecker::readXML(QNetworkReply* p)
      m_state = inferiorVersion();
      m_version = QString("%1.%2.%3").arg(m_versionMajor).arg(m_versionMiddle).arg(m_versionMinor);
      emit checkFinished();
+     m_manager->deleteLater();
         #endif
     #endif
 #endif
