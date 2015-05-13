@@ -12,7 +12,7 @@ AppPublisher=rolisteamTeam
 AppPublisherURL=http://www.rolisteam.org
 AppSupportURL=http://wiki.rolisteam.org                                                                                                                           
 AppUpdatesURL=http://www.rolisteam.org
-DefaultDirName={pf}\Rolisteam
+DefaultDirName={pf}\Rolisteam-1_7_0a
 DefaultGroupName=Rolisteam
 LicenseFile=D:\documents\applications\rolisteam\COPYING.txt
 OutputDir=D:\documents\softwares
@@ -32,28 +32,11 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 Source: "D:\documents\applications\git\build-rolisteam-Desktop_Qt_5_4_0_MinGW_32bit-Release\release\bin\rolisteam.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Enginio.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\icudt53.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\icuin53.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\icuuc53.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Declarative.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Qt5OpenGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Qml.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Quick.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Xml.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\Tools\mingw491_32\bin\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\Tools\mingw491_32\bin\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\Tools\mingw491_32\bin\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\bin\Qt5XmlPatterns.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Qt\5.4\mingw491_32\plugins\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "D:\Qt\5.4\mingw491_32\plugins\platforms\qwindows.dll"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\documents\softwares\rolisteam\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "D:\documents\applications\lib\zlibapi\dll32\zlibwapi.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+;Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Qml.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "D:\Qt\5.4\mingw491_32\bin\Qt5Quick.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\Rolisteam"; Filename: "{app}\rolisteam.exe"
