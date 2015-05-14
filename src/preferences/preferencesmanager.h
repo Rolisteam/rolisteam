@@ -25,7 +25,7 @@
 #include <QMap>
 #include <QSettings>
 
-#include "preferences/preferenceslistener.h"
+class PreferencesListener;
 /**
     * @index <h2>How To use the Preference Manager.</h2>
     *  <p>It is always painful to manage of data between two sessions of Rolisteam.

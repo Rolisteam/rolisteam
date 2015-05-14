@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>626</width>
-    <height>595</height>
+    <width>524</width>
+    <height>575</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,63 +15,16 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0">
      <item>
-      <widget class="QListWidget" name="listWidget">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>200</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <item>
-        <property name="text">
-         <string>General</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Themes</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Application Paths</string>
-        </property>
-        <property name="icon">
-         <iconset theme="QStyle::SP_DirHomeIcon">
-          <normaloff/>
-         </iconset>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Dice System</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../rolisteam.qrc">
-          <normaloff>:/256ico.png</normaloff>:/256ico.png</iconset>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Diagnostic</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>4</number>
        </property>
-       <widget class="QWidget" name="General">
+       <widget class="QWidget" name="tabWidgetPage1" native="true">
+        <attribute name="title">
+         <string>General</string>
+        </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
           <widget class="QGroupBox" name="groupBox">
@@ -221,7 +174,10 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="page">
+       <widget class="QWidget" name="tabWidgetPage2" native="true">
+        <attribute name="title">
+         <string>Themes</string>
+        </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_14">
          <item>
           <widget class="QGroupBox" name="groupBox_8">
@@ -501,7 +457,10 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="paths">
+       <widget class="QWidget" name="tabWidgetPage3" native="true">
+        <attribute name="title">
+         <string>Application Paths</string>
+        </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <widget class="QGroupBox" name="groupBox_3">
@@ -609,7 +568,10 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="DiceSystem">
+       <widget class="QWidget" name="tabWidgetPage4" native="true">
+        <attribute name="title">
+         <string>Dice System</string>
+        </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_13">
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,0,1">
@@ -766,7 +728,10 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="Diagnotic">
+       <widget class="QWidget" name="tabWidgetPage5" native="true">
+        <attribute name="title">
+         <string>Diagnostic</string>
+        </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <item>
           <widget class="QTextEdit" name="m_diagDisplay">
@@ -830,9 +795,7 @@
    <header>widgets/colorbutton.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../rolisteam.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
@@ -863,54 +826,6 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>listWidget</sender>
-   <signal>currentRowChanged(int)</signal>
-   <receiver>stackedWidget</receiver>
-   <slot>setCurrentIndex(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>112</x>
-     <y>93</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>306</x>
-     <y>95</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_opacitySlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>m_opacitySpin</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>411</x>
-     <y>91</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>593</x>
-     <y>101</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_opacitySpin</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>m_opacitySlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>574</x>
-     <y>86</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>436</x>
-     <y>89</y>
     </hint>
    </hints>
   </connection>
