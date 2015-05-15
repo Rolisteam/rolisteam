@@ -19,9 +19,9 @@
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>4</number>
+        <number>2</number>
        </property>
-       <widget class="QWidget" name="tabWidgetPage1" native="true">
+       <widget class="QWidget" name="tabWidgetPage1">
         <attribute name="title">
          <string>General</string>
         </attribute>
@@ -174,7 +174,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tabWidgetPage2" native="true">
+       <widget class="QWidget" name="tabWidgetPage2">
         <attribute name="title">
          <string>Themes</string>
         </attribute>
@@ -373,6 +373,11 @@
                      <string>Filled</string>
                     </property>
                    </item>
+                   <item>
+                    <property name="text">
+                     <string>Repeated</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                 </layout>
@@ -457,7 +462,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tabWidgetPage3" native="true">
+       <widget class="QWidget" name="tabWidgetPage3">
         <attribute name="title">
          <string>Application Paths</string>
         </attribute>
@@ -568,7 +573,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tabWidgetPage4" native="true">
+       <widget class="QWidget" name="tabWidgetPage4">
         <attribute name="title">
          <string>Dice System</string>
         </attribute>
@@ -728,7 +733,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tabWidgetPage5" native="true">
+       <widget class="QWidget" name="tabWidgetPage5">
         <attribute name="title">
          <string>Diagnostic</string>
         </attribute>
