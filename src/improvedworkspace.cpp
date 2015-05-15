@@ -92,6 +92,7 @@ void ImprovedWorkspace::updateBackGround()
     int y=0;
     int w = m_backgroundPicture->width();
     int h = m_backgroundPicture->height();
+    bool repeated=false;
     switch((Positioning)m_preferences->value("BackGroundPositioning",0).toInt())
     {
     case TopLeft:
@@ -131,10 +132,19 @@ void ImprovedWorkspace::updateBackGround()
         w = m_variableSizeBackground.width();
         h = m_variableSizeBackground.height();
         break;
+    case Repeated:
+        repeated = true;
+        break;
     }
-
-    painter.drawPixmap(x,y,w,h,*m_backgroundPicture);
-    setBackground(QBrush(m_variableSizeBackground));
+    if(!repeated)
+    {
+        painter.drawPixmap(x,y,w,h,*m_backgroundPicture);
+        setBackground(QBrush(m_variableSizeBackground));
+    }
+    else
+    {
+        setBackground(QBrush(*m_backgroundPicture));
+    }
     update();
 }
 
