@@ -1181,7 +1181,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="169"/>
         <source>Close</source>
-        <translation>Fermez</translation>
+        <translation>Fermer</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="172"/>
