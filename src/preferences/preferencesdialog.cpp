@@ -154,6 +154,9 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_startDiag,SIGNAL(clicked()),this,SLOT(performDiag()));
     //ui->m_fogColor->setTransparency(true);
 
+    //set general panel as default.
+    ui->tabWidget->setCurrentIndex(0);
+
     //aliases
     connect(ui->m_addDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
     connect(ui->m_delDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
