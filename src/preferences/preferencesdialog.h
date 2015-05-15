@@ -162,13 +162,38 @@ private slots:
      * @brief updateTheme
      */
     void updateTheme();
+    /**
+     * @brief dupplicateTheme
+     */
     void dupplicateTheme();
+    /**
+     * @brief setTitleAtCurrentTheme
+     */
     void setTitleAtCurrentTheme();
+    /**
+     * @brief setStyle
+     */
     void setStyle();
+    /**
+     * @brief editColor
+     */
     void editColor(QModelIndex);
+    /**
+     * @brief editCss
+     */
     void editCss();
+    /**
+     * @brief exportTheme
+     */
     void exportTheme();
+    /**
+     * @brief importTheme
+     * @return
+     */
     bool importTheme();
+    /**
+     * @brief deleteTheme
+     */
     void deleteTheme();
 
 private:
