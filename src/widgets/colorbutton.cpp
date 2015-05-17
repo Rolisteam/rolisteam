@@ -83,7 +83,7 @@ QSize ColorButton::sizeHint() const
 
 void ColorButton::setColor(const QColor & color)
 {
-    if(color!=color)
+    if(m_color!=color)
     {
         m_color = color;
         QPalette tmp = palette();
