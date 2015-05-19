@@ -1947,6 +1947,7 @@ CleverURI::ContentType MainWindow::getContentType(QString str)
             ++i;
         }
     }
+    return CleverURI::NONE;
 }
 
 void MainWindow::dropEvent(QDropEvent* event)
