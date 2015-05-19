@@ -197,6 +197,9 @@ private slots:
     void deleteTheme();
 
 private:
+     /**
+     *  @brief getCurrentRemovableTheme should return the current theme which can be modified.
+     */
     RolisteamTheme* getCurrentRemovableTheme();
 
 private:
