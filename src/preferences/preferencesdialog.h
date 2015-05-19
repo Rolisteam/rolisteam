@@ -121,9 +121,9 @@ public:
      */
     void sendOffAllDiceAlias(NetworkLink*);
     /**
-     * @brief initializeStyle
+     * @brief initializePostSettings loads every data from the settings file.
      */
-    void initializeStyle();
+    void initializePostSettings();
 
 public slots:
     /**
@@ -195,6 +195,7 @@ private slots:
      * @brief deleteTheme
      */
     void deleteTheme();
+
 
 private:
     RolisteamTheme* getCurrentRemovableTheme();

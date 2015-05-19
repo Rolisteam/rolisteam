@@ -191,6 +191,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_exportBtn,SIGNAL(clicked()),this,SLOT(exportTheme()));
     connect(ui->m_importBtn,SIGNAL(clicked()),this,SLOT(importTheme()));
     connect(ui->m_deleteTheme,SIGNAL(clicked()),this,SLOT(deleteTheme()));
+
 }
 
 PreferencesDialog::~PreferencesDialog()
@@ -240,30 +241,9 @@ void PreferencesDialog::load()
     ui->m_backgroundImage->setMode(false);
     ui->m_backgroundImage->setFilter(tr("Images (*.png *.xpm *.jpg *.gif *.bmp)"));
 
-    //DiceSystem
-    if(firstLoad)
-    {
-        int size = m_preferences->value("DiceAliasNumber",0).toInt();
-        for(int i = 0; i < size ; ++i)
-        {
-            QString cmd = m_preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
-            QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
-            bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
-
-            DiceAlias* tmpAlias = new DiceAlias(cmd,value,replace);
-            m_aliasModel->addAlias(tmpAlias);
-        }
-        if(size==0)
-        {//default alias
-            m_aliasModel->addAlias(new DiceAlias("l5r","D10k"));
-            m_aliasModel->addAlias(new DiceAlias("l5R","D10K"));
-            m_aliasModel->addAlias(new DiceAlias("nwod","D10e10c[>7]"));
-            m_aliasModel->addAlias(new DiceAlias("(.*)wod(.*)","\\1d10e[=10]c[>=\\2]-@c[=1]",false));
-        }
-    }
-    firstLoad=false;
     updateTheme();
 }
+
 void PreferencesDialog::editColor(QModelIndex index)
 {
     QColor color = QColorDialog::getColor(index.data(Qt::DecorationRole).value<QColor>());
@@ -280,8 +260,9 @@ void PreferencesDialog::editColor(QModelIndex index)
     }
 }
 
-void PreferencesDialog::initializeStyle()
+void PreferencesDialog::initializePostSettings()
 {
+    //theme
     int size = m_preferences->value("ThemeNumber",0).toInt();
     if(size>0)
     {
@@ -354,6 +335,25 @@ void PreferencesDialog::initializeStyle()
 
     connect(ui->m_themeComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(updateTheme()));
     connect(ui->m_styleCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(setStyle()));
+
+    //DiceSystem
+    size = m_preferences->value("DiceAliasNumber",0).toInt();
+    for(int i = 0; i < size ; ++i)
+    {
+        QString cmd = m_preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
+        QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
+        bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
+
+        DiceAlias* tmpAlias = new DiceAlias(cmd,value,replace);
+        m_aliasModel->addAlias(tmpAlias);
+    }
+    if(size==0)
+    {//default alias
+        m_aliasModel->addAlias(new DiceAlias("l5r","D10k"));
+        m_aliasModel->addAlias(new DiceAlias("l5R","D10K"));
+        m_aliasModel->addAlias(new DiceAlias("nwod","D10e10c[>7]"));
+        m_aliasModel->addAlias(new DiceAlias("(.*)wod(.*)","\\1d10e[=10]c[>=\\2]-@c[=1]",false));
+    }
 }
 
 void PreferencesDialog::updateTheme()

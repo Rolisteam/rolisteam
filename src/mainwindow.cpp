@@ -1091,7 +1091,7 @@ void MainWindow::readSettings()
         m_ui->m_recentFileMenu->addAction(m_recentFileActs[i]);
     }
     updateRecentFileActions();
-    m_preferencesDialog->initializeStyle();
+    m_preferencesDialog->initializePostSettings();
 }
 void MainWindow::writeSettings()
 {
