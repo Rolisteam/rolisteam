@@ -83,15 +83,18 @@ QSize ColorButton::sizeHint() const
 
 void ColorButton::setColor(const QColor & color)
 {
-    m_color = color;
-    QPalette tmp = palette();
-    tmp.setColor(QPalette::Button,m_color);
-    tmp.setColor(QPalette::Window,m_color);
-    setPalette(tmp);
-    setAutoFillBackground(true);
-    setStyleSheet(QString("ColorButton { background-color: rgb(%1,%2,%3);}").arg(color.red()).arg(color.green()).arg(color.blue()));
-    m_dialog.setCurrentColor(m_color);
-    emit colorChanged(m_color);
+    if(m_color!=color)
+    {
+        m_color = color;
+        QPalette tmp = palette();
+        tmp.setColor(QPalette::Button,m_color);
+        tmp.setColor(QPalette::Window,m_color);
+        setPalette(tmp);
+        setAutoFillBackground(true);
+        setStyleSheet(QString("ColorButton { background-color: rgb(%1,%2,%3);}").arg(color.red()).arg(color.green()).arg(color.blue()));
+        m_dialog.setCurrentColor(m_color);
+        emit colorChanged(m_color);
+    }
 }
 
 

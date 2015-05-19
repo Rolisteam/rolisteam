@@ -9,16 +9,14 @@ Please visit: http://wiki.rolisteam.org/index.php/CompilationLinux
 to get information about rolisteam compilation. 
 
 #  Bug report:
-https://github.com/obiwankennedy/rolisteam/issues
+https://github.com/Rolisteam/rolisteam/issues
 
-
-
+#  Documentation:
+http://wiki.rolisteam.org/
 
 # Community contact:
 When you have questions about rolisteam please contact us on our forum:
 http://forum.rolisteam.org
-
-
 
 # Mailing list:
 We also use this mailing to speak technical issues or roadmap.
