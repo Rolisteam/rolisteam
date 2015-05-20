@@ -1,3 +1,38 @@
+rolisteam (1.7.0ubuntu1) trusty; urgency=medium
+
+  [Renaud Guezennec]
+  * Qt5 portage
+  * Section: Audio
+  * new audio system, management of 3 music track
+  * Load/save of playlist
+  * Load/save audio stream
+  * Add playlist from http://tabletopaudio.com/
+  * Section: Dice
+  * new framework for dice rolling (diceparser)
+  * management of aliases (for dice command)
+  * GM sharing automatically dice aliases
+  * Add highlight for dice result
+  * Section: Chat
+  * http link in chat are now clickable. 
+  * The background color changes only the background of the chat (not the scroll bar)
+  * Section:Theme and skin
+  * Possibility to change the appearance of rolisteam by changing default colors or set Css code.
+  * Skin can be imported or exported as JSON file.
+  * For each theme/skin you can set the background color and image for the main
+  * management of the position of background image
+  * no longer need to restart the application
+  * Section:General
+  * Rolisteam starts in full scree mode (can be disable in the preferences dialog)
+  * Section:Refactoring
+  * Use the new network engine. For better maintenability
+  * Section:Command line parametre
+  * several parameters can be passed to rolisteam at starting
+  * drag and drop
+  * Section:Documentation
+  * Documentation has been updated and reworked for a better understanding
+
+ -- Renaud Guezennec <renaud@rolisteam.org>  Wed, 20 May 2015 11:26:18 +0200
+
 rolisteam (1.6.1ubuntu3) trusty; urgency=medium
 
   [Renaud Guezennec]

@@ -10,7 +10,7 @@
 export DH_VERBOSE=1
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/qmake.mk
-QMAKE=qmake-qt4 rolisteam.pro
+QMAKE=qmake rolisteam.pro
 
 
 #PKG_CONFIG_PATH=/usr/local/Trolltech/Qt-4.5.1/lib/pkgconfig
@@ -23,15 +23,15 @@ QMAKE=qmake-qt4 rolisteam.pro
 #	cp $(CURDIR)/bin/rolisteam $(DEB_DESTDIR)usr/bin/
 #	cp rolisteam.desktop $(DEB_DESTDIR)usr/share/applications/
 
-install/rolisteam-doc::
-	mkdir -p $(CURDIR)/debian/rolisteam-doc/usr/
-	mkdir -p $(CURDIR)/debian/rolisteam-doc/usr/share/
-	mkdir -p $(CURDIR)/debian/rolisteam-doc/usr/share/doc/
-	mkdir -p $(CURDIR)/debian/rolisteam-doc/usr/share/doc/rolisteam-doc/
-	[ -f $(CURDIR)/resources/doc/rolisteam.qhc ] && echo "rolisteam.qhc is a file"
-	[ -f $(CURDIR)/resources/doc/rolisteam-manual.qch ] && echo "rolisteam-manual.qch is a file"
-	cp $(CURDIR)/resources/doc/rolisteam.qhc $(CURDIR)/debian/rolisteam-doc/usr/share/doc/rolisteam-doc/
-	cp $(CURDIR)/resources/doc/rolisteam-manual.qch $(CURDIR)/debian/rolisteam-doc/usr/share/doc/rolisteam-doc/
+#install/rolisteam-doc::
+#	mkdir -p $(CURDIR)/debian/rolisteam-doc/usr/
+#	mkdir -p $(CURDIR)/debian/rolisteam-doc/usr/share/
+#	mkdir -p $(CURDIR)/debian/rolisteam-doc/usr/share/doc/
+#	mkdir -p $(CURDIR)/debian/rolisteam-doc/usr/share/doc/rolisteam-doc/
+#	[ -f $(CURDIR)/resources/doc/rolisteam.qhc ] && echo "rolisteam.qhc is a file"
+#	[ -f $(CURDIR)/resources/doc/rolisteam-manual.qch ] && echo "rolisteam-manual.qch is a file"
+#	cp $(CURDIR)/resources/doc/rolisteam.qhc $(CURDIR)/debian/rolisteam-doc/usr/share/doc/rolisteam-doc/
+#	cp $(CURDIR)/resources/doc/rolisteam-manual.qch $(CURDIR)/debian/rolisteam-doc/usr/share/doc/rolisteam-doc/
 
 
 install/rolisteam::
@@ -42,6 +42,6 @@ install/rolisteam::
 	mkdir -p $(CURDIR)/debian/rolisteam/usr/share/app-install/
 	mkdir -p $(CURDIR)/debian/rolisteam/usr/share/app-install/icons/
 	cp $(CURDIR)/bin/rolisteam $(CURDIR)/debian/rolisteam/usr/bin/
-	cp $(CURDIR)/resources/logo/symbole.svg $(CURDIR)/debian/rolisteam/usr/share/app-install/icons/rolisteam.svg
+	cp $(CURDIR)/resources/logo/symbol.svg $(CURDIR)/debian/rolisteam/usr/share/app-install/icons/rolisteam.svg
 	cp rolisteam.desktop $(CURDIR)/debian/rolisteam/usr/share/applications/
 
