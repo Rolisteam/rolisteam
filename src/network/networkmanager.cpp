@@ -268,13 +268,16 @@ void NetworkManager::emettreDonnees(char *donnees, quint32 taille, NetworkLink *
 }
 
 
-void NetworkManager::ajouterNetworkLink(NetworkLink *NetworkLink)
+void NetworkManager::ajouterNetworkLink(NetworkLink* networkLink)
 {
-    NetworkLinks.append(NetworkLink);
-    connect(this, SIGNAL(emissionDonnees(char *, quint32, NetworkLink *)),NetworkLink, SLOT(emissionDonnees(char *, quint32, NetworkLink *)));
-    connect(NetworkLink, SIGNAL(disconnected(NetworkLink *)),this, SLOT(finDeNetworkLink(NetworkLink *)));
-    connect(NetworkLink,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
-    emit linkAdded(NetworkLink);
+    if(NULL!=networkLink)
+    {
+        NetworkLinks.append(networkLink);
+        connect(this, SIGNAL(emissionDonnees(char *, quint32, NetworkLink *)),networkLink, SLOT(emissionDonnees(char *, quint32, NetworkLink *)));
+        connect(networkLink, SIGNAL(disconnected(NetworkLink *)),this, SLOT(finDeNetworkLink(NetworkLink *)));
+        connect(networkLink,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
+        emit linkAdded(networkLink);
+    }
 }
 
 
