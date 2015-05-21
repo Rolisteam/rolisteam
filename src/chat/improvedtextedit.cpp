@@ -81,7 +81,8 @@ void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
                 }
 
                 m_histPos -= 1;
-                setHtml(m_history[m_histPos]);
+                //setHtml(m_history[m_histPos]);
+                setText(m_history[m_histPos]);
             }
             break;
 
@@ -105,7 +106,7 @@ void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
                 if (m_histPos < m_history.size())
                     m_histPos += 1;
                 if (m_histPos < m_history.size())
-                    setHtml(m_history[m_histPos]);
+                    setText(m_history[m_histPos]);
                 else
                     clear();
             }
