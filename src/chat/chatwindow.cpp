@@ -73,6 +73,7 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
     m_toggleViewAction->setCheckable(true);
 
     m_diceParser = new DiceParser();
+    m_diceParser->setPathToHelp(tr("<a href=\"http://wiki.rolisteam.org/index.php/Dice_Rolling\">http://wiki.rolisteam.org/index.php/Dice_Rolling</a>"));
 
     m_operatorMap = new QMap<QString,CHAT_OPERATOR>();
     m_operatorMap->insert("/",COMMAND);
@@ -399,7 +400,7 @@ void ChatWindow::getMessageResult(QString& str)
     {
         scalarText = tr("%1").arg(m_diceParser->getSumOfDiceResult());
     }
-    str = diceOutput.arg(pattern).arg(scalarText).arg(diceText.trimmed()).arg(m_diceParser->getDiceCommand());
+    str = diceOutput.arg(pattern).arg(scalarText).arg(diceText.trimmed()).arg(m_diceParser->getDiceCommand().toHtmlEscaped());
     if(m_diceParser->hasStringResult())
     {
         str = m_diceParser->getStringResult().replace("\n","<br/>");
