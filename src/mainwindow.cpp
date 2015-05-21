@@ -210,7 +210,6 @@ void MainWindow::closeMapOrImage()
         if(NULL!=imageFenetre)
         {
             m_pictureList.removeOne(imageFenetre);
-            //associatedAct = imageFenetre->getAction();
             mapImageId = imageFenetre->getImageId();
             image = true;
             action = imageFenetre->getAction();

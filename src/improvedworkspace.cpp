@@ -272,7 +272,7 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
             }
             else
             {
-                Image* img = dynamic_cast<Image*>(tmp->widget());
+                Image* img = dynamic_cast<Image*>(tmp);
                 if(NULL!=img)
                 {
                     if(img->getImageId() == id)
