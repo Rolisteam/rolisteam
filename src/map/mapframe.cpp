@@ -254,7 +254,7 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 	if (hidden)
 	{
 		QPainter painterAlpha(&alpha);
-		QColor color = PreferencesManager::getInstance()->value("Fog_color",QColor(0,0,0)).value<QColor>();
+        QColor color = PreferencesManager::getInstance()->value("Fog_color",QColor(5,5,5)).value<QColor>();
 		painterAlpha.fillRect(0, 0, alpha.width(), alpha.height(), color);
 	}
 
@@ -361,7 +361,7 @@ bool MapFrame::createMap()
     }
     return false;
 }
-bool MapFrame::processMapMessage(NetworkMessageReader* msg)
+bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
 {
     m_title = msg->string16();
     QString idMap = msg->string8();
@@ -380,6 +380,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg)
         image.fill(color.rgb());
 
         m_map = new Map(m_localPlayerId,idMap, &image);
+        m_map->setLocalIsPlayer(localIsPlayer);
         m_map->setPermissionMode((Map::PermissionMode)permission);
         m_map->changePjSize(npSize,false);
 
@@ -399,6 +400,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg)
             return false;
         }
         m_map= new Map(m_localPlayerId,idMap, &image, maskPlan);
+        m_map->setLocalIsPlayer(localIsPlayer);
         m_map->changePjSize(npSize,false);
         m_map->setPermissionMode((Map::PermissionMode)permission);
         emit notifyUser(tr("Receiving map: %1").arg(m_title));
@@ -433,6 +435,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg)
             return false;
         }
         m_map = new Map(m_localPlayerId,idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
+        m_map->setLocalIsPlayer(localIsPlayer);
         m_map->changePjSize(npSize,false);
 
         m_map->setPermissionMode((Map::PermissionMode)permission);

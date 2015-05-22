@@ -90,7 +90,7 @@ public :
      * @param msg
      * @return
      */
-    bool processMapMessage(NetworkMessageReader* msg);
+    bool processMapMessage(NetworkMessageReader* msg,bool localIsPlayer);
     /**
      * @brief readMapAndNpc
      * @param in
