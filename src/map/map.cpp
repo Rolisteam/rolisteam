@@ -1846,7 +1846,7 @@ QColor Map::getFogColor()
 {
 	if(!m_localIsPlayer)
     {
-       return PreferencesManager::getInstance()->value("Fog_color",QColor(Qt::black)).value<QColor>();
+       return PreferencesManager::getInstance()->value("Fog_color",QColor(50,50,50)).value<QColor>();
     }
     else
     {
