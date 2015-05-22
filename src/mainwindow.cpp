@@ -210,6 +210,7 @@ void MainWindow::closeMapOrImage()
         if(NULL!=imageFenetre)
         {
             m_pictureList.removeOne(imageFenetre);
+
             mapImageId = imageFenetre->getImageId();
             image = true;
             action = imageFenetre->getAction();
@@ -1330,7 +1331,7 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
     else
     {
         MapFrame* mapFrame = new MapFrame(NULL, m_mdiArea);
-        if(!mapFrame->processMapMessage(msg))
+        if(!mapFrame->processMapMessage(msg,m_preferences->value("isPlayer",false).toBool()))
         {
             delete mapFrame;
         }
