@@ -118,13 +118,13 @@
         <translation>sauvegarde</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="204"/>
+        <location filename="../src/chat/chatwindow.cpp" line="203"/>
         <source>You</source>
         <translation>Vous</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="212"/>
-        <location filename="../src/chat/chatwindow.cpp" line="220"/>
+        <location filename="../src/chat/chatwindow.cpp" line="213"/>
+        <location filename="../src/chat/chatwindow.cpp" line="221"/>
         <source>Syntax</source>
         <translation>Syntaxe</translation>
     </message>
@@ -139,23 +139,51 @@
         <translation>Sauvegarde tous les messages de cette fenêtre dans %1/%2.html</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="267"/>
+        <location filename="../src/chat/chatwindow.cpp" line="206"/>
+        <source>got </source>
+        <comment>local user: You got</comment>
+        <translatorcomment>utilisateur local, Vous avez obtenu</translatorcomment>
+        <translation>avez obtenu </translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="208"/>
+        <source>got </source>
+        <comment>remote user, he got</comment>
+        <translatorcomment>utilisateur distant, il a obtenu</translatorcomment>
+        <translation>a obtenu </translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="268"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="268"/>
+        <location filename="../src/chat/chatwindow.cpp" line="269"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation>certains utilisateurs ne verrons pas vos emotes.</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="386"/>
-        <source>got %1%2&lt;/span&gt; at your dice roll, [%4 (%3)]</source>
-        <translation>avez obtenu %1%2&lt;/span&gt; à votre jet de dés, [%4 (%3)]</translation>
+        <location filename="../src/chat/chatwindow.cpp" line="389"/>
+        <source>%1%2&lt;/span&gt; at your dice roll, [%4 (%3)]</source>
+        <translation>%1%2&lt;/span&gt; à votre jet de dés, [%4 (%3)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="397"/>
-        <location filename="../src/chat/chatwindow.cpp" line="401"/>
+        <source>got %1%2&lt;/span&gt; at your dice roll, [%4 (%3)]</source>
+        <comment>You got [local player]...</comment>
+        <translation type="vanished">avez obtenu %1%2&lt;/span&gt; à votre jet de dés, [%4 (%3)]</translation>
+    </message>
+    <message>
+        <source>got %1%2&lt;/span&gt; at your dice roll, [%4 (%3)]</source>
+        <comment>He got [remote player]...</comment>
+        <translation type="vanished">a obtenu %1%2&lt;/span&gt; à votre jet de dés, [%4 (%3)]</translation>
+    </message>
+    <message>
+        <source>got %1%2&lt;/span&gt; at your dice roll, [%4 (%3)]</source>
+        <translation type="vanished">avez obtenu %1%2&lt;/span&gt; à votre jet de dés, [%4 (%3)]</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="400"/>
+        <location filename="../src/chat/chatwindow.cpp" line="404"/>
         <source>%1</source>
         <translation></translation>
     </message>
@@ -1243,33 +1271,33 @@ Il sera fermé pour tout le monde</translation>
         <translation>L&apos;extraction de la couche alpha a échoué (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="386"/>
+        <location filename="../src/map/mapframe.cpp" line="387"/>
         <source>New map: %1</source>
         <translation>Nouveau Plan: %1</translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="398"/>
+        <location filename="../src/map/mapframe.cpp" line="399"/>
         <source>Compression Error (processMapMessage - NetworkLink.cpp)</source>
         <translation>Erreur de compression (processMapMessage - NetworkLink.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="404"/>
-        <location filename="../src/map/mapframe.cpp" line="441"/>
+        <location filename="../src/map/mapframe.cpp" line="406"/>
+        <location filename="../src/map/mapframe.cpp" line="444"/>
         <source>Receiving map: %1</source>
         <translation>Réception de Plan: %1</translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="418"/>
+        <location filename="../src/map/mapframe.cpp" line="420"/>
         <source>Extract original background information Failed (processMapMessage - mainwindow.cpp)</source>
         <translation>Extraction du fond original a échoué (processMapMessage - mainwindow.cpp) </translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="425"/>
+        <location filename="../src/map/mapframe.cpp" line="427"/>
         <source>Extract background information Failed (processMapMessage - mainwindow.cpp)</source>
         <translation>Extraction du fond a échoué (processMapMessage - mainwindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="432"/>
+        <location filename="../src/map/mapframe.cpp" line="434"/>
         <source>Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)</source>
         <translation>Extraction de la couche alpha a échoué (processMapMessage - mainwindow.cpp)</translation>
     </message>

@@ -200,11 +200,11 @@ void ChatWindow::manageDiceRoll(QString str,bool secret,QString& messageTitle,QS
         m_diceParser->Start();
         if(m_diceParser->getErrorMap().isEmpty())
         {
-            getMessageResult(messageCorps);
             messageTitle = tr("You");
+            getMessageResult(messageCorps);
             color = localPerson->color();
-            showMessage(messageTitle, color, messageCorps,NetMsg::DiceMessageAction);
-            message = messageCorps;
+            showMessage(messageTitle, color, messageCorps.prepend(tr("got ","local user: You got")),NetMsg::DiceMessageAction);
+            message = messageCorps.prepend(tr("got ","remote user, he got"));
         }
         else
         {
@@ -383,7 +383,9 @@ void ChatWindow::getMessageResult(QString& str)
     QString scalarText;
     QString diceText;
     QString pattern("<span class=\"dice\">");
-    QString diceOutput(tr("got %1%2</span> at your dice roll, [%4 (%3)]"));
+
+    QString diceOutput;
+    diceOutput = tr("%1%2</span> at your dice roll, [%4 (%3)]");
     bool hasDiceList = false;
     if(m_diceParser->hasDiceResult())
     {
@@ -405,7 +407,6 @@ void ChatWindow::getMessageResult(QString& str)
     {
         str = m_diceParser->getStringResult().replace("\n","<br/>");
     }
-    // str += tr(", you rolled: %1").arg(m_diceParser->getDiceCommand());
 }
 
 QAction * ChatWindow::toggleViewAction() const

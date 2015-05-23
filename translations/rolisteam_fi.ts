@@ -118,13 +118,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="204"/>
+        <location filename="../src/chat/chatwindow.cpp" line="203"/>
         <source>You</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="212"/>
-        <location filename="../src/chat/chatwindow.cpp" line="220"/>
+        <location filename="../src/chat/chatwindow.cpp" line="213"/>
+        <location filename="../src/chat/chatwindow.cpp" line="221"/>
         <source>Syntax</source>
         <translation type="unfinished"></translation>
     </message>
@@ -139,23 +139,35 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="267"/>
-        <source>Warning</source>
+        <location filename="../src/chat/chatwindow.cpp" line="206"/>
+        <source>got </source>
+        <comment>local user: You got</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="208"/>
+        <source>got </source>
+        <comment>remote user, he got</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="268"/>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="269"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="386"/>
-        <source>got %1%2&lt;/span&gt; at your dice roll, [%4 (%3)]</source>
+        <location filename="../src/chat/chatwindow.cpp" line="389"/>
+        <source>%1%2&lt;/span&gt; at your dice roll, [%4 (%3)]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="397"/>
-        <location filename="../src/chat/chatwindow.cpp" line="401"/>
+        <location filename="../src/chat/chatwindow.cpp" line="400"/>
+        <location filename="../src/chat/chatwindow.cpp" line="404"/>
         <source>%1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1236,33 +1248,33 @@ Port:%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="386"/>
+        <location filename="../src/map/mapframe.cpp" line="387"/>
         <source>New map: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="398"/>
+        <location filename="../src/map/mapframe.cpp" line="399"/>
         <source>Compression Error (processMapMessage - NetworkLink.cpp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="404"/>
-        <location filename="../src/map/mapframe.cpp" line="441"/>
+        <location filename="../src/map/mapframe.cpp" line="406"/>
+        <location filename="../src/map/mapframe.cpp" line="444"/>
         <source>Receiving map: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="418"/>
+        <location filename="../src/map/mapframe.cpp" line="420"/>
         <source>Extract original background information Failed (processMapMessage - mainwindow.cpp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="425"/>
+        <location filename="../src/map/mapframe.cpp" line="427"/>
         <source>Extract background information Failed (processMapMessage - mainwindow.cpp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/map/mapframe.cpp" line="432"/>
+        <location filename="../src/map/mapframe.cpp" line="434"/>
         <source>Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)</source>
         <translation type="unfinished"></translation>
     </message>
