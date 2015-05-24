@@ -36,7 +36,7 @@
 DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType,bool showNpcNumber,bool showName, int numero,bool isLocal)
     : QWidget(parent),m_localPerso(isLocal)
 {
-
+    setObjectName("CharacterToken");
 	AddHealthState(Qt::black, tr("healthy"));
 	AddHealthState(QColor(255, 100, 100),tr("lightly wounded"));
 	AddHealthState(QColor(255, 0, 0),tr("seriously injured"));
@@ -44,10 +44,12 @@ DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor c
 	AddHealthState(QColor(80, 80, 255),tr("Sleeping"));
 	AddHealthState(QColor(0, 200, 0),tr("Bewitched"));
 
+
+
     // Initiatialisation des variables
     nomPerso = nom;
     numeroPnj = (uchar) numero;
-    couleur = couleurPerso;
+    m_color = couleurPerso;
     identifiant = persoId;
     orientation = QPoint(45, 0);
     visible = false;
@@ -70,6 +72,7 @@ DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor c
 
     // Creation du label contenant le dessin du personnage
     disquePerso = new QLabel(this);
+    disquePerso->setStyleSheet("background-color:transparent");
     // On donne un nom au label (pour pouvoir ensuite differencier les enfants de la carte)
     disquePerso->setObjectName("disquePerso");
     // M.a.j de la taille du label
@@ -157,7 +160,7 @@ QPoint DessinPerso::positionCentrePerso()
 void DessinPerso::diametreCouleurNom(int *diam, QColor *coul, QString *nom)
 {
     *diam = diametre;
-    *coul = couleur;
+    *coul = m_color;
     *nom = nomPerso;
 }
 
@@ -238,8 +241,8 @@ void DessinPerso::mettreIntituleAJour()
     QFont font;
     font.setPixelSize(12);
     intitulePerso->setFont(font);
-    intitulePerso->setPalette(QPalette(couleur));
-    intitulePerso->setForegroundRole(QPalette::Window);
+    intitulePerso->setStyleSheet(QString("color: %1;background-color: transparent").arg(m_color.name()));
+   // intitulePerso->setAutoFillBackground(true);
 
     // Calcul de l'espace occupe par le texte
     QFontMetrics fm(font);
@@ -334,7 +337,7 @@ void DessinPerso::dessinerPersonnage(QPoint positionSouris)
     pen.setColor(etat.couleurEtat);
     pen.setWidth(4);
     painterDisque.setPen(pen);
-    painterDisque.setBrush(couleur);
+    painterDisque.setBrush(m_color);
     painterDisque.drawEllipse(2,2,disqueImage.width()-4, disqueImage.height()-4);
     // Delimitation de la zone de dessin
     QRegion clip(1, 1, disqueImage.width()-2, disqueImage.height()-2, QRegion::Ellipse);
@@ -355,10 +358,10 @@ void DessinPerso::dessinerPersonnage(QPoint positionSouris)
         painterDisque.setPen(pen);
         painterDisque.drawLine(p1, p2);
         // Dessin d'un cercle au milieu du disque
-        pen.setColor(couleur);
+        pen.setColor(m_color);
         pen.setWidth(1);
         painterDisque.setPen(pen);
-        painterDisque.setBrush(couleur);
+        painterDisque.setBrush(m_color);
         QRectF ellipse(0, 0, (double)diametre/2, (double)diametre/2);
         ellipse.moveCenter(QPointF((double)diametre/2+2, (double)diametre/2+2));
         painterDisque.drawEllipse(ellipse);
@@ -469,7 +472,7 @@ void DessinPerso::renommerPerso(QString nouveauNom)
 
 void DessinPerso::changerCouleurPerso(QColor coul)
 {
-    couleur = coul;
+    m_color = coul;
     // M.a.j du dessin du PJ
     dessinerPersonnage();
     // M.a.j de l'intitule
@@ -516,7 +519,7 @@ void DessinPerso::write(QDataStream &out)
     int numeroDuPnj = numeroPnj;
     if (type==pj)
         numeroDuPnj = 0;
-    out << nomPerso << ident << pnj << numeroDuPnj << diametre << couleur << positionCentrePerso() << orientation << etat.couleurEtat << etat.nomEtat << numeroEtat << visible << orientationAffichee;
+    out << nomPerso << ident << pnj << numeroDuPnj << diametre << m_color << positionCentrePerso() << orientation << etat.couleurEtat << etat.nomEtat << numeroEtat << visible << orientationAffichee;
 }
 int DessinPerso::preparerPourEmission(NetworkMessageWriter* msg, bool convertirEnPnj)
 {
@@ -541,7 +544,7 @@ int DessinPerso::preparerPourEmission(NetworkMessageWriter* msg, bool convertirE
     msg->uint8(characterType);
     msg->uint8(characterNum);
     msg->uint8(diametre);
-    msg->rgb(couleur);
+    msg->rgb(m_color);
 
     msg->uint16(positionCentrePerso().x());
     msg->uint16(positionCentrePerso().y());
