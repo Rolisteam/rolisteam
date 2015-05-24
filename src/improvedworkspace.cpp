@@ -183,6 +183,7 @@ void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
     if(NULL!=mediac)
     {
         addSubWindow(mediac);
+        insertActionAndSubWindow(mediac->getAction(),mediac);
         if(viewMode()==QMdiArea::TabbedView)
         {
             mediac->setVisible(true);
@@ -217,7 +218,11 @@ void ImprovedWorkspace::setTabbedMode(bool isTabbed)
         foreach(QMdiSubWindow* tmp, subWindowList())
         {
             tmp->setVisible(true);
-            m_map->key(tmp)->setChecked(true);
+            QAction* tmpAct = m_map->key(tmp);
+            if(NULL!=tmpAct)
+            {
+                tmpAct->setChecked(true);
+            }
             if(NULL!=tmp->widget())
             {
                 tmp->widget()->setVisible(true);
