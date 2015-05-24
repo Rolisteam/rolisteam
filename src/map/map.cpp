@@ -66,6 +66,7 @@ Map::Map(QString localPlayerId,QString identCarte, QImage *image, bool masquer, 
 void Map::p_init()
 {
     initCursor();
+    m_showPcName = true;
     effaceAlpha = new QImage(m_originalBackground->size(), QImage::Format_ARGB32_Premultiplied);
     QPainter painterEfface(effaceAlpha);
     painterEfface.fillRect(0, 0, m_originalBackground->width(), m_originalBackground->height(), Qt::black);
