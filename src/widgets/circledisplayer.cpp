@@ -30,8 +30,6 @@
 
 #define PEN_SIZE 4
 
-// Definit la taille courante du trait
-//int G_diametreTraitCourant;
 
 
 
@@ -49,7 +47,6 @@ CircleDisplayer::CircleDisplayer(QWidget *parent, bool plein, int minimum,int ma
     int marge=MARGIN_NPC;
 	if (m_full)
 	{
-	//	G_diametreTraitCourant = minimum;
 		marge=MARGIN_PC;
 	}
 	//m_scale = (float)(width()-marge)/(float)(m_maximumDiameter*2+PEN_SIZE*2);
