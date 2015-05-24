@@ -103,6 +103,8 @@ public:
 
     // Proxy helpers
     static const quint32 NoParent = 0x7fffffff;
+public slots:
+    void sendDelLocalPlayer();
 signals:
     void playerAdded(Player * player);
     void characterAdded(Character * character);
@@ -121,7 +123,6 @@ signals:
 
 private slots:
     void delPlayerWithLink(NetworkLink * link);
-    void sendDelLocalPlayer();
 
 private:
     /**
