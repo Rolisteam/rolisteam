@@ -112,7 +112,7 @@ private:
     QString identifiant;		// Identifiant servant a differencier les personnages
     uchar numeroPnj;			// Numero du PNJ
     uchar diametre;				// Diametre du personnage
-    QColor couleur;				// Couleur du personnage
+    QColor m_color;				// Couleur du personnage
     QLabel *disquePerso;		// Contient le pixmap d'un disque representant le personnage
     QLabel *intitulePerso;		// Affiche le nom et le numero du personnage
     bool m_showNpcName;			// True si le nom du personnage est actuellement affiche
