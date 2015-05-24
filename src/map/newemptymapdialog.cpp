@@ -47,7 +47,7 @@ NewEmptyMapDialog::NewEmptyMapDialog(QWidget *parent) :
     m_permissionData   << tr("No Right") << tr("His character") << tr("All Permissions");
     ui->m_permissionSelector->addItems(m_permissionData);
 
-  //  ui->m_permissionSelector->setCurrentIndex(PreferencesManager::getInstance()->value("defaultPermissionMap",0).toInt());
+    ui->m_permissionSelector->setCurrentIndex(PreferencesManager::getInstance()->value("defaultPermissionMap",0).toInt());
     updateSize();
 }
 
