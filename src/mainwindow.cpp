@@ -69,7 +69,7 @@
 MainWindow* MainWindow::m_singleton= NULL;
 
 MainWindow::MainWindow()
-    : QMainWindow(),m_networkManager(NULL),m_localPlayerId(QUuid::createUuid().toString()),m_ui(new Ui::MainWindow)
+    : QMainWindow(),m_networkManager(NULL),m_localPlayerId(QUuid::createUuid().toString()),m_ui(new Ui::MainWindow),m_resetSettings(false)
 {
     setAcceptDrops(true);
     m_supportedCharacterSheet=tr("Character Sheets files (*.xml)");
@@ -139,6 +139,7 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
 
     m_mdiArea->addContainerMedia(mediac);
 
+
     if(mediac->getTitle().isEmpty())
     {
         mediac->setTitle(tr("Unknown Map"));
@@ -146,6 +147,7 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
 
     m_mapAction->insert(mediac,action);
     mediac->setVisible(true);
+    mediac->setFocus();
 }
 void MainWindow::addImage(Image* pictureWindow, QString title)
 {
@@ -293,6 +295,7 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
         {
             m_ui->m_closeAction->setEnabled(true);
             m_ui->m_saveAction->setEnabled(true);
+            subWindow->setFocus();
         }
         else if(subWindow->objectName() == QString("Image") && ((localPlayerIsGM)))
         {
@@ -308,20 +311,34 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    event->ignore();
-    quitterApplication();
+    qDebug() << "quit close event 1";
+    if(mayBeSaved())
+    {
+        qDebug() << "quit close event 2";
+        //emit closing();
+        if(NULL!=m_playerList)
+            m_playerList->sendDelLocalPlayer();
+        qDebug() << "quit close event 3";
+        writeSettings();
+        qDebug() << "quit close event 4";
+        if(NULL!=m_noteEditor)
+            m_noteEditor->close();
+        qDebug() << "quit close event 5";
+        event->accept();
+        qDebug() << "quit close event 6";
+    }
+    else
+    {
+        event->ignore();
+    }
+
 }
 
 void MainWindow::changementNatureUtilisateur()
 {
-
     m_toolBar->updateUi();
     updateUi();
     updateWindowTitle();
-#ifndef NULL_PLAYER
-    //removeDockWidget(m_audioPlayer);
-    //m_audioPlayer->show();
-#endif
 }
 
 
@@ -428,7 +445,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_preferencesAction, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
 
     // close
-    connect(m_ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(quitterApplication()));
+    connect(m_ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
 
     // network
     connect(m_networkManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
@@ -515,6 +532,7 @@ void MainWindow::newMap()
         prepareMap(mapFrame);
         addMediaToMdiArea(mapFrame);
         mapFrame->setVisible(true);
+
     }
 }
 void MainWindow::newNoteDocument()
@@ -574,7 +592,7 @@ Map* MainWindow::findMapById(QString idMap)
         return NULL;
     }
 }
-void MainWindow::quitterApplication(bool perteConnexion)
+bool MainWindow::mayBeSaved(bool perteConnexion)
 {
     // Creation de la boite d'alerte
     QMessageBox msgBox(this);
@@ -625,20 +643,12 @@ void MainWindow::quitterApplication(bool perteConnexion)
     // Ouverture de la boite d'alerte
     msgBox.exec();
 
-    // Si l'utilisateur a clique sur "Quitter", on quitte l'application
+    // Quit without saving
     if (msgBox.clickedButton() == boutonQuitter)
     {
-        emit closing();
-        writeSettings();
-        m_noteEditor->close();
-
-        /// @todo : make sure custom colors are saved.
-        // On quitte l'application
-        qApp->quit();
+        return true;
     }
-
-    // Si l'utilisateur a clique sur "Sauvegarder", on applique l'action appropriee a la nature de l'utilisateur
-    else if (msgBox.clickedButton() == boutonSauvegarder)
+    else if (msgBox.clickedButton() == boutonSauvegarder) //saving
     {
         bool ok;
         // Si l'utilisateur est un joueur, on sauvegarde les notes
@@ -648,15 +658,12 @@ void MainWindow::quitterApplication(bool perteConnexion)
         else
             ok = saveStory();
 
-        // Puis on quitte l'application si l'utilisateur a sauvegarde ou s'il s'agit d'une perte de connexion
         if (ok || perteConnexion)
         {
-            emit closing();
-            writeSettings();
-            m_noteEditor->close();
-            qApp->quit();
+            return true;
         }
     }
+    return false;
 }
 void MainWindow::removePictureFromId(QString idImage)
 {

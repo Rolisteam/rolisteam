@@ -219,7 +219,7 @@ public slots :
      * @brief quitterApplication
      * @param perteConnexion
      */
-    void quitterApplication(bool perteConnexion = false);
+    bool mayBeSaved(bool perteConnexion = false);
     /**
      * @brief checkUpdate
      */
