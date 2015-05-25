@@ -23,7 +23,6 @@
 #ifndef VARIABLES_GLOBALES_H
 #define VARIABLES_GLOBALES_H
 
-#include <QCursor>
 #include <QString>
 #include <QList>
 
