@@ -101,20 +101,32 @@ const QVariant PreferencesManager::value(QString key,QVariant defaultValue)
 void PreferencesManager::readSettings(QSettings & settings)
 {
     settings.beginGroup("rolisteam/preferences");
-    QVariant variant = settings.value("map",*m_optionDictionary);
-    if(variant.canConvert<QMap<QString,QVariant> >())
+    int size = settings.beginReadArray("preferenceMap");
+    for (int i = 0; i < size; ++i)
     {
-        *m_optionDictionary = variant.value<QMap<QString,QVariant> >();
+        settings.setArrayIndex(i);
+        QString key = settings.value("key").toString();
+        QVariant value = settings.value("value").toString();
+        m_optionDictionary->insert(key,value);
     }
+    settings.endArray();
     settings.endGroup();
-    
 }
 void PreferencesManager::writeSettings(QSettings & settings)
 {
     qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
 
     settings.beginGroup("rolisteam/preferences");
-    settings.setValue("map",*m_optionDictionary);
+    settings.beginWriteArray("preferenceMap");
+    for (int i = 0; i < m_optionDictionary->size(); ++i)
+    {
+        settings.setArrayIndex(i);
+        QString key = m_optionDictionary->keys().at(i);
+        QVariant var = m_optionDictionary->value(key);
+        settings.setValue("key", key);
+        settings.setValue("value",var);
+    }
+    settings.endArray();
     settings.endGroup();
 }
 void PreferencesManager::registerListener(QString str, PreferencesListener* listerner)
