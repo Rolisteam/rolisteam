@@ -156,6 +156,22 @@ Map::Map(QString localPlayerId,QString identCarte, QImage *original, QImage *ave
 
     p_init();
 }
+Map::~Map()
+{
+    delete m_orientCursor;
+    delete m_pipetteCursor;
+    delete m_addCursor;
+    delete m_delCursor;
+    delete m_movCursor;
+    delete m_textCursor;
+    delete m_pencilCursor;
+    delete m_stateCursor;
+    delete m_originalBackground;
+    delete m_backgroundImage;
+    delete m_alphaLayer;
+    delete effaceAlpha;
+    delete fondAlpha;
+}
 
 void Map::initCursor()
 {
@@ -163,18 +179,18 @@ void Map::initCursor()
     //InitMousePointer(&G_pointeurTexte, ":/resources/icons/pointeur texte.png", 4, 13); //strange values here
 
     //G_pointeurDeplacer
-    m_orientCursor  = new QCursor(QPixmap(":/resources/icons/pointeur orienter.png"), 10, 12);
-    m_pipetteCursor   = new QCursor(QPixmap(":/resources/icons/pointeur pipette.png"), 1, 19);
+    m_orientCursor  = new QCursor(QPixmap(":/resources/icons/orientationcursor.png"), 10, 12);
+    m_pipetteCursor   = new QCursor(QPixmap(":/resources/icons/pipettecursor.png"), 1, 19);
     //G_pointeurAjouter
     //G_pointeurSupprimer
 
-    m_addCursor= new QCursor(QPixmap(":/resources/icons/pointeur ajouter.png"), 6, 0);
-    m_delCursor = new QCursor(QPixmap(":/resources/icons/pointeur supprimer.png"), 6, 0);
-    m_movCursor= new QCursor(QPixmap(":/resources/icons/pointeur deplacer.png"), 0, 0);
-    m_textCursor= new QCursor(QPixmap(":/resources/icons/pointeur texte.png"), 4, 13);
-    m_pencilCursor = new QCursor(QPixmap(":/resources/icons/pointeur dessin.png"), 8, 8);
+    m_addCursor= new QCursor(QPixmap(":/resources/icons/addcursor.png"), 6, 0);
+    m_delCursor = new QCursor(QPixmap(":/resources/icons/deletecursor.png"), 6, 0);
+    m_movCursor= new QCursor(QPixmap(":/resources/icons/movecursor.png"), 0, 0);
+    m_textCursor= new QCursor(QPixmap(":/resources/icons/textcursor.png"), 4, 13);
+    m_pencilCursor = new QCursor(QPixmap(":/resources/icons/paintcursor.png"), 8, 8);
 
-    m_stateCursor = new QCursor(QPixmap(":/resources/icons/pointeur etat.png"), 0, 0);
+    m_stateCursor = new QCursor(QPixmap(":/resources/icons/statecursor.png"), 0, 0);
 
 
 }
@@ -183,30 +199,20 @@ void Map::paintEvent(QPaintEvent *event)
 {
 
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-
-
-    // La ruse consiste a passer par une image ARGB32 pour avoir une couche alpha
-    // independante des couleurs, puis a lui rajouter la couche alpha
-    
+    painter.setRenderHint(QPainter::Antialiasing);  
 
     painter.drawImage(event->rect(), *fondAlpha, event->rect());
 
-
     //painter.drawImage(event->rect(), *fondAlpha, event->rect());
-    //qDebug()<<"zoneNouvelle" << m_refreshZone;
     painter.drawImage(rect(), *fondAlpha, fondAlpha->rect());
-
 
     if (boutonGaucheEnfonce == false)
         return;
-
 
     if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc ||
         m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         return;
         
-
 	paintMap(painter);
 
 
