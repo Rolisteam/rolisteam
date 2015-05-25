@@ -64,7 +64,10 @@ ColorButton::ColorButton(const QColor & color, QWidget * parent)
     connect(this, SIGNAL(clicked()), &m_dialog, SLOT(open()));
     connect(&m_dialog, SIGNAL(colorSelected(const QColor &)), this, SLOT(setColor(const QColor &)));
 }
+ColorButton::~ColorButton()
+{
 
+}
 
 QColor ColorButton::color() const
 {
