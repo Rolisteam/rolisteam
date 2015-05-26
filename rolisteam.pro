@@ -200,7 +200,7 @@ HAVE_NULL {
  DEFINES+= NULL_PLAYER
 }
 # End of audio
-ICON = resources/logo/256-icon.icns
+ICON = resources/logo/rolisteam.icns
 
 RESOURCES += rolisteam.qrc
 
