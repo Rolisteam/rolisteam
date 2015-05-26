@@ -311,21 +311,15 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
 }
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    qDebug() << "quit close event 1";
     if(mayBeSaved())
     {
-        qDebug() << "quit close event 2";
         //emit closing();
         if(NULL!=m_playerList)
             m_playerList->sendDelLocalPlayer();
-        qDebug() << "quit close event 3";
         writeSettings();
-        qDebug() << "quit close event 4";
         if(NULL!=m_noteEditor)
             m_noteEditor->close();
-        qDebug() << "quit close event 5";
         event->accept();
-        qDebug() << "quit close event 6";
     }
     else
     {
