@@ -1304,6 +1304,11 @@ void MainWindow::setupUi()
     linkActionToMenu();
     // Creation de l'editeur de notes
     m_noteEditor= new TextEdit(this);
+#ifdef Q_OS_MAC
+    m_noteEditor->menuBar()->setNativeMenuBar(false);
+#endif
+
+
     m_noteEditorSub  = static_cast<QMdiSubWindow*>(m_mdiArea->addWindow(m_noteEditor,m_ui->m_showMinutesEditorAction));
     if(NULL!=m_noteEditorSub)
     {
