@@ -473,7 +473,9 @@ void PreferencesDialog::save() const
     foreach(RolisteamTheme* tmp, m_themes)
     {
         m_preferences->registerValue(QString("Theme_%1_name").arg(i),tmp->getName());
-        m_preferences->registerValue(QString("Theme_%1_palette").arg(i),tmp->getPalette());
+        QVariant var;
+        var.setValue<QPalette>(tmp->getPalette());
+        m_preferences->registerValue(QString("Theme_%1_palette").arg(i),var);
         m_preferences->registerValue(QString("Theme_%1_stylename").arg(i),tmp->getStyleName());
         m_preferences->registerValue(QString("Theme_%1_bgColor").arg(i),tmp->getBackgroundColor());
         m_preferences->registerValue(QString("Theme_%1_bgPath").arg(i),tmp->getBackgroundImage());

@@ -145,12 +145,24 @@ int main(int argc, char *argv[])
     settings.beginGroup("rolisteam/preferences");
 
     QMap<QString,QVariant> map;
-    QVariant variant = settings.value("map",map);
-    if(variant.canConvert<QMap<QString,QVariant> >())
+
+    int size = settings.beginReadArray("preferenceMap");
+    for (int i = 0; i < size; ++i)
     {
-        map = variant.value<QMap<QString,QVariant> >();
+        settings.setArrayIndex(i);
+        QString key = settings.value("key").toString();
+        QVariant value = settings.value("value");
+        map.insert(key,value);
     }
+    settings.endArray();
     settings.endGroup();
+
+//    QVariant variant = settings.value("map",map);
+//    if(variant.canConvert<QMap<QString,QVariant> >())
+//    {
+//        map = variant.value<QMap<QString,QVariant> >();
+//    }
+//    settings.endGroup();
 
     QString file = map.value("currentTranslationFile","").toString();
     if(!file.isEmpty())

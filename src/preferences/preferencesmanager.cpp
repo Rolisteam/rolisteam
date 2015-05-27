@@ -87,7 +87,6 @@ bool PreferencesManager::registerValue(QString key,QVariant value, bool overwrit
 }
 const QVariant PreferencesManager::value(QString key,QVariant defaultValue)
 {
-    //qDebug() << m_optionDictionary;
     if(m_optionDictionary->contains(key))
     {
         return m_optionDictionary->value(key);
@@ -106,7 +105,7 @@ void PreferencesManager::readSettings(QSettings & settings)
     {
         settings.setArrayIndex(i);
         QString key = settings.value("key").toString();
-        QVariant value = settings.value("value").toString();
+        QVariant value = settings.value("value");
         m_optionDictionary->insert(key,value);
     }
     settings.endArray();
