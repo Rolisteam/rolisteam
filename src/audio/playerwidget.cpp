@@ -245,7 +245,6 @@ void PlayerWidget::removeFile()
 }
 void PlayerWidget::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
-    qDebug() << current << m_player.mediaStatus();
     if((current.isValid())&&(m_player.mediaStatus() == QMediaPlayer::NoMedia))
     {
             startMedia(m_model->getMediaByModelIndex(current),current.data().toString(),false);
@@ -254,7 +253,6 @@ void PlayerWidget::currentChanged(const QModelIndex& current, const QModelIndex&
 void PlayerWidget::playSelectedSong()
 {
     QModelIndex current = m_ui->m_songList->currentIndex();
-    qDebug() << "playSelected Song"<< current << m_player.mediaStatus();
     if((current.isValid())&&((m_player.mediaStatus() == QMediaPlayer::NoMedia)||(m_player.mediaStatus()==QMediaPlayer::EndOfMedia)||(m_player.state()==QMediaPlayer::StoppedState)))
     {
             startMedia(m_model->getMediaByModelIndex(current),current.data().toString());
