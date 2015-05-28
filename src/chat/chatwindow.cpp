@@ -204,7 +204,7 @@ void ChatWindow::manageDiceRoll(QString str,bool secret,QString& messageTitle,QS
             getMessageResult(messageCorps);
             color = localPerson->color();
             showMessage(messageTitle, color, messageCorps.prepend(tr("got ","local user: You got")),NetMsg::DiceMessageAction);
-            message = messageCorps.prepend(tr("got ","remote user, he got"));
+            message = messageCorps;
         }
         else
         {
