@@ -68,7 +68,7 @@ then
 		fi
 		if [ "$i" = "setup" ]
 		then
-		    sudo apt-get install build-essential cdbs debhelper wdiff  devscripts dh-make dpatch vim subversion
+		    sudo apt-get install build-essential cdbs debhelper wdiff  devscripts dh-make dpatch vim git
 		fi
 		if [ "$i" = "build" ]
 		then
