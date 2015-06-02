@@ -140,6 +140,7 @@ public slots:
      */
     void editionGetFocus();
 
+    void detachView(bool b);
 protected :
     /**
      * @brief init
@@ -198,7 +199,6 @@ private slots :
      * @param secret
      */
     void manageDiceRoll(QString str,bool secret,QString& messageTitle,QString& message);
-
 private :
     static QStringList m_keyWordList;
     QMdiSubWindow* m_window;

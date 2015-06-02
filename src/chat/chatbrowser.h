@@ -16,19 +16,22 @@ public:
     explicit ChatBrowser(QWidget *parent = 0);
     
 signals:
-
+    void detachView(bool);
 protected:
         //void contextMenuEvent ( QContextMenuEvent * event );
     virtual void resizeEvent(QResizeEvent *e);
     
 private slots:
     void backGroundChanged();
+    void detachedView();
     void showContextMenu(QPoint pos);
 
 
 private:
     QAction* m_bgColorAct;
-        QColor m_bgColor;
+    QAction* m_detachedDialog;
+    QColor m_bgColor;
+    QWidget* m_parent;
 };
 
 #endif // CHATBROWSER_H

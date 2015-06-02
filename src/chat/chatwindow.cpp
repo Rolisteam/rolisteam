@@ -166,6 +166,8 @@ void ChatWindow::setupUi()
     setAttribute(Qt::WA_DeleteOnClose, false);
     setLayout(vboxLayout);
 
+    connect(m_displayZone,SIGNAL(detachView(bool)),this,SLOT(detachView(bool)));
+
 }
 
 /********************************************************************/    
@@ -569,4 +571,22 @@ void ChatWindow::setSubWindow(QMdiSubWindow* subWindow)
 void ChatWindow::updateDiceAliases(QList<DiceAlias*>* map)
 {
     m_receivedAlias = map;
+}
+void ChatWindow::detachView(bool b)
+{
+    if(NULL==m_window)
+    {
+        return;
+    }
+    static QWidget* parent = m_window->parentWidget();
+    if(b)
+    {
+            m_window->setParent(NULL);
+            m_window->setVisible(true);
+    }
+    else
+    {
+            m_window->setParent(parent);
+            m_window->setVisible(true);
+    }
 }
