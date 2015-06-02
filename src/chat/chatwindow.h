@@ -191,7 +191,7 @@ private slots :
     /**
      * @brief getMessageResult
      */
-    void getMessageResult(QString&);
+    bool getMessageResult(QString& value, QString& command, QString& list);
     /**
      * @brief manageDiceRoll
      * @param str

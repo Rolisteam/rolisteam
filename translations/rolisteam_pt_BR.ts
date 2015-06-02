@@ -123,8 +123,18 @@
         <translation>Você</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="213"/>
-        <location filename="../src/chat/chatwindow.cpp" line="221"/>
+        <location filename="../src/chat/chatwindow.cpp" line="212"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%4)]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="214"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="227"/>
+        <location filename="../src/chat/chatwindow.cpp" line="235"/>
         <source>Syntax</source>
         <translation>Sintaxe</translation>
     </message>
@@ -139,35 +149,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="207"/>
-        <source>got </source>
-        <comment>local user: You got</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/chat/chatwindow.cpp" line="208"/>
-        <source>got </source>
-        <comment>remote user: He got</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/chat/chatwindow.cpp" line="268"/>
+        <location filename="../src/chat/chatwindow.cpp" line="282"/>
         <source>Warning</source>
         <translation>Aviso</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="269"/>
+        <location filename="../src/chat/chatwindow.cpp" line="283"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation>Não será permitido para alguns usuários ver seus emoticons </translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="389"/>
-        <source>%1%2&lt;/span&gt; at your dice roll, [%4 (%3)]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/chat/chatwindow.cpp" line="400"/>
-        <location filename="../src/chat/chatwindow.cpp" line="404"/>
+        <location filename="../src/chat/chatwindow.cpp" line="414"/>
+        <location filename="../src/chat/chatwindow.cpp" line="418"/>
         <source>%1</source>
         <translation type="unfinished">%1</translation>
     </message>

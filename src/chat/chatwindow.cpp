@@ -191,7 +191,7 @@ bool ChatWindow::isVisible()
 void ChatWindow::manageDiceRoll(QString str,bool secret,QString& messageTitle,QString& message)
 {
     updateListAlias();
-    QString messageCorps;
+
     QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
     Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
     QColor color;
@@ -201,15 +201,29 @@ void ChatWindow::manageDiceRoll(QString str,bool secret,QString& messageTitle,QS
         if(m_diceParser->getErrorMap().isEmpty())
         {
             messageTitle = tr("You");
-            getMessageResult(messageCorps);
+            QString value;
+            QString cmdLine;
+            QString list;
+            bool onlyValue = getMessageResult(value, cmdLine,list);
             color = localPerson->color();
-            QString msg = messageCorps;
-            showMessage(messageTitle, color, messageCorps.prepend(tr("got ","local user: You got")),NetMsg::DiceMessageAction);
-            message = msg.prepend(tr("got ","remote user: He got"));
+
+            if(!onlyValue)
+            {
+                QString diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%3 (%4)]").arg(value).arg(cmdLine).arg(list);
+                showMessage(messageTitle, color, diceOutput,NetMsg::DiceMessageAction);
+                QString diceOutput2 = tr("got <span class=\"dice\">%1</span> [%3 (%4)]").arg(value).arg(cmdLine).arg(list);
+                message = diceOutput2;
+            }
+            else
+            {
+
+                showMessage(messageTitle, color,value,NetMsg::DiceMessageAction);
+            }
+
         }
         else
         {
-            messageCorps = m_diceParser->humanReadableError();
+            QString messageCorps = m_diceParser->humanReadableError();
             messageTitle = tr("Syntax");
             color = Qt::red;
             showMessage(messageTitle, color, messageCorps);
@@ -217,7 +231,7 @@ void ChatWindow::manageDiceRoll(QString str,bool secret,QString& messageTitle,QS
     }
     else
     {
-        messageCorps = m_diceParser->humanReadableError();
+        QString messageCorps = m_diceParser->humanReadableError();
         messageTitle = tr("Syntax");
         color = Qt::red;
         showMessage(messageTitle, color, messageCorps);
@@ -379,14 +393,14 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
     return resultGlobal.join("");
 }
 
-void ChatWindow::getMessageResult(QString& str)
+bool ChatWindow::getMessageResult(QString& value, QString& command, QString& list)
 {
     QString scalarText;
     QString diceText;
-    QString pattern("<span class=\"dice\">");
+    //QString pattern("");
 
-    QString diceOutput;
-    diceOutput = tr("%1%2</span> at your dice roll, [%4 (%3)]");
+
+
     bool hasDiceList = false;
     if(m_diceParser->hasDiceResult())
     {
@@ -403,11 +417,16 @@ void ChatWindow::getMessageResult(QString& str)
     {
         scalarText = tr("%1").arg(m_diceParser->getSumOfDiceResult());
     }
-    str = diceOutput.arg(pattern).arg(scalarText).arg(diceText.trimmed()).arg(m_diceParser->getDiceCommand().toHtmlEscaped());
+    value=scalarText;
+    list = diceText.trimmed();
+    command = m_diceParser->getDiceCommand().toHtmlEscaped();
     if(m_diceParser->hasStringResult())
     {
-        str = m_diceParser->getStringResult().replace("\n","<br/>");
+        value = m_diceParser->getStringResult().replace("\n","<br/>");
+        return true;
     }
+
+    return false;
 }
 
 QAction * ChatWindow::toggleViewAction() const
