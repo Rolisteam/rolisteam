@@ -32,6 +32,7 @@
 #include <QVBoxLayout>
 #include <QDir>
 #include <QPushButton>
+#include <QMdiArea>
 
 #include "chat/chat.h"
 #include "network/networkmessagewriter.h"
@@ -578,7 +579,7 @@ void ChatWindow::detachView(bool b)
     {
         return;
     }
-    static QWidget* parent = m_window->parentWidget();
+    static QMdiArea* parent = m_window->mdiArea();
     if(b)
     {
             m_window->setParent(NULL);
@@ -586,7 +587,8 @@ void ChatWindow::detachView(bool b)
     }
     else
     {
-            m_window->setParent(parent);
+            //m_window->setParent(parent);
+            parent->addSubWindow(m_window);
             m_window->setVisible(true);
     }
 }
