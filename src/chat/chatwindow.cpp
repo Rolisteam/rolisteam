@@ -191,7 +191,7 @@ bool ChatWindow::isVisible()
 {
     return (m_window->isVisible() & QWidget::isVisible());
 }
-void ChatWindow::manageDiceRoll(QString str,bool secret,QString& messageTitle,QString& message)
+void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& message)
 {
     updateListAlias();
 
@@ -219,8 +219,9 @@ void ChatWindow::manageDiceRoll(QString str,bool secret,QString& messageTitle,QS
             }
             else
             {
-
+                messageTitle="";
                 showMessage(messageTitle, color,value,NetMsg::DiceMessageAction);
+                message = value;
             }
 
         }
@@ -267,10 +268,10 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
         switch(chatOperator)
         {
         case DICEROLL:
-            manageDiceRoll(tmpmessage,false,messageTitle,message);
+            manageDiceRoll(tmpmessage,messageTitle,message);
             break;
         case SECRET_DICEROLL:
-            manageDiceRoll(tmpmessage,true,messageTitle,message);
+            manageDiceRoll(tmpmessage,messageTitle,message);
             return;
             break;
         case COMMAND:
@@ -300,10 +301,9 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
         }
     }
     else
-    {
+    {//sending info to others.
         messageTitle = localPerson->name();
         showMessage(messageTitle, localPerson->color(), message);
-        // action is messageChatWindow only if there are no dices
         action = NetMsg::ChatMessageAction;
     }
 
