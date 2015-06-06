@@ -30,6 +30,7 @@ CONFIG += HAVE_SOUND
 
 ## Translation
 TRANSLATIONS =  translations/rolisteam_fr.ts \
+                translations/rolisteam.ts \
                 translations/rolisteam_de.ts \
                 translations/rolisteam_it.ts \
                 translations/rolisteam_es.ts \

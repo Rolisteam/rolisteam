@@ -198,7 +198,7 @@ private slots :
      * @param str
      * @param secret
      */
-    void manageDiceRoll(QString str,bool secret,QString& messageTitle,QString& message);
+    void manageDiceRoll(QString str,QString& messageTitle,QString& message);
 private :
     static QStringList m_keyWordList;
     QMdiSubWindow* m_window;
