@@ -352,7 +352,7 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
             previousHighlight = tmp.second;
             for(int i =0; i < tmp.first.size(); ++i)
             {
-                quint64 dievalue = tmp.first[i];
+                qint64 dievalue = tmp.first[i];
                 diceListStr << QString::number(dievalue);
             }
             if(diceListStr.size()>1)
