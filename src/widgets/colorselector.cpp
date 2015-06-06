@@ -87,7 +87,7 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_layoutSelector->setSpacing(1);
 
     G_couleurCourante.type = ColorType;
-    G_couleurCourante.color = QColor(rouge[0],vert[0],bleu[0]);
+    G_couleurCourante.color = QColor(rouge[40],vert[40],bleu[40]);
 
     m_currentColor = new QLabel(this);
     m_currentColor->setFrameStyle(QFrame::Panel | QFrame::Raised);
