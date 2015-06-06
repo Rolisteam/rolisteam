@@ -73,6 +73,11 @@
         <source>Background Color</source>
         <translation>Couleur de fond</translation>
     </message>
+    <message>
+        <location filename="../src/chat/chatbrowser.cpp" line="18"/>
+        <source>Detached the view</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ChatList</name>
@@ -113,70 +118,54 @@
 <context>
     <name>ChatWindow</name>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="143"/>
+        <location filename="../src/chat/chatwindow.cpp" line="144"/>
         <source>save</source>
         <translation>sauvegarde</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="203"/>
+        <location filename="../src/chat/chatwindow.cpp" line="206"/>
         <source>You</source>
         <translation>Vous</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="212"/>
+        <location filename="../src/chat/chatwindow.cpp" line="215"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%4)]</source>
         <translation>avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%4)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="214"/>
+        <location filename="../src/chat/chatwindow.cpp" line="217"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</source>
         <translation>a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="227"/>
-        <location filename="../src/chat/chatwindow.cpp" line="235"/>
+        <location filename="../src/chat/chatwindow.cpp" line="231"/>
+        <location filename="../src/chat/chatwindow.cpp" line="239"/>
         <source>Syntax</source>
         <translation>Syntaxe</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="76"/>
+        <location filename="../src/chat/chatwindow.cpp" line="77"/>
         <source>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Jeter_les_d%C3%A9s&quot;&gt;http://wiki.rolisteam.org/index.php/Jeter_les_dés&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="144"/>
+        <location filename="../src/chat/chatwindow.cpp" line="145"/>
         <source>Save all messages from this window in %1/%2.html</source>
         <translation>Sauvegarde tous les messages de cette fenêtre dans %1/%2.html</translation>
     </message>
     <message>
-        <source>got </source>
-        <comment>local user: You got</comment>
-        <translatorcomment>utilisateur local, Vous avez obtenu</translatorcomment>
-        <translation type="vanished">avez obtenu </translation>
-    </message>
-    <message>
-        <source>got </source>
-        <comment>remote user: He got</comment>
-        <translatorcomment>utilisateur distant. il a </translatorcomment>
-        <translation type="vanished">a obtenu </translation>
-    </message>
-    <message>
-        <location filename="../src/chat/chatwindow.cpp" line="282"/>
+        <location filename="../src/chat/chatwindow.cpp" line="286"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="283"/>
+        <location filename="../src/chat/chatwindow.cpp" line="287"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation>certains utilisateurs ne verrons pas vos emotes.</translation>
     </message>
     <message>
-        <source>%1%2&lt;/span&gt; at your dice roll, [%4 (%3)]</source>
-        <translation type="vanished">%1%2&lt;/span&gt; à votre jet de dés, [%4 (%3)]</translation>
-    </message>
-    <message>
-        <location filename="../src/chat/chatwindow.cpp" line="414"/>
-        <location filename="../src/chat/chatwindow.cpp" line="418"/>
+        <location filename="../src/chat/chatwindow.cpp" line="417"/>
+        <location filename="../src/chat/chatwindow.cpp" line="421"/>
         <source>%1</source>
         <translation></translation>
     </message>
