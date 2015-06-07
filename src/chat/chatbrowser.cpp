@@ -15,7 +15,7 @@ ChatBrowser::ChatBrowser(QWidget *parent) :
     connect(m_bgColorAct,SIGNAL(triggered()),this, SLOT(backGroundChanged()));
 
 
-    m_detachedDialog = new QAction(tr("Detached the view"),this);
+    m_detachedDialog = new QAction(tr("Detach the view"),this);
     m_detachedDialog->setCheckable(true);
     connect(m_detachedDialog,SIGNAL(triggered()),this, SLOT(detachedView()));
 

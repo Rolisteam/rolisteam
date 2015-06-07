@@ -75,7 +75,7 @@
     </message>
     <message>
         <location filename="../src/chat/chatbrowser.cpp" line="18"/>
-        <source>Detached the view</source>
+        <source>Detach the view</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
