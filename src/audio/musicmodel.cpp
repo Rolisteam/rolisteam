@@ -168,7 +168,8 @@ void MusicModel::saveIn(QTextStream& file)
 {
     foreach (QMediaContent* tmp, m_data)
     {
-        file << tmp->canonicalUrl().toString() << "\n";
+        //qDebug() << tmp->canonicalUrl().toString(QUrl::PreferLocalFile) << tmp->canonicalUrl().toLocalFile() << tmp->canonicalUrl().adjusted(QUrl::PreferLocalFile);
+        file << tmp->canonicalUrl().toString(QUrl::PreferLocalFile) << "\n";
     }
 }
 QStringList MusicModel::mimeTypes() const

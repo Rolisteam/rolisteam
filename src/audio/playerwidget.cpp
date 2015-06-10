@@ -355,6 +355,7 @@ void PlayerWidget::addActionsIntoMenu(QMenu* menu)
     menu->addAction(m_stopAct);
     menu->addSeparator();
     menu->addAction(m_addAction);
+    menu->addAction(m_addStreamAction);
     menu->addAction(m_openPlayList);
     menu->addAction(m_loadTableTopAudioPlayListAct);
     menu->addAction(m_savePlayList);
