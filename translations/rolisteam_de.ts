@@ -1623,104 +1623,104 @@ Port:%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="132"/>
+        <location filename="../src/audio/playerwidget.cpp" line="133"/>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="135"/>
+        <location filename="../src/audio/playerwidget.cpp" line="137"/>
         <source>Open Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="139"/>
+        <location filename="../src/audio/playerwidget.cpp" line="142"/>
         <source>load TableTopAudio.com playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="142"/>
+        <location filename="../src/audio/playerwidget.cpp" line="145"/>
         <source>Open Playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="144"/>
+        <location filename="../src/audio/playerwidget.cpp" line="148"/>
         <source>Save Playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="146"/>
+        <location filename="../src/audio/playerwidget.cpp" line="151"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="149"/>
+        <location filename="../src/audio/playerwidget.cpp" line="155"/>
         <source>Add Songs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="151"/>
+        <location filename="../src/audio/playerwidget.cpp" line="158"/>
         <source>Open Stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="153"/>
+        <location filename="../src/audio/playerwidget.cpp" line="160"/>
         <source>Remove Song</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="173"/>
+        <location filename="../src/audio/playerwidget.cpp" line="181"/>
         <source>Add song to the list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="174"/>
+        <location filename="../src/audio/playerwidget.cpp" line="182"/>
         <source>Remove selected file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="274"/>
+        <location filename="../src/audio/playerwidget.cpp" line="282"/>
         <source>Add song</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="274"/>
+        <location filename="../src/audio/playerwidget.cpp" line="282"/>
         <source>Audio files (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="285"/>
+        <location filename="../src/audio/playerwidget.cpp" line="293"/>
         <source>Attention!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="285"/>
+        <location filename="../src/audio/playerwidget.cpp" line="293"/>
         <source>You are about to load an new playlist. All previously load file will be dropped.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="301"/>
-        <location filename="../src/audio/playerwidget.cpp" line="615"/>
+        <location filename="../src/audio/playerwidget.cpp" line="309"/>
+        <location filename="../src/audio/playerwidget.cpp" line="624"/>
         <source>Open Play List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="301"/>
-        <location filename="../src/audio/playerwidget.cpp" line="615"/>
+        <location filename="../src/audio/playerwidget.cpp" line="309"/>
+        <location filename="../src/audio/playerwidget.cpp" line="624"/>
         <source>PlayList (*.m3u)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="313"/>
+        <location filename="../src/audio/playerwidget.cpp" line="321"/>
         <source>Open audio Stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="313"/>
+        <location filename="../src/audio/playerwidget.cpp" line="321"/>
         <source>URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="493"/>
+        <location filename="../src/audio/playerwidget.cpp" line="502"/>
         <source>Load Directory</source>
         <translation type="unfinished"></translation>
     </message>

@@ -128,30 +128,38 @@ void PlayerWidget::setupUi()
     m_stopAct = new QAction(style()->standardIcon(QStyle::SP_MediaStop),tr("Stop"),this);
     m_uniqueAct = new QAction(QIcon(":/resources/icons/playunique.png"),tr("Next"),this);
     m_uniqueAct->setShortcut(QKeySequence("Ctrl+U"));
+    m_uniqueAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_uniqueAct->setCheckable(true);
     m_repeatAct = new QAction(QIcon(":/resources/icons/playloop.png"),tr("Previous"),this);
     m_repeatAct->setCheckable(true);
     m_repeatAct->setShortcut(QKeySequence("Ctrl+R"));
+    m_repeatAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_changeDirectoryAct = new QAction(style()->standardIcon(QStyle::SP_DirIcon),tr("Open Directory"),this);
     m_volumeMutedAct = new QAction(this);
     m_volumeMutedAct->setCheckable(true);
     m_volumeMutedAct->setShortcut(QKeySequence("Ctrl+M"));
+    m_volumeMutedAct->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_loadTableTopAudioPlayListAct = new QAction(tr("load TableTopAudio.com playlist"),this);
 
 
     m_openPlayList= new QAction(style()->standardIcon(QStyle::SP_DialogOpenButton),tr("Open Playlist"),this);
     m_openPlayList->setShortcut(QKeySequence("Ctrl+J"));
+    m_openPlayList->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_savePlayList= new QAction(style()->standardIcon(QStyle::SP_DialogSaveButton),tr("Save Playlist"),this);
-    m_savePlayList->setShortcut(QKeySequence("Ctrl+S"));
+    m_savePlayList->setShortcut(QKeySequence("Ctrl+Ç"));
+    m_savePlayList->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_clearList= new QAction(style()->standardIcon(QStyle::SP_DialogResetButton),tr("Clear"),this);
     m_clearList->setShortcut(QKeySequence("Ctrl+Del"));
+    m_clearList->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
     m_addAction 	= new QAction(QIcon(":/resources/icons/add.png"),tr("Add Songs"), this);
     m_addAction->setShortcut(QKeySequence("Ctrl+A"));
+    m_addAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_addStreamAction = new QAction(tr("Open Stream"),this);
 
     m_deleteAction	= new QAction(QIcon(":/resources/icons/remove.png"),tr("Remove Song"), this);
     m_deleteAction->setShortcut(QKeySequence("Del"));
+    m_deleteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
 
     m_ui->m_volumeSlider->setValue(m_preferences->value(QString("volume_player_%1").arg(m_id),50).toInt());

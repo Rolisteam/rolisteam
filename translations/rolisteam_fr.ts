@@ -1630,104 +1630,104 @@ Il sera fermé pour tout le monde</translation>
         <translation>Suivant</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="132"/>
+        <location filename="../src/audio/playerwidget.cpp" line="133"/>
         <source>Previous</source>
         <translation>Précedent</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="135"/>
+        <location filename="../src/audio/playerwidget.cpp" line="137"/>
         <source>Open Directory</source>
         <translation>Ouvrir un répertoire</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="139"/>
+        <location filename="../src/audio/playerwidget.cpp" line="142"/>
         <source>load TableTopAudio.com playlist</source>
         <translation>Charger la liste de lecture de TableTopAudio.com</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="142"/>
+        <location filename="../src/audio/playerwidget.cpp" line="145"/>
         <source>Open Playlist</source>
         <translation>Ouvrir Liste de Lecture</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="144"/>
+        <location filename="../src/audio/playerwidget.cpp" line="148"/>
         <source>Save Playlist</source>
         <translation>Enregistrer la Liste de Lecture</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="146"/>
+        <location filename="../src/audio/playerwidget.cpp" line="151"/>
         <source>Clear</source>
         <translation>Videz</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="149"/>
+        <location filename="../src/audio/playerwidget.cpp" line="155"/>
         <source>Add Songs</source>
         <translation>Add chansons</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="151"/>
+        <location filename="../src/audio/playerwidget.cpp" line="158"/>
         <source>Open Stream</source>
         <translation>Ouvrir un flux</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="153"/>
+        <location filename="../src/audio/playerwidget.cpp" line="160"/>
         <source>Remove Song</source>
         <translation>Supprimer une chanson</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="173"/>
+        <location filename="../src/audio/playerwidget.cpp" line="181"/>
         <source>Add song to the list</source>
         <translation>Ajouter des musiques à la liste</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="174"/>
+        <location filename="../src/audio/playerwidget.cpp" line="182"/>
         <source>Remove selected file</source>
         <translation>Supprimer le fichier selectionné</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="274"/>
+        <location filename="../src/audio/playerwidget.cpp" line="282"/>
         <source>Add song</source>
         <translation>Ajouter musique</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="274"/>
+        <location filename="../src/audio/playerwidget.cpp" line="282"/>
         <source>Audio files (%1)</source>
         <translation>Fichiers Audios: (%1)</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="285"/>
+        <location filename="../src/audio/playerwidget.cpp" line="293"/>
         <source>Attention!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="285"/>
+        <location filename="../src/audio/playerwidget.cpp" line="293"/>
         <source>You are about to load an new playlist. All previously load file will be dropped.</source>
         <translation>Vous êtes sur le point de charger une playlist. Tous les fichiers précédement chargés seront perdus.</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="301"/>
-        <location filename="../src/audio/playerwidget.cpp" line="615"/>
+        <location filename="../src/audio/playerwidget.cpp" line="309"/>
+        <location filename="../src/audio/playerwidget.cpp" line="624"/>
         <source>Open Play List</source>
         <translation>Ouvrir Liste de Lecture</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="301"/>
-        <location filename="../src/audio/playerwidget.cpp" line="615"/>
+        <location filename="../src/audio/playerwidget.cpp" line="309"/>
+        <location filename="../src/audio/playerwidget.cpp" line="624"/>
         <source>PlayList (*.m3u)</source>
         <translation>Liste de Lecture (*.m3u)</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="313"/>
+        <location filename="../src/audio/playerwidget.cpp" line="321"/>
         <source>Open audio Stream</source>
         <translation>Ouvrir Flux Audio</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="313"/>
+        <location filename="../src/audio/playerwidget.cpp" line="321"/>
         <source>URL</source>
         <translation>URL</translation>
     </message>
     <message>
-        <location filename="../src/audio/playerwidget.cpp" line="493"/>
+        <location filename="../src/audio/playerwidget.cpp" line="502"/>
         <source>Load Directory</source>
         <translation>Charger un répertoire</translation>
     </message>
