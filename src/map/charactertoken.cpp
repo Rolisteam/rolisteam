@@ -297,6 +297,7 @@ void DessinPerso::initialiserContour(QImage &disque)
     contour[4] = QPoint(0, 0);
 
     // Initialisation du point haut droite
+
   //  for (x=disque.width()-1, y=0; qAlpha(disque.pixel(x,y))!=255; x--, y++) ;
     contour[5] = QPoint(disquePerso->width(), 0);
 
