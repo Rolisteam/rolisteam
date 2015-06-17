@@ -352,7 +352,7 @@ bool MapFrame::createMap()
         msg.rgb(color);
         msg.uint16(width);
         msg.uint16(height);
-        msg.uint8(1);
+        msg.uint8(12);
         msg.uint8((quint8)mapDialog.getPermission());
         msg.sendAll();
 

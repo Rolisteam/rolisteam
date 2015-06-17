@@ -290,8 +290,7 @@ void DessinPerso::initialiserContour(QImage &disque)
     contour[2] = QPoint (0, disque.height()/2);
     contour[3] = QPoint (disquePerso->width(), disquePerso->height()/2);
 
-    int x, y;
-    // Initialisation du point haut gauche
+
     //for (x=0, y=0; qAlpha(disque.pixel(x,y))!=255; x++, y++)
     //    qDebug() << qAlpha(disque.pixel(x,y)) << x << y << disque.width() << disque.height();
     contour[4] = QPoint(0, 0);
