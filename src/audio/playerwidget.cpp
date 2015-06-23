@@ -621,7 +621,7 @@ void PlayerWidget::loadPlayList()
 }
 void  PlayerWidget::savePlaylist()
 {
-    QString filename = QFileDialog::getSaveFileName(this, tr("Open Play List"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("PlayList (*.m3u)"));
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save Play List"), m_preferences->value("MusicDirectoryGM",QDir::homePath()).toString(), tr("PlayList (*.m3u)"));
     if (filename.isEmpty())
         return;
 
