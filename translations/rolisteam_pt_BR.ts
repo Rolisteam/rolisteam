@@ -352,12 +352,12 @@
         <translation type="unfinished">Enfeitiçado</translation>
     </message>
     <message>
-        <location filename="../src/map/charactertoken.cpp" line="395"/>
+        <location filename="../src/map/charactertoken.cpp" line="396"/>
         <source>Type de personnage inconnu (dessinerPersonnage - DessinPerso.cpp)</source>
         <translation>Tipo de personagem desconhecido (dessinerPersonnage - DessinPerso.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/charactertoken.cpp" line="470"/>
+        <location filename="../src/map/charactertoken.cpp" line="471"/>
         <source>Type de personnage inconnu (renommerPerso - DessinPerso.cpp)</source>
         <translation>Tipo de personagem desconhecido (renommerPerso - DessinPerso.cpp)</translation>
     </message>
@@ -1702,7 +1702,6 @@ Porta:%2</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="309"/>
-        <location filename="../src/audio/playerwidget.cpp" line="624"/>
         <source>Open Play List</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1725,6 +1724,11 @@ Porta:%2</translation>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="502"/>
         <source>Load Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/audio/playerwidget.cpp" line="624"/>
+        <source>Save Play List</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

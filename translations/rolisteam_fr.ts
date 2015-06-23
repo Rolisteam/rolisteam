@@ -352,12 +352,12 @@
         <translation>Ensorcelé</translation>
     </message>
     <message>
-        <location filename="../src/map/charactertoken.cpp" line="395"/>
+        <location filename="../src/map/charactertoken.cpp" line="396"/>
         <source>Type de personnage inconnu (dessinerPersonnage - DessinPerso.cpp)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/map/charactertoken.cpp" line="470"/>
+        <location filename="../src/map/charactertoken.cpp" line="471"/>
         <source>Type de personnage inconnu (renommerPerso - DessinPerso.cpp)</source>
         <translation></translation>
     </message>
@@ -1706,7 +1706,6 @@ Il sera fermé pour tout le monde</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="309"/>
-        <location filename="../src/audio/playerwidget.cpp" line="624"/>
         <source>Open Play List</source>
         <translation>Ouvrir Liste de Lecture</translation>
     </message>
@@ -1730,6 +1729,11 @@ Il sera fermé pour tout le monde</translation>
         <location filename="../src/audio/playerwidget.cpp" line="502"/>
         <source>Load Directory</source>
         <translation>Charger un répertoire</translation>
+    </message>
+    <message>
+        <location filename="../src/audio/playerwidget.cpp" line="624"/>
+        <source>Save Play List</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
