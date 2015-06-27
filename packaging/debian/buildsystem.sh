@@ -6,7 +6,7 @@
 #############################################
 VERSION=1.7.0
 
-GIT_PROJECT="git@github.com:obiwankennedy/rolisteam.git"
+GIT_PROJECT="git@github.com:Rolisteam/rolisteam.git"
 DEV=1
 
 
