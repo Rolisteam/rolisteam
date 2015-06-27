@@ -146,7 +146,7 @@ void PlayerWidget::setupUi()
     m_openPlayList->setShortcut(QKeySequence("Ctrl+J"));
     m_openPlayList->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_savePlayList= new QAction(style()->standardIcon(QStyle::SP_DialogSaveButton),tr("Save Playlist"),this);
-    m_savePlayList->setShortcut(QKeySequence("Ctrl+Ç"));
+    m_savePlayList->setShortcut(QKeySequence("Ctrl+E"));
     m_savePlayList->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     m_clearList= new QAction(style()->standardIcon(QStyle::SP_DialogResetButton),tr("Clear"),this);
     m_clearList->setShortcut(QKeySequence("Ctrl+Del"));
