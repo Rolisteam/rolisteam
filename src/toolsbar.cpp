@@ -341,15 +341,14 @@ void ToolsBar::resetNpcNumber()
 {
     m_showPnjNumber->display(1);
 	m_currentNpcNumber = 1;
+    emit currentNpcNumberChanged(m_currentNpcNumber);
 }
 
 void ToolsBar::changeSize(bool floating)
 {
 	if (floating)
 	{
-
 		setFixedHeight(578);
-
 	}
 	else
 		setMaximumHeight(0xFFFFFF);
