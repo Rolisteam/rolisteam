@@ -69,6 +69,8 @@ INSTALLS += target
 
 include(src/odt/src/src.pri)
 include(src/diceparser/diceparser.pri)
+include(src/vmap/vmap.pri)
+
 #include(src/diceparser/node/node.pri)
 ## Source
 HEADERS += \
