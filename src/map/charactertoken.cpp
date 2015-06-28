@@ -44,7 +44,7 @@ DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor c
 	AddHealthState(QColor(80, 80, 255),tr("Sleeping"));
 	AddHealthState(QColor(0, 200, 0),tr("Bewitched"));
 
-
+    setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
 
     // Initiatialisation des variables
     nomPerso = nom;
