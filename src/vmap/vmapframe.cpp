@@ -89,12 +89,7 @@ void  VMapFrame::createAction()
 }
 void VMapFrame::updateMap()
 {
-    if(!m_vmap->mapTitle().isEmpty())
-        setWindowTitle(m_vmap->mapTitle());
-    else
-        setWindowTitle(tr("Untitled Map"));
-    
- //   qDebug() << m_vmap->mapWidth() <<m_vmap->mapHeight();
+    m_title = m_vmap->mapTitle();
     m_graphicView->setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setGeometry(m_graphicView->geometry());
     m_widgetLayout->setLayout(m_hlayout);
