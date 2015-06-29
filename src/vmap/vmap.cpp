@@ -7,12 +7,12 @@
 
 
 #include "vmap.h"
-#include "rectitem.h"
-#include "ellipsitem.h"
-#include "pathitem.h"
-#include "lineitem.h"
-#include "textitem.h"
-#include "characteritem.h"
+#include "items/rectitem.h"
+#include "items/ellipsitem.h"
+#include "items/pathitem.h"
+#include "items/lineitem.h"
+#include "items/textitem.h"
+#include "items/characteritem.h"
 
 VMap::VMap(QObject * parent)
     : QGraphicsScene(parent)
@@ -95,7 +95,7 @@ const QColor& VMap::mapColor() const
 {
     return m_bgColor;
 }
-void VMap::setCurrentTool(ToolsBar::SelectableTool selectedtool)
+void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
 {
     m_selectedtool = selectedtool;
     m_currentItem = NULL;
@@ -112,7 +112,7 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         update();
         // }
     }
-    if(m_selectedtool==ToolsBar::HANDLER)
+    if(m_selectedtool==VToolsBar::HANDLER)
         QGraphicsScene::mouseMoveEvent(mouseEvent);
 }
 void VMap::addItem()
@@ -121,25 +121,25 @@ void VMap::addItem()
     
     switch(m_selectedtool)
     {
-    case ToolsBar::PEN:
+    case VToolsBar::PEN:
         m_currentItem=new PathItem(m_first,m_itemColor,m_penSize);
         break;
-    case ToolsBar::LINE:
+    case VToolsBar::LINE:
         m_currentItem= new LineItem(m_first,m_itemColor,m_penSize);
         break;
-    case ToolsBar::EMPTYRECT:
+    case VToolsBar::EMPTYRECT:
         m_currentItem = new RectItem(m_first,m_end,false,m_itemColor);
         break;
-    case ToolsBar::FILLRECT:
+    case VToolsBar::FILLRECT:
         m_currentItem = new RectItem(m_first,m_end,true,m_itemColor);
         break;
-    case ToolsBar::EMPTYELLIPSE:
+    case VToolsBar::EMPTYELLIPSE:
         m_currentItem = new EllipsItem(m_first,false,m_itemColor);
         break;
-    case ToolsBar::FILLEDELLIPSE:
+    case VToolsBar::FILLEDELLIPSE:
         m_currentItem = new EllipsItem(m_first,true,m_itemColor);
         break;
-    case ToolsBar::TEXT:
+    case VToolsBar::TEXT:
     {
         QLineEdit* tempedit = new QLineEdit();
         TextItem* temptext = new TextItem(m_first,tempedit,m_itemColor);
@@ -152,19 +152,19 @@ void VMap::addItem()
         connect(tempedit,SIGNAL(editingFinished()),this,SLOT(update()));
     }
         break;
-    case ToolsBar::HANDLER:
+    case VToolsBar::HANDLER:
 
         break;
-    case ToolsBar::ADDNPC:
+    case VToolsBar::ADDNPC:
 
         break;
-    case ToolsBar::DELNPC:
+    case VToolsBar::DELNPC:
 
         break;
-    case ToolsBar::MOVECHARACTER:
+    case VToolsBar::MOVECHARACTER:
 
         break;
-    case ToolsBar::STATECHARACTER:
+    case VToolsBar::STATECHARACTER:
 
         break;
     }
@@ -186,7 +186,7 @@ void VMap::setNPCSize(int p)
 void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     
-    if(m_selectedtool==ToolsBar::HANDLER)
+    if(m_selectedtool==VToolsBar::HANDLER)
     {
         //m_currentItem = dynamic_cast<VisualItem*>(itemAt(mouseEvent->scenePos()));
         QGraphicsScene::mousePressEvent(mouseEvent);
@@ -206,7 +206,7 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     Q_UNUSED(mouseEvent);
     m_currentItem = NULL;
-    if(m_selectedtool==ToolsBar::HANDLER)
+    if(m_selectedtool==VToolsBar::HANDLER)
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
 }
 void VMap::setCurrentChosenColor(QColor& p)
@@ -216,7 +216,7 @@ void VMap::setCurrentChosenColor(QColor& p)
     
 }
 
-QDataStream& operator<<(QDataStream& out, const Map& con)
+QDataStream& operator<<(QDataStream& out, const VMap& con)
 {
     out << con.m_width;
     out << con.m_height;
@@ -232,7 +232,7 @@ QDataStream& operator<<(QDataStream& out, const Map& con)
     return out;
 }
 
-QDataStream& operator>>(QDataStream& is,Map& con)
+QDataStream& operator>>(QDataStream& is,VMap& con)
 {
     is >>(con.m_width);
     is >>(con.m_height);

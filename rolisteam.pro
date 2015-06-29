@@ -130,7 +130,8 @@ HEADERS += \
     src/preferences/preferenceslistener.h \
     src/widgets/centeredcheckbox.h \
     src/preferences/palettemodel.h \
-    src/preferences/rolisteamtheme.h
+    src/preferences/rolisteamtheme.h \
+    src/widgets/flowlayout.h
 
 
 
@@ -187,7 +188,8 @@ SOURCES += \
     src/preferences/preferenceslistener.cpp \
     src/widgets/centeredcheckbox.cpp \
     src/preferences/palettemodel.cpp \
-    src/preferences/rolisteamtheme.cpp
+    src/preferences/rolisteamtheme.cpp \
+    src/widgets/flowlayout.cpp
 #end source
 
 

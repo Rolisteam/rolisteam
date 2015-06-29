@@ -21,20 +21,25 @@
 
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QUuid>
 
 #include "vmapframe.h"
+//#include "map/mapwizzard.h"
+#include "map/newemptymapdialog.h"
 
 VMapFrame::VMapFrame()
-    : SubMdiWindows()
+    : MediaContainer()
 {
+    setObjectName("VMapFrame");
     m_vmap = new VMap();
-    
-    
 }
 
-VMapFrame::VMapFrame(CleverURI* uri,Map *map)
-    : SubMdiWindows(),m_vmap(map)
+VMapFrame::VMapFrame(CleverURI* uri,VMap *map)
+    : MediaContainer(),m_vmap(map)
 {
+    setObjectName("VMapFrame");
     m_uri =uri;
     
     createAction();
@@ -64,14 +69,8 @@ void  VMapFrame::createAction()
     m_widgetLayout = new QWidget;
     m_graphicView = new RGraphicsView(m_vmap);
     
-    m_toolsbar = ToolsBar::getInstance();
-    connect(m_toolsbar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),this,SLOT(currentToolChanged(ToolsBar::SelectableTool)));
-    connect(m_toolsbar,SIGNAL(currentColorChanged(QColor&)),this,SLOT(currentColorChanged(QColor&)));
-    
-    connect(m_toolsbar,SIGNAL(currentModeChanged(int)),this,SIGNAL(setEditingMode(int)));
-    
-    connect(m_toolsbar,SIGNAL(currentPenSizeChanged(int)),this,SLOT(currentPenSizeChanged(int)));
-    connect(m_toolsbar,SIGNAL(currentPNCSizeChanged(int)),this,SLOT(currentNPCSizeChanged(int)));
+   // m_toolsbar = VToolsBar::getInstance();
+
     
     m_vlayout= new QVBoxLayout();
     m_hlayout = new QHBoxLayout();
@@ -86,7 +85,7 @@ void  VMapFrame::createAction()
     m_hlayout->addLayout(m_vlayout);
     m_hlayout->addStretch(1);
     m_hlayout->setContentsMargins(0,0,0,0);
-    m_currentEditingMode=ColorSelector::NORMAL;
+    //m_currentEditingMode=ColorSelector::NORMAL;
 }
 void VMapFrame::updateMap()
 {
@@ -95,7 +94,7 @@ void VMapFrame::updateMap()
     else
         setWindowTitle(tr("Untitled Map"));
     
-    qDebug() << m_vmap->mapWidth() <<m_vmap->mapHeight();
+ //   qDebug() << m_vmap->mapWidth() <<m_vmap->mapHeight();
     m_graphicView->setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setGeometry(m_graphicView->geometry());
     m_widgetLayout->setLayout(m_hlayout);
@@ -108,7 +107,7 @@ void VMapFrame::updateMap()
     
 }
 
-Map * VMapFrame::map()
+VMap * VMapFrame::map()
 {
     return m_vmap;
 }
@@ -134,14 +133,18 @@ void VMapFrame::Moving(QPoint position)
 }
 void VMapFrame::currentCursorChanged(QCursor* cursor)
 {
+    ///@todo add in mediacontainer
     m_currentCursor = cursor;
-    m_graphicView->setCursor(*m_currentCursor);
+    m_graphicView->setCursor(*cursor);
 }
-void VMapFrame::currentToolChanged(ToolsBar::SelectableTool selectedtool)
+void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 {
+
     m_currentTool = selectedtool;
     if(m_vmap != NULL)
-        m_vmap->setCurrentTool(m_currentTool);
+    {
+        m_vmap->setCurrentTool(selectedtool);
+    }
     
 }
 void VMapFrame::mousePressEvent(QMouseEvent* event)
@@ -149,14 +152,16 @@ void VMapFrame::mousePressEvent(QMouseEvent* event)
     /**
     @todo : stop the event when we are not in normal editing mode and make appropriate actions.
     */
+    ///@todo add in mediacontainer
     
-    
-    if(m_currentEditingMode != ColorSelector::NORMAL)
+    if(m_currentEditingMode != VColorSelector::NORMAL)
     {
         event->ignore();
     }
     else
-        SubMdiWindows::mousePressEvent(event);
+    {
+        MediaContainer::mousePressEvent(event);
+    }
 }
 void VMapFrame::currentPenSizeChanged(int ps)
 {
@@ -174,7 +179,9 @@ void VMapFrame::currentColorChanged(QColor& penColor)
     m_penColor = penColor;
     
     if(m_vmap !=NULL)
+    {
         m_vmap->setCurrentChosenColor(m_penColor);
+    }
 }
 void VMapFrame::setEditingMode(int mode)
 {
@@ -220,7 +227,7 @@ void VMapFrame::keyPressEvent ( QKeyEvent * event )
         /// @todo remove selected item
         break;
     default:
-        SubMdiWindows::keyPressEvent(event);
+        MediaContainer::keyPressEvent(event);
     }
 }
 void VMapFrame::setCleverURI(CleverURI* uri)
@@ -237,3 +244,8 @@ QDockWidget* VMapFrame::getDockWidget()
     return NULL;
     //return m_toolsbar;
 }
+bool VMapFrame::readFileFromUri()
+{
+    return false;
+}
+

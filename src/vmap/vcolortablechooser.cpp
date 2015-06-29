@@ -23,7 +23,7 @@
 #include <QResizeEvent>
 #include <QWheelEvent>
 
-#include "colortablechooser.h"
+#include "vcolortablechooser.h"
 #define MAX_COLOR 359
 #define MAX_SATURATION 255
 ////////////////////////////////////////

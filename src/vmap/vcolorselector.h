@@ -28,8 +28,8 @@
 /********************************************************************/
 
 
-#ifndef SELECTEUR_COULEUR_H
-#define SELECTEUR_COULEUR_H
+#ifndef VCOLORSELECTOR_H
+#define VCOLORSELECTOR_H
 
 #include <QWidget>
 #include <QFrame>
@@ -37,20 +37,20 @@
 #include <QPushButton>
 
 //#include "types.h"
-#include "colortablechooser.h"
+#include "vcolortablechooser.h"
 
 class PreferencesManager;
 /**
     * @brief shows selected color and detect any event such as click or doubleclick
     */
-class ColorLabel : public QAbstractButton
+class VColorLabel : public QAbstractButton
 {
     Q_OBJECT
 public:
     /**
     * @brief default constructor
     */
-    ColorLabel(QWidget * parent = 0);
+    VColorLabel(QWidget * parent = 0);
 signals:
     /**
     * @brief send off the current color
@@ -111,7 +111,7 @@ private:
 /**
     * @brief custom widget to display many color squares, click select the color.
     */
-class ColorSelector : public QWidget
+class VColorSelector : public QWidget
 {
     Q_OBJECT
     
@@ -124,7 +124,7 @@ public:
     /**
     * @brief Constructor compliant with QWidget constructor
     */
-    ColorSelector(QWidget *parent = 0);
+    VColorSelector(QWidget *parent = 0);
     /**
     * @brief define the current color
     * @param new color
@@ -170,7 +170,7 @@ private slots:
     /**
     * @brief open the color selector dialog box
     */
-    void colorSelectorDialog();
+    void VColorSelectorDialog();
     /**
     * @brief slot called when user click on painting mode button
     * @param changed the mode
@@ -180,7 +180,7 @@ private:
     /**
     * @brief current colorlabel
     */
-    ColorLabel *m_currentColorLabel;
+    VColorLabel *m_currentColorLabel;
     /**
     * @brief erase tool button
     */
@@ -199,11 +199,11 @@ private:
     * @todo perhaps QList will be more efficient
     * @todo name it in english
     */
-    ColorLabel *couleurPredefinie[48];
+    VColorLabel *couleurPredefinie[48];
     /**
     * @brief array of personal color
     */
-    ColorLabel *couleurPersonnelle[16];
+    VColorLabel *couleurPersonnelle[16];
     /**
     * @brief widget to split the tool bar
     */

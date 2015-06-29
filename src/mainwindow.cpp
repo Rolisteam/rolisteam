@@ -61,6 +61,11 @@
 #include "textedit.h"
 #include "variablesGlobales.h"
 
+//VMAP
+#include "vmap/vmapframe.h"
+#include "vmap/vmap.h"
+#include "vmap/vmapwizzarddialog.h"
+
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
 #endif
@@ -287,18 +292,24 @@ void MainWindow::checkUpdate()
 }
 void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
 {
-    QWidget* widget=NULL;
     bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
     if((NULL!=subWindow) )
     {
         if (subWindow->objectName() == QString("MapFrame") && (localPlayerIsGM))
         {
+            m_toolBarStack->setCurrentWidget(m_toolBar);
             m_ui->m_closeAction->setEnabled(true);
             m_ui->m_saveAction->setEnabled(true);
             subWindow->setFocus();
         }
         else if(subWindow->objectName() == QString("Image") && ((localPlayerIsGM)))
         {
+            m_ui->m_closeAction->setEnabled(true);
+            m_ui->m_saveAction->setEnabled(false);
+        }
+        else if(subWindow->objectName() == QString("VMapFrame") && ((localPlayerIsGM)))
+        {
+            m_toolBarStack->setCurrentWidget(m_vToolBar);
             m_ui->m_closeAction->setEnabled(true);
             m_ui->m_saveAction->setEnabled(false);
         }
@@ -422,6 +433,7 @@ void MainWindow::linkActionToMenu()
 {
     // file menu
     connect(m_ui->m_newMapAction, SIGNAL(triggered(bool)), this, SLOT(newMap()));
+    connect(m_ui->m_addVectorialMap, SIGNAL(triggered(bool)), this, SLOT(newVectorialMap()));
     connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
     connect(m_ui->m_newNoteAction, SIGNAL(triggered(bool)), this, SLOT(newNoteDocument()));
     connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
@@ -526,7 +538,26 @@ void MainWindow::newMap()
         prepareMap(mapFrame);
         addMediaToMdiArea(mapFrame);
         mapFrame->setVisible(true);
+    }
+}
+void MainWindow::newVectorialMap()
+{
+    MapWizzardDialog mapWizzard;
+    if(mapWizzard.exec())
+    {
+        VMap* tempmap = new VMap();
+        mapWizzard.setAllMap(tempmap);
+        VMapFrame* tmp = new VMapFrame(new CleverURI("",CleverURI::VMAP),tempmap);
+        connect(m_vToolBar,SIGNAL(currentToolChanged(VToolsBar::SelectableTool)),tmp,SLOT(currentToolChanged(VToolsBar::SelectableTool)));
+        connect(m_vToolBar,SIGNAL(currentColorChanged(QColor&)),tmp,SLOT(currentColorChanged(QColor&)));
 
+        connect(m_vToolBar,SIGNAL(currentModeChanged(int)),tmp,SLOT(setEditingMode(int)));
+
+        connect(m_vToolBar,SIGNAL(currentPenSizeChanged(int)),tmp,SLOT(currentPenSizeChanged(int)));
+        connect(m_vToolBar,SIGNAL(currentPNCSizeChanged(int)),tmp,SLOT(currentNPCSizeChanged(int)));
+        //tempmap->setCurrentTool(m_toolbar->getCurrentTool());
+        addMediaToMdiArea(tmp);
+        tmp->show();
     }
 }
 void MainWindow::newNoteDocument()
@@ -1263,9 +1294,19 @@ void MainWindow::setupUi()
     connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(changementFenetreActive(QMdiSubWindow *)));
 
     m_toolBar = new ToolsBar();
-    addDockWidget(Qt::LeftDockWidgetArea, m_toolBar);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,m_toolBar->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
+
+    m_vToolBar = new VToolsBar();
+    m_toolBarStack = new QStackedWidget();
+
+    m_toolBarStack->addWidget(m_toolBar);
+    m_toolBarStack->addWidget(m_vToolBar);
+
+
+    QDockWidget* dock = new QDockWidget(this);
+    dock->setWidget(m_toolBarStack);
+    addDockWidget(Qt::LeftDockWidgetArea,dock);
 
     createNotificationZone();
     m_ui->m_menuSubWindows->insertAction(m_ui->m_notificationAct,m_dockLogUtil->toggleViewAction());
@@ -1736,6 +1777,10 @@ void MainWindow::openContent()
     else if(action == m_ui->m_openOnlinePictureAction)
     {
         type = CleverURI::ONLINEPICTURE;
+    }
+    else if(action == m_ui->m_openVectorialMap)
+    {
+        type = CleverURI::VMAP;
     }
 #ifdef WITH_PDF
     else if(action == m_openPDFAct)
