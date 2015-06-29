@@ -40,19 +40,17 @@ VToolsBar* VToolsBar::getInstance(QWidget *parent)
 }
 
 VToolsBar::VToolsBar(QWidget *parent)
-    : QWidget(parent)
+    : QDockWidget(parent)
 {
     
     setWindowTitle(tr("Tools"));
     setObjectName("Toolbar");
-    //setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    //setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     m_centralWidget = new QWidget(this);
     creerActions();
     creerOutils();
-    QHBoxLayout* lay = new QHBoxLayout();
-    lay->addWidget(m_centralWidget);
-    setLayout(lay);
+    setWidget(m_centralWidget);
     
     connect(m_colorSelector,SIGNAL(currentColorChanged(QColor&)),this,SIGNAL(currentColorChanged(QColor&)));
     connect(m_colorSelector,SIGNAL(currentModeChanged(int)),this,SIGNAL(currentModeChanged(int)));
@@ -62,8 +60,10 @@ VToolsBar::VToolsBar(QWidget *parent)
     QObject::connect(m_textEditLine, SIGNAL(textEdited(const QString &)), this, SLOT(changeText(const QString &)));
     QObject::connect(m_npcNameTextEdit, SIGNAL(textEdited(const QString &)), this, SLOT(npcNameChange(const QString &)));
     connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));
+
+    QObject::connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changeSize(bool)));
     
-    //setFloating(false);
+    setFloating(false);
     
 }
 
@@ -111,8 +111,13 @@ void VToolsBar::creerActions()
     
     m_handAct->setChecked(true);
 }
+
+/********************************************************************/
+/* Creation des boutons et du widget qui les contient               */
+/********************************************************************/
 void VToolsBar::creerOutils()
 {
+    // Creation des boutons du toolBar
     QToolButton *boutonCrayon     = new QToolButton();
     QToolButton *boutonLigne      = new QToolButton();
     QToolButton *boutonRectVide   = new QToolButton();
@@ -127,6 +132,8 @@ void VToolsBar::creerOutils()
     QToolButton *boutonEtatPnj    = new QToolButton();
     QToolButton *boutonRazChrono  = new QToolButton();
     
+    
+    // Association des boutons avec les actions
     boutonCrayon->setDefaultAction(m_pencilAct);
     boutonLigne      ->setDefaultAction(m_lineAct);
     boutonRectVide   ->setDefaultAction(m_rectAct);
@@ -141,6 +148,8 @@ void VToolsBar::creerOutils()
     boutonEtatPnj    ->setDefaultAction(m_pcStateAct);
     boutonRazChrono  ->setDefaultAction(m_resetCountAct);
     
+    
+    // Boutons en mode AutoRaise, plus lisible
     boutonCrayon     ->setAutoRaise(true);
     boutonLigne      ->setAutoRaise(true);
     boutonRectVide   ->setAutoRaise(true);
@@ -154,6 +163,9 @@ void VToolsBar::creerOutils()
     boutonDeplacePnj ->setAutoRaise(true);
     boutonEtatPnj    ->setAutoRaise(true);
     boutonRazChrono  ->setAutoRaise(true);
+    
+    
+    
     /**
     *
     * @todo used preferencemanager to get icon Size.
@@ -176,7 +188,9 @@ void VToolsBar::creerOutils()
     
     
     QVBoxLayout* outilsLayout = new QVBoxLayout();
-
+    
+    
+    
     FlowLayout *toolsLayout = new FlowLayout();
     toolsLayout->setSpacing(0);
     toolsLayout->setMargin(0);
@@ -194,7 +208,8 @@ void VToolsBar::creerOutils()
     
     m_npcNameTextEdit = new QLineEdit();
     m_npcNameTextEdit->setToolTip(tr("NPC Name"));
-
+    
+    
     m_displayNPCCounter = new QLCDNumber(2);
     m_displayNPCCounter->setSegmentStyle(QLCDNumber::Flat);
     /// @todo used preferencemanager
@@ -203,9 +218,14 @@ void VToolsBar::creerOutils()
     m_displayNPCCounter->setToolTip(tr("NPC's number"));
     
     m_currentNPCNumber = 1;
-
+    
+    
     m_colorSelector = new VColorSelector(this);
-
+    
+    
+    
+    
+    
     FlowLayout *characterToolsLayout = new FlowLayout();
     characterToolsLayout->addWidget(boutonDeplacePnj);
     characterToolsLayout->addWidget(boutonEtatPnj);
@@ -213,15 +233,22 @@ void VToolsBar::creerOutils()
     characterToolsLayout->addWidget(boutonSupprPnj);
     characterToolsLayout->addWidget(boutonRazChrono);
     characterToolsLayout->addWidget(m_displayNPCCounter);
-
+    
+    
     m_lineDiameter = new DiameterSelector(m_centralWidget, true, 1, 45);
     m_lineDiameter->setToolTip(tr("Heigth of the pen"));
     connect(m_lineDiameter,SIGNAL(diameterChanged(int)),this,SIGNAL(currentPenSizeChanged(int)));
-
+    
+    
     m_NpcDiameter = new DiameterSelector(m_centralWidget, false, 12, 60);
     connect(m_NpcDiameter,SIGNAL(diameterChanged(int)),this,SIGNAL(currentPNCSizeChanged(int)));
     m_NpcDiameter->setToolTip(tr("Size of NPC"));
-
+    
+    
+    
+    
+    
+    
     outilsLayout->addWidget(m_colorSelector);
     outilsLayout->addLayout(toolsLayout);
     outilsLayout->addWidget(m_textEditLine);
@@ -258,6 +285,17 @@ void VToolsBar::resetNpcCount()
             m_displayNPCCounter->display(1);
     m_currentNPCNumber = 1;
 
+}
+
+void VToolsBar::changeSize(bool floating)
+{
+
+    if (floating)
+    {
+        setFixedHeight(578);
+    }
+    else
+    setMaximumHeight(0xFFFFFF);
 }
 
 
