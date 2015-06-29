@@ -93,3 +93,16 @@ void MediaContainer::setCleverUriType(CleverURI::ContentType type)
 {
     m_uri = new CleverURI("",type);
 }
+void MediaContainer::currentColorChanged(QColor& penColor)
+{
+    m_penColor = penColor;
+}
+void MediaContainer::currentToolChanged(VToolsBar::SelectableTool selectedtool)
+{
+    m_currentTool = selectedtool;
+}
+void MediaContainer::currentCursorChanged(QCursor* cursor)
+{
+    m_currentCursor = cursor;
+
+}

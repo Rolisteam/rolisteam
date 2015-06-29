@@ -100,7 +100,7 @@ void MapWizzardDialog::selectedShapeChanged()
     
     
 }
-void MapWizzardDialog::setAllMap(Map* map)
+void MapWizzardDialog::setAllMap(VMap* map)
 {
     
     map->setPattern(m_model->getPatternAt(ui->m_gridPattern->currentIndex()));

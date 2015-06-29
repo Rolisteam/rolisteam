@@ -24,8 +24,8 @@
 #include "rgraphicsview.h"
 //#include "rolisteammimedata.h"
 
-RGraphicsView::RGraphicsView(Map *map)
-    : QGraphicsView(map),m_map(map)
+RGraphicsView::RGraphicsView(VMap *vmap)
+    : QGraphicsView(vmap),m_vmap(vmap)
 {
     setAcceptDrops(true);
 }

@@ -53,7 +53,7 @@ public:
     * @brief Define all paramaters of the map.
     * @param map must be fully defined.
     */
-    void setAllMap(Map* map);
+    void setAllMap(VMap* map);
     
 protected:
     /**
