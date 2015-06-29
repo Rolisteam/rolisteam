@@ -49,6 +49,8 @@
 #include "network/networkmessagewriter.h"
 
 #include "vmap/vtoolbar.h"
+#include "vmap/vmap.h"
+#include "vmap/vmapframe.h"
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
@@ -188,6 +190,7 @@ public :
      * @param mapFrame
      */
     void prepareMap(MapFrame* mapFrame);
+    void prepareVMap(VMapFrame* tmp);
     /**
      * @brief addMediaToMdiArea
      * @param mediac
@@ -249,6 +252,7 @@ protected :
     void processCharacterMessage(NetworkMessageReader* msg);
     void processConnectionMessage(NetworkMessageReader* msg);
     void processCharacterPlayerMessage(NetworkMessageReader* msg);
+    void processVMapMessage(NetworkMessageReader* msg);
     void extractCharacter(Map* map,NetworkMessageReader* msg);
     CleverURI* contentToPath(CleverURI::ContentType type,bool save);
     void dropEvent(QDropEvent* event);
