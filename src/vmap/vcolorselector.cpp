@@ -22,42 +22,44 @@
 #include <QtWidgets>
 #include <QButtonGroup>
 
-#include "colorselector.h"
+#include "vcolorselector.h"
 
 
-#include "preferencesmanager.h"
+#include "preferences/preferencesmanager.h"
 
-ColorLabel::ColorLabel(QWidget * parent)
+VColorLabel::VColorLabel(QWidget * parent)
     : QAbstractButton(parent)
 {
     setMinimumSize(40,40);
     setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
 }
-void ColorLabel::mousePressEvent(QMouseEvent *ev)
+void VColorLabel::mousePressEvent(QMouseEvent *ev)
 {
     Q_UNUSED(ev);
     emit clickedColor(this->palette().color(QPalette::Window));
     QAbstractButton::mousePressEvent(ev);
 }
-void ColorLabel::resizeEvent(QResizeEvent * event)
+void VColorLabel::resizeEvent(QResizeEvent * event)
 {
     /*int length = width()>height() ? height() : width();
     setFixedSize(length,length);*/
     QWidget::resizeEvent(event);
 }
-void ColorLabel::mouseDoubleClickEvent (QMouseEvent *event)
+void VColorLabel::mouseDoubleClickEvent (QMouseEvent *event)
 {
     Q_UNUSED(event);
     emit doubledclicked();
     QAbstractButton::mouseDoubleClickEvent(event);
 }
-void ColorLabel::paintEvent( QPaintEvent * event )
+void VColorLabel::paintEvent( QPaintEvent * event )
 {
     /* QPainter painter(this);
     painter.fillRect(rect(),this->palette().color(QPalette::Window));*/
     QWidget::paintEvent(event);
     
 }
+// end of VColorLabel
+
 
 BackgroundButton::BackgroundButton(QPixmap* p,QWidget * parent )
     : QPushButton(parent),m_background(p)
@@ -83,7 +85,7 @@ void BackgroundButton::paintEvent( QPaintEvent * event )
 }
 
 
-ColorSelector::ColorSelector(QWidget *parent)
+VColorSelector::VColorSelector(QWidget *parent)
     : QWidget(parent)
 {
     m_options = PreferencesManager::getInstance();
@@ -93,18 +95,20 @@ ColorSelector::ColorSelector(QWidget *parent)
     // Creation du layout principale
     QVBoxLayout *selecteurLayout = new QVBoxLayout(this);
     
-    m_currentColorLabel = new ColorLabel(this);
-    
+    m_currentColorLabel = new VColorLabel(this);
+    m_currentColorLabel->setMaximumSize(200,200);
     m_currentColorLabel->setPalette(QPalette(QColor(0,0,0)));
     m_currentColorLabel->setToolTip(tr("Predefine Color 1"));
     m_currentColorLabel->setAutoFillBackground(true);
-    connect(m_currentColorLabel,SIGNAL(doubledclicked()),this,SLOT(colorSelectorDialog()));
+    connect(m_currentColorLabel,SIGNAL(doubledclicked()),this,SLOT(VColorSelectorDialog()));
     
     m_currentColor = QColor(0,0,0);
     
     
     
     m_colorTableChooser = new ColorTableChooser(this);
+    //m_colorTableChooser->setSizePolicy(QSizePolicy::Fixed);
+    m_colorTableChooser->setMaximumSize(200,200);
     
     
     selecteurLayout->addWidget(m_currentColorLabel,1);
@@ -163,7 +167,7 @@ ColorSelector::ColorSelector(QWidget *parent)
     
     //allowOrForbideColors();
 }
-void ColorSelector::selectColor(const QColor& color)
+void VColorSelector::selectColor(const QColor& color)
 {
     
     m_currentColorLabel->setPalette(QPalette(color));
@@ -176,7 +180,7 @@ void ColorSelector::selectColor(const QColor& color)
     emit currentModeChanged(NORMAL);
 }
 
-void ColorSelector::onGroupEdition(QAbstractButton* b)
+void VColorSelector::onGroupEdition(QAbstractButton* b)
 {
     if((b == m_eraseColor)&&(m_eraseColor->isChecked()))
     {
@@ -200,7 +204,7 @@ void ColorSelector::onGroupEdition(QAbstractButton* b)
 
 
 
-void ColorSelector::allowOrForbideColors()
+void VColorSelector::allowOrForbideColors()
 {
     // L'utilisateur est un joueur
     /*	if (G_joueur)
@@ -229,7 +233,7 @@ void ColorSelector::allowOrForbideColors()
 /********************************************************************/
 /* Change la couleur actuelle                                       */
 /********************************************************************/
-void ColorSelector::setCurrentColor(QColor& couleur)
+void VColorSelector::setCurrentColor(QColor& couleur)
 {
     
     //m_currentColorLabel->clear();
@@ -241,7 +245,7 @@ void ColorSelector::setCurrentColor(QColor& couleur)
     m_currentColor = couleur;
     emit currentColorChanged(m_currentColor);
 }
-QColor& ColorSelector::currentColor()
+QColor& VColorSelector::currentColor()
 {
     return m_currentColor;
     
@@ -250,7 +254,7 @@ QColor& ColorSelector::currentColor()
 /********************************************************************/
 /* M.a.j des couleurs personnelles                                  */
 /********************************************************************/
-void ColorSelector::customColorUpdate()
+void VColorSelector::customColorUpdate()
 {
     /*for (int i=0, j=0; i<16; i++)
     {
@@ -264,7 +268,7 @@ void ColorSelector::customColorUpdate()
 /* Renvoie la couleur personnelle dont le numero est passe en       */
 /* parametre                                                        */
 /********************************************************************/
-QColor ColorSelector::getPersonalColor(int numero)
+QColor VColorSelector::getPersonalColor(int numero)
 {
     /*int numCouleur;
 
@@ -279,7 +283,7 @@ QColor ColorSelector::getPersonalColor(int numero)
 
 
 
-void ColorSelector::colorSelectorDialog()
+void VColorSelector::VColorSelectorDialog()
 {
     QColor color = QColorDialog::getColor(m_currentColor);
     if (color.isValid())

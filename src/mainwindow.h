@@ -32,19 +32,23 @@
 #include <QMenu>
 #include <QProgressBar>
 #include <QMdiSubWindow>
+#include <QStackedWidget>
 
 #include "data/cleveruri.h"
-#include "map/map.h"
+#include "data/mediacontainer.h"
 
+#include "map/map.h"
 #include "map/charactertoken.h"
+
 #include "preferences/preferencesmanager.h"
+
 #include "services/ipchecker.h"
 
 #include "network/networkreceiver.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
-#include "data/mediacontainer.h"
+#include "vmap/vtoolbar.h"
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
@@ -254,6 +258,7 @@ private slots :
     void changementNatureUtilisateur();
     void changementFenetreActive(QMdiSubWindow* widget);
     void newMap();
+    void newVectorialMap();
     void openStory();
     void openNote();
     void closeMapOrImage();
@@ -312,7 +317,13 @@ private :
      */
 	ImprovedWorkspace* m_mdiArea;
     PlayersListWidget * m_playersListWidget;
-	ToolsBar* m_toolBar;
+
+    //toolbar
+    ToolsBar* m_toolBar;
+    VToolsBar* m_vToolBar;
+    QStackedWidget* m_toolBarStack;
+
+
     QMap<QString,MapFrame *> m_mapWindowMap;
     QList <Image*> m_pictureList;
     QMap<MediaContainer*,QAction*>* m_mapAction;

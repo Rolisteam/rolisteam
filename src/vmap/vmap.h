@@ -17,12 +17,13 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-#ifndef MAP_H
-#define MAP_H
+#ifndef VMAP_H
+#define VMAP_H
 
 #include <QGraphicsScene>
 #include <QColor>
-#include "toolbar.h"
+#include "vtoolbar.h"
+#include "map/map.h"
 
 #include "data/persons.h"
 
@@ -106,7 +107,7 @@ public slots:
     * @brief defines the current tools
     * @param new tool
     */
-    void setCurrentTool(ToolsBar::SelectableTool selectedtool);
+    void setCurrentTool(VToolsBar::SelectableTool selectedtool);
     /**
     * @brief defines the current color for painting
     * @param new color
@@ -171,7 +172,7 @@ private:
     /**
     * @brief current tool
     */
-    ToolsBar::SelectableTool m_selectedtool;
+    VToolsBar::SelectableTool m_selectedtool;
     /**
     * @brief first point of the next item
     */
@@ -218,8 +219,8 @@ private:
     SCALE_UNIT m_patternUnit;
     
     
-    friend QDataStream& operator<<(QDataStream& os,const Map&);
-    friend QDataStream& operator>>(QDataStream& is,Map&);
+    friend QDataStream& operator<<(QDataStream& os,const VMap&);
+    friend QDataStream& operator>>(QDataStream& is,VMap&);
 };
 
-#endif // MAP_H
+#endif // VMAP_H

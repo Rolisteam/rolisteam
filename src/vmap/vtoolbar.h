@@ -29,22 +29,26 @@
 #include <QDockWidget>
 #include <QResizeEvent>
 
-#include "colorselector.h"
-#include "diameterselector.h"
+#include "vcolorselector.h"
+#include "widgets/diameterselector.h"
 
 /**
   *  @brief toolbar is a QDockWidget subclass which gathering all tool required for drawing maps.
   *  @todo manu members must be renamed to english
   */
-class ToolsBar : public QDockWidget
+class VToolsBar : public QDockWidget
 {
 Q_OBJECT
 
 public :
     /**
+      * @brief constructor for Qt widget
+      */
+    VToolsBar(QWidget *parent = 0);
+    /**
       * @brief part of the singleton pattern
       */
-    static ToolsBar* getInstance(QWidget *parent=0);
+    static VToolsBar* getInstance(QWidget *parent=0);
     /**
       * @brief may not be used anymore
       */
@@ -72,8 +76,8 @@ public :
     /**
       * @brief accessor to the current tool
       */
-    ToolsBar::SelectableTool getCurrentTool();
-    public slots :
+    VToolsBar::SelectableTool getCurrentTool();
+public slots :
     /**
       * @brief increase NPC number
       * @todo rename it
@@ -94,7 +98,7 @@ signals:
     /**
       * @brief emited when current tool has been changed by user
       */
-    void currentToolChanged(ToolsBar::SelectableTool);
+    void currentToolChanged(VToolsBar::SelectableTool);
     /**
       * @brief emitted when current color has been changed by user
       */
@@ -113,13 +117,9 @@ signals:
     void currentModeChanged(int);
 
 private:
-    /**
-      * @brief constructor for Qt widget
-      */
-    ToolsBar(QWidget *parent = 0);
     
     
-    static ToolsBar* m_sigleton;/// address of single instance
+    static VToolsBar* m_sigleton;/// address of single instance
     void creerActions(); /// utily function
     void creerOutils(); /// utilyti function
 
@@ -127,7 +127,7 @@ private:
     QLineEdit *m_textEditLine; /// text line @warning is it still used ?
     QLineEdit *m_npcNameTextEdit;/// text line to define the npc name
     QLCDNumber *m_displayNPCCounter; /// count how many npc have been created
-    ColorSelector *m_colorSelector; /// select a color
+    VColorSelector *m_colorSelector; /// select a color
     DiameterSelector *m_lineDiameter;/// select pen diameter
     DiameterSelector *m_NpcDiameter; /// select npc diameter
     QActionGroup *m_toolsGroup;/// group all tools and manage which one is the current one

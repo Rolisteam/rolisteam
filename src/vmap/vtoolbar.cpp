@@ -22,24 +22,24 @@
 
 #include <QtWidgets>
 
-#include "toolbar.h"
-#include "colorselector.h"
-#include "diameterselector.h"
-#include "flowlayout.h"
+#include "vtoolbar.h"
+#include "widgets/colorselector.h"
+#include "widgets/diameterselector.h"
+#include "widgets/flowlayout.h"
 
 
 /**/
-ToolsBar* ToolsBar::m_sigleton=NULL;
+VToolsBar* VToolsBar::m_sigleton=NULL;
 
-ToolsBar* ToolsBar::getInstance(QWidget *parent)
+VToolsBar* VToolsBar::getInstance(QWidget *parent)
 {
     if(m_sigleton==NULL)
-        m_sigleton=new ToolsBar(parent);
+        m_sigleton=new VToolsBar(parent);
     
     return m_sigleton;
 }
 
-ToolsBar::ToolsBar(QWidget *parent)
+VToolsBar::VToolsBar(QWidget *parent)
     : QDockWidget(parent)
 {
     
@@ -68,33 +68,33 @@ ToolsBar::ToolsBar(QWidget *parent)
 }
 
 
-void ToolsBar::autoriserOuInterdireCouleurs()
+void VToolsBar::autoriserOuInterdireCouleurs()
 {
-    m_colorSelector->allowOrForbideColors();
+    //m_colorSelector->allowOrForbideColors();
 }
 
 
-void ToolsBar::creerActions()
+void VToolsBar::creerActions()
 {
     // Creation du groupe d'action
     m_toolsGroup = new QActionGroup(this);
     
     
-    m_pencilAct 	= new QAction(QIcon(":/resources/icons/crayon.png"), tr("Crayon"), m_toolsGroup);
-    m_lineAct 	= new QAction(QIcon(":/resources/icons/line.png"), tr("Ligne"), m_toolsGroup);
-    m_rectAct 	= new QAction(QIcon(":/resources/icons/rectangle vide.png"), tr("Rectangle vide"), m_toolsGroup);
-    m_rectFillAct	= new QAction(QIcon(":/resources/icons/rectangle plein.png"), tr("Rectangle plein"), m_toolsGroup);
-    m_elipseAct 	= new QAction(QIcon(":/resources/icons/ellipse vide.png"), tr("Ellipse vide"), m_toolsGroup);
-    m_elipseFillAct	= new QAction(QIcon(":/resources/icons/ellipse pleine.png"), tr("Ellipse pleine"), m_toolsGroup);
-    m_textAct 	= new QAction(QIcon(":/resources/icons/text.png"), tr("Texte"), m_toolsGroup);
-    m_handAct		= new QAction(QIcon(":/resources/icons/main.png"), tr("Déplacer"), m_toolsGroup);
-    m_addPCAct 	= new QAction(QIcon(":/resources/icons/ajouter PNJ.png"), tr("Ajouter un PNJ"), m_toolsGroup);
-    m_delNPCAct 	= new QAction(QIcon(":/resources/icons/supprimer PNJ.png"), tr("Supprimer un PNJ"), m_toolsGroup);
-    m_movePCAct= new QAction(QIcon(":/resources/icons/move-npc.png"), tr("Déplacer/Orienter un personnage"), m_toolsGroup);
-    m_pcStateAct	= new QAction(QIcon(":/resources/icons/etat.png"), tr("Changer l'état d'un personnage"), m_toolsGroup);
+    m_pencilAct				= new QAction(QIcon(":/resources/icons/pen.png"), tr("Pen"), m_toolsGroup);
+    m_lineAct				= new QAction(QIcon(":/resources/icons/line.png"), tr("Line"), m_toolsGroup);
+    m_rectAct				= new QAction(QIcon(":/resources/icons/emptyrectangle.png"), tr("Empty Rectangle"), m_toolsGroup);
+    m_rectFillAct           = new QAction(QIcon(":/resources/icons/filledrectangle.png"), tr("filled Rectangle"), m_toolsGroup);
+    m_elipseAct             = new QAction(QIcon(":/resources/icons/emptyellipse.png"), tr("Empty Ellipse"), m_toolsGroup);
+    m_elipseFillAct         = new QAction(QIcon(":/resources/icons/filledellipse.png"), tr("Filled Ellipse"), m_toolsGroup);
+    m_textAct               = new QAction(QIcon(":/resources/icons/text.png"), tr("Text"), m_toolsGroup);
+    m_handAct               = new QAction(QIcon(":/resources/icons/hand.png"), tr("Mode"), m_toolsGroup);
+    m_addPCAct              = new QAction(QIcon(":/resources/icons/add.png"), tr("Add NPC"), m_toolsGroup);
+    m_delNPCAct             = new QAction(QIcon(":/resources/icons/remove.png"), tr("Remove NPC"), m_toolsGroup);
+    m_movePCAct             = new QAction(QIcon(":/resources/icons/moveNpc.png"), tr("Move/Turn Character"), m_toolsGroup);
+    m_pcStateAct            = new QAction(QIcon(":/resources/icons/state.png"), tr("Change Character's State"), m_toolsGroup);
     
     
-    m_resetCountAct	= new QAction(QIcon(":/resources/icons/chronometre.png"), tr("RAZ numéros de PNJ"), this);
+    m_resetCountAct	= new QAction(QIcon(":/resources/icons/chronometre.png"), tr("Reset NPC counter"), this);
     
     m_pencilAct->setCheckable(true);
     m_lineAct->setCheckable(true);
@@ -115,7 +115,7 @@ void ToolsBar::creerActions()
 /********************************************************************/
 /* Creation des boutons et du widget qui les contient               */
 /********************************************************************/
-void ToolsBar::creerOutils()
+void VToolsBar::creerOutils()
 {
     // Creation des boutons du toolBar
     QToolButton *boutonCrayon     = new QToolButton();
@@ -220,7 +220,7 @@ void ToolsBar::creerOutils()
     m_currentNPCNumber = 1;
     
     
-    m_colorSelector = new ColorSelector(this);
+    m_colorSelector = new VColorSelector(this);
     
     
     
@@ -256,6 +256,7 @@ void ToolsBar::creerOutils()
     outilsLayout->addLayout(characterToolsLayout);
     outilsLayout->addWidget(m_npcNameTextEdit);
     outilsLayout->addWidget(m_NpcDiameter);
+    outilsLayout->addStretch();
     //layout()->setAlignment(outils, Qt::AlignTop | Qt::AlignHCenter);
     m_centralWidget->setLayout(outilsLayout);
     
@@ -265,7 +266,7 @@ void ToolsBar::creerOutils()
 }
 
 
-void ToolsBar::incrementeNumeroPnj()
+void VToolsBar::incrementeNumeroPnj()
 {
     
     int numeroActuel = (int) m_displayNPCCounter->value();
@@ -278,7 +279,7 @@ void ToolsBar::incrementeNumeroPnj()
 }
 
 
-void ToolsBar::resetNpcCount()
+void VToolsBar::resetNpcCount()
 {
 
             m_displayNPCCounter->display(1);
@@ -286,7 +287,7 @@ void ToolsBar::resetNpcCount()
 
 }
 
-void ToolsBar::changeSize(bool floating)
+void VToolsBar::changeSize(bool floating)
 {
 
     if (floating)
@@ -298,7 +299,7 @@ void ToolsBar::changeSize(bool floating)
 }
 
 
-void ToolsBar::changeText(const QString &texte)
+void VToolsBar::changeText(const QString &texte)
 {
 
     m_textAct->trigger();
@@ -306,24 +307,24 @@ void ToolsBar::changeText(const QString &texte)
 }
 
 
-void ToolsBar::npcNameChange(const QString &texte)
+void VToolsBar::npcNameChange(const QString &texte)
 { 
     m_addPCAct->trigger();
 }
 
 
-void ToolsBar::changeCurrentColor(QColor color)
+void VToolsBar::changeCurrentColor(QColor color)
 {
-    m_colorSelector->setCurrentColor(color);
+    //m_colorSelector>setCurrentColor(color);
     emit currentColorChanged(color);
 }
-QColor& ToolsBar::currentColor()
+QColor& VToolsBar::currentColor()
 {
-    return m_colorSelector->currentColor();
+   // return m_colorSelector->currentColor();
 }
 
 
-void ToolsBar::updateNPCSize(int diameter, QString name)
+void VToolsBar::updateNPCSize(int diameter, QString name)
 {
     m_NpcDiameter->changerDiametre(diameter);
     m_npcNameTextEdit->setText(name);
@@ -331,23 +332,24 @@ void ToolsBar::updateNPCSize(int diameter, QString name)
 }
 
 
-void ToolsBar::majCouleursPersonnelles()
+void VToolsBar::majCouleursPersonnelles()
 {
-    m_colorSelector->customColorUpdate();
+   // m_colorSelector->customColorUpdate();
 }
 
-QColor ToolsBar::donnerCouleurPersonnelle(int numero)
+QColor VToolsBar::donnerCouleurPersonnelle(int numero)
 {
-    return m_colorSelector->getPersonalColor(numero);
+    //return m_colorSelector->getPersonalColor(numero);
+    return QColor();
 }
-ToolsBar::SelectableTool ToolsBar::getCurrentTool()
+VToolsBar::SelectableTool VToolsBar::getCurrentTool()
 {
     return m_currentTool;
 }
 
 
 
-void ToolsBar::currentActionChanged(QAction* p)
+void VToolsBar::currentActionChanged(QAction* p)
 {
     //  enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
     if(p == m_pencilAct)

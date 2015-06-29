@@ -34,6 +34,7 @@
      <addaction name="m_newMapAction"/>
      <addaction name="m_newChatAction"/>
      <addaction name="m_newNoteAction"/>
+     <addaction name="m_addVectorialMap"/>
     </widget>
     <widget class="QMenu" name="menu_Open">
      <property name="title">
@@ -44,6 +45,7 @@
      <addaction name="m_openOnlinePictureAction"/>
      <addaction name="m_openNoteAction"/>
      <addaction name="m_openStoryAction"/>
+     <addaction name="m_openVectorialMap"/>
     </widget>
     <widget class="QMenu" name="m_recentFileMenu">
      <property name="title">
@@ -421,6 +423,24 @@
    </property>
    <property name="text">
     <string>ToolBar</string>
+   </property>
+  </action>
+  <action name="m_addVectorialMap">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/map.png</normaloff>:/map.png</iconset>
+   </property>
+   <property name="text">
+    <string>Vectorial Map</string>
+   </property>
+  </action>
+  <action name="m_openVectorialMap">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/map.png</normaloff>:/map.png</iconset>
+   </property>
+   <property name="text">
+    <string>m_openVectorialMap</string>
    </property>
   </action>
  </widget>

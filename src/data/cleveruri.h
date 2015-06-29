@@ -44,7 +44,7 @@ public:
     * @brief enum of all available type.
     *
     */
-    enum ContentType {NONE,MAP,CHAT,PICTURE,ONLINEPICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,SONGLIST
+    enum ContentType {NONE,MAP,VMAP,CHAT,PICTURE,ONLINEPICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,SONGLIST
               #ifdef WITH_PDF
                       ,PDF
               #endif

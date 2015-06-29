@@ -33,18 +33,22 @@
 #include "rgraphicsview.h"
 
 #include "vmap.h"
+#include "data/mediacontainer.h"
+#include "vmap/vtoolbar.h"
 //#include "MainWindow.h"
 
 /**
     * @brief displays, stores and manages a map and its items
     *
     */
-class VMapFrame : public SubMdiWindows
+class VMapFrame : public MediaContainer
 {
     Q_OBJECT
     
     
 public :
+
+    enum PermissionMode{GM_ONLY, PC_MOVE,PC_ALL };
     VMapFrame();
     /**
     * @brief constructor
@@ -87,6 +91,12 @@ public :
     
     virtual bool hasDockWidget() const ;
     virtual QDockWidget* getDockWidget() ;
+bool createMap();
+    /**
+     * @brief readFile
+     * @return
+     */
+    virtual bool readFileFromUri();
     
 public slots :
     virtual void setCleverURI(CleverURI* uri);
@@ -110,7 +120,7 @@ public slots :
     *  @brief change the current drawing tool
     *  @param  new selected tool
     */
-    virtual void currentToolChanged(ToolsBar::SelectableTool);
+    virtual void currentToolChanged(VToolsBar::SelectableTool);
     /**
     *  @brief change the current color
     *  @param  new color
@@ -203,7 +213,7 @@ private :
     */
     int m_currentEditingMode;
     
-    ToolsBar* m_toolsbar;
+    VToolsBar* m_toolsbar;
 };
 
 #endif

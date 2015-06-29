@@ -32,7 +32,7 @@ public:
     * @brief constructor with parameters
     * @param Map address which it will be displayed by the graphicsview
     */
-    RGraphicsView(Map *map);
+    RGraphicsView(VMap* vmap);
     
     
     
@@ -44,7 +44,7 @@ protected:
     void dropEvent ( QDropEvent * event );
     void dragMoveEvent( QDragMoveEvent * event );
 private:
-    Map* m_map;
+    VMap* m_vmap;
     
 };
 
