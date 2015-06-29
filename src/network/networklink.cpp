@@ -51,6 +51,7 @@ NetworkLink::NetworkLink(QTcpSocket *socket)
     receptionEnCours = false;
 	ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,m_mainWindow);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory,m_mainWindow);
