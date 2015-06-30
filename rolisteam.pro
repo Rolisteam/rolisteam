@@ -36,6 +36,8 @@ TRANSLATIONS =  translations/rolisteam_fr.ts \
                 translations/rolisteam_es.ts \
                 translations/rolisteam_fi.ts \
                 translations/rolisteam_pt_BR.ts \
+                translations/rolisteam_hu_HU.ts \
+                translations/rolisteam_tr.ts \
 
 CODECFORTR = UTF-8
 
