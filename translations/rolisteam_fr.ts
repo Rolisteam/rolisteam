@@ -128,14 +128,12 @@
         <translation>Vous</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="215"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%4)]</source>
-        <translation>avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%4)]</translation>
+        <translation type="vanished">avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%4)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="217"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</source>
-        <translation>a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</translation>
+        <translation type="vanished">a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="231"/>
@@ -152,6 +150,18 @@
         <location filename="../src/chat/chatwindow.cpp" line="145"/>
         <source>Save all messages from this window in %1/%2.html</source>
         <translation>Sauvegarde tous les messages de cette fenêtre dans %1/%2.html</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="215"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2 (%3)]</source>
+        <comment>You got</comment>
+        <translation type="unfinished">avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%4)] {1&lt;?} {2 ?} {3)?}</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="217"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]</source>
+        <comment>He got</comment>
+        <translation type="unfinished">a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)] {1&lt;?} {2 ?} {3)?}</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="286"/>
