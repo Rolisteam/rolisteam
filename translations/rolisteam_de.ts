@@ -128,16 +128,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="215"/>
-        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%4)]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/chat/chatwindow.cpp" line="217"/>
-        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/chat/chatwindow.cpp" line="231"/>
         <location filename="../src/chat/chatwindow.cpp" line="239"/>
         <source>Syntax</source>
@@ -151,6 +141,18 @@
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="77"/>
         <source>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="215"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2 (%3)]</source>
+        <comment>You got</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="217"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]</source>
+        <comment>He got</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>

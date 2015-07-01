@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pt_BR">
 <context>
     <name>AudioPlayer</name>
     <message>
@@ -126,14 +128,12 @@
         <translation>Você</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="215"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%4)]</source>
-        <translation>obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; em sua rolagem de dados [%3 (%4)]</translation>
+        <translation type="vanished">obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; em sua rolagem de dados [%3 (%4)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="217"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</source>
-        <translation>obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</translation>
+        <translation type="vanished">obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="231"/>
@@ -150,6 +150,18 @@
         <location filename="../src/chat/chatwindow.cpp" line="77"/>
         <source>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="215"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2 (%3)]</source>
+        <comment>You got</comment>
+        <translation type="unfinished">obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; em sua rolagem de dados [%3 (%4)] {1&lt;?} {2 ?} {3)?}</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="217"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]</source>
+        <comment>He got</comment>
+        <translation type="unfinished">obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)] {1&lt;?} {2 ?} {3)?}</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="286"/>
