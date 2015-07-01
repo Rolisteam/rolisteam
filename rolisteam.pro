@@ -18,7 +18,7 @@ OBJECTS_DIR = bin
 UI_DIR = src
 
 isEmpty(PREFIX) {
- PREFIX = /usr/local
+ PREFIX = /usr/local/bin
 }
 
 
@@ -65,9 +65,9 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 
 ##Installation
 #binaries.files = bin/rolisteam
-TARGET.path = $$PREFIX/
-DEPLOYMENT += TARGET
-INSTALLS +=TARGET
+target.path = $$PREFIX/
+
+INSTALLS += target
 }
 
 include(src/odt/src/src.pri)
