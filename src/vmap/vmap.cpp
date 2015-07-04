@@ -14,6 +14,10 @@
 #include "items/textitem.h"
 #include "items/characteritem.h"
 
+
+#include "network/networkmessagewriter.h"
+
+
 VMap::VMap(QObject * parent)
     : QGraphicsScene(parent)
 {
@@ -172,6 +176,13 @@ void VMap::addItem()
     {
         QGraphicsScene::addItem(m_currentItem);
         m_itemList->append(m_currentItem);
+
+        NetworkMessageWriter msg(NetMsg::,NetMsg::changeCharacterOrientation);
+        msg.string8(idCarte);
+        msg.string8(dernierPnjSelectionne->idPersonnage());
+        msg.int16(orientation.x());
+        msg.int16(orientation.y());
+        msg.sendAll();
     }
 }
 void VMap::setPenSize(int p)
