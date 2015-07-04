@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
     *      Copyright (C) 2010 by Renaud Guezennec                             *
     *                                                                         *
     *                                                                         *
@@ -17,17 +17,17 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-    #ifndef VISUALITEM_H
-    #define VISUALITEM_H
-    
-    #include <QGraphicsItem>
-    /**
+#ifndef VISUALITEM_H
+#define VISUALITEM_H
+
+#include <QGraphicsItem>
+/**
     * @brief abstract class which defines interface for all map items.
     * @todo Allows the modification of item's geometry, enable the selection.
     */
-    class VisualItem : public QGraphicsObject
-    {
-    public:
+class VisualItem : public QGraphicsObject
+{
+public:
     enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT};
     VisualItem();
     VisualItem(QColor& penColor,QGraphicsItem * parent = 0);
@@ -44,7 +44,7 @@
     
     virtual VisualItem::ItemType getType()=0;
     
-    protected:
+protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
@@ -53,6 +53,6 @@
     QColor m_color;
     ItemType m_type;
     
-    };
-    
-    #endif // VISUALITEM_H
+};
+
+#endif // VISUALITEM_H

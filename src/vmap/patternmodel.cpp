@@ -28,9 +28,9 @@
 PatternModel::PatternModel()
 {
     m_list.append(QPixmap());
-    m_list.append(QPixmap(":/grid/01_square.png"));
-    m_list.append(QPixmap(":/grid/02_octo.png"));
-    m_list.append(QPixmap(":/grid/03_hexa.png"));
+    m_list.append(QPixmap(":/grid/resources/gridpattern/01_sqare.png"));
+    m_list.append(QPixmap(":/grid/resources/gridpattern/02_octo.png"));
+    m_list.append(QPixmap(":/grid/resources/gridpattern/03_hexa.png"));
     
     m_listGrille << tr("NoGrid") << tr("Square") << tr("Octogon") << tr("Hexagon");
 }
