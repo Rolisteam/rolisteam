@@ -77,4 +77,9 @@
         <file>resources/stylesheet/images/down_arrow.png</file>
         <file>resources/stylesheet/images/handle.png</file>
     </qresource>
+    <qresource prefix="/grid">
+        <file>resources/gridpattern/01_sqare.png</file>
+        <file>resources/gridpattern/02_octo.png</file>
+        <file>resources/gridpattern/03_hexa.png</file>
+    </qresource>
 </RCC>

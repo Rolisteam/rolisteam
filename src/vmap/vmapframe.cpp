@@ -50,9 +50,6 @@ VMapFrame::VMapFrame(CleverURI* uri,VMap *map)
 VMapFrame::~VMapFrame()
 {
     delete m_widgetLayout;
-    delete m_graphicView;
-    delete m_hlayout;
-    delete m_vlayout;
     delete m_maskPixmap;
     
 }

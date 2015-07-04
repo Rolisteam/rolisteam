@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
     *      Copyright (C) 2010 by Renaud Guezennec                             *
     *                                                                         *
     *                                                                         *
@@ -17,23 +17,23 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-    #ifndef TEXTITEM_H
-    #define TEXTITEM_H
-    #include "visualitem.h"
-    #include <QObject>
-    #include <QFontMetrics>
-    
-    
-    
-    class QLineEdit;
-    /**
+#ifndef TEXTITEM_H
+#define TEXTITEM_H
+#include "visualitem.h"
+#include <QObject>
+#include <QFontMetrics>
+
+
+
+class QLineEdit;
+/**
     * @brief displays and manages text on map, part of QGraphicsScene/view.
     * @todo add features for amend font size, text orientation,
     */
-    class TextItem : public VisualItem
-    {
+class TextItem : public VisualItem
+{
     Q_OBJECT
-    public:
+public:
     TextItem();
     /**
     * @brief Constructor with parameters
@@ -58,17 +58,17 @@
     
     
     virtual VisualItem::ItemType getType();
-    public slots:
+public slots:
     /**
     * @brief called when edition is done, remove the editor and call update to draw the text as usual.
     */
     void editingFinished();
     
-    private:
+private:
     QPointF m_start;
     QString m_text;
     QLineEdit* m_textEdit;
     QFontMetrics* m_metricFont;
-    };
-    
-    #endif // TEXTITEM_H
+};
+
+#endif // TEXTITEM_H
