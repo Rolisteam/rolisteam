@@ -20,7 +20,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -440,7 +440,7 @@
      <normaloff>:/map.png</normaloff>:/map.png</iconset>
    </property>
    <property name="text">
-    <string>m_openVectorialMap</string>
+    <string>Vectorial Map</string>
    </property>
   </action>
  </widget>

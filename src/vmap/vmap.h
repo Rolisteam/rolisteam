@@ -101,6 +101,9 @@ public:
      * @param pos
      */
     void addCharacter(const Character* p, QPointF pos);
+
+    QString getId() const;
+    int getNpcSize() const;
     
 public slots:
     /**
@@ -127,6 +130,7 @@ public slots:
     void setPattern(QPixmap);
     void setScale(int);
     void setScaleUnit(int);
+    void setId(QString id);
     
 protected:
     /**
@@ -217,6 +221,8 @@ private:
     * @brief unit of Pattern scale.
     */
     SCALE_UNIT m_patternUnit;
+
+    QString m_id;
     
     
     friend QDataStream& operator<<(QDataStream& os,const VMap&);

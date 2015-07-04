@@ -548,16 +548,20 @@ void MainWindow::newVectorialMap()
         VMap* tempmap = new VMap();
         mapWizzard.setAllMap(tempmap);
         VMapFrame* tmp = new VMapFrame(new CleverURI("",CleverURI::VMAP),tempmap);
-        connect(m_vToolBar,SIGNAL(currentToolChanged(VToolsBar::SelectableTool)),tmp,SLOT(currentToolChanged(VToolsBar::SelectableTool)));
-        connect(m_vToolBar,SIGNAL(currentColorChanged(QColor&)),tmp,SLOT(currentColorChanged(QColor&)));
-
-        connect(m_vToolBar,SIGNAL(currentModeChanged(int)),tmp,SLOT(setEditingMode(int)));
-
-        connect(m_vToolBar,SIGNAL(currentPenSizeChanged(int)),tmp,SLOT(currentPenSizeChanged(int)));
-        connect(m_vToolBar,SIGNAL(currentPNCSizeChanged(int)),tmp,SLOT(currentNPCSizeChanged(int)));
+        prepareVMap(tmp);
         //tempmap->setCurrentTool(m_toolbar->getCurrentTool());
-        addMediaToMdiArea(tmp);
-        tmp->show();
+
+
+
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
+        msg.string16(tempmap->mapTitle());
+        msg.string8(tempmap->getId());
+        msg.rgb(tempmap->mapColor());
+        msg.uint16(tempmap->mapWidth());
+        msg.uint16(tempmap->mapHeight());
+        msg.uint8(tempmap->getNpcSize());
+        //msg.uint8((quint8)mapDialog.getPermission());
+        msg.sendAll();
     }
 }
 void MainWindow::newNoteDocument()
@@ -1216,6 +1220,9 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
         processConnectionMessage(msg);
         type = NetWorkReceiver::NONE;
         break;
+    case NetMsg::VMapCategory:
+        processVMapMessage(msg);
+        break;
     case NetMsg::CharacterPlayerCategory:
         processCharacterPlayerMessage(msg);
         type = NetWorkReceiver::AllExceptMe;
@@ -1691,10 +1698,10 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
 }
 void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
 {
+    QString idMap = msg->string8();
+    QString idCharacter = msg->string8();
     if(msg->action() == NetMsg::ToggleViewPlayerCharacterAction)
     {
-        QString idMap = msg->string8();
-        QString idCharacter = msg->string8();
         quint8 display = msg->uint8();
         Map* map=findMapById(idMap);
         if(NULL!=map)
@@ -1705,8 +1712,6 @@ void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
     else if(msg->action() == NetMsg::ChangePlayerCharacterSizeAction)
     {
         /// @warning overweird
-        QString idMap = msg->string8();
-        QString idCharacter = msg->string8();
         quint8 size = msg->uint8();
         Map* map=findMapById(idMap);
         if(NULL!=map)
@@ -1716,6 +1721,65 @@ void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
         }
     }
 }
+void MainWindow::prepareVMap(VMapFrame* tmp)
+{
+    connect(m_vToolBar,SIGNAL(currentToolChanged(VToolsBar::SelectableTool)),tmp,SLOT(currentToolChanged(VToolsBar::SelectableTool)));
+    connect(m_vToolBar,SIGNAL(currentColorChanged(QColor&)),tmp,SLOT(currentColorChanged(QColor&)));
+
+    connect(m_vToolBar,SIGNAL(currentModeChanged(int)),tmp,SLOT(setEditingMode(int)));
+
+    connect(m_vToolBar,SIGNAL(currentPenSizeChanged(int)),tmp,SLOT(currentPenSizeChanged(int)));
+    connect(m_vToolBar,SIGNAL(currentPNCSizeChanged(int)),tmp,SLOT(currentNPCSizeChanged(int)));
+    addMediaToMdiArea(tmp);
+    tmp->show();
+
+}
+
+
+void MainWindow::processVMapMessage(NetworkMessageReader* msg)
+{
+    switch(msg->action())
+    {
+        case NetMsg::addVmap:
+            {
+                QString mapTitle = msg->string16();
+                QString mapId = msg->string8();
+                QColor bgcolor = QColor(msg->rgb());
+                quint16 w = msg->uint16();
+                quint16 h = msg->uint16();
+                quint16 npcsize = msg->uint8();
+
+                VMap* map = new VMap();
+                map->setTitle(mapTitle);
+                map->setId(mapId);
+                map->setWidth(w);
+                map->setHeight(h);
+                map->setBackGroundColor(bgcolor);
+                map->setNPCSize(npcsize);
+
+                VMapFrame* mapFrame = new VMapFrame(new CleverURI("",CleverURI::VMAP),map);
+                prepareVMap(mapFrame);
+            }
+            break;
+        case NetMsg::loadVmap:
+            break;
+        case NetMsg::closeVmap:
+            break;
+        case NetMsg::addItem:
+            break;
+        case NetMsg::DelItem:
+            break;
+        case NetMsg::MoveItem:
+            break;
+        case NetMsg::DelPoint:
+            break;
+        case NetMsg::MovePoint:
+            break;
+        case NetMsg::AddPoint:
+            break;
+    }
+}
+
 CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
 {
     QString filter;

@@ -22,6 +22,7 @@ VMap::VMap(QObject * parent)
     : QGraphicsScene(parent)
 {
     m_currentItem = NULL;
+    m_id = QUuid::createUuid().toString();
     m_itemList=new  QList<VisualItem*>;
     setItemIndexMethod(QGraphicsScene::NoIndex);
 }
@@ -33,6 +34,7 @@ VMap::VMap(int width,int height,QString& title,QColor& bgColor,QObject * parent)
     m_title = title;
     m_bgColor = bgColor;
     setBackgroundBrush(m_bgColor);
+    m_id = QUuid::createUuid().toString();
     m_currentItem = NULL;
     m_itemList=new  QList<VisualItem*>;
     setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -99,6 +101,11 @@ const QColor& VMap::mapColor() const
 {
     return m_bgColor;
 }
+int VMap::getNpcSize() const
+{
+    return m_npcSize;
+}
+
 void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
 {
     m_selectedtool = selectedtool;
@@ -208,9 +215,7 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         m_end = m_first;
         addItem();
     }
-    
-    
-    
+
 }
 
 void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
@@ -225,6 +230,14 @@ void VMap::setCurrentChosenColor(QColor& p)
     m_itemColor = p;
     
     
+}
+QString VMap::getId() const
+{
+    return m_id;
+}
+void VMap::setId(QString id)
+{
+    m_id = id;
 }
 
 QDataStream& operator<<(QDataStream& out, const VMap& con)

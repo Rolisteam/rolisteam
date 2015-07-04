@@ -50,7 +50,8 @@ enum Category {
     ChatCategory,
     MusicCategory,
     SetupCategory,
-    SharePreferencesCategory
+    SharePreferencesCategory,
+    VMapCategory
 };
 
 enum Action {
@@ -129,8 +130,19 @@ enum Action {
     //SharePreferencesCategory
     addDiceAlias = 0,
     moveDiceAlias,
-    removeDiceAlias
+    removeDiceAlias,
 
+
+    //Vmap
+    addVmap = 0,
+    loadVmap,
+    closeVmap,
+    addItem,
+    DelItem,
+    MoveItem,
+    DelPoint,
+    MovePoint,
+    AddPoint
 };
 }
 /**
