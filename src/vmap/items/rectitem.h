@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
     *      Copyright (C) 2010 by Renaud Guezennec                             *
     *                                                                         *
     *                                                                         *
@@ -17,17 +17,17 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-    #ifndef RECTITEM_H
-    #define RECTITEM_H
-    
-    #include "visualitem.h"
-    /**
+#ifndef RECTITEM_H
+#define RECTITEM_H
+
+#include "visualitem.h"
+/**
     * @brief displays and manages rectangle on map, part of QGraphicsScene/view.
     * @todo add features for amend size, square, rotation, make it bigger/smaller, move, selection....
     */
-    class RectItem : public VisualItem
-    {
-    public:
+class RectItem : public VisualItem
+{
+public:
     RectItem();
     /**
     * @brief Constructor with parameters.
@@ -64,7 +64,7 @@
     virtual void readData(QDataStream& in);
     
     virtual VisualItem::ItemType getType();
-    private:
+private:
     /**
     * @brief geometry of the widget.
     */
@@ -75,6 +75,6 @@
     bool m_filled;
     
     
-    };
-    
-    #endif // RECTITEM_H
+};
+
+#endif // RECTITEM_H
