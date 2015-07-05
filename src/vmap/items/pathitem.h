@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
     *      Copyright (C) 2010 by Renaud Guezennec                             *
     *                                                                         *
     *                                                                         *
@@ -17,17 +17,17 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-    #ifndef PATHITEM_H
-    #define PATHITEM_H
-    
-    #include "visualitem.h"
-    #include <QPen>
-    /**
+#ifndef PATHITEM_H
+#define PATHITEM_H
+
+#include "visualitem.h"
+#include <QPen>
+/**
     * @brief map item to paint a path on the scene/map
     */
-    class PathItem : public VisualItem
-    {
-    public:
+class PathItem : public VisualItem
+{
+public:
     PathItem();
     /**
     * @brief constructor with parameters
@@ -63,9 +63,17 @@
     */
     virtual void readData(QDataStream& in);
     
-    
+    /**
+     * @brief getType
+     * @return
+     */
     virtual VisualItem::ItemType getType();
-    private:
+    /**
+     * @brief fillMessage
+     * @param msg
+     */
+    virtual void fillMessage(NetworkMessageWriter* msg);
+private:
     /**
     * @brief pen used for drawing the path
     */
@@ -75,6 +83,6 @@
     */
     QPainterPath m_path;
     
-    };
-    
-    #endif // PATHITEM_H
+};
+
+#endif // PATHITEM_H

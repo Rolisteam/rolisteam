@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
     *      Copyright (C) 2010 by Renaud Guezennec                             *
     *                                                                         *
     *                                                                         *
@@ -17,64 +17,79 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-    #include "pathitem.h"
-    #include <QPainterPath>
-    #include <QPainter>
-    
-    PathItem::PathItem()
+#include "pathitem.h"
+#include <QPainterPath>
+#include <QPainter>
+
+#include "network/networkmessagewriter.h"
+
+
+PathItem::PathItem()
     : VisualItem()
-    {
+{
     
-    }
-    
-    PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,QGraphicsItem * parent)
+}
+
+PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
-    {
+{
     m_path.moveTo(start);
     m_pen.setColor(penColor);
     m_pen.setWidth(penSize);
     m_pen.setCapStyle(Qt::RoundCap);
     m_pen.setJoinStyle(Qt::RoundJoin);
     
-    }
-    QRectF PathItem::boundingRect() const
-    {
+}
+QRectF PathItem::boundingRect() const
+{
     //Adjust the bounding according the pen size.
     QRectF rect = m_path.boundingRect();
     rect.adjust(-m_pen.width()/2,-m_pen.width()/2,m_pen.width()/2,m_pen.width()/2);
     return rect;
-    }
-    QPainterPath PathItem::shape () const
-    {
+}
+QPainterPath PathItem::shape () const
+{
     
     return m_path;
     
-    }
-    void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
-    {
+}
+void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+{
     painter->save();
     painter->setPen(m_pen);
     painter->drawPath(m_path);
     painter->restore();
-    }
-    void PathItem::setNewEnd(QPointF& p)
-    {
+}
+void PathItem::setNewEnd(QPointF& p)
+{
     //QRectF tmp= m_rect;
     m_path.lineTo(p);
     //update(tmp);
-    }
-    void PathItem::writeData(QDataStream& out) const
-    {
+}
+void PathItem::writeData(QDataStream& out) const
+{
     out << m_path;
     out << m_pen;
-    }
-    
-    void PathItem::readData(QDataStream& in)
-    {
+}
+
+void PathItem::readData(QDataStream& in)
+{
     in >> m_path;
     in >> m_pen;
-    }
-    VisualItem::ItemType PathItem::getType()
-    {
+}
+VisualItem::ItemType PathItem::getType()
+{
     return VisualItem::PATH;
-    }
+}
+void PathItem::fillMessage(NetworkMessageWriter* msg)
+{
+    //rect
+    msg->uint16(m_pen.width());
+    msg->rgb(m_pen.color());
+
+    //path
+    QByteArray data;
+    QDataStream in(&data,QIODevice::WriteOnly);
+    in << m_path;
+    msg->byteArray32(data);
+}

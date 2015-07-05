@@ -104,6 +104,8 @@ public:
 
     QString getId() const;
     int getNpcSize() const;
+
+    void processAddItemMessage(NetworkMessageReader* msg);
     
 public slots:
     /**

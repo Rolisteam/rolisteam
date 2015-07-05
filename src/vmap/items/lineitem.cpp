@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
     *      Copyright (C) 2010 by Renaud Guezennec                             *
     *                                                                         *
     *                                                                         *
@@ -17,62 +17,77 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-    #include "lineitem.h"
-    #include <QPainterPath>
-    #include <QPainter>
-    
-    LineItem::LineItem()
+#include "lineitem.h"
+#include <QPainterPath>
+#include <QPainter>
+
+#include "network/networkmessagewriter.h"
+
+LineItem::LineItem()
     : VisualItem()
-    {
+{
     
-    }
-    
-    LineItem::LineItem(QPointF& p,QColor& penColor,int penSize,QGraphicsItem * parent)
+}
+
+LineItem::LineItem(QPointF& p,QColor& penColor,int penSize,QGraphicsItem * parent)
     :  VisualItem(penColor,parent)
-    {
+{
     m_startPoint = p;
     m_rect.setTopLeft(p);
     m_pen.setColor(penColor);
     m_pen.setWidth(penSize);
-    }
-    
-    void LineItem::setNewEnd(QPointF& nend)
-    {
+}
+
+void LineItem::setNewEnd(QPointF& nend)
+{
     m_endPoint = nend;
     m_rect.setBottomRight(nend);
-    }
-    QRectF LineItem::boundingRect() const
-    {
+}
+QRectF LineItem::boundingRect() const
+{
     return  m_rect;
-    }
-    void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
-    {
+}
+void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+{
     painter->save();
     painter->setPen(m_pen);
     painter->drawLine(m_startPoint,m_endPoint);
     painter->restore();
     
-    }
-    void LineItem::writeData(QDataStream& out) const
-    {
+}
+void LineItem::writeData(QDataStream& out) const
+{
     out << m_rect;
     out << m_startPoint;
     out << m_endPoint;
     out << m_pen;
-    out << m_filled;
     out << m_color;
-    }
-    
-    void LineItem::readData(QDataStream& in)
-    {
+}
+
+void LineItem::readData(QDataStream& in)
+{
     in >> m_rect;
     in >> m_startPoint;
     in >> m_endPoint;
     in >> m_pen;
-    in >> m_filled;
     in >> m_color;
-    }
-    VisualItem::ItemType LineItem::getType()
-    {
+}
+VisualItem::ItemType LineItem::getType()
+{
     return VisualItem::LINE;
-    }
+}
+void LineItem::fillMessage(NetworkMessageWriter* msg)
+{
+    //rect
+    msg->real(m_rect.x());
+    msg->real(m_rect.y());
+    msg->real(m_rect.width());
+    msg->real(m_rect.height());
+    //center
+    msg->real(m_startPoint.x());
+    msg->real(m_startPoint.y());
+    msg->real(m_endPoint.x());
+    msg->real(m_endPoint.y());
+    msg->int16(m_pen.width());
+    msg->rgb(m_color);
+}

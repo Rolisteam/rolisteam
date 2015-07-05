@@ -1732,6 +1732,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     connect(m_vToolBar,SIGNAL(currentPNCSizeChanged(int)),tmp,SLOT(currentNPCSizeChanged(int)));
     addMediaToMdiArea(tmp);
     tmp->show();
+    m_mapWindowVectorialMap->insert(tmp->getMapId(),tmp);
 
 }
 
@@ -1766,6 +1767,15 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
         case NetMsg::closeVmap:
             break;
         case NetMsg::addItem:
+            {
+                QString vmapId = msg->string8();
+                VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
+                if(NULL!=tmp)
+                {
+                    tmp->processAddItemMessage(msg);
+                }
+
+            }
             break;
         case NetMsg::DelItem:
             break;

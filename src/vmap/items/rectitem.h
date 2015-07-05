@@ -64,6 +64,9 @@ public:
     virtual void readData(QDataStream& in);
     
     virtual VisualItem::ItemType getType();
+
+    void fillMessage(NetworkMessageWriter* msg);
+
 private:
     /**
     * @brief geometry of the widget.

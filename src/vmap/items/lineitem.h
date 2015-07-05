@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
     *      Copyright (C) 2010 by Renaud Guezennec                             *
     *                                                                         *
     *                                                                         *
@@ -17,17 +17,17 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-    #ifndef LINEITEM_H
-    #define LINEITEM_H
-    
-    #include "visualitem.h"
-    #include <QPen>
-    /**
+#ifndef LINEITEM_H
+#define LINEITEM_H
+
+#include "visualitem.h"
+#include <QPen>
+/**
     * @brief displays a line on maps.
     */
-    class LineItem : public VisualItem
-    {
-    public:
+class LineItem : public VisualItem
+{
+public:
     LineItem();
     /**
     * @brief constructor with parameters
@@ -57,7 +57,9 @@
     
     
     virtual VisualItem::ItemType getType();
-    private:
+
+    virtual void fillMessage(NetworkMessageWriter* msg);
+private:
     /**
     * @brief bounding rect copy (no need to compute it each time
     */
@@ -74,10 +76,6 @@
     * @brief pen
     */
     QPen m_pen;
-    /**
-    * @brief either filled or not
-    */
-    bool m_filled;
-    };
-    
-    #endif // LINEITEM_H
+};
+
+#endif // LINEITEM_H

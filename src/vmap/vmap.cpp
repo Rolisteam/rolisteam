@@ -184,11 +184,10 @@ void VMap::addItem()
         QGraphicsScene::addItem(m_currentItem);
         m_itemList->append(m_currentItem);
 
-        NetworkMessageWriter msg(NetMsg::,NetMsg::changeCharacterOrientation);
-        msg.string8(idCarte);
-        msg.string8(dernierPnjSelectionne->idPersonnage());
-        msg.int16(orientation.x());
-        msg.int16(orientation.y());
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
+        msg.string8(m_id);
+        msg.uint8(m_currentItem->type());
+        m_currentItem->fillMessage(&msg);
         msg.sendAll();
     }
 }
@@ -383,4 +382,38 @@ void VMap::setScaleUnit(int p)
     }
     
     
+}
+void VMap::processAddItemMessage(NetworkMessageReader* msg)
+{
+    VisualItem* item=NULL;
+    VisualItem::Type type = msg->uint8();
+    switch(type)
+    {
+    case VisualItem::TEXT:
+        item=new TextItem();
+        break;
+    case VisualItem::CHARACTER:
+        /// @TODO: Reimplement that feature
+        item=new CharacterItem();
+        break;
+    case VisualItem::LINE:
+        item=new LineItem();
+        break;
+    case VisualItem::RECT:
+        item=new RectItem();
+        break;
+    case VisualItem::ELLISPE:
+        item=new EllipsItem();
+        break;
+    case VisualItem::PATH:
+        item=new PathItem();
+        break;
+
+    }
+    if(NULL!=item)
+    {
+        item->readItem(msg);
+        QGraphicsScene::addItem(item);
+        m_itemList->append(item);
+    }
 }
