@@ -18,11 +18,14 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "ellipsitem.h"
+
 #include <QPainter>
 #include <QDebug>
+
 #include "math.h"
 
 #include "network/networkmessagewriter.h"
+#include "network/networkmessagereader.h"
 
 EllipsItem::EllipsItem()
     : VisualItem()
@@ -133,4 +136,19 @@ void EllipsItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_center.y());
     msg->int8(m_filled);
     msg->rgb(m_color);
+}
+void EllipsItem::readItem(NetworkMessageReader* msg)
+{
+    //rect
+    m_rect.setX(msg->real());
+    m_rect.setY(msg->real());
+    m_rect.setWidth(msg->real());
+    m_rect.setHeight(msg->real());
+    //center
+    m_center.setX(msg->real());
+    m_center.setY(msg->real());
+
+    m_filled = msg->int8();
+    m_color = msg->rgb();
+
 }

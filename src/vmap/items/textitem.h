@@ -73,6 +73,11 @@ public:
      * @param msg
      */
     virtual void fillMessage(NetworkMessageWriter* msg);
+    /**
+     * @brief readItem
+     * @param msg
+     */
+    virtual void readItem(NetworkMessageReader* msg);
 public slots:
     /**
     * @brief called when edition is done, remove the editor and call update to draw the text as usual.

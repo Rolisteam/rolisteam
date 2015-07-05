@@ -22,6 +22,7 @@
 #include <QPainter>
 
 #include "network/networkmessagewriter.h"
+#include "network/networkmessagereader.h"
 
 
 PathItem::PathItem()
@@ -83,7 +84,7 @@ VisualItem::ItemType PathItem::getType()
 }
 void PathItem::fillMessage(NetworkMessageWriter* msg)
 {
-    //rect
+    //pen
     msg->uint16(m_pen.width());
     msg->rgb(m_pen.color());
 
@@ -92,4 +93,17 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     QDataStream in(&data,QIODevice::WriteOnly);
     in << m_path;
     msg->byteArray32(data);
+}
+void PathItem::readItem(NetworkMessageReader* msg)
+{
+    m_pen.setWidth(msg->int16());
+    m_pen.setColor(msg->rgb());
+
+    //center
+    QByteArray data;
+    data = msg->byteArray32();
+
+    QDataStream out(&data,QIODevice::ReadOnly);
+    out >> m_path;
+
 }
