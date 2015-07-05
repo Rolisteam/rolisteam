@@ -122,9 +122,12 @@ void CharacterItem::generatedThumbnail()
 }
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
+<<<<<<< HEAD
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
+=======
+>>>>>>> -addItem management for vmap.
     msg->string16(m_character->uuid());
     msg->uint16(m_diameter);
     //pos
@@ -145,6 +148,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 }
 void CharacterItem::readItem(NetworkMessageReader* msg)
 {
+<<<<<<< HEAD
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
@@ -154,12 +158,23 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     m_center.setX(msg->real());
     m_center.setY(msg->real());
  //rect
+=======
+    QString idCharacter = msg->string16();
+    m_diameter = msg->uint16();
+
+    m_center.setX(msg->uint16());
+    m_center.setY(msg->uint16());
+
+>>>>>>> -addItem management for vmap.
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
 
+<<<<<<< HEAD
     //path
+=======
+>>>>>>> -addItem management for vmap.
     QByteArray data;
     data = msg->byteArray32();
 
@@ -168,6 +183,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     out >> *m_thumnails;
 
 }
+<<<<<<< HEAD
 void CharacterItem::setGeometryPoint(qreal pointId, const QPointF &pos)
 {
     switch ((int)pointId)
@@ -215,3 +231,5 @@ void CharacterItem::initChildPointItem()
    m_child->value(2)->setPos(m_rect.bottomRight());
    m_child->value(3)->setPos(m_rect.bottomLeft());
 }
+=======
+>>>>>>> -addItem management for vmap.
