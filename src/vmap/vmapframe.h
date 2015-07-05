@@ -66,7 +66,7 @@ public :
     /**
     * @brief accessor for the map Id
     */
-    QString IdMap();
+    QString getMapId();
     
     /**
     * @brief get the current editing mode.

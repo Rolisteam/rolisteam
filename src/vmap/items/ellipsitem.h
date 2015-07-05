@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
     *      Copyright (C) 2010 by Renaud Guezennec                             *
     *                                                                         *
     *                                                                         *
@@ -17,15 +17,15 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-    #ifndef ELLIPSITEM_H
-    #define ELLIPSITEM_H
-    #include "visualitem.h"
-    /**
+#ifndef ELLIPSITEM_H
+#define ELLIPSITEM_H
+#include "visualitem.h"
+/**
     * @brief displays an ellipse on maps.
     */
-    class EllipsItem : public VisualItem
-    {
-    public:
+class EllipsItem : public VisualItem
+{
+public:
     EllipsItem();
     /**
     * @brief constructor with parameters
@@ -57,7 +57,10 @@
     virtual void readData(QDataStream& in);
     
     virtual VisualItem::ItemType getType();
-    private:
+
+
+    virtual void fillMessage(NetworkMessageWriter* msg);
+private:
     /**
     * @brief bounding rect
     */
@@ -71,6 +74,6 @@
     * @brief stores the filled state
     */
     bool m_filled;
-    };
-    
-    #endif // ELLIPSITEM_H
+};
+
+#endif // ELLIPSITEM_H

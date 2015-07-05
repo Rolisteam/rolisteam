@@ -52,12 +52,27 @@ public:
     * @brief amends the position of the end point, not really useful for this kind of graphical item.
     */
     virtual void setNewEnd(QPointF& nend);
-    
+    /**
+     * @brief writeData
+     * @param out
+     */
     virtual void writeData(QDataStream& out) const;
+    /**
+     * @brief readData
+     * @param in
+     */
     virtual void readData(QDataStream& in);
     
-    
+    /**
+     * @brief getType
+     * @return
+     */
     virtual VisualItem::ItemType getType();
+    /**
+     * @brief fillMessage
+     * @param msg
+     */
+    virtual void fillMessage(NetworkMessageWriter* msg);
 public slots:
     /**
     * @brief called when edition is done, remove the editor and call update to draw the text as usual.
