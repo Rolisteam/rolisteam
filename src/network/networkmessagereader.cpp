@@ -225,3 +225,15 @@ qint64 NetworkMessageReader::int64()
     }
     return 0;
 }
+qreal  NetworkMessageReader::real()
+{
+    size_t size = sizeof(qreal);
+    if (left() >= size)
+    {
+        qreal ret;
+        memcpy(&ret, m_pos, size);
+        m_pos += size;
+        return ret;
+    }
+    return 0;
+}
