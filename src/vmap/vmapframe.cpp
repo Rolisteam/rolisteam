@@ -240,4 +240,10 @@ bool VMapFrame::readFileFromUri()
 {
     return false;
 }
-
+void VMapFrame::processAddItemMessage(NetworkMessageReader* msg)
+{
+    if(NULL!=vmap)
+    {
+        vmap->processAddItemMessage(msg);
+    }
+}

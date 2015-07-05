@@ -21,6 +21,10 @@
 #define VISUALITEM_H
 
 #include <QGraphicsItem>
+
+class NetworkMessageWriter;
+class NetworkMessageReader;
+
 /**
     * @brief abstract class which defines interface for all map items.
     * @todo Allows the modification of item's geometry, enable the selection.
@@ -43,6 +47,10 @@ public:
     friend QDataStream& operator>>(QDataStream& is,VisualItem&);
     
     virtual VisualItem::ItemType getType()=0;
+
+    virtual void fillMessage(NetworkMessageWriter* msg)=0;
+    virtual void readItem(NetworkMessageReader* msg)=0;
+
     
 protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);

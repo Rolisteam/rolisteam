@@ -18,10 +18,20 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "characteritem.h"
+
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-
 #include <QDebug>
+
+#include "network/networkmessagewriter.h"
+#include "network/networkmessagereader.h"
+
+
+CharacterItem::CharacterItem()
+: VisualItem()
+{
+
+}
 
 CharacterItem::CharacterItem(const Character* m,QPointF pos,int diameter)
     : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL)
@@ -67,7 +77,6 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
     }
     if(option->state & QStyle::State_Selected)
     {
-
         painter->drawRect(m_thumnails->rect());
     }
     painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
@@ -103,4 +112,45 @@ void CharacterItem::generatedThumbnail()
     
     painter.setBrush(brush);
     painter.drawRoundedRect(0,0,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
+}
+void CharacterItem::fillMessage(NetworkMessageWriter* msg)
+{
+    msg->string16(m_character->uuid());
+    msg->uint16(m_diameter);
+    //pos
+    msg->real(m_center.x());
+    msg->real(m_center.y());
+
+    //rect
+    msg->real(m_rect.x());
+    msg->real(m_rect.y());
+    msg->real(m_rect.width());
+    msg->real(m_rect.height());
+
+    //path
+    QByteArray data;
+    QDataStream in(&data,QIODevice::WriteOnly);
+    in << *m_thumnails;
+    msg->byteArray32(data);
+}
+void CharacterItem::readItem(NetworkMessageReader* msg)
+{
+    QString idCharacter = msg->string16();
+    m_diameter = msg->uint16();
+
+    m_center.setX(msg->uint16());
+    m_center.setY(msg->uint16());
+
+    m_rect.setX(msg->real());
+    m_rect.setY(msg->real());
+    m_rect.setWidth(msg->real());
+    m_rect.setHeight(msg->real());
+
+    QByteArray data;
+    data = msg->byteArray32();
+
+    QDataStream out(&data,QIODevice::ReadOnly);
+    m_thumnails = new QPixmap();
+    out >> *m_thumnails;
+
 }

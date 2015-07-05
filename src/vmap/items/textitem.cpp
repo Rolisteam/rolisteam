@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
     *      Copyright (C) 2010 by Renaud Guezennec                             *
     *                                                                         *
     *                                                                         *
@@ -17,73 +17,86 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-    #include "textitem.h"
-    #include <QLineEdit>
-    #include <QPainter>
-    #include <QObject>
-    TextItem::TextItem()
-    {
+#include "textitem.h"
+#include <QLineEdit>
+#include <QPainter>
+#include <QObject>
+
+
+#include "network/networkmessagewriter.h"
+
+
+TextItem::TextItem()
+{
     m_metricFont = new QFontMetrics(QFont());
-    }
-    
-    TextItem::TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsItem * parent)
+}
+
+TextItem::TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
-    {
+{
     m_start = start;
     m_textEdit = editor;
     if(m_textEdit)
-    m_metricFont = new QFontMetrics(m_textEdit->font());
+        m_metricFont = new QFontMetrics(m_textEdit->font());
     else
-    m_metricFont = new QFontMetrics(QFont());
-    }
-    QRectF TextItem::boundingRect() const
-    {
+        m_metricFont = new QFontMetrics(QFont());
+}
+QRectF TextItem::boundingRect() const
+{
     if(m_metricFont)
-    return m_metricFont->boundingRect(m_text);
+        return m_metricFont->boundingRect(m_text);
     else
-    return QRect();
-    }
-    void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
-    {
+        return QRect();
+}
+void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+{
     if(!m_text.isEmpty())
     {
-    painter->save();
-    painter->setPen(m_color);
-    painter->drawText(m_start,m_text);
-    painter->restore();
+        painter->save();
+        painter->setPen(m_color);
+        painter->drawText(m_start,m_text);
+        painter->restore();
     }
     
-    }
-    void TextItem::setNewEnd(QPointF& p)
-    {
+}
+void TextItem::setNewEnd(QPointF& p)
+{
     //QRectF tmp= m_rect;
     // m_rect.setBottomRight(p);
     //update(tmp);
-    }
-    VisualItem::ItemType TextItem::getType()
-    {
+}
+VisualItem::ItemType TextItem::getType()
+{
     return VisualItem::TEXT;
-    }
-    void TextItem::editingFinished()
-    {
+}
+void TextItem::editingFinished()
+{
     if(m_textEdit!=NULL)
     {
-    m_text = m_textEdit->text();
-    m_textEdit->setVisible(false);
-    update ();
+        m_text = m_textEdit->text();
+        m_textEdit->setVisible(false);
+        update ();
     }
     
-    }
-    void TextItem::writeData(QDataStream& out) const
-    {
+}
+void TextItem::writeData(QDataStream& out) const
+{
     out << m_start;
     out << m_text;
     out << m_color;
-    }
-    
-    void TextItem::readData(QDataStream& in)
-    {
+}
+
+void TextItem::readData(QDataStream& in)
+{
     in >> m_start;
     in >> m_text;
     in >> m_color;
-    }
+}
+void TextItem::fillMessage(NetworkMessageWriter* msg)
+{
+    //center
+    msg->real(m_start.x());
+    msg->real(m_start.y());
+    msg->string32(m_text);
+    msg->rgb(m_color);
+}

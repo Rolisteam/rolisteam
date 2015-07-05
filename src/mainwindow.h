@@ -329,6 +329,7 @@ private :
 
 
     QMap<QString,MapFrame *> m_mapWindowMap;
+    QMap<QString,VMapFrame *> m_mapWindowVectorialMap;
     QList <Image*> m_pictureList;
     QMap<MediaContainer*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   

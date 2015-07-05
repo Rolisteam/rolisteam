@@ -28,6 +28,7 @@ class CharacterItem : public VisualItem
 {
     Q_OBJECT
 public:
+    CharacterItem();
     CharacterItem(const Character* m,QPointF center,int diameter = 40);
     /**
     * @brief constructor
@@ -58,6 +59,13 @@ public:
     * @brief paint the ellipse at the correct position
     */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+
+    /**
+     * @brief fillMessage
+     * @param msg
+     */
+    virtual void fillMessage(NetworkMessageWriter* msg);
+    virtual void readItem(NetworkMessageReader* msg);
 public slots:
     void sizeChanged(int m_size);
     
