@@ -73,6 +73,11 @@ public:
      * @param msg
      */
     virtual void fillMessage(NetworkMessageWriter* msg);
+    /**
+     * @brief readItem
+     * @param msg
+     */
+    virtual void readItem(NetworkMessageReader* msg);
 private:
     /**
     * @brief pen used for drawing the path

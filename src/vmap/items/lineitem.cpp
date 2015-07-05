@@ -22,6 +22,7 @@
 #include <QPainter>
 
 #include "network/networkmessagewriter.h"
+#include "network/networkmessagereader.h"
 
 LineItem::LineItem()
     : VisualItem()
@@ -83,11 +84,31 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_rect.y());
     msg->real(m_rect.width());
     msg->real(m_rect.height());
-    //center
+    //m_startPoint
     msg->real(m_startPoint.x());
     msg->real(m_startPoint.y());
+    //m_endPoint
     msg->real(m_endPoint.x());
     msg->real(m_endPoint.y());
+    //pen
     msg->int16(m_pen.width());
     msg->rgb(m_color);
+}
+void LineItem::readItem(NetworkMessageReader* msg)
+{
+    //rect
+    m_rect.setX(msg->real());
+    m_rect.setY(msg->real());
+    m_rect.setWidth(msg->real());
+    m_rect.setHeight(msg->real());
+    //center
+    m_startPoint.setX(msg->real());
+    m_startPoint.setY(msg->real());
+    //m_endPoint
+    m_endPoint.setX(msg->real());
+    m_endPoint.setY(msg->real());
+    //pen
+    m_pen.setWidth(msg->int16());
+    m_color = msg->rgb();
+
 }

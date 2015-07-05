@@ -65,8 +65,8 @@ public:
     
     virtual VisualItem::ItemType getType();
 
-    void fillMessage(NetworkMessageWriter* msg);
-
+    virtual void fillMessage(NetworkMessageWriter* msg);
+    virtual void readItem(NetworkMessageReader* msg);
 private:
     /**
     * @brief geometry of the widget.

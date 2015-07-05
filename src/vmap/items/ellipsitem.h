@@ -55,11 +55,22 @@ public:
     * @brief serialisation reading
     */
     virtual void readData(QDataStream& in);
-    
+    /**
+     * @brief getType
+     * @return
+     */
     virtual VisualItem::ItemType getType();
 
-
+    /**
+     * @brief fillMessage
+     * @param msg
+     */
     virtual void fillMessage(NetworkMessageWriter* msg);
+    /**
+     * @brief readItem
+     * @param msg
+     */
+    virtual void readItem(NetworkMessageReader* msg);
 private:
     /**
     * @brief bounding rect

@@ -24,7 +24,7 @@
 
 
 #include "network/networkmessagewriter.h"
-
+#include "network/networkmessagereader.h"
 
 TextItem::TextItem()
 {
@@ -99,4 +99,14 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_start.y());
     msg->string32(m_text);
     msg->rgb(m_color);
+}
+void TextItem::readItem(NetworkMessageReader* msg)
+{
+    //center
+    m_start.setX(msg->real());
+    m_start.setY(msg->real());
+    m_text = msg->string32();
+    m_color = msg->rgb();
+
+
 }
