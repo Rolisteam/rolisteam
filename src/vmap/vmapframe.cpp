@@ -242,8 +242,16 @@ bool VMapFrame::readFileFromUri()
 }
 void VMapFrame::processAddItemMessage(NetworkMessageReader* msg)
 {
-    if(NULL!=vmap)
+    if(NULL!=m_vmap)
     {
-        vmap->processAddItemMessage(msg);
+        m_vmap->processAddItemMessage(msg);
     }
+}
+QString VMapFrame::getMapId()
+{
+    if(NULL!=m_vmap)
+    {
+        return m_vmap->getId();
+    }
+    return QString();
 }

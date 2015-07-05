@@ -91,12 +91,14 @@ public :
     
     virtual bool hasDockWidget() const ;
     virtual QDockWidget* getDockWidget() ;
-bool createMap();
+    bool createMap();
     /**
      * @brief readFile
      * @return
      */
     virtual bool readFileFromUri();
+
+    void processAddItemMessage(NetworkMessageReader* msg);
     
 public slots :
     virtual void setCleverURI(CleverURI* uri);
