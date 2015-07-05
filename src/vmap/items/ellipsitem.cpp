@@ -184,3 +184,5 @@ void EllipsItem::initChildPointItem()
     m_child->value(1)->setPos(m_center.x(),m_center.y()+m_ry);
     m_child->value(1)->setMotion(ChildPointItem::Y_AXIS);
 }
+=======
+>>>>>>> readItem method implementation
