@@ -16,7 +16,7 @@
 
 
 #include "network/networkmessagewriter.h"
-
+#include "network/networkmessagereader.h"
 
 VMap::VMap(QObject * parent)
     : QGraphicsScene(parent)
@@ -183,12 +183,6 @@ void VMap::addItem()
     {
         QGraphicsScene::addItem(m_currentItem);
         m_itemList->append(m_currentItem);
-
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
-        msg.string8(m_id);
-        msg.uint8(m_currentItem->type());
-        m_currentItem->fillMessage(&msg);
-        msg.sendAll();
     }
 }
 void VMap::setPenSize(int p)
@@ -220,6 +214,15 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     Q_UNUSED(mouseEvent);
+    if(m_currentItem!=NULL)
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
+        msg.string8(m_id);
+        msg.uint8(m_currentItem->getType());
+        qDebug() << m_id << m_currentItem->getType();
+        m_currentItem->fillMessage(&msg);
+        msg.sendAll();
+    }
     m_currentItem = NULL;
     if(m_selectedtool==VToolsBar::HANDLER)
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
@@ -386,7 +389,7 @@ void VMap::setScaleUnit(int p)
 void VMap::processAddItemMessage(NetworkMessageReader* msg)
 {
     VisualItem* item=NULL;
-    VisualItem::Type type = msg->uint8();
+    VisualItem::ItemType type = (VisualItem::ItemType)msg->uint8();
     switch(type)
     {
     case VisualItem::TEXT:
@@ -415,5 +418,6 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         item->readItem(msg);
         QGraphicsScene::addItem(item);
         m_itemList->append(item);
+        qDebug() << item->boundingRect();
     }
 }
