@@ -26,6 +26,7 @@
 #include <QStylePainter>
 
 #include "network/networkmessagewriter.h"
+#include "network/networkmessagereader.h"
 
 RectItem::RectItem()
     : VisualItem()
@@ -125,4 +126,16 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
 
     msg->int8(m_filled);
     msg->rgb(m_color);
+}
+void RectItem::readItem(NetworkMessageReader* msg)
+{
+    //rect
+    m_rect.setX(msg->real());
+    m_rect.setY(msg->real());
+    m_rect.setWidth(msg->real());
+    m_rect.setHeight(msg->real());
+
+    m_filled = msg->int8();
+    m_color = msg->rgb();
+
 }

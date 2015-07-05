@@ -59,6 +59,7 @@ public:
     virtual VisualItem::ItemType getType();
 
     virtual void fillMessage(NetworkMessageWriter* msg);
+    virtual void readItem(NetworkMessageReader* msg);
 private:
     /**
     * @brief bounding rect copy (no need to compute it each time
