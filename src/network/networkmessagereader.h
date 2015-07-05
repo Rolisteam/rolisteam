@@ -58,7 +58,7 @@ public:
 
     QRgb rgb();
 
-
+    qreal  real();
     qint8  int8();
     qint16 int16();
     qint32 int32();
