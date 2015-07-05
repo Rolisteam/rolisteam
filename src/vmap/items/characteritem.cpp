@@ -148,7 +148,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 }
 void CharacterItem::readItem(NetworkMessageReader* msg)
 {
-<<<<<<< HEAD
+
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
@@ -158,23 +158,14 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     m_center.setX(msg->real());
     m_center.setY(msg->real());
  //rect
-=======
-    QString idCharacter = msg->string16();
-    m_diameter = msg->uint16();
 
-    m_center.setX(msg->uint16());
-    m_center.setY(msg->uint16());
-
->>>>>>> -addItem management for vmap.
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
 
-<<<<<<< HEAD
+
     //path
-=======
->>>>>>> -addItem management for vmap.
     QByteArray data;
     data = msg->byteArray32();
 
