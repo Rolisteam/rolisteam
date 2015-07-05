@@ -215,3 +215,11 @@ void NetworkMessageWriter::int32(qint32 data)
      *((qint64 *)m_currentPos) = data;
      m_currentPos += size;
  }
+ void NetworkMessageWriter::real(qreal data)
+ {
+     int size = sizeof(qreal);
+     makeRoom(size);
+
+     *((qreal *)m_currentPos) = data;
+     m_currentPos += size;
+ }
