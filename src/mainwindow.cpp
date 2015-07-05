@@ -1733,7 +1733,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     connect(m_vToolBar,SIGNAL(currentPNCSizeChanged(int)),tmp,SLOT(currentNPCSizeChanged(int)));
     addMediaToMdiArea(tmp);
     tmp->show();
-    m_mapWindowVectorialMap->insert(tmp->getMapId(),tmp);
+    m_mapWindowVectorialMap.insert(tmp->getMapId(),tmp);
 
 }
 
