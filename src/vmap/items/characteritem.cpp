@@ -137,15 +137,16 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
 {
     QString idCharacter = msg->string16();
     m_diameter = msg->uint16();
-
-    m_center.setX(msg->uint16());
-    m_center.setY(msg->uint16());
-
+//pos
+    m_center.setX(msg->real());
+    m_center.setY(msg->real());
+ //rect
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
 
+    //path
     QByteArray data;
     data = msg->byteArray32();
 
