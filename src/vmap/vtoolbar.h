@@ -36,7 +36,7 @@
   *  @brief toolbar is a QDockWidget subclass which gathering all tool required for drawing maps.
   *  @todo manu members must be renamed to english
   */
-class VToolsBar : public QDockWidget
+class VToolsBar : public QWidget
 {
 Q_OBJECT
 
@@ -158,7 +158,7 @@ private:
     
     private slots :
     void resetNpcCount();
-    void changeSize(bool floating);
+    //void changeSize(bool floating);
     void changeText(const QString &texte);
     void npcNameChange(const QString &texte);
     
