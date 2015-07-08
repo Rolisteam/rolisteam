@@ -40,17 +40,19 @@ VToolsBar* VToolsBar::getInstance(QWidget *parent)
 }
 
 VToolsBar::VToolsBar(QWidget *parent)
-    : QDockWidget(parent)
+    : QWidget(parent)
 {
     
     setWindowTitle(tr("Tools"));
     setObjectName("Toolbar");
-    setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    //setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    //setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     m_centralWidget = new QWidget(this);
     creerActions();
     creerOutils();
-    setWidget(m_centralWidget);
+    QHBoxLayout* lay = new QHBoxLayout();
+    lay->addWidget(m_centralWidget);
+    setLayout(lay);
     
     connect(m_colorSelector,SIGNAL(currentColorChanged(QColor&)),this,SIGNAL(currentColorChanged(QColor&)));
     connect(m_colorSelector,SIGNAL(currentModeChanged(int)),this,SIGNAL(currentModeChanged(int)));
@@ -60,10 +62,8 @@ VToolsBar::VToolsBar(QWidget *parent)
     QObject::connect(m_textEditLine, SIGNAL(textEdited(const QString &)), this, SLOT(changeText(const QString &)));
     QObject::connect(m_npcNameTextEdit, SIGNAL(textEdited(const QString &)), this, SLOT(npcNameChange(const QString &)));
     connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));
-
-    QObject::connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changeSize(bool)));
     
-    setFloating(false);
+    //setFloating(false);
     
 }
 
@@ -285,17 +285,6 @@ void VToolsBar::resetNpcCount()
             m_displayNPCCounter->display(1);
     m_currentNPCNumber = 1;
 
-}
-
-void VToolsBar::changeSize(bool floating)
-{
-
-    if (floating)
-    {
-        setFixedHeight(578);
-    }
-    else
-    setMaximumHeight(0xFFFFFF);
 }
 
 

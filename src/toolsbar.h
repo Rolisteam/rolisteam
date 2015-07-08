@@ -42,7 +42,7 @@ class Map;
 /**
  * @brief The ToolBar class is gathering all tool and manages selection of them.
  */
-class ToolsBar : public QDockWidget
+class ToolsBar : public QWidget
 {
     Q_OBJECT
     
