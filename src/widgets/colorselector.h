@@ -30,6 +30,7 @@
 
 #include "preferences/preferencesmanager.h"
 #include "types.h"
+#include "flowlayout.h"
 
 class QHBoxLayout;
 class QGridLayout;
@@ -139,7 +140,7 @@ private:
     QPixmap *m_unveilPixel;
     QHBoxLayout *m_specialColor;
     QGridLayout *m_characterGrid;
-    QVBoxLayout *m_layoutSelector;
+    FlowLayout *m_layoutSelector;
     QGridLayout *m_predefinedGrid;
     bool m_pressedButton;
     PreferencesManager* m_preferences;
