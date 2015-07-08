@@ -1310,8 +1310,6 @@ void MainWindow::setupUi()
     connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(changementFenetreActive(QMdiSubWindow *)));
 
     m_toolBar = new ToolsBar();
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,m_toolBar->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
 
     m_vToolBar = new VToolsBar();
     m_toolBarStack = new QStackedWidget();
@@ -1323,6 +1321,8 @@ void MainWindow::setupUi()
     QDockWidget* dock = new QDockWidget(this);
     dock->setWidget(m_toolBarStack);
     addDockWidget(Qt::LeftDockWidgetArea,dock);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,dock->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
 
     createNotificationZone();
     m_ui->m_menuSubWindows->insertAction(m_ui->m_notificationAct,m_dockLogUtil->toggleViewAction());
