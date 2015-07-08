@@ -69,7 +69,7 @@ DiameterSelector::DiameterSelector(QWidget *parent, bool plein, int min, int max
 
     // Ajout du QFrame contenant l'afficheur de disque au layout
     layout->addWidget(frame);
-    
+    layout->setAlignment(m_circle,Qt::AlignCenter);
 
 	m_diameterSlider = new QSlider(Qt::Horizontal, this);
 	m_diameterSlider->setRange(minimum, maximum);
