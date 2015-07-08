@@ -17,6 +17,11 @@ https://github.com/Rolisteam/rolisteam/issues
 #  Documentation:
 http://wiki.rolisteam.org/
 
+#  Translation:[![Rolisteam on Transiflex](https://ds0k0en9abmn1.cloudfront.net/static/charts/images/tx-logo-micro.646b0065fce6.png)](https://www.transifex.com/projects/p/rolisteam/)
+
+
+[![Rolisteam translations](https://www.transifex.com/projects/p/rolisteam/resource/rolisteamts/chart/image_png/)](https://www.transifex.com/projects/p/rolisteam/)
+
 # Community contact:
 When you have questions about rolisteam please contact us on our forum:
 http://forum.rolisteam.org
