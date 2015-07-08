@@ -1327,6 +1327,8 @@ void MainWindow::setupUi()
     QDockWidget* dock = new QDockWidget(this);
     dock->setWidget(m_toolBarStack);
     addDockWidget(Qt::LeftDockWidgetArea,dock);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,dock->toggleViewAction());
+    m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
 
     createNotificationZone();
     m_ui->m_menuSubWindows->insertAction(m_ui->m_notificationAct,m_dockLogUtil->toggleViewAction());
