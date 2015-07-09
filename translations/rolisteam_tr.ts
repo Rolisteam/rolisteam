@@ -166,8 +166,8 @@
         <translation>Bazı kullanıcılar duygu görünümünü etkinleştirmek istiyor.</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="417"/>
-        <location filename="../src/chat/chatwindow.cpp" line="421"/>
+        <location filename="../src/chat/chatwindow.cpp" line="418"/>
+        <location filename="../src/chat/chatwindow.cpp" line="422"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
@@ -2268,32 +2268,37 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="529"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="181"/>
+        <source>Nothing was understood</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/diceparser/diceparser.cpp" line="533"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="567"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="571"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="824"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="828"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="848"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="852"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="860"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="864"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="871"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="875"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
