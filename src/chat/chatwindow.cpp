@@ -303,6 +303,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     else
     {//sending info to others.
         messageTitle = localPerson->name();
+        message = message.toHtmlEscaped();
         showMessage(messageTitle, localPerson->color(), message);
         action = NetMsg::ChatMessageAction;
     }
