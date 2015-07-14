@@ -122,12 +122,9 @@ void CharacterItem::generatedThumbnail()
 }
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
-<<<<<<< HEAD
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
-=======
->>>>>>> -addItem management for vmap.
     msg->string16(m_character->uuid());
     msg->uint16(m_diameter);
     //pos
@@ -174,7 +171,6 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     out >> *m_thumnails;
 
 }
-<<<<<<< HEAD
 void CharacterItem::setGeometryPoint(qreal pointId, const QPointF &pos)
 {
     switch ((int)pointId)
@@ -222,5 +218,3 @@ void CharacterItem::initChildPointItem()
    m_child->value(2)->setPos(m_rect.bottomRight());
    m_child->value(3)->setPos(m_rect.bottomLeft());
 }
-=======
->>>>>>> -addItem management for vmap.
