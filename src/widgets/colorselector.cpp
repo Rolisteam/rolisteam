@@ -240,8 +240,6 @@ ColorSelector::~ColorSelector()
     delete m_eraseColor;
     delete m_maskColor;
     delete m_unveilColor;
-    delete m_separator1;
-    delete m_separator2;
     delete m_pixelErase;
     delete m_maskPixel;
     delete m_unveilPixel;
