@@ -79,6 +79,7 @@ VisualItem::ItemType LineItem::getType()
 }
 void LineItem::fillMessage(NetworkMessageWriter* msg)
 {
+    msg->string16(m_id);
     //rect
     msg->real(m_rect.x());
     msg->real(m_rect.y());
@@ -96,6 +97,7 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
 }
 void LineItem::readItem(NetworkMessageReader* msg)
 {
+    m_id = msg->string16();
     //rect
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());
