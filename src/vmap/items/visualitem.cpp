@@ -123,7 +123,54 @@ bool VisualItem::hasFocusOrChild()
     }
     return false;
 }
+void VisualItem::setId(QString id)
+{
+    m_id = id;
+}
 
+QString VisualItem::getId()
+{
+    return m_id;
+}
+
+void VisualItem::sendPositionMsg()
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
+    msg.string8(m_mapId);
+    msg.string16(m_id);
+    msg.real(pos().x());
+    msg.real(pos().y());
+    msg.real(zValue());
+    msg.sendAll();
+}
+void VisualItem::readPositionMsg(NetworkMessageReader* msg)
+{
+    qreal x = msg->real();
+    qreal y = msg->real();
+    qreal z = msg->real();
+
+    setPos(x,y);
+    setZValue(z);
+}
+
+void VisualItem::setMapId(QString id)
+{
+    m_mapId = id;
+}
+
+QString VisualItem::getMapId()
+{
+    return m_mapId;
+}
+
+
+
+
+
+
+
+
+<<<<<<< HEAD
 void VisualItem::sendPositionMsg()
 {
 	NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
@@ -158,6 +205,8 @@ void VisualItem::endOfGeometryChange()
     emit itemGeometryChanged(this);
 }
 
+=======
+>>>>>>> -Add Api to send or receive MoveItem Network message.
 //friend functions
 QDataStream& operator<<(QDataStream& os,const VisualItem& c)
 {
