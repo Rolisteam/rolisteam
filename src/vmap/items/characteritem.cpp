@@ -115,6 +115,7 @@ void CharacterItem::generatedThumbnail()
 }
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
+    msg->string16(m_id);
     msg->string16(m_character->uuid());
     msg->uint16(m_diameter);
     //pos
@@ -135,6 +136,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 }
 void CharacterItem::readItem(NetworkMessageReader* msg)
 {
+    m_id = msg->string16();
     QString idCharacter = msg->string16();
     m_diameter = msg->uint16();
 //pos

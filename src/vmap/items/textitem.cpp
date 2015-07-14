@@ -84,6 +84,7 @@ void TextItem::writeData(QDataStream& out) const
     out << m_start;
     out << m_text;
     out << m_color;
+    out << m_id;
 }
 
 void TextItem::readData(QDataStream& in)
@@ -91,9 +92,11 @@ void TextItem::readData(QDataStream& in)
     in >> m_start;
     in >> m_text;
     in >> m_color;
+    in >> m_id;
 }
 void TextItem::fillMessage(NetworkMessageWriter* msg)
 {
+    msg->string16(m_id);
     //center
     msg->real(m_start.x());
     msg->real(m_start.y());
@@ -102,6 +105,7 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
 }
 void TextItem::readItem(NetworkMessageReader* msg)
 {
+    m_id = msg->string16();
     //center
     m_start.setX(msg->real());
     m_start.setY(msg->real());
