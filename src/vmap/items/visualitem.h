@@ -31,6 +31,7 @@ class NetworkMessageReader;
     */
 class VisualItem : public QGraphicsObject
 {
+        Q_OBJECT
 public:
     enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT};
     VisualItem();
@@ -51,16 +52,27 @@ public:
     virtual void fillMessage(NetworkMessageWriter* msg)=0;
     virtual void readItem(NetworkMessageReader* msg)=0;
 
+    virtual void setId(QString id);
+    virtual QString getId();
+
+    virtual void setMapId(QString id);
+    virtual QString getMapId();
+
+public slots:
+    void sendPositionMsg();
+    void readPositionMsg(NetworkMessageReader* msg);
     
 protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+    void init();
     
     
     QColor m_color;
     ItemType m_type;
-    
+    QString m_id;
+    QString m_mapId;
 };
 
 #endif // VISUALITEM_H
