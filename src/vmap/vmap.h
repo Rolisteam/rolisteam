@@ -105,8 +105,17 @@ public:
     QString getId() const;
     int getNpcSize() const;
 
+    //network management
+    /**
+     * @brief processAddItemMessage
+     * @param msg
+     */
     void processAddItemMessage(NetworkMessageReader* msg);
-    
+    /**
+     * @brief processMoveItemMessage
+     * @param msg
+     */
+    void processMoveItemMessage(NetworkMessageReader* msg);
 public slots:
     /**
     * @brief defines the current tools
@@ -156,6 +165,8 @@ protected:
     void editingFinished();*/
     
     void generateBackground();
+
+    void addNewItem(VisualItem* item);
     
     
 private:
@@ -206,7 +217,7 @@ private:
     /**
     * @brief Items list which are part of the map.
     */
-    QList<VisualItem*>* m_itemList;
+    QMap<QString,VisualItem*>* m_itemMap;
     /**
     * @brief Pattern Of grid, pattern must be square shaped.
     */

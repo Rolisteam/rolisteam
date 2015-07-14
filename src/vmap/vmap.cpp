@@ -23,7 +23,7 @@ VMap::VMap(QObject * parent)
 {
     m_currentItem = NULL;
     m_id = QUuid::createUuid().toString();
-    m_itemList=new  QList<VisualItem*>;
+    m_itemMap=new  QMap<QString,VisualItem*>;
     setItemIndexMethod(QGraphicsScene::NoIndex);
 }
 
@@ -36,7 +36,7 @@ VMap::VMap(int width,int height,QString& title,QColor& bgColor,QObject * parent)
     setBackgroundBrush(m_bgColor);
     m_id = QUuid::createUuid().toString();
     m_currentItem = NULL;
-    m_itemList=new  QList<VisualItem*>;
+    m_itemMap=new  QMap<QString,VisualItem*>;
     setItemIndexMethod(QGraphicsScene::NoIndex);
     
 }
@@ -124,7 +124,9 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         // }
     }
     if(m_selectedtool==VToolsBar::HANDLER)
+    {
         QGraphicsScene::mouseMoveEvent(mouseEvent);
+    }
 }
 void VMap::addItem()
 {
@@ -179,11 +181,7 @@ void VMap::addItem()
 
         break;
     }
-    if(m_currentItem!=NULL)
-    {
-        QGraphicsScene::addItem(m_currentItem);
-        m_itemList->append(m_currentItem);
-    }
+    addNewItem(m_currentItem);
 }
 void VMap::setPenSize(int p)
 {
@@ -219,13 +217,14 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
         msg.string8(m_id);
         msg.uint8(m_currentItem->getType());
-        qDebug() << m_id << m_currentItem->getType();
         m_currentItem->fillMessage(&msg);
         msg.sendAll();
     }
     m_currentItem = NULL;
     if(m_selectedtool==VToolsBar::HANDLER)
+    {
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
+    }
 }
 void VMap::setCurrentChosenColor(QColor& p)
 {
@@ -249,10 +248,10 @@ QDataStream& operator<<(QDataStream& out, const VMap& con)
     out << con.m_title;
     out << con.m_bgColor;
     
-    out << con.m_itemList->size();
-    for(int i = 0; i< con.m_itemList->size();i++)
+    out << con.m_itemMap->size();
+    for(int i = 0; i< con.m_itemMap->size();i++)
     {
-        VisualItem* item = con.m_itemList->at(i);
+        VisualItem* item = con.m_itemMap->values().at(i);
         out << *item ;
     }
     return out;
@@ -274,17 +273,17 @@ QDataStream& operator>>(QDataStream& is,VMap& con)
 }
 void VMap::saveFile(QDataStream& out)
 {
-    if(m_itemList->isEmpty())
+    if(m_itemMap->isEmpty())
         return;
     
     out << m_width;
     out<< m_height;
     out<< m_title;
     out<< m_bgColor;
-    out << m_itemList->size();
-    qDebug()<< "m_itemList size" << m_itemList->size() <<  m_bgColor << m_width << m_height << m_title ;
+    out << m_itemMap->size();
+
     
-    foreach(VisualItem* tmp, *m_itemList)
+    foreach(VisualItem* tmp, m_itemMap->values())
     {
         out << tmp->getType() << *tmp;
     }
@@ -292,7 +291,7 @@ void VMap::saveFile(QDataStream& out)
 
 void VMap::openFile(QDataStream& in)
 {
-    if(m_itemList!=NULL)
+    if(m_itemMap!=NULL)
     {
         in >> m_width;
         in >> m_height;
@@ -340,10 +339,8 @@ void VMap::openFile(QDataStream& in)
 
             }
             in >> *item;
-            QGraphicsScene::addItem(item);
-            m_itemList->append(item);
+            addNewItem(item);
         }
-        qDebug()<< m_itemList->size();
     }
 }
 
@@ -388,36 +385,59 @@ void VMap::setScaleUnit(int p)
 }
 void VMap::processAddItemMessage(NetworkMessageReader* msg)
 {
-    VisualItem* item=NULL;
-    VisualItem::ItemType type = (VisualItem::ItemType)msg->uint8();
-    switch(type)
+    if(NULL!=msg)
     {
-    case VisualItem::TEXT:
-        item=new TextItem();
-        break;
-    case VisualItem::CHARACTER:
-        /// @TODO: Reimplement that feature
-        item=new CharacterItem();
-        break;
-    case VisualItem::LINE:
-        item=new LineItem();
-        break;
-    case VisualItem::RECT:
-        item=new RectItem();
-        break;
-    case VisualItem::ELLISPE:
-        item=new EllipsItem();
-        break;
-    case VisualItem::PATH:
-        item=new PathItem();
-        break;
+        VisualItem* item=NULL;
+        VisualItem::ItemType type = (VisualItem::ItemType)msg->uint8();
+        switch(type)
+        {
+        case VisualItem::TEXT:
+            item=new TextItem();
+            break;
+        case VisualItem::CHARACTER:
+            /// @TODO: Reimplement that feature
+            item=new CharacterItem();
+            break;
+        case VisualItem::LINE:
+            item=new LineItem();
+            break;
+        case VisualItem::RECT:
+            item=new RectItem();
+            break;
+        case VisualItem::ELLISPE:
+            item=new EllipsItem();
+            break;
+        case VisualItem::PATH:
+            item=new PathItem();
+            break;
 
+        }
+        if(NULL!=item)
+        {
+            item->readItem(msg);
+            addNewItem(item);
+        }
     }
+}
+void VMap::addNewItem(VisualItem* item)
+{
     if(NULL!=item)
     {
-        item->readItem(msg);
+        item->setMapId(m_id);
         QGraphicsScene::addItem(item);
-        m_itemList->append(item);
-        qDebug() << item->boundingRect();
+        m_itemMap->insert(item->getId(),item);
+    }
+}
+
+void VMap::processMoveItemMessage(NetworkMessageReader* msg)
+{
+    if(NULL!=msg)
+    {
+        VisualItem* item = m_itemMap->value(msg->string16());
+        if(NULL!=item)
+        {
+            item->readPositionMsg(msg);
+        }
+
     }
 }
