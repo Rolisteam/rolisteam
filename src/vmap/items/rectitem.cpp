@@ -80,16 +80,7 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         painter->setPen(pen);
         painter->drawRect(tmp_rect);
         painter->restore();
-        /*if(widget!=NULL)
-    {
-    QStyleOptionFocusRect option;
-    option.initFrom(widget);
-    option.backgroundColor =m_color;
-    //         option.rect=m_rect.toRect();    //option.backgroundColor = palette().color(m_color);
-    
-    //QStylePainter painterstyle(widget);
-    widget->style()->drawPrimitive(QStyle::PE_FrameFocusRect, &option, painter, widget);
-    }*/
+
     }
     painter->restore();
     
@@ -108,6 +99,7 @@ void RectItem::writeData(QDataStream& out) const
     out << m_rect;
     out << m_filled;
     out << m_color;
+    out << m_id;
 }
 
 void RectItem::readData(QDataStream& in)
@@ -115,9 +107,11 @@ void RectItem::readData(QDataStream& in)
     in >> m_rect;
     in >> m_filled;
     in >> m_color;
+    in >> m_id;
 }
 void RectItem::fillMessage(NetworkMessageWriter* msg)
 {
+    msg->string16(m_id);
     //rect
     msg->real(m_rect.x());
     msg->real(m_rect.y());
@@ -129,12 +123,12 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
 }
 void RectItem::readItem(NetworkMessageReader* msg)
 {
+    m_id = msg->string16();
     //rect
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
-
     m_filled = msg->int8();
     m_color = msg->rgb();
 
