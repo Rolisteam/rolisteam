@@ -99,7 +99,7 @@ public :
     virtual bool readFileFromUri();
 
     void processAddItemMessage(NetworkMessageReader* msg);
-    
+    void processMoveItemMessage(NetworkMessageReader* msg);
 public slots :
     virtual void setCleverURI(CleverURI* uri);
     /**
