@@ -35,29 +35,72 @@ class VisualItem : public QGraphicsObject
 public:
     enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT};
     VisualItem();
-    VisualItem(QColor& penColor,QGraphicsItem * parent = 0);
+	VisualItem(QColor& penColor,bool b,QGraphicsItem * parent = 0);
     
-    
+	/**
+	 * @brief setNewEnd
+	 * @param nend
+	 */
     virtual void setNewEnd(QPointF& nend)=0;
+	/**
+	 * @brief setPenColor
+	 * @param penColor
+	 */
     virtual void setPenColor(QColor& penColor);
-    
+	/**
+	 * @brief writeData
+	 * @param out
+	 */
     virtual void writeData(QDataStream& out) const =0;
+	/**
+	 * @brief readData
+	 * @param in
+	 */
     virtual void readData(QDataStream& in)=0;
     
-    friend QDataStream& operator<<(QDataStream& os,const VisualItem&);
-    friend QDataStream& operator>>(QDataStream& is,VisualItem&);
-    
+	/**
+	 * @brief getType
+	 * @return
+	 */
     virtual VisualItem::ItemType getType()=0;
-
+	/**
+	 * @brief fillMessage
+	 * @param msg
+	 */
     virtual void fillMessage(NetworkMessageWriter* msg)=0;
+	/**
+	 * @brief readItem
+	 * @param msg
+	 */
     virtual void readItem(NetworkMessageReader* msg)=0;
-
+	/**
+	 * @brief setId
+	 * @param id
+	 */
     virtual void setId(QString id);
+	/**
+	 * @brief getId
+	 * @return
+	 */
     virtual QString getId();
-
+	/**
+	 * @brief setMapId
+	 * @param id
+	 */
     virtual void setMapId(QString id);
+	/**
+	 * @brief getMapId
+	 * @return
+	 */
     virtual QString getMapId();
+	/**
+	 * @brief setEditableItem
+	 */
+	virtual void setEditableItem(bool);
 
+
+	friend QDataStream& operator<<(QDataStream& os,const VisualItem&);
+	friend QDataStream& operator>>(QDataStream& is,VisualItem&);
 public slots:
     void sendPositionMsg();
     void readPositionMsg(NetworkMessageReader* msg);
@@ -73,6 +116,7 @@ protected:
     ItemType m_type;
     QString m_id;
     QString m_mapId;
+	bool m_editable;
 };
 
 #endif // VISUALITEM_H
