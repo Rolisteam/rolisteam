@@ -425,10 +425,14 @@ void VMap::addNewItem(VisualItem* item)
     {
         item->setMapId(m_id);
         QGraphicsScene::addItem(item);
+		item->setEditableItem(m_localIsGM);
         m_itemMap->insert(item->getId(),item);
     }
 }
-
+void VMap::setLocalIsGM(bool b)
+{
+	m_localIsGM = b;
+}
 void VMap::processMoveItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
@@ -440,4 +444,12 @@ void VMap::processMoveItemMessage(NetworkMessageReader* msg)
         }
 
     }
+}
+void VMap::setPermissionMode(Map::PermissionMode mode)
+{
+	m_currentMode = mode;
+}
+Map::PermissionMode VMap::getPermissionMode()
+{
+	return m_currentMode;
 }
