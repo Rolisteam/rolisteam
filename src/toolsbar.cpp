@@ -46,14 +46,10 @@ ToolsBar::ToolsBar(QWidget *parent)
 	setWindowTitle(tr("Tools"));
 	setObjectName("ToolsBar");
 
-    //setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    //setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+
+
 
     m_mainWidget = new QWidget(this);
-
-    /*QHBoxLayout* lay = new QHBoxLayout(this);
-    lay->addWidget(m_mainWidget);
-    setLayout(lay);*/
 
     createActions();
     createTools();
@@ -61,10 +57,6 @@ ToolsBar::ToolsBar(QWidget *parent)
     connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcNumber()));
 	connect(m_textEdit, SIGNAL(textEdited(const QString &)), this, SIGNAL(currentTextChanged(QString)));
 	connect(m_npcNameEdit, SIGNAL(textEdited(const QString &)), this, SIGNAL(currentNpcNameChanged(QString)));
-
-//	connect(this, SIGNAL(topLevelChanged(bool)), this, SLOT(changeSize(bool)));
-
-    //setFloating(false);
 }
 ToolsBar::~ToolsBar()
 {
@@ -257,16 +249,25 @@ void ToolsBar::createTools()
 	layoutMouvementPnj->setSpacing(0);
 	layoutMouvementPnj->setMargin(0);
     layoutMouvementPnj->addWidget(moveNpcButton);
-    layoutMouvementPnj->addWidget(stateNpcButton);
+	layoutMouvementPnj->addWidget(stateNpcButton);
 
 	// Creation du layout contient les outils d'ajout et de suppression des PNJ
-	QGridLayout *layoutAjoutPnj = new QGridLayout();
+	//QGridLayout *layoutAjoutPnj = new QGridLayout();
+	QHBoxLayout *layoutAjoutPnj = new QHBoxLayout();
 	layoutAjoutPnj->setSpacing(0);
 	layoutAjoutPnj->setMargin(0);
-    layoutAjoutPnj->addWidget(addNpcButton, 0, 0);
-    layoutAjoutPnj->addWidget(delNpcButton, 0, 1);
-    layoutAjoutPnj->addWidget(resetNumberButton, 1, 0);
-    layoutAjoutPnj->addWidget(m_showPnjNumber, 1, 1, Qt::AlignHCenter);
+	layoutAjoutPnj->addWidget(addNpcButton/*, 0, 0*/);
+	layoutAjoutPnj->addWidget(delNpcButton/*, 0, 1*/);
+
+	QHBoxLayout *layoutAjoutPnj2 = new QHBoxLayout();
+	layoutAjoutPnj2->setSpacing(0);
+	layoutAjoutPnj2->setMargin(0);
+	layoutAjoutPnj2->addWidget(resetNumberButton/*, 1, 0*/);
+	layoutAjoutPnj2->addWidget(m_showPnjNumber/*, 1, 1, Qt::AlignHCenter*/);
+
+	m_showPnjNumber->setVisible(false);
+
+
 	
 	// Creation du selecteur de diametre du trait
     m_lineDiameter = new DiameterSelector(this, true, 1, 45);
@@ -305,7 +306,7 @@ void ToolsBar::createTools()
 	separateur4->setMidLineWidth(0);
 
 	// Creation du separateur se trouvant au dessus du selecteur de diametre des PNJ
-    QWidget *separateur5 = new QWidget(this);
+	QWidget *separateur5 = new QWidget(this);
 	separateur5->setFixedHeight(3);
 	
 	// Ajout des differents layouts et widgets dans outilsLayout
@@ -314,19 +315,23 @@ void ToolsBar::createTools()
     outilsLayout->addLayout(toolsLayout);
 
     outilsLayout->addWidget(m_textEdit);
-    m_textEdit->setVisible(false);
+
 	outilsLayout->addWidget(separateur2);
 	outilsLayout->addWidget(m_lineDiameter);
+	m_lineDiameter->setVisible(false);
 	outilsLayout->addWidget(separateur3);
 	outilsLayout->addLayout(layoutMouvementPnj);
 	outilsLayout->addWidget(separateur4);
 	outilsLayout->addLayout(layoutAjoutPnj);
+	outilsLayout->addLayout(layoutAjoutPnj2);
 
     outilsLayout->addWidget(m_npcNameEdit);
-    m_npcNameEdit->setVisible(false);
+
 	outilsLayout->addWidget(separateur5);
+
         //if(PlayersList::instance().localPlayer()->isGM())
     outilsLayout->addWidget(m_npcDiameter);
+
     outilsLayout->addStretch();
 
     setLayout(outilsLayout);
