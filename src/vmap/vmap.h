@@ -36,6 +36,8 @@ class VMap : public QGraphicsScene
 {
     Q_OBJECT
 public:
+
+
     enum SCALE_UNIT{CM,M,INCH,FEET,PX};
     /**
     * @brief default constructor
@@ -116,6 +118,20 @@ public:
      * @param msg
      */
     void processMoveItemMessage(NetworkMessageReader* msg);
+	/**
+	 * @brief setPermissionMode
+	 * @param mode
+	 */
+	void setPermissionMode(Map::PermissionMode mode);
+	/**
+	 * @brief getPermissionMode
+	 * @return
+	 */
+	Map::PermissionMode getPermissionMode();
+	/**
+	 * @brief setLocalIsGM
+	 */
+	void setLocalIsGM(bool);
 public slots:
     /**
     * @brief defines the current tools
@@ -236,8 +252,10 @@ private:
     SCALE_UNIT m_patternUnit;
 
     QString m_id;
-    
-    
+	bool m_localIsGM;
+	bool m_hasPermissionMode;
+	Map::PermissionMode m_currentMode;
+
     friend QDataStream& operator<<(QDataStream& os,const VMap&);
     friend QDataStream& operator>>(QDataStream& is,VMap&);
 };
