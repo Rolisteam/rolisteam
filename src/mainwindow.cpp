@@ -1724,6 +1724,15 @@ void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
 }
 void MainWindow::prepareVMap(VMapFrame* tmp)
 {
+	if(NULL==tmp)
+		return;
+
+	VMap* map = tmp->map();
+
+	if(NULL==map)
+		return;
+
+	map->setLocalIsGM(!m_preferences->value("isPlayer",false).toBool());
     connect(m_vToolBar,SIGNAL(currentToolChanged(VToolsBar::SelectableTool)),tmp,SLOT(currentToolChanged(VToolsBar::SelectableTool)));
     connect(m_vToolBar,SIGNAL(currentColorChanged(QColor&)),tmp,SLOT(currentColorChanged(QColor&)));
 
