@@ -170,7 +170,7 @@ QString VisualItem::getMapId()
 
 
 
-<<<<<<< HEAD
+
 void VisualItem::sendPositionMsg()
 {
 	NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
@@ -205,8 +205,7 @@ void VisualItem::endOfGeometryChange()
     emit itemGeometryChanged(this);
 }
 
-=======
->>>>>>> -Add Api to send or receive MoveItem Network message.
+
 //friend functions
 QDataStream& operator<<(QDataStream& os,const VisualItem& c)
 {
