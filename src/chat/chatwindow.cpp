@@ -304,6 +304,7 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     {//sending info to others.
         messageTitle = localPerson->name();
         message = message.toHtmlEscaped();
+		message = message.replace('\n',"<br/>");
         showMessage(messageTitle, localPerson->color(), message);
         action = NetMsg::ChatMessageAction;
     }
