@@ -157,3 +157,11 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     out >> *m_thumnails;
 
 }
+void CharacterItem::setGeometryPoint(qreal pointId, const QPointF &pos)
+{
+
+}
+void CharacterItem::initChildPointItem()
+{
+
+}

@@ -55,11 +55,28 @@ public:
     */
     virtual void readData(QDataStream& in);
     
-    
+    /**
+     * @brief getType
+     * @return
+     */
     virtual VisualItem::ItemType getType();
-
+    /**
+     * @brief fillMessage
+     * @param msg
+     */
     virtual void fillMessage(NetworkMessageWriter* msg);
+    /**
+     * @brief readItem
+     * @param msg
+     */
     virtual void readItem(NetworkMessageReader* msg);
+    /**
+     * @brief setGeometryPoint
+     * @param pointId
+     * @param pos
+     */
+    virtual void setGeometryPoint(qreal pointId, const QPointF &pos);
+    virtual void initChildPointItem();
 private:
     /**
     * @brief bounding rect copy (no need to compute it each time

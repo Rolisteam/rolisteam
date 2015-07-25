@@ -29,7 +29,7 @@
 #include "network/networkmessagereader.h"
 
 VisualItem::VisualItem()
-	: QGraphicsObject(),m_editable(false)
+    : QGraphicsObject(),m_editable(false),m_child(NULL)
 {
 	m_id = QUuid::createUuid().toString();
 	init();
@@ -38,7 +38,7 @@ VisualItem::VisualItem()
 }
 
 VisualItem::VisualItem(QColor& penColor,bool b,QGraphicsItem * parent )
-	: QGraphicsObject(parent),m_color(penColor),m_editable(b)
+    : QGraphicsObject(parent),m_color(penColor),m_editable(b),m_child(NULL)
 {
 	init();
 }
@@ -91,6 +91,29 @@ QString VisualItem::getId()
 {
 	return m_id;
 }
+bool VisualItem::hasFocusOrChild()
+{
+    if(isSelected())
+    {
+        return true;
+    }
+    else
+    {
+        if(m_child==NULL)
+        {
+           return false;
+        }
+        for(int i = 0; i< m_child->size();++i)
+        {
+            if((m_child->at(i)!=NULL)&&(m_child->at(i)->isSelected()))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+
+}
 
 void VisualItem::sendPositionMsg()
 {
@@ -121,13 +144,6 @@ QString VisualItem::getMapId()
 {
 	return m_mapId;
 }
-
-
-
-
-
-
-
 
 //friend functions
 QDataStream& operator<<(QDataStream& os,const VisualItem& c)

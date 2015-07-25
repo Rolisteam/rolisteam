@@ -78,6 +78,17 @@ public:
      * @param msg
      */
     virtual void readItem(NetworkMessageReader* msg);
+
+    /**
+     * @brief setGeometryPoint
+     * @param pointId
+     * @param pos
+     */
+    virtual void setGeometryPoint(qreal pointId, const QPointF &pos);
+    /**
+     * @brief initChildPointItem
+     */
+    virtual void initChildPointItem();
 public slots:
     /**
     * @brief called when edition is done, remove the editor and call update to draw the text as usual.

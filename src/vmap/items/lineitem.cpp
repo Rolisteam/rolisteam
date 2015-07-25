@@ -114,3 +114,18 @@ void LineItem::readItem(NetworkMessageReader* msg)
     m_color = msg->rgb();
 
 }
+void LineItem::setGeometryPoint(qreal pointId, const QPointF &pos)
+{
+    if(pointId == 0)
+    {
+        m_startPoint = pos;
+    }
+    else if(pointId == 1)
+    {
+        m_endPoint = pos;
+    }
+}
+void LineItem::initChildPointItem()
+{
+
+}
