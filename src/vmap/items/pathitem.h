@@ -62,7 +62,6 @@ public:
     * @brief reading serialisation method
     */
     virtual void readData(QDataStream& in);
-    
     /**
      * @brief getType
      * @return
@@ -78,6 +77,17 @@ public:
      * @param msg
      */
     virtual void readItem(NetworkMessageReader* msg);
+
+    /**
+     * @brief setGeometryPoint
+     * @param pointId
+     * @param pos
+     */
+    virtual void setGeometryPoint(qreal pointId, const QPointF &pos);
+    /**
+     * @brief initChildPointItem
+     */
+    virtual void initChildPointItem();
 private:
     /**
     * @brief pen used for drawing the path

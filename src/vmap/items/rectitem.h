@@ -36,9 +36,7 @@ public:
     * @param filled either we paint filled rectange or just uts border
     * @param color
     */
-    RectItem(QPointF& topleft,QPointF& buttomright,bool filled,QColor& penColor,QGraphicsItem * parent = 0);
-    
-    
+    RectItem(QPointF& topleft,QPointF& buttomright,bool filled,QColor& penColor,QGraphicsItem * parent = 0);   
     /**
     * @brief paint the current rectangle into the scene.
     * @see Qt documentation
@@ -62,12 +60,38 @@ public:
     * @brief serialization function to read data from stream.
     */
     virtual void readData(QDataStream& in);
-    
+    /**
+     * @brief getType
+     * @return
+     */
     virtual VisualItem::ItemType getType();
-
+    /**
+     * @brief fillMessage
+     * @param msg
+     */
     virtual void fillMessage(NetworkMessageWriter* msg);
+    /**
+     * @brief readItem
+     * @param msg
+     */
     virtual void readItem(NetworkMessageReader* msg);
+
+    /**
+     * @brief setGeometryPoint
+     * @param pointId
+     * @param pos
+     */
+    virtual void setGeometryPoint(qreal pointId, const QPointF &pos);
+    /**
+     * @brief initChildPointItem
+     */
+    virtual void initChildPointItem();
+/*protected:
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent * event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent * event);*/
+
 private:
+    void updateChildPosition();
     /**
     * @brief geometry of the widget.
     */

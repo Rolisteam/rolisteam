@@ -66,6 +66,13 @@ public:
      */
     virtual void fillMessage(NetworkMessageWriter* msg);
     virtual void readItem(NetworkMessageReader* msg);
+
+    void setGeometryPoint(qreal pointId, const QPointF &pos);
+    /**
+     * @brief initChildPointItem
+     */
+    virtual void initChildPointItem();
+
 public slots:
     void sizeChanged(int m_size);
     

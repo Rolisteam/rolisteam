@@ -79,6 +79,15 @@ void TextItem::editingFinished()
     }
     
 }
+void TextItem::setGeometryPoint(qreal /*pointId*/, const QPointF &pos)
+{
+    m_start = pos;
+}
+void TextItem::initChildPointItem()
+{
+
+}
+
 void TextItem::writeData(QDataStream& out) const
 {
     out << m_start;
