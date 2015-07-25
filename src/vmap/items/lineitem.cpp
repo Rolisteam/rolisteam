@@ -163,6 +163,4 @@ void LineItem::initChildPointItem()
     m_child->value(0)->setPlacement(ChildPointItem::Center);
     m_child->value(1)->setPos(m_endPoint);
     m_child->value(1)->setPlacement(ChildPointItem::Center);
-}
-=======
->>>>>>> readItem method implementation
+
