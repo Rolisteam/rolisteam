@@ -19,10 +19,20 @@
     ***************************************************************************/
 
 #include "childpointitem.h"
+#include "visualitem.h"
 
-ChildPointItem::ChildPointItem()
+#include <QGraphicsScene>
+#include <QPainter>
+
+#include <QDebug>
+
+#define SQUARE_SIZE 8
+
+ChildPointItem::ChildPointItem(qreal point,VisualItem* parent)
+    : QGraphicsObject(parent),m_pointId(point),m_parent(parent)
 {
-
+    m_currentMotion = ALL;
+    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 }
 
 ChildPointItem::~ChildPointItem()
@@ -30,3 +40,36 @@ ChildPointItem::~ChildPointItem()
 
 }
 
+QVariant ChildPointItem::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+    if (change == ItemPositionChange && scene() && hasFocus())
+    {
+        QPointF newPos = value.toPointF();
+        if(m_currentMotion == X_AXIS)
+        {
+            newPos.setY(pos().y());
+        }
+        else if( Y_AXIS == m_currentMotion)
+        {
+            newPos.setX(pos().x());
+        }
+        m_parent->setGeometryPoint(m_pointId,newPos);
+        if(newPos != value.toPointF())
+        {
+            return newPos;
+        }
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
+QRectF ChildPointItem::boundingRect() const
+{
+    return QRectF(-SQUARE_SIZE, -SQUARE_SIZE, 2*SQUARE_SIZE, 2*SQUARE_SIZE);
+}
+void ChildPointItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    painter->drawRect(-SQUARE_SIZE, -SQUARE_SIZE, 2*SQUARE_SIZE, 2*SQUARE_SIZE);
+}
+void ChildPointItem::setMotion(ChildPointItem::MOTION m)
+{
+    m_currentMotion = m;
+}
