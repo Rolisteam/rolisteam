@@ -221,6 +221,7 @@ INSTALLS += documentation
 
 QT += core \
  gui \
+ opengl \
  network
 
 # Flags
