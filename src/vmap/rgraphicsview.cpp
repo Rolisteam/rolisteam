@@ -20,6 +20,8 @@
 
 #include <QDebug>
 
+#include <QOpenGLWidget>
+
 #include "data/persons.h"
 #include "rgraphicsview.h"
 //#include "rolisteammimedata.h"
@@ -28,6 +30,11 @@ RGraphicsView::RGraphicsView(VMap *vmap)
     : QGraphicsView(vmap),m_vmap(vmap)
 {
     setAcceptDrops(true);
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    setViewport(new QOpenGLWidget());
+    fitInView(sceneRect(),Qt::KeepAspectRatio);
+    //setVi
+
 }
 void RGraphicsView::keyPressEvent ( QKeyEvent * event)
 {
