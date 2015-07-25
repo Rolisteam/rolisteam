@@ -219,6 +219,8 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         msg.uint8(m_currentItem->getType());
         m_currentItem->fillMessage(&msg);
         msg.sendAll();
+
+        m_currentItem->initChildPointItem();
     }
     m_currentItem = NULL;
     if(m_selectedtool==VToolsBar::HANDLER)
