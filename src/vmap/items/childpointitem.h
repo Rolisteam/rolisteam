@@ -21,12 +21,52 @@
 #ifndef CHILDPOINTITEM_H
 #define CHILDPOINTITEM_H
 
+#include <QGraphicsObject>
 
-class ChildPointItem : public QGraphicsItem
+class VisualItem;
+/**
+ * @brief The ChildPointItem class
+ */
+class ChildPointItem : public QGraphicsObject
 {
 public:
-    ChildPointItem();
-    ~ChildPointItem();
+    enum MOTION { ALL, X_AXIS, Y_AXIS,ROTATION};
+    /**
+     * @brief ChildPointItem
+     * @param point
+     * @param parent
+     */
+    ChildPointItem(qreal point,VisualItem* parent);
+    /**
+     * @brief ~ChildPointItem
+     */
+    virtual ~ChildPointItem();
+    /**
+     * @brief itemChange
+     * @param change
+     * @param value
+     * @return
+     */
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    /**
+     * @brief boundingRect
+     * @return
+     */
+    QRectF boundingRect() const;
+    /**
+     * @brief paint
+     * @param painter
+     * @param option
+     * @param widget
+     */
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+    void setMotion(ChildPointItem::MOTION m);
+
+private:
+    qreal m_pointId;
+    VisualItem* m_parent;
+    MOTION m_currentMotion;
 };
 
 #endif // CHILDPOINTITEM_H
