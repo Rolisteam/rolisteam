@@ -22,6 +22,9 @@
 
 #include <QGraphicsItem>
 
+#include <QVector>
+#include "childpointitem.h"
+
 class NetworkMessageWriter;
 class NetworkMessageReader;
 
@@ -98,9 +101,23 @@ public:
 	 */
 	virtual void setEditableItem(bool);
 
+    /**
+     * @brief setGeometryPoint
+     * @param pointId
+     * @param pos
+     */
+    virtual void setGeometryPoint(qreal pointId,const QPointF& pos) = 0;
+
+    /**
+     * @brief initChildPointItem
+     */
+    virtual void initChildPointItem() = 0;
+
+    bool hasFocusOrChild();
 
 	friend QDataStream& operator<<(QDataStream& os,const VisualItem&);
 	friend QDataStream& operator>>(QDataStream& is,VisualItem&);
+
 public slots:
     void sendPositionMsg();
     void readPositionMsg(NetworkMessageReader* msg);
@@ -111,6 +128,8 @@ protected:
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
     void init();
     
+    QVector<ChildPointItem*>* m_child;
+
     
     QColor m_color;
     ItemType m_type;
