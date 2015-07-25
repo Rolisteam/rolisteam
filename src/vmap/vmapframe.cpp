@@ -49,7 +49,7 @@ VMapFrame::VMapFrame(CleverURI* uri,VMap *map)
 
 VMapFrame::~VMapFrame()
 {
-    delete m_widgetLayout;
+    //delete m_widgetLayout;
     delete m_maskPixmap;
     
 }
@@ -63,36 +63,13 @@ void VMapFrame::closeEvent(QCloseEvent *event)
 }
 void  VMapFrame::createAction()
 {
-	//m_widgetLayout = new QWidget;
     m_graphicView = new RGraphicsView(m_vmap);
-    
-	//setWidget(m_graphicView);
-   // m_toolsbar = VToolsBar::getInstance();
-
-    
-	/*m_vlayout= new QVBoxLayout();
-    m_hlayout = new QHBoxLayout();
-    
-    
-    m_vlayout->addStretch(1);
-    m_vlayout->addWidget(m_graphicView);
-    m_vlayout->addStretch(1);
-    m_vlayout->setContentsMargins(0,0,0,0);
-    
-    m_hlayout->addStretch(1);
-    m_hlayout->addLayout(m_vlayout);
-    m_hlayout->addStretch(1);
-	m_hlayout->setContentsMargins(0,0,0,0);*/
-    //m_currentEditingMode=ColorSelector::NORMAL;
 }
 void VMapFrame::updateMap()
 {
 	setTitle(m_vmap->mapTitle());
     m_graphicView->setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setGeometry(m_graphicView->geometry());
-	//m_widgetLayout->setLayout(m_hlayout);
-	//m_widgetLayout->setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
-    
 	setWidget(m_graphicView);
     setWindowIcon(QIcon(":/resources/icons/map.png"));
     m_maskPixmap = new QPixmap(m_graphicView->size());
@@ -111,22 +88,16 @@ int VMapFrame::editingMode()
 
 void VMapFrame::startMoving(QPoint position)
 {
-    /// @todo check if this method is still used some where
-  /*  startingPoint = position;
-    horizontalStart = m_graphicView->horizontalScrollBar()->value();
-	verticalStart = m_graphicView->verticalScrollBar()->value();*/
+
 }
 
 
 void VMapFrame::Moving(QPoint position)
 {
-   /* QPoint diff = startingPoint - position;
-    m_graphicView->horizontalScrollBar()->setValue(horizontalStart + diff.x());
-	m_graphicView->verticalScrollBar()->setValue(verticalStart + diff.y());*/
+
 }
 void VMapFrame::currentCursorChanged(QCursor* cursor)
 {
-    ///@todo add in mediacontainer
     m_currentCursor = cursor;
     m_graphicView->setCursor(*cursor);
 }
@@ -142,19 +113,7 @@ void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 }
 void VMapFrame::mousePressEvent(QMouseEvent* event)
 {
-    /**
-    @todo : stop the event when we are not in normal editing mode and make appropriate actions.
-    */
-    ///@todo add in mediacontainer
-    
-   /* if(m_currentEditingMode != VColorSelector::NORMAL)
-    {
-        event->ignore();
-    }
-    else
-	{*/
-        MediaContainer::mousePressEvent(event);
-	//}
+    MediaContainer::mousePressEvent(event);
 }
 void VMapFrame::currentPenSizeChanged(int ps)
 {
