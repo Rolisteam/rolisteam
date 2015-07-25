@@ -71,11 +71,17 @@ public:
      * @param msg
      */
     virtual void readItem(NetworkMessageReader* msg);
+    void setGeometryPoint(qreal pointId, const QPointF &pos);
+    virtual void initChildPointItem();
 private:
     /**
     * @brief bounding rect
     */
-    QRectF m_rect;
+    //QRectF m_rect;
+
+    qreal m_rx;
+
+    qreal m_ry;
     /**
     * @brief ellipse center
     */
