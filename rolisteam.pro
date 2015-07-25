@@ -18,7 +18,7 @@ OBJECTS_DIR = bin
 UI_DIR = src
 
 isEmpty(PREFIX) {
- PREFIX = /usr/local
+ PREFIX = /usr/local/bin
 }
 
 
@@ -36,6 +36,8 @@ TRANSLATIONS =  translations/rolisteam_fr.ts \
                 translations/rolisteam_es.ts \
                 translations/rolisteam_fi.ts \
                 translations/rolisteam_pt_BR.ts \
+                translations/rolisteam_hu_HU.ts \
+                translations/rolisteam_tr.ts \
 
 CODECFORTR = UTF-8
 
@@ -63,9 +65,9 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 
 ##Installation
 #binaries.files = bin/rolisteam
-TARGET.path = $$PREFIX/
-DEPLOYMENT += TARGET
-INSTALLS +=TARGET
+target.path = $$PREFIX/
+
+INSTALLS += target
 }
 
 include(src/odt/src/src.pri)

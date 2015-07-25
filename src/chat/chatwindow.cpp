@@ -212,9 +212,9 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
 
             if(!onlyValue)
             {
-                QString diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%2 (%3)]","mine dice roll").arg(value).arg(cmdLine).arg(list);
+                QString diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%2 (%3)]", "You got").arg(value).arg(cmdLine).arg(list);
                 showMessage(messageTitle, color, diceOutput,NetMsg::DiceMessageAction);
-                QString diceOutput2 = tr("got <span class=\"dice\">%1</span> [%2 (%3)]","third person roll").arg(value).arg(cmdLine).arg(list);
+                QString diceOutput2 = tr("got <span class=\"dice\">%1</span> [%2 (%3)]","He got").arg(value).arg(cmdLine).arg(list);
                 message = diceOutput2;
             }
             else
@@ -303,6 +303,8 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     else
     {//sending info to others.
         messageTitle = localPerson->name();
+        message = message.toHtmlEscaped();
+		message = message.replace('\n',"<br/>");
         showMessage(messageTitle, localPerson->color(), message);
         action = NetMsg::ChatMessageAction;
     }

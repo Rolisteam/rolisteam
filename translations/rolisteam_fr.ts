@@ -128,16 +128,6 @@
         <translation>Vous</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="215"/>
-        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%4)]</source>
-        <translation>avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%4)]</translation>
-    </message>
-    <message>
-        <location filename="../src/chat/chatwindow.cpp" line="217"/>
-        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</source>
-        <translation>a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)]</translation>
-    </message>
-    <message>
         <location filename="../src/chat/chatwindow.cpp" line="231"/>
         <location filename="../src/chat/chatwindow.cpp" line="239"/>
         <source>Syntax</source>
@@ -154,6 +144,18 @@
         <translation>Sauvegarde tous les messages de cette fenêtre dans %1/%2.html</translation>
     </message>
     <message>
+        <location filename="../src/chat/chatwindow.cpp" line="215"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2 (%3)]</source>
+        <comment>You got</comment>
+        <translation type="unfinished">avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%4)] {1&lt;?} {2 ?} {3)?}</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="217"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]</source>
+        <comment>He got</comment>
+        <translation type="unfinished">a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)] {1&lt;?} {2 ?} {3)?}</translation>
+    </message>
+    <message>
         <location filename="../src/chat/chatwindow.cpp" line="286"/>
         <source>Warning</source>
         <translation>Attention</translation>
@@ -164,8 +166,8 @@
         <translation>certains utilisateurs ne verrons pas vos emotes.</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="417"/>
-        <location filename="../src/chat/chatwindow.cpp" line="421"/>
+        <location filename="../src/chat/chatwindow.cpp" line="418"/>
+        <location filename="../src/chat/chatwindow.cpp" line="422"/>
         <source>%1</source>
         <translation></translation>
     </message>
@@ -2270,32 +2272,37 @@ Il sera fermé pour tout le monde</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="529"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="181"/>
+        <source>Nothing was understood</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/diceparser/diceparser.cpp" line="533"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Un dés avec %1 face(s) n&apos;existe pas. S&apos;il vous plait, veuillez mettre une valeur suppérieure à 0</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="567"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="571"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>La liste est manquante après l&apos;opérateur. Veuillez en ajouter une (exemple: 1L[épée,lance,pistolet,flèche])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="824"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="828"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur c. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="848"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="852"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur %1. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="860"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="864"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>La condition %1 introduit une boucle infinie. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="871"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="875"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur e. Veuillez le changer</translation>
     </message>
