@@ -21,6 +21,7 @@
 VMap::VMap(QObject * parent)
     : QGraphicsScene(parent)
 {
+    m_penSize = 1;
     m_currentItem = NULL;
     m_id = QUuid::createUuid().toString();
     m_itemMap=new  QMap<QString,VisualItem*>;
@@ -32,6 +33,7 @@ VMap::VMap(int width,int height,QString& title,QColor& bgColor,QObject * parent)
     : QGraphicsScene(0,0,width,height,parent)
 {
     m_title = title;
+    m_penSize = 1;
     m_bgColor = bgColor;
     setBackgroundBrush(m_bgColor);
     m_id = QUuid::createUuid().toString();
@@ -141,10 +143,10 @@ void VMap::addItem()
         m_currentItem= new LineItem(m_first,m_itemColor,m_penSize);
         break;
     case VToolsBar::EMPTYRECT:
-        m_currentItem = new RectItem(m_first,m_end,false,m_itemColor);
+        m_currentItem = new RectItem(m_first,m_end,false,m_penSize,m_itemColor);
         break;
     case VToolsBar::FILLRECT:
-        m_currentItem = new RectItem(m_first,m_end,true,m_itemColor);
+        m_currentItem = new RectItem(m_first,m_end,true,m_penSize,m_itemColor);
         break;
     case VToolsBar::EMPTYELLIPSE:
         m_currentItem = new EllipsItem(m_first,false,m_itemColor);
