@@ -1,5 +1,4 @@
 /***************************************************************************
-    *	Copyright (C) 2007 by Romain Campioni                                  *
     *	Copyright (C) 2009 by Renaud Guezennec                                 *
     *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
     *                                                                         *
@@ -117,55 +116,6 @@ VColorSelector::VColorSelector(QWidget *parent)
     connect(m_colorTableChooser,SIGNAL(currentColorChanged(QColor)),this,SLOT(selectColor(QColor)));
     
     setLayout(selecteurLayout);
-    
-    
-    
-    
-    
-    /*efface_pix = new QPixmap(":/resources/icons/efface.png");
-    m_eraseColor = new BackgroundButton(efface_pix,this);
-    m_eraseColor->setFixedHeight(17);
-    m_eraseColor->setFixedWidth(17);
-    
-    
-    m_eraseColor->setToolTip(tr("Effacer"));
-    m_eraseColor->setPalette(QPalette(Qt::white));
-    m_eraseColor->setAutoFillBackground(true);
-    couleursSpeciales->addWidget(m_eraseColor);
-    
-    
-    
-    masque_pix = new QPixmap(":/resources/icons/masque.png");
-    m_hideColor = new BackgroundButton(masque_pix,this);
-    m_hideColor->setFixedHeight(17);
-    m_hideColor->setFixedWidth(17);*/
-    
-    /*m_hideColor->setPalette(QPalette(Qt::white));
-    m_hideColor->setAutoFillBackground(true);
-    couleursSpeciales->addWidget(m_hideColor);*/
-    
-    
-    
-    /*unveil_pix = new QPixmap(":/resources/icons/demasque.png");
-    m_unveilColor = new BackgroundButton(unveil_pix,this);
-    m_unveilColor->setFixedHeight(17);
-    m_unveilColor->setFixedWidth(17);*/
-    
-    
-    /* m_unveilColor->setPalette(QPalette(Qt::white));
-    m_unveilColor->setAutoFillBackground(true);
-    couleursSpeciales->addWidget(m_unveilColor);*/
-    
-    
-    
-    /* m_editingModeGroup->addButton(m_eraseColor);
-    m_editingModeGroup->addButton(m_hideColor);
-    m_editingModeGroup->addButton(m_unveilColor);*/
-    //connect(m_editingModeGroup,SIGNAL(buttonClicked(QAbstractButton*)),this,SLOT(onGroupEdition(QAbstractButton*)));
-    
-    
-    
-    //allowOrForbideColors();
 }
 void VColorSelector::selectColor(const QColor& color)
 {
@@ -173,76 +123,18 @@ void VColorSelector::selectColor(const QColor& color)
     m_currentColorLabel->setPalette(QPalette(color));
     m_currentColor = color;
     
-    /* QAbstractButton* tmp =  m_editingModeGroup->checkedButton();
-    if(tmp != NULL)
-    tmp->setChecked(false);*/
     emit currentColorChanged(m_currentColor);
     emit currentModeChanged(NORMAL);
 }
-
-void VColorSelector::onGroupEdition(QAbstractButton* b)
-{
-    if((b == m_eraseColor)&&(m_eraseColor->isChecked()))
-    {
-        emit currentModeChanged(ERASING);
-    }
-    else if((b==m_unveilColor)&&(m_unveilColor->isChecked()))
-    {
-        emit currentModeChanged(UNVEIL);
-    }
-    else if((b==m_hideColor)&&(m_hideColor->isChecked()))
-    {
-        emit currentModeChanged(HIDING);
-    }
-    else
-    {
-        emit currentModeChanged(NORMAL);
-    }
-    // enum PAINTINGMODE{NORMAL,HIDING,UNVEIL,ERASING};
-    
-}
-
-
-
-void VColorSelector::allowOrForbideColors()
-{
-    // L'utilisateur est un joueur
-    /*	if (G_joueur)
-    {
-    // Le masquage est total
-    G_couleurMasque = QColor(0,0,0);
-    // Message d'interdiction pour les couleurs de masquage et de demasquage
-    couleurMasque->setToolTip(tr("Masquer (MJ seulement)"));
-    unveilColor->setToolTip(tr("Démasquer (MJ seulement)"));
-    // Il est impossible de selectionner les couleurs de masquage et de demasquage
-    couleurMasque->setEnabled(false);
-    unveilColor->setEnabled(false);
-    }
-    
-    // L'utilisateur est un MJ
-    else
-    {
-    // Le masque est transparent
-    G_couleurMasque = QColor(50,50,50);
-    // Tooltip normaux pour les couleurs de masquage et de demasquage
-    couleurMasque->setToolTip(tr("Masquer"));
-    unveilColor->setToolTip(tr("Démasquer"));
-    }*/
-}
-
-/********************************************************************/
-/* Change la couleur actuelle                                       */
-/********************************************************************/
-void VColorSelector::setCurrentColor(QColor& couleur)
+void VColorSelector::setCurrentColor(QColor& color)
 {
     
     //m_currentColorLabel->clear();
-    m_currentColorLabel->setPalette(QPalette(couleur));
+    m_currentColorLabel->setPalette(QPalette(color));
     
-    m_currentColorLabel->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(couleur.red()).arg(couleur.green()).arg(couleur.blue()));
-    
-    
-    m_currentColor = couleur;
+    m_currentColorLabel->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(color.red()).arg(color.green()).arg(color.blue()));
+
+    m_currentColor = color;
     emit currentColorChanged(m_currentColor);
 }
 QColor& VColorSelector::currentColor()
@@ -251,35 +143,9 @@ QColor& VColorSelector::currentColor()
     
 }
 
-/********************************************************************/
-/* M.a.j des couleurs personnelles                                  */
-/********************************************************************/
-void VColorSelector::customColorUpdate()
-{
-    /*for (int i=0, j=0; i<16; i++)
-    {
-    couleurPersonnelle[i]->setPalette(QPalette(QColor(QColorDialog::customColor(j))));
-    j+=2;
-    j = j<=15?j:1;
-    }*/
-}
 
-/********************************************************************/
-/* Renvoie la couleur personnelle dont le numero est passe en       */
-/* parametre                                                        */
-/********************************************************************/
-QColor VColorSelector::getPersonalColor(int numero)
-{
-    /*int numCouleur;
 
-    // On fait la conversion
-    if (numero%2)
-    numCouleur = (numero-1)/2+8;
-    else
-    numCouleur = numero/2;
-    
-    return (couleurPersonnelle[numCouleur]->palette()).color(QPalette::Window);*/
-}
+
 
 
 
@@ -288,9 +154,9 @@ void VColorSelector::VColorSelectorDialog()
     QColor color = QColorDialog::getColor(m_currentColor);
     if (color.isValid())
     {
-        m_currentColorLabel->setPalette(QPalette(color));
-        m_currentColor = color;
-        m_currentColorLabel->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(color.red()).arg(color.green()).arg(color.blue()));
+        //m_currentColorLabel->setPalette(QPalette(color));
+        setCurrentColor(color);
+        //m_currentColorLabel->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(color.red()).arg(color.green()).arg(color.blue()));
     }
 }
 

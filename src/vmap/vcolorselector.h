@@ -1,5 +1,4 @@
 /***************************************************************************
-    *	Copyright (C) 2007 by Romain Campioni   			   *
     *	Copyright (C) 2009 by Renaud Guezennec                             *
     *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
     *                                                                         *
@@ -18,14 +17,6 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-
-
-/********************************************************************/
-/*                                                                  */
-/* Permet de selectionner une couleur dans une palette predefinie   */
-/* qui peut etre en partie modifiee.                                */
-/*                                                                  */
-/********************************************************************/
 
 
 #ifndef VCOLORSELECTOR_H
@@ -114,8 +105,6 @@ private:
 class VColorSelector : public QWidget
 {
     Q_OBJECT
-    
-    
 public:
     /**
     * @brief Painting mode
@@ -134,21 +123,7 @@ public:
     * @brief accessor to the current color
     * @return current color
     */
-    QColor& currentColor();
-    /**
-    * @brief draw previously selected color in another section
-    */
-    void customColorUpdate();
-    /**
-    * @brief no longer use method
-    * @todo must be removed
-    */
-    void allowOrForbideColors();
-    /**
-    * @brief accessor to personnal color
-    */
-    QColor getPersonalColor(int numero);
-    
+    QColor& currentColor();    
 signals:
     /**
     * @brief emitted when color changed
@@ -171,64 +146,11 @@ private slots:
     * @brief open the color selector dialog box
     */
     void VColorSelectorDialog();
-    /**
-    * @brief slot called when user click on painting mode button
-    * @param changed the mode
-    */
-    void onGroupEdition(QAbstractButton*);
 private:
     /**
     * @brief current colorlabel
     */
     VColorLabel *m_currentColorLabel;
-    /**
-    * @brief erase tool button
-    */
-    BackgroundButton *m_eraseColor;
-    /**
-    * @brief hide (fog of war) button
-    */
-    BackgroundButton *m_hideColor;
-    /**
-    * @brief removed fog of war.
-    */
-    BackgroundButton *m_unveilColor;
-    
-    /**
-    * @brief array of color label
-    * @todo perhaps QList will be more efficient
-    * @todo name it in english
-    */
-    VColorLabel *couleurPredefinie[48];
-    /**
-    * @brief array of personal color
-    */
-    VColorLabel *couleurPersonnelle[16];
-    /**
-    * @brief widget to split the tool bar
-    */
-    QWidget *separateur1;
-    /**
-    * @brief widget to split the tool bar
-    */
-    QWidget *separateur2;
-    /**
-    * @brief erase icon
-    * @todo be removed, no need to be a member of the class
-    */
-    QPixmap *efface_pix;
-    /**
-    * @brief hide icon
-    * @todo be removed, no need to be a member of the class
-    */
-    QPixmap *masque_pix;
-    /**
-    * @brief unveil icon
-    * @todo be removed, no need to be a member of the class
-    */
-    QPixmap *unveil_pix;
-    //   bool boutonEnfonce;
-    
     /**
     * @brief current color
     */
@@ -239,9 +161,8 @@ private:
     */
     PreferencesManager* m_options;
     /**
-    * pointer to the button group which manage editing mode.
-    */
-    QButtonGroup* m_editingModeGroup;
+     * @brief m_colorTableChooser
+     */
     ColorTableChooser* m_colorTableChooser;
     
 };
