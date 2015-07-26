@@ -30,7 +30,7 @@ class VisualItem;
 class ChildPointItem : public QGraphicsObject
 {
 public:
-    enum MOTION { ALL, X_AXIS, Y_AXIS,ROTATION};
+    enum MOTION { ALL, X_AXIS, Y_AXIS};
     enum PLACEMENT { TopLeft,TopRight,TopCenter, MiddelLeft,MiddleRight,Center,ButtomLeft,ButtomRight,ButtomCenter};
 
     /**
@@ -72,6 +72,13 @@ public:
      * @param p
      */
     void setPlacement(ChildPointItem::PLACEMENT p);
+
+protected:
+    /**
+     * @brief ChildPointItem::mouseMoveEvent
+     * @param event
+     */
+    void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
 
 private:
     qreal m_pointId;
