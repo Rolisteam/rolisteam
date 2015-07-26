@@ -36,7 +36,7 @@ public:
     * @param filled either we paint filled rectange or just uts border
     * @param color
     */
-    RectItem(QPointF& topleft,QPointF& buttomright,bool filled,QColor& penColor,QGraphicsItem * parent = 0);   
+    RectItem(QPointF& topleft,QPointF& buttomright,bool filled,int penSize,QColor& penColor,QGraphicsItem * parent = 0);
     /**
     * @brief paint the current rectangle into the scene.
     * @see Qt documentation
@@ -100,7 +100,7 @@ private:
     * @brief stores the filled state.
     */
     bool m_filled;
-    
+    qint16 m_penWidth;
     
 };
 
