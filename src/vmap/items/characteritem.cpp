@@ -41,13 +41,6 @@ CharacterItem::CharacterItem(const Character* m,QPointF pos,int diameter)
     //connect(m_character,SIGNAL(avatarChanged()),this,SLOT(generatedThumbnail()));
 }
 
-/*CharacterItem::CharacterItem(QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,parent)
-    {
-    
-    }*/
-
-
 void CharacterItem::writeData(QDataStream& out) const
 {
     
@@ -75,11 +68,26 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
     {
         generatedThumbnail();
     }
-    if(option->state & QStyle::State_Selected)
+    if(hasFocusOrChild())
     {
-        painter->drawRect(m_thumnails->rect());
+        foreach(ChildPointItem* item, *m_child)
+        {
+            item->setVisible(true);
+        }
     }
-    painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
+    else
+    {
+        if(NULL!=m_child)
+        {
+            foreach(ChildPointItem* item, *m_child)
+            {
+                item->setVisible(false);
+            }
+        }
+    }
+    painter->setPen(m_character->color());
+    painter->drawRect(m_rect);
+    //painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
 }
 void CharacterItem::sizeChanged(int m_size)
 {
@@ -159,9 +167,48 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
 }
 void CharacterItem::setGeometryPoint(qreal pointId, const QPointF &pos)
 {
-
+    switch ((int)pointId)
+    {
+    case 0:
+        m_rect.setTopLeft(pos);
+        m_child->value(1)->setPos(m_rect.topRight());
+        m_child->value(2)->setPos(m_rect.bottomRight());
+        m_child->value(3)->setPos(m_rect.bottomLeft());
+        break;
+    case 1:
+        m_rect.setTopRight(pos);
+         m_child->value(0)->setPos(m_rect.topLeft());
+        m_child->value(2)->setPos(m_rect.bottomRight());
+        m_child->value(3)->setPos(m_rect.bottomLeft());
+        break;
+    case 2:
+        m_rect.setBottomRight(pos);
+        m_child->value(0)->setPos(m_rect.topLeft());
+        m_child->value(1)->setPos(m_rect.topRight());
+        m_child->value(3)->setPos(m_rect.bottomLeft());
+        break;
+    case 3:
+        m_rect.setBottomLeft(pos);
+        m_child->value(0)->setPos(m_rect.topLeft());
+        m_child->value(1)->setPos(m_rect.topRight());
+        m_child->value(2)->setPos(m_rect.bottomRight());
+        break;
+    default:
+        break;
+    }
 }
 void CharacterItem::initChildPointItem()
 {
+    m_child = new QVector<ChildPointItem*>();
 
+    for(int i = 0; i< 4 ; ++i)
+    {
+        ChildPointItem* tmp = new ChildPointItem(i,this);
+        m_child->append(tmp);
+
+    }
+   m_child->value(0)->setPos(m_rect.topLeft());
+   m_child->value(1)->setPos(m_rect.topRight());
+   m_child->value(2)->setPos(m_rect.bottomRight());
+   m_child->value(3)->setPos(m_rect.bottomLeft());
 }
