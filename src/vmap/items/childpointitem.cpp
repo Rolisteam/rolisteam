@@ -26,7 +26,7 @@
 
 #include <QDebug>
 
-#define SQUARE_SIZE 8
+#define SQUARE_SIZE 6
 
 ChildPointItem::ChildPointItem(qreal point,VisualItem* parent)
     : QGraphicsObject(parent),m_pointId(point),m_parent(parent)
@@ -63,13 +63,61 @@ QVariant ChildPointItem::itemChange(GraphicsItemChange change, const QVariant &v
 }
 QRectF ChildPointItem::boundingRect() const
 {
-    return QRectF(-SQUARE_SIZE, -SQUARE_SIZE, 2*SQUARE_SIZE, 2*SQUARE_SIZE);
+    return QRectF(m_startPoint.x(), m_startPoint.y(), 2*SQUARE_SIZE, 2*SQUARE_SIZE);
 }
 void ChildPointItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->drawRect(-SQUARE_SIZE, -SQUARE_SIZE, 2*SQUARE_SIZE, 2*SQUARE_SIZE);
+    painter->setPen(Qt::black);
+    painter->fillRect(m_startPoint.x(), m_startPoint.y(), 2*SQUARE_SIZE, 2*SQUARE_SIZE,Qt::gray);
+    painter->drawRect(m_startPoint.x(), m_startPoint.y(), 2*SQUARE_SIZE, 2*SQUARE_SIZE);
 }
 void ChildPointItem::setMotion(ChildPointItem::MOTION m)
 {
     m_currentMotion = m;
+}
+void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
+{
+    //MiddelLeft,MiddleRight,Center,ButtomLeft,ButtomRight,ButtomCenter};
+
+    switch(p)
+    {
+    case TopLeft:
+        m_startPoint.setX(0);
+        m_startPoint.setY(0);
+        break;
+    case TopRight:
+        m_startPoint.setX(-(2*SQUARE_SIZE));
+        m_startPoint.setY(0);
+        break;
+    case TopCenter:
+        m_startPoint.setX(-(SQUARE_SIZE));
+        m_startPoint.setY(0);
+        break;
+    case MiddelLeft:
+        m_startPoint.setX(0);
+        m_startPoint.setY(-(SQUARE_SIZE));
+        break;
+    case MiddleRight:
+        m_startPoint.setX(-(2*SQUARE_SIZE));
+        m_startPoint.setY(-(SQUARE_SIZE));
+        break;
+    case Center:
+        m_startPoint.setX(-(SQUARE_SIZE));
+        m_startPoint.setY(-(SQUARE_SIZE));
+        break;
+    case ButtomLeft:
+        m_startPoint.setX(0);
+        m_startPoint.setY(-(2*SQUARE_SIZE));
+        break;
+    case ButtomRight:
+        m_startPoint.setX(-(2*SQUARE_SIZE));
+        m_startPoint.setY(-(2*SQUARE_SIZE));
+        break;
+    case ButtomCenter:
+        m_startPoint.setX(-(SQUARE_SIZE));
+        m_startPoint.setY(-(2*SQUARE_SIZE));
+        break;
+    }
+
+
 }
