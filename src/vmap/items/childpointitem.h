@@ -31,6 +31,8 @@ class ChildPointItem : public QGraphicsObject
 {
 public:
     enum MOTION { ALL, X_AXIS, Y_AXIS,ROTATION};
+    enum PLACEMENT { TopLeft,TopRight,TopCenter, MiddelLeft,MiddleRight,Center,ButtomLeft,ButtomRight,ButtomCenter};
+
     /**
      * @brief ChildPointItem
      * @param point
@@ -60,11 +62,20 @@ public:
      * @param widget
      */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
+    /**
+     * @brief setMotion
+     * @param m
+     */
     void setMotion(ChildPointItem::MOTION m);
+    /**
+     * @brief setPlacement
+     * @param p
+     */
+    void setPlacement(ChildPointItem::PLACEMENT p);
 
 private:
     qreal m_pointId;
+    QPointF m_startPoint;
     VisualItem* m_parent;
     MOTION m_currentMotion;
 };
