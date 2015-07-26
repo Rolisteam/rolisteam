@@ -25,6 +25,10 @@
 #include <QPainter>
 
 #include <QDebug>
+#include <QGraphicsSceneMouseEvent>
+
+#include <math.h>
+#define PI 3.14159265
 
 #define SQUARE_SIZE 6
 
@@ -120,4 +124,30 @@ void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
     }
 
 
+}
+void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
+{
+   // if( ROTATION == m_currentMotion)
+    if(event->modifiers() & Qt::ControlModifier)
+    {
+        event->accept();
+        QPointF v = pos() + event->pos();
+        if (v.isNull())
+            return;
+
+        QPointF refPos = pos();
+
+        // set item rotation (set rotation relative to current)
+        qreal refAngle = atan2(refPos.y(), refPos.x());
+        qreal newAngle = atan2(v.y(), v.x());
+        double dZr = 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
+        double zr = m_parent->rotation() + dZr;
+
+        // apply rotation
+        m_parent->setRotation(zr);
+    }
+    else
+    {
+        QGraphicsItem::mouseMoveEvent(event);
+    }
 }
