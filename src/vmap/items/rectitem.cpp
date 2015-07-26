@@ -1,7 +1,6 @@
 /***************************************************************************
     *      Copyright (C) 2010 by Renaud Guezennec                             *
     *                                                                         *
-    *                                                                         *
     *   rolisteam is free software; you can redistribute it and/or modify     *
     *   it under the terms of the GNU General Public License as published by  *
     *   the Free Software Foundation; either version 2 of the License, or     *
@@ -17,6 +16,7 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
+
 #include "rectitem.h"
 #include <QStyle>
 #include <QPainter>
@@ -35,9 +35,8 @@ RectItem::RectItem()
 }
 
 RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,int penSize,QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,parent)
+    : VisualItem(penColor,parent),m_penWidth(penSize)
 {
-    
     m_rect.setBottomRight(buttomright);
     m_rect.setTopLeft(topleft);
     m_filled= filled;
@@ -80,7 +79,6 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
             }
         }
     }
-
     painter->restore();
     
 }
@@ -167,17 +165,18 @@ void RectItem::setGeometryPoint(qreal pointId, const QPointF &pos)
     default:
         break;
     }
+    setTransformOriginPoint(m_rect.center());
     //updateChildPosition();
 }
 void RectItem::initChildPointItem()
 {
+    setTransformOriginPoint(m_rect.center());
     m_child = new QVector<ChildPointItem*>();
 
     for(int i = 0; i< 4 ; ++i)
     {
         ChildPointItem* tmp = new ChildPointItem(i,this);
         m_child->append(tmp);
-
     }
    updateChildPosition();
 }
