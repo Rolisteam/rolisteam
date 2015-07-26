@@ -53,6 +53,24 @@ void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     painter->save();
     painter->setPen(m_pen);
     painter->drawLine(m_startPoint,m_endPoint);
+    if(hasFocusOrChild())
+    {
+        foreach(ChildPointItem* item, *m_child)
+        {
+            item->setVisible(true);
+        }
+    }
+    else
+    {
+        if(NULL!=m_child)
+        {
+            foreach(ChildPointItem* item, *m_child)
+            {
+                item->setVisible(false);
+            }
+        }
+    }
+    painter->drawRect(m_rect);
     painter->restore();
     
 }
@@ -119,13 +137,24 @@ void LineItem::setGeometryPoint(qreal pointId, const QPointF &pos)
     if(pointId == 0)
     {
         m_startPoint = pos;
+        m_rect.setTopLeft(m_startPoint);
     }
     else if(pointId == 1)
     {
         m_endPoint = pos;
+        m_rect.setBottomRight(m_endPoint);
     }
 }
 void LineItem::initChildPointItem()
 {
+    m_child = new QVector<ChildPointItem*>();
 
+    for(int i = 0; i< 2 ; ++i)
+    {
+        ChildPointItem* tmp = new ChildPointItem(i,this);
+        m_child->append(tmp);
+
+    }
+    m_child->value(0)->setPos(m_startPoint);
+    m_child->value(1)->setPos(m_endPoint);
 }
