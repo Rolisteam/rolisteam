@@ -34,7 +34,7 @@ RectItem::RectItem()
 
 }
 
-RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,QColor& penColor,QGraphicsItem * parent)
+RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,int penSize,QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
 {
     
@@ -52,7 +52,10 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     painter->save();
     if(!m_filled)
     {
-        painter->setPen(m_color);
+        QPen pen = painter->pen();
+        pen.setColor(m_color);
+        pen.setWidth(m_penWidth);
+        painter->setPen(pen);
         painter->drawRect(m_rect);
     }
     else
@@ -60,7 +63,6 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         painter->setBrush(QBrush(m_color));
         painter->fillRect(m_rect, m_color);
     }
-  /*  if(option->state & QStyle::State_Selected)*/
     if(hasFocusOrChild())
     {
         foreach(ChildPointItem* item, *m_child)
@@ -97,6 +99,7 @@ void RectItem::writeData(QDataStream& out) const
     out << m_filled;
     out << m_color;
     out << m_id;
+    out << m_penWidth;
 }
 
 void RectItem::readData(QDataStream& in)
@@ -105,6 +108,7 @@ void RectItem::readData(QDataStream& in)
     in >> m_filled;
     in >> m_color;
     in >> m_id;
+    in >> m_penWidth;
 }
 void RectItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -117,6 +121,8 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
 
     msg->int8(m_filled);
     msg->rgb(m_color);
+    msg->int16(m_penWidth);
+
 }
 void RectItem::readItem(NetworkMessageReader* msg)
 {
@@ -128,7 +134,7 @@ void RectItem::readItem(NetworkMessageReader* msg)
     m_rect.setHeight(msg->real());
     m_filled = msg->int8();
     m_color = msg->rgb();
-
+    m_penWidth = msg->int16();
 }
 void RectItem::setGeometryPoint(qreal pointId, const QPointF &pos)
 {
@@ -178,8 +184,12 @@ void RectItem::initChildPointItem()
 void RectItem::updateChildPosition()
 {
     m_child->value(0)->setPos(m_rect.topLeft());
+    m_child->value(0)->setPlacement(ChildPointItem::TopLeft);
     m_child->value(1)->setPos(m_rect.topRight());
+    m_child->value(1)->setPlacement(ChildPointItem::TopRight);
     m_child->value(2)->setPos(m_rect.bottomRight());
+    m_child->value(2)->setPlacement(ChildPointItem::ButtomRight);
     m_child->value(3)->setPos(m_rect.bottomLeft());
+    m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
     update();
 }
