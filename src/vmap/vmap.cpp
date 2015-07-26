@@ -64,7 +64,6 @@ void VMap::setBackGroundColor(QColor& bgcolor)
 {
     m_bgColor = bgcolor;
     generateBackground();
-    
 }
 void VMap::generateBackground()
 {
