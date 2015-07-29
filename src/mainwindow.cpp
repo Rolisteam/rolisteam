@@ -127,7 +127,7 @@ void MainWindow::aboutRolisteam()
 						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/Le_Sage/\">Renaud Guezennec<a/></td><td>(English & French)</td></tr>"
 						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/lorrampi/\">Lorram Lomeu de Souza Rampi<a/></td><td> (Portuguese)</td></tr>"
 						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/JuAlves/\">Juliana Alves de Sousa Rampi<a/></td><td> (Portuguese)</td></tr>"
-						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/KrekoG/\">Gergely Kreko<a/></td><td> (Hungarian)</td></tr>"
+						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/KrekoG/\">Gergely Krekó<a/></td><td> (Hungarian)</td></tr>"
 						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/kayazeren/\">Kaya Zeren<a/></td><td> (Turkish)</td></tr>"
 						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/IGrumoI/\">Alexia Béné<a/></td><td> (French & German)</td></tr>"
 						  "</table>"
