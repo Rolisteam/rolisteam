@@ -33,7 +33,7 @@ public:
     * @param either the shape is filled or not
     * @param color used for drawing it.
     */
-    EllipsItem(QPointF& center,bool filled,QColor& penColor,QGraphicsItem * parent = 0);
+    EllipsItem(QPointF& center,bool filled,int penSize,QColor& penColor,QGraphicsItem * parent = 0);
     /**
     * @brief paint the ellipse at the correct position
     */
@@ -91,6 +91,7 @@ private:
     * @brief stores the filled state
     */
     bool m_filled;
+    qint16 m_penWidth;
 };
 
 #endif // ELLIPSITEM_H
