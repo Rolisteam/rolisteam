@@ -33,8 +33,8 @@ RGraphicsView::RGraphicsView(VMap *vmap)
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     setViewport(new QOpenGLWidget());
     fitInView(sceneRect(),Qt::KeepAspectRatio);
-    //setVi
-
+    setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
+    setRubberBandSelectionMode(Qt::IntersectsItemShape);
 }
 void RGraphicsView::keyPressEvent ( QKeyEvent * event)
 {
