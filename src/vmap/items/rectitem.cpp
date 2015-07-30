@@ -64,9 +64,12 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     }
     if(hasFocusOrChild())
     {
-        foreach(ChildPointItem* item, *m_child)
+        if(NULL!=m_child)
         {
-            item->setVisible(true);
+            foreach(ChildPointItem* item, *m_child)
+            {
+                item->setVisible(true);
+            }
         }
     }
     else
@@ -170,6 +173,7 @@ void RectItem::setGeometryPoint(qreal pointId, const QPointF &pos)
 }
 void RectItem::initChildPointItem()
 {
+    m_rect = m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
     m_child = new QVector<ChildPointItem*>();
 
