@@ -109,6 +109,15 @@ void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
     {
         m_vmap->setCurrentTool(selectedtool);
     }
+    switch (m_currentTool)
+    {
+    case VToolsBar::HANDLER:
+        m_graphicView->setDragMode(QGraphicsView::RubberBandDrag);
+        break;
+    default:
+        m_graphicView->setDragMode(QGraphicsView::NoDrag);
+        break;
+    }
     
 }
 void VMapFrame::mousePressEvent(QMouseEvent* event)
