@@ -33,8 +33,8 @@ EllipsItem::EllipsItem()
     
 }
 
-EllipsItem::EllipsItem(QPointF& center,bool filled,QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,parent)
+EllipsItem::EllipsItem(QPointF& center,bool filled,int penSize,QColor& penColor,QGraphicsItem * parent)
+    : VisualItem(penColor,parent),m_penWidth(penSize)
 {
     m_center = center;
     m_ry = 0;
@@ -53,13 +53,16 @@ void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * op
     painter->save();
     if(!m_filled)
     {
-        painter->setPen(m_color);
+        QPen pen = painter->pen();
+        pen.setColor(m_color);
+        pen.setWidth(m_penWidth);
+        painter->setPen(pen);
     }
     else
     {
         painter->setPen(Qt::NoPen);
         painter->setBrush(QBrush(m_color,Qt::SolidPattern));
-     }
+    }
 
     if(hasFocusOrChild())
     {
@@ -164,6 +167,7 @@ void EllipsItem::setGeometryPoint(qreal pointId, const QPointF &pos)
 }
 void EllipsItem::initChildPointItem()
 {
+    setTransformOriginPoint(m_center);
     m_child = new QVector<ChildPointItem*>();
 
     for(int i = 0; i< 2 ; ++i)
