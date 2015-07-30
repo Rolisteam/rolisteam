@@ -70,7 +70,6 @@ void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
             }
         }
     }
-    painter->drawRect(m_rect);
     painter->restore();
     
 }
@@ -156,5 +155,7 @@ void LineItem::initChildPointItem()
 
     }
     m_child->value(0)->setPos(m_startPoint);
+    m_child->value(0)->setPlacement(ChildPointItem::Center);
     m_child->value(1)->setPos(m_endPoint);
+    m_child->value(1)->setPlacement(ChildPointItem::Center);
 }
