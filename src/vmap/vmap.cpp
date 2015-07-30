@@ -148,10 +148,10 @@ void VMap::addItem()
         m_currentItem = new RectItem(m_first,m_end,true,m_penSize,m_itemColor);
         break;
     case VToolsBar::EMPTYELLIPSE:
-        m_currentItem = new EllipsItem(m_first,false,m_itemColor);
+        m_currentItem = new EllipsItem(m_first,false,m_penSize,m_itemColor);
         break;
     case VToolsBar::FILLEDELLIPSE:
-        m_currentItem = new EllipsItem(m_first,true,m_itemColor);
+        m_currentItem = new EllipsItem(m_first,true,m_penSize,m_itemColor);
         break;
     case VToolsBar::TEXT:
     {
