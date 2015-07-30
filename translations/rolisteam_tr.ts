@@ -166,8 +166,8 @@
         <translation>Bazı kullanıcılar duygu görünümünü etkinleştirmek istiyor.</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="418"/>
-        <location filename="../src/chat/chatwindow.cpp" line="422"/>
+        <location filename="../src/chat/chatwindow.cpp" line="419"/>
+        <location filename="../src/chat/chatwindow.cpp" line="423"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
@@ -547,74 +547,74 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1252"/>
+        <location filename="../src/mainwindow.cpp" line="1261"/>
         <source>unknown</source>
         <translation>bilinmeyen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1315"/>
+        <location filename="../src/mainwindow.cpp" line="1324"/>
         <source>Minutes Editor[*]</source>
         <translation>Dakika Düzenleyicisi[*]</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1692"/>
+        <location filename="../src/mainwindow.cpp" line="1701"/>
         <source>Open Map</source>
         <translation>Haritayı Aç</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1770"/>
+        <location filename="../src/mainwindow.cpp" line="1779"/>
         <source>&amp;%1 %2</source>
         <translation>&amp;%1 %2</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1909"/>
+        <location filename="../src/mainwindow.cpp" line="1918"/>
         <source>Connected</source>
         <translation>Bağlandı</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1909"/>
+        <location filename="../src/mainwindow.cpp" line="1918"/>
         <source>Not Connected</source>
         <translation>Bağlı Değil</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <location filename="../src/mainwindow.cpp" line="1919"/>
         <source>Server</source>
         <translation>Sunucu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <location filename="../src/mainwindow.cpp" line="1919"/>
         <source>Client</source>
         <translation>İstemci</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <location filename="../src/mainwindow.cpp" line="1919"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <location filename="../src/mainwindow.cpp" line="1919"/>
         <source>Player</source>
         <translation>Oynatıcı</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="698"/>
+        <location filename="../src/mainwindow.cpp" line="707"/>
         <source>Open scenario</source>
         <translation>Senaryo aç</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1687"/>
-        <location filename="../src/mainwindow.cpp" line="1852"/>
+        <location filename="../src/mainwindow.cpp" line="1696"/>
+        <location filename="../src/mainwindow.cpp" line="1861"/>
         <source>Open Picture</source>
         <translation>Resim Aç</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="685"/>
-        <location filename="../src/mainwindow.cpp" line="1697"/>
+        <location filename="../src/mainwindow.cpp" line="694"/>
+        <location filename="../src/mainwindow.cpp" line="1706"/>
         <source>Open Minutes</source>
         <translation>Dakika Aç</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="783"/>
+        <location filename="../src/mainwindow.cpp" line="792"/>
         <source>Save Map</source>
         <translation>Haritayı Kaydet</translation>
     </message>
@@ -707,7 +707,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="193"/>
-        <location filename="../src/mainwindow.cpp" line="594"/>
+        <location filename="../src/mainwindow.cpp" line="603"/>
         <source>Quit</source>
         <translation>Kapat</translation>
     </message>
@@ -844,7 +844,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="399"/>
-        <location filename="../src/mainwindow.cpp" line="411"/>
+        <location filename="../src/mainwindow.cpp" line="420"/>
         <source>Notification Zone</source>
         <translation>Bildirim Alanı</translation>
     </message>
@@ -900,18 +900,18 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="109"/>
-        <location filename="../src/mainwindow.cpp" line="971"/>
+        <location filename="../src/mainwindow.cpp" line="980"/>
         <source>Help</source>
         <translation>Yardım</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="145"/>
+        <location filename="../src/mainwindow.cpp" line="154"/>
         <source>Unknown Map</source>
         <translation>Bilinmeyen Harita</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="933"/>
-        <location filename="../src/mainwindow.cpp" line="955"/>
+        <location filename="../src/mainwindow.cpp" line="942"/>
+        <location filename="../src/mainwindow.cpp" line="964"/>
         <source>Image compression error (readImageFromStream - MainWindow.cpp)</source>
         <translation>Görsel sıkıştırılırken hata (readImageFromStream - MainWindow.cpp)</translation>
     </message>
@@ -921,110 +921,115 @@
         <translation>&lt;p&gt;Bu yazılımı değiştirmeniz ve yeniden dağıtmanız Genel Kamu Lisansı (sürüm 2 ya da daha yenisi) şartları ile sınırlıdır. &apos;COPYING&apos; dosyasında Genel Kamu Lisansı&apos;nın bir kopyasını bulabilirsiniz. Rolisteam yazılımının telif hakları katılımcılarına aittir. &apos;COPYRIGHT&apos; dosyasında katılımcıların tam listesine bakabilirsiniz. Bu yazılım garantisiz olarak sunulmaktadır.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1039"/>
+        <location filename="../src/mainwindow.cpp" line="116"/>
+        <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Translators&lt;/h3&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec&lt;a/&gt;&lt;/td&gt;&lt;td&gt;(English &amp; French)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Hungarian)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Turkish)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (French &amp; German)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1048"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 doğru sürüm değil: %2.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1112"/>
+        <location filename="../src/mainwindow.cpp" line="1121"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam bağlantı için &lt;port&gt; kullanabilsin</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1113"/>
+        <location filename="../src/mainwindow.cpp" line="1122"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam &lt;server&gt; bağlantısı kurabilsin.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1114"/>
+        <location filename="../src/mainwindow.cpp" line="1123"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>&lt;role&gt; tanımlaması: gm ya da pc</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1115"/>
+        <location filename="../src/mainwindow.cpp" line="1124"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Ayarları sil ve varsayılan ayarlara dön</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1116"/>
+        <location filename="../src/mainwindow.cpp" line="1125"/>
         <source>Define the &lt;username&gt;</source>
         <translation>&lt;username&gt; tanımlaması</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1199"/>
+        <location filename="../src/mainwindow.cpp" line="1208"/>
         <source>End of the connection process</source>
         <translation>Bağlantı sonlandırma işlemi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1221"/>
+        <location filename="../src/mainwindow.cpp" line="1230"/>
         <source>Error:</source>
         <translation>Hata:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1225"/>
+        <location filename="../src/mainwindow.cpp" line="1234"/>
         <source>Warning:</source>
         <translation>Uyarı:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1907"/>
+        <location filename="../src/mainwindow.cpp" line="1916"/>
         <source>%1[*] - v%2 - %3 - %4 - %5</source>
         <translation>%1[*] - v%2 - %3 - %4 - %5</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="246"/>
+        <location filename="../src/mainwindow.cpp" line="255"/>
         <source>Close Map</source>
         <translation>Haritayı Kapat</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="250"/>
+        <location filename="../src/mainwindow.cpp" line="259"/>
         <source>Close Picture</source>
         <translation>Resmi Kapat</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="252"/>
+        <location filename="../src/mainwindow.cpp" line="261"/>
         <source>Do you want to close %1 %2?
 It will be closed for everybody</source>
         <translation>%1 %2 kapatılsın mı?
 Bu herkes için kapatılacaktır</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="252"/>
+        <location filename="../src/mainwindow.cpp" line="261"/>
         <source>(Map)</source>
         <translation>(Harita)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="607"/>
+        <location filename="../src/mainwindow.cpp" line="616"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>Bağlantı kaybedildi. %1 kapatılacak</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="611"/>
+        <location filename="../src/mainwindow.cpp" line="620"/>
         <source>Connection lost</source>
         <translation>Bağlantı kaybedildi</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="620"/>
+        <location filename="../src/mainwindow.cpp" line="629"/>
         <source>Quit %1 </source>
         <translation>Çık %1 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="626"/>
+        <location filename="../src/mainwindow.cpp" line="635"/>
         <source>Do you want to save your minutes before to quit %1?</source>
         <translation>Dakika kaydedilip %1 kapatılsın mı?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="631"/>
+        <location filename="../src/mainwindow.cpp" line="640"/>
         <source>Do you want to save your scenario before to quit %1?</source>
         <translation>Senaryonuz kaydedilip %1 kapatılsın mı?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="783"/>
+        <location filename="../src/mainwindow.cpp" line="792"/>
         <source>Map (*.pla)</source>
         <translation>Harita (*.pla)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="698"/>
-        <location filename="../src/mainwindow.cpp" line="819"/>
+        <location filename="../src/mainwindow.cpp" line="707"/>
+        <location filename="../src/mainwindow.cpp" line="828"/>
         <source>Scenarios (*.sce)</source>
         <translation>Senaryolar (*.sce)</translation>
     </message>
@@ -1054,12 +1059,7 @@ Bu herkes için kapatılacaktır</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="116"/>
-        <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;&lt;h3&gt;Web Siteleri :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Resmi Rolisteam Sitesi&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Hata İzleyicileri&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Şu anki geliştiriciler :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Eski geliştiriciler :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="819"/>
+        <location filename="../src/mainwindow.cpp" line="828"/>
         <source>Save Scenarios</source>
         <translation>Senaryoları Kaydet</translation>
     </message>
@@ -1070,32 +1070,32 @@ Bu herkes için kapatılacaktır</translation>
         <translation>Rolisteam Hakkında</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="972"/>
+        <location filename="../src/mainwindow.cpp" line="981"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>%1 ile ilgili belgeler çevrimiçi olarak &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;burada&lt;/a&gt; bulunabilir</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1011"/>
+        <location filename="../src/mainwindow.cpp" line="1020"/>
         <source>Update Monitor</source>
         <translation>İzleyiciyi Güncelleştir</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1011"/>
+        <location filename="../src/mainwindow.cpp" line="1020"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>%1 sürümü kullanılabilir. Lütfen daha fazla bilgi almak için &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;indirme sayfasına&lt;/a&gt; bakın</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1036"/>
+        <location filename="../src/mainwindow.cpp" line="1045"/>
         <source>%1 just joins the game.</source>
         <translation>%1 az önce oyuna katıldı.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1045"/>
+        <location filename="../src/mainwindow.cpp" line="1054"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 az önce oyundan ayrıldı.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="900"/>
+        <location filename="../src/mainwindow.cpp" line="909"/>
         <source>Server Ip Address:%1
 Port:%2</source>
         <translation>Sunucunun IP adresi:%1
@@ -2309,7 +2309,7 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1117"/>
+        <location filename="../src/mainwindow.cpp" line="1126"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation type="unfinished"></translation>
     </message>

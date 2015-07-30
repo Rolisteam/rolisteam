@@ -166,8 +166,8 @@
         <translation>Não será permitido para alguns usuários ver seus emoticons </translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="418"/>
-        <location filename="../src/chat/chatwindow.cpp" line="422"/>
+        <location filename="../src/chat/chatwindow.cpp" line="419"/>
+        <location filename="../src/chat/chatwindow.cpp" line="423"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
@@ -547,74 +547,74 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1252"/>
+        <location filename="../src/mainwindow.cpp" line="1261"/>
         <source>unknown</source>
         <translation>desconhecido</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1315"/>
+        <location filename="../src/mainwindow.cpp" line="1324"/>
         <source>Minutes Editor[*]</source>
         <translation>Editor de Minutos[*]</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1692"/>
+        <location filename="../src/mainwindow.cpp" line="1701"/>
         <source>Open Map</source>
         <translation>Abrir Mapa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1770"/>
+        <location filename="../src/mainwindow.cpp" line="1779"/>
         <source>&amp;%1 %2</source>
         <translation>&amp;%1 %2</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1909"/>
+        <location filename="../src/mainwindow.cpp" line="1918"/>
         <source>Connected</source>
         <translation>Conectado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1909"/>
+        <location filename="../src/mainwindow.cpp" line="1918"/>
         <source>Not Connected</source>
         <translation>Não Conectado</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <location filename="../src/mainwindow.cpp" line="1919"/>
         <source>Server</source>
         <translation>Servidor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <location filename="../src/mainwindow.cpp" line="1919"/>
         <source>Client</source>
         <translation>Cliente</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <location filename="../src/mainwindow.cpp" line="1919"/>
         <source>GM</source>
         <translation>GM</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <location filename="../src/mainwindow.cpp" line="1919"/>
         <source>Player</source>
         <translation>Jogador</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="698"/>
+        <location filename="../src/mainwindow.cpp" line="707"/>
         <source>Open scenario</source>
         <translation>Abrir Cenário</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1687"/>
-        <location filename="../src/mainwindow.cpp" line="1852"/>
+        <location filename="../src/mainwindow.cpp" line="1696"/>
+        <location filename="../src/mainwindow.cpp" line="1861"/>
         <source>Open Picture</source>
         <translation>Abrir Imagem</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="685"/>
-        <location filename="../src/mainwindow.cpp" line="1697"/>
+        <location filename="../src/mainwindow.cpp" line="694"/>
+        <location filename="../src/mainwindow.cpp" line="1706"/>
         <source>Open Minutes</source>
         <translation>Abrir Minutos</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="783"/>
+        <location filename="../src/mainwindow.cpp" line="792"/>
         <source>Save Map</source>
         <translation>Salvar Mapa</translation>
     </message>
@@ -707,7 +707,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="193"/>
-        <location filename="../src/mainwindow.cpp" line="594"/>
+        <location filename="../src/mainwindow.cpp" line="603"/>
         <source>Quit</source>
         <translation>Sair</translation>
     </message>
@@ -844,7 +844,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="399"/>
-        <location filename="../src/mainwindow.cpp" line="411"/>
+        <location filename="../src/mainwindow.cpp" line="420"/>
         <source>Notification Zone</source>
         <translation>Zona de Notificação</translation>
     </message>
@@ -900,18 +900,18 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="109"/>
-        <location filename="../src/mainwindow.cpp" line="971"/>
+        <location filename="../src/mainwindow.cpp" line="980"/>
         <source>Help</source>
         <translation>Ajuda</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="145"/>
+        <location filename="../src/mainwindow.cpp" line="154"/>
         <source>Unknown Map</source>
         <translation>Mapa Desconhecido</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="933"/>
-        <location filename="../src/mainwindow.cpp" line="955"/>
+        <location filename="../src/mainwindow.cpp" line="942"/>
+        <location filename="../src/mainwindow.cpp" line="964"/>
         <source>Image compression error (readImageFromStream - MainWindow.cpp)</source>
         <translation>Erro de compressão de imagem (readImageFromStream - MainWindow.cpp)</translation>
     </message>
@@ -921,110 +921,115 @@
         <translation>&lt;p&gt;Você pode modificar e redistribuir o programa sob os termos da GPL (versão 2 ou posterior). Uma cópia do GPL está contido no arquivo &apos;COPYING&apos; distribuído com Rolisteam. Rolisteam é protegido por seus colaboradores. Veja o arquivo &apos;COPYRIGHT&apos; para a lista completa de contribuidores. Nós fornecemos nenhuma garantia para este programa.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1039"/>
+        <location filename="../src/mainwindow.cpp" line="116"/>
+        <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Translators&lt;/h3&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec&lt;a/&gt;&lt;/td&gt;&lt;td&gt;(English &amp; French)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Hungarian)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Turkish)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (French &amp; German)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1048"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 não tem a versão correta: %2.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1112"/>
+        <location filename="../src/mainwindow.cpp" line="1121"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Definir rolisteam para usar &lt;port&gt; para a conexão</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1113"/>
+        <location filename="../src/mainwindow.cpp" line="1122"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Definir rolisteam para conectar ao &lt;server&gt;.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1114"/>
+        <location filename="../src/mainwindow.cpp" line="1123"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>Definir o &lt;role&gt;: gm ou pj</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1115"/>
+        <location filename="../src/mainwindow.cpp" line="1124"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Apagar as configurações e usar os parâmetros padrão</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1116"/>
+        <location filename="../src/mainwindow.cpp" line="1125"/>
         <source>Define the &lt;username&gt;</source>
         <translation>Definir o &lt;username&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1199"/>
+        <location filename="../src/mainwindow.cpp" line="1208"/>
         <source>End of the connection process</source>
         <translation>Fim do Processo de Conexão</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1221"/>
+        <location filename="../src/mainwindow.cpp" line="1230"/>
         <source>Error:</source>
         <translation>Erro:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1225"/>
+        <location filename="../src/mainwindow.cpp" line="1234"/>
         <source>Warning:</source>
         <translation>Aviso:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1907"/>
+        <location filename="../src/mainwindow.cpp" line="1916"/>
         <source>%1[*] - v%2 - %3 - %4 - %5</source>
         <translation>%1[*] - v%2 - %3 - %4 - %5</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="246"/>
+        <location filename="../src/mainwindow.cpp" line="255"/>
         <source>Close Map</source>
         <translation>Fechar Mapa</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="250"/>
+        <location filename="../src/mainwindow.cpp" line="259"/>
         <source>Close Picture</source>
         <translation>Fechar Imagem</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="252"/>
+        <location filename="../src/mainwindow.cpp" line="261"/>
         <source>Do you want to close %1 %2?
 It will be closed for everybody</source>
         <translation>Você quer fechar %1 %2?
 Ele estará fechado para todo mundo</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="252"/>
+        <location filename="../src/mainwindow.cpp" line="261"/>
         <source>(Map)</source>
         <translation>(Mapa)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="607"/>
+        <location filename="../src/mainwindow.cpp" line="616"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>Aconexão foi perdida. %1 will be close</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="611"/>
+        <location filename="../src/mainwindow.cpp" line="620"/>
         <source>Connection lost</source>
         <translation>Conexão Perdida </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="620"/>
+        <location filename="../src/mainwindow.cpp" line="629"/>
         <source>Quit %1 </source>
         <translation>Retirar-se de %1 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="626"/>
+        <location filename="../src/mainwindow.cpp" line="635"/>
         <source>Do you want to save your minutes before to quit %1?</source>
         <translation>Você quer salvar seus minutos antes de retirar-se de %1?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="631"/>
+        <location filename="../src/mainwindow.cpp" line="640"/>
         <source>Do you want to save your scenario before to quit %1?</source>
         <translation>Você quer salvar o seu cenário antes de retirar-se de %1?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="783"/>
+        <location filename="../src/mainwindow.cpp" line="792"/>
         <source>Map (*.pla)</source>
         <translation>Mapa (*.pla)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="698"/>
-        <location filename="../src/mainwindow.cpp" line="819"/>
+        <location filename="../src/mainwindow.cpp" line="707"/>
+        <location filename="../src/mainwindow.cpp" line="828"/>
         <source>Scenarios (*.sce)</source>
         <translation>Cenários (*.sce)</translation>
     </message>
@@ -1054,12 +1059,7 @@ Ele estará fechado para todo mundo</translation>
         <translation>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam ajuda você a gerenciar um role playing game de mesa com amigos/jogadores remotos. Ele oferece muitos recursos para compartilhar mapas, fotos e também inclui ferramentas para se comunicar com seus amigos / jogadores. O objetivo é fazer com que o Rolisteam-jogos de RPG gerenciados tão bom quanto os jogos de RPG em torno de sua mesa. Para alcançar isto, nós estamos trabalhando duro para lhe fornecer mais e mais recursos. Recursos existentes : Compartilhamento de mapa (com gerenciamento de permissões), Compartilhamento de imagens, música de fundo, rolar dados e assim por diante. Rolisteam é escrito em Qt5</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="116"/>
-        <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Oficial de Rolisteam&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Desenvolvedores atuais :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="819"/>
+        <location filename="../src/mainwindow.cpp" line="828"/>
         <source>Save Scenarios</source>
         <translation>Salvar Cenários</translation>
     </message>
@@ -1070,32 +1070,32 @@ Ele estará fechado para todo mundo</translation>
         <translation>Sobre o Rolisteam</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="972"/>
+        <location filename="../src/mainwindow.cpp" line="981"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>Documentação de %1 pode ser encontrada em :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1011"/>
+        <location filename="../src/mainwindow.cpp" line="1020"/>
         <source>Update Monitor</source>
         <translation>Monitor de Atualização</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1011"/>
+        <location filename="../src/mainwindow.cpp" line="1020"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>A versão %1 foi lançada. Por favor, dê uma olhada em &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Página de Download&lt;/a&gt; para mais informações</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1036"/>
+        <location filename="../src/mainwindow.cpp" line="1045"/>
         <source>%1 just joins the game.</source>
         <translation>%1 há pouco se juntou ao jogo.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1045"/>
+        <location filename="../src/mainwindow.cpp" line="1054"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 há pouco deixou o jogo.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="900"/>
+        <location filename="../src/mainwindow.cpp" line="909"/>
         <source>Server Ip Address:%1
 Port:%2</source>
         <translation>Endereço Ip do Servidor:%1
@@ -2310,7 +2310,7 @@ Porta:%2</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1117"/>
+        <location filename="../src/mainwindow.cpp" line="1126"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation>caminho para o arquivo de tradução: &lt;translationfile&gt;</translation>
     </message>
