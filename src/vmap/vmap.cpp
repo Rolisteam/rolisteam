@@ -439,12 +439,25 @@ void VMap::addNewItem(VisualItem* item)
     {
         item->setMapId(m_id);
         connect(item,SIGNAL(itemGeometryChanged(VisualItem*)),this,SLOT(sendItemToAll(VisualItem*)));
+        connect(item,SIGNAL(itemRemoved(QString)),this,SLOT(removeItemFromScene(QString)));
         QGraphicsScene::addItem(item);
 		item->setEditableItem(m_localIsGM);
         qDebug() << "item added" <<item->getId();
         m_itemMap->insert(item->getId(),item);
     }
 }
+void VMap::removeItemFromScene(QString id)
+{
+    VisualItem* item = m_itemMap->take(id);
+    QGraphicsScene::removeItem(item);
+    delete item;
+
+    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::DelItem);
+    msg.string8(m_id);//id map
+    msg.string16(id);//id item
+    msg.sendAll();
+}
+
 void VMap::sendItemToAll(VisualItem* item)
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::GeometryItemChanged);
@@ -463,11 +476,25 @@ void VMap::processMoveItemMessage(NetworkMessageReader* msg)
     if(NULL!=msg)
     {
         QString id = msg->string16();
-        qDebug() << id;
         VisualItem* item = m_itemMap->value(id);
         if(NULL!=item)
         {
             item->readPositionMsg(msg);
+        }
+
+    }
+}
+void VMap::processDelItemMessage(NetworkMessageReader* msg)
+{
+    if(NULL!=msg)
+    {
+        QString id = msg->string16();
+        VisualItem* item = m_itemMap->value(id);
+        if(NULL!=item)
+        {
+            m_itemMap->remove(id);
+            QGraphicsScene::removeItem(item);
+            delete item;
         }
 
     }

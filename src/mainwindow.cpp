@@ -1789,6 +1789,14 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
             }
             break;
         case NetMsg::DelItem:
+            {
+                QString vmapId = msg->string8();
+                VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
+                if(NULL!=tmp)
+                {
+                    tmp->processDelItemMessage(msg);
+                }
+            }
             break;
         case NetMsg::MoveItem:
             {

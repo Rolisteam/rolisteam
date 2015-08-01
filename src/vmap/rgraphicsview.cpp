@@ -38,7 +38,7 @@ RGraphicsView::RGraphicsView(VMap *vmap)
 }
 void RGraphicsView::keyPressEvent ( QKeyEvent * event)
 {
-    if(event->key ()==Qt::Key_Delete)
+ /*   if(event->key ()==Qt::Key_Delete)
     {
         QList<QGraphicsItem*> list= scene()->selectedItems();
         if(list.size()>0)
@@ -49,7 +49,7 @@ void RGraphicsView::keyPressEvent ( QKeyEvent * event)
             }
         }
 
-    }
+    }*/
     QGraphicsView::keyPressEvent(event);
 }
 void RGraphicsView::mousePressEvent ( QMouseEvent * event)

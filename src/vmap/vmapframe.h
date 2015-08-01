@@ -99,6 +99,7 @@ public :
     virtual bool readFileFromUri();
 
     void processAddItemMessage(NetworkMessageReader* msg);
+    void processDelItemMessage(NetworkMessageReader* msg);
     void processMoveItemMessage(NetworkMessageReader* msg);
     void processGeometryChangeItem(NetworkMessageReader* msg);
 public slots :
