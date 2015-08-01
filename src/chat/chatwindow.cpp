@@ -38,7 +38,7 @@
 #include "network/networkmessagewriter.h"
 #include "localpersonmodel.h"
 #include "mainwindow.h"
-#include "data/persons.h"
+#include "data/person.h"
 #include "userlist/playersList.h"
 #include "chat/improvedtextedit.h"
 

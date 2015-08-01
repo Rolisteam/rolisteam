@@ -88,7 +88,6 @@ HEADERS += \
            src/network/networkmessage.h \
            src/network/networkmessagereader.h \
            src/network/networkmessagewriter.h \
-           src/data/persons.h \
            src/persondialog.h \
            src/userlist/playersList.h \
            src/userlist/playerslistproxy.h \
@@ -133,7 +132,10 @@ HEADERS += \
     src/widgets/centeredcheckbox.h \
     src/preferences/palettemodel.h \
     src/preferences/rolisteamtheme.h \
-    src/widgets/flowlayout.h
+    src/widgets/flowlayout.h \
+    src/data/character.h \
+    src/data/player.h \
+    src/data/person.h
 
 
 
@@ -150,7 +152,6 @@ SOURCES += \
            src/network/networkmessage.cpp \
            src/network/networkmessagereader.cpp \
            src/network/networkmessagewriter.cpp \
-           src/data/persons.cpp \
            src/persondialog.cpp \
            src/userlist/playersList.cpp \
            src/userlist/playerslistproxy.cpp \
@@ -191,7 +192,10 @@ SOURCES += \
     src/widgets/centeredcheckbox.cpp \
     src/preferences/palettemodel.cpp \
     src/preferences/rolisteamtheme.cpp \
-    src/widgets/flowlayout.cpp
+    src/widgets/flowlayout.cpp \
+    src/data/character.cpp \
+    src/data/player.cpp \
+    src/data/person.cpp
 #end source
 
 

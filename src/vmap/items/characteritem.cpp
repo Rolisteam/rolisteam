@@ -25,8 +25,7 @@
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
-
-
+#include "data/character.h"
 CharacterItem::CharacterItem()
 : VisualItem()
 {
@@ -124,6 +123,8 @@ void CharacterItem::generatedThumbnail()
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);
+    msg->real(scale());
+    msg->real(rotation());
     msg->string16(m_character->uuid());
     msg->uint16(m_diameter);
     //pos
@@ -145,6 +146,8 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 void CharacterItem::readItem(NetworkMessageReader* msg)
 {
     m_id = msg->string16();
+    setScale(msg->real());
+    setRotation(msg->real());
     QString idCharacter = msg->string16();
     m_diameter = msg->uint16();
 //pos

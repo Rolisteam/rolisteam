@@ -27,7 +27,8 @@
 #include <QTcpSocket>
 #include <QMessageBox>
 #include "network/networklink.h"
-#include "data/persons.h"
+#include "data/person.h"
+#include "data/player.h"
 #include "audio/audioPlayer.h"
 
 #define second 1000
