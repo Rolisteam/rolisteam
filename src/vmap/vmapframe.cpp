@@ -26,8 +26,8 @@
 #include <QUuid>
 
 #include "vmapframe.h"
-//#include "map/mapwizzard.h"
-#include "map/newemptymapdialog.h"
+#include "map/mapwizzard.h"
+
 
 VMapFrame::VMapFrame()
     : MediaContainer()
@@ -73,8 +73,6 @@ void VMapFrame::updateMap()
 	setWidget(m_graphicView);
     setWindowIcon(QIcon(":/resources/icons/map.png"));
     m_maskPixmap = new QPixmap(m_graphicView->size());
-    
-    
 }
 
 VMap * VMapFrame::map()
@@ -84,17 +82,6 @@ VMap * VMapFrame::map()
 int VMapFrame::editingMode()
 {
     return m_currentEditingMode;
-}
-
-void VMapFrame::startMoving(QPoint position)
-{
-
-}
-
-
-void VMapFrame::Moving(QPoint position)
-{
-
 }
 
 void VMapFrame::currentCursorChanged(QCursor* cursor)
@@ -153,19 +140,6 @@ bool VMapFrame::defineMenu(QMenu* /*menu*/)
 {
     return false;
 }
-void VMapFrame::saveFile(const QString & filepath)
-{
-    if(!filepath.isEmpty())
-    {
-        QFile output(filepath);
-        if (!output.open(QIODevice::WriteOnly))
-            return;
-        QDataStream out(&output);
-        m_vmap->saveFile(out);
-
-    }
-    
-}
 
 void VMapFrame::openFile(const QString& filepath)
 {
@@ -196,6 +170,40 @@ void VMapFrame::setCleverURI(CleverURI* uri)
 {
     m_uri=uri;
 }
+bool VMapFrame::openMedia()
+{
+    MapWizzard wiz(true);
+    wiz.resetData();
+    if(wiz.exec()==QMessageBox::Accepted)
+    {
+        QString path = wiz.getFilepath();
+        QFileInfo info(path);
+        m_uri->setUri( path);
+        m_preferences->registerValue("MapDirectory",info.absolutePath());
+        return true;
+    }
+    return false;
+}
+void VMapFrame::saveMedia()
+{
+    if(NULL!=m_vmap)
+    {
+        if(!m_uri->getUri().endsWith(".vmap"))
+        {
+            QString str = m_uri->getUri()+".vmap";
+            m_uri->setUri(str);
+        }
+
+        QFile file(m_uri->getUri());
+        if (!file.open(QIODevice::WriteOnly))
+        {
+            return;
+        }
+        QDataStream out(&file);
+        m_vmap->saveFile(out);
+        file.close();
+    }
+}
 
 bool VMapFrame::hasDockWidget() const
 {
@@ -208,7 +216,8 @@ QDockWidget* VMapFrame::getDockWidget()
 }
 bool VMapFrame::readFileFromUri()
 {
-    return false;
+    openFile(m_uri->getUri());
+    return true;
 }
 void VMapFrame::processAddItemMessage(NetworkMessageReader* msg)
 {
