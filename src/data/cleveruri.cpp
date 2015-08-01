@@ -38,10 +38,20 @@ QString CleverURI::m_charactersheetIcon=QString(":/resources/icons/treeview.png"
 QString CleverURI::m_scenarioIcon=QString(":/story.png");
 QString CleverURI::m_chatIcon=QString(":/resources/icons/scenario.png");
 QString CleverURI::m_musicIcon=QString(":/resources/icons/music.svg");
+QString CleverURI::m_empty=QString("");
+
+//enum ContentType {NONE,MAP,VMAP,CHAT,PICTURE,ONLINEPICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,SONGLIST
+QStringList CleverURI::m_typeNameList = QStringList() <<    QObject::tr("None") <<QObject::tr("Map") <<QObject::tr("Vectorial Map") <<QObject::tr("Chat")
+                                                      <<    QObject::tr("Picture") <<QObject::tr("Online Picture") <<QObject::tr("Text") <<QObject::tr("Text") <<
+                                                            QObject::tr("Charecter Sheet") <<QObject::tr("Scenario") <<QObject::tr("Song") <<QObject::tr("Song List");
+
+QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString("SessionDirectory") <<QString("MapDirectory")       <<QString("MapDirectory")           <<QString("ChatDirectory")
+                                                                   <<   QString("ImageDirectory")   <<QString("ImageDirectory")     <<QString("Text")                   <<QString("MinutesDirectory") <<
+                                                                        QString("SessionDirectory") <<QString("SessionDirectory")   <<QString("MusicDirectoryPlayer")   <<QString("MusicDirectoryPlayer");
+
 #ifdef WITH_PDF
 QString CleverURI::m_pdfIcon=QString(":/iconpdf");
 #endif
-QString CleverURI::m_empty=QString("");
 
 CleverURI::CleverURI()
 {
@@ -183,6 +193,10 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
     case CleverURI::ONLINEPICTURE:
         return QString();
         break;
+    case CleverURI::VMAP:
+        //return QObject::tr("Supported Image formats (%1)").arg(preferences->value("VMapFileFilter","j,*.jpg *.jpeg *.png *.bmp *.svg").toString());
+        return QString();
+        break;
 #ifdef WITH_PDF
     case CleverURI::PDF:
         return m_pdfIcon;
@@ -191,6 +205,21 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
     default:
         return m_empty;
         break;
+    }
+}
+QString CleverURI::typeToString(CleverURI::ContentType type)
+{
+    if(m_typeNameList.size()>(int)type)
+    {
+        return m_typeNameList.at((int)type);
+    }
+}
+
+QString CleverURI::getPreferenceDirectoryKey(CleverURI::ContentType type)
+{
+    if(m_typeToPreferenceDirectory.size()>(int)type)
+    {
+        return m_typeToPreferenceDirectory.at((int)type);
     }
 }
 
