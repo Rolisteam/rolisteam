@@ -134,6 +134,7 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
 void RectItem::readItem(NetworkMessageReader* msg)
 {
     m_id = msg->string16();
+    qDebug() << "read Item" << m_id;
     //rect
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());

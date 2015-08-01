@@ -31,19 +31,19 @@
 VisualItem::VisualItem()
     : QGraphicsObject(),m_editable(false),m_child(NULL)
 {
-	m_id = QUuid::createUuid().toString();
+    m_id = QUuid::createUuid().toString();
 	init();
-
-
 }
 
 VisualItem::VisualItem(QColor& penColor,bool b,QGraphicsItem * parent )
     : QGraphicsObject(parent),m_color(penColor),m_editable(b),m_child(NULL)
 {
+    m_id = QUuid::createUuid().toString();
 	init();
 }
 void VisualItem::init()
 {
+
 	if(m_editable)
 	{
 		/// @warning if two connected people have editable item, it will lead to endless loop.
