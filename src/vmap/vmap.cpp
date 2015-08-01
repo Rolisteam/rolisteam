@@ -441,6 +441,7 @@ void VMap::addNewItem(VisualItem* item)
         connect(item,SIGNAL(itemGeometryChanged(VisualItem*)),this,SLOT(sendItemToAll(VisualItem*)));
         QGraphicsScene::addItem(item);
 		item->setEditableItem(m_localIsGM);
+        qDebug() << "item added" <<item->getId();
         m_itemMap->insert(item->getId(),item);
     }
 }
@@ -461,7 +462,9 @@ void VMap::processMoveItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
     {
-        VisualItem* item = m_itemMap->value(msg->string16());
+        QString id = msg->string16();
+        qDebug() << id;
+        VisualItem* item = m_itemMap->value(id);
         if(NULL!=item)
         {
             item->readPositionMsg(msg);
