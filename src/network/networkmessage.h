@@ -141,7 +141,7 @@ enum Action {
     DelItem,
     MoveItem,
     DelPoint,
-    MovePoint,
+    GeometryItemChanged,
     AddPoint
 };
 }
