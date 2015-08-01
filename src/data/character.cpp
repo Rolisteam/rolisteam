@@ -17,16 +17,53 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
+#include <QColor>
+#include <QUuid>
 
 #include "character.h"
+#include "data/player.h"
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 
-Character::Character()
+Character::Character(const QString & nom, const QColor & color)
+    : Person(nom, color), m_parent(NULL)
 {
-
 }
 
-Character::~Character()
+Character::Character(const QString & uuid, const QString & nom, const QColor & color)
+    : Person(uuid, nom, color), m_parent(NULL)
 {
-
 }
+
+Character::Character(NetworkMessageReader & data)
+    : Person(), m_parent(NULL)
+{
+    m_uuid = data.string8();
+    m_name = data.string16();
+    m_color = QColor(data.rgb());
+}
+
+void Character::fill(NetworkMessageWriter & message)
+{
+    message.string8(m_parent->uuid());
+    message.string8(m_uuid);
+    message.string16(m_name);
+    message.rgb(m_color);
+}
+
+Person* Character::parent() const
+{
+    return m_parent;
+}
+
+void Character::setParent(Person * parent)
+{
+    // We can't move a character from a Player to another one.
+    // If that happens, it's a fatal error.
+    if (m_parent != NULL)
+        qFatal("Illegal call of Character::setParent(Player *) : m_parent is not NULL.");
+
+    m_parent = parent;
+}
+
 

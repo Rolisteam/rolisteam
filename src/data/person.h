@@ -27,6 +27,7 @@
 #include <QColor>
 #include <QList>
 #include <QMap>
+#include <QImage>
 
 class Character;
 class NetworkMessageReader;
@@ -41,23 +42,70 @@ class Person
 {
 
 public:
-    virtual ~Person();
+    /**
+     * @brief Person
+     * @param name
+     * @param color
+     */
     Person(const QString & name, const QColor & color);
+    /**
+     * @brief Person
+     * @param uuid
+     * @param name
+     * @param color
+     */
     Person(const QString & uuid, const QString & name, const QColor & color);
-
+    /**
+     * @brief ~Person
+     */
+    virtual ~Person();
+    /**
+     * @brief uuid
+     * @return
+     */
     const QString uuid() const;
+    /**
+     * @brief name
+     * @return
+     */
     QString name() const;
+    /**
+     * @brief color
+     * @return
+     */
     QColor  color() const;
-    virtual Player * parent() const;
-
+    /**
+     * @brief parent
+     * @return
+     */
+    virtual Person* parent() const;
+    /**
+     * @brief fill
+     * @param message
+     */
     virtual void fill(NetworkMessageWriter & message) = 0;
 
+    /**
+    * @brief gives access to person's avatar.
+    */
+    virtual const QImage& getAvatar() const;
+
+    /**
+    * @brief gives access to person's avatar.
+    */
+    virtual bool hasAvatar() const ;
+
+    /**
+    * @brief set the person's avatar.
+    */
+    virtual void setAvatar(QImage& p);
 protected:
     Person();
 
     QString m_uuid;
     QString m_name;
     QColor  m_color;
+    QImage  m_avatar;
 
 private:
     friend class PlayersList;
@@ -66,150 +114,9 @@ private:
 };
 
 
-/**
- * @brief Represents a player.
- *
- * Players are stored in PlayersList. A player may have some characters.
- */
-class Player : public Person
-{
-
-public:
-    /**
-     * @brief Player
-     * @param name
-     * @param color
-     * @param master
-     * @param link
-     */
-    Player(const QString & name, const QColor & color, bool master = false, NetworkLink * link = NULL);
-    /**
-     * @brief Player
-     * @param uuid
-     * @param name
-     * @param color
-     * @param master
-     * @param link
-     */
-    Player(const QString & uuid, const QString & name, const QColor & color, bool master = false, NetworkLink * link = NULL);
-    /**
-     * @brief Player
-     * @param data
-     * @param link
-     */
-    Player(NetworkMessageReader & data, NetworkLink * link = NULL);
-    /**
-     * @brief ~Player
-     */
-    virtual ~Player();
-    /**
-     * @brief fill
-     * @param message
-     */
-    void fill(NetworkMessageWriter & message);
-    /**
-     * @brief link
-     * @return
-     */
-    NetworkLink * link() const;
-
-    /**
-     * @brief getCharactersCount
-     * @return
-     */
-    int         getCharactersCount() const;
-    /**
-     * @brief getCharacterByIndex
-     * @param index
-     * @return
-     */
-    Character * getCharacterByIndex(int index) const;
-    /**
-     * @brief getIndexOfCharacter
-     * @param character
-     * @return
-     */
-    int         getIndexOfCharacter(Character * character) const;
-    /**
-     * @brief getIndexOf
-     * @param id
-     * @return
-     */
-    int         getIndexOf(QString id) const;
-
-    /**
-     * @brief isGM
-     * @return
-     */
-    bool isGM() const;
-    /**
-     * @brief getUserVersion
-     * @return
-     */
-    QString getUserVersion();
-    /**
-     * @brief setUserVersion
-     * @param softV
-     */
-    void setUserVersion(QString softV);
-
-    /**
-     * @brief hasFeature
-     * @param name
-     * @param version
-     * @return
-     */
-    bool hasFeature(const QString & name, quint8 version = 0) const;
-    /**
-     * @brief setFeature
-     * @param name
-     * @param version
-     */
-    void setFeature(const QString & name, quint8 version = 0);
-
-private:
-    friend class PlayersList;
-    friend class SendFeaturesIterator;
-
-    void addCharacter(Character * character);
-    void delCharacter(int index);
-    bool searchCharacter(Character * character, int & index) const;
-    void setGM(bool value);
-
-private:
-    bool m_gameMaster;
-    NetworkLink * m_link;
-    QList<Character *> m_characters;
-    QMap<QString, quint8> m_features;
-    QString m_softVersion;
-};
 
 
 
-/**
- * @brief Represents PCs and NPCs.
- *
- * They are stored inside the Player who own them.
- */
-class Character : public Person
-{
-public:
-    /**
-     * @brief construtor
-     */
-    Character(const QString & name, const QColor & color);
-    Character(const QString & uuid, const QString & name, const QColor & color);
-    Character(NetworkMessageReader & data);
 
-    void fill(NetworkMessageWriter & message);
-
-    Player * parent() const;
-
-private:
-    friend class Player;
-    void setParent(Player * player);
-
-    Player * m_parent;
-};
 
 #endif
