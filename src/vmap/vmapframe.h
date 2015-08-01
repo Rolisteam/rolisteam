@@ -100,6 +100,7 @@ public :
 
     void processAddItemMessage(NetworkMessageReader* msg);
     void processMoveItemMessage(NetworkMessageReader* msg);
+    void processGeometryChangeItem(NetworkMessageReader* msg);
 public slots :
     virtual void setCleverURI(CleverURI* uri);
     /**

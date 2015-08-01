@@ -422,16 +422,37 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         }
     }
 }
+void VMap::processGeometryChangeItem(NetworkMessageReader* msg)
+{
+    QString idItem = msg->string16();
+
+    if(m_itemMap->contains(idItem))
+    {
+        VisualItem* item = m_itemMap->value(idItem);
+        item->readItem(msg);
+    }
+}
+
 void VMap::addNewItem(VisualItem* item)
 {
     if(NULL!=item)
     {
         item->setMapId(m_id);
+        connect(item,SIGNAL(itemGeometryChanged(VisualItem*)),this,SLOT(sendItemToAll(VisualItem*)));
         QGraphicsScene::addItem(item);
 		item->setEditableItem(m_localIsGM);
         m_itemMap->insert(item->getId(),item);
     }
 }
+void VMap::sendItemToAll(VisualItem* item)
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::GeometryItemChanged);
+    msg.string8(m_id);
+    msg.string16(item->getId());
+    item->fillMessage(&msg);
+    msg.sendAll();
+}
+
 void VMap::setLocalIsGM(bool b)
 {
 	m_localIsGM = b;

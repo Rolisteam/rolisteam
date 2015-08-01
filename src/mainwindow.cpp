@@ -50,7 +50,8 @@
 #include "Image.h"
 #include "network/networkmessagewriter.h"
 
-#include "data/persons.h"
+#include "data/person.h"
+#include "data/player.h"
 #include "userlist/playersList.h"
 #include "userlist/playersListWidget.h"
 #include "preferences/preferencesdialog.h"
@@ -1809,7 +1810,15 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
             break;
         case NetMsg::DelPoint:
             break;
-        case NetMsg::MovePoint:
+        case NetMsg::GeometryItemChanged:
+            {
+                QString vmapId = msg->string8();
+                VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
+                if(NULL!=tmp)
+                {
+                    tmp->processGeometryChangeItem(msg);
+                }
+            }
             break;
         case NetMsg::AddPoint:
             break;

@@ -107,6 +107,10 @@ public:
      * @param pos
      */
     virtual void setGeometryPoint(qreal pointId,const QPointF& pos) = 0;
+    /**
+     * @brief endOfGeometryChange
+     */
+    virtual void endOfGeometryChange();
 
     /**
      * @brief initChildPointItem
@@ -116,7 +120,10 @@ public:
     bool hasFocusOrChild();
 
 	friend QDataStream& operator<<(QDataStream& os,const VisualItem&);
-	friend QDataStream& operator>>(QDataStream& is,VisualItem&);
+    friend QDataStream& operator>>(QDataStream& is,VisualItem&);
+
+signals:
+    void itemGeometryChanged(VisualItem*);
 
 public slots:
     void sendPositionMsg();
