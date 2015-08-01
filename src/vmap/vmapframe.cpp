@@ -96,6 +96,7 @@ void VMapFrame::Moving(QPoint position)
 {
 
 }
+
 void VMapFrame::currentCursorChanged(QCursor* cursor)
 {
     m_currentCursor = cursor;
@@ -230,6 +231,14 @@ void VMapFrame::processGeometryChangeItem(NetworkMessageReader* msg)
         m_vmap->processGeometryChangeItem(msg);
     }
 }
+void VMapFrame::processDelItemMessage(NetworkMessageReader* msg)
+{
+    if(NULL!=m_vmap)
+    {
+        m_vmap->processDelItemMessage(msg);
+    }
+}
+
 QString VMapFrame::getMapId()
 {
     if(NULL!=m_vmap)

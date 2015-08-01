@@ -128,6 +128,11 @@ public:
 	 * @param mode
 	 */
 	void setPermissionMode(Map::PermissionMode mode);
+    /**
+     * @brief processDelItemMessage
+     * @param msg
+     */
+    void processDelItemMessage(NetworkMessageReader* msg);
 	/**
 	 * @brief getPermissionMode
 	 * @return
@@ -163,6 +168,7 @@ public slots:
     void setScale(int);
     void setScaleUnit(int);
     void setId(QString id);
+    void removeItemFromScene(QString);
 private slots:
     void sendItemToAll(VisualItem*);
     

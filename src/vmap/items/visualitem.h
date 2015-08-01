@@ -124,6 +124,7 @@ public:
 
 signals:
     void itemGeometryChanged(VisualItem*);
+    void itemRemoved(QString);
 
 public slots:
     void sendPositionMsg();
@@ -133,11 +134,13 @@ protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+    virtual void keyPressEvent(QKeyEvent* event);
     void init();
-    
-    QVector<ChildPointItem*>* m_child;
 
-    
+
+
+protected:
+    QVector<ChildPointItem*>* m_child;
     QColor m_color;
     ItemType m_type;
     QString m_id;
