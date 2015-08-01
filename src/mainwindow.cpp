@@ -441,13 +441,14 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openOnlinePictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openMapAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
+    connect(m_ui->m_openVectorialMap, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     m_ui->m_recentFileMenu->setVisible(false);
 
     connect(m_ui->m_openStoryAction, SIGNAL(triggered(bool)), this, SLOT(openStory()));
     connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openNote()));
     connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
-    connect(m_ui->m_saveAction, SIGNAL(triggered(bool)), this, SLOT(saveMap()));
-    connect(m_ui->m_saveAsAction, SIGNAL(triggered(bool)), this, SLOT(saveMap()));
+    connect(m_ui->m_saveAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
+    connect(m_ui->m_saveAsAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
     connect(m_ui->m_saveScenarioAction, SIGNAL(triggered(bool)), this, SLOT(saveStory()));
     //connect(m_ui->m_saveMinuteAct, SIGNAL(triggered(bool)), this, SLOT(saveMinutes()));
     connect(m_ui->m_preferencesAction, SIGNAL(triggered(bool)), m_preferencesDialog, SLOT(show()));
@@ -797,55 +798,31 @@ void MainWindow::openStory()
 // Save data
 ////////////////////////////////////////////////////
 
-void MainWindow::saveMap()
+void MainWindow::saveCurrentMedia()
 {
-    bool saveAs = false;
-    QAction* action = qobject_cast<QAction*>(sender());
-    if(m_ui->m_saveAsAction==action)
+     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
+    if(NULL != active)
     {
-        saveAs = true;
-    }
-    QWidget *active = m_mdiArea->activeWindow();
-    MapFrame* mapWindow = static_cast<MapFrame*>(active);
-    if ((NULL==mapWindow) || (mapWindow->objectName() != "MapFrame"))
-    {
-        notifyUser("Not a map (saveMap - mainwindow.cpp)");
-        return;
-    }
-    QString fileName;
-    bool hasCorrectPath= mapWindow->isUriEndWith(".pla");
+        MediaContainer* currentMedia = dynamic_cast<MediaContainer*>(active);
+        CleverURI* cleverURI = currentMedia->getCleverUri();
+        QString uri  = cleverURI->getUri();
+        QFileInfo info(uri);
+        if((uri.isEmpty())||(!info.exists(uri))||(!info.isWritable())||qobject_cast<QAction*>(sender())==m_ui->m_saveAsAction)
+        {
+            QString key = CleverURI::getPreferenceDirectoryKey(cleverURI->getType());
+            QString filter = CleverURI::getFilterForType(cleverURI->getType());
+            QString media = CleverURI::typeToString(cleverURI->getType());
+            QString fileName= QFileDialog::getSaveFileName(this, tr("Save %1").arg(media), m_preferences->value(key,QDir::homePath()).toString(), filter);
 
-    if(saveAs||!hasCorrectPath)
-    {
-        fileName= QFileDialog::getSaveFileName(this, tr("Save Map"), m_preferences->value("MapDirectory",QDir::homePath()).toString(), tr("Map (*.pla)"));
-    }
-    else
-    {
-        //no needs to check if cleverUri is valid, if not hasCorrectPath is false.
-        fileName = mapWindow->getCleverUri()->getUri();
-    }
+            int lastSlash = fileName.lastIndexOf("/");
+            m_preferences->registerValue(key,fileName.left(lastSlash));
 
-    if (fileName.isNull())
-        return;
-
-    if (!fileName.endsWith(".pla"))
-    {
-        fileName += ".pla";
+            cleverURI->setUri(fileName);
+        }
+        currentMedia->saveMedia();
     }
-
-    int dernierSlash = fileName.lastIndexOf("/");
-    m_preferences->registerValue("MapDirectory",fileName.left(dernierSlash));
-
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly))
-    {
-        notifyUser("could not open file for writting (saveMap - mainwindow.cpp)");
-        return;
-    }
-    QDataStream out(&file);
-    mapWindow->getMap()->saveMap(out);
-    file.close();
 }
+
 bool MainWindow::saveMinutes()
 {
     return m_noteEditor->fileSave();
@@ -2033,7 +2010,6 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
         switch(type)
         {
         case CleverURI::MAP:
-            filter=CleverURI::getFilterForType(type);
             tmp = new MapFrame();
             break;
         case CleverURI::PICTURE:
@@ -2041,6 +2017,9 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
             tmp = new Image();
             break;
         case CleverURI::SCENARIO:
+            break;
+        case CleverURI::VMAP:
+            tmp = new VMapFrame();
             break;
         default:
             break;
@@ -2056,6 +2035,10 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
                     if(type==CleverURI::MAP)
                     {
 						prepareMap(static_cast<MapFrame*>(tmp));
+                    }
+                    else if(type == CleverURI::VMAP)
+                    {
+                        prepareVMap((VMapFrame*)tmp);
                     }
                     else if((type==CleverURI::PICTURE)||(type==CleverURI::ONLINEPICTURE))
                     {
