@@ -88,6 +88,7 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 void RectItem::setNewEnd(QPointF& p)
 {
     m_rect.setBottomRight(p);
+    setTransformOriginPoint(m_rect.center());
 }
 
 VisualItem::ItemType RectItem::getType()
@@ -114,6 +115,7 @@ void RectItem::readData(QDataStream& in)
 void RectItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);
+
     //rect
     msg->real(m_rect.x());
     msg->real(m_rect.y());
@@ -123,6 +125,10 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
     msg->int8(m_filled);
     msg->rgb(m_color);
     msg->int16(m_penWidth);
+
+
+    msg->real(scale());
+    msg->real(rotation());
 
 }
 void RectItem::readItem(NetworkMessageReader* msg)
@@ -136,6 +142,9 @@ void RectItem::readItem(NetworkMessageReader* msg)
     m_filled = msg->int8();
     m_color = msg->rgb();
     m_penWidth = msg->int16();
+    setTransformOriginPoint(m_rect.center());
+    setScale(msg->real());
+    setRotation(msg->real());
 }
 void RectItem::setGeometryPoint(qreal pointId, const QPointF &pos)
 {
@@ -196,3 +205,4 @@ void RectItem::updateChildPosition()
     m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
     update();
 }
+

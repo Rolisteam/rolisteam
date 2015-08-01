@@ -106,6 +106,8 @@ void TextItem::readData(QDataStream& in)
 void TextItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);
+    msg->real(scale());
+    msg->real(rotation());
     //center
     msg->real(m_start.x());
     msg->real(m_start.y());
@@ -115,6 +117,8 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
 void TextItem::readItem(NetworkMessageReader* msg)
 {
     m_id = msg->string16();
+    setScale(msg->real());
+    setRotation(msg->real());
     //center
     m_start.setX(msg->real());
     m_start.setY(msg->real());

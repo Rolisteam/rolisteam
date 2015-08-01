@@ -125,6 +125,8 @@ void EllipsItem::readData(QDataStream& in)
 void EllipsItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);
+    msg->real(scale());
+    msg->real(rotation());
     //radius
     msg->real(m_rx);
     msg->real(m_ry);
@@ -137,6 +139,8 @@ void EllipsItem::fillMessage(NetworkMessageWriter* msg)
 void EllipsItem::readItem(NetworkMessageReader* msg)
 {
     m_id = msg->string16();
+    setScale(msg->real());
+    setRotation(msg->real());
     //rect
     m_rx = msg->real();
     m_ry = msg->real();

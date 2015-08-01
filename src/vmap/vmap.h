@@ -25,7 +25,7 @@
 #include "vtoolbar.h"
 #include "map/map.h"
 
-#include "data/persons.h"
+#include "data/person.h"
 
 class VisualItem;
 /**
@@ -118,6 +118,11 @@ public:
      * @param msg
      */
     void processMoveItemMessage(NetworkMessageReader* msg);
+    /**
+     * @brief processGeometryChangeItem
+     * @param msg
+     */
+    void processGeometryChangeItem(NetworkMessageReader* msg);
 	/**
 	 * @brief setPermissionMode
 	 * @param mode
@@ -158,6 +163,8 @@ public slots:
     void setScale(int);
     void setScaleUnit(int);
     void setId(QString id);
+private slots:
+    void sendItemToAll(VisualItem*);
     
 protected:
     /**
