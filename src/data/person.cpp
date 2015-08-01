@@ -24,7 +24,7 @@
 #include "data/person.h"
 
 #include <QUuid>
-
+#include <QApplication>
 
 
 #include "network/networkmessagereader.h"
@@ -33,7 +33,6 @@
 /**********
  * Person *
  **********/
-
 Person::Person(const QString & name, const QColor & color)
     : m_name(name), m_color(color)
 {
