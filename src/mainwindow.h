@@ -272,13 +272,21 @@ private slots :
     void openStory();
     void openNote();
     void closeMapOrImage();
-    void saveMap();
     void updateMayBeNeeded();
 	void sendOffAllMaps(NetworkLink * link);
 	void sendOffAllImages(NetworkLink * link);
     void updateSessionToNewClient(Player* player);
     void receiveData(quint64 readData,quint64 size);
     void openContent();
+
+
+
+    //save methods
+    void saveCurrentMedia();
+    //void saveMap(MapFrame* mapWindow);
+
+
+
 
     //Network private Slot
     void stopReconnection();
