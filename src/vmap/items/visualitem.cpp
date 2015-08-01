@@ -112,7 +112,6 @@ bool VisualItem::hasFocusOrChild()
         }
     }
     return false;
-
 }
 
 void VisualItem::sendPositionMsg()
@@ -143,6 +142,10 @@ void VisualItem::setMapId(QString id)
 QString VisualItem::getMapId()
 {
 	return m_mapId;
+}
+void VisualItem::endOfGeometryChange()
+{
+    emit itemGeometryChanged(this);
 }
 
 //friend functions

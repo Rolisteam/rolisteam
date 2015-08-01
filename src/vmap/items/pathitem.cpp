@@ -85,6 +85,8 @@ VisualItem::ItemType PathItem::getType()
 void PathItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);
+    msg->real(scale());
+    msg->real(rotation());
     //pen
     msg->uint16(m_pen.width());
     msg->rgb(m_pen.color());
@@ -97,7 +99,9 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
 }
 void PathItem::readItem(NetworkMessageReader* msg)
 {
-     m_id = msg->string16();
+    m_id = msg->string16();
+    setScale(msg->real());
+    setRotation(msg->real());
     m_pen.setWidth(msg->int16());
     m_pen.setColor(msg->rgb());
 

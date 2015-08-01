@@ -151,3 +151,10 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
         QGraphicsItem::mouseMoveEvent(event);
     }
 }
+void ChildPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
+{
+    m_parent->endOfGeometryChange();
+
+    QGraphicsItem::mouseReleaseEvent(event);
+
+}

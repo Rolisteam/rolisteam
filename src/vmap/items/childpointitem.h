@@ -79,6 +79,11 @@ protected:
      * @param event
      */
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
+    /**
+     * @brief ChildPointItem::mouseReleaseEvent
+     * @param event
+     */
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
 
 private:
     qreal m_pointId;

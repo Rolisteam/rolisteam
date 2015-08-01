@@ -223,7 +223,13 @@ void VMapFrame::processMoveItemMessage(NetworkMessageReader* msg)
         m_vmap->processMoveItemMessage(msg);
     }
 }
-
+void VMapFrame::processGeometryChangeItem(NetworkMessageReader* msg)
+{
+    if(NULL!=m_vmap)
+    {
+        m_vmap->processGeometryChangeItem(msg);
+    }
+}
 QString VMapFrame::getMapId()
 {
     if(NULL!=m_vmap)
