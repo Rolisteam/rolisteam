@@ -78,6 +78,7 @@ public :
 
 	virtual bool readFileFromUri();
     virtual bool openMedia();
+    virtual void saveMedia();
 
 
 
