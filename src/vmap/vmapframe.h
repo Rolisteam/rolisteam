@@ -79,11 +79,6 @@ public :
     bool defineMenu(QMenu* /*menu*/);
     
     /**
-    * @brief writes the map into the given file
-    * @param uri of the file
-    */
-    void saveFile(const QString & file);
-    /**
     * @brief reads the map into the given file
     * @param uri of the file
     */
@@ -97,24 +92,20 @@ public :
      * @return
      */
     virtual bool readFileFromUri();
+    /**
+     * @brief openMedia
+     * @return
+     */
+    virtual bool openMedia();
 
     void processAddItemMessage(NetworkMessageReader* msg);
     void processDelItemMessage(NetworkMessageReader* msg);
     void processMoveItemMessage(NetworkMessageReader* msg);
     void processGeometryChangeItem(NetworkMessageReader* msg);
+
+    void saveMedia();
 public slots :
     virtual void setCleverURI(CleverURI* uri);
-    /**
-    *  @brief called when the windows starts to move (not sure it's still used)
-    *  @param the new location
-    */
-    void startMoving(QPoint position);
-    
-    /**
-    *  @brief called when the windows is moved (not sure it's still used)
-    *  @param the new location
-    */
-    void Moving(QPoint position);
     /**
     *  @brief change the current mice cursor
     *  @param new selected QCursor
