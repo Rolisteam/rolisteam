@@ -129,6 +129,8 @@ public:
      * @return
      */
     static QString getFilterForType(CleverURI::ContentType);
+    static QString typeToString(CleverURI::ContentType);
+    static QString getPreferenceDirectoryKey(CleverURI::ContentType);
 
 private:
     /**
@@ -151,6 +153,12 @@ private:
     static QString m_charactersheetIcon; ///< static member to store the character icon
     static QString m_scenarioIcon; ///< static member to store the scenario icon
     static QString m_chatIcon; ///< static member to store the chat icon
+
+
+
+    static QStringList m_typeNameList;
+    static QStringList m_typeToPreferenceDirectory;
+
 #ifdef WITH_PDF
     static QString m_pdfIcon;///< static member to store the pdf icon
 #endif

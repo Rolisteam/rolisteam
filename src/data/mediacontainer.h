@@ -111,6 +111,11 @@ public:
      */
     void setCleverUriType(CleverURI::ContentType);
 
+    /**
+     * @brief saveMedia
+     */
+    virtual void saveMedia() =0;
+
 
     /**
     * @brief is called when the selected tool changes.
