@@ -24,6 +24,7 @@
 #include <QCursor>
 #include <QDebug>
 #include <QUuid>
+#include <QKeyEvent>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -82,6 +83,15 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 	update();
 	QGraphicsItem::mouseReleaseEvent(event);
 }
+void VisualItem::keyPressEvent(QKeyEvent* event)
+{
+    if(event->key ()==Qt::Key_Delete)
+    {
+        emit itemRemoved(m_id);
+    }
+    QGraphicsItem::keyPressEvent(event);
+}
+
 void VisualItem::setId(QString id)
 {
 	m_id = id;
