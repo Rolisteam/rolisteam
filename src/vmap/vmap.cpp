@@ -4,7 +4,7 @@
 #include <QLineEdit>
 #include <QPainter>
 #include <QPixmap>
-
+#include <QKeyEvent>
 
 #include "vmap.h"
 #include "items/rectitem.h"
@@ -465,6 +465,21 @@ void VMap::sendItemToAll(VisualItem* item)
     msg.string16(item->getId());
     item->fillMessage(&msg);
     msg.sendAll();
+}
+void VMap::keyPressEvent(QKeyEvent* event)
+{
+    if(event->key ()==Qt::Key_Delete)
+    {
+        foreach(QGraphicsItem* item, selectedItems())
+        {
+            VisualItem* itemV = dynamic_cast<VisualItem*>(item);
+            if(NULL!=itemV)
+            {
+                removeItemFromScene(itemV->getId());
+            }
+        }
+    }
+    QGraphicsScene::keyPressEvent(event);
 }
 
 void VMap::setLocalIsGM(bool b)
