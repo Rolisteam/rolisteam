@@ -22,7 +22,7 @@
 
 #include <QOpenGLWidget>
 
-#include "data/persons.h"
+#include "data/person.h"
 #include "rgraphicsview.h"
 //#include "rolisteammimedata.h"
 
