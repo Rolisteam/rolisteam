@@ -30,7 +30,9 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "Features.h"
-#include "data/persons.h"
+#include "data/person.h"
+#include "data/character.h"
+#include "data/player.h"
 #include "network/receiveevent.h"
 
 #include "types.h"
@@ -308,16 +310,27 @@ Character * PlayersList::getCharacter(const QString & uuid) const
     return static_cast<Character *>(person);
 }
 
-Player * PlayersList::getParent(const QString & uuid) const
+Player* PlayersList::getParent(const QString & uuid) const
 {
-    Person * person = m_uuidMap.value(uuid);
+    Person* person = m_uuidMap.value(uuid);
     if (person == NULL)
         return NULL;
     
-    Player * parent = person->parent();
+    Person* parent = person->parent();
     if (parent == NULL)
-        return static_cast<Player *>(person);
-    return parent;
+    {
+        return NULL;
+    }
+    else
+    {
+      Player* player = dynamic_cast<Player*>(parent);
+      if(NULL!=player)
+      {
+          return player;
+      }
+    }
+
+    return NULL;
 }
 
 Person * PlayersList::getPerson(const QModelIndex & index) const
@@ -827,8 +840,11 @@ void PlayersList::delCharacter(NetworkMessageReader & data)
     if (character == NULL)
         return;
 
-    Player * parent = character->parent();
-    delCharacter(parent, parent->getIndexOfCharacter(character)); 
+    Player* parent = dynamic_cast<Player*>(character->parent());
+    if(NULL!=parent)
+    {
+        delCharacter(parent, parent->getIndexOfCharacter(character));
+    }
 }
 
 void PlayersList::sendDelLocalPlayer()

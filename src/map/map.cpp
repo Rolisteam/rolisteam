@@ -31,7 +31,9 @@
 #include "network/networkmessagewriter.h"
 #include "map/charactertoken.h"
 #include "network/networklink.h"
-#include "data/persons.h"
+#include "data/person.h"
+#include "data/player.h"
+#include "data/character.h"
 #include "userlist/playersList.h"
 
 #include "variablesGlobales.h"

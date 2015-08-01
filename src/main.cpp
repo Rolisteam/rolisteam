@@ -33,7 +33,7 @@
 
 #include "network/networkmanager.h"
 #include "mainwindow.h"
-#include "data/persons.h"
+#include "data/person.h"
 #include "preferences/preferencesmanager.h"
 
 #include "variablesGlobales.h"

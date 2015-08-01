@@ -22,8 +22,8 @@
 
 #include "localpersonmodel.h"
 
-#include "data/persons.h"
-
+#include "data/person.h"
+#include "data/player.h"
 
 LocalPersonModel::LocalPersonModel()
     : PlayersListProxyModel()

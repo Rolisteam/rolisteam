@@ -23,7 +23,8 @@
 #include "Features.h"
 
 #include "network/networkmessagereader.h"
-#include "data/persons.h"
+#include "data/person.h"
+#include "data/player.h"
 #include "userlist/playersList.h"
 #include "network/receiveevent.h"
 #include "types.h"

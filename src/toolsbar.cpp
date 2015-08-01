@@ -33,8 +33,8 @@
 #include "widgets/colorselector.h"
 #include "widgets/diameterselector.h"
 #include "userlist/playersList.h"
-#include "data/persons.h"
-
+#include "data/person.h"
+#include "data/player.h"
 #include "variablesGlobales.h"
 
 #define DEFAULT_ICON_SIZE 20
