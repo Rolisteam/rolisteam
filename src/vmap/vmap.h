@@ -185,6 +185,11 @@ protected:
     * @brief  catches release event, defines the last point of the next added item.
     */
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    /**
+     * @brief keyPressEvent
+     * @param event
+     */
+    virtual void keyPressEvent(QKeyEvent* event);
     
     /**
     * @brief adds item depending of the current tool.
