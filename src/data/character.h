@@ -21,12 +21,53 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include "person.h"
 
-class Character
+/**
+ * @brief Represents PCs and NPCs.
+ *
+ * They are stored inside the Player who own them.
+ */
+class Character : public QObject,public Person
 {
+    Q_OBJECT
 public:
-    Character();
-    ~Character();
+    /**
+     * @brief construtor
+     */
+    Character(const QString & name, const QColor & color);
+    /**
+     * @brief Character
+     * @param uuid
+     * @param name
+     * @param color
+     */
+    Character(const QString & uuid, const QString & name, const QColor & color);
+    /**
+     * @brief Character
+     * @param data
+     */
+    Character(NetworkMessageReader & data);
+    /**
+     * @brief fill
+     * @param message
+     */
+    void fill(NetworkMessageWriter & message);
+    /**
+     * @brief parent
+     * @return
+     */
+    Person* parent() const;
+    /**
+     * @brief setParent
+     * @param player
+     */
+    void setParent(Person* player);
+signals:
+    void avatarChanged();
+private:
+    Person* m_parent;
+    QPixmap* m_avatar;
 };
 
 #endif // CHARACTER_H
