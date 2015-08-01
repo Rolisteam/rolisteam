@@ -545,3 +545,7 @@ bool Image::openMedia()
         return true;
     }
 }
+void Image::saveMedia()
+{
+    ///nothing to be done.
+}
