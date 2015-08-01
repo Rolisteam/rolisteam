@@ -442,7 +442,6 @@ void VMap::addNewItem(VisualItem* item)
         connect(item,SIGNAL(itemRemoved(QString)),this,SLOT(removeItemFromScene(QString)));
         QGraphicsScene::addItem(item);
 		item->setEditableItem(m_localIsGM);
-        qDebug() << "item added" <<item->getId();
         m_itemMap->insert(item->getId(),item);
     }
 }
