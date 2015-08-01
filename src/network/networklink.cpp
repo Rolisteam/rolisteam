@@ -31,7 +31,7 @@
 #include "network/networkmanager.h"
 #include "map/charactertoken.h"
 #include "Image.h"
-#include "data/persons.h"
+#include "data/person.h"
 #include "userlist/playersList.h"
 #include "network/receiveevent.h"
 

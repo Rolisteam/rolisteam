@@ -25,11 +25,12 @@
 
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-#include "data/persons.h"
+#include "data/person.h"
 #include "userlist/playersList.h"
 #include "network/receiveevent.h"
 #include "preferences/preferencesmanager.h"
 
+#include "data/player.h"
 
 /****************
  * AbstractChat *

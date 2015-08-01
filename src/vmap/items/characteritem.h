@@ -20,7 +20,7 @@
 #ifndef CHARACTERITEM_H
 #define CHARACTERITEM_H
 #include "visualitem.h"
-#include "data/persons.h"
+#include "data/person.h"
 /**
     * @brief represents any character on map.
     */
