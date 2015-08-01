@@ -100,6 +100,8 @@ public :
      */
     bool readMapAndNpc(QDataStream &in, bool hidden=false);
 
+    void saveMedia();
+
 
 signals:
     /**

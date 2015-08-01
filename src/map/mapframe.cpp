@@ -448,3 +448,24 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
     initMap();
     return true;
 }
+void MapFrame::saveMedia()
+{
+    if(NULL!=m_map)
+    {
+        if(!m_uri->getUri().endsWith(".pla"))
+        {
+            QString uri = m_uri->getUri()+".pla";
+            m_uri->setUri(uri);
+        }
+
+        QFile file(m_uri->getUri());
+        if (!file.open(QIODevice::WriteOnly))
+        {
+            notifyUser("could not open file for writting (saveMap - MapFrame.cpp)");
+            return;
+        }
+        QDataStream out(&file);
+        m_map->saveMap(out);
+        file.close();
+    }
+}
