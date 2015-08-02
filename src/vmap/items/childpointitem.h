@@ -25,12 +25,16 @@
 
 class VisualItem;
 /**
- * @brief The ChildPointItem class
+ * @brief The ChildPointItem class controls and allows geometry transforms to its parent from user inputs.
  */
 class ChildPointItem : public QGraphicsObject
 {
 public:
-    enum MOTION { ALL, X_AXIS, Y_AXIS};
+    /**
+     * @brief The MOTION enum, ALL means all axis, MOUSE means the changes are control by mouse event instead of geometry event on item.
+     * In this case, the ChildPointItem does not mouse, it receives mouse event and ask its parent to change its geometry.
+     */
+    enum MOTION { ALL, X_AXIS, Y_AXIS,MOUSE,NONE};
     enum PLACEMENT { TopLeft,TopRight,TopCenter, MiddelLeft,MiddleRight,Center,ButtomLeft,ButtomRight,ButtomCenter};
 
     /**
@@ -72,6 +76,10 @@ public:
      * @param p
      */
     void setPlacement(ChildPointItem::PLACEMENT p);
+    /**
+     * @brief setRotationEnable, set to true if you want to allow rotation without activating the mouse control.
+     */
+    void setRotationEnable(bool);
 
 protected:
     /**
@@ -90,6 +98,7 @@ private:
     QPointF m_startPoint;
     VisualItem* m_parent;
     MOTION m_currentMotion;
+    bool m_allowRotation;
 };
 
 #endif // CHILDPOINTITEM_H
