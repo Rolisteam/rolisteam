@@ -91,6 +91,10 @@ private:
     * @brief model gathering all grid patterns.
     */
     PatternModel* m_model;
+    /**
+     * @brief m_permissionData
+     */
+    QStringList  m_permissionData;
 };
 
 #endif // MAPWIZZARDDIALOG_H

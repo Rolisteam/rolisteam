@@ -64,24 +64,8 @@ void VMap::setTitle(QString title)
 void VMap::setBackGroundColor(QColor& bgcolor)
 {
     m_bgColor = bgcolor;
-    generateBackground();
 }
-void VMap::generateBackground()
-{
-    if(m_gridPattern.isNull())
-    {
-        setBackgroundBrush(m_bgColor);
-    }
-    else
-    {
-        QPixmap p(m_gridPattern);
-        p.fill(m_bgColor);
-        QPainter painter(&p);
-        painter.drawPixmap(0,0,m_gridPattern);
-        painter.end();
-        setBackgroundBrush(p);
-    }
-}
+
 
 void VMap::setSceneRect()
 {
@@ -102,10 +86,6 @@ const QString& VMap::mapTitle() const
 const QColor& VMap::mapColor() const
 {
     return m_bgColor;
-}
-int VMap::getNpcSize() const
-{
-    return m_npcSize;
 }
 
 void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
@@ -200,11 +180,11 @@ void VMap::setPenSize(int p)
 {
     m_penSize =p;
 }
-
-void VMap::setNPCSize(int p)
+void VMap::setPatternColor(QColor c)
 {
-    m_npcSize =p;
+    m_gridColor = c;
 }
+
 void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     
@@ -367,7 +347,7 @@ void VMap::setPatternSize(int p)
     m_sizePattern = p;
 }
 
-void VMap::setPattern(QPixmap p)
+void VMap::setPattern(VMap::GRID_PATTERN p)
 {
     m_gridPattern = p;
 }
@@ -375,6 +355,55 @@ void VMap::setPattern(QPixmap p)
 void VMap::setScale(int p)
 {
     m_patternScale = p;
+}
+void VMap::computePattern()
+{
+
+    if(m_gridPattern == VMap::NONE)
+    {
+        setBackgroundBrush(m_bgColor);
+
+    }
+    else
+    {
+        QPolygonF polygon;
+
+        if(m_gridPattern==VMap::HEXAGON)
+        {
+            qreal radius = m_sizePattern/2;
+            qreal hlimit = radius * qSin(M_PI/3);
+            qreal offset = radius-hlimit;
+            QPointF A(2*radius,radius-offset);
+            QPointF B(radius*1.5,radius-hlimit-offset);
+            QPointF C(radius*0.5,radius-hlimit-offset);
+            QPointF D(0,radius-offset);
+            QPointF E(radius*0.5,radius+hlimit-offset);
+            QPointF F(radius*1.5,radius+hlimit-offset);
+
+            QPointF G(2*radius+radius,radius-offset);
+            polygon << C << D << E << F << A << B << A << G;
+
+            m_computedPattern = QImage(m_sizePattern*1.5,2*hlimit,QImage::Format_RGBA8888_Premultiplied);
+            m_computedPattern.fill(m_bgColor);
+        }
+        else if(m_gridPattern == VMap::SQUARE)
+        {
+            m_computedPattern = QImage(m_sizePattern,m_sizePattern,QImage::Format_RGBA8888_Premultiplied);
+            m_computedPattern.fill(m_bgColor);
+            QPointF A(1,1);
+            QPointF B(1,m_sizePattern-1);
+            QPointF C(m_sizePattern-1,m_sizePattern-1);
+            polygon << A << B << C;
+        }
+        QPainter painter(&m_computedPattern);
+        painter.setRenderHint(QPainter::Antialiasing,true);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
+        painter.setPen(m_gridColor);
+        painter.drawPolyline(polygon);
+        painter.end();
+        setBackgroundBrush(QPixmap::fromImage(m_computedPattern));
+    }
+
 }
 
 void VMap::setScaleUnit(int p)

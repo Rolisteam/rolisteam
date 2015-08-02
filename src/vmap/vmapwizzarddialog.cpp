@@ -45,7 +45,13 @@ MapWizzardDialog::MapWizzardDialog(QWidget *parent) :
     
     ui->m_colorButton->setStyleSheet(QString("background-color: rgb(%1,%2,%3)").arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()));
     connect(ui->m_colorButton,SIGNAL(clicked()),this,SLOT(clickOnColorButton()));
-    
+    ui->m_gridColorBtn->setColor(QColor(0,0,0));
+
+    m_permissionData   << tr("No Right") << tr("His character") << tr("All Permissions");
+    ui->m_permissionComboBox->addItems(m_permissionData);
+    ui->m_permissionComboBox->setCurrentIndex(PreferencesManager::getInstance()->value("defaultPermissionMap",0).toInt());
+
+
     connect(ui->m_landscapeButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
     connect(ui->m_portraitButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
     connect(ui->m_squareButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
@@ -102,13 +108,52 @@ void MapWizzardDialog::selectedShapeChanged()
 }
 void MapWizzardDialog::setAllMap(VMap* map)
 {
-    
-    map->setPattern(m_model->getPatternAt(ui->m_gridPattern->currentIndex()));
+    VMap::GRID_PATTERN grid;
+    switch (ui->m_gridPattern->currentIndex())
+    {
+    case 0:
+        grid = VMap::NONE;
+        break;
+    case 1:
+        grid = VMap::SQUARE;
+        break;
+    case 3:
+        grid = VMap::OCTOGON;
+        break;
+    case 2:
+        grid = VMap::HEXAGON;
+        break;
+    default:
+        grid = VMap::NONE;
+        break;
+    }
+    map->setPattern(grid);
     map->setPatternSize(ui->m_sizeGrid->value());
+    map->setPatternColor(ui->m_gridColorBtn->color());
+
+    Map::PermissionMode result;
+    switch (ui->m_permissionComboBox->currentIndex())
+    {
+    case 0:
+        result = Map::GM_ONLY;
+        break;
+    case 1:
+        result = Map::PC_MOVE;
+        break;
+    case 2:
+        result = Map::PC_ALL;
+        break;
+    default:
+        result = Map::GM_ONLY;
+        break;
+    }
+
+    map->setPermissionMode(result);
     map->setScale(ui->m_scaleOfGrid->value());
     map->setScaleUnit(ui->m_unitPattern->currentIndex());
     map->setBackGroundColor(m_bgColor);
-    
+    map->computePattern();
+
     if(ui->m_customSize->isChecked())
     {
         bool ok = false;

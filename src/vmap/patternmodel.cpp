@@ -29,10 +29,10 @@ PatternModel::PatternModel()
 {
     m_list.append(QPixmap());
     m_list.append(QPixmap(":/grid/resources/gridpattern/01_sqare.png"));
-    m_list.append(QPixmap(":/grid/resources/gridpattern/02_octo.png"));
     m_list.append(QPixmap(":/grid/resources/gridpattern/03_hexa.png"));
+    m_list.append(QPixmap(":/grid/resources/gridpattern/02_octo.png"));
     
-    m_listGrille << tr("NoGrid") << tr("Square") << tr("Octogon") << tr("Hexagon");
+    m_listGrille << tr("NoGrid") << tr("Square")  << tr("Hexagon")<< tr("Octogon");
 }
 QVariant PatternModel::data ( const QModelIndex & index, int role ) const
 {

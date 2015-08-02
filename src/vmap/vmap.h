@@ -37,7 +37,7 @@ class VMap : public QGraphicsScene
     Q_OBJECT
 public:
 
-
+    enum GRID_PATTERN{NONE,SQUARE,HEXAGON,OCTOGON};
     enum SCALE_UNIT{CM,M,INCH,FEET,PX};
     /**
     * @brief default constructor
@@ -164,10 +164,6 @@ public slots:
     * @brief defines the pen size (sent off by toolbar).
     */
     void setPenSize(int);
-    /**
-    * @brief defines NPC size.
-    */
-    void setNPCSize(int);
     
     /**
      * @brief setPatternSize
@@ -176,7 +172,7 @@ public slots:
     /**
      * @brief setPattern
      */
-    void setPattern(QPixmap);
+    void setPattern(VMap::GRID_PATTERN);
     /**
      * @brief setCurrentNpcName
      * @param text
@@ -192,6 +188,12 @@ public slots:
     void setScaleUnit(int);
     void setId(QString id);
     void removeItemFromScene(QString);
+
+    void setPatternColor(QColor);
+    /**
+     * @brief VMap::computePattern
+     */
+    void computePattern();
 
 signals:
     /**
@@ -241,6 +243,7 @@ protected:
      * @brief generateBackground
      */
     void generateBackground();
+
     /**
      * @brief addNewItem
      * @param item
@@ -290,17 +293,14 @@ private:
     */
     int m_penSize;
     /**
-    * @brief npc size
-    */
-    int m_npcSize;
-    /**
     * @brief Items list which are part of the map.
     */
     QMap<QString,VisualItem*>* m_itemMap;
     /**
     * @brief Pattern Of grid, pattern must be square shaped.
     */
-    QPixmap m_gridPattern;
+    VMap::GRID_PATTERN m_gridPattern;
+    QImage m_computedPattern;
     /**
     * @brief size of the pattern edge.
     */
@@ -337,6 +337,10 @@ private:
      * @brief m_currentMode
      */
 	Map::PermissionMode m_currentMode;
+    /**
+     * @brief m_gridColor
+     */
+    QColor m_gridColor;
 
     friend QDataStream& operator<<(QDataStream& os,const VMap&);
     friend QDataStream& operator>>(QDataStream& is,VMap&);
