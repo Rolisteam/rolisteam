@@ -59,7 +59,7 @@ QRectF CharacterItem::boundingRect() const
 }
 void CharacterItem::setNewEnd(QPointF& nend)
 {
-    m_center = nend;
+    //m_center = nend;
 }
 void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
@@ -86,13 +86,40 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
     }
     painter->setPen(m_character->color());
     painter->drawRect(m_rect);
+    painter->drawEllipse(m_rect);
+    QString toShow;
+    if(m_character->isNpc())
+    {
+        if(m_showNpcName)
+        {
+            toShow = m_character->name();
+        }
+        if(m_showNpcNumber)
+        {
+            toShow = m_character->name();
+        }
+        if(m_showNpcName && m_showNpcNumber)
+        {
+            toShow = QString("%1 - %2").arg(m_character->name()).arg(m_character->number());
+        }
+    }
+    else if(m_showPcName)
+    {
+        toShow = m_character->name();
+    }
+    QRectF rectText;
+    QFontMetrics metric(painter->font());
+    rectText.setRect(m_rect.left(),m_rect.bottom(),m_rect.width(),metric.height());
+
+    painter->drawText(rectText,Qt::AlignCenter,toShow);
+
     //painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
 }
 void CharacterItem::sizeChanged(int m_size)
 {
     m_diameter=m_size;
     m_rect.setRect(m_center.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter);
-    generatedThumbnail();
+    //generatedThumbnail();
 }
 void CharacterItem::generatedThumbnail()
 {
@@ -143,6 +170,17 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     in << *m_thumnails;
     msg->byteArray32(data);
 }
+void CharacterItem::resizeContents(const QRect& rect, bool )
+{
+    if (!rect.isValid())
+        return;
+
+    prepareGeometryChange();
+    m_rect = rect;
+    m_diameter = qMin(m_rect.width(),m_rect.height());
+    sizeChanged(m_diameter);
+    updateChildPosition();
+}
 void CharacterItem::readItem(NetworkMessageReader* msg)
 {
     m_id = msg->string16();
@@ -166,32 +204,61 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     QDataStream out(&data,QIODevice::ReadOnly);
     m_thumnails = new QPixmap();
     out >> *m_thumnails;
-
 }
-void CharacterItem::setGeometryPoint(qreal pointId, const QPointF &pos)
+QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
+   /* if (change == ItemPositionChange && scene() && hasFocus())
+    {
+        QPointF newPos = value.toPointF();
+        m_center = newPos;
+        sizeChanged(m_diameter);
+    }*/
+    return QGraphicsItem::itemChange(change, value);
+}
+void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
+{
+    QRectF rect=m_rect;
     switch ((int)pointId)
     {
     case 0:
-        m_rect.setTopLeft(pos);
+        rect.setTopLeft(pos);
+        break;
+    case 1:
+        rect.setTopRight(pos);
+        break;
+    case 2:
+        rect.setBottomRight(pos);
+        break;
+    case 3:
+        rect.setBottomLeft(pos);
+        break;
+    default:
+        break;
+    }
+    m_diameter = qMin(rect.width(),rect.height());
+    sizeChanged(m_diameter);
+    switch ((int)pointId)
+    {
+    case 0:
+        pos = m_rect.topLeft();
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 1:
-        m_rect.setTopRight(pos);
+        pos = m_rect.topRight();
          m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 2:
-        m_rect.setBottomRight(pos);
+        pos = m_rect.bottomRight();
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 3:
-        m_rect.setBottomLeft(pos);
+        pos = m_rect.bottomLeft();
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
@@ -199,6 +266,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, const QPointF &pos)
     default:
         break;
     }
+    setTransformOriginPoint(m_center);
 }
 void CharacterItem::initChildPointItem()
 {
@@ -207,11 +275,38 @@ void CharacterItem::initChildPointItem()
     for(int i = 0; i< 4 ; ++i)
     {
         ChildPointItem* tmp = new ChildPointItem(i,this);
+        tmp->setMotion(ChildPointItem::ALL);
+        tmp->setRotationEnable(true);
         m_child->append(tmp);
-
     }
-   m_child->value(0)->setPos(m_rect.topLeft());
-   m_child->value(1)->setPos(m_rect.topRight());
-   m_child->value(2)->setPos(m_rect.bottomRight());
-   m_child->value(3)->setPos(m_rect.bottomLeft());
+    updateChildPosition();
+}
+void CharacterItem::updateChildPosition()
+{
+    m_child->value(0)->setPos(m_rect.topLeft());
+    m_child->value(0)->setPlacement(ChildPointItem::TopLeft);
+    m_child->value(1)->setPos(m_rect.topRight());
+    m_child->value(1)->setPlacement(ChildPointItem::TopRight);
+    m_child->value(2)->setPos(m_rect.bottomRight());
+    m_child->value(2)->setPlacement(ChildPointItem::ButtomRight);
+    m_child->value(3)->setPos(m_rect.bottomLeft());
+    m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
+
+    setTransformOriginPoint(m_rect.center());
+
+    update();
+}
+void CharacterItem::showNpcName(bool b)
+{
+    m_showNpcName = b;
+}
+
+void CharacterItem::showNpcNumber(bool b)
+{
+    m_showNpcNumber = b;
+}
+
+void CharacterItem::showPcName(bool b)
+{
+    m_showPcName = b;
 }
