@@ -128,11 +128,6 @@ public slots :
     */
     virtual void currentPenSizeChanged(int);
     /**
-    *  @brief change the NPC size
-    *  @param  new size
-    */
-    virtual void currentNPCSizeChanged(int);
-    /**
     *  @brief change the current editing  behavior to MaskMode.
     */
     virtual void setEditingMode(int);

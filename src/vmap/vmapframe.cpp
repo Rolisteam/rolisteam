@@ -112,11 +112,6 @@ void VMapFrame::currentPenSizeChanged(int ps)
     if(m_vmap != NULL)
         m_vmap->setPenSize(ps);
 }
-void VMapFrame::currentNPCSizeChanged(int ps)
-{
-    if(m_vmap != NULL)
-        m_vmap->setNPCSize(ps);
-}
 void VMapFrame::setCurrentNpcNameChanged(QString str)
 {
     if(m_vmap != NULL)

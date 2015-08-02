@@ -101,10 +101,6 @@ signals:
       */
     void currentPenSizeChanged(int);
     /**
-      * @brief emitted when current NPC size has changed
-      */
-    void currentPNCSizeChanged(int);
-    /**
       * @brief emitted when current mode has changed
       */
     void currentModeChanged(int);
