@@ -28,7 +28,16 @@ class CharacterItem : public VisualItem
 {
     Q_OBJECT
 public:
+    /**
+     * @brief CharacterItem
+     */
     CharacterItem();
+    /**
+     * @brief CharacterItem
+     * @param m
+     * @param center
+     * @param diameter
+     */
     CharacterItem(const Character* m,QPointF center,int diameter = 40);
     /**
     * @brief constructor
@@ -42,15 +51,16 @@ public:
     * @brief serialisation function to read data.
     */
     virtual void readData(QDataStream& in);
-    
+    /**
+     * @brief getType
+     * @return
+     */
     virtual VisualItem::ItemType getType();
     
     /**
     * @brief gives the bounding rect of the ellipse
     */
     virtual QRectF boundingRect() const ;
-    
-    
     /**
     * @brief modifies the ellipse size and shape.
     */
@@ -65,17 +75,53 @@ public:
      * @param msg
      */
     virtual void fillMessage(NetworkMessageWriter* msg);
+    /**
+     * @brief readItem
+     * @param msg
+     */
     virtual void readItem(NetworkMessageReader* msg);
-
-    void setGeometryPoint(qreal pointId, const QPointF &pos);
+    /**
+     * @brief setGeometryPoint
+     * @param pointId
+     * @param pos
+     */
+    void setGeometryPoint(qreal pointId, QPointF &pos);
     /**
      * @brief initChildPointItem
      */
     virtual void initChildPointItem();
+    /**
+     * @brief resizeContents
+     * @param rect
+     * @param keepRatio
+     */
+    void resizeContents(const QRect& rect, bool keepRatio);
+    /**
+     * @brief updateChildPosition
+     */
+    void updateChildPosition();
+    /**
+     * @brief itemChange
+     * @param change
+     * @param value
+     * @return
+     */
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 public slots:
     void sizeChanged(int m_size);
-    
+    /**
+     * @brief showNpcName
+     */
+    void showNpcName(bool);
+    /**
+     * @brief showNpcNumber
+     */
+    void showNpcNumber(bool);
+    /**
+     * @brief showPcName
+     */
+    void showPcName(bool);
 private slots:
     void generatedThumbnail();
 private:
@@ -84,6 +130,9 @@ private:
     int m_diameter;
     QPixmap* m_thumnails;
     QRectF m_rect;
+    bool m_showNpcName;
+    bool m_showNpcNumber;
+    bool m_showPcName;
     
     
 };
