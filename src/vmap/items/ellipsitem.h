@@ -71,7 +71,7 @@ public:
      * @param msg
      */
     virtual void readItem(NetworkMessageReader* msg);
-    void setGeometryPoint(qreal pointId, const QPointF &pos);
+    void setGeometryPoint(qreal pointId, QPointF &pos);
     virtual void initChildPointItem();
 private:
     /**

@@ -113,7 +113,7 @@ void PathItem::readItem(NetworkMessageReader* msg)
     out >> m_path;
 
 }
-void PathItem::setGeometryPoint(qreal /*pointId*/, const QPointF &pos)
+void PathItem::setGeometryPoint(qreal /*pointId*/, QPointF &pos)
 {
 
 }

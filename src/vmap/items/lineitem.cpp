@@ -136,7 +136,7 @@ void LineItem::readItem(NetworkMessageReader* msg)
     m_color = msg->rgb();
 
 }
-void LineItem::setGeometryPoint(qreal pointId, const QPointF &pos)
+void LineItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
     if(pointId == 0)
     {
@@ -156,6 +156,7 @@ void LineItem::initChildPointItem()
     for(int i = 0; i< 2 ; ++i)
     {
         ChildPointItem* tmp = new ChildPointItem(i,this);
+        tmp->setMotion(ChildPointItem::ALL);
         m_child->append(tmp);
 
     }

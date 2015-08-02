@@ -81,7 +81,7 @@ public:
      * @param pointId
      * @param pos
      */
-    virtual void setGeometryPoint(qreal pointId, const QPointF &pos);
+    virtual void setGeometryPoint(qreal pointId, QPointF &pos);
     /**
      * @brief initChildPointItem
      */
@@ -90,12 +90,14 @@ public:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent * event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent * event);*/
 
-private:
-    void updateChildPosition();
+protected:
     /**
-    * @brief geometry of the widget.
-    */
-    QRectF m_rect;
+     * @brief updateChildPosition
+     */
+    virtual void updateChildPosition();
+
+
+private:
     /**
     * @brief stores the filled state.
     */

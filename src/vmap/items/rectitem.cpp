@@ -88,7 +88,6 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 void RectItem::setNewEnd(QPointF& p)
 {
     m_rect.setBottomRight(p);
-    setTransformOriginPoint(m_rect.center());
 }
 
 VisualItem::ItemType RectItem::getType()
@@ -134,7 +133,6 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
 void RectItem::readItem(NetworkMessageReader* msg)
 {
     m_id = msg->string16();
-    qDebug() << "read Item" << m_id;
     //rect
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());
@@ -147,7 +145,7 @@ void RectItem::readItem(NetworkMessageReader* msg)
     setScale(msg->real());
     setRotation(msg->real());
 }
-void RectItem::setGeometryPoint(qreal pointId, const QPointF &pos)
+void RectItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
     switch ((int)pointId)
     {
@@ -178,11 +176,16 @@ void RectItem::setGeometryPoint(qreal pointId, const QPointF &pos)
     default:
         break;
     }
+
     setTransformOriginPoint(m_rect.center());
     //updateChildPosition();
 }
 void RectItem::initChildPointItem()
 {
+    setPos(m_rect.center());
+    m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
+    setTransformOriginPoint(m_rect.center());
+
     m_rect = m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
     m_child = new QVector<ChildPointItem*>();
@@ -190,6 +193,7 @@ void RectItem::initChildPointItem()
     for(int i = 0; i< 4 ; ++i)
     {
         ChildPointItem* tmp = new ChildPointItem(i,this);
+        tmp->setMotion(ChildPointItem::MOUSE);
         m_child->append(tmp);
     }
    updateChildPosition();
@@ -204,6 +208,9 @@ void RectItem::updateChildPosition()
     m_child->value(2)->setPlacement(ChildPointItem::ButtomRight);
     m_child->value(3)->setPos(m_rect.bottomLeft());
     m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
+
+    setTransformOriginPoint(m_rect.center());
+
     update();
 }
 

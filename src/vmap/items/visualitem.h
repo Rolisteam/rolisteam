@@ -100,13 +100,19 @@ public:
 	 * @brief setEditableItem
 	 */
 	virtual void setEditableItem(bool);
+    /**
+     * @brief resizeContents
+     * @param rect
+     * @param keepRatio
+     */
+    virtual void resizeContents(const QRect& rect, bool keepRatio = true);
 
     /**
      * @brief setGeometryPoint
      * @param pointId
      * @param pos
      */
-    virtual void setGeometryPoint(qreal pointId,const QPointF& pos) = 0;
+    virtual void setGeometryPoint(qreal pointId,QPointF& pos) = 0;
     /**
      * @brief endOfGeometryChange
      */
@@ -116,6 +122,8 @@ public:
      * @brief initChildPointItem
      */
     virtual void initChildPointItem() = 0;
+
+    virtual void addActionContextMenu(QMenu*);
 
     bool hasFocusOrChild();
 
@@ -135,8 +143,9 @@ protected:
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
     virtual void keyPressEvent(QKeyEvent* event);
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void init();
-
+    virtual void updateChildPosition();
 
 
 protected:
@@ -146,6 +155,7 @@ protected:
     QString m_id;
     QString m_mapId;
 	bool m_editable;
+    QRectF m_rect;
 };
 
 #endif // VISUALITEM_H

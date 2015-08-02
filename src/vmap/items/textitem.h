@@ -84,22 +84,30 @@ public:
      * @param pointId
      * @param pos
      */
-    virtual void setGeometryPoint(qreal pointId, const QPointF &pos);
+    virtual void setGeometryPoint(qreal pointId, QPointF &pos);
     /**
      * @brief initChildPointItem
      */
     virtual void initChildPointItem();
+    void updateChildPosition();
+protected:
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void wheelEvent(QGraphicsSceneWheelEvent *event);
 public slots:
     /**
     * @brief called when edition is done, remove the editor and call update to draw the text as usual.
     */
     void editingFinished();
-    
+private:
+    void updateFont();
+
 private:
     QPointF m_start;
     QString m_text;
     QLineEdit* m_textEdit;
-    QFontMetrics* m_metricFont;
+    QFont m_font;
+
+    //QAction*
 };
 
 #endif // TEXTITEM_H

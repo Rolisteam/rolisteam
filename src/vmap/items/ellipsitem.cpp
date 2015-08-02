@@ -153,7 +153,7 @@ void EllipsItem::readItem(NetworkMessageReader* msg)
     m_color = msg->rgb();
 
 }
-void EllipsItem::setGeometryPoint(qreal pointId, const QPointF &pos)
+void EllipsItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
     switch ((int)pointId)
     {
@@ -180,7 +180,11 @@ void EllipsItem::initChildPointItem()
         m_child->append(tmp);
     }
     m_child->value(0)->setPos(m_center.x()+m_rx,m_center.y());
+    m_child->value(0)->setPlacement(ChildPointItem::MiddleRight);
+    m_child->value(0)->setRotationEnable(true);
     m_child->value(0)->setMotion(ChildPointItem::X_AXIS);
     m_child->value(1)->setPos(m_center.x(),m_center.y()+m_ry);
     m_child->value(1)->setMotion(ChildPointItem::Y_AXIS);
+    m_child->value(1)->setPlacement(ChildPointItem::ButtomCenter);
+    m_child->value(1)->setRotationEnable(true);
 }
