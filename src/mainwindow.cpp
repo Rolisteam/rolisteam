@@ -570,7 +570,6 @@ void MainWindow::newVectorialMap()
         msg.rgb(tempmap->mapColor());
         msg.uint16(tempmap->mapWidth());
         msg.uint16(tempmap->mapHeight());
-        msg.uint8(tempmap->getNpcSize());
         //msg.uint8((quint8)mapDialog.getPermission());
         msg.sendAll();
     }
@@ -1725,7 +1724,6 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     connect(m_vToolBar,SIGNAL(currentColorChanged(QColor&)),tmp,SLOT(currentColorChanged(QColor&)));
     connect(m_vToolBar,SIGNAL(currentModeChanged(int)),tmp,SLOT(setEditingMode(int)));
     connect(m_vToolBar,SIGNAL(currentPenSizeChanged(int)),tmp,SLOT(currentPenSizeChanged(int)));
-    connect(m_vToolBar,SIGNAL(currentPNCSizeChanged(int)),tmp,SLOT(currentNPCSizeChanged(int)));
     connect(m_vToolBar,SIGNAL(currentNpcNameChanged(QString)),tmp,SLOT(setCurrentNpcNameChanged(QString)));
     connect(m_vToolBar,SIGNAL(currentNpcNumberChanged(int)),tmp,SLOT(setCurrentNpcNumberChanged(int)));
 
@@ -1765,7 +1763,6 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
                 map->setWidth(w);
                 map->setHeight(h);
                 map->setBackGroundColor(bgcolor);
-                map->setNPCSize(npcsize);
 
                 VMapFrame* mapFrame = new VMapFrame(new CleverURI("",CleverURI::VMAP),map);
                 prepareVMap(mapFrame);
