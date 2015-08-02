@@ -25,13 +25,13 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
-Character::Character(const QString & nom, const QColor & color)
-    : Person(nom, color), m_parent(NULL)
+Character::Character(const QString & nom, const QColor & color,bool npc,int number)
+    : Person(nom, color), m_parent(NULL),m_isNpc(npc),m_number(number)
 {
 }
 
-Character::Character(const QString & uuid, const QString & nom, const QColor & color)
-    : Person(uuid, nom, color), m_parent(NULL)
+Character::Character(const QString & uuid, const QString & nom, const QColor & color,bool npc,int number)
+    : Person(uuid, nom, color), m_parent(NULL),m_isNpc(npc),m_number(number)
 {
 }
 
@@ -65,5 +65,12 @@ void Character::setParent(Person * parent)
 
     m_parent = parent;
 }
+int Character::number() const
+{
+    return m_number;
+}
 
-
+bool Character::isNpc() const
+{
+    return m_isNpc;
+}

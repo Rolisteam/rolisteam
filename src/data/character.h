@@ -35,14 +35,14 @@ public:
     /**
      * @brief construtor
      */
-    Character(const QString & name, const QColor & color);
+    Character(const QString & name, const QColor & color,bool NPC = false, int number = 0);
     /**
      * @brief Character
      * @param uuid
      * @param name
      * @param color
      */
-    Character(const QString & uuid, const QString & name, const QColor & color);
+    Character(const QString & uuid, const QString & name, const QColor & color,bool NPC = false, int number = 0);
     /**
      * @brief Character
      * @param data
@@ -63,11 +63,23 @@ public:
      * @param player
      */
     void setParent(Person* player);
+    /**
+     * @brief isBool
+     * @return
+     */
+    bool isNpc() const;
+    /**
+     * @brief number
+     * @return
+     */
+    int number() const;
 signals:
     void avatarChanged();
 private:
     Person* m_parent;
     QPixmap* m_avatar;
+    bool m_isNpc;
+    int m_number;
 };
 
 #endif // CHARACTER_H
