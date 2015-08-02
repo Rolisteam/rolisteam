@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>588</width>
-    <height>315</height>
+    <width>577</width>
+    <height>429</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_8">
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
@@ -90,6 +90,20 @@
             </size>
            </property>
           </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Permission Mode:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="m_permissionComboBox"/>
          </item>
         </layout>
        </item>
@@ -173,7 +187,14 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>Grid Pattern</string>
+                 <string>Grid Pattern:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>Color:</string>
                 </property>
                </widget>
               </item>
@@ -186,7 +207,7 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>Size</string>
+                 <string>Size:</string>
                 </property>
                </widget>
               </item>
@@ -199,7 +220,7 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>Scale</string>
+                 <string>Scale:</string>
                 </property>
                </widget>
               </item>
@@ -227,6 +248,13 @@
                   <width>0</width>
                   <height>0</height>
                  </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="ColorButton" name="m_gridColorBtn">
+                <property name="text">
+                 <string>Color</string>
                 </property>
                </widget>
               </item>
@@ -370,7 +398,7 @@
              <bool>false</bool>
             </property>
             <property name="inputMask">
-             <string>00009; </string>
+             <string>00009</string>
             </property>
             <property name="maxLength">
              <number>5</number>
@@ -397,7 +425,7 @@
              <bool>false</bool>
             </property>
             <property name="inputMask">
-             <string>00009; </string>
+             <string>00009</string>
             </property>
            </widget>
           </item>
@@ -453,6 +481,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorButton</class>
+   <extends>QPushButton</extends>
+   <header>widgets/colorbutton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
