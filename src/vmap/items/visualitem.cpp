@@ -23,6 +23,7 @@
 #include <math.h>
 #include <QCursor>
 #include <QDebug>
+#include <QMenu>
 #include <QUuid>
 #include <QKeyEvent>
 
@@ -95,6 +96,57 @@ void VisualItem::keyPressEvent(QKeyEvent* event)
 void VisualItem::setId(QString id)
 {
 	m_id = id;
+}
+void VisualItem::resizeContents(const QRect& rect, bool keepRatio)
+{
+    if (!rect.isValid())
+        return;
+
+    prepareGeometryChange();
+
+    int width = m_rect.width();
+    int height = m_rect.height();
+    m_rect = rect;
+    if (keepRatio)
+    {
+        int hfw = height * rect.width() / width;
+        if (hfw > 1)
+        {
+            m_rect.setTop(-hfw / 2);
+            m_rect.setHeight(hfw);
+        }
+    }
+
+    updateChildPosition();
+}
+void VisualItem::updateChildPosition()
+{
+
+}
+void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    QMenu menu;
+    addActionContextMenu(&menu);
+    QAction* backOrderAction = menu.addAction(tr("Back"));
+    QAction* frontOrderAction = menu.addAction(tr("Front"));
+    QAction* lowerAction = menu.addAction(tr("Lower"));
+    QAction* raiseAction = menu.addAction(tr("Raise"));
+    menu.addSeparator();
+    QAction* removeAction = menu.addAction(tr("Remove"));
+    QAction* copyAction = menu.addAction(tr("Copy"));
+    QAction* pasteAction = menu.addAction(tr("Paste"));
+
+    QAction* selectedAction = menu.exec(event->screenPos());
+
+    if(removeAction==selectedAction)
+    {
+        emit itemRemoved(m_id);
+    }
+
+}
+void VisualItem::addActionContextMenu(QMenu*)
+{
+    //must to be empty
 }
 
 QString VisualItem::getId()
@@ -209,9 +261,7 @@ void VisualItem::endOfGeometryChange()
 //friend functions
 QDataStream& operator<<(QDataStream& os,const VisualItem& c)
 {
-
 	c.writeData(os);
-
 	return os;
 }
 QDataStream& operator>>(QDataStream& is,VisualItem& c)

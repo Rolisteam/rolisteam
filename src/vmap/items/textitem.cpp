@@ -21,79 +21,157 @@
 #include <QLineEdit>
 #include <QPainter>
 #include <QObject>
-
+#include <QDebug>
+#include <QFont>
+#include <QGraphicsSceneWheelEvent>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 
 TextItem::TextItem()
 {
-    m_metricFont = new QFontMetrics(QFont());
+
 }
 
 TextItem::TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
 {
     m_start = start;
+    setPos(m_start);
     m_textEdit = editor;
-    if(m_textEdit)
-        m_metricFont = new QFontMetrics(m_textEdit->font());
-    else
-        m_metricFont = new QFontMetrics(QFont());
+    m_font = m_textEdit->font();
 }
 QRectF TextItem::boundingRect() const
 {
-    if(m_metricFont)
-        return m_metricFont->boundingRect(m_text);
-    else
-        return QRect();
+    return m_rect;
 }
 void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     if(!m_text.isEmpty())
     {
+        if(hasFocusOrChild())
+        {
+            if(NULL!=m_child)
+            {
+                foreach(ChildPointItem* item, *m_child)
+                {
+                    item->setVisible(true);
+                }
+            }
+        }
+        else
+        {
+            if(NULL!=m_child)
+            {
+                foreach(ChildPointItem* item, *m_child)
+                {
+                    item->setVisible(false);
+                }
+            }
+        }
+
         painter->save();
+        painter->setFont(m_font);
         painter->setPen(m_color);
-        painter->drawText(m_start,m_text);
+        painter->drawText(QPoint(0,0),m_text);
+       // painter->drawRect(boundingRect());
         painter->restore();
     }
     
 }
 void TextItem::setNewEnd(QPointF& p)
 {
-    //QRectF tmp= m_rect;
-    // m_rect.setBottomRight(p);
-    //update(tmp);
+
 }
 VisualItem::ItemType TextItem::getType()
 {
     return VisualItem::TEXT;
 }
+void TextItem::updateFont()
+{
+    QFontMetrics metric(m_font);
+    m_rect = metric.boundingRect(m_text);
+    updateChildPosition();
+    update();
+}
+
+void TextItem::wheelEvent(QGraphicsSceneWheelEvent *event)
+{
+    if(event->modifiers() && Qt::ControlModifier)
+    {
+        if(event->delta()>0)
+        {
+            int i = m_font.pointSize();
+            m_font.setPointSize(++i);
+        }
+        else
+        {
+            int i = m_font.pointSize();
+            m_font.setPointSize(--i);
+        }
+        updateFont();
+        event->accept();
+    }
+    else
+    {
+        VisualItem::wheelEvent(event);
+    }
+}
+
 void TextItem::editingFinished()
 {
+    setOpacity(1.0);
     if(m_textEdit!=NULL)
     {
         m_text = m_textEdit->text();
-        m_textEdit->setVisible(false);
-        update ();
+        if(!m_text.isEmpty())
+        {
+            updateFont();
+            m_textEdit->setVisible(false);
+            updateChildPosition();
+        }
     }
     
 }
-void TextItem::setGeometryPoint(qreal /*pointId*/, const QPointF &pos)
+void TextItem::setGeometryPoint(qreal /*pointId*/, QPointF &pos)
 {
     m_start = pos;
+    setPos(m_start);
 }
 void TextItem::initChildPointItem()
 {
+    m_rect = m_rect.normalized();
+    setTransformOriginPoint(m_rect.center());
+    m_child = new QVector<ChildPointItem*>();
 
+    for(int i = 0; i< 1 ; ++i)
+    {
+        ChildPointItem* tmp = new ChildPointItem(i,this);
+        tmp->setMotion(ChildPointItem::NONE);
+        tmp->setRotationEnable(true);
+        m_child->append(tmp);
+    }
+   updateChildPosition();
 }
-
+void TextItem::updateChildPosition()
+{
+    m_child->value(0)->setPos(m_rect.center());
+    m_child->value(0)->setPlacement(ChildPointItem::Center);
+    setTransformOriginPoint(m_rect.center());
+    update();
+}
 void TextItem::writeData(QDataStream& out) const
 {
     out << m_start;
     out << m_text;
     out << m_color;
     out << m_id;
+}
+void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    setOpacity(0.1);
+    m_textEdit->setVisible(true);
+    VisualItem::mouseDoubleClickEvent(event);
 }
 
 void TextItem::readData(QDataStream& in)
@@ -124,6 +202,4 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_start.setY(msg->real());
     m_text = msg->string32();
     m_color = msg->rgb();
-
-
 }

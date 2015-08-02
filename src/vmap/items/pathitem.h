@@ -83,7 +83,7 @@ public:
      * @param pointId
      * @param pos
      */
-    virtual void setGeometryPoint(qreal pointId, const QPointF &pos);
+    virtual void setGeometryPoint(qreal pointId, QPointF &pos);
     /**
      * @brief initChildPointItem
      */
