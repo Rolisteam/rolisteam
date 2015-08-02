@@ -136,6 +136,8 @@ public slots :
     *  @brief change the current editing  behavior to MaskMode.
     */
     virtual void setEditingMode(int);
+    virtual void setCurrentNpcNameChanged(QString);
+    virtual void setCurrentNpcNumberChanged(int);
     
     
 protected :

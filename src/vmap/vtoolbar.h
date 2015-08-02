@@ -82,19 +82,12 @@ public slots :
       * @brief increase NPC number
       * @todo rename it
       */
-    void incrementeNumeroPnj();
+    void increaseNpcNumber();
     /**
       * @brief accessor to set the current color
       */
     void changeCurrentColor(QColor color);
-    /**
-      * @brief set the size for the given NPC
-      */
-    void updateNPCSize(int diameter, QString name);
-
-
 signals:
-
     /**
       * @brief emited when current tool has been changed by user
       */
@@ -115,6 +108,14 @@ signals:
       * @brief emitted when current mode has changed
       */
     void currentModeChanged(int);
+    /**
+     * @brief currentNpcNameChanged
+     */
+    void currentNpcNameChanged(QString);
+    /**
+     * @brief currentNpcNumberChanged
+     */
+    void currentNpcNumberChanged(int);
 
 private:
     
@@ -156,10 +157,10 @@ private:
     QString m_currentNPCName;
     int m_currentNPCNumber;
     
-    private slots :
+private slots :
     void resetNpcCount();
     //void changeSize(bool floating);
-    void changeText(const QString &texte);
+
     void npcNameChange(const QString &texte);
     
     
