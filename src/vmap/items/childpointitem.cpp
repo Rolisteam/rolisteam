@@ -33,10 +33,12 @@
 #define SQUARE_SIZE 6
 
 ChildPointItem::ChildPointItem(qreal point,VisualItem* parent)
-    : QGraphicsObject(parent),m_pointId(point),m_parent(parent)
+    : QGraphicsObject(parent),m_pointId(point),m_parent(parent),m_allowRotation(false)
 {
     m_currentMotion = ALL;
-    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
+    // setAcceptHoverEvents(true);
+    //setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
+    //setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
 }
 
 ChildPointItem::~ChildPointItem()
@@ -46,7 +48,7 @@ ChildPointItem::~ChildPointItem()
 
 QVariant ChildPointItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if (change == ItemPositionChange && scene() && hasFocus())
+    if (change == ItemPositionChange && scene() && hasFocus() && m_currentMotion!=NONE)
     {
         QPointF newPos = value.toPointF();
         if(m_currentMotion == X_AXIS)
@@ -78,6 +80,15 @@ void ChildPointItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 void ChildPointItem::setMotion(ChildPointItem::MOTION m)
 {
     m_currentMotion = m;
+    if((MOUSE == m_currentMotion)||(NONE == m_currentMotion))
+    {
+        setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
+
+    }
+    else
+    {
+        setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
+    }
 }
 void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
 {
@@ -127,24 +138,31 @@ void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
 }
 void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 {
-   // if( ROTATION == m_currentMotion)
-    if(event->modifiers() & Qt::ControlModifier)
+    event->accept();
+    QPointF v = pos() + event->pos();
+    if(m_currentMotion == MOUSE)
     {
-        event->accept();
-        QPointF v = pos() + event->pos();
-        if (v.isNull())
-            return;
+        if(!(event->modifiers() & Qt::ControlModifier))
+        {
+            int W = qMax(2 * fabs(v.x()), 5.0);
+            int H = qMax(2 * fabs(v.y()), 4.0);
+            m_parent->resizeContents(QRect(-W / 2, -H / 2, W, H),false);
+        }
+    }
+    if(((m_currentMotion == MOUSE)||(m_allowRotation))&&(event->modifiers() & Qt::ControlModifier))
+    {
+            if (v.isNull())
+                return;
 
-        QPointF refPos = pos();
+            QPointF refPos = pos();
 
-        // set item rotation (set rotation relative to current)
-        qreal refAngle = atan2(refPos.y(), refPos.x());
-        qreal newAngle = atan2(v.y(), v.x());
-        double dZr = 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
-        double zr = m_parent->rotation() + dZr;
+            // set item rotation (set rotation relative to current)
+            qreal refAngle = atan2(refPos.y(), refPos.x());
+            qreal newAngle = atan2(v.y(), v.x());
+            double dZr = 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
+            double zr = m_parent->rotation() + dZr;
 
-        // apply rotation
-        m_parent->setRotation(zr);
+            m_parent->setRotation(zr);
     }
     else
     {
@@ -157,4 +175,8 @@ void ChildPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
 
     QGraphicsItem::mouseReleaseEvent(event);
 
+}
+void ChildPointItem::setRotationEnable(bool allow)
+{
+    m_allowRotation = allow;
 }
