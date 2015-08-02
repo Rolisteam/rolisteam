@@ -103,8 +103,15 @@ public:
      * @param pos
      */
     void addCharacter(const Character* p, QPointF pos);
-
+    /**
+     * @brief getId
+     * @return
+     */
     QString getId() const;
+    /**
+     * @brief getNpcSize
+     * @return
+     */
     int getNpcSize() const;
 
     //network management
@@ -162,13 +169,48 @@ public slots:
     */
     void setNPCSize(int);
     
-    
+    /**
+     * @brief setPatternSize
+     */
     void setPatternSize(int);
+    /**
+     * @brief setPattern
+     */
     void setPattern(QPixmap);
+    /**
+     * @brief setCurrentNpcName
+     * @param text
+     */
+    void setCurrentNpcName(QString text);
+    /**
+     * @brief setCurrentNpcNumber
+     * @param number
+     */
+    void setCurrentNpcNumber(int number);
+    //void
     void setScale(int);
     void setScaleUnit(int);
     void setId(QString id);
     void removeItemFromScene(QString);
+
+signals:
+    /**
+     * @brief npcAdded
+     */
+    void npcAdded();
+    /**
+     * @brief showNpcName
+     */
+    void showNpcName(bool);
+    /**
+     * @brief showNpcNumber
+     */
+    void showNpcNumber(bool);
+    /**
+     * @brief showPcName
+     */
+    void showPcName(bool);
+
 private slots:
     void sendItemToAll(VisualItem*);
     
@@ -195,11 +237,14 @@ protected:
     * @brief adds item depending of the current tool.
     */
     void addItem();
-    /*private slots:
-    void editingFinished();*/
-    
+    /**
+     * @brief generateBackground
+     */
     void generateBackground();
-
+    /**
+     * @brief addNewItem
+     * @param item
+     */
     void addNewItem(VisualItem* item);
     
     
@@ -268,10 +313,29 @@ private:
     * @brief unit of Pattern scale.
     */
     SCALE_UNIT m_patternUnit;
-
+    /**
+     * @brief m_nameNPC
+     */
+    QString m_currentNpcName;
+    /**
+     * @brief m_currentNpcNumber
+     */
+    int m_currentNpcNumber;
+    /**
+     * @brief m_id
+     */
     QString m_id;
+    /**
+     * @brief m_localIsGM
+     */
 	bool m_localIsGM;
+    /**
+     * @brief m_hasPermissionMode
+     */
 	bool m_hasPermissionMode;
+    /**
+     * @brief m_currentMode
+     */
 	Map::PermissionMode m_currentMode;
 
     friend QDataStream& operator<<(QDataStream& os,const VMap&);

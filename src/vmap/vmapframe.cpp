@@ -28,7 +28,6 @@
 #include "vmapframe.h"
 #include "map/mapwizzard.h"
 
-
 VMapFrame::VMapFrame()
     : MediaContainer()
 {
@@ -49,9 +48,7 @@ VMapFrame::VMapFrame(CleverURI* uri,VMap *map)
 
 VMapFrame::~VMapFrame()
 {
-    //delete m_widgetLayout;
     delete m_maskPixmap;
-    
 }
 
 
@@ -75,7 +72,7 @@ void VMapFrame::updateMap()
     m_maskPixmap = new QPixmap(m_graphicView->size());
 }
 
-VMap * VMapFrame::map()
+VMap* VMapFrame::map()
 {
     return m_vmap;
 }
@@ -91,7 +88,6 @@ void VMapFrame::currentCursorChanged(QCursor* cursor)
 }
 void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 {
-
     m_currentTool = selectedtool;
     if(m_vmap != NULL)
     {
@@ -106,7 +102,6 @@ void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
         m_graphicView->setDragMode(QGraphicsView::NoDrag);
         break;
     }
-    
 }
 void VMapFrame::mousePressEvent(QMouseEvent* event)
 {
@@ -122,7 +117,16 @@ void VMapFrame::currentNPCSizeChanged(int ps)
     if(m_vmap != NULL)
         m_vmap->setNPCSize(ps);
 }
-
+void VMapFrame::setCurrentNpcNameChanged(QString str)
+{
+    if(m_vmap != NULL)
+        m_vmap->setCurrentNpcName(str);
+}
+void VMapFrame::setCurrentNpcNumberChanged(int str)
+{
+    if(m_vmap != NULL)
+        m_vmap->setCurrentNpcNumber(str);
+}
 void VMapFrame::currentColorChanged(QColor& penColor)
 {
     m_penColor = penColor;

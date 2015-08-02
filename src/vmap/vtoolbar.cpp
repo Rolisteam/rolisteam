@@ -59,7 +59,6 @@ VToolsBar::VToolsBar(QWidget *parent)
     m_currentTool = HANDLER;
 
     QObject::connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcCount()));
-    QObject::connect(m_textEditLine, SIGNAL(textEdited(const QString &)), this, SLOT(changeText(const QString &)));
     QObject::connect(m_npcNameTextEdit, SIGNAL(textEdited(const QString &)), this, SLOT(npcNameChange(const QString &)));
     connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));
     
@@ -188,17 +187,13 @@ void VToolsBar::creerOutils()
     toolsLayout->addWidget(boutonElliPlein);
     toolsLayout->addWidget(boutonTexte);
     toolsLayout->addWidget(boutonMain);
-    
-    m_textEditLine = new QLineEdit();
-    m_textEditLine->setToolTip(tr("Text"));
+
     
     m_npcNameTextEdit = new QLineEdit();
     m_npcNameTextEdit->setToolTip(tr("NPC Name"));
 
     m_displayNPCCounter = new QLCDNumber(2);
     m_displayNPCCounter->setSegmentStyle(QLCDNumber::Flat);
-    /// @todo used preferencemanager
-    //afficheNumeroPnj->setMaximumSize(20 + 7, 20);
     m_displayNPCCounter->display(1);
     m_displayNPCCounter->setToolTip(tr("NPC's number"));
     
@@ -218,60 +213,39 @@ void VToolsBar::creerOutils()
     m_lineDiameter->setToolTip(tr("Heigth of the pen"));
     connect(m_lineDiameter,SIGNAL(diameterChanged(int)),this,SIGNAL(currentPenSizeChanged(int)));
 
-    m_NpcDiameter = new DiameterSelector(m_centralWidget, false, 12, 60);
-    connect(m_NpcDiameter,SIGNAL(diameterChanged(int)),this,SIGNAL(currentPNCSizeChanged(int)));
-    m_NpcDiameter->setToolTip(tr("Size of NPC"));
-
     outilsLayout->addWidget(m_colorSelector);
     outilsLayout->addLayout(toolsLayout);
-    outilsLayout->addWidget(m_textEditLine);
     outilsLayout->addWidget(m_lineDiameter);
     outilsLayout->addLayout(characterToolsLayout);
     outilsLayout->addWidget(m_npcNameTextEdit);
-    outilsLayout->addWidget(m_NpcDiameter);
     outilsLayout->addStretch();
-    //layout()->setAlignment(outils, Qt::AlignTop | Qt::AlignHCenter);
     m_centralWidget->setLayout(outilsLayout);
-    
-    /// @todo used preferencemanager
-    // outils->setFixedWidth((20+8)*layoutDessin->columnCount());
-    //setMaximumWidth((20+8)*layoutDessin->columnCount()+10);
+
 }
-
-
-void VToolsBar::incrementeNumeroPnj()
+void VToolsBar::increaseNpcNumber()
 {
-    
-    int numeroActuel = (int) m_displayNPCCounter->value();
-    numeroActuel++;
-    if (m_displayNPCCounter->checkOverflow(numeroActuel))
+    int currentNumber = (int) m_displayNPCCounter->value();
+    ++currentNumber;
+    if (m_displayNPCCounter->checkOverflow(currentNumber))
         m_displayNPCCounter->display(1);
     else
-        m_displayNPCCounter->display(numeroActuel);
+        m_displayNPCCounter->display(currentNumber);
     m_currentNPCNumber = (int) m_displayNPCCounter->value();
+    emit currentNpcNumberChanged(m_currentNPCNumber);
 }
 
 
 void VToolsBar::resetNpcCount()
 {
-
-            m_displayNPCCounter->display(1);
-    m_currentNPCNumber = 1;
-
+   m_displayNPCCounter->display(1);
+   m_currentNPCNumber = 1;
+   emit currentNpcNumberChanged(m_currentNPCNumber);
 }
 
-
-void VToolsBar::changeText(const QString &texte)
-{
-
-    m_textAct->trigger();
-
-}
-
-
-void VToolsBar::npcNameChange(const QString &texte)
+void VToolsBar::npcNameChange(const QString &text)
 { 
     m_addPCAct->trigger();
+    emit currentNpcNameChanged(text);
 }
 
 
@@ -284,15 +258,6 @@ QColor& VToolsBar::currentColor()
 {
    // return m_colorSelector->currentColor();
 }
-
-
-void VToolsBar::updateNPCSize(int diameter, QString name)
-{
-    m_NpcDiameter->changerDiametre(diameter);
-    m_npcNameTextEdit->setText(name);
-    m_currentNPCName = name;
-}
-
 
 void VToolsBar::majCouleursPersonnelles()
 {
@@ -351,6 +316,4 @@ void VToolsBar::currentActionChanged(QAction* p)
         m_currentTool = STATECHARACTER;
     
     emit currentToolChanged(m_currentTool);
-    
-    
 }

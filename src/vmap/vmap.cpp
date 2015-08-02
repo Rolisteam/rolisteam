@@ -7,6 +7,7 @@
 #include <QKeyEvent>
 
 #include "vmap.h"
+#include "data/character.h"
 #include "items/rectitem.h"
 #include "items/ellipsitem.h"
 #include "items/pathitem.h"
@@ -159,7 +160,11 @@ void VMap::addItem()
         TextItem* temptext = new TextItem(m_first,tempedit,m_itemColor);
         m_currentItem = temptext;
         QGraphicsProxyWidget * tmp = QGraphicsScene::addWidget(tempedit);
-        tmp->setPos(m_first.x(),m_first.y()-tempedit->height());
+        //tmp->setPos(m_first.x(),m_first.y()-tempedit->height());
+
+        tmp->setParentItem(temptext);
+        tmp->setPos(0,0);
+        tmp->setFlag(QGraphicsItem::ItemIgnoresParentOpacity,true);
         tempedit->setEnabled(true);
         tempedit->setFocus();
         connect(tempedit,SIGNAL(editingFinished()),temptext,SLOT(editingFinished()));
@@ -170,7 +175,14 @@ void VMap::addItem()
 
         break;
     case VToolsBar::ADDNPC:
-
+    {
+        CharacterItem* itemCharar= new CharacterItem(new Character(m_currentNpcName,m_itemColor,true,m_currentNpcNumber),m_first);
+        m_currentItem = itemCharar;
+        emit npcAdded();
+        connect(this,SIGNAL(showNpcName(bool)),itemCharar,SLOT(showNpcName(bool)));
+        connect(this,SIGNAL(showNpcNumber(bool)),itemCharar,SLOT(showNpcNumber(bool)));
+        connect(this,SIGNAL(showPcName(bool)),itemCharar,SLOT(showPcName(bool)));
+    }
         break;
     case VToolsBar::DELNPC:
 
@@ -207,9 +219,7 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         m_end = m_first;
         addItem();
     }
-
 }
-
 void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     Q_UNUSED(mouseEvent);
@@ -232,8 +242,6 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 void VMap::setCurrentChosenColor(QColor& p)
 {
     m_itemColor = p;
-    
-    
 }
 QString VMap::getId() const
 {
@@ -343,6 +351,7 @@ void VMap::openFile(QDataStream& in)
             }
             in >> *item;
             addNewItem(item);
+            item->initChildPointItem();
         }
     }
 }
@@ -520,4 +529,12 @@ void VMap::setPermissionMode(Map::PermissionMode mode)
 Map::PermissionMode VMap::getPermissionMode()
 {
 	return m_currentMode;
+}
+void VMap::setCurrentNpcName(QString text)
+{
+    m_currentNpcName= text;
+}
+void VMap::setCurrentNpcNumber(int number)
+{
+    m_currentNpcNumber= number;
 }
