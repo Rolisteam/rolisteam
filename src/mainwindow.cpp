@@ -1724,13 +1724,26 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
 		return;
 
 	map->setLocalIsGM(!m_preferences->value("isPlayer",false).toBool());
+
+    //Toolbar to Map
     connect(m_vToolBar,SIGNAL(currentToolChanged(VToolsBar::SelectableTool)),tmp,SLOT(currentToolChanged(VToolsBar::SelectableTool)));
     connect(m_vToolBar,SIGNAL(currentColorChanged(QColor&)),tmp,SLOT(currentColorChanged(QColor&)));
-
     connect(m_vToolBar,SIGNAL(currentModeChanged(int)),tmp,SLOT(setEditingMode(int)));
-
     connect(m_vToolBar,SIGNAL(currentPenSizeChanged(int)),tmp,SLOT(currentPenSizeChanged(int)));
     connect(m_vToolBar,SIGNAL(currentPNCSizeChanged(int)),tmp,SLOT(currentNPCSizeChanged(int)));
+    connect(m_vToolBar,SIGNAL(currentNpcNameChanged(QString)),tmp,SLOT(setCurrentNpcNameChanged(QString)));
+    connect(m_vToolBar,SIGNAL(currentNpcNumberChanged(int)),tmp,SLOT(setCurrentNpcNumberChanged(int)));
+
+    //map to toolbar
+    connect(map,SIGNAL(npcAdded()),m_vToolBar,SLOT(increaseNpcNumber()));
+
+
+    // menu to Map
+    connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SIGNAL(showPcName(bool)));
+    connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SIGNAL(showNpcName(bool)));
+    connect(m_ui->m_showNpcNumberAction, SIGNAL(triggered(bool)), map, SIGNAL(showNpcName(bool)));
+
+
     addMediaToMdiArea(tmp);
     tmp->show();
     m_mapWindowVectorialMap.insert(tmp->getMapId(),tmp);
