@@ -102,7 +102,7 @@ public:
      * @param p
      * @param pos
      */
-    void addCharacter(const Character* p, QPointF pos);
+    void addCharacter(Character* p, QPointF pos);
     /**
      * @brief getId
      * @return

@@ -336,7 +336,7 @@ void VMap::openFile(QDataStream& in)
     }
 }
 
-void VMap::addCharacter(const Character* p, QPointF pos)
+void VMap::addCharacter(Character* p, QPointF pos)
 {
     CharacterItem* item= new CharacterItem(p,pos);
     QGraphicsScene::addItem(item);
