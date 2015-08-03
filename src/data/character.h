@@ -32,6 +32,7 @@ class Character : public QObject,public Person
 {
     Q_OBJECT
 public:
+    enum HeathState {Healthy,Lightly,Seriously,Dead,Sleeping,Bewitched};
     /**
      * @brief construtor
      */
@@ -73,6 +74,17 @@ public:
      * @return
      */
     int number() const;
+    /**
+     * @brief getHeathState
+     * @return
+     */
+    Character::HeathState getHeathState() const;
+
+public slots:
+    /**
+     * @brief setHeathState
+     */
+    void setHeathState(Character::HeathState);
 signals:
     void avatarChanged();
 private:
@@ -80,6 +92,7 @@ private:
     QPixmap* m_avatar;
     bool m_isNpc;
     int m_number;
+    HeathState m_health;
 };
 
 #endif // CHARACTER_H

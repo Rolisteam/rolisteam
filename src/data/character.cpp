@@ -19,6 +19,7 @@
     ***************************************************************************/
 #include <QColor>
 #include <QUuid>
+#include <QDebug>
 
 #include "character.h"
 #include "data/player.h"
@@ -26,20 +27,23 @@
 #include "network/networkmessagewriter.h"
 
 Character::Character(const QString & nom, const QColor & color,bool npc,int number)
-    : Person(nom, color), m_parent(NULL),m_isNpc(npc),m_number(number)
+    : Person(nom, color), m_parent(NULL),m_isNpc(npc),m_number(number),m_health(Healthy)
 {
 }
 
 Character::Character(const QString & uuid, const QString & nom, const QColor & color,bool npc,int number)
-    : Person(uuid, nom, color), m_parent(NULL),m_isNpc(npc),m_number(number)
+    : Person(uuid, nom, color), m_parent(NULL),m_isNpc(npc),m_number(number),m_health(Healthy)
 {
 }
 
 Character::Character(NetworkMessageReader & data)
-    : Person(), m_parent(NULL)
+    : Person(), m_parent(NULL),m_health(Healthy)
 {
     m_uuid = data.string8();
     m_name = data.string16();
+    m_health = (Character::HeathState)data.int8();
+    m_isNpc = (bool)data.int8();
+    m_number = data.int32();
     m_color = QColor(data.rgb());
 }
 
@@ -48,6 +52,9 @@ void Character::fill(NetworkMessageWriter & message)
     message.string8(m_parent->uuid());
     message.string8(m_uuid);
     message.string16(m_name);
+    message.int8((int)m_health);
+    message.int8((int)m_isNpc);
+    message.int32(m_number);
     message.rgb(m_color);
 }
 
@@ -73,4 +80,12 @@ int Character::number() const
 bool Character::isNpc() const
 {
     return m_isNpc;
+}
+void  Character::setHeathState(Character::HeathState h)
+{
+  m_health = h;
+}
+Character::HeathState  Character::getHeathState() const
+{
+    return m_health;
 }
