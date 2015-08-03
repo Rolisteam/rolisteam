@@ -21,6 +21,8 @@
 #define CHARACTERITEM_H
 #include "visualitem.h"
 #include "data/person.h"
+
+#include <QAction>
 /**
     * @brief represents any character on map.
     */
@@ -38,7 +40,7 @@ public:
      * @param center
      * @param diameter
      */
-    CharacterItem(const Character* m,QPointF center,int diameter = 40);
+    CharacterItem(Character* m,QPointF center,int diameter = 40);
     /**
     * @brief constructor
     */
@@ -108,6 +110,11 @@ public:
      */
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
+    /**
+     * @brief addActionContextMenu
+     */
+    virtual void addActionContextMenu(QMenu*);
+
 public slots:
     void sizeChanged(int m_size);
     /**
@@ -123,9 +130,20 @@ public slots:
      */
     void showPcName(bool);
 private slots:
+    /**
+     * @brief generatedThumbnail
+     */
     void generatedThumbnail();
+    /**
+     * @brief createActions
+     */
+    void createActions();
+    /**
+     * @brief characterStateChange
+     */
+    void characterStateChange();
 private:
-    const Character* m_character;
+    Character* m_character;
     QPointF m_center;
     int m_diameter;
     QPixmap* m_thumnails;
@@ -133,6 +151,15 @@ private:
     bool m_showNpcName;
     bool m_showNpcNumber;
     bool m_showPcName;
+
+
+    //QAction*
+    QAction* m_healthyStateAct;
+    QAction* m_lightlyStateAct;
+    QAction* m_seriouslyStateAct;
+    QAction* m_deadStateAct;
+    QAction* m_spleepingStateAct;
+    QAction* m_bewitchedStateAct;
     
     
 };
