@@ -26,18 +26,23 @@
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 #include "data/character.h"
+
+#include <QMenu>
+
 CharacterItem::CharacterItem()
 : VisualItem()
 {
-
+    createActions();
 }
 
-CharacterItem::CharacterItem(const Character* m,QPointF pos,int diameter)
+CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
     : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL)
 {
     m_rect.setRect(m_center.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter);
     /// @todo make it
     //connect(m_character,SIGNAL(avatarChanged()),this,SLOT(generatedThumbnail()));
+
+     createActions();
 }
 
 void CharacterItem::writeData(QDataStream& out) const
@@ -84,9 +89,42 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
             }
         }
     }
+    painter->save();
     painter->setPen(m_character->color());
-    painter->drawRect(m_rect);
+    painter->setBrush(QBrush(m_character->color(),Qt::SolidPattern));
     painter->drawEllipse(m_rect);
+    painter->restore();
+
+
+
+    painter->save();
+    QPen pen = painter->pen();
+    pen.setWidth(6);
+    switch(m_character->getHeathState())
+    {
+    case Character::Healthy:
+        pen.setColor(Qt::black);
+    break;
+    case Character::Lightly:
+        pen.setColor(QColor(255, 100, 100));
+    break;
+    case Character::Seriously:
+        pen.setColor(QColor(255, 0, 0));
+    break;
+    case Character::Dead:
+        pen.setColor(Qt::gray);
+    break;
+    case Character::Sleeping:
+        pen.setColor(QColor(80, 80, 255));
+    break;
+    case Character::Bewitched:
+        pen.setColor(QColor(0, 200, 0));
+    break;
+    }
+    painter->setPen(pen);
+    painter->drawEllipse(m_rect.adjusted(3,3,-3,-3));
+    painter->restore();
+
     QString toShow;
     if(m_character->isNpc())
     {
@@ -111,7 +149,10 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
     QFontMetrics metric(painter->font());
     rectText.setRect(m_rect.left(),m_rect.bottom(),m_rect.width(),metric.height());
 
+    painter->save();
+    painter->setPen(m_character->color());
     painter->drawText(rectText,Qt::AlignCenter,toShow);
+    painter->restore();
 
     //painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
 }
@@ -312,4 +353,65 @@ void CharacterItem::showNpcNumber(bool b)
 void CharacterItem::showPcName(bool b)
 {
     m_showPcName = b;
+}
+void CharacterItem::addActionContextMenu(QMenu* menu)
+{
+  QMenu* state =  menu->addMenu(tr("Change State"));
+  state->addAction(m_healthyStateAct);
+  state->addAction(m_lightlyStateAct);
+  state->addAction(m_seriouslyStateAct);
+  state->addAction(m_deadStateAct);
+  state->addAction(m_spleepingStateAct);
+  state->addAction(m_bewitchedStateAct);
+
+}
+void CharacterItem::createActions()
+{
+    m_healthyStateAct = new QAction(tr("Healthy"),this);
+    m_lightlyStateAct= new QAction(tr("Lightly wounded"),this);
+    m_seriouslyStateAct= new QAction(tr("Seriously injured"),this);
+    m_deadStateAct= new QAction(tr("Dead"),this);
+    m_spleepingStateAct= new QAction(tr("Sleeping"),this);
+    m_bewitchedStateAct= new QAction(tr("Bewitched"),this);
+
+
+    connect(m_healthyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
+    connect(m_lightlyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
+    connect(m_seriouslyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
+    connect(m_deadStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
+    connect(m_spleepingStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
+    connect(m_bewitchedStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
+
+}
+void CharacterItem::characterStateChange()
+{
+    QAction* act = qobject_cast<QAction*>(sender());
+    if(NULL == m_character)
+        return;
+
+
+    if(act == m_healthyStateAct)
+    {
+        m_character->setHeathState(Character::Healthy);
+    }
+    else if(act == m_lightlyStateAct)
+    {
+        m_character->setHeathState(Character::Lightly);
+    }
+    else if (act == m_seriouslyStateAct)
+    {
+        m_character->setHeathState(Character::Seriously);
+    }
+    else if (act == m_deadStateAct)
+    {
+       m_character->setHeathState(Character::Dead);
+    }
+    else if ( act == m_spleepingStateAct)
+    {
+        m_character->setHeathState(Character::Sleeping);
+    }
+    else if (act == m_bewitchedStateAct)
+    {
+        m_character->setHeathState(Character::Bewitched);
+    }
 }
