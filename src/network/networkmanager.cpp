@@ -33,14 +33,6 @@
 
 #define second 1000
 
-void emettre(char *donnees, quint32 taille, NetworkLink *sauf)
-{
-    if(NULL!=MainWindow::getInstance()->getNetWorkManager())
-    {
-        MainWindow::getInstance()->getNetWorkManager()->emettreDonnees(donnees, taille, sauf);
-    }
-}
-
 /*****************
  * NetworkManager *
  *****************/
@@ -50,7 +42,6 @@ NetworkManager::NetworkManager(QString localPlayerId)
 
     m_reconnect = new QTimer(this);
     m_preferences =  PreferencesManager::getInstance();
-    //m_thread = new ConnectionRetryThread();
     m_dialog = new ConnectionRetryDialog();
     connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
     connect(m_dialog,SIGNAL(rejected()),this,SIGNAL(stopConnectionTry()));
@@ -153,7 +144,7 @@ bool NetworkManager::configAndConnect(QString version)
                 m_configDialog->getColor(),
                 m_configDialog->isGM()
             );
-        m_localPlayer->setUserVersion(version);
+            m_localPlayer->setUserVersion(version);
             m_playersList->setLocalPlayer(m_localPlayer);
 
            isConnected = startConnection();
@@ -161,6 +152,11 @@ bool NetworkManager::configAndConnect(QString version)
     return isConnected;
 
 }
+Player* NetworkManager::getLocalPlayer()
+{
+    return m_localPlayer;
+}
+
 bool NetworkManager::startConnection()
 {
     bool cont = true;
