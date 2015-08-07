@@ -98,7 +98,6 @@ MainWindow::MainWindow()
 
     connect(m_networkManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
     m_ipChecker = new IpChecker(this);
-    //G_NetworkManager = m_networkManager;
     m_mapAction = new QMap<MediaContainer*,QAction*>();
 
 
@@ -1046,16 +1045,16 @@ void MainWindow::networkStateChanged(bool state)
 
 void MainWindow::notifyAboutAddedPlayer(Player * player) const
 {
-    notifyUser(tr("%1 just joins the game.").arg(player->name()));
+    notifyUser(tr("%1 just joins the game.").arg(player->getName()));
     if(player->getUserVersion().compare(m_version)!=0)
     {
-        notifyUser(tr("%1 has not the right version: %2.").arg(player->name()).arg(player->getUserVersion()),Error);
+        notifyUser(tr("%1 has not the right version: %2.").arg(player->getName()).arg(player->getUserVersion()),Error);
     }
 }
 
 void MainWindow::notifyAboutDeletedPlayer(Player * player) const
 {
-    notifyUser(tr("%1 just leaves the game.").arg(player->name()));
+    notifyUser(tr("%1 just leaves the game.").arg(player->getName()));
 }
 
 void MainWindow::updateSessionToNewClient(Player* player)
@@ -1169,7 +1168,7 @@ void MainWindow::parseCommandLineArguments(QStringList list)
         m_networkManager->setValueConnection(portValue,hostnameValue,username,roleValue);
     }
 }
-NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg)
+NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, NetworkLink* link)
 {
     NetWorkReceiver::SendType type;
     switch(msg->category())
@@ -1328,6 +1327,11 @@ void MainWindow::setupUi()
     m_ui->m_menuSubWindows->insertAction(m_ui->m_characterListAct,m_playersListWidget->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_characterListAct);
 
+
+    /*m_userListDock = new UserListWidget(this);
+    addDockWidget(Qt::RightDockWidgetArea, m_userListDock);
+    m_ui->m_menuSubWindows->insertAction(m_playersListWidget->toggleViewAction(),m_userListDock->toggleViewAction());*/
+
     ///////////////////
     //Audio Player
     ///////////////////
@@ -1359,9 +1363,13 @@ void MainWindow::setupUi()
     connect(m_noteEditor,SIGNAL(showed(bool)),m_noteEditorSub,SLOT(setVisible(bool)));
     // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
     m_playerList = PlayersList::instance();
+
     connect(m_playerList, SIGNAL(playerAdded(Player *)), this, SLOT(notifyAboutAddedPlayer(Player *)));
     connect(m_playerList, SIGNAL(playerAddedAsClient(Player*)), this, SLOT(updateSessionToNewClient(Player*)));
     connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
+
+
+    //connect(m_playerList, SIGNAL(playerDeleted(Player *)), m_userListDock, SLOT(d(Player *)));
     connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(updateWindowTitle()));
     connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(networkStateChanged(bool)));
     connect(m_ipChecker,SIGNAL(finished(QString)),this,SLOT(showIp(QString)));
@@ -1741,6 +1749,15 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SIGNAL(showNpcName(bool)));
     connect(m_ui->m_showNpcNumberAction, SIGNAL(triggered(bool)), map, SIGNAL(showNpcName(bool)));
 
+    connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
+    connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
+    connect(m_ui->m_showNpcNumberAction,SIGNAL(triggered(bool)),map,SLOT(setNpcNumberVisible(bool)));
+
+    map->setNpcNameVisible(m_ui->m_showNpcNameAction->isChecked());
+    map->setPcNameVisible(m_ui->m_showPcNameAction->isChecked());
+    map->setNpcNumberVisible(m_ui->m_showNpcNumberAction->isChecked());
+    map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
+    map->setPenSize(m_toolBar->getCurrentPenSize());
 
     addMediaToMdiArea(tmp);
     tmp->show();
