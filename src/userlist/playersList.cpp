@@ -58,7 +58,7 @@ PlayersList::PlayersList()
     ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterNameAction, this);
     ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterColorAction, this);
     ReceiveEvent::registerReceiver(SetupCategory, AddFeatureAction, this);
-    
+
     connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(sendDelLocalPlayer()));
 }
 
@@ -125,12 +125,12 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
     switch (role) {
         case Qt::DisplayRole:
         case Qt::EditRole:
-            return QVariant(person->name());
+            return QVariant(person->getName());
         case Qt::DecorationRole:
-            return QVariant(person->color());
+            return QVariant(person->getColor());
         case IdentifierRole:
             return QVariant(person->uuid());
-    }
+      }
 
     return QVariant();
 }
@@ -501,7 +501,7 @@ bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
         else
             message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);
 
-        message->string16(person->name());
+        message->string16(person->getName());
         message->string8(person->uuid());
         message->sendAll();
 
@@ -522,7 +522,7 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
             message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterColorAction);
 
         message->string8(person->uuid());
-        message->rgb(person->color());
+        message->rgb(person->getColor());
         message->sendAll();
 
         return true;
@@ -875,7 +875,7 @@ void PlayersList::delPlayerWithLink(NetworkLink * link)
         Player * player = m_playersList.at(i);
         if (player->link() == link)
         {
-            qWarning("Something wrong happens to %s", qPrintable(player->name()));
+            qWarning("Something wrong happens to %s", qPrintable(player->getName()));
             NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
             message.string8(player->uuid());
             message.sendAll(link);
