@@ -238,7 +238,7 @@ void AudioPlayer::pChangeDirectory()
 
 }
 
-NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
+NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg, NetworkLink* link)
 {
     int id = msg->uint8();
     NetMsg::Action action = msg->action();
