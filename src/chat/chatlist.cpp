@@ -418,7 +418,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
 
     PlayersList* g_playersList = PlayersList::instance();
 
-    Person * sender = g_playersList->getPerson(from);
+    Person* sender = g_playersList->getPerson(from);
     if (sender == NULL)
     {
         qWarning("Message from unknown person %s", qPrintable(from));
@@ -428,7 +428,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     if (to == g_playersList->localPlayer()->uuid())
     {
         Player * owner = g_playersList->getParent(from);
-        getChatWindowByUuid(owner->uuid())->showMessage(sender->name(), sender->color(), msg, data.action());
+        getChatWindowByUuid(owner->uuid())->showMessage(sender->getName(), sender->getColor(), msg, data.action());
         return;
     }
 
@@ -445,7 +445,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
 
     ChatWindow * chatw = getChatWindowByUuid(to);
     if (chatw != NULL)
-        chatw->showMessage(sender->name(), sender->color(), msg, data.action());
+        chatw->showMessage(sender->getName(), sender->getColor(), msg, data.action());
 
     if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {

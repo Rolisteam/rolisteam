@@ -20,7 +20,7 @@
 
 #ifndef PLAYER_H
 #define PLAYER_H
-
+#include <QMetaType>
 #include "person.h"
 /**
  * @brief Represents a player.
@@ -31,6 +31,7 @@ class Player : public Person
 {
 
 public:
+    Player();
     /**
      * @brief Player
      * @param name
@@ -38,7 +39,7 @@ public:
      * @param master
      * @param link
      */
-    Player(const QString & name, const QColor & color, bool master = false, NetworkLink * link = NULL);
+    Player(const QString & getName, const QColor & getColor, bool master = false, NetworkLink * link = NULL);
     /**
      * @brief Player
      * @param uuid
@@ -47,7 +48,7 @@ public:
      * @param master
      * @param link
      */
-    Player(const QString & uuid, const QString & name, const QColor & color, bool master = false, NetworkLink * link = NULL);
+    Player(const QString & uuid, const QString & getName, const QColor & getColor, bool master = false, NetworkLink * link = NULL);
     /**
      * @brief Player
      * @param data
@@ -79,7 +80,7 @@ public:
      * @param index
      * @return
      */
-    Character * getCharacterByIndex(int index) const;
+    Character* getCharacterByIndex(int index) const;
     /**
      * @brief getIndexOfCharacter
      * @param character
@@ -115,22 +116,25 @@ public:
      * @param version
      * @return
      */
-    bool hasFeature(const QString & name, quint8 version = 0) const;
+    bool hasFeature(const QString & getName, quint8 version = 0) const;
     /**
      * @brief setFeature
      * @param name
      * @param version
      */
-    void setFeature(const QString & name, quint8 version = 0);
-
+    void setFeature(const QString & getName, quint8 version = 0);
+    /**
+     * @brief addCharacter
+     * @param character
+     */
+    void addCharacter(Character * character);
+    void setGM(bool value);
+    void delCharacter(int index);
+    bool searchCharacter(Character * character, int & index) const;
 private:
     friend class PlayersList;
     friend class SendFeaturesIterator;
 
-    void addCharacter(Character * character);
-    void delCharacter(int index);
-    bool searchCharacter(Character * character, int & index) const;
-    void setGM(bool value);
 
 private:
     bool m_gameMaster;
@@ -140,4 +144,5 @@ private:
     QString m_softVersion;
 };
 
+Q_DECLARE_METATYPE(Player)
 #endif // PLAYER_H

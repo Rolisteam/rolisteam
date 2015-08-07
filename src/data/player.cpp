@@ -28,6 +28,10 @@
 #include "network/networkmessagewriter.h"
 
 #include "data/character.h"
+Player::Player()
+{
+
+}
 
 Player::Player(const QString & nom, const QColor & color, bool master, NetworkLink * link)
     : Person(nom, color), m_gameMaster(master), m_link(link)
@@ -109,10 +113,10 @@ void Player::setGM(bool value)
     m_gameMaster = value;
 }
 
-void Player::addCharacter(Character * character)
+void Player::addCharacter(Character* character)
 {
     character->setParent(this);
-    m_characters << character;
+    m_characters.append(character);
 }
 
 void Player::delCharacter(int index)

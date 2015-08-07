@@ -56,12 +56,12 @@ const QString Person::uuid() const
     return m_uuid;
 }
 
-QString Person::name() const
+QString Person::getName() const
 {
     return m_name;
 }
 
-QColor Person::color() const
+QColor Person::getColor() const
 {
     return m_color;
 }
@@ -104,4 +104,17 @@ bool Person::hasAvatar() const
 void Person::setAvatar(QImage& p)
 {
     m_avatar = p;
+}
+Qt::CheckState Person::checkedState()
+{
+    return m_checkState;
+}
+
+bool Person::isLeaf()
+{
+    return true;
+}
+void Person::setState(Qt::CheckState c)
+{
+    m_checkState = c;
 }

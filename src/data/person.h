@@ -47,14 +47,14 @@ public:
      * @param name
      * @param color
      */
-    Person(const QString & name, const QColor & color);
+    Person(const QString & getName, const QColor & getColor);
     /**
      * @brief Person
      * @param uuid
      * @param name
      * @param color
      */
-    Person(const QString & uuid, const QString & name, const QColor & color);
+    Person(const QString & uuid, const QString & getName, const QColor & getColor);
     /**
      * @brief ~Person
      */
@@ -68,12 +68,12 @@ public:
      * @brief name
      * @return
      */
-    QString name() const;
+    QString getName() const;
     /**
      * @brief color
      * @return
      */
-    QColor  color() const;
+    QColor  getColor() const;
     /**
      * @brief parent
      * @return
@@ -99,6 +99,12 @@ public:
     * @brief set the person's avatar.
     */
     virtual void setAvatar(QImage& p);
+    bool setColor(const QColor & color);
+    bool setName(const QString & getName);
+    Qt::CheckState checkedState();
+    bool isLeaf();
+
+    void setState(Qt::CheckState c);
 protected:
     Person();
 
@@ -106,11 +112,9 @@ protected:
     QString m_name;
     QColor  m_color;
     QImage  m_avatar;
-
+    Qt::CheckState m_checkState;
 private:
     friend class PlayersList;
-    bool setColor(const QColor & color);
-    bool setName(const QString & name);
 };
 
 
