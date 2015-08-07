@@ -44,7 +44,8 @@ class PlayersList : public QAbstractItemModel
 public:
     enum ItemDataRole
     {
-        IdentifierRole = Qt::UserRole
+        IdentifierRole = Qt::UserRole+1,
+        PersonPtr,
     };
     /**
      * @brief Get the singleton
