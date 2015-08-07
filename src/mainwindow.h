@@ -52,6 +52,8 @@
 #include "vmap/vmap.h"
 #include "vmap/vmapframe.h"
 
+#include "userlist/userlistwidget.h"
+
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
 #endif
@@ -189,7 +191,7 @@ public :
 	 * @brief processMessage
 	 * @param msg
 	 */
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link);
 
     /**
      * @brief prepareMap
@@ -334,7 +336,7 @@ private :
      * @brief workspace
      */
 	ImprovedWorkspace* m_mdiArea;
-    PlayersListWidget * m_playersListWidget;
+    PlayersListWidget* m_playersListWidget;
 
     //toolbar
     ToolsBar* m_toolBar;
@@ -371,6 +373,8 @@ private :
     QString m_localPlayerId;
 	bool m_resetSettings;
     Ui::MainWindow* m_ui;
+    //UserListWidget* m_userListDock;
+
 //filters
 	QString m_supportedImage;
 	QString m_supportedCharacterSheet;
