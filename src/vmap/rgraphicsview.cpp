@@ -23,8 +23,9 @@
 #include <QOpenGLWidget>
 
 #include "data/person.h"
+#include "data/character.h"
 #include "rgraphicsview.h"
-//#include "rolisteammimedata.h"
+#include "userlist/rolisteammimedata.h"
 
 RGraphicsView::RGraphicsView(VMap *vmap)
     : QGraphicsView(vmap),m_vmap(vmap)
@@ -62,14 +63,14 @@ void RGraphicsView::focusInEvent ( QFocusEvent * event )
 }
 void RGraphicsView::dragEnterEvent ( QDragEnterEvent * event )
 {
-  /*  const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
+    const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
     if(data)
     {
         if (data->hasFormat("rolisteam/userlist-item"))
         {
             event->acceptProposedAction();
         }
-    }*/
+    }
     
 }
 void RGraphicsView::dragMoveEvent(QDragMoveEvent *event)
@@ -79,18 +80,18 @@ void RGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 
 void RGraphicsView::dropEvent ( QDropEvent * event )
 {
-  /*  const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
+    const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
     if(data)
     {
         if (data->hasFormat("rolisteam/userlist-item"))
         {
-            const Person* item = data->getData();
-            const Character* character = dynamic_cast<const Character*>(item);
+            Person* item = data->getData();
+            Character* character = dynamic_cast<Character*>(item);
             if(character)
             {
-                m_map->addCharacter(character,mapToScene(event->pos()));
+                m_vmap->addCharacter(character,mapToScene(event->pos()));
             }
         }
-    }*/
+    }
     
 }
