@@ -80,7 +80,11 @@ public :
      * @return
      */
     bool isServer() const;
-
+    /**
+     * @brief getLocalPlayer
+     * @return
+     */
+    Player* getLocalPlayer();
 
 
     /**
@@ -129,7 +133,7 @@ private:
     quint16 m_listeningPort;
     QString m_address;
     QTimer* m_reconnect;
-    Player * m_localPlayer;
+    Player* m_localPlayer;
     QString  m_localPlayerId;
     bool m_disconnectAsked;
     PreferencesManager* m_preferences;
