@@ -107,7 +107,7 @@ QString PlayerChat::identifier() const
 
 QString PlayerChat::name() const
 {
-    return m_player->name();
+    return m_player->getName();
 }
 
 bool PlayerChat::belongsTo(Player * player) const
@@ -135,7 +135,7 @@ bool PlayerChat::everyPlayerHasFeature(const QString & feature, quint8 version) 
 void PlayerChat::verifyName(Player * player)
 {
     if (player == m_player)
-        emit changedName(m_player->name());
+        emit changedName(m_player->getName());
 }
 
 
@@ -183,7 +183,7 @@ PrivateChat::PrivateChat(ReceiveEvent & event)
 
     if ((!PreferencesManager::getInstance()->value("isClient",true).toBool()) && (!sameLink(event.link())))
     {
-        qWarning("%s is usurpating chat %s", qPrintable(m_owner->name()), qPrintable(chatUuid));
+        qWarning("%s is usurpating chat %s", qPrintable(m_owner->getName()), qPrintable(chatUuid));
         return;
     }
 

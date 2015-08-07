@@ -156,7 +156,7 @@ int PrivateChatDialog::edit(PrivateChat * chat)
     bool isEditable = chat->belongsToLocalPlayer();
     m_name_w->setText(chat->name());
     m_name_w->setReadOnly(!isEditable);
-    m_owner_w->setText(chat->owner()->name());
+    m_owner_w->setText(chat->owner()->getName());
     m_model.setPlayersSet(chat->players());
     m_model.setEditable(isEditable);
 

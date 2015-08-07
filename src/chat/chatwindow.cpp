@@ -208,7 +208,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
             QString cmdLine;
             QString list;
             bool onlyValue = getMessageResult(value, cmdLine,list);
-            color = localPerson->color();
+            color = localPerson->getColor();
 
             if(!onlyValue)
             {
@@ -290,7 +290,7 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
                 }
 
 
-                showMessage(localPerson->name(), localPerson->color(), tmpmessage,NetMsg::EmoteMessageAction);
+                showMessage(localPerson->getName(), localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
                 action = NetMsg::EmoteMessageAction;
                 break;
 
@@ -307,7 +307,7 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
 			message = message.toHtmlEscaped();
 		}
 		message = message.replace('\n',"<br/>");
-        showMessage(messageTitle, localPerson->color(), message);
+        showMessage(messageTitle, localPerson->getColor(), message);
         action = NetMsg::ChatMessageAction;
     }
 
