@@ -1290,7 +1290,7 @@ bool Map::isVisiblePc(QString idPerso)
 
 void Map::addCharacter(Character * person)
 {
-    new DessinPerso(this, person->uuid(), person->name(), person->color(), m_npcSize, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), DessinPerso::pj, false, m_showPcName);
+    new DessinPerso(this, person->uuid(), person->getName(), person->getColor(), m_npcSize, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), DessinPerso::pj, false, m_showPcName);
 }
 
 
@@ -1317,7 +1317,7 @@ void Map::delCharacter(Character * person)
     if (pj == NULL)
     {
 		qWarning() << ( tr("Person %s %s unknown in Carte::changePerson"),
-				qPrintable(person->uuid()), qPrintable(person->name()) );
+				qPrintable(person->uuid()), qPrintable(person->getName()) );
         return;
     }
 
@@ -1331,12 +1331,12 @@ void Map::changeCharacter(Character * person)
     DessinPerso * pj = trouverPersonnage(person->uuid());
     if (pj == NULL)
     {
-        qWarning() << tr("Person %s %s unknown in Carte::changePerson").arg(person->uuid()).arg(person->name()) ;
+        qWarning() << tr("Person %s %s unknown in Carte::changePerson").arg(person->uuid()).arg(person->getName()) ;
         return;
     }
 
-    pj->renommerPerso(person->name());
-    pj->changerCouleurPerso(person->color());
+    pj->renommerPerso(person->getName());
+    pj->changerCouleurPerso(person->getColor());
 }
 
 
