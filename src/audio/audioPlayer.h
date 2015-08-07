@@ -74,7 +74,7 @@ public :
      * @brief processMessage
      * @param msg
      */
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link);
 
     /**
      * @brief openSongList

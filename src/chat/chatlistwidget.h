@@ -52,7 +52,7 @@ public:
 
     bool eventFilter(QObject * object, QEvent * event);
 
-    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link);
 
 public slots:
     void createPrivateChat();
