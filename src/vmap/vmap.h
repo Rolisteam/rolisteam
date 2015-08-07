@@ -194,7 +194,9 @@ public slots:
      * @brief VMap::computePattern
      */
     void computePattern();
-
+    void setNpcNameVisible(bool);
+    void setPcNameVisible(bool);
+    void setNpcNumberVisible(bool);
 signals:
     /**
      * @brief npcAdded
@@ -214,6 +216,9 @@ signals:
     void showPcName(bool);
 
 private slots:
+    /**
+     * @brief sendItemToAll
+     */
     void sendItemToAll(VisualItem*);
     
 protected:
@@ -341,6 +346,9 @@ private:
      * @brief m_gridColor
      */
     QColor m_gridColor;
+    bool m_showNpcName;
+    bool m_showPcName;
+    bool m_showNpcNumber;
 
     friend QDataStream& operator<<(QDataStream& os,const VMap&);
     friend QDataStream& operator>>(QDataStream& is,VMap&);
