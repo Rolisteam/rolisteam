@@ -26,7 +26,7 @@ bool RolisteamMimeData::hasPerson() const
     else
         return false;
 }
-const Person* RolisteamMimeData::getData() const
+Person* RolisteamMimeData::getData() const
 {
     return m_data;
 }

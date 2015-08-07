@@ -28,10 +28,11 @@
 
 #include <QDrag>
 
-#include <userlistdelegate.h>
+#include "userlistdelegate.h"
 #include "userlistview.h"
 #include "userlistmodel.h"
 #include "rolisteammimedata.h"
+#include "playersList.h"
 
 UserListView::UserListView(QWidget *parent) :
     QTreeView(parent)
@@ -42,7 +43,6 @@ UserListView::UserListView(QWidget *parent) :
     setItemDelegate(m_delegate);
     connect(this,SIGNAL(editCurrentItemColor()),this,SLOT(onEditCurrentItemColor()));
     connect(this,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(customContextMenuEvent(QPoint)));
-    m_model = NULL;
     
     
     m_avatar = new QAction(tr("Set Avatar..."),this);
@@ -89,7 +89,10 @@ void UserListView::customContextMenuEvent ( QPoint e )
     popMenu.addAction(m_avatar);
     /// @todo check if the position is a valid person (and belongs to the user)
     QModelIndex index = indexAt(e);
-    if(m_model->isLocalPlayer(index))
+    QString uuid = index.data(PlayersList::IdentifierRole).toString();
+    Person* tmpperso = PlayersList::instance()->getPerson(uuid);
+
+    if(PlayersList::instance()->isLocal(tmpperso))
     {
         m_avatar->setEnabled(true);
     }
@@ -105,20 +108,23 @@ void UserListView::onAvatar()
     /// @TODO: Here! options manager is required to get access to the photo directory
     QString path = QFileDialog::getOpenFileName(this, tr("Avatar"),".",tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)"));
     QModelIndex index= currentIndex();
-    PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
+    QString uuid = index.data(PlayersList::IdentifierRole).toString();
+    Person* tmpperso = PlayersList::instance()->getPerson(uuid);
     QImage im(path);
-    childItem->getPerson()->setAvatar(im);
+    tmpperso->setAvatar(im);
     
 }
 void UserListView::onEditCurrentItemColor()
 {
     QModelIndex index= currentIndex();
-    PersonItem* childItem = static_cast<PersonItem*>(index.internalPointer());
+
+    QString uuid = index.data(PlayersList::IdentifierRole).toString();
+    Person* tmpperso = PlayersList::instance()->getPerson(uuid);
     
-    QColor color= QColorDialog::getColor(childItem->getPerson()->getColor(),this);
+    QColor color= QColorDialog::getColor(tmpperso->getColor(),this);
     
     if(color.isValid())
-        childItem->getPerson()->setColor(color);
+        tmpperso->setColor(color);
 }
 void UserListView::setModel(UserListModel *model)
 {
@@ -133,8 +139,9 @@ void UserListView::mousePressEvent ( QMouseEvent * event)
     
     if ((event->button() == Qt::LeftButton) && (tmp.isValid()))
     {
-        Person* tmpperso = m_model->getPersonAt(tmp);
-        if(tmpperso->isLeaf())
+        QString uuid = tmp.data(PlayersList::IdentifierRole).toString();
+        Person* tmpperso = PlayersList::instance()->getCharacter(uuid);
+        if(NULL!= tmpperso)
         {
             QDrag *drag = new QDrag(this);
             RolisteamMimeData *mimeData = new RolisteamMimeData();

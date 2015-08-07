@@ -4,7 +4,7 @@
 #include <QMimeData>
 
 
-#include "person.h"
+#include "data/person.h"
 /**
  * @brief allows drag and drop inside the application scope.
  */
@@ -33,7 +33,7 @@ public:
     /**
       *  @brief return the person instance.
       */
-    const Person* getData() const;
+    Person* getData() const;
     /*protected:
     QVariant retrieveData ( const QString & mimeType, QVariant::Type type ) const;*/
 private:
