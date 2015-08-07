@@ -158,6 +158,9 @@ void VMap::addItem()
     {
         CharacterItem* itemCharar= new CharacterItem(new Character(m_currentNpcName,m_itemColor,true,m_currentNpcNumber),m_first);
         m_currentItem = itemCharar;
+        itemCharar->showNpcName(m_showNpcName);
+        itemCharar->showNpcNumber(m_showNpcNumber);
+        itemCharar->showPcName(m_showPcName);
         emit npcAdded();
         connect(this,SIGNAL(showNpcName(bool)),itemCharar,SLOT(showNpcName(bool)));
         connect(this,SIGNAL(showNpcNumber(bool)),itemCharar,SLOT(showNpcNumber(bool)));
@@ -291,7 +294,7 @@ void VMap::openFile(QDataStream& in)
 
         int numberOfItem;
         in >> numberOfItem;
-        qDebug()<< "m_itemList size" << numberOfItem <<  m_bgColor << m_width << m_height << m_title ;
+
         for(int i =0 ; i<numberOfItem;i++)
         {
             VisualItem* item;
@@ -339,9 +342,15 @@ void VMap::openFile(QDataStream& in)
 void VMap::addCharacter(Character* p, QPointF pos)
 {
     CharacterItem* item= new CharacterItem(p,pos);
-    QGraphicsScene::addItem(item);
+    item->showNpcName(m_showNpcName);
+    item->showNpcNumber(m_showNpcNumber);
+    item->showPcName(m_showPcName);
+    connect(this,SIGNAL(showNpcName(bool)),item,SLOT(showNpcName(bool)));
+    connect(this,SIGNAL(showNpcNumber(bool)),item,SLOT(showNpcNumber(bool)));
+    connect(this,SIGNAL(showPcName(bool)),item,SLOT(showPcName(bool)));
+    item->initChildPointItem();
+    addNewItem(item);
 }
-
 void VMap::setPatternSize(int p)
 {
     m_sizePattern = p;
@@ -350,6 +359,20 @@ void VMap::setPatternSize(int p)
 void VMap::setPattern(VMap::GRID_PATTERN p)
 {
     m_gridPattern = p;
+}
+void VMap::setNpcNameVisible(bool b)
+{
+    m_showNpcName = b;
+}
+
+void VMap::setPcNameVisible(bool b)
+{
+    m_showNpcName = b;
+}
+
+void VMap::setNpcNumberVisible(bool b)
+{
+    m_showNpcNumber = b;
 }
 
 void VMap::setScale(int p)
@@ -436,7 +459,6 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
             item=new TextItem();
             break;
         case VisualItem::CHARACTER:
-            /// @TODO: Reimplement that feature
             item=new CharacterItem();
             break;
         case VisualItem::LINE:
