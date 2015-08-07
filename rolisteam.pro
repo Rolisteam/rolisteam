@@ -132,7 +132,12 @@ HEADERS += \
     src/widgets/flowlayout.h \
     src/data/character.h \
     src/data/player.h \
-    src/data/person.h
+    src/data/person.h \
+    src/userlist/rolisteammimedata.h \
+    src/userlist/userlistdelegate.h \
+    src/userlist/userlistmodel.h \
+    src/userlist/userlistview.h \
+    src/userlist/userlistwidget.h
 
 
 
@@ -192,7 +197,12 @@ SOURCES += \
     src/widgets/flowlayout.cpp \
     src/data/character.cpp \
     src/data/player.cpp \
-    src/data/person.cpp
+    src/data/person.cpp \
+    src/userlist/rolisteammimedata.cpp \
+    src/userlist/userlistdelegate.cpp \
+    src/userlist/userlistmodel.cpp \
+    src/userlist/userlistview.cpp \
+    src/userlist/userlistwidget.cpp
 #end source
 
 
