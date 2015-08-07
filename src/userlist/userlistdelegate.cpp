@@ -18,11 +18,11 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "userlistdelegate.h"
-#include "userlistmodel.h"
 #include <QPainter>
 #include <QDebug>
 
 #include "playersList.h"
+#include "data/person.h"
 
 UserListDelegate::UserListDelegate(QObject *parent) :
     QStyledItemDelegate(parent)

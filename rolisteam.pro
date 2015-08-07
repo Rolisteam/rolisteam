@@ -135,9 +135,7 @@ HEADERS += \
     src/data/person.h \
     src/userlist/rolisteammimedata.h \
     src/userlist/userlistdelegate.h \
-    src/userlist/userlistmodel.h \
     src/userlist/userlistview.h \
-    src/userlist/userlistwidget.h
 
 
 
@@ -200,9 +198,8 @@ SOURCES += \
     src/data/person.cpp \
     src/userlist/rolisteammimedata.cpp \
     src/userlist/userlistdelegate.cpp \
-    src/userlist/userlistmodel.cpp \
     src/userlist/userlistview.cpp \
-    src/userlist/userlistwidget.cpp
+
 #end source
 
 
