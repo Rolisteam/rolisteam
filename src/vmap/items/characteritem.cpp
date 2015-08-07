@@ -89,78 +89,94 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
             }
         }
     }
-    painter->save();
-    painter->setPen(m_character->color());
-    painter->setBrush(QBrush(m_character->color(),Qt::SolidPattern));
-    painter->drawEllipse(m_rect);
-    painter->restore();
-
-
-
-    painter->save();
-    QPen pen = painter->pen();
-    pen.setWidth(6);
-    switch(m_character->getHeathState())
+    if(m_thumnails==NULL)
     {
-    case Character::Healthy:
-        pen.setColor(Qt::black);
-    break;
-    case Character::Lightly:
-        pen.setColor(QColor(255, 100, 100));
-    break;
-    case Character::Seriously:
-        pen.setColor(QColor(255, 0, 0));
-    break;
-    case Character::Dead:
-        pen.setColor(Qt::gray);
-    break;
-    case Character::Sleeping:
-        pen.setColor(QColor(80, 80, 255));
-    break;
-    case Character::Bewitched:
-        pen.setColor(QColor(0, 200, 0));
-    break;
+        generatedThumbnail();
     }
-    painter->setPen(pen);
-    painter->drawEllipse(m_rect.adjusted(3,3,-3,-3));
-    painter->restore();
+
+    if(m_character->hasAvatar())
+    {
+        painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
+    }
+    else
+    {
+        painter->setRenderHint(QPainter::Antialiasing,true);
+        painter->setRenderHint(QPainter::TextAntialiasing,true);
+        painter->setRenderHint(QPainter::SmoothPixmapTransform,true);
+        painter->save();
+        painter->setPen(m_character->getColor());
+        painter->setBrush(QBrush(m_character->getColor(),Qt::SolidPattern));
+        painter->drawEllipse(m_rect);
+        painter->restore();
+
+
+
+        painter->save();
+        QPen pen = painter->pen();
+        pen.setWidth(6);
+        switch(m_character->getHeathState())
+        {
+        case Character::Healthy:
+            pen.setColor(Qt::black);
+        break;
+        case Character::Lightly:
+            pen.setColor(QColor(255, 100, 100));
+        break;
+        case Character::Seriously:
+            pen.setColor(QColor(255, 0, 0));
+        break;
+        case Character::Dead:
+            pen.setColor(Qt::gray);
+        break;
+        case Character::Sleeping:
+            pen.setColor(QColor(80, 80, 255));
+        break;
+        case Character::Bewitched:
+            pen.setColor(QColor(0, 200, 0));
+        break;
+        }
+        painter->setPen(pen);
+        painter->drawEllipse(m_rect.adjusted(3,3,-3,-3));
+        painter->restore();
+    }
 
     QString toShow;
+    //qDebug() << "isNpc" << m_character->isNpc() << "m_showNpcName " << m_showNpcName << "showNpcNumber" << m_showNpcNumber << "showPCName"<< m_showPcName << m_character->getName();
     if(m_character->isNpc())
     {
         if(m_showNpcName)
         {
-            toShow = m_character->name();
+            toShow = m_character->getName();
         }
         if(m_showNpcNumber)
         {
-            toShow = m_character->name();
+            toShow = m_character->getName();
         }
         if(m_showNpcName && m_showNpcNumber)
         {
-            toShow = QString("%1 - %2").arg(m_character->name()).arg(m_character->number());
+            toShow = QString("%1 - %2").arg(m_character->getName()).arg(m_character->number());
         }
     }
     else if(m_showPcName)
     {
-        toShow = m_character->name();
+        toShow = m_character->getName();
     }
     QRectF rectText;
     QFontMetrics metric(painter->font());
     rectText.setRect(m_rect.left(),m_rect.bottom(),m_rect.width(),metric.height());
 
     painter->save();
-    painter->setPen(m_character->color());
+    painter->setPen(m_character->getColor());
     painter->drawText(rectText,Qt::AlignCenter,toShow);
     painter->restore();
 
-    //painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
+    painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
 }
 void CharacterItem::sizeChanged(int m_size)
 {
     m_diameter=m_size;
     m_rect.setRect(m_center.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter);
-    //generatedThumbnail();
+    generatedThumbnail();
 }
 void CharacterItem::generatedThumbnail()
 {
@@ -173,7 +189,7 @@ void CharacterItem::generatedThumbnail()
     m_thumnails->fill(Qt::transparent);
     QPainter painter(m_thumnails);
     QBrush brush;
-    /*if(m_character->getAvatar().isNull())
+    if(m_character->getAvatar().isNull())
     {
         painter.setPen(m_character->getColor());
         brush.setColor(m_character->getColor());
@@ -183,7 +199,7 @@ void CharacterItem::generatedThumbnail()
     {
         QImage img =m_character->getAvatar();
         brush.setTextureImage(img.scaled(m_diameter,m_diameter));
-    }*/
+    }
     
     painter.setBrush(brush);
     painter.drawRoundedRect(0,0,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
