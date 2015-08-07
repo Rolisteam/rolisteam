@@ -41,20 +41,20 @@ class PlayersListWidgetModel : public PlayersListProxyModel
 {
     Q_OBJECT
 
-    public:
-        PlayersListWidgetModel(QObject * parent = 0);
+public:
+    PlayersListWidgetModel(QObject * parent = 0);
 
-        Qt::ItemFlags flags(const QModelIndex &index) const;
-        QVariant data(const QModelIndex &index, int role) const;
-        bool setData(const QModelIndex &index, const QVariant &value, int role);
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
 
-    public slots:
-        void changeMap(Map * map);
+public slots:
+    void changeMap(Map * map);
 
-    private:
-       Map * m_map;
+private:
+   Map * m_map;
 
-       bool isCheckable(const QModelIndex &index) const;
+   bool isCheckable(const QModelIndex &index) const;
 };
 
 /**
@@ -65,12 +65,16 @@ class PlayersListView : public QTreeView
 {
     Q_OBJECT
 
-    public:
-        PlayersListView(QWidget * parent = NULL);
-        ~PlayersListView();
+public:
+    PlayersListView(QWidget * parent = NULL);
+    ~PlayersListView();
 
-    protected:
-        void mouseDoubleClickEvent(QMouseEvent * event);
+protected:
+    void mouseDoubleClickEvent(QMouseEvent * event);
+    void contextMenuEvent(QContextMenuEvent* event);
+private:
+    QAction* m_avatarAct;
+
 };
 /**
  * @brief The PlayersListWidget class is the QDockWidget which display the PlayersListView. It is part of the MVC pattern as the Controler.

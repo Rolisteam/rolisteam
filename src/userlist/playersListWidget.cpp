@@ -22,8 +22,12 @@
 
 
 #include <QVBoxLayout>
+#include <QMenu>
+
 
 #include "playersListWidget.h"
+#include "userlistview.h"
+#include "userlistdelegate.h"
 
 #include "map/map.h"
 #include "delegate.h"
@@ -172,6 +176,8 @@ PlayersListView::PlayersListView(QWidget * parent)
 {
     static Delegate delegate;
     setItemDelegate(&delegate);
+
+    m_avatarAct = new QAction(tr("Set avatar"),this);
 }
 
 PlayersListView::~PlayersListView()
@@ -202,7 +208,15 @@ void PlayersListView::mouseDoubleClickEvent(QMouseEvent * event)
 
     QTreeView::mouseDoubleClickEvent(event);
 }
+void PlayersListView::contextMenuEvent(QContextMenuEvent* event)
+{
+    QMenu menu(this);
 
+    menu.addAction(m_avatarAct);
+
+
+    menu.exec(event->globalPos());
+}
 
 /********************
  * PlayerListWidget *
@@ -238,7 +252,7 @@ void PlayersListWidget::editIndex(const QModelIndex & index)
     if (!g_playersList->isLocal(person))
         return;
 
-    if (m_personDialog->edit(tr("Edit"), person->name(), person->color()) == QDialog::Accepted)
+    if (m_personDialog->edit(tr("Edit"), person->getName(), person->getColor()) == QDialog::Accepted)
     {
         g_playersList->changeLocalPerson(person, m_personDialog->getName(), m_personDialog->getColor());
     }
@@ -249,7 +263,7 @@ void PlayersListWidget::createLocalCharacter()
     PlayersList* g_playersList = PlayersList::instance();
     Player * localPlayer = g_playersList->localPlayer();
 
-    if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->color()) == QDialog::Accepted)
+    if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->getColor()) == QDialog::Accepted)
     {
         g_playersList->addLocalCharacter(new Character(m_personDialog->getName(), m_personDialog->getColor()));
     }
@@ -282,12 +296,12 @@ void PlayersListWidget::setUI()
     QWidget * centralWidget = new QWidget(this);
 
     // PlayersListView
-    QTreeView * playersListView  = new PlayersListView(centralWidget);
+    QTreeView * playersListView  = new UserListView();//= new PlayersListView(centralWidget);
     m_model = new PlayersListWidgetModel;
     playersListView->setModel(m_model);
     m_selectionModel = playersListView->selectionModel();
     playersListView->setHeaderHidden(true);
-    playersListView->setIconSize(QSize(28,20));
+  //  playersListView->setIconSize(QSize(64,64));
 
     // Add PJ button
     Player* tmp = PlayersList::instance()->localPlayer();
