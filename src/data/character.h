@@ -33,6 +33,7 @@ class Character : public QObject,public Person
     Q_OBJECT
 public:
     enum HeathState {Healthy,Lightly,Seriously,Dead,Sleeping,Bewitched};
+    Character();
     /**
      * @brief construtor
      */
@@ -80,6 +81,15 @@ public:
      */
     Character::HeathState getHeathState() const;
 
+    /**
+    * @brief serialisation function to write data
+    */
+    virtual void writeData(QDataStream& out) const;
+    /**
+    * @brief serialisation function to read data.
+    */
+    virtual void readData(QDataStream& in);
+
 public slots:
     /**
      * @brief setHeathState
@@ -89,7 +99,6 @@ signals:
     void avatarChanged();
 private:
     Person* m_parent;
-    QPixmap* m_avatar;
     bool m_isNpc;
     int m_number;
     HeathState m_health;
