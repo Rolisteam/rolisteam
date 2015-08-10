@@ -71,7 +71,7 @@ public :
     /**
       * @brief tools id
       */
-    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
+    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER,RULE};
 
     /**
       * @brief accessor to the current tool
@@ -130,19 +130,20 @@ private:
     QActionGroup *m_toolsGroup;/// group all tools and manage which one is the current one
     SelectableTool m_currentTool; /// current tool
 
-    QAction *m_pencilAct;
-    QAction *m_lineAct;
-    QAction *m_rectAct;
-    QAction *m_rectFillAct;
-    QAction *m_elipseAct;
-    QAction *m_elipseFillAct;
-    QAction *m_textAct;
-    QAction *m_handAct;
-    QAction *m_addPCAct;
-    QAction *m_delNPCAct;
-    QAction *m_movePCAct;
-    QAction *m_pcStateAct;
-    QAction *m_resetCountAct;
+    QAction* m_pencilAct;
+    QAction* m_lineAct;
+    QAction* m_rectAct;
+    QAction* m_rectFillAct;
+    QAction* m_elipseAct;
+    QAction* m_elipseFillAct;
+    QAction* m_textAct;
+    QAction* m_handAct;
+    QAction* m_addPCAct;
+    QAction* m_delNPCAct;
+    QAction* m_movePCAct;
+    QAction* m_pcStateAct;
+    QAction* m_resetCountAct;
+    QAction* m_ruleAct;
     
     /*   QAction* m_eraseAction;
     QAction* m_hideAction;
