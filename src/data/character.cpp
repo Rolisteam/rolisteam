@@ -20,11 +20,18 @@
 #include <QColor>
 #include <QUuid>
 #include <QDebug>
+#include <QPixmap>
+#include <QBuffer>
 
 #include "character.h"
 #include "data/player.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+
+Character::Character()
+{
+
+}
 
 Character::Character(const QString & nom, const QColor & color,bool npc,int number)
     : Person(nom, color), m_parent(NULL),m_isNpc(npc),m_number(number),m_health(Healthy)
@@ -42,9 +49,18 @@ Character::Character(NetworkMessageReader & data)
     m_uuid = data.string8();
     m_name = data.string16();
     m_health = (Character::HeathState)data.int8();
-    m_isNpc = (bool)data.int8();
+    m_isNpc = (bool)data.uint8();
     m_number = data.int32();
     m_color = QColor(data.rgb());
+
+    bool hasAvatar = (bool) data.uint8();
+
+    if(hasAvatar)
+    {
+        m_avatar = QImage::fromData(data.byteArray32());
+    }
+
+
 }
 
 void Character::fill(NetworkMessageWriter & message)
@@ -53,9 +69,21 @@ void Character::fill(NetworkMessageWriter & message)
     message.string8(m_uuid);
     message.string16(m_name);
     message.int8((int)m_health);
-    message.int8((int)m_isNpc);
+    message.uint8((int)m_isNpc);
     message.int32(m_number);
     message.rgb(m_color);
+    message.uint8((bool)!m_avatar.isNull());
+    if(!m_avatar.isNull())
+    {
+        QByteArray baImage;
+        QBuffer bufImage(&baImage);
+        if (m_avatar.save(&bufImage, "PNG", 70))
+        {
+            qDebug() << "png size:" << bufImage.size();
+        }
+        message.byteArray32(baImage);
+    }
+
 }
 
 Person* Character::parent() const
@@ -65,11 +93,6 @@ Person* Character::parent() const
 
 void Character::setParent(Person * parent)
 {
-    // We can't move a character from a Player to another one.
-    // If that happens, it's a fatal error.
-    if (m_parent != NULL)
-        qFatal("Illegal call of Character::setParent(Player *) : m_parent is not NULL.");
-
     m_parent = parent;
 }
 int Character::number() const
@@ -88,4 +111,26 @@ void  Character::setHeathState(Character::HeathState h)
 Character::HeathState  Character::getHeathState() const
 {
     return m_health;
+}
+void Character::writeData(QDataStream& out) const
+{
+    out << m_uuid;
+    out << m_name;
+    out << (int)m_health;
+    out << m_isNpc;
+    out << m_number;
+    out << m_color;
+    out << m_avatar;
+}
+void Character::readData(QDataStream& in)
+{
+    in >> m_uuid;
+    in >> m_name;
+    int value;
+    in >> value;
+    m_health=(Character::HeathState) value;
+    in >> m_isNpc;
+    in >> m_number;
+    in >> m_color;
+    in >> m_avatar;
 }
