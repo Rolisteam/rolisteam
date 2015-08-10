@@ -38,7 +38,7 @@ class VMap : public QGraphicsScene
 public:
 
     enum GRID_PATTERN{NONE,SQUARE,HEXAGON,OCTOGON};
-    enum SCALE_UNIT{CM,M,INCH,FEET,PX};
+    enum SCALE_UNIT{M,KM,CM,MILE,YARD,INCH,FEET,PX};
     /**
     * @brief default constructor
     */
@@ -67,7 +67,7 @@ public:
     /**
     * @brief defines the background color
     */
-    void setBackGroundColor(QColor& bgcolor);
+    void setBackGroundColor(QColor bgcolor);
     /**
     * @brief  unused ?
     * @todo check the relevance of this function
@@ -149,6 +149,21 @@ public:
 	 * @brief setLocalIsGM
 	 */
 	void setLocalIsGM(bool);
+
+    /**
+     * @brief fill
+     * @param msg
+     */
+    void fill(NetworkMessageWriter& msg);
+
+    VMap::GRID_PATTERN getGrid() const;
+    int getPatternSize()const;
+    QColor getGridColor()const;
+    int getScaleValue()const;
+    int getPatternUnit()const;
+    QColor getBackGroundColor()const;
+    QString getTitle() const;
+
 public slots:
     /**
     * @brief defines the current tools
@@ -305,14 +320,17 @@ private:
     * @brief Pattern Of grid, pattern must be square shaped.
     */
     VMap::GRID_PATTERN m_gridPattern;
+    /**
+     * @brief m_computedPattern
+     */
     QImage m_computedPattern;
     /**
     * @brief size of the pattern edge.
     */
     int m_sizePattern;
     /**
-    * @brief scale of on Pattern edge.
-    */
+     * @brief m_patternScale
+     */
     int m_patternScale;
     /**
     * @brief unit of Pattern scale.

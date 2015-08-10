@@ -14,6 +14,7 @@
 #include "items/lineitem.h"
 #include "items/textitem.h"
 #include "items/characteritem.h"
+#include "items/ruleitem.h"
 
 
 #include "network/networkmessagewriter.h"
@@ -61,7 +62,7 @@ void VMap::setTitle(QString title)
     m_title = title;
 }
 
-void VMap::setBackGroundColor(QColor& bgcolor)
+void VMap::setBackGroundColor(QColor bgcolor)
 {
     m_bgColor = bgcolor;
 }
@@ -101,6 +102,7 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     {*/
 
         m_end = mouseEvent->scenePos ();
+        m_currentItem->setModifiers(mouseEvent->modifiers());
         m_currentItem->setNewEnd( m_end);
         update();
         // }
@@ -176,6 +178,12 @@ void VMap::addItem()
     case VToolsBar::STATECHARACTER:
 
         break;
+    case VToolsBar::RULE:
+        RuleItem* itemRule = new RuleItem(m_first);
+        itemRule->setUnit(m_patternUnit);
+        itemRule->setPixelToUnit(m_sizePattern/m_patternScale);
+        m_currentItem = itemRule;
+        break;
     }
     addNewItem(m_currentItem);
 }
@@ -186,6 +194,14 @@ void VMap::setPenSize(int p)
 void VMap::setPatternColor(QColor c)
 {
     m_gridColor = c;
+}
+void VMap::fill(NetworkMessageWriter& msg)
+{
+    msg.string16(mapTitle());
+    msg.string8(getId());
+    msg.rgb(mapColor());
+    msg.uint16(mapWidth());
+    msg.uint16(mapHeight());
 }
 
 void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
@@ -208,6 +224,12 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     Q_UNUSED(mouseEvent);
     if(m_currentItem!=NULL)
     {
+        if(m_currentItem->getType() == VisualItem::RULE )
+        {
+            removeItem(m_currentItem);
+            m_currentItem = NULL;
+            return;
+        }
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
         msg.string8(m_id);
         msg.uint8(m_currentItem->getType());
@@ -312,7 +334,7 @@ void VMap::openFile(QDataStream& in)
                 break;
             case VisualItem::CHARACTER:
                 /// @TODO: Reimplement that feature
-                // item=new CharacterItem();
+                item=new CharacterItem();
 
                 break;
             case VisualItem::LINE:
@@ -351,11 +373,23 @@ void VMap::addCharacter(Character* p, QPointF pos)
     item->initChildPointItem();
     addNewItem(item);
 }
+
 void VMap::setPatternSize(int p)
 {
     m_sizePattern = p;
 }
-
+int VMap::getPatternSize() const
+{
+    return m_sizePattern;
+}
+QColor VMap::getGridColor()const
+{
+    return m_gridColor;
+}
+VMap::GRID_PATTERN VMap::getGrid() const
+{
+    return m_gridPattern;
+}
 void VMap::setPattern(VMap::GRID_PATTERN p)
 {
     m_gridPattern = p;
@@ -374,10 +408,26 @@ void VMap::setNpcNumberVisible(bool b)
 {
     m_showNpcNumber = b;
 }
+QColor VMap::getBackGroundColor() const
+{
+    return m_bgColor;
+}
 
 void VMap::setScale(int p)
 {
     m_patternScale = p;
+}
+int VMap::getPatternUnit()const
+{
+    return (int)m_patternUnit;
+}
+int VMap::getScaleValue()const
+{
+    return m_patternScale;
+}
+QString VMap::getTitle() const
+{
+    return m_title;
 }
 void VMap::computePattern()
 {
@@ -385,7 +435,6 @@ void VMap::computePattern()
     if(m_gridPattern == VMap::NONE)
     {
         setBackgroundBrush(m_bgColor);
-
     }
     else
     {
@@ -411,19 +460,23 @@ void VMap::computePattern()
         }
         else if(m_gridPattern == VMap::SQUARE)
         {
-            m_computedPattern = QImage(m_sizePattern,m_sizePattern,QImage::Format_RGBA8888_Premultiplied);
+            m_computedPattern = QImage(m_sizePattern,m_sizePattern,QImage::Format_RGB32);
             m_computedPattern.fill(m_bgColor);
-            QPointF A(1,1);
-            QPointF B(1,m_sizePattern-1);
+            QPointF A(0,0);
+            QPointF B(0,m_sizePattern-1);
             QPointF C(m_sizePattern-1,m_sizePattern-1);
             polygon << A << B << C;
         }
         QPainter painter(&m_computedPattern);
-        painter.setRenderHint(QPainter::Antialiasing,true);
-        painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
-        painter.setPen(m_gridColor);
+        //painter.setRenderHint(QPainter::Antialiasing,true);
+        //painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
+        QPen pen;
+        pen.setColor(m_gridColor);
+        pen.setWidth(1);
+        painter.setPen(pen);
         painter.drawPolyline(polygon);
         painter.end();
+        m_computedPattern.save("/tmp/pattern.png","PNG");
         setBackgroundBrush(QPixmap::fromImage(m_computedPattern));
     }
 
@@ -438,6 +491,9 @@ void VMap::setScaleUnit(int p)
     case CM:
     case INCH:
     case M:
+    case KM:
+    case YARD:
+    case MILE:
         m_patternUnit = (VMap::SCALE_UNIT)p;
         break;
     default:
@@ -498,6 +554,7 @@ void VMap::addNewItem(VisualItem* item)
     if(NULL!=item)
     {
         item->setMapId(m_id);
+        setFocusItem(item);
         connect(item,SIGNAL(itemGeometryChanged(VisualItem*)),this,SLOT(sendItemToAll(VisualItem*)));
         connect(item,SIGNAL(itemRemoved(QString)),this,SLOT(removeItemFromScene(QString)));
         QGraphicsScene::addItem(item);
