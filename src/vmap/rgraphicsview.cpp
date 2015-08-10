@@ -27,15 +27,21 @@
 #include "rgraphicsview.h"
 #include "userlist/rolisteammimedata.h"
 
+#include "network/networkmessagewriter.h"
+
 RGraphicsView::RGraphicsView(VMap *vmap)
     : QGraphicsView(vmap),m_vmap(vmap)
 {
+    m_counterZoom = 0;
+
     setAcceptDrops(true);
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     setViewport(new QOpenGLWidget());
     fitInView(sceneRect(),Qt::KeepAspectRatio);
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
     setRubberBandSelectionMode(Qt::IntersectsItemShape);
+
+    createAction();
 }
 void RGraphicsView::keyPressEvent ( QKeyEvent * event)
 {
@@ -61,6 +67,78 @@ void RGraphicsView::focusInEvent ( QFocusEvent * event )
 {
     QGraphicsView::focusInEvent (event);
 }
+void RGraphicsView::wheelEvent(QWheelEvent *event)
+{
+    if(event->modifiers() & Qt::ControlModifier)
+    {
+        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+        // Scale the view / do the zoom
+        double scaleFactor = 1.1;
+
+        if((event->delta() > 0)&&(m_counterZoom<20))
+        {
+            scale(scaleFactor, scaleFactor);
+            ++m_counterZoom;
+        }
+        else if(m_counterZoom>-20)
+        {
+            --m_counterZoom;
+            scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+        }
+        ;
+    }
+    else
+        QGraphicsView::wheelEvent(event);
+}
+void RGraphicsView::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu menu;
+
+    menu.addAction(m_zoomInMax);
+    menu.addAction(m_zoomNormal);
+    menu.addAction(m_zoomOutMax);
+    menu.addSeparator();
+    menu.addAction(m_properties);
+
+
+    menu.exec(event->globalPos());
+}
+void RGraphicsView::createAction()
+{
+    //ZOOM MANAGEMENT
+    m_zoomNormal= new QAction(tr("Zoom to Normal"),this);
+    m_zoomInMax= new QAction(tr("Zoom In Max"),this);
+    m_zoomOutMax = new QAction(tr("Zoom Out Max"),this);
+
+    connect(m_zoomNormal,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
+    connect(m_zoomInMax,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
+    connect(m_zoomOutMax,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
+
+    addAction(m_zoomNormal);
+    addAction(m_zoomInMax);
+    addAction(m_zoomOutMax);
+
+    //PROPERTIES
+    m_properties = new QAction(tr("Properties"),this);
+    connect(m_properties,SIGNAL(triggered()),this,SLOT(showMapProperties()));
+
+}
+void RGraphicsView::showMapProperties()
+{
+    MapWizzardDialog m_propertiesDialog;
+
+    m_propertiesDialog.updateDataFrom(m_vmap);
+    if(m_propertiesDialog.exec())
+    {
+        m_propertiesDialog.setAllMap(m_vmap);
+
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::vmapChanges);
+        m_vmap->fill(msg);
+        msg.sendAll();
+    }
+
+}
+
 void RGraphicsView::dragEnterEvent ( QDragEnterEvent * event )
 {
     const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
@@ -73,6 +151,51 @@ void RGraphicsView::dragEnterEvent ( QDragEnterEvent * event )
     }
     
 }
+
+void RGraphicsView::setZoomFactor()
+{
+    QAction* senderAct = qobject_cast<QAction*>(sender());
+    int destination = 0;
+    int step = 0;
+    if(senderAct == m_zoomInMax)
+    {
+        destination = 20;
+        step = 1;
+    }
+    else if(senderAct == m_zoomNormal)
+    {
+        destination = 0;
+        if(m_counterZoom > 0)
+        {
+            step = -1;
+        }
+        else
+        {
+            step = 1;
+        }
+    }
+    else if(senderAct == m_zoomOutMax)
+    {
+        destination = -20;
+        step = -1;
+    }
+    double scaleFactor = 1.1;
+    double realFactor = 1.0;
+    while( destination != m_counterZoom)
+    {
+        if(step>0)
+        {
+            realFactor = realFactor*scaleFactor;
+        }
+        else
+        {
+            realFactor = realFactor * (1.0 / scaleFactor);
+        }
+        m_counterZoom += step;
+    }
+    scale(realFactor,realFactor);
+}
+
 void RGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
     event->acceptProposedAction();

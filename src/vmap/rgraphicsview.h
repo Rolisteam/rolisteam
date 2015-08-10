@@ -22,18 +22,20 @@
 
 #include <QGraphicsView>
 #include "vmap.h"
+#include "vmapwizzarddialog.h"
+
 /**
     * @brief RGraphicsView is custom graphicsview to fit rolisteam needs. It will implement some important feature
     */
 class RGraphicsView : public QGraphicsView
 {
+    Q_OBJECT
 public:
     /**
     * @brief constructor with parameters
     * @param Map address which it will be displayed by the graphicsview
     */
     RGraphicsView(VMap* vmap);
-    
     
     
 protected:
@@ -43,8 +45,26 @@ protected:
     void dragEnterEvent ( QDragEnterEvent * event );
     void dropEvent ( QDropEvent * event );
     void dragMoveEvent( QDragMoveEvent * event );
+    void wheelEvent(QWheelEvent *event);
+    void contextMenuEvent(QContextMenuEvent *event);
+
+    void createAction();
+
+private slots:
+    void setZoomFactor();
+    void showMapProperties();
+
+
 private:
     VMap* m_vmap;
+
+    int m_counterZoom;
+
+    QAction* m_zoomNormal;
+    QAction* m_zoomInMax;
+    QAction* m_zoomOutMax;
+    QAction* m_properties;
+
     
 };
 
