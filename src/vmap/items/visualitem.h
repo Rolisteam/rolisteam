@@ -36,7 +36,7 @@ class VisualItem : public QGraphicsObject
 {
         Q_OBJECT
 public:
-    enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT};
+    enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE};
     VisualItem();
 	VisualItem(QColor& penColor,bool b,QGraphicsItem * parent = 0);
     
@@ -126,6 +126,11 @@ public:
     virtual void addActionContextMenu(QMenu*);
 
     bool hasFocusOrChild();
+    /**
+     * @brief setModifiers - default implementatino do nothing.
+     * @param modifiers
+     */
+    virtual void setModifiers(Qt::KeyboardModifiers modifiers);
 
 	friend QDataStream& operator<<(QDataStream& os,const VisualItem&);
     friend QDataStream& operator>>(QDataStream& is,VisualItem&);
