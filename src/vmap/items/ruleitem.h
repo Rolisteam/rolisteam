@@ -21,12 +21,105 @@
 #ifndef RULEITEM_H
 #define RULEITEM_H
 
+#include "visualitem.h"
 
+#include "vmap/vmap.h"
+
+#include <QPen>
+/**
+ * @brief The RuleItem class ephemeral item to display rule and measure the distance between two points.
+ */
 class RuleItem : public VisualItem
 {
 public:
     RuleItem();
+    RuleItem(QPointF& p);
+
     ~RuleItem();
+
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+
+    /**
+    * @brief gives bounding rect of the line
+    */
+    virtual QRectF boundingRect() const ;
+
+    /**
+    * @brief defines new position of the end line.
+    */
+    virtual void setNewEnd(QPointF& nend);
+    /**
+    * @brief serialisation writing
+    */
+    virtual void writeData(QDataStream& out) const;
+    /**
+    * @brief serialisation reading
+    */
+    virtual void readData(QDataStream& in);
+
+    /**
+     * @brief getType
+     * @return
+     */
+    virtual VisualItem::ItemType getType();
+    /**
+     * @brief fillMessage
+     * @param msg
+     */
+    virtual void fillMessage(NetworkMessageWriter* msg);
+    /**
+     * @brief readItem
+     * @param msg
+     */
+    virtual void readItem(NetworkMessageReader* msg);
+    /**
+     * @brief setGeometryPoint
+     * @param pointId
+     * @param pos
+     */
+    virtual void setGeometryPoint(qreal pointId, QPointF &pos);
+    /**
+     * @brief initChildPointItem
+     */
+    virtual void initChildPointItem();
+    /**
+     * @brief setUnit
+     * @param unit
+     */
+    void setUnit(VMap::SCALE_UNIT unit);
+
+
+    void setPixelToUnit(qreal pixels);
+
+    virtual  void setModifiers(Qt::KeyboardModifiers mod);
+
+protected:
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+
+private:
+    /**
+    * @brief bounding rect copy (no need to compute it each time
+    */
+    QRectF m_rect;
+    /**
+    * @brief starting point, does not move except when the whole line is moved.
+    */
+    QPointF m_startPoint;
+    /**
+    * @brief ending point, should moved
+    */
+    QPointF m_endPoint;
+    /**
+    * @brief pen
+    */
+    QPen m_pen;
+
+    qreal m_pixelToUnit; //how many pixels make one unit ?
+
+    QString m_unitText;
+    Qt::KeyboardModifiers m_mod;
+
+
 };
 
 #endif // RULEITEM_H

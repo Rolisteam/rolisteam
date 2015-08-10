@@ -5,7 +5,8 @@ HEADERS += $$PWD/visualitem.h \
     $$PWD/characteritem.h \
     $$PWD/lineitem.h \
     $$PWD/textitem.h \
-    $$PWD/childpointitem.h
+    $$PWD/childpointitem.h \
+    $$PWD/ruleitem.h
 SOURCES += $$PWD/visualitem.cpp \
     $$PWD/rectitem.cpp \
     $$PWD/ellipsitem.cpp \
@@ -13,4 +14,5 @@ SOURCES += $$PWD/visualitem.cpp \
     $$PWD/characteritem.cpp \
     $$PWD/lineitem.cpp \
     $$PWD/textitem.cpp \
-    $$PWD/childpointitem.cpp
+    $$PWD/childpointitem.cpp \
+    $$PWD/ruleitem.cpp
