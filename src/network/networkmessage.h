@@ -135,6 +135,7 @@ enum Action {
 
     //Vmap
     addVmap = 0,
+    vmapChanges,
     loadVmap,
     closeVmap,
     addItem,
