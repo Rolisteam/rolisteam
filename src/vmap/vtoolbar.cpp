@@ -91,6 +91,7 @@ void VToolsBar::creerActions()
     m_delNPCAct             = new QAction(QIcon(":/resources/icons/remove.png"), tr("Remove NPC"), m_toolsGroup);
     m_movePCAct             = new QAction(QIcon(":/resources/icons/moveNpc.png"), tr("Move/Turn Character"), m_toolsGroup);
     m_pcStateAct            = new QAction(QIcon(":/resources/icons/state.png"), tr("Change Character's State"), m_toolsGroup);
+    m_ruleAct               = new QAction(QIcon(":/resources/icons/rule.png"),tr("Rule"),m_toolsGroup);
     
     
     m_resetCountAct	= new QAction(QIcon(":/resources/icons/chronometre.png"), tr("Reset NPC counter"), this);
@@ -107,24 +108,26 @@ void VToolsBar::creerActions()
     m_delNPCAct->setCheckable(true);
     m_movePCAct->setCheckable(true);
     m_pcStateAct->setCheckable(true);
+    m_ruleAct->setCheckable(true);
     
     m_handAct->setChecked(true);
 }
 void VToolsBar::creerOutils()
 {
-    QToolButton *boutonCrayon     = new QToolButton();
-    QToolButton *boutonLigne      = new QToolButton();
-    QToolButton *boutonRectVide   = new QToolButton();
-    QToolButton *boutonRectPlein  = new QToolButton();
-    QToolButton *boutonElliVide   = new QToolButton();
-    QToolButton *boutonElliPlein  = new QToolButton();
-    QToolButton *boutonTexte      = new QToolButton();
-    QToolButton *boutonMain       = new QToolButton();
-    QToolButton *boutonAjoutPnj   = new QToolButton();
-    QToolButton *boutonSupprPnj   = new QToolButton();
-    QToolButton *boutonDeplacePnj = new QToolButton();
-    QToolButton *boutonEtatPnj    = new QToolButton();
-    QToolButton *boutonRazChrono  = new QToolButton();
+    QToolButton* boutonCrayon     = new QToolButton();
+    QToolButton* boutonLigne      = new QToolButton();
+    QToolButton* boutonRectVide   = new QToolButton();
+    QToolButton* boutonRectPlein  = new QToolButton();
+    QToolButton* boutonElliVide   = new QToolButton();
+    QToolButton* boutonElliPlein  = new QToolButton();
+    QToolButton* boutonTexte      = new QToolButton();
+    QToolButton* boutonMain       = new QToolButton();
+    QToolButton* boutonAjoutPnj   = new QToolButton();
+    QToolButton* boutonSupprPnj   = new QToolButton();
+    QToolButton* boutonDeplacePnj = new QToolButton();
+    QToolButton* boutonEtatPnj    = new QToolButton();
+    QToolButton* boutonRazChrono  = new QToolButton();
+    QToolButton* ruleButton  = new QToolButton();
     
     boutonCrayon->setDefaultAction(m_pencilAct);
     boutonLigne      ->setDefaultAction(m_lineAct);
@@ -139,6 +142,7 @@ void VToolsBar::creerOutils()
     boutonDeplacePnj ->setDefaultAction(m_movePCAct);
     boutonEtatPnj    ->setDefaultAction(m_pcStateAct);
     boutonRazChrono  ->setDefaultAction(m_resetCountAct);
+    ruleButton->setDefaultAction(m_ruleAct);
     
     boutonCrayon     ->setAutoRaise(true);
     boutonLigne      ->setAutoRaise(true);
@@ -153,25 +157,27 @@ void VToolsBar::creerOutils()
     boutonDeplacePnj ->setAutoRaise(true);
     boutonEtatPnj    ->setAutoRaise(true);
     boutonRazChrono  ->setAutoRaise(true);
+    ruleButton->setAutoRaise(true);
     /**
     *
     * @todo used preferencemanager to get icon Size.
     *
     */
-    QSize tailleIcones(20,20);
-    boutonCrayon     ->setIconSize(tailleIcones);
-    boutonLigne      ->setIconSize(tailleIcones);
-    boutonRectVide   ->setIconSize(tailleIcones);
-    boutonRectPlein  ->setIconSize(tailleIcones);
-    boutonElliVide   ->setIconSize(tailleIcones);
-    boutonElliPlein  ->setIconSize(tailleIcones);
-    boutonTexte      ->setIconSize(tailleIcones);
-    boutonMain       ->setIconSize(tailleIcones);
-    boutonAjoutPnj   ->setIconSize(tailleIcones);
-    boutonSupprPnj   ->setIconSize(tailleIcones);
-    boutonDeplacePnj ->setIconSize(tailleIcones);
-    boutonEtatPnj    ->setIconSize(tailleIcones);
-    boutonRazChrono  ->setIconSize(tailleIcones);
+    QSize iconSize(20,20);
+    boutonCrayon     ->setIconSize(iconSize);
+    boutonLigne      ->setIconSize(iconSize);
+    boutonRectVide   ->setIconSize(iconSize);
+    boutonRectPlein  ->setIconSize(iconSize);
+    boutonElliVide   ->setIconSize(iconSize);
+    boutonElliPlein  ->setIconSize(iconSize);
+    boutonTexte      ->setIconSize(iconSize);
+    boutonMain       ->setIconSize(iconSize);
+    boutonAjoutPnj   ->setIconSize(iconSize);
+    boutonSupprPnj   ->setIconSize(iconSize);
+    boutonDeplacePnj ->setIconSize(iconSize);
+    boutonEtatPnj    ->setIconSize(iconSize);
+    boutonRazChrono  ->setIconSize(iconSize);
+    ruleButton->setIconSize(iconSize);
     
     
     QVBoxLayout* outilsLayout = new QVBoxLayout();
@@ -187,6 +193,7 @@ void VToolsBar::creerOutils()
     toolsLayout->addWidget(boutonElliPlein);
     toolsLayout->addWidget(boutonTexte);
     toolsLayout->addWidget(boutonMain);
+    toolsLayout->addWidget(ruleButton);
 
     
     m_npcNameTextEdit = new QLineEdit();
@@ -314,6 +321,9 @@ void VToolsBar::currentActionChanged(QAction* p)
     
     if(p ==  m_pcStateAct)
         m_currentTool = STATECHARACTER;
+
+    if(p == m_ruleAct)
+        m_currentTool = RULE;
     
     emit currentToolChanged(m_currentTool);
 }
