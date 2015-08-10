@@ -52,8 +52,6 @@
 #include "vmap/vmap.h"
 #include "vmap/vmapframe.h"
 
-#include "userlist/userlistwidget.h"
-
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
 #endif
