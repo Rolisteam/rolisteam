@@ -210,6 +210,13 @@ void VisualItem::endOfGeometryChange()
     emit itemGeometryChanged(this);
 }
 
+void VisualItem::setModifiers(Qt::KeyboardModifiers modifiers)
+{
+    return;
+}
+
+
+
 //friend functions
 QDataStream& operator<<(QDataStream& os,const VisualItem& c)
 {
