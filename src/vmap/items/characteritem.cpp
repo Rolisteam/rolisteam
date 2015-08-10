@@ -47,12 +47,32 @@ CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
 
 void CharacterItem::writeData(QDataStream& out) const
 {
-    
+    out << m_center;
+    out << m_diameter;
+    out << *m_thumnails;
+    out << m_rect;
+    out << m_showNpcName;
+    out << m_showNpcNumber;
+    out << m_showPcName;
+    if(NULL!=m_character)
+    {
+        m_character->writeData(out);
+    }
 }
 
 void CharacterItem::readData(QDataStream& in)
 {
-    
+    in >> m_center;
+    in >> m_diameter;
+    m_thumnails = new QPixmap();
+    in >> *m_thumnails;
+    in >> m_rect;
+    in >> m_showNpcName;
+    in >> m_showNpcNumber;
+    in >> m_showPcName;
+    m_character = new Character();
+    m_character->readData(in);
+
 }
 VisualItem::ItemType CharacterItem::getType()
 {
@@ -170,7 +190,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
     painter->drawText(rectText,Qt::AlignCenter,toShow);
     painter->restore();
 
-    painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
+
 }
 void CharacterItem::sizeChanged(int m_size)
 {
