@@ -48,7 +48,11 @@ public:
     */
     ~MapWizzardDialog();
     
-    
+    /**
+     * @brief updateDataFrom
+     * @param map
+     */
+    void updateDataFrom(VMap* map);
     /**
     * @brief Define all paramaters of the map.
     * @param map must be fully defined.
@@ -67,11 +71,7 @@ private slots:
     * @brief slot called when user changed the shape of the future map.
     */
     void selectedShapeChanged();
-    /**
-    * @brief slot called when user click on the color button, start a colorselector dialog.
-    */
-    void clickOnColorButton();
-    
+
 private:
     /**
     * @brief pointer to the user interface Qt designer
@@ -95,6 +95,8 @@ private:
      * @brief m_permissionData
      */
     QStringList  m_permissionData;
+
+    QVector<QSize> m_sizeList;
 };
 
 #endif // MAPWIZZARDDIALOG_H

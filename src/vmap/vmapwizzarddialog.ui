@@ -60,7 +60,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="m_colorButton">
+          <widget class="ColorButton" name="m_colorButton">
            <property name="autoFillBackground">
             <bool>false</bool>
            </property>
@@ -254,7 +254,7 @@
               <item>
                <widget class="ColorButton" name="m_gridColorBtn">
                 <property name="text">
-                 <string>Color</string>
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -292,7 +292,22 @@
                   </item>
                   <item>
                    <property name="text">
+                    <string>km</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
                     <string>cm</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>mile</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>yard</string>
                    </property>
                   </item>
                   <item>
@@ -302,7 +317,7 @@
                   </item>
                   <item>
                    <property name="text">
-                    <string>feet</string>
+                    <string>foot</string>
                    </property>
                   </item>
                   <item>
