@@ -140,7 +140,7 @@ void RGraphicsView::showMapProperties()
 
 }
 
-void RGraphicsView::dragEnterEvent ( QDragEnterEvent * event )
+/*void RGraphicsView::dragEnterEvent ( QDragEnterEvent * event )
 {
     const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
     if(data)
@@ -151,7 +151,7 @@ void RGraphicsView::dragEnterEvent ( QDragEnterEvent * event )
         }
     }
     
-}
+}*/
 
 void RGraphicsView::setZoomFactor()
 {
@@ -197,7 +197,7 @@ void RGraphicsView::setZoomFactor()
     scale(realFactor,realFactor);
 }
 
-void RGraphicsView::dragMoveEvent(QDragMoveEvent *event)
+/*void RGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
     event->acceptProposedAction();
 }
@@ -218,4 +218,4 @@ void RGraphicsView::dropEvent ( QDropEvent * event )
         }
     }
     
-}
+}*/

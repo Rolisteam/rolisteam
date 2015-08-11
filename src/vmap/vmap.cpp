@@ -15,7 +15,9 @@
 #include "items/textitem.h"
 #include "items/characteritem.h"
 #include "items/ruleitem.h"
+#include "items/imageitem.h"
 
+#include "userlist/rolisteammimedata.h"
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -647,4 +649,63 @@ void VMap::setCurrentNpcName(QString text)
 void VMap::setCurrentNpcNumber(int number)
 {
     m_currentNpcNumber= number;
+}
+void VMap::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+	event->acceptProposedAction();
+}
+void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
+{
+	const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
+	if(data)
+	{
+		if (data->hasFormat("rolisteam/userlist-item"))
+		{
+			Person* item = data->getData();
+			Character* character = dynamic_cast<Character*>(item);
+			if(character)
+			{
+				addCharacter(character,event->scenePos());
+			}
+		}
+	}
+	else
+	{
+		const QMimeData* mimeData =  event->mimeData();
+
+		if(mimeData->hasUrls())
+		{
+			foreach(QUrl url, mimeData->urls())
+			{
+				ImageItem* led = new ImageItem();
+				qDebug()<< url.toString() << url.toLocalFile();
+				led->setImageUri(url.toLocalFile());
+				led->initChildPointItem();
+				addNewItem(led);
+				led->setPos(event->scenePos());
+			}
+
+		}
+
+	}
+}
+void VMap::dragEnterEvent ( QGraphicsSceneDragDropEvent * event )
+{
+	const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
+	if(NULL!=data)
+	{
+		if (data->hasFormat("rolisteam/userlist-item"))
+		{
+			event->acceptProposedAction();
+		}
+	}
+	else
+	{
+		const QMimeData* mimeData =  event->mimeData();
+
+		if(mimeData->hasUrls())
+		{
+			event->acceptProposedAction();
+		}
+	}
 }

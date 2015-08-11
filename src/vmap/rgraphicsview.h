@@ -42,9 +42,9 @@ protected:
     void keyPressEvent ( QKeyEvent * event);
     void mousePressEvent ( QMouseEvent * event);
     void focusInEvent ( QFocusEvent * event );
-    void dragEnterEvent ( QDragEnterEvent * event );
+   /* void dragEnterEvent ( QDragEnterEvent * event );
     void dropEvent ( QDropEvent * event );
-    void dragMoveEvent( QDragMoveEvent * event );
+	void dragMoveEvent( QDragMoveEvent * event );*/
     void wheelEvent(QWheelEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
 
