@@ -183,10 +183,11 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
     }
     QRectF rectText;
     QFontMetrics metric(painter->font());
-    rectText.setRect(m_rect.left(),m_rect.bottom(),m_rect.width(),metric.height());
+	rectText.setRect(m_rect.center().x()-(metric.boundingRect(toShow).width()/2),m_rect.bottom(),metric.boundingRect(toShow).width(),metric.height());
 
-    painter->save();
-    painter->setPen(m_character->getColor());
+	//qDebug() << rectText;
+	painter->save();
+	painter->setPen(m_character->getColor());
     painter->drawText(rectText,Qt::AlignCenter,toShow);
     painter->restore();
 
