@@ -144,10 +144,16 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
     {
         if(!(event->modifiers() & Qt::ControlModifier))
         {
+            bool ratio = false;
+            if((event->modifiers() & Qt::ShiftModifier))
+            {
+                ratio = true;
+            }
             int W = qMax(2 * fabs(v.x()), 5.0);
             int H = qMax(2 * fabs(v.y()), 4.0);
-            m_parent->resizeContents(QRect(-W / 2, -H / 2, W, H),false);
+            m_parent->resizeContents(QRect(-W / 2, -H / 2, W, H),ratio);
         }
+
     }
     if(((m_currentMotion == MOUSE)||(m_allowRotation))&&(event->modifiers() & Qt::ControlModifier))
     {

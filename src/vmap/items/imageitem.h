@@ -65,7 +65,14 @@ public:
 	 */
 	QString getImageUri();
 
+    virtual void setModifiers(Qt::KeyboardModifiers modifiers);
 
+    /**
+     * @brief resizeContents
+     * @param rect
+     * @param keepRatio
+     */
+    virtual void resizeContents(const QRect& rect, bool keepRatio = true);
 protected:
 	/**
 	 * @brief updateChildPosition
@@ -79,7 +86,7 @@ private:
 	QImage m_image;
 	QString m_imagePath;
 	qreal m_ratio;
-
+    Qt::KeyboardModifiers m_modifiers;
 };
 
 #endif // IMAGEITEM_H
