@@ -93,16 +93,21 @@ void RGraphicsView::wheelEvent(QWheelEvent *event)
 }
 void RGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
-    QMenu menu;
-
-    menu.addAction(m_zoomInMax);
-    menu.addAction(m_zoomNormal);
-    menu.addAction(m_zoomOutMax);
-    menu.addSeparator();
-    menu.addAction(m_properties);
-
-
-    menu.exec(event->globalPos());
+    QList<QGraphicsItem*> list = items(event->pos());
+    if(list.isEmpty())
+    {
+        QMenu menu;
+        menu.addAction(m_zoomInMax);
+        menu.addAction(m_zoomNormal);
+        menu.addAction(m_zoomOutMax);
+        menu.addSeparator();
+        menu.addAction(m_properties);
+        menu.exec(event->globalPos());
+    }
+    else
+    {
+        QGraphicsView::contextMenuEvent(event);
+    }
 }
 void RGraphicsView::createAction()
 {
