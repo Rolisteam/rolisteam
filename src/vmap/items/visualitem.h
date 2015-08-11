@@ -36,7 +36,7 @@ class VisualItem : public QGraphicsObject
 {
         Q_OBJECT
 public:
-    enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE};
+	enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE,IMAGE};
     VisualItem();
 	VisualItem(QColor& penColor,bool b,QGraphicsItem * parent = 0);
     
