@@ -28,6 +28,7 @@ VMap::VMap(QObject * parent)
     m_id = QUuid::createUuid().toString();
     m_itemMap=new  QMap<QString,VisualItem*>;
     setItemIndexMethod(QGraphicsScene::NoIndex);
+
 }
 
 
@@ -465,7 +466,8 @@ void VMap::computePattern()
             QPointF A(0,0);
             QPointF B(0,m_sizePattern-1);
             QPointF C(m_sizePattern-1,m_sizePattern-1);
-            polygon << A << B << C;
+            QPointF D(m_sizePattern-1,0);
+            polygon << A << B << C << D << A;
         }
         QPainter painter(&m_computedPattern);
         //painter.setRenderHint(QPainter::Antialiasing,true);
