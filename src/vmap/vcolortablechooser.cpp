@@ -137,7 +137,6 @@ ColorTable::ColorTable()
 }
 int ColorTable::heightForWidth(int width) const
 {
-    qDebug() << "heightForWidth"<< width;
     return width;
 }
 QSize ColorTable::sizeHint() const
