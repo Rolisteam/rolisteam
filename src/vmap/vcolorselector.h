@@ -42,6 +42,8 @@ public:
     * @brief default constructor
     */
     VColorLabel(QWidget * parent = 0);
+    int heightForWidth(int width) const;
+
 signals:
     /**
     * @brief send off the current color
@@ -124,6 +126,7 @@ public:
     * @return current color
     */
     QColor& currentColor();    
+
 signals:
     /**
     * @brief emitted when color changed

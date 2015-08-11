@@ -98,6 +98,8 @@ public:
       * @brief default constructor
       */
     ColorTable();
+    int heightForWidth(int width) const;
+    QSize sizeHint() const;
 signals:
     /**
       * @brief emited when user click on the widget to select another color.
@@ -131,7 +133,7 @@ public:
       * @param parent widget
       */
     ColorTableChooser(QWidget* parent);
-    
+
 public slots:
     /**
       * @brief handle current color change, users click on the colortable
