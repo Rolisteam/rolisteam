@@ -29,14 +29,23 @@
 VColorLabel::VColorLabel(QWidget * parent)
     : QAbstractButton(parent)
 {
+    //setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+    QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    policy.setHeightForWidth(true);
+    setSizePolicy(policy);
     setMinimumSize(40,40);
-    setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
+    setMaximumSize(100,100);
 }
 void VColorLabel::mousePressEvent(QMouseEvent *ev)
 {
     Q_UNUSED(ev);
     emit clickedColor(this->palette().color(QPalette::Window));
     QAbstractButton::mousePressEvent(ev);
+}
+int VColorLabel::heightForWidth(int width) const
+{
+    qDebug() << "heightForWidthval"<< width;
+    return width;
 }
 void VColorLabel::resizeEvent(QResizeEvent * event)
 {
@@ -95,7 +104,7 @@ VColorSelector::VColorSelector(QWidget *parent)
     QVBoxLayout *selecteurLayout = new QVBoxLayout(this);
     
     m_currentColorLabel = new VColorLabel(this);
-    m_currentColorLabel->setMaximumSize(200,200);
+    //m_currentColorLabel->setMaximumSize(200,200);
     m_currentColorLabel->setPalette(QPalette(QColor(0,0,0)));
     m_currentColorLabel->setToolTip(tr("Predefine Color 1"));
     m_currentColorLabel->setAutoFillBackground(true);
@@ -107,7 +116,7 @@ VColorSelector::VColorSelector(QWidget *parent)
     
     m_colorTableChooser = new ColorTableChooser(this);
     //m_colorTableChooser->setSizePolicy(QSizePolicy::Fixed);
-    m_colorTableChooser->setMaximumSize(200,200);
+    //m_colorTableChooser->setMaximumSize(200,200);
     
     
     selecteurLayout->addWidget(m_currentColorLabel,1);

@@ -40,6 +40,7 @@ RGraphicsView::RGraphicsView(VMap *vmap)
     fitInView(sceneRect(),Qt::KeepAspectRatio);
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
     setRubberBandSelectionMode(Qt::IntersectsItemShape);
+    setOptimizationFlag(QGraphicsView::DontAdjustForAntialiasing);
 
     createAction();
 }

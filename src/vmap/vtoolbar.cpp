@@ -225,7 +225,7 @@ void VToolsBar::creerOutils()
     outilsLayout->addWidget(m_lineDiameter);
     outilsLayout->addLayout(characterToolsLayout);
     outilsLayout->addWidget(m_npcNameTextEdit);
-    outilsLayout->addStretch();
+    outilsLayout->addStretch(1);
     m_centralWidget->setLayout(outilsLayout);
 
 }

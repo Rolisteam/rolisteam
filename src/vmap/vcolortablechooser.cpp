@@ -128,16 +128,34 @@ ColorTable::ColorTable()
 {
 
     setStyleSheet("background-color: rgb(0,0,0)");
-    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+    //setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+    QSizePolicy policy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    policy.setHeightForWidth(true);
+    setSizePolicy(policy);
     setMinimumSize(40,40);
+    setMaximumSize(100,100);
+}
+int ColorTable::heightForWidth(int width) const
+{
+    qDebug() << "heightForWidth"<< width;
+    return width;
+}
+QSize ColorTable::sizeHint() const
+{
+    //return QSize(size().width(),heightForWidth(size().width()));
+    return QWidget::sizeHint();
 }
 void ColorTable::paintEvent ( QPaintEvent * event )
 {
+    QWidget::paintEvent(event);
     QPainter painter(this);
     
     int colorv;
     int saturation;
     QColor color;
+
+
+   // int min = qMin(,);
     
     for(int i=0;i<width();i++)
     {
@@ -190,7 +208,7 @@ ColorTableChooser::ColorTableChooser(QWidget* parent)
     connect(m_colorTable,SIGNAL(dataChanged(int,int)),m_valueChooser,SLOT(colorHasChanged(int,int)));
     connect(m_valueChooser,SIGNAL(valueChanged(int)),this,SLOT(valueHasChanged(int)));
     setMinimumSize(40,45);
-    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Preferred);
+    setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Minimum);
     
     m_h=0;
     m_s=MAX_SATURATION;
