@@ -30,7 +30,8 @@
 
 #include "userlistdelegate.h"
 #include "userlistview.h"
-#include "userlistmodel.h"
+//#include "userlistmodel.h"
+#include "data/character.h"
 #include "rolisteammimedata.h"
 #include "playersList.h"
 
@@ -128,8 +129,8 @@ void UserListView::onEditCurrentItemColor()
 }
 void UserListView::setModel(UserListModel *model)
 {
-    QTreeView::setModel(model);
-    m_model = model;
+	//QTreeView::setModel(model);
+	//m_model = model;
 }
 void UserListView::mousePressEvent ( QMouseEvent * event)
 {
