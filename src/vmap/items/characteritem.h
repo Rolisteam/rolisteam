@@ -161,7 +161,7 @@ private:
     QAction* m_spleepingStateAct;
     QAction* m_bewitchedStateAct;
     
-    
+
 };
 
 #endif // CHARACTERITEM_H

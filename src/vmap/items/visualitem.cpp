@@ -125,6 +125,7 @@ void VisualItem::updateChildPosition()
 }
 void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
+    qDebug()<< event;
     QMenu menu;
     addActionContextMenu(&menu);
     QAction* backOrderAction = menu.addAction(tr("Back"));

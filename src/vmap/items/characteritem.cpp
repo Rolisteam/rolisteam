@@ -452,3 +452,4 @@ void CharacterItem::characterStateChange()
         m_character->setHeathState(Character::Bewitched);
     }
 }
+
