@@ -44,7 +44,6 @@ void VColorLabel::mousePressEvent(QMouseEvent *ev)
 }
 int VColorLabel::heightForWidth(int width) const
 {
-    qDebug() << "heightForWidthval"<< width;
     return width;
 }
 void VColorLabel::resizeEvent(QResizeEvent * event)
