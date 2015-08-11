@@ -136,6 +136,28 @@ void ImageItem::setGeometryPoint(qreal pointId, QPointF &pos)
 	setTransformOriginPoint(m_rect.center());
 	//updateChildPosition();
 }
+void ImageItem::resizeContents(const QRect& rect, bool keepRatio)
+{
+    if (!rect.isValid())
+        return;
+
+    prepareGeometryChange();
+
+    int width = m_image.width();
+    int height = m_image.height();
+    m_rect = rect;
+    if (keepRatio)
+    {
+        int hfw = height * rect.width() / width;
+        if (hfw > 1)
+        {
+            m_rect.setTop(-hfw / 2);
+            m_rect.setHeight(hfw);
+        }
+    }
+
+    updateChildPosition();
+}
 void ImageItem::initChildPointItem()
 {
 	setPos(m_rect.center());
@@ -183,5 +205,9 @@ void ImageItem::loadImage()
 {
 	m_image.load(m_imagePath);
 	m_rect = m_image.rect();
-	m_ratio = m_image.width()/m_image.height();
+    m_ratio = m_image.height()/m_image.width();
+}
+void ImageItem::setModifiers(Qt::KeyboardModifiers modifiers)
+{
+    m_modifiers = modifiers;
 }
