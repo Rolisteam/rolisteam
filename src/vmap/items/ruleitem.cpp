@@ -73,8 +73,6 @@ void RuleItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     m_pen.setColor(Qt::red);
     painter->setPen(m_pen);
     QLineF line(m_startPoint,m_endPoint);
-    qDebug() << line.length() << m_pixelToUnit;
-
     painter->drawLine(line);
     painter->restore();
 
@@ -92,9 +90,6 @@ void RuleItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 }
 void RuleItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << event->modifiers() << event->pos();
-
-
     VisualItem::mouseMoveEvent(event);
 }
 void RuleItem::setModifiers(Qt::KeyboardModifiers mod)
