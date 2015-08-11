@@ -269,8 +269,12 @@ protected:
      * @param item
      */
     void addNewItem(VisualItem* item);
+
+
     
-    
+	void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
+	void dropEvent ( QGraphicsSceneDragDropEvent * event );
+	void dragMoveEvent( QGraphicsSceneDragDropEvent * event );
 private:
     /**
     * @brief width of the map
