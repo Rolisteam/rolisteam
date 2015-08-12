@@ -115,6 +115,8 @@ public:
      */
     virtual void addActionContextMenu(QMenu*);
 
+	virtual VisualItem* getItemCopy();
+
 public slots:
     void sizeChanged(int m_size);
     /**

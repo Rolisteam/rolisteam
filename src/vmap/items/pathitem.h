@@ -88,6 +88,11 @@ public:
      * @brief initChildPointItem
      */
     virtual void initChildPointItem();
+
+	virtual VisualItem* getItemCopy();
+
+	void setPen();
+	void setPath();
 private:
     /**
     * @brief pen used for drawing the path

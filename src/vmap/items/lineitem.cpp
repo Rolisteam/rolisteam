@@ -165,3 +165,12 @@ void LineItem::initChildPointItem()
     m_child->value(1)->setPos(m_endPoint);
     m_child->value(1)->setPlacement(ChildPointItem::Center);
 }
+VisualItem* LineItem::getItemCopy()
+{
+	LineItem* line = new LineItem(m_startPoint,m_color,m_pen.width());
+	line->setNewEnd(m_endPoint);
+
+///@todo implement copy
+
+	return line;
+}

@@ -165,3 +165,7 @@ void RuleItem::setPixelToUnit(qreal pixels)
 {
     m_pixelToUnit = pixels;
 }
+VisualItem* RuleItem::getItemCopy()
+{
+	return NULL;
+}

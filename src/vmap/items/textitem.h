@@ -90,6 +90,7 @@ public:
      */
     virtual void initChildPointItem();
     void updateChildPosition();
+	VisualItem* getItemCopy();
 protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void wheelEvent(QGraphicsSceneWheelEvent *event);

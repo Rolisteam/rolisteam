@@ -77,6 +77,7 @@ public:
      */
     virtual void setGeometryPoint(qreal pointId, QPointF &pos);
     virtual void initChildPointItem();
+	virtual VisualItem* getItemCopy();
 private:
     /**
     * @brief bounding rect copy (no need to compute it each time

@@ -36,7 +36,7 @@ public:
     * @param filled either we paint filled rectange or just uts border
     * @param color
     */
-    RectItem(QPointF& topleft,QPointF& buttomright,bool filled,int penSize,QColor& penColor,QGraphicsItem * parent = 0);
+	RectItem(QPointF& topleft,QPointF& buttomright,bool filled,quint16 penSize,QColor& penColor,QGraphicsItem * parent = 0);
     /**
     * @brief paint the current rectangle into the scene.
     * @see Qt documentation
@@ -86,6 +86,11 @@ public:
      * @brief initChildPointItem
      */
     virtual void initChildPointItem();
+	/**
+	 * @brief getItemCopy
+	 * @return
+	 */
+	virtual VisualItem* getItemCopy();
 /*protected:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent * event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent * event);*/
@@ -102,7 +107,7 @@ private:
     * @brief stores the filled state.
     */
     bool m_filled;
-    qint16 m_penWidth;
+	quint16 m_penWidth;
     
 };
 

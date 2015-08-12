@@ -203,3 +203,8 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_text = msg->string32();
     m_color = msg->rgb();
 }
+VisualItem* TextItem::getItemCopy()
+{
+	TextItem* rectItem = new TextItem(m_start,new QLineEdit(),m_color);
+	return rectItem;
+}

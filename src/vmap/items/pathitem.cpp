@@ -121,3 +121,20 @@ void PathItem::initChildPointItem()
 {
 
 }
+VisualItem* PathItem::getItemCopy()
+{
+	PathItem* path = new PathItem();
+
+///@todo implement copy
+
+	return path;
+}
+void PathItem::setPen()
+{
+
+}
+
+void PathItem::setPath()
+{
+
+}
