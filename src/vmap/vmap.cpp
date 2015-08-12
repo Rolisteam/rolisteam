@@ -709,3 +709,7 @@ void VMap::dragEnterEvent ( QGraphicsSceneDragDropEvent * event )
 		}
 	}
 }
+void VMap::duplicateItem(VisualItem* item)
+{
+    I
+}
