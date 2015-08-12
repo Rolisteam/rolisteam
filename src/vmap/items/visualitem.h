@@ -23,7 +23,9 @@
 #include <QGraphicsItem>
 
 #include <QVector>
+#include <QAction>
 #include "childpointitem.h"
+
 
 class NetworkMessageWriter;
 class NetworkMessageReader;
@@ -122,9 +124,14 @@ public:
      * @brief initChildPointItem
      */
     virtual void initChildPointItem() = 0;
-
+    /**
+     * @brief addActionContextMenu
+     */
     virtual void addActionContextMenu(QMenu*);
-
+    /**
+     * @brief hasFocusOrChild
+     * @return
+     */
     bool hasFocusOrChild();
     /**
      * @brief setModifiers - default implementatino do nothing.
@@ -132,15 +139,29 @@ public:
      */
     virtual void setModifiers(Qt::KeyboardModifiers modifiers);
 
+    /**
+     * @brief getItemCopy pure method to return a copy of this item.
+     * @return the copy
+     */
+    virtual VisualItem* getItemCopy() = 0;
+
 	friend QDataStream& operator<<(QDataStream& os,const VisualItem&);
     friend QDataStream& operator>>(QDataStream& is,VisualItem&);
 
 signals:
     void itemGeometryChanged(VisualItem*);
     void itemRemoved(QString);
+    void duplicateItem(VisualItem*);
 
 public slots:
+    /**
+     * @brief sendPositionMsg
+     */
     void sendPositionMsg();
+    /**
+     * @brief readPositionMsg
+     * @param msg
+     */
     void readPositionMsg(NetworkMessageReader* msg);
     
 protected:
@@ -152,6 +173,9 @@ protected:
     void init();
     virtual void updateChildPosition();
 
+    virtual void createActions();
+private slots:
+    void manageAction();
 
 protected:
     QVector<ChildPointItem*>* m_child;
@@ -161,6 +185,10 @@ protected:
     QString m_mapId;
 	bool m_editable;
     QRectF m_rect;
+
+
+    /// QAction*
+    QAction* m_duplicateAct;
 };
 
 #endif // VISUALITEM_H
