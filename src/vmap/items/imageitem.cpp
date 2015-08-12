@@ -211,3 +211,11 @@ void ImageItem::setModifiers(Qt::KeyboardModifiers modifiers)
 {
     m_modifiers = modifiers;
 }
+VisualItem* ImageItem::getItemCopy()
+{
+	ImageItem* rectItem = new ImageItem();
+	rectItem->setImageUri(m_imagePath);
+	rectItem->setPos(pos());
+	rectItem->resizeContents(m_rect.toRect(),false);
+	return rectItem;
+}

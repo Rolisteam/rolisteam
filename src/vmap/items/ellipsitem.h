@@ -73,6 +73,7 @@ public:
     virtual void readItem(NetworkMessageReader* msg);
     void setGeometryPoint(qreal pointId, QPointF &pos);
     virtual void initChildPointItem();
+	virtual VisualItem* getItemCopy();
 private:
     /**
     * @brief bounding rect

@@ -88,10 +88,21 @@ public:
      */
     void setUnit(VMap::SCALE_UNIT unit);
 
-
+	/**
+	 * @brief setPixelToUnit
+	 * @param pixels
+	 */
     void setPixelToUnit(qreal pixels);
-
+	/**
+	 * @brief setModifiers
+	 * @param mod
+	 */
     virtual  void setModifiers(Qt::KeyboardModifiers mod);
+	/**
+	 * @brief getItemCopy
+	 * @return
+	 */
+	virtual VisualItem* getItemCopy();
 
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

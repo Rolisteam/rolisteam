@@ -188,3 +188,10 @@ void EllipsItem::initChildPointItem()
     m_child->value(1)->setPlacement(ChildPointItem::ButtomCenter);
     m_child->value(1)->setRotationEnable(true);
 }
+VisualItem* EllipsItem::getItemCopy()
+{//QPointF& center,bool filled,int penSize,QColor& penColor
+	EllipsItem* ellipseItem = new EllipsItem(m_center,m_filled,m_penWidth,m_color);
+	QPointF pos(m_rx+m_center.x(),m_ry+m_center.y());
+	ellipseItem->setNewEnd(pos);
+	return ellipseItem;
+}

@@ -449,4 +449,10 @@ void CharacterItem::characterStateChange()
         m_character->setHeathState(Character::Bewitched);
     }
 }
+VisualItem* CharacterItem::getItemCopy()
+{
+	CharacterItem* charactItem = new CharacterItem(m_character,pos(),m_diameter);
+	charactItem->setPos(pos());
+	return charactItem;
+}
 

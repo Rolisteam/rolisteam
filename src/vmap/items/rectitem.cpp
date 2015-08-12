@@ -34,7 +34,7 @@ RectItem::RectItem()
 
 }
 
-RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,int penSize,QColor& penColor,QGraphicsItem * parent)
+RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,quint16 penSize,QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,parent),m_penWidth(penSize)
 {
     m_rect.setBottomRight(buttomright);
@@ -123,7 +123,7 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
 
     msg->int8(m_filled);
     msg->rgb(m_color);
-    msg->int16(m_penWidth);
+	msg->uint16(m_penWidth);
 
 
     msg->real(scale());
@@ -140,7 +140,7 @@ void RectItem::readItem(NetworkMessageReader* msg)
     m_rect.setHeight(msg->real());
     m_filled = msg->int8();
     m_color = msg->rgb();
-    m_penWidth = msg->int16();
+	m_penWidth = msg->uint16();
     setTransformOriginPoint(m_rect.center());
     setScale(msg->real());
     setRotation(msg->real());
@@ -213,4 +213,10 @@ void RectItem::updateChildPosition()
 
     update();
 }
-
+VisualItem* RectItem::getItemCopy()
+{
+	QPointF topLeft = m_rect.topLeft();
+	QPointF bottomRight = m_rect.bottomRight();
+	RectItem* rectItem = new RectItem(topLeft,bottomRight,m_filled,m_penWidth,m_color);
+	return rectItem;
+}

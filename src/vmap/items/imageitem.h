@@ -73,6 +73,12 @@ public:
      * @param keepRatio
      */
     virtual void resizeContents(const QRect& rect, bool keepRatio = true);
+	/**
+	 * @brief getItemCopy
+	 * @return
+	 */
+	virtual VisualItem* getItemCopy();
+
 protected:
 	/**
 	 * @brief updateChildPosition
