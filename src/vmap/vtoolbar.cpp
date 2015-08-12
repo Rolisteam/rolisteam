@@ -88,9 +88,6 @@ void VToolsBar::creerActions()
     m_textAct               = new QAction(QIcon(":/resources/icons/text.png"), tr("Text"), m_toolsGroup);
     m_handAct               = new QAction(QIcon(":/resources/icons/hand.png"), tr("Mode"), m_toolsGroup);
     m_addPCAct              = new QAction(QIcon(":/resources/icons/add.png"), tr("Add NPC"), m_toolsGroup);
-    m_delNPCAct             = new QAction(QIcon(":/resources/icons/remove.png"), tr("Remove NPC"), m_toolsGroup);
-    m_movePCAct             = new QAction(QIcon(":/resources/icons/moveNpc.png"), tr("Move/Turn Character"), m_toolsGroup);
-    m_pcStateAct            = new QAction(QIcon(":/resources/icons/state.png"), tr("Change Character's State"), m_toolsGroup);
     m_ruleAct               = new QAction(QIcon(":/resources/icons/rule.png"),tr("Rule"),m_toolsGroup);
     
     
@@ -105,9 +102,6 @@ void VToolsBar::creerActions()
     m_textAct->setCheckable(true);
     m_handAct->setCheckable(true);
     m_addPCAct->setCheckable(true);
-    m_delNPCAct->setCheckable(true);
-    m_movePCAct->setCheckable(true);
-    m_pcStateAct->setCheckable(true);
     m_ruleAct->setCheckable(true);
     
     m_handAct->setChecked(true);
@@ -123,9 +117,6 @@ void VToolsBar::creerOutils()
     QToolButton* boutonTexte      = new QToolButton();
     QToolButton* boutonMain       = new QToolButton();
     QToolButton* boutonAjoutPnj   = new QToolButton();
-    QToolButton* boutonSupprPnj   = new QToolButton();
-    QToolButton* boutonDeplacePnj = new QToolButton();
-    QToolButton* boutonEtatPnj    = new QToolButton();
     QToolButton* boutonRazChrono  = new QToolButton();
     QToolButton* ruleButton  = new QToolButton();
     
@@ -138,9 +129,6 @@ void VToolsBar::creerOutils()
     boutonTexte      ->setDefaultAction(m_textAct);
     boutonMain       ->setDefaultAction(m_handAct);
     boutonAjoutPnj   ->setDefaultAction(m_addPCAct);
-    boutonSupprPnj   ->setDefaultAction(m_delNPCAct);
-    boutonDeplacePnj ->setDefaultAction(m_movePCAct);
-    boutonEtatPnj    ->setDefaultAction(m_pcStateAct);
     boutonRazChrono  ->setDefaultAction(m_resetCountAct);
     ruleButton->setDefaultAction(m_ruleAct);
     
@@ -153,9 +141,6 @@ void VToolsBar::creerOutils()
     boutonTexte      ->setAutoRaise(true);
     boutonMain       ->setAutoRaise(true);
     boutonAjoutPnj   ->setAutoRaise(true);
-    boutonSupprPnj   ->setAutoRaise(true);
-    boutonDeplacePnj ->setAutoRaise(true);
-    boutonEtatPnj    ->setAutoRaise(true);
     boutonRazChrono  ->setAutoRaise(true);
     ruleButton->setAutoRaise(true);
     /**
@@ -173,9 +158,6 @@ void VToolsBar::creerOutils()
     boutonTexte      ->setIconSize(iconSize);
     boutonMain       ->setIconSize(iconSize);
     boutonAjoutPnj   ->setIconSize(iconSize);
-    boutonSupprPnj   ->setIconSize(iconSize);
-    boutonDeplacePnj ->setIconSize(iconSize);
-    boutonEtatPnj    ->setIconSize(iconSize);
     boutonRazChrono  ->setIconSize(iconSize);
     ruleButton->setIconSize(iconSize);
     
@@ -209,10 +191,7 @@ void VToolsBar::creerOutils()
     m_colorSelector = new VColorSelector(this);
 
     FlowLayout *characterToolsLayout = new FlowLayout();
-    characterToolsLayout->addWidget(boutonDeplacePnj);
-    characterToolsLayout->addWidget(boutonEtatPnj);
     characterToolsLayout->addWidget(boutonAjoutPnj);
-    characterToolsLayout->addWidget(boutonSupprPnj);
     characterToolsLayout->addWidget(boutonRazChrono);
     characterToolsLayout->addWidget(m_displayNPCCounter);
 
@@ -282,7 +261,6 @@ VToolsBar::SelectableTool VToolsBar::getCurrentTool()
 }
 
 
-
 void VToolsBar::currentActionChanged(QAction* p)
 {
     //  enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
@@ -312,15 +290,6 @@ void VToolsBar::currentActionChanged(QAction* p)
     
     if(p ==  m_addPCAct)
         m_currentTool = ADDNPC;
-    
-    if(p ==  m_delNPCAct)
-        m_currentTool = DELNPC;
-    
-    if(p ==  m_movePCAct)
-        m_currentTool = MOVECHARACTER;
-    
-    if(p ==  m_pcStateAct)
-        m_currentTool = STATECHARACTER;
 
     if(p == m_ruleAct)
         m_currentTool = RULE;
