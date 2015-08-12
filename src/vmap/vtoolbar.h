@@ -139,9 +139,6 @@ private:
     QAction* m_textAct;
     QAction* m_handAct;
     QAction* m_addPCAct;
-    QAction* m_delNPCAct;
-    QAction* m_movePCAct;
-    QAction* m_pcStateAct;
     QAction* m_resetCountAct;
     QAction* m_ruleAct;
     
