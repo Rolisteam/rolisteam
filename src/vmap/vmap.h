@@ -212,6 +212,7 @@ public slots:
     void setNpcNameVisible(bool);
     void setPcNameVisible(bool);
     void setNpcNumberVisible(bool);
+	void duplicateItem(VisualItem* item);
 signals:
     /**
      * @brief npcAdded

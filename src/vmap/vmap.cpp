@@ -711,5 +711,10 @@ void VMap::dragEnterEvent ( QGraphicsSceneDragDropEvent * event )
 }
 void VMap::duplicateItem(VisualItem* item)
 {
-    I
+	VisualItem* copy = item->getItemCopy();
+	if(NULL!=copy)
+	{
+		copy->initChildPointItem();
+		addNewItem(copy);
+	}
 }
