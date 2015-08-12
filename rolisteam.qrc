@@ -71,6 +71,13 @@
         <file>resources/icons/preview.png</file>
         <file>resources/icons/lock.png</file>
         <file>resources/icons/rule.png</file>
+        <file>resources/icons/action-order-back.png</file>
+        <file>resources/icons/action-order-front.png</file>
+        <file>resources/icons/action-order-lower.png</file>
+        <file>resources/icons/action-order-raise.png</file>
+        <file>resources/icons/action-rotate.png</file>
+        <file>resources/icons/object-rotate-left-4.png</file>
+        <file>resources/icons/object-rotate-right-4.png</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
