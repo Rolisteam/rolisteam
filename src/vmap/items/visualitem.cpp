@@ -45,7 +45,7 @@ VisualItem::VisualItem(QColor& penColor,bool b,QGraphicsItem * parent )
 }
 void VisualItem::init()
 {
-
+    createActions();
 	if(m_editable)
 	{
 		/// @warning if two connected people have editable item, it will lead to endless loop.
@@ -125,26 +125,59 @@ void VisualItem::updateChildPosition()
 }
 void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-    qDebug()<< event;
     QMenu menu;
     addActionContextMenu(&menu);
     QAction* backOrderAction = menu.addAction(tr("Back"));
+    backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
     QAction* frontOrderAction = menu.addAction(tr("Front"));
+    frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
     QAction* lowerAction = menu.addAction(tr("Lower"));
+    lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
     QAction* raiseAction = menu.addAction(tr("Raise"));
+    raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
     menu.addSeparator();
     QAction* removeAction = menu.addAction(tr("Remove"));
-    QAction* copyAction = menu.addAction(tr("Copy"));
-    QAction* pasteAction = menu.addAction(tr("Paste"));
+    menu.addAction(m_duplicateAct);
+
+    QMenu* rotationMenu = menu.addMenu(tr("Rotate"));
+    QAction* resetRotationAct = rotationMenu->addAction(tr("To 360"));
+    QAction* rightRotationAct =rotationMenu->addAction(tr("Right"));
+    QAction* leftRotationAct =rotationMenu->addAction(tr("Left"));
+    QAction* angleRotationAct =rotationMenu->addAction(tr("Set Angle"));
 
     QAction* selectedAction = menu.exec(event->screenPos());
-
     if(removeAction==selectedAction)
     {
         emit itemRemoved(m_id);
     }
-
+    else if(resetRotationAct==selectedAction)
+    {
+        setRotation(0);
+    }
+    else if(selectedAction==rightRotationAct)
+    {
+        setRotation(90);
+    }
+    else if(selectedAction==leftRotationAct)
+    {
+        setRotation(270);
+    }
 }
+void VisualItem::createActions()
+{
+    m_duplicateAct = new QAction(tr("Duplicate Item"),this);
+    m_duplicateAct->setShortcut(QKeySequence("Ctrl+C"));
+    connect(m_duplicateAct,SIGNAL(triggered()),this,SLOT(manageAction()));
+}
+void VisualItem::manageAction()
+{
+    QAction* tmp = qobject_cast<QAction*>(sender());
+    if(m_duplicateAct == tmp)
+    {
+        emit duplicateItem(this);
+    }
+}
+
 void VisualItem::addActionContextMenu(QMenu*)
 {
     //must to be empty
