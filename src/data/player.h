@@ -81,6 +81,8 @@ public:
      * @return
      */
     Character* getCharacterByIndex(int index) const;
+
+	QList<Character*> getChildrenCharacter();
     /**
      * @brief getIndexOfCharacter
      * @param character

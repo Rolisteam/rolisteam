@@ -87,7 +87,10 @@ Character * Player::getCharacterByIndex(int index) const
 {
     return m_characters[index];
 }
-
+QList<Character*> Player::getChildrenCharacter()
+{
+	return m_characters;
+}
 int Player::getIndexOfCharacter(Character * character) const
 {
     return m_characters.indexOf(character);
