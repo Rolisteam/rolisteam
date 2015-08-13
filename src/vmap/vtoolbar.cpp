@@ -89,7 +89,7 @@ void VToolsBar::creerActions()
     m_handAct               = new QAction(QIcon(":/resources/icons/hand.png"), tr("Mode"), m_toolsGroup);
     m_addPCAct              = new QAction(QIcon(":/resources/icons/add.png"), tr("Add NPC"), m_toolsGroup);
     m_ruleAct               = new QAction(QIcon(":/resources/icons/rule.png"),tr("Rule"),m_toolsGroup);
-    
+	m_pathAct    = new QAction(QIcon(":/resources/icons/path.png"),tr("Path"),m_toolsGroup);
     
     m_resetCountAct	= new QAction(QIcon(":/resources/icons/chronometre.png"), tr("Reset NPC counter"), this);
     
@@ -119,6 +119,7 @@ void VToolsBar::creerOutils()
     QToolButton* boutonAjoutPnj   = new QToolButton();
     QToolButton* boutonRazChrono  = new QToolButton();
     QToolButton* ruleButton  = new QToolButton();
+	QToolButton* pathButton  = new QToolButton();
     
     boutonCrayon->setDefaultAction(m_pencilAct);
     boutonLigne      ->setDefaultAction(m_lineAct);
@@ -131,6 +132,7 @@ void VToolsBar::creerOutils()
     boutonAjoutPnj   ->setDefaultAction(m_addPCAct);
     boutonRazChrono  ->setDefaultAction(m_resetCountAct);
     ruleButton->setDefaultAction(m_ruleAct);
+	pathButton->setDefaultAction(m_pathAct);
     
     boutonCrayon     ->setAutoRaise(true);
     boutonLigne      ->setAutoRaise(true);
@@ -143,6 +145,7 @@ void VToolsBar::creerOutils()
     boutonAjoutPnj   ->setAutoRaise(true);
     boutonRazChrono  ->setAutoRaise(true);
     ruleButton->setAutoRaise(true);
+	pathButton->setAutoRaise(true);
     /**
     *
     * @todo used preferencemanager to get icon Size.
@@ -160,6 +163,7 @@ void VToolsBar::creerOutils()
     boutonAjoutPnj   ->setIconSize(iconSize);
     boutonRazChrono  ->setIconSize(iconSize);
     ruleButton->setIconSize(iconSize);
+	pathButton->setIconSize(iconSize);
     
     
     QVBoxLayout* outilsLayout = new QVBoxLayout();
@@ -176,6 +180,7 @@ void VToolsBar::creerOutils()
     toolsLayout->addWidget(boutonTexte);
     toolsLayout->addWidget(boutonMain);
     toolsLayout->addWidget(ruleButton);
+	toolsLayout->addWidget(pathButton);
 
     
     m_npcNameTextEdit = new QLineEdit();
