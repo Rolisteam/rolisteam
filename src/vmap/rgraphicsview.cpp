@@ -51,7 +51,18 @@ void RGraphicsView::keyPressEvent ( QKeyEvent * event)
 }
 void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 {
-        QGraphicsView::mousePressEvent (event);
+	if(m_currentTool == VToolsBar::HANDLER)
+	{
+		if(!items(event->pos()).isEmpty())
+		{
+			setDragMode(QGraphicsView::NoDrag);
+		}
+		else
+		{
+			setDragMode(QGraphicsView::RubberBandDrag);
+		}
+	}
+	QGraphicsView::mousePressEvent (event);
 }
 void RGraphicsView::focusInEvent ( QFocusEvent * event )
 {
@@ -146,6 +157,10 @@ void RGraphicsView::showMapProperties()
     }
     
 }*/
+void RGraphicsView::rubberBandGeometry(QRect viewportRect, QPointF fromScenePoint, QPointF toScenePoint)
+{
+	qDebug() << viewportRect << fromScenePoint << toScenePoint;
+}
 
 void RGraphicsView::setZoomFactor()
 {
@@ -189,6 +204,10 @@ void RGraphicsView::setZoomFactor()
         m_counterZoom += step;
     }
     scale(realFactor,realFactor);
+}
+void RGraphicsView::currentToolChanged(VToolsBar::SelectableTool selectedtool)
+{
+	m_currentTool = selectedtool;
 }
 
 /*void RGraphicsView::dragMoveEvent(QDragMoveEvent *event)
