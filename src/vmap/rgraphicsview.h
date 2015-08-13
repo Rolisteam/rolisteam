@@ -37,7 +37,7 @@ public:
     */
     RGraphicsView(VMap* vmap);
     
-    
+	void currentToolChanged(VToolsBar::SelectableTool selectedtool);
 protected:
     void keyPressEvent ( QKeyEvent * event);
     void mousePressEvent ( QMouseEvent * event);
@@ -50,9 +50,12 @@ protected:
 
     void createAction();
 
+
 private slots:
     void setZoomFactor();
     void showMapProperties();
+	void rubberBandGeometry(QRect viewportRect, QPointF fromScenePoint, QPointF toScenePoint);
+
 
 
 private:
@@ -65,7 +68,8 @@ private:
     QAction* m_zoomOutMax;
     QAction* m_properties;
 
-    
+	VToolsBar::SelectableTool m_currentTool;
+
 };
 
 #endif // RGRAPHICSVIEW_H

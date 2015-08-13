@@ -93,6 +93,10 @@ void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
     {
         m_vmap->setCurrentTool(selectedtool);
     }
+	if(NULL!=m_graphicView)
+	{
+		m_graphicView->currentToolChanged(selectedtool);
+	}
     switch (m_currentTool)
     {
     case VToolsBar::HANDLER:

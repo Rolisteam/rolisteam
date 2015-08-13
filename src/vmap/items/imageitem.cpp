@@ -225,7 +225,7 @@ VisualItem* ImageItem::getItemCopy()
 {
 	ImageItem* rectItem = new ImageItem();
 	rectItem->setImageUri(m_imagePath);
-    rectItem->resizeContents(m_rect.toRect());
+	rectItem->resizeContents(m_rect.toRect(),false);
     rectItem->setPos(pos());
 	return rectItem;
 }

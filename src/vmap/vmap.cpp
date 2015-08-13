@@ -197,9 +197,7 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         //m_currentItem = dynamic_cast<VisualItem*>(itemAt(mouseEvent->scenePos()));
         if(mouseEvent->button() == Qt::LeftButton)
         {
-            qDebug() << items(mouseEvent->scenePos());
-
-            QGraphicsScene::mousePressEvent(mouseEvent);
+			QGraphicsScene::mousePressEvent(mouseEvent);
         }
     }
     else if(mouseEvent->button() == Qt::LeftButton)
@@ -726,5 +724,8 @@ void VMap::duplicateItem(VisualItem* item)
         item->clearFocus();
         copy->clearFocus();
         clearFocus();
+		setFocusItem(copy);
+		//m_currentItem = copy;
+		update();
 	}
 }

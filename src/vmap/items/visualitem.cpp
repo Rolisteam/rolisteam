@@ -169,7 +169,7 @@ void VisualItem::createActions()
 {
     m_duplicateAct = new QAction(tr("Duplicate Item"),this);
     m_duplicateAct->setShortcut(QKeySequence("Ctrl+C"));
-    connect(m_duplicateAct,SIGNAL(triggered()),this,SLOT(manageAction()));
+	connect(m_duplicateAct,SIGNAL(triggered()),this,SLOT(manageAction()),Qt::QueuedConnection);
 }
 void VisualItem::manageAction()
 {
