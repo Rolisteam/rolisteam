@@ -71,7 +71,7 @@ public :
     /**
       * @brief tools id
       */
-    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER,RULE};
+	enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC,RULE,PATH};
 
     /**
       * @brief accessor to the current tool
@@ -140,27 +140,16 @@ private:
     QAction* m_handAct;
     QAction* m_addPCAct;
     QAction* m_resetCountAct;
-    QAction* m_ruleAct;
-    
-    /*   QAction* m_eraseAction;
-    QAction* m_hideAction;
-    QAction* m_unveilAction;*/
-    
-    
+	QAction* m_ruleAct;
+	QAction* m_pathAct;
     
     QString m_currentNPCName;
     int m_currentNPCNumber;
     
 private slots :
     void resetNpcCount();
-    //void changeSize(bool floating);
-
     void npcNameChange(const QString &texte);
-    
-    
-    
-    void currentActionChanged(QAction* p);
-    
+    void currentActionChanged(QAction* p);   
 };
     
 #endif

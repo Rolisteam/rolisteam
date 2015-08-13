@@ -154,21 +154,20 @@ void VMap::addItem()
         connect(this,SIGNAL(showPcName(bool)),itemCharar,SLOT(showPcName(bool)));
     }
         break;
-    case VToolsBar::DELNPC:
-
-        break;
-    case VToolsBar::MOVECHARACTER:
-
-        break;
-    case VToolsBar::STATECHARACTER:
-
-        break;
     case VToolsBar::RULE:
+	{
         RuleItem* itemRule = new RuleItem(m_first);
         itemRule->setUnit(m_patternUnit);
         itemRule->setPixelToUnit(m_sizePattern/m_patternScale);
         m_currentItem = itemRule;
+	}
         break;
+	case VToolsBar::PATH:
+	{
+		PathItem* pathItem=new PathItem(m_first,m_itemColor,m_penSize);
+		m_currentItem = pathItem;
+	}
+		break;
     }
     addNewItem(m_currentItem);
 }
