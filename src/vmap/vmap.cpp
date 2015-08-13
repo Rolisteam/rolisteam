@@ -97,24 +97,6 @@ void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
     m_selectedtool = selectedtool;
     m_currentItem = NULL;
 }
-void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
-{
-    if(m_currentItem!=NULL)
-    {
-        /*  if(m_selectedtool!=ToolsBar::LINE)
-    {*/
-
-        m_end = mouseEvent->scenePos ();
-        m_currentItem->setModifiers(mouseEvent->modifiers());
-        m_currentItem->setNewEnd( m_end);
-        update();
-        // }
-    }
-    if(m_selectedtool==VToolsBar::HANDLER)
-    {
-        QGraphicsScene::mouseMoveEvent(mouseEvent);
-    }
-}
 void VMap::addItem()
 {
     //QGraphicsItem* item = NULL;
@@ -213,13 +195,36 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     if(m_selectedtool==VToolsBar::HANDLER)
     {
         //m_currentItem = dynamic_cast<VisualItem*>(itemAt(mouseEvent->scenePos()));
-        QGraphicsScene::mousePressEvent(mouseEvent);
+        if(mouseEvent->button() == Qt::LeftButton)
+        {
+            qDebug() << items(mouseEvent->scenePos());
+
+            QGraphicsScene::mousePressEvent(mouseEvent);
+        }
     }
     else if(mouseEvent->button() == Qt::LeftButton)
     {
         m_first = mouseEvent->scenePos();
         m_end = m_first;
         addItem();
+    }
+}
+void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
+{
+    if(m_currentItem!=NULL)
+    {
+        /*  if(m_selectedtool!=ToolsBar::LINE)
+    {*/
+
+        m_end = mouseEvent->scenePos();
+        m_currentItem->setModifiers(mouseEvent->modifiers());
+        m_currentItem->setNewEnd( m_end);
+        update();
+        // }
+    }
+    if(m_selectedtool==VToolsBar::HANDLER)
+    {
+            QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
 }
 void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
@@ -244,7 +249,7 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     m_currentItem = NULL;
     if(m_selectedtool==VToolsBar::HANDLER)
     {
-        QGraphicsScene::mouseReleaseEvent(mouseEvent);
+            QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
 }
 void VMap::setCurrentChosenColor(QColor& p)
@@ -561,6 +566,7 @@ void VMap::addNewItem(VisualItem* item)
         setFocusItem(item);
         connect(item,SIGNAL(itemGeometryChanged(VisualItem*)),this,SLOT(sendItemToAll(VisualItem*)));
         connect(item,SIGNAL(itemRemoved(QString)),this,SLOT(removeItemFromScene(QString)));
+        connect(item,SIGNAL(duplicateItem(VisualItem*)),this,SLOT(duplicateItem(VisualItem*)));
         QGraphicsScene::addItem(item);
 		item->setEditableItem(m_localIsGM);
         m_itemMap->insert(item->getId(),item);
@@ -678,7 +684,6 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
 			foreach(QUrl url, mimeData->urls())
 			{
 				ImageItem* led = new ImageItem();
-				qDebug()<< url.toString() << url.toLocalFile();
 				led->setImageUri(url.toLocalFile());
 				led->initChildPointItem();
 				addNewItem(led);
@@ -716,5 +721,10 @@ void VMap::duplicateItem(VisualItem* item)
 	{
 		copy->initChildPointItem();
 		addNewItem(copy);
+        copy->setPos(item->pos());
+        clearSelection();
+        item->clearFocus();
+        copy->clearFocus();
+        clearFocus();
 	}
 }

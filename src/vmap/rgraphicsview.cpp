@@ -39,30 +39,19 @@ RGraphicsView::RGraphicsView(VMap *vmap)
     setViewport(new QOpenGLWidget());
     fitInView(sceneRect(),Qt::KeepAspectRatio);
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
-    setRubberBandSelectionMode(Qt::IntersectsItemShape);
+    setRubberBandSelectionMode(Qt::IntersectsItemBoundingRect);
     setOptimizationFlag(QGraphicsView::DontAdjustForAntialiasing);
 
     createAction();
 }
 void RGraphicsView::keyPressEvent ( QKeyEvent * event)
 {
- /*   if(event->key ()==Qt::Key_Delete)
-    {
-        QList<QGraphicsItem*> list= scene()->selectedItems();
-        if(list.size()>0)
-        {
-            foreach(QGraphicsItem* tmp, list)
-            {
-                scene()->removeItem(tmp);
-            }
-        }
 
-    }*/
     QGraphicsView::keyPressEvent(event);
 }
 void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 {
-    QGraphicsView::mousePressEvent (event);
+        QGraphicsView::mousePressEvent (event);
 }
 void RGraphicsView::focusInEvent ( QFocusEvent * event )
 {

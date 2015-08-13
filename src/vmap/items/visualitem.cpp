@@ -145,6 +145,8 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QAction* leftRotationAct =rotationMenu->addAction(tr("Left"));
     QAction* angleRotationAct =rotationMenu->addAction(tr("Set Angle"));
 
+    event->accept();
+
     QAction* selectedAction = menu.exec(event->screenPos());
     if(removeAction==selectedAction)
     {
