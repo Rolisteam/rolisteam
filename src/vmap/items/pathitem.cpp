@@ -35,6 +35,7 @@ PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,QGraphicsItem * p
     : VisualItem(penColor,parent)
 {
     m_path.moveTo(start);
+	m_path.moveTo(start);
     m_pen.setColor(penColor);
     m_pen.setWidth(penSize);
     m_pen.setCapStyle(Qt::RoundCap);
