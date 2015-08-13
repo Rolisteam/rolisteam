@@ -26,6 +26,7 @@
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 #include "data/character.h"
+#include "userlist/playersList.h"
 
 #include <QMenu>
 
@@ -401,7 +402,29 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
   state->addAction(m_spleepingStateAct);
   state->addAction(m_bewitchedStateAct);
 
+  QMenu* user =  menu->addMenu(tr("Affect to"));
+  foreach(Character* character, PlayersList::instance()->getCharacterList())
+  {
+	QAction* act = user->addAction(character->getName());
+	act->setData(character->uuid());
+
+	connect(act,SIGNAL(triggered()),this,SLOT(changeCharacter()));
+  }
+
 }
+void CharacterItem::changeCharacter()
+{
+	QAction* act = qobject_cast<QAction*>(sender());
+	QString uuid = act->data().toString();
+
+
+	Character* tmp = PlayersList::instance()->getCharacter(uuid);
+	if(NULL!=tmp)
+	{
+		m_character = tmp;
+	}
+}
+
 void CharacterItem::createActions()
 {
     m_healthyStateAct = new QAction(tr("Healthy"),this);
