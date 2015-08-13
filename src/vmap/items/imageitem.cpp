@@ -166,7 +166,15 @@ void ImageItem::initChildPointItem()
 
 	m_rect = m_rect.normalized();
 	setTransformOriginPoint(m_rect.center());
-	m_child = new QVector<ChildPointItem*>();
+    if((NULL == m_child))
+    {
+        m_child = new QVector<ChildPointItem*>();
+    }
+    else
+    {
+        m_child->clear();
+    }
+
 
 	for(int i = 0; i< 4 ; ++i)
 	{
@@ -178,15 +186,17 @@ void ImageItem::initChildPointItem()
 }
 void ImageItem::updateChildPosition()
 {
-	m_child->value(0)->setPos(m_rect.topLeft());
-	m_child->value(0)->setPlacement(ChildPointItem::TopLeft);
-	m_child->value(1)->setPos(m_rect.topRight());
-	m_child->value(1)->setPlacement(ChildPointItem::TopRight);
-	m_child->value(2)->setPos(m_rect.bottomRight());
-	m_child->value(2)->setPlacement(ChildPointItem::ButtomRight);
-	m_child->value(3)->setPos(m_rect.bottomLeft());
-	m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
-
+    if((NULL!= m_child) && (!m_child->isEmpty()))
+    {
+        m_child->value(0)->setPos(m_rect.topLeft());
+        m_child->value(0)->setPlacement(ChildPointItem::TopLeft);
+        m_child->value(1)->setPos(m_rect.topRight());
+        m_child->value(1)->setPlacement(ChildPointItem::TopRight);
+        m_child->value(2)->setPos(m_rect.bottomRight());
+        m_child->value(2)->setPlacement(ChildPointItem::ButtomRight);
+        m_child->value(3)->setPos(m_rect.bottomLeft());
+        m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
+    }
 	setTransformOriginPoint(m_rect.center());
 
 	update();
@@ -215,7 +225,7 @@ VisualItem* ImageItem::getItemCopy()
 {
 	ImageItem* rectItem = new ImageItem();
 	rectItem->setImageUri(m_imagePath);
-	rectItem->setPos(pos());
-	rectItem->resizeContents(m_rect.toRect(),false);
+    rectItem->resizeContents(m_rect.toRect());
+    rectItem->setPos(pos());
 	return rectItem;
 }

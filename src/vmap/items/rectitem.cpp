@@ -218,5 +218,6 @@ VisualItem* RectItem::getItemCopy()
 	QPointF topLeft = m_rect.topLeft();
 	QPointF bottomRight = m_rect.bottomRight();
 	RectItem* rectItem = new RectItem(topLeft,bottomRight,m_filled,m_penWidth,m_color);
+    rectItem->setPos(pos());
 	return rectItem;
 }
