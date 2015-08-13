@@ -131,6 +131,7 @@ public slots:
      * @brief showPcName
      */
     void showPcName(bool);
+
 private slots:
     /**
      * @brief generatedThumbnail
@@ -144,6 +145,8 @@ private slots:
      * @brief characterStateChange
      */
     void characterStateChange();
+
+	void changeCharacter();
 private:
     Character* m_character;
     QPointF m_center;
