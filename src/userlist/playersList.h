@@ -89,6 +89,9 @@ public:
     Character * getCharacter(const QModelIndex & index) const;
 
 
+	QList<Character*> getCharacterList();
+
+
     void cleanListButLocal();
     void completeListClean();
     bool everyPlayerHasFeature(const QString & name, quint8 version = 0) const;
