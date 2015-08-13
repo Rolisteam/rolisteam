@@ -176,6 +176,16 @@ QModelIndex PlayersList::index(int row, int column, const QModelIndex &parent) c
         return QAbstractItemModel::createIndex(row, 0, NoParent);
     }
 }
+QList<Character*> PlayersList::getCharacterList()
+{
+	QList<Character*> list;
+
+	foreach(Player* player,m_playersList)
+	{
+		list << player->getChildrenCharacter();
+	}
+	return list;
+}
 
 QModelIndex PlayersList::parent(const QModelIndex & index) const
 {
