@@ -34,8 +34,8 @@ PathItem::PathItem()
 PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
 {
-    m_path.moveTo(start);
-	m_path.moveTo(start);
+//    m_path.moveTo(start);
+	m_start = start;
     m_pen.setColor(penColor);
     m_pen.setWidth(penSize);
     m_pen.setCapStyle(Qt::RoundCap);
@@ -44,30 +44,66 @@ PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,QGraphicsItem * p
 }
 QRectF PathItem::boundingRect() const
 {
-    //Adjust the bounding according the pen size.
-    QRectF rect = m_path.boundingRect();
+	QPainterPath path;
+	path.moveTo(m_start);
+	foreach(QPointF p,m_pointVector)
+	{
+		path.lineTo(p);
+	}
+
+
+	QRectF rect = path.boundingRect();
     rect.adjust(-m_pen.width()/2,-m_pen.width()/2,m_pen.width()/2,m_pen.width()/2);
     return rect;
 }
 QPainterPath PathItem::shape () const
 {
-    
-    return m_path;
-    
+	QPainterPath path;
+	path.moveTo(m_start);
+	foreach(QPointF p,m_pointVector)
+	{
+		path.lineTo(p);
+	}
+	return path;
 }
 void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+	if(hasFocusOrChild())
+	{
+		foreach(ChildPointItem* item, *m_child)
+		{
+			item->setVisible(true);
+		}
+	}
+	else
+	{
+		if(NULL!=m_child)
+		{
+			foreach(ChildPointItem* item, *m_child)
+			{
+				item->setVisible(false);
+			}
+		}
+	}
+
+	QPainterPath path;
+	path.moveTo(m_start);
+	foreach(QPointF p,m_pointVector)
+	{
+		path.lineTo(p);
+	}
     painter->save();
     painter->setPen(m_pen);
-    painter->drawPath(m_path);
+	painter->drawPath(path);
     painter->restore();
 }
 void PathItem::setNewEnd(QPointF& p)
 {
-    //QRectF tmp= m_rect;
-    m_path.lineTo(p);
-    //update(tmp);
+	m_pointVector.append(p);
+	update();
+	initChildPointItem();
 }
+
 void PathItem::writeData(QDataStream& out) const
 {
     out << m_path;
@@ -114,12 +150,26 @@ void PathItem::readItem(NetworkMessageReader* msg)
     out >> m_path;
 
 }
-void PathItem::setGeometryPoint(qreal /*pointId*/, QPointF &pos)
+void PathItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
-
+	m_pointVector[(int)pointId]=pos;
 }
 void PathItem::initChildPointItem()
 {
+	if(NULL == m_child)
+	{
+		m_child = new QVector<ChildPointItem*>();
+	}
+
+
+	for(int i = m_child->size(); i< m_pointVector.size() ; ++i)
+	{
+		ChildPointItem* tmp = new ChildPointItem(i,this);
+		tmp->setMotion(ChildPointItem::ALL);
+		m_child->append(tmp);
+		tmp->setPos(m_pointVector.at(i));
+		tmp->setPlacement(ChildPointItem::Center);
+	}
 
 }
 VisualItem* PathItem::getItemCopy()
