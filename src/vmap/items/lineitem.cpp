@@ -34,6 +34,7 @@ LineItem::LineItem(QPointF& p,QColor& penColor,int penSize,QGraphicsItem * paren
     :  VisualItem(penColor,parent)
 {
     m_startPoint = p;
+	m_endPoint = p;
     m_rect.setTopLeft(p);
     m_pen.setColor(penColor);
     m_pen.setWidth(penSize);
