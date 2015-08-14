@@ -236,6 +236,9 @@ private slots:
      * @brief sendItemToAll
      */
     void sendItemToAll(VisualItem*);
+
+	void sendOffCurrentItem();
+	void updateItem();
     
 protected:
     /**
@@ -309,6 +312,7 @@ private:
     * @brief current selected item
     */
     VisualItem* m_currentItem;
+	VisualItem* m_currentPath;
     /**
     * @brief color for items
     */

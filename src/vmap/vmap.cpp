@@ -27,6 +27,7 @@ VMap::VMap(QObject * parent)
 {
     m_penSize = 1;
     m_currentItem = NULL;
+	m_currentPath = NULL;
     m_id = QUuid::createUuid().toString();
     m_itemMap=new  QMap<QString,VisualItem*>;
     setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -43,6 +44,7 @@ VMap::VMap(int width,int height,QString& title,QColor& bgColor,QObject * parent)
     setBackgroundBrush(m_bgColor);
     m_id = QUuid::createUuid().toString();
     m_currentItem = NULL;
+	m_currentPath = NULL;
     m_itemMap=new  QMap<QString,VisualItem*>;
     setItemIndexMethod(QGraphicsScene::NoIndex);
     
@@ -94,9 +96,25 @@ const QColor& VMap::mapColor() const
 
 void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
 {
+	if((m_selectedtool == VToolsBar::PATH)&&(m_selectedtool != selectedtool))
+	{
+		m_currentPath = NULL;
+	}
     m_selectedtool = selectedtool;
     m_currentItem = NULL;
+
 }
+void VMap::updateItem()
+{
+	switch(m_selectedtool)
+	{
+		case VToolsBar::PATH:
+		{
+			m_currentPath->setNewEnd(m_first);
+		}
+	}
+}
+
 void VMap::addItem()
 {
     //QGraphicsItem* item = NULL;
@@ -164,8 +182,9 @@ void VMap::addItem()
         break;
 	case VToolsBar::PATH:
 	{
-		PathItem* pathItem=new PathItem(m_first,m_itemColor,m_penSize);
-		m_currentItem = pathItem;
+			PathItem* pathItem=new PathItem(m_first,m_itemColor,m_penSize);
+			m_currentItem = pathItem;
+			m_currentPath = pathItem;
 	}
 		break;
     }
@@ -193,7 +212,6 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     
     if(m_selectedtool==VToolsBar::HANDLER)
     {
-        //m_currentItem = dynamic_cast<VisualItem*>(itemAt(mouseEvent->scenePos()));
         if(mouseEvent->button() == Qt::LeftButton)
         {
 			QGraphicsScene::mousePressEvent(mouseEvent);
@@ -203,26 +221,41 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     {
         m_first = mouseEvent->scenePos();
         m_end = m_first;
-        addItem();
+		if(m_currentPath==NULL)
+		{
+			addItem();
+		}
+		else
+		{
+			updateItem();
+		}
     }
 }
 void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     if(m_currentItem!=NULL)
     {
-        /*  if(m_selectedtool!=ToolsBar::LINE)
-    {*/
-
-        m_end = mouseEvent->scenePos();
-        m_currentItem->setModifiers(mouseEvent->modifiers());
-        m_currentItem->setNewEnd( m_end);
-        update();
-        // }
+		if(m_currentItem->getType()!=VisualItem::PATH)
+		{
+			m_end = mouseEvent->scenePos();
+			m_currentItem->setModifiers(mouseEvent->modifiers());
+			m_currentItem->setNewEnd( m_end);
+			update();
+		}
     }
     if(m_selectedtool==VToolsBar::HANDLER)
     {
             QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
+}
+void VMap::sendOffCurrentItem()
+{
+	NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
+	msg.string8(m_id);
+	msg.uint8(m_currentItem->getType());
+	m_currentItem->fillMessage(&msg);
+	msg.sendAll();
+	m_currentItem->initChildPointItem();
 }
 void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
@@ -235,13 +268,7 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             m_currentItem = NULL;
             return;
         }
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
-        msg.string8(m_id);
-        msg.uint8(m_currentItem->getType());
-        m_currentItem->fillMessage(&msg);
-        msg.sendAll();
-
-        m_currentItem->initChildPointItem();
+		sendOffCurrentItem();
     }
     m_currentItem = NULL;
     if(m_selectedtool==VToolsBar::HANDLER)
