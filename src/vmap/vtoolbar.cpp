@@ -103,6 +103,7 @@ void VToolsBar::creerActions()
     m_handAct->setCheckable(true);
     m_addPCAct->setCheckable(true);
     m_ruleAct->setCheckable(true);
+	m_pathAct->setCheckable(true);
     
     m_handAct->setChecked(true);
 }
@@ -298,6 +299,9 @@ void VToolsBar::currentActionChanged(QAction* p)
 
     if(p == m_ruleAct)
         m_currentTool = RULE;
+
+	if(p == m_pathAct)
+		m_currentTool = PATH;
     
     emit currentToolChanged(m_currentTool);
 }
