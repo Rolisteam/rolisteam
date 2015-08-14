@@ -102,6 +102,9 @@ private:
     * @brief path stored in QtClasse
     */
     QPainterPath m_path;
+	QPointF m_start;
+
+	QVector<QPointF> m_pointVector;
     
 };
 
