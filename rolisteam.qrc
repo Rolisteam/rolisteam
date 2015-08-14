@@ -78,6 +78,8 @@
         <file>resources/icons/action-rotate.png</file>
         <file>resources/icons/object-rotate-left-4.png</file>
         <file>resources/icons/object-rotate-right-4.png</file>
+        <file>resources/icons/path.png</file>
+        <file>resources/icons/photo.png</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
