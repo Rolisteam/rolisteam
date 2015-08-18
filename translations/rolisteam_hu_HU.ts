@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu_HU">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu_HU" version="2.1">
 <context>
     <name>AudioPlayer</name>
     <message>
@@ -52,12 +50,12 @@
     <message>
         <location filename="../src/audio/audiowidget.ui" line="151"/>
         <source>Stop</source>
-        <translation>Stop</translation>
+        <translation>Megállítás</translation>
     </message>
     <message>
         <location filename="../src/audio/audiowidget.ui" line="170"/>
         <source>m_uniqueMode</source>
-        <translation type="unfinished"></translation>
+        <translation>m_uniqueMode</translation>
     </message>
     <message>
         <location filename="../src/audio/audiowidget.ui" line="186"/>
@@ -97,22 +95,22 @@
     <message>
         <location filename="../src/chat/chatlistwidget.cpp" line="39"/>
         <source>Chat messaging</source>
-        <translation>Üzenés chaten</translation>
+        <translation>Chat szobák</translation>
     </message>
     <message>
         <location filename="../src/chat/chatlistwidget.cpp" line="64"/>
         <source>Add a chat</source>
-        <translation>Chat hozzáadása</translation>
+        <translation>Új szoba</translation>
     </message>
     <message>
         <location filename="../src/chat/chatlistwidget.cpp" line="67"/>
         <source>Remove a chat</source>
-        <translation>Chat eltávolítása</translation>
+        <translation>Szoba megszüntetése</translation>
     </message>
     <message>
         <location filename="../src/chat/chatlistwidget.cpp" line="124"/>
         <source>New chat</source>
-        <translation>Új Chat</translation>
+        <translation>Szoba neve</translation>
     </message>
 </context>
 <context>
@@ -141,19 +139,19 @@
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="77"/>
         <source>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="215"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2 (%3)]</source>
         <comment>You got</comment>
-        <translation type="unfinished"></translation>
+        <translation> [%2 (%3)]  dobására &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; az eredmény</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="217"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]</source>
         <comment>He got</comment>
-        <translation type="unfinished"></translation>
+        <translation>az eredmény &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="286"/>
@@ -187,17 +185,17 @@
     <message>
         <location filename="../src/widgets/colorselector.cpp" line="99"/>
         <source>Predefine color 1</source>
-        <translation>Szín meghatározása 1</translation>
+        <translation>Szín kiválasztása 1</translation>
     </message>
     <message>
         <location filename="../src/widgets/colorselector.cpp" line="124"/>
         <source>Predefine color %1 </source>
-        <translation>Szín meghatározása %1</translation>
+        <translation>Szín kiválasztása %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/colorselector.cpp" line="155"/>
         <source>Custom Color %1 </source>
-        <translation>Személyre szabott szín %1</translation>
+        <translation>Egyedi szín %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/colorselector.cpp" line="191"/>
@@ -256,12 +254,12 @@
     <message>
         <location filename="../src/network/connectiondialog.cpp" line="127"/>
         <source>Address : </source>
-        <translation>Cím :</translation>
+        <translation>IP Cím :</translation>
     </message>
     <message>
         <location filename="../src/network/connectiondialog.cpp" line="134"/>
         <source>Host the game.</source>
-        <translation type="unfinished"></translation>
+        <translation>Játék hostolása.</translation>
     </message>
     <message>
         <location filename="../src/network/connectiondialog.cpp" line="140"/>
@@ -290,12 +288,12 @@
     <message>
         <location filename="../src/network/connectionretrydialog.ui" line="23"/>
         <source>Connection has failed! Connection Retry in %1s. </source>
-        <translation>Csatlakozás sikertelen! Csatlakozás újrapróbálása %1 mp</translation>
+        <translation>Csatlakozás sikertelen! Újracsatlakozás %1 mp</translation>
     </message>
     <message>
         <location filename="../src/network/connectionretrydialog.cpp" line="36"/>
         <source>Connection has failed! Connection Retry in %1s.</source>
-        <translation>Csatlakozás sikertelen! Csatlakozás újrapróbálása %1 mp</translation>
+        <translation>Csatlakozás sikertelen! Újracsatlakozás %1 mp</translation>
     </message>
 </context>
 <context>
@@ -326,17 +324,17 @@
     <message>
         <location filename="../src/map/charactertoken.cpp" line="40"/>
         <source>healthy</source>
-        <translation>egészséges</translation>
+        <translation>Egészséges</translation>
     </message>
     <message>
         <location filename="../src/map/charactertoken.cpp" line="41"/>
         <source>lightly wounded</source>
-        <translation>könnyebben sérült</translation>
+        <translation>Könnyebben sérült</translation>
     </message>
     <message>
         <location filename="../src/map/charactertoken.cpp" line="42"/>
         <source>seriously injured</source>
-        <translation>súlyosan sérült</translation>
+        <translation>Súlyosan sérült</translation>
     </message>
     <message>
         <location filename="../src/map/charactertoken.cpp" line="43"/>
@@ -356,12 +354,12 @@
     <message>
         <location filename="../src/map/charactertoken.cpp" line="396"/>
         <source>Type de personnage inconnu (dessinerPersonnage - DessinPerso.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de personnage inconnu (dessinerPersonnage - DessinPerso.cpp)(?)</translation>
     </message>
     <message>
         <location filename="../src/map/charactertoken.cpp" line="471"/>
         <source>Type de personnage inconnu (renommerPerso - DessinPerso.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de personnage inconnu (renommerPerso - DessinPerso.cpp)(?)</translation>
     </message>
 </context>
 <context>
@@ -410,7 +408,7 @@
     <message>
         <location filename="../src/Image.cpp" line="147"/>
         <source>Image Compression fails (saveImageToFile - Image.cpp)</source>
-        <translation>Képtömörítési hiba (saveImageToFile - Image.cpp)</translation>
+        <translation>Képtömörítés sikertelen (saveImageToFile - Image.cpp)</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="334"/>
@@ -447,12 +445,12 @@
     <message>
         <location filename="../src/Image.cpp" line="354"/>
         <source>Fit the workspace</source>
-        <translation type="unfinished"></translation>
+        <translation>Munkaterület lefedése</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="356"/>
         <source>The window and the image fit the workspace</source>
-        <translation type="unfinished"></translation>
+        <translation>Az ablak és a kép fedje le a munkaterületet</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="359"/>
@@ -463,12 +461,12 @@
     <message>
         <location filename="../src/Image.cpp" line="365"/>
         <source>Fit Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ablak kitöltése</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="368"/>
         <source>Image will take the best dimension to fit the window.</source>
-        <translation type="unfinished"></translation>
+        <translation>A kép a lehetséges legjobb felbontását használva töltse ki az ablakot.</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="371"/>
@@ -500,7 +498,7 @@
     <message>
         <location filename="../src/Image.cpp" line="388"/>
         <source>No Zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Nincs nagyítás</translation>
     </message>
     <message>
         <location filename="../src/Image.cpp" line="391"/>
@@ -554,7 +552,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="1324"/>
         <source>Minutes Editor[*]</source>
-        <translation type="unfinished"></translation>
+        <translation>Jegyzet Szerkesztő[*]</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1701"/>
@@ -611,7 +609,7 @@
         <location filename="../src/mainwindow.cpp" line="694"/>
         <location filename="../src/mainwindow.cpp" line="1706"/>
         <source>Open Minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>Jegyzet Megnyitása</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="792"/>
@@ -626,17 +624,17 @@
     <message>
         <location filename="../src/mainwindow.ui" line="28"/>
         <source>&amp;File</source>
-        <translation>&amp;File</translation>
+        <translation>&amp;Fájl</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="32"/>
         <source>&amp;New</source>
-        <translation>&amp;New</translation>
+        <translation>&amp;Új (&amp;n)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="40"/>
         <source>&amp;Open</source>
-        <translation>&amp;Open</translation>
+        <translation>Megnyitás (&amp;O)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="50"/>
@@ -719,7 +717,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="204"/>
         <source>Tab</source>
-        <translation>Tab</translation>
+        <translation>Fülek</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="207"/>
@@ -744,7 +742,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="238"/>
         <source>Online Help</source>
-        <translation>Online Segítség</translation>
+        <translation>Online Dokumentáció</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="241"/>
@@ -795,7 +793,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="332"/>
         <source>Show PC Name</source>
-        <translation>JK Nevének Mutatása</translation>
+        <translation>JK Nevek Mutatása</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="335"/>
@@ -805,7 +803,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="346"/>
         <source>Show Npc Name</source>
-        <translation>NJK Nevének Mutatása</translation>
+        <translation>NJK Nevek Mutatása</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="349"/>
@@ -825,7 +823,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="371"/>
         <source>Minute Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Jegyzet Szerkesztő</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="374"/>
@@ -846,7 +844,7 @@
         <location filename="../src/mainwindow.ui" line="399"/>
         <location filename="../src/mainwindow.cpp" line="420"/>
         <source>Notification Zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Értesítési Terület</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="407"/>
@@ -871,12 +869,12 @@
     <message>
         <location filename="../src/mainwindow.ui" line="70"/>
         <source>Sub-Windows</source>
-        <translation>Alablak</translation>
+        <translation>Ablakok</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="74"/>
         <source>Reorganize</source>
-        <translation>Újrarendez</translation>
+        <translation>Elrendezés</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="172"/>
@@ -886,7 +884,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="212"/>
         <source>Cascade</source>
-        <translation>Kaszkád</translation>
+        <translation>Lépcsős elrendezés</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="215"/>
@@ -896,7 +894,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="220"/>
         <source>Tile</source>
-        <translation type="unfinished"></translation>
+        <translation>Csempés elrendezés</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="109"/>
@@ -918,7 +916,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="113"/>
         <source>&lt;p&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later).A copy of the GPL is contained in the &apos;COPYING&apos; file distributed with Rolisteam.Rolisteam is copyrighted by its contributors.  See the &apos;COPYRIGHT&apos; file for the complete list of contributors.  We provide no warranty for this program.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;A GPL (2-es verzió és későbbi) feltételei alapján megváltoztathatod, és terjesztheted a programot. A GPL megtalálható a &apos;COPYING&apos; névre hallgató fájl alatt. A Rolisteam szerzői jog védelme alatt áll. Lásd a &apos;COPYRIGHT&apos; nevű fájlt a munkatársak listájáért. A programért semmilyen felelősséget nem vállalunk.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1048"/>
@@ -928,176 +926,178 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="1121"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolisteam beállítása, hogy a &lt;port&gt; portot használja</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1122"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolisteam beállítása, hogy a &lt;server&gt; kiszolgálóhoz csatlakozzon.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1123"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
-        <translation type="unfinished"></translation>
+        <translation>Határozd meg &lt;role&gt;: KM vagy JK</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1124"/>
         <source>Erase the settings and use the default parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Változtatások törlése, és az alapbeállítások visszaállítása</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1125"/>
         <source>Define the &lt;username&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Határozd meg &lt;username&gt;</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1208"/>
         <source>End of the connection process</source>
-        <translation type="unfinished"></translation>
+        <translation>Csatlakozási folyamat vége</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1230"/>
         <source>Error:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiba:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1234"/>
         <source>Warning:</source>
-        <translation type="unfinished"></translation>
+        <translation>Figyelmeztetés:</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1916"/>
         <source>%1[*] - v%2 - %3 - %4 - %5</source>
-        <translation type="unfinished"></translation>
+        <translation>%1[*] - v%2 - %3 - %4 - %5</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="255"/>
         <source>Close Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Térkép bezárása</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="116"/>
         <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Translators&lt;/h3&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/td&gt;&lt;td&gt;(English &amp; French)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Hungarian)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Turkish)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (French &amp; German)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;/a&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;&lt;h3&gt;Weboldalak :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Hivatalos Rolisteam Oldal&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Követő&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Jelenlegi fejlesztők :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Fordítók&lt;/h3&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/td&gt;&lt;td&gt;(Angol és Francia)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Portugál)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Portugál)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Magyar)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Török)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Francia és Német)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;h3&gt;Korábbi fejlesztők :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;/a&gt; (rolistik) &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="259"/>
         <source>Close Picture</source>
-        <translation type="unfinished"></translation>
+        <translation>Kép bezárása</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="261"/>
         <source>Do you want to close %1 %2?
 It will be closed for everybody</source>
-        <translation type="unfinished"></translation>
+        <translation>Biztos bezárod %1 %2?
+Mindenkinél be fog záródni</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="261"/>
         <source>(Map)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Térkép)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="616"/>
         <source>Connection has been lost. %1 will be close</source>
-        <translation type="unfinished"></translation>
+        <translation>A kapcsolat megszakadt. %1 be fog zárni</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="620"/>
         <source>Connection lost</source>
-        <translation type="unfinished"></translation>
+        <translation>A kapcsolat megszakadt</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="629"/>
         <source>Quit %1 </source>
-        <translation type="unfinished"></translation>
+        <translation>Kilépés %1</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="635"/>
         <source>Do you want to save your minutes before to quit %1?</source>
-        <translation type="unfinished"></translation>
+        <translation>Szeretnéd elmenteni a jegyzeteid mielőtt kilpsz %1?</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="640"/>
         <source>Do you want to save your scenario before to quit %1?</source>
-        <translation type="unfinished"></translation>
+        <translation>Szeretnéd elmenteni a jelenetet mielőtt kilépsz %1?</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="792"/>
         <source>Map (*.pla)</source>
-        <translation type="unfinished"></translation>
+        <translation>Térkép (*.pla)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="707"/>
         <location filename="../src/mainwindow.cpp" line="828"/>
         <source>Scenarios (*.sce)</source>
-        <translation type="unfinished"></translation>
+        <translation>Jelenetek (*.sce)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="75"/>
         <source>Character Sheets files (*.xml)</source>
-        <translation type="unfinished"></translation>
+        <translation>Karakterlap fájlok (*.xml)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="76"/>
         <source>Pdf File (*.pdf)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pdf Fájl (*.pdf)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="77"/>
         <source>Supported Text files (*.html *.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>Támogatott szövegfájlok (*.html *.txt)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="78"/>
         <source>Supported Map files (*.pla )</source>
-        <translation type="unfinished"></translation>
+        <translation>Támogatott Térkép fájlok (*.pla)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="108"/>
         <source>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;A Rolisteam segít a játék lebonyolítását távoli barátokkal/játékosokkal. Több funkciót biztosít képek, térképek megosztására, továbbá kommunikációs eszközöket nyújt a barátaidnak/játékosaidnak. A cél, hogy a Rolisteam által vezetett játékok legalább olyan jók lehessenek, mint az asztal körül zajlók. Hogy ezt elérjük, keményen dolgozunk, hogy további funkciókkal egészíthessük ki a programot. Már meglévő funkciók: Térkép megosztás (engedélykövetéssel), Képek megosztása, háttérzene, kockadobás, és így tovább. A Rolisteam Qt5-ben írták.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="828"/>
         <source>Save Scenarios</source>
-        <translation type="unfinished"></translation>
+        <translation>Jelenetek elmentése</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="246"/>
         <location filename="../src/mainwindow.cpp" line="107"/>
         <source>About Rolisteam</source>
-        <translation type="unfinished"></translation>
+        <translation>A Rolisteamről</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="981"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>A %1 dokumentációja megtalálható online: &lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1020"/>
         <source>Update Monitor</source>
-        <translation type="unfinished"></translation>
+        <translation>Képernyő Frissítése</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1020"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiadásra került a %1 verzió. Kérlek nézd meg a &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Letöltések szekciót&lt;/a&gt; további információkért</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1045"/>
         <source>%1 just joins the game.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 csatlakozott a játékhoz</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1054"/>
         <source>%1 just leaves the game.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 elhagyja a játékot</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="909"/>
         <source>Server Ip Address:%1
 Port:%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiszolgáló IP címe: %1
+Port: %2</translation>
     </message>
 </context>
 <context>
@@ -1105,118 +1105,119 @@ Port:%2</source>
     <message>
         <location filename="../src/map/map.cpp" line="548"/>
         <source>color type not allowed (paintMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>szín nem engedélyezett (paintMap - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="572"/>
         <source>color type not allowed  (paintMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>szín nem engedélyezett (paintMap - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="704"/>
         <source>undefined drawing tools (paintMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>nem meghatározott rajzeszköz (paintMap - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="784"/>
         <source>Undefined tool  (paintMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem meghatározott eszköz (paintMap - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="802"/>
         <source>Source, destination and alpha layer have not the same size  (addAlphaLayer - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>A forrás, a cél és az alfa réteg nem azonos méretű(addAlphaLayer - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="950"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="952"/>
         <source>Inappropriate Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem Megfelelő Szín</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="957"/>
         <source>You can not select this color because
  It&apos;s a special color.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ezt a színt nem választhatod,
+ez egy kiemelt szín.</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="916"/>
         <source>undefined tool for processing action on NPC or PC (processNpcAction - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem meghatározott eszköz az NJK-n vagy JK-n (processNpcAction - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="992"/>
         <source>undefined tool for processing action on NPC or PC (processNpcActionReleased - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem meghatározott eszköz az NJK-n vagy JK-n (processNpcActionReleased - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1036"/>
         <source>undefined tool for processing action on NPC or PC (processNpcMove - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem meghatározott eszköz az NJK-n vagy JK-n (processNpcMove - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1105"/>
         <source>unknown widget under cursor (paintCharacter - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ismeretlen eszköz a mutató alatt (paintCharacter - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1260"/>
         <source>PC ID not found (showPc - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>JK azonosító nem található (showPc - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1282"/>
         <source>PC ID: %1 not found (isVisiblePc - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>JK azonosító: %1 nem található (isVisiblePc - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1302"/>
         <source>No character with this id: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem létezik karakter a következő azonosítóval: %1</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1317"/>
         <location filename="../src/map/map.cpp" line="1332"/>
         <source>Person %s %s unknown in Carte::changePerson</source>
-        <translation type="unfinished"></translation>
+        <translation>Ismeretlen %s %s személy Carte::changePerson</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1361"/>
         <location filename="../src/map/map.cpp" line="1370"/>
         <location filename="../src/map/map.cpp" line="1377"/>
         <source>Codec Error (emettreCarte - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec Hiba (emettreCarte - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1582"/>
         <location filename="../src/map/map.cpp" line="1669"/>
         <location filename="../src/map/map.cpp" line="1737"/>
         <source>Color type is not correct</source>
-        <translation type="unfinished"></translation>
+        <translation>A szín típusa nem megfelelő</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1829"/>
         <source>Undefined Tool (paintOther - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Meghatározatlan Eszköz (paintOther - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1973"/>
         <source>Compression issue on original background(saveMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tömörítési probléma az eredeti háttéren(saveMap - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1982"/>
         <source>Compression issue on background(saveMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tömörítési probléma a háttéren(saveMap - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1991"/>
         <source>Compression issue on alpha layer (saveMap - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tömörítési probléma az alfa rétegen(saveMap - map.cpp)</translation>
     </message>
 </context>
 <context>
@@ -1230,53 +1231,53 @@ Port:%2</source>
     <message>
         <location filename="../src/map/mapframe.cpp" line="179"/>
         <source>Compressing image goes wrong (ouvrirPlan - MainWindow.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>A képtömörítés hibára futott (ouvrirPlan - MainWindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="234"/>
         <source>Extract original background information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Az eredeti háttérinformációk kinyerése sikertelen (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="242"/>
         <source>Extract background information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>A háttérinformációk kinyerése sikertelen (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="250"/>
         <source>Extract alpha layer information Failed (readMapAndNpc - bipmapwindow.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Az alfa réteg információk kinyerése sikertelen (readMapAndNpc - bipmapwindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="387"/>
         <source>New map: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Új térkép: %1</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="399"/>
         <source>Compression Error (processMapMessage - NetworkLink.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Tomorítési Hiba (processMapMessage - NetworkLink.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="406"/>
         <location filename="../src/map/mapframe.cpp" line="444"/>
         <source>Receiving map: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Térkép átvitele: %1</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="420"/>
         <source>Extract original background information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Az eredeti háttérinformációk kinyerése sikertelen (processMapMessage - mainwindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="427"/>
         <source>Extract background information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>A háttérinformációk kinyerése sikertelen (processMapMessage - mainwindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="434"/>
         <source>Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Az alfa réteg információk kinyerése sikertelen (processMapMessage - mainwindow.cpp)</translation>
     </message>
 </context>
 <context>
@@ -1284,57 +1285,57 @@ Port:%2</source>
     <message>
         <location filename="../src/map/mapwizzard.ui" line="14"/>
         <source>Map Wizzard</source>
-        <translation type="unfinished"></translation>
+        <translation>Térkép Varázsló</translation>
     </message>
     <message>
         <location filename="../src/map/mapwizzard.ui" line="22"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cím:</translation>
     </message>
     <message>
         <location filename="../src/map/mapwizzard.ui" line="36"/>
         <source>Permission Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Engedély mód:</translation>
     </message>
     <message>
         <location filename="../src/map/mapwizzard.ui" line="50"/>
         <source>Filepath:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fájl elérési útja:</translation>
     </message>
     <message>
         <location filename="../src/map/mapwizzard.ui" line="64"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Böngészés</translation>
     </message>
     <message>
         <location filename="../src/map/mapwizzard.ui" line="75"/>
         <source>Hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejtett</translation>
     </message>
     <message>
         <location filename="../src/map/mapwizzard.cpp" line="18"/>
         <source>No Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Semmihez</translation>
     </message>
     <message>
         <location filename="../src/map/mapwizzard.cpp" line="18"/>
         <source>His character</source>
-        <translation type="unfinished"></translation>
+        <translation>Csak a karakteréhez</translation>
     </message>
     <message>
         <location filename="../src/map/mapwizzard.cpp" line="18"/>
         <source>All Permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>Bármihez</translation>
     </message>
     <message>
         <location filename="../src/map/mapwizzard.cpp" line="28"/>
         <source>Select Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Térkép Kiválasztása</translation>
     </message>
     <message>
         <location filename="../src/map/mapwizzard.cpp" line="29"/>
         <source>Map (*.pla *.jpg *.jpeg *.png *.bmp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Térkép (*.pla *.jpg *.jpeg *.png *.bmp)</translation>
     </message>
 </context>
 <context>
@@ -1342,7 +1343,7 @@ Port:%2</source>
     <message>
         <location filename="../src/audio/musicmodel.cpp" line="33"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Cím</translation>
     </message>
 </context>
 <context>
@@ -1350,7 +1351,7 @@ Port:%2</source>
     <message>
         <location filename="../src/network/networklink.cpp" line="102"/>
         <source>Network error occurs :</source>
-        <translation type="unfinished"></translation>
+        <translation>Hálózati hiba történt:</translation>
     </message>
 </context>
 <context>
@@ -1363,7 +1364,7 @@ Port:%2</source>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="220"/>
         <source>Server is on.</source>
-        <translation type="unfinished"></translation>
+        <translation>A kiszolgáló elérhető.</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="226"/>
@@ -1373,32 +1374,32 @@ Port:%2</source>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="226"/>
         <source>Can not establish the connection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem sikerült csatlakozni</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="314"/>
         <source>Connection with the Remote Server has been lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>A távoli kiszolgálóval létesített kapcsolat megszakadt.</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="330"/>
         <source>NULL NetworkLink pointer (NetworkManager::finDeNetworkLink).</source>
-        <translation type="unfinished"></translation>
+        <translation>NULL HálózatiCsatlakozó hivatkozás (NetworkManager::finDeNetworkLink).</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="337"/>
         <source>Unknown thread joined, (finDeNetworkLink - NetworkManager.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ismeretlen szál csatlakozott, (finDeNetworkLink - NetworkManager.cpp)</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="349"/>
         <source>Server has been closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>A kiszolgáló leállt.</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="360"/>
         <source>Connection to the server has been closed.</source>
-        <translation type="unfinished"></translation>
+        <translation>A kapcsolat a kiszolgálóval lezárásra került</translation>
     </message>
 </context>
 <context>
@@ -1406,118 +1407,118 @@ Port:%2</source>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="14"/>
         <source>New Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Új Térkép</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="29"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cím:</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="43"/>
         <source>Background Color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Háttérszín:</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="67"/>
         <source>Permission :</source>
-        <translation type="unfinished"></translation>
+        <translation>Engedély :</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="79"/>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Formátum</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="85"/>
         <source>Landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Fektetett</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="95"/>
         <source>Portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Portré</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="102"/>
         <source>Square</source>
-        <translation type="unfinished"></translation>
+        <translation>Négyzet</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="114"/>
         <source>Size (in pixels)</source>
-        <translation type="unfinished"></translation>
+        <translation>Méret (pixel)</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="120"/>
         <source>Small (%1 x %2 )</source>
-        <translation type="unfinished"></translation>
+        <translation>Kicsi (%1 x %2 )</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="127"/>
         <source>Middle (%1 x %2 )</source>
-        <translation type="unfinished"></translation>
+        <translation>Közepes (%1 x %2 )</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="137"/>
         <source>Big (%1 x %2 )</source>
-        <translation type="unfinished"></translation>
+        <translation>Nagy (%1 x %2 )</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="144"/>
         <source>Huge (%1 x %2 )</source>
-        <translation type="unfinished"></translation>
+        <translation>Hatalmas (%1 x %2 )</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="151"/>
         <location filename="../src/map/newemptymapdialog.ui" line="161"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Egyedi</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="169"/>
         <source>Width:</source>
-        <translation type="unfinished"></translation>
+        <translation>Szélesség:</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="183"/>
         <source>Height:</source>
-        <translation type="unfinished"></translation>
+        <translation>Magasság:</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.cpp" line="37"/>
         <source>Small (%1 x %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kicsi (%1 x %2)</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.cpp" line="37"/>
         <source>Middle (%1 x %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Közepes (%1 x %2)</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.cpp" line="37"/>
         <source>Big (%1 x %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nagy (%1 x %2)</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.cpp" line="37"/>
         <source>Huge (%1 x %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Hatalmas (%1 x %2)</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.cpp" line="47"/>
         <source>No Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Semmihez</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.cpp" line="47"/>
         <source>His character</source>
-        <translation type="unfinished"></translation>
+        <translation>Csak a karakteréhez</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.cpp" line="47"/>
         <source>All Permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>Bármihez</translation>
     </message>
 </context>
 <context>
@@ -1525,7 +1526,7 @@ Port:%2</source>
     <message>
         <location filename="../src/odt/format_OO_oasis_/OOReader.cpp" line="264"/>
         <source>Unable to convert document body!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem sikerült a dokumentumot átkonvertálni!</translation>
     </message>
 </context>
 <context>
@@ -1533,22 +1534,22 @@ Port:%2</source>
     <message>
         <location filename="../src/widgets/onlinepicturedialog.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialógus</translation>
     </message>
     <message>
         <location filename="../src/widgets/onlinepicturedialog.ui" line="24"/>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cím:</translation>
     </message>
     <message>
         <location filename="../src/widgets/onlinepicturedialog.ui" line="31"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cím:</translation>
     </message>
     <message>
         <location filename="../src/widgets/onlinepicturedialog.ui" line="58"/>
         <source>download</source>
-        <translation type="unfinished"></translation>
+        <translation>letöltés</translation>
     </message>
 </context>
 <context>
@@ -1556,27 +1557,27 @@ Port:%2</source>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="78"/>
         <source>Role</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerep</translation>
     </message>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="78"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Csoport</translation>
     </message>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="79"/>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktív</translation>
     </message>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="79"/>
         <source>Disable</source>
-        <translation type="unfinished"></translation>
+        <translation>Letiltva</translation>
     </message>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="79"/>
         <source>Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Inaktív</translation>
     </message>
 </context>
 <context>
@@ -1584,22 +1585,22 @@ Port:%2</source>
     <message>
         <location filename="../src/persondialog.cpp" line="66"/>
         <source>&amp;Name : </source>
-        <translation type="unfinished"></translation>
+        <translation>Név :</translation>
     </message>
     <message>
         <location filename="../src/persondialog.cpp" line="67"/>
         <source>&amp;Color : </source>
-        <translation type="unfinished"></translation>
+        <translation>Szín :</translation>
     </message>
     <message>
         <location filename="../src/persondialog.cpp" line="69"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/persondialog.cpp" line="72"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Mégse</translation>
     </message>
 </context>
 <context>
@@ -1617,7 +1618,7 @@ Port:%2</source>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="128"/>
         <source>Stop</source>
-        <translation>Stop</translation>
+        <translation>Megállítás</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="129"/>
@@ -1632,62 +1633,62 @@ Port:%2</source>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="137"/>
         <source>Open Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Könyvtár megnyitása</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="142"/>
         <source>load TableTopAudio.com playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>a TableTopAudio.com lejátszási listájának betöltése </translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="145"/>
         <source>Open Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Lejátszási Lista Megnyitása</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="148"/>
         <source>Save Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Lejátszási Lista Elmentése</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="151"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="155"/>
         <source>Add Songs</source>
-        <translation type="unfinished"></translation>
+        <translation>Zenék Hozzáadása</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="158"/>
         <source>Open Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Stream Megnyitása</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="160"/>
         <source>Remove Song</source>
-        <translation type="unfinished"></translation>
+        <translation>Zene Eltávolítása</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="181"/>
         <source>Add song to the list</source>
-        <translation type="unfinished"></translation>
+        <translation>Zene listához adása</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="182"/>
         <source>Remove selected file</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiválasztott fájl eltávolítása</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="282"/>
         <source>Add song</source>
-        <translation type="unfinished"></translation>
+        <translation>Zene hozzáadása</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="282"/>
         <source>Audio files (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Hangfájlok (%1)</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="293"/>
@@ -1697,38 +1698,38 @@ Port:%2</source>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="293"/>
         <source>You are about to load an new playlist. All previously load file will be dropped.</source>
-        <translation type="unfinished"></translation>
+        <translation>Egy új lejátszási listát készülsz betölteni. Az összes előzőleg betöltött el lesz vetve.</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="309"/>
         <source>Open Play List</source>
-        <translation type="unfinished"></translation>
+        <translation>Lejátszási Lista Megnyitása</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="309"/>
         <location filename="../src/audio/playerwidget.cpp" line="624"/>
         <source>PlayList (*.m3u)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lejátszási Lista (*.m3u)</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="321"/>
         <source>Open audio Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Zene Stream Megnyitása</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="321"/>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="502"/>
         <source>Load Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Könyvtár betöltése</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="624"/>
         <source>Save Play List</source>
-        <translation type="unfinished"></translation>
+        <translation>Lejátszási Lista Elmentése</translation>
     </message>
 </context>
 <context>
@@ -1736,17 +1737,17 @@ Port:%2</source>
     <message>
         <location filename="../src/userlist/playersList.cpp" line="148"/>
         <source>Players List</source>
-        <translation type="unfinished"></translation>
+        <translation>Játékos Lista</translation>
     </message>
     <message>
         <location filename="../src/userlist/playersList.cpp" line="653"/>
         <source>PlayersList [PlayerCategory]: unknown action (%d)</source>
-        <translation type="unfinished"></translation>
+        <translation>JátékosLista [JátékosKategória]: ismeretlen cselekvés (%d)</translation>
     </message>
     <message>
         <location filename="../src/userlist/playersList.cpp" line="672"/>
         <source>PlayersList [CharacterPlayerCategory]: unknown action (%d)</source>
-        <translation type="unfinished"></translation>
+        <translation>JátékosLista [KarakterJátékosKategória]: ismeretlen cselekvés (%d)</translation>
     </message>
 </context>
 <context>
@@ -1754,17 +1755,17 @@ Port:%2</source>
     <message>
         <location filename="../src/userlist/playersListWidget.cpp" line="214"/>
         <source>Player List</source>
-        <translation type="unfinished"></translation>
+        <translation>Játékos Lista</translation>
     </message>
     <message>
         <location filename="../src/userlist/playersListWidget.cpp" line="239"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerkesztés </translation>
     </message>
     <message>
         <location filename="../src/userlist/playersListWidget.cpp" line="250"/>
         <source>New Character</source>
-        <translation type="unfinished"></translation>
+        <translation>Ismeretlen Karakter</translation>
     </message>
     <message>
         <location filename="../src/userlist/playersListWidget.cpp" line="296"/>
@@ -1780,12 +1781,12 @@ Port:%2</source>
     <message>
         <location filename="../src/userlist/playersListWidget.cpp" line="303"/>
         <source>Add a %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Hozzáadása</translation>
     </message>
     <message>
         <location filename="../src/userlist/playersListWidget.cpp" line="306"/>
         <source>Remove %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Eltávolítása</translation>
     </message>
 </context>
 <context>
@@ -1798,103 +1799,103 @@ Port:%2</source>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="242"/>
         <source>Images (*.png *.xpm *.jpg *.gif *.bmp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Képek (*.png *.xpm *.jpg *.gif *.bmp)</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="288"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>alapértelmezett</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="295"/>
         <source>darkorange</source>
-        <translation type="unfinished"></translation>
+        <translation>darkorange</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="315"/>
         <source>darkfusion</source>
-        <translation type="unfinished"></translation>
+        <translation>darkfusion</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="401"/>
         <source>Css Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>CSS Szerkesztő</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="401"/>
         <source>Css</source>
-        <translation type="unfinished"></translation>
+        <translation>CSS</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="418"/>
         <source> (copy)</source>
-        <translation type="unfinished"></translation>
+        <translation>(másolat)</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="511"/>
         <source>&lt;li&gt;Image Format : %1 value %2&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Kép Formátumok : %1 érték %2&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="512"/>
         <source>&lt;h2&gt;Supported Image Formats:&lt;/h2&gt;&lt;ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Támogatott Kép Fomátumok:&lt;/h2&gt;&lt;ul&gt;</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="519"/>
         <source>&lt;/ul&gt;End of Image Format</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;/ul&gt;Képformátumok vége</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="522"/>
         <source>&lt;h2&gt;Font families:&lt;/h2&gt;&lt;ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Betűípusok:&lt;/h2&gt;&lt;ul&gt;</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="529"/>
         <source>&lt;/ul&gt;End of Font families</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;/ul&gt;Betűtípusok vége</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="532"/>
         <source>&lt;h2&gt;Audio file formats Support:&lt;/h2&gt;&lt;ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Támogatott Hangformátumok:&lt;/h2&gt;&lt;ul&gt;</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="556"/>
         <source>&lt;li&gt;Unsupported format: %1&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Nem támogatott formátum: %1&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="559"/>
         <source>&lt;li&gt;Maybe supported format: %1&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Talán támogatott formátum: %1&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="563"/>
         <source>&lt;li&gt;Supported format: %1&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Támogatott formátum: %1&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="568"/>
         <source>&lt;/ul&gt;End of Supported Audio file formats</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;/ul&gt;Támogatott Hangformátumok vége</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="642"/>
         <source>Export Rolisteam Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolisteam Téma Exportálása</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="644"/>
         <location filename="../src/preferences/preferencesdialog.cpp" line="665"/>
         <source>Rolisteam Theme: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolisteam Téma: %1</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="665"/>
         <source>Import Rolisteam Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolisteam Téma Importálása</translation>
     </message>
 </context>
 <context>
@@ -1902,243 +1903,243 @@ Port:%2</source>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialógus</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="26"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Általános</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="179"/>
         <source>Themes</source>
-        <translation type="unfinished"></translation>
+        <translation>Témák</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="467"/>
         <source>Application Paths</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiinduló könyvtárak</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="578"/>
         <source>Dice System</source>
-        <translation type="unfinished"></translation>
+        <translation>Kocka Rendszer</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="32"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Szín</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="40"/>
         <source>Fog Of War:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kitakarás:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="58"/>
         <source>Opacity Value:</source>
-        <translation type="unfinished"></translation>
+        <translation>Áttetszőség:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="90"/>
         <source>Only apply on future maps.</source>
-        <translation type="unfinished"></translation>
+        <translation>Csak a későbbi térképeknél lép érvénybe.</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="113"/>
         <source>Full Screen at launch</source>
-        <translation type="unfinished"></translation>
+        <translation>Teljes képernyős indítás</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="129"/>
         <source>Default Map Permission:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mihez nyúlhat a játékos:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="143"/>
         <source>Translation File*:</source>
-        <translation type="unfinished"></translation>
+        <translation>Honosító Fájl*:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="155"/>
         <source>* : need restart</source>
-        <translation type="unfinished"></translation>
+        <translation>* : újraindítást igényel</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="185"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Téma</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="195"/>
         <source>Current Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Jelenlegi Téma</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="202"/>
         <source>Theme name</source>
-        <translation type="unfinished"></translation>
+        <translation>Téma neve</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="209"/>
         <source>Styles:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stílusok:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="225"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Másolás</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="232"/>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="685"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="249"/>
         <source>Css:</source>
-        <translation type="unfinished"></translation>
+        <translation>CSS:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="256"/>
         <source>Edit...</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerkesztés...</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="282"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Háttér</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="290"/>
         <source>Color:</source>
-        <translation type="unfinished"></translation>
+        <translation>Szín:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="321"/>
         <source>Image:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kép:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="335"/>
         <source>Positioning:</source>
-        <translation type="unfinished"></translation>
+        <translation>Elhelyezés:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="343"/>
         <source>TopLeftCorner</source>
-        <translation type="unfinished"></translation>
+        <translation>Bal felső sarokba</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="348"/>
         <source>BottomLeftCorner</source>
-        <translation type="unfinished"></translation>
+        <translation>Bal alsó sarokba</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="353"/>
         <source>Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Középre</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="358"/>
         <source>TopRightCorner</source>
-        <translation type="unfinished"></translation>
+        <translation>Jobb felső sarokba</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="363"/>
         <source>BottomRightCorner</source>
-        <translation type="unfinished"></translation>
+        <translation>Jobb alsó sarokba</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="368"/>
         <source>Scaled</source>
-        <translation type="unfinished"></translation>
+        <translation>Méretarányos</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="373"/>
         <source>Filled</source>
-        <translation type="unfinished"></translation>
+        <translation>Kitöltés</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="378"/>
         <source>Repeated</source>
-        <translation type="unfinished"></translation>
+        <translation>Kép Ismétlése</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="393"/>
         <source>Dice Highlight Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Kocka Kiemelő Szín</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="422"/>
         <source>Color Palette</source>
-        <translation type="unfinished"></translation>
+        <translation>Szín paletta</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="447"/>
         <source>Import…</source>
-        <translation type="unfinished"></translation>
+        <translation>Importálás...</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="454"/>
         <source>Export…</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportálás...</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="100"/>
         <source>Behaviour</source>
-        <translation type="unfinished"></translation>
+        <translation>Program viselkedése</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="738"/>
         <source>Diagnostic</source>
-        <translation type="unfinished"></translation>
+        <translation>Diagnosztika</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="106"/>
         <source>Check for Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Frissítések automatikus keresése</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="120"/>
         <source>Pictures fit their Windows (at the opening)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ablak méretű képek (megnyitáskor)</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="473"/>
         <source>Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Könyvtárak</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="483"/>
         <source>Music (GM) :</source>
-        <translation type="unfinished"></translation>
+        <translation>Zene (KM)</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="490"/>
         <source>Music (Player) :</source>
-        <translation type="unfinished"></translation>
+        <translation>Zene (Játékos)</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="497"/>
         <source>Pictures :</source>
-        <translation type="unfinished"></translation>
+        <translation>Képek :</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="504"/>
         <source>Map :</source>
-        <translation type="unfinished"></translation>
+        <translation>Térkép :</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="511"/>
         <source>Scenarios :</source>
-        <translation type="unfinished"></translation>
+        <translation>Jelenetek :</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="518"/>
         <source>Minutes :</source>
-        <translation type="unfinished"></translation>
+        <translation>Jegyzetek :</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="525"/>
@@ -2148,47 +2149,47 @@ Port:%2</source>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="588"/>
         <source>Dice Command</source>
-        <translation type="unfinished"></translation>
+        <translation>Kocka Parancs</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="618"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Teszt</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="629"/>
         <source>Converted</source>
-        <translation type="unfinished"></translation>
+        <translation>Konvertált</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="678"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Hozzáad</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="692"/>
         <source>Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Fel</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="699"/>
         <source>Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Le</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="706"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Tetejére</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="713"/>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Aljára</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="766"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Start</translation>
     </message>
 </context>
 <context>
@@ -2196,17 +2197,17 @@ Port:%2</source>
     <message>
         <location filename="../src/chat/privatechatdialog.cpp" line="128"/>
         <source>&amp;Name : </source>
-        <translation type="unfinished"></translation>
+        <translation>Név :</translation>
     </message>
     <message>
         <location filename="../src/chat/privatechatdialog.cpp" line="129"/>
         <source>&amp;Owner : </source>
-        <translation type="unfinished"></translation>
+        <translation>Tulajdonos :</translation>
     </message>
     <message>
         <location filename="../src/chat/privatechatdialog.cpp" line="130"/>
         <source>&amp;Player : </source>
-        <translation type="unfinished"></translation>
+        <translation>Játékos :</translation>
     </message>
 </context>
 <context>
@@ -2214,7 +2215,7 @@ Port:%2</source>
     <message>
         <location filename="../src/chat/chat.cpp" line="66"/>
         <source>Global</source>
-        <translation type="unfinished"></translation>
+        <translation>Közös</translation>
     </message>
 </context>
 <context>
@@ -2222,115 +2223,118 @@ Port:%2</source>
     <message>
         <location filename="../src/main.cpp" line="99"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Ismeretlen</translation>
     </message>
     <message>
         <location filename="../src/data/mediacontainer.cpp" line="47"/>
         <source>Loading error</source>
-        <translation type="unfinished"></translation>
+        <translation>Töltési hiba</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="54"/>
         <source>k</source>
-        <translation type="unfinished"></translation>
+        <translation>k</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="55"/>
         <source>K</source>
-        <translation type="unfinished"></translation>
+        <translation>K</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="56"/>
         <source>s</source>
-        <translation type="unfinished"></translation>
+        <translation>s</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="57"/>
         <source>c</source>
-        <translation type="unfinished"></translation>
+        <translation>c</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="58"/>
         <source>r</source>
-        <translation type="unfinished"></translation>
+        <translation>r</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="59"/>
         <source>e</source>
-        <translation type="unfinished"></translation>
+        <translation>e</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="60"/>
         <source>a</source>
-        <translation type="unfinished"></translation>
+        <translation>a</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="181"/>
         <source>Nothing was understood</source>
-        <translation type="unfinished"></translation>
+        <translation>Semmit sem értek</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="533"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem létezik %1 oldalú kocka. Kérlek 0-nál nagyobb számot adj meg</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="571"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiányzó lista az L operátor után. Kérlek add meg (példa: 1L[kard,lándza,pisztoly,nyílvessző])</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="828"/>
         <source>Validator is missing after the c operator. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiányzó validátor a c operátor után. Kérlek változtasd meg</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="852"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiányzó validátor a(z) %1 operátor után. Kérlek változtasd meg</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="864"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>Ez a feltétel %1 végtelen ciklust hoz létre. Kérlek változtasd meg.</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="875"/>
         <source>Validator is missing after the e operator. Please, change it</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiányzó validátor a e operátor után. Kérlek változtasd meg</translation>
     </message>
     <message>
         <location filename="../src/diceparser/node/listaliasnode.cpp" line="54"/>
         <source>List of Alias:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Álnevek Listája:
+</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1126"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>elérési út a honosító fájlhoz: &lt;translationfile&gt;</translation>
     </message>
     <message>
         <location filename="../src/diceparser/node/scalaroperatornode.cpp" line="131"/>
         <source>Division by zero</source>
-        <translation type="unfinished"></translation>
+        <translation>Nullával való osztás</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="166"/>
         <source>Supported Image formats (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Támogatott Képformátumok (%1)</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="181"/>
         <source>Supported Audio formats (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Támogatott Hangformátumok (%1)</translation>
     </message>
     <message>
         <location filename="../src/diceparser/node/helpnode.cpp" line="34"/>
         <source>Rolisteam Dice Parser:
 Full documentation at: %1 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Rolisteam Kocka Értelmező:
+Teljes dokumentáció: %1
+</translation>
     </message>
 </context>
 <context>
@@ -2338,204 +2342,205 @@ Full documentation at: %1
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="764"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Rólunk</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="200"/>
         <source>File Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Fájl Műveletek</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
         <source>OpenOffice 2.4 file format OASIS </source>
-        <translation type="unfinished"></translation>
+        <translation>OpenOffice 2.4 fájl formátum OASIS </translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
         <source> (*.odt *.ott);;</source>
-        <translation type="unfinished"></translation>
+        <translation>(*.odt *.ott);;</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
         <source>XHTML file format</source>
-        <translation type="unfinished"></translation>
+        <translation>XHTML formátum</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
         <source> (*.htm *.html);;</source>
-        <translation type="unfinished"></translation>
+        <translation>(*.htm *.html);;</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="203"/>
         <source>&amp;File</source>
-        <translation>&amp;File</translation>
+        <translation>&amp;Fájl</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="208"/>
         <source>&amp;New</source>
-        <translation>&amp;New</translation>
+        <translation>Új (&amp;N)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="214"/>
         <source>&amp;Open...</source>
-        <translation type="unfinished"></translation>
+        <translation>Megnyitás (&amp;O)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="222"/>
         <source>&amp;Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Menté&amp;s</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="229"/>
         <source>Save &amp;As...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mentés Másként... (&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="234"/>
         <source>&amp;Print...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyomtatás (&amp;P)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="240"/>
         <source>Print Preview...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nyomtatási Előznézet...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="244"/>
         <source>&amp;Export PDF...</source>
-        <translation type="unfinished"></translation>
+        <translation>PDFbe m&amp;entés...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="252"/>
         <source>&amp;Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Kilépés (&amp;Q)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="261"/>
         <source>Edit Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerkesztő Műveletek</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="264"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Sz&amp;erkesztés</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="268"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Visszavonás (&amp;U)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="272"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Új&amp;ra</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="277"/>
         <source>Cu&amp;t</source>
-        <translation type="unfinished"></translation>
+        <translation>Kivágás (&amp;T)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="281"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Másolás (&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="285"/>
         <source>&amp;Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Beillesztés (&amp;P)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="295"/>
         <location filename="../src/odt/src/textedit.cpp" line="364"/>
         <source>Format Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Formázó Műveletek</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="298"/>
         <source>F&amp;ormat</source>
-        <translation type="unfinished"></translation>
+        <translation>F&amp;ormázás</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="301"/>
         <source>&amp;Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Félkövér (&amp;B)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="311"/>
         <source>&amp;Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Dőlt (&amp;I)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="321"/>
         <source>&amp;Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Aláhúzott (&amp;U)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="336"/>
         <source>&amp;Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Ba&amp;lra</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="339"/>
         <source>C&amp;enter</source>
-        <translation type="unfinished"></translation>
+        <translation>Középr&amp;e</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="342"/>
         <source>&amp;Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Jobb&amp;ra</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="345"/>
         <source>&amp;Justify</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorkizárt (&amp;J)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="356"/>
         <source>&amp;Color...</source>
-        <translation type="unfinished"></translation>
+        <translation>Szín (&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="468"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Alkalmazás</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="469"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>A dokumentum megváltozott.
+Akarod menteni a változtatásokat?</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="504"/>
         <source>Open File...</source>
-        <translation type="unfinished"></translation>
+        <translation>File megnyitása</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="565"/>
         <source>ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>ODF fájlok (*.odt);;HTML-Fájlok (*.htm *.html);;Minden Fájl (*)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="567"/>
         <source>HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML-Fájlok (*.htm *.html);;Minden Fájl (*)</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="569"/>
         <source>Save as...</source>
-        <translation type="unfinished"></translation>
+        <translation>Mentás másként...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="587"/>
         <source>Print Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokumentum Nyomtatása</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="764"/>
         <source>This example demonstrates Qt&apos;s rich text editing facilities in action, providing an example document for you to experiment with.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ez a példa demonstrálja Qt bőséges szövegszerkesztési lehetőségeit, példa dokumentumot biztosítva, amivel kísérletehetsz.</translation>
     </message>
 </context>
 <context>
@@ -2543,73 +2548,73 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../src/toolsbar.cpp" line="46"/>
         <source>Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>Eszközök</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="88"/>
         <source>Pen</source>
-        <translation type="unfinished"></translation>
+        <translation>Toll</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="89"/>
         <source>Line</source>
-        <translation type="unfinished"></translation>
+        <translation>Vonal</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="90"/>
         <source>Empty Rectangle</source>
-        <translation type="unfinished"></translation>
+        <translation>Üres négyzet</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="91"/>
         <source>filled Rectangle</source>
-        <translation type="unfinished"></translation>
+        <translation>Kitöltött négyzet</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="92"/>
         <source>Empty Ellipse</source>
-        <translation type="unfinished"></translation>
+        <translation>Üres ellipszis </translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="93"/>
         <source>Filled Ellipse</source>
-        <translation type="unfinished"></translation>
+        <translation>Kitöltött ellipszis</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="94"/>
         <location filename="../src/toolsbar.cpp" line="224"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Szöveg</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="95"/>
         <source>Move</source>
-        <translation type="unfinished"></translation>
+        <translation>Mozgatás</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="96"/>
         <source>Add NPC</source>
-        <translation type="unfinished"></translation>
+        <translation>NJK Hozzáadása</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="97"/>
         <source>Remove NPC</source>
-        <translation type="unfinished"></translation>
+        <translation>NJK Eltávolítása</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="98"/>
         <source>Move/Turn Character</source>
-        <translation type="unfinished"></translation>
+        <translation>Karakter Mozgatása/Forgatása</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="99"/>
         <source>Change Character&apos;s State</source>
-        <translation type="unfinished"></translation>
+        <translation>Karakter Státuszának Megváltoztatása</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="102"/>
         <source>Reset NPC counter</source>
-        <translation type="unfinished"></translation>
+        <translation>NJK számláló újraindítása</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="227"/>
@@ -2624,12 +2629,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../src/toolsbar.cpp" line="259"/>
         <source>Line&apos;s Width</source>
-        <translation type="unfinished"></translation>
+        <translation>Vonal vastagsága</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="265"/>
         <source>NPC Size</source>
-        <translation type="unfinished"></translation>
+        <translation>NJK méret</translation>
     </message>
 </context>
 <context>
@@ -2637,47 +2642,47 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="56"/>
         <source>Found xml error</source>
-        <translation type="unfinished"></translation>
+        <translation>xml hibába futottunk</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="56"/>
         <source>Check line %1 column %2 on string &quot;%3&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Lásd %1 dor %2 oszlop, &quot;%3&quot;!</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="66"/>
         <source>XML valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az XML érvényes</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="66"/>
         <source>All tag are valid size %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Minden tag érvényes méretű %1</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="70"/>
         <source>XML not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>XML nem található!</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="70"/>
         <source>Null size xml document!</source>
-        <translation type="unfinished"></translation>
+        <translation>Üres XML dokumentum!</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="84"/>
         <source>Zoom In CTRL/+</source>
-        <translation type="unfinished"></translation>
+        <translation>Nagyítás Ctrl/+</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="85"/>
         <source>Zoom Out CTRL/-</source>
-        <translation type="unfinished"></translation>
+        <translation>Kicsinyítés Ctrl/-</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="86"/>
         <source>Check xml syntax</source>
-        <translation type="unfinished"></translation>
+        <translation>XML szintaxis ellenőrzése</translation>
     </message>
 </context>
 </TS>

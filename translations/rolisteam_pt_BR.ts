@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
 <context>
     <name>AudioPlayer</name>
     <message>
@@ -147,13 +145,13 @@
         <location filename="../src/chat/chatwindow.cpp" line="215"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2 (%3)]</source>
         <comment>You got</comment>
-        <translation type="unfinished">obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; em sua rolagem de dados [%3 (%4)] {1&lt;?} {2 ?} {3)?}</translation>
+        <translation>obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; em sua rolagem de dado [%2 (%3)]</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="217"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]</source>
         <comment>He got</comment>
-        <translation type="unfinished">obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)] {1&lt;?} {2 ?} {3)?}</translation>
+        <translation>obteve &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="286"/>
@@ -978,7 +976,74 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="116"/>
         <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Translators&lt;/h3&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/td&gt;&lt;td&gt;(English &amp; French)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Hungarian)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Turkish)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (French &amp; German)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;/a&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;
+&lt;h3&gt;Web Sites :&lt;/h3&gt;
+&lt;ul&gt;
+   &lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Oficial do Rolisteam&lt;/a&gt;&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;
+&lt;p&gt;
+&lt;h3&gt;Desenvolvedores atuais :&lt;/h3&gt;
+&lt;ul&gt;
+   &lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt; 
+&lt;p&gt;
+&lt;h3&gt;Tradutores&lt;/h3&gt;
+&lt;table&gt;
+   &lt;tr&gt;
+      &lt;td&gt;
+         &lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec
+         &lt;a/&gt;
+      &lt;/td&gt;
+      &lt;td&gt;(Inglês &amp; Francês)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Português)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Português)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Húngaro)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Turco)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Francês &amp; Alemão)&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;h3&gt;Desenvolvedores aposentados :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik) &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;
+&lt;h3&gt;Desenvolvedores atuais :&lt;/h3&gt;
+&lt;ul&gt;
+   &lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt; 
+&lt;p&gt;
+&lt;h3&gt;Tradutores&lt;/h3&gt;
+&lt;table&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;(Inglês &amp; Francês)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (Português)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (Português)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (Húngaro)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (Turco)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (Francês &amp; Alemão)&lt;/td&gt;
+   &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;
+&lt;h3&gt;Desenvolvedores Aposentados :&lt;/h3&gt;
+&lt;ul&gt;
+   &lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;/a&gt;&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;/a&gt; (rolistik) &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="259"/>
@@ -2270,7 +2335,7 @@ Porta:%2</translation>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="181"/>
         <source>Nothing was understood</source>
-        <translation type="unfinished"></translation>
+        <translation>Nada foi entendido</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="533"/>
