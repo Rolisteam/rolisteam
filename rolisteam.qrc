@@ -62,14 +62,14 @@
         <file alias="fit-window.png">resources/icons/fit-width-24.png</file>
         <file>translations/qt_fr.qm</file>
         <file>translations/rolisteam_de.qm</file>
-        <file>translations/rolisteam_es.qm</file>
-        <file>translations/rolisteam_fi.qm</file>
-        <file>translations/rolisteam_it.qm</file>
         <file>translations/rolisteam_pt_BR.qm</file>
         <file>translations/qt_de.qm</file>
-        <file>translations/qt_es.qm</file>
         <file>resources/icons/preview.png</file>
         <file>resources/icons/lock.png</file>
+        <file>translations/rolisteam_tr.qm</file>
+        <file>translations/qt_hu.qm</file>
+        <file>translations/qt_pt.qm</file>
+        <file>translations/rolisteam_hu_HU.qm</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
