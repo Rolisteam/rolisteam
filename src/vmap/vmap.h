@@ -155,6 +155,11 @@ public:
      * @param msg
      */
     void fill(NetworkMessageWriter& msg);
+    /**
+     * @brief sendAllItems
+     * @param msg
+     */
+    void sendAllItems(NetworkMessageWriter& msg);
 
     VMap::GRID_PATTERN getGrid() const;
     int getPatternSize()const;
@@ -213,6 +218,7 @@ public slots:
     void setPcNameVisible(bool);
     void setNpcNumberVisible(bool);
 	void duplicateItem(VisualItem* item);
+    void readMessage(NetworkMessageReader& msg);
 signals:
     /**
      * @brief npcAdded
