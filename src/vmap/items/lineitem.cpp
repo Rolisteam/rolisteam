@@ -135,7 +135,7 @@ void LineItem::readItem(NetworkMessageReader* msg)
     //pen
     m_pen.setWidth(msg->int16());
     m_color = msg->rgb();
-
+    m_pen.setColor(m_color);
 }
 void LineItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
