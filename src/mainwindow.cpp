@@ -553,15 +553,8 @@ void MainWindow::newVectorialMap()
         prepareVMap(tmp);
         //tempmap->setCurrentTool(m_toolbar->getCurrentTool());
 
-
-
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
-        msg.string16(tempmap->mapTitle());
-        msg.string8(tempmap->getId());
-        msg.rgb(tempmap->mapColor());
-        msg.uint16(tempmap->mapWidth());
-        msg.uint16(tempmap->mapHeight());
-        //msg.uint8((quint8)mapDialog.getPermission());
+        tempmap->fill(msg);
         msg.sendAll();
     }
 }
@@ -580,6 +573,19 @@ void MainWindow::sendOffAllMaps(NetworkLink * link)
         i.value()->getMap()->emettreCarte(i.value()->windowTitle(), link);
         i.value()->getMap()->emettreTousLesPersonnages(link);
     }
+
+
+    QMapIterator<QString, VMapFrame*> mapi(m_mapWindowVectorialMap);
+    while (mapi.hasNext())
+    {
+        mapi.next();
+        VMap* tempmap = mapi.value()->map();
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
+        tempmap->fill(msg);
+        tempmap->sendAllItems(msg);
+        msg.sendAll();
+    }
+
 
 }
 void MainWindow::sendOffAllImages(NetworkLink * link)
@@ -1772,19 +1778,8 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
     {
         case NetMsg::addVmap:
             {
-                QString mapTitle = msg->string16();
-                QString mapId = msg->string8();
-                QColor bgcolor = QColor(msg->rgb());
-                quint16 w = msg->uint16();
-                quint16 h = msg->uint16();
-                quint16 npcsize = msg->uint8();
-
                 VMap* map = new VMap();
-                map->setTitle(mapTitle);
-                map->setId(mapId);
-                map->setWidth(w);
-                map->setHeight(h);
-                map->setBackGroundColor(bgcolor);
+                map->readMessage(*msg);
 
                 VMapFrame* mapFrame = new VMapFrame(new CleverURI("",CleverURI::VMAP),map);
                 prepareVMap(mapFrame);
