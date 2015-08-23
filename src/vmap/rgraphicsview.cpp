@@ -70,7 +70,7 @@ void RGraphicsView::focusInEvent ( QFocusEvent * event )
 }
 void RGraphicsView::wheelEvent(QWheelEvent *event)
 {
-    if(event->modifiers() & Qt::ControlModifier)
+    if(event->modifiers() & Qt::ShiftModifier)
     {
         setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
         // Scale the view / do the zoom
