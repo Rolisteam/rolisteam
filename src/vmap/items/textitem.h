@@ -91,14 +91,18 @@ public:
     virtual void initChildPointItem();
     void updateChildPosition();
 	VisualItem* getItemCopy();
-protected:
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-    void wheelEvent(QGraphicsSceneWheelEvent *event);
+    void createActions();
+    void addActionContextMenu(QMenu* menu);
 public slots:
     /**
     * @brief called when edition is done, remove the editor and call update to draw the text as usual.
     */
     void editingFinished();
+    void decreaseTextSize();
+    void increaseTextSize();
+protected:
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void wheelEvent(QGraphicsSceneWheelEvent *event);
 private:
     void updateFont();
 
@@ -109,6 +113,8 @@ private:
     QFont m_font;
 
     //QAction*
+    QAction* m_increaseFontSize;
+    QAction* m_decreaseFontSize;
 };
 
 #endif // TEXTITEM_H
