@@ -53,6 +53,7 @@ void VisualItem::init()
 		connect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
 		connect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
 		connect(this,SIGNAL(zChanged()),this,SLOT(sendPositionMsg()));
+        //connect(this,SIGNAL(rotationChanged()),this,SLOT(sendPositionMsg()));
 	}
 	else
 	{
@@ -155,14 +156,17 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     else if(resetRotationAct==selectedAction)
     {
         setRotation(0);
+        endOfGeometryChange();
     }
     else if(selectedAction==rightRotationAct)
     {
         setRotation(90);
+        endOfGeometryChange();
     }
     else if(selectedAction==leftRotationAct)
     {
         setRotation(270);
+        endOfGeometryChange();
     }
 }
 void VisualItem::createActions()
@@ -219,6 +223,8 @@ void VisualItem::sendPositionMsg()
 	msg.string16(m_id);
 	msg.real(pos().x());
 	msg.real(pos().y());
+    msg.real(rotation());
+
 	msg.real(zValue());
 	msg.sendAll();
 }
@@ -227,9 +233,11 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 	qreal x = msg->real();
 	qreal y = msg->real();
 	qreal z = msg->real();
+    qreal rot = msg->real();
 
 	setPos(x,y);
 	setZValue(z);
+    setRotation(rot);
 }
 
 void VisualItem::setMapId(QString id)
