@@ -121,6 +121,11 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_rect.width());
     msg->real(m_rect.height());
 
+    //pos
+    msg->real(pos().x());
+    msg->real(pos().y());
+
+    //others
     msg->int8(m_filled);
     msg->rgb(m_color);
 	msg->uint16(m_penWidth);
@@ -138,10 +143,18 @@ void RectItem::readItem(NetworkMessageReader* msg)
     m_rect.setY(msg->real());
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
+
+    //pos
+    qreal x  = msg->real();
+    qreal y = msg->real();
+    setPos(x,y);
+
+
     m_filled = msg->int8();
     m_color = msg->rgb();
 	m_penWidth = msg->uint16();
-    setTransformOriginPoint(m_rect.center());
+
+    //setTransformOriginPoint(m_rect.center());
     setScale(msg->real());
     setRotation(msg->real());
 }
