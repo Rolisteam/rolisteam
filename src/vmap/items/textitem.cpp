@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QFont>
+#include <QMenu>
 #include <QGraphicsSceneWheelEvent>
 
 #include "network/networkmessagewriter.h"
@@ -30,7 +31,7 @@
 
 TextItem::TextItem()
 {
-
+    createActions();
 }
 
 TextItem::TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsItem * parent)
@@ -39,7 +40,9 @@ TextItem::TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsIt
     m_start = start;
     setPos(m_start);
     m_textEdit = editor;
+    m_textEdit->setFocus();
     m_font = m_textEdit->font();
+    createActions();
 }
 QRectF TextItem::boundingRect() const
 {
@@ -76,8 +79,7 @@ void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         painter->drawText(QPoint(0,0),m_text);
        // painter->drawRect(boundingRect());
         painter->restore();
-    }
-    
+    }    
 }
 void TextItem::setNewEnd(QPointF& p)
 {
@@ -128,6 +130,7 @@ void TextItem::editingFinished()
         {
             updateFont();
             m_textEdit->setVisible(false);
+            itemGeometryChanged(this);
             updateChildPosition();
         }
     }
@@ -171,6 +174,7 @@ void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     setOpacity(0.1);
     m_textEdit->setVisible(true);
+    m_textEdit->setFocus();
     VisualItem::mouseDoubleClickEvent(event);
 }
 
@@ -207,4 +211,28 @@ VisualItem* TextItem::getItemCopy()
 {
 	TextItem* rectItem = new TextItem(m_start,new QLineEdit(),m_color);
 	return rectItem;
+}
+void TextItem::addActionContextMenu(QMenu* menu)
+{
+  QMenu* state =  menu->addMenu(tr("Font Size"));
+  state->addAction(m_increaseFontSize);
+  state->addAction(m_decreaseFontSize);
+}
+void TextItem::createActions()
+{
+    m_increaseFontSize = new QAction(tr("Increase Text Size"),this);
+    m_decreaseFontSize= new QAction(tr("Decrease Text Size"),this);
+
+    connect(m_increaseFontSize,SIGNAL(triggered()),this,SLOT(increaseTextSize()));
+    connect(m_decreaseFontSize,SIGNAL(triggered()),this,SLOT(decreaseTextSize()));
+}
+void TextItem::increaseTextSize()
+{
+    int i = m_font.pointSize();
+    m_font.setPointSize(++i);
+}
+void TextItem::decreaseTextSize()
+{
+    int i = m_font.pointSize();
+    m_font.setPointSize(--i);
 }
