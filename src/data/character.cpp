@@ -65,7 +65,14 @@ Character::Character(NetworkMessageReader & data)
 
 void Character::fill(NetworkMessageWriter & message)
 {
-    message.string8(m_parent->uuid());
+    if(NULL!=m_parent)
+    {
+        message.string8(m_parent->uuid());
+    }
+    else
+    {
+        message.string8("NULL");
+    }
     message.string8(m_uuid);
     message.string16(m_name);
     message.int8((int)m_health);
