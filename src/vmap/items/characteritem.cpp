@@ -246,19 +246,14 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     //path
     QByteArray data;
     QDataStream in(&data,QIODevice::WriteOnly);
+    if((m_thumnails==NULL)||(m_thumnails->isNull()))
+    {
+        generatedThumbnail();
+    }
     in << *m_thumnails;
     msg->byteArray32(data);
-}
-void CharacterItem::resizeContents(const QRect& rect, bool )
-{
-    if (!rect.isValid())
-        return;
 
-    prepareGeometryChange();
-    m_rect = rect;
-    m_diameter = qMin(m_rect.width(),m_rect.height());
-    sizeChanged(m_diameter);
-    updateChildPosition();
+    m_character->fill(*msg);
 }
 void CharacterItem::readItem(NetworkMessageReader* msg)
 {
@@ -283,6 +278,28 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     QDataStream out(&data,QIODevice::ReadOnly);
     m_thumnails = new QPixmap();
     out >> *m_thumnails;
+
+    Character* tmp = PlayersList::instance()->getCharacter(idCharacter);
+    if(NULL!=tmp)
+    {
+        m_character = tmp;
+    }
+    else
+    {
+        QString idparent = msg->string8();
+        m_character = new Character(*msg);
+    }
+}
+void CharacterItem::resizeContents(const QRect& rect, bool )
+{
+    if (!rect.isValid())
+        return;
+
+    prepareGeometryChange();
+    m_rect = rect;
+    m_diameter = qMin(m_rect.width(),m_rect.height());
+    sizeChanged(m_diameter);
+    updateChildPosition();
 }
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
