@@ -47,7 +47,6 @@ VMap::VMap(int width,int height,QString& title,QColor& bgColor,QObject * parent)
 	m_currentPath = NULL;
     m_itemMap=new  QMap<QString,VisualItem*>;
     setItemIndexMethod(QGraphicsScene::NoIndex);
-    
 }
 
 void VMap::setWidth(int width)
@@ -205,6 +204,32 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.rgb(mapColor());
     msg.uint16(mapWidth());
     msg.uint16(mapHeight());
+    msg.uint8((quint8)getPermissionMode());
+    msg.uint64(m_itemMap->values().size());
+}
+void VMap::readMessage(NetworkMessageReader& msg)
+{
+    m_title = msg.string16();
+    m_id = msg.string8();
+    m_bgColor = msg.rgb();
+    setWidth(msg.uint16());
+    setHeight(msg.uint16());
+    m_currentMode = (Map::PermissionMode)msg.uint8();
+    int itemCount = msg.uint64();
+
+    for(int i = 0; i < itemCount; ++i)
+    {
+        processAddItemMessage(&msg);
+    }
+}
+
+void VMap::sendAllItems(NetworkMessageWriter& msg)
+{
+    foreach(VisualItem* item , m_itemMap->values())
+    {
+        msg.uint8(item->getType());
+        item->fillMessage(&msg);
+    }
 }
 
 void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
@@ -402,8 +427,15 @@ void VMap::addCharacter(Character* p, QPointF pos)
     connect(this,SIGNAL(showNpcName(bool)),item,SLOT(showNpcName(bool)));
     connect(this,SIGNAL(showNpcNumber(bool)),item,SLOT(showNpcNumber(bool)));
     connect(this,SIGNAL(showPcName(bool)),item,SLOT(showPcName(bool)));
+    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
+    msg.string8(m_id);
+    msg.uint8(item->getType());
+    item->fillMessage(&msg);
+    msg.sendAll();
     item->initChildPointItem();
     addNewItem(item);
+
+
 }
 
 void VMap::setPatternSize(int p)
@@ -568,6 +600,7 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         {
             item->readItem(msg);
             addNewItem(item);
+            item->initChildPointItem();
         }
     }
 }
