@@ -64,7 +64,7 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
         m_keyWordList << "e" << "em" << "me" << "emote";
     }
     setupUi();
-    connect(m_editionZone, SIGNAL(textValidated(QString,QString)), this, SLOT(emettreTexte(QString,QString)));
+	connect(m_editionZone, SIGNAL(textValidated(bool,QString)), this, SLOT(emettreTexte(bool,QString)));
     connect(m_editionZone, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
     connect(m_editionZone, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
     connect(m_mainWindow, SIGNAL(closing()), this, SLOT(save()));
@@ -243,11 +243,10 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
 }
 
 // not (const QString & message), because we change it !
-void ChatWindow::emettreTexte(QString messagehtml,QString message)
+void ChatWindow::emettreTexte(bool hasHtml,QString message)
 {
     //NetMsg::ChatMessageAction, NetMsg::DiceMessageAction, NetMsg::EmoteMessageAction
     NetMsg::Action action = NetMsg::DiceMessageAction;
-    Q_UNUSED(messagehtml);
 
     bool ok=true;
     m_editionZone->clear();
@@ -303,7 +302,10 @@ void ChatWindow::emettreTexte(QString messagehtml,QString message)
     else
     {//sending info to others.
         messageTitle = localPerson->name();
-        message = message.toHtmlEscaped();
+		if(!hasHtml)
+		{
+			message = message.toHtmlEscaped();
+		}
 		message = message.replace('\n',"<br/>");
         showMessage(messageTitle, localPerson->color(), message);
         action = NetMsg::ChatMessageAction;

@@ -42,7 +42,7 @@ public :
     ImprovedTextEdit(QWidget *parent = 0);
 
 signals :
-    void textValidated(QString textHtml,QString text);
+	void textValidated(bool hasHtml,QString text);
     void ctrlUp();
     void ctrlDown();
     void receivedFocus();
