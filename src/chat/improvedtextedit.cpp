@@ -40,7 +40,8 @@ void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
         case Qt::Key_Enter:
         {
         /// @warning changing the method to get the text
-            QString textHtml = toHtml().trimmed();
+			//QString textHtml = toHtml().trimmed();
+			bool hasHtml = false;
             QString text = toPlainText().trimmed();
             if (!text.isEmpty())
             {
@@ -53,12 +54,16 @@ void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
 
                 QString result = text;
                 QString result2 = text.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
-                Q_UNUSED(result2)
+				Q_UNUSED(result2);
                 if(text==result)
                 {
                     text.replace(QRegularExpression("((?:www)\\S+)"), "<a href=\"http://\\1\">\\1</a>");
                 }
-                emit textValidated(textHtml,text);
+				if(text!=toPlainText().trimmed())
+				{
+					hasHtml = true;
+				}
+				emit textValidated(hasHtml,text);
                 clear();
             }
         } break;
