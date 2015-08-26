@@ -409,9 +409,9 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
     bool hasDiceList = false;
     if(m_diceParser->hasDiceResult())
     {
-        ExportedDiceResult list;
-        m_diceParser->getLastDiceResult(list);//fills the ExportedDiceResult
-        diceText = diceToText(list);
+        ExportedDiceResult diceList;
+        m_diceParser->getLastDiceResult(diceList);//fills the ExportedDiceResult
+        diceText = diceToText(diceList);
         hasDiceList= true;
     }
     if(m_diceParser->hasIntegerResultNotInFirst())
@@ -427,8 +427,20 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
     command = m_diceParser->getDiceCommand().toHtmlEscaped();
     if(m_diceParser->hasStringResult())
     {
-        value = m_diceParser->getStringResult().replace("\n","<br/>");
-        return true;
+        bool ok;
+        QStringList allStringlist = m_diceParser->getAllStringResult(ok);
+        if(ok)
+        {
+            QString patternColor("<span class=\"dice\">%1</span>");
+            list =   patternColor.arg(allStringlist.join(' '));
+            value = list;
+        }
+        else
+        {
+            value = m_diceParser->getStringResult().replace("\n","<br/>");
+            list = allStringlist.join(' ');
+            return true;
+        }
     }
 
     return false;
