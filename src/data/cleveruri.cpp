@@ -210,3 +210,27 @@ QDataStream& operator>>(QDataStream& is,CleverURI& con)
     con.defineShortName();
     return is;
 }
+
+QDataStream& operator<<(QDataStream& out, const CleverUriList& con)
+{
+    out << con.size();
+    foreach(CleverURI uri, con)
+    {
+        out << uri;
+    }
+
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& is,CleverUriList& con)
+{
+    int count;
+    is >> count;
+    for(int i = 0;i<count;++i)
+    {
+        CleverURI* uri = new CleverURI();
+        is >> *uri;
+        con.append(*uri);
+    }
+    return is;
+}
