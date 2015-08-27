@@ -26,6 +26,9 @@
 #include <QMetaType>
 #include "ressourcesnode.h"
 
+
+
+
 /**
     * @brief This class stores data refering to file, uri and type
     * @brief as a file can be loaded as different type.
@@ -155,8 +158,16 @@ private:
 
     friend QDataStream& operator<<(QDataStream& os,const CleverURI&); ///< operator for serialisation (writing)
     friend QDataStream& operator>>(QDataStream& is,CleverURI&); ///< operator for serialisation (reading)
+
+
 };
+
 typedef QList<CleverURI> CleverUriList;
+
+QDataStream& operator<<(QDataStream& os,const CleverUriList&); ///< operator for serialisation (writing)
+QDataStream& operator>>(QDataStream& is,CleverUriList&); ///< operator for serialisation (reading)
+
+
 Q_DECLARE_METATYPE(CleverURI)
 Q_DECLARE_METATYPE(CleverUriList)
 

@@ -393,7 +393,7 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
         quint8 permission = msg->uint8();
         quint8 maskPlan = msg->uint8();
         QByteArray mapData = msg->byteArray32();
-         QImage image;
+        QImage image;
         if (! image.loadFromData(mapData, "jpeg"))
         {
             error(tr("Compression Error (processMapMessage - NetworkLink.cpp)"),this);

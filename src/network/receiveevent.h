@@ -27,6 +27,7 @@
 #include <QEvent>
 #include <QString>
 #include <QMap>
+#include <QObject>
 
 #include "network/networkmessagereader.h"
 #include "network/networkreceiver.h"
