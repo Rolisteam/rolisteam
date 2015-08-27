@@ -34,15 +34,15 @@
  *****************/
 
 UpdateChecker::UpdateChecker()
-    : m_state(false)
+	: m_state(false),m_versionMinor(0),m_versionMajor(0),m_versionMiddle(0)
 {
     m_noErrror = true;
 #ifdef VERSION_MINOR
     #ifdef VERSION_MAJOR
         #ifdef VERSION_MIDDLE
-    m_versionMinor=VERSION_MINOR;
-    m_versionMajor=VERSION_MAJOR;
-    m_versionMiddle=VERSION_MIDDLE;
+			m_versionMinor=VERSION_MINOR;
+			m_versionMajor=VERSION_MAJOR;
+			m_versionMiddle=VERSION_MIDDLE;
         #endif
     #endif
 #endif

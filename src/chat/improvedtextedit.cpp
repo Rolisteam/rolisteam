@@ -41,10 +41,10 @@ void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
         {
         /// @warning changing the method to get the text
 			//QString textHtml = toHtml().trimmed();
-			bool hasHtml = false;
             QString text = toPlainText().trimmed();
             if (!text.isEmpty())
             {
+				bool hasHtml = false;
                 m_history.append(text);
                 while (m_history.size() > MaxHistorySize)
                 {

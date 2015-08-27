@@ -1121,7 +1121,6 @@ void Map::afficheOuMasquePnj(DessinPerso *pnjSeul)
     QObjectList enfants;
     int i, j, masque, affiche;
     QPoint contour[8];
-    DessinPerso *pnj;
     QRect limites = m_backgroundImage->rect();
 
     // Si pnjSeul n'est pas nul, on le met en tete de liste, comme seul element
@@ -1137,7 +1136,7 @@ void Map::afficheOuMasquePnj(DessinPerso *pnjSeul)
     // Parcours des DessinPerso
     for (i=0; i<tailleListe; i++)
     {
-        pnj = (DessinPerso *)(enfants[i]);
+		DessinPerso* pnj = (DessinPerso *)(enfants[i]);
 
         // On ne masque le pesonnage uniquement s'il s'agit d'un PNJ
         if (!pnj->estUnPj())
@@ -1423,10 +1422,9 @@ void Map::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetworkL
     QObjectList enfants = children();
     // Taille de la liste
     int tailleListe = enfants.size();
-    DessinPerso* character;
     for (int i=0; i<tailleListe; i++)
     {
-        character = (DessinPerso *)(enfants[i]);
+		DessinPerso* character = (DessinPerso *)(enfants[i]);
         character->preparerPourEmission(&msg);
     }
 

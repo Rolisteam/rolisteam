@@ -158,14 +158,6 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
     mediac->setVisible(true);
     mediac->setFocus();
 }
-void MainWindow::addImage(Image* pictureWindow, QString title)
-{
-    pictureWindow->setParent(m_mdiArea);
-    // prepareImage(pictureWindow,title);
-}
-
-
-
 void  MainWindow::closeConnection()
 {
     if(NULL!=m_networkManager)
@@ -206,10 +198,10 @@ void MainWindow::closeMapOrImage()
     QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
     QWidget* active = subactive;
     MapFrame* bipMapWindow = NULL;
-    QAction* action=NULL;
 
     if (NULL!=active)
     {
+		QAction* action=NULL;
 
         Image*  imageFenetre = dynamic_cast<Image*>(active);
 
@@ -296,8 +288,7 @@ void MainWindow::checkUpdate()
 }
 void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
 {
-    QWidget* widget=NULL;
-    bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
+	bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
     if((NULL!=subWindow) )
     {
         if (subWindow->objectName() == QString("MapFrame") && (localPlayerIsGM))
@@ -1001,16 +992,16 @@ void MainWindow::updateUi()
         m_ui->m_saveAction->setEnabled(false);
         m_ui->m_saveScenarioAction->setEnabled(false);
     }
-    if(m_networkManager->isServer())
+	/*if(m_networkManager->isServer())
     {
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
     }
     else
-    {
+	{*/
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
-    }
+	//}
     updateRecentFileActions();
 }
 void MainWindow::updateMayBeNeeded()
@@ -1838,11 +1829,11 @@ void MainWindow::openCleverURI(CleverURI* uri)
         {
             if(uri->getType()==CleverURI::MAP)
             {
-                prepareMap((MapFrame*)tmp);
+				prepareMap(static_cast<MapFrame*>(tmp));
             }
             else if(uri->getType()==CleverURI::PICTURE)
             {
-                prepareImage((Image*)tmp);
+				prepareImage(static_cast<Image*>(tmp));
             }
             addMediaToMdiArea(tmp);
             tmp->setVisible(true);
@@ -1851,7 +1842,6 @@ void MainWindow::openCleverURI(CleverURI* uri)
 }
 void MainWindow::openContentFromType(CleverURI::ContentType type)
 {
-    MediaContainer* tmp=NULL;
     QString filter = CleverURI::getFilterForType(type);
 
 
@@ -1872,6 +1862,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
     }
     else
     {
+		MediaContainer* tmp=NULL;
         switch(type)
         {
         case CleverURI::MAP:
@@ -1897,11 +1888,11 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
                 {
                     if(type==CleverURI::MAP)
                     {
-                        prepareMap((MapFrame*)tmp);
+						prepareMap(static_cast<MapFrame*>(tmp));
                     }
                     else if((type==CleverURI::PICTURE)||(type==CleverURI::ONLINEPICTURE))
                     {
-                        prepareImage((Image*)tmp);
+						prepareImage(static_cast<Image*>(tmp));
                     }
                     addMediaToMdiArea(tmp);
                     tmp->setVisible(true);
@@ -1979,7 +1970,7 @@ void MainWindow::dropEvent(QDropEvent* event)
             {
             case CleverURI::MAP:
                 tmp = new MapFrame();
-                prepareMap((MapFrame*)tmp);
+				prepareMap(static_cast<MapFrame*>(tmp));
                 tmp->setCleverUri(new CleverURI(list.at(i).toLocalFile(),CleverURI::MAP));
                 tmp->readFileFromUri();
                 addMediaToMdiArea(tmp);
@@ -1989,7 +1980,7 @@ void MainWindow::dropEvent(QDropEvent* event)
                 tmp = new Image();
                 tmp->setCleverUri(new CleverURI(list.at(i).toLocalFile(),CleverURI::PICTURE));
                 tmp->readFileFromUri();
-                prepareImage((Image*)tmp);
+				prepareImage(static_cast<Image*>(tmp));
                 addMediaToMdiArea(tmp);
                 tmp->setVisible(true);
                 break;

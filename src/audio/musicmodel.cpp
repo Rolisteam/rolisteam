@@ -187,14 +187,14 @@ bool MusicModel::dropMimeData(const QMimeData *data,Qt::DropAction action, int r
     if (action == Qt::IgnoreAction)
         return true;
 
-    int beginRow;
+   /* int beginRow;
 
     if (row != -1)
         beginRow = row;
     else if (parent.isValid())
         beginRow = parent.row();
     else
-        beginRow = rowCount(QModelIndex());
+		beginRow = rowCount(QModelIndex());*/
 
 
     if(data->hasUrls())

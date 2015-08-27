@@ -207,7 +207,6 @@ void PreferencesDialog::show()
 
 void PreferencesDialog::load()
 {
-    static bool firstLoad = true;
     //Direcotry PATH
     ui->m_translationFileEdit->setMode(false);
     ui->m_translationFileEdit->setFilter("Translation File: (*.qm)");

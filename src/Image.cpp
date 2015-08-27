@@ -53,15 +53,7 @@ Image::Image(/*QString title,QString identImage, QString identJoueur, QImage *im
     m_imageLabel->setLineWidth(0);
     m_imageLabel->setFrameStyle(QFrame::NoFrame);
     m_widgetArea->setWidget(m_imageLabel);
-    if(m_preferences->value("PictureAdjust",true).toBool())
-    {
-        m_fitWindowAct->setChecked(true);
-    }
-    else
-    {
-        m_fitWindowAct->setChecked(true);
-    }
-
+	m_fitWindowAct->setChecked(m_preferences->value("PictureAdjust",true).toBool());
     setWidget(m_widgetArea);
 }
 
@@ -305,10 +297,8 @@ void Image::paintEvent ( QPaintEvent * event )
 }
 void Image::setZoomLevel(double zoomlevel)
 {
-
     m_zoomLevel = zoomlevel;
     resizeLabel();
-
 }
 void Image::zoomLittle()
 {
@@ -319,10 +309,8 @@ void Image::zoomLittle()
 
 void Image::zoomNormal()
 {
-
     m_zoomLevel =1.0;
     resizeLabel();
-
 }
 void Image::zoomBig()
 {

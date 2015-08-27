@@ -96,12 +96,12 @@ void ChatListWidget::updateAllUnreadChat()
         }
     }
 }
-QMenu * ChatListWidget::chatMenu() const
+QMenu* ChatListWidget::chatMenu() const
 {
     return m_chatList->chatMenu();
 }
 
-QObject * ChatListWidget::chatList() const
+QObject* ChatListWidget::chatList() const
 {
     return m_chatList;
 }

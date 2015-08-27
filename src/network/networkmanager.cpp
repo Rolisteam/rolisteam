@@ -96,8 +96,6 @@ bool NetworkManager::configAndConnect(QString version)
     bool isServer = !m_preferences->value("isClient",true).toBool();
     bool isGM =  !m_preferences->value("isPlayer",false).toBool();
 
-
-	int i=0;
 	if(m_portStr.isEmpty())
     {
 		m_portStr = m_preferences->value("ServerPort",6660).toString();

@@ -79,11 +79,15 @@ void OnlinePictureDialog::replyFinished(QNetworkReply* reply)
     QByteArray data = reply->readAll();
     QPixmap map;
     bool ok = map.loadFromData(data);
-    m_imageViewerLabel->setPixmap(map);
-    m_imageViewerLabel->resize(map.size());
-    m_pix = map;
-    resizeLabel();
-    update();
+	if(ok)
+	{
+		m_imageViewerLabel->setPixmap(map);
+		m_imageViewerLabel->resize(map.size());
+		m_pix = map;
+
+		resizeLabel();
+		update();
+	}
 }
 QString OnlinePictureDialog::getPath()
 {

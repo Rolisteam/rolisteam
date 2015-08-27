@@ -99,12 +99,6 @@ public :
      */
 	QWidget* addMap(MapFrame *MapFrame, QString titre,QSize mapsize=QSize(),QPoint pos=QPoint());
     /**
-     * @brief addImage
-     * @param imageFenetre
-     * @param titre
-     */
-    void addImage(Image *imageFenetre, QString titre);
-    /**
      * @brief mettreAJourEspaceTravail
      */
     void updateWorkspace();
