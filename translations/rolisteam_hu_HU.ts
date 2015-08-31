@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu_HU" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="hu_HU">
 <context>
     <name>AudioPlayer</name>
     <message>
@@ -75,6 +77,16 @@
         <location filename="../src/chat/chatbrowser.cpp" line="18"/>
         <source>Detach the view</source>
         <translation>Nézet leválasztása</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatbrowser.cpp" line="21"/>
+        <source>Word Warp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatbrowser.cpp" line="22"/>
+        <source>Warp Anywhere</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -154,18 +166,18 @@
         <translation>az eredmény &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="286"/>
+        <location filename="../src/chat/chatwindow.cpp" line="285"/>
         <source>Warning</source>
         <translation>Figyelmeztetés</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="287"/>
+        <location filename="../src/chat/chatwindow.cpp" line="286"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation>Néhány felhasznló nem fogja látni a hangulatjeleket.</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="419"/>
-        <location filename="../src/chat/chatwindow.cpp" line="423"/>
+        <location filename="../src/chat/chatwindow.cpp" line="421"/>
+        <location filename="../src/chat/chatwindow.cpp" line="425"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
@@ -393,12 +405,12 @@
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/filedirchooser.cpp" line="90"/>
+        <location filename="../src/widgets/filedirchooser.cpp" line="91"/>
         <source>Select directory</source>
         <translation>Könyvtár kiválasztása</translation>
     </message>
     <message>
-        <location filename="../src/widgets/filedirchooser.cpp" line="97"/>
+        <location filename="../src/widgets/filedirchooser.cpp" line="98"/>
         <source>Open File</source>
         <translation>Fájl Megnyitása</translation>
     </message>
@@ -406,130 +418,130 @@
 <context>
     <name>Image</name>
     <message>
-        <location filename="../src/Image.cpp" line="147"/>
+        <location filename="../src/Image.cpp" line="139"/>
         <source>Image Compression fails (saveImageToFile - Image.cpp)</source>
         <translation>Képtömörítés sikertelen (saveImageToFile - Image.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="334"/>
+        <location filename="../src/Image.cpp" line="322"/>
         <source>Zoom In</source>
         <translation>Nagyítás</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="335"/>
+        <location filename="../src/Image.cpp" line="323"/>
         <source>increase zoom level</source>
         <translation>nagyítási szint növelése</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="339"/>
+        <location filename="../src/Image.cpp" line="327"/>
         <source>Ctrl++</source>
         <comment>Zoom In</comment>
         <translation>Ctrl++</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="344"/>
+        <location filename="../src/Image.cpp" line="332"/>
         <source>Zoom out</source>
         <translation>Kicsinyítés</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="346"/>
+        <location filename="../src/Image.cpp" line="334"/>
         <source>Reduce zoom level</source>
         <translation>nagyítási szint csökkentése</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="349"/>
+        <location filename="../src/Image.cpp" line="337"/>
         <source>Ctrl+-</source>
         <comment>Zoom Out</comment>
         <translation>Ctrl+-</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="354"/>
+        <location filename="../src/Image.cpp" line="342"/>
         <source>Fit the workspace</source>
         <translation>Munkaterület lefedése</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="356"/>
+        <location filename="../src/Image.cpp" line="344"/>
         <source>The window and the image fit the workspace</source>
         <translation>Az ablak és a kép fedje le a munkaterületet</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="359"/>
+        <location filename="../src/Image.cpp" line="347"/>
         <source>Ctrl+m</source>
         <comment>Fit the workspace</comment>
         <translation>Ctrl+m</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="365"/>
+        <location filename="../src/Image.cpp" line="353"/>
         <source>Fit Window</source>
         <translation>Ablak kitöltése</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="368"/>
+        <location filename="../src/Image.cpp" line="356"/>
         <source>Image will take the best dimension to fit the window.</source>
         <translation>A kép a lehetséges legjobb felbontását használva töltse ki az ablakot.</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="371"/>
+        <location filename="../src/Image.cpp" line="359"/>
         <source>Ctrl+f</source>
         <comment>Fit the window</comment>
         <translation>Ctrl+f</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="378"/>
+        <location filename="../src/Image.cpp" line="366"/>
         <source>Little</source>
         <translation>Kicsi</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="379"/>
+        <location filename="../src/Image.cpp" line="367"/>
         <source>Set the zoom level at 20% </source>
         <translation>Nagyítás 20%-ra</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="382"/>
+        <location filename="../src/Image.cpp" line="370"/>
         <source>Ctrl+l</source>
         <comment>Set the zoom level at 20%</comment>
         <translation>Ctrl+l</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="387"/>
+        <location filename="../src/Image.cpp" line="375"/>
         <source>Normal</source>
         <translation>Normális</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="388"/>
+        <location filename="../src/Image.cpp" line="376"/>
         <source>No Zoom</source>
         <translation>Nincs nagyítás</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="391"/>
+        <location filename="../src/Image.cpp" line="379"/>
         <source>Ctrl+n</source>
         <comment>Normal</comment>
         <translation>Ctrl+n</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="397"/>
+        <location filename="../src/Image.cpp" line="385"/>
         <source>Big</source>
         <translation>Nagy</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="398"/>
+        <location filename="../src/Image.cpp" line="386"/>
         <source>Set the zoom level at 400%</source>
         <translation>Nagyítás 400%-ra</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="401"/>
+        <location filename="../src/Image.cpp" line="389"/>
         <source>Ctrl+b</source>
         <comment>Zoom Out</comment>
         <translation>Ctrl+b</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="505"/>
+        <location filename="../src/Image.cpp" line="493"/>
         <source>Unsupported file format</source>
         <translation>Nem támogatott formátum</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="509"/>
-        <location filename="../src/Image.cpp" line="547"/>
+        <location filename="../src/Image.cpp" line="497"/>
+        <location filename="../src/Image.cpp" line="535"/>
         <source> (Picture)</source>
         <translation>(Kép)</translation>
     </message>
@@ -545,74 +557,74 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1261"/>
+        <location filename="../src/mainwindow.cpp" line="1252"/>
         <source>unknown</source>
         <translation>ismeretlen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1324"/>
+        <location filename="../src/mainwindow.cpp" line="1315"/>
         <source>Minutes Editor[*]</source>
         <translation>Jegyzet Szerkesztő[*]</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1701"/>
+        <location filename="../src/mainwindow.cpp" line="1692"/>
         <source>Open Map</source>
         <translation>Térkép Megnyitása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1779"/>
+        <location filename="../src/mainwindow.cpp" line="1770"/>
         <source>&amp;%1 %2</source>
         <translation>&amp;%1 %2</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1918"/>
+        <location filename="../src/mainwindow.cpp" line="1909"/>
         <source>Connected</source>
         <translation>Csatlakozva</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1918"/>
+        <location filename="../src/mainwindow.cpp" line="1909"/>
         <source>Not Connected</source>
         <translation>Nincs összeköttetés</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1919"/>
+        <location filename="../src/mainwindow.cpp" line="1910"/>
         <source>Server</source>
         <translation>Kiszolgáló</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1919"/>
+        <location filename="../src/mainwindow.cpp" line="1910"/>
         <source>Client</source>
         <translation>Kliens</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1919"/>
+        <location filename="../src/mainwindow.cpp" line="1910"/>
         <source>GM</source>
         <translation>Mesélő</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1919"/>
+        <location filename="../src/mainwindow.cpp" line="1910"/>
         <source>Player</source>
         <translation>Játékos</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="707"/>
+        <location filename="../src/mainwindow.cpp" line="698"/>
         <source>Open scenario</source>
         <translation>Jelenet megnyitása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1696"/>
-        <location filename="../src/mainwindow.cpp" line="1861"/>
+        <location filename="../src/mainwindow.cpp" line="1687"/>
+        <location filename="../src/mainwindow.cpp" line="1851"/>
         <source>Open Picture</source>
         <translation>Kép megnyitása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="694"/>
-        <location filename="../src/mainwindow.cpp" line="1706"/>
+        <location filename="../src/mainwindow.cpp" line="685"/>
+        <location filename="../src/mainwindow.cpp" line="1697"/>
         <source>Open Minutes</source>
         <translation>Jegyzet Megnyitása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="792"/>
+        <location filename="../src/mainwindow.cpp" line="783"/>
         <source>Save Map</source>
         <translation>Térkép mentése</translation>
     </message>
@@ -705,7 +717,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="193"/>
-        <location filename="../src/mainwindow.cpp" line="603"/>
+        <location filename="../src/mainwindow.cpp" line="594"/>
         <source>Quit</source>
         <translation>Kilépés</translation>
     </message>
@@ -842,7 +854,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="399"/>
-        <location filename="../src/mainwindow.cpp" line="420"/>
+        <location filename="../src/mainwindow.cpp" line="411"/>
         <source>Notification Zone</source>
         <translation>Értesítési Terület</translation>
     </message>
@@ -898,7 +910,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="109"/>
-        <location filename="../src/mainwindow.cpp" line="980"/>
+        <location filename="../src/mainwindow.cpp" line="971"/>
         <source>Help</source>
         <translation>Segítség</translation>
     </message>
@@ -908,8 +920,8 @@
         <translation>Ismeretlen Térkép</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="942"/>
-        <location filename="../src/mainwindow.cpp" line="964"/>
+        <location filename="../src/mainwindow.cpp" line="933"/>
+        <location filename="../src/mainwindow.cpp" line="955"/>
         <source>Image compression error (readImageFromStream - MainWindow.cpp)</source>
         <translation>Képtömörítési hiba (saveImageToFile - Image.cpp)</translation>
     </message>
@@ -919,57 +931,57 @@
         <translation>&lt;p&gt;A GPL (2-es verzió és későbbi) feltételei alapján megváltoztathatod, és terjesztheted a programot. A GPL megtalálható a &apos;COPYING&apos; névre hallgató fájl alatt. A Rolisteam szerzői jog védelme alatt áll. Lásd a &apos;COPYRIGHT&apos; nevű fájlt a munkatársak listájáért. A programért semmilyen felelősséget nem vállalunk.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1048"/>
+        <location filename="../src/mainwindow.cpp" line="1039"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 nem rendelkezik a megfelelő verzióval: %2.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1121"/>
+        <location filename="../src/mainwindow.cpp" line="1112"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam beállítása, hogy a &lt;port&gt; portot használja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1122"/>
+        <location filename="../src/mainwindow.cpp" line="1113"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam beállítása, hogy a &lt;server&gt; kiszolgálóhoz csatlakozzon.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1123"/>
+        <location filename="../src/mainwindow.cpp" line="1114"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>Határozd meg &lt;role&gt;: KM vagy JK</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1124"/>
+        <location filename="../src/mainwindow.cpp" line="1115"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Változtatások törlése, és az alapbeállítások visszaállítása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1125"/>
+        <location filename="../src/mainwindow.cpp" line="1116"/>
         <source>Define the &lt;username&gt;</source>
         <translation>Határozd meg &lt;username&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1208"/>
+        <location filename="../src/mainwindow.cpp" line="1199"/>
         <source>End of the connection process</source>
         <translation>Csatlakozási folyamat vége</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1230"/>
+        <location filename="../src/mainwindow.cpp" line="1221"/>
         <source>Error:</source>
         <translation>Hiba:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1234"/>
+        <location filename="../src/mainwindow.cpp" line="1225"/>
         <source>Warning:</source>
         <translation>Figyelmeztetés:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1916"/>
+        <location filename="../src/mainwindow.cpp" line="1907"/>
         <source>%1[*] - v%2 - %3 - %4 - %5</source>
         <translation>%1[*] - v%2 - %3 - %4 - %5</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="255"/>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <source>Close Map</source>
         <translation>Térkép bezárása</translation>
     </message>
@@ -979,55 +991,55 @@
         <translation>&lt;p&gt;&lt;h3&gt;Weboldalak :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Hivatalos Rolisteam Oldal&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Követő&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Jelenlegi fejlesztők :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Fordítók&lt;/h3&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/td&gt;&lt;td&gt;(Angol és Francia)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Portugál)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Portugál)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Magyar)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Török)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Francia és Német)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;h3&gt;Korábbi fejlesztők :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;/a&gt; (rolistik) &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="259"/>
+        <location filename="../src/mainwindow.cpp" line="251"/>
         <source>Close Picture</source>
         <translation>Kép bezárása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="261"/>
+        <location filename="../src/mainwindow.cpp" line="253"/>
         <source>Do you want to close %1 %2?
 It will be closed for everybody</source>
         <translation>Biztos bezárod %1 %2?
 Mindenkinél be fog záródni</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="261"/>
+        <location filename="../src/mainwindow.cpp" line="253"/>
         <source>(Map)</source>
         <translation>(Térkép)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="616"/>
+        <location filename="../src/mainwindow.cpp" line="607"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>A kapcsolat megszakadt. %1 be fog zárni</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="620"/>
+        <location filename="../src/mainwindow.cpp" line="611"/>
         <source>Connection lost</source>
         <translation>A kapcsolat megszakadt</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="629"/>
+        <location filename="../src/mainwindow.cpp" line="620"/>
         <source>Quit %1 </source>
         <translation>Kilépés %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="635"/>
+        <location filename="../src/mainwindow.cpp" line="626"/>
         <source>Do you want to save your minutes before to quit %1?</source>
         <translation>Szeretnéd elmenteni a jegyzeteid mielőtt kilpsz %1?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="640"/>
+        <location filename="../src/mainwindow.cpp" line="631"/>
         <source>Do you want to save your scenario before to quit %1?</source>
         <translation>Szeretnéd elmenteni a jelenetet mielőtt kilépsz %1?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="792"/>
+        <location filename="../src/mainwindow.cpp" line="783"/>
         <source>Map (*.pla)</source>
         <translation>Térkép (*.pla)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="707"/>
-        <location filename="../src/mainwindow.cpp" line="828"/>
+        <location filename="../src/mainwindow.cpp" line="698"/>
+        <location filename="../src/mainwindow.cpp" line="819"/>
         <source>Scenarios (*.sce)</source>
         <translation>Jelenetek (*.sce)</translation>
     </message>
@@ -1057,7 +1069,7 @@ Mindenkinél be fog záródni</translation>
         <translation>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;A Rolisteam segít a játék lebonyolítását távoli barátokkal/játékosokkal. Több funkciót biztosít képek, térképek megosztására, továbbá kommunikációs eszközöket nyújt a barátaidnak/játékosaidnak. A cél, hogy a Rolisteam által vezetett játékok legalább olyan jók lehessenek, mint az asztal körül zajlók. Hogy ezt elérjük, keményen dolgozunk, hogy további funkciókkal egészíthessük ki a programot. Már meglévő funkciók: Térkép megosztás (engedélykövetéssel), Képek megosztása, háttérzene, kockadobás, és így tovább. A Rolisteam Qt5-ben írták.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="828"/>
+        <location filename="../src/mainwindow.cpp" line="819"/>
         <source>Save Scenarios</source>
         <translation>Jelenetek elmentése</translation>
     </message>
@@ -1068,32 +1080,32 @@ Mindenkinél be fog záródni</translation>
         <translation>A Rolisteamről</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="981"/>
+        <location filename="../src/mainwindow.cpp" line="972"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>A %1 dokumentációja megtalálható online: &lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1020"/>
+        <location filename="../src/mainwindow.cpp" line="1011"/>
         <source>Update Monitor</source>
         <translation>Képernyő Frissítése</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1020"/>
+        <location filename="../src/mainwindow.cpp" line="1011"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>Kiadásra került a %1 verzió. Kérlek nézd meg a &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Letöltések szekciót&lt;/a&gt; további információkért</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1045"/>
+        <location filename="../src/mainwindow.cpp" line="1036"/>
         <source>%1 just joins the game.</source>
         <translation>%1 csatlakozott a játékhoz</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1054"/>
+        <location filename="../src/mainwindow.cpp" line="1045"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 elhagyja a játékot</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="909"/>
+        <location filename="../src/mainwindow.cpp" line="900"/>
         <source>Server Ip Address:%1
 Port:%2</source>
         <translation>Kiszolgáló IP címe: %1
@@ -1103,64 +1115,64 @@ Port: %2</translation>
 <context>
     <name>Map</name>
     <message>
-        <location filename="../src/map/map.cpp" line="548"/>
+        <location filename="../src/map/map.cpp" line="549"/>
         <source>color type not allowed (paintMap - map.cpp)</source>
         <translation>szín nem engedélyezett (paintMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="572"/>
+        <location filename="../src/map/map.cpp" line="573"/>
         <source>color type not allowed  (paintMap - map.cpp)</source>
         <translation>szín nem engedélyezett (paintMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="704"/>
+        <location filename="../src/map/map.cpp" line="705"/>
         <source>undefined drawing tools (paintMap - map.cpp)</source>
         <translation>nem meghatározott rajzeszköz (paintMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="784"/>
+        <location filename="../src/map/map.cpp" line="785"/>
         <source>Undefined tool  (paintMap - map.cpp)</source>
         <translation>Nem meghatározott eszköz (paintMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="802"/>
+        <location filename="../src/map/map.cpp" line="803"/>
         <source>Source, destination and alpha layer have not the same size  (addAlphaLayer - map.cpp)</source>
         <translation>A forrás, a cél és az alfa réteg nem azonos méretű(addAlphaLayer - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="950"/>
+        <location filename="../src/map/map.cpp" line="951"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="952"/>
+        <location filename="../src/map/map.cpp" line="953"/>
         <source>Inappropriate Color</source>
         <translation>Nem Megfelelő Szín</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="957"/>
+        <location filename="../src/map/map.cpp" line="958"/>
         <source>You can not select this color because
  It&apos;s a special color.</source>
         <translation>Ezt a színt nem választhatod,
 ez egy kiemelt szín.</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="916"/>
+        <location filename="../src/map/map.cpp" line="917"/>
         <source>undefined tool for processing action on NPC or PC (processNpcAction - map.cpp)</source>
         <translation>Nem meghatározott eszköz az NJK-n vagy JK-n (processNpcAction - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="992"/>
+        <location filename="../src/map/map.cpp" line="993"/>
         <source>undefined tool for processing action on NPC or PC (processNpcActionReleased - map.cpp)</source>
         <translation>Nem meghatározott eszköz az NJK-n vagy JK-n (processNpcActionReleased - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1036"/>
+        <location filename="../src/map/map.cpp" line="1037"/>
         <source>undefined tool for processing action on NPC or PC (processNpcMove - map.cpp)</source>
         <translation>Nem meghatározott eszköz az NJK-n vagy JK-n (processNpcMove - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1105"/>
+        <location filename="../src/map/map.cpp" line="1106"/>
         <source>unknown widget under cursor (paintCharacter - map.cpp)</source>
         <translation>Ismeretlen eszköz a mutató alatt (paintCharacter - map.cpp)</translation>
     </message>
@@ -1193,29 +1205,29 @@ ez egy kiemelt szín.</translation>
         <translation>Codec Hiba (emettreCarte - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1582"/>
-        <location filename="../src/map/map.cpp" line="1669"/>
-        <location filename="../src/map/map.cpp" line="1737"/>
+        <location filename="../src/map/map.cpp" line="1581"/>
+        <location filename="../src/map/map.cpp" line="1668"/>
+        <location filename="../src/map/map.cpp" line="1736"/>
         <source>Color type is not correct</source>
         <translation>A szín típusa nem megfelelő</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1829"/>
+        <location filename="../src/map/map.cpp" line="1828"/>
         <source>Undefined Tool (paintOther - map.cpp)</source>
         <translation>Meghatározatlan Eszköz (paintOther - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1973"/>
+        <location filename="../src/map/map.cpp" line="1972"/>
         <source>Compression issue on original background(saveMap - map.cpp)</source>
         <translation>Tömörítési probléma az eredeti háttéren(saveMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1982"/>
+        <location filename="../src/map/map.cpp" line="1981"/>
         <source>Compression issue on background(saveMap - map.cpp)</source>
         <translation>Tömörítési probléma a háttéren(saveMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1991"/>
+        <location filename="../src/map/map.cpp" line="1990"/>
         <source>Compression issue on alpha layer (saveMap - map.cpp)</source>
         <translation>Tömörítési probléma az alfa rétegen(saveMap - map.cpp)</translation>
     </message>
@@ -1357,47 +1369,47 @@ ez egy kiemelt szín.</translation>
 <context>
     <name>NetworkManager</name>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="107"/>
+        <location filename="../src/network/networkmanager.cpp" line="105"/>
         <source>UserName</source>
         <translation>Felhasználónév</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="220"/>
+        <location filename="../src/network/networkmanager.cpp" line="218"/>
         <source>Server is on.</source>
         <translation>A kiszolgáló elérhető.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="226"/>
+        <location filename="../src/network/networkmanager.cpp" line="224"/>
         <source>Error</source>
         <translation>Hiba</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="226"/>
+        <location filename="../src/network/networkmanager.cpp" line="224"/>
         <source>Can not establish the connection.</source>
         <translation>Nem sikerült csatlakozni</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="314"/>
+        <location filename="../src/network/networkmanager.cpp" line="312"/>
         <source>Connection with the Remote Server has been lost.</source>
         <translation>A távoli kiszolgálóval létesített kapcsolat megszakadt.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="330"/>
+        <location filename="../src/network/networkmanager.cpp" line="328"/>
         <source>NULL NetworkLink pointer (NetworkManager::finDeNetworkLink).</source>
         <translation>NULL HálózatiCsatlakozó hivatkozás (NetworkManager::finDeNetworkLink).</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="337"/>
+        <location filename="../src/network/networkmanager.cpp" line="335"/>
         <source>Unknown thread joined, (finDeNetworkLink - NetworkManager.cpp)</source>
         <translation>Ismeretlen szál csatlakozott, (finDeNetworkLink - NetworkManager.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="349"/>
+        <location filename="../src/network/networkmanager.cpp" line="347"/>
         <source>Server has been closed.</source>
         <translation>A kiszolgáló leállt.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="360"/>
+        <location filename="../src/network/networkmanager.cpp" line="358"/>
         <source>Connection to the server has been closed.</source>
         <translation>A kapcsolat a kiszolgálóval lezárásra került</translation>
     </message>
@@ -2226,7 +2238,7 @@ ez egy kiemelt szín.</translation>
         <translation>Ismeretlen</translation>
     </message>
     <message>
-        <location filename="../src/data/mediacontainer.cpp" line="47"/>
+        <location filename="../src/data/mediacontainer.cpp" line="66"/>
         <source>Loading error</source>
         <translation>Töltési hiba</translation>
     </message>
@@ -2266,49 +2278,49 @@ ez egy kiemelt szín.</translation>
         <translation>a</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="181"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="182"/>
         <source>Nothing was understood</source>
         <translation>Semmit sem értek</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="533"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="551"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Nem létezik %1 oldalú kocka. Kérlek 0-nál nagyobb számot adj meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="571"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="589"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>Hiányzó lista az L operátor után. Kérlek add meg (példa: 1L[kard,lándza,pisztoly,nyílvessző])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="828"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="847"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Hiányzó validátor a c operátor után. Kérlek változtasd meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="852"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="872"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Hiányzó validátor a(z) %1 operátor után. Kérlek változtasd meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="864"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="884"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>Ez a feltétel %1 végtelen ciklust hoz létre. Kérlek változtasd meg.</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="875"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="895"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Hiányzó validátor a e operátor után. Kérlek változtasd meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/listaliasnode.cpp" line="54"/>
+        <location filename="../src/diceparser/node/listaliasnode.cpp" line="55"/>
         <source>List of Alias:
 </source>
         <translation>Álnevek Listája:
 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1126"/>
+        <location filename="../src/mainwindow.cpp" line="1117"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation>elérési út a honosító fájlhoz: &lt;translationfile&gt;</translation>
     </message>
@@ -2328,7 +2340,7 @@ ez egy kiemelt szín.</translation>
         <translation>Támogatott Hangformátumok (%1)</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/helpnode.cpp" line="34"/>
+        <location filename="../src/diceparser/node/helpnode.cpp" line="35"/>
         <source>Rolisteam Dice Parser:
 Full documentation at: %1 
 </source>
