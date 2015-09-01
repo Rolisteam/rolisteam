@@ -47,7 +47,7 @@ public :
    * @todo Make real default constructor of DiameterSelector
    */
     DiameterSelector(QWidget *parent = 0, bool plein = true, int minimum = 1, int maximum = 50);
-    void changerDiametre(int nouvelleValeur);
+    void setDiameter(int diameter);
     int getCurrentValue()const ;
 
 signals:
