@@ -293,7 +293,7 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             m_currentItem = NULL;
             return;
         }
-		sendOffCurrentItem();
+        sendOffCurrentItem();
     }
     m_currentItem = NULL;
     if(m_selectedtool==VToolsBar::HANDLER)
