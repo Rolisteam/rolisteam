@@ -27,8 +27,6 @@
 #include "widgets/diameterselector.h"
 #include "widgets/flowlayout.h"
 
-
-/**/
 VToolsBar* VToolsBar::m_sigleton=NULL;
 
 VToolsBar* VToolsBar::getInstance(QWidget *parent)
@@ -60,24 +58,13 @@ VToolsBar::VToolsBar(QWidget *parent)
 
     QObject::connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcCount()));
     QObject::connect(m_npcNameTextEdit, SIGNAL(textEdited(const QString &)), this, SLOT(npcNameChange(const QString &)));
-    connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));
-    
-    //setFloating(false);
-    
+    connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));    
 }
-
-
-void VToolsBar::autoriserOuInterdireCouleurs()
-{
-    //m_colorSelector->allowOrForbideColors();
-}
-
 
 void VToolsBar::creerActions()
 {
     // Creation du groupe d'action
     m_toolsGroup = new QActionGroup(this);
-    
     
     m_pencilAct				= new QAction(QIcon(":/resources/icons/pen.png"), tr("Pen"), m_toolsGroup);
     m_lineAct				= new QAction(QIcon(":/resources/icons/line.png"), tr("Line"), m_toolsGroup);
@@ -202,7 +189,8 @@ void VToolsBar::creerOutils()
     characterToolsLayout->addWidget(m_displayNPCCounter);
 
     m_lineDiameter = new DiameterSelector(m_centralWidget, true, 1, 45);
-    m_lineDiameter->setToolTip(tr("Heigth of the pen"));
+    m_lineDiameter->setDiameter(15);
+    m_lineDiameter->setToolTip(tr("height of the pen"));
     connect(m_lineDiameter,SIGNAL(diameterChanged(int)),this,SIGNAL(currentPenSizeChanged(int)));
 
     outilsLayout->addWidget(m_colorSelector);
@@ -226,7 +214,6 @@ void VToolsBar::increaseNpcNumber()
     emit currentNpcNumberChanged(m_currentNPCNumber);
 }
 
-
 void VToolsBar::resetNpcCount()
 {
    m_displayNPCCounter->display(1);
@@ -240,33 +227,16 @@ void VToolsBar::npcNameChange(const QString &text)
     emit currentNpcNameChanged(text);
 }
 
-
 void VToolsBar::changeCurrentColor(QColor color)
 {
     //m_colorSelector>setCurrentColor(color);
     emit currentColorChanged(color);
 }
-QColor& VToolsBar::currentColor()
-{
-   // return m_colorSelector->currentColor();
-}
 
-void VToolsBar::majCouleursPersonnelles()
-{
-   // m_colorSelector->customColorUpdate();
-}
-
-QColor VToolsBar::donnerCouleurPersonnelle(int numero)
-{
-    //return m_colorSelector->getPersonalColor(numero);
-    return QColor();
-}
 VToolsBar::SelectableTool VToolsBar::getCurrentTool()
 {
     return m_currentTool;
 }
-
-
 void VToolsBar::currentActionChanged(QAction* p)
 {
     //  enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
@@ -304,4 +274,8 @@ void VToolsBar::currentActionChanged(QAction* p)
 		m_currentTool = PATH;
     
     emit currentToolChanged(m_currentTool);
+}
+int VToolsBar::getCurrentPenSize()
+{
+    return m_lineDiameter->getCurrentValue();
 }
