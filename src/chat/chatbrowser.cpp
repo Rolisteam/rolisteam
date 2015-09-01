@@ -18,8 +18,8 @@ ChatBrowser::ChatBrowser(QWidget *parent) :
     m_detachedDialog = new QAction(tr("Detach the view"),this);
     m_detachedDialog->setCheckable(true);
     QActionGroup* group = new QActionGroup(this);
-    m_wordWarp = new QAction(tr("Word Warp"),this);
-    m_anyWhereWarp = new QAction(tr("Warp Anywhere"),this);
+    m_wordWarp = new QAction(tr("Word Wrap"),this);
+    m_anyWhereWarp = new QAction(tr("Wrap Anywhere"),this);
 
     group->addAction(m_wordWarp);
     group->addAction(m_anyWhereWarp);

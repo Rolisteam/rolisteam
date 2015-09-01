@@ -80,12 +80,12 @@
     </message>
     <message>
         <location filename="../src/chat/chatbrowser.cpp" line="21"/>
-        <source>Word Warp</source>
+        <source>Word Wrap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/chat/chatbrowser.cpp" line="22"/>
-        <source>Warp Anywhere</source>
+        <source>Wrap Anywhere</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
