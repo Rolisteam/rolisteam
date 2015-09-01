@@ -386,7 +386,7 @@ void ToolsBar::changeCurrentColor(QColor col)
 
 void ToolsBar::updateNpc(int diametre, QString nom)
 {
-    m_npcDiameter->changerDiametre(diametre);
+    m_npcDiameter->setDiameter(diametre);
 	m_npcNameEdit->setText(nom);
 	m_currentNPCName = nom;
 }
@@ -395,7 +395,7 @@ void ToolsBar::changeMap(Map* map)
 {
     if (map != NULL)
     {
-        m_npcDiameter->changerDiametre(map->tailleDesPj());
+        m_npcDiameter->setDiameter(map->tailleDesPj());
     }
 }
 
