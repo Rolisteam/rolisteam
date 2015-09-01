@@ -102,6 +102,7 @@ void PathItem::setNewEnd(QPointF& p)
 	m_pointVector.append(p);
 	update();
 	initChildPointItem();
+    itemGeometryChanged(this);
 }
 
 void PathItem::writeData(QDataStream& out) const
@@ -128,27 +129,41 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->uint16(m_pen.width());
     msg->rgb(m_pen.color());
 
+    msg->real(m_start.x());
+    msg->real(m_start.y());
+
     //path
-    QByteArray data;
-    QDataStream in(&data,QIODevice::WriteOnly);
-    in << m_path;
-    msg->byteArray32(data);
+    msg->uint32(m_pointVector.size());
+    foreach(QPointF pos,m_pointVector)
+    {
+        msg->real(pos.x());
+        msg->real(pos.y());
+    }
 }
 void PathItem::readItem(NetworkMessageReader* msg)
 {
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
+
+    //pen
     m_pen.setWidth(msg->int16());
     m_pen.setColor(msg->rgb());
+    m_pen.setCapStyle(Qt::RoundCap);
+    m_pen.setJoinStyle(Qt::RoundJoin);
 
-    //center
-    QByteArray data;
-    data = msg->byteArray32();
+    m_start.setX(msg->real());
+    m_start.setY(msg->real());
 
-    QDataStream out(&data,QIODevice::ReadOnly);
-    out >> m_path;
-
+    //path
+    quint16 size = msg->uint32();
+    m_pointVector.clear();
+    for(int i = 0; i < size ; ++i)
+    {
+        qreal x = msg->real();
+        qreal y = msg->real();
+        m_pointVector.append(QPointF(x,y));
+    }
 }
 void PathItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
