@@ -171,8 +171,8 @@
         <translation>Bazı kullanıcılar duygu görünümünü etkinleştirmek istiyor.</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="421"/>
-        <location filename="../src/chat/chatwindow.cpp" line="425"/>
+        <location filename="../src/chat/chatwindow.cpp" line="432"/>
+        <location filename="../src/chat/chatwindow.cpp" line="436"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
@@ -2238,72 +2238,72 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="54"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="55"/>
         <source>k</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="55"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="56"/>
         <source>K</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="56"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="57"/>
         <source>s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="57"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="58"/>
         <source>c</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="58"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="59"/>
         <source>r</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="59"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="60"/>
         <source>e</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="60"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="61"/>
         <source>a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="182"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="184"/>
         <source>Nothing was understood</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="551"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="582"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="589"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="620"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="847"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="880"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="872"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="905"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="884"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="917"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="895"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="928"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2334,7 +2334,7 @@ bu özel bir renk.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/helpnode.cpp" line="35"/>
+        <location filename="../src/diceparser/node/helpnode.cpp" line="54"/>
         <source>Rolisteam Dice Parser:
 Full documentation at: %1 
 </source>
