@@ -79,13 +79,8 @@
         <translation>Destaque a vista</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatbrowser.cpp" line="21"/>
+        <location filename="../src/chat/chatbrowser.cpp" line="20"/>
         <source>Word Wrap</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/chat/chatbrowser.cpp" line="22"/>
-        <source>Wrap Anywhere</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

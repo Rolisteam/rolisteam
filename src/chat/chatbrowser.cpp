@@ -17,19 +17,12 @@ ChatBrowser::ChatBrowser(QWidget *parent) :
 
     m_detachedDialog = new QAction(tr("Detach the view"),this);
     m_detachedDialog->setCheckable(true);
-    QActionGroup* group = new QActionGroup(this);
     m_wordWarp = new QAction(tr("Word Wrap"),this);
-    m_anyWhereWarp = new QAction(tr("Wrap Anywhere"),this);
-
-    group->addAction(m_wordWarp);
-    group->addAction(m_anyWhereWarp);
     m_wordWarp->setCheckable(true);
-    m_anyWhereWarp->setCheckable(true);
-
     m_wordWarp->setChecked(true);
 
     connect(m_detachedDialog,SIGNAL(triggered()),this, SLOT(detachedView()));
-    connect(m_anyWhereWarp,SIGNAL(triggered()),this, SLOT(setWrapAnyWhere()));
+    //connect(m_anyWhereWarp,SIGNAL(triggered()),this, SLOT(setWrapAnyWhere()));
     connect(m_wordWarp,SIGNAL(triggered()),this, SLOT(setWordWrap()));
 
     setContextMenuPolicy(Qt::CustomContextMenu);
@@ -60,7 +53,7 @@ void ChatBrowser::showContextMenu(QPoint pos)
     menu->addAction(m_bgColorAct);
     menu->addAction(m_detachedDialog);
     menu->addSeparator();
-    menu->addAction(m_anyWhereWarp);
+ //   menu->addAction(m_anyWhereWarp);
     menu->addAction(m_wordWarp);
     menu->exec(mapToGlobal(pos));
 }
@@ -70,13 +63,17 @@ void ChatBrowser::resizeEvent(QResizeEvent *e)
 }
 void ChatBrowser::setWordWrap()
 {
-    setWordWrapMode(QTextOption::WordWrap);
+    if(m_wordWarp->isChecked())
+    {
+        setWordWrapMode(QTextOption::WordWrap);
+    }
+    else
+    {
+        setWordWrapMode(QTextOption::WrapAnywhere);
+    }
 }
 
-void ChatBrowser::setWrapAnyWhere()
-{
-    setWordWrapMode(QTextOption::WrapAnywhere);
-}
+
 
 void ChatBrowser::detachedView()
 {
