@@ -1746,6 +1746,8 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     connect(m_vToolBar,SIGNAL(currentNpcNameChanged(QString)),tmp,SLOT(setCurrentNpcNameChanged(QString)));
     connect(m_vToolBar,SIGNAL(currentNpcNumberChanged(int)),tmp,SLOT(setCurrentNpcNumberChanged(int)));
 
+
+
     //map to toolbar
     connect(map,SIGNAL(npcAdded()),m_vToolBar,SLOT(increaseNpcNumber()));
 
@@ -1763,7 +1765,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     map->setPcNameVisible(m_ui->m_showPcNameAction->isChecked());
     map->setNpcNumberVisible(m_ui->m_showNpcNumberAction->isChecked());
     map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
-    map->setPenSize(m_toolBar->getCurrentPenSize());
+    tmp->currentPenSizeChanged(m_vToolBar->getCurrentPenSize());
 
     addMediaToMdiArea(tmp);
     tmp->show();
