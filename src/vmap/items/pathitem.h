@@ -27,6 +27,7 @@
     */
 class PathItem : public VisualItem
 {
+    Q_OBJECT
 public:
     PathItem();
     /**
@@ -93,6 +94,15 @@ public:
 
 	void setPen();
 	void setPath();
+
+    /**
+     * @brief addActionContextMenu
+     */
+    virtual void addActionContextMenu(QMenu*);
+private slots:
+    void closePath();
+private:
+    void createActions();
 private:
     /**
     * @brief pen used for drawing the path
@@ -105,6 +115,8 @@ private:
 	QPointF m_start;
 
 	QVector<QPointF> m_pointVector;
+    QAction* m_closeAct;
+    bool m_closed;
     
 };
 
