@@ -114,7 +114,9 @@ void VMapFrame::mousePressEvent(QMouseEvent* event)
 void VMapFrame::currentPenSizeChanged(int ps)
 {
     if(m_vmap != NULL)
+    {
         m_vmap->setPenSize(ps);
+    }
 }
 void VMapFrame::setCurrentNpcNameChanged(QString str)
 {
