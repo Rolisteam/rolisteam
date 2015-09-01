@@ -48,20 +48,7 @@ public :
     /**
       * @brief part of the singleton pattern
       */
-    static VToolsBar* getInstance(QWidget *parent=0);
-    /**
-      * @brief may not be used anymore
-      */
-    void majCouleursPersonnelles();
-    /**
-      * @brief may not be used anymore
-      */
-    QColor donnerCouleurPersonnelle(int numero);
-    /**
-      * @brief may not be used anymore
-      */
-    void autoriserOuInterdireCouleurs();
-
+    static VToolsBar* getInstance(QWidget* parent=0);
     /**
       * @brief accessor to the current color
       */
@@ -77,6 +64,11 @@ public :
       * @brief accessor to the current tool
       */
     VToolsBar::SelectableTool getCurrentTool();
+    /**
+     * @brief getCurrentPenSize
+     * @return
+     */
+    int getCurrentPenSize();
 public slots :
     /**
       * @brief increase NPC number
@@ -112,22 +104,18 @@ signals:
      * @brief currentNpcNumberChanged
      */
     void currentNpcNumberChanged(int);
-
 private:
-    
-    
     static VToolsBar* m_sigleton;/// address of single instance
     void creerActions(); /// utily function
     void creerOutils(); /// utilyti function
 
     QWidget* m_centralWidget; /// address to the main widget
-    QLineEdit *m_textEditLine; /// text line @warning is it still used ?
-    QLineEdit *m_npcNameTextEdit;/// text line to define the npc name
-    QLCDNumber *m_displayNPCCounter; /// count how many npc have been created
-    VColorSelector *m_colorSelector; /// select a color
-    DiameterSelector *m_lineDiameter;/// select pen diameter
-    DiameterSelector *m_NpcDiameter; /// select npc diameter
-    QActionGroup *m_toolsGroup;/// group all tools and manage which one is the current one
+    QLineEdit* m_textEditLine; /// text line @warning is it still used ?
+    QLineEdit* m_npcNameTextEdit;/// text line to define the npc name
+    QLCDNumber* m_displayNPCCounter; /// count how many npc have been created
+    VColorSelector* m_colorSelector; /// select a color
+    DiameterSelector* m_lineDiameter;/// select pen diameter
+    QActionGroup* m_toolsGroup;/// group all tools and manage which one is the current one
     SelectableTool m_currentTool; /// current tool
 
     QAction* m_pencilAct;
