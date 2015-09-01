@@ -20,6 +20,7 @@
 #include "pathitem.h"
 #include <QPainterPath>
 #include <QPainter>
+#include <QMenu>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -28,18 +29,21 @@
 PathItem::PathItem()
     : VisualItem()
 {
-    
+    m_closed=false;
+    createActions();
 }
 
 PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
 {
+        m_closed=false;
 //    m_path.moveTo(start);
 	m_start = start;
     m_pen.setColor(penColor);
     m_pen.setWidth(penSize);
     m_pen.setCapStyle(Qt::RoundCap);
     m_pen.setJoinStyle(Qt::RoundJoin);
+    createActions();
     
 }
 QRectF PathItem::boundingRect() const
@@ -50,8 +54,6 @@ QRectF PathItem::boundingRect() const
 	{
 		path.lineTo(p);
 	}
-
-
 	QRectF rect = path.boundingRect();
     rect.adjust(-m_pen.width()/2,-m_pen.width()/2,m_pen.width()/2,m_pen.width()/2);
     return rect;
@@ -92,6 +94,10 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 	{
 		path.lineTo(p);
 	}
+    if(m_closed)
+    {
+        path.lineTo(m_start);
+    }
     painter->save();
     painter->setPen(m_pen);
 	painter->drawPath(path);
@@ -101,18 +107,22 @@ void PathItem::setNewEnd(QPointF& p)
 {
 	m_pointVector.append(p);
 	update();
-	initChildPointItem();
-    itemGeometryChanged(this);
+    initChildPointItem();
+    emit itemGeometryChanged(this);
 }
 
 void PathItem::writeData(QDataStream& out) const
 {
+    out << m_start;
+    out << m_pointVector;
     out << m_path;
     out << m_pen;
 }
 
 void PathItem::readData(QDataStream& in)
 {
+    in >> m_start;
+    in >> m_pointVector;
     in >> m_path;
     in >> m_pen;
 }
@@ -125,6 +135,7 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
+    msg->uint8(m_closed);
     //pen
     msg->uint16(m_pen.width());
     msg->rgb(m_pen.color());
@@ -145,6 +156,8 @@ void PathItem::readItem(NetworkMessageReader* msg)
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
+    m_closed = (bool)msg->uint8();
+    m_closeAct->setChecked(m_closed);
 
     //pen
     m_pen.setWidth(msg->int16());
@@ -165,19 +178,49 @@ void PathItem::readItem(NetworkMessageReader* msg)
         m_pointVector.append(QPointF(x,y));
     }
 }
+void PathItem::createActions()
+{
+    m_closeAct = new QAction(tr("Close Path"),this);
+    m_closeAct->setCheckable(true);
+    connect(m_closeAct,SIGNAL(triggered()),this,SLOT(closePath()));
+}
+
+void PathItem::addActionContextMenu(QMenu* menu)
+{
+    menu->addAction(m_closeAct);
+}
+void  PathItem::closePath()
+{
+    m_closed = m_closeAct->isChecked();
+    emit itemGeometryChanged(this);
+    update();
+}
+
 void PathItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
-	m_pointVector[(int)pointId]=pos;
+    if(pointId==-1)
+    {
+        m_start = pos;
+    }
+    else
+    {
+        m_pointVector[(int)pointId]=pos;
+    }
 }
 void PathItem::initChildPointItem()
 {
 	if(NULL == m_child)
 	{
 		m_child = new QVector<ChildPointItem*>();
+        ChildPointItem* tmp = new ChildPointItem(-1,this);
+        tmp->setMotion(ChildPointItem::ALL);
+        m_child->append(tmp);
+        tmp->setPos(m_start);
+        tmp->setPlacement(ChildPointItem::Center);
 	}
 
 
-	for(int i = m_child->size(); i< m_pointVector.size() ; ++i)
+    for(int i = m_child->size()-1; i< m_pointVector.size() ; ++i)
 	{
 		ChildPointItem* tmp = new ChildPointItem(i,this);
 		tmp->setMotion(ChildPointItem::ALL);
