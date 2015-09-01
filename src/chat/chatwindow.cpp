@@ -416,7 +416,18 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
         diceText = diceToText(diceList);
         hasDiceList= true;
     }
-    if(m_diceParser->hasIntegerResultNotInFirst())
+    if(m_diceParser->hasSeparator())
+    {
+        bool ok;
+        QStringList allStringlist = m_diceParser->getAllDiceResult(ok);
+        if(ok)
+        {
+            QString patternColor("<span class=\"dice\">%1</span>");
+            list =   patternColor.arg(allStringlist.join(' '));
+            scalarText = list;
+        }
+    }
+    else if(m_diceParser->hasIntegerResultNotInFirst())
     {
         scalarText = tr("%1").arg(m_diceParser->getLastIntegerResult());
     }
