@@ -39,6 +39,7 @@ class VisualItem : public QGraphicsObject
         Q_OBJECT
 public:
 	enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE,IMAGE};
+    enum Layer{GROUND,OBJECT,CHARACTER_LAYER};
     VisualItem();
 	VisualItem(QColor& penColor,bool b,QGraphicsItem * parent = 0);
     
@@ -148,10 +149,15 @@ public:
 	friend QDataStream& operator<<(QDataStream& os,const VisualItem&);
     friend QDataStream& operator>>(QDataStream& is,VisualItem&);
 
+
+    virtual VisualItem::Layer getLayer();
+    virtual void setLayer(VisualItem::Layer);
+
 signals:
     void itemGeometryChanged(VisualItem*);
     void itemRemoved(QString);
     void duplicateItem(VisualItem*);
+    void itemLayerChanged(VisualItem*);
 
 public slots:
     /**
@@ -189,6 +195,13 @@ protected:
 
     /// QAction*
     QAction* m_duplicateAct;
+    QAction* m_putGroundLayer;
+    QAction* m_putObjectLayer;
+    QAction* m_putCharacterLayer;
+
+
+
+    VisualItem::Layer m_layer;
 };
 
 #endif // VISUALITEM_H
