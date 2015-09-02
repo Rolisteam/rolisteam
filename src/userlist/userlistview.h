@@ -70,6 +70,7 @@ protected slots:
     virtual void mouseDoubleClickEvent ( QMouseEvent * );
     
     virtual void mousePressEvent ( QMouseEvent * );
+    virtual void mouseMoveEvent ( QMouseEvent * event);
     /**
     * @brief called when current item changed
     */

@@ -39,9 +39,9 @@ UserListView::UserListView(QWidget *parent) :
     QTreeView(parent)
 {
     setHeaderHidden(true);
-    m_delegate = new UserListDelegate(this);
+    //m_delegate = new UserListDelegate(this);
     setContextMenuPolicy (Qt::CustomContextMenu);
-    setItemDelegate(m_delegate);
+    //setItemDelegate(m_delegate);
     connect(this,SIGNAL(editCurrentItemColor()),this,SLOT(onEditCurrentItemColor()));
     connect(this,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(customContextMenuEvent(QPoint)));
     
@@ -119,13 +119,19 @@ void UserListView::onEditCurrentItemColor()
 {
     QModelIndex index= currentIndex();
 
+    if(!index.isValid())
+        return;
+
     QString uuid = index.data(PlayersList::IdentifierRole).toString();
     Person* tmpperso = PlayersList::instance()->getPerson(uuid);
+    if(NULL!=tmpperso)
+    {
     
-    QColor color= QColorDialog::getColor(tmpperso->getColor(),this);
+        QColor color= QColorDialog::getColor(tmpperso->getColor(),this);
     
-    if(color.isValid())
-        tmpperso->setColor(color);
+        if(color.isValid())
+            tmpperso->setColor(color);
+    }
 }
 void UserListView::setModel(UserListModel *model)
 {
@@ -134,11 +140,34 @@ void UserListView::setModel(UserListModel *model)
 }
 void UserListView::mousePressEvent ( QMouseEvent * event)
 {
-    QModelIndex tmp = indexAt(event->pos());
+    //QModelIndex tmp = indexAt(event->pos());
     
     QTreeView::mousePressEvent(event);
     
-    if ((event->button() == Qt::LeftButton) && (tmp.isValid()))
+    /*if ((event->button() == Qt::LeftButton) && (tmp.isValid()))
+    {
+        QString uuid = tmp.data(PlayersList::IdentifierRole).toString();
+        Person* tmpperso = PlayersList::instance()->getCharacter(uuid);
+        if(NULL!= tmpperso)
+        {
+            QDrag *drag = new QDrag(this);
+            RolisteamMimeData *mimeData = new RolisteamMimeData();
+
+            mimeData->setPerson(tmpperso);
+            drag->setMimeData(mimeData);
+            drag->setPixmap(generateAvatar(tmpperso));
+
+            Qt::DropAction dropAction = drag->exec();
+        }
+    }*/
+}
+void UserListView::mouseMoveEvent ( QMouseEvent * event)
+{
+    QModelIndex tmp = indexAt(event->pos());
+
+    QTreeView::mousePressEvent(event);
+
+    if ((event->buttons() == Qt::LeftButton) && (tmp.isValid()))
     {
         QString uuid = tmp.data(PlayersList::IdentifierRole).toString();
         Person* tmpperso = PlayersList::instance()->getCharacter(uuid);
