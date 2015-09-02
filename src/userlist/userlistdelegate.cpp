@@ -51,8 +51,6 @@ void UserListDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & 
         painter->drawImage(target,p->getAvatar(),p->getAvatar().rect());
         tmp.adjust(option.decorationSize.width(),1,1,1);
         painter->drawText(tmp,Qt::AlignVCenter,p->getName());
-
-
     }
     painter->restore();
 }
