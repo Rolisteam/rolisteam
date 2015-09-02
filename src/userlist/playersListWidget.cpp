@@ -27,7 +27,6 @@
 
 #include "playersListWidget.h"
 #include "userlistview.h"
-#include "userlistdelegate.h"
 
 #include "map/map.h"
 #include "delegate.h"
@@ -74,7 +73,6 @@ QVariant PlayersListWidgetModel::data(const QModelIndex &index, int role) const
     {
         return QVariant(m_map->isVisiblePc(PlayersList::instance()->getPerson(index)->uuid()));
     }
-
     return QAbstractProxyModel::data(index, role);
 }
 
@@ -154,13 +152,13 @@ bool PlayersListWidgetModel::isCheckable(const QModelIndex &index) const
     if (!index.isValid() || m_map == NULL)
         return false;
 
-    PlayersList * g_playersList = PlayersList::instance();
+    PlayersList * playersList = PlayersList::instance();
 
-    Person * person = g_playersList->getPerson(index);
+    Person * person = playersList->getPerson(index);
     if (person == NULL)
         return false;
 
-    Player * localPlayer = g_playersList->localPlayer();
+    Player* localPlayer = playersList->localPlayer();
 
     return ((person->parent() == localPlayer) ||
             (localPlayer->isGM() && index.parent().isValid()));
