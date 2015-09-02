@@ -1,22 +1,22 @@
 /***************************************************************************
-	*      Copyright (C) 2010 by Renaud Guezennec                             *
-	*                                                                         *
-	*                                                                         *
-	*   rolisteam is free software; you can redistribute it and/or modify     *
-	*   it under the terms of the GNU General Public License as published by  *
-	*   the Free Software Foundation; either version 2 of the License, or     *
-	*   (at your option) any later version.                                   *
-	*                                                                         *
-	*   This program is distributed in the hope that it will be useful,       *
-	*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-	*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-	*   GNU General Public License for more details.                          *
-	*                                                                         *
-	*   You should have received a copy of the GNU General Public License     *
-	*   along with this program; if not, write to the                         *
-	*   Free Software Foundation, Inc.,                                       *
-	*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
-	***************************************************************************/
+    *      Copyright (C) 2010 by Renaud Guezennec                             *
+    *                                                                         *
+    *                                                                         *
+    *   rolisteam is free software; you can redistribute it and/or modify     *
+    *   it under the terms of the GNU General Public License as published by  *
+    *   the Free Software Foundation; either version 2 of the License, or     *
+    *   (at your option) any later version.                                   *
+    *                                                                         *
+    *   This program is distributed in the hope that it will be useful,       *
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+    *   GNU General Public License for more details.                          *
+    *                                                                         *
+    *   You should have received a copy of the GNU General Public License     *
+    *   along with this program; if not, write to the                         *
+    *   Free Software Foundation, Inc.,                                       *
+    *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+    ***************************************************************************/
 #include "visualitem.h"
 
 #include <QGraphicsSceneHoverEvent>
@@ -34,56 +34,82 @@ VisualItem::VisualItem()
     : QGraphicsObject(),m_editable(false),m_child(NULL)
 {
     m_id = QUuid::createUuid().toString();
-	init();
+    init();
 }
 
 VisualItem::VisualItem(QColor& penColor,bool b,QGraphicsItem * parent )
     : QGraphicsObject(parent),m_color(penColor),m_editable(b),m_child(NULL)
 {
     m_id = QUuid::createUuid().toString();
-	init();
+    init();
 }
 void VisualItem::init()
 {
     createActions();
-	if(m_editable)
-	{
-		/// @warning if two connected people have editable item, it will lead to endless loop.
-		setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
-		connect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
-		connect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
-		connect(this,SIGNAL(zChanged()),this,SLOT(sendPositionMsg()));
-        //connect(this,SIGNAL(rotationChanged()),this,SLOT(sendPositionMsg()));
-	}
-	else
-	{
-		setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
-	}
+    m_layer = VisualItem::GROUND;
+    QActionGroup* group = new QActionGroup(this);
+    m_putGroundLayer = new QAction(tr("Ground"),this);
+    m_putGroundLayer->setData(VisualItem::GROUND);
+    m_putObjectLayer = new QAction(tr("Object"),this);
+    m_putObjectLayer->setData(VisualItem::OBJECT);
+    m_putCharacterLayer= new QAction(tr("Character"),this);
+    m_putCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
+
+    m_putGroundLayer->setCheckable(true);
+    m_putObjectLayer->setCheckable(true);
+    m_putCharacterLayer->setCheckable(true);
+
+    m_putGroundLayer->setChecked(true);
+
+    group->addAction(m_putGroundLayer);
+    group->addAction(m_putObjectLayer);
+    group->addAction(m_putCharacterLayer);
+
+    setEditableItem(m_editable);
 }
 void VisualItem::setEditableItem(bool b)
 {
-	m_editable=b;
-	init();
+    m_editable=b;
+    if(m_editable)
+    {
+        /// @warning if two connected people have editable item, it will lead to endless loop.
+        setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
+        connect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
+        connect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
+        connect(this,SIGNAL(zChanged()),this,SLOT(sendPositionMsg()));
+        //connect(this,SIGNAL(rotationChanged()),this,SLOT(sendPositionMsg()));
+    }
+    else
+    {
+        setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
+    }
+    if(NULL!=m_child)
+    {
+        foreach (ChildPointItem* itemChild, *m_child)
+        {
+            itemChild->setEditableItem(m_editable);
+        }
+    }
 }
 
 void VisualItem::setPenColor(QColor& penColor)
 {
-	m_color = penColor;
+    m_color = penColor;
 }
 void VisualItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 {
-	update();
-	QGraphicsItem::mouseMoveEvent(event);
+    update();
+    QGraphicsItem::mouseMoveEvent(event);
 }
 void VisualItem::mousePressEvent ( QGraphicsSceneMouseEvent * event )
 {
-	update();
-	QGraphicsItem::mousePressEvent(event);
+    update();
+    QGraphicsItem::mousePressEvent(event);
 }
 void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-	update();
-	QGraphicsItem::mouseReleaseEvent(event);
+    update();
+    QGraphicsItem::mouseReleaseEvent(event);
 }
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {
@@ -96,15 +122,13 @@ void VisualItem::keyPressEvent(QKeyEvent* event)
 
 void VisualItem::setId(QString id)
 {
-	m_id = id;
+    m_id = id;
 }
 void VisualItem::resizeContents(const QRect& rect, bool keepRatio)
 {
     if (!rect.isValid())
         return;
-
     prepareGeometryChange();
-
     int width = m_rect.width();
     int height = m_rect.height();
     m_rect = rect;
@@ -145,8 +169,29 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QAction* rightRotationAct =rotationMenu->addAction(tr("Right"));
     QAction* leftRotationAct =rotationMenu->addAction(tr("Left"));
     QAction* angleRotationAct =rotationMenu->addAction(tr("Set Angle"));
-
     event->accept();
+
+
+    QMenu* setLayerMenu = menu.addMenu(tr("Set Layer"));
+    setLayerMenu->addAction(m_putGroundLayer);
+    setLayerMenu->addAction(m_putObjectLayer);
+    setLayerMenu->addAction(m_putCharacterLayer);
+
+    switch (m_layer)
+    {
+    case OBJECT:
+        m_putObjectLayer->setChecked(true);
+        break;
+    case GROUND:
+        m_putGroundLayer->setChecked(true);
+        break;
+    case CHARACTER_LAYER:
+        m_putCharacterLayer->setChecked(true);
+        break;
+    }
+
+    qDebug() << m_layer << "context menu";
+
 
     QAction* selectedAction = menu.exec(event->screenPos());
     if(removeAction==selectedAction)
@@ -168,12 +213,17 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         setRotation(270);
         endOfGeometryChange();
     }
+    else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putCharacterLayer))
+    {
+        m_layer = (VisualItem::Layer)selectedAction->data().toInt();
+        itemLayerChanged(this);
+    }
 }
 void VisualItem::createActions()
 {
     m_duplicateAct = new QAction(tr("Duplicate Item"),this);
     m_duplicateAct->setShortcut(QKeySequence("Ctrl+C"));
-	connect(m_duplicateAct,SIGNAL(triggered()),this,SLOT(manageAction()),Qt::QueuedConnection);
+    connect(m_duplicateAct,SIGNAL(triggered()),this,SLOT(manageAction()),Qt::QueuedConnection);
 }
 void VisualItem::manageAction()
 {
@@ -183,15 +233,24 @@ void VisualItem::manageAction()
         emit duplicateItem(this);
     }
 }
+VisualItem::Layer VisualItem::getLayer()
+{
+    return m_layer;
+}
+
+void VisualItem::setLayer(VisualItem::Layer layer)
+{
+    m_layer = layer;
+}
 
 void VisualItem::addActionContextMenu(QMenu*)
 {
-    //must to be empty
+    //must be empty
 }
 
 QString VisualItem::getId()
 {
-	return m_id;
+    return m_id;
 }
 bool VisualItem::hasFocusOrChild()
 {
@@ -203,7 +262,7 @@ bool VisualItem::hasFocusOrChild()
     {
         if(m_child==NULL)
         {
-           return false;
+            return false;
         }
         for(int i = 0; i< m_child->size();++i)
         {
@@ -218,36 +277,36 @@ bool VisualItem::hasFocusOrChild()
 
 void VisualItem::sendPositionMsg()
 {
-	NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
-	msg.string8(m_mapId);
-	msg.string16(m_id);
-	msg.real(pos().x());
-	msg.real(pos().y());
+    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
+    msg.string8(m_mapId);
+    msg.string16(m_id);
+    msg.real(pos().x());
+    msg.real(pos().y());
     msg.real(rotation());
 
-	msg.real(zValue());
-	msg.sendAll();
+    msg.real(zValue());
+    msg.sendAll();
 }
 void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 {
-	qreal x = msg->real();
-	qreal y = msg->real();
-	qreal z = msg->real();
+    qreal x = msg->real();
+    qreal y = msg->real();
+    qreal z = msg->real();
     qreal rot = msg->real();
 
-	setPos(x,y);
-	setZValue(z);
+    setPos(x,y);
+    setZValue(z);
     setRotation(rot);
 }
 
 void VisualItem::setMapId(QString id)
 {
-	m_mapId = id;
+    m_mapId = id;
 }
 
 QString VisualItem::getMapId()
 {
-	return m_mapId;
+    return m_mapId;
 }
 void VisualItem::endOfGeometryChange()
 {
@@ -264,12 +323,12 @@ void VisualItem::setModifiers(Qt::KeyboardModifiers modifiers)
 //friend functions
 QDataStream& operator<<(QDataStream& os,const VisualItem& c)
 {
-	c.writeData(os);
-	return os;
+    c.writeData(os);
+    return os;
 }
 QDataStream& operator>>(QDataStream& is,VisualItem& c)
 {
-	c.readData(is);
-	return is;
+    c.readData(is);
+    return is;
 }
 
