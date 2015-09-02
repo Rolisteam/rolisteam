@@ -48,21 +48,24 @@ ChildPointItem::~ChildPointItem()
 
 QVariant ChildPointItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if (change == ItemPositionChange && scene() && hasFocus() && m_currentMotion!=NONE)
+    if(m_editable)
     {
-        QPointF newPos = value.toPointF();
-        if(m_currentMotion == X_AXIS)
+        if (change == ItemPositionChange && scene() && hasFocus() && m_currentMotion!=NONE)
         {
-            newPos.setY(pos().y());
-        }
-        else if( Y_AXIS == m_currentMotion)
-        {
-            newPos.setX(pos().x());
-        }
-        m_parent->setGeometryPoint(m_pointId,newPos);
-        if(newPos != value.toPointF())
-        {
-            return newPos;
+            QPointF newPos = value.toPointF();
+            if(m_currentMotion == X_AXIS)
+            {
+                newPos.setY(pos().y());
+            }
+            else if( Y_AXIS == m_currentMotion)
+            {
+                newPos.setX(pos().x());
+            }
+            m_parent->setGeometryPoint(m_pointId,newPos);
+            if(newPos != value.toPointF())
+            {
+                return newPos;
+            }
         }
     }
     return QGraphicsItem::itemChange(change, value);
@@ -140,40 +143,41 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 {
     event->accept();
     QPointF v = pos() + event->pos();
-    if(m_currentMotion == MOUSE)
+    if(m_editable)
     {
-        if(!(event->modifiers() & Qt::ControlModifier))
+        if(m_currentMotion == MOUSE)
         {
-            bool ratio = false;
-            if((event->modifiers() & Qt::ShiftModifier))
+            if(!(event->modifiers() & Qt::ControlModifier))
             {
-                ratio = true;
+                bool ratio = false;
+                if((event->modifiers() & Qt::ShiftModifier))
+                {
+                    ratio = true;
+                }
+                int W = qMax(2 * fabs(v.x()), 5.0);
+                int H = qMax(2 * fabs(v.y()), 4.0);
+                m_parent->resizeContents(QRect(-W / 2, -H / 2, W, H),ratio);
             }
-            int W = qMax(2 * fabs(v.x()), 5.0);
-            int H = qMax(2 * fabs(v.y()), 4.0);
-            m_parent->resizeContents(QRect(-W / 2, -H / 2, W, H),ratio);
+
         }
+        if(((m_currentMotion == MOUSE)||(m_allowRotation))&&(event->modifiers() & Qt::ControlModifier))
+        {
+                if (v.isNull())
+                    return;
 
+                QPointF refPos = pos();
+
+                // set item rotation (set rotation relative to current)
+                qreal refAngle = atan2(refPos.y(), refPos.x());
+                qreal newAngle = atan2(v.y(), v.x());
+                double dZr = 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
+                double zr = m_parent->rotation() + dZr;
+
+                m_parent->setRotation(zr);
+        }
     }
-    if(((m_currentMotion == MOUSE)||(m_allowRotation))&&(event->modifiers() & Qt::ControlModifier))
-    {
-            if (v.isNull())
-                return;
+    QGraphicsItem::mouseMoveEvent(event);
 
-            QPointF refPos = pos();
-
-            // set item rotation (set rotation relative to current)
-            qreal refAngle = atan2(refPos.y(), refPos.x());
-            qreal newAngle = atan2(v.y(), v.x());
-            double dZr = 57.29577951308232 * (newAngle - refAngle); // 180 * a / M_PI
-            double zr = m_parent->rotation() + dZr;
-
-            m_parent->setRotation(zr);
-    }
-    else
-    {
-        QGraphicsItem::mouseMoveEvent(event);
-    }
 }
 void ChildPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
 {
@@ -185,4 +189,17 @@ void ChildPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
 void ChildPointItem::setRotationEnable(bool allow)
 {
     m_allowRotation = allow;
+}
+void ChildPointItem::setEditableItem(bool b)
+{
+    m_editable = b;
+    qDebug() << "child editable"<< b;
+    if(m_editable)
+    {
+         setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
+    }
+    else
+    {
+        setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
+    }
 }

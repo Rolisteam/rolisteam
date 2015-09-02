@@ -81,6 +81,8 @@ public:
      */
     void setRotationEnable(bool);
 
+    void setEditableItem(bool b);
+
 protected:
     /**
      * @brief ChildPointItem::mouseMoveEvent
@@ -99,6 +101,7 @@ private:
     VisualItem* m_parent;
     MOTION m_currentMotion;
     bool m_allowRotation;
+    bool m_editable;
 };
 
 #endif // CHILDPOINTITEM_H
