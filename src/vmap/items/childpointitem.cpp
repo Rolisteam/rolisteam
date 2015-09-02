@@ -193,7 +193,6 @@ void ChildPointItem::setRotationEnable(bool allow)
 void ChildPointItem::setEditableItem(bool b)
 {
     m_editable = b;
-    qDebug() << "child editable"<< b;
     if(m_editable)
     {
          setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
