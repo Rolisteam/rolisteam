@@ -97,6 +97,24 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent *event)
     if(list.isEmpty())
     {
         QMenu menu;
+
+        switch (m_vmap->getCurrentLayer())
+        {
+        case VisualItem::OBJECT:
+            m_editObjectLayer->setChecked(true);
+            break;
+        case VisualItem::GROUND:
+            m_editGroundLayer->setChecked(true);
+            break;
+        case VisualItem::CHARACTER_LAYER:
+            m_editCharacterLayer->setChecked(true);
+            break;
+        }
+        QMenu* editLayer = menu.addMenu(tr("Edit Layer"));
+        editLayer->addAction(m_editGroundLayer);
+        editLayer->addAction(m_editObjectLayer);
+        editLayer->addAction(m_editCharacterLayer);
+
         menu.addAction(m_zoomInMax);
         menu.addAction(m_zoomNormal);
         menu.addAction(m_zoomOutMax);
@@ -124,9 +142,36 @@ void RGraphicsView::createAction()
     addAction(m_zoomInMax);
     addAction(m_zoomOutMax);
 
+
+
     //PROPERTIES
     m_properties = new QAction(tr("Properties"),this);
     connect(m_properties,SIGNAL(triggered()),this,SLOT(showMapProperties()));
+
+
+
+    //Layers
+    QActionGroup* group = new QActionGroup(this);
+    m_editGroundLayer= new QAction(tr("Ground"),this);
+    m_editGroundLayer->setData(VisualItem::GROUND);
+    m_editGroundLayer->setCheckable(true);
+    m_editObjectLayer= new QAction(tr("Object"),this);
+    m_editObjectLayer->setData(VisualItem::OBJECT);
+    m_editObjectLayer->setCheckable(true);
+    m_editCharacterLayer = new QAction(tr("Character"),this);
+    m_editCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
+    m_editCharacterLayer->setCheckable(true);
+
+    group->addAction(m_editGroundLayer);
+    group->addAction(m_editObjectLayer);
+    group->addAction(m_editCharacterLayer);
+
+
+
+    connect(m_editGroundLayer,SIGNAL(triggered()),this,SLOT(changeLayer()));
+    connect(m_editObjectLayer,SIGNAL(triggered()),this,SLOT(changeLayer()));
+    connect(m_editCharacterLayer,SIGNAL(triggered()),this,SLOT(changeLayer()));
+
 
 }
 void RGraphicsView::showMapProperties()
@@ -142,21 +187,13 @@ void RGraphicsView::showMapProperties()
         m_vmap->fill(msg);
         msg.sendAll();
     }
-
 }
-
-/*void RGraphicsView::dragEnterEvent ( QDragEnterEvent * event )
+void RGraphicsView::changeLayer()
 {
-    const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
-    if(data)
-    {
-        if (data->hasFormat("rolisteam/userlist-item"))
-        {
-            event->acceptProposedAction();
-        }
-    }
-    
-}*/
+    QAction* act = qobject_cast<QAction*>(sender());
+    qDebug() << "change layer on map";
+    m_vmap->editLayer((VisualItem::Layer)act->data().toInt());
+}
 void RGraphicsView::rubberBandGeometry(QRect viewportRect, QPointF fromScenePoint, QPointF toScenePoint)
 {
 	qDebug() << viewportRect << fromScenePoint << toScenePoint;
@@ -209,26 +246,3 @@ void RGraphicsView::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 {
 	m_currentTool = selectedtool;
 }
-
-/*void RGraphicsView::dragMoveEvent(QDragMoveEvent *event)
-{
-    event->acceptProposedAction();
-}
-
-void RGraphicsView::dropEvent ( QDropEvent * event )
-{
-    const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
-    if(data)
-    {
-        if (data->hasFormat("rolisteam/userlist-item"))
-        {
-            Person* item = data->getData();
-            Character* character = dynamic_cast<Character*>(item);
-            if(character)
-            {
-                m_vmap->addCharacter(character,mapToScene(event->pos()));
-            }
-        }
-    }
-    
-}*/

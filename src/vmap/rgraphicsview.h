@@ -56,7 +56,7 @@ private slots:
     void showMapProperties();
 	void rubberBandGeometry(QRect viewportRect, QPointF fromScenePoint, QPointF toScenePoint);
 
-
+    void changeLayer();
 
 private:
     VMap* m_vmap;
@@ -67,6 +67,9 @@ private:
     QAction* m_zoomInMax;
     QAction* m_zoomOutMax;
     QAction* m_properties;
+    QAction* m_editGroundLayer;
+    QAction* m_editObjectLayer;
+    QAction* m_editCharacterLayer;
 
 	VToolsBar::SelectableTool m_currentTool;
 
