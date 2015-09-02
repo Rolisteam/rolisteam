@@ -90,11 +90,13 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
     if (!index.isValid() || index.column() != 0)
             return QVariant();
 
-    Person * person;
+    Person* person;
 
     int row = index.row();
     if (row < 0)
+    {
         return QVariant();
+    }
 
     quint32 parentRow = (quint32)(index.internalId() & NoParent);
     if (parentRow == NoParent)
@@ -127,7 +129,14 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
         case Qt::EditRole:
             return QVariant(person->getName());
         case Qt::DecorationRole:
-            return QVariant(person->getColor());
+        {
+            if(person->hasAvatar())
+            {
+                return person->getAvatar().scaled(64,64,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+            }
+            else
+                return QVariant(person->getColor());
+        }
         case IdentifierRole:
             return QVariant(person->uuid());
       }
