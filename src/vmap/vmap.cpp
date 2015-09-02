@@ -23,7 +23,7 @@
 #include "network/networkmessagereader.h"
 
 VMap::VMap(QObject * parent)
-    : QGraphicsScene(parent)
+    : QGraphicsScene(parent),m_currentLayer(VisualItem::GROUND)
 {
     m_penSize = 1;
     m_currentItem = NULL;
@@ -36,7 +36,7 @@ VMap::VMap(QObject * parent)
 
 
 VMap::VMap(int width,int height,QString& title,QColor& bgColor,QObject * parent)
-    : QGraphicsScene(0,0,width,height,parent)
+    : QGraphicsScene(0,0,width,height,parent),m_currentLayer(VisualItem::GROUND)
 {
     m_title = title;
     m_penSize = 1;
@@ -222,7 +222,10 @@ void VMap::readMessage(NetworkMessageReader& msg)
         processAddItemMessage(&msg);
     }
 }
-
+VisualItem::Layer VMap::getCurrentLayer() const
+{
+    return m_currentLayer;
+}
 void VMap::sendAllItems(NetworkMessageWriter& msg)
 {
     foreach(VisualItem* item , m_itemMap->values())
@@ -273,6 +276,35 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
 }
+void VMap::editLayer(VisualItem::Layer layer)
+{
+    m_currentLayer = layer;
+    foreach(VisualItem* item, m_itemMap->values())
+    {
+        qDebug() << (int)item->getType() << (int)item->getLayer() << layer;
+        if(m_currentLayer == item->getLayer())
+        {
+            item->setEditableItem(true);
+        }
+        else
+        {
+            item->setEditableItem(false);
+        }
+    }
+}
+void VMap::checkItemLayer(VisualItem* item)
+{
+    if(item->getLayer() == m_currentLayer)
+    {
+        item->setEditableItem(true);
+    }
+    else
+    {
+        item->setEditableItem(false);
+    }
+
+}
+
 void VMap::sendOffCurrentItem()
 {
 	NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
@@ -624,6 +656,7 @@ void VMap::addNewItem(VisualItem* item)
         connect(item,SIGNAL(itemGeometryChanged(VisualItem*)),this,SLOT(sendItemToAll(VisualItem*)));
         connect(item,SIGNAL(itemRemoved(QString)),this,SLOT(removeItemFromScene(QString)));
         connect(item,SIGNAL(duplicateItem(VisualItem*)),this,SLOT(duplicateItem(VisualItem*)));
+        connect(item,SIGNAL(itemLayerChanged(VisualItem*)),this,SLOT(checkItemLayer(VisualItem*)));
         QGraphicsScene::addItem(item);
 		item->setEditableItem(m_localIsGM);
         m_itemMap->insert(item->getId(),item);

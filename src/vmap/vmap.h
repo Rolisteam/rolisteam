@@ -27,7 +27,8 @@
 
 #include "data/person.h"
 
-class VisualItem;
+#include "vmap/items/visualitem.h"
+
 /**
     * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
     * It is using the QGraphicsScene from Qt.
@@ -169,6 +170,9 @@ public:
     QColor getBackGroundColor()const;
     QString getTitle() const;
 
+    void editLayer(VisualItem::Layer layer);
+    VisualItem::Layer getCurrentLayer() const;
+
 public slots:
     /**
     * @brief defines the current tools
@@ -245,6 +249,7 @@ private slots:
 
 	void sendOffCurrentItem();
 	void updateItem();
+    void checkItemLayer(VisualItem*);
     
 protected:
     /**
@@ -318,6 +323,9 @@ private:
     * @brief current selected item
     */
     VisualItem* m_currentItem;
+    /**
+     * @brief m_currentPath
+     */
 	VisualItem* m_currentPath;
     /**
     * @brief color for items
@@ -379,12 +387,16 @@ private:
      * @brief m_gridColor
      */
     QColor m_gridColor;
+
+    VisualItem::Layer m_currentLayer;
     bool m_showNpcName;
     bool m_showPcName;
     bool m_showNpcNumber;
 
     friend QDataStream& operator<<(QDataStream& os,const VMap&);
     friend QDataStream& operator>>(QDataStream& is,VMap&);
+
+
 };
 
 #endif // VMAP_H

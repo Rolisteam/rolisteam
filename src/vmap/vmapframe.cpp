@@ -68,7 +68,7 @@ void VMapFrame::updateMap()
     m_graphicView->setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setGeometry(m_graphicView->geometry());
 	setWidget(m_graphicView);
-    setWindowIcon(QIcon(":/resources/icons/map.png"));
+    setWindowIcon(QIcon(":/map.png"));
     m_maskPixmap = new QPixmap(m_graphicView->size());
 }
 
