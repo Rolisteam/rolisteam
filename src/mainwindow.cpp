@@ -278,7 +278,6 @@ void MainWindow::closeMapOrImage()
             m_mapWindowMap.remove(mapImageId);
             m_playersListWidget->model()->changeMap(NULL);
             m_toolBar->changeMap(NULL);
-
         }
         else
         {
@@ -313,11 +312,13 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
         }
         else if(subWindow->objectName() == QString("Image") && ((localPlayerIsGM)))
         {
+            m_playersListWidget->model()->changeMap(NULL);
             m_ui->m_closeAction->setEnabled(true);
             m_ui->m_saveAction->setEnabled(false);
         }
         else if(subWindow->objectName() == QString("VMapFrame") && ((localPlayerIsGM)))
         {
+            m_playersListWidget->model()->changeMap(NULL);
             m_toolBarStack->setCurrentWidget(m_vToolBar);
             m_ui->m_closeAction->setEnabled(true);
             m_ui->m_saveAction->setEnabled(false);
