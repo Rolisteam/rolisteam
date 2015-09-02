@@ -124,15 +124,15 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
         painter->setRenderHint(QPainter::Antialiasing,true);
         painter->setRenderHint(QPainter::TextAntialiasing,true);
         painter->setRenderHint(QPainter::SmoothPixmapTransform,true);
-        painter->save();
+    //    painter->save();
         painter->setPen(m_character->getColor());
         painter->setBrush(QBrush(m_character->getColor(),Qt::SolidPattern));
         painter->drawEllipse(m_rect);
-        painter->restore();
+  //      painter->restore();
 
 
 
-        painter->save();
+ //       painter->save();
         QPen pen = painter->pen();
         pen.setWidth(6);
         switch(m_character->getHeathState())
@@ -158,7 +158,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
         }
         painter->setPen(pen);
         painter->drawEllipse(m_rect.adjusted(3,3,-3,-3));
-        painter->restore();
+       // painter->restore();
     }
 
     QString toShow;
@@ -187,10 +187,10 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 	rectText.setRect(m_rect.center().x()-(metric.boundingRect(toShow).width()/2),m_rect.bottom(),metric.boundingRect(toShow).width(),metric.height());
 
 	//qDebug() << rectText;
-	painter->save();
+    //painter->save();
 	painter->setPen(m_character->getColor());
     painter->drawText(rectText,Qt::AlignCenter,toShow);
-    painter->restore();
+    //painter->restore();
 
 
 }
