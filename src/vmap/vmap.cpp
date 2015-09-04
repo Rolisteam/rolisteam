@@ -121,7 +121,7 @@ void VMap::addItem()
     switch(m_selectedtool)
     {
     case VToolsBar::PEN:
-        m_currentItem=new PathItem(m_first,m_itemColor,m_penSize);
+        m_currentItem=new PathItem(m_first,m_itemColor,m_penSize,true);
         break;
     case VToolsBar::LINE:
         m_currentItem= new LineItem(m_first,m_itemColor,m_penSize);
@@ -263,7 +263,8 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     if(m_currentItem!=NULL)
     {
-		if(m_currentItem->getType()!=VisualItem::PATH)
+        //Comment it out for testing PEN ITEM.
+        if(m_currentItem->getType()!=VisualItem::PATH)
 		{
 			m_end = mouseEvent->scenePos();
 			m_currentItem->setModifiers(mouseEvent->modifiers());
@@ -281,7 +282,6 @@ void VMap::editLayer(VisualItem::Layer layer)
     m_currentLayer = layer;
     foreach(VisualItem* item, m_itemMap->values())
     {
-        qDebug() << (int)item->getType() << (int)item->getLayer() << layer;
         if(m_currentLayer == item->getLayer())
         {
             item->setEditableItem(true);
@@ -545,8 +545,8 @@ void VMap::computePattern()
             QPointF B(radius*1.5,radius-hlimit-offset);
             QPointF C(radius*0.5,radius-hlimit-offset);
             QPointF D(0,radius-offset);
-            QPointF E(radius*0.5,radius+hlimit-offset);
-            QPointF F(radius*1.5,radius+hlimit-offset);
+            QPointF E(radius*0.5,radius+hlimit-offset-1);
+            QPointF F(radius*1.5,radius+hlimit-offset-1);
 
             QPointF G(2*radius+radius,radius-offset);
             polygon << C << D << E << F << A << B << A << G;
