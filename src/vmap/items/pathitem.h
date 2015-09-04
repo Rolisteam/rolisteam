@@ -37,7 +37,7 @@ public:
     * @param penSize, width of the pen
     * @param parent
     */
-    PathItem(QPointF& nend,QColor& penColor,int penSize,QGraphicsItem * parent = 0);
+    PathItem(QPointF& nend,QColor& penColor,int penSize,bool penMode = false,QGraphicsItem * parent = 0);
     
     /**
     * @brief override function to paint itself.
@@ -117,6 +117,7 @@ private:
 	QVector<QPointF> m_pointVector;
     QAction* m_closeAct;
     bool m_closed;
+    bool m_penMode;
     
 };
 
