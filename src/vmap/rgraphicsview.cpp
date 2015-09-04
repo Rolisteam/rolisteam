@@ -57,6 +57,10 @@ void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 		{
 			setDragMode(QGraphicsView::NoDrag);
 		}
+        else if(event->modifiers() & Qt::ShiftModifier)
+        {
+            setDragMode(QGraphicsView::ScrollHandDrag);
+        }
 		else
 		{
 			setDragMode(QGraphicsView::RubberBandDrag);
@@ -64,6 +68,12 @@ void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 	}
 	QGraphicsView::mousePressEvent (event);
 }
+void RGraphicsView::mouseReleaseEvent(QMouseEvent *event)
+{
+    QGraphicsView::mouseReleaseEvent(event);
+    setDragMode(QGraphicsView::RubberBandDrag);
+}
+
 void RGraphicsView::focusInEvent ( QFocusEvent * event )
 {
     QGraphicsView::focusInEvent (event);
@@ -191,7 +201,6 @@ void RGraphicsView::showMapProperties()
 void RGraphicsView::changeLayer()
 {
     QAction* act = qobject_cast<QAction*>(sender());
-    qDebug() << "change layer on map";
     m_vmap->editLayer((VisualItem::Layer)act->data().toInt());
 }
 void RGraphicsView::rubberBandGeometry(QRect viewportRect, QPointF fromScenePoint, QPointF toScenePoint)
