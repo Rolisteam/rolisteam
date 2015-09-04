@@ -66,9 +66,12 @@ void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * op
 
     if(hasFocusOrChild())
     {
-        foreach(ChildPointItem* item, *m_child)
+        if(NULL!=m_child)
         {
-            item->setVisible(true);
+            foreach(ChildPointItem* item, *m_child)
+            {
+                item->setVisible(true);
+            }
         }
     }
     else
@@ -97,7 +100,7 @@ void EllipsItem::setNewEnd(QPointF& p)
     m_ry = dy;
     
     //qDebug() << "dy = "<< dy << "dx = " << dx;
-  /*  m_rect.setBottomRight(p);
+    /*  m_rect.setBottomRight(p);
     m_rect.setTopLeft(QPointF(m_center.x()-dx,m_center.y()-dy));*/
     
 }
@@ -190,8 +193,8 @@ void EllipsItem::initChildPointItem()
 }
 VisualItem* EllipsItem::getItemCopy()
 {//QPointF& center,bool filled,int penSize,QColor& penColor
-	EllipsItem* ellipseItem = new EllipsItem(m_center,m_filled,m_penWidth,m_color);
-	QPointF pos(m_rx+m_center.x(),m_ry+m_center.y());
-	ellipseItem->setNewEnd(pos);
-	return ellipseItem;
+    EllipsItem* ellipseItem = new EllipsItem(m_center,m_filled,m_penWidth,m_color);
+    QPointF pos(m_rx+m_center.x(),m_ry+m_center.y());
+    ellipseItem->setNewEnd(pos);
+    return ellipseItem;
 }
