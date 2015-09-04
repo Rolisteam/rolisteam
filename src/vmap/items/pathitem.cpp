@@ -33,10 +33,10 @@ PathItem::PathItem()
     createActions();
 }
 
-PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,QGraphicsItem * parent)
-    : VisualItem(penColor,parent)
+PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,bool penMode,QGraphicsItem * parent)
+    : VisualItem(penColor,parent),m_penMode(penMode)
 {
-        m_closed=false;
+    m_closed=false;
 //    m_path.moveTo(start);
 	m_start = start;
     m_pen.setColor(penColor);
@@ -72,10 +72,13 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 {
 	if(hasFocusOrChild())
 	{
-		foreach(ChildPointItem* item, *m_child)
-		{
-			item->setVisible(true);
-		}
+        if(NULL!=m_child)
+        {
+            foreach(ChildPointItem* item, *m_child)
+            {
+                item->setVisible(true);
+            }
+        }
 	}
 	else
 	{
@@ -89,14 +92,36 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 	}
 
 	QPainterPath path;
-	path.moveTo(m_start);
-	foreach(QPointF p,m_pointVector)
-	{
-		path.lineTo(p);
-	}
-    if(m_closed)
+    if(!m_penMode)
     {
-        path.lineTo(m_start);
+        path.moveTo(m_start);
+        foreach(QPointF p,m_pointVector)
+        {
+            path.lineTo(p);
+        }
+        if(m_closed)
+        {
+            path.lineTo(m_start);
+        }
+    }
+    else
+    {
+        path.moveTo(m_start);
+        for(int i = 0; i< m_pointVector.size();++i)
+        {
+            if(i==0)
+            {
+                path.quadTo(m_start,m_pointVector[i]);
+            }
+            else if(i==1)
+            {
+                path.cubicTo(m_start,m_pointVector[0],m_pointVector[i]);
+            }
+            else
+            {
+                path.cubicTo(m_pointVector[i-2],m_pointVector[i-1],m_pointVector[i]);
+            }
+        }
     }
     painter->save();
     painter->setPen(m_pen);
