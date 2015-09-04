@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
 <context>
     <name>AudioPlayer</name>
     <message>
@@ -81,7 +79,7 @@
     <message>
         <location filename="../src/chat/chatbrowser.cpp" line="20"/>
         <source>Word Wrap</source>
-        <translation type="unfinished"></translation>
+        <translation>Quebra de Linha</translation>
     </message>
 </context>
 <context>
@@ -168,7 +166,7 @@
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="286"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
-        <translation>Não será permitido para alguns usuários ver seus emoticons </translation>
+        <translation>Não será permitido para alguns usuários ver seus emoticons.</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="432"/>
@@ -212,12 +210,12 @@
     <message>
         <location filename="../src/widgets/colorselector.cpp" line="252"/>
         <source>Hide (GM only)</source>
-        <translation>Ocultar (GM only)</translation>
+        <translation>Ocultar (somente MJ)</translation>
     </message>
     <message>
         <location filename="../src/widgets/colorselector.cpp" line="253"/>
         <source>Unveil (GM only)</source>
-        <translation>Revelar (somente GM)</translation>
+        <translation>Revelar (somente MJ)</translation>
     </message>
     <message>
         <location filename="../src/widgets/colorselector.cpp" line="260"/>
@@ -594,7 +592,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="1910"/>
         <source>GM</source>
-        <translation>GM</translation>
+        <translation>MJ</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1910"/>
@@ -943,7 +941,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="1114"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
-        <translation>Definir o &lt;role&gt;: gm ou pj</translation>
+        <translation>Definir o &lt;role&gt;: mj ou pj</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1115"/>
@@ -1438,7 +1436,7 @@ Porta:%2</translation>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="218"/>
         <source>Server is on.</source>
-        <translation>Servidor ligado</translation>
+        <translation>Servidor ligado.</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="224"/>
@@ -1491,7 +1489,7 @@ Porta:%2</translation>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="43"/>
         <source>Background Color:</source>
-        <translation>Cor de Fundo</translation>
+        <translation>Cor de Fundo:</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="67"/>
@@ -1992,7 +1990,7 @@ Porta:%2</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="467"/>
         <source>Application Paths</source>
-        <translation>Caminhos do Aplicativo:</translation>
+        <translation>Caminhos do Aplicativo</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="578"/>
@@ -2188,7 +2186,7 @@ Porta:%2</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="483"/>
         <source>Music (GM) :</source>
-        <translation>Música (GM) :</translation>
+        <translation>Música (MJ) :</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="490"/>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="de" version="2.1">
 <context>
     <name>AudioPlayer</name>
     <message>
@@ -81,7 +79,7 @@
     <message>
         <location filename="../src/chat/chatbrowser.cpp" line="20"/>
         <source>Word Wrap</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeilenumbruch</translation>
     </message>
 </context>
 <context>
@@ -141,7 +139,7 @@
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="145"/>
         <source>Save all messages from this window in %1/%2.html</source>
-        <translation>Alle Nachrichten dieses Fensters in %1%2.html speichern</translation>
+        <translation>Alle Nachrichten dieses Fensters in %1/%2.html speichern</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="77"/>
@@ -1005,7 +1003,7 @@ Es wurde für Alles geschlossen</translation>
     <message>
         <location filename="../src/mainwindow.cpp" line="607"/>
         <source>Connection has been lost. %1 will be close</source>
-        <translation>Die Verbindung ist verloren. %1 wird geschlossen sein.</translation>
+        <translation>Die Verbindung ist verloren. %1 wird geschlossen sein</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="611"/>
@@ -1358,7 +1356,7 @@ sie eine spezielle Farbe ist.</translation>
     <message>
         <location filename="../src/network/networklink.cpp" line="102"/>
         <source>Network error occurs :</source>
-        <translation>Netzwerk-Fehler auftritt</translation>
+        <translation>Netzwerk-Fehler auftritt :</translation>
     </message>
 </context>
 <context>
@@ -1490,7 +1488,7 @@ sie eine spezielle Farbe ist.</translation>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="183"/>
         <source>Height:</source>
-        <translation>Höhe;</translation>
+        <translation>Höhe:</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.cpp" line="37"/>
@@ -1945,7 +1943,7 @@ sie eine spezielle Farbe ist.</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="58"/>
         <source>Opacity Value:</source>
-        <translation>Deckkraft Wert</translation>
+        <translation>Deckkraft Wert:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="90"/>
@@ -2209,7 +2207,7 @@ sie eine spezielle Farbe ist.</translation>
     <message>
         <location filename="../src/chat/privatechatdialog.cpp" line="129"/>
         <source>&amp;Owner : </source>
-        <translation>&amp;Inhaber</translation>
+        <translation>&amp;Inhaber :</translation>
     </message>
     <message>
         <location filename="../src/chat/privatechatdialog.cpp" line="130"/>
@@ -2389,7 +2387,7 @@ Volle Dokumentation daran: %1
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="214"/>
         <source>&amp;Open...</source>
-        <translation>&amp;Öffnen</translation>
+        <translation>&amp;Öffnen…</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="222"/>
@@ -2404,12 +2402,12 @@ Volle Dokumentation daran: %1
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="234"/>
         <source>&amp;Print...</source>
-        <translation>&amp;Drucken</translation>
+        <translation>&amp;Drucken…</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="240"/>
         <source>Print Preview...</source>
-        <translation>Druckvorschau</translation>
+        <translation>Druckvorschau…</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="244"/>
@@ -2669,7 +2667,7 @@ Wollen Sie Ihre Änderungen speichern?</translation>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="70"/>
         <source>XML not found!</source>
-        <translation>XML nicht gefunden</translation>
+        <translation>XML nicht gefunden!</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="70"/>

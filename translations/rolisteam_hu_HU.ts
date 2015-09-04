@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu_HU">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu_HU" version="2.1">
 <context>
     <name>AudioPlayer</name>
     <message>
@@ -81,7 +79,7 @@
     <message>
         <location filename="../src/chat/chatbrowser.cpp" line="20"/>
         <source>Word Wrap</source>
-        <translation type="unfinished"></translation>
+        <translation>Szótagolás</translation>
     </message>
 </context>
 <context>
@@ -241,7 +239,7 @@
     <message>
         <location filename="../src/network/connectiondialog.cpp" line="116"/>
         <source>I&apos;m the Game Master.</source>
-        <translation>Én vagyok a Mesélő</translation>
+        <translation>Én vagyok a Mesélő.</translation>
     </message>
     <message>
         <location filename="../src/network/connectiondialog.cpp" line="120"/>
@@ -295,12 +293,12 @@
     <message>
         <location filename="../src/network/connectionretrydialog.ui" line="23"/>
         <source>Connection has failed! Connection Retry in %1s. </source>
-        <translation>Csatlakozás sikertelen! Újracsatlakozás %1 mp</translation>
+        <translation>Csatlakozás sikertelen! Újracsatlakozás %1 mp.</translation>
     </message>
     <message>
         <location filename="../src/network/connectionretrydialog.cpp" line="36"/>
         <source>Connection has failed! Connection Retry in %1s.</source>
-        <translation>Csatlakozás sikertelen! Újracsatlakozás %1 mp</translation>
+        <translation>Csatlakozás sikertelen! Újracsatlakozás %1 mp.</translation>
     </message>
 </context>
 <context>
@@ -546,7 +544,7 @@
     <message>
         <location filename="../src/services/ipchecker.cpp" line="35"/>
         <source>Error to read server IP.</source>
-        <translation>Hiba a kiszolgálói IP olvasásakor</translation>
+        <translation>Hiba a kiszolgálói IP olvasásakor.</translation>
     </message>
 </context>
 <context>
@@ -1061,7 +1059,7 @@ Mindenkinél be fog záródni</translation>
     <message>
         <location filename="../src/mainwindow.cpp" line="108"/>
         <source>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5</source>
-        <translation>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;A Rolisteam segít a játék lebonyolítását távoli barátokkal/játékosokkal. Több funkciót biztosít képek, térképek megosztására, továbbá kommunikációs eszközöket nyújt a barátaidnak/játékosaidnak. A cél, hogy a Rolisteam által vezetett játékok legalább olyan jók lehessenek, mint az asztal körül zajlók. Hogy ezt elérjük, keményen dolgozunk, hogy további funkciókkal egészíthessük ki a programot. Már meglévő funkciók: Térkép megosztás (engedélykövetéssel), Képek megosztása, háttérzene, kockadobás, és így tovább. A Rolisteam Qt5-ben írták.</translation>
+        <translation>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;A Rolisteam segít a játék lebonyolítását távoli barátokkal/játékosokkal. Több funkciót biztosít képek, térképek megosztására, továbbá kommunikációs eszközöket nyújt a barátaidnak/játékosaidnak. A cél, hogy a Rolisteam által vezetett játékok legalább olyan jók lehessenek, mint az asztal körül zajlók. Hogy ezt elérjük, keményen dolgozunk, hogy további funkciókkal egészíthessük ki a programot. Már meglévő funkciók: Térkép megosztás (engedélykövetéssel), Képek megosztása, háttérzene, kockadobás, és így tovább. A Rolisteam Qt5-ben írták</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="819"/>
@@ -1092,12 +1090,12 @@ Mindenkinél be fog záródni</translation>
     <message>
         <location filename="../src/mainwindow.cpp" line="1036"/>
         <source>%1 just joins the game.</source>
-        <translation>%1 csatlakozott a játékhoz</translation>
+        <translation>%1 csatlakozott a játékhoz.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1045"/>
         <source>%1 just leaves the game.</source>
-        <translation>%1 elhagyja a játékot</translation>
+        <translation>%1 elhagyja a játékot.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="900"/>
@@ -1381,7 +1379,7 @@ ez egy kiemelt szín.</translation>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="224"/>
         <source>Can not establish the connection.</source>
-        <translation>Nem sikerült csatlakozni</translation>
+        <translation>Nem sikerült csatlakozni.</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="312"/>
@@ -1406,7 +1404,7 @@ ez egy kiemelt szín.</translation>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="358"/>
         <source>Connection to the server has been closed.</source>
-        <translation>A kapcsolat a kiszolgálóval lezárásra került</translation>
+        <translation>A kapcsolat a kiszolgálóval lezárásra került.</translation>
     </message>
 </context>
 <context>
@@ -1592,12 +1590,12 @@ ez egy kiemelt szín.</translation>
     <message>
         <location filename="../src/persondialog.cpp" line="66"/>
         <source>&amp;Name : </source>
-        <translation>Név :</translation>
+        <translation>&amp;Név :</translation>
     </message>
     <message>
         <location filename="../src/persondialog.cpp" line="67"/>
         <source>&amp;Color : </source>
-        <translation>Szín :</translation>
+        <translation>&amp;Szín :</translation>
     </message>
     <message>
         <location filename="../src/persondialog.cpp" line="69"/>
@@ -1607,7 +1605,7 @@ ez egy kiemelt szín.</translation>
     <message>
         <location filename="../src/persondialog.cpp" line="72"/>
         <source>&amp;Cancel</source>
-        <translation>Mégse</translation>
+        <translation>&amp;Mégse</translation>
     </message>
 </context>
 <context>
@@ -2121,12 +2119,12 @@ ez egy kiemelt szín.</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="483"/>
         <source>Music (GM) :</source>
-        <translation>Zene (KM)</translation>
+        <translation>Zene (KM):</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="490"/>
         <source>Music (Player) :</source>
-        <translation>Zene (Játékos)</translation>
+        <translation>Zene (Játékos) :</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="497"/>
@@ -2204,17 +2202,17 @@ ez egy kiemelt szín.</translation>
     <message>
         <location filename="../src/chat/privatechatdialog.cpp" line="128"/>
         <source>&amp;Name : </source>
-        <translation>Név :</translation>
+        <translation>&amp;Név :</translation>
     </message>
     <message>
         <location filename="../src/chat/privatechatdialog.cpp" line="129"/>
         <source>&amp;Owner : </source>
-        <translation>Tulajdonos :</translation>
+        <translation>&amp;Tulajdonos :</translation>
     </message>
     <message>
         <location filename="../src/chat/privatechatdialog.cpp" line="130"/>
         <source>&amp;Player : </source>
-        <translation>Játékos :</translation>
+        <translation>&amp;Játékos :</translation>
     </message>
 </context>
 <context>
@@ -2300,7 +2298,7 @@ ez egy kiemelt szín.</translation>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="917"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
-        <translation>Ez a feltétel %1 végtelen ciklust hoz létre. Kérlek változtasd meg.</translation>
+        <translation>Ez a feltétel %1 végtelen ciklust hoz létre. Kérlek változtasd meg</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="928"/>
@@ -2389,7 +2387,7 @@ Teljes dokumentáció: %1
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="214"/>
         <source>&amp;Open...</source>
-        <translation>Megnyitás (&amp;O)</translation>
+        <translation>&amp;Megnyitás…</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="222"/>
@@ -2399,12 +2397,12 @@ Teljes dokumentáció: %1
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="229"/>
         <source>Save &amp;As...</source>
-        <translation>Mentés Másként... (&amp;A)</translation>
+        <translation>M&amp;entés Másként...</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="234"/>
         <source>&amp;Print...</source>
-        <translation>Nyomtatás (&amp;P)</translation>
+        <translation>&amp;Nyomtatás…</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="240"/>
@@ -2505,7 +2503,7 @@ Teljes dokumentáció: %1
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="356"/>
         <source>&amp;Color...</source>
-        <translation>Szín (&amp;C)</translation>
+        <translation>S&amp;zín…</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="468"/>
@@ -2522,7 +2520,7 @@ Akarod menteni a változtatásokat?</translation>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="504"/>
         <source>Open File...</source>
-        <translation>File megnyitása</translation>
+        <translation>File megnyitása…</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="565"/>
@@ -2659,12 +2657,12 @@ Akarod menteni a változtatásokat?</translation>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="66"/>
         <source>XML valid.</source>
-        <translation>Az XML érvényes</translation>
+        <translation>Az XML érvényes.</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="66"/>
         <source>All tag are valid size %1.</source>
-        <translation>Minden tag érvényes méretű %1</translation>
+        <translation>Minden tag érvényes méretű %1.</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="70"/>
