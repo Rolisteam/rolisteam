@@ -41,6 +41,7 @@ public:
 protected:
     void keyPressEvent ( QKeyEvent * event);
     void mousePressEvent ( QMouseEvent * event);
+    void mouseReleaseEvent(QMouseEvent *event);
     void focusInEvent ( QFocusEvent * event );
    /* void dragEnterEvent ( QDragEnterEvent * event );
     void dropEvent ( QDropEvent * event );
