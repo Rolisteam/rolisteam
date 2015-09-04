@@ -190,9 +190,6 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         break;
     }
 
-    qDebug() << m_layer << "context menu";
-
-
     QAction* selectedAction = menu.exec(event->screenPos());
     if(removeAction==selectedAction)
     {
