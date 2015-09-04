@@ -36,6 +36,7 @@ ChildPointItem::ChildPointItem(qreal point,VisualItem* parent)
     : QGraphicsObject(parent),m_pointId(point),m_parent(parent),m_allowRotation(false)
 {
     m_currentMotion = ALL;
+    m_editable = true;
     // setAcceptHoverEvents(true);
     //setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
     //setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
