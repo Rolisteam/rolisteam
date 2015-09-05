@@ -32,7 +32,7 @@ class AboutRolisteam : public QDialog
     Q_OBJECT
 
 public:
-    explicit AboutRolisteam(QWidget *parent = 0);
+    explicit AboutRolisteam(QString version,QWidget *parent = 0);
     ~AboutRolisteam();
 
 private:

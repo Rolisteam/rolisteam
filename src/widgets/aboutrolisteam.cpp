@@ -21,11 +21,12 @@
 #include "aboutrolisteam.h"
 #include "ui_aboutrolisteam.h"
 
-AboutRolisteam::AboutRolisteam(QWidget *parent) :
+AboutRolisteam::AboutRolisteam(QString version,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AboutRolisteam)
 {
     ui->setupUi(this);
+    ui->m_textLabel->setText(QString("Rolisteam v%1").arg(version));
 }
 
 AboutRolisteam::~AboutRolisteam()
