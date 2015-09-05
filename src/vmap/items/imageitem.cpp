@@ -143,12 +143,12 @@ void ImageItem::resizeContents(const QRect& rect, bool keepRatio)
 
     prepareGeometryChange();
 
-    int width = m_image.width();
-    int height = m_image.height();
-    m_rect = rect;
+    m_rect = rect.normalized();
     if (keepRatio)
     {
-        int hfw = height * rect.width() / width;
+        int width = m_image.width();
+        int height = m_image.height();
+        qreal hfw = height * rect.width() / width;
         if (hfw > 1)
         {
             m_rect.setTop(-hfw / 2);
