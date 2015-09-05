@@ -51,7 +51,7 @@ QVariant ChildPointItem::itemChange(GraphicsItemChange change, const QVariant &v
 {
     if(m_editable)
     {
-        if (change == ItemPositionChange && scene() && hasFocus() && m_currentMotion!=NONE)
+        if (change == ItemPositionChange && scene() && hasFocus() && m_currentMotion!=NONE && m_currentMotion!=MOUSE)
         {
             QPointF newPos = value.toPointF();
             if(m_currentMotion == X_AXIS)
@@ -176,8 +176,16 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 
                 m_parent->setRotation(zr);
         }
+        else
+        {
+               QGraphicsItem::mouseMoveEvent(event);
+        }
     }
-    QGraphicsItem::mouseMoveEvent(event);
+    else
+    {
+            QGraphicsItem::mouseMoveEvent(event);
+    }
+
 
 }
 void ChildPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
@@ -194,12 +202,12 @@ void ChildPointItem::setRotationEnable(bool allow)
 void ChildPointItem::setEditableItem(bool b)
 {
     m_editable = b;
-    if(m_editable)
-    {
-         setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
-    }
-    else
+    if((m_editable)&&(((MOUSE == m_currentMotion)||(NONE == m_currentMotion))))
     {
         setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
+    }
+    else if(m_editable)
+    {
+        setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
     }
 }
