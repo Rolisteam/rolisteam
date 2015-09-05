@@ -136,6 +136,7 @@ HEADERS += \
     src/userlist/rolisteammimedata.h \
     src/userlist/userlistdelegate.h \
     src/userlist/userlistview.h \
+    src/widgets/aboutrolisteam.h
 
 
 
@@ -199,6 +200,7 @@ SOURCES += \
     src/userlist/rolisteammimedata.cpp \
     src/userlist/userlistdelegate.cpp \
     src/userlist/userlistview.cpp \
+    src/widgets/aboutrolisteam.cpp
 
 #end source
 
@@ -257,7 +259,8 @@ FORMS += \
     src/preferences/preferencesdialogbox.ui \
     src/audio/audiowidget.ui \
     src/mainwindow.ui \
-    src/widgets/onlinepicturedialog.ui
+    src/widgets/onlinepicturedialog.ui \
+    src/widgets/aboutrolisteam.ui
 
 INCLUDEPATH +=src/audio
 
