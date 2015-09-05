@@ -86,7 +86,7 @@ void Character::fill(NetworkMessageWriter & message)
         QBuffer bufImage(&baImage);
         if (m_avatar.save(&bufImage, "PNG", 70))
         {
-            qDebug() << "png size:" << bufImage.size();
+
         }
         message.byteArray32(baImage);
     }
