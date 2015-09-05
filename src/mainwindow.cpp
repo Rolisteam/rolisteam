@@ -62,6 +62,8 @@
 #include "textedit.h"
 #include "variablesGlobales.h"
 
+#include "widgets/aboutrolisteam.h"
+
 //VMAP
 #include "vmap/vmapframe.h"
 #include "vmap/vmap.h"
@@ -109,38 +111,8 @@ MainWindow::~MainWindow()
 }
 void MainWindow::aboutRolisteam()
 {
-    QMessageBox::about(this, tr("About Rolisteam"),
-                       tr("<h1>Rolisteam v%1</h1>"
-                          "<p>Rolisteam helps you to manage a tabletop role playing game with remote friends/players. "
-                          "It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. "
-                          "The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. "
-                          "Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5").arg(m_version) %
-                       tr("<p>You may modify and redistribute the program under the terms of the GPL (version 2 or later)."
-                          "A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam."
-                          "Rolisteam is copyrighted by its contributors.  See the 'COPYRIGHT' file for the complete list of contributors.  We provide no warranty for this program.</p>") %
-                       tr("<p><h3>Web Sites :</h3>"
-                          "<ul>"
-                          "<li><a href=\"http://www.rolisteam.org/\">Official Rolisteam Site</a></li> "
-                          "<li><a href=\"https://github.com/Rolisteam/rolisteam/issues\">Bug Tracker</a></li> "
-                          "</ul></p>"
-						  "<p><h3>Current developers :</h3>"
-						  "<ul>"
-						  "<li><a href=\"http://www.rolisteam.org/contact\">Renaud Guezennec</a></li>"
-						  "</ul></p> "
-                          "<p><h3>Translators</h3>"
-						  "<table>"
-						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/Le_Sage/\">Renaud Guezennec</a></td><td>(English & French)</td></tr>"
-						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/lorrampi/\">Lorram Lomeu de Souza Rampi</a></td><td> (Portuguese)</td></tr>"
-						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/JuAlves/\">Juliana Alves de Sousa Rampi</a></td><td> (Portuguese)</td></tr>"
-						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/KrekoG/\">Gergely Krekó</a></td><td> (Hungarian)</td></tr>"
-						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/kayazeren/\">Kaya Zeren</a></td><td> (Turkish)</td></tr>"
-						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/IGrumoI/\">Alexia Béné</a></td><td> (French & German)</td></tr>"
-						  "</table>"
-                          "<p><h3>Retired developers :</h3>"
-                          "<ul>"
-                          "<li><a href=\"mailto:joseph.boudou@matabio.net\">Joseph Boudou</a></li>"
-                          "<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni</a> (rolistik)  </li>"
-                          "</ul></p>"));
+    AboutRolisteam diag(m_version,this);
+    diag.exec();
 }
 void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
 {
