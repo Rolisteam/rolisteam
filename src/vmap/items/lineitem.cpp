@@ -54,23 +54,7 @@ void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     painter->save();
     painter->setPen(m_pen);
     painter->drawLine(m_startPoint,m_endPoint);
-    if(hasFocusOrChild())
-    {
-        foreach(ChildPointItem* item, *m_child)
-        {
-            item->setVisible(true);
-        }
-    }
-    else
-    {
-        if(NULL!=m_child)
-        {
-            foreach(ChildPointItem* item, *m_child)
-            {
-                item->setVisible(false);
-            }
-        }
-    }
+    setChildrenVisible(hasFocusOrChild());
     painter->restore();
     
 }

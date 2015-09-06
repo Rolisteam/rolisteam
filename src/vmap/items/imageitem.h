@@ -79,6 +79,11 @@ public:
 	 */
 	virtual VisualItem* getItemCopy();
 
+
+
+    VisualItem* promoteTo(VisualItem::ItemType);
+
+
 protected:
 	/**
 	 * @brief updateChildPosition
@@ -93,6 +98,8 @@ private:
 	QString m_imagePath;
 	qreal m_ratio;
     Qt::KeyboardModifiers m_modifiers;
+
+    //QAction* m_
 };
 
 #endif // IMAGEITEM_H

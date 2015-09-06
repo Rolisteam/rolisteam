@@ -30,6 +30,8 @@
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 
+QStringList VisualItem::type2NameList =  QStringList() << tr("Path")<< tr("Line")<< tr("Ellipse")<< tr("Character")<< tr("Text")<< tr("Rect")<< tr("Rule")<< tr("Image");
+
 VisualItem::VisualItem()
     : QGraphicsObject(),m_editable(false),m_child(NULL)
 {
@@ -168,8 +170,14 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QAction* resetRotationAct = rotationMenu->addAction(tr("To 360"));
     QAction* rightRotationAct =rotationMenu->addAction(tr("Right"));
     QAction* leftRotationAct =rotationMenu->addAction(tr("Left"));
-    QAction* angleRotationAct =rotationMenu->addAction(tr("Set Angle"));
+    QAction* angleRotationAct =rotationMenu->addAction(tr("Set Angle…"));
     event->accept();
+
+    if(!m_promoteTypeList.isEmpty())
+    {
+        QMenu* promoteMenu = menu.addMenu(tr("Promote to"));
+        addPromoteItemMenu(promoteMenu);
+    }
 
 
     QMenu* setLayerMenu = menu.addMenu(tr("Set Layer"));
@@ -216,6 +224,25 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         itemLayerChanged(this);
     }
 }
+void VisualItem::addPromoteItemMenu(QMenu* menu)
+{
+    foreach(ItemType type, m_promoteTypeList)
+    {
+        QAction* action = menu->addAction(type2NameList[type]);
+        action->setData(type);
+        connect(action,SIGNAL(triggered()),this,SLOT(promoteItem()));
+    }
+}
+void VisualItem::promoteItem()
+{
+    QAction* act = qobject_cast<QAction*>(sender());
+    if(NULL!=act)
+    {
+        VisualItem::ItemType type = (VisualItem::ItemType)act->data().toInt();
+        emit promoteItemTo(this,type);
+    }
+}
+
 void VisualItem::createActions()
 {
     m_duplicateAct = new QAction(tr("Duplicate Item"),this);
@@ -242,7 +269,7 @@ void VisualItem::setLayer(VisualItem::Layer layer)
 
 void VisualItem::addActionContextMenu(QMenu*)
 {
-    //must be empty
+    /// @brief must be implemented in child classes.
 }
 
 QString VisualItem::getId()
@@ -359,9 +386,25 @@ void VisualItem::endOfGeometryChange()
 
 void VisualItem::setModifiers(Qt::KeyboardModifiers modifiers)
 {
+    /// @brief must be implemented in child classes.
     return;
 }
+VisualItem* VisualItem::promoteTo(VisualItem::ItemType type)
+{
+    /// @brief must be implemented in child classes.
+    return NULL;
+}
 
+void VisualItem::setChildrenVisible(bool b)
+{
+    if(NULL!=m_child)
+    {
+        foreach(ChildPointItem* item, *m_child)
+        {
+            item->setVisible(b);
+        }
+    }
+}
 //friend functions
 QDataStream& operator<<(QDataStream& os,const VisualItem& c)
 {

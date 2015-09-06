@@ -52,26 +52,7 @@ void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 {
     if(!m_text.isEmpty())
     {
-        if(hasFocusOrChild())
-        {
-            if(NULL!=m_child)
-            {
-                foreach(ChildPointItem* item, *m_child)
-                {
-                    item->setVisible(true);
-                }
-            }
-        }
-        else
-        {
-            if(NULL!=m_child)
-            {
-                foreach(ChildPointItem* item, *m_child)
-                {
-                    item->setVisible(false);
-                }
-            }
-        }
+        setChildrenVisible(hasFocusOrChild());
 
         painter->save();
         painter->setFont(m_font);

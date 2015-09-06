@@ -153,11 +153,14 @@ public:
     virtual VisualItem::Layer getLayer();
     virtual void setLayer(VisualItem::Layer);
 
+    virtual VisualItem* promoteTo(VisualItem::ItemType);
+
 signals:
     void itemGeometryChanged(VisualItem*);
     void itemRemoved(QString);
     void duplicateItem(VisualItem*);
     void itemLayerChanged(VisualItem*);
+    void promoteItemTo(VisualItem*,VisualItem::ItemType);
 
 public slots:
     /**
@@ -178,10 +181,13 @@ protected:
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void init();
     virtual void updateChildPosition();
+    void setChildrenVisible(bool b);
 
     virtual void createActions();
-private slots:
-    void manageAction();
+
+
+
+
 
 protected:
     QVector<ChildPointItem*>* m_child;
@@ -202,6 +208,15 @@ protected:
 
 
     VisualItem::Layer m_layer;
+    QVector<ItemType> m_promoteTypeList;
+
+
+private slots:
+    void manageAction();
+    void addPromoteItemMenu(QMenu*);
+    void promoteItem();
+private:
+    static QStringList type2NameList;
 };
 
 #endif // VISUALITEM_H

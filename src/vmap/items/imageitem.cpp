@@ -2,14 +2,20 @@
 
 #include <QPainter>
 #include <QDebug>
+#include <QFileInfo>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
+
+#include "characteritem.h"
+#include "data/character.h"
 
 ImageItem::ImageItem()
 : VisualItem()
 {
 	m_keepAspect = true;
+
+    m_promoteTypeList << VisualItem::CHARACTER;
 }
 QRectF ImageItem::boundingRect() const
 {
@@ -20,28 +26,9 @@ void ImageItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
 	painter->save();
 	painter->drawImage(m_rect,m_image,m_image.rect());
 
-	if(hasFocusOrChild())
-	{
-		if(NULL!=m_child)
-		{
-			foreach(ChildPointItem* item, *m_child)
-			{
-				item->setVisible(true);
-			}
-		}
-	}
-	else
-	{
-		if(NULL!=m_child)
-		{
-			foreach(ChildPointItem* item, *m_child)
-			{
-				item->setVisible(false);
-			}
-		}
-	}
-	painter->restore();
+    setChildrenVisible(hasFocusOrChild());
 
+	painter->restore();
 }
 void ImageItem::setNewEnd(QPointF& p)
 {
@@ -228,4 +215,16 @@ VisualItem* ImageItem::getItemCopy()
 	rectItem->resizeContents(m_rect.toRect(),false);
     rectItem->setPos(pos());
 	return rectItem;
+}
+VisualItem* ImageItem::promoteTo(VisualItem::ItemType type)
+{
+    if(type == CHARACTER)
+    {
+        QFileInfo info(m_imagePath);
+        Character* character = new Character(info.baseName(),Qt::black,true);
+        character->setAvatar(m_image);
+        CharacterItem* item = new CharacterItem(character,pos());
+        item->setScale(scale());
+        return item;
+    }
 }
