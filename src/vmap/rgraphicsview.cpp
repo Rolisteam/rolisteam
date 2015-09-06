@@ -71,7 +71,10 @@ void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 void RGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
     QGraphicsView::mouseReleaseEvent(event);
-    setDragMode(QGraphicsView::RubberBandDrag);
+    if(dragMode()==QGraphicsView::ScrollHandDrag)
+    {
+        setDragMode(QGraphicsView::RubberBandDrag);
+    }
 }
 
 void RGraphicsView::focusInEvent ( QFocusEvent * event )
@@ -101,40 +104,43 @@ void RGraphicsView::wheelEvent(QWheelEvent *event)
     else
         QGraphicsView::wheelEvent(event);
 }
-void RGraphicsView::contextMenuEvent(QContextMenuEvent *event)
+void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 {
-    QList<QGraphicsItem*> list = items(event->pos());
-    if(list.isEmpty())
+    if(m_vmap->isIdle())
     {
-        QMenu menu;
-
-        switch (m_vmap->getCurrentLayer())
+        QList<QGraphicsItem*> list = items(event->pos());
+        if(list.isEmpty())
         {
-        case VisualItem::OBJECT:
-            m_editObjectLayer->setChecked(true);
-            break;
-        case VisualItem::GROUND:
-            m_editGroundLayer->setChecked(true);
-            break;
-        case VisualItem::CHARACTER_LAYER:
-            m_editCharacterLayer->setChecked(true);
-            break;
-        }
-        QMenu* editLayer = menu.addMenu(tr("Edit Layer"));
-        editLayer->addAction(m_editGroundLayer);
-        editLayer->addAction(m_editObjectLayer);
-        editLayer->addAction(m_editCharacterLayer);
+            QMenu menu;
 
-        menu.addAction(m_zoomInMax);
-        menu.addAction(m_zoomNormal);
-        menu.addAction(m_zoomOutMax);
-        menu.addSeparator();
-        menu.addAction(m_properties);
-        menu.exec(event->globalPos());
-    }
-    else
-    {
-        QGraphicsView::contextMenuEvent(event);
+            switch (m_vmap->getCurrentLayer())
+            {
+            case VisualItem::OBJECT:
+                m_editObjectLayer->setChecked(true);
+                break;
+            case VisualItem::GROUND:
+                m_editGroundLayer->setChecked(true);
+                break;
+            case VisualItem::CHARACTER_LAYER:
+                m_editCharacterLayer->setChecked(true);
+                break;
+            }
+            QMenu* editLayer = menu.addMenu(tr("Edit Layer"));
+            editLayer->addAction(m_editGroundLayer);
+            editLayer->addAction(m_editObjectLayer);
+            editLayer->addAction(m_editCharacterLayer);
+
+            menu.addAction(m_zoomInMax);
+            menu.addAction(m_zoomNormal);
+            menu.addAction(m_zoomOutMax);
+            menu.addSeparator();
+            menu.addAction(m_properties);
+            menu.exec(event->globalPos());
+        }
+        else
+        {
+            QGraphicsView::contextMenuEvent(event);
+        }
     }
 }
 void RGraphicsView::createAction()
