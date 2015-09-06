@@ -173,6 +173,8 @@ public:
     void editLayer(VisualItem::Layer layer);
     VisualItem::Layer getCurrentLayer() const;
 
+    bool isIdle() const ;
+
 public slots:
     /**
     * @brief defines the current tools
@@ -247,9 +249,10 @@ private slots:
      */
     void sendItemToAll(VisualItem*);
 
-	void sendOffCurrentItem();
+    void sendOffItem(VisualItem* item);
 	void updateItem();
     void checkItemLayer(VisualItem*);
+    void promoteItemInType(VisualItem*, VisualItem::ItemType);
     
 protected:
     /**
