@@ -61,7 +61,7 @@ private:
  * @brief A QTreeView with editable DecorationRole if it's a QColor.
  * @todo The code is really generic. The class might be put somewhere else to be reused.
  */
-class PlayersListView : public QTreeView
+/*class PlayersListView : public QTreeView
 {
     Q_OBJECT
 
@@ -75,7 +75,7 @@ protected:
 private:
     QAction* m_avatarAct;
 
-};
+};*/
 /**
  * @brief The PlayersListWidget class is the QDockWidget which display the PlayersListView. It is part of the MVC pattern as the Controler.
  *
