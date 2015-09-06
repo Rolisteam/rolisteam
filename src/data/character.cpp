@@ -67,7 +67,7 @@ void Character::fill(NetworkMessageWriter & message)
 {
     if(NULL!=m_parent)
     {
-        message.string8(m_parent->uuid());
+        message.string8(m_parent->getUuid());
     }
     else
     {

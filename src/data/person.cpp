@@ -50,7 +50,7 @@ Person::Person()
 Person::~Person()
 {
 }
-const QString Person::uuid() const
+const QString Person::getUuid() const
 {
     return m_uuid;
 }
