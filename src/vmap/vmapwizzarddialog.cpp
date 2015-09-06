@@ -28,11 +28,16 @@
 #include "preferences/preferencesmanager.h"
 
 
-MapWizzardDialog::MapWizzardDialog(QWidget *parent) :
+MapWizzardDialog::MapWizzardDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::MapWizzardDialog)
 {
     ui->setupUi(this);
+    if(NULL!=parent)
+    {
+        m_width = parent->rect().width();
+        m_height = parent->rect().height();
+    }
     m_model = new PatternModel();
     
     ui->m_gridPattern->setModel(m_model);
@@ -52,10 +57,13 @@ MapWizzardDialog::MapWizzardDialog(QWidget *parent) :
     ui->m_permissionComboBox->addItems(m_permissionData);
     ui->m_permissionComboBox->setCurrentIndex(PreferencesManager::getInstance()->value("defaultPermissionMap",0).toInt());
 
+    m_visibilityData   << tr("Hidden") << tr("His character") << tr("Whole");
+    ui->m_visibilityComboBox->addItems(m_visibilityData);
+    ui->m_visibilityComboBox->setCurrentIndex(PreferencesManager::getInstance()->value("defaultMapVisibility",0).toInt());
 
-    connect(ui->m_landscapeButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
+   /* connect(ui->m_landscapeButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
     connect(ui->m_portraitButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
-    connect(ui->m_squareButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
+    connect(ui->m_squareButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));*/
     
     selectedShapeChanged();
 
@@ -86,7 +94,7 @@ void MapWizzardDialog::changeEvent(QEvent *e)
 void MapWizzardDialog::selectedShapeChanged()
 {
     
-    if(ui->m_landscapeButton->isChecked())
+ /*   if(ui->m_landscapeButton->isChecked())
     {
         ui->m_smallSizeButton->setText(tr("Small ( %1 x %2)").arg(600).arg(450));
         ui->m_mediumSizeButton->setText(tr("Medium ( %1 x %2)").arg(800).arg(600));
@@ -106,7 +114,7 @@ void MapWizzardDialog::selectedShapeChanged()
         ui->m_mediumSizeButton->setText(tr("Medium ( %2 x %1)").arg(700).arg(700));
         ui->m_bigSizeButton->setText(tr("Big ( %2 x %1)").arg(900).arg(900));
         ui->m_hugeSizeButton->setText(tr("Huge ( %2 x %1)").arg(1100).arg(1100));
-    }
+    }*/
     
     
 }
@@ -120,42 +128,16 @@ void MapWizzardDialog::updateDataFrom(VMap* map)
     ui->m_unitPattern->setCurrentIndex(map->getPatternUnit());
     ui->m_colorButton->setColor(map->getBackGroundColor());
 
-    int mapW = map->width();
+    /*int mapW = map->width();
     int mapH = map->height();
-    QSize mapSize(mapW,mapH);
-    int index = m_sizeList.indexOf(mapSize);
-    int kind = index%3;
-    switch (kind)
-    {
-        case 0:
-            ui->m_landscapeButton->setChecked(true);
-        break;
-        case 1:
-            ui->m_portraitButton->setChecked(true);
-        break;
-        case 2:
-            ui->m_squareButton->setChecked(true);
-        break;
-    }
+    QSize mapSize(mapW,mapH);*/
+
+
+
+
     selectedShapeChanged();
 
-    switch (index)
-    {
-    case 0:
-        ui->m_smallSizeButton->setChecked(true);
-        break;
-    case 1:
-        ui->m_mediumSizeButton->setChecked(true);
-        break;
-    case 2:
-        ui->m_bigSizeButton->setChecked(true);
-        break;
-    case 3:
-        ui->m_hugeSizeButton->setChecked(true);
-        break;
-    default:
-        break;
-    }
+
     ui->m_titleLineedit->setText(map->getTitle());
 
 }
@@ -204,116 +186,13 @@ void MapWizzardDialog::setAllMap(VMap* map)
     map->setPermissionMode(result);
     map->setPatternSize(ui->m_sizeGrid->value());
 
+    map->setWidth(800);
+    map->setHeight(600);
+
     map->setScale(ui->m_scaleOfGrid->value());
     map->setScaleUnit(ui->m_unitPattern->currentIndex());
     //map->setBackGroundColor(m_bgColor);
     map->setBackGroundColor(ui->m_colorButton->color());
     map->computePattern();
-
-    if(ui->m_customSize->isChecked())
-    {
-        bool ok = false;
-
-        int w = ui->m_widthEdit->text().toInt(&ok);
-        if(ok)
-            map->setWidth(w);
-        int h = ui->m_heightEdit->text().toInt(&ok);
-        if(ok)
-            map->setHeight(h);
-    }
-    else
-    {
-        if(ui->m_landscapeButton->isChecked())
-        {
-            if(ui->m_smallSizeButton->isChecked())
-            {
-                map->setWidth(600);
-                map->setHeight(450);
-
-            }
-            else if(ui->m_mediumSizeButton->isChecked())
-            {
-                map->setWidth(800);
-                map->setHeight(600);
-
-            }
-            else if(ui->m_bigSizeButton->isChecked())
-            {
-                map->setWidth(1000);
-                map->setHeight(750);
-
-            }
-            else if(ui->m_hugeSizeButton->isChecked())
-            {
-                map->setWidth(1200);
-                map->setHeight(900);
-
-            }
-        }
-        else if(ui->m_portraitButton->isChecked())
-        {
-            if(ui->m_smallSizeButton->isChecked())
-            {
-                map->setWidth(450);
-                map->setHeight(600);
-
-            }
-            else if(ui->m_mediumSizeButton->isChecked())
-            {
-                map->setWidth(600);
-                map->setHeight(800);
-
-            }
-            else if(ui->m_bigSizeButton->isChecked())
-            {
-                map->setWidth(750);
-                map->setHeight(1000);
-
-            }
-            else if(ui->m_hugeSizeButton->isChecked())
-            {
-                map->setWidth(900);
-                map->setHeight(1200);
-            }
-        }
-        else if(ui->m_squareButton->isChecked())
-        {
-            if(ui->m_smallSizeButton->isChecked())
-            {
-                map->setWidth(500);
-                map->setHeight(500);
-
-            }
-            else if(ui->m_mediumSizeButton->isChecked())
-            {
-                map->setWidth(700);
-                map->setHeight(700);
-
-            }
-            else if(ui->m_bigSizeButton->isChecked())
-            {
-                map->setWidth(900);
-                map->setHeight(900);
-
-            }
-            else if(ui->m_hugeSizeButton->isChecked())
-            {
-                map->setWidth(1100);
-                map->setHeight(1100);
-            }
-
-        }
-
-    }
     map->setTitle(ui->m_titleLineedit->text());
 }
-
-/*void MapWizzardDialog::clickOnColorButton()
-{
-    m_bgColor = QColorDialog::getColor ( m_bgColor, this );
-    if(m_bgColor.isValid())
-    {
-        ui->m_colorButton->setStyleSheet(QString("background-color: rgb(%1,%2,%3)").arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()));
-        m_options->registerValue("MapWizzard/backgroundcolor",m_bgColor);
-    }
-}*/
