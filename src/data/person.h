@@ -98,7 +98,7 @@ public:
     /**
     * @brief set the person's avatar.
     */
-    virtual void setAvatar(QImage& p);
+    virtual void setAvatar(const QImage& p);
     bool setColor(const QColor & color);
     bool setName(const QString & getName);
     Qt::CheckState checkedState();
