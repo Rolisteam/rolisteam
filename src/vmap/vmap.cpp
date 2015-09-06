@@ -258,6 +258,10 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 			updateItem();
 		}
     }
+ /*  else if((m_selectedtool == VToolsBar::RULE)&&(mouseEvent->button() == Qt::RightButton))
+    {
+        mouseEvent->accept();
+    }*/
 }
 void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
@@ -305,14 +309,14 @@ void VMap::checkItemLayer(VisualItem* item)
 
 }
 
-void VMap::sendOffCurrentItem()
+void VMap::sendOffItem(VisualItem* item)
 {
 	NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
 	msg.string8(m_id);
-	msg.uint8(m_currentItem->getType());
-	m_currentItem->fillMessage(&msg);
+    msg.uint8(item->getType());
+    item->fillMessage(&msg);
 	msg.sendAll();
-	m_currentItem->initChildPointItem();
+    item->initChildPointItem();
 }
 void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
@@ -325,7 +329,7 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             m_currentItem = NULL;
             return;
         }
-        sendOffCurrentItem();
+        sendOffItem(m_currentItem);
     }
     m_currentItem = NULL;
     if(m_selectedtool==VToolsBar::HANDLER)
@@ -371,8 +375,6 @@ QDataStream& operator>>(QDataStream& is,VMap& con)
     
     int size;
     is >> size;
-    
-    
     
     return is;
 }
@@ -459,6 +461,7 @@ void VMap::addCharacter(Character* p, QPointF pos)
     connect(this,SIGNAL(showNpcName(bool)),item,SLOT(showNpcName(bool)));
     connect(this,SIGNAL(showNpcNumber(bool)),item,SLOT(showNpcNumber(bool)));
     connect(this,SIGNAL(showPcName(bool)),item,SLOT(showPcName(bool)));
+
     NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
     msg.string8(m_id);
     msg.uint8(item->getType());
@@ -466,8 +469,6 @@ void VMap::addCharacter(Character* p, QPointF pos)
     msg.sendAll();
     item->initChildPointItem();
     addNewItem(item);
-
-
 }
 
 void VMap::setPatternSize(int p)
@@ -639,7 +640,6 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
 void VMap::processGeometryChangeItem(NetworkMessageReader* msg)
 {
     QString idItem = msg->string16();
-
     if(m_itemMap->contains(idItem))
     {
         VisualItem* item = m_itemMap->value(idItem);
@@ -657,11 +657,23 @@ void VMap::addNewItem(VisualItem* item)
         connect(item,SIGNAL(itemRemoved(QString)),this,SLOT(removeItemFromScene(QString)));
         connect(item,SIGNAL(duplicateItem(VisualItem*)),this,SLOT(duplicateItem(VisualItem*)));
         connect(item,SIGNAL(itemLayerChanged(VisualItem*)),this,SLOT(checkItemLayer(VisualItem*)));
+        connect(item,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),this,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
         QGraphicsScene::addItem(item);
 		item->setEditableItem(m_localIsGM);
         m_itemMap->insert(item->getId(),item);
     }
 }
+void VMap::promoteItemInType(VisualItem* item, VisualItem::ItemType type)
+{
+    if(NULL!=item)
+    {
+        VisualItem* bis = item->promoteTo(type);
+        removeItemFromScene(item->getId());
+        addNewItem(bis);
+        bis->initChildPointItem();
+    }
+}
+
 void VMap::removeItemFromScene(QString id)
 {
     VisualItem* item = m_itemMap->take(id);
@@ -775,9 +787,9 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
 			{
 				ImageItem* led = new ImageItem();
 				led->setImageUri(url.toLocalFile());
-				led->initChildPointItem();
+                sendOffItem(led);
 				addNewItem(led);
-				led->setPos(event->scenePos());
+                led->setPos(event->scenePos());
 			}
 
 		}
@@ -820,4 +832,8 @@ void VMap::duplicateItem(VisualItem* item)
 		//m_currentItem = copy;
 		update();
 	}
+}
+bool VMap::isIdle() const
+{
+    return (m_currentItem==NULL);
 }
