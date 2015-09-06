@@ -525,7 +525,7 @@ void MainWindow::newMap()
 }
 void MainWindow::newVectorialMap()
 {
-    MapWizzardDialog mapWizzard;
+    MapWizzardDialog mapWizzard(m_mdiArea);
     if(mapWizzard.exec())
     {
         VMap* tempmap = new VMap();
