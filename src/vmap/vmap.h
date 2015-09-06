@@ -40,6 +40,7 @@ public:
 
     enum GRID_PATTERN{NONE,SQUARE,HEXAGON,OCTOGON};
     enum SCALE_UNIT{M,KM,CM,MILE,YARD,INCH,FEET,PX};
+    enum VisibilityMode {ALL,CHARACTER,HIDDEN};
     /**
     * @brief default constructor
     */
@@ -137,6 +138,11 @@ public:
 	 */
 	void setPermissionMode(Map::PermissionMode mode);
     /**
+     * @brief setVisibilityMode
+     * @param mode
+     */
+    void setVisibilityMode(VMap::VisibilityMode mode);
+    /**
      * @brief processDelItemMessage
      * @param msg
      */
@@ -145,7 +151,12 @@ public:
 	 * @brief getPermissionMode
 	 * @return
 	 */
-	Map::PermissionMode getPermissionMode();
+    Map::PermissionMode getPermissionMode();
+    /**
+     * @brief getVisibilityMode
+     * @return
+     */
+    VMap::VisibilityMode getVisibilityMode();
 	/**
 	 * @brief setLocalIsGM
 	 */
@@ -289,9 +300,20 @@ protected:
     void addNewItem(VisualItem* item);
 
 
-    
+    /**
+     * @brief dragEnterEvent
+     * @param event
+     */
 	void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
-	void dropEvent ( QGraphicsSceneDragDropEvent * event );
+    /**
+     * @brief dropEvent
+     * @param event
+     */
+    void dropEvent ( QGraphicsSceneDragDropEvent * event );
+    /**
+     * @brief dragMoveEvent
+     * @param event
+     */
 	void dragMoveEvent( QGraphicsSceneDragDropEvent * event );
 private:
     /**
@@ -342,6 +364,12 @@ private:
     * @brief Items list which are part of the map.
     */
     QMap<QString,VisualItem*>* m_itemMap;
+
+    /**
+    * @brief Items list which are part of the map.
+    */
+    QMap<QString,VisualItem*>* m_characterItemMap;
+
     /**
     * @brief Pattern Of grid, pattern must be square shaped.
     */
@@ -386,6 +414,10 @@ private:
      * @brief m_currentMode
      */
 	Map::PermissionMode m_currentMode;
+    /**
+     * @brief m_currentVisibityMode
+     */
+    VMap::VisibilityMode m_currentVisibityMode;
     /**
      * @brief m_gridColor
      */

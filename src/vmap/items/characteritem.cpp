@@ -211,7 +211,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
-    msg->string16(m_character->uuid());
+    msg->string16(m_character->getUuid());
     msg->uint16(m_diameter);
     //pos
     msg->real(m_center.x());
@@ -285,6 +285,11 @@ void CharacterItem::resizeContents(const QRect& rect, bool )
     sizeChanged(m_diameter);
     updateChildPosition();
 }
+QString CharacterItem::getCharacterId() const
+{
+    return m_character->getUuid();
+}
+
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
    /* if (change == ItemPositionChange && scene() && hasFocus())
@@ -404,7 +409,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
   foreach(Character* character, PlayersList::instance()->getCharacterList())
   {
 	QAction* act = user->addAction(character->getName());
-	act->setData(character->uuid());
+    act->setData(character->getUuid());
 
 	connect(act,SIGNAL(triggered()),this,SLOT(changeCharacter()));
   }

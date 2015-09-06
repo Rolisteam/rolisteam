@@ -114,8 +114,16 @@ public:
      * @brief addActionContextMenu
      */
     virtual void addActionContextMenu(QMenu*);
-
+    /**
+     * @brief getItemCopy
+     * @return
+     */
 	virtual VisualItem* getItemCopy();
+    /**
+     * @brief getCharacterId
+     * @return
+     */
+    QString getCharacterId() const;
 
 public slots:
     void sizeChanged(int m_size);
@@ -145,7 +153,9 @@ private slots:
      * @brief characterStateChange
      */
     void characterStateChange();
-
+    /**
+     * @brief changeCharacter
+     */
 	void changeCharacter();
 private:
     Character* m_character;

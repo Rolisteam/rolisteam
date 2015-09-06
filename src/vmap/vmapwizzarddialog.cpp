@@ -182,8 +182,25 @@ void MapWizzardDialog::setAllMap(VMap* map)
         result = Map::GM_ONLY;
         break;
     }
-
     map->setPermissionMode(result);
+
+    VMap::VisibilityMode resultVisibility;
+    switch(ui->m_visibilityComboBox->currentIndex())
+    {
+    case 0:
+        resultVisibility = VMap::HIDDEN;
+        break;
+    case 1:
+        resultVisibility = VMap::CHARACTER;
+        break;
+    case 2:
+        resultVisibility = VMap::ALL;
+        break;
+    default:
+        break;
+    }
+
+    map->setVisibilityMode(resultVisibility);
     map->setPatternSize(ui->m_sizeGrid->value());
 
     map->setWidth(800);
