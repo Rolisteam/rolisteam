@@ -73,7 +73,7 @@ QVariant PlayersListWidgetModel::data(const QModelIndex &index, int role) const
 {
     if (isCheckable(index) && role == Qt::CheckStateRole)
     {
-        return QVariant(m_map->isVisiblePc(PlayersList::instance()->getPerson(index)->uuid()));
+        return QVariant(m_map->isVisiblePc(PlayersList::instance()->getPerson(index)->getUuid()));
     }
     return QAbstractProxyModel::data(index, role);
 }

@@ -60,10 +60,10 @@ public:
      */
     virtual ~Person();
     /**
-     * @brief uuid
+     * @brief getUuid
      * @return
      */
-    const QString uuid() const;
+    const QString getUuid() const;
     /**
      * @brief name
      * @return

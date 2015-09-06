@@ -342,7 +342,7 @@ void ChatList::addPlayerChat(Player * player)
 {
     if(player != PlayersList::instance()->localPlayer())
     {
-        ChatWindow * chatw = getChatWindowByUuid(player->uuid());
+        ChatWindow * chatw = getChatWindowByUuid(player->getUuid());
         if (chatw == NULL)
         {
             addChatWindow(new ChatWindow(new PlayerChat(player), m_mainWindow));
@@ -425,10 +425,10 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
         return;
     }
 
-    if (to == g_playersList->localPlayer()->uuid())
+    if (to == g_playersList->localPlayer()->getUuid())
     {
         Player * owner = g_playersList->getParent(from);
-        getChatWindowByUuid(owner->uuid())->showMessage(sender->getName(), sender->getColor(), msg, data.action());
+        getChatWindowByUuid(owner->getUuid())->showMessage(sender->getName(), sender->getColor(), msg, data.action());
         return;
     }
 

@@ -139,7 +139,7 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
                 return QVariant(person->getColor());
         }
         case IdentifierRole:
-            return QVariant(person->uuid());
+            return QVariant(person->getUuid());
       }
 
     return QVariant();
@@ -522,7 +522,7 @@ bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
             message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);
 
         message->string16(person->getName());
-        message->string8(person->uuid());
+        message->string8(person->getUuid());
         message->sendAll();
 
         return true;
@@ -536,7 +536,7 @@ bool PlayersList::setLocalPersonAvatar(Person* person,const QImage& image)
         person->setAvatar(image);
         NetworkMessageWriter * message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterAvatarAction);
 
-        message->string8(person->uuid());
+        message->string8(person->getUuid());
 
         QByteArray data;
         QDataStream in(&data,QIODevice::WriteOnly);
@@ -560,7 +560,7 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
         else
             message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterColorAction);
 
-        message->string8(person->uuid());
+        message->string8(person->getUuid());
         message->rgb(person->getColor());
         message->sendAll();
 
@@ -576,7 +576,7 @@ void PlayersList::delLocalCharacter(int index)
         return;
 
     NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::DelPlayerCharacterAction);
-    message.string8(parent->getCharacterByIndex(index)->uuid());
+    message.string8(parent->getCharacterByIndex(index)->getUuid());
     message.sendAll();
 
     delCharacter(parent, index);
@@ -585,7 +585,7 @@ void PlayersList::delLocalCharacter(int index)
 void PlayersList::addPlayer(Player * player)
 {
     int size = m_playersList.size();
-    QString uuid = player->uuid();
+    QString uuid = player->getUuid();
 
     if (m_uuidMap.contains(uuid))
         return;
@@ -605,7 +605,7 @@ void PlayersList::addPlayer(Player * player)
 void PlayersList::addCharacter(Player * player, Character * character)
 {
     int size = player->getCharactersCount();
-    QString uuid = character->uuid();
+    QString uuid = character->getUuid();
 
     if (m_uuidMap.contains(uuid))
        return;
@@ -632,7 +632,7 @@ void PlayersList::delPlayer(Player * player)
 
     beginRemoveRows(QModelIndex(), index, index);
 
-    m_uuidMap.remove(player->uuid());
+    m_uuidMap.remove(player->getUuid());
     m_playersList.removeAt(index);
     if (player->isGM())
         m_gmCount -= 1;
@@ -651,7 +651,7 @@ void PlayersList::delCharacter(Player * parent, int index)
 
     emit characterDeleted(character);
 
-    m_uuidMap.remove(character->uuid());
+    m_uuidMap.remove(character->getUuid());
     parent->delCharacter(index);
 
     endRemoveRows();
@@ -750,7 +750,7 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
 {
     Player * newPlayer = new Player(data);
 
-    Person * actualPerson = m_uuidMap.value(newPlayer->uuid());
+    Person * actualPerson = m_uuidMap.value(newPlayer->getUuid());
     if (actualPerson != NULL)
     {
         if (actualPerson->parent() == NULL)
@@ -767,7 +767,7 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
             }
         }
         else
-            qWarning("A Player and a Character have the same UUID %s", qPrintable(newPlayer->uuid()));
+            qWarning("A Player and a Character have the same UUID %s", qPrintable(newPlayer->getUuid()));
     }
 
     else
@@ -906,7 +906,7 @@ void PlayersList::delCharacter(NetworkMessageReader & data)
 void PlayersList::sendDelLocalPlayer()
 {
     NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-    message.string8(localPlayer()->uuid());
+    message.string8(localPlayer()->getUuid());
     message.sendAll();
 }
 void PlayersList::completeListClean()
@@ -933,7 +933,7 @@ void PlayersList::delPlayerWithLink(NetworkLink * link)
         {
             qWarning("Something wrong happens to %s", qPrintable(player->getName()));
             NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-            message.string8(player->uuid());
+            message.string8(player->getUuid());
             message.sendAll(link);
 
             delPlayer(player);

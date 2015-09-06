@@ -1236,7 +1236,7 @@ DessinPerso* Map::trouverPersonnage(QString idPerso)
 
 void Map::toggleCharacterView(Character * character)
 {
-    QString uuid = character->uuid();
+    QString uuid = character->getUuid();
 	bool newState = !isVisiblePc(uuid);
 	if((!m_localIsPlayer)||(Map::PC_ALL==m_currentMode)||(Map::PC_MOVE == m_currentMode))
     {
@@ -1290,7 +1290,7 @@ bool Map::isVisiblePc(QString idPerso)
 
 void Map::addCharacter(Character * person)
 {
-    new DessinPerso(this, person->uuid(), person->getName(), person->getColor(), m_npcSize, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), DessinPerso::pj, false, m_showPcName);
+    new DessinPerso(this, person->getUuid(), person->getName(), person->getColor(), m_npcSize, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), DessinPerso::pj, false, m_showPcName);
 }
 
 
@@ -1313,11 +1313,11 @@ void Map::delCharacter(Character * person)
 	if(NULL==person)
 		return;
 
-    DessinPerso * pj = trouverPersonnage(person->uuid());
+    DessinPerso * pj = trouverPersonnage(person->getUuid());
     if (pj == NULL)
     {
 		qWarning() << ( tr("Person %s %s unknown in Carte::changePerson"),
-				qPrintable(person->uuid()), qPrintable(person->getName()) );
+                qPrintable(person->getUuid()), qPrintable(person->getName()) );
         return;
     }
 
@@ -1328,10 +1328,10 @@ void Map::changeCharacter(Character * person)
 {
 	if(NULL==person)
 		return;
-    DessinPerso * pj = trouverPersonnage(person->uuid());
+    DessinPerso * pj = trouverPersonnage(person->getUuid());
     if (pj == NULL)
     {
-        qWarning() << tr("Person %s %s unknown in Carte::changePerson").arg(person->uuid()).arg(person->getName()) ;
+        qWarning() << tr("Person %s %s unknown in Carte::changePerson").arg(person->getUuid()).arg(person->getName()) ;
         return;
     }
 

@@ -99,8 +99,7 @@ int Player::getIndexOf(QString id) const
 {
     for(int i =0; i< m_characters.size() ; i++)
     {
-
-        if(m_characters[i]->uuid()==id)
+        if(m_characters[i]->getUuid()==id)
             return i;
     }
 
