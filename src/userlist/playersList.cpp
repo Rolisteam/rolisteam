@@ -57,6 +57,7 @@ PlayersList::PlayersList()
     ReceiveEvent::registerReceiver(CharacterPlayerCategory, DelPlayerCharacterAction, this);
     ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterNameAction, this);
     ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterColorAction, this);
+    ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterAvatarAction, this);
     ReceiveEvent::registerReceiver(SetupCategory, AddFeatureAction, this);
 
     connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(sendDelLocalPlayer()));
@@ -487,7 +488,7 @@ void PlayersList::changeLocalPerson(Person * person, const QString & name, const
     if (!isLocal(person))
         return;
 
-    if (p_setLocalPersonName(person, name) | p_setLocalPersonColor(person, color))
+    if (p_setLocalPersonName(person, name) || p_setLocalPersonColor(person, color))
         notifyPersonChanged(person);
 }
 
@@ -522,6 +523,25 @@ bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
 
         message->string16(person->getName());
         message->string8(person->uuid());
+        message->sendAll();
+
+        return true;
+    }
+    return false;
+}
+bool PlayersList::setLocalPersonAvatar(Person* person,const QImage& image)
+{
+    if(person->getAvatar() != image)
+    {
+        person->setAvatar(image);
+        NetworkMessageWriter * message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterAvatarAction);
+
+        message->string8(person->uuid());
+
+        QByteArray data;
+        QDataStream in(&data,QIODevice::WriteOnly);
+        in << image;
+        message->byteArray32(data);
         message->sendAll();
 
         return true;
@@ -700,6 +720,9 @@ bool PlayersList::event(QEvent * event)
                     case ChangePlayerCharacterColorAction:
                         setPersonColor(data);
                         return true;
+                    case ChangePlayerCharacterAvatarAction:
+                        setPersonAvatar(data);
+                        return true;
                     default:
                         qWarning() << tr("PlayersList [CharacterPlayerCategory]: unknown action (%d)").arg(data.action());
 
@@ -826,6 +849,20 @@ void PlayersList::setPersonName(NetworkMessageReader & data)
 
     if (person->setName(name))
         notifyPersonChanged(person);
+}
+void PlayersList::setPersonAvatar(NetworkMessageReader & data)
+{
+     QString uuid = data.string8();
+     QByteArray imageBuffer = data.byteArray32();
+     Person * person = m_uuidMap.value(uuid);
+     QDataStream out(&imageBuffer,QIODevice::ReadOnly);
+     QImage img;
+     out >> img;
+
+     if (person == NULL)
+         return;
+
+     person->setAvatar(img);
 }
 
 void PlayersList::setPersonColor(NetworkMessageReader & data)

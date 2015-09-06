@@ -109,6 +109,7 @@ public:
     static const quint32 NoParent = 0x7fffffff;
 public slots:
     void sendDelLocalPlayer();
+    bool setLocalPersonAvatar(Person* person,const QImage& image);
 signals:
     void playerAdded(Player * player);
     void characterAdded(Character * character);
@@ -150,6 +151,7 @@ private:
     void delPlayer(NetworkMessageReader & data);
     void setPersonName(NetworkMessageReader & data);
     void setPersonColor(NetworkMessageReader & data);
+    void setPersonAvatar(NetworkMessageReader & data);
     void addCharacter(NetworkMessageReader & data);
     void delCharacter(NetworkMessageReader & data);
     bool p_setLocalPersonName(Person * person, const QString & name);
