@@ -62,26 +62,7 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         painter->setBrush(QBrush(m_color));
         painter->fillRect(m_rect, m_color);
     }
-    if(hasFocusOrChild())
-    {
-        if(NULL!=m_child)
-        {
-            foreach(ChildPointItem* item, *m_child)
-            {
-                item->setVisible(true);
-            }
-        }
-    }
-    else
-    {
-        if(NULL!=m_child)
-        {
-            foreach(ChildPointItem* item, *m_child)
-            {
-                item->setVisible(false);
-            }
-        }
-    }
+    setChildrenVisible(hasFocusOrChild());
     painter->restore();
     
 }

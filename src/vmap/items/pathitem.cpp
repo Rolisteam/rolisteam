@@ -70,26 +70,7 @@ QPainterPath PathItem::shape () const
 }
 void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
-	if(hasFocusOrChild())
-	{
-        if(NULL!=m_child)
-        {
-            foreach(ChildPointItem* item, *m_child)
-            {
-                item->setVisible(true);
-            }
-        }
-	}
-	else
-	{
-		if(NULL!=m_child)
-		{
-			foreach(ChildPointItem* item, *m_child)
-			{
-				item->setVisible(false);
-			}
-		}
-	}
+    setChildrenVisible(hasFocusOrChild());
 
 	QPainterPath path;
     if(!m_penMode)

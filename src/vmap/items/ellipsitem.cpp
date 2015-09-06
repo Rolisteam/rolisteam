@@ -64,27 +64,7 @@ void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * op
         painter->setBrush(QBrush(m_color,Qt::SolidPattern));
     }
 
-    if(hasFocusOrChild())
-    {
-        if(NULL!=m_child)
-        {
-            foreach(ChildPointItem* item, *m_child)
-            {
-                item->setVisible(true);
-            }
-        }
-    }
-    else
-    {
-        if(NULL!=m_child)
-        {
-            foreach(ChildPointItem* item, *m_child)
-            {
-                item->setVisible(false);
-            }
-        }
-    }
-
+    setChildrenVisible(hasFocusOrChild());
 
     painter->drawEllipse(m_center,m_rx,m_ry);
     painter->restore();

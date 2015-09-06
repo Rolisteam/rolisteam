@@ -93,27 +93,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
     {
         generatedThumbnail();
     }
-    if(hasFocusOrChild())
-    {
-        foreach(ChildPointItem* item, *m_child)
-        {
-            item->setVisible(true);
-        }
-    }
-    else
-    {
-        if(NULL!=m_child)
-        {
-            foreach(ChildPointItem* item, *m_child)
-            {
-                item->setVisible(false);
-            }
-        }
-    }
-    if(m_thumnails==NULL)
-    {
-        generatedThumbnail();
-    }
+    setChildrenVisible(hasFocusOrChild());
 
     if(m_character->hasAvatar())
     {
@@ -288,6 +268,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     {
         QString idparent = msg->string8();
         m_character = new Character(*msg);
+        m_character->setParent(PlayersList::instance()->getPerson(idparent));
     }
 }
 void CharacterItem::resizeContents(const QRect& rect, bool )
