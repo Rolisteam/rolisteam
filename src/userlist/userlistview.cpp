@@ -112,7 +112,8 @@ void UserListView::onAvatar()
     QString uuid = index.data(PlayersList::IdentifierRole).toString();
     Person* tmpperso = PlayersList::instance()->getPerson(uuid);
     QImage im(path);
-    tmpperso->setAvatar(im);
+    PlayersList::instance()->setLocalPersonAvatar(tmpperso,im);
+    //tmpperso->setAvatar(im);
     
 }
 void UserListView::onEditCurrentItemColor()
@@ -122,16 +123,19 @@ void UserListView::onEditCurrentItemColor()
     if(!index.isValid())
         return;
 
-    QString uuid = index.data(PlayersList::IdentifierRole).toString();
-    Person* tmpperso = PlayersList::instance()->getPerson(uuid);
-    if(NULL!=tmpperso)
+    //QString uuid = index.data(PlayersList::IdentifierRole).toString();
+    //Person* tmpperso = PlayersList::instance()->getPerson(uuid);
+
+    QVariant valueVar = index.data(Qt::DecorationRole);
+
+    QColor color= QColorDialog::getColor(valueVar.value<QColor>(),this);
+
+    if(color.isValid())
     {
-    
-        QColor color= QColorDialog::getColor(tmpperso->getColor(),this);
-    
-        if(color.isValid())
-            tmpperso->setColor(color);
+        model()->setData(index, QVariant(color), Qt::DecorationRole);
+        //tmpperso->setColor(color);
     }
+
 }
 void UserListView::setModel(UserListModel *model)
 {
