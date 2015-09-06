@@ -23,6 +23,7 @@
 
 #include <QVBoxLayout>
 #include <QMenu>
+#include <QDebug>
 
 
 #include "playersListWidget.h"
@@ -35,6 +36,7 @@
 #include "data/player.h"
 #include "persondialog.h"
 #include "userlist/playersList.h"
+
 
 
 /**************************
@@ -78,6 +80,7 @@ QVariant PlayersListWidgetModel::data(const QModelIndex &index, int role) const
 
 bool PlayersListWidgetModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    qDebug() << "super PlayersListWidgetModel::setData";
     PlayersList* g_playersList = PlayersList::instance();
     Person * person = g_playersList->getPerson(index);
 
@@ -169,13 +172,13 @@ bool PlayersListWidgetModel::isCheckable(const QModelIndex &index) const
  * PlayersListView *
  *******************/
 
-PlayersListView::PlayersListView(QWidget * parent)
+/*PlayersListView::PlayersListView(QWidget * parent)
     : QTreeView(parent)
 {
     static Delegate delegate;
     setItemDelegate(&delegate);
 
-    m_avatarAct = new QAction(tr("Set avatar"),this);
+    m_avatarAct = new QAction(tr("Set avatar…"),this);
 }
 
 PlayersListView::~PlayersListView()
@@ -199,7 +202,9 @@ void PlayersListView::mouseDoubleClickEvent(QMouseEvent * event)
             static QColorDialog colorDialog;
             colorDialog.setCurrentColor(color);
             if (colorDialog.exec() == QDialog::Accepted)
+            {
                 model()->setData(index, QVariant(colorDialog.currentColor()), role);
+            }
             return;
         }
     }
@@ -214,7 +219,7 @@ void PlayersListView::contextMenuEvent(QContextMenuEvent* event)
 
 
     menu.exec(event->globalPos());
-}
+}*/
 
 /********************
  * PlayerListWidget *
