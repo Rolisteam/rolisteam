@@ -100,7 +100,7 @@ bool Person::hasAvatar() const
     return !m_avatar.isNull();
 }
 
-void Person::setAvatar(QImage& p)
+void Person::setAvatar(const QImage& p)
 {
     m_avatar = p;
 }
