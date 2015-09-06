@@ -72,6 +72,7 @@ enum Action {
     ChangePlayerCharacterSizeAction,
     ChangePlayerCharacterNameAction,
     ChangePlayerCharacterColorAction,
+    ChangePlayerCharacterAvatarAction,
 
     //NPCCategory
     addNpc =0,
