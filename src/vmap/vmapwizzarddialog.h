@@ -95,8 +95,12 @@ private:
      * @brief m_permissionData
      */
     QStringList  m_permissionData;
+    QStringList  m_visibilityData;
 
     QVector<QSize> m_sizeList;
+
+    int m_width;
+    int m_height;
 };
 
 #endif // MAPWIZZARDDIALOG_H
