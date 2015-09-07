@@ -124,6 +124,7 @@ public:
      * @return
      */
     QString getCharacterId() const;
+    QString getParentId() const;
 
 public slots:
     void sizeChanged(int m_size);

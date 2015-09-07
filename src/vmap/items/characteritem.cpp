@@ -292,12 +292,6 @@ QString CharacterItem::getCharacterId() const
 
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-   /* if (change == ItemPositionChange && scene() && hasFocus())
-    {
-        QPointF newPos = value.toPointF();
-        m_center = newPos;
-        sizeChanged(m_diameter);
-    }*/
     return QGraphicsItem::itemChange(change, value);
 }
 void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
@@ -452,7 +446,6 @@ void CharacterItem::characterStateChange()
     if(NULL == m_character)
         return;
 
-
     if(act == m_healthyStateAct)
     {
         m_character->setHeathState(Character::Healthy);
@@ -485,3 +478,12 @@ VisualItem* CharacterItem::getItemCopy()
 	return charactItem;
 }
 
+QString CharacterItem::getParentId() const
+{
+    Person* pers = m_character->parent();
+    if(NULL!=pers)
+    {
+        return pers->getUuid();
+    }
+    return QString();
+}
