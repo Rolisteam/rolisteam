@@ -1710,6 +1710,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
 		return;
 
 	map->setLocalIsGM(!m_preferences->value("isPlayer",false).toBool());
+    map->setLocalId(m_localPlayerId);
 
     //Toolbar to Map
     connect(m_vToolBar,SIGNAL(currentToolChanged(VToolsBar::SelectableTool)),tmp,SLOT(currentToolChanged(VToolsBar::SelectableTool)));
@@ -1809,6 +1810,14 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
             break;
         case NetMsg::AddPoint:
             break;
+        case NetMsg::vmapChanges:
+            QString vmapId = msg->string8();
+            VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
+            if(NULL!=tmp)
+            {
+                tmp->processGeometryChangeItem(msg);
+            }
+        break;
     }
 }
 
