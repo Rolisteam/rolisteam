@@ -29,6 +29,8 @@
 
 #include "vmap/items/visualitem.h"
 
+class CharacterItem;
+
 /**
     * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
     * It is using the QGraphicsScene from Qt.
@@ -40,7 +42,7 @@ public:
 
     enum GRID_PATTERN{NONE,SQUARE,HEXAGON,OCTOGON};
     enum SCALE_UNIT{M,KM,CM,MILE,YARD,INCH,FEET,PX};
-    enum VisibilityMode {ALL,CHARACTER,HIDDEN};
+    enum VisibilityMode {HIDDEN,CHARACTER,ALL};
     /**
     * @brief default constructor
     */
@@ -236,6 +238,8 @@ public slots:
     void setNpcNumberVisible(bool);
 	void duplicateItem(VisualItem* item);
     void readMessage(NetworkMessageReader& msg);
+    void setLocalId(QString);
+    QList<CharacterItem*> getCharacterOnMap(QString id);
 signals:
     /**
      * @brief npcAdded
@@ -264,6 +268,7 @@ private slots:
 	void updateItem();
     void checkItemLayer(VisualItem*);
     void promoteItemInType(VisualItem*, VisualItem::ItemType);
+    void insertCharacterInMap(CharacterItem* item);
     
 protected:
     /**
@@ -406,6 +411,10 @@ private:
      * @brief m_localIsGM
      */
 	bool m_localIsGM;
+    /**
+     * @brief m_localUserId
+     */
+    QString m_localUserId;
     /**
      * @brief m_hasPermissionMode
      */

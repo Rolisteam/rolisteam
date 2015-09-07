@@ -107,10 +107,11 @@ void VMap::updateItem()
 {
     switch(m_selectedtool)
     {
-    case VToolsBar::PATH:
-    {
-        m_currentPath->setNewEnd(m_first);
-    }
+        case VToolsBar::PATH:
+        {
+            m_currentPath->setNewEnd(m_first);
+        }
+        break;
     }
 }
 
@@ -165,7 +166,7 @@ void VMap::addItem()
         itemCharar->showNpcName(m_showNpcName);
         itemCharar->showNpcNumber(m_showNpcNumber);
         itemCharar->showPcName(m_showPcName);
-        m_characterItemMap->insert(itemCharar->getId(),itemCharar);
+        insertCharacterInMap(itemCharar);
         emit npcAdded();
         connect(this,SIGNAL(showNpcName(bool)),itemCharar,SLOT(showNpcName(bool)));
         connect(this,SIGNAL(showNpcNumber(bool)),itemCharar,SLOT(showNpcNumber(bool)));
@@ -218,6 +219,7 @@ void VMap::readMessage(NetworkMessageReader& msg)
     setHeight(msg.uint16());
     m_currentMode = (Map::PermissionMode)msg.uint8();
     m_currentVisibityMode = (VMap::VisibilityMode)msg.uint8();
+    setVisibilityMode(m_currentVisibityMode);
     int itemCount = msg.uint64();
 
     for(int i = 0; i < itemCount; ++i)
@@ -414,6 +416,7 @@ void VMap::openFile(QDataStream& in)
         for(int i =0 ; i<numberOfItem;i++)
         {
             VisualItem* item;
+            CharacterItem* charItem = NULL;
             item=NULL;
             VisualItem::ItemType type;
             int tmptype;
@@ -428,8 +431,8 @@ void VMap::openFile(QDataStream& in)
                 break;
             case VisualItem::CHARACTER:
                 /// @TODO: Reimplement that feature
-                item=new CharacterItem();
-
+                charItem=new CharacterItem();
+                item = charItem;
                 break;
             case VisualItem::LINE:
                 item=new LineItem();
@@ -449,6 +452,10 @@ void VMap::openFile(QDataStream& in)
 
             }
             in >> *item;
+            if(NULL!=charItem)
+            {
+                insertCharacterInMap(charItem);
+            }
             addNewItem(item);
             item->initChildPointItem();
         }
@@ -461,9 +468,12 @@ void VMap::addCharacter(Character* p, QPointF pos)
     item->showNpcName(m_showNpcName);
     item->showNpcNumber(m_showNpcNumber);
     item->showPcName(m_showPcName);
+
     connect(this,SIGNAL(showNpcName(bool)),item,SLOT(showNpcName(bool)));
     connect(this,SIGNAL(showNpcNumber(bool)),item,SLOT(showNpcNumber(bool)));
     connect(this,SIGNAL(showPcName(bool)),item,SLOT(showPcName(bool)));
+
+    insertCharacterInMap(item);
 
     NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
     msg.string8(m_id);
@@ -610,13 +620,15 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
     {
         VisualItem* item=NULL;
         VisualItem::ItemType type = (VisualItem::ItemType)msg->uint8();
+        CharacterItem* charItem = NULL;
         switch(type)
         {
         case VisualItem::TEXT:
             item=new TextItem();
             break;
         case VisualItem::CHARACTER:
-            item=new CharacterItem();
+            charItem=new CharacterItem();
+            item = charItem;
             break;
         case VisualItem::LINE:
             item=new LineItem();
@@ -635,6 +647,10 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         if(NULL!=item)
         {
             item->readItem(msg);
+            if(NULL!=charItem)
+            {
+                insertCharacterInMap(charItem);
+            }
             addNewItem(item);
             item->initChildPointItem();
         }
@@ -662,10 +678,70 @@ void VMap::addNewItem(VisualItem* item)
         connect(item,SIGNAL(itemLayerChanged(VisualItem*)),this,SLOT(checkItemLayer(VisualItem*)));
         connect(item,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),this,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
         QGraphicsScene::addItem(item);
-        item->setEditableItem(m_localIsGM);
+
+        //Editing permission
+        if(m_localIsGM)
+        {
+           item->setEditableItem(m_localIsGM);
+        }
+        else if((m_currentMode == Map::GM_ONLY))
+        {
+            item->setEditableItem(m_localIsGM);
+        }
+        else if(m_currentMode == Map::PC_ALL)
+        {
+            item->setEditableItem(true);
+        }
+        else if(m_currentMode == Map::PC_MOVE)
+        {
+            if(item->getType()!=VisualItem::CHARACTER)
+            {
+                item->setEditableItem(false);
+            }
+            else
+            {
+                CharacterItem* charItem = dynamic_cast<CharacterItem*>(item);
+                if(NULL != charItem )
+                {
+                    if(charItem->getParentId() == m_localUserId)//LocalUser is owner of item.
+                    {
+                        item->setEditableItem(true);
+                    }
+                }
+            }
+        }
+
+
+        //View permission
+        if((m_localIsGM)||(m_currentVisibityMode == VMap::ALL))
+        {
+            item->setVisible(true);
+        }
+        else if(m_currentVisibityMode == VMap::HIDDEN)
+        {
+            item->setVisible(false);
+        }
+        else if(m_currentVisibityMode == VMap::CHARACTER)
+        {
+            QList<CharacterItem*> items = getCharacterOnMap(m_localUserId);
+            if(!items.isEmpty())
+            {
+                /// @todo activate dynamic shadows
+            }
+            else
+            {
+                item->setVisible(false);
+            }
+        }
         m_itemMap->insert(item->getId(),item);
     }
 }
+QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
+{
+    /// @todo activate dynamic shadows
+    return QList<CharacterItem*>();
+}
+
 void VMap::promoteItemInType(VisualItem* item, VisualItem::ItemType type)
 {
     if(NULL!=item)
@@ -765,6 +841,11 @@ void VMap::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
     event->acceptProposedAction();
 }
+void VMap::setLocalId(QString id)
+{
+    m_localUserId = id;
+}
+
 void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
 {
     const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
@@ -840,8 +921,17 @@ bool VMap::isIdle() const
 {
     return (m_currentItem==NULL);
 }
+void VMap::insertCharacterInMap(CharacterItem* item)
+{
+    if((NULL!=m_characterItemMap)&&(NULL!=item))
+    {
+        m_characterItemMap->insert(item->getCharacterId(),item);
+    }
+}
+
 void VMap::setVisibilityMode(VMap::VisibilityMode mode)
 {
+    qDebug() << "SetVisibility"<< mode;
     m_currentVisibityMode = mode;
     if(!m_localIsGM)
     {
@@ -859,8 +949,6 @@ void VMap::setVisibilityMode(VMap::VisibilityMode mode)
                 item->setVisible(true);
             }
         }
-
-
     }
 }
 VMap::VisibilityMode VMap::getVisibilityMode()
