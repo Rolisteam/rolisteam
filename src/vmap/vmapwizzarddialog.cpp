@@ -124,6 +124,7 @@ void MapWizzardDialog::updateDataFrom(VMap* map)
     ui->m_sizeGrid->setValue(map->getPatternSize());
     ui->m_gridColorBtn->setColor(map->getGridColor());
     ui->m_permissionComboBox->setCurrentIndex(map->getPermissionMode());
+    ui->m_visibilityComboBox->setCurrentIndex(map->getVisibilityMode());
     ui->m_scaleOfGrid->setValue(map->getPatternSize());
     ui->m_unitPattern->setCurrentIndex(map->getPatternUnit());
     ui->m_colorButton->setColor(map->getBackGroundColor());
