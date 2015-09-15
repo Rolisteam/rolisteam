@@ -59,7 +59,6 @@ private slots:
     void readText(QNetworkReply* p);
 
 private:
-    QTcpSocket m_socket;
     QNetworkAccessManager* m_manager;
     QString m_ip;
     
