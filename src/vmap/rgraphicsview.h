@@ -30,6 +30,7 @@
 class RGraphicsView : public QGraphicsView
 {
     Q_OBJECT
+
 public:
     /**
     * @brief constructor with parameters
@@ -58,6 +59,7 @@ private slots:
 	void rubberBandGeometry(QRect viewportRect, QPointF fromScenePoint, QPointF toScenePoint);
 
     void changeLayer();
+    void changeVisibility();
 
 private:
     VMap* m_vmap;
@@ -71,6 +73,10 @@ private:
     QAction* m_editGroundLayer;
     QAction* m_editObjectLayer;
     QAction* m_editCharacterLayer;
+
+    QAction* m_allVisibility;
+    QAction* m_hiddenVisibility;
+    QAction* m_characterVisibility;
 
 	VToolsBar::SelectableTool m_currentTool;
 

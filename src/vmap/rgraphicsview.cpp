@@ -130,6 +130,12 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             editLayer->addAction(m_editObjectLayer);
             editLayer->addAction(m_editCharacterLayer);
 
+            QMenu* changeVibility = menu.addMenu(tr("Change Visibility"));
+            changeVibility->addAction(m_hiddenVisibility);
+            changeVibility->addAction(m_characterVisibility);
+            changeVibility->addAction(m_allVisibility);
+
+
             menu.addAction(m_zoomInMax);
             menu.addAction(m_zoomNormal);
             menu.addAction(m_zoomOutMax);
@@ -189,6 +195,22 @@ void RGraphicsView::createAction()
     connect(m_editCharacterLayer,SIGNAL(triggered()),this,SLOT(changeLayer()));
 
 
+    QActionGroup* group2 = new QActionGroup(this);
+    m_allVisibility = new QAction(tr("All"),this);
+    m_allVisibility->setData(VMap::ALL);
+    m_hiddenVisibility= new QAction(tr("Hidden"),this);
+    m_hiddenVisibility->setData(VMap::HIDDEN);
+    m_characterVisibility= new QAction(tr("Character"),this);
+    m_characterVisibility->setData(VMap::CHARACTER);
+
+    group2->addAction(m_allVisibility);
+    group2->addAction(m_hiddenVisibility);
+    group2->addAction(m_characterVisibility);
+
+    connect(m_allVisibility,SIGNAL(triggered()),this,SLOT(changeVisibility()));
+    connect(m_hiddenVisibility,SIGNAL(triggered()),this,SLOT(changeVisibility()));
+    connect(m_characterVisibility,SIGNAL(triggered()),this,SLOT(changeVisibility()));
+
 }
 void RGraphicsView::showMapProperties()
 {
@@ -208,6 +230,11 @@ void RGraphicsView::changeLayer()
 {
     QAction* act = qobject_cast<QAction*>(sender());
     m_vmap->editLayer((VisualItem::Layer)act->data().toInt());
+}
+void RGraphicsView::changeVisibility()
+{
+    QAction* act = qobject_cast<QAction*>(sender());
+    m_vmap->setVisibilityMode((VMap::VisibilityMode)act->data().toInt());
 }
 void RGraphicsView::rubberBandGeometry(QRect viewportRect, QPointF fromScenePoint, QPointF toScenePoint)
 {
