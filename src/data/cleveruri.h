@@ -165,6 +165,10 @@ private:
     friend QDataStream& operator>>(QDataStream& is,CleverURI&); ///< operator for serialisation (reading)
 };
 typedef QList<CleverURI> CleverUriList;
+
+QDataStream& operator<<(QDataStream& os,const CleverUriList&); ///< operator for serialisation (writing)
+QDataStream& operator>>(QDataStream& is,CleverUriList&); ///< operator for serialisation (reading)
+
 Q_DECLARE_METATYPE(CleverURI)
 Q_DECLARE_METATYPE(CleverUriList)
 
