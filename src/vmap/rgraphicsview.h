@@ -60,6 +60,7 @@ private slots:
 
     void changeLayer();
     void changeVisibility();
+    void sendOffMapChange();
 
 private:
     VMap* m_vmap;

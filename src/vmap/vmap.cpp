@@ -107,10 +107,10 @@ void VMap::updateItem()
 {
     switch(m_selectedtool)
     {
-        case VToolsBar::PATH:
-        {
-            m_currentPath->setNewEnd(m_first);
-        }
+    case VToolsBar::PATH:
+    {
+        m_currentPath->setNewEnd(m_first);
+    }
         break;
     }
 }
@@ -210,7 +210,7 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.uint8((quint8)getVisibilityMode());
     msg.uint64(m_itemMap->values().size());
 }
-void VMap::readMessage(NetworkMessageReader& msg)
+void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
 {
     m_title = msg.string16();
     m_id = msg.string8();
@@ -218,13 +218,16 @@ void VMap::readMessage(NetworkMessageReader& msg)
     setWidth(msg.uint16());
     setHeight(msg.uint16());
     m_currentMode = (Map::PermissionMode)msg.uint8();
-    m_currentVisibityMode = (VMap::VisibilityMode)msg.uint8();
-    setVisibilityMode(m_currentVisibityMode);
+    VMap::VisibilityMode mode = (VMap::VisibilityMode)msg.uint8();
+    setVisibilityMode(mode);
     int itemCount = msg.uint64();
 
-    for(int i = 0; i < itemCount; ++i)
+    if(readCharacter)
     {
-        processAddItemMessage(&msg);
+        for(int i = 0; i < itemCount; ++i)
+        {
+            processAddItemMessage(&msg);
+        }
     }
 }
 VisualItem::Layer VMap::getCurrentLayer() const
@@ -286,20 +289,25 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
 }
-void VMap::editLayer(VisualItem::Layer layer)
+bool VMap::editLayer(VisualItem::Layer layer)
 {
-    m_currentLayer = layer;
-    foreach(VisualItem* item, m_itemMap->values())
+    if(m_currentLayer!=layer)
     {
-        if(m_currentLayer == item->getLayer())
+        m_currentLayer = layer;
+        foreach(VisualItem* item, m_itemMap->values())
         {
-            item->setEditableItem(true);
+            if(m_currentLayer == item->getLayer())
+            {
+                item->setEditableItem(true);
+            }
+            else
+            {
+                item->setEditableItem(false);
+            }
         }
-        else
-        {
-            item->setEditableItem(false);
-        }
+        return true;
     }
+    return false;
 }
 void VMap::checkItemLayer(VisualItem* item)
 {
@@ -682,7 +690,7 @@ void VMap::addNewItem(VisualItem* item)
         //Editing permission
         if(m_localIsGM)
         {
-           item->setEditableItem(m_localIsGM);
+            item->setEditableItem(m_localIsGM);
         }
         else if((m_currentMode == Map::GM_ONLY))
         {
@@ -929,27 +937,31 @@ void VMap::insertCharacterInMap(CharacterItem* item)
     }
 }
 
-void VMap::setVisibilityMode(VMap::VisibilityMode mode)
+bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
 {
-    qDebug() << "SetVisibility"<< mode;
-    m_currentVisibityMode = mode;
-    if(!m_localIsGM)
+    if(mode != m_currentVisibityMode)
     {
-        if(m_currentVisibityMode == VMap::HIDDEN)
+        m_currentVisibityMode = mode;
+        if(!m_localIsGM)
         {
-            foreach(VisualItem* item, m_itemMap->values())
+            if(m_currentVisibityMode == VMap::HIDDEN)
             {
-                item->setVisible(false);
+                foreach(VisualItem* item, m_itemMap->values())
+                {
+                    item->setVisible(false);
+                }
+            }
+            else if(m_currentVisibityMode == VMap::ALL)
+            {
+                foreach(VisualItem* item, m_itemMap->values())
+                {
+                    item->setVisible(true);
+                }
             }
         }
-        else if(m_currentVisibityMode == VMap::HIDDEN)
-        {
-            foreach(VisualItem* item, m_itemMap->values())
-            {
-                item->setVisible(true);
-            }
-        }
+        return true;
     }
+    return false;
 }
 VMap::VisibilityMode VMap::getVisibilityMode()
 {

@@ -143,7 +143,7 @@ public:
      * @brief setVisibilityMode
      * @param mode
      */
-    void setVisibilityMode(VMap::VisibilityMode mode);
+    bool setVisibilityMode(VMap::VisibilityMode mode);
     /**
      * @brief processDelItemMessage
      * @param msg
@@ -183,7 +183,7 @@ public:
     QColor getBackGroundColor()const;
     QString getTitle() const;
 
-    void editLayer(VisualItem::Layer layer);
+    bool editLayer(VisualItem::Layer layer);
     VisualItem::Layer getCurrentLayer() const;
 
     bool isIdle() const ;
@@ -237,7 +237,7 @@ public slots:
     void setPcNameVisible(bool);
     void setNpcNumberVisible(bool);
 	void duplicateItem(VisualItem* item);
-    void readMessage(NetworkMessageReader& msg);
+    void readMessage(NetworkMessageReader& msg,bool readCharacter = true);
     void setLocalId(QString);
     QList<CharacterItem*> getCharacterOnMap(QString id);
 signals:

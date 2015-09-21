@@ -221,20 +221,32 @@ void RGraphicsView::showMapProperties()
     {
         m_propertiesDialog.setAllMap(m_vmap);
 
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::vmapChanges);
-        m_vmap->fill(msg);
-        msg.sendAll();
+        sendOffMapChange();
     }
 }
+void RGraphicsView::sendOffMapChange()
+{
+    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::vmapChanges);
+    msg.string8(m_vmap->getId());
+    m_vmap->fill(msg);
+    msg.sendAll();
+}
+
 void RGraphicsView::changeLayer()
 {
     QAction* act = qobject_cast<QAction*>(sender());
-    m_vmap->editLayer((VisualItem::Layer)act->data().toInt());
+    if(m_vmap->editLayer((VisualItem::Layer)act->data().toInt()))
+    {
+        sendOffMapChange();
+    }
 }
 void RGraphicsView::changeVisibility()
 {
     QAction* act = qobject_cast<QAction*>(sender());
-    m_vmap->setVisibilityMode((VMap::VisibilityMode)act->data().toInt());
+    if(m_vmap->setVisibilityMode((VMap::VisibilityMode)act->data().toInt()))
+    {
+        sendOffMapChange();
+    }
 }
 void RGraphicsView::rubberBandGeometry(QRect viewportRect, QPointF fromScenePoint, QPointF toScenePoint)
 {

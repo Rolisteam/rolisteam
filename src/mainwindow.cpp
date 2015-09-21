@@ -1811,7 +1811,7 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
             VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
             if(NULL!=tmp)
             {
-                tmp->processGeometryChangeItem(msg);
+                tmp->processMapPropertyChange(msg);
             }
         break;
     }

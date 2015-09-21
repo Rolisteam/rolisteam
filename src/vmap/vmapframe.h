@@ -102,6 +102,7 @@ public :
     void processDelItemMessage(NetworkMessageReader* msg);
     void processMoveItemMessage(NetworkMessageReader* msg);
     void processGeometryChangeItem(NetworkMessageReader* msg);
+    void processMapPropertyChange(NetworkMessageReader* msg);
 
     void saveMedia();
 public slots :
