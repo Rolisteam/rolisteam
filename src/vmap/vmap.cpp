@@ -647,6 +647,9 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         case VisualItem::ELLISPE:
             item=new EllipsItem();
             break;
+        case VisualItem::IMAGE:
+            item=new ImageItem();
+            break;
         case VisualItem::PATH:
             item=new PathItem();
             break;
