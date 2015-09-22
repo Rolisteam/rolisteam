@@ -2,7 +2,9 @@
 
 #include <QPainter>
 #include <QDebug>
+#include <QBuffer>
 #include <QFileInfo>
+#include <QImageWriter>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -67,7 +69,11 @@ void ImageItem::fillMessage(NetworkMessageWriter* msg)
 	msg->int8(m_keepAspect);
 	msg->rgb(m_color);
 
+    QFile file(m_imagePath);
+    file.open(QIODevice::ReadOnly);
 
+    QByteArray baImage = file.readAll();
+    msg->byteArray32(baImage);
 
 	msg->real(scale());
 	msg->real(rotation());
@@ -83,6 +89,9 @@ void ImageItem::readItem(NetworkMessageReader* msg)
 	m_rect.setHeight(msg->real());
 	m_keepAspect = msg->int8();
 	m_color = msg->rgb();
+    QByteArray array = msg->byteArray32();
+
+    m_image.loadFromData(array);
 
 	setTransformOriginPoint(m_rect.center());
 	setScale(msg->real());
