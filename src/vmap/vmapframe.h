@@ -158,7 +158,7 @@ protected :
     
     
 private :
-    void createAction();
+    void createView();
     void updateMap();
     /**
     *  pointer to the map, the place where all items are added and displayed
