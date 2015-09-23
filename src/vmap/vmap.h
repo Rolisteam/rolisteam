@@ -257,6 +257,7 @@ signals:
      * @brief showPcName
      */
     void showPcName(bool);
+    void titleChanged();
 
 private slots:
     /**
