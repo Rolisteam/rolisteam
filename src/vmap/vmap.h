@@ -257,7 +257,10 @@ signals:
      * @brief showPcName
      */
     void showPcName(bool);
-    void titleChanged();
+	/**
+	 * @brief mapChanged is emitted after some changes on map has been made.
+	 */
+	void mapChanged();
 
 private slots:
     /**
