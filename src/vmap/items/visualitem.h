@@ -40,8 +40,17 @@ class VisualItem : public QGraphicsObject
 public:
 	enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE,IMAGE};
     enum Layer{GROUND,OBJECT,CHARACTER_LAYER};
+	/**
+	 * @brief VisualItem default constructor
+	 */
     VisualItem();
-	VisualItem(QColor& penColor,bool b,QGraphicsItem * parent = 0);
+	/**
+	 * @brief VisualItem constructor with parameters
+	 * @param penColor color
+	 * @param editable edition status
+	 * @param parent
+	 */
+	VisualItem(QColor& penColor,bool editable,QGraphicsItem * parent = 0);
     
 	/**
 	 * @brief setNewEnd
@@ -145,21 +154,54 @@ public:
      * @return the copy
      */
     virtual VisualItem* getItemCopy() = 0;
-
+	/**
+	 * @brief operator <<
+	 * @param os
+	 * @return
+	 */
 	friend QDataStream& operator<<(QDataStream& os,const VisualItem&);
+	/**
+	 * @brief operator >>
+	 * @param is
+	 * @return
+	 */
     friend QDataStream& operator>>(QDataStream& is,VisualItem&);
 
-
+	/**
+	 * @brief getLayer
+	 * @return
+	 */
     virtual VisualItem::Layer getLayer();
+	/**
+	 * @brief setLayer
+	 */
     virtual void setLayer(VisualItem::Layer);
-
+	/**
+	 * @brief promoteTo
+	 * @return
+	 */
     virtual VisualItem* promoteTo(VisualItem::ItemType);
 
 signals:
+	/**
+	 * @brief itemGeometryChanged
+	 */
     void itemGeometryChanged(VisualItem*);
+	/**
+	 * @brief itemRemoved
+	 */
     void itemRemoved(QString);
+	/**
+	 * @brief duplicateItem
+	 */
     void duplicateItem(VisualItem*);
+	/**
+	 * @brief itemLayerChanged
+	 */
     void itemLayerChanged(VisualItem*);
+	/**
+	 * @brief promoteItemTo
+	 */
     void promoteItemTo(VisualItem*,VisualItem::ItemType);
 
 public slots:
@@ -174,15 +216,47 @@ public slots:
     void readPositionMsg(NetworkMessageReader* msg);
     
 protected:
+	/**
+	 * @brief mouseReleaseEvent
+	 * @param event
+	 */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+	/**
+	 * @brief mousePressEvent
+	 * @param event
+	 */
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
+	/**
+	 * @brief mouseMoveEvent
+	 * @param event
+	 */
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+	/**
+	 * @brief keyPressEvent
+	 * @param event
+	 */
     virtual void keyPressEvent(QKeyEvent* event);
+	/**
+	 * @brief contextMenuEvent
+	 * @param event
+	 */
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+	/**
+	 * @brief init
+	 */
     void init();
+	/**
+	 * @brief updateChildPosition
+	 */
     virtual void updateChildPosition();
+	/**
+	 * @brief setChildrenVisible
+	 * @param b
+	 */
     void setChildrenVisible(bool b);
-
+	/**
+	 * @brief createActions
+	 */
     virtual void createActions();
 
 
@@ -212,11 +286,21 @@ protected:
 
 
 private slots:
+	/**
+	 * @brief manageAction
+	 */
     void manageAction();
+	/**
+	 * @brief addPromoteItemMenu
+	 */
     void addPromoteItemMenu(QMenu*);
+	/**
+	 * @brief promoteItem
+	 */
     void promoteItem();
 private:
     static QStringList type2NameList;
+	static QStringList layer2Text;
 };
 
 #endif // VISUALITEM_H
