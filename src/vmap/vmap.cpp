@@ -234,6 +234,10 @@ VisualItem::Layer VMap::getCurrentLayer() const
 {
     return m_currentLayer;
 }
+VisualItem::Layer VMap::getCurrentLayerText() const
+{
+	return m_currentLayer;
+}
 void VMap::sendAllItems(NetworkMessageWriter& msg)
 {
     foreach(VisualItem* item, m_itemMap->values())
@@ -294,6 +298,7 @@ bool VMap::editLayer(VisualItem::Layer layer)
     if(m_currentLayer!=layer)
     {
         m_currentLayer = layer;
+		emit mapChanged();
         foreach(VisualItem* item, m_itemMap->values())
         {
             if(m_currentLayer == item->getLayer())
@@ -835,6 +840,13 @@ void VMap::processDelItemMessage(NetworkMessageReader* msg)
 void VMap::setPermissionMode(Map::PermissionMode mode)
 {
     m_currentMode = mode;
+	emit mapChanged();
+}
+QString VMap::getPermissionModeText()
+{
+	QStringList permissionData;
+	permissionData<< tr("No Right") << tr("His character") << tr("All Permissions");
+	return permissionData.at(m_currentMode);
 }
 Map::PermissionMode VMap::getPermissionMode()
 {
@@ -945,6 +957,7 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
     if(mode != m_currentVisibityMode)
     {
         m_currentVisibityMode = mode;
+		emit mapChanged();
         if(!m_localIsGM)
         {
             if(m_currentVisibityMode == VMap::HIDDEN)
@@ -969,4 +982,10 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
 VMap::VisibilityMode VMap::getVisibilityMode()
 {
     return m_currentVisibityMode;
+}
+QString VMap::getVisibilityModeText()
+{
+	QStringList visibilityData;
+	visibilityData << tr("Hidden") << tr("His character") << tr("All visible");
+	return visibilityData.at(m_currentVisibityMode);
 }
