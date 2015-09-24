@@ -181,7 +181,12 @@ public:
 	 * @return
 	 */
     virtual VisualItem* promoteTo(VisualItem::ItemType);
-
+	/**
+	 * @brief getLayerToText static method to translate layer to its name.
+	 * @param id
+	 * @return
+	 */
+	static QString getLayerToText(VisualItem::Layer id);
 signals:
 	/**
 	 * @brief itemGeometryChanged
@@ -300,7 +305,7 @@ private slots:
     void promoteItem();
 private:
     static QStringList type2NameList;
-	static QStringList layer2Text;
+	static QStringList s_layerName;
 };
 
 #endif // VISUALITEM_H
