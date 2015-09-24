@@ -31,6 +31,7 @@
 #include "network/networkmessagereader.h"
 
 QStringList VisualItem::type2NameList =  QStringList() << tr("Path")<< tr("Line")<< tr("Ellipse")<< tr("Character")<< tr("Text")<< tr("Rect")<< tr("Rule")<< tr("Image");
+QStringList VisualItem::layer2Text = QStringList() << tr("Ground")<< tr("Object")<< tr("Character");
 
 VisualItem::VisualItem()
     : QGraphicsObject(),m_editable(false),m_child(NULL)
@@ -50,11 +51,11 @@ void VisualItem::init()
     createActions();
     m_layer = VisualItem::GROUND;
     QActionGroup* group = new QActionGroup(this);
-    m_putGroundLayer = new QAction(tr("Ground"),this);
+	m_putGroundLayer = new QAction(layer2Text[0],this);
     m_putGroundLayer->setData(VisualItem::GROUND);
-    m_putObjectLayer = new QAction(tr("Object"),this);
+	m_putObjectLayer = new QAction(layer2Text[1],this);
     m_putObjectLayer->setData(VisualItem::OBJECT);
-    m_putCharacterLayer= new QAction(tr("Character"),this);
+	m_putCharacterLayer= new QAction(layer2Text[2],this);
     m_putCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
 
     m_putGroundLayer->setCheckable(true);
