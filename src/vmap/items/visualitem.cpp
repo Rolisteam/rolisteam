@@ -31,7 +31,7 @@
 #include "network/networkmessagereader.h"
 
 QStringList VisualItem::type2NameList =  QStringList() << tr("Path")<< tr("Line")<< tr("Ellipse")<< tr("Character")<< tr("Text")<< tr("Rect")<< tr("Rule")<< tr("Image");
-QStringList VisualItem::layer2Text = QStringList() << tr("Ground")<< tr("Object")<< tr("Character");
+QStringList VisualItem::s_layerName = QStringList() << tr("Ground")<< tr("Object")<< tr("Character");
 
 VisualItem::VisualItem()
     : QGraphicsObject(),m_editable(false),m_child(NULL)
@@ -51,11 +51,11 @@ void VisualItem::init()
     createActions();
     m_layer = VisualItem::GROUND;
     QActionGroup* group = new QActionGroup(this);
-	m_putGroundLayer = new QAction(layer2Text[0],this);
+	m_putGroundLayer = new QAction(s_layerName[0],this);
     m_putGroundLayer->setData(VisualItem::GROUND);
-	m_putObjectLayer = new QAction(layer2Text[1],this);
+	m_putObjectLayer = new QAction(s_layerName[1],this);
     m_putObjectLayer->setData(VisualItem::OBJECT);
-	m_putCharacterLayer= new QAction(layer2Text[2],this);
+	m_putCharacterLayer= new QAction(s_layerName[2],this);
     m_putCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
 
     m_putGroundLayer->setCheckable(true);
@@ -371,4 +371,15 @@ QDataStream& operator>>(QDataStream& is,VisualItem& c)
     c.readData(is);
     return is;
 }
-
+QString VisualItem::getLayerToText(VisualItem::Layer id)
+{
+	if(s_layerName.isEmpty())
+	{
+		return QString();
+	}
+	if(s_layerName.size()<(int)id)
+	{
+		return s_layerName.at(id);
+	}
+	return QString();
+}
