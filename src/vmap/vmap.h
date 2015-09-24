@@ -174,19 +174,72 @@ public:
      * @param msg
      */
     void sendAllItems(NetworkMessageWriter& msg);
-
+	/**
+	 * @brief getPermissionModeText
+	 * @return
+	 */
+	QString getPermissionModeText();
+	/**
+	 * @brief getVisibilityModeText
+	 * @return
+	 */
+	QString getVisibilityModeText();
+	/**
+	 * @brief getGrid
+	 * @return
+	 */
     VMap::GRID_PATTERN getGrid() const;
+	/**
+	 * @brief getPatternSize
+	 * @return
+	 */
     int getPatternSize()const;
+	/**
+	 * @brief getGridColor
+	 * @return
+	 */
     QColor getGridColor()const;
+	/**
+	 * @brief getScaleValue
+	 * @return
+	 */
     int getScaleValue()const;
+	/**
+	 * @brief getPatternUnit
+	 * @return
+	 */
     int getPatternUnit()const;
+	/**
+	 * @brief getBackGroundColor
+	 * @return
+	 */
     QColor getBackGroundColor()const;
+	/**
+	 * @brief getTitle
+	 * @return
+	 */
     QString getTitle() const;
-
+	/**
+	 * @brief editLayer
+	 * @param layer
+	 * @return
+	 */
     bool editLayer(VisualItem::Layer layer);
+	/**
+	 * @brief getCurrentLayer
+	 * @return
+	 */
     VisualItem::Layer getCurrentLayer() const;
-
+	/**
+	 * @brief isIdle
+	 * @return
+	 */
     bool isIdle() const ;
+	/**
+	 * @brief VMap::getCurrentLayerText
+	 * @return
+	 */
+	QString getCurrentLayerText() const;
 
 public slots:
     /**
