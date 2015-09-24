@@ -47,8 +47,13 @@ class VMapFrame : public MediaContainer
     
     
 public :
-
+	/**
+	 * @brief The PermissionMode enum
+	 */
     enum PermissionMode{GM_ONLY, PC_MOVE,PC_ALL };
+	/**
+	 * @brief VMapFrame
+	 */
     VMapFrame();
     /**
     * @brief constructor
@@ -83,9 +88,20 @@ public :
     * @param uri of the file
     */
     void openFile(const QString& file);
-    
+	/**
+	 * @brief hasDockWidget
+	 * @return
+	 */
     virtual bool hasDockWidget() const ;
+	/**
+	 * @brief getDockWidget
+	 * @return
+	 */
     virtual QDockWidget* getDockWidget() ;
+	/**
+	 * @brief createMap
+	 * @return
+	 */
     bool createMap();
     /**
      * @brief readFile
@@ -97,15 +113,40 @@ public :
      * @return
      */
     virtual bool openMedia();
-
+	/**
+	 * @brief processAddItemMessage should add items from Network
+	 * @param msg
+	 */
     void processAddItemMessage(NetworkMessageReader* msg);
+	/**
+	 * @brief processDelItemMessage deletes items from network order
+	 * @param msg
+	 */
     void processDelItemMessage(NetworkMessageReader* msg);
+	/**
+	 * @brief processMoveItemMessage
+	 * @param msg
+	 */
     void processMoveItemMessage(NetworkMessageReader* msg);
+	/**
+	 * @brief processGeometryChangeItem
+	 * @param msg
+	 */
     void processGeometryChangeItem(NetworkMessageReader* msg);
+	/**
+	 * @brief processMapPropertyChange
+	 * @param msg
+	 */
     void processMapPropertyChange(NetworkMessageReader* msg);
-
+	/**
+	 * @brief saveMedia
+	 */
     void saveMedia();
 public slots :
+	/**
+	 * @brief setCleverURI
+	 * @param uri
+	 */
     virtual void setCleverURI(CleverURI* uri);
     /**
     *  @brief change the current mice cursor
@@ -132,7 +173,13 @@ public slots :
     *  @brief change the current editing  behavior to MaskMode.
     */
     virtual void setEditingMode(int);
+	/**
+	 * @brief setCurrentNpcNameChanged
+	 */
     virtual void setCurrentNpcNameChanged(QString);
+	/**
+	 * @brief setCurrentNpcNumberChanged
+	 */
     virtual void setCurrentNpcNumberChanged(int);
     
     
@@ -155,11 +202,39 @@ protected :
     */
     virtual void mousePressEvent(QMouseEvent* event);
     
+private slots:
+	/**
+	 * @brief updateTitle
+	 */
+	void updateTitle();
     
-    
-private :
+private: //functions
+	/**
+	 * @brief createView
+	 */
     void createView();
+	/**
+	 * @brief updateMap
+	 */
     void updateMap();
+	/**
+	 * @brief visibilityModeToText
+	 * @return
+	 */
+	QString visibilityModeToText(VMap::VisibilityMode);
+	/**
+	 * @brief permissionModeToText
+	 * @return
+	 */
+	QString permissionModeToText(Map::PermissionMode);
+	/**
+	 * @brief layerToText
+	 * @return
+	 */
+	QString layerToText(VisualItem::Layer);
+
+
+private: //members
     /**
     *  pointer to the map, the place where all items are added and displayed
     */
