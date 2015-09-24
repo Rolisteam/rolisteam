@@ -277,17 +277,3 @@ QString VMapFrame::getMapId()
     }
     return QString();
 }
-QString VMapFrame::visibilityModeToText(VMap::VisibilityMode v)
-{
-	return m_vmap->getPermissionModeText()
-}
-
-QString VMapFrame::permissionModeToText(Map::PermissionMode p)
-{
-
-}
-
-QString VMapFrame::layerToText(VisualItem::Layer l)
-{
-
-}
