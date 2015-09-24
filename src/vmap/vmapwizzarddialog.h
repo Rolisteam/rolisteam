@@ -35,7 +35,8 @@ class PreferencesManager;
 /**
     * @brief set values to create a map with appropriate value.
     */
-class MapWizzardDialog : public QDialog {
+class MapWizzardDialog : public QDialog
+{
     Q_OBJECT
 public:
     /**
