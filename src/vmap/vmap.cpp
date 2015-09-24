@@ -232,11 +232,11 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
 }
 VisualItem::Layer VMap::getCurrentLayer() const
 {
-    return m_currentLayer;
-}
-VisualItem::Layer VMap::getCurrentLayerText() const
-{
 	return m_currentLayer;
+}
+QString VMap::getCurrentLayerText() const
+{
+	return VisualItem::getLayerToText(m_currentLayer);
 }
 void VMap::sendAllItems(NetworkMessageWriter& msg)
 {
@@ -298,7 +298,7 @@ bool VMap::editLayer(VisualItem::Layer layer)
     if(m_currentLayer!=layer)
     {
         m_currentLayer = layer;
-		emit mapChanged();
+	emit mapChanged();
         foreach(VisualItem* item, m_itemMap->values())
         {
             if(m_currentLayer == item->getLayer())
