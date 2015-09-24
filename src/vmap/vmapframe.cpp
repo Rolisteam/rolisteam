@@ -61,7 +61,7 @@ void VMapFrame::closeEvent(QCloseEvent *event)
 void  VMapFrame::createView()
 {
     m_graphicView = new RGraphicsView(m_vmap);
-    connect(m_vmap,SIGNAL(titleChanged()),this,SLOT(updateTitle()));
+	connect(m_vmap,SIGNAL(mapChanged()),this,SLOT(updateTitle()));
 }
 void VMapFrame::updateMap()
 {
@@ -71,12 +71,13 @@ void VMapFrame::updateMap()
 	setWidget(m_graphicView);
     setWindowIcon(QIcon(":/map.png"));
     m_maskPixmap = new QPixmap(m_graphicView->size());
+	updateTitle();
 }
 void VMapFrame::updateTitle()
 {
     setWindowTitle(tr("%1 - v:%2 - p:%3 - l:%4").arg(m_vmap->getTitle())
-                   .arg(m_vmap->getVisibilityMode())
-                   .arg(m_vmap->getPermissionMode())
+				   .arg(m_vmap->getVisibilityModeText())
+				   .arg(m_vmap->getPermissionModeText())
                    .arg(m_vmap->getCurrentLayer()));
 }
 
@@ -275,4 +276,18 @@ QString VMapFrame::getMapId()
         return m_vmap->getId();
     }
     return QString();
+}
+QString VMapFrame::visibilityModeToText(VMap::VisibilityMode v)
+{
+	return m_vmap->getPermissionModeText()
+}
+
+QString VMapFrame::permissionModeToText(Map::PermissionMode p)
+{
+
+}
+
+QString VMapFrame::layerToText(VisualItem::Layer l)
+{
+
 }
