@@ -91,9 +91,7 @@ public:
 	 * @return
 	 */
 	virtual VisualItem* getItemCopy();
-/*protected:
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent * event);
-    void hoverEnterEvent(QGraphicsSceneHoverEvent * event);*/
+
 
 protected:
     /**
