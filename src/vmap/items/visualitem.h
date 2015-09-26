@@ -38,7 +38,7 @@ class VisualItem : public QGraphicsObject
 {
         Q_OBJECT
 public:
-	enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE,IMAGE};
+    enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE,IMAGE,SIGHT};
     enum Layer{GROUND,OBJECT,CHARACTER_LAYER};
 	/**
 	 * @brief VisualItem default constructor
@@ -51,6 +51,10 @@ public:
 	 * @param parent
 	 */
 	VisualItem(QColor& penColor,bool editable,QGraphicsItem * parent = 0);
+    /**
+     * @brief ~VisualItem
+     */
+    virtual ~VisualItem();
     
 	/**
 	 * @brief setNewEnd
