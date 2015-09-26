@@ -30,6 +30,7 @@ VMap::VMap(QObject * parent)
     m_currentPath = NULL;
     m_id = QUuid::createUuid().toString();
     m_itemMap=new  QMap<QString,VisualItem*>;
+    m_characterItemMap = new QMap<QString,VisualItem*>();
     setItemIndexMethod(QGraphicsScene::NoIndex);
 
 }
@@ -46,6 +47,7 @@ VMap::VMap(int width,int height,QString& title,QColor& bgColor,QObject * parent)
     m_currentItem = NULL;
     m_currentPath = NULL;
     m_itemMap=new  QMap<QString,VisualItem*>;
+    m_characterItemMap = new QMap<QString,VisualItem*>();
     setItemIndexMethod(QGraphicsScene::NoIndex);
 }
 
