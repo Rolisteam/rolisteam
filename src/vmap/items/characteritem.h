@@ -21,6 +21,7 @@
 #define CHARACTERITEM_H
 #include "visualitem.h"
 #include "data/person.h"
+#include "sightitem.h"
 
 #include <QAction>
 /**
@@ -124,6 +125,10 @@ public:
      * @return
      */
     QString getCharacterId() const;
+    /**
+     * @brief getParentId
+     * @return
+     */
     QString getParentId() const;
 
 public slots:
@@ -140,6 +145,8 @@ public slots:
      * @brief showPcName
      */
     void showPcName(bool);
+
+    void showSight(bool);
 
 private slots:
     /**
@@ -176,7 +183,11 @@ private:
     QAction* m_deadStateAct;
     QAction* m_spleepingStateAct;
     QAction* m_bewitchedStateAct;
-    
+
+
+    //sight
+    SightItem* m_sightItem;
+    QAction* m_showSightAct;
 
 };
 

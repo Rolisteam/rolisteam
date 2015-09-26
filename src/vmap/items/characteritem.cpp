@@ -421,12 +421,19 @@ void CharacterItem::changeCharacter()
 
 void CharacterItem::createActions()
 {
+    m_sightItem = new SightItem();
+    m_sightItem->setParentItem(this);
+    m_sightItem->setPos(this->boundingRect().center());
+
     m_healthyStateAct = new QAction(tr("Healthy"),this);
     m_lightlyStateAct= new QAction(tr("Lightly wounded"),this);
     m_seriouslyStateAct= new QAction(tr("Seriously injured"),this);
     m_deadStateAct= new QAction(tr("Dead"),this);
     m_spleepingStateAct= new QAction(tr("Sleeping"),this);
     m_bewitchedStateAct= new QAction(tr("Bewitched"),this);
+
+    m_showSightAct = new QAction(tr("Show character Vision"),this);
+
 
 
     connect(m_healthyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
@@ -483,4 +490,11 @@ QString CharacterItem::getParentId() const
         return pers->getUuid();
     }
     return QString();
+}
+void CharacterItem::showSight(bool b)
+{
+    if(NULL!=m_sightItem)
+    {
+        m_sightItem->setVisible(b);
+    }
 }
