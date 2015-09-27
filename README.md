@@ -5,6 +5,9 @@ Rolisteam helps you to manage a tabletop role playing game with remote friends/p
 #  Official Web site : 
 http://www.rolisteam.org/
 
+#   Rolisteam Road Map 
+https://docs.google.com/spreadsheets/d/18jDGViuOm6KjqEAumW1RU2qccQQ4-TxiXPtAg0X_M2o/edit#gid=769324568
+
 #  Compile Rolisteam (windows) : 
 Please visit: http://wiki.rolisteam.org/index.php/Compilation
 to get information about rolisteam compilation. 
