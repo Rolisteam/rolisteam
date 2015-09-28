@@ -208,6 +208,4 @@ int main(int argc, char *argv[])
 
     delete mainWindow;
     return value;
-
-
 } 
