@@ -49,8 +49,10 @@ protected:
 	void dragMoveEvent( QDragMoveEvent * event );*/
     void wheelEvent(QWheelEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
+    void resizeEvent(QResizeEvent* event);
 
     void createAction();
+
 
 
 private slots:
