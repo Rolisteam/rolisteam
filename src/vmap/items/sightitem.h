@@ -25,12 +25,43 @@
 #include <QConicalGradient>
 #include <QRadialGradient>
 #include "visualitem.h"
+#include "characteritem.h"
+
+class Vision : public QObject
+{
+    Q_OBJECT
+public:
+    enum SHAPE {DISK,ANGLE};
+    Vision();
+
+    void setAngle(qreal);
+    void setRadius(qreal);
+    void setPosition(QPointF& p);
+    void setShape(Vision::SHAPE s);
+    void setCharacterItem(CharacterItem* item);
+
+    qreal getAngle();
+    qreal getRadius();
+    const QPointF& getPos();
+    Vision::SHAPE getShape();
+    CharacterItem* getCharacterItem();
+
+public slots:
+    void updatePosition();
+
+private:
+    Vision::SHAPE m_shape;
+    QPointF m_pos;
+    qreal m_radius;
+    qreal m_angle;
+    CharacterItem* m_character;
+};
 
 class SightItem : public VisualItem
 {
+    Q_OBJECT
 public:
-    enum SHAPE {DISK,ANGLE};
-    SightItem();
+    SightItem(QMap<QString,VisualItem*>* characterItemMap);
     virtual ~SightItem();
 
 
@@ -49,6 +80,10 @@ public:
      * @param in
      */
     virtual void readData(QDataStream& in);
+    /**
+     * @brief getType
+     * @return
+     */
     virtual VisualItem::ItemType getType();
     /**
      * @brief fillMessage
@@ -60,35 +95,69 @@ public:
      * @param msg
      */
     virtual void readItem(NetworkMessageReader* msg);
+    /**
+     * @brief setGeometryPoint
+     * @param pointId
+     * @param pos
+     */
     virtual void setGeometryPoint(qreal pointId,QPointF& pos) ;
+    /**
+     * @brief initChildPointItem
+     */
     virtual void initChildPointItem() ;
+    /**
+     * @brief getItemCopy
+     * @return
+     */
     virtual VisualItem* getItemCopy() ;
+    /**
+     * @brief boundingRect
+     * @return
+     */
     virtual QRectF boundingRect() const;
-
+    /**
+     * @brief paint
+     * @param painter
+     * @param option
+     * @param widget
+     */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget);
 
-    void setShape(SHAPE shape);
-    void setRaduis(qreal rad);
-    void setAngle(qreal rad);
+    void setDefaultShape(Vision::SHAPE shape);
+    void setDefaultRaduis(qreal rad);
+    void setDefaultAngle(qreal rad);
+
+    void updateChildPosition();
 
     void createActions();
     void addActionContextMenu(QMenu* menu);
+    /**
+     * @brief setColor
+     */
+    void setColor(QColor& color);
+    /**
+     * @brief insertVision
+     */
+    void insertVision(CharacterItem* item);
+
+public slots:
+    void moveVision(QString id, QPointF& pos);
 
 private slots:
     void computeGradiants();
 
 private:
-    SHAPE m_shape;
-    qreal m_radius;
-    qreal m_angle;
+    Vision::SHAPE m_defaultShape;
+    qreal m_defaultRadius;
+    qreal m_defaultAngle;
 
 
     QAction* m_diskShape;
     QAction* m_angleShape;
 
-    QGradient* m_gradient;
-    QConicalGradient* m_conicalGradient;
-    QRadialGradient* m_radialGradient;
+    QMap<QString,Vision*> m_visionMap;
+    QMap<QString,VisualItem*>* m_characterItemMap;
+    QColor m_bgColor;
 };
 
 #endif // SIGHTITEM_H
