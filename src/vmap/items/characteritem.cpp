@@ -289,6 +289,10 @@ QString CharacterItem::getCharacterId() const
 
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
+    if(change == QGraphicsItem::ItemPositionHasChanged)
+    {
+        emit positionChanged();
+    }
     return QGraphicsItem::itemChange(change, value);
 }
 void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
@@ -356,6 +360,8 @@ void CharacterItem::initChildPointItem()
         m_child->append(tmp);
     }
     updateChildPosition();
+
+
 }
 void CharacterItem::updateChildPosition()
 {
@@ -371,6 +377,8 @@ void CharacterItem::updateChildPosition()
     setTransformOriginPoint(m_rect.center());
 
     update();
+
+
 }
 void CharacterItem::showNpcName(bool b)
 {
@@ -421,9 +429,6 @@ void CharacterItem::changeCharacter()
 
 void CharacterItem::createActions()
 {
-    m_sightItem = new SightItem();
-    m_sightItem->setParentItem(this);
-    m_sightItem->setPos(this->boundingRect().center());
 
     m_healthyStateAct = new QAction(tr("Healthy"),this);
     m_lightlyStateAct= new QAction(tr("Lightly wounded"),this);
@@ -491,10 +496,4 @@ QString CharacterItem::getParentId() const
     }
     return QString();
 }
-void CharacterItem::showSight(bool b)
-{
-    if(NULL!=m_sightItem)
-    {
-        m_sightItem->setVisible(b);
-    }
-}
+
