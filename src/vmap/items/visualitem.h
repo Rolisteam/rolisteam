@@ -38,7 +38,13 @@ class VisualItem : public QGraphicsObject
 {
         Q_OBJECT
 public:
+    /**
+     * @brief The ItemType enum
+     */
     enum ItemType{PATH,LINE,ELLISPE,CHARACTER,TEXT,RECT,RULE,IMAGE,SIGHT};
+    /**
+     * @brief The Layer enum
+     */
     enum Layer{GROUND,OBJECT,CHARACTER_LAYER};
 	/**
 	 * @brief VisualItem default constructor
