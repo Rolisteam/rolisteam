@@ -87,7 +87,6 @@ void ChildPointItem::setMotion(ChildPointItem::MOTION m)
     if((MOUSE == m_currentMotion)||(NONE == m_currentMotion))
     {
         setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
-
     }
     else
     {
@@ -141,7 +140,7 @@ void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
 
 }
 void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
-{
+{ 
     event->accept();
     QPointF v = pos() + event->pos();
     if(m_editable)
@@ -185,15 +184,12 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
     {
             QGraphicsItem::mouseMoveEvent(event);
     }
-
-
 }
 void ChildPointItem::mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
 {
     m_parent->endOfGeometryChange();
 
     QGraphicsItem::mouseReleaseEvent(event);
-
 }
 void ChildPointItem::setRotationEnable(bool allow)
 {
