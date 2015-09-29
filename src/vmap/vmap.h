@@ -28,6 +28,7 @@
 #include "data/person.h"
 
 #include "vmap/items/visualitem.h"
+#include "vmap/items/sightitem.h"
 
 class CharacterItem;
 
@@ -240,6 +241,10 @@ public:
 	 * @return
 	 */
 	QString getCurrentLayerText() const;
+    /**
+     * @brief initScene
+     */
+    void initScene();
 
 public slots:
     /**
@@ -377,6 +382,8 @@ protected:
      * @param event
      */
 	void dragMoveEvent( QGraphicsSceneDragDropEvent * event );
+
+    void initMap();
 private:
     /**
     * @brief width of the map
@@ -493,6 +500,8 @@ private:
     bool m_showNpcName;
     bool m_showPcName;
     bool m_showNpcNumber;
+
+    SightItem* m_sightItem;
 
     friend QDataStream& operator<<(QDataStream& os,const VMap&);
     friend QDataStream& operator>>(QDataStream& is,VMap&);
