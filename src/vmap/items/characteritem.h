@@ -21,7 +21,7 @@
 #define CHARACTERITEM_H
 #include "visualitem.h"
 #include "data/person.h"
-#include "sightitem.h"
+
 
 #include <QAction>
 /**
@@ -131,6 +131,9 @@ public:
      */
     QString getParentId() const;
 
+signals:
+    void positionChanged();
+
 public slots:
     void sizeChanged(int m_size);
     /**
@@ -145,9 +148,6 @@ public slots:
      * @brief showPcName
      */
     void showPcName(bool);
-
-    void showSight(bool);
-
 private slots:
     /**
      * @brief generatedThumbnail
@@ -186,7 +186,7 @@ private:
 
 
     //sight
-    SightItem* m_sightItem;
+   // SightItem* m_sightItem;
     QAction* m_showSightAct;
 
 };
