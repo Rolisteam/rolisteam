@@ -22,6 +22,7 @@
 #include "visualitem.h"
 #include "data/person.h"
 
+
 #include <QAction>
 /**
     * @brief represents any character on map.
@@ -124,7 +125,14 @@ public:
      * @return
      */
     QString getCharacterId() const;
+    /**
+     * @brief getParentId
+     * @return
+     */
     QString getParentId() const;
+
+signals:
+    void positionChanged();
 
 public slots:
     void sizeChanged(int m_size);
@@ -140,7 +148,6 @@ public slots:
      * @brief showPcName
      */
     void showPcName(bool);
-
 private slots:
     /**
      * @brief generatedThumbnail
@@ -176,7 +183,11 @@ private:
     QAction* m_deadStateAct;
     QAction* m_spleepingStateAct;
     QAction* m_bewitchedStateAct;
-    
+
+
+    //sight
+   // SightItem* m_sightItem;
+    QAction* m_showSightAct;
 
 };
 

@@ -46,6 +46,11 @@ VisualItem::VisualItem(QColor& penColor,bool b,QGraphicsItem * parent )
     m_id = QUuid::createUuid().toString();
     init();
 }
+VisualItem::~VisualItem()
+{
+
+}
+
 void VisualItem::init()
 {
     createActions();

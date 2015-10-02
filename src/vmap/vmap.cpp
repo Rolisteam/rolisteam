@@ -25,13 +25,7 @@
 VMap::VMap(QObject * parent)
     : QGraphicsScene(parent),m_currentLayer(VisualItem::GROUND)
 {
-    m_penSize = 1;
-    m_currentItem = NULL;
-    m_currentPath = NULL;
-    m_id = QUuid::createUuid().toString();
-    m_itemMap=new  QMap<QString,VisualItem*>;
-    setItemIndexMethod(QGraphicsScene::NoIndex);
-
+    initMap();
 }
 
 
@@ -39,14 +33,31 @@ VMap::VMap(int width,int height,QString& title,QColor& bgColor,QObject * parent)
     : QGraphicsScene(0,0,width,height,parent),m_currentLayer(VisualItem::GROUND)
 {
     m_title = title;
-    m_penSize = 1;
+
     m_bgColor = bgColor;
     setBackgroundBrush(m_bgColor);
+    initMap();
+
+}
+void VMap::initMap()
+{
+    m_penSize = 1;
     m_id = QUuid::createUuid().toString();
     m_currentItem = NULL;
     m_currentPath = NULL;
     m_itemMap=new  QMap<QString,VisualItem*>;
+    m_characterItemMap = new QMap<QString,VisualItem*>();
     setItemIndexMethod(QGraphicsScene::NoIndex);
+    m_sightItem = new SightItem(m_characterItemMap);
+}
+void  VMap::initScene()
+{
+    addNewItem(m_sightItem);
+    //m_sightItem->setParentItem(this);
+    m_sightItem->initChildPointItem();
+    m_sightItem->setPos(0,0);
+    m_sightItem->setZValue(1);
+    m_sightItem->setVisible(false);
 }
 
 void VMap::setWidth(int width)
@@ -949,6 +960,7 @@ void VMap::insertCharacterInMap(CharacterItem* item)
     if((NULL!=m_characterItemMap)&&(NULL!=item))
     {
         m_characterItemMap->insert(item->getCharacterId(),item);
+        m_sightItem->insertVision(item);
     }
 }
 
@@ -966,12 +978,44 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
                 {
                     item->setVisible(false);
                 }
+                if(NULL!=m_sightItem)
+                {
+                    m_sightItem->setVisible(false);
+                }
             }
             else if(m_currentVisibityMode == VMap::ALL)
             {
                 foreach(VisualItem* item, m_itemMap->values())
                 {
                     item->setVisible(true);
+                }
+                if(NULL!=m_sightItem)
+                {
+                    m_sightItem->setVisible(false);
+                }
+            }
+            else if(VMap::CHARACTER == m_currentVisibityMode)
+            {
+                if(NULL!=m_sightItem)
+                {
+                    m_sightItem->setVisible(true);
+                }
+            }
+        }
+        else
+        {
+            if(VMap::CHARACTER == m_currentVisibityMode)
+            {
+                if(NULL!=m_sightItem)
+                {
+                    m_sightItem->setVisible(true);
+                }
+            }
+            else
+            {
+                if(NULL!=m_sightItem)
+                {
+                    m_sightItem->setVisible(false);
                 }
             }
         }

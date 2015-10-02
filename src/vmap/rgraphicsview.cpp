@@ -43,10 +43,11 @@ RGraphicsView::RGraphicsView(VMap *vmap)
     setOptimizationFlag(QGraphicsView::DontAdjustForAntialiasing);
 
     createAction();
+
+    vmap->initScene();
 }
 void RGraphicsView::keyPressEvent ( QKeyEvent * event)
 {
-
     QGraphicsView::keyPressEvent(event);
 }
 void RGraphicsView::mousePressEvent ( QMouseEvent * event)
@@ -299,4 +300,12 @@ void RGraphicsView::setZoomFactor()
 void RGraphicsView::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 {
 	m_currentTool = selectedtool;
+}
+void RGraphicsView::resizeEvent(QResizeEvent* event)
+{
+   if(NULL!=scene())
+   {
+    scene()->setSceneRect(geometry());
+   }
+   QGraphicsView::resizeEvent(event);
 }
