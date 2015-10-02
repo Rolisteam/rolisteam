@@ -39,7 +39,9 @@ CharacterItem::CharacterItem()
 CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
     : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL)
 {
-    m_rect.setRect(m_center.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter);
+	setPos(m_center);
+	//m_rect.setRect(.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter);
+	sizeChanged(diameter);
     /// @todo make it
     //connect(m_character,SIGNAL(avatarChanged()),this,SLOT(generatedThumbnail()));
 
@@ -81,6 +83,7 @@ VisualItem::ItemType CharacterItem::getType()
 }
 QRectF CharacterItem::boundingRect() const
 {
+	qDebug()<< m_rect<< pos();
     return m_rect;
 }
 void CharacterItem::setNewEnd(QPointF& nend)
@@ -177,7 +180,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 void CharacterItem::sizeChanged(int m_size)
 {
     m_diameter=m_size;
-    m_rect.setRect(m_center.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter);
+	m_rect.setRect(pos().x()-m_diameter/2,pos().y()-m_diameter/2,m_diameter,m_diameter);
     generatedThumbnail();
 }
 void CharacterItem::generatedThumbnail()
