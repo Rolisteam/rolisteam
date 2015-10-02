@@ -39,7 +39,7 @@ CharacterItem::CharacterItem()
 CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
     : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL)
 {
-	setPos(m_center);
+	setPos(m_center-QPoint(diameter/2,diameter/2));
 	//m_rect.setRect(.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter);
 	sizeChanged(diameter);
     /// @todo make it
@@ -180,7 +180,8 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 void CharacterItem::sizeChanged(int m_size)
 {
     m_diameter=m_size;
-	m_rect.setRect(pos().x()-m_diameter/2,pos().y()-m_diameter/2,m_diameter,m_diameter);
+	m_rect.setRect(0,0,m_diameter,m_diameter);
+	//m_rect.setRect(pos().x()-m_diameter/2,pos().y()-m_diameter/2,m_diameter,m_diameter);
     generatedThumbnail();
 }
 void CharacterItem::generatedThumbnail()
