@@ -177,6 +177,10 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 
 
 }
+const QPointF& CharacterItem::getCenter() const
+{
+    return m_center;
+}
 void CharacterItem::sizeChanged(int m_size)
 {
     m_diameter=m_size;

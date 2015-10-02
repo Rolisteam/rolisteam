@@ -131,6 +131,8 @@ public:
      */
     QString getParentId() const;
 
+    const QPointF& getCenter() const;
+
 signals:
     void positionChanged();
 
