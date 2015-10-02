@@ -131,7 +131,6 @@ QRectF  SightItem::boundingRect() const
                                               view->viewport()->width(),
                                               view->viewport()->height() ));
 
-
             return QRectF( A, B );
 
         }
@@ -214,7 +213,7 @@ void  SightItem::updateChildPosition()
 void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->setPen(Qt::NoPen);
-    painter->setBrush(Qt::black);
+	painter->setBrush(QColor(0,0,0,125));
 
     QRectF rect = boundingRect();
    // qDebug() << rect.topLeft();
@@ -231,11 +230,10 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
         QPainterPath subArea;
         switch(vision->getShape())
         {
-        case Vision::DISK:
-            qDebug() << mapFromScene(vision->getPos()) << vision->getCharacterItem()->boundingRect() << mapToScene(vision->getPos())  << mapToItem(vision->getCharacterItem(),vision->getPos()) << mapFromItem(vision->getCharacterItem(),vision->getPos());
-            subArea.moveTo(vision->getPos());
-          //  subArea.addEllipse(mapFromScene(vision->getPos()),vision->getRadius(),vision->getRadius());
-              subArea.addEllipse(vision->getCharacterItem()->boundingRect());
+        case Vision::DISK:         
+			subArea.moveTo(vision->getPos());
+			subArea.addEllipse(vision->getPos(),vision->getRadius(),vision->getRadius());
+			  //subArea.addEllipse(vision->getCharacterItem()->boundingRect());
             break;
         case Vision::ANGLE:
             painter->drawEllipse(vision->getPos(),vision->getRadius(),vision->getRadius());
