@@ -356,7 +356,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
     default:
         break;
     }
-    setTransformOriginPoint(m_center);
+	setTransformOriginPoint(m_rect.center());
 }
 void CharacterItem::initChildPointItem()
 {
