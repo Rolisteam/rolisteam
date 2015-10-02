@@ -42,7 +42,7 @@ public:
 
     qreal getAngle();
     qreal getRadius();
-    const QPointF& getPos();
+    const QPointF getPos();
     Vision::SHAPE getShape();
     CharacterItem* getCharacterItem();
 
@@ -158,6 +158,7 @@ private:
     QMap<QString,Vision*> m_visionMap;
     QMap<QString,VisualItem*>* m_characterItemMap;
     QColor m_bgColor;
+    QImage m_image;
 };
 
 #endif // SIGHTITEM_H
