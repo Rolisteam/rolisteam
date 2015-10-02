@@ -83,7 +83,6 @@ VisualItem::ItemType CharacterItem::getType()
 }
 QRectF CharacterItem::boundingRect() const
 {
-	qDebug()<< m_rect<< pos();
     return m_rect;
 }
 void CharacterItem::setNewEnd(QPointF& nend)
