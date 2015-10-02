@@ -709,7 +709,10 @@ void VMap::addNewItem(VisualItem* item)
         //Editing permission
         if(m_localIsGM)
         {
-            item->setEditableItem(m_localIsGM);
+            if(item!=m_sightItem)
+            {
+                item->setEditableItem(m_localIsGM);
+            }
         }
         else if((m_currentMode == Map::GM_ONLY))
         {

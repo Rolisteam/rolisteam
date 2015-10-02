@@ -67,7 +67,7 @@ qreal Vision::getRadius()
     return m_radius;
 }
 
-const QPointF& Vision::getPos()
+const QPointF Vision::getPos()
 {
     return m_character->pos();
 }
@@ -89,6 +89,7 @@ void Vision::updatePosition()
 {
     if(NULL!=m_character)
     {
+        //m_position = m_character->pos();
         //setPosition();
     }
 }
@@ -100,13 +101,14 @@ void Vision::updatePosition()
 /////////////////////////////////
 
 SightItem::SightItem(QMap<QString,VisualItem*>* characterItemMap)
- : m_defaultShape(Vision::DISK),m_defaultAngle(120),m_defaultRadius(50),m_bgColor(Qt::black),m_characterItemMap(characterItemMap)
+    : m_defaultShape(Vision::DISK),m_defaultAngle(120),m_defaultRadius(50),m_bgColor(Qt::black),m_characterItemMap(characterItemMap)
 {
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
     computeGradiants();
+    setAcceptedMouseButtons(Qt::NoButton);
 
-    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
+    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges);
 
 }
 
@@ -126,8 +128,10 @@ QRectF  SightItem::boundingRect() const
 
             QPointF A = view->mapToScene( QPoint(0,0) );
             QPointF B = view->mapToScene( QPoint(
-            view->viewport()->width(),
-            view->viewport()->height() ));
+                                              view->viewport()->width(),
+                                              view->viewport()->height() ));
+
+
             return QRectF( A, B );
 
         }
@@ -170,13 +174,13 @@ void SightItem::setGeometryPoint(qreal pointId,QPointF& pos)
     qDebug() << pointId << pos;
     if(pointId == 0)
     {
-       // qDebug() << pos << m_radius << center;
+        // qDebug() << pos << m_radius << center;
         if(pos.x()<0)
         {
             pos.setX(1);
         }
         m_defaultRadius = pos.x();
-       // qDebug() << pos << m_radius;
+        // qDebug() << pos << m_radius;
         computeGradiants();
 
     }
@@ -185,7 +189,7 @@ void SightItem::initChildPointItem()
 {
     m_child = new QVector<ChildPointItem*>();
 
-    for(int i = 0; i< 1 ; ++i)
+    for(int i = 0; i< 0 ; ++i)
     {
         ChildPointItem* tmp = new ChildPointItem(i,this);
         tmp->setMotion(ChildPointItem::X_AXIS);
@@ -204,17 +208,49 @@ void  SightItem::updateChildPosition()
     QPointF center = boundingRect().center();
     QPointF offSet(m_defaultRadius,0);
     center += offSet;
-    m_child->at(0)->setPos(center);
+  //  m_child->at(0)->setPos(center);
 }
 
 void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->setPen(Qt::NoPen);
-    painter->drawRect(boundingRect());//.width()/2,-boundingRect().height()/2,boundingRect().width(),boundingRect().height()
+    painter->setBrush(Qt::black);
+
+    QRectF rect = boundingRect();
+   // qDebug() << rect.topLeft();
+
+    QPainterPath path;
+    path.addRect(rect);
+
+    QPainterPath subArea;
+    subArea.addEllipse(QPointF(0,0),200,200);
+    path = path.subtracted(subArea);
+
+    foreach(Vision* vision , m_visionMap)
+    {
+        QPainterPath subArea;
+        switch(vision->getShape())
+        {
+        case Vision::DISK:
+            qDebug() << mapFromScene(vision->getPos()) << vision->getCharacterItem()->boundingRect() << mapToScene(vision->getPos())  << mapToItem(vision->getCharacterItem(),vision->getPos()) << mapFromItem(vision->getCharacterItem(),vision->getPos());
+            subArea.moveTo(vision->getPos());
+          //  subArea.addEllipse(mapFromScene(vision->getPos()),vision->getRadius(),vision->getRadius());
+              subArea.addEllipse(vision->getCharacterItem()->boundingRect());
+            break;
+        case Vision::ANGLE:
+            painter->drawEllipse(vision->getPos(),vision->getRadius(),vision->getRadius());
+            break;
+        }
+        path.moveTo(vision->getPos());
+        path = path.subtracted(subArea);
+    }
+
+
+    painter->drawPath(path);
 }
 void SightItem::computeGradiants()
 {
- /*   switch(m_defaultShape)
+    /*   switch(m_defaultShape)
     {
     case DISK:
         m_radialGradient->setCenter(QPointF(0,0));
@@ -249,6 +285,7 @@ void SightItem::computeGradiants()
 void SightItem::insertVision(CharacterItem* item)
 {
     Vision* tmp = new Vision();
+   // connect(item,SIGNAL(positionChanged()),tmp,SLOT(updatePosition()));
     tmp->setShape(m_defaultShape);
     tmp->setRadius(m_defaultRadius);
     tmp->setAngle(m_defaultAngle);
