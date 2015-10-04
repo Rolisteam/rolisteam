@@ -360,7 +360,10 @@ void VisualItem::setChildrenVisible(bool b)
     {
         foreach(ChildPointItem* item, *m_child)
         {
-            item->setVisible(b);
+            if(!item->isVisionHandler())
+            {
+                item->setVisible(b);
+            }
         }
     }
 }
