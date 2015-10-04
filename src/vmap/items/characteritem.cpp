@@ -22,13 +22,13 @@
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
+#include <QMenu>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 #include "data/character.h"
 #include "userlist/playersList.h"
-
-#include <QMenu>
+#include "vmap/items/sightitem.h"
 
 CharacterItem::CharacterItem()
 : VisualItem()
@@ -40,7 +40,6 @@ CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
     : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL)
 {
 	setPos(m_center-QPoint(diameter/2,diameter/2));
-	//m_rect.setRect(.x()-m_diameter/2,m_center.y()-m_diameter/2,m_diameter,m_diameter);
 	sizeChanged(diameter);
     /// @todo make it
     //connect(m_character,SIGNAL(avatarChanged()),this,SLOT(generatedThumbnail()));
@@ -96,6 +95,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
         generatedThumbnail();
     }
     setChildrenVisible(hasFocusOrChild());
+    emit selectStateChange(hasFocusOrChild());
 
     if(m_character->hasAvatar())
     {
@@ -213,6 +213,10 @@ void CharacterItem::generatedThumbnail()
     painter.setBrush(brush);
     painter.drawRoundedRect(0,0,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
 }
+int CharacterItem::getRadius() const
+{
+    return m_diameter/2;
+}
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);
@@ -302,6 +306,10 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &va
     }
     return QGraphicsItem::itemChange(change, value);
 }
+int CharacterItem::getChildPointCount() const
+{
+    return m_child->size();
+}
 void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
     QRectF rect=m_rect;
@@ -319,7 +327,11 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
     case 3:
         rect.setBottomLeft(pos);
         break;
+    case 4:
+        m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
+        break;
     default:
+       // emit geometryChangeOnUnkownChild(pointId,pos);
         break;
     }
     m_diameter = qMin(rect.width(),rect.height());
@@ -331,45 +343,70 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
+        m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
+        m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
     case 1:
         pos = m_rect.topRight();
          m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
+        m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
+        m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
     case 2:
         pos = m_rect.bottomRight();
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
+        m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
+        m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
     case 3:
         pos = m_rect.bottomLeft();
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
+        m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
+        m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
+        break;
+    case 4:
         break;
     default:
         break;
     }
+
 	setTransformOriginPoint(m_rect.center());
 }
 void CharacterItem::initChildPointItem()
 {
     m_child = new QVector<ChildPointItem*>();
 
-    for(int i = 0; i< 4 ; ++i)
+    for(int i = 0; i< 5 ; ++i)
     {
-        ChildPointItem* tmp = new ChildPointItem(i,this);
+        ChildPointItem* tmp = new ChildPointItem(i,this,(i==4));
         tmp->setMotion(ChildPointItem::ALL);
         tmp->setRotationEnable(true);
         m_child->append(tmp);
     }
+
+    m_child->at(4)->setMotion(ChildPointItem::X_AXIS);
+    m_child->at(4)->setRotationEnable(false);
+    m_child->at(4)->setVisible(false);
+
+
     updateChildPosition();
 
 
 }
+ChildPointItem* CharacterItem::getRadiusChildWidget()
+{
+    if(m_child->size()>=5)
+    {
+        return  m_child->value(4);
+    }
+}
+
 void CharacterItem::updateChildPosition()
 {
     m_child->value(0)->setPos(m_rect.topLeft());
@@ -381,10 +418,12 @@ void CharacterItem::updateChildPosition()
     m_child->value(3)->setPos(m_rect.bottomLeft());
     m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
 
+
+    m_child->value(4)->setPos(m_vision->getRadius()+getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
+
     setTransformOriginPoint(m_rect.center());
 
     update();
-
 
 }
 void CharacterItem::showNpcName(bool b)
@@ -436,7 +475,7 @@ void CharacterItem::changeCharacter()
 
 void CharacterItem::createActions()
 {
-
+    m_vision = new CharacterVision(this);
     m_healthyStateAct = new QAction(tr("Healthy"),this);
     m_lightlyStateAct= new QAction(tr("Lightly wounded"),this);
     m_seriouslyStateAct= new QAction(tr("Seriously injured"),this);
@@ -445,8 +484,6 @@ void CharacterItem::createActions()
     m_bewitchedStateAct= new QAction(tr("Bewitched"),this);
 
     m_showSightAct = new QAction(tr("Show character Vision"),this);
-
-
 
     connect(m_healthyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
     connect(m_lightlyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
@@ -478,7 +515,7 @@ void CharacterItem::characterStateChange()
     {
        m_character->setHeathState(Character::Dead);
     }
-    else if ( act == m_spleepingStateAct)
+    else if (act == m_spleepingStateAct)
     {
         m_character->setHeathState(Character::Sleeping);
     }
@@ -504,3 +541,21 @@ QString CharacterItem::getParentId() const
     return QString();
 }
 
+void CharacterItem::addChildPoint(ChildPointItem* item)
+{
+    if(NULL!=m_child)
+    {
+        //item->setPointID(m_child->size());
+        m_child->append(item);
+    }
+}
+void CharacterItem::setDefaultVisionParameter(CharacterVision::SHAPE shape, qreal radius, qreal angle)
+{
+    m_vision->setAngle(angle);
+    m_vision->setRadius(radius);
+    m_vision->setShape(shape);
+}
+CharacterVision* CharacterItem::getVision()const
+{
+    return m_vision;
+}
