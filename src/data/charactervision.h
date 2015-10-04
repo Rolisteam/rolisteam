@@ -21,12 +21,98 @@
 #ifndef CHARACTERVISION_H
 #define CHARACTERVISION_H
 
+#include "vmap/items/visualitem.h"
+//#include "vmap/items/characteritem.h"
 
-class CharacterVision
+/**
+         * @brief The Vision class
+         */
+class CharacterVision : public QObject
 {
+    Q_OBJECT
 public:
-    CharacterVision();
+    enum SHAPE {DISK,ANGLE};
+    /**
+             * @brief Vision
+             */
+    CharacterVision(QObject* parent = NULL);
     ~CharacterVision();
+    /**
+             * @brief setAngle
+             */
+    void setAngle(qreal);
+    /**
+             * @brief setRadius
+             */
+    void setRadius(qreal);
+    /**
+             * @brief setPosition
+             * @param p
+             */
+    void setPosition(QPointF& p);
+    /**
+             * @brief setShape
+             * @param s
+             */
+    void setShape(CharacterVision::SHAPE s);
+    /**
+             * @brief getAngle
+             * @return
+             */
+    qreal getAngle();
+    /**
+             * @brief getRadius
+             * @return
+             */
+    qreal getRadius();
+    /**
+             * @brief getPos
+             * @return
+             */
+    const QPointF getPos();
+    /**
+             * @brief getShape
+             * @return
+             */
+    CharacterVision::SHAPE getShape();
+    /**
+             * @brief setCornerPoint
+             */
+    void setCornerPoint(ChildPointItem*);
+    /**
+             * @brief getCornerPoint
+             * @return
+             */
+    ChildPointItem* getCornerPoint();
+
+    /**
+     * @brief isVisible
+     * @return
+     */
+    bool isVisible();
+    /**
+     * @brief setVisible
+     */
+    void setVisible(bool);
+
+public slots:
+    /**
+             * @brief updatePosition
+             */
+    void updatePosition();
+    /**
+             * @brief showCorner
+             */
+    void showCorner(bool);
+
+private:
+    CharacterVision::SHAPE m_shape;
+    QPointF m_pos;
+    qreal m_radius;
+    qreal m_angle;
+    ChildPointItem* m_cornerPoint;
+    bool m_visible;
 };
+
 
 #endif // CHARACTERVISION_H

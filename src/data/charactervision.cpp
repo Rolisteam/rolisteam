@@ -20,7 +20,8 @@
 
 #include "charactervision.h"
 
-CharacterVision::CharacterVision()
+CharacterVision::CharacterVision(QObject* parent)
+    : QObject(parent),m_cornerPoint(NULL)
 {
 
 }
@@ -30,3 +31,84 @@ CharacterVision::~CharacterVision()
 
 }
 
+void CharacterVision::setAngle(qreal a)
+{
+    m_angle = a;
+}
+
+void CharacterVision::setRadius(qreal r)
+{
+    m_radius = r;
+}
+
+void CharacterVision::setPosition(QPointF& p)
+{
+    m_pos = p;
+}
+
+void CharacterVision::setShape(CharacterVision::SHAPE s)
+{
+    m_shape = s;
+}
+
+
+qreal CharacterVision::getAngle()
+{
+    return m_angle;
+}
+
+qreal CharacterVision::getRadius()
+{
+    return m_radius;
+}
+
+/*const QPointF CharacterVision::getPos()
+{
+    return m_character->pos();
+}*/
+
+CharacterVision::SHAPE CharacterVision::getShape()
+{
+    return m_shape;
+}
+
+/*void CharacterVision::setCharacterItem(CharacterItem* item)
+{
+    m_character = item;
+    connect(m_character,SIGNAL(selectStateChange(bool)),this,SLOT(showCorner(bool)));
+    connect(m_character,SIGNAL(positionChanged()),this,SLOT(updatePosition()));
+    connect(m_character,SIGNAL(heightChanged()),this,SLOT(updatePosition()));
+    connect(m_character,SIGNAL(itemGeometryChanged(VisualItem*)),this,SLOT(updatePosition()));
+}*/
+void CharacterVision::showCorner(bool b)
+{
+    if(NULL!=m_cornerPoint)
+    {
+        m_cornerPoint->setVisible(b);
+    }
+}
+
+void CharacterVision::updatePosition()
+{
+//    if(NULL!=m_cornerPoint)
+//    {
+//        m_cornerPoint
+//    }
+}
+void CharacterVision::setCornerPoint(ChildPointItem* b)
+{
+    m_cornerPoint = b;
+}
+ChildPointItem* CharacterVision::getCornerPoint()
+{
+    return m_cornerPoint;
+}
+bool CharacterVision::isVisible()
+{
+    return m_visible;
+}
+
+void CharacterVision::setVisible(bool b)
+{
+    m_visible = b;
+}
