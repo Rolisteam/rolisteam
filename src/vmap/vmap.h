@@ -298,6 +298,9 @@ public slots:
     void readMessage(NetworkMessageReader& msg,bool readCharacter = true);
     void setLocalId(QString);
     QList<CharacterItem*> getCharacterOnMap(QString id);
+
+
+    SightItem* getFogItem() const;
 signals:
     /**
      * @brief npcAdded

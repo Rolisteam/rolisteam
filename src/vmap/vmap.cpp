@@ -177,7 +177,6 @@ void VMap::addItem()
         itemCharar->showNpcName(m_showNpcName);
         itemCharar->showNpcNumber(m_showNpcNumber);
         itemCharar->showPcName(m_showPcName);
-        insertCharacterInMap(itemCharar);
         emit npcAdded();
         connect(this,SIGNAL(showNpcName(bool)),itemCharar,SLOT(showNpcName(bool)));
         connect(this,SIGNAL(showNpcNumber(bool)),itemCharar,SLOT(showNpcNumber(bool)));
@@ -304,6 +303,25 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
 }
+void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
+{
+    Q_UNUSED(mouseEvent);
+    if(m_currentItem!=NULL)
+    {
+        if(m_currentItem->getType() == VisualItem::RULE )
+        {
+            removeItem(m_currentItem);
+            m_currentItem = NULL;
+            return;
+        }
+        sendOffItem(m_currentItem);
+    }
+    m_currentItem = NULL;
+    if(m_selectedtool==VToolsBar::HANDLER)
+    {
+        QGraphicsScene::mouseReleaseEvent(mouseEvent);
+    }
+}
 bool VMap::editLayer(VisualItem::Layer layer)
 {
     if(m_currentLayer!=layer)
@@ -347,25 +365,7 @@ void VMap::sendOffItem(VisualItem* item)
     msg.sendAll();
     item->initChildPointItem();
 }
-void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
-{
-    Q_UNUSED(mouseEvent);
-    if(m_currentItem!=NULL)
-    {
-        if(m_currentItem->getType() == VisualItem::RULE )
-        {
-            removeItem(m_currentItem);
-            m_currentItem = NULL;
-            return;
-        }
-        sendOffItem(m_currentItem);
-    }
-    m_currentItem = NULL;
-    if(m_selectedtool==VToolsBar::HANDLER)
-    {
-        QGraphicsScene::mouseReleaseEvent(mouseEvent);
-    }
-}
+
 void VMap::setCurrentChosenColor(QColor& p)
 {
     m_itemColor = p;
@@ -476,12 +476,12 @@ void VMap::openFile(QDataStream& in)
 
             }
             in >> *item;
+            addNewItem(item);
+            item->initChildPointItem();
             if(NULL!=charItem)
             {
                 insertCharacterInMap(charItem);
             }
-            addNewItem(item);
-            item->initChildPointItem();
         }
     }
 }
@@ -497,7 +497,6 @@ void VMap::addCharacter(Character* p, QPointF pos)
     connect(this,SIGNAL(showNpcNumber(bool)),item,SLOT(showNpcNumber(bool)));
     connect(this,SIGNAL(showPcName(bool)),item,SLOT(showPcName(bool)));
 
-    insertCharacterInMap(item);
 
     NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
     msg.string8(m_id);
@@ -506,6 +505,8 @@ void VMap::addCharacter(Character* p, QPointF pos)
     msg.sendAll();
     item->initChildPointItem();
     addNewItem(item);
+
+    insertCharacterInMap(item);
 }
 
 void VMap::setPatternSize(int p)
@@ -674,12 +675,12 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         if(NULL!=item)
         {
             item->readItem(msg);
+            addNewItem(item);
+            item->initChildPointItem();
             if(NULL!=charItem)
             {
                 insertCharacterInMap(charItem);
             }
-            addNewItem(item);
-            item->initChildPointItem();
         }
     }
 }
@@ -785,7 +786,17 @@ void VMap::promoteItemInType(VisualItem* item, VisualItem::ItemType type)
 
 void VMap::removeItemFromScene(QString id)
 {
+    if(m_sightItem->getId()==id)
+    {
+        return;
+    }
     VisualItem* item = m_itemMap->take(id);
+    QString key = m_characterItemMap->key(item);
+    if(!key.isNull())
+    {
+        m_sightItem->removeVision(dynamic_cast<CharacterItem*>(item));
+        m_characterItemMap->remove(key);
+    }
     QGraphicsScene::removeItem(item);
     delete item;
 
@@ -962,7 +973,7 @@ void VMap::insertCharacterInMap(CharacterItem* item)
 {
     if((NULL!=m_characterItemMap)&&(NULL!=item))
     {
-        m_characterItemMap->insert(item->getCharacterId(),item);
+        m_characterItemMap->insertMulti(item->getCharacterId(),item);
         m_sightItem->insertVision(item);
     }
 }
@@ -1035,4 +1046,8 @@ QString VMap::getVisibilityModeText()
 	QStringList visibilityData;
 	visibilityData << tr("Hidden") << tr("His character") << tr("All visible");
 	return visibilityData.at(m_currentVisibityMode);
+}
+SightItem* VMap::getFogItem() const
+{
+    return m_sightItem;
 }
