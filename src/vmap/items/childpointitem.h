@@ -35,6 +35,9 @@ public:
      * In this case, the ChildPointItem does not mouse, it receives mouse event and ask its parent to change its geometry.
      */
     enum MOTION { ALL, X_AXIS, Y_AXIS,MOUSE,NONE};
+    /**
+     * @brief The PLACEMENT enum
+     */
     enum PLACEMENT { TopLeft,TopRight,TopCenter, MiddelLeft,MiddleRight,Center,ButtomLeft,ButtomRight,ButtomCenter};
 
     /**
@@ -42,7 +45,7 @@ public:
      * @param point
      * @param parent
      */
-    ChildPointItem(qreal point,VisualItem* parent);
+    ChildPointItem(qreal point,VisualItem* parent,bool isVision = false);
     /**
      * @brief ~ChildPointItem
      */
@@ -80,8 +83,21 @@ public:
      * @brief setRotationEnable, set to true if you want to allow rotation without activating the mouse control.
      */
     void setRotationEnable(bool);
-
+    /**
+     * @brief setEditableItem
+     * @param b
+     */
     void setEditableItem(bool b);
+
+    void setPointID(qreal);
+    /**
+     * @brief getPointID
+     * @return
+     */
+    qreal getPointID() const;
+
+    bool isVisionHandler();
+    void setVisionHandler(bool);
 
 protected:
     /**
@@ -102,6 +118,7 @@ private:
     MOTION m_currentMotion;
     bool m_allowRotation;
     bool m_editable;
+    bool m_vision;
 };
 
 #endif // CHILDPOINTITEM_H

@@ -23,7 +23,6 @@
 
 #include <QGraphicsScene>
 #include <QPainter>
-
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 
@@ -32,8 +31,8 @@
 
 #define SQUARE_SIZE 6
 
-ChildPointItem::ChildPointItem(qreal point,VisualItem* parent)
-    : QGraphicsObject(parent),m_pointId(point),m_parent(parent),m_allowRotation(false)
+ChildPointItem::ChildPointItem(qreal point,VisualItem* parent,bool isVision )
+    : QGraphicsObject(parent),m_pointId(point),m_parent(parent),m_allowRotation(false),m_vision(isVision)
 {
     m_currentMotion = ALL;
     m_editable = true;
@@ -51,7 +50,7 @@ QVariant ChildPointItem::itemChange(GraphicsItemChange change, const QVariant &v
 {
     if(m_editable)
     {
-        if (change == ItemPositionChange && scene() && hasFocus() && m_currentMotion!=NONE && m_currentMotion!=MOUSE)
+        if (change == ItemPositionChange /*&& scene()*/ && isSelected() && m_currentMotion!=NONE && m_currentMotion!=MOUSE)
         {
             QPointF newPos = value.toPointF();
             if(m_currentMotion == X_AXIS)
@@ -206,4 +205,20 @@ void ChildPointItem::setEditableItem(bool b)
     {
         setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
     }
+}
+void ChildPointItem::setPointID(qreal a)
+{
+    m_pointId = a;
+}
+qreal ChildPointItem::getPointID() const
+{
+    return m_pointId;
+}
+bool ChildPointItem::isVisionHandler()
+{
+    return m_vision;
+}
+void ChildPointItem::setVisionHandler(bool b)
+{
+    m_vision = b;
 }
