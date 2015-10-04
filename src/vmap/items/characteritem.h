@@ -19,11 +19,15 @@
     ***************************************************************************/
 #ifndef CHARACTERITEM_H
 #define CHARACTERITEM_H
+#include <QAction>
+
+
+
 #include "visualitem.h"
 #include "data/person.h"
+#include "data/charactervision.h"
 
 
-#include <QAction>
 /**
     * @brief represents any character on map.
     */
@@ -130,11 +134,39 @@ public:
      * @return
      */
     QString getParentId() const;
-
+    /**
+     * @brief getCenter
+     * @return
+     */
     const QPointF& getCenter() const;
+    /**
+     * @brief getRadius
+     * @return
+     */
+    int getRadius() const;
+    /**
+     * @brief addChildPoint
+     * @param item
+     */
+    void addChildPoint(ChildPointItem* item);
+    /**
+     * @brief getChildPointCount
+     * @return
+     */
+    int getChildPointCount() const;
+
+    void setDefaultVisionParameter(CharacterVision::SHAPE, qreal radius, qreal angle);
+
+    CharacterVision* getVision()const;
+    /**
+     * @brief getRadiusChildWidget
+     */
+    ChildPointItem* getRadiusChildWidget();
 
 signals:
     void positionChanged();
+
+    void geometryChangeOnUnkownChild(qreal pointId, QPointF& F);
 
 public slots:
     void sizeChanged(int m_size);
@@ -178,6 +210,7 @@ private:
     bool m_showPcName;
 
 
+
     //QAction*
     QAction* m_healthyStateAct;
     QAction* m_lightlyStateAct;
@@ -188,8 +221,8 @@ private:
 
 
     //sight
-   // SightItem* m_sightItem;
     QAction* m_showSightAct;
+    CharacterVision* m_vision;
 
 };
 
