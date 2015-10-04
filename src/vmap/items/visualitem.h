@@ -45,7 +45,7 @@ public:
     /**
      * @brief The Layer enum
      */
-    enum Layer{GROUND,OBJECT,CHARACTER_LAYER};
+    enum Layer{GROUND,OBJECT,CHARACTER_LAYER,FOG};
 	/**
 	 * @brief VisualItem default constructor
 	 */
@@ -218,6 +218,10 @@ signals:
 	 * @brief promoteItemTo
 	 */
     void promoteItemTo(VisualItem*,VisualItem::ItemType);
+    /**
+     * @brief selectStateChange
+     */
+    void selectStateChange(bool);
 
 public slots:
     /**
@@ -268,7 +272,7 @@ protected:
 	 * @brief setChildrenVisible
 	 * @param b
 	 */
-    void setChildrenVisible(bool b);
+    virtual void setChildrenVisible(bool b);
 	/**
 	 * @brief createActions
 	 */
