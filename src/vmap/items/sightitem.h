@@ -27,44 +27,22 @@
 #include "visualitem.h"
 #include "characteritem.h"
 
-class Vision : public QObject
-{
-    Q_OBJECT
-public:
-    enum SHAPE {DISK,ANGLE};
-    Vision();
-
-    void setAngle(qreal);
-    void setRadius(qreal);
-    void setPosition(QPointF& p);
-    void setShape(Vision::SHAPE s);
-    void setCharacterItem(CharacterItem* item);
-
-    qreal getAngle();
-    qreal getRadius();
-    const QPointF getPos();
-    Vision::SHAPE getShape();
-    CharacterItem* getCharacterItem();
-
-public slots:
-    void updatePosition();
-
-private:
-    Vision::SHAPE m_shape;
-    QPointF m_pos;
-    qreal m_radius;
-    qreal m_angle;
-    CharacterItem* m_character;
-};
-
+/**
+ * @brief The SightItem class
+ */
 class SightItem : public VisualItem
 {
     Q_OBJECT
 public:
+    /**
+     * @brief SightItem
+     * @param characterItemMap
+     */
     SightItem(QMap<QString,VisualItem*>* characterItemMap);
+    /**
+     * @brief ~SightItem
+     */
     virtual ~SightItem();
-
-
     /**
      * @brief setNewEnd
      * @param nend
@@ -122,14 +100,33 @@ public:
      * @param widget
      */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget);
-
-    void setDefaultShape(Vision::SHAPE shape);
+    /**
+     * @brief setDefaultShape
+     * @param shape
+     */
+    void setDefaultShape(CharacterVision::SHAPE shape);
+    /**
+     * @brief setDefaultRaduis
+     * @param rad
+     */
     void setDefaultRaduis(qreal rad);
+    /**
+     * @brief setDefaultAngle
+     * @param rad
+     */
     void setDefaultAngle(qreal rad);
-
+    /**
+     * @brief updateChildPosition
+     */
     void updateChildPosition();
-
+    /**
+     * @brief createActions
+     */
     void createActions();
+    /**
+     * @brief addActionContextMenu
+     * @param menu
+     */
     void addActionContextMenu(QMenu* menu);
     /**
      * @brief setColor
@@ -139,15 +136,32 @@ public:
      * @brief insertVision
      */
     void insertVision(CharacterItem* item);
-
+    /**
+     * @brief setVisible
+     * @param visible
+     */
+    virtual void setVisible(bool visible);
 public slots:
-    void moveVision(QString id, QPointF& pos);
+    /**
+     * @brief moveVision
+     * @param id
+     * @param pos
+     */
+    void moveVision(qreal id, QPointF& pos);
+    /**
+     * @brief removeVision vision to the given character.
+     * @param item
+     */
+    void removeVision(CharacterItem* item);
+
+protected:
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 private slots:
-    void computeGradiants();
+
 
 private:
-    Vision::SHAPE m_defaultShape;
+    CharacterVision::SHAPE m_defaultShape;
     qreal m_defaultRadius;
     qreal m_defaultAngle;
 
@@ -155,10 +169,11 @@ private:
     QAction* m_diskShape;
     QAction* m_angleShape;
 
-    QMap<QString,Vision*> m_visionMap;
+ //   QMap<qreal,CharacterVision*> m_visionMap;
     QMap<QString,VisualItem*>* m_characterItemMap;
     QColor m_bgColor;
     QImage m_image;
+    qreal m_count;
 };
 
 #endif // SIGHTITEM_H
