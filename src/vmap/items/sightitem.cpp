@@ -31,69 +31,6 @@
 /////////////////////////////////
 /// Code Vision
 /////////////////////////////////
-Vision::Vision()
-{
-
-}
-
-void Vision::setAngle(qreal a)
-{
-    m_angle = a;
-}
-
-void Vision::setRadius(qreal r)
-{
-    m_radius = r;
-}
-
-void Vision::setPosition(QPointF& p)
-{
-    m_pos = p;
-}
-
-void Vision::setShape(Vision::SHAPE s)
-{
-    m_shape = s;
-}
-
-
-qreal Vision::getAngle()
-{
-    return m_angle;
-}
-
-qreal Vision::getRadius()
-{
-    return m_radius;
-}
-
-const QPointF Vision::getPos()
-{
-    return m_character->pos();
-}
-
-Vision::SHAPE Vision::getShape()
-{
-    return m_shape;
-}
-
-void Vision::setCharacterItem(CharacterItem* item)
-{
-    m_character = item;
-}
-CharacterItem* Vision::getCharacterItem()
-{
-    return m_character;
-}
-void Vision::updatePosition()
-{
-    if(NULL!=m_character)
-    {
-        //m_position = m_character->pos();
-        //setPosition();
-    }
-}
-
 
 
 /////////////////////////////////
@@ -101,15 +38,13 @@ void Vision::updatePosition()
 /////////////////////////////////
 
 SightItem::SightItem(QMap<QString,VisualItem*>* characterItemMap)
-    : m_defaultShape(Vision::DISK),m_defaultAngle(120),m_defaultRadius(50),m_bgColor(Qt::black),m_characterItemMap(characterItemMap)
+    : m_defaultShape(CharacterVision::DISK),m_defaultAngle(120),m_defaultRadius(50),m_bgColor(Qt::black),m_characterItemMap(characterItemMap),m_count(0)
 {
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
-    computeGradiants();
     setAcceptedMouseButtons(Qt::NoButton);
-
-    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges);
-
+    m_layer = FOG;
+    setFlags(QGraphicsItem::ItemSendsGeometryChanges);
 }
 
 SightItem::~SightItem()
@@ -143,7 +78,7 @@ QRectF  SightItem::boundingRect() const
 }
 void SightItem::setNewEnd(QPointF& nend)
 {
-
+    return;
 }
 void SightItem::writeData(QDataStream& out) const
 {
@@ -170,132 +105,86 @@ void SightItem::readItem(NetworkMessageReader* msg)
 }
 void SightItem::setGeometryPoint(qreal pointId,QPointF& pos)
 {
-    qDebug() << pointId << pos;
-    if(pointId == 0)
+    /* if(m_visionMap.contains(pointId))
     {
-        // qDebug() << pos << m_radius << center;
-        if(pos.x()<0)
-        {
-            pos.setX(1);
-        }
-        m_defaultRadius = pos.x();
-        // qDebug() << pos << m_radius;
-        computeGradiants();
-
-    }
+        Vision* vis = m_visionMap.value(pointId);
+        vis->setRadius(pos.x());
+    }*/
 }
 void SightItem::initChildPointItem()
 {
     m_child = new QVector<ChildPointItem*>();
-
-    for(int i = 0; i< 0 ; ++i)
-    {
-        ChildPointItem* tmp = new ChildPointItem(i,this);
-        tmp->setMotion(ChildPointItem::X_AXIS);
-        //tmp->setRotationEnable(true);
-        m_child->append(tmp);
-    }
-    updateChildPosition();
 }
 VisualItem* SightItem::getItemCopy()
 {
-
+    return NULL;
 }
+
 
 void  SightItem::updateChildPosition()
 {
-    QPointF center = boundingRect().center();
-    QPointF offSet(m_defaultRadius,0);
-    center += offSet;
-  //  m_child->at(0)->setPos(center);
+
 }
 
 void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->setPen(Qt::NoPen);
-	painter->setBrush(QColor(0,0,0,125));
+    painter->setBrush(QColor(0,0,0,125));
 
     QRectF rect = boundingRect();
-   // qDebug() << rect.topLeft();
+    // qDebug() << rect.topLeft();
 
     QPainterPath path;
     path.addRect(rect);
 
-    QPainterPath subArea;
-    subArea.addEllipse(QPointF(0,0),200,200);
-    path = path.subtracted(subArea);
-
-    foreach(Vision* vision , m_visionMap)
+    foreach(VisualItem* item , m_characterItemMap->values())
     {
-        QPainterPath subArea;
-        switch(vision->getShape())
+        CharacterItem* charact = dynamic_cast<CharacterItem*>(item);
+        if(NULL!=charact)
         {
-        case Vision::DISK:         
-			subArea.moveTo(vision->getPos());
-			subArea.addEllipse(vision->getPos(),vision->getRadius(),vision->getRadius());
-			  //subArea.addEllipse(vision->getCharacterItem()->boundingRect());
-            break;
-        case Vision::ANGLE:
-            painter->drawEllipse(vision->getPos(),vision->getRadius(),vision->getRadius());
-            break;
+            CharacterVision* vision = charact->getVision();
+
+            QPainterPath subArea;
+
+            switch(vision->getShape())
+            {
+            case CharacterVision::DISK:
+            {
+                int itemRadius = charact->getRadius();
+                subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
+                subArea.addEllipse(charact->pos()+QPointF(itemRadius,itemRadius),vision->getRadius()+itemRadius,vision->getRadius()+itemRadius);
+                //subArea.addEllipse(vision->getCharacterItem()->boundingRect());
+                break;
+            }
+            case CharacterVision::ANGLE:
+            {
+                int itemRadius = charact->getRadius()+vision->getRadius();
+                subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
+                //subArea.arcTo(0,0,vision->getRadius()*2,vision->getRadius()*2,vision->getRadius()*2,-vision->getAngle(),vision->getAngle());
+            }
+                break;
+            }
+            path.moveTo(charact->pos());
+            path = path.subtracted(subArea);
         }
-        path.moveTo(vision->getPos());
-        path = path.subtracted(subArea);
     }
 
 
     painter->drawPath(path);
 }
-void SightItem::computeGradiants()
-{
-    /*   switch(m_defaultShape)
-    {
-    case DISK:
-        m_radialGradient->setCenter(QPointF(0,0));
-        m_radialGradient->setRadius(m_radius);
-        //m_radialGradient->setFocalPoint(pos());
-        //m_radialGradient->setFocalRadius(m_radius);
-        m_bgColor.setAlpha(0);
-        m_radialGradient->setColorAt(0.0,m_bgColor);
-        m_radialGradient->setColorAt(0.89,m_bgColor);
-        m_bgColor.setAlpha(120);
-        m_radialGradient->setColorAt(0.9,m_bgColor);
-        m_bgColor.setAlpha(255);
-        m_radialGradient->setColorAt(1.0,m_bgColor);
-        m_gradient = m_radialGradient;
-        break;
-    case ANGLE:
-        m_conicalGradient->setCenter(pos());
-        m_conicalGradient->setAngle(0);
-        m_bgColor.setAlpha(0);
-        m_conicalGradient->setColorAt(0.0,m_bgColor);
-        m_conicalGradient->setColorAt(0.14,m_bgColor);
-        m_bgColor.setAlpha(255);
-        m_conicalGradient->setColorAt(0.15,m_bgColor);
-        m_conicalGradient->setColorAt(0.85,m_bgColor);
-        m_bgColor.setAlpha(0);
-        m_conicalGradient->setColorAt(0.86,m_bgColor);
-        m_conicalGradient->setColorAt(1.0,m_bgColor);
-        m_gradient = m_conicalGradient;
-        break;
-    }*/
-}
 void SightItem::insertVision(CharacterItem* item)
 {
-    Vision* tmp = new Vision();
-   // connect(item,SIGNAL(positionChanged()),tmp,SLOT(updatePosition()));
-    tmp->setShape(m_defaultShape);
-    tmp->setRadius(m_defaultRadius);
-    tmp->setAngle(m_defaultAngle);
-    tmp->setCharacterItem(item);
-    m_visionMap.insert(item->getId(),tmp);
+    item->setDefaultVisionParameter(m_defaultShape,m_defaultRadius,m_defaultAngle);
+    m_child->append(item->getRadiusChildWidget());
 }
-void SightItem::setDefaultShape(Vision::SHAPE shape)
+void SightItem::removeVision(CharacterItem* item)
+{
+
+}
+void SightItem::setDefaultShape(CharacterVision::SHAPE shape)
 {
     m_defaultShape = shape;
-    computeGradiants();
     update();
-
 }
 void SightItem::setColor(QColor& color)
 {
@@ -305,25 +194,37 @@ void SightItem::setColor(QColor& color)
 void  SightItem::setDefaultRaduis(qreal rad)
 {
     m_defaultRadius = rad;
-    computeGradiants();
     update();
+}
+void SightItem::setVisible(bool visible)
+{
+    if(NULL!=m_child)
+    {
+        foreach (ChildPointItem* item, *m_child)
+        {
+            if(NULL!=item)
+            {
+                item->setVisible(visible);
+            }
+        }
+    }
+    VisualItem::setVisible(visible);
 }
 
 void  SightItem::setDefaultAngle(qreal rad)
 {
     m_defaultAngle = rad;
-    computeGradiants();
     update();
 }
 void SightItem::createActions()
 {
-    m_diskShape = new QAction(tr("Disk Shape"),this);
+    /*m_diskShape = new QAction(tr("Disk Shape"),this);
     m_diskShape->setCheckable(true);
     m_angleShape = new QAction(tr("Arc Shape"),this);
-    m_angleShape->setCheckable(true);
+    m_angleShape->setCheckable(true);*/
 
-    connect(m_diskShape,SIGNAL(triggered()),this,SLOT(closePath()));
-    connect(m_angleShape,SIGNAL(triggered()),this,SLOT(closePath()));
+    /*connect(m_diskShape,SIGNAL(triggered()),this,SLOT(closePath()));
+    connect(m_angleShape,SIGNAL(triggered()),this,SLOT(closePath()));*/
 }
 
 void SightItem::addActionContextMenu(QMenu* menu)
@@ -331,10 +232,14 @@ void SightItem::addActionContextMenu(QMenu* menu)
     menu->addAction(m_diskShape);
     menu->addAction(m_angleShape);
 }
-void SightItem::moveVision(QString id, QPointF& pos)
+void SightItem::moveVision(qreal id, QPointF& pos)
 {
-    if(m_visionMap.contains(id))
+    /*if(m_visionMap.contains(id))
     {
-        m_visionMap.value(id)->setPosition(pos);
-    }
+        m_visionMap.value(id)->setRadius(pos.x());
+    }*/
+}
+void SightItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    QGraphicsObject::contextMenuEvent(event);
 }
