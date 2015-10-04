@@ -54,7 +54,7 @@ void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 {
 	if(m_currentTool == VToolsBar::HANDLER)
 	{
-		if(!items(event->pos()).isEmpty())
+        if(!items(event->pos()).isEmpty())
 		{
 			setDragMode(QGraphicsView::NoDrag);
 		}
@@ -110,7 +110,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
     if(m_vmap->isIdle())
     {
         QList<QGraphicsItem*> list = items(event->pos());
-        if(list.isEmpty())
+        if((list.isEmpty())||((list.size()==1)&&(list.contains(m_vmap->getFogItem()))))
         {
             QMenu menu;
 
