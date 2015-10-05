@@ -219,9 +219,12 @@ private:
     QAction* m_spleepingStateAct;
     QAction* m_bewitchedStateAct;
 
+	QAction* m_visionShapeDisk;
+	QAction* m_visionShapeAngle;
+
 
     //sight
-    QAction* m_showSightAct;
+	//QAction* m_showSightAct;
     CharacterVision* m_vision;
 
 };

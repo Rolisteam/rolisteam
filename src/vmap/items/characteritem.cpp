@@ -450,6 +450,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
   state->addAction(m_spleepingStateAct);
   state->addAction(m_bewitchedStateAct);
 
+
   QMenu* user =  menu->addMenu(tr("Affect to"));
   foreach(Character* character, PlayersList::instance()->getCharacterList())
   {
@@ -457,6 +458,20 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
     act->setData(character->getUuid());
 
 	connect(act,SIGNAL(triggered()),this,SLOT(changeCharacter()));
+  }
+  QMenu* shape =  menu->addMenu(tr("Vision Shape"));
+  shape->addAction(m_visionShapeDisk);
+  shape->addAction(m_visionShapeAngle);
+
+  if(CharacterVision;:DISK == m_vision->getShape())
+  {
+	  m_visionShapeDisk->setChecked(true);
+	  m_visionShapeAngle->setChecked(false);
+  }
+  else
+  {
+	 m_visionShapeDisk->setChecked(false);
+	 m_visionShapeAngle->setChecked(true;
   }
 
 }
@@ -483,7 +498,13 @@ void CharacterItem::createActions()
     m_spleepingStateAct= new QAction(tr("Sleeping"),this);
     m_bewitchedStateAct= new QAction(tr("Bewitched"),this);
 
-    m_showSightAct = new QAction(tr("Show character Vision"),this);
+
+
+
+	m_visionShapeDisk =  new QAction(tr("Disk"),this);
+	m_visionShapeDisk->setCheckable(true);
+	m_visionShapeAngle = new QAction(tr("Conical"),this);
+	m_visionShapeAngle->setCheckable(true);
 
     connect(m_healthyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
     connect(m_lightlyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
