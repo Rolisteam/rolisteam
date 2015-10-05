@@ -463,7 +463,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
   shape->addAction(m_visionShapeDisk);
   shape->addAction(m_visionShapeAngle);
 
-  if(CharacterVision;:DISK == m_vision->getShape())
+  if(CharacterVision::DISK == m_vision->getShape())
   {
 	  m_visionShapeDisk->setChecked(true);
 	  m_visionShapeAngle->setChecked(false);
@@ -471,7 +471,7 @@ void CharacterItem::addActionContextMenu(QMenu* menu)
   else
   {
 	 m_visionShapeDisk->setChecked(false);
-	 m_visionShapeAngle->setChecked(true;
+     m_visionShapeAngle->setChecked(true);
   }
 
 }
@@ -513,7 +513,26 @@ void CharacterItem::createActions()
     connect(m_spleepingStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
     connect(m_bewitchedStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
 
+    connect(m_visionShapeAngle,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
+    connect(m_visionShapeDisk,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
 }
+void CharacterItem::changeVisionShape()
+{
+    QAction* act = qobject_cast<QAction*>(sender());
+    if(act == m_visionShapeDisk)
+    {
+        m_visionShapeAngle->setChecked(false);
+        m_visionShapeDisk->setChecked(true);
+        m_vision->setShape(CharacterVision::DISK);
+    }
+    else if(act == m_visionShapeAngle)
+    {
+        m_visionShapeAngle->setChecked(true);
+        m_visionShapeDisk->setChecked(false);
+        m_vision->setShape(CharacterVision::ANGLE);
+    }
+}
+
 void CharacterItem::characterStateChange()
 {
     QAction* act = qobject_cast<QAction*>(sender());
