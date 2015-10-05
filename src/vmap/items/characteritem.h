@@ -154,18 +154,33 @@ public:
      * @return
      */
     int getChildPointCount() const;
-
+    /**
+     * @brief setDefaultVisionParameter
+     * @param radius
+     * @param angle
+     */
     void setDefaultVisionParameter(CharacterVision::SHAPE, qreal radius, qreal angle);
-
+    /**
+     * @brief getVision
+     * @return
+     */
     CharacterVision* getVision()const;
     /**
      * @brief getRadiusChildWidget
      */
     ChildPointItem* getRadiusChildWidget();
 
+    void changeVisionShape();
 signals:
+    /**
+     * @brief positionChanged
+     */
     void positionChanged();
-
+    /**
+     * @brief geometryChangeOnUnkownChild
+     * @param pointId
+     * @param F
+     */
     void geometryChangeOnUnkownChild(qreal pointId, QPointF& F);
 
 public slots:
