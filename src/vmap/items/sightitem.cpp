@@ -160,7 +160,7 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
             {
                 int itemRadius = charact->getRadius()+vision->getRadius();
                 subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
-                //subArea.arcTo(0,0,vision->getRadius()*2,vision->getRadius()*2,vision->getRadius()*2,-vision->getAngle(),vision->getAngle());
+				subArea.arcTo(charact->pos().x(),charact->pos().y(),vision->getRadius()*2,vision->getRadius()*2,vision->getAngle(),vision->getAngle());
             }
                 break;
             }

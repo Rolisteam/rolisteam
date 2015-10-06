@@ -516,8 +516,8 @@ void CharacterItem::createActions()
     connect(m_spleepingStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
     connect(m_bewitchedStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
 
-    connect(m_visionShapeAngle,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
-    connect(m_visionShapeDisk,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
+	connect(m_visionShapeAngle,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
+	connect(m_visionShapeDisk,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
 }
 void CharacterItem::changeVisionShape()
 {

@@ -170,7 +170,6 @@ public:
      */
     ChildPointItem* getRadiusChildWidget();
 
-    void changeVisionShape();
 signals:
     /**
      * @brief positionChanged
@@ -184,6 +183,7 @@ signals:
     void geometryChangeOnUnkownChild(qreal pointId, QPointF& F);
 
 public slots:
+	void changeVisionShape();
     void sizeChanged(int m_size);
     /**
      * @brief showNpcName
