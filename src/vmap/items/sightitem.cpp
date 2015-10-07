@@ -27,7 +27,9 @@
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <math.h>
 
+#define PI 3.14159265
 /////////////////////////////////
 /// Code Vision
 /////////////////////////////////
@@ -38,7 +40,7 @@
 /////////////////////////////////
 
 SightItem::SightItem(QMap<QString,VisualItem*>* characterItemMap)
-    : m_defaultShape(CharacterVision::DISK),m_defaultAngle(120),m_defaultRadius(50),m_bgColor(Qt::black),m_characterItemMap(characterItemMap),m_count(0)
+	: m_defaultShape(CharacterVision::ANGLE),m_defaultAngle(120),m_defaultRadius(50),m_bgColor(Qt::black),m_characterItemMap(characterItemMap),m_count(0)
 {
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
@@ -158,9 +160,47 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
             }
             case CharacterVision::ANGLE:
             {
-                int itemRadius = charact->getRadius()+vision->getRadius();
-                subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
-				subArea.arcTo(charact->pos().x(),charact->pos().y(),vision->getRadius()*2,vision->getRadius()*2,vision->getAngle(),vision->getAngle());
+				int itemRadius = charact->getRadius();
+				QPointF center= charact->pos()+QPointF(itemRadius,itemRadius);
+				subArea.moveTo(center);
+
+				QPointF a(sin(vision->getAngle()/2*PI/180)*vision->getRadius(),cos(vision->getAngle()/2*PI/180)*vision->getRadius());
+				QPointF b(a.x(),-a.y());
+
+
+
+
+				QPointF A(center);
+				QPointF B(center+a);
+				QPointF C(center+QPointF(vision->getRadius(),0));
+				QPointF D(center+b);
+				qreal ED = tan(vision->getAngle()*PI/180)*vision->getRadius();
+				qreal AE = sqrt(ED*ED+vision->getRadius()*vision->getRadius());
+				qDebug()<< ED << tan(vision->getAngle()*PI/180)<< AE ;
+				QPointF E(center);
+				E.setX(E.x()+AE);
+				//E(center+QPointF(vision->getRadius()+itemRadius,0),tan(vision->getAngle()/2*PI/180)*vision->getRadius());
+
+
+				subArea.lineTo(B);
+
+
+
+				subArea.quadTo(E,D);
+				subArea.lineTo(A);
+
+				painter->setPen(QColor(255,0,0));
+
+				QRectF rect;
+				rect.setCoords(E.x()-10,E.y()-10,E.x()+10,E.y()+10);
+				painter->drawRect(rect);
+
+				//subArea.quadTo(F,center+QPointF(vision->getRadius()+itemRadius,0));
+
+				//F.setY(center.y()+F.y());
+				//subArea.quadTo(C,b+center);
+				subArea.closeSubpath();
+				//subArea.arcTo(charact->pos().x(),charact->pos().y(),vision->getRadius()*2,vision->getRadius()*2,180-vision->getAngle()/2,vision->getAngle());
             }
                 break;
             }
@@ -170,7 +210,7 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
     }
 
 
-    painter->drawPath(path);
+	painter->drawPath(path);
 }
 void SightItem::insertVision(CharacterItem* item)
 {
