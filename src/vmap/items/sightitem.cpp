@@ -174,11 +174,14 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
 				QPointF B(center+a);
 				QPointF C(center+QPointF(vision->getRadius(),0));
 				QPointF D(center+b);
-				qreal ED = tan(vision->getAngle()*PI/180)*vision->getRadius();
+                qreal ED = tan(vision->getAngle()/2*PI/180)*vision->getRadius();
 				qreal AE = sqrt(ED*ED+vision->getRadius()*vision->getRadius());
-				qDebug()<< ED << tan(vision->getAngle()*PI/180)<< AE ;
+                qreal AEBIS = vision->getRadius()/cos(vision->getAngle()/2*PI/180);
+
+
+                qDebug()<< AE << AEBIS;
 				QPointF E(center);
-				E.setX(E.x()+AE);
+                E+= QPointF(AE,0);
 				//E(center+QPointF(vision->getRadius()+itemRadius,0),tan(vision->getAngle()/2*PI/180)*vision->getRadius());
 
 
