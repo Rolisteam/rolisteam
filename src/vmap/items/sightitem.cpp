@@ -40,7 +40,7 @@
 /////////////////////////////////
 
 SightItem::SightItem(QMap<QString,VisualItem*>* characterItemMap)
-	: m_defaultShape(CharacterVision::ANGLE),m_defaultAngle(120),m_defaultRadius(50),m_bgColor(Qt::black),m_characterItemMap(characterItemMap),m_count(0)
+    : m_defaultShape(CharacterVision::ANGLE),m_defaultAngle(120),m_defaultRadius(50),m_bgColor(Qt::black),m_characterItemMap(characterItemMap),m_count(0)
 {
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
@@ -163,8 +163,9 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
 				int itemRadius = charact->getRadius();
 				QPointF center= charact->pos()+QPointF(itemRadius,itemRadius);
 				subArea.moveTo(center);
+                subArea.setFillRule(Qt::WindingFill);
 
-				QPointF a(sin(vision->getAngle()/2*PI/180)*vision->getRadius(),cos(vision->getAngle()/2*PI/180)*vision->getRadius());
+                QPointF a(cos(vision->getAngle()/2*PI/180)*vision->getRadius(),sin(vision->getAngle()/2*PI/180)*vision->getRadius());
 				QPointF b(a.x(),-a.y());
 
 
@@ -172,14 +173,14 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
 
 				QPointF A(center);
 				QPointF B(center+a);
-				QPointF C(center+QPointF(vision->getRadius(),0));
+                QPointF C(center+QPointF(b.x(),0));
 				QPointF D(center+b);
                 qreal ED = tan(vision->getAngle()/2*PI/180)*vision->getRadius();
 				qreal AE = sqrt(ED*ED+vision->getRadius()*vision->getRadius());
                 qreal AEBIS = vision->getRadius()/cos(vision->getAngle()/2*PI/180);
 
 
-                qDebug()<< AE << AEBIS;
+                qDebug()<< a << b;
 				QPointF E(center);
                 E+= QPointF(AE,0);
 				//E(center+QPointF(vision->getRadius()+itemRadius,0),tan(vision->getAngle()/2*PI/180)*vision->getRadius());
@@ -189,8 +190,10 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
 
 
 
-				subArea.quadTo(E,D);
+                subArea.quadTo(E,D);
+                subArea.lineTo(D);
 				subArea.lineTo(A);
+                //subArea.addEllipse(C,vision->getRadius()-a.x(),a.y());
 
 				painter->setPen(QColor(255,0,0));
 
@@ -202,7 +205,7 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
 
 				//F.setY(center.y()+F.y());
 				//subArea.quadTo(C,b+center);
-				subArea.closeSubpath();
+                //subArea.closeSubpath();
 				//subArea.arcTo(charact->pos().x(),charact->pos().y(),vision->getRadius()*2,vision->getRadius()*2,180-vision->getAngle()/2,vision->getAngle());
             }
                 break;
