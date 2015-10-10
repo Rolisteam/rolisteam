@@ -165,48 +165,19 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
 				subArea.moveTo(center);
                 subArea.setFillRule(Qt::WindingFill);
 
-                QPointF a(cos(vision->getAngle()/2*PI/180)*vision->getRadius(),sin(vision->getAngle()/2*PI/180)*vision->getRadius());
-				QPointF b(a.x(),-a.y());
+                QRectF rectArc;
+                rectArc.setCoords(center.x()-vision->getRadius(),center.y()-vision->getRadius(),center.x()+vision->getRadius(),center.y()+vision->getRadius());
 
+                qreal rot = charact->rotation();
 
-
-
-				QPointF A(center);
-				QPointF B(center+a);
-                QPointF C(center+QPointF(b.x(),0));
-				QPointF D(center+b);
-                qreal ED = tan(vision->getAngle()/2*PI/180)*vision->getRadius();
-				qreal AE = sqrt(ED*ED+vision->getRadius()*vision->getRadius());
-                qreal AEBIS = vision->getRadius()/cos(vision->getAngle()/2*PI/180);
-
-
-                qDebug()<< a << b;
-				QPointF E(center);
-                E+= QPointF(AE,0);
-				//E(center+QPointF(vision->getRadius()+itemRadius,0),tan(vision->getAngle()/2*PI/180)*vision->getRadius());
-
-
-				subArea.lineTo(B);
-
-
-
-                subArea.quadTo(E,D);
-                subArea.lineTo(D);
-				subArea.lineTo(A);
-                //subArea.addEllipse(C,vision->getRadius()-a.x(),a.y());
+                subArea.arcTo(rectArc,-vision->getAngle()/2-rot,vision->getAngle());
 
 				painter->setPen(QColor(255,0,0));
 
-				QRectF rect;
-				rect.setCoords(E.x()-10,E.y()-10,E.x()+10,E.y()+10);
-				painter->drawRect(rect);
+               /* QRectF rect;
+                rect.setCoords(E.x()-10,E.y()-10,E.x()+10,E.y()+10);
+                painter->drawRect(rect);*/
 
-				//subArea.quadTo(F,center+QPointF(vision->getRadius()+itemRadius,0));
-
-				//F.setY(center.y()+F.y());
-				//subArea.quadTo(C,b+center);
-                //subArea.closeSubpath();
-				//subArea.arcTo(charact->pos().x(),charact->pos().y(),vision->getRadius()*2,vision->getRadius()*2,180-vision->getAngle()/2,vision->getAngle());
             }
                 break;
             }
