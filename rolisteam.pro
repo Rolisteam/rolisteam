@@ -229,6 +229,7 @@ documentation.path = bin/rolisteam.app/Contents/Resources/doc
 }
 unix:!macx{
 documentation.path = /usr/local/share/rolisteam/
+QMAKE_CXXFLAGS = "-std=c++11 -fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
 }
 documentation.files = resources/doc/*
 INSTALLS += documentation
