@@ -22,7 +22,9 @@
 
 VmapToolBar::VmapToolBar()
 {
-
+    setObjectName("VMapToolBar");
+    setWindowTitle(tr("Toolbar for VMap"));
+    setupUi();
 }
 
 VmapToolBar::~VmapToolBar()
@@ -30,3 +32,22 @@ VmapToolBar::~VmapToolBar()
 
 }
 
+void VmapToolBar::setupUi()
+{
+
+
+
+    m_showGridAct = addAction(QIcon(":/resources/icons/grid.png"),tr("Show Grid"));
+    m_showGridAct->setToolTip(tr("Show/Hide Grid"));
+    m_showGridAct->setCheckable(true);
+
+    m_bgSelector =new ColorButton();
+    addWidget(m_bgSelector);
+
+
+
+}
+void VmapToolBar::setCurrentMap(VMap* map)
+{
+    m_vmap = map;
+}

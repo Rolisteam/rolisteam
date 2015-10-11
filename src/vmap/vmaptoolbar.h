@@ -21,12 +21,44 @@
 #ifndef VMAPTOOLBAR_H
 #define VMAPTOOLBAR_H
 
+#include <QToolBar>
 
-class VmapToolBar
+
+#include "vmap.h"
+#include "widgets/colorbutton.h"
+
+class VmapToolBar : public QToolBar
 {
+    Q_OBJECT
 public:
     VmapToolBar();
     ~VmapToolBar();
+
+    void setupUi();
+
+
+public slots:
+    void setCurrentMap(VMap* map);
+
+
+private:
+    void updateUi();
+
+
+private:
+    VMap* m_vmap;
+
+    //Button
+    ColorButton* m_bgSelector;
+
+
+
+    QAction* m_showGridAct;
+    QAction* m_Act;
+   /* QAction* m_Act;
+    QAction* m_Act;
+    QAction* m_Act;*/
+
 };
 
 #endif // VMAPTOOLBAR_H
