@@ -1285,6 +1285,7 @@ void MainWindow::setupUi()
     dock->setWidget(m_toolBarStack);
     addDockWidget(Qt::LeftDockWidgetArea,dock);
 	dock->setWindowTitle(tr("Toolbar"));
+    dock->setObjectName("DockToolBar");
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,dock->toggleViewAction());
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,m_vmapToolBar->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
@@ -1719,6 +1720,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
 
     //Toolbar to Map
     connect(m_vToolBar,SIGNAL(currentToolChanged(VToolsBar::SelectableTool)),tmp,SLOT(currentToolChanged(VToolsBar::SelectableTool)));
+    connect(tmp,SIGNAL(defineCurrentTool(VToolsBar::SelectableTool)),m_vToolBar,SLOT(setCurrentTool(VToolsBar::SelectableTool)));
     connect(m_vToolBar,SIGNAL(currentColorChanged(QColor&)),tmp,SLOT(currentColorChanged(QColor&)));
     connect(m_vToolBar,SIGNAL(currentModeChanged(int)),tmp,SLOT(setEditingMode(int)));
     connect(m_vToolBar,SIGNAL(currentPenSizeChanged(int)),tmp,SLOT(currentPenSizeChanged(int)));
