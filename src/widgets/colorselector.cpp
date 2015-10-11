@@ -303,7 +303,7 @@ bool ColorSelector::eventFilter(QObject* obj, QEvent* event)
     {
         if(obj == m_currentColor)
         {
-            QColor couleur = QColorDialog::getColor(G_couleurCourante.color);
+            QColor couleur = QColorDialog::getColor(G_couleurCourante.color,this);
 
             if (couleur.isValid())
             {
