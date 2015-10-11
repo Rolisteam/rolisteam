@@ -141,6 +141,11 @@ public:
      * @param visible
      */
     virtual void setVisible(bool visible);
+    /**
+     * @brief addFogPolygon
+     * @param a
+     */
+    void addFogPolygon(QPolygonF* a);
 public slots:
     /**
      * @brief moveVision
@@ -174,6 +179,7 @@ private:
     QColor m_bgColor;
     QImage m_image;
     qreal m_count;
+    QList<QPolygonF*> m_fogHoleList;
 };
 
 #endif // SIGHTITEM_H

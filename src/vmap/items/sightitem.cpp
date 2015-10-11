@@ -139,6 +139,14 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
     QPainterPath path;
     path.addRect(rect);
 
+
+    foreach(QPolygonF* poly, m_fogHoleList)
+    {
+        QPainterPath subPoly;
+        subPoly.addPolygon(*poly);
+        path = path.subtracted(subPoly);
+    }
+
     foreach(VisualItem* item , m_characterItemMap->values())
     {
         CharacterItem* charact = dynamic_cast<CharacterItem*>(item);
@@ -259,4 +267,9 @@ void SightItem::moveVision(qreal id, QPointF& pos)
 void SightItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     QGraphicsObject::contextMenuEvent(event);
+}
+void SightItem::addFogPolygon(QPolygonF* a)
+{
+    m_fogHoleList << a;
+    update();
 }
