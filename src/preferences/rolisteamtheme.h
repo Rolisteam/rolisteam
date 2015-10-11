@@ -114,12 +114,12 @@ private:
     QString m_name;
     QString m_css;
     bool m_removable;
-    int m_position;
     QString m_bgPath;
     QColor m_bgColor;
     QColor m_diceHighlightColor;
     QColor m_gmColor;
     QString m_styleName;
+    int m_position;
 };
 
 #endif // ROLISTEAMTHEME_H

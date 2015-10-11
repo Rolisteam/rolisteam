@@ -144,5 +144,6 @@ bool RolisteamTheme::readFrom(const QJsonObject& json)
     m_bgPath= json["bgPath"].toString();
     m_styleName=json["stylename"].toString();
     QString diceColorName =json["diceHighlight"].toString();
-    m_diceHighlightColor.setNamedColor(bgColorName);
+    m_diceHighlightColor.setNamedColor(diceColorName);
+    return true;
 }
