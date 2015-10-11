@@ -45,6 +45,7 @@ void VMap::initMap()
     m_id = QUuid::createUuid().toString();
     m_currentItem = NULL;
     m_currentPath = NULL;
+    m_currentFogPolygon=NULL;
     m_itemMap=new  QMap<QString,VisualItem*>;
     m_characterItemMap = new QMap<QString,VisualItem*>();
     setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -110,6 +111,10 @@ void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
     {
         m_currentPath = NULL;
     }
+    else if((VToolsBar::PATHFOG ==m_selectedtool)&&(m_selectedtool != selectedtool))
+    {
+        m_currentFogPolygon = NULL;
+    }
     m_selectedtool = selectedtool;
     m_currentItem = NULL;
 
@@ -118,17 +123,22 @@ void VMap::updateItem()
 {
     switch(m_selectedtool)
     {
-    case VToolsBar::PATH:
-    {
-        m_currentPath->setNewEnd(m_first);
-    }
+        case VToolsBar::PATH:
+        {
+            m_currentPath->setNewEnd(m_first);
+        }
+        break;
+        case VToolsBar::PATHFOG:
+        {
+            m_currentFogPolygon->append(m_first);
+        }
         break;
     }
 }
 
 void VMap::addItem()
 {
-    //QGraphicsItem* item = NULL;
+    bool callNewItem = true;
     
     switch(m_selectedtool)
     {
@@ -198,8 +208,29 @@ void VMap::addItem()
         m_currentPath = pathItem;
     }
         break;
+    case VToolsBar::RECTFOG:
+        callNewItem = false;
+        m_currentFogPolygon = new QPolygonF();
+        m_currentFogPolygon->append(m_first);
+        break;
+    case VToolsBar::PATHFOG:
+        callNewItem = false;
+        m_currentFogPolygon = new QPolygonF();
+        m_currentFogPolygon->append(m_first);
+        break;
+    case VToolsBar::ANCHOR:
+        //callNewItem = false;
+        break;
     }
-    addNewItem(m_currentItem);
+
+    if(callNewItem)
+    {
+        addNewItem(m_currentItem);
+    }
+    else
+    {
+        m_sightItem->addFogPolygon(m_currentFogPolygon);
+    }
 }
 void VMap::setPenSize(int p)
 {
@@ -271,7 +302,7 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     {
         m_first = mouseEvent->scenePos();
         m_end = m_first;
-        if(m_currentPath==NULL)
+        if((m_currentPath==NULL)&&(m_currentFogPolygon==NULL))
         {
             addItem();
         }
@@ -296,6 +327,16 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             m_currentItem->setModifiers(mouseEvent->modifiers());
             m_currentItem->setNewEnd( m_end);
             update();
+        }
+    }
+    else if(m_currentFogPolygon !=NULL)
+    {
+        if(m_selectedtool ==  VToolsBar::RECTFOG)
+        {
+            QRectF rect(m_currentFogPolygon->at(0),m_end);
+            QPolygonF rectPoly(rect);
+            m_currentFogPolygon->clear();
+            *m_currentFogPolygon = rectPoly;
         }
     }
     if(m_selectedtool==VToolsBar::HANDLER)
@@ -451,7 +492,6 @@ void VMap::openFile(QDataStream& in)
             {
             case VisualItem::TEXT:
                 item=new TextItem();
-
                 break;
             case VisualItem::CHARACTER:
                 /// @TODO: Reimplement that feature

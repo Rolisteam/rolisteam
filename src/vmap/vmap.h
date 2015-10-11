@@ -504,6 +504,8 @@ private:
     bool m_showPcName;
     bool m_showNpcNumber;
 
+    QPolygonF* m_currentFogPolygon;
+
     SightItem* m_sightItem;
 
     friend QDataStream& operator<<(QDataStream& os,const VMap&);
