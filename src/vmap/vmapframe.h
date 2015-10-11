@@ -280,7 +280,9 @@ private: //members
     * current edition mode
     */
     int m_currentEditingMode;
-    
+    /**
+     * @brief m_toolsbar
+     */
     VToolsBar* m_toolsbar;
 };
 
