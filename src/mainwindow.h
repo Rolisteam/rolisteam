@@ -51,6 +51,8 @@
 #include "vmap/vtoolbar.h"
 #include "vmap/vmap.h"
 #include "vmap/vmapframe.h"
+#include "vmap/vmaptoolbar.h"
+
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
@@ -383,6 +385,7 @@ private :
     //Recent files managment
     int m_maxSizeRecentFile;
     QList<QAction*> m_recentFileActs;
+    VmapToolBar* m_vmapToolBar;
 };
 
 #endif
