@@ -142,6 +142,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     horizontalHeader->setSectionResizeMode(DiceAliasModel::VALUE,QHeaderView::Stretch);
     horizontalHeader->setSectionResizeMode(DiceAliasModel::METHOD,QHeaderView::ResizeToContents);
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::METHOD,new CheckBoxDelegate());
+    ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::DISABLE,new CheckBoxDelegate());
 
     m_paletteModel = new PaletteModel();
     m_paletteModel->setPalette(palette());
@@ -301,7 +302,7 @@ void PreferencesDialog::initializePostSettings()
         palette.setColor(QPalette::Base, QColor(15,15,15));
         palette.setColor(QPalette::AlternateBase, QColor(53,53,53));
         palette.setColor(QPalette::ToolTipBase, Qt::white);
-        palette.setColor(QPalette::ToolTipText, Qt::white);
+        palette.setColor(QPalette::ToolTipText, Qt::black);
         palette.setColor(QPalette::Text, Qt::white);
         palette.setColor(QPalette::Button, QColor(53,53,53));
         palette.setColor(QPalette::ButtonText, Qt::white);
@@ -343,8 +344,9 @@ void PreferencesDialog::initializePostSettings()
         QString cmd = m_preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
         QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
         bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
+        bool enable = m_preferences->value(QString("DiceAlias_%1_enable").arg(i),true).toBool();
 
-        DiceAlias* tmpAlias = new DiceAlias(cmd,value,replace);
+        DiceAlias* tmpAlias = new DiceAlias(cmd,value,replace,enable);
         m_aliasModel->addAlias(tmpAlias);
     }
     if(size==0)
@@ -495,6 +497,7 @@ void PreferencesDialog::save() const
         m_preferences->registerValue(QString("DiceAlias_%1_command").arg(i),tmpAlias->getCommand());
         m_preferences->registerValue(QString("DiceAlias_%1_value").arg(i),tmpAlias->getValue());
         m_preferences->registerValue(QString("DiceAlias_%1_type").arg(i),tmpAlias->isReplace());
+        m_preferences->registerValue(QString("DiceAlias_%1_enable").arg(i),tmpAlias->isEnable());
     }
 
 
@@ -573,7 +576,7 @@ void PreferencesDialog::performDiag()
 
 void PreferencesDialog::managedAction()
 {
-    QPushButton* act = qobject_cast<QPushButton*>(sender());
+    QToolButton* act = qobject_cast<QToolButton*>(sender());
 
     if(act == ui->m_addDiceAliasAct)
     {

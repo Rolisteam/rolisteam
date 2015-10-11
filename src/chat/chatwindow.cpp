@@ -96,7 +96,8 @@ void ChatWindow::updateListAlias()
         QString cmd = m_preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
         QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
         bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
-        list->append(new DiceAlias(cmd,value,replace));
+        bool enable = m_preferences->value(QString("DiceAlias_%1_enable").arg(i),true).toBool();
+        list->append(new DiceAlias(cmd,value,replace,enable));
     }
     if(NULL!=m_receivedAlias)
     {

@@ -26,7 +26,7 @@
 DiceAliasModel::DiceAliasModel()
     : m_isGM(false),m_diceAliasList(new QList<DiceAlias*>())
 {
-    m_header << tr("Pattern") << tr("Value")<< tr("Regular Expression");
+    m_header << tr("Pattern") << tr("Value")<< tr("Regular Expression")<< tr("Disable");
 }
 
 DiceAliasModel::~DiceAliasModel()
@@ -54,6 +54,10 @@ QVariant DiceAliasModel::data(const QModelIndex &index, int role) const
                 else if(index.column()==METHOD)
                 {
                     return !diceAlias->isReplace();
+                }
+                else if(index.column()==DISABLE)
+                {
+                    return !diceAlias->isEnable();
                 }
             }
 		}
@@ -142,19 +146,13 @@ bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, in
                 }
                 result = true;
                 break;
+            case DISABLE:
+                qDebug()<< value.toBool() << value.toInt() << "valuer";
+                diceAlias->setEnable(!value.toBool());
+                qDebug() << "isEnable" << diceAlias->isEnable();
+                result = true;
+                break;
             }
-        }
-        else if(role==Qt::CheckStateRole)
-        {
-//            if(value.toInt() == Qt::Checked )
-//            {
-//                    diceAlias->setType(DiceAlias::REGEXP);
-//                    result = true;
-//            }
-//            else
-//            {
-//                diceAlias->setType(DiceAlias::REPLACE);
-//            }
         }
         if((result)&&(m_isGM))
         {
@@ -163,6 +161,7 @@ bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, in
             msg.string32(diceAlias->getCommand());
             msg.string32(diceAlias->getValue());
             msg.int8(diceAlias->isReplace());
+            msg.int8(diceAlias->isEnable());
             msg.sendAll();
         }
     }
@@ -264,6 +263,7 @@ void DiceAliasModel::sendOffAllDiceAlias(NetworkLink* link)
         msg.string32(alias->getCommand());
         msg.string32(alias->getValue());
         msg.int8(alias->isReplace());
+        msg.int8(alias->isEnable());
         msg.sendTo(link);
     }
 }

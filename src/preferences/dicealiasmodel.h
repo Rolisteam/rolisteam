@@ -35,7 +35,7 @@ public:
     /**
      * @brief The COLUMN_TYPE enum
      */
-    enum COLUMN_TYPE {PATTERN,VALUE,METHOD};
+    enum COLUMN_TYPE {PATTERN,VALUE,METHOD,DISABLE};
     /**
      * @brief DiceAliasModel
      */
