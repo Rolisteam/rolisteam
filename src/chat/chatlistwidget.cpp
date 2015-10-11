@@ -174,7 +174,8 @@ void ChatListWidget::processAddDiceAlias(NetworkMessageReader* msg)
   QString regex = msg->string32();
   QString value = msg->string32();
   bool isReplace = (bool)msg->int8();
-  DiceAlias* tmp = new DiceAlias(regex,value,isReplace);
+  bool isEnable = (bool)msg->int8();
+  DiceAlias* tmp = new DiceAlias(regex,value,isReplace,isEnable);
 
   m_diceAliasMapFromGM->insert(pos,tmp);
 
