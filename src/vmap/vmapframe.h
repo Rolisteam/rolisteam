@@ -182,7 +182,8 @@ public slots :
 	 */
     virtual void setCurrentNpcNumberChanged(int);
     
-    
+signals:
+    void defineCurrentTool(VToolsBar::SelectableTool tool);
 protected :
     /**
     *  @brief catches the closeEvent to hide itself (not delete)
@@ -280,10 +281,6 @@ private: //members
     * current edition mode
     */
     int m_currentEditingMode;
-    /**
-     * @brief m_toolsbar
-     */
-    VToolsBar* m_toolsbar;
 };
 
 #endif
