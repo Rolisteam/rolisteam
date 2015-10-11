@@ -97,6 +97,10 @@ MainWindow::MainWindow()
 
     //m_mapWizzard = new MapWizzard(this);
     m_networkManager = new NetworkManager(m_localPlayerId);
+    m_vmapToolBar = new VmapToolBar();
+    addToolBar(Qt::TopToolBarArea,m_vmapToolBar);
+
+
 
     connect(m_networkManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
     m_ipChecker = new IpChecker(this);
@@ -1282,6 +1286,7 @@ void MainWindow::setupUi()
     addDockWidget(Qt::LeftDockWidgetArea,dock);
 	dock->setWindowTitle(tr("Toolbar"));
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,dock->toggleViewAction());
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,m_vmapToolBar->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
 
     createNotificationZone();

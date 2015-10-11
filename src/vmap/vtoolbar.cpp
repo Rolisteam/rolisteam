@@ -58,7 +58,7 @@ VToolsBar::VToolsBar(QWidget *parent)
 
     QObject::connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcCount()));
     QObject::connect(m_npcNameTextEdit, SIGNAL(textEdited(const QString &)), this, SLOT(npcNameChange(const QString &)));
-    connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));    
+    connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));
 }
 
 void VToolsBar::creerActions()
@@ -66,20 +66,51 @@ void VToolsBar::creerActions()
     // Creation du groupe d'action
     m_toolsGroup = new QActionGroup(this);
     
-    m_pencilAct				= new QAction(QIcon(":/resources/icons/pen.png"), tr("Pen"), m_toolsGroup);
-    m_lineAct				= new QAction(QIcon(":/resources/icons/line.png"), tr("Line"), m_toolsGroup);
-    m_rectAct				= new QAction(QIcon(":/resources/icons/emptyrectangle.png"), tr("Empty Rectangle"), m_toolsGroup);
-    m_rectFillAct           = new QAction(QIcon(":/resources/icons/filledrectangle.png"), tr("filled Rectangle"), m_toolsGroup);
-    m_elipseAct             = new QAction(QIcon(":/resources/icons/emptyellipse.png"), tr("Empty Ellipse"), m_toolsGroup);
-    m_elipseFillAct         = new QAction(QIcon(":/resources/icons/filledellipse.png"), tr("Filled Ellipse"), m_toolsGroup);
-    m_textAct               = new QAction(QIcon(":/resources/icons/text.png"), tr("Text"), m_toolsGroup);
-    m_handAct               = new QAction(QIcon(":/resources/icons/hand.png"), tr("Mode"), m_toolsGroup);
-    m_addPCAct              = new QAction(QIcon(":/resources/icons/add.png"), tr("Add NPC"), m_toolsGroup);
-    m_ruleAct               = new QAction(QIcon(":/resources/icons/rule.png"),tr("Rule"),m_toolsGroup);
-	m_pathAct    = new QAction(QIcon(":/resources/icons/path.png"),tr("Path"),m_toolsGroup);
-    
+    m_pencilAct	= new QAction(QIcon(":/resources/icons/pen.png"), tr("Pen"), m_toolsGroup);
+    m_pencilAct->setData(PEN);
+
+    m_lineAct	= new QAction(QIcon(":/resources/icons/line.png"), tr("Line"), m_toolsGroup);
+    m_lineAct->setData(LINE);
+
+    m_rectAct	= new QAction(QIcon(":/resources/icons/emptyrectangle.png"), tr("Empty Rectangle"), m_toolsGroup);
+    m_rectAct->setData(EMPTYRECT);
+
+    m_rectFillAct = new QAction(QIcon(":/resources/icons/filledrectangle.png"), tr("filled Rectangle"), m_toolsGroup);
+    m_rectFillAct->setData(FILLRECT);
+
+    m_elipseAct      = new QAction(QIcon(":/resources/icons/emptyellipse.png"), tr("Empty Ellipse"), m_toolsGroup);
+    m_elipseAct->setData(EMPTYELLIPSE);
+
+    m_elipseFillAct  = new QAction(QIcon(":/resources/icons/filledellipse.png"), tr("Filled Ellipse"), m_toolsGroup);
+    m_elipseFillAct->setData(FILLEDELLIPSE);
+
+    m_textAct  = new QAction(QIcon(":/resources/icons/text.png"), tr("Text"), m_toolsGroup);
+    m_textAct->setData(TEXT);
+
+    m_handAct = new QAction(QIcon(":/resources/icons/hand.png"), tr("Mode"), m_toolsGroup);
+    m_handAct->setData(HANDLER);
+
+    m_addPCAct= new QAction(QIcon(":/resources/icons/add.png"), tr("Add NPC"), m_toolsGroup);
+    m_addPCAct->setData(ADDNPC);
+
+    m_ruleAct  = new QAction(QIcon(":/resources/icons/rule.png"),tr("Rule"),m_toolsGroup);
+    m_ruleAct->setData(RULE);
+
+    m_pathAct    = new QAction(QIcon(":/resources/icons/path.png"),tr("Path"),m_toolsGroup);
+    m_pathAct->setData(PATH);
+
+    m_anchorAct  = new QAction(QIcon(":/resources/icons/insert-link-2.png"),tr("Anchor"),m_toolsGroup);
+    m_anchorAct->setData(ANCHOR);
+
+    m_unmaskRectAct = new QAction(QIcon(":/resources/icons/draw-rectangle-2.png"),tr("Unmask Rect"),m_toolsGroup);
+    m_unmaskRectAct->setData(RECTFOG);
+
+    m_unmaskPathAct = new QAction(QIcon(":/resources/icons/maskpath.png"),tr("Unmask Path"),m_toolsGroup);
+    m_unmaskPathAct->setData(PATHFOG);
+
     m_resetCountAct	= new QAction(QIcon(":/resources/icons/chronometre.png"), tr("Reset NPC counter"), this);
-    
+
+
     m_pencilAct->setCheckable(true);
     m_lineAct->setCheckable(true);
     m_rectAct->setCheckable(true);
@@ -90,7 +121,11 @@ void VToolsBar::creerActions()
     m_handAct->setCheckable(true);
     m_addPCAct->setCheckable(true);
     m_ruleAct->setCheckable(true);
-	m_pathAct->setCheckable(true);
+    m_pathAct->setCheckable(true);
+
+    m_anchorAct->setCheckable(true);
+    m_unmaskPathAct->setCheckable(true);
+    m_unmaskRectAct->setCheckable(true);
     
     m_handAct->setChecked(true);
 }
@@ -107,7 +142,10 @@ void VToolsBar::creerOutils()
     QToolButton* boutonAjoutPnj   = new QToolButton();
     QToolButton* boutonRazChrono  = new QToolButton();
     QToolButton* ruleButton  = new QToolButton();
-	QToolButton* pathButton  = new QToolButton();
+    QToolButton* pathButton  = new QToolButton();
+  /*  QToolButton* unmaskRectButton  = new QToolButton();
+    QToolButton* unmaskPathButton  = new QToolButton();
+    QToolButton* anchorButton  = new QToolButton();*/
     
     boutonCrayon->setDefaultAction(m_pencilAct);
     boutonLigne      ->setDefaultAction(m_lineAct);
@@ -120,7 +158,10 @@ void VToolsBar::creerOutils()
     boutonAjoutPnj   ->setDefaultAction(m_addPCAct);
     boutonRazChrono  ->setDefaultAction(m_resetCountAct);
     ruleButton->setDefaultAction(m_ruleAct);
-	pathButton->setDefaultAction(m_pathAct);
+    pathButton->setDefaultAction(m_pathAct);
+    boutonRectPlein->addAction(m_unmaskRectAct);
+    pathButton->addAction(m_unmaskPathAct);
+    ruleButton->addAction(m_anchorAct);
     
     boutonCrayon     ->setAutoRaise(true);
     boutonLigne      ->setAutoRaise(true);
@@ -133,7 +174,8 @@ void VToolsBar::creerOutils()
     boutonAjoutPnj   ->setAutoRaise(true);
     boutonRazChrono  ->setAutoRaise(true);
     ruleButton->setAutoRaise(true);
-	pathButton->setAutoRaise(true);
+    pathButton->setAutoRaise(true);
+
     /**
     *
     * @todo used preferencemanager to get icon Size.
@@ -151,7 +193,8 @@ void VToolsBar::creerOutils()
     boutonAjoutPnj   ->setIconSize(iconSize);
     boutonRazChrono  ->setIconSize(iconSize);
     ruleButton->setIconSize(iconSize);
-	pathButton->setIconSize(iconSize);
+    pathButton->setIconSize(iconSize);
+
     
     
     QVBoxLayout* outilsLayout = new QVBoxLayout();
@@ -168,9 +211,11 @@ void VToolsBar::creerOutils()
     toolsLayout->addWidget(boutonTexte);
     toolsLayout->addWidget(boutonMain);
     toolsLayout->addWidget(ruleButton);
-	toolsLayout->addWidget(pathButton);
+    toolsLayout->addWidget(pathButton);
 
-    
+
+
+
     m_npcNameTextEdit = new QLineEdit();
     m_npcNameTextEdit->setToolTip(tr("NPC Name"));
 
@@ -216,9 +261,9 @@ void VToolsBar::increaseNpcNumber()
 
 void VToolsBar::resetNpcCount()
 {
-   m_displayNPCCounter->display(1);
-   m_currentNPCNumber = 1;
-   emit currentNpcNumberChanged(m_currentNPCNumber);
+    m_displayNPCCounter->display(1);
+    m_currentNPCNumber = 1;
+    emit currentNpcNumberChanged(m_currentNPCNumber);
 }
 
 void VToolsBar::npcNameChange(const QString &text)
@@ -240,7 +285,7 @@ VToolsBar::SelectableTool VToolsBar::getCurrentTool()
 void VToolsBar::currentActionChanged(QAction* p)
 {
     //  enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
-    if(p == m_pencilAct)
+    /*if(p == m_pencilAct)
         m_currentTool = PEN;
     
     if(p ==  m_lineAct)
@@ -270,8 +315,13 @@ void VToolsBar::currentActionChanged(QAction* p)
     if(p == m_ruleAct)
         m_currentTool = RULE;
 
-	if(p == m_pathAct)
-		m_currentTool = PATH;
+    if(p == m_pathAct)
+        m_currentTool = PATH;
+
+    if(p == m_anchorAct)
+        m_currentTool = ANCHOR;*/
+
+    m_currentTool = (SelectableTool)p->data().toInt();
     
     emit currentToolChanged(m_currentTool);
 }
