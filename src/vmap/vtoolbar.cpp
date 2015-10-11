@@ -78,7 +78,7 @@ void VToolsBar::creerActions()
     m_rectFillAct = new QAction(QIcon(":/resources/icons/filledrectangle.png"), tr("filled Rectangle"), m_toolsGroup);
     m_rectFillAct->setData(FILLRECT);
 
-    m_elipseAct      = new QAction(QIcon(":/resources/icons/emptyellipse.png"), tr("Empty Ellipse"), m_toolsGroup);
+    m_elipseAct = new QAction(QIcon(":/resources/icons/emptyellipse.png"), tr("Empty Ellipse"), m_toolsGroup);
     m_elipseAct->setData(EMPTYELLIPSE);
 
     m_elipseFillAct  = new QAction(QIcon(":/resources/icons/filledellipse.png"), tr("Filled Ellipse"), m_toolsGroup);
@@ -89,6 +89,9 @@ void VToolsBar::creerActions()
 
     m_handAct = new QAction(QIcon(":/resources/icons/hand.png"), tr("Mode"), m_toolsGroup);
     m_handAct->setData(HANDLER);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_handAct->setChecked(tool==VToolsBar::HANDLER);
+    });
 
     m_addPCAct= new QAction(QIcon(":/resources/icons/add.png"), tr("Add NPC"), m_toolsGroup);
     m_addPCAct->setData(ADDNPC);
@@ -284,48 +287,22 @@ VToolsBar::SelectableTool VToolsBar::getCurrentTool()
 }
 void VToolsBar::currentActionChanged(QAction* p)
 {
-    //  enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC, DELNPC, MOVECHARACTER, STATECHARACTER};
-    /*if(p == m_pencilAct)
-        m_currentTool = PEN;
-    
-    if(p ==  m_lineAct)
-        m_currentTool = LINE;
-    
-    if(p == m_rectAct)
-        m_currentTool = EMPTYRECT;
-    
-    if(p == m_rectFillAct)
-        m_currentTool = FILLRECT;
-    
-    if(p ==  m_elipseAct)
-        m_currentTool = EMPTYELLIPSE;
-    
-    if(p ==  m_elipseFillAct)
-        m_currentTool = FILLEDELLIPSE;
-    
-    if(p ==  m_handAct)
-        m_currentTool = HANDLER;
-    
-    if(p ==  m_textAct)
-        m_currentTool = TEXT;
-    
-    if(p ==  m_addPCAct)
-        m_currentTool = ADDNPC;
-
-    if(p == m_ruleAct)
-        m_currentTool = RULE;
-
-    if(p == m_pathAct)
-        m_currentTool = PATH;
-
-    if(p == m_anchorAct)
-        m_currentTool = ANCHOR;*/
-
-    m_currentTool = (SelectableTool)p->data().toInt();
-    
-    emit currentToolChanged(m_currentTool);
+    SelectableTool newtool = (SelectableTool)p->data().toInt();
+    if(newtool!=m_currentTool)
+    {
+        m_currentTool = newtool;
+        emit currentToolChanged(m_currentTool);
+    }
 }
 int VToolsBar::getCurrentPenSize()
 {
     return m_lineDiameter->getCurrentValue();
+}
+void VToolsBar::setCurrentTool(VToolsBar::SelectableTool tool)
+{
+    if(m_currentTool!=tool)
+    {
+        m_currentTool=tool;
+        emit currentToolChanged(m_currentTool);
+    }
 }

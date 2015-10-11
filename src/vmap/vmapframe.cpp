@@ -176,6 +176,10 @@ void VMapFrame::keyPressEvent ( QKeyEvent * event )
     case Qt::Key_Delete:
         /// @todo remove selected item
         break;
+    case Qt::Key_Escape:
+        //m_toolsbar->setCurrentTool(VToolsBar::HANDLER);
+        emit defineCurrentTool(VToolsBar::HANDLER);
+        break;
     default:
         MediaContainer::keyPressEvent(event);
     }
