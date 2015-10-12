@@ -37,6 +37,9 @@ EllipsItem::EllipsItem(QPointF& center,bool filled,int penSize,QColor& penColor,
     : VisualItem(penColor,parent),m_penWidth(penSize)
 {
     m_center = center;
+    setPos(m_center);
+    m_center.setX(0);
+    m_center.setY(0);
     m_ry = 0;
     m_rx = 0;
     m_filled = filled;
@@ -44,8 +47,9 @@ EllipsItem::EllipsItem(QPointF& center,bool filled,int penSize,QColor& penColor,
 QRectF EllipsItem::boundingRect() const
 {
     QRectF rect;
-    rect.setTopLeft(QPointF(m_center.x()-m_rx,m_center.y()-m_ry));
-    rect.setBottomRight(QPointF(m_center.x()+m_rx,m_center.y()+m_ry));
+   /* rect.setTopLeft(QPointF(m_center.x()-m_rx,m_center.y()-m_ry));
+    rect.setBottomRight(QPointF(m_center.x()+m_rx,m_center.y()+m_ry));*/
+    rect.setRect(-m_rx,-m_ry,m_rx*2,m_ry*2);
     return rect;
 }
 void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
@@ -67,22 +71,18 @@ void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * op
     setChildrenVisible(hasFocusOrChild());
 
     painter->drawEllipse(m_center,m_rx,m_ry);
+
     painter->restore();
-    
+
+
 }
 void EllipsItem::setNewEnd(QPointF& p)
 {
-    //QRectF tmp= m_rect;
-    float dx = p.x()-m_center.x();
-    float dy = p.y()-m_center.y();
+    float dx = p.x()-pos().x();
+    float dy = p.y()-pos().y();
 
     m_rx = dx;
-    m_ry = dy;
-    
-    //qDebug() << "dy = "<< dy << "dx = " << dx;
-    /*  m_rect.setBottomRight(p);
-    m_rect.setTopLeft(QPointF(m_center.x()-dx,m_center.y()-dy));*/
-    
+    m_ry = dy;  
 }
 void EllipsItem::writeData(QDataStream& out) const
 {
@@ -150,7 +150,6 @@ void EllipsItem::setGeometryPoint(qreal pointId, QPointF &pos)
         break;
     }
     update();
-
 }
 void EllipsItem::initChildPointItem()
 {
