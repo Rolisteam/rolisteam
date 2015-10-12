@@ -16,6 +16,7 @@
 #include "items/characteritem.h"
 #include "items/ruleitem.h"
 #include "items/imageitem.h"
+#include "items/anchoritem.h"
 
 #include "userlist/rolisteammimedata.h"
 
@@ -133,6 +134,8 @@ void VMap::updateItem()
             m_currentFogPolygon->append(m_first);
         }
         break;
+        update();
+
     }
 }
 
@@ -219,7 +222,8 @@ void VMap::addItem()
         m_currentFogPolygon->append(m_first);
         break;
     case VToolsBar::ANCHOR:
-        //callNewItem = false;
+        AnchorItem* anchorItem = new AnchorItem(m_first);
+        m_currentItem = anchorItem;
         break;
     }
 
@@ -333,10 +337,12 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     {
         if(m_selectedtool ==  VToolsBar::RECTFOG)
         {
+            m_end = mouseEvent->scenePos();
             QRectF rect(m_currentFogPolygon->at(0),m_end);
             QPolygonF rectPoly(rect);
             m_currentFogPolygon->clear();
             *m_currentFogPolygon = rectPoly;
+            update();
         }
     }
     if(m_selectedtool==VToolsBar::HANDLER)
@@ -349,7 +355,49 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     Q_UNUSED(mouseEvent);
     if(m_currentItem!=NULL)
     {
-        if(m_currentItem->getType() == VisualItem::RULE )
+        if(VisualItem::ANCHOR == m_currentItem->getType())
+        {
+            AnchorItem* tmp = dynamic_cast< AnchorItem*>(m_currentItem);
+            if(NULL!=tmp)
+            {
+                QTransform deviceTransform;
+                QGraphicsItem* item1 = itemAt(tmp->getStart(),deviceTransform);
+                QGraphicsItem* item2 = itemAt(tmp->getEnd(),deviceTransform);
+
+                QList<QGraphicsItem*> list = items();
+
+              /*  foreach(QGraphicsItem* tmpItem, list)
+                {
+                    qDebug() << "ITEM POS:" << tmpItem->pos() << tmpItem->boundingRect() << tmpItem->contains(tmp->getStart()) << tmpItem;
+                }*/
+
+
+                if(NULL!=item1)
+                {
+                    QPointF pos = item1->pos();
+                    QPointF pos2;
+                    if(NULL!=item2)
+                    {
+                        pos2 =item2->mapFromScene(pos);
+                    }
+                    else
+                    {
+                        if(NULL!=item1->parentItem())
+                        {
+                            pos2 = item1->parentItem()->mapToScene(pos);
+                        }
+                    }
+                    item1->setParentItem(item2);
+                    item1->setPos(pos2);
+                    qDebug() << item1 << item2;
+                }
+                else
+                {
+                    qDebug()<< "item1 NULL" << tmp->getStart();
+                }
+            }
+        }
+        if((m_currentItem->getType() == VisualItem::RULE )||(m_currentItem->getType() == VisualItem::ANCHOR))
         {
             removeItem(m_currentItem);
             m_currentItem = NULL;
@@ -357,6 +405,11 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         }
         sendOffItem(m_currentItem);
     }
+    if((m_currentFogPolygon!=NULL)&&(VToolsBar::RECTFOG == m_selectedtool))
+    {
+        m_currentFogPolygon = NULL;
+    }
+
     m_currentItem = NULL;
     if(m_selectedtool==VToolsBar::HANDLER)
     {
