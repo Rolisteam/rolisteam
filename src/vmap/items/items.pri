@@ -8,7 +8,11 @@ HEADERS += $$PWD/visualitem.h \
     $$PWD/childpointitem.h \
     $$PWD/ruleitem.h \
     $$PWD/imageitem.h \
+    $$PWD/anchoritem.h \
     $$PWD/sightitem.h
+
+
+
 SOURCES += $$PWD/visualitem.cpp \
     $$PWD/rectitem.cpp \
     $$PWD/ellipsitem.cpp \
@@ -19,4 +23,5 @@ SOURCES += $$PWD/visualitem.cpp \
     $$PWD/childpointitem.cpp \
     $$PWD/ruleitem.cpp \
     $$PWD/imageitem.cpp \
+    $$PWD/anchoritem.cpp \
     $$PWD/sightitem.cpp
