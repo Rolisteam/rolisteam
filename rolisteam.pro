@@ -137,7 +137,8 @@ HEADERS += \
     src/userlist/userlistdelegate.h \
     src/userlist/userlistview.h \
     src/widgets/aboutrolisteam.h \
-    src/data/charactervision.h
+    src/data/charactervision.h \
+    src/data/characterstate.h
 
 
 
@@ -202,7 +203,8 @@ SOURCES += \
     src/userlist/userlistdelegate.cpp \
     src/userlist/userlistview.cpp \
     src/widgets/aboutrolisteam.cpp \
-    src/data/charactervision.cpp
+    src/data/charactervision.cpp \
+    src/data/characterstate.cpp
 
 #end source
 
