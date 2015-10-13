@@ -68,24 +68,45 @@ void VToolsBar::creerActions()
     
     m_pencilAct	= new QAction(QIcon(":/resources/icons/pen.png"), tr("Pen"), m_toolsGroup);
     m_pencilAct->setData(PEN);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_pencilAct->setChecked(tool==VToolsBar::PEN);
+    });
 
     m_lineAct	= new QAction(QIcon(":/resources/icons/line.png"), tr("Line"), m_toolsGroup);
     m_lineAct->setData(LINE);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_lineAct->setChecked(tool==VToolsBar::LINE);
+    });
 
     m_rectAct	= new QAction(QIcon(":/resources/icons/emptyrectangle.png"), tr("Empty Rectangle"), m_toolsGroup);
     m_rectAct->setData(EMPTYRECT);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_rectAct->setChecked(tool==VToolsBar::EMPTYRECT);
+    });
 
     m_rectFillAct = new QAction(QIcon(":/resources/icons/filledrectangle.png"), tr("filled Rectangle"), m_toolsGroup);
     m_rectFillAct->setData(FILLRECT);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_rectFillAct->setChecked(tool==VToolsBar::FILLRECT);
+    });
 
     m_elipseAct = new QAction(QIcon(":/resources/icons/emptyellipse.png"), tr("Empty Ellipse"), m_toolsGroup);
     m_elipseAct->setData(EMPTYELLIPSE);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_elipseAct->setChecked(tool==VToolsBar::EMPTYELLIPSE);
+    });
 
     m_elipseFillAct  = new QAction(QIcon(":/resources/icons/filledellipse.png"), tr("Filled Ellipse"), m_toolsGroup);
     m_elipseFillAct->setData(FILLEDELLIPSE);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_elipseFillAct->setChecked(tool==VToolsBar::FILLEDELLIPSE);
+    });
 
     m_textAct  = new QAction(QIcon(":/resources/icons/text.png"), tr("Text"), m_toolsGroup);
     m_textAct->setData(TEXT);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_textAct->setChecked(tool==VToolsBar::TEXT);
+    });
 
     m_handAct = new QAction(QIcon(":/resources/icons/hand.png"), tr("Mode"), m_toolsGroup);
     m_handAct->setData(HANDLER);
@@ -95,21 +116,39 @@ void VToolsBar::creerActions()
 
     m_addPCAct= new QAction(QIcon(":/resources/icons/add.png"), tr("Add NPC"), m_toolsGroup);
     m_addPCAct->setData(ADDNPC);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_addPCAct->setChecked(tool==VToolsBar::ADDNPC);
+    });
 
     m_ruleAct  = new QAction(QIcon(":/resources/icons/rule.png"),tr("Rule"),m_toolsGroup);
     m_ruleAct->setData(RULE);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_ruleAct->setChecked(tool==VToolsBar::RULE);
+    });
 
     m_pathAct    = new QAction(QIcon(":/resources/icons/path.png"),tr("Path"),m_toolsGroup);
     m_pathAct->setData(PATH);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_pathAct->setChecked(tool==VToolsBar::PATH);
+    });
 
     m_anchorAct  = new QAction(QIcon(":/resources/icons/insert-link-2.png"),tr("Anchor"),m_toolsGroup);
     m_anchorAct->setData(ANCHOR);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_anchorAct->setChecked(tool==VToolsBar::ANCHOR);
+    });
 
     m_unmaskRectAct = new QAction(QIcon(":/resources/icons/draw-rectangle-2.png"),tr("Unmask Rect"),m_toolsGroup);
     m_unmaskRectAct->setData(RECTFOG);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_unmaskRectAct->setChecked(tool==VToolsBar::RECTFOG);
+    });
 
     m_unmaskPathAct = new QAction(QIcon(":/resources/icons/maskpath.png"),tr("Unmask Path"),m_toolsGroup);
     m_unmaskPathAct->setData(PATHFOG);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_unmaskPathAct->setChecked(tool==VToolsBar::PATHFOG);
+    });
 
     m_resetCountAct	= new QAction(QIcon(":/resources/icons/chronometre.png"), tr("Reset NPC counter"), this);
 
