@@ -360,11 +360,28 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             AnchorItem* tmp = dynamic_cast< AnchorItem*>(m_currentItem);
             if(NULL!=tmp)
             {
-                QTransform deviceTransform;
-                QGraphicsItem* item1 = itemAt(tmp->getStart(),deviceTransform);
-                QGraphicsItem* item2 = itemAt(tmp->getEnd(),deviceTransform);
+                QGraphicsItem* child = NULL;
+                QGraphicsItem* parent = NULL;
+                QList<QGraphicsItem*> item1 = items(tmp->getStart());
 
-                QList<QGraphicsItem*> list = items();
+                foreach (QGraphicsItem* item, item1)
+                {
+                    if(item!=m_currentItem)
+                    {
+                        child = item;
+                    }
+
+                }
+
+                QList<QGraphicsItem*> item2 = items(tmp->getEnd());
+                foreach (QGraphicsItem* item, item2)
+                {
+                    if(item!=m_currentItem)
+                    {
+                        parent = item;
+                    }
+
+                }
 
               /*  foreach(QGraphicsItem* tmpItem, list)
                 {
@@ -372,28 +389,27 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 }*/
 
 
-                if(NULL!=item1)
+                if(NULL!=child)
                 {
-                    QPointF pos = item1->pos();
+                    QPointF pos = child->pos();
                     QPointF pos2;
-                    if(NULL!=item2)
+                    if(NULL!=parent)
                     {
-                        pos2 =item2->mapFromScene(pos);
+                        pos2 =parent->mapFromScene(pos);
                     }
                     else
                     {
-                        if(NULL!=item1->parentItem())
+                        if(NULL!=child->parentItem())
                         {
-                            pos2 = item1->parentItem()->mapToScene(pos);
+                            pos2 = child->parentItem()->mapToScene(pos);
                         }
                     }
-                    item1->setParentItem(item2);
-                    item1->setPos(pos2);
-                    qDebug() << item1 << item2;
+                    child->setParentItem(parent);
+                    child->setPos(pos2);
                 }
                 else
                 {
-                    qDebug()<< "item1 NULL" << tmp->getStart();
+
                 }
             }
         }
