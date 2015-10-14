@@ -129,6 +129,7 @@ HEADERS += \
     src/widgets/centeredcheckbox.h \
     src/preferences/palettemodel.h \
     src/preferences/rolisteamtheme.h \
+    src/preferences/characterstatemodel.h \
     src/widgets/flowlayout.h \
     src/data/character.h \
     src/data/player.h \
@@ -194,6 +195,7 @@ SOURCES += \
     src/preferences/preferenceslistener.cpp \
     src/widgets/centeredcheckbox.cpp \
     src/preferences/palettemodel.cpp \
+    src/preferences/characterstatemodel.cpp \
     src/preferences/rolisteamtheme.cpp \
     src/widgets/flowlayout.cpp \
     src/data/character.cpp \
