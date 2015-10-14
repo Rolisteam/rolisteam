@@ -407,10 +407,6 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                     child->setParentItem(parent);
                     child->setPos(pos2);
                 }
-                else
-                {
-
-                }
             }
         }
         if((m_currentItem->getType() == VisualItem::RULE )||(m_currentItem->getType() == VisualItem::ANCHOR))
