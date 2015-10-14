@@ -44,7 +44,7 @@ const QString& CharacterState::getLabel() const
 }
 const QColor& CharacterState::getColor() const
 {
-	return m_colorl;
+	return m_color;
 }
 const QImage& CharacterState::getImage() const
 {

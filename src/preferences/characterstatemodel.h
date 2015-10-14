@@ -92,23 +92,23 @@ public:
 
 
 	///new methods
-    void setAliases(QList<CharacterState*>* map);
-    void appendAlias();
+	void setStates(QList<CharacterState*>* map);
+	void appendState();
 
-    QList<DiceAlias*>* getAliases();
-    void addAlias(DiceAlias* alias);
-    void deleteAlias(QModelIndex& index);
-    void upAlias(QModelIndex& index);
-    void downAlias(QModelIndex& index);
-    void topAlias(QModelIndex& index);
-    void moveAlias(int,int);
-    void bottomAlias(QModelIndex& index);
+	QList<CharacterState*>* getCharacterStates();
+	void addState(CharacterState* state);
+	void deleteState(QModelIndex& index);
+	void upState(QModelIndex& index);
+	void downState(QModelIndex& index);
+	void topState(QModelIndex& index);
+	void moveState(int,int);
+	void bottomState(QModelIndex& index);
     void setGM(bool);
     void clear();
     /**
-     * @brief sendOffAllDiceAlias
+	 * @brief sendOffAllCharacterState
      */
-    void sendOffAllDiceAlias(NetworkLink*);
+	void sendOffAllCharacterState(NetworkLink*);
 
 private:
     QList<CharacterState*>* m_stateList;
