@@ -24,9 +24,9 @@
 #include <QDebug>
 
 CharacterStateModel::CharacterStateModel()
-    : m_isGM(false),m_diceAliasList(new QList<DiceAlias*>())
+	: m_isGM(false),m_stateList(new QList<CharacterState*>())
 {
-    m_header << tr("Pattern") << tr("Value")<< tr("Regular Expression")<< tr("Disable");
+	m_header << tr("Label") << tr("Color")<< tr("Image");
 }
 
 CharacterStateModel::~CharacterStateModel()
@@ -38,43 +38,40 @@ QVariant CharacterStateModel::data(const QModelIndex &index, int role) const
 {
 	if(index.isValid())
 	{
-        DiceAlias* diceAlias = m_diceAliasList->at(index.row());
+		CharacterState* state = m_stateList->at(index.row());
         if((Qt::DisplayRole == role)||(Qt::EditRole == role))
 		{
-            if(NULL!=diceAlias)
+			if(NULL!=state)
             {
-                if(index.column()==PATTERN)
+				if(index.column()==LABEL)
                 {
-                    return diceAlias->getCommand();
+					return state->getLabel();
                 }
-                else if(index.column()==VALUE)
+				else if(index.column()==COLOR)
                 {
-                    return diceAlias->getValue();
+					return state->getColor();
                 }
-                else if(index.column()==METHOD)
+				else if(index.column()==PICTURE)
                 {
-                    return !diceAlias->isReplace();
+					return state->getImage();
                 }
-                else if(index.column()==DISABLE)
-                {
-                    return !diceAlias->isEnable();
-                }
+
             }
 		}
-        else if(Qt::TextAlignmentRole== role)
+	   /* else if(Qt::TextAlignmentRole== role)
         {
             if(index.column()==METHOD)
             {
                 return Qt::AlignCenter;
             }
-        }
+		}*/
 	}
 	return QVariant();
 
 }
 int CharacterStateModel::rowCount(const QModelIndex &parent) const
 {
-    return m_diceAliasList->size();
+	return m_stateList->size();
 }
 int CharacterStateModel::columnCount(const QModelIndex &parent) const
 {
@@ -91,13 +88,15 @@ QVariant CharacterStateModel::headerData(int section, Qt::Orientation orientatio
     }
     return QVariant();
 }
-void CharacterStateModel::setAliases(QList<DiceAlias*>* lst)
+void CharacterStateModel::setStates(QList<CharacterState*>* lst)
 {
-    m_diceAliasList = lst;
+	m_stateList = lst;
 }
-void CharacterStateModel::appendAlias()
+void CharacterStateModel::appendState()
 {
-    addAlias(new DiceAlias(tr("New Alias%1").arg(m_diceAliasList->size()),""));
+	/// @todo Init of State
+	addState(new CharacterState());
+	//tr("New Alias%1").arg(m_stateList->size()),"")
 }
 void CharacterStateModel::preferencesHasChanged(QString pref)
 {
@@ -107,10 +106,10 @@ void CharacterStateModel::preferencesHasChanged(QString pref)
     }
 }
 
-void CharacterStateModel::addAlias(DiceAlias* alias)
+void CharacterStateModel::addState(CharacterState* alias)
 {
-    beginInsertRows(QModelIndex(),m_diceAliasList->size(),m_diceAliasList->size());
-    m_diceAliasList->append(alias);
+	beginInsertRows(QModelIndex(),m_stateList->size(),m_stateList->size());
+	m_stateList->append(alias);
     endInsertRows();
 }
 Qt::ItemFlags CharacterStateModel::flags(const QModelIndex &index) const
@@ -122,34 +121,21 @@ bool CharacterStateModel::setData(const QModelIndex &index, const QVariant &valu
     bool result = false;
     if(index.isValid())
     {
-        DiceAlias* diceAlias = m_diceAliasList->at(index.row());
+		CharacterState* state = m_stateList->at(index.row());
         if(role==Qt::EditRole)
         {
             switch (index.column())
             {
-            case PATTERN:
-                diceAlias->setCommand(value.toString());
+			case LABEL:
+				state->setLabel(value.toString());
                 result = true;
                 break;
-            case VALUE:
-                diceAlias->setValue(value.toString());
+			case COLOR:
+				state->setColor(value.value<QColor>());
                 result = true;
                 break;
-            case METHOD:
-                if(value.toBool())
-                {
-                    diceAlias->setType(DiceAlias::REGEXP);
-                }
-                else
-                {
-                    diceAlias->setType(DiceAlias::REPLACE);
-                }
-                result = true;
-                break;
-            case DISABLE:
-                qDebug()<< value.toBool() << value.toInt() << "valuer";
-                diceAlias->setEnable(!value.toBool());
-                qDebug() << "isEnable" << diceAlias->isEnable();
+			case PICTURE:
+				state->setImage(value.value<QImage>());
                 result = true;
                 break;
             }
@@ -157,33 +143,33 @@ bool CharacterStateModel::setData(const QModelIndex &index, const QVariant &valu
         if((result)&&(m_isGM))
         {
             NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addDiceAlias);
-            msg.int64(index.row());
-            msg.string32(diceAlias->getCommand());
-            msg.string32(diceAlias->getValue());
-            msg.int8(diceAlias->isReplace());
-            msg.int8(diceAlias->isEnable());
+			/*msg.int64(index.row());
+			msg.string32(state->getLabel());
+			msg.string32(state->getImage());
+			msg.int8(state->getColor());*/
+
             msg.sendAll();
         }
     }
     return result;
 }
-QList<DiceAlias*>* CharacterStateModel::getAliases()
+QList<CharacterState*>* CharacterStateModel::getCharacterStates()
 {
-    return m_diceAliasList;
+	return m_stateList;
 }
-void CharacterStateModel::deleteAlias(QModelIndex& index)
+void CharacterStateModel::deleteState(QModelIndex& index)
 {
     if(!index.isValid())
         return;
     beginRemoveRows(QModelIndex(),index.row(),index.row());
-    m_diceAliasList->removeAt(index.row());
+	m_stateList->removeAt(index.row());
     endRemoveRows();
 
     NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::removeDiceAlias);
     msg.int64(index.row());
     msg.sendAll();
 }
-void CharacterStateModel::upAlias(QModelIndex& index)
+void CharacterStateModel::upState(QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -191,29 +177,29 @@ void CharacterStateModel::upAlias(QModelIndex& index)
         return;
     if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),index.row()-1))
     {
-        m_diceAliasList->swap(index.row(),index.row()-1);
-        moveAlias(index.row(),index.row()-1);
+		m_stateList->swap(index.row(),index.row()-1);
+		moveState(index.row(),index.row()-1);
         endMoveRows();
     }
 }
 
-void CharacterStateModel::downAlias(QModelIndex& index)
+void CharacterStateModel::downState(QModelIndex& index)
 {
     if(!index.isValid())
         return;
 
-    if(index.row()==m_diceAliasList->size()-1)
+	if(index.row()==m_stateList->size()-1)
         return;
 
     if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),index.row()+2))
     {
-        m_diceAliasList->swap(index.row(),index.row()+1);
-        moveAlias(index.row(),index.row()+1);
+		m_stateList->swap(index.row(),index.row()+1);
+		moveState(index.row(),index.row()+1);
         endMoveRows();
     }
 }
 
-void CharacterStateModel::topAlias(QModelIndex& index)
+void CharacterStateModel::topState(QModelIndex& index)
 {
     if(!index.isValid())
         return;
@@ -222,24 +208,24 @@ void CharacterStateModel::topAlias(QModelIndex& index)
         return;
     if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),0))
     {
-        DiceAlias* dice = m_diceAliasList->takeAt(index.row());
-        moveAlias(index.row(),0);
-        m_diceAliasList->prepend(dice);
+		CharacterState* dice = m_stateList->takeAt(index.row());
+		moveState(index.row(),0);
+		m_stateList->prepend(dice);
         endMoveRows();
     }
 }
 
-void CharacterStateModel::bottomAlias(QModelIndex& index)
+void CharacterStateModel::bottomState(QModelIndex& index)
 {
     if(!index.isValid())
         return;
-    if(index.row()==m_diceAliasList->size()-1)
+	if(index.row()==m_stateList->size()-1)
         return;
-    if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),m_diceAliasList->size()))
+	if(beginMoveRows(QModelIndex(),index.row(),index.row(),QModelIndex(),m_stateList->size()))
     {
-        DiceAlias* dice = m_diceAliasList->takeAt(index.row());
-        moveAlias(index.row(),m_diceAliasList->size());
-        m_diceAliasList->append(dice);
+		CharacterState* dice = m_stateList->takeAt(index.row());
+		moveState(index.row(),m_stateList->size());
+		m_stateList->append(dice);
         endMoveRows();
     }
 }
@@ -250,24 +236,24 @@ void CharacterStateModel::setGM(bool b)
 void CharacterStateModel::clear()
 {
     beginResetModel();
-    qDeleteAll(m_diceAliasList->begin(),m_diceAliasList->end());
-    m_diceAliasList->clear();
+	qDeleteAll(m_stateList->begin(),m_stateList->end());
+	m_stateList->clear();
     endResetModel();
 }
-void CharacterStateModel::sendOffAllDiceAlias(NetworkLink* link)
+void CharacterStateModel::sendOffAllCharacterState(NetworkLink* link)
 {
-    foreach(DiceAlias* alias,*m_diceAliasList)
+	foreach(CharacterState* alias,*m_stateList)
     {
         NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addDiceAlias);
-        msg.int64(m_diceAliasList->indexOf(alias));
+		/*msg.int64(m_stateList->indexOf(alias));
         msg.string32(alias->getCommand());
         msg.string32(alias->getValue());
         msg.int8(alias->isReplace());
         msg.int8(alias->isEnable());
-        msg.sendTo(link);
+		msg.sendTo(link);*/
     }
 }
-void CharacterStateModel::moveAlias(int from,int to)
+void CharacterStateModel::moveState(int from,int to)
 {
     if(m_isGM)
     {
