@@ -36,6 +36,7 @@
 #include "widgets/centeredcheckbox.h"
 #include "preferences/palettemodel.h"
 #include "preferences/rolisteamtheme.h"
+#include "preferences/characterstatemodel.h"
 
 /**
  * @brief The CheckBoxDelegate class
@@ -149,7 +150,11 @@ private slots:
     /**
      * @brief managedAction
      */
-    void managedAction();
+    void manageAliasAction();
+    /**
+     * @brief manageStateAction
+     */
+    void manageStateAction();
     /**
      * @brief testAliasCommand
      */
@@ -211,6 +216,7 @@ private:
     QPushButton* m_applyBtn;
     PaletteModel* m_paletteModel;
     QList<RolisteamTheme*> m_themes;
+    CharacterStateModel* m_stateModel;
 };
 
 #endif

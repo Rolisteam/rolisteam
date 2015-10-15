@@ -787,12 +787,16 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QTableView" name="tableView"/>
+           <widget class="QTableView" name="m_stateView">
+            <attribute name="horizontalHeaderStretchLastSection">
+             <bool>true</bool>
+            </attribute>
+           </widget>
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
-             <widget class="QToolButton" name="toolButton">
+             <widget class="QToolButton" name="m_addCharacterStateAct">
               <property name="toolTip">
                <string>Add</string>
               </property>
@@ -806,7 +810,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton_2">
+             <widget class="QToolButton" name="m_delCharceterStateAct">
               <property name="toolTip">
                <string>Delete</string>
               </property>
@@ -820,7 +824,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton_5">
+             <widget class="QToolButton" name="m_topCharacterStateAct">
               <property name="toolTip">
                <string>Top</string>
               </property>
@@ -834,7 +838,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton_3">
+             <widget class="QToolButton" name="m_upCharacterStateAct">
               <property name="toolTip">
                <string>Up</string>
               </property>
@@ -848,7 +852,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton_4">
+             <widget class="QToolButton" name="m_downCharacterStateAct">
               <property name="toolTip">
                <string>Down</string>
               </property>
@@ -862,7 +866,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton_6">
+             <widget class="QToolButton" name="m_bottomCharacterStateAct">
               <property name="toolTip">
                <string>Bottom</string>
               </property>

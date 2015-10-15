@@ -137,6 +137,10 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     m_diceParser = new DiceParser();
     m_aliasModel->setAliases(m_diceParser->getAliases());
 
+
+    m_stateModel = new CharacterStateModel();
+    ui->m_stateView->setModel(m_stateModel);
+
     QHeaderView* horizontalHeader = ui->m_tableViewAlias->horizontalHeader();
     horizontalHeader->setSectionResizeMode(DiceAliasModel::PATTERN,QHeaderView::ResizeToContents);
     horizontalHeader->setSectionResizeMode(DiceAliasModel::VALUE,QHeaderView::Stretch);
@@ -159,13 +163,24 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     ui->tabWidget->setCurrentIndex(0);
 
     //aliases
-    connect(ui->m_addDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
-    connect(ui->m_delDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
-    connect(ui->m_upDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
-    connect(ui->m_downDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
-    connect(ui->m_topDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
-    connect(ui->m_bottomDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
+    connect(ui->m_addDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
+    connect(ui->m_delDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
+    connect(ui->m_upDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
+    connect(ui->m_downDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
+    connect(ui->m_topDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
+    connect(ui->m_bottomDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
     connect(ui->m_testPushButton,SIGNAL(clicked()),this,SLOT(testAliasCommand()));
+
+
+    //States
+    connect(ui->m_addCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+    connect(ui->m_delCharceterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+    connect(ui->m_upCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+    connect(ui->m_downCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+    connect(ui->m_topCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+    connect(ui->m_bottomCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+
+
 
     // Misc
     setSizeGripEnabled(true);
@@ -574,7 +589,7 @@ void PreferencesDialog::performDiag()
     ui->m_diagDisplay->setHtml(htmlResult);
 }
 
-void PreferencesDialog::managedAction()
+void PreferencesDialog::manageAliasAction()
 {
     QToolButton* act = qobject_cast<QToolButton*>(sender());
 
@@ -607,6 +622,40 @@ void PreferencesDialog::managedAction()
         }
     }
 }
+void  PreferencesDialog::manageStateAction()
+{
+    QToolButton* act = qobject_cast<QToolButton*>(sender());
+
+    if(act == ui->m_addCharacterStateAct)
+    {
+        m_stateModel->appendState();
+    }
+    else
+    {
+        QModelIndex index = ui->m_tableViewAlias->currentIndex();
+        if(act == ui->m_delCharceterStateAct)
+        {
+            m_stateModel->deleteState(index);
+        }
+        else if(act == ui->m_upCharacterStateAct)
+        {
+            m_stateModel->upState(index);
+        }
+        else if(act == ui->m_downCharacterStateAct)
+        {
+            m_stateModel->downState(index);
+        }
+        else if(act == ui->m_topCharacterStateAct)
+        {
+            m_stateModel->topState(index);
+        }
+        else if(act == ui->m_bottomCharacterStateAct)
+        {
+            m_stateModel->bottomState(index);
+        }
+    }
+}
+
 void PreferencesDialog::testAliasCommand()
 {
     QString result = m_diceParser->convertAlias(ui->m_cmdDiceEdit->text());
