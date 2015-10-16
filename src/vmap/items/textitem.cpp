@@ -31,26 +31,37 @@
 
 TextItem::TextItem()
 {
+    init();
     createActions();
 }
 
-TextItem::TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsItem * parent)
+TextItem::TextItem(QPointF& start/*,QLineEdit* editor*/,QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
 {
+    init();
     m_start = start;
-    setPos(m_start);
-    m_textEdit = editor;
-    m_textEdit->setFocus();
-    m_font = m_textEdit->font();
     createActions();
 }
+
+void TextItem::init()
+{
+    //setFlag(QGraphicsItem::ItemHasNoContents,true);
+    setPos(m_start);
+    m_textItem = new QGraphicsTextItem(this);
+    m_textItem->setFocus();
+    m_textItem->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
+    m_textItem->setPos(QPointF(0,0));
+    m_textItem->setTextWidth(200);
+    m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+}
+
 QRectF TextItem::boundingRect() const
 {
-    return m_rect;
+    return m_textItem->boundingRect();
 }
 void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
-    if(!m_text.isEmpty())
+ /*   if(!m_text.isEmpty())
     {
         setChildrenVisible(hasFocusOrChild());
 
@@ -60,7 +71,10 @@ void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         painter->drawText(QPoint(0,0),m_text);
        // painter->drawRect(boundingRect());
         painter->restore();
-    }    
+    }    */
+
+    painter->drawRect(boundingRect());
+  //  QGraphicsObject::paint(painter,option,widget);
 }
 void TextItem::setNewEnd(QPointF& p)
 {
@@ -104,7 +118,7 @@ void TextItem::wheelEvent(QGraphicsSceneWheelEvent *event)
 void TextItem::editingFinished()
 {
     setOpacity(1.0);
-    if(m_textEdit!=NULL)
+    /*if(m_textEdit!=NULL)
     {
         m_text = m_textEdit->text();
         if(!m_text.isEmpty())
@@ -114,13 +128,14 @@ void TextItem::editingFinished()
             itemGeometryChanged(this);
             updateChildPosition();
         }
-    }
+    }*/
     
 }
 void TextItem::setGeometryPoint(qreal /*pointId*/, QPointF &pos)
 {
     m_start = pos;
     setPos(m_start);
+    //m_textItem->setPos(pos);
 }
 void TextItem::initChildPointItem()
 {
@@ -153,9 +168,9 @@ void TextItem::writeData(QDataStream& out) const
 }
 void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    setOpacity(0.1);
-    m_textEdit->setVisible(true);
-    m_textEdit->setFocus();
+    /*setOpacity(0.1);
+   m_textEdit->setVisible(true);
+    m_textEdit->setFocus();*/
     VisualItem::mouseDoubleClickEvent(event);
 }
 
@@ -190,7 +205,7 @@ void TextItem::readItem(NetworkMessageReader* msg)
 }
 VisualItem* TextItem::getItemCopy()
 {
-	TextItem* rectItem = new TextItem(m_start,new QLineEdit(),m_color);
+    TextItem* rectItem = new TextItem(m_start/*,new QLineEdit(),*/,m_color);
 	return rectItem;
 }
 void TextItem::addActionContextMenu(QMenu* menu)
@@ -201,6 +216,8 @@ void TextItem::addActionContextMenu(QMenu* menu)
 }
 void TextItem::createActions()
 {
+
+
     m_increaseFontSize = new QAction(tr("Increase Text Size"),this);
     m_decreaseFontSize= new QAction(tr("Decrease Text Size"),this);
 
