@@ -38,16 +38,18 @@ TextItem::TextItem()
 TextItem::TextItem(QPointF& start/*,QLineEdit* editor*/,QColor& penColor,QGraphicsItem * parent)
     : VisualItem(penColor,parent)
 {
+	m_start = start;
     init();
-    m_start = start;
     createActions();
 }
 
 void TextItem::init()
 {
     //setFlag(QGraphicsItem::ItemHasNoContents,true);
-    setPos(m_start);
+	qDebug() << "start" << m_start;
+	setPos(m_start);
     m_textItem = new QGraphicsTextItem(this);
+	m_textItem->setHtml("<b>Title</b>");
     m_textItem->setFocus();
     m_textItem->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
     m_textItem->setPos(QPointF(0,0));
@@ -57,7 +59,9 @@ void TextItem::init()
 
 QRectF TextItem::boundingRect() const
 {
-    return m_textItem->boundingRect();
+	QRectF rect  = m_textItem->boundingRect();
+	m_textItem->setPos(QPointF(-rect.width()/2,-rect.height()/2));
+	return QRectF(-rect.width()/2,-rect.height()/2,rect.width(),rect.height());
 }
 void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
@@ -131,10 +135,25 @@ void TextItem::editingFinished()
     }*/
     
 }
-void TextItem::setGeometryPoint(qreal /*pointId*/, QPointF &pos)
+void TextItem::setGeometryPoint(qreal pointId, QPointF &pos1)
 {
-    m_start = pos;
-    setPos(m_start);
+	if(pointId == 0)
+	{
+		setTransformOriginPoint(boundingRect().center());
+		//m_start = pos;
+		//setPos(m_start);
+		QPointF truePos = m_child->value(0)->pos() + pos1;
+
+		qDebug() << "1#" <<m_child->value(0)->pos() << pos1;
+		moveBy(truePos.x(),truePos.y());
+
+		qDebug() << m_child->value(0)->pos() << pos1;
+		pos1 -= truePos;
+		//QPointF p = pos() + m_child->value(0)->pos();
+		//setPos( p);
+		//pos = QPointF(0,0);
+	}
+	//updateChildPosition();
     //m_textItem->setPos(pos);
 }
 void TextItem::initChildPointItem()
@@ -145,18 +164,22 @@ void TextItem::initChildPointItem()
 
     for(int i = 0; i< 1 ; ++i)
     {
-        ChildPointItem* tmp = new ChildPointItem(i,this);
-        tmp->setMotion(ChildPointItem::NONE);
+		ChildPointItem* tmp = new ChildPointItem(i,NULL);
+		//setParentItem(tmp);
+		tmp->setMotion(ChildPointItem::ALL);
+		tmp->setPos(m_start);
+		tmp->setPlacement(ChildPointItem::Center);
         tmp->setRotationEnable(true);
         m_child->append(tmp);
+		tmp->setVisible(true);
     }
    updateChildPosition();
 }
 void TextItem::updateChildPosition()
 {
-    m_child->value(0)->setPos(m_rect.center());
+	m_child->value(0)->setPos(boundingRect().center());
     m_child->value(0)->setPlacement(ChildPointItem::Center);
-    setTransformOriginPoint(m_rect.center());
+	setTransformOriginPoint(boundingRect().center());
     update();
 }
 void TextItem::writeData(QDataStream& out) const
