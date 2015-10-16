@@ -22,7 +22,7 @@
 #include "visualitem.h"
 #include <QObject>
 #include <QFontMetrics>
-
+#include <QGraphicsTextItem>
 
 
 class QLineEdit;
@@ -39,7 +39,7 @@ public:
     * @brief Constructor with parameters
     * @param start, starting point, it represents the bottom right rectangle corner where the text willbe displayed
     */
-    TextItem(QPointF& start,QLineEdit* editor,QColor& penColor,QGraphicsItem * parent = 0);
+    TextItem(QPointF& start/*,QLineEdit* editor*/,QColor& penColor,QGraphicsItem * parent = 0);
     /**
     * @brief paint the item into the scene.
     */
@@ -105,16 +105,19 @@ protected:
     void wheelEvent(QGraphicsSceneWheelEvent *event);
 private:
     void updateFont();
+    void init();
 
 private:
     QPointF m_start;
     QString m_text;
-    QLineEdit* m_textEdit;
+   // QLineEdit* m_textEdit;
     QFont m_font;
 
     //QAction*
     QAction* m_increaseFontSize;
     QAction* m_decreaseFontSize;
+
+    QGraphicsTextItem* m_textItem;
 };
 
 #endif // TEXTITEM_H
