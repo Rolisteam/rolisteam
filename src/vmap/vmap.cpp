@@ -165,19 +165,19 @@ void VMap::addItem()
         break;
     case VToolsBar::TEXT:
     {
-        QLineEdit* tempedit = new QLineEdit();
-        TextItem* temptext = new TextItem(m_first,tempedit,m_itemColor);
+       // QLineEdit* tempedit = new QLineEdit();
+        TextItem* temptext = new TextItem(m_first,m_itemColor);
         m_currentItem = temptext;
-        QGraphicsProxyWidget * tmp = QGraphicsScene::addWidget(tempedit);
+        //QGraphicsProxyWidget * tmp = QGraphicsScene::addWidget(tempedit);
         //tmp->setPos(m_first.x(),m_first.y()-tempedit->height());
 
-        tmp->setParentItem(temptext);
+        /*tmp->setParentItem(temptext);
         tmp->setPos(0,0);
         tmp->setFlag(QGraphicsItem::ItemIgnoresParentOpacity,true);
         tempedit->setEnabled(true);
         tempedit->setFocus();
         connect(tempedit,SIGNAL(editingFinished()),temptext,SLOT(editingFinished()));
-        connect(tempedit,SIGNAL(editingFinished()),this,SLOT(update()));
+        connect(tempedit,SIGNAL(editingFinished()),this,SLOT(update()));*/
     }
         break;
     case VToolsBar::HANDLER:
