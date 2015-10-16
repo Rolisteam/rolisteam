@@ -61,7 +61,17 @@ QVariant ChildPointItem::itemChange(GraphicsItemChange change, const QVariant &v
             {
                 newPos.setX(pos().x());
             }
-            m_parent->setGeometryPoint(m_pointId,newPos);
+
+			if( MOVE == m_currentMotion)
+			{
+				m_parent->setPos(mapToScene(newPos));
+				/*QPointF p=pos() - newPos;
+				m_parent->moveBy(p.x(),p.y());*/
+			}
+			else
+			{
+				m_parent->setGeometryPoint(m_pointId,newPos);
+			}
             if(newPos != value.toPointF())
             {
                 return newPos;

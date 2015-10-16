@@ -34,7 +34,7 @@ public:
      * @brief The MOTION enum, ALL means all axis, MOUSE means the changes are control by mouse event instead of geometry event on item.
      * In this case, the ChildPointItem does not mouse, it receives mouse event and ask its parent to change its geometry.
      */
-    enum MOTION { ALL, X_AXIS, Y_AXIS,MOUSE,NONE};
+	enum MOTION { ALL, X_AXIS, Y_AXIS,MOUSE,MOVE,NONE};
     /**
      * @brief The PLACEMENT enum
      */
