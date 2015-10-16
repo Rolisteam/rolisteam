@@ -166,6 +166,7 @@ void VMap::addItem()
     case VToolsBar::TEXT:
     {
        // QLineEdit* tempedit = new QLineEdit();
+		qDebug() << m_first;
         TextItem* temptext = new TextItem(m_first,m_itemColor);
         m_currentItem = temptext;
         //QGraphicsProxyWidget * tmp = QGraphicsScene::addWidget(tempedit);
@@ -305,6 +306,7 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     else if(mouseEvent->button() == Qt::LeftButton)
     {
         m_first = mouseEvent->scenePos();
+		qDebug()<< "first mouse "<<m_first << mouseEvent->pos();
         m_end = m_first;
         if((m_currentPath==NULL)&&(m_currentFogPolygon==NULL))
         {
