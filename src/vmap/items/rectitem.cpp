@@ -178,7 +178,7 @@ void RectItem::initChildPointItem()
 {
     setPos(m_rect.center());
     m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
-    setTransformOriginPoint(m_rect.center());
+
 
     m_rect = m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
