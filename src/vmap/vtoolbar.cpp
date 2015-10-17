@@ -150,6 +150,12 @@ void VToolsBar::creerActions()
             m_unmaskPathAct->setChecked(tool==VToolsBar::PATHFOG);
     });
 
+    m_textWithBorderAct = new QAction(QIcon(":/resources/icons/textwithBorder.png"),tr("Text With Border"),m_toolsGroup);
+    m_textWithBorderAct->setData(TEXTBORDER);
+    connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
+            m_textWithBorderAct->setChecked(tool==VToolsBar::TEXTBORDER);
+    });
+
     m_resetCountAct	= new QAction(QIcon(":/resources/icons/chronometre.png"), tr("Reset NPC counter"), this);
 
 
@@ -173,48 +179,55 @@ void VToolsBar::creerActions()
 }
 void VToolsBar::creerOutils()
 {
-    QToolButton* boutonCrayon     = new QToolButton();
-    QToolButton* boutonLigne      = new QToolButton();
-    QToolButton* boutonRectVide   = new QToolButton();
-    QToolButton* boutonRectPlein  = new QToolButton();
-    QToolButton* boutonElliVide   = new QToolButton();
-    QToolButton* boutonElliPlein  = new QToolButton();
-    QToolButton* boutonTexte      = new QToolButton();
-    QToolButton* boutonMain       = new QToolButton();
-    QToolButton* boutonAjoutPnj   = new QToolButton();
-    QToolButton* boutonRazChrono  = new QToolButton();
+    QToolButton* penButton     = new QToolButton();
+    QToolButton* lineButton      = new QToolButton();
+    QToolButton* emptyRectButton   = new QToolButton();
+    QToolButton* filledRectButton  = new QToolButton();
+    QToolButton* emptyEllipseButton   = new QToolButton();
+    QToolButton* filledEllipseButton  = new QToolButton();
+    QToolButton* textButton      = new QToolButton();
+    QToolButton* handleButton       = new QToolButton();
+    QToolButton* addNpcButton   = new QToolButton();
+    QToolButton* resetNpcNumberButton  = new QToolButton();
     QToolButton* ruleButton  = new QToolButton();
     QToolButton* pathButton  = new QToolButton();
   /*  QToolButton* unmaskRectButton  = new QToolButton();
     QToolButton* unmaskPathButton  = new QToolButton();
     QToolButton* anchorButton  = new QToolButton();*/
     
-    boutonCrayon->setDefaultAction(m_pencilAct);
-    boutonLigne      ->setDefaultAction(m_lineAct);
-    boutonRectVide   ->setDefaultAction(m_rectAct);
-    boutonRectPlein  ->setDefaultAction(m_rectFillAct);
-    boutonElliVide   ->setDefaultAction(m_elipseAct);
-    boutonElliPlein  ->setDefaultAction(m_elipseFillAct);
-    boutonTexte      ->setDefaultAction(m_textAct);
-    boutonMain       ->setDefaultAction(m_handAct);
-    boutonAjoutPnj   ->setDefaultAction(m_addPCAct);
-    boutonRazChrono  ->setDefaultAction(m_resetCountAct);
+    penButton->setDefaultAction(m_pencilAct);
+    lineButton      ->setDefaultAction(m_lineAct);
+    emptyRectButton   ->setDefaultAction(m_rectAct);
+    filledRectButton  ->setDefaultAction(m_rectFillAct);
+    emptyEllipseButton   ->setDefaultAction(m_elipseAct);
+    filledEllipseButton  ->setDefaultAction(m_elipseFillAct);
+    textButton      ->setDefaultAction(m_textAct);
+    handleButton       ->setDefaultAction(m_handAct);
+    addNpcButton   ->setDefaultAction(m_addPCAct);
+    resetNpcNumberButton  ->setDefaultAction(m_resetCountAct);
     ruleButton->setDefaultAction(m_ruleAct);
     pathButton->setDefaultAction(m_pathAct);
-    boutonRectPlein->addAction(m_unmaskRectAct);
+    filledRectButton->addAction(m_unmaskRectAct);
     pathButton->addAction(m_unmaskPathAct);
     ruleButton->addAction(m_anchorAct);
+    textButton->addAction(m_textWithBorderAct);
+
+
+    connect(ruleButton,SIGNAL(triggered(QAction*)),ruleButton,SLOT(setDefaultAction(QAction*)));
+    connect(textButton,SIGNAL(triggered(QAction*)),textButton,SLOT(setDefaultAction(QAction*)));
+    connect(filledRectButton,SIGNAL(triggered(QAction*)),filledRectButton,SLOT(setDefaultAction(QAction*)));
+    connect(pathButton,SIGNAL(triggered(QAction*)),pathButton,SLOT(setDefaultAction(QAction*)));
     
-    boutonCrayon     ->setAutoRaise(true);
-    boutonLigne      ->setAutoRaise(true);
-    boutonRectVide   ->setAutoRaise(true);
-    boutonRectPlein  ->setAutoRaise(true);
-    boutonElliVide   ->setAutoRaise(true);
-    boutonElliPlein  ->setAutoRaise(true);
-    boutonTexte      ->setAutoRaise(true);
-    boutonMain       ->setAutoRaise(true);
-    boutonAjoutPnj   ->setAutoRaise(true);
-    boutonRazChrono  ->setAutoRaise(true);
+    penButton     ->setAutoRaise(true);
+    lineButton      ->setAutoRaise(true);
+    emptyRectButton   ->setAutoRaise(true);
+    filledRectButton  ->setAutoRaise(true);
+    emptyEllipseButton   ->setAutoRaise(true);
+    filledEllipseButton  ->setAutoRaise(true);
+    textButton      ->setAutoRaise(true);
+    handleButton       ->setAutoRaise(true);
+    addNpcButton   ->setAutoRaise(true);
+    resetNpcNumberButton  ->setAutoRaise(true);
     ruleButton->setAutoRaise(true);
     pathButton->setAutoRaise(true);
 
@@ -224,16 +237,16 @@ void VToolsBar::creerOutils()
     *
     */
     QSize iconSize(20,20);
-    boutonCrayon     ->setIconSize(iconSize);
-    boutonLigne      ->setIconSize(iconSize);
-    boutonRectVide   ->setIconSize(iconSize);
-    boutonRectPlein  ->setIconSize(iconSize);
-    boutonElliVide   ->setIconSize(iconSize);
-    boutonElliPlein  ->setIconSize(iconSize);
-    boutonTexte      ->setIconSize(iconSize);
-    boutonMain       ->setIconSize(iconSize);
-    boutonAjoutPnj   ->setIconSize(iconSize);
-    boutonRazChrono  ->setIconSize(iconSize);
+    penButton     ->setIconSize(iconSize);
+    lineButton      ->setIconSize(iconSize);
+    emptyRectButton   ->setIconSize(iconSize);
+    filledRectButton  ->setIconSize(iconSize);
+    emptyEllipseButton   ->setIconSize(iconSize);
+    filledEllipseButton  ->setIconSize(iconSize);
+    textButton      ->setIconSize(iconSize);
+    handleButton       ->setIconSize(iconSize);
+    addNpcButton   ->setIconSize(iconSize);
+    resetNpcNumberButton  ->setIconSize(iconSize);
     ruleButton->setIconSize(iconSize);
     pathButton->setIconSize(iconSize);
 
@@ -244,14 +257,14 @@ void VToolsBar::creerOutils()
     FlowLayout *toolsLayout = new FlowLayout();
     toolsLayout->setSpacing(0);
     toolsLayout->setMargin(0);
-    toolsLayout->addWidget(boutonCrayon);
-    toolsLayout->addWidget(boutonLigne);
-    toolsLayout->addWidget(boutonRectVide);
-    toolsLayout->addWidget(boutonRectPlein);
-    toolsLayout->addWidget(boutonElliVide);
-    toolsLayout->addWidget(boutonElliPlein);
-    toolsLayout->addWidget(boutonTexte);
-    toolsLayout->addWidget(boutonMain);
+    toolsLayout->addWidget(penButton);
+    toolsLayout->addWidget(lineButton);
+    toolsLayout->addWidget(emptyRectButton);
+    toolsLayout->addWidget(filledRectButton);
+    toolsLayout->addWidget(emptyEllipseButton);
+    toolsLayout->addWidget(filledEllipseButton);
+    toolsLayout->addWidget(textButton);
+    toolsLayout->addWidget(handleButton);
     toolsLayout->addWidget(ruleButton);
     toolsLayout->addWidget(pathButton);
 
@@ -271,8 +284,8 @@ void VToolsBar::creerOutils()
     m_colorSelector = new VColorSelector(this);
 
     FlowLayout *characterToolsLayout = new FlowLayout();
-    characterToolsLayout->addWidget(boutonAjoutPnj);
-    characterToolsLayout->addWidget(boutonRazChrono);
+    characterToolsLayout->addWidget(addNpcButton);
+    characterToolsLayout->addWidget(resetNpcNumberButton);
     characterToolsLayout->addWidget(m_displayNPCCounter);
 
     m_lineDiameter = new DiameterSelector(m_centralWidget, true, 1, 45);
