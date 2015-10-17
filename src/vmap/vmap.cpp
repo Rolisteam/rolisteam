@@ -165,20 +165,15 @@ void VMap::addItem()
         break;
     case VToolsBar::TEXT:
     {
-       // QLineEdit* tempedit = new QLineEdit();
-		qDebug() << m_first;
-        TextItem* temptext = new TextItem(m_first,m_itemColor);
+        TextItem* temptext = new TextItem(m_first,m_penSize,m_itemColor);
         m_currentItem = temptext;
-        //QGraphicsProxyWidget * tmp = QGraphicsScene::addWidget(tempedit);
-        //tmp->setPos(m_first.x(),m_first.y()-tempedit->height());
-
-        /*tmp->setParentItem(temptext);
-        tmp->setPos(0,0);
-        tmp->setFlag(QGraphicsItem::ItemIgnoresParentOpacity,true);
-        tempedit->setEnabled(true);
-        tempedit->setFocus();
-        connect(tempedit,SIGNAL(editingFinished()),temptext,SLOT(editingFinished()));
-        connect(tempedit,SIGNAL(editingFinished()),this,SLOT(update()));*/
+    }
+        break;
+    case VToolsBar::TEXTBORDER:
+    {
+        TextItem* temptext = new TextItem(m_first,m_penSize,m_itemColor);
+        temptext->setBorderVisible(true);
+        m_currentItem = temptext;
     }
         break;
     case VToolsBar::HANDLER:
@@ -306,7 +301,6 @@ void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     else if(mouseEvent->button() == Qt::LeftButton)
     {
         m_first = mouseEvent->scenePos();
-		qDebug()<< "first mouse "<<m_first << mouseEvent->pos();
         m_end = m_first;
         if((m_currentPath==NULL)&&(m_currentFogPolygon==NULL))
         {

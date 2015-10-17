@@ -58,7 +58,7 @@ public :
     /**
       * @brief tools id
       */
-    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC,RULE,PATH,PATHFOG,ANCHOR,RECTFOG};
+    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC,RULE,PATH,PATHFOG,ANCHOR,RECTFOG,TEXTBORDER};
 
     /**
       * @brief accessor to the current tool
@@ -138,6 +138,7 @@ private:
     QAction* m_anchorAct;
     QAction* m_unmaskRectAct;
     QAction* m_unmaskPathAct;
+    QAction* m_textWithBorderAct;
     
     QString m_currentNPCName;
     int m_currentNPCNumber;
