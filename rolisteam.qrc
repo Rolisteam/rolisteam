@@ -93,6 +93,7 @@
         <file>resources/icons/maskpath.png</file>
         <file>resources/icons/draw-rectangle-2.png</file>
         <file>resources/icons/insert-link-2.png</file>
+        <file>resources/icons/textwithBorder.png</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
