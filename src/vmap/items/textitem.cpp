@@ -24,61 +24,65 @@
 #include <QDebug>
 #include <QFont>
 #include <QMenu>
+#include <QStyle>
+
 #include <QGraphicsSceneWheelEvent>
+#include <QStyleOptionGraphicsItem>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 
 TextItem::TextItem()
+    : m_offset(QPointF(100,30))
 {
     init();
     createActions();
 }
 
-TextItem::TextItem(QPointF& start/*,QLineEdit* editor*/,QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,parent)
+TextItem::TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem * parent)
+    : VisualItem(penColor,parent),m_penWidth(penSize),m_offset(QPointF(100,30))
 {
-	m_start = start;
+    m_start = start;
+    m_rect.setTopLeft(m_start-m_offset);
+    m_rect.setBottomRight(m_start+m_offset);
+    setPos(m_rect.center());
+    m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
     init();
     createActions();
 }
 
 void TextItem::init()
 {
-    //setFlag(QGraphicsItem::ItemHasNoContents,true);
-	qDebug() << "start" << m_start;
-	setPos(m_start);
+    m_showRect = false;
     m_textItem = new QGraphicsTextItem(this);
-	m_textItem->setHtml("<b>Title</b>");
     m_textItem->setFocus();
-    m_textItem->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
+    m_textItem->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
     m_textItem->setPos(QPointF(0,0));
     m_textItem->setTextWidth(200);
     m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+    m_doc = new QTextDocument(m_textItem);
+    m_doc->setHtml("<b>Title</b>");
+    m_textItem->setDocument(m_doc);
+
+    connect(m_doc,SIGNAL(contentsChanged()),this,SLOT(updateTextPosition()));
+
 }
 
 QRectF TextItem::boundingRect() const
 {
-	QRectF rect  = m_textItem->boundingRect();
-	m_textItem->setPos(QPointF(-rect.width()/2,-rect.height()/2));
-	return QRectF(-rect.width()/2,-rect.height()/2,rect.width(),rect.height());
+    return m_rect;
 }
 void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
- /*   if(!m_text.isEmpty())
+    setChildrenVisible(hasFocusOrChild());
+    if((m_showRect)||(option->state & QStyle::State_MouseOver))
     {
-        setChildrenVisible(hasFocusOrChild());
-
-        painter->save();
-        painter->setFont(m_font);
-        painter->setPen(m_color);
-        painter->drawText(QPoint(0,0),m_text);
-       // painter->drawRect(boundingRect());
-        painter->restore();
-    }    */
-
-    painter->drawRect(boundingRect());
-  //  QGraphicsObject::paint(painter,option,widget);
+        QPen pen = painter->pen();
+        pen.setColor(m_color);
+        pen.setWidth(m_penWidth);
+        painter->setPen(pen);
+        painter->drawRect(boundingRect());
+    }
 }
 void TextItem::setNewEnd(QPointF& p)
 {
@@ -91,7 +95,7 @@ VisualItem::ItemType TextItem::getType()
 void TextItem::updateFont()
 {
     QFontMetrics metric(m_font);
-    m_rect = metric.boundingRect(m_text);
+    m_rect = metric.boundingRect(m_doc->toHtml());
     updateChildPosition();
     update();
 }
@@ -119,88 +123,143 @@ void TextItem::wheelEvent(QGraphicsSceneWheelEvent *event)
     }
 }
 
-void TextItem::editingFinished()
+void TextItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
-    setOpacity(1.0);
-    /*if(m_textEdit!=NULL)
+    switch ((int)pointId)
     {
-        m_text = m_textEdit->text();
-        if(!m_text.isEmpty())
-        {
-            updateFont();
-            m_textEdit->setVisible(false);
-            itemGeometryChanged(this);
-            updateChildPosition();
-        }
-    }*/
-    
+    case 0:
+        m_rect.setTopLeft(pos);
+        updateTextPosition();
+        m_child->value(1)->setPos(m_rect.topRight());
+        m_child->value(2)->setPos(m_rect.bottomRight());
+        m_child->value(3)->setPos(m_rect.bottomLeft());
+        break;
+    case 1:
+        m_rect.setTopRight(pos);
+        updateTextPosition();
+        m_child->value(0)->setPos(m_rect.topLeft());
+        m_child->value(2)->setPos(m_rect.bottomRight());
+        m_child->value(3)->setPos(m_rect.bottomLeft());
+        break;
+    case 2:
+        m_rect.setBottomRight(pos);
+        updateTextPosition();
+        m_child->value(0)->setPos(m_rect.topLeft());
+        m_child->value(1)->setPos(m_rect.topRight());
+        m_child->value(3)->setPos(m_rect.bottomLeft());
+        break;
+    case 3:
+        m_rect.setBottomLeft(pos);
+        updateTextPosition();
+        m_child->value(0)->setPos(m_rect.topLeft());
+        m_child->value(1)->setPos(m_rect.topRight());
+        m_child->value(2)->setPos(m_rect.bottomRight());
+        break;
+    default:
+        break;
+    }
+
+
+    setTransformOriginPoint(m_rect.center());
+
+
+    updateTextPosition();
+
 }
-void TextItem::setGeometryPoint(qreal pointId, QPointF &pos1)
+void TextItem::updateTextPosition()
 {
-	if(pointId == 0)
-	{
-		setTransformOriginPoint(boundingRect().center());
-		//m_start = pos;
-		//setPos(m_start);
-		QPointF truePos = m_child->value(0)->pos() + pos1;
+    m_textItem->setTextWidth(m_rect.width()-10);
+    QRectF rectItem = m_textItem->boundingRect();
+    setTransformOriginPoint(m_rect.center());
+    if(rectItem.height() > m_rect.height())
+    {
+        m_rect.setTop(m_rect.top()-5);
+        m_rect.setBottom(m_rect.bottom()+5);
+    }
+    setTransformOriginPoint(m_rect.center());
+    m_textItem->setPos(m_rect.center().x()-rectItem.width()/2,m_rect.center().y()-rectItem.height()/2);
 
-		qDebug() << "1#" <<m_child->value(0)->pos() << pos1;
-		moveBy(truePos.x(),truePos.y());
-
-		qDebug() << m_child->value(0)->pos() << pos1;
-		pos1 -= truePos;
-		//QPointF p = pos() + m_child->value(0)->pos();
-		//setPos( p);
-		//pos = QPointF(0,0);
-	}
-	//updateChildPosition();
-    //m_textItem->setPos(pos);
+    if((NULL!=m_child)&&(!m_child->isEmpty()))
+    {
+        if(!m_child->at(0)->isSelected())
+        {
+            m_child->value(0)->setPos(m_rect.topLeft());
+        }
+        if(!m_child->at(1)->isSelected())
+        {
+            m_child->value(1)->setPos(m_rect.topRight());
+        }
+        if(!m_child->at(2)->isSelected())
+        {
+            m_child->value(2)->setPos(m_rect.bottomRight());
+        }
+        if(!m_child->at(3)->isSelected())
+        {
+            m_child->value(3)->setPos(m_rect.bottomLeft());
+        }
+    }
 }
+
 void TextItem::initChildPointItem()
 {
+    setPos(m_rect.center());
+    m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
+
+
     m_rect = m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
+
+    updateTextPosition();
+
     m_child = new QVector<ChildPointItem*>();
 
-    for(int i = 0; i< 1 ; ++i)
+    for(int i = 0; i< 4 ; ++i)
     {
-		ChildPointItem* tmp = new ChildPointItem(i,NULL);
-		//setParentItem(tmp);
-		tmp->setMotion(ChildPointItem::ALL);
-		tmp->setPos(m_start);
-		tmp->setPlacement(ChildPointItem::Center);
-        tmp->setRotationEnable(true);
+        ChildPointItem* tmp = new ChildPointItem(i,this);
+        //setParentItem(tmp);
+        tmp->setMotion(ChildPointItem::ALL);
+
+        // tmp->setRotationEnable(true);
         m_child->append(tmp);
-		tmp->setVisible(true);
+        //tmp->setVisible(true);
     }
-   updateChildPosition();
+    updateChildPosition();
 }
 void TextItem::updateChildPosition()
 {
-	m_child->value(0)->setPos(boundingRect().center());
-    m_child->value(0)->setPlacement(ChildPointItem::Center);
-	setTransformOriginPoint(boundingRect().center());
+    m_child->value(0)->setPos(m_rect.topLeft());
+    m_child->value(0)->setPlacement(ChildPointItem::TopLeft);
+
+    m_child->value(1)->setPos(m_rect.topRight());
+    m_child->value(1)->setPlacement(ChildPointItem::TopRight);
+
+    m_child->value(2)->setPos(m_rect.bottomRight());
+    m_child->value(2)->setPlacement(ChildPointItem::ButtomRight);
+
+    m_child->value(3)->setPos(m_rect.bottomLeft());
+    m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
+
+    setTransformOriginPoint(m_rect.center());
     update();
 }
 void TextItem::writeData(QDataStream& out) const
 {
     out << m_start;
-    out << m_text;
+    out << m_doc->toHtml();
     out << m_color;
     out << m_id;
 }
 void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    /*setOpacity(0.1);
-   m_textEdit->setVisible(true);
-    m_textEdit->setFocus();*/
     VisualItem::mouseDoubleClickEvent(event);
 }
 
 void TextItem::readData(QDataStream& in)
 {
     in >> m_start;
-    in >> m_text;
+    QString text;
+    in >> text;
+    m_doc->setHtml(text);
     in >> m_color;
     in >> m_id;
 }
@@ -212,7 +271,7 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     //center
     msg->real(m_start.x());
     msg->real(m_start.y());
-    msg->string32(m_text);
+    msg->string32(m_doc->toHtml());
     msg->rgb(m_color);
 }
 void TextItem::readItem(NetworkMessageReader* msg)
@@ -223,24 +282,22 @@ void TextItem::readItem(NetworkMessageReader* msg)
     //center
     m_start.setX(msg->real());
     m_start.setY(msg->real());
-    m_text = msg->string32();
+    m_doc->setHtml(msg->string32());
     m_color = msg->rgb();
 }
 VisualItem* TextItem::getItemCopy()
 {
-    TextItem* rectItem = new TextItem(m_start/*,new QLineEdit(),*/,m_color);
-	return rectItem;
+    TextItem* rectItem = new TextItem(m_start,m_penWidth,m_color);
+    return rectItem;
 }
 void TextItem::addActionContextMenu(QMenu* menu)
 {
-  QMenu* state =  menu->addMenu(tr("Font Size"));
-  state->addAction(m_increaseFontSize);
-  state->addAction(m_decreaseFontSize);
+    QMenu* state =  menu->addMenu(tr("Font Size"));
+    state->addAction(m_increaseFontSize);
+    state->addAction(m_decreaseFontSize);
 }
 void TextItem::createActions()
 {
-
-
     m_increaseFontSize = new QAction(tr("Increase Text Size"),this);
     m_decreaseFontSize= new QAction(tr("Decrease Text Size"),this);
 
@@ -251,9 +308,15 @@ void TextItem::increaseTextSize()
 {
     int i = m_font.pointSize();
     m_font.setPointSize(++i);
+    m_textItem->setFont(m_font);
 }
 void TextItem::decreaseTextSize()
 {
     int i = m_font.pointSize();
     m_font.setPointSize(--i);
+    m_textItem->setFont(m_font);
+}
+void TextItem::setBorderVisible(bool b)
+{
+    m_showRect = b ;
 }

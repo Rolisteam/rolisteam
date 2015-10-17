@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QFontMetrics>
 #include <QGraphicsTextItem>
-
+#include <QTextDocument>
 
 class QLineEdit;
 /**
@@ -39,7 +39,7 @@ public:
     * @brief Constructor with parameters
     * @param start, starting point, it represents the bottom right rectangle corner where the text willbe displayed
     */
-    TextItem(QPointF& start/*,QLineEdit* editor*/,QColor& penColor,QGraphicsItem * parent = 0);
+    TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem * parent = 0);
     /**
     * @brief paint the item into the scene.
     */
@@ -93,11 +93,10 @@ public:
 	VisualItem* getItemCopy();
     void createActions();
     void addActionContextMenu(QMenu* menu);
+    void setBorderVisible(bool);
+
 public slots:
-    /**
-    * @brief called when edition is done, remove the editor and call update to draw the text as usual.
-    */
-    void editingFinished();
+    void updateTextPosition();
     void decreaseTextSize();
     void increaseTextSize();
 protected:
@@ -109,7 +108,6 @@ private:
 
 private:
     QPointF m_start;
-    QString m_text;
    // QLineEdit* m_textEdit;
     QFont m_font;
 
@@ -117,7 +115,13 @@ private:
     QAction* m_increaseFontSize;
     QAction* m_decreaseFontSize;
 
+    QTextDocument* m_doc;
     QGraphicsTextItem* m_textItem;
+
+    bool m_showRect;
+    quint16 m_penWidth;
+
+    const QPointF m_offset;
 };
 
 #endif // TEXTITEM_H
