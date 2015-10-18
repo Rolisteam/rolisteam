@@ -132,7 +132,9 @@ enum Action {
     addDiceAlias = 0,
     moveDiceAlias,
     removeDiceAlias,
-
+    addState,
+    moveState,
+    removeState,
 
     //Vmap
     addVmap = 0,
