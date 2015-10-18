@@ -22,6 +22,8 @@
 #define CHARACTER_H
 
 #include "person.h"
+#include "characterstate.h"
+#include <QList>
 
 /**
  * @brief Represents PCs and NPCs.
@@ -32,7 +34,7 @@ class Character : public QObject,public Person
 {
     Q_OBJECT
 public:
-    enum HeathState {Healthy,Lightly,Seriously,Dead,Sleeping,Bewitched};
+   // enum HeathState {Healthy,Lightly,Seriously,Dead,Sleeping,Bewitched};
     Character();
     /**
      * @brief construtor
@@ -79,7 +81,7 @@ public:
      * @brief getHeathState
      * @return
      */
-    Character::HeathState getHeathState() const;
+    CharacterState* getState() const;
 
     /**
     * @brief serialisation function to write data
@@ -90,18 +92,36 @@ public:
     */
     virtual void readData(QDataStream& in);
 
-public slots:
     /**
-     * @brief setHeathState
+     * @brief setListOfCharacterState
      */
-    void setHeathState(Character::HeathState);
+    static void setListOfCharacterState(QList<CharacterState*>*);
+
+    /**
+     * @brief getCharacterStateList
+     * @return
+     */
+    static QList<CharacterState*>* getCharacterStateList();
+    /**
+     * @brief getStateFromLabel
+     * @param label
+     * @return
+     */
+    CharacterState* getStateFromLabel(QString label);
+
+    void  setState(CharacterState*  h);
+
+public slots:
+
 signals:
     void avatarChanged();
 private:
     Person* m_parent;
     bool m_isNpc;
     int m_number;
-    HeathState m_health;
+    CharacterState* m_currentState;
+
+    static QList<CharacterState*>* m_stateList;
 };
 
 #endif // CHARACTER_H
