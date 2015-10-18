@@ -34,7 +34,7 @@
 #include <QStyleFactory>
 #include <QInputDialog>
 #include <QJsonDocument>
-
+#include <QItemEditorCreatorBase>
 
 #ifdef HAVE_SOUND
 #include <QMediaPlayer>
@@ -117,6 +117,71 @@ void CheckBoxDelegate::commitEditor()
     //	std::cout<<"commitEditor "<<(editor==m_editor)<<"  "<<editor->isCheckedDelegate()<<std::endl;
     emit commitData(editor);
 }
+
+/*********************
+ * ColorListEditor *
+ *********************/
+
+ColorListEditor::ColorListEditor(QWidget *widget) : QComboBox(widget)
+{
+    populateList();
+}
+
+QColor ColorListEditor::color() const
+{
+    return qvariant_cast<QColor>(itemData(currentIndex(), Qt::DecorationRole));
+}
+
+void ColorListEditor::setColor(QColor color)
+{
+    setCurrentIndex(findData(color, int(Qt::DecorationRole)));
+}
+
+void ColorListEditor::populateList()
+{
+    QStringList colorNames = QColor::colorNames();
+
+    for (int i = 0; i < colorNames.size(); ++i)
+    {
+        QColor color(colorNames[i]);
+
+        insertItem(i, colorNames[i]);
+        setItemData(i, color, Qt::DecorationRole);
+    }
+}
+
+/*********************
+ * ColorDelegate *
+ *********************/
+
+
+ColorDelegate::ColorDelegate( QObject* parent )
+{
+
+}
+
+QWidget* ColorDelegate::createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const
+{
+    return new ColorListEditor(parent);
+}
+
+void ColorDelegate::setEditorData(QWidget * editor, const QModelIndex & index) const
+{
+    ColorListEditor* cb = qobject_cast<ColorListEditor*>(editor);
+    QColor checked = index.data().value<QColor>();
+    cb->setColor(checked);
+}
+
+void ColorDelegate::setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const
+{
+    ColorListEditor* cb = qobject_cast<ColorListEditor*>(editor);
+    if(NULL!=cb)
+    {
+        QColor color = cb->color();
+        model->setData(index,color);
+    }
+}
+
 
 /*********************
  * PreferencesDialog *
@@ -203,10 +268,13 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
 
     connect(ui->m_paletteTableView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editColor(QModelIndex)));
+    connect(ui->m_stateView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editStateColor(QModelIndex)));
     connect(ui->m_cssEdit,SIGNAL(clicked()),this,SLOT(editCss()));
     connect(ui->m_exportBtn,SIGNAL(clicked()),this,SLOT(exportTheme()));
     connect(ui->m_importBtn,SIGNAL(clicked()),this,SLOT(importTheme()));
     connect(ui->m_deleteTheme,SIGNAL(clicked()),this,SLOT(deleteTheme()));
+
+    ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::COLOR,new ColorDelegate());
 
 }
 
@@ -214,6 +282,7 @@ PreferencesDialog::~PreferencesDialog()
 {
     // QObject should do it right for us already.
 }
+
 
 void PreferencesDialog::show()
 {
@@ -371,6 +440,47 @@ void PreferencesDialog::initializePostSettings()
         m_aliasModel->addAlias(new DiceAlias("nwod","D10e10c[>7]"));
         m_aliasModel->addAlias(new DiceAlias("(.*)wod(.*)","\\1d10e[=10]c[>=\\2]-@c[=1]",false));
     }
+
+
+
+
+
+
+    //State - healthy , lightly Wounded , Seriously injured , dead, Sleeping, bewitched
+
+    //healthy
+    CharacterState* state = new CharacterState();
+    state->setColor(Qt::black);
+    state->setLabel(tr("Healthy"));
+    m_stateModel->addState(state);
+
+    state = new CharacterState();
+    state->setColor(QColor(255, 100, 100));
+    state->setLabel(tr("Lightly Wounded"));
+    m_stateModel->addState(state);
+
+    state = new CharacterState();
+    state->setColor(QColor(255, 0, 0));
+    state->setLabel(tr("Seriously injured"));
+    m_stateModel->addState(state);
+
+    state = new CharacterState();
+    state->setColor(Qt::gray);
+    state->setLabel(tr("Dead"));
+    m_stateModel->addState(state);
+
+    state = new CharacterState();
+    state->setColor(QColor(80, 80, 255));
+    state->setLabel(tr("Sleeping"));
+    m_stateModel->addState(state);
+
+
+    state = new CharacterState();
+    state->setColor(QColor(0, 200, 0));
+    state->setLabel(tr("Bewitched"));
+    m_stateModel->addState(state);
+
+
 }
 
 void PreferencesDialog::updateTheme()
@@ -738,6 +848,7 @@ bool PreferencesDialog::importTheme()
         return true;
     }
 }
+
 RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme()
 {
     int i = ui->m_themeComboBox->currentIndex();

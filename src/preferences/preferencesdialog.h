@@ -25,6 +25,7 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QCheckBox>
+#include <QComboBox>
 #include <QStyledItemDelegate>
 
 
@@ -94,10 +95,68 @@ private:
     CenteredCheckBox* m_editor;
 };
 
+
+/**
+ * @brief The ColorListEditor class
+ */
+class ColorListEditor : public QComboBox
+{
+    Q_OBJECT
+    Q_PROPERTY(QColor color READ color WRITE setColor USER true)
+
+public:
+    ColorListEditor(QWidget *widget = 0);
+
+public:
+    QColor color() const;
+    void setColor(QColor c);
+
+private:
+    void populateList();
+};
+
 namespace Ui {
 class PreferencesDialogBox;
 }
+/**
+ * @brief The ColorDelegate class
+ */
+class ColorDelegate : public QStyledItemDelegate
+{
+     Q_OBJECT
+public:
+    /**
+     * @brief CheckBoxDelegate
+     * @param aRedCheckBox
+     * @param parent
+     */
+    ColorDelegate(QObject *parent = 0);
+    /**
+     * @brief createEditor
+     * @param parent
+     * @param option
+     * @param index
+     * @return
+     */
+    virtual QWidget*	createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const;
+    /**
+     * @brief setEditorData
+     * @param editor
+     * @param index
+     */
+    virtual void	setEditorData(QWidget * editor, const QModelIndex & index) const;
+    /**
+     * @brief setModelData
+     * @param editor
+     * @param model
+     * @param index
+     */
+    virtual void	setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const;
 
+
+private:
+    ColorListEditor* m_editor;
+};
 /**
  * @brief Actually only to change directories.
  */
