@@ -49,7 +49,10 @@ QVariant CharacterStateModel::data(const QModelIndex &index, int role) const
                 }
 				else if(index.column()==COLOR)
                 {
-					return state->getColor();
+                    if(Qt::DisplayRole == role)
+                        return QVariant();
+
+                    return state->getColor();
                 }
 				else if(index.column()==PICTURE)
                 {
@@ -58,13 +61,13 @@ QVariant CharacterStateModel::data(const QModelIndex &index, int role) const
 
             }
 		}
-	   /* else if(Qt::TextAlignmentRole== role)
+        else if(Qt::BackgroundRole == role)
         {
-            if(index.column()==METHOD)
+            if(index.column()==COLOR)
             {
-                return Qt::AlignCenter;
+                return state->getColor();
             }
-		}*/
+        }
 	}
 	return QVariant();
 
@@ -142,11 +145,11 @@ bool CharacterStateModel::setData(const QModelIndex &index, const QVariant &valu
         }
         if((result)&&(m_isGM))
         {
-            NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addDiceAlias);
-			/*msg.int64(index.row());
+            NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addState);
+            msg.int64(index.row());
 			msg.string32(state->getLabel());
-			msg.string32(state->getImage());
-			msg.int8(state->getColor());*/
+            //msg.byteArray32(state->getImage());
+            msg.rgb(state->getColor());
 
             msg.sendAll();
         }
