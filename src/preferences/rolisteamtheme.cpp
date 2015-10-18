@@ -21,6 +21,7 @@
 
 #include <QStyleFactory>
 
+
 RolisteamTheme::RolisteamTheme(QPalette pal,QString name,QString css,QStyle* style,QString bgPath,int pos, QColor bgColor, bool isRemovable)
     : m_palette(pal),m_name(name),m_css(css),m_removable(isRemovable),m_bgPath(bgPath),m_bgColor(bgColor),m_position(pos)
 {
