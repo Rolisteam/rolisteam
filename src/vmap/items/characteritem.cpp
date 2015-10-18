@@ -117,27 +117,8 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
  //       painter->save();
         QPen pen = painter->pen();
         pen.setWidth(6);
-        switch(m_character->getHeathState())
-        {
-        case Character::Healthy:
-            pen.setColor(Qt::black);
-        break;
-        case Character::Lightly:
-            pen.setColor(QColor(255, 100, 100));
-        break;
-        case Character::Seriously:
-            pen.setColor(QColor(255, 0, 0));
-        break;
-        case Character::Dead:
-            pen.setColor(Qt::gray);
-        break;
-        case Character::Sleeping:
-            pen.setColor(QColor(80, 80, 255));
-        break;
-        case Character::Bewitched:
-            pen.setColor(QColor(0, 200, 0));
-        break;
-        }
+        pen.setColor(m_character->getState()->getColor());
+
         painter->setPen(pen);
         painter->drawEllipse(m_rect.adjusted(3,3,-3,-3));
        // painter->restore();
@@ -443,12 +424,12 @@ void CharacterItem::showPcName(bool b)
 void CharacterItem::addActionContextMenu(QMenu* menu)
 {
   QMenu* state =  menu->addMenu(tr("Change State"));
-  state->addAction(m_healthyStateAct);
+/*  state->addAction(m_healthyStateAct);
   state->addAction(m_lightlyStateAct);
   state->addAction(m_seriouslyStateAct);
   state->addAction(m_deadStateAct);
   state->addAction(m_spleepingStateAct);
-  state->addAction(m_bewitchedStateAct);
+  state->addAction(m_bewitchedStateAct);*/
 
 
   QMenu* user =  menu->addMenu(tr("Affect to"));
@@ -491,12 +472,12 @@ void CharacterItem::changeCharacter()
 void CharacterItem::createActions()
 {
     m_vision = new CharacterVision(this);
-    m_healthyStateAct = new QAction(tr("Healthy"),this);
+  /*  m_healthyStateAct = new QAction(tr("Healthy"),this);
     m_lightlyStateAct= new QAction(tr("Lightly wounded"),this);
     m_seriouslyStateAct= new QAction(tr("Seriously injured"),this);
     m_deadStateAct= new QAction(tr("Dead"),this);
     m_spleepingStateAct= new QAction(tr("Sleeping"),this);
-    m_bewitchedStateAct= new QAction(tr("Bewitched"),this);
+    m_bewitchedStateAct= new QAction(tr("Bewitched"),this);*/
 
 
 
@@ -506,12 +487,12 @@ void CharacterItem::createActions()
 	m_visionShapeAngle = new QAction(tr("Conical"),this);
 	m_visionShapeAngle->setCheckable(true);
 
-    connect(m_healthyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
+   /* connect(m_healthyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
     connect(m_lightlyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
     connect(m_seriouslyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
     connect(m_deadStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
     connect(m_spleepingStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
-    connect(m_bewitchedStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
+    connect(m_bewitchedStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));*/
 
 	connect(m_visionShapeAngle,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
 	connect(m_visionShapeDisk,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
@@ -539,7 +520,16 @@ void CharacterItem::characterStateChange()
     if(NULL == m_character)
         return;
 
-    if(act == m_healthyStateAct)
+
+
+
+    CharacterState* state = m_stateActList->value(act);
+
+    m_character->setState(state);
+
+
+
+/*    if(act == m_healthyStateAct)
     {
         m_character->setHeathState(Character::Healthy);
     }
@@ -562,7 +552,7 @@ void CharacterItem::characterStateChange()
     else if (act == m_bewitchedStateAct)
     {
         m_character->setHeathState(Character::Bewitched);
-    }
+    }*/
 }
 VisualItem* CharacterItem::getItemCopy()
 {

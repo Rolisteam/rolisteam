@@ -26,7 +26,7 @@
 #include "visualitem.h"
 #include "data/person.h"
 #include "data/charactervision.h"
-
+#include "data/characterstate.h"
 
 /**
     * @brief represents any character on map.
@@ -183,7 +183,14 @@ signals:
     void geometryChangeOnUnkownChild(qreal pointId, QPointF& F);
 
 public slots:
+    /**
+     * @brief changeVisionShape
+     */
 	void changeVisionShape();
+    /**
+     * @brief sizeChanged
+     * @param m_size
+     */
     void sizeChanged(int m_size);
     /**
      * @brief showNpcName
@@ -227,15 +234,19 @@ private:
 
 
     //QAction*
-    QAction* m_healthyStateAct;
+   /* QAction* m_healthyStateAct;
     QAction* m_lightlyStateAct;
     QAction* m_seriouslyStateAct;
     QAction* m_deadStateAct;
     QAction* m_spleepingStateAct;
-    QAction* m_bewitchedStateAct;
+    QAction* m_bewitchedStateAct;*/
+    QMap<QAction*,CharacterState*>* m_stateActList;
+
 
 	QAction* m_visionShapeDisk;
 	QAction* m_visionShapeAngle;
+
+
 
 
     //sight
