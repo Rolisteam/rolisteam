@@ -1330,7 +1330,6 @@ void MainWindow::setupUi()
     //readSettings();
     m_preferencesDialog = new PreferencesDialog(this);
     linkActionToMenu();
-    // Creation de l'editeur de notes
     m_noteEditor= new TextEdit(this);
 #ifdef Q_OS_MAC
     m_noteEditor->menuBar()->setNativeMenuBar(false);
