@@ -147,9 +147,7 @@ bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, in
                 result = true;
                 break;
             case DISABLE:
-                qDebug()<< value.toBool() << value.toInt() << "valuer";
                 diceAlias->setEnable(!value.toBool());
-                qDebug() << "isEnable" << diceAlias->isEnable();
                 result = true;
                 break;
             }
