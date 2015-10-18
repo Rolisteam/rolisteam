@@ -268,7 +268,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
 
     connect(ui->m_paletteTableView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editColor(QModelIndex)));
-    connect(ui->m_stateView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editStateColor(QModelIndex)));
+
     connect(ui->m_cssEdit,SIGNAL(clicked()),this,SLOT(editCss()));
     connect(ui->m_exportBtn,SIGNAL(clicked()),this,SLOT(exportTheme()));
     connect(ui->m_importBtn,SIGNAL(clicked()),this,SLOT(importTheme()));
