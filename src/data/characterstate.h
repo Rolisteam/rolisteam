@@ -29,14 +29,39 @@
 class CharacterState
 {
 public:
+    /**
+     * @brief CharacterState
+     */
 	CharacterState();
-
+    /**
+     * @brief setLabel
+     * @param str
+     */
 	void setLabel(QString str);
+    /**
+     * @brief setColor
+     * @param str
+     */
 	void setColor(QColor str);
+    /**
+     * @brief setImage
+     * @param str
+     */
 	void setImage(QImage str);
-
+    /**
+     * @brief getLabel
+     * @return
+     */
 	const QString& getLabel() const;
+    /**
+     * @brief getColor
+     * @return
+     */
 	const QColor& getColor() const;
+    /**
+     * @brief getImage
+     * @return
+     */
 	const QImage& getImage() const;
 
 
