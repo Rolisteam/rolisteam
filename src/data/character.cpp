@@ -28,27 +28,33 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
+QList<CharacterState*>* Character::m_stateList = NULL;
+
 Character::Character()
 {
 
 }
+void Character::setListOfCharacterState(QList<CharacterState*>* list)
+{
+    m_stateList = list;
+}
 
 Character::Character(const QString & nom, const QColor & color,bool npc,int number)
-    : Person(nom, color), m_parent(NULL),m_isNpc(npc),m_number(number),m_health(Healthy)
+    : Person(nom, color), m_parent(NULL),m_isNpc(npc),m_number(number),m_currentState(NULL)
 {
 }
 
 Character::Character(const QString & uuid, const QString & nom, const QColor & color,bool npc,int number)
-    : Person(uuid, nom, color), m_parent(NULL),m_isNpc(npc),m_number(number),m_health(Healthy)
+    : Person(uuid, nom, color), m_parent(NULL),m_isNpc(npc),m_number(number),m_currentState(NULL)
 {
 }
 
 Character::Character(NetworkMessageReader & data)
-    : Person(), m_parent(NULL),m_health(Healthy)
+    : Person(), m_parent(NULL),m_currentState(NULL)
 {
     m_uuid = data.string8();
     m_name = data.string16();
-    m_health = (Character::HeathState)data.int8();
+    m_currentState = getStateFromLabel(data.string16());
     m_isNpc = (bool)data.uint8();
     m_number = data.int32();
     m_color = QColor(data.rgb());
@@ -61,6 +67,11 @@ Character::Character(NetworkMessageReader & data)
     }
 
 
+}
+CharacterState* Character::getStateFromLabel(QString label)
+{
+    /// @warning to be implemented
+    return NULL;
 }
 
 void Character::fill(NetworkMessageWriter & message)
@@ -75,7 +86,7 @@ void Character::fill(NetworkMessageWriter & message)
     }
     message.string8(m_uuid);
     message.string16(m_name);
-    message.int8((int)m_health);
+    message.string16(m_currentState->getLabel());
     message.uint8((int)m_isNpc);
     message.int32(m_number);
     message.rgb(m_color);
@@ -111,19 +122,19 @@ bool Character::isNpc() const
 {
     return m_isNpc;
 }
-void  Character::setHeathState(Character::HeathState h)
+void  Character::setState(CharacterState*  h)
 {
-  m_health = h;
+  m_currentState = h;
 }
-Character::HeathState  Character::getHeathState() const
+CharacterState* Character::getState() const
 {
-    return m_health;
+    return m_currentState;
 }
 void Character::writeData(QDataStream& out) const
 {
     out << m_uuid;
     out << m_name;
-    out << (int)m_health;
+    out << m_currentState->getLabel();
     out << m_isNpc;
     out << m_number;
     out << m_color;
@@ -133,9 +144,9 @@ void Character::readData(QDataStream& in)
 {
     in >> m_uuid;
     in >> m_name;
-    int value;
+    QString value;
     in >> value;
-    m_health=(Character::HeathState) value;
+    m_currentState= getStateFromLabel(value);
     in >> m_isNpc;
     in >> m_number;
     in >> m_color;
