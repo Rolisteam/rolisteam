@@ -35,6 +35,7 @@
 #include <QInputDialog>
 #include <QJsonDocument>
 #include <QItemEditorCreatorBase>
+#include "widgets/filepathdelegateitem.h"
 
 #ifdef HAVE_SOUND
 #include <QMediaPlayer>
@@ -276,6 +277,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_deleteTheme,SIGNAL(clicked()),this,SLOT(deleteTheme()));
 
     ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::COLOR,new ColorDelegate());
+	ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::PICTURE,new FilePathDelegateItem());
 
 }
 
