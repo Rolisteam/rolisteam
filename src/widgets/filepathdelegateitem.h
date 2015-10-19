@@ -1,55 +1,40 @@
 #ifndef FILEPATHDELEGATEITEM_H
 #define FILEPATHDELEGATEITEM_H
 
-#include <QtWidgets/QStyledItemDelegate>
-#include <QtWidgets/QPushButton>
+#include <QStyledItemDelegate>
+#include <QPushButton>
+#include <QLabel>
 
 
-class imagePathEditor : public QWidget
+class ImagePathEditor : public QWidget
 {
     Q_OBJECT
 
 public:
-    imagePathEditor(bool isStereo        ,QWidget* parent = 0);
-    ~imagePathEditor();
+	ImagePathEditor(QWidget* parent = 0);
+	~ImagePathEditor();
 
-    void setLeftPath(QString str);
-    void setRightPath(QString str);
-	void	setRawFormat(bool);
-	QVariant getData();
-	void	setMedia(Media*);
+	void setPixmap(QPixmap );
 
-
+	QPixmap& getData();
 
 
 signals:
      void editingFinished();
 
 public slots:
-    void reversePath();
-    void browseLeftPath();
-    void browseRightPath();
-    void setStereoVisible(bool v);
-	void slotShowRawDialog();
+	void getFileName();
 
 protected:
     void setUi();
-    void getFileName(QString title,QLineEdit* line);
+
     void mouseReleaseEvent(QMouseEvent * /* event */);
     void focusInEvent(QFocusEvent * event);
 
-signals:
-	void showRawDialog(Media*);
-
-
 private:
-    QLineEdit* m_rightFilePath;
-    QPushButton* m_leftFilePathBrowser;
-    QLineEdit* m_leftFilePath;
-    QPushButton* m_rightFilePathBrowser;
-    bool m_isStereo;
-    QPushButton* m_reversePush;
-	QPushButton*	_rawButton;
+	QLabel* m_photoLabel;
+	QPushButton* m_photoBrowser;
+	QPixmap m_pixmap;
 };
 
 /**
@@ -68,17 +53,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 
-public slots:
-
-private slots:
-	void commitAndCloseEditor();
-
-signals:
-	void showRawDialog(Media*);
-
 private:
-    QStringList shortDataToSize(QStringList,int size,const QFont& font) const;
-	imagePathEditor* m_editor;
+	QPixmap m_pix;
 
 
 };

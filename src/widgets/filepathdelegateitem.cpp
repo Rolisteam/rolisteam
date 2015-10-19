@@ -1,18 +1,19 @@
-#include "FilePathDelegateItem.h"
+#include "filepathdelegateitem.h"
 
-#include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QApplication>
-#include <QtGui/QPainter>
-#include <QtCore/QDebug>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QApplication>
+#include <QPainter>
+#include <QDebug>
+#include <QFileDialog>
 
 
-ImagePathEditor::ImagePathEditor(bool isStereo,QWidget* parent)
-	: QWidget(parent),m_isStereo(isStereo),
-	  _media(0x0)
+#include "preferences/preferencesmanager.h"
+
+ImagePathEditor::ImagePathEditor(QWidget* parent)
+	: QWidget(parent)
 {
     setUi();
-    setMouseTracking(true);
 }
 ImagePathEditor::~ImagePathEditor()
 {
@@ -22,29 +23,6 @@ ImagePathEditor::~ImagePathEditor()
 void ImagePathEditor::focusInEvent(QFocusEvent * event)
 {
     QWidget::focusInEvent(event);
-    m_leftFilePath->setCursorPosition(m_leftFilePath->text().size());
-    m_leftFilePath->deselect();
-}
-
-void ImagePathEditor::setStereoVisible(bool visible)
-{
-    if(NULL!=m_rightFilePath)
-    {
-        m_rightFilePath->setVisible(visible);
-    }
-    if(NULL!=m_rightFilePathBrowser)
-    {
-        m_rightFilePathBrowser->setVisible(visible);
-    }
-    if(NULL!=m_reversePush)
-    {
-        m_reversePush->setVisible(visible);
-    }
-}
-
-void ImagePathEditor::slotShowRawDialog()
-{
-	emit showRawDialog(_media);
 }
 
 void ImagePathEditor::setUi()
@@ -57,88 +35,55 @@ void ImagePathEditor::setUi()
 
 	setLayout(hbox);
 
-    m_leftFilePathBrowser=new QPushButton(QPixmap( ( const char** ) FileOpen_xpm ),"");
-            //QPushButton(style->standardIcon(QStyle::SP_DialogOpenButton),"");
-    m_leftFilePath=new QLineEdit();
-    connect(m_leftFilePath,SIGNAL(editingFinished()),this,SIGNAL(editingFinished()));
+	m_photoBrowser=new QPushButton(QPixmap(),"");
 
-    hbox->addWidget(m_leftFilePathBrowser);
-    hbox->addWidget(m_leftFilePath);
+	m_photoLabel=new QLabel();
+	m_photoLabel->setScaledContents(true);
 
-    connect(m_leftFilePathBrowser,SIGNAL(pressed()),this,SLOT(browseLeftPath()));
+	hbox->addWidget(m_photoLabel,1);
+	hbox->addWidget(m_photoBrowser);
 
-	_rawButton = new QPushButton(this);
-	_rawButton->setFixedSize( QSize( 28,26 ) );
-	_rawButton->setIconSize( QSize( 24,24 ) );
-	_rawButton->setIcon(QIcon(QPixmap(Raw_xpm)));
-	_rawButton->setToolTip("RAW format options");
-	hbox->addWidget(_rawButton);
-	connect(_rawButton,SIGNAL(pressed()),this,SLOT(slotShowRawDialog()));
+	connect(m_photoBrowser,SIGNAL(pressed()),this,SLOT(getFileName()));
+
+
 }
-void ImagePathEditor::reversePath()
+
+
+void ImagePathEditor::setPixmap(QPixmap str)
 {
-    QString str = m_rightFilePath->text();
-    m_rightFilePath->setText(m_leftFilePath->text());
-    m_leftFilePath->setText(str);
-
-	emit editingFinished();
+	m_pixmap = str;
+	m_photoLabel->setPixmap(m_pixmap);
 }
 
-void ImagePathEditor::setLeftPath(QString str)
+
+
+
+QPixmap& ImagePathEditor::getData()
 {
-    m_leftFilePath->setText(str);
-
+	return m_pixmap;
 }
 
-void ImagePathEditor::setRightPath(QString str)
-{
-    m_rightFilePath->setText(str);
-}
-
-
-QVariant ImagePathEditor::getData()
-{
-    if(m_isStereo)
-    {
-        QStringList list;
-        list << m_leftFilePath->text();
-        list << m_rightFilePath->text();
-        return list;
-    }
-    else
-    {
-        return m_leftFilePath->text();
-    }
-
-}
-
-void ImagePathEditor::setMedia(Media * aMedia)
-{
-	_media = aMedia;
-}
-
-void ImagePathEditor::browseLeftPath()
-{
-    getFileName(m_leftFilePath->text(),m_leftFilePath);
-}
-
-void ImagePathEditor::browseRightPath()
-{
-    getFileName(m_rightFilePath->text(),m_rightFilePath);
-}
 void ImagePathEditor::mouseReleaseEvent(QMouseEvent * /* event */)
 {
     //emit editingFinished();
 }
-void ImagePathEditor::getFileName(QString title,QLineEdit* line)
+void ImagePathEditor::getFileName()
 {
 	/// @todo : 
+	PreferencesManager* preferences = PreferencesManager::getInstance();
 
-    if ( m_fileDialog->exec() == QDialog::Accepted )
+	QString fileName = QFileDialog::getOpenFileName(this,tr("Get picture for Character State"),
+													preferences->value("ImageDirectory",QDir::homePath()).toString(),
+													preferences->value("ImageFileFilter","*.jpg *jpeg *.png *.bmp *.svg").toString());
+
+	if (! fileName.isNull() )
     {
-        QString selectedFile(m_fileDialog->selectedFiles().at(0).name().string().c_str());
-        line->setText(selectedFile);
-        emit editingFinished();
+		QPixmap pix(fileName);
+		if(!pix.isNull())
+		{
+			m_pixmap = pix;
+			m_photoLabel->setPixmap(m_pixmap);
+		}
     }
 }
 
@@ -148,16 +93,14 @@ void ImagePathEditor::getFileName(QString title,QLineEdit* line)
 FilePathDelegateItem::FilePathDelegateItem(QObject *parent):
     QStyledItemDelegate(parent)
 {
-	connect( m_editor, SIGNAL(showRawDialog(Media*)), this, SIGNAL(showRawDialog(Media*)));
+
 }
 
 QWidget* FilePathDelegateItem::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index	) const
 {
 
-    ImagePathEditor*	editor = new ImagePathEditor(true);
+	ImagePathEditor*	editor = new ImagePathEditor(parent);
    
-
-
     return editor;
 
 }
@@ -165,9 +108,10 @@ void FilePathDelegateItem::setEditorData(QWidget *editor, const QModelIndex &ind
 {
     if(index.isValid())
     {
-        ImagePathEditor* seqEditor= qobject_cast<ImagePathEditor*>(editor);
-        if(NULL!=seqEditor)
+		ImagePathEditor* ImgEditor= qobject_cast<ImagePathEditor*>(editor);
+		if(NULL!=ImgEditor)
         {
+			ImgEditor->setPixmap(index.data(Qt::DisplayRole).value<QPixmap>());
         }
     }
 
@@ -183,7 +127,7 @@ void FilePathDelegateItem::setModelData(QWidget *editor, QAbstractItemModel *mod
     ImagePathEditor* seqEditor= qobject_cast<ImagePathEditor*>(editor) ;
     if(NULL!=seqEditor)
     {
-		model->setData(index,seqEditor->getData(), Qt::EditRole);
+		model->setData(index,m_pix, Qt::EditRole);
     }
     else
     {
@@ -217,11 +161,4 @@ QSize FilePathDelegateItem::sizeHint ( const QStyleOptionViewItem & option, cons
     a.setHeight(30);
     return a;
 }
-QStringList FilePathDelegateItem::shortDataToSize(QStringList list, int size,const QFont& font) const
-{
 
-}
-void FilePathDelegateItem::commitAndCloseEditor()
-{
-}
-}
