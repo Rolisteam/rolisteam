@@ -35,7 +35,7 @@ void ImagePathEditor::setUi()
 
 	setLayout(hbox);
 
-	m_photoBrowser=new QPushButton(QPixmap(),"");
+	m_photoBrowser=new QPushButton(style()->standardIcon(QStyle::SP_DialogOpenButton),"");
 
 	m_photoLabel=new QLabel();
 	m_photoLabel->setScaledContents(true);
@@ -58,7 +58,7 @@ void ImagePathEditor::setPixmap(QPixmap str)
 
 
 
-QPixmap& ImagePathEditor::getData()
+QPixmap ImagePathEditor::getData()
 {
 	return m_pixmap;
 }
@@ -124,10 +124,12 @@ void FilePathDelegateItem::updateEditorGeometry(QWidget *editor, const QStyleOpt
 }
 void FilePathDelegateItem::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    ImagePathEditor* seqEditor= qobject_cast<ImagePathEditor*>(editor) ;
-    if(NULL!=seqEditor)
+	ImagePathEditor* imgEditor= qobject_cast<ImagePathEditor*>(editor) ;
+	if(NULL!=imgEditor)
     {
-		model->setData(index,m_pix, Qt::EditRole);
+		QVariant var;
+		var.setValue(imgEditor->getData());
+		model->setData(index,var, Qt::EditRole);
     }
     else
     {
@@ -138,7 +140,7 @@ void FilePathDelegateItem::setModelData(QWidget *editor, QAbstractItemModel *mod
 void FilePathDelegateItem::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 
-    painter->save();
+	/*painter->save();
 
     if(!index.isValid())
         return;
@@ -146,14 +148,45 @@ void FilePathDelegateItem::paint(QPainter *painter, const QStyleOptionViewItem &
     QStyleOptionViewItemV4 opt = option;
     QStyledItemDelegate::initStyleOption(&opt, index);
 
-    //painter->fillRect(option.rect,option.palette.color(QPalette::Background));
+
 
 
     if(index.isValid())
     {
 
     }
-     painter->restore();
+	 painter->restore();*/
+
+	QPixmap pix = index.data().value<QPixmap>();
+
+	if(pix.isNull())
+		return;
+
+	QRect rectImg = pix.rect();
+	qreal ratioImg = rectImg.width()/rectImg.height();
+
+
+	QRect target2 = option.rect;
+	qreal ratioZone = target2.width()/target2.height();
+
+
+	QRect target(target2);
+
+	if(ratioZone >= 1)
+	{
+		target.setHeight(target2.height());
+		target.setWidth(target2.height()*ratioImg);
+	}
+	else
+	{
+		target.setWidth(target2.width());
+		target.setHeight(target2.width()/ratioImg);
+	}
+
+
+	painter->drawImage(target, pix.toImage());
+
+	QStyledItemDelegate::paint(painter,option,index);
 }
 QSize FilePathDelegateItem::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {

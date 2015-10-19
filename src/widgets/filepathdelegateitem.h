@@ -16,7 +16,7 @@ public:
 
 	void setPixmap(QPixmap );
 
-	QPixmap& getData();
+	QPixmap getData();
 
 
 signals:
