@@ -268,7 +268,7 @@ void MainWindow::checkUpdate()
 }
 void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
 {
-	bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
+    bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
     if((NULL!=subWindow) )
     {
         if (subWindow->objectName() == QString("MapFrame") && (localPlayerIsGM))
@@ -987,7 +987,8 @@ void MainWindow::updateUi()
         m_ui->m_saveAction->setEnabled(false);
         m_ui->m_saveScenarioAction->setEnabled(false);
     }
-	/*if(m_networkManager->isServer())
+   /*if(m_networkManager->isServer())
+
     {
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
@@ -2034,6 +2035,10 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
                     if(type==CleverURI::MAP)
                     {
 						prepareMap(static_cast<MapFrame*>(tmp));
+                    }
+                    else if(type == CleverURI::VMAP)
+                    {
+                        prepareVMap((VMapFrame*)tmp);
                     }
                     else if(type == CleverURI::VMAP)
                     {

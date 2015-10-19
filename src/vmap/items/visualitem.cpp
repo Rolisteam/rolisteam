@@ -128,6 +128,11 @@ void VisualItem::keyPressEvent(QKeyEvent* event)
     QGraphicsItem::keyPressEvent(event);
 }
 
+void VisualItem::setId(QString id)
+{
+    m_id = id;
+}
+
 void VisualItem::resizeContents(const QRect& rect, bool keepRatio)
 {
     if (!rect.isValid())
@@ -274,6 +279,11 @@ void VisualItem::addActionContextMenu(QMenu*)
     /// @brief must be implemented in child classes.
 }
 
+QString VisualItem::getId()
+{
+    return m_id;
+}
+
 bool VisualItem::hasFocusOrChild()
 {
     if(isSelected())
@@ -296,15 +306,6 @@ bool VisualItem::hasFocusOrChild()
     }
     return false;
 }
-void VisualItem::setId(QString id)
-{
-    m_id = id;
-}
-
-QString VisualItem::getId()
-{
-    return m_id;
-}
 
 void VisualItem::sendPositionMsg()
 {
@@ -313,6 +314,7 @@ void VisualItem::sendPositionMsg()
     msg.string16(m_id);
     msg.real(pos().x());
     msg.real(pos().y());
+
     msg.real(zValue());
     msg.sendAll();
 }
