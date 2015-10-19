@@ -32,21 +32,19 @@ QList<CharacterState*>* Character::m_stateList = NULL;
 
 Character::Character()
 {
-
-}
-void Character::setListOfCharacterState(QList<CharacterState*>* list)
-{
-    m_stateList = list;
+	init();
 }
 
 Character::Character(const QString & nom, const QColor & color,bool npc,int number)
     : Person(nom, color), m_parent(NULL),m_isNpc(npc),m_number(number),m_currentState(NULL)
 {
+	init();
 }
 
 Character::Character(const QString & uuid, const QString & nom, const QColor & color,bool npc,int number)
     : Person(uuid, nom, color), m_parent(NULL),m_isNpc(npc),m_number(number),m_currentState(NULL)
 {
+	init();
 }
 
 Character::Character(NetworkMessageReader & data)
@@ -66,7 +64,19 @@ Character::Character(NetworkMessageReader & data)
         m_avatar = QImage::fromData(data.byteArray32());
     }
 
+	init();
+}
+void Character::init()
+{
+	if((NULL == m_currentState)&&(!m_stateList->isEmpty()))
+	{
+		m_currentState = m_stateList->first();
+	}
+}
 
+void Character::setListOfCharacterState(QList<CharacterState*>* list)
+{
+	m_stateList = list;
 }
 CharacterState* Character::getStateFromLabel(QString label)
 {
@@ -86,7 +96,11 @@ void Character::fill(NetworkMessageWriter & message)
     }
     message.string8(m_uuid);
     message.string16(m_name);
-    message.string16(m_currentState->getLabel());
+	message.uint8(NULL!=m_currentState);
+	if(NULL!=m_currentState)
+	{
+		message.string16(m_currentState->getLabel());
+	}
     message.uint8((int)m_isNpc);
     message.int32(m_number);
     message.rgb(m_color);

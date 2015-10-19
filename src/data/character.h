@@ -113,8 +113,14 @@ public:
 
 public slots:
 
+
+
 signals:
     void avatarChanged();
+
+
+private:
+	void init();
 private:
     Person* m_parent;
     bool m_isNpc;
