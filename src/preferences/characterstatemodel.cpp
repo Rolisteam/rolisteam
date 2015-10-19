@@ -142,7 +142,7 @@ bool CharacterStateModel::setData(const QModelIndex &index, const QVariant &valu
                 result = true;
                 break;
 			case PICTURE:
-				state->setImage(value.value<QImage>());
+				state->setImage(value.value<QPixmap>());
                 result = true;
                 break;
             }

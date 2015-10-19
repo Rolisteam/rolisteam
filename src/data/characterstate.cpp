@@ -32,7 +32,7 @@ void CharacterState::setColor(QColor str)
 	m_color = str;
 }
 
-void CharacterState::setImage(QImage str)
+void CharacterState::setImage(QPixmap str)
 {
 	m_image = str;
 }
@@ -46,7 +46,11 @@ const QColor& CharacterState::getColor() const
 {
 	return m_color;
 }
-const QImage& CharacterState::getImage() const
+const QPixmap& CharacterState::getImage() const
 {
 	return m_image;
+}
+QPixmap* CharacterState::getPixmap()
+{
+	return &m_image;
 }
