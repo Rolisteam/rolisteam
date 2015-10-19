@@ -22,7 +22,7 @@
 
 #include <QString>
 #include <QColor>
-#include <QImage>
+#include <QPixmap>
 /**
  * @brief The CharacterState class stores all data for CharacterState
  */
@@ -47,7 +47,7 @@ public:
      * @brief setImage
      * @param str
      */
-	void setImage(QImage str);
+	void setImage(QPixmap str);
     /**
      * @brief getLabel
      * @return
@@ -62,13 +62,16 @@ public:
      * @brief getImage
      * @return
      */
-	const QImage& getImage() const;
+	const QPixmap& getImage() const;
+
+
+	QPixmap* getPixmap();
 
 
 private:
 	QString m_label;
 	QColor m_color;
-	QImage m_image;
+	QPixmap m_image;
 };
 
 #endif // CHARACTERSTATE_H
