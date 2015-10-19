@@ -1272,19 +1272,6 @@ void MainWindow::setupUi()
     dock->setWidget(m_toolBarStack);
     addDockWidget(Qt::LeftDockWidgetArea,dock);
 	dock->setWindowTitle(tr("Toolbar"));
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,dock->toggleViewAction());
-    m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
-
-    m_vToolBar = new VToolsBar();
-    m_toolBarStack = new QStackedWidget();
-	m_toolBarStack->setMinimumWidth(10);
-	m_toolBarStack->addWidget(m_toolBar);
-    m_toolBarStack->addWidget(m_vToolBar);
-
-    QDockWidget* dock = new QDockWidget(this);
-    dock->setWidget(m_toolBarStack);
-    addDockWidget(Qt::LeftDockWidgetArea,dock);
-	dock->setWindowTitle(tr("Toolbar"));
     dock->setObjectName("DockToolBar");
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,dock->toggleViewAction());
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,m_vmapToolBar->toggleViewAction());

@@ -128,10 +128,6 @@ void VisualItem::keyPressEvent(QKeyEvent* event)
     QGraphicsItem::keyPressEvent(event);
 }
 
-void VisualItem::setId(QString id)
-{
-    m_id = id;
-}
 void VisualItem::resizeContents(const QRect& rect, bool keepRatio)
 {
     if (!rect.isValid())
@@ -278,10 +274,6 @@ void VisualItem::addActionContextMenu(QMenu*)
     /// @brief must be implemented in child classes.
 }
 
-QString VisualItem::getId()
-{
-    return m_id;
-}
 bool VisualItem::hasFocusOrChild()
 {
     if(isSelected())
@@ -324,46 +316,7 @@ void VisualItem::sendPositionMsg()
     msg.real(zValue());
     msg.sendAll();
 }
-void VisualItem::readPositionMsg(NetworkMessageReader* msg)
-{
-    qreal x = msg->real();
-    qreal y = msg->real();
-    qreal z = msg->real();
 
-    setPos(x,y);
-    setZValue(z);
-}
-
-void VisualItem::setMapId(QString id)
-{
-    m_mapId = id;
-}
-
-QString VisualItem::getMapId()
-{
-    return m_mapId;
-}
-
-
-
-
-
-
-
-
-
-void VisualItem::sendPositionMsg()
-{
-    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
-    msg.string8(m_mapId);
-    msg.string16(m_id);
-    msg.real(pos().x());
-    msg.real(pos().y());
-    msg.real(rotation());
-
-    msg.real(zValue());
-    msg.sendAll();
-}
 void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 {
     qreal x = msg->real();

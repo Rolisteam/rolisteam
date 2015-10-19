@@ -302,7 +302,7 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
     }
     else
     {//sending info to others.
-        messageTitle = localPerson->name();
+        messageTitle = localPerson->getName();
 		if(!hasHtml)
 		{
 			message = message.toHtmlEscaped();
