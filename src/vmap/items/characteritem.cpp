@@ -117,7 +117,10 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
  //       painter->save();
         QPen pen = painter->pen();
         pen.setWidth(6);
-        pen.setColor(m_character->getState()->getColor());
+		if(( NULL!= m_character )&&(NULL!=m_character->getState()))
+		{
+			pen.setColor(m_character->getState()->getColor());
+		}
 
         painter->setPen(pen);
         painter->drawEllipse(m_rect.adjusted(3,3,-3,-3));
