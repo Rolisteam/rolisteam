@@ -68,7 +68,7 @@ Character::Character(NetworkMessageReader & data)
 }
 void Character::init()
 {
-	if((NULL == m_currentState)&&(!m_stateList->isEmpty()))
+	if((NULL != m_stateList)&&(NULL == m_currentState)&&(!m_stateList->isEmpty()))
 	{
 		m_currentState = m_stateList->first();
 	}
@@ -165,4 +165,8 @@ void Character::readData(QDataStream& in)
     in >> m_number;
     in >> m_color;
     in >> m_avatar;
+}
+QList<CharacterState*>* Character::getCharacterStateList()
+{
+	return m_stateList;
 }
