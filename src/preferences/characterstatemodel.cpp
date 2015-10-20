@@ -30,7 +30,7 @@ CharacterStateModel::CharacterStateModel()
 {
 	m_header << tr("Label") << tr("Color")<< tr("Image");
 
-
+	Character::setListOfCharacterState(m_stateList);
 }
 
 CharacterStateModel::~CharacterStateModel()
