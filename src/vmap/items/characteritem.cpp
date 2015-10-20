@@ -31,13 +31,13 @@
 #include "vmap/items/sightitem.h"
 
 CharacterItem::CharacterItem()
-: VisualItem()
+: VisualItem(),m_showNpcName(false),m_showNpcNumber(false), m_showPcName(false)
 {
     createActions();
 }
 
 CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
-    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL)
+	: VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL),m_showNpcName(false),m_showNpcNumber(false), m_showPcName(false)
 {
 	setPos(m_center-QPoint(diameter/2,diameter/2));
 	sizeChanged(diameter);
@@ -97,66 +97,80 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
     setChildrenVisible(hasFocusOrChild());
     emit selectStateChange(hasFocusOrChild());
 
+	QString toShow;
+	if(m_character->isNpc())
+	{
+		if(m_showNpcName)
+		{
+			toShow = m_character->getName();
+		}
+		if(m_showNpcNumber)
+		{
+			toShow = m_character->getName();
+		}
+		if(m_showNpcName && m_showNpcNumber)
+		{
+			toShow = QString("%1 - %2").arg(m_character->getName()).arg(m_character->number());
+		}
+	}
+	else if(m_showPcName)
+	{
+		toShow = m_character->getName();
+	}
+	painter->setRenderHint(QPainter::Antialiasing,true);
+	painter->setRenderHint(QPainter::TextAntialiasing,true);
+	painter->setRenderHint(QPainter::SmoothPixmapTransform,true);
+
+
     if(m_character->hasAvatar())
     {
         painter->drawPixmap(m_rect,*m_thumnails,m_thumnails->rect());
     }
     else
     {
-        painter->setRenderHint(QPainter::Antialiasing,true);
-        painter->setRenderHint(QPainter::TextAntialiasing,true);
-        painter->setRenderHint(QPainter::SmoothPixmapTransform,true);
-    //    painter->save();
         painter->setPen(m_character->getColor());
         painter->setBrush(QBrush(m_character->getColor(),Qt::SolidPattern));
         painter->drawEllipse(m_rect);
-  //      painter->restore();
 
+	}
 
-
- //       painter->save();
-        QPen pen = painter->pen();
-        pen.setWidth(6);
-		if(( NULL!= m_character )&&(NULL!=m_character->getState()))
+	QPen pen = painter->pen();
+	pen.setWidth(6);
+	if(( NULL!= m_character )&&(NULL!=m_character->getState()))
+	{
+		toShow += QString(" %1").arg(m_character->getState()->getLabel());
+		if(!m_character->getState()->getImage().isNull())
+		{
+			painter->drawPixmap(m_rect,m_character->getState()->getImage(),m_character->getState()->getImage().rect());
+		}
+		else
 		{
 			pen.setColor(m_character->getState()->getColor());
+			painter->setPen(pen);
+			painter->drawEllipse(m_rect.adjusted(3,3,-3,-3));
 		}
+	}
 
-        painter->setPen(pen);
-        painter->drawEllipse(m_rect.adjusted(3,3,-3,-3));
-       // painter->restore();
-    }
 
-    QString toShow;
-    //qDebug() << "isNpc" << m_character->isNpc() << "m_showNpcName " << m_showNpcName << "showNpcNumber" << m_showNpcNumber << "showPCName"<< m_showPcName << m_character->getName();
-    if(m_character->isNpc())
-    {
-        if(m_showNpcName)
-        {
-            toShow = m_character->getName();
-        }
-        if(m_showNpcNumber)
-        {
-            toShow = m_character->getName();
-        }
-        if(m_showNpcName && m_showNpcNumber)
-        {
-            toShow = QString("%1 - %2").arg(m_character->getName()).arg(m_character->number());
-        }
-    }
-    else if(m_showPcName)
-    {
-        toShow = m_character->getName();
-    }
+
+
+
+
     QRectF rectText;
     QFontMetrics metric(painter->font());
 	rectText.setRect(m_rect.center().x()-(metric.boundingRect(toShow).width()/2),m_rect.bottom(),metric.boundingRect(toShow).width(),metric.height());
 
-	//qDebug() << rectText;
-    //painter->save();
-	painter->setPen(m_character->getColor());
-    painter->drawText(rectText,Qt::AlignCenter,toShow);
-    //painter->restore();
+	if(!toShow.isEmpty())
+	{
+		if(toShow!=m_title)
+		{
+			m_title = toShow;
+			setToolTip(m_title);
+		}
+		painter->setPen(m_character->getColor());
+		painter->drawText(rectText,Qt::AlignCenter,toShow);
+	}
+
 
 
 }
@@ -168,7 +182,6 @@ void CharacterItem::sizeChanged(int m_size)
 {
     m_diameter=m_size;
 	m_rect.setRect(0,0,m_diameter,m_diameter);
-	//m_rect.setRect(pos().x()-m_diameter/2,pos().y()-m_diameter/2,m_diameter,m_diameter);
     generatedThumbnail();
 }
 void CharacterItem::generatedThumbnail()
@@ -426,14 +439,13 @@ void CharacterItem::showPcName(bool b)
 }
 void CharacterItem::addActionContextMenu(QMenu* menu)
 {
-  QMenu* state =  menu->addMenu(tr("Change State"));
-/*  state->addAction(m_healthyStateAct);
-  state->addAction(m_lightlyStateAct);
-  state->addAction(m_seriouslyStateAct);
-  state->addAction(m_deadStateAct);
-  state->addAction(m_spleepingStateAct);
-  state->addAction(m_bewitchedStateAct);*/
-
+  QMenu* stateMenu =  menu->addMenu(tr("Change State"));
+  QList<CharacterState*>* listOfState =  Character::getCharacterStateList();
+  foreach(CharacterState* state, *listOfState)
+  {
+	QAction* act = stateMenu->addAction(QIcon(*state->getPixmap()),state->getLabel(),this,SLOT(characterStateChange()));
+	act->setData(listOfState->indexOf(state));
+  }
 
   QMenu* user =  menu->addMenu(tr("Affect to"));
   foreach(Character* character, PlayersList::instance()->getCharacterList())
@@ -475,27 +487,11 @@ void CharacterItem::changeCharacter()
 void CharacterItem::createActions()
 {
     m_vision = new CharacterVision(this);
-  /*  m_healthyStateAct = new QAction(tr("Healthy"),this);
-    m_lightlyStateAct= new QAction(tr("Lightly wounded"),this);
-    m_seriouslyStateAct= new QAction(tr("Seriously injured"),this);
-    m_deadStateAct= new QAction(tr("Dead"),this);
-    m_spleepingStateAct= new QAction(tr("Sleeping"),this);
-    m_bewitchedStateAct= new QAction(tr("Bewitched"),this);*/
-
-
-
 
 	m_visionShapeDisk =  new QAction(tr("Disk"),this);
 	m_visionShapeDisk->setCheckable(true);
 	m_visionShapeAngle = new QAction(tr("Conical"),this);
 	m_visionShapeAngle->setCheckable(true);
-
-   /* connect(m_healthyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
-    connect(m_lightlyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
-    connect(m_seriouslyStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
-    connect(m_deadStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
-    connect(m_spleepingStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));
-    connect(m_bewitchedStateAct,SIGNAL(triggered()),this,SLOT(characterStateChange()));*/
 
 	connect(m_visionShapeAngle,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
 	connect(m_visionShapeDisk,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
@@ -523,39 +519,11 @@ void CharacterItem::characterStateChange()
     if(NULL == m_character)
         return;
 
+	int index = act->data().toInt();
 
-
-
-    CharacterState* state = m_stateActList->value(act);
-
+	CharacterState* state = Character::getCharacterStateList()->at(index);
     m_character->setState(state);
 
-
-
-/*    if(act == m_healthyStateAct)
-    {
-        m_character->setHeathState(Character::Healthy);
-    }
-    else if(act == m_lightlyStateAct)
-    {
-        m_character->setHeathState(Character::Lightly);
-    }
-    else if (act == m_seriouslyStateAct)
-    {
-        m_character->setHeathState(Character::Seriously);
-    }
-    else if (act == m_deadStateAct)
-    {
-       m_character->setHeathState(Character::Dead);
-    }
-    else if (act == m_spleepingStateAct)
-    {
-        m_character->setHeathState(Character::Sleeping);
-    }
-    else if (act == m_bewitchedStateAct)
-    {
-        m_character->setHeathState(Character::Bewitched);
-    }*/
 }
 VisualItem* CharacterItem::getItemCopy()
 {

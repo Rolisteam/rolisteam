@@ -230,29 +230,14 @@ private:
     bool m_showNpcName;
     bool m_showNpcNumber;
     bool m_showPcName;
-
-
+	QString m_title;
 
     //QAction*
-   /* QAction* m_healthyStateAct;
-    QAction* m_lightlyStateAct;
-    QAction* m_seriouslyStateAct;
-    QAction* m_deadStateAct;
-    QAction* m_spleepingStateAct;
-    QAction* m_bewitchedStateAct;*/
-    QMap<QAction*,CharacterState*>* m_stateActList;
-
-
 	QAction* m_visionShapeDisk;
 	QAction* m_visionShapeAngle;
 
-
-
-
     //sight
-	//QAction* m_showSightAct;
     CharacterVision* m_vision;
-
 };
 
 #endif // CHARACTERITEM_H
