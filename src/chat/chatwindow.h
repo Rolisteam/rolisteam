@@ -168,7 +168,7 @@ private slots :
      * @param messagehtml
      * @param message
      */
-    void emettreTexte(QString messagehtml,QString message);
+	void emettreTexte(bool hasHtml,QString message);
     /**
      * @brief upSelectPerson
      */

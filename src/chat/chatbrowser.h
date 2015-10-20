@@ -26,10 +26,15 @@ private slots:
     void detachedView();
     void showContextMenu(QPoint pos);
 
+    void setWordWrap();
+   // void setWrapAnyWhere();
+
 
 private:
     QAction* m_bgColorAct;
     QAction* m_detachedDialog;
+    QAction* m_wordWarp;
+
     QColor m_bgColor;
     QWidget* m_parent;
 };

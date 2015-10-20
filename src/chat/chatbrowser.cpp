@@ -17,7 +17,13 @@ ChatBrowser::ChatBrowser(QWidget *parent) :
 
     m_detachedDialog = new QAction(tr("Detach the view"),this);
     m_detachedDialog->setCheckable(true);
+    m_wordWarp = new QAction(tr("Word Wrap"),this);
+    m_wordWarp->setCheckable(true);
+    m_wordWarp->setChecked(true);
+
     connect(m_detachedDialog,SIGNAL(triggered()),this, SLOT(detachedView()));
+    //connect(m_anyWhereWarp,SIGNAL(triggered()),this, SLOT(setWrapAnyWhere()));
+    connect(m_wordWarp,SIGNAL(triggered()),this, SLOT(setWordWrap()));
 
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(showContextMenu(QPoint)));
@@ -27,8 +33,7 @@ ChatBrowser::ChatBrowser(QWidget *parent) :
     setOpenLinks(true);
     setReadOnly(true);
     setUndoRedoEnabled(false);
-    setWordWrapMode(QTextOption::WrapAnywhere);
-   // setLineWrapMode(QTextEdit::FixedPixelWidth);
+    setWordWrapMode(QTextOption::WordWrap);
     document()->setDefaultStyleSheet(QString(".dice {color:%1;font-weight: bold;}").arg(PreferencesManager::getInstance()->value("DiceHighlightColor",QColor(Qt::red)).value<QColor>().name()));
 }
 void ChatBrowser::backGroundChanged()
@@ -47,23 +52,37 @@ void ChatBrowser::showContextMenu(QPoint pos)
     QMenu* menu = createStandardContextMenu(pos);
     menu->addAction(m_bgColorAct);
     menu->addAction(m_detachedDialog);
+    menu->addSeparator();
+ //   menu->addAction(m_anyWhereWarp);
+    menu->addAction(m_wordWarp);
     menu->exec(mapToGlobal(pos));
 }
 void ChatBrowser::resizeEvent(QResizeEvent *e)
 {
     QTextBrowser::resizeEvent(e);
 }
+void ChatBrowser::setWordWrap()
+{
+    if(m_wordWarp->isChecked())
+    {
+        setWordWrapMode(QTextOption::WordWrap);
+    }
+    else
+    {
+        setWordWrapMode(QTextOption::WrapAnywhere);
+    }
+}
+
+
+
 void ChatBrowser::detachedView()
 {
     if(m_detachedDialog->isChecked())
     {
         detachView(true);
-        /*setParent(NULL);
-        setWindowFlags(Qt::Dialog);*/
     }
     else
     {
         detachView(false);
-        //setParent(m_parent);
     }
 }

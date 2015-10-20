@@ -137,10 +137,6 @@ void NetworkLink::reception()
     }
     quint32 lu=0;
 
-
-
-
-    static int laps=0;
     while (m_socketTcp->bytesAvailable())
     {
         // S'il s'agit d'un nouveau message

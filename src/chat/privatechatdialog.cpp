@@ -38,7 +38,7 @@
  **************************/
 
 PrivateChatDialogModel::PrivateChatDialogModel(QObject * parent)
-    : PlayersListProxyModel(parent)
+	: PlayersListProxyModel(parent),m_isEditable(false)
 {
 }
 

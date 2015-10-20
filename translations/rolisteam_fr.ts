@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
 <context>
     <name>AudioPlayer</name>
     <message>
@@ -16,7 +14,7 @@
     <message>
         <location filename="../src/audio/audioPlayer.cpp" line="235"/>
         <source>Select the songs directory</source>
-        <translation>Choississez le dossier des musiques</translation>
+        <translation>Choisissez le dossier musiques</translation>
     </message>
 </context>
 <context>
@@ -24,7 +22,7 @@
     <message>
         <location filename="../src/audio/audiowidget.ui" line="14"/>
         <source>Form</source>
-        <translation></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../src/audio/audiowidget.ui" line="44"/>
@@ -47,12 +45,12 @@
     <message>
         <location filename="../src/audio/audiowidget.ui" line="129"/>
         <source>Pause</source>
-        <translation></translation>
+        <translation>Pause</translation>
     </message>
     <message>
         <location filename="../src/audio/audiowidget.ui" line="151"/>
         <source>Stop</source>
-        <translation></translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location filename="../src/audio/audiowidget.ui" line="170"/>
@@ -76,7 +74,12 @@
     <message>
         <location filename="../src/chat/chatbrowser.cpp" line="18"/>
         <source>Detach the view</source>
-        <translation type="unfinished"></translation>
+        <translation>Détacher la fenêtre</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatbrowser.cpp" line="20"/>
+        <source>Word Wrap</source>
+        <translation>Coupure aux mots</translation>
     </message>
 </context>
 <context>
@@ -89,7 +92,7 @@
     <message>
         <location filename="../src/chat/chatlist.cpp" line="273"/>
         <source>%1 (Chat)</source>
-        <translation></translation>
+        <translation>%1 (Chat)</translation>
     </message>
 </context>
 <context>
@@ -134,52 +137,52 @@
         <translation>Syntaxe</translation>
     </message>
     <message>
+        <location filename="../src/chat/chatwindow.cpp" line="145"/>
+        <source>Save all messages from this window in %1/%2.html</source>
+        <translation>Sauvegarder tous les messages de cette fenêtre dans %1/%2.html</translation>
+    </message>
+    <message>
         <location filename="../src/chat/chatwindow.cpp" line="77"/>
         <source>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Jeter_les_d%C3%A9s&quot;&gt;http://wiki.rolisteam.org/index.php/Jeter_les_dés&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="145"/>
-        <source>Save all messages from this window in %1/%2.html</source>
-        <translation>Sauvegarde tous les messages de cette fenêtre dans %1/%2.html</translation>
-    </message>
-    <message>
         <location filename="../src/chat/chatwindow.cpp" line="215"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2 (%3)]</source>
         <comment>You got</comment>
-        <translation type="unfinished">avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%4)] {1&lt;?} {2 ?} {3)?}</translation>
+        <translation>avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%2 (%3)] </translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="217"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]</source>
         <comment>He got</comment>
-        <translation type="unfinished">a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%4)] {1&lt;?} {2 ?} {3)?}</translation>
+        <translation> a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)] </translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="286"/>
+        <location filename="../src/chat/chatwindow.cpp" line="285"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="287"/>
+        <location filename="../src/chat/chatwindow.cpp" line="286"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
-        <translation>certains utilisateurs ne verrons pas vos emotes.</translation>
+        <translation>Certains utilisateurs ne verront pas vos emotes.</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="419"/>
-        <location filename="../src/chat/chatwindow.cpp" line="423"/>
+        <location filename="../src/chat/chatwindow.cpp" line="432"/>
+        <location filename="../src/chat/chatwindow.cpp" line="436"/>
         <source>%1</source>
-        <translation></translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.ui" line="20"/>
         <source>ChatWindow</source>
-        <translation></translation>
+        <translation>ChatWindow</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.ui" line="58"/>
         <source>PushButton</source>
-        <translation></translation>
+        <translation>BoutonPoussoir</translation>
     </message>
 </context>
 <context>
@@ -187,12 +190,12 @@
     <message>
         <location filename="../src/widgets/colorselector.cpp" line="99"/>
         <source>Predefine color 1</source>
-        <translation>Couleur Prédefinie 1</translation>
+        <translation>Couleur Prédéfinie 1</translation>
     </message>
     <message>
         <location filename="../src/widgets/colorselector.cpp" line="124"/>
         <source>Predefine color %1 </source>
-        <translation>Couleur Prédefinie %1</translation>
+        <translation>Couleur Prédéfinie %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/colorselector.cpp" line="155"/>
@@ -266,7 +269,7 @@
     <message>
         <location filename="../src/network/connectiondialog.cpp" line="140"/>
         <source>Port : </source>
-        <translation></translation>
+        <translation>Port : </translation>
     </message>
     <message>
         <location filename="../src/network/connectiondialog.cpp" line="143"/>
@@ -346,7 +349,7 @@
     <message>
         <location filename="../src/map/charactertoken.cpp" line="44"/>
         <source>Sleeping</source>
-        <translation>Dormant</translation>
+        <translation>Endormi</translation>
     </message>
     <message>
         <location filename="../src/map/charactertoken.cpp" line="45"/>
@@ -356,12 +359,12 @@
     <message>
         <location filename="../src/map/charactertoken.cpp" line="396"/>
         <source>Type de personnage inconnu (dessinerPersonnage - DessinPerso.cpp)</source>
-        <translation></translation>
+        <translation>Type de personnage inconnu (dessinerPersonnage - DessinPerso.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/charactertoken.cpp" line="471"/>
         <source>Type de personnage inconnu (renommerPerso - DessinPerso.cpp)</source>
-        <translation></translation>
+        <translation>Type de personnage inconnu (renommerPerso - DessinPerso.cpp)</translation>
     </message>
 </context>
 <context>
@@ -374,7 +377,7 @@
     <message>
         <location filename="../src/preferences/dicealiasmodel.cpp" line="29"/>
         <source>Value</source>
-        <translation>Traduction</translation>
+        <translation>Valeur</translation>
     </message>
     <message>
         <location filename="../src/preferences/dicealiasmodel.cpp" line="29"/>
@@ -395,12 +398,12 @@
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/filedirchooser.cpp" line="90"/>
+        <location filename="../src/widgets/filedirchooser.cpp" line="91"/>
         <source>Select directory</source>
         <translation>Choississez un dossier</translation>
     </message>
     <message>
-        <location filename="../src/widgets/filedirchooser.cpp" line="97"/>
+        <location filename="../src/widgets/filedirchooser.cpp" line="98"/>
         <source>Open File</source>
         <translation>Ouvrir un Fichier</translation>
     </message>
@@ -408,135 +411,130 @@
 <context>
     <name>Image</name>
     <message>
-        <location filename="../src/Image.cpp" line="334"/>
-        <source>Zoom In</source>
-        <translation>Agrandir</translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="335"/>
-        <source>increase zoom level</source>
-        <translation>Augmenter le zoom</translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="339"/>
-        <source>Ctrl++</source>
-        <comment>Zoom In</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="344"/>
-        <source>Zoom out</source>
-        <translation>Réduire</translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="359"/>
-        <source>Ctrl+m</source>
-        <comment>Fit the workspace</comment>
-        <translatorcomment>S&apos;adapte à l&apos;espace de travail</translatorcomment>
-        <translation>Ctrl+m</translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="365"/>
-        <source>Fit Window</source>
-        <translation>S&apos;adapter à la fenêtre</translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="368"/>
-        <source>Image will take the best dimension to fit the window.</source>
-        <translation>L&apos;image prendra la dimension la plus adaptée.</translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="382"/>
-        <source>Ctrl+l</source>
-        <comment>Set the zoom level at 20%</comment>
-        <translatorcomment>Definit le zoom à 20%</translatorcomment>
-        <translation>Ctrl+l</translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="391"/>
-        <source>Ctrl+n</source>
-        <comment>Normal</comment>
-        <translatorcomment>Normal</translatorcomment>
-        <translation>Ctrl+n</translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="401"/>
-        <source>Ctrl+b</source>
-        <comment>Zoom Out</comment>
-        <translatorcomment>Zoom Arrière</translatorcomment>
-        <translation>Ctrl+G</translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="346"/>
-        <source>Reduce zoom level</source>
-        <translation>Réduire le zoom</translation>
-    </message>
-    <message>
-        <location filename="../src/Image.cpp" line="147"/>
+        <location filename="../src/Image.cpp" line="139"/>
         <source>Image Compression fails (saveImageToFile - Image.cpp)</source>
         <translation>La compression d&apos;image a échoué (saveImageToFile - Image.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="349"/>
-        <source>Ctrl+-</source>
-        <comment>Zoom Out</comment>
-        <translation></translation>
+        <location filename="../src/Image.cpp" line="322"/>
+        <source>Zoom In</source>
+        <translation>Agrandir</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="354"/>
+        <location filename="../src/Image.cpp" line="323"/>
+        <source>increase zoom level</source>
+        <translation>Augmenter le zoom</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="327"/>
+        <source>Ctrl++</source>
+        <comment>Zoom In</comment>
+        <translation>Ctrl++</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="332"/>
+        <source>Zoom out</source>
+        <translation>Réduire</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="334"/>
+        <source>Reduce zoom level</source>
+        <translation>Réduire le zoom</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="337"/>
+        <source>Ctrl+-</source>
+        <comment>Zoom Out</comment>
+        <translation>Ctrl+-</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="342"/>
         <source>Fit the workspace</source>
         <translation>Ajuster à l&apos;espace de travail</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="356"/>
+        <location filename="../src/Image.cpp" line="344"/>
         <source>The window and the image fit the workspace</source>
-        <translation>La fenêtre et l&apos;image rentre dans l&apos;espace de travail</translation>
+        <translation>La fenêtre et l&apos;image rentrent dans l&apos;espace de travail</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="371"/>
+        <location filename="../src/Image.cpp" line="347"/>
+        <source>Ctrl+m</source>
+        <comment>Fit the workspace</comment>
+        <translation>Ctrl+m</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="353"/>
+        <source>Fit Window</source>
+        <translation>S&apos;adapter à la fenêtre</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="356"/>
+        <source>Image will take the best dimension to fit the window.</source>
+        <translation>L&apos;image prendra la dimension la plus adaptée à la taille de la fenêtre.</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="359"/>
         <source>Ctrl+f</source>
         <comment>Fit the window</comment>
-        <translatorcomment>S&apos;adapte à la fenêtre</translatorcomment>
         <translation>Ctrl+f</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="378"/>
+        <location filename="../src/Image.cpp" line="366"/>
         <source>Little</source>
         <translation>Petit</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="379"/>
+        <location filename="../src/Image.cpp" line="367"/>
         <source>Set the zoom level at 20% </source>
         <translation>Zoomer à 20% </translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="387"/>
-        <source>Normal</source>
-        <translation></translation>
+        <location filename="../src/Image.cpp" line="370"/>
+        <source>Ctrl+l</source>
+        <comment>Set the zoom level at 20%</comment>
+        <translation>Ctrl+l</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="388"/>
+        <location filename="../src/Image.cpp" line="375"/>
+        <source>Normal</source>
+        <translation>Normal</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="376"/>
         <source>No Zoom</source>
         <translation>Aucun zoom</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="397"/>
+        <location filename="../src/Image.cpp" line="379"/>
+        <source>Ctrl+n</source>
+        <comment>Normal</comment>
+        <translation>Ctrl+n</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="385"/>
         <source>Big</source>
         <translation>Grand</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="398"/>
+        <location filename="../src/Image.cpp" line="386"/>
         <source>Set the zoom level at 400%</source>
         <translation>Zoomer à 400%</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="505"/>
+        <location filename="../src/Image.cpp" line="389"/>
+        <source>Ctrl+b</source>
+        <comment>Zoom Out</comment>
+        <translation>Ctrl+G</translation>
+    </message>
+    <message>
+        <location filename="../src/Image.cpp" line="493"/>
         <source>Unsupported file format</source>
         <translation>Format de fichier non supporté</translation>
     </message>
     <message>
-        <location filename="../src/Image.cpp" line="509"/>
-        <location filename="../src/Image.cpp" line="547"/>
+        <location filename="../src/Image.cpp" line="497"/>
+        <location filename="../src/Image.cpp" line="535"/>
         <source> (Picture)</source>
         <translation> (Image)</translation>
     </message>
@@ -552,86 +550,81 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1261"/>
+        <location filename="../src/mainwindow.cpp" line="1252"/>
         <source>unknown</source>
-        <translation>inconnue</translation>
+        <translation>inconnu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="212"/>
-        <source>Cascade</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1324"/>
+        <location filename="../src/mainwindow.cpp" line="1315"/>
         <source>Minutes Editor[*]</source>
         <translation>Editeur de Notes[*]</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1916"/>
-        <source>%1[*] - v%2 - %3 - %4 - %5</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1918"/>
-        <source>Connected</source>
-        <translation>Connecté</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1918"/>
-        <source>Not Connected</source>
-        <translation>Non connecté</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1919"/>
-        <source>Server</source>
-        <translation>Serveur</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1919"/>
-        <source>Client</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1919"/>
-        <source>GM</source>
-        <translation>MJ</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1919"/>
-        <source>Player</source>
-        <translation>Joueur</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1701"/>
+        <location filename="../src/mainwindow.cpp" line="1692"/>
         <source>Open Map</source>
         <translation>Ouvrir Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="707"/>
+        <location filename="../src/mainwindow.cpp" line="1770"/>
+        <source>&amp;%1 %2</source>
+        <translation>&amp;%1 %2</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1909"/>
+        <source>Connected</source>
+        <translation>Connecté</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1909"/>
+        <source>Not Connected</source>
+        <translation>Non connecté</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <source>Server</source>
+        <translation>Serveur</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <source>Client</source>
+        <translation>Client</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <source>GM</source>
+        <translation>MJ</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1910"/>
+        <source>Player</source>
+        <translation>Joueur</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="698"/>
         <source>Open scenario</source>
         <translation>Ouvrir Scénario</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1696"/>
-        <location filename="../src/mainwindow.cpp" line="1861"/>
+        <location filename="../src/mainwindow.cpp" line="1687"/>
+        <location filename="../src/mainwindow.cpp" line="1851"/>
         <source>Open Picture</source>
         <translation>Ouvrir Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="694"/>
-        <location filename="../src/mainwindow.cpp" line="1706"/>
+        <location filename="../src/mainwindow.cpp" line="685"/>
+        <location filename="../src/mainwindow.cpp" line="1697"/>
         <source>Open Minutes</source>
         <translation>Ouvrir Notes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="792"/>
+        <location filename="../src/mainwindow.cpp" line="783"/>
         <source>Save Map</source>
         <translation>Sauvegarder Plan</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="14"/>
         <source>MainWindow</source>
-        <translation></translation>
+        <translation>MainWindow</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="28"/>
@@ -668,7 +661,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="131"/>
         <source>Ctrl+S</source>
-        <translation></translation>
+        <translation>Ctrl+S</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="141"/>
@@ -678,7 +671,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="144"/>
         <source>Ctrl+Shift+S</source>
-        <translation></translation>
+        <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="149"/>
@@ -688,27 +681,22 @@
     <message>
         <location filename="../src/mainwindow.ui" line="152"/>
         <source>Ctrl+Shift+A</source>
-        <translation></translation>
+        <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="161"/>
         <source>Save into Scenario</source>
-        <translation>Enregistrer dans un Scénario</translation>
+        <translation>Enregistrer dans Scénario</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="164"/>
         <source>Meta+Ctrl+S</source>
-        <translation></translation>
+        <translation>Meta+Ctrl+S</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="169"/>
         <source>Close</source>
         <translation>Fermer</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="172"/>
-        <source>Ctrl+Esc</source>
-        <translation>Ctrl+Esc</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="181"/>
@@ -718,38 +706,33 @@
     <message>
         <location filename="../src/mainwindow.ui" line="184"/>
         <source>Ctrl+P</source>
-        <translation></translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="193"/>
-        <location filename="../src/mainwindow.cpp" line="603"/>
+        <location filename="../src/mainwindow.cpp" line="594"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="196"/>
         <source>Ctrl+Q</source>
-        <translation></translation>
+        <translation>Ctrl+Q</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="204"/>
         <source>Tab</source>
-        <translation></translation>
+        <translation>Tab</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="207"/>
         <source>Alt+O</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="215"/>
-        <source>Alt+C</source>
-        <translation></translation>
+        <translation>Alt+O</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="223"/>
         <source>Alt+T</source>
-        <translation></translation>
+        <translation>Alt+T</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="228"/>
@@ -769,17 +752,17 @@
     <message>
         <location filename="../src/mainwindow.ui" line="241"/>
         <source>F1</source>
-        <translation></translation>
+        <translation>F1</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="249"/>
         <source>F12</source>
-        <translation></translation>
+        <translation>F12</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="261"/>
         <source>Ctrl+N</source>
-        <translation></translation>
+        <translation>Ctrl+N</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="270"/>
@@ -795,7 +778,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="291"/>
         <source>Ctrl+O</source>
-        <translation></translation>
+        <translation>Ctrl+O</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="300"/>
@@ -805,7 +788,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="303"/>
         <source>Ctrl+I</source>
-        <translation></translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="321"/>
@@ -820,17 +803,17 @@
     <message>
         <location filename="../src/mainwindow.ui" line="335"/>
         <source>F5</source>
-        <translation></translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="346"/>
         <source>Show Npc Name</source>
-        <translation>Affiche le nom des PJ</translation>
+        <translation>Affiche le nom des PNJ</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="349"/>
         <source>F6</source>
-        <translation></translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="360"/>
@@ -840,7 +823,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="363"/>
         <source>F7</source>
-        <translation></translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="371"/>
@@ -850,7 +833,7 @@
     <message>
         <location filename="../src/mainwindow.ui" line="374"/>
         <source>Alt+M</source>
-        <translation></translation>
+        <translation>Alt+M</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="383"/>
@@ -864,7 +847,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="399"/>
-        <location filename="../src/mainwindow.cpp" line="420"/>
+        <location filename="../src/mainwindow.cpp" line="411"/>
         <source>Notification Zone</source>
         <translation>Zone de notification</translation>
     </message>
@@ -899,13 +882,28 @@
         <translation>Réorganiser</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.ui" line="172"/>
+        <source>Ctrl+Esc</source>
+        <translation>Ctrl+Esc</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="212"/>
+        <source>Cascade</source>
+        <translation>Cascade</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="215"/>
+        <source>Alt+C</source>
+        <translation>Alt+C</translation>
+    </message>
+    <message>
         <location filename="../src/mainwindow.ui" line="220"/>
         <source>Tile</source>
         <translation>Tuile</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="109"/>
-        <location filename="../src/mainwindow.cpp" line="980"/>
+        <location filename="../src/mainwindow.cpp" line="971"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
@@ -915,67 +913,230 @@
         <translation>Carte inconnue</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="942"/>
-        <location filename="../src/mainwindow.cpp" line="964"/>
+        <location filename="../src/mainwindow.cpp" line="933"/>
+        <location filename="../src/mainwindow.cpp" line="955"/>
         <source>Image compression error (readImageFromStream - MainWindow.cpp)</source>
         <translation>Erreur durant la compression (readImageFromStream - MainWindow.cpp) </translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="113"/>
         <source>&lt;p&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later).A copy of the GPL is contained in the &apos;COPYING&apos; file distributed with Rolisteam.Rolisteam is copyrighted by its contributors.  See the &apos;COPYRIGHT&apos; file for the complete list of contributors.  We provide no warranty for this program.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Vous pouvez modifier et redistribuer le programme sous les termes de la GPL (version 2 ou supérieure).Une copie de la GPL est présente dans le fichier &apos;COPYING&apos; distribuer avec rolisteam. Rolisteam appartient à ses contributeurs  Voir le fichier &apos;COPYRIGHT&apos;  pour voir la liste complète des contributeur. Nous fournissons aucune garantie pour ce programme.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Vous pouvez modifier et redistribuer le programme sous les termes de la GPL (version 2 ou supérieure).Une copie de la GPL est présente dans le fichier &apos;COPYING&apos; distribué avec rolisteam. Rolisteam appartient à ses contributeurs  Voir le fichier &apos;COPYRIGHT&apos;  pour voir la liste complète des contributeur. Nous ne fournissons aucune garantie pour ce programme.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="116"/>
-        <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Translators&lt;/h3&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec&lt;a/&gt;&lt;/td&gt;&lt;td&gt;(English &amp; French)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Hungarian)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (Turkish)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;a/&gt;&lt;/td&gt;&lt;td&gt; (French &amp; German)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;a/&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;a/&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/mainwindow.cpp" line="1039"/>
+        <source>%1 has not the right version: %2.</source>
+        <translation>%1 n&apos;a pas la même version: %2.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="909"/>
-        <source>Server Ip Address:%1
-Port:%2</source>
-        <translation>Adresse IP du serveur:%1
-Port:%2</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1121"/>
+        <location filename="../src/mainwindow.cpp" line="1112"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam utilise le port &lt;port&gt; pour la connexion</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1122"/>
+        <location filename="../src/mainwindow.cpp" line="1113"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam se connecte à &lt;server&gt;.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1123"/>
+        <location filename="../src/mainwindow.cpp" line="1114"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
-        <translation>Définie le &lt;role&gt;: gm ou pc</translation>
+        <translation>Définir le &lt;role&gt;: gm ou pc</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1124"/>
+        <location filename="../src/mainwindow.cpp" line="1115"/>
         <source>Erase the settings and use the default parameters</source>
-        <translation>Efface les réglages et utilise les parametres par défaut</translation>
+        <translation>Effacer les réglages et utiliser les paramètres par défaut</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1125"/>
+        <location filename="../src/mainwindow.cpp" line="1116"/>
         <source>Define the &lt;username&gt;</source>
-        <translation>Définie le nom d&apos;&lt;utilisateur&gt;</translation>
+        <translation>Définir le nom d&apos;&lt;utilisateur&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1208"/>
+        <location filename="../src/mainwindow.cpp" line="1199"/>
         <source>End of the connection process</source>
-        <translation>Fin du procéssus de connexion</translation>
+        <translation>Fin du processus de connexion</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="981"/>
-        <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
-        <translation>La documentation de %1 est accessible sur le web :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
+        <location filename="../src/mainwindow.cpp" line="1221"/>
+        <source>Error:</source>
+        <translation>Erreur:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="255"/>
+        <location filename="../src/mainwindow.cpp" line="1225"/>
+        <source>Warning:</source>
+        <translation>Avertissement:</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1907"/>
+        <source>%1[*] - v%2 - %3 - %4 - %5</source>
+        <translation>%1[*] - v%2 - %3 - %4 - %5</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <source>Close Map</source>
         <translation>Fermer Plan</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="116"/>
+        <source>&lt;p&gt;&lt;h3&gt;Web Sites :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt; &lt;/ul&gt;&lt;/p&gt;&lt;p&gt;&lt;h3&gt;Current developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt; &lt;p&gt;&lt;h3&gt;Translators&lt;/h3&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/td&gt;&lt;td&gt;(English &amp; French)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Portuguese)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Hungarian)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (Turkish)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;/a&gt;&lt;/td&gt;&lt;td&gt; (French &amp; German)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;h3&gt;Retired developers :&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;/a&gt; (rolistik)  &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</source>
+        <translation>
+
+&lt;p&gt; 
+&lt;h3&gt;Sites webs :&lt;/h3&gt;
+&lt;ul&gt;
+   &lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Site Rolisteam Officiel&lt;/a&gt;&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Remarques et Bugs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt; 
+&lt;p&gt; 
+&lt;h3&gt;Développeur :&lt;/h3&gt;
+&lt;ul&gt;
+   &lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt; 
+&lt;p&gt; 
+&lt;h3&gt;Translateurs&lt;/h3&gt;
+&lt;table&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;(anglais &amp; français)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (portugais)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (portugais)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (Hongrois)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (Turc)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (français &amp; Allemand)&lt;/td&gt;
+   &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt; 
+&lt;h3&gt;Ancien developpeurs :&lt;/h3&gt;
+&lt;ul&gt;
+   &lt;li&gt;
+      &lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou
+      &lt;a/&gt;
+   &lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;/a&gt; (rolistik) &lt;/li&gt; 
+&lt;/ul&gt;
+&lt;/p&gt;
+&lt;p&gt;
+&lt;h3&gt;Web Sites :&lt;/h3&gt;
+&lt;ul&gt;
+   &lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;Official Rolisteam Site&lt;/a&gt;&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;Bug Tracker&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;
+&lt;p&gt;
+&lt;h3&gt;Current developers :&lt;/h3&gt;
+&lt;ul&gt;
+   &lt;li&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt; 
+&lt;p&gt;
+&lt;h3&gt;Translators&lt;/h3&gt;
+&lt;table&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;Renaud Guezennec&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt;(English &amp; French)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (Portuguese)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;Juliana Alves de Sousa Rampi&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (Portuguese)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;Gergely Krekó&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (Hungarian)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;Kaya Zeren&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (Turkish)&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+      &lt;td&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;Alexia Béné&lt;/a&gt;&lt;/td&gt;
+      &lt;td&gt; (French &amp; German)&lt;/td&gt;
+   &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;
+&lt;h3&gt;Retired developers :&lt;/h3&gt;
+&lt;ul&gt;
+   &lt;li&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;Joseph Boudou&lt;/a&gt;&lt;/li&gt;
+   &lt;li&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;Romain Campioni&lt;/a&gt; (rolistik) &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;
+
+</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="251"/>
+        <source>Close Picture</source>
+        <translation>Fermer Image</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="253"/>
+        <source>Do you want to close %1 %2?
+It will be closed for everybody</source>
+        <translation>Voulez-vous fermer %1 %2?
+Il sera fermé pour tout le monde</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="253"/>
+        <source>(Map)</source>
+        <translation>(Plan)</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="607"/>
+        <source>Connection has been lost. %1 will be close</source>
+        <translation>La connexion a été perdue. %1 va s&apos;arrêter </translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="611"/>
+        <source>Connection lost</source>
+        <translation>Connexion perdue</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="620"/>
+        <source>Quit %1 </source>
+        <translation>Quitter %1 </translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="626"/>
+        <source>Do you want to save your minutes before to quit %1?</source>
+        <translation>Voulez-vous sauvegarder vos notes avant de quitter %1 ?</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="631"/>
+        <source>Do you want to save your scenario before to quit %1?</source>
+        <translation>Voulez-vous sauvegarder votre scénario avant de quitter %1 ?</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="783"/>
+        <source>Map (*.pla)</source>
+        <translation>Plan (*.pla)</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="698"/>
+        <location filename="../src/mainwindow.cpp" line="819"/>
+        <source>Scenarios (*.sce)</source>
+        <translation>Scénarios (*.sce)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="75"/>
@@ -1000,83 +1161,10 @@ Port:%2</translation>
     <message>
         <location filename="../src/mainwindow.cpp" line="108"/>
         <source>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5</source>
-        <translation>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam facilite la maîtrise de n&apos;importe quel jeu de rôle à distance. Il permet aux joueurs de communiquer entre eux et de partager des images et des cartes. Il gère aussi différents niveau de persmission, la musique de fond et les lancers de dés. Rolisteam est écrit en Qt5</translation>
+        <translation>&lt;h1&gt;Rolisteam v%1&lt;/h1&gt;&lt;p&gt;Rolisteam facilite la maîtrise de n&apos;importe quel jeu de rôle à distance. Il permet aux joueurs de communiquer entre eux et de partager des images et des cartes. Il gère aussi différents niveaux de permission, la musique de fond et les lancers de dés. Rolisteam est écrit en Qt5</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="259"/>
-        <source>Close Picture</source>
-        <translation>Fermer Image</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="261"/>
-        <source>Do you want to close %1 %2?
-It will be closed for everybody</source>
-        <translation>Voulez-vous fermer %1 %2?
-Il sera fermé pour tout le monde</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="261"/>
-        <source>(Map)</source>
-        <translation>(Plan)</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="616"/>
-        <source>Connection has been lost. %1 will be close</source>
-        <translation>La connexion a été perdue. %1 va s&apos;arrêter </translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="620"/>
-        <source>Connection lost</source>
-        <translation>Connexion perdue</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="629"/>
-        <source>Quit %1 </source>
-        <translation>Quitter %1 </translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="635"/>
-        <source>Do you want to save your minutes before to quit %1?</source>
-        <translation>Voulez-vous sauvegarder vos notes avant de quitter %1 ?</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="640"/>
-        <source>Do you want to save your scenario before to quit %1?</source>
-        <translation>Voulez-vous sauvegarder votre scénario avant de quitter %1 ?</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="792"/>
-        <source>Map (*.pla)</source>
-        <translation>Plan (*.pla)</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1048"/>
-        <source>%1 has not the right version: %2.</source>
-        <translation>%1 n&apos;a pas la même version: %2.</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1230"/>
-        <source>Error:</source>
-        <translation>Erreur:</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1234"/>
-        <source>Warning:</source>
-        <translation>Avertissement:</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="1779"/>
-        <source>&amp;%1 %2</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="707"/>
-        <location filename="../src/mainwindow.cpp" line="828"/>
-        <source>Scenarios (*.sce)</source>
-        <translation>Scénarios (*.sce)</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="828"/>
+        <location filename="../src/mainwindow.cpp" line="819"/>
         <source>Save Scenarios</source>
         <translation>Sauvegarder Scénarios</translation>
     </message>
@@ -1087,88 +1175,100 @@ Il sera fermé pour tout le monde</translation>
         <translation>À propos de Rolisteam</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1020"/>
+        <location filename="../src/mainwindow.cpp" line="972"/>
+        <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
+        <translation>La documentation de %1 est accessible sur le web :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="1011"/>
         <source>Update Monitor</source>
         <translation>Mises à jour</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1020"/>
+        <location filename="../src/mainwindow.cpp" line="1011"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>La version %1 est disponible. Pour plus d&apos;informations veuillez consulter &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;la page de téléchargement&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1045"/>
+        <location filename="../src/mainwindow.cpp" line="1036"/>
         <source>%1 just joins the game.</source>
         <translation>%1 vient de rejoindre la partie.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1054"/>
+        <location filename="../src/mainwindow.cpp" line="1045"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 vient de quitter la partie.</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="900"/>
+        <source>Server Ip Address:%1
+Port:%2</source>
+        <translation>Adresse IP du serveur:%1
+Port:%2</translation>
     </message>
 </context>
 <context>
     <name>Map</name>
     <message>
-        <location filename="../src/map/map.cpp" line="548"/>
+        <location filename="../src/map/map.cpp" line="549"/>
         <source>color type not allowed (paintMap - map.cpp)</source>
         <translation>Ce type de couleur n&apos;est pas autorisé (paintMap - mapp.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="572"/>
+        <location filename="../src/map/map.cpp" line="573"/>
         <source>color type not allowed  (paintMap - map.cpp)</source>
         <translation>Ce type de couleur n&apos;est pas autorisé (paintMap - mapp.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="704"/>
+        <location filename="../src/map/map.cpp" line="705"/>
         <source>undefined drawing tools (paintMap - map.cpp)</source>
         <translation>Outil de dessin inconnu (paintMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="784"/>
+        <location filename="../src/map/map.cpp" line="785"/>
         <source>Undefined tool  (paintMap - map.cpp)</source>
         <translation>Outil inconnu (paintMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="802"/>
+        <location filename="../src/map/map.cpp" line="803"/>
         <source>Source, destination and alpha layer have not the same size  (addAlphaLayer - map.cpp)</source>
-        <translation>Source, destination et la couche alpha n&apos;ont pas la même taille (addAlphaLayer - map.cpp)</translation>
+        <translation>La source, la destination et la couche alpha n&apos;ont pas la même taille (addAlphaLayer - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="950"/>
+        <location filename="../src/map/map.cpp" line="951"/>
         <source>OK</source>
-        <translation></translation>
+        <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="952"/>
+        <location filename="../src/map/map.cpp" line="953"/>
         <source>Inappropriate Color</source>
         <translation>Couleur inappropriée</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="957"/>
+        <location filename="../src/map/map.cpp" line="958"/>
         <source>You can not select this color because
  It&apos;s a special color.</source>
-        <translation>Celle couleur est utilée par rolisteam, vous ne pouvez pas la selectionnée.</translation>
+        <translation>Cette couleur est utilisée par Rolisteam, vous ne pouvez pas la sélectionner.</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="916"/>
+        <location filename="../src/map/map.cpp" line="917"/>
         <source>undefined tool for processing action on NPC or PC (processNpcAction - map.cpp)</source>
         <translation>Outil inconnu pour gérer l&apos;action sur les PNJ ou PJ (processNpcMove - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="992"/>
+        <location filename="../src/map/map.cpp" line="993"/>
         <source>undefined tool for processing action on NPC or PC (processNpcActionReleased - map.cpp)</source>
         <translation>Outil inconnu pour gérer l&apos;action sur les PNJ ou PJ (processNpcActionReleased - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1036"/>
+        <location filename="../src/map/map.cpp" line="1037"/>
         <source>undefined tool for processing action on NPC or PC (processNpcMove - map.cpp)</source>
         <translation>Outil inconnu pour gérer l&apos;action sur les PNJ ou PJ (processNpcMove - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1105"/>
+        <location filename="../src/map/map.cpp" line="1106"/>
         <source>unknown widget under cursor (paintCharacter - map.cpp)</source>
-        <translation>Widget inconnu sous le cursor (paintCharacter - map.cpp)</translation>
+        <translation>Widget inconnu sous le curseur (paintCharacter - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1260"/>
@@ -1199,29 +1299,29 @@ Il sera fermé pour tout le monde</translation>
         <translation>Erreur encodage (emettreCarte - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1582"/>
-        <location filename="../src/map/map.cpp" line="1669"/>
-        <location filename="../src/map/map.cpp" line="1737"/>
+        <location filename="../src/map/map.cpp" line="1581"/>
+        <location filename="../src/map/map.cpp" line="1668"/>
+        <location filename="../src/map/map.cpp" line="1736"/>
         <source>Color type is not correct</source>
-        <translation>Type de couleur est incorrect</translation>
+        <translation>Le type de couleur est incorrect</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1829"/>
+        <location filename="../src/map/map.cpp" line="1828"/>
         <source>Undefined Tool (paintOther - map.cpp)</source>
         <translation>Outil inconnu (paintOther - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1973"/>
+        <location filename="../src/map/map.cpp" line="1972"/>
         <source>Compression issue on original background(saveMap - map.cpp)</source>
         <translation>Erreur de compression sur le fond original (saveMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1982"/>
+        <location filename="../src/map/map.cpp" line="1981"/>
         <source>Compression issue on background(saveMap - map.cpp)</source>
         <translation>Erreur de compression sur le fond (saveMap - map.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/map/map.cpp" line="1991"/>
+        <location filename="../src/map/map.cpp" line="1990"/>
         <source>Compression issue on alpha layer (saveMap - map.cpp)</source>
         <translation>Erreur de compression sur la couche alpha (saveMap - map.cpp)</translation>
     </message>
@@ -1273,17 +1373,17 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/map/mapframe.cpp" line="420"/>
         <source>Extract original background information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation>Extraction du fond original a échoué (processMapMessage - mainwindow.cpp) </translation>
+        <translation>L&apos;extraction du fond original a échoué (processMapMessage - mainwindow.cpp) </translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="427"/>
         <source>Extract background information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation>Extraction du fond a échoué (processMapMessage - mainwindow.cpp)</translation>
+        <translation>L&apos;extraction du fond a échoué (processMapMessage - mainwindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="434"/>
         <source>Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)</source>
-        <translation>Extraction de la couche alpha a échoué (processMapMessage - mainwindow.cpp)</translation>
+        <translation>L&apos;extraction de la couche alpha a échoué (processMapMessage - mainwindow.cpp)</translation>
     </message>
 </context>
 <context>
@@ -1363,47 +1463,47 @@ Il sera fermé pour tout le monde</translation>
 <context>
     <name>NetworkManager</name>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="107"/>
+        <location filename="../src/network/networkmanager.cpp" line="105"/>
         <source>UserName</source>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="220"/>
+        <location filename="../src/network/networkmanager.cpp" line="218"/>
         <source>Server is on.</source>
         <translation>Le serveur est fonctionnel.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="226"/>
+        <location filename="../src/network/networkmanager.cpp" line="224"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="226"/>
+        <location filename="../src/network/networkmanager.cpp" line="224"/>
         <source>Can not establish the connection.</source>
         <translation>Impossible d&apos;établir la connexion.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="314"/>
+        <location filename="../src/network/networkmanager.cpp" line="312"/>
         <source>Connection with the Remote Server has been lost.</source>
-        <translation>Connexion avec le serveur distant a été perdu.</translation>
+        <translation>La connexion avec le serveur distant a été perdue.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="330"/>
+        <location filename="../src/network/networkmanager.cpp" line="328"/>
         <source>NULL NetworkLink pointer (NetworkManager::finDeNetworkLink).</source>
         <translation>Lien Réseau Nul (NetworkManager::finDeNetworkLink).</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="337"/>
+        <location filename="../src/network/networkmanager.cpp" line="335"/>
         <source>Unknown thread joined, (finDeNetworkLink - NetworkManager.cpp)</source>
         <translation>Fin d&apos;un thread inconnu, (finDeNetworkLink - NetworkManager.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="349"/>
+        <location filename="../src/network/networkmanager.cpp" line="347"/>
         <source>Server has been closed.</source>
         <translation>Le serveur a été fermé.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="360"/>
+        <location filename="../src/network/networkmanager.cpp" line="358"/>
         <source>Connection to the server has been closed.</source>
         <translation>La liaison avec le serveur a été coupée.</translation>
     </message>
@@ -1428,12 +1528,12 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="67"/>
         <source>Permission :</source>
-        <translation></translation>
+        <translation>Permission :</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="79"/>
         <source>Format</source>
-        <translation></translation>
+        <translation>Format</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="85"/>
@@ -1443,7 +1543,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="95"/>
         <source>Portrait</source>
-        <translation></translation>
+        <translation>Portrait</translation>
     </message>
     <message>
         <location filename="../src/map/newemptymapdialog.ui" line="102"/>
@@ -1555,7 +1655,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/widgets/onlinepicturedialog.ui" line="58"/>
         <source>download</source>
-        <translation>Télécharge</translation>
+        <translation>Télécharger</translation>
     </message>
 </context>
 <context>
@@ -1563,7 +1663,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="78"/>
         <source>Role</source>
-        <translation></translation>
+        <translation>Rôle</translation>
     </message>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="78"/>
@@ -1573,7 +1673,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="79"/>
         <source>Active</source>
-        <translation></translation>
+        <translation>Activé</translation>
     </message>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="79"/>
@@ -1583,7 +1683,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/palettemodel.cpp" line="79"/>
         <source>Inactive</source>
-        <translation></translation>
+        <translation>Inactif</translation>
     </message>
 </context>
 <context>
@@ -1601,7 +1701,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/persondialog.cpp" line="69"/>
         <source>OK</source>
-        <translation></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/persondialog.cpp" line="72"/>
@@ -1619,12 +1719,12 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="127"/>
         <source>Pause</source>
-        <translation></translation>
+        <translation>Pause</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="128"/>
         <source>Stop</source>
-        <translation></translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="129"/>
@@ -1634,7 +1734,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="133"/>
         <source>Previous</source>
-        <translation>Précedent</translation>
+        <translation>Précédent</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="137"/>
@@ -1664,7 +1764,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="155"/>
         <source>Add Songs</source>
-        <translation>Add chansons</translation>
+        <translation>Ajouter chansons</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="158"/>
@@ -1699,7 +1799,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="293"/>
         <source>Attention!</source>
-        <translation></translation>
+        <translation>Attention!</translation>
     </message>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="293"/>
@@ -1735,7 +1835,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/audio/playerwidget.cpp" line="624"/>
         <source>Save Play List</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder liste de lecture</translation>
     </message>
 </context>
 <context>
@@ -1805,22 +1905,22 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="242"/>
         <source>Images (*.png *.xpm *.jpg *.gif *.bmp)</source>
-        <translation></translation>
+        <translation>Images (*.png *.xpm *.jpg *.gif *.bmp)</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="288"/>
         <source>default</source>
-        <translation>defaut</translation>
+        <translation>défaut</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="295"/>
         <source>darkorange</source>
-        <translation></translation>
+        <translation>darkorange</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="315"/>
         <source>darkfusion</source>
-        <translation></translation>
+        <translation>darkfusion</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="401"/>
@@ -1830,7 +1930,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="401"/>
         <source>Css</source>
-        <translation></translation>
+        <translation>Css</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="418"/>
@@ -1901,7 +2001,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="665"/>
         <source>Import Rolisteam Theme</source>
-        <translation>Importer un thème</translation>
+        <translation>Importer un thème Rolisteam</translation>
     </message>
 </context>
 <context>
@@ -1927,6 +2027,11 @@ Il sera fermé pour tout le monde</translation>
         <translation>Les chemins standards</translation>
     </message>
     <message>
+        <location filename="../src/preferences/preferencesdialogbox.ui" line="578"/>
+        <source>Dice System</source>
+        <translation>Système de dés</translation>
+    </message>
+    <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="32"/>
         <source>Color</source>
         <translation>Couleur</translation>
@@ -1934,7 +2039,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="40"/>
         <source>Fog Of War:</source>
-        <translation>Masque des Plans:</translation>
+        <translation>Brouillard de Guerre:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="58"/>
@@ -1944,7 +2049,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="90"/>
         <source>Only apply on future maps.</source>
-        <translation>*Ne s&apos;applique qu&apos;aux futures cartes (reçues ou créées).</translation>
+        <translation>Ne s&apos;applique qu&apos;aux futures cartes (reçues ou créées).</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="113"/>
@@ -1954,7 +2059,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="129"/>
         <source>Default Map Permission:</source>
-        <translation>Permission des plans habituelles:</translation>
+        <translation>Carte par défaut autorisée:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="143"/>
@@ -1974,7 +2079,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="195"/>
         <source>Current Theme</source>
-        <translation>Thème courant</translation>
+        <translation>Thème actuel</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="202"/>
@@ -1995,7 +2100,7 @@ Il sera fermé pour tout le monde</translation>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="232"/>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="685"/>
         <source>Delete</source>
-        <translation>Supprime</translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="249"/>
@@ -2020,7 +2125,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="321"/>
         <source>Image:</source>
-        <translation></translation>
+        <translation>Image:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="335"/>
@@ -2093,11 +2198,6 @@ Il sera fermé pour tout le monde</translation>
         <translation>Comportement</translation>
     </message>
     <message>
-        <location filename="../src/preferences/preferencesdialogbox.ui" line="578"/>
-        <source>Dice System</source>
-        <translation>Système de dés</translation>
-    </message>
-    <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="738"/>
         <source>Diagnostic</source>
         <translation>Diagnostic</translation>
@@ -2165,7 +2265,7 @@ Il sera fermé pour tout le monde</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="629"/>
         <source>Converted</source>
-        <translation>Convertie</translation>
+        <translation>Converti</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="678"/>
@@ -2232,88 +2332,88 @@ Il sera fermé pour tout le monde</translation>
         <translation>Inconnu</translation>
     </message>
     <message>
-        <location filename="../src/data/mediacontainer.cpp" line="47"/>
+        <location filename="../src/data/mediacontainer.cpp" line="66"/>
         <source>Loading error</source>
         <translation>Erreur de chargement</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="54"/>
-        <source>k</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../src/diceparser/diceparser.cpp" line="55"/>
-        <source>K</source>
-        <translation></translation>
+        <source>k</source>
+        <translation>k</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="56"/>
-        <source>s</source>
-        <translation></translation>
+        <source>K</source>
+        <translation>K</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="57"/>
-        <source>c</source>
-        <translation></translation>
+        <source>s</source>
+        <translation>s</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="58"/>
-        <source>r</source>
-        <translation></translation>
+        <source>c</source>
+        <translation>c</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="59"/>
-        <source>e</source>
-        <translation></translation>
+        <source>r</source>
+        <translation>r</translation>
     </message>
     <message>
         <location filename="../src/diceparser/diceparser.cpp" line="60"/>
+        <source>e</source>
+        <translation>e</translation>
+    </message>
+    <message>
+        <location filename="../src/diceparser/diceparser.cpp" line="61"/>
         <source>a</source>
-        <translation></translation>
+        <translation>a</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="181"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="184"/>
         <source>Nothing was understood</source>
-        <translation type="unfinished"></translation>
+        <translation>Commande incomprise</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="533"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="582"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
-        <translation>Un dés avec %1 face(s) n&apos;existe pas. S&apos;il vous plait, veuillez mettre une valeur suppérieure à 0</translation>
+        <translation>Un dé avec %1 face(s) n&apos;existe pas. S&apos;il vous plaît, veuillez entrer une valeur supérieure à 0</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="571"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="620"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
-        <translation>La liste est manquante après l&apos;opérateur. Veuillez en ajouter une (exemple: 1L[épée,lance,pistolet,flèche])</translation>
+        <translation>La liste est manquante après l&apos;opérateur L. Veuillez en ajouter une (exemple: 1L[épée,lance,pistolet,flèche])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="828"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="880"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur c. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="852"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="905"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur %1. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="864"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="917"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
-        <translation>La condition %1 introduit une boucle infinie. Veuillez le changer</translation>
+        <translation>La condition %1 introduit une boucle infinie. Veuillez la changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="875"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="928"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur e. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/listaliasnode.cpp" line="54"/>
+        <location filename="../src/diceparser/node/listaliasnode.cpp" line="55"/>
         <source>List of Alias:
 </source>
         <translation>Liste des alias:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1126"/>
+        <location filename="../src/mainwindow.cpp" line="1117"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation>chemin vers le fichier de traduction: &lt;traduction&gt;</translation>
     </message>
@@ -2333,7 +2433,7 @@ Il sera fermé pour tout le monde</translation>
         <translation>Formats Audio supportés (%1)</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/helpnode.cpp" line="34"/>
+        <location filename="../src/diceparser/node/helpnode.cpp" line="54"/>
         <source>Rolisteam Dice Parser:
 Full documentation at: %1 
 </source>
@@ -2350,14 +2450,19 @@ Documentation complète sur: %1
         <translation>A propos</translation>
     </message>
     <message>
+        <location filename="../src/odt/src/textedit.cpp" line="200"/>
+        <source>File Actions</source>
+        <translation>Actions Fichiers</translation>
+    </message>
+    <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
         <source>OpenOffice 2.4 file format OASIS </source>
-        <translation></translation>
+        <translation>Fichier OpenOffice 2.4 format OASIS </translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
         <source> (*.odt *.ott);;</source>
-        <translation></translation>
+        <translation>(*.odt *.ott);;</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
@@ -2367,12 +2472,7 @@ Documentation complète sur: %1
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="88"/>
         <source> (*.htm *.html);;</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/odt/src/textedit.cpp" line="200"/>
-        <source>File Actions</source>
-        <translation>Actions Fichiers</translation>
+        <translation>(*.htm *.html);;</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="203"/>
@@ -2422,12 +2522,12 @@ Documentation complète sur: %1
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="261"/>
         <source>Edit Actions</source>
-        <translation>Actions Edition</translation>
+        <translation>Editer Actions</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="264"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Edition</translation>
+        <translation>&amp;Editer</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="268"/>
@@ -2442,12 +2542,12 @@ Documentation complète sur: %1
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="277"/>
         <source>Cu&amp;t</source>
-        <translation>Coupe&amp;z</translation>
+        <translation>Coupe&amp;r</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="281"/>
         <source>&amp;Copy</source>
-        <translation>&amp;Copiez</translation>
+        <translation>&amp;Copier</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="285"/>
@@ -2463,7 +2563,7 @@ Documentation complète sur: %1
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="298"/>
         <source>F&amp;ormat</source>
-        <translation></translation>
+        <translation>F&amp;ormat</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="301"/>
@@ -2508,7 +2608,7 @@ Documentation complète sur: %1
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="468"/>
         <source>Application</source>
-        <translation></translation>
+        <translation>Application</translation>
     </message>
     <message>
         <location filename="../src/odt/src/textedit.cpp" line="469"/>
@@ -2599,7 +2699,7 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/toolsbar.cpp" line="96"/>
         <source>Add NPC</source>
-        <translation>Ajouter PJ</translation>
+        <translation>Ajouter PNJ</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="97"/>
@@ -2619,7 +2719,7 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/toolsbar.cpp" line="102"/>
         <source>Reset NPC counter</source>
-        <translation>Redémarrer le counteur des PNJ</translation>
+        <translation>Redémarrer le compteur des PNJ</translation>
     </message>
     <message>
         <location filename="../src/toolsbar.cpp" line="227"/>
@@ -2652,7 +2752,7 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="56"/>
         <source>Check line %1 column %2 on string &quot;%3&quot;!</source>
-        <translation>Vérifiez la line %1 à l&apos;emplacement %2 sur le texte &quot;%3&quot;!</translation>
+        <translation>Vérifiez la ligne %1 à l&apos;emplacement %2 sur le texte &quot;%3&quot;!</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="66"/>
@@ -2662,7 +2762,7 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="66"/>
         <source>All tag are valid size %1.</source>
-        <translation>Tous les balises sont valides: size %1.</translation>
+        <translation>Toutes les balises sont valides: size %1.</translation>
     </message>
     <message>
         <location filename="../src/odt/format_OO_oasis_/XML_Editor.cpp" line="70"/>

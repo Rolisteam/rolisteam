@@ -239,6 +239,7 @@ QDataStream& operator>>(QDataStream& is,CleverURI& con)
     con.defineShortName();
     return is;
 }
+
 QDataStream& operator<<(QDataStream& out, const CleverUriList& con)
 {
     out << con.size();

@@ -126,15 +126,14 @@ int main(int argc, char *argv[])
     QStringList argList = app.arguments();
     foreach(QString str, translationCLI)
     {
-        QTranslator*  cliTranslator=NULL;
         int pos = argList.indexOf(str);
         if(pos!=-1)
         {
             if(argList.size()>pos+1)
             {
-            cliTranslator = new QTranslator();
-            cliTranslator->load(argList.at(pos+1));
-            app.installTranslator(cliTranslator);
+				QTranslator* cliTranslator = new QTranslator();
+				cliTranslator->load(argList.at(pos+1));
+				app.installTranslator(cliTranslator);
             }
         }
     }

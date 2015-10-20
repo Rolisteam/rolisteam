@@ -46,6 +46,7 @@ FileDirChooser::FileDirChooser(bool isDirectory ,QWidget * parent)
 
     // Connections
     connect(button, SIGNAL(clicked()), this, SLOT(browse()));
+    connect(m_lineEdit,SIGNAL(editingFinished()),this,SIGNAL(pathChanged()));
 
     // Misc
     button->setMaximumWidth(28);

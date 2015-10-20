@@ -44,11 +44,11 @@ CircleDisplayer::CircleDisplayer(QWidget *parent, bool plein, int minimum,int ma
 
 	m_full = plein;
 
-    int marge=MARGIN_NPC;
+	/*int marge=MARGIN_NPC;
 	if (m_full)
 	{
 		marge=MARGIN_PC;
-	}
+	}*/
 	//m_scale = (float)(width()-marge)/(float)(m_maximumDiameter*2+PEN_SIZE*2);
 
 }

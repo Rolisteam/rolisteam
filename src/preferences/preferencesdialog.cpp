@@ -262,6 +262,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
     connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(applyBackground()));
     connect(ui->m_backgroundImage,SIGNAL(pathChanged()),this,SLOT(applyBackground()));
+    //connect(ui->m_backgroundImage,ç)
 
     //themes
     connect(ui->m_copyThemeButton,SIGNAL(clicked()),this,SLOT(dupplicateTheme()));
@@ -294,7 +295,6 @@ void PreferencesDialog::show()
 
 void PreferencesDialog::load()
 {
-    static bool firstLoad = true;
     //Direcotry PATH
     ui->m_translationFileEdit->setMode(false);
     ui->m_translationFileEdit->setFilter("Translation File: (*.qm)");

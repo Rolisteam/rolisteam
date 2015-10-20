@@ -132,6 +132,7 @@ void VisualItem::setId(QString id)
 {
     m_id = id;
 }
+
 void VisualItem::resizeContents(const QRect& rect, bool keepRatio)
 {
     if (!rect.isValid())
@@ -282,6 +283,7 @@ QString VisualItem::getId()
 {
     return m_id;
 }
+
 bool VisualItem::hasFocusOrChild()
 {
     if(isSelected())
@@ -312,11 +314,11 @@ void VisualItem::sendPositionMsg()
     msg.string16(m_id);
     msg.real(pos().x());
     msg.real(pos().y());
-    msg.real(rotation());
 
     msg.real(zValue());
     msg.sendAll();
 }
+
 void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 {
     qreal x = msg->real();
@@ -367,7 +369,6 @@ void VisualItem::setChildrenVisible(bool b)
         }
     }
 }
-
 //friend functions
 QDataStream& operator<<(QDataStream& os,const VisualItem& c)
 {

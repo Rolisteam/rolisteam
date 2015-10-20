@@ -245,6 +245,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 }
 void CharacterItem::readItem(NetworkMessageReader* msg)
 {
+
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
@@ -254,10 +255,12 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     m_center.setX(msg->real());
     m_center.setY(msg->real());
  //rect
+
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
+
 
     //path
     QByteArray data;
