@@ -138,7 +138,7 @@ void EllipsItem::readItem(NetworkMessageReader* msg)
 }
 void EllipsItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
-    switch ((int)pointId)
+	switch ((int)pointId)
     {
     case 0:
         m_rx = pos.x()-m_center.x();
@@ -149,6 +149,16 @@ void EllipsItem::setGeometryPoint(qreal pointId, QPointF &pos)
     default:
         break;
     }
+	if(m_ry<0.1)
+	{
+		m_ry = 0.1;
+		pos.setY(m_center.y()+m_ry);
+	}
+	if(m_rx<0.1)
+	{
+		m_rx = 0.1;
+		pos.setX(m_center.x()+m_rx);
+	}
     update();
 }
 void EllipsItem::initChildPointItem()
