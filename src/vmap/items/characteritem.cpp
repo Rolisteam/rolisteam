@@ -313,6 +313,7 @@ int CharacterItem::getChildPointCount() const
 void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
     QRectF rect=m_rect;
+
     switch ((int)pointId)
     {
     case 0:
@@ -334,6 +335,14 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
        // emit geometryChangeOnUnkownChild(pointId,pos);
         break;
     }
+	if(rect.width()<0.1)
+	{
+		rect.setWidth(0.1);
+	}
+	if(rect.height()<0.1)
+	{
+		rect.setHeight(0.1);
+	}
     m_diameter = qMin(rect.width(),rect.height());
     sizeChanged(m_diameter);
     switch ((int)pointId)
