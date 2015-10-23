@@ -11,7 +11,7 @@
 #include "preferences/preferencesmanager.h"
 
 ImagePathEditor::ImagePathEditor(QWidget* parent)
-	: QWidget(parent)
+    : QWidget(parent)
 {
     setUi();
 }
@@ -27,63 +27,70 @@ void ImagePathEditor::focusInEvent(QFocusEvent * event)
 
 void ImagePathEditor::setUi()
 {
-
     QHBoxLayout* hbox = new QHBoxLayout();
     hbox->setMargin(0);
     hbox->setSpacing(0);
 
 
-	setLayout(hbox);
+    setLayout(hbox);
 
-	m_photoBrowser=new QPushButton(style()->standardIcon(QStyle::SP_DialogOpenButton),"");
+    m_photoBrowser=new QPushButton(style()->standardIcon(QStyle::SP_DialogOpenButton),"");
 
-	m_photoLabel=new QLabel();
-	m_photoLabel->setScaledContents(true);
+    m_photoEdit=new QLineEdit();
 
-	hbox->addWidget(m_photoLabel,1);
-	hbox->addWidget(m_photoBrowser);
-
-	connect(m_photoBrowser,SIGNAL(pressed()),this,SLOT(getFileName()));
+    m_cleanButton = new QPushButton(QIcon(":/resources/icons/delete.png"),"");
 
 
+    hbox->addWidget(m_photoEdit,1);
+    hbox->addWidget(m_photoBrowser);
+    hbox->addWidget(m_cleanButton);
+
+    connect(m_photoBrowser,SIGNAL(pressed()),this,SLOT(getFileName()));
+    connect(m_photoEdit,SIGNAL(textChanged(QString)),this,SLOT(readPixmap(QString)));
+    connect(m_cleanButton,SIGNAL(pressed()),this,SLOT(clearPixmap()));
 }
-
 
 void ImagePathEditor::setPixmap(QPixmap str)
 {
-	m_pixmap = str;
-	m_photoLabel->setPixmap(m_pixmap);
+    m_pixmap = str;
+    //m_photoLabel->setPixmap(m_pixmap);
 }
-
-
-
 
 QPixmap ImagePathEditor::getData()
 {
-	return m_pixmap;
+    return m_pixmap;
 }
 
 void ImagePathEditor::mouseReleaseEvent(QMouseEvent * /* event */)
 {
     //emit editingFinished();
 }
+void ImagePathEditor::clearPixmap()
+{
+    m_pixmap = QPixmap();
+}
+
 void ImagePathEditor::getFileName()
 {
-	/// @todo : 
-	PreferencesManager* preferences = PreferencesManager::getInstance();
+    /// @todo :
+    PreferencesManager* preferences = PreferencesManager::getInstance();
 
-	QString fileName = QFileDialog::getOpenFileName(this,tr("Get picture for Character State"),
-													preferences->value("ImageDirectory",QDir::homePath()).toString(),
-													preferences->value("ImageFileFilter","*.jpg *jpeg *.png *.bmp *.svg").toString());
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Get picture for Character State"),
+                                                    preferences->value("ImageDirectory",QDir::homePath()).toString(),
+                                                    preferences->value("ImageFileFilter","*.jpg *jpeg *.png *.bmp *.svg").toString());
+    readPixmap(fileName);
 
-	if (! fileName.isNull() )
+}
+void ImagePathEditor::readPixmap(QString str)
+{
+    if (! str.isNull() )
     {
-		QPixmap pix(fileName);
-		if(!pix.isNull())
-		{
-			m_pixmap = pix;
-			m_photoLabel->setPixmap(m_pixmap);
-		}
+        QPixmap pix(str);
+        if(!pix.isNull())
+        {
+            m_pixmap = pix;
+            m_photoEdit->setText(str);
+        }
     }
 }
 
@@ -99,8 +106,8 @@ FilePathDelegateItem::FilePathDelegateItem(QObject *parent):
 QWidget* FilePathDelegateItem::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index	) const
 {
 
-	ImagePathEditor*	editor = new ImagePathEditor(parent);
-   
+    ImagePathEditor*	editor = new ImagePathEditor(parent);
+
     return editor;
 
 }
@@ -108,10 +115,10 @@ void FilePathDelegateItem::setEditorData(QWidget *editor, const QModelIndex &ind
 {
     if(index.isValid())
     {
-		ImagePathEditor* ImgEditor= qobject_cast<ImagePathEditor*>(editor);
-		if(NULL!=ImgEditor)
+        ImagePathEditor* ImgEditor= qobject_cast<ImagePathEditor*>(editor);
+        if(NULL!=ImgEditor)
         {
-			ImgEditor->setPixmap(index.data(Qt::DisplayRole).value<QPixmap>());
+            ImgEditor->setPixmap(index.data(Qt::DisplayRole).value<QPixmap>());
         }
     }
 
@@ -124,12 +131,12 @@ void FilePathDelegateItem::updateEditorGeometry(QWidget *editor, const QStyleOpt
 }
 void FilePathDelegateItem::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-	ImagePathEditor* imgEditor= qobject_cast<ImagePathEditor*>(editor) ;
-	if(NULL!=imgEditor)
+    ImagePathEditor* imgEditor= qobject_cast<ImagePathEditor*>(editor) ;
+    if(NULL!=imgEditor)
     {
-		QVariant var;
-		var.setValue(imgEditor->getData());
-		model->setData(index,var, Qt::EditRole);
+        QVariant var;
+        var.setValue(imgEditor->getData());
+        model->setData(index,var, Qt::EditRole);
     }
     else
     {
@@ -139,54 +146,38 @@ void FilePathDelegateItem::setModelData(QWidget *editor, QAbstractItemModel *mod
 }
 void FilePathDelegateItem::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    //paint selection
+    QStyledItemDelegate::paint(painter,option,index);
 
-	/*painter->save();
+    QPixmap pix = index.data().value<QPixmap>();
 
-    if(!index.isValid())
+    if(pix.isNull())
         return;
 
-    QStyleOptionViewItemV4 opt = option;
-    QStyledItemDelegate::initStyleOption(&opt, index);
+    QRect rectImg = pix.rect();
+    qreal ratioImg = rectImg.width()/rectImg.height();
 
 
+    QRect target2 = option.rect;
+    qreal ratioZone = target2.width()/target2.height();
 
 
-    if(index.isValid())
+    QRect target(target2);
+
+    if(ratioZone >= 1)
     {
-
+        target.setHeight(target2.height());
+        target.setWidth(target2.height()*ratioImg);
     }
-	 painter->restore();*/
-
-	QPixmap pix = index.data().value<QPixmap>();
-
-	if(pix.isNull())
-		return;
-
-	QRect rectImg = pix.rect();
-	qreal ratioImg = rectImg.width()/rectImg.height();
+    else
+    {
+        target.setWidth(target2.width());
+        target.setHeight(target2.width()/ratioImg);
+    }
 
 
-	QRect target2 = option.rect;
-	qreal ratioZone = target2.width()/target2.height();
+    painter->drawImage(target, pix.toImage());
 
-
-	QRect target(target2);
-
-	if(ratioZone >= 1)
-	{
-		target.setHeight(target2.height());
-		target.setWidth(target2.height()*ratioImg);
-	}
-	else
-	{
-		target.setWidth(target2.width());
-		target.setHeight(target2.width()/ratioImg);
-	}
-
-
-	painter->drawImage(target, pix.toImage());
-
-	QStyledItemDelegate::paint(painter,option,index);
 }
 QSize FilePathDelegateItem::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {

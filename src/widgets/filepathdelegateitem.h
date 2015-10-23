@@ -11,19 +11,21 @@ class ImagePathEditor : public QWidget
     Q_OBJECT
 
 public:
-	ImagePathEditor(QWidget* parent = 0);
-	~ImagePathEditor();
+    ImagePathEditor(QWidget* parent = 0);
+    ~ImagePathEditor();
 
-	void setPixmap(QPixmap );
+    void setPixmap(QPixmap );
 
-	QPixmap getData();
+    QPixmap getData();
 
 
 signals:
-     void editingFinished();
+    void editingFinished();
 
 public slots:
-	void getFileName();
+    void getFileName();
+    void readPixmap(QString str);
+    void clearPixmap();
 
 protected:
     void setUi();
@@ -32,9 +34,10 @@ protected:
     void focusInEvent(QFocusEvent * event);
 
 private:
-	QLabel* m_photoLabel;
-	QPushButton* m_photoBrowser;
-	QPixmap m_pixmap;
+    QLineEdit* m_photoEdit;
+    QPushButton* m_photoBrowser;
+    QPushButton* m_cleanButton;
+    QPixmap m_pixmap;
 };
 
 /**
@@ -42,7 +45,7 @@ private:
  */
 class FilePathDelegateItem : public QStyledItemDelegate
 {
-        Q_OBJECT
+    Q_OBJECT
 public:
     FilePathDelegateItem(QObject *parent = 0);
 
@@ -54,7 +57,7 @@ public:
     QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 
 private:
-	QPixmap m_pix;
+    QPixmap m_pix;
 
 
 };
