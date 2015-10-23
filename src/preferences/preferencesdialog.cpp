@@ -277,7 +277,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     connect(ui->m_deleteTheme,SIGNAL(clicked()),this,SLOT(deleteTheme()));
 
     ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::COLOR,new ColorDelegate());
-	ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::PICTURE,new FilePathDelegateItem());
+    ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::PICTURE,new FilePathDelegateItem());
 
 }
 
@@ -444,44 +444,59 @@ void PreferencesDialog::initializePostSettings()
     }
 
 
+    //DiceSystem
+    size = m_preferences->value("CharacterStateNumber",0).toInt();
+    for(int i = 0; i < size ; ++i)
+    {
+        QString label = m_preferences->value(QString("CharacterState_%1_label").arg(i),"").toString();
+        QColor color = m_preferences->value(QString("CharacterState_%1_color").arg(i),"").value<QColor>();
+        QPixmap pixmap = m_preferences->value(QString("CharacterState_%1_pixmap").arg(i),true).value<QPixmap>();
 
+
+        CharacterState* tmpState = new CharacterState();
+        tmpState->setLabel(label);
+        tmpState->setColor(color);
+        tmpState->setImage(pixmap);
+        m_stateModel->addState(tmpState);
+    }
 
 
 
     //State - healthy , lightly Wounded , Seriously injured , dead, Sleeping, bewitched
+    if(0==size)
+    {
+        //healthy
+        CharacterState* state = new CharacterState();
+        state->setColor(Qt::black);
+        state->setLabel(tr("Healthy"));
+        m_stateModel->addState(state);
 
-    //healthy
-    CharacterState* state = new CharacterState();
-    state->setColor(Qt::black);
-    state->setLabel(tr("Healthy"));
-    m_stateModel->addState(state);
+        state = new CharacterState();
+        state->setColor(QColor(255, 100, 100));
+        state->setLabel(tr("Lightly Wounded"));
+        m_stateModel->addState(state);
 
-    state = new CharacterState();
-    state->setColor(QColor(255, 100, 100));
-    state->setLabel(tr("Lightly Wounded"));
-    m_stateModel->addState(state);
+        state = new CharacterState();
+        state->setColor(QColor(255, 0, 0));
+        state->setLabel(tr("Seriously injured"));
+        m_stateModel->addState(state);
 
-    state = new CharacterState();
-    state->setColor(QColor(255, 0, 0));
-    state->setLabel(tr("Seriously injured"));
-    m_stateModel->addState(state);
+        state = new CharacterState();
+        state->setColor(Qt::gray);
+        state->setLabel(tr("Dead"));
+        m_stateModel->addState(state);
 
-    state = new CharacterState();
-    state->setColor(Qt::gray);
-    state->setLabel(tr("Dead"));
-    m_stateModel->addState(state);
-
-    state = new CharacterState();
-    state->setColor(QColor(80, 80, 255));
-    state->setLabel(tr("Sleeping"));
-    m_stateModel->addState(state);
+        state = new CharacterState();
+        state->setColor(QColor(80, 80, 255));
+        state->setLabel(tr("Sleeping"));
+        m_stateModel->addState(state);
 
 
-    state = new CharacterState();
-    state->setColor(QColor(0, 200, 0));
-    state->setLabel(tr("Bewitched"));
-    m_stateModel->addState(state);
-
+        state = new CharacterState();
+        state->setColor(QColor(0, 200, 0));
+        state->setLabel(tr("Bewitched"));
+        m_stateModel->addState(state);
+    }
 
 }
 
@@ -627,7 +642,16 @@ void PreferencesDialog::save() const
         m_preferences->registerValue(QString("DiceAlias_%1_enable").arg(i),tmpAlias->isEnable());
     }
 
-
+    //State
+    QList<CharacterState*>* stateList = m_stateModel->getCharacterStates();
+    m_preferences->registerValue("CharacterStateNumber",stateList->size());
+    for(int i = 0; i < stateList->size() ; ++i)
+    {
+        CharacterState* tmpState = stateList->at(i);
+        m_preferences->registerValue(QString("CharacterState_%1_label").arg(i),tmpState->getLabel());
+        m_preferences->registerValue(QString("CharacterState_%1_color").arg(i),tmpState->getColor());
+        m_preferences->registerValue(QString("CharacterState_%1_pixmap").arg(i),tmpState->getImage());
+    }
 
 
 }
