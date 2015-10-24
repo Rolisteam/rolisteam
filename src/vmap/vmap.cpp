@@ -806,6 +806,11 @@ void VMap::addNewItem(VisualItem* item)
         connect(item,SIGNAL(duplicateItem(VisualItem*)),this,SLOT(duplicateItem(VisualItem*)));
         connect(item,SIGNAL(itemLayerChanged(VisualItem*)),this,SLOT(checkItemLayer(VisualItem*)));
         connect(item,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),this,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
+        if(item!=m_sightItem)
+        {
+            m_orderedItemList.append(item);
+        }
+        connect(item,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),this,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
         QGraphicsScene::addItem(item);
 
         //Editing permission
@@ -1151,4 +1156,60 @@ QString VMap::getVisibilityModeText()
 SightItem* VMap::getFogItem() const
 {
     return m_sightItem;
+}
+void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
+{
+    if (NULL== item || m_orderedItemList.size() < 2)
+        return;
+    int size = m_orderedItemList.size();
+    int index = m_orderedItemList.indexOf(item);
+
+    // find out insertion indexes over the stacked items
+    QList<QGraphicsItem *> stackedItems = items(item->sceneBoundingRect(), Qt::IntersectsItemShape);
+    int prevIndex = 0;
+    int nextIndex = size - 1;
+    foreach (QGraphicsItem * qitem, stackedItems)
+    {
+        // operate only on different Content and not on sightItem.
+        VisualItem* c = dynamic_cast<VisualItem*>(qitem);
+        if (!c || c == item || c == m_sightItem)
+            continue;
+
+        // refine previous/next indexes (close to 'index')
+        int cIdx = m_orderedItemList.indexOf(c);
+        if (cIdx < nextIndex && cIdx > index)
+            nextIndex = cIdx;
+        else if (cIdx > prevIndex && cIdx < index)
+            prevIndex = cIdx;
+    }
+
+    // move items
+    switch (op)
+    {
+        case VisualItem::FRONT: // front
+            m_orderedItemList.append(m_orderedItemList.takeAt(index));
+            break;
+        case VisualItem::RAISE: // raise
+            if (index >= size - 1)
+                return;
+
+            m_orderedItemList.insert(nextIndex, m_orderedItemList.takeAt(index));
+            break;
+        case VisualItem::LOWER: // lower
+            if (index <= 0)
+                return;
+            m_orderedItemList.insert(prevIndex, m_orderedItemList.takeAt(index));
+            break;
+        case VisualItem::BACK: // back
+            m_orderedItemList.prepend(m_orderedItemList.takeAt(index));
+            break;
+    }
+
+    // reassign z-levels
+    int z =0;
+    foreach (VisualItem* item, m_orderedItemList)
+    {
+        item->setZValue(++z);
+    }
+    m_sightItem->setZValue(++z);
 }

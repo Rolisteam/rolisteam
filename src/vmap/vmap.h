@@ -328,12 +328,34 @@ private slots:
      * @brief sendItemToAll
      */
     void sendItemToAll(VisualItem*);
-
+    /**
+     * @brief sendOffItem
+     * @param item
+     */
     void sendOffItem(VisualItem* item);
+    /**
+     * @brief updateItem
+     */
 	void updateItem();
+    /**
+     * @brief checkItemLayer
+     */
     void checkItemLayer(VisualItem*);
+    /**
+     * @brief promoteItemInType
+     */
     void promoteItemInType(VisualItem*, VisualItem::ItemType);
+    /**
+     * @brief insertCharacterInMap
+     * @param item
+     */
     void insertCharacterInMap(CharacterItem* item);
+    /**
+     * @brief changeStackOrder triggered when VisualItem should change its z order. It recompute the zvalue of all items.
+     * @param item to move
+     * @param op operation to be done.
+     */
+    void changeStackOrder(VisualItem* item,VisualItem::StackOrder op);
     
 protected:
     /**
@@ -385,7 +407,9 @@ protected:
      * @param event
      */
 	void dragMoveEvent( QGraphicsSceneDragDropEvent * event );
-
+    /**
+     * @brief initMap
+     */
     void initMap();
 private:
     /**
@@ -436,6 +460,10 @@ private:
     * @brief Items list which are part of the map.
     */
     QMap<QString,VisualItem*>* m_itemMap;
+    /**
+     * @brief m_orderedItemList is used to store zorder of all items.
+     */
+    QList<VisualItem*> m_orderedItemList;
 
     /**
     * @brief Items list which are part of the map.
