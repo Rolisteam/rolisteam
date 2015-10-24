@@ -163,12 +163,31 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     addActionContextMenu(&menu);
     QAction* backOrderAction = menu.addAction(tr("Back"));
     backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
+    connect(backOrderAction,&QAction::triggered,[&](){
+            emit changeStackPosition(this,VisualItem::BACK);
+    });
+
+
     QAction* frontOrderAction = menu.addAction(tr("Front"));
     frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
+    connect(frontOrderAction,&QAction::triggered,[&](){
+            emit changeStackPosition(this,VisualItem::FRONT);
+    });
+
+
     QAction* lowerAction = menu.addAction(tr("Lower"));
     lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
+    connect(lowerAction,&QAction::triggered,[&](){
+            emit changeStackPosition(this,VisualItem::LOWER);
+    });
+
     QAction* raiseAction = menu.addAction(tr("Raise"));
     raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
+    connect(raiseAction,&QAction::triggered,[&](){
+            emit changeStackPosition(this,VisualItem::RAISE);
+    });
+
+
     menu.addSeparator();
     QAction* removeAction = menu.addAction(tr("Remove"));
     menu.addAction(m_duplicateAct);

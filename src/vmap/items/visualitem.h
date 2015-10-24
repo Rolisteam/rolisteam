@@ -46,6 +46,8 @@ public:
      * @brief The Layer enum
      */
     enum Layer{GROUND,OBJECT,CHARACTER_LAYER,FOG};
+
+    enum StackOrder{FRONT,RAISE,LOWER,BACK};
 	/**
 	 * @brief VisualItem default constructor
 	 */
@@ -222,6 +224,10 @@ signals:
      * @brief selectStateChange
      */
     void selectStateChange(bool);
+    /**
+     * @brief changeStackPosition
+     */
+    void changeStackPosition(VisualItem*,  VisualItem::StackOrder);
 
 public slots:
     /**
