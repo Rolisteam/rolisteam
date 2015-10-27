@@ -1739,6 +1739,9 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     tmp->show();
     m_mapWindowVectorialMap.insert(tmp->getMapId(),tmp);
 
+    m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
+    tmp->currentToolChanged(m_vToolBar->getCurrentTool());
+
 }
 
 

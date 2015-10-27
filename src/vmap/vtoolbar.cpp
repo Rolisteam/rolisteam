@@ -46,6 +46,7 @@ VToolsBar::VToolsBar(QWidget *parent)
     //setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     //setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
     m_centralWidget = new QWidget(this);
+    //m_currentTool = HANDLER;
     creerActions();
     creerOutils();
     QHBoxLayout* lay = new QHBoxLayout();
@@ -54,7 +55,6 @@ VToolsBar::VToolsBar(QWidget *parent)
     
     connect(m_colorSelector,SIGNAL(currentColorChanged(QColor&)),this,SIGNAL(currentColorChanged(QColor&)));
     connect(m_colorSelector,SIGNAL(currentModeChanged(int)),this,SIGNAL(currentModeChanged(int)));
-    m_currentTool = HANDLER;
 
     QObject::connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcCount()));
     QObject::connect(m_npcNameTextEdit, SIGNAL(textEdited(const QString &)), this, SLOT(npcNameChange(const QString &)));
