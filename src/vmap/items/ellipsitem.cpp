@@ -52,6 +52,12 @@ QRectF EllipsItem::boundingRect() const
     rect.setRect(-m_rx,-m_ry,m_rx*2,m_ry*2);
     return rect;
 }
+QPainterPath EllipsItem::shape() const
+{
+	QPainterPath path;
+	path.addEllipse(boundingRect());
+	return path;
+}
 void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->save();

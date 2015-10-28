@@ -84,6 +84,12 @@ QRectF CharacterItem::boundingRect() const
 {
     return m_rect;
 }
+QPainterPath CharacterItem::shape() const
+{
+	QPainterPath path;
+	path.addEllipse(boundingRect());
+	return path;
+}
 void CharacterItem::setNewEnd(QPointF& nend)
 {
     //m_center = nend;

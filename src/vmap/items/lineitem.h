@@ -41,6 +41,11 @@ public:
     * @brief gives bounding rect of the line
     */
     virtual QRectF boundingRect() const ;
+	/**
+	 * @brief shape
+	 * @return
+	 */
+	virtual QPainterPath shape() const;
     
     /**
     * @brief defines new position of the end line.

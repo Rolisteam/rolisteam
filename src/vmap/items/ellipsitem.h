@@ -38,6 +38,8 @@ public:
     * @brief paint the ellipse at the correct position
     */
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+
+	virtual QPainterPath shape() const;
     /**
     * @brief modifies the ellipse size and shape.
     */

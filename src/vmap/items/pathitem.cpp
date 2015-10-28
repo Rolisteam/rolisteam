@@ -58,6 +58,7 @@ QRectF PathItem::boundingRect() const
     rect.adjust(-m_pen.width()/2,-m_pen.width()/2,m_pen.width()/2,m_pen.width()/2);
     return rect;
 }
+
 QPainterPath PathItem::shape () const
 {
 	QPainterPath path;

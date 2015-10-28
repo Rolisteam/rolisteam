@@ -49,6 +49,14 @@ QRectF LineItem::boundingRect() const
 {
     return  m_rect;
 }
+QPainterPath LineItem::shape() const
+{
+	/// @todo may be useful to set polygon instead of line. To manage the width of the line.
+	QPainterPath path;
+	path.moveTo(m_startPoint);
+	path.lineTo(m_endPoint);
+	return path;
+}
 void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->save();

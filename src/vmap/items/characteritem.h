@@ -68,6 +68,7 @@ public:
     * @brief gives the bounding rect of the ellipse
     */
     virtual QRectF boundingRect() const ;
+	virtual QPainterPath shape() const;
     /**
     * @brief modifies the ellipse size and shape.
     */
