@@ -280,6 +280,7 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
             if(m_keyWordList.contains(cmd))
             {
                 tmpmessage=tmpmessage.remove(0,pos);
+                message = tmpmessage;
                 if (!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
                 {
                     messageTitle = tr("Warning");
