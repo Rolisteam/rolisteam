@@ -176,10 +176,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     m_aliasModel->setGM(!m_preferences->value("isPlayer",false).toBool());
 
 
-    // background
-    connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
-    connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(applyBackground()));
-    connect(ui->m_backgroundImage,SIGNAL(pathChanged()),this,SLOT(applyBackground()));
+
     //connect(ui->m_backgroundImage,ç)
 
     //themes
@@ -274,6 +271,7 @@ void PreferencesDialog::initializePostSettings()
             QColor color = m_preferences->value(QString("Theme_%1_bgColor").arg(i),QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE)).value<QColor>();
             QString path = m_preferences->value(QString("Theme_%1_bgPath").arg(i),"").toString();
             int pos = m_preferences->value(QString("Theme_%1_bgPosition").arg(i),0).toInt();
+            qDebug() << color << name;
             QString css = m_preferences->value(QString("Theme_%1_css").arg(i),"").toString();
             bool isRemovable = m_preferences->value(QString("Theme_%1_removable").arg(i),false).toBool();
 
@@ -333,8 +331,12 @@ void PreferencesDialog::initializePostSettings()
 
     updateTheme();
 
+    // background
     connect(ui->m_themeComboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(updateTheme()));
     connect(ui->m_styleCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(setStyle()));
+    connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
+    connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(applyBackground()));
+    connect(ui->m_backgroundImage,SIGNAL(pathChanged()),this,SLOT(applyBackground()));
 
     //DiceSystem
     size = m_preferences->value("DiceAliasNumber",0).toInt();
@@ -365,8 +367,8 @@ void PreferencesDialog::updateTheme()
         m_paletteModel->setPalette(theme->getPalette());
         ui->m_themeNameLineEdit->setText(theme->getName());
         ui->m_backgroundImage->setPath(theme->getBackgroundImage());
-        ui->m_bgColorPush->setColor(theme->getBackgroundColor());
         ui->m_positioningComboBox->setCurrentIndex(theme->getBackgroundPosition());
+        ui->m_bgColorPush->setColor(theme->getBackgroundColor());
 
         QString defaultStyle = theme->getStyleName();
         ui->m_styleCombo->setCurrentIndex(ui->m_styleCombo->findText(defaultStyle.toUpper(), Qt::MatchContains));
@@ -478,11 +480,12 @@ void PreferencesDialog::save() const
         m_preferences->registerValue(QString("Theme_%1_palette").arg(i),var);
         m_preferences->registerValue(QString("Theme_%1_stylename").arg(i),tmp->getStyleName());
         m_preferences->registerValue(QString("Theme_%1_bgColor").arg(i),tmp->getBackgroundColor());
+        qDebug() << tmp->getBackgroundColor();
         m_preferences->registerValue(QString("Theme_%1_bgPath").arg(i),tmp->getBackgroundImage());
         m_preferences->registerValue(QString("Theme_%1_bgPosition").arg(i),tmp->getBackgroundPosition());
         m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getCss());
         m_preferences->registerValue(QString("Theme_%1_removable").arg(i),tmp->isRemovable());
-        // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
+
         ++i;
     }
 
