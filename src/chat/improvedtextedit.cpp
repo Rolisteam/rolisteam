@@ -22,7 +22,7 @@
 
 
 #include <QRegularExpression>
-#include "chat/improvedtextedit.h"
+#include "improvedtextedit.h"
 #include <QDebug>
 
 static const int MaxHistorySize = 100;
