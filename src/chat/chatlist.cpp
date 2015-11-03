@@ -256,6 +256,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
 
     m_chatMenu.addAction(chatw->toggleViewAction());
     connect(chatw, SIGNAL(ChatWindowHasChanged(ChatWindow *)), this, SLOT(changeChatWindow(ChatWindow *)));
+	connect(m_mainWindow, SIGNAL(closing()), chatw, SLOT(save()));
 
     QMdiSubWindow* subWindowChat = static_cast<QMdiSubWindow*>(m_mainWindow->registerSubWindow(chatw,chatw->toggleViewAction()));
 
