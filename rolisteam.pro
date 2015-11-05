@@ -140,7 +140,8 @@ HEADERS += \
     src/widgets/aboutrolisteam.h \
     src/data/charactervision.h \
     src/data/characterstate.h \
-    src/widgets/filepathdelegateitem.h
+    src/widgets/filepathdelegateitem.h \
+    src/network/selectconnectionprofiledialog.h
 
 
 
@@ -208,7 +209,8 @@ SOURCES += \
     src/widgets/aboutrolisteam.cpp \
     src/data/charactervision.cpp \
     src/data/characterstate.cpp \
-    src/widgets/filepathdelegateitem.cpp
+    src/widgets/filepathdelegateitem.cpp \
+    src/network/selectconnectionprofiledialog.cpp
 
 #end source
 
@@ -269,7 +271,8 @@ FORMS += \
     src/audio/audiowidget.ui \
     src/mainwindow.ui \
     src/widgets/onlinepicturedialog.ui \
-    src/widgets/aboutrolisteam.ui
+    src/widgets/aboutrolisteam.ui \
+    src/network/selectconnectionprofiledialog.ui
 
 INCLUDEPATH +=src/audio
 

@@ -36,8 +36,8 @@
 /*****************
  * NetworkManager *
  *****************/
-NetworkManager::NetworkManager(QString localPlayerId)
-    : QObject(), m_server(NULL),m_NetworkLinkToServer(NULL),m_disconnectAsked(false),m_connectionState(false),m_localPlayer(NULL),m_audioPlayer(NULL),m_localPlayerId(localPlayerId)
+NetworkManager::NetworkManager()
+	: QObject(), m_server(NULL),m_NetworkLinkToServer(NULL),m_disconnectAsked(false),m_connectionState(false),m_localPlayer(NULL),m_audioPlayer(NULL)
 {
 
     m_reconnect = new QTimer(this);
@@ -118,10 +118,6 @@ bool NetworkManager::configAndConnect(QString version)
 				m_portStr.toInt(),
                 isServer);
 
-
-
-
-
     m_playersList = PlayersList::instance();
 
     bool isConnected = false;
@@ -132,22 +128,29 @@ bool NetworkManager::configAndConnect(QString version)
         m_isClient = !m_configDialog->isServer();
         m_playersList->completeListClean();
 
-        if(m_localPlayer!=NULL)
+		m_localPlayer = m_playersList->getLocalPlayer();
+		/*if(m_localPlayer!=NULL)
         {
             delete m_localPlayer;
             m_localPlayer = NULL;
-        }
+		}*/
         synchronizePreferences();
-        m_localPlayer = new Player(
+		/*m_localPlayer = new Player(
                 m_localPlayerId,
                 m_configDialog->getName(),
                 m_configDialog->getColor(),
                 m_configDialog->isGM()
-            );
-            m_localPlayer->setUserVersion(version);
-            m_playersList->setLocalPlayer(m_localPlayer);
+			);*/
 
-           isConnected = startConnection();
+		m_localPlayer->setGM(m_configDialog->isGM());
+		m_localPlayer->setColor(m_configDialog->getColor());
+		m_localPlayer->setName(m_configDialog->getName());
+		//m_localPlayerId = m_localPlayer->getUuid();
+
+		m_localPlayer->setUserVersion(version);
+		m_playersList->setLocalPlayer(m_localPlayer);
+
+		isConnected = startConnection();
     }
     return isConnected;
 
@@ -200,7 +203,6 @@ bool NetworkManager::startConnection()
     m_playersList->sendOffLocalPlayerInformations();
     m_playersList->sendOffFeatures(m_localPlayer);
 
-    setConnectionState(true);
     return true;
 }
 bool  NetworkManager::startListening()

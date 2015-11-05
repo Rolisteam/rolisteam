@@ -142,11 +142,7 @@ public :
      * @param subWindow
      */
     QWidget* registerSubWindow(QWidget * subWindow, QAction* action);
-    /**
-     * @brief showConnectionDialog
-     * @return
-     */
-    bool showConnectionDialog();
+
     /**
      * @brief setupUi
      */
@@ -244,8 +240,15 @@ public slots :
      */
     void closeAllImagesAndMaps();
 
+	/**
+	 * @brief showConnectionDialog
+	 * @return
+	 */
+	bool showConnectionDialog();
+
 protected :
     void closeEvent(QCloseEvent *event);
+	void showEvent(QShowEvent *event);
     void prepareImage(Image *imageFenetre);
 	void processImageMessage(NetworkMessageReader* msg);
     void processMapMessage(NetworkMessageReader* msg);
@@ -380,6 +383,7 @@ private :
     int m_maxSizeRecentFile;
     QList<QAction*> m_recentFileActs;
     VmapToolBar* m_vmapToolBar;
+	bool m_profileDefined;
 };
 
 #endif

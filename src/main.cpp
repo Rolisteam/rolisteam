@@ -186,23 +186,24 @@ int main(int argc, char *argv[])
 
 
 
-    int value = 0;
-    if(mainWindow->showConnectionDialog())
+	int value = 0;
+	/*if(mainWindow->showConnectionDialog())
     {
         mainWindow->setUpNetworkConnection();
         mainWindow->updateWindowTitle();
         mainWindow->checkUpdate();
         mainWindow->updateUi();
-        if(PreferencesManager::getInstance()->value("FullScreenAtStarting",true).toBool())
-        {
-            mainWindow->showMaximized();
-        }
-        else
-        {
-            mainWindow->show();
-        }
-        value = app.exec();
-    }
+
+	}*/
+	if(PreferencesManager::getInstance()->value("FullScreenAtStarting",true).toBool())
+	{
+		mainWindow->showMaximized();
+	}
+	else
+	{
+		mainWindow->show();
+	}
+	value = app.exec();
     QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 
     delete mainWindow;

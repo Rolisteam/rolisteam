@@ -51,9 +51,15 @@ class NetworkManager : public QObject
 {
     Q_OBJECT
 
-public :
-    NetworkManager(QString localPlayerId);
-	~NetworkManager();
+public:
+	/**
+	 * @brief NetworkManager
+	 */
+	NetworkManager();
+	/**
+	 * @brief ~NetworkManager
+	 */
+	virtual ~NetworkManager();
 
     /**
      * @brief Display the configDialog and make the connection.
@@ -97,6 +103,7 @@ public :
     void setAudioPlayer(AudioPlayer*);
     void setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue);
 public slots:
+	void setConnectionState(bool);
     void disconnectAndClose();
     /**
      * @brief startConnection try to connect to the server or to start it.
@@ -123,7 +130,6 @@ private slots :
 
 private :
     void synchronizePreferences();
-    void setConnectionState(bool);
 
 private:
     QTcpServer * m_server;

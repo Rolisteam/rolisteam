@@ -201,3 +201,7 @@ void ChatListWidget::processMoveDiceALias(NetworkMessageReader* msg)
     }
 
 }
+void ChatListWidget::addPublicChat()
+{
+	m_chatList->addPublicChat();
+}
