@@ -63,7 +63,7 @@ public :
      * @param chat
      * @param parent
      */
-    ChatWindow(AbstractChat * chat, MainWindow * parent);
+	ChatWindow(AbstractChat * chat,QWidget* parent = NULL);
     /**
      * @brief ~ChatWindow
      */
@@ -209,7 +209,6 @@ private :
     QString m_filename;
     bool m_warnedEmoteUnavailable;
     bool m_hasUnseenMessage;
-    MainWindow* m_mainWindow;
     QPushButton* m_save;
     PreferencesManager* m_preferences;
     ChatBrowser * m_displayZone;

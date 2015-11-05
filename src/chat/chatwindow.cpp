@@ -37,7 +37,7 @@
 #include "chat/chat.h"
 #include "network/networkmessagewriter.h"
 #include "localpersonmodel.h"
-#include "mainwindow.h"
+#include "data/person.h"
 #include "userlist/playersList.h"
 #include "chat/improvedtextedit.h"
 
@@ -46,8 +46,8 @@
 QStringList ChatWindow::m_keyWordList;
 QList<DiceAlias*>* ChatWindow::m_receivedAlias = NULL;
 
-ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
-    : QWidget(), m_chat(chat), m_filename("%1/%2.html"),m_mainWindow(parent)
+ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
+	: QWidget(parent), m_chat(chat), m_filename("%1/%2.html")
 {
     m_preferences = PreferencesManager::getInstance();
     if (m_chat == NULL)
@@ -66,7 +66,6 @@ ChatWindow::ChatWindow(AbstractChat * chat, MainWindow * parent)
 	connect(m_editionZone, SIGNAL(textValidated(bool,QString)), this, SLOT(emettreTexte(bool,QString)));
     connect(m_editionZone, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
     connect(m_editionZone, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
-    connect(m_mainWindow, SIGNAL(closing()), this, SLOT(save()));
     connect(m_chat, SIGNAL(changedMembers()), this, SLOT(scheduleUpdateChatMembers()));
 
     m_toggleViewAction = new QAction(this);
