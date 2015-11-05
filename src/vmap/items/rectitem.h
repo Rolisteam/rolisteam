@@ -90,7 +90,12 @@ public:
 	 * @brief getItemCopy
 	 * @return
 	 */
-	virtual VisualItem* getItemCopy();
+    virtual VisualItem* getItemCopy();
+
+    /**
+     * @brief resizeContents
+     */
+    virtual void resizeContents(const QRect&,bool);
 
 
 protected:
