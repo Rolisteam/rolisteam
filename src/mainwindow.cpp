@@ -130,10 +130,7 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
     m_mdiArea->addContainerMedia(mediac);
 
 
-    if(mediac->getTitle().isEmpty())
-    {
-        mediac->setTitle(tr("Unknown Map"));
-    }
+
 
     m_mapAction->insert(mediac,action);
     mediac->setVisible(true);

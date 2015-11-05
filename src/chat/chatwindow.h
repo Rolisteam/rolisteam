@@ -36,6 +36,7 @@
 #include "widgets/colorbutton.h"
 #include "chatbrowser.h"
 
+#include "data/person.h"
 #include "diceparser.h"
 
 //#include "ui_chatwindow.h"
@@ -106,6 +107,8 @@ public :
      * @return
      */
     QMdiSubWindow* getSubWindow();
+
+    void setLocalPlayer(Person*);
 
     /**
      * @brief updateDiceAliases
@@ -217,6 +220,7 @@ private :
     QWidget * m_bottomWidget;
     DiceParser* m_diceParser;
     QMap<QString,CHAT_OPERATOR>* m_operatorMap;
+    Person* m_localPerson;
     static QList<DiceAlias*>* m_receivedAlias;
 
 };

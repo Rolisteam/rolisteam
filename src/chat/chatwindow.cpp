@@ -38,7 +38,6 @@
 #include "network/networkmessagewriter.h"
 #include "localpersonmodel.h"
 #include "mainwindow.h"
-#include "data/person.h"
 #include "userlist/playersList.h"
 #include "chat/improvedtextedit.h"
 
@@ -196,8 +195,6 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
 {
     updateListAlias();
 
-    QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
-    Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
     QColor color;
     if(m_diceParser->parseLine(str))
     {
@@ -209,7 +206,7 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
             QString cmdLine;
             QString list;
             bool onlyValue = getMessageResult(value, cmdLine,list);
-            color = localPerson->getColor();
+            color = m_localPerson->getColor();
 
             if(!onlyValue)
             {
@@ -252,10 +249,6 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
     bool ok=true;
     m_editionZone->clear();
 
-
-    QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
-    Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
-
     QString tmpmessage=message.simplified();
     QString messageCorps="";
     QString messageTitle="";
@@ -291,7 +284,7 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
                 }
 
 
-                showMessage(localPerson->getName(), localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
+                showMessage(m_localPerson->getName(), m_localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
                 action = NetMsg::EmoteMessageAction;
                 break;
 
@@ -302,13 +295,13 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
     }
     else
     {//sending info to others.
-        messageTitle = localPerson->getName();
+        messageTitle = m_localPerson->getName();
 		if(!hasHtml)
 		{
 			message = message.toHtmlEscaped();
 		}
 		message = message.replace('\n',"<br/>");
-        showMessage(messageTitle, localPerson->getColor(), message);
+        showMessage(messageTitle, m_localPerson->getColor(), message);
         action = NetMsg::ChatMessageAction;
     }
 
@@ -318,7 +311,7 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
 
     // Emission du message
     NetworkMessageWriter data(NetMsg::ChatCategory, action);
-    data.string8(localPersonIdentifier);
+    data.string8(m_localPerson->getUuid());
     data.string8(m_chat->identifier());
     data.string32(message);
     m_chat->sendThem(data);
@@ -619,4 +612,8 @@ void ChatWindow::detachView(bool b)
             parent->addSubWindow(m_window);
             m_window->setVisible(true);
     }
+}
+void ChatWindow::setLocalPlayer(Person* person)
+{
+    m_localPerson = person;
 }

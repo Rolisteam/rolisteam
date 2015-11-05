@@ -65,7 +65,11 @@ void  VMapFrame::createView()
 }
 void VMapFrame::updateMap()
 {
-	setTitle(m_vmap->mapTitle());
+    if(m_vmap->mapTitle().isEmpty())
+    {
+        m_vmap->setTitle(tr("Unknown Map"));
+    }
+    setTitle(m_vmap->mapTitle());
     m_graphicView->setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setGeometry(m_graphicView->geometry());
 	setWidget(m_graphicView);
@@ -75,7 +79,7 @@ void VMapFrame::updateMap()
 }
 void VMapFrame::updateTitle()
 {
-    setWindowTitle(tr("%1 - v:%2 - p:%3 - l:%4").arg(m_vmap->getTitle())
+    setWindowTitle(tr("%1 - visibility:%2 - permission:%3 - layer:%4").arg(m_vmap->getTitle())
 				   .arg(m_vmap->getVisibilityModeText())
 				   .arg(m_vmap->getPermissionModeText())
                    .arg(m_vmap->getCurrentLayer()));
