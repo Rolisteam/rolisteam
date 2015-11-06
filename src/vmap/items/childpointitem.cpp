@@ -167,7 +167,8 @@ void ChildPointItem::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
                 int W = qMax(2 * fabs(v.x()), 5.0);
                 int H = qMax(2 * fabs(v.y()), 4.0);
 
-                if((v.x() >1)&&(v.y()>1))
+                //if((v.x() >1)&&(v.y()>1))
+               // qDebug() << v.y() << v.x();
                 {
                     m_parent->resizeContents(QRect(-W / 2, -H / 2, W, H),ratio);
                 }

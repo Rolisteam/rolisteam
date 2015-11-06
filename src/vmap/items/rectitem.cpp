@@ -215,3 +215,7 @@ VisualItem* RectItem::getItemCopy()
     rectItem->setPos(pos());
 	return rectItem;
 }
+void RectItem::resizeContents(const QRect& rect ,bool b)
+{
+    VisualItem::resizeContents(rect,b);
+}
