@@ -60,6 +60,9 @@ PlayersList::PlayersList()
     ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterAvatarAction, this);
     ReceiveEvent::registerReceiver(SetupCategory, AddFeatureAction, this);
 
+	m_localPlayer = new Player();
+	m_playersList.append(m_localPlayer);
+
     connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(sendDelLocalPlayer()));
 }
 
@@ -915,8 +918,12 @@ void PlayersList::completeListClean()
     m_playersList.clear();
     m_uuidMap.clear();
     //reset();
-    m_localPlayer=NULL;
+	//m_localPlayer=NULL;
+	m_playersList.append(m_localPlayer);
     endResetModel();
+
+
+
 }
 
 /*********

@@ -49,6 +49,7 @@
 #include "network/networkmanager.h"
 #include "Image.h"
 #include "network/networkmessagewriter.h"
+#include "network/selectconnectionprofiledialog.h"
 
 #include "data/person.h"
 #include "data/player.h"
@@ -77,7 +78,7 @@
 MainWindow* MainWindow::m_singleton= NULL;
 
 MainWindow::MainWindow()
-    : QMainWindow(),m_networkManager(NULL),m_localPlayerId(QUuid::createUuid().toString()),m_ui(new Ui::MainWindow),m_resetSettings(false)
+	: QMainWindow(),m_networkManager(NULL),m_ui(new Ui::MainWindow),m_resetSettings(false)
 {
     setAcceptDrops(true);
     m_supportedCharacterSheet=tr("Character Sheets files (*.xml)");
@@ -96,7 +97,8 @@ MainWindow::MainWindow()
     m_downLoadProgressbar->setVisible(false);
 
     //m_mapWizzard = new MapWizzard(this);
-    m_networkManager = new NetworkManager(m_localPlayerId);
+	m_networkManager = new NetworkManager();
+	//m_localPlayerId = ;
     m_vmapToolBar = new VmapToolBar();
     addToolBar(Qt::TopToolBarArea,m_vmapToolBar);
 
@@ -105,6 +107,7 @@ MainWindow::MainWindow()
     connect(m_networkManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
     m_ipChecker = new IpChecker(this);
     m_mapAction = new QMap<MediaContainer*,QAction*>();
+
 
 
 }
@@ -1236,9 +1239,21 @@ void MainWindow::notifyUser(QString message, MessageType type) const
 bool  MainWindow::showConnectionDialog()
 {
     // Get a connection
-    bool result = m_networkManager->configAndConnect(m_version);
-    m_audioPlayer->updateUi();
-    return result;
+	/*bool result = m_networkManager->configAndConnect(m_version);*/
+
+	if(!m_profileDefined)
+	{
+		SelectConnectionProfileDialog dialog;
+		dialog.exec();
+		bool result =true;
+
+		m_audioPlayer->updateUi();
+		m_localPlayerId = m_networkManager->getLocalPlayer()->getUuid();
+		m_playerList->setLocalPlayer(m_networkManager->getLocalPlayer());
+		m_networkManager->setConnectionState(result);
+		m_chatListWidget->addPublicChat();
+		return result;
+	}
 }
 void MainWindow::setupUi()
 {
@@ -1281,7 +1296,7 @@ void MainWindow::setupUi()
     addDockWidget(Qt::RightDockWidgetArea, m_dockLogUtil);
 
 
-    m_chatListWidget = new ChatListWidget(this);
+	m_chatListWidget = new ChatListWidget(this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_chatListWidget);
     addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_chatListWidget->toggleViewAction());
@@ -1298,9 +1313,6 @@ void MainWindow::setupUi()
     m_ui->m_menuSubWindows->removeAction(m_ui->m_characterListAct);
 
 
-    /*m_userListDock = new UserListWidget(this);
-    addDockWidget(Qt::RightDockWidgetArea, m_userListDock);
-    m_ui->m_menuSubWindows->insertAction(m_playersListWidget->toggleViewAction(),m_userListDock->toggleViewAction());*/
 
     ///////////////////
     //Audio Player
@@ -2150,3 +2162,8 @@ void MainWindow::dropEvent(QDropEvent* event)
     }
 }
 
+void MainWindow::showEvent(QShowEvent *event)
+{
+	QMainWindow::showEvent(event);
+	QTimer::singleShot(1000,this,SLOT(showConnectionDialog()));
+}

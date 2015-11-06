@@ -71,26 +71,25 @@ ChatList::ChatList(MainWindow * mainWindow)
 {
     m_chatMenu.setTitle(tr("ChatWindows"));
 
-    // main (public) chat
-    addChatWindow(new ChatWindow(new PublicChat(), m_mainWindow));
 
-    // Stay sync with g_playersList
-    PlayersList * g_playersList = PlayersList::instance();
-    connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(addPlayerChat(Player *)));
-    connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(delPlayer(Player *)));
 
-    // Allready there player's chat
-    int maxPlayerIndex = g_playersList->numPlayers();
-    Player * localPlayer = g_playersList->localPlayer();
-    for (int i = 0 ; i < maxPlayerIndex ; i++)
-    {
-        Player * player = g_playersList->getPlayer(i);
+	// Stay sync with g_playersList
+	PlayersList * g_playersList = PlayersList::instance();
+	connect(g_playersList, SIGNAL(playerAdded(Player *)), this, SLOT(addPlayerChat(Player *)));
+	connect(g_playersList, SIGNAL(playerDeleted(Player *)), this, SLOT(delPlayer(Player *)));
 
-        if (player != localPlayer)
-        {
-            addPlayerChat(player);//m_mainWindow
-        }
-    }
+	// Allready there player's chat
+	int maxPlayerIndex = g_playersList->numPlayers();
+	Player * localPlayer = g_playersList->localPlayer();
+	for (int i = 0 ; i < maxPlayerIndex ; i++)
+	{
+		Player * player = g_playersList->getPlayer(i);
+
+		if (player != localPlayer)
+		{
+			addPlayerChat(player);//m_mainWindow
+		}
+	}
 
     // Receive events
     ReceiveEvent::registerReceiver(NetMsg::ChatCategory, NetMsg::ChatMessageAction, this);
@@ -110,6 +109,12 @@ ChatList::~ChatList()
         delete m_chatWindowList.at(i);
     }
 }
+void ChatList::addPublicChat()
+{
+	// main (public) chat
+	addChatWindow(new ChatWindow(new PublicChat(), m_mainWindow));
+}
+
 bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     QMdiSubWindow* chatw = getChatSubWindowByIndex(index);
@@ -256,7 +261,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
 
     m_chatMenu.addAction(chatw->toggleViewAction());
     connect(chatw, SIGNAL(ChatWindowHasChanged(ChatWindow *)), this, SLOT(changeChatWindow(ChatWindow *)));
-	connect(m_mainWindow, SIGNAL(closing()), chatw, SLOT(save()));
+    connect(m_mainWindow, SIGNAL(closing()), chatw, SLOT(save()));
 
     QMdiSubWindow* subWindowChat = static_cast<QMdiSubWindow*>(m_mainWindow->registerSubWindow(chatw,chatw->toggleViewAction()));
 
@@ -274,8 +279,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
         chatw->setSubWindow(subWindowChat);
         subWindowChat->setWindowTitle(tr("%1 (Chat)").arg(chatw->getTitleFromChat()));
         subWindowChat->setWindowIcon(QIcon(":/chat.png"));
-        PlayersList* g_playersList = PlayersList::instance();
-        chatw->setLocalPlayer(g_playersList->getLocalPlayer());
+	chatw->setLocalPlayer(PlayersList::instance()->localPlayer());
         subWindowChat->setAttribute(Qt::WA_DeleteOnClose, false);
         chatw->setAttribute(Qt::WA_DeleteOnClose, false);
 

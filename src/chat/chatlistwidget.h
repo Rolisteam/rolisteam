@@ -56,6 +56,7 @@ public:
 
 public slots:
     void createPrivateChat();
+	void addPublicChat();
 
 private slots:
     void selectAnotherChat(const QModelIndex & index);
@@ -68,7 +69,7 @@ private slots:
 
 
 private:
-    ChatList * m_chatList;
+	ChatList* m_chatList;
     PrivateChatDialog * m_privateChatDialog;
     QItemSelectionModel * m_selectionModel;
     QPushButton * m_deleteButton;

@@ -212,7 +212,7 @@ private :
     QPushButton* m_save;
     PreferencesManager* m_preferences;
     ChatBrowser * m_displayZone;
-    QComboBox * m_selectPersonComboBox;
+	QComboBox* m_selectPersonComboBox;
     ImprovedTextEdit * m_editionZone;
     QAction * m_toggleViewAction;
     QSplitter* m_splitter;

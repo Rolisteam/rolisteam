@@ -105,6 +105,9 @@ public:
 
     void updateDiceAliases(QList<DiceAlias*>* map);
 
+public slots:
+	void addPublicChat();
+
 private:
     /**
      * @brief dispatchMessage
@@ -153,6 +156,7 @@ private:
     QMap<QString, PrivateChat *> m_privateChatMap;
     QMenu m_chatMenu;
     MainWindow * m_mainWindow;
+	//Person* m_localPerson;
 
 };
 
