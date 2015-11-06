@@ -23,6 +23,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QDebug>
 #include <QMenu>
+#include <QGraphicsScene>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -306,8 +307,38 @@ QString CharacterItem::getCharacterId() const
 
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if(change == QGraphicsItem::ItemPositionHasChanged)
+
+    if(change == QGraphicsItem::ItemPositionChange)
     {
+         m_oldPosition = pos();
+    }
+    else if(change == QGraphicsItem::ItemPositionHasChanged)
+    {
+        QList<QGraphicsItem*> list = collidingItems();
+
+        QPainterPath path;
+        path.moveTo(m_oldPosition);
+        path.lineTo(value.toPointF());
+        QGraphicsScene* currentScene = scene();
+        list.append(currentScene->items(path));
+
+        foreach(QGraphicsItem* item,list)
+        {
+            VisualItem* vItem = dynamic_cast<VisualItem*>(item);
+            if(NULL!=vItem)
+            {
+                if(vItem->getLayer()==VisualItem::OBJECT)
+                {
+                   setPos(m_oldPosition);
+                }
+            }
+        }
+
+
+
+
+
+
         emit positionChanged();
     }
     return QGraphicsItem::itemChange(change, value);

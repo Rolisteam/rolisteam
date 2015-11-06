@@ -239,6 +239,9 @@ private:
 
     //sight
     CharacterVision* m_vision;
+
+
+    QPointF m_oldPosition;
 };
 
 #endif // CHARACTERITEM_H
