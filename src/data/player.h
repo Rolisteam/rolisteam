@@ -81,7 +81,10 @@ public:
      * @return
      */
     Character* getCharacterByIndex(int index) const;
-
+    /**
+     * @brief getChildrenCharacter
+     * @return
+     */
 	QList<Character*> getChildrenCharacter();
     /**
      * @brief getIndexOfCharacter
@@ -130,8 +133,22 @@ public:
      * @param character
      */
     void addCharacter(Character * character);
+    /**
+     * @brief setGM
+     * @param value
+     */
     void setGM(bool value);
+    /**
+     * @brief delCharacter
+     * @param index
+     */
     void delCharacter(int index);
+    /**
+     * @brief searchCharacter
+     * @param character
+     * @param index
+     * @return
+     */
     bool searchCharacter(Character * character, int & index) const;
 private:
     friend class PlayersList;
