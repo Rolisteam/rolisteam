@@ -1240,19 +1240,26 @@ bool  MainWindow::showConnectionDialog()
 {
     // Get a connection
 	/*bool result = m_networkManager->configAndConnect(m_version);*/
-
 	if(!m_profileDefined)
 	{
-		SelectConnectionProfileDialog dialog;
-		dialog.exec();
-		bool result =true;
+        QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
+        SelectConnectionProfileDialog dialog(this);
 
-		m_audioPlayer->updateUi();
-		m_localPlayerId = m_networkManager->getLocalPlayer()->getUuid();
-		m_playerList->setLocalPlayer(m_networkManager->getLocalPlayer());
-		m_networkManager->setConnectionState(result);
-		m_chatListWidget->addPublicChat();
-		return result;
+        if(QDialog::Accepted == dialog.exec())
+        {
+            dialog.writeSettings(settings);
+            m_currentConnectionProfile = dialog.getSelectedProfile();
+            m_networkManager->setConnectionProfile(m_currentConnectionProfile);
+            bool result = m_networkManager->startConnection();
+            m_audioPlayer->updateUi();
+            m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
+            m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
+            m_networkManager->setConnectionState(result);
+            m_chatListWidget->addPublicChat();
+            return result;
+        }
+        dialog.writeSettings(settings);
+        return false;
 	}
 }
 void MainWindow::setupUi()
@@ -2070,10 +2077,13 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
 }
 void MainWindow::updateWindowTitle()
 {
+    if(NULL != m_currentConnectionProfile)
+    {
     setWindowTitle(tr("%1[*] - v%2 - %3 - %4 - %5").arg(m_preferences->value("applicationName","Rolisteam").toString())
                    .arg(m_version)
                    .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected"))
-                   .arg(m_networkManager->isServer() ? tr("Server") : tr("Client")).arg(m_playerList->localPlayer()->isGM() ? tr("GM") : tr("Player")));
+                   .arg(m_currentConnectionProfile->isServer() ? tr("Server") : tr("Client")).arg(m_currentConnectionProfile->isGM() ? tr("GM") : tr("Player")));
+    }
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent * event)
