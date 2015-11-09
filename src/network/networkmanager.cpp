@@ -30,6 +30,7 @@
 #include "data/person.h"
 #include "data/player.h"
 #include "audio/audioPlayer.h"
+#include "network/selectconnectionprofiledialog.h"
 
 #define second 1000
 
@@ -50,11 +51,11 @@ NetworkManager::NetworkManager()
 
 NetworkManager::~NetworkManager()
 {
-    if(NULL!=m_configDialog)
+    /*if(NULL!=m_configDialog)
     {
         delete m_configDialog;
         m_configDialog = NULL;
-    }
+    }*/
     if(NULL!=m_dialog)
     {
         delete m_dialog;
@@ -64,14 +65,14 @@ NetworkManager::~NetworkManager()
 }
 void NetworkManager::synchronizePreferences()
 {
-    m_preferences->registerValue("UserName",m_configDialog->getName());
+    /*m_preferences->registerValue("UserName",m_configDialog->getName());
     m_preferences->registerValue("UserColor",m_configDialog->getColor());
     m_preferences->registerValue("isPlayer",!m_configDialog->isGM());
     m_preferences->registerValue("ipaddress",m_configDialog->getHost());
 	//G_joueur= !m_configDialog->isGM();
     m_preferences->registerValue("ServerPort",m_configDialog->getPort());
     m_preferences->registerValue("isClient",!m_configDialog->isServer());
-    m_preferences->registerValue("clientPort",m_configDialog->getPort());
+    m_preferences->registerValue("clientPort",m_configDialog->getPort());*/
 
 }
 void NetworkManager::setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue)
@@ -110,7 +111,7 @@ bool NetworkManager::configAndConnect(QString version)
 	}
 
 
-    m_configDialog = new ConnectionConfigDialog(NULL,
+   /* m_configDialog = new ConnectionConfigDialog(NULL,
                 m_username,
                 m_preferences->value("UserColor",QColor(255,255,255)).value<QColor>(),
 				isGM,
@@ -128,13 +129,13 @@ bool NetworkManager::configAndConnect(QString version)
         m_isClient = !m_configDialog->isServer();
         m_playersList->completeListClean();
 
-		m_localPlayer = m_playersList->getLocalPlayer();
+        m_localPlayer = m_playersList->getLocalPlayer();*/
 		/*if(m_localPlayer!=NULL)
         {
             delete m_localPlayer;
             m_localPlayer = NULL;
 		}*/
-        synchronizePreferences();
+       // synchronizePreferences();
 		/*m_localPlayer = new Player(
                 m_localPlayerId,
                 m_configDialog->getName(),
@@ -142,17 +143,17 @@ bool NetworkManager::configAndConnect(QString version)
                 m_configDialog->isGM()
 			);*/
 
-		m_localPlayer->setGM(m_configDialog->isGM());
+        /*m_localPlayer->setGM(m_configDialog->isGM());
 		m_localPlayer->setColor(m_configDialog->getColor());
-		m_localPlayer->setName(m_configDialog->getName());
+        m_localPlayer->setName(m_configDialog->getName());*/
 		//m_localPlayerId = m_localPlayer->getUuid();
 
-		m_localPlayer->setUserVersion(version);
+        /*m_localPlayer->setUserVersion(version);
 		m_playersList->setLocalPlayer(m_localPlayer);
 
 		isConnected = startConnection();
     }
-    return isConnected;
+    return isConnected;*/
 
 }
 Player* NetworkManager::getLocalPlayer()
@@ -163,18 +164,19 @@ Player* NetworkManager::getLocalPlayer()
 bool NetworkManager::startConnection()
 {
     bool cont = true;
+    m_playersList = PlayersList::instance();
     while (cont)
     {
         // Server setup
-        if (m_configDialog->isServer())
+        if (m_connectionProfile->isServer())
         {
             cont = !startListening();
-            m_port = m_configDialog->getPort();
+            m_port = m_connectionProfile->getPort();
         }
         else
         {
-            m_port = m_configDialog->getPort();
-            m_address = m_configDialog->getHost();
+            m_port = m_connectionProfile->getPort();
+            m_address = m_connectionProfile->getAddress();
             if(startConnectionToServer())
             {
                 cont = false;
@@ -195,13 +197,10 @@ bool NetworkManager::startConnection()
                return false;
            }
         }
-
-
-
     }
 
     m_playersList->sendOffLocalPlayerInformations();
-    m_playersList->sendOffFeatures(m_localPlayer);
+    m_playersList->sendOffFeatures(m_connectionProfile->getPlayer());
 
     return true;
 }
@@ -212,7 +211,7 @@ bool  NetworkManager::startListening()
         m_server = new QTcpServer(this);
         connect(m_server, SIGNAL(newConnection()), this, SLOT(nouveauClientConnecte()));
     }
-    if (m_server->listen(QHostAddress::Any, m_configDialog->getPort()))
+    if (m_server->listen(QHostAddress::Any, m_connectionProfile->getPort()))
     {
         emit notifyUser(tr("Server is on."));
         connect(this, SIGNAL(linkDeleted(NetworkLink *)), m_playersList, SLOT(delPlayerWithLink(NetworkLink *)));
@@ -233,7 +232,7 @@ bool NetworkManager::startConnectionToServer()
     ConnectionWaitDialog waitDialog;
     QTcpSocket * socket;
 
-    socket = waitDialog.connectTo(m_address, m_port);
+    socket = waitDialog.connectTo(m_connectionProfile->getAddress(), m_connectionProfile->getPort());
 
 
         if (socket != NULL)
@@ -271,7 +270,7 @@ void NetworkManager::ajouterNetworkLink(NetworkLink* networkLink)
     {
         NetworkLinks.append(networkLink);
         connect(this, SIGNAL(emissionDonnees(char *, quint32, NetworkLink *)),networkLink, SLOT(emissionDonnees(char *, quint32, NetworkLink *)));
-        connect(networkLink, SIGNAL(disconnected(NetworkLink *)),this, SLOT(finDeNetworkLink(NetworkLink *)));
+        connect(networkLink, SIGNAL(disconnected(NetworkLink *)),this, SLOT(endingNetworkLink(NetworkLink *)));
         connect(networkLink,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
         emit linkAdded(networkLink);
     }
@@ -292,7 +291,7 @@ void NetworkManager::setAudioPlayer(AudioPlayer* audio)
     m_audioPlayer = audio;
 }
 
-void NetworkManager::finDeNetworkLink(NetworkLink * link)
+void NetworkManager::endingNetworkLink(NetworkLink * link)
 {
 
     if(!m_disconnectAsked)
@@ -303,7 +302,7 @@ void NetworkManager::finDeNetworkLink(NetworkLink * link)
     }
 
 
-    if (!m_configDialog->isServer())
+    if (!m_connectionProfile->isServer())
     {
         if(link==m_NetworkLinkToServer)
         {
@@ -340,7 +339,7 @@ void NetworkManager::finDeNetworkLink(NetworkLink * link)
 void NetworkManager::disconnectAndClose()
 {
     m_disconnectAsked = true;
-    if (m_configDialog->isServer())
+    if (m_connectionProfile->isServer())
     {
         m_server->close();
         emit notifyUser(tr("Server has been closed."));
@@ -363,7 +362,7 @@ void NetworkManager::disconnectAndClose()
 }
 bool NetworkManager::isServer() const
 {
-    return m_configDialog->isServer();
+    return m_connectionProfile->isServer();
 }
 bool NetworkManager::isConnected() const
 {
@@ -385,4 +384,8 @@ NetworkLink* NetworkManager::getLinkToServer()
 quint16 NetworkManager::getPort() const
 {
     return m_port;
+}
+void NetworkManager::setConnectionProfile(ConnectionProfile* profile)
+{
+    m_connectionProfile = profile;
 }
