@@ -76,6 +76,7 @@ class ImprovedWorkspace;
 class NetworkManager;
 class TextEdit;
 class PlayersList;
+class ConnectionProfile;
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
@@ -188,6 +189,10 @@ public :
      * @param mapFrame
      */
     void prepareMap(MapFrame* mapFrame);
+    /**
+     * @brief prepareVMap
+     * @param tmp
+     */
     void prepareVMap(VMapFrame* tmp);
     /**
      * @brief addMediaToMdiArea
@@ -360,9 +365,9 @@ private :
     QTextEdit* m_notifierDisplay;
     TextEdit* m_noteEditor;
     PlayersList* m_playerList;
-	//QMenuBar* m_menuBar;
     /// @brief get the server IP.
     IpChecker* m_ipChecker;
+
     //subwindow
     QMdiSubWindow* m_noteEditorSub;
     QProgressBar* m_downLoadProgressbar;
@@ -370,7 +375,7 @@ private :
     QString m_localPlayerId;
 	bool m_resetSettings;
     Ui::MainWindow* m_ui;
-    //UserListWidget* m_userListDock;
+
 
 //filters
 	QString m_supportedImage;
@@ -384,6 +389,8 @@ private :
     QList<QAction*> m_recentFileActs;
     VmapToolBar* m_vmapToolBar;
 	bool m_profileDefined;
+
+    ConnectionProfile* m_currentConnectionProfile;
 };
 
 #endif
