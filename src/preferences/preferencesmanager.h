@@ -56,7 +56,6 @@ public:
     */
     ~PreferencesManager();
     
-    
     /**
     * @brief register a couple key/value in the map.
     *
