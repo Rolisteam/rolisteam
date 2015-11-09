@@ -42,6 +42,7 @@ class Player;
 class NetworkLink;
 
 class AudioPlayer;
+class ConnectionProfile;
 
 /**
  * @brief hold the list of socket (NetworkLink).
@@ -102,6 +103,7 @@ public:
     quint16 getPort() const;
     void setAudioPlayer(AudioPlayer*);
     void setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue);
+    void setConnectionProfile(ConnectionProfile*);
 public slots:
 	void setConnectionState(bool);
     void disconnectAndClose();
@@ -123,7 +125,7 @@ signals :
 
 private slots :
     void nouveauClientConnecte();
-    void finDeNetworkLink(NetworkLink * link);
+    void endingNetworkLink(NetworkLink * link);
     bool startConnectionToServer();
     bool startListening();
 
@@ -144,7 +146,7 @@ private:
     bool m_disconnectAsked;
     PreferencesManager* m_preferences;
     ConnectionRetryDialog* m_dialog;
-    ConnectionConfigDialog* m_configDialog;
+    //ConnectionConfigDialog* m_configDialog;
     PlayersList* m_playersList;
     bool m_connectionState;
     bool m_isClient;
@@ -154,6 +156,7 @@ private:
     QString m_host;
     QString m_role;
     QString m_username;
+    ConnectionProfile* m_connectionProfile;
 };
 
 #endif
