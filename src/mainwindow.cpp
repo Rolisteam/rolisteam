@@ -1245,7 +1245,7 @@ bool  MainWindow::showConnectionDialog()
 	/*bool result = m_networkManager->configAndConnect(m_version);*/
 	if(!m_profileDefined)
 	{
-        QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
+        QSettings settings("rolisteam","rolisteam");
         SelectConnectionProfileDialog dialog(m_version,this);
 
         if(QDialog::Accepted == dialog.exec())
@@ -1259,7 +1259,6 @@ bool  MainWindow::showConnectionDialog()
             m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
             m_audioPlayer->updateUi();
             m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
-            qDebug() << "show conn"<<m_currentConnectionProfile->getPlayer()->getName() << m_currentConnectionProfile->getPlayer()->getUuid() << m_currentConnectionProfile->getPlayer();
             m_networkManager->setConnectionState(result);
             m_chatListWidget->addPublicChat();
             return result;
