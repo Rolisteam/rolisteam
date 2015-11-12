@@ -199,9 +199,6 @@ bool NetworkManager::startConnection()
         }
     }
 
-    m_playersList->sendOffLocalPlayerInformations();
-    m_playersList->sendOffFeatures(m_connectionProfile->getPlayer());
-
     return true;
 }
 bool  NetworkManager::startListening()
