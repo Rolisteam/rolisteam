@@ -78,7 +78,7 @@
 MainWindow* MainWindow::m_singleton= NULL;
 
 MainWindow::MainWindow()
-	: QMainWindow(),m_networkManager(NULL),m_ui(new Ui::MainWindow),m_resetSettings(false)
+    : QMainWindow(),m_networkManager(NULL),m_ui(new Ui::MainWindow),m_resetSettings(false),m_currentConnectionProfile(NULL)
 {
     setAcceptDrops(true);
     m_supportedCharacterSheet=tr("Character Sheets files (*.xml)");
@@ -268,34 +268,37 @@ void MainWindow::checkUpdate()
 }
 void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
 {
-    bool localPlayerIsGM = PlayersList::instance()->localPlayer()->isGM();
-    if((NULL!=subWindow) )
+    if(NULL!=m_currentConnectionProfile)
     {
-        if (subWindow->objectName() == QString("MapFrame") && (localPlayerIsGM))
+        bool localPlayerIsGM = m_currentConnectionProfile->isGM();
+        if((NULL!=subWindow) )
         {
-            m_toolBarStack->setCurrentWidget(m_toolBar);
-            m_ui->m_closeAction->setEnabled(true);
-            m_ui->m_saveAction->setEnabled(true);
-            subWindow->setFocus();
+            if (subWindow->objectName() == QString("MapFrame") && (localPlayerIsGM))
+            {
+                m_toolBarStack->setCurrentWidget(m_toolBar);
+                m_ui->m_closeAction->setEnabled(true);
+                m_ui->m_saveAction->setEnabled(true);
+                subWindow->setFocus();
+            }
+            else if(subWindow->objectName() == QString("Image") && ((localPlayerIsGM)))
+            {
+                m_playersListWidget->model()->changeMap(NULL);
+                m_ui->m_closeAction->setEnabled(true);
+                m_ui->m_saveAction->setEnabled(false);
+            }
+            else if(subWindow->objectName() == QString("VMapFrame") && ((localPlayerIsGM)))
+            {
+                m_playersListWidget->model()->changeMap(NULL);
+                m_toolBarStack->setCurrentWidget(m_vToolBar);
+                m_ui->m_closeAction->setEnabled(true);
+                m_ui->m_saveAction->setEnabled(false);
+            }
         }
-        else if(subWindow->objectName() == QString("Image") && ((localPlayerIsGM)))
+        else
         {
-            m_playersListWidget->model()->changeMap(NULL);
-            m_ui->m_closeAction->setEnabled(true);
+            m_ui->m_closeAction->setEnabled(false);
             m_ui->m_saveAction->setEnabled(false);
         }
-        else if(subWindow->objectName() == QString("VMapFrame") && ((localPlayerIsGM)))
-        {
-            m_playersListWidget->model()->changeMap(NULL);
-            m_toolBarStack->setCurrentWidget(m_vToolBar);
-            m_ui->m_closeAction->setEnabled(true);
-            m_ui->m_saveAction->setEnabled(false);
-        }
-    }
-    else
-    {
-        m_ui->m_closeAction->setEnabled(false);
-        m_ui->m_saveAction->setEnabled(false);
     }
 }
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -1243,7 +1246,7 @@ bool  MainWindow::showConnectionDialog()
 	if(!m_profileDefined)
 	{
         QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
-        SelectConnectionProfileDialog dialog(this);
+        SelectConnectionProfileDialog dialog(m_version,this);
 
         if(QDialog::Accepted == dialog.exec())
         {
@@ -1251,9 +1254,12 @@ bool  MainWindow::showConnectionDialog()
             m_currentConnectionProfile = dialog.getSelectedProfile();
             m_networkManager->setConnectionProfile(m_currentConnectionProfile);
             bool result = m_networkManager->startConnection();
+            m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
+            m_playerList->sendOffLocalPlayerInformations();
+            m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
             m_audioPlayer->updateUi();
             m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
-            m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
+            qDebug() << "show conn"<<m_currentConnectionProfile->getPlayer()->getName() << m_currentConnectionProfile->getPlayer()->getUuid() << m_currentConnectionProfile->getPlayer();
             m_networkManager->setConnectionState(result);
             m_chatListWidget->addPublicChat();
             return result;
