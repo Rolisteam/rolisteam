@@ -60,8 +60,8 @@ PlayersList::PlayersList()
     ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterAvatarAction, this);
     ReceiveEvent::registerReceiver(SetupCategory, AddFeatureAction, this);
 
-	m_localPlayer = new Player();
-	m_playersList.append(m_localPlayer);
+    //m_localPlayer = new Player();
+    //m_playersList.append(m_localPlayer);
 
     connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(sendDelLocalPlayer()));
 }
@@ -131,7 +131,8 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
     switch (role) {
         case Qt::DisplayRole:
         case Qt::EditRole:
-            return QVariant(person->getName());
+        qDebug() << person->getName() << person->getUuid();
+            return person->getName();
         case Qt::DecorationRole:
         {
             if(person->hasAvatar())
