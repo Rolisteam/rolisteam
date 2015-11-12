@@ -80,15 +80,11 @@ bool    ConnectionProfile::isGM() const
 }
 
 
-
-
-
-
-
 ////////////
 //model
 ////////////
-ProfileModel::ProfileModel()
+ProfileModel::ProfileModel(QString version)
+    :m_version(version)
 {
 
 }
@@ -149,6 +145,7 @@ void ProfileModel::readSettings(QSettings & settings)
         profile->setGm(settings.value("gm").toBool());
         QColor color = settings.value("PlayerColor").value<QColor>();
         Player* player = new Player(profile->getName(),color,profile->isGM());
+        player->setUserVersion(m_version);
         profile->setPlayer(player);
 
         beginInsertRows(QModelIndex(),m_connectionProfileList.size(),m_connectionProfileList.size());
@@ -169,6 +166,7 @@ void ProfileModel::readSettings(QSettings & settings)
         profile->setServerMode(true);
         QColor color = Qt::black;
         Player* player = new Player(profile->getName(),color,profile->isGM());
+        player->setUserVersion(m_version);
         profile->setPlayer(player);
         beginInsertRows(QModelIndex(),m_connectionProfileList.size(),m_connectionProfileList.size());
         m_connectionProfileList.append(profile);
@@ -218,14 +216,14 @@ Qt::ItemFlags ProfileModel::flags(const QModelIndex & index)
 ///
 ///
 
-SelectConnectionProfileDialog::SelectConnectionProfileDialog(QWidget *parent) :
+SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::SelectConnectionProfileDialog),m_currentProfile(NULL)
+    ui(new Ui::SelectConnectionProfileDialog),m_currentProfile(NULL),m_version(version)
 {
     ui->setupUi(this);
     QSettings settings("rolisteam","rolisteam");
 
-    m_model = new ProfileModel();
+    m_model = new ProfileModel(m_version);
     readSettings(settings);
     ui->m_profileList->setModel(m_model);
 

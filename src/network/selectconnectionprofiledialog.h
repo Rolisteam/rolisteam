@@ -114,7 +114,7 @@ public:
     /**
     * @brief ProfileModel
     */
-   ProfileModel();
+   ProfileModel(QString version);
    /**
     * @brief ~ProfileModel
     */
@@ -164,6 +164,7 @@ public slots:
 
 private:
     QList<ConnectionProfile*> m_connectionProfileList;
+    QString m_version;
 
 };
 
@@ -179,7 +180,7 @@ public:
      * @brief SelectConnectionProfileDialog
      * @param parent
      */
-	explicit SelectConnectionProfileDialog(QWidget *parent = 0);
+    explicit SelectConnectionProfileDialog(QString version, QWidget *parent = 0);
     /**
      * @brief ~SelectConnectionProfileDialog
      */
@@ -221,6 +222,7 @@ private:
 	Ui::SelectConnectionProfileDialog *ui;
     ProfileModel* m_model;
     ConnectionProfile* m_currentProfile;
+    QString m_version;
 };
 
 #endif // SELECTCONNECTIONPROFILEDIALOG_H
