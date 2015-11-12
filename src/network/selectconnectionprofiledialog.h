@@ -217,6 +217,7 @@ public slots:
      * @brief setCurrentProfile
      */
     void setCurrentProfile(QModelIndex );
+    void connectTo();
 
 private:
 	Ui::SelectConnectionProfileDialog *ui;

@@ -125,8 +125,13 @@ QVariant ProfileModel::data(const QModelIndex &index, int role) const
 
 void ProfileModel::appendProfile()
 {
+    ConnectionProfile* profile = new ConnectionProfile();
+    profile->setTitle(QStringLiteral("Profile #%1").arg(m_connectionProfileList.size()+1));
+    profile->setPort(6660);
+    profile->setName(QStringLiteral("Unknown User"));
+    profile->setPlayer(new Player());
     beginInsertRows(QModelIndex(),m_connectionProfileList.size(),m_connectionProfileList.size());
-    m_connectionProfileList.append(new ConnectionProfile());
+    m_connectionProfileList.append(profile);
     endInsertRows();
 }
 void ProfileModel::readSettings(QSettings & settings)
@@ -197,6 +202,7 @@ void ProfileModel::writeSettings(QSettings & settings)
         settings.setValue("name",profile->getName());
         settings.setValue("title",profile->getTitle());
         settings.setValue("server",profile->isServer());
+        settings.setValue("port",profile->getPort());
         settings.setValue("gm",profile->isGM());
         settings.setValue("PlayerColor",player->getColor());
 
@@ -236,7 +242,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
 
     connect(ui->m_addProfile,SIGNAL(clicked()),m_model,SLOT(appendProfile()));
     connect(ui->m_cancel,SIGNAL(clicked()),this,SLOT(reject()));
-    connect(ui->m_connect,SIGNAL(clicked()),this,SLOT(accept()));
+    connect(ui->m_connect,SIGNAL(clicked()),this,SLOT(connectTo()));
 }
 
 SelectConnectionProfileDialog::~SelectConnectionProfileDialog()
@@ -246,7 +252,6 @@ SelectConnectionProfileDialog::~SelectConnectionProfileDialog()
 
 ConnectionProfile* SelectConnectionProfileDialog::getSelectedProfile()
 {
-    updateProfile();
     return m_currentProfile;
 }
 void SelectConnectionProfileDialog::setCurrentProfile(QModelIndex index)
@@ -291,4 +296,9 @@ void SelectConnectionProfileDialog::readSettings(QSettings & settings)
 void SelectConnectionProfileDialog::writeSettings(QSettings & settings)
 {
     m_model->writeSettings(settings);
+}
+void SelectConnectionProfileDialog::connectTo()
+{
+    updateProfile();
+    accept();
 }
