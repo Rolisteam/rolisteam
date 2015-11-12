@@ -128,10 +128,10 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
         person = player->getCharacterByIndex(row);
     }
 
-    switch (role) {
+    switch (role)
+    {
         case Qt::DisplayRole:
         case Qt::EditRole:
-        qDebug() << person->getName() << person->getUuid();
             return person->getName();
         case Qt::DecorationRole:
         {
