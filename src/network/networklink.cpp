@@ -64,7 +64,8 @@ NetworkLink::NetworkLink(QTcpSocket *socket)
 
     setSocket(socket);
 
-    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
+    //if (PreferencesManager::getInstance()->value("isClient",true).toBool())
+    if(!m_networkManager->isServer())
     {
 		m_networkManager->ajouterNetworkLink(this);
     }
@@ -267,12 +268,12 @@ void NetworkLink::faireSuivreMessage(bool tous)
         if (tous)
         {
 			//emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader));
-			m_networkManager->emettreDonnees(donnees,entete.dataSize + sizeof(NetworkMessageHeader),NULL);
+            m_networkManager->sendMessage(donnees,entete.dataSize + sizeof(NetworkMessageHeader),NULL);
         }
         else
         {
 			//emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader), this);
-			m_networkManager->emettreDonnees(donnees,entete.dataSize + sizeof(NetworkMessageHeader),this);
+            m_networkManager->sendMessage(donnees,entete.dataSize + sizeof(NetworkMessageHeader),this);
         }
         delete[] donnees;
     }

@@ -254,19 +254,19 @@ bool NetworkManager::startConnectionToServer()
         }
 }
 
-void NetworkManager::emettreDonnees(char *donnees, quint32 taille, NetworkLink *sauf)
+void NetworkManager::sendMessage(char* data, quint32 size, NetworkLink* but)
 {
     // Demande d'emission vers toutes les NetworkLinks
-    emit emissionDonnees(donnees, taille, sauf);
+    emit sendData(data, size, but);
 }
 
 
 void NetworkManager::ajouterNetworkLink(NetworkLink* networkLink)
 {
-    if(NULL!=networkLink)
+    if((NULL!=networkLink)&&(!NetworkLinks.contains(networkLink)))
     {
         NetworkLinks.append(networkLink);
-        connect(this, SIGNAL(emissionDonnees(char *, quint32, NetworkLink *)),networkLink, SLOT(emissionDonnees(char *, quint32, NetworkLink *)));
+        connect(this, SIGNAL(sendData(char *, quint32, NetworkLink *)),networkLink, SLOT(emissionDonnees(char *, quint32, NetworkLink *)));
         connect(networkLink, SIGNAL(disconnected(NetworkLink *)),this, SLOT(endingNetworkLink(NetworkLink *)));
         connect(networkLink,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
         emit linkAdded(networkLink);

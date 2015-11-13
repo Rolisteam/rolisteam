@@ -74,7 +74,7 @@ public:
      * @param taille
      * @param sauf
      */
-    void emettreDonnees(char *donnees, quint32 taille, NetworkLink *sauf);
+    void sendMessage(char *donnees, quint32 taille, NetworkLink *sauf);
 
     /**
      * @brief ajouterNetworkLink
@@ -114,7 +114,7 @@ public slots:
     bool startConnection();
 
 signals :
-    void emissionDonnees(char *donnees, quint32 taille, NetworkLink *sauf);
+    void sendData(char* data, quint32 size, NetworkLink* but);
 
     void linkAdded(NetworkLink * link);
     void linkDeleted(NetworkLink * link);
