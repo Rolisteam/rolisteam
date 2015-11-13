@@ -2180,5 +2180,5 @@ void MainWindow::dropEvent(QDropEvent* event)
 void MainWindow::showEvent(QShowEvent *event)
 {
 	QMainWindow::showEvent(event);
-	QTimer::singleShot(1000,this,SLOT(showConnectionDialog()));
+    QTimer::singleShot(0,this,SLOT(showConnectionDialog()));
 }
