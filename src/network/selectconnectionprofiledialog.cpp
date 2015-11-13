@@ -234,7 +234,8 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
     ui->m_profileList->setModel(m_model);
 
     connect(ui->m_profileList,SIGNAL(clicked(QModelIndex)),this,SLOT(setCurrentProfile(QModelIndex)));
-    connect(ui->m_profileList,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(setCurrentProfile(QModelIndex)));
+   // connect(ui->m_profileList,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(setCurrentProfile(QModelIndex)));
+    connect(ui->m_profileList,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(connectToIndex(QModelIndex)));
 
     ui->m_profileList->setCurrentIndex(m_model->index(0, 0));
     setCurrentProfile(ui->m_profileList->currentIndex());
@@ -296,6 +297,13 @@ void SelectConnectionProfileDialog::readSettings(QSettings & settings)
 void SelectConnectionProfileDialog::writeSettings(QSettings & settings)
 {
     m_model->writeSettings(settings);
+}
+
+void SelectConnectionProfileDialog::connectToIndex(QModelIndex index)
+{
+    m_currentProfile = m_model->getProfile(index);
+    updateGUI();
+    connectTo();
 }
 void SelectConnectionProfileDialog::connectTo()
 {

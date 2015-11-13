@@ -218,6 +218,7 @@ public slots:
      */
     void setCurrentProfile(QModelIndex );
     void connectTo();
+    void connectToIndex(QModelIndex index);
 
 private:
 	Ui::SelectConnectionProfileDialog *ui;
