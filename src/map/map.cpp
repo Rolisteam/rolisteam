@@ -1432,7 +1432,6 @@ void Map::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetworkL
 
     if (versNetworkLinkUniquement)
     {
-        //link->emissionDonnees(donnees, tailleCorps + sizeof(enteteMessage));
         msg.sendTo(link);
     }
     else

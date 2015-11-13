@@ -156,13 +156,6 @@ int main(int argc, char *argv[])
     settings.endArray();
     settings.endGroup();
 
-//    QVariant variant = settings.value("map",map);
-//    if(variant.canConvert<QMap<QString,QVariant> >())
-//    {
-//        map = variant.value<QMap<QString,QVariant> >();
-//    }
-//    settings.endGroup();
-
     QString file = map.value("currentTranslationFile","").toString();
     if(!file.isEmpty())
     {
