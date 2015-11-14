@@ -68,7 +68,7 @@ public :
     /**
      * @brief updateUi
      */
-    void updateUi();
+    void updateUi(bool b);
 
     /**
      * @brief processMessage

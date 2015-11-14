@@ -136,24 +136,20 @@ void AudioPlayer::showMusicPlayer(bool status)
         }
     }
 }
-void AudioPlayer::updateUi()
+void AudioPlayer::updateUi(bool isGM)
 {
     foreach(PlayerWidget* tmp,m_players)
     {
-        tmp->updateUi();
+        tmp->updateUi(isGM);
     }
     for(int i = 0; i< m_players.size(); ++i)
     {
         m_playerActionsList[i]->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i),true).toBool());
     }
-    if(m_preferences->value("isPlayer",false).toBool())
+    if(!isGM)
     {
         m_mainLayout->addStretch(1);
     }
-//    else
-//    {
-
-//    }
 }
 void AudioPlayer::onePlayerHasStopped(int id)
 {
