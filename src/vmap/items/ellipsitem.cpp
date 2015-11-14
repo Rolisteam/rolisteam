@@ -97,6 +97,8 @@ void EllipsItem::writeData(QDataStream& out) const
     out << m_center;
     out << m_filled;
     out << m_color;
+    out << m_penWidth;
+    out << pos();
 }
 VisualItem::ItemType EllipsItem::getType()
 {
@@ -110,12 +112,19 @@ void EllipsItem::readData(QDataStream& in)
     in >> m_center;
     in >> m_filled;
     in >> m_color;
+    in >> m_penWidth;
+    QPointF position;
+    in >> position;
+    setPos(position);
 }
 void EllipsItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
+    //
+    msg->real(pos().x());
+    msg->real(pos().y());
     //radius
     msg->real(m_rx);
     msg->real(m_ry);
@@ -124,13 +133,20 @@ void EllipsItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_center.y());
     msg->int8(m_filled);
     msg->rgb(m_color);
+    msg->int16(m_penWidth);
 }
 void EllipsItem::readItem(NetworkMessageReader* msg)
 {
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
-    //rect
+
+    qreal posx = msg->real();
+    qreal posy = msg->real();
+
+
+
+    //radius
     m_rx = msg->real();
     m_ry = msg->real();
 
@@ -140,6 +156,10 @@ void EllipsItem::readItem(NetworkMessageReader* msg)
 
     m_filled = msg->int8();
     m_color = msg->rgb();
+    m_penWidth = msg->int16();
+
+
+    setPos(posx,posy);
 
 }
 void EllipsItem::setGeometryPoint(qreal pointId, QPointF &pos)
