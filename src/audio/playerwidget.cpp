@@ -42,7 +42,7 @@ PlayerWidget::PlayerWidget(int id, QWidget* parent)
     m_ui->m_songList->setAcceptDrops(true);
     m_ui->m_songList->setDropIndicatorShown(true);
 
-    updateUi();
+    updateUi(true);
 }
 
 void PlayerWidget::startMedia(QMediaContent* p,QString title,bool play)
@@ -372,25 +372,25 @@ void PlayerWidget::addActionsIntoMenu(QMenu* menu)
     menu->addSeparator();
 }
 
-void PlayerWidget::updateUi()
+void PlayerWidget::updateUi(bool isGM)
 {
-    if(!m_preferences->value("isPlayer",false).toBool())
-    {// Game Master
-        m_ui->m_playButton->setVisible(true);
-        m_ui->m_stopButton->setVisible(true);
-        m_ui->m_pauseButton->setVisible(true);
-        m_ui->m_uniqueMode->setVisible(true);
-        m_ui->m_repeatMode->setVisible(true);
-        m_ui->m_timeSlider->setVisible(true);
-        m_ui->m_addButton->setVisible(true);
+   /* if(isGM)
+    {// Game Master*/
+        m_ui->m_playButton->setVisible(isGM);
+        m_ui->m_stopButton->setVisible(isGM);
+        m_ui->m_pauseButton->setVisible(isGM);
+        m_ui->m_uniqueMode->setVisible(isGM);
+        m_ui->m_repeatMode->setVisible(isGM);
+        m_ui->m_timeSlider->setVisible(isGM);
+        m_ui->m_addButton->setVisible(isGM);
         //m_ui->m_volumeMutedButton->setVisible(true);
-        m_ui->m_deleteButton->setVisible(true);
-        m_ui->m_songList->setVisible(true);
-        m_ui->m_savePlaylist->setVisible(true);
-        m_ui->m_changeDirectory->setVisible(false);
-        m_ui->m_timerDisplay->setVisible(true);
-    }
-    else//Player
+        m_ui->m_deleteButton->setVisible(isGM);
+        m_ui->m_songList->setVisible(isGM);
+        m_ui->m_savePlaylist->setVisible(isGM);
+        m_ui->m_changeDirectory->setVisible(!isGM);
+        m_ui->m_timerDisplay->setVisible(isGM);
+   // }
+   /* else//Player
     {
         m_ui->m_playButton->setVisible(false);
         m_ui->m_stopButton->setVisible(false);
@@ -408,7 +408,7 @@ void PlayerWidget::updateUi()
 
         m_ui->m_label->setEchoMode(QLineEdit::Password);
 
-    }
+    }*/
     m_ui->m_volumeSlider->setValue(m_preferences->value(QString("volume_player_%1").arg(m_id),50).toInt());
 
 }

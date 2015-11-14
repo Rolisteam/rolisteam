@@ -53,7 +53,7 @@ public:
     /**
      * @brief updateUi
      */
-    void updateUi();
+    void updateUi(bool isGM);
     /**
      * @brief addActionsIntoMenu
      * @param menu
