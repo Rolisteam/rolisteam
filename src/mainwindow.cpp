@@ -899,11 +899,10 @@ void MainWindow::showIp(QString ip)
 }
 void MainWindow::setUpNetworkConnection()
 {
-    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
+
+    if((m_currentConnectionProfile!=NULL)&& (!m_currentConnectionProfile->isServer()))
     {
-        // We want to know if the server refuses local player to be GM
         connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
-        // We send a message to del local player when we quit
         connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
     }
     else
@@ -979,11 +978,12 @@ void MainWindow::updateUi()
     /// @todo hide diametrePNj for players.
     m_toolBar->updateUi();
 #ifndef NULL_PLAYER
-    m_audioPlayer->updateUi();
+    m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
 #endif
-    if(!PlayersList::instance()->localPlayer()->isGM())
+    if(!m_currentConnectionProfile->isGM())
     {
         m_ui->m_newMapAction->setEnabled(false);
+        m_ui->m_addVectorialMap->setEnabled(false);
         m_ui->m_openMapAction->setEnabled(false);
         m_ui->m_openStoryAction->setEnabled(false);
         m_ui->m_closeAction->setEnabled(false);
@@ -1257,10 +1257,18 @@ bool  MainWindow::showConnectionDialog()
             m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
             m_playerList->sendOffLocalPlayerInformations();
             m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
-            m_audioPlayer->updateUi();
+
+
+
             m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
             m_networkManager->setConnectionState(result);
             m_chatListWidget->addPublicChat();
+
+
+            setUpNetworkConnection();
+            updateWindowTitle();
+            checkUpdate();
+            updateUi();
             return result;
         }
         dialog.writeSettings(settings);
@@ -1722,8 +1730,10 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
 
 	if(NULL==map)
 		return;
-
-	map->setLocalIsGM(!m_preferences->value("isPlayer",false).toBool());
+    if(NULL!=m_currentConnectionProfile)
+    {
+        map->setLocalIsGM(m_currentConnectionProfile->isGM());
+    }
     map->setLocalId(m_localPlayerId);
 
     //Toolbar to Map
@@ -1773,6 +1783,7 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
         case NetMsg::addVmap:
             {
                 VMap* map = new VMap();
+                map->setLocalIsGM(false);
                 map->readMessage(*msg);
 
                 VMapFrame* mapFrame = new VMapFrame(new CleverURI("",CleverURI::VMAP),map);
