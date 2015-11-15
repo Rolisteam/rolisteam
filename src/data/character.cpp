@@ -52,13 +52,17 @@ Character::Character(NetworkMessageReader & data)
 {
     m_uuid = data.string8();
     m_name = data.string16();
-    m_currentState = getStateFromLabel(data.string16());
+    bool hasCurrentState = data.uint8();
+    if(hasCurrentState)
+    {
+        m_currentState = getStateFromLabel(data.string16());
+    }
     m_isNpc = (bool)data.uint8();
     m_number = data.int32();
     m_color = QColor(data.rgb());
 
     bool hasAvatar = (bool) data.uint8();
-
+    qDebug() << "hasAvatar" << hasAvatar;
     if(hasAvatar)
     {
         m_avatar = QImage::fromData(data.byteArray32());
@@ -104,6 +108,7 @@ void Character::fill(NetworkMessageWriter & message)
     message.uint8((int)m_isNpc);
     message.int32(m_number);
     message.rgb(m_color);
+
     message.uint8((bool)!m_avatar.isNull());
     if(!m_avatar.isNull())
     {
