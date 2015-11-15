@@ -813,6 +813,7 @@ void VMap::addNewItem(VisualItem* item)
         connect(item,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),this,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
         QGraphicsScene::addItem(item);
 
+
         //Editing permission
         if(m_localIsGM)
         {
@@ -820,6 +821,7 @@ void VMap::addNewItem(VisualItem* item)
             {
                 item->setEditableItem(m_localIsGM);
             }
+
         }
         else if((m_currentMode == Map::GM_ONLY))
         {
@@ -867,7 +869,7 @@ void VMap::addNewItem(VisualItem* item)
             }
             else
             {
-                item->setVisible(false);
+                item->setVisible(true);
             }
         }
         m_itemMap->insert(item->getId(),item);
@@ -939,6 +941,10 @@ void VMap::keyPressEvent(QKeyEvent* event)
 void VMap::setLocalIsGM(bool b)
 {
     m_localIsGM = b;
+    if(NULL!=m_sightItem)
+    {
+        m_sightItem->setGM(m_localIsGM);
+    }
 }
 void VMap::processMoveItemMessage(NetworkMessageReader* msg)
 {
@@ -1212,4 +1218,8 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
         item->setZValue(++z);
     }
     m_sightItem->setZValue(++z);
+}
+bool VMap::isGM() const
+{
+    return m_localIsGM;
 }

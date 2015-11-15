@@ -165,6 +165,8 @@ public:
 	 */
 	void setLocalIsGM(bool);
 
+    bool isGM() const;
+
     /**
      * @brief fill
      * @param msg
