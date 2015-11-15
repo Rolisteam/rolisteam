@@ -90,6 +90,9 @@ void VisualItem::setEditableItem(bool b)
     else
     {
         setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
+        disconnect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
+        disconnect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
+        disconnect(this,SIGNAL(zChanged()),this,SLOT(sendPositionMsg()));
     }
     if(NULL!=m_child)
     {
@@ -328,6 +331,7 @@ bool VisualItem::hasFocusOrChild()
 
 void VisualItem::sendPositionMsg()
 {
+   // qDebug() << "send Position" << m_id;
     NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
     msg.string8(m_mapId);
     msg.string16(m_id);
@@ -340,6 +344,8 @@ void VisualItem::sendPositionMsg()
 
 void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 {
+
+   // qDebug() << "read Position" << m_id;
     qreal x = msg->real();
     qreal y = msg->real();
     qreal z = msg->real();
@@ -411,3 +417,4 @@ QString VisualItem::getLayerToText(VisualItem::Layer id)
 	}
 	return QString();
 }
+

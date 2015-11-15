@@ -26,7 +26,6 @@
 #include <QAction>
 #include "childpointitem.h"
 
-
 class NetworkMessageWriter;
 class NetworkMessageReader;
 
@@ -46,7 +45,9 @@ public:
      * @brief The Layer enum
      */
     enum Layer{GROUND,OBJECT,CHARACTER_LAYER,FOG};
-
+    /**
+     * @brief The StackOrder enum
+     */
     enum StackOrder{FRONT,RAISE,LOWER,BACK};
 	/**
 	 * @brief VisualItem default constructor
@@ -199,6 +200,7 @@ public:
 	 * @return
 	 */
 	static QString getLayerToText(VisualItem::Layer id);
+
 signals:
 	/**
 	 * @brief itemGeometryChanged
@@ -308,7 +310,6 @@ protected:
 
     VisualItem::Layer m_layer;
     QVector<ItemType> m_promoteTypeList;
-
 
 private slots:
 	/**
