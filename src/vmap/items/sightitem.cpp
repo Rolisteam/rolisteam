@@ -29,6 +29,11 @@
 #include <QGraphicsView>
 #include <math.h>
 
+
+#include "network/networkmessagewriter.h"
+#include "network/networkmessagereader.h"
+
+
 #define PI 3.14159265
 /////////////////////////////////
 /// Code Vision
@@ -98,12 +103,34 @@ VisualItem::ItemType SightItem::getType()
 
 void SightItem::fillMessage(NetworkMessageWriter* msg)
 {
+ msg->string16(m_id);
+
+ //rect
+ msg->real(m_rect.x());
+ msg->real(m_rect.y());
+ msg->real(m_rect.width());
+ msg->real(m_rect.height());
+
+ //pos
+ msg->real(pos().x());
+ msg->real(pos().y());
+
 
 }
 
 void SightItem::readItem(NetworkMessageReader* msg)
 {
+    m_id = msg->string16();
+    //rect
+    m_rect.setX(msg->real());
+    m_rect.setY(msg->real());
+    m_rect.setWidth(msg->real());
+    m_rect.setHeight(msg->real());
 
+    //pos
+    qreal x  = msg->real();
+    qreal y = msg->real();
+    setPos(x,y);
 }
 void SightItem::setGeometryPoint(qreal pointId,QPointF& pos)
 {
@@ -131,10 +158,17 @@ void  SightItem::updateChildPosition()
 void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->setPen(Qt::NoPen);
-    painter->setBrush(QColor(0,0,0,125));
+    if(m_isGM)
+    {
+        painter->setBrush(QColor(0,0,0,125));
+    }
+    else
+    {
+        painter->setBrush(QColor(0,0,0));
+    }
 
     QRectF rect = boundingRect();
-    // qDebug() << rect.topLeft();
+    qDebug() << rect;
 
     QPainterPath path;
     path.addRect(rect);
@@ -272,4 +306,8 @@ void SightItem::addFogPolygon(QPolygonF* a)
 {
     m_fogHoleList << a;
     update();
+}
+void SightItem::setGM(bool b)
+{
+    m_isGM = b;
 }

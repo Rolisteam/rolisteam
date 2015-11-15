@@ -159,6 +159,8 @@ public slots:
      */
     void removeVision(CharacterItem* item);
 
+    void setGM(bool);
+
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
@@ -180,6 +182,7 @@ private:
     QImage m_image;
     qreal m_count;
     QList<QPolygonF*> m_fogHoleList;
+    bool m_isGM;
 };
 
 #endif // SIGHTITEM_H
