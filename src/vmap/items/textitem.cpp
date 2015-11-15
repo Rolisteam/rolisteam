@@ -45,7 +45,7 @@ TextItem::TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem
     m_start = start;
     m_rect.setTopLeft(m_start-m_offset);
     m_rect.setBottomRight(m_start+m_offset);
-    setPos(m_rect.center());
+    setPos(m_start);
     m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
     init();
     createActions();
@@ -58,10 +58,10 @@ void TextItem::init()
     m_textItem->setFocus();
     m_textItem->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
     m_textItem->setPos(QPointF(0,0));
-    m_textItem->setTextWidth(200);
+    m_textItem->setTextWidth(100);
     m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
     m_doc = new QTextDocument(m_textItem);
-    m_doc->setHtml("<b>Title</b>");
+    m_doc->setHtml(tr("<b>Text</b>"));
     m_textItem->setDocument(m_doc);
 
     connect(m_doc,SIGNAL(contentsChanged()),this,SLOT(updateTextPosition()));
@@ -202,8 +202,8 @@ void TextItem::updateTextPosition()
 
 void TextItem::initChildPointItem()
 {
-    setPos(m_rect.center());
-    m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
+    /*setPos(m_start);
+    m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);*/
 
 
     m_rect = m_rect.normalized();
