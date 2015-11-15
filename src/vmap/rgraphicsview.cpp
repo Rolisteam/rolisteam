@@ -28,6 +28,7 @@
 #include "userlist/rolisteammimedata.h"
 
 #include "network/networkmessagewriter.h"
+#include "network/networkmessagereader.h"
 
 RGraphicsView::RGraphicsView(VMap *vmap)
     : QGraphicsView(vmap),m_vmap(vmap)
@@ -303,9 +304,33 @@ void RGraphicsView::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 }
 void RGraphicsView::resizeEvent(QResizeEvent* event)
 {
-   if(NULL!=scene())
+    //GM is the references
+   if((NULL!=scene())&&(m_vmap->isGM()))
    {
-    scene()->setSceneRect(geometry());
+        scene()->setSceneRect(geometry());
+
+       NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::GeometryViewChanged);
+       msg.string8(m_vmap->getId());
+       QRectF r = sceneRect();
+
+       msg.real(r.x());
+       msg.real(r.y());
+       msg.real(r.width());
+       msg.real(r.height());
+
+       msg.sendAll();
    }
    QGraphicsView::resizeEvent(event);
+}
+void RGraphicsView::readMessage(NetworkMessageReader* msg)
+{
+    qreal x  = msg->real();
+    qreal y  = msg->real();
+    qreal width  = msg->real();
+    qreal height  = msg->real();
+
+    if(NULL!=scene())
+    {
+        setSceneRect(x,y,width,height);
+    }
 }

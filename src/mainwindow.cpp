@@ -1840,12 +1840,24 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
         case NetMsg::AddPoint:
             break;
         case NetMsg::vmapChanges:
+        {
             QString vmapId = msg->string8();
             VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
             if(NULL!=tmp)
             {
                 tmp->processMapPropertyChange(msg);
             }
+        }
+        break;
+        case NetMsg::GeometryViewChanged:
+        {
+            QString vmapId = msg->string8();
+            VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
+            if(NULL!=tmp)
+            {
+                tmp->processGeometryViewChange(msg);
+            }
+        }
         break;
     }
 }

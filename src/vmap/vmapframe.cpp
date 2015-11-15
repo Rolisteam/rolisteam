@@ -269,6 +269,13 @@ void VMapFrame::processMapPropertyChange(NetworkMessageReader* msg)
         m_vmap->readMessage(*msg,false);
     }
 }
+void VMapFrame::processGeometryViewChange(NetworkMessageReader* msg)
+{
+    if(NULL!=m_vmap)
+    {
+        m_graphicView->readMessage(msg);
+    }
+}
 void VMapFrame::processDelItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=m_vmap)

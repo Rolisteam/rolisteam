@@ -142,6 +142,8 @@ public :
 	 * @brief saveMedia
 	 */
     void saveMedia();
+
+    void processGeometryViewChange(NetworkMessageReader* msg);
 public slots :
 	/**
 	 * @brief setCleverURI

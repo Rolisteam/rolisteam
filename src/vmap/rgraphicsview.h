@@ -39,6 +39,7 @@ public:
     RGraphicsView(VMap* vmap);
     
 	void currentToolChanged(VToolsBar::SelectableTool selectedtool);
+    void readMessage(NetworkMessageReader* msg);
 protected:
     void keyPressEvent ( QKeyEvent * event);
     void mousePressEvent ( QMouseEvent * event);
