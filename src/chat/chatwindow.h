@@ -62,7 +62,7 @@ public :
      * @param chat
      * @param parent
      */
-    ChatWindow(AbstractChat * chat, MainWindow * parent);
+    ChatWindow(AbstractChat * chat);
     /**
      * @brief ~ChatWindow
      */
