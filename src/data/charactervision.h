@@ -94,6 +94,16 @@ public:
      * @brief setVisible
      */
     void setVisible(bool);
+    /**
+     * @brief fill
+     * @param msg
+     */
+    void fill(NetworkMessageWriter* msg);
+    /**
+     * @brief readMessage
+     * @param msg
+     */
+    void readMessage(NetworkMessageReader* msg);
 
 public slots:
     /**

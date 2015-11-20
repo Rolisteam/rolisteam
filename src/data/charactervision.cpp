@@ -19,6 +19,10 @@
     ***************************************************************************/
 
 #include "charactervision.h"
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
+
+#include <QDebug>
 
 CharacterVision::CharacterVision(QObject* parent)
     : QObject(parent),m_cornerPoint(NULL)
@@ -111,4 +115,28 @@ bool CharacterVision::isVisible()
 void CharacterVision::setVisible(bool b)
 {
     m_visible = b;
+}
+void CharacterVision::fill(NetworkMessageWriter* msg)
+{
+    msg->int8((int)m_shape);
+    //msg->real(m_pos.x());
+    //msg->real(m_pos.y());
+
+    msg->real(m_radius);
+    msg->real(m_angle);
+
+    qDebug() <<"Fill vision:" <<m_pos << m_radius << m_angle;
+
+}
+
+void CharacterVision::readMessage(NetworkMessageReader* msg)
+{
+    m_shape =(CharacterVision::SHAPE) msg->int8();
+
+    //m_pos.setX(msg->real());
+    //m_pos.setY(msg->real());
+    m_radius = msg->real();
+    m_angle = msg->real();
+    qDebug() <<"read vision:" <<m_pos << m_radius << m_angle;
+
 }
