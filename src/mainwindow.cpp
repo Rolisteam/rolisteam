@@ -1241,7 +1241,9 @@ bool  MainWindow::showConnectionDialog()
 {
     // Get a connection
     bool result = m_networkManager->configAndConnect(m_version);
+#ifndef NULL_PLAYER
     m_audioPlayer->updateUi();
+#endif
     return result;
 }
 void MainWindow::setupUi()
