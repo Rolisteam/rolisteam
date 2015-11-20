@@ -1987,10 +1987,14 @@ void MainWindow::dropEvent(QDropEvent* event)
                 tmp->setVisible(true);
                 break;
             case CleverURI::SONG:
+#ifndef NULL_PLAYER
                 m_audioPlayer->openSong(list.at(i).toLocalFile());
+#endif
                 break;
             case CleverURI::SONGLIST:
+#ifndef NULL_PLAYER
                 m_audioPlayer->openSongList(list.at(i).toLocalFile());
+#endif
                 break;
             }
         }
