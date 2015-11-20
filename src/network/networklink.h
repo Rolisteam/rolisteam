@@ -42,56 +42,110 @@ class NetworkLink : public QObject
 Q_OBJECT
 
 public :
+    /**
+     * @brief NetworkLink
+     * @param socket
+     */
 	NetworkLink(QTcpSocket *socket);
-	~NetworkLink();
-
+    /**
+     * @brief ~NetworkLink
+     */
+    virtual ~NetworkLink();
+    /**
+     * @brief setSocket
+     * @param socket
+     * @param makeConnection
+     */
     void setSocket(QTcpSocket* socket, bool makeConnection = true);
+    /**
+     * @brief disconnectAndClose
+     */
     void disconnectAndClose();
+    /**
+     * @brief initialize
+     */
     void initialize();
+    /**
+     * @brief insertNetWortReceiver
+     * @param cat
+     */
     void insertNetWortReceiver(NetWorkReceiver*,NetMsg::Category cat);
+    /**
+     * @brief processPlayerMessage
+     * @param msg
+     */
     void processPlayerMessage(NetworkMessageReader* msg);
+    /**
+     * @brief processSetupMessage
+     * @param msg
+     */
     void processSetupMessage(NetworkMessageReader* msg);
 
-signals:
-	void disconnected(NetworkLink * link);
-    void readDataReceived(quint64,quint64);
+
 
 public slots :
-	void emissionDonnees(char *donnees, quint32 taille, NetworkLink *sauf = 0);
+    /**
+     * @brief sendData
+     * @param data
+     * @param size
+     * @param but
+     */
+    void sendData(char* data, quint32 size, NetworkLink* but = 0);
+
+
+signals:
+    /**
+     * @brief disconnected
+     * @param link
+     */
+    void disconnected(NetworkLink* link);
+    /**
+     * @brief readDataReceived
+     */
+    void readDataReceived(quint64,quint64);
+
+private slots :
+    void receivingData();
+    void connectionError(QAbstractSocket::SocketError);
+    void p_disconnect();
 
 private :
+    /**
+     * @brief makeSignalConnection
+     */
     void makeSignalConnection();
-    void receptionMessageConnexion();
-    void receptionMessageJoueur();
-    void receptionMessagePersoJoueur();
-    void receptionMessagePersoNonJoueur();
-    //void receptionMessagePersonnage();
-   // void receptionMessageDessin();
-    void receptionMessageParametres();
-
+    /**
+     * @brief postTo
+     * @param obj
+     */
     void postTo(QObject * obj) const;
-    void faireSuivreMessage(bool tous);
-    int extrairePersonnage(Map *carte, char *tampon);
+    /**
+     * @brief forwardMessage
+     * @param all
+     */
+    void forwardMessage(bool all);
+    /**
+     * @brief extractCharacter
+     * @param map
+     * @param m_buffer
+     * @return
+     */
+    int extractCharacter(Map* map, char *m_buffer);
 
 
-    QTcpSocket* m_socketTcp;		 // Socket gere par le thread
-    NetworkMessageHeader entete; // Contient l'entete du message en cours de reception
-    bool receptionEnCours;		 // Indique si un message est actuellement en cours de reception
-    char *tampon;				 // Tampon contenant le message en court de reconstitution
-    quint32 restant;			 // Taille des donnees restant a receptionner
+    QTcpSocket* m_socketTcp;
+    NetworkMessageHeader m_header;
+    bool m_receivingData;
+    char* m_buffer;
+    quint32 m_remainingData;
 #ifndef NULL_PLAYER
     AudioPlayer* m_audioPlayer;
 #endif
     MainWindow* m_mainWindow;
     NetworkManager* m_networkManager;
-    QTime m_time;
-    QTime m_time2;
     QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
 
-private slots :
-    void reception();
-    void erreurDeConnexion(QAbstractSocket::SocketError);
-    void p_disconnect();
+
 
 };
 

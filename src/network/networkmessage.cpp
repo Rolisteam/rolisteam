@@ -40,7 +40,7 @@ void NetworkMessage::sendTo(NetworkLink * link)
     }
 
     NetworkMessageHeader * header = buffer();
-    link->emissionDonnees((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
+    link->sendData((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
 }
 
 void NetworkMessage::sendAll(NetworkLink * butLink)

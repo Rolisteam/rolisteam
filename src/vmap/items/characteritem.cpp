@@ -249,6 +249,8 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     msg->byteArray32(data);
 
     m_character->fill(*msg);
+
+    m_vision->fill(msg);
 }
 void CharacterItem::readItem(NetworkMessageReader* msg)
 {
@@ -287,6 +289,11 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
         QString idparent = msg->string8();
         m_character = new Character(*msg);
         m_character->setParent(PlayersList::instance()->getPerson(idparent));
+    }
+
+    if(NULL!=m_vision)
+    {
+        m_vision->readMessage(msg);
     }
 }
 void CharacterItem::resizeContents(const QRect& rect, bool )
