@@ -252,7 +252,7 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
 
 
     QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
-    Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
+    Person* localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
 
     QString tmpmessage=message.simplified();
     QString messageCorps="";
@@ -289,9 +289,11 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
                     m_warnedEmoteUnavailable = true;
                 }
 
-
-                showMessage(localPerson->name(), localPerson->color(), tmpmessage,NetMsg::EmoteMessageAction);
-                action = NetMsg::EmoteMessageAction;
+                if(NULL!=localPerson)
+                {
+                    showMessage(localPerson->name(), localPerson->color(), tmpmessage,NetMsg::EmoteMessageAction);
+                    action = NetMsg::EmoteMessageAction;
+                }
                 break;
 
             }
@@ -618,4 +620,8 @@ void ChatWindow::detachView(bool b)
             parent->addSubWindow(m_window);
             m_window->setVisible(true);
     }
+}
+ImprovedTextEdit* ChatWindow::getTextZone()const
+{
+    return m_editionZone;
 }

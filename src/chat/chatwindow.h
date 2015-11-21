@@ -112,6 +112,11 @@ public :
      * @param map
      */
     static void updateDiceAliases(QList<DiceAlias*>* map);
+    /**
+     * @brief getTextZone
+     * @return
+     */
+    ImprovedTextEdit* getTextZone()const;
 signals:
     /**
      * @brief ChatWindowHasChanged
