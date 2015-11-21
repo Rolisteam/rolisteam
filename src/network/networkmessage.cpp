@@ -46,6 +46,11 @@ void NetworkMessage::sendTo(NetworkLink * link)
 void NetworkMessage::sendAll(NetworkLink * butLink)
 {
     NetworkMessageHeader * header = buffer();
-    m_server->emettreDonnees((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
+    if(NULL!=m_server)
+    {
+#ifndef UNIT_TEST
+        m_server->emettreDonnees((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
+#endif
+    }
     //qDebug() << "header data size send:" << header->dataSize << header->action << header->category;
 }
