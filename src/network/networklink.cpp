@@ -45,10 +45,11 @@
 NetworkLink::NetworkLink(QTcpSocket *socket)
     : QObject(NULL),m_mainWindow(NULL)
 {
-    m_mainWindow = MainWindow::getInstance();
-    m_networkManager = m_mainWindow->getNetWorkManager();
     m_socketTcp = socket;
     receptionEnCours = false;
+#ifndef UNIT_TEST
+    m_mainWindow = MainWindow::getInstance();
+    m_networkManager = m_mainWindow->getNetWorkManager();
 	ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,m_mainWindow);
@@ -56,6 +57,7 @@ NetworkLink::NetworkLink(QTcpSocket *socket)
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::ConnectionCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,m_mainWindow);
+#endif
 #ifndef NULL_PLAYER
     m_audioPlayer = AudioPlayer::getInstance();
     ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
@@ -65,7 +67,9 @@ NetworkLink::NetworkLink(QTcpSocket *socket)
 
     if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
+#ifndef UNIT_TEST
 		m_networkManager->ajouterNetworkLink(this);
+#endif
     }
 }
 void NetworkLink::initialize()
@@ -203,6 +207,8 @@ void NetworkLink::reception()
                 case NetMsg::SetupCategory :
                     processSetupMessage(&data);
                     break;
+                default:
+                    break;
             }
             // On libere le tampon
             delete[] tampon;
@@ -219,8 +225,9 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
     {
         if(NetMsg::PlayerConnectionAction == msg->action())
         {
+#ifndef UNIT_TEST
             m_networkManager->ajouterNetworkLink(this);
-
+#endif
             // On indique au nouveau joueur que le processus de connexion vient d'arriver a son terme
             NetworkMessageHeader uneEntete;
             uneEntete.category = NetMsg::SetupCategory;
@@ -256,6 +263,7 @@ void NetworkLink::processSetupMessage(NetworkMessageReader* msg)
 }
 void NetworkLink::faireSuivreMessage(bool tous)
 {
+#ifndef UNIT_TEST
     if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
         char *donnees = new char[entete.dataSize + sizeof(NetworkMessageHeader)];
@@ -275,6 +283,7 @@ void NetworkLink::faireSuivreMessage(bool tous)
         }
         delete[] donnees;
     }
+#endif
 }
 void NetworkLink::disconnectAndClose()
 {
