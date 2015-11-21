@@ -33,23 +33,65 @@ class LocalPersonModel : public PlayersListProxyModel
 {
     Q_OBJECT
 
-    public:
-        static LocalPersonModel & instance();
-        
-        QModelIndex mapFromSource(const QModelIndex & sourceIndex) const;
-        QModelIndex mapToSource(const QModelIndex & proxyIndex) const;
+public:
+    /**
+         * @brief instance
+         * @return
+         */
+    static LocalPersonModel & instance();
+    /**
+         * @brief mapFromSource
+         * @param sourceIndex
+         * @return
+         */
+    QModelIndex mapFromSource(const QModelIndex & sourceIndex) const;
+    /**
+         * @brief mapToSource
+         * @param proxyIndex
+         * @return
+         */
+    QModelIndex mapToSource(const QModelIndex & proxyIndex) const;
+    /**
+         * @brief data
+         * @param index
+         * @param role
+         * @return
+         */
+    QVariant data(const QModelIndex &index, int role) const;
+    /**
+         * @brief index
+         * @param row
+         * @param column
+         * @param parent
+         * @return
+         */
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+    /**
+         * @brief parent
+         * @param index
+         * @return
+         */
+    QModelIndex parent(const QModelIndex &index) const;
+    /**
+         * @brief rowCount
+         * @param parent
+         * @return
+         */
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
-        QVariant data(const QModelIndex &index, int role) const;
-        QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-        QModelIndex parent(const QModelIndex &index) const;
-        int rowCount(const QModelIndex &parent = QModelIndex()) const;
+protected:
+    /**
+         * @brief filterChangingRows
+         * @param parent
+         * @param start
+         * @param end
+         * @return
+         */
+    bool filterChangingRows(QModelIndex & parent, int & start, int & end);
 
-    protected:
-        bool filterChangingRows(QModelIndex & parent, int & start, int & end);
-
-    private:
-        LocalPersonModel();
-        PlayersList* m_playersList;
+private:
+    LocalPersonModel();
+    PlayersList* m_playersList;
 };
 
 #endif
