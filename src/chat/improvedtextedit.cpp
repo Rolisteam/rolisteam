@@ -86,7 +86,6 @@ void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
                 }
 
                 m_histPos -= 1;
-                //setHtml(m_history[m_histPos]);
                 setText(m_history[m_histPos]);
             }
             break;
