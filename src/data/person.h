@@ -99,13 +99,37 @@ public:
     * @brief set the person's avatar.
     */
     virtual void setAvatar(const QImage& p);
+    /**
+     * @brief setColor
+     * @param color
+     * @return
+     */
     bool setColor(const QColor & color);
+    /**
+     * @brief setName
+     * @param getName
+     * @return
+     */
     bool setName(const QString & getName);
+    /**
+     * @brief checkedState
+     * @return
+     */
     Qt::CheckState checkedState();
+    /**
+     * @brief isLeaf
+     * @return
+     */
     bool isLeaf();
-
+    /**
+     * @brief setState
+     * @param c
+     */
     void setState(Qt::CheckState c);
 protected:
+    /**
+     * @brief Person
+     */
     Person();
 
     QString m_uuid;
