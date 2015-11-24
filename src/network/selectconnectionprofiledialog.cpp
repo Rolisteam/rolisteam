@@ -2,20 +2,21 @@
 #include "ui_selectconnectionprofiledialog.h"
 
 #include <QDebug>
+#include "data/character.h"
+#include <QFileDialog>
 
 /// ConnectionProfile
 ///
 ///
 ConnectionProfile::ConnectionProfile()
+    : m_character(NULL)
 {
 
 }
-
 ConnectionProfile::~ConnectionProfile()
 {
 
 }
-
 void ConnectionProfile::setTitle(QString str)
 {
     m_title = str;
@@ -24,7 +25,6 @@ void ConnectionProfile::setName(QString str)
 {
     m_name = str;
 }
-
 void ConnectionProfile::setAddress(QString str)
 {
     m_address = str;
@@ -33,23 +33,18 @@ void ConnectionProfile::setPort(int i)
 {
     m_port = i;
 }
-
 void ConnectionProfile::setServerMode(bool b)
 {
     m_server = b;
 }
-
 void ConnectionProfile::setPlayer(Player* p)
 {
     m_player = p;
 }
-
 void ConnectionProfile::setGm(bool b)
 {
     m_isGM = b;
 }
-
-
 QString ConnectionProfile::getTitle()const
 {
     return m_title;
@@ -78,7 +73,14 @@ bool    ConnectionProfile::isGM() const
 {
     return m_isGM;
 }
-
+Character* ConnectionProfile::getCharacter() const
+{
+    return m_character;
+}
+void ConnectionProfile::setCharacter(Character* character)
+{
+    m_character = character;
+}
 
 ////////////
 //model
@@ -153,6 +155,13 @@ void ProfileModel::readSettings(QSettings & settings)
         player->setUserVersion(m_version);
         profile->setPlayer(player);
 
+        Character* character = new Character();
+        character->setName(settings.value("CharacterName").toString());
+        character->setAvatar(settings.value("CharacterPix").value<QImage>());
+        character->setColor(settings.value("CharacterColor").value<QColor>());
+        profile->setCharacter(character);
+
+
         beginInsertRows(QModelIndex(),m_connectionProfileList.size(),m_connectionProfileList.size());
         m_connectionProfileList.append(profile);
         endInsertRows();
@@ -173,6 +182,9 @@ void ProfileModel::readSettings(QSettings & settings)
         Player* player = new Player(profile->getName(),color,profile->isGM());
         player->setUserVersion(m_version);
         profile->setPlayer(player);
+
+        Character* character = new Character(QStringLiteral("Unknown"),Qt::black);
+        profile->setCharacter(character);
         beginInsertRows(QModelIndex(),m_connectionProfileList.size(),m_connectionProfileList.size());
         m_connectionProfileList.append(profile);
         endInsertRows();
@@ -197,6 +209,7 @@ void ProfileModel::writeSettings(QSettings & settings)
         settings.setArrayIndex(i);
         ConnectionProfile* profile = m_connectionProfileList.at(i);
         Player* player = profile->getPlayer();
+        Character* character = profile->getCharacter();
 
         settings.setValue("address",profile->getAddress());
         settings.setValue("name",profile->getName());
@@ -205,6 +218,10 @@ void ProfileModel::writeSettings(QSettings & settings)
         settings.setValue("port",profile->getPort());
         settings.setValue("gm",profile->isGM());
         settings.setValue("PlayerColor",player->getColor());
+
+        settings.setValue("CharacterColor",character->getColor());
+        settings.setValue("CharacterPix",character->getAvatar());
+        settings.setValue("CharacterName",character->getColor());
 
     }
     settings.endArray();
@@ -234,7 +251,6 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
     ui->m_profileList->setModel(m_model);
 
     connect(ui->m_profileList,SIGNAL(clicked(QModelIndex)),this,SLOT(setCurrentProfile(QModelIndex)));
-   // connect(ui->m_profileList,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(setCurrentProfile(QModelIndex)));
     connect(ui->m_profileList,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(connectToIndex(QModelIndex)));
 
     ui->m_profileList->setCurrentIndex(m_model->index(0, 0));
@@ -244,6 +260,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
     connect(ui->m_addProfile,SIGNAL(clicked()),m_model,SLOT(appendProfile()));
     connect(ui->m_cancel,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->m_connect,SIGNAL(clicked()),this,SLOT(connectTo()));
+    connect(ui->m_selectCharaterAvatar,SIGNAL(clicked()),this,SLOT(openImage()));
 }
 
 SelectConnectionProfileDialog::~SelectConnectionProfileDialog()
@@ -271,6 +288,11 @@ void SelectConnectionProfileDialog::updateGUI()
         ui->m_isServerCheckbox->setChecked(m_currentProfile->isServer());
         ui->m_isGmCheckbox->setChecked(m_currentProfile->isGM());
         ui->m_colorBtn->setColor(m_currentProfile->getPlayer()->getColor());
+
+        //character
+        ui->m_characterName->setText(m_currentProfile->getCharacter()->getName());
+        ui->m_characterColor->setColor(m_currentProfile->getCharacter()->getColor());
+        ui->m_selectCharaterAvatar->setIcon(QIcon(QPixmap::fromImage(m_currentProfile->getCharacter()->getAvatar())));
     }
 }
 
@@ -287,6 +309,12 @@ void SelectConnectionProfileDialog::updateProfile()
         Person* person = m_currentProfile->getPlayer();
         person->setColor(ui->m_colorBtn->color());
         person->setName(ui->m_name->text());
+
+        Character* character = m_currentProfile->getCharacter();
+        character->setAvatar(QImage(m_avatarUri));
+        character->setName(ui->m_characterName->text());
+        character->setColor(ui->m_characterColor->color());
+
     }
 }
 void SelectConnectionProfileDialog::readSettings(QSettings & settings)
@@ -309,4 +337,10 @@ void SelectConnectionProfileDialog::connectTo()
 {
     updateProfile();
     accept();
+}
+void SelectConnectionProfileDialog::openImage()
+{
+    m_avatarUri = QFileDialog::getOpenFileName(this,tr("Load Avatar"));
+
+    updateGUI();
 }

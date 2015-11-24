@@ -90,6 +90,15 @@ public:
      * @return
      */
     bool    isGM() const;
+    /**
+     * @brief getCharacter
+     * @return
+     */
+    Character* getCharacter() const;
+    /**
+     * @brief setCharacter
+     */
+    void setCharacter(Character* );
 
 
 
@@ -101,6 +110,8 @@ private:
     int     m_port;
     Player*  m_player;
     bool    m_isGM;
+    Character* m_character;
+
 
 };
 
@@ -219,12 +230,14 @@ public slots:
     void setCurrentProfile(QModelIndex );
     void connectTo();
     void connectToIndex(QModelIndex index);
+    void openImage();
 
 private:
 	Ui::SelectConnectionProfileDialog *ui;
     ProfileModel* m_model;
     ConnectionProfile* m_currentProfile;
     QString m_version;
+    QString     m_avatarUri;
 };
 
 #endif // SELECTCONNECTIONPROFILEDIALOG_H
