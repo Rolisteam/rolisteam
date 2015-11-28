@@ -1258,6 +1258,8 @@ bool  MainWindow::showConnectionDialog()
             m_playerList->sendOffLocalPlayerInformations();
             m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
 
+            m_playerList->addLocalCharacter(m_currentConnectionProfile->getCharacter());
+
 
 
             m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
