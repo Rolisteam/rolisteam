@@ -31,6 +31,7 @@
 QList<CharacterState*>* Character::m_stateList = NULL;
 
 Character::Character()
+    :m_currentState(NULL)
 {
 	init();
 }
@@ -62,7 +63,7 @@ Character::Character(NetworkMessageReader & data)
     m_color = QColor(data.rgb());
 
     bool hasAvatar = (bool) data.uint8();
-    qDebug() << "hasAvatar" << hasAvatar;
+
     if(hasAvatar)
     {
         m_avatar = QImage::fromData(data.byteArray32());
