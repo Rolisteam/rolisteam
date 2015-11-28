@@ -221,7 +221,7 @@ void ProfileModel::writeSettings(QSettings & settings)
 
         settings.setValue("CharacterColor",character->getColor());
         settings.setValue("CharacterPix",character->getAvatar());
-        settings.setValue("CharacterName",character->getColor());
+        settings.setValue("CharacterName",character->getName());
 
     }
     settings.endArray();
@@ -311,7 +311,10 @@ void SelectConnectionProfileDialog::updateProfile()
         person->setName(ui->m_name->text());
 
         Character* character = m_currentProfile->getCharacter();
-        character->setAvatar(QImage(m_avatarUri));
+        if(!m_avatarUri.isEmpty())
+        {
+            character->setAvatar(QImage(m_avatarUri));
+        }
         character->setName(ui->m_characterName->text());
         character->setColor(ui->m_characterColor->color());
 
@@ -342,5 +345,6 @@ void SelectConnectionProfileDialog::openImage()
 {
     m_avatarUri = QFileDialog::getOpenFileName(this,tr("Load Avatar"));
 
+    m_currentProfile->getCharacter()->setAvatar(QImage(m_avatarUri));
     updateGUI();
 }
