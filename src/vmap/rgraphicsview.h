@@ -40,6 +40,12 @@ public:
     
 	void currentToolChanged(VToolsBar::SelectableTool selectedtool);
     void readMessage(NetworkMessageReader* msg);
+
+
+    void deleteItem(QList<QGraphicsItem*> list);
+    void setItemLayer(QList<QGraphicsItem*> list,VisualItem::Layer layer);
+    void setRotation(QList<QGraphicsItem*> list, int value);
+
 protected:
     void keyPressEvent ( QKeyEvent * event);
     void mousePressEvent ( QMouseEvent * event);
@@ -81,6 +87,11 @@ private:
     QAction* m_allVisibility;
     QAction* m_hiddenVisibility;
     QAction* m_characterVisibility;
+
+
+    QAction* m_putGroundLayer;
+    QAction* m_putObjectLayer;
+    QAction* m_putCharacterLayer;
 
 	VToolsBar::SelectableTool m_currentTool;
 

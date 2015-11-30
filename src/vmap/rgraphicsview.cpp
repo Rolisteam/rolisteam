@@ -35,6 +35,10 @@ RGraphicsView::RGraphicsView(VMap *vmap)
 {
     m_counterZoom = 0;
 
+    if(NULL!=m_vmap)
+    {
+        connect(m_vmap,SIGNAL(mapChanged()),this,SLOT(sendOffMapChange()));
+    }
     setAcceptDrops(true);
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     setViewport(new QOpenGLWidget());
@@ -110,10 +114,13 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 {
     if(m_vmap->isIdle())
     {
-        QList<QGraphicsItem*> list = items(event->pos());
+        QList<QGraphicsItem*> list = scene()->selectedItems();
+
+        //QList<QGraphicsItem*> list = items(event->pos());
+        QMenu menu;
         if((list.isEmpty())||((list.size()==1)&&(list.contains(m_vmap->getFogItem()))))
         {
-            QMenu menu;
+            menu.setTitle(tr("Change the map"));
 
             switch (m_vmap->getCurrentLayer())
             {
@@ -145,12 +152,92 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             menu.addAction(m_properties);
             menu.exec(event->globalPos());
         }
+        else if (list.size() > 1)
+        {
+            menu.setTitle(tr("Change selected Items"));
+
+            QAction* removeAction = menu.addAction(tr("Remove"));
+
+            QAction* backOrderAction = menu.addAction(tr("Back"));
+            backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
+
+            QAction* frontOrderAction = menu.addAction(tr("Front"));
+            frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
+
+            QAction* lowerAction = menu.addAction(tr("Lower"));
+            lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
+
+            QAction* raiseAction = menu.addAction(tr("Raise"));
+
+            QMenu* rotationMenu = menu.addMenu(tr("Rotate"));
+            QAction* resetRotationAct = rotationMenu->addAction(tr("To 360"));
+            QAction* rightRotationAct = rotationMenu->addAction(tr("Right"));
+            QAction* leftRotationAct =  rotationMenu->addAction(tr("Left"));
+            QAction* angleRotationAct = rotationMenu->addAction(tr("Set Angle…"));
+
+            QMenu* setLayerMenu = menu.addMenu(tr("Set Layer"));
+            setLayerMenu->addAction(m_putGroundLayer);
+            setLayerMenu->addAction(m_putObjectLayer);
+            setLayerMenu->addAction(m_putCharacterLayer);
+
+            QAction* selectedAction = menu.exec(event->globalPos());
+
+            if(removeAction==selectedAction)
+            {
+                deleteItem(list);
+            }
+            else if(resetRotationAct==selectedAction)
+            {
+                setRotation(list,0);
+            }
+            else if(selectedAction==rightRotationAct)
+            {
+                setRotation(list,90);
+            }
+            else if(selectedAction==leftRotationAct)
+            {
+                setRotation(list,270);
+            }
+            else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putCharacterLayer))
+            {
+                setItemLayer(list,(VisualItem::Layer)selectedAction->data().toInt());
+            }
+        }
         else
         {
             QGraphicsView::contextMenuEvent(event);
         }
     }
 }
+void RGraphicsView::setRotation(QList<QGraphicsItem*> list, int value)
+{
+    foreach(QGraphicsItem* item, list)
+    {
+        item->setRotation(value);
+    }
+}
+void RGraphicsView::setItemLayer(QList<QGraphicsItem*> list,VisualItem::Layer layer)
+{
+    foreach(QGraphicsItem* item, list)
+    {
+        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
+        if(vItem != NULL)
+        {
+            vItem->setLayer(layer);
+        }
+    }
+}
+void RGraphicsView::deleteItem(QList<QGraphicsItem*> list)
+{
+    foreach(QGraphicsItem* item, list)
+    {
+        if(NULL!=m_vmap)
+        {
+            m_vmap->removeItem(item);
+        }
+    }
+}
+
 void RGraphicsView::createAction()
 {
     //ZOOM MANAGEMENT
@@ -189,6 +276,15 @@ void RGraphicsView::createAction()
     group->addAction(m_editGroundLayer);
     group->addAction(m_editObjectLayer);
     group->addAction(m_editCharacterLayer);
+
+
+
+    m_putGroundLayer = new QAction(tr("Ground"),this);
+    m_putGroundLayer->setData(VisualItem::GROUND);
+    m_putObjectLayer = new QAction(tr("Object"),this);
+    m_putObjectLayer->setData(VisualItem::OBJECT);
+    m_putCharacterLayer= new QAction(tr("Character"),this);
+    m_putCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
 
 
 
@@ -305,7 +401,7 @@ void RGraphicsView::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 void RGraphicsView::resizeEvent(QResizeEvent* event)
 {
     //GM is the references
-   if((NULL!=scene())&&(m_vmap->isGM()))
+   if((NULL!=scene())&&(m_vmap->getOption(VisualItem::LocalIsGM).toBool()))
    {
         scene()->setSceneRect(geometry());
 
