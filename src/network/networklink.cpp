@@ -206,12 +206,10 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
         {
             m_networkManager->ajouterNetworkLink(this);
 
-            // On indique au nouveau joueur que le processus de connexion vient d'arriver a son terme
             NetworkMessageHeader header;
             header.category = NetMsg::SetupCategory;
             header.action = NetMsg::EndConnectionAction;
             header.dataSize = 0;
-
             sendData((char *)&header, sizeof(NetworkMessageHeader));
         }
         else if(NetMsg::AddPlayerAction == msg->action())
