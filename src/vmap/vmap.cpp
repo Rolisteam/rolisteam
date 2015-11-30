@@ -756,7 +756,6 @@ void VMap::addNewItem(VisualItem* item)
             {
                 item->setEditableItem(getOption(VisualItem::LocalIsGM).toBool());
             }
-
         }
         else if((m_currentMode == Map::GM_ONLY))
         {
@@ -784,8 +783,6 @@ void VMap::addNewItem(VisualItem* item)
                 }
             }
         }
-
-
         //View permission
         if((getOption(VisualItem::LocalIsGM).toBool())||(m_currentVisibityMode == VMap::ALL))
         {
