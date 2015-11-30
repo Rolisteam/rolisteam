@@ -355,6 +355,10 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
     setZValue(z);
     setRotation(rot);
 }
+void VisualItem::setPropertiesHash(QHash<VisualItem::Properties,QVariant>* hash)
+{
+    m_propertiesHash = hash;
+}
 
 void VisualItem::setMapId(QString id)
 {
@@ -394,6 +398,27 @@ void VisualItem::setChildrenVisible(bool b)
         }
     }
 }
+QString VisualItem::getLayerToText(VisualItem::Layer id)
+{
+    if(s_layerName.isEmpty())
+    {
+        return QString();
+    }
+    if(s_layerName.size()<(int)id)
+    {
+        return s_layerName.at(id);
+    }
+    return QString();
+}
+
+QVariant VisualItem::getOption(VisualItem::Properties pop) const
+{
+    if(NULL!=m_propertiesHash)
+    {
+        return m_propertiesHash->value(pop);
+    }
+    return QVariant();
+}
 //friend functions
 QDataStream& operator<<(QDataStream& os,const VisualItem& c)
 {
@@ -405,16 +430,3 @@ QDataStream& operator>>(QDataStream& is,VisualItem& c)
     c.readData(is);
     return is;
 }
-QString VisualItem::getLayerToText(VisualItem::Layer id)
-{
-	if(s_layerName.isEmpty())
-	{
-		return QString();
-	}
-	if(s_layerName.size()<(int)id)
-	{
-		return s_layerName.at(id);
-	}
-	return QString();
-}
-

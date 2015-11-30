@@ -32,13 +32,13 @@
 #include "vmap/items/sightitem.h"
 
 CharacterItem::CharacterItem()
-: VisualItem(),m_showNpcName(false),m_showNpcNumber(false), m_showPcName(false)
+: VisualItem()
 {
     createActions();
 }
 
 CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
-	: VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL),m_showNpcName(false),m_showNpcNumber(false), m_showPcName(false)
+    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL)
 {
 	setPos(m_center-QPoint(diameter/2,diameter/2));
 	sizeChanged(diameter);
@@ -54,9 +54,6 @@ void CharacterItem::writeData(QDataStream& out) const
     out << m_diameter;
     out << *m_thumnails;
     out << m_rect;
-    out << m_showNpcName;
-    out << m_showNpcNumber;
-    out << m_showPcName;
     if(NULL!=m_character)
     {
         m_character->writeData(out);
@@ -70,9 +67,6 @@ void CharacterItem::readData(QDataStream& in)
     m_thumnails = new QPixmap();
     in >> *m_thumnails;
     in >> m_rect;
-    in >> m_showNpcName;
-    in >> m_showNpcNumber;
-    in >> m_showPcName;
     m_character = new Character();
     m_character->readData(in);
 
@@ -107,20 +101,20 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 	QString toShow;
 	if(m_character->isNpc())
 	{
-		if(m_showNpcName)
+        if(getOption(VisualItem::ShowNpcName).toBool())
 		{
 			toShow = m_character->getName();
 		}
-		if(m_showNpcNumber)
+        if(getOption(VisualItem::ShowNpcNumber).toBool())
 		{
 			toShow = m_character->getName();
 		}
-		if(m_showNpcName && m_showNpcNumber)
+        if(getOption(VisualItem::ShowNpcName).toBool() && getOption(VisualItem::ShowNpcNumber).toBool())
 		{
 			toShow = QString("%1 - %2").arg(m_character->getName()).arg(m_character->number());
 		}
 	}
-	else if(m_showPcName)
+    else if(getOption(VisualItem::ShowPcName).toBool())
 	{
 		toShow = m_character->getName();
 	}
@@ -138,12 +132,11 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
         painter->setPen(m_character->getColor());
         painter->setBrush(QBrush(m_character->getColor(),Qt::SolidPattern));
         painter->drawEllipse(m_rect);
-
 	}
 
 	QPen pen = painter->pen();
 	pen.setWidth(6);
-	if(( NULL!= m_character )&&(NULL!=m_character->getState()))
+    if(( NULL!= m_character )&&(NULL!=m_character->getState())&&getOption(VisualItem::ShowHealtStatus).toBool())
 	{
 		toShow += QString(" %1").arg(m_character->getState()->getLabel());
 		if(!m_character->getState()->getImage().isNull())
@@ -157,11 +150,6 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 			painter->drawEllipse(m_rect.adjusted(3,3,-3,-3));
 		}
 	}
-
-
-
-
-
 
     QRectF rectText;
     QFontMetrics metric(painter->font());
@@ -478,20 +466,6 @@ void CharacterItem::updateChildPosition()
 
     update();
 
-}
-void CharacterItem::showNpcName(bool b)
-{
-    m_showNpcName = b;
-}
-
-void CharacterItem::showNpcNumber(bool b)
-{
-    m_showNpcNumber = b;
-}
-
-void CharacterItem::showPcName(bool b)
-{
-    m_showPcName = b;
 }
 void CharacterItem::addActionContextMenu(QMenu* menu)
 {

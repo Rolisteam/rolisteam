@@ -160,13 +160,6 @@ public:
      * @return
      */
     VMap::VisibilityMode getVisibilityMode();
-	/**
-	 * @brief setLocalIsGM
-	 */
-	void setLocalIsGM(bool);
-
-    bool isGM() const;
-
     /**
      * @brief fill
      * @param msg
@@ -247,6 +240,18 @@ public:
      * @brief initScene
      */
     void initScene();
+    /**
+     * @brief setOption
+     * @param pop
+     * @param value
+     */
+    void setOption(VisualItem::Properties pop,QVariant value);
+    /**
+     * @brief getOption
+     * @param pop
+     * @return
+     */
+    QVariant getOption(VisualItem::Properties pop);
 
 public slots:
     /**
@@ -293,33 +298,38 @@ public slots:
      * @brief VMap::computePattern
      */
     void computePattern();
-    void setNpcNameVisible(bool);
-    void setPcNameVisible(bool);
-    void setNpcNumberVisible(bool);
+    /**
+     * @brief duplicateItem
+     * @param item
+     */
 	void duplicateItem(VisualItem* item);
+    /**
+     * @brief readMessage
+     * @param msg
+     * @param readCharacter
+     */
     void readMessage(NetworkMessageReader& msg,bool readCharacter = true);
+    /**
+     * @brief setLocalId
+     */
     void setLocalId(QString);
+    /**
+     * @brief getCharacterOnMap
+     * @param id
+     * @return
+     */
     QList<CharacterItem*> getCharacterOnMap(QString id);
 
-
+    /**
+     * @brief getFogItem
+     * @return
+     */
     SightItem* getFogItem() const;
 signals:
     /**
      * @brief npcAdded
      */
     void npcAdded();
-    /**
-     * @brief showNpcName
-     */
-    void showNpcName(bool);
-    /**
-     * @brief showNpcNumber
-     */
-    void showNpcNumber(bool);
-    /**
-     * @brief showPcName
-     */
-    void showPcName(bool);
 	/**
 	 * @brief mapChanged is emitted after some changes on map has been made.
 	 */
@@ -413,6 +423,7 @@ protected:
      * @brief initMap
      */
     void initMap();
+
 private:
     /**
     * @brief width of the map
@@ -505,10 +516,6 @@ private:
      */
     QString m_id;
     /**
-     * @brief m_localIsGM
-     */
-	bool m_localIsGM;
-    /**
      * @brief m_localUserId
      */
     QString m_localUserId;
@@ -529,14 +536,17 @@ private:
      */
     QColor m_gridColor;
 
+    /**
+     * @brief m_currentLayer
+     */
     VisualItem::Layer m_currentLayer;
-    bool m_showNpcName;
-    bool m_showPcName;
-    bool m_showNpcNumber;
 
     QPolygonF* m_currentFogPolygon;
 
     SightItem* m_sightItem;
+
+    QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
+
 
     friend QDataStream& operator<<(QDataStream& os,const VMap&);
     friend QDataStream& operator>>(QDataStream& is,VMap&);

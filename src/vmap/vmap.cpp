@@ -42,6 +42,7 @@ VMap::VMap(int width,int height,QString& title,QColor& bgColor,QObject * parent)
 }
 void VMap::initMap()
 {
+    m_propertiesHash = new QHash<VisualItem::Properties,QVariant>();
     m_penSize = 1;
     m_id = QUuid::createUuid().toString();
     m_currentItem = NULL;
@@ -50,7 +51,14 @@ void VMap::initMap()
     m_itemMap=new  QMap<QString,VisualItem*>;
     m_characterItemMap = new QMap<QString,VisualItem*>();
     setItemIndexMethod(QGraphicsScene::NoIndex);
-    m_sightItem = new SightItem(m_characterItemMap);
+    m_sightItem = new SightItem(m_characterItemMap);  
+
+    m_propertiesHash->insert(VisualItem::ShowNpcName,false);
+    m_propertiesHash->insert(VisualItem::ShowPcName,false);
+    m_propertiesHash->insert(VisualItem::ShowNpcNumber,false);
+    m_propertiesHash->insert(VisualItem::ShowHealtStatus,false);
+    m_propertiesHash->insert(VisualItem::ShowGrid,false);
+    m_propertiesHash->insert(VisualItem::LocalIsGM,false);
 }
 void  VMap::initScene()
 {
@@ -82,8 +90,9 @@ void VMap::setTitle(QString title)
 void VMap::setBackGroundColor(QColor bgcolor)
 {
     m_bgColor = bgcolor;
+    computePattern();
+    emit mapChanged();
 }
-
 
 void VMap::setSceneRect()
 {
@@ -183,13 +192,7 @@ void VMap::addItem()
     {
         CharacterItem* itemCharar= new CharacterItem(new Character(m_currentNpcName,m_itemColor,true,m_currentNpcNumber),m_first);
         m_currentItem = itemCharar;
-        itemCharar->showNpcName(m_showNpcName);
-        itemCharar->showNpcNumber(m_showNpcNumber);
-        itemCharar->showPcName(m_showPcName);
         emit npcAdded();
-        connect(this,SIGNAL(showNpcName(bool)),itemCharar,SLOT(showNpcName(bool)));
-        connect(this,SIGNAL(showNpcNumber(bool)),itemCharar,SLOT(showNpcNumber(bool)));
-        connect(this,SIGNAL(showPcName(bool)),itemCharar,SLOT(showPcName(bool)));
     }
         break;
     case VToolsBar::RULE:
@@ -379,12 +382,6 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 
                 }
 
-              /*  foreach(QGraphicsItem* tmpItem, list)
-                {
-                    qDebug() << "ITEM POS:" << tmpItem->pos() << tmpItem->boundingRect() << tmpItem->contains(tmp->getStart()) << tmpItem;
-                }*/
-
-
                 if(NULL!=child)
                 {
                     QPointF pos = child->pos();
@@ -455,7 +452,6 @@ void VMap::checkItemLayer(VisualItem* item)
     {
         item->setEditableItem(false);
     }
-
 }
 
 void VMap::sendOffItem(VisualItem* item)
@@ -572,7 +568,6 @@ void VMap::openFile(QDataStream& in)
                 break;
             case VisualItem::PATH:
                 item=new PathItem();
-
                 break;
 
             }
@@ -590,14 +585,6 @@ void VMap::openFile(QDataStream& in)
 void VMap::addCharacter(Character* p, QPointF pos)
 {
     CharacterItem* item= new CharacterItem(p,pos);
-    item->showNpcName(m_showNpcName);
-    item->showNpcNumber(m_showNpcNumber);
-    item->showPcName(m_showPcName);
-
-    connect(this,SIGNAL(showNpcName(bool)),item,SLOT(showNpcName(bool)));
-    connect(this,SIGNAL(showNpcNumber(bool)),item,SLOT(showNpcNumber(bool)));
-    connect(this,SIGNAL(showPcName(bool)),item,SLOT(showPcName(bool)));
-
 
     NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
     msg.string8(m_id);
@@ -630,20 +617,7 @@ void VMap::setPattern(VMap::GRID_PATTERN p)
 {
     m_gridPattern = p;
 }
-void VMap::setNpcNameVisible(bool b)
-{
-    m_showNpcName = b;
-}
 
-void VMap::setPcNameVisible(bool b)
-{
-    m_showNpcName = b;
-}
-
-void VMap::setNpcNumberVisible(bool b)
-{
-    m_showNpcNumber = b;
-}
 QColor VMap::getBackGroundColor() const
 {
     return m_bgColor;
@@ -667,54 +641,56 @@ QString VMap::getTitle() const
 }
 void VMap::computePattern()
 {
-
     if(m_gridPattern == VMap::NONE)
     {
         setBackgroundBrush(m_bgColor);
     }
     else
     {
-        QPolygonF polygon;
-
-        if(m_gridPattern==VMap::HEXAGON)
+        if(getOption(VisualItem::ShowGrid).toBool())
         {
-            qreal radius = m_sizePattern/2;
-            qreal hlimit = radius * qSin(M_PI/3);
-            qreal offset = radius-hlimit;
-            QPointF A(2*radius,radius-offset);
-            QPointF B(radius*1.5,radius-hlimit-offset);
-            QPointF C(radius*0.5,radius-hlimit-offset);
-            QPointF D(0,radius-offset);
-            QPointF E(radius*0.5,radius+hlimit-offset-1);
-            QPointF F(radius*1.5,radius+hlimit-offset-1);
+            QPolygonF polygon;
 
-            QPointF G(2*radius+radius,radius-offset);
-            polygon << C << D << E << F << A << B << A << G;
+            if(m_gridPattern==VMap::HEXAGON)
+            {
+                qreal radius = m_sizePattern/2;
+                qreal hlimit = radius * qSin(M_PI/3);
+                qreal offset = radius-hlimit;
+                QPointF A(2*radius,radius-offset);
+                QPointF B(radius*1.5,radius-hlimit-offset);
+                QPointF C(radius*0.5,radius-hlimit-offset);
+                QPointF D(0,radius-offset);
+                QPointF E(radius*0.5,radius+hlimit-offset-1);
+                QPointF F(radius*1.5,radius+hlimit-offset-1);
 
-            m_computedPattern = QImage(m_sizePattern*1.5,2*hlimit,QImage::Format_RGBA8888_Premultiplied);
-            m_computedPattern.fill(m_bgColor);
+                QPointF G(2*radius+radius,radius-offset);
+                polygon << C << D << E << F << A << B << A << G;
+
+                m_computedPattern = QImage(m_sizePattern*1.5,2*hlimit,QImage::Format_RGBA8888_Premultiplied);
+                m_computedPattern.fill(m_bgColor);
+            }
+            else if(m_gridPattern == VMap::SQUARE)
+            {
+                m_computedPattern = QImage(m_sizePattern,m_sizePattern,QImage::Format_RGB32);
+                m_computedPattern.fill(m_bgColor);
+                QPointF A(0,0);
+                QPointF B(0,m_sizePattern-1);
+                QPointF C(m_sizePattern-1,m_sizePattern-1);
+                QPointF D(m_sizePattern-1,0);
+                polygon << A << B << C << D << A;
+            }
+            QPainter painter(&m_computedPattern);
+            //painter.setRenderHint(QPainter::Antialiasing,true);
+            //painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
+            QPen pen;
+            pen.setColor(m_gridColor);
+            pen.setWidth(1);
+            painter.setPen(pen);
+            painter.drawPolyline(polygon);
+            painter.end();
+            m_computedPattern.save("/tmp/pattern.png","PNG");
+            setBackgroundBrush(QPixmap::fromImage(m_computedPattern));
         }
-        else if(m_gridPattern == VMap::SQUARE)
-        {
-            m_computedPattern = QImage(m_sizePattern,m_sizePattern,QImage::Format_RGB32);
-            m_computedPattern.fill(m_bgColor);
-            QPointF A(0,0);
-            QPointF B(0,m_sizePattern-1);
-            QPointF C(m_sizePattern-1,m_sizePattern-1);
-            QPointF D(m_sizePattern-1,0);
-            polygon << A << B << C << D << A;
-        }
-        QPainter painter(&m_computedPattern);
-        //painter.setRenderHint(QPainter::Antialiasing,true);
-        //painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
-        QPen pen;
-        pen.setColor(m_gridColor);
-        pen.setWidth(1);
-        painter.setPen(pen);
-        painter.drawPolyline(polygon);
-        painter.end();
-        m_computedPattern.save("/tmp/pattern.png","PNG");
-        setBackgroundBrush(QPixmap::fromImage(m_computedPattern));
     }
 
 }
@@ -800,6 +776,7 @@ void VMap::addNewItem(VisualItem* item)
     if(NULL!=item)
     {
         item->setMapId(m_id);
+        item->setPropertiesHash(m_propertiesHash);
         setFocusItem(item);
         connect(item,SIGNAL(itemGeometryChanged(VisualItem*)),this,SLOT(sendItemToAll(VisualItem*)));
         connect(item,SIGNAL(itemRemoved(QString)),this,SLOT(removeItemFromScene(QString)));
@@ -815,17 +792,17 @@ void VMap::addNewItem(VisualItem* item)
 
 
         //Editing permission
-        if(m_localIsGM)
+        if(getOption(VisualItem::LocalIsGM).toBool())
         {
             if(item!=m_sightItem)
             {
-                item->setEditableItem(m_localIsGM);
+                item->setEditableItem(getOption(VisualItem::LocalIsGM).toBool());
             }
 
         }
         else if((m_currentMode == Map::GM_ONLY))
         {
-            item->setEditableItem(m_localIsGM);
+            item->setEditableItem(getOption(VisualItem::LocalIsGM).toBool());
         }
         else if(m_currentMode == Map::PC_ALL)
         {
@@ -852,7 +829,7 @@ void VMap::addNewItem(VisualItem* item)
 
 
         //View permission
-        if((m_localIsGM)||(m_currentVisibityMode == VMap::ALL))
+        if((getOption(VisualItem::LocalIsGM).toBool())||(m_currentVisibityMode == VMap::ALL))
         {
             item->setVisible(true);
         }
@@ -938,14 +915,7 @@ void VMap::keyPressEvent(QKeyEvent* event)
     QGraphicsScene::keyPressEvent(event);
 }
 
-void VMap::setLocalIsGM(bool b)
-{
-    m_localIsGM = b;
-    if(NULL!=m_sightItem)
-    {
-        m_sightItem->setGM(m_localIsGM);
-    }
-}
+
 void VMap::processMoveItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
@@ -1096,7 +1066,7 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
     {
         m_currentVisibityMode = mode;
 		emit mapChanged();
-        if(!m_localIsGM)
+        if(!getOption(VisualItem::LocalIsGM).toBool())
         {
             if(m_currentVisibityMode == VMap::HIDDEN)
             {
@@ -1152,6 +1122,22 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
 VMap::VisibilityMode VMap::getVisibilityMode()
 {
     return m_currentVisibityMode;
+}
+void VMap::setOption(VisualItem::Properties pop,QVariant value)
+{
+    if(NULL!=m_propertiesHash)
+    {
+        m_propertiesHash->insert(pop,value);
+        update();
+    }
+}
+QVariant VMap::getOption(VisualItem::Properties pop)
+{
+    if(NULL!=m_propertiesHash)
+    {
+        return m_propertiesHash->value(pop);
+    }
+    return QVariant();
 }
 QString VMap::getVisibilityModeText()
 {
@@ -1218,8 +1204,4 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
         item->setZValue(++z);
     }
     m_sightItem->setZValue(++z);
-}
-bool VMap::isGM() const
-{
-    return m_localIsGM;
 }

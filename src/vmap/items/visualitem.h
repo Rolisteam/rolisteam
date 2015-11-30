@@ -49,6 +49,10 @@ public:
      * @brief The StackOrder enum
      */
     enum StackOrder{FRONT,RAISE,LOWER,BACK};
+    /**
+     * @brief The Properties enum
+     */
+    enum Properties {ShowNpcName,ShowPcName,ShowNpcNumber,ShowHealtStatus,ShowGrid,LocalIsGM};
 	/**
 	 * @brief VisualItem default constructor
 	 */
@@ -200,6 +204,13 @@ public:
 	 * @return
 	 */
 	static QString getLayerToText(VisualItem::Layer id);
+    /**
+     * @brief setPropertiesHash
+     * @param hash
+     */
+    void setPropertiesHash(QHash<VisualItem::Properties,QVariant>* hash);
+
+    QVariant getOption(VisualItem::Properties pop) const;
 
 signals:
 	/**
@@ -310,6 +321,8 @@ protected:
 
     VisualItem::Layer m_layer;
     QVector<ItemType> m_promoteTypeList;
+
+    QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
 
 private slots:
 	/**

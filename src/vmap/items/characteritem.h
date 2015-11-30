@@ -68,6 +68,10 @@ public:
     * @brief gives the bounding rect of the ellipse
     */
     virtual QRectF boundingRect() const ;
+    /**
+     * @brief shape
+     * @return
+     */
 	virtual QPainterPath shape() const;
     /**
     * @brief modifies the ellipse size and shape.
@@ -193,18 +197,6 @@ public slots:
      * @param m_size
      */
     void sizeChanged(int m_size);
-    /**
-     * @brief showNpcName
-     */
-    void showNpcName(bool);
-    /**
-     * @brief showNpcNumber
-     */
-    void showNpcNumber(bool);
-    /**
-     * @brief showPcName
-     */
-    void showPcName(bool);
 private slots:
     /**
      * @brief generatedThumbnail
@@ -228,9 +220,6 @@ private:
     int m_diameter;
     QPixmap* m_thumnails;
     QRectF m_rect;
-    bool m_showNpcName;
-    bool m_showNpcNumber;
-    bool m_showPcName;
 	QString m_title;
 
     //QAction*
