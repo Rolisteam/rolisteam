@@ -51,6 +51,7 @@ Character::Character(const QString & uuid, const QString & nom, const QColor & c
 Character::Character(NetworkMessageReader & data)
     : Person(), m_parent(NULL),m_currentState(NULL)
 {
+    QString idParent = data.string8();
     m_uuid = data.string8();
     m_name = data.string16();
     bool hasCurrentState = data.uint8();
@@ -68,7 +69,6 @@ Character::Character(NetworkMessageReader & data)
     {
         m_avatar = QImage::fromData(data.byteArray32());
     }
-
 	init();
 }
 void Character::init()
@@ -78,7 +78,6 @@ void Character::init()
 		m_currentState = m_stateList->first();
 	}
 }
-
 void Character::setListOfCharacterState(QList<CharacterState*>* list)
 {
 	m_stateList = list;
