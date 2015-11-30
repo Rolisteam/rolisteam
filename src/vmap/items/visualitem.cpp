@@ -400,11 +400,7 @@ void VisualItem::setChildrenVisible(bool b)
 }
 QString VisualItem::getLayerToText(VisualItem::Layer id)
 {
-    if(s_layerName.isEmpty())
-    {
-        return QString();
-    }
-    if(s_layerName.size()<(int)id)
+    if(s_layerName.size()>(int)id)
     {
         return s_layerName.at(id);
     }
