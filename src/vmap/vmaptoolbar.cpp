@@ -46,6 +46,14 @@ void VmapToolBar::setupUi()
     QStringList list;
     list << tr("GM Only") <<tr("PC Move") <<tr("ALL") ;
     m_currentPermission->addItems(list);
+    addWidget(m_currentPermission);
+
+
+    m_gridPattern =new QComboBox();
+    QStringList listGrid;
+    listGrid << tr("None") <<tr("Square") <<tr("Hexagon") ;
+    m_gridPattern->addItems(listGrid);
+    addWidget(m_gridPattern);
 
     connect(m_showGridAct,SIGNAL(triggered()),this,SLOT(triggerGrid()));
     connect(m_bgSelector,SIGNAL(colorChanged(QColor)),this,SLOT(setBackgroundColor(QColor)));
