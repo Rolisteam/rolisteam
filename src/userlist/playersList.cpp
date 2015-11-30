@@ -765,7 +765,6 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
             if (m_localPlayer->isGM() != isGM)
             {
                 m_localPlayer->setGM(false);
-			   // G_joueur = !isGM;
                 notifyPersonChanged(actualPlayer);
                 emit localGMRefused();
             }
@@ -773,7 +772,6 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
         else
             qWarning("A Player and a Character have the same UUID %s", qPrintable(newPlayer->getUuid()));
     }
-
     else
         addPlayer(newPlayer);
 }
