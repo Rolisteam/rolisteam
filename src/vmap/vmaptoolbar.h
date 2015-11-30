@@ -27,21 +27,49 @@
 #include "vmap.h"
 #include "widgets/colorbutton.h"
 
+/**
+ * @brief The VmapToolBar class
+ */
 class VmapToolBar : public QToolBar
 {
     Q_OBJECT
 public:
+    /**
+     * @brief VmapToolBar
+     */
     VmapToolBar();
-    ~VmapToolBar();
-
+    /**
+      */
+    virtual ~VmapToolBar();
+    /**
+     * @brief setupUi
+     */
     void setupUi();
+    /**
+     * @brief updateUI
+     */
+    void updateUI();
 
 
 public slots:
+    /**
+     * @brief setCurrentMap
+     * @param map
+     */
     void setCurrentMap(VMap* map);
-
+    /**
+     * @brief triggerGrid
+     */
+    void triggerGrid();
+    /**
+     * @brief setBackgroundColor
+     */
+    void setBackgroundColor(QColor);
 
 private:
+    /**
+     * @brief updateUi
+     */
     void updateUi();
 
 
@@ -50,14 +78,12 @@ private:
 
     //Button
     ColorButton* m_bgSelector;
-
-
-
     QAction* m_showGridAct;
     QAction* m_Act;
-   /* QAction* m_Act;
-    QAction* m_Act;
-    QAction* m_Act;*/
+
+    QComboBox* m_gridPattern;
+    QComboBox* m_currentLayer;
+    QComboBox* m_currentPermission;
 
 };
 
