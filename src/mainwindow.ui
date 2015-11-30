@@ -86,6 +86,7 @@
      <addaction name="m_showPcNameAction"/>
      <addaction name="m_showNpcNameAction"/>
      <addaction name="m_showNpcNumberAction"/>
+     <addaction name="m_showHealtStatusAction"/>
     </widget>
     <addaction name="menuReorganize"/>
     <addaction name="separator"/>
@@ -444,6 +445,17 @@
    </property>
    <property name="text">
     <string>Vectorial Map</string>
+   </property>
+  </action>
+  <action name="m_showHealtStatusAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Health State</string>
+   </property>
+   <property name="shortcut">
+    <string>F8</string>
    </property>
   </action>
  </widget>

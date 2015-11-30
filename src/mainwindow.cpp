@@ -278,6 +278,7 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
                 m_toolBarStack->setCurrentWidget(m_toolBar);
                 m_ui->m_closeAction->setEnabled(true);
                 m_ui->m_saveAction->setEnabled(true);
+                m_vmapToolBar->setEnabled(false);
                 subWindow->setFocus();
             }
             else if(subWindow->objectName() == QString("Image") && ((localPlayerIsGM)))
@@ -285,13 +286,17 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
                 m_playersListWidget->model()->changeMap(NULL);
                 m_ui->m_closeAction->setEnabled(true);
                 m_ui->m_saveAction->setEnabled(false);
+                m_vmapToolBar->setEnabled(false);
             }
             else if(subWindow->objectName() == QString("VMapFrame") && ((localPlayerIsGM)))
             {
                 m_playersListWidget->model()->changeMap(NULL);
                 m_toolBarStack->setCurrentWidget(m_vToolBar);
+                m_vmapToolBar->setEnabled(true);
                 m_ui->m_closeAction->setEnabled(true);
                 m_ui->m_saveAction->setEnabled(false);
+                VMapFrame* frame = dynamic_cast<VMapFrame*>(subWindow);
+                m_vmapToolBar->setCurrentMap(frame->getMap());
             }
         }
         else
@@ -559,7 +564,7 @@ void MainWindow::sendOffAllMaps(NetworkLink * link)
     while (mapi.hasNext())
     {
         mapi.next();
-        VMap* tempmap = mapi.value()->map();
+        VMap* tempmap = mapi.value()->getMap();
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
         tempmap->fill(msg);
         tempmap->sendAllItems(msg);
@@ -1227,9 +1232,7 @@ void MainWindow::notifyUser(QString message, MessageType type) const
         message.prepend(tr("Warning:"));
         break;
     case Notice:
-
         break;
-
     }
 
     QString time = QTime::currentTime().toString("hh:mm:ss") + " - ";
@@ -1259,8 +1262,6 @@ bool  MainWindow::showConnectionDialog()
             m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
 
             m_playerList->addLocalCharacter(m_currentConnectionProfile->getCharacter());
-
-
 
             m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
             m_networkManager->setConnectionState(result);
@@ -1728,13 +1729,13 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
 	if(NULL==tmp)
 		return;
 
-	VMap* map = tmp->map();
+    VMap* map = tmp->getMap();
 
 	if(NULL==map)
 		return;
     if(NULL!=m_currentConnectionProfile)
     {
-        map->setLocalIsGM(m_currentConnectionProfile->isGM());
+        map->setOption(VisualItem::LocalIsGM,m_currentConnectionProfile->isGM());
     }
     map->setLocalId(m_localPlayerId);
 
@@ -1747,24 +1748,33 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     connect(m_vToolBar,SIGNAL(currentNpcNameChanged(QString)),tmp,SLOT(setCurrentNpcNameChanged(QString)));
     connect(m_vToolBar,SIGNAL(currentNpcNumberChanged(int)),tmp,SLOT(setCurrentNpcNumberChanged(int)));
 
-
-
     //map to toolbar
     connect(map,SIGNAL(npcAdded()),m_vToolBar,SLOT(increaseNpcNumber()));
 
-
     // menu to Map
-    connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SIGNAL(showPcName(bool)));
-    connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SIGNAL(showNpcName(bool)));
-    connect(m_ui->m_showNpcNumberAction, SIGNAL(triggered(bool)), map, SIGNAL(showNpcName(bool)));
+    connect(m_ui->m_showNpcNameAction, &QAction::triggered,[=](bool b){
+        map->setOption(VisualItem::ShowNpcName,b);
+    });
+    connect(m_ui->m_showNpcNumberAction, &QAction::triggered,[=](bool b){
+        map->setOption(VisualItem::ShowNpcNumber,b);
+    });
+    connect(m_ui->m_showPcNameAction, &QAction::triggered,[=](bool b){
+        map->setOption(VisualItem::ShowPcName,b);
+    });
+    connect(m_ui->m_showHealtStatusAction, &QAction::triggered,[=](bool b){
+        map->setOption(VisualItem::ShowHealtStatus,b);
+    });
 
-    connect(m_ui->m_showNpcNameAction, SIGNAL(triggered(bool)), map, SLOT(setNpcNameVisible(bool)));
-    connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
-    connect(m_ui->m_showNpcNumberAction,SIGNAL(triggered(bool)),map,SLOT(setNpcNumberVisible(bool)));
 
-    map->setNpcNameVisible(m_ui->m_showNpcNameAction->isChecked());
-    map->setPcNameVisible(m_ui->m_showPcNameAction->isChecked());
-    map->setNpcNumberVisible(m_ui->m_showNpcNumberAction->isChecked());
+    //map, SLOT(setNpcNameVisible(bool)));
+   // connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
+   // connect(m_ui->m_showNpcNumberAction,SIGNAL(triggered(bool)),map,SLOT(setNpcNumberVisible(bool)));
+
+    map->setOption(VisualItem::ShowNpcName,m_ui->m_showNpcNameAction->isChecked());
+    map->setOption(VisualItem::ShowNpcNumber,m_ui->m_showNpcNumberAction->isChecked());
+    map->setOption(VisualItem::ShowPcName,m_ui->m_showPcNameAction->isChecked());
+    map->setOption(VisualItem::ShowHealtStatus,m_ui->m_showHealtStatusAction->isChecked());
+
     map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
     tmp->currentPenSizeChanged(m_vToolBar->getCurrentPenSize());
 
@@ -1785,7 +1795,7 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
         case NetMsg::addVmap:
             {
                 VMap* map = new VMap();
-                map->setLocalIsGM(false);
+                map->setOption(VisualItem::LocalIsGM,false);
                 map->readMessage(*msg);
 
                 VMapFrame* mapFrame = new VMapFrame(new CleverURI("",CleverURI::VMAP),map);
