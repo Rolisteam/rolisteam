@@ -198,8 +198,8 @@ void VMap::addItem()
     case VToolsBar::RULE:
     {
         RuleItem* itemRule = new RuleItem(m_first);
-        itemRule->setUnit(m_patternUnit);
-        itemRule->setPixelToUnit(m_sizePattern/m_patternScale);
+        itemRule->setUnit((VMap::SCALE_UNIT)getOption(VisualItem::Unit).toInt());
+        itemRule->setPixelToUnit(getOption(VisualItem::GridSize).toInt()/getOption(VisualItem::Scale).toReal());
         m_currentItem = itemRule;
     }
         break;
@@ -238,10 +238,6 @@ void VMap::addItem()
 void VMap::setPenSize(int p)
 {
     m_penSize =p;
-}
-void VMap::setPatternColor(QColor c)
-{
-    m_gridColor = c;
 }
 void VMap::fill(NetworkMessageWriter& msg)
 {
@@ -596,48 +592,13 @@ void VMap::addCharacter(Character* p, QPointF pos)
 
     insertCharacterInMap(item);
 }
-
-void VMap::setPatternSize(int p)
-{
-    m_sizePattern = p;
-}
-int VMap::getPatternSize() const
-{
-    return m_sizePattern;
-}
-QColor VMap::getGridColor()const
-{
-    return m_gridColor;
-}
-VMap::GRID_PATTERN VMap::getGrid() const
-{
-    return m_gridPattern;
-}
-void VMap::setPattern(VMap::GRID_PATTERN p)
-{
-    m_gridPattern = p;
-}
-
 QColor VMap::getBackGroundColor() const
 {
     return m_bgColor;
 }
-
-void VMap::setScale(int p)
-{
-    m_patternScale = p;
-}
-int VMap::getPatternUnit()const
-{
-    return (int)m_patternUnit;
-}
-int VMap::getScaleValue()const
-{
-    return m_patternScale;
-}
 void VMap::computePattern()
 {
-    if(m_gridPattern == VMap::NONE)
+    if(getOption(VisualItem::GridPattern).toInt() == VMap::NONE)
     {
         setBackgroundBrush(m_bgColor);
     }
@@ -647,9 +608,9 @@ void VMap::computePattern()
         {
             QPolygonF polygon;
 
-            if(m_gridPattern==VMap::HEXAGON)
+            if(getOption(VisualItem::GridPattern).toInt()==VMap::HEXAGON)
             {
-                qreal radius = m_sizePattern/2;
+                qreal radius = getOption(VisualItem::GridSize).toInt()/2;
                 qreal hlimit = radius * qSin(M_PI/3);
                 qreal offset = radius-hlimit;
                 QPointF A(2*radius,radius-offset);
@@ -662,24 +623,25 @@ void VMap::computePattern()
                 QPointF G(2*radius+radius,radius-offset);
                 polygon << C << D << E << F << A << B << A << G;
 
-                m_computedPattern = QImage(m_sizePattern*1.5,2*hlimit,QImage::Format_RGBA8888_Premultiplied);
+                m_computedPattern = QImage(getOption(VisualItem::GridSize).toInt()*1.5,2*hlimit,QImage::Format_RGBA8888_Premultiplied);
                 m_computedPattern.fill(m_bgColor);
             }
-            else if(m_gridPattern == VMap::SQUARE)
+            else if(getOption(VisualItem::GridPattern).toInt() == VMap::SQUARE)
             {
-                m_computedPattern = QImage(m_sizePattern,m_sizePattern,QImage::Format_RGB32);
+                m_computedPattern = QImage(getOption(VisualItem::GridSize).toInt(),getOption(VisualItem::GridSize).toInt(),QImage::Format_RGB32);
                 m_computedPattern.fill(m_bgColor);
+                int sizeP = getOption(VisualItem::GridSize).toInt();
                 QPointF A(0,0);
-                QPointF B(0,m_sizePattern-1);
-                QPointF C(m_sizePattern-1,m_sizePattern-1);
-                QPointF D(m_sizePattern-1,0);
+                QPointF B(0,sizeP-1);
+                QPointF C(sizeP-1,sizeP-1);
+                QPointF D(sizeP-1,0);
                 polygon << A << B << C << D << A;
             }
             QPainter painter(&m_computedPattern);
             //painter.setRenderHint(QPainter::Antialiasing,true);
             //painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
             QPen pen;
-            pen.setColor(m_gridColor);
+            pen.setColor(getOption(VisualItem::GridColor).value<QColor>());
             pen.setWidth(1);
             painter.setPen(pen);
             painter.drawPolyline(polygon);
@@ -691,7 +653,7 @@ void VMap::computePattern()
 
 }
 
-void VMap::setScaleUnit(int p)
+/*void VMap::setScaleUnit(int p)
 {
     switch(p)
     {
@@ -711,7 +673,7 @@ void VMap::setScaleUnit(int p)
     }
     
     
-}
+}*/
 void VMap::processAddItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
@@ -1124,6 +1086,7 @@ void VMap::setOption(VisualItem::Properties pop,QVariant value)
     if(NULL!=m_propertiesHash)
     {
         m_propertiesHash->insert(pop,value);
+        computePattern();
         update();
     }
 }

@@ -24,14 +24,11 @@
 #include <QColor>
 #include "vtoolbar.h"
 #include "map/map.h"
-
 #include "data/person.h"
-
 #include "vmap/items/visualitem.h"
 #include "vmap/items/sightitem.h"
 
 class CharacterItem;
-
 /**
     * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...
     * It is using the QGraphicsScene from Qt.
@@ -40,7 +37,6 @@ class VMap : public QGraphicsScene
 {
     Q_OBJECT
 public:
-
     enum GRID_PATTERN{NONE,SQUARE,HEXAGON,OCTOGON};
     enum SCALE_UNIT{M,KM,CM,MILE,YARD,INCH,FEET,PX};
     enum VisibilityMode {HIDDEN,CHARACTER,ALL};
@@ -56,7 +52,6 @@ public:
     * @param bgcolor is the backgound color of the map (commonly white).
     */
     VMap(int width,int height,QString& title,QColor& m_bgColor,QObject * parent = 0);
-    
     /**
     * @brief defines the width
     */
@@ -113,7 +108,6 @@ public:
      * @return
      */
     QString getId() const;
-    //network management
     /**
      * @brief processAddItemMessage
      * @param msg
@@ -175,31 +169,6 @@ public:
 	 */
 	QString getVisibilityModeText();
 	/**
-	 * @brief getGrid
-	 * @return
-	 */
-    VMap::GRID_PATTERN getGrid() const;
-	/**
-	 * @brief getPatternSize
-	 * @return
-	 */
-    int getPatternSize()const;
-	/**
-	 * @brief getGridColor
-	 * @return
-	 */
-    QColor getGridColor()const;
-	/**
-	 * @brief getScaleValue
-	 * @return
-	 */
-    int getScaleValue()const;
-	/**
-	 * @brief getPatternUnit
-	 * @return
-	 */
-    int getPatternUnit()const;
-	/**
 	 * @brief getBackGroundColor
 	 * @return
 	 */
@@ -241,7 +210,6 @@ public:
      * @return
      */
     QVariant getOption(VisualItem::Properties pop);
-
 public slots:
     /**
     * @brief defines the current tools
@@ -257,15 +225,6 @@ public slots:
     * @brief defines the pen size (sent off by toolbar).
     */
     void setPenSize(int);
-    
-    /**
-     * @brief setPatternSize
-     */
-    void setPatternSize(int);
-    /**
-     * @brief setPattern
-     */
-    void setPattern(VMap::GRID_PATTERN);
     /**
      * @brief setCurrentNpcName
      * @param text
@@ -276,13 +235,8 @@ public slots:
      * @param number
      */
     void setCurrentNpcNumber(int number);
-    //void
-    void setScale(int);
-    void setScaleUnit(int);
     void setId(QString id);
     void removeItemFromScene(QString);
-
-    void setPatternColor(QColor);
     /**
      * @brief VMap::computePattern
      */
@@ -308,7 +262,6 @@ public slots:
      * @return
      */
     QList<CharacterItem*> getCharacterOnMap(QString id);
-
     /**
      * @brief getFogItem
      * @return
@@ -323,7 +276,6 @@ signals:
 	 * @brief mapChanged is emitted after some changes on map has been made.
 	 */
 	void mapChanged();
-
 private slots:
     /**
      * @brief sendItemToAll
@@ -357,7 +309,6 @@ private slots:
      * @param op operation to be done.
      */
     void changeStackOrder(VisualItem* item,VisualItem::StackOrder op);
-    
 protected:
     /**
     * @brief catches move event with the mouse, useful for allowing move of item
@@ -376,23 +327,15 @@ protected:
      * @param event
      */
     virtual void keyPressEvent(QKeyEvent* event);
-    
     /**
     * @brief adds item depending of the current tool.
     */
     void addItem();
     /**
-     * @brief generateBackground
-     */
-    void generateBackground();
-
-    /**
      * @brief addNewItem
      * @param item
      */
     void addNewItem(VisualItem* item);
-
-
     /**
      * @brief dragEnterEvent
      * @param event
@@ -412,7 +355,6 @@ protected:
      * @brief initMap
      */
     void initMap();
-
 private:
     /**
     * @brief width of the map
@@ -466,32 +408,14 @@ private:
      * @brief m_orderedItemList is used to store zorder of all items.
      */
     QList<VisualItem*> m_orderedItemList;
-
     /**
     * @brief Items list which are part of the map.
     */
     QMap<QString,VisualItem*>* m_characterItemMap;
-
-    /**
-    * @brief Pattern Of grid, pattern must be square shaped.
-    */
-    VMap::GRID_PATTERN m_gridPattern;
     /**
      * @brief m_computedPattern
      */
     QImage m_computedPattern;
-    /**
-    * @brief size of the pattern edge.
-    */
-    int m_sizePattern;
-    /**
-     * @brief m_patternScale
-     */
-    int m_patternScale;
-    /**
-    * @brief unit of Pattern scale.
-    */
-    SCALE_UNIT m_patternUnit;
     /**
      * @brief m_nameNPC
      */
@@ -521,11 +445,6 @@ private:
      */
     VMap::VisibilityMode m_currentVisibityMode;
     /**
-     * @brief m_gridColor
-     */
-    QColor m_gridColor;
-
-    /**
      * @brief m_currentLayer
      */
     VisualItem::Layer m_currentLayer;
@@ -536,11 +455,7 @@ private:
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
 
-
     friend QDataStream& operator<<(QDataStream& os,const VMap&);
     friend QDataStream& operator>>(QDataStream& is,VMap&);
-
-
 };
-
 #endif // VMAP_H
