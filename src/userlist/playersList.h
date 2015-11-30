@@ -77,7 +77,7 @@ public:
     Player* getPlayer(int index) const;
     Person* getPerson(const QString & uuid) const;
     Player* getPlayer(const QString & uuid) const;
-    Character * getCharacter(const QString & uuid) const;
+    Character* getCharacter(const QString & uuid) const;
     Player* getLocalPlayer() const;
     /**
      * @brief Same as getPlayer(uuid), if getPerson(uuid) is a Player.
