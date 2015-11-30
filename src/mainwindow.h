@@ -116,7 +116,7 @@ public :
      * @param idCarte
      * @return
      */
-    Map *findMapById(QString idCarte);
+    Map* findMapById(QString idCarte);
     /**
      * @brief removeMapFromId
      * @param idCarte
@@ -130,20 +130,11 @@ public :
      * @return
      */
     void removePictureFromId(QString idImage);
-
-    /**
-     * @brief enleverImageDeLaListe
-     * @param idImage
-     * @return
-     */
-    //bool enleverImageDeLaListe(QString idImage);
-
     /**
      * @brief registerSubWindow
      * @param subWindow
      */
     QWidget* registerSubWindow(QWidget * subWindow, QAction* action);
-
     /**
      * @brief setupUi
      */
@@ -162,8 +153,6 @@ public :
      * @brief writeSettings
      */
     void writeSettings();
-
-
     /**
      * @brief setUpNetworkConnection
      */
@@ -199,8 +188,6 @@ public :
      * @param mediac
      */
     void addMediaToMdiArea(MediaContainer* mediac );
-
-
 signals:
     /**
      * @brief closing
@@ -269,7 +256,7 @@ protected :
     void dragEnterEvent(QDragEnterEvent* ev);
 
 private slots :
-    void changementNatureUtilisateur();
+    void userNatureChange();
     void changementFenetreActive(QMdiSubWindow* widget);
     void newMap();
     void newVectorialMap();

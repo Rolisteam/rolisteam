@@ -86,7 +86,6 @@ MainWindow::MainWindow()
     m_supportedNotes=tr("Supported Text files (*.html *.txt)");
     m_supportedMap=tr("Supported Map files (*.pla )");
 
-
     m_ui->setupUi(this);
     m_shownProgress=false;
 
@@ -102,16 +101,10 @@ MainWindow::MainWindow()
     m_vmapToolBar = new VmapToolBar();
     addToolBar(Qt::TopToolBarArea,m_vmapToolBar);
 
-
-
     connect(m_networkManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
     m_ipChecker = new IpChecker(this);
     m_mapAction = new QMap<MediaContainer*,QAction*>();
-
-
-
 }
-
 MainWindow::~MainWindow()
 {
     delete m_dockLogUtil;
@@ -131,10 +124,6 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
     setLatestFile(mediac->getCleverUri());
 
     m_mdiArea->addContainerMedia(mediac);
-
-
-
-
     m_mapAction->insert(mediac,action);
     mediac->setVisible(true);
     mediac->setFocus();
@@ -163,7 +152,6 @@ void MainWindow::closeAllImagesAndMaps()
             }
         }
     }
-
     foreach(MapFrame* tmp,m_mapWindowMap)
     {
         if(NULL!=tmp)
@@ -175,7 +163,6 @@ void MainWindow::closeAllImagesAndMaps()
 
 void MainWindow::closeMapOrImage()
 {
-
     QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
     QWidget* active = subactive;
     MapFrame* bipMapWindow = NULL;
@@ -221,7 +208,6 @@ void MainWindow::closeMapOrImage()
         msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
         Qt::WindowFlags flags = msgBox.windowFlags();
         msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
-
 
         if (!image)
         {
@@ -324,15 +310,12 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 
 }
-
-void MainWindow::changementNatureUtilisateur()
+void MainWindow::userNatureChange()
 {
     m_toolBar->updateUi();
     updateUi();
     updateWindowTitle();
 }
-
-
 void MainWindow::displayMinutesEditor(bool visible, bool isCheck)
 {
 
@@ -883,12 +866,14 @@ void MainWindow::stopReconnection()
 
 void MainWindow::startReconnection()
 {
-    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
+    if(!m_currentConnectionProfile->isServer())
     {
         closeAllImagesAndMaps();
     }
     if(m_networkManager->startConnection())
     {
+        m_playerList->sendOffLocalPlayerInformations();
+        m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
     }
@@ -905,9 +890,9 @@ void MainWindow::showIp(QString ip)
 void MainWindow::setUpNetworkConnection()
 {
 
-    if((m_currentConnectionProfile!=NULL)&& (!m_currentConnectionProfile->isServer()))
+    if((m_currentConnectionProfile!=NULL)&&(!m_currentConnectionProfile->isServer()))
     {
-        connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(changementNatureUtilisateur()));
+        connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(userNatureChange()));
         connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
     }
     else
@@ -1256,13 +1241,16 @@ bool  MainWindow::showConnectionDialog()
             dialog.writeSettings(settings);
             m_currentConnectionProfile = dialog.getSelectedProfile();
             m_networkManager->setConnectionProfile(m_currentConnectionProfile);
-            bool result = m_networkManager->startConnection();
             m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
+            if(!m_currentConnectionProfile->isGM())
+            {
+                m_playerList->addLocalCharacter(m_currentConnectionProfile->getCharacter());
+            }
+
+
+            bool result = m_networkManager->startConnection();
             m_playerList->sendOffLocalPlayerInformations();
             m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
-
-            m_playerList->addLocalCharacter(m_currentConnectionProfile->getCharacter());
-
             m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
             m_networkManager->setConnectionState(result);
             m_chatListWidget->addPublicChat();
