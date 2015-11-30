@@ -120,13 +120,13 @@ void MapWizzardDialog::selectedShapeChanged()
 }
 void MapWizzardDialog::updateDataFrom(VMap* map)
 {
-    ui->m_gridPattern->setCurrentIndex(map->getGrid());
-    ui->m_sizeGrid->setValue(map->getPatternSize());
-    ui->m_gridColorBtn->setColor(map->getGridColor());
+    ui->m_gridPattern->setCurrentIndex(map->getOption(VisualItem::GridPattern).toInt());
+    ui->m_sizeGrid->setValue(map->getOption(VisualItem::GridSize).toInt());
+    ui->m_gridColorBtn->setColor(map->getOption(VisualItem::GridColor).value<QColor>());
     ui->m_permissionComboBox->setCurrentIndex(map->getPermissionMode());
     ui->m_visibilityComboBox->setCurrentIndex(map->getVisibilityMode());
-    ui->m_scaleOfGrid->setValue(map->getPatternSize());
-    ui->m_unitPattern->setCurrentIndex(map->getPatternUnit());
+    ui->m_scaleOfGrid->setValue(map->getOption(VisualItem::GridSize).toInt());
+    ui->m_unitPattern->setCurrentIndex(map->getOption(VisualItem::Unit).toInt());
     ui->m_colorButton->setColor(map->getBackGroundColor());
 
     selectedShapeChanged();
@@ -153,9 +153,12 @@ void MapWizzardDialog::setAllMap(VMap* map)
         grid = VMap::NONE;
         break;
     }
-    map->setPattern(grid);
-    map->setPatternSize(ui->m_sizeGrid->value());
-    map->setPatternColor(ui->m_gridColorBtn->color());
+    map->setOption(VisualItem::GridPattern,grid);
+    map->setOption(VisualItem::GridColor,ui->m_gridColorBtn->color());
+    map->setOption(VisualItem::GridSize,ui->m_sizeGrid->value());
+
+    /*map->setPatternSize(ui->m_sizeGrid->value());
+    map->setPatternColor(ui->m_gridColorBtn->color());*/
 
     Map::PermissionMode result;
     switch (ui->m_permissionComboBox->currentIndex())
@@ -192,13 +195,14 @@ void MapWizzardDialog::setAllMap(VMap* map)
     }
 
     map->setVisibilityMode(resultVisibility);
-    map->setPatternSize(ui->m_sizeGrid->value());
+    map->setOption(VisualItem::GridSize,ui->m_sizeGrid->value());
 
     map->setWidth(800);
     map->setHeight(600);
 
-    map->setScale(ui->m_scaleOfGrid->value());
-    map->setScaleUnit(ui->m_unitPattern->currentIndex());
+    map->setOption(VisualItem::Scale,ui->m_scaleOfGrid->value());
+    map->setOption(VisualItem::Unit,ui->m_unitPattern->currentIndex());
+
     //map->setBackGroundColor(m_bgColor);
     map->setBackGroundColor(ui->m_colorButton->color());
     map->computePattern();
