@@ -106,7 +106,7 @@ int VMap::mapHeight() const
 {
     return m_height;
 }
-const QString& VMap::mapTitle() const
+const QString& VMap::getMapTitle() const
 {
     return m_title;
 }
@@ -245,7 +245,7 @@ void VMap::setPatternColor(QColor c)
 }
 void VMap::fill(NetworkMessageWriter& msg)
 {
-    msg.string16(mapTitle());
+    msg.string16(getMapTitle());
     msg.string8(getId());
     msg.rgb(mapColor());
     msg.uint16(mapWidth());
@@ -634,10 +634,6 @@ int VMap::getPatternUnit()const
 int VMap::getScaleValue()const
 {
     return m_patternScale;
-}
-QString VMap::getTitle() const
-{
-    return m_title;
 }
 void VMap::computePattern()
 {

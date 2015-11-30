@@ -129,18 +129,8 @@ void MapWizzardDialog::updateDataFrom(VMap* map)
     ui->m_unitPattern->setCurrentIndex(map->getPatternUnit());
     ui->m_colorButton->setColor(map->getBackGroundColor());
 
-    /*int mapW = map->width();
-    int mapH = map->height();
-    QSize mapSize(mapW,mapH);*/
-
-
-
-
     selectedShapeChanged();
-
-
-    ui->m_titleLineedit->setText(map->getTitle());
-
+    ui->m_titleLineedit->setText(map->getMapTitle());
 }
 void MapWizzardDialog::setAllMap(VMap* map)
 {

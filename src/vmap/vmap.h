@@ -89,7 +89,7 @@ public:
     /**
     * @brief accessor to the title
     */
-    const QString& mapTitle() const;
+    const QString& getMapTitle() const;
     /**
     * @brief accessor to the background color
     */
@@ -113,12 +113,6 @@ public:
      * @return
      */
     QString getId() const;
-    /**
-     * @brief getNpcSize
-     * @return
-     */
-    int getNpcSize() const;
-
     //network management
     /**
      * @brief processAddItemMessage
@@ -210,11 +204,6 @@ public:
 	 * @return
 	 */
     QColor getBackGroundColor()const;
-	/**
-	 * @brief getTitle
-	 * @return
-	 */
-    QString getTitle() const;
 	/**
 	 * @brief editLayer
 	 * @param layer
