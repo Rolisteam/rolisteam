@@ -52,7 +52,7 @@ public:
     /**
      * @brief The Properties enum
      */
-    enum Properties {ShowNpcName,ShowPcName,ShowNpcNumber,ShowHealtStatus,ShowGrid,LocalIsGM};
+    enum Properties {ShowNpcName,ShowPcName,ShowNpcNumber,ShowHealtStatus,ShowGrid,LocalIsGM,GridPattern,GridColor,GridSize,Scale,Unit};
 	/**
 	 * @brief VisualItem default constructor
 	 */
@@ -209,7 +209,11 @@ public:
      * @param hash
      */
     void setPropertiesHash(QHash<VisualItem::Properties,QVariant>* hash);
-
+    /**
+     * @brief getOption
+     * @param pop
+     * @return
+     */
     QVariant getOption(VisualItem::Properties pop) const;
 
 signals:
@@ -296,10 +300,6 @@ protected:
 	 * @brief createActions
 	 */
     virtual void createActions();
-
-
-
-
 
 protected:
     QVector<ChildPointItem*>* m_child;
