@@ -85,8 +85,8 @@ NetworkLink::~NetworkLink()
 }
 void NetworkLink::makeSignalConnection()
 {
-    connect(m_socketTcp, SIGNAL(readyRead()),this, SLOT(reception()));
-    connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(erreurDeConnexion(QAbstractSocket::SocketError)));
+    connect(m_socketTcp, SIGNAL(readyRead()),this, SLOT(receivingData()));
+    connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(connectionError(QAbstractSocket::SocketError)));
     connect(m_socketTcp, SIGNAL(disconnected()), this, SLOT(p_disconnect()));
 }
 

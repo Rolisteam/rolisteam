@@ -266,7 +266,7 @@ void NetworkManager::ajouterNetworkLink(NetworkLink* networkLink)
     if((NULL!=networkLink)&&(!NetworkLinks.contains(networkLink)))
     {
         NetworkLinks.append(networkLink);
-        connect(this, SIGNAL(sendData(char *, quint32, NetworkLink *)),networkLink, SLOT(emissionDonnees(char *, quint32, NetworkLink *)));
+        connect(this, SIGNAL(sendData(char *, quint32, NetworkLink *)),networkLink, SLOT(sendData(char *, quint32, NetworkLink *)));
         connect(networkLink, SIGNAL(disconnected(NetworkLink *)),this, SLOT(endingNetworkLink(NetworkLink *)));
         connect(networkLink,SIGNAL(readDataReceived(quint64,quint64)),this,SIGNAL(dataReceived(quint64,quint64)));
         emit linkAdded(networkLink);
