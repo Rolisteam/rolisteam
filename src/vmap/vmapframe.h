@@ -67,7 +67,7 @@ public :
     /**
     * @brief accessor to get the map.
     */
-    VMap *map();
+    VMap* getMap();
     /**
     * @brief accessor for the map Id
     */
@@ -142,7 +142,10 @@ public :
 	 * @brief saveMedia
 	 */
     void saveMedia();
-
+    /**
+     * @brief processGeometryViewChange
+     * @param msg
+     */
     void processGeometryViewChange(NetworkMessageReader* msg);
 public slots :
 	/**
@@ -185,6 +188,10 @@ public slots :
     virtual void setCurrentNpcNumberChanged(int);
     
 signals:
+    /**
+     * @brief defineCurrentTool
+     * @param tool
+     */
     void defineCurrentTool(VToolsBar::SelectableTool tool);
 protected :
     /**

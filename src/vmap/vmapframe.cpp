@@ -85,7 +85,7 @@ void VMapFrame::updateTitle()
                    .arg(m_vmap->getCurrentLayer()));
 }
 
-VMap* VMapFrame::map()
+VMap* VMapFrame::getMap()
 {
     return m_vmap;
 }
