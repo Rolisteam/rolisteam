@@ -51,6 +51,13 @@ Player::Player(NetworkMessageReader & data, NetworkLink * link)
     m_color = QColor(data.rgb());
     m_gameMaster  = (data.uint8() != 0);
     m_softVersion = data.string16();
+    int childCount = data.int32();
+    for(int i = 0; i < childCount;++i)
+    {
+        Character* child = new Character(data);
+        m_characters.append(child);
+        data.uint8();
+    }
 }
 
 Player::~Player()
@@ -71,6 +78,13 @@ void Player::fill(NetworkMessageWriter & message)
     message.rgb(m_color);
     message.uint8(m_gameMaster ? 1 : 0);
     message.string16(qApp->applicationVersion());
+    message.int32(m_characters.size());
+
+    foreach(Character* item,m_characters)
+    {
+        item->fill(message);
+        message.uint8(1); // add it to the map
+    }
 }
 
 NetworkLink * Player::link() const
