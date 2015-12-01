@@ -1,4 +1,5 @@
 /*************************************************************************
+ *   Copyright (C) 2015 by Renaud Guezennec                              *
  *   Copyright (C) 2011 by Joseph Boudou                                 *
  *                                                                       *
  *   http://www.rolisteam.org/                                           *
