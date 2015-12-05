@@ -89,14 +89,23 @@ public:
      */
     void setEditableItem(bool b);
 
+    /**
+     * @brief setPointID
+     */
     void setPointID(qreal);
     /**
      * @brief getPointID
      * @return
      */
     qreal getPointID() const;
-
+    /**
+     * @brief isVisionHandler
+     * @return
+     */
     bool isVisionHandler();
+    /**
+     * @brief setVisionHandler
+     */
     void setVisionHandler(bool);
 
 protected:
