@@ -25,64 +25,67 @@
 //#include "vmap/items/characteritem.h"
 
 /**
-         * @brief The Vision class
-         */
+ * @brief The Vision class
+ */
 class CharacterVision : public QObject
 {
     Q_OBJECT
 public:
     enum SHAPE {DISK,ANGLE};
     /**
-             * @brief Vision
-             */
+     * @brief Vision
+     */
     CharacterVision(QObject* parent = NULL);
-    ~CharacterVision();
     /**
-             * @brief setAngle
-             */
+     * @brief ~CharacterVision
+     */
+    virtual ~CharacterVision();
+    /**
+     * @brief setAngle
+     */
     void setAngle(qreal);
     /**
-             * @brief setRadius
-             */
+     * @brief setRadius
+     */
     void setRadius(qreal);
     /**
-             * @brief setPosition
-             * @param p
-             */
+     * @brief setPosition
+     * @param p
+     */
     void setPosition(QPointF& p);
     /**
-             * @brief setShape
-             * @param s
-             */
+     * @brief setShape
+     * @param s
+     */
     void setShape(CharacterVision::SHAPE s);
     /**
-             * @brief getAngle
-             * @return
-             */
+     * @brief getAngle
+     * @return
+     */
     qreal getAngle();
     /**
-             * @brief getRadius
-             * @return
-             */
+     * @brief getRadius
+     * @return
+     */
     qreal getRadius();
     /**
-             * @brief getPos
-             * @return
-             */
+     * @brief getPos
+     * @return
+     */
     const QPointF getPos();
     /**
-             * @brief getShape
-             * @return
-             */
+     * @brief getShape
+     * @return
+     */
     CharacterVision::SHAPE getShape();
     /**
-             * @brief setCornerPoint
-             */
+     * @brief setCornerPoint
+     */
     void setCornerPoint(ChildPointItem*);
     /**
-             * @brief getCornerPoint
-             * @return
-             */
+     * @brief getCornerPoint
+     * @return
+     */
     ChildPointItem* getCornerPoint();
 
     /**
@@ -107,12 +110,12 @@ public:
 
 public slots:
     /**
-             * @brief updatePosition
-             */
+     * @brief updatePosition
+     */
     void updatePosition();
     /**
-             * @brief showCorner
-             */
+     * @brief showCorner
+     */
     void showCorner(bool);
 
 private:
