@@ -33,4 +33,5 @@ We also use this mailing to speak technical issues or roadmap.
 https://lists.fdn.fr/wws/info/rolisteam
  
 
-Facebook :
+# Facebook :
+https://www.facebook.com/rolisteam?_rdr=p
