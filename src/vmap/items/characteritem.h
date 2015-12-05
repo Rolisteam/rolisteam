@@ -169,7 +169,7 @@ public:
      * @brief getVision
      * @return
      */
-    CharacterVision* getVision()const;
+    CharacterVision* getVision() const;
     /**
      * @brief getRadiusChildWidget
      */
