@@ -26,6 +26,7 @@
 #include <QRadialGradient>
 #include "visualitem.h"
 #include "characteritem.h"
+#include "data/charactervision.h"
 
 /**
  * @brief The SightItem class
