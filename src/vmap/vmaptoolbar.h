@@ -65,6 +65,11 @@ public slots:
      * @brief setBackgroundColor
      */
     void setBackgroundColor(QColor);
+    void visibilityHasChanged(int);
+    void permissionHasChanged(int index);
+    void patternChanged(int);
+    void setPatternSize(int);
+    void managedAction();
 
 private:
     /**
@@ -82,9 +87,12 @@ private:
     QAction* m_Act;
 
     QComboBox* m_gridPattern;
+    QComboBox* m_gridUnit;
     QComboBox* m_currentLayer;
     QComboBox* m_currentPermission;
-
+    QComboBox* m_currentVisibility;
+    QSpinBox* m_gridSize;
+    QCheckBox* m_showCharacterVision;
 };
 
 #endif // VMAPTOOLBAR_H
