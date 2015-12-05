@@ -158,7 +158,7 @@ void  SightItem::updateChildPosition()
 void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->setPen(Qt::NoPen);
-    if(m_isGM)
+    if(getOption(VisualItem::LocalIsGM).toBool())
     {
         painter->setBrush(QColor(0,0,0,125));
     }
@@ -168,7 +168,6 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
     }
 
     QRectF rect = boundingRect();
-    qDebug() << rect;
 
     QPainterPath path;
     path.addRect(rect);
@@ -181,55 +180,54 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
         path = path.subtracted(subPoly);
     }
 
-    foreach(VisualItem* item , m_characterItemMap->values())
+    if(getOption(VisualItem::EnableCharacterVision).toBool())
     {
-        CharacterItem* charact = dynamic_cast<CharacterItem*>(item);
-        if(NULL!=charact)
+        foreach(VisualItem* item , m_characterItemMap->values())
         {
-            CharacterVision* vision = charact->getVision();
-
-            QPainterPath subArea;
-
-            switch(vision->getShape())
+            CharacterItem* charact = dynamic_cast<CharacterItem*>(item);
+            if(NULL!=charact)
             {
-            case CharacterVision::DISK:
-            {
-                int itemRadius = charact->getRadius();
-                subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
-                subArea.addEllipse(charact->pos()+QPointF(itemRadius,itemRadius),vision->getRadius()+itemRadius,vision->getRadius()+itemRadius);
-                //subArea.addEllipse(vision->getCharacterItem()->boundingRect());
-                break;
+                CharacterVision* vision = charact->getVision();
+
+                QPainterPath subArea;
+
+                switch(vision->getShape())
+                {
+                case CharacterVision::DISK:
+                {
+                    int itemRadius = charact->getRadius();
+                    subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
+                    subArea.addEllipse(charact->pos()+QPointF(itemRadius,itemRadius),vision->getRadius()+itemRadius,vision->getRadius()+itemRadius);
+                    //subArea.addEllipse(vision->getCharacterItem()->boundingRect());
+                    break;
+                }
+                case CharacterVision::ANGLE:
+                {
+                    int itemRadius = charact->getRadius();
+                    QPointF center= charact->pos()+QPointF(itemRadius,itemRadius);
+                    subArea.moveTo(center);
+                    subArea.setFillRule(Qt::WindingFill);
+
+                    QRectF rectArc;
+                    rectArc.setCoords(center.x()-vision->getRadius(),center.y()-vision->getRadius(),center.x()+vision->getRadius(),center.y()+vision->getRadius());
+
+                    qreal rot = charact->rotation();
+
+                    subArea.arcTo(rectArc,-vision->getAngle()/2-rot,vision->getAngle());
+
+                    painter->setPen(QColor(255,0,0));
+
+                }
+                    break;
+                }
+                path.moveTo(charact->pos());
+                path = path.subtracted(subArea);
             }
-            case CharacterVision::ANGLE:
-            {
-				int itemRadius = charact->getRadius();
-				QPointF center= charact->pos()+QPointF(itemRadius,itemRadius);
-				subArea.moveTo(center);
-                subArea.setFillRule(Qt::WindingFill);
-
-                QRectF rectArc;
-                rectArc.setCoords(center.x()-vision->getRadius(),center.y()-vision->getRadius(),center.x()+vision->getRadius(),center.y()+vision->getRadius());
-
-                qreal rot = charact->rotation();
-
-                subArea.arcTo(rectArc,-vision->getAngle()/2-rot,vision->getAngle());
-
-				painter->setPen(QColor(255,0,0));
-
-               /* QRectF rect;
-                rect.setCoords(E.x()-10,E.y()-10,E.x()+10,E.y()+10);
-                painter->drawRect(rect);*/
-
-            }
-                break;
-            }
-            path.moveTo(charact->pos());
-            path = path.subtracted(subArea);
         }
+
+
     }
-
-
-	painter->drawPath(path);
+    painter->drawPath(path);
 }
 void SightItem::insertVision(CharacterItem* item)
 {
