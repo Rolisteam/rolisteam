@@ -231,6 +231,8 @@ private:
 
 
     QPointF m_oldPosition;
+    QPainterPath m_debugPath;
+    QPainterPath m_debugPath2;
 };
 
 #endif // CHARACTERITEM_H

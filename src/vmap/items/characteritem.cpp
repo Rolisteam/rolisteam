@@ -135,11 +135,16 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
         painter->drawEllipse(m_rect);
 	}
 
+
+
 	QPen pen = painter->pen();
 	pen.setWidth(6);
-    if(( NULL!= m_character )&&(NULL!=m_character->getState())&&getOption(VisualItem::ShowHealtStatus).toBool())
+    if(( NULL!= m_character )&&(NULL!=m_character->getState()))
 	{
-		toShow += QString(" %1").arg(m_character->getState()->getLabel());
+        if(getOption(VisualItem::ShowHealtStatus).toBool())
+        {
+            toShow += QString(" %1").arg(m_character->getState()->getLabel());
+        }
 		if(!m_character->getState()->getImage().isNull())
 		{
 			painter->drawPixmap(m_rect,m_character->getState()->getImage(),m_character->getState()->getImage().rect());
@@ -167,6 +172,9 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 		painter->drawText(rectText,Qt::AlignCenter,toShow);
 	}
 
+    painter->drawPath(m_debugPath);
+    /*painter->drawPath(mapFromScene(m_debugPath2));
+    painter->drawPath(m_debugPath2);*/
 
 
 }
@@ -312,30 +320,20 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &va
 
         list.clear();
         QPainterPath path;
-        path.moveTo(m_oldPosition);
-        path.lineTo(value.toPointF());
+        path.addPath(mapToScene(shape()));
+        path.connectPath(mapToScene(shape().translated(value.toPointF()-pos())));
+
         QGraphicsScene* currentScene = scene();
         list.append(currentScene->items(path));
 
-        qDebug() << list;
-        int i = 0;
         foreach(QGraphicsItem* item,list)
         {
-            ++i;
             VisualItem* vItem = dynamic_cast<VisualItem*>(item);
             if(NULL!=vItem)
             {
                 if(vItem->getLayer()==VisualItem::OBJECT)
                 {
-                    qDebug() << "I="<<i;
-                   //setPos(m_oldPosition);
                    newValue = m_oldPosition;
-                   QList<QGraphicsView*> views = currentScene->views();
-                   if(!views.isEmpty())
-                   {
-                       QGraphicsView* cView = views.first();
-                       QCursor::setPos(cView->mapToGlobal(cView->mapFromScene(m_oldPosition)));
-                   }
                 }
             }
         }
