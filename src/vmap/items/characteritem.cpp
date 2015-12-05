@@ -24,6 +24,7 @@
 #include <QDebug>
 #include <QMenu>
 #include <QGraphicsScene>
+#include <QGraphicsView>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -303,40 +304,47 @@ QString CharacterItem::getCharacterId() const
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
 
+    QVariant newValue = value;
     if(change == QGraphicsItem::ItemPositionChange)
     {
-         m_oldPosition = pos();
-    }
-    else if(change == QGraphicsItem::ItemPositionHasChanged)
-    {
+        m_oldPosition = pos();
         QList<QGraphicsItem*> list = collidingItems();
 
+        list.clear();
         QPainterPath path;
         path.moveTo(m_oldPosition);
         path.lineTo(value.toPointF());
         QGraphicsScene* currentScene = scene();
         list.append(currentScene->items(path));
 
+        qDebug() << list;
+        int i = 0;
         foreach(QGraphicsItem* item,list)
         {
+            ++i;
             VisualItem* vItem = dynamic_cast<VisualItem*>(item);
             if(NULL!=vItem)
             {
                 if(vItem->getLayer()==VisualItem::OBJECT)
                 {
-                   setPos(m_oldPosition);
+                    qDebug() << "I="<<i;
+                   //setPos(m_oldPosition);
+                   newValue = m_oldPosition;
+                   QList<QGraphicsView*> views = currentScene->views();
+                   if(!views.isEmpty())
+                   {
+                       QGraphicsView* cView = views.first();
+                       QCursor::setPos(cView->mapToGlobal(cView->mapFromScene(m_oldPosition)));
+                   }
                 }
             }
         }
-
-
-
-
-
-
-        emit positionChanged();
+        if(newValue!=m_oldPosition)
+        {
+            emit positionChanged();
+        }
     }
-    return QGraphicsItem::itemChange(change, value);
+    return QGraphicsItem::itemChange(change, newValue);
 }
 int CharacterItem::getChildPointCount() const
 {
