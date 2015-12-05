@@ -142,7 +142,10 @@ public slots:
      * @brief editionGetFocus
      */
     void editionGetFocus();
-
+    /**
+     * @brief detachView
+     * @param b
+     */
     void detachView(bool b);
 protected :
     /**
