@@ -367,7 +367,11 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         rect.setBottomLeft(pos);
         break;
     case 4:
-        m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
+        if(pos.x()-(m_rect.width()/2)<0)
+        {
+            pos.setX(m_rect.width()/2);
+        }
+        m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width()+m_rect.width()/2);
         break;
     default:
        // emit geometryChangeOnUnkownChild(pointId,pos);
@@ -391,7 +395,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
-        m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
+        //m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width()+m_rect.width()/2);
         break;
     case 1:
         pos = m_rect.topRight();
@@ -399,7 +403,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
-        m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
+        //m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
     case 2:
         pos = m_rect.bottomRight();
@@ -407,7 +411,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
-        m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
+        //m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
     case 3:
         pos = m_rect.bottomLeft();
@@ -415,7 +419,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
-        m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
+       // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
     case 4:
         break;
