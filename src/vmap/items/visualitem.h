@@ -52,7 +52,7 @@ public:
     /**
      * @brief The Properties enum
      */
-    enum Properties {ShowNpcName,ShowPcName,ShowNpcNumber,ShowHealtStatus,ShowGrid,LocalIsGM,GridPattern,GridColor,GridSize,Scale,Unit};
+    enum Properties {ShowNpcName,ShowPcName,ShowNpcNumber,ShowHealtStatus,ShowGrid,LocalIsGM,GridPattern,GridColor,GridSize,Scale,Unit,EnableCharacterVision};
 	/**
 	 * @brief VisualItem default constructor
 	 */
