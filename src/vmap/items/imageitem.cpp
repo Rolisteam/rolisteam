@@ -210,8 +210,13 @@ QString ImageItem::getImageUri()
 void ImageItem::loadImage()
 {
 	m_image.load(m_imagePath);
+    if(m_image.isNull())
+        return;
 	m_rect = m_image.rect();
-    m_ratio = m_image.height()/m_image.width();
+    if(m_image.width()!=0)
+    {
+        m_ratio = m_image.height()/m_image.width();
+    }
 }
 void ImageItem::setModifiers(Qt::KeyboardModifiers modifiers)
 {
