@@ -78,6 +78,7 @@ ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
     m_operatorMap->insert("/",COMMAND);
     m_operatorMap->insert("!",DICEROLL);
     m_operatorMap->insert("&",SECRET_DICEROLL);
+    m_operatorMap->insert("#",TO_GM_DICEROLL);
 
 }
 QMdiSubWindow* ChatWindow::getSubWindow()
@@ -190,7 +191,7 @@ bool ChatWindow::isVisible()
 {
     return (m_window->isVisible() & QWidget::isVisible());
 }
-void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& message)
+void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& message,bool showResult)
 {
     updateListAlias();
 
@@ -210,27 +211,27 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
             if(!onlyValue)
             {
                 QString diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%2 (%3)]","mine dice roll").arg(value).arg(cmdLine).arg(list);
-                showMessage(messageTitle, color, diceOutput,NetMsg::DiceMessageAction);
+                if(showResult)
+		{
+			showMessage(messageTitle, color, diceOutput,NetMsg::DiceMessageAction);
+		}
                 QString diceOutput2 = tr("got <span class=\"dice\">%1</span> [%2 (%3)]","third person roll").arg(value).arg(cmdLine).arg(list);
                 message = diceOutput2;
             }
             else
             {
                 messageTitle="";
-                showMessage(messageTitle, color,value,NetMsg::DiceMessageAction);
-                message = value;
+		if(!showResult)
+		{
+                	showMessage(messageTitle, color,value,NetMsg::DiceMessageAction);
+                }
+		message = value;
             }
 
         }
-        else
-        {
-            QString messageCorps = m_diceParser->humanReadableError();
-            messageTitle = tr("Syntax");
-            color = Qt::red;
-            showMessage(messageTitle, color, messageCorps);
-        }
     }
-    else
+    
+    if(!m_diceParser->getErrorMap().isEmpty())
     {
         QString messageCorps = m_diceParser->humanReadableError();
         messageTitle = tr("Syntax");
@@ -265,6 +266,8 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
         case SECRET_DICEROLL:
             manageDiceRoll(tmpmessage,messageTitle,message);
             return;
+        case TO_GM_DICEROLL:
+            manageDiceRoll(tmpmessage,messageTitle,message,false);
             break;
         case COMMAND:
         {
