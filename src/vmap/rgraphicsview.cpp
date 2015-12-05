@@ -253,13 +253,9 @@ void RGraphicsView::createAction()
     addAction(m_zoomInMax);
     addAction(m_zoomOutMax);
 
-
-
     //PROPERTIES
     m_properties = new QAction(tr("Properties"),this);
     connect(m_properties,SIGNAL(triggered()),this,SLOT(showMapProperties()));
-
-
 
     //Layers
     QActionGroup* group = new QActionGroup(this);
@@ -277,8 +273,6 @@ void RGraphicsView::createAction()
     group->addAction(m_editObjectLayer);
     group->addAction(m_editCharacterLayer);
 
-
-
     m_putGroundLayer = new QAction(tr("Ground"),this);
     m_putGroundLayer->setData(VisualItem::GROUND);
     m_putObjectLayer = new QAction(tr("Object"),this);
@@ -286,20 +280,21 @@ void RGraphicsView::createAction()
     m_putCharacterLayer= new QAction(tr("Character"),this);
     m_putCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
 
-
-
     connect(m_editGroundLayer,SIGNAL(triggered()),this,SLOT(changeLayer()));
     connect(m_editObjectLayer,SIGNAL(triggered()),this,SLOT(changeLayer()));
     connect(m_editCharacterLayer,SIGNAL(triggered()),this,SLOT(changeLayer()));
 
-
     QActionGroup* group2 = new QActionGroup(this);
     m_allVisibility = new QAction(tr("All"),this);
+    m_allVisibility->setCheckable(true);
     m_allVisibility->setData(VMap::ALL);
     m_hiddenVisibility= new QAction(tr("Hidden"),this);
+    m_hiddenVisibility->setCheckable(true);
+    m_hiddenVisibility->setChecked(true);
     m_hiddenVisibility->setData(VMap::HIDDEN);
     m_characterVisibility= new QAction(tr("Character"),this);
     m_characterVisibility->setData(VMap::CHARACTER);
+    m_characterVisibility->setCheckable(true);
 
     group2->addAction(m_allVisibility);
     group2->addAction(m_hiddenVisibility);
