@@ -125,7 +125,7 @@ void CharacterVision::fill(NetworkMessageWriter* msg)
     msg->real(m_radius);
     msg->real(m_angle);
 
-    qDebug() <<"Fill vision:" <<m_pos << m_radius << m_angle;
+   // qDebug() <<"Fill vision:" << m_pos << m_radius << m_angle;
 
 }
 
@@ -137,6 +137,6 @@ void CharacterVision::readMessage(NetworkMessageReader* msg)
     //m_pos.setY(msg->real());
     m_radius = msg->real();
     m_angle = msg->real();
-    qDebug() <<"read vision:" <<m_pos << m_radius << m_angle;
+   // qDebug() <<"read vision:" <<m_pos << m_radius << m_angle;
 
 }
