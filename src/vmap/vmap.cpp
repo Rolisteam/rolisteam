@@ -375,7 +375,6 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                     {
                         parent = item;
                     }
-
                 }
 
                 if(NULL!=child)
@@ -422,7 +421,7 @@ bool VMap::editLayer(VisualItem::Layer layer)
     if(m_currentLayer!=layer)
     {
         m_currentLayer = layer;
-	emit mapChanged();
+        emit mapChanged();
         foreach(VisualItem* item, m_itemMap->values())
         {
             if(m_currentLayer == item->getLayer())
@@ -741,10 +740,12 @@ void VMap::addNewItem(VisualItem* item)
         connect(item,SIGNAL(duplicateItem(VisualItem*)),this,SLOT(duplicateItem(VisualItem*)));
         connect(item,SIGNAL(itemLayerChanged(VisualItem*)),this,SLOT(checkItemLayer(VisualItem*)));
         connect(item,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),this,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
+
         if(item!=m_sightItem)
         {
             m_orderedItemList.append(item);
         }
+
         connect(item,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),this,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
         QGraphicsScene::addItem(item);
 
@@ -954,11 +955,14 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
         {
             foreach(QUrl url, mimeData->urls())
             {
-                ImageItem* led = new ImageItem();
-                led->setImageUri(url.toLocalFile());
-                sendOffItem(led);
-                addNewItem(led);
-                led->setPos(event->scenePos());
+                if(url.isLocalFile())
+                {
+                    ImageItem* led = new ImageItem();
+                    led->setImageUri(url.toLocalFile());
+                    sendOffItem(led);
+                    addNewItem(led);
+                    led->setPos(event->scenePos());
+                }
             }
 
         }
