@@ -59,6 +59,7 @@ void VMap::initMap()
     m_propertiesHash->insert(VisualItem::ShowHealtStatus,false);
     m_propertiesHash->insert(VisualItem::ShowGrid,false);
     m_propertiesHash->insert(VisualItem::LocalIsGM,false);
+    m_propertiesHash->insert(VisualItem::EnableCharacterVision,false);
 }
 void  VMap::initScene()
 {
@@ -91,6 +92,7 @@ void VMap::setBackGroundColor(QColor bgcolor)
 {
     m_bgColor = bgcolor;
     computePattern();
+    update();
     emit mapChanged();
 }
 
