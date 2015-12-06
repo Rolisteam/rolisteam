@@ -251,7 +251,6 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 }
 void CharacterItem::readItem(NetworkMessageReader* msg)
 {
-
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
@@ -277,6 +276,8 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     out >> *m_thumnails;
 
     Character* tmp = PlayersList::instance()->getCharacter(idCharacter);
+
+    /// @todo This code may no longer be needed.
     if(NULL!=tmp)
     {
         m_character = tmp;
@@ -287,6 +288,8 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
         m_character = new Character(*msg);
         m_character->setParent(PlayersList::instance()->getPerson(idparent));
     }
+
+    m_character->read(*msg);
 
     if(NULL!=m_vision)
     {
