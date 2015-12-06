@@ -91,7 +91,7 @@ void VmapToolBar::setupUi()
     connect(m_currentVisibility,SIGNAL(currentIndexChanged(int)),this,SLOT(visibilityHasChanged(int)));
     connect(m_currentPermission,SIGNAL(currentIndexChanged(int)),this,SLOT(permissionHasChanged(int)));
     connect(m_gridPattern,SIGNAL(currentIndexChanged(int)),this,SLOT(patternChanged(int)));
-    connect(m_showCharacterVision,SIGNAL(pressed()),this,SLOT(managedAction()));
+    connect(m_showCharacterVision,SIGNAL(clicked(bool)),this,SLOT(managedAction()));
 
 }
 void VmapToolBar::setCurrentMap(VMap* map)
@@ -137,8 +137,16 @@ void VmapToolBar::permissionHasChanged(int index)
 }
 void VmapToolBar::updateUI()
 {
-    m_bgSelector->setColor(m_vmap->getBackGroundColor());
-    m_showGridAct->setChecked(m_vmap->getOption(VisualItem::ShowGrid).toBool());
+    if(NULL!=m_vmap)
+    {
+        setEnabled(true);
+        m_bgSelector->setColor(m_vmap->getBackGroundColor());
+        m_showGridAct->setChecked(m_vmap->getOption(VisualItem::ShowGrid).toBool());
+    }
+    else
+    {
+        setEnabled(false);
+    }
 
 }
 void VmapToolBar::setPatternSize(int p)
