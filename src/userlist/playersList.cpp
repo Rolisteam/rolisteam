@@ -604,6 +604,15 @@ void PlayersList::addPlayer(Player * player)
     emit playerAdded(player);
 
     endInsertRows();
+
+    for(int i = 0;i<player->getCharactersCount();++i)
+    {
+        Character* character = player->getCharacterByIndex(i);
+        if(m_uuidMap.contains(character->getUuid()))
+        {
+            m_uuidMap.insert(character->getUuid(),character);
+        }
+    }
 }
 
 void PlayersList::addCharacter(Player * player, Character * character)
