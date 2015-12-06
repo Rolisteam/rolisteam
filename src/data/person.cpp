@@ -33,10 +33,16 @@
 /**********
  * Person *
  **********/
-Person::Person(const QString & name, const QColor & color)
-    : m_name(name), m_color(color)
+Person::Person()
+    : m_uuid(QUuid::createUuid().toString())
 {
-    m_uuid = QUuid::createUuid().toString();
+
+}
+
+Person::Person(const QString & name, const QColor & color)
+    : m_uuid(QUuid::createUuid().toString()),m_name(name), m_color(color)
+{
+
 }
 
 Person::Person(const QString & uuid, const QString & name, const QColor & color)
@@ -44,9 +50,6 @@ Person::Person(const QString & uuid, const QString & name, const QColor & color)
 {
 }
 
-Person::Person()
-{
-}
 Person::~Person()
 {
 }
