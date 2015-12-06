@@ -58,6 +58,11 @@ public:
      */
     void fill(NetworkMessageWriter & message);
     /**
+     * @brief read
+     * @param msg
+     */
+    void read(NetworkMessageReader& msg);
+    /**
      * @brief parent
      * @return
      */
