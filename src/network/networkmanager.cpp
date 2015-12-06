@@ -40,7 +40,6 @@
 NetworkManager::NetworkManager()
 	: QObject(), m_server(NULL),m_NetworkLinkToServer(NULL),m_disconnectAsked(false),m_connectionState(false),m_localPlayer(NULL),m_audioPlayer(NULL)
 {
-
     m_reconnect = new QTimer(this);
     m_preferences =  PreferencesManager::getInstance();
     m_dialog = new ConnectionRetryDialog();
@@ -51,11 +50,6 @@ NetworkManager::NetworkManager()
 
 NetworkManager::~NetworkManager()
 {
-    /*if(NULL!=m_configDialog)
-    {
-        delete m_configDialog;
-        m_configDialog = NULL;
-    }*/
     if(NULL!=m_dialog)
     {
         delete m_dialog;
@@ -65,14 +59,6 @@ NetworkManager::~NetworkManager()
 }
 void NetworkManager::synchronizePreferences()
 {
-    /*m_preferences->registerValue("UserName",m_configDialog->getName());
-    m_preferences->registerValue("UserColor",m_configDialog->getColor());
-    m_preferences->registerValue("isPlayer",!m_configDialog->isGM());
-    m_preferences->registerValue("ipaddress",m_configDialog->getHost());
-	//G_joueur= !m_configDialog->isGM();
-    m_preferences->registerValue("ServerPort",m_configDialog->getPort());
-    m_preferences->registerValue("isClient",!m_configDialog->isServer());
-    m_preferences->registerValue("clientPort",m_configDialog->getPort());*/
 
 }
 void NetworkManager::setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue)
@@ -109,52 +95,6 @@ bool NetworkManager::configAndConnect(QString version)
     {
         isGM = m_role.compare("gm")==0 ? true : false;
 	}
-
-
-   /* m_configDialog = new ConnectionConfigDialog(NULL,
-                m_username,
-                m_preferences->value("UserColor",QColor(255,255,255)).value<QColor>(),
-				isGM,
-				m_host,
-				m_portStr.toInt(),
-                isServer);
-
-    m_playersList = PlayersList::instance();
-
-    bool isConnected = false;
-
-    m_configDialog->show();/// @warning prevent crash on windows.
-    while((!isConnected) && (m_configDialog->exec() != QDialog::Rejected))
-    {
-        m_isClient = !m_configDialog->isServer();
-        m_playersList->completeListClean();
-
-        m_localPlayer = m_playersList->getLocalPlayer();*/
-		/*if(m_localPlayer!=NULL)
-        {
-            delete m_localPlayer;
-            m_localPlayer = NULL;
-		}*/
-       // synchronizePreferences();
-		/*m_localPlayer = new Player(
-                m_localPlayerId,
-                m_configDialog->getName(),
-                m_configDialog->getColor(),
-                m_configDialog->isGM()
-			);*/
-
-        /*m_localPlayer->setGM(m_configDialog->isGM());
-		m_localPlayer->setColor(m_configDialog->getColor());
-        m_localPlayer->setName(m_configDialog->getName());*/
-		//m_localPlayerId = m_localPlayer->getUuid();
-
-        /*m_localPlayer->setUserVersion(version);
-		m_playersList->setLocalPlayer(m_localPlayer);
-
-		isConnected = startConnection();
-    }
-    return isConnected;*/
-
 }
 Player* NetworkManager::getLocalPlayer()
 {
@@ -276,9 +216,7 @@ void NetworkManager::ajouterNetworkLink(NetworkLink* networkLink)
 
 void NetworkManager::nouveauClientConnecte()
 {
-
     QTcpSocket *socketTcp = m_server->nextPendingConnection();
-    //qDebug() << "New pending connection" << socketTcp;
 
     new NetworkLink(socketTcp);
 
