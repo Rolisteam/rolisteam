@@ -31,6 +31,7 @@
 #include "data/character.h"
 #include "userlist/playersList.h"
 #include "vmap/items/sightitem.h"
+#include "map/map.h"
 
 CharacterItem::CharacterItem()
 : VisualItem()
@@ -96,8 +97,9 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
     {
         generatedThumbnail();
     }
-    setChildrenVisible(hasFocusOrChild());
-    emit selectStateChange(hasFocusOrChild());
+    bool hasFocusOrChildren = hasFocusOrChild();
+    setChildrenVisible(hasFocusOrChildren);
+    emit selectStateChange(hasFocusOrChildren);
 
 	QString toShow;
 	if(m_character->isNpc())
@@ -149,7 +151,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 		{
 			painter->drawPixmap(m_rect,m_character->getState()->getImage(),m_character->getState()->getImage().rect());
 		}
-		else
+        else if(!m_character->hasAvatar())
 		{
 			pen.setColor(m_character->getState()->getColor());
 			painter->setPen(pen);
@@ -602,4 +604,16 @@ void CharacterItem::setDefaultVisionParameter(CharacterVision::SHAPE shape, qrea
 CharacterVision* CharacterItem::getVision()const
 {
     return m_vision;
+}
+bool CharacterItem::canBeMoved() const
+{
+    PlayersList* model = PlayersList::instance();
+    if((getOption(VisualItem::PermissionMode).toInt()==Map::PC_MOVE) && (model->isLocal(m_character)))
+    {
+            return true;
+    }
+    else
+    {
+        return VisualItem::canBeMoved();
+    }
 }
