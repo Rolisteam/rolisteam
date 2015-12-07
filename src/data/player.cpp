@@ -56,19 +56,15 @@ Player::Player(NetworkMessageReader & data, NetworkLink * link)
     {
         Character* child = new Character(data);
         m_characters.append(child);
+        child->setParent(this);
         data.uint8();
     }
 }
 
 Player::~Player()
 {
-    int charactersCount = m_characters.size();
-    if (charactersCount > 0)
-        qWarning("Player with characters deleted");
-    for (int i = 0; i < charactersCount; i++)
-    {
-        delete m_characters.at(i);
-    }
+    qDeleteAll(m_characters);
+    m_characters.clear();
 }
 
 void Player::fill(NetworkMessageWriter & message)
