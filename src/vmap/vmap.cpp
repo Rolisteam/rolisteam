@@ -43,6 +43,10 @@ VMap::VMap(int width,int height,QString& title,QColor& bgColor,QObject * parent)
 void VMap::initMap()
 {
     m_propertiesHash = new QHash<VisualItem::Properties,QVariant>();
+
+    PlayersList* list = PlayersList::instance();
+    connect(list,SIGNAL(characterDeleted(Character*)),this,SLOT(characterHasBeenDeleted(Character*)));
+
     m_penSize = 1;
     m_id = QUuid::createUuid().toString();
     m_currentItem = NULL;
@@ -242,6 +246,15 @@ void VMap::setPenSize(int p)
 {
     m_penSize =p;
 }
+void VMap::characterHasBeenDeleted(Character* character)
+{
+    QList<VisualItem*> list = getCharacterOnMap(character->getUuid());
+    foreach(VisualItem* item,list)
+    {
+        removeItemFromScene(item->getId());
+    }
+}
+
 void VMap::fill(NetworkMessageWriter& msg)
 {
     msg.string16(getMapTitle());
@@ -828,7 +841,7 @@ void VMap::addNewItem(VisualItem* item)
         }
         else if(m_currentVisibityMode == VMap::CHARACTER)
         {
-            QList<CharacterItem*> items = getCharacterOnMap(m_localUserId);
+            QList<VisualItem*> items = getCharacterOnMap(m_localUserId);
             if(!items.isEmpty())
             {
                 /// @todo activate dynamic shadows
@@ -841,10 +854,24 @@ void VMap::addNewItem(VisualItem* item)
         m_itemMap->insert(item->getId(),item);
     }
 }
-QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
+QList<VisualItem*> VMap::getCharacterOnMap(QString id)
 {
     /// @todo activate dynamic shadows
-    return QList<CharacterItem*>();
+    QList<VisualItem*> result;
+    foreach(VisualItem* item, m_characterItemMap->values())
+    {
+        CharacterItem* chItem = dynamic_cast<CharacterItem*>(item);
+
+        if(NULL!=chItem)
+        {
+            if(chItem->getCharacterId()== id)
+            {
+                result.append(chItem);
+            }
+        }
+    }
+
+    return result;
 }
 
 void VMap::promoteItemInType(VisualItem* item, VisualItem::ItemType type)

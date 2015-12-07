@@ -261,7 +261,7 @@ public slots:
      * @param id
      * @return
      */
-    QList<CharacterItem*> getCharacterOnMap(QString id);
+    QList<VisualItem*> getCharacterOnMap(QString id);
     /**
      * @brief getFogItem
      * @return
@@ -313,6 +313,10 @@ private slots:
      * @param op operation to be done.
      */
     void changeStackOrder(VisualItem* item,VisualItem::StackOrder op);
+    /**
+     * @brief characterHasBeenDeleted
+     */
+    void characterHasBeenDeleted(Character* );
 protected:
     /**
     * @brief catches move event with the mouse, useful for allowing move of item
@@ -436,14 +440,6 @@ private:
      * @brief m_localUserId
      */
     QString m_localUserId;
-    /**
-     * @brief m_hasPermissionMode
-     */
-//	bool m_hasPermissionMode;
-    /**
-     * @brief m_currentMode
-     */
-//	Map::PermissionMode m_currentMode;
     /**
      * @brief m_currentVisibityMode
      */
