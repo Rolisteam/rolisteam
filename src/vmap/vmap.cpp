@@ -60,6 +60,7 @@ void VMap::initMap()
     m_propertiesHash->insert(VisualItem::ShowGrid,false);
     m_propertiesHash->insert(VisualItem::LocalIsGM,false);
     m_propertiesHash->insert(VisualItem::EnableCharacterVision,false);
+    m_propertiesHash->insert(VisualItem::PermissionMode,Map::GM_ONLY);
 }
 void  VMap::initScene()
 {
@@ -93,7 +94,7 @@ void VMap::setBackGroundColor(QColor bgcolor)
     m_bgColor = bgcolor;
     computePattern();
     update();
-    emit mapChanged();
+    emit mapStatutChanged();
 }
 
 void VMap::setSceneRect()
@@ -259,9 +260,11 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     m_bgColor = msg.rgb();
     setWidth(msg.uint16());
     setHeight(msg.uint16());
-    m_currentMode = (Map::PermissionMode)msg.uint8();
+    blockSignals(true);
+    setPermissionMode((Map::PermissionMode)msg.uint8());
     VMap::VisibilityMode mode = (VMap::VisibilityMode)msg.uint8();
     setVisibilityMode(mode);
+    blockSignals(false);
     int itemCount = msg.uint64();
 
     if(readCharacter)
@@ -423,7 +426,7 @@ bool VMap::editLayer(VisualItem::Layer layer)
     if(m_currentLayer!=layer)
     {
         m_currentLayer = layer;
-        emit mapChanged();
+        emit mapStatutChanged();
         foreach(VisualItem* item, m_itemMap->values())
         {
             if(m_currentLayer == item->getLayer())
@@ -729,7 +732,34 @@ void VMap::processGeometryChangeItem(NetworkMessageReader* msg)
         item->readItem(msg);
     }
 }
+void VMap::processMoveItemMessage(NetworkMessageReader* msg)
+{
+    if(NULL!=msg)
+    {
+        QString id = msg->string16();
+        VisualItem* item = m_itemMap->value(id);
+        if(NULL!=item)
+        {
+            item->readPositionMsg(msg);
+        }
 
+    }
+}
+void VMap::processDelItemMessage(NetworkMessageReader* msg)
+{
+    if(NULL!=msg)
+    {
+        QString id = msg->string16();
+        VisualItem* item = m_itemMap->value(id);
+        if(NULL!=item)
+        {
+            m_itemMap->remove(id);
+            QGraphicsScene::removeItem(item);
+            delete item;
+        }
+
+    }
+}
 void VMap::addNewItem(VisualItem* item)
 {
     if(NULL!=item)
@@ -760,15 +790,15 @@ void VMap::addNewItem(VisualItem* item)
                 item->setEditableItem(getOption(VisualItem::LocalIsGM).toBool());
             }
         }
-        else if((m_currentMode == Map::GM_ONLY))
+        else if((getPermissionMode() == Map::GM_ONLY))
         {
             item->setEditableItem(getOption(VisualItem::LocalIsGM).toBool());
         }
-        else if(m_currentMode == Map::PC_ALL)
+        else if(getPermissionMode() == Map::PC_ALL)
         {
             item->setEditableItem(true);
         }
-        else if(m_currentMode == Map::PC_MOVE)
+        else if(getPermissionMode() == Map::PC_MOVE)
         {
             if(item->getType()!=VisualItem::CHARACTER)
             {
@@ -872,50 +902,22 @@ void VMap::keyPressEvent(QKeyEvent* event)
     }
     QGraphicsScene::keyPressEvent(event);
 }
-
-
-void VMap::processMoveItemMessage(NetworkMessageReader* msg)
-{
-    if(NULL!=msg)
-    {
-        QString id = msg->string16();
-        VisualItem* item = m_itemMap->value(id);
-        if(NULL!=item)
-        {
-            item->readPositionMsg(msg);
-        }
-
-    }
-}
-void VMap::processDelItemMessage(NetworkMessageReader* msg)
-{
-    if(NULL!=msg)
-    {
-        QString id = msg->string16();
-        VisualItem* item = m_itemMap->value(id);
-        if(NULL!=item)
-        {
-            m_itemMap->remove(id);
-            QGraphicsScene::removeItem(item);
-            delete item;
-        }
-
-    }
-}
 void VMap::setPermissionMode(Map::PermissionMode mode)
 {
-    m_currentMode = mode;
-	emit mapChanged();
+    if(getOption(VisualItem::PermissionMode).toInt()!=mode)
+    {
+        setOption(VisualItem::PermissionMode,mode);
+    }
 }
 QString VMap::getPermissionModeText()
 {
 	QStringList permissionData;
 	permissionData<< tr("No Right") << tr("His character") << tr("All Permissions");
-	return permissionData.at(m_currentMode);
+    return permissionData.at(getOption(VisualItem::PermissionMode).toInt());
 }
 Map::PermissionMode VMap::getPermissionMode()
 {
-    return m_currentMode;
+    return (Map::PermissionMode)getOption(VisualItem::PermissionMode).toInt();
 }
 void VMap::setCurrentNpcName(QString text)
 {
@@ -1026,7 +1028,7 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
     if(mode != m_currentVisibityMode)
     {
         m_currentVisibityMode = mode;
-		emit mapChanged();
+        emit mapStatutChanged();
         if(!getOption(VisualItem::LocalIsGM).toBool())
         {
             if(m_currentVisibityMode == VMap::HIDDEN)
@@ -1088,9 +1090,14 @@ void VMap::setOption(VisualItem::Properties pop,QVariant value)
 {
     if(NULL!=m_propertiesHash)
     {
-        m_propertiesHash->insert(pop,value);
-        computePattern();
-        update();
+        if(getOption(pop)!=value)
+        {
+            m_propertiesHash->insert(pop,value);
+            emit mapChanged();
+            emit mapStatutChanged();
+            computePattern();
+            update();
+        }
     }
 }
 QVariant VMap::getOption(VisualItem::Properties pop)

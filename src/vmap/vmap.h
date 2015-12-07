@@ -276,6 +276,10 @@ signals:
 	 * @brief mapChanged is emitted after some changes on map has been made.
 	 */
 	void mapChanged();
+    /**
+     * @brief mapStatutChanged
+     */
+    void mapStatutChanged();
 private slots:
     /**
      * @brief sendItemToAll
@@ -435,11 +439,11 @@ private:
     /**
      * @brief m_hasPermissionMode
      */
-	bool m_hasPermissionMode;
+//	bool m_hasPermissionMode;
     /**
      * @brief m_currentMode
      */
-	Map::PermissionMode m_currentMode;
+//	Map::PermissionMode m_currentMode;
     /**
      * @brief m_currentVisibityMode
      */
