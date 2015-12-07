@@ -27,6 +27,9 @@
 #include <QUuid>
 #include <QKeyEvent>
 
+
+#include "map/map.h"
+
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 
@@ -85,7 +88,6 @@ void VisualItem::setEditableItem(bool b)
         connect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
         connect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
         connect(this,SIGNAL(zChanged()),this,SLOT(sendPositionMsg()));
-        //connect(this,SIGNAL(rotationChanged()),this,SLOT(sendPositionMsg()));
     }
     else
     {
@@ -331,29 +333,34 @@ bool VisualItem::hasFocusOrChild()
 
 void VisualItem::sendPositionMsg()
 {
-   // qDebug() << "send Position" << m_id;
-    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
-    msg.string8(m_mapId);
-    msg.string16(m_id);
-    msg.real(pos().x());
-    msg.real(pos().y());
+   if(getOption(VisualItem::LocalIsGM).toBool())//getOption PermissionMode
+   {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
+        msg.string8(m_mapId);
+        msg.string16(m_id);
+        msg.real(pos().x());
+        msg.real(pos().y());
 
-    msg.real(zValue());
-    msg.sendAll();
+        msg.real(zValue());
+        msg.real(rotation());
+        msg.sendAll();
+   }
 }
 
 void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 {
 
    // qDebug() << "read Position" << m_id;
+
     qreal x = msg->real();
     qreal y = msg->real();
     qreal z = msg->real();
     qreal rot = msg->real();
-
+    blockSignals(true);
     setPos(x,y);
     setZValue(z);
     setRotation(rot);
+    blockSignals(false);
 }
 void VisualItem::setPropertiesHash(QHash<VisualItem::Properties,QVariant>* hash)
 {
@@ -387,17 +394,37 @@ VisualItem* VisualItem::promoteTo(VisualItem::ItemType type)
 
 void VisualItem::setChildrenVisible(bool b)
 {
-    if(NULL!=m_child)
+    if(canBeMoved())
     {
-        foreach(ChildPointItem* item, *m_child)
+        if(NULL!=m_child)
         {
-            if(!item->isVisionHandler())
+            foreach(ChildPointItem* item, *m_child)
             {
-                item->setVisible(b);
+                if(!item->isVisionHandler())
+                {
+                    item->setVisible(b);
+                }
             }
         }
     }
 }
+
+bool VisualItem::canBeMoved() const
+{
+    if(getOption(VisualItem::LocalIsGM).toBool())
+    {
+            return true;
+    }
+    else if(getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL)
+    {
+            return true;
+    }
+    else
+    {
+            return false;
+    }
+}
+
 QString VisualItem::getLayerToText(VisualItem::Layer id)
 {
     if(s_layerName.size()>(int)id)

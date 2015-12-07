@@ -52,7 +52,21 @@ public:
     /**
      * @brief The Properties enum
      */
-    enum Properties {ShowNpcName,ShowPcName,ShowNpcNumber,ShowHealtStatus,ShowGrid,LocalIsGM,GridPattern,GridColor,GridSize,Scale,Unit,EnableCharacterVision};
+    enum Properties {
+        ShowNpcName,
+        ShowPcName,
+        ShowNpcNumber,
+        ShowHealtStatus,
+        ShowGrid,
+        LocalIsGM,
+        GridPattern,
+        GridColor,
+        GridSize,
+        Scale,
+        Unit,
+        EnableCharacterVision,
+        PermissionMode
+                    };
 	/**
 	 * @brief VisualItem default constructor
 	 */
@@ -216,6 +230,7 @@ public:
      */
     QVariant getOption(VisualItem::Properties pop) const;
 
+
 signals:
 	/**
 	 * @brief itemGeometryChanged
@@ -300,6 +315,13 @@ protected:
 	 * @brief createActions
 	 */
     virtual void createActions();
+
+    /**
+     * @brief canBeMove
+     * @return
+     */
+    virtual bool canBeMoved() const;
+
 
 protected:
     QVector<ChildPointItem*>* m_child;
