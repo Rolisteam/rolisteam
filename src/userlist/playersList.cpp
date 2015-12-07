@@ -281,22 +281,12 @@ QModelIndex PlayersList::createIndex(Person * person) const
 /***********
  * Getters *
  ***********/
-
-Player* PlayersList::localPlayer() const
-{
-    if(m_playersList.isEmpty())
-    {
-        return NULL;
-    }
-    return m_playersList.first();
-}
-
 bool PlayersList::isLocal(Person * person) const
 {
     if (person == NULL)
         return false;
 
-    Person * local = localPlayer();
+    Person * local = getLocalPlayer();
     return (person == local || person->parent() == local);
 }
 
@@ -479,7 +469,7 @@ void PlayersList::cleanListButLocal()
 
 void PlayersList::addLocalCharacter(Character * newCharacter)
 {
-    addCharacter(localPlayer(), newCharacter);
+    addCharacter(getLocalPlayer(), newCharacter);
 
     NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::AddPlayerCharacterAction);
     newCharacter->fill(message);
@@ -575,7 +565,7 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
 
 void PlayersList::delLocalCharacter(int index)
 {
-    Player * parent = localPlayer();
+    Player * parent = getLocalPlayer();
     if (index < 0 || index >= parent->getCharactersCount())
         return;
 
@@ -608,7 +598,7 @@ void PlayersList::addPlayer(Player * player)
     for(int i = 0;i<player->getCharactersCount();++i)
     {
         Character* character = player->getCharacterByIndex(i);
-        if(m_uuidMap.contains(character->getUuid()))
+        if(!m_uuidMap.contains(character->getUuid()))
         {
             m_uuidMap.insert(character->getUuid(),character);
         }
@@ -917,7 +907,7 @@ void PlayersList::delCharacter(NetworkMessageReader & data)
 void PlayersList::sendDelLocalPlayer()
 {
     NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-    message.string8(localPlayer()->getUuid());
+    message.string8(getLocalPlayer()->getUuid());
     message.sendAll();
 }
 void PlayersList::completeListClean()

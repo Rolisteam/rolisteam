@@ -123,7 +123,7 @@ void PlayersListWidgetModel::changeMap(Map * map)
     QModelIndex begin;
     QModelIndex end;
     int i;
-    int max = (g_playersList->localPlayer()->isGM() ? g_playersList->numPlayers() : 1);
+    int max = (g_playersList->getLocalPlayer()->isGM() ? g_playersList->numPlayers() : 1);
 
     for (i = 0 ; i < max ; i++)
     {
@@ -161,7 +161,7 @@ bool PlayersListWidgetModel::isCheckable(const QModelIndex &index) const
     if (person == NULL)
         return false;
 
-    Player* localPlayer = playersList->localPlayer();
+    Player* localPlayer = playersList->getLocalPlayer();
 
     return ((person->parent() == localPlayer) ||
             (localPlayer->isGM() && index.parent().isValid()));
@@ -264,7 +264,7 @@ void PlayersListWidget::editIndex(const QModelIndex & index)
 void PlayersListWidget::createLocalCharacter()
 {
     PlayersList* g_playersList = PlayersList::instance();
-    Player * localPlayer = g_playersList->localPlayer();
+    Player * localPlayer = g_playersList->getLocalPlayer();
 
     if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->getColor()) == QDialog::Accepted)
     {
@@ -307,7 +307,7 @@ void PlayersListWidget::setUI()
   //  playersListView->setIconSize(QSize(64,64));
 
     // Add PJ button
-    Player* tmp = PlayersList::instance()->localPlayer();
+    Player* tmp = PlayersList::instance()->getLocalPlayer();
     //PlayersList::instance()->localPlayer()->isGM()
     QString what;
     if(NULL!=tmp)

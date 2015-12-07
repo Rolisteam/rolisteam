@@ -56,7 +56,7 @@ Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex &index) const
     // We should return Qt::NoItemFlags when (player == NULL),
     // but this cause an infinite loop when the last entry is deleted.
     // This is a workaround of a Qt's bug.
-    if (player == NULL || player == g_playersList->localPlayer())
+    if (player == NULL || player == g_playersList->getLocalPlayer())
         return Qt::ItemIsEnabled;
 
     if (player->hasFeature("MultiChat"))
@@ -100,7 +100,7 @@ QSet<Player *> & PrivateChatDialogModel::playersSet()
 void PrivateChatDialogModel::setPlayersSet(const QSet<Player *> & set)
 {
     m_set = set;
-    m_set.insert(PlayersList::instance()->localPlayer());
+    m_set.insert(PlayersList::instance()->getLocalPlayer());
     emit dataChanged(createIndex(0, 0, PlayersList::NoParent),
             createIndex(PlayersList::instance()->numPlayers() - 1, 0, PlayersList::NoParent));
 }

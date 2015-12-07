@@ -163,7 +163,7 @@ PrivateChat::PrivateChat(const QString & name)
     : m_name(name)
 {
     m_uuid   = QUuid::createUuid().toString();
-    m_owner = PlayersList::instance()->localPlayer();
+    m_owner = PlayersList::instance()->getLocalPlayer();
     m_set.insert(m_owner);
 }
 
@@ -215,7 +215,7 @@ QString PrivateChat::name() const
 
 bool PrivateChat::belongsToLocalPlayer() const
 {
-    return (m_owner == PlayersList::instance()->localPlayer());
+    return (m_owner == PlayersList::instance()->getLocalPlayer());
 }
 
 bool PrivateChat::belongsTo(Player * player) const
@@ -238,7 +238,7 @@ void PrivateChat::p_sendThem(NetworkMessage & message, NetworkLink * but, bool f
         return;
     }
 
-    Player * localPlayer = PlayersList::instance()->localPlayer();
+    Player * localPlayer = PlayersList::instance()->getLocalPlayer();
     foreach (Player * player, m_set)
     {
         if (player != localPlayer && player != NULL && player->link() != but)
@@ -269,7 +269,7 @@ bool PrivateChat::sameLink(NetworkLink * link)
 
 bool PrivateChat::includeLocalPlayer() const
 {
-    return m_set.contains(PlayersList::instance()->localPlayer());
+    return m_set.contains(PlayersList::instance()->getLocalPlayer());
 }
 
 bool PrivateChat::removePlayer(Player * player)
@@ -345,7 +345,7 @@ void PrivateChat::set(const PrivateChat & other, bool thenUpdate)
 
 void PrivateChat::set(const QString & name, const QSet<Player *> & set)
 {
-    if (m_owner != PlayersList::instance()->localPlayer())
+    if (m_owner != PlayersList::instance()->getLocalPlayer())
     {
         qWarning("Can't change this private chat locally.");
         return;

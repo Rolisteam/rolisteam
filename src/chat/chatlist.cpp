@@ -80,7 +80,7 @@ ChatList::ChatList(MainWindow * mainWindow)
 
 	// Allready there player's chat
 	int maxPlayerIndex = g_playersList->numPlayers();
-	Player * localPlayer = g_playersList->localPlayer();
+    Player * localPlayer = g_playersList->getLocalPlayer();
 	for (int i = 0 ; i < maxPlayerIndex ; i++)
 	{
 		Player * player = g_playersList->getPlayer(i);
@@ -279,7 +279,7 @@ void ChatList::addChatWindow(ChatWindow* chatw)
         chatw->setSubWindow(subWindowChat);
         subWindowChat->setWindowTitle(tr("%1 (Chat)").arg(chatw->getTitleFromChat()));
         subWindowChat->setWindowIcon(QIcon(":/chat.png"));
-	chatw->setLocalPlayer(PlayersList::instance()->localPlayer());
+        chatw->setLocalPlayer(PlayersList::instance()->getLocalPlayer());
         subWindowChat->setAttribute(Qt::WA_DeleteOnClose, false);
         chatw->setAttribute(Qt::WA_DeleteOnClose, false);
 
@@ -347,7 +347,7 @@ QMdiSubWindow * ChatList::getChatSubWindowByIndex(const QModelIndex & index) con
 }
 void ChatList::addPlayerChat(Player * player)
 {
-    if(player != PlayersList::instance()->localPlayer())
+    if(player != PlayersList::instance()->getLocalPlayer())
     {
         ChatWindow * chatw = getChatWindowByUuid(player->getUuid());
         if (chatw == NULL)
@@ -432,7 +432,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
         return;
     }
 
-    if (to == g_playersList->localPlayer()->getUuid())
+    if (to == g_playersList->getLocalPlayer()->getUuid())
     {
         Player * owner = g_playersList->getParent(from);
         getChatWindowByUuid(owner->getUuid())->showMessage(sender->getName(), sender->getColor(), msg, data.action());

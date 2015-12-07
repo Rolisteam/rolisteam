@@ -1,4 +1,5 @@
 /*************************************************************************
+ *   Copyright (c) 2015 by Renaud Guezennec                              *
  *   Copyright (C) 2011 by Joseph Boudou                                 *
  *                                                                       *
  *   http://www.rolisteam.org/                                           *
@@ -99,10 +100,10 @@ int LocalPersonModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
-    Player* tmp = m_playersList->localPlayer();
+    Player* tmp = m_playersList->getLocalPlayer();
     if(NULL!=tmp)
     {
-       return 1 + m_playersList->localPlayer()->getCharactersCount();
+       return 1 + tmp->getCharactersCount();
     }
     else
     {

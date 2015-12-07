@@ -385,7 +385,6 @@ void MainWindow::receiveData(quint64 readData,quint64 size)
 
 }
 
-
 void MainWindow::createNotificationZone()
 {
     m_dockLogUtil = new QDockWidget(tr("Notification Zone"), this);
@@ -631,7 +630,7 @@ bool MainWindow::mayBeSaved(bool perteConnexion)
     }
 
     // Si l'utilisateur est un joueur
-    if (!PlayersList::instance()->localPlayer()->isGM())
+    if (!PlayersList::instance()->getLocalPlayer()->isGM())
     {
         message += tr("Do you want to save your minutes before to quit %1?").arg(msg);
     }
@@ -656,7 +655,7 @@ bool MainWindow::mayBeSaved(bool perteConnexion)
     {
         bool ok;
         // Si l'utilisateur est un joueur, on sauvegarde les notes
-        if (!PlayersList::instance()->localPlayer()->isGM())
+        if (!PlayersList::instance()->getLocalPlayer()->isGM())
             ok = saveMinutes();
         // S'il est MJ, on sauvegarde le scenario
         else
