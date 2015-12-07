@@ -116,6 +116,8 @@ public:
 
     void  setState(CharacterState*  h);
 
+    void setNpc(bool);
+
 public slots:
 
 

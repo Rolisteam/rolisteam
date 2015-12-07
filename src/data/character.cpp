@@ -180,3 +180,7 @@ QList<CharacterState*>* Character::getCharacterStateList()
 {
 	return m_stateList;
 }
+void Character::setNpc(bool b)
+{
+    m_isNpc = b;
+}
