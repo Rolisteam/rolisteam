@@ -197,6 +197,9 @@ public slots:
      * @param m_size
      */
     void sizeChanged(int m_size);
+
+protected:
+    virtual bool canBeMoved() const;
 private slots:
     /**
      * @brief generatedThumbnail
