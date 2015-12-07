@@ -67,7 +67,7 @@ ToolsBar::~ToolsBar()
 void ToolsBar::updateUi()
 {
     m_color->checkPermissionColor();
-        if(!PlayersList::instance()->localPlayer()->isGM())
+        if(!PlayersList::instance()->getLocalPlayer()->isGM())
         {
             m_npcDiameter->setVisible(false);
         }
