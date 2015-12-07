@@ -34,7 +34,7 @@ class Player;
 class ReceiveEvent;
 
 /**
- * @brief PlayersList is List of connected players and theyr characters
+ * @brief PlayersList is a model of players and character. List of connected players and theyr characters
  * @note This class is NOT thread-safe.
  */
 class PlayersList : public QAbstractItemModel
@@ -71,7 +71,11 @@ public:
     QModelIndex mapIndexToMe(const QModelIndex & index) const;
 
     // Getters
-    Player* localPlayer() const;
+    /**
+     * @brief isLocal
+     * @param person
+     * @return  true if the person is the local user or one of his children.
+     */
     bool isLocal(Person * person) const;
     int numPlayers() const;
     Player* getPlayer(int index) const;
