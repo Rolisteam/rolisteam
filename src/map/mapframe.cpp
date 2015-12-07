@@ -309,7 +309,7 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 
 		DessinPerso *pnj = new DessinPerso(m_map, ident, nomPerso, couleur, diametre, centre, type,showNumber,showName, numeroDuPnj);
 
-		if (visible || (type == DessinPerso::pnj && PlayersList::instance()->localPlayer()->isGM()))
+        if (visible || (type == DessinPerso::pnj && PlayersList::instance()->getLocalPlayer()->isGM()))
 			pnj->afficherPerso();
 		// On m.a.j l'orientation
 		pnj->nouvelleOrientation(orientation);
