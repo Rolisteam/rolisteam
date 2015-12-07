@@ -46,7 +46,7 @@ Map::Map(QString localPlayerId,QString identCarte, QImage *image, bool masquer, 
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
     m_localPlayerId = localPlayerId;
-    m_localIsPlayer = !PlayersList::instance()->localPlayer()->isGM();
+    m_localIsPlayer = !PlayersList::instance()->getLocalPlayer()->isGM();
     m_currentMode = Map::GM_ONLY;
     m_currentTool = ToolsBar::Handler;
 
@@ -76,7 +76,7 @@ void Map::p_init()
     // Ajout de la couche alpha effaceAlpha a l'image de fond originale
 	addAlphaLayer(m_originalBackground, effaceAlpha, m_originalBackground);
 
-    m_localPlayer = PlayersList::instance()->localPlayer();
+    m_localPlayer = PlayersList::instance()->getLocalPlayer();
 
     fondAlpha = new QImage(m_originalBackground->size(), QImage::Format_ARGB32);
 
