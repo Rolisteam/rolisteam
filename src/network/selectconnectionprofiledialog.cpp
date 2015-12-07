@@ -159,6 +159,7 @@ void ProfileModel::readSettings(QSettings & settings)
         character->setName(settings.value("CharacterName").toString());
         character->setAvatar(settings.value("CharacterPix").value<QImage>());
         character->setColor(settings.value("CharacterColor").value<QColor>());
+        character->setNpc(false);
         profile->setCharacter(character);
 
 
@@ -183,7 +184,7 @@ void ProfileModel::readSettings(QSettings & settings)
         player->setUserVersion(m_version);
         profile->setPlayer(player);
 
-        Character* character = new Character(QStringLiteral("Unknown"),Qt::black);
+        Character* character = new Character(QStringLiteral("Unknown"),Qt::black,false);
         profile->setCharacter(character);
         beginInsertRows(QModelIndex(),m_connectionProfileList.size(),m_connectionProfileList.size());
         m_connectionProfileList.append(profile);
