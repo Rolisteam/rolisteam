@@ -94,7 +94,7 @@ void VMap::setBackGroundColor(QColor bgcolor)
     m_bgColor = bgcolor;
     computePattern();
     update();
-    emit mapStatutChanged();
+    emit mapChanged();
 }
 
 void VMap::setSceneRect()
@@ -274,6 +274,7 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
             processAddItemMessage(&msg);
         }
     }
+    emit mapStatutChanged();
 }
 VisualItem::Layer VMap::getCurrentLayer() const
 {
@@ -426,7 +427,7 @@ bool VMap::editLayer(VisualItem::Layer layer)
     if(m_currentLayer!=layer)
     {
         m_currentLayer = layer;
-        emit mapStatutChanged();
+        emit mapChanged();
         foreach(VisualItem* item, m_itemMap->values())
         {
             if(m_currentLayer == item->getLayer())
@@ -1028,7 +1029,7 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
     if(mode != m_currentVisibityMode)
     {
         m_currentVisibityMode = mode;
-        emit mapStatutChanged();
+        emit mapChanged();
         if(!getOption(VisualItem::LocalIsGM).toBool())
         {
             if(m_currentVisibityMode == VMap::HIDDEN)
@@ -1094,7 +1095,6 @@ void VMap::setOption(VisualItem::Properties pop,QVariant value)
         {
             m_propertiesHash->insert(pop,value);
             emit mapChanged();
-            emit mapStatutChanged();
             computePattern();
             update();
         }
