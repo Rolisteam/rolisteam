@@ -122,6 +122,11 @@ void MainWindow::aboutRolisteam()
 						  "<ul>"
 						  "<li><a href=\"http://www.rolisteam.org/contact\">Renaud Guezennec</a></li>"
 						  "</ul></p> "
+						   "<p><h3>Contributors :</h3>"
+                          "<ul>"
+                          "<li><a href=\"mailto:joseph.boudou@matabio.net\">Joseph Boudou</a></li>"
+                          "<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni</a> (rolistik)  </li>"
+                          "</ul></p>"
                           "<p><h3>Translators</h3>"
 						  "<table>"
 						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/Le_Sage/\">Renaud Guezennec</a></td><td>(English & French)</td></tr>"
@@ -130,12 +135,7 @@ void MainWindow::aboutRolisteam()
 						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/KrekoG/\">Gergely Krekó</a></td><td> (Hungarian)</td></tr>"
 						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/kayazeren/\">Kaya Zeren</a></td><td> (Turkish)</td></tr>"
 						  "<tr><td><a href=\"https://www.transifex.com/accounts/profile/IGrumoI/\">Alexia Béné</a></td><td> (French & German)</td></tr>"
-						  "</table>"
-                          "<p><h3>Retired developers :</h3>"
-                          "<ul>"
-                          "<li><a href=\"mailto:joseph.boudou@matabio.net\">Joseph Boudou</a></li>"
-                          "<li><a href=\"mailto:rolistik@free.fr\">Romain Campioni</a> (rolistik)  </li>"
-                          "</ul></p>"));
+						  "</table>"));
 }
 void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
 {
