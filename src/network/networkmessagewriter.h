@@ -35,7 +35,7 @@ class NetworkMessageWriter : public NetworkMessage
 {
 public:
     NetworkMessageWriter(NetMsg::Category categorie, NetMsg::Action action, int size = 128);
-    ~NetworkMessageWriter();
+    virtual ~NetworkMessageWriter();
 
     NetMsg::Category category() const;
     NetMsg::Action action() const;
