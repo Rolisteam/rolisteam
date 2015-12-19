@@ -266,6 +266,7 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.string8(m_sightItem->getId());
     msg.uint8((quint8)getPermissionMode());
     msg.uint8((quint8)getVisibilityMode());
+    msg.uint8(getOption(VisualItem::EnableCharacterVision).toBool());
     msg.uint64(m_itemMap->values().size());
 }
 void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
@@ -281,6 +282,7 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     setPermissionMode((Map::PermissionMode)msg.uint8());
     VMap::VisibilityMode mode = (VMap::VisibilityMode)msg.uint8();
     setVisibilityMode(mode);
+    setOption(VisualItem::EnableCharacterVision,msg.uint8());
     blockSignals(false);
     int itemCount = msg.uint64();
 
