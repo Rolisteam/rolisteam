@@ -310,21 +310,24 @@ QString VisualItem::getId()
 
 bool VisualItem::hasFocusOrChild()
 {
-    if(isSelected())
+    if((getOption(VisualItem::LocalIsGM).toBool())||((!getOption(VisualItem::LocalIsGM).toBool())&&(getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL)))
     {
-        return true;
-    }
-    else
-    {
-        if(m_child==NULL)
+        if(isSelected())
         {
-            return false;
+            return true;
         }
-        for(int i = 0; i< m_child->size();++i)
+        else
         {
-            if((m_child->at(i)!=NULL)&&(m_child->at(i)->isSelected()))
+            if(m_child==NULL)
             {
-                return true;
+                return false;
+            }
+            for(int i = 0; i< m_child->size();++i)
+            {
+                if((m_child->at(i)!=NULL)&&(m_child->at(i)->isSelected()))
+                {
+                    return true;
+                }
             }
         }
     }
@@ -394,7 +397,7 @@ VisualItem* VisualItem::promoteTo(VisualItem::ItemType type)
 
 void VisualItem::setChildrenVisible(bool b)
 {
-    if(canBeMoved())
+    if((!b)||(canBeMoved()))
     {
         if(NULL!=m_child)
         {
