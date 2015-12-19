@@ -240,6 +240,7 @@ void VMap::addItem()
     else
     {
         m_sightItem->addFogPolygon(m_currentFogPolygon);
+
     }
 }
 void VMap::setPenSize(int p)
@@ -262,6 +263,7 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.rgb(mapColor());
     msg.uint16(mapWidth());
     msg.uint16(mapHeight());
+    msg.string8(m_sightItem->getId());
     msg.uint8((quint8)getPermissionMode());
     msg.uint8((quint8)getVisibilityMode());
     msg.uint64(m_itemMap->values().size());
@@ -273,6 +275,8 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     m_bgColor = msg.rgb();
     setWidth(msg.uint16());
     setHeight(msg.uint16());
+    QString idSight = msg.string8();
+    m_sightItem->setId(idSight);
     blockSignals(true);
     setPermissionMode((Map::PermissionMode)msg.uint8());
     VMap::VisibilityMode mode = (VMap::VisibilityMode)msg.uint8();
@@ -426,6 +430,7 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     }
     if((m_currentFogPolygon!=NULL)&&(VToolsBar::RECTFOG == m_selectedtool))
     {
+        sendItemToAll(m_sightItem);
         m_currentFogPolygon = NULL;
     }
 
@@ -744,6 +749,10 @@ void VMap::processGeometryChangeItem(NetworkMessageReader* msg)
     {
         VisualItem* item = m_itemMap->value(idItem);
         item->readItem(msg);
+    }
+    else if(idItem == m_sightItem->getId())
+    {
+        m_sightItem->readItem(msg);
     }
 }
 void VMap::processMoveItemMessage(NetworkMessageReader* msg)
