@@ -66,24 +66,11 @@ qreal CharacterVision::getRadius()
     return m_radius;
 }
 
-/*const QPointF CharacterVision::getPos()
-{
-    return m_character->pos();
-}*/
-
 CharacterVision::SHAPE CharacterVision::getShape()
 {
     return m_shape;
 }
 
-/*void CharacterVision::setCharacterItem(CharacterItem* item)
-{
-    m_character = item;
-    connect(m_character,SIGNAL(selectStateChange(bool)),this,SLOT(showCorner(bool)));
-    connect(m_character,SIGNAL(positionChanged()),this,SLOT(updatePosition()));
-    connect(m_character,SIGNAL(heightChanged()),this,SLOT(updatePosition()));
-    connect(m_character,SIGNAL(itemGeometryChanged(VisualItem*)),this,SLOT(updatePosition()));
-}*/
 void CharacterVision::showCorner(bool b)
 {
     if(NULL!=m_cornerPoint)
@@ -94,10 +81,7 @@ void CharacterVision::showCorner(bool b)
 
 void CharacterVision::updatePosition()
 {
-//    if(NULL!=m_cornerPoint)
-//    {
-//        m_cornerPoint
-//    }
+
 }
 void CharacterVision::setCornerPoint(ChildPointItem* b)
 {
