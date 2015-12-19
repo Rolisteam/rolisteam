@@ -84,7 +84,14 @@ QRectF CharacterItem::boundingRect() const
 QPainterPath CharacterItem::shape() const
 {
 	QPainterPath path;
-	path.addEllipse(boundingRect());
+    if((m_thumnails==NULL)&&(m_thumnails->isNull()))
+    {
+        path.addEllipse(boundingRect());
+    }
+    else
+    {
+        path.addRoundedRect(0,0,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
+    }
 	return path;
 }
 void CharacterItem::setNewEnd(QPointF& nend)
@@ -600,6 +607,12 @@ void CharacterItem::setDefaultVisionParameter(CharacterVision::SHAPE shape, qrea
     m_vision->setAngle(angle);
     m_vision->setRadius(radius);
     m_vision->setShape(shape);
+
+
+    /*NetMsg::NetworkMessageWriter msg();
+    msg.string8(getId());
+    m_vision->fill(&msg);*/
+
 }
 CharacterVision* CharacterItem::getVision()const
 {
