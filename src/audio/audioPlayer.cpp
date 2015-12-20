@@ -264,7 +264,7 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg,
     default:
         break;
     }
-    return NetWorkReceiver::AllExceptMe;
+    return NetWorkReceiver::AllExceptSender;
 }
 void AudioPlayer::openSongList(QString str)
 {

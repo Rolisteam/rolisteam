@@ -249,7 +249,7 @@ protected :
     void processCharacterMessage(NetworkMessageReader* msg);
     void processConnectionMessage(NetworkMessageReader* msg);
     void processCharacterPlayerMessage(NetworkMessageReader* msg);
-    void processVMapMessage(NetworkMessageReader* msg);
+    NetWorkReceiver::SendType processVMapMessage(NetworkMessageReader* msg);
     void extractCharacter(Map* map,NetworkMessageReader* msg);
     CleverURI* contentToPath(CleverURI::ContentType type,bool save);
     void dropEvent(QDropEvent* event);

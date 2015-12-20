@@ -1151,15 +1151,15 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, 
     {
     case NetMsg::PictureCategory:
         processImageMessage(msg);
-        type = NetWorkReceiver::AllExceptMe;
+        type = NetWorkReceiver::AllExceptSender;
         break;
     case NetMsg::MapCategory:
         processMapMessage(msg);
-        type = NetWorkReceiver::AllExceptMe;
+        type = NetWorkReceiver::AllExceptSender;
         break;
     case NetMsg::NPCCategory:
         processNpcMessage(msg);
-        type = NetWorkReceiver::AllExceptMe;
+        type = NetWorkReceiver::AllExceptSender;
         break;
     case NetMsg::DrawCategory:
         processPaintingMessage(msg);
@@ -1167,18 +1167,18 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, 
         break;
     case NetMsg::CharacterCategory:
         processCharacterMessage(msg);
-        type = NetWorkReceiver::AllExceptMe;
+        type = NetWorkReceiver::AllExceptSender;
         break;
     case NetMsg::ConnectionCategory:
         processConnectionMessage(msg);
         type = NetWorkReceiver::NONE;
         break;
     case NetMsg::VMapCategory:
-        processVMapMessage(msg);
+        type = processVMapMessage(msg);
         break;
     case NetMsg::CharacterPlayerCategory:
         processCharacterPlayerMessage(msg);
-        type = NetWorkReceiver::AllExceptMe;
+        type = NetWorkReceiver::AllExceptSender;
         break;
     }
     return type;//NetWorkReceiver::AllExceptMe;
@@ -1775,8 +1775,9 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
 }
 
 
-void MainWindow::processVMapMessage(NetworkMessageReader* msg)
+NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* msg)
 {
+    NetWorkReceiver::SendType type = NetWorkReceiver::NONE;
     switch(msg->action())
     {
         case NetMsg::addVmap:
@@ -1800,8 +1801,8 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
                 if(NULL!=tmp)
                 {
                     tmp->processAddItemMessage(msg);
+                    type = NetWorkReceiver::AllExceptSender;
                 }
-
             }
             break;
         case NetMsg::DelItem:
@@ -1859,6 +1860,9 @@ void MainWindow::processVMapMessage(NetworkMessageReader* msg)
         }
         break;
     }
+
+
+    return type;
 }
 
 CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
