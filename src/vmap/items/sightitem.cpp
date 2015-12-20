@@ -218,11 +218,8 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
     }
 
     QRectF rect = boundingRect();
-
     QPainterPath path;
     path.addRect(rect);
-
-
     foreach(QPolygonF* poly, m_fogHoleList)
     {
         QPainterPath subPoly;
@@ -243,7 +240,7 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
                 subArea.setFillRule(Qt::WindingFill);
                 int itemRadius = charact->getRadius();
 
-                 path = path.subtracted(charact->shape().translated(charact->pos()));//always see the user
+                path = path.subtracted(charact->shape().translated(charact->pos()));//always see the user
 
                 switch(vision->getShape())
                 {
@@ -259,15 +256,11 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
                         QPointF center= charact->pos()+QPointF(itemRadius,itemRadius);
                         subArea.moveTo(center);
 
-
                         QRectF rectArc;
                         rectArc.setCoords(center.x()-vision->getRadius(),center.y()-vision->getRadius(),center.x()+vision->getRadius(),center.y()+vision->getRadius());
 
                         qreal rot = charact->rotation();
-
                         subArea.arcTo(rectArc,-vision->getAngle()/2-rot,vision->getAngle());
-
-
                         painter->setPen(QColor(255,0,0));
 
                     }
@@ -277,19 +270,27 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
                 path = path.subtracted(subArea);
             }
         }
-
-
     }
     painter->drawPath(path);
 }
 void SightItem::insertVision(CharacterItem* item)
 {
     item->setDefaultVisionParameter(m_defaultShape,m_defaultRadius,m_defaultAngle);
-    m_child->append(item->getRadiusChildWidget());
+    if(NULL!=m_child)
+    {
+        m_child->append(item->getRadiusChildWidget());
+    }
 }
 void SightItem::removeVision(CharacterItem* item)
 {
-
+    if(m_characterItemMap->contains(item->getId()))
+    {
+        m_characterItemMap->remove(item->getId());
+    }
+    if(NULL!=m_child)
+    {
+        m_child->removeAll(item->getRadiusChildWidget());
+    }
 }
 void SightItem::setDefaultShape(CharacterVision::SHAPE shape)
 {
