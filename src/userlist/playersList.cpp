@@ -829,8 +829,6 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 void PlayersList::delPlayer(NetworkMessageReader & data)
 {
     /// @todo: If the player is the GM, call AudioPlayer::pselectNewFile("").
-
-
     QString uuid = data.string8();
     Player * player = getPlayer(uuid);
     if (player != NULL)
