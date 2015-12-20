@@ -31,7 +31,7 @@ public:
     /**
      * @brief The SendType enum describes how the server should opperate the message. The decision is taken by the GM.
      */
-    enum SendType { NONE, ALL,AllExceptMe};
+    enum SendType { NONE, ALL,AllExceptSender};
     /**
      * @brief processMessage virtual pure method, it must be implemented by any classes which subclass NetWorkReceiver. The goals is to read the message and trigger the right actions.
      * @param msg is the received network message, it stores the important data.
