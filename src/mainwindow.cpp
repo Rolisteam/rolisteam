@@ -296,12 +296,15 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if(mayBeSaved())
     {
-        //emit closing();
         if(NULL!=m_playerList)
+        {
             m_playerList->sendDelLocalPlayer();
+        }
         writeSettings();
         if(NULL!=m_noteEditor)
+        {
             m_noteEditor->close();
+        }
         event->accept();
     }
     else
@@ -597,76 +600,61 @@ Map* MainWindow::findMapById(QString idMap)
 }
 bool MainWindow::mayBeSaved(bool perteConnexion)
 {
-    // Creation de la boite d'alerte
     QMessageBox msgBox(this);
     QAbstractButton *boutonSauvegarder         = msgBox.addButton(QMessageBox::Save);
     QAbstractButton *boutonQuitter                 = msgBox.addButton(tr("Quit"), QMessageBox::RejectRole);
-    //msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
-    // On supprime l'icone de la barre de titre
     Qt::WindowFlags flags = msgBox.windowFlags();
     msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
-    // Creation du message
     QString message;
     QString msg = m_preferences->value("Application_Name","rolisteam").toString();
-
-    // S'il s'agit d'une perte de connexion
     if (perteConnexion)
     {
         message = tr("Connection has been lost. %1 will be close").arg(msg);
-        // Icone de la fenetre
         msgBox.setIcon(QMessageBox::Critical);
-        // M.a.j du titre et du message
         msgBox.setWindowTitle(tr("Connection lost"));
     }
     else
     {
-        // Icone de la fenetre
         msgBox.setIcon(QMessageBox::Information);
-        // Ajout d'un bouton
         msgBox.addButton(QMessageBox::Cancel);
-        // M.a.j du titre et du message
         msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
     }
 
-    // Si l'utilisateur est un joueur
-    if (!PlayersList::instance()->getLocalPlayer()->isGM())
+    if(NULL!=PlayersList::instance()->getLocalPlayer())
     {
-        message += tr("Do you want to save your minutes before to quit %1?").arg(msg);
-    }
-    // Si l'utilisateut est un MJ
-    else
-    {
-        message += tr("Do you want to save your scenario before to quit %1?").arg(msg);
-
-    }
-
-    //M.a.j du message de la boite de dialogue
-    msgBox.setText(message);
-    // Ouverture de la boite d'alerte
-    msgBox.exec();
-
-    // Quit without saving
-    if (msgBox.clickedButton() == boutonQuitter)
-    {
-        return true;
-    }
-    else if (msgBox.clickedButton() == boutonSauvegarder) //saving
-    {
-        bool ok;
-        // Si l'utilisateur est un joueur, on sauvegarde les notes
-        if (!PlayersList::instance()->getLocalPlayer()->isGM())
-            ok = saveMinutes();
-        // S'il est MJ, on sauvegarde le scenario
+        if(!PlayersList::instance()->getLocalPlayer()->isGM())
+        {
+            message += tr("Do you want to save your minutes before to quit %1?").arg(msg);
+        }
         else
-            ok = saveStory();
+        {
+            message += tr("Do you want to save your scenario before to quit %1?").arg(msg);
 
-        if (ok || perteConnexion)
+        }
+
+        msgBox.setText(message);
+        msgBox.exec();
+        if (msgBox.clickedButton() == boutonQuitter)
         {
             return true;
         }
+        else if (msgBox.clickedButton() == boutonSauvegarder) //saving
+        {
+            bool ok;
+            if (!PlayersList::instance()->getLocalPlayer()->isGM())
+                ok = saveMinutes();
+            else
+                ok = saveStory();
+
+            if (ok || perteConnexion)
+            {
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
+    return true;
 }
 void MainWindow::removePictureFromId(QString idImage)
 {
