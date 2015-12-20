@@ -118,13 +118,8 @@ public:
 
     void setNpc(bool);
 
-public slots:
-
-
-
 signals:
     void avatarChanged();
-
 
 private:
 	void init();
