@@ -169,17 +169,8 @@ void NetworkLink::receivingData()
             {
 
                 NetWorkReceiver* tmp = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
-                switch(tmp->processMessage(&data))
-                {
-                 case NetWorkReceiver::AllExceptMe:
-                    forwardMessage(false);
-                    break;
-                case NetWorkReceiver::ALL:
-                    forwardMessage(true);
-                    break;
-                case NetWorkReceiver::NONE:
-                    break;
-                }
+
+                forwardMessage(tmp->processMessage(&data));
             }
 
             switch(data.category())
@@ -218,15 +209,15 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
         }
         else if(NetMsg::DelPlayerAction == msg->action())
         {
-            forwardMessage(false);
+            forwardMessage(NetWorkReceiver::AllExceptSender);
         }
         else if(NetMsg::ChangePlayerNameAction == msg->action())
         {
-           forwardMessage(false);
+           forwardMessage(NetWorkReceiver::AllExceptSender);
         }
         else if(NetMsg::ChangePlayerColorAction == msg->action())
         {
-           forwardMessage(false);
+           forwardMessage(NetWorkReceiver::AllExceptSender);
         }
     }
 }
@@ -234,26 +225,26 @@ void NetworkLink::processSetupMessage(NetworkMessageReader* msg)
 {
     if (msg->action() == NetMsg::AddFeatureAction)
     {
-        forwardMessage(false);
+        forwardMessage(NetWorkReceiver::AllExceptSender);
     }
 }
-void NetworkLink::forwardMessage(bool tous)
+void NetworkLink::forwardMessage( NetWorkReceiver::SendType type)
 {
-    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
+    if(NetWorkReceiver::NONE == type)
+    {
+        return;
+    }
+    if (m_networkManager->isServer())
     {
         char *donnees = new char[m_header.dataSize + sizeof(NetworkMessageHeader)];
-        // Recopie de l'entete
         memcpy(donnees, &m_header, sizeof(NetworkMessageHeader));
-        // Recopie du corps du message
         memcpy(&(donnees[sizeof(NetworkMessageHeader)]), m_buffer, m_header.dataSize);
-        if (tous)
+        if (NetWorkReceiver::ALL == type)
         {
-			//emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader));
             m_networkManager->sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),NULL);
         }
-        else
+        else if(NetWorkReceiver::AllExceptSender == type)
         {
-			//emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader), this);
             m_networkManager->sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),this);
         }
         delete[] donnees;

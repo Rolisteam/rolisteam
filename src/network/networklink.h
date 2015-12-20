@@ -123,7 +123,7 @@ private :
      * @brief forwardMessage
      * @param all
      */
-    void forwardMessage(bool all);
+    void forwardMessage(NetWorkReceiver::SendType all);
     /**
      * @brief extractCharacter
      * @param map
