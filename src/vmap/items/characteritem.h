@@ -47,10 +47,6 @@ public:
      */
     CharacterItem(Character* m,QPointF center,int diameter = 40);
     /**
-    * @brief constructor
-    */
-    //CharacterItem(QColor& penColor,QGraphicsItem * parent = 0);
-    /**
     * @brief serialisation function to write data
     */
     virtual void writeData(QDataStream& out) const;
@@ -174,6 +170,11 @@ public:
      * @brief getRadiusChildWidget
      */
     ChildPointItem* getRadiusChildWidget();
+    /**
+     * @brief isLocal
+     * @return
+     */
+    bool isLocal();
 
 signals:
     /**
@@ -187,6 +188,12 @@ signals:
      */
     void geometryChangeOnUnkownChild(qreal pointId, QPointF& F);
 
+
+    /**
+     * @brief localItemZValueChange
+     */
+    void localItemZValueChange(CharacterItem*);
+
 public slots:
     /**
      * @brief changeVisionShape
@@ -197,8 +204,17 @@ public slots:
      * @param m_size
      */
     void sizeChanged(int m_size);
+    /**
+     * @brief readPositionMsg
+     * @param msg
+     */
+    virtual void readPositionMsg(NetworkMessageReader* msg);
 
 protected:
+    /**
+     * @brief canBeMoved
+     * @return
+     */
     virtual bool canBeMoved() const;
 private slots:
     /**

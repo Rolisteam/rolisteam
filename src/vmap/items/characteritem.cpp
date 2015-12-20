@@ -29,6 +29,7 @@
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 #include "data/character.h"
+#include "data/player.h"
 #include "userlist/playersList.h"
 #include "vmap/items/sightitem.h"
 #include "map/map.h"
@@ -234,7 +235,11 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(rotation());
     msg->string16(m_character->getUuid());
     msg->uint16(m_diameter);
+
     //pos
+    msg->real(pos().x());
+    msg->real(pos().y());
+
     msg->real(m_center.x());
     msg->real(m_center.y());
 
@@ -265,6 +270,11 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     setRotation(msg->real());
     QString idCharacter = msg->string16();
     m_diameter = msg->uint16();
+
+    qreal x = msg->real();
+    qreal y = msg->real();
+
+    setPos(x,y);
 //pos
     m_center.setX(msg->real());
     m_center.setY(msg->real());
@@ -629,4 +639,23 @@ bool CharacterItem::canBeMoved() const
     {
         return VisualItem::canBeMoved();
     }
+}
+void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
+{
+    int z = zValue();
+    VisualItem::readPositionMsg(msg);
+    if(isLocal())
+    {
+        blockSignals(true);
+        setZValue(z);
+        blockSignals(false);
+    }
+}
+bool CharacterItem::isLocal()
+{
+    if(getParentId() == PlayersList::instance()->getLocalPlayer()->getUuid())
+    {
+        return true;
+    }
+    return false;
 }
