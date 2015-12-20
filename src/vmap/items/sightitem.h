@@ -39,7 +39,7 @@ public:
      * @brief SightItem
      * @param characterItemMap
      */
-    SightItem(QMap<QString,VisualItem*>* characterItemMap);
+    SightItem(QMap<QString,CharacterItem*>* characterItemMap);
     /**
      * @brief ~SightItem
      */
@@ -165,9 +165,6 @@ public slots:
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
-private slots:
-
-
 private:
     CharacterVision::SHAPE m_defaultShape;
     qreal m_defaultRadius;
@@ -178,7 +175,7 @@ private:
     QAction* m_angleShape;
 
  //   QMap<qreal,CharacterVision*> m_visionMap;
-    QMap<QString,VisualItem*>* m_characterItemMap;
+    QMap<QString,CharacterItem*>* m_characterItemMap;
     QColor m_bgColor;
     QImage m_image;
     qreal m_count;

@@ -30,9 +30,11 @@
 #include <math.h>
 
 
+#include "userlist/playersList.h"
+
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
-
+#include "data/character.h"
 
 #define PI 3.14159265
 /////////////////////////////////
@@ -44,7 +46,7 @@
 /// Code SightItem
 /////////////////////////////////
 
-SightItem::SightItem(QMap<QString,VisualItem*>* characterItemMap)
+SightItem::SightItem(QMap<QString,CharacterItem*>* characterItemMap)
     : m_defaultShape(CharacterVision::ANGLE),m_defaultAngle(120),m_defaultRadius(50),m_bgColor(Qt::black),m_characterItemMap(characterItemMap),m_count(0)
 {
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
@@ -103,19 +105,34 @@ VisualItem::ItemType SightItem::getType()
 
 void SightItem::fillMessage(NetworkMessageWriter* msg)
 {
- msg->string16(m_id);
+     msg->string16(m_id);
 
- //rect
- msg->real(m_rect.x());
- msg->real(m_rect.y());
- msg->real(m_rect.width());
- msg->real(m_rect.height());
+     //rect
+     msg->real(m_rect.x());
+     msg->real(m_rect.y());
+     msg->real(m_rect.width());
+     msg->real(m_rect.height());
 
- //pos
- msg->real(pos().x());
- msg->real(pos().y());
+     //pos
+     msg->real(pos().x());
+     msg->real(pos().y());
 
+    msg->uint64(m_fogHoleList.count());
+    foreach(QPolygonF* hole, m_fogHoleList)
+    {
+        msg->uint64(hole->size());
+        for( auto point : *hole)
+        {
+            msg->real(point.x());
+            msg->real(point.y());
+        }
+    }
 
+    msg->uint64(m_characterItemMap->keys().size());
+    foreach(QString key, m_characterItemMap->keys())
+    {
+        msg->string8(key);
+    }
 }
 
 void SightItem::readItem(NetworkMessageReader* msg)
@@ -131,6 +148,39 @@ void SightItem::readItem(NetworkMessageReader* msg)
     qreal x  = msg->real();
     qreal y = msg->real();
     setPos(x,y);
+
+    quint64 count = msg->uint64();
+    for(int i = 0; i<count;++i)
+    {
+        quint64 pointCount = msg->uint64();
+        QPolygonF* poly = new QPolygonF();
+        for(int j = 0; j <pointCount; ++j)
+        {
+            qreal x = msg->real();
+            qreal y = msg->real();
+            QPointF pos(x,y);
+            poly->append(pos);
+        }
+        m_fogHoleList.append(poly);
+    }
+
+    count = msg->uint64();
+    for(int i = 0;i < count;++i)
+    {
+        QString str = msg->string8();
+        //Character* item = PlayersList::instance()->getCharacter(str);
+        VisualItem* item= m_characterItemMap->value(str);
+        if(NULL!=item)
+        {
+            CharacterItem* cItem = dynamic_cast<CharacterItem*>(item);
+            if(NULL!=cItem)
+            {
+                m_characterItemMap->insert(str,cItem);
+            }
+        }
+    }
+
+    update();
 }
 void SightItem::setGeometryPoint(qreal pointId,QPointF& pos)
 {
@@ -182,42 +232,45 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
 
     if(getOption(VisualItem::EnableCharacterVision).toBool())
     {
-        foreach(VisualItem* item , m_characterItemMap->values())
+        foreach(CharacterItem* charact , m_characterItemMap->values())
         {
-            CharacterItem* charact = dynamic_cast<CharacterItem*>(item);
-            if(NULL!=charact)
+            if((NULL!=charact)&&
+                    ((charact->isLocal())||getOption(VisualItem::LocalIsGM).toBool()))
             {
                 CharacterVision* vision = charact->getVision();
 
                 QPainterPath subArea;
+                subArea.setFillRule(Qt::WindingFill);
+                int itemRadius = charact->getRadius();
+
+                 path = path.subtracted(charact->shape().translated(charact->pos()));//always see the user
 
                 switch(vision->getShape())
                 {
-                case CharacterVision::DISK:
-                {
-                    int itemRadius = charact->getRadius();
-                    subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
-                    subArea.addEllipse(charact->pos()+QPointF(itemRadius,itemRadius),vision->getRadius()+itemRadius,vision->getRadius()+itemRadius);
-                    //subArea.addEllipse(vision->getCharacterItem()->boundingRect());
+                    case CharacterVision::DISK:
+                    {
+                        subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
+                        subArea.addEllipse(charact->pos()+QPointF(itemRadius,itemRadius),vision->getRadius()+itemRadius,vision->getRadius()+itemRadius);
+                        //subArea.addEllipse(vision->getCharacterItem()->boundingRect());
+                    }
                     break;
-                }
-                case CharacterVision::ANGLE:
-                {
-                    int itemRadius = charact->getRadius();
-                    QPointF center= charact->pos()+QPointF(itemRadius,itemRadius);
-                    subArea.moveTo(center);
-                    subArea.setFillRule(Qt::WindingFill);
+                    case CharacterVision::ANGLE:
+                    {
+                        QPointF center= charact->pos()+QPointF(itemRadius,itemRadius);
+                        subArea.moveTo(center);
 
-                    QRectF rectArc;
-                    rectArc.setCoords(center.x()-vision->getRadius(),center.y()-vision->getRadius(),center.x()+vision->getRadius(),center.y()+vision->getRadius());
 
-                    qreal rot = charact->rotation();
+                        QRectF rectArc;
+                        rectArc.setCoords(center.x()-vision->getRadius(),center.y()-vision->getRadius(),center.x()+vision->getRadius(),center.y()+vision->getRadius());
 
-                    subArea.arcTo(rectArc,-vision->getAngle()/2-rot,vision->getAngle());
+                        qreal rot = charact->rotation();
 
-                    painter->setPen(QColor(255,0,0));
+                        subArea.arcTo(rectArc,-vision->getAngle()/2-rot,vision->getAngle());
 
-                }
+
+                        painter->setPen(QColor(255,0,0));
+
+                    }
                     break;
                 }
                 path.moveTo(charact->pos());
