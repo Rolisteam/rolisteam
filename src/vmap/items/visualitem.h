@@ -265,12 +265,12 @@ public slots:
     /**
      * @brief sendPositionMsg
      */
-    void sendPositionMsg();
+    virtual void sendPositionMsg();
     /**
      * @brief readPositionMsg
      * @param msg
      */
-    void readPositionMsg(NetworkMessageReader* msg);
+    virtual void readPositionMsg(NetworkMessageReader* msg);
     
 protected:
 	/**
