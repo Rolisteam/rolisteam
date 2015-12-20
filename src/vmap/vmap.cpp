@@ -240,7 +240,6 @@ void VMap::addItem()
     else
     {
         m_sightItem->addFogPolygon(m_currentFogPolygon);
-
     }
 }
 void VMap::setPenSize(int p)
@@ -249,9 +248,11 @@ void VMap::setPenSize(int p)
 }
 void VMap::characterHasBeenDeleted(Character* character)
 {
-    QList<VisualItem*> list = getCharacterOnMap(character->getUuid());
-    foreach(VisualItem* item,list)
+    QList<CharacterItem*> list = getCharacterOnMap(character->getUuid());
+    foreach(CharacterItem* item,list)
     {
+        m_sightItem->removeVision(item);
+        m_characterItemMap->remove(character->getUuid());
         removeItemFromScene(item->getId());
     }
 }
@@ -759,6 +760,7 @@ void VMap::processDelItemMessage(NetworkMessageReader* msg)
         if(NULL!=item)
         {
             m_itemMap->remove(id);
+            m_characterItemMap->remove(id);
             QGraphicsScene::removeItem(item);
             delete item;
         }
@@ -832,7 +834,7 @@ void VMap::addNewItem(VisualItem* item)
         }
         else if(m_currentVisibityMode == VMap::CHARACTER)
         {
-            QList<VisualItem*> items = getCharacterOnMap(m_localUserId);
+            QList<CharacterItem*> items = getCharacterOnMap(m_localUserId);
             if(!items.isEmpty())
             {
                 /// @todo activate dynamic shadows
@@ -845,23 +847,20 @@ void VMap::addNewItem(VisualItem* item)
         m_itemMap->insert(item->getId(),item);
     }
 }
-QList<VisualItem*> VMap::getCharacterOnMap(QString id)
+QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
 {
     /// @todo activate dynamic shadows
-    QList<VisualItem*> result;
-    foreach(VisualItem* item, m_characterItemMap->values())
+    QList<CharacterItem*> result;
+    foreach(CharacterItem* item, m_characterItemMap->values())
     {
-        CharacterItem* chItem = dynamic_cast<CharacterItem*>(item);
-
-        if(NULL!=chItem)
+        if(NULL!=item)
         {
-            if(chItem->getCharacterId()== id)
+            if(item->getCharacterId()== id)
             {
-                result.append(chItem);
+                result.append(item);
             }
         }
     }
-
     return result;
 }
 
@@ -886,6 +885,14 @@ void VMap::removeItemFromScene(QString id)
 
    // if(m_item )
     m_characterItemMap->remove(id);
+    if(item->getType() == VisualItem::CHARACTER)
+    {
+        CharacterItem* cItem = dynamic_cast<CharacterItem*>(item);
+        if(NULL != cItem)
+        {
+            m_characterItemMap->remove(cItem->getCharacterId());
+        }
+    }
     QGraphicsScene::removeItem(item);
     delete item;
 
@@ -1034,8 +1041,6 @@ void VMap::insertCharacterInMap(CharacterItem* item)
 {
     if((NULL!=m_characterItemMap)&&(NULL!=item))
     {
-
-
         m_characterItemMap->insertMulti(item->getCharacterId(),item);
         m_sightItem->insertVision(item);
         if((!getOption(VisualItem::LocalIsGM).toBool())&&(m_localUserId==item->getParentId()))

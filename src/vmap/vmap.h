@@ -261,12 +261,13 @@ public slots:
      * @param id
      * @return
      */
-    QList<VisualItem*> getCharacterOnMap(QString id);
+    QList<CharacterItem*> getCharacterOnMap(QString id);
     /**
      * @brief getFogItem
      * @return
      */
     SightItem* getFogItem() const;
+
 signals:
     /**
      * @brief npcAdded
