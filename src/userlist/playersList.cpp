@@ -906,9 +906,12 @@ void PlayersList::delCharacter(NetworkMessageReader & data)
 
 void PlayersList::sendDelLocalPlayer()
 {
-    NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-    message.string8(getLocalPlayer()->getUuid());
-    message.sendAll();
+    if(NULL!=getLocalPlayer())
+    {
+        NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
+        message.string8(getLocalPlayer()->getUuid());
+        message.sendAll();
+    }
 }
 void PlayersList::completeListClean()
 {
