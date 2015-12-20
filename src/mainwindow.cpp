@@ -1723,6 +1723,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     connect(m_vToolBar,SIGNAL(currentNpcNameChanged(QString)),tmp,SLOT(setCurrentNpcNameChanged(QString)));
     connect(m_vToolBar,SIGNAL(currentNpcNumberChanged(int)),tmp,SLOT(setCurrentNpcNumberChanged(int)));
 
+
     //map to toolbar
     connect(map,SIGNAL(npcAdded()),m_vToolBar,SLOT(increaseNpcNumber()));
 
@@ -1739,11 +1740,6 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     connect(m_ui->m_showHealtStatusAction, &QAction::triggered,[=](bool b){
         map->setOption(VisualItem::ShowHealtStatus,b);
     });
-
-
-    //map, SLOT(setNpcNameVisible(bool)));
-   // connect(m_ui->m_showPcNameAction, SIGNAL(triggered(bool)), map, SLOT(setPcNameVisible(bool)));
-   // connect(m_ui->m_showNpcNumberAction,SIGNAL(triggered(bool)),map,SLOT(setNpcNumberVisible(bool)));
 
     map->setOption(VisualItem::ShowNpcName,m_ui->m_showNpcNameAction->isChecked());
     map->setOption(VisualItem::ShowNpcNumber,m_ui->m_showNpcNumberAction->isChecked());
