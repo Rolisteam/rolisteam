@@ -132,6 +132,7 @@ void ProfileModel::appendProfile()
     profile->setPort(6660);
     profile->setName(QStringLiteral("Unknown User"));
     profile->setPlayer(new Player());
+    profile->setCharacter(new Character(QStringLiteral("Unknown"),Qt::black,false));
     beginInsertRows(QModelIndex(),m_connectionProfileList.size(),m_connectionProfileList.size());
     m_connectionProfileList.append(profile);
     endInsertRows();
@@ -290,10 +291,13 @@ void SelectConnectionProfileDialog::updateGUI()
         ui->m_isGmCheckbox->setChecked(m_currentProfile->isGM());
         ui->m_colorBtn->setColor(m_currentProfile->getPlayer()->getColor());
 
+        if(NULL!=m_currentProfile->getCharacter())
+        {
         //character
-        ui->m_characterName->setText(m_currentProfile->getCharacter()->getName());
-        ui->m_characterColor->setColor(m_currentProfile->getCharacter()->getColor());
-        ui->m_selectCharaterAvatar->setIcon(QIcon(QPixmap::fromImage(m_currentProfile->getCharacter()->getAvatar())));
+            ui->m_characterName->setText(m_currentProfile->getCharacter()->getName());
+            ui->m_characterColor->setColor(m_currentProfile->getCharacter()->getColor());
+            ui->m_selectCharaterAvatar->setIcon(QIcon(QPixmap::fromImage(m_currentProfile->getCharacter()->getAvatar())));
+        }
     }
 }
 
