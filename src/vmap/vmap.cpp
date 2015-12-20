@@ -53,7 +53,7 @@ void VMap::initMap()
     m_currentPath = NULL;
     m_currentFogPolygon=NULL;
     m_itemMap=new  QMap<QString,VisualItem*>;
-    m_characterItemMap = new QMap<QString,VisualItem*>();
+    m_characterItemMap = new QMap<QString,CharacterItem*>();
     setItemIndexMethod(QGraphicsScene::NoIndex);
     m_sightItem = new SightItem(m_characterItemMap);  
 
@@ -605,6 +605,7 @@ void VMap::openFile(QDataStream& in)
 
 void VMap::addCharacter(Character* p, QPointF pos)
 {
+
     CharacterItem* item= new CharacterItem(p,pos);
 
     NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
@@ -677,28 +678,6 @@ void VMap::computePattern()
     }
 
 }
-
-/*void VMap::setScaleUnit(int p)
-{
-    switch(p)
-    {
-    case PX:
-    case FEET:
-    case CM:
-    case INCH:
-    case M:
-    case KM:
-    case YARD:
-    case MILE:
-        m_patternUnit = (VMap::SCALE_UNIT)p;
-        break;
-    default:
-        m_patternUnit = PX;
-        break;
-    }
-    
-    
-}*/
 void VMap::processAddItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
@@ -751,6 +730,7 @@ void VMap::processGeometryChangeItem(NetworkMessageReader* msg)
     {
         VisualItem* item = m_itemMap->value(idItem);
         item->readItem(msg);
+
     }
     else if(idItem == m_sightItem->getId())
     {
@@ -903,12 +883,9 @@ void VMap::removeItemFromScene(QString id)
         return;
     }
     VisualItem* item = m_itemMap->take(id);
-    QString key = m_characterItemMap->key(item);
-    if(!key.isNull())
-    {
-        m_sightItem->removeVision(dynamic_cast<CharacterItem*>(item));
-        m_characterItemMap->remove(key);
-    }
+
+   // if(m_item )
+    m_characterItemMap->remove(id);
     QGraphicsScene::removeItem(item);
     delete item;
 
@@ -977,7 +954,7 @@ void VMap::setLocalId(QString id)
 
 void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
 {
-    const RolisteamMimeData* data= qobject_cast<const RolisteamMimeData*>(event->mimeData());
+    const RolisteamMimeData* data = qobject_cast<const RolisteamMimeData*>(event->mimeData());
     if(data)
     {
         if (data->hasFormat("rolisteam/userlist-item"))
@@ -1057,8 +1034,14 @@ void VMap::insertCharacterInMap(CharacterItem* item)
 {
     if((NULL!=m_characterItemMap)&&(NULL!=item))
     {
+
+
         m_characterItemMap->insertMulti(item->getCharacterId(),item);
         m_sightItem->insertVision(item);
+        if((!getOption(VisualItem::LocalIsGM).toBool())&&(m_localUserId==item->getParentId()))
+        {
+            changeStackOrder(item,VisualItem::FRONT);
+        }
     }
 }
 
@@ -1068,54 +1051,43 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
     {
         m_currentVisibityMode = mode;
         emit mapChanged();
+        bool visibilitySight = false;
+        bool visibilityItems = false;
         if(!getOption(VisualItem::LocalIsGM).toBool())
         {
             if(m_currentVisibityMode == VMap::HIDDEN)
             {
-                foreach(VisualItem* item, m_itemMap->values())
-                {
-                    item->setVisible(false);
-                }
-                if(NULL!=m_sightItem)
-                {
-                    m_sightItem->setVisible(false);
-                }
+                visibilityItems = false;
             }
             else if(m_currentVisibityMode == VMap::ALL)
             {
-                foreach(VisualItem* item, m_itemMap->values())
-                {
-                    item->setVisible(true);
-                }
-                if(NULL!=m_sightItem)
-                {
-                    m_sightItem->setVisible(false);
-                }
+                visibilityItems = true;
             }
             else if(VMap::CHARACTER == m_currentVisibityMode)
             {
-                if(NULL!=m_sightItem)
-                {
-                    m_sightItem->setVisible(true);
-                }
+                visibilitySight = true;
+                visibilityItems = true;
             }
         }
         else
         {
+            visibilityItems = true;
             if(VMap::CHARACTER == m_currentVisibityMode)
             {
-                if(NULL!=m_sightItem)
-                {
-                    m_sightItem->setVisible(true);
-                }
+                visibilitySight = true;
             }
             else
             {
-                if(NULL!=m_sightItem)
-                {
-                    m_sightItem->setVisible(false);
-                }
+                visibilitySight = false;
             }
+        }
+        foreach(VisualItem* item, m_itemMap->values())
+        {
+            item->setVisible(visibilityItems);
+        }
+        if(NULL!=m_sightItem)
+        {
+            m_sightItem->setVisible(visibilitySight);
         }
         return true;
     }
@@ -1211,4 +1183,14 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
         item->setZValue(++z);
     }
     m_sightItem->setZValue(++z);
+    if(!getOption(VisualItem::LocalIsGM).toBool())
+    {
+        foreach(CharacterItem* item,m_characterItemMap->values())
+        {
+            if(item->getParentId() == m_localUserId)
+            {
+                item->setZValue(++z);
+            }
+        }
+    }
 }

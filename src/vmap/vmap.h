@@ -363,6 +363,7 @@ protected:
      * @brief initMap
      */
     void initMap();
+
 private:
     /**
     * @brief width of the map
@@ -419,7 +420,7 @@ private:
     /**
     * @brief Items list which are part of the map.
     */
-    QMap<QString,VisualItem*>* m_characterItemMap;
+    QMap<QString,CharacterItem*>* m_characterItemMap;
     /**
      * @brief m_computedPattern
      */
