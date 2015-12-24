@@ -17,5 +17,23 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
+#ifndef MAIN
+#define MAIN
 
 
+#include <QApplication>
+#include "namegeneratorwidget.h"
+
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+
+
+    NameGeneratorWidget* nameWid = new NameGeneratorWidget();
+    nameWid->show();
+
+    return app.exec();
+}
+
+
+#endif

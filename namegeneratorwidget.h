@@ -27,16 +27,34 @@ namespace Ui {
 class NameGeneratorWidget;
 }
 
+
+struct DataBase;
+
 class NameGeneratorWidget : public QWidget
 {
     Q_OBJECT
 
 public:
+    enum AVAILABLE_GENDER{Female,Male,BOTH};
     explicit NameGeneratorWidget(QWidget *parent = 0);
     ~NameGeneratorWidget();
+private slots:
+    void generateName();
+private:
+    QString buildName(const QJsonObject &json,int len);
+
 
 private:
     Ui::NameGeneratorWidget *ui;
+    QStringList m_model;
+    QList<DataBase> m_gender;
 };
 
+
+struct DataBase
+{
+    NameGeneratorWidget::AVAILABLE_GENDER gender;
+    QString filepath;
+    int id;
+};
 #endif // NAMEGENERATORWIDGET_H
