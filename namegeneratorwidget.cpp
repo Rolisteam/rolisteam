@@ -36,7 +36,7 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     uint seed = quintptr(this) + QDateTime::currentDateTime().toMSecsSinceEpoch();
     qsrand(seed);
 
-    m_model << tr("First Name Japanese");
+    m_model << tr("Japanese First Name");
     ui->m_database->addItems(m_model);
 
     connect(ui->m_gen,SIGNAL(clicked()),this,SLOT(generateName()));
@@ -46,9 +46,14 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     jpMale.gender = Male;
     jpMale.id=0;
 
+    DataBase jpFemale;
+    jpFemale.filepath=":/data/result_Name_Japanese_Female.txt";
+    jpFemale.gender = Female;
+    jpFemale.id=1;
 
 
     m_gender.insert(jpMale.id,jpMale);
+    m_gender.insert(jpFemale.id,jpFemale);
 }
 
 NameGeneratorWidget::~NameGeneratorWidget()
@@ -58,10 +63,15 @@ NameGeneratorWidget::~NameGeneratorWidget()
 void NameGeneratorWidget::generateName()
 {
     ui->m_result->clear();
-    DataBase base = m_gender.at(ui->m_database->currentIndex());
+    int i = ui->m_database->currentIndex()*2;
+    if(ui->m_femaleBtn->isChecked())
+    {
+        ++i;
+    }
 
+    DataBase base = m_gender.at(i);
+    qDebug()<< base.filepath;
     QFile loadFile(base.filepath);
-
 
     if (!loadFile.open(QIODevice::ReadOnly))
     {

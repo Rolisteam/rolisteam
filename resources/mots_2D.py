@@ -8,9 +8,10 @@ import codecs
 import argparse
 
 
-filepath = "data_Name_Japanese_Male.txt"
+#filepath = "data_Name_Japanese_Male.txt"
+filepath = "data_Name_Japanese_Female.txt"
 #filepath = "testdata.txt"
-outputFile = "result_Name_Japanese_Male.txt"
+outputFile = "result_Name_Japanese_Female.txt"
 
 probFirstLetter={}
 probLetter={}
