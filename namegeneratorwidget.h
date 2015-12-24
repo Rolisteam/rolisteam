@@ -40,6 +40,7 @@ public:
     ~NameGeneratorWidget();
 private slots:
     void generateName();
+    bool nextCharacterCanEnd(const QJsonObject& json,QString key);
 private:
     QString buildName(const QJsonObject &json,int len);
 
