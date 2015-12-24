@@ -81,7 +81,7 @@ void NameGeneratorWidget::generateName()
     }
 }
 
-QString NameGeneratorWidget::buildName(const QJsonObject &json,int len)
+QString NameGeneratorWidget::buildName(const QJsonObject& json,int len)
 {
     QString result;
     QJsonObject firstLetter = json["firstLetter"].toObject();
@@ -96,10 +96,12 @@ QString NameGeneratorWidget::buildName(const QJsonObject &json,int len)
             result = key;
         }
     }
+    int rLen = len-1;//already find the first character.
 
-    for(int index = 0; index< len; ++index)
+    for(int index = 0; index< rLen; ++index)
     {
-        bool lastIndex = (index==len-1) ? true : false;
+        bool lastIndex = result.size()+1==len ? true : false;
+        bool beforeLast = ((result.size()+2)==len) ? true:false;
         QString duo;
         if(result.count()==1)
         {
@@ -112,23 +114,25 @@ QString NameGeneratorWidget::buildName(const QJsonObject &json,int len)
 
         QJsonObject dataJson = json["data"].toObject();
         QJsonObject duoJson = dataJson[duo.toLower()].toObject();
+        QString lastestChar = result.right(1);
+
+        if(lastIndex)
+        {
+            dataJson = json["lastLetter"].toObject();
+            duoJson = dataJson[duo.toLower()].toObject();
+        }
+
 
         QJsonObject::iterator i;
         int sumDict=0;
         for(i = duoJson.begin(); i != duoJson.end(); ++i)
         {
-            if(((i.key() != "0")    &&  (!lastIndex))||
-                    ((lastIndex)       &&  (i.key() == "0")))
+            if(i.key()!="0")
             {
-                QJsonObject dictForTwoLetter = dataJson.find(duo.right(1)+i.key()).value().toObject();
-                qDebug() << "First" << dictForTwoLetter.isEmpty() << duo.right(1)+i.key();
-
-                if((!lastIndex)||((lastIndex)&&(dictForTwoLetter.find("0") != dictForTwoLetter.end() )))
+                if((!beforeLast)||(beforeLast)&&(nextCharacterCanEnd(json,QStringLiteral("%1%2").arg(lastestChar).arg(i.key()))))
                 {
-                    qDebug() << lastIndex << dictForTwoLetter<< index ;
                     sumDict += i.value().toInt();
                 }
-
             }
         }
         if(sumDict>0)
@@ -138,28 +142,33 @@ QString NameGeneratorWidget::buildName(const QJsonObject &json,int len)
             bool unfound=true;
             for(i = duoJson.begin(); i != duoJson.end() && unfound; ++i)
             {
-                if(((i.key() != "0")&&(!lastIndex))||((lastIndex)&&(i.key() == "0")))
+                if(i.key()!="0")
                 {
-                    QJsonObject dictForTwoLetter = dataJson.find(duo.right(1)+i.key()).value().toObject();
-                    qDebug() << "Second" << dictForTwoLetter;
-                    if((!lastIndex)||((lastIndex)&&(dictForTwoLetter.find("0") != dictForTwoLetter.end() )))
+                    if((!beforeLast)||(beforeLast)&&(nextCharacterCanEnd(json,QStringLiteral("%1%2").arg(lastestChar).arg(i.key()))))
                     {
                         sumDict += i.value().toInt();
                         if(sumDict > value)
                         {
-                            if(i.key() !="0")
-                            {
-                                result.append(i.key());
-                            }
+                            result.append(i.key());
                             unfound=false;
                         }
                     }
-
                 }
             }
         }
 
     }
-
     return result;
+}
+bool NameGeneratorWidget::nextCharacterCanEnd(const QJsonObject& json,QString key)
+{
+    QJsonObject dataJson = json["lastLetter"].toObject();
+    if(dataJson[key.toLower()].isUndefined())
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
 }
