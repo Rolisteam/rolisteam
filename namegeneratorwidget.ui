@@ -116,6 +116,9 @@
    </item>
    <item>
     <widget class="QTextEdit" name="m_result">
+     <property name="styleSheet">
+      <string notr="true">font: 11pt &quot;DejaVu Sans Mono&quot;;</string>
+     </property>
      <property name="readOnly">
       <bool>true</bool>
      </property>

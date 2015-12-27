@@ -139,7 +139,7 @@ QString NameGeneratorWidget::buildName(const QJsonObject& json,int len)
         {
             if(i.key()!="0")
             {
-                if((!beforeLast)||(beforeLast)&&(nextCharacterCanEnd(json,QStringLiteral("%1%2").arg(lastestChar).arg(i.key()))))
+                if(nextIsPossible(json,QStringLiteral("%1%2").arg(lastestChar).arg(i.key()),beforeLast))
                 {
                     sumDict += i.value().toInt();
                 }
@@ -154,7 +154,8 @@ QString NameGeneratorWidget::buildName(const QJsonObject& json,int len)
             {
                 if(i.key()!="0")
                 {
-                    if((!beforeLast)||(beforeLast)&&(nextCharacterCanEnd(json,QStringLiteral("%1%2").arg(lastestChar).arg(i.key()))))
+
+                    if(nextIsPossible(json,QStringLiteral("%1%2").arg(lastestChar).arg(i.key()),beforeLast))
                     {
                         sumDict += i.value().toInt();
                         if(sumDict > value)
@@ -173,6 +174,22 @@ QString NameGeneratorWidget::buildName(const QJsonObject& json,int len)
 bool NameGeneratorWidget::nextCharacterCanEnd(const QJsonObject& json,QString key)
 {
     QJsonObject dataJson = json["lastLetter"].toObject();
+    if(dataJson[key.toLower()].isUndefined())
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+bool NameGeneratorWidget::nextIsPossible(const QJsonObject& json,QString key,bool last)
+{
+    if(last)
+    {
+        return nextCharacterCanEnd(json,key);
+    }
+    QJsonObject dataJson = json["data"].toObject();
     if(dataJson[key.toLower()].isUndefined())
     {
         return false;

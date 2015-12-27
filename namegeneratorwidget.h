@@ -41,6 +41,9 @@ public:
 private slots:
     void generateName();
     bool nextCharacterCanEnd(const QJsonObject& json,QString key);
+    bool nextIsPossible(const QJsonObject& json,QString key,bool last);
+
+
 private:
     QString buildName(const QJsonObject &json,int len);
 
