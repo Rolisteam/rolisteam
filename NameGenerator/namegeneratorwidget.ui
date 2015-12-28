@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Name Generation</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../../rolisteam.qrc">
+    <normaloff>:/resources/logo/500-symbole.png</normaloff>:/resources/logo/500-symbole.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -126,6 +130,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../../rolisteam.qrc"/>
+ </resources>
  <connections/>
 </ui>

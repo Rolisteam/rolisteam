@@ -32,6 +32,8 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::NameGeneratorWidget)
 {
+    setWindowTitle(QStringLiteral("Name Generator"));
+    setObjectName(QStringLiteral("NameGenerator"));
     ui->setupUi(this);
     uint seed = quintptr(this) + QDateTime::currentDateTime().toMSecsSinceEpoch();
     qsrand(seed);
