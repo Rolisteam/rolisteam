@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/data">
+        <file>result_Name_Japanese_Male.txt</file>
+        <file>result_Name_Japanese_Female.txt</file>
+    </qresource>
+</RCC>
