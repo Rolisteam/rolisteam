@@ -38,7 +38,7 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     uint seed = quintptr(this) + QDateTime::currentDateTime().toMSecsSinceEpoch();
     qsrand(seed);
 
-    m_model << tr("Japanese First Name");
+    m_model << tr("Japanese First Name")<< tr("Elve First Name");
     ui->m_database->addItems(m_model);
 
     connect(ui->m_gen,SIGNAL(clicked()),this,SLOT(generateName()));
@@ -53,9 +53,22 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     jpFemale.gender = Female;
     jpFemale.id=1;
 
+    DataBase elveMale;
+    elveMale.filepath=":/data/result_Name_Elve_Male.txt";
+    elveMale.gender = Male;
+    elveMale.id=2;
+
+    DataBase elveFemale ;
+    elveFemale.filepath=":/data/result_Name_Elve_Female.txt";
+    elveFemale.gender = Female;
+    elveFemale.id=3;
+
 
     m_gender.insert(jpMale.id,jpMale);
     m_gender.insert(jpFemale.id,jpFemale);
+    m_gender.insert(elveMale.id,elveMale);
+    m_gender.insert(elveFemale.id,elveFemale);
+
 }
 
 NameGeneratorWidget::~NameGeneratorWidget()
