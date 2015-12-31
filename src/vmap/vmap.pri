@@ -18,4 +18,33 @@ SOURCES += $$PWD/vmapwizzarddialog.cpp \
     $$PWD/vmaptoolbar.cpp
 FORMS += $$PWD/vmapwizzarddialog.ui
 
-include(items/items.pri)
+
+HEADERS += $$PWD/items/visualitem.h \
+    $$PWD/items/rectitem.h \
+    $$PWD/items/ellipsitem.h \
+    $$PWD/items/pathitem.h \
+    $$PWD/items/characteritem.h \
+    $$PWD/items/lineitem.h \
+    $$PWD/items/textitem.h \
+    $$PWD/items/childpointitem.h \
+    $$PWD/items/ruleitem.h \
+    $$PWD/items/imageitem.h \
+    $$PWD/items/anchoritem.h \
+    $$PWD/items/sightitem.h
+
+
+
+SOURCES += $$PWD/items/visualitem.cpp \
+    $$PWD/items/rectitem.cpp \
+    $$PWD/items/ellipsitem.cpp \
+    $$PWD/items/pathitem.cpp \
+    $$PWD/items/characteritem.cpp \
+    $$PWD/items/lineitem.cpp \
+    $$PWD/items/textitem.cpp \
+    $$PWD/items/childpointitem.cpp \
+    $$PWD/items/ruleitem.cpp \
+    $$PWD/items/imageitem.cpp \
+    $$PWD/items/anchoritem.cpp \
+    $$PWD/items/sightitem.cpp
+
+#include(items/items.pri)
