@@ -38,9 +38,48 @@
 
 #define PI 3.14159265
 /////////////////////////////////
-/// Code Vision
+/// Code FogSingularity
 /////////////////////////////////
+FogSingularity::FogSingularity(QPolygonF* poly,bool isAdding)
+    : m_poly(poly),m_adding(isAdding)
+{
 
+}
+
+const QPolygonF* FogSingularity::getPolygon() const
+{
+    return m_poly;
+}
+bool FogSingularity::isAdding() const
+{
+    return m_adding;
+}
+void FogSingularity::fillMessage(NetworkMessageWriter* msg)
+{
+    msg->uint64(m_poly->size());
+    msg->uint8(m_adding);
+    for( auto point : *m_poly)
+    {
+        msg->real(point.x());
+        msg->real(point.y());
+    }
+}
+
+void FogSingularity::readItem(NetworkMessageReader* msg)
+{
+    quint64 pointCount = msg->uint64();
+    m_adding = (bool)msg->uint8();
+
+    m_poly = new QPolygonF();
+    for(int j = 0; j <pointCount; ++j)
+    {
+        qreal x = msg->real();
+        qreal y = msg->real();
+        QPointF pos(x,y);
+        m_poly->append(pos);
+    }
+
+}
 
 /////////////////////////////////
 /// Code SightItem
@@ -118,14 +157,11 @@ void SightItem::fillMessage(NetworkMessageWriter* msg)
      msg->real(pos().y());
 
     msg->uint64(m_fogHoleList.count());
-    foreach(QPolygonF* hole, m_fogHoleList)
+    foreach(FogSingularity* hole, m_fogHoleList)
     {
-        msg->uint64(hole->size());
-        for( auto point : *hole)
-        {
-            msg->real(point.x());
-            msg->real(point.y());
-        }
+
+        hole->fillMessage(msg);
+
     }
 
     msg->uint64(m_characterItemMap->keys().size());
@@ -152,17 +188,11 @@ void SightItem::readItem(NetworkMessageReader* msg)
     quint64 count = msg->uint64();
     for(int i = 0; i<count;++i)
     {
-        quint64 pointCount = msg->uint64();
-        QPolygonF* poly = new QPolygonF();
-        for(int j = 0; j <pointCount; ++j)
-        {
-            qreal x = msg->real();
-            qreal y = msg->real();
-            QPointF pos(x,y);
-            poly->append(pos);
-        }
-        m_fogHoleList.append(poly);
+        FogSingularity* fogs = new FogSingularity();
+        fogs->readItem(msg);
+        m_fogHoleList.append(fogs);
     }
+
 
     count = msg->uint64();
     for(int i = 0;i < count;++i)
@@ -220,11 +250,19 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
     QRectF rect = boundingRect();
     QPainterPath path;
     path.addRect(rect);
-    foreach(QPolygonF* poly, m_fogHoleList)
+    foreach(FogSingularity* fogs, m_fogHoleList)
     {
         QPainterPath subPoly;
+        const QPolygonF* poly = fogs->getPolygon();
         subPoly.addPolygon(*poly);
-        path = path.subtracted(subPoly);
+        if(!fogs->isAdding())
+        {
+            path = path.subtracted(subPoly);
+        }
+        else
+        {
+            path = path.united(subPoly);
+        }
     }
 
     if(getOption(VisualItem::EnableCharacterVision).toBool())
@@ -329,13 +367,7 @@ void  SightItem::setDefaultAngle(qreal rad)
 }
 void SightItem::createActions()
 {
-    /*m_diskShape = new QAction(tr("Disk Shape"),this);
-    m_diskShape->setCheckable(true);
-    m_angleShape = new QAction(tr("Arc Shape"),this);
-    m_angleShape->setCheckable(true);*/
 
-    /*connect(m_diskShape,SIGNAL(triggered()),this,SLOT(closePath()));
-    connect(m_angleShape,SIGNAL(triggered()),this,SLOT(closePath()));*/
 }
 
 void SightItem::addActionContextMenu(QMenu* menu)
@@ -354,10 +386,12 @@ void SightItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     QGraphicsObject::contextMenuEvent(event);
 }
-void SightItem::addFogPolygon(QPolygonF* a)
+FogSingularity* SightItem::addFogPolygon(QPolygonF* a,bool adding)
 {
-    m_fogHoleList << a;
+    FogSingularity* fogs = new FogSingularity(a,adding);
+    m_fogHoleList << fogs;
     update();
+    return fogs;
 }
 void SightItem::setGM(bool b)
 {

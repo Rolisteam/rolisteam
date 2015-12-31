@@ -28,6 +28,21 @@
 #include "characteritem.h"
 #include "data/charactervision.h"
 
+
+class FogSingularity
+{
+public:
+    FogSingularity(QPolygonF* poly = NULL,bool isAdding = false);
+    const QPolygonF* getPolygon() const;
+    bool isAdding() const;
+    void fillMessage(NetworkMessageWriter* msg);
+    void readItem(NetworkMessageReader* msg);
+
+private:
+    QPolygonF* m_poly;
+    bool m_adding;
+};
+
 /**
  * @brief The SightItem class
  */
@@ -146,7 +161,7 @@ public:
      * @brief addFogPolygon
      * @param a
      */
-    void addFogPolygon(QPolygonF* a);
+    FogSingularity*  addFogPolygon(QPolygonF* a,bool adding);
 public slots:
     /**
      * @brief moveVision
@@ -179,7 +194,7 @@ private:
     QColor m_bgColor;
     QImage m_image;
     qreal m_count;
-    QList<QPolygonF*> m_fogHoleList;
+    QList<FogSingularity*> m_fogHoleList;
     bool m_isGM;
 };
 
