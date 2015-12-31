@@ -65,6 +65,7 @@ void TextItem::init()
     m_textItem->setDocument(m_doc);
 
     connect(m_doc,SIGNAL(contentsChanged()),this,SLOT(updateTextPosition()));
+    //connect(m_doc,SIGNAL(contentsChanged()),this,SLOT(textHasChanged()));
 
 }
 
@@ -159,12 +160,9 @@ void TextItem::setGeometryPoint(qreal pointId, QPointF &pos)
         break;
     }
 
-
     setTransformOriginPoint(m_rect.center());
 
-
     updateTextPosition();
-
 }
 void TextItem::updateTextPosition()
 {
@@ -198,14 +196,11 @@ void TextItem::updateTextPosition()
             m_child->value(3)->setPos(m_rect.bottomLeft());
         }
     }
+    itemGeometryChanged(this);
 }
 
 void TextItem::initChildPointItem()
 {
-    /*setPos(m_start);
-    m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);*/
-
-
     m_rect = m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
 
@@ -216,12 +211,8 @@ void TextItem::initChildPointItem()
     for(int i = 0; i< 4 ; ++i)
     {
         ChildPointItem* tmp = new ChildPointItem(i,this);
-        //setParentItem(tmp);
         tmp->setMotion(ChildPointItem::ALL);
-
-        // tmp->setRotationEnable(true);
         m_child->append(tmp);
-        //tmp->setVisible(true);
     }
     updateChildPosition();
 }
