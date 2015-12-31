@@ -94,6 +94,8 @@
         <file>resources/icons/draw-rectangle-2.png</file>
         <file>resources/icons/insert-link-2.png</file>
         <file>resources/icons/textwithBorder.png</file>
+        <file>resources/icons/eye.png</file>
+        <file>resources/icons/mask.png</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>

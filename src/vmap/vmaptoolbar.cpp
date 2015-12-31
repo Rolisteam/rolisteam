@@ -59,7 +59,7 @@ void VmapToolBar::setupUi()
 
     m_currentVisibility=new QComboBox();
     QStringList listVisi;
-    listVisi <<tr("Hidden") <<tr("Character")<< tr("All");
+    listVisi <<tr("Hidden") <<tr("Fog of War")<< tr("All");
     m_currentVisibility->addItems(listVisi);
 
     addWidget(new QLabel(tr("Background:")));
