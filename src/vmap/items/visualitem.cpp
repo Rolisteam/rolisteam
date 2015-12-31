@@ -336,7 +336,8 @@ bool VisualItem::hasFocusOrChild()
 
 void VisualItem::sendPositionMsg()
 {
-   if(getOption(VisualItem::LocalIsGM).toBool())//getOption PermissionMode
+   if(getOption(VisualItem::LocalIsGM).toBool() ||
+      getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)//getOption PermissionMode
    {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
         msg.string8(m_mapId);
@@ -352,9 +353,6 @@ void VisualItem::sendPositionMsg()
 
 void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 {
-
-   // qDebug() << "read Position" << m_id;
-
     qreal x = msg->real();
     qreal y = msg->real();
     qreal z = msg->real();
