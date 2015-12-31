@@ -617,12 +617,6 @@ void CharacterItem::setDefaultVisionParameter(CharacterVision::SHAPE shape, qrea
     m_vision->setAngle(angle);
     m_vision->setRadius(radius);
     m_vision->setShape(shape);
-
-
-    /*NetMsg::NetworkMessageWriter msg();
-    msg.string8(getId());
-    m_vision->fill(&msg);*/
-
 }
 CharacterVision* CharacterItem::getVision()const
 {
