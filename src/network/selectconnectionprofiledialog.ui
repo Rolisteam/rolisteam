@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>611</width>
-    <height>475</height>
+    <height>481</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Welcome To Rolisteam - Connection Dialog</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_7">
    <item>
