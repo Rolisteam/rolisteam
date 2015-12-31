@@ -53,9 +53,22 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     jpFemale.gender = Female;
     jpFemale.id=1;
 
+    DataBase elveMale;
+    elveMale.filepath=":/data/result_Name_Elve_Male.txt";
+    elveMale.gender = Male;
+    elveMale.id=2;
+
+    DataBase elveFemale ;
+    elveFemale.filepath=":/data/result_Name_Elve_Female.txt";
+    elveFemale.gender = Female;
+    elveFemale.id=3;
+
 
     m_gender.insert(jpMale.id,jpMale);
     m_gender.insert(jpFemale.id,jpFemale);
+    m_gender.insert(elveMale.id,elveMale);
+    m_gender.insert(elveFemale.id,elveFemale);
+
 }
 
 NameGeneratorWidget::~NameGeneratorWidget()
