@@ -38,7 +38,7 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     uint seed = quintptr(this) + QDateTime::currentDateTime().toMSecsSinceEpoch();
     qsrand(seed);
 
-    m_model << tr("Japanese First Name");
+    m_model << tr("Japanese First Name")<< tr("Elve First Name");
     ui->m_database->addItems(m_model);
 
     connect(ui->m_gen,SIGNAL(clicked()),this,SLOT(generateName()));
