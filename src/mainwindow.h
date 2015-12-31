@@ -257,7 +257,7 @@ protected :
 
 private slots :
     void userNatureChange();
-    void changementFenetreActive(QMdiSubWindow* widget);
+    void activeWindowChanged(QMdiSubWindow* widget);
     void newMap();
     void newVectorialMap();
     void openStory();
@@ -378,6 +378,7 @@ private :
 	bool m_profileDefined;
 
     ConnectionProfile* m_currentConnectionProfile;
+    QList<QWidget*> m_gmToolBoxList;
 };
 
 #endif

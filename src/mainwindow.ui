@@ -115,9 +115,15 @@
     <addaction name="separator"/>
     <addaction name="m_aboutAction"/>
    </widget>
+   <widget class="QMenu" name="m_gmToolBoxMenu">
+    <property name="title">
+     <string>GM ToolBox</string>
+    </property>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="m_menuSubWindows"/>
    <addaction name="menuNetwork"/>
+   <addaction name="m_gmToolBoxMenu"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

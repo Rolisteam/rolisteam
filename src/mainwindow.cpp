@@ -64,6 +64,7 @@
 #include "variablesGlobales.h"
 
 #include "widgets/aboutrolisteam.h"
+#include "widgets/gmtoolbox/NameGenerator/namegeneratorwidget.h"
 
 //VMAP
 #include "vmap/vmapframe.h"
@@ -104,6 +105,22 @@ MainWindow::MainWindow()
     connect(m_networkManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
     m_ipChecker = new IpChecker(this);
     m_mapAction = new QMap<MediaContainer*,QAction*>();
+
+    /// Create all GM toolbox widget
+    m_gmToolBoxList.append(new NameGeneratorWidget());
+
+    foreach (QWidget* wid, m_gmToolBoxList)
+    {
+        QDockWidget* widDock = new QDockWidget(this);
+        widDock->setWidget(wid);
+        widDock->setWindowTitle(wid->windowTitle());
+        widDock->setObjectName(wid->objectName());
+        addDockWidget(Qt::RightDockWidgetArea, widDock);
+
+        m_ui->m_gmToolBoxMenu->addAction(widDock->toggleViewAction());
+        widDock->setVisible(false);
+    }
+
 }
 MainWindow::~MainWindow()
 {
@@ -252,14 +269,14 @@ void MainWindow::checkUpdate()
         connect(m_updateChecker,SIGNAL(checkFinished()),this,SLOT(updateMayBeNeeded()));
     }
 }
-void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
+void MainWindow::activeWindowChanged(QMdiSubWindow *subWindow)
 {
     if(NULL!=m_currentConnectionProfile)
     {
         bool localPlayerIsGM = m_currentConnectionProfile->isGM();
         if((NULL!=subWindow) )
         {
-            if (subWindow->objectName() == QString("MapFrame") && (localPlayerIsGM))
+            if (subWindow->objectName() == QString("MapFrame") /*&& (localPlayerIsGM)*/)
             {
                 m_toolBarStack->setCurrentWidget(m_toolBar);
                 m_ui->m_closeAction->setEnabled(true);
@@ -274,7 +291,7 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
                 m_ui->m_saveAction->setEnabled(false);
                 m_vmapToolBar->setEnabled(false);
             }
-            else if(subWindow->objectName() == QString("VMapFrame") && ((localPlayerIsGM)))
+            else if(subWindow->objectName() == QString("VMapFrame")/* && ((localPlayerIsGM))*/)
             {
                 m_playersListWidget->model()->changeMap(NULL);
                 m_toolBarStack->setCurrentWidget(m_vToolBar);
@@ -283,6 +300,7 @@ void MainWindow::changementFenetreActive(QMdiSubWindow *subWindow)
                 m_ui->m_saveAction->setEnabled(false);
                 VMapFrame* frame = dynamic_cast<VMapFrame*>(subWindow);
                 m_vmapToolBar->setCurrentMap(frame->getMap());
+                m_vToolBar->updateUi(frame->getMap()->getPermissionMode());
             }
         }
         else
@@ -311,7 +329,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     {
         event->ignore();
     }
-
 }
 void MainWindow::userNatureChange()
 {
@@ -495,7 +512,7 @@ void MainWindow::updateWorkspace()
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
     if (NULL!=active)
     {
-        changementFenetreActive(active);
+        activeWindowChanged(active);
     }
 }
 void MainWindow::newMap()
@@ -952,11 +969,12 @@ void MainWindow::helpOnLine()
 }
 void MainWindow::updateUi()
 {
-    /// @todo hide diametrePNj for players.
     m_toolBar->updateUi();
 #ifndef NULL_PLAYER
     m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
 #endif
+
+    m_vToolBar->setGM(m_currentConnectionProfile->isGM());
     if(!m_currentConnectionProfile->isGM())
     {
         m_ui->m_newMapAction->setEnabled(false);
@@ -966,18 +984,13 @@ void MainWindow::updateUi()
         m_ui->m_closeAction->setEnabled(false);
         m_ui->m_saveAction->setEnabled(false);
         m_ui->m_saveScenarioAction->setEnabled(false);
-    }
-   /*if(m_networkManager->isServer())
+        m_vmapToolBar->setVisible(false);
+        m_vmapToolBar->toggleViewAction()->setVisible(false);
 
-    {
-        m_ui->m_connectionAction->setEnabled(false);
-        m_ui->m_disconnectAction->setEnabled(true);
     }
-    else
-	{*/
-        m_ui->m_connectionAction->setEnabled(false);
-        m_ui->m_disconnectAction->setEnabled(true);
-	//}
+    m_ui->m_connectionAction->setEnabled(false);
+    m_ui->m_disconnectAction->setEnabled(true);
+
     updateRecentFileActions();
 }
 void MainWindow::updateMayBeNeeded()
@@ -1269,7 +1282,7 @@ void MainWindow::setupUi()
     setAnimated(false);
     m_mdiArea = new ImprovedWorkspace();
     setCentralWidget(m_mdiArea);
-    connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(changementFenetreActive(QMdiSubWindow *)));
+    connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(activeWindowChanged(QMdiSubWindow *)));
 
     m_toolBar = new ToolsBar();
 
@@ -1282,7 +1295,7 @@ void MainWindow::setupUi()
     QDockWidget* dock = new QDockWidget(this);
     dock->setWidget(m_toolBarStack);
     addDockWidget(Qt::LeftDockWidgetArea,dock);
-	dock->setWindowTitle(tr("Toolbar"));
+    dock->setWindowTitle(tr("ToolBox"));
     dock->setObjectName("DockToolBar");
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,dock->toggleViewAction());
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,m_vmapToolBar->toggleViewAction());
