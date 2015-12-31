@@ -32,6 +32,7 @@
 #include "vcolorselector.h"
 #include "widgets/diameterselector.h"
 
+#include "map/map.h"
 /**
   *  @brief toolbar is a QDockWidget subclass which gathering all tool required for drawing maps.
   *  @todo manu members must be renamed to english
@@ -59,6 +60,10 @@ public :
       * @brief tools id
       */
     enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC,RULE,PATH,PATHFOG,ANCHOR,RECTFOG,TEXTBORDER};
+    /**
+     * @brief The EditionMode enum
+     */
+    enum EditionMode {Painting,Mask,Unmask};
 
     /**
       * @brief accessor to the current tool
@@ -84,6 +89,12 @@ public slots :
       * @brief accessor to set the current color
       */
     void changeCurrentColor(QColor color);
+    /**
+     * @brief updateUi
+     */
+    void updateUi(Map::PermissionMode mode);
+
+    void setGM(bool);
 signals:
     /**
       * @brief emited when current tool has been changed by user
@@ -109,10 +120,22 @@ signals:
      * @brief currentNpcNumberChanged
      */
     void currentNpcNumberChanged(int);
+    /**
+     * @brief currentEditionModeChanged
+     */
+    void currentEditionModeChanged(VToolsBar::EditionMode);
+
+private slots :
+    void resetNpcCount();
+    void npcNameChange(const QString &texte);
+    void currentActionChanged(QAction* p);
+    void currentEditionModeChange(QAction* p);
+
+
 private:
     static VToolsBar* m_sigleton;/// address of single instance
-    void creerActions(); /// utily function
-    void creerOutils(); /// utilyti function
+    void createActions(); /// utility function
+    void makeTools(); /// utility function
 
     QWidget* m_centralWidget; /// address to the main widget
     QLineEdit* m_textEditLine; /// text line @warning is it still used ?
@@ -122,7 +145,13 @@ private:
     DiameterSelector* m_lineDiameter;/// select pen diameter
     QActionGroup* m_toolsGroup;/// group all tools and manage which one is the current one
     SelectableTool m_currentTool; /// current tool
+    EditionMode m_currentEditionMode;
+    //paiting or fow edition
+    QAction* m_paintingModeAct;
+    QAction* m_veilModeAct;
+    QAction* m_unveilModeAct;
 
+    //tools
     QAction* m_pencilAct;
     QAction* m_lineAct;
     QAction* m_rectAct;
@@ -142,11 +171,10 @@ private:
     
     QString m_currentNPCName;
     int m_currentNPCNumber;
+
+    bool m_isGM;
     
-private slots :
-    void resetNpcCount();
-    void npcNameChange(const QString &texte);
-    void currentActionChanged(QAction* p);   
+
 };
     
 #endif
