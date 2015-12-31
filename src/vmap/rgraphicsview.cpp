@@ -292,7 +292,7 @@ void RGraphicsView::createAction()
     m_hiddenVisibility->setCheckable(true);
     m_hiddenVisibility->setChecked(true);
     m_hiddenVisibility->setData(VMap::HIDDEN);
-    m_characterVisibility= new QAction(tr("Character"),this);
+    m_characterVisibility= new QAction(tr("Fog Of War"),this);
     m_characterVisibility->setData(VMap::CHARACTER);
     m_characterVisibility->setCheckable(true);
 

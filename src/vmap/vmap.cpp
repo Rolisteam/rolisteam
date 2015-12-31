@@ -239,7 +239,7 @@ void VMap::addItem()
     }
     else
     {
-        m_sightItem->addFogPolygon(m_currentFogPolygon);
+        m_sightItem->addFogPolygon(m_currentFogPolygon,false);
     }
 }
 void VMap::setPenSize(int p)
@@ -930,6 +930,33 @@ void VMap::setPermissionMode(Map::PermissionMode mode)
     if(getOption(VisualItem::PermissionMode).toInt()!=mode)
     {
         setOption(VisualItem::PermissionMode,mode);
+        if(!getOption(VisualItem::LocalIsGM).toBool())
+        {
+            if(Map::PC_MOVE == mode)
+            {
+                foreach(VisualItem* item,m_itemMap->values())
+                {
+                    item->setEditableItem(false);
+                }
+                foreach(CharacterItem* item,m_characterItemMap->values())
+                {
+                    item->setEditableItem(false);
+                }
+            }
+            else
+            {
+                bool value = false;
+                if(Map::PC_ALL == mode)
+                {
+                    value = true;
+                }
+                foreach(VisualItem* item,m_itemMap->values())
+                {
+                    item->setEditableItem(true);
+                }
+            }
+        }
+
     }
 }
 QString VMap::getPermissionModeText()
@@ -1126,7 +1153,7 @@ QVariant VMap::getOption(VisualItem::Properties pop)
 QString VMap::getVisibilityModeText()
 {
 	QStringList visibilityData;
-	visibilityData << tr("Hidden") << tr("His character") << tr("All visible");
+    visibilityData << tr("Hidden") << tr("Fog Of War") << tr("All visible");
 	return visibilityData.at(m_currentVisibityMode);
 }
 SightItem* VMap::getFogItem() const

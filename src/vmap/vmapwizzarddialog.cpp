@@ -57,7 +57,7 @@ MapWizzardDialog::MapWizzardDialog(QWidget* parent) :
     ui->m_permissionComboBox->addItems(m_permissionData);
     ui->m_permissionComboBox->setCurrentIndex(PreferencesManager::getInstance()->value("defaultPermissionMap",0).toInt());
 
-	m_visibilityData   << tr("Hidden") << tr("His character") << tr("All visible");
+    m_visibilityData   << tr("Hidden") << tr("Fog of War") << tr("All visible");
     ui->m_visibilityComboBox->addItems(m_visibilityData);
     ui->m_visibilityComboBox->setCurrentIndex(PreferencesManager::getInstance()->value("defaultMapVisibility",0).toInt());
 
