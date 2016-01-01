@@ -241,16 +241,33 @@ VisualItem* PathItem::getItemCopy()
 {
 	PathItem* path = new PathItem();
 
+    path->setPath(m_pointVector);
+    path->setStartPoint(m_start);
+    path->setPen(m_pen);
+    path->setClosed(m_closed);
+    path->setPos(pos());
+
 ///@todo implement copy
 
 	return path;
 }
-void PathItem::setPen()
+void PathItem::setPen(QPen pen)
 {
-
+    m_pen = pen;
+    update();
+}
+void PathItem::setStartPoint(QPointF start)
+{
+    m_start = start;
 }
 
-void PathItem::setPath()
+void PathItem::setPath(QVector<QPointF> points)
 {
-
+    m_pointVector = points;
+    update();
+}
+void PathItem::setClosed(bool b)
+{
+    m_closed = b;
+    update();
 }

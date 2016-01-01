@@ -92,8 +92,10 @@ public:
 
 	virtual VisualItem* getItemCopy();
 
-	void setPen();
-	void setPath();
+    void setPen(QPen pen);
+    void setPath(QVector<QPointF> points);
+    void setClosed(bool);
+    void setStartPoint(QPointF);
 
     /**
      * @brief addActionContextMenu
