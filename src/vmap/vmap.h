@@ -267,7 +267,15 @@ public slots:
      * @return
      */
     SightItem* getFogItem() const;
-
+    /**
+     * @brief setEditionMode
+     */
+    void setEditionMode(VToolsBar::EditionMode);
+    VToolsBar::EditionMode getEditionMode();
+    /**
+     * @brief cleanFogEdition
+     */
+    void cleanFogEdition();
 signals:
     /**
      * @brief npcAdded
@@ -451,9 +459,12 @@ private:
      */
     VisualItem::Layer m_currentLayer;
 
-    QPolygonF* m_currentFogPolygon;
-
     SightItem* m_sightItem;
+
+    VToolsBar::EditionMode m_editionMode;
+
+    VisualItem* m_fogItem;
+    FogSingularity* m_currentFog;
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
 
