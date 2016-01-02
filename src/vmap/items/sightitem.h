@@ -34,10 +34,11 @@ class FogSingularity
 public:
     FogSingularity(QPolygonF* poly = NULL,bool isAdding = false);
     const QPolygonF* getPolygon() const;
+
     bool isAdding() const;
     void fillMessage(NetworkMessageWriter* msg);
     void readItem(NetworkMessageReader* msg);
-
+    void setPolygon(QPolygonF* );
 private:
     QPolygonF* m_poly;
     bool m_adding;

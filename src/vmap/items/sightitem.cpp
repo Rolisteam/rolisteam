@@ -80,6 +80,14 @@ void FogSingularity::readItem(NetworkMessageReader* msg)
     }
 
 }
+void FogSingularity::setPolygon(QPolygonF* poly)
+{
+    if(NULL!=m_poly)
+    {
+        delete m_poly;
+    }
+    m_poly = poly;
+}
 
 /////////////////////////////////
 /// Code SightItem
