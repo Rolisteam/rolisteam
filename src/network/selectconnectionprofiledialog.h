@@ -162,7 +162,7 @@ public:
    void writeSettings(QSettings & settings);
 
    Qt::ItemFlags flags(const QModelIndex & index);
-
+   void removeProfile(ConnectionProfile* profile);
 
    ConnectionProfile* getProfile(const QModelIndex&);
 
@@ -219,7 +219,10 @@ public:
      */
     void updateGUI();
 public slots:
-
+    /**
+     * @brief removeProfile
+     */
+    void removeProfile();
     /**
      * @brief updateProfile
      */

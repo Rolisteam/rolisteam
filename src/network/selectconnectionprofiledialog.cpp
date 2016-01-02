@@ -2,9 +2,10 @@
 #include "ui_selectconnectionprofiledialog.h"
 
 #include <QDebug>
-#include "data/character.h"
 #include <QFileDialog>
+#include <QMessageBox>
 
+#include "data/character.h"
 /// ConnectionProfile
 ///
 ///
@@ -201,6 +202,16 @@ ConnectionProfile* ProfileModel::getProfile(const QModelIndex& index)
     }
     return NULL;
 }
+void ProfileModel::removeProfile(ConnectionProfile* profile)
+{
+    if(NULL!=profile)
+    {
+        beginRemoveRows(QModelIndex(),m_connectionProfileList.indexOf(profile),m_connectionProfileList.indexOf(profile));
+        m_connectionProfileList.removeOne(profile);
+        delete profile;
+        endRemoveRows();
+    }
+}
 
 void ProfileModel::writeSettings(QSettings & settings)
 {
@@ -235,11 +246,11 @@ Qt::ItemFlags ProfileModel::flags(const QModelIndex & index)
     return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
+/////////////////////////////////
+///
 ///SelectConnectionProfileDialog
 ///
-///
-///
-///
+////////////////////////////////
 
 SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWidget *parent) :
     QDialog(parent),
@@ -263,6 +274,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
     connect(ui->m_cancel,SIGNAL(clicked()),this,SLOT(reject()));
     connect(ui->m_connect,SIGNAL(clicked()),this,SLOT(connectTo()));
     connect(ui->m_selectCharaterAvatar,SIGNAL(clicked()),this,SLOT(openImage()));
+    connect(ui->m_delProfileAct,SIGNAL(pressed()),this,SLOT(removeProfile()));
 }
 
 SelectConnectionProfileDialog::~SelectConnectionProfileDialog()
@@ -299,6 +311,18 @@ void SelectConnectionProfileDialog::updateGUI()
             ui->m_selectCharaterAvatar->setIcon(QIcon(QPixmap::fromImage(m_currentProfile->getCharacter()->getAvatar())));
         }
     }
+}
+void SelectConnectionProfileDialog::removeProfile()
+{
+  if(NULL!=m_currentProfile)
+  {
+      if(QMessageBox::No == QMessageBox::question(this,tr("Remove Current Profile"),tr("Do you really want to remove %1 from your connection list ?").arg(m_currentProfile->getTitle())))
+      {
+          return;
+      }
+      m_model->removeProfile(m_currentProfile);
+      m_currentProfile = NULL;
+  }
 }
 
 void SelectConnectionProfileDialog::updateProfile()

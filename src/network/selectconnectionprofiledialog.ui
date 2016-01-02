@@ -13,11 +13,11 @@
   <property name="windowTitle">
    <string>Welcome To Rolisteam - Connection Dialog</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_7">
+  <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,1">
    <item>
     <widget class="QListView" name="m_profileList">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -27,6 +27,9 @@
        <width>16777215</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="sizeAdjustPolicy">
+      <enum>QAbstractScrollArea::AdjustToContents</enum>
      </property>
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
@@ -260,10 +263,31 @@
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <property name="spacing">
+        <number>1</number>
+       </property>
        <item>
         <widget class="QPushButton" name="m_addProfile">
          <property name="text">
           <string>New Profile</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../rolisteam.qrc">
+           <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="m_delProfileAct">
+         <property name="toolTip">
+          <string>Delete</string>
+         </property>
+         <property name="text">
+          <string>Delete</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../rolisteam.qrc">
+           <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
          </property>
         </widget>
        </item>
@@ -310,7 +334,9 @@
    <header>widgets/colorbutton.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../rolisteam.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>m_isGmCheckbox</sender>
