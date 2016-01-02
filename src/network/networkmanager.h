@@ -146,7 +146,6 @@ private:
     bool m_disconnectAsked;
     PreferencesManager* m_preferences;
     ConnectionRetryDialog* m_dialog;
-    //ConnectionConfigDialog* m_configDialog;
     PlayersList* m_playersList;
     bool m_connectionState;
     bool m_isClient;
