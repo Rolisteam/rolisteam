@@ -60,10 +60,6 @@ MapWizzardDialog::MapWizzardDialog(QWidget* parent) :
     m_visibilityData   << tr("Hidden") << tr("Fog of War") << tr("All visible");
     ui->m_visibilityComboBox->addItems(m_visibilityData);
     ui->m_visibilityComboBox->setCurrentIndex(PreferencesManager::getInstance()->value("defaultMapVisibility",0).toInt());
-
-   /* connect(ui->m_landscapeButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
-    connect(ui->m_portraitButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));
-    connect(ui->m_squareButton,SIGNAL(clicked()),this,SLOT(selectedShapeChanged()));*/
     
     selectedShapeChanged();
 
