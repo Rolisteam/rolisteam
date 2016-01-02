@@ -1,4 +1,4 @@
-TARGET = NameGenerator
+#TARGET = NameGenerator
 
 FORMS += \
     $$PWD/namegeneratorwidget.ui
