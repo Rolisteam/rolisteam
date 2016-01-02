@@ -69,6 +69,7 @@ public slots:
     void permissionHasChanged(int index);
     void patternChanged(int);
     void setPatternSize(int);
+    void setScaleSize(int);
     void managedAction();
 
 private:
@@ -92,6 +93,7 @@ private:
     QComboBox* m_currentPermission;
     QComboBox* m_currentVisibility;
     QSpinBox* m_gridSize;
+    QSpinBox* m_scaleSize;
     QCheckBox* m_showCharacterVision;
 };
 

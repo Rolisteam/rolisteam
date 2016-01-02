@@ -46,6 +46,11 @@ void VmapToolBar::setupUi()
     list << tr("GM Only") <<tr("PC Move") <<tr("ALL") ;
     m_currentPermission->addItems(list);
 
+    m_currentLayer = new QComboBox();
+    QStringList listLayer;
+    listLayer << tr("Ground") <<tr("Object") <<tr("Character");
+    m_currentLayer->addItems(listLayer);
+
 
     m_gridPattern =new QComboBox();
     QStringList listGrid;
@@ -62,31 +67,36 @@ void VmapToolBar::setupUi()
     listVisi <<tr("Hidden") <<tr("Fog of War")<< tr("All");
     m_currentVisibility->addItems(listVisi);
 
+
+    m_scaleSize = new QSpinBox(this);
+    m_scaleSize->setRange(1,std::numeric_limits<int>::max());
+
+    m_gridSize = new QSpinBox(this);
+    m_gridSize->setRange(1,std::numeric_limits<int>::max());
+
     addWidget(new QLabel(tr("Background:")));
     addWidget(m_bgSelector);
     addSeparator();
     addWidget(new QLabel(tr("Grid:")));
     addAction(m_showGridAct);
     addWidget(m_gridPattern);
-    addWidget(m_gridUnit);
-    m_gridSize = new QSpinBox(this);
-    m_gridSize->setRange(1,std::numeric_limits<int>::max());
     addWidget(m_gridSize);
+    addWidget(new QLabel(tr("px :")));
+    addWidget(m_scaleSize);
+    addWidget(m_gridUnit);
     addSeparator();
     addWidget(new QLabel(tr("Permission:")));
     addWidget(m_currentPermission);
     addSeparator();
     addWidget(new QLabel(tr("Visibility:")));
     addWidget(m_currentVisibility);
-    m_showCharacterVision = new QCheckBox(tr("Enable Character Vision"));
+    m_showCharacterVision = new QCheckBox(tr("Character Vision"));
     addWidget(m_showCharacterVision);
-
-
-
 
     connect(m_showGridAct,SIGNAL(triggered()),this,SLOT(triggerGrid()));
     connect(m_bgSelector,SIGNAL(colorChanged(QColor)),this,SLOT(setBackgroundColor(QColor)));
     connect(m_gridSize,SIGNAL(valueChanged(int)),this,SLOT(setPatternSize(int)));
+    connect(m_scaleSize,SIGNAL(valueChanged(int)),this,SLOT(setScaleSize(int)));
 
     connect(m_currentVisibility,SIGNAL(currentIndexChanged(int)),this,SLOT(visibilityHasChanged(int)));
     connect(m_currentPermission,SIGNAL(currentIndexChanged(int)),this,SLOT(permissionHasChanged(int)));
@@ -142,6 +152,13 @@ void VmapToolBar::updateUI()
         setEnabled(true);
         m_bgSelector->setColor(m_vmap->getBackGroundColor());
         m_showGridAct->setChecked(m_vmap->getOption(VisualItem::ShowGrid).toBool());
+        m_gridSize->setValue(m_vmap->getOption(VisualItem::GridSize).toInt());
+        m_currentLayer->setCurrentIndex(m_vmap->getCurrentLayer());
+        m_showCharacterVision->setChecked(m_vmap->getOption(VisualItem::EnableCharacterVision).toBool());
+        m_gridUnit->setCurrentIndex(m_vmap->getOption(VisualItem::Unit).toInt());
+        m_currentPermission->setCurrentIndex(m_vmap->getOption(VisualItem::PermissionMode).toInt());
+        m_currentVisibility->setCurrentIndex(m_vmap->getVisibilityMode());
+        m_gridPattern->setCurrentIndex(m_vmap->getOption(VisualItem::GridPattern).toInt());
     }
     else
     {
@@ -156,6 +173,14 @@ void VmapToolBar::setPatternSize(int p)
         m_vmap->setOption(VisualItem::GridSize,p);
     }
 }
+void  VmapToolBar::setScaleSize(int p)
+{
+    if(NULL!=m_vmap)
+    {
+        m_vmap->setOption(VisualItem::Scale,p);
+    }
+}
+
 void VmapToolBar::managedAction()
 {
     if(NULL==m_vmap)
