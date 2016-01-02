@@ -75,7 +75,11 @@ public:
      * @param msg
      */
     virtual void readItem(NetworkMessageReader* msg);
-
+    /**
+     * @brief shape
+     * @return
+     */
+    virtual QPainterPath shape() const;
     /**
      * @brief setGeometryPoint
      * @param pointId

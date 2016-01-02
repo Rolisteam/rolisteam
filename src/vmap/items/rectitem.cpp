@@ -46,6 +46,37 @@ QRectF RectItem::boundingRect() const
 {
     return m_rect;
 }
+QPainterPath RectItem::shape() const
+{
+    if(!m_filled)
+    {
+        QPainterPath path;
+        qreal halfPenSize = m_penWidth/2.0;
+        qreal off = 0.5 * halfPenSize;
+
+
+        path.moveTo(m_rect.topLeft().x()-off,m_rect.topLeft().y()-off);
+
+        path.lineTo(m_rect.topRight().x()+off,m_rect.topRight().y()-off);
+        path.lineTo(m_rect.bottomRight().x()+off,m_rect.bottomRight().y()+off);
+        path.lineTo(m_rect.bottomLeft().x()-off,m_rect.bottomLeft().y()+off);
+        path.lineTo(m_rect.topLeft().x()-off,m_rect.topLeft().y()-off);
+
+        path.lineTo(m_rect.topLeft().x()+off,m_rect.topLeft().y()+off);
+        path.lineTo(m_rect.topRight().x()-off,m_rect.topRight().y()+off);
+        path.lineTo(m_rect.bottomRight().x()-off,m_rect.bottomRight().y()-off);
+        path.lineTo(m_rect.bottomLeft().x()+off,m_rect.bottomLeft().y()-off);
+        path.lineTo(m_rect.topLeft().x()+off,m_rect.topLeft().y()+off);
+
+
+        return path;
+
+    }
+    else
+    {
+        return VisualItem::shape();
+    }
+}
 void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->save();
