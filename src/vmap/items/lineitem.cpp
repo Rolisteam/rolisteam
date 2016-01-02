@@ -20,9 +20,15 @@
 #include "lineitem.h"
 #include <QPainterPath>
 #include <QPainter>
+#include <QDebug>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
+
+
+#include <math.h>
+#define PI 3.14159265
+
 
 LineItem::LineItem()
     : VisualItem()
@@ -51,10 +57,16 @@ QRectF LineItem::boundingRect() const
 }
 QPainterPath LineItem::shape() const
 {
-	/// @todo may be useful to set polygon instead of line. To manage the width of the line.
 	QPainterPath path;
-	path.moveTo(m_startPoint);
-	path.lineTo(m_endPoint);
+    QLineF line(m_startPoint,m_endPoint);
+    qreal halfPenSize = m_pen.widthF()/2.0;
+    qreal angle = line.angle()*PI/180;
+    qreal yoff = cos(angle) * halfPenSize;
+    qreal xoff = sin(angle) * halfPenSize;
+    path.moveTo(m_startPoint.x()-xoff,m_startPoint.y()-yoff);
+    path.lineTo(m_endPoint.x()-xoff,m_endPoint.y()-yoff);
+    path.lineTo(m_endPoint.x()+xoff,m_endPoint.y()+yoff);
+    path.lineTo(m_startPoint.x()+xoff,m_startPoint.y()+yoff);
 	return path;
 }
 void LineItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
