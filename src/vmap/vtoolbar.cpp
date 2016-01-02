@@ -60,21 +60,6 @@ VToolsBar::VToolsBar(QWidget *parent)
 
 void VToolsBar::createActions()
 {
-    QActionGroup* modeGroup = new QActionGroup(this);
-
-    m_paintingModeAct= new QAction(QIcon(":/resources/icons/pen.png"),tr("Painting"),modeGroup);
-    m_paintingModeAct->setData(Painting);
-    m_paintingModeAct->setCheckable(true);
-    m_paintingModeAct->setChecked(true);
-    m_veilModeAct= new QAction(QIcon(":/resources/icons/mask.png"),tr("Mask"),modeGroup);
-    m_veilModeAct->setData(Mask);
-    m_veilModeAct->setCheckable(true);
-    m_unveilModeAct= new QAction(QIcon(":/resources/icons/eye.png"),tr("Unmask"),modeGroup);
-    m_unveilModeAct->setData(Unmask);
-    m_unveilModeAct->setCheckable(true);
-
-    connect(modeGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentEditionModeChange(QAction*)));
-
 
     m_toolsGroup = new QActionGroup(this);
     
@@ -120,7 +105,7 @@ void VToolsBar::createActions()
             m_textAct->setChecked(tool==VToolsBar::TEXT);
     });
 
-    m_handAct = new QAction(QIcon(":/resources/icons/hand.png"), tr("Mode"), m_toolsGroup);
+    m_handAct = new QAction(QIcon(":/resources/icons/hand.png"), tr("Hand"), m_toolsGroup);
     m_handAct->setData(HANDLER);
     connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
             m_handAct->setChecked(tool==VToolsBar::HANDLER);
@@ -150,7 +135,7 @@ void VToolsBar::createActions()
             m_anchorAct->setChecked(tool==VToolsBar::ANCHOR);
     });
 
-    m_unmaskRectAct = new QAction(QIcon(":/resources/icons/draw-rectangle-2.png"),tr("Unmask Rect"),m_toolsGroup);
+    /*m_unmaskRectAct = new QAction(QIcon(":/resources/icons/draw-rectangle-2.png"),tr("Unmask Rect"),m_toolsGroup);
     m_unmaskRectAct->setData(RECTFOG);
     connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
             m_unmaskRectAct->setChecked(tool==VToolsBar::RECTFOG);
@@ -160,7 +145,7 @@ void VToolsBar::createActions()
     m_unmaskPathAct->setData(PATHFOG);
     connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
             m_unmaskPathAct->setChecked(tool==VToolsBar::PATHFOG);
-    });
+    });*/
 
     m_textWithBorderAct = new QAction(QIcon(":/resources/icons/textwithBorder.png"),tr("Text With Border"),m_toolsGroup);
     m_textWithBorderAct->setData(TEXTBORDER);
@@ -184,30 +169,13 @@ void VToolsBar::createActions()
     m_pathAct->setCheckable(true);
 
     m_anchorAct->setCheckable(true);
-    m_unmaskPathAct->setCheckable(true);
-    m_unmaskRectAct->setCheckable(true);
+    //m_unmaskPathAct->setCheckable(true);
+  //  m_unmaskRectAct->setCheckable(true);
     
     m_handAct->setChecked(true);
 }
 void VToolsBar::makeTools()
 {
-    //mode
-    QToolButton* paintingModeButton     = new QToolButton();
-    paintingModeButton->setDefaultAction(m_paintingModeAct);
-    paintingModeButton->addAction(m_veilModeAct);
-    paintingModeButton->addAction(m_unveilModeAct);
-    paintingModeButton->setAutoRaise(true);
-
-
-   /* QToolButton* maskModeButton      = new QToolButton();
-    maskModeButton->setDefaultAction(m_veilModeAct);
-    maskModeButton->setAutoRaise(true);
-    QToolButton* unmaskButton   = new QToolButton();
-    unmaskButton->setDefaultAction(m_unveilModeAct);
-    unmaskButton->setAutoRaise(true);*/
-
-
-
     QToolButton* penButton     = new QToolButton();
     QToolButton* lineButton      = new QToolButton();
     QToolButton* emptyRectButton   = new QToolButton();
@@ -221,8 +189,7 @@ void VToolsBar::makeTools()
     QToolButton* ruleButton  = new QToolButton();
     QToolButton* pathButton  = new QToolButton();
     QToolButton* anchorButton  = new QToolButton();
-    QToolButton* unveilPath  = new QToolButton();
-    QToolButton* unveilRect  = new QToolButton();
+
 
     penButton->setDefaultAction(m_pencilAct);
     lineButton->setDefaultAction(m_lineAct);
@@ -236,10 +203,10 @@ void VToolsBar::makeTools()
     resetNpcNumberButton->setDefaultAction(m_resetCountAct);
     ruleButton->setDefaultAction(m_ruleAct);
     pathButton->setDefaultAction(m_pathAct);
-    unveilPath->setDefaultAction(m_unmaskPathAct);
+   // unveilPath->setDefaultAction(m_unmaskPathAct);
     anchorButton->setDefaultAction(m_anchorAct);
     textButton->addAction(m_textWithBorderAct);
-    unveilRect->setDefaultAction(m_unmaskRectAct);
+  //  unveilRect->setDefaultAction(m_unmaskRectAct);
 
     connect(ruleButton,SIGNAL(triggered(QAction*)),ruleButton,SLOT(setDefaultAction(QAction*)));
     connect(textButton,SIGNAL(triggered(QAction*)),textButton,SLOT(setDefaultAction(QAction*)));
@@ -259,8 +226,8 @@ void VToolsBar::makeTools()
     ruleButton->setAutoRaise(true);
     pathButton->setAutoRaise(true);
     anchorButton->setAutoRaise(true);
-    unveilPath->setAutoRaise(true);
-    unveilRect->setAutoRaise(true);
+  //  unveilPath->setAutoRaise(true);
+ //   unveilRect->setAutoRaise(true);
 
     /**
     *
@@ -283,10 +250,10 @@ void VToolsBar::makeTools()
 
     //unmaskButton->setIconSize(iconSize);
     //maskModeButton->setIconSize(iconSize);
-    paintingModeButton->setIconSize(iconSize);
+   // paintingModeButton->setIconSize(iconSize);
 
-    QSize minSize(40,40);
-    paintingModeButton->setFixedSize(minSize);
+ //   QSize minSize(40,40);
+ //   paintingModeButton->setFixedSize(minSize);
    // maskModeButton->setFixedSize(minSize);
   //  unmaskButton->setFixedSize(minSize);
     
@@ -306,8 +273,8 @@ void VToolsBar::makeTools()
     toolsLayout->addWidget(ruleButton);
     toolsLayout->addWidget(pathButton);
     toolsLayout->addWidget(anchorButton);
-    toolsLayout->addWidget(unveilPath);
-    toolsLayout->addWidget(unveilRect);
+    //toolsLayout->addWidget(unveilPath);
+    //toolsLayout->addWidget(unveilRect);
 
     m_npcNameTextEdit = new QLineEdit();
     m_npcNameTextEdit->setToolTip(tr("NPC Name"));
@@ -320,12 +287,12 @@ void VToolsBar::makeTools()
     m_currentNPCNumber = 1;
 
     m_colorSelector = new VColorSelector(this);
-    QComboBox* editionModeCombo = new QComboBox();
+    m_editionModeCombo = new QComboBox();
 
-    editionModeCombo->setFrame(false);
-    editionModeCombo->addItem(QIcon(":/resources/icons/pen.png"),tr("Normal"),Painting);
-    editionModeCombo->addItem(QIcon(":/resources/icons/mask.png"),tr("Mask"),Mask);
-    editionModeCombo->addItem(QIcon(":/resources/icons/eye.png"),tr("Unmask"),Unmask);
+    m_editionModeCombo->setFrame(false);
+    m_editionModeCombo->addItem(QIcon(":/resources/icons/pen.png"),tr("Normal"),Painting);
+    m_editionModeCombo->addItem(QIcon(":/resources/icons/mask.png"),tr("Mask"),Mask);
+    m_editionModeCombo->addItem(QIcon(":/resources/icons/eye.png"),tr("Unmask"),Unmask);
 
     FlowLayout* characterToolsLayout = new FlowLayout();
     characterToolsLayout->addWidget(addNpcButton);
@@ -341,7 +308,7 @@ void VToolsBar::makeTools()
     QFrame* line = new QFrame();
     line->setFrameShape(QFrame::HLine);
     line->setFrameShadow(QFrame::Sunken);
-    outilsLayout->addWidget(editionModeCombo);
+    outilsLayout->addWidget(m_editionModeCombo);
     outilsLayout->addWidget(line);
     outilsLayout->addLayout(toolsLayout);
     outilsLayout->addWidget(m_lineDiameter);
@@ -349,6 +316,8 @@ void VToolsBar::makeTools()
     outilsLayout->addWidget(m_npcNameTextEdit);
     outilsLayout->addStretch(1);
     m_centralWidget->setLayout(outilsLayout);
+
+    connect(m_editionModeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(currentEditionModeChange()));
 
 }
 void VToolsBar::increaseNpcNumber()
@@ -386,9 +355,9 @@ VToolsBar::SelectableTool VToolsBar::getCurrentTool()
 {
     return m_currentTool;
 }
-void VToolsBar::currentEditionModeChange(QAction* p)
+void VToolsBar::currentEditionModeChange()
 {
-    EditionMode newtool = (EditionMode)p->data().toInt();
+    EditionMode newtool = (EditionMode)m_editionModeCombo->currentData().toInt();
     if(newtool!=m_currentEditionMode)
     {
         m_currentEditionMode = newtool;
@@ -436,8 +405,8 @@ void VToolsBar::updateUi(Map::PermissionMode mode)
             m_ruleAct->setVisible(false);
             m_pathAct->setVisible(false);
             m_anchorAct->setVisible(false);
-            m_unmaskRectAct->setVisible(false);
-            m_unmaskPathAct->setVisible(false);
+   //         m_unmaskRectAct->setVisible(false);
+    //        m_unmaskPathAct->setVisible(false);
             m_textWithBorderAct->setVisible(false);
             break;
         case Map::PC_ALL:
@@ -454,8 +423,8 @@ void VToolsBar::updateUi(Map::PermissionMode mode)
             m_ruleAct->setVisible(true);
             m_pathAct->setVisible(true);
             m_anchorAct->setVisible(true);
-            m_unmaskRectAct->setVisible(true);
-            m_unmaskPathAct->setVisible(true);
+        //    m_unmaskRectAct->setVisible(true);
+      //      m_unmaskPathAct->setVisible(true);
             m_textWithBorderAct->setVisible(true);
             break;
         case Map::PC_MOVE:
@@ -470,8 +439,8 @@ void VToolsBar::updateUi(Map::PermissionMode mode)
             m_resetCountAct->setVisible(false);
             m_pathAct->setVisible(false);
             m_anchorAct->setVisible(false);
-            m_unmaskRectAct->setVisible(false);
-            m_unmaskPathAct->setVisible(false);
+          //  m_unmaskRectAct->setVisible(false);
+         //   m_unmaskPathAct->setVisible(false);
             m_textWithBorderAct->setVisible(false);
             m_handAct->setVisible(true);
             m_ruleAct->setVisible(true);

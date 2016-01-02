@@ -59,7 +59,7 @@ public :
     /**
       * @brief tools id
       */
-    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC,RULE,PATH,PATHFOG,ANCHOR,RECTFOG,TEXTBORDER};
+    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC,RULE,PATH,ANCHOR,TEXTBORDER};
     /**
      * @brief The EditionMode enum
      */
@@ -129,7 +129,7 @@ private slots :
     void resetNpcCount();
     void npcNameChange(const QString &texte);
     void currentActionChanged(QAction* p);
-    void currentEditionModeChange(QAction* p);
+    void currentEditionModeChange();
 
 
 private:
@@ -165,9 +165,10 @@ private:
 	QAction* m_ruleAct;
 	QAction* m_pathAct;
     QAction* m_anchorAct;
-    QAction* m_unmaskRectAct;
-    QAction* m_unmaskPathAct;
+  //  QAction* m_unmaskRectAct;
+  //  QAction* m_unmaskPathAct;
     QAction* m_textWithBorderAct;
+    QComboBox* m_editionModeCombo;
     
     QString m_currentNPCName;
     int m_currentNPCNumber;
