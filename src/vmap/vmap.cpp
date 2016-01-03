@@ -364,6 +364,81 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
 }
+void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
+{
+    if(NULL!=child)
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::SetParentItem);
+        msg.string8(m_id);
+        VisualItem* childItem = dynamic_cast<VisualItem*>(child);
+
+        if(NULL!=childItem)
+        {
+            msg.string8(childItem->getId());
+        }
+
+        QPointF pos = child->pos();
+        QPointF pos2;
+        if(NULL!=parent)
+        {
+            pos2 =parent->mapFromScene(pos);
+        }
+        else
+        {
+            if(NULL!=child->parentItem())
+            {
+                pos2 = child->parentItem()->mapToScene(pos);
+            }
+        }
+        VisualItem* paItem = dynamic_cast<VisualItem*>(parent);
+        if(NULL!=paItem)
+        {
+            msg.string8(paItem->getId());
+        }
+        else
+        {
+            msg.string8("NULL");
+        }
+        if(send)
+        {
+            msg.sendAll();
+        }
+        child->setParentItem(parent);
+        child->setPos(pos2);
+    }
+}
+
+void VMap::manageAnchor()
+{
+    AnchorItem* tmp = dynamic_cast< AnchorItem*>(m_currentItem);
+    if(NULL!=tmp)
+    {
+        QGraphicsItem* child = NULL;
+        QGraphicsItem* parent = NULL;
+        QList<QGraphicsItem*> item1 = items(tmp->getStart());
+
+        foreach (QGraphicsItem* item, item1)
+        {
+            if(item!=m_currentItem)
+            {
+                child = item;
+            }
+        }
+
+        QList<QGraphicsItem*> item2 = items(tmp->getEnd());
+        foreach (QGraphicsItem* item, item2)
+        {
+            if(item!=m_currentItem)
+            {
+                parent = item;
+            }
+        }
+
+        setAnchor(child,parent);
+
+    }
+}
+
 void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     Q_UNUSED(mouseEvent);
@@ -371,49 +446,7 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     {
         if(VisualItem::ANCHOR == m_currentItem->getType())
         {
-            AnchorItem* tmp = dynamic_cast< AnchorItem*>(m_currentItem);
-            if(NULL!=tmp)
-            {
-                QGraphicsItem* child = NULL;
-                QGraphicsItem* parent = NULL;
-                QList<QGraphicsItem*> item1 = items(tmp->getStart());
-
-                foreach (QGraphicsItem* item, item1)
-                {
-                    if(item!=m_currentItem)
-                    {
-                        child = item;
-                    }
-                }
-
-                QList<QGraphicsItem*> item2 = items(tmp->getEnd());
-                foreach (QGraphicsItem* item, item2)
-                {
-                    if(item!=m_currentItem)
-                    {
-                        parent = item;
-                    }
-                }
-
-                if(NULL!=child)
-                {
-                    QPointF pos = child->pos();
-                    QPointF pos2;
-                    if(NULL!=parent)
-                    {
-                        pos2 =parent->mapFromScene(pos);
-                    }
-                    else
-                    {
-                        if(NULL!=child->parentItem())
-                        {
-                            pos2 = child->parentItem()->mapToScene(pos);
-                        }
-                    }
-                    child->setParentItem(parent);
-                    child->setPos(pos2);
-                }
-            }
+            manageAnchor();
         }
         if((m_currentItem->getType() == VisualItem::RULE )||(m_currentItem->getType() == VisualItem::ANCHOR))
         {
@@ -777,6 +810,26 @@ void VMap::processDelItemMessage(NetworkMessageReader* msg)
 
     }
 }
+void VMap::processSetParentItem(NetworkMessageReader* msg)
+{
+    if(NULL!=msg)
+    {
+        QString childId = msg->string8();
+        QString parentId = msg->string8();
+        VisualItem* childItem = m_itemMap->value(childId);
+
+        VisualItem* parentItem = NULL;
+        if(parentId!=QStringLiteral("NULL"))
+        {
+            parentItem = m_itemMap->value(parentId);
+        }
+        if(NULL!=childItem)
+        {
+            setAnchor(childItem,parentItem,false);
+        }
+    }
+}
+
 void VMap::addNewItem(VisualItem* item)
 {
     if(NULL!=item)

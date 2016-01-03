@@ -147,7 +147,8 @@ enum Action {
     DelPoint,
     GeometryItemChanged,
     AddPoint,
-    GeometryViewChanged
+    GeometryViewChanged,
+    SetParentItem
 };
 }
 /**

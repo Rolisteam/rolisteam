@@ -1857,8 +1857,17 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
             }
         }
         break;
+        case NetMsg::SetParentItem:
+        {
+            QString vmapId = msg->string8();
+            VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
+            if(NULL!=tmp)
+            {
+                tmp->processSetParentItem(msg);
+            }
+        }
+        break;
     }
-
 
     return type;
 }

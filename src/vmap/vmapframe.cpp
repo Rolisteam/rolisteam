@@ -284,6 +284,13 @@ void VMapFrame::processDelItemMessage(NetworkMessageReader* msg)
         m_vmap->processDelItemMessage(msg);
     }
 }
+void VMapFrame::processSetParentItem(NetworkMessageReader* msg)
+{
+    if(NULL!=m_vmap)
+    {
+        m_vmap->processSetParentItem(msg);
+    }
+}
 
 QString VMapFrame::getMapId()
 {

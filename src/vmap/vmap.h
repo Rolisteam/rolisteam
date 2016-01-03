@@ -123,6 +123,11 @@ public:
      * @param msg
      */
     void processGeometryChangeItem(NetworkMessageReader* msg);
+    /**
+     * @brief processSetParentItem
+     * @param msg
+     */
+    void processSetParentItem(NetworkMessageReader* msg);
 	/**
 	 * @brief setPermissionMode
 	 * @param mode
@@ -138,6 +143,10 @@ public:
      * @param msg
      */
     void processDelItemMessage(NetworkMessageReader* msg);
+    /**
+     * @brief manageAnchor
+     */
+    void manageAnchor();
 	/**
 	 * @brief getPermissionMode
 	 * @return
@@ -210,6 +219,13 @@ public:
      * @return
      */
     QVariant getOption(VisualItem::Properties pop);
+    /**
+     * @brief setAnchor
+     * @param child
+     * @param parent
+     * @param send
+     */
+    void setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send = true);
 public slots:
     /**
     * @brief defines the current tools

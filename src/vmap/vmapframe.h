@@ -138,6 +138,11 @@ public :
 	 * @param msg
 	 */
     void processMapPropertyChange(NetworkMessageReader* msg);
+    /**
+     * @brief processSetParentItem
+     * @param msg
+     */
+    void processSetParentItem(NetworkMessageReader* msg);
 	/**
 	 * @brief saveMedia
 	 */
