@@ -25,7 +25,7 @@
 #include <QDebug>
 
 CharacterVision::CharacterVision(QObject* parent)
-    : QObject(parent),m_cornerPoint(NULL)
+    : QObject(parent),m_cornerPoint(NULL),m_shape(ANGLE),m_visible(false)
 {
 
 }
