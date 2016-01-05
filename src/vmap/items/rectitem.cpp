@@ -109,7 +109,6 @@ VisualItem::ItemType RectItem::getType()
 void RectItem::writeData(QDataStream& out) const
 {
     out << m_rect;
-    qDebug() << "write rect" << m_rect;
     out << m_filled;
     out << m_color;
     out << m_id;
@@ -123,7 +122,6 @@ void RectItem::writeData(QDataStream& out) const
 void RectItem::readData(QDataStream& in)
 {
     in >> m_rect;
-    qDebug() << "read rect" << m_rect;
     in >> m_filled;
     in >> m_color;
     in >> m_id;
