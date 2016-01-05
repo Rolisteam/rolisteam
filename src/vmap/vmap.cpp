@@ -56,7 +56,7 @@ void VMap::initMap()
     m_itemMap=new  QMap<QString,VisualItem*>;
     m_characterItemMap = new QMap<QString,CharacterItem*>();
     setItemIndexMethod(QGraphicsScene::NoIndex);
-    m_sightItem = new SightItem(m_characterItemMap);  
+    m_sightItem = new SightItem(m_characterItemMap);
 
     m_propertiesHash->insert(VisualItem::ShowNpcName,false);
     m_propertiesHash->insert(VisualItem::ShowPcName,false);
@@ -138,10 +138,10 @@ void VMap::updateItem()
 {
     switch(m_selectedtool)
     {
-        case VToolsBar::PATH:
-        {
-            m_currentPath->setNewEnd(m_first);
-        }
+    case VToolsBar::PATH:
+    {
+        m_currentPath->setNewEnd(m_first);
+    }
         break;
         update();
 
@@ -208,7 +208,7 @@ void VMap::addItem()
         m_currentPath = pathItem;
     }
         break;
-/*    case VToolsBar::RECTFOG:
+        /*    case VToolsBar::RECTFOG:
         m_currentFogPolygon = new QPolygonF();
         m_currentFogPolygon->append(m_first);
         break;
@@ -292,11 +292,11 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
 }
 VisualItem::Layer VMap::getCurrentLayer() const
 {
-	return m_currentLayer;
+    return m_currentLayer;
 }
 QString VMap::getCurrentLayerText() const
 {
-	return VisualItem::getLayerToText(m_currentLayer);
+    return VisualItem::getLayerToText(m_currentLayer);
 }
 void VMap::sendAllItems(NetworkMessageWriter& msg)
 {
@@ -542,7 +542,7 @@ void VMap::setId(QString id)
 {
     m_id = id;
 }
-
+//write
 QDataStream& operator<<(QDataStream& out, const VMap& con)
 {
     out << con.m_width;
@@ -558,7 +558,8 @@ QDataStream& operator<<(QDataStream& out, const VMap& con)
     }
     return out;
 }
-
+//read
+/// @todo not symetric with operator<<
 QDataStream& operator>>(QDataStream& is,VMap& con)
 {
     is >>(con.m_width);
@@ -571,6 +572,7 @@ QDataStream& operator>>(QDataStream& is,VMap& con)
     
     return is;
 }
+//write
 void VMap::saveFile(QDataStream& out)
 {
     if(m_itemMap->isEmpty())
@@ -580,28 +582,51 @@ void VMap::saveFile(QDataStream& out)
     out<< m_height;
     out<< m_title;
     out<< m_bgColor;
-    out << m_itemMap->size();
 
-    
+
+
+
+    out << m_propertiesHash->count();
+    foreach(VisualItem::Properties property, m_propertiesHash->keys())
+    {
+        out << (int)property;
+        out << m_propertiesHash->value(property);
+    }
+
+    out << m_itemMap->size();
     foreach(VisualItem* tmp, m_itemMap->values())
     {
-        out << tmp->getType() << *tmp;
+        out << tmp->getType() << *tmp << tmp->pos().x() << tmp->pos().y();
     }
 }
-
+//read
 void VMap::openFile(QDataStream& in)
 {
     if(m_itemMap!=NULL)
     {
         in >> m_width;
         in >> m_height;
+
+        setSceneRect();
         in>> m_title;
         in>> m_bgColor;
+
+        int propertyCount;
+        in >> propertyCount;
+
+        for(int i = 0; i < propertyCount;++i)
+        {
+            int pro;
+            in >> pro;
+            QVariant var;
+            in >> var;
+            m_propertiesHash->insert((VisualItem::Properties)pro,var);
+        }
 
         int numberOfItem;
         in >> numberOfItem;
 
-        for(int i =0 ; i<numberOfItem;i++)
+        for(int i =0 ; i<numberOfItem;++i)
         {
             VisualItem* item;
             CharacterItem* charItem = NULL;
@@ -635,14 +660,24 @@ void VMap::openFile(QDataStream& in)
             case VisualItem::PATH:
                 item=new PathItem();
                 break;
+            case VisualItem::SIGHT:
+                item= m_sightItem;
+                break;
 
             }
-            in >> *item;
-            addNewItem(item);
-            item->initChildPointItem();
-            if(NULL!=charItem)
+            if(NULL!=item)
             {
-                insertCharacterInMap(charItem);
+                in >> *item;
+                qreal x,y;
+                in >> x;
+                in >> y;
+                addNewItem(item);
+                item->setPos(x,y);
+                item->initChildPointItem();
+                if(NULL!=charItem)
+                {
+                    insertCharacterInMap(charItem);
+                }
             }
         }
     }
@@ -676,48 +711,48 @@ void VMap::computePattern()
     else if(getOption(VisualItem::ShowGrid).toBool())
     {
 
-            QPolygonF polygon;
+        QPolygonF polygon;
 
-            if(getOption(VisualItem::GridPattern).toInt()==VMap::HEXAGON)
-            {
-                qreal radius = getOption(VisualItem::GridSize).toInt()/2;
-                qreal hlimit = radius * qSin(M_PI/3);
-                qreal offset = radius-hlimit;
-                QPointF A(2*radius,radius-offset);
-                QPointF B(radius*1.5,radius-hlimit-offset);
-                QPointF C(radius*0.5,radius-hlimit-offset);
-                QPointF D(0,radius-offset);
-                QPointF E(radius*0.5,radius+hlimit-offset-1);
-                QPointF F(radius*1.5,radius+hlimit-offset-1);
+        if(getOption(VisualItem::GridPattern).toInt()==VMap::HEXAGON)
+        {
+            qreal radius = getOption(VisualItem::GridSize).toInt()/2;
+            qreal hlimit = radius * qSin(M_PI/3);
+            qreal offset = radius-hlimit;
+            QPointF A(2*radius,radius-offset);
+            QPointF B(radius*1.5,radius-hlimit-offset);
+            QPointF C(radius*0.5,radius-hlimit-offset);
+            QPointF D(0,radius-offset);
+            QPointF E(radius*0.5,radius+hlimit-offset-1);
+            QPointF F(radius*1.5,radius+hlimit-offset-1);
 
-                QPointF G(2*radius+radius,radius-offset);
-                polygon << C << D << E << F << A << B << A << G;
+            QPointF G(2*radius+radius,radius-offset);
+            polygon << C << D << E << F << A << B << A << G;
 
-                m_computedPattern = QImage(getOption(VisualItem::GridSize).toInt()*1.5,2*hlimit,QImage::Format_RGBA8888_Premultiplied);
-                m_computedPattern.fill(m_bgColor);
-            }
-            else if(getOption(VisualItem::GridPattern).toInt() == VMap::SQUARE)
-            {
-                m_computedPattern = QImage(getOption(VisualItem::GridSize).toInt(),getOption(VisualItem::GridSize).toInt(),QImage::Format_RGB32);
-                m_computedPattern.fill(m_bgColor);
-                int sizeP = getOption(VisualItem::GridSize).toInt();
-                QPointF A(0,0);
-                QPointF B(0,sizeP-1);
-                QPointF C(sizeP-1,sizeP-1);
-                QPointF D(sizeP-1,0);
-                polygon << A << B << C << D << A;
-            }
-            QPainter painter(&m_computedPattern);
-            //painter.setRenderHint(QPainter::Antialiasing,true);
-            //painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
-            QPen pen;
-            pen.setColor(getOption(VisualItem::GridColor).value<QColor>());
-            pen.setWidth(1);
-            painter.setPen(pen);
-            painter.drawPolyline(polygon);
-            painter.end();
-            m_computedPattern.save("/tmp/pattern.png","PNG");
-            setBackgroundBrush(QPixmap::fromImage(m_computedPattern));
+            m_computedPattern = QImage(getOption(VisualItem::GridSize).toInt()*1.5,2*hlimit,QImage::Format_RGBA8888_Premultiplied);
+            m_computedPattern.fill(m_bgColor);
+        }
+        else if(getOption(VisualItem::GridPattern).toInt() == VMap::SQUARE)
+        {
+            m_computedPattern = QImage(getOption(VisualItem::GridSize).toInt(),getOption(VisualItem::GridSize).toInt(),QImage::Format_RGB32);
+            m_computedPattern.fill(m_bgColor);
+            int sizeP = getOption(VisualItem::GridSize).toInt();
+            QPointF A(0,0);
+            QPointF B(0,sizeP-1);
+            QPointF C(sizeP-1,sizeP-1);
+            QPointF D(sizeP-1,0);
+            polygon << A << B << C << D << A;
+        }
+        QPainter painter(&m_computedPattern);
+        //painter.setRenderHint(QPainter::Antialiasing,true);
+        //painter.setRenderHint(QPainter::SmoothPixmapTransform,true);
+        QPen pen;
+        pen.setColor(getOption(VisualItem::GridColor).value<QColor>());
+        pen.setWidth(1);
+        painter.setPen(pen);
+        painter.drawPolyline(polygon);
+        painter.end();
+        m_computedPattern.save("/tmp/pattern.png","PNG");
+        setBackgroundBrush(QPixmap::fromImage(m_computedPattern));
 
     }
 
@@ -946,7 +981,7 @@ void VMap::removeItemFromScene(QString id)
     }
     VisualItem* item = m_itemMap->take(id);
 
-   // if(m_item )
+    // if(m_item )
     m_characterItemMap->remove(id);
     if(item->getType() == VisualItem::CHARACTER)
     {
@@ -1024,8 +1059,8 @@ void VMap::setPermissionMode(Map::PermissionMode mode)
 }
 QString VMap::getPermissionModeText()
 {
-	QStringList permissionData;
-	permissionData<< tr("No Right") << tr("His character") << tr("All Permissions");
+    QStringList permissionData;
+    permissionData<< tr("No Right") << tr("His character") << tr("All Permissions");
     return permissionData.at(getOption(VisualItem::PermissionMode).toInt());
 }
 Map::PermissionMode VMap::getPermissionMode()
@@ -1133,7 +1168,7 @@ void VMap::insertCharacterInMap(CharacterItem* item)
     {
         m_characterItemMap->insertMulti(item->getCharacterId(),item);
         m_sightItem->insertVision(item);
-        if((!getOption(VisualItem::LocalIsGM).toBool())&&(m_localUserId==item->getParentId()))
+        if((item->isPlayableCharacter())&&(!getOption(VisualItem::LocalIsGM).toBool())&&(m_localUserId==item->getParentId()))
         {
             changeStackOrder(item,VisualItem::FRONT);
         }
@@ -1215,9 +1250,16 @@ QVariant VMap::getOption(VisualItem::Properties pop)
 }
 QString VMap::getVisibilityModeText()
 {
-	QStringList visibilityData;
+    QStringList visibilityData;
     visibilityData << tr("Hidden") << tr("Fog Of War") << tr("All visible");
-	return visibilityData.at(m_currentVisibityMode);
+    if(m_currentVisibityMode>0 && m_currentVisibityMode < visibilityData.size())
+    {
+        return visibilityData.at(m_currentVisibityMode);
+    }
+    else
+    {
+        return QString();
+    }
 }
 VToolsBar::EditionMode  VMap::getEditionMode()
 {
@@ -1257,23 +1299,23 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
     // move items
     switch (op)
     {
-        case VisualItem::FRONT: // front
-            m_orderedItemList.append(m_orderedItemList.takeAt(index));
-            break;
-        case VisualItem::RAISE: // raise
-            if (index >= size - 1)
-                return;
+    case VisualItem::FRONT: // front
+        m_orderedItemList.append(m_orderedItemList.takeAt(index));
+        break;
+    case VisualItem::RAISE: // raise
+        if (index >= size - 1)
+            return;
 
-            m_orderedItemList.insert(nextIndex, m_orderedItemList.takeAt(index));
-            break;
-        case VisualItem::LOWER: // lower
-            if (index <= 0)
-                return;
-            m_orderedItemList.insert(prevIndex, m_orderedItemList.takeAt(index));
-            break;
-        case VisualItem::BACK: // back
-            m_orderedItemList.prepend(m_orderedItemList.takeAt(index));
-            break;
+        m_orderedItemList.insert(nextIndex, m_orderedItemList.takeAt(index));
+        break;
+    case VisualItem::LOWER: // lower
+        if (index <= 0)
+            return;
+        m_orderedItemList.insert(prevIndex, m_orderedItemList.takeAt(index));
+        break;
+    case VisualItem::BACK: // back
+        m_orderedItemList.prepend(m_orderedItemList.takeAt(index));
+        break;
     }
 
     // reassign z-levels
