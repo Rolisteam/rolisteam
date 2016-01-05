@@ -35,7 +35,7 @@
 #include "map/map.h"
 
 CharacterItem::CharacterItem()
-: VisualItem()
+: VisualItem(),m_character(NULL),m_thumnails(NULL)
 {
     createActions();
 }
@@ -650,6 +650,15 @@ bool CharacterItem::isLocal()
     if(getParentId() == PlayersList::instance()->getLocalPlayer()->getUuid())
     {
         return true;
+    }
+    return false;
+}
+
+bool CharacterItem::isPlayableCharacter()
+{
+    if(NULL!=m_character)
+    {
+        return !m_character->isNpc();
     }
     return false;
 }

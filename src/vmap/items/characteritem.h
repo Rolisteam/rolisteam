@@ -175,6 +175,11 @@ public:
      * @return
      */
     bool isLocal();
+    /**
+     * @brief isPlayableCharacter
+     * @return
+     */
+    bool isPlayableCharacter();
 
 signals:
     /**
