@@ -109,19 +109,37 @@ VisualItem::ItemType RectItem::getType()
 void RectItem::writeData(QDataStream& out) const
 {
     out << m_rect;
+    qDebug() << "write rect" << m_rect;
     out << m_filled;
     out << m_color;
     out << m_id;
     out << m_penWidth;
+    out << scale();
+    out << rotation();
+    out << pos();
+
 }
 
 void RectItem::readData(QDataStream& in)
 {
     in >> m_rect;
+    qDebug() << "read rect" << m_rect;
     in >> m_filled;
     in >> m_color;
     in >> m_id;
     in >> m_penWidth;
+    qreal scale;
+    in >> scale;
+    setScale(scale);
+
+    qreal rotation;
+    in >> rotation;
+    setRotation(rotation);
+
+    QPoint p;
+    in >> p;
+    setPos(p);
+
 }
 void RectItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -207,11 +225,6 @@ void RectItem::setGeometryPoint(qreal pointId, QPointF &pos)
 }
 void RectItem::initChildPointItem()
 {
-    setPos(m_rect.center());
-    m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
-
-
-    m_rect = m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
     m_child = new QVector<ChildPointItem*>();
 
