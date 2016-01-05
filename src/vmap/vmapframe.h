@@ -288,10 +288,6 @@ private: //members
     */
     QHBoxLayout* m_hlayout;
     /**
-    * mask pixmak
-    */
-    QPixmap* m_maskPixmap;
-    /**
     * current edition mode
     */
     int m_currentEditingMode;

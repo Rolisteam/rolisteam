@@ -48,7 +48,7 @@ VMapFrame::VMapFrame(CleverURI* uri,VMap *map)
 
 VMapFrame::~VMapFrame()
 {
-    delete m_maskPixmap;
+
 }
 
 
@@ -75,7 +75,6 @@ void VMapFrame::updateMap()
     setGeometry(m_graphicView->geometry());
 	setWidget(m_graphicView);
     setWindowIcon(QIcon(":/map.png"));
-    m_maskPixmap = new QPixmap(m_graphicView->size());
 	updateTitle();
 }
 void VMapFrame::updateTitle()
@@ -170,8 +169,8 @@ void VMapFrame::openFile(const QString& filepath)
         QDataStream in(&input);
         m_vmap->openFile(in);
         createView();
-
         updateMap();
+        //m_vmap->openItemsInFile(in);
     }
 }
 void VMapFrame::keyPressEvent ( QKeyEvent * event )
@@ -200,6 +199,8 @@ bool VMapFrame::openMedia()
     if(wiz.exec()==QMessageBox::Accepted)
     {
         QString path = wiz.getFilepath();
+        Map::PermissionMode permissionMode = wiz.getPermissionMode();
+        m_vmap->setPermissionMode(permissionMode);
         QFileInfo info(path);
         m_uri->setUri( path);
         m_preferences->registerValue("MapDirectory",info.absolutePath());
