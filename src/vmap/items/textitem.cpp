@@ -259,6 +259,9 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
+    //pos
+    msg->real(pos().x());
+    msg->real(pos().y());
     //center
     msg->real(m_start.x());
     msg->real(m_start.y());
@@ -270,6 +273,10 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
+    //pos
+    qreal x = msg->real();
+    qreal y = msg->real();
+    setPos(x,y);
     //center
     m_start.setX(msg->real());
     m_start.setY(msg->real());
