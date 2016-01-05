@@ -446,6 +446,7 @@ void MainWindow::linkActionToMenu()
     connect(m_networkManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
     connect(m_ui->m_disconnectAction,SIGNAL(triggered()),this,SLOT(closeConnection()));
     connect(m_ui->m_connectionAction,SIGNAL(triggered()),this,SLOT(startReconnection()));
+    connect(m_ui->m_changeProfileAct,SIGNAL(triggered()),this,SLOT(showConnectionDialog()));
 
     // Windows managing
     connect(m_ui->m_cascadeViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
@@ -870,6 +871,11 @@ void MainWindow::stopReconnection()
 
 void MainWindow::startReconnection()
 {
+    if(NULL==m_currentConnectionProfile)
+    {
+        showConnectionDialog();
+        return;
+    }
     if(!m_currentConnectionProfile->isServer())
     {
         closeAllImagesAndMaps();

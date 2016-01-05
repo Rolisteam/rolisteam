@@ -123,7 +123,6 @@ public :
      * @return
      */
     void removeMapFromId(QString idCarte);
-
     /**
      * @brief removePictureFromId
      * @param idImage

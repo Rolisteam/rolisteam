@@ -106,6 +106,8 @@
     </property>
     <addaction name="m_connectionAction"/>
     <addaction name="m_disconnectAction"/>
+    <addaction name="separator"/>
+    <addaction name="m_changeProfileAct"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -462,6 +464,11 @@
    </property>
    <property name="shortcut">
     <string>F8</string>
+   </property>
+  </action>
+  <action name="m_changeProfileAct">
+   <property name="text">
+    <string>Change Profile</string>
    </property>
   </action>
  </widget>
