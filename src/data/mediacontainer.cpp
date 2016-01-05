@@ -22,7 +22,7 @@
 
 
 MediaContainer::MediaContainer(QWidget* parent)
-	: QMdiSubWindow(parent),m_uri(NULL),m_preferences(PreferencesManager::getInstance()),m_action(NULL)
+    : QMdiSubWindow(parent),m_uri(NULL),m_preferences(PreferencesManager::getInstance()),m_action(NULL),m_currentCursor(NULL)
 {
     //m_preferences = ;
     setAttribute(Qt::WA_DeleteOnClose,false);
@@ -123,5 +123,4 @@ void MediaContainer::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 void MediaContainer::currentCursorChanged(QCursor* cursor)
 {
     m_currentCursor = cursor;
-
 }
