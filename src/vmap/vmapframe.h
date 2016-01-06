@@ -253,40 +253,11 @@ private: //members
     /**
     *  pointer to the map, the place where all items are added and displayed
     */
-    VMap* m_vmap;
-    
-    /**
-    *  Used for moving the windows (not sure it's still used)
-    */
-    QPoint startingPoint;
-    /**
-    *  Used for adjusting the subWindow width (not sure it's still used)
-    */
-    int horizontalStart;
-    /**
-    *  Used for adjusting the subWindow height (not sure it's still used)
-    */
-    int verticalStart;
-    
+    VMap* m_vmap;    
     /**
     * Pointer to the graphicView, the widget (viewport) which displays the scene
     */
-    RGraphicsView* m_graphicView;
-    
-    
-    /**
-    * Pointer to the intermediate widget, it's a sublayer to manager layout.
-    */
-    QWidget* m_widgetLayout;
-    
-    /**
-    * vertical layout
-    */
-    QVBoxLayout* m_vlayout;
-    /**
-    * horizontal layout
-    */
-    QHBoxLayout* m_hlayout;
+    RGraphicsView* m_graphicView;    
     /**
     * current edition mode
     */
