@@ -129,10 +129,6 @@ private slots :
     bool startConnectionToServer();
     bool startListening();
 
-
-private :
-    void synchronizePreferences();
-
 private:
     QTcpServer * m_server;
     QList<NetworkLink *> NetworkLinks;
