@@ -1043,14 +1043,14 @@ void VMap::setPermissionMode(Map::PermissionMode mode)
             }
             else
             {
-                bool value = false;
+                bool value = false;//GM_ONLY
                 if(Map::PC_ALL == mode)
                 {
                     value = true;
                 }
                 foreach(VisualItem* item,m_itemMap->values())
                 {
-                    item->setEditableItem(true);
+                    item->setEditableItem(value);
                 }
             }
         }
