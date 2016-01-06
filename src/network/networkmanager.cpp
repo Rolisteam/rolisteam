@@ -57,10 +57,6 @@ NetworkManager::~NetworkManager()
     }
     delete m_reconnect;
 }
-void NetworkManager::synchronizePreferences()
-{
-
-}
 void NetworkManager::setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue)
 {
     m_portStr = portValue;
