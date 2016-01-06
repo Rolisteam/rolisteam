@@ -37,8 +37,8 @@ public:
     void setColor(QColor);
     void setName(QString);
 
-    QColor getColor();
-    QString getName();
+    QColor getColor() const;
+    QString getName() const;
     QPalette::ColorGroup getGroup();
     QPalette::ColorRole getRole();
     void writeTo(QJsonObject& json);
