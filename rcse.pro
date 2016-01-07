@@ -20,3 +20,6 @@ HEADERS  += mainwindow.h \
     field.h
 
 FORMS    += mainwindow.ui
+
+DISTFILES += \
+    field.qml
