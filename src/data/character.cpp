@@ -68,7 +68,13 @@ void Character::setListOfCharacterState(QList<CharacterState*>* list)
 }
 CharacterState* Character::getStateFromLabel(QString label)
 {
-    /// @warning to be implemented
+    foreach(CharacterState* state, *m_stateList)
+    {
+        if(state->getLabel() == label)
+        {
+            return state;
+        }
+    }
     return NULL;
 }
 
@@ -158,7 +164,11 @@ void Character::writeData(QDataStream& out) const
 {
     out << m_uuid;
     out << m_name;
-    out << m_currentState->getLabel();
+    if(NULL!=m_currentState)
+    {
+        out << true;
+        out << m_currentState->getLabel();
+    }
     out << m_isNpc;
     out << m_number;
     out << m_color;
@@ -168,9 +178,18 @@ void Character::readData(QDataStream& in)
 {
     in >> m_uuid;
     in >> m_name;
-    QString value;
-    in >> value;
-    m_currentState= getStateFromLabel(value);
+    bool hasState;
+    in >> hasState;
+    if(hasState)
+    {
+        QString value;
+        in >> value;
+        m_currentState= getStateFromLabel(value);
+    }
+    else
+    {
+        m_currentState = NULL;
+    }
     in >> m_isNpc;
     in >> m_number;
     in >> m_color;
