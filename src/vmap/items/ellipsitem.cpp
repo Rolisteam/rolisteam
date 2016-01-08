@@ -99,6 +99,8 @@ void EllipsItem::writeData(QDataStream& out) const
     out << m_color;
     out << m_penWidth;
     out << pos();
+    out << scale();
+    out << rotation();
 }
 VisualItem::ItemType EllipsItem::getType()
 {
@@ -116,6 +118,15 @@ void EllipsItem::readData(QDataStream& in)
     QPointF position;
     in >> position;
     setPos(position);
+
+    qreal scale;
+    in >> scale;
+    setScale(scale);
+
+    qreal rotation;
+    in >> rotation;
+    setRotation(rotation);
+
 }
 void EllipsItem::fillMessage(NetworkMessageWriter* msg)
 {
