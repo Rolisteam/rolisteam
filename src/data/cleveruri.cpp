@@ -54,6 +54,7 @@ QString CleverURI::m_pdfIcon=QString(":/iconpdf");
 #endif
 
 CleverURI::CleverURI()
+    : m_type(NONE)
 {
 
 }

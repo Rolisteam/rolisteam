@@ -29,6 +29,7 @@
 
 #include "data/character.h"
 Player::Player()
+    : m_gameMaster(NULL),m_link(NULL)
 {
 
 }

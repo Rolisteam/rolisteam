@@ -108,7 +108,7 @@ public:
      * @brief getUserVersion
      * @return
      */
-    QString getUserVersion();
+    QString getUserVersion() const;
     /**
      * @brief setUserVersion
      * @param softV
