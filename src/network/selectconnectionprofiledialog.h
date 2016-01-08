@@ -53,8 +53,6 @@ public:
      * @brief setGm
      */
     void setGm(bool);
-
-
     /**
      * @brief getTitle
      * @return
@@ -99,9 +97,6 @@ public:
      * @brief setCharacter
      */
     void setCharacter(Character* );
-
-
-
 private:
     QString m_title;
     QString m_name;
@@ -111,8 +106,6 @@ private:
     Player*  m_player;
     bool    m_isGM;
     Character* m_character;
-
-
 };
 
 /**

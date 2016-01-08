@@ -166,7 +166,7 @@ void Player::setFeature(const QString & name, quint8 version)
 
     m_features.insert(name, version);
 }
-QString Player::getUserVersion()
+QString Player::getUserVersion() const
 {
     return m_softVersion;
 }

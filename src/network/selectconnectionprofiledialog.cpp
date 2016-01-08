@@ -6,11 +6,14 @@
 #include <QMessageBox>
 
 #include "data/character.h"
+
+#define DEFAULT_PORT 6660
+
 /// ConnectionProfile
 ///
 ///
 ConnectionProfile::ConnectionProfile()
-    : m_character(NULL)
+    : m_character(NULL),m_server(false),m_port(DEFAULT_PORT),m_player(NULL)
 {
 
 }

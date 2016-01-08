@@ -2101,11 +2101,11 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
                     }
                     else if(type == CleverURI::VMAP)
                     {
-                        prepareVMap((VMapFrame*)tmp);
+                        prepareVMap(static_cast<VMapFrame*>(tmp));
                     }
                     else if(type == CleverURI::VMAP)
                     {
-                        prepareVMap((VMapFrame*)tmp);
+                        prepareVMap(static_cast<VMapFrame*>(tmp));
                     }
                     else if((type==CleverURI::PICTURE)||(type==CleverURI::ONLINEPICTURE))
                     {
