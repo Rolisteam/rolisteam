@@ -663,6 +663,9 @@ void VMap::openFile(QDataStream& in)
             case VisualItem::SIGHT:
                 item= m_sightItem;
                 break;
+            case VisualItem::IMAGE:
+                item= new ImageItem();
+                break;
 
             }
             if(NULL!=item)
