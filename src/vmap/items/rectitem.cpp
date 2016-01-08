@@ -116,7 +116,6 @@ void RectItem::writeData(QDataStream& out) const
     out << scale();
     out << rotation();
     out << pos();
-
 }
 
 void RectItem::readData(QDataStream& in)
