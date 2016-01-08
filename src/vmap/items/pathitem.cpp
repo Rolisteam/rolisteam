@@ -124,6 +124,9 @@ void PathItem::writeData(QDataStream& out) const
     out << m_pointVector;
     out << m_path;
     out << m_pen;
+    out << m_closed;
+    out << scale();
+    out << rotation();
 }
 
 void PathItem::readData(QDataStream& in)
@@ -132,6 +135,14 @@ void PathItem::readData(QDataStream& in)
     in >> m_pointVector;
     in >> m_path;
     in >> m_pen;
+    in >> m_closed;
+    qreal scale;
+    in >> scale;
+    setScale(scale);
+
+    qreal rotation;
+    in >> rotation;
+    setRotation(rotation);
 }
 VisualItem::ItemType PathItem::getType()
 {

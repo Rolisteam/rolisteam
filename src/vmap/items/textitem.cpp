@@ -239,6 +239,9 @@ void TextItem::writeData(QDataStream& out) const
     out << m_doc->toHtml();
     out << m_color;
     out << m_id;
+    out << m_rect;
+    out << scale();
+    out << rotation();
 }
 void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -253,6 +256,17 @@ void TextItem::readData(QDataStream& in)
     m_doc->setHtml(text);
     in >> m_color;
     in >> m_id;
+    in >> m_rect;
+
+    qreal scale;
+    in >> scale;
+    setScale(scale);
+
+    qreal rotation;
+    in >> rotation;
+    setRotation(rotation);
+
+
 }
 void TextItem::fillMessage(NetworkMessageWriter* msg)
 {
