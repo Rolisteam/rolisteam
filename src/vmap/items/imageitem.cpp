@@ -47,6 +47,12 @@ void ImageItem::writeData(QDataStream& out) const
 	out << m_keepAspect;
 	out << m_color;
 	out << m_id;
+    out << m_image;
+    out << m_imagePath;
+    out << m_ratio;
+    out << scale();
+    out << rotation();
+    out << pos();
 }
 
 void ImageItem::readData(QDataStream& in)
@@ -55,6 +61,20 @@ void ImageItem::readData(QDataStream& in)
 	in >> m_keepAspect;
 	in >> m_color;
 	in >> m_id;
+    in >> m_image;
+    in >> m_imagePath;
+    in >> m_ratio;
+    qreal scale;
+    in >> scale;
+    setScale(scale);
+
+    qreal rotation;
+    in >> rotation;
+    setRotation(rotation);
+
+    QPoint p;
+    in >> p;
+    setPos(p);
 }
 void ImageItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -70,10 +90,21 @@ void ImageItem::fillMessage(NetworkMessageWriter* msg)
 	msg->rgb(m_color);
 
     QFile file(m_imagePath);
-    file.open(QIODevice::ReadOnly);
+    if(file.exists())
+    {
+        file.open(QIODevice::ReadOnly);
 
-    QByteArray baImage = file.readAll();
-    msg->byteArray32(baImage);
+        QByteArray baImage = file.readAll();
+        msg->byteArray32(baImage);
+    }
+    else
+    {
+        QByteArray ba;
+        QBuffer buffer(&ba);
+        buffer.open(QIODevice::WriteOnly);
+        m_image.save(&buffer, "PNG");
+        msg->byteArray32(ba);
+    }
 
 	msg->real(scale());
 	msg->real(rotation());
@@ -156,11 +187,11 @@ void ImageItem::resizeContents(const QRect& rect, bool keepRatio)
 }
 void ImageItem::initChildPointItem()
 {
-	setPos(m_rect.center());
+/*	setPos(m_rect.center());
 	m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
 	setTransformOriginPoint(m_rect.center());
 
-	m_rect = m_rect.normalized();
+    m_rect = m_rect.normalized();*/
 	setTransformOriginPoint(m_rect.center());
     if((NULL == m_child))
     {
