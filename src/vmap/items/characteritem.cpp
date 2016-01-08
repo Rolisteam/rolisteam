@@ -59,7 +59,12 @@ void CharacterItem::writeData(QDataStream& out) const
     out << m_rect;
     if(NULL!=m_character)
     {
+        out << true;
         m_character->writeData(out);
+    }
+    else
+    {
+        out<<false;
     }
 }
 
@@ -70,8 +75,13 @@ void CharacterItem::readData(QDataStream& in)
     m_thumnails = new QPixmap();
     in >> *m_thumnails;
     in >> m_rect;
+    bool hasCharacter;
+    in >> hasCharacter;
     m_character = new Character();
-    m_character->readData(in);
+    if(hasCharacter)
+    {
+        m_character->readData(in);
+    }
 
 }
 VisualItem::ItemType CharacterItem::getType()
