@@ -197,10 +197,10 @@ void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
     }
 }
 
-QWidget* ImprovedWorkspace::activeWindow()
+/*QWidget* ImprovedWorkspace::activeWindow()
 {
     return currentSubWindow();
-}
+}*/
 void ImprovedWorkspace::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
 {
     m_map->insert(act,sub);

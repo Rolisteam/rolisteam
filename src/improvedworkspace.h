@@ -43,7 +43,7 @@ public :
 	~ImprovedWorkspace();
 
     QWidget* addWindow(QWidget*,QAction* action);
-    QWidget* activeWindow();
+   // QWidget* activeWindow();
 
     void insertActionAndSubWindow(QAction*, QMdiSubWindow*);
     /**
