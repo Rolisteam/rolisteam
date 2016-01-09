@@ -45,6 +45,7 @@ public:
     void deleteItem(QList<QGraphicsItem*> list);
     void setItemLayer(QList<QGraphicsItem*> list,VisualItem::Layer layer);
     void setRotation(QList<QGraphicsItem*> list, int value);
+    void changeZValue(QList<QGraphicsItem *> list, VisualItem::StackOrder order);
 
 protected:
     void keyPressEvent ( QKeyEvent * event);

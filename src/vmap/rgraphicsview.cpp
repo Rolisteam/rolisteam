@@ -160,14 +160,19 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
             QAction* backOrderAction = menu.addAction(tr("Back"));
             backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
+            backOrderAction->setData(VisualItem::BACK);
 
             QAction* frontOrderAction = menu.addAction(tr("Front"));
             frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
+            frontOrderAction->setData(VisualItem::FRONT);
 
             QAction* lowerAction = menu.addAction(tr("Lower"));
             lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
+            lowerAction->setData(VisualItem::LOWER);
 
             QAction* raiseAction = menu.addAction(tr("Raise"));
+            raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
+            raiseAction->setData(VisualItem::RAISE);
 
             QMenu* rotationMenu = menu.addMenu(tr("Rotate"));
             QAction* resetRotationAct = rotationMenu->addAction(tr("To 360"));
@@ -198,6 +203,15 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             {
                 setRotation(list,270);
             }
+            else if(selectedAction==angleRotationAct)
+            {
+                int angle = QInputDialog::getInt(this,tr("Rotation Value ?"),tr("Please, set the rotation angle you want [0-360]"),0,0,360);
+                setRotation(list,angle);
+            }
+            else if((backOrderAction == selectedAction)||(frontOrderAction == selectedAction)||(lowerAction == selectedAction)||(raiseAction == selectedAction))
+            {
+                changeZValue(list,(VisualItem::StackOrder)selectedAction->data().toInt());
+            }
             else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putCharacterLayer))
             {
                 setItemLayer(list,(VisualItem::Layer)selectedAction->data().toInt());
@@ -221,7 +235,7 @@ void RGraphicsView::setItemLayer(QList<QGraphicsItem*> list,VisualItem::Layer la
     foreach(QGraphicsItem* item, list)
     {
         VisualItem* vItem = dynamic_cast<VisualItem*>(item);
-        if(vItem != NULL)
+        if((vItem != NULL))
         {
             vItem->setLayer(layer);
         }
@@ -234,6 +248,17 @@ void RGraphicsView::deleteItem(QList<QGraphicsItem*> list)
         if(NULL!=m_vmap)
         {
             m_vmap->removeItem(item);
+        }
+    }
+}
+void RGraphicsView::changeZValue(QList<QGraphicsItem*> list,VisualItem::StackOrder order)
+{
+    foreach(QGraphicsItem* item, list)
+    {
+        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
+        if((NULL!=m_vmap)&&(vItem != NULL))
+        {
+            m_vmap->changeStackOrder(vItem,order);
         }
     }
 }
