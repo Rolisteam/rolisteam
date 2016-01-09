@@ -47,7 +47,7 @@ MapFrame::MapFrame(Map* map, QWidget *parent)
     setFocusPolicy(Qt::StrongFocus);
     m_widgetArea->setAlignment(Qt::AlignCenter);
 
-	m_mapWizzard = new MapWizzard(this);
+    m_mapWizzard = new MapWizzard(false,this);
 
 	initMap();
 

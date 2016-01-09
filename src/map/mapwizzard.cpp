@@ -18,6 +18,15 @@ MapWizzard::MapWizzard(bool vmap, QWidget *parent) :
     QStringList data;
     data << tr("No Right") << tr("His character") << tr("All Permissions");
     ui->m_permissionSelector->addItems(data);
+
+    if(m_vmap)
+    {
+        ui->label_3->setVisible(false);
+        ui->label_2->setVisible(false);
+        ui->m_permissionSelector->setVisible(false);
+        ui->m_titleEdit->setVisible(false);
+        ui->m_hiddenCheckbox->setVisible(false);
+    }
 }
 
 MapWizzard::~MapWizzard()
