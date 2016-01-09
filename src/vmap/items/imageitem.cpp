@@ -13,7 +13,7 @@
 #include "data/character.h"
 
 ImageItem::ImageItem()
-: VisualItem()
+: VisualItem(),m_initialized(false)
 {
 	m_keepAspect = true;
 
@@ -49,6 +49,7 @@ void ImageItem::writeData(QDataStream& out) const
 	out << m_id;
     out << m_image;
     out << m_imagePath;
+    out << m_initialized;
     out << m_ratio;
     out << scale();
     out << rotation();
@@ -63,6 +64,7 @@ void ImageItem::readData(QDataStream& in)
 	in >> m_id;
     in >> m_image;
     in >> m_imagePath;
+    in >> m_initialized;
     in >> m_ratio;
     qreal scale;
     in >> scale;
@@ -187,11 +189,14 @@ void ImageItem::resizeContents(const QRect& rect, bool keepRatio)
 }
 void ImageItem::initChildPointItem()
 {
-/*	setPos(m_rect.center());
-	m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
-	setTransformOriginPoint(m_rect.center());
+    if(!m_initialized)
+    {
+        setPos(m_rect.center());
+        m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
+        m_initialized=true;
+    }
 
-    m_rect = m_rect.normalized();*/
+    m_rect = m_rect.normalized();
 	setTransformOriginPoint(m_rect.center());
     if((NULL == m_child))
     {

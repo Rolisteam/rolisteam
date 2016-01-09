@@ -115,6 +115,7 @@ private:
     */
     bool m_filled;
 	quint16 m_penWidth;
+    bool m_initialized;
     
 };
 

@@ -29,13 +29,13 @@
 #include "network/networkmessagereader.h"
 
 RectItem::RectItem()
-    : VisualItem()
+    : VisualItem(),m_filled(false),m_initialized(false)
 {
 
 }
 
 RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,quint16 penSize,QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,parent),m_penWidth(penSize)
+    : VisualItem(penColor,parent),m_penWidth(penSize),m_filled(filled)
 {
     m_rect.setBottomRight(buttomright);
     m_rect.setTopLeft(topleft);
@@ -67,8 +67,6 @@ QPainterPath RectItem::shape() const
         path.lineTo(m_rect.bottomRight().x()-off,m_rect.bottomRight().y()-off);
         path.lineTo(m_rect.bottomLeft().x()+off,m_rect.bottomLeft().y()-off);
         path.lineTo(m_rect.topLeft().x()+off,m_rect.topLeft().y()+off);
-
-
         return path;
 
     }
@@ -113,6 +111,7 @@ void RectItem::writeData(QDataStream& out) const
     out << m_color;
     out << m_id;
     out << m_penWidth;
+    out << m_initialized;
     out << scale();
     out << rotation();
     out << pos();
@@ -125,6 +124,7 @@ void RectItem::readData(QDataStream& in)
     in >> m_color;
     in >> m_id;
     in >> m_penWidth;
+    in >> m_initialized;
     qreal scale;
     in >> scale;
     setScale(scale);
@@ -187,6 +187,7 @@ void RectItem::readItem(NetworkMessageReader* msg)
 }
 void RectItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
+    qDebug() <<"before" << m_rect;
     switch ((int)pointId)
     {
     case 0:
@@ -216,12 +217,19 @@ void RectItem::setGeometryPoint(qreal pointId, QPointF &pos)
     default:
         break;
     }
-
+    qDebug() << "after" <<m_rect;
     setTransformOriginPoint(m_rect.center());
     //updateChildPosition();
 }
 void RectItem::initChildPointItem()
 {
+    if(!m_initialized)
+    {
+        setPos(m_rect.center());
+        m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
+        m_initialized=true;
+    }
+    m_rect = m_rect.normalized();
     setTransformOriginPoint(m_rect.center());
     m_child = new QVector<ChildPointItem*>();
 
@@ -258,5 +266,6 @@ VisualItem* RectItem::getItemCopy()
 }
 void RectItem::resizeContents(const QRect& rect ,bool b)
 {
+    qDebug() << "after" <<m_rect << rect;
     VisualItem::resizeContents(rect,b);
 }
