@@ -262,6 +262,8 @@ private: //members
     * current edition mode
     */
     int m_currentEditingMode;
+
+
 };
 
 #endif

@@ -29,14 +29,14 @@
 #include "map/mapwizzard.h"
 
 VMapFrame::VMapFrame()
-    : MediaContainer()
+    : MediaContainer(),m_graphicView(NULL)
 {
     setObjectName("VMapFrame");
     m_vmap = new VMap();
 }
 
 VMapFrame::VMapFrame(CleverURI* uri,VMap *map)
-    : MediaContainer(),m_vmap(map)
+    : MediaContainer(),m_vmap(map),m_graphicView(NULL)
 {
     setObjectName("VMapFrame");
     m_uri =uri;
@@ -54,7 +54,6 @@ VMapFrame::~VMapFrame()
 
 void VMapFrame::closeEvent(QCloseEvent *event)
 {
-    
     hide();
 	event->accept();
 }
@@ -199,8 +198,10 @@ bool VMapFrame::openMedia()
     if(wiz.exec()==QMessageBox::Accepted)
     {
         QString path = wiz.getFilepath();
+        QString title = wiz.getTitle();
         Map::PermissionMode permissionMode = wiz.getPermissionMode();
         m_vmap->setPermissionMode(permissionMode);
+        m_vmap->setTitle(title);
         QFileInfo info(path);
         m_uri->setUri( path);
         m_preferences->registerValue("MapDirectory",info.absolutePath());
