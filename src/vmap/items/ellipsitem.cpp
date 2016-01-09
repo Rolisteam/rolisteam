@@ -28,13 +28,13 @@
 #include "network/networkmessagereader.h"
 
 EllipsItem::EllipsItem()
-    : VisualItem()
+    : VisualItem(),m_filled(false)
 {
     
 }
 
 EllipsItem::EllipsItem(QPointF& center,bool filled,int penSize,QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,parent),m_penWidth(penSize)
+    : VisualItem(penColor,parent),m_penWidth(penSize),m_filled(false)
 {
     m_center = center;
     setPos(m_center);
