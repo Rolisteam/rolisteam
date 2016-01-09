@@ -539,6 +539,7 @@ void MainWindow::newVectorialMap()
         mapWizzard.setAllMap(tempmap);
         VMapFrame* tmp = new VMapFrame(new CleverURI("",CleverURI::VMAP),tempmap);
         prepareVMap(tmp);
+        addMediaToMdiArea(tmp);
         //tempmap->setCurrentTool(m_toolbar->getCurrentTool());
 
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
@@ -1769,8 +1770,8 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
     tmp->currentPenSizeChanged(m_vToolBar->getCurrentPenSize());
 
-    addMediaToMdiArea(tmp);
-    tmp->show();
+    //addMediaToMdiArea(tmp);
+    //tmp->show();
     m_mapWindowVectorialMap.insert(tmp->getMapId(),tmp);
 
     m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
