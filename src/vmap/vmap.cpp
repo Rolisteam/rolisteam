@@ -92,6 +92,7 @@ void VMap::setHeight(int height)
 void VMap::setTitle(QString title)
 {
     m_title = title;
+    emit mapChanged();
 }
 
 void VMap::setBackGroundColor(QColor bgcolor)
@@ -138,13 +139,12 @@ void VMap::updateItem()
 {
     switch(m_selectedtool)
     {
-    case VToolsBar::PATH:
-    {
-        m_currentPath->setNewEnd(m_first);
-    }
+        case VToolsBar::PATH:
+        {
+            m_currentPath->setNewEnd(m_first);
+            update();
+        }
         break;
-        update();
-
     }
 }
 
@@ -208,14 +208,6 @@ void VMap::addItem()
         m_currentPath = pathItem;
     }
         break;
-        /*    case VToolsBar::RECTFOG:
-        m_currentFogPolygon = new QPolygonF();
-        m_currentFogPolygon->append(m_first);
-        break;
-    case VToolsBar::PATHFOG:
-        m_currentFogPolygon = new QPolygonF();
-        m_currentFogPolygon->append(m_first);
-        break;*/
     case VToolsBar::ANCHOR:
         AnchorItem* anchorItem = new AnchorItem(m_first);
         m_currentItem = anchorItem;
@@ -227,14 +219,6 @@ void VMap::addItem()
     {
         m_fogItem = m_currentItem;
     }
-    /*if(VToolsBar::Painting == m_editionMode)
-    {
-        addNewItem(m_currentItem);
-    }
-    else
-    {
-        m_sightItem->addFogPolygon(m_currentFogPolygon,(VToolsBar::Mask == m_editionMode));
-    }*/
 }
 void VMap::setPenSize(int p)
 {
@@ -280,7 +264,6 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     setOption(VisualItem::EnableCharacterVision,msg.uint8());
     blockSignals(false);
     int itemCount = msg.uint64();
-
     if(readCharacter)
     {
         for(int i = 0; i < itemCount; ++i)
@@ -302,8 +285,12 @@ void VMap::sendAllItems(NetworkMessageWriter& msg)
 {
     foreach(VisualItem* item, m_itemMap->values())
     {
-        msg.uint8(item->getType());
-        item->fillMessage(&msg);
+        //msg.string8(m_id);
+        if(item!=m_sightItem)
+        {
+            msg.uint8(item->getType());
+            item->fillMessage(&msg);
+        }
     }
 }
 void  VMap::setEditionMode(VToolsBar::EditionMode mode)
@@ -754,7 +741,8 @@ void VMap::computePattern()
         painter.setPen(pen);
         painter.drawPolyline(polygon);
         painter.end();
-        m_computedPattern.save("/tmp/pattern.png","PNG");
+        /*QTemporaryFile file;
+        m_computedPattern.save(file,"PNG");*/
         setBackgroundBrush(QPixmap::fromImage(m_computedPattern));
 
     }
@@ -764,6 +752,7 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
     {
+
         VisualItem* item=NULL;
         VisualItem::ItemType type = (VisualItem::ItemType)msg->uint8();
         CharacterItem* charItem = NULL;

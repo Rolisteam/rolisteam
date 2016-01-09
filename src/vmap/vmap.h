@@ -287,11 +287,21 @@ public slots:
      * @brief setEditionMode
      */
     void setEditionMode(VToolsBar::EditionMode);
+    /**
+     * @brief getEditionMode
+     * @return
+     */
     VToolsBar::EditionMode getEditionMode();
     /**
      * @brief cleanFogEdition
      */
     void cleanFogEdition();
+    /**
+     * @brief changeStackOrder triggered when VisualItem should change its z order. It recompute the zvalue of all items.
+     * @param item to move
+     * @param op operation to be done.
+     */
+    void changeStackOrder(VisualItem* item,VisualItem::StackOrder op);
 signals:
     /**
      * @brief npcAdded
@@ -332,12 +342,6 @@ private slots:
      * @param item
      */
     void insertCharacterInMap(CharacterItem* item);
-    /**
-     * @brief changeStackOrder triggered when VisualItem should change its z order. It recompute the zvalue of all items.
-     * @param item to move
-     * @param op operation to be done.
-     */
-    void changeStackOrder(VisualItem* item,VisualItem::StackOrder op);
     /**
      * @brief characterHasBeenDeleted
      */
