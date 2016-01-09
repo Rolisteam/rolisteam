@@ -66,7 +66,7 @@ const QString& RolisteamTheme::getCss() const
 {
     return m_css;
 }
-bool RolisteamTheme::isRemovable()
+bool RolisteamTheme::isRemovable() const
 {
     return m_removable;
 }
@@ -101,7 +101,7 @@ QString RolisteamTheme::getStyleName()
 {
     return m_styleName;
 }
-QString RolisteamTheme::getBackgroundImage()
+QString RolisteamTheme::getBackgroundImage() const
 {
     return m_bgPath;
 }

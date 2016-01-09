@@ -80,7 +80,7 @@ public:
      * @brief isRemovable
      * @return
      */
-    bool isRemovable();
+    bool isRemovable() const;
     /**
      * @brief getStyle
      * @return
@@ -97,7 +97,7 @@ public:
     void setBackgroundPosition(int);
     void setBackgroundImage(QString img);
 
-    QString getBackgroundImage();
+    QString getBackgroundImage() const;
     int getBackgroundPosition();
     QColor getBackgroundColor();
 
