@@ -153,9 +153,6 @@ void MapWizzardDialog::setAllMap(VMap* map)
     map->setOption(VisualItem::GridColor,ui->m_gridColorBtn->color());
     map->setOption(VisualItem::GridSize,ui->m_sizeGrid->value());
 
-    /*map->setPatternSize(ui->m_sizeGrid->value());
-    map->setPatternColor(ui->m_gridColorBtn->color());*/
-
     Map::PermissionMode result;
     switch (ui->m_permissionComboBox->currentIndex())
     {
