@@ -25,6 +25,7 @@
 //CharacterSheetItem
 /////////////////////////////////////
 CharacterSheetItem::CharacterSheetItem()
+    : m_parent(NULL)
 {
 
 }

@@ -72,6 +72,7 @@ include(src/diceparser/diceparser.pri)
 include(src/vmap/vmap.pri)
 include(src/widgets/gmtoolbox/NameGenerator/NameGenerator.pri)
 include(src/charactersheet/charactersheet.pri)
+include(src/session/session.pri)
 
 
 #include(src/diceparser/node/node.pri)
@@ -137,6 +138,8 @@ HEADERS += \
     src/data/character.h \
     src/data/player.h \
     src/data/person.h \
+    src/data/session.h \
+    src/data/chapter.h \
     src/userlist/rolisteammimedata.h \
     src/userlist/userlistdelegate.h \
     src/userlist/userlistview.h \
@@ -206,6 +209,8 @@ SOURCES += \
     src/data/character.cpp \
     src/data/player.cpp \
     src/data/person.cpp \
+    src/data/session.cpp \
+    src/data/chapter.cpp \
     src/userlist/rolisteammimedata.cpp \
     src/userlist/userlistdelegate.cpp \
     src/userlist/userlistview.cpp \

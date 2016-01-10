@@ -62,6 +62,11 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     
     
 }
+CharacterSheetWindow::~CharacterSheetWindow()
+{
+    qDebug() << "CharacterSheetWindow destructor";
+}
+
 bool CharacterSheetWindow::defineMenu(QMenu* menu)
 {
     menu->setTitle(tr("Character Sheet Viewer"));
