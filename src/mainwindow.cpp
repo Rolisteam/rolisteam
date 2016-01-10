@@ -76,6 +76,9 @@
 #include "charactersheet/charactersheetwindow.h"
 
 
+//session
+#include "session/sessionmanager.h"
+
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
@@ -111,6 +114,8 @@ MainWindow::MainWindow()
     connect(m_networkManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
     m_ipChecker = new IpChecker(this);
     m_mapAction = new QMap<MediaContainer*,QAction*>();
+
+    m_sessionManager = new SessionManager();
 
     /// Create all GM toolbox widget
     m_gmToolBoxList.append(new NameGeneratorWidget());
@@ -539,7 +544,7 @@ void MainWindow::newMap()
 }
 void MainWindow::newCharacterSheetWindow()
 {
-    CharacterSheetWindow* window = new CharacterSheetWindow();
+    CharacterSheetWindow* window = new CharacterSheetWindow(NULL,this);
     addMediaToMdiArea(window);
 }
 
@@ -1332,6 +1337,10 @@ void MainWindow::setupUi()
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_chatListWidget);
     addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_chatListWidget->toggleViewAction());
+
+
+    addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_sessionManager->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
 
 
@@ -2047,6 +2056,7 @@ void MainWindow::openCleverURI(CleverURI* uri)
     if(tmp!=NULL)
     {
         tmp->setCleverUri(uri);
+        m_sessionManager->addRessource(uri);
         if(tmp->readFileFromUri())
         {
             if(uri->getType()==CleverURI::MAP)

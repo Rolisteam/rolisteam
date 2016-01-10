@@ -77,6 +77,7 @@ class NetworkManager;
 class TextEdit;
 class PlayersList;
 class ConnectionProfile;
+class SessionManager;
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
@@ -363,6 +364,7 @@ private :
     QString m_localPlayerId;
 	bool m_resetSettings;
     Ui::MainWindow* m_ui;
+    SessionManager* m_sessionManager;
 
 
 //filters
