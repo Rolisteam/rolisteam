@@ -308,6 +308,8 @@ private slots :
      * @param ip
      */
     void showIp(QString ip);
+    void newCharacterSheetWindow();
+
 
 private :
     MainWindow();

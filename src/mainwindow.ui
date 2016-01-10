@@ -35,6 +35,7 @@
      <addaction name="m_newChatAction"/>
      <addaction name="m_newNoteAction"/>
      <addaction name="m_addVectorialMap"/>
+     <addaction name="m_newCharacterSheet"/>
     </widget>
     <widget class="QMenu" name="menu_Open">
      <property name="title">
@@ -46,6 +47,7 @@
      <addaction name="m_openNoteAction"/>
      <addaction name="m_openStoryAction"/>
      <addaction name="m_openVectorialMap"/>
+     <addaction name="m_openCharacterSheet"/>
     </widget>
     <widget class="QMenu" name="m_recentFileMenu">
      <property name="title">
@@ -469,6 +471,24 @@
   <action name="m_changeProfileAct">
    <property name="text">
     <string>Change Profile</string>
+   </property>
+  </action>
+  <action name="m_newCharacterSheet">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/resources/icons/treeview.png</normaloff>:/resources/icons/treeview.png</iconset>
+   </property>
+   <property name="text">
+    <string>Character Sheet</string>
+   </property>
+  </action>
+  <action name="m_openCharacterSheet">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/resources/icons/treeview.png</normaloff>:/resources/icons/treeview.png</iconset>
+   </property>
+   <property name="text">
+    <string>Character Sheet</string>
    </property>
   </action>
  </widget>

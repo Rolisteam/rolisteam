@@ -71,6 +71,12 @@
 #include "vmap/vmap.h"
 #include "vmap/vmapwizzarddialog.h"
 
+
+//character sheet
+#include "charactersheet/charactersheetwindow.h"
+
+
+
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
 #endif
@@ -82,7 +88,7 @@ MainWindow::MainWindow()
     : QMainWindow(),m_networkManager(NULL),m_ui(new Ui::MainWindow),m_resetSettings(false),m_currentConnectionProfile(NULL)
 {
     setAcceptDrops(true);
-    m_supportedCharacterSheet=tr("Character Sheets files (*.xml)");
+    m_supportedCharacterSheet=tr("Character Sheets files (*.xml *.json)");
     m_pdfFiles=tr("Pdf File (*.pdf)");
     m_supportedNotes=tr("Supported Text files (*.html *.txt)");
     m_supportedMap=tr("Supported Map files (*.pla )");
@@ -422,6 +428,7 @@ void MainWindow::linkActionToMenu()
     // file menu
     connect(m_ui->m_newMapAction, SIGNAL(triggered(bool)), this, SLOT(newMap()));
     connect(m_ui->m_addVectorialMap, SIGNAL(triggered(bool)), this, SLOT(newVectorialMap()));
+    connect(m_ui->m_newCharacterSheet,SIGNAL(triggered(bool)),this,SLOT(newCharacterSheetWindow()));
     connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
     connect(m_ui->m_newNoteAction, SIGNAL(triggered(bool)), this, SLOT(newNoteDocument()));
     connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
@@ -530,6 +537,13 @@ void MainWindow::newMap()
         mapFrame->setVisible(true);
     }
 }
+void MainWindow::newCharacterSheetWindow()
+{
+    CharacterSheetWindow* window = new CharacterSheetWindow();
+    addMediaToMdiArea(window);
+}
+
+
 void MainWindow::newVectorialMap()
 {
     MapWizzardDialog mapWizzard(m_mdiArea);
