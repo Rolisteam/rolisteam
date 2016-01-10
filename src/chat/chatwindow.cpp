@@ -210,12 +210,12 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
 
             if(!onlyValue)
             {
-                QString diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%2 (%3)]","mine dice roll").arg(value).arg(cmdLine).arg(list);
+                QString diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%3 (%2)]","mine dice roll").arg(value).arg(list).arg(cmdLine);
                 if(showResult)
 		{
 			showMessage(messageTitle, color, diceOutput,NetMsg::DiceMessageAction);
 		}
-                QString diceOutput2 = tr("got <span class=\"dice\">%1</span> [%2 (%3)]","third person roll").arg(value).arg(cmdLine).arg(list);
+                QString diceOutput2 = tr("got <span class=\"dice\">%1</span> [%3 (%2)]","third person roll").arg(value).arg(list).arg(cmdLine);
                 message = diceOutput2;
             }
             else
