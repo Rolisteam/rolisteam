@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
+#include <QDebug>
 #include <QMimeData>
 #include <QUrl>
 MainWindow::MainWindow(QWidget *parent) :
@@ -54,14 +54,28 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* ev)
         if(ev->type() == QEvent::MouseButtonPress)
         {
             QMouseEvent* event = static_cast<QMouseEvent*>(ev);
-            addFieldAt(event->pos());
+            m_startField = event->pos();
+
             return true;
+        }
+        else if(ev->type() == QEvent::MouseButtonRelease)
+        {
+                QMouseEvent* event = static_cast<QMouseEvent*>(ev);
+                if(event->modifiers() == Qt::NoModifier)
+                {
+                    Field* field = addFieldAt(m_startField);
+                QPoint point = event->pos();
+                field->setGeometry(m_startField.x(),m_startField.y(),m_startField.x()+point.x(),m_startField.y()+point.y());
+
+                return true;
+                }
         }
     }
     return QMainWindow::eventFilter(obj,ev);
 }
-void MainWindow::addFieldAt(QPoint pos)
+Field* MainWindow::addFieldAt(QPoint pos)
 {
+    qDebug() << "create Field";
     Field* field = new Field(m_picLabel);
     m_fieldList.append(field);
     field->move(pos);
@@ -70,6 +84,7 @@ void MainWindow::addFieldAt(QPoint pos)
     field->setVisible(true);
     connect(field,SIGNAL(clickOn(Field*)),this,SLOT(updateEditorPanel(Field*)));
     updateEditorPanel(field);
+    return field;
 }
 
 void MainWindow::updateEditorPanel(Field* f)

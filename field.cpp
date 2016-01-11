@@ -124,7 +124,7 @@ void Field::mousePressEvent(QMouseEvent* ev)
 
 void Field::mouseMoveEvent(QMouseEvent *ev)
 {
-    if(ev->buttons() == Qt::LeftButton)
+    if((ev->buttons() == Qt::LeftButton)&&(ev->modifiers() & Qt::ControlModifier))
     {
        m_pos = ev->pos();
        move(m_pos);

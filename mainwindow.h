@@ -20,7 +20,7 @@ public:
     ~MainWindow();
 
 
-    void addFieldAt(QPoint);
+    Field *addFieldAt(QPoint pos);
 public slots:
     void updateEditorPanel(Field*);
 protected:
@@ -34,6 +34,7 @@ private:
     QLabel* m_picLabel;
     QList<Field*> m_fieldList;
     EDITION_TOOL m_currentTool;
+    QPoint m_startField;
 };
 
 #endif // MAINWINDOW_H
