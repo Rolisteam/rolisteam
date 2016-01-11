@@ -133,7 +133,7 @@ void RectItem::readData(QDataStream& in)
     in >> rotation;
     setRotation(rotation);
 
-    QPoint p;
+    QPointF p;
     in >> p;
     setPos(p);
 
