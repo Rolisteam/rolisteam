@@ -653,6 +653,9 @@ void VMap::openFile(QDataStream& in)
             case VisualItem::IMAGE:
                 item= new ImageItem();
                 break;
+            default:
+                qDebug() << "not managed item"<< type;
+                break;
 
             }
             if(NULL!=item)
