@@ -1816,6 +1816,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
 
                 VMapFrame* mapFrame = new VMapFrame(new CleverURI("",CleverURI::VMAP),map);
                 prepareVMap(mapFrame);
+                addMediaToMdiArea(mapFrame);
             }
             break;
         case NetMsg::loadVmap:
