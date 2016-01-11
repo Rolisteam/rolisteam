@@ -242,6 +242,7 @@ void TextItem::writeData(QDataStream& out) const
     out << m_rect;
     out << scale();
     out << rotation();
+    out << pos();
 }
 void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -265,6 +266,10 @@ void TextItem::readData(QDataStream& in)
     qreal rotation;
     in >> rotation;
     setRotation(rotation);
+
+    QPointF pos;
+    in >> pos;
+    setPos(pos);
 
 
 }
