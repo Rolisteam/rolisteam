@@ -90,6 +90,10 @@ void EllipsItem::setNewEnd(QPointF& p)
     m_rx = dx;
     m_ry = dy;  
 }
+VisualItem::ItemType EllipsItem::getType()
+{
+    return VisualItem::ELLISPE;
+}
 void EllipsItem::writeData(QDataStream& out) const
 {
     out << m_rx;
@@ -101,10 +105,6 @@ void EllipsItem::writeData(QDataStream& out) const
     out << pos();
     out << scale();
     out << rotation();
-}
-VisualItem::ItemType EllipsItem::getType()
-{
-    return VisualItem::ELLISPE;
 }
 
 void EllipsItem::readData(QDataStream& in)
