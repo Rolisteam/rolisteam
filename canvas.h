@@ -4,7 +4,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include "field.h"
-
+#include "fieldmodel.h"
 
 class Canvas : public QGraphicsScene
 {
@@ -14,6 +14,9 @@ public:
     explicit Canvas(QObject *parent = 0);
 
     void setCurrentTool(Canvas::Tool);
+    FieldModel *model() const;
+    void setModel(FieldModel *model);
+
 protected:
     void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
     void dropEvent ( QGraphicsSceneDragDropEvent * event );
@@ -25,7 +28,7 @@ private:
     QGraphicsItem* m_bg;
     Field* m_currentItem;
     Tool m_currentTool;
-
+    FieldModel* m_model;
 };
 
 #endif // CANVAS_H

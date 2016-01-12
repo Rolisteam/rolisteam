@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QMainWindow>
 #include "canvas.h"
+#include "fieldmodel.h"
 
 #include "field.h"
 
@@ -36,6 +37,7 @@ private:
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
     QPixmap m_pix;
+    FieldModel* m_model;
 };
 
 #endif // MAINWINDOW_H

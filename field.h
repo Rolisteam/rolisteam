@@ -4,11 +4,13 @@
 #include <QWidget>
 #include <QLabel>
 #include <QGraphicsItem>
+#include "item.h"
 
-class Field : public QGraphicsItem
+class Field : public QGraphicsObject,public Item
 {
 public:
     enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
+    enum TextAlign {ALignLEFT,ALignRIGHT,ALignCENTER};
     explicit Field(QPointF topleft,QGraphicsItem* parent = 0);
 
     void writeQML();
@@ -42,6 +44,10 @@ public:
 
     QRectF boundingRect() const;
 
+
+    virtual QVariant getValue(Item::ColumnId) const;
+    virtual void setValue(Item::ColumnId id, QVariant var);
+
 protected:
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent* ev);
@@ -51,7 +57,7 @@ private:
     QColor m_bgColor;
     QColor m_textColor;
     QFont  m_font;
-
+    TextAlign m_textAlign;
 
     //internal data
     QRectF m_rect;

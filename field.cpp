@@ -4,7 +4,7 @@
 
 int Field::m_count = 0;
 Field::Field(QPointF topleft,QGraphicsItem* parent)
-    : QGraphicsItem(parent)
+    : QGraphicsObject(parent)
 {
     ++m_count;
     m_rect.setTopLeft(topleft);
@@ -24,6 +24,68 @@ void Field::writeQML()
 QRectF Field::boundingRect() const
 {
     return m_rect;
+}
+
+QVariant Field::getValue(Item::ColumnId id) const
+{
+    switch(id)
+    {
+    case NAME:
+        return m_key;
+    case X:
+        return m_rect.x();
+    case Y:
+        return m_rect.y();
+    case WIDTH:
+        return m_rect.width();
+    case HEIGHT:
+        return m_rect.height();
+    case BORDER:
+        return (int)m_border;
+    case TEXT_ALIGN:
+        return m_textAlign;
+    case BGCOLOR:
+        return m_bgColor;
+    case TEXTCOLOR:
+        return m_textColor;
+
+    }
+
+}
+
+void Field::setValue(Item::ColumnId id, QVariant var)
+{
+    switch(id)
+    {
+    case NAME:
+         m_key = var.toString();
+        break;
+    case X:
+         m_rect.setX(var.toReal());
+        break;
+    case Y:
+        m_rect.setY(var.toReal());
+        break;
+    case WIDTH:
+        m_rect.setWidth(var.toReal());
+        break;
+    case HEIGHT:
+        m_rect.setHeight(var.toReal());
+        break;
+    case BORDER:
+        m_border = (BorderLine)var.toInt();
+        break;
+    case TEXT_ALIGN:
+        m_textAlign= (TextAlign)var.toInt();
+        break;
+    case BGCOLOR:
+        m_bgColor= var.value<QColor>();
+        break;
+    case TEXTCOLOR:
+        m_textColor= var.value<QColor>();
+        break;
+
+    }
 }
 void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {

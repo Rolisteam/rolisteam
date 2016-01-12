@@ -7,6 +7,8 @@
 #include <QOpenGLWidget>
 
 
+#include "borderlisteditor.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -15,6 +17,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     m_canvas = new Canvas();
+    m_model = new FieldModel();
+    ui->treeView->setModel(m_model);
+    m_canvas->setModel(m_model);
+    ui->treeView->setItemDelegateForColumn(Item::BORDER,new BorderListEditor);
     m_view = new QGraphicsView();
     m_view->setAcceptDrops(true);
     m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
@@ -39,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->m_addAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_deleteBtn,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_deleteAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 }
 
 MainWindow::~MainWindow()

@@ -67,6 +67,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
          {
             Field* field = new Field(mouseEvent->scenePos());
             addItem(field);
+            m_model->appendField(field);
             m_currentItem = field;
          }
 
@@ -97,3 +98,13 @@ void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
 }
+FieldModel *Canvas::model() const
+{
+    return m_model;
+}
+
+void Canvas::setModel(FieldModel *model)
+{
+    m_model = model;
+}
+
