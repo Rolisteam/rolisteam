@@ -25,6 +25,8 @@ public:
     Field *addFieldAt(QPoint pos);
 public slots:
     void setCurrentTool();
+
+    void save();
 protected:
 
     bool eventFilter(QObject *, QEvent *);
@@ -33,7 +35,6 @@ private:
     Ui::MainWindow *ui;
     Canvas* m_canvas;
     QGraphicsView* m_view;
-    QList<Field*> m_fieldList;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
     QPixmap m_pix;

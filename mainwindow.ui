@@ -39,7 +39,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>294</width>
+              <width>357</width>
               <height>701</height>
              </rect>
             </property>
@@ -166,7 +166,7 @@
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
-    <addaction name="actionSave"/>
+    <addaction name="m_saveAct"/>
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
@@ -179,7 +179,7 @@
     <string>Open</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="m_saveAct">
    <property name="text">
     <string>Save</string>
    </property>
@@ -229,7 +229,7 @@
   <customwidget>
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
-   <header>QQuickWidget</header>
+   <header>QtQuickWidgets/QQuickWidget</header>
   </customwidget>
  </customwidgets>
  <resources/>

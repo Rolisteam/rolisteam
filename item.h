@@ -2,6 +2,10 @@
 #define ITEM_H
 
 #include <QVariant>
+#include <QJsonObject>
+/**
+ * @brief The Item class
+ */
 class Item
 {
 public:
@@ -20,6 +24,7 @@ public:
     int row();
 
     virtual int indexOfChild(Item *itm);
+    virtual void save(QJsonObject& json)=0;
 private:
     Item* m_parent;
 };

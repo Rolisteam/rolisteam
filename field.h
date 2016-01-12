@@ -8,6 +8,7 @@
 
 class Field : public QGraphicsObject,public Item
 {
+    Q_OBJECT
 public:
     enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
     enum TextAlign {ALignLEFT,ALignRIGHT,ALignCENTER};
@@ -47,6 +48,11 @@ public:
 
     virtual QVariant getValue(Item::ColumnId) const;
     virtual void setValue(Item::ColumnId id, QVariant var);
+
+    virtual void save(QJsonObject& json);
+
+signals:
+    void updateNeeded(Field* c);
 
 protected:
     void mousePressEvent(QMouseEvent *);

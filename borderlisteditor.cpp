@@ -80,7 +80,6 @@ void BorderListEditor::setModelData(QWidget *editor, QAbstractItemModel *model, 
         foreach(QListWidgetItem* item,selection)
         {
             value += item->data(Qt::UserRole).toInt();
-
         }
 
     }

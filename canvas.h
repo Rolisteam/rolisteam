@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QGraphicsPixmapItem>
 #include "field.h"
 #include "fieldmodel.h"
 
@@ -17,6 +18,8 @@ public:
     FieldModel *model() const;
     void setModel(FieldModel *model);
 
+    QPixmap pixmap();
+
 protected:
     void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
     void dropEvent ( QGraphicsSceneDragDropEvent * event );
@@ -25,7 +28,7 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
 private:
-    QGraphicsItem* m_bg;
+    QGraphicsPixmapItem* m_bg;
     Field* m_currentItem;
     Tool m_currentTool;
     FieldModel* m_model;

@@ -1,6 +1,7 @@
 #include "field.h"
 #include <QPainter>
 #include <QMouseEvent>
+#include <QJsonArray>
 
 int Field::m_count = 0;
 Field::Field(QPointF topleft,QGraphicsItem* parent)
@@ -15,6 +16,14 @@ Field::Field(QPointF topleft,QGraphicsItem* parent)
     m_font = font();
     m_key = QStringLiteral("key %1").arg(m_count);
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
+
+
+    connect(this,&Field::xChanged,[=](){
+        emit updateNeeded(this);
+    });
+    connect(this,&Field::yChanged,[=](){
+        emit updateNeeded(this);
+    });
 }
 
 void Field::writeQML()
@@ -48,7 +57,6 @@ QVariant Field::getValue(Item::ColumnId id) const
         return m_bgColor;
     case TEXTCOLOR:
         return m_textColor;
-
     }
 
 }
@@ -84,8 +92,8 @@ void Field::setValue(Item::ColumnId id, QVariant var)
     case TEXTCOLOR:
         m_textColor= var.value<QColor>();
         break;
-
     }
+    update();
 }
 void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
@@ -186,7 +194,33 @@ void Field::mousePressEvent(QMouseEvent* ev)
     }
 }
 
+void Field::save(QJsonObject& json)
+{
+    json["type"]="field";
+    json["key"]=m_key;
+    json["border"]=m_border;
 
+    QJsonObject bgcolor;
+    bgcolor["r"]=QJsonValue(m_bgColor.red());
+    bgcolor["g"]=m_bgColor.green();
+    bgcolor["b"]=m_bgColor.blue();
+    bgcolor["a"]=m_bgColor.alpha();
+    json["bgcolor"]=bgcolor;
+
+    QJsonObject textcolor;
+    textcolor["r"]=m_textColor.red();
+    textcolor["g"]=m_textColor.green();
+    textcolor["b"]=m_textColor.blue();
+    textcolor["a"]=m_textColor.alpha();
+    json["bgcolor"]=textcolor;
+
+    json["font"]=m_font.toString();
+    json["textalign"]=m_textAlign;
+    json["x"]=m_rect.x();
+    json["y"]=m_rect.y();
+    json["width"]=m_rect.width();
+    json["height"]=m_rect.height();
+}
 
 
 

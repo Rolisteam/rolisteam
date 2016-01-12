@@ -5,8 +5,11 @@
 #include <QMimeData>
 #include <QUrl>
 #include <QOpenGLWidget>
-
-
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QDir>
+#include <QBuffer>
+#include <QJsonDocument>
 #include "borderlisteditor.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -46,6 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_addAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_deleteAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+
+    connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
 }
 
 MainWindow::~MainWindow()
@@ -56,6 +61,35 @@ void MainWindow::setCurrentTool()
 {
     QAction* action = dynamic_cast<QAction*>(sender());
     m_canvas->setCurrentTool((Canvas::Tool)action->data().toInt());
+}
+void MainWindow::save()
+{
+    QString name = QFileDialog::getSaveFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
+
+    if(!name.isNull())
+    {
+        QJsonDocument json;
+        QJsonObject jsonObj;
+        m_model->save(jsonObj);
+        QPixmap pix = m_canvas->pixmap();
+        QByteArray bytes;
+        QBuffer buffer(&bytes);
+        buffer.open(QIODevice::WriteOnly);
+        pix.save(&buffer, "PNG");
+        jsonObj["image"]=QString(buffer.data().toBase64());
+        json.setObject(jsonObj);
+
+
+        QFile file(name);
+        if(file.open(QIODevice::WriteOnly))
+        {
+            file.write(json.toJson());
+        }
+        else
+        {
+            QMessageBox::information(this,tr("Not Readable"), tr("The selected file is not readable"));
+        }
+    }
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* ev)

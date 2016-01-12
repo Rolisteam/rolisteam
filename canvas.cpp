@@ -6,7 +6,7 @@
 
 
 
-Canvas::Canvas(QObject *parent) : QGraphicsScene(parent)
+Canvas::Canvas(QObject *parent) : QGraphicsScene(parent),m_bg(NULL)
 {
 
 }
@@ -31,7 +31,6 @@ void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
 {
 
     const QMimeData* mimeData =  event->mimeData();
-
     if(mimeData->hasUrls())
     {
         foreach(QUrl url, mimeData->urls())
@@ -40,13 +39,9 @@ void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
             {
                 m_bg = addPixmap(url.toLocalFile());
                 setSceneRect(m_bg->boundingRect());
-
             }
         }
-
     }
-
-
 }
 void Canvas::setCurrentTool(Canvas::Tool tool)
 {
@@ -106,5 +101,13 @@ FieldModel *Canvas::model() const
 void Canvas::setModel(FieldModel *model)
 {
     m_model = model;
+}
+
+QPixmap Canvas::pixmap()
+{
+    if(NULL!=m_bg)
+    {
+        return m_bg->pixmap();
+    }
 }
 

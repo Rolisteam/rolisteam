@@ -1,7 +1,7 @@
 #include "fieldmodel.h"
 
 #include <QDebug>
-
+#include <QJsonArray>
 //////////////////////////////
 //Section
 /////////////////////////////
@@ -28,6 +28,7 @@ Item *Section::getChildAt(int i)
     {
         return m_children.at(i);
     }
+    return NULL;
 }
 
 QVariant Section::getValue(Item::ColumnId id) const
@@ -65,6 +66,20 @@ QString Section::getName() const
 void Section::setName(const QString &name)
 {
     m_name = name;
+}
+
+void Section::save(QJsonObject& json)
+{
+    json["name"] = m_name;
+    json["type"] = "Section";
+    QJsonArray fieldArray;
+    foreach (Item* item, m_children)
+    {
+       QJsonObject itemObject;
+       item->save(itemObject);
+       fieldArray.append(itemObject);
+    }
+    json["items"] = fieldArray;
 }
 
 //////////////////////////////
@@ -214,6 +229,7 @@ void FieldModel::appendField(Field *f)
 {
     beginInsertRows(QModelIndex(),m_rootSection->getChildrenCount(),m_rootSection->getChildrenCount());
     m_rootSection->appendChild(f);
+    connect(f,SIGNAL(updateNeeded(Field*)),this,SLOT(updateItem(Field*)));
     endInsertRows();
 }
 
@@ -235,7 +251,49 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
 
 }
+void FieldModel::updateItem(Field* item)
+{
+    int ind = m_rootSection->indexOfChild(item);
+    if(ind>=0)
+    {
+        emit dataChanged(createIndex(ind,0,item),createIndex(ind,m_colunm.size(),item));
+    }
+    else
+    {
+        Item* parent = item->getParent();
+        QList<Item*> list;
+        while(parent!=NULL)
+        {
+            list.prepend(parent);
+            parent = parent->getParent();
+        }
+        QModelIndex first;
+        QModelIndex second;
+        int i=0;
+        foreach(Item* itemtmp, list)
+        {
+            Item* next = NULL;
+            if(i+1>list.size())
+            {
+                next = list[++i];
+            }
+            else
+            {
+                next = item;
+            }
 
-
+            if(itemtmp==m_rootSection)
+            {
+                first = index(itemtmp->indexOfChild(next),0,first);
+                second = index(itemtmp->indexOfChild(next),m_colunm.size(),second);
+            }
+        }
+        emit dataChanged(first,second);
+    }
+}
+void FieldModel::save(QJsonObject& json)
+{
+    m_rootSection->save(json);
+}
 
 

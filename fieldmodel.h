@@ -6,9 +6,11 @@
 
 #include "field.h"
 #include "item.h"
+#include <QJsonObject>
 
-
-
+/**
+ * @brief The Section class
+ */
 class Section : public Item
 {
 public:
@@ -24,11 +26,15 @@ public:
     virtual int indexOfChild(Item *itm);
     QString getName() const;
     void setName(const QString &name);
+    virtual void save(QJsonObject& json);
 
 private:
     QList<Item*> m_children;
     QString m_name;
 };
+/**
+s * @brief The Column class
+ */
 class Column
 {
 
@@ -45,6 +51,10 @@ private:
     QString m_name;
     Item::ColumnId m_pos;
 };
+
+/**
+ * @brief The FieldModel class
+ */
 class FieldModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -58,14 +68,14 @@ public:
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
-
-
     void appendField(Field* f);
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
+    void save(QJsonObject& json);
 signals:
 
 public slots:
+    void updateItem(Field *);
 private:
     QList<Column*> m_colunm;
     Section* m_rootSection;
