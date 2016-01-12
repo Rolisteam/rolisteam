@@ -1,17 +1,99 @@
 #include "canvas.h"
+#include <QGraphicsSceneDragDropEvent>
+#include <QMimeData>
+#include <QUrl>
 
-Canvas::Canvas(QWidget *parent) : QWidget(parent)
+
+
+
+Canvas::Canvas(QObject *parent) : QGraphicsScene(parent)
 {
 
 }
-QImage Canvas::image() const
+
+void Canvas::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
-    return m_image;
+    const QMimeData* mimeData =  event->mimeData();
+
+    if(mimeData->hasUrls())
+    {
+        event->acceptProposedAction();
+    }
 }
 
-void Canvas::setImage(const QImage &image)
+void Canvas::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
 {
-    m_image = image;
+    event->acceptProposedAction();
 }
 
 
+void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
+{
+
+    const QMimeData* mimeData =  event->mimeData();
+
+    if(mimeData->hasUrls())
+    {
+        foreach(QUrl url, mimeData->urls())
+        {
+            if(url.isLocalFile())
+            {
+                m_bg = addPixmap(url.toLocalFile());
+                setSceneRect(m_bg->boundingRect());
+
+            }
+        }
+
+    }
+
+
+}
+void Canvas::setCurrentTool(Canvas::Tool tool)
+{
+    m_currentTool = tool;
+}
+void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
+{
+    if(m_currentTool==Canvas::MOVE)
+    {
+        if(mouseEvent->button() == Qt::LeftButton)
+        {
+            QGraphicsScene::mousePressEvent(mouseEvent);
+        }
+    }
+    else if(mouseEvent->button() == Qt::LeftButton)
+    {
+         if(m_currentTool==Canvas::ADD)
+         {
+            Field* field = new Field(mouseEvent->scenePos());
+            addItem(field);
+            m_currentItem = field;
+         }
+
+    }
+    else if(mouseEvent->button()==Qt::RightButton)
+    {
+    }
+}
+void Canvas::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
+{
+    if(m_currentItem!=NULL)
+    {
+        m_currentItem->setNewEnd(mouseEvent->scenePos());
+        update();
+    }
+    if(m_currentTool==Canvas::MOVE)
+    {
+        QGraphicsScene::mouseMoveEvent(mouseEvent);
+    }
+}
+void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
+{
+    Q_UNUSED(mouseEvent);
+
+    m_currentItem = NULL;
+    if(m_currentTool==Canvas::MOVE)
+    {
+        QGraphicsScene::mouseReleaseEvent(mouseEvent);
+    }
+}

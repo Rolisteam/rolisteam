@@ -1,8 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QGraphicsView>
 #include <QMainWindow>
-#include <QLabel>
+#include "canvas.h"
 
 #include "field.h"
 
@@ -22,19 +23,19 @@ public:
 
     Field *addFieldAt(QPoint pos);
 public slots:
-    void updateEditorPanel(Field*);
+    void setCurrentTool();
 protected:
-    void dropEvent(QDropEvent* event);
-    void dragEnterEvent(QDragEnterEvent * event);
 
     bool eventFilter(QObject *, QEvent *);
 
 private:
     Ui::MainWindow *ui;
-    QLabel* m_picLabel;
+    Canvas* m_canvas;
+    QGraphicsView* m_view;
     QList<Field*> m_fieldList;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
+    QPixmap m_pix;
 };
 
 #endif // MAINWINDOW_H

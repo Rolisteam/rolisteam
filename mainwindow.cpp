@@ -4,6 +4,9 @@
 #include <QDebug>
 #include <QMimeData>
 #include <QUrl>
+#include <QOpenGLWidget>
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -11,45 +14,47 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
     ui->setupUi(this);
 
-    m_picLabel = new QLabel();
-    m_picLabel->installEventFilter(this);
-    ui->scrollArea->setWidget(m_picLabel);
+    m_canvas = new Canvas();
+    m_view = new QGraphicsView();
+    m_view->setAcceptDrops(true);
+    m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    m_view->setViewport(new QOpenGLWidget());
+    m_view->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
+
+
+    m_view->setScene(m_canvas);
+    //m_view->installEventFilter(this);
+    ui->scrollArea->setWidget(m_view);
 
     ui->m_splitter->setStretchFactor(0,1);
+
+    ui->m_addAct->setData(Canvas::ADD);
+    ui->m_moveAct->setData(Canvas::MOVE);
+    ui->m_deleteAct->setData(Canvas::DELETE);
+
+    ui->m_addBtn->setDefaultAction(ui->m_addAct);
+    ui->m_moveBtn->setDefaultAction(ui->m_moveAct);
+    ui->m_deleteBtn->setDefaultAction(ui->m_deleteAct);
+
+
+    connect(ui->m_addAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_deleteBtn,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-void MainWindow::dropEvent(QDropEvent* event)
+void MainWindow::setCurrentTool()
 {
-    const QMimeData* data = event->mimeData();
-    if(data->hasUrls())
-    {
-        QList<QUrl> list = data->urls();
-        foreach(QUrl url, list)
-        {
-            QImage imag(url.toLocalFile());
-            if(!imag.isNull())
-            {
-                m_picLabel->setPixmap(QPixmap(url.toLocalFile()));
-            }
-        }
-        event->acceptProposedAction();
-    }
+    QAction* action = dynamic_cast<QAction*>(sender());
+    m_canvas->setCurrentTool((Canvas::Tool)action->data().toInt());
 }
-void MainWindow::dragEnterEvent(QDragEnterEvent * event)
-{
-    if(event->mimeData()->hasUrls())
-    {
-        event->acceptProposedAction();
-    }
 
-}
 bool MainWindow::eventFilter(QObject* obj, QEvent* ev)
 {
-    if(obj == m_picLabel)
+  /*  if(obj == m_picLabel)
     {
         if(ev->type() == QEvent::MouseButtonPress)
         {
@@ -70,13 +75,13 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* ev)
                 return true;
                 }
         }
-    }
+    }*/
     return QMainWindow::eventFilter(obj,ev);
 }
 Field* MainWindow::addFieldAt(QPoint pos)
 {
     qDebug() << "create Field";
-    Field* field = new Field(m_picLabel);
+   /* Field* field = new Field(m_picLabel);
     m_fieldList.append(field);
     field->move(pos);
     field->setPosition(pos);
@@ -84,10 +89,11 @@ Field* MainWindow::addFieldAt(QPoint pos)
     field->setVisible(true);
     connect(field,SIGNAL(clickOn(Field*)),this,SLOT(updateEditorPanel(Field*)));
     updateEditorPanel(field);
-    return field;
+    return field;*/
+    return NULL;
 }
 
-void MainWindow::updateEditorPanel(Field* f)
+/*void MainWindow::updateEditorPanel(Field* f)
 {
     if(NULL!=f)
     {
@@ -97,4 +103,4 @@ void MainWindow::updateEditorPanel(Field* f)
         ui->m_height->setValue(f->size().height());
         ui->m_key->setText(f->key());
     }
-}
+}*/

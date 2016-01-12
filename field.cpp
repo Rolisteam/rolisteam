@@ -2,28 +2,49 @@
 #include <QPainter>
 #include <QMouseEvent>
 
-
-Field::Field(QWidget *parent)
-    : QWidget(parent)
+int Field::m_count = 0;
+Field::Field(QPointF topleft,QGraphicsItem* parent)
+    : QGraphicsItem(parent)
 {
-    m_label = new QLabel(this);
-    m_size = QSize(64,30);
-    m_label->resize(m_size);
-    m_label->setScaledContents(true);
+    ++m_count;
+    m_rect.setTopLeft(topleft);
+    m_rect.setBottomRight(topleft);
+
     m_bgColor = QColor(Qt::white);
     m_textColor = QColor(Qt::black);
     m_font = font();
-    m_key = "key";
+    m_key = QStringLiteral("key %1").arg(m_count);
+    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 }
 
 void Field::writeQML()
 {
 
 }
+QRectF Field::boundingRect() const
+{
+    return m_rect;
+}
+void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+{
+    painter->save();
+
+
+    painter->drawRect(m_rect);
+    painter->drawText(m_rect,m_key);
+
+    painter->restore();
+
+
+}
+void Field::setNewEnd(QPointF nend)
+{
+    m_rect.setBottomRight(nend);
+}
 
 void Field::drawField()
 {
-    QImage imgField(m_size, QImage::Format_ARGB32_Premultiplied);
+  /*  QImage imgField(m_size, QImage::Format_ARGB32_Premultiplied);
     imgField.fill(m_bgColor);
 
     QPainter painterImg(&imgField);
@@ -41,7 +62,7 @@ void Field::drawField()
     painterImg.drawText(rect,Qt::AlignCenter,m_key);
 
 
-    m_label->setPixmap(QPixmap::fromImage(imgField));
+    m_label->setPixmap(QPixmap::fromImage(imgField));*/
 }
 QString Field::key() const
 {
@@ -53,26 +74,7 @@ void Field::setKey(const QString &key)
     m_key = key;
     drawField();
 }
-QPoint Field::position() const
-{
-    return m_pos;
-}
 
-void Field::setPosition(const QPoint &pos)
-{
-    m_pos = pos;
-    drawField();
-}
-QSize Field::size() const
-{
-    return m_size;
-}
-
-void Field::setSize(const QSize &size)
-{
-    m_size = size;
-    drawField();
-}
 Field::BorderLine Field::border() const
 {
     return m_border;
@@ -118,18 +120,10 @@ void Field::mousePressEvent(QMouseEvent* ev)
 {
     if(ev->button() == Qt::LeftButton)
     {
-        emit clickOn(this);
+       // emit clickOn(this);
     }
 }
 
-void Field::mouseMoveEvent(QMouseEvent *ev)
-{
-    if((ev->buttons() == Qt::LeftButton)&&(ev->modifiers() & Qt::ControlModifier))
-    {
-       m_pos = ev->pos();
-       move(m_pos);
-    }
-}
 
 
 

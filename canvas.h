@@ -1,23 +1,31 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
-#include <QWidget>
+#include <QGraphicsScene>
+#include <QGraphicsItem>
+#include "field.h"
 
-class Canvas : public QWidget
+
+class Canvas : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit Canvas(QWidget *parent = 0);
+    enum Tool {ADD,MOVE,DELETE};
+    explicit Canvas(QObject *parent = 0);
 
-    QImage image() const;
-    void setImage(const QImage &image);
-
-signals:
-
-public slots:
-
+    void setCurrentTool(Canvas::Tool);
+protected:
+    void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
+    void dropEvent ( QGraphicsSceneDragDropEvent * event );
+    void dragMoveEvent( QGraphicsSceneDragDropEvent * event );
+    void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
 private:
-    QImage m_image;
+    QGraphicsItem* m_bg;
+    Field* m_currentItem;
+    Tool m_currentTool;
+
 };
 
 #endif // CANVAS_H

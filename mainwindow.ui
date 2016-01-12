@@ -39,7 +39,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>296</width>
+              <width>294</width>
               <height>701</height>
              </rect>
             </property>
@@ -73,20 +73,26 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
-           <widget class="QToolButton" name="toolButton_8">
+           <widget class="QToolButton" name="m_addBtn">
             <property name="text">
              <string>Add</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
             </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
             <property name="autoRaise">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButton_9">
+           <widget class="QToolButton" name="m_moveBtn">
             <property name="text">
              <string>Move</string>
             </property>
@@ -96,16 +102,25 @@
             <property name="autoRaise">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="toolButton_10">
+           <widget class="QToolButton" name="m_deleteBtn">
             <property name="text">
              <string>Delete</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
             </property>
             <property name="autoRaise">
              <bool>true</bool>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -430,15 +445,42 @@
     <string>Quit</string>
    </property>
   </action>
+  <action name="m_addAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Add</string>
+   </property>
+  </action>
+  <action name="m_moveAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Move</string>
+   </property>
+  </action>
+  <action name="m_deleteAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
-   <header>QQuickWidget</header>
+   <header>QtQuickWidgets/QQuickWidget</header>
   </customwidget>
  </customwidgets>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>

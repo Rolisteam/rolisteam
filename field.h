@@ -3,20 +3,21 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QGraphicsItem>
 
-class Field : public QWidget
+class Field : public QGraphicsItem
 {
-    Q_OBJECT
 public:
     enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
-    explicit Field(QWidget *parent = 0);
+    explicit Field(QPointF topleft,QGraphicsItem* parent = 0);
 
     void writeQML();
 
     void drawField();
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
 
-
+    virtual void setNewEnd(QPointF nend);
 
     QString key() const;
     void setKey(const QString &key);
@@ -39,18 +40,13 @@ public:
     QFont font() const;
     void setFont(const QFont &font);
 
-signals:
-    void clickOn(Field*);
-
-public slots:
+    QRectF boundingRect() const;
 
 protected:
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent* ev);
 private:
     QString m_key;
-    QPoint m_pos;
-    QSize  m_size;
     BorderLine m_border;
     QColor m_bgColor;
     QColor m_textColor;
@@ -58,7 +54,8 @@ private:
 
 
     //internal data
-    QLabel* m_label;
+    QRectF m_rect;
+    static int m_count;
 };
 
 #endif // FIELD_H
