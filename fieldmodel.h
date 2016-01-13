@@ -27,7 +27,7 @@ public:
     QString getName() const;
     void setName(const QString &name);
     virtual void save(QJsonObject& json);
-
+    virtual void load(QJsonObject& json,QGraphicsScene* scene);
 private:
     QList<Item*> m_children;
     QString m_name;
@@ -72,6 +72,7 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
     void save(QJsonObject& json);
+    void load(QJsonObject& json,QGraphicsScene* scene);
 signals:
 
 public slots:

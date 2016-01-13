@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QJsonArray>
+#include <QGraphicsScene>
 //////////////////////////////
 //Section
 /////////////////////////////
@@ -71,7 +72,7 @@ void Section::setName(const QString &name)
 void Section::save(QJsonObject& json)
 {
     json["name"] = m_name;
-    json["type"] = "Section";
+    json["type"] = QStringLiteral("Section");
     QJsonArray fieldArray;
     foreach (Item* item, m_children)
     {
@@ -80,6 +81,32 @@ void Section::save(QJsonObject& json)
        fieldArray.append(itemObject);
     }
     json["items"] = fieldArray;
+}
+
+void Section::load(QJsonObject &json,QGraphicsScene* scene)
+{
+    m_name = json["name"].toString();
+    QJsonArray fieldArray = json["items"].toArray();
+    QJsonArray::Iterator it;
+    for(it = fieldArray.begin(); it != fieldArray.end(); ++it)
+    {
+        QJsonObject obj = (*it).toObject();
+        Item* item;
+        if(obj["type"]==QStringLiteral("Section"))
+        {
+            item = new Section();
+        }
+        else
+        {
+            Field* field=new Field();
+            item = field;
+            scene->addItem(field);
+        }
+        item->load(obj,scene);
+        item->setParent(this);
+        m_children.append(item);
+    }
+
 }
 
 //////////////////////////////
@@ -294,6 +321,13 @@ void FieldModel::updateItem(Field* item)
 void FieldModel::save(QJsonObject& json)
 {
     m_rootSection->save(json);
+}
+
+void FieldModel::load(QJsonObject &json,QGraphicsScene* scene)
+{
+    beginResetModel();
+    m_rootSection->load(json,scene);
+    endResetModel();
 }
 
 

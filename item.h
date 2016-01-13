@@ -3,6 +3,7 @@
 
 #include <QVariant>
 #include <QJsonObject>
+class QGraphicsScene;
 /**
  * @brief The Item class
  */
@@ -25,6 +26,7 @@ public:
 
     virtual int indexOfChild(Item *itm);
     virtual void save(QJsonObject& json)=0;
+    virtual void load(QJsonObject& json,QGraphicsScene* scene)=0;
 private:
     Item* m_parent;
 };
