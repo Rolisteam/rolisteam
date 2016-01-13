@@ -165,7 +165,7 @@
      <string>File</string>
     </property>
     <addaction name="actionNew"/>
-    <addaction name="actionOpen"/>
+    <addaction name="m_openAct"/>
     <addaction name="m_saveAct"/>
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
@@ -174,7 +174,7 @@
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionOpen">
+  <action name="m_openAct">
    <property name="text">
     <string>Open</string>
    </property>
@@ -229,7 +229,7 @@
   <customwidget>
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
-   <header>QtQuickWidgets/QQuickWidget</header>
+   <header>QQuickWidget</header>
   </customwidget>
  </customwidgets>
  <resources/>

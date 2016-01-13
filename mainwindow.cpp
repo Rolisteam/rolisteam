@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_deleteAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
     connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
+    connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
 }
 
 MainWindow::~MainWindow()
@@ -62,39 +63,69 @@ void MainWindow::setCurrentTool()
     QAction* action = dynamic_cast<QAction*>(sender());
     m_canvas->setCurrentTool((Canvas::Tool)action->data().toInt());
 }
+void MainWindow::saveAs()
+{
+    m_filename = QFileDialog::getSaveFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
+    if(!m_filename.isEmpty())
+    {
+        if(!m_filename.endsWith(".rcs"))
+        {
+            m_filename.append(QStringLiteral(".rcs"));
+        }
+        save();
+    }
+}
+
 void MainWindow::save()
 {
-    QString name = QFileDialog::getSaveFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
+    if(m_filename.isEmpty())
+        saveAs();
+    QJsonDocument json;
+    QJsonObject jsonObj;
+    m_model->save(jsonObj);
+    QPixmap pix = m_canvas->pixmap();
+    QByteArray bytes;
+    QBuffer buffer(&bytes);
+    buffer.open(QIODevice::WriteOnly);
+    pix.save(&buffer, "PNG");
+    jsonObj["image"]=QString(buffer.data().toBase64());
+    json.setObject(jsonObj);
 
-    if(!name.isNull())
+
+    QFile file(m_filename);
+    if(file.open(QIODevice::WriteOnly))
     {
-        QJsonDocument json;
-        QJsonObject jsonObj;
-        m_model->save(jsonObj);
-        QPixmap pix = m_canvas->pixmap();
-        QByteArray bytes;
-        QBuffer buffer(&bytes);
-        buffer.open(QIODevice::WriteOnly);
-        pix.save(&buffer, "PNG");
-        jsonObj["image"]=QString(buffer.data().toBase64());
-        json.setObject(jsonObj);
-
-
-        QFile file(name);
-        if(file.open(QIODevice::WriteOnly))
+        file.write(json.toJson());
+    }
+    else
+    {
+        QMessageBox::information(this,tr("Not Readable"), tr("The selected file is not readable"));
+    }
+}
+void MainWindow::open()
+{
+    m_filename = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
+    if(!m_filename.isEmpty())
+    {
+        QFile file(m_filename);
+        if(file.open(QIODevice::ReadOnly))
         {
-            file.write(json.toJson());
-        }
-        else
-        {
-            QMessageBox::information(this,tr("Not Readable"), tr("The selected file is not readable"));
+            QJsonDocument json = QJsonDocument::fromJson(file.readAll());
+            QJsonObject jsonObj = json.object();
+            QString str = jsonObj["image"].toString();
+            QByteArray array = QByteArray::fromBase64(str.toUtf8());
+            QPixmap pix;
+            pix.loadFromData(array);
+            m_canvas->setPixmap(pix);
+
+            m_model->load(jsonObj,m_canvas);
         }
     }
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* ev)
 {
-  /*  if(obj == m_picLabel)
+    /*  if(obj == m_picLabel)
     {
         if(ev->type() == QEvent::MouseButtonPress)
         {
@@ -121,7 +152,7 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* ev)
 Field* MainWindow::addFieldAt(QPoint pos)
 {
     qDebug() << "create Field";
-   /* Field* field = new Field(m_picLabel);
+    /* Field* field = new Field(m_picLabel);
     m_fieldList.append(field);
     field->move(pos);
     field->setPosition(pos);

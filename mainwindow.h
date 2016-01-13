@@ -27,6 +27,10 @@ public slots:
     void setCurrentTool();
 
     void save();
+    void saveAs();
+
+    void open();
+
 protected:
 
     bool eventFilter(QObject *, QEvent *);
@@ -39,6 +43,7 @@ private:
     QPoint m_startField;
     QPixmap m_pix;
     FieldModel* m_model;
+    QString m_filename;
 };
 
 #endif // MAINWINDOW_H
