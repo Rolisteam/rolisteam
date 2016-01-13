@@ -20,6 +20,7 @@ public:
 
     QPixmap pixmap();
 
+    void setPixmap(QPixmap pix);
 protected:
     void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
     void dropEvent ( QGraphicsSceneDragDropEvent * event );

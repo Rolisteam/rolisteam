@@ -6,7 +6,7 @@
 
 
 
-Canvas::Canvas(QObject *parent) : QGraphicsScene(parent),m_bg(NULL)
+Canvas::Canvas(QObject *parent) : QGraphicsScene(parent),m_bg(NULL),m_currentItem(NULL)
 {
 
 }
@@ -109,5 +109,14 @@ QPixmap Canvas::pixmap()
     {
         return m_bg->pixmap();
     }
+    return QPixmap();
 }
+void Canvas::setPixmap(QPixmap pix)
+{
+    if(!pix.isNull())
+    {
+        m_bg = addPixmap(pix);
+        setSceneRect(m_bg->boundingRect());
 
+    }
+}
