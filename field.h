@@ -12,6 +12,9 @@ class Field : public QGraphicsObject,public Item
 public:
     enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
     enum TextAlign {ALignLEFT,ALignRIGHT,ALignCENTER};
+
+
+    explicit Field(QGraphicsItem* parent = 0);
     explicit Field(QPointF topleft,QGraphicsItem* parent = 0);
 
     void writeQML();
@@ -50,11 +53,13 @@ public:
     virtual void setValue(Item::ColumnId id, QVariant var);
 
     virtual void save(QJsonObject& json);
+    virtual void load(QJsonObject &json,QGraphicsScene* scene);
 
 signals:
     void updateNeeded(Field* c);
 
 protected:
+    void init();
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent* ev);
 private:

@@ -4,10 +4,14 @@
 #include <QJsonArray>
 
 int Field::m_count = 0;
+Field::Field(QGraphicsItem *parent)
+{
+ init();
+}
+
 Field::Field(QPointF topleft,QGraphicsItem* parent)
     : QGraphicsObject(parent)
 {
-    ++m_count;
     m_rect.setTopLeft(topleft);
     m_rect.setBottomRight(topleft);
 
@@ -15,6 +19,13 @@ Field::Field(QPointF topleft,QGraphicsItem* parent)
     m_textColor = QColor(Qt::black);
     m_font = font();
     m_key = QStringLiteral("key %1").arg(m_count);
+
+    init();
+
+}
+void Field::init()
+{
+    ++m_count;
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 
 
@@ -58,7 +69,7 @@ QVariant Field::getValue(Item::ColumnId id) const
     case TEXTCOLOR:
         return m_textColor;
     }
-
+    return QVariant();
 }
 
 void Field::setValue(Item::ColumnId id, QVariant var)
@@ -212,7 +223,7 @@ void Field::save(QJsonObject& json)
     textcolor["g"]=m_textColor.green();
     textcolor["b"]=m_textColor.blue();
     textcolor["a"]=m_textColor.alpha();
-    json["bgcolor"]=textcolor;
+    json["textcolor"]=textcolor;
 
     json["font"]=m_font.toString();
     json["textalign"]=m_textAlign;
@@ -221,6 +232,44 @@ void Field::save(QJsonObject& json)
     json["width"]=m_rect.width();
     json["height"]=m_rect.height();
 }
+
+void Field::load(QJsonObject &json,QGraphicsScene* scene)
+{
+    m_key = json["key"].toString();
+    m_border = (BorderLine)json["border"].toInt();
+
+
+    QJsonObject bgcolor = json["bgcolor"].toObject();
+    int r,g,b,a;
+    r = bgcolor["r"].toInt();
+    g = bgcolor["g"].toInt();
+    b = bgcolor["b"].toInt();
+    a = bgcolor["a"].toInt();
+
+    m_bgColor=QColor(r,g,b,a);
+
+    QJsonObject textcolor = json["textcolor"].toObject();
+
+    r = textcolor["r"].toInt();
+    g = textcolor["g"].toInt();
+    b = textcolor["b"].toInt();
+    m_textColor=QColor(r,g,b,a);
+
+    m_font.fromString(json["font"].toString());
+
+    m_textAlign = (TextAlign)json["textalign"].toInt();
+    qreal x,y,w,h;
+    x=json["x"].toDouble();
+    y=json["y"].toDouble();
+    w=json["width"].toDouble();
+    h=json["height"].toDouble();
+
+    m_rect.setRect(x,y,w,h);
+
+
+    update();
+}
+
 
 
 
