@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
+    connect(ui->m_tabWidget,SIGNAL(currentChanged(int)),this,SLOT(generateQML()));
 }
 
 MainWindow::~MainWindow()
@@ -121,6 +122,13 @@ void MainWindow::open()
             m_model->load(jsonObj,m_canvas);
         }
     }
+}
+
+void MainWindow::generateQML()
+{
+    QString data;
+    QTextStream text(data);
+
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* ev)

@@ -31,4 +31,5 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 DISTFILES += \
-    field.qml
+    examples/Rcse/field.qml\
+    examples/cs.qml

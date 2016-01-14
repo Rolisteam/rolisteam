@@ -30,6 +30,7 @@ public slots:
     void saveAs();
 
     void open();
+    void generateQML();
 
 protected:
 

@@ -20,9 +20,9 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QTabWidget" name="tabWidget">
+      <widget class="QTabWidget" name="m_tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="editor">
         <attribute name="title">
@@ -48,7 +48,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="qml">
+       <widget class="QWidget" name="m_qml">
         <attribute name="title">
          <string>View</string>
         </attribute>
