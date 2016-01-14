@@ -126,7 +126,7 @@ void MainWindow::open()
 
 void MainWindow::generateQML()
 {
-    QString data;
+    QString* data = new QString;
     QTextStream text(data);
 
 }
