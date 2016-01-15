@@ -14,18 +14,14 @@ Window {
         anchors.fill: parent
         Image {
             id:root
-            property real pratio : parent.width/parent.height
             property real iratio : 1.3621523579201935
             property real iratioBis : 0.7341322680869952
-
             property real realScale: width/2253
-
             width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width
             height:(parent.width>parent.height*iratio)?parent.height:iratioBis*parent.width
-
-            onHeightChanged: {
+           /* onHeightChanged: {
                 console.log(height+" "+width+ " "+parent.height+ " "+parent.width);
-            }
+            }*/
 
             source: "ptites-sorcieres-fiche-pj-2.jpg"
 

@@ -129,6 +129,36 @@ void MainWindow::generateQML()
     QString* data = new QString;
     QTextStream text(data);
 
+    text << "import QtQuick 2.5\n\
+            import QtQuick.Window 2.2\n\
+            import \"./Rcse/\"\n\
+            \n\
+            Window {\n\
+                id:rootw\n\
+                visible: true\n\
+                x:0\n\
+                y:0\n\
+            \n\
+                Item {\n\
+                    anchors.fill: parent\n\
+                    Image {\n\
+                        id:root";
+
+    QPixmap pix = m_canvas->pixmap();
+    qreal ratio = pix.width()/pix.height();
+    qreal ratioBis = pix.height()/pix.width();
+    text << "       property real iratio :" << ratio << "\n";
+    text << "       property real iratioBis :" << ratioBis << "\n";
+    text << "       property real realScale: width/"<< pix.width();
+    text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width";
+    text << "       height:(parent.width>parent.height*iratio)?parent.height:iratioBis*parent.width";
+    text << "       source: background.jpg";
+    m_model->generateQML(text);
+    text << "\n\
+        }\n\
+    }\n\
+}\n\
+";
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* ev)

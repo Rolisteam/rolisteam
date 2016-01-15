@@ -1,12 +1,16 @@
 #ifndef FIELDMODEL_H
 #define FIELDMODEL_H
 
-#include <QObject>
-#include <QAbstractItemModel>
 
 #include "field.h"
 #include "item.h"
+
 #include <QJsonObject>
+#include <QObject>
+#include <QAbstractItemModel>
+#include <QTextStream>
+
+
 
 /**
  * @brief The Section class
@@ -73,6 +77,8 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     void save(QJsonObject& json);
     void load(QJsonObject& json,QGraphicsScene* scene);
+
+    void generateQML(QTextStream& out);
 signals:
 
 public slots:

@@ -17,8 +17,6 @@ public:
     explicit Field(QGraphicsItem* parent = 0);
     explicit Field(QPointF topleft,QGraphicsItem* parent = 0);
 
-    void writeQML();
-
     void drawField();
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
@@ -54,6 +52,8 @@ public:
 
     virtual void save(QJsonObject& json);
     virtual void load(QJsonObject &json,QGraphicsScene* scene);
+
+    virtual void generateQML(QTextStream& out);
 
 signals:
     void updateNeeded(Field* c);

@@ -3,6 +3,8 @@
 
 #include <QVariant>
 #include <QJsonObject>
+#include <QTextStream>
+
 class QGraphicsScene;
 /**
  * @brief The Item class
@@ -27,6 +29,8 @@ public:
     virtual int indexOfChild(Item *itm);
     virtual void save(QJsonObject& json)=0;
     virtual void load(QJsonObject& json,QGraphicsScene* scene)=0;
+
+    virtual void generateQML(QTextStream& out)=0;
 private:
     Item* m_parent;
 };

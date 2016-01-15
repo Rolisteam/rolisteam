@@ -270,6 +270,17 @@ void Field::load(QJsonObject &json,QGraphicsScene* scene)
     update();
 }
 
+void Field::generateQML(QTextStream &out)
+{
+    out << "Field {\n"
+        << "x:" << 200 << "*parent.realScale"
+        << "y:" << 100<< "*parent.realScale"
+        << "width:" <<200 <<"*parent.realScale"
+        << "height:"<< 20
+        << "color:" << ""
+    }
+}
+
 
 
 

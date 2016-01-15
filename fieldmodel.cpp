@@ -278,6 +278,10 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
 
 }
+void FieldModel::generateQML(QTextStream& out)
+{
+    m_rootSection->generateQML(out);
+}
 void FieldModel::updateItem(Field* item)
 {
     int ind = m_rootSection->indexOfChild(item);
@@ -294,6 +298,8 @@ void FieldModel::updateItem(Field* item)
             list.prepend(parent);
             parent = parent->getParent();
         }
+
+
         QModelIndex first;
         QModelIndex second;
         int i=0;
