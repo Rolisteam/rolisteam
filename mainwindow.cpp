@@ -10,6 +10,9 @@
 #include <QDir>
 #include <QBuffer>
 #include <QJsonDocument>
+#include <QTemporaryFile>
+
+
 #include "borderlisteditor.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -126,39 +129,58 @@ void MainWindow::open()
 
 void MainWindow::generateQML()
 {
-    QString* data = new QString;
-    QTextStream text(data);
-
-    text << "import QtQuick 2.5\n\
-            import QtQuick.Window 2.2\n\
-            import \"./Rcse/\"\n\
-            \n\
-            Window {\n\
-                id:rootw\n\
-                visible: true\n\
-                x:0\n\
-                y:0\n\
-            \n\
-                Item {\n\
-                    anchors.fill: parent\n\
-                    Image {\n\
-                        id:root";
-
     QPixmap pix = m_canvas->pixmap();
-    qreal ratio = pix.width()/pix.height();
-    qreal ratioBis = pix.height()/pix.width();
-    text << "       property real iratio :" << ratio << "\n";
-    text << "       property real iratioBis :" << ratioBis << "\n";
-    text << "       property real realScale: width/"<< pix.width();
-    text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width";
-    text << "       height:(parent.width>parent.height*iratio)?parent.height:iratioBis*parent.width";
-    text << "       source: background.jpg";
-    m_model->generateQML(text);
-    text << "\n\
-        }\n\
-    }\n\
-}\n\
-";
+    if(!pix.isNull())
+    {
+        QByteArray data;// = new QString;
+        QTextStream text(&data);
+
+        text << "import QtQuick 2.4\n";
+        text << "import QtQuick.Window 2.2\n";
+        text << "import \"./Rcse/\"\n";
+        text << "\n";
+        text << "Window {\n";
+        text << "    id:rootw\n";
+        text << "    visible: true\n";
+        text << "    x:0\n";
+        text << "    y:0\n";
+        text << "\n";
+        text << "    Item {\n";
+        text << "        anchors.fill: parent\n";
+        text << "        Image {\n";
+        text << "        id:root" << "\n";
+        qreal ratio = (qreal)pix.width()/(qreal)pix.height();
+        qreal ratioBis = (qreal)pix.height()/(qreal)pix.width();
+        text << "       property real iratio :" << ratio << "\n";
+        text << "       property real iratioBis :" << ratioBis << "\n";
+        text << "       property real realScale: width/"<< pix.width() << "\n";
+        text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
+        text << "       height:(parent.width>parent.height*iratio)?parent.height:iratioBis*parent.width" << "\n";
+        text << "       source: \"background.jpg\"" << "\n";
+        m_model->generateQML(text);
+        text << "\n";
+        text << "       }\n";
+        text << "   }\n";
+        text << "}\n";
+
+
+        text.flush();
+        QFile file("./cstest.qml");
+        //file.setAutoRemove(false);
+        if(file.open(QIODevice::WriteOnly))
+        {
+            qDebug()<<"Write data";
+            qDebug()<<file.write(data);
+            QString dir = QFileInfo(file.fileName()).absolutePath();
+            QFile imageFile(dir+"/background.jpg");
+            if(imageFile.open(QIODevice::WriteOnly))
+            {
+                pix.save(&imageFile,"jpg");
+            }
+        }
+        qDebug() << data<< file.fileName();
+        ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
+    }
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* ev)

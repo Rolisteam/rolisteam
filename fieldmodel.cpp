@@ -108,6 +108,13 @@ void Section::load(QJsonObject &json,QGraphicsScene* scene)
     }
 
 }
+void Section::generateQML(QTextStream &out)
+{
+    foreach (Item* item, m_children)
+    {
+        item->generateQML(out);
+    }
+}
 
 //////////////////////////////
 //Column

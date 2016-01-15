@@ -22,7 +22,7 @@ public:
     ~MainWindow();
 
 
-    Field *addFieldAt(QPoint pos);
+    Field* addFieldAt(QPoint pos);
 public slots:
     void setCurrentTool();
 

@@ -32,6 +32,7 @@ public:
     void setName(const QString &name);
     virtual void save(QJsonObject& json);
     virtual void load(QJsonObject& json,QGraphicsScene* scene);
+    virtual void generateQML(QTextStream &out);
 private:
     QList<Item*> m_children;
     QString m_name;

@@ -22,7 +22,7 @@
       </property>
       <widget class="QTabWidget" name="m_tabWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="editor">
         <attribute name="title">
@@ -54,7 +54,7 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QQuickWidget" name="quickWidget">
+          <widget class="QQuickWidget" name="m_quickview">
            <property name="resizeMode">
             <enum>QQuickWidget::SizeRootObjectToView</enum>
            </property>

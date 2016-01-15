@@ -37,10 +37,6 @@ void Field::init()
     });
 }
 
-void Field::writeQML()
-{
-
-}
 QRectF Field::boundingRect() const
 {
     return m_rect;
@@ -65,9 +61,9 @@ QVariant Field::getValue(Item::ColumnId id) const
     case TEXT_ALIGN:
         return m_textAlign;
     case BGCOLOR:
-        return m_bgColor;
+        return m_bgColor.name(QColor::HexArgb);
     case TEXTCOLOR:
-        return m_textColor;
+        return m_textColor.name(QColor::HexArgb);
     }
     return QVariant();
 }
@@ -272,13 +268,14 @@ void Field::load(QJsonObject &json,QGraphicsScene* scene)
 
 void Field::generateQML(QTextStream &out)
 {
-    out << "Field {\n"
-        << "x:" << 200 << "*parent.realScale"
-        << "y:" << 100<< "*parent.realScale"
-        << "width:" <<200 <<"*parent.realScale"
-        << "height:"<< 20
-        << "color:" << ""
-    }
+    out << "Field {\n";
+    out << "text: \""<<m_key << "\"\n";
+    out    << "x:" << m_rect.x() << "*parent.realScale"<<"\n";
+    out    << "y:" << m_rect.y()<< "*parent.realScale"<<"\n";
+    out     << "width:" << m_rect.width() <<"*parent.realScale"<<"\n";
+    out    << "height:"<< m_rect.height()<<"\n";
+    out    << "color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
+    out    << "}\n";
 }
 
 
