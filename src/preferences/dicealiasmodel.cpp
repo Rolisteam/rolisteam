@@ -26,7 +26,7 @@
 DiceAliasModel::DiceAliasModel()
     : m_diceAliasList(new QList<DiceAlias*>()),m_isGM(false)
 {
-    m_header << tr("Pattern") << tr("Value")<< tr("Regular Expression")<< tr("Disable");
+    m_header << tr("Pattern") << tr("Value")<< tr("Regular Expression")<< tr("Disable") << tr("Comments");
 }
 
 DiceAliasModel::~DiceAliasModel()
@@ -56,6 +56,10 @@ QVariant DiceAliasModel::data(const QModelIndex &index, int role) const
                     return !diceAlias->isReplace();
                 }
                 else if(index.column()==DISABLE)
+                {
+                    return !diceAlias->isEnable();
+                }
+                else if(index.column()==COMMENT)
                 {
                     return !diceAlias->isEnable();
                 }
@@ -160,6 +164,7 @@ bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, in
             msg.string32(diceAlias->getValue());
             msg.int8(diceAlias->isReplace());
             msg.int8(diceAlias->isEnable());
+            msg.string32(diceAlias->getComment());
             msg.sendAll();
         }
     }
@@ -262,6 +267,7 @@ void DiceAliasModel::sendOffAllDiceAlias(NetworkLink* link)
         msg.string32(alias->getValue());
         msg.int8(alias->isReplace());
         msg.int8(alias->isEnable());
+        msg.string32(alias->getComment());
         msg.sendTo(link);
     }
 }
