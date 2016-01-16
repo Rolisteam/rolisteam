@@ -139,6 +139,9 @@ int main(int argc, char *argv[])
     }
 
 
+    qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
+    qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
+
     // Settings
     QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(version));
     settings.beginGroup("rolisteam/preferences");
