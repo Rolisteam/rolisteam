@@ -116,6 +116,7 @@ MainWindow::MainWindow()
     m_mapAction = new QMap<MediaContainer*,QAction*>();
 
     m_sessionManager = new SessionManager();
+    connect(m_sessionManager,SIGNAL(openFile(CleverURI*)),this,SLOT(openCleverURI(CleverURI*)));
 
     /// Create all GM toolbox widget
     m_gmToolBoxList.append(new NameGeneratorWidget());
@@ -285,30 +286,34 @@ void MainWindow::activeWindowChanged(QMdiSubWindow *subWindow)
     if(NULL!=m_currentConnectionProfile)
     {
         bool localPlayerIsGM = m_currentConnectionProfile->isGM();
-        if((NULL!=subWindow) )
+        if(NULL!=subWindow)
         {
-            if (subWindow->objectName() == QString("MapFrame") /*&& (localPlayerIsGM)*/)
+            if (subWindow->objectName() == QString("MapFrame") && (localPlayerIsGM))
             {
                 m_toolBarStack->setCurrentWidget(m_toolBar);
                 m_ui->m_closeAction->setEnabled(true);
                 m_ui->m_saveAction->setEnabled(true);
+                m_ui->m_saveAsAction->setEnabled(true);
                 m_vmapToolBar->setEnabled(false);
                 subWindow->setFocus();
             }
-            else if(subWindow->objectName() == QString("Image") && ((localPlayerIsGM)))
+            else if(subWindow->objectName() == QString("Image") && (localPlayerIsGM))
             {
                 m_playersListWidget->model()->changeMap(NULL);
                 m_ui->m_closeAction->setEnabled(true);
-                m_ui->m_saveAction->setEnabled(false);
+                m_ui->m_saveAction->setEnabled(true);
+                m_ui->m_saveAsAction->setEnabled(true);
                 m_vmapToolBar->setEnabled(false);
             }
-            else if(subWindow->objectName() == QString("VMapFrame")/* && ((localPlayerIsGM))*/)
+            else if(subWindow->objectName() == QString("VMapFrame") && (localPlayerIsGM))
             {
                 m_playersListWidget->model()->changeMap(NULL);
                 m_toolBarStack->setCurrentWidget(m_vToolBar);
                 m_vmapToolBar->setEnabled(true);
                 m_ui->m_closeAction->setEnabled(true);
-                m_ui->m_saveAction->setEnabled(false);
+                m_ui->m_saveAction->setEnabled(true);
+                m_ui->m_saveAsAction->setEnabled(true);
+
                 VMapFrame* frame = dynamic_cast<VMapFrame*>(subWindow);
                 m_vmapToolBar->setCurrentMap(frame->getMap());
                 m_vToolBar->updateUi(frame->getMap()->getPermissionMode());
@@ -319,6 +324,12 @@ void MainWindow::activeWindowChanged(QMdiSubWindow *subWindow)
             m_ui->m_closeAction->setEnabled(false);
             m_ui->m_saveAction->setEnabled(false);
         }
+    }
+    else
+    {
+        m_ui->m_closeAction->setEnabled(false);
+        m_ui->m_saveAction->setEnabled(false);
+        m_ui->m_saveAsAction->setEnabled(false);
     }
 }
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -478,6 +489,8 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
 {
     m_mapWindowMap.insert(mapFrame->getMapId(),mapFrame);
     Map* map = mapFrame->getMap();
+    if(NULL==map)
+        return;
     map->setPointeur(m_toolBar->getCurrentTool());
     map->setLocalIsPlayer(m_preferences->value("isPlayer",false).toBool());
 
@@ -724,6 +737,9 @@ void MainWindow::openNote()
         QFileInfo fi(filename);
         m_preferences->registerValue("MinutesDirectory",fi.absolutePath() +"/");
         m_noteEditor->load(filename);
+        CleverURI* uri = new CleverURI(filename,CleverURI::TEXT);
+        m_sessionManager->addRessource(uri);
+        setLatestFile(uri);
         displayMinutesEditor(true, true);
     }
 }
@@ -788,6 +804,8 @@ void MainWindow::openStory()
     m_noteEditor->setVisible(tempbool);
     m_ui->m_showMinutesEditorAction->setChecked(tempbool);
 
+    m_sessionManager->loadSession(in);
+
     // closing file
     file.close();
 }
@@ -801,22 +819,25 @@ void MainWindow::saveCurrentMedia()
     if(NULL != active)
     {
         MediaContainer* currentMedia = dynamic_cast<MediaContainer*>(active);
-        CleverURI* cleverURI = currentMedia->getCleverUri();
-        QString uri  = cleverURI->getUri();
-        QFileInfo info(uri);
-        if((uri.isEmpty())||(!info.exists(uri))||(!info.isWritable())||qobject_cast<QAction*>(sender())==m_ui->m_saveAsAction)
+        if(NULL!=currentMedia)
         {
-            QString key = CleverURI::getPreferenceDirectoryKey(cleverURI->getType());
-            QString filter = CleverURI::getFilterForType(cleverURI->getType());
-            QString media = CleverURI::typeToString(cleverURI->getType());
-            QString fileName= QFileDialog::getSaveFileName(this, tr("Save %1").arg(media), m_preferences->value(key,QDir::homePath()).toString(), filter);
+            CleverURI* cleverURI = currentMedia->getCleverUri();
+            QString uri  = cleverURI->getUri();
+            QFileInfo info(uri);
+            if((uri.isEmpty())||(!info.exists(uri))||(!info.isWritable())||qobject_cast<QAction*>(sender())==m_ui->m_saveAsAction)
+            {
+                QString key = CleverURI::getPreferenceDirectoryKey(cleverURI->getType());
+                QString filter = CleverURI::getFilterForType(cleverURI->getType());
+                QString media = CleverURI::typeToString(cleverURI->getType());
+                QString fileName= QFileDialog::getSaveFileName(this, tr("Save %1").arg(media), m_preferences->value(key,QDir::homePath()).toString(), filter);
 
-            int lastSlash = fileName.lastIndexOf("/");
-            m_preferences->registerValue(key,fileName.left(lastSlash));
+                int lastSlash = fileName.lastIndexOf("/");
+                m_preferences->registerValue(key,fileName.left(lastSlash));
 
-            cleverURI->setUri(fileName);
+                cleverURI->setUri(fileName);
+            }
+            currentMedia->saveMedia();
         }
-        currentMedia->saveMedia();
     }
 }
 
@@ -827,7 +848,7 @@ bool MainWindow::saveMinutes()
 bool MainWindow::saveStory()
 {
     // open file
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenarios"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenario"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
 
     if (filename.isNull())
@@ -836,7 +857,7 @@ bool MainWindow::saveStory()
     }
     if(!filename.endsWith(".sce"))
     {
-        filename += ".sce";
+        filename.append(QStringLiteral(".sce"));
     }
 
     int dernierSlash = filename.lastIndexOf("/");
@@ -845,7 +866,7 @@ bool MainWindow::saveStory()
     QFile file(filename);
     if (!file.open(QIODevice::WriteOnly))
     {
-        notifyUser("cannot be open (sauvegarderScenario - MainWindow.cpp)");
+        notifyUser("cannot be opened (saveStory - MainWindow.cpp)");
         return false;
     }
 
@@ -854,6 +875,7 @@ bool MainWindow::saveStory()
     saveAllImages(out);
     m_noteEditor->saveFileAsBinary(out);
     out << m_noteEditor->isVisible();
+    m_sessionManager->saveSession(out);
     file.close();
     return true;
 }
@@ -1115,6 +1137,10 @@ void MainWindow::writeSettings()
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
+
+
+
+
     m_preferences->writeSettings(settings);
 }
 void MainWindow::parseCommandLineArguments(QStringList list)
@@ -1986,8 +2012,9 @@ void MainWindow::openRecentFile()
     QAction *action = qobject_cast<QAction *>(sender());
     if (action)
     {
-        CleverURI uri = action->data().value<CleverURI>();
-        openCleverURI(&uri);
+        CleverURI* uri = new CleverURI();
+        *uri = action->data().value<CleverURI>();
+        openCleverURI(uri);
     }
 }
 void MainWindow::updateRecentFileActions()
@@ -2046,6 +2073,9 @@ void MainWindow::openCleverURI(CleverURI* uri)
     case CleverURI::MAP:
         tmp = new MapFrame();
         break;
+    case CleverURI::VMAP:
+        tmp = new VMapFrame();
+        break;
     case CleverURI::PICTURE:
         tmp = new Image();
         break;
@@ -2063,6 +2093,10 @@ void MainWindow::openCleverURI(CleverURI* uri)
             if(uri->getType()==CleverURI::MAP)
             {
 				prepareMap(static_cast<MapFrame*>(tmp));
+            }
+            else if(uri->getType()==CleverURI::VMAP)
+            {
+                prepareVMap(static_cast<VMapFrame*>(tmp));
             }
             else if(uri->getType()==CleverURI::PICTURE)
             {
@@ -2137,6 +2171,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
                     {
 						prepareImage(static_cast<Image*>(tmp));
                     }
+                    m_sessionManager->addRessource(tmp->getCleverUri());
                     addMediaToMdiArea(tmp);
                     tmp->setVisible(true);
                 }
@@ -2175,6 +2210,10 @@ CleverURI::ContentType MainWindow::getContentType(QString str)
     {
         return CleverURI::PICTURE;
     }
+    else if(str.endsWith(".vmap"))
+    {
+        return CleverURI::VMAP;
+    }
     else if(str.endsWith(".m3u"))
     {
         return CleverURI::SONGLIST;
@@ -2212,24 +2251,32 @@ void MainWindow::dropEvent(QDropEvent* event)
         {
             CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
             MediaContainer* tmp=NULL;
+            CleverURI* uri = new CleverURI(list.at(i).toLocalFile(),type);
             switch(type)
             {
             case CleverURI::MAP:
                 tmp = new MapFrame();
 				prepareMap(static_cast<MapFrame*>(tmp));
-                tmp->setCleverUri(new CleverURI(list.at(i).toLocalFile(),CleverURI::MAP));
+                tmp->setCleverUri(uri);
                 tmp->readFileFromUri();
                 addMediaToMdiArea(tmp);
                 tmp->setVisible(true);
                 break;
             case CleverURI::PICTURE:
                 tmp = new Image();
-                tmp->setCleverUri(new CleverURI(list.at(i).toLocalFile(),CleverURI::PICTURE));
+                tmp->setCleverUri(uri);
                 tmp->readFileFromUri();
 				prepareImage(static_cast<Image*>(tmp));
                 addMediaToMdiArea(tmp);
                 tmp->setVisible(true);
                 break;
+            case CleverURI::VMAP:
+                tmp = new VMapFrame();
+                prepareVMap(static_cast<VMapFrame*>(tmp));
+                tmp->setCleverUri(uri);
+                tmp->readFileFromUri();
+                addMediaToMdiArea(tmp);
+                tmp->setVisible(true);
             case CleverURI::SONG:
                 m_audioPlayer->openSong(list.at(i).toLocalFile());
                 break;
@@ -2237,6 +2284,7 @@ void MainWindow::dropEvent(QDropEvent* event)
                 m_audioPlayer->openSongList(list.at(i).toLocalFile());
                 break;
             }
+            m_sessionManager->addRessource(uri);
         }
         event->acceptProposedAction();
     }
