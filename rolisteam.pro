@@ -125,7 +125,7 @@ HEADERS += \
     src/data/mediacontainer.h \
     src/toolsbar.h \
     src/data/cleveruri.h \
-    src/data/ressourcesnode.h \
+    src/data/resourcesnode.h \
     src/map/mapframe.h \
     src/preferences/dicealiasmodel.h \
     src/widgets/onlinepicturedialog.h \
@@ -138,7 +138,6 @@ HEADERS += \
     src/data/character.h \
     src/data/player.h \
     src/data/person.h \
-    src/data/session.h \
     src/data/chapter.h \
     src/userlist/rolisteammimedata.h \
     src/userlist/userlistdelegate.h \
@@ -209,8 +208,8 @@ SOURCES += \
     src/data/character.cpp \
     src/data/player.cpp \
     src/data/person.cpp \
-    src/data/session.cpp \
     src/data/chapter.cpp \
+    src/data/resourcesnode.cpp\
     src/userlist/rolisteammimedata.cpp \
     src/userlist/userlistdelegate.cpp \
     src/userlist/userlistview.cpp \
