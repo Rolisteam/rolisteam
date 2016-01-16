@@ -487,7 +487,8 @@ bool Image::readFileFromUri()
     if(CleverURI::PICTURE == m_uri->getType())
     {
         m_preferences->registerValue("ImageDirectory",m_uri->getAbsolueDir());
-        QImage img(m_uri->getUri());
+        m_uri->loadFileFromUri();
+        QImage img=QImage::fromData(m_uri->getData());
         if (img.isNull())
         {
             error(tr("Unsupported file format"),this);
