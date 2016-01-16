@@ -17,54 +17,83 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-#ifndef SESSION_H
-#define SESSION_H
 
+#include "resourcesnode.h"
 
-#include <QList>
-#include "chapter.h"
-#include <QTime>
-
-/**
-    * @brief will store any ressources of a compagne
-    *
-    */
-class Session
+ResourcesNode::ResourcesNode()
 {
-    
-    
-public:
-    Session();
-    Session(const Session& m);
-    ~Session();
-    
-    Chapter* addChapter(QString& name);
-    CleverURI* addRessource(CleverURI* uri, Chapter* chapter);
-    
-    Chapter* getChapter(int index);
-    
-    QList<Chapter*>& chapterList();
-    QList<CleverURI*>& getUnclassedList();
-    
-    int childrenCount();
-    int chapterCount();
-    
-    void removeRessourcesNode(RessourcesNode* item);
-    
-private:
-    QList<Chapter*> m_chapterList;
-    QList<CleverURI*> m_ressoucelist;
-    
-    QTime m_time;
-    int m_gameCount;
-    
-    
-    
-    
-    friend QDataStream& operator<<(QDataStream& os,const Session&);
-    friend QDataStream& operator>>(QDataStream& is,Session&);
-};
-typedef QList<Session> SessionList;
-Q_DECLARE_METATYPE(Session)
-Q_DECLARE_METATYPE(SessionList)
-#endif // SESSION_H
+
+}
+
+QString ResourcesNode::name() const
+{
+    return m_name;
+}
+
+void ResourcesNode::setName(const QString &name)
+{
+m_name = name;
+}
+
+QString ResourcesNode::getValue() const
+{
+    return m_value;
+}
+
+void ResourcesNode::setValue(QString value)
+{
+    m_value = value;
+}
+
+ResourcesNode *ResourcesNode::getChildAt(int) const
+{
+    return NULL;
+}
+
+QString ResourcesNode::getIcon()
+{
+    return QStringLiteral("");
+}
+
+ResourcesNode *ResourcesNode::getParent() const
+{
+    return m_parent;
+}
+
+void ResourcesNode::setParent(ResourcesNode *parent)
+{
+    m_parent = parent;
+}
+
+int ResourcesNode::rowInParent()
+{
+    if(NULL!=m_parent)
+    {
+        return m_parent->indexOf(this);
+    }
+    return 0;
+}
+
+int ResourcesNode::indexOf(ResourcesNode* )
+{
+    return 0;
+}
+
+int ResourcesNode::getChildrenCount() const
+{
+    return 0;
+}
+
+bool ResourcesNode::mayHaveChildren() const
+{
+    return false;
+}
+
+bool ResourcesNode::hasChildren() const
+{
+    return false;
+}
+bool ResourcesNode::contains(ResourcesNode*)
+{
+    return false;
+}
