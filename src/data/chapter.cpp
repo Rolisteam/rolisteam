@@ -29,8 +29,6 @@ Chapter::Chapter()
 Chapter::Chapter(const Chapter& m)
 {
     m_name=m.m_name;
-    m_ressoucelist=m.m_ressoucelist;
-    m_chapterlist=m.m_chapterlist;
 }
 
 Chapter::~Chapter()
@@ -40,106 +38,123 @@ Chapter::~Chapter()
 
 bool Chapter::hasChildren() const
 {
-    return (m_ressoucelist.size()+m_chapterlist.size()>0)?true:false;
-}
-const QString& Chapter::getShortName() const
-{
-    return m_name;
-}
-void Chapter::addResource(CleverURI* cluri)
-{
-    m_ressoucelist.append(cluri);
-}
-Chapter* Chapter::addChapter(QString& name)
-{
-    Chapter* t = new Chapter();
-    t->setShortName(name);
-    m_chapterlist.append(t);
-    return t;
+    return !m_children.isEmpty();
 }
 
-void Chapter::setShortName(QString& name)
+bool Chapter::mayHaveChildren() const
 {
-    m_name = name;
+    return true;
 }
 
-QList<CleverURI*>& Chapter::getResourceList()
+int Chapter::getChildrenCount() const
 {
-    return m_ressoucelist;
+ return m_children.count();
 }
 
-QList<Chapter*>& Chapter::getChapterList()
+
+ResourcesNode *Chapter::getChildAt(int i) const
 {
-    return m_chapterlist;
-}
-bool Chapter::removeRessourcesNode(RessourcesNode* item)
-{
-    
-    
-    CleverURI* itemURI= dynamic_cast<CleverURI*>(item);
-    bool suppr=false;
-    if(itemURI)
+    if((i>0)&&(i<m_children.size()))
     {
-        suppr= m_ressoucelist.removeOne(itemURI);
+            return m_children[i];
+    }
+}
+
+int Chapter::indexOf(ResourcesNode* node)
+{
+    return m_children.indexOf(node);
+}
+
+void Chapter::addResource(ResourcesNode* cluri)
+{
+    m_children.append(cluri);
+}
+
+
+bool Chapter::contains(ResourcesNode* node)
+{
+    if(m_children.contains(node))
+    {
+        return true;
     }
     else
     {
-        Chapter* imp= dynamic_cast<Chapter*>(item);
-        suppr=m_chapterlist.removeOne(imp);
+        foreach(ResourcesNode* child, m_children)
+        {
+            if(child->contains(node))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
-    }
-    for(int i = 0;(i<m_chapterlist.size() && (!suppr)); i++)
+void Chapter::write(QDataStream &out) const
+{
+    out << QStringLiteral("Chapter");
+    out << m_name;
+    out << m_children.size();
+    foreach(ResourcesNode* node,m_children)
     {
-        suppr=m_chapterlist.at(i)->removeRessourcesNode(item);
+        node->write(out);
     }
-    
-    return suppr;
-    
-    //    QList<Chapter> m_chapterList;
-    //    QList<CleverURI> m_ressoucelist;
+}
+
+void Chapter::read(QDataStream &in)
+{
+    in >> m_name;
+    int count;
+    in >> count;
+    for(int i=0;i< count;++i)
+    {
+        QString type;
+        in >> type;
+        ResourcesNode* node;
+        if(type=="Chapter")
+        {
+            node = new Chapter();
+        }
+        else
+        {
+            node = new CleverURI();
+        }
+        node->read(in);
+    }
+}
+
+bool Chapter::removeRessourcesNode(ResourcesNode* item)
+{ 
+    bool removed=false;
+    if(m_children.contains(item))
+    {
+        removed = m_children.removeOne(item);
+    }
+    else
+    {
+        foreach(ResourcesNode* child,m_children)
+        {
+            if(child->mayHaveChildren())
+            {
+                Chapter* chap = dynamic_cast<Chapter*>(child);
+                if(NULL!=chap)
+                {
+                    removed = chap->removeRessourcesNode(item);
+                }
+            }
+        }
+    }
+    return removed;
 }
 QDataStream& operator<<(QDataStream& os,const Chapter& chap)
 {
-    os << chap.m_name;
-    
-    os << chap.m_chapterlist.size();
-    foreach(Chapter* chapter, chap.m_chapterlist)
-        os << *chapter;
-    
-    os << chap.m_ressoucelist.size();
-    foreach(CleverURI* uri, chap.m_ressoucelist)
-        os << *uri;
-    
-    //    os << chap.m_ressoucelist;
-    //    os << chap.m_chapterlist;
+    chap.write(os);
     return os;
 }
 
 QDataStream& operator>>(QDataStream& is,Chapter& chap)
 {
-    is >> chap.m_name;
-    int sizeChapter=0;
-    int sizeURI=0;
-    
-    
-    is >> sizeChapter; //(con.m_chapterList);
-    for(int i=0 ; i<sizeChapter ; i++)
-    {
-        Chapter* chapter = new Chapter;
-        is >>*chapter;
-        chap.m_chapterlist.append(chapter);
-    }
-    
-    is >>sizeURI;
-    for(int j=0 ; j<sizeURI ; j++)
-    {
-        CleverURI* uri = new CleverURI;
-        is >>*uri;
-        chap.m_ressoucelist.append(uri);
-    }
-    
-    //is >> chap.m_ressoucelist;
-    //is >> chap.m_chapterlist;
+    chap.read(is);
     return is;
     
 }

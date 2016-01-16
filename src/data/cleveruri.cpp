@@ -31,14 +31,22 @@
 /////////////////
 // CleverUri
 /////////////////
-QString CleverURI::m_textIcon=QString(":/resources/icons/notes.png");
-QString CleverURI::m_mapIcon=QString(":/map.png");
-QString CleverURI::m_pictureIcon=QString(":/picture.png");
-QString CleverURI::m_charactersheetIcon=QString(":/resources/icons/treeview.png");
-QString CleverURI::m_scenarioIcon=QString(":/story.png");
-QString CleverURI::m_chatIcon=QString(":/resources/icons/scenario.png");
-QString CleverURI::m_musicIcon=QString(":/resources/icons/music.svg");
-QString CleverURI::m_empty=QString("");
+QHash<CleverURI::ContentType,QString> CleverURI::m_iconPathHash={
+    {CleverURI::NONE,""},
+    {CleverURI::MAP,":/map.png"},
+    {CleverURI::VMAP,":/map.png"},
+    {CleverURI::CHAT,":/resources/icons/scenario.png"},
+    {CleverURI::PICTURE,":/picture.png"},
+    {CleverURI::ONLINEPICTURE,":/picture.png"},
+    {CleverURI::TEXT,":/notes.png"},
+    {CleverURI::CHARACTERSHEET,":/resources/icons/treeview.png"},
+    {CleverURI::SCENARIO,":/story.png"},
+    {CleverURI::SONG,":/resources/icons/audiofile.svg"},
+    #ifdef WITH_PDF
+    {CleverURI::PDF,":/iconpdf"},
+    #endif
+    {CleverURI::SONGLIST,":/resources/icons/playlist.svg"}
+};
 
 //enum ContentType {NONE,MAP,VMAP,CHAT,PICTURE,ONLINEPICTURE,TEXT,CHARACTERSHEET,SCENARIO,SONG,SONGLIST
 QStringList CleverURI::m_typeNameList = QStringList() <<    QObject::tr("None") <<QObject::tr("Map") <<QObject::tr("Vectorial Map") <<QObject::tr("Chat")
@@ -48,11 +56,6 @@ QStringList CleverURI::m_typeNameList = QStringList() <<    QObject::tr("None") 
 QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString("SessionDirectory") <<QString("MapDirectory")       <<QString("MapDirectory")           <<QString("ChatDirectory")
                                                                    <<   QString("ImageDirectory")   <<QString("ImageDirectory")     <<QString("Text")                   <<QString("MinutesDirectory") <<
                                                                         QString("SessionDirectory") <<QString("SessionDirectory")   <<QString("MusicDirectoryPlayer")   <<QString("MusicDirectoryPlayer");
-
-#ifdef WITH_PDF
-QString CleverURI::m_pdfIcon=QString(":/iconpdf");
-#endif
-
 CleverURI::CleverURI()
     : m_type(NONE)
 {
@@ -65,43 +68,9 @@ CleverURI::CleverURI(const CleverURI & mp)
     m_uri=mp.getUri();
     defineShortName();
 }
-QString& CleverURI::getIcon()
+QString CleverURI::getIcon()
 {
-    switch(m_type)
-    {
-    case CleverURI::CHARACTERSHEET:
-        return m_charactersheetIcon;
-        break;
-    case CleverURI::PICTURE:
-        return m_pictureIcon;
-        break;
-    case CleverURI::MAP:
-        return m_mapIcon;
-        break;
-    case CleverURI::CHAT:
-        return m_chatIcon;
-        break;
-    case CleverURI::TEXT:
-        return m_textIcon;
-        break;
-    case CleverURI::SCENARIO:
-        return m_scenarioIcon;
-        break;
-    case CleverURI::SONG:
-        return m_musicIcon;
-        break;
-    case CleverURI::ONLINEPICTURE:
-        return m_pictureIcon;
-        break;
-#ifdef WITH_PDF
-    case CleverURI::PDF:
-        return m_pdfIcon;
-        break;
-#endif
-    default:
-        return m_empty;
-        break;
-    }
+    return m_iconPathHash[m_type];
 }
 
 CleverURI::CleverURI(QString uri,ContentType type)
@@ -151,11 +120,51 @@ void CleverURI::defineShortName()
 
     m_shortname = info.baseName();
 }
+
+QByteArray CleverURI::getData() const
+{
+    return m_data;
+}
+
+void CleverURI::setData(const QByteArray &data)
+{
+    m_data = data;
+}
+
+bool CleverURI::getDisplayed() const
+{
+    return m_displayed;
+}
+
+void CleverURI::setDisplayed(bool displayed)
+{
+    m_displayed = displayed;
+}
+
+CleverURI::LoadingMode CleverURI::getCurrentMode() const
+{
+    return m_currentMode;
+}
+
+void CleverURI::setCurrentMode(const LoadingMode &currentMode)
+{
+    m_currentMode = currentMode;
+}
 const QString CleverURI::getAbsolueDir() const
 {
     QFileInfo info(m_uri);
-
+    
     return info.absolutePath();
+}
+
+void CleverURI::write(QDataStream &out) const
+{
+
+}
+
+void CleverURI::read(QDataStream &in)
+{
+
 }
 const QString& CleverURI::getShortName() const
 {
@@ -204,7 +213,7 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
         break;
 #endif
     default:
-        return m_empty;
+        return QString();
         break;
     }
 }
@@ -223,6 +232,19 @@ QString CleverURI::getPreferenceDirectoryKey(CleverURI::ContentType type)
         return m_typeToPreferenceDirectory.at((int)type);
     }
 }
+void CleverURI::loadFileFromUri()
+{
+    QFile file(m_uri);
+    if(file.open(QIODevice::ReadOnly))
+    {
+        m_data = file.readAll();
+    }
+}
+
+void CleverURI::clearData()
+{
+    m_data.clear();
+}
 
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)
 {
@@ -233,11 +255,15 @@ QDataStream& operator<<(QDataStream& out, const CleverURI& con)
 
 QDataStream& operator>>(QDataStream& is,CleverURI& con)
 {
-    is >>(con.m_uri);
+    QString str;
+    is >> str;
+
     int type;
     is >> type;
-    con.m_type=(CleverURI::ContentType)type;
-    con.defineShortName();
+
+
+    con.setType((CleverURI::ContentType)type);
+    con.setUri(str);
     return is;
 }
 

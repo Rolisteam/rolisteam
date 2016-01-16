@@ -19,97 +19,17 @@
     ***************************************************************************/
 #include "sessionitemmodel.h"
 #include "data/cleveruri.h"
-#include "data/session.h"
+
 #include <QDebug>
 #include <QIcon>
-ResourcesItem::ResourcesItem(RessourcesNode* p,bool leaf)
-    : m_data(p),m_isLeaf(leaf)
-{
-    m_children =new QList<ResourcesItem*>;
-    
-}
-ResourcesItem* ResourcesItem::getParent()
-{
-    return m_parent;
-}
-ResourcesItem::~ResourcesItem()
-{
-    delete m_data;
-    // delete m_parent;
-    delete m_children;
-}
-
-void ResourcesItem::setParent(ResourcesItem* p)
-{
-    m_parent = p;
-}
-
-void ResourcesItem::setData(RessourcesNode* p)
-{
-    m_data = p;
-}
-void ResourcesItem::clean()
-{
-    m_children->clear();
-}
-
-RessourcesNode* ResourcesItem::getData()
-{
-    return m_data;
-}
-
-bool ResourcesItem::isLeaf()
-{
-    return m_isLeaf;
-}
-
-void ResourcesItem::setLeaf(bool leaf)
-{
-    m_isLeaf=leaf;
-    
-}
-int ResourcesItem::childrenCount()
-{
-    return m_children->size();
-}
-
-void ResourcesItem::addChild(ResourcesItem* child)
-{
-    child->setParent(this);
-    m_children->append(child);
-}
-
-
-ResourcesItem* ResourcesItem::child(int row)
-{
-    // qDebug() << "child row="<< row << m_children->size() << m_children->at(row);
-    if(row < m_children->size())
-        return m_children->at(row);
-    
-    return NULL;
-}
-int ResourcesItem::row()
-{
-    return m_parent->indexOfChild(this);
-}
-int ResourcesItem::indexOfChild(ResourcesItem* itm)
-{
-    return m_children->indexOf(itm);
-}
-QList<ResourcesItem*>* ResourcesItem::getChildren()
-{
-    return m_children;
-}
 
 //////////////////////////////////////
 /// SessionItemModel
 /////////////////////////////////////
 
 SessionItemModel::SessionItemModel()
-    : m_session(NULL)
 {
-    m_rootItem = new ResourcesItem(NULL,false);
-    m_session = new Session();
+    m_rootItem = new Chapter();
 }
 QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & parent ) const
 {
@@ -117,15 +37,15 @@ QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & pa
     if(row<0)
         return QModelIndex();
     
-    ResourcesItem* parentItem = NULL;
+    ResourcesNode* parentItem = NULL;
     
     // qDebug()<< "Index session " <<row << column << parent;
     if (!parent.isValid())
         parentItem = m_rootItem;
     else
-        parentItem = static_cast<ResourcesItem*>(parent.internalPointer());
+        parentItem = static_cast<ResourcesNode*>(parent.internalPointer());
     
-    ResourcesItem* childItem = parentItem->child(row);
+    ResourcesNode* childItem = parentItem->getChildAt(row);
     if (childItem)
         return createIndex(row, column, childItem);
     else
@@ -134,11 +54,13 @@ QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & pa
 }
 bool  SessionItemModel::setData ( const QModelIndex & index, const QVariant & value, int role )
 {
+    if(!index.isValid())
+        return false;
+
     if(Qt::EditRole==role)
     {
-        ResourcesItem* childItem = static_cast<ResourcesItem*>(index.internalPointer());
-        QString st = value.toString();
-        childItem->getData()->setShortName(st);
+        ResourcesNode* childItem = static_cast<ResourcesNode*>(index.internalPointer());
+        childItem->setName( value.toString());
         return true;
     }
     return false;
@@ -148,8 +70,8 @@ Qt::ItemFlags SessionItemModel::flags ( const QModelIndex & index ) const
     if (!index.isValid())
         return Qt::ItemIsEnabled;
     
-    ResourcesItem* childItem = static_cast<ResourcesItem*>(index.internalPointer());
-    if(!childItem->isLeaf())
+    ResourcesNode* childItem = static_cast<ResourcesNode*>(index.internalPointer());
+    if(childItem->mayHaveChildren())
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
     else
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
@@ -161,31 +83,26 @@ QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
     if (!index.isValid())
         return QModelIndex();
     
-    ResourcesItem *childItem = static_cast<ResourcesItem*>(index.internalPointer());
-    ResourcesItem *parentItem = childItem->getParent();
+    ResourcesNode *childItem = static_cast<ResourcesNode*>(index.internalPointer());
+    ResourcesNode *parentItem = childItem->getParent();
     
     if (parentItem == m_rootItem)
         return QModelIndex();
     
-    return createIndex(parentItem->row(), 0, parentItem);
-    
-    
-    
+    return createIndex(parentItem->rowInParent(), 0, parentItem);
 }
 int SessionItemModel::rowCount(const QModelIndex& index) const
 {
     // qDebug() << index;
     if(index.isValid())
     {
-        ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
+        ResourcesNode* tmp = static_cast<ResourcesNode*>(index.internalPointer());
         //    qDebug() << "rowCount tmp"<< tmp->childrenCount();
-        return tmp->childrenCount();
+        return tmp->getChildrenCount();
     }
     else
     {
-        //  qDebug() << "rowCount root"<<  m_rootItem->childrenCount() << m_session->chapterList().size() << m_session->childrenCount();
-        //return m_rootItem->getChildren()->size();
-        return (m_session->childrenCount());//->childrenCount();
+        return m_rootItem->getChildrenCount();//->childrenCount();
     }
 }
 int SessionItemModel::columnCount(const QModelIndex&) const
@@ -194,155 +111,70 @@ int SessionItemModel::columnCount(const QModelIndex&) const
 }
 QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
 {
-    if((role == Qt::DisplayRole)||(Qt::EditRole==role))
+    if(!index.isValid())
+        return QVariant();
+
+    if(index.column()==0)// filename
     {
-        if(!index.isValid())
-            return QVariant();
-        if(index.column()==0)// filename
+        ResourcesNode* tmp = static_cast<ResourcesNode*>(index.internalPointer());
+        if(tmp)
         {
-            ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
-            if(tmp)
+            if((role == Qt::DisplayRole)||(Qt::EditRole==role))
             {
-                RessourcesNode* t =  tmp->getData();
-                //qDebug() << tmp;
-                return t->getShortName();
+                return tmp->name();
             }
-        }
-    }
-    if(role == Qt::DecorationRole)
-    {
-        if(index.column()==0)// type of file
-        {
-            ResourcesItem* tmp = static_cast<ResourcesItem*>(index.internalPointer());
-            if(tmp)
+            else if(role == Qt::DecorationRole)
             {
-                CleverURI* t =  dynamic_cast<CleverURI*>(tmp->getData());
-                if(t==NULL)
-                    return QVariant();
-
-                //   return CleverURI::getIcon((CleverURI::ContentType)t->getType());
-                return QIcon(t->getIcon());
-
-                // return t->getShortName();
+                return QIcon(tmp->getIcon());
             }
         }
     }
     return QVariant();
 }
-void SessionItemModel::setSession(Session* s)
-{
-    /// @todo parse the session and build appropriate ressources items.
-    m_session = s;
-    m_rootItem->clean();
-    for(int i =0;i<m_session->chapterList().size();i++)
-    {
-        Chapter* tmp = m_session->chapterList()[i];
-        ResourcesItem* rt = new ResourcesItem(tmp,false);
-        m_rootItem->addChild(rt);
-        populateChapter(tmp,rt);
-    }
-    for(int i = 0;i<m_session->getUnclassedList().size();i++)
-    {
-        CleverURI* tmp2 = m_session->getUnclassedList()[i];
-        ResourcesItem* rt = new ResourcesItem(tmp2,true);
-        m_rootItem->addChild(rt);
-    }
-}
 
-Chapter* SessionItemModel::addChapter(QString& name,QModelIndex parent)
+void SessionItemModel::addResource(ResourcesNode* node,QModelIndex& parent)
 {
-    ResourcesItem* tmp =NULL;
-    if(!parent.isValid())
-        tmp=m_rootItem;
-    else
-        tmp = static_cast<ResourcesItem*>(parent.internalPointer());
-    
-    
-    Chapter* t=NULL;
+    if(m_rootItem->contains(node))
+        return;
+
+    ResourcesNode* parentItem=NULL;
     if(!parent.isValid())
     {
-        beginInsertRows(parent,tmp->childrenCount(),tmp->childrenCount());
-        t = m_session->addChapter(name);
-        tmp->addChild(new ResourcesItem(t,false));
-        endInsertRows();
-
-
-    }
-    else
-    {
-        Chapter* parentChapter = dynamic_cast<Chapter*>(tmp->getData());
-        if(parentChapter!=NULL)
-        {
-            beginInsertRows(parent,tmp->childrenCount(),tmp->childrenCount());
-            t = parentChapter->addChapter(name);
-            tmp->addChild(new ResourcesItem(t,false));
-            endInsertRows();
-
-        }
-
-    }
-    
-    
-    return t;
-}
-
-CleverURI* SessionItemModel::addRessources(CleverURI* uri,QModelIndex& parent)
-{
-    ResourcesItem* parentItem=NULL;
-    if(!parent.isValid())
         parentItem=m_rootItem;
+    }
     else
     {
-        parentItem = static_cast<ResourcesItem*>(parent.internalPointer());
+        parentItem = static_cast<ResourcesNode*>(parent.internalPointer());
     }
-    beginInsertRows(QModelIndex(),parentItem->childrenCount(),parentItem->childrenCount());
+    beginInsertRows(QModelIndex(),parentItem->getChildrenCount(),parentItem->getChildrenCount());
     
-    if(parentItem->isLeaf())
+    if(!parentItem->mayHaveChildren())
     {
         parentItem=parentItem->getParent();//leaf's parent is not a leaf indeed
     }
-    
-    
-    Chapter* chap=dynamic_cast<Chapter*>(parentItem->getData());// NULL when it is not a chapter.
-    
-    m_session->addRessource(uri,chap);
-    parentItem->addChild(new ResourcesItem(uri,true));
+    Chapter* chap=dynamic_cast<Chapter*>(parentItem);// NULL when it is not a chapter.
+    chap->addResource(node);
     endInsertRows();
-    return uri;
 }
-void SessionItemModel::populateChapter(Chapter* t,ResourcesItem* parentItem)
-{
-    for(int i =0;i<t->getChapterList().size();i++)
-    {
-        Chapter* tmp = t->getChapterList()[i];
-        ResourcesItem* rt = new ResourcesItem(tmp,false);
-        parentItem->addChild(rt);
-        populateChapter(tmp,rt);
-    }
-    for(int i = 0;i<t->getResourceList().size();i++)
-    {
-        CleverURI* tmp2 = t->getResourceList()[i];
-        ResourcesItem* rt = new ResourcesItem(tmp2,true);
-        parentItem->addChild(rt);
-    }
-}
+
 void SessionItemModel::remove(QModelIndex& index)
 {
     if(!index.isValid())
         return;
-    ResourcesItem* indexItem = static_cast<ResourcesItem*>(index.internalPointer());
+    ResourcesNode* indexItem = static_cast<ResourcesNode*>(index.internalPointer());
     QModelIndex parent = index.parent();
-    ResourcesItem* parentItem=NULL;
+    ResourcesNode* parentItem=NULL;
     
     if(!parent.isValid())
         parentItem=m_rootItem;
     else
-        parentItem= static_cast<ResourcesItem*>(parent.internalPointer());
+        parentItem= static_cast<ResourcesNode*>(parent.internalPointer());
     
-    if(indexItem->childrenCount()>0)
+    if(indexItem->getChildrenCount()>0)
     {
-        beginRemoveRows(index,0,indexItem->childrenCount());
-        QList<ResourcesItem*>* child = indexItem->getChildren();
+        beginRemoveRows(index,0,indexItem->getChildrenCount());
+        //QList<ResourcesNode*>* child = indexItem->getChildren();
+
 
 
 
@@ -350,11 +182,10 @@ void SessionItemModel::remove(QModelIndex& index)
     }
     
     beginRemoveRows(index.parent(),index.row(),index.row());
-    parentItem->getChildren()->removeOne(indexItem);
+   // parentItem->getChildren()->removeOne(indexItem);
     //delete indexItem;
     
-    m_session->removeRessourcesNode(indexItem->getData());
-    
+
     endRemoveRows();
     
     
@@ -382,11 +213,12 @@ QVariant SessionItemModel::headerData ( int section, Qt::Orientation orientation
     }
     return QVariant();
 }
-Chapter* SessionItemModel::getChapter(QModelIndex& index)
+void SessionItemModel::saveModel(QDataStream& out)
 {
-    ResourcesItem* childItem = static_cast<ResourcesItem*>(index.internalPointer());
-    if(!childItem->isLeaf())
-        return NULL;
-    else
-        return static_cast<Chapter*>(childItem->getData());
+    m_rootItem->write(out);
+}
+
+void SessionItemModel::loadModel(QDataStream& in)
+{
+    m_rootItem->read(in);
 }

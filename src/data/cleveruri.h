@@ -24,19 +24,14 @@
 #include <QString>
 #include <QList>
 #include <QMetaType>
-#include "ressourcesnode.h"
-
-
-
-
+#include "resourcesnode.h"
 /**
-    * @brief This class stores data refering to file, uri and type
-    * @brief as a file can be loaded as different type.
-    * @brief E.g: an image can be loaded as Picture or as Background for map.
-    *
-    */
-
-class CleverURI : public RessourcesNode
+* @brief This class stores data refering to file, uri and type
+* @brief as a file can be loaded as different type.
+* @brief E.g: an image can be loaded as Picture or as Background for map.
+*
+*/
+class CleverURI : public ResourcesNode
 {
 
 public:
@@ -49,6 +44,8 @@ public:
                       ,PDF
               #endif
                      };
+
+    enum LoadingMode {Internal,Linked};
     /**
     * @brief default constructor
     *
@@ -117,12 +114,15 @@ public:
     * @param type of the content
     * @return the path to the icon
     */
-    QString& getIcon();
+    virtual QString getIcon();
     /**
      * @brief CleverURI::getAbsolueDir
      * @return
      */
     const QString getAbsolueDir() const;
+
+    void write(QDataStream& out) const;
+    void read(QDataStream &in);
 
     /**
      * @brief getFilterForType
@@ -132,52 +132,43 @@ public:
     static QString typeToString(CleverURI::ContentType);
     static QString getPreferenceDirectoryKey(CleverURI::ContentType);
 
+    LoadingMode getCurrentMode() const;
+    void setCurrentMode(const LoadingMode &currentMode);
+
+    bool getDisplayed() const;
+    void setDisplayed(bool displayed);
+
+    QByteArray getData() const;
+    void setData(const QByteArray &data);
+
+    void loadFileFromUri();
+    void clearData();
+
 private:
     /**
     * @brief split the uri to get the shortname
-    *
     */
     void defineShortName();
-
-
-
-
     QString m_uri; ///< member to store the uri
     CleverURI::ContentType m_type;///< member to store the content type
     QString m_shortname; ///< member to store the shortname
-
-    static QString m_musicIcon; ///< static member to store the music icon
-    static QString m_textIcon;///< static member to store the text icon
-    static QString m_mapIcon; ///< static member to store the map icon
-    static QString m_pictureIcon; ///< static member to store the picture icon
-    static QString m_charactersheetIcon; ///< static member to store the character icon
-    static QString m_scenarioIcon; ///< static member to store the scenario icon
-    static QString m_chatIcon; ///< static member to store the chat icon
+    QByteArray m_data;///< data from the file
+    LoadingMode m_currentMode;
+    bool m_displayed;
 
 
-
+    static QHash<CleverURI::ContentType,QString> m_iconPathHash;
     static QStringList m_typeNameList;
     static QStringList m_typeToPreferenceDirectory;
-
-#ifdef WITH_PDF
-    static QString m_pdfIcon;///< static member to store the pdf icon
-#endif
-    static QString m_empty;
-
-    friend QDataStream& operator<<(QDataStream& os,const CleverURI&); ///< operator for serialisation (writing)
-    friend QDataStream& operator>>(QDataStream& is,CleverURI&); ///< operator for serialisation (reading)
-
-
 };
 
 typedef QList<CleverURI> CleverUriList;
-
-QDataStream& operator<<(QDataStream& os,const CleverUriList&); ///< operator for serialisation (writing)
-QDataStream& operator>>(QDataStream& is,CleverUriList&); ///< operator for serialisation (reading)
-
-
 Q_DECLARE_METATYPE(CleverURI)
 Q_DECLARE_METATYPE(CleverUriList)
-
-
+QDataStream &operator<<(QDataStream &out,const CleverURI&); ///< operator for serialisation (writing)
+QDataStream &operator>>(QDataStream &in,CleverURI&); ///< operator for serialisation (reading)
+QDataStream &operator<<(QDataStream &out,const CleverUriList &myObj); ///< operator for serialisation (writing)
+QDataStream &operator>>(QDataStream &in,CleverUriList &myObj); ///< operator for serialisation (reading)
 #endif // CLEVERURI_H
+
+

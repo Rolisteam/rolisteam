@@ -48,20 +48,6 @@ public:
     */
     Chapter* getCurrentChapter();
     /**
-    * @brief defined the session which must be managed
-    * @param session's address
-    */
-    void setCurrentSession(Session* s);
-    /**
-    * @brief read parameter from conf files
-    */
-    void readSettings(QSettings & m);
-    
-    /**
-    * @brief Save parameters for next executions.
-    */
-    void writeSettings(QSettings & m);
-    /**
     * @brief add resource into the model and the session.
     * @param urifile: file's uri
     * @param type : type of content: picture, maps etc...
@@ -71,6 +57,9 @@ public:
     * @brief accessor to the recent files list
     */
     const QList<CleverURI*>& getRecentFiles();
+
+    virtual void saveSession(QDataStream& out);
+    virtual void loadSession(QDataStream& in);
 public slots:
     /**
     * @brief add chapter into the given index
@@ -110,19 +99,16 @@ protected:
     
 private:
     SessionView* m_view; /// pointer to the view
-    QHBoxLayout* m_layout;/// layout
-    QList<CleverURI*> m_recentlist;/// list of recent files
-    QWidget* m_internal;/// generic widget to bring together all the UI
-    int m_recentfileCount;/// number of recentfile
-    
-    SessionItemModel* m_model;/// model to manage the insertion, deleting operations
-    Session* m_currentSession;/// session keeps trace of everything
-    
-    Chapter* m_currentChapter;/// current chapter pointer
+    SessionItemModel* m_model;/// model to manage the insertion, deleting operation
     /**
     * pointer to the unique instance of preference manager.
     */
     PreferencesManager* m_options;
+
+
+    QWidget* m_internal;/// generic widget to bring together all the UI
+    Chapter* m_currentChapter;/// current chapter pointer
+    QHBoxLayout* m_layout;/// layout
 };
 
 #endif // SESSIONMANAGER_H

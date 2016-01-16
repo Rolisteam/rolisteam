@@ -24,16 +24,13 @@
 #include <QDebug>
 
 #include "sessionitemmodel.h"
-#include "data/session.h"
 #include "preferences/preferencesmanager.h"
 
 SessionManager::SessionManager()
-    : m_recentfileCount(5)
 {
-    m_currentSession = new Session();
+
     setObjectName("SessionManager");
     m_options = PreferencesManager::getInstance();
-    m_recentfileCount = m_options->value("session/recentfilesCount",m_recentfileCount).toInt();
     m_view =new SessionView;
     m_layout = new QHBoxLayout;
     m_layout->setMargin(0);
@@ -55,81 +52,20 @@ Chapter* SessionManager::getCurrentChapter()
 {
     return m_currentChapter;
 }
-
-void SessionManager::setCurrentSession(Session* s)
-{
-    m_currentSession=s;
-    m_model->setSession(m_currentSession);
-}
 CleverURI* SessionManager::addRessource(CleverURI* tp)
 {
     QModelIndex index = m_view->currentIndex();
-    m_model->addRessources(tp,index);
-    
-    m_recentlist.prepend(tp);
-    
-    if(m_recentlist.size()>m_recentfileCount)
-    {
-        m_recentlist.removeLast();
-    }
+    m_model->addResource(tp,index);
     return  tp;
 }
 
-void SessionManager::readSettings(QSettings & m)
-{
-    m.beginGroup("Session");
-    QVariant r;
-    r.setValue<Session>(*m_currentSession);
-    *m_currentSession=m.value("Session",r).value<Session>();
-    
-    // if no number that means no recenfile
-    int number = m.value("numberRecentFile",0).toInt();
-    qDebug()<< "number of recent file session manager" << number;
-    for(int i=0 ; i<number ; i++)
-    {
-        CleverURI* cleverURI = new CleverURI;
-        r.setValue<CleverURI>(*cleverURI);
-        *cleverURI=m.value(QString("recentfile%1").arg(i)).value<CleverURI>();
-        m_recentlist.prepend(cleverURI);
-        m.setValue(QString("recentfile%1").arg(i),r);
-    }
-    
-    
-    m.endGroup();
-    
-    m_model->setSession(m_currentSession);
-}
-const QList<CleverURI*>& SessionManager::getRecentFiles()
-{
-    return m_recentlist;
-}
 
 void SessionManager::addChapter(QModelIndex& index)
 {
-    QString tmp = tr("Chapter %1").arg(m_currentSession->chapterCount());
-    //m_currentChapter = m_model->addChapter(tmp,m_view->currentIndex());
-    m_currentChapter =m_model->addChapter(tmp,index);
-    
-}
-
-void SessionManager::writeSettings(QSettings & m)
-{
-    m.beginGroup("Session");
-    QVariant r;
-    r.setValue<Session>(*m_currentSession);
-    m.setValue("Session",r);
-    
-    
-    m.setValue("numberRecentFile",m_recentlist.size());
-    for(int i=0 ; i<m_recentlist.size() ; i++)
-    {
-        CleverURI* cleverURI =m_recentlist.at(i);
-        r.setValue<CleverURI>(*cleverURI);
-        m.setValue(QString("recentfile%1").arg(i),r);
-        //con.m_recentlist.append(cleverURI);
-    }
-    
-    m.endGroup();
+    QString tmp = tr("Chapter %1").arg(m_model->rowCount(index));
+    Chapter* chapter = new Chapter();
+    chapter->setName(tmp);
+    m_model->addResource(chapter,index);
 }
 void SessionManager::closeEvent ( QCloseEvent * event )
 {
@@ -143,36 +79,43 @@ void SessionManager::closeEvent ( QCloseEvent * event )
 void SessionManager::setCurrentChapter()
 {
     QModelIndex p = m_view->currentIndex();
-    m_currentChapter = m_model->getChapter(p);
+   // m_currentChapter = m_model->getChapter(p);
 }
 
 void SessionManager::openResources(QModelIndex& index)
 {
-    ResourcesItem* item = static_cast<ResourcesItem*>(index.internalPointer());
+    if(!index.isValid())
+        return;
+
+    CleverURI* item = static_cast<CleverURI*>(index.internalPointer());
+
     if(item!=NULL)
-    {
-        CleverURI* uri = dynamic_cast<CleverURI*>(item->getData());
-        if(uri!=NULL)
-        {
-            emit openFile(uri);
-        }
+    { 
+       emit openFile(item);
     }
 }
 void SessionManager::removeSelectedItem()
 {
-    
     QModelIndexList list=m_view->getSelection();
-    //    if(list!=NULL)
-    //    {
-    qDebug() << "size of the list= " <<list.size();
     for(int i = 0 ; i < list.size(); i++)
     {
         QModelIndex index = list.at(i);
-        qDebug() << "coord= " <<index.column()<<index.row();
         if(!index.isValid())
             continue;
         m_model->remove(index);
     }
-    //    }
 }
-
+void SessionManager::saveSession(QDataStream& out)
+{
+    if(NULL!=m_model)
+    {
+        m_model->saveModel(out);
+    }
+}
+void SessionManager::loadSession(QDataStream& in)
+{
+    if(NULL!=m_model)
+    {
+        m_model->loadModel(in);
+    }
+}
