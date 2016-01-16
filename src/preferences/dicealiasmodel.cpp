@@ -61,7 +61,7 @@ QVariant DiceAliasModel::data(const QModelIndex &index, int role) const
                 }
                 else if(index.column()==COMMENT)
                 {
-                    return !diceAlias->isEnable();
+                    return diceAlias->getComment();
                 }
             }
 		}
@@ -152,6 +152,10 @@ bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, in
                 break;
             case DISABLE:
                 diceAlias->setEnable(!value.toBool());
+                result = true;
+                break;
+            case COMMENT:
+                diceAlias->setComment(value.toString());
                 result = true;
                 break;
             }
