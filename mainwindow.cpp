@@ -11,7 +11,7 @@
 #include <QBuffer>
 #include <QJsonDocument>
 #include <QTemporaryFile>
-
+#include <QQmlError>
 
 #include "borderlisteditor.h"
 
@@ -55,7 +55,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
-    connect(ui->m_tabWidget,SIGNAL(currentChanged(int)),this,SLOT(generateQML()));
+    //connect(ui->m_tabWidget,SIGNAL(currentChanged(int)),this,SLOT(generateQML()));
+
+    ui->m_quickview->setSource(QUrl::fromLocalFile("./cstest.qml"));
+    ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    qDebug() << ui->m_quickview->status();
+    foreach(QQmlError error, ui->m_quickview->errors())
+    {
+        qDebug() << error.toString();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -136,19 +144,11 @@ void MainWindow::generateQML()
         QTextStream text(&data);
 
         text << "import QtQuick 2.4\n";
-        text << "import QtQuick.Window 2.2\n";
         text << "import \"./Rcse/\"\n";
         text << "\n";
-        text << "Window {\n";
-        text << "    id:rootw\n";
-        text << "    visible: true\n";
-        text << "    x:0\n";
-        text << "    y:0\n";
-        text << "\n";
-        text << "    Item {\n";
-        text << "        anchors.fill: parent\n";
+        text << "Item {\n";
         text << "        Image {\n";
-        text << "        id:root" << "\n";
+        text << "        id:imagebg" << "\n";
         qreal ratio = (qreal)pix.width()/(qreal)pix.height();
         qreal ratioBis = (qreal)pix.height()/(qreal)pix.width();
         text << "       property real iratio :" << ratio << "\n";

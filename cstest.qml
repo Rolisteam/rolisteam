@@ -1,14 +1,7 @@
 import QtQuick 2.4
-import QtQuick.Window 2.2
 import "./Rcse/"
 
-Window {
-    id:rootw
-    visible: true
-    x:0
-    y:0
-
-    Item {
+Item {
         anchors.fill: parent
         onWidthChanged: {
             if(parent.width>parent.height*imagebg.iratio)
@@ -31,9 +24,9 @@ Window {
            //width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width
            //height:(parent.width>parent.height*iratio)?parent.height:iratioBis*parent.width
 	       source: "background.jpg"
-		onHeightChanged: {
-			console.log(realScale+" "+realScaleH)		
-		}
+            onHeightChanged: {
+                console.log(realScale+" "+realScaleH)
+            }
 
 		Field {
 			text: "key 1"
@@ -59,6 +52,7 @@ Window {
 			height:50
 			color: "#ffffffff"
 		}
+
 		Field {
 			text: "key 4"
 			x:464*parent.realScale
@@ -76,6 +70,7 @@ Window {
 			color: "#ffffffff"
 		}
 
-       }
-   }
 }
+}
+
+

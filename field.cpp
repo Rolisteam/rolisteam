@@ -269,13 +269,13 @@ void Field::load(QJsonObject &json,QGraphicsScene* scene)
 void Field::generateQML(QTextStream &out)
 {
     out << "Field {\n";
-    out << "text: \""<<m_key << "\"\n";
-    out    << "x:" << m_rect.x() << "*parent.realScale"<<"\n";
-    out    << "y:" << m_rect.y()<< "*parent.realScale"<<"\n";
-    out     << "width:" << m_rect.width() <<"*parent.realScale"<<"\n";
-    out    << "height:"<< m_rect.height()<<"\n";
-    out    << "color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
-    out    << "}\n";
+    out << "    text: \""<<m_key << "\"\n";
+    out << "    x:" << m_rect.x() << "*parent.realScale"<<"\n";
+    out << "    y:" << m_rect.y()<< "*parent.realScale"<<"\n";
+    out << "    width:" << m_rect.width() <<"*parent.realScale"<<"\n";
+    out << "    height:"<< m_rect.height()<<"*parent.realScale"<<"\n";
+    out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
+    out << "}\n";
 }
 
 
