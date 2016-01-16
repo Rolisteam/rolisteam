@@ -26,7 +26,7 @@
 #include "network/networkreceiver.h"
 #include "preferenceslistener.h"
 /**
- * @brief The DiceAliasModel class
+ * @brief The CharacterStateModel class
  */
 class CharacterStateModel : public QAbstractListModel, public PreferencesListener
 {
@@ -37,7 +37,7 @@ public:
      */
     enum COLUMN_TYPE {LABEL,COLOR,PICTURE};
     /**
-     * @brief DiceAliasModel
+     * @brief CharacterStateModel
      */
     CharacterStateModel();
     /**
@@ -116,4 +116,4 @@ private:
     QStringList m_header;
 };
 
-#endif // DICEALIASMODEL_H
+#endif // CHARACTERSTATEMODEL_H
