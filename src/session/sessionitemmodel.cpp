@@ -33,13 +33,11 @@ SessionItemModel::SessionItemModel()
 }
 QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & parent ) const
 {
-    
     if(row<0)
         return QModelIndex();
     
     ResourcesNode* parentItem = NULL;
-    
-    // qDebug()<< "Index session " <<row << column << parent;
+
     if (!parent.isValid())
         parentItem = m_rootItem;
     else
@@ -50,7 +48,6 @@ QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & pa
         return createIndex(row, column, childItem);
     else
         return QModelIndex();
-    
 }
 bool  SessionItemModel::setData ( const QModelIndex & index, const QVariant & value, int role )
 {
@@ -93,16 +90,14 @@ QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
 }
 int SessionItemModel::rowCount(const QModelIndex& index) const
 {
-    // qDebug() << index;
     if(index.isValid())
     {
         ResourcesNode* tmp = static_cast<ResourcesNode*>(index.internalPointer());
-        //    qDebug() << "rowCount tmp"<< tmp->childrenCount();
         return tmp->getChildrenCount();
     }
     else
     {
-        return m_rootItem->getChildrenCount();//->childrenCount();
+        return m_rootItem->getChildrenCount();
     }
 }
 int SessionItemModel::columnCount(const QModelIndex&) const
@@ -137,23 +132,23 @@ void SessionItemModel::addResource(ResourcesNode* node,QModelIndex& parent)
     if(m_rootItem->contains(node))
         return;
 
-    ResourcesNode* parentItem=NULL;
+    Chapter* parentItem=NULL;
     if(!parent.isValid())
     {
         parentItem=m_rootItem;
     }
     else
     {
-        parentItem = static_cast<ResourcesNode*>(parent.internalPointer());
+        ResourcesNode* node = static_cast<ResourcesNode*>(parent.internalPointer());
+        if(!node->mayHaveChildren())
+        {
+            node=node->getParent();//leaf's parent is not a leaf indeed
+        }
+        parentItem=dynamic_cast<Chapter*>(node);// NULL when it is not a chapter.
     }
+
     beginInsertRows(QModelIndex(),parentItem->getChildrenCount(),parentItem->getChildrenCount());
-    
-    if(!parentItem->mayHaveChildren())
-    {
-        parentItem=parentItem->getParent();//leaf's parent is not a leaf indeed
-    }
-    Chapter* chap=dynamic_cast<Chapter*>(parentItem);// NULL when it is not a chapter.
-    chap->addResource(node);
+    parentItem->addResource(node);
     endInsertRows();
 }
 
@@ -173,18 +168,12 @@ void SessionItemModel::remove(QModelIndex& index)
     if(indexItem->getChildrenCount()>0)
     {
         beginRemoveRows(index,0,indexItem->getChildrenCount());
-        //QList<ResourcesNode*>* child = indexItem->getChildren();
-
-
-
 
         endRemoveRows();
     }
     
     beginRemoveRows(index.parent(),index.row(),index.row());
-   // parentItem->getChildren()->removeOne(indexItem);
-    //delete indexItem;
-    
+
 
     endRemoveRows();
     

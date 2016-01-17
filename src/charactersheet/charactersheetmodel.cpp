@@ -153,15 +153,10 @@ bool CharacterSheetModel::setData ( const QModelIndex & index, const QVariant & 
 void CharacterSheetModel::addCharacterSheet()
 {
     
-    beginInsertColumns(QModelIndex(),m_characterList->size() ,m_characterList->size() );
-    //if(m_characterList->size()==0)
-    
+    beginInsertColumns(QModelIndex(),m_characterList->size() ,m_characterList->size() );  
     CharacterSheet* sheet = new CharacterSheet;
-    //sheet->appendSection();
     m_characterList->append(sheet);
     sheet->setRootChild(m_rootSection);
-
-
     endInsertColumns();
 }
 

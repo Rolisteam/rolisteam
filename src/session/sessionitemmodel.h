@@ -102,7 +102,7 @@ public:
     virtual void loadModel(QDataStream& in);
 
 private:  
-    ResourcesNode* m_rootItem;/// root item address
+    Chapter* m_rootItem;/// root item address
 };
 
 #endif // SESSIONITEMMODEL_H

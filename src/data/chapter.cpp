@@ -68,6 +68,7 @@ int Chapter::indexOf(ResourcesNode* node)
 void Chapter::addResource(ResourcesNode* cluri)
 {
     m_children.append(cluri);
+    cluri->setParent(this);
 }
 
 
