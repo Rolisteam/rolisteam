@@ -2026,7 +2026,7 @@ void MainWindow::updateRecentFileActions()
 
     for (int i = 0; i < numRecentFiles; ++i)
     {
-        QString text = tr("&%1 %2").arg(i + 1).arg(files[i].getShortName());
+        QString text = tr("&%1 %2").arg(i + 1).arg(files[i].name());
         m_recentFileActs[i]->setText(text);
         QVariant var;
         var.setValue(files[i]);
