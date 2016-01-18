@@ -164,7 +164,6 @@ void MainWindow::generateQML()
         text << "       source: \"background.jpg\"" << "\n";
         m_model->generateQML(text);
         text << "\n";
-        text << "       }\n";
         text << "   }\n";
         text << "}\n";
 
