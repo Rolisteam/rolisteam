@@ -32,7 +32,7 @@ QString ResourcesNode::name() const
 
 void ResourcesNode::setName(const QString &name)
 {
-m_name = name;
+    m_name = name;
 }
 
 QString ResourcesNode::getValue() const
@@ -96,4 +96,8 @@ bool ResourcesNode::hasChildren() const
 bool ResourcesNode::contains(ResourcesNode*)
 {
     return false;
+}
+void ResourcesNode::removeChild(ResourcesNode*)
+{
+    return;
 }
