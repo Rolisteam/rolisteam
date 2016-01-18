@@ -100,16 +100,6 @@ public:
     */
     bool hasChildren() const;
     /**
-    * @brief accessor to a shorter uri (only the filename)
-    * @return the filename
-    */
-    const QString& getShortName() const;
-    /**
-    * @brief change the short name
-    * @param new short name
-    */
-    virtual void setShortName(QString& name);
-    /**
     * @brief static method which returns the appropriate icon path given the type
     * @param type of the content
     * @return the path to the icon
@@ -151,7 +141,6 @@ private:
     void defineShortName();
     QString m_uri; ///< member to store the uri
     CleverURI::ContentType m_type;///< member to store the content type
-    QString m_shortname; ///< member to store the shortname
     QByteArray m_data;///< data from the file
     LoadingMode m_currentMode;
     bool m_displayed;

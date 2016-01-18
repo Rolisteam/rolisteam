@@ -118,7 +118,7 @@ void CleverURI::defineShortName()
 {
     QFileInfo info(m_uri);
 
-    m_shortname = info.baseName();
+    m_name = info.baseName();
 }
 
 QByteArray CleverURI::getData() const
@@ -166,14 +166,7 @@ void CleverURI::read(QDataStream &in)
 {
 
 }
-const QString& CleverURI::getShortName() const
-{
-    return m_shortname;
-}
-void CleverURI::setShortName(QString& name)
-{
-    m_shortname = name;
-}
+
 QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
 {
     PreferencesManager* preferences=PreferencesManager::getInstance();
