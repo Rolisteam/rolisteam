@@ -289,6 +289,11 @@ void FieldModel::generateQML(QTextStream& out)
 {
     m_rootSection->generateQML(out);
 }
+
+QString FieldModel::getValue(const QString &key)
+{
+    return key;
+}
 void FieldModel::updateItem(Field* item)
 {
     int ind = m_rootSection->indexOfChild(item);

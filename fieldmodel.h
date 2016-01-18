@@ -80,6 +80,8 @@ public:
     void load(QJsonObject& json,QGraphicsScene* scene);
 
     void generateQML(QTextStream& out);
+
+    Q_INVOKABLE QString getValue(const QString& key);
 signals:
 
 public slots:

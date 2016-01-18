@@ -12,6 +12,9 @@
 #include <QJsonDocument>
 #include <QTemporaryFile>
 #include <QQmlError>
+#include <QQmlEngine>
+#include <QQmlContext>
+
 
 #include "borderlisteditor.h"
 
@@ -57,13 +60,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
     //connect(ui->m_tabWidget,SIGNAL(currentChanged(int)),this,SLOT(generateQML()));
 
+    ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
     ui->m_quickview->setSource(QUrl::fromLocalFile("./cstest.qml"));
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    qDebug() << ui->m_quickview->status();
-    foreach(QQmlError error, ui->m_quickview->errors())
+
+   /* foreach(QQmlError error, ui->m_quickview->errors())
     {
         qDebug() << error.toString();
-    }
+    }*/
 }
 
 MainWindow::~MainWindow()
@@ -147,6 +151,7 @@ void MainWindow::generateQML()
         text << "import \"./Rcse/\"\n";
         text << "\n";
         text << "Item {\n";
+        text << "   signal rollDiceCmd(string cmd)\n";
         text << "        Image {\n";
         text << "        id:imagebg" << "\n";
         qreal ratio = (qreal)pix.width()/(qreal)pix.height();

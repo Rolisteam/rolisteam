@@ -269,7 +269,7 @@ void Field::load(QJsonObject &json,QGraphicsScene* scene)
 void Field::generateQML(QTextStream &out)
 {
     out << "Field {\n";
-    out << "    text: \""<<m_key << "\"\n";
+    out << "    text: _model.getValue(\""<<m_key << "\")\n";
     out << "    x:" << m_rect.x() << "*parent.realScale"<<"\n";
     out << "    y:" << m_rect.y()<< "*parent.realScale"<<"\n";
     out << "    width:" << m_rect.width() <<"*parent.realScale"<<"\n";
