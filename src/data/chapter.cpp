@@ -54,7 +54,7 @@ int Chapter::getChildrenCount() const
 
 ResourcesNode *Chapter::getChildAt(int i) const
 {
-    if((i>0)&&(i<m_children.size()))
+    if((i>=0)&&(i<m_children.size()))
     {
             return m_children[i];
     }
@@ -124,7 +124,7 @@ void Chapter::read(QDataStream &in)
     }
 }
 
-bool Chapter::removeRessourcesNode(ResourcesNode* item)
+bool Chapter::removeChild(ResourcesNode* item)
 { 
     bool removed=false;
     if(m_children.contains(item))
