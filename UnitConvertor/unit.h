@@ -1,11 +1,26 @@
 #ifndef UNIT_H
 #define UNIT_H
-
+#include <Qt>
 
 class Unit
 {
 public:
-    Unit();
+    enum Category { TEMPERATURE, DISTANCE,CURRENCY,VOLUME,MASS};
+    Unit(QString name,QString symbol, Category c);
+    QString symbol() const;
+    void setSymbol(const QString &symbol);
+
+    QString name() const;
+    void setName(const QString &name);
+
+    Unit::Category currentCat() const;
+    void setCurrentCat(const Unit::Category &currentCat);
+
+private:
+    QString m_symbol;
+    QString m_name;
+    Unit::Category m_currentCat;
+
 };
 
 #endif // UNIT_H
