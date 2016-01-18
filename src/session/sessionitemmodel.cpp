@@ -164,21 +164,11 @@ void SessionItemModel::remove(QModelIndex& index)
         parentItem=m_rootItem;
     else
         parentItem= static_cast<ResourcesNode*>(parent.internalPointer());
-    
-    if(indexItem->getChildrenCount()>0)
-    {
-        beginRemoveRows(index,0,indexItem->getChildrenCount());
 
-        endRemoveRows();
-    }
     
     beginRemoveRows(index.parent(),index.row(),index.row());
-
-
+    parentItem->removeChild(indexItem);
     endRemoveRows();
-    
-    
-    
 }
 
 QVariant SessionItemModel::headerData ( int section, Qt::Orientation orientation, int role  ) const
