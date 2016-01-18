@@ -495,7 +495,7 @@ bool Image::readFileFromUri()
             return false;
         }
         setImage(img);
-        setTitle(m_uri->getShortName()+tr(" (Picture)"));
+        setTitle(m_uri->name()+tr(" (Picture)"));
     }
     else if(CleverURI::ONLINEPICTURE == m_uri->getType())
     {
