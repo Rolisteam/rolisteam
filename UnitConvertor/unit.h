@@ -1,6 +1,6 @@
 #ifndef UNIT_H
 #define UNIT_H
-#include <Qt>
+#include <QString>
 
 class Unit
 {

@@ -11,3 +11,5 @@ TEMPLATE = app
 TARGET = rplugin
 
 QT += gui widgets
+
+CONFIG += c++11

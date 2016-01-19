@@ -1,7 +1,7 @@
 #include "unit.h"
 
 Unit::Unit(QString n,QString s,Category c)
-    : m_name(name),m_symbol(s),m_currentCat(c)
+    : m_name(n),m_symbol(s),m_currentCat(c)
 {
 
 }

@@ -20,7 +20,7 @@
 
 #include <QApplication>
 #include "NameGenerator/namegeneratorwidget.h"
-
+#include "UnitConvertor/convertor.h"
 
 int main(int argc, char** argv)
 {
@@ -28,6 +28,9 @@ int main(int argc, char** argv)
 
     NameGeneratorWidget* wid = new NameGeneratorWidget();
     wid->show();
+
+    Convertor* conv = new Convertor();
+    conv->show();
 
     return a.exec();
 }
