@@ -140,7 +140,7 @@ bool Chapter::removeChild(ResourcesNode* item)
                 Chapter* chap = dynamic_cast<Chapter*>(child);
                 if(NULL!=chap)
                 {
-                    removed = chap->removeRessourcesNode(item);
+                    removed = chap->removeChild(item);
                 }
             }
         }

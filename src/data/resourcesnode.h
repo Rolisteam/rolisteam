@@ -63,7 +63,7 @@ public:
     virtual void write(QDataStream& out) const=0;
     virtual void read(QDataStream& in)=0;
 
-    virtual void removeChild(ResourcesNode*);
+    virtual bool removeChild(ResourcesNode*);
 
 protected:
     QString m_name;

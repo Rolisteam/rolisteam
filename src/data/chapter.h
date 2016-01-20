@@ -60,7 +60,7 @@ public:
     /**
     * @brief removes node (chapter or ressource)
     */
-    bool removeRessourcesNode(ResourcesNode* item);
+    bool removeChild(ResourcesNode* item);
 
     virtual bool contains(ResourcesNode *);
 

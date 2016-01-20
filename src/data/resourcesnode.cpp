@@ -97,7 +97,7 @@ bool ResourcesNode::contains(ResourcesNode*)
 {
     return false;
 }
-void ResourcesNode::removeChild(ResourcesNode*)
+bool ResourcesNode::removeChild(ResourcesNode*)
 {
-    return;
+    return false;
 }
