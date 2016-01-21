@@ -39,8 +39,8 @@ public:
 
     QColor getColor() const;
     QString getName() const;
-    QPalette::ColorGroup getGroup();
-    QPalette::ColorRole getRole();
+    QPalette::ColorGroup getGroup() const;
+    QPalette::ColorRole getRole() const;
     void writeTo(QJsonObject& json);
     bool readFrom(QJsonObject& json);
 private:

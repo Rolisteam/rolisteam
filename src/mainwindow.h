@@ -362,9 +362,9 @@ private :
     QProgressBar* m_downLoadProgressbar;
     bool m_shownProgress;
     QString m_localPlayerId;
-	bool m_resetSettings;
     Ui::MainWindow* m_ui;
     SessionManager* m_sessionManager;
+    bool m_resetSettings;
 
 
 //filters
