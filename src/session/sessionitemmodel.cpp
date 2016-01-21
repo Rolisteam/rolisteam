@@ -199,5 +199,9 @@ void SessionItemModel::saveModel(QDataStream& out)
 
 void SessionItemModel::loadModel(QDataStream& in)
 {
+    beginResetModel();
+    QString str;
+    in >> str;
     m_rootItem->read(in);
+    endResetModel();
 }

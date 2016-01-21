@@ -159,12 +159,22 @@ const QString CleverURI::getAbsolueDir() const
 
 void CleverURI::write(QDataStream &out) const
 {
-
+    out << QStringLiteral("CleverUri");
+    out << (int)m_type << m_uri << (int)m_currentMode << m_data << m_displayed;
 }
 
 void CleverURI::read(QDataStream &in)
 {
-
+    int type;
+    int mode;
+    in >> type >> m_uri >> mode >> m_data >> m_displayed;
+    m_type = (CleverURI::ContentType)type;
+    m_currentMode = (CleverURI::LoadingMode)mode;
+    defineShortName();
+    if(QFile::exists(m_uri))
+    {
+        m_data.clear();
+    }
 }
 
 QString CleverURI::getFilterForType(CleverURI::ContentType type) //static

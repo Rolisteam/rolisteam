@@ -121,6 +121,8 @@ void Chapter::read(QDataStream &in)
             node = new CleverURI();
         }
         node->read(in);
+        node->setParent(this);
+        m_children.append(node);
     }
 }
 
