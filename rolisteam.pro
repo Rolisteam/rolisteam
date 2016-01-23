@@ -225,7 +225,6 @@ HAVE_SOUND {
  DEFINES+= HAVE_SOUND
  HEADERS +=
  SOURCES += 
-# QT += phonon
 }
 
 HAVE_NULL {
