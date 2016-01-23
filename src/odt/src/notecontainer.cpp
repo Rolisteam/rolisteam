@@ -21,7 +21,57 @@
 #include "notecontainer.h"
 
 NoteContainer::NoteContainer()
+    : m_edit(new TextEdit())
 {
+    if(NULL!=m_edit)
+    {
+        m_title = m_edit->getShowName();
+    }
+    setCleverUriType(CleverURI::TEXT);
+    setWidget(m_edit);
+    setWindowIcon(QIcon(":/notes.png"));
+}
 
+void NoteContainer::setFileName(QString str)
+{
+    if(NULL!=m_uri)
+    {
+        m_uri->setUri(str);
+    }
+}
+
+bool NoteContainer::readFileFromUri()
+{
+    if((NULL==m_uri)||(NULL==m_edit))
+    {
+        return false;
+    }
+    return m_edit->load(m_uri->getUri());
+}
+
+void NoteContainer::saveMedia()
+{
+    if(NULL!=m_edit)
+    {
+        m_edit->fileSave();
+        QString uri = m_edit->getShowName();
+        m_uri->setUri(uri);
+    }
+}
+void NoteContainer::readFromFile(QDataStream& data)
+{
+    if(NULL!=m_edit)
+    {
+        m_edit->readFromBinary(data);
+        m_title = m_edit->windowTitle();
+    }
+}
+
+void NoteContainer::saveInto(QDataStream &out)
+{
+    if(NULL!=m_edit)
+    {
+        m_edit->saveFileAsBinary(out);
+    }
 }
 

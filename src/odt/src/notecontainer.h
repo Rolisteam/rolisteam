@@ -22,15 +22,25 @@
 #define NOTECONTAINER_H
 
 #include <QWidget>
+#include "data/mediacontainer.h"
+#include "textedit.h"
 
 class NoteContainer : public MediaContainer
 {
 public:
     NoteContainer();
+    void setFileName(QString);
+    bool readFileFromUri();
+    void saveMedia();
+
+    void readFromFile(QDataStream& data);
+    void saveInto(QDataStream& out);
 
 signals:
 
 public slots:
+private:
+    TextEdit* m_edit;
 };
 
 #endif // NOTECONTAINER_H
