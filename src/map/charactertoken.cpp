@@ -26,7 +26,6 @@
 
 #include <math.h>
 
-#include "variablesGlobales.h"
 #include "map/charactertoken.h"
 
 // Liste des etats de sante des PJ/PNJ (initialisee dans MainWindow.cpp)

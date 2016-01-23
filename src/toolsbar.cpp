@@ -35,7 +35,6 @@
 #include "userlist/playersList.h"
 #include "data/person.h"
 #include "data/player.h"
-#include "variablesGlobales.h"
 
 #define DEFAULT_ICON_SIZE 20
 

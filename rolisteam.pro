@@ -97,9 +97,7 @@ HEADERS += \
            src/chat/privatechatdialog.h \
 	   src/network/receiveevent.h \
 	   src/chat/chatwindow.h \
-           src/types.h \
            src/services/updatechecker.h \
-           src/variablesGlobales.h \
     src/network/connectionretrydialog.h \
     src/mainwindow.h \
     src/preferences/preferencesmanager.h \

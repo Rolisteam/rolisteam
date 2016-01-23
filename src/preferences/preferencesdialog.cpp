@@ -21,8 +21,6 @@
 
 #include "preferencesdialog.h"
 
-#include "variablesGlobales.h"
-
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QVBoxLayout>

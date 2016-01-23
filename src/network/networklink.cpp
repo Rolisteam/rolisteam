@@ -39,9 +39,6 @@
 #include "audioPlayer.h"
 #endif
 
-#include "types.h"
-#include "variablesGlobales.h"
-
 NetworkLink::NetworkLink(QTcpSocket *socket)
     : QObject(NULL),m_mainWindow(NULL)
 {

@@ -35,7 +35,6 @@
 #include "data/player.h"
 #include "network/receiveevent.h"
 
-#include "types.h"
 
 
 
