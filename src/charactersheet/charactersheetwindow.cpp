@@ -29,7 +29,12 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     : MediaContainer(parent)
 {
     m_uri=uri;
-    setObjectName("CharacterSheet");
+    m_title = tr("Character Sheet Viewer");
+    if(NULL==m_uri)
+    {
+        setCleverUriType(CleverURI::CHARACTERSHEET);
+    }
+    setObjectName("CharacterSheetViewer");
     
     setWindowIcon(QIcon(":/resources/icons/treeview.png"));
     m_addSection = new QAction(tr("Add Section"),this);
@@ -43,7 +48,6 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     //m_view.setStyleSheet("QTreeView::item { border-right: 1px solid black }");
     resize(m_preferences->value("charactersheetwindows/width",400).toInt(),m_preferences->value("charactersheetwindows/height",200).toInt());
     m_view.setAlternatingRowColors(true);
-    m_title = tr("Character Sheet Viewer");
     setWindowTitle(m_title);
     
     m_widget.setLayout(&m_horizonLayout);
