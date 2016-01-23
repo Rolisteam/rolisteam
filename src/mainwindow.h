@@ -53,6 +53,7 @@
 #include "vmap/vmapframe.h"
 #include "vmap/vmaptoolbar.h"
 
+#include "notecontainer.h"
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
@@ -205,7 +206,7 @@ public slots :
      * @param afficher
      * @param cocherAction
      */
-    void displayMinutesEditor(bool afficher, bool cocherAction = false);
+    //void displayMinutesEditor(bool afficher, bool cocherAction = false);
     /**
      * @brief quitterApplication
      * @param perteConnexion
@@ -337,6 +338,7 @@ private :
 
     QMap<QString,MapFrame *> m_mapWindowMap;
     QMap<QString,VMapFrame *> m_mapWindowVectorialMap;
+    QMap<QString,NoteContainer*> m_noteMap;
     QList <Image*> m_pictureList;
     QMap<MediaContainer*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
@@ -352,27 +354,16 @@ private :
     QDockWidget* m_dockLogUtil;
 	NetworkManager* m_networkManager;
     QTextEdit* m_notifierDisplay;
-    TextEdit* m_noteEditor;
     PlayersList* m_playerList;
-    /// @brief get the server IP.
-    IpChecker* m_ipChecker;
+    IpChecker* m_ipChecker; /// @brief get the server IP.
 
     //subwindow
-    QMdiSubWindow* m_noteEditorSub;
     QProgressBar* m_downLoadProgressbar;
     bool m_shownProgress;
     QString m_localPlayerId;
     Ui::MainWindow* m_ui;
     SessionManager* m_sessionManager;
     bool m_resetSettings;
-
-
-//filters
-	QString m_supportedImage;
-	QString m_supportedCharacterSheet;
-	QString m_supportedNotes;
-	QString m_supportedMap;
-	QString m_pdfFiles;
 
     //Recent files managment
     int m_maxSizeRecentFile;
