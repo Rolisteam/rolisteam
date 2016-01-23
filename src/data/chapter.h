@@ -67,6 +67,9 @@ public:
     void write(QDataStream& out) const;
     void read(QDataStream &in);
 
+    QVariant getData(int);
+
+    void insertChildAt(int row, ResourcesNode *uri);
 private:
     QList<ResourcesNode*> m_children;/// list of resource
 

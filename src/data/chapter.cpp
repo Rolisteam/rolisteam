@@ -70,7 +70,19 @@ void Chapter::addResource(ResourcesNode* cluri)
     m_children.append(cluri);
     cluri->setParent(this);
 }
-
+QVariant Chapter::getData(int i)
+{
+    if(0==i)
+    {
+        return m_name;
+    }
+    return QVariant();
+}
+void Chapter::insertChildAt(int row, ResourcesNode* uri)
+{
+    m_children.insert(row,uri);
+    uri->setParent(this);
+}
 
 bool Chapter::contains(ResourcesNode* node)
 {
