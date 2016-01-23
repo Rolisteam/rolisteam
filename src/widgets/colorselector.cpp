@@ -26,7 +26,6 @@
 #include <QDebug>
 
 #include "widgets/colorselector.h"
-#include "variablesGlobales.h"
 
 ///////////////////////////////////
 // ColorSelector
@@ -67,7 +66,7 @@ void ColorWidget::paintEvent(QPaintEvent* event)
 ///////////////////////////////////
 // ColorSelector
 ///////////////////////////////////
-SelectedColor G_couleurCourante;
+SelectedColor ColorSelector::s_selectedColor;
 
 ColorSelector::ColorSelector(QWidget *parent)
 	: QWidget(parent)
@@ -87,8 +86,8 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_layoutSelector->setMargin(2);
     m_layoutSelector->setSpacing(1);
 
-    G_couleurCourante.type = ColorType;
-    G_couleurCourante.color = QColor(rouge[40],vert[40],bleu[40]);
+    s_selectedColor.type = ColorType;
+    s_selectedColor.color = QColor(rouge[40],vert[40],bleu[40]);
 
     m_currentColor = new QLabel(this);
     m_currentColor->setFrameStyle(QFrame::Panel | QFrame::Raised);
@@ -96,7 +95,7 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_currentColor->setMidLineWidth(1);
 
     m_currentColor->setFixedSize(45,40);
-    setBackgroundColorToWidget(m_currentColor, G_couleurCourante.color);
+    setBackgroundColorToWidget(m_currentColor, s_selectedColor.color);
     m_currentColor->setToolTip(tr("Predefine color 1"));
     m_currentColor->setAutoFillBackground(true);
     m_currentColor->setScaledContents(true);
@@ -278,7 +277,7 @@ bool ColorSelector::eventFilter(QObject* obj, QEvent* event)
             setBackgroundColorToWidget(m_currentColor,QColor(Qt::white));
             m_currentColor->setPixmap(*m_maskPixel);
 
-            G_couleurCourante.type = Veil;
+            s_selectedColor.type = Veil;
             m_currentColor->setToolTip(m_maskColor->toolTip());
         }
         else if(obj==m_unveilColor)
@@ -288,14 +287,14 @@ bool ColorSelector::eventFilter(QObject* obj, QEvent* event)
 
             setBackgroundColorToWidget(m_currentColor,QColor(Qt::white));
             m_currentColor->setPixmap(*m_unveilPixel);
-            G_couleurCourante.type = Unveil;
+            s_selectedColor.type = Unveil;
             m_currentColor->setToolTip(m_unveilColor->toolTip());
         }
         else if(obj==m_eraseColor)
         {
             setBackgroundColorToWidget(m_currentColor,QColor(Qt::white));
             m_currentColor->setPixmap(*m_pixelErase);
-            G_couleurCourante.type = Erase;
+            s_selectedColor.type = Erase;
             m_currentColor->setToolTip(m_eraseColor->toolTip());
         }
     }
@@ -303,27 +302,32 @@ bool ColorSelector::eventFilter(QObject* obj, QEvent* event)
     {
         if(obj == m_currentColor)
         {
-            QColor couleur = QColorDialog::getColor(G_couleurCourante.color,this);
+            QColor couleur = QColorDialog::getColor(s_selectedColor.color,this);
 
             if (couleur.isValid())
             {
                 m_currentColor->clear();
                 setBackgroundColorToWidget(m_currentColor,couleur);
-                G_couleurCourante.type = ColorType;
-                G_couleurCourante.color = couleur;
+                s_selectedColor.type = ColorType;
+                s_selectedColor.color = couleur;
                 m_currentColor->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(couleur.red()).arg(couleur.green()).arg(couleur.blue()));
             }
         }
     }
     return QWidget::eventFilter(obj,event);
 }
+
+SelectedColor &ColorSelector::getSelectedColor()
+{
+    return s_selectedColor;
+}
 void ColorSelector::changeCurrentColor(QColor color)
 {
     m_currentColor->clear();
     setBackgroundColorToWidget(m_currentColor,color);
     m_currentColor->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(color.red()).arg(color.green()).arg(color.blue()));
-	G_couleurCourante.type = ColorType;
-    G_couleurCourante.color = color;
+    s_selectedColor.type = ColorType;
+    s_selectedColor.color = color;
 }
 
 void ColorSelector::updatePersonalColor()
