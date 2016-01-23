@@ -125,7 +125,7 @@ public:
     LoadingMode getCurrentMode() const;
     void setCurrentMode(const LoadingMode &currentMode);
 
-    bool getDisplayed() const;
+    bool isDisplayed() const;
     void setDisplayed(bool displayed);
 
     QByteArray getData() const;
@@ -134,11 +134,14 @@ public:
     void loadFileFromUri();
     void clearData();
 
+    QVariant getData(int i);
+
 private:
     /**
     * @brief split the uri to get the shortname
     */
     void defineShortName();
+    void init();
     QString m_uri; ///< member to store the uri
     CleverURI::ContentType m_type;///< member to store the content type
     QByteArray m_data;///< data from the file

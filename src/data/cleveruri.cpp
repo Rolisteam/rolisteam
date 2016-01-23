@@ -59,13 +59,14 @@ QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString(
 CleverURI::CleverURI()
     : m_type(NONE)
 {
-
+    init();
 }
 
 CleverURI::CleverURI(const CleverURI & mp)
 {
     m_type=mp.getType();
     m_uri=mp.getUri();
+    m_currentMode = mp.getCurrentMode();
     defineShortName();
 }
 QString CleverURI::getIcon()
@@ -77,6 +78,7 @@ CleverURI::CleverURI(QString uri,ContentType type)
     : m_uri(uri),m_type(type)
 {
     defineShortName();
+    init();
 }
 
 CleverURI::~CleverURI()
@@ -121,6 +123,12 @@ void CleverURI::defineShortName()
     m_name = info.baseName();
 }
 
+void CleverURI::init()
+{
+     PreferencesManager* preferences=PreferencesManager::getInstance();
+     m_currentMode = (LoadingMode)preferences->value(QStringLiteral("DefaultLoadingMode"),(int)Linked).toInt();
+}
+
 QByteArray CleverURI::getData() const
 {
     return m_data;
@@ -131,7 +139,7 @@ void CleverURI::setData(const QByteArray &data)
     m_data = data;
 }
 
-bool CleverURI::getDisplayed() const
+bool CleverURI::isDisplayed() const
 {
     return m_displayed;
 }
@@ -183,22 +191,22 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
     switch(type)
     {
     case CleverURI::CHARACTERSHEET:
-       return QString();
+       return  QObject::tr("Character Sheets files  (%1)").arg(preferences->value("CharacterSheetFileFilter","*.json").toString());
         break;
     case CleverURI::PICTURE:
         return QObject::tr("Supported Image formats (%1)").arg(preferences->value("ImageFileFilter","*.jpg *.jpeg *.png *.bmp *.svg").toString());
         break;
     case CleverURI::MAP:
-        return QString();
+        return QObject::tr("Supported Map formats (%1)").arg(preferences->value("MapFileFilter","*.pla").toString());
         break;
     case CleverURI::CHAT:
         return QString();
         break;
     case CleverURI::TEXT:
-        return QString();
+        return QObject::tr("Supported Text Files (%1)").arg(preferences->value("TextFileFilter","*.odt *.html *.txt").toString());
         break;
     case CleverURI::SCENARIO:
-        return QString();
+        return QObject::tr("Supported Story Files (%1)").arg(preferences->value("StoryFileFilter","*.sce").toString());
         break;
     case CleverURI::SONG:
         return QObject::tr("Supported Audio formats (%1)").arg(preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString());
@@ -207,12 +215,11 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
         return QString();
         break;
     case CleverURI::VMAP:
-        //return QObject::tr("Supported Image formats (%1)").arg(preferences->value("VMapFileFilter","j,*.jpg *.jpeg *.png *.bmp *.svg").toString());
-        return QString();
+        return QObject::tr("Supported Vmap formats (%1)").arg(preferences->value("VMapFileFilter","*.vmap").toString());
         break;
 #ifdef WITH_PDF
     case CleverURI::PDF:
-        return m_pdfIcon;
+        return QObject::tr("Pdf File (%1)").arg(preferences->value("PdfFileFilter","*.pdf").toString());;
         break;
 #endif
     default:
@@ -247,6 +254,21 @@ void CleverURI::loadFileFromUri()
 void CleverURI::clearData()
 {
     m_data.clear();
+}
+
+QVariant CleverURI::getData(int i)
+{
+    switch(i)
+    {
+    case 0:
+        return m_name;
+    case 1:
+        return (int)m_currentMode;
+    case 2:
+        return m_displayed;
+    case 3:
+        return m_uri;
+    }
 }
 
 QDataStream& operator<<(QDataStream& out, const CleverURI& con)

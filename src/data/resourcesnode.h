@@ -21,7 +21,7 @@
 #define RESSOURCESNODE_H
 
 #include <QString>
-
+#include <QVariant>
 /**
     * @brief RessourceNode is part of the composite design pattern, it's the abstract class
     * @brief providing the basic API for ressources, Shortname and has children.
@@ -64,6 +64,9 @@ public:
     virtual void read(QDataStream& in)=0;
 
     virtual bool removeChild(ResourcesNode*);
+    virtual void insertChildAt(int row, ResourcesNode*);
+
+    virtual QVariant getData(int)=0;
 
 protected:
     QString m_name;
