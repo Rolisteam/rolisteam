@@ -202,12 +202,6 @@ public slots :
      */
     void notifyUser(QString msg,MessageType msgType = Information) const;
     /**
-	 * @brief displayMinutesEditor
-     * @param afficher
-     * @param cocherAction
-     */
-    //void displayMinutesEditor(bool afficher, bool cocherAction = false);
-    /**
      * @brief quitterApplication
      * @param perteConnexion
      */
@@ -286,7 +280,7 @@ private slots :
     void startReconnection();
     void networkStateChanged(bool state);
     void openContentFromType(CleverURI::ContentType type);
-    void openCleverURI(CleverURI* uri);
+    void openCleverURI(CleverURI* uri,bool force = false);
     void newNoteDocument();
     void setLatestFile(CleverURI* fileName);
     void updateRecentFileActions();

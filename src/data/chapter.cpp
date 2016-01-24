@@ -124,17 +124,28 @@ void Chapter::read(QDataStream &in)
         QString type;
         in >> type;
         ResourcesNode* node;
+        CleverURI* uri=NULL;
         if(type=="Chapter")
         {
-            node = new Chapter();
+            Chapter* chapter = new Chapter();
+            node=chapter;
+            connect(chapter,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
         }
         else
         {
-            node = new CleverURI();
+            uri = new CleverURI();
+            node = uri;
         }
-        node->read(in);
         node->setParent(this);
         m_children.append(node);
+        node->read(in);
+        if(NULL!=uri)
+        {
+            if(uri->isDisplayed())
+            {
+                emit openFile(uri,true);
+            }
+        }
     }
 }
 

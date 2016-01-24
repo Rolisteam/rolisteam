@@ -114,7 +114,7 @@ MainWindow::MainWindow()
     m_mapAction = new QMap<MediaContainer*,QAction*>();
 
     m_sessionManager = new SessionManager();
-    connect(m_sessionManager,SIGNAL(openFile(CleverURI*)),this,SLOT(openCleverURI(CleverURI*)));
+    connect(m_sessionManager,SIGNAL(openFile(CleverURI*,bool)),this,SLOT(openCleverURI(CleverURI*,bool)));
 
     /// Create all GM toolbox widget
     m_gmToolBoxList.append(new NameGeneratorWidget());
@@ -146,8 +146,7 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
     CleverURI* uri = mediac->getCleverUri();
     if(NULL!=uri)
     {
-        if(!uri->isDisplayed())
-        {
+
             QAction *action = m_ui->m_menuSubWindows->addAction(mediac->getTitle());
             action->setCheckable(true);
             action->setChecked(true);
@@ -162,7 +161,7 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
             mediac->setVisible(true);
             mediac->setFocus();
             uri->setDisplayed(true);
-        }
+
     }
 }
 void  MainWindow::closeConnection()
@@ -1997,10 +1996,11 @@ void MainWindow::setLatestFile(CleverURI* fileName)
         updateRecentFileActions();
     }
 }
-void MainWindow::openCleverURI(CleverURI* uri)
+void MainWindow::openCleverURI(CleverURI* uri,bool force)
 {
-    if(uri->isDisplayed())
+    if((uri->isDisplayed())&&(!force))
         return;
+
     MediaContainer* tmp=NULL;
     switch(uri->getType())
     {

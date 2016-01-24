@@ -27,8 +27,9 @@
     * @brief chapter stores ressources and can be identified by a name, Resources can be subchapter or CleverURI
     * @brief it is part of the composite pattern
     */
-class Chapter : public ResourcesNode
+class Chapter : public QObject,public ResourcesNode
 {
+    Q_OBJECT
 public:
     /**
     * @brief default constructor
@@ -70,6 +71,8 @@ public:
     QVariant getData(int);
 
     void insertChildAt(int row, ResourcesNode *uri);
+signals:
+    void openFile(CleverURI*, bool);
 private:
     QList<ResourcesNode*> m_children;/// list of resource
 

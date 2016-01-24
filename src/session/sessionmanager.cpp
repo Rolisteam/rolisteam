@@ -62,9 +62,16 @@ SessionManager::SessionManager()
     hHeader->setSectionResizeMode(SessionItemModel::Path,QHeaderView::ResizeToContents);
     m_view->setHeader(hHeader);
 
+    m_view->setColumnHidden(SessionItemModel::LoadingMode,true);
+    m_view->setColumnHidden(SessionItemModel::Displayed,true);
+    m_view->setColumnHidden(SessionItemModel::Path,true);
+
+
     connect(m_view,SIGNAL(onDoubleClick(QModelIndex&)),this,SLOT(openResources(QModelIndex&)));
     connect(m_view,SIGNAL(addChapter(QModelIndex&)),this,SLOT(addChapter(QModelIndex&)));
     connect(m_view,SIGNAL(removeSelection()),this,SLOT(removeSelectedItem()));
+
+    connect(m_model,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
 }
 Chapter* SessionManager::getCurrentChapter()
 {
@@ -109,7 +116,7 @@ void SessionManager::openResources(QModelIndex& index)
 
     if(item!=NULL)
     { 
-       emit openFile(item);
+       emit openFile(item,false);
     }
 }
 void SessionManager::removeSelectedItem()

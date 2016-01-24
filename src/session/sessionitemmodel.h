@@ -43,6 +43,7 @@ private:
     */
 class SessionItemModel : public QAbstractItemModel
 {
+    Q_OBJECT
 public:
     enum COLUMN_TYPE {Name,LoadingMode,Displayed,Path};
     /**
@@ -120,6 +121,8 @@ public:
     bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
     QStringList mimeTypes() const;
     QMimeData *mimeData(const QModelIndexList &indexes) const;
+signals:
+    void openFile(CleverURI*,bool);
 protected:
     bool moveMediaItem(QList<CleverURI*> items, const QModelIndex &parentToBe, int row, QList<QModelIndex> &formerPosition);
 private:
