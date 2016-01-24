@@ -2,6 +2,7 @@
 #define SESSIONVIEW_H
 
 #include <QTreeView>
+#include <QDrag>
 /**
     * @brief SessionView is a QTreeView which displays all resources loaded by the user
     *
@@ -22,6 +23,7 @@ public:
     QModelIndexList getSelection();
     
 protected:
+    void startDrag(Qt::DropActions supportedActions);
     /**
     * @brief catches the contextMenu event and shows a menu
     *
@@ -80,6 +82,10 @@ private:
     * @brief stores the position of the click
     */
     QPoint m_pointClick;
+
+    QAction* m_loadingModeColumn;
+    QAction* m_displayedColumn;
+    QAction* m_pathColumn;
     
 };
 
