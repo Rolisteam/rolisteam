@@ -183,8 +183,8 @@ protected:
 
 private:
     CharacterVision::SHAPE m_defaultShape;
-    qreal m_defaultRadius;
     qreal m_defaultAngle;
+    qreal m_defaultRadius;
 
 
     QAction* m_diskShape;
