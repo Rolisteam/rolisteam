@@ -347,10 +347,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
             m_playerList->sendDelLocalPlayer();
         }
         writeSettings();
-//        if(NULL!=m_noteEditor)
-//        {
-//            m_noteEditor->close();
-//        }
         event->accept();
     }
     else
@@ -364,21 +360,6 @@ void MainWindow::userNatureChange()
     updateUi();
     updateWindowTitle();
 }
-/*void MainWindow::displayMinutesEditor(bool visible, bool isCheck)
-{
-    //m_noteEditor->setVisible(visible);
-    if(NULL!=m_noteEditorSub)
-    {
-        m_noteEditorSub->setVisible(visible);
-        m_noteEditor->setVisible(visible);
-    }
-    if (isCheck)
-    {
-        m_ui->m_showMinutesEditorAction->setChecked(visible);
-    }
-
-}*/
-
 NetworkManager* MainWindow::getNetWorkManager()
 {
     return m_networkManager;
@@ -452,14 +433,25 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_newCharacterSheet,SIGNAL(triggered(bool)),this,SLOT(newCharacterSheetWindow()));
     connect(m_ui->m_newChatAction, SIGNAL(triggered(bool)), m_chatListWidget, SLOT(createPrivateChat()));
     connect(m_ui->m_newNoteAction, SIGNAL(triggered(bool)), this, SLOT(newNoteDocument()));
+
+    //open
     connect(m_ui->m_openPictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openOnlinePictureAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
     connect(m_ui->m_openMapAction, SIGNAL(triggered(bool)), this, SLOT(openContent()));
+    connect(m_ui->m_openCharacterSheet,SIGNAL(triggered(bool)),this,SLOT(openContent()));
     connect(m_ui->m_openVectorialMap, SIGNAL(triggered(bool)), this, SLOT(openContent()));
-    m_ui->m_recentFileMenu->setVisible(false);
-
     connect(m_ui->m_openStoryAction, SIGNAL(triggered(bool)), this, SLOT(openStory()));
     connect(m_ui->m_openNoteAction, SIGNAL(triggered(bool)), this, SLOT(openNote()));
+
+    m_ui->m_openPictureAction->setData((int)CleverURI::PICTURE);
+    m_ui->m_openOnlinePictureAction->setData((int)CleverURI::ONLINEPICTURE);
+    m_ui->m_openMapAction->setData((int)CleverURI::MAP);
+    m_ui->m_openCharacterSheet->setData((int)CleverURI::CHARACTERSHEET);
+    m_ui->m_openVectorialMap->setData((int)CleverURI::VMAP);
+    m_ui->m_openStoryAction->setData((int)CleverURI::SCENARIO);
+    m_ui->m_openNoteAction->setData((int)CleverURI::TEXT);
+
+    m_ui->m_recentFileMenu->setVisible(false);
     connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
     connect(m_ui->m_saveAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
     connect(m_ui->m_saveAsAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
@@ -1900,42 +1892,7 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
 void MainWindow::openContent()
 {
     QAction* action=static_cast<QAction*>(sender());
-    CleverURI::ContentType type;
-    if(action == m_ui->m_openMapAction)
-    {
-        type=CleverURI::MAP;
-    }
-    else if(action == m_ui->m_openPictureAction)
-    {
-        type=CleverURI::PICTURE;
-
-    }
-    else if(action == m_ui->m_openStoryAction)
-    {
-        type = CleverURI::SCENARIO;
-    }
-    else if(action == m_ui->m_openNoteAction)
-    {
-        type = CleverURI::TEXT;
-    }
-    else if(action == m_ui->m_openOnlinePictureAction)
-    {
-        type = CleverURI::ONLINEPICTURE;
-    }
-    else if(action == m_ui->m_openVectorialMap)
-    {
-        type = CleverURI::VMAP;
-    }
-#ifdef WITH_PDF
-    else if(action == m_openPDFAct)
-    {
-        type = CleverURI::PDF;
-    }
-#endif
-    else
-    {
-        return;
-    }
+    CleverURI::ContentType type = (CleverURI::ContentType)action->data().toInt();
     openContentFromType(type);
 }
 void MainWindow::openRecentFile()
@@ -2015,6 +1972,9 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         break;
     case CleverURI::SCENARIO:
         break;
+    case CleverURI::CHARACTERSHEET:
+        tmp = new CharacterSheetWindow();
+        break;
     default:
         break;
     }
@@ -2042,22 +2002,18 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
 void MainWindow::openContentFromType(CleverURI::ContentType type)
 {
     QString filter = CleverURI::getFilterForType(type);
-
-
     if(!filter.isEmpty())
     {
-       QString folder = m_preferences->value(QString("ImageDirectory"),".").toString();
-       QString title = tr("Open Picture");
+       QString folder = m_preferences->value(CleverURI::getPreferenceDirectoryKey(type),".").toString();
+       QString title = tr("Open %1").arg(CleverURI::typeToString(type));
        QStringList filepath = QFileDialog::getOpenFileNames(this,title,folder,filter);
        QStringList list = filepath;
        QStringList::Iterator it = list.begin();
        while(it != list.end())
        {
-
            openCleverURI(new CleverURI(*it,type));
            ++it;
        }
-
     }
     else
     {
@@ -2070,8 +2026,6 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
         case CleverURI::PICTURE:
         case CleverURI::ONLINEPICTURE:
             tmp = new Image();
-            break;
-        case CleverURI::SCENARIO:
             break;
         case CleverURI::VMAP:
             tmp = new VMapFrame();
