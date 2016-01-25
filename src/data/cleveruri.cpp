@@ -57,7 +57,7 @@ QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString(
                                                                    <<   QString("ImageDirectory")   <<QString("ImageDirectory")     <<QString("Text")                   <<QString("MinutesDirectory") <<
                                                                         QString("SessionDirectory") <<QString("SessionDirectory")   <<QString("MusicDirectoryPlayer")   <<QString("MusicDirectoryPlayer");
 CleverURI::CleverURI()
-    : m_type(NONE)
+    : m_type(NONE),m_displayed(false)
 {
     init();
 }
@@ -75,7 +75,7 @@ QString CleverURI::getIcon()
 }
 
 CleverURI::CleverURI(QString uri,ContentType type)
-    : m_uri(uri),m_type(type)
+    : m_uri(uri),m_type(type),m_displayed(false)
 {
     defineShortName();
     init();
@@ -197,7 +197,8 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
         return QObject::tr("Supported Image formats (%1)").arg(preferences->value("ImageFileFilter","*.jpg *.jpeg *.png *.bmp *.svg").toString());
         break;
     case CleverURI::MAP:
-        return QObject::tr("Supported Map formats (%1)").arg(preferences->value("MapFileFilter","*.pla").toString());
+        return QString();
+        //return QObject::tr("Supported Map formats (%1)").arg(preferences->value("MapFileFilter","*.pla").toString());
         break;
     case CleverURI::CHAT:
         return QString();
@@ -215,7 +216,8 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
         return QString();
         break;
     case CleverURI::VMAP:
-        return QObject::tr("Supported Vmap formats (%1)").arg(preferences->value("VMapFileFilter","*.vmap").toString());
+        return QString();
+        //return QObject::tr("Supported Vmap formats (%1)").arg(preferences->value("VMapFileFilter","*.vmap").toString());
         break;
 #ifdef WITH_PDF
     case CleverURI::PDF:

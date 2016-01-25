@@ -115,7 +115,7 @@ public:
     void read(QDataStream &in);
 
     /**
-     * @brief getFilterForType
+     * @brief getFilterForType must return the filter for any kind of content but it also return empty string for content with dedicated loading dialog
      * @return
      */
     static QString getFilterForType(CleverURI::ContentType);
