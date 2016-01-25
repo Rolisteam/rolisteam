@@ -24,7 +24,9 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-
+#include <QHBoxLayout>
+#include <QQmlEngine>
+#include <QQuickWidget>
 
 #include "data/mediacontainer.h"
 #include "charactersheetmodel.h"
@@ -63,6 +65,7 @@ public:
     void saveMedia();
     
     
+    void addTabWithSheetView(CharacterSheet *chSheet);
 protected slots:
     /**
     * @brief slot is called when the user click on the m_addLine button. That leads to add one line after the current position (in the current CharacterSheet).
@@ -128,17 +131,15 @@ private:
     */
     QVBoxLayout m_vertiLayout;
     /**
-    * @brief layout
-    */
-    QHBoxLayout m_horizonLayout;
-    /**
-    * @brief gathering widget
-    */
-    QWidget m_widget;
-    
+     * @brief m_fileUri
+     */
     QString m_fileUri;
-    
-    
+    /**
+     * @brief m_tabs
+     */
+    QTabWidget* m_tabs;
+
+    QList<QQuickWidget*> m_characterSheetlist;
 };
 
 #endif // CHARACTERSHEETWINDOW_H
