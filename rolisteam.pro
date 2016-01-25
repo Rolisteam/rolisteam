@@ -6,7 +6,7 @@
 
 ## Generic parameter
 CONFIG +=  -console
-QT += widgets printsupport multimedia
+QT += widgets printsupport multimedia quick qml quickwidgets
 #-console
 TEMPLATE = app
 TARGET = bin/rolisteam
