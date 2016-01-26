@@ -22,6 +22,9 @@
 #include <QHBoxLayout>
 #include <QCloseEvent>
 #include <QDebug>
+#include <QHeaderView>
+
+
 
 #include "sessionitemmodel.h"
 #include "preferences/preferencesmanager.h"
@@ -44,9 +47,31 @@ SessionManager::SessionManager()
     m_model = new SessionItemModel();
     
     m_view->setModel(m_model);
+
+
+    m_view->setDragEnabled(true);
+    m_view->setAcceptDrops(true);
+    m_view->setDropIndicatorShown(true);
+    m_view->setDefaultDropAction(Qt::MoveAction);
+    m_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+    QHeaderView* hHeader = m_view->header();//new QHeaderView(Qt::Vertical,this);
+    hHeader->setSectionResizeMode(SessionItemModel::Name,QHeaderView::Stretch);
+    hHeader->setSectionResizeMode(SessionItemModel::LoadingMode,QHeaderView::ResizeToContents);
+    hHeader->setSectionResizeMode(SessionItemModel::Displayed,QHeaderView::ResizeToContents);
+    hHeader->setSectionResizeMode(SessionItemModel::Path,QHeaderView::ResizeToContents);
+    m_view->setHeader(hHeader);
+
+    m_view->setColumnHidden(SessionItemModel::LoadingMode,true);
+    m_view->setColumnHidden(SessionItemModel::Displayed,true);
+    m_view->setColumnHidden(SessionItemModel::Path,true);
+
+
     connect(m_view,SIGNAL(onDoubleClick(QModelIndex&)),this,SLOT(openResources(QModelIndex&)));
     connect(m_view,SIGNAL(addChapter(QModelIndex&)),this,SLOT(addChapter(QModelIndex&)));
     connect(m_view,SIGNAL(removeSelection()),this,SLOT(removeSelectedItem()));
+
+    connect(m_model,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
 }
 Chapter* SessionManager::getCurrentChapter()
 {
@@ -91,7 +116,7 @@ void SessionManager::openResources(QModelIndex& index)
 
     if(item!=NULL)
     { 
-       emit openFile(item);
+       emit openFile(item,false);
     }
 }
 void SessionManager::removeSelectedItem()

@@ -21,8 +21,9 @@
 #include "charactersheetmodel.h"
 #include "charactersheet.h"
 #include <QDebug>
-#include <QDomDocument>
-
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 /////////////////////////////
 /// CharacterSheetModel
@@ -101,7 +102,7 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
             CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
             if(NULL!=childItem)
             {
-              return childItem->name();
+                return childItem->name();
             }
         }
         else
@@ -150,10 +151,10 @@ bool CharacterSheetModel::setData ( const QModelIndex & index, const QVariant & 
     return false;
     
 }
-void CharacterSheetModel::addCharacterSheet()
+CharacterSheet* CharacterSheetModel::addCharacterSheet()
 {
     
-    beginInsertColumns(QModelIndex(),m_characterList->size() ,m_characterList->size() );  
+    beginInsertColumns(QModelIndex(),m_characterList->size() ,m_characterList->size() );
     CharacterSheet* sheet = new CharacterSheet;
     m_characterList->append(sheet);
     sheet->setRootChild(m_rootSection);
@@ -205,15 +206,23 @@ CharacterSheetItem* CharacterSheetModel::addSection(QString title)
 
 void CharacterSheetModel::addLine(const QModelIndex& index)
 {
+    QModelIndex parent = index;
+    CharacterSheetItem* parentItem = NULL;
     if(index.isValid())
     {
-        CharacterSheetItem* parentItem = static_cast<CharacterSheetItem*>(index.internalPointer());
-        addLine(parentItem,tr("Field %1").arg(parentItem->getChildrenCount()),index);
+        parentItem = static_cast<CharacterSheetItem*>(index.internalPointer());
     }
     else
     {
-       addLine(m_rootSection,tr("Field %1").arg(m_rootSection->getChildrenCount()),index);
+        parentItem = m_rootSection;
     }
+    if(!parentItem->mayHaveChildren())
+    {
+        parentItem = parentItem->getParent();
+        parent = parent.parent();
+    }
+    addLine(parentItem,tr("Field %1").arg(parentItem->getChildrenCount()),parent);
+
 }
 void CharacterSheetModel::addLine(CharacterSheetItem* parentItem,QString name,const QModelIndex& parent)
 {
@@ -266,116 +275,41 @@ QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex & index)
 }
 bool CharacterSheetModel::writeModel(QTextStream& file, bool data)
 {
-    int sectionIndex = 0;
-    QDomDocument doc;
-    QDomElement root = doc.createElement("charactersheets");
-    
-    
-   /* foreach( CharacterSheetItem* tmp, *m_sectionList)
+    QJsonDocument doc;
+    QJsonObject jsonObj;
+    m_rootSection->save(jsonObj);
+    doc.setObject(jsonObj);
+
+    QJsonArray listOfCharacter;
+    foreach(CharacterSheet* sheet, *m_characterList)
     {
-        QDomElement section  = doc.createElement("section");
-        section.setAttribute("title",tmp->name());
-        int fieldIndex =0;
-        foreach(QString field , tmp->getChildrenCount())
-        {
-            QDomElement fieldelement  = doc.createElement("field");
-            fieldelement.setAttribute("name",field);
-            if(data)
-            {
-                foreach(CharacterSheet* character,*m_characterList)
-                {
-                    QDomElement value= doc.createElement("value");
-                    value.setAttribute("owner",character->owner());
-                    //QDomText text = doc.createTextNode(character->getData());
-                    //value.appendChild(text);
-                    //fieldelement.appendChild(value);
-                }
-            }
-            section.appendChild(fieldelement);
-            fieldIndex++;
-        }
-        root.appendChild(section);
-        sectionIndex++;
+        QJsonObject itemObject;
+        sheet->save(itemObject);
+        listOfCharacter.append(itemObject);
     }
-    doc.appendChild(root);
-    file << doc.toString();*/
+    jsonObj["characters"] = listOfCharacter;
+    file<< doc.toJson();
     return true;
-    
 }
 
 bool CharacterSheetModel::readModel(QFile& file)
 {
-   /* QDomDocument doc;
-    if(doc.setContent(&file))
+    beginResetModel();
+
+    QJsonDocument json = QJsonDocument::fromJson(file.readAll());
+    QJsonObject jsonObj = json.object();
+    m_rootSection->load(jsonObj);
+
+    QJsonArray fieldArray = jsonObj["characters"].toArray();
+    QJsonArray::Iterator it;
+    for(it = fieldArray.begin(); it != fieldArray.end(); ++it)
     {
-
-        QDomElement element = doc.documentElement();
-        QDomNode node = element.firstChild();
-        int sectionIndex = 0;
-        while(!node.isNull())//get all sections
-        {
-            if(node.isElement())
-            {
-                QDomElement elementTemp =node.toElement();
-
-                TreeItem* indexSec=  addSection(elementTemp.attribute("title","title"));
-                QDomNode node2 = elementTemp.firstChild();
-                int i = 0;
-                while(!node2.isNull())//loop on fields
-                {
-
-                    if(node.isElement())
-                    {
-                        QDomElement elementField =node2.toElement();
-                        addLine(indexSec,elementField.attribute("name","name"));
-                        QDomNode node3 = elementField.firstChild();
-                        int j=0;
-                        while(!node3.isNull())//loop on Value - Data only
-                        {
-                            if(node.isElement())
-                            {
-                                QDomElement elementValue =node3.toElement();
-                                if(j>=m_characterList->size())
-                                {
-                                    m_characterList->append(new CharacterSheet());
-                                    m_characterList->at(j)->setOwner(elementValue.attribute("owner",""));
-                                    foreach(CharacterSheetItem* sec,*m_sectionList)
-                                    {
-                                        m_characterList->at(j)->appendItem(sec);
-                                    }
-                                }
-                                QDomNode node4 = elementValue.firstChild();
-                                while(!node4.isNull())
-                                {
-                                   // m_characterList->at(j)->addData(sectionIndex,i,node4.toText().data());
-                                    node4 = node4.nextSibling();
-                                }
-
-                            }
-                            node3 = node3.nextSibling();
-                            j++;
-                        }
-
-
-                    }
-                    i++;
-                    node2 = node2.nextSibling();
-                }
-
-
-
-
-
-            }
-            sectionIndex++;
-            node = node.nextSibling();
-        }
-
-
-
-
-        return true;
+        QJsonObject obj = (*it).toObject();
+        CharacterSheet* item;
+        item = new CharacterSheet();
+        item->load(obj);
+        m_characterList->append(item);
     }
-    //QDomElement root=doc.documentElement();
-    return false;*/
+
+    endResetModel();
 }

@@ -100,7 +100,6 @@
     <addaction name="m_toolBarAct"/>
     <addaction name="m_notificationAct"/>
     <addaction name="separator"/>
-    <addaction name="m_showMinutesEditorAction"/>
    </widget>
    <widget class="QMenu" name="menuNetwork">
     <property name="title">

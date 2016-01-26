@@ -80,7 +80,7 @@ public:
     /**
     * @brief adds an empty CharacterSheet into the model.
     */
-    void addCharacterSheet();
+    CharacterSheet* addCharacterSheet();
     /**
     * @brief adds section after the given Index.
     * @param index location of the new section

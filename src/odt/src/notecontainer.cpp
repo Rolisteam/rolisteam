@@ -1,8 +1,8 @@
 /***************************************************************************
-    *	Copyright (C) 2009 by Renaud Guezennec                             *
+    *   Copyright (C) 2015 by Renaud Guezennec                                *
     *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
     *                                                                         *
-    *   Rolisteam is free software; you can redistribute it and/or modify     *
+    *   rolisteam is free software; you can redistribute it and/or modify     *
     *   it under the terms of the GNU General Public License as published by  *
     *   the Free Software Foundation; either version 2 of the License, or     *
     *   (at your option) any later version.                                   *
@@ -18,91 +18,60 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 
-#include "resourcesnode.h"
+#include "notecontainer.h"
 
-ResourcesNode::ResourcesNode()
+NoteContainer::NoteContainer()
+    : m_edit(new TextEdit())
 {
-
-}
-
-QString ResourcesNode::name() const
-{
-    return m_name;
-}
-
-void ResourcesNode::setName(const QString &name)
-{
-    m_name = name;
-}
-
-QString ResourcesNode::getValue() const
-{
-    return m_value;
-}
-
-void ResourcesNode::setValue(QString value)
-{
-    m_value = value;
-}
-
-ResourcesNode *ResourcesNode::getChildAt(int) const
-{
-    return NULL;
-}
-
-QString ResourcesNode::getIcon()
-{
-    return QStringLiteral("");
-}
-
-ResourcesNode *ResourcesNode::getParent() const
-{
-    return m_parent;
-}
-
-void ResourcesNode::setParent(ResourcesNode *parent)
-{
-    m_parent = parent;
-}
-
-int ResourcesNode::rowInParent()
-{
-    if(NULL!=m_parent)
+    if(NULL!=m_edit)
     {
-        return m_parent->indexOf(this);
+        m_title = m_edit->getShowName();
     }
-    return 0;
+    setCleverUriType(CleverURI::TEXT);
+    setWidget(m_edit);
+    setWindowIcon(QIcon(":/notes.png"));
 }
 
-int ResourcesNode::indexOf(ResourcesNode* )
+void NoteContainer::setFileName(QString str)
 {
-    return 0;
+    if(NULL!=m_uri)
+    {
+        m_uri->setUri(str);
+    }
 }
 
-int ResourcesNode::getChildrenCount() const
+bool NoteContainer::readFileFromUri()
 {
-    return 0;
+    if((NULL==m_uri)||(NULL==m_edit))
+    {
+        return false;
+    }
+    return m_edit->load(m_uri->getUri());
 }
 
-bool ResourcesNode::mayHaveChildren() const
+void NoteContainer::saveMedia()
 {
-    return false;
+    if(NULL!=m_edit)
+    {
+        m_edit->fileSave();
+        QString uri = m_edit->getShowName();
+        m_uri->setUri(uri);
+    }
+}
+void NoteContainer::readFromFile(QDataStream& data)
+{
+    if(NULL!=m_edit)
+    {
+        m_edit->readFromBinary(data);
+        m_title = m_edit->windowTitle();
+    }
 }
 
-bool ResourcesNode::hasChildren() const
+void NoteContainer::saveInto(QDataStream &out)
 {
-    return false;
-}
-bool ResourcesNode::contains(ResourcesNode*)
-{
-    return false;
-}
-bool ResourcesNode::removeChild(ResourcesNode*)
-{
-    return false;
+    if(NULL!=m_edit)
+    {
+        m_edit->saveFileAsBinary(out);
+    }
 }
 
-void ResourcesNode::insertChildAt(int row, ResourcesNode *)
-{
-
-}

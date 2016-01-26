@@ -31,7 +31,8 @@
 #include <QFile>
 #include <QDataStream>
 
-#include "types.h"
+//#include "types.h"
+#include "widgets/colorselector.h"
 #include "toolsbar.h"
 #include "userlist/playersList.h"
 //#include "data/mediacontainer.h"

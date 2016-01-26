@@ -43,7 +43,6 @@
 #include <QMediaPlayer>
 #include <QEvent>
 
-#include "types.h"
 #include "preferences/preferencesmanager.h"
 #include "musicmodel.h"
 #include "playerwidget.h"

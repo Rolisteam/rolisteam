@@ -22,6 +22,33 @@
 
 #include <QDebug>
 #include <QIcon>
+#include <QFileInfo>
+#include <QUrl>
+
+//////////////////////////////////////
+/// CleverUriMimeData
+/////////////////////////////////////
+
+CleverUriMimeData::CleverUriMimeData()
+{
+    setData("application/rolisteam.cleveruri.list",QByteArray());
+}
+
+void CleverUriMimeData::addCleverURI(CleverURI* m,const QModelIndex index)
+{
+    if(NULL!=m)
+    {
+        m_mediaList.insert(index,m);
+    }
+}
+QMap<QModelIndex,CleverURI*> CleverUriMimeData::getList() const
+{
+    return m_mediaList;
+}
+bool CleverUriMimeData::hasFormat(const QString & mimeType) const
+{
+    return ((mimeType=="application/rolisteam.cleveruri.list") | QMimeData::hasFormat(mimeType));
+}
 
 //////////////////////////////////////
 /// SessionItemModel
@@ -29,7 +56,9 @@
 
 SessionItemModel::SessionItemModel()
 {
+    m_header << tr("Name")<< tr("Mode")<< tr("Opened")<< tr("Path");
     m_rootItem = new Chapter();
+    connect(m_rootItem,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
 }
 QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & parent ) const
 {
@@ -69,10 +98,180 @@ Qt::ItemFlags SessionItemModel::flags ( const QModelIndex & index ) const
     
     ResourcesNode* childItem = static_cast<ResourcesNode*>(index.internalPointer());
     if(childItem->mayHaveChildren())
-        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
+        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsDropEnabled /*| Qt::ItemIsUserCheckable */;
     else
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable| Qt::ItemIsDragEnabled /*| Qt::ItemIsUserCheckable */;
     
+}
+QStringList SessionItemModel::mimeTypes() const
+{
+    QStringList types;
+    types << "application/rolisteam.cleveruri.list" << "text/uri-list";
+    return types;
+}
+QMimeData* SessionItemModel::mimeData(const QModelIndexList &indexes) const
+{
+    CleverUriMimeData* mimeData = new CleverUriMimeData();
+
+    // first loop to isolate all modules from the selection
+    //QList<CleverURI*> previousModule;
+    foreach(const QModelIndex & index, indexes)
+    {
+        if((index.isValid())&&(index.column()==0))
+        {
+            CleverURI* item = static_cast<CleverURI*>(index.internalPointer());
+            //previousModule.append(item);
+            mimeData->addCleverURI(item,index);
+        }
+    }
+    return mimeData;
+}
+Qt::DropActions SessionItemModel::supportedDropActions() const
+{
+    return Qt::CopyAction | Qt::MoveAction;
+}
+bool SessionItemModel::dropMimeData(const QMimeData *data,
+                              Qt::DropAction action, int row, int column, const QModelIndex &parent)
+{
+    Q_UNUSED(column);
+
+    if (action == Qt::IgnoreAction)
+        return false;
+
+    bool added=false;
+
+    if (data->hasFormat("application/rolisteam.cleveruri.list"))
+    {
+        const  CleverUriMimeData* mediaData = qobject_cast<const CleverUriMimeData*>(data);
+
+        if(NULL!=mediaData)
+        {
+            QList<CleverURI*> mediaList = mediaData->getList().values();
+            QList<QModelIndex> indexList = mediaData->getList().keys();
+            //foreach(CleverURI* media,mediaList)
+            {
+                if (action == Qt::MoveAction)
+                {
+                    added = moveMediaItem(mediaList,parent,row,indexList);
+                }
+            }
+        }
+    }
+    else if((data->hasUrls())&&(!added))
+    {
+        QList<QUrl> list = data->urls();
+        foreach(QUrl url, list)
+        {
+            if(url.isLocalFile())
+            {
+                QFileInfo fileInfo(url.toLocalFile());
+                if(fileInfo.isFile())
+                {
+
+                }
+                //addChildMediaTo(medium,parent);
+            }
+            //else if(url.isLocalFile())
+        }
+    }
+    return added;
+}
+
+bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& parentToBe,int row,QList<QModelIndex>& formerPosition)
+{
+    Chapter* parentItem = static_cast<Chapter*>(parentToBe.internalPointer());
+
+    if(NULL==parentItem)
+    {
+        parentItem = m_rootItem;
+    }
+    /// @todo enable this
+    int orignRow = row;
+
+
+    QList<int> listRow;
+
+
+    if((!items.isEmpty())&&(!formerPosition.isEmpty()))
+    {
+        CleverURI* item = items.at(0);
+        ResourcesNode* parent =item->getParent();
+        QModelIndex formerPositionIndex = formerPosition.at(0);
+        QModelIndex sourceParent = formerPositionIndex.parent();
+        QModelIndex destinationParent = parentToBe;
+
+        int sourceFirst = parent->indexOf(item);
+        int sourceLast = parent->indexOf(item)+items.size()-1;
+
+        int destinationRow = orignRow<0?parentItem->getChildrenCount():orignRow;
+        if((sourceParent == destinationParent)&&((destinationRow == parentItem->getChildrenCount())||(destinationRow>sourceFirst)))
+        {
+            destinationRow-=items.size()-1;
+        }
+        if((sourceParent == destinationParent)&&( sourceFirst == destinationRow))
+        {
+            destinationRow-=items.size();
+            return false;
+        }
+
+        if(!beginMoveRows(sourceParent,sourceFirst,sourceLast,destinationParent,destinationRow))
+            return false;
+    }
+
+
+    for(int i = items.size()-1;i>=0;--i)
+    {
+        while(listRow.contains(row))
+        {
+            ++row;
+        }
+
+        CleverURI* item = items.at(i);
+        ResourcesNode* parent =item->getParent();
+        QModelIndex formerPositionIndex = formerPosition.at(i);
+
+        if(NULL!=parent)
+        {
+
+            parent->removeChild(item);
+            if( (orignRow == -1 && parentItem == m_rootItem ) )
+            {
+                orignRow = parentItem->getChildrenCount();
+                row = orignRow;
+            }
+            else if(formerPositionIndex.row()<orignRow && parentToBe == formerPositionIndex.parent())
+            {
+                orignRow -=1;
+                row = orignRow;
+            }
+
+            int oldModRow = -1;
+            int newModRow = -1;
+            if( parent != m_rootItem )
+            {
+                oldModRow = parent->rowInParent();
+            }
+
+            if( parentItem != m_rootItem )
+            {
+                newModRow = parentItem->rowInParent();
+            }
+
+            parentItem->insertChildAt(orignRow,item);//row
+            //---
+
+            int oldRow = formerPositionIndex.row();
+            if(oldRow > orignRow && parentItem == m_rootItem && parent == m_rootItem)
+            {
+                oldRow += items.size()-1-i;
+            }
+            listRow.append(row);
+
+        }
+    }
+
+    endMoveRows();
+    return true;
 }
 QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
 {
@@ -102,23 +301,23 @@ int SessionItemModel::rowCount(const QModelIndex& index) const
 }
 int SessionItemModel::columnCount(const QModelIndex&) const
 {
-    return 1;
+    return m_header.size();
 }
 QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
 {
     if(!index.isValid())
         return QVariant();
 
-    if(index.column()==0)// filename
+    ResourcesNode* tmp = static_cast<ResourcesNode*>(index.internalPointer());
+    if(tmp)
     {
-        ResourcesNode* tmp = static_cast<ResourcesNode*>(index.internalPointer());
-        if(tmp)
+        if((role == Qt::DisplayRole)||(Qt::EditRole==role))
         {
-            if((role == Qt::DisplayRole)||(Qt::EditRole==role))
-            {
-                return tmp->name();
-            }
-            else if(role == Qt::DecorationRole)
+            return tmp->getData(index.column());
+        }
+        else if(role == Qt::DecorationRole)
+        {
+            if(index.column()==Name)
             {
                 return QIcon(tmp->getIcon());
             }
@@ -175,20 +374,7 @@ QVariant SessionItemModel::headerData ( int section, Qt::Orientation orientation
 {
     if((role==Qt::DisplayRole)&&(orientation==Qt::Horizontal))
     {
-        switch(section)
-        {
-        case 0:
-            return tr("Name");
-            break;
-        case 1:
-            return tr("Type");
-            break;
-        case 2:
-            return tr("Other");
-            break;
-        default:
-            return QVariant();
-        }
+        return m_header.at(section);
     }
     return QVariant();
 }
@@ -199,5 +385,9 @@ void SessionItemModel::saveModel(QDataStream& out)
 
 void SessionItemModel::loadModel(QDataStream& in)
 {
+    beginResetModel();
+    QString str;
+    in >> str;
     m_rootItem->read(in);
+    endResetModel();
 }

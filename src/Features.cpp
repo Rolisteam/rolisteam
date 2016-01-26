@@ -27,7 +27,6 @@
 #include "data/player.h"
 #include "userlist/playersList.h"
 #include "network/receiveevent.h"
-#include "types.h"
 
 
 /******************

@@ -32,7 +32,6 @@
 #include "network/networklink.h"
 #include "mainwindow.h"
 #include "network/networkmessagewriter.h"
-#include "variablesGlobales.h"
 #include "widgets/onlinepicturedialog.h"
 
 /********************************************************************/

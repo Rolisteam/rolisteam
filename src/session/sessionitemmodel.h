@@ -21,15 +21,31 @@
 #define SESSIONITEMMODEL_H
 
 #include <QAbstractItemModel>
+#include <QMimeData>
+
 #include "data/cleveruri.h"
 #include "data/chapter.h"
 
+
+class CleverUriMimeData : public QMimeData
+{
+Q_OBJECT
+public:
+    CleverUriMimeData();
+    void addCleverURI(CleverURI* m,const QModelIndex);
+    QMap<QModelIndex,CleverURI*> getList() const;
+    virtual bool hasFormat(const QString & mimeType) const;
+private:
+    QMap<QModelIndex,CleverURI*> m_mediaList;
+};
 /**
     * @brief subclassed model to fit the management of session (ressources)
     */
 class SessionItemModel : public QAbstractItemModel
 {
+    Q_OBJECT
 public:
+    enum COLUMN_TYPE {Name,LoadingMode,Displayed,Path};
     /**
     * @brief default construtor
     */
@@ -101,8 +117,17 @@ public:
     virtual void saveModel(QDataStream& out);
     virtual void loadModel(QDataStream& in);
 
-private:  
+    Qt::DropActions supportedDropActions() const;
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+    QStringList mimeTypes() const;
+    QMimeData *mimeData(const QModelIndexList &indexes) const;
+signals:
+    void openFile(CleverURI*,bool);
+protected:
+    bool moveMediaItem(QList<CleverURI*> items, const QModelIndex &parentToBe, int row, QList<QModelIndex> &formerPosition);
+private:
     Chapter* m_rootItem;/// root item address
+    QStringList m_header;
 };
 
 #endif // SESSIONITEMMODEL_H

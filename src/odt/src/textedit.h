@@ -72,6 +72,11 @@ public:
     TextEdit(QWidget *parent = 0);
     QString getFilter();
 
+    QString getFileName() const;
+
+    QString getShowName() const;
+    void setShowName(const QString &showName);
+
 public slots:
     bool load(const QString &f);
     bool fileSave();
@@ -151,6 +156,7 @@ private:
     QToolBar *tb;
     QString fileName;
     QTextEdit *textEdit;
+    QString m_showName;
 
     static QString m_filter;
 };

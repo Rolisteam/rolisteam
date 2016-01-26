@@ -70,7 +70,19 @@ void Chapter::addResource(ResourcesNode* cluri)
     m_children.append(cluri);
     cluri->setParent(this);
 }
-
+QVariant Chapter::getData(int i)
+{
+    if(0==i)
+    {
+        return m_name;
+    }
+    return QVariant();
+}
+void Chapter::insertChildAt(int row, ResourcesNode* uri)
+{
+    m_children.insert(row,uri);
+    uri->setParent(this);
+}
 
 bool Chapter::contains(ResourcesNode* node)
 {
@@ -112,15 +124,28 @@ void Chapter::read(QDataStream &in)
         QString type;
         in >> type;
         ResourcesNode* node;
+        CleverURI* uri=NULL;
         if(type=="Chapter")
         {
-            node = new Chapter();
+            Chapter* chapter = new Chapter();
+            node=chapter;
+            connect(chapter,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
         }
         else
         {
-            node = new CleverURI();
+            uri = new CleverURI();
+            node = uri;
         }
+        node->setParent(this);
+        m_children.append(node);
         node->read(in);
+        if(NULL!=uri)
+        {
+            if(uri->isDisplayed())
+            {
+                emit openFile(uri,true);
+            }
+        }
     }
 }
 

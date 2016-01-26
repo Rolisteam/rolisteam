@@ -36,8 +36,6 @@
 #include "data/person.h"
 #include "preferences/preferencesmanager.h"
 
-#include "variablesGlobales.h"
-
 /**
 * @mainpage Rolisteam
 *

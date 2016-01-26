@@ -36,7 +36,7 @@
 #include "data/character.h"
 #include "userlist/playersList.h"
 
-#include "variablesGlobales.h"
+//#include "variablesGlobales.h"
 #include <QDebug>
 #include "preferences/preferencesmanager.h"
 
@@ -389,11 +389,11 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
                 QPainter painter;
         
                 // Choix de l'image sur laquelle dessiner, en fonction de la couleur actuelle
-                if (G_couleurCourante.type == ColorType)
+                if (ColorSelector::getSelectedColor().type == ColorType)
                     painter.begin(m_backgroundImage);
-                else if (G_couleurCourante.type == Veil || G_couleurCourante.type == Unveil)
+                else if (ColorSelector::getSelectedColor().type == Veil || ColorSelector::getSelectedColor().type == Unveil)
                     painter.begin(m_alphaLayer);
-                else if (G_couleurCourante.type == Erase)
+                else if (ColorSelector::getSelectedColor().type == Erase)
                     painter.begin(effaceAlpha);
                 else
                 {
@@ -402,8 +402,6 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
                 }
                 painter.setRenderHint(QPainter::Antialiasing);
                 
-
-
 				paintMap(painter);
             }
 
@@ -417,7 +415,7 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
             // Idem : seul le serveur peut dessiner directement sur le plan
             if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
             {
-                if (G_couleurCourante.type == Erase)
+                if (ColorSelector::getSelectedColor().type == Erase)
                 {
                     // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
 					addAlphaLayer(m_originalBackground, effaceAlpha, m_originalBackground, zoneNouvelle);
@@ -537,15 +535,15 @@ void Map::paintMap(QPainter &painter)
     QColor couleurPinceau;
     
 
-    if (G_couleurCourante.type == ColorType)
-        couleurPinceau = G_couleurCourante.color;
-    else if (G_couleurCourante.type == Veil)
+    if (ColorSelector::getSelectedColor().type == ColorType)
+        couleurPinceau = ColorSelector::getSelectedColor().color;
+    else if (ColorSelector::getSelectedColor().type == Veil)
     {
         couleurPinceau = getFogColor();
     }
-    else if(G_couleurCourante.type == Unveil)
+    else if(ColorSelector::getSelectedColor().type == Unveil)
         couleurPinceau = Qt::white;
-    else if(G_couleurCourante.type == Erase)
+    else if(ColorSelector::getSelectedColor().type == Erase)
         couleurPinceau = Qt::white;
     else
 		qWarning() << tr("color type not allowed (paintMap - map.cpp)");
@@ -563,11 +561,11 @@ void Map::paintMap(QPainter &painter)
 
         QPainter painterCrayon;
         
-        if (G_couleurCourante.type == ColorType)
+        if (ColorSelector::getSelectedColor().type == ColorType)
             painterCrayon.begin(m_backgroundImage);
-        else if (G_couleurCourante.type == Veil || G_couleurCourante.type == Unveil)
+        else if (ColorSelector::getSelectedColor().type == Veil || ColorSelector::getSelectedColor().type == Unveil)
             painterCrayon.begin(m_alphaLayer);
-        else if (G_couleurCourante.type == Erase)
+        else if (ColorSelector::getSelectedColor().type == Erase)
             painterCrayon.begin(effaceAlpha);
         else
         {
@@ -590,7 +588,7 @@ void Map::paintMap(QPainter &painter)
         // Dessin d'un point pour permettre a l'utilisateur de ne dessiner qu'un unique point (cas ou il ne deplace pas la souris)
         painter.drawPoint(m_mousePoint);
         
-        if (G_couleurCourante.type == Erase)
+        if (ColorSelector::getSelectedColor().type == Erase)
         {
             // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
 			addAlphaLayer(m_originalBackground, effaceAlpha, m_originalBackground, zoneNouvelle);
@@ -849,12 +847,12 @@ void Map::processNpcAction(QPoint positionSouris)
     {
 		if((!m_localIsPlayer)||(Map::PC_ALL==m_currentMode))
         {
-            if (G_couleurCourante.type == ColorType)
+            if (ColorSelector::getSelectedColor().type == ColorType)
             {
                 // Creation de l'identifiant du PNJ
                 QString idPnj = QUuid::createUuid().toString();
                 // Creation du dessin du PNJ qui s'affiche dans le widget
-                DessinPerso *pnj = new DessinPerso(this, idPnj, m_currentNpcName, G_couleurCourante.color, m_npcSize, positionSouris, DessinPerso::pnj, m_showNpcNumber, m_showNpcName, m_currentNpcNumber);
+                DessinPerso *pnj = new DessinPerso(this, idPnj, m_currentNpcName, ColorSelector::getSelectedColor().color, m_npcSize, positionSouris, DessinPerso::pnj, m_showNpcNumber, m_showNpcName, m_currentNpcNumber);
                 pnj->afficherPerso();
                 // Un PNJ est selectionne
                 pnjSelectionne = pnj;
@@ -930,7 +928,7 @@ void Map::processNpcActionReleased(QPoint positionSouris)
     if (m_currentTool == ToolsBar::AddNpc)
     {
         // On verifie que la couleur courante peut etre utilisee pour dessiner un PNJ
-        if (G_couleurCourante.type == ColorType)
+        if (ColorSelector::getSelectedColor().type == ColorType)
         {
             if (pnjSelectionne!=NULL)
             {
@@ -1461,8 +1459,8 @@ void Map::emettreTrace()
         msg->uint16(zoneGlobaleCrayon.height());
 
 		msg->uint8(m_penSize);
-        msg->uint8(G_couleurCourante.type);
-        msg->rgb(G_couleurCourante.color);
+        msg->uint8(ColorSelector::getSelectedColor().type);
+        msg->rgb(ColorSelector::getSelectedColor().color);
     }
     else if(m_currentTool == ToolsBar::Text)
     {
@@ -1477,8 +1475,8 @@ void Map::emettreTrace()
         msg->uint16(zoneNouvelle.width());
         msg->uint16(zoneNouvelle.height());
 
-        msg->uint8(G_couleurCourante.type);
-        msg->rgb(G_couleurCourante.color);
+        msg->uint8(ColorSelector::getSelectedColor().type);
+        msg->rgb(ColorSelector::getSelectedColor().color);
 
     }
     else if (m_currentTool == ToolsBar::Handler)
@@ -1522,8 +1520,8 @@ void Map::emettreTrace()
 
 		msg->uint8(m_penSize);
 
-        msg->uint8(G_couleurCourante.type);
-        msg->rgb(G_couleurCourante.color);
+        msg->uint8(ColorSelector::getSelectedColor().type);
+        msg->rgb(ColorSelector::getSelectedColor().color);
     }
 
     if(NULL!=msg)

@@ -29,19 +29,11 @@
 #include <QListView>
 #include <QDebug>
 
-
-
 #include "network/networkmanager.h"
 #include "network/networklink.h"
-#include "variablesGlobales.h"
-#include "types.h"
 #include "network/networkmessagewriter.h"
 
-
-
-
 AudioPlayer * AudioPlayer::m_singleton = NULL;
-
 
 AudioPlayer::AudioPlayer(QWidget *parent)
     : QDockWidget(parent)//,m_currentSource(NULL)

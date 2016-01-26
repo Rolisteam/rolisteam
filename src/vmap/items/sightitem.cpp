@@ -94,7 +94,7 @@ void FogSingularity::setPolygon(QPolygonF* poly)
 /////////////////////////////////
 
 SightItem::SightItem(QMap<QString,CharacterItem*>* characterItemMap)
-    : m_defaultShape(CharacterVision::ANGLE),m_defaultAngle(120),m_defaultRadius(50),m_bgColor(Qt::black),m_characterItemMap(characterItemMap),m_count(0)
+    : m_defaultShape(CharacterVision::ANGLE),m_defaultAngle(120),m_defaultRadius(50),m_characterItemMap(characterItemMap),m_bgColor(Qt::black),m_count(0)
 {
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();

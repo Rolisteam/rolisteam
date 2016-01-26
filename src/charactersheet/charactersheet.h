@@ -50,6 +50,9 @@ public:
 
     int rowInParent();
 
+    virtual void save(QJsonObject&)=0;
+    virtual void load(QJsonObject&)=0;
+
 protected:
     QString m_name;
     QString m_value;
@@ -65,8 +68,9 @@ public:
     virtual bool mayHaveChildren()const;
     virtual CharacterSheetItem* getChildAt(QString i) const;
     int indexOf(CharacterSheetItem*);
-private:
-    QString m_value;
+
+    virtual void save(QJsonObject&);
+    virtual void load(QJsonObject&);
 };
 
 /**
@@ -89,6 +93,9 @@ public:
     virtual bool appendChild(CharacterSheetItem*);
 
     int indexOf(CharacterSheetItem *child);
+
+    virtual void save(QJsonObject& json);
+    virtual void load(QJsonObject& json);
 private:
     /**
      * @brief m_list
@@ -99,8 +106,9 @@ private:
 /**
     * @brief the characterSheet stores Section as many as necessary
     */
-class CharacterSheet
+class CharacterSheet : public QObject
 {
+    Q_OBJECT
 public:
     
     /**
@@ -180,6 +188,13 @@ public:
     CharacterSheetItem *getRootChild() const;
     void setRootChild(CharacterSheetItem *rootChild);
 
+    virtual void save(QJsonObject& json);
+    virtual void load(QJsonObject& json);
+
+protected:
+    CharacterSheetItem *getLastItem(QStringList list);
+private:
+    QStringList explosePath(QString);
 private:
     /**
     * @brief stores all character sheet sections

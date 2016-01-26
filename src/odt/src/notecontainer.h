@@ -1,8 +1,8 @@
 /***************************************************************************
-    *	Copyright (C) 2009 by Renaud Guezennec                             *
+    *   Copyright (C) 2015 by Renaud Guezennec                                *
     *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
     *                                                                         *
-    *   Rolisteam is free software; you can redistribute it and/or modify     *
+    *   rolisteam is free software; you can redistribute it and/or modify     *
     *   it under the terms of the GNU General Public License as published by  *
     *   the Free Software Foundation; either version 2 of the License, or     *
     *   (at your option) any later version.                                   *
@@ -18,91 +18,29 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 
-#include "resourcesnode.h"
+#ifndef NOTECONTAINER_H
+#define NOTECONTAINER_H
 
-ResourcesNode::ResourcesNode()
-{
+#include <QWidget>
+#include "data/mediacontainer.h"
+#include "textedit.h"
 
-}
+class NoteContainer : public MediaContainer
+{
+public:
+    NoteContainer();
+    void setFileName(QString);
+    bool readFileFromUri();
+    void saveMedia();
 
-QString ResourcesNode::name() const
-{
-    return m_name;
-}
+    void readFromFile(QDataStream& data);
+    void saveInto(QDataStream& out);
 
-void ResourcesNode::setName(const QString &name)
-{
-    m_name = name;
-}
+signals:
 
-QString ResourcesNode::getValue() const
-{
-    return m_value;
-}
+public slots:
+private:
+    TextEdit* m_edit;
+};
 
-void ResourcesNode::setValue(QString value)
-{
-    m_value = value;
-}
-
-ResourcesNode *ResourcesNode::getChildAt(int) const
-{
-    return NULL;
-}
-
-QString ResourcesNode::getIcon()
-{
-    return QStringLiteral("");
-}
-
-ResourcesNode *ResourcesNode::getParent() const
-{
-    return m_parent;
-}
-
-void ResourcesNode::setParent(ResourcesNode *parent)
-{
-    m_parent = parent;
-}
-
-int ResourcesNode::rowInParent()
-{
-    if(NULL!=m_parent)
-    {
-        return m_parent->indexOf(this);
-    }
-    return 0;
-}
-
-int ResourcesNode::indexOf(ResourcesNode* )
-{
-    return 0;
-}
-
-int ResourcesNode::getChildrenCount() const
-{
-    return 0;
-}
-
-bool ResourcesNode::mayHaveChildren() const
-{
-    return false;
-}
-
-bool ResourcesNode::hasChildren() const
-{
-    return false;
-}
-bool ResourcesNode::contains(ResourcesNode*)
-{
-    return false;
-}
-bool ResourcesNode::removeChild(ResourcesNode*)
-{
-    return false;
-}
-
-void ResourcesNode::insertChildAt(int row, ResourcesNode *)
-{
-
-}
+#endif // NOTECONTAINER_H

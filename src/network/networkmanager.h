@@ -36,7 +36,6 @@
 #include "connectionretrydialog.h"
 #include "preferences/preferencesmanager.h"
 #include "userlist/playersList.h"
-#include "variablesGlobales.h"
 
 class Player;
 class NetworkLink;

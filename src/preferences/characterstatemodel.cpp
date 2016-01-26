@@ -26,7 +26,7 @@
 #include <QDebug>
 
 CharacterStateModel::CharacterStateModel()
-	: m_isGM(false),m_stateList(new QList<CharacterState*>())
+    : m_stateList(new QList<CharacterState*>()),m_isGM(false)
 {
 	m_header << tr("Label") << tr("Color")<< tr("Image");
 

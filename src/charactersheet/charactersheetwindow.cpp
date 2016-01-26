@@ -20,6 +20,7 @@
 #include <QMenu>
 #include <QFile>
 #include <QFileDialog>
+#include <QQmlContext>
 
 #include "charactersheetwindow.h"
 #include "charactersheet/charactersheet.h"
@@ -29,7 +30,12 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     : MediaContainer(parent)
 {
     m_uri=uri;
-    setObjectName("CharacterSheet");
+    m_title = tr("Character Sheet Viewer");
+    if(NULL==m_uri)
+    {
+        setCleverUriType(CleverURI::CHARACTERSHEET);
+    }
+    setObjectName("CharacterSheetViewer");
     
     setWindowIcon(QIcon(":/resources/icons/treeview.png"));
     m_addSection = new QAction(tr("Add Section"),this);
@@ -43,11 +49,12 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     //m_view.setStyleSheet("QTreeView::item { border-right: 1px solid black }");
     resize(m_preferences->value("charactersheetwindows/width",400).toInt(),m_preferences->value("charactersheetwindows/height",200).toInt());
     m_view.setAlternatingRowColors(true);
-    m_title = tr("Character Sheet Viewer");
     setWindowTitle(m_title);
     
-    m_widget.setLayout(&m_horizonLayout);
-    setWidget(&m_view);
+
+    m_tabs = new QTabWidget(this);
+    m_tabs->addTab(&m_view,tr("Data"));
+    setWidget(m_tabs);
     m_view.setContextMenuPolicy(Qt::CustomContextMenu);
     
     
@@ -95,20 +102,6 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
     menu.addAction(m_openCharacterSheet);
     menu.addAction(m_saveCharacterSheet);
     
-    
-  /*  if(!(m_view.indexAt(pos).isValid()))
-    {
-        m_addSection->setEnabled(true);
-       // m_addLine->setEnabled(false);
-        //m_addCharacterSheet->setEnabled(true);
-    }
-    else
-    {
-        m_addSection->setEnabled(true);
-       // m_addLine->setEnabled(true);
-        m_addCharacterSheet->setEnabled(true);
-
-    }*/
     menu.exec(QCursor::pos());
 }
 
@@ -118,8 +111,16 @@ void CharacterSheetWindow::addSection()
 }
 void CharacterSheetWindow::addCharacterSheet()
 {
-    m_model.addCharacterSheet();
+    addTabWithSheetView(m_model.addCharacterSheet());
 }
+void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
+{
+    QQuickWidget* qmlView = new QQuickWidget();
+    qmlView->rootContext()->setContextProperty("_model",chSheet);
+    m_characterSheetlist.append(qmlView);
+
+}
+
 void  CharacterSheetWindow::saveCharacterSheet()
 {
     if(m_fileUri.isEmpty())
@@ -182,7 +183,8 @@ QDockWidget* CharacterSheetWindow::getDockWidget()
 }
 bool CharacterSheetWindow::readFileFromUri()
 {
-
+    openFile(m_uri->getUri());
+    return true;
 }
 
 void CharacterSheetWindow::saveMedia()

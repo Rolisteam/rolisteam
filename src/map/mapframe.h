@@ -121,12 +121,12 @@ public slots :
      * @brief commencerDeplacement
      * @param position
      */
-    void commencerDeplacement(QPoint position);
+    void startMoving(QPoint position);
     /**
      * @brief deplacer
      * @param position
      */
-    void deplacer(QPoint position);
+    void moveMap(QPoint position);
 
 
 protected :

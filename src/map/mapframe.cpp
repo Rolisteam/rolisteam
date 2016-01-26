@@ -30,7 +30,6 @@
 #include "map/map.h"
 #include "map/mapwizzard.h"
 
-#include "variablesGlobales.h"
 #include <QScrollBar>
 #include <QMessageBox>
 #include <QFileInfo>
@@ -72,9 +71,9 @@ void MapFrame::initMap()
 		resize(m_map->width()+4, m_map->height()+4);
 
 		connect(m_map, SIGNAL(commencerDeplacementBipMapWindow(QPoint)),
-				this, SLOT(commencerDeplacement(QPoint)));
+                this, SLOT(startMoving(QPoint)));
 		connect(m_map, SIGNAL(deplacerBipMapWindow(QPoint)),
-				this, SLOT(deplacer(QPoint)));
+                this, SLOT(moveMap(QPoint)));
 	}
 }
 Map* MapFrame::getMap()
@@ -87,14 +86,14 @@ void MapFrame::setMap(Map* map)
 	initMap();
 }
 
-void MapFrame::commencerDeplacement(QPoint position)
+void MapFrame::startMoving(QPoint position)
 {
     pointDepart = position;
     horizontalDepart = m_widgetArea->horizontalScrollBar()->value();
     verticalDepart = m_widgetArea->verticalScrollBar()->value();
 }
 
-void MapFrame::deplacer(QPoint position)
+void MapFrame::moveMap(QPoint position)
 {
     QPoint diff = pointDepart - position;
     m_widgetArea->horizontalScrollBar()->setValue(horizontalDepart + diff.x());
@@ -342,10 +341,12 @@ bool MapFrame::createMap()
         m_map->setPermissionMode(mapDialog.getPermission());
 
         m_title = mapDialog.getTitle();
-        setTitle(m_title);
+
         QColor color = mapDialog.getColor();
         quint16 width = mapDialog.getSize().width();
         quint16 height = mapDialog.getSize().height();
+
+        setCleverUriType(CleverURI::MAP);
 
         NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::AddEmptyMap);
         msg.string16(m_title);

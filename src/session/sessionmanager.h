@@ -90,7 +90,7 @@ signals:
     /**
     * @brief emitted when the application must open a resource
     */
-    void openFile(CleverURI*);
+    void openFile(CleverURI*,bool);
 protected:
     /**
     * @brief catches the closeevent to manage it as hiding event

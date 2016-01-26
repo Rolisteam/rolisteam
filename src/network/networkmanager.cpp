@@ -68,7 +68,6 @@ void NetworkManager::setValueConnection(QString portValue,QString hostnameValue,
 
 bool NetworkManager::configAndConnect(QString version)
 {
-    bool isServer = !m_preferences->value("isClient",true).toBool();
     bool isGM =  !m_preferences->value("isPlayer",false).toBool();
 
 	if(m_portStr.isEmpty())
@@ -83,10 +82,6 @@ bool NetworkManager::configAndConnect(QString version)
     {
         m_host = m_preferences->value("ipaddress","").toString();
     }
-	else
-	{
-		isServer = false;
-	}
 	if(!m_role.isEmpty())
     {
         isGM = m_role.compare("gm")==0 ? true : false;

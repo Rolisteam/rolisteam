@@ -13,7 +13,7 @@
 ///
 ///
 ConnectionProfile::ConnectionProfile()
-    : m_character(NULL),m_server(false),m_port(DEFAULT_PORT),m_player(NULL)
+    : m_character(NULL),m_server(false),m_port(DEFAULT_PORT),m_player(NULL),m_isGM(false)
 {
 
 }

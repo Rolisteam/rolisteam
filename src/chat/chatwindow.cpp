@@ -41,8 +41,6 @@
 #include "userlist/playersList.h"
 #include "chat/improvedtextedit.h"
 
-#include "types.h"
-
 QStringList ChatWindow::m_keyWordList;
 QList<DiceAlias*>* ChatWindow::m_receivedAlias = NULL;
 
