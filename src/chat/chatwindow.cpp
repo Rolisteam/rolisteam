@@ -414,7 +414,8 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
     if(m_diceParser->hasDiceResult())
     {
         ExportedDiceResult diceList;
-        m_diceParser->getLastDiceResult(diceList);//fills the ExportedDiceResult
+        bool ok=true;
+        m_diceParser->getLastDiceResult(diceList,ok);//fills the ExportedDiceResult
         diceText = diceToText(diceList);
         hasDiceList= true;
     }
