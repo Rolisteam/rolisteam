@@ -226,6 +226,9 @@ public:
      * @param send
      */
     void setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send = true);
+    VisualItem::Layer currentLayer() const;
+    void setCurrentLayer(const VisualItem::Layer &currentLayer);
+
 public slots:
     /**
     * @brief defines the current tools

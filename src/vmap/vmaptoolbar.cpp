@@ -90,6 +90,9 @@ void VmapToolBar::setupUi()
     addSeparator();
     addWidget(new QLabel(tr("Visibility:")));
     addWidget(m_currentVisibility);
+    addWidget(new QLabel(tr("Layer:")));
+    addWidget(m_currentLayer);
+
     m_showCharacterVision = new QCheckBox(tr("Character Vision"));
     addWidget(m_showCharacterVision);
 
@@ -100,6 +103,8 @@ void VmapToolBar::setupUi()
 
     connect(m_currentVisibility,SIGNAL(currentIndexChanged(int)),this,SLOT(visibilityHasChanged(int)));
     connect(m_currentPermission,SIGNAL(currentIndexChanged(int)),this,SLOT(permissionHasChanged(int)));
+    connect(m_currentLayer,SIGNAL(currentIndexChanged(int)),this,SLOT(layerHasChanged(int)));
+
     connect(m_gridPattern,SIGNAL(currentIndexChanged(int)),this,SLOT(patternChanged(int)));
     connect(m_showCharacterVision,SIGNAL(clicked(bool)),this,SLOT(managedAction()));
 
@@ -143,6 +148,13 @@ void VmapToolBar::permissionHasChanged(int index)
     if(NULL!=m_vmap)
     {
         m_vmap->setPermissionMode((Map::PermissionMode)index);
+    }
+}
+void VmapToolBar::layerHasChanged(int index)
+{
+    if(NULL!=m_vmap)
+    {
+        m_vmap->setCurrentLayer((VisualItem::Layer)index);
     }
 }
 void VmapToolBar::updateUI()

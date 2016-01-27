@@ -67,6 +67,17 @@ void VMap::initMap()
     m_propertiesHash->insert(VisualItem::EnableCharacterVision,false);
     m_propertiesHash->insert(VisualItem::PermissionMode,Map::GM_ONLY);
 }
+VisualItem::Layer VMap::currentLayer() const
+{
+    return m_currentLayer;
+}
+
+void VMap::setCurrentLayer(const VisualItem::Layer &currentLayer)
+{
+    m_currentLayer = currentLayer;
+    emit mapChanged();
+}
+
 void  VMap::initScene()
 {
     addNewItem(m_sightItem);
