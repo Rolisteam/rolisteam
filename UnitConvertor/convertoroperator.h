@@ -7,12 +7,13 @@
 class ConvertorOperator
 {
 public:
-    ConvertorOperator(double a,double b=0);
+    ConvertorOperator(double a,double b=0, bool fraction=false);
 
     qreal convert(qreal convert);
 private:
     double m_a;
     double m_b;
+    bool m_fraction;
 };
 
 #endif // CONVERTOROPERATOR_H
