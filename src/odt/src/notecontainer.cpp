@@ -23,6 +23,9 @@
 NoteContainer::NoteContainer()
     : m_edit(new TextEdit())
 {
+#ifdef Q_OS_MAC
+    m_edit->menuBar()->setNativeMenuBar(false);
+#endif
     if(NULL!=m_edit)
     {
         m_title = m_edit->getShowName();
