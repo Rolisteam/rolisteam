@@ -72,6 +72,7 @@ public slots:
     void setScaleSize(int);
     void managedAction();
 
+    void layerHasChanged(int index);
 private:
     /**
      * @brief updateUi

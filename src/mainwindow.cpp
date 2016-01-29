@@ -1338,9 +1338,7 @@ void MainWindow::setupUi()
     //readSettings();
     m_preferencesDialog = new PreferencesDialog(this);
     linkActionToMenu();
-#ifdef Q_OS_MAC
-    m_noteEditor->menuBar()->setNativeMenuBar(false);
-#endif
+
 
     // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
     m_playerList = PlayersList::instance();
