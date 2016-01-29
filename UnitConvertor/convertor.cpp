@@ -183,8 +183,6 @@ Convertor::Convertor(QWidget *parent) :
     m_convertorTable.insert(QPair<Unit*,Unit*>(kelvin,fahrenheit),new ConvertorOperator(9.0/5.0,-459.67));
 
 
-
-
     m_catModel->setSourceModel(m_model);
     m_toModel->setSourceModel(m_model);
     ui->m_fromCombo->setModel(m_catModel);
