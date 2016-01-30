@@ -150,6 +150,10 @@ void MapWizzardDialog::setAllMap(VMap* map)
         break;
     }
     map->setOption(VisualItem::GridPattern,grid);
+    if(grid!=VMap::NONE)
+    {
+        map->setOption(VisualItem::ShowGrid,true);
+    }
     map->setOption(VisualItem::GridColor,ui->m_gridColorBtn->color());
     map->setOption(VisualItem::GridSize,ui->m_sizeGrid->value());
 
