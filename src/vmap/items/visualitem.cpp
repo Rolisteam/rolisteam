@@ -250,7 +250,7 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         setRotation(270);
         endOfGeometryChange();
     }
-    else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putCharacterLayer))
+    else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putGroundLayer))
     {
         m_layer = (VisualItem::Layer)selectedAction->data().toInt();
         itemLayerChanged(this);
