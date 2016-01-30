@@ -126,7 +126,8 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 }
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {
-    if(event->key ()==Qt::Key_Delete)
+
+    if((event->key ()==Qt::Key_Delete)&&(m_editable))
     {
         emit itemRemoved(m_id);
     }
@@ -424,6 +425,10 @@ bool VisualItem::canBeMoved() const
     {
             return false;
     }
+}
+bool VisualItem::isEditable() const
+{
+    return m_editable;
 }
 
 QString VisualItem::getLayerToText(VisualItem::Layer id)

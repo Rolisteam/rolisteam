@@ -74,7 +74,8 @@ VisualItem::Layer VMap::currentLayer() const
 
 void VMap::setCurrentLayer(const VisualItem::Layer &currentLayer)
 {
-    m_currentLayer = currentLayer;
+    editLayer(currentLayer);
+    //m_currentLayer = currentLayer;
     emit mapChanged();
 }
 
@@ -1023,9 +1024,13 @@ void VMap::keyPressEvent(QKeyEvent* event)
             VisualItem* itemV = dynamic_cast<VisualItem*>(item);
             if(NULL!=itemV)
             {
-                removeItemFromScene(itemV->getId());
+                if(itemV->isEditable())
+                {
+                    removeItemFromScene(itemV->getId());
+                }
             }
         }
+        event->accept();
     }
     QGraphicsScene::keyPressEvent(event);
 }

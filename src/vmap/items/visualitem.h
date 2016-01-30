@@ -139,10 +139,7 @@ public:
 	 * @return
 	 */
     virtual QString getMapId();
-	/**
-	 * @brief setEditableItem
-	 */
-	virtual void setEditableItem(bool);
+
     /**
      * @brief resizeContents
      * @param rect
@@ -231,10 +228,15 @@ public:
     QVariant getOption(VisualItem::Properties pop) const;
 
 
+    bool isEditable() const;
+    /**
+     * @brief setEditableItem
+     */
+    virtual void setEditableItem(bool);
 signals:
-	/**
-	 * @brief itemGeometryChanged
-	 */
+    /**
+     * @brief itemGeometryChanged
+     */
     void itemGeometryChanged(VisualItem*);
 	/**
 	 * @brief itemRemoved
