@@ -2171,8 +2171,3 @@ void MainWindow::dropEvent(QDropEvent* event)
         event->acceptProposedAction();
     }
 }
-void MainWindow::showEvent(QShowEvent *event)
-{
-	QMainWindow::showEvent(event);
-    QTimer::singleShot(0,this,SLOT(showConnectionDialog()));
-}

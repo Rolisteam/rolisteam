@@ -190,6 +190,8 @@ int main(int argc, char *argv[])
 	{
 		mainWindow->show();
 	}
+    //QTimer::singleShot(0,mainWindow,SLOT(showConnectionDialog()));
+    mainWindow->showConnectionDialog();
 	value = app.exec();
     QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 

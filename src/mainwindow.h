@@ -235,7 +235,6 @@ public slots :
 
 protected :
     void closeEvent(QCloseEvent *event);
-	void showEvent(QShowEvent *event);
     void prepareImage(Image *imageFenetre);
 	void processImageMessage(NetworkMessageReader* msg);
     void processMapMessage(NetworkMessageReader* msg);
