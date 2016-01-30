@@ -30,6 +30,7 @@
 /////////////////////////////
 
 CharacterSheetModel::CharacterSheetModel()
+ : m_characterCount(0)
 {
     m_characterList = new QList<CharacterSheet*>;
     m_rootSection = new Section();
@@ -97,56 +98,57 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
         return Qt::AlignHCenter;
     if((role == Qt::DisplayRole)||(role == Qt::EditRole))
     {
-        if(index.column()==0)
-        {
-            CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
-            if(NULL!=childItem)
-            {
-                return childItem->name();
-            }
-        }
+      /*  if(index.column()==0)
+        {*/
+                CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
+                if(NULL!=childItem)
+                {
+                    if(index.column()==0)
+                    {
+                        return childItem->name();
+                    }
+                    else
+                    {
+                        QString path = childItem->name();
+                        CharacterSheet* sheet = m_characterList->at(index.column()-1);
+                        return sheet->getValue(path);
+                        //childItem->setValue(value.toString(),index.column()-1);
+                    }
+                }
+       /* }
         else
         {
             QModelIndex tmp = index.sibling(index.row(),0);
             CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(tmp.internalPointer());
             if(NULL!=childItem)
             {
-                return m_characterList->at(index.column()-1)->getData(childItem->getPath());
+                return m_characterList->at(index.column()-1)->getValue(childItem->getPath());
             }
-        }
+        }*/
 
     }
     return QVariant();
 }
-bool CharacterSheetModel::setData ( const QModelIndex & index, const QVariant & value, int role  )
+bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & value, int role  )
 {
     if(Qt::EditRole==role)
     {
-        if(index.column()!=0)
+        CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
+        if(NULL!=childItem)
         {
-            CharacterSheet* tmp = m_characterList->at(index.column()-1);
-            if(index.parent().isValid())
-            {
-                CharacterSheetItem* parentItem = static_cast<CharacterSheetItem*>(index.parent().internalPointer());
-                tmp->setData(parentItem->getPath(),value);
-            }
-            else
-            {
-                QString tmpstring=value.toString();
-                tmp->setChildrenValue(index.row(),tmpstring);
-            }
-        }
-        else
-        {
-
-            CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
-            if(NULL!=childItem)
+            if(index.column()==0)
             {
                 childItem->setName(value.toString());
             }
-
+            else
+            {
+                QString path = childItem->name();
+                CharacterSheet* sheet = m_characterList->at(index.column()-1);
+                sheet->setValue(path,value.toString());
+                //childItem->setValue(value.toString(),index.column()-1);
+            }
+            return true;
         }
-        return true;
     }
     return false;
     
@@ -155,10 +157,12 @@ CharacterSheet* CharacterSheetModel::addCharacterSheet()
 {
     
     beginInsertColumns(QModelIndex(),m_characterList->size() ,m_characterList->size() );
+    ++m_characterCount;
     CharacterSheet* sheet = new CharacterSheet;
     m_characterList->append(sheet);
-    sheet->setRootChild(m_rootSection);
+    //sheet->setRootChild(m_rootSection);
     endInsertColumns();
+    return sheet;
 }
 
 
@@ -172,7 +176,7 @@ QVariant CharacterSheetModel::headerData(int section, Qt::Orientation orientatio
         case 0:
             return tr("Fields name");
         default:
-            return m_characterList->at(section-1)->owner();
+            return QString();
         }
     }
     return QVariant();
@@ -194,12 +198,7 @@ CharacterSheetItem* CharacterSheetModel::addSection(QString title)
     Section* rootSection = static_cast<Section*>(m_rootSection);
     Section* sec=new Section();
     sec->setName(title);
-
     rootSection->appendChild(sec);
-    foreach(CharacterSheet* sheet,*m_characterList)
-    {
-        sheet->appendItem(sec);
-    }
     endInsertRows();
     return sec;
 }
@@ -233,15 +232,8 @@ void CharacterSheetModel::addLine(CharacterSheetItem* parentItem,QString name,co
         Field* field = new Field();
         field->setName(name);
         section->appendChild(field);
-        foreach(CharacterSheet* sheet,*m_characterList)
-        {
-            Field* field = new Field();
-            field->setName(name);
-            sheet->appendItem(field);
-        }
         endInsertRows();
     }
-    
 }
 bool CharacterSheetModel::hasChildren ( const QModelIndex & parent  ) const
 {
@@ -278,16 +270,17 @@ bool CharacterSheetModel::writeModel(QTextStream& file, bool data)
     QJsonDocument doc;
     QJsonObject jsonObj;
     m_rootSection->save(jsonObj);
-    doc.setObject(jsonObj);
+    jsonObj["characterCount"]=m_characterCount;
 
-    QJsonArray listOfCharacter;
-    foreach(CharacterSheet* sheet, *m_characterList)
+    QJsonArray characters;
+    foreach (CharacterSheet* item, *m_characterList)
     {
-        QJsonObject itemObject;
-        sheet->save(itemObject);
-        listOfCharacter.append(itemObject);
+        QJsonObject charObj;
+        item->save(charObj);
+        characters.append(charObj);
     }
-    jsonObj["characters"] = listOfCharacter;
+    jsonObj["characters"]=characters;
+    doc.setObject(jsonObj); 
     file<< doc.toJson();
     return true;
 }
@@ -295,21 +288,20 @@ bool CharacterSheetModel::writeModel(QTextStream& file, bool data)
 bool CharacterSheetModel::readModel(QFile& file)
 {
     beginResetModel();
-
     QJsonDocument json = QJsonDocument::fromJson(file.readAll());
     QJsonObject jsonObj = json.object();
     m_rootSection->load(jsonObj);
-
-    QJsonArray fieldArray = jsonObj["characters"].toArray();
-    QJsonArray::Iterator it;
-    for(it = fieldArray.begin(); it != fieldArray.end(); ++it)
+    m_characterCount = jsonObj["characterCount"].toInt();
+    QJsonArray characters = jsonObj["characters"].toArray();
+    foreach(auto charJson, characters)
     {
-        QJsonObject obj = (*it).toObject();
-        CharacterSheet* item;
-        item = new CharacterSheet();
-        item->load(obj);
-        m_characterList->append(item);
+        QJsonObject obj = charJson.toObject();
+        CharacterSheet* sheet = new CharacterSheet();
+        sheet->load(obj);
+        m_characterList->append(sheet);
+        emit characterSheetHasBeenAdded(sheet);
     }
+
 
     endResetModel();
 }

@@ -28,13 +28,14 @@
 
 class CharacterSheetItem;
 class CharacterSheet;
-
+class Section;
 /**
     * @brief CharacterSheetModel is part of the MVC architecture for charactersheet viewer. it herits from QAbstractItemModel
     * it also provides features for adding data into stored CharacterSheet.
     */
 class CharacterSheetModel : public QAbstractItemModel
 {
+    Q_OBJECT
 public:
     /**
     * @brief default constructor
@@ -111,14 +112,18 @@ public:
     
     CharacterSheetItem* addSection(QString title);
     void addLine(CharacterSheetItem* parentItem,QString name,const QModelIndex& parent);
+signals:
+    void characterSheetHasBeenAdded(CharacterSheet* sheet);
     
 private:
     /**
     * @brief QList which stores pointer to CharacterSheet.
     */
     QList<CharacterSheet*>* m_characterList;
+
+    int m_characterCount;
     
-    CharacterSheetItem* m_rootSection;
+    Section* m_rootSection;
 };
 
 #endif // CHARACTERSHEETMODEL_H

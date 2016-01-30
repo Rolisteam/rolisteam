@@ -65,8 +65,10 @@ public:
     void saveMedia();
     
     
-    void addTabWithSheetView(CharacterSheet *chSheet);
+public slots:
+    void openQML();
 protected slots:
+    void addTabWithSheetView(CharacterSheet *chSheet);
     /**
     * @brief slot is called when the user click on the m_addLine button. That leads to add one line after the current position (in the current CharacterSheet).
     */
@@ -89,6 +91,7 @@ protected slots:
     void saveCharacterSheet();
     
     
+    void displayError(const QList<QQmlError> &warnings);
 protected:
     virtual void closeEvent ( QCloseEvent * event );
 private:
@@ -123,6 +126,8 @@ private:
     * @brief event button
     */
     QAction* m_openCharacterSheet;
+
+    QAction* m_loadQml;
     
     
     
@@ -134,6 +139,7 @@ private:
      * @brief m_fileUri
      */
     QString m_fileUri;
+    QString m_qmlUri;
     /**
      * @brief m_tabs
      */

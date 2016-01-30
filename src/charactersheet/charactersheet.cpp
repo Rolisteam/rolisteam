@@ -42,14 +42,21 @@ void CharacterSheetItem::setName(const QString &name)
     m_name = name;
 }
 
-QString CharacterSheetItem::getValue() const
+QString CharacterSheetItem::getValue(int idColumn) const
 {
-    return m_value;
+    if((idColumn<m_value.size())&&(idColumn>-1)&&(!m_value.empty()))
+    {
+        return m_value[idColumn];
+    }
+    else
+    {
+        return QString();
+    }
 }
 
-void CharacterSheetItem::setValue(QString val)
+void CharacterSheetItem::setValue(QString val,int idColumn)
 {
-    m_value=val;
+    m_value.insert(idColumn,val);
 }
 
 CharacterSheetItem *CharacterSheetItem::getParent() const
@@ -106,13 +113,19 @@ void Field::save(QJsonObject& json)
 {
     json["type"]="field";
     json["key"]=m_name;
-    json["value"]=m_value;
+    json["value"]=QJsonArray::fromStringList(m_value);
 }
 
 void Field::load(QJsonObject& json)
 {
     m_name=json["key"].toString();
-    m_value=json["value"].toString();
+    QVariantList list = json["value"].toArray().toVariantList();
+
+    foreach(QVariant variant, list)
+    {
+        m_value.append(variant.toString());
+    }
+
 }
 //////////////////////////////////////
 //Section
@@ -121,6 +134,7 @@ Section::Section()
 {
     m_name = "";
 }
+
 int Section::getChildrenCount()const
 {
     return m_dataHash.size();
@@ -142,7 +156,7 @@ CharacterSheetItem* Section::getChildAt(int i) const
     return m_dataHash[key];
 }
 CharacterSheetItem*  Section::getChildAt(QString i) const
-{
+{    
     return m_dataHash.value(i);
 }
 int Section::indexOf(CharacterSheetItem* child)
@@ -188,195 +202,107 @@ void Section::load(QJsonObject& json)
         appendChild(item);
     }
 }
+QStringList Section::keyList() const
+{
+    return m_keyList;
+}
+
+void Section::setKeyList(const QStringList &keyList)
+{
+    m_keyList = keyList;
+}
+
 
 /////////////////////////////////////
 //CharacterSheet
 /////////////////////////////////////////
+/// \brief CharacterSheet::CharacterSheet
+///
 
-
+int CharacterSheet::m_count=0;
 CharacterSheet::CharacterSheet()
+    : m_character(NULL),m_name("Character %1")
 {
+    ++m_count;
 }
-const  QString CharacterSheet::getTitleChild(int section)
+const  QString CharacterSheet::getTitle()
 {
-    Q_ASSERT(m_rootChild->getChildrenCount()>section);
-    return m_rootChild->getChildAt(section)->name();
-}
-const QString CharacterSheet::getChildrenValue(int section)
-{
-    Q_ASSERT(m_rootChild->getChildrenCount()>section);
-    return m_rootChild->getChildAt(section)->getValue();
-}
-void CharacterSheet::setChildrenValue(int section,QString& value)
-{
-    Q_ASSERT(m_rootChild->getChildrenCount()>section);
-    m_rootChild->getChildAt(section)->setValue(value);
-}
-
-int CharacterSheet::getChildAt(int index)
-{
-    /*int currentSection=0;
-    while((currentSection<m_children.size()&&(index>m_children[currentSection].size()+1)))
+    if(NULL!=m_character)
     {
-        index -=m_sectionList[currentSection].size()+1;
-        ++currentSection;
-    }*/
-    return 0;
-}
-
-const  QString CharacterSheet::getData(QString path)
-{
-    CharacterSheetItem* item = m_rootChild->getChildAt(path);
-    if(item!=NULL)
-    {
-        return item->getValue();
-    }
-    return QString();
-    /// @todo implement the access though path.
-   /* int currentSection = getChildAt(index);
-    if(index==0)
-    {
-        return getTitleChild(currentSection);
+        return m_character->getName();
     }
     else
     {
-        index--;
-        //QList<QString> tmp = ;
-        return m_children[currentSection].at(index);
-    }*/
-    
+        return m_name.arg(m_count);
+    }
+}
+
+const  QString CharacterSheet::getValue(QString path) const
+{
+    qDebug() << path << "CharacterSheet::getValue";
+    if(m_values.contains(path))
+    {
+        return m_values.value(path);
+    }
+    return QString();
+}
+
+void CharacterSheet::setValue(QString key, QString value)
+{
+    qDebug() << key << "setValue" << value;
+    m_values.insert(key,value);
+    emit valuesChanged(key,value);
 }
 int CharacterSheet::getIndexCount()
 {
-    return m_rootChild->getChildrenCount();
+    return m_values.keys().size();
 }
 
 const QString CharacterSheet::getkey(int index)
-{
-    int currentSection = getChildAt(index);
-    
+{  
     if(index==0)
     {
-        return getTitleChild(currentSection);
+        return getTitle();
     }
     else
     {
-        index--;
-        //  QList<QString> tmp = m_sectionList[currentSection].keys();
-        //return tmp.at(index);
-        return QString();
+        --index;
+        if((index<m_values.keys().size())&&(index>=0)&&(!m_values.isEmpty()))
+        {
+            return m_values.keys().at(--index);
+        }
 
     }
+    return QString();
 }
-void  CharacterSheet::setOwner(QString owner)
-{
-    m_owner = owner;
-}
-
-const QString& CharacterSheet::owner() const
-{
-    return m_owner;
-}
-
-CharacterSheetItem *CharacterSheet::getRootChild() const
-{
-    return m_rootChild;
-}
-
-void CharacterSheet::setRootChild(CharacterSheetItem *rootChild)
-{
-    m_rootChild = rootChild;
-}
-
 QStringList CharacterSheet::explosePath(QString str)
 {
     return str.split('.');
 }
-
-void CharacterSheet::setData(QString path,QVariant value,bool isHeader)
+Character *CharacterSheet::character() const
 {
-    CharacterSheetItem* item = m_rootChild->getChildAt(path);
-    item->setValue(value.toString());
-}
-void CharacterSheet::addData(QString path,QVariant value)
-{
-    QStringList list = explosePath(path);
-    if(list.isEmpty())
-        return;
-
-    if(m_owner==list.at(0))
-    {
-        list.removeAt(0);
-    }
-
-    if(list.isEmpty())
-        return;
-
-    QString last = list.last();
-    CharacterSheetItem* parent = getLastItem(list);
-    if(parent->mayHaveChildren())
-    {
-        Section* sec = dynamic_cast<Section*>(parent);
-        Field* item = new Field();
-        item->setName(last);
-        item->setValue(value.toString());
-        sec->appendChild(item);
-    }
-}
-CharacterSheetItem* CharacterSheet::getLastItem(QStringList list)
-{
-    CharacterSheetItem* result = m_rootChild;
-    for(auto it =  list.begin(); ((it != list.end()) & (result!=NULL));++it)
-    {
-        result = result->getChildAt(*it);
-    }
-    return result;
+    return m_character;
 }
 
-void CharacterSheet::appendLine()
+void CharacterSheet::setCharacter(Character *character)
 {
-    Section* sec = dynamic_cast<Section*>(m_rootChild);
-    if(NULL!=sec)
-    {
-        sec->appendChild(new Field());
-    }
-}
-int CharacterSheet::getSectionCount()
-{
-    return m_rootChild->getChildrenCount();
+    m_character = character;
 }
 
-void CharacterSheet::appendItem(CharacterSheetItem* item)
-{
-    Section* sec = dynamic_cast<Section*>(m_rootChild);
-    if(NULL!=sec)
-    {
-        sec->appendChild(item);
-    }
-}
-bool CharacterSheet::removeItem(CharacterSheetItem* item)
-{
-    Section* sec = dynamic_cast<Section*>(m_rootChild);
-    if(NULL!=sec)
-    {
-        //sec->remove(item);
-    }
-}
-
-void CharacterSheet::removeSectionAt(int index)
-{
-    Section* sec = dynamic_cast<Section*>(m_rootChild);
-    if(NULL!=sec)
-    {
-        //sec->remove(sec);
-    }
-}
 void CharacterSheet::save(QJsonObject& json)
 {
-    m_rootChild->save(json);
+    m_name = json["name"].toString();
+    foreach (QString key, m_values)
+    {
+        json[key]=m_values[key];
+    }
 }
 
 void CharacterSheet::load(QJsonObject& json)
 {
-    m_rootChild->save(json);
+    json["name"]= m_name;
+    foreach(QString key, json.keys() )
+    {
+        m_values[key] = json[key].toString();
+    }
 }

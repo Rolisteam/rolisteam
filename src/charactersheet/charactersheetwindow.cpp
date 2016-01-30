@@ -36,6 +36,8 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
         setCleverUriType(CleverURI::CHARACTERSHEET);
     }
     setObjectName("CharacterSheetViewer");
+
+    connect(&m_model,SIGNAL(characterSheetHasBeenAdded(CharacterSheet*)),this,SLOT(addTabWithSheetView(CharacterSheet*)));
     
     setWindowIcon(QIcon(":/resources/icons/treeview.png"));
     m_addSection = new QAction(tr("Add Section"),this);
@@ -43,6 +45,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     m_addCharacterSheet= new QAction(tr("Add CharacterSheet"),this);
     m_saveCharacterSheet = new QAction(tr("Save Character Sheets"),this);
     m_openCharacterSheet= new QAction(tr("Open Character Sheets"),this);
+    m_loadQml = new QAction(tr("Load CharacterSheet View File"),this);
     m_view.setModel(&m_model);
     
     /// @warning that disable the selection decoration.
@@ -61,13 +64,10 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     connect(m_addLine,SIGNAL(triggered()),this,SLOT(addLine()));
     connect(m_addSection,SIGNAL(triggered()),this,SLOT(addSection()));
     connect(m_addCharacterSheet,SIGNAL(triggered()),this,SLOT(addCharacterSheet()));
-    
     connect(m_saveCharacterSheet,SIGNAL(triggered()),this,SLOT(saveCharacterSheet()));
     connect(m_openCharacterSheet,SIGNAL(triggered()),this,SLOT(openCharacterSheet()));
-    
     connect(&m_view,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(displayCustomMenu(QPoint)));
-    
-    
+    connect(m_loadQml,SIGNAL(triggered(bool)),this,SLOT(openQML()));
 }
 CharacterSheetWindow::~CharacterSheetWindow()
 {
@@ -83,7 +83,8 @@ bool CharacterSheetWindow::defineMenu(QMenu* menu)
     menu->addSeparator();
     menu->addAction(m_openCharacterSheet);
     menu->addAction(m_saveCharacterSheet);
-    
+    menu->addSeparator();
+    menu->addAction(m_loadQml);
     return true;
 }
 
@@ -101,7 +102,8 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
     menu.addSeparator();
     menu.addAction(m_openCharacterSheet);
     menu.addAction(m_saveCharacterSheet);
-    
+    menu.addSeparator();
+    menu.addAction(m_loadQml);
     menu.exec(QCursor::pos());
 }
 
@@ -115,18 +117,47 @@ void CharacterSheetWindow::addCharacterSheet()
 }
 void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 {
+    if(m_qmlUri.isEmpty())
+    {
+        openQML();
+    }
     QQuickWidget* qmlView = new QQuickWidget();
+    QFileInfo info(m_qmlUri);
+    qmlView->engine()->addPluginPath(info.absolutePath());
     qmlView->rootContext()->setContextProperty("_model",chSheet);
-    m_characterSheetlist.append(qmlView);
+    connect(qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
 
+    qmlView->setSource(QUrl::fromLocalFile(m_qmlUri));
+    qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    qDebug() << m_qmlUri << info.absolutePath();
+
+    m_characterSheetlist.append(qmlView);
+    m_tabs->addTab(qmlView,chSheet->getTitle());
+
+    qDebug() << qmlView->status();
+    foreach(auto error, qmlView->errors())
+    {
+        qDebug() << error.toString();
+    }
+
+
+
+}
+
+void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
+{
+    foreach(auto error, warnings)
+    {
+        qDebug() << error.toString();
+    }
 }
 
 void  CharacterSheetWindow::saveCharacterSheet()
 {
     if(m_fileUri.isEmpty())
     {
-        m_fileUri = QFileDialog::getSaveFileName(this, tr("Save Character Sheets"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
-                                                 tr("Xml files (*.xml *.json)"));
+        m_fileUri = QFileDialog::getSaveFileName(this, tr("Save Character Sheets Data"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
+                                                 tr("Character Sheets Data files (*.json)"));
     }
     saveFile(m_fileUri);
     
@@ -161,12 +192,20 @@ void CharacterSheetWindow::openFile(const QString& fileUri)
 
 void CharacterSheetWindow::openCharacterSheet()
 {
-    m_fileUri = QFileDialog::getOpenFileName(this, tr("Save Character Sheets"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
-                                             tr("Xml files (*.xml)"));
+    m_fileUri = QFileDialog::getOpenFileName(this, tr("Open Character Sheet data"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
+                                             tr("Character Sheet Data files (*.json)"));
     
     openFile(m_fileUri);
     
 }
+void CharacterSheetWindow::openQML()
+{
+    m_qmlUri = QFileDialog::getOpenFileName(this, tr("Open Character Sheets View"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
+                                             tr("Character Sheet files (*.qml)"));
+
+    //openFile(m_fileUri);
+}
+
 void CharacterSheetWindow::closeEvent(QCloseEvent *event)
 {
     setVisible(false);
@@ -184,7 +223,6 @@ QDockWidget* CharacterSheetWindow::getDockWidget()
 bool CharacterSheetWindow::readFileFromUri()
 {
     openFile(m_uri->getUri());
-    return true;
 }
 
 void CharacterSheetWindow::saveMedia()
