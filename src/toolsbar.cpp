@@ -317,7 +317,6 @@ void ToolsBar::createTools()
 
 	outilsLayout->addWidget(separateur2);
 	outilsLayout->addWidget(m_lineDiameter);
-	m_lineDiameter->setVisible(false);
 	outilsLayout->addWidget(separateur3);
 	outilsLayout->addLayout(layoutMouvementPnj);
 	outilsLayout->addWidget(separateur4);
