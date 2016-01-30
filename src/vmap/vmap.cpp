@@ -891,7 +891,10 @@ void VMap::addNewItem(VisualItem* item)
         }
 
         connect(item,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),this,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
+
+        item->setLayer(m_currentLayer);
         QGraphicsScene::addItem(item);
+
 
 
         //Editing permission
