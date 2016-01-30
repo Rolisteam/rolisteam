@@ -480,6 +480,9 @@
    <property name="text">
     <string>Character Sheet</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
   </action>
   <action name="m_openCharacterSheet">
    <property name="icon">
@@ -488,6 +491,9 @@
    </property>
    <property name="text">
     <string>Character Sheet</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
    </property>
   </action>
  </widget>
