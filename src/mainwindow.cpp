@@ -1251,6 +1251,8 @@ bool  MainWindow::showConnectionDialog()
             m_networkManager->setConnectionState(result);
             m_chatListWidget->addPublicChat();
 
+            m_preferences->registerValue("isClient",!m_currentConnectionProfile->isServer());
+
 
             setUpNetworkConnection();
             updateWindowTitle();
