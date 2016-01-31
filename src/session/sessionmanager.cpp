@@ -81,6 +81,7 @@ CleverURI* SessionManager::addRessource(CleverURI* tp)
 {
     QModelIndex index = m_view->currentIndex();
     m_model->addResource(tp,index);
+    emit sessionChanged(true);
     return  tp;
 }
 
@@ -135,6 +136,7 @@ void SessionManager::saveSession(QDataStream& out)
     if(NULL!=m_model)
     {
         m_model->saveModel(out);
+        emit sessionChanged(false);
     }
 }
 void SessionManager::loadSession(QDataStream& in)
