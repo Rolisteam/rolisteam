@@ -104,6 +104,8 @@ public:
     
     CharacterSheetItem* indexToSection(const QModelIndex & index);
     QModelIndex indexToSectionIndex(const QModelIndex & index);
+
+    CharacterSheet* getCharacterSheet(int id);
     
     
     

@@ -48,6 +48,15 @@ int CharacterSheetModel::rowCount ( const QModelIndex & parent  ) const
         return m_rootSection->getChildrenCount();
     }
 }
+CharacterSheet*  CharacterSheetModel::getCharacterSheet(int id)
+{
+    if((!m_characterList->isEmpty())&&(m_characterList->size()>id)&&(0<=id))
+    {
+        return m_characterList->at(id);
+    }
+    return NULL;
+}
+
 int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
 {
     Q_UNUSED(parent)
