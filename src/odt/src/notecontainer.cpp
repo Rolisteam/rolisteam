@@ -33,6 +33,7 @@ NoteContainer::NoteContainer()
     setCleverUriType(CleverURI::TEXT);
     setWidget(m_edit);
     setWindowIcon(QIcon(":/notes.png"));
+    connect(m_edit,SIGNAL(showNameChanged(QString)),this,SLOT(setFileName(QString)));
 }
 
 void NoteContainer::setFileName(QString str)

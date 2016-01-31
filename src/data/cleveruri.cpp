@@ -121,6 +121,7 @@ void CleverURI::defineShortName()
     QFileInfo info(m_uri);
 
     m_name = info.baseName();
+    emit updated(this);
 }
 
 void CleverURI::init()

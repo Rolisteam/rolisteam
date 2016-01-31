@@ -486,13 +486,16 @@ void TextEdit::setCurrentFileName(const QString &fileName)
         m_showName = "untitled.txt";
     else
         m_showName = QFileInfo(fileName).fileName();
+
+    emit showNameChanged(m_showName);
     setWindowTitle(QString("%1[*]  OASIS Open Document Format for Office Applications").arg(m_showName));
     setWindowModified(false);
 }
 
 void TextEdit::fileNew()
 {
-    if (maybeSave()) {
+    if (maybeSave())
+    {
         textEdit->clear();
         setCurrentFileName(QString());
     }

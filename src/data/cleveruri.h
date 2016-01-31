@@ -33,7 +33,7 @@
 */
 class CleverURI : public ResourcesNode
 {
-
+    Q_OBJECT
 public:
     /**
     * @brief enum of all available type.
@@ -129,7 +129,7 @@ public:
     void setDisplayed(bool displayed);
 
     QByteArray getData() const;
-    void setData(const QByteArray &data);
+    void setData(const QByteArray& data);
 
     void loadFileFromUri();
     void clearData();

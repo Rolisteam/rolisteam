@@ -87,6 +87,7 @@ public slots:
 
 signals:
     void showed(bool);
+    void showNameChanged(QString);
 
 protected:
     virtual void closeEvent(QCloseEvent *e);

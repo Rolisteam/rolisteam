@@ -27,18 +27,17 @@
 
 class NoteContainer : public MediaContainer
 {
+    Q_OBJECT
 public:
     NoteContainer();
-    void setFileName(QString);
     bool readFileFromUri();
     void saveMedia();
 
     void readFromFile(QDataStream& data);
     void saveInto(QDataStream& out);
 
-signals:
-
 public slots:
+    void setFileName(QString);
 private:
     TextEdit* m_edit;
 };
