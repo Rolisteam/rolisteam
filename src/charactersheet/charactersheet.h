@@ -23,7 +23,6 @@
 #include <QString>
 #include <QMap>
 #include <QVariant>
-#include "data/character.h"
 
 class CharacterSheetItem
 {
@@ -136,9 +135,6 @@ public:
     virtual void save(QJsonObject& json);
     virtual void load(QJsonObject& json);
 
-    Character *character() const;
-    void setCharacter(Character *character);
-
     const QString getTitle();
 signals:
     void valuesChanged(QString valueKey,QString value);
@@ -161,8 +157,6 @@ private:
     *@brief User Id of the owner
     */
     QString m_name;
-
-    Character* m_character;
     static int m_count;
 };
 

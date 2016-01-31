@@ -221,20 +221,14 @@ void Section::setKeyList(const QStringList &keyList)
 
 int CharacterSheet::m_count=0;
 CharacterSheet::CharacterSheet()
-    : m_character(NULL),m_name("Character %1")
+    : m_name("Character %1")
 {
     ++m_count;
+    m_name.arg(m_count);
 }
 const  QString CharacterSheet::getTitle()
 {
-    if(NULL!=m_character)
-    {
-        return m_character->getName();
-    }
-    else
-    {
-        return m_name.arg(m_count);
-    }
+        return m_name;
 }
 
 const  QString CharacterSheet::getValue(QString path) const
@@ -278,15 +272,6 @@ const QString CharacterSheet::getkey(int index)
 QStringList CharacterSheet::explosePath(QString str)
 {
     return str.split('.');
-}
-Character *CharacterSheet::character() const
-{
-    return m_character;
-}
-
-void CharacterSheet::setCharacter(Character *character)
-{
-    m_character = character;
 }
 
 void CharacterSheet::save(QJsonObject& json)
