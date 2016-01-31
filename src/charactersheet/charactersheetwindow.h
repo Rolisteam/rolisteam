@@ -41,20 +41,7 @@ public:
     * @brief default construtor
     */
     CharacterSheetWindow(CleverURI* uri= NULL, QWidget* parent = NULL);
-    virtual ~CharacterSheetWindow();
-    
-    /**
-    * @brief compulsary function , it should set the custom window menu
-    * @param pointer to the menu of custom window
-    * @return bool : true if the characterSheetWindow has amend the menu, false if the custom menu is not required
-    */
-    virtual bool defineMenu(QMenu* menu);
-    /**
-    * @brief cumpulsary function, it returns the subwindows type.
-    * @return type of subwindows.
-    */
-    //virtual SubWindowType getType();
-    
+    virtual ~CharacterSheetWindow(); 
     
     void openFile(const QString& file);
     void saveFile(const QString & file);
@@ -64,9 +51,15 @@ public:
     bool readFileFromUri();
     void saveMedia();
     
-    
+signals:
+    void addWidgetToMdiArea(QWidget*);
+
 public slots:
     void openQML();
+    void contextMenuForTabs(const QPoint &pos);
+    void detachTab();
+
+
 protected slots:
     void addTabWithSheetView(CharacterSheet *chSheet);
     /**
@@ -89,11 +82,18 @@ protected slots:
     void openCharacterSheet();
     
     void saveCharacterSheet();
-    
-    
+
+    void affectSheetToCharacter();
     void displayError(const QList<QQmlError> &warnings);
+
+
 protected:
     virtual void closeEvent ( QCloseEvent * event );
+
+
+
+
+
 private:
     /**
     * @brief The view class
@@ -128,9 +128,7 @@ private:
     QAction* m_openCharacterSheet;
 
     QAction* m_loadQml;
-    
-    
-    
+    QAction* m_detachTab;
     /**
     * @brief layout
     */
@@ -146,6 +144,7 @@ private:
     QTabWidget* m_tabs;
 
     QList<QQuickWidget*> m_characterSheetlist;
+    int m_currentCharacterSheet;
 };
 
 #endif // CHARACTERSHEETWINDOW_H

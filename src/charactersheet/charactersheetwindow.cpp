@@ -25,6 +25,7 @@
 #include "charactersheetwindow.h"
 #include "charactersheet/charactersheet.h"
 #include "preferences/preferencesmanager.h"
+#include "data/character.h"
 
 CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     : MediaContainer(parent)
@@ -46,6 +47,9 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     m_saveCharacterSheet = new QAction(tr("Save Character Sheets"),this);
     m_openCharacterSheet= new QAction(tr("Open Character Sheets"),this);
     m_loadQml = new QAction(tr("Load CharacterSheet View File"),this);
+
+    m_detachTab = new QAction(tr("Detach Tabs"),this);
+
     m_view.setModel(&m_model);
     
     /// @warning that disable the selection decoration.
@@ -59,6 +63,8 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     m_tabs->addTab(&m_view,tr("Data"));
     setWidget(m_tabs);
     m_view.setContextMenuPolicy(Qt::CustomContextMenu);
+    m_tabs->tabBar()->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_tabs->tabBar(),SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenuForTabs(QPoint)));
     
     
     connect(m_addLine,SIGNAL(triggered()),this,SLOT(addLine()));
@@ -68,26 +74,13 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     connect(m_openCharacterSheet,SIGNAL(triggered()),this,SLOT(openCharacterSheet()));
     connect(&m_view,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(displayCustomMenu(QPoint)));
     connect(m_loadQml,SIGNAL(triggered(bool)),this,SLOT(openQML()));
+
+    connect(m_detachTab,SIGNAL(triggered(bool)),this,SLOT(detachTab()));
 }
 CharacterSheetWindow::~CharacterSheetWindow()
 {
-    qDebug() << "CharacterSheetWindow destructor";
-}
 
-bool CharacterSheetWindow::defineMenu(QMenu* menu)
-{
-    menu->setTitle(tr("Character Sheet Viewer"));
-    menu->addAction(m_addCharacterSheet);
-    menu->addAction(m_addSection);
-    menu->addAction(m_addLine);
-    menu->addSeparator();
-    menu->addAction(m_openCharacterSheet);
-    menu->addAction(m_saveCharacterSheet);
-    menu->addSeparator();
-    menu->addAction(m_loadQml);
-    return true;
 }
-
 void CharacterSheetWindow::addLine()
 {
     m_model.addLine(m_view.currentIndex());
@@ -96,15 +89,61 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
 {
     QMenu menu(this);
     
-    menu.addAction(m_addCharacterSheet);
-    menu.addAction(m_addSection);
     menu.addAction(m_addLine);
+    menu.addAction(m_addSection);
+    menu.addAction(m_addCharacterSheet);
     menu.addSeparator();
     menu.addAction(m_openCharacterSheet);
     menu.addAction(m_saveCharacterSheet);
     menu.addSeparator();
     menu.addAction(m_loadQml);
+    QModelIndex index = m_view.indexAt(pos);
+    if(index.column()>0)
+    {
+        m_currentCharacterSheet = index.column()-1;
+        QMenu* affect = menu.addMenu(tr("Affect To "));
+
+        for(Character* character : PlayersList::instance()->getCharacterList())
+        {
+            QAction* action = affect->addAction(QPixmap::fromImage(character->getAvatar()),character->getName());
+            action->setData(character->getUuid());
+            connect(action,SIGNAL(triggered(bool)),this,SLOT(affectSheetToCharacter()));
+        }
+
+    }
     menu.exec(QCursor::pos());
+}
+void CharacterSheetWindow::contextMenuForTabs(const QPoint& pos)
+{
+    QMenu menu(this);
+
+    m_currentCharacterSheet=m_tabs->tabBar()->tabAt(pos);
+    menu.addAction(m_detachTab);
+    if(m_currentCharacterSheet>0)
+    {
+        menu.exec(QCursor::pos());
+    }
+
+
+}
+void CharacterSheetWindow::detachTab()
+{
+    QWidget* wid = m_tabs->widget(m_currentCharacterSheet);
+    m_tabs->removeTab(m_currentCharacterSheet);
+    emit addWidgetToMdiArea(wid);
+}
+
+void CharacterSheetWindow::affectSheetToCharacter()
+{
+    QAction* action = qobject_cast<QAction*>(sender());
+    QString key = action->data().toString();
+    Character* character = PlayersList::instance()->getCharacter(key);
+    if(NULL!=character)
+    {
+        character->setSheet(m_model.getCharacterSheet(m_currentCharacterSheet));
+        m_tabs->setTabText(m_currentCharacterSheet+1,character->getName());
+    }
+
 }
 
 void CharacterSheetWindow::addSection()
@@ -139,9 +178,6 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     {
         qDebug() << error.toString();
     }
-
-
-
 }
 
 void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
