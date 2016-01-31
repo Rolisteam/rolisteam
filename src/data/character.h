@@ -23,6 +23,8 @@
 
 #include "person.h"
 #include "characterstate.h"
+#include "charactersheet/charactersheet.h"
+
 #include <QList>
 
 /**
@@ -118,16 +120,20 @@ public:
 
     void setNpc(bool);
 
+    CharacterSheet* getSheet() const;
+    void setSheet(CharacterSheet* sheet);
+
 signals:
     void avatarChanged();
 
 private:
-	void init();
+    void init();
 private:
     Person* m_parent;
     bool m_isNpc;
     int m_number;
     CharacterState* m_currentState;
+    CharacterSheet* m_sheet;
 
     static QList<CharacterState*>* m_stateList;
 };

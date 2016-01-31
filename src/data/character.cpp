@@ -62,9 +62,19 @@ void Character::init()
 		m_currentState = m_stateList->first();
 	}
 }
+
+CharacterSheet *Character::getSheet() const
+{
+    return m_sheet;
+}
+
+void Character::setSheet(CharacterSheet *sheet)
+{
+    m_sheet = sheet;
+}
 void Character::setListOfCharacterState(QList<CharacterState*>* list)
 {
-	m_stateList = list;
+    m_stateList = list;
 }
 CharacterState* Character::getStateFromLabel(QString label)
 {
