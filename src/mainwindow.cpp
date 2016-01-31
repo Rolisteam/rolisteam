@@ -114,6 +114,7 @@ MainWindow::MainWindow()
     m_mapAction = new QMap<MediaContainer*,QAction*>();
 
     m_sessionManager = new SessionManager();
+    connect(m_sessionManager,SIGNAL(sessionChanged(bool)),this,SLOT(setWindowModified(bool)));
     connect(m_sessionManager,SIGNAL(openFile(CleverURI*,bool)),this,SLOT(openCleverURI(CleverURI*,bool)));
 
     /// Create all GM toolbox widget
@@ -556,6 +557,7 @@ void MainWindow::newCharacterSheetWindow()
 {
     CharacterSheetWindow* window = new CharacterSheetWindow(NULL,this);
     addMediaToMdiArea(window);
+    connect(window,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
 }
 
 
@@ -566,7 +568,7 @@ void MainWindow::newVectorialMap()
     {
         VMap* tempmap = new VMap();
         mapWizzard.setAllMap(tempmap);
-        VMapFrame* tmp = new VMapFrame(new CleverURI("",CleverURI::VMAP),tempmap);
+        VMapFrame* tmp = new VMapFrame(new CleverURI(tempmap->getMapTitle(),CleverURI::VMAP),tempmap);
         prepareVMap(tmp);
         addMediaToMdiArea(tmp);
         //tempmap->setCurrentTool(m_toolbar->getCurrentTool());
@@ -658,17 +660,17 @@ Map* MainWindow::findMapById(QString idMap)
         return NULL;
     }
 }
-bool MainWindow::mayBeSaved(bool perteConnexion)
+bool MainWindow::mayBeSaved(bool connectionLoss)
 {
     QMessageBox msgBox(this);
-    QAbstractButton *boutonSauvegarder         = msgBox.addButton(QMessageBox::Save);
-    QAbstractButton *boutonQuitter                 = msgBox.addButton(tr("Quit"), QMessageBox::RejectRole);
+    QAbstractButton *boutonSauvegarder = msgBox.addButton(QMessageBox::Save);
+    QAbstractButton *boutonQuitter = msgBox.addButton(tr("Quit"), QMessageBox::RejectRole);
     Qt::WindowFlags flags = msgBox.windowFlags();
     msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
 
     QString message;
     QString msg = m_preferences->value("Application_Name","rolisteam").toString();
-    if (perteConnexion)
+    if (connectionLoss)
     {
         message = tr("Connection has been lost. %1 will be close").arg(msg);
         msgBox.setIcon(QMessageBox::Critical);
@@ -707,7 +709,7 @@ bool MainWindow::mayBeSaved(bool perteConnexion)
             else
                 ok = saveStory();
 
-            if (ok || perteConnexion)
+            if (ok || connectionLoss)
             {
                 return true;
             }
@@ -1973,7 +1975,11 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     case CleverURI::SCENARIO:
         break;
     case CleverURI::CHARACTERSHEET:
-        tmp = new CharacterSheetWindow();
+    {
+        CharacterSheetWindow* csW = new CharacterSheetWindow();
+        tmp = csW;
+        connect(csW,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
+    }
         break;
     default:
         break;
@@ -2069,7 +2075,7 @@ void MainWindow::updateWindowTitle()
 {
     if(NULL != m_currentConnectionProfile)
     {
-    setWindowTitle(tr("%1[*] - v%2 - %3 - %4 - %5").arg(m_preferences->value("applicationName","Rolisteam").toString())
+        setWindowTitle(tr("%1[*] - v%2 - %3 - %4 - %5").arg(m_preferences->value("applicationName","Rolisteam").toString())
                    .arg(m_version)
                    .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected"))
                    .arg(m_currentConnectionProfile->isServer() ? tr("Server") : tr("Client")).arg(m_currentConnectionProfile->isGM() ? tr("GM") : tr("Player")));
@@ -2082,7 +2088,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent * event)
     {
         event->acceptProposedAction();
     }
-
+    QMainWindow::dragEnterEvent(event);
 }
 CleverURI::ContentType MainWindow::getContentType(QString str)
 {
