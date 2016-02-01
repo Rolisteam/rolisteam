@@ -13,6 +13,7 @@ class Item
 {
 public:
     enum ColumnId {NAME,X,Y,WIDTH,HEIGHT,BORDER,TEXT_ALIGN,BGCOLOR,TEXTCOLOR};
+    enum QMLSection {FieldSec,ConnectionSec};
     Item();
     virtual bool hasChildren();
     virtual int getChildrenCount();
@@ -27,10 +28,10 @@ public:
     int row();
 
     virtual int indexOfChild(Item *itm);
-    virtual void save(QJsonObject& json)=0;
+    virtual void save(QJsonObject& json,bool exp=false)=0;
     virtual void load(QJsonObject& json,QGraphicsScene* scene)=0;
 
-    virtual void generateQML(QTextStream& out)=0;
+    virtual void generateQML(QTextStream& out,Item::QMLSection sec)=0;
 private:
     Item* m_parent;
 };

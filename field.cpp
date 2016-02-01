@@ -2,9 +2,10 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QJsonArray>
+#include <QUuid>
 
 int Field::m_count = 0;
-Field::Field(QGraphicsItem *parent)
+Field::Field(QGraphicsItem* parent)
 {
  init();
 }
@@ -26,6 +27,7 @@ Field::Field(QPointF topleft,QGraphicsItem* parent)
 void Field::init()
 {
     ++m_count;
+    m_id = QStringLiteral("id%1").arg(m_count);
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 
 
@@ -121,25 +123,7 @@ void Field::setNewEnd(QPointF nend)
 
 void Field::drawField()
 {
-  /*  QImage imgField(m_size, QImage::Format_ARGB32_Premultiplied);
-    imgField.fill(m_bgColor);
 
-    QPainter painterImg(&imgField);
-    painterImg.setRenderHint(QPainter::Antialiasing);
-
-    QPen pen;
-    pen.setColor(m_textColor);
-
-    painterImg.setFont(m_font);
-    painterImg.setPen(pen);
-
-    QRectF rect(QPointF(0,0),QSizeF(m_size));
-
-
-    painterImg.drawText(rect,Qt::AlignCenter,m_key);
-
-
-    m_label->setPixmap(QPixmap::fromImage(imgField));*/
 }
 QString Field::key() const
 {
@@ -201,8 +185,14 @@ void Field::mousePressEvent(QMouseEvent* ev)
     }
 }
 
-void Field::save(QJsonObject& json)
+void Field::save(QJsonObject& json,bool exp)
 {
+    if(exp)
+    {
+        json["type"]="field";
+        json["key"]=m_key;
+        return;
+    }
     json["type"]="field";
     json["key"]=m_key;
     json["border"]=m_border;
@@ -266,9 +256,12 @@ void Field::load(QJsonObject &json,QGraphicsScene* scene)
     update();
 }
 
-void Field::generateQML(QTextStream &out)
+void Field::generateQML(QTextStream &out,Item::QMLSection sec)
 {
+    if(sec==Item::FieldSec)
+    {
     out << "Field {\n";
+    out << "    id:"<<m_id<< "\n";
     out << "    text: _model.getValue(\""<<m_key << "\")\n";
     out << "    x:" << m_rect.x() << "*parent.realScale"<<"\n";
     out << "    y:" << m_rect.y()<< "*parent.realScale"<<"\n";
@@ -276,6 +269,14 @@ void Field::generateQML(QTextStream &out)
     out << "    height:"<< m_rect.height()<<"*parent.realScale"<<"\n";
     out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
     out << "}\n";
+    }
+    else if(sec==Item::ConnectionSec)
+    {
+        out << "if(valueKey==\""<<m_key<<"\")"<<"\n";
+        out << "           {"<<"\n";
+        out << "                "<<m_id.toLower().trimmed()<<".text=value;"<<"\n";
+        out << "            }"<<"\n";
+    }
 }
 
 

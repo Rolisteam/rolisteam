@@ -50,10 +50,10 @@ public:
     virtual QVariant getValue(Item::ColumnId) const;
     virtual void setValue(Item::ColumnId id, QVariant var);
 
-    virtual void save(QJsonObject& json);
+    virtual void save(QJsonObject& json,bool exp=false);
     virtual void load(QJsonObject &json,QGraphicsScene* scene);
 
-    virtual void generateQML(QTextStream& out);
+    virtual void generateQML(QTextStream& out,Item::QMLSection sec);
 
 signals:
     void updateNeeded(Field* c);
@@ -63,6 +63,7 @@ protected:
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent* ev);
 private:
+    QString m_id;
     QString m_key;
     BorderLine m_border;
     QColor m_bgColor;
