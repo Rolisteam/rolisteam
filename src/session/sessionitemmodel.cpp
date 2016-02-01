@@ -58,6 +58,7 @@ SessionItemModel::SessionItemModel()
 {
     m_header << tr("Name")<< tr("Mode")<< tr("Opened")<< tr("Path");
     m_rootItem = new Chapter();
+    connect(m_rootItem,SIGNAL(updated(ResourcesNode*)),this,SLOT(updateNode(ResourcesNode*)));
     connect(m_rootItem,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
 }
 QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & parent ) const
@@ -125,6 +126,27 @@ QMimeData* SessionItemModel::mimeData(const QModelIndexList &indexes) const
         }
     }
     return mimeData;
+}
+
+void SessionItemModel::updateNode(ResourcesNode* node)
+{
+    QModelIndex nodeIndex;
+    QModelIndex parent;
+    QList<ResourcesNode*> path;
+    ResourcesNode* parentItem=NULL;
+    if(m_rootItem->seekNode(path,node))
+    {
+        for(auto i : path)
+        {
+		if(NULL!=parentItem)
+		{
+ 	           	nodeIndex = index(parentItem->indexOf(i),0,parent);
+				parent=nodeIndex;	
+		}
+		parentItem=i;
+        }
+    }
+	emit dataChanged(nodeIndex,nodeIndex);
 }
 Qt::DropActions SessionItemModel::supportedDropActions() const
 {

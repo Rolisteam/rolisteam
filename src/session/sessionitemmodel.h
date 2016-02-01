@@ -121,10 +121,16 @@ public:
     bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
     QStringList mimeTypes() const;
     QMimeData *mimeData(const QModelIndexList &indexes) const;
+
+public slots:
+    void updateNode(ResourcesNode*);
+
 signals:
     void openFile(CleverURI*,bool);
+
 protected:
     bool moveMediaItem(QList<CleverURI*> items, const QModelIndex &parentToBe, int row, QList<QModelIndex> &formerPosition);
+
 private:
     Chapter* m_rootItem;/// root item address
     QStringList m_header;
