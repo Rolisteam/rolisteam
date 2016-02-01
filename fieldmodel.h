@@ -30,9 +30,9 @@ public:
     virtual int indexOfChild(Item *itm);
     QString getName() const;
     void setName(const QString &name);
-    virtual void save(QJsonObject& json);
+    virtual void save(QJsonObject& json,bool exp=false);
     virtual void load(QJsonObject& json,QGraphicsScene* scene);
-    virtual void generateQML(QTextStream &out);
+    virtual void generateQML(QTextStream &out,Item::QMLSection);
 private:
     QList<Item*> m_children;
     QString m_name;
@@ -76,13 +76,14 @@ public:
     void appendField(Field* f);
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
-    void save(QJsonObject& json);
+    void save(QJsonObject& json,bool exp=false);
     void load(QJsonObject& json,QGraphicsScene* scene);
 
-    void generateQML(QTextStream& out);
+    void generateQML(QTextStream& out,Item::QMLSection sec);
 
     Q_INVOKABLE QString getValue(const QString& key);
 signals:
+    void valuesChanged(QString valueKey,QString value);
 
 public slots:
     void updateItem(Field *);

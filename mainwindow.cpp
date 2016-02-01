@@ -58,7 +58,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
-    //connect(ui->m_tabWidget,SIGNAL(currentChanged(int)),this,SLOT(generateQML()));
+    connect(ui->m_tabWidget,SIGNAL(currentChanged(int)),this,SLOT(generateQML()));
+
+    connect(ui->m_rolisteamExport,SIGNAL(triggered(bool)),this,SLOT(exportToRolisteam()));
 
     ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
     ui->m_quickview->setSource(QUrl::fromLocalFile("./cstest.qml"));
@@ -162,8 +164,14 @@ void MainWindow::generateQML()
         text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
         text << "       height:(parent.width>parent.height*iratio)?parent.height:iratioBis*parent.width" << "\n";
         text << "       source: \"background.jpg\"" << "\n";
-        m_model->generateQML(text);
+        m_model->generateQML(text,Item::FieldSec);
         text << "\n";
+        text << "   Connections {\n";
+        text << "   target: _model\n";
+        text << "   onValuesChanged:{\n";
+        m_model->generateQML(text,Item::ConnectionSec);
+        text << "   }";
+        text << "   }\n";
         text << "   }\n";
         text << "}\n";
 
@@ -173,8 +181,6 @@ void MainWindow::generateQML()
         //file.setAutoRemove(false);
         if(file.open(QIODevice::WriteOnly))
         {
-            qDebug()<<"Write data";
-            qDebug()<<file.write(data);
             QString dir = QFileInfo(file.fileName()).absolutePath();
             QFile imageFile(dir+"/background.jpg");
             if(imageFile.open(QIODevice::WriteOnly))
@@ -182,60 +188,52 @@ void MainWindow::generateQML()
                 pix.save(&imageFile,"jpg");
             }
         }
-        qDebug() << data<< file.fileName();
         ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
+    }
+}
+
+void MainWindow::exportToRolisteam()
+{
+    QString dir = QFileDialog::getExistingDirectory(this,tr("Select directory to export files"),QDir::homePath());
+
+    if(!dir.isEmpty())
+    {
+        QString name=m_filename;
+        if(name.isEmpty())
+            name=QStringLiteral("Unknown");
+
+        QFileInfo info(name);
+        QString fileName = QStringLiteral("%1/%2.rcse").arg(dir).arg(info.baseName());
+        if(QFile::exists(fileName))
+        {
+
+            ///@Warning
+        }
+        QFile file(fileName);
+        if(file.open(QIODevice::WriteOnly))
+        {
+            QString qmlFile = QStringLiteral("%1.qml").arg(info.baseName());
+
+            QJsonDocument json;
+            QJsonObject jsonObj;
+            jsonObj["qml"]=qmlFile;
+            m_model->save(jsonObj,true);
+            json.setObject(jsonObj);
+
+
+        }
+        //
     }
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* ev)
 {
-    /*  if(obj == m_picLabel)
-    {
-        if(ev->type() == QEvent::MouseButtonPress)
-        {
-            QMouseEvent* event = static_cast<QMouseEvent*>(ev);
-            m_startField = event->pos();
 
-            return true;
-        }
-        else if(ev->type() == QEvent::MouseButtonRelease)
-        {
-                QMouseEvent* event = static_cast<QMouseEvent*>(ev);
-                if(event->modifiers() == Qt::NoModifier)
-                {
-                    Field* field = addFieldAt(m_startField);
-                QPoint point = event->pos();
-                field->setGeometry(m_startField.x(),m_startField.y(),m_startField.x()+point.x(),m_startField.y()+point.y());
-
-                return true;
-                }
-        }
-    }*/
     return QMainWindow::eventFilter(obj,ev);
 }
 Field* MainWindow::addFieldAt(QPoint pos)
 {
     qDebug() << "create Field";
-    /* Field* field = new Field(m_picLabel);
-    m_fieldList.append(field);
-    field->move(pos);
-    field->setPosition(pos);
-    field->drawField();
-    field->setVisible(true);
-    connect(field,SIGNAL(clickOn(Field*)),this,SLOT(updateEditorPanel(Field*)));
-    updateEditorPanel(field);
-    return field;*/
+
     return NULL;
 }
-
-/*void MainWindow::updateEditorPanel(Field* f)
-{
-    if(NULL!=f)
-    {
-        ui->m_xPos->setValue(f->pos().x());
-        ui->m_yPos->setValue(f->pos().y());
-        ui->m_width->setValue(f->size().width());
-        ui->m_height->setValue(f->size().height());
-        ui->m_key->setText(f->key());
-    }
-}*/

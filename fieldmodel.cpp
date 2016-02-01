@@ -69,7 +69,7 @@ void Section::setName(const QString &name)
     m_name = name;
 }
 
-void Section::save(QJsonObject& json)
+void Section::save(QJsonObject& json,bool exp)
 {
     json["name"] = m_name;
     json["type"] = QStringLiteral("Section");
@@ -77,7 +77,7 @@ void Section::save(QJsonObject& json)
     foreach (Item* item, m_children)
     {
        QJsonObject itemObject;
-       item->save(itemObject);
+       item->save(itemObject,exp);
        fieldArray.append(itemObject);
     }
     json["items"] = fieldArray;
@@ -108,11 +108,11 @@ void Section::load(QJsonObject &json,QGraphicsScene* scene)
     }
 
 }
-void Section::generateQML(QTextStream &out)
+void Section::generateQML(QTextStream &out,Item::QMLSection sec)
 {
     foreach (Item* item, m_children)
     {
-        item->generateQML(out);
+        item->generateQML(out,sec);
     }
 }
 
@@ -253,6 +253,7 @@ bool FieldModel::setData(const QModelIndex &index, const QVariant &value, int ro
         if(NULL!=item)
         {
             item->setValue(m_colunm[index.column()]->getPos(),value);
+            emit valuesChanged(item->getValue(Item::NAME).toString(),value.toString());
             return true;
         }
     }
@@ -285,9 +286,9 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
 
 }
-void FieldModel::generateQML(QTextStream& out)
+void FieldModel::generateQML(QTextStream& out,Item::QMLSection sec)
 {
-    m_rootSection->generateQML(out);
+    m_rootSection->generateQML(out,sec);
 }
 
 QString FieldModel::getValue(const QString &key)
@@ -336,9 +337,9 @@ void FieldModel::updateItem(Field* item)
         emit dataChanged(first,second);
     }
 }
-void FieldModel::save(QJsonObject& json)
+void FieldModel::save(QJsonObject& json,bool exp)
 {
-    m_rootSection->save(json);
+    m_rootSection->save(json,exp);
 }
 
 void FieldModel::load(QJsonObject &json,QGraphicsScene* scene)

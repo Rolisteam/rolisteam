@@ -32,6 +32,10 @@ public slots:
     void open();
     void generateQML();
 
+    void exportToRolisteam();
+
+
+
 protected:
 
     bool eventFilter(QObject *, QEvent *);
@@ -45,6 +49,7 @@ private:
     QPixmap m_pix;
     FieldModel* m_model;
     QString m_filename;
+
 };
 
 #endif // MAINWINDOW_H

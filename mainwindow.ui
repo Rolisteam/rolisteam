@@ -75,7 +75,7 @@
           <item>
            <widget class="QToolButton" name="m_addBtn">
             <property name="text">
-             <string>Add</string>
+             <string>Add Field</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -89,6 +89,16 @@
             <attribute name="buttonGroup">
              <string notr="true">buttonGroup</string>
             </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="m_addButtonBtn">
+            <property name="text">
+             <string>Add Button</string>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item>
@@ -169,6 +179,8 @@
     <addaction name="m_saveAct"/>
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
+    <addaction name="m_rolisteamExport"/>
+    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -223,13 +235,18 @@
     <string>Delete</string>
    </property>
   </action>
+  <action name="m_rolisteamExport">
+   <property name="text">
+    <string>Export To Rolisteam</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
-   <header>QQuickWidget</header>
+   <header>QtQuickWidgets/QQuickWidget</header>
   </customwidget>
  </customwidgets>
  <resources/>
