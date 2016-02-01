@@ -84,6 +84,25 @@ void Chapter::insertChildAt(int row, ResourcesNode* uri)
     uri->setParent(this);
 }
 
+bool Chapter::seekNode(QList<ResourcesNode *> &path, ResourcesNode *node)
+{
+    if(m_children.contains(node))
+    {
+        path.append(this);
+        path.append(node);
+    }
+    else
+    {
+        for(auto child : m_children)
+        {
+            if((child->hasChildren()) && (child->seekNode(path,node)))
+            {
+                path.prepend(this);
+            }
+        }
+    }
+}
+
 bool Chapter::contains(ResourcesNode* node)
 {
     if(m_children.contains(node))
