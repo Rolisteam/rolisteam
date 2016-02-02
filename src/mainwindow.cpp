@@ -114,6 +114,7 @@ MainWindow::MainWindow()
     m_mapAction = new QMap<MediaContainer*,QAction*>();
 
     m_sessionManager = new SessionManager();
+
     connect(m_sessionManager,SIGNAL(sessionChanged(bool)),this,SLOT(setWindowModified(bool)));
     connect(m_sessionManager,SIGNAL(openFile(CleverURI*,bool)),this,SLOT(openCleverURI(CleverURI*,bool)));
 

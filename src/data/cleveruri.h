@@ -25,6 +25,8 @@
 #include <QList>
 #include <QMetaType>
 #include "resourcesnode.h"
+
+class CleverURIListener;
 /**
 * @brief This class stores data refering to file, uri and type
 * @brief as a file can be loaded as different type.
@@ -33,7 +35,7 @@
 */
 class CleverURI : public ResourcesNode
 {
-    Q_OBJECT
+
 public:
     /**
     * @brief enum of all available type.
@@ -135,6 +137,10 @@ public:
     void clearData();
 
     QVariant getData(int i);
+    bool seekNode(QList<ResourcesNode*>& path,ResourcesNode* node);
+
+    //static CleverURIListener *getListener();
+    static void setListener(CleverURIListener *value);
 
 private:
     /**
@@ -152,6 +158,13 @@ private:
     static QHash<CleverURI::ContentType,QString> m_iconPathHash;
     static QStringList m_typeNameList;
     static QStringList m_typeToPreferenceDirectory;
+    static CleverURIListener* s_listener;
+};
+
+class CleverURIListener
+{
+public:
+    virtual void cleverURIHasChanged(CleverURI*)=0;
 };
 
 typedef QList<CleverURI> CleverUriList;

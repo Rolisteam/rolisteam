@@ -58,7 +58,7 @@ SessionItemModel::SessionItemModel()
 {
     m_header << tr("Name")<< tr("Mode")<< tr("Opened")<< tr("Path");
     m_rootItem = new Chapter();
-    connect(m_rootItem,SIGNAL(updated(ResourcesNode*)),this,SLOT(updateNode(ResourcesNode*)));
+
     connect(m_rootItem,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
 }
 QModelIndex SessionItemModel::index( int row, int column, const QModelIndex & parent ) const
@@ -126,6 +126,11 @@ QMimeData* SessionItemModel::mimeData(const QModelIndexList &indexes) const
         }
     }
     return mimeData;
+}
+
+void SessionItemModel::cleverURIHasChanged(CleverURI *uri)
+{
+    updateNode(uri);
 }
 
 void SessionItemModel::updateNode(ResourcesNode* node)

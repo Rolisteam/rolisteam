@@ -56,6 +56,8 @@ QStringList CleverURI::m_typeNameList = QStringList() <<    QObject::tr("None") 
 QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString("SessionDirectory") <<QString("MapDirectory")       <<QString("MapDirectory")           <<QString("ChatDirectory")
                                                                    <<   QString("ImageDirectory")   <<QString("ImageDirectory")     <<QString("Text")                   <<QString("MinutesDirectory") <<
                                                                         QString("SessionDirectory") <<QString("SessionDirectory")   <<QString("MusicDirectoryPlayer")   <<QString("MusicDirectoryPlayer");
+CleverURIListener* CleverURI::s_listener = NULL;
+
 CleverURI::CleverURI()
     : m_type(NONE),m_displayed(false)
 {
@@ -121,7 +123,10 @@ void CleverURI::defineShortName()
     QFileInfo info(m_uri);
 
     m_name = info.baseName();
-    emit updated(this);
+    if(NULL!=s_listener)
+    {
+        s_listener->cleverURIHasChanged(this);
+    }
 }
 
 void CleverURI::init()
@@ -129,6 +134,16 @@ void CleverURI::init()
      PreferencesManager* preferences=PreferencesManager::getInstance();
      m_currentMode = (LoadingMode)preferences->value(QStringLiteral("DefaultLoadingMode"),(int)Linked).toInt();
 }
+/*CleverURIListener *CleverURI::getListener()
+{
+    return s_listener;
+}*/
+
+void CleverURI::setListener(CleverURIListener *value)
+{
+    s_listener = value;
+}
+
 
 QByteArray CleverURI::getData() const
 {
@@ -257,6 +272,10 @@ void CleverURI::loadFileFromUri()
 void CleverURI::clearData()
 {
     m_data.clear();
+}
+bool CleverURI::seekNode(QList<ResourcesNode*>& path,ResourcesNode* node)
+{
+    return false;
 }
 
 QVariant CleverURI::getData(int i)

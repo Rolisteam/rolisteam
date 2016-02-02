@@ -26,7 +26,7 @@
     * @brief RessourceNode is part of the composite design pattern, it's the abstract class
     * @brief providing the basic API for ressources, Shortname and has children.
     */
-class ResourcesNode : public QObject
+class ResourcesNode
 {
 public:
     ResourcesNode();
@@ -69,9 +69,6 @@ public:
     virtual QVariant getData(int)=0;
 
     virtual bool seekNode(QList<ResourcesNode*>& path,ResourcesNode* node)=0;
-
-signals:
-    void updated(ResourcesNode*);
 
 protected:
     QString m_name;

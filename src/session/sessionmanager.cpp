@@ -45,6 +45,7 @@ SessionManager::SessionManager()
     setWindowTitle(tr("Resources Explorer"));
     
     m_model = new SessionItemModel();
+    CleverURI::setListener(m_model);
     
     m_view->setModel(m_model);
 
@@ -101,11 +102,21 @@ void SessionManager::closeEvent ( QCloseEvent * event )
         emit changeVisibility(false);
     }
 }
+SessionItemModel *SessionManager::getModel() const
+{
+    return m_model;
+}
+
+void SessionManager::setModel(SessionItemModel *model)
+{
+    m_model = model;
+}
+
 
 void SessionManager::setCurrentChapter()
 {
     QModelIndex p = m_view->currentIndex();
-   // m_currentChapter = m_model->getChapter(p);
+    // m_currentChapter = m_model->getChapter(p);
 }
 
 void SessionManager::openResources(QModelIndex& index)

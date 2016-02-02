@@ -60,6 +60,10 @@ public:
 
     virtual void saveSession(QDataStream& out);
     virtual void loadSession(QDataStream& in);
+
+    SessionItemModel* getModel() const;
+    void setModel(SessionItemModel* model);
+
 public slots:
     /**
     * @brief add chapter into the given index
