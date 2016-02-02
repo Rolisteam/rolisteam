@@ -165,9 +165,12 @@ void NetworkLink::receivingData()
             if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
             {
 
-                NetWorkReceiver* tmp = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
+                QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
 
-                forwardMessage(tmp->processMessage(&data));
+                foreach(NetWorkReceiver* tmp, tmpList)
+                {
+                    forwardMessage(tmp->processMessage(&data));
+                }
             }
 
             switch(data.category())

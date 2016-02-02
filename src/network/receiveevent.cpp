@@ -92,16 +92,30 @@ void ReceiveEvent::registerReceiver(NetMsg::Category categorie, NetMsg::Action a
 }
 void ReceiveEvent::registerNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver)
 {
-	ms_netWorkReceiverMap.insert(categorie, receiver);
+    ms_netWorkReceiverMap.insertMulti(categorie, receiver);
+}
+
+void ReceiveEvent::removeNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver)
+{
+    QMap<NetMsg::Category, NetWorkReceiver *>::iterator it = ms_netWorkReceiverMap.find(categorie);
+    while (it != ms_netWorkReceiverMap.end() )
+    {
+        if(it.value()==receiver)
+        {
+            ms_netWorkReceiverMap.erase(it);
+        }
+        ++it;
+    }
+
 }
 bool ReceiveEvent::hasNetworkReceiverFor(NetMsg::Category categorie)
 {
     return ms_netWorkReceiverMap.contains(categorie);
 }
 
-NetWorkReceiver* ReceiveEvent::getNetWorkReceiverFor(NetMsg::Category categorie)
+QList<NetWorkReceiver*> ReceiveEvent::getNetWorkReceiverFor(NetMsg::Category categorie)
 {
-    return ms_netWorkReceiverMap.value(categorie);
+    return ms_netWorkReceiverMap.values(categorie);
 }
 
 /*********************

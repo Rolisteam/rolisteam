@@ -38,73 +38,74 @@ class NetworkLink;
  */
 class ReceiveEvent : public QEvent
 {
-    public:
-		ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, NetworkLink * link);
-        ReceiveEvent(const ReceiveEvent & other);
-        ~ReceiveEvent();
+public:
+    ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, NetworkLink * link);
+    ReceiveEvent(const ReceiveEvent & other);
+    ~ReceiveEvent();
 
-        static const int Type;
-        /**
-         * @brief postToReceiver
-         */
-        void postToReceiver();
+    static const int Type;
+    /**
+     * @brief postToReceiver
+     */
+    void postToReceiver();
 
-        /**
-         * @brief Post again this same event after a delay.
-         */
-        void repostLater() const;
-        /**
-         * @brief link
-         * @return
-         */
-		NetworkLink * link() const;
-        /**
-         * @brief data
-         * @return
-         */
-        NetworkMessageReader & data();
+    /**
+     * @brief Post again this same event after a delay.
+     */
+    void repostLater() const;
+    /**
+     * @brief link
+     * @return
+     */
+    NetworkLink * link() const;
+    /**
+     * @brief data
+     * @return
+     */
+    NetworkMessageReader & data();
 
-        /**
-         * @brief hasReceiverFor
-         * @param categorie
-         * @param action
-         * @return
-         */
-        static bool hasReceiverFor(quint8 categorie, quint8 action);
-        /**
-         * @brief registerReceiver
-         * @param categorie
-         * @param action
-         * @param receiver
-         */
-        static void registerReceiver(NetMsg::Category categorie, NetMsg::Action action, QObject * receiver);
+    /**
+     * @brief hasReceiverFor
+     * @param categorie
+     * @param action
+     * @return
+     */
+    static bool hasReceiverFor(quint8 categorie, quint8 action);
+    /**
+     * @brief registerReceiver
+     * @param categorie
+     * @param action
+     * @param receiver
+     */
+    static void registerReceiver(NetMsg::Category categorie, NetMsg::Action action, QObject * receiver);
 
-        /**
-         * @brief hasNetworkReceiverFor
-         * @param categorie
-         * @return
-         */
-        static bool hasNetworkReceiverFor(NetMsg::Category categorie);
-        /**
-         * @brief getNetWorkReceiverFor
-         * @param categorie
-         * @return
-         */
-        static NetWorkReceiver* getNetWorkReceiverFor(NetMsg::Category categorie);
-        /**
-         * @brief registerNetworkReceiver
-         * @param categorie
-         * @param receiver
-         */
-        static void registerNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver);
+    /**
+     * @brief hasNetworkReceiverFor
+     * @param categorie
+     * @return
+     */
+    static bool hasNetworkReceiverFor(NetMsg::Category categorie);
+    /**
+     * @brief getNetWorkReceiverFor
+     * @param categorie
+     * @return
+     */
+    static QList<NetWorkReceiver*> getNetWorkReceiverFor(NetMsg::Category categorie);
+    /**
+     * @brief registerNetworkReceiver
+     * @param categorie
+     * @param receiver
+     */
+    static void registerNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver);
 
-    private:
-        NetworkMessageReader m_data;
-		NetworkLink * m_link;
-        quint8 m_repost;
+    static void removeNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver);
+private:
+    NetworkMessageReader m_data;
+    NetworkLink * m_link;
+    quint8 m_repost;
 
-        static QMap<quint16, QObject *> s_receiverMap;
-        static QMap<NetMsg::Category, NetWorkReceiver *> ms_netWorkReceiverMap;
+    static QMap<quint16, QObject *> s_receiverMap;
+    static QMap<NetMsg::Category, NetWorkReceiver *> ms_netWorkReceiverMap;
 };
 /**
  * @brief The DelayReceiveEvent class

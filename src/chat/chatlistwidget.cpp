@@ -167,6 +167,7 @@ NetWorkReceiver::SendType ChatListWidget::processMessage(NetworkMessageReader* m
     default:
         break;
     }
+    return AllExceptSender;
 }
 void ChatListWidget::processAddDiceAlias(NetworkMessageReader* msg)
 {
