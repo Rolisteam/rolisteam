@@ -1905,7 +1905,7 @@ void MainWindow::openRecentFile()
     {
         CleverURI* uri = new CleverURI();
         *uri = action->data().value<CleverURI>();
-        openCleverURI(uri);
+        openCleverURI(uri,true);
     }
 }
 void MainWindow::updateRecentFileActions()
