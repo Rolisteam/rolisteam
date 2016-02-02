@@ -63,6 +63,7 @@ ResourcesNode *ResourcesNode::getParent() const
 void ResourcesNode::setParent(ResourcesNode *parent)
 {
     m_parent = parent;
+    connect(this,SIGNAL(updated(ResourcesNode*)),parent,SIGNAL(updated(ResourcesNode*)));
 }
 
 int ResourcesNode::rowInParent()
