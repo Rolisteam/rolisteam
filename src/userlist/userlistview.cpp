@@ -46,8 +46,10 @@ UserListView::UserListView(QWidget *parent) :
     connect(this,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(customContextMenuEvent(QPoint)));
     
     
-    m_avatar = new QAction(tr("Set Avatar..."),this);
-    connect(m_avatar,SIGNAL(triggered()),this,SLOT(onAvatar()));
+    m_addAvatarAct = new QAction(tr("Set Avatar..."),this);
+    m_removeAvatarAct = new QAction(tr("Remove Avatar..."),this);
+    connect(m_addAvatarAct,SIGNAL(triggered()),this,SLOT(addAvatar()));
+    connect(m_removeAvatarAct,SIGNAL(triggered()),this,SLOT(deleteAvatar()));
     setIconSize(QSize(64,64));
 }
 void UserListView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
@@ -87,7 +89,8 @@ void  UserListView::mouseDoubleClickEvent ( QMouseEvent * event)
 void UserListView::customContextMenuEvent ( QPoint e )
 {
     QMenu popMenu(this);
-    popMenu.addAction(m_avatar);
+    popMenu.addAction(m_addAvatarAct);
+    popMenu.addAction(m_removeAvatarAct);
     /// @todo check if the position is a valid person (and belongs to the user)
     QModelIndex index = indexAt(e);
     QString uuid = index.data(PlayersList::IdentifierRole).toString();
@@ -95,26 +98,45 @@ void UserListView::customContextMenuEvent ( QPoint e )
 
     if(PlayersList::instance()->isLocal(tmpperso))
     {
-        m_avatar->setEnabled(true);
+        m_addAvatarAct->setEnabled(true);
+        m_removeAvatarAct->setEnabled(true);
     }
     else
     {
-        m_avatar->setEnabled(false);
+        m_addAvatarAct->setEnabled(false);
+        m_removeAvatarAct->setEnabled(false);
     }
     popMenu.exec(mapToGlobal(e));
     
 }
-void UserListView::onAvatar()
+void UserListView::addAvatar()
 {
     /// @TODO: Here! options manager is required to get access to the photo directory
     QString path = QFileDialog::getOpenFileName(this, tr("Avatar"),".",tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)"));
     QModelIndex index= currentIndex();
-    QString uuid = index.data(PlayersList::IdentifierRole).toString();
-    Person* tmpperso = PlayersList::instance()->getPerson(uuid);
-    QImage im(path);
-    PlayersList::instance()->setLocalPersonAvatar(tmpperso,im);
+    if(path.isEmpty())
+        return;
+    if(index.isValid())
+    {
+        QString uuid = index.data(PlayersList::IdentifierRole).toString();
+        Person* tmpperso = PlayersList::instance()->getPerson(uuid);
+        QImage im(path);
+        PlayersList::instance()->setLocalPersonAvatar(tmpperso,im);
+    }
     //tmpperso->setAvatar(im);
     
+}
+
+void UserListView::deleteAvatar()
+{
+    QModelIndex index= currentIndex();
+    if(index.isValid())
+    {
+        QString uuid = index.data(PlayersList::IdentifierRole).toString();
+        Person* tmpperso = PlayersList::instance()->getPerson(uuid);
+        QImage im;
+        PlayersList::instance()->setLocalPersonAvatar(tmpperso,im);
+    }
 }
 void UserListView::onEditCurrentItemColor()
 {
@@ -139,8 +161,8 @@ void UserListView::onEditCurrentItemColor()
 }
 void UserListView::setModel(UserListModel *model)
 {
-	//QTreeView::setModel(model);
-	//m_model = model;
+    //QTreeView::setModel(model);
+    //m_model = model;
 }
 void UserListView::mousePressEvent ( QMouseEvent * event)
 {
