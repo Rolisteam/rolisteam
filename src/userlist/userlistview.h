@@ -82,7 +82,8 @@ protected slots:
     */
     void currentChanged(const QModelIndex &current, const QModelIndex &previous);
     
-    void onAvatar();
+    void addAvatar();
+    void deleteAvatar();
     
     QPixmap generateAvatar(Person* p);
     
@@ -94,7 +95,8 @@ private:
     
     UserListModel *m_model;
     
-    QAction* m_avatar;
+    QAction* m_addAvatarAct;
+    QAction* m_removeAvatarAct;
 };
 
 #endif // USERLISTVIEW_H

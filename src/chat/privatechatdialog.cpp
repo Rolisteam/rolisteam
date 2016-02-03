@@ -151,7 +151,13 @@ QSize PrivateChatDialog::sizeHint() const
 int PrivateChatDialog::edit(PrivateChat * chat)
 {
     if (chat == NULL)
+    {
         return QDialog::Rejected;
+    }
+    if(NULL==chat->owner())
+    {
+         return QDialog::Rejected;
+    }
 
     bool isEditable = chat->belongsToLocalPlayer();
     m_name_w->setText(chat->name());
