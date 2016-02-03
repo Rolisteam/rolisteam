@@ -68,12 +68,12 @@ public:
      * @brief parent
      * @return
      */
-    Person* parent() const;
+    Player* getParent() const;
     /**
      * @brief setParent
      * @param player
      */
-    void setParent(Person* player);
+    void setParent(Player* player);
     /**
      * @brief isBool
      * @return
@@ -129,7 +129,7 @@ signals:
 private:
     void init();
 private:
-    Person* m_parent;
+    Player* m_parent;
     bool m_isNpc;
     int m_number;
     CharacterState* m_currentState;

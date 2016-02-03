@@ -894,7 +894,7 @@ void PlayersList::delCharacter(NetworkMessageReader & data)
     if (character == NULL)
         return;
 
-    Player* parent = dynamic_cast<Player*>(character->parent());
+    Player* parent = character->getParent();
     if(NULL!=parent)
     {
         delCharacter(parent, parent->getIndexOfCharacter(character));
