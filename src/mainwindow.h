@@ -308,6 +308,9 @@ private slots :
 
 private :
     MainWindow();
+    void showCleverUri(CleverURI *uri);
+
+private:
     static MainWindow* m_singleton;
     void createNotificationZone();
     void linkActionToMenu();
@@ -366,6 +369,7 @@ private :
 
     ConnectionProfile* m_currentConnectionProfile;
     QList<QWidget*> m_gmToolBoxList;
+
 };
 
 #endif

@@ -1956,10 +1956,24 @@ void MainWindow::setLatestFile(CleverURI* fileName)
         updateRecentFileActions();
     }
 }
+void MainWindow::showCleverUri(CleverURI* uri)
+{
+    for(auto i : m_mapAction->keys())
+    {
+        if(i->getCleverUri() == uri)
+        {
+            i->setVisible(true);
+        }
+    }
+}
+
 void MainWindow::openCleverURI(CleverURI* uri,bool force)
 {
     if((uri->isDisplayed())&&(!force))
+    {
+        showCleverUri(uri);
         return;
+    }
 
     MediaContainer* tmp=NULL;
     switch(uri->getType())
