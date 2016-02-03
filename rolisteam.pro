@@ -62,7 +62,6 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 ## End of Translation
 
 ##Installation
-#binaries.files = bin/rolisteam
 target.path = $$PREFIX/
 
 INSTALLS += target
@@ -71,190 +70,195 @@ INSTALLS += target
 include(src/odt/src/src.pri)
 include(src/diceparser/diceparser.pri)
 include(src/vmap/vmap.pri)
-include(src/widgets/gmtoolbox/NameGenerator/NameGenerator.pri)
 include(src/charactersheet/charactersheet.pri)
 include(src/session/session.pri)
+
+
+#GM TOOL BOX
+include(src/widgets/gmtoolbox/NameGenerator/NameGenerator.pri)
+include(src/widgets/gmtoolbox/UnitConvertor/UnitConvertor.pri)
 
 
 #include(src/diceparser/node/node.pri)
 ## Source
 HEADERS += \
-	   src/chat/chat.h \
-	   src/chat/chatlist.h \
-	   src/chat/chatlistwidget.h \
-	   src/network/connectiondialog.h \
-           src/delegate.h \
-           src/Features.h \
-           src/Image.h \
-           src/localpersonmodel.h \
-           src/network/networkmessage.h \
-           src/network/networkmessagereader.h \
-           src/network/networkmessagewriter.h \
-           src/persondialog.h \
-           src/userlist/playersList.h \
-           src/userlist/playerslistproxy.h \
-           src/userlist/playersListWidget.h \
-           src/preferences/preferencesdialog.h \
-           src/chat/privatechatdialog.h \
-	   src/network/receiveevent.h \
-	   src/chat/chatwindow.h \
-           src/services/updatechecker.h \
-    src/network/connectionretrydialog.h \
-    src/mainwindow.h \
-    src/preferences/preferencesmanager.h \
-    src/chat/chatbrowser.h \
-    src/services/ipchecker.h \
-    src/map/mapwizzard.h \
-    src/map/newemptymapdialog.h \
-    src/widgets/colorbutton.h \
-    src/widgets/filedirchooser.h \
-    src/audio/audioPlayer.h \
-    src/audio/musicmodel.h \
-    src/audio/playerwidget.h \
-    src/network/networkreceiver.h \
-    src/network/networkmanager.h \
-    src/improvedworkspace.h \
-    src/network/networklink.h \
-    src/map/map.h \
-    src/widgets/colorselector.h \
-    src/widgets/diameterselector.h \
-    src/chat/improvedtextedit.h \
-    src/widgets/circledisplayer.h \
-    src/map/charactertoken.h \
-    src/data/mediacontainer.h \
-    src/toolsbar.h \
-    src/data/cleveruri.h \
-    src/data/resourcesnode.h \
-    src/map/mapframe.h \
-    src/preferences/dicealiasmodel.h \
-    src/widgets/onlinepicturedialog.h \
-    src/preferences/preferenceslistener.h \
-    src/widgets/centeredcheckbox.h \
-    src/preferences/palettemodel.h \
-    src/preferences/rolisteamtheme.h \
-    src/preferences/characterstatemodel.h \
-    src/widgets/flowlayout.h \
-    src/data/character.h \
-    src/data/player.h \
-    src/data/person.h \
-    src/data/chapter.h \
-    src/userlist/rolisteammimedata.h \
-    src/userlist/userlistdelegate.h \
-    src/userlist/userlistview.h \
-    src/widgets/aboutrolisteam.h \
-    src/data/charactervision.h \
-    src/data/characterstate.h \
-    src/widgets/filepathdelegateitem.h \
-    src/network/selectconnectionprofiledialog.h
+        src/chat/chat.h \
+        src/chat/chatlist.h \
+        src/chat/chatlistwidget.h \
+        src/network/connectiondialog.h \
+        src/delegate.h \
+        src/Features.h \
+        src/Image.h \
+        src/localpersonmodel.h \
+        src/network/networkmessage.h \
+        src/network/networkmessagereader.h \
+        src/network/networkmessagewriter.h \
+        src/persondialog.h \
+        src/userlist/playersList.h \
+        src/userlist/playerslistproxy.h \
+        src/userlist/playersListWidget.h \
+        src/preferences/preferencesdialog.h \
+        src/chat/privatechatdialog.h \
+        src/network/receiveevent.h \
+        src/chat/chatwindow.h \
+        src/services/updatechecker.h \
+        src/network/connectionretrydialog.h \
+        src/mainwindow.h \
+        src/preferences/preferencesmanager.h \
+        src/chat/chatbrowser.h \
+        src/services/ipchecker.h \
+        src/map/mapwizzard.h \
+        src/map/newemptymapdialog.h \
+        src/widgets/colorbutton.h \
+        src/widgets/filedirchooser.h \
+        src/audio/audioPlayer.h \
+        src/audio/musicmodel.h \
+        src/audio/playerwidget.h \
+        src/network/networkreceiver.h \
+        src/network/networkmanager.h \
+        src/improvedworkspace.h \
+        src/network/networklink.h \
+        src/map/map.h \
+        src/widgets/colorselector.h \
+        src/widgets/diameterselector.h \
+        src/chat/improvedtextedit.h \
+        src/widgets/circledisplayer.h \
+        src/map/charactertoken.h \
+        src/data/mediacontainer.h \
+        src/toolsbar.h \
+        src/data/cleveruri.h \
+        src/data/resourcesnode.h \
+        src/map/mapframe.h \
+        src/preferences/dicealiasmodel.h \
+        src/widgets/onlinepicturedialog.h \
+        src/preferences/preferenceslistener.h \
+        src/widgets/centeredcheckbox.h \
+        src/preferences/palettemodel.h \
+        src/preferences/rolisteamtheme.h \
+        src/preferences/characterstatemodel.h \
+        src/widgets/flowlayout.h \
+        src/data/character.h \
+        src/data/player.h \
+        src/data/person.h \
+        src/data/chapter.h \
+        src/userlist/rolisteammimedata.h \
+        src/userlist/userlistdelegate.h \
+        src/userlist/userlistview.h \
+        src/widgets/aboutrolisteam.h \
+        src/data/charactervision.h \
+        src/data/characterstate.h \
+        src/widgets/filepathdelegateitem.h \
+        src/network/selectconnectionprofiledialog.h
 
 
 
 SOURCES += \
-	   src/chat/chat.cpp \
-	   src/chat/chatlist.cpp \
-	   src/chat/chatlistwidget.cpp \
-	   src/network/connectiondialog.cpp \
-           src/delegate.cpp \
-           src/Features.cpp \
-           src/Image.cpp \
-           src/localpersonmodel.cpp \
-           src/main.cpp \
-           src/network/networkmessage.cpp \
-           src/network/networkmessagereader.cpp \
-           src/network/networkmessagewriter.cpp \
-           src/persondialog.cpp \
-           src/userlist/playersList.cpp \
-           src/userlist/playerslistproxy.cpp \
-           src/userlist/playersListWidget.cpp \
-           src/preferences/preferencesdialog.cpp \
-           src/chat/privatechatdialog.cpp \
-	   src/network/receiveevent.cpp \
-	   src/chat/chatwindow.cpp \
-           src/services/updatechecker.cpp \
-    src/network/connectionretrydialog.cpp \
-    src/mainwindow.cpp \
-    src/preferences/preferencesmanager.cpp \
-    src/chat/chatbrowser.cpp \
-    src/services/ipchecker.cpp \
-    src/map/mapwizzard.cpp \
-    src/map/newemptymapdialog.cpp \
-    src/widgets/colorbutton.cpp \
-    src/widgets/filedirchooser.cpp \
-    src/audio/audioPlayer.cpp \
-    src/audio/musicmodel.cpp \
-    src/audio/playerwidget.cpp \
-    src/network/networkmanager.cpp \
-    src/improvedworkspace.cpp \
-    src/network/networklink.cpp \
-    src/map/map.cpp \
-    src/widgets/colorselector.cpp \
-    src/widgets/diameterselector.cpp \
-    src/chat/improvedtextedit.cpp \
-    src/widgets/circledisplayer.cpp \
-    src/data/mediacontainer.cpp \
-    src/toolsbar.cpp \
-    src/map/charactertoken.cpp \
-    src/data/cleveruri.cpp \
-    src/map/mapframe.cpp \
-    src/preferences/dicealiasmodel.cpp \
-    src/widgets/onlinepicturedialog.cpp \
-    src/preferences/preferenceslistener.cpp \
-    src/widgets/centeredcheckbox.cpp \
-    src/preferences/palettemodel.cpp \
-    src/preferences/characterstatemodel.cpp \
-    src/preferences/rolisteamtheme.cpp \
-    src/widgets/flowlayout.cpp \
-    src/data/character.cpp \
-    src/data/player.cpp \
-    src/data/person.cpp \
-    src/data/chapter.cpp \
-    src/data/resourcesnode.cpp\
-    src/userlist/rolisteammimedata.cpp \
-    src/userlist/userlistdelegate.cpp \
-    src/userlist/userlistview.cpp \
-    src/widgets/aboutrolisteam.cpp \
-    src/data/charactervision.cpp \
-    src/data/characterstate.cpp \
-    src/widgets/filepathdelegateitem.cpp \
-    src/network/selectconnectionprofiledialog.cpp
+        src/chat/chat.cpp \
+        src/chat/chatlist.cpp \
+        src/chat/chatlistwidget.cpp \
+        src/network/connectiondialog.cpp \
+        src/delegate.cpp \
+        src/Features.cpp \
+        src/Image.cpp \
+        src/localpersonmodel.cpp \
+        src/main.cpp \
+        src/network/networkmessage.cpp \
+        src/network/networkmessagereader.cpp \
+        src/network/networkmessagewriter.cpp \
+        src/persondialog.cpp \
+        src/userlist/playersList.cpp \
+        src/userlist/playerslistproxy.cpp \
+        src/userlist/playersListWidget.cpp \
+        src/preferences/preferencesdialog.cpp \
+        src/chat/privatechatdialog.cpp \
+        src/network/receiveevent.cpp \
+        src/chat/chatwindow.cpp \
+        src/services/updatechecker.cpp \
+        src/network/connectionretrydialog.cpp \
+        src/mainwindow.cpp \
+        src/preferences/preferencesmanager.cpp \
+        src/chat/chatbrowser.cpp \
+        src/services/ipchecker.cpp \
+        src/map/mapwizzard.cpp \
+        src/map/newemptymapdialog.cpp \
+        src/widgets/colorbutton.cpp \
+        src/widgets/filedirchooser.cpp \
+        src/audio/audioPlayer.cpp \
+        src/audio/musicmodel.cpp \
+        src/audio/playerwidget.cpp \
+        src/network/networkmanager.cpp \
+        src/improvedworkspace.cpp \
+        src/network/networklink.cpp \
+        src/map/map.cpp \
+        src/widgets/colorselector.cpp \
+        src/widgets/diameterselector.cpp \
+        src/chat/improvedtextedit.cpp \
+        src/widgets/circledisplayer.cpp \
+        src/data/mediacontainer.cpp \
+        src/toolsbar.cpp \
+        src/map/charactertoken.cpp \
+        src/data/cleveruri.cpp \
+        src/map/mapframe.cpp \
+        src/preferences/dicealiasmodel.cpp \
+        src/widgets/onlinepicturedialog.cpp \
+        src/preferences/preferenceslistener.cpp \
+        src/widgets/centeredcheckbox.cpp \
+        src/preferences/palettemodel.cpp \
+        src/preferences/characterstatemodel.cpp \
+        src/preferences/rolisteamtheme.cpp \
+        src/widgets/flowlayout.cpp \
+        src/data/character.cpp \
+        src/data/player.cpp \
+        src/data/person.cpp \
+        src/data/chapter.cpp \
+        src/data/resourcesnode.cpp\
+        src/userlist/rolisteammimedata.cpp \
+        src/userlist/userlistdelegate.cpp \
+        src/userlist/userlistview.cpp \
+        src/widgets/aboutrolisteam.cpp \
+        src/data/charactervision.cpp \
+        src/data/characterstate.cpp \
+        src/widgets/filepathdelegateitem.cpp \
+        src/network/selectconnectionprofiledialog.cpp
 
+
+FORMS += \
+    src/network/connectionretrydialog.ui \
+    src/map/mapwizzard.ui \
+    src/map/newemptymapdialog.ui \
+    src/chat/chatwindow.ui \
+    src/preferences/preferencesdialogbox.ui \
+    src/audio/audiowidget.ui \
+    src/mainwindow.ui \
+    src/widgets/onlinepicturedialog.ui \
+    src/widgets/aboutrolisteam.ui \
+    src/network/selectconnectionprofiledialog.ui
 #end source
 
 
 #Audio configuration
 HAVE_SOUND {
  DEFINES+= HAVE_SOUND
- HEADERS +=
- SOURCES += 
 }
-
 HAVE_NULL {
  DEFINES+= NULL_PLAYER
 }
 # End of audio
+
+
 ICON = resources/logo/rolisteam.icns
 
 RESOURCES += rolisteam.qrc
 
 # Installs
-macx{
-documentation.path = bin/rolisteam.app/Contents/Resources/doc
-}
 unix:!macx{
-documentation.path = /usr/local/share/rolisteam/
 QMAKE_CXXFLAGS = "-std=c++11 -fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
 }
-documentation.files = resources/doc/*
-INSTALLS += documentation
 
 QT += core \
  gui \
  opengl \
  network
-
-# Flags
-        #win32:QMAKE_CXXFLAGS = "/Wall /GS /Ob2t"
-        #else:QMAKE_CXXFLAGS = "-fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
 
 
 # Version
@@ -267,17 +271,7 @@ unix{
 LIBS += -lz
 }
 CONFIG += embed_manifest_exe
-FORMS += \
-    src/network/connectionretrydialog.ui \
-    src/map/mapwizzard.ui \
-    src/map/newemptymapdialog.ui \
-    src/chat/chatwindow.ui \
-    src/preferences/preferencesdialogbox.ui \
-    src/audio/audiowidget.ui \
-    src/mainwindow.ui \
-    src/widgets/onlinepicturedialog.ui \
-    src/widgets/aboutrolisteam.ui \
-    src/network/selectconnectionprofiledialog.ui
+
 
 INCLUDEPATH +=src/audio
 
@@ -296,5 +290,3 @@ win32:PRE_TARGETDEPS += $$PWD/../../lib/zlibapi/dll32/zlibwapi.lib
 
 DISTFILES += \
     rolisteam.dox
-
-#DEFINES += QT_NO_CAST_FROM_ASCII QT_NO_CAST_TO_ASCII QT_NO_CAST_FROM_BYTEARRAY QT_NO_URL_CAST_FROM_STRING
