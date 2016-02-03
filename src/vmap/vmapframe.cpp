@@ -294,7 +294,7 @@ void VMapFrame::processSetParentItem(NetworkMessageReader* msg)
     }
 }
 
-QString VMapFrame::getMapId()
+QString VMapFrame::getMediaId()
 {
     if(NULL!=m_vmap)
     {

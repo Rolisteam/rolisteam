@@ -270,7 +270,7 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
             MapFrame* tmpWindow = dynamic_cast<MapFrame*>(tmp->widget());
             if(NULL!=tmpWindow)
             {
-                if(tmpWindow->getMapId() == id)
+                if(tmpWindow->getMediaId() == id)
                 {
                     return tmp;
                 }
@@ -280,7 +280,7 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
                 Image* img = dynamic_cast<Image*>(tmp);
                 if(NULL!=img)
                 {
-                    if(img->getImageId() == id)
+                    if(img->getMediaId() == id)
                     {
                         return tmp;
                     }

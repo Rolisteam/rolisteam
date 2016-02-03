@@ -99,7 +99,7 @@ void MapFrame::moveMap(QPoint position)
     m_widgetArea->horizontalScrollBar()->setValue(horizontalDepart + diff.x());
     m_widgetArea->verticalScrollBar()->setValue(verticalDepart + diff.y());
 }
-QString MapFrame::getMapId()
+QString MapFrame::getMediaId()
 {
 	if(NULL!=m_map)
     {

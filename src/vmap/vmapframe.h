@@ -69,11 +69,6 @@ public :
     */
     VMap* getMap();
     /**
-    * @brief accessor for the map Id
-    */
-    QString getMapId();
-    
-    /**
     * @brief get the current editing mode.
     */
     int editingMode();
@@ -152,6 +147,7 @@ public :
      * @param msg
      */
     void processGeometryViewChange(NetworkMessageReader* msg);
+    virtual QString getMediaId();
 public slots :
 	/**
 	 * @brief setCleverURI

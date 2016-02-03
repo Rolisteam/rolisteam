@@ -71,14 +71,6 @@ CharacterSheet *Character::getSheet() const
 void Character::setSheet(CharacterSheet *sheet)
 {
     m_sheet = sheet;
-
-    if((NULL!=m_sheet)&&(NULL!=m_parent)&&(m_parent->isGM()))
-    {
-        NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterSheet);
-        msg.string8(m_uuid);
-        m_sheet->fill(msg);
-    }
-
 }
 void Character::setListOfCharacterState(QList<CharacterState*>* list)
 {

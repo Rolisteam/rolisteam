@@ -134,6 +134,10 @@ public:
     */
     virtual void currentColorChanged(QColor&);
 
+    virtual QString getMediaId();
+
+    virtual void setMediaId(QString);
+
 signals:
     /**
      * @brief visibleChanged
@@ -163,6 +167,7 @@ protected:
     * @brief the current color of the pen.
     */
     QColor m_penColor;
+    QString m_mediaId;
 
 };
 

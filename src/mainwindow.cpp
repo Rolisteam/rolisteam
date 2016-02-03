@@ -185,7 +185,7 @@ void MainWindow::closeAllImagesAndMaps()
 
             if(NULL!=imageWindow)
             {
-                removePictureFromId(imageWindow->getImageId());
+                removePictureFromId(imageWindow->getMediaId());
             }
         }
     }
@@ -193,7 +193,7 @@ void MainWindow::closeAllImagesAndMaps()
     {
         if(NULL!=tmp)
         {
-            removeMapFromId(tmp->getMapId());
+            removeMapFromId(tmp->getMediaId());
         }
     }
 }
@@ -219,7 +219,7 @@ void MainWindow::closeMapOrImage()
         {
             m_pictureList.removeOne(imageFenetre);
 
-            mapImageId = imageFenetre->getImageId();
+            mapImageId = imageFenetre->getMediaId();
             image = true;
             action = imageFenetre->getAction();
         }
@@ -228,7 +228,7 @@ void MainWindow::closeMapOrImage()
             bipMapWindow= dynamic_cast<MapFrame*>(active);
             if(NULL!=bipMapWindow)
             {
-                mapImageId = bipMapWindow->getMapId();
+                mapImageId = bipMapWindow->getMediaId();
                 action = bipMapWindow->getAction();
 
             }
@@ -486,7 +486,7 @@ void MainWindow::linkActionToMenu()
 }
 void MainWindow::prepareMap(MapFrame* mapFrame)
 {
-    m_mapWindowMap.insert(mapFrame->getMapId(),mapFrame);
+    m_mapWindowMap.insert(mapFrame->getMediaId(),mapFrame);
     Map* map = mapFrame->getMap();
     if(NULL==map)
         return;
@@ -1397,7 +1397,7 @@ void MainWindow::processImageMessage(NetworkMessageReader* msg)
         }
         Image* image = new Image();
         image->setTitle(title);
-        image->setIdImage(idImage);
+        image->setMediaId(idImage);
         image->setIdOwner(idPlayer);
         image->setImage(*img);
 
@@ -1751,9 +1751,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     map->setCurrentNpcNumber(m_toolBar->getCurrentNpcNumber());
     tmp->currentPenSizeChanged(m_vToolBar->getCurrentPenSize());
 
-    //addMediaToMdiArea(tmp);
-    //tmp->show();
-    m_mapWindowVectorialMap.insert(tmp->getMapId(),tmp);
+    m_mapWindowVectorialMap.insert(tmp->getMediaId(),tmp);
 
     m_vToolBar->setCurrentTool(VToolsBar::HANDLER);
     tmp->currentToolChanged(m_vToolBar->getCurrentTool());

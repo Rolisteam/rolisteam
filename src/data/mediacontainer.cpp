@@ -22,7 +22,7 @@
 
 
 MediaContainer::MediaContainer(QWidget* parent)
-    : QMdiSubWindow(parent),m_uri(NULL),m_preferences(PreferencesManager::getInstance()),m_action(NULL),m_currentCursor(NULL)
+    : QMdiSubWindow(parent),m_uri(NULL),m_preferences(PreferencesManager::getInstance()),m_action(NULL),m_currentCursor(NULL),m_mediaId(QUuid::createUuid().toString())
 {
     //m_preferences = ;
     setAttribute(Qt::WA_DeleteOnClose,false);
@@ -115,6 +115,16 @@ void MediaContainer::setCleverUriType(CleverURI::ContentType type)
 void MediaContainer::currentColorChanged(QColor& penColor)
 {
     m_penColor = penColor;
+}
+
+QString MediaContainer::getMediaId()
+{
+    return m_mediaId;
+}
+
+void MediaContainer::setMediaId(QString str)
+{
+    m_mediaId = str;
 }
 void MediaContainer::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 {

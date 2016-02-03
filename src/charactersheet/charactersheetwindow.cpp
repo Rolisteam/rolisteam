@@ -27,6 +27,8 @@
 #include "preferences/preferencesmanager.h"
 #include "data/character.h"
 
+#include "data/player.h"
+
 CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     : MediaContainer(parent)
 {
@@ -52,8 +54,6 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
 
     m_view.setModel(&m_model);
     
-    /// @warning that disable the selection decoration.
-    //m_view.setStyleSheet("QTreeView::item { border-right: 1px solid black }");
     resize(m_preferences->value("charactersheetwindows/width",400).toInt(),m_preferences->value("charactersheetwindows/height",200).toInt());
     m_view.setAlternatingRowColors(true);
     setWindowTitle(m_title);
@@ -140,8 +140,22 @@ void CharacterSheetWindow::affectSheetToCharacter()
     Character* character = PlayersList::instance()->getCharacter(key);
     if(NULL!=character)
     {
-        character->setSheet(m_model.getCharacterSheet(m_currentCharacterSheet));
-        m_tabs->setTabText(m_currentCharacterSheet+1,character->getName());
+        CharacterSheet* sheet = m_model.getCharacterSheet(m_currentCharacterSheet);
+        if(NULL!=sheet)
+        {
+            character->setSheet(sheet);
+            m_tabs->setTabText(m_currentCharacterSheet+1,character->getName());
+
+
+            Player* parent = character->getParent();
+            Player* localItem =  PlayersList::instance()->getLocalPlayer();
+            if((NULL!=m_currentCharacterSheet)&&(NULL!=parent)&&(NULL!=localItem)&&(localItem->isGM()))
+            {
+                NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterSheet);
+                msg.string8(m_mediaId);
+                sheet->fill(msg);
+            }
+        }
     }
 
 }
