@@ -21,7 +21,10 @@
 #include "charactersheet.h"
 #include <QDebug>
 #include <QJsonObject>
+#include <QJsonDocument>
 #include <QJsonArray>
+
+
 
 //////////////////////////////////////
 //CharacterSheetItem
@@ -290,4 +293,18 @@ void CharacterSheet::load(QJsonObject& json)
     {
         m_values[key] = json[key].toString();
     }
+}
+void CharacterSheet::fill(NetworkMessageWriter & msg)
+{
+    QJsonObject object;
+    save(object);
+    QJsonDocument doc;
+    doc.setObject(object);
+    msg.byteArray32(doc.toBinaryData());
+}
+void CharacterSheet::read(NetworkMessageReader& msg)
+{
+    QJsonDocument doc=QJsonDocument::fromBinaryData(msg.byteArray32());
+    QJsonObject object = doc.object();
+    load(object);
 }

@@ -315,7 +315,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     {
         QString idparent = msg->string8();
         m_character = new Character(*msg);
-        m_character->setParent(PlayersList::instance()->getPerson(idparent));
+        m_character->setParent(PlayersList::instance()->getPlayer(idparent));
     }
 
     m_character->read(*msg);
@@ -606,7 +606,7 @@ VisualItem* CharacterItem::getItemCopy()
 
 QString CharacterItem::getParentId() const
 {
-    Person* pers = m_character->parent();
+    Person* pers = m_character->getParent();
     if(NULL!=pers)
     {
         return pers->getUuid();

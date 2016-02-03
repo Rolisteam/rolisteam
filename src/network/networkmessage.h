@@ -84,6 +84,7 @@ enum Action {
     changeCharacterState,
     changeCharacterOrientation,
     showCharecterOrientation,
+    addCharacterSheet,
 
 
     // MapCategory

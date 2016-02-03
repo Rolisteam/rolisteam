@@ -24,6 +24,9 @@
 #include <QMap>
 #include <QVariant>
 
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
+
 class CharacterSheetItem
 {
 public:
@@ -135,7 +138,10 @@ public:
     virtual void save(QJsonObject& json);
     virtual void load(QJsonObject& json);
 
+    void fill(NetworkMessageWriter & message);
+
     const QString getTitle();
+    void read(NetworkMessageReader &msg);
 signals:
     void valuesChanged(QString valueKey,QString value);
 
