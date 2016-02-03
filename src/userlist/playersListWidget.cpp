@@ -118,16 +118,19 @@ void PlayersListWidgetModel::changeMap(Map * map)
     m_map = map;
 
     // We need to tell which rows should be updated
-
-    PlayersList * g_playersList = PlayersList::instance();
+    PlayersList* playersList = PlayersList::instance();
     QModelIndex begin;
     QModelIndex end;
     int i;
-    int max = (g_playersList->getLocalPlayer()->isGM() ? g_playersList->numPlayers() : 1);
+    int max = 0;
+    if(NULL!=playersList->getLocalPlayer())
+    {
+        max = (playersList->getLocalPlayer()->isGM() ? playersList->numPlayers() : 1);
+    }
 
     for (i = 0 ; i < max ; i++)
     {
-        Player * player = g_playersList->getPlayer(i);
+        Player * player = playersList->getPlayer(i);
         int nbCharacters = player->getCharactersCount();
 
         if (nbCharacters > 0)
@@ -139,7 +142,7 @@ void PlayersListWidgetModel::changeMap(Map * map)
     }
     for (; i < max ; i++)
     {
-        Player * player = g_playersList->getPlayer(i);
+        Player * player = playersList->getPlayer(i);
         int nbCharacters = player->getCharactersCount();
 
         if (nbCharacters > 0)

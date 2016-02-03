@@ -46,7 +46,14 @@ Map::Map(QString localPlayerId,QString identCarte, QImage *image, bool masquer, 
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
     m_localPlayerId = localPlayerId;
-    m_localIsPlayer = !PlayersList::instance()->getLocalPlayer()->isGM();
+    if(NULL!=PlayersList::instance()->getLocalPlayer())
+    {
+        m_localIsPlayer = !PlayersList::instance()->getLocalPlayer()->isGM();
+    }
+    else
+    {
+        m_localIsPlayer = true;
+    }
     m_currentMode = Map::GM_ONLY;
     m_currentTool = ToolsBar::Handler;
 
