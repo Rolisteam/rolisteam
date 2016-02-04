@@ -326,18 +326,37 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
         QList<QStringList> allStreakList;
         ListDiceResult diceResult =  dice.value(face);
         bool previousHighlight=false;
+        QString previousColor;
         QString patternColor("<span class=\"dice\">");
-        foreach (DiceAndHighlight tmp, diceResult)
+        foreach (HighLightDice tmp, diceResult)
         {
+            if(previousColor != tmp.getColor())
+            {
+                if(!currentStreak.isEmpty())
+                {
+                    QStringList list;
+                    list << patternColor+currentStreak.join(',')+"</span>";
+                    allStreakList.append(list);
+                    currentStreak.clear();
+                }
+                if(tmp.getColor().isEmpty())
+                {
+                    patternColor = QStringLiteral("<span class=\"dice\">");
+                }
+                else
+                {
+                    patternColor = QStringLiteral("<span style=\"color:%1;\">").arg(tmp.getColor());
+                }
+            }
             QStringList diceListStr;
-            if((previousHighlight)&&(!tmp.second))
+            if((previousHighlight)&&(!tmp.isHighlighted()))
             {
                 QStringList list;
                 list << patternColor+currentStreak.join(',')+"</span>";
                 allStreakList.append(list);
                 currentStreak.clear();
             }
-            else if((!previousHighlight)&&(tmp.second))
+            else if((!previousHighlight)&&(tmp.isHighlighted()))
             {
                 if(!currentStreak.isEmpty())
                 {
@@ -347,10 +366,11 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
                     currentStreak.clear();
                 }
             }
-            previousHighlight = tmp.second;
-            for(int i =0; i < tmp.first.size(); ++i)
+            previousHighlight = tmp.isHighlighted();
+            previousColor = tmp.getColor();
+            for(int i =0; i < tmp.getResult().size(); ++i)
             {
-                qint64 dievalue = tmp.first[i];
+                qint64 dievalue = tmp.getResult()[i];
                 diceListStr << QString::number(dievalue);
             }
             if(diceListStr.size()>1)
