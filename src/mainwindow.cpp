@@ -792,6 +792,10 @@ void MainWindow::saveCurrentMedia()
                 QString filter = CleverURI::getFilterForType(cleverURI->getType());
                 QString media = CleverURI::typeToString(cleverURI->getType());
                 QString fileName= QFileDialog::getSaveFileName(this, tr("Save %1").arg(media), m_preferences->value(key,QDir::homePath()).toString(), filter);
+                if(fileName.isEmpty())
+                {
+                    return;
+                }
 
                 int lastSlash = fileName.lastIndexOf("/");
                 m_preferences->registerValue(key,fileName.left(lastSlash));
