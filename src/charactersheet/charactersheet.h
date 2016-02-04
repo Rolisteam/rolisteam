@@ -57,9 +57,13 @@ public:
     virtual void save(QJsonObject&)=0;
     virtual void load(QJsonObject&)=0;
 
+    bool isReadOnly() const;
+    void setReadOnly(bool readOnly);
+
 protected:
     QString m_name;
     QStringList m_value;
+    bool m_readOnly;
     CharacterSheetItem* m_parent;
 };
 

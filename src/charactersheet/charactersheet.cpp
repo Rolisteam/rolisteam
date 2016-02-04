@@ -85,6 +85,16 @@ int CharacterSheetItem::rowInParent()
 {
     return m_parent->indexOf(this);
 }
+bool CharacterSheetItem::isReadOnly() const
+{
+    return m_readOnly;
+}
+
+void CharacterSheetItem::setReadOnly(bool readOnly)
+{
+    m_readOnly = readOnly;
+}
+
 CharacterSheetItem*  CharacterSheetItem::getChildAt(int) const
 {
     return NULL;
