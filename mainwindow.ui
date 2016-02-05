@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Rolisteam Character Sheet Editor</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -22,7 +22,7 @@
       </property>
       <widget class="QTabWidget" name="m_tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="editor">
         <attribute name="title">
@@ -39,8 +39,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>357</width>
-              <height>701</height>
+              <width>98</width>
+              <height>28</height>
              </rect>
             </property>
            </widget>
@@ -66,6 +66,11 @@
         <attribute name="title">
          <string>Code</string>
         </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QTextEdit" name="m_codeEdit"/>
+         </item>
+        </layout>
        </widget>
       </widget>
       <widget class="QWidget" name="layoutWidget">
@@ -179,11 +184,22 @@
     <addaction name="m_saveAct"/>
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
+    <addaction name="actionSave_Qml"/>
+    <addaction name="actionLoad_Qml"/>
+    <addaction name="separator"/>
     <addaction name="m_rolisteamExport"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
+   <widget class="QMenu" name="menuEdition">
+    <property name="title">
+     <string>Edition</string>
+    </property>
+    <addaction name="actionQML_View"/>
+    <addaction name="actionCode_To_QML"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdition"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="m_openAct">
@@ -240,13 +256,33 @@
     <string>Export To Rolisteam</string>
    </property>
   </action>
+  <action name="actionSave_Qml">
+   <property name="text">
+    <string>Save View</string>
+   </property>
+  </action>
+  <action name="actionLoad_Qml">
+   <property name="text">
+    <string>Load View</string>
+   </property>
+  </action>
+  <action name="actionQML_View">
+   <property name="text">
+    <string>Generate QML</string>
+   </property>
+  </action>
+  <action name="actionCode_To_QML">
+   <property name="text">
+    <string>Code To QML</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
-   <header>QtQuickWidgets/QQuickWidget</header>
+   <header>QQuickWidget</header>
   </customwidget>
  </customwidgets>
  <resources/>

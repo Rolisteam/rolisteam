@@ -19,17 +19,24 @@ SOURCES += main.cpp\
     canvas.cpp \
     fieldmodel.cpp \
     item.cpp \
-    borderlisteditor.cpp
+    borderlisteditor.cpp \
+    fielditem.cpp \
+    rolisteamimageprovider.cpp
 
 HEADERS  += mainwindow.h \
     field.h \
     canvas.h \
     fieldmodel.h \
     item.h \
-    borderlisteditor.h
+    borderlisteditor.h \
+    fielditem.h \
+    rolisteamimageprovider.h
 
 FORMS    += mainwindow.ui
 
 DISTFILES += \
     examples/Rcse/Field.qml\
     examples/cs.qml
+
+RESOURCES += \
+    qmlfile.qrc

@@ -5,7 +5,7 @@
 #include <QMainWindow>
 #include "canvas.h"
 #include "fieldmodel.h"
-
+#include "rolisteamimageprovider.h"
 #include "field.h"
 
 namespace Ui {
@@ -23,6 +23,9 @@ public:
 
 
     Field* addFieldAt(QPoint pos);
+    bool qmlGeneration() const;
+    void setQmlGeneration(bool qmlGeneration);
+
 public slots:
     void setCurrentTool();
 
@@ -30,11 +33,12 @@ public slots:
     void saveAs();
 
     void open();
-    void generateQML();
+    void generateQML(QString& qml);
 
     void exportToRolisteam();
 
-
+    void showQML();
+    void showQMLFromCode();
 
 protected:
 
@@ -49,6 +53,8 @@ private:
     QPixmap m_pix;
     FieldModel* m_model;
     QString m_filename;
+    bool m_qmlGeneration;
+    RolisteamImageProvider* m_imgProvider;
 
 };
 

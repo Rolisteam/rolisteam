@@ -1,2 +1,6 @@
-<RCC/>
-
+<RCC>
+    <qresource prefix="/">
+        <file>resources/qml/Field.qml</file>
+        <file>resources/qml/qmldir</file>
+    </qresource>
+</RCC>

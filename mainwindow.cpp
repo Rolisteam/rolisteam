@@ -14,14 +14,18 @@
 #include <QQmlError>
 #include <QQmlEngine>
 #include <QQmlContext>
-
+#include <QQmlComponent>
+#include "fielditem.h"
 
 #include "borderlisteditor.h"
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    m_qmlGeneration =true;
     setAcceptDrops(true);
     ui->setupUi(this);
 
@@ -56,20 +60,20 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_deleteAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
+
+    connect(ui->actionQML_View,SIGNAL(triggered(bool)),this,SLOT(showQML()));
+    connect(ui->actionCode_To_QML,SIGNAL(triggered(bool)),this,SLOT(showQMLFromCode()));
+
     connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
-    connect(ui->m_tabWidget,SIGNAL(currentChanged(int)),this,SLOT(generateQML()));
-
     connect(ui->m_rolisteamExport,SIGNAL(triggered(bool)),this,SLOT(exportToRolisteam()));
 
+    m_imgProvider = new RolisteamImageProvider();
+
+    ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
     ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
-    ui->m_quickview->setSource(QUrl::fromLocalFile("./cstest.qml"));
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
-   /* foreach(QQmlError error, ui->m_quickview->errors())
-    {
-        qDebug() << error.toString();
-    }*/
 }
 
 MainWindow::~MainWindow()
@@ -135,22 +139,21 @@ void MainWindow::open()
             QPixmap pix;
             pix.loadFromData(array);
             m_canvas->setPixmap(pix);
+            m_imgProvider->insertPix("background.jpg",pix);
 
             m_model->load(jsonObj,m_canvas);
         }
     }
 }
 
-void MainWindow::generateQML()
+void MainWindow::generateQML(QString& qml)
 {
+    QTextStream text(&qml);
     QPixmap pix = m_canvas->pixmap();
     if(!pix.isNull())
     {
-        QByteArray data;// = new QString;
-        QTextStream text(&data);
-
         text << "import QtQuick 2.4\n";
-        text << "import \"./Rcse/\"\n";
+        text << "import \"qrc:/resources/qml/\"\n";
         text << "\n";
         text << "Item {\n";
         text << "   signal rollDiceCmd(string cmd)\n";
@@ -163,7 +166,7 @@ void MainWindow::generateQML()
         text << "       property real realScale: width/"<< pix.width() << "\n";
         text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
         text << "       height:(parent.width>parent.height*iratio)?parent.height:iratioBis*parent.width" << "\n";
-        text << "       source: \"background.jpg\"" << "\n";
+        text << "       source: \"image://rcs/background.jpg\"" << "\n";
         m_model->generateQML(text,Item::FieldSec);
         text << "\n";
         text << "   Connections {\n";
@@ -177,60 +180,104 @@ void MainWindow::generateQML()
 
 
         text.flush();
-        QFile file("./cstest.qml");
-        //file.setAutoRemove(false);
-        if(file.open(QIODevice::WriteOnly))
-        {
-            QString dir = QFileInfo(file.fileName()).absolutePath();
-            QFile imageFile(dir+"/background.jpg");
-            if(imageFile.open(QIODevice::WriteOnly))
-            {
-                pix.save(&imageFile,"jpg");
-            }
-        }
-        ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
+
     }
 }
 
 void MainWindow::exportToRolisteam()
 {
-    QString dir = QFileDialog::getExistingDirectory(this,tr("Select directory to export files"),QDir::homePath());
+    m_filename = QFileDialog::getSaveFileName(this,tr("Select file to export files"),QDir::homePath());
 
-    if(!dir.isEmpty())
+    if(!m_filename.isEmpty())
     {
-        QString name=m_filename;
-        if(name.isEmpty())
-            name=QStringLiteral("Unknown");
 
-        QFileInfo info(name);
-        QString fileName = QStringLiteral("%1/%2.rcse").arg(dir).arg(info.baseName());
-        if(QFile::exists(fileName))
+        if(!m_filename.endsWith(".rcs"))
         {
-
+            m_filename.append(".rcs");
             ///@Warning
         }
-        QFile file(fileName);
+        QFile file(m_filename);
         if(file.open(QIODevice::WriteOnly))
         {
-            QString qmlFile = QStringLiteral("%1.qml").arg(info.baseName());
-
+            //init Json
             QJsonDocument json;
-            QJsonObject jsonObj;
-            jsonObj["qml"]=qmlFile;
-            m_model->save(jsonObj,true);
-            json.setObject(jsonObj);
+            QJsonObject obj;
 
+
+
+            //Get datamodel
+            QJsonObject data;
+            m_model->save(data);
+            obj["data"]=data;
+
+            //qml file
+            QString qmlFile;
+            generateQML(qmlFile);
+            obj["qml"]=qmlFile;
+
+
+            QPixmap pix = m_canvas->pixmap();
+            QByteArray bytes;
+            QBuffer buffer(&bytes);
+            buffer.open(QIODevice::WriteOnly);
+            pix.save(&buffer, "PNG");
+            obj["background"]=QString(buffer.data().toBase64());
+            json.setObject(obj);
+
+
+            file.write(json.toJson());
 
         }
         //
     }
 }
 
+void MainWindow::showQML()
+{
+    QString data;
+    generateQML(data);
+    ui->m_codeEdit->setText(data);
+
+    QFile file("test.qml");
+    if(file.open(QIODevice::WriteOnly))
+    {
+        file.write(data.toLatin1());
+        file.close();
+    }
+
+    ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
+    ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
+}
+void MainWindow::showQMLFromCode()
+{
+    QString data = ui->m_codeEdit->document()->toPlainText();
+
+
+    QFile file("test.qml");
+    if(file.open(QIODevice::WriteOnly))
+    {
+        file.write(data.toLatin1());
+        file.close();
+    }
+
+    ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
+    ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
+}
+
 bool MainWindow::eventFilter(QObject* obj, QEvent* ev)
 {
-
     return QMainWindow::eventFilter(obj,ev);
 }
+bool MainWindow::qmlGeneration() const
+{
+    return m_qmlGeneration;
+}
+
+void MainWindow::setQmlGeneration(bool qmlGeneration)
+{
+    m_qmlGeneration = qmlGeneration;
+}
+
 Field* MainWindow::addFieldAt(QPoint pos)
 {
     qDebug() << "create Field";

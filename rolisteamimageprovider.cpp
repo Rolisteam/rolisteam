@@ -6,7 +6,7 @@ RolisteamImageProvider::RolisteamImageProvider()
 
 }
 
-QPixmap RolisteamImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize, bool requestedAutoTransform)
+QPixmap RolisteamImageProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QPixmap pixmap= m_data.value(id);
 
