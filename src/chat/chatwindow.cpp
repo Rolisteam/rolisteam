@@ -345,7 +345,7 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
                 }
                 else
                 {
-                    patternColor = QStringLiteral("<span style=\"color:%1;\">").arg(tmp.getColor());
+                    patternColor = QStringLiteral("<span style=\"color:%1;font-weight:bold\">").arg(tmp.getColor());
                 }
             }
             QStringList diceListStr;
