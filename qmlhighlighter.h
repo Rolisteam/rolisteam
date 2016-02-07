@@ -1,91 +1,53 @@
-/****************************************************************************
-**
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing
-**
-** This file is part of Qt Creator.
-**
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and The Qt Company.  For licensing terms and
-** conditions see http://www.qt.io/terms-conditions.  For further information
-** use the contact form at http://www.qt.io/contact-us.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 or version 3 as published by the Free
-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
-** LICENSE.LGPLv3 included in the packaging of this file.  Please review the
-** following information to ensure the GNU Lesser General Public License
-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
-** In addition, as a special exception, The Qt Company gives you certain additional
-** rights.  These rights are described in The Qt Company LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
-**
-****************************************************************************/
+/***************************************************************************
+* Copyright (C) 2014 by Renaud Guezennec                                   *
+* http://www.rolisteam.org/                                                *
+*                                                                          *
+*  This file is part of rcse                                               *
+*                                                                          *
+* rcse is free software; you can redistribute it and/or modify             *
+* it under the terms of the GNU General Public License as published by     *
+* the Free Software Foundation; either version 2 of the License, or        *
+* (at your option) any later version.                                      *
+*                                                                          *
+* rcse is distributed in the hope that it will be useful,                  *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+* GNU General Public License for more details.                             *
+*                                                                          *
+* You should have received a copy of the GNU General Public License        *
+* along with this program; if not, write to the                            *
+* Free Software Foundation, Inc.,                                          *
+* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+***************************************************************************/
 
 #ifndef QMLJSHIGHLIGHTER_H
 #define QMLJSHIGHLIGHTER_H
 
-#include "qmljseditor_global.h"
+#include <QSyntaxHighlighter>
 
-#include <qmljs/qmljsscanner.h>
-
-#include <texteditor/textdocumentlayout.h>
-#include <texteditor/syntaxhighlighter.h>
-
-namespace QmlJSEditor {
-
-class QMLJSEDITOR_EXPORT QmlJSHighlighter : public TextEditor::SyntaxHighlighter
+class QmlHighlighter : public QSyntaxHighlighter
 {
     Q_OBJECT
 
 public:
-    QmlJSHighlighter(QTextDocument *parent = 0);
-    virtual ~QmlJSHighlighter();
-
-    enum {
-        NumberFormat,
-        StringFormat,
-        TypeFormat,
-        KeywordFormat,
-        FieldFormat,
-        CommentFormat,
-        VisualWhitespace,
-        NumFormats
-    };
-
-    bool isQmlEnabled() const;
-    void setQmlEnabled(bool duiEnabled);
+    QmlHighlighter(QTextDocument *parent = 0);
 
 protected:
-    virtual void highlightBlock(const QString &text);
-
-    int onBlockStart();
-    void onBlockEnd(int state);
-
-    // The functions are notified whenever parentheses are encountered.
-    // Custom behaviour can be added, for example storing info for indenting.
-    void onOpeningParenthesis(QChar parenthesis, int pos, bool atStart);
-    void onClosingParenthesis(QChar parenthesis, int pos, bool atEnd);
-
-    bool maybeQmlKeyword(const QStringRef &text) const;
-    bool maybeQmlBuiltinType(const QStringRef &text) const;
+    void highlightBlock(const QString &text);
 
 private:
-    bool m_qmlEnabled;
-    int m_braceDepth;
-    int m_foldingIndent;
-    bool m_inMultilineComment;
+    struct HighlightingRule
+    {
+        QRegExp pattern;
+        QTextCharFormat format;
+    };
+    QVector<HighlightingRule> highlightingRules;
 
-    QmlJS::Scanner m_scanner;
-    TextEditor::Parentheses m_currentBlockParentheses;
+    QTextCharFormat keywordFormat;
+    QTextCharFormat propertyFormat;
+    QTextCharFormat lookupFormat;
+    QTextCharFormat quotationFormat;
+    QTextCharFormat itemFormat;
+    QTextCharFormat cppObjectFormat;
 };
-
-} // namespace QmlJSEditor
-
 #endif // QMLJSHIGHLIGHTER_H
