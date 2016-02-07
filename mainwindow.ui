@@ -22,7 +22,7 @@
       </property>
       <widget class="QTabWidget" name="m_tabWidget">
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="editor">
         <attribute name="title">
@@ -39,8 +39,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>98</width>
-              <height>28</height>
+              <width>436</width>
+              <height>701</height>
              </rect>
             </property>
            </widget>
@@ -187,8 +187,6 @@
     <addaction name="actionSave_Qml"/>
     <addaction name="actionLoad_Qml"/>
     <addaction name="separator"/>
-    <addaction name="m_rolisteamExport"/>
-    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuEdition">
@@ -282,7 +280,7 @@
   <customwidget>
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
-   <header>QQuickWidget</header>
+   <header>QtQuickWidgets/QQuickWidget</header>
   </customwidget>
  </customwidgets>
  <resources/>

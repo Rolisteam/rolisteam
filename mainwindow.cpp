@@ -19,7 +19,7 @@
 
 #include "borderlisteditor.h"
 
-
+#include "qmlhighlighter.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -42,7 +42,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     m_view->setScene(m_canvas);
-    //m_view->installEventFilter(this);
     ui->scrollArea->setWidget(m_view);
 
     ui->m_splitter->setStretchFactor(0,1);
@@ -55,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_moveBtn->setDefaultAction(ui->m_moveAct);
     ui->m_deleteBtn->setDefaultAction(ui->m_deleteAct);
 
+    QmlHighlighter* highlighter = new QmlHighlighter(ui->m_codeEdit->document());
+
 
     connect(ui->m_addAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
@@ -66,13 +67,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
-    connect(ui->m_rolisteamExport,SIGNAL(triggered(bool)),this,SLOT(exportToRolisteam()));
 
     m_imgProvider = new RolisteamImageProvider();
 
-    ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
-    ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
-    ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
+   // ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
+  //  ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
+  //  ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
+
+    connect(m_canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
 
 }
 
@@ -80,6 +82,11 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::setImage()
+{
+    m_imgProvider->insertPix("background.jpg",m_canvas->pixmap());
+}
+
 void MainWindow::setCurrentTool()
 {
     QAction* action = dynamic_cast<QAction*>(sender());
@@ -97,33 +104,59 @@ void MainWindow::saveAs()
         save();
     }
 }
-
 void MainWindow::save()
 {
+   // m_filename = QFileDialog::getSaveFileName(this,tr("Select file to export files"),QDir::homePath());
     if(m_filename.isEmpty())
         saveAs();
-    QJsonDocument json;
-    QJsonObject jsonObj;
-    m_model->save(jsonObj);
-    QPixmap pix = m_canvas->pixmap();
-    QByteArray bytes;
-    QBuffer buffer(&bytes);
-    buffer.open(QIODevice::WriteOnly);
-    pix.save(&buffer, "PNG");
-    jsonObj["image"]=QString(buffer.data().toBase64());
-    json.setObject(jsonObj);
+    if(!m_filename.isEmpty())
+    {
+        if(!m_filename.endsWith(".rcs"))
+        {
+            m_filename.append(".rcs");
+            ///@Warning
+        }
+        QFile file(m_filename);
+        if(file.open(QIODevice::WriteOnly))
+        {
+            //init Json
+            QJsonDocument json;
+            QJsonObject obj;
 
 
-    QFile file(m_filename);
-    if(file.open(QIODevice::WriteOnly))
-    {
-        file.write(json.toJson());
-    }
-    else
-    {
-        QMessageBox::information(this,tr("Not Readable"), tr("The selected file is not readable"));
+
+            //Get datamodel
+            QJsonObject data;
+            m_model->save(data);
+            obj["data"]=data;
+
+            //qml file
+            QString qmlFile=ui->m_codeEdit->document()->toPlainText();
+            if(qmlFile.isEmpty())
+            {
+                generateQML(qmlFile);
+            }
+            obj["qml"]=qmlFile;
+
+
+            //background
+            QPixmap pix = m_canvas->pixmap();
+            QByteArray bytes;
+            QBuffer buffer(&bytes);
+            buffer.open(QIODevice::WriteOnly);
+            pix.save(&buffer, "PNG");
+            obj["background"]=QString(buffer.data().toBase64());
+            json.setObject(obj);
+
+
+            file.write(json.toJson());
+
+        }
+        //
     }
 }
+
+
 void MainWindow::open()
 {
     m_filename = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet"),QDir::homePath(),tr("Rolisteam CharacterSheet (*.rcs)"));
@@ -134,7 +167,15 @@ void MainWindow::open()
         {
             QJsonDocument json = QJsonDocument::fromJson(file.readAll());
             QJsonObject jsonObj = json.object();
-            QString str = jsonObj["image"].toString();
+            QJsonObject data = jsonObj["data"].toObject();
+
+
+            QString qml = jsonObj["qml"].toString();
+
+
+
+
+            QString str = jsonObj["background"].toString();
             QByteArray array = QByteArray::fromBase64(str.toUtf8());
             QPixmap pix;
             pix.loadFromData(array);
@@ -157,23 +198,23 @@ void MainWindow::generateQML(QString& qml)
         text << "\n";
         text << "Item {\n";
         text << "   signal rollDiceCmd(string cmd)\n";
-        text << "        Image {\n";
-        text << "        id:imagebg" << "\n";
+        text << "   Image {\n";
+        text << "       id:imagebg" << "\n";
         qreal ratio = (qreal)pix.width()/(qreal)pix.height();
         qreal ratioBis = (qreal)pix.height()/(qreal)pix.width();
         text << "       property real iratio :" << ratio << "\n";
-        text << "       property real iratioBis :" << ratioBis << "\n";
-        text << "       property real realScale: width/"<< pix.width() << "\n";
+        text << "       property real iratiobis :" << ratioBis << "\n";
+        text << "       property real realscale: width/"<< pix.width() << "\n";
         text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
-        text << "       height:(parent.width>parent.height*iratio)?parent.height:iratioBis*parent.width" << "\n";
+        text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
         text << "       source: \"image://rcs/background.jpg\"" << "\n";
         m_model->generateQML(text,Item::FieldSec);
         text << "\n";
-        text << "   Connections {\n";
-        text << "   target: _model\n";
-        text << "   onValuesChanged:{\n";
+        text << "       Connections {\n";
+        text << "           target: _model\n";
+        text << "           onValuesChanged:{\n";
         m_model->generateQML(text,Item::ConnectionSec);
-        text << "   }";
+        text << "       }\n";
         text << "   }\n";
         text << "   }\n";
         text << "}\n";
@@ -184,53 +225,6 @@ void MainWindow::generateQML(QString& qml)
     }
 }
 
-void MainWindow::exportToRolisteam()
-{
-    m_filename = QFileDialog::getSaveFileName(this,tr("Select file to export files"),QDir::homePath());
-
-    if(!m_filename.isEmpty())
-    {
-
-        if(!m_filename.endsWith(".rcs"))
-        {
-            m_filename.append(".rcs");
-            ///@Warning
-        }
-        QFile file(m_filename);
-        if(file.open(QIODevice::WriteOnly))
-        {
-            //init Json
-            QJsonDocument json;
-            QJsonObject obj;
-
-
-
-            //Get datamodel
-            QJsonObject data;
-            m_model->save(data);
-            obj["data"]=data;
-
-            //qml file
-            QString qmlFile;
-            generateQML(qmlFile);
-            obj["qml"]=qmlFile;
-
-
-            QPixmap pix = m_canvas->pixmap();
-            QByteArray bytes;
-            QBuffer buffer(&bytes);
-            buffer.open(QIODevice::WriteOnly);
-            pix.save(&buffer, "PNG");
-            obj["background"]=QString(buffer.data().toBase64());
-            json.setObject(obj);
-
-
-            file.write(json.toJson());
-
-        }
-        //
-    }
-}
 
 void MainWindow::showQML()
 {
@@ -244,7 +238,9 @@ void MainWindow::showQML()
         file.write(data.toLatin1());
         file.close();
     }
-
+    ui->m_quickview->engine()->clearComponentCache();
+    ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
+    ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
     ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
 }
@@ -252,18 +248,57 @@ void MainWindow::showQMLFromCode()
 {
     QString data = ui->m_codeEdit->document()->toPlainText();
 
-
-    QFile file("test.qml");
+    QString name(QStringLiteral("test.qml"));
+    if(QFile::exists(name))
+    {
+        QFile::remove(name);
+    }
+    QFile file(name);
     if(file.open(QIODevice::WriteOnly))
     {
         file.write(data.toLatin1());
         file.close();
     }
 
-    ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
+    //delete ui->m_quickview;
+    ui->m_quickview->engine()->clearComponentCache();
+    ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
+    ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
+    ui->m_quickview->setSource(QUrl::fromLocalFile(name));
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
 }
+void MainWindow::saveQML()
+{
+    QString qmlFile = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet View"),QDir::homePath(),tr("CharacterSheet View (*.qml)"));
+    if(!qmlFile.isEmpty())
+    {
+        QString data=ui->m_codeEdit->toPlainText();
+        generateQML(data);
+        ui->m_codeEdit->setText(data);
 
+        QFile file(qmlFile);
+        if(file.open(QIODevice::WriteOnly))
+        {
+            file.write(data.toLatin1());
+            file.close();
+        }
+    }
+}
+void MainWindow::openQML()
+{
+    QString qmlFile = QFileDialog::getOpenFileName(this,tr("Save CharacterSheet View"),QDir::homePath(),tr("Rolisteam CharacterSheet View (*.qml)"));
+    if(!qmlFile.isEmpty())
+    {
+        QFile file(m_filename);
+        if(file.open(QIODevice::ReadOnly))
+        {
+            QString qmlContent = file.readAll();
+            ui->m_codeEdit->setText(qmlContent);
+            showQMLFromCode();
+
+        }
+    }
+}
 bool MainWindow::eventFilter(QObject* obj, QEvent* ev)
 {
     return QMainWindow::eventFilter(obj,ev);
