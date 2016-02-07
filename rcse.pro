@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     item.cpp \
     borderlisteditor.cpp \
     fielditem.cpp \
-    rolisteamimageprovider.cpp
+    rolisteamimageprovider.cpp \
+    qmlhighlighter.cpp
 
 HEADERS  += mainwindow.h \
     field.h \
@@ -30,7 +31,8 @@ HEADERS  += mainwindow.h \
     item.h \
     borderlisteditor.h \
     fielditem.h \
-    rolisteamimageprovider.h
+    rolisteamimageprovider.h \
+    qmlhighlighter.h
 
 FORMS    += mainwindow.ui
 
