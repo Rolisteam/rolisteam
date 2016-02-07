@@ -260,22 +260,22 @@ void Field::generateQML(QTextStream &out,Item::QMLSection sec)
 {
     if(sec==Item::FieldSec)
     {
-    out << "Field {\n";
-    out << "    id:"<<m_id<< "\n";
-    out << "    text: _model.getValue(\""<<m_key << "\")\n";
-    out << "    x:" << m_rect.x() << "*parent.realScale"<<"\n";
-    out << "    y:" << m_rect.y()<< "*parent.realScale"<<"\n";
-    out << "    width:" << m_rect.width() <<"*parent.realScale"<<"\n";
-    out << "    height:"<< m_rect.height()<<"*parent.realScale"<<"\n";
-    out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
-    out << "}\n";
+    out << "    Field {\n";
+    out << "        id:"<<m_id<< "\n";
+    out << "        text: _model.getValue(\""<<m_key << "\")\n";
+    out << "        x:" << m_rect.x() << "*parent.realscale"<<"\n";
+    out << "        y:" << m_rect.y()<< "*parent.realscale"<<"\n";
+    out << "        width:" << m_rect.width() <<"*parent.realscale"<<"\n";
+    out << "        height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
+    out << "        color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
+    out << "    }\n";
     }
     else if(sec==Item::ConnectionSec)
     {
-        out << "if(valueKey==\""<<m_key<<"\")"<<"\n";
-        out << "           {"<<"\n";
-        out << "                "<<m_id.toLower().trimmed()<<".text=value;"<<"\n";
-        out << "            }"<<"\n";
+        out << "        if(valueKey==\""<<m_key<<"\")"<<"\n";
+        out << "        {"<<"\n";
+        out << "            "<<m_id.toLower().trimmed()<<".text=value;"<<"\n";
+        out << "        }"<<"\n";
     }
 }
 
