@@ -12,7 +12,7 @@ class QGraphicsScene;
 class Item
 {
 public:
-    enum ColumnId {NAME,X,Y,WIDTH,HEIGHT,BORDER,TEXT_ALIGN,BGCOLOR,TEXTCOLOR};
+    enum ColumnId {NAME,X,Y,WIDTH,HEIGHT,BORDER,TEXT_ALIGN,BGCOLOR,TEXTCOLOR,VALUES};
     enum QMLSection {FieldSec,ConnectionSec};
     Item();
     virtual bool hasChildren();

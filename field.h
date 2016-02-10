@@ -55,6 +55,9 @@ public:
 
     virtual void generateQML(QTextStream& out,Item::QMLSection sec);
 
+    QStringList getAvailableValue() const;
+    void setAvailableValue(const QStringList &availableValue);
+
 signals:
     void updateNeeded(Field* c);
 
@@ -70,6 +73,7 @@ private:
     QColor m_textColor;
     QFont  m_font;
     TextAlign m_textAlign;
+    QStringList m_availableValue;
 
     //internal data
     QRectF m_rect;

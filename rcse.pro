@@ -20,8 +20,8 @@ SOURCES += main.cpp\
     fieldmodel.cpp \
     item.cpp \
     borderlisteditor.cpp \
-    fielditem.cpp \
-    rolisteamimageprovider.cpp
+    rolisteamimageprovider.cpp \
+    charactermodel.cpp
 
 HEADERS  += mainwindow.h \
     field.h \
@@ -29,8 +29,8 @@ HEADERS  += mainwindow.h \
     fieldmodel.h \
     item.h \
     borderlisteditor.h \
-    fielditem.h \
-    rolisteamimageprovider.h
+    rolisteamimageprovider.h \
+    charactermodel.h
 
 FORMS    += mainwindow.ui
 
