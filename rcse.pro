@@ -25,6 +25,8 @@ SOURCES += main.cpp\
     qmlhighlighter.cpp \
     charactersheetbutton.cpp \
     csitem.cpp
+    rolisteamimageprovider.cpp \
+    charactermodel.cpp
 
 HEADERS  += mainwindow.h \
     field.h \

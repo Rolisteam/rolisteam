@@ -68,6 +68,9 @@ public:
 
     virtual void generateQML(QTextStream& out,Item::QMLSection sec);
 
+    QStringList getAvailableValue() const;
+    void setAvailableValue(const QStringList &availableValue);
+
 signals:
     void updateNeeded(CSItem* c);
 
@@ -82,6 +85,7 @@ private:
 
     QFont  m_font;
     TextAlign m_textAlign;
+    QStringList m_availableValue;
 
 };
 

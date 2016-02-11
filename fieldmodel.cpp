@@ -182,7 +182,7 @@ FieldModel::FieldModel(QObject *parent) : QAbstractItemModel(parent)
 {
     m_colunm << new Column(tr("Field"),Item::NAME)           << new Column(tr("x"),Item::X)             << new Column(tr("y"),Item::Y)
              << new Column(tr("Width"),Item::WIDTH)          << new Column(tr("Height"),Item::HEIGHT)   << new Column(tr("Border"),Item::BORDER)
-             << new Column(tr("Text-align"),Item::TEXT_ALIGN)<< new Column(tr("Bg Color"),Item::BGCOLOR)<< new Column(tr("Text Color"),Item::TEXTCOLOR);
+             << new Column(tr("Text-align"),Item::TEXT_ALIGN)<< new Column(tr("Bg Color"),Item::BGCOLOR)<< new Column(tr("Text Color"),Item::TEXTCOLOR)<< new Column(tr("Possible Values"),Item::VALUES);
 
 
     m_rootSection = new Section();

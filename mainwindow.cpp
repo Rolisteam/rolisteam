@@ -37,7 +37,6 @@
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QQmlComponent>
-#include "fielditem.h"
 
 #include "borderlisteditor.h"
 
@@ -66,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_view->setScene(m_canvas);
     ui->scrollArea->setWidget(m_view);
 
-    ui->m_splitter->setStretchFactor(0,1);
+    //ui->m_splitter->setStretchFactor(0,1);
 
     ui->m_addAct->setData(Canvas::ADD);
     ui->m_moveAct->setData(Canvas::MOVE);

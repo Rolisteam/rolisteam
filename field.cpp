@@ -87,6 +87,8 @@ QVariant Field::getValue(Item::ColumnId id) const
         return m_bgColor.name(QColor::HexArgb);
     case TEXTCOLOR:
         return m_textColor.name(QColor::HexArgb);
+    case VALUES:
+        return m_availableValue.join(',');
     }
     return QVariant();
 }
@@ -121,6 +123,9 @@ void Field::setValue(Item::ColumnId id, QVariant var)
         break;
     case TEXTCOLOR:
         m_textColor= var.value<QColor>();
+        break;
+    case VALUES:
+        m_availableValue = var.toString().split(',');
         break;
     }
     update();
@@ -182,6 +187,16 @@ void Field::mousePressEvent(QMouseEvent* ev)
        // emit clickOn(this);
     }
 }
+QStringList Field::getAvailableValue() const
+{
+    return m_availableValue;
+}
+
+void Field::setAvailableValue(const QStringList &availableValue)
+{
+    m_availableValue = availableValue;
+}
+
 
 void Field::save(QJsonObject& json,bool exp)
 {
@@ -258,15 +273,24 @@ void Field::generateQML(QTextStream &out,Item::QMLSection sec)
 {
     if(sec==Item::FieldSec)
     {
-    out << "    Field {\n";
-    out << "        id:"<<m_id<< "\n";
-    out << "        text: _model.getValue(\""<<m_key << "\")\n";
-    out << "        x:" << m_rect.x() << "*parent.realscale"<<"\n";
-    out << "        y:" << m_rect.y()<< "*parent.realscale"<<"\n";
-    out << "        width:" << m_rect.width() <<"*parent.realscale"<<"\n";
-    out << "        height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
-    out << "        color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
-    out << "    }\n";
+        out << "Field {\n";
+        out << "    id:"<<m_id<< "\n";
+        out << "    text: _model.getValue(\""<<m_key << "\")\n";
+        out << "    x:" << m_rect.x() << "*parent.realScale"<<"\n";
+        out << "    y:" << m_rect.y()<< "*parent.realScale"<<"\n";
+        out << "    width:" << m_rect.width() <<"*parent.realScale"<<"\n";
+        out << "    height:"<< m_rect.height()<<"*parent.realScale"<<"\n";
+        out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
+        if(m_availableValue.isEmpty())
+        {
+            out << "    state:\"field\"\n";
+        }
+        else
+        {
+            out << "    state:\"combo\"\n";
+            out << "    availableValues:" << QStringLiteral("[\"%1\"]").arg(m_availableValue.join("\",\""));
+        }
+        out << "}\n";
     }
     else if(sec==Item::ConnectionSec)
     {
