@@ -25,7 +25,7 @@
 #include <QUrl>
 
 
-
+#include "charactersheetbutton.h"
 
 Canvas::Canvas(QObject *parent) : QGraphicsScene(parent),m_bg(NULL),m_currentItem(NULL)
 {
@@ -86,6 +86,22 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             addItem(field);
             m_model->appendField(field);
             m_currentItem = field;
+         }
+         else  if(m_currentTool==Canvas::DELETE)
+         {
+             QList<QGraphicsItem *> itemList = items(mouseEvent->scenePos());
+             for(QGraphicsItem* item : itemList)
+             {
+                removeItem(item);
+             }
+         }
+         else if(m_currentTool == Canvas::BUTTON)
+         {
+            CharacterSheetButton* btn = new CharacterSheetButton(mouseEvent->scenePos());
+            addItem(btn);
+            m_model->appendField(btn);
+            m_currentItem = btn;
+
          }
 
     }

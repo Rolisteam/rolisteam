@@ -22,7 +22,9 @@ SOURCES += main.cpp\
     borderlisteditor.cpp \
     fielditem.cpp \
     rolisteamimageprovider.cpp \
-    qmlhighlighter.cpp
+    qmlhighlighter.cpp \
+    charactersheetbutton.cpp \
+    csitem.cpp
 
 HEADERS  += mainwindow.h \
     field.h \
@@ -32,7 +34,9 @@ HEADERS  += mainwindow.h \
     borderlisteditor.h \
     fielditem.h \
     rolisteamimageprovider.h \
-    qmlhighlighter.h
+    qmlhighlighter.h \
+    charactersheetbutton.h \
+    csitem.h
 
 FORMS    += mainwindow.ui
 

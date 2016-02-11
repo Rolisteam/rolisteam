@@ -62,6 +62,7 @@ public slots:
     void saveQML();
     void openQML();
     void setImage();
+    void rollDice(QString cmd);
 protected:
 
     bool eventFilter(QObject *, QEvent *);

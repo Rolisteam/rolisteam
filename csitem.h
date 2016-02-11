@@ -20,11 +20,31 @@
 #ifndef CSITEM_H
 #define CSITEM_H
 
+#include "item.h"
+#include <QGraphicsItem>
 
-class CSItem
+class CSItem : public QGraphicsObject,public Item
 {
+        Q_OBJECT
 public:
-    CSItem();
+    CSItem(QGraphicsItem* parent=0);
+    virtual void setNewEnd(QPointF nend);
+
+
+    QColor bgColor() const;
+    void setBgColor(const QColor &bgColor);
+
+    QColor textColor() const;
+    void setTextColor(const QColor &textColor);
+
+protected:
+    QString m_id;
+
+    //internal data
+    QRectF m_rect;
+    static int m_count;
+    QColor m_bgColor;
+    QColor m_textColor;
 };
 
 #endif // CSITEM_H

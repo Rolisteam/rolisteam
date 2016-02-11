@@ -26,8 +26,9 @@
 #include <QLabel>
 #include <QGraphicsItem>
 #include "item.h"
+#include "csitem.h"
 
-class Field : public QGraphicsObject,public Item
+class Field : public CSItem
 {
     Q_OBJECT
 public:
@@ -42,25 +43,16 @@ public:
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
 
-    virtual void setNewEnd(QPointF nend);
+
 
     QString key() const;
     void setKey(const QString &key);
-
-    QPoint position() const;
-    void setPosition(const QPoint &pos);
 
     QSize size() const;
     void setSize(const QSize &size);
 
     Field::BorderLine border() const;
     void setBorder(const Field::BorderLine &border);
-
-    QColor bgColor() const;
-    void setBgColor(const QColor &bgColor);
-
-    QColor textColor() const;
-    void setTextColor(const QColor &textColor);
 
     QFont font() const;
     void setFont(const QFont &font);
@@ -77,24 +69,20 @@ public:
     virtual void generateQML(QTextStream& out,Item::QMLSection sec);
 
 signals:
-    void updateNeeded(Field* c);
+    void updateNeeded(CSItem* c);
 
 protected:
     void init();
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent* ev);
+
 private:
-    QString m_id;
     QString m_key;
     BorderLine m_border;
-    QColor m_bgColor;
-    QColor m_textColor;
+
     QFont  m_font;
     TextAlign m_textAlign;
 
-    //internal data
-    QRectF m_rect;
-    static int m_count;
 };
 
 #endif // FIELD_H

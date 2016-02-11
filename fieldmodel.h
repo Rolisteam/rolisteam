@@ -24,6 +24,7 @@
 
 
 #include "field.h"
+#include "charactersheetbutton.h"
 #include "item.h"
 
 #include <QJsonObject>
@@ -31,7 +32,7 @@
 #include <QAbstractItemModel>
 #include <QTextStream>
 
-
+#include "csitem.h"
 
 /**
  * @brief The Section class
@@ -54,6 +55,7 @@ public:
     virtual void save(QJsonObject& json,bool exp=false);
     virtual void load(QJsonObject& json,QGraphicsScene* scene);
     virtual void generateQML(QTextStream &out,Item::QMLSection);
+    virtual void setNewEnd(QPointF){}
 private:
     QList<Item*> m_children;
     QString m_name;
@@ -94,7 +96,7 @@ public:
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
-    void appendField(Field* f);
+    void appendField(CSItem* f);
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
     void save(QJsonObject& json,bool exp=false);
@@ -103,11 +105,12 @@ public:
     void generateQML(QTextStream& out,Item::QMLSection sec);
 
     Q_INVOKABLE QString getValue(const QString& key);
+
 signals:
     void valuesChanged(QString valueKey,QString value);
 
 public slots:
-    void updateItem(Field *);
+    void updateItem(CSItem* );
 private:
     QList<Column*> m_colunm;
     Section* m_rootSection;

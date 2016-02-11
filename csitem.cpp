@@ -19,7 +19,34 @@
     ***************************************************************************/
 #include "csitem.h"
 
-CSItem::CSItem()
+int CSItem::m_count=0;
+CSItem::CSItem(QGraphicsItem* parent)
+    : QGraphicsObject(parent)
 {
+    ++m_count;
+}
 
+void CSItem::setNewEnd(QPointF nend)
+{
+    m_rect.setBottomRight(nend);
+}
+
+QColor CSItem::bgColor() const
+{
+    return m_bgColor;
+}
+
+void CSItem::setBgColor(const QColor &bgColor)
+{
+    m_bgColor = bgColor;
+}
+
+QColor CSItem::textColor() const
+{
+    return m_textColor;
+}
+
+void CSItem::setTextColor(const QColor &textColor)
+{
+    m_textColor = textColor;
 }

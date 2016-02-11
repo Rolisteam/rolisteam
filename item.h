@@ -53,6 +53,7 @@ public:
     virtual void load(QJsonObject& json,QGraphicsScene* scene)=0;
 
     virtual void generateQML(QTextStream& out,Item::QMLSection sec)=0;
+    virtual void setNewEnd(QPointF nend)=0;
 private:
     Item* m_parent;
 };

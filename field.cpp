@@ -1,17 +1,38 @@
+/***************************************************************************
+* Copyright (C) 2014 by Renaud Guezennec                                   *
+* http://www.rolisteam.org/                                                *
+*                                                                          *
+*  This file is part of rcse                                               *
+*                                                                          *
+* rcse is free software; you can redistribute it and/or modify             *
+* it under the terms of the GNU General Public License as published by     *
+* the Free Software Foundation; either version 2 of the License, or        *
+* (at your option) any later version.                                      *
+*                                                                          *
+* rcse is distributed in the hope that it will be useful,                  *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+* GNU General Public License for more details.                             *
+*                                                                          *
+* You should have received a copy of the GNU General Public License        *
+* along with this program; if not, write to the                            *
+* Free Software Foundation, Inc.,                                          *
+* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+***************************************************************************/
 #include "field.h"
 #include <QPainter>
 #include <QMouseEvent>
 #include <QJsonArray>
 #include <QUuid>
 
-int Field::m_count = 0;
 Field::Field(QGraphicsItem* parent)
+: CSItem(parent)
 {
  init();
 }
 
 Field::Field(QPointF topleft,QGraphicsItem* parent)
-    : QGraphicsObject(parent)
+    : CSItem(parent)
 {
     m_rect.setTopLeft(topleft);
     m_rect.setBottomRight(topleft);
@@ -116,10 +137,6 @@ void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option,
 
 
 }
-void Field::setNewEnd(QPointF nend)
-{
-    m_rect.setBottomRight(nend);
-}
 
 void Field::drawField()
 {
@@ -146,26 +163,7 @@ void Field::setBorder(const Field::BorderLine &border)
     m_border = border;
     drawField();
 }
-QColor Field::bgColor() const
-{
-    return m_bgColor;
-}
 
-void Field::setBgColor(const QColor &bgColor)
-{
-    m_bgColor = bgColor;
-    drawField();
-}
-QColor Field::textColor() const
-{
-    return m_textColor;
-}
-
-void Field::setTextColor(const QColor &textColor)
-{
-    m_textColor = textColor;
-    drawField();
-}
 QFont Field::font() const
 {
     return m_font;

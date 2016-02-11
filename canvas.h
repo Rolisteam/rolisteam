@@ -32,7 +32,7 @@ class Canvas : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    enum Tool {ADD,MOVE,DELETE};
+    enum Tool {ADD,MOVE,DELETE,BUTTON};
     explicit Canvas(QObject *parent = 0);
 
     void setCurrentTool(Canvas::Tool);
@@ -53,7 +53,7 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
 private:
     QGraphicsPixmapItem* m_bg;
-    Field* m_currentItem;
+    CSItem* m_currentItem;
     Tool m_currentTool;
     FieldModel* m_model;
 };

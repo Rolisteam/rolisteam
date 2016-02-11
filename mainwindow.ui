@@ -39,7 +39,7 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>436</width>
+              <width>432</width>
               <height>701</height>
              </rect>
             </property>
@@ -97,11 +97,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="m_addButtonBtn">
+           <widget class="QToolButton" name="m_addButtonBtn">
             <property name="text">
              <string>Add Button</string>
             </property>
-            <property name="flat">
+            <property name="autoRaise">
              <bool>true</bool>
             </property>
            </widget>
@@ -272,6 +272,14 @@
   <action name="actionCode_To_QML">
    <property name="text">
     <string>Code To QML</string>
+   </property>
+  </action>
+  <action name="m_addButtonAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Add Button</string>
    </property>
   </action>
  </widget>

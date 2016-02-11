@@ -1,3 +1,24 @@
+/***************************************************************************
+* Copyright (C) 2014 by Renaud Guezennec                                   *
+* http://www.rolisteam.org/                                                *
+*                                                                          *
+*  This file is part of rcse                                               *
+*                                                                          *
+* rcse is free software; you can redistribute it and/or modify             *
+* it under the terms of the GNU General Public License as published by     *
+* the Free Software Foundation; either version 2 of the License, or        *
+* (at your option) any later version.                                      *
+*                                                                          *
+* rcse is distributed in the hope that it will be useful,                  *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+* GNU General Public License for more details.                             *
+*                                                                          *
+* You should have received a copy of the GNU General Public License        *
+* along with this program; if not, write to the                            *
+* Free Software Foundation, Inc.,                                          *
+* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+***************************************************************************/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -14,6 +35,7 @@
 #include <QQmlError>
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QQuickItem>
 #include <QQmlComponent>
 #include "fielditem.h"
 
@@ -49,10 +71,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_addAct->setData(Canvas::ADD);
     ui->m_moveAct->setData(Canvas::MOVE);
     ui->m_deleteAct->setData(Canvas::DELETE);
+    ui->m_addButtonAct->setData(Canvas::BUTTON);
 
     ui->m_addBtn->setDefaultAction(ui->m_addAct);
     ui->m_moveBtn->setDefaultAction(ui->m_moveAct);
     ui->m_deleteBtn->setDefaultAction(ui->m_deleteAct);
+    ui->m_addButtonBtn->setDefaultAction(ui->m_addButtonAct);
 
     QmlHighlighter* highlighter = new QmlHighlighter(ui->m_codeEdit->document());
 
@@ -60,12 +84,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_addAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_deleteAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_addButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
 
     connect(ui->actionQML_View,SIGNAL(triggered(bool)),this,SLOT(showQML()));
     connect(ui->actionCode_To_QML,SIGNAL(triggered(bool)),this,SLOT(showQMLFromCode()));
 
     connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
+    connect(ui->actionSave_As,SIGNAL(triggered(bool)),this,SLOT(saveAs()));
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
 
     m_imgProvider = new RolisteamImageProvider();
@@ -109,7 +135,7 @@ void MainWindow::save()
    // m_filename = QFileDialog::getSaveFileName(this,tr("Select file to export files"),QDir::homePath());
     if(m_filename.isEmpty())
         saveAs();
-    if(!m_filename.isEmpty())
+    else if(!m_filename.isEmpty())
     {
         if(!m_filename.endsWith(".rcs"))
         {
@@ -173,7 +199,7 @@ void MainWindow::open()
             QString qml = jsonObj["qml"].toString();
 
 
-
+            ui->m_codeEdit->setText(qml);
 
             QString str = jsonObj["background"].toString();
             QByteArray array = QByteArray::fromBase64(str.toUtf8());
@@ -182,7 +208,7 @@ void MainWindow::open()
             m_canvas->setPixmap(pix);
             m_imgProvider->insertPix("background.jpg",pix);
 
-            m_model->load(jsonObj,m_canvas);
+            m_model->load(data,m_canvas);
         }
     }
 }
@@ -197,6 +223,7 @@ void MainWindow::generateQML(QString& qml)
         text << "import \"qrc:/resources/qml/\"\n";
         text << "\n";
         text << "Item {\n";
+        text << "   id:root\n";
         text << "   signal rollDiceCmd(string cmd)\n";
         text << "   Image {\n";
         text << "       id:imagebg" << "\n";
@@ -243,6 +270,8 @@ void MainWindow::showQML()
     ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
     ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    QObject* root = ui->m_quickview->rootObject();
+    connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
 }
 void MainWindow::showQMLFromCode()
 {
@@ -262,9 +291,11 @@ void MainWindow::showQMLFromCode()
 
     //delete ui->m_quickview;
     ui->m_quickview->engine()->clearComponentCache();
-    ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
+    //ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
     ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
     ui->m_quickview->setSource(QUrl::fromLocalFile(name));
+    QObject* root = ui->m_quickview->rootObject();
+    connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
 }
 void MainWindow::saveQML()
@@ -318,4 +349,8 @@ Field* MainWindow::addFieldAt(QPoint pos)
     qDebug() << "create Field";
 
     return NULL;
+}
+void MainWindow::rollDice(QString cmd)
+{
+    qDebug() << cmd;
 }
