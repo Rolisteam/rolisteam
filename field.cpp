@@ -232,6 +232,9 @@ void Field::save(QJsonObject& json,bool exp)
     json["y"]=m_rect.y();
     json["width"]=m_rect.width();
     json["height"]=m_rect.height();
+    QJsonArray valuesArray;
+    valuesArray=QJsonArray::fromStringList(m_availableValue);
+    json["values"]=valuesArray;
 }
 
 void Field::load(QJsonObject &json,QGraphicsScene* scene)
@@ -265,8 +268,12 @@ void Field::load(QJsonObject &json,QGraphicsScene* scene)
     w=json["width"].toDouble();
     h=json["height"].toDouble();
 
+    QJsonArray valuesArray=json["values"].toArray();
+    for(auto value : valuesArray.toVariantList())
+    {
+        m_availableValue << value.toString();
+    }
     m_rect.setRect(x,y,w,h);
-
 
     update();
 }
