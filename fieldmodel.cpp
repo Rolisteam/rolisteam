@@ -1,8 +1,30 @@
+/***************************************************************************
+* Copyright (C) 2014 by Renaud Guezennec                                   *
+* http://www.rolisteam.org/                                                *
+*                                                                          *
+*  This file is part of rcse                                               *
+*                                                                          *
+* rcse is free software; you can redistribute it and/or modify             *
+* it under the terms of the GNU General Public License as published by     *
+* the Free Software Foundation; either version 2 of the License, or        *
+* (at your option) any later version.                                      *
+*                                                                          *
+* rcse is distributed in the hope that it will be useful,                  *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+* GNU General Public License for more details.                             *
+*                                                                          *
+* You should have received a copy of the GNU General Public License        *
+* along with this program; if not, write to the                            *
+* Free Software Foundation, Inc.,                                          *
+* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+***************************************************************************/
 #include "fieldmodel.h"
 
 #include <QDebug>
 #include <QJsonArray>
 #include <QGraphicsScene>
+
 //////////////////////////////
 //Section
 /////////////////////////////
@@ -95,6 +117,12 @@ void Section::load(QJsonObject &json,QGraphicsScene* scene)
         if(obj["type"]==QStringLiteral("Section"))
         {
             item = new Section();
+        }
+        if(obj["type"]==QStringLiteral("button"))
+        {
+            CharacterSheetButton* btn = new CharacterSheetButton();
+            item = btn;
+            scene->addItem(btn);
         }
         else
         {
@@ -260,11 +288,11 @@ bool FieldModel::setData(const QModelIndex &index, const QVariant &value, int ro
     return false;
 }
 
-void FieldModel::appendField(Field *f)
+void FieldModel::appendField(CSItem *f)
 {
     beginInsertRows(QModelIndex(),m_rootSection->getChildrenCount(),m_rootSection->getChildrenCount());
     m_rootSection->appendChild(f);
-    connect(f,SIGNAL(updateNeeded(Field*)),this,SLOT(updateItem(Field*)));
+    connect(f,SIGNAL(updateNeeded(CSItem*)),this,SLOT(updateItem(CSItem*)));
     endInsertRows();
 }
 
@@ -295,7 +323,7 @@ QString FieldModel::getValue(const QString &key)
 {
     return key;
 }
-void FieldModel::updateItem(Field* item)
+void FieldModel::updateItem(CSItem* item)
 {
     int ind = m_rootSection->indexOfChild(item);
     if(ind>=0)
