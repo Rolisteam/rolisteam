@@ -109,8 +109,8 @@ public:
     
     
     
-    bool writeModel(QTextStream& file, bool data= true);
-    bool readModel(QFile& file);
+    bool writeModel(QJsonObject& file, bool data= true);
+    bool readModel(QJsonObject& file);
     
     CharacterSheetItem* addSection(QString title);
     void addLine(CharacterSheetItem* parentItem,QString name,const QModelIndex& parent);

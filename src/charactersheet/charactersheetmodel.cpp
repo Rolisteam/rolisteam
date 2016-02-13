@@ -20,8 +20,10 @@
 
 #include "charactersheetmodel.h"
 #include "charactersheet.h"
+#include "section.h"
+
 #include <QDebug>
-#include <QJsonDocument>
+
 #include <QJsonObject>
 #include <QJsonArray>
 
@@ -274,10 +276,8 @@ QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex & index)
     else
         return index;
 }
-bool CharacterSheetModel::writeModel(QTextStream& file, bool data)
+bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool data)
 {
-    QJsonDocument doc;
-    QJsonObject jsonObj;
     m_rootSection->save(jsonObj);
     jsonObj["characterCount"]=m_characterCount;
 
@@ -289,16 +289,12 @@ bool CharacterSheetModel::writeModel(QTextStream& file, bool data)
         characters.append(charObj);
     }
     jsonObj["characters"]=characters;
-    doc.setObject(jsonObj); 
-    file<< doc.toJson();
     return true;
 }
 
-bool CharacterSheetModel::readModel(QFile& file)
+bool CharacterSheetModel::readModel(QJsonObject& jsonObj)
 {
     beginResetModel();
-    QJsonDocument json = QJsonDocument::fromJson(file.readAll());
-    QJsonObject jsonObj = json.object();
     m_rootSection->load(jsonObj);
     m_characterCount = jsonObj["characterCount"].toInt();
     QJsonArray characters = jsonObj["characters"].toArray();
