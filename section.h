@@ -21,32 +21,36 @@
 ***************************************************************************/
 #ifndef SECTION_H
 #define SECTION_H
-#include "csitem.h"
-
+#include "charactersheetitem.h"
+#include <QPointF>
 /**
  * @brief The Section class
  */
-class Section : public Item
+class Section : public CharacterSheetItem
 {
 public:
     Section();
 
     virtual bool hasChildren();
-    virtual int getChildrenCount();
-    virtual Item* getChildAt(int);
-    virtual QVariant getValue(Item::ColumnId) const;
-    virtual void setValue(Item::ColumnId,QVariant);
+    virtual int getChildrenCount() const;
+    virtual CharacterSheetItem* getChildAt(int) const;
+    virtual CharacterSheetItem* getChildAt(QString) const;
+
+
+    virtual QVariant getValue(CharacterSheetItem::ColumnId) const;
+    virtual void setValue(CharacterSheetItem::ColumnId,QVariant);
     virtual bool mayHaveChildren();
-    virtual void appendChild(Item*);
-    virtual int indexOfChild(Item *itm);
+    virtual void appendChild(CharacterSheetItem*);
+    virtual int indexOfChild(CharacterSheetItem *itm);
     QString getName() const;
     void setName(const QString &name);
     virtual void save(QJsonObject& json,bool exp=false);
     virtual void load(QJsonObject& json,QGraphicsScene* scene);
-    virtual void generateQML(QTextStream &out,Item::QMLSection);
+    virtual void generateQML(QTextStream &out,CharacterSheetItem::QMLSection);
     virtual void setNewEnd(QPointF){}
 private:
-    QList<Item*> m_children;
+    QHash<QString,CharacterSheetItem*> m_dataHash;
+    QStringList m_keyList;
     QString m_name;
 };
 #endif // SECTION_H
