@@ -27,7 +27,7 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
-class CharacterSheetItem
+/*class CharacterSheetItem
 {
 public:
     CharacterSheetItem();
@@ -65,9 +65,9 @@ protected:
     QStringList m_value;
     bool m_readOnly;
     CharacterSheetItem* m_parent;
-};
+};*/
 
-class Field : public CharacterSheetItem
+/*class Field : public CharacterSheetItem
 {
 public:
     Field();
@@ -79,18 +79,15 @@ public:
 
     virtual void save(QJsonObject&);
     virtual void load(QJsonObject&);
-};
+};*/
 
 /**
     * @brief Section stores any fields of specific section
     */
-class  Section : public CharacterSheetItem
+/*class  Section : public CharacterSheetItem
 {
     
 public:
-    /**
-    * Constructor
-    */
     Section();
     Section(const Section* copy);
 
@@ -109,12 +106,9 @@ public:
     void setKeyList(const QStringList &keyList);
 
 private:
-    /**
-     * @brief m_list
-     */
     QHash<QString,CharacterSheetItem*> m_dataHash;
     QStringList m_keyList;
-};
+};*/
 /**
     * @brief the characterSheet stores Section as many as necessary
     */

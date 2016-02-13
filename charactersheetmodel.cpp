@@ -20,6 +20,8 @@
 
 #include "charactersheetmodel.h"
 #include "charactersheet.h"
+#include "section.h"
+
 #include <QDebug>
 
 #include <QJsonObject>

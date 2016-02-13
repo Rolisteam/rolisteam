@@ -29,7 +29,7 @@
 //////////////////////////////////////
 //CharacterSheetItem
 /////////////////////////////////////
-CharacterSheetItem::CharacterSheetItem()
+/*CharacterSheetItem::CharacterSheetItem()
     : m_parent(NULL)
 {
 
@@ -227,7 +227,7 @@ void Section::setKeyList(const QStringList &keyList)
 {
     m_keyList = keyList;
 }
-
+*/
 
 /////////////////////////////////////
 //CharacterSheet
