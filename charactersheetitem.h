@@ -35,9 +35,9 @@ class CharacterSheetItem
 public:
     enum ColumnId {NAME,X,Y,WIDTH,HEIGHT,BORDER,TEXT_ALIGN,BGCOLOR,TEXTCOLOR,VALUES};
     enum QMLSection {FieldSec,ConnectionSec};
-    Item();
+    CharacterSheetItem();
     virtual bool hasChildren();
-    virtual int getChildrenCount();
+    virtual int getChildrenCount() const;
 
     virtual CharacterSheetItem* getChildAt(QString) const=0;
     virtual CharacterSheetItem* getChildAt(int) const;
@@ -52,7 +52,7 @@ public:
         virtual QString getPath();
 
     virtual bool mayHaveChildren();
-    virtual void appendChild(Item*);
+    virtual void appendChild(CharacterSheetItem*);
     CharacterSheetItem *getParent() const;
     void setParent(CharacterSheetItem *parent);
 
@@ -62,13 +62,13 @@ public:
     virtual void save(QJsonObject& json,bool exp=false)=0;
     virtual void load(QJsonObject& json,QGraphicsScene* scene)=0;
 
-    virtual void generateQML(QTextStream& out,Item::QMLSection sec)=0;
+    virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec)=0;
     virtual void setNewEnd(QPointF nend)=0;
 
     bool isReadOnly() const;
     void setReadOnly(bool readOnly);
 
-private:
+protected:
     CharacterSheetItem* m_parent;
     QString m_name;
     QStringList m_value;

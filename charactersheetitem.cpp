@@ -19,12 +19,13 @@
 * Free Software Foundation, Inc.,                                          *
 * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
 ***************************************************************************/
-#include "item.h"
+#include "charactersheetitem.h"
 
 //////////////////////////////
 //Item
 /////////////////////////////
 CharacterSheetItem::CharacterSheetItem()
+    : m_parent(NULL)
 {
 
 }
@@ -34,19 +35,24 @@ bool CharacterSheetItem::hasChildren()
     return false;
 }
 
-int CharacterSheetItem::getChildrenCount()
+int CharacterSheetItem::getChildrenCount() const
 {
     return 0;
-}
-
-CharacterSheetItem *CharacterSheetItem::getChildAt(int)
-{
-    return NULL;
 }
 
 QVariant CharacterSheetItem::getValue(CharacterSheetItem::ColumnId i) const
 {
     return QVariant();
+}
+
+QString CharacterSheetItem::name() const
+{
+    return m_name;
+}
+
+void CharacterSheetItem::setName(const QString &name)
+{
+    m_name = name;
 }
 bool CharacterSheetItem::isReadOnly() const
 {
@@ -59,7 +65,7 @@ void CharacterSheetItem::setReadOnly(bool readOnly)
 }
 int CharacterSheetItem::rowInParent()
 {
-    return m_parent->indexOf(this);
+    return m_parent->indexOfChild(this);
 }
 bool CharacterSheetItem::mayHaveChildren()
 {
