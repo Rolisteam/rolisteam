@@ -1,0 +1,149 @@
+/***************************************************************************
+* Copyright (C) 2016 by Renaud Guezennec                                   *
+* http://www.rolisteam.org/                                                *
+*                                                                          *
+*  This file is part of rcse                                               *
+*                                                                          *
+* rcse is free software; you can redistribute it and/or modify             *
+* it under the terms of the GNU General Public License as published by     *
+* the Free Software Foundation; either version 2 of the License, or        *
+* (at your option) any later version.                                      *
+*                                                                          *
+* rcse is distributed in the hope that it will be useful,                  *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+* GNU General Public License for more details.                             *
+*                                                                          *
+* You should have received a copy of the GNU General Public License        *
+* along with this program; if not, write to the                            *
+* Free Software Foundation, Inc.,                                          *
+* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
+***************************************************************************/
+#include "section.h"
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QGraphicsScene>
+
+#include "field.h"
+#include "charactersheetbutton.h"
+
+
+Section::Section()
+{
+
+}
+
+bool Section::hasChildren()
+{
+    return !m_children.isEmpty();
+}
+
+int Section::getChildrenCount()
+{
+    return m_children.size();
+}
+
+Item *Section::getChildAt(int i)
+{
+    if((i<getChildrenCount())&&(i>=0))
+    {
+        return m_children.at(i);
+    }
+    return NULL;
+}
+
+QVariant Section::getValue(Item::ColumnId id) const
+{
+    if(Item::NAME==id)
+        return m_name;
+    return QVariant();
+}
+
+void Section::setValue(Item::ColumnId id, QVariant var)
+{
+    if(Item::NAME==id)
+        m_name = var.toString();
+}
+
+bool Section::mayHaveChildren()
+{
+    return true;
+}
+
+void Section::appendChild(Item* item)
+{
+    m_children.append(item);
+    item->setParent(this);
+}
+int Section::indexOfChild(Item* itm)
+{
+    return m_children.indexOf(itm);
+}
+QString Section::getName() const
+{
+    return m_name;
+}
+
+void Section::setName(const QString &name)
+{
+    m_name = name;
+}
+
+void Section::save(QJsonObject& json,bool exp)
+{
+    json["name"] = m_name;
+    json["type"] = QStringLiteral("Section");
+    QJsonArray fieldArray;
+    foreach (Item* item, m_children)
+    {
+       QJsonObject itemObject;
+       item->save(itemObject,exp);
+       fieldArray.append(itemObject);
+    }
+    json["items"] = fieldArray;
+}
+
+void Section::load(QJsonObject &json,QGraphicsScene* scene)
+{
+    m_name = json["name"].toString();
+    QJsonArray fieldArray = json["items"].toArray();
+    QJsonArray::Iterator it;
+    for(it = fieldArray.begin(); it != fieldArray.end(); ++it)
+    {
+        QJsonObject obj = (*it).toObject();
+        Item* item;
+        QGraphicsItem* gItem=NULL;
+        if(obj["type"]==QStringLiteral("Section"))
+        {
+            item = new Section();
+        }
+        if(obj["type"]==QStringLiteral("button"))
+        {
+            CharacterSheetButton* btn = new CharacterSheetButton();
+            item = btn;
+            gItem = btn;
+
+        }
+        else
+        {
+            Field* field=new Field();
+            item = field;
+            gItem = field;
+        }
+        if((NULL!=scene)&&(NULL!=gItem))
+        {
+            scene->addItem(gItem);
+        }
+        item->load(obj,scene);
+        item->setParent(this);
+        m_children.append(item);
+    }
+
+}
+void Section::generateQML(QTextStream &out,Item::QMLSection sec)
+{
+    foreach (Item* item, m_children)
+    {
+        item->generateQML(out,sec);
+    }
+}
