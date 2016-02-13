@@ -38,7 +38,7 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     uint seed = quintptr(this) + QDateTime::currentDateTime().toMSecsSinceEpoch();
     qsrand(seed);
 
-    m_model << tr("Japanese First Name")<< tr("Elve First Name");
+    m_model << tr("Japanese First Name")<< tr("Elve First Name")<< tr("Chinese First Name")<< tr("French First Name");
     ui->m_database->addItems(m_model);
 
     connect(ui->m_gen,SIGNAL(clicked()),this,SLOT(generateName()));
@@ -63,11 +63,34 @@ NameGeneratorWidget::NameGeneratorWidget(QWidget *parent) :
     elveFemale.gender = Female;
     elveFemale.id=3;
 
+    DataBase chineseMale;
+    chineseMale.filepath=":/data/result_Name_Chinese_Male.txt";
+    chineseMale.gender = Male;
+    chineseMale.id=4;
+
+    DataBase chineseFemale ;
+    chineseFemale.filepath=":/data/result_Name_Chinese_Female.txt";
+    chineseFemale.gender = Female;
+    chineseFemale.id=5;
+
+    DataBase frenchMale;
+    frenchMale.filepath=":/data/result_Name_French_Male.txt";
+    frenchMale.gender = Male;
+    frenchMale.id=6;
+
+    DataBase frenchFemale ;
+    frenchFemale.filepath=":/data/result_Name_French_Female.txt";
+    frenchFemale.gender = Female;
+    frenchFemale.id=7;
 
     m_gender.insert(jpMale.id,jpMale);
     m_gender.insert(jpFemale.id,jpFemale);
     m_gender.insert(elveMale.id,elveMale);
     m_gender.insert(elveFemale.id,elveFemale);
+    m_gender.insert(chineseMale.id,chineseMale);
+    m_gender.insert(chineseFemale.id,chineseFemale);
+    m_gender.insert(frenchMale.id,frenchMale);
+    m_gender.insert(frenchFemale.id,frenchFemale);
 
 }
 

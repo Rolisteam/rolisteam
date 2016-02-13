@@ -13,30 +13,34 @@ import argparse
 #filepath = "data_Name_Elve_Female.txt"
 #filepath = "data_Name_Elve_Male.txt"
 #filepath = "testdata.txt"
-FilepathTab = ["_Name_Elve_Male", "_Name_Elve_Female", "_Name_Japanese_Female","_Name_Japanese_Male","_Name_Dwarf_Male","_Name_Dwarf_Female","_Name_human_star_wars_Male","_Name_human_star_wars_Female"]
-
-probFirstLetter={}
-probLetter={}
-probLastLetter={}
+#FilepathTab = ["_Name_Elve_Male", "_Name_Elve_Female", "_Name_Japanese_Female","_Name_Chinese_Male","_Name_Chinese_Female","_Name_Japanese_Male","_Name_Dwarf_Male","_Name_Dwarf_Female","_Name_human_star_wars_Male","_Name_human_star_wars_Female"]
+FilepathTab = ["_Name_French_Female","_Name_French_Male"]
 
 res = []
-lineCount=0
+
 for nameFile in FilepathTab:
+    lineCount=0
     filepath= "data"+nameFile+".txt"
+    probFirstLetter={}
+    probLetter={}
+    probLastLetter={}
     with codecs.open(filepath, "r", "UTF-8") as lines:
         for l in  lines:
             lineCount+=1
             # Split on white space or open parenthesis and keep the first string
             l2 = re.split("[ ,\(]",l)[0]
             lineClean = l2
-            l2 = l2+"\n"
+
 
 
 
             firstLetter = l2[:1]
-            if l2[:1] not in probFirstLetter:
-                probFirstLetter[firstLetter]=0
-            probFirstLetter[firstLetter]+=1
+            print(firstLetter)
+            if firstLetter.upper() not in probFirstLetter:
+                probFirstLetter[firstLetter.upper()]=0
+            probFirstLetter[firstLetter.upper()]+=1
+
+            l2 = l2+"\n"
 
             lineClean=lineClean[:-1]
             lastTrio = lineClean[-3:]
@@ -60,12 +64,12 @@ for nameFile in FilepathTab:
                     key=firstTuppe+l2[c:c+1] #key = 0m ; key = me
                 key=key.lower()
                 firstTuppe=l2[c:c+1] # firstTuppe: m ; e
-               
+
                 if key not in probLetter:
                     probLetter[key]={}
 
-                
-                
+
+
                 dico = probLetter[key] #; dico = Dico[0m]; Dico[me]
                 char =""
                 if c+2>=len(l2)-1:  # 2 >= 3 not; 3=3
@@ -88,5 +92,6 @@ for nameFile in FilepathTab:
 
 
     Result = {"Description": "Description"+nameFile, "firstLetter":probFirstLetter , "data":probLetter, "lastLetter":probLastLetter}
-     
-    print(json.dumps(Result, sort_keys=True,indent=4,ensure_ascii=False))
+
+    with open('result'+nameFile+'.txt','w') as outfile:
+         outfile.write(json.dumps(Result, sort_keys=True,indent=4,ensure_ascii=False))

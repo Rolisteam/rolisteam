@@ -4,5 +4,9 @@
         <file>result_Name_Japanese_Female.txt</file>
         <file>result_Name_Elve_Female.txt</file>
         <file>result_Name_Elve_Male.txt</file>
+        <file>result_Name_Chinese_Female.txt</file>
+        <file>result_Name_Chinese_Male.txt</file>
+        <file>result_Name_French_Female.txt</file>
+        <file>result_Name_French_Male.txt</file>
     </qresource>
 </RCC>
