@@ -87,7 +87,6 @@ public:
 /**
     * @brief Section stores any fields of specific section
     */
-<<<<<<< HEAD
 /*class  Section : public CharacterSheetItem
 {
 ||||||| merged common ancestors
