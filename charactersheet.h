@@ -24,10 +24,13 @@
 #include <QMap>
 #include <QVariant>
 
+#ifndef RCSE
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#endif
+#include "charactersheetitem.h"
 
-class CharacterSheetItem
+/*class CharacterSheetItem
 {
 public:
     CharacterSheetItem();
@@ -65,9 +68,9 @@ protected:
     QStringList m_value;
     bool m_readOnly;
     CharacterSheetItem* m_parent;
-};
+};*/
 
-class Field : public CharacterSheetItem
+/*class Field : public CharacterSheetItem
 {
 public:
     Field();
@@ -79,42 +82,42 @@ public:
 
     virtual void save(QJsonObject&);
     virtual void load(QJsonObject&);
-};
+};*/
 
 /**
     * @brief Section stores any fields of specific section
     */
-class  Section : public CharacterSheetItem
-{
+//class  Section : public CharacterSheetItem
+//{
     
-public:
-    /**
-    * Constructor
-    */
-    Section();
-    Section(const Section* copy);
+//public:
+//    /**
+//    * Constructor
+//    */
+//    Section();
+//    Section(const Section* copy);
 
-    int getChildrenCount() const;
-    virtual CharacterSheetItem* getChildAt(QString i) const;
-    virtual CharacterSheetItem* getChildAt(int i) const;
-    virtual bool mayHaveChildren() const;
+//    int getChildrenCount() const;
+//    virtual CharacterSheetItem* getChildAt(QString i) const;
+//    virtual CharacterSheetItem* getChildAt(int i) const;
+//    virtual bool mayHaveChildren() const;
 
-    virtual bool appendChild(CharacterSheetItem*);
+//    virtual bool appendChild(CharacterSheetItem*);
 
-    int indexOf(CharacterSheetItem *child);
+//    int indexOf(CharacterSheetItem *child);
 
-    virtual void save(QJsonObject& json);
-    virtual void load(QJsonObject& json);
-    QStringList keyList() const;
-    void setKeyList(const QStringList &keyList);
+//    virtual void save(QJsonObject& json);
+//    virtual void load(QJsonObject& json);
+//    QStringList keyList() const;
+//    void setKeyList(const QStringList &keyList);
 
-private:
-    /**
-     * @brief m_list
-     */
-    QHash<QString,CharacterSheetItem*> m_dataHash;
-    QStringList m_keyList;
-};
+//private:
+//    /**
+//     * @brief m_list
+//     */
+//    QHash<QString,CharacterSheetItem*> m_dataHash;
+//    QStringList m_keyList;
+//};
 /**
     * @brief the characterSheet stores Section as many as necessary
     */
@@ -142,10 +145,12 @@ public:
     virtual void save(QJsonObject& json);
     virtual void load(QJsonObject& json);
 
+    #ifndef RCSE
     void fill(NetworkMessageWriter & message);
+    void read(NetworkMessageReader &msg);
+    #endif
 
     const QString getTitle();
-    void read(NetworkMessageReader &msg);
 signals:
     void valuesChanged(QString valueKey,QString value);
 
