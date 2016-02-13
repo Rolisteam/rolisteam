@@ -35,33 +35,36 @@ Section::Section()
 
 bool Section::hasChildren()
 {
-    return !m_children.isEmpty();
+    return !m_dataHash.isEmpty();
 }
 
-int Section::getChildrenCount()
+int Section::getChildrenCount() const
 {
-    return m_children.size();
+    return m_dataHash.size();
 }
 
-Item *Section::getChildAt(int i)
+CharacterSheetItem* Section::getChildAt(int i) const
 {
     if((i<getChildrenCount())&&(i>=0))
     {
-        return m_children.at(i);
+        return m_dataHash.value(m_keyList.at(i));
     }
     return NULL;
 }
-
-QVariant Section::getValue(Item::ColumnId id) const
+CharacterSheetItem* Section::getChildAt(QString key) const
 {
-    if(Item::NAME==id)
+    return m_dataHash.value(key);
+}
+QVariant Section::getValue(CharacterSheetItem::ColumnId id) const
+{
+    if(CharacterSheetItem::NAME==id)
         return m_name;
     return QVariant();
 }
 
-void Section::setValue(Item::ColumnId id, QVariant var)
+void Section::setValue(CharacterSheetItem::ColumnId id, QVariant var)
 {
-    if(Item::NAME==id)
+    if(CharacterSheetItem::NAME==id)
         m_name = var.toString();
 }
 
@@ -70,14 +73,15 @@ bool Section::mayHaveChildren()
     return true;
 }
 
-void Section::appendChild(Item* item)
+void Section::appendChild(CharacterSheetItem* item)
 {
-    m_children.append(item);
+    m_dataHash.insert(item->getPath(),item);
+    m_keyList.append(item->getPath());
     item->setParent(this);
 }
-int Section::indexOfChild(Item* itm)
+int Section::indexOfChild(CharacterSheetItem* itm)
 {
-    return m_children.indexOf(itm);
+    return m_keyList.indexOf(itm->getPath());
 }
 QString Section::getName() const
 {
@@ -94,8 +98,9 @@ void Section::save(QJsonObject& json,bool exp)
     json["name"] = m_name;
     json["type"] = QStringLiteral("Section");
     QJsonArray fieldArray;
-    foreach (Item* item, m_children)
+    foreach (QString key, m_keyList)
     {
+        CharacterSheetItem* item = m_dataHash.value(key);
        QJsonObject itemObject;
        item->save(itemObject,exp);
        fieldArray.append(itemObject);
@@ -111,7 +116,7 @@ void Section::load(QJsonObject &json,QGraphicsScene* scene)
     for(it = fieldArray.begin(); it != fieldArray.end(); ++it)
     {
         QJsonObject obj = (*it).toObject();
-        Item* item;
+        CharacterSheetItem* item;
         QGraphicsItem* gItem=NULL;
         if(obj["type"]==QStringLiteral("Section"))
         {
@@ -136,13 +141,14 @@ void Section::load(QJsonObject &json,QGraphicsScene* scene)
         }
         item->load(obj,scene);
         item->setParent(this);
-        m_children.append(item);
+        m_dataHash.insert(item->getPath(),item);
+        m_keyList.append(item->getPath());
     }
 
 }
-void Section::generateQML(QTextStream &out,Item::QMLSection sec)
+void Section::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
 {
-    foreach (Item* item, m_children)
+    foreach (CharacterSheetItem* item, m_dataHash.values())
     {
         item->generateQML(out,sec);
     }

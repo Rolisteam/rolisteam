@@ -1,5 +1,5 @@
 /***************************************************************************
-* Copyright (C) 2016 by Renaud Guezennec                                   *
+* Copyright (C) 2014 by Renaud Guezennec                                   *
 * http://www.rolisteam.org/                                                *
 *                                                                          *
 *  This file is part of rcse                                               *
@@ -19,38 +19,76 @@
 * Free Software Foundation, Inc.,                                          *
 * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
 ***************************************************************************/
-#ifndef SECTION_H
-#define SECTION_H
-#include "charactersheetitem.h"
-#include <QPointF>
-/**
- * @brief The Section class
- */
-class Section : public CharacterSheetItem
-{
-public:
-    Section();
+#ifndef FIELD_H
+#define FIELD_H
 
-    virtual bool hasChildren();
-    virtual int getChildrenCount() const;
-    virtual CharacterSheetItem* getChildAt(int) const;
-    virtual CharacterSheetItem* getChildAt(QString) const;
+#include <QWidget>
+#include <QLabel>
+#include <QGraphicsItem>
+#include "charactersheetitem.h"
+#include "csitem.h"
+
+class Field : public CSItem
+{
+    Q_OBJECT
+public:
+    enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
+    enum TextAlign {ALignLEFT,ALignRIGHT,ALignCENTER};
+
+
+    explicit Field(QGraphicsItem* parent = 0);
+    explicit Field(QPointF topleft,QGraphicsItem* parent = 0);
+
+    void drawField();
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+
+
+
+
+    QString key() const;
+    void setKey(const QString &key);
+
+    QSize size() const;
+    void setSize(const QSize &size);
+
+    Field::BorderLine border() const;
+    void setBorder(const Field::BorderLine &border);
+
+    QFont font() const;
+    void setFont(const QFont &font);
+
+    QRectF boundingRect() const;
+
+    CharacterSheetItem* getChildAt(QString) const;
 
 
     virtual QVariant getValue(CharacterSheetItem::ColumnId) const;
-    virtual void setValue(CharacterSheetItem::ColumnId,QVariant);
-    virtual bool mayHaveChildren();
-    virtual void appendChild(CharacterSheetItem*);
-    virtual int indexOfChild(CharacterSheetItem *itm);
-    QString getName() const;
-    void setName(const QString &name);
+    virtual void setValue(CharacterSheetItem::ColumnId id, QVariant var);
+
     virtual void save(QJsonObject& json,bool exp=false);
-    virtual void load(QJsonObject& json,QGraphicsScene* scene);
-    virtual void generateQML(QTextStream &out,CharacterSheetItem::QMLSection);
-    virtual void setNewEnd(QPointF){}
+    virtual void load(QJsonObject &json,QGraphicsScene* scene);
+
+    virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
+
+    QStringList getAvailableValue() const;
+    void setAvailableValue(const QStringList &availableValue);
+
+signals:
+    void updateNeeded(CSItem* c);
+
+protected:
+    void init();
+    void mousePressEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent* ev);
+
 private:
-    QHash<QString,CharacterSheetItem*> m_dataHash;
-    QStringList m_keyList;
-    QString m_name;
+    QString m_key;
+    BorderLine m_border;
+
+    QFont  m_font;
+    TextAlign m_textAlign;
+    QStringList m_availableValue;
+
 };
-#endif // SECTION_H
+
+#endif // FIELD_H

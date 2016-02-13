@@ -24,8 +24,11 @@
 #include <QMap>
 #include <QVariant>
 
+#ifndef RCSE
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#endif
+#include "charactersheetitem.h"
 
 /*class CharacterSheetItem
 {
@@ -84,9 +87,12 @@ public:
 /**
     * @brief Section stores any fields of specific section
     */
+<<<<<<< HEAD
 /*class  Section : public CharacterSheetItem
 {
-    
+||||||| merged common ancestors
+class  Section : public CharacterSheetItem
+{
 public:
     Section();
     Section(const Section* copy);
@@ -136,10 +142,12 @@ public:
     virtual void save(QJsonObject& json);
     virtual void load(QJsonObject& json);
 
+    #ifndef RCSE
     void fill(NetworkMessageWriter & message);
+    void read(NetworkMessageReader &msg);
+    #endif
 
     const QString getTitle();
-    void read(NetworkMessageReader &msg);
 signals:
     void valuesChanged(QString valueKey,QString value);
 

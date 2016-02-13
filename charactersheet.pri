@@ -1,14 +1,24 @@
 HEADERS += $$PWD/charactersheetwindow.h \
     $$PWD/charactersheetmodel.h\
     $$PWD/charactersheet.h \
+    $$PWD/charactersheetitem.h \
+    $$PWD/field.h\
+    $$PWD/csitem.h\
+    $$PWD/section.h \
     $$PWD/rolisteamimageprovider.h
 
 
 SOURCES += $$PWD/charactersheetwindow.cpp \
     $$PWD/charactersheetmodel.cpp\
     $$PWD/charactersheet.cpp \
+    $$PWD/charactersheetitem.cpp \
+    $$PWD/section.cpp \
+    $$PWD/field.cpp\
+    $$PWD/csitem.cpp\
     $$PWD/rolisteamimageprovider.cpp
 
 
-
-QT += xml
+RCSE{
+HEADERS -=$$PWD/charactersheetwindow.h
+SOURCES -=$$PWD/charactersheetwindow.cpp
+}

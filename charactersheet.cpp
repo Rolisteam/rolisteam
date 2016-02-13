@@ -98,11 +98,11 @@ void CharacterSheetItem::setReadOnly(bool readOnly)
 CharacterSheetItem*  CharacterSheetItem::getChildAt(int) const
 {
     return NULL;
-}
+}*/
 //////////////////////////////////////
 //Field
 /////////////////////////////////////
-Field::Field()
+/*Field::Field()
 {
 
 }
@@ -139,11 +139,11 @@ void Field::load(QJsonObject& json)
         m_value.append(variant.toString());
     }
 
-}
+}*/
 //////////////////////////////////////
 //Section
 /////////////////////////////////////
-Section::Section()
+/*Section::Section()
 {
     m_name = "";
 }
@@ -307,6 +307,7 @@ void CharacterSheet::load(QJsonObject& json)
         m_values[key] = json[key].toString();
     }
 }
+#ifndef RCSE
 void CharacterSheet::fill(NetworkMessageWriter & msg)
 {
     QJsonObject object;
@@ -321,3 +322,4 @@ void CharacterSheet::read(NetworkMessageReader& msg)
     QJsonObject object = doc.object();
     load(object);
 }
+#endif
