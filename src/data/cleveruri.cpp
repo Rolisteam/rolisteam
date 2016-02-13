@@ -207,7 +207,7 @@ QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
     switch(type)
     {
     case CleverURI::CHARACTERSHEET:
-       return  QObject::tr("Character Sheets files  (%1)").arg(preferences->value("CharacterSheetFileFilter","*.json").toString());
+       return  QObject::tr("Character Sheets files  (%1)").arg(preferences->value("CharacterSheetFileFilter","*.rcs").toString());
         break;
     case CleverURI::PICTURE:
         return QObject::tr("Supported Image formats (%1)").arg(preferences->value("ImageFileFilter","*.jpg *.jpeg *.png *.bmp *.svg").toString());

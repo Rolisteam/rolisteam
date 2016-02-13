@@ -273,12 +273,12 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 	for (int i=0; i<nbrPersonnages; ++i)
 	{
 		QString nomPerso,ident;
-		DessinPerso::typePersonnage type;
+		CharacterToken::typePersonnage type;
 		int numeroDuPnj;
 		uchar diametre;
 
 		QColor couleur;
-		DessinPerso::etatDeSante sante;
+		CharacterToken::etatDeSante sante;
 
 		QPoint centre;
 		QPoint orientation;
@@ -290,7 +290,7 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 		in >> ident ;
 		int typeint;
 		in >> typeint;
-		type=(DessinPerso::typePersonnage) typeint;
+		type=(CharacterToken::typePersonnage) typeint;
 		in >> numeroDuPnj ;
 		in >> diametre;
 		in >> couleur ;
@@ -306,17 +306,17 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 		bool showNumber=true;//(type == DessinPerso::pnj)?m_ui->m_showNpcNumberAction->isChecked():false;
 		bool showName=true;//(type == DessinPerso::pnj)? m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
 
-		DessinPerso *pnj = new DessinPerso(m_map, ident, nomPerso, couleur, diametre, centre, type,showNumber,showName, numeroDuPnj);
+		CharacterToken *pnj = new CharacterToken(m_map, ident, nomPerso, couleur, diametre, centre, type,showNumber,showName, numeroDuPnj);
 
-        if (visible || (type == DessinPerso::pnj && PlayersList::instance()->getLocalPlayer()->isGM()))
-			pnj->afficherPerso();
+        if (visible || (type == CharacterToken::pnj && PlayersList::instance()->getLocalPlayer()->isGM()))
+			pnj->showCharacter();
 		// On m.a.j l'orientation
-		pnj->nouvelleOrientation(orientation);
+		pnj->newOrientation(orientation);
 		// Affichage de l'orientation si besoin
 		if (orientationAffichee)
-			pnj->afficheOuMasqueOrientation();
+			pnj->showOrHideOrientation();
 
-		pnj->nouvelEtatDeSante(sante, numeroEtat);
+		pnj->newHealtState(sante, numeroEtat);
 
 		m_map->afficheOuMasquePnj(pnj);
 

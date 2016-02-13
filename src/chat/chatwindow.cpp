@@ -444,11 +444,11 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
     }
     else if(m_diceParser->hasIntegerResultNotInFirst())
     {
-        scalarText = tr("%1").arg(m_diceParser->getLastIntegerResult());
+        scalarText = QStringLiteral("%1").arg(m_diceParser->getLastIntegerResult());
     }
     else if(hasDiceList)
     {
-        scalarText = tr("%1").arg(m_diceParser->getSumOfDiceResult());
+        scalarText = QStringLiteral("%1").arg(m_diceParser->getSumOfDiceResult());
     }
     value=scalarText;
     list = diceText.trimmed();

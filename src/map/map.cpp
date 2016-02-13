@@ -311,14 +311,14 @@ void Map::mousePressEvent(QMouseEvent *event)
             boutonDroitEnfonce = true;
 
             setCursor(Qt::WhatsThisCursor);
-			DessinPerso *pnj = paintCharacter(positionSouris);
+			CharacterToken *pnj = paintCharacter(positionSouris);
             if (pnj)
             {
                 int diametre;
                 QColor couleur;
                 QString nomPnj;
 
-                pnj->diametreCouleurNom(&diametre, &couleur, &nomPnj);
+                pnj->defineToken(&diametre, &couleur, &nomPnj);
                 emit mettreAJourPnj(diametre, nomPnj);
                 emit changeCurrentColor(couleur);
             }
@@ -328,23 +328,23 @@ void Map::mousePressEvent(QMouseEvent *event)
             boutonDroitEnfonce = true;
             setCursor(*m_orientCursor);
             // On regarde s'il y a un PNJ sous la souris
-			DessinPerso *pnj = paintCharacter(positionSouris);
+			CharacterToken *pnj = paintCharacter(positionSouris);
             // Si oui, on modifie son affichage de l'orientation et on le selectionne
             if (pnj)
             {
-                pnj->afficheOuMasqueOrientation();
+                pnj->showOrHideOrientation();
                 dernierPnjSelectionne = pnj;
 
                 NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::showCharecterOrientation);
                 msg.string8(idCarte);
-                msg.string8(pnj->idPersonnage());
-                msg.uint8(pnj->orientationEstAffichee());
+                msg.string8(pnj->getCharacterId());
+                msg.uint8(pnj->orientationStatus());
                 msg.sendAll();
             }
             else if (dernierPnjSelectionne)
             {
                 boutonDroitEnfonce = true;
-                dernierPnjSelectionne->dessinerPersonnage(positionSouris);
+                dernierPnjSelectionne->drawCharacter(positionSouris);
             }
         }
         else if(event->modifiers()==Qt::ControlModifier)
@@ -462,10 +462,10 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
         // Il s'agit d'une action de deplacement ou de l'action de changement d'etat du perso et qu'un perso a ete selectionne
         if ((m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState) && dernierPnjSelectionne)
         {///@todo test orientation pnj
-            QPoint orientation =  dernierPnjSelectionne->orientationPersonnage();
+            QPoint orientation =  dernierPnjSelectionne->getCharacterOrientation();
             NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::changeCharacterOrientation);
             msg.string8(idCarte);
-            msg.string8(dernierPnjSelectionne->idPersonnage());
+            msg.string8(dernierPnjSelectionne->getCharacterId());
             msg.int16(orientation.x());
             msg.int16(orientation.y());
             msg.sendAll();
@@ -526,7 +526,7 @@ void Map::mouseMoveEvent(QMouseEvent *event)
             // On met a jour l'orientation du PNJ (si la souris n'est pas sur un PNJ
             // et qu'il en existe un de selectionne)
 			if (dernierPnjSelectionne && !paintCharacter(positionSouris))
-                dernierPnjSelectionne->dessinerPersonnage(positionSouris);
+                dernierPnjSelectionne->drawCharacter(positionSouris);
         }
         else
         {
@@ -859,8 +859,8 @@ void Map::processNpcAction(QPoint positionSouris)
                 // Creation de l'identifiant du PNJ
                 QString idPnj = QUuid::createUuid().toString();
                 // Creation du dessin du PNJ qui s'affiche dans le widget
-                DessinPerso *pnj = new DessinPerso(this, idPnj, m_currentNpcName, ColorSelector::getSelectedColor().color, m_npcSize, positionSouris, DessinPerso::pnj, m_showNpcNumber, m_showNpcName, m_currentNpcNumber);
-                pnj->afficherPerso();
+                CharacterToken *pnj = new CharacterToken(this, idPnj, m_currentNpcName, ColorSelector::getSelectedColor().color, m_npcSize, positionSouris, CharacterToken::pnj, m_showNpcNumber, m_showNpcName, m_currentNpcNumber);
+                pnj->showCharacter();
                 // Un PNJ est selectionne
                 pnjSelectionne = pnj;
                 // On calcule la difference entre le coin sup gauche du PNJ et le pointeur de la souris
@@ -872,16 +872,16 @@ void Map::processNpcAction(QPoint positionSouris)
     }
     else
     {
-		DessinPerso *pnj = paintCharacter(positionSouris);
+		CharacterToken *pnj = paintCharacter(positionSouris);
         if (pnj)
         {
 			if((!m_localIsPlayer)||
                (Map::PC_ALL==m_currentMode)||
-                    ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnj->idPersonnage())>-1)) )//if not found -1
+                    ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnj->getCharacterId())>-1)) )//if not found -1
             {
                 if (m_currentTool == ToolsBar::DelNpc)
                 {
-                        if (!pnj->estUnPj())
+                        if (!pnj->isPc())
                         {
                             if (dernierPnjSelectionne == pnj)
                                 dernierPnjSelectionne = 0;
@@ -889,11 +889,11 @@ void Map::processNpcAction(QPoint positionSouris)
                             // Emission de la demande de suppression de de PNJ
                             NetworkMessageWriter msg(NetMsg::NPCCategory,NetMsg::delNpc);
                             msg.string8(idCarte);
-                            msg.string8(pnj->idPersonnage());
+                            msg.string8(pnj->getCharacterId());
                             msg.sendAll();
 
                             // Destruction du personnage
-                            pnj->~DessinPerso();
+                            pnj->~CharacterToken();
                         }
 
                 }
@@ -906,18 +906,18 @@ void Map::processNpcAction(QPoint positionSouris)
                             // Mise a zero de la liste de points
                             listeDeplacement.clear();
                             // Ajout de la position actuelle du perso dans la liste
-                            listeDeplacement.append(pnj->positionCentrePerso());
+                            listeDeplacement.append(pnj->getCharacterCenter());
                 }
                 else if (m_currentTool == ToolsBar::ChangeCharacterState)
                 {
                         // changement d'etat du personnage
-                        pnj->changerEtat();
+                        pnj->changeState();
                         dernierPnjSelectionne = pnj;
 
                         NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::changeCharacterState);
                         msg.string8(idCarte);
-                        msg.string8(pnj->idPersonnage());
-                        msg.uint16(pnj->numeroEtatSante());
+                        msg.string8(pnj->getCharacterId());
+                        msg.uint16(pnj->getHealtState());
                         msg.sendAll();
                 }
                 else
@@ -977,7 +977,7 @@ void Map::processNpcActionReleased(QPoint positionSouris)
         {
 			if((!m_localIsPlayer)||
                (Map::PC_ALL==m_currentMode)||
-               ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
+               ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->getCharacterId())>-1)) )
             {
                 // Affiche ou masque le PNJ selon qu'il se trouve sur une zone masquee ou pas
                 afficheOuMasquePnj(pnjSelectionne);
@@ -1011,7 +1011,7 @@ void Map::processNpcMove(QPoint positionSouris)
         {
             // On verifie que la souris reste dans les limites de la carte
             if ( QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris, true) )
-                pnjSelectionne->deplacePerso(positionSouris - diffSourisDessinPerso);
+                pnjSelectionne->moveCharacter(positionSouris - diffSourisDessinPerso);
         }
     }
     
@@ -1025,15 +1025,15 @@ void Map::processNpcMove(QPoint positionSouris)
         {
 			if((!m_localIsPlayer)||
                (Map::PC_ALL==m_currentMode)||
-               ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->idPersonnage())>-1)) )
+               ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->getCharacterId())>-1)) )
             {
                 // On verifie que la souris reste dans les limites de la carte
                 if ( QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris, true) )
                 {
                     // Deplacement du perso
-                    pnjSelectionne->deplacePerso(positionSouris - diffSourisDessinPerso);
+                    pnjSelectionne->moveCharacter(positionSouris - diffSourisDessinPerso);
                     // Ajout de la position actuelle du perso dans la liste
-                    listeDeplacement.append(pnjSelectionne->positionCentrePerso());
+                    listeDeplacement.append(pnjSelectionne->getCharacterCenter());
                 }
             }
         }
@@ -1049,10 +1049,10 @@ void Map::processNpcMove(QPoint positionSouris)
 }
 
 
-DessinPerso* Map::paintCharacter(QPoint positionSouris)
+CharacterToken* Map::paintCharacter(QPoint positionSouris)
 {
-    DessinPerso *resultat;
-    DessinPerso *dessinPnj;
+    CharacterToken *resultat;
+    CharacterToken *dessinPnj;
     
     // Recuperation du widget se trouvant sous la souris
     QWidget *widget = childAt(positionSouris);
@@ -1065,9 +1065,9 @@ DessinPerso* Map::paintCharacter(QPoint positionSouris)
         if (widget->objectName() == QString("disquePerso"))
         {
             // On recupere le parent du disquePerso : un DessinPerso
-            dessinPnj = (DessinPerso *) (widget->parentWidget());
+            dessinPnj = (CharacterToken *) (widget->parentWidget());
             // Si le pointeur se trouve dans la partie transparente de la pixmap...
-            if (dessinPnj->dansPartieTransparente(positionSouris))
+            if (dessinPnj->onTransparentPart(positionSouris))
             {
                 // On masque le DessinPerso courant...
                 dessinPnj->hide();
@@ -1087,7 +1087,7 @@ DessinPerso* Map::paintCharacter(QPoint positionSouris)
         else if (widget->objectName() == QString("intitulePerso"))
         {
             // On recupere le parent de l'intitulePerso : un DessinPerso
-            dessinPnj = (DessinPerso *) (widget->parentWidget());
+            dessinPnj = (CharacterToken *) (widget->parentWidget());
             // On masque le DessinPerso courant...
             dessinPnj->hide();
             // ...et on regarde derriere lui
@@ -1099,7 +1099,7 @@ DessinPerso* Map::paintCharacter(QPoint positionSouris)
         else if (widget->objectName() == QString("DessinPerso"))
         {
             // On convertit le pointeur en DessinPerso*
-            dessinPnj = (DessinPerso *) widget;
+            dessinPnj = (CharacterToken *) widget;
             // On masque le DessinPerso courant...
             dessinPnj->hide();
             // ...et on regarde derriere lui
@@ -1123,7 +1123,7 @@ DessinPerso* Map::paintCharacter(QPoint positionSouris)
 }
 
 
-void Map::afficheOuMasquePnj(DessinPerso *pnjSeul)
+void Map::afficheOuMasquePnj(CharacterToken *pnjSeul)
 {
     QObjectList enfants;
     int i, j, masque, affiche;
@@ -1143,17 +1143,17 @@ void Map::afficheOuMasquePnj(DessinPerso *pnjSeul)
     // Parcours des DessinPerso
     for (i=0; i<tailleListe; i++)
     {
-		DessinPerso* pnj = (DessinPerso *)(enfants[i]);
+		CharacterToken* pnj = (CharacterToken *)(enfants[i]);
 
         // On ne masque le pesonnage uniquement s'il s'agit d'un PNJ
-        if (!pnj->estUnPj())
+        if (!pnj->isPc())
         {
             // Recuperation des 8 points formant le coutour du disque representant le PNJ
-            pnj->contourDisque(contour);
+            pnj->diskBorder(contour);
 
             // Il y a 2 cas de figure :
             // Soit le DessinPerso est visible : on regarde s'il faut le cacher
-            if (pnj->estVisible())
+            if (pnj->isVisible())
             {
                 // On verifie la couche alpha de fondAlpha pour chacun des points
                 masque = 0;
@@ -1171,7 +1171,7 @@ void Map::afficheOuMasquePnj(DessinPerso *pnjSeul)
 
                 // Si tous les points se trouvent dans une zone masquee, on cache le PNJ
                 if (masque == 8)
-                    pnj->cacherPerso();
+                    pnj->hideCharater();
             }
 
             // Le PNJ est deja cache : on regarde s'il faut l'afficher
@@ -1193,7 +1193,7 @@ void Map::afficheOuMasquePnj(DessinPerso *pnjSeul)
 
                 // Si un des points se trouve dans la zone visible, on affiche le PNJ
                 if (affiche)
-                    pnj->afficherPerso();
+                    pnj->showCharacter();
             }
         }    // Fin de la condition : le personnage est un PNJ
     }        // Fin du parcours de la liste des enfants
@@ -1205,7 +1205,7 @@ void Map::changePjSize(int nouvelleTaille, bool updatePj)
 	m_npcSize = nouvelleTaille;
     if((updatePj)&&(dernierPnjSelectionne!=NULL))
     {
-		dernierPnjSelectionne->changerTaillePj(nouvelleTaille);
+		dernierPnjSelectionne->setPcSize(nouvelleTaille);
     }
 		//emit changerm_npcSize(nouvelleTaille);
 }
@@ -1216,16 +1216,16 @@ int Map::tailleDesPj()
 }
 
 
-DessinPerso* Map::trouverPersonnage(QString idPerso)
+CharacterToken* Map::trouverPersonnage(QString idPerso)
 {
-    DessinPerso *perso=NULL;
+    CharacterToken *perso=NULL;
     bool ok = false;
     for (int i=0; i<children().size() && !ok; i++)
     {
-        perso = dynamic_cast<DessinPerso *>(children().at(i));
+        perso = dynamic_cast<CharacterToken *>(children().at(i));
         if(NULL!=perso)
         {
-            if (perso->idPersonnage() == idPerso)
+            if (perso->getCharacterId() == idPerso)
             {
                 ok = true;
             }
@@ -1260,7 +1260,7 @@ void Map::toggleCharacterView(Character * character)
 void Map::showPc(QString idPerso, bool afficher)
 {
     // Recherche du PJ
-    DessinPerso *pj = trouverPersonnage(idPerso);
+    CharacterToken *pj = trouverPersonnage(idPerso);
     // Ne devrait jamais arriver
     if (NULL==pj)
     {
@@ -1269,10 +1269,10 @@ void Map::showPc(QString idPerso, bool afficher)
     }
     // On masque ou on affiche le PJ
     if (afficher)
-        pj->afficherPerso();
+        pj->showCharacter();
     else
     {
-        pj->cacherPerso();
+        pj->hideCharater();
         // M.a.j de la carte pour eviter les residus dans les autres PJ/PNJ
         update(QRect(pj->pos(), pj->size()));
     }
@@ -1282,7 +1282,7 @@ void Map::showPc(QString idPerso, bool afficher)
 bool Map::isVisiblePc(QString idPerso)
 {
     // Recherche du PJ
-    DessinPerso *pj = trouverPersonnage(idPerso);
+    CharacterToken *pj = trouverPersonnage(idPerso);
     // Ne devrait jamais arriver
     if (NULL==pj)
     {
@@ -1290,19 +1290,19 @@ bool Map::isVisiblePc(QString idPerso)
         return false;
     }
 
-    return pj->estVisible();
+    return pj->isVisible();
 }
 
 void Map::addCharacter(Character * person)
 {
-    new DessinPerso(this, person->getUuid(), person->getName(), person->getColor(), m_npcSize, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), DessinPerso::pj, false, m_showPcName);
+    new CharacterToken(this, person->getUuid(), person->getName(), person->getColor(), m_npcSize, QPoint(m_backgroundImage->width()/2, m_backgroundImage->height()/2), CharacterToken::pj, false, m_showPcName);
 }
 
 
 void Map::eraseCharacter(QString idCharacter)
 {
     // Recherche du personnage
-	DessinPerso *perso = trouverPersonnage(idCharacter);
+	CharacterToken *perso = trouverPersonnage(idCharacter);
     // Ne devrait jamais arriver
      if (NULL==perso)
     {
@@ -1310,7 +1310,7 @@ void Map::eraseCharacter(QString idCharacter)
         return;
     }
     // Suppression du personnage
-    perso->~DessinPerso();
+    perso->~CharacterToken();
 }
 
 void Map::delCharacter(Character * person)
@@ -1318,7 +1318,7 @@ void Map::delCharacter(Character * person)
 	if(NULL==person)
 		return;
 
-    DessinPerso * pj = trouverPersonnage(person->getUuid());
+    CharacterToken * pj = trouverPersonnage(person->getUuid());
     if (pj == NULL)
     {
 		qWarning() << ( tr("Person %s %s unknown in Carte::changePerson"),
@@ -1333,15 +1333,15 @@ void Map::changeCharacter(Character * person)
 {
 	if(NULL==person)
 		return;
-    DessinPerso * pj = trouverPersonnage(person->getUuid());
+    CharacterToken * pj = trouverPersonnage(person->getUuid());
     if (pj == NULL)
     {
         qWarning() << tr("Person %s %s unknown in Carte::changePerson").arg(person->getUuid()).arg(person->getName()) ;
         return;
     }
 
-    pj->renommerPerso(person->getName());
-    pj->changerCouleurPerso(person->getColor());
+    pj->renameCharacter(person->getName());
+    pj->changeCharacterColor(person->getColor());
 }
 
 
@@ -1431,8 +1431,8 @@ void Map::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetworkL
     int tailleListe = enfants.size();
     for (int i=0; i<tailleListe; i++)
     {
-		DessinPerso* character = (DessinPerso *)(enfants[i]);
-        character->preparerPourEmission(&msg);
+		CharacterToken* character = (CharacterToken *)(enfants[i]);
+        character->prepareToSendOff(&msg);
     }
 
     if (versNetworkLinkUniquement)
@@ -1540,7 +1540,7 @@ void Map::emettreTrace()
 
 void Map::emettreTrajetPersonnage()
 {
-    QString idPerso = pnjSelectionne->idPersonnage();
+    QString idPerso = pnjSelectionne->getCharacterId();
     quint32 tailleListe = listeDeplacement.size();
 
     NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::moveCharacter);
@@ -1944,13 +1944,13 @@ void Map::moveAllCharacters()
     while(i < mouvements.size())
     {
 
-        DessinPerso *perso = trouverPersonnage(mouvements[i].idPersonnage);
+        CharacterToken *perso = trouverPersonnage(mouvements[i].idPersonnage);
 
 
         if (NULL != perso)
         {
             position = mouvements[i].trajet.takeFirst();
-            perso->deplaceCentrePerso(position);
+            perso->moveCharaterCenter(position);
             afficheOuMasquePnj(perso);
         }
         if (mouvements[i].trajet.isEmpty() || !perso)
@@ -2008,14 +2008,14 @@ void Map::saveMap(QDataStream &out, QString titre)
 
 
 
-    DessinPerso *perso;
+    CharacterToken *perso;
     quint16 nombrePnj = 0;
     QObjectList enfants = children();
     int tailleListe = enfants.size();
     for (int i=0; i<tailleListe; i++)
     {
-        perso = (DessinPerso *)(enfants[i]);
-        if (perso->estVisible())
+        perso = (CharacterToken *)(enfants[i]);
+        if (perso->isVisible())
             nombrePnj++;
     }
 
@@ -2023,8 +2023,8 @@ void Map::saveMap(QDataStream &out, QString titre)
     out << nombrePnj;
     for (int i=0; i<tailleListe; i++)
     {
-        perso = (DessinPerso *)(enfants[i]);
-        if (perso->estVisible())
+        perso = (CharacterToken *)(enfants[i]);
+        if (perso->isVisible())
         {
             perso->write(out);
         }
@@ -2040,11 +2040,11 @@ QString Map::getLastSelectedCharacterId()
 {
     if(dernierPnjSelectionne==NULL)
         return QString();
-    return dernierPnjSelectionne->idPersonnage();
+    return dernierPnjSelectionne->getCharacterId();
 }
 bool Map::selectCharacter(QString& id)
 {
-    DessinPerso* tmp=trouverPersonnage(id);
+    CharacterToken* tmp=trouverPersonnage(id);
     if(tmp!=NULL)
         dernierPnjSelectionne=tmp;
     else

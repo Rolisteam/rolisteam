@@ -19,19 +19,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-/********************************************************************/
-/*                                                                  */
-/* Widget contenant 2 labels : l'un contenant la pixmap d'un cercle */
-/* representant un personnage, et l'autre contenant son nom et      */
-/* eventuellement son numero. Cette classe qui sert principalement  */
-/* pour les PNJ est egalement utilisee pour afficher les PJ.        */
-/*                                                                  */
-/********************************************************************/
-
-
-#ifndef DESSIN_PERSO_H
-#define DESSIN_PERSO_H
+#ifndef CHARACTER_TOKEN_H
+#define CHARACTER_TOKEN_H
 
 
 #include <QLabel>
@@ -45,7 +34,7 @@
 /**
  * @brief The DessinPerso class
  */
-class DessinPerso : public QWidget
+class CharacterToken : public QWidget
 {
     Q_OBJECT
 
@@ -58,50 +47,50 @@ public :
         QString nomEtat;
     } etatDeSante;
 
-    DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, bool showNpcNumber,bool showName,int numero = 0,bool isLocal=false);
-    void deplacePerso(QPoint position);
-    void deplacePerso(int x, int y);
-    void diametreCouleurNom(int *diam, QColor *coul, QString *nom);
-    void deplaceCentrePerso(QPoint position);
-    void afficherPerso();
-    void cacherPerso();
-    void contourDisque(QPoint *coordonnees);
-    void dessinerPersonnage(QPoint positionSouris = QPoint(0,0));
-    void afficheOuMasqueOrientation();
-    void changerEtat();
-    void renommerPerso(QString nouveauNom);
-    void changerCouleurPerso(QColor coul);
-    void nouvelleOrientation(QPoint uneOrientation);
-    void nouvelEtatDeSante(etatDeSante sante, int numeroSante);
+    CharacterToken(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType, bool showNpcNumber,bool showName,int numero = 0,bool isLocal=false);
+    void moveCharacter(QPoint position);
+    void moveCharacter(int x, int y);
+    void defineToken(int *diam, QColor *coul, QString *nom);
+    void moveCharaterCenter(QPoint position);
+    void showCharacter();
+    void hideCharater();
+    void diskBorder(QPoint *coordonnees);
+    void drawCharacter(QPoint positionSouris = QPoint(0,0));
+    void showOrHideOrientation();
+    void changeState();
+    void renameCharacter(QString nouveauNom);
+    void changeCharacterColor(QColor coul);
+    void newOrientation(QPoint uneOrientation);
+    void newHealtState(etatDeSante sante, int numeroSante);
     void emettrePnj(QString idCarte);
-    void changerEtatDeSante(int numEtat);
+    void changeHealtStatus(int numEtat);
     void showOrientation(bool afficher);
-    bool dansPartieTransparente(QPoint position);
-    bool estVisible();
-    bool estUnPj();
-    bool orientationEstAffichee();
-    QString idPersonnage();
-    QPoint positionCentrePerso();
-    QPoint orientationPersonnage();
-    int preparerPourEmission(NetworkMessageWriter* msg, bool convertirEnPnj = false);
-    int tailleDonneesAEmettre();
-    int numeroEtatSante();
+    bool onTransparentPart(QPoint position);
+    bool isVisible();
+    bool isPc();
+    bool orientationStatus();
+    QString getCharacterId();
+    QPoint getCharacterCenter();
+    QPoint getCharacterOrientation();
+    int prepareToSendOff(NetworkMessageWriter* msg, bool convertirEnPnj = false);
+    int getSizeForEmiting();
+    int getHealtState();
     void write(QDataStream &out);
 
     /*void setCharacter(Character* tmp);
     Character* getCharacter();*/
 
 public slots :
-    void afficherNomsPj(bool afficher);
-    void afficherNomsPnj(bool afficher);
-    void afficherNumerosPnj(bool afficher);
-    void changerTaillePj(int nouvelleTaille);
+    void showPcName(bool afficher);
+    void showNpcName(bool afficher);
+    void showNpcNumber(bool afficher);
+    void setPcSize(int nouvelleTaille);
 
 
 
 private :
-    void mettreIntituleAJour();
-    void initialiserContour(QImage &disque);
+    void updateTitle();
+    void initializeBorder(QImage &disque);
 	void AddHealthState(const QColor &color, const QString &label);
 
 private:
@@ -125,7 +114,7 @@ private:
     QPoint centre;				// Sert a memoriser la position du centre pendant que le personnage est cache
     bool m_localPerso;
 
-	QList<DessinPerso::etatDeSante> m_healtStateList;
+    QList<CharacterToken::etatDeSante> m_healtStateList;
 
     //Character * person;
 

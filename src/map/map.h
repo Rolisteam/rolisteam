@@ -39,7 +39,7 @@
 #include "network/networkmessage.h"
 
 class Character;
-class DessinPerso;
+class CharacterToken;
 class NetworkLink;
 
 
@@ -61,7 +61,7 @@ public :
 
     enum PermissionMode{GM_ONLY, PC_MOVE,PC_ALL };
 
-    void afficheOuMasquePnj(DessinPerso *pnjSeul = 0);
+    void afficheOuMasquePnj(CharacterToken *pnjSeul = 0);
     void toggleCharacterView(Character * character);
 	void showPc(QString idPerso, bool afficher);
 	void changePjSize(int nouvelleTaille, bool updatePj = true);
@@ -85,7 +85,7 @@ public :
      * @param idPerso id of the character
      * @return the corresponding DessinPerso or NULL
      */
-    DessinPerso* trouverPersonnage(QString idPerso);
+    CharacterToken* trouverPersonnage(QString idPerso);
 
     QString getLastSelectedCharacterId();
     bool selectCharacter(QString& id);
@@ -147,7 +147,7 @@ private :
 	void processNpcMove(QPoint positionSouris);
     void emettreCarteGeneral(QString titre, NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
     void emettreTousLesPersonnagesGeneral(NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
-	DessinPerso* paintCharacter(QPoint positionSouris);
+	CharacterToken* paintCharacter(QPoint positionSouris);
     QColor getFogColor();
 
     typedef struct
@@ -179,8 +179,8 @@ private :
     QRect zoneNouvelle;                    // zone a rafraichir au prochain affichage
     QRect zoneGlobaleCrayon;            // unite de toutes les zone a raffraichir lors du trace du crayon (emise aux autres utilisateurs)
     QCursor pointeur;                    // pointeur actuel de la souris
-    DessinPerso *pnjSelectionne;        // pointe sur le PNJ actuellement selectionne (0 si aucun PNJ selectionne)
-    DessinPerso *dernierPnjSelectionne;    // pointe sur le dernier PNJ selectionne (0 si aucun PNJ n'a deja ete selection)
+    CharacterToken *pnjSelectionne;        // pointe sur le PNJ actuellement selectionne (0 si aucun PNJ selectionne)
+    CharacterToken *dernierPnjSelectionne;    // pointe sur le dernier PNJ selectionne (0 si aucun PNJ n'a deja ete selection)
     QString idCarte;                    // identifiant de la carte
     QList<QPoint> listePointsCrayon;    // liste des points composant le trace du crayon, qui sera emise aux autres utilisateurs
     QList<QPoint> listeDeplacement;        // liste des points composant le deplacement du perso qui vient d'etre deplace par l'utilisateur

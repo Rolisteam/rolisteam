@@ -1569,25 +1569,25 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
 
         QPoint npcPos(npcXpos, npcYpos);
 
-        bool showNumber=(npcType == DessinPerso::pnj)?m_ui->m_showNpcNumberAction->isChecked():false;
-        bool showName=(npcType == DessinPerso::pnj)? m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
+        bool showNumber=(npcType == CharacterToken::pnj)?m_ui->m_showNpcNumberAction->isChecked():false;
+        bool showName=(npcType == CharacterToken::pnj)? m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
 
-        DessinPerso* npc = new DessinPerso(map, npcId, npcName, npcColor, npcDiameter, npcPos, (DessinPerso::typePersonnage)npcType,showNumber,showName, npcNumber);
+        CharacterToken* npc = new CharacterToken(map, npcId, npcName, npcColor, npcDiameter, npcPos, (CharacterToken::typePersonnage)npcType,showNumber,showName, npcNumber);
 
-        if((npcVisible)||(npcType == DessinPerso::pnj && !m_preferences->value("isPlayer",false).toBool()))
+        if((npcVisible)||(npcType == CharacterToken::pnj && !m_preferences->value("isPlayer",false).toBool()))
         {
-            npc->afficherPerso();
+            npc->showCharacter();
         }
-        npc->nouvelleOrientation(orientation);
+        npc->newOrientation(orientation);
         if(npcVisibleOrient)
         {
-            npc->afficheOuMasqueOrientation();
+            npc->showOrHideOrientation();
         }
 
-        DessinPerso::etatDeSante health;
+        CharacterToken::etatDeSante health;
         health.couleurEtat = npcState;
         health.nomEtat = npcStateName;
-        npc->nouvelEtatDeSante(health, npcStateNum);
+        npc->newHealtState(health, npcStateNum);
         map->afficheOuMasquePnj(npc);
 
     }
@@ -1639,10 +1639,10 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         Map* map=findMapById(idMap);
         if(NULL!=map)
         {
-            DessinPerso* character = map->trouverPersonnage(idCharacter);
+            CharacterToken* character = map->trouverPersonnage(idCharacter);
             if(NULL!=character)
             {
-                character->changerEtatDeSante(stateNumber);
+                character->changeHealtStatus(stateNumber);
             }
         }
     }
@@ -1656,10 +1656,10 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         Map* map=findMapById(idMap);
         if(NULL!=map)
         {
-            DessinPerso* character = map->trouverPersonnage(idCharacter);
+            CharacterToken* character = map->trouverPersonnage(idCharacter);
             if(NULL!=character)
             {
-                character->nouvelleOrientation(orientation);
+                character->newOrientation(orientation);
             }
         }
     }
@@ -1671,7 +1671,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         Map* map=findMapById(idMap);
         if(NULL!=map)
         {
-            DessinPerso* character = map->trouverPersonnage(idCharacter);
+            CharacterToken* character = map->trouverPersonnage(idCharacter);
             if(NULL!=character)
             {
                 character->showOrientation(showOrientation);
@@ -1919,7 +1919,7 @@ void MainWindow::updateRecentFileActions()
 
     for (int i = 0; i < numRecentFiles; ++i)
     {
-        QString text = tr("&%1 %2").arg(i + 1).arg(files[i].name());
+        QString text = QStringLiteral("&%1 %2").arg(i + 1).arg(files[i].name());
         m_recentFileActs[i]->setText(text);
         QVariant var;
         var.setValue(files[i]);
@@ -2092,7 +2092,7 @@ void MainWindow::updateWindowTitle()
 {
     if(NULL != m_currentConnectionProfile)
     {
-        setWindowTitle(tr("%1[*] - v%2 - %3 - %4 - %5").arg(m_preferences->value("applicationName","Rolisteam").toString())
+        setWindowTitle(QStringLiteral("%1[*] - v%2 - %3 - %4 - %5").arg(m_preferences->value("applicationName","Rolisteam").toString())
                    .arg(m_version)
                    .arg(m_networkManager->isConnected() ? tr("Connected") : tr("Not Connected"))
                    .arg(m_currentConnectionProfile->isServer() ? tr("Server") : tr("Client")).arg(m_currentConnectionProfile->isGM() ? tr("GM") : tr("Player")));
