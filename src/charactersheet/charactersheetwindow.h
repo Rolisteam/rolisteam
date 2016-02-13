@@ -30,6 +30,7 @@
 
 #include "data/mediacontainer.h"
 #include "charactersheetmodel.h"
+#include "rolisteamimageprovider.h"
 /**
     * @brief herits from SubMdiWindows. It displays and manages all classes required to deal with the character sheet MVC architrecture.
     */
@@ -43,7 +44,7 @@ public:
     CharacterSheetWindow(CleverURI* uri= NULL, QWidget* parent = NULL);
     virtual ~CharacterSheetWindow(); 
     
-    void openFile(const QString& file);
+    bool openFile(const QString& file);
     void saveFile(const QString & file);
     virtual bool hasDockWidget() const ;
     virtual QDockWidget* getDockWidget() ;
@@ -89,10 +90,6 @@ protected slots:
 
 protected:
     virtual void closeEvent ( QCloseEvent * event );
-
-
-
-
 
 private:
     /**
@@ -145,6 +142,9 @@ private:
 
     QList<QQuickWidget*> m_characterSheetlist;
     int m_currentCharacterSheet;
+    RolisteamImageProvider* m_imgProvider;
+
+    QString m_qmlData;
 };
 
 #endif // CHARACTERSHEETWINDOW_H

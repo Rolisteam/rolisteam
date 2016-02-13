@@ -21,6 +21,10 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QQmlContext>
+#include <QQmlComponent>
+
+#include <QJsonDocument>
+#include <QJsonObject>
 
 #include "charactersheetwindow.h"
 #include "charactersheet/charactersheet.h"
@@ -76,6 +80,8 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     connect(m_loadQml,SIGNAL(triggered(bool)),this,SLOT(openQML()));
 
     connect(m_detachTab,SIGNAL(triggered(bool)),this,SLOT(detachTab()));
+
+    m_imgProvider = new RolisteamImageProvider();
 }
 CharacterSheetWindow::~CharacterSheetWindow()
 {
@@ -170,28 +176,25 @@ void CharacterSheetWindow::addCharacterSheet()
 }
 void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 {
-    if(m_qmlUri.isEmpty())
+    if(m_qmlData.isEmpty())
     {
         openQML();
     }
     QQuickWidget* qmlView = new QQuickWidget();
-    QFileInfo info(m_qmlUri);
-    qmlView->engine()->addPluginPath(info.absolutePath());
+    //QFileInfo info(m_qmlUri);
+    //qmlView->engine()->addPluginPath(info.absolutePath());
     qmlView->rootContext()->setContextProperty("_model",chSheet);
     connect(qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
 
-    qmlView->setSource(QUrl::fromLocalFile(m_qmlUri));
+    //qmlView->setSource(QUrl::fromLocalFile(m_qmlUri));
+    qmlView->engine()->addImageProvider("rcs",m_imgProvider);
+    QQmlComponent compo(qmlView->engine());
+    compo.setData(m_qmlData.toLatin1(),QUrl(""));
+    compo.create();
     qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    qDebug() << m_qmlUri << info.absolutePath();
 
     m_characterSheetlist.append(qmlView);
     m_tabs->addTab(qmlView,chSheet->getTitle());
-
-    qDebug() << qmlView->status();
-    foreach(auto error, qmlView->errors())
-    {
-        qDebug() << error.toString();
-    }
 }
 
 void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
@@ -207,7 +210,7 @@ void  CharacterSheetWindow::saveCharacterSheet()
     if(m_fileUri.isEmpty())
     {
         m_fileUri = QFileDialog::getSaveFileName(this, tr("Save Character Sheets Data"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
-                                                 tr("Character Sheets Data files (*.json)"));
+                                                 tr("Character Sheets Data files (*.rcs)"));
     }
     saveFile(m_fileUri);
     
@@ -217,33 +220,67 @@ void CharacterSheetWindow::saveFile(const QString & file)
     if(!file.isEmpty())
     {
         QFile url(file);
-        if(!url.open(QIODevice::WriteOnly | QIODevice::Text))
+        if(!url.open(QIODevice::ReadWrite | QIODevice::Text))
             return;
 
-        QTextStream in(&url);
-        m_model.writeModel(in,true);
+        QJsonDocument doc(QJsonDocument::fromJson(url.readAll()));
+        QJsonObject jsonObj=doc.object();
+
+        QJsonObject data = jsonObj["data"].toObject();
+
+        m_model.writeModel(data,true);
+
+        jsonObj["data"]=data;
+        jsonObj["qml"]=m_qmlData;
+        doc.setObject(jsonObj);
+
+        url.write(doc.toJson());
+
         url.close();
     }
 }
 
-void CharacterSheetWindow::openFile(const QString& fileUri)
+bool CharacterSheetWindow::openFile(const QString& fileUri)
 {
     if(!fileUri.isEmpty())
     {
         QFile url(fileUri);
         if(!url.open(QIODevice::ReadOnly))
-            return;
+            return false;
 
+        QJsonDocument doc(QJsonDocument::fromJson(url.readAll()));
+        QJsonObject jsonObj=doc.object();
 
-        m_model.readModel(url);
+        QJsonObject data = jsonObj["data"].toObject();
+
+        m_model.readModel(data);
+
+        m_qmlData = jsonObj["qml"].toString();
+
+        QString str = jsonObj["background"].toString();
+        QByteArray array = QByteArray::fromBase64(str.toUtf8());
+        QPixmap pix;
+        pix.loadFromData(array);
+        m_imgProvider->insertPix("background.jpg",pix);
+
+        for(auto widget : m_characterSheetlist)
+        {
+            widget->engine()->addImageProvider("rcs",m_imgProvider);
+            QQmlComponent compo(widget->engine());
+            compo.setData(m_qmlData.toLatin1(),QUrl(""));
+            widget->setResizeMode(QQuickWidget::SizeRootObjectToView);
+        }
+
         url.close();
+        return true;
     }
+    return false;
 }
 
 void CharacterSheetWindow::openCharacterSheet()
 {
     m_fileUri = QFileDialog::getOpenFileName(this, tr("Open Character Sheet data"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
-                                             tr("Character Sheet Data files (*.json)"));
+                                             tr("Character Sheet Data files (*.rcs)"));
     
     openFile(m_fileUri);
     
@@ -253,6 +290,8 @@ void CharacterSheetWindow::openQML()
     m_qmlUri = QFileDialog::getOpenFileName(this, tr("Open Character Sheets View"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
                                              tr("Character Sheet files (*.qml)"));
 
+    //m_qmlData;
+    /// @todo load m_qmlUri into m_qmlData
     //openFile(m_fileUri);
 }
 
@@ -272,7 +311,7 @@ QDockWidget* CharacterSheetWindow::getDockWidget()
 }
 bool CharacterSheetWindow::readFileFromUri()
 {
-    openFile(m_uri->getUri());
+    return openFile(m_uri->getUri());
 }
 
 void CharacterSheetWindow::saveMedia()
