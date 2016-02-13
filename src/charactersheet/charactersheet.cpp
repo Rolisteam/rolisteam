@@ -29,7 +29,7 @@
 //////////////////////////////////////
 //CharacterSheetItem
 /////////////////////////////////////
-CharacterSheetItem::CharacterSheetItem()
+/*CharacterSheetItem::CharacterSheetItem()
     : m_parent(NULL)
 {
 
@@ -201,18 +201,21 @@ void Section::load(QJsonObject& json)
     {
         QJsonObject obj = (*it).toObject();
         CharacterSheetItem* item;
-        if(obj["type"]==QStringLiteral("Section"))
+        if(obj["type"]!=QStringLiteral("button"))
         {
-            item = new Section();
+            if(obj["type"]==QStringLiteral("Section"))
+            {
+                item = new Section();
+            }
+            else
+            {
+                Field* field=new Field();
+                item = field;
+            }
+            item->load(obj);
+            item->setParent(this);
+            appendChild(item);
         }
-        else
-        {
-            Field* field=new Field();
-            item = field;
-        }
-        item->load(obj);
-        item->setParent(this);
-        appendChild(item);
     }
 }
 QStringList Section::keyList() const
@@ -224,7 +227,7 @@ void Section::setKeyList(const QStringList &keyList)
 {
     m_keyList = keyList;
 }
-
+*/
 
 /////////////////////////////////////
 //CharacterSheet
