@@ -58,6 +58,8 @@ SessionItemModel::SessionItemModel()
 {
     m_header << tr("Name")<< tr("Mode")<< tr("Opened")<< tr("Path");
     m_rootItem = new Chapter();
+    m_rootItem->setParentNode(NULL);
+
 
     connect(m_rootItem,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
 }
@@ -206,7 +208,7 @@ bool SessionItemModel::dropMimeData(const QMimeData *data,
 
 bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& parentToBe,int row,QList<QModelIndex>& formerPosition)
 {
-    Chapter* parentItem = static_cast<Chapter*>(parentToBe.internalPointer());
+    ResourcesNode* parentItem = static_cast<ResourcesNode*>(parentToBe.internalPointer());
 
     if(NULL==parentItem)
     {
@@ -222,7 +224,7 @@ bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& 
     if((!items.isEmpty())&&(!formerPosition.isEmpty()))
     {
         CleverURI* item = items.at(0);
-        ResourcesNode* parent =item->getParent();
+        ResourcesNode* parent =item->getParentNode();
         QModelIndex formerPositionIndex = formerPosition.at(0);
         QModelIndex sourceParent = formerPositionIndex.parent();
         QModelIndex destinationParent = parentToBe;
@@ -254,7 +256,7 @@ bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& 
         }
 
         CleverURI* item = items.at(i);
-        ResourcesNode* parent =item->getParent();
+        ResourcesNode* parent =item->getParentNode();
         QModelIndex formerPositionIndex = formerPosition.at(i);
 
         if(NULL!=parent)
@@ -307,7 +309,7 @@ QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
         return QModelIndex();
     
     ResourcesNode *childItem = static_cast<ResourcesNode*>(index.internalPointer());
-    ResourcesNode *parentItem = childItem->getParent();
+    ResourcesNode *parentItem = childItem->getParentNode();
     
     if (parentItem == m_rootItem)
         return QModelIndex();
@@ -368,7 +370,7 @@ void SessionItemModel::addResource(ResourcesNode* node,QModelIndex& parent)
         ResourcesNode* node = static_cast<ResourcesNode*>(parent.internalPointer());
         if(!node->mayHaveChildren())
         {
-            node=node->getParent();//leaf's parent is not a leaf indeed
+            node=node->getParentNode();//leaf's parent is not a leaf indeed
         }
         parentItem=dynamic_cast<Chapter*>(node);// NULL when it is not a chapter.
     }
