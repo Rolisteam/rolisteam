@@ -68,7 +68,7 @@ int Chapter::indexOf(ResourcesNode* node)
 void Chapter::addResource(ResourcesNode* cluri)
 {
     m_children.append(cluri);
-    cluri->setParent(this);
+    cluri->setParentNode(this);
 }
 QVariant Chapter::getData(int i)
 {
@@ -81,7 +81,7 @@ QVariant Chapter::getData(int i)
 void Chapter::insertChildAt(int row, ResourcesNode* uri)
 {
     m_children.insert(row,uri);
-    uri->setParent(this);
+    uri->setParentNode(this);
 }
 
 bool Chapter::seekNode(QList<ResourcesNode *> &path, ResourcesNode *node)
@@ -155,7 +155,7 @@ void Chapter::read(QDataStream &in)
             uri = new CleverURI();
             node = uri;
         }
-        node->setParent(this);
+        node->setParentNode(this);
         m_children.append(node);
         node->read(in);
         if(NULL!=uri)

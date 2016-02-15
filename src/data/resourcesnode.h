@@ -53,8 +53,8 @@ public:
 
     virtual QString getIcon();
 
-    ResourcesNode* getParent() const;
-    void setParent(ResourcesNode *parent);
+    ResourcesNode* getParentNode() const;
+    void setParentNode(ResourcesNode *parent);
 
     virtual int indexOf(ResourcesNode*);
 

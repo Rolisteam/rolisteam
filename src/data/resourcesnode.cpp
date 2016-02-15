@@ -21,6 +21,7 @@
 #include "resourcesnode.h"
 
 ResourcesNode::ResourcesNode()
+    : m_parent(NULL)
 {
 
 }
@@ -55,12 +56,12 @@ QString ResourcesNode::getIcon()
     return QStringLiteral("");
 }
 
-ResourcesNode *ResourcesNode::getParent() const
+ResourcesNode *ResourcesNode::getParentNode() const
 {
     return m_parent;
 }
 
-void ResourcesNode::setParent(ResourcesNode *parent)
+void ResourcesNode::setParentNode(ResourcesNode *parent)
 {
     m_parent = parent;
 }
