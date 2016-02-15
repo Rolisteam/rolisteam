@@ -66,6 +66,7 @@
 
 
 #include "widgets/aboutrolisteam.h"
+#include "widgets/gmtoolbox/UnitConvertor/convertor.h"
 #include "widgets/gmtoolbox/NameGenerator/namegeneratorwidget.h"
 
 //VMAP
@@ -120,6 +121,7 @@ MainWindow::MainWindow()
 
     /// Create all GM toolbox widget
     m_gmToolBoxList.append(new NameGeneratorWidget());
+    m_gmToolBoxList.append(new Convertor());
 
     foreach (QWidget* wid, m_gmToolBoxList)
     {
@@ -2191,7 +2193,7 @@ void MainWindow::dropEvent(QDropEvent* event)
                 m_audioPlayer->openSongList(list.at(i).toLocalFile());
                 break;
             }
-            m_sessionManager->addRessource(uri);
+            //m_sessionManager->addRessource(uri);
         }
         event->acceptProposedAction();
     }
