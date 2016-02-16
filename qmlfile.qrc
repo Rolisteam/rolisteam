@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/qml/Field.qml</file>
-        <file>resources/qml/qmldir</file>
+        <file alias="resources/qml/Field.qml">charactersheet/qml/Field.qml</file>
+        <file alias="resources/qml/MChoice.qml">charactersheet/qml/MChoice.qml</file>
+        <file alias="resources/qml/qmldir">charactersheet/qml/qmldir</file>
     </qresource>
 </RCC>

@@ -115,9 +115,11 @@ MainWindow::~MainWindow()
 void MainWindow::setImage()
 {
     int i = 0;
+    m_pixList.clear();
     for(auto canvas : m_canvasList)
     {
         m_imgProvider->insertPix(QStringLiteral("background_%1.jpg").arg(i),canvas->pixmap());
+        m_pixList.append(canvas->pixmap());
     }
 }
 
@@ -256,7 +258,7 @@ void MainWindow::generateQML(QString& qml)
     {
         if(size != pix2.size())
         {
-            if(!size.isNull())
+            if(size.isValid())
                 allTheSame=false;
             size = pix2.size();
         }

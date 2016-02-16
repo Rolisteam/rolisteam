@@ -26,19 +26,13 @@ SOURCES += main.cpp\
     fieldmodel.cpp \
     borderlisteditor.cpp \
     qmlhighlighter.cpp \
-    charactersheetbutton.cpp \
-    csitem.cpp\
-    rolisteamimageprovider.cpp \
     charactermodel.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
     fieldmodel.h \
     borderlisteditor.h \
-    rolisteamimageprovider.h \
     qmlhighlighter.h \
-    charactersheetbutton.h \
-    csitem.h
     charactermodel.h \
 
 FORMS    += mainwindow.ui
