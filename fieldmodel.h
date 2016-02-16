@@ -22,44 +22,19 @@
 #ifndef FIELDMODEL_H
 #define FIELDMODEL_H
 
-
-#include "field.h"
-#include "charactersheetbutton.h"
-#include "item.h"
-
 #include <QJsonObject>
 #include <QObject>
 #include <QAbstractItemModel>
 #include <QTextStream>
 
-#include "csitem.h"
+#include "field.h"
+#include "charactersheetbutton.h"
+#include "charactersheetitem.h"
 
-/**
- * @brief The Section class
- */
-class Section : public Item
-{
-public:
-    Section();
+#include "section.h"
+//#include "canvas.h"
+class Canvas;
 
-    virtual bool hasChildren();
-    virtual int getChildrenCount();
-    virtual Item* getChildAt(int);
-    virtual QVariant getValue(Item::ColumnId) const;
-    virtual void setValue(Item::ColumnId,QVariant);
-    virtual bool mayHaveChildren();
-    virtual void appendChild(Item*);
-    virtual int indexOfChild(Item *itm);
-    QString getName() const;
-    void setName(const QString &name);
-    virtual void save(QJsonObject& json,bool exp=false);
-    virtual void load(QJsonObject& json,QGraphicsScene* scene);
-    virtual void generateQML(QTextStream &out,Item::QMLSection);
-    virtual void setNewEnd(QPointF){}
-private:
-    QList<Item*> m_children;
-    QString m_name;
-};
 /**
 s * @brief The Column class
  */
@@ -67,17 +42,17 @@ class Column
 {
 
 public:
-    Column(QString,Item::ColumnId);
+    Column(QString,CharacterSheetItem::ColumnId);
     QString getName() const;
     void setName(const QString &name);
 
 
-    Item::ColumnId getPos() const;
-    void setPos(const Item::ColumnId &pos);
+    CharacterSheetItem::ColumnId getPos() const;
+    void setPos(const CharacterSheetItem::ColumnId &pos);
 
 private:
     QString m_name;
-    Item::ColumnId m_pos;
+    CharacterSheetItem::ColumnId m_pos;
 };
 
 /**
@@ -100,9 +75,9 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
     void save(QJsonObject& json,bool exp=false);
-    void load(QJsonObject& json,QGraphicsScene* scene);
+    void load(QJsonObject& json,QList<Canvas*> scene);
 
-    void generateQML(QTextStream& out,Item::QMLSection sec);
+    void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
 
     Q_INVOKABLE QString getValue(const QString& key);
 

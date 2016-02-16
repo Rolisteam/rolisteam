@@ -4,6 +4,11 @@
 #include "fieldmodel.h"
 #include <QObject>
 #include <QAbstractItemModel>
+class Character
+{
+
+};
+
 /**
  * @brief The FieldModel class
  */
@@ -27,7 +32,7 @@ public:
     void save(QJsonObject& json,bool exp=false);
     void load(QJsonObject& json,QGraphicsScene* scene);
 
-    void generateQML(QTextStream& out,Item::QMLSection sec);
+    void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
 
     Q_INVOKABLE QString getValue(const QString& key);
 
@@ -35,6 +40,7 @@ public:
 
 private:
     Section* m_rootSection;
+    QList<Character*> m_characterList ;
 
 };
 
