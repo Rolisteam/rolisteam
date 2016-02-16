@@ -158,7 +158,7 @@ void CharacterSheetButton::save(QJsonObject &json, bool exp)
 
 }
 
-void CharacterSheetButton::load(QJsonObject &json, QGraphicsScene *scene)
+void CharacterSheetButton::load(QJsonObject &json, QList<QGraphicsScene*> scene)
 {
 
     m_title = json["title"].toString();

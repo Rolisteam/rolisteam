@@ -239,7 +239,7 @@ void Field::save(QJsonObject& json,bool exp)
     json["values"]=valuesArray;
 }
 
-void Field::load(QJsonObject &json,QGraphicsScene* scene)
+void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 {
     m_key = json["key"].toString();
     m_border = (BorderLine)json["border"].toInt();

@@ -37,7 +37,7 @@ public:
     virtual void setValue(CharacterSheetItem::ColumnId id, QVariant var);
 
     virtual void save(QJsonObject& json,bool exp=false);
-    virtual void load(QJsonObject &json,QGraphicsScene* scene);
+    virtual void load(QJsonObject &json,QList<QGraphicsScene*> scene);
 
     virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
 

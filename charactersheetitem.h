@@ -49,7 +49,7 @@ public:
     QString name() const;
     void setName(const QString &name);
 
-        virtual QString getPath();
+    virtual QString getPath();
 
     virtual bool mayHaveChildren();
     virtual void appendChild(CharacterSheetItem*);
@@ -60,7 +60,7 @@ public:
 
     virtual int indexOfChild(CharacterSheetItem *itm);
     virtual void save(QJsonObject& json,bool exp=false)=0;
-    virtual void load(QJsonObject& json,QGraphicsScene* scene)=0;
+    virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene)=0;
 
     virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec)=0;
     virtual void setNewEnd(QPointF nend)=0;
@@ -68,8 +68,12 @@ public:
     bool isReadOnly() const;
     void setReadOnly(bool readOnly);
 
+    int getPage() const;
+    void setPage(int page);
+
 protected:
     CharacterSheetItem* m_parent;
+    int m_page;
     QString m_name;
     QStringList m_value;
     bool m_readOnly;
