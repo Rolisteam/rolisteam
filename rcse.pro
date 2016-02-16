@@ -13,32 +13,27 @@ TEMPLATE = app
 
 QMAKE_CXXFLAGS = -std=c++11
 
+DEFINES+=RCSE
+CONFIG+=RCSE
+
+include(charactersheet/charactersheet.pri)
+
+INCLUDEPATH += charactersheet
+
 SOURCES += main.cpp\
         mainwindow.cpp \
-    field.cpp \
     canvas.cpp \
     fieldmodel.cpp \
-    item.cpp \
     borderlisteditor.cpp \
-    fielditem.cpp \
-    rolisteamimageprovider.cpp \
     qmlhighlighter.cpp \
-    charactersheetbutton.cpp \
-    csitem.cpp
-    rolisteamimageprovider.cpp \
     charactermodel.cpp
 
 HEADERS  += mainwindow.h \
-    field.h \
     canvas.h \
     fieldmodel.h \
-    item.h \
     borderlisteditor.h \
-    fielditem.h \
-    rolisteamimageprovider.h \
     qmlhighlighter.h \
-    charactersheetbutton.h \
-    csitem.h
+    charactermodel.h
 
 FORMS    += mainwindow.ui
 

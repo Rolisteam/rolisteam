@@ -37,6 +37,7 @@
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QQmlComponent>
+#include <QJsonArray>
 
 #include "borderlisteditor.h"
 
@@ -50,11 +51,12 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
     ui->setupUi(this);
 
-    m_canvas = new Canvas();
+    Canvas* canvas = new Canvas();
+    m_canvasList.append(canvas);
     m_model = new FieldModel();
     ui->treeView->setModel(m_model);
-    m_canvas->setModel(m_model);
-    ui->treeView->setItemDelegateForColumn(Item::BORDER,new BorderListEditor);
+    canvas->setModel(m_model);
+    ui->treeView->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
     m_view = new QGraphicsView();
     m_view->setAcceptDrops(true);
     m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
@@ -62,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_view->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
 
 
-    m_view->setScene(m_canvas);
+    m_view->setScene(canvas);
     ui->scrollArea->setWidget(m_view);
 
     //ui->m_splitter->setStretchFactor(0,1);
@@ -99,7 +101,10 @@ MainWindow::MainWindow(QWidget *parent) :
   //  ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
   //  ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
-    connect(m_canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+    connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+
+    m_characterModel = new CharacterModel();
+    ui->m_characterView->setModel(m_characterModel);
 
 }
 
@@ -109,13 +114,20 @@ MainWindow::~MainWindow()
 }
 void MainWindow::setImage()
 {
-    m_imgProvider->insertPix("background.jpg",m_canvas->pixmap());
+    int i = 0;
+    for(auto canvas : m_canvasList)
+    {
+        m_imgProvider->insertPix(QStringLiteral("background_%1.jpg").arg(i),canvas->pixmap());
+    }
 }
 
 void MainWindow::setCurrentTool()
 {
     QAction* action = dynamic_cast<QAction*>(sender());
-    m_canvas->setCurrentTool((Canvas::Tool)action->data().toInt());
+    for(auto canvas : m_canvasList)
+    {
+        canvas->setCurrentTool((Canvas::Tool)action->data().toInt());
+    }
 }
 void MainWindow::saveAs()
 {
@@ -165,15 +177,18 @@ void MainWindow::save()
 
 
             //background
-            QPixmap pix = m_canvas->pixmap();
-            QByteArray bytes;
-            QBuffer buffer(&bytes);
-            buffer.open(QIODevice::WriteOnly);
-            pix.save(&buffer, "PNG");
-            obj["background"]=QString(buffer.data().toBase64());
+            QJsonArray images;
+            for(auto canvas : m_canvasList)
+            {
+                QPixmap pix = canvas->pixmap();
+                QByteArray bytes;
+                QBuffer buffer(&bytes);
+                buffer.open(QIODevice::WriteOnly);
+                pix.save(&buffer, "PNG");
+                images.append(QString(buffer.data().toBase64()));
+            }
+            obj["background"]=images;
             json.setObject(obj);
-
-
             file.write(json.toJson());
 
         }
@@ -194,35 +209,69 @@ void MainWindow::open()
             QJsonObject jsonObj = json.object();
             QJsonObject data = jsonObj["data"].toObject();
 
-
             QString qml = jsonObj["qml"].toString();
-
 
             ui->m_codeEdit->setText(qml);
 
-            QString str = jsonObj["background"].toString();
-            QByteArray array = QByteArray::fromBase64(str.toUtf8());
-            QPixmap pix;
-            pix.loadFromData(array);
-            m_canvas->setPixmap(pix);
-            m_imgProvider->insertPix("background.jpg",pix);
-
-            m_model->load(data,m_canvas);
+            QJsonArray images = jsonObj["background"].toArray();
+            int i = 0;
+            for(auto jsonpix : images)
+            {
+                QString str = jsonpix.toString();
+                QByteArray array = QByteArray::fromBase64(str.toUtf8());
+                QPixmap pix;
+                pix.loadFromData(array);
+                if(i!=0)
+                {
+                    Canvas* canvas = new Canvas();
+                    m_canvasList.append(canvas);
+                    connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+                }
+                m_imgProvider->insertPix(QStringLiteral("background_%1.jpg").arg(i),pix);
+            }
+            m_model->load(data,m_canvasList);
         }
     }
+}
+void MainWindow::updatePageSelector()
+{
+    QStringList list;
+
+    int i =0;
+    for(Canvas* canvas: m_canvasList)
+    {
+        list << QStringLiteral("Page %1").arg(i);
+    }
+    ui->m_selectPageCb->addItems(list);
+    ui->m_selectPageCb->setCurrentIndex(0);
 }
 
 void MainWindow::generateQML(QString& qml)
 {
     QTextStream text(&qml);
-    QPixmap pix = m_canvas->pixmap();
-    if(!pix.isNull())
+    QPixmap pix;
+    bool allTheSame=true;
+    QSize size;
+    for(QPixmap pix2 : m_pixList)
+    {
+        if(size != pix2.size())
+        {
+            if(!size.isNull())
+                allTheSame=false;
+            size = pix2.size();
+        }
+        pix = pix2;
+
+    }
+   // QPixmap pix = m_canvasList.pixmap();
+    if((allTheSame)&&(!pix.isNull()))
     {
         text << "import QtQuick 2.4\n";
         text << "import \"qrc:/resources/qml/\"\n";
         text << "\n";
         text << "Item {\n";
         text << "   id:root\n";
+        text << "   property int page: 0\n";
         text << "   signal rollDiceCmd(string cmd)\n";
         text << "   Image {\n";
         text << "       id:imagebg" << "\n";
@@ -233,13 +282,13 @@ void MainWindow::generateQML(QString& qml)
         text << "       property real realscale: width/"<< pix.width() << "\n";
         text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
         text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
-        text << "       source: \"image://rcs/background.jpg\"" << "\n";
-        m_model->generateQML(text,Item::FieldSec);
+        text << "       source: \"image://rcs/background_%1.jpg\".arg(root.page)" << "\n";
+        m_model->generateQML(text,CharacterSheetItem::FieldSec);
         text << "\n";
         text << "       Connections {\n";
         text << "           target: _model\n";
         text << "           onValuesChanged:{\n";
-        m_model->generateQML(text,Item::ConnectionSec);
+        m_model->generateQML(text,CharacterSheetItem::ConnectionSec);
         text << "       }\n";
         text << "   }\n";
         text << "   }\n";
@@ -265,7 +314,7 @@ void MainWindow::showQML()
         file.close();
     }
     ui->m_quickview->engine()->clearComponentCache();
-    ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
+    ui->m_quickview->engine()->addImageProvider(QLatin1String("rcs"),m_imgProvider);
     ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
     ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
@@ -352,4 +401,15 @@ Field* MainWindow::addFieldAt(QPoint pos)
 void MainWindow::rollDice(QString cmd)
 {
     qDebug() << cmd;
+}
+
+void MainWindow::addPage()
+{
+    ++m_currentPage;
+    m_canvasList.append(new Canvas());
+}
+
+void MainWindow::removePage()
+{
+
 }

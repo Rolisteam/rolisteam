@@ -28,6 +28,8 @@
 #include "fieldmodel.h"
 #include "rolisteamimageprovider.h"
 #include "field.h"
+#include "charactermodel.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -47,6 +49,7 @@ public:
     bool qmlGeneration() const;
     void setQmlGeneration(bool qmlGeneration);
 
+    void updatePageSelector();
 public slots:
     void setCurrentTool();
 
@@ -63,22 +66,26 @@ public slots:
     void openQML();
     void setImage();
     void rollDice(QString cmd);
+    void addPage();
+    void removePage();
 protected:
 
     bool eventFilter(QObject *, QEvent *);
 
 private:
     Ui::MainWindow *ui;
-    Canvas* m_canvas;
+    QList<Canvas*> m_canvasList;
     QGraphicsView* m_view;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
-    QPixmap m_pix;
+    QList<QPixmap> m_pixList;
     FieldModel* m_model;
     QString m_filename;
     bool m_qmlGeneration;
     RolisteamImageProvider* m_imgProvider;
-
+    CharacterModel* m_characterModel;
+    int m_currentPage;
 };
 
 #endif // MAINWINDOW_H
+

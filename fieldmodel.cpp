@@ -25,129 +25,12 @@
 #include <QJsonArray>
 #include <QGraphicsScene>
 
-//////////////////////////////
-//Section
-/////////////////////////////
-
-
-Section::Section()
-{
-
-}
-
-bool Section::hasChildren()
-{
-    return !m_children.isEmpty();
-}
-
-int Section::getChildrenCount()
-{
-    return m_children.size();
-}
-
-Item *Section::getChildAt(int i)
-{
-    if((i<getChildrenCount())&&(i>=0))
-    {
-        return m_children.at(i);
-    }
-    return NULL;
-}
-
-QVariant Section::getValue(Item::ColumnId id) const
-{
-    if(Item::NAME==id)
-        return m_name;
-    return QVariant();
-}
-
-void Section::setValue(Item::ColumnId id, QVariant var)
-{
-    if(Item::NAME==id)
-        m_name = var.toString();
-}
-
-bool Section::mayHaveChildren()
-{
-    return true;
-}
-
-void Section::appendChild(Item* item)
-{
-    m_children.append(item);
-    item->setParent(this);
-}
-int Section::indexOfChild(Item* itm)
-{
-    return m_children.indexOf(itm);
-}
-QString Section::getName() const
-{
-    return m_name;
-}
-
-void Section::setName(const QString &name)
-{
-    m_name = name;
-}
-
-void Section::save(QJsonObject& json,bool exp)
-{
-    json["name"] = m_name;
-    json["type"] = QStringLiteral("Section");
-    QJsonArray fieldArray;
-    foreach (Item* item, m_children)
-    {
-       QJsonObject itemObject;
-       item->save(itemObject,exp);
-       fieldArray.append(itemObject);
-    }
-    json["items"] = fieldArray;
-}
-
-void Section::load(QJsonObject &json,QGraphicsScene* scene)
-{
-    m_name = json["name"].toString();
-    QJsonArray fieldArray = json["items"].toArray();
-    QJsonArray::Iterator it;
-    for(it = fieldArray.begin(); it != fieldArray.end(); ++it)
-    {
-        QJsonObject obj = (*it).toObject();
-        Item* item;
-        if(obj["type"]==QStringLiteral("Section"))
-        {
-            item = new Section();
-        }
-        if(obj["type"]==QStringLiteral("button"))
-        {
-            CharacterSheetButton* btn = new CharacterSheetButton();
-            item = btn;
-            scene->addItem(btn);
-        }
-        else
-        {
-            Field* field=new Field();
-            item = field;
-            scene->addItem(field);
-        }
-        item->load(obj,scene);
-        item->setParent(this);
-        m_children.append(item);
-    }
-
-}
-void Section::generateQML(QTextStream &out,Item::QMLSection sec)
-{
-    foreach (Item* item, m_children)
-    {
-        item->generateQML(out,sec);
-    }
-}
+#include "canvas.h"
 
 //////////////////////////////
 //Column
 /////////////////////////////
-Column::Column(QString name,  Item::ColumnId pos)
+Column::Column(QString name,  CharacterSheetItem::ColumnId pos)
     : m_name(name),m_pos(pos)
 {
 
@@ -162,12 +45,12 @@ void Column::setName(const QString &name)
 {
     m_name = name;
 }
-Item::ColumnId Column::getPos() const
+CharacterSheetItem::ColumnId Column::getPos() const
 {
     return m_pos;
 }
 
-void Column::setPos(const Item::ColumnId &pos)
+void Column::setPos(const CharacterSheetItem::ColumnId &pos)
 {
     m_pos = pos;
 }
@@ -180,9 +63,9 @@ void Column::setPos(const Item::ColumnId &pos)
 /////////////////////////////
 FieldModel::FieldModel(QObject *parent) : QAbstractItemModel(parent)
 {
-    m_colunm << new Column(tr("Field"),Item::NAME)           << new Column(tr("x"),Item::X)             << new Column(tr("y"),Item::Y)
-             << new Column(tr("Width"),Item::WIDTH)          << new Column(tr("Height"),Item::HEIGHT)   << new Column(tr("Border"),Item::BORDER)
-             << new Column(tr("Text-align"),Item::TEXT_ALIGN)<< new Column(tr("Bg Color"),Item::BGCOLOR)<< new Column(tr("Text Color"),Item::TEXTCOLOR)<< new Column(tr("Possible Values"),Item::VALUES);
+    m_colunm << new Column(tr("Field"),CharacterSheetItem::NAME)           << new Column(tr("x"),CharacterSheetItem::X)             << new Column(tr("y"),CharacterSheetItem::Y)
+             << new Column(tr("Width"),CharacterSheetItem::WIDTH)          << new Column(tr("Height"),CharacterSheetItem::HEIGHT)   << new Column(tr("Border"),CharacterSheetItem::BORDER)
+             << new Column(tr("Text-align"),CharacterSheetItem::TEXT_ALIGN)<< new Column(tr("Bg Color"),CharacterSheetItem::BGCOLOR)<< new Column(tr("Text Color"),CharacterSheetItem::TEXTCOLOR)<< new Column(tr("Possible Values"),CharacterSheetItem::VALUES);
 
 
     m_rootSection = new Section();
@@ -195,7 +78,7 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
     if((role == Qt::DisplayRole)||(Qt::EditRole == role))
     {
 
-        Item* item = static_cast<Item*>(index.internalPointer());
+        CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
         if(NULL!=item)
         {
             return item->getValue(m_colunm[index.column()]->getPos());
@@ -209,15 +92,15 @@ QModelIndex FieldModel::index(int row, int column, const QModelIndex &parent) co
     if(row<0)
         return QModelIndex();
 
-    Item* parentItem = NULL;
+    CharacterSheetItem* parentItem = NULL;
 
     // qDebug()<< "Index session " <<row << column << parent;
     if (!parent.isValid())
         parentItem = m_rootSection;
     else
-        parentItem = static_cast<Item*>(parent.internalPointer());
+        parentItem = static_cast<CharacterSheetItem*>(parent.internalPointer());
 
-    Item* childItem = parentItem->getChildAt(row);
+    CharacterSheetItem* childItem = parentItem->getChildAt(row);
     if (childItem)
         return createIndex(row, column, childItem);
     else
@@ -229,13 +112,13 @@ QModelIndex FieldModel::parent(const QModelIndex &child) const
     if (!child.isValid())
         return QModelIndex();
 
-    Item *childItem = static_cast<Item*>(child.internalPointer());
-    Item *parentItem = childItem->getParent();
+    CharacterSheetItem *childItem = static_cast<CharacterSheetItem*>(child.internalPointer());
+    CharacterSheetItem *parentItem = childItem->getParent();
 
     if (parentItem == m_rootSection)
         return QModelIndex();
 
-    Item* grandParent = parentItem->getParent();
+    CharacterSheetItem* grandParent = parentItem->getParent();
 
     return createIndex(grandParent->indexOfChild(parentItem), 0, parentItem);
 }
@@ -245,7 +128,7 @@ int FieldModel::rowCount(const QModelIndex &parent) const
     if(!parent.isValid())
         return m_rootSection->getChildrenCount();
 
-    Item *childItem = static_cast<Item*>(parent.internalPointer());
+    CharacterSheetItem *childItem = static_cast<CharacterSheetItem*>(parent.internalPointer());
     if (childItem)
         return childItem->getChildrenCount();
     else
@@ -277,11 +160,11 @@ bool FieldModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
     if(Qt::EditRole == role)
     {
-        Item* item = static_cast<Item*>(index.internalPointer());
+        CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
         if(NULL!=item)
         {
             item->setValue(m_colunm[index.column()]->getPos(),value);
-            emit valuesChanged(item->getValue(Item::NAME).toString(),value.toString());
+            emit valuesChanged(item->getValue(CharacterSheetItem::NAME).toString(),value.toString());
             return true;
         }
     }
@@ -301,8 +184,8 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
-    Item* childItem = static_cast<Item*>(index.internalPointer());
-    if(m_colunm[index.column()]->getPos() == Item::NAME)
+    CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
+    if(m_colunm[index.column()]->getPos() == CharacterSheetItem::NAME)
     {
        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
     }
@@ -314,7 +197,7 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
 
 }
-void FieldModel::generateQML(QTextStream& out,Item::QMLSection sec)
+void FieldModel::generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec)
 {
     m_rootSection->generateQML(out,sec);
 }
@@ -332,8 +215,8 @@ void FieldModel::updateItem(CSItem* item)
     }
     else
     {
-        Item* parent = item->getParent();
-        QList<Item*> list;
+        CharacterSheetItem* parent = item->getParent();
+        QList<CharacterSheetItem*> list;
         while(parent!=NULL)
         {
             list.prepend(parent);
@@ -344,9 +227,9 @@ void FieldModel::updateItem(CSItem* item)
         QModelIndex first;
         QModelIndex second;
         int i=0;
-        foreach(Item* itemtmp, list)
+        foreach(CharacterSheetItem* itemtmp, list)
         {
-            Item* next = NULL;
+            CharacterSheetItem* next = NULL;
             if(i+1>list.size())
             {
                 next = list[++i];
@@ -370,10 +253,15 @@ void FieldModel::save(QJsonObject& json,bool exp)
     m_rootSection->save(json,exp);
 }
 
-void FieldModel::load(QJsonObject &json,QGraphicsScene* scene)
+void FieldModel::load(QJsonObject &json,QList<Canvas*> scene)
 {
+    QList<QGraphicsScene*> list;
+    for(auto canvas : scene)
+    {
+        list << canvas;
+    }
     beginResetModel();
-    m_rootSection->load(json,scene);
+    m_rootSection->load(json,list);
     endResetModel();
 }
 
