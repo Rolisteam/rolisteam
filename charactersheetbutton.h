@@ -69,9 +69,7 @@ private:
     void init();
 
 private:
-    QString m_id;
     QString m_value;
-    QString m_title;
     QColor m_bgColor;
     QColor m_textColor;
     QRectF m_rect;

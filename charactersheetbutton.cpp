@@ -34,7 +34,7 @@ CharacterSheetButton::CharacterSheetButton(QPointF topleft,QGraphicsItem* parent
     m_value="\"1d10\"";
     m_bgColor = QColor(Qt::red);
     m_textColor = QColor(Qt::white);
-    m_title = QStringLiteral("key %1").arg(m_count);
+    m_name = QStringLiteral("key %1").arg(m_count);
     init();
 }
 CharacterSheetButton::CharacterSheetButton(QGraphicsItem* parent)
@@ -65,7 +65,7 @@ QVariant CharacterSheetButton::getValue(CharacterSheetItem::ColumnId id) const
     switch(id)
     {
     case NAME:
-        return m_title;
+        return m_name;
     case X:
         return m_rect.x();
     case Y:
@@ -90,7 +90,7 @@ void CharacterSheetButton::setValue(CharacterSheetItem::ColumnId id, QVariant va
     switch(id)
     {
     case NAME:
-         m_title = var.toString();
+         m_name = var.toString();
         break;
     case X:
          m_rect.setX(var.toReal());
@@ -122,7 +122,7 @@ void CharacterSheetButton::paint ( QPainter * painter, const QStyleOptionGraphic
 
 
     painter->fillRect(m_rect,m_bgColor);
-    painter->drawText(m_rect,Qt::AlignCenter,m_title);
+    painter->drawText(m_rect,Qt::AlignCenter,m_name);
 
     painter->restore();
 
@@ -136,7 +136,7 @@ void CharacterSheetButton::setNewEnd(QPointF nend)
 void CharacterSheetButton::save(QJsonObject &json, bool exp)
 {
     json["type"]="button";
-    json["title"]=m_title;
+    json["title"]=m_name;
     json["value"]=m_value;
     QJsonObject bgcolor;
     bgcolor["r"]=QJsonValue(m_bgColor.red());
@@ -161,7 +161,7 @@ void CharacterSheetButton::save(QJsonObject &json, bool exp)
 void CharacterSheetButton::load(QJsonObject &json, QList<QGraphicsScene*> scene)
 {
 
-    m_title = json["title"].toString();
+    m_name = json["title"].toString();
     m_value = json["value"].toString();
 
     QJsonObject bgcolor = json["bgcolor"].toObject();
@@ -199,7 +199,7 @@ void CharacterSheetButton::generateQML(QTextStream &out,CharacterSheetItem::QMLS
     out << "    Rectangle {\n";
     out << "        id:"<<m_id<< "\n";
     out << "        Text {\n";
-    out << "            text: \""<< m_title <<"\"\n";
+    out << "            text: \""<< m_name <<"\"\n";
     out << "            color:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
     out << "        }\n";
     out << "        x:" << m_rect.x() << "*parent.realscale"<<"\n";
@@ -215,7 +215,7 @@ void CharacterSheetButton::generateQML(QTextStream &out,CharacterSheetItem::QMLS
     }
     else if(sec==CharacterSheetItem::ConnectionSec)
     {
-        out << "        if(valueKey==\""<<m_title<<"\")"<<"\n";
+        out << "        if(valueKey==\""<<m_name<<"\")"<<"\n";
         out << "        {"<<"\n";
         out << "            "<<m_id.toLower().trimmed()<<".text=value;"<<"\n";
         out << "        }"<<"\n";
@@ -234,12 +234,12 @@ void CharacterSheetButton::setId(const QString &id)
 
 QString CharacterSheetButton::getTitle() const
 {
-    return m_title;
+    return m_name;
 }
 
 void CharacterSheetButton::setTitle(const QString &title)
 {
-    m_title = title;
+    m_name = title;
 }
 
 QColor CharacterSheetButton::getBgColor() const

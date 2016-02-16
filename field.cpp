@@ -40,7 +40,7 @@ Field::Field(QPointF topleft,QGraphicsItem* parent)
     m_bgColor = QColor(Qt::white);
     m_textColor = QColor(Qt::black);
     m_font = font();
-    m_key = QStringLiteral("key %1").arg(m_count);
+    m_name = QStringLiteral("key %1").arg(m_count);
 
     init();
 
@@ -70,7 +70,7 @@ QVariant Field::getValue(CharacterSheetItem::ColumnId id) const
     switch(id)
     {
     case NAME:
-        return m_key;
+        return m_name;
     case X:
         return m_rect.x();
     case Y:
@@ -98,7 +98,7 @@ void Field::setValue(CharacterSheetItem::ColumnId id, QVariant var)
     switch(id)
     {
     case NAME:
-         m_key = var.toString();
+         m_name = var.toString();
         break;
     case X:
          m_rect.setX(var.toReal());
@@ -136,7 +136,7 @@ void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option,
 
 
     painter->drawRect(m_rect);
-    painter->drawText(m_rect,m_key);
+    painter->drawText(m_rect,m_name);
 
     painter->restore();
 
@@ -146,16 +146,6 @@ void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option,
 void Field::drawField()
 {
 
-}
-QString Field::key() const
-{
-    return m_key;
-}
-
-void Field::setKey(const QString &key)
-{
-    m_key = key;
-    drawField();
 }
 
 Field::BorderLine Field::border() const
@@ -207,11 +197,11 @@ void Field::save(QJsonObject& json,bool exp)
     if(exp)
     {
         json["type"]="field";
-        json["key"]=m_key;
+        json["key"]=m_name;
         return;
     }
     json["type"]="field";
-    json["key"]=m_key;
+    json["key"]=m_name;
     json["border"]=m_border;
 
     QJsonObject bgcolor;
@@ -241,7 +231,7 @@ void Field::save(QJsonObject& json,bool exp)
 
 void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 {
-    m_key = json["key"].toString();
+    m_name = json["key"].toString();
     m_border = (BorderLine)json["border"].toInt();
 
 
@@ -286,11 +276,11 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
     {
         out << "Field {\n";
         out << "    id:"<<m_id<< "\n";
-        out << "    text: _model.getValue(\""<<m_key << "\")\n";
-        out << "    x:" << m_rect.x() << "*parent.realScale"<<"\n";
-        out << "    y:" << m_rect.y()<< "*parent.realScale"<<"\n";
-        out << "    width:" << m_rect.width() <<"*parent.realScale"<<"\n";
-        out << "    height:"<< m_rect.height()<<"*parent.realScale"<<"\n";
+        out << "    text: _model.getValue(\""<<m_name << "\")\n";
+        out << "    x:" << m_rect.x() << "*parent.realscale"<<"\n";
+        out << "    y:" << m_rect.y()<< "*parent.realscale"<<"\n";
+        out << "    width:" << m_rect.width() <<"*parent.realscale"<<"\n";
+        out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         if(m_availableValue.isEmpty())
         {
@@ -305,7 +295,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
     }
     else if(sec==CharacterSheetItem::ConnectionSec)
     {
-        out << "        if(valueKey==\""<<m_key<<"\")"<<"\n";
+        out << "        if(valueKey==\""<<m_name<<"\")"<<"\n";
         out << "        {"<<"\n";
         out << "            "<<m_id.toLower().trimmed()<<".text=value;"<<"\n";
         out << "        }"<<"\n";

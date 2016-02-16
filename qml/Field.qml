@@ -11,14 +11,14 @@ Rectangle {
         id: textInput
         anchors.fill: parent
         selectByMouse: true
-        onTextChanged: root.text = textInput.text
+        //onTextChanged: root.text = textInput.text
     }
     ComboBox {
         id: selectvalues
         anchors.fill: parent
         onCurrentTextChanged: root.text = selectvalues.currentText
     }
-    onStateChanged: console.log("State has changed:"+root.state)
+   
 
     states: [
     State {
