@@ -20,11 +20,9 @@ SOURCES += main.cpp\
     fieldmodel.cpp \
     item.cpp \
     borderlisteditor.cpp \
-    fielditem.cpp \
-    rolisteamimageprovider.cpp \
     qmlhighlighter.cpp \
     charactersheetbutton.cpp \
-    csitem.cpp
+    csitem.cpp\
     rolisteamimageprovider.cpp \
     charactermodel.cpp
 
@@ -34,11 +32,11 @@ HEADERS  += mainwindow.h \
     fieldmodel.h \
     item.h \
     borderlisteditor.h \
-    fielditem.h \
     rolisteamimageprovider.h \
     qmlhighlighter.h \
     charactersheetbutton.h \
     csitem.h
+    charactermodel.h \
 
 FORMS    += mainwindow.ui
 

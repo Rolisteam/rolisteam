@@ -2,16 +2,17 @@
 #define CHARACTERMODEL_H
 
 #include "fieldmodel.h"
-
+#include <QObject>
 #include <QAbstractItemModel>
 /**
  * @brief The FieldModel class
  */
 class CharacterModel : public QAbstractItemModel
 {
-    Q_OBJECT
+    //Q_OBJECT
 public:
     explicit CharacterModel(QObject *parent = 0);
+    virtual ~CharacterModel();
 
     QVariant data(const QModelIndex &index, int role) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;

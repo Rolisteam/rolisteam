@@ -18,45 +18,26 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
-      <widget class="QTabWidget" name="m_tabWidget">
-       <property name="currentIndex">
-        <number>0</number>
-       </property>
-       <widget class="QWidget" name="editor">
-        <attribute name="title">
-         <string>Editor</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QScrollArea" name="scrollArea">
-           <property name="widgetResizable">
-            <bool>true</bool>
-           </property>
-           <widget class="QWidget" name="scrollAreaWidgetContents">
-            <property name="geometry">
-             <rect>
-              <x>0</x>
-              <y>0</y>
-              <width>432</width>
-              <height>701</height>
-             </rect>
-            </property>
-           </widget>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="m_qml">
-        <attribute name="title">
-         <string>View</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QQuickWidget" name="m_quickview">
-           <property name="resizeMode">
-            <enum>QQuickWidget::SizeRootObjectToView</enum>
+      <widget class="QWidget" name="editor">
+       <attribute name="title">
+        <string>Editor</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QScrollArea" name="scrollArea">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>459</width>
+             <height>701</height>
+            </rect>
            </property>
           </widget>
          </widget>
@@ -203,6 +184,8 @@
     <addaction name="actionSave_Qml"/>
     <addaction name="actionLoad_Qml"/>
     <addaction name="separator"/>
+    <addaction name="m_rolisteamExport"/>
+    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuEdition">
@@ -291,9 +274,6 @@
    </property>
   </action>
   <action name="m_addButtonAct">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="text">
     <string>Add Button</string>
    </property>
@@ -304,7 +284,7 @@
   <customwidget>
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
-   <header>QtQuickWidgets/QQuickWidget</header>
+   <header>QQuickWidget</header>
   </customwidget>
  </customwidgets>
  <resources/>

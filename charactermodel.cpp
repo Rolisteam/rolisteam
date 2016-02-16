@@ -6,6 +6,11 @@ CharacterModel::CharacterModel(QObject *parent)
 
 }
 
+CharacterModel::~CharacterModel()
+{
+
+}
+
 
 
 QVariant CharacterModel::data(const QModelIndex &index, int role) const
