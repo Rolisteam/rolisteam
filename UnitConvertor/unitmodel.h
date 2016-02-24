@@ -5,6 +5,9 @@
 #include <QSortFilterProxyModel>
 #include "unit.h"
 
+namespace GMTOOL
+{
+
 
 class CategoryModel : public QSortFilterProxyModel
 {
@@ -46,5 +49,5 @@ private:
     static QHash<Unit::Category,QString> m_cat2Text;
 
 };
-
+}
 #endif // UNITMODEL_H
