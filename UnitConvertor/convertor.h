@@ -7,11 +7,12 @@
 #include "unit.h"
 #include "unitmodel.h"
 #include "convertoroperator.h"
-
-
 namespace Ui {
 class Convertor;
 }
+namespace GMTOOL
+{
+
 
 class Convertor : public QWidget
 {
@@ -33,4 +34,5 @@ private:
 
     QHash<QPair<Unit*,Unit*>,ConvertorOperator*> m_convertorTable;
 };
+}
 #endif // CONVERTOR_H

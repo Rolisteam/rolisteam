@@ -1,7 +1,8 @@
 #ifndef UNIT_H
 #define UNIT_H
 #include <QString>
-
+namespace GMTOOL
+{
 class Unit
 {
 public:
@@ -22,5 +23,5 @@ private:
     Unit::Category m_currentCat;
 
 };
-
+}
 #endif // UNIT_H

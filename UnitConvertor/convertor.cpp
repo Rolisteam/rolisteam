@@ -1,6 +1,8 @@
 #include "convertor.h"
 #include "ui_convertor.h"
 
+namespace GMTOOL
+{
 
 
 Convertor::Convertor(QWidget *parent) :
@@ -220,4 +222,5 @@ void Convertor::convert()
         double d = convert->convert(ui->m_fromLine->text().toDouble());
         ui->m_toLine->setText(QStringLiteral("%1").arg(d));
     }
+}
 }

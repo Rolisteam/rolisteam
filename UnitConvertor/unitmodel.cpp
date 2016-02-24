@@ -1,6 +1,7 @@
 #include "unitmodel.h"
 #include <QDebug>
-
+namespace GMTOOL
+{
 QHash<Unit::Category,QString> UnitModel::m_cat2Text({{Unit::CURRENCY,tr("Currency")},
                                                      {Unit::DISTANCE,tr("Distance")},
                                                      {Unit::VOLUME,tr("Volume")},
@@ -90,5 +91,5 @@ QString UnitModel::getCatNameFromId(Unit::Category id) const
     return m_cat2Text[id];
 }
 
-
+}
 

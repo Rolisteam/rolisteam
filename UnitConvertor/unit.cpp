@@ -1,5 +1,6 @@
 #include "unit.h"
-
+namespace GMTOOL
+{
 Unit::Unit(QString n,QString s,Category c)
     : m_name(n),m_symbol(s),m_currentCat(c)
 {
@@ -32,7 +33,7 @@ void Unit::setCurrentCat(const Unit::Category &currentCat)
 {
     m_currentCat = currentCat;
 }
-
+}
 
 
 
