@@ -45,7 +45,7 @@ public:
     QString getName() const;
     void setName(const QString &name);
     virtual void save(QJsonObject& json,bool exp=false);
-    virtual void load(QJsonObject& json,QGraphicsScene* scene);
+    virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene);
     virtual void generateQML(QTextStream &out,CharacterSheetItem::QMLSection);
     virtual void setNewEnd(QPointF){}
 private:

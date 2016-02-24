@@ -108,7 +108,7 @@ void Section::save(QJsonObject& json,bool exp)
     json["items"] = fieldArray;
 }
 
-void Section::load(QJsonObject &json,QGraphicsScene* scene)
+void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
 {
     m_name = json["name"].toString();
     QJsonArray fieldArray = json["items"].toArray();
@@ -135,11 +135,12 @@ void Section::load(QJsonObject &json,QGraphicsScene* scene)
             item = field;
             gItem = field;
         }
+        QGraphicsScene* scene = scenes.at(item->getPage());
         if((NULL!=scene)&&(NULL!=gItem))
         {
             scene->addItem(gItem);
         }
-        item->load(obj,scene);
+        item->load(obj,scenes);
         item->setParent(this);
         m_dataHash.insert(item->getPath(),item);
         m_keyList.append(item->getPath());

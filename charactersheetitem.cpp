@@ -63,6 +63,16 @@ void CharacterSheetItem::setReadOnly(bool readOnly)
 {
     m_readOnly = readOnly;
 }
+
+int CharacterSheetItem::getPage() const
+{
+    return m_page;
+}
+
+void CharacterSheetItem::setPage(int page)
+{
+    m_page = page;
+}
 int CharacterSheetItem::rowInParent()
 {
     return m_parent->indexOfChild(this);

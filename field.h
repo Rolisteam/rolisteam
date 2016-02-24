@@ -42,12 +42,6 @@ public:
     void drawField();
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
-
-
-
-    QString key() const;
-    void setKey(const QString &key);
-
     QSize size() const;
     void setSize(const QSize &size);
 
@@ -66,7 +60,7 @@ public:
     virtual void setValue(CharacterSheetItem::ColumnId id, QVariant var);
 
     virtual void save(QJsonObject& json,bool exp=false);
-    virtual void load(QJsonObject &json,QGraphicsScene* scene);
+    virtual void load(QJsonObject &json,QList<QGraphicsScene*> scene);
 
     virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
 
@@ -82,7 +76,6 @@ protected:
     void mouseMoveEvent(QMouseEvent* ev);
 
 private:
-    QString m_key;
     BorderLine m_border;
 
     QFont  m_font;
