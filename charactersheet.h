@@ -121,7 +121,7 @@ class CharacterSheet : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString values NOTIFY valuesChanged)
+    //Q_PROPERTY(QString values NOTIFY valuesChanged)
 public:
     
     /**
