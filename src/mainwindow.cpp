@@ -91,12 +91,13 @@
 MainWindow* MainWindow::m_singleton= NULL;
 
 MainWindow::MainWindow()
-    : QMainWindow(),m_networkManager(NULL),m_ui(new Ui::MainWindow),m_resetSettings(false),m_currentConnectionProfile(NULL)
+    : QMainWindow(),m_networkManager(NULL),m_ui(new Ui::MainWindow),m_resetSettings(false),m_currentConnectionProfile(NULL),m_profileDefined(false)
 {
     setAcceptDrops(true);
 
     m_ui->setupUi(this);
     m_shownProgress=false;
+
 
     m_preferences = PreferencesManager::getInstance();
     m_downLoadProgressbar = new QProgressBar();
@@ -121,7 +122,7 @@ MainWindow::MainWindow()
 
     /// Create all GM toolbox widget
     m_gmToolBoxList.append(new NameGeneratorWidget());
-    m_gmToolBoxList.append(new Convertor());
+    m_gmToolBoxList.append(new GMTOOL::Convertor());
 
     foreach (QWidget* wid, m_gmToolBoxList)
     {
