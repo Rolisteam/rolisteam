@@ -153,7 +153,7 @@ void CharacterSheetWindow::affectSheetToCharacter()
             m_tabs->setTabText(m_currentCharacterSheet+1,character->getName());
 
 
-            Player* parent = character->getParent();
+            Player* parent = character->getParentPlayer();
             Player* localItem =  PlayersList::instance()->getLocalPlayer();
             if((NULL!=m_currentCharacterSheet)&&(NULL!=parent)&&(NULL!=localItem)&&(localItem->isGM()))
             {
