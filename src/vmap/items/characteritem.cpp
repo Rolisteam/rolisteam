@@ -315,7 +315,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     {
         QString idparent = msg->string8();
         m_character = new Character(*msg);
-        m_character->setParent(PlayersList::instance()->getPlayer(idparent));
+        m_character->setParentPerson(PlayersList::instance()->getPlayer(idparent));
     }
 
     m_character->read(*msg);
@@ -350,7 +350,7 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &va
         m_oldPosition = pos();
         QList<QGraphicsItem*> list = collidingItems();
 
-        list.clear();
+        //list.clear();
         QPainterPath path;
         path.addPath(mapToScene(shape()));
         path.connectPath(mapToScene(shape().translated(value.toPointF()-pos())));

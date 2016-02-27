@@ -285,8 +285,9 @@ bool PlayersList::isLocal(Person * person) const
     if (person == NULL)
         return false;
 
-    Person * local = getLocalPlayer();
-    return (person == local || person->parent() == local);
+    Player* local = getLocalPlayer();
+    qDebug() << local << person->getParent() << person;
+    return (person == local || person->getParent() == local);
 }
 
 int PlayersList::numPlayers() const
@@ -310,7 +311,7 @@ Person * PlayersList::getPerson(const QString & uuid) const
 Player * PlayersList::getPlayer(const QString & uuid) const
 {
     Person * person = m_uuidMap.value(uuid);
-    if (person == NULL || person->parent() != NULL)
+    if (person == NULL || person->getParent() != NULL)
         return NULL;
     return static_cast<Player *>(person);
 }
@@ -318,7 +319,7 @@ Player * PlayersList::getPlayer(const QString & uuid) const
 Character * PlayersList::getCharacter(const QString & uuid) const
 {
     Person * person = m_uuidMap.value(uuid);
-    if (person == NULL || person->parent() == NULL)
+    if (person == NULL || person->getParent() == NULL)
         return NULL;
     return static_cast<Character *>(person);
 }
@@ -329,7 +330,7 @@ Player* PlayersList::getParent(const QString & uuid) const
     if (person == NULL)
         return NULL;
     
-    Person* parent = person->parent();
+    Person* parent = person->getParent();
     if (parent == NULL)
     {
         return NULL;
@@ -509,7 +510,7 @@ bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
     {
         NetworkMessageWriter * message;
 
-        if (person->parent() == NULL)
+        if (person->getParent() == NULL)
             message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerNameAction);
         else
             message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);
@@ -548,7 +549,7 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
     {
         NetworkMessageWriter * message;
 
-        if (person->parent() == NULL)
+        if (person->getParent() == NULL)
             message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerColorAction);
         else
             message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterColorAction);
@@ -755,7 +756,7 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
     Person * actualPerson = m_uuidMap.value(newPlayer->getUuid());
     if (actualPerson != NULL)
     {
-        if (actualPerson->parent() == NULL)
+        if (actualPerson->getParent() == NULL)
         {
 
             Player * actualPlayer = static_cast<Player *>(actualPerson);
@@ -894,7 +895,7 @@ void PlayersList::delCharacter(NetworkMessageReader & data)
     if (character == NULL)
         return;
 
-    Player* parent = character->getParent();
+    Player* parent = character->getParentPlayer();
     if(NULL!=parent)
     {
         delCharacter(parent, parent->getIndexOfCharacter(character));

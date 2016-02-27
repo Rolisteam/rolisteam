@@ -25,7 +25,7 @@
 
 
 
-class UserListModel;
+class PlayersListWidgetModel;
 class UserListDelegate;
 class Person;
 
@@ -42,7 +42,7 @@ public:
     */
     explicit UserListView(QWidget *parent = 0);
     
-    virtual void setModel(UserListModel *model);
+    virtual void setModel(PlayersListWidgetModel* model);
 signals:
     /**
     * @brief emited when user selects another item
@@ -93,7 +93,7 @@ private:
     */
     UserListDelegate* m_delegate;
     
-    UserListModel *m_model;
+    PlayersListWidgetModel* m_model;
     
     QAction* m_addAvatarAct;
     QAction* m_removeAvatarAct;

@@ -57,7 +57,7 @@ Player::Player(NetworkMessageReader & data, NetworkLink * link)
     {
         Character* child = new Character(data);
         m_characters.append(child);
-        child->setParent(this);
+        child->setParentPerson(this);
         data.uint8();
     }
 }
@@ -128,7 +128,7 @@ void Player::setGM(bool value)
 
 void Player::addCharacter(Character* character)
 {
-    character->setParent(this);
+    character->setParentPerson(this);
     m_characters.append(character);
 }
 

@@ -78,7 +78,9 @@ public:
      * @brief parent
      * @return
      */
-    virtual Person* parent() const;
+    virtual Person* getParent() const;
+    void setParentPerson(Person* parent);
+
     /**
      * @brief fill
      * @param message
@@ -126,6 +128,9 @@ public:
      * @param c
      */
     void setState(Qt::CheckState c);
+
+
+
 protected:
     /**
      * @brief Person
@@ -136,6 +141,7 @@ protected:
     QString m_name;
     QColor  m_color;
     QImage  m_avatar;
+    Person* m_parent;
     Qt::CheckState m_checkState;
 private:
     friend class PlayersList;

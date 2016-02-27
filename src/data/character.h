@@ -65,16 +65,6 @@ public:
      */
     void read(NetworkMessageReader& msg);
     /**
-     * @brief parent
-     * @return
-     */
-    Player* getParent() const;
-    /**
-     * @brief setParent
-     * @param player
-     */
-    void setParent(Player* player);
-    /**
      * @brief isBool
      * @return
      */
@@ -123,13 +113,13 @@ public:
     CharacterSheet* getSheet() const;
     void setSheet(CharacterSheet* sheet);
 
+    Player *getParentPlayer() const;
 signals:
     void avatarChanged();
 
 private:
     void init();
 private:
-    Player* m_parent;
     bool m_isNpc;
     int m_number;
     CharacterState* m_currentState;

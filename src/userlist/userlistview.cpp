@@ -30,7 +30,9 @@
 
 #include "userlistdelegate.h"
 #include "userlistview.h"
-//#include "userlistmodel.h"
+#include "playersListWidget.h"
+#include "playerslistproxy.h"
+
 #include "data/character.h"
 #include "rolisteammimedata.h"
 #include "playersList.h"
@@ -122,9 +124,8 @@ void UserListView::addAvatar()
         Person* tmpperso = PlayersList::instance()->getPerson(uuid);
         QImage im(path);
         PlayersList::instance()->setLocalPersonAvatar(tmpperso,im);
-    }
-    //tmpperso->setAvatar(im);
-    
+        emit m_model->dataChanged(index,index);
+    }    
 }
 
 void UserListView::deleteAvatar()
@@ -159,10 +160,10 @@ void UserListView::onEditCurrentItemColor()
     }
 
 }
-void UserListView::setModel(UserListModel *model)
+void UserListView::setModel(PlayersListWidgetModel* model)
 {
-    //QTreeView::setModel(model);
-    //m_model = model;
+    QTreeView::setModel(model);
+    m_model = model;
 }
 void UserListView::mousePressEvent ( QMouseEvent * event)
 {

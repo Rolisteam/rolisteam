@@ -34,19 +34,21 @@
  * Person *
  **********/
 Person::Person()
-    : m_uuid(QUuid::createUuid().toString())
+    : m_uuid(QUuid::createUuid().toString()),m_parent(NULL)
 {
 
 }
 
+
+
 Person::Person(const QString & name, const QColor & color)
-    : m_uuid(QUuid::createUuid().toString()),m_name(name), m_color(color)
+    : m_uuid(QUuid::createUuid().toString()),m_name(name), m_color(color),m_parent(NULL)
 {
 
 }
 
 Person::Person(const QString & uuid, const QString & name, const QColor & color)
-    : m_uuid(uuid), m_name(name), m_color(color)
+    : m_uuid(uuid), m_name(name), m_color(color),m_parent(NULL)
 {
 }
 
@@ -68,9 +70,14 @@ QColor Person::getColor() const
     return m_color;
 }
 
-Person* Person::parent() const
+Person *Person::getParent() const
 {
-    return NULL;
+    return m_parent;
+}
+
+void Person::setParentPerson(Person *parent)
+{
+    m_parent = parent;
 }
 
 bool Person::setColor(const QColor & color)

@@ -80,7 +80,6 @@ QVariant PlayersListWidgetModel::data(const QModelIndex &index, int role) const
 
 bool PlayersListWidgetModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    qDebug() << "super PlayersListWidgetModel::setData";
     PlayersList* g_playersList = PlayersList::instance();
     Person * person = g_playersList->getPerson(index);
 
@@ -166,63 +165,9 @@ bool PlayersListWidgetModel::isCheckable(const QModelIndex &index) const
 
     Player* localPlayer = playersList->getLocalPlayer();
 
-    return ((person->parent() == localPlayer) ||
+    return ((person->getParent() == localPlayer) ||
             (localPlayer->isGM() && index.parent().isValid()));
 }
-
-
-/*******************
- * PlayersListView *
- *******************/
-
-/*PlayersListView::PlayersListView(QWidget * parent)
-    : QTreeView(parent)
-{
-    static Delegate delegate;
-    setItemDelegate(&delegate);
-
-    m_avatarAct = new QAction(tr("Set avatar…"),this);
-}
-
-PlayersListView::~PlayersListView()
-{
-}
-
-void PlayersListView::mouseDoubleClickEvent(QMouseEvent * event)
-{
-    QPoint mPos = event->pos();
-    QModelIndex index = indexAt(mPos);
-    mPos -= visualRect(index).topLeft();
-
-    Delegate * delegate = static_cast<Delegate *>(itemDelegate());
-    int role = delegate->roleAt(viewOptions(), index, mPos);
-    if (role == Qt::DecorationRole)
-    {
-        QVariant value = index.data(role);
-        if (value.type() == QVariant::Color)
-        {
-            QColor color = qvariant_cast<QColor>(value);
-            static QColorDialog colorDialog;
-            colorDialog.setCurrentColor(color);
-            if (colorDialog.exec() == QDialog::Accepted)
-            {
-                model()->setData(index, QVariant(colorDialog.currentColor()), role);
-            }
-            return;
-        }
-    }
-
-    QTreeView::mouseDoubleClickEvent(event);
-}
-void PlayersListView::contextMenuEvent(QContextMenuEvent* event)
-{
-    QMenu menu(this);
-
-    menu.addAction(m_avatarAct);
-
-
-    menu.exec(event->globalPos());
-}*/
 
 /********************
  * PlayerListWidget *
@@ -266,12 +211,12 @@ void PlayersListWidget::editIndex(const QModelIndex & index)
 
 void PlayersListWidget::createLocalCharacter()
 {
-    PlayersList* g_playersList = PlayersList::instance();
-    Player * localPlayer = g_playersList->getLocalPlayer();
+    PlayersList* playersList = PlayersList::instance();
+    Player * localPlayer = playersList->getLocalPlayer();
 
     if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->getColor()) == QDialog::Accepted)
     {
-        g_playersList->addLocalCharacter(new Character(m_personDialog->getName(), m_personDialog->getColor()));
+        playersList->addLocalCharacter(new Character(m_personDialog->getName(), m_personDialog->getColor()));
     }
 }
 
@@ -302,16 +247,14 @@ void PlayersListWidget::setUI()
     QWidget * centralWidget = new QWidget(this);
 
     // PlayersListView
-    QTreeView * playersListView  = new UserListView();//= new PlayersListView(centralWidget);
+    m_playersListView = new UserListView();//= new PlayersListView(centralWidget);
     m_model = new PlayersListWidgetModel;
-    playersListView->setModel(m_model);
-    m_selectionModel = playersListView->selectionModel();
-    playersListView->setHeaderHidden(true);
-  //  playersListView->setIconSize(QSize(64,64));
+    m_playersListView->setModel(m_model);
+    m_selectionModel = m_playersListView->selectionModel();
+    m_playersListView->setHeaderHidden(true);
 
-    // Add PJ button
+    // Add PC button
     Player* tmp = PlayersList::instance()->getLocalPlayer();
-    //PlayersList::instance()->localPlayer()->isGM()
     QString what;
     if(NULL!=tmp)
     {
@@ -336,7 +279,7 @@ void PlayersListWidget::setUI()
     // Layout
     QVBoxLayout * layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 3, 3);
-    layout->addWidget(playersListView);
+    layout->addWidget(m_playersListView);
     layout->addLayout(buttonLayout);
     centralWidget->setLayout(layout);
     setWidget(centralWidget);
@@ -345,7 +288,7 @@ void PlayersListWidget::setUI()
     connect(m_selectionModel, SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
             this, SLOT(selectAnotherPerson(const QModelIndex &)));
     connect(m_model, SIGNAL(rowsRemoved( const QModelIndex &, int, int)),
-            playersListView, SLOT(clearSelection()));
+            m_playersListView, SLOT(clearSelection()));
     connect(addPlayerButton, SIGNAL(clicked()), this, SLOT(createLocalCharacter()));
     connect(m_delButton, SIGNAL(clicked()), this, SLOT(deleteSelected()));
 

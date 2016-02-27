@@ -29,8 +29,9 @@
 #include <QSet>
 #include <QTreeView>
 
-#include "userlist/playerslistproxy.h"
 
+#include "userlist/playerslistproxy.h"
+class UserListView;
 class Map;
 class PersonDialog;
 class Person;
@@ -52,30 +53,11 @@ public slots:
     void changeMap(Map * map);
 
 private:
-   Map * m_map;
+   Map* m_map;
 
    bool isCheckable(const QModelIndex &index) const;
 };
 
-/**
- * @brief A QTreeView with editable DecorationRole if it's a QColor.
- * @todo The code is really generic. The class might be put somewhere else to be reused.
- */
-/*class PlayersListView : public QTreeView
-{
-    Q_OBJECT
-
-public:
-    PlayersListView(QWidget * parent = NULL);
-    ~PlayersListView();
-
-protected:
-    void mouseDoubleClickEvent(QMouseEvent * event);
-    void contextMenuEvent(QContextMenuEvent* event);
-private:
-    QAction* m_avatarAct;
-
-};*/
 /**
  * @brief The PlayersListWidget class is the QDockWidget which display the PlayersListView. It is part of the MVC pattern as the Controler.
  *
@@ -83,26 +65,26 @@ private:
 class PlayersListWidget : public QDockWidget
 {
     Q_OBJECT
+public:
+    PlayersListWidget(QWidget * parent = NULL);
+    ~PlayersListWidget();
 
-    public:
-        PlayersListWidget(QWidget * parent = NULL);
-        ~PlayersListWidget();
+    PlayersListWidgetModel * model() const;
 
-        PlayersListWidgetModel * model() const;
+private slots:
+    void editIndex(const QModelIndex & index);
+    void createLocalCharacter();
+    void selectAnotherPerson(const QModelIndex & current);
+    void deleteSelected();
 
-    private slots:
-        void editIndex(const QModelIndex & index);
-        void createLocalCharacter();
-        void selectAnotherPerson(const QModelIndex & current);
-        void deleteSelected();
+private:
+    PersonDialog* m_personDialog;
+    QItemSelectionModel* m_selectionModel;
+    QPushButton* m_delButton;
+    PlayersListWidgetModel* m_model;
+    UserListView*              m_playersListView;
 
-    private:
-        PersonDialog           * m_personDialog;
-        QItemSelectionModel    * m_selectionModel;
-        QPushButton            * m_delButton;
-        PlayersListWidgetModel * m_model;
-
-        void setUI();
+    void setUI();
 };
 
 #endif
