@@ -286,7 +286,6 @@ bool PlayersList::isLocal(Person * person) const
         return false;
 
     Player* local = getLocalPlayer();
-    qDebug() << local << person->getParent() << person;
     return (person == local || person->getParent() == local);
 }
 
