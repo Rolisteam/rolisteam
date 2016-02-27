@@ -20,6 +20,8 @@
 
 #include <QDebug>
 #include <QDataStream>
+#include <QStyle>
+#include <QApplication>
 
 #include "chapter.h"
 
@@ -101,6 +103,13 @@ bool Chapter::seekNode(QList<ResourcesNode *> &path, ResourcesNode *node)
             }
         }
     }
+}
+
+QIcon Chapter::getIcon()
+{
+    QStyle* style = qApp->style();
+
+    return style->standardIcon(QStyle::SP_DirIcon);
 }
 
 bool Chapter::contains(ResourcesNode* node)

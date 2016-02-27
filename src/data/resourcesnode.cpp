@@ -51,9 +51,9 @@ ResourcesNode *ResourcesNode::getChildAt(int) const
     return NULL;
 }
 
-QString ResourcesNode::getIcon()
+QIcon ResourcesNode::getIcon()
 {
-    return QStringLiteral("");
+    return QIcon();
 }
 
 ResourcesNode *ResourcesNode::getParentNode() const

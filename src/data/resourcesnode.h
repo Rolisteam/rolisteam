@@ -22,6 +22,7 @@
 
 #include <QString>
 #include <QVariant>
+#include <QIcon>
 /**
     * @brief RessourceNode is part of the composite design pattern, it's the abstract class
     * @brief providing the basic API for ressources, Shortname and has children.
@@ -51,7 +52,7 @@ public:
 
     virtual bool contains(ResourcesNode*);
 
-    virtual QString getIcon();
+    virtual QIcon getIcon();
 
     ResourcesNode* getParentNode() const;
     void setParentNode(ResourcesNode *parent);

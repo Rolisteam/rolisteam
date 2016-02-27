@@ -73,6 +73,9 @@ public:
     void insertChildAt(int row, ResourcesNode *uri);
 
     bool seekNode(QList<ResourcesNode*>& path,ResourcesNode* node);
+
+    virtual QIcon getIcon();
+
 signals:
     void openFile(CleverURI*, bool);
     void updated(ResourcesNode*);

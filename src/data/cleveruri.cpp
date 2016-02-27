@@ -71,9 +71,9 @@ CleverURI::CleverURI(const CleverURI & mp)
     m_currentMode = mp.getCurrentMode();
     defineShortName();
 }
-QString CleverURI::getIcon()
+QIcon CleverURI::getIcon()
 {
-    return m_iconPathHash[m_type];
+    return QIcon(m_iconPathHash[m_type]);
 }
 
 CleverURI::CleverURI(QString uri,ContentType type)

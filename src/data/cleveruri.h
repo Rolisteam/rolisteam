@@ -106,7 +106,7 @@ public:
     * @param type of the content
     * @return the path to the icon
     */
-    virtual QString getIcon();
+    virtual QIcon getIcon();
     /**
      * @brief CleverURI::getAbsolueDir
      * @return
