@@ -187,7 +187,6 @@ void RectItem::readItem(NetworkMessageReader* msg)
 }
 void RectItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
-    qDebug() <<"before" << m_rect;
     switch ((int)pointId)
     {
     case 0:
@@ -217,7 +216,6 @@ void RectItem::setGeometryPoint(qreal pointId, QPointF &pos)
     default:
         break;
     }
-    qDebug() << "after" <<m_rect;
     setTransformOriginPoint(m_rect.center());
     //updateChildPosition();
 }
@@ -266,6 +264,6 @@ VisualItem* RectItem::getItemCopy()
 }
 void RectItem::resizeContents(const QRect& rect ,bool b)
 {
-    qDebug() << "after" <<m_rect << rect;
+   // qDebug() << "after" <<m_rect << rect;
     VisualItem::resizeContents(rect,b);
 }
