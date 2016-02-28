@@ -201,7 +201,6 @@ void SightItem::readItem(NetworkMessageReader* msg)
         m_fogHoleList.append(fogs);
     }
 
-
     count = msg->uint64();
     for(int i = 0;i < count;++i)
     {
