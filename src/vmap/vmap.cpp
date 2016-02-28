@@ -147,6 +147,125 @@ void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
     m_currentItem = NULL;
 
 }
+
+void VMap::setPenSize(int p)
+{
+    m_penSize =p;
+}
+void VMap::characterHasBeenDeleted(Character* character)
+{
+    QList<CharacterItem*> list = getCharacterOnMap(character->getUuid());
+    foreach(CharacterItem* item,list)
+    {
+        m_sightItem->removeVision(item);
+        m_characterItemMap->remove(character->getUuid());
+        removeItemFromScene(item->getId());
+    }
+}
+
+void VMap::fill(NetworkMessageWriter& msg)
+{
+    msg.string16(getMapTitle());
+    msg.string8(getId());
+    msg.rgb(mapColor());
+    msg.uint16(mapWidth());
+    msg.uint16(mapHeight());
+    msg.string8(m_sightItem->getId());
+    msg.uint8((quint8)getPermissionMode());
+    msg.uint8((quint8)getVisibilityMode());
+    msg.uint8(getOption(VisualItem::EnableCharacterVision).toBool());
+    msg.uint64(m_itemMap->values().size());
+    qDebug() << m_itemMap->values().size();
+}
+void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
+{
+    m_title = msg.string16();
+    m_id = msg.string8();
+    m_bgColor = msg.rgb();
+    setWidth(msg.uint16());
+    setHeight(msg.uint16());
+    QString idSight = msg.string8();
+    m_sightItem->setId(idSight);
+    quint8 permissionMode = msg.uint8();
+    VMap::VisibilityMode mode = (VMap::VisibilityMode)msg.uint8();
+    quint8 enableCharacter = msg.uint8();
+    int itemCount = msg.uint64();
+    if(readCharacter)
+    {
+        for(int i = 0; i < itemCount; ++i)
+        {
+            processAddItemMessage(&msg);
+        }
+    }
+
+    blockSignals(true);
+    setPermissionMode((Map::PermissionMode)permissionMode);
+    setOption(VisualItem::EnableCharacterVision,enableCharacter);
+    setVisibilityMode(mode);
+    blockSignals(false);
+    emit mapStatutChanged();
+}
+VisualItem::Layer VMap::getCurrentLayer() const
+{
+    return m_currentLayer;
+}
+QString VMap::getCurrentLayerText() const
+{
+    return VisualItem::getLayerToText(m_currentLayer);
+}
+void VMap::sendAllItems(NetworkMessageWriter& msg)
+{
+    foreach(VisualItem* item, m_itemMap->values())
+    {
+        //msg.string8(m_id);
+        //if(item!=m_sightItem)
+        {
+            qDebug() << item->getId();
+            msg.uint8(item->getType());
+            item->fillMessage(&msg);
+        }
+    }
+}
+void  VMap::setEditionMode(VToolsBar::EditionMode mode)
+{
+    m_editionMode = mode;
+}
+void VMap::cleanFogEdition()
+{
+    if(NULL!=m_fogItem)
+    {
+        removeItem(m_fogItem);
+    }
+}
+
+void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
+{
+    if(m_selectedtool==VToolsBar::HANDLER)
+    {
+        if(mouseEvent->button() == Qt::LeftButton)
+        {
+            QGraphicsScene::mousePressEvent(mouseEvent);
+        }
+    }
+    else if(mouseEvent->button() == Qt::LeftButton)
+    {
+        m_first = mouseEvent->scenePos();
+        m_end = m_first;
+        if(m_currentPath==NULL)
+        {
+            addItem();
+        }
+        else
+        {
+            updateItem();
+        }
+    }
+    else if(mouseEvent->button()==Qt::RightButton)
+    {
+        m_currentPath = NULL;
+        cleanFogEdition();
+    }
+}
 void VMap::updateItem()
 {
     switch(m_selectedtool)
@@ -161,7 +280,7 @@ void VMap::updateItem()
 }
 
 void VMap::addItem()
-{  
+{
     switch(m_selectedtool)
     {
     case VToolsBar::PEN:
@@ -231,119 +350,7 @@ void VMap::addItem()
     {
         m_fogItem = m_currentItem;
     }
-}
-void VMap::setPenSize(int p)
-{
-    m_penSize =p;
-}
-void VMap::characterHasBeenDeleted(Character* character)
-{
-    QList<CharacterItem*> list = getCharacterOnMap(character->getUuid());
-    foreach(CharacterItem* item,list)
-    {
-        m_sightItem->removeVision(item);
-        m_characterItemMap->remove(character->getUuid());
-        removeItemFromScene(item->getId());
-    }
-}
 
-void VMap::fill(NetworkMessageWriter& msg)
-{
-    msg.string16(getMapTitle());
-    msg.string8(getId());
-    msg.rgb(mapColor());
-    msg.uint16(mapWidth());
-    msg.uint16(mapHeight());
-    msg.string8(m_sightItem->getId());
-    msg.uint8((quint8)getPermissionMode());
-    msg.uint8((quint8)getVisibilityMode());
-    msg.uint8(getOption(VisualItem::EnableCharacterVision).toBool());
-    msg.uint64(m_itemMap->values().size());
-}
-void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
-{
-    m_title = msg.string16();
-    m_id = msg.string8();
-    m_bgColor = msg.rgb();
-    setWidth(msg.uint16());
-    setHeight(msg.uint16());
-    QString idSight = msg.string8();
-    m_sightItem->setId(idSight);
-    blockSignals(true);
-    setPermissionMode((Map::PermissionMode)msg.uint8());
-    VMap::VisibilityMode mode = (VMap::VisibilityMode)msg.uint8();
-    setVisibilityMode(mode);
-    setOption(VisualItem::EnableCharacterVision,msg.uint8());
-    blockSignals(false);
-    int itemCount = msg.uint64();
-    if(readCharacter)
-    {
-        for(int i = 0; i < itemCount; ++i)
-        {
-            processAddItemMessage(&msg);
-        }
-    }
-    emit mapStatutChanged();
-}
-VisualItem::Layer VMap::getCurrentLayer() const
-{
-    return m_currentLayer;
-}
-QString VMap::getCurrentLayerText() const
-{
-    return VisualItem::getLayerToText(m_currentLayer);
-}
-void VMap::sendAllItems(NetworkMessageWriter& msg)
-{
-    foreach(VisualItem* item, m_itemMap->values())
-    {
-        //msg.string8(m_id);
-        if(item!=m_sightItem)
-        {
-            msg.uint8(item->getType());
-            item->fillMessage(&msg);
-        }
-    }
-}
-void  VMap::setEditionMode(VToolsBar::EditionMode mode)
-{
-    m_editionMode = mode;
-}
-void VMap::cleanFogEdition()
-{
-    if(NULL!=m_fogItem)
-    {
-        removeItem(m_fogItem);
-    }
-}
-
-void VMap::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
-{
-    if(m_selectedtool==VToolsBar::HANDLER)
-    {
-        if(mouseEvent->button() == Qt::LeftButton)
-        {
-            QGraphicsScene::mousePressEvent(mouseEvent);
-        }
-    }
-    else if(mouseEvent->button() == Qt::LeftButton)
-    {
-        m_first = mouseEvent->scenePos();
-        m_end = m_first;
-        if(m_currentPath==NULL)
-        {
-            addItem();
-        }
-        else
-        {
-            updateItem();
-        }
-    }
-    else if(mouseEvent->button()==Qt::RightButton)
-    {
-        m_currentPath = NULL;
-        cleanFogEdition();
-    }
 }
 void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
@@ -361,6 +368,54 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     if(m_selectedtool==VToolsBar::HANDLER)
     {
         QGraphicsScene::mouseMoveEvent(mouseEvent);
+    }
+}
+void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
+{
+    Q_UNUSED(mouseEvent);
+    if(m_currentItem!=NULL)
+    {
+        if(VisualItem::ANCHOR == m_currentItem->getType())
+        {
+            manageAnchor();
+        }
+        if((m_currentItem->getType() == VisualItem::RULE )||(m_currentItem->getType() == VisualItem::ANCHOR))
+        {
+            removeItem(m_currentItem);
+            m_currentItem = NULL;
+            return;
+        }
+        if(VToolsBar::Painting==m_editionMode)
+        {
+            sendOffItem(m_currentItem);
+        }
+        else
+        {
+            QPolygonF* poly = new QPolygonF();
+            *poly = m_currentItem->shape().toFillPolygon();
+            *poly = poly->translated(m_currentItem->pos());
+            m_currentFog = m_sightItem->addFogPolygon(poly,(VToolsBar::Mask == m_editionMode));
+            sendItemToAll(m_sightItem);
+            if(NULL==m_currentPath)
+            {
+                removeItem(m_currentItem);
+            }
+
+        }
+    }
+    else if((NULL!=m_currentPath)&&(VToolsBar::Painting!=m_editionMode))
+    {
+        QPolygonF* poly = new QPolygonF();
+        *poly = m_currentPath->shape().toFillPolygon();
+        m_currentFog->setPolygon(poly);
+        update();
+        //removeItem(m_currentPath);
+    }
+
+    m_currentItem = NULL;
+    if(m_selectedtool==VToolsBar::HANDLER)
+    {
+        QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
 }
 void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
@@ -438,54 +493,7 @@ void VMap::manageAnchor()
     }
 }
 
-void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
-{
-    Q_UNUSED(mouseEvent);
-    if(m_currentItem!=NULL)
-    {
-        if(VisualItem::ANCHOR == m_currentItem->getType())
-        {
-            manageAnchor();
-        }
-        if((m_currentItem->getType() == VisualItem::RULE )||(m_currentItem->getType() == VisualItem::ANCHOR))
-        {
-            removeItem(m_currentItem);
-            m_currentItem = NULL;
-            return;
-        }
-        if(VToolsBar::Painting==m_editionMode)
-        {
-            sendOffItem(m_currentItem);
-        }
-        else
-        {
-            QPolygonF* poly = new QPolygonF();
-            *poly = m_currentItem->shape().toFillPolygon();
-            *poly = poly->translated(m_currentItem->pos());
-            m_currentFog = m_sightItem->addFogPolygon(poly,(VToolsBar::Mask == m_editionMode));
-            sendItemToAll(m_sightItem);
-            if(NULL==m_currentPath)
-            {
-                removeItem(m_currentItem);
-            }
 
-        }
-    }
-    else if((NULL!=m_currentPath)&&(VToolsBar::Painting!=m_editionMode))
-    {
-        QPolygonF* poly = new QPolygonF();
-        *poly = m_currentPath->shape().toFillPolygon();
-        m_currentFog->setPolygon(poly);
-        update();
-        //removeItem(m_currentPath);
-    }
-
-    m_currentItem = NULL;
-    if(m_selectedtool==VToolsBar::HANDLER)
-    {
-        QGraphicsScene::mouseReleaseEvent(mouseEvent);
-    }
-}
 bool VMap::editLayer(VisualItem::Layer layer)
 {
     if(m_currentLayer!=layer)
@@ -795,17 +803,22 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         case VisualItem::PATH:
             item=new PathItem();
             break;
-
+        case VisualItem::SIGHT:
+            item=m_sightItem;
+            break;
         }
         if(NULL!=item)
         {
             item->readItem(msg);
+            QPointF pos = item->pos();
+            qDebug()<< "Item " <<item->pos() << item->getId() << type;
             addNewItem(item);
             item->initChildPointItem();
             if(NULL!=charItem)
             {
                 insertCharacterInMap(charItem);
             }
+            item->setPos(pos);
         }
     }
 }
@@ -952,7 +965,10 @@ void VMap::addNewItem(VisualItem* item)
                 item->setVisible(true);
             }
         }
-        m_itemMap->insert(item->getId(),item);
+        if(VToolsBar::Painting == m_editionMode)
+        {
+            m_itemMap->insert(item->getId(),item);
+        }
     }
 }
 QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
