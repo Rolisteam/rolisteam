@@ -413,19 +413,24 @@ void VisualItem::setChildrenVisible(bool b)
 
 bool VisualItem::canBeMoved() const
 {
-    if(getOption(VisualItem::LocalIsGM).toBool())
+    if(!isEditable())
     {
-            return true;
+        return false;
+    }
+    else if(getOption(VisualItem::LocalIsGM).toBool())
+    {
+        return true;
     }
     else if(getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL)
     {
-            return true;
+        return true;
     }
     else
     {
-            return false;
+        return false;
     }
 }
+
 bool VisualItem::isEditable() const
 {
     return m_editable;
