@@ -619,7 +619,7 @@ void MainWindow::sendOffAllMaps(NetworkLink * link)
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
         tempmap->fill(msg);
         tempmap->sendAllItems(msg);
-        msg.sendAll();
+        msg.sendTo(link);
     }
 
 
