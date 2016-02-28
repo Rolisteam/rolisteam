@@ -29,7 +29,7 @@ int main(int argc, char** argv)
     NameGeneratorWidget* wid = new NameGeneratorWidget();
     wid->show();
 
-    Convertor* conv = new Convertor();
+    GMTOOL::Convertor* conv = new GMTOOL::Convertor();
     conv->show();
 
     return a.exec();
