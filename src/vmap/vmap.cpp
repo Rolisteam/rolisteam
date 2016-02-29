@@ -175,7 +175,6 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.uint8((quint8)getVisibilityMode());
     msg.uint8(getOption(VisualItem::EnableCharacterVision).toBool());
     msg.uint64(m_itemMap->values().size());
-    qDebug() << m_itemMap->values().size();
 }
 void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
 {
@@ -201,8 +200,8 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     blockSignals(true);
     setPermissionMode((Map::PermissionMode)permissionMode);
     setOption(VisualItem::EnableCharacterVision,enableCharacter);
-    setVisibilityMode(mode);
     blockSignals(false);
+    setVisibilityMode(mode);
     emit mapStatutChanged();
 }
 VisualItem::Layer VMap::getCurrentLayer() const
@@ -220,7 +219,6 @@ void VMap::sendAllItems(NetworkMessageWriter& msg)
         //msg.string8(m_id);
         //if(item!=m_sightItem)
         {
-            qDebug() << item->getId();
             msg.uint8(item->getType());
             item->fillMessage(&msg);
         }
@@ -811,7 +809,6 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         {
             item->readItem(msg);
             QPointF pos = item->pos();
-            qDebug()<< "Item " <<item->pos() << item->getId() << type;
             addNewItem(item);
             item->initChildPointItem();
             if(NULL!=charItem)
@@ -1207,51 +1204,52 @@ void VMap::insertCharacterInMap(CharacterItem* item)
 
 bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
 {
+    bool result = false;
     if(mode != m_currentVisibityMode)
     {
-        m_currentVisibityMode = mode;
         emit mapChanged();
-        bool visibilitySight = false;
-        bool visibilityItems = false;
-        if(!getOption(VisualItem::LocalIsGM).toBool())
+        result = true;
+    }
+    m_currentVisibityMode = mode;
+    bool visibilitySight = false;
+    bool visibilityItems = false;
+    if(!getOption(VisualItem::LocalIsGM).toBool())
+    {
+        if(m_currentVisibityMode == VMap::HIDDEN)
         {
-            if(m_currentVisibityMode == VMap::HIDDEN)
-            {
-                visibilityItems = false;
-            }
-            else if(m_currentVisibityMode == VMap::ALL)
-            {
-                visibilityItems = true;
-            }
-            else if(VMap::CHARACTER == m_currentVisibityMode)
-            {
-                visibilitySight = true;
-                visibilityItems = true;
-            }
+            visibilityItems = false;
+        }
+        else if(m_currentVisibityMode == VMap::ALL)
+        {
+            visibilityItems = true;
+        }
+        else if(VMap::CHARACTER == m_currentVisibityMode)
+        {
+            visibilitySight = true;
+            visibilityItems = true;
+        }
+    }
+    else
+    {
+        visibilityItems = true;
+        if(VMap::CHARACTER == m_currentVisibityMode)
+        {
+            visibilitySight = true;
         }
         else
         {
-            visibilityItems = true;
-            if(VMap::CHARACTER == m_currentVisibityMode)
-            {
-                visibilitySight = true;
-            }
-            else
-            {
-                visibilitySight = false;
-            }
+            visibilitySight = false;
         }
-        foreach(VisualItem* item, m_itemMap->values())
-        {
-            item->setVisible(visibilityItems);
-        }
-        if(NULL!=m_sightItem)
-        {
-            m_sightItem->setVisible(visibilitySight);
-        }
-        return true;
     }
-    return false;
+    foreach(VisualItem* item, m_itemMap->values())
+    {
+        item->setVisible(visibilityItems);
+    }
+    if(NULL!=m_sightItem)
+    {
+        m_sightItem->setVisible(visibilitySight);
+    }
+    return result;
 }
 VMap::VisibilityMode VMap::getVisibilityMode()
 {
