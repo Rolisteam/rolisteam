@@ -142,6 +142,14 @@ void SessionManager::removeSelectedItem()
         m_model->remove(index);
     }
 }
+void SessionManager::updateCleverUri(CleverURI* uri )
+{
+    if(NULL!=m_model)
+    {
+        m_model->updateNode(uri);
+    }
+}
+
 void SessionManager::saveSession(QDataStream& out)
 {
     if(NULL!=m_model)

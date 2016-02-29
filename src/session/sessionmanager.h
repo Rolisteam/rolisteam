@@ -58,6 +58,8 @@ public:
     */
     const QList<CleverURI*>& getRecentFiles();
 
+    void updateCleverUri(CleverURI* );
+
     virtual void saveSession(QDataStream& out);
     virtual void loadSession(QDataStream& in);
 
