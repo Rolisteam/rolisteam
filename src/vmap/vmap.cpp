@@ -1161,7 +1161,6 @@ void VMap::dragEnterEvent ( QGraphicsSceneDragDropEvent * event )
     else
     {
         const QMimeData* mimeData =  event->mimeData();
-
         if(mimeData->hasUrls())
         {
             event->acceptProposedAction();
