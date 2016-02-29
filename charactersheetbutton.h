@@ -33,8 +33,8 @@ public:
     CharacterSheetButton(QPointF topleft,QGraphicsItem* parent = 0);
     CharacterSheetButton(QGraphicsItem* parent = 0);
 
-    virtual QVariant getValue(CharacterSheetItem::ColumnId) const;
-    virtual void setValue(CharacterSheetItem::ColumnId id, QVariant var);
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId) const;
+    virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
 
     virtual void save(QJsonObject& json,bool exp=false);
     virtual void load(QJsonObject &json,QList<QGraphicsScene*> scene);
@@ -69,7 +69,6 @@ private:
     void init();
 
 private:
-    QString m_value;
     QColor m_bgColor;
     QColor m_textColor;
     QRectF m_rect;

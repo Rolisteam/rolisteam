@@ -40,20 +40,12 @@ int CharacterSheetItem::getChildrenCount() const
     return 0;
 }
 
-QVariant CharacterSheetItem::getValue(CharacterSheetItem::ColumnId i) const
+QVariant CharacterSheetItem::getValueFrom(CharacterSheetItem::ColumnId i) const
 {
     return QVariant();
 }
 
-QString CharacterSheetItem::name() const
-{
-    return m_name;
-}
 
-void CharacterSheetItem::setName(const QString &name)
-{
-    m_name = name;
-}
 bool CharacterSheetItem::isReadOnly() const
 {
     return m_readOnly;
@@ -72,6 +64,30 @@ int CharacterSheetItem::getPage() const
 void CharacterSheetItem::setPage(int page)
 {
     m_page = page;
+}
+
+QString CharacterSheetItem::getValue() const
+{
+    return m_value;
+}
+
+void CharacterSheetItem::setValue(const QString &value)
+{
+    if(m_value!=value)
+    {
+        m_value = value;
+        emit valueChanged(m_value);
+    }
+}
+
+QString CharacterSheetItem::getId() const
+{
+    return m_id;
+}
+
+void CharacterSheetItem::setId(const QString &id)
+{
+    m_id = id;
 }
 int CharacterSheetItem::rowInParent()
 {
@@ -93,7 +109,7 @@ QString CharacterSheetItem::getPath()
         path=m_parent->getPath();
         path.append('.');
     }
-    return path.append(m_name);
+    return path.append(m_id);
 }
 void CharacterSheetItem::appendChild(CharacterSheetItem *)
 {

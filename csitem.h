@@ -23,9 +23,14 @@
 #include "charactersheetitem.h"
 #include <QGraphicsItem>
 
-class CSItem : public QGraphicsObject,public CharacterSheetItem
+class CSItem : public CharacterSheetItem,public QGraphicsItem
 {
-        Q_OBJECT
+    Q_OBJECT
+    Q_PROPERTY(qreal x READ getX WRITE setX NOTIFY xChanged)
+    Q_PROPERTY(qreal y READ getY WRITE setY NOTIFY yChanged)
+    Q_PROPERTY(qreal width READ getWidth WRITE setWidth NOTIFY widthChanged)
+    Q_PROPERTY(qreal height READ getHeight WRITE setHeight NOTIFY heightChanged)
+
 public:
     CSItem(QGraphicsItem* parent=0);
     virtual void setNewEnd(QPointF nend);
@@ -37,9 +42,22 @@ public:
     QColor textColor() const;
     void setTextColor(const QColor &textColor);
 
-protected:
-    QString m_id;
+    qreal getX() const;
+    qreal getY() const;
+    qreal getWidth() const;
+    qreal getHeight() const;
 
+    void setX(qreal x);
+    void setY(qreal y);
+    void setWidth(qreal width);
+    void setHeight(qreal height);
+signals:
+    void xChanged();
+    void yChanged();
+    void widthChanged();
+    void heightChanged();
+
+protected:
     //internal data
     QRectF m_rect;
     static int m_count;
