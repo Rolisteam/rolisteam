@@ -63,7 +63,7 @@ QmlHighlighter::QmlHighlighter(QTextDocument *parent)
 
     cppObjectFormat.setForeground(QColor(Qt::blue).lighter());
     cppObjectFormat.setFontItalic(true);
-    rule.pattern =  QRegExp("_[A-z]+");
+    rule.pattern =  QRegExp("_[A-Z][A-z|0-9]+");
     rule.format = cppObjectFormat;
     highlightingRules.append(rule);
 
