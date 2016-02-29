@@ -131,6 +131,16 @@ void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
 }
+
+int Canvas::currentPage() const
+{
+    return m_currentPage;
+}
+
+void Canvas::setCurrentPage(int currentPage)
+{
+    m_currentPage = currentPage;
+}
 FieldModel *Canvas::model() const
 {
     return m_model;

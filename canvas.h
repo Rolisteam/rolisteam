@@ -42,6 +42,9 @@ public:
     QPixmap pixmap();
 
     void setPixmap(QPixmap pix);
+    int currentPage() const;
+    void setCurrentPage(int currentPage);
+
 signals:
     void imageChanged();
 protected:
@@ -56,6 +59,7 @@ private:
     CSItem* m_currentItem;
     Tool m_currentTool;
     FieldModel* m_model;
+    int m_currentPage;
 };
 
 #endif // CANVAS_H
