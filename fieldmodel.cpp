@@ -63,7 +63,7 @@ void Column::setPos(const CharacterSheetItem::ColumnId &pos)
 /////////////////////////////
 FieldModel::FieldModel(QObject *parent) : QAbstractItemModel(parent)
 {
-    m_colunm << new Column(tr("Field"),CharacterSheetItem::NAME)           << new Column(tr("x"),CharacterSheetItem::X)             << new Column(tr("y"),CharacterSheetItem::Y)
+    m_colunm << new Column(tr("Field"),CharacterSheetItem::ID)<< new Column(tr("Value"),CharacterSheetItem::VALUE)           << new Column(tr("x"),CharacterSheetItem::X)             << new Column(tr("y"),CharacterSheetItem::Y)
              << new Column(tr("Width"),CharacterSheetItem::WIDTH)          << new Column(tr("Height"),CharacterSheetItem::HEIGHT)   << new Column(tr("Border"),CharacterSheetItem::BORDER)
              << new Column(tr("Text-align"),CharacterSheetItem::TEXT_ALIGN)<< new Column(tr("Bg Color"),CharacterSheetItem::BGCOLOR)<< new Column(tr("Text Color"),CharacterSheetItem::TEXTCOLOR)<< new Column(tr("Possible Values"),CharacterSheetItem::VALUES);
 
@@ -81,7 +81,7 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
         CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
         if(NULL!=item)
         {
-            return item->getValue(m_colunm[index.column()]->getPos());
+            return item->getValueFrom(m_colunm[index.column()]->getPos());
         }
     }
     return QVariant();
@@ -163,8 +163,8 @@ bool FieldModel::setData(const QModelIndex &index, const QVariant &value, int ro
         CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
         if(NULL!=item)
         {
-            item->setValue(m_colunm[index.column()]->getPos(),value);
-            emit valuesChanged(item->getValue(CharacterSheetItem::NAME).toString(),value.toString());
+            item->setValueFrom(m_colunm[index.column()]->getPos(),value);
+            emit valuesChanged(item->getValueFrom(CharacterSheetItem::ID).toString(),value.toString());
             return true;
         }
     }
@@ -185,7 +185,7 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
         return Qt::ItemIsEnabled;
 
     CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
-    if(m_colunm[index.column()]->getPos() == CharacterSheetItem::NAME)
+    if(m_colunm[index.column()]->getPos() == CharacterSheetItem::ID)
     {
        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
     }
@@ -205,6 +205,16 @@ void FieldModel::generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec
 QString FieldModel::getValue(const QString &key)
 {
     return key;
+}
+
+QList<CharacterSheetItem *> FieldModel::children()
+{
+   QList<CharacterSheetItem *> result;
+   for(int i = 0;i<m_rootSection->getChildrenCount();++i)
+   {
+    result.append(m_rootSection->getChildAt(i));
+   }
+   return result;
 }
 void FieldModel::updateItem(CSItem* item)
 {

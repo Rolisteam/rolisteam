@@ -81,6 +81,8 @@ public:
 
     Q_INVOKABLE QString getValue(const QString& key);
 
+    QList<CharacterSheetItem*> children();
+
 signals:
     void valuesChanged(QString valueKey,QString value);
 
