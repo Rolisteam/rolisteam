@@ -35,7 +35,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>445</width>
+             <width>441</width>
              <height>678</height>
             </rect>
            </property>
@@ -120,6 +120,20 @@
           </item>
           <item>
            <widget class="QComboBox" name="m_selectPageCb"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="m_addPage">
+            <property name="text">
+             <string>Add Page</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="m_removePage">
+            <property name="text">
+             <string>Remove Page</string>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="verticalSpacer_2">

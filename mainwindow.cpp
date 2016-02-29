@@ -45,13 +45,15 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    m_currentPage(0)
 {
     m_qmlGeneration =true;
     setAcceptDrops(true);
     ui->setupUi(this);
 
     Canvas* canvas = new Canvas();
+
     m_canvasList.append(canvas);
     m_model = new FieldModel();
     ui->treeView->setModel(m_model);
@@ -94,6 +96,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_saveAct,SIGNAL(triggered(bool)),this,SLOT(save()));
     connect(ui->actionSave_As,SIGNAL(triggered(bool)),this,SLOT(saveAs()));
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
+
+
+
+    connect(ui->m_addPage,SIGNAL(clicked(bool)),this,SLOT(addPage()));
 
     m_imgProvider = new RolisteamImageProvider();
 
@@ -287,16 +293,15 @@ void MainWindow::generateQML(QString& qml)
         text << "       source: \"image://rcs/background_%1.jpg\".arg(root.page)" << "\n";
         m_model->generateQML(text,CharacterSheetItem::FieldSec);
         text << "\n";
-        text << "       Connections {\n";
+        text << "  }\n";
+        text << "}\n";
+
+     /*   text << "       Connections {\n";
         text << "           target: _model\n";
         text << "           onValuesChanged:{\n";
         m_model->generateQML(text,CharacterSheetItem::ConnectionSec);
         text << "       }\n";
-        text << "   }\n";
-        text << "   }\n";
-        text << "}\n";
-
-
+        text << "   }\n";*/
         text.flush();
 
     }
@@ -317,7 +322,11 @@ void MainWindow::showQML()
     }
     ui->m_quickview->engine()->clearComponentCache();
     ui->m_quickview->engine()->addImageProvider(QLatin1String("rcs"),m_imgProvider);
-    ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
+    QList<CharacterSheetItem *> list = m_model->children();
+    for(CharacterSheetItem* item : list)
+    {
+        ui->m_quickview->engine()->rootContext()->setContextProperty(QStringLiteral("_%1").arg(item->getId()),item);
+    }
     ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root = ui->m_quickview->rootObject();
@@ -408,7 +417,10 @@ void MainWindow::rollDice(QString cmd)
 void MainWindow::addPage()
 {
     ++m_currentPage;
-    m_canvasList.append(new Canvas());
+    Canvas* canvas = new Canvas();
+    m_canvasList.append(canvas);
+
+    canvas->setCurrentPage(m_currentPage);
 }
 
 void MainWindow::removePage()
