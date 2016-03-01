@@ -100,6 +100,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(ui->m_addPage,SIGNAL(clicked(bool)),this,SLOT(addPage()));
+    connect(ui->m_selectPageCb,SIGNAL(currentIndexChanged(int)),this,SLOT(currentPageChanged(int)));
 
     m_imgProvider = new RolisteamImageProvider();
 
@@ -113,6 +114,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_characterView->setModel(m_characterModel);
 
 }
+
 
 MainWindow::~MainWindow()
 {
@@ -244,11 +246,12 @@ void MainWindow::open()
 void MainWindow::updatePageSelector()
 {
     QStringList list;
-
+    ui->m_selectPageCb->clear();
     int i =0;
     for(Canvas* canvas: m_canvasList)
     {
-        list << QStringLiteral("Page %1").arg(i);
+        list << QStringLiteral("Page %1").arg(i+1);
+        ++i;
     }
     ui->m_selectPageCb->addItems(list);
     ui->m_selectPageCb->setCurrentIndex(0);
@@ -418,11 +421,18 @@ void MainWindow::addPage()
 {
     ++m_currentPage;
     Canvas* canvas = new Canvas();
+    canvas->setModel(m_model);
     m_canvasList.append(canvas);
 
+    updatePageSelector();
     canvas->setCurrentPage(m_currentPage);
-}
+    currentPageChanged(m_currentPage);
 
+}
+void MainWindow::currentPageChanged(int i)
+{
+    m_view->setScene(m_canvasList[i]);
+}
 void MainWindow::removePage()
 {
 

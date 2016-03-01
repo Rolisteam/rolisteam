@@ -68,6 +68,7 @@ public slots:
     void rollDice(QString cmd);
     void addPage();
     void removePage();
+    void currentPageChanged(int);
 protected:
 
     bool eventFilter(QObject *, QEvent *);
