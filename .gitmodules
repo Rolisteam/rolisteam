@@ -4,3 +4,6 @@
 [submodule "src/widgets/gmtoolbox"]
 	path = src/widgets/gmtoolbox
 	url = git@github.com:Rolisteam/RPlugins.git
+[submodule "src/charactersheet"]
+	path = src/charactersheet
+	url = git@github.com:Rolisteam/RCharacterSheet.git
