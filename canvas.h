@@ -45,6 +45,8 @@ public:
     int currentPage() const;
     void setCurrentPage(int currentPage);
 
+   Canvas::Tool currentTool() const;
+
 signals:
     void imageChanged();
 protected:
