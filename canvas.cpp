@@ -83,6 +83,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
          if(m_currentTool==Canvas::ADD)
          {
             Field* field = new Field(mouseEvent->scenePos());
+            field->setPage(m_currentPage);
             addItem(field);
             m_model->appendField(field);
             m_currentItem = field;
@@ -98,6 +99,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
          else if(m_currentTool == Canvas::BUTTON)
          {
             CharacterSheetButton* btn = new CharacterSheetButton(mouseEvent->scenePos());
+            btn->setPage(m_currentPage);
             addItem(btn);
             m_model->appendField(btn);
             m_currentItem = btn;
@@ -130,6 +132,11 @@ void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     {
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
+}
+
+Canvas::Tool Canvas::currentTool() const
+{
+    return m_currentTool;
 }
 
 int Canvas::currentPage() const
