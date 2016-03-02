@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     Canvas* canvas = new Canvas();
+    canvas->setCurrentPage(m_currentPage);
 
     m_canvasList.append(canvas);
     m_model = new FieldModel();
@@ -419,8 +420,12 @@ void MainWindow::rollDice(QString cmd)
 
 void MainWindow::addPage()
 {
+    Canvas* previous = m_canvasList[m_currentPage];
     ++m_currentPage;
     Canvas* canvas = new Canvas();
+
+    canvas->setCurrentTool(previous->currentTool());
+
     canvas->setModel(m_model);
     m_canvasList.append(canvas);
 
