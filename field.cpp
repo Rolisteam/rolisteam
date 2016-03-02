@@ -287,6 +287,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "    width:" << m_rect.width() <<"*parent.realscale"<<"\n";
         out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
+        out << "    visible: parent.page == "<< m_page << "? true : false\n";
         if(m_availableValue.isEmpty())
         {
             out << "    state:\"field\"\n";
