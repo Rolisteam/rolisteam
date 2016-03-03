@@ -125,7 +125,6 @@ void MainWindow::setImage()
 {
     int i = 0;
     m_pixList.clear();
-    qDebug()<< "SetImage";
     for(auto canvas : m_canvasList)
     {
         m_imgProvider->insertPix(QStringLiteral("background_%1.jpg").arg(i),canvas->pixmap());
@@ -442,11 +441,13 @@ void MainWindow::addPage()
     updatePageSelector();
     canvas->setCurrentPage(m_currentPage);
     currentPageChanged(m_currentPage);
+    ui->m_selectPageCb->setCurrentIndex(m_currentPage);
 
 }
 void MainWindow::currentPageChanged(int i)
 {
     m_view->setScene(m_canvasList[i]);
+
 }
 void MainWindow::removePage()
 {
