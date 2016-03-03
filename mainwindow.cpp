@@ -125,10 +125,12 @@ void MainWindow::setImage()
 {
     int i = 0;
     m_pixList.clear();
+    qDebug()<< "SetImage";
     for(auto canvas : m_canvasList)
     {
         m_imgProvider->insertPix(QStringLiteral("background_%1.jpg").arg(i),canvas->pixmap());
         m_pixList.append(canvas->pixmap());
+        ++i;
     }
 }
 
@@ -283,7 +285,14 @@ void MainWindow::generateQML(QString& qml)
         text << "\n";
         text << "Item {\n";
         text << "   id:root\n";
+        text << "   focus: true\n";
         text << "   property int page: 0\n";
+        text << "   property int maxPage:"<< m_canvasList.size()-1 <<"\n";
+        text << "   onPageChanged: {\n";
+        text << "       page=page>maxPage ? maxPage : page<0 ? 0 : page\n";
+        text << "   }\n";
+        text << "   Keys.onLeftPressed: --page\n";
+        text << "   Keys.onRightPressed: ++page\n";
         text << "   signal rollDiceCmd(string cmd)\n";
         text << "   Image {\n";
         text << "       id:imagebg" << "\n";
@@ -423,6 +432,7 @@ void MainWindow::addPage()
     Canvas* previous = m_canvasList[m_currentPage];
     ++m_currentPage;
     Canvas* canvas = new Canvas();
+    connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
 
     canvas->setCurrentTool(previous->currentTool());
 
