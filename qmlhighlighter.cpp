@@ -29,7 +29,7 @@ QmlHighlighter::QmlHighlighter(QTextDocument *parent)
     keywordFormat.setForeground(Qt::blue);
 
     QStringList keywordPatterns;
-    keywordPatterns << "\\bif\\b" << "\\belsif\\b" << "\\belse\\b" << "\\breturn\\b"<< "\\bimport\\b" << "\\bsignal\\b" << "\\bproperty\\b";
+    keywordPatterns << "\\bif\\b" << "\\belsif\\b" << "\\belse\\b" << "\\breturn\\b"<< "\\bimport\\b" << "\\bsignal\\b" << "\\bproperty\\b"<< "\\bint\\b";
     foreach (const QString &pattern, keywordPatterns) {
         rule.pattern = QRegExp(pattern);
         rule.format = keywordFormat;
