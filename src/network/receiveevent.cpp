@@ -102,9 +102,12 @@ void ReceiveEvent::removeNetworkReceiver(NetMsg::Category categorie, NetWorkRece
     {
         if(it.value()==receiver)
         {
-            ms_netWorkReceiverMap.erase(it);
+            it = ms_netWorkReceiverMap.erase(it);
         }
-        ++it;
+        else
+        {
+            ++it;
+        }
     }
 
 }
