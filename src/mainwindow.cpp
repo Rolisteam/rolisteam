@@ -209,6 +209,7 @@ void MainWindow::closeMapOrImage()
 
     if (NULL!=active)
     {
+
 		QAction* action=NULL;
 
         Image*  imageFenetre = dynamic_cast<Image*>(active);
@@ -279,6 +280,18 @@ void MainWindow::closeMapOrImage()
             msg.string8(mapImageId);
             msg.sendAll();
         }
+
+        MediaContainer*  mediaContener = dynamic_cast<MediaContainer*>(subactive);
+        if(NULL!=mediaContener)
+        {
+            CleverURI* cluri = mediaContener->getCleverUri();
+            cluri->setDisplayed(false);
+            if(NULL!=m_sessionManager)
+            {
+                m_sessionManager->updateCleverUri(cluri);
+            }
+        }
+
         delete action;
         delete subactive;
     }
