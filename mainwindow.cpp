@@ -240,6 +240,11 @@ void MainWindow::open()
                     m_canvasList.append(canvas);
                     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
                 }
+                else
+                {
+                   m_canvasList[0]->setPixmap(pix);
+                }
+                m_pixList.append(pix);
                 m_imgProvider->insertPix(QStringLiteral("background_%1.jpg").arg(i),pix);
                 ++i;
             }
