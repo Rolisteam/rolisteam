@@ -139,9 +139,9 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
             item = field;
             gItem = field;
         }
+        item->load(obj,scenes);
         if(scenes.size()>item->getPage())
         {
-            item->load(obj,scenes);
             QGraphicsScene* scene = scenes.at(item->getPage());
             if((NULL!=scene)&&(NULL!=gItem))
             {
