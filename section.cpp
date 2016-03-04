@@ -141,12 +141,12 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
         }
         if(scenes.size()>item->getPage())
         {
+            item->load(obj,scenes);
             QGraphicsScene* scene = scenes.at(item->getPage());
             if((NULL!=scene)&&(NULL!=gItem))
             {
                 scene->addItem(gItem);
             }
-            item->load(obj,scenes);
         }
         item->setParent(this);
         m_dataHash.insert(item->getPath(),item);

@@ -208,6 +208,7 @@ void Field::save(QJsonObject& json,bool exp)
     json["id"]=m_id;
     json["value"]=m_value;
     json["border"]=m_border;
+    json["page"]=m_page;
 
     QJsonObject bgcolor;
     bgcolor["r"]=QJsonValue(m_bgColor.red());
@@ -264,6 +265,7 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
     y=json["y"].toDouble();
     w=json["width"].toDouble();
     h=json["height"].toDouble();
+    m_page=json["page"].toInt();
 
     QJsonArray valuesArray=json["values"].toArray();
     for(auto value : valuesArray.toVariantList())
