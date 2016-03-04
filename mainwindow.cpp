@@ -236,12 +236,15 @@ void MainWindow::open()
                 if(i!=0)
                 {
                     Canvas* canvas = new Canvas();
+                    canvas->setPixmap(pix);
                     m_canvasList.append(canvas);
                     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
                 }
                 m_imgProvider->insertPix(QStringLiteral("background_%1.jpg").arg(i),pix);
+                ++i;
             }
             m_model->load(data,m_canvasList);
+            updatePageSelector();
         }
     }
 }
