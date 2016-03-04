@@ -160,6 +160,8 @@ void CharacterSheetButton::save(QJsonObject &json, bool exp)
     json["width"]=m_rect.width();
     json["height"]=m_rect.height();
 
+    json["page"]=m_page;
+
 }
 
 void CharacterSheetButton::load(QJsonObject &json, QList<QGraphicsScene*> scene)
@@ -191,6 +193,8 @@ void CharacterSheetButton::load(QJsonObject &json, QList<QGraphicsScene*> scene)
     h=json["height"].toDouble();
 
     m_rect.setRect(x,y,w,h);
+
+    m_page = json["page"].toInt();
 
 
     update();
