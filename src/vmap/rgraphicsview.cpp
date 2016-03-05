@@ -368,7 +368,7 @@ void RGraphicsView::changeVisibility()
 }
 void RGraphicsView::rubberBandGeometry(QRect viewportRect, QPointF fromScenePoint, QPointF toScenePoint)
 {
-	qDebug() << viewportRect << fromScenePoint << toScenePoint;
+    //qDebug() << viewportRect << fromScenePoint << toScenePoint;
 }
 
 void RGraphicsView::setZoomFactor()

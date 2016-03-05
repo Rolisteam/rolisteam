@@ -200,8 +200,8 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     blockSignals(true);
     setPermissionMode((Map::PermissionMode)permissionMode);
     setOption(VisualItem::EnableCharacterVision,enableCharacter);
-    blockSignals(false);
     setVisibilityMode(mode);
+    blockSignals(false);
     emit mapStatutChanged();
 }
 VisualItem::Layer VMap::getCurrentLayer() const
@@ -1206,10 +1206,13 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
     bool result = false;
     if(mode != m_currentVisibityMode)
     {
-        emit mapChanged();
         result = true;
     }
     m_currentVisibityMode = mode;
+    if(result)
+    {
+       emit mapChanged();
+    }
     bool visibilitySight = false;
     bool visibilityItems = false;
     if(!getOption(VisualItem::LocalIsGM).toBool())
