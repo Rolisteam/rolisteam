@@ -6,12 +6,12 @@
     <message>
         <location filename="../src/widgets/aboutrolisteam.ui" line="17"/>
         <source>About Rolisteam</source>
-        <translation type="unfinished">À propos de Rolisteam</translation>
+        <translation>À propos de Rolisteam</translation>
     </message>
     <message>
         <location filename="../src/widgets/aboutrolisteam.ui" line="76"/>
         <source>Rolisteam</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/widgets/aboutrolisteam.ui" line="83"/>
@@ -107,7 +107,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/audio/audiowidget.ui" line="170"/>
         <source>unique Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Unique</translation>
     </message>
     <message>
         <location filename="../src/audio/audiowidget.ui" line="186"/>
@@ -120,27 +120,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/vmap/items/characteritem.cpp" line="514"/>
         <source>Change State</source>
-        <translation type="unfinished"></translation>
+        <translation>Change état</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/characteritem.cpp" line="522"/>
         <source>Affect to</source>
-        <translation type="unfinished"></translation>
+        <translation>Attribuer à</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/characteritem.cpp" line="530"/>
         <source>Vision Shape</source>
-        <translation type="unfinished"></translation>
+        <translation>Forme de vision</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/characteritem.cpp" line="563"/>
         <source>Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Disque</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/characteritem.cpp" line="565"/>
         <source>Conical</source>
-        <translation type="unfinished"></translation>
+        <translation>Cônique</translation>
     </message>
 </context>
 <context>
@@ -148,17 +148,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/charactersheet/charactersheetmodel.cpp" line="186"/>
         <source>Fields name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du champ</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetmodel.cpp" line="202"/>
         <source>Empty Section %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Section vide %1</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetmodel.cpp" line="232"/>
         <source>Field %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Champ %1</translation>
     </message>
 </context>
 <context>
@@ -166,82 +166,82 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="40"/>
         <source>Character Sheet Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visinneur de fiche de personnage</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="50"/>
         <source>Add Section</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter Section</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="51"/>
         <source>Add line</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter champ</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="52"/>
         <source>Add CharacterSheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une fiche de personnage</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="53"/>
         <source>Save Character Sheets</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder les fiches de personnages</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="54"/>
         <source>Open Character Sheets</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir fiche de personnage</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="55"/>
         <source>Load CharacterSheet View File</source>
-        <translation type="unfinished"></translation>
+        <translation>Charger une vue de fiche de personnage</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="57"/>
         <source>Detach Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Détacher l&apos;onglet</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="67"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Données</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="110"/>
         <source>Affect To </source>
-        <translation type="unfinished"></translation>
+        <translation>Attribuer à</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="215"/>
         <source>Save Character Sheets Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder les données des personnages</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="216"/>
         <source>Character Sheets Data files (*.rcs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="284"/>
         <source>Open Character Sheet data</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir les données des personnages</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="285"/>
         <source>Character Sheet Data files (*.rcs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="292"/>
         <source>Open Character Sheets View</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir une fiche de personnage</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="293"/>
         <source>Character Sheet files (*.qml)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fiche de personnage (*.qml)</translation>
     </message>
 </context>
 <context>
@@ -249,17 +249,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/preferences/characterstatemodel.cpp" line="31"/>
         <source>Label</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../src/preferences/characterstatemodel.cpp" line="31"/>
         <source>Color</source>
-        <translation type="unfinished">Couleur</translation>
+        <translation>Couleur</translation>
     </message>
     <message>
         <location filename="../src/preferences/characterstatemodel.cpp" line="31"/>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Image</translation>
     </message>
 </context>
 <context>
@@ -333,13 +333,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/chat/chatwindow.cpp" line="211"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%2)]</source>
         <comment>mine dice roll</comment>
-        <translation type="unfinished">avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%2 (%3)]  {1&lt;?} {3 ?} {2)?}</translation>
+        <translation>avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%2 (%3)]  {1&lt;?} {3 ?} {2)?}</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="216"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</source>
         <comment>third person roll</comment>
-        <translation type="unfinished"> a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]  {1&lt;?} {3 ?} {2)?}</translation>
+        <translation> a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]  {1&lt;?} {3 ?} {2)?}</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="235"/>
@@ -467,52 +467,52 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Formulaire</translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="22"/>
         <source>Category:</source>
-        <translation type="unfinished"></translation>
+        <translation>Catégorie:</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="30"/>
         <source>Temperature</source>
-        <translation type="unfinished"></translation>
+        <translation>Température</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="35"/>
         <source>Distance</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="40"/>
         <source>Currency</source>
-        <translation type="unfinished"></translation>
+        <translation>Monnaie</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="45"/>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="50"/>
         <source>Mass</source>
-        <translation type="unfinished"></translation>
+        <translation>Masse</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="58"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="73"/>
         <source>From:</source>
-        <translation type="unfinished"></translation>
+        <translation>Convertir:</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="104"/>
         <source>To</source>
-        <translation type="unfinished"></translation>
+        <translation>en</translation>
     </message>
 </context>
 <context>
@@ -551,7 +551,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/map/charactertoken.cpp" line="395"/>
         <location filename="../src/map/charactertoken.cpp" line="470"/>
         <source>Unknown Character Type (CharacterToken - charactertoken.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de personnage inconnue (CharacterToken - charactertoken.cpp)</translation>
     </message>
 </context>
 <context>
@@ -574,12 +574,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/preferences/dicealiasmodel.cpp" line="29"/>
         <source>Disable</source>
-        <translation type="unfinished">Désactivé</translation>
+        <translation>Désactivé</translation>
     </message>
     <message>
         <location filename="../src/preferences/dicealiasmodel.cpp" line="29"/>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Commentaires</translation>
     </message>
     <message>
         <location filename="../src/preferences/dicealiasmodel.cpp" line="104"/>
@@ -736,7 +736,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/widgets/filepathdelegateitem.cpp" line="78"/>
         <source>Get picture for Character State</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir l&apos;image pour l&apos;état des personnages</translation>
     </message>
 </context>
 <context>
@@ -797,22 +797,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/mainwindow.cpp" line="794"/>
         <source>Save %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder %1</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="821"/>
         <source>Save Scenario</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder Scénario</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="837"/>
         <source>%1 cannot be opened (saveStory - MainWindow.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ne peut pas être ouvert (saveStory - MainWindow.cpp)</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1303"/>
         <source>ToolBox</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte à outils</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="1871"/>
@@ -860,7 +860,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/mainwindow.ui" line="123"/>
         <source>GM ToolBox</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte à outils du MJ</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="140"/>
@@ -1079,43 +1079,43 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/mainwindow.ui" line="444"/>
         <location filename="../src/mainwindow.ui" line="456"/>
         <source>Vectorial Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Plan Vectoriel</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="447"/>
         <source>Ctrl+.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="464"/>
         <source>Show Health State</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer les états de santé</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="467"/>
         <source>F8</source>
-        <translation type="unfinished">F8</translation>
+        <translation>F8</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="472"/>
         <source>Change Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer de profil</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="481"/>
         <location filename="../src/mainwindow.ui" line="493"/>
         <source>Character Sheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Fiche de personnage</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="484"/>
         <source>Ctrl+B</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="496"/>
         <source>Ctrl+U</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="106"/>
@@ -1212,7 +1212,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/mainwindow.cpp" line="2031"/>
         <source>Open %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir %1</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="251"/>
@@ -1540,7 +1540,7 @@ Port:%2</translation>
     <message>
         <location filename="../src/map/mapwizzard.cpp" line="42"/>
         <source>Map (*.vmap)</source>
-        <translation type="unfinished"></translation>
+        <translation>Plan vectoriel (*.vmap)</translation>
     </message>
     <message>
         <location filename="../src/map/mapwizzard.cpp" line="47"/>
@@ -1961,7 +1961,7 @@ Port:%2</translation>
     <message>
         <location filename="../src/vmap/items/pathitem.cpp" line="201"/>
         <source>Close Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Fermer le chemin</translation>
     </message>
 </context>
 <context>
@@ -1969,17 +1969,17 @@ Port:%2</translation>
     <message>
         <location filename="../src/vmap/patternmodel.cpp" line="35"/>
         <source>NoGrid</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de grille</translation>
     </message>
     <message>
         <location filename="../src/vmap/patternmodel.cpp" line="35"/>
         <source>Square</source>
-        <translation type="unfinished">Carré</translation>
+        <translation>Carré</translation>
     </message>
     <message>
         <location filename="../src/vmap/patternmodel.cpp" line="35"/>
         <source>Hexagon</source>
-        <translation type="unfinished"></translation>
+        <translation>Hexagonal</translation>
     </message>
 </context>
 <context>
@@ -2221,32 +2221,32 @@ Port:%2</translation>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="470"/>
         <source>Healthy</source>
-        <translation type="unfinished"></translation>
+        <translation>Indemne</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="475"/>
         <source>Lightly Wounded</source>
-        <translation type="unfinished"></translation>
+        <translation>Blessé léger</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="480"/>
         <source>Seriously injured</source>
-        <translation type="unfinished"></translation>
+        <translation>Blessé sérieusement</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="485"/>
         <source>Dead</source>
-        <translation type="unfinished">Mort</translation>
+        <translation>Mort</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="490"/>
         <source>Sleeping</source>
-        <translation type="unfinished">Endormi</translation>
+        <translation>Endormi</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="496"/>
         <source>Bewitched</source>
-        <translation type="unfinished">Ensorcelé</translation>
+        <translation>Ensorcelé</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialog.cpp" line="544"/>
@@ -2579,12 +2579,12 @@ Port:%2</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="576"/>
         <source>Rule Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Les régles</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="582"/>
         <source>Dice Alias</source>
-        <translation type="unfinished"></translation>
+        <translation>Alias de dés</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="592"/>
@@ -2644,7 +2644,7 @@ Port:%2</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="786"/>
         <source>Character State</source>
-        <translation type="unfinished"></translation>
+        <translation>État du personnage</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="932"/>
@@ -2675,12 +2675,12 @@ Port:%2</translation>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.cpp" line="183"/>
         <source>New Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau Joueur</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.cpp" line="184"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Défaut</translation>
     </message>
 </context>
 <context>
@@ -2757,62 +2757,62 @@ Port:%2</translation>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="52"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="52"/>
         <source>Map</source>
-        <translation type="unfinished">Plan</translation>
+        <translation>Plan</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="52"/>
         <source>Vectorial Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Plan Vectoriel</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="52"/>
         <source>Chat</source>
-        <translation type="unfinished">Tchat</translation>
+        <translation>Tchat</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="53"/>
         <source>Picture</source>
-        <translation type="unfinished">Image</translation>
+        <translation>Image</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="53"/>
         <source>Online Picture</source>
-        <translation type="unfinished">Image En Ligne</translation>
+        <translation>Image En Ligne</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="53"/>
         <source>Text</source>
-        <translation type="unfinished">Texte</translation>
+        <translation>Texte</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="54"/>
         <source>Charecter Sheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Fiche de personnage</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="54"/>
         <source>Scenario</source>
-        <translation type="unfinished">Scénario</translation>
+        <translation>Scénario</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="54"/>
         <source>Song</source>
-        <translation type="unfinished"></translation>
+        <translation>Musique</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="54"/>
         <source>Song List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste de lecture audio</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="210"/>
         <source>Character Sheets files  (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fiches de personnage (%1)</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="213"/>
@@ -2822,12 +2822,12 @@ Port:%2</translation>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="223"/>
         <source>Supported Text Files (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier de texte (%1)</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="226"/>
         <source>Supported Story Files (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Scénario (%1)</translation>
     </message>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="229"/>
@@ -2837,28 +2837,29 @@ Port:%2</translation>
     <message>
         <location filename="../src/data/cleveruri.cpp" line="240"/>
         <source>Pdf File (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pdf (%1)</translation>
     </message>
     <message>
         <location filename="../src/diceparser/node/dicerollernode.cpp" line="30"/>
         <source>No dice to roll</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun dé a lancé</translation>
     </message>
     <message>
         <location filename="../src/diceparser/node/helpnode.cpp" line="37"/>
         <source>Rolisteam Dice Parser:
 Full documentation at: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Système de dés -Rolisteam:
+Documentation complète disponible: %1</translation>
     </message>
     <message>
         <location filename="../src/diceparser/node/jumpbackwardnode.cpp" line="75"/>
         <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
-        <translation type="unfinished"></translation>
+        <translation> L&apos;opérateur @ attend un résultat de dés. Veuillez vérifier la documentation afin de corriger votre commande.</translation>
     </message>
     <message>
         <location filename="../src/diceparser/node/keepdiceexecnode.cpp" line="48"/>
         <source> You ask to keep %1 dice but the result only has %2</source>
-        <translation type="unfinished"></translation>
+        <translation> Vous voulez garder %1 dés mais le resultat n&apos;en contient que %2</translation>
     </message>
 </context>
 <context>
@@ -2866,140 +2867,140 @@ Full documentation at: %1</source>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="123"/>
         <source>Change the map</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer le plan</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="137"/>
         <source>Edit Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Éditer le calque</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="142"/>
         <source>Change Visibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer la Visibilité</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="157"/>
         <source>Change selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer la selection des éléments</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="159"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="161"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrière</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="165"/>
         <source>Front</source>
-        <translation type="unfinished"></translation>
+        <translation>Devant</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="169"/>
         <source>Lower</source>
-        <translation type="unfinished"></translation>
+        <translation>Plus bas</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="173"/>
         <source>Raise</source>
-        <translation type="unfinished"></translation>
+        <translation>Plus haut</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="177"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Tourner</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="178"/>
         <source>To 360</source>
-        <translation type="unfinished"></translation>
+        <translation>à 360</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="179"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Droite</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="180"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Gauche</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="181"/>
         <source>Set Angle…</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir l&apos;angle…</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="183"/>
         <source>Set Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Calque courant </translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="208"/>
         <source>Rotation Value ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur de rotation ?</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="208"/>
         <source>Please, set the rotation angle you want [0-360]</source>
-        <translation type="unfinished"></translation>
+        <translation>Veillez définir un angle de rotation entre [0-360]</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="269"/>
         <source>Zoom to Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom Normal</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="270"/>
         <source>Zoom In Max</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom avant Max</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="271"/>
         <source>Zoom Out Max</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom Arrière Max</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="282"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propriétés</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="287"/>
         <location filename="../src/vmap/rgraphicsview.cpp" line="301"/>
         <source>Ground</source>
-        <translation type="unfinished"></translation>
+        <translation>Sol</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="290"/>
         <location filename="../src/vmap/rgraphicsview.cpp" line="303"/>
         <source>Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Objet</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="293"/>
         <location filename="../src/vmap/rgraphicsview.cpp" line="305"/>
         <source>Character</source>
-        <translation type="unfinished"></translation>
+        <translation>Personnage</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="313"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="316"/>
         <source>Hidden</source>
-        <translation type="unfinished">Caché</translation>
+        <translation>Caché</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="320"/>
         <source>Fog Of War</source>
-        <translation type="unfinished"></translation>
+        <translation>Brouillard de guerre</translation>
     </message>
 </context>
 <context>
@@ -3007,42 +3008,42 @@ Full documentation at: %1</source>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="139"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="142"/>
         <source>cm</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="145"/>
         <source>″</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="148"/>
         <source>′</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="151"/>
         <source>yd</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="154"/>
         <source>mi</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="157"/>
         <source>km</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="160"/>
         <source>px</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3050,113 +3051,113 @@ Full documentation at: %1</source>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="14"/>
         <source>Welcome To Rolisteam - Connection Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Bienvenue sur Rolisteam - Assistant de connexion</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="46"/>
         <source>Profile Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du profil:</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="58"/>
         <source>Player</source>
-        <translation type="unfinished">Joueur</translation>
+        <translation>Joueur</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="68"/>
         <source>Name: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nom:</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="75"/>
         <source>Color: </source>
-        <translation type="unfinished"></translation>
+        <translation>Couleur:</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="100"/>
         <source>I&apos;m the Game Master</source>
-        <translation type="unfinished"></translation>
+        <translation>Je suis le maîter du jeu</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="110"/>
         <source>Character</source>
-        <translation type="unfinished"></translation>
+        <translation>Personnage</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="134"/>
         <source>Avatar…</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="149"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom:</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="156"/>
         <source>Color:</source>
-        <translation type="unfinished">Couleur:</translation>
+        <translation>Couleur:</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="182"/>
         <source>Connection</source>
-        <translation type="unfinished">Connexion</translation>
+        <translation>Connexion</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="192"/>
         <source>Address:</source>
-        <translation type="unfinished">Adresse:</translation>
+        <translation>Adresse:</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="199"/>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="244"/>
         <source>Host the game</source>
-        <translation type="unfinished"></translation>
+        <translation>Héberger la partie</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="272"/>
         <source>New Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau Profil</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="283"/>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="286"/>
         <source>Delete</source>
-        <translation type="unfinished">Supprimer</translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="310"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="317"/>
         <source>OffLine Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode hors ligne</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="320"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.cpp" line="322"/>
         <source>Remove Current Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer le profil courant</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.cpp" line="322"/>
         <source>Do you really want to remove %1 from your connection list ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voulez vous vraiment que %1 soit supprimer de votre liste de connexions ?</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.cpp" line="378"/>
         <source>Load Avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Charger Avatar</translation>
     </message>
 </context>
 <context>
@@ -3164,22 +3165,22 @@ Full documentation at: %1</source>
     <message>
         <location filename="../src/session/sessionitemmodel.cpp" line="59"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="../src/session/sessionitemmodel.cpp" line="59"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/session/sessionitemmodel.cpp" line="59"/>
         <source>Opened</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvert</translation>
     </message>
     <message>
         <location filename="../src/session/sessionitemmodel.cpp" line="59"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin</translation>
     </message>
 </context>
 <context>
@@ -3187,12 +3188,12 @@ Full documentation at: %1</source>
     <message>
         <location filename="../src/session/sessionmanager.cpp" line="45"/>
         <source>Resources Explorer</source>
-        <translation type="unfinished"></translation>
+        <translation>Explorateur de ressources</translation>
     </message>
     <message>
         <location filename="../src/session/sessionmanager.cpp" line="92"/>
         <source>Chapter %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Chapitre %1</translation>
     </message>
 </context>
 <context>
@@ -3200,37 +3201,37 @@ Full documentation at: %1</source>
     <message>
         <location filename="../src/session/sessionview.cpp" line="14"/>
         <source>Add Chapter…</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un chapitre…</translation>
     </message>
     <message>
         <location filename="../src/session/sessionview.cpp" line="17"/>
         <source>Remove items</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer les élements</translation>
     </message>
     <message>
         <location filename="../src/session/sessionview.cpp" line="20"/>
         <source>Current Chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Chapitre courant</translation>
     </message>
     <message>
         <location filename="../src/session/sessionview.cpp" line="23"/>
         <source>Loading Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Mode de chargement</translation>
     </message>
     <message>
         <location filename="../src/session/sessionview.cpp" line="30"/>
         <source>Displayed Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut d&apos;affichage</translation>
     </message>
     <message>
         <location filename="../src/session/sessionview.cpp" line="37"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin</translation>
     </message>
     <message>
         <location filename="../src/session/sessionview.cpp" line="72"/>
         <source>Show/hide Column</source>
-        <translation type="unfinished"></translation>
+        <translation>Montrer/cacher les colonnes</translation>
     </message>
 </context>
 <context>
@@ -3444,22 +3445,22 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/vmap/items/textitem.cpp" line="64"/>
         <source>&lt;b&gt;Text&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Texte&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/textitem.cpp" line="312"/>
         <source>Font Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille de la police</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/textitem.cpp" line="318"/>
         <source>Increase Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenter la taille de la police</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/textitem.cpp" line="319"/>
         <source>Decrease Text Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuer la police</translation>
     </message>
 </context>
 <context>
@@ -3566,7 +3567,7 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/userlist/userlistview.cpp" line="50"/>
         <source>Remove Avatar...</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer Avatar…</translation>
     </message>
     <message>
         <location filename="../src/userlist/userlistview.cpp" line="115"/>
@@ -3597,32 +3598,32 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/vmap/vmap.cpp" line="1077"/>
         <source>No Right</source>
-        <translation type="unfinished">Aucun droit</translation>
+        <translation>Aucun droit</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmap.cpp" line="1077"/>
         <source>His character</source>
-        <translation type="unfinished">Personnage</translation>
+        <translation>Personnage</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmap.cpp" line="1077"/>
         <source>All Permissions</source>
-        <translation type="unfinished">Tous les droits</translation>
+        <translation>Tous les droits</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmap.cpp" line="1268"/>
         <source>Hidden</source>
-        <translation type="unfinished">Caché</translation>
+        <translation>Caché</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmap.cpp" line="1268"/>
         <source>Fog Of War</source>
-        <translation type="unfinished"></translation>
+        <translation>Brouillard de guerre</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmap.cpp" line="1268"/>
         <source>All visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Entierement visible</translation>
     </message>
 </context>
 <context>
@@ -3630,12 +3631,12 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/vmap/vmapframe.cpp" line="70"/>
         <source>Unknown Map</source>
-        <translation type="unfinished">Carte inconnue</translation>
+        <translation>Carte inconnue</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapframe.cpp" line="81"/>
         <source>%1 - visibility: %2 - permission: %3 - layer: %4</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - visibilité: %2 - permission: %3 - calque: %4</translation>
     </message>
 </context>
 <context>
