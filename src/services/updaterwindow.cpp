@@ -18,8 +18,40 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "updaterwindow.h"
-
-UpdaterWindow::UpdaterWindow(QWidget *parent) : QWidget(parent)
+#include <QFile>
+#include <QMessageBox>
+UpdaterWindow::UpdaterWindow(QWidget *parent): QWidget(parent)
 {
+    //Windows Options
+    setFixedSize(258,112);
+    setWindowTitle("Updater");
 
+    m_progressBar = new QProgressBar(this);
+    m_progressBar->setValue(0);
+    reply = m_manager.get(QNetworkRequest(QUrl("http://site.fr/last/application.exe")));
+    connect(reply, SIGNAL(finished()), this, SLOT(save()));
+    connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProgess(qint64, qint64)));
+}
+
+void UpdaterWindow::downloadProgess(qint64 bytesReceived, qint64 bytesTotal)
+{
+    if (bytesTotal != -1)
+    {
+        m_progressBar->setRange(0, bytesTotal);
+        m_progressBar->setValue(bytesReceived);
+    }
+}
+
+void UpdaterWindow::save()
+{
+    reply->deleteLater();
+    QFile lastversion("rolisteam.exe");
+
+    if ( lastversion.open(QIODevice::WriteOnly) )
+    {
+        lastversion.write(reply->readAll());
+        lastversion.close();
+        QMessageBox::information(this, "", "");
+    }
+    close();
 }

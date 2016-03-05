@@ -21,16 +21,26 @@
 #define UPDATERWINDOW_H
 
 #include <QWidget>
+#include <QProgressBar>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 class UpdaterWindow : public QWidget
 {
     Q_OBJECT
-public:
-    explicit UpdaterWindow(QWidget *parent = 0);
 
-signals:
+public:
+    UpdaterWindow(QWidget *parent = NULL);
 
 public slots:
+
+    void downloadProgess(qint64 bytesReceived, qint64 bytesTotal);
+    void save();
+
+private:
+    QProgressBar* m_progressBar;
+    QNetworkReply* reply;
+    QNetworkAccessManager m_manager;
 };
 
 #endif // UPDATERWINDOW_H
