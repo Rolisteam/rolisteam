@@ -135,7 +135,11 @@ void NetworkLink::receivingData()
     {
         if (!m_receivingData)
         {
-            m_socketTcp->read((char *)&m_header, sizeof(NetworkMessageHeader));
+            int readDataSize = m_socketTcp->read((char *)&m_header, sizeof(NetworkMessageHeader));
+            if(readDataSize!=sizeof(NetworkMessageHeader))
+            {
+                return;
+            }
             m_buffer = new char[m_header.dataSize];
             m_remainingData = m_header.dataSize;
             emit readDataReceived(m_header.dataSize,m_header.dataSize);
