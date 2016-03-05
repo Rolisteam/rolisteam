@@ -94,6 +94,7 @@ MainWindow::MainWindow()
     : QMainWindow(),m_networkManager(NULL),m_ui(new Ui::MainWindow),m_resetSettings(false),m_currentConnectionProfile(NULL),m_profileDefined(false)
 {
     setAcceptDrops(true);
+    m_profileDefined = false;
 
     m_ui->setupUi(this);
     m_shownProgress=false;
@@ -892,7 +893,7 @@ void MainWindow::startReconnection()
 {
     if(NULL==m_currentConnectionProfile)
     {
-        showConnectionDialog();
+        showConnectionDialog(true);
         return;
     }
     if(!m_currentConnectionProfile->isServer())
@@ -1248,9 +1249,9 @@ void MainWindow::notifyUser(QString message, MessageType type) const
     m_notifierDisplay->setTextColor(color);
     m_notifierDisplay->insertPlainText(message);
 }
-bool  MainWindow::showConnectionDialog()
+bool  MainWindow::showConnectionDialog(bool forced)
 {
-	if(!m_profileDefined)
+    if((!m_profileDefined)||(forced))
 	{
         QSettings settings("rolisteam","rolisteam");
         SelectConnectionProfileDialog dialog(m_version,this);
