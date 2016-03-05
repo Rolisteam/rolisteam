@@ -144,9 +144,7 @@ private :
     MainWindow* m_mainWindow;
     NetworkManager* m_networkManager;
     QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
-
-
-
+    int m_headerRead;
 };
 
 #endif
