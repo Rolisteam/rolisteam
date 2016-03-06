@@ -115,6 +115,9 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
     if (but != this)
     {
         // Emission des donnees
+        /*NetworkMessageHeader header;
+        memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
+        qDebug() << "header" << header.category << header.action << header.dataSize;*/
         int t = m_socketTcp->write(data, size);
 
         if (t < 0)
