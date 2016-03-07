@@ -459,5 +459,10 @@ void MainWindow::currentPageChanged(int i)
 }
 void MainWindow::removePage()
 {
-
+    if(m_canvasList.size()>1)
+    {
+        Canvas* previous = m_canvasList[m_currentPage];
+        m_canvasList.removeOne(previous);
+        m_model->removePageId(m_currentPage);
+    }
 }

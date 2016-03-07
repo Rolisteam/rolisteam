@@ -216,6 +216,11 @@ QList<CharacterSheetItem *> FieldModel::children()
    }
    return result;
 }
+
+void FieldModel::removePageId(int)
+{
+
+}
 void FieldModel::updateItem(CSItem* item)
 {
     int ind = m_rootSection->indexOfChild(item);

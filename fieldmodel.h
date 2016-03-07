@@ -83,6 +83,8 @@ public:
 
     QList<CharacterSheetItem*> children();
 
+    void removePageId(int);
+
 signals:
     void valuesChanged(QString valueKey,QString value);
 
