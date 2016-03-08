@@ -281,6 +281,13 @@ void VMap::updateItem()
         break;
     }
 }
+void VMap::addImageItem(QString file)
+{
+    ImageItem* led = new ImageItem();
+    led->setImageUri(file);
+    led->initChildPointItem();
+    addNewItem(led);
+}
 
 void VMap::addItem()
 {

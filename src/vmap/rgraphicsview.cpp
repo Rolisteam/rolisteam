@@ -40,6 +40,7 @@ RGraphicsView::RGraphicsView(VMap *vmap)
         connect(m_vmap,SIGNAL(mapChanged()),this,SLOT(sendOffMapChange()));
     }
     setAcceptDrops(true);
+    m_preferences = PreferencesManager::getInstance();
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     setViewport(new QOpenGLWidget());
     fitInView(sceneRect(),Qt::KeepAspectRatio);
@@ -148,6 +149,8 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             menu.addAction(m_zoomInMax);
             menu.addAction(m_zoomNormal);
             menu.addAction(m_zoomOutMax);
+            menu.addSeparator();
+            menu.addAction(m_importImage);
             menu.addSeparator();
             menu.addAction(m_properties);
             menu.exec(event->globalPos());
@@ -270,9 +273,12 @@ void RGraphicsView::createAction()
     m_zoomInMax= new QAction(tr("Zoom In Max"),this);
     m_zoomOutMax = new QAction(tr("Zoom Out Max"),this);
 
+    m_importImage = new QAction(tr("Import Image"),this);
+
     connect(m_zoomNormal,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
     connect(m_zoomInMax,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
     connect(m_zoomOutMax,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
+    connect(m_importImage,SIGNAL(triggered()),this,SLOT(addImageToMap()));
 
     addAction(m_zoomNormal);
     addAction(m_zoomInMax);
@@ -448,5 +454,16 @@ void RGraphicsView::readMessage(NetworkMessageReader* msg)
     if(NULL!=scene())
     {
         setSceneRect(x,y,width,height);
+    }
+}
+void RGraphicsView::addImageToMap()
+{
+    QString imageToLoad = QFileDialog::getOpenFileName(this,tr("Open image file"),
+                                 m_preferences->value("ImageDirectory",QDir::homePath()).toString(),
+                                 m_preferences->value("ImageFileFilter","*.jpg *.jpeg *.png *.bmp *.svg").toString());
+
+    if(NULL!=m_vmap)
+    {
+        m_vmap->addImageItem(imageToLoad);
     }
 }

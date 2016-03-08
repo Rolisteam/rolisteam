@@ -23,7 +23,7 @@
 #include <QGraphicsView>
 #include "vmap.h"
 #include "vmapwizzarddialog.h"
-
+#include "preferences/preferencesmanager.h"
 /**
     * @brief RGraphicsView is custom graphicsview to fit rolisteam needs. It will implement some important feature
     */
@@ -47,6 +47,8 @@ public:
     void setRotation(QList<QGraphicsItem*> list, int value);
     void changeZValue(QList<QGraphicsItem *> list, VisualItem::StackOrder order);
 
+public slots:
+    void addImageToMap();
 protected:
     void keyPressEvent ( QKeyEvent * event);
     void mousePressEvent ( QMouseEvent * event);
@@ -94,7 +96,10 @@ private:
     QAction* m_putObjectLayer;
     QAction* m_putCharacterLayer;
 
+    QAction* m_importImage;
+
 	VToolsBar::SelectableTool m_currentTool;
+    PreferencesManager* m_preferences;
 
 };
 

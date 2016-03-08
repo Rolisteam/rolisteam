@@ -307,6 +307,8 @@ public slots:
      * @param op operation to be done.
      */
     void changeStackOrder(VisualItem* item,VisualItem::StackOrder op);
+
+    void addImageItem(QString file);
 signals:
     /**
      * @brief npcAdded
