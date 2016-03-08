@@ -229,6 +229,8 @@ public:
     VisualItem::Layer currentLayer() const;
     void setCurrentLayer(const VisualItem::Layer &currentLayer);
 
+    VToolsBar::SelectableTool getSelectedtool() const;
+
 public slots:
     /**
     * @brief defines the current tools

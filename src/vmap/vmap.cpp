@@ -67,6 +67,11 @@ void VMap::initMap()
     m_propertiesHash->insert(VisualItem::EnableCharacterVision,false);
     m_propertiesHash->insert(VisualItem::PermissionMode,Map::GM_ONLY);
 }
+
+VToolsBar::SelectableTool VMap::getSelectedtool() const
+{
+    return m_selectedtool;
+}
 VisualItem::Layer VMap::currentLayer() const
 {
     return m_currentLayer;
@@ -301,15 +306,35 @@ void VMap::addItem()
         break;
     case VToolsBar::TEXT:
     {
-        TextItem* temptext = new TextItem(m_first,m_penSize,m_itemColor);
-        m_currentItem = temptext;
+        QGraphicsItem* item = itemAt(m_first,QTransform());
+        TextItem* tmp = dynamic_cast<TextItem*>(item);
+        QGraphicsTextItem* tmpGraph = dynamic_cast<QGraphicsTextItem*>(item);
+        if((NULL==tmp)&&(NULL==tmpGraph))
+        {
+            TextItem* temptext = new TextItem(m_first,m_penSize,m_itemColor);
+            m_currentItem = temptext;
+        }
+        else
+        {
+           return;
+        }
     }
         break;
     case VToolsBar::TEXTBORDER:
     {
-        TextItem* temptext = new TextItem(m_first,m_penSize,m_itemColor);
-        temptext->setBorderVisible(true);
-        m_currentItem = temptext;
+        QGraphicsItem* item = itemAt(m_first,QTransform());
+        TextItem* tmp = dynamic_cast<TextItem*>(item);
+        QGraphicsTextItem* tmpGraph = dynamic_cast<QGraphicsTextItem*>(item);
+        if((NULL==tmp)&&(NULL==tmpGraph))
+        {
+            TextItem* temptext = new TextItem(m_first,m_penSize,m_itemColor);
+            temptext->setBorderVisible(true);
+            m_currentItem = temptext;
+        }
+        else
+        {
+           return;
+        }
     }
         break;
     case VToolsBar::HANDLER:
@@ -363,7 +388,9 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             update();
         }
     }
-    if(m_selectedtool==VToolsBar::HANDLER)
+    if((m_selectedtool==VToolsBar::HANDLER)||
+            (m_selectedtool==VToolsBar::TEXT)||
+            (m_selectedtool==VToolsBar::TEXTBORDER))
     {
         QGraphicsScene::mouseMoveEvent(mouseEvent);
     }
@@ -750,8 +777,8 @@ void VMap::computePattern()
             QPointF A(0,0);
             QPointF B(0,sizeP-1);
             QPointF C(sizeP-1,sizeP-1);
-            QPointF D(sizeP-1,0);
-            polygon << A << B << C << D << A;
+            //QPointF D(sizeP-1,0);
+            polygon << A << B << C ;//<< D << A;
         }
         QPainter painter(&m_computedPattern);
         //painter.setRenderHint(QPainter::Antialiasing,true);
