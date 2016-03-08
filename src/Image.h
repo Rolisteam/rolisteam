@@ -61,7 +61,6 @@ public :
     void setParent(ImprovedWorkspace *parent);
     void setImage(QImage& img);
     void setIdOwner(QString);
-    void setAction(QAction*);
 
 	virtual bool readFileFromUri();
     virtual bool openMedia();

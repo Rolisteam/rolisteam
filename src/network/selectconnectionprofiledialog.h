@@ -159,6 +159,8 @@ public:
 
    ConnectionProfile* getProfile(const QModelIndex&);
 
+   int indexOf(ConnectionProfile *tmp);
+   ConnectionProfile *getProfile(int index);
 public slots:
    /**
     * @brief ProfileModel::appendProfile

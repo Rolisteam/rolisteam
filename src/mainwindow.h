@@ -231,7 +231,7 @@ public slots :
 	 * @brief showConnectionDialog
 	 * @return
 	 */
-	bool showConnectionDialog();
+    bool showConnectionDialog(bool forced = false);
 
 protected :
     void closeEvent(QCloseEvent *event);

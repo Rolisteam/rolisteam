@@ -95,7 +95,10 @@ void MediaContainer::setVisible(bool b)
     if(NULL!=widget())
     {
         widget()->setVisible(b);
-        m_action->setChecked(b);
+        if(NULL!=m_action)
+        {
+            m_action->setChecked(b);
+        }
     }
     QMdiSubWindow::setVisible(b);
 }

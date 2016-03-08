@@ -1,6 +1,4 @@
-##################################################
-##
-## Rolisteam project file
+
 ##
 ##################################################
 
@@ -14,7 +12,9 @@ DEPENDPATH += . src
 INCLUDEPATH += . src
 LANGUAGE = C++
 MOC_DIR = bin
-OBJECTS_DIR = bin
+OBJECTS_DIR = bin##################################################
+##
+## Rolisteam project file
 UI_DIR = src
 
 isEmpty(PREFIX) {
@@ -148,7 +148,8 @@ HEADERS += \
         src/data/charactervision.h \
         src/data/characterstate.h \
         src/widgets/filepathdelegateitem.h \
-        src/network/selectconnectionprofiledialog.h
+        src/network/selectconnectionprofiledialog.h \
+    src/services/updaterwindow.h
 
 
 
@@ -219,7 +220,8 @@ SOURCES += \
         src/data/charactervision.cpp \
         src/data/characterstate.cpp \
         src/widgets/filepathdelegateitem.cpp \
-        src/network/selectconnectionprofiledialog.cpp
+        src/network/selectconnectionprofiledialog.cpp \
+    src/services/updaterwindow.cpp
 
 
 FORMS += \

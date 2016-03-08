@@ -46,6 +46,7 @@ NetworkLink::NetworkLink(QTcpSocket *socket)
     m_networkManager = m_mainWindow->getNetWorkManager();
     m_socketTcp = socket;
     m_receivingData = false;
+    m_headerRead= 0;
 	ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory,m_mainWindow);
@@ -114,6 +115,9 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
     if (but != this)
     {
         // Emission des donnees
+        /*NetworkMessageHeader header;
+        memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
+        qDebug() << "header" << header.category << header.action << header.dataSize;*/
         int t = m_socketTcp->write(data, size);
 
         if (t < 0)
@@ -135,7 +139,21 @@ void NetworkLink::receivingData()
     {
         if (!m_receivingData)
         {
-            m_socketTcp->read((char *)&m_header, sizeof(NetworkMessageHeader));
+            int readDataSize = 0;
+            char* tmp = (char *)&m_header;
+            readDataSize = m_socketTcp->read(tmp+m_headerRead, sizeof(NetworkMessageHeader)-m_headerRead);
+            readDataSize+=m_headerRead;
+
+            //qDebug() << "Read DataSize" << readDataSize << m_header.dataSize << m_header.category << m_header.action << m_socketTcp->bytesAvailable();
+            if((readDataSize!=sizeof(NetworkMessageHeader)))//||(m_header.category>=NetMsg::LastCategory)
+            {
+                m_headerRead=readDataSize;
+                return;
+            }
+            else
+            {
+               m_headerRead=0;
+            }
             m_buffer = new char[m_header.dataSize];
             m_remainingData = m_header.dataSize;
             emit readDataReceived(m_header.dataSize,m_header.dataSize);

@@ -198,10 +198,18 @@ void ProfileModel::readSettings(QSettings & settings)
 }
 ConnectionProfile* ProfileModel::getProfile(const QModelIndex& index)
 {
+    return getProfile(index.row());
+}
 
-    if((!m_connectionProfileList.isEmpty())&&(m_connectionProfileList.size()>index.row()))
+int ProfileModel::indexOf(ConnectionProfile *tmp)
+{
+    return m_connectionProfileList.indexOf(tmp);
+}
+ConnectionProfile* ProfileModel::getProfile(int index)
+{
+    if((!m_connectionProfileList.isEmpty())&&(m_connectionProfileList.size()>index))
     {
-        return m_connectionProfileList.at(index.row());
+        return m_connectionProfileList.at(index);
     }
     return NULL;
 }
@@ -291,6 +299,7 @@ ConnectionProfile* SelectConnectionProfileDialog::getSelectedProfile()
 }
 void SelectConnectionProfileDialog::setCurrentProfile(QModelIndex index)
 {
+    updateProfile();
     m_currentProfile = m_model->getProfile(index);
     updateGUI();
 }
@@ -323,8 +332,22 @@ void SelectConnectionProfileDialog::removeProfile()
       {
           return;
       }
+      int i = m_model->indexOf(m_currentProfile);
       m_model->removeProfile(m_currentProfile);
-      m_currentProfile = NULL;
+      int size = m_model->rowCount(QModelIndex());
+      if(size>i)
+      {
+          m_currentProfile = m_model->getProfile(i);
+      }
+      else if(size>0)
+      {
+          m_currentProfile = m_model->getProfile(size-1);
+      }
+      else
+      {
+        m_currentProfile = NULL;
+      }
+      updateGUI();
   }
 }
 
