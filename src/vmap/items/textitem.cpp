@@ -32,6 +32,8 @@
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 
+#include "vmap/vmap.h"
+
 TextItem::TextItem()
     : m_offset(QPointF(100,30))
 {
@@ -43,16 +45,17 @@ TextItem::TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem
     : VisualItem(penColor,parent),m_penWidth(penSize),m_offset(QPointF(100,30))
 {
     m_start = start;
-    m_rect.setTopLeft(m_start-m_offset);
-    m_rect.setBottomRight(m_start+m_offset);
+    m_rect.setTopLeft(QPointF(0,0));
+    m_rect.setBottomRight(m_offset);
     setPos(m_start);
-    m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
+    //m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
     init();
     createActions();
 }
 
 void TextItem::init()
 {
+    setAcceptHoverEvents(true);
     m_showRect = false;
     m_textItem = new QGraphicsTextItem(this);
     m_textItem->setFocus();
@@ -80,7 +83,7 @@ void TextItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     {
         QPen pen = painter->pen();
         pen.setColor(m_color);
-        pen.setWidth(m_penWidth);
+        pen.setWidth(m_showRect?m_penWidth:2);
         painter->setPen(pen);
         painter->drawRect(boundingRect());
     }
@@ -336,4 +339,38 @@ void TextItem::decreaseTextSize()
 void TextItem::setBorderVisible(bool b)
 {
     m_showRect = b ;
+}
+
+void TextItem::setEditableItem(bool b)
+{
+    VisualItem::setEditableItem(b);
+    if(!b)
+    {
+        m_textItem->setTextInteractionFlags(Qt::NoTextInteraction);
+    }
+    else
+    {
+        m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+    }
+}
+void TextItem::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
+{
+    if(isEditable())
+    {
+        VMap* vmap = dynamic_cast<VMap*>(scene());
+        if(NULL!=vmap)
+        {
+            VToolsBar::SelectableTool tool = vmap->getSelectedtool();
+            if((VToolsBar::TEXT ==tool)||(VToolsBar::TEXTBORDER== tool))
+            {
+                QApplication::setOverrideCursor(QCursor(Qt::IBeamCursor));
+            }
+        }
+
+    }
+}
+void TextItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
+{
+    if(isEditable())
+    QApplication::restoreOverrideCursor();
 }

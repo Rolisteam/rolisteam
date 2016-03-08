@@ -95,6 +95,7 @@ public:
     void addActionContextMenu(QMenu* menu);
     void setBorderVisible(bool);
 
+    virtual void setEditableItem(bool b);
 public slots:
     void updateTextPosition();
     void decreaseTextSize();
@@ -102,6 +103,8 @@ public slots:
 protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void wheelEvent(QGraphicsSceneWheelEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 private:
     void updateFont();
     void init();
