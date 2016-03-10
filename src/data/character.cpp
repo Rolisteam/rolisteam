@@ -63,6 +63,16 @@ void Character::init()
 	}
 }
 
+QString Character::getParentId() const
+{
+    return m_parentId;
+}
+
+void Character::setParentId(const QString &parentId)
+{
+    m_parentId = parentId;
+}
+
 CharacterSheet *Character::getSheet() const
 {
     return m_sheet;
@@ -124,7 +134,7 @@ void Character::fill(NetworkMessageWriter & message)
 }
 void Character::read(NetworkMessageReader& msg)
 {
-    QString idParent = msg.string8();
+    m_parentId = msg.string8();
     m_uuid = msg.string8();
     m_name = msg.string16();
     bool hasCurrentState = msg.uint8();

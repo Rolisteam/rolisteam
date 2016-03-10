@@ -114,6 +114,9 @@ public:
     void setSheet(CharacterSheet* sheet);
 
     Player *getParentPlayer() const;
+    QString getParentId() const;
+    void setParentId(const QString &parentId);
+
 signals:
     void avatarChanged();
 
@@ -122,6 +125,7 @@ private:
 private:
     bool m_isNpc;
     int m_number;
+    QString m_parentId;
     CharacterState* m_currentState;
     CharacterSheet* m_sheet;
 
