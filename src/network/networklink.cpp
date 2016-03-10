@@ -35,9 +35,6 @@
 #include "userlist/playersList.h"
 #include "network/receiveevent.h"
 
-#ifndef NULL_PLAYER
-#include "audioPlayer.h"
-#endif
 
 NetworkLink::NetworkLink(QTcpSocket *socket)
     : QObject(NULL),m_mainWindow(NULL)
@@ -47,18 +44,18 @@ NetworkLink::NetworkLink(QTcpSocket *socket)
     m_socketTcp = socket;
     m_receivingData = false;
     m_headerRead= 0;
-	ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,m_mainWindow);
+    /*ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory,m_mainWindow);
     ReceiveEvent::registerNetworkReceiver(NetMsg::ConnectionCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,m_mainWindow);
-#ifndef NULL_PLAYER
+    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,m_mainWindow);*/
+/*#ifndef NULL_PLAYER
     m_audioPlayer = AudioPlayer::getInstance();
     ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
-#endif
+#endif*/
 
     setSocket(socket);
 
@@ -115,9 +112,16 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
     if (but != this)
     {
         // Emission des donnees
-        /*NetworkMessageHeader header;
+       #ifdef DEBUG_MODE
+        NetworkMessageHeader header;
         memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
-        qDebug() << "header" << header.category << header.action << header.dataSize;*/
+        qDebug() << "header:" << (header.category==NetMsg::PictureCategory) << header.action << header.dataSize;
+        if(header.category==NetMsg::PictureCategory)
+        {
+            qDebug() << "test";
+        }
+        #endif
+
         int t = m_socketTcp->write(data, size);
 
         if (t < 0)
