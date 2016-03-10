@@ -878,12 +878,11 @@ void PlayersList::setPersonColor(NetworkMessageReader & data)
 
 void PlayersList::addCharacter(NetworkMessageReader & data)
 {
-    QString uuid = data.string8();
-    Player * player = getPlayer(uuid);
+    Character* character = new Character(data);
+
+    Player * player = getPlayer(character->getParentId());
     if (player == NULL)
         return;
-
-    Character * character = new Character(data);
     addCharacter(player, character);
 }
 
