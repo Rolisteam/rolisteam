@@ -1339,6 +1339,16 @@ void MainWindow::setupUi()
     m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
 
 
+    ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::ConnectionCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,this);
+
+
     ///////////////////
     //PlayerList
     ///////////////////
@@ -1355,6 +1365,7 @@ void MainWindow::setupUi()
     ///////////////////
 #ifndef NULL_PLAYER
     m_audioPlayer = AudioPlayer::getInstance(this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
     m_networkManager->setAudioPlayer(m_audioPlayer);
     addDockWidget(Qt::RightDockWidgetArea,m_audioPlayer );
     m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct,m_audioPlayer->toggleViewAction());
