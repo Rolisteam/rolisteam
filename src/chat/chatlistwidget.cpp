@@ -208,3 +208,7 @@ void ChatListWidget::addPublicChat()
 {
 	m_chatList->addPublicChat();
 }
+void ChatListWidget::cleanChatList()
+{
+    m_chatList->cleanChat();
+}

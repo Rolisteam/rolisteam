@@ -1272,6 +1272,7 @@ bool  MainWindow::showConnectionDialog(bool forced)
             m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
             m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
             m_networkManager->setConnectionState(result);
+            m_chatListWidget->cleanChatList();
             m_chatListWidget->addPublicChat();
 
             m_preferences->registerValue("isClient",!m_currentConnectionProfile->isServer());
