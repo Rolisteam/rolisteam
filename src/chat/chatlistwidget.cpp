@@ -210,6 +210,5 @@ void ChatListWidget::addPublicChat()
 }
 void ChatListWidget::cleanChatList()
 {
-    qDebug() << "Super truc cleanChatList";
     m_chatList->cleanChat();
 }
