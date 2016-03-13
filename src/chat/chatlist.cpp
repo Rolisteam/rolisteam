@@ -320,7 +320,10 @@ void ChatList::cleanChat()
 
     }
     qDeleteAll(m_chatSubWindowList.begin(),m_chatSubWindowList.end());
+    m_chatSubWindowList.clear();
     qDeleteAll(m_chatWindowList.begin(),m_chatWindowList.end());
+    m_chatWindowList.clear();
+
 
     endResetModel();
 }
