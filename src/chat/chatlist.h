@@ -105,6 +105,7 @@ public:
 
     void updateDiceAliases(QList<DiceAlias*>* map);
 
+    void cleanChat();
 public slots:
 	void addPublicChat();
 
@@ -157,7 +158,6 @@ private:
     QMenu m_chatMenu;
     MainWindow * m_mainWindow;
 	//Person* m_localPerson;
-
 };
 
 #endif
