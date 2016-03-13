@@ -230,6 +230,7 @@ public slots:
     void connectToIndex(QModelIndex index);
     void openImage();
 
+    void checkConnection();
 private:
 	Ui::SelectConnectionProfileDialog *ui;
     ProfileModel* m_model;
