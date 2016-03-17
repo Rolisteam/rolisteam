@@ -1,5 +1,6 @@
-
-##
+##################################################
+## Rolisteam Project file
+## @author Renaud Guezennec
 ##################################################
 
 ## Generic parameter
@@ -12,9 +13,8 @@ DEPENDPATH += . src
 INCLUDEPATH += . src
 LANGUAGE = C++
 MOC_DIR = bin
-OBJECTS_DIR = bin##################################################
-##
-## Rolisteam project file
+OBJECTS_DIR = bin
+
 UI_DIR = src
 
 isEmpty(PREFIX) {
@@ -22,7 +22,7 @@ isEmpty(PREFIX) {
 }
 
 
-#DEFINES += DEBUG_MODE
+DEFINES += DEBUG_MODE
 CONFIG += c++11
 
 macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
@@ -43,12 +43,12 @@ isEmpty(QMAKE_LRELEASE) {
     win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease.exe
     else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
 }
-#isEmpty(QMAKE_LUPDATE) {
-#    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]\lupdate.exe
-#    else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lupdate
-#}
-#updateTrans.input = rolisteam.pro
-#updateTrans.output= ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.ts
+isEmpty(QMAKE_LUPDATE) {
+    win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lupdate.exe
+    else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lupdate
+}
+updateTrans.input = rolisteam.pro
+updateTrans.output= ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.ts
 
 unix:!macx{
 # linux only
@@ -78,8 +78,6 @@ include(src/session/session.pri)
 include(src/widgets/gmtoolbox/NameGenerator/NameGenerator.pri)
 include(src/widgets/gmtoolbox/UnitConvertor/UnitConvertor.pri)
 
-
-#include(src/diceparser/node/node.pri)
 ## Source
 HEADERS += \
         src/chat/chat.h \
@@ -247,9 +245,7 @@ HAVE_NULL {
 }
 # End of audio
 
-
 ICON = resources/logo/rolisteam.icns
-
 RESOURCES += rolisteam.qrc
 
 # Installs
@@ -265,8 +261,6 @@ QT += core \
 
 # Version
 DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=8 VERSION_MINOR=0
-
-
 UI_DIR = src
 
 unix{
@@ -274,21 +268,20 @@ LIBS += -lz
 }
 CONFIG += embed_manifest_exe
 
-
 INCLUDEPATH +=src/audio
-
 OTHER_FILES += \
     src/widgets/widgets.pro \
 
 #Windows
-win32:DEFINES  += ZLIB_WINAPI
-win32:RC_FILE = "resources/logo/rolisteam.rc"
-#win32:QMAKE_LFLAGS_RELEASE += /INCREMENTAL:NO
-win32:OTHER_FILES +=resources/logo/rolisteam.rc
-win32:LIBS += -L$$PWD/../../lib/zlibapi/dll32/ -lzlibwapi
-win32:INCLUDEPATH += $$PWD/../../lib/zlibapi/include
-win32:DEPENDPATH += $$PWD/../../lib/zlibapi/include
-win32:PRE_TARGETDEPS += $$PWD/../../lib/zlibapi/dll32/zlibwapi.lib
+win32 {
+DEFINES  += ZLIB_WINAPI
+RC_FILE = "resources/logo/rolisteam.rc"
+OTHER_FILES +=resources/logo/rolisteam.rc
+LIBS += -L$$PWD/../../lib/zlibapi/dll32/ -lzlibwapi
+INCLUDEPATH += $$PWD/../../lib/zlibapi/include
+DEPENDPATH += $$PWD/../../lib/zlibapi/include
+PRE_TARGETDEPS += $$PWD/../../lib/zlibapi/dll32/zlibwapi.lib
+}
 
 DISTFILES += \
     rolisteam.dox

@@ -54,10 +54,13 @@
 #include "vmap/vmaptoolbar.h"
 
 #include "notecontainer.h"
+#include "network/selectconnectionprofiledialog.h"
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
 #endif
+
+#include "network/networkmanager.h"
 
 namespace Ui {
 class MainWindow;
@@ -74,7 +77,6 @@ class PreferencesDialog;
 class Player;
 class PlayersListWidget;
 class ImprovedWorkspace;
-class NetworkManager;
 class TextEdit;
 class PlayersList;
 class ConnectionProfile;
@@ -233,6 +235,7 @@ public slots :
 	 */
     bool showConnectionDialog(bool forced = false);
 
+    void startConnection();
 protected :
     void closeEvent(QCloseEvent *event);
     void prepareImage(Image *imageFenetre);
@@ -277,7 +280,7 @@ private slots :
     void stopReconnection();
     void closeConnection();
     void startReconnection();
-    void networkStateChanged(bool state);
+    void networkStateChanged(NetworkManager::ConnectionState state);
     void openContentFromType(CleverURI::ContentType type);
     void openCleverURI(CleverURI* uri,bool force = false);
     void newNoteDocument();
@@ -369,6 +372,7 @@ private:
 
     ConnectionProfile* m_currentConnectionProfile;
     QList<QWidget*> m_gmToolBoxList;
+    SelectConnectionProfileDialog* m_dialog;
 
 };
 

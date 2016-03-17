@@ -49,7 +49,7 @@
 #include "network/networkmanager.h"
 #include "Image.h"
 #include "network/networkmessagewriter.h"
-#include "network/selectconnectionprofiledialog.h"
+
 
 #include "data/person.h"
 #include "data/player.h"
@@ -98,6 +98,7 @@ MainWindow::MainWindow()
 
     m_ui->setupUi(this);
     m_shownProgress=false;
+
 
 
     m_preferences = PreferencesManager::getInstance();
@@ -1023,22 +1024,25 @@ void MainWindow::updateMayBeNeeded()
     }
     m_updateChecker->deleteLater();
 }
-void MainWindow::networkStateChanged(bool state)
+void MainWindow::networkStateChanged(NetworkManager::ConnectionState state)
 {
-    if(state)
+    qDebug() << "NetworkStateChanged";
+    switch(state)
     {
+    case NetworkManager::LISTENING:
+        m_ipChecker->startCheck();
+    case NetworkManager::CONNECTED:
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
-
-        if((m_networkManager->isConnected())&&(m_networkManager->isServer())&&(NULL!=m_ipChecker))
-        {
-            m_ipChecker->startCheck();
-        }
-    }
-    else
-    {
+        m_dialog->accept();
+        break;
+    case NetworkManager::DISCONNECTED:
         m_ui->m_connectionAction->setEnabled(true);
         m_ui->m_disconnectAction->setEnabled(false);
+        m_dialog->open();
+        break;
+    case NetworkManager::CONNECTING:
+        break;
     }
 }
 
@@ -1252,41 +1256,37 @@ bool  MainWindow::showConnectionDialog(bool forced)
 {
     if((!m_profileDefined)||(forced))
 	{
-        QSettings settings("rolisteam","rolisteam");
-        SelectConnectionProfileDialog dialog(m_version,this);
-
-        if(QDialog::Accepted == dialog.exec())
-        {
-            dialog.writeSettings(settings);
-            m_currentConnectionProfile = dialog.getSelectedProfile();
-            m_networkManager->setConnectionProfile(m_currentConnectionProfile);
-            m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
-            if(!m_currentConnectionProfile->isGM())
-            {
-                m_playerList->addLocalCharacter(m_currentConnectionProfile->getCharacter());
-            }
-
-
-            bool result = m_networkManager->startConnection();
-            m_playerList->sendOffLocalPlayerInformations();
-            m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
-            m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
-            m_networkManager->setConnectionState(result);
-            m_chatListWidget->addPublicChat();
-
-            m_preferences->registerValue("isClient",!m_currentConnectionProfile->isServer());
-
-
-            setUpNetworkConnection();
-            updateWindowTitle();
-            checkUpdate();
-            updateUi();
-            return result;
-        }
-        dialog.writeSettings(settings);
-        return false;
+        m_dialog->open();
 	}
 }
+void MainWindow::startConnection()
+{
+    QSettings settings("rolisteam","rolisteam");
+    m_dialog->writeSettings(settings);
+    m_currentConnectionProfile = m_dialog->getSelectedProfile();
+    m_networkManager->setConnectionProfile(m_currentConnectionProfile);
+    m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
+    m_networkManager->startConnection();
+    if(!m_currentConnectionProfile->isGM())
+    {
+        m_playerList->addLocalCharacter(m_currentConnectionProfile->getCharacter());
+    }
+    m_playerList->sendOffLocalPlayerInformations();
+    m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
+    m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
+    m_chatListWidget->addPublicChat();
+
+    m_preferences->registerValue("isClient",!m_currentConnectionProfile->isServer());
+
+
+    setUpNetworkConnection();
+    updateWindowTitle();
+    checkUpdate();
+    updateUi();
+    m_dialog->writeSettings(settings);
+
+}
+
 void MainWindow::setupUi()
 {
     // Initialisation de la liste des BipMapWindow, des Image et des Tchat
@@ -1300,6 +1300,8 @@ void MainWindow::setupUi()
         #endif
     #endif
 #endif
+
+
     setAnimated(false);
     m_mdiArea = new ImprovedWorkspace();
     setCentralWidget(m_mdiArea);
@@ -1366,7 +1368,6 @@ void MainWindow::setupUi()
 #ifndef NULL_PLAYER
     m_audioPlayer = AudioPlayer::getInstance(this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
-    m_networkManager->setAudioPlayer(m_audioPlayer);
     addDockWidget(Qt::RightDockWidgetArea,m_audioPlayer );
     m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct,m_audioPlayer->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_audioPlayerAct);
@@ -1384,9 +1385,10 @@ void MainWindow::setupUi()
     connect(m_playerList, SIGNAL(playerDeleted(Player *)), this, SLOT(notifyAboutDeletedPlayer(Player *)));
 
 
-    //connect(m_playerList, SIGNAL(playerDeleted(Player *)), m_userListDock, SLOT(d(Player *)));
-    connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(updateWindowTitle()));
-    connect(m_networkManager,SIGNAL(connectionStateChanged(bool)),this,SLOT(networkStateChanged(bool)));
+    m_dialog = new SelectConnectionProfileDialog(m_version,this);
+    connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
+    connect(m_networkManager,SIGNAL(connectionStateChanged(NetworkManager::ConnectionState)),this,SLOT(updateWindowTitle()));
+    connect(m_networkManager,SIGNAL(connectionStateChanged(NetworkManager::ConnectionState)),this,SLOT(networkStateChanged(NetworkManager::ConnectionState)));
     connect(m_ipChecker,SIGNAL(finished(QString)),this,SLOT(showIp(QString)));
 }
 void MainWindow::processMapMessage(NetworkMessageReader* msg)

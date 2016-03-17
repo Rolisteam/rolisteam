@@ -39,8 +39,6 @@
 
 class Player;
 class NetworkLink;
-
-class AudioPlayer;
 class ConnectionProfile;
 
 /**
@@ -50,8 +48,9 @@ class ConnectionProfile;
 class NetworkManager : public QObject
 {
     Q_OBJECT
-
+    Q_ENUMS(ConnectionState)
 public:
+    enum ConnectionState {DISCONNECTED,CONNECTING,LISTENING,CONNECTED};
 	/**
 	 * @brief NetworkManager
 	 */
@@ -60,13 +59,6 @@ public:
 	 * @brief ~NetworkManager
 	 */
 	virtual ~NetworkManager();
-
-    /**
-     * @brief Display the configDialog and make the connection.
-     * @return true if connection has been established, false if the user has clicked on the Quit button.
-     */
-    bool configAndConnect(QString version);
-
     /**
      * @brief emettreDonnees
      * @param donnees
@@ -79,7 +71,7 @@ public:
      * @brief ajouterNetworkLink
      * @param NetworkLink
      */
-    void ajouterNetworkLink(NetworkLink *NetworkLink);
+    void addNetworkLink(NetworkLink *NetworkLink);
 
     /**
      * @brief isServer
@@ -100,11 +92,10 @@ public:
     bool isConnected() const;
     NetworkLink* getLinkToServer();
     quint16 getPort() const;
-    void setAudioPlayer(AudioPlayer*);
     void setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue);
     void setConnectionProfile(ConnectionProfile*);
 public slots:
-	void setConnectionState(bool);
+    void setConnectionState(ConnectionState);
     void disconnectAndClose();
     /**
      * @brief startConnection try to connect to the server or to start it.
@@ -119,19 +110,20 @@ signals :
     void linkDeleted(NetworkLink * link);
     void dataReceived(quint64,quint64);
     void stopConnectionTry();
-    void connectionStateChanged(bool);
+    void connectionStateChanged(NetworkManager::ConnectionState);
     void notifyUser(QString);
 
 private slots :
-    void nouveauClientConnecte();
+    void newClientConnection();
     void endingNetworkLink(NetworkLink * link);
-    bool startConnectionToServer();
+    void startConnectionToServer();
     bool startListening();
+    void socketStateChanged(QAbstractSocket::SocketState state);
 
 private:
     QTcpServer * m_server;
-    QList<NetworkLink *> NetworkLinks;
-    NetworkLink * m_NetworkLinkToServer;
+    QList<NetworkLink *> m_networkLinkList;
+    NetworkLink * m_networkLinkToServer;
     quint16 m_port;
     quint16 m_listeningPort;
     QString m_address;
@@ -142,15 +134,16 @@ private:
     PreferencesManager* m_preferences;
     ConnectionRetryDialog* m_dialog;
     PlayersList* m_playersList;
-    bool m_connectionState;
+    ConnectionState m_connectionState;
     bool m_isClient;
-    AudioPlayer* m_audioPlayer;
     bool m_commandLineValue;
     QString m_portStr;
     QString m_host;
     QString m_role;
     QString m_username;
     ConnectionProfile* m_connectionProfile;
+    ConnectionWaitDialog* m_waitDialog;
+    QList<QThread*> m_threadList;
 };
 
 #endif

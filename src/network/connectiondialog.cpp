@@ -56,7 +56,7 @@ QString ConnectionWaitDialog::getError() const
     return m_error;
 }
 
-QTcpSocket * ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
+/*QTcpSocket * ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
 {
     m_error = QString();
 
@@ -81,7 +81,7 @@ QTcpSocket * ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
     {
         return NULL;
     }
-}
+}*/
 
 void ConnectionWaitDialog::setUI()
 {
@@ -94,12 +94,13 @@ void ConnectionWaitDialog::setUI()
 
     QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Abort);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(canceledConnection()));
+    connect(buttonBox, SIGNAL(rejected()), this, SIGNAL(canceledConnection()));
 
     QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(m_label);
     mainLayout->addWidget(progress);
     mainLayout->addWidget(buttonBox);
+
 
     setLayout(mainLayout);
 }
@@ -107,21 +108,21 @@ void ConnectionWaitDialog::setUI()
 void ConnectionWaitDialog::changeState(QAbstractSocket::SocketState socketState)
 {
     m_label->setText(m_msg[socketState]);
-    if (socketState == QAbstractSocket::ConnectedState)
+    if(QAbstractSocket::ConnectingState == socketState)
+    {
+        open();
+    }
+    else if (QAbstractSocket::ConnectedState == socketState)
     {
         accept();
     }
 }
 
-void ConnectionWaitDialog::socketError(QAbstractSocket::SocketError socketError)
+void ConnectionWaitDialog::socketError(QString str)
 {
-    Q_UNUSED(socketError);
-    m_error = m_socket->errorString();
-    reject();
+    if(NULL!=m_label)
+    {
+        m_label->setText(str);
+    }
 }
 
-void ConnectionWaitDialog::canceledConnection()
-{
-    if (m_socket != NULL)
-        m_socket->abort();
-}

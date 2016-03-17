@@ -28,11 +28,9 @@
 
 #include "network/networkmessage.h"
 #include "mainwindow.h"
+#include "selectconnectionprofiledialog.h"
 
 class Map;
-#ifndef NULL_PLAYER
-    class AudioPlayer;
-#endif
 
 /**
  * @brief The NetworkLink class
@@ -47,6 +45,8 @@ public :
      * @param socket
      */
 	NetworkLink(QTcpSocket *socket);
+
+    NetworkLink(ConnectionProfile* m_connection);
     /**
      * @brief ~NetworkLink
      */
@@ -83,6 +83,9 @@ public :
 
 
 
+    ConnectionProfile *getConnection() const;
+    void setConnection(ConnectionProfile *value);
+
 public slots :
     /**
      * @brief sendData
@@ -91,6 +94,8 @@ public slots :
      * @param but
      */
     void sendData(char* data, quint32 size, NetworkLink* but = 0);
+
+    void connectTo();
 
 
 signals:
@@ -103,6 +108,10 @@ signals:
      * @brief readDataReceived
      */
     void readDataReceived(quint64,quint64);
+
+    void errorMessage(QString);
+
+    void connnectionStateChanged(QAbstractSocket::SocketState);
 
 private slots :
     void receivingData();
@@ -138,13 +147,14 @@ private :
     bool m_receivingData;
     char* m_buffer;
     quint32 m_remainingData;
-#ifndef NULL_PLAYER
-    AudioPlayer* m_audioPlayer;
-#endif
     MainWindow* m_mainWindow;
     NetworkManager* m_networkManager;
     QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
     int m_headerRead;
+
+    int m_port;
+    QString m_host;
+    ConnectionProfile* m_connection;
 };
 
 #endif

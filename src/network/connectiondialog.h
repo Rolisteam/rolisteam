@@ -58,16 +58,6 @@ public:
     QString getError() const;
 
 public slots:
-
-    /**
-     * @brief Exec this dialog with the given parameters.
-     * @param host hostname or address to connect to.
-     * @param port TCP port to connect to.
-     * @return a connected QTcpSocket on success, NULL otherwise.
-     */
-    QTcpSocket * connectTo(const QString & host, quint16 port);
-
-private slots:
     /**
      * @brief changeState
      * @param socketState
@@ -77,11 +67,14 @@ private slots:
      * @brief socketError
      * @param socketError
      */
-    void socketError(QAbstractSocket::SocketError socketError);
+    void socketError(QString str);
+
+signals:
     /**
      * @brief canceledConnection
      */
     void canceledConnection();
+
 private:
     /**
      * @brief setUI

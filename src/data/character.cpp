@@ -124,7 +124,7 @@ void Character::fill(NetworkMessageWriter & message)
     {
         QByteArray baImage;
         QBuffer bufImage(&baImage);
-        if (m_avatar.save(&bufImage, "PNG", 70))
+        if(m_avatar.save(&bufImage, "PNG", 70))
         {
 
         }

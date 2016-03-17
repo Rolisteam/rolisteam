@@ -394,7 +394,7 @@ void SelectConnectionProfileDialog::connectToIndex(QModelIndex index)
 void SelectConnectionProfileDialog::connectTo()
 {
     updateProfile();
-    accept();
+    emit tryConnection();
 }
 void SelectConnectionProfileDialog::openImage()
 {

@@ -44,26 +44,21 @@ NetworkLink::NetworkLink(QTcpSocket *socket)
     m_socketTcp = socket;
     m_receivingData = false;
     m_headerRead= 0;
-    /*ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::VMapCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::ConnectionCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,m_mainWindow);*/
-/*#ifndef NULL_PLAYER
-    m_audioPlayer = AudioPlayer::getInstance();
-    ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
-#endif*/
-
     setSocket(socket);
 
-    //if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     if(!m_networkManager->isServer())
     {
-		m_networkManager->ajouterNetworkLink(this);
+        m_networkManager->addNetworkLink(this);
     }
+}
+
+NetworkLink::NetworkLink(ConnectionProfile* connection)
+    : m_host("localhost"),m_port(6660)
+{
+    setConnection(connection);
+    m_socketTcp = new QTcpSocket();
+    m_receivingData = false;
+    m_headerRead= 0;
 }
 void NetworkLink::initialize()
 {
@@ -83,6 +78,7 @@ void NetworkLink::makeSignalConnection()
     connect(m_socketTcp, SIGNAL(readyRead()),this, SLOT(receivingData()));
     connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(connectionError(QAbstractSocket::SocketError)));
     connect(m_socketTcp, SIGNAL(disconnected()), this, SLOT(p_disconnect()));
+    connect(m_socketTcp,SIGNAL(stateChanged(QAbstractSocket::SocketState)),this,SIGNAL(connnectionStateChanged(QAbstractSocket::SocketState)));
 }
 
 
@@ -93,7 +89,7 @@ void NetworkLink::connectionError(QAbstractSocket::SocketError erreur)
     {
         return;
     }
-    qWarning() << tr("Network error occurs :") << m_socketTcp->errorString();
+    errorMessage(m_socketTcp->errorString());
 }
 
 void NetworkLink::p_disconnect()
@@ -105,8 +101,10 @@ void NetworkLink::p_disconnect()
 
 void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 {
+    qDebug() << "sendData";
     if(NULL==m_socketTcp)
     {
+        qDebug() << "sendData is Null";
         return;
     }
     if (but != this)
@@ -115,7 +113,11 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
        #ifdef DEBUG_MODE
         NetworkMessageHeader header;
         memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
-        qDebug() << "header:" << (header.category==NetMsg::PictureCategory) << header.action << header.dataSize;
+        if(header.dataSize==1386466)
+        {
+            qDebug() << "test wrong";
+        }
+        qDebug() << "header:" << header.category << header.action << header.dataSize;
         if(header.category==NetMsg::PictureCategory)
         {
             qDebug() << "test";
@@ -217,7 +219,7 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
     {
         if(NetMsg::PlayerConnectionAction == msg->action())
         {
-            m_networkManager->ajouterNetworkLink(this);
+            m_networkManager->addNetworkLink(this);
 
             NetworkMessageHeader header;
             header.category = NetMsg::SetupCategory;
@@ -272,6 +274,21 @@ void NetworkLink::forwardMessage( NetWorkReceiver::SendType type)
         delete[] donnees;
     }
 }
+
+ConnectionProfile *NetworkLink::getConnection() const
+{
+    return m_connection;
+}
+
+void NetworkLink::setConnection(ConnectionProfile* value)
+{
+    m_connection = value;
+    if(NULL!=m_connection)
+    {
+        m_host = m_connection->getAddress();
+        m_port = m_connection->getPort();
+    }
+}
 void NetworkLink::disconnectAndClose()
 {
     if(NULL!=m_socketTcp)
@@ -293,4 +310,9 @@ void NetworkLink::setSocket(QTcpSocket* socket, bool makeConnection)
 void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver,NetMsg::Category cat)
 {
     m_receiverMap.insert(cat,receiver);
+}
+void NetworkLink::connectTo()
+{
+    qDebug() << "connect To thread"<<m_host << m_port;
+    m_socketTcp->connectToHost(m_host, m_port);
 }

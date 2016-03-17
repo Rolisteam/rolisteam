@@ -244,6 +244,7 @@ bool ImprovedWorkspace::eventFilter(QObject *object, QEvent *event)
         {
             //removeSubWindow(sub);
             sub->setVisible(false);
+            event->accept();
             return true;
         }
     }

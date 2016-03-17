@@ -213,6 +213,8 @@ public:
      * @brief updateGUI
      */
     void updateGUI();
+signals:
+    void tryConnection();
 public slots:
     /**
      * @brief removeProfile
