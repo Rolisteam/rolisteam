@@ -54,6 +54,7 @@ public:
 
     NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link);
 
+    void cleanChatList();
 public slots:
     void createPrivateChat();
 	void addPublicChat();

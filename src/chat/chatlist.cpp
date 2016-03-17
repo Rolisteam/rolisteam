@@ -309,7 +309,24 @@ void ChatList::delChatWindow(ChatWindow* chatw)
 
     endRemoveRows();
 }
+void ChatList::cleanChat()
+{
+    beginResetModel();
+    m_chatMenu.clear();
+    m_chatWindowList.clear();
+    for(auto chatw : m_chatSubWindowList)
+    {
+        chatw->setVisible(false);
 
+    }
+    qDeleteAll(m_chatSubWindowList.begin(),m_chatSubWindowList.end());
+    m_chatSubWindowList.clear();
+    qDeleteAll(m_chatWindowList.begin(),m_chatWindowList.end());
+    m_chatWindowList.clear();
+
+
+    endResetModel();
+}
 
 ChatWindow * ChatList::getChatWindowByUuid(const QString & uuid) const
 {
@@ -356,6 +373,7 @@ void ChatList::addPlayerChat(Player * player)
         }
     }
 }
+
 
 void ChatList::delPlayer(Player * player)
 {

@@ -286,6 +286,8 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
     connect(ui->m_connect,SIGNAL(clicked()),this,SLOT(connectTo()));
     connect(ui->m_selectCharaterAvatar,SIGNAL(clicked()),this,SLOT(openImage()));
     connect(ui->m_delProfileAct,SIGNAL(pressed()),this,SLOT(removeProfile()));
+
+    connect(ui->m_addresseLineEdit,SIGNAL(textChanged(QString)),this,SLOT(checkConnection()));
 }
 
 SelectConnectionProfileDialog::~SelectConnectionProfileDialog()
@@ -402,4 +404,17 @@ void SelectConnectionProfileDialog::openImage()
 
     m_currentProfile->getCharacter()->setAvatar(QImage(m_avatarUri));
     updateGUI();
+}
+void SelectConnectionProfileDialog::checkConnection()
+{
+    bool valid=false;
+    if((!ui->m_addresseLineEdit->text().isEmpty())&&(!ui->m_isServerCheckbox->isChecked()))
+    {
+        valid=true;
+    }
+    else if(ui->m_isServerCheckbox->isChecked())
+    {
+        valid=true;
+    }
+    ui->m_connect->setEnabled(valid);
 }
