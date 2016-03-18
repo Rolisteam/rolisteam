@@ -118,7 +118,8 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
        #ifdef DEBUG_MODE
         NetworkMessageHeader header;
         memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
-        qDebug() << "header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0];
+        qDebug() << "header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0]
+                 << "socket" << m_socketTcp;
         #endif
 
         int t = m_socketTcp->write(data, size);
@@ -131,7 +132,7 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 }
 void NetworkLink::sendData(NetworkMessage* msg)
 {
-    qDebug() << "sendData message";
+    qDebug() << "sendData message socket" << m_socketTcp;
     if(NULL==m_socketTcp)
     {
         qDebug() << "sendData is Null";
@@ -211,7 +212,7 @@ void NetworkLink::receivingData()
                 event->postToReceiver();
             }
             NetworkMessageReader data(m_header,m_buffer);
-            if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
+            /*if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
             {
 
                 QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
@@ -220,7 +221,8 @@ void NetworkLink::receivingData()
                 {
                     forwardMessage(tmp->processMessage(&data));
                 }
-            }
+            }*/
+            emit receivedMessage(data,this);
 
             switch(data.category())
             {

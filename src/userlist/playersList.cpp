@@ -681,6 +681,7 @@ bool PlayersList::event(QEvent * event)
     if (event->type() == ReceiveEvent::Type)
     {
         using namespace NetMsg;
+        qDebug() << "reveived event";
         ReceiveEvent * rEvent = static_cast<ReceiveEvent *>(event);
         NetworkMessageReader & data = rEvent->data();
         switch (data.category())
