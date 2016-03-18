@@ -118,12 +118,16 @@ bool PlayerChat::belongsTo(Player * player) const
 void PlayerChat::sendThem(NetworkMessage & message, NetworkLink * but) const
 {
     if (PreferencesManager::getInstance()->value("isClient",true).toBool())
+    {
         message.sendAll(but);
+    }
     else
     {
-        NetworkLink * to = m_player->link();
+        NetworkLink* to = m_player->link();
         if (to != but)
+        {
             message.sendTo(to);
+        }
     }
 }
 

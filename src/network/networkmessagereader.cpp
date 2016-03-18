@@ -65,7 +65,7 @@ NetMsg::Action NetworkMessageReader::action() const
     return NetMsg::Action(m_header->action);
 }
 
-NetworkMessageHeader * NetworkMessageReader::buffer()
+NetworkMessageHeader* NetworkMessageReader::buffer()
 {
     return m_header;
 }

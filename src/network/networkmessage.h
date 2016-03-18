@@ -182,15 +182,17 @@ public:
      */
     virtual NetMsg::Action action() const =0;
 
+
+    quint64 getSize();
+
+    virtual NetworkMessageHeader *  buffer() =0;
 protected:
     /**
      * @brief buffer
      * @return
      */
-    virtual NetworkMessageHeader *  buffer() =0;
 
 protected:
     NetworkManager* m_server;
 };
-
 #endif

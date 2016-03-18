@@ -94,6 +94,8 @@ MainWindow::MainWindow()
     : QMainWindow(),m_networkManager(NULL),m_ui(new Ui::MainWindow),m_resetSettings(false),m_currentConnectionProfile(NULL),m_profileDefined(false)
 {
     setAcceptDrops(true);
+  /*  qRegisterMetaType<NetworkMessage>();
+    qRegisterMetaType<NetworkMessage*>();*/
     m_profileDefined = false;
 
     m_ui->setupUi(this);
@@ -162,8 +164,6 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
     action->setChecked(true);
 
     mediac->setAction(action);
-
-
     m_mdiArea->addContainerMedia(mediac);
     m_mapAction->insert(mediac,action);
     mediac->setVisible(true);

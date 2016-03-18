@@ -13,7 +13,7 @@
 #include "data/character.h"
 
 ImageItem::ImageItem()
-: VisualItem(),m_initialized(false)
+: VisualItem(),m_initialized(false),m_movie(NULL)
 {
 	m_keepAspect = true;
 
@@ -73,6 +73,8 @@ void ImageItem::readData(QDataStream& in)
     qreal rotation;
     in >> rotation;
     setRotation(rotation);
+
+
 
     QPointF p;
     in >> p;
@@ -245,19 +247,49 @@ QString ImageItem::getImageUri()
 }
 void ImageItem::loadImage()
 {
-	m_image.load(m_imagePath);
-    if(m_image.isNull())
-        return;
-	m_rect = m_image.rect();
-    if(m_image.width()!=0)
+
+    m_movie = new QMovie(m_imagePath);
+    if((m_movie->isValid())&&(m_movie->frameCount()>1))
     {
-        m_ratio = m_image.height()/m_image.width();
+        m_movie->start();
+        connect(m_movie,SIGNAL(updated(QRect)),this,SLOT(updateImageFromMovie(QRect)));
+    }
+    else
+    {
+        delete m_movie;
+        m_movie = NULL;
+        m_image.load(m_imagePath);
+
+        if(m_image.isNull())
+            return;
+        m_rect = m_image.rect();
+        if(m_image.width()!=0)
+        {
+            m_ratio = m_image.height()/m_image.width();
+        }
     }
 }
 void ImageItem::setModifiers(Qt::KeyboardModifiers modifiers)
 {
     m_modifiers = modifiers;
 }
+void ImageItem::updateImageFromMovie(QRect rect)
+{
+    if(NULL!=m_movie)
+    {
+        m_image = m_movie->currentImage();
+        if(m_rect.isNull())
+        {
+            m_rect = m_image.rect();
+        }
+        if(m_image.width()!=0)
+        {
+            m_ratio = m_image.height()/m_image.width();
+        }
+        update();
+    }
+}
+
 VisualItem* ImageItem::getItemCopy()
 {
 	ImageItem* rectItem = new ImageItem();

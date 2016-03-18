@@ -41,12 +41,21 @@ void NetworkMessage::sendTo(NetworkLink * link)
     }
 
     NetworkMessageHeader * header = buffer();
-    link->sendData((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
+    link->sendDataSlot((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
+   // QMetaObject::invokeMethod(link,"sendData",Qt::QueuedConnection,Q_ARG(NetworkMessage*,this));
 }
 
 void NetworkMessage::sendAll(NetworkLink * butLink)
 {
-    NetworkMessageHeader * header = buffer();
+    NetworkMessageHeader* header = buffer();
+    qDebug() << "datasize send:" << header->dataSize + sizeof(NetworkMessageHeader) << header->action << header->category << (char*)header;
     m_server->sendMessage((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
-    qDebug() << "datasize send:" << header->dataSize + sizeof(NetworkMessageHeader) << header->action << header->category;
+}
+quint64 NetworkMessage::getSize()
+{
+    if(buffer()!=NULL)
+    {
+        NetworkMessageHeader* header = buffer();
+        return  header->dataSize + sizeof(NetworkMessageHeader);
+    }
 }

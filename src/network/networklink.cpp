@@ -55,8 +55,11 @@ NetworkLink::NetworkLink(QTcpSocket *socket)
 NetworkLink::NetworkLink(ConnectionProfile* connection)
     : m_host("localhost"),m_port(6660)
 {
+    m_mainWindow = MainWindow::getInstance();
+    m_networkManager = m_mainWindow->getNetWorkManager();
     setConnection(connection);
-    m_socketTcp = new QTcpSocket();
+    m_socketTcp = new QTcpSocket(this);
+    initialize();
     m_receivingData = false;
     m_headerRead= 0;
 }
@@ -78,7 +81,10 @@ void NetworkLink::makeSignalConnection()
     connect(m_socketTcp, SIGNAL(readyRead()),this, SLOT(receivingData()));
     connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(connectionError(QAbstractSocket::SocketError)));
     connect(m_socketTcp, SIGNAL(disconnected()), this, SLOT(p_disconnect()));
+    qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
     connect(m_socketTcp,SIGNAL(stateChanged(QAbstractSocket::SocketState)),this,SIGNAL(connnectionStateChanged(QAbstractSocket::SocketState)));
+
+    connect(this,SIGNAL(dataToSend(char*,quint32,NetworkLink*)),this,SLOT(sendData(char*,quint32,NetworkLink*)));
 }
 
 
@@ -101,7 +107,6 @@ void NetworkLink::p_disconnect()
 
 void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 {
-    qDebug() << "sendData";
     if(NULL==m_socketTcp)
     {
         qDebug() << "sendData is Null";
@@ -113,15 +118,7 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
        #ifdef DEBUG_MODE
         NetworkMessageHeader header;
         memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
-        if(header.dataSize==1386466)
-        {
-            qDebug() << "test wrong";
-        }
-        qDebug() << "header:" << header.category << header.action << header.dataSize;
-        if(header.category==NetMsg::PictureCategory)
-        {
-            qDebug() << "test";
-        }
+        qDebug() << "header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0];
         #endif
 
         int t = m_socketTcp->write(data, size);
@@ -131,6 +128,34 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
             qWarning() << "Tranmission error :" << m_socketTcp->errorString();
         }
     }
+}
+void NetworkLink::sendData(NetworkMessage* msg)
+{
+    qDebug() << "sendData message";
+    if(NULL==m_socketTcp)
+    {
+        qDebug() << "sendData is Null";
+        return;
+    }
+    //if (but != this)
+    {
+        int t = m_socketTcp->write((char*)msg->buffer(), msg->getSize());
+
+        if (t < 0)
+        {
+            qWarning() << "Tranmission error :" << m_socketTcp->errorString();
+        }
+    }
+}
+
+void NetworkLink::sendDataSlot(char *data, quint32 size, NetworkLink *but)
+{
+    #ifdef DEBUG_MODE
+     NetworkMessageHeader header;
+     memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
+     qDebug() << "sendDataSlot header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0];
+     #endif
+    emit dataToSend(data,size, but);
 }
 
 void NetworkLink::receivingData()
@@ -150,7 +175,7 @@ void NetworkLink::receivingData()
             readDataSize = m_socketTcp->read(tmp+m_headerRead, sizeof(NetworkMessageHeader)-m_headerRead);
             readDataSize+=m_headerRead;
 
-            //qDebug() << "Read DataSize" << readDataSize << m_header.dataSize << m_header.category << m_header.action << m_socketTcp->bytesAvailable();
+            qDebug() << "Read DataSize" << readDataSize << m_header.dataSize << m_header.category << m_header.action << m_socketTcp->bytesAvailable();
             if((readDataSize!=sizeof(NetworkMessageHeader)))//||(m_header.category>=NetMsg::LastCategory)
             {
                 m_headerRead=readDataSize;

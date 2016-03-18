@@ -98,6 +98,9 @@ public slots :
     void connectTo();
 
 
+    void sendData(NetworkMessage *msg);
+
+    void sendDataSlot(char* data,quint32 size, NetworkLink* but = 0);
 signals:
     /**
      * @brief disconnected
@@ -112,6 +115,9 @@ signals:
     void errorMessage(QString);
 
     void connnectionStateChanged(QAbstractSocket::SocketState);
+
+
+    void dataToSend(char* data,quint32 size, NetworkLink* but = 0);
 
 private slots :
     void receivingData();

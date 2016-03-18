@@ -69,7 +69,7 @@ protected:
 
 private:
     NetworkMessageHeader * m_header;
-    char * m_buffer;
+    char* m_buffer;
     const char * m_pos;
     const char * m_end;
 };

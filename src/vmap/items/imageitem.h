@@ -3,9 +3,11 @@
 
 #include "visualitem.h"
 #include <QImage>
+#include <QMovie>
 
 class ImageItem : public VisualItem
 {
+    Q_OBJECT
 public:
 	ImageItem();
 	/**
@@ -82,7 +84,8 @@ public:
 
 
     VisualItem* promoteTo(VisualItem::ItemType);
-
+protected slots:
+    void updateImageFromMovie(QRect);
 
 protected:
 	/**
@@ -101,6 +104,7 @@ private:
     bool m_initialized;
 
     //QAction* m_
+    QMovie* m_movie;
 };
 
 #endif // IMAGEITEM_H

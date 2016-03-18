@@ -117,7 +117,7 @@ bool  NetworkManager::startListening()
 
 void NetworkManager::socketStateChanged(QAbstractSocket::SocketState state)
 {
-    qDebug() << "socket State Changed";
+    qDebug() << "socket State Changed" << state;
     switch (state)
     {
     case QAbstractSocket::ClosingState:
@@ -165,9 +165,16 @@ void NetworkManager::startConnectionToServer()
 
 void NetworkManager::sendMessage(char* data, quint32 size, NetworkLink* but)
 {
-    qDebug() << "SendMessage";
-    // Demande d'emission vers toutes les NetworkLinks
-    emit sendData(data, size, but);
+    qDebug() << "SendMessage signal";
+    NetworkMessageHeader header;
+    memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
+    qDebug() << "sendMessage header:" << header.category << header.action << header.dataSize << size;
+    //emit sendData(data, size, but);
+
+    if(NULL!=m_networkLinkToServer)
+    {
+        m_networkLinkToServer->sendDataSlot(data,size,but);
+    }
 }
 
 
