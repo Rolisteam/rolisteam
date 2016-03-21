@@ -310,15 +310,15 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     if(NULL!=tmp)
     {
         m_character = tmp;
+        m_character->read(*msg);
     }
     else
     {
-        QString idparent = msg->string8();
         m_character = new Character(*msg);
-        m_character->setParentPerson(PlayersList::instance()->getPlayer(idparent));
+
+        m_character->setParentPerson(PlayersList::instance()->getPlayer(m_character->getParentId()));
     }
 
-    m_character->read(*msg);
 
     if(NULL!=m_vision)
     {
