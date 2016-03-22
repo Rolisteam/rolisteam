@@ -25,7 +25,18 @@
 #include <QGraphicsTextItem>
 #include <QTextDocument>
 
-class QLineEdit;
+
+class TextLabel : public QGraphicsTextItem
+{
+public:
+    TextLabel(QGraphicsItem* parent = 0);
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
+};
+
 /**
     * @brief displays and manages text on map, part of QGraphicsScene/view.
     * @todo add features for amend font size, text orientation,
@@ -101,8 +112,9 @@ public slots:
     void decreaseTextSize();
     void increaseTextSize();
 protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-    void wheelEvent(QGraphicsSceneWheelEvent *event);
+    void wheelEvent(QGraphicsSceneWheelEvent* event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 private:
@@ -119,12 +131,13 @@ private:
     QAction* m_decreaseFontSize;
 
     QTextDocument* m_doc;
-    QGraphicsTextItem* m_textItem;
+    TextLabel* m_textItem;
 
     bool m_showRect;
     quint16 m_penWidth;
 
     const QPointF m_offset;
+
 };
 
 #endif // TEXTITEM_H

@@ -34,6 +34,53 @@
 
 #include "vmap/vmap.h"
 
+TextLabel::TextLabel(QGraphicsItem* parent)
+    : QGraphicsTextItem(parent)
+{
+
+}
+void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    VMap* map = dynamic_cast<VMap*>(scene());
+    if( NULL != map)
+    {
+        if(map->getSelectedtool() == VToolsBar::HANDLER)
+        {
+            event->ignore();
+        }
+        else if((map->getSelectedtool() == VToolsBar::TEXT)||
+                (map->getSelectedtool() == VToolsBar::TEXTBORDER))
+        {
+            QGraphicsTextItem::mousePressEvent(event);
+        }
+    }
+}
+
+void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    VMap* map = dynamic_cast<VMap*>(scene());
+    qDebug() << "double click";
+    if( NULL != map)
+    {
+        if(map->getSelectedtool() == VToolsBar::HANDLER)
+        {
+            qDebug() << "double click HANDLER";
+        }
+        else if((map->getSelectedtool() == VToolsBar::TEXT)||
+                (map->getSelectedtool() == VToolsBar::TEXTBORDER))
+        {
+             qDebug() << "double click TEXT";
+        }
+    }
+    QGraphicsTextItem::mouseDoubleClickEvent(event);
+
+}
+
+///////////////////////
+//
+//
+//
+///////////////////////
 TextItem::TextItem()
     : m_offset(QPointF(100,30))
 {
@@ -57,14 +104,15 @@ void TextItem::init()
 {
     setAcceptHoverEvents(true);
     m_showRect = false;
-    m_textItem = new QGraphicsTextItem(this);
+    m_textItem = new TextLabel(this);
     m_textItem->setFocus();
     m_textItem->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
     m_textItem->setPos(QPointF(0,0));
     m_textItem->setTextWidth(100);
     m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
     m_doc = new QTextDocument(m_textItem);
-    m_doc->setHtml(tr("<b>Text</b>"));
+    m_doc->setHtml(tr("<b style=\"color: %1\">Text</b>").arg(m_color.name()));
+    //m_doc->setDefaultStyleSheet(QString("color: %1;").arg(m_color.name()));
     m_textItem->setDocument(m_doc);
 
     connect(m_doc,SIGNAL(contentsChanged()),this,SLOT(updateTextPosition()));
@@ -249,7 +297,12 @@ void TextItem::writeData(QDataStream& out) const
 }
 void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
+    setChildrenVisible(false);
     VisualItem::mouseDoubleClickEvent(event);
+}
+void TextItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    VisualItem::mousePressEvent(event);
 }
 
 void TextItem::readData(QDataStream& in)
@@ -289,7 +342,7 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_start.y());
     msg->string32(m_doc->toHtml());
     msg->rgb(m_color);
-}
+}//Votre appel est en attente.
 void TextItem::readItem(NetworkMessageReader* msg)
 {
     m_id = msg->string16();
@@ -374,3 +427,5 @@ void TextItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
     if(isEditable())
     QApplication::restoreOverrideCursor();
 }
+
+
