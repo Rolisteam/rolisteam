@@ -147,7 +147,16 @@ VisualItem::ItemType TextItem::getType()
 void TextItem::updateFont()
 {
     QFontMetrics metric(m_font);
-    m_rect = metric.boundingRect(m_doc->toHtml());
+    QRectF rect = metric.boundingRect(m_doc->toPlainText());
+    if(rect.height() > m_rect.height())
+    {
+        m_rect.setHeight(rect.height());
+    }
+    if(rect.width() > m_rect.width())
+    {
+        m_rect.setWidth(rect.width());
+    }
+    m_textItem->setFont(m_font);
     updateChildPosition();
     update();
 }
