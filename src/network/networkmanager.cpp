@@ -165,10 +165,8 @@ void NetworkManager::startConnectionToServer()
 
 void NetworkManager::sendMessage(char* data, quint32 size, NetworkLink* but)
 {
-    qDebug() << "SendMessage signal";
     NetworkMessageHeader header;
     memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
-    qDebug() << "sendMessage header:" << header.category << header.action << header.dataSize << size;
 
     //client
     if(NULL!=m_networkLinkToServer)
@@ -198,7 +196,6 @@ void NetworkManager::addNetworkLink(NetworkLink* networkLink)
 void NetworkManager::newClientConnection()
 {
     QTcpSocket* socketTcp = m_server->nextPendingConnection();
-    qDebug() << "Next pending connection";
     new NetworkLink(socketTcp);
 
 }
@@ -300,36 +297,36 @@ void NetworkManager::setConnectionProfile(ConnectionProfile* profile)
 {
     m_connectionProfile = profile;
 }
-void NetworkManager::messageRecieved(NetworkMessageReader* message,NetworkLink* link)
-{
-    if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
-    {
-        QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
-        foreach(NetWorkReceiver* tmp, tmpList)
-        {
-            forwardMessage(tmp->processMessage(&data),message,link);
-        }
-    }
-}
-void NetworkLink::forwardMessage( NetWorkReceiver::SendType type,NetworkMessageReader* message,NetworkLink* sender)
-{
-    if(NetWorkReceiver::NONE == type)
-    {
-        return;
-    }
-    if (isServer())
-    {
-        char* donnees = new char[m_header.dataSize + sizeof(NetworkMessageHeader)];
-        memcpy(donnees, &m_header, sizeof(NetworkMessageHeader));
-        memcpy(&(donnees[sizeof(NetworkMessageHeader)]), m_buffer, m_header.dataSize);
-        if (NetWorkReceiver::ALL == type)
-        {
-            sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),NULL);
-        }
-        else if(NetWorkReceiver::AllExceptSender == type)
-        {
-            sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),sender);
-        }
-        delete[] donnees;
-    }
-}
+//void NetworkManager::messageRecieved(NetworkMessageReader* message,NetworkLink* link)
+//{
+//    if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
+//    {
+//        QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
+//        foreach(NetWorkReceiver* tmp, tmpList)
+//        {
+//            forwardMessage(tmp->processMessage(&data),message,link);
+//        }
+//    }
+//}
+//void NetworkLink::forwardMessage( NetWorkReceiver::SendType type,NetworkMessageReader* message,NetworkLink* sender)
+//{
+//    if(NetWorkReceiver::NONE == type)
+//    {
+//        return;
+//    }
+//    if (isServer())
+//    {
+//        char* donnees = new char[m_header.dataSize + sizeof(NetworkMessageHeader)];
+//        memcpy(donnees, &m_header, sizeof(NetworkMessageHeader));
+//        memcpy(&(donnees[sizeof(NetworkMessageHeader)]), m_buffer, m_header.dataSize);
+//        if (NetWorkReceiver::ALL == type)
+//        {
+//            sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),NULL);
+//        }
+//        else if(NetWorkReceiver::AllExceptSender == type)
+//        {
+//            sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),sender);
+//        }
+//        delete[] donnees;
+//    }
+//}

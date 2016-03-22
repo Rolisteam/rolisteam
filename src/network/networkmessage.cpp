@@ -48,7 +48,6 @@ void NetworkMessage::sendTo(NetworkLink * link)
 void NetworkMessage::sendAll(NetworkLink * butLink)
 {
     NetworkMessageHeader* header = buffer();
-    qDebug() << "datasize send:" << header->dataSize + sizeof(NetworkMessageHeader) << header->action << header->category << (char*)header;
     m_server->sendMessage((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
 }
 quint64 NetworkMessage::getSize()

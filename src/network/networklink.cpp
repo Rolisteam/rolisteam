@@ -212,7 +212,7 @@ void NetworkLink::receivingData()
                 event->postToReceiver();
             }
             NetworkMessageReader data(m_header,m_buffer);
-            /*if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
+            if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
             {
 
                 QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
@@ -221,8 +221,8 @@ void NetworkLink::receivingData()
                 {
                     forwardMessage(tmp->processMessage(&data));
                 }
-            }*/
-            emit receivedMessage(data,this);
+            }
+            //emit receivedMessage(data,this);
 
             switch(data.category())
             {
