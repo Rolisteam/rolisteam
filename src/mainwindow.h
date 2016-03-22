@@ -368,11 +368,11 @@ private:
     int m_maxSizeRecentFile;
     QList<QAction*> m_recentFileActs;
     VmapToolBar* m_vmapToolBar;
-	bool m_profileDefined;
 
     ConnectionProfile* m_currentConnectionProfile;
     QList<QWidget*> m_gmToolBoxList;
     SelectConnectionProfileDialog* m_dialog;
+    bool m_profileDefined;
 
 };
 
