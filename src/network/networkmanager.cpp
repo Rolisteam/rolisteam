@@ -300,7 +300,7 @@ void NetworkManager::setConnectionProfile(ConnectionProfile* profile)
 {
     m_connectionProfile = profile;
 }
-void NetworkManager::messageRecieved(NetworkMessageReader* message,NetworkLink* link)
+/*void NetworkManager::messageRecieved(NetworkMessageReader* message,NetworkLink* link)
 {
     if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
     {
@@ -333,3 +333,4 @@ void NetworkLink::forwardMessage( NetWorkReceiver::SendType type,NetworkMessageR
         delete[] donnees;
     }
 }
+*/
