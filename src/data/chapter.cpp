@@ -26,6 +26,7 @@
 #include "chapter.h"
 
 Chapter::Chapter()
+    : m_children(QList<ResourcesNode*>())
 {
 }
 Chapter::Chapter(const Chapter& m)

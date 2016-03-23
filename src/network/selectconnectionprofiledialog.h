@@ -98,14 +98,14 @@ public:
      */
     void setCharacter(Character* );
 private:
-    QString m_title;
-    QString m_name;
-    QString m_address;
+    Character* m_character;
     bool    m_server;
     int     m_port;
     Player*  m_player;
     bool    m_isGM;
-    Character* m_character;
+    QString m_title;
+    QString m_name;
+    QString m_address;
 };
 
 /**

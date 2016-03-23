@@ -114,9 +114,9 @@ private:
     QString m_name;
     QString m_css;
     bool m_removable;
-    int m_position;
     QString m_bgPath;
     QColor m_bgColor;
+    int m_position;
     QColor m_diceHighlightColor;
     QColor m_gmColor;
     QString m_styleName;

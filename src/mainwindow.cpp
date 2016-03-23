@@ -91,7 +91,12 @@
 MainWindow* MainWindow::m_singleton= NULL;
 
 MainWindow::MainWindow()
-    : QMainWindow(),m_networkManager(NULL),m_ui(new Ui::MainWindow),m_resetSettings(false),m_currentConnectionProfile(NULL),m_profileDefined(false)
+    : QMainWindow(),
+      m_networkManager(NULL),
+      m_ui(new Ui::MainWindow),
+      m_resetSettings(false),
+      m_currentConnectionProfile(NULL),
+      m_profileDefined(false)
 {
     setAcceptDrops(true);
   /*  qRegisterMetaType<NetworkMessage>();
@@ -2096,10 +2101,6 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
                     if(type==CleverURI::MAP)
                     {
 						prepareMap(static_cast<MapFrame*>(tmp));
-                    }
-                    else if(type == CleverURI::VMAP)
-                    {
-                        prepareVMap(static_cast<VMapFrame*>(tmp));
                     }
                     else if(type == CleverURI::VMAP)
                     {
