@@ -31,11 +31,10 @@
 
 #include "vcolorselector.h"
 #include "widgets/diameterselector.h"
-
+#include "widgets/realslider.h"
 #include "map/map.h"
 /**
-  *  @brief toolbar is a QDockWidget subclass which gathering all tool required for drawing maps.
-  *  @todo manu members must be renamed to english
+  *  @brief toolbar is a QWidget subclass which gathering all tool required for drawing maps.
   */
 class VToolsBar : public QWidget
 {
@@ -95,6 +94,8 @@ public slots :
     void updateUi(Map::PermissionMode mode);
 
     void setGM(bool);
+
+    void setCurrentOpacity(qreal);
 signals:
     /**
       * @brief emited when current tool has been changed by user
@@ -124,6 +125,9 @@ signals:
      * @brief currentEditionModeChanged
      */
     void currentEditionModeChanged(VToolsBar::EditionMode);
+
+    void opacityChanged(qreal);
+
 
 private slots :
     void resetNpcCount();
@@ -169,6 +173,7 @@ private:
   //  QAction* m_unmaskPathAct;
     QAction* m_textWithBorderAct;
     QComboBox* m_editionModeCombo;
+    RealSlider* m_opacitySlider;
     
     QString m_currentNPCName;
     int m_currentNPCNumber;

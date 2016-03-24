@@ -148,7 +148,8 @@ HEADERS += \
         src/data/characterstate.h \
         src/widgets/filepathdelegateitem.h \
         src/network/selectconnectionprofiledialog.h \
-    src/services/updaterwindow.h
+    src/services/updaterwindow.h \
+    src/widgets/realslider.h
 
 
 
@@ -220,7 +221,8 @@ SOURCES += \
         src/data/characterstate.cpp \
         src/widgets/filepathdelegateitem.cpp \
         src/network/selectconnectionprofiledialog.cpp \
-    src/services/updaterwindow.cpp
+    src/services/updaterwindow.cpp \
+    src/widgets/realslider.cpp
 
 
 FORMS += \

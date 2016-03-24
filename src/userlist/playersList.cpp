@@ -758,7 +758,6 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
     {
         if (actualPerson->getParent() == NULL)
         {
-
             Player * actualPlayer = static_cast<Player *>(actualPerson);
             bool isGM = newPlayer->isGM();
             if (m_localPlayer->isGM() != isGM)

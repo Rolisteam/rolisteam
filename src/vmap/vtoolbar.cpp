@@ -53,9 +53,11 @@ VToolsBar::VToolsBar(QWidget *parent)
     setLayout(lay);
     connect(m_colorSelector,SIGNAL(currentColorChanged(QColor&)),this,SIGNAL(currentColorChanged(QColor&)));
     connect(m_colorSelector,SIGNAL(currentModeChanged(int)),this,SIGNAL(currentModeChanged(int)));
-    QObject::connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcCount()));
-    QObject::connect(m_npcNameTextEdit, SIGNAL(textEdited(const QString &)), this, SLOT(npcNameChange(const QString &)));
+    connect(m_resetCountAct, SIGNAL(triggered(bool)), this, SLOT(resetNpcCount()));
+    connect(m_npcNameTextEdit, SIGNAL(textEdited(const QString &)), this, SLOT(npcNameChange(const QString &)));
     connect(m_toolsGroup,SIGNAL(triggered(QAction*)),this,SLOT(currentActionChanged(QAction*)));
+
+
 }
 
 void VToolsBar::createActions()
@@ -176,6 +178,13 @@ void VToolsBar::createActions()
 }
 void VToolsBar::makeTools()
 {
+
+    m_opacitySlider = new RealSlider(this);
+    m_opacitySlider->setOrientation(Qt::Horizontal);
+    m_opacitySlider->setRealValue(1.0);
+
+    connect(m_opacitySlider,SIGNAL(valueChanged(qreal)),this, SIGNAL(opacityChanged(qreal)));
+
     QToolButton* penButton     = new QToolButton();
     QToolButton* lineButton      = new QToolButton();
     QToolButton* emptyRectButton   = new QToolButton();
@@ -257,7 +266,7 @@ void VToolsBar::makeTools()
    // maskModeButton->setFixedSize(minSize);
   //  unmaskButton->setFixedSize(minSize);
     
-    QVBoxLayout* outilsLayout = new QVBoxLayout();
+    QVBoxLayout* toolsVerticalLayout = new QVBoxLayout();
 
     FlowLayout *toolsLayout = new FlowLayout();
     toolsLayout->setSpacing(0);
@@ -299,23 +308,27 @@ void VToolsBar::makeTools()
     characterToolsLayout->addWidget(resetNpcNumberButton);
     characterToolsLayout->addWidget(m_displayNPCCounter);
 
+
     m_lineDiameter = new DiameterSelector(m_centralWidget, true, 1, 45);
     m_lineDiameter->setDiameter(15);
     m_lineDiameter->setToolTip(tr("height of the pen"));
     connect(m_lineDiameter,SIGNAL(diameterChanged(int)),this,SIGNAL(currentPenSizeChanged(int)));
 
-    outilsLayout->addWidget(m_colorSelector);
+    toolsVerticalLayout->addWidget(m_colorSelector);
     QFrame* line = new QFrame();
     line->setFrameShape(QFrame::HLine);
     line->setFrameShadow(QFrame::Sunken);
-    outilsLayout->addWidget(m_editionModeCombo);
-    outilsLayout->addWidget(line);
-    outilsLayout->addLayout(toolsLayout);
-    outilsLayout->addWidget(m_lineDiameter);
-    outilsLayout->addLayout(characterToolsLayout);
-    outilsLayout->addWidget(m_npcNameTextEdit);
-    outilsLayout->addStretch(1);
-    m_centralWidget->setLayout(outilsLayout);
+    toolsVerticalLayout->addWidget(m_editionModeCombo);
+    toolsVerticalLayout->addWidget(line);
+    toolsVerticalLayout->addLayout(toolsLayout);
+    toolsVerticalLayout->addWidget(m_lineDiameter);
+    toolsVerticalLayout->addLayout(characterToolsLayout);
+    toolsVerticalLayout->addWidget(m_npcNameTextEdit);
+    toolsVerticalLayout->addWidget(new QLabel(tr("Opacity:"),this));
+    toolsVerticalLayout->addWidget(m_opacitySlider);
+    toolsVerticalLayout->addStretch(1);
+    m_centralWidget->setLayout(toolsVerticalLayout);
+
 
     connect(m_editionModeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(currentEditionModeChange()));
 
@@ -453,4 +466,9 @@ void VToolsBar::updateUi(Map::PermissionMode mode)
 void VToolsBar::setGM(bool b)
 {
     m_isGM = b;
+}
+
+void VToolsBar::setCurrentOpacity(qreal)
+{
+
 }
