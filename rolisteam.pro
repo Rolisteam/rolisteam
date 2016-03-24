@@ -65,8 +65,8 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 ##Installation
 target.path = $$PREFIX/
 
-INSTALLS += target
 }
+INSTALLS += target
 
 include(src/odt/src/src.pri)
 include(src/diceparser/diceparser.pri)
