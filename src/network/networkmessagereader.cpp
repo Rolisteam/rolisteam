@@ -34,7 +34,9 @@ NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, 
 
     m_pos = m_buffer;
     m_end = m_buffer + m_header->dataSize;
+#ifndef UNIT_TEST
     m_server = MainWindow::getInstance()->getNetWorkManager();
+#endif
 }
 
 NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader & other)

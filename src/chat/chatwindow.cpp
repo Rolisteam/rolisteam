@@ -293,9 +293,11 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
                     m_warnedEmoteUnavailable = true;
                 }
 
-
-                showMessage(m_localPerson->getName(), m_localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
-                action = NetMsg::EmoteMessageAction;
+                if(NULL!=m_localPerson)
+                {
+                    showMessage(m_localPerson->getName(), m_localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
+                    action = NetMsg::EmoteMessageAction;
+                }
                 break;
 
             }

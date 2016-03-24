@@ -22,9 +22,9 @@
 
 #include "networkmessage.h"
 
-
+#ifndef UNIT_TEST
 #include "network/networklink.h"
-
+#endif
 #include "network/networkmanager.h"
 
 NetworkMessage::~NetworkMessage()
@@ -41,14 +41,18 @@ void NetworkMessage::sendTo(NetworkLink * link)
     }
 
     NetworkMessageHeader * header = buffer();
+    #ifndef UNIT_TEST
     link->sendDataSlot((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
+    #endif
    // QMetaObject::invokeMethod(link,"sendData",Qt::QueuedConnection,Q_ARG(NetworkMessage*,this));
 }
 
 void NetworkMessage::sendAll(NetworkLink * butLink)
 {
     NetworkMessageHeader* header = buffer();
+#ifndef UNIT_TEST
     m_server->sendMessage((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
+#endif
 }
 quint64 NetworkMessage::getSize()
 {
