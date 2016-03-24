@@ -150,16 +150,18 @@ void NetworkManager::startConnectionToServer()
                 m_waitDialog,SLOT(socketError(QString)));
         connect(m_networkLinkToServer,SIGNAL(connnectionStateChanged(QAbstractSocket::SocketState)),
                 this,SLOT(socketStateChanged(QAbstractSocket::SocketState)));
-        QThread* thread = new QThread();
+        /*QThread* thread = new QThread();
         m_networkLinkToServer->moveToThread(thread);
         m_threadList.append(thread);
         connect(thread,SIGNAL(started()),m_networkLinkToServer,SLOT(connectTo()));
-        thread->start(QThread::HighestPriority);
+        thread->start(QThread::HighestPriority);*/
+        m_networkLinkToServer->connectTo();
     }
     else
     {
         m_networkLinkToServer->setConnection(m_connectionProfile);
-        QMetaObject::invokeMethod(m_networkLinkToServer,"connectTo",Qt::QueuedConnection);
+        //QMetaObject::invokeMethod(m_networkLinkToServer,"connectTo",Qt::QueuedConnection);
+        m_networkLinkToServer->connectTo();
     }
 }
 
