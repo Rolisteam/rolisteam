@@ -309,6 +309,10 @@ public slots:
     void changeStackOrder(VisualItem* item,VisualItem::StackOrder op);
 
     void addImageItem(QString file);
+
+    void setCurrentItemOpacity(qreal);
+
+    void selectionHasChanged();
 signals:
     /**
      * @brief npcAdded
@@ -322,6 +326,11 @@ signals:
      * @brief mapStatutChanged
      */
     void mapStatutChanged();
+
+    /**
+     * @brief currentItemOpacity
+     */
+    void currentItemOpacity(qreal);
 private slots:
     /**
      * @brief sendItemToAll

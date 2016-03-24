@@ -48,6 +48,8 @@ void VMap::initMap()
     PlayersList* list = PlayersList::instance();
     connect(list,SIGNAL(characterDeleted(Character*)),this,SLOT(characterHasBeenDeleted(Character*)));
 
+    connect(this, SIGNAL(selectionChanged()),this,SLOT(selectionHasChanged()));
+
     m_penSize = 1;
     m_id = QUuid::createUuid().toString();
     m_currentItem = NULL;
@@ -287,6 +289,33 @@ void VMap::addImageItem(QString file)
     led->setImageUri(file);
     led->initChildPointItem();
     addNewItem(led);
+}
+
+void VMap::setCurrentItemOpacity(qreal a)
+{
+    QList<QGraphicsItem*> selection= selectedItems();
+    for(auto item : selection)
+    {
+        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
+        if(NULL!=vItem)
+        {
+            vItem->setOpacity(a);
+        }
+    }
+}
+
+void VMap::selectionHasChanged()
+{
+    QList<QGraphicsItem*> items = selectedItems();
+    for(auto item : items)
+    {
+        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
+        if(NULL!=vItem)
+        {
+            emit currentItemOpacity(vItem->opacity());
+            break;
+        }
+    }
 }
 
 void VMap::addItem()
