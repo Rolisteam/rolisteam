@@ -147,6 +147,15 @@ public :
      * @param msg
      */
     void processGeometryViewChange(NetworkMessageReader* msg);
+    /**
+     * @brief processOpacityMessage
+     * @param msg
+     */
+    void processOpacityMessage(NetworkMessageReader *msg);
+    /**
+     * @brief getMediaId
+     * @return
+     */
     virtual QString getMediaId();
 public slots :
 	/**

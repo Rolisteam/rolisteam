@@ -468,7 +468,7 @@ void VToolsBar::setGM(bool b)
     m_isGM = b;
 }
 
-void VToolsBar::setCurrentOpacity(qreal)
+void VToolsBar::setCurrentOpacity(qreal a)
 {
-
+    m_opacitySlider->setRealValue(a);
 }

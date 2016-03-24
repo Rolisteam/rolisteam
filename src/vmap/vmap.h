@@ -124,6 +124,11 @@ public:
      */
     void processGeometryChangeItem(NetworkMessageReader* msg);
     /**
+     * @brief processOpacityMessage
+     * @param msg
+     */
+    void processOpacityMessage(NetworkMessageReader* msg);
+    /**
      * @brief processSetParentItem
      * @param msg
      */

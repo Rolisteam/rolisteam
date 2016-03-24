@@ -88,6 +88,7 @@ void VisualItem::setEditableItem(bool b)
         connect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
         connect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
         connect(this,SIGNAL(zChanged()),this,SLOT(sendPositionMsg()));
+        connect(this,SIGNAL(opacityChanged()),this,SLOT(sendOpacityMsg()));
     }
     else
     {
@@ -334,7 +335,25 @@ bool VisualItem::hasFocusOrChild()
     }
     return false;
 }
-
+void VisualItem::sendOpacityMsg()
+{
+    if(getOption(VisualItem::LocalIsGM).toBool() ||
+       getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)//getOption PermissionMode
+    {
+         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::OpacityItemChanged);
+         msg.string8(m_mapId);
+         msg.string16(m_id);
+         msg.real(opacity());
+         msg.sendAll();
+    }
+}
+void VisualItem::readOpacityMsg(NetworkMessageReader* msg)
+{
+    qreal opa = msg->real();
+    blockSignals(true);
+    setOpacity(opa);
+    blockSignals(false);
+}
 void VisualItem::sendPositionMsg()
 {
    if(getOption(VisualItem::LocalIsGM).toBool() ||

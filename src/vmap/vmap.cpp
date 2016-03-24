@@ -909,6 +909,18 @@ void VMap::processMoveItemMessage(NetworkMessageReader* msg)
 
     }
 }
+void VMap::processOpacityMessage(NetworkMessageReader* msg)
+{
+    if(NULL!=msg)
+    {
+        QString id = msg->string16();
+        VisualItem* item = m_itemMap->value(id);
+        if(NULL!=item)
+        {
+            item->readOpacityMsg(msg);
+        }
+    }
+}
 void VMap::processDelItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=msg)

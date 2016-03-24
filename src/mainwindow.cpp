@@ -1862,6 +1862,16 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
                 }
             }
             break;
+        case NetMsg::OpacityItemChanged:
+            {
+                QString vmapId = msg->string8();
+                VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
+                if(NULL!=tmp)
+                {
+                    tmp->processOpacityMessage(msg);
+                }
+            }
+            break;
         case NetMsg::AddPoint:
             break;
         case NetMsg::vmapChanges:

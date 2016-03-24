@@ -233,6 +233,7 @@ public:
      * @brief setEditableItem
      */
     virtual void setEditableItem(bool);
+    void readOpacityMsg(NetworkMessageReader *msg);
 signals:
     /**
      * @brief itemGeometryChanged
@@ -273,6 +274,8 @@ public slots:
      * @param msg
      */
     virtual void readPositionMsg(NetworkMessageReader* msg);
+
+    virtual void sendOpacityMsg();
     
 protected:
 	/**
