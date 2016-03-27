@@ -75,6 +75,7 @@ void VMapFrame::updateMap()
 	setWidget(m_graphicView);
     setWindowIcon(QIcon(":/map.png"));
     m_vmap->setVisibilityMode(m_vmap->getVisibilityMode());
+
 	updateTitle();
 }
 void VMapFrame::updateTitle()
@@ -109,16 +110,18 @@ void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 	if(NULL!=m_graphicView)
 	{
 		m_graphicView->currentToolChanged(selectedtool);
-	}
-    switch (m_currentTool)
-    {
-    case VToolsBar::HANDLER:
-        m_graphicView->setDragMode(QGraphicsView::RubberBandDrag);
-        break;
-    default:
-        m_graphicView->setDragMode(QGraphicsView::NoDrag);
-        break;
+
+        switch (m_currentTool)
+        {
+        case VToolsBar::HANDLER:
+            m_graphicView->setDragMode(QGraphicsView::RubberBandDrag);
+            break;
+        default:
+            m_graphicView->setDragMode(QGraphicsView::NoDrag);
+            break;
+        }
     }
+
 }
 void VMapFrame::mousePressEvent(QMouseEvent* event)
 {
