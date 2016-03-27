@@ -41,7 +41,8 @@ RGraphicsView::RGraphicsView(VMap *vmap)
     }
     setAcceptDrops(true);
     m_preferences = PreferencesManager::getInstance();
-    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+//    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+
     setViewport(new QOpenGLWidget());
     fitInView(sceneRect(),Qt::KeepAspectRatio);
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
