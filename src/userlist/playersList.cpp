@@ -310,7 +310,7 @@ Person * PlayersList::getPerson(const QString & uuid) const
 Player * PlayersList::getPlayer(const QString & uuid) const
 {
     Person * person = m_uuidMap.value(uuid);
-    if (person == NULL || person->getParent() != NULL)
+    if (person == NULL || person->getParent() != NULL)//No person or if person has parent return Player
         return NULL;
     return static_cast<Player *>(person);
 }
@@ -681,7 +681,6 @@ bool PlayersList::event(QEvent * event)
     if (event->type() == ReceiveEvent::Type)
     {
         using namespace NetMsg;
-        qDebug() << "reveived event";
         ReceiveEvent * rEvent = static_cast<ReceiveEvent *>(event);
         NetworkMessageReader & data = rEvent->data();
         switch (data.category())
