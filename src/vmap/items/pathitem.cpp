@@ -27,7 +27,7 @@
 
 
 PathItem::PathItem()
-    : VisualItem()
+    : VisualItem(),m_penMode(false)
 {
     m_closed=false;
     createActions();
