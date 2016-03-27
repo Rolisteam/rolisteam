@@ -112,6 +112,11 @@ public:
     void setCleverUriType(CleverURI::ContentType);
 
     /**
+     * @brief getContentType
+     * @return
+     */
+    virtual CleverURI::ContentType getContentType();
+    /**
      * @brief saveMedia
      */
     virtual void saveMedia() =0;
