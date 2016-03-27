@@ -116,10 +116,10 @@ signals :
     void incrementeNumeroPnj();
     void changeCurrentColor(QColor couleur);
     void mettreAJourPnj(int diametre, QString nom);
-    void afficherNomsPj(bool afficher);
-    void afficherNomsPnj(bool afficher);
-    void afficherNumerosPnj(bool afficher);
-    void changerTaillePj(int nouvelleTaille);
+    void showPcName(bool afficher);
+    void showNpcName(bool afficher);
+    void showNpcNumber(bool afficher);
+    void setPcSize(int nouvelleTaille);
     void commencerDeplacementBipMapWindow(QPoint position);
     void deplacerBipMapWindow(QPoint position);
 
