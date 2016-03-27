@@ -274,6 +274,7 @@ CONFIG += embed_manifest_exe
 INCLUDEPATH +=src/audio
 OTHER_FILES += \
     src/widgets/widgets.pro \
+    $$TRANSLATIONS
 
 #Windows
 win32 {
