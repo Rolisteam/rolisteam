@@ -1039,7 +1039,10 @@ void VMap::addNewItem(VisualItem* item)
         }
         if(VToolsBar::Painting == m_editionMode)
         {
-            m_itemMap->insert(item->getId(),item);
+            if(item->type() != VisualItem::ANCHOR)
+            {
+                m_itemMap->insert(item->getId(),item);
+            }
         }
     }
 }
