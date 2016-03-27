@@ -115,6 +115,7 @@ void RectItem::writeData(QDataStream& out) const
     out << scale();
     out << rotation();
     out << pos();
+    out << zValue();
 }
 
 void RectItem::readData(QDataStream& in)
@@ -136,6 +137,10 @@ void RectItem::readData(QDataStream& in)
     QPointF p;
     in >> p;
     setPos(p);
+
+    qreal zvalue;
+    in >> zvalue;
+    setZValue(zvalue);
 
 }
 void RectItem::fillMessage(NetworkMessageWriter* msg)
