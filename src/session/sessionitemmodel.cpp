@@ -140,17 +140,17 @@ void SessionItemModel::updateNode(ResourcesNode* node)
     QModelIndex nodeIndex;
     QModelIndex parent;
     QList<ResourcesNode*> path;
-    ResourcesNode* parentItem=NULL;
     if(m_rootItem->seekNode(path,node))
     {
+        ResourcesNode* parentItem=NULL;
         for(auto i : path)
         {
-		if(NULL!=parentItem)
-		{
- 	           	nodeIndex = index(parentItem->indexOf(i),0,parent);
-				parent=nodeIndex;	
-		}
-		parentItem=i;
+            if(NULL!=parentItem)
+            {
+                    nodeIndex = index(parentItem->indexOf(i),0,parent);
+                    parent=nodeIndex;
+            }
+            parentItem=i;
         }
     }
 	emit dataChanged(nodeIndex,nodeIndex);

@@ -216,7 +216,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             {
                 changeZValue(list,(VisualItem::StackOrder)selectedAction->data().toInt());
             }
-            else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putCharacterLayer))
+            else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putGroundLayer))
             {
                 setItemLayer(list,(VisualItem::Layer)selectedAction->data().toInt());
             }

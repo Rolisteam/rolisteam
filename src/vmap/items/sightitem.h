@@ -187,8 +187,8 @@ private:
     qreal m_defaultRadius;
 
 
-    QAction* m_diskShape;
-    QAction* m_angleShape;
+    /*QAction* m_diskShape;
+    QAction* m_angleShape;*/
 
  //   QMap<qreal,CharacterVision*> m_visionMap;
     QMap<QString,CharacterItem*>* m_characterItemMap;

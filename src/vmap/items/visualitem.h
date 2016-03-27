@@ -329,7 +329,6 @@ protected:
 
 
 protected:
-    QVector<ChildPointItem*>* m_child;
     QColor m_color;
     ItemType m_type;
     QString m_id;
@@ -350,6 +349,7 @@ protected:
     QVector<ItemType> m_promoteTypeList;
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
+    QVector<ChildPointItem*>* m_child;
 
 private slots:
 	/**

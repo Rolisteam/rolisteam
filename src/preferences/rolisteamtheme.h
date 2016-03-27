@@ -98,13 +98,13 @@ public:
     void setBackgroundImage(QString img);
 
     QString getBackgroundImage() const;
-    int getBackgroundPosition();
-    QColor getBackgroundColor();
+    int getBackgroundPosition() const;
+    QColor getBackgroundColor() const;
 
-    QColor getDiceHighlightColor();
+    QColor getDiceHighlightColor() const;
     void  setDiceHighlightColor(QColor c);
 
-    QString getStyleName();
+    QString getStyleName() const;
 
     void writeTo(QJsonObject& json);
     bool readFrom(const QJsonObject& json);

@@ -94,7 +94,7 @@ void FogSingularity::setPolygon(QPolygonF* poly)
 /////////////////////////////////
 
 SightItem::SightItem(QMap<QString,CharacterItem*>* characterItemMap)
-    : m_defaultShape(CharacterVision::ANGLE),m_defaultAngle(120),m_defaultRadius(50),m_characterItemMap(characterItemMap),m_bgColor(Qt::black),m_count(0)
+    : m_defaultShape(CharacterVision::ANGLE),m_defaultAngle(120),m_defaultRadius(50),m_characterItemMap(characterItemMap),m_bgColor(Qt::black),m_count(0),m_isGM(false)
 {
     setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
     createActions();
@@ -379,8 +379,8 @@ void SightItem::createActions()
 
 void SightItem::addActionContextMenu(QMenu* menu)
 {
-    menu->addAction(m_diskShape);
-    menu->addAction(m_angleShape);
+    /*menu->addAction(m_diskShape);
+    menu->addAction(m_angleShape);*/
 }
 void SightItem::moveVision(qreal id, QPointF& pos)
 {

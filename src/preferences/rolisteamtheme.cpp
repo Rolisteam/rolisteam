@@ -97,7 +97,7 @@ void RolisteamTheme::setBackgroundImage(QString img)
     m_bgPath = img;
 }
 
-QString RolisteamTheme::getStyleName()
+QString RolisteamTheme::getStyleName() const
 {
     return m_styleName;
 }
@@ -106,12 +106,12 @@ QString RolisteamTheme::getBackgroundImage() const
     return m_bgPath;
 }
 
-int RolisteamTheme::getBackgroundPosition()
+int RolisteamTheme::getBackgroundPosition() const
 {
     return m_position;
 }
 
-QColor RolisteamTheme::getBackgroundColor()
+QColor RolisteamTheme::getBackgroundColor() const
 {
     return m_bgColor;
 }
@@ -119,7 +119,7 @@ void RolisteamTheme::setDiceHighlightColor(QColor c)
 {
     m_diceHighlightColor = c;
 }
-QColor RolisteamTheme::getDiceHighlightColor()
+QColor RolisteamTheme::getDiceHighlightColor() const
 {
     return m_diceHighlightColor;
 }

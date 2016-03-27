@@ -29,14 +29,14 @@
 #include "map/mapwizzard.h"
 
 VMapFrame::VMapFrame()
-    : MediaContainer(),m_graphicView(NULL)
+    : MediaContainer(),m_graphicView(NULL),m_currentEditingMode(0)
 {
     setObjectName("VMapFrame");
     m_vmap = new VMap();
 }
 
 VMapFrame::VMapFrame(CleverURI* uri,VMap *map)
-    : MediaContainer(),m_vmap(map),m_graphicView(NULL)
+    : MediaContainer(),m_vmap(map),m_graphicView(NULL),m_currentEditingMode(0)
 {
     setObjectName("VMapFrame");
     m_uri =uri;

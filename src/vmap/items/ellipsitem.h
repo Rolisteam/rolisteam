@@ -90,11 +90,12 @@ private:
     */
     QPointF m_center;
     
+
+    qint16 m_penWidth;
     /**
     * @brief stores the filled state
     */
     bool m_filled;
-    qint16 m_penWidth;
 };
 
 #endif // ELLIPSITEM_H

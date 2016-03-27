@@ -110,13 +110,13 @@ protected:
 
 
 private:
+
+	quint16 m_penWidth;
+    bool m_initialized;
     /**
     * @brief stores the filled state.
     */
     bool m_filled;
-	quint16 m_penWidth;
-    bool m_initialized;
-    
 };
 
 #endif // RECTITEM_H
