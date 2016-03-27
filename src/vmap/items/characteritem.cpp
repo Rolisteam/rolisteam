@@ -193,10 +193,6 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 	}
 
     painter->drawPath(m_debugPath);
-    /*painter->drawPath(mapFromScene(m_debugPath2));
-    painter->drawPath(m_debugPath2);*/
-
-
 }
 const QPointF& CharacterItem::getCenter() const
 {
