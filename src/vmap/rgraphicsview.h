@@ -65,6 +65,7 @@ protected:
 
 
 
+    void mouseMoveEvent(QMouseEvent *event);
 private slots:
     void setZoomFactor();
     void showMapProperties();
@@ -100,6 +101,7 @@ private:
 
 	VToolsBar::SelectableTool m_currentTool;
     PreferencesManager* m_preferences;
+    QPoint m_lastPoint;
 
 };
 

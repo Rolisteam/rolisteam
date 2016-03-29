@@ -78,13 +78,35 @@ void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 }
 void RGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
+    m_lastPoint = QPoint();
     QGraphicsView::mouseReleaseEvent(event);
     if(dragMode()==QGraphicsView::ScrollHandDrag)
     {
         setDragMode(QGraphicsView::RubberBandDrag);
     }
 }
-
+void RGraphicsView::mouseMoveEvent(QMouseEvent *event)
+{
+    if((VToolsBar::HANDLER == m_currentTool)&&
+       (event->modifiers() & Qt::ShiftModifier)&&
+       (event->buttons() & Qt::LeftButton))
+    {
+        if(!m_lastPoint.isNull())
+        {
+            QRectF rect = sceneRect();
+            int dx = event->x() - m_lastPoint.x();
+            int dy = event->y() - m_lastPoint.y();
+            rect.translate(-dx,-dy);
+            m_lastPoint = event->pos();
+            setSceneRect(rect);
+        }
+        m_lastPoint = event->pos();
+    }
+    else
+    {
+        QGraphicsView::mouseMoveEvent(event);
+    }
+}
 void RGraphicsView::focusInEvent ( QFocusEvent * event )
 {
     QGraphicsView::focusInEvent (event);
@@ -93,6 +115,7 @@ void RGraphicsView::wheelEvent(QWheelEvent *event)
 {
     if(event->modifiers() & Qt::ShiftModifier)
     {
+        setResizeAnchor(QGraphicsView::AnchorUnderMouse);
         setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
         // Scale the view / do the zoom
         double scaleFactor = 1.1;
@@ -107,7 +130,7 @@ void RGraphicsView::wheelEvent(QWheelEvent *event)
             --m_counterZoom;
             scale(1.0 / scaleFactor, 1.0 / scaleFactor);
         }
-        ;
+
     }
     else
         QGraphicsView::wheelEvent(event);
