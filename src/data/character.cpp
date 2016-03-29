@@ -185,6 +185,10 @@ void Character::writeData(QDataStream& out) const
         out << true;
         out << m_currentState->getLabel();
     }
+    else
+    {
+        out << false;
+    }
     out << m_isNpc;
     out << m_number;
     out << m_color;

@@ -238,6 +238,16 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
     }
 }
 
+ImprovedTextEdit *ChatWindow::getEditionZone() const
+{
+    return m_editionZone;
+}
+
+void ChatWindow::setEditionZone(ImprovedTextEdit *editionZone)
+{
+    m_editionZone = editionZone;
+}
+
 // not (const QString & message), because we change it !
 void ChatWindow::emettreTexte(bool hasHtml,QString message)
 {
@@ -283,9 +293,11 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
                     m_warnedEmoteUnavailable = true;
                 }
 
-
-                showMessage(m_localPerson->getName(), m_localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
-                action = NetMsg::EmoteMessageAction;
+                if(NULL!=m_localPerson)
+                {
+                    showMessage(m_localPerson->getName(), m_localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
+                    action = NetMsg::EmoteMessageAction;
+                }
                 break;
 
             }

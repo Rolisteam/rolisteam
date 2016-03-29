@@ -452,7 +452,7 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
 
     if (to == g_playersList->getLocalPlayer()->getUuid())
     {
-        Player * owner = g_playersList->getParent(from);
+        Player * owner = g_playersList->getPlayer(from);
         getChatWindowByUuid(owner->getUuid())->showMessage(sender->getName(), sender->getColor(), msg, data.action());
         return;
     }

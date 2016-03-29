@@ -333,13 +333,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/chat/chatwindow.cpp" line="211"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%2)]</source>
         <comment>mine dice roll</comment>
-        <translation>avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%2 (%3)] </translation>
+        <translation type="unfinished">avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%2)] </translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="216"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</source>
         <comment>third person roll</comment>
-        <translation> a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2 (%3)]</translation>
+        <translation type="unfinished"> a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="235"/>

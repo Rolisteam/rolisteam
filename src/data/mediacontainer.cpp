@@ -137,3 +137,11 @@ void MediaContainer::currentCursorChanged(QCursor* cursor)
 {
     m_currentCursor = cursor;
 }
+CleverURI::ContentType MediaContainer::getContentType()
+{
+    if(NULL!=m_uri)
+    {
+        return m_uri->getType();
+    }
+    return CleverURI::NONE;
+}

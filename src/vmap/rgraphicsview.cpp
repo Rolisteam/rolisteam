@@ -41,7 +41,8 @@ RGraphicsView::RGraphicsView(VMap *vmap)
     }
     setAcceptDrops(true);
     m_preferences = PreferencesManager::getInstance();
-    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+//    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+
     setViewport(new QOpenGLWidget());
     fitInView(sceneRect(),Qt::KeepAspectRatio);
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
@@ -215,7 +216,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             {
                 changeZValue(list,(VisualItem::StackOrder)selectedAction->data().toInt());
             }
-            else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putCharacterLayer))
+            else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putGroundLayer))
             {
                 setItemLayer(list,(VisualItem::Layer)selectedAction->data().toInt());
             }

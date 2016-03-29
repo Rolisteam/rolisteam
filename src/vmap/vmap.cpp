@@ -58,6 +58,7 @@ void VMap::initMap()
     m_itemMap=new  QMap<QString,VisualItem*>;
     m_characterItemMap = new QMap<QString,CharacterItem*>();
     setItemIndexMethod(QGraphicsScene::NoIndex);
+
     m_sightItem = new SightItem(m_characterItemMap);
 
     m_propertiesHash->insert(VisualItem::ShowNpcName,false);
@@ -970,7 +971,7 @@ void VMap::addNewItem(VisualItem* item)
         connect(item,SIGNAL(itemLayerChanged(VisualItem*)),this,SLOT(checkItemLayer(VisualItem*)));
         connect(item,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),this,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
 
-        if(item!=m_sightItem)
+        if((item!=m_sightItem)&&(VisualItem::ANCHOR!=item->type())&&(VisualItem::RULE!=item->type()))
         {
             m_orderedItemList.append(item);
         }
@@ -1039,7 +1040,10 @@ void VMap::addNewItem(VisualItem* item)
         }
         if(VToolsBar::Painting == m_editionMode)
         {
-            m_itemMap->insert(item->getId(),item);
+            if(item->type() != VisualItem::ANCHOR)
+            {
+                m_itemMap->insert(item->getId(),item);
+            }
         }
     }
 }

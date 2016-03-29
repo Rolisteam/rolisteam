@@ -29,13 +29,13 @@
 #include "network/networkmessagereader.h"
 
 RectItem::RectItem()
-    : VisualItem(),m_filled(false),m_initialized(false)
+    : VisualItem(),m_penWidth(1),m_initialized(false),m_filled(false)
 {
 
 }
 
 RectItem::RectItem(QPointF& topleft,QPointF& buttomright,bool filled,quint16 penSize,QColor& penColor,QGraphicsItem * parent)
-    : VisualItem(penColor,parent),m_penWidth(penSize),m_filled(filled)
+    : VisualItem(penColor,parent),m_penWidth(penSize),m_initialized(false),m_filled(filled)
 {
     m_rect.setBottomRight(buttomright);
     m_rect.setTopLeft(topleft);
@@ -115,6 +115,7 @@ void RectItem::writeData(QDataStream& out) const
     out << scale();
     out << rotation();
     out << pos();
+    out << zValue();
 }
 
 void RectItem::readData(QDataStream& in)
@@ -136,6 +137,10 @@ void RectItem::readData(QDataStream& in)
     QPointF p;
     in >> p;
     setPos(p);
+
+    qreal zvalue;
+    in >> zvalue;
+    setZValue(zvalue);
 
 }
 void RectItem::fillMessage(NetworkMessageWriter* msg)

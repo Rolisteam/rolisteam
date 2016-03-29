@@ -132,7 +132,6 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 }
 void NetworkLink::sendData(NetworkMessage* msg)
 {
-    qDebug() << "sendData message socket" << m_socketTcp;
     if(NULL==m_socketTcp)
     {
         qDebug() << "sendData is Null";
@@ -176,7 +175,6 @@ void NetworkLink::receivingData()
             readDataSize = m_socketTcp->read(tmp+m_headerRead, sizeof(NetworkMessageHeader)-m_headerRead);
             readDataSize+=m_headerRead;
 
-            qDebug() << "Read DataSize" << readDataSize << m_header.dataSize << m_header.category << m_header.action << m_socketTcp->bytesAvailable();
             if((readDataSize!=sizeof(NetworkMessageHeader)))//||(m_header.category>=NetMsg::LastCategory)
             {
                 m_headerRead=readDataSize;

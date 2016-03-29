@@ -21,7 +21,6 @@
  *   Free Software Foundation, Inc.,                                     *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
-
 #include <QApplication>
 #include <QBitmap>
 #include <QBuffer>
@@ -38,7 +37,6 @@
 #include <QStatusBar>
 #include <QCommandLineParser>
 
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -49,7 +47,6 @@
 #include "network/networkmanager.h"
 #include "Image.h"
 #include "network/networkmessagewriter.h"
-
 
 #include "data/person.h"
 #include "data/player.h"
@@ -63,26 +60,17 @@
 
 //Text editor
 #include "textedit.h"
-
-
 #include "widgets/aboutrolisteam.h"
 #include "widgets/gmtoolbox/UnitConvertor/convertor.h"
 #include "widgets/gmtoolbox/NameGenerator/namegeneratorwidget.h"
-
 //VMAP
 #include "vmap/vmapframe.h"
 #include "vmap/vmap.h"
 #include "vmap/vmapwizzarddialog.h"
-
-
 //character sheet
 #include "charactersheet/charactersheetwindow.h"
-
-
 //session
 #include "session/sessionmanager.h"
-
-
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
 #endif
@@ -186,23 +174,26 @@ void  MainWindow::closeConnection()
 }
 void MainWindow::closeAllImagesAndMaps()
 {
-    foreach(QMdiSubWindow* tmp,m_pictureList)
+    foreach(Image* tmp,m_pictureHash.values())
     {
         if(NULL!=tmp)
         {
-            Image* imageWindow = dynamic_cast<Image*>(tmp->widget());
-
-            if(NULL!=imageWindow)
-            {
-                removePictureFromId(imageWindow->getMediaId());
-            }
+             removePictureFromId(tmp->getMediaId());
         }
     }
-    foreach(MapFrame* tmp,m_mapWindowMap)
+    foreach(MapFrame* tmp,m_mapWindowMap.values())
     {
         if(NULL!=tmp)
         {
             removeMapFromId(tmp->getMediaId());
+        }
+    }
+
+    foreach(VMapFrame* tmp,m_mapWindowVectorialMap.values())
+    {
+        if(NULL!=tmp)
+        {
+            //removeVMapFromId(tmp->getMediaId());
         }
     }
 }
@@ -210,6 +201,24 @@ void MainWindow::closeAllImagesAndMaps()
 void MainWindow::closeMapOrImage()
 {
     QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
+    MediaContainer* container = dynamic_cast<MediaContainer*>(subactive);
+    if(NULL != container)
+    {
+        CleverURI::ContentType type = container->getContentType();
+        if(CleverURI::VMAP == type)
+        {
+            removeVMapFromId(container->getMediaId());
+        }
+        else if(CleverURI::MAP == type)
+        {
+            removeMapFromId(container->getMediaId());
+        }
+        else if(CleverURI::PICTURE == type )
+        {
+            removePictureFromId(container->getMediaId());
+        }
+    }
+    /*QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
     QWidget* active = subactive;
     MapFrame* bipMapWindow = NULL;
 
@@ -300,7 +309,7 @@ void MainWindow::closeMapOrImage()
 
         delete action;
         delete subactive;
-    }
+    }*/
 }
 void MainWindow::checkUpdate()
 {
@@ -548,7 +557,7 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
 }
 void MainWindow::prepareImage(Image* imageFrame)
 {
-    m_pictureList.append(imageFrame);
+    m_pictureHash.insert(imageFrame->getMediaId(),imageFrame);
     connect(m_toolBar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),imageFrame,SLOT(setCurrentTool(ToolsBar::SelectableTool)));
     imageFrame->setCurrentTool(m_toolBar->getCurrentTool());
 }
@@ -603,19 +612,13 @@ void MainWindow::newVectorialMap()
 }
 void MainWindow::newNoteDocument()
 {
-
     NoteContainer* note = new NoteContainer();
-
     if(!m_noteMap.contains(note->getTitle()))
     {
         m_noteMap.insert(note->getTitle(),note);
     }
     m_sessionManager->addRessource(note->getCleverUri());
-
     addMediaToMdiArea(note);
-
-
-
     //displayMinutesEditor(true,true);
 }
 void MainWindow::sendOffAllMaps(NetworkLink * link)
@@ -647,7 +650,7 @@ void MainWindow::sendOffAllImages(NetworkLink * link)
 {
     NetworkMessageWriter message = NetworkMessageWriter(NetMsg::PictureCategory, NetMsg::AddPictureAction);
 
-    foreach(Image* sub, m_pictureList)
+    foreach(Image* sub, m_pictureHash.values())
     {
         //Image* img = dynamic_cast<Image*>(sub->widget());
         if(NULL!=sub)
@@ -657,7 +660,25 @@ void MainWindow::sendOffAllImages(NetworkLink * link)
         }
     }
 }
+void MainWindow::removeVMapFromId(QString idMap)
+{
+        VMapFrame* mapWindow = m_mapWindowVectorialMap.value(idMap);
+        m_vmapToolBar->setCurrentMap(NULL);
+        if(NULL!=mapWindow)
+        {
+            delete m_mapAction->value(mapWindow);
+            m_mapWindowVectorialMap.remove(idMap);
+            delete mapWindow;
 
+            if((NULL!=m_currentConnectionProfile)&&(m_currentConnectionProfile->isGM()))
+            {
+                NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::closeVmap);
+                msg.string8(idMap);
+                msg.sendAll();
+            }
+
+        }
+}
 void MainWindow::removeMapFromId(QString idMap)
 {
         MapFrame* mapWindow = m_mapWindowMap.value(idMap);
@@ -668,7 +689,14 @@ void MainWindow::removeMapFromId(QString idMap)
             delete m_mapAction->value(mapWindow);
             m_mapWindowMap.remove(idMap);
             delete mapWindow;
-            //delete tmp;
+
+            if((NULL!=m_currentConnectionProfile)&&(m_currentConnectionProfile->isGM()))
+            {
+                NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::CloseMap);
+                msg.string8(idMap);
+                msg.sendAll();
+            }
+
         }
 }
 Map* MainWindow::findMapById(QString idMap)
@@ -743,16 +771,19 @@ bool MainWindow::mayBeSaved(bool connectionLoss)
 }
 void MainWindow::removePictureFromId(QString idImage)
 {
-    QMdiSubWindow* tmp = m_mdiArea->getSubWindowFromId(idImage);
+    Image* tmp = m_pictureHash.value(idImage);
     if(NULL!=tmp)
     {
-        Image* imageWindow = dynamic_cast<Image*>(tmp->widget());
-        if(NULL!=imageWindow)
-        {
-            m_pictureList.removeOne(imageWindow);
-            delete imageWindow;
-        }
+        delete m_mapAction->value(tmp);
+        m_pictureHash.remove(idImage);
         delete tmp;
+
+        if((NULL!=m_currentConnectionProfile)&&(m_currentConnectionProfile->isGM()))
+        {
+            NetworkMessageWriter msg(NetMsg::PictureCategory,NetMsg::DelPictureAction);
+            msg.string8(idImage);
+            msg.sendAll();
+        }
     }
 }
 QWidget* MainWindow::registerSubWindow(QWidget * subWindow,QAction* action)
@@ -880,8 +911,8 @@ void MainWindow::saveAllMap(QDataStream &out)
 
 void MainWindow::saveAllImages(QDataStream &out)
 {
-    out << m_pictureList.size();
-    foreach(Image* sub, m_pictureList)
+    out << m_pictureHash.size();
+    foreach(Image* sub, m_pictureHash.values())
     {
         if(NULL!=sub)
         {
@@ -1266,6 +1297,7 @@ bool  MainWindow::showConnectionDialog(bool forced)
 }
 void MainWindow::startConnection()
 {
+    m_chatListWidget->cleanChatList();
     QSettings settings("rolisteam","rolisteam");
     m_dialog->writeSettings(settings);
     m_currentConnectionProfile = m_dialog->getSelectedProfile();
@@ -1296,7 +1328,7 @@ void MainWindow::setupUi()
 {
     // Initialisation de la liste des BipMapWindow, des Image et des Tchat
     m_mapWindowMap.clear();
-    m_pictureList.clear();
+    m_pictureHash.clear();
     m_version=tr("unknown");
 #ifdef VERSION_MINOR
     #ifdef VERSION_MAJOR
@@ -1818,6 +1850,10 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
         case NetMsg::loadVmap:
             break;
         case NetMsg::closeVmap:
+        {
+                QString vmapId = msg->string8();
+                removeVMapFromId(vmapId);
+        }
             break;
         case NetMsg::addItem:
             {

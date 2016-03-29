@@ -303,6 +303,7 @@ void TextItem::writeData(QDataStream& out) const
     out << scale();
     out << rotation();
     out << pos();
+    out << zValue();
 }
 void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -335,6 +336,11 @@ void TextItem::readData(QDataStream& in)
     QPointF pos;
     in >> pos;
     setPos(pos);
+
+
+    qreal zvalue;
+    in >> zvalue;
+    setZValue(zvalue);
 
 
 }

@@ -30,6 +30,7 @@ Chapter::Chapter()
 {
 }
 Chapter::Chapter(const Chapter& m)
+: m_children(QList<ResourcesNode*>())
 {
     m_name=m.m_name;
 }

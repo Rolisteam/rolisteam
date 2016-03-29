@@ -23,9 +23,10 @@
 #include <QApplication>
 
 
-
+#ifndef UNIT_TEST
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#endif
 
 #include "data/character.h"
 Player::Player()

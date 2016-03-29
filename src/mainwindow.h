@@ -117,20 +117,22 @@ public :
     void updateWorkspace();
     /**
      * @brief trouverCarte
-     * @param idCarte
-     * @return
+     * @param idMap
      */
-    Map* findMapById(QString idCarte);
+    Map* findMapById(QString idMap);
     /**
      * @brief removeMapFromId
-     * @param idCarte
-     * @return
+     * @param idMap
      */
-    void removeMapFromId(QString idCarte);
+    void removeMapFromId(QString idMap);
+    /**
+     * @brief removeVMapFromId
+     * @param idMap
+     */
+    void removeVMapFromId(QString idMap);
     /**
      * @brief removePictureFromId
      * @param idImage
-     * @return
      */
     void removePictureFromId(QString idImage);
     /**
@@ -338,7 +340,7 @@ private:
     QMap<QString,MapFrame *> m_mapWindowMap;
     QMap<QString,VMapFrame *> m_mapWindowVectorialMap;
     QMap<QString,NoteContainer*> m_noteMap;
-    QList <Image*> m_pictureList;
+    QHash<QString,Image*> m_pictureHash;
     QMap<MediaContainer*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
     AudioPlayer* m_audioPlayer;

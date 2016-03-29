@@ -22,7 +22,7 @@ isEmpty(PREFIX) {
 }
 
 
-DEFINES += DEBUG_MODE
+#DEFINES += DEBUG_MODE
 CONFIG += c++11
 
 macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
@@ -65,8 +65,8 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 ##Installation
 target.path = $$PREFIX/
 
-INSTALLS += target
 }
+INSTALLS += target
 
 include(src/odt/src/src.pri)
 include(src/diceparser/diceparser.pri)
@@ -274,6 +274,7 @@ CONFIG += embed_manifest_exe
 INCLUDEPATH +=src/audio
 OTHER_FILES += \
     src/widgets/widgets.pro \
+    $$TRANSLATIONS
 
 #Windows
 win32 {
