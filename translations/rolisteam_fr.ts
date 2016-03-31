@@ -333,13 +333,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/chat/chatwindow.cpp" line="211"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%2)]</source>
         <comment>mine dice roll</comment>
-        <translation type="unfinished">avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%2)] </translation>
+        <translation>avez obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; à votre lancer de dés [%3 (%2)] </translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="216"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</source>
         <comment>third person roll</comment>
-        <translation type="unfinished"> a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</translation>
+        <translation> a obtenu &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</translation>
     </message>
     <message>
         <location filename="../src/chat/chatwindow.cpp" line="235"/>
@@ -1553,122 +1553,122 @@ Port:%2</translation>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="14"/>
         <source>Map Wizzard</source>
-        <translation type="unfinished">Ouvrir un Plan</translation>
+        <translation>Ouvrir un Plan</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="31"/>
         <source>Title :</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="51"/>
         <source>Background Color :</source>
-        <translation type="unfinished"></translation>
+        <translation>Couleur de fond :</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="97"/>
         <source>Visibility Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Visibilité:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="111"/>
         <source>Permission Mode:</source>
-        <translation type="unfinished">Mode de Permission:</translation>
+        <translation>Mode de Permission:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="123"/>
         <source>Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Grille</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="149"/>
         <source>Grid Pattern:</source>
-        <translation type="unfinished"></translation>
+        <translation>Schéma de grille:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="156"/>
         <source>Color:</source>
-        <translation type="unfinished">Couleur:</translation>
+        <translation>Couleur:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="169"/>
         <source>Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="182"/>
         <source>Scale:</source>
-        <translation type="unfinished"></translation>
+        <translation>Échelle:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="249"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="254"/>
         <source>km</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="259"/>
         <source>cm</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="264"/>
         <source>mile</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="269"/>
         <source>yard</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="274"/>
         <source>inch</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="279"/>
         <source>foot</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.ui" line="284"/>
         <source>px</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.cpp" line="56"/>
         <source>No Right</source>
-        <translation type="unfinished">Aucun droit</translation>
+        <translation>Aucun droit</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.cpp" line="56"/>
         <source>His character</source>
-        <translation type="unfinished">Personnage</translation>
+        <translation>Personnage</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.cpp" line="56"/>
         <source>All Permissions</source>
-        <translation type="unfinished">Tous les droits</translation>
+        <translation>Tous les droits</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.cpp" line="60"/>
         <source>Hidden</source>
-        <translation type="unfinished">Caché</translation>
+        <translation>Caché</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.cpp" line="60"/>
         <source>Fog of War</source>
-        <translation type="unfinished"></translation>
+        <translation>Brouillard de Guerre</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmapwizzarddialog.cpp" line="60"/>
         <source>All visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Entierement Visible</translation>
     </message>
 </context>
 <context>
@@ -3562,7 +3562,7 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/userlist/userlistview.cpp" line="49"/>
         <source>Set Avatar...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un Avatar...</translation>
     </message>
     <message>
         <location filename="../src/userlist/userlistview.cpp" line="50"/>
@@ -3572,12 +3572,12 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/userlist/userlistview.cpp" line="115"/>
         <source>Avatar</source>
-        <translation type="unfinished"></translation>
+        <translation>Avatar</translation>
     </message>
     <message>
         <location filename="../src/userlist/userlistview.cpp" line="115"/>
         <source>Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Formats images acceptés   (*.jpg *.jpeg *.png *.bmp *.svg)</translation>
     </message>
 </context>
 <context>
@@ -3585,12 +3585,12 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/vmap/vcolorselector.cpp" line="108"/>
         <source>Predefine Color 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Couleur prédéfinie 1</translation>
     </message>
     <message>
         <location filename="../src/vmap/vcolorselector.cpp" line="143"/>
         <source>Red: %1, Green: %2, Blue: %3</source>
-        <translation type="unfinished">Rouge: %1, Vert: %2, Bleu: %3</translation>
+        <translation>Rouge: %1, Vert: %2, Bleu: %3</translation>
     </message>
 </context>
 <context>
@@ -3644,107 +3644,107 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="46"/>
         <source>Tools</source>
-        <translation type="unfinished">Outils</translation>
+        <translation>Outils</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="66"/>
         <source>Pen</source>
-        <translation type="unfinished">Crayon</translation>
+        <translation>Crayon</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="72"/>
         <source>Line</source>
-        <translation type="unfinished">Ligne</translation>
+        <translation>Ligne</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="78"/>
         <source>Empty Rectangle</source>
-        <translation type="unfinished">Rectangle vide</translation>
+        <translation>Rectangle vide</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="84"/>
         <source>filled Rectangle</source>
-        <translation type="unfinished">Rectangle plein</translation>
+        <translation>Rectangle plein</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="90"/>
         <source>Empty Ellipse</source>
-        <translation type="unfinished">Ellipse vide</translation>
+        <translation>Ellipse vide</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="96"/>
         <source>Filled Ellipse</source>
-        <translation type="unfinished">Ellipse pleine</translation>
+        <translation>Ellipse pleine</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="102"/>
         <source>Text</source>
-        <translation type="unfinished">Texte</translation>
+        <translation>Texte</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="108"/>
         <source>Hand</source>
-        <translation type="unfinished"></translation>
+        <translation>Main</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="114"/>
         <source>Add NPC</source>
-        <translation type="unfinished">Ajouter PNJ</translation>
+        <translation>Ajouter PNJ</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="120"/>
         <source>Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Règle</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="126"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="132"/>
         <source>Anchor</source>
-        <translation type="unfinished"></translation>
+        <translation>Ancre</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="150"/>
         <source>Text With Border</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte avec bordures</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="156"/>
         <source>Reset NPC counter</source>
-        <translation type="unfinished">Redémarrer le compteur des PNJ</translation>
+        <translation>Redémarrer le compteur des PNJ</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="280"/>
         <source>NPC Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom des PNJ</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="285"/>
         <source>NPC&apos;s number</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero de PNJ</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="293"/>
         <source>Normal</source>
-        <translation type="unfinished">Normal</translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="294"/>
         <source>Mask</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="295"/>
         <source>Unmask</source>
-        <translation type="unfinished"></translation>
+        <translation>Démasquer</translation>
     </message>
     <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="304"/>
         <source>height of the pen</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille du crayon</translation>
     </message>
 </context>
 <context>
@@ -3752,118 +3752,118 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="36"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="36"/>
         <source>Line</source>
-        <translation type="unfinished">Ligne</translation>
+        <translation>Ligne</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="36"/>
         <source>Ellipse</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="36"/>
         <location filename="../src/vmap/items/visualitem.cpp" line="37"/>
         <source>Character</source>
-        <translation type="unfinished"></translation>
+        <translation>Personnage</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="36"/>
         <source>Text</source>
-        <translation type="unfinished">Texte</translation>
+        <translation>Texte</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="36"/>
         <source>Rect</source>
-        <translation type="unfinished"></translation>
+        <translation>Rectangle</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="36"/>
         <source>Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Règle</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="36"/>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Image</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="37"/>
         <source>Ground</source>
-        <translation type="unfinished"></translation>
+        <translation>Sol</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="37"/>
         <source>Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Objet</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="170"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Descendre</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="177"/>
         <source>Front</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout devant</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="184"/>
         <source>Lower</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout en bas</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="190"/>
         <source>Raise</source>
-        <translation type="unfinished"></translation>
+        <translation>Monter</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="198"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="201"/>
         <source>Rotate</source>
-        <translation type="unfinished"></translation>
+        <translation>Rotation</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="202"/>
         <source>To 360</source>
-        <translation type="unfinished"></translation>
+        <translation>Mettre droit</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="203"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Droite</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="204"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Gauche</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="205"/>
         <source>Set Angle…</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir l&apos;angle...</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="210"/>
         <source>Promote to</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer en</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="215"/>
         <source>Set Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer de calque</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/visualitem.cpp" line="280"/>
         <source>Duplicate Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Dupplication</translation>
     </message>
 </context>
 <context>
@@ -3871,152 +3871,152 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="27"/>
         <source>Toolbar for VMap</source>
-        <translation type="unfinished"></translation>
+        <translation>La boite à outils pour VMap</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="38"/>
         <source>Show Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la grille</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="39"/>
         <source>Show/Hide Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Montre/Cache la grille</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="46"/>
         <source>GM Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Uniquement le MJ</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="46"/>
         <source>PC Move</source>
-        <translation type="unfinished"></translation>
+        <translation>PJ en mouvement</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="46"/>
         <source>ALL</source>
-        <translation type="unfinished"></translation>
+        <translation>Toutes</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="51"/>
         <source>Ground</source>
-        <translation type="unfinished"></translation>
+        <translation>Sol</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="51"/>
         <source>Object</source>
-        <translation type="unfinished"></translation>
+        <translation>Objet</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="51"/>
         <source>Character</source>
-        <translation type="unfinished"></translation>
+        <translation>Personnage</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="57"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="57"/>
         <source>Square</source>
-        <translation type="unfinished">Carré</translation>
+        <translation>Carré</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="57"/>
         <source>Hexagon</source>
-        <translation type="unfinished"></translation>
+        <translation>Hexagonal</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="62"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="62"/>
         <source>km</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="62"/>
         <source>cm</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="62"/>
         <source>mile</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="62"/>
         <source>yard</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="62"/>
         <source>inch</source>
-        <translation type="unfinished"></translation>
+        <translation>pouces</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="62"/>
         <source>foot</source>
-        <translation type="unfinished"></translation>
+        <translation>pied</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="62"/>
         <source>px</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="67"/>
         <source>Hidden</source>
-        <translation type="unfinished">Caché</translation>
+        <translation>Caché</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="67"/>
         <source>Fog of War</source>
-        <translation type="unfinished"></translation>
+        <translation>Brouillard de Guerre</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="67"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="77"/>
         <source>Background:</source>
-        <translation type="unfinished"></translation>
+        <translation>Couleur de fond:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="80"/>
         <source>Grid:</source>
-        <translation type="unfinished"></translation>
+        <translation>Grille:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="84"/>
         <source>px :</source>
-        <translation type="unfinished"></translation>
+        <translation>px:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="88"/>
         <source>Permission:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="91"/>
         <source>Visibility:</source>
-        <translation type="unfinished"></translation>
+        <translation>Visibilité:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="93"/>
         <source>Layer:</source>
-        <translation type="unfinished"></translation>
+        <translation>Calque:</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="96"/>
         <source>Character Vision</source>
-        <translation type="unfinished"></translation>
+        <translation>Vision des personnages</translation>
     </message>
 </context>
 <context>
