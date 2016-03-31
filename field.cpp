@@ -40,15 +40,14 @@ Field::Field(QPointF topleft,QGraphicsItem* parent)
     m_bgColor = QColor(Qt::white);
     m_textColor = QColor(Qt::black);
     m_font = font();
-    m_name = QStringLiteral("key %1").arg(m_count);
+    m_value = QStringLiteral("value");
 
     init();
 
 }
 void Field::init()
 {
-    ++m_count;
-    m_id = QStringLiteral("id%1").arg(m_count);
+    m_id = QStringLiteral("id_%1").arg(m_count);
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 
 
@@ -65,12 +64,14 @@ QRectF Field::boundingRect() const
     return m_rect;
 }
 
-QVariant Field::getValue(CharacterSheetItem::ColumnId id) const
+QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id) const
 {
     switch(id)
     {
-    case NAME:
-        return m_name;
+    case ID:
+        return m_id;
+    case VALUE:
+        return m_value;
     case X:
         return m_rect.x();
     case Y:
@@ -93,15 +94,18 @@ QVariant Field::getValue(CharacterSheetItem::ColumnId id) const
     return QVariant();
 }
 
-void Field::setValue(CharacterSheetItem::ColumnId id, QVariant var)
+void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
 {
     switch(id)
     {
-    case NAME:
-         m_name = var.toString();
+    case ID:
+        setId(var.toString());
+        break;
+    case VALUE:
+        setValue(var.toString());
         break;
     case X:
-         m_rect.setX(var.toReal());
+        m_rect.setX(var.toReal());
         break;
     case Y:
         m_rect.setY(var.toReal());
@@ -136,7 +140,7 @@ void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option,
 
 
     painter->drawRect(m_rect);
-    painter->drawText(m_rect,m_name);
+    painter->drawText(m_rect,m_id);
 
     painter->restore();
 
@@ -197,12 +201,14 @@ void Field::save(QJsonObject& json,bool exp)
     if(exp)
     {
         json["type"]="field";
-        json["key"]=m_name;
+        json["id"]=m_id;
         return;
     }
     json["type"]="field";
-    json["key"]=m_name;
+    json["id"]=m_id;
+    json["value"]=m_value;
     json["border"]=m_border;
+    json["page"]=m_page;
 
     QJsonObject bgcolor;
     bgcolor["r"]=QJsonValue(m_bgColor.red());
@@ -231,7 +237,7 @@ void Field::save(QJsonObject& json,bool exp)
 
 void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 {
-    m_name = json["key"].toString();
+    m_id = json["id"].toString();
     m_border = (BorderLine)json["border"].toInt();
 
 
@@ -259,6 +265,7 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
     y=json["y"].toDouble();
     w=json["width"].toDouble();
     h=json["height"].toDouble();
+    m_page=json["page"].toInt();
 
     QJsonArray valuesArray=json["values"].toArray();
     for(auto value : valuesArray.toVariantList())
@@ -276,12 +283,13 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
     {
         out << "Field {\n";
         out << "    id:"<<m_id<< "\n";
-        out << "    text: _model.getValue(\""<<m_name << "\")\n";
+        out << "    text: _"<<m_id << ".name\n";
         out << "    x:" << m_rect.x() << "*parent.realscale"<<"\n";
         out << "    y:" << m_rect.y()<< "*parent.realscale"<<"\n";
         out << "    width:" << m_rect.width() <<"*parent.realscale"<<"\n";
         out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
+        out << "    visible: root.page == "<< m_page << "? true : false\n";
         if(m_availableValue.isEmpty())
         {
             out << "    state:\"field\"\n";
@@ -293,13 +301,13 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         }
         out << "}\n";
     }
-    else if(sec==CharacterSheetItem::ConnectionSec)
+   /* else if(sec==CharacterSheetItem::ConnectionSec)
     {
         out << "        if(valueKey==\""<<m_name<<"\")"<<"\n";
         out << "        {"<<"\n";
         out << "            "<<m_id.toLower().trimmed()<<".text=value;"<<"\n";
         out << "        }"<<"\n";
-    }
+    }*/
 }
 
 

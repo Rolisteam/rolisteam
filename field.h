@@ -56,8 +56,8 @@ public:
     CharacterSheetItem* getChildAt(QString) const;
 
 
-    virtual QVariant getValue(CharacterSheetItem::ColumnId) const;
-    virtual void setValue(CharacterSheetItem::ColumnId id, QVariant var);
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId) const;
+    virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
 
     virtual void save(QJsonObject& json,bool exp=false);
     virtual void load(QJsonObject &json,QList<QGraphicsScene*> scene);

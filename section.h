@@ -37,8 +37,8 @@ public:
     virtual CharacterSheetItem* getChildAt(QString) const;
 
 
-    virtual QVariant getValue(CharacterSheetItem::ColumnId) const;
-    virtual void setValue(CharacterSheetItem::ColumnId,QVariant);
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId) const;
+    virtual void setValueFrom(CharacterSheetItem::ColumnId,QVariant);
     virtual bool mayHaveChildren();
     virtual void appendChild(CharacterSheetItem*);
     virtual int indexOfChild(CharacterSheetItem *itm);

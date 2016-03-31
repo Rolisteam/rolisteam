@@ -117,11 +117,11 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
                 {
                     if(index.column()==0)
                     {
-                        return childItem->name();
+                        return childItem->getValue();
                     }
                     else
                     {
-                        QString path = childItem->name();
+                        QString path = childItem->getId();
                         CharacterSheet* sheet = m_characterList->at(index.column()-1);
                         return sheet->getValue(path);
                         //childItem->setValue(value.toString(),index.column()-1);
@@ -150,14 +150,13 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
         {
             if(index.column()==0)
             {
-                childItem->setName(value.toString());
+                childItem->setValue(value.toString());
             }
             else
             {
-                QString path = childItem->name();
+                QString path = childItem->getId();
                 CharacterSheet* sheet = m_characterList->at(index.column()-1);
                 sheet->setValue(path,value.toString());
-                //childItem->setValue(value.toString(),index.column()-1);
             }
             return true;
         }
@@ -242,7 +241,7 @@ void CharacterSheetModel::addLine(CharacterSheetItem* parentItem,QString name,co
         beginInsertRows(parent,parentItem->getChildrenCount(),parentItem->getChildrenCount());
         Section* section = static_cast<Section*>(parentItem);
         Field* field = new Field();
-        field->setName(name);
+        field->setId(name);
         section->appendChild(field);
         endInsertRows();
     }

@@ -30,10 +30,16 @@ class QGraphicsScene;
 /**
  * @brief The Item class
  */
-class CharacterSheetItem
+class CharacterSheetItem : public QObject
 {
+    Q_OBJECT
 public:
-    enum ColumnId {NAME,X,Y,WIDTH,HEIGHT,BORDER,TEXT_ALIGN,BGCOLOR,TEXTCOLOR,VALUES};
+    Q_PROPERTY(QString id READ getId WRITE setId NOTIFY idChanged)
+    Q_PROPERTY(QString value READ getValue WRITE setValue NOTIFY valueChanged)
+    Q_PROPERTY(int page READ getPage WRITE setPage NOTIFY pageChanged)
+    Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly NOTIFY readOnlyChanged)
+
+    enum ColumnId {ID,VALUE,X,Y,WIDTH,HEIGHT,BORDER,TEXT_ALIGN,BGCOLOR,TEXTCOLOR,VALUES};
     enum QMLSection {FieldSec,ConnectionSec};
     CharacterSheetItem();
     virtual bool hasChildren();
@@ -43,11 +49,9 @@ public:
     virtual CharacterSheetItem* getChildAt(int) const;
 
 
-    virtual QVariant getValue(CharacterSheetItem::ColumnId) const;
-    virtual void setValue(CharacterSheetItem::ColumnId,QVariant data)=0;
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId) const;
+    virtual void setValueFrom(CharacterSheetItem::ColumnId,QVariant data)=0;
 
-    QString name() const;
-    void setName(const QString &name);
 
     virtual QString getPath();
 
@@ -71,12 +75,31 @@ public:
     int getPage() const;
     void setPage(int page);
 
+    QString getValue() const;
+    void setValue(const QString &value);
+
+    QString getId() const;
+    void setId(const QString &id);
+
+signals:
+    void valueChanged(QString);
+    void borderChanged();
+    void textColorChanged();
+    void textAlignChanged();
+    void bgColorChanged();
+    void valuesChanged();
+    void pageChanged();
+    void readOnlyChanged();
+    void idChanged();
+
+
+
 protected:
     CharacterSheetItem* m_parent;
     int m_page;
-    QString m_name;
-    QStringList m_value;
+    QString m_value;
     bool m_readOnly;
+    QString m_id;
 };
 
 #endif // CHARACTERSHEETITEM_H

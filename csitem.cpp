@@ -21,7 +21,7 @@
 
 int CSItem::m_count=0;
 CSItem::CSItem(QGraphicsItem* parent)
-    : QGraphicsObject(parent)
+    : QGraphicsItem(parent)
 {
     ++m_count;
 }
@@ -49,4 +49,44 @@ QColor CSItem::textColor() const
 void CSItem::setTextColor(const QColor &textColor)
 {
     m_textColor = textColor;
+}
+
+qreal CSItem::getX() const
+{
+
+}
+
+qreal CSItem::getY() const
+{
+
+}
+
+qreal CSItem::getWidth() const
+{
+
+}
+
+qreal CSItem::getHeight() const
+{
+
+}
+
+void CSItem::setX(qreal x)
+{
+
+}
+
+void CSItem::setY(qreal y)
+{
+
+}
+
+void CSItem::setWidth(qreal width)
+{
+
+}
+
+void CSItem::setHeight(qreal height)
+{
+
 }

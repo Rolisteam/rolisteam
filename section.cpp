@@ -55,17 +55,21 @@ CharacterSheetItem* Section::getChildAt(QString key) const
 {
     return m_dataHash.value(key);
 }
-QVariant Section::getValue(CharacterSheetItem::ColumnId id) const
+QVariant Section::getValueFrom(CharacterSheetItem::ColumnId id) const
 {
-    if(CharacterSheetItem::NAME==id)
-        return m_name;
+    if(CharacterSheetItem::ID==id)
+        return m_id;
+    if(CharacterSheetItem::VALUE==id)
+        return m_value;
     return QVariant();
 }
 
-void Section::setValue(CharacterSheetItem::ColumnId id, QVariant var)
+void Section::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
 {
-    if(CharacterSheetItem::NAME==id)
-        m_name = var.toString();
+    if(CharacterSheetItem::ID==id)
+        m_id = var.toString();
+    if(CharacterSheetItem::VALUE==id)
+        m_value = var.toString();
 }
 
 bool Section::mayHaveChildren()
@@ -135,12 +139,15 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
             item = field;
             gItem = field;
         }
-        QGraphicsScene* scene = scenes.at(item->getPage());
-        if((NULL!=scene)&&(NULL!=gItem))
-        {
-            scene->addItem(gItem);
-        }
         item->load(obj,scenes);
+        if(scenes.size()>item->getPage())
+        {
+            QGraphicsScene* scene = scenes.at(item->getPage());
+            if((NULL!=scene)&&(NULL!=gItem))
+            {
+                scene->addItem(gItem);
+            }
+        }
         item->setParent(this);
         m_dataHash.insert(item->getPath(),item);
         m_keyList.append(item->getPath());
