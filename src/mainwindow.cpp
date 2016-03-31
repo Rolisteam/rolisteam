@@ -218,98 +218,6 @@ void MainWindow::closeMapOrImage()
             removePictureFromId(container->getMediaId());
         }
     }
-    /*QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
-    QWidget* active = subactive;
-    MapFrame* bipMapWindow = NULL;
-
-    if (NULL!=active)
-    {
-
-		QAction* action=NULL;
-
-        Image*  imageFenetre = dynamic_cast<Image*>(active);
-
-        QString mapImageId;
-        QString mapImageTitle;
-        mapImageTitle = active->windowTitle();
-        bool image=false;
-        //it is image
-        if(NULL!=imageFenetre)
-        {
-            m_pictureList.removeOne(imageFenetre);
-
-            mapImageId = imageFenetre->getMediaId();
-            image = true;
-            action = imageFenetre->getAction();
-        }
-        else//it is a map
-        {
-            bipMapWindow= dynamic_cast<MapFrame*>(active);
-            if(NULL!=bipMapWindow)
-            {
-                mapImageId = bipMapWindow->getMediaId();
-                action = bipMapWindow->getAction();
-
-            }
-            else// it is undefined
-            {
-                return;
-            }
-        }
-
-        QMessageBox msgBox(this);
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel );
-        msgBox.setDefaultButton(QMessageBox::Cancel);
-        msgBox.setIcon(QMessageBox::Information);
-        msgBox.move(QPoint(width()/2, height()/2) + QPoint(-100, -50));
-        Qt::WindowFlags flags = msgBox.windowFlags();
-        msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
-
-        if (!image)
-        {
-            msgBox.setWindowTitle(tr("Close Map"));
-        }
-        else
-        {
-            msgBox.setWindowTitle(tr("Close Picture"));
-        }
-        msgBox.setText(tr("Do you want to close %1 %2?\nIt will be closed for everybody").arg(mapImageTitle).arg(image?tr(""):tr("(Map)")));
-
-        msgBox.exec();
-        if (msgBox.result() != QMessageBox::Yes)
-            return;
-
-        if (!image)
-        {
-            NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::CloseMap);
-            msg.string8(mapImageId);
-            msg.sendAll();
-
-            m_mapWindowMap.remove(mapImageId);
-            m_playersListWidget->model()->changeMap(NULL);
-            m_toolBar->changeMap(NULL);
-        }
-        else
-        {
-            NetworkMessageWriter msg(NetMsg::PictureCategory,NetMsg::DelPictureAction);
-            msg.string8(mapImageId);
-            msg.sendAll();
-        }
-
-        MediaContainer*  mediaContener = dynamic_cast<MediaContainer*>(subactive);
-        if(NULL!=mediaContener)
-        {
-            CleverURI* cluri = mediaContener->getCleverUri();
-            cluri->setDisplayed(false);
-            if(NULL!=m_sessionManager)
-            {
-                m_sessionManager->updateCleverUri(cluri);
-            }
-        }
-
-        delete action;
-        delete subactive;
-    }*/
 }
 void MainWindow::checkUpdate()
 {
@@ -2259,9 +2167,9 @@ void MainWindow::dropEvent(QDropEvent* event)
                 break;
             case CleverURI::VMAP:
                 tmp = new VMapFrame();
-                prepareVMap(static_cast<VMapFrame*>(tmp));
                 tmp->setCleverUri(uri);
                 tmp->readFileFromUri();
+                prepareVMap(static_cast<VMapFrame*>(tmp));
                 addMediaToMdiArea(tmp);
                 tmp->setVisible(true);
             case CleverURI::SONG:
