@@ -464,6 +464,10 @@ private:
     */
     QMap<QString,VisualItem*>* m_itemMap;
     /**
+     * @brief m_sortedItemList
+     */
+    QStringList m_sortedItemList;//sorted by time of insertion
+    /**
      * @brief m_orderedItemList is used to store zorder of all items.
      */
     QList<VisualItem*> m_orderedItemList;

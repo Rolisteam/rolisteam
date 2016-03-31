@@ -662,10 +662,15 @@ void VMap::saveFile(QDataStream& out)
         out << m_propertiesHash->value(property);
     }
 
+
     out << m_itemMap->size();
-    foreach(VisualItem* tmp, m_itemMap->values())
+    foreach(QString key, m_sortedItemList)//m_itemMap->values()
     {
-        out << tmp->getType() << *tmp << tmp->pos().x() << tmp->pos().y();
+        VisualItem* tmp = m_itemMap->value(key);
+        if(NULL!=tmp)
+        {
+            out << tmp->getType() << *tmp << tmp->pos().x() << tmp->pos().y();
+        }
     }
 }
 //read
@@ -931,6 +936,7 @@ void VMap::processDelItemMessage(NetworkMessageReader* msg)
         if(NULL!=item)
         {
             m_itemMap->remove(id);
+            m_sortedItemList.removeAll(id);
             m_characterItemMap->remove(id);
             QGraphicsScene::removeItem(item);
             delete item;
@@ -1043,6 +1049,7 @@ void VMap::addNewItem(VisualItem* item)
             if(item->type() != VisualItem::ANCHOR)
             {
                 m_itemMap->insert(item->getId(),item);
+                m_sortedItemList << item->getId();
             }
         }
     }
@@ -1085,6 +1092,7 @@ void VMap::removeItemFromScene(QString id)
 
     // if(m_item )
     m_characterItemMap->remove(id);
+    m_sortedItemList.removeAll(id);
     if(item->getType() == VisualItem::CHARACTER)
     {
         CharacterItem* cItem = dynamic_cast<CharacterItem*>(item);
@@ -1381,10 +1389,10 @@ SightItem* VMap::getFogItem() const
 }
 void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
 {
-    if (NULL== item || m_orderedItemList.size() < 2)
+    if (NULL== item || m_sortedItemList.size() < 2)
         return;
-    int size = m_orderedItemList.size();
-    int index = m_orderedItemList.indexOf(item);
+    int size = m_sortedItemList.size();
+    int index = m_sortedItemList.indexOf(item->getId());
 
     // find out insertion indexes over the stacked items
     QList<QGraphicsItem *> stackedItems = items(item->sceneBoundingRect(), Qt::IntersectsItemShape);
@@ -1398,7 +1406,7 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
             continue;
 
         // refine previous/next indexes (close to 'index')
-        int cIdx = m_orderedItemList.indexOf(c);
+        int cIdx = m_sortedItemList.indexOf(c->getId());
         if (cIdx < nextIndex && cIdx > index)
             nextIndex = cIdx;
         else if (cIdx > prevIndex && cIdx < index)
@@ -1409,29 +1417,34 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
     switch (op)
     {
     case VisualItem::FRONT: // front
-        m_orderedItemList.append(m_orderedItemList.takeAt(index));
+        m_sortedItemList.append(m_sortedItemList.takeAt(index));
         break;
     case VisualItem::RAISE: // raise
         if (index >= size - 1)
             return;
 
-        m_orderedItemList.insert(nextIndex, m_orderedItemList.takeAt(index));
+        m_sortedItemList.insert(nextIndex, m_sortedItemList.takeAt(index));
         break;
     case VisualItem::LOWER: // lower
         if (index <= 0)
             return;
-        m_orderedItemList.insert(prevIndex, m_orderedItemList.takeAt(index));
+        m_sortedItemList.insert(prevIndex, m_sortedItemList.takeAt(index));
         break;
     case VisualItem::BACK: // back
-        m_orderedItemList.prepend(m_orderedItemList.takeAt(index));
+        m_sortedItemList.prepend(m_sortedItemList.takeAt(index));
         break;
     }
 
     // reassign z-levels
     int z =0;
-    foreach (VisualItem* item, m_orderedItemList)
+    //foreach (VisualItem* item, m_sortedItemList)
+    for(QString key : m_sortedItemList)
     {
-        item->setZValue(++z);
+        VisualItem* item = m_itemMap->value(key);
+        if(NULL!=item)
+        {
+            item->setZValue(++z);
+        }
     }
     m_sightItem->setZValue(++z);
     if(!getOption(VisualItem::LocalIsGM).toBool())
