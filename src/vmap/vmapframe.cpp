@@ -170,8 +170,8 @@ void VMapFrame::openFile(const QString& filepath)
         if (!input.open(QIODevice::ReadOnly))
             return;
         QDataStream in(&input);
-        m_vmap->openFile(in);
         createView();
+        m_vmap->openFile(in);
         updateMap();
         //m_vmap->openItemsInFile(in);
     }
