@@ -77,3 +77,15 @@ QString CharacterModel::getValue(const QString &key)
 {
     return QString();
 }
+
+void CharacterModel::setRootSection(Section *rootSection)
+{
+    m_rootSection = rootSection;
+}
+
+void CharacterModel::addCharacter()
+{
+    beginInsertColumns(QModelIndex(),1+m_characterList.size(),1+m_characterList.size());
+    m_characterList.append(new CharacterSheet());
+    endInsertColumns();
+}

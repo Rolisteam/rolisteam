@@ -4,17 +4,13 @@
 #include "fieldmodel.h"
 #include <QObject>
 #include <QAbstractItemModel>
-class Character
-{
-
-};
-
+#include "charactersheet.h"
 /**
  * @brief The FieldModel class
  */
 class CharacterModel : public QAbstractItemModel
 {
-    //Q_OBJECT
+    Q_OBJECT
 public:
     explicit CharacterModel(QObject *parent = 0);
     virtual ~CharacterModel();
@@ -36,11 +32,14 @@ public:
 
     Q_INVOKABLE QString getValue(const QString& key);
 
+    void setRootSection(Section *rootSection);
 
+public slots:
+    void addCharacter();
 
 private:
     Section* m_rootSection;
-    QList<Character*> m_characterList ;
+    QList<CharacterSheet*> m_characterList ;
 
 };
 
