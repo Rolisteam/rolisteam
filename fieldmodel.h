@@ -85,6 +85,9 @@ public:
 
     void removePageId(int);
 
+    Section *getRootSection() const;
+    void setRootSection(Section *rootSection);
+
 signals:
     void valuesChanged(QString valueKey,QString value);
 

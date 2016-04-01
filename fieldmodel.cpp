@@ -263,6 +263,16 @@ void FieldModel::updateItem(CSItem* item)
         emit dataChanged(first,second);
     }
 }
+
+Section *FieldModel::getRootSection() const
+{
+    return m_rootSection;
+}
+
+void FieldModel::setRootSection(Section *rootSection)
+{
+    m_rootSection = rootSection;
+}
 void FieldModel::save(QJsonObject& json,bool exp)
 {
     m_rootSection->save(json,exp);
