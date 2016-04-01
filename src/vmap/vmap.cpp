@@ -222,10 +222,10 @@ QString VMap::getCurrentLayerText() const
 }
 void VMap::sendAllItems(NetworkMessageWriter& msg)
 {
-    foreach(VisualItem* item, m_itemMap->values())
+    for(QString key : m_sortedItemList)
     {
-        //msg.string8(m_id);
-        //if(item!=m_sightItem)
+        VisualItem* item = m_itemMap->value(key);
+        if(NULL!=item)
         {
             msg.uint8(item->getType());
             item->fillMessage(&msg);

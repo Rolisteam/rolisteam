@@ -28,6 +28,8 @@
 #include "vmapframe.h"
 #include "map/mapwizzard.h"
 
+#include "network/networkmessagewriter.h"
+
 VMapFrame::VMapFrame()
     : MediaContainer(),m_graphicView(NULL),m_currentEditingMode(0)
 {
@@ -246,6 +248,13 @@ QDockWidget* VMapFrame::getDockWidget()
 bool VMapFrame::readFileFromUri()
 {
     openFile(m_uri->getUri());
+    if(NULL!=m_vmap)
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
+        m_vmap->fill(msg);
+        m_vmap->sendAllItems(msg);
+        msg.sendAll();
+    }
     return true;
 }
 void VMapFrame::processAddItemMessage(NetworkMessageReader* msg)
