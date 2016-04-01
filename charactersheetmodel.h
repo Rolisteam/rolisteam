@@ -78,10 +78,7 @@ public:
     * @param role : the data role
     */
     bool setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole );
-    /**
-    * @brief adds an empty CharacterSheet into the model.
-    */
-    CharacterSheet* addCharacterSheet();
+
     /**
     * @brief adds section after the given Index.
     * @param index location of the new section
@@ -114,6 +111,14 @@ public:
     
     CharacterSheetItem* addSection(QString title);
     void addLine(CharacterSheetItem* parentItem,QString name,const QModelIndex& parent);
+
+    void setRootSection(Section *rootSection);
+
+public slots:
+    /**
+    * @brief adds an empty CharacterSheet into the model.
+    */
+    CharacterSheet* addCharacterSheet();
 signals:
     void characterSheetHasBeenAdded(CharacterSheet* sheet);
     

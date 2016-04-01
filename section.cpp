@@ -152,7 +152,6 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
         m_dataHash.insert(item->getPath(),item);
         m_keyList.append(item->getPath());
     }
-
 }
 void Section::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
 {

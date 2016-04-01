@@ -166,14 +166,18 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
 }
 CharacterSheet* CharacterSheetModel::addCharacterSheet()
 {
-    
-    beginInsertColumns(QModelIndex(),m_characterList->size() ,m_characterList->size() );
+    beginInsertColumns(QModelIndex(),m_characterList->size()+1 ,m_characterList->size()+1 );
     ++m_characterCount;
     CharacterSheet* sheet = new CharacterSheet;
     m_characterList->append(sheet);
     //sheet->setRootChild(m_rootSection);
     endInsertColumns();
     return sheet;
+}
+
+void CharacterSheetModel::setRootSection(Section *rootSection)
+{
+    m_rootSection = rootSection;
 }
 
 
