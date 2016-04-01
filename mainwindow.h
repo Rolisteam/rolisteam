@@ -28,7 +28,7 @@
 #include "fieldmodel.h"
 #include "rolisteamimageprovider.h"
 #include "field.h"
-#include "charactermodel.h"
+#include "charactersheetmodel.h"
 
 
 namespace Ui {
@@ -69,6 +69,7 @@ public slots:
     void addPage();
     void removePage();
     void currentPageChanged(int);
+    void menuRequested(const QPoint &pos);
 protected:
 
     bool eventFilter(QObject *, QEvent *);
@@ -84,8 +85,11 @@ private:
     QString m_filename;
     bool m_qmlGeneration;
     RolisteamImageProvider* m_imgProvider;
-    CharacterModel* m_characterModel;
+    CharacterSheetModel* m_characterModel;
     int m_currentPage;
+
+    //Action
+    QAction* m_addCharacter;
 };
 
 #endif // MAINWINDOW_H

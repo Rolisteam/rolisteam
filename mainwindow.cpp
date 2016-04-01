@@ -111,16 +111,30 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
 
-    m_characterModel = new CharacterModel();
+    m_addCharacter = new QAction(tr("Add character"),this);
+
+    m_characterModel = new CharacterSheetModel();
     ui->m_characterView->setModel(m_characterModel);
+    m_characterModel->setRootSection(m_model->getRootSection());
+    ui->m_characterView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->m_characterView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequested(QPoint)));
+    connect(m_addCharacter,SIGNAL(toggled(bool)),m_characterModel,SLOT(addCharacterSheet()));
+    connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
 
 }
-
-
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::menuRequested(const QPoint & pos)
+{
+    QMenu menu(this);
+
+    menu.addAction(m_addCharacter);
+
+    menu.exec(QCursor::pos());
+}
+
 void MainWindow::setImage()
 {
     int i = 0;
