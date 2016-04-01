@@ -256,6 +256,7 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
         m_model.readModel(data);
 
         m_qmlData = jsonObj["qml"].toString();
+        qDebug() << m_qmlData;
 
         QString str = jsonObj["background"].toString();
         QByteArray array = QByteArray::fromBase64(str.toUtf8());
@@ -267,6 +268,7 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
         {
             widget->engine()->addImageProvider("rcs",m_imgProvider);
             QQmlComponent compo(widget->engine());
+
             compo.setData(m_qmlData.toLatin1(),QUrl(""));
             widget->setResizeMode(QQuickWidget::SizeRootObjectToView);
         }

@@ -25,7 +25,7 @@
 //Item
 /////////////////////////////
 CharacterSheetItem::CharacterSheetItem()
-    : m_parent(NULL)
+    : m_parent(NULL),m_page(0),m_readOnly(false)
 {
 
 }
