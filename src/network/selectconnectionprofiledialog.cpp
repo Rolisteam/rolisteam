@@ -288,6 +288,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
     connect(ui->m_delProfileAct,SIGNAL(pressed()),this,SLOT(removeProfile()));
 
     connect(ui->m_addresseLineEdit,SIGNAL(textChanged(QString)),this,SLOT(checkConnection()));
+    connect(ui->m_isServerCheckbox,SIGNAL(toggled(bool)),this,SLOT(checkConnection()));
 }
 
 SelectConnectionProfileDialog::~SelectConnectionProfileDialog()
@@ -402,7 +403,8 @@ void SelectConnectionProfileDialog::openImage()
 {
     m_avatarUri = QFileDialog::getOpenFileName(this,tr("Load Avatar"));
 
-    m_currentProfile->getCharacter()->setAvatar(QImage(m_avatarUri));
+    updateProfile();
+    //m_currentProfile->getCharacter()->setAvatar(QImage(m_avatarUri));
     updateGUI();
 }
 void SelectConnectionProfileDialog::checkConnection()
