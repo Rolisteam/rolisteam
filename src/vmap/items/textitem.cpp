@@ -360,6 +360,7 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
 }//Votre appel est en attente.
 void TextItem::readItem(NetworkMessageReader* msg)
 {
+    blockSignals(true);
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
@@ -372,6 +373,7 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_start.setY(msg->real());
     m_doc->setHtml(msg->string32());
     m_color = msg->rgb();
+    blockSignals(false);
 }
 VisualItem* TextItem::getItemCopy()
 {
