@@ -374,6 +374,7 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_doc->setHtml(msg->string32());
     m_color = msg->rgb();
     blockSignals(false);
+    update();
 }
 VisualItem* TextItem::getItemCopy()
 {
