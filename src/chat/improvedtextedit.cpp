@@ -22,7 +22,7 @@
 
 
 #include <QRegularExpression>
-#include "improvedtextedit.h"
+#include "chat/improvedtextedit.h"
 #include <QDebug>
 
 static const int MaxHistorySize = 100;
@@ -86,6 +86,7 @@ void ImprovedTextEdit::keyPressEvent(QKeyEvent *e)
                 }
 
                 m_histPos -= 1;
+                //setHtml(m_history[m_histPos]);
                 setText(m_history[m_histPos]);
             }
             break;

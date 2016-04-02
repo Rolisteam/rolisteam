@@ -120,7 +120,6 @@ private:
     QColor m_diceHighlightColor;
     QColor m_gmColor;
     QString m_styleName;
-    int m_position;
 };
 
 #endif // ROLISTEAMTHEME_H

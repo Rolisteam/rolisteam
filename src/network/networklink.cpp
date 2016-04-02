@@ -39,6 +39,8 @@
 NetworkLink::NetworkLink(QTcpSocket *socket)
     : QObject(NULL),m_mainWindow(NULL)
 {
+    m_mainWindow = MainWindow::getInstance();
+    m_networkManager = m_mainWindow->getNetWorkManager();
     m_socketTcp = socket;
     m_receivingData = false;
     m_headerRead= 0;
@@ -298,7 +300,6 @@ void NetworkLink::forwardMessage( NetWorkReceiver::SendType type)
         }
         delete[] donnees;
     }
-#endif
 }
 
 ConnectionProfile *NetworkLink::getConnection() const

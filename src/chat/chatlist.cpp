@@ -232,7 +232,7 @@ bool ChatList::addLocalChat(PrivateChat * chat)
 
     if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
         m_privateChatMap.insert(chat->identifier(), chat);
-    addChatWindow(new ChatWindow(chat));
+    addChatWindow(new ChatWindow(chat,m_mainWindow));
     return true;
 }
 
@@ -371,7 +371,7 @@ void ChatList::addPlayerChat(Player * player)
         ChatWindow * chatw = getChatWindowByUuid(player->getUuid());
         if (chatw == NULL)
         {
-            addChatWindow(new ChatWindow(new PlayerChat(player)));
+            addChatWindow(new ChatWindow(new PlayerChat(player), m_mainWindow));
         }
     }
 }
@@ -532,7 +532,7 @@ void ChatList::updatePrivateChat(ReceiveEvent * event)
 
     else if (newChat->includeLocalPlayer())
     {
-        addChatWindow(new ChatWindow(newChat));
+        addChatWindow(new ChatWindow(newChat,m_mainWindow));
     }
     else if (PreferencesManager::getInstance()->value("isClient",true).toBool())
     {

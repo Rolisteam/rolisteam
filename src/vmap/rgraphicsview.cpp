@@ -48,6 +48,8 @@ RGraphicsView::RGraphicsView(VMap *vmap)
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
     setRubberBandSelectionMode(Qt::IntersectsItemBoundingRect);
     setOptimizationFlag(QGraphicsView::DontAdjustForAntialiasing);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     createAction();
 
@@ -65,10 +67,10 @@ void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 		{
 			setDragMode(QGraphicsView::NoDrag);
 		}
-        else if(event->modifiers() & Qt::ShiftModifier)
+       /* else if(event->modifiers() & Qt::ShiftModifier)
         {
             setDragMode(QGraphicsView::ScrollHandDrag);
-        }
+        }*/
 		else
 		{
 			setDragMode(QGraphicsView::RubberBandDrag);

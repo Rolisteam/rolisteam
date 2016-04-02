@@ -247,7 +247,6 @@ void ProfileModel::writeSettings(QSettings & settings)
 
         settings.setValue("CharacterColor",character->getColor());
         QImage img = character->getAvatar();
-        qDebug()<< "img="<< img.isNull() << character->getName();
         QVariant var;
         var.setValue(img);
         settings.setValue("CharacterPix",var);
