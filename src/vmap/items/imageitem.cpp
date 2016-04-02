@@ -113,6 +113,9 @@ void ImageItem::fillMessage(NetworkMessageWriter* msg)
 	msg->real(scale());
 	msg->real(rotation());
 
+    msg->real(pos().x());
+    msg->real(pos().y());
+
 }
 void ImageItem::readItem(NetworkMessageReader* msg)
 {
@@ -131,6 +134,10 @@ void ImageItem::readItem(NetworkMessageReader* msg)
 	setTransformOriginPoint(m_rect.center());
 	setScale(msg->real());
 	setRotation(msg->real());
+
+    qreal x = msg->real();
+    qreal y = msg->real();
+    setPos(x,y);
 }
 void ImageItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
