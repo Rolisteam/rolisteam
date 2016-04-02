@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QImage>
+
 
 #include "data/character.h"
 
@@ -244,7 +246,12 @@ void ProfileModel::writeSettings(QSettings & settings)
         settings.setValue("PlayerColor",player->getColor());
 
         settings.setValue("CharacterColor",character->getColor());
-        settings.setValue("CharacterPix",character->getAvatar());
+        QImage img = character->getAvatar();
+        qDebug()<< "img="<< img.isNull() << character->getName();
+        QVariant var;
+        var.setValue(img);
+        settings.setValue("CharacterPix",var);
+        //settings.setValue("CharacterPath",profile->getPathImg());
         settings.setValue("CharacterName",character->getName());
 
     }
