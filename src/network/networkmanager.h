@@ -36,12 +36,10 @@
 #include "connectionretrydialog.h"
 #include "preferences/preferencesmanager.h"
 #include "userlist/playersList.h"
-#include "variablesGlobales.h"
 
 class Player;
 class NetworkLink;
-
-class AudioPlayer;
+class ConnectionProfile;
 
 /**
  * @brief hold the list of socket (NetworkLink).
@@ -50,37 +48,41 @@ class AudioPlayer;
 class NetworkManager : public QObject
 {
     Q_OBJECT
-
-public :
-    NetworkManager(QString localPlayerId);
-	~NetworkManager();
-
-    /**
-     * @brief Display the configDialog and make the connection.
-     * @return true if connection has been established, false if the user has clicked on the Quit button.
-     */
-    bool configAndConnect(QString version);
-
+    Q_ENUMS(ConnectionState)
+public:
+    enum ConnectionState {DISCONNECTED,CONNECTING,LISTENING,CONNECTED};
+	/**
+	 * @brief NetworkManager
+	 */
+	NetworkManager();
+	/**
+	 * @brief ~NetworkManager
+	 */
+	virtual ~NetworkManager();
     /**
      * @brief emettreDonnees
      * @param donnees
      * @param taille
      * @param sauf
      */
-    void emettreDonnees(char *donnees, quint32 taille, NetworkLink *sauf);
+    void sendMessage(char *donnees, quint32 taille, NetworkLink *sauf);
 
     /**
      * @brief ajouterNetworkLink
      * @param NetworkLink
      */
-    void ajouterNetworkLink(NetworkLink *NetworkLink);
+    void addNetworkLink(NetworkLink *NetworkLink);
 
     /**
      * @brief isServer
      * @return
      */
     bool isServer() const;
-
+    /**
+     * @brief getLocalPlayer
+     * @return
+     */
+    Player* getLocalPlayer();
 
 
     /**
@@ -90,9 +92,10 @@ public :
     bool isConnected() const;
     NetworkLink* getLinkToServer();
     quint16 getPort() const;
-    void setAudioPlayer(AudioPlayer*);
     void setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue);
+    void setConnectionProfile(ConnectionProfile*);
 public slots:
+    void setConnectionState(ConnectionState);
     void disconnectAndClose();
     /**
      * @brief startConnection try to connect to the server or to start it.
@@ -101,49 +104,46 @@ public slots:
     bool startConnection();
 
 signals :
-    void emissionDonnees(char *donnees, quint32 taille, NetworkLink *sauf);
+    void sendData(char* data, quint32 size, NetworkLink* but);
 
     void linkAdded(NetworkLink * link);
     void linkDeleted(NetworkLink * link);
     void dataReceived(quint64,quint64);
     void stopConnectionTry();
-    void connectionStateChanged(bool);
+    void connectionStateChanged(NetworkManager::ConnectionState);
     void notifyUser(QString);
 
 private slots :
-    void nouveauClientConnecte();
-    void finDeNetworkLink(NetworkLink * link);
-    bool startConnectionToServer();
+    void newClientConnection();
+    void endingNetworkLink(NetworkLink * link);
+    void startConnectionToServer();
     bool startListening();
-
-
-private :
-    void synchronizePreferences();
-    void setConnectionState(bool);
+    void socketStateChanged(QAbstractSocket::SocketState state);
 
 private:
     QTcpServer * m_server;
-    QList<NetworkLink *> NetworkLinks;
-    NetworkLink * m_NetworkLinkToServer;
+    QList<NetworkLink *> m_networkLinkList;
+    NetworkLink * m_networkLinkToServer;
     quint16 m_port;
     quint16 m_listeningPort;
     QString m_address;
     QTimer* m_reconnect;
-    Player * m_localPlayer;
+    Player* m_localPlayer;
     QString  m_localPlayerId;
     bool m_disconnectAsked;
     PreferencesManager* m_preferences;
     ConnectionRetryDialog* m_dialog;
-    ConnectionConfigDialog* m_configDialog;
     PlayersList* m_playersList;
-    bool m_connectionState;
+    ConnectionState m_connectionState;
     bool m_isClient;
-    AudioPlayer* m_audioPlayer;
     bool m_commandLineValue;
     QString m_portStr;
     QString m_host;
     QString m_role;
     QString m_username;
+    ConnectionProfile* m_connectionProfile;
+    ConnectionWaitDialog* m_waitDialog;
+    QList<QThread*> m_threadList;
 };
 
 #endif

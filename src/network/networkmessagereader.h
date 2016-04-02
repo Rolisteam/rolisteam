@@ -31,47 +31,47 @@
  */
 class NetworkMessageReader : public NetworkMessage
 {
-    public:
-        NetworkMessageReader(const NetworkMessageHeader & header, const char * buffer);
-        NetworkMessageReader(const NetworkMessageReader & other);
-        ~NetworkMessageReader();
+public:
+    NetworkMessageReader(const NetworkMessageHeader & header, const char * buffer);
+    NetworkMessageReader(const NetworkMessageReader & other);
+    ~NetworkMessageReader();
 
-        NetMsg::Category category() const;
-        NetMsg::Action action() const;
+    NetMsg::Category category() const;
+    NetMsg::Action action() const;
 
-        void reset();
+    void reset();
 
-        size_t left() const;
+    size_t left() const;
 
-        quint8  uint8();
-        quint16 uint16();
-        quint32 uint32();
-        quint64 uint64();
+    quint8  uint8();
+    quint16 uint16();
+    quint32 uint32();
+    quint64 uint64();
 
-        QString string8();
-        QString string16();
-        QString string32();
+    QString string8();
+    QString string16();
+    QString string32();
 
-		QByteArray byteArray32();
+    QByteArray byteArray32();
 
-        QString string(int size);
+    QString string(int size);
 
-        QRgb rgb();
+    QRgb rgb();
 
+    qreal  real();
+    qint8  int8();
+    qint16 int16();
+    qint32 int32();
+    qint64 int64();
 
-        qint8  int8();
-        qint16 int16();
-        qint32 int32();
-        qint64 int64();
+protected:
+    NetworkMessageHeader * buffer();
 
-    protected:
-        NetworkMessageHeader * buffer();
-
-    private:
-        NetworkMessageHeader * m_header;
-        char * m_buffer;
-        const char * m_pos;
-        const char * m_end;
+private:
+    NetworkMessageHeader * m_header;
+    char* m_buffer;
+    const char * m_pos;
+    const char * m_end;
 };
 
 #endif

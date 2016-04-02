@@ -53,7 +53,6 @@ void ChatBrowser::showContextMenu(QPoint pos)
     menu->addAction(m_bgColorAct);
     menu->addAction(m_detachedDialog);
     menu->addSeparator();
- //   menu->addAction(m_anyWhereWarp);
     menu->addAction(m_wordWarp);
     menu->exec(mapToGlobal(pos));
 }

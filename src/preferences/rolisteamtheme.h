@@ -80,7 +80,7 @@ public:
      * @brief isRemovable
      * @return
      */
-    bool isRemovable();
+    bool isRemovable() const;
     /**
      * @brief getStyle
      * @return
@@ -97,14 +97,14 @@ public:
     void setBackgroundPosition(int);
     void setBackgroundImage(QString img);
 
-    QString getBackgroundImage();
-    int getBackgroundPosition();
-    QColor getBackgroundColor();
+    QString getBackgroundImage() const;
+    int getBackgroundPosition() const;
+    QColor getBackgroundColor() const;
 
-    QColor getDiceHighlightColor();
+    QColor getDiceHighlightColor() const;
     void  setDiceHighlightColor(QColor c);
 
-    QString getStyleName();
+    QString getStyleName() const;
 
     void writeTo(QJsonObject& json);
     bool readFrom(const QJsonObject& json);
@@ -116,6 +116,7 @@ private:
     bool m_removable;
     QString m_bgPath;
     QColor m_bgColor;
+    int m_position;
     QColor m_diceHighlightColor;
     QColor m_gmColor;
     QString m_styleName;

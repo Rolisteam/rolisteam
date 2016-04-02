@@ -26,14 +26,13 @@
 
 #include <math.h>
 
-#include "variablesGlobales.h"
 #include "map/charactertoken.h"
 
 // Liste des etats de sante des PJ/PNJ (initialisee dans MainWindow.cpp)
 //QList<DessinPerso::etatDeSante> G_etatsDeSante;
 
 
-DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType,bool showNpcNumber,bool showName, int numero,bool isLocal)
+CharacterToken::CharacterToken(QWidget *parent, QString persoId, QString nom, QColor couleurPerso, int taille, QPoint position, typePersonnage leType,bool showNpcNumber,bool showName, int numero,bool isLocal)
     : QWidget(parent),m_localPerso(isLocal)
 {
     setObjectName("CharacterToken");
@@ -84,18 +83,18 @@ DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor c
         disquePerso->setToolTip(nomPerso + (nomPerso.isEmpty()?"":" - ") + QString::number(numeroPnj) + " (" + etat.nomEtat + ")");
 
     // Dessin du personnage et ajout de l'image au label
-    dessinerPersonnage();
+    drawCharacter();
 
     // Initialisation du tableau de points formant le contour du disque
     QImage image = disquePerso->pixmap()->toImage();
-    initialiserContour(image);
+    initializeBorder(image);
 
     // Creation du label contenant le nom et le numero du personnage
     intitulePerso = new QLabel(this);
     // On donne un nom au label (pour pouvoir ensuite differencier les enfants de la carte)
     intitulePerso->setObjectName("intitulePerso");
     // Met l'intitule a jour et dimensionne DessinPerso en fonction
-    mettreIntituleAJour();
+    updateTitle();
 
     // Creation du layout
     QVBoxLayout *layout = new QVBoxLayout;
@@ -110,13 +109,13 @@ DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor c
     // Connexion des signaux
     if (type == pj)
     {
-        connect(parent, SIGNAL(afficherNomsPj(bool)), this, SLOT(afficherNomsPj(bool)));
-        connect(parent, SIGNAL(changerTaillePj(int)), this, SLOT(changerTaillePj(int)));
+        connect(parent, SIGNAL(showPcName(bool)), this, SLOT(showPcName(bool)));
+        connect(parent, SIGNAL(setPcSize(int)), this, SLOT(setPcSize(int)));
     }
     else
     {
-        connect(parent, SIGNAL(afficherNomsPnj(bool)), this, SLOT(afficherNomsPnj(bool)));
-        connect(parent, SIGNAL(afficherNumerosPnj(bool)), this, SLOT(afficherNumerosPnj(bool)));
+        connect(parent, SIGNAL(showNpcName(bool)), this, SLOT(showNpcName(bool)));
+        connect(parent, SIGNAL(showNpcNumber(bool)), this, SLOT(showNpcNumber(bool)));
     }
 
     // On donne un nom au widget (pour pouvoir ensuite differencier les enfants de la carte)
@@ -129,17 +128,17 @@ DessinPerso::DessinPerso(QWidget *parent, QString persoId, QString nom, QColor c
     hide();
 }
 
-void DessinPerso::deplacePerso(QPoint position)
+void CharacterToken::moveCharacter(QPoint position)
 {
     move(position);
 }
 
-void DessinPerso::deplacePerso(int x, int y)
+void CharacterToken::moveCharacter(int x, int y)
 {
     move(x, y);
 }
 
-void DessinPerso::deplaceCentrePerso(QPoint position)
+void CharacterToken::moveCharaterCenter(QPoint position)
 {
     // On calcule la nouvelle position de disquePerso par rapport a DessinPerso
     QPoint nouvellePosition = mapFromParent( position - QPoint(disquePerso->width()/2, disquePerso->height()/2) );
@@ -150,21 +149,21 @@ void DessinPerso::deplaceCentrePerso(QPoint position)
 }
 
 
-QPoint DessinPerso::positionCentrePerso()
+QPoint CharacterToken::getCharacterCenter()
 {
     // On recupere la position de disquePerso par rapport aux coordonnees de la carte
     // et on y ajoute la moitie de la largeur et de la hauteur de disquePerso
     return mapTo(parentWidget(), disquePerso->pos()) + QPoint(disquePerso->width()/2, disquePerso->height()/2);
 }
 
-void DessinPerso::diametreCouleurNom(int *diam, QColor *coul, QString *nom)
+void CharacterToken::defineToken(int *diam, QColor *coul, QString *nom)
 {
     *diam = diametre;
     *coul = m_color;
     *nom = nomPerso;
 }
 
-bool DessinPerso::dansPartieTransparente(QPoint position)
+bool CharacterToken::onTransparentPart(QPoint position)
 {
     // On translate le point dans l'espace des coordonnees de disquePerso
     QPoint positionDansDisquePerso = disquePerso->mapFrom(parentWidget(), position);
@@ -174,49 +173,49 @@ bool DessinPerso::dansPartieTransparente(QPoint position)
     return qAlpha(image.pixel(positionDansDisquePerso.x(), positionDansDisquePerso.y())) == 0;
 }
 
-void DessinPerso::afficherNomsPj(bool afficher)
+void CharacterToken::showPcName(bool afficher)
 {
     m_showPcName = afficher;
-    mettreIntituleAJour();
+    updateTitle();
 }
 
-void DessinPerso::afficherNomsPnj(bool afficher)
+void CharacterToken::showNpcName(bool afficher)
 {
     m_showNpcName = afficher;
-    mettreIntituleAJour();
+    updateTitle();
 }
 
-void DessinPerso::afficherNumerosPnj(bool afficher)
+void CharacterToken::showNpcNumber(bool afficher)
 {
     m_showNpcNumber = afficher;
-    mettreIntituleAJour();
+    updateTitle();
 }
 
-bool DessinPerso::estVisible()
+bool CharacterToken::isVisible()
 {
     return visible;
 }
 
-void DessinPerso::afficherPerso()
+void CharacterToken::showCharacter()
 {
     visible = true;
     show();
     // On remet le personnage a sa position d'avant le masquage
-    deplaceCentrePerso(centre);
+    moveCharaterCenter(centre);
 }
 
-void DessinPerso::cacherPerso()
+void CharacterToken::hideCharater()
 {
     // On memorise la position du centre avant de cacher le personnage
-    centre = positionCentrePerso();
+    centre = getCharacterCenter();
     visible = false;
     hide();
 }
 
-void DessinPerso::mettreIntituleAJour()
+void CharacterToken::updateTitle()
 {
     // Recuperation de la position centrale du perso
-    QPoint position = positionCentrePerso();
+    QPoint position = getCharacterCenter();
     // recuperation de l'ancien texte du label
     QString ancienTexte = intitulePerso->text();
 
@@ -257,7 +256,7 @@ void DessinPerso::mettreIntituleAJour()
         // redimensionnement du widget
         resize(largeurWidget, disquePerso->height());
         // Repositionne le perso au meme endroit
-        deplaceCentrePerso(position);
+        moveCharaterCenter(position);
     }
     else
     {
@@ -272,17 +271,17 @@ void DessinPerso::mettreIntituleAJour()
         // l'acien texte est vide)
         // Pour corriger le pb on rajoute la moitie de la hauteur du texte (empirique).
         if (ancienTexte.isEmpty())
-            deplaceCentrePerso( QPoint(position.x(), position.y()+tailleTexte.height()/2) );
+            moveCharaterCenter( QPoint(position.x(), position.y()+tailleTexte.height()/2) );
         // Sinon on repositionne le perso au meme endroit
         else
-            deplaceCentrePerso(position);
+            moveCharaterCenter(position);
         // On affiche l'intitule
         intitulePerso->show();
     }
 }
 
 
-void DessinPerso::initialiserContour(QImage &disque)
+void CharacterToken::initializeBorder(QImage &disque)
 {
     // Initialisation des 4 points haut, bas, gauche et droite
     contour[0] = QPoint (disque.width()/2, 0);
@@ -309,19 +308,19 @@ void DessinPerso::initialiserContour(QImage &disque)
     contour[7] = QPoint(disquePerso->width(), disquePerso->height());
 }
 
-void DessinPerso::contourDisque(QPoint *coordonnees)
+void CharacterToken::diskBorder(QPoint *coordonnees)
 {
     for (int i=0; i<8; i++)
         coordonnees[i] = disquePerso->mapTo(parentWidget(), contour[i]);
 }
 
-void DessinPerso::dessinerPersonnage(QPoint positionSouris)
+void CharacterToken::drawCharacter(QPoint positionSouris)
 {
     // Si la position de la souris est passee en parametre
     if (positionSouris != QPoint(0,0))
     {
         // On met a jour l'orientation du personnage
-        QPoint centre = positionCentrePerso();
+        QPoint centre = getCharacterCenter();
         orientation =  positionSouris - centre;
     }
 
@@ -393,136 +392,136 @@ void DessinPerso::dessinerPersonnage(QPoint positionSouris)
     else if (type == pnj)
         disquePerso->setToolTip(nomPerso + (nomPerso.isEmpty()?"":" - ") + QString::number(numeroPnj) + " (" + etat.nomEtat + ")");
     else
-        qWarning()<< (tr("Type de personnage inconnu (dessinerPersonnage - DessinPerso.cpp)"));
+        qWarning()<< (tr("Unknown Character Type (CharacterToken - charactertoken.cpp)"));
 
 }
 
-void DessinPerso::afficheOuMasqueOrientation()
+void CharacterToken::showOrHideOrientation()
 {
     orientationAffichee = !orientationAffichee;
-    dessinerPersonnage();
+    drawCharacter();
 }
 
-void DessinPerso::showOrientation(bool afficher)
+void CharacterToken::showOrientation(bool afficher)
 {
     orientationAffichee = afficher;
-    dessinerPersonnage();
+    drawCharacter();
 }
 
-void DessinPerso::changerEtat()
+void CharacterToken::changeState()
 {
     numeroEtat = numeroEtat<m_healtStateList.size()-1?numeroEtat+1:0;
     etat = m_healtStateList[numeroEtat];
-    dessinerPersonnage();
+    drawCharacter();
 }
 
-bool DessinPerso::estUnPj()
+bool CharacterToken::isPc()
 {
     return type == pj;
 }
 
-bool DessinPerso::orientationEstAffichee()
+bool CharacterToken::orientationStatus()
 {
     return orientationAffichee;
 }
 
-QString DessinPerso::idPersonnage()
+QString CharacterToken::getCharacterId()
 {
     return identifiant;
 }
 
-QPoint DessinPerso::orientationPersonnage()
+QPoint CharacterToken::getCharacterOrientation()
 {
     return orientation;
 }
 
-void DessinPerso::changerTaillePj(int nouvelleTaille)
+void CharacterToken::setPcSize(int nouvelleTaille)
 {
     // Recuperation de la position centrale du PJ
-    QPoint position = positionCentrePerso();
+    QPoint position = getCharacterCenter();
     // M.a.j du diametre
     diametre = nouvelleTaille;
     // M.a.j de la taille du label contenant l'image
     disquePerso->resize(QSize(diametre+4, diametre+4));
     // M.a.j du dessin du PJ
-    dessinerPersonnage();
+    drawCharacter();
     // M.a.j de l'intitule (redimensionne egalement le widget)
-    mettreIntituleAJour();
+    updateTitle();
     // M.a.j des contours du disque
     QImage image = disquePerso->pixmap()->toImage();
-    initialiserContour(image);
+    initializeBorder(image);
     // Deplacement du PJ en gardant le meme centre
-    deplaceCentrePerso(position);
+    moveCharaterCenter(position);
 }
 
 
-void DessinPerso::renommerPerso(QString nouveauNom)
+void CharacterToken::renameCharacter(QString nouveauNom)
 {
     // M.a.j du nom du perso
     nomPerso = nouveauNom;
     // M.a.j de l'intitule (redimensionne egalement le widget)
-    mettreIntituleAJour();
+    updateTitle();
     // M.a.j du tooltip
     if (type == pj)
         disquePerso->setToolTip(nomPerso + " (" + etat.nomEtat + ")");
     else if (type == pnj)
         disquePerso->setToolTip(nomPerso + (nomPerso.isEmpty()?"":" - ") + QString::number(numeroPnj) + " (" + etat.nomEtat + ")");
     else
-        qWarning()<< (tr("Type de personnage inconnu (renommerPerso - DessinPerso.cpp)"));
+        qWarning()<< (tr("Unknown Character Type (CharacterToken - charactertoken.cpp)"));
 }
 
-void DessinPerso::changerCouleurPerso(QColor coul)
+void CharacterToken::changeCharacterColor(QColor coul)
 {
     m_color = coul;
     // M.a.j du dessin du PJ
-    dessinerPersonnage();
+    drawCharacter();
     // M.a.j de l'intitule
-    mettreIntituleAJour();
+    updateTitle();
 }
 
-void DessinPerso::nouvelleOrientation(QPoint uneOrientation)
+void CharacterToken::newOrientation(QPoint uneOrientation)
 {
     orientation = uneOrientation;
     // M.a.j du dessin du personnage
-    dessinerPersonnage();
+    drawCharacter();
 }
 
-void DessinPerso::nouvelEtatDeSante(etatDeSante sante, int numeroSante)
+void CharacterToken::newHealtState(etatDeSante sante, int numeroSante)
 {
     numeroEtat = numeroSante;
     etat = sante;
-    dessinerPersonnage();
+    drawCharacter();
 }
 
-void DessinPerso::changerEtatDeSante(int numEtat)
+void CharacterToken::changeHealtStatus(int numEtat)
 {
     numeroEtat = numEtat<=m_healtStateList.size()-1?numEtat:0;
     etat = m_healtStateList[numeroEtat];
-    dessinerPersonnage();
+    drawCharacter();
 }
 
-int DessinPerso::numeroEtatSante()
+int CharacterToken::getHealtState()
 {
     return numeroEtat;
 }
 
-void DessinPerso::emettrePnj(QString idCarte)
+void CharacterToken::emettrePnj(QString idCarte)
 {
     NetworkMessageWriter msg(NetMsg::NPCCategory,NetMsg::addNpc);
     msg.string8(idCarte);
-    preparerPourEmission(&msg);
+    prepareToSendOff(&msg);
     msg.sendAll();
 
 }
-void DessinPerso::write(QDataStream &out)
+void CharacterToken::write(QDataStream &out)
 {
     QString ident = QUuid::createUuid().toString();
     int numeroDuPnj = numeroPnj;
     if (type==pj)
         numeroDuPnj = 0;
-    out << nomPerso << ident << pnj << numeroDuPnj << diametre << m_color << positionCentrePerso() << orientation << etat.couleurEtat << etat.nomEtat << numeroEtat << visible << orientationAffichee;
+    out << nomPerso << ident << pnj << numeroDuPnj << diametre << m_color << getCharacterCenter() << orientation << etat.couleurEtat << etat.nomEtat << numeroEtat << visible << orientationAffichee;
 }
-int DessinPerso::preparerPourEmission(NetworkMessageWriter* msg, bool convertirEnPnj)
+int CharacterToken::prepareToSendOff(NetworkMessageWriter* msg, bool convertirEnPnj)
 {
 
     QString ident;
@@ -547,8 +546,8 @@ int DessinPerso::preparerPourEmission(NetworkMessageWriter* msg, bool convertirE
     msg->uint8(diametre);
     msg->rgb(m_color);
 
-    msg->uint16(positionCentrePerso().x());
-    msg->uint16(positionCentrePerso().y());
+    msg->uint16(getCharacterCenter().x());
+    msg->uint16(getCharacterCenter().y());
 
     msg->int16(orientation.x());
     msg->int16(orientation.y());
@@ -560,9 +559,9 @@ int DessinPerso::preparerPourEmission(NetworkMessageWriter* msg, bool convertirE
     msg->uint8( visible);
     msg->uint8(orientationAffichee);
 }
-void DessinPerso::AddHealthState(const QColor &color, const QString &label)
+void CharacterToken::AddHealthState(const QColor &color, const QString &label)
 {
-	DessinPerso::etatDeSante state;
+    CharacterToken::etatDeSante state;
 	state.couleurEtat = color;
 	state.nomEtat = label;
 	m_healtStateList.append(state);

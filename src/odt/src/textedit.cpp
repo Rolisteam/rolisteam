@@ -482,18 +482,20 @@ void TextEdit::setCurrentFileName(const QString &fileName)
     this->fileName = fileName;
     textEdit->document()->setModified(false);
 
-    QString shownName;
     if (fileName.isEmpty())
-        shownName = "untitled.txt";
+        m_showName = "untitled.txt";
     else
-        shownName = QFileInfo(fileName).fileName();
-    setWindowTitle(QString("%1[*]  OASIS Open Document Format for Office Applications").arg(shownName));
+        m_showName = QFileInfo(fileName).fileName();
+
+    emit showNameChanged(m_showName);
+    setWindowTitle(QString("%1[*]  OASIS Open Document Format for Office Applications").arg(m_showName));
     setWindowModified(false);
 }
 
 void TextEdit::fileNew()
 {
-    if (maybeSave()) {
+    if (maybeSave())
+    {
         textEdit->clear();
         setCurrentFileName(QString());
     }
@@ -802,6 +804,21 @@ void TextEdit::alignmentChanged(Qt::Alignment a)
     } else if (a & Qt::AlignJustify) {
         actionAlignJustify->setChecked(true);
     }
+}
+
+QString TextEdit::getShowName() const
+{
+    return m_showName;
+}
+
+void TextEdit::setShowName(const QString &showName)
+{
+    m_showName = showName;
+}
+
+QString TextEdit::getFileName() const
+{
+    return fileName;
 }
 
 QString TextEdit::getFilter()

@@ -32,138 +32,6 @@
 #define MAX 65535
 
 #define WAITING_TIME 1000
-/**************************
- * ConnectionConfigDialog *
- **************************/
-
-ConnectionConfigDialog::ConnectionConfigDialog(QWidget* parent)
-    : QDialog(parent)
-{
-    setUI();
-}
-
-ConnectionConfigDialog::ConnectionConfigDialog(QWidget* parent,
-        const QString & name, const QColor & color, bool master,
-        const QString & host, quint16 port, bool server)
-    : QDialog(parent)
-{
-    setUI();
-    m_name->setText(name);
-    m_color->setColor(color);
-    m_gm->setCheckState(master ? Qt::Checked : Qt::Unchecked);
-    m_host->setText(host);
-    m_port->setValue(port);
-    m_server->setCheckState(server ? Qt::Checked : Qt::Unchecked);
-}
-
-ConnectionConfigDialog::~ConnectionConfigDialog()
-{
-    // QObject should remove all for us.
-}
-
-QString ConnectionConfigDialog::getName() const
-{
-    return m_name->text();
-}
-
-QColor ConnectionConfigDialog::getColor() const
-{
-    return m_color->color();
-}
-
-bool ConnectionConfigDialog::isGM() const
-{
-    return (m_gm->checkState() == Qt::Checked);
-}
-
-QString ConnectionConfigDialog::getHost() const
-{
-    return m_host->text();
-}
-
-quint16 ConnectionConfigDialog::getPort() const
-{
-    return m_port->value();
-}
-
-bool ConnectionConfigDialog::isServer() const
-{
-    return (m_server->checkState() == Qt::Checked);
-}
-
-void ConnectionConfigDialog::changeConnectionType(int state)
-{
-    switch (state)
-    {
-        case Qt::Unchecked:
-            m_hostLabel->setEnabled(true);
-            m_host->setEnabled(true);
-            break;
-        case Qt::Checked:
-            m_hostLabel->setEnabled(false);
-            m_host->setEnabled(false);
-            break;
-    }
-}
-
-
-void ConnectionConfigDialog::setUI()
-{
-
-    setWindowIcon(QIcon(":/logo.png"));
-    m_name  = new QLineEdit;
-    m_color = new ColorButton;
-    m_gm    = new QCheckBox(tr("I'm the Game Master."));
-    m_gm->setCheckState(Qt::Unchecked);
-
-    QFormLayout * form = new QFormLayout;
-    form->addRow(tr("Name : "), m_name);
-    form->addRow(tr("Color : "), m_color);
-    form->addRow(m_gm);
-
-    QGroupBox * playerGroup = new QGroupBox(tr("Player"));
-    playerGroup->setLayout(form);
-
-    m_hostLabel = new QLabel(tr("Address : "));
-    m_host      = new QLineEdit;
-
-    m_port      = new QSpinBox;
-    m_port->setMinimum(MIN);
-    m_port->setMaximum(MAX);
-
-    m_server    = new QCheckBox(tr("Host the game."));
-    m_server->setCheckState(Qt::Unchecked);
-    connect(m_server, SIGNAL(stateChanged(int)), this, SLOT(changeConnectionType(int)));
-
-    form = new QFormLayout;
-    form->addRow(m_hostLabel, m_host);
-    form->addRow(tr("Port : "), m_port);
-    form->addRow(m_server);
-
-    QGroupBox * connectionGroup = new QGroupBox(tr("Connection"));
-    connectionGroup->setLayout(form);
-
-    QDialogButtonBox * buttonBox = new QDialogButtonBox;
-    QPushButton* connection = buttonBox->addButton(tr("Connection"), QDialogButtonBox::AcceptRole);
-
-
-    QPushButton* quit = buttonBox->addButton(tr("Quit"),   QDialogButtonBox::RejectRole);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-
-    quit->setAutoDefault(false);
-    quit->setDefault(false);
-    connection->setDefault(true);
-    connection->setAutoDefault(true);
-    QVBoxLayout * mainLayout = new QVBoxLayout;
-    mainLayout->addWidget(playerGroup);
-    mainLayout->addWidget(connectionGroup);
-    mainLayout->addWidget(buttonBox);
-
-    setLayout(mainLayout);
-    setSizeGripEnabled(true);
-}
-
 /************************
  * ConnectionWaitDialog *
  ************************/
@@ -188,7 +56,7 @@ QString ConnectionWaitDialog::getError() const
     return m_error;
 }
 
-QTcpSocket * ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
+/*QTcpSocket * ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
 {
     m_error = QString();
 
@@ -213,7 +81,7 @@ QTcpSocket * ConnectionWaitDialog::connectTo(const QString & host, quint16 port)
     {
         return NULL;
     }
-}
+}*/
 
 void ConnectionWaitDialog::setUI()
 {
@@ -226,12 +94,13 @@ void ConnectionWaitDialog::setUI()
 
     QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Abort);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(canceledConnection()));
+    connect(buttonBox, SIGNAL(rejected()), this, SIGNAL(canceledConnection()));
 
     QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(m_label);
     mainLayout->addWidget(progress);
     mainLayout->addWidget(buttonBox);
+
 
     setLayout(mainLayout);
 }
@@ -239,21 +108,21 @@ void ConnectionWaitDialog::setUI()
 void ConnectionWaitDialog::changeState(QAbstractSocket::SocketState socketState)
 {
     m_label->setText(m_msg[socketState]);
-    if (socketState == QAbstractSocket::ConnectedState)
+    if(QAbstractSocket::ConnectingState == socketState)
+    {
+        open();
+    }
+    else if (QAbstractSocket::ConnectedState == socketState)
     {
         accept();
     }
 }
 
-void ConnectionWaitDialog::socketError(QAbstractSocket::SocketError socketError)
+void ConnectionWaitDialog::socketError(QString str)
 {
-    Q_UNUSED(socketError);
-    m_error = m_socket->errorString();
-    reject();
+    if(NULL!=m_label)
+    {
+        m_label->setText(str);
+    }
 }
 
-void ConnectionWaitDialog::canceledConnection()
-{
-    if (m_socket != NULL)
-        m_socket->abort();
-}

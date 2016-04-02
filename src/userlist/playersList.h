@@ -34,7 +34,7 @@ class Player;
 class ReceiveEvent;
 
 /**
- * @brief PlayersList is List of connected players and theyr characters
+ * @brief PlayersList is a model of players and character. List of connected players and theyr characters
  * @note This class is NOT thread-safe.
  */
 class PlayersList : public QAbstractItemModel
@@ -44,7 +44,8 @@ class PlayersList : public QAbstractItemModel
 public:
     enum ItemDataRole
     {
-        IdentifierRole = Qt::UserRole
+        IdentifierRole = Qt::UserRole+1,
+        PersonPtr,
     };
     /**
      * @brief Get the singleton
@@ -70,13 +71,17 @@ public:
     QModelIndex mapIndexToMe(const QModelIndex & index) const;
 
     // Getters
-    Player* localPlayer() const;
+    /**
+     * @brief isLocal
+     * @param person
+     * @return  true if the person is the local user or one of his children.
+     */
     bool isLocal(Person * person) const;
     int numPlayers() const;
     Player* getPlayer(int index) const;
     Person* getPerson(const QString & uuid) const;
     Player* getPlayer(const QString & uuid) const;
-    Character * getCharacter(const QString & uuid) const;
+    Character* getCharacter(const QString & uuid) const;
     Player* getLocalPlayer() const;
     /**
      * @brief Same as getPlayer(uuid), if getPerson(uuid) is a Player.
@@ -86,6 +91,9 @@ public:
     Person* getPerson(const QModelIndex & index) const;
     Player* getPlayer(const QModelIndex & index) const;
     Character * getCharacter(const QModelIndex & index) const;
+
+
+	QList<Character*> getCharacterList();
 
 
     void cleanListButLocal();
@@ -105,6 +113,7 @@ public:
     static const quint32 NoParent = 0x7fffffff;
 public slots:
     void sendDelLocalPlayer();
+    bool setLocalPersonAvatar(Person* person,const QImage& image);
 signals:
     void playerAdded(Player * player);
     void characterAdded(Character * character);
@@ -146,6 +155,7 @@ private:
     void delPlayer(NetworkMessageReader & data);
     void setPersonName(NetworkMessageReader & data);
     void setPersonColor(NetworkMessageReader & data);
+    void setPersonAvatar(NetworkMessageReader & data);
     void addCharacter(NetworkMessageReader & data);
     void delCharacter(NetworkMessageReader & data);
     bool p_setLocalPersonName(Person * person, const QString & name);

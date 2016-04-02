@@ -33,50 +33,52 @@
  */
 class NetworkMessageWriter : public NetworkMessage
 {
-    public:
-        NetworkMessageWriter(NetMsg::Category categorie, NetMsg::Action action, int size = 128);
-        ~NetworkMessageWriter();
+public:
+    NetworkMessageWriter(NetMsg::Category categorie, NetMsg::Action action, int size = 128);
+    virtual ~NetworkMessageWriter();
 
-        NetMsg::Category category() const;
-        NetMsg::Action action() const;
+    NetMsg::Category category() const;
+    NetMsg::Action action() const;
 
-        void reset();
+    void reset();
 
-        void uint8(quint8 data);
-        void uint16(quint16 data);
-        void uint32(quint32 data);
-        void uint64(quint64 data);
+    void uint8(quint8 data);
+    void uint16(quint16 data);
+    void uint32(quint32 data);
+    void uint64(quint64 data);
 
-        void string8(const QString & data);
-        void string16(const QString & data);
-        void string32(const QString & data);
+    void string8(const QString & data);
+    void string16(const QString & data);
+    void string32(const QString & data);
 
-        void byteArray32(const QByteArray & data);
+    void byteArray32(const QByteArray & data);
 
-        void rgb(const QColor & color);
+    void rgb(const QColor & color);
 
-        int getDataSize();
+    int getDataSize();
 
-        void int8(qint8 data);
-        void int16(qint16 data);
-        void int32(qint32 data);
-        void int64(qint64 data);
+    void int8(qint8 data);
+    void int16(qint16 data);
+    void int32(qint32 data);
+    void int64(qint64 data);
+
+    void real(qreal data);
 
 
-    protected:
-        NetworkMessageHeader * buffer();
+protected:
+    NetworkMessageHeader * buffer();
 
-    private:
-        NetworkMessageHeader * m_header;
-        char * m_buffer;
-        char * m_begin;
-        char * m_currentPos;
-        char * m_end;
+private:
+    NetworkMessageHeader * m_header;
+    char * m_buffer;
+    char * m_begin;
+    char * m_currentPos;
+    char * m_end;
 
-        void string(const QString & data, int sizeQChar);
-        void makeRoom(int size);
-        int m_sizeBuffer      ;
-        int m_sizeData;
+    void string(const QString & data, int sizeQChar);
+    void makeRoom(int size);
+    int m_sizeBuffer      ;
+    int m_sizeData;
 };
 
 #endif

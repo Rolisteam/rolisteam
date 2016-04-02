@@ -36,6 +36,7 @@
 #include "widgets/colorbutton.h"
 #include "chatbrowser.h"
 
+#include "data/person.h"
 #include "diceparser.h"
 
 //#include "ui_chatwindow.h"
@@ -56,13 +57,13 @@ class ChatWindow : public QWidget
 Q_OBJECT
 
 public :
-    enum CHAT_OPERATOR {DICEROLL,SECRET_DICEROLL,COMMAND};
+    enum CHAT_OPERATOR {DICEROLL,SECRET_DICEROLL,COMMAND,TO_GM_DICEROLL};
     /**
      * @brief ChatWindow
      * @param chat
      * @param parent
      */
-    ChatWindow(AbstractChat * chat);
+	ChatWindow(AbstractChat * chat,QWidget* parent = NULL);
     /**
      * @brief ~ChatWindow
      */
@@ -107,16 +108,15 @@ public :
      */
     QMdiSubWindow* getSubWindow();
 
+    void setLocalPlayer(Person*);
+
     /**
      * @brief updateDiceAliases
      * @param map
      */
     static void updateDiceAliases(QList<DiceAlias*>* map);
-    /**
-     * @brief getTextZone
-     * @return
-     */
-    ImprovedTextEdit* getTextZone()const;
+    ImprovedTextEdit *getEditionZone() const;
+    void setEditionZone(ImprovedTextEdit *editionZone);
 signals:
     /**
      * @brief ChatWindowHasChanged
@@ -144,7 +144,10 @@ public slots:
      * @brief editionGetFocus
      */
     void editionGetFocus();
-
+    /**
+     * @brief detachView
+     * @param b
+     */
     void detachView(bool b);
 protected :
     /**
@@ -203,7 +206,7 @@ private slots :
      * @param str
      * @param secret
      */
-    void manageDiceRoll(QString str,QString& messageTitle,QString& message);
+    void manageDiceRoll(QString str,QString& messageTitle,QString& message, bool showResult = true);
 private :
     static QStringList m_keyWordList;
     QMdiSubWindow* m_window;
@@ -211,17 +214,17 @@ private :
     QString m_filename;
     bool m_warnedEmoteUnavailable;
     bool m_hasUnseenMessage;
-    MainWindow* m_mainWindow;
     QPushButton* m_save;
     PreferencesManager* m_preferences;
     ChatBrowser * m_displayZone;
-    QComboBox * m_selectPersonComboBox;
+	QComboBox* m_selectPersonComboBox;
     ImprovedTextEdit * m_editionZone;
     QAction * m_toggleViewAction;
     QSplitter* m_splitter;
     QWidget * m_bottomWidget;
     DiceParser* m_diceParser;
     QMap<QString,CHAT_OPERATOR>* m_operatorMap;
+    Person* m_localPerson;
     static QList<DiceAlias*>* m_receivedAlias;
 
 };

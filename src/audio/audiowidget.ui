@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -41,7 +41,7 @@
      <item>
       <widget class="QToolButton" name="m_changeDirectory">
        <property name="text">
-        <string>...</string>
+        <string notr="true">...</string>
        </property>
       </widget>
      </item>
@@ -167,7 +167,7 @@
         </size>
        </property>
        <property name="text">
-        <string>m_uniqueMode</string>
+        <string>unique Mode</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -206,21 +206,21 @@
      <item>
       <widget class="QToolButton" name="m_addButton">
        <property name="text">
-        <string>...</string>
+        <string notr="true">...</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QToolButton" name="m_savePlaylist">
        <property name="text">
-        <string>...</string>
+        <string notr="true">...</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QToolButton" name="m_deleteButton">
        <property name="text">
-        <string>...</string>
+        <string notr="true">...</string>
        </property>
       </widget>
      </item>

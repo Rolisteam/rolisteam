@@ -24,7 +24,7 @@
 #include "widgets/colorbutton.h"
 
 #include "map/map.h"
-
+#include <QMessageBox>
 
 namespace Ui {
 class NewEmptyMapDialog;

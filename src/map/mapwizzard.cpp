@@ -6,10 +6,11 @@
 
 
 
-MapWizzard::MapWizzard(QWidget *parent) :
+MapWizzard::MapWizzard(bool vmap, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MapWizzard)
 {
+    m_vmap = vmap;
     ui->setupUi(this);
 
     m_preferences = PreferencesManager::getInstance();
@@ -17,6 +18,15 @@ MapWizzard::MapWizzard(QWidget *parent) :
     QStringList data;
     data << tr("No Right") << tr("His character") << tr("All Permissions");
     ui->m_permissionSelector->addItems(data);
+
+    if(m_vmap)
+    {
+        ui->label_3->setVisible(false);
+        ui->label_2->setVisible(false);
+        ui->m_permissionSelector->setVisible(false);
+        ui->m_titleEdit->setVisible(false);
+        ui->m_hiddenCheckbox->setVisible(false);
+    }
 }
 
 MapWizzard::~MapWizzard()
@@ -25,8 +35,17 @@ MapWizzard::~MapWizzard()
 }
 void MapWizzard::selectPath()
 {
-    QString filepath = QFileDialog::getOpenFileName(this, tr("Select Map"), m_preferences->value("MapDirectory",QDir::homePath()).toString(),
+    QString filepath;
+    if(m_vmap)
+    {
+        filepath = QFileDialog::getOpenFileName(this, tr("Select Map"), m_preferences->value("MapDirectory",QDir::homePath()).toString(),
+                                      tr("Map (*.vmap)"));
+    }
+    else
+    {
+        filepath = QFileDialog::getOpenFileName(this, tr("Select Map"), m_preferences->value("MapDirectory",QDir::homePath()).toString(),
                                       tr("Map (*.pla *.jpg *.jpeg *.png *.bmp)"));
+    }
     ui->m_filepathDisplay->setText(filepath);
 
 

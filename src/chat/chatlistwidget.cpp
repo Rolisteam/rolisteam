@@ -151,7 +151,7 @@ void ChatListWidget::deleteSelectedChat()
 {
     m_chatList->delLocalChat(m_selectionModel->currentIndex());
 }
-NetWorkReceiver::SendType ChatListWidget::processMessage(NetworkMessageReader* msg)
+NetWorkReceiver::SendType ChatListWidget::processMessage(NetworkMessageReader* msg, NetworkLink* link)
 {
     switch (msg->action())
     {
@@ -167,6 +167,7 @@ NetWorkReceiver::SendType ChatListWidget::processMessage(NetworkMessageReader* m
     default:
         break;
     }
+    return AllExceptSender;
 }
 void ChatListWidget::processAddDiceAlias(NetworkMessageReader* msg)
 {
@@ -174,7 +175,10 @@ void ChatListWidget::processAddDiceAlias(NetworkMessageReader* msg)
   QString regex = msg->string32();
   QString value = msg->string32();
   bool isReplace = (bool)msg->int8();
-  DiceAlias* tmp = new DiceAlias(regex,value,isReplace);
+  bool isEnable = (bool)msg->int8();
+  QString comment = msg->string32();
+  DiceAlias* tmp = new DiceAlias(regex,value,isReplace,isEnable);
+  tmp->setComment(comment);
 
   m_diceAliasMapFromGM->insert(pos,tmp);
 
@@ -199,4 +203,12 @@ void ChatListWidget::processMoveDiceALias(NetworkMessageReader* msg)
 
     }
 
+}
+void ChatListWidget::addPublicChat()
+{
+	m_chatList->addPublicChat();
+}
+void ChatListWidget::cleanChatList()
+{
+    m_chatList->cleanChat();
 }

@@ -36,7 +36,7 @@ FileDirChooser::FileDirChooser(bool isDirectory ,QWidget * parent)
     // Childrens
     m_lineEdit = new QLineEdit(this);
     m_lineEdit->setText(QDir::homePath());
-    QPushButton * button = new QPushButton(tr("..."), this);
+    QPushButton * button = new QPushButton(QStringLiteral("..."), this);
 
     // Layout
     QHBoxLayout * layout = new QHBoxLayout;

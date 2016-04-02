@@ -21,6 +21,7 @@
 
 #include <QStyleFactory>
 
+
 RolisteamTheme::RolisteamTheme(QPalette pal,QString name,QString css,QStyle* style,QString bgPath,int pos, QColor bgColor, bool isRemovable)
     : m_palette(pal),m_name(name),m_css(css),m_removable(isRemovable),m_bgPath(bgPath),m_bgColor(bgColor),m_position(pos)
 {
@@ -65,7 +66,7 @@ const QString& RolisteamTheme::getCss() const
 {
     return m_css;
 }
-bool RolisteamTheme::isRemovable()
+bool RolisteamTheme::isRemovable() const
 {
     return m_removable;
 }
@@ -96,21 +97,21 @@ void RolisteamTheme::setBackgroundImage(QString img)
     m_bgPath = img;
 }
 
-QString RolisteamTheme::getStyleName()
+QString RolisteamTheme::getStyleName() const
 {
     return m_styleName;
 }
-QString RolisteamTheme::getBackgroundImage()
+QString RolisteamTheme::getBackgroundImage() const
 {
     return m_bgPath;
 }
 
-int RolisteamTheme::getBackgroundPosition()
+int RolisteamTheme::getBackgroundPosition() const
 {
     return m_position;
 }
 
-QColor RolisteamTheme::getBackgroundColor()
+QColor RolisteamTheme::getBackgroundColor() const
 {
     return m_bgColor;
 }
@@ -118,7 +119,7 @@ void RolisteamTheme::setDiceHighlightColor(QColor c)
 {
     m_diceHighlightColor = c;
 }
-QColor RolisteamTheme::getDiceHighlightColor()
+QColor RolisteamTheme::getDiceHighlightColor() const
 {
     return m_diceHighlightColor;
 }

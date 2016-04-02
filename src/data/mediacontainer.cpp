@@ -22,7 +22,7 @@
 
 
 MediaContainer::MediaContainer(QWidget* parent)
-	: QMdiSubWindow(parent),m_uri(NULL),m_preferences(PreferencesManager::getInstance()),m_action(NULL)
+    : QMdiSubWindow(parent),m_uri(NULL),m_preferences(PreferencesManager::getInstance()),m_action(NULL),m_currentCursor(NULL),m_mediaId(QUuid::createUuid().toString())
 {
     //m_preferences = ;
     setAttribute(Qt::WA_DeleteOnClose,false);
@@ -95,7 +95,10 @@ void MediaContainer::setVisible(bool b)
     if(NULL!=widget())
     {
         widget()->setVisible(b);
-        m_action->setChecked(b);
+        if(NULL!=m_action)
+        {
+            m_action->setChecked(b);
+        }
     }
     QMdiSubWindow::setVisible(b);
 }
@@ -110,5 +113,35 @@ QAction* MediaContainer::getAction()
 }
 void MediaContainer::setCleverUriType(CleverURI::ContentType type)
 {
-    m_uri = new CleverURI("",type);
+    m_uri = new CleverURI(m_title,type);
+}
+void MediaContainer::currentColorChanged(QColor& penColor)
+{
+    m_penColor = penColor;
+}
+
+QString MediaContainer::getMediaId()
+{
+    return m_mediaId;
+}
+
+void MediaContainer::setMediaId(QString str)
+{
+    m_mediaId = str;
+}
+void MediaContainer::currentToolChanged(VToolsBar::SelectableTool selectedtool)
+{
+    m_currentTool = selectedtool;
+}
+void MediaContainer::currentCursorChanged(QCursor* cursor)
+{
+    m_currentCursor = cursor;
+}
+CleverURI::ContentType MediaContainer::getContentType()
+{
+    if(NULL!=m_uri)
+    {
+        return m_uri->getType();
+    }
+    return CleverURI::NONE;
 }

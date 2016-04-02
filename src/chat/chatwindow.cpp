@@ -37,17 +37,15 @@
 #include "chat/chat.h"
 #include "network/networkmessagewriter.h"
 #include "localpersonmodel.h"
-#include "data/persons.h"
+#include "data/person.h"
 #include "userlist/playersList.h"
 #include "chat/improvedtextedit.h"
-
-#include "types.h"
 
 QStringList ChatWindow::m_keyWordList;
 QList<DiceAlias*>* ChatWindow::m_receivedAlias = NULL;
 
-ChatWindow::ChatWindow(AbstractChat * chat)
-    : QWidget(), m_chat(chat), m_filename("%1/%2.html")
+ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
+	: QWidget(parent), m_chat(chat), m_filename("%1/%2.html")
 {
     m_preferences = PreferencesManager::getInstance();
     if (m_chat == NULL)
@@ -66,7 +64,6 @@ ChatWindow::ChatWindow(AbstractChat * chat)
 	connect(m_editionZone, SIGNAL(textValidated(bool,QString)), this, SLOT(emettreTexte(bool,QString)));
     connect(m_editionZone, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
     connect(m_editionZone, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
-    //connect(m_mainWindow, SIGNAL(closing()), this, SLOT(save()));
     connect(m_chat, SIGNAL(changedMembers()), this, SLOT(scheduleUpdateChatMembers()));
 
     m_toggleViewAction = new QAction(this);
@@ -79,6 +76,7 @@ ChatWindow::ChatWindow(AbstractChat * chat)
     m_operatorMap->insert("/",COMMAND);
     m_operatorMap->insert("!",DICEROLL);
     m_operatorMap->insert("&",SECRET_DICEROLL);
+    m_operatorMap->insert("#",TO_GM_DICEROLL);
 
 }
 QMdiSubWindow* ChatWindow::getSubWindow()
@@ -95,7 +93,8 @@ void ChatWindow::updateListAlias()
         QString cmd = m_preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
         QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
         bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
-        list->append(new DiceAlias(cmd,value,replace));
+        bool enable = m_preferences->value(QString("DiceAlias_%1_enable").arg(i),true).toBool();
+        list->append(new DiceAlias(cmd,value,replace,enable));
     }
     if(NULL!=m_receivedAlias)
     {
@@ -190,12 +189,10 @@ bool ChatWindow::isVisible()
 {
     return (m_window->isVisible() & QWidget::isVisible());
 }
-void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& message)
+void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& message,bool showResult)
 {
     updateListAlias();
 
-    QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
-    Person * localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
     QColor color;
     if(m_diceParser->parseLine(str))
     {
@@ -207,38 +204,48 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
             QString cmdLine;
             QString list;
             bool onlyValue = getMessageResult(value, cmdLine,list);
-            color = localPerson->color();
+            color = m_localPerson->getColor();
 
             if(!onlyValue)
             {
-                QString diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%2 (%3)]", "You got").arg(value).arg(cmdLine).arg(list);
-                showMessage(messageTitle, color, diceOutput,NetMsg::DiceMessageAction);
-                QString diceOutput2 = tr("got <span class=\"dice\">%1</span> [%2 (%3)]","He got").arg(value).arg(cmdLine).arg(list);
+                QString diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%3 (%2)]","mine dice roll").arg(value).arg(list).arg(cmdLine);
+                if(showResult)
+		{
+			showMessage(messageTitle, color, diceOutput,NetMsg::DiceMessageAction);
+		}
+                QString diceOutput2 = tr("got <span class=\"dice\">%1</span> [%3 (%2)]","third person roll").arg(value).arg(list).arg(cmdLine);
                 message = diceOutput2;
             }
             else
             {
                 messageTitle="";
-                showMessage(messageTitle, color,value,NetMsg::DiceMessageAction);
-                message = value;
+		if(!showResult)
+		{
+                	showMessage(messageTitle, color,value,NetMsg::DiceMessageAction);
+                }
+		message = value;
             }
 
         }
-        else
-        {
-            QString messageCorps = m_diceParser->humanReadableError();
-            messageTitle = tr("Syntax");
-            color = Qt::red;
-            showMessage(messageTitle, color, messageCorps);
-        }
     }
-    else
+    
+    if(!m_diceParser->getErrorMap().isEmpty())
     {
         QString messageCorps = m_diceParser->humanReadableError();
         messageTitle = tr("Syntax");
         color = Qt::red;
         showMessage(messageTitle, color, messageCorps);
     }
+}
+
+ImprovedTextEdit *ChatWindow::getEditionZone() const
+{
+    return m_editionZone;
+}
+
+void ChatWindow::setEditionZone(ImprovedTextEdit *editionZone)
+{
+    m_editionZone = editionZone;
 }
 
 // not (const QString & message), because we change it !
@@ -249,10 +256,6 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
 
     bool ok=true;
     m_editionZone->clear();
-
-
-    QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
-    Person* localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
 
     QString tmpmessage=message.simplified();
     QString messageCorps="";
@@ -271,6 +274,8 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
         case SECRET_DICEROLL:
             manageDiceRoll(tmpmessage,messageTitle,message);
             return;
+        case TO_GM_DICEROLL:
+            manageDiceRoll(tmpmessage,messageTitle,message,false);
             break;
         case COMMAND:
         {
@@ -289,9 +294,9 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
                     m_warnedEmoteUnavailable = true;
                 }
 
-                if(NULL!=localPerson)
+                if(NULL!=m_localPerson)
                 {
-                    showMessage(localPerson->name(), localPerson->color(), tmpmessage,NetMsg::EmoteMessageAction);
+                    showMessage(m_localPerson->getName(), m_localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
                     action = NetMsg::EmoteMessageAction;
                 }
                 break;
@@ -303,13 +308,13 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
     }
     else
     {//sending info to others.
-        messageTitle = localPerson->name();
+        messageTitle = m_localPerson->getName();
 		if(!hasHtml)
 		{
 			message = message.toHtmlEscaped();
 		}
 		message = message.replace('\n',"<br/>");
-        showMessage(messageTitle, localPerson->color(), message);
+        showMessage(messageTitle, m_localPerson->getColor(), message);
         action = NetMsg::ChatMessageAction;
     }
 
@@ -319,7 +324,7 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
 
     // Emission du message
     NetworkMessageWriter data(NetMsg::ChatCategory, action);
-    data.string8(localPersonIdentifier);
+    data.string8(m_localPerson->getUuid());
     data.string8(m_chat->identifier());
     data.string32(message);
     m_chat->sendThem(data);
@@ -334,18 +339,37 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
         QList<QStringList> allStreakList;
         ListDiceResult diceResult =  dice.value(face);
         bool previousHighlight=false;
+        QString previousColor;
         QString patternColor("<span class=\"dice\">");
-        foreach (DiceAndHighlight tmp, diceResult)
+        foreach (HighLightDice tmp, diceResult)
         {
+            if(previousColor != tmp.getColor())
+            {
+                if(!currentStreak.isEmpty())
+                {
+                    QStringList list;
+                    list << patternColor+currentStreak.join(',')+"</span>";
+                    allStreakList.append(list);
+                    currentStreak.clear();
+                }
+                if(tmp.getColor().isEmpty())
+                {
+                    patternColor = QStringLiteral("<span class=\"dice\">");
+                }
+                else
+                {
+                    patternColor = QStringLiteral("<span style=\"color:%1;font-weight:bold\">").arg(tmp.getColor());
+                }
+            }
             QStringList diceListStr;
-            if((previousHighlight)&&(!tmp.second))
+            if((previousHighlight)&&(!tmp.isHighlighted()))
             {
                 QStringList list;
                 list << patternColor+currentStreak.join(',')+"</span>";
                 allStreakList.append(list);
                 currentStreak.clear();
             }
-            else if((!previousHighlight)&&(tmp.second))
+            else if((!previousHighlight)&&(tmp.isHighlighted()))
             {
                 if(!currentStreak.isEmpty())
                 {
@@ -355,10 +379,11 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
                     currentStreak.clear();
                 }
             }
-            previousHighlight = tmp.second;
-            for(int i =0; i < tmp.first.size(); ++i)
+            previousHighlight = tmp.isHighlighted();
+            previousColor = tmp.getColor();
+            for(int i =0; i < tmp.getResult().size(); ++i)
             {
-                qint64 dievalue = tmp.first[i];
+                qint64 dievalue = tmp.getResult()[i];
                 diceListStr << QString::number(dievalue);
             }
             if(diceListStr.size()>1)
@@ -414,7 +439,7 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
     if(m_diceParser->hasDiceResult())
     {
         ExportedDiceResult diceList;
-        bool ok=true;
+        bool ok;
         m_diceParser->getLastDiceResult(diceList,ok);//fills the ExportedDiceResult
         diceText = diceToText(diceList);
         hasDiceList= true;
@@ -432,11 +457,11 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
     }
     else if(m_diceParser->hasIntegerResultNotInFirst())
     {
-        scalarText = tr("%1").arg(m_diceParser->getLastIntegerResult());
+        scalarText = QStringLiteral("%1").arg(m_diceParser->getLastIntegerResult());
     }
     else if(hasDiceList)
     {
-        scalarText = tr("%1").arg(m_diceParser->getSumOfDiceResult());
+        scalarText = QStringLiteral("%1").arg(m_diceParser->getSumOfDiceResult());
     }
     value=scalarText;
     list = diceText.trimmed();
@@ -622,7 +647,7 @@ void ChatWindow::detachView(bool b)
             m_window->setVisible(true);
     }
 }
-ImprovedTextEdit* ChatWindow::getTextZone()const
+void ChatWindow::setLocalPlayer(Person* person)
 {
-    return m_editionZone;
+    m_localPerson = person;
 }

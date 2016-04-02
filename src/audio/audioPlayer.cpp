@@ -29,19 +29,11 @@
 #include <QListView>
 #include <QDebug>
 
-
-
 #include "network/networkmanager.h"
 #include "network/networklink.h"
-#include "variablesGlobales.h"
-#include "types.h"
 #include "network/networkmessagewriter.h"
 
-
-
-
 AudioPlayer * AudioPlayer::m_singleton = NULL;
-
 
 AudioPlayer::AudioPlayer(QWidget *parent)
     : QDockWidget(parent)//,m_currentSource(NULL)
@@ -136,24 +128,20 @@ void AudioPlayer::showMusicPlayer(bool status)
         }
     }
 }
-void AudioPlayer::updateUi()
+void AudioPlayer::updateUi(bool isGM)
 {
     foreach(PlayerWidget* tmp,m_players)
     {
-        tmp->updateUi();
+        tmp->updateUi(isGM);
     }
     for(int i = 0; i< m_players.size(); ++i)
     {
         m_playerActionsList[i]->setChecked(m_preferences->value(QString("music_player_%1_status").arg(i),true).toBool());
     }
-    if(m_preferences->value("isPlayer",false).toBool())
+    if(!isGM)
     {
         m_mainLayout->addStretch(1);
     }
-//    else
-//    {
-
-//    }
 }
 void AudioPlayer::onePlayerHasStopped(int id)
 {
@@ -238,7 +226,7 @@ void AudioPlayer::pChangeDirectory()
 
 }
 
-NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
+NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg, NetworkLink* link)
 {
     int id = msg->uint8();
     NetMsg::Action action = msg->action();
@@ -268,7 +256,7 @@ NetWorkReceiver::SendType AudioPlayer::processMessage(NetworkMessageReader* msg)
     default:
         break;
     }
-    return NetWorkReceiver::AllExceptMe;
+    return NetWorkReceiver::AllExceptSender;
 }
 void AudioPlayer::openSongList(QString str)
 {

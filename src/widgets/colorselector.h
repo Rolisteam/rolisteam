@@ -29,11 +29,23 @@
 
 
 #include "preferences/preferencesmanager.h"
-#include "types.h"
+//#include "types.h"
+#include "flowlayout.h"
 
 class QHBoxLayout;
 class QGridLayout;
 class QVBoxLayout;
+
+enum ColorKind {ColorType, Erase, Veil, Unveil};
+
+/**
+  * @brief SelectedColor is used to store the current color and its kind. It must disappear form the software in future release.
+  */
+typedef struct
+{
+    ColorKind type;
+    QColor color;
+} SelectedColor;
 /**
  * @brief The ColorWidget class is small widget to display color and select it. It is used a lot of timer
  * by ColorSelector.
@@ -119,6 +131,8 @@ public:
      * @return
      */
     virtual bool eventFilter(QObject *, QEvent *);
+
+    static SelectedColor& getSelectedColor();
 public slots:
     /**
      * @brief changeCurrentColor
@@ -139,10 +153,11 @@ private:
     QPixmap *m_unveilPixel;
     QHBoxLayout *m_specialColor;
     QGridLayout *m_characterGrid;
-    QVBoxLayout *m_layoutSelector;
+    FlowLayout *m_layoutSelector;
     QGridLayout *m_predefinedGrid;
     bool m_pressedButton;
     PreferencesManager* m_preferences;
+    static SelectedColor s_selectedColor;
 
 };
 

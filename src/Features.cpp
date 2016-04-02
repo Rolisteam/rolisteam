@@ -23,10 +23,10 @@
 #include "Features.h"
 
 #include "network/networkmessagereader.h"
-#include "data/persons.h"
+#include "data/person.h"
+#include "data/player.h"
 #include "userlist/playersList.h"
 #include "network/receiveevent.h"
-#include "types.h"
 
 
 /******************
@@ -110,7 +110,7 @@ NetworkMessageWriter & SendFeaturesIterator::message()
     if (m_player != NULL)
     {
         //qDebug("Prepared feature %s -> %s (%d)", qPrintable(m_player->uuid()), qPrintable(key()), value());
-        m_message.string8(m_player->uuid());
+        m_message.string8(m_player->getUuid());
         m_message.string8(key());
         m_message.uint8(value());
     }

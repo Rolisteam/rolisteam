@@ -1,4 +1,5 @@
 /*************************************************************************
+ *   Copyright (C) 2015 by Renaud Guezennec                              *
  *   Copyright (C) 2011 by Joseph Boudou                                 *
  *                                                                       *
  *   http://www.rolisteam.org/                                           *
@@ -21,9 +22,9 @@
 
 #include "networkmessage.h"
 
-
+#ifndef UNIT_TEST
 #include "network/networklink.h"
-
+#endif
 #include "network/networkmanager.h"
 
 NetworkMessage::~NetworkMessage()
@@ -40,17 +41,26 @@ void NetworkMessage::sendTo(NetworkLink * link)
     }
 
     NetworkMessageHeader * header = buffer();
-    link->emissionDonnees((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
+    #ifndef UNIT_TEST
+    link->sendData((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
+    //link->sendDataSlot((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
+    //link->sendDataSlot((char *)header, header->dataSize + sizeof(NetworkMessageHeader));
+    #endif
+   // QMetaObject::invokeMethod(link,"sendData",Qt::QueuedConnection,Q_ARG(NetworkMessage*,this));
 }
 
 void NetworkMessage::sendAll(NetworkLink * butLink)
 {
-    NetworkMessageHeader * header = buffer();
-    if(NULL!=m_server)
-    {
+    NetworkMessageHeader* header = buffer();
 #ifndef UNIT_TEST
-        m_server->emettreDonnees((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
+    m_server->sendMessage((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
 #endif
+}
+quint64 NetworkMessage::getSize()
+{
+    if(buffer()!=NULL)
+    {
+        NetworkMessageHeader* header = buffer();
+        return  header->dataSize + sizeof(NetworkMessageHeader);
     }
-    //qDebug() << "header data size send:" << header->dataSize << header->action << header->category;
 }

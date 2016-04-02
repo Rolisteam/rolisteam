@@ -32,23 +32,35 @@
 #include <QMenu>
 #include <QProgressBar>
 #include <QMdiSubWindow>
+#include <QStackedWidget>
 
 #include "data/cleveruri.h"
-#include "map/map.h"
+#include "data/mediacontainer.h"
 
+#include "map/map.h"
 #include "map/charactertoken.h"
+
 #include "preferences/preferencesmanager.h"
+
 #include "services/ipchecker.h"
 
 #include "network/networkreceiver.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 
-#include "data/mediacontainer.h"
+#include "vmap/vtoolbar.h"
+#include "vmap/vmap.h"
+#include "vmap/vmapframe.h"
+#include "vmap/vmaptoolbar.h"
+
+#include "notecontainer.h"
+#include "network/selectconnectionprofiledialog.h"
 
 #ifndef NULL_PLAYER
 #include "audioPlayer.h"
 #endif
+
+#include "network/networkmanager.h"
 
 namespace Ui {
 class MainWindow;
@@ -65,9 +77,10 @@ class PreferencesDialog;
 class Player;
 class PlayersListWidget;
 class ImprovedWorkspace;
-class NetworkManager;
 class TextEdit;
 class PlayersList;
+class ConnectionProfile;
+class SessionManager;
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
@@ -104,41 +117,29 @@ public :
     void updateWorkspace();
     /**
      * @brief trouverCarte
-     * @param idCarte
-     * @return
+     * @param idMap
      */
-    Map *findMapById(QString idCarte);
+    Map* findMapById(QString idMap);
     /**
      * @brief removeMapFromId
-     * @param idCarte
-     * @return
+     * @param idMap
      */
-    void removeMapFromId(QString idCarte);
-
+    void removeMapFromId(QString idMap);
+    /**
+     * @brief removeVMapFromId
+     * @param idMap
+     */
+    void removeVMapFromId(QString idMap);
     /**
      * @brief removePictureFromId
      * @param idImage
-     * @return
      */
     void removePictureFromId(QString idImage);
-
-    /**
-     * @brief enleverImageDeLaListe
-     * @param idImage
-     * @return
-     */
-    //bool enleverImageDeLaListe(QString idImage);
-
     /**
      * @brief registerSubWindow
      * @param subWindow
      */
     QWidget* registerSubWindow(QWidget * subWindow, QAction* action);
-    /**
-     * @brief showConnectionDialog
-     * @return
-     */
-    bool showConnectionDialog();
     /**
      * @brief setupUi
      */
@@ -157,8 +158,6 @@ public :
      * @brief writeSettings
      */
     void writeSettings();
-
-
     /**
      * @brief setUpNetworkConnection
      */
@@ -177,7 +176,7 @@ public :
 	 * @brief processMessage
 	 * @param msg
 	 */
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link);
 
     /**
      * @brief prepareMap
@@ -185,12 +184,15 @@ public :
      */
     void prepareMap(MapFrame* mapFrame);
     /**
+     * @brief prepareVMap
+     * @param tmp
+     */
+    void prepareVMap(VMapFrame* tmp);
+    /**
      * @brief addMediaToMdiArea
      * @param mediac
      */
     void addMediaToMdiArea(MediaContainer* mediac );
-
-
 signals:
     /**
      * @brief closing
@@ -203,12 +205,6 @@ public slots :
      * @param msg
      */
     void notifyUser(QString msg,MessageType msgType = Information) const;
-    /**
-	 * @brief displayMinutesEditor
-     * @param afficher
-     * @param cocherAction
-     */
-    void displayMinutesEditor(bool afficher, bool cocherAction = false);
     /**
      * @brief quitterApplication
      * @param perteConnexion
@@ -235,6 +231,13 @@ public slots :
      */
     void closeAllImagesAndMaps();
 
+	/**
+	 * @brief showConnectionDialog
+	 * @return
+	 */
+    bool showConnectionDialog(bool forced = false);
+
+    void startConnection();
 protected :
     void closeEvent(QCloseEvent *event);
     void prepareImage(Image *imageFenetre);
@@ -245,19 +248,20 @@ protected :
     void processCharacterMessage(NetworkMessageReader* msg);
     void processConnectionMessage(NetworkMessageReader* msg);
     void processCharacterPlayerMessage(NetworkMessageReader* msg);
+    NetWorkReceiver::SendType processVMapMessage(NetworkMessageReader* msg);
     void extractCharacter(Map* map,NetworkMessageReader* msg);
     CleverURI* contentToPath(CleverURI::ContentType type,bool save);
     void dropEvent(QDropEvent* event);
     void dragEnterEvent(QDragEnterEvent* ev);
 
 private slots :
-    void changementNatureUtilisateur();
-    void changementFenetreActive(QMdiSubWindow* widget);
+    void userNatureChange();
+    void activeWindowChanged(QMdiSubWindow* widget);
     void newMap();
+    void newVectorialMap();
     void openStory();
     void openNote();
     void closeMapOrImage();
-    void saveMap();
     void updateMayBeNeeded();
 	void sendOffAllMaps(NetworkLink * link);
 	void sendOffAllImages(NetworkLink * link);
@@ -265,13 +269,22 @@ private slots :
     void receiveData(quint64 readData,quint64 size);
     void openContent();
 
+
+
+    //save methods
+    void saveCurrentMedia();
+    //void saveMap(MapFrame* mapWindow);
+
+
+
+
     //Network private Slot
     void stopReconnection();
     void closeConnection();
     void startReconnection();
-    void networkStateChanged(bool state);
+    void networkStateChanged(NetworkManager::ConnectionState state);
     void openContentFromType(CleverURI::ContentType type);
-    void openCleverURI(CleverURI* uri);
+    void openCleverURI(CleverURI* uri,bool force = false);
     void newNoteDocument();
     void setLatestFile(CleverURI* fileName);
     void updateRecentFileActions();
@@ -295,9 +308,14 @@ private slots :
      * @param ip
      */
     void showIp(QString ip);
+    void newCharacterSheetWindow();
+
 
 private :
     MainWindow();
+    void showCleverUri(CleverURI *uri);
+
+private:
     static MainWindow* m_singleton;
     void createNotificationZone();
     void linkActionToMenu();
@@ -311,10 +329,18 @@ private :
      * @brief workspace
      */
 	ImprovedWorkspace* m_mdiArea;
-    PlayersListWidget * m_playersListWidget;
-	ToolsBar* m_toolBar;
+    PlayersListWidget* m_playersListWidget;
+
+    //toolbar
+    ToolsBar* m_toolBar;
+    VToolsBar* m_vToolBar;
+    QStackedWidget* m_toolBarStack;
+
+
     QMap<QString,MapFrame *> m_mapWindowMap;
-    QList <Image*> m_pictureList;
+    QMap<QString,VMapFrame *> m_mapWindowVectorialMap;
+    QMap<QString,NoteContainer*> m_noteMap;
+    QHash<QString,Image*> m_pictureHash;
     QMap<MediaContainer*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
     AudioPlayer* m_audioPlayer;
@@ -329,28 +355,27 @@ private :
     QDockWidget* m_dockLogUtil;
 	NetworkManager* m_networkManager;
     QTextEdit* m_notifierDisplay;
-    TextEdit* m_noteEditor;
     PlayersList* m_playerList;
-	//QMenuBar* m_menuBar;
-    /// @brief get the server IP.
-    IpChecker* m_ipChecker;
+    IpChecker* m_ipChecker; /// @brief get the server IP.
+
     //subwindow
-    QMdiSubWindow* m_noteEditorSub;
     QProgressBar* m_downLoadProgressbar;
     bool m_shownProgress;
     QString m_localPlayerId;
-	bool m_resetSettings;
     Ui::MainWindow* m_ui;
-//filters
-	QString m_supportedImage;
-	QString m_supportedCharacterSheet;
-	QString m_supportedNotes;
-	QString m_supportedMap;
-	QString m_pdfFiles;
+    SessionManager* m_sessionManager;
+    bool m_resetSettings;
 
     //Recent files managment
     int m_maxSizeRecentFile;
     QList<QAction*> m_recentFileActs;
+    VmapToolBar* m_vmapToolBar;
+
+    ConnectionProfile* m_currentConnectionProfile;
+    QList<QWidget*> m_gmToolBoxList;
+    SelectConnectionProfileDialog* m_dialog;
+    bool m_profileDefined;
+
 };
 
 #endif

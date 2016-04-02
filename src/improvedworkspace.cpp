@@ -197,10 +197,10 @@ void ImprovedWorkspace::addContainerMedia(MediaContainer* mediac)
     }
 }
 
-QWidget* ImprovedWorkspace::activeWindow()
+/*QWidget* ImprovedWorkspace::activeWindow()
 {
     return currentSubWindow();
-}
+}*/
 void ImprovedWorkspace::insertActionAndSubWindow(QAction* act, QMdiSubWindow* sub)
 {
     m_map->insert(act,sub);
@@ -244,6 +244,7 @@ bool ImprovedWorkspace::eventFilter(QObject *object, QEvent *event)
         {
             //removeSubWindow(sub);
             sub->setVisible(false);
+            event->accept();
             return true;
         }
     }
@@ -270,7 +271,7 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
             MapFrame* tmpWindow = dynamic_cast<MapFrame*>(tmp->widget());
             if(NULL!=tmpWindow)
             {
-                if(tmpWindow->getMapId() == id)
+                if(tmpWindow->getMediaId() == id)
                 {
                     return tmp;
                 }
@@ -280,7 +281,7 @@ QMdiSubWindow* ImprovedWorkspace::getSubWindowFromId(QString id)
                 Image* img = dynamic_cast<Image*>(tmp);
                 if(NULL!=img)
                 {
-                    if(img->getImageId() == id)
+                    if(img->getMediaId() == id)
                     {
                         return tmp;
                     }
@@ -295,4 +296,12 @@ void ImprovedWorkspace::preferencesHasChanged(QString str)
 {
     updateBackGround();
     update();
+}
+void ImprovedWorkspace::addWidgetToMdi(QWidget* wid)
+{
+    wid->setParent(this);
+    QMdiSubWindow* sub = addSubWindow(wid);
+    sub->setAttribute(Qt::WA_DeleteOnClose, false);
+    sub->setVisible(true);
+    wid->setVisible(true);
 }

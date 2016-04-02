@@ -29,6 +29,7 @@
 
 #include "data/cleveruri.h"
 #include "preferences/preferencesmanager.h"
+#include "vmap/vtoolbar.h"
 
 /**
  * @brief The MediaContainer class
@@ -110,6 +111,37 @@ public:
      */
     void setCleverUriType(CleverURI::ContentType);
 
+    /**
+     * @brief getContentType
+     * @return
+     */
+    virtual CleverURI::ContentType getContentType();
+    /**
+     * @brief saveMedia
+     */
+    virtual void saveMedia() =0;
+
+
+    /**
+    * @brief is called when the selected tool changes.
+    * @param the current tool.
+    */
+    virtual void currentToolChanged(VToolsBar::SelectableTool);
+    /**
+    * @brief is called when the cursor must be changed.
+    * @param the new cursor.
+    * @todo gathering this function and currentToolChanged should be a better choice.
+    */
+    virtual void currentCursorChanged(QCursor*);
+    /**
+    * @brief is called when the user has changed the selected color.
+    * @param the new color.
+    */
+    virtual void currentColorChanged(QColor&);
+
+    virtual QString getMediaId();
+
+    virtual void setMediaId(QString);
 
 signals:
     /**
@@ -131,6 +163,17 @@ protected:
     QString m_filter;
     PreferencesManager* m_preferences;
     QAction* m_action;
+    QCursor* m_currentCursor;
+    /**
+    * @brief the current tool, it is an enum item.
+    */
+    VToolsBar::SelectableTool m_currentTool;
+    /**
+    * @brief the current color of the pen.
+    */
+    QColor m_penColor;
+    QString m_mediaId;
+
 };
 
 #endif // MEDIACONTAINER_H

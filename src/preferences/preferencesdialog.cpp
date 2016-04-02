@@ -21,8 +21,6 @@
 
 #include "preferencesdialog.h"
 
-#include "variablesGlobales.h"
-
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -34,7 +32,8 @@
 #include <QStyleFactory>
 #include <QInputDialog>
 #include <QJsonDocument>
-
+#include <QItemEditorCreatorBase>
+#include "widgets/filepathdelegateitem.h"
 
 #ifdef HAVE_SOUND
 #include <QMediaPlayer>
@@ -119,6 +118,71 @@ void CheckBoxDelegate::commitEditor()
 }
 
 /*********************
+ * ColorListEditor *
+ *********************/
+
+ColorListEditor::ColorListEditor(QWidget *widget) : QComboBox(widget)
+{
+    populateList();
+}
+
+QColor ColorListEditor::color() const
+{
+    return qvariant_cast<QColor>(itemData(currentIndex(), Qt::DecorationRole));
+}
+
+void ColorListEditor::setColor(QColor color)
+{
+    setCurrentIndex(findData(color, int(Qt::DecorationRole)));
+}
+
+void ColorListEditor::populateList()
+{
+    QStringList colorNames = QColor::colorNames();
+
+    for (int i = 0; i < colorNames.size(); ++i)
+    {
+        QColor color(colorNames[i]);
+
+        insertItem(i, colorNames[i]);
+        setItemData(i, color, Qt::DecorationRole);
+    }
+}
+
+/*********************
+ * ColorDelegate *
+ *********************/
+
+
+ColorDelegate::ColorDelegate( QObject* parent )
+{
+
+}
+
+QWidget* ColorDelegate::createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const
+{
+    return new ColorListEditor(parent);
+}
+
+void ColorDelegate::setEditorData(QWidget * editor, const QModelIndex & index) const
+{
+    ColorListEditor* cb = qobject_cast<ColorListEditor*>(editor);
+    QColor checked = index.data().value<QColor>();
+    cb->setColor(checked);
+}
+
+void ColorDelegate::setModelData(QWidget * editor, QAbstractItemModel * model, const QModelIndex & index) const
+{
+    ColorListEditor* cb = qobject_cast<ColorListEditor*>(editor);
+    if(NULL!=cb)
+    {
+        QColor color = cb->color();
+        model->setData(index,color);
+    }
+}
+
+
+/*********************
  * PreferencesDialog *
  *********************/
 
@@ -137,11 +201,17 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     m_diceParser = new DiceParser();
     m_aliasModel->setAliases(m_diceParser->getAliases());
 
+
+    m_stateModel = new CharacterStateModel();
+    ui->m_stateView->setModel(m_stateModel);
+
     QHeaderView* horizontalHeader = ui->m_tableViewAlias->horizontalHeader();
     horizontalHeader->setSectionResizeMode(DiceAliasModel::PATTERN,QHeaderView::ResizeToContents);
     horizontalHeader->setSectionResizeMode(DiceAliasModel::VALUE,QHeaderView::Stretch);
     horizontalHeader->setSectionResizeMode(DiceAliasModel::METHOD,QHeaderView::ResizeToContents);
+     horizontalHeader->setSectionResizeMode(DiceAliasModel::COMMENT,QHeaderView::ResizeToContents);
     ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::METHOD,new CheckBoxDelegate());
+    ui->m_tableViewAlias->setItemDelegateForColumn(DiceAliasModel::DISABLE,new CheckBoxDelegate());
 
     m_paletteModel = new PaletteModel();
     m_paletteModel->setPalette(palette());
@@ -158,13 +228,24 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     ui->tabWidget->setCurrentIndex(0);
 
     //aliases
-    connect(ui->m_addDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
-    connect(ui->m_delDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
-    connect(ui->m_upDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
-    connect(ui->m_downDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
-    connect(ui->m_topDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
-    connect(ui->m_bottomDiceAliasAct,SIGNAL(clicked()),this,SLOT(managedAction()));
+    connect(ui->m_addDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
+    connect(ui->m_delDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
+    connect(ui->m_upDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
+    connect(ui->m_downDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
+    connect(ui->m_topDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
+    connect(ui->m_bottomDiceAliasAct,SIGNAL(clicked()),this,SLOT(manageAliasAction()));
     connect(ui->m_testPushButton,SIGNAL(clicked()),this,SLOT(testAliasCommand()));
+
+
+    //States
+    connect(ui->m_addCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+    connect(ui->m_delCharceterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+    connect(ui->m_upCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+    connect(ui->m_downCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+    connect(ui->m_topCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+    connect(ui->m_bottomCharacterStateAct,SIGNAL(clicked()),this,SLOT(manageStateAction()));
+
+
 
     // Misc
     setSizeGripEnabled(true);
@@ -185,10 +266,14 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
 
     connect(ui->m_paletteTableView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editColor(QModelIndex)));
+
     connect(ui->m_cssEdit,SIGNAL(clicked()),this,SLOT(editCss()));
     connect(ui->m_exportBtn,SIGNAL(clicked()),this,SLOT(exportTheme()));
     connect(ui->m_importBtn,SIGNAL(clicked()),this,SLOT(importTheme()));
     connect(ui->m_deleteTheme,SIGNAL(clicked()),this,SLOT(deleteTheme()));
+
+    ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::COLOR,new ColorDelegate());
+    ui->m_stateView->setItemDelegateForColumn(CharacterStateModel::PICTURE,new FilePathDelegateItem());
 
 }
 
@@ -196,6 +281,7 @@ PreferencesDialog::~PreferencesDialog()
 {
     // QObject should do it right for us already.
 }
+
 
 void PreferencesDialog::show()
 {
@@ -299,7 +385,7 @@ void PreferencesDialog::initializePostSettings()
         palette.setColor(QPalette::Base, QColor(15,15,15));
         palette.setColor(QPalette::AlternateBase, QColor(53,53,53));
         palette.setColor(QPalette::ToolTipBase, Qt::white);
-        palette.setColor(QPalette::ToolTipText, Qt::white);
+        palette.setColor(QPalette::ToolTipText, Qt::black);
         palette.setColor(QPalette::Text, Qt::white);
         palette.setColor(QPalette::Button, QColor(53,53,53));
         palette.setColor(QPalette::ButtonText, Qt::white);
@@ -345,8 +431,9 @@ void PreferencesDialog::initializePostSettings()
         QString cmd = m_preferences->value(QString("DiceAlias_%1_command").arg(i),"").toString();
         QString value = m_preferences->value(QString("DiceAlias_%1_value").arg(i),"").toString();
         bool replace = m_preferences->value(QString("DiceAlias_%1_type").arg(i),true).toBool();
+        bool enable = m_preferences->value(QString("DiceAlias_%1_enable").arg(i),true).toBool();
 
-        DiceAlias* tmpAlias = new DiceAlias(cmd,value,replace);
+        DiceAlias* tmpAlias = new DiceAlias(cmd,value,replace,enable);
         m_aliasModel->addAlias(tmpAlias);
     }
     if(size==0)
@@ -356,6 +443,62 @@ void PreferencesDialog::initializePostSettings()
         m_aliasModel->addAlias(new DiceAlias("nwod","D10e10c[>7]"));
         m_aliasModel->addAlias(new DiceAlias("(.*)wod(.*)","\\1d10e[=10]c[>=\\2]-@c[=1]",false));
     }
+
+
+    //DiceSystem
+    size = m_preferences->value("CharacterStateNumber",0).toInt();
+    for(int i = 0; i < size ; ++i)
+    {
+        QString label = m_preferences->value(QString("CharacterState_%1_label").arg(i),"").toString();
+        QColor color = m_preferences->value(QString("CharacterState_%1_color").arg(i),"").value<QColor>();
+        QPixmap pixmap = m_preferences->value(QString("CharacterState_%1_pixmap").arg(i),true).value<QPixmap>();
+
+
+        CharacterState* tmpState = new CharacterState();
+        tmpState->setLabel(label);
+        tmpState->setColor(color);
+        tmpState->setImage(pixmap);
+        m_stateModel->addState(tmpState);
+    }
+
+
+
+    //State - healthy , lightly Wounded , Seriously injured , dead, Sleeping, bewitched
+    if(0==size)
+    {
+        //healthy
+        CharacterState* state = new CharacterState();
+        state->setColor(Qt::black);
+        state->setLabel(tr("Healthy"));
+        m_stateModel->addState(state);
+
+        state = new CharacterState();
+        state->setColor(QColor(255, 100, 100));
+        state->setLabel(tr("Lightly Wounded"));
+        m_stateModel->addState(state);
+
+        state = new CharacterState();
+        state->setColor(QColor(255, 0, 0));
+        state->setLabel(tr("Seriously injured"));
+        m_stateModel->addState(state);
+
+        state = new CharacterState();
+        state->setColor(Qt::gray);
+        state->setLabel(tr("Dead"));
+        m_stateModel->addState(state);
+
+        state = new CharacterState();
+        state->setColor(QColor(80, 80, 255));
+        state->setLabel(tr("Sleeping"));
+        m_stateModel->addState(state);
+
+
+        state = new CharacterState();
+        state->setColor(QColor(0, 200, 0));
+        state->setLabel(tr("Bewitched"));
+        m_stateModel->addState(state);
+    }
+
 }
 
 void PreferencesDialog::updateTheme()
@@ -498,9 +641,19 @@ void PreferencesDialog::save() const
         m_preferences->registerValue(QString("DiceAlias_%1_command").arg(i),tmpAlias->getCommand());
         m_preferences->registerValue(QString("DiceAlias_%1_value").arg(i),tmpAlias->getValue());
         m_preferences->registerValue(QString("DiceAlias_%1_type").arg(i),tmpAlias->isReplace());
+        m_preferences->registerValue(QString("DiceAlias_%1_enable").arg(i),tmpAlias->isEnable());
     }
 
-
+    //State
+    QList<CharacterState*>* stateList = m_stateModel->getCharacterStates();
+    m_preferences->registerValue("CharacterStateNumber",stateList->size());
+    for(int i = 0; i < stateList->size() ; ++i)
+    {
+        CharacterState* tmpState = stateList->at(i);
+        m_preferences->registerValue(QString("CharacterState_%1_label").arg(i),tmpState->getLabel());
+        m_preferences->registerValue(QString("CharacterState_%1_color").arg(i),tmpState->getColor());
+        m_preferences->registerValue(QString("CharacterState_%1_pixmap").arg(i),tmpState->getImage());
+    }
 
 
 }
@@ -574,9 +727,9 @@ void PreferencesDialog::performDiag()
     ui->m_diagDisplay->setHtml(htmlResult);
 }
 
-void PreferencesDialog::managedAction()
+void PreferencesDialog::manageAliasAction()
 {
-    QPushButton* act = qobject_cast<QPushButton*>(sender());
+    QToolButton* act = qobject_cast<QToolButton*>(sender());
 
     if(act == ui->m_addDiceAliasAct)
     {
@@ -607,6 +760,40 @@ void PreferencesDialog::managedAction()
         }
     }
 }
+void  PreferencesDialog::manageStateAction()
+{
+    QToolButton* act = qobject_cast<QToolButton*>(sender());
+
+    if(act == ui->m_addCharacterStateAct)
+    {
+        m_stateModel->appendState();
+    }
+    else
+    {
+        QModelIndex index = ui->m_tableViewAlias->currentIndex();
+        if(act == ui->m_delCharceterStateAct)
+        {
+            m_stateModel->deleteState(index);
+        }
+        else if(act == ui->m_upCharacterStateAct)
+        {
+            m_stateModel->upState(index);
+        }
+        else if(act == ui->m_downCharacterStateAct)
+        {
+            m_stateModel->downState(index);
+        }
+        else if(act == ui->m_topCharacterStateAct)
+        {
+            m_stateModel->topState(index);
+        }
+        else if(act == ui->m_bottomCharacterStateAct)
+        {
+            m_stateModel->bottomState(index);
+        }
+    }
+}
+
 void PreferencesDialog::testAliasCommand()
 {
     QString result = m_diceParser->convertAlias(ui->m_cmdDiceEdit->text());
@@ -689,6 +876,7 @@ bool PreferencesDialog::importTheme()
         return true;
     }
 }
+
 RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme()
 {
     int i = ui->m_themeComboBox->currentIndex();

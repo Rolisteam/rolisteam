@@ -30,10 +30,11 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #include "Features.h"
-#include "data/persons.h"
+#include "data/person.h"
+#include "data/character.h"
+#include "data/player.h"
 #include "network/receiveevent.h"
 
-#include "types.h"
 
 
 
@@ -55,8 +56,12 @@ PlayersList::PlayersList()
     ReceiveEvent::registerReceiver(CharacterPlayerCategory, DelPlayerCharacterAction, this);
     ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterNameAction, this);
     ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterColorAction, this);
+    ReceiveEvent::registerReceiver(CharacterPlayerCategory, ChangePlayerCharacterAvatarAction, this);
     ReceiveEvent::registerReceiver(SetupCategory, AddFeatureAction, this);
-    
+
+    //m_localPlayer = new Player();
+    //m_playersList.append(m_localPlayer);
+
     connect(QApplication::instance(), SIGNAL(lastWindowClosed()), this, SLOT(sendDelLocalPlayer()));
 }
 
@@ -88,11 +93,13 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
     if (!index.isValid() || index.column() != 0)
             return QVariant();
 
-    Person * person;
+    Person* person;
 
     int row = index.row();
     if (row < 0)
+    {
         return QVariant();
+    }
 
     quint32 parentRow = (quint32)(index.internalId() & NoParent);
     if (parentRow == NoParent)
@@ -120,15 +127,23 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
         person = player->getCharacterByIndex(row);
     }
 
-    switch (role) {
+    switch (role)
+    {
         case Qt::DisplayRole:
         case Qt::EditRole:
-            return QVariant(person->name());
+            return person->getName();
         case Qt::DecorationRole:
-            return QVariant(person->color());
+        {
+            if(person->hasAvatar())
+            {
+                return person->getAvatar().scaled(64,64,Qt::KeepAspectRatio,Qt::SmoothTransformation);
+            }
+            else
+                return QVariant(person->getColor());
+        }
         case IdentifierRole:
-            return QVariant(person->uuid());
-    }
+            return QVariant(person->getUuid());
+      }
 
     return QVariant();
 }
@@ -173,6 +188,16 @@ QModelIndex PlayersList::index(int row, int column, const QModelIndex &parent) c
 
         return QAbstractItemModel::createIndex(row, 0, NoParent);
     }
+}
+QList<Character*> PlayersList::getCharacterList()
+{
+	QList<Character*> list;
+
+	foreach(Player* player,m_playersList)
+	{
+		list << player->getChildrenCharacter();
+	}
+	return list;
 }
 
 QModelIndex PlayersList::parent(const QModelIndex & index) const
@@ -255,23 +280,13 @@ QModelIndex PlayersList::createIndex(Person * person) const
 /***********
  * Getters *
  ***********/
-
-Player* PlayersList::localPlayer() const
-{
-    if(m_playersList.isEmpty())
-    {
-        return NULL;
-    }
-    return m_playersList.first();
-}
-
 bool PlayersList::isLocal(Person * person) const
 {
     if (person == NULL)
         return false;
 
-    Person * local = localPlayer();
-    return (person == local || person->parent() == local);
+    Player* local = getLocalPlayer();
+    return (person == local || person->getParent() == local);
 }
 
 int PlayersList::numPlayers() const
@@ -295,7 +310,7 @@ Person * PlayersList::getPerson(const QString & uuid) const
 Player * PlayersList::getPlayer(const QString & uuid) const
 {
     Person * person = m_uuidMap.value(uuid);
-    if (person == NULL || person->parent() != NULL)
+    if (person == NULL || person->getParent() != NULL)//No person or if person has parent return Player
         return NULL;
     return static_cast<Player *>(person);
 }
@@ -303,21 +318,32 @@ Player * PlayersList::getPlayer(const QString & uuid) const
 Character * PlayersList::getCharacter(const QString & uuid) const
 {
     Person * person = m_uuidMap.value(uuid);
-    if (person == NULL || person->parent() == NULL)
+    if (person == NULL || person->getParent() == NULL)
         return NULL;
     return static_cast<Character *>(person);
 }
 
-Player * PlayersList::getParent(const QString & uuid) const
+Player* PlayersList::getParent(const QString & uuid) const
 {
-    Person * person = m_uuidMap.value(uuid);
+    Person* person = m_uuidMap.value(uuid);
     if (person == NULL)
         return NULL;
     
-    Player * parent = person->parent();
+    Person* parent = person->getParent();
     if (parent == NULL)
-        return static_cast<Player *>(person);
-    return parent;
+    {
+        return NULL;
+    }
+    else
+    {
+      Player* player = dynamic_cast<Player*>(parent);
+      if(NULL!=player)
+      {
+          return player;
+      }
+    }
+
+    return NULL;
 }
 
 Person * PlayersList::getPerson(const QModelIndex & index) const
@@ -442,7 +468,7 @@ void PlayersList::cleanListButLocal()
 
 void PlayersList::addLocalCharacter(Character * newCharacter)
 {
-    addCharacter(localPlayer(), newCharacter);
+    addCharacter(getLocalPlayer(), newCharacter);
 
     NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::AddPlayerCharacterAction);
     newCharacter->fill(message);
@@ -455,7 +481,7 @@ void PlayersList::changeLocalPerson(Person * person, const QString & name, const
     if (!isLocal(person))
         return;
 
-    if (p_setLocalPersonName(person, name) | p_setLocalPersonColor(person, color))
+    if (p_setLocalPersonName(person, name) || p_setLocalPersonColor(person, color))
         notifyPersonChanged(person);
 }
 
@@ -483,13 +509,32 @@ bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
     {
         NetworkMessageWriter * message;
 
-        if (person->parent() == NULL)
+        if (person->getParent() == NULL)
             message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerNameAction);
         else
             message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);
 
-        message->string16(person->name());
-        message->string8(person->uuid());
+        message->string16(person->getName());
+        message->string8(person->getUuid());
+        message->sendAll();
+
+        return true;
+    }
+    return false;
+}
+bool PlayersList::setLocalPersonAvatar(Person* person,const QImage& image)
+{
+    if(person->getAvatar() != image)
+    {
+        person->setAvatar(image);
+        NetworkMessageWriter * message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterAvatarAction);
+
+        message->string8(person->getUuid());
+
+        QByteArray data;
+        QDataStream in(&data,QIODevice::WriteOnly);
+        in << image;
+        message->byteArray32(data);
         message->sendAll();
 
         return true;
@@ -503,13 +548,13 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
     {
         NetworkMessageWriter * message;
 
-        if (person->parent() == NULL)
+        if (person->getParent() == NULL)
             message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerColorAction);
         else
             message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterColorAction);
 
-        message->string8(person->uuid());
-        message->rgb(person->color());
+        message->string8(person->getUuid());
+        message->rgb(person->getColor());
         message->sendAll();
 
         return true;
@@ -519,12 +564,12 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
 
 void PlayersList::delLocalCharacter(int index)
 {
-    Player * parent = localPlayer();
+    Player * parent = getLocalPlayer();
     if (index < 0 || index >= parent->getCharactersCount())
         return;
 
     NetworkMessageWriter message (NetMsg::CharacterPlayerCategory, NetMsg::DelPlayerCharacterAction);
-    message.string8(parent->getCharacterByIndex(index)->uuid());
+    message.string8(parent->getCharacterByIndex(index)->getUuid());
     message.sendAll();
 
     delCharacter(parent, index);
@@ -533,7 +578,7 @@ void PlayersList::delLocalCharacter(int index)
 void PlayersList::addPlayer(Player * player)
 {
     int size = m_playersList.size();
-    QString uuid = player->uuid();
+    QString uuid = player->getUuid();
 
     if (m_uuidMap.contains(uuid))
         return;
@@ -548,12 +593,21 @@ void PlayersList::addPlayer(Player * player)
     emit playerAdded(player);
 
     endInsertRows();
+
+    for(int i = 0;i<player->getCharactersCount();++i)
+    {
+        Character* character = player->getCharacterByIndex(i);
+        if(!m_uuidMap.contains(character->getUuid()))
+        {
+            m_uuidMap.insert(character->getUuid(),character);
+        }
+    }
 }
 
 void PlayersList::addCharacter(Player * player, Character * character)
 {
     int size = player->getCharactersCount();
-    QString uuid = character->uuid();
+    QString uuid = character->getUuid();
 
     if (m_uuidMap.contains(uuid))
        return;
@@ -580,7 +634,7 @@ void PlayersList::delPlayer(Player * player)
 
     beginRemoveRows(QModelIndex(), index, index);
 
-    m_uuidMap.remove(player->uuid());
+    m_uuidMap.remove(player->getUuid());
     m_playersList.removeAt(index);
     if (player->isGM())
         m_gmCount -= 1;
@@ -599,7 +653,7 @@ void PlayersList::delCharacter(Player * parent, int index)
 
     emit characterDeleted(character);
 
-    m_uuidMap.remove(character->uuid());
+    m_uuidMap.remove(character->getUuid());
     parent->delCharacter(index);
 
     endRemoveRows();
@@ -668,6 +722,9 @@ bool PlayersList::event(QEvent * event)
                     case ChangePlayerCharacterColorAction:
                         setPersonColor(data);
                         return true;
+                    case ChangePlayerCharacterAvatarAction:
+                        setPersonAvatar(data);
+                        return true;
                     default:
                         qWarning() << tr("PlayersList [CharacterPlayerCategory]: unknown action (%d)").arg(data.action());
 
@@ -695,26 +752,23 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
 {
     Player * newPlayer = new Player(data);
 
-    Person * actualPerson = m_uuidMap.value(newPlayer->uuid());
+    Person * actualPerson = m_uuidMap.value(newPlayer->getUuid());
     if (actualPerson != NULL)
     {
-        if (actualPerson->parent() == NULL)
+        if (actualPerson->getParent() == NULL)
         {
-
             Player * actualPlayer = static_cast<Player *>(actualPerson);
             bool isGM = newPlayer->isGM();
             if (m_localPlayer->isGM() != isGM)
             {
                 m_localPlayer->setGM(false);
-			   // G_joueur = !isGM;
                 notifyPersonChanged(actualPlayer);
                 emit localGMRefused();
             }
         }
         else
-            qWarning("A Player and a Character have the same UUID %s", qPrintable(newPlayer->uuid()));
+            qWarning("A Player and a Character have the same UUID %s", qPrintable(newPlayer->getUuid()));
     }
-
     else
         addPlayer(newPlayer);
 }
@@ -773,8 +827,6 @@ void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 void PlayersList::delPlayer(NetworkMessageReader & data)
 {
     /// @todo: If the player is the GM, call AudioPlayer::pselectNewFile("").
-
-
     QString uuid = data.string8();
     Player * player = getPlayer(uuid);
     if (player != NULL)
@@ -795,6 +847,20 @@ void PlayersList::setPersonName(NetworkMessageReader & data)
     if (person->setName(name))
         notifyPersonChanged(person);
 }
+void PlayersList::setPersonAvatar(NetworkMessageReader & data)
+{
+     QString uuid = data.string8();
+     QByteArray imageBuffer = data.byteArray32();
+     Person * person = m_uuidMap.value(uuid);
+     QDataStream out(&imageBuffer,QIODevice::ReadOnly);
+     QImage img;
+     out >> img;
+
+     if (person == NULL)
+         return;
+
+     person->setAvatar(img);
+}
 
 void PlayersList::setPersonColor(NetworkMessageReader & data)
 {
@@ -811,12 +877,11 @@ void PlayersList::setPersonColor(NetworkMessageReader & data)
 
 void PlayersList::addCharacter(NetworkMessageReader & data)
 {
-    QString uuid = data.string8();
-    Player * player = getPlayer(uuid);
+    Character* character = new Character(data);
+
+    Player * player = getPlayer(character->getParentId());
     if (player == NULL)
         return;
-
-    Character * character = new Character(data);
     addCharacter(player, character);
 }
 
@@ -827,15 +892,21 @@ void PlayersList::delCharacter(NetworkMessageReader & data)
     if (character == NULL)
         return;
 
-    Player * parent = character->parent();
-    delCharacter(parent, parent->getIndexOfCharacter(character)); 
+    Player* parent = character->getParentPlayer();
+    if(NULL!=parent)
+    {
+        delCharacter(parent, parent->getIndexOfCharacter(character));
+    }
 }
 
 void PlayersList::sendDelLocalPlayer()
 {
-    NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-    message.string8(localPlayer()->uuid());
-    message.sendAll();
+    if(NULL!=getLocalPlayer())
+    {
+        NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
+        message.string8(getLocalPlayer()->getUuid());
+        message.sendAll();
+    }
 }
 void PlayersList::completeListClean()
 {
@@ -843,8 +914,12 @@ void PlayersList::completeListClean()
     m_playersList.clear();
     m_uuidMap.clear();
     //reset();
-    m_localPlayer=NULL;
+	//m_localPlayer=NULL;
+	m_playersList.append(m_localPlayer);
     endResetModel();
+
+
+
 }
 
 /*********
@@ -859,9 +934,9 @@ void PlayersList::delPlayerWithLink(NetworkLink * link)
         Player * player = m_playersList.at(i);
         if (player->link() == link)
         {
-            qWarning("Something wrong happens to %s", qPrintable(player->name()));
+            qWarning("Something wrong happens to %s", qPrintable(player->getName()));
             NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::DelPlayerAction);
-            message.string8(player->uuid());
+            message.string8(player->getUuid());
             message.sendAll(link);
 
             delPlayer(player);

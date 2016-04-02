@@ -24,9 +24,9 @@
 #include <QDebug>
 
 DiceAliasModel::DiceAliasModel()
-    : m_isGM(false),m_diceAliasList(new QList<DiceAlias*>())
+    : m_diceAliasList(new QList<DiceAlias*>()),m_isGM(false)
 {
-    m_header << tr("Pattern") << tr("Value")<< tr("Regular Expression");
+    m_header << tr("Pattern") << tr("Value")<< tr("Regular Expression")<< tr("Disable") << tr("Comments");
 }
 
 DiceAliasModel::~DiceAliasModel()
@@ -54,6 +54,14 @@ QVariant DiceAliasModel::data(const QModelIndex &index, int role) const
                 else if(index.column()==METHOD)
                 {
                     return !diceAlias->isReplace();
+                }
+                else if(index.column()==DISABLE)
+                {
+                    return !diceAlias->isEnable();
+                }
+                else if(index.column()==COMMENT)
+                {
+                    return diceAlias->getComment();
                 }
             }
 		}
@@ -142,19 +150,15 @@ bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, in
                 }
                 result = true;
                 break;
+            case DISABLE:
+                diceAlias->setEnable(!value.toBool());
+                result = true;
+                break;
+            case COMMENT:
+                diceAlias->setComment(value.toString());
+                result = true;
+                break;
             }
-        }
-        else if(role==Qt::CheckStateRole)
-        {
-//            if(value.toInt() == Qt::Checked )
-//            {
-//                    diceAlias->setType(DiceAlias::REGEXP);
-//                    result = true;
-//            }
-//            else
-//            {
-//                diceAlias->setType(DiceAlias::REPLACE);
-//            }
         }
         if((result)&&(m_isGM))
         {
@@ -163,6 +167,8 @@ bool DiceAliasModel::setData(const QModelIndex &index, const QVariant &value, in
             msg.string32(diceAlias->getCommand());
             msg.string32(diceAlias->getValue());
             msg.int8(diceAlias->isReplace());
+            msg.int8(diceAlias->isEnable());
+            msg.string32(diceAlias->getComment());
             msg.sendAll();
         }
     }
@@ -264,6 +270,8 @@ void DiceAliasModel::sendOffAllDiceAlias(NetworkLink* link)
         msg.string32(alias->getCommand());
         msg.string32(alias->getValue());
         msg.int8(alias->isReplace());
+        msg.int8(alias->isEnable());
+        msg.string32(alias->getComment());
         msg.sendTo(link);
     }
 }

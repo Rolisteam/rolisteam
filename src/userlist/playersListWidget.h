@@ -29,8 +29,9 @@
 #include <QSet>
 #include <QTreeView>
 
-#include "userlist/playerslistproxy.h"
 
+#include "userlist/playerslistproxy.h"
+class UserListView;
 class Map;
 class PersonDialog;
 class Person;
@@ -41,37 +42,22 @@ class PlayersListWidgetModel : public PlayersListProxyModel
 {
     Q_OBJECT
 
-    public:
-        PlayersListWidgetModel(QObject * parent = 0);
+public:
+    PlayersListWidgetModel(QObject * parent = 0);
 
-        Qt::ItemFlags flags(const QModelIndex &index) const;
-        QVariant data(const QModelIndex &index, int role) const;
-        bool setData(const QModelIndex &index, const QVariant &value, int role);
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
 
-    public slots:
-        void changeMap(Map * map);
+public slots:
+    void changeMap(Map * map);
 
-    private:
-       Map * m_map;
+private:
+   Map* m_map;
 
-       bool isCheckable(const QModelIndex &index) const;
+   bool isCheckable(const QModelIndex &index) const;
 };
 
-/**
- * @brief A QTreeView with editable DecorationRole if it's a QColor.
- * @todo The code is really generic. The class might be put somewhere else to be reused.
- */
-class PlayersListView : public QTreeView
-{
-    Q_OBJECT
-
-    public:
-        PlayersListView(QWidget * parent = NULL);
-        ~PlayersListView();
-
-    protected:
-        void mouseDoubleClickEvent(QMouseEvent * event);
-};
 /**
  * @brief The PlayersListWidget class is the QDockWidget which display the PlayersListView. It is part of the MVC pattern as the Controler.
  *
@@ -79,26 +65,26 @@ class PlayersListView : public QTreeView
 class PlayersListWidget : public QDockWidget
 {
     Q_OBJECT
+public:
+    PlayersListWidget(QWidget * parent = NULL);
+    ~PlayersListWidget();
 
-    public:
-        PlayersListWidget(QWidget * parent = NULL);
-        ~PlayersListWidget();
+    PlayersListWidgetModel * model() const;
 
-        PlayersListWidgetModel * model() const;
+private slots:
+    void editIndex(const QModelIndex & index);
+    void createLocalCharacter();
+    void selectAnotherPerson(const QModelIndex & current);
+    void deleteSelected();
 
-    private slots:
-        void editIndex(const QModelIndex & index);
-        void createLocalCharacter();
-        void selectAnotherPerson(const QModelIndex & current);
-        void deleteSelected();
+private:
+    PersonDialog* m_personDialog;
+    QItemSelectionModel* m_selectionModel;
+    QPushButton* m_delButton;
+    PlayersListWidgetModel* m_model;
+    UserListView*              m_playersListView;
 
-    private:
-        PersonDialog           * m_personDialog;
-        QItemSelectionModel    * m_selectionModel;
-        QPushButton            * m_delButton;
-        PlayersListWidgetModel * m_model;
-
-        void setUI();
+    void setUI();
 };
 
 #endif

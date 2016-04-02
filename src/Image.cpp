@@ -32,7 +32,6 @@
 #include "network/networklink.h"
 #include "mainwindow.h"
 #include "network/networkmessagewriter.h"
-#include "variablesGlobales.h"
 #include "widgets/onlinepicturedialog.h"
 
 /********************************************************************/
@@ -46,7 +45,6 @@ Image::Image(/*QString title,QString identImage, QString identJoueur, QImage *im
     m_zoomLevel = 1;
     m_parent=parent;
     setWindowIcon(QIcon(":/picture.png"));
-    m_idImage = QUuid::createUuid().toString();
     createActions();
     m_imageLabel = new QLabel(this);
     m_widgetArea->setAlignment(Qt::AlignCenter);
@@ -80,10 +78,6 @@ void Image::initImage()
         fitWindow();
     }
 }
-void Image::setIdImage(QString s)
-{
-    m_idImage = s;
-}
 
 void Image::setIdOwner(QString s)
 {
@@ -102,13 +96,6 @@ bool Image::isImageOwner(QString id)
     return m_idPlayer == id;
 }
 
-
-QString Image::getImageId()
-{
-    return m_idImage;
-}
-
-
 void Image::fill(NetworkMessageWriter & message) const
 {
     QByteArray baImage;
@@ -122,7 +109,7 @@ void Image::fill(NetworkMessageWriter & message) const
 
     message.reset();
     message.string16(m_title);
-    message.string8(m_idImage);
+    message.string8(m_mediaId);
     message.string8(m_idPlayer);
     message.byteArray32(baImage);
 }
@@ -487,14 +474,15 @@ bool Image::readFileFromUri()
     if(CleverURI::PICTURE == m_uri->getType())
     {
         m_preferences->registerValue("ImageDirectory",m_uri->getAbsolueDir());
-        QImage img(m_uri->getUri());
+        m_uri->loadFileFromUri();
+        QImage img=QImage::fromData(m_uri->getData());
         if (img.isNull())
         {
             error(tr("Unsupported file format"),this);
             return false;
         }
         setImage(img);
-        setTitle(m_uri->getShortName()+tr(" (Picture)"));
+        setTitle(m_uri->name()+tr(" (Picture)"));
     }
     else if(CleverURI::ONLINEPICTURE == m_uri->getType())
     {
@@ -544,4 +532,8 @@ bool Image::openMedia()
         m_uri->setUri(filepath);
         return true;
     }
+}
+void Image::saveMedia()
+{
+    ///nothing to be done.
 }

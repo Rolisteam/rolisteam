@@ -70,11 +70,45 @@
         <file>translations/qt_hu.qm</file>
         <file>translations/qt_pt.qm</file>
         <file>translations/rolisteam_hu_HU.qm</file>
+        <file>resources/icons/rule.png</file>
+        <file>resources/icons/action-order-back.png</file>
+        <file>resources/icons/action-order-front.png</file>
+        <file>resources/icons/action-order-lower.png</file>
+        <file>resources/icons/action-order-raise.png</file>
+        <file>resources/icons/action-rotate.png</file>
+        <file>resources/icons/object-rotate-left-4.png</file>
+        <file>resources/icons/object-rotate-right-4.png</file>
+        <file>resources/icons/path.png</file>
+        <file>resources/icons/photo.png</file>
+        <file>resources/icons/add_round.png</file>
+        <file>resources/icons/delete.png</file>
+        <file>resources/icons/edit-delete.png</file>
+        <file>resources/icons/go-bottom.png</file>
+        <file>resources/icons/go-down.png</file>
+        <file>resources/icons/go-top.png</file>
+        <file>resources/icons/go-up.png</file>
+        <file>resources/icons/list-add.png</file>
+        <file>resources/icons/list-remove.png</file>
+        <file>resources/icons/grid.png</file>
+        <file>resources/icons/maskpath.png</file>
+        <file>resources/icons/draw-rectangle-2.png</file>
+        <file>resources/icons/insert-link-2.png</file>
+        <file>resources/icons/textwithBorder.png</file>
+        <file>resources/icons/eye.png</file>
+        <file>resources/icons/mask.png</file>
+        <file>resources/icons/treeview.png</file>
+        <file>resources/icons/audiofile.svg</file>
+        <file>resources/icons/playlist.svg</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
         <file>resources/stylesheet/images/checkbox.png</file>
         <file>resources/stylesheet/images/down_arrow.png</file>
         <file>resources/stylesheet/images/handle.png</file>
+    </qresource>
+    <qresource prefix="/grid">
+        <file>resources/gridpattern/01_sqare.png</file>
+        <file>resources/gridpattern/02_octo.png</file>
+        <file>resources/gridpattern/03_hexa.png</file>
     </qresource>
 </RCC>

@@ -50,7 +50,8 @@ enum Category {
     ChatCategory,
     MusicCategory,
     SetupCategory,
-    SharePreferencesCategory
+    SharePreferencesCategory,
+    VMapCategory
 };
 
 enum Action {
@@ -71,6 +72,7 @@ enum Action {
     ChangePlayerCharacterSizeAction,
     ChangePlayerCharacterNameAction,
     ChangePlayerCharacterColorAction,
+    ChangePlayerCharacterAvatarAction,
 
     //NPCCategory
     addNpc =0,
@@ -82,6 +84,7 @@ enum Action {
     changeCharacterState,
     changeCharacterOrientation,
     showCharecterOrientation,
+    addCharacterSheet,
 
 
     // MapCategory
@@ -129,8 +132,25 @@ enum Action {
     //SharePreferencesCategory
     addDiceAlias = 0,
     moveDiceAlias,
-    removeDiceAlias
+    removeDiceAlias,
+    addState,
+    moveState,
+    removeState,
 
+    //Vmap
+    addVmap = 0,
+    vmapChanges,
+    loadVmap,
+    closeVmap,
+    addItem,
+    DelItem,
+    MoveItem,
+    DelPoint,
+    OpacityItemChanged,
+    GeometryItemChanged,
+    AddPoint,
+    GeometryViewChanged,
+    SetParentItem
 };
 }
 /**
@@ -163,15 +183,17 @@ public:
      */
     virtual NetMsg::Action action() const =0;
 
+
+    quint64 getSize();
+
+    virtual NetworkMessageHeader *  buffer() =0;
 protected:
     /**
      * @brief buffer
      * @return
      */
-    virtual NetworkMessageHeader *  buffer() =0;
 
 protected:
     NetworkManager* m_server;
 };
-
 #endif

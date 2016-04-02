@@ -25,17 +25,13 @@
 #include <QMetaType>
 
 #include "data/cleveruri.h"
+
 PreferencesManager::PreferencesManager()
     : m_optionDictionary(NULL)
 {
     m_optionDictionary = new QMap<QString,QVariant>;
-    
-
-    qRegisterMetaType<CleverURI>("CleverURI");
-    qRegisterMetaType<CleverUriList>("CleverUriList");
     qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
     qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
-
 
     //Default value
     m_optionDictionary->insert("MusicDirectory",QDir::homePath());
@@ -44,8 +40,7 @@ PreferencesManager::PreferencesManager()
     m_optionDictionary->insert("StoryDirectory",QDir::homePath());
     m_optionDictionary->insert("MinutesDirectory",QDir::homePath());
     m_optionDictionary->insert("ChatDirectory",QDir::homePath());
-    m_optionDictionary->insert("DataDirectory",QDir::homePath());
-    
+    m_optionDictionary->insert("DataDirectory",QDir::homePath()); 
 }
 
 PreferencesManager::~PreferencesManager()
@@ -58,7 +53,6 @@ PreferencesManager* PreferencesManager::m_singleton = NULL;
 
 PreferencesManager* PreferencesManager::getInstance()
 {
-    
     if(m_singleton == NULL)
     {
         m_singleton = new PreferencesManager;
@@ -107,13 +101,14 @@ void PreferencesManager::readSettings(QSettings & settings)
         QString key = settings.value("key").toString();
         QVariant value = settings.value("value");
         m_optionDictionary->insert(key,value);
-    }
+    }   
     settings.endArray();
     settings.endGroup();
 }
 void PreferencesManager::writeSettings(QSettings & settings)
 {
     qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
+    qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
 
     settings.beginGroup("rolisteam/preferences");
     settings.beginWriteArray("preferenceMap");

@@ -42,11 +42,8 @@ DiameterSelector::DiameterSelector(QWidget *parent, bool plein, int min, int max
     maximum = max;
 
     // Creation du layout
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setMargin(0);
-    #ifdef MACOS
-        layout->setSpacing(0);
-    #endif
     
     // Creation du QFrame qui va contenir l'afficheur de disque
     QFrame *frame = new QFrame(this);
@@ -69,7 +66,7 @@ DiameterSelector::DiameterSelector(QWidget *parent, bool plein, int min, int max
 
     // Ajout du QFrame contenant l'afficheur de disque au layout
     layout->addWidget(frame);
-    
+    layout->setAlignment(m_circle,Qt::AlignCenter);
 
 	m_diameterSlider = new QSlider(Qt::Horizontal, this);
 	m_diameterSlider->setRange(minimum, maximum);
@@ -82,14 +79,19 @@ DiameterSelector::DiameterSelector(QWidget *parent, bool plein, int min, int max
 	connect(m_diameterSlider, SIGNAL(sliderMoved(int)), this, SIGNAL(diameterChanged(int)));
 }
 
-void DiameterSelector::changerDiametre(int valeur)
+void DiameterSelector::setDiameter(int diameter)
 {
-    if (valeur < minimum)
-        valeur = minimum;
-    else if (valeur > maximum)
-        valeur = maximum;
+    if (diameter < minimum)
+    {
+        diameter = minimum;
+    }
+    else if (diameter > maximum)
+    {
+        diameter = maximum;
+    }
 
-	m_diameterSlider->setValue(valeur);
+    m_diameterSlider->setValue(diameter);
+    m_circle->changeDiameter(diameter);
 }
 int DiameterSelector::getCurrentValue()const
 {

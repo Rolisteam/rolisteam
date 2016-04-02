@@ -19,17 +19,6 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-
-/********************************************************************/
-/*                                                                  */
-/* QScrollArea contenant une image, qui ne peut etre fermee que par */
-/* le joueur qui l'a ouverte ou par le MJ. Le but est de pouvoir    */
-/* afficher des images sans passer par les cartes qui utilisent     */
-/* beaucoup de ressources systeme.                                  */
-/*                                                                  */
-/********************************************************************/	
-
-
 #ifndef IMAGE_H
 #define IMAGE_H
 
@@ -69,15 +58,13 @@ public :
     void saveImageToFile(QFile &file);
     void saveImageToFile(QDataStream& out);
     bool isImageOwner(QString id);
-    QString getImageId();
     void setParent(ImprovedWorkspace *parent);
     void setImage(QImage& img);
-    void setIdImage(QString);
     void setIdOwner(QString);
-    void setAction(QAction*);
 
 	virtual bool readFileFromUri();
     virtual bool openMedia();
+    virtual void saveMedia();
 
 
 
@@ -152,7 +139,6 @@ private :
     void createActions();
     void initImage();
 private :
-    QString m_idImage;
     QString m_idPlayer;
     QLabel* m_imageLabel;
     QPoint m_startingPoint;

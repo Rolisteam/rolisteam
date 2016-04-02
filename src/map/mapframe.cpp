@@ -24,12 +24,12 @@
 
 #include "map/mapframe.h"
 #include "userlist/playersList.h"
-#include "data/persons.h"
+#include "data/person.h"
+#include "data/player.h"
 #include "map/newemptymapdialog.h"
 #include "map/map.h"
 #include "map/mapwizzard.h"
 
-#include "variablesGlobales.h"
 #include <QScrollBar>
 #include <QMessageBox>
 #include <QFileInfo>
@@ -46,7 +46,7 @@ MapFrame::MapFrame(Map* map, QWidget *parent)
     setFocusPolicy(Qt::StrongFocus);
     m_widgetArea->setAlignment(Qt::AlignCenter);
 
-	m_mapWizzard = new MapWizzard(this);
+    m_mapWizzard = new MapWizzard(false,this);
 
 	initMap();
 
@@ -71,9 +71,9 @@ void MapFrame::initMap()
 		resize(m_map->width()+4, m_map->height()+4);
 
 		connect(m_map, SIGNAL(commencerDeplacementBipMapWindow(QPoint)),
-				this, SLOT(commencerDeplacement(QPoint)));
+                this, SLOT(startMoving(QPoint)));
 		connect(m_map, SIGNAL(deplacerBipMapWindow(QPoint)),
-				this, SLOT(deplacer(QPoint)));
+                this, SLOT(moveMap(QPoint)));
 	}
 }
 Map* MapFrame::getMap()
@@ -86,20 +86,20 @@ void MapFrame::setMap(Map* map)
 	initMap();
 }
 
-void MapFrame::commencerDeplacement(QPoint position)
+void MapFrame::startMoving(QPoint position)
 {
     pointDepart = position;
     horizontalDepart = m_widgetArea->horizontalScrollBar()->value();
     verticalDepart = m_widgetArea->verticalScrollBar()->value();
 }
 
-void MapFrame::deplacer(QPoint position)
+void MapFrame::moveMap(QPoint position)
 {
     QPoint diff = pointDepart - position;
     m_widgetArea->horizontalScrollBar()->setValue(horizontalDepart + diff.x());
     m_widgetArea->verticalScrollBar()->setValue(verticalDepart + diff.y());
 }
-QString MapFrame::getMapId()
+QString MapFrame::getMediaId()
 {
 	if(NULL!=m_map)
     {
@@ -273,12 +273,12 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 	for (int i=0; i<nbrPersonnages; ++i)
 	{
 		QString nomPerso,ident;
-		DessinPerso::typePersonnage type;
+		CharacterToken::typePersonnage type;
 		int numeroDuPnj;
 		uchar diametre;
 
 		QColor couleur;
-		DessinPerso::etatDeSante sante;
+		CharacterToken::etatDeSante sante;
 
 		QPoint centre;
 		QPoint orientation;
@@ -290,7 +290,7 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 		in >> ident ;
 		int typeint;
 		in >> typeint;
-		type=(DessinPerso::typePersonnage) typeint;
+		type=(CharacterToken::typePersonnage) typeint;
 		in >> numeroDuPnj ;
 		in >> diametre;
 		in >> couleur ;
@@ -306,17 +306,17 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 		bool showNumber=true;//(type == DessinPerso::pnj)?m_ui->m_showNpcNumberAction->isChecked():false;
 		bool showName=true;//(type == DessinPerso::pnj)? m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
 
-		DessinPerso *pnj = new DessinPerso(m_map, ident, nomPerso, couleur, diametre, centre, type,showNumber,showName, numeroDuPnj);
+		CharacterToken *pnj = new CharacterToken(m_map, ident, nomPerso, couleur, diametre, centre, type,showNumber,showName, numeroDuPnj);
 
-		if (visible || (type == DessinPerso::pnj && PlayersList::instance()->localPlayer()->isGM()))
-			pnj->afficherPerso();
+        if (visible || (type == CharacterToken::pnj && PlayersList::instance()->getLocalPlayer()->isGM()))
+			pnj->showCharacter();
 		// On m.a.j l'orientation
-		pnj->nouvelleOrientation(orientation);
+		pnj->newOrientation(orientation);
 		// Affichage de l'orientation si besoin
 		if (orientationAffichee)
-			pnj->afficheOuMasqueOrientation();
+			pnj->showOrHideOrientation();
 
-		pnj->nouvelEtatDeSante(sante, numeroEtat);
+		pnj->newHealtState(sante, numeroEtat);
 
 		m_map->afficheOuMasquePnj(pnj);
 
@@ -341,10 +341,12 @@ bool MapFrame::createMap()
         m_map->setPermissionMode(mapDialog.getPermission());
 
         m_title = mapDialog.getTitle();
-        setTitle(m_title);
+
         QColor color = mapDialog.getColor();
         quint16 width = mapDialog.getSize().width();
         quint16 height = mapDialog.getSize().height();
+
+        setCleverUriType(CleverURI::MAP);
 
         NetworkMessageWriter msg(NetMsg::MapCategory,NetMsg::AddEmptyMap);
         msg.string16(m_title);
@@ -446,4 +448,25 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
     }
     initMap();
     return true;
+}
+void MapFrame::saveMedia()
+{
+    if(NULL!=m_map)
+    {
+        if(!m_uri->getUri().endsWith(".pla"))
+        {
+            QString uri = m_uri->getUri()+".pla";
+            m_uri->setUri(uri);
+        }
+
+        QFile file(m_uri->getUri());
+        if (!file.open(QIODevice::WriteOnly))
+        {
+            notifyUser("could not open file for writting (saveMap - MapFrame.cpp)");
+            return;
+        }
+        QDataStream out(&file);
+        m_map->saveMap(out);
+        file.close();
+    }
 }

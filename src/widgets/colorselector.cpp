@@ -26,7 +26,6 @@
 #include <QDebug>
 
 #include "widgets/colorselector.h"
-#include "variablesGlobales.h"
 
 ///////////////////////////////////
 // ColorSelector
@@ -67,7 +66,7 @@ void ColorWidget::paintEvent(QPaintEvent* event)
 ///////////////////////////////////
 // ColorSelector
 ///////////////////////////////////
-SelectedColor G_couleurCourante;
+SelectedColor ColorSelector::s_selectedColor;
 
 ColorSelector::ColorSelector(QWidget *parent)
 	: QWidget(parent)
@@ -82,12 +81,13 @@ ColorSelector::ColorSelector(QWidget *parent)
 
 
     // Creation du layout principale
-    m_layoutSelector = new QVBoxLayout(this);
+    //m_layoutSelector = new QVBoxLayout(this);
+    m_layoutSelector = new FlowLayout(this);
     m_layoutSelector->setMargin(2);
     m_layoutSelector->setSpacing(1);
 
-    G_couleurCourante.type = ColorType;
-    G_couleurCourante.color = QColor(rouge[40],vert[40],bleu[40]);
+    s_selectedColor.type = ColorType;
+    s_selectedColor.color = QColor(rouge[40],vert[40],bleu[40]);
 
     m_currentColor = new QLabel(this);
     m_currentColor->setFrameStyle(QFrame::Panel | QFrame::Raised);
@@ -95,7 +95,7 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_currentColor->setMidLineWidth(1);
 
     m_currentColor->setFixedSize(45,40);
-    setBackgroundColorToWidget(m_currentColor, G_couleurCourante.color);
+    setBackgroundColorToWidget(m_currentColor, s_selectedColor.color);
     m_currentColor->setToolTip(tr("Predefine color 1"));
     m_currentColor->setAutoFillBackground(true);
     m_currentColor->setScaledContents(true);
@@ -108,8 +108,9 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_predefinedGrid = new QGridLayout();
     m_predefinedGrid->setSpacing(1);
     m_predefinedGrid->setMargin(1);
-    // Ajout de la grille de couleurs predefinies dans le layout principal
-    m_layoutSelector->addLayout(m_predefinedGrid);
+
+    QWidget* wid = new QWidget(this);
+
 
     // Creation des widgets pour les couleurs predefinies
     int i=0, x=0, y=0;
@@ -117,10 +118,11 @@ ColorSelector::ColorSelector(QWidget *parent)
     {
         QColor couleur(rouge[i],vert[i],bleu[i]);
 
-        m_predefinedColor.append(new ColorWidget(this));
+        m_predefinedColor.append(new ColorWidget(wid));
         m_predefinedColor[i]->setColor(couleur);
         m_predefinedColor[i]->setAutoFillBackground(true);
         m_predefinedColor[i]->setFixedHeight(5);
+        m_predefinedColor[i]->setFixedWidth(5);
         m_predefinedColor[i]->setToolTip(tr("Predefine color %1 ").arg(i+1));
         connect(m_predefinedColor[i],SIGNAL(clicked(QColor)),this, SLOT(changeCurrentColor(QColor)));
 
@@ -131,27 +133,26 @@ ColorSelector::ColorSelector(QWidget *parent)
         y = x>=8?y+1:y;
         x = x>=8?0:x;
     }
+    wid->setLayout(m_predefinedGrid);
+    m_layoutSelector->addWidget(wid);
 
-    // Ajout d'un separateur entre les couleurs predefinies et les couleurs personnelles
-    m_separator1 = new QWidget(this);
-    m_separator1->setMaximumHeight(2);
-    m_layoutSelector->addWidget(m_separator1);
 
     // Création du layout de la grille de couleurs personnelles
     m_characterGrid = new QGridLayout();
     m_characterGrid->setSpacing(1);
     m_characterGrid->setMargin(1);
     // Ajout de la grille de couleurs personnelles dans le layout principal
-    m_layoutSelector->addLayout(m_characterGrid);
+    wid = new QWidget(this);
 
     // Creation des widgets pour les couleurs personnelles
     for (i=0, x=0, y=7; i<16; i++)
     {
         // Creation d'un widget de couleur blanche
-        m_personalColor.append(new ColorWidget(this));
+        m_personalColor.append(new ColorWidget(wid));
         connect(m_personalColor[i],SIGNAL(clicked(QColor)),this, SLOT(changeCurrentColor(QColor)));
         m_personalColor[i]->setAutoFillBackground(true);
         m_personalColor[i]->setFixedHeight(5);
+        m_personalColor[i]->setFixedWidth(5);
         m_personalColor[i]->setToolTip(tr("Custom Color %1 ").arg(i+1));
 
         // Mise a jour des couleurs personnelles de QColorDialog
@@ -164,19 +165,21 @@ ColorSelector::ColorSelector(QWidget *parent)
         y = x>=8?y+1:y;
         x = x>=8?0:x;
     }
+    wid->setLayout(m_characterGrid);
+    m_layoutSelector->addWidget(wid);
+
     updatePersonalColor();
 
-    // Ajout d'un separateur entre les couleurs personnelles et les couleurs speciales
-    m_separator2 = new QWidget(this);
-    m_separator2->setMaximumHeight(3);
-    m_layoutSelector->addWidget(m_separator2);
 
     // Création du layout des couleurs speciales
     m_specialColor = new QHBoxLayout();
     m_specialColor->setSpacing(1);
     m_specialColor->setMargin(0);
     // Ajout du layout des couleurs specuales dans le layout principal
-    m_layoutSelector->addLayout(m_specialColor);
+    wid = new QWidget(this);
+    wid->setLayout(m_specialColor);
+    m_layoutSelector->addWidget(wid);
+
 
     // Ajout de la couleur speciale qui efface
     m_eraseColor = new QLabel(this);
@@ -184,6 +187,7 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_eraseColor->setLineWidth(0);
     m_eraseColor->setMidLineWidth(1);
     m_eraseColor->setFixedHeight(15);
+    m_eraseColor->setFixedWidth(15);
     m_pixelErase = new QPixmap(":/resources/icons/erase.png");
     m_eraseColor->setPixmap(*m_pixelErase);
     setBackgroundColorToWidget(m_eraseColor,QColor(Qt::white));
@@ -198,6 +202,7 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_maskColor->setLineWidth(0);
     m_maskColor->setMidLineWidth(1);
     m_maskColor->setFixedHeight(15);
+    m_maskColor->setFixedWidth(15);
     setBackgroundColorToWidget(m_maskColor,QColor(Qt::white));
     m_maskPixel = new QPixmap(":/resources/icons/hide.png");
     m_maskColor->setPixmap(*m_maskPixel);
@@ -211,6 +216,7 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_unveilColor->setLineWidth(0);
     m_unveilColor->setMidLineWidth(1);
     m_unveilColor->setFixedHeight(15);
+    m_unveilColor->setFixedWidth(15);
     setBackgroundColorToWidget(m_unveilColor,QColor(Qt::white));
     m_unveilPixel = new QPixmap(":/resources/icons/showMap.png");
     m_unveilColor->setPixmap(*m_unveilPixel);
@@ -219,7 +225,7 @@ ColorSelector::ColorSelector(QWidget *parent)
     m_specialColor->addWidget(m_unveilColor);
 
     // Taille de la palette
-    setFixedHeight(126);
+    //setFixedHeight(126);
 
     m_maskColor->installEventFilter(this);
     m_unveilColor->installEventFilter(this);
@@ -233,8 +239,6 @@ ColorSelector::~ColorSelector()
     delete m_eraseColor;
     delete m_maskColor;
     delete m_unveilColor;
-    delete m_separator1;
-    delete m_separator2;
     delete m_pixelErase;
     delete m_maskPixel;
     delete m_unveilPixel;
@@ -273,7 +277,7 @@ bool ColorSelector::eventFilter(QObject* obj, QEvent* event)
             setBackgroundColorToWidget(m_currentColor,QColor(Qt::white));
             m_currentColor->setPixmap(*m_maskPixel);
 
-            G_couleurCourante.type = Veil;
+            s_selectedColor.type = Veil;
             m_currentColor->setToolTip(m_maskColor->toolTip());
         }
         else if(obj==m_unveilColor)
@@ -283,14 +287,14 @@ bool ColorSelector::eventFilter(QObject* obj, QEvent* event)
 
             setBackgroundColorToWidget(m_currentColor,QColor(Qt::white));
             m_currentColor->setPixmap(*m_unveilPixel);
-            G_couleurCourante.type = Unveil;
+            s_selectedColor.type = Unveil;
             m_currentColor->setToolTip(m_unveilColor->toolTip());
         }
         else if(obj==m_eraseColor)
         {
             setBackgroundColorToWidget(m_currentColor,QColor(Qt::white));
             m_currentColor->setPixmap(*m_pixelErase);
-            G_couleurCourante.type = Erase;
+            s_selectedColor.type = Erase;
             m_currentColor->setToolTip(m_eraseColor->toolTip());
         }
     }
@@ -298,27 +302,32 @@ bool ColorSelector::eventFilter(QObject* obj, QEvent* event)
     {
         if(obj == m_currentColor)
         {
-            QColor couleur = QColorDialog::getColor(G_couleurCourante.color);
+            QColor couleur = QColorDialog::getColor(s_selectedColor.color,this);
 
             if (couleur.isValid())
             {
                 m_currentColor->clear();
                 setBackgroundColorToWidget(m_currentColor,couleur);
-                G_couleurCourante.type = ColorType;
-                G_couleurCourante.color = couleur;
+                s_selectedColor.type = ColorType;
+                s_selectedColor.color = couleur;
                 m_currentColor->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(couleur.red()).arg(couleur.green()).arg(couleur.blue()));
             }
         }
     }
     return QWidget::eventFilter(obj,event);
 }
+
+SelectedColor &ColorSelector::getSelectedColor()
+{
+    return s_selectedColor;
+}
 void ColorSelector::changeCurrentColor(QColor color)
 {
     m_currentColor->clear();
     setBackgroundColorToWidget(m_currentColor,color);
     m_currentColor->setToolTip(tr("Red: %1, Green: %2, Blue: %3").arg(color.red()).arg(color.green()).arg(color.blue()));
-	G_couleurCourante.type = ColorType;
-    G_couleurCourante.color = color;
+    s_selectedColor.type = ColorType;
+    s_selectedColor.color = color;
 }
 
 void ColorSelector::updatePersonalColor()

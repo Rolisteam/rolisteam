@@ -77,7 +77,8 @@ HEADERS += $$SRC_DIRECTORY_ODT/textedit.h \
            $$SRC_DIRECTORY_ODT/../format_OO_oasis_/GZipWriter.h \
            $$SRC_DIRECTORY_ODT/../format_OO_oasis_/OOFormat.h \
            $$SRC_DIRECTORY_ODT/../format_OO_oasis_/OOReader.h \
-           $$SRC_DIRECTORY_ODT/../format_OO_oasis_/XML_Editor.h
+           $$SRC_DIRECTORY_ODT/../format_OO_oasis_/XML_Editor.h \
+    $$PWD/notecontainer.h
 
 
 SOURCES += $$SRC_DIRECTORY_ODT/textedit.cpp \
@@ -85,7 +86,8 @@ SOURCES += $$SRC_DIRECTORY_ODT/textedit.cpp \
            $$SRC_DIRECTORY_ODT/../format_OO_oasis_/GZip.cpp \
            $$SRC_DIRECTORY_ODT/../format_OO_oasis_/OOFormat.cpp \
            $$SRC_DIRECTORY_ODT/../format_OO_oasis_/OOReader.cpp \
-           $$SRC_DIRECTORY_ODT/../format_OO_oasis_/XML_Editor.cpp
+           $$SRC_DIRECTORY_ODT/../format_OO_oasis_/XML_Editor.cpp \
+    $$PWD/notecontainer.cpp
 
 
 RESOURCES += $$SRC_DIRECTORY_ODT/textedit.qrc

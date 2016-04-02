@@ -33,10 +33,8 @@
 
 #include "network/networkmanager.h"
 #include "mainwindow.h"
-#include "data/persons.h"
+#include "data/person.h"
 #include "preferences/preferencesmanager.h"
-
-#include "variablesGlobales.h"
 
 /**
 * @mainpage Rolisteam
@@ -139,6 +137,9 @@ int main(int argc, char *argv[])
     }
 
 
+    qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
+    qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
+
     // Settings
     QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(version));
     settings.beginGroup("rolisteam/preferences");
@@ -156,13 +157,6 @@ int main(int argc, char *argv[])
     settings.endArray();
     settings.endGroup();
 
-//    QVariant variant = settings.value("map",map);
-//    if(variant.canConvert<QMap<QString,QVariant> >())
-//    {
-//        map = variant.value<QMap<QString,QVariant> >();
-//    }
-//    settings.endGroup();
-
     QString file = map.value("currentTranslationFile","").toString();
     if(!file.isEmpty())
     {
@@ -172,10 +166,6 @@ int main(int argc, char *argv[])
     }
 
 
-
-
-
-
     // Create the main window
     MainWindow* mainWindow =MainWindow::getInstance();
     mainWindow->parseCommandLineArguments(app.arguments());
@@ -183,30 +173,28 @@ int main(int argc, char *argv[])
     mainWindow->setupUi();
     mainWindow->readSettings();
 
-
-
-
-    int value = 0;
-    if(mainWindow->showConnectionDialog())
+	int value = 0;
+	/*if(mainWindow->showConnectionDialog())
     {
         mainWindow->setUpNetworkConnection();
         mainWindow->updateWindowTitle();
         mainWindow->checkUpdate();
         mainWindow->updateUi();
-        if(PreferencesManager::getInstance()->value("FullScreenAtStarting",true).toBool())
-        {
-            mainWindow->showMaximized();
-        }
-        else
-        {
-            mainWindow->show();
-        }
-        value = app.exec();
-    }
+
+	}*/
+	if(PreferencesManager::getInstance()->value("FullScreenAtStarting",true).toBool())
+	{
+		mainWindow->showMaximized();
+	}
+	else
+	{
+		mainWindow->show();
+	}
+    //QTimer::singleShot(0,mainWindow,SLOT(showConnectionDialog()));
+    mainWindow->showConnectionDialog();
+	value = app.exec();
     QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
 
     delete mainWindow;
     return value;
-
-
 } 

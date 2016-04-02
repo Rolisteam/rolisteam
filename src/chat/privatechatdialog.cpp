@@ -28,7 +28,8 @@
 #include <QVBoxLayout>
 
 #include "chat/chat.h"
-#include "data/persons.h"
+#include "data/person.h"
+#include "data/player.h"
 #include "userlist/playersList.h"
 
 
@@ -55,7 +56,7 @@ Qt::ItemFlags PrivateChatDialogModel::flags(const QModelIndex &index) const
     // We should return Qt::NoItemFlags when (player == NULL),
     // but this cause an infinite loop when the last entry is deleted.
     // This is a workaround of a Qt's bug.
-    if (player == NULL || player == g_playersList->localPlayer())
+    if (player == NULL || player == g_playersList->getLocalPlayer())
         return Qt::ItemIsEnabled;
 
     if (player->hasFeature("MultiChat"))
@@ -99,7 +100,7 @@ QSet<Player *> & PrivateChatDialogModel::playersSet()
 void PrivateChatDialogModel::setPlayersSet(const QSet<Player *> & set)
 {
     m_set = set;
-    m_set.insert(PlayersList::instance()->localPlayer());
+    m_set.insert(PlayersList::instance()->getLocalPlayer());
     emit dataChanged(createIndex(0, 0, PlayersList::NoParent),
             createIndex(PlayersList::instance()->numPlayers() - 1, 0, PlayersList::NoParent));
 }
@@ -150,12 +151,18 @@ QSize PrivateChatDialog::sizeHint() const
 int PrivateChatDialog::edit(PrivateChat * chat)
 {
     if (chat == NULL)
+    {
         return QDialog::Rejected;
+    }
+    if(NULL==chat->owner())
+    {
+         return QDialog::Rejected;
+    }
 
     bool isEditable = chat->belongsToLocalPlayer();
     m_name_w->setText(chat->name());
     m_name_w->setReadOnly(!isEditable);
-    m_owner_w->setText(chat->owner()->name());
+    m_owner_w->setText(chat->owner()->getName());
     m_model.setPlayersSet(chat->players());
     m_model.setEditable(isEditable);
 

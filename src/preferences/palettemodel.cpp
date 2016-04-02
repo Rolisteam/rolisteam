@@ -36,20 +36,20 @@ void PaletteColor::setName(QString a)
 {
     m_name = a;
 }
-QColor PaletteColor::getColor()
+QColor PaletteColor::getColor() const
 {
     return m_color;
 }
 
-QString PaletteColor::getName()
+QString PaletteColor::getName() const
 {
     return m_name;
 }
-QPalette::ColorGroup PaletteColor::getGroup()
+QPalette::ColorGroup PaletteColor::getGroup() const
 {
     return m_group;
 }
-QPalette::ColorRole PaletteColor::getRole()
+QPalette::ColorRole PaletteColor::getRole() const
 {
     return m_role;
 }

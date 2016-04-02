@@ -69,7 +69,7 @@ public :
      * @brief getMapId
      * @return
      */
-    QString getMapId();
+    virtual QString getMediaId();
 
 	/**
 	 * @brief setCleverUri
@@ -100,6 +100,8 @@ public :
      */
     bool readMapAndNpc(QDataStream &in, bool hidden=false);
 
+    void saveMedia();
+
 
 signals:
     /**
@@ -119,12 +121,12 @@ public slots :
      * @brief commencerDeplacement
      * @param position
      */
-    void commencerDeplacement(QPoint position);
+    void startMoving(QPoint position);
     /**
      * @brief deplacer
      * @param position
      */
-    void deplacer(QPoint position);
+    void moveMap(QPoint position);
 
 
 protected :

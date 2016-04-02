@@ -31,46 +31,35 @@
 #include "network/networkmanager.h"
 #include "map/charactertoken.h"
 #include "Image.h"
-#include "data/persons.h"
+#include "data/person.h"
 #include "userlist/playersList.h"
 #include "network/receiveevent.h"
 
-#ifndef NULL_PLAYER
-#include "audioPlayer.h"
-#endif
-
-#include "types.h"
-#include "variablesGlobales.h"
 
 NetworkLink::NetworkLink(QTcpSocket *socket)
     : QObject(NULL),m_mainWindow(NULL)
 {
     m_socketTcp = socket;
-    receptionEnCours = false;
-#ifndef UNIT_TEST
-    m_mainWindow = MainWindow::getInstance();
-    m_networkManager = m_mainWindow->getNetWorkManager();
-	ReceiveEvent::registerNetworkReceiver(NetMsg::PictureCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::MapCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::ConnectionCategory,m_mainWindow);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,m_mainWindow);
-#endif
-#ifndef NULL_PLAYER
-    m_audioPlayer = AudioPlayer::getInstance();
-    ReceiveEvent::registerNetworkReceiver(NetMsg::MusicCategory,m_audioPlayer);
-#endif
-
+    m_receivingData = false;
+    m_headerRead= 0;
     setSocket(socket);
 
-    if (PreferencesManager::getInstance()->value("isClient",true).toBool())
+    if(!m_networkManager->isServer())
     {
-#ifndef UNIT_TEST
-		m_networkManager->ajouterNetworkLink(this);
-#endif
+        m_networkManager->addNetworkLink(this);
     }
+}
+
+NetworkLink::NetworkLink(ConnectionProfile* connection)
+    : m_host("localhost"),m_port(6660)
+{
+    m_mainWindow = MainWindow::getInstance();
+    m_networkManager = m_mainWindow->getNetWorkManager();
+    setConnection(connection);
+    m_socketTcp = new QTcpSocket(this);
+    initialize();
+    m_receivingData = false;
+    m_headerRead= 0;
 }
 void NetworkLink::initialize()
 {
@@ -87,23 +76,24 @@ NetworkLink::~NetworkLink()
 }
 void NetworkLink::makeSignalConnection()
 {
-    connect(m_socketTcp, SIGNAL(readyRead()),
-            this, SLOT(reception()));
-    connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)),
-            this, SLOT(erreurDeConnexion(QAbstractSocket::SocketError)));
-    connect(m_socketTcp, SIGNAL(disconnected()),
-            this, SLOT(p_disconnect()));
+    connect(m_socketTcp, SIGNAL(readyRead()),this, SLOT(receivingData()));
+    connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(connectionError(QAbstractSocket::SocketError)));
+    connect(m_socketTcp, SIGNAL(disconnected()), this, SLOT(p_disconnect()));
+    qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
+    connect(m_socketTcp,SIGNAL(stateChanged(QAbstractSocket::SocketState)),this,SIGNAL(connnectionStateChanged(QAbstractSocket::SocketState)));
+
+    connect(this,SIGNAL(dataToSend(char*,quint32,NetworkLink*)),this,SLOT(sendData(char*,quint32,NetworkLink*)));
 }
 
 
-void NetworkLink::erreurDeConnexion(QAbstractSocket::SocketError erreur)
+void NetworkLink::connectionError(QAbstractSocket::SocketError erreur)
 {
     Q_UNUSED(erreur);
     if(NULL==m_socketTcp)
     {
         return;
     }
-    qWarning() << tr("Network error occurs :") << m_socketTcp->errorString();
+    errorMessage(m_socketTcp->errorString());
 }
 
 void NetworkLink::p_disconnect()
@@ -113,16 +103,41 @@ void NetworkLink::p_disconnect()
 }
 
 
-void NetworkLink::emissionDonnees(char *donnees, quint32 taille, NetworkLink *sauf)
+void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 {
     if(NULL==m_socketTcp)
     {
+        qDebug() << "sendData is Null";
         return;
     }
-    if (sauf != this)
+    if (but != this)
     {
         // Emission des donnees
-        int t = m_socketTcp->write(donnees, taille);
+       #ifdef DEBUG_MODE
+        NetworkMessageHeader header;
+        memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
+        qDebug() << "header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0]
+                 << "socket" << m_socketTcp;
+        #endif
+
+        int t = m_socketTcp->write(data, size);
+
+        if (t < 0)
+        {
+            qWarning() << "Tranmission error :" << m_socketTcp->errorString();
+        }
+    }
+}
+void NetworkLink::sendData(NetworkMessage* msg)
+{
+    if(NULL==m_socketTcp)
+    {
+        qDebug() << "sendData is Null";
+        return;
+    }
+    //if (but != this)
+    {
+        int t = m_socketTcp->write((char*)msg->buffer(), msg->getSize());
 
         if (t < 0)
         {
@@ -131,73 +146,79 @@ void NetworkLink::emissionDonnees(char *donnees, quint32 taille, NetworkLink *sa
     }
 }
 
+void NetworkLink::sendDataSlot(char *data, quint32 size, NetworkLink *but)
+{
+    #ifdef DEBUG_MODE
+     NetworkMessageHeader header;
+     memcpy((char*)&header,data,sizeof(NetworkMessageHeader));
+     qDebug() << "sendDataSlot header: cat" << header.category << "act:"<< header.action << "datasize:" << header.dataSize <<  "size"<<size << (int)data[0];
+     #endif
+    emit dataToSend(data,size, but);
+}
 
-void NetworkLink::reception()
+void NetworkLink::receivingData()
 {
     if(NULL==m_socketTcp)
     {
         return;
     }
-    quint32 lu=0;
+    quint32 readData=0;
 
     while (m_socketTcp->bytesAvailable())
     {
-        // S'il s'agit d'un nouveau message
-        if (!receptionEnCours)
+        if (!m_receivingData)
         {
-            // On recupere l'entete du message
-            m_socketTcp->read((char *)&entete, sizeof(NetworkMessageHeader));
-            // Reservation du tampon
-            tampon = new char[entete.dataSize];
-            // Initialisation du restant a lire
-            restant = entete.dataSize;
-            emit readDataReceived(entete.dataSize,entete.dataSize);
+            int readDataSize = 0;
+            char* tmp = (char *)&m_header;
+            readDataSize = m_socketTcp->read(tmp+m_headerRead, sizeof(NetworkMessageHeader)-m_headerRead);
+            readDataSize+=m_headerRead;
+
+            if((readDataSize!=sizeof(NetworkMessageHeader)))//||(m_header.category>=NetMsg::LastCategory)
+            {
+                m_headerRead=readDataSize;
+                return;
+            }
+            else
+            {
+               m_headerRead=0;
+            }
+            m_buffer = new char[m_header.dataSize];
+            m_remainingData = m_header.dataSize;
+            emit readDataReceived(m_header.dataSize,m_header.dataSize);
 
         }
 
-        // Lecture des donnees a partir du dernier point
-        lu = m_socketTcp->read(&(tampon[entete.dataSize-restant]), restant);
+        readData = m_socketTcp->read(&(m_buffer[m_header.dataSize-m_remainingData]), m_remainingData);
 
-        // Si toutes les donnees n'ont pu etre lues
-        if (lu < restant)
+        if (readData < m_remainingData)
         {
-            restant-=lu;
-            receptionEnCours = true;
-            emit readDataReceived(restant,entete.dataSize);
-            //qDebug("Reception par morceau");
+            m_remainingData -= readData;
+            m_receivingData = true;
+            emit readDataReceived(m_remainingData,m_header.dataSize);
         }
-
-        // Si toutes les donnees ont pu etre lu
         else
         {
-
-            // Envoie la notification sur la mainWindows
             QApplication::alert(m_mainWindow);
             emit readDataReceived(0,0);
 
             // Send event
-            if (ReceiveEvent::hasReceiverFor(entete.category, entete.action))
+            if (ReceiveEvent::hasReceiverFor(m_header.category, m_header.action))
             {
-                ReceiveEvent * event = new ReceiveEvent(entete, tampon, this);
+                ReceiveEvent * event = new ReceiveEvent(m_header, m_buffer, this);
                 event->postToReceiver();
             }
-            NetworkMessageReader data(entete,tampon);
-            if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)entete.category))
+            NetworkMessageReader data(m_header,m_buffer);
+            if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
             {
 
-                NetWorkReceiver* tmp = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)entete.category);
-                switch(tmp->processMessage(&data))
+                QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
+
+                foreach(NetWorkReceiver* tmp, tmpList)
                 {
-                 case NetWorkReceiver::AllExceptMe:
-                    faireSuivreMessage(false);
-                    break;
-                case NetWorkReceiver::ALL:
-                    faireSuivreMessage(true);
-                    break;
-                case NetWorkReceiver::NONE:
-                    break;
+                    forwardMessage(tmp->processMessage(&data));
                 }
             }
+            //emit receivedMessage(data,this);
 
             switch(data.category())
             {
@@ -210,13 +231,11 @@ void NetworkLink::reception()
                 default:
                     break;
             }
-            // On libere le tampon
-            delete[] tampon;
-            // On indique qu'aucun message n'est en cours de reception
-            receptionEnCours = false;
+            delete[] m_buffer;
+            m_receivingData = false;
         }
 
-    } // Fin du while
+    }
 
 }
 void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
@@ -225,16 +244,13 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
     {
         if(NetMsg::PlayerConnectionAction == msg->action())
         {
-#ifndef UNIT_TEST
-            m_networkManager->ajouterNetworkLink(this);
-#endif
-            // On indique au nouveau joueur que le processus de connexion vient d'arriver a son terme
-            NetworkMessageHeader uneEntete;
-            uneEntete.category = NetMsg::SetupCategory;
-            uneEntete.action = NetMsg::EndConnectionAction;
-            uneEntete.dataSize = 0;
+            m_networkManager->addNetworkLink(this);
 
-            emissionDonnees((char *)&uneEntete, sizeof(NetworkMessageHeader));
+            NetworkMessageHeader header;
+            header.category = NetMsg::SetupCategory;
+            header.action = NetMsg::EndConnectionAction;
+            header.dataSize = 0;
+            sendData((char *)&header, sizeof(NetworkMessageHeader));
         }
         else if(NetMsg::AddPlayerAction == msg->action())
         {
@@ -242,15 +258,15 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
         }
         else if(NetMsg::DelPlayerAction == msg->action())
         {
-            faireSuivreMessage(false);
+            forwardMessage(NetWorkReceiver::AllExceptSender);
         }
         else if(NetMsg::ChangePlayerNameAction == msg->action())
         {
-           faireSuivreMessage(false);
+           forwardMessage(NetWorkReceiver::AllExceptSender);
         }
         else if(NetMsg::ChangePlayerColorAction == msg->action())
         {
-           faireSuivreMessage(false);
+           forwardMessage(NetWorkReceiver::AllExceptSender);
         }
     }
 }
@@ -258,32 +274,46 @@ void NetworkLink::processSetupMessage(NetworkMessageReader* msg)
 {
     if (msg->action() == NetMsg::AddFeatureAction)
     {
-        faireSuivreMessage(false);
+        forwardMessage(NetWorkReceiver::AllExceptSender);
     }
 }
-void NetworkLink::faireSuivreMessage(bool tous)
+void NetworkLink::forwardMessage( NetWorkReceiver::SendType type)
 {
-#ifndef UNIT_TEST
-    if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
+    if(NetWorkReceiver::NONE == type)
     {
-        char *donnees = new char[entete.dataSize + sizeof(NetworkMessageHeader)];
-        // Recopie de l'entete
-        memcpy(donnees, &entete, sizeof(NetworkMessageHeader));
-        // Recopie du corps du message
-        memcpy(&(donnees[sizeof(NetworkMessageHeader)]), tampon, entete.dataSize);
-        if (tous)
+        return;
+    }
+    if (m_networkManager->isServer())
+    {
+        char *donnees = new char[m_header.dataSize + sizeof(NetworkMessageHeader)];
+        memcpy(donnees, &m_header, sizeof(NetworkMessageHeader));
+        memcpy(&(donnees[sizeof(NetworkMessageHeader)]), m_buffer, m_header.dataSize);
+        if (NetWorkReceiver::ALL == type)
         {
-			//emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader));
-			m_networkManager->emettreDonnees(donnees,entete.dataSize + sizeof(NetworkMessageHeader),NULL);
+            m_networkManager->sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),NULL);
         }
-        else
+        else if(NetWorkReceiver::AllExceptSender == type)
         {
-			//emettre(donnees, entete.dataSize + sizeof(NetworkMessageHeader), this);
-			m_networkManager->emettreDonnees(donnees,entete.dataSize + sizeof(NetworkMessageHeader),this);
+            m_networkManager->sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),this);
         }
         delete[] donnees;
     }
 #endif
+}
+
+ConnectionProfile *NetworkLink::getConnection() const
+{
+    return m_connection;
+}
+
+void NetworkLink::setConnection(ConnectionProfile* value)
+{
+    m_connection = value;
+    if(NULL!=m_connection)
+    {
+        m_host = m_connection->getAddress();
+        m_port = m_connection->getPort();
+    }
 }
 void NetworkLink::disconnectAndClose()
 {
@@ -306,4 +336,9 @@ void NetworkLink::setSocket(QTcpSocket* socket, bool makeConnection)
 void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver,NetMsg::Category cat)
 {
     m_receiverMap.insert(cat,receiver);
+}
+void NetworkLink::connectTo()
+{
+    qDebug() << "connect To thread"<<m_host << m_port;
+    m_socketTcp->connectToHost(m_host, m_port);
 }

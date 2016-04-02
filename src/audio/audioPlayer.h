@@ -43,7 +43,6 @@
 #include <QMediaPlayer>
 #include <QEvent>
 
-#include "types.h"
 #include "preferences/preferencesmanager.h"
 #include "musicmodel.h"
 #include "playerwidget.h"
@@ -68,13 +67,13 @@ public :
     /**
      * @brief updateUi
      */
-    void updateUi();
+    void updateUi(bool b);
 
     /**
      * @brief processMessage
      * @param msg
      */
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg);
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link);
 
     /**
      * @brief openSongList

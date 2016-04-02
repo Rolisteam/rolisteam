@@ -67,7 +67,7 @@ NetMsg::Action NetworkMessageReader::action() const
     return NetMsg::Action(m_header->action);
 }
 
-NetworkMessageHeader * NetworkMessageReader::buffer()
+NetworkMessageHeader* NetworkMessageReader::buffer()
 {
     return m_header;
 }
@@ -221,6 +221,18 @@ qint64 NetworkMessageReader::int64()
     if (left() >= size)
     {
         qint64 ret;
+        memcpy(&ret, m_pos, size);
+        m_pos += size;
+        return ret;
+    }
+    return 0;
+}
+qreal  NetworkMessageReader::real()
+{
+    size_t size = sizeof(qreal);
+    if (left() >= size)
+    {
+        qreal ret;
         memcpy(&ret, m_pos, size);
         m_pos += size;
         return ret;

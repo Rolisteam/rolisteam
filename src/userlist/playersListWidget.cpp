@@ -22,14 +22,21 @@
 
 
 #include <QVBoxLayout>
+#include <QMenu>
+#include <QDebug>
+
 
 #include "playersListWidget.h"
+#include "userlistview.h"
 
 #include "map/map.h"
 #include "delegate.h"
-#include "data/persons.h"
+#include "data/person.h"
+#include "data/character.h"
+#include "data/player.h"
 #include "persondialog.h"
 #include "userlist/playersList.h"
+
 
 
 /**************************
@@ -66,9 +73,8 @@ QVariant PlayersListWidgetModel::data(const QModelIndex &index, int role) const
 {
     if (isCheckable(index) && role == Qt::CheckStateRole)
     {
-        return QVariant(m_map->isVisiblePc(PlayersList::instance()->getPerson(index)->uuid()));
+        return QVariant(m_map->isVisiblePc(PlayersList::instance()->getPerson(index)->getUuid()));
     }
-
     return QAbstractProxyModel::data(index, role);
 }
 
@@ -111,16 +117,19 @@ void PlayersListWidgetModel::changeMap(Map * map)
     m_map = map;
 
     // We need to tell which rows should be updated
-
-    PlayersList * g_playersList = PlayersList::instance();
+    PlayersList* playersList = PlayersList::instance();
     QModelIndex begin;
     QModelIndex end;
     int i;
-    int max = (g_playersList->localPlayer()->isGM() ? g_playersList->numPlayers() : 1);
+    int max = 0;
+    if(NULL!=playersList->getLocalPlayer())
+    {
+        max = (playersList->getLocalPlayer()->isGM() ? playersList->numPlayers() : 1);
+    }
 
     for (i = 0 ; i < max ; i++)
     {
-        Player * player = g_playersList->getPlayer(i);
+        Player * player = playersList->getPlayer(i);
         int nbCharacters = player->getCharactersCount();
 
         if (nbCharacters > 0)
@@ -132,7 +141,7 @@ void PlayersListWidgetModel::changeMap(Map * map)
     }
     for (; i < max ; i++)
     {
-        Player * player = g_playersList->getPlayer(i);
+        Player * player = playersList->getPlayer(i);
         int nbCharacters = player->getCharactersCount();
 
         if (nbCharacters > 0)
@@ -148,59 +157,17 @@ bool PlayersListWidgetModel::isCheckable(const QModelIndex &index) const
     if (!index.isValid() || m_map == NULL)
         return false;
 
-    PlayersList * g_playersList = PlayersList::instance();
+    PlayersList * playersList = PlayersList::instance();
 
-    Person * person = g_playersList->getPerson(index);
+    Person * person = playersList->getPerson(index);
     if (person == NULL)
         return false;
 
-    Player * localPlayer = g_playersList->localPlayer();
+    Player* localPlayer = playersList->getLocalPlayer();
 
-    return ((person->parent() == localPlayer) ||
+    return ((person->getParent() == localPlayer) ||
             (localPlayer->isGM() && index.parent().isValid()));
 }
-
-
-/*******************
- * PlayersListView *
- *******************/
-
-PlayersListView::PlayersListView(QWidget * parent)
-    : QTreeView(parent)
-{
-    static Delegate delegate;
-    setItemDelegate(&delegate);
-}
-
-PlayersListView::~PlayersListView()
-{
-}
-
-void PlayersListView::mouseDoubleClickEvent(QMouseEvent * event)
-{
-    QPoint mPos = event->pos();
-    QModelIndex index = indexAt(mPos);
-    mPos -= visualRect(index).topLeft();
-
-    Delegate * delegate = static_cast<Delegate *>(itemDelegate());
-    int role = delegate->roleAt(viewOptions(), index, mPos);
-    if (role == Qt::DecorationRole)
-    {
-        QVariant value = index.data(role);
-        if (value.type() == QVariant::Color)
-        {
-            QColor color = qvariant_cast<QColor>(value);
-            static QColorDialog colorDialog;
-            colorDialog.setCurrentColor(color);
-            if (colorDialog.exec() == QDialog::Accepted)
-                model()->setData(index, QVariant(colorDialog.currentColor()), role);
-            return;
-        }
-    }
-
-    QTreeView::mouseDoubleClickEvent(event);
-}
-
 
 /********************
  * PlayerListWidget *
@@ -236,7 +203,7 @@ void PlayersListWidget::editIndex(const QModelIndex & index)
     if (!g_playersList->isLocal(person))
         return;
 
-    if (m_personDialog->edit(tr("Edit"), person->name(), person->color()) == QDialog::Accepted)
+    if (m_personDialog->edit(tr("Edit"), person->getName(), person->getColor()) == QDialog::Accepted)
     {
         g_playersList->changeLocalPerson(person, m_personDialog->getName(), m_personDialog->getColor());
     }
@@ -244,12 +211,12 @@ void PlayersListWidget::editIndex(const QModelIndex & index)
 
 void PlayersListWidget::createLocalCharacter()
 {
-    PlayersList* g_playersList = PlayersList::instance();
-    Player * localPlayer = g_playersList->localPlayer();
+    PlayersList* playersList = PlayersList::instance();
+    Player * localPlayer = playersList->getLocalPlayer();
 
-    if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->color()) == QDialog::Accepted)
+    if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->getColor()) == QDialog::Accepted)
     {
-        g_playersList->addLocalCharacter(new Character(m_personDialog->getName(), m_personDialog->getColor()));
+        playersList->addLocalCharacter(new Character(m_personDialog->getName(), m_personDialog->getColor()));
     }
 }
 
@@ -280,16 +247,14 @@ void PlayersListWidget::setUI()
     QWidget * centralWidget = new QWidget(this);
 
     // PlayersListView
-    QTreeView * playersListView  = new PlayersListView(centralWidget);
+    m_playersListView = new UserListView();//= new PlayersListView(centralWidget);
     m_model = new PlayersListWidgetModel;
-    playersListView->setModel(m_model);
-    m_selectionModel = playersListView->selectionModel();
-    playersListView->setHeaderHidden(true);
-    playersListView->setIconSize(QSize(28,20));
+    m_playersListView->setModel(m_model);
+    m_selectionModel = m_playersListView->selectionModel();
+    m_playersListView->setHeaderHidden(true);
 
-    // Add PJ button
-    Player* tmp = PlayersList::instance()->localPlayer();
-    //PlayersList::instance()->localPlayer()->isGM()
+    // Add PC button
+    Player* tmp = PlayersList::instance()->getLocalPlayer();
     QString what;
     if(NULL!=tmp)
     {
@@ -314,7 +279,7 @@ void PlayersListWidget::setUI()
     // Layout
     QVBoxLayout * layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 3, 3);
-    layout->addWidget(playersListView);
+    layout->addWidget(m_playersListView);
     layout->addLayout(buttonLayout);
     centralWidget->setLayout(layout);
     setWidget(centralWidget);
@@ -323,7 +288,7 @@ void PlayersListWidget::setUI()
     connect(m_selectionModel, SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)),
             this, SLOT(selectAnotherPerson(const QModelIndex &)));
     connect(m_model, SIGNAL(rowsRemoved( const QModelIndex &, int, int)),
-            playersListView, SLOT(clearSelection()));
+            m_playersListView, SLOT(clearSelection()));
     connect(addPlayerButton, SIGNAL(clicked()), this, SLOT(createLocalCharacter()));
     connect(m_delButton, SIGNAL(clicked()), this, SLOT(deleteSelected()));
 

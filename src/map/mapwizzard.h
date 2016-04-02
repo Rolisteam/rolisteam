@@ -23,7 +23,7 @@ public:
      * @brief MapWizzard
      * @param parent
      */
-    explicit MapWizzard(QWidget *parent = 0);
+    explicit MapWizzard(bool vmap = false,QWidget *parent = 0);
     /**
       * @brief ~MapWizzard destructor
       */
@@ -68,6 +68,8 @@ private:
      * @brief m_preferences
      */
     PreferencesManager* m_preferences;
+
+    bool m_vmap;
 };
 
 #endif // MAPWIZZARD_H

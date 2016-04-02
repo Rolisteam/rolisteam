@@ -43,7 +43,7 @@ public :
 	~ImprovedWorkspace();
 
     QWidget* addWindow(QWidget*,QAction* action);
-    QWidget* activeWindow();
+   // QWidget* activeWindow();
 
     void insertActionAndSubWindow(QAction*, QMdiSubWindow*);
     /**
@@ -67,6 +67,7 @@ signals:
 public slots:
     void setTabbedMode(bool );
     void ensurePresent();
+    void addWidgetToMdi(QWidget*);
 
 protected :
     void resizeEvent ( QResizeEvent * event );
