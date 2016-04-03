@@ -1,6 +1,6 @@
 /***************************************************************************
 * Copyright (C) 2015 by Renaud Guezennec                                   *
-* http://renaudguezennec.homelinux.org/accueil,3.html                      *
+* http://www.rolisteam.org/contact                      *
 *                                                                          *
 *  This file is part of rcm                                                *
 *                                                                          *
