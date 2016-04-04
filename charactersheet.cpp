@@ -44,7 +44,6 @@ const  QString CharacterSheet::getTitle()
 
 const  QString CharacterSheet::getValue(QString path) const
 {
-    qDebug() << path << "CharacterSheet::getValue";
     if(m_values.contains(path))
     {
         return m_values.value(path);
@@ -54,7 +53,6 @@ const  QString CharacterSheet::getValue(QString path) const
 
 void CharacterSheet::setValue(QString key, QString value)
 {
-    qDebug() << key << "setValue" << value;
     m_values.insert(key,value);
     emit valuesChanged(key,value);
 }
@@ -87,8 +85,8 @@ QStringList CharacterSheet::explosePath(QString str)
 
 void CharacterSheet::save(QJsonObject& json)
 {
-    m_name = json["name"].toString();
-    foreach (QString key, m_values)
+    json["name"]= m_name;
+    foreach (QString key, m_values.keys())
     {
         json[key]=m_values[key];
     }
@@ -96,7 +94,7 @@ void CharacterSheet::save(QJsonObject& json)
 
 void CharacterSheet::load(QJsonObject& json)
 {
-    json["name"]= m_name;
+    m_name = json["name"].toString();
     foreach(QString key, json.keys() )
     {
         m_values[key] = json[key].toString();

@@ -283,11 +283,13 @@ QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex & index)
 bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool data)
 {
     m_rootSection->save(jsonObj);
+    qDebug() << "characterCount:" <<m_characterCount;
     jsonObj["characterCount"]=m_characterCount;
 
     QJsonArray characters;
     foreach (CharacterSheet* item, *m_characterList)
     {
+        qDebug() << "inside The foreach";
         QJsonObject charObj;
         item->save(charObj);
         characters.append(charObj);

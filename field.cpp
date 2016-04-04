@@ -239,7 +239,7 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 {
     m_id = json["id"].toString();
     m_border = (BorderLine)json["border"].toInt();
-
+    m_value= json["value"].toString();
 
     QJsonObject bgcolor = json["bgcolor"].toObject();
     int r,g,b,a;
