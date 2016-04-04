@@ -90,7 +90,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_deleteAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_addButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
-
     connect(ui->actionQML_View,SIGNAL(triggered(bool)),this,SLOT(showQML()));
     connect(ui->actionCode_To_QML,SIGNAL(triggered(bool)),this,SLOT(showQMLFromCode()));
 
@@ -98,16 +97,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSave_As,SIGNAL(triggered(bool)),this,SLOT(saveAs()));
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
 
-
-
     connect(ui->m_addPage,SIGNAL(clicked(bool)),this,SLOT(addPage()));
     connect(ui->m_selectPageCb,SIGNAL(currentIndexChanged(int)),this,SLOT(currentPageChanged(int)));
 
     m_imgProvider = new RolisteamImageProvider();
 
-   // ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
-  //  ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
-  //  ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
+   //ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
+   //ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
+   //ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
 
@@ -214,6 +211,7 @@ void MainWindow::save()
                 images.append(QString(buffer.data().toBase64()));
             }
             obj["background"]=images;
+            m_characterModel->writeModel(obj);
             json.setObject(obj);
             file.write(json.toJson());
 
@@ -263,6 +261,7 @@ void MainWindow::open()
                 ++i;
             }
             m_model->load(data,m_canvasList);
+            m_characterModel->readModel(data);
             updatePageSelector();
         }
     }

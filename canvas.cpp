@@ -29,7 +29,7 @@
 
 Canvas::Canvas(QObject *parent) : QGraphicsScene(parent),m_bg(NULL),m_currentItem(NULL)
 {
-
+    setSceneRect(QRect(0,0,800,600));
 }
 
 void Canvas::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
