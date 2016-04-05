@@ -50,7 +50,9 @@ void Field::init()
     m_id = QStringLiteral("id_%1").arg(m_count);
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 
-
+    m_textAlign = ALignLEFT;
+    m_bgColor = Qt::transparent;
+    m_textColor = Qt::black;
     connect(this,&Field::xChanged,[=](){
         emit updateNeeded(this);
     });
