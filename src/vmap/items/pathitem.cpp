@@ -88,7 +88,7 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     }
     else
     {
-        path.moveTo(m_start);
+        /*path.moveTo(m_start);
         for(int i = 0; i< m_pointVector.size();++i)
         {
             if(i==0)
@@ -103,6 +103,11 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
             {
                 path.cubicTo(m_pointVector[i-2],m_pointVector[i-1],m_pointVector[i]);
             }
+        }*/
+        path.moveTo(m_start);
+        foreach(QPointF p,m_pointVector)
+        {
+            path.lineTo(p);
         }
     }
     painter->save();
@@ -112,10 +117,39 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 }
 void PathItem::setNewEnd(QPointF& p)
 {
-	m_pointVector.append(p);
-	update();
-    initChildPointItem();
-    emit itemGeometryChanged(this);
+    if(m_penMode)
+    {
+        m_pointVector.append(p);
+        update();
+        initChildPointItem();
+        emit itemGeometryChanged(this);
+    }
+    else
+    {
+        if(m_pointVector.isEmpty())
+        {
+            m_pointVector.removeLast();
+            m_pointVector.append(p);
+            update();
+        }
+    }
+}
+void PathItem::release()
+{
+    if(!m_penMode)
+    {
+        if(m_pointVector.isEmpty())
+        {
+            m_pointVector.append(m_start);
+        }
+        else
+        {
+            m_pointVector.append(m_pointVector.last());
+        }
+        update();
+        initChildPointItem();
+        emit itemGeometryChanged(this);
+    }
 }
 
 void PathItem::writeData(QDataStream& out) const
@@ -127,6 +161,7 @@ void PathItem::writeData(QDataStream& out) const
     out << m_closed;
     out << scale();
     out << rotation();
+    out << m_penMode;
 }
 
 void PathItem::readData(QDataStream& in)
@@ -143,6 +178,7 @@ void PathItem::readData(QDataStream& in)
     qreal rotation;
     in >> rotation;
     setRotation(rotation);
+    in >> m_penMode;
 }
 VisualItem::ItemType PathItem::getType()
 {
@@ -154,12 +190,14 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(scale());
     msg->real(rotation());
     msg->uint8(m_closed);
+    msg->uint8(m_penMode);
     //pen
     msg->uint16(m_pen.width());
     msg->rgb(m_pen.color());
 
     msg->real(m_start.x());
     msg->real(m_start.y());
+
 
     //path
     msg->uint32(m_pointVector.size());
@@ -176,6 +214,7 @@ void PathItem::readItem(NetworkMessageReader* msg)
     setRotation(msg->real());
     m_closed = (bool)msg->uint8();
     m_closeAct->setChecked(m_closed);
+    m_penMode = (bool)msg->uint8();
 
     //pen
     m_pen.setWidth(msg->int16());
@@ -238,14 +277,17 @@ void PathItem::initChildPointItem()
 	}
 
 
-    for(int i = m_child->size()-1; i< m_pointVector.size() ; ++i)
-	{
-		ChildPointItem* tmp = new ChildPointItem(i,this);
-		tmp->setMotion(ChildPointItem::ALL);
-		m_child->append(tmp);
-		tmp->setPos(m_pointVector.at(i));
-		tmp->setPlacement(ChildPointItem::Center);
-	}
+    if(!m_penMode)
+    {
+        for(int i = m_child->size()-1; i< m_pointVector.size() ; ++i)
+        {
+            ChildPointItem* tmp = new ChildPointItem(i,this);
+            tmp->setMotion(ChildPointItem::ALL);
+            m_child->append(tmp);
+            tmp->setPos(m_pointVector.at(i));
+            tmp->setPlacement(ChildPointItem::Center);
+        }
+    }
 
 }
 VisualItem* PathItem::getItemCopy()
