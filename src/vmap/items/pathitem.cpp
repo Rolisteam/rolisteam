@@ -39,6 +39,7 @@ PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,bool penMode,QGra
     m_closed=false;
 //    m_path.moveTo(start);
 	m_start = start;
+    m_end = m_start;
     m_pen.setColor(penColor);
     m_pen.setWidth(penSize);
     m_pen.setCapStyle(Qt::RoundCap);
@@ -110,6 +111,10 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
             path.lineTo(p);
         }
     }
+    if(!m_penMode)
+    {
+        path.lineTo(m_end);
+    }
     painter->save();
     painter->setPen(m_pen);
 	painter->drawPath(path);
@@ -117,6 +122,7 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 }
 void PathItem::setNewEnd(QPointF& p)
 {
+    m_end = p;
     if(m_penMode)
     {
         m_pointVector.append(p);
@@ -124,28 +130,13 @@ void PathItem::setNewEnd(QPointF& p)
         initChildPointItem();
         emit itemGeometryChanged(this);
     }
-    else
-    {
-        if(m_pointVector.isEmpty())
-        {
-            m_pointVector.removeLast();
-            m_pointVector.append(p);
-            update();
-        }
-    }
+
 }
 void PathItem::release()
 {
     if(!m_penMode)
     {
-        if(m_pointVector.isEmpty())
-        {
-            m_pointVector.append(m_start);
-        }
-        else
-        {
-            m_pointVector.append(m_pointVector.last());
-        }
+        m_pointVector.append(m_end);
         update();
         initChildPointItem();
         emit itemGeometryChanged(this);

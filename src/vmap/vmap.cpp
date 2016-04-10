@@ -435,17 +435,22 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     Q_UNUSED(mouseEvent);
-    if(m_currentItem!=NULL)
+    if((NULL!=m_currentPath)&&((VToolsBar::Painting==m_editionMode)))
     {
-        if(VisualItem::PATH == m_currentItem->getType())
+        if(VisualItem::PATH == m_currentPath->getType())
         {
-            PathItem* itm = dynamic_cast<PathItem*>(m_currentItem);
+
+            PathItem* itm = dynamic_cast<PathItem*>(m_currentPath);
             if(NULL!=itm)
             {
                 itm->release();
             }
             //ManageAnchor();
+
         }
+    }
+    if(m_currentItem!=NULL)
+    {
         if(VisualItem::ANCHOR == m_currentItem->getType())
         {
             manageAnchor();

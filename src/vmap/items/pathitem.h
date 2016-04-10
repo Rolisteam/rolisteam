@@ -116,6 +116,7 @@ private:
     */
     QPainterPath m_path;
 	QPointF m_start;
+    QPointF m_end;
 
 	QVector<QPointF> m_pointVector;
     QAction* m_closeAct;
