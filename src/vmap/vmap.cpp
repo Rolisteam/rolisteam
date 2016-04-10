@@ -326,6 +326,13 @@ void VMap::addItem()
     case VToolsBar::PEN:
         m_currentItem=new PathItem(m_first,m_itemColor,m_penSize,true);
         break;
+    case VToolsBar::PATH:
+    {
+        PathItem* pathItem=new PathItem(m_first,m_itemColor,m_penSize);
+        m_currentItem = pathItem;
+        m_currentPath = pathItem;
+    }
+        break;
     case VToolsBar::LINE:
         m_currentItem= new LineItem(m_first,m_itemColor,m_penSize);
         break;
@@ -392,13 +399,6 @@ void VMap::addItem()
         m_currentItem = itemRule;
     }
         break;
-    case VToolsBar::PATH:
-    {
-        PathItem* pathItem=new PathItem(m_first,m_itemColor,m_penSize);
-        m_currentItem = pathItem;
-        m_currentPath = pathItem;
-    }
-        break;
     case VToolsBar::ANCHOR:
         AnchorItem* anchorItem = new AnchorItem(m_first);
         m_currentItem = anchorItem;
@@ -417,13 +417,13 @@ void VMap::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     if(m_currentItem!=NULL)
     {
         //Comment it out for testing PEN ITEM.
-        if(m_currentItem->getType()!=VisualItem::PATH)
-        {
+        //if(m_selectedtool==VToolsBar::PEN)
+        //{
             m_end = mouseEvent->scenePos();
             m_currentItem->setModifiers(mouseEvent->modifiers());
             m_currentItem->setNewEnd( m_end);
             update();
-        }
+        //}
     }
     if((m_selectedtool==VToolsBar::HANDLER)||
             (m_selectedtool==VToolsBar::TEXT)||
@@ -437,6 +437,15 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     Q_UNUSED(mouseEvent);
     if(m_currentItem!=NULL)
     {
+        if(VisualItem::PATH == m_currentItem->getType())
+        {
+            PathItem* itm = dynamic_cast<PathItem*>(m_currentItem);
+            if(NULL!=itm)
+            {
+                itm->release();
+            }
+            //ManageAnchor();
+        }
         if(VisualItem::ANCHOR == m_currentItem->getType())
         {
             manageAnchor();
@@ -1122,6 +1131,7 @@ void VMap::keyPressEvent(QKeyEvent* event)
 {
     if(event->key ()==Qt::Key_Delete)
     {
+        QStringList idListToRemove;
         foreach(QGraphicsItem* item, selectedItems())
         {
             VisualItem* itemV = dynamic_cast<VisualItem*>(item);
@@ -1129,9 +1139,13 @@ void VMap::keyPressEvent(QKeyEvent* event)
             {
                 if(itemV->isEditable())
                 {
-                    removeItemFromScene(itemV->getId());
+                    idListToRemove << itemV->getId();
                 }
             }
+        }
+        for(auto id : idListToRemove)
+        {
+            removeItemFromScene(id);
         }
         event->accept();
     }

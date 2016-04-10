@@ -96,6 +96,7 @@ public:
     void setPath(QVector<QPointF> points);
     void setClosed(bool);
     void setStartPoint(QPointF);
+    void release();
 
     /**
      * @brief addActionContextMenu
