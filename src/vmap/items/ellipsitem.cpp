@@ -22,7 +22,8 @@
 #include <QPainter>
 #include <QDebug>
 
-#include "math.h"
+#include <math.h>
+#include <cmath>
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -84,11 +85,8 @@ void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * op
 }
 void EllipsItem::setNewEnd(QPointF& p)
 {
-    float dx = p.x()-pos().x();
-    float dy = p.y()-pos().y();
-
-    m_rx = dx;
-    m_ry = dy;  
+    m_rx = std::fabs(p.x()-pos().x());
+    m_ry = std::fabs(p.y()-pos().y());
 }
 VisualItem::ItemType EllipsItem::getType()
 {
