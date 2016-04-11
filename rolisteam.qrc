@@ -99,6 +99,7 @@
         <file>resources/icons/treeview.png</file>
         <file>resources/icons/audiofile.svg</file>
         <file>resources/icons/playlist.svg</file>
+        <file>resources/qml/Field.qml</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
