@@ -175,6 +175,11 @@ CharacterSheet* CharacterSheetModel::addCharacterSheet()
     return sheet;
 }
 
+Section *CharacterSheetModel::getRootSection() const
+{
+    return m_rootSection;
+}
+
 void CharacterSheetModel::setRootSection(Section *rootSection)
 {
     m_rootSection = rootSection;
@@ -312,7 +317,6 @@ bool CharacterSheetModel::readModel(QJsonObject& jsonObj)
         m_characterList->append(sheet);
         emit characterSheetHasBeenAdded(sheet);
     }
-
-
+    qDebug() << "readModel:" << m_characterCount << m_characterList->size();
     endResetModel();
 }
