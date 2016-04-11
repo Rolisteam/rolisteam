@@ -114,6 +114,8 @@ public:
 
     void setRootSection(Section *rootSection);
 
+    Section* getRootSection() const;
+
 public slots:
     /**
     * @brief adds an empty CharacterSheet into the model.
