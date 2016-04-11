@@ -88,6 +88,7 @@ protected slots:
     void displayError(const QList<QQmlError> &warnings);
 
 
+    void continueLoading();
 protected:
     virtual void closeEvent ( QCloseEvent * event );
 
@@ -143,6 +144,8 @@ private:
     QList<QQuickWidget*> m_characterSheetlist;
     int m_currentCharacterSheet;
     RolisteamImageProvider* m_imgProvider;
+    QQmlComponent* m_sheetComponent;
+    QQuickWidget* m_qmlView;
 
     QString m_qmlData;
 };
