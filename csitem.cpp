@@ -90,3 +90,13 @@ void CSItem::setHeight(qreal height)
 {
 
 }
+
+QRectF CSItem::getRect() const
+{
+    return m_rect;
+}
+
+void CSItem::setRect(const QRectF &rect)
+{
+    m_rect = rect;
+}

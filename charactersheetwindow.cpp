@@ -22,6 +22,7 @@
 #include <QFileDialog>
 #include <QQmlContext>
 #include <QQmlComponent>
+#include <QQuickItem>
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -184,22 +185,43 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     connect(m_qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
     m_qmlView->engine()->addImageProvider("rcs",m_imgProvider);
     m_sheetComponent = new QQmlComponent(m_qmlView->engine());
-    QList<CharacterSheetItem *> list = m_model.getRootSection();
-    for(CharacterSheetItem* item : list)
+    //QList<CharacterSheetItem*>* list = m_model.getExportedList(chSheet);
+
+    //for(auto itItem = list->begin(); itItem!= list->end(); ++itItem)
+    for(int i =0;i<chSheet->getFieldCount();++i)
     {
-        m_qmlView->engine()->rootContext()->setContextProperty(QStringLiteral("_%1").arg(item->getId()),item);
+        Field* field = chSheet->getFieldAt(i);
+        if(NULL!=field)
+        {
+            m_qmlView->engine()->rootContext()->setContextProperty(QStringLiteral("_%1").arg(field->getId()),field);
+        }
     }
-    m_sheetComponent->setData(m_qmlData.toLatin1(),QUrl("test.qml"));
-  //  compo.create();
-    if (m_sheetComponent->isLoading())
+
+    QString name(QStringLiteral("test.qml"));
+    if(QFile::exists(name))
+    {
+        QFile::remove(name);
+    }
+    QFile file(name);
+    if(file.open(QIODevice::WriteOnly))
+    {
+        file.write(m_qmlData.toLatin1());
+        file.close();
+    }
+
+    //m_qmlView->setSource(QUrl("qrc:/resources/qml/sheet.qml"));
+    m_qmlView->setSource(QUrl(name));
+    m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
+
+    //m_sheetComponent->setData(m_qmlData.toLatin1(),QUrl("test.qml"));
+    /*if (m_sheetComponent->isLoading())
     {
         QObject::connect(m_sheetComponent, SIGNAL(statusChanged(QQmlComponent::Status)),this, SLOT(continueLoading()));
     }
     else
     {
         continueLoading();
-    }
-
+    }*/
     m_characterSheetlist.append(m_qmlView);
     m_tabs->addTab(m_qmlView,chSheet->getTitle());
 }
@@ -216,11 +238,21 @@ void CharacterSheetWindow::continueLoading()
     qDebug() << "ContinueLoading";
     if (m_sheetComponent->isError())
     {
-        qWarning() << m_sheetComponent->errors();
+        qWarning() << "hasError ///////"<< m_sheetComponent->errors();
     }
     else
     {
-        QObject* myObject = m_sheetComponent->create();
+        QObject* sheetObj = m_sheetComponent->create();
+        if(NULL!=sheetObj)
+        {
+            qDebug() << "Creation succeed";
+            QQuickItem* sheetItem = dynamic_cast<QQuickItem*>(sheetObj);
+            if(NULL!=sheetItem)
+            {
+                qDebug() << m_qmlView->rootObject();
+                sheetItem->setParentItem(m_qmlView->rootObject());
+            }
+        }
         m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
     }
 }

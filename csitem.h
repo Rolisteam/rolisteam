@@ -51,6 +51,10 @@ public:
     void setY(qreal y);
     void setWidth(qreal width);
     void setHeight(qreal height);
+
+    QRectF getRect() const;
+    void setRect(const QRectF &rect);
+
 signals:
     void xChanged();
     void yChanged();

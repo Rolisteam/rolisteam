@@ -22,6 +22,7 @@
 #include "charactersheet.h"
 #include "section.h"
 #include "field.h"
+#include "charactersheetbutton.h"
 
 #include <QDebug>
 
@@ -58,6 +59,13 @@ CharacterSheet*  CharacterSheetModel::getCharacterSheet(int id)
         return m_characterList->at(id);
     }
     return NULL;
+}
+
+QList<CharacterSheetItem *>* CharacterSheetModel::getExportedList(CharacterSheet* character)
+{
+    QList<CharacterSheetItem *>* result = new QList<CharacterSheetItem *>();
+    m_rootSection->fillList(result,character);
+    return result;
 }
 
 int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const

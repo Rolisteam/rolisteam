@@ -67,6 +67,10 @@ public:
     QStringList getAvailableValue() const;
     void setAvailableValue(const QStringList &availableValue);
 
+    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
+
+    void copyField(CharacterSheetItem* );
+
 signals:
     void updateNeeded(CSItem* c);
 

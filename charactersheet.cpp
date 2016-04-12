@@ -24,6 +24,8 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 
+
+#include "section.h"
 /////////////////////////////////////
 //CharacterSheet
 /////////////////////////////////////////
@@ -39,26 +41,34 @@ CharacterSheet::CharacterSheet()
 }
 const  QString CharacterSheet::getTitle()
 {
-        return m_name;
+    return m_name;
+}
+
+int CharacterSheet::getFieldCount()
+{
+    return m_valuesMap.size();
+}
+
+Field *CharacterSheet::getFieldAt(int i)
+{
+    return m_valuesMap.value(m_valuesMap.keys().at(i));
 }
 
 const  QString CharacterSheet::getValue(QString path) const
 {
-    if(m_values.contains(path))
+    if(m_valuesMap.contains(path))
     {
-        return m_values.value(path);
+        return m_valuesMap.value(path)->getValue();
     }
     return QString();
 }
 
 void CharacterSheet::setValue(QString key, QString value)
 {
-    m_values.insert(key,value);
-    emit valuesChanged(key,value);
-}
-int CharacterSheet::getIndexCount()
-{
-    return m_values.keys().size();
+    Field* field = new Field();
+    field->setValue(value);
+    field->setId(key);
+    m_valuesMap.insert(key,field);
 }
 
 const QString CharacterSheet::getkey(int index)
@@ -70,9 +80,9 @@ const QString CharacterSheet::getkey(int index)
     else
     {
         --index;
-        if((index<m_values.keys().size())&&(index>=0)&&(!m_values.isEmpty()))
+        if((index<m_valuesMap.keys().size())&&(index>=0)&&(!m_valuesMap.isEmpty()))
         {
-            return m_values.keys().at(--index);
+            return m_valuesMap.keys().at(--index);
         }
 
     }
@@ -83,12 +93,21 @@ QStringList CharacterSheet::explosePath(QString str)
     return str.split('.');
 }
 
+Section *CharacterSheet::getRootSection() const
+{
+    return m_rootSection;
+}
+
+void CharacterSheet::setRootSection(Section *rootSection)
+{
+    m_rootSection = rootSection;
+}
 void CharacterSheet::save(QJsonObject& json)
 {
     json["name"]= m_name;
-    foreach (QString key, m_values.keys())
+    foreach (QString key, m_valuesMap.keys())
     {
-        json[key]=m_values[key];
+        json[key]=m_valuesMap[key]->getValue();
     }
 }
 
@@ -97,7 +116,10 @@ void CharacterSheet::load(QJsonObject& json)
     m_name = json["name"].toString();
     foreach(QString key, json.keys() )
     {
-        m_values[key] = json[key].toString();
+        Field* field = new Field();
+        field->setValue(json[key].toString());
+        field->setId(key);
+        m_valuesMap.insert(key,field);
     }
 }
 #ifndef RCSE

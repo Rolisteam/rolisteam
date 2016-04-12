@@ -24,6 +24,7 @@
 #include <QMouseEvent>
 #include <QJsonArray>
 #include <QUuid>
+#include <QDebug>
 
 Field::Field(QGraphicsItem* parent)
 : CSItem(parent)
@@ -196,7 +197,10 @@ void Field::setAvailableValue(const QStringList &availableValue)
 {
     m_availableValue = availableValue;
 }
-
+CharacterSheetItem::CharacterSheetItemType Field::getItemType() const
+{
+    return CharacterSheetItem::FieldItem;
+}
 
 void Field::save(QJsonObject& json,bool exp)
 {
@@ -285,7 +289,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
     {
         out << "Field {\n";
         out << "    id:"<<m_id<< "\n";
-        out << "    text: _"<<m_id << ".name\n";
+        out << "    text: _"<<m_id << ".value\n";
         out << "    x:" << m_rect.x() << "*parent.realscale"<<"\n";
         out << "    y:" << m_rect.y()<< "*parent.realscale"<<"\n";
         out << "    width:" << m_rect.width() <<"*parent.realscale"<<"\n";
@@ -311,10 +315,18 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "        }"<<"\n";
     }*/
 }
-
-
-
-
-
-
-
+void Field::copyField(CharacterSheetItem* newItem)
+{
+    Field* newField =  dynamic_cast<Field*>(newItem);
+    if(NULL!=newField)
+    {
+        setId(newField->getId());
+        qDebug() << m_id << newField->getId()<<"newfield";
+        setValue(newField->getValue());
+        setRect(newField->getRect());
+        setBorder(newField->border());
+        setFont(newField->font());
+        setBgColor(newField->bgColor());
+        setTextColor(newField->textColor());
+    }
+}

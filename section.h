@@ -22,7 +22,10 @@
 #ifndef SECTION_H
 #define SECTION_H
 #include "charactersheetitem.h"
+#include "charactersheet.h"
 #include <QPointF>
+
+class CharacterSheet;
 /**
  * @brief The Section class
  */
@@ -48,6 +51,11 @@ public:
     virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene);
     virtual void generateQML(QTextStream &out,CharacterSheetItem::QMLSection);
     virtual void setNewEnd(QPointF){}
+    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
+    void copySection(Section* itm);
+
+public slots:
+    void fillList(QList<CharacterSheetItem *> *result, CharacterSheet *character);
 private:
     QHash<QString,CharacterSheetItem*> m_dataHash;
     QStringList m_keyList;

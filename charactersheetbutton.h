@@ -62,6 +62,9 @@ public:
 
     CharacterSheetItem* getChildAt(QString) const;
 
+    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
+
+    void copyField(CharacterSheetItem *newField);
 signals:
     void updateNeeded(CSItem* c);
 
