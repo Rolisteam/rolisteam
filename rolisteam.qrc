@@ -100,6 +100,7 @@
         <file>resources/icons/audiofile.svg</file>
         <file>resources/icons/playlist.svg</file>
         <file>resources/qml/Field.qml</file>
+        <file>resources/qml/sheet.qml</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
