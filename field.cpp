@@ -296,6 +296,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         out << "    visible: root.page == "<< m_page << "? true : false\n";
+        out << "    onTextChanged: {_"<<m_id<<".value = text}\n";
         if(m_availableValue.isEmpty())
         {
             out << "    state:\"field\"\n";
@@ -328,5 +329,21 @@ void Field::copyField(CharacterSheetItem* newItem)
         setFont(newField->font());
         setBgColor(newField->bgColor());
         setTextColor(newField->textColor());
+    }
+}
+
+QString Field::getValue() const
+{
+    qDebug() << "getValue"<< m_value <<  m_id;
+    return m_value;
+}
+
+void Field::setValue(const QString &value)
+{
+    qDebug() << "SetValue"<< m_value << value << m_id;
+    if(m_value!=value)
+    {
+        m_value = value;
+        emit valueChanged(m_value);
     }
 }
