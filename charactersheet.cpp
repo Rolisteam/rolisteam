@@ -37,7 +37,7 @@ CharacterSheet::CharacterSheet()
     : m_name("Character %1")
 {
     ++m_count;
-    m_name.arg(m_count);
+    m_name = m_name.arg(m_count);
 }
 const  QString CharacterSheet::getTitle()
 {

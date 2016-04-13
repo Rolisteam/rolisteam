@@ -69,6 +69,9 @@ public:
     Section* getRootSection() const;
     void setRootSection(Section* rootSection);
 
+    QString getName() const;
+    void setName(const QString &name);
+
 public slots:
     /**
     * @brief global getter of data.  This function has been written to make easier the MVC architecture.
