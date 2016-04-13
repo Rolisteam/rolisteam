@@ -101,6 +101,16 @@ QStringList CharacterSheet::explosePath(QString str)
     return str.split('.');
 }
 
+QString CharacterSheet::getName() const
+{
+    return m_name;
+}
+
+void CharacterSheet::setName(const QString &name)
+{
+    m_name = name;
+}
+
 Section *CharacterSheet::getRootSection() const
 {
     return m_rootSection;
