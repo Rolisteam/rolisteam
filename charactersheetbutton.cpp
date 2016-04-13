@@ -286,7 +286,7 @@ void CharacterSheetButton::copyField(CharacterSheetItem* newBtn)
     if(NULL!=newField)
     {
         setId(newField->getId());
-        setValue(newField->getValue());
+        setValue(newField->value());
         setRect(newField->getRect());
         //newField->setBorder(border());
         //newField->setFont(font());

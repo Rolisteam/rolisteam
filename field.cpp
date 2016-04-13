@@ -323,7 +323,7 @@ void Field::copyField(CharacterSheetItem* newItem)
     {
         setId(newField->getId());
         qDebug() << m_id << newField->getId()<<"newfield";
-        setValue(newField->getValue());
+        setValue(newField->value());
         setRect(newField->getRect());
         setBorder(newField->border());
         setFont(newField->font());
@@ -332,7 +332,7 @@ void Field::copyField(CharacterSheetItem* newItem)
     }
 }
 
-QString Field::getValue() const
+/*QString Field::getValue() const
 {
     qDebug() << "getValue"<< m_value <<  m_id;
     return m_value;
@@ -346,4 +346,4 @@ void Field::setValue(const QString &value)
         m_value = value;
         emit valueChanged(m_value);
     }
-}
+}*/

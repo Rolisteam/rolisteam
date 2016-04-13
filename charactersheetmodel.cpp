@@ -125,7 +125,7 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
                 {
                     if(index.column()==0)
                     {
-                        return childItem->getValue();
+                        return childItem->value();
                     }
                     else
                     {

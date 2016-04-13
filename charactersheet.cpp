@@ -58,17 +58,25 @@ const  QString CharacterSheet::getValue(QString path) const
 {
     if(m_valuesMap.contains(path))
     {
-        return m_valuesMap.value(path)->getValue();
+        return m_valuesMap.value(path)->value();
     }
     return QString();
 }
 
 void CharacterSheet::setValue(QString key, QString value)
 {
-    Field* field = new Field();
-    field->setValue(value);
-    field->setId(key);
-    m_valuesMap.insert(key,field);
+    if(m_valuesMap.contains(key))
+    {
+        Field* field = m_valuesMap.value(key);
+        field->setValue(value);
+    }
+    else
+    {
+        Field* field = new Field();
+        field->setValue(value);
+        field->setId(key);
+        m_valuesMap.insert(key,field);
+    }
 }
 
 const QString CharacterSheet::getkey(int index)
@@ -107,7 +115,7 @@ void CharacterSheet::save(QJsonObject& json)
     json["name"]= m_name;
     foreach (QString key, m_valuesMap.keys())
     {
-        json[key]=m_valuesMap[key]->getValue();
+        json[key]=m_valuesMap[key]->value();
     }
 }
 

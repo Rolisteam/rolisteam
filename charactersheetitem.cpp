@@ -20,6 +20,7 @@
 * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.                 *
 ***************************************************************************/
 #include "charactersheetitem.h"
+#include <QDebug>
 
 //////////////////////////////
 //Item
@@ -27,7 +28,7 @@
 CharacterSheetItem::CharacterSheetItem()
     : m_parent(NULL),m_page(0),m_readOnly(false)
 {
-
+    qDebug()<< "CharacterSheetItem constructor by default";
 }
 
 bool CharacterSheetItem::hasChildren()
@@ -68,7 +69,7 @@ void CharacterSheetItem::setPage(int page)
     emit pageChanged();
 }
 
-QString CharacterSheetItem::getValue() const
+QString CharacterSheetItem::value() const
 {
     return m_value;
 }
@@ -78,7 +79,7 @@ void CharacterSheetItem::setValue(const QString &value)
     if(m_value!=value)
     {
         m_value = value;
-        emit valueChanged(m_value);
+        emit valueChanged();
     }
 }
 
