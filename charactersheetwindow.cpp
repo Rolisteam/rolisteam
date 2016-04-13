@@ -1,6 +1,6 @@
 /***************************************************************************
     *	 Copyright (C) 2009 by Renaud Guezennec                                *
-    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *   http://www.rolisteam.org/contact                   *
     *                                                                         *
     *   This program is free software; you can redistribute it and/or modify  *
     *   it under the terms of the GNU General Public License as published by  *
@@ -22,6 +22,7 @@
 #include <QFileDialog>
 #include <QQmlContext>
 #include <QQmlComponent>
+#include <QQuickItem>
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -79,6 +80,8 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     connect(&m_view,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(displayCustomMenu(QPoint)));
     connect(m_loadQml,SIGNAL(triggered(bool)),this,SLOT(openQML()));
 
+
+
     connect(m_detachTab,SIGNAL(triggered(bool)),this,SLOT(detachTab()));
 
     m_imgProvider = new RolisteamImageProvider();
@@ -129,8 +132,6 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint& pos)
     {
         menu.exec(QCursor::pos());
     }
-
-
 }
 void CharacterSheetWindow::detachTab()
 {
@@ -163,7 +164,6 @@ void CharacterSheetWindow::affectSheetToCharacter()
             }
         }
     }
-
 }
 
 void CharacterSheetWindow::addSection()
@@ -172,7 +172,7 @@ void CharacterSheetWindow::addSection()
 }
 void CharacterSheetWindow::addCharacterSheet()
 {
-    addTabWithSheetView(m_model.addCharacterSheet());
+    m_model.addCharacterSheet();
 }
 void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 {
@@ -180,21 +180,50 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     {
         openQML();
     }
-    QQuickWidget* qmlView = new QQuickWidget();
-    //QFileInfo info(m_qmlUri);
-    //qmlView->engine()->addPluginPath(info.absolutePath());
-    qmlView->rootContext()->setContextProperty("_model",chSheet);
-    connect(qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
+    m_qmlView = new QQuickWidget();
+    m_qmlView->rootContext()->setContextProperty("_model",chSheet);
+    connect(m_qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
+    m_qmlView->engine()->addImageProvider("rcs",m_imgProvider);
+    m_sheetComponent = new QQmlComponent(m_qmlView->engine());
+    //QList<CharacterSheetItem*>* list = m_model.getExportedList(chSheet);
 
-    //qmlView->setSource(QUrl::fromLocalFile(m_qmlUri));
-    qmlView->engine()->addImageProvider("rcs",m_imgProvider);
-    QQmlComponent compo(qmlView->engine());
-    compo.setData(m_qmlData.toLatin1(),QUrl(""));
-    compo.create();
-    qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    //for(auto itItem = list->begin(); itItem!= list->end(); ++itItem)
+    for(int i =0;i<chSheet->getFieldCount();++i)
+    {
+        Field* field = chSheet->getFieldAt(i);
+        if(NULL!=field)
+        {
+            m_qmlView->engine()->rootContext()->setContextProperty(QStringLiteral("_%1").arg(field->getId()),field);
+        }
+    }
 
-    m_characterSheetlist.append(qmlView);
-    m_tabs->addTab(qmlView,chSheet->getTitle());
+    QString name(QStringLiteral("test.qml"));
+    if(QFile::exists(name))
+    {
+        QFile::remove(name);
+    }
+    QFile file(name);
+    if(file.open(QIODevice::WriteOnly))
+    {
+        file.write(m_qmlData.toLatin1());
+        file.close();
+    }
+
+    //m_qmlView->setSource(QUrl("qrc:/resources/qml/sheet.qml"));
+    m_qmlView->setSource(QUrl(name));
+    m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
+
+    //m_sheetComponent->setData(m_qmlData.toLatin1(),QUrl("test.qml"));
+    /*if (m_sheetComponent->isLoading())
+    {
+        QObject::connect(m_sheetComponent, SIGNAL(statusChanged(QQmlComponent::Status)),this, SLOT(continueLoading()));
+    }
+    else
+    {
+        continueLoading();
+    }*/
+    m_characterSheetlist.append(m_qmlView);
+    m_tabs->addTab(m_qmlView,chSheet->getTitle());
 }
 
 void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
@@ -204,7 +233,29 @@ void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
         qDebug() << error.toString();
     }
 }
-
+void CharacterSheetWindow::continueLoading()
+{
+    qDebug() << "ContinueLoading";
+    if (m_sheetComponent->isError())
+    {
+        qWarning() << "hasError ///////"<< m_sheetComponent->errors();
+    }
+    else
+    {
+        QObject* sheetObj = m_sheetComponent->create();
+        if(NULL!=sheetObj)
+        {
+            qDebug() << "Creation succeed";
+            QQuickItem* sheetItem = dynamic_cast<QQuickItem*>(sheetObj);
+            if(NULL!=sheetItem)
+            {
+                qDebug() << m_qmlView->rootObject();
+                sheetItem->setParentItem(m_qmlView->rootObject());
+            }
+        }
+        m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    }
+}
 void  CharacterSheetWindow::saveCharacterSheet()
 {
     if(m_fileUri.isEmpty())
@@ -244,36 +295,30 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
 {
     if(!fileUri.isEmpty())
     {
-        QFile url(fileUri);
-        if(!url.open(QIODevice::ReadOnly))
-            return false;
-
-        QJsonDocument doc(QJsonDocument::fromJson(url.readAll()));
-        QJsonObject jsonObj=doc.object();
-
-        QJsonObject data = jsonObj["data"].toObject();
-
-        m_model.readModel(data);
-
-        m_qmlData = jsonObj["qml"].toString();
-        qDebug() << m_qmlData;
-
-        QString str = jsonObj["background"].toString();
-        QByteArray array = QByteArray::fromBase64(str.toUtf8());
-        QPixmap pix;
-        pix.loadFromData(array);
-        m_imgProvider->insertPix("background.jpg",pix);
-
-        for(auto widget : m_characterSheetlist)
+        QFile file(fileUri);
+        if(file.open(QIODevice::ReadOnly))
         {
-            widget->engine()->addImageProvider("rcs",m_imgProvider);
-            QQmlComponent compo(widget->engine());
+            QJsonDocument json = QJsonDocument::fromJson(file.readAll());
+            QJsonObject jsonObj = json.object();
+            QJsonObject data = jsonObj["data"].toObject();
 
-            compo.setData(m_qmlData.toLatin1(),QUrl(""));
-            widget->setResizeMode(QQuickWidget::SizeRootObjectToView);
+            m_qmlData = jsonObj["qml"].toString();
+
+            QJsonArray images = jsonObj["background"].toArray();
+            int i = 0;
+            for(auto jsonpix : images)
+            {
+                QString str = jsonpix.toString();
+                QByteArray array = QByteArray::fromBase64(str.toUtf8());
+                QPixmap pix;
+                pix.loadFromData(array);
+                //m_pixList.append(pix);
+                m_imgProvider->insertPix(QStringLiteral("background_%1.jpg").arg(i),pix);
+                ++i;
+            }
+            //m_model->load(data,m_canvasList);
+            m_model.readModel(jsonObj);
         }
-
-        url.close();
         return true;
     }
     return false;

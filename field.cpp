@@ -24,6 +24,7 @@
 #include <QMouseEvent>
 #include <QJsonArray>
 #include <QUuid>
+#include <QDebug>
 
 Field::Field(QGraphicsItem* parent)
 : CSItem(parent)
@@ -187,7 +188,10 @@ void Field::setAvailableValue(const QStringList &availableValue)
 {
     m_availableValue = availableValue;
 }
-
+CharacterSheetItem::CharacterSheetItemType Field::getItemType() const
+{
+    return CharacterSheetItem::FieldItem;
+}
 
 void Field::save(QJsonObject& json,bool exp)
 {
@@ -276,13 +280,14 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
     {
         out << "Field {\n";
         out << "    id:"<<m_id<< "\n";
-        out << "    text: _"<<m_id << ".name\n";
+        out << "    text: _"<<m_id << ".value\n";
         out << "    x:" << m_rect.x() << "*parent.realscale"<<"\n";
         out << "    y:" << m_rect.y()<< "*parent.realscale"<<"\n";
         out << "    width:" << m_rect.width() <<"*parent.realscale"<<"\n";
         out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         out << "    visible: root.page == "<< m_page << "? true : false\n";
+        out << "    onTextChanged: {_"<<m_id<<".value = text}\n";
         if(m_availableValue.isEmpty())
         {
             out << "    state:\"field\"\n";
@@ -302,10 +307,34 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "        }"<<"\n";
     }*/
 }
+void Field::copyField(CharacterSheetItem* newItem)
+{
+    Field* newField =  dynamic_cast<Field*>(newItem);
+    if(NULL!=newField)
+    {
+        setId(newField->getId());
+        qDebug() << m_id << newField->getId()<<"newfield";
+        setValue(newField->getValue());
+        setRect(newField->getRect());
+        setBorder(newField->border());
+        setFont(newField->font());
+        setBgColor(newField->bgColor());
+        setTextColor(newField->textColor());
+    }
+}
 
+QString Field::getValue() const
+{
+    qDebug() << "getValue"<< m_value <<  m_id;
+    return m_value;
+}
 
-
-
-
-
-
+void Field::setValue(const QString &value)
+{
+    qDebug() << "SetValue"<< m_value << value << m_id;
+    if(m_value!=value)
+    {
+        m_value = value;
+        emit valueChanged(m_value);
+    }
+}

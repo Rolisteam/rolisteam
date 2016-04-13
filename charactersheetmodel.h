@@ -1,6 +1,6 @@
 /***************************************************************************
     *	 Copyright (C) 2009 by Renaud Guezennec                                *
-    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *   http://www.rolisteam.org/contact                   *
     *                                                                         *
     *   This program is free software; you can redistribute it and/or modify  *
     *   it under the terms of the GNU General Public License as published by  *
@@ -104,7 +104,7 @@ public:
 
     CharacterSheet* getCharacterSheet(int id);
     
-    
+    QList<CharacterSheetItem *>* getExportedList(CharacterSheet*);
     
     bool writeModel(QJsonObject& file, bool data= true);
     bool readModel(QJsonObject& file);
@@ -113,6 +113,8 @@ public:
     void addLine(CharacterSheetItem* parentItem,QString name,const QModelIndex& parent);
 
     void setRootSection(Section *rootSection);
+
+    Section* getRootSection() const;
 
 public slots:
     /**

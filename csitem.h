@@ -1,6 +1,6 @@
 /***************************************************************************
     *   Copyright (C) 2015 by Renaud Guezennec                                *
-    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *   http://www.rolisteam.org/contact                   *
     *                                                                         *
     *   rolisteam is free software; you can redistribute it and/or modify     *
     *   it under the terms of the GNU General Public License as published by  *
@@ -51,6 +51,10 @@ public:
     void setY(qreal y);
     void setWidth(qreal width);
     void setHeight(qreal height);
+
+    QRectF getRect() const;
+    void setRect(const QRectF &rect);
+
 signals:
     void xChanged();
     void yChanged();

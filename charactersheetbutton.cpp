@@ -1,6 +1,6 @@
 /***************************************************************************
     *   Copyright (C) 2015 by Renaud Guezennec                                *
-    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *   http://www.rolisteam.org/contact                   *
     *                                                                         *
     *   rolisteam is free software; you can redistribute it and/or modify     *
     *   it under the terms of the GNU General Public License as published by  *
@@ -274,4 +274,23 @@ void CharacterSheetButton::setRect(const QRectF &rect)
 CharacterSheetItem* CharacterSheetButton::getChildAt(QString) const
 {
     return NULL;
+}
+
+CharacterSheetItem::CharacterSheetItemType CharacterSheetButton::getItemType() const
+{
+    return CharacterSheetItem::ButtonItem;
+}
+void CharacterSheetButton::copyField(CharacterSheetItem* newBtn)
+{
+    CharacterSheetButton* newField = dynamic_cast<CharacterSheetButton*>(newBtn);
+    if(NULL!=newField)
+    {
+        setId(newField->getId());
+        setValue(newField->getValue());
+        setRect(newField->getRect());
+        //newField->setBorder(border());
+        //newField->setFont(font());
+        setBgColor(newField->bgColor());
+        setTextColor(newField->textColor());
+    }
 }

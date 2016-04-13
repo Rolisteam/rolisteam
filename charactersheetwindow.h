@@ -1,6 +1,6 @@
 /***************************************************************************
     *	 Copyright (C) 2009 by Renaud Guezennec                                *
-    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *   http://www.rolisteam.org/contact                   *
     *                                                                         *
     *   This program is free software; you can redistribute it and/or modify  *
     *   it under the terms of the GNU General Public License as published by  *
@@ -88,6 +88,7 @@ protected slots:
     void displayError(const QList<QQmlError> &warnings);
 
 
+    void continueLoading();
 protected:
     virtual void closeEvent ( QCloseEvent * event );
 
@@ -143,6 +144,8 @@ private:
     QList<QQuickWidget*> m_characterSheetlist;
     int m_currentCharacterSheet;
     RolisteamImageProvider* m_imgProvider;
+    QQmlComponent* m_sheetComponent;
+    QQuickWidget* m_qmlView;
 
     QString m_qmlData;
 };

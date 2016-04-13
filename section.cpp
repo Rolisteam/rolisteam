@@ -160,3 +160,77 @@ void Section::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         item->generateQML(out,sec);
     }
 }
+
+CharacterSheetItem::CharacterSheetItemType Section::getItemType() const
+{
+    return CharacterSheetItem::SectionItem;
+}
+
+void Section::copySection(Section* oldSection)
+{
+    for(int i = 0; i < oldSection->getChildrenCount();++i)
+    {
+        CharacterSheetItem* childItem = oldSection->getChildAt(i);
+        if(NULL!=childItem)
+        {
+            CharacterSheetItem* newItem = NULL;
+            if(CharacterSheetItem::FieldItem == childItem->getItemType())
+            {
+                Field* newField = new Field();
+                newField->copyField(childItem);
+                newItem = newField;
+            }
+            if(CharacterSheetItem::ButtonItem == childItem->getItemType())
+            {
+                CharacterSheetButton* newField = new CharacterSheetButton();
+                newField->copyField(childItem);
+                newItem = newField;
+            }
+            if(CharacterSheetItem::SectionItem == childItem->getItemType())
+            {
+                Section* sec = new Section();
+                sec->copySection(dynamic_cast<Section*>(childItem));
+                newItem = sec;
+            }
+            appendChild(newItem);
+        }
+    }
+}
+
+
+void Section::fillList(QList<CharacterSheetItem *>* result, CharacterSheet* character)
+{
+    for(int i = 0; i< getChildrenCount();++i)
+    {
+        CharacterSheetItem* childItem = getChildAt(i);
+        if(NULL!=childItem)
+        {
+            CharacterSheetItem* newItem = NULL;
+            if(CharacterSheetItem::FieldItem == childItem->getItemType())
+            {
+                Field* newField = new Field();
+                newField->copyField(childItem);
+                newItem = newField;
+            }
+            if(CharacterSheetItem::ButtonItem == childItem->getItemType())
+            {
+                CharacterSheetButton* newField = new CharacterSheetButton();
+                newField->copyField(childItem);
+                newItem = newField;
+            }
+            if(NULL!=newItem)
+            {
+                newItem->setValue(character->getValue(newItem->getId()));
+                result->append(newItem);
+            }
+            if(CharacterSheetItem::SectionItem == childItem->getItemType())
+            {
+                Section* sec = dynamic_cast<Section*>(childItem);
+                sec->fillList(result,character);
+            }
+        }
+    }
+}
+
+
+

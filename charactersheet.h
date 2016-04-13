@@ -1,6 +1,6 @@
 /***************************************************************************
     *	 Copyright (C) 2009 by Renaud Guezennec                                *
-    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *   http://www.rolisteam.org/contact                   *
     *                                                                         *
     *   This program is free software; you can redistribute it and/or modify  *
     *   it under the terms of the GNU General Public License as published by  *
@@ -24,6 +24,9 @@
 #include <QMap>
 #include <QVariant>
 
+#include "field.h"
+
+class Section;
 #ifndef RCSE
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
@@ -49,10 +52,6 @@ public:
     * @param int index : 0 refers to the title of the section, 1 refers to key of the first data of the first section...
     */
     const QString getkey(int index);
-    /**
-    * @brief return the number of fields: Sum(number of section + sum of all sections items.)
-    */
-    int getIndexCount();
     
     virtual void save(QJsonObject& json);
     virtual void load(QJsonObject& json);
@@ -63,8 +62,12 @@ public:
     #endif
 
     const QString getTitle();
-signals:
-    void valuesChanged(QString valueKey,QString value);
+
+    int getFieldCount();
+    Field* getFieldAt(int i);
+
+    Section* getRootSection() const;
+    void setRootSection(Section* rootSection);
 
 public slots:
     /**
@@ -79,12 +82,15 @@ private:
 
 
 private:
-    QMap<QString,QString> m_values;
+    //QMap<QString,QString> m_values;// key , value
+    QMap<QString,Field*> m_valuesMap;
     /**
     *@brief User Id of the owner
     */
     QString m_name;
     static int m_count;
+    Section* m_rootSection;
+
 };
 
 #endif // CHARACTERSHEET_H

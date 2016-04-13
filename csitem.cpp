@@ -1,6 +1,6 @@
 /***************************************************************************
     *   Copyright (C) 2015 by Renaud Guezennec                                *
-    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *   http://www.rolisteam.org/contact                   *
     *                                                                         *
     *   rolisteam is free software; you can redistribute it and/or modify     *
     *   it under the terms of the GNU General Public License as published by  *
@@ -89,4 +89,14 @@ void CSItem::setWidth(qreal width)
 void CSItem::setHeight(qreal height)
 {
 
+}
+
+QRectF CSItem::getRect() const
+{
+    return m_rect;
+}
+
+void CSItem::setRect(const QRectF &rect)
+{
+    m_rect = rect;
 }

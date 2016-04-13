@@ -33,11 +33,11 @@ class QGraphicsScene;
 class CharacterSheetItem : public QObject
 {
     Q_OBJECT
-public:
     Q_PROPERTY(QString id READ getId WRITE setId NOTIFY idChanged)
-    Q_PROPERTY(QString value READ getValue WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(int page READ getPage WRITE setPage NOTIFY pageChanged)
     Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly NOTIFY readOnlyChanged)
+public:
+    enum CharacterSheetItemType {SectionItem,FieldItem,ButtonItem};
 
     enum ColumnId {ID,VALUE,X,Y,WIDTH,HEIGHT,BORDER,TEXT_ALIGN,BGCOLOR,TEXTCOLOR,VALUES};
     enum QMLSection {FieldSec,ConnectionSec};
@@ -75,11 +75,13 @@ public:
     int getPage() const;
     void setPage(int page);
 
-    QString getValue() const;
-    void setValue(const QString &value);
+    virtual QString getValue() const;
+    virtual void setValue(const QString &value);
 
     QString getId() const;
     void setId(const QString &id);
+
+    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const = 0;
 
 signals:
     void valueChanged(QString);

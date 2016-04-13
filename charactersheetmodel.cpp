@@ -1,6 +1,6 @@
 /***************************************************************************
     *	 Copyright (C) 2009 by Renaud Guezennec                                *
-    *   http://renaudguezennec.homelinux.org/accueil,3.html                   *
+    *   http://www.rolisteam.org/contact                   *
     *                                                                         *
     *   This program is free software; you can redistribute it and/or modify  *
     *   it under the terms of the GNU General Public License as published by  *
@@ -22,6 +22,7 @@
 #include "charactersheet.h"
 #include "section.h"
 #include "field.h"
+#include "charactersheetbutton.h"
 
 #include <QDebug>
 
@@ -58,6 +59,13 @@ CharacterSheet*  CharacterSheetModel::getCharacterSheet(int id)
         return m_characterList->at(id);
     }
     return NULL;
+}
+
+QList<CharacterSheetItem *>* CharacterSheetModel::getExportedList(CharacterSheet* character)
+{
+    QList<CharacterSheetItem *>* result = new QList<CharacterSheetItem *>();
+    m_rootSection->fillList(result,character);
+    return result;
 }
 
 int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
@@ -173,6 +181,11 @@ CharacterSheet* CharacterSheetModel::addCharacterSheet()
     //sheet->setRootChild(m_rootSection);
     endInsertColumns();
     return sheet;
+}
+
+Section *CharacterSheetModel::getRootSection() const
+{
+    return m_rootSection;
 }
 
 void CharacterSheetModel::setRootSection(Section *rootSection)
@@ -312,7 +325,6 @@ bool CharacterSheetModel::readModel(QJsonObject& jsonObj)
         m_characterList->append(sheet);
         emit characterSheetHasBeenAdded(sheet);
     }
-
-
+    qDebug() << "readModel:" << m_characterCount << m_characterList->size();
     endResetModel();
 }

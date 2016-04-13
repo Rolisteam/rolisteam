@@ -31,6 +31,8 @@
 class Field : public CSItem
 {
     Q_OBJECT
+    Q_PROPERTY(QString value READ getValue WRITE setValue NOTIFY valueChanged)
+
 public:
     enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
     enum TextAlign {ALignLEFT,ALignRIGHT,ALignCENTER};
@@ -67,8 +69,16 @@ public:
     QStringList getAvailableValue() const;
     void setAvailableValue(const QStringList &availableValue);
 
+    virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
+
+    void copyField(CharacterSheetItem* );
+
+    virtual QString getValue() const;
+    virtual void setValue(const QString &value);
+
 signals:
     void updateNeeded(CSItem* c);
+    void valueChanged(QString);
 
 protected:
     void init();
