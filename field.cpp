@@ -37,12 +37,7 @@ Field::Field(QPointF topleft,QGraphicsItem* parent)
 {
     m_rect.setTopLeft(topleft);
     m_rect.setBottomRight(topleft);
-
-    m_bgColor = QColor(Qt::white);
-    m_textColor = QColor(Qt::black);
-    m_font = font();
     m_value = QStringLiteral("value");
-
     init();
 
 }
@@ -54,6 +49,7 @@ void Field::init()
     m_textAlign = ALignLEFT;
     m_bgColor = Qt::transparent;
     m_textColor = Qt::black;
+    m_font = font();
     connect(this,&Field::xChanged,[=](){
         emit updateNeeded(this);
     });
@@ -140,14 +136,9 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
 void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->save();
-
-
     painter->drawRect(m_rect);
     painter->drawText(m_rect,m_id);
-
     painter->restore();
-
-
 }
 
 void Field::drawField()
