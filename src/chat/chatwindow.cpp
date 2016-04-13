@@ -70,6 +70,9 @@ ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
     m_toggleViewAction->setCheckable(true);
 
     m_diceParser = new DiceParser();
+    m_variableTest = new QHash<QString,QString>();
+    m_variableTest->insert(QStringLiteral("force"),QStringLiteral("4"));
+    m_diceParser->setVariableDictionary(m_variableTest);
     m_diceParser->setPathToHelp(tr("<a href=\"http://wiki.rolisteam.org/index.php/Dice_Rolling\">http://wiki.rolisteam.org/index.php/Dice_Rolling</a>"));
 
     m_operatorMap = new QMap<QString,CHAT_OPERATOR>();

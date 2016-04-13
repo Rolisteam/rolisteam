@@ -228,6 +228,8 @@ private :
     QMap<QString,CHAT_OPERATOR>* m_operatorMap;
     Person* m_localPerson;
     static QList<DiceAlias*>* m_receivedAlias;
+    ///@warning for test only
+    QHash<QString,QString>* m_variableTest;
 
 };
 
