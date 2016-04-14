@@ -197,6 +197,17 @@ void Section::copySection(Section* oldSection)
     }
 }
 
+bool Section::removeChild(CharacterSheetItem* child)
+{
+    if(m_dataHash.contains(child->getId()))
+    {
+        m_dataHash.remove(child->getId());
+        delete child;
+       return true;
+    }
+    return false;
+}
+
 
 void Section::fillList(QList<CharacterSheetItem *>* result, CharacterSheet* character)
 {

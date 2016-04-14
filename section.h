@@ -53,6 +53,7 @@ public:
     virtual void setNewEnd(QPointF){}
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
     void copySection(Section* itm);
+    bool removeChild(CharacterSheetItem*);
 
 public slots:
     void fillList(QList<CharacterSheetItem *> *result, CharacterSheet *character);
