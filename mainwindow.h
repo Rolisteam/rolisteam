@@ -70,10 +70,9 @@ public slots:
     void removePage();
     void currentPageChanged(int);
     void menuRequested(const QPoint &pos);
+    void menuRequestedForFieldModel(const QPoint &pos);
 protected:
-
     bool eventFilter(QObject *, QEvent *);
-
 protected slots:
     void columnAdded();
 private:
@@ -92,6 +91,7 @@ private:
 
     //Action
     QAction* m_addCharacter;
+    QAction* m_delItem;
 };
 
 #endif // MAINWINDOW_H

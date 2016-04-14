@@ -116,10 +116,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_characterView->setModel(m_characterModel);
     m_characterModel->setRootSection(m_model->getRootSection());
     ui->m_characterView->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->treeView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequestedForFieldModel(QPoint)));
     connect(ui->m_characterView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequested(QPoint)));
     //connect(m_addCharacter,SIGNAL(toggled(bool)),m_characterModel,SLOT(addCharacterSheet()));
     connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
 
+    m_delItem = new QAction(tr("Delete Item"),this);
+    //connect(m_delItem,SIGNAL(toggled(bool)),this,SLOT());
 
 }
 MainWindow::~MainWindow()
@@ -134,6 +138,24 @@ void MainWindow::menuRequested(const QPoint & pos)
 
     menu.exec(QCursor::pos());
 }
+void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
+{
+    QMenu menu(this);
+
+    QModelIndex index = ui->treeView->currentIndex();
+    if(index.isValid())
+    {
+        menu.addAction(m_delItem);
+    }
+
+    QAction* act = menu.exec(QCursor::pos());
+
+    if(act == m_delItem)
+    {
+        m_model->removeItem(index);
+    }
+}
+
 void MainWindow::columnAdded()
 {
     int col = m_characterModel->columnCount();
