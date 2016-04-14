@@ -69,6 +69,8 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id) const
     {
     case ID:
         return m_id;
+    case LABEL:
+        return m_label;
     case VALUE:
         return m_value;
     case X:
@@ -99,6 +101,9 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
     {
     case ID:
         setId(var.toString());
+        break;
+    case LABEL:
+        setLabel(var.toString());
         break;
     case VALUE:
         setValue(var.toString());

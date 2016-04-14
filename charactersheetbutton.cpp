@@ -65,6 +65,8 @@ QVariant CharacterSheetButton::getValueFrom(CharacterSheetItem::ColumnId id) con
     {
     case ID:
         return m_id;
+    case LABEL:
+        return m_label;
     case VALUE:
         return m_value;
     case X:
@@ -92,6 +94,9 @@ void CharacterSheetButton::setValueFrom(CharacterSheetItem::ColumnId id, QVarian
     {
     case ID:
         m_id = var.toString();
+        break;
+    case LABEL:
+        m_label = var.toString();
         break;
     case VALUE:
          m_value = var.toString();
