@@ -63,7 +63,7 @@ void Column::setPos(const CharacterSheetItem::ColumnId &pos)
 /////////////////////////////
 FieldModel::FieldModel(QObject *parent) : QAbstractItemModel(parent)
 {
-    m_colunm << new Column(tr("Id"),CharacterSheetItem::ID)<< new Column(tr("Name"),CharacterSheetItem::VALUE)           << new Column(tr("x"),CharacterSheetItem::X)             << new Column(tr("y"),CharacterSheetItem::Y)
+    m_colunm << new Column(tr("Id"),CharacterSheetItem::ID)<< new Column(tr("LABEL"),CharacterSheetItem::LABEL)<< new Column(tr("Value"),CharacterSheetItem::VALUE)           << new Column(tr("x"),CharacterSheetItem::X)             << new Column(tr("y"),CharacterSheetItem::Y)
              << new Column(tr("Width"),CharacterSheetItem::WIDTH)          << new Column(tr("Height"),CharacterSheetItem::HEIGHT)   << new Column(tr("Border"),CharacterSheetItem::BORDER)
              << new Column(tr("Text-align"),CharacterSheetItem::TEXT_ALIGN)<< new Column(tr("Bg Color"),CharacterSheetItem::BGCOLOR)<< new Column(tr("Text Color"),CharacterSheetItem::TEXTCOLOR)<< new Column(tr("Possible Values"),CharacterSheetItem::VALUES);
 
