@@ -289,5 +289,35 @@ void FieldModel::load(QJsonObject &json,QList<Canvas*> scene)
     m_rootSection->load(json,list);
     endResetModel();
 }
+void FieldModel::removeItem(QModelIndex& index)
+{
+    if(index.isValid())
+    {
+        CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
+        Section* parentSection =NULL;
+        if(index.parent().isValid())
+        {
+            CharacterSheetItem* parentItem = static_cast<CharacterSheetItem*>(index.internalPointer());
+            parentSection = dynamic_cast<Section*>(parentItem);
+        }
+        else
+        {
+            parentSection = m_rootSection;
+        }
 
+        if(NULL==parentSection)
+        {
+            return;
+        }
+        beginRemoveRows(index.parent(),
+                        parentSection->indexOfChild(childItem),
+                        parentSection->indexOfChild(childItem));
+
+        parentSection->removeChild(childItem);
+
+        endRemoveRows();
+
+
+    }
+}
 

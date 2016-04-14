@@ -88,6 +88,8 @@ public:
     Section *getRootSection() const;
     void setRootSection(Section *rootSection);
 
+    void removeItem(QModelIndex& index);
+
 signals:
     void valuesChanged(QString valueKey,QString value);
 
