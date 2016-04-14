@@ -147,6 +147,7 @@ void CharacterSheetButton::save(QJsonObject &json, bool exp)
     json["type"]="button";
     json["id"]=m_id;
     json["value"]=m_value;
+    json["label"]=m_label;
     QJsonObject bgcolor;
     bgcolor["r"]=QJsonValue(m_bgColor.red());
     bgcolor["g"]=m_bgColor.green();
@@ -174,6 +175,8 @@ void CharacterSheetButton::load(QJsonObject &json, QList<QGraphicsScene*> scene)
 
     m_id = json["id"].toString();
     m_value = json["value"].toString();
+
+    m_label = json["label"].toString();
 
     QJsonObject bgcolor = json["bgcolor"].toObject();
     int r,g,b,a;
