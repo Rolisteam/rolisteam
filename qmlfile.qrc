@@ -3,5 +3,14 @@
         <file alias="resources/qml/Field.qml">charactersheet/qml/Field.qml</file>
         <file alias="resources/qml/MChoice.qml">charactersheet/qml/MChoice.qml</file>
         <file alias="resources/qml/qmldir">charactersheet/qml/qmldir</file>
+        <file>resources/icons/go-up.png</file>
+        <file>resources/icons/go-top.png</file>
+        <file>resources/icons/go-down.png</file>
+        <file>resources/icons/go-bottom.png</file>
+        <file>resources/icons/delete.png</file>
+        <file>resources/icons/add_round.png</file>
+        <file>resources/icons/Actions-edit-rename-icon.png</file>
+        <file>resources/icons/symbol.svg</file>
+        <file>resources/icons/moveNpc.png</file>
     </qresource>
 </RCC>

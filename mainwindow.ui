@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="editor">
        <attribute name="title">
@@ -35,8 +35,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>455</width>
-             <height>701</height>
+             <width>423</width>
+             <height>678</height>
             </rect>
            </property>
           </widget>
@@ -49,11 +49,24 @@
             <property name="text">
              <string>Add Field</string>
             </property>
+            <property name="icon">
+             <iconset resource="qmlfile.qrc">
+              <normaloff>:/resources/icons/Actions-edit-rename-icon.png</normaloff>:/resources/icons/Actions-edit-rename-icon.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
             <property name="checkable">
              <bool>true</bool>
             </property>
             <property name="checked">
              <bool>false</bool>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
             <property name="autoRaise">
              <bool>true</bool>
@@ -68,6 +81,19 @@
             <property name="text">
              <string>Add Button</string>
             </property>
+            <property name="icon">
+             <iconset resource="qmlfile.qrc">
+              <normaloff>:/resources/icons/symbol.svg</normaloff>:/resources/icons/symbol.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
             <property name="autoRaise">
              <bool>true</bool>
             </property>
@@ -78,8 +104,21 @@
             <property name="text">
              <string>Move</string>
             </property>
+            <property name="icon">
+             <iconset resource="qmlfile.qrc">
+              <normaloff>:/resources/icons/moveNpc.png</normaloff>:/resources/icons/moveNpc.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
             <property name="checkable">
              <bool>true</bool>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
             <property name="autoRaise">
              <bool>true</bool>
@@ -94,8 +133,21 @@
             <property name="text">
              <string>Delete</string>
             </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>resources/icons/delete.png</normaloff>resources/icons/delete.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
             <property name="checkable">
              <bool>true</bool>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
             <property name="autoRaise">
              <bool>true</bool>
@@ -199,7 +251,7 @@
      <x>0</x>
      <y>0</y>
      <width>1069</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -317,7 +369,9 @@
    <header>QtQuickWidgets/QQuickWidget</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="qmlfile.qrc"/>
+ </resources>
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup"/>
