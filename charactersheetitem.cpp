@@ -88,6 +88,15 @@ QString CharacterSheetItem::getId() const
     return m_id;
 }
 
+QString CharacterSheetItem::getLabel() const
+{
+    return m_label;
+}
+
+void CharacterSheetItem::setLabel(const QString &label)
+{
+    m_label = label;
+}
 void CharacterSheetItem::setId(const QString &id)
 {
     m_id = id;
