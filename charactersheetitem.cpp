@@ -119,7 +119,10 @@ QString CharacterSheetItem::getPath()
     if(NULL!=m_parent)
     {
         path=m_parent->getPath();
-        path.append('.');
+        if(!path.isEmpty())
+        {
+            path.append('.');
+        }
     }
     return path.append(m_id);
 }
