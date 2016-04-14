@@ -110,13 +110,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_addCharacter = new QAction(tr("Add character"),this);
 
+
     m_characterModel = new CharacterSheetModel();
+    connect(m_characterModel,SIGNAL(columnsInserted(QModelIndex,int,int)),this,SLOT(columnAdded()));
     ui->m_characterView->setModel(m_characterModel);
     m_characterModel->setRootSection(m_model->getRootSection());
     ui->m_characterView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->m_characterView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequested(QPoint)));
-    connect(m_addCharacter,SIGNAL(toggled(bool)),m_characterModel,SLOT(addCharacterSheet()));
+    //connect(m_addCharacter,SIGNAL(toggled(bool)),m_characterModel,SLOT(addCharacterSheet()));
     connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
+
 
 }
 MainWindow::~MainWindow()
@@ -130,6 +133,11 @@ void MainWindow::menuRequested(const QPoint & pos)
     menu.addAction(m_addCharacter);
 
     menu.exec(QCursor::pos());
+}
+void MainWindow::columnAdded()
+{
+    int col = m_characterModel->columnCount();
+    ui->m_characterView->resizeColumnToContents(col-2);
 }
 
 void MainWindow::setImage()
@@ -363,7 +371,7 @@ void MainWindow::showQML()
     ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root = ui->m_quickview->rootObject();
-    connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
+    //connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
 }
 void MainWindow::showQMLFromCode()
 {

@@ -74,6 +74,8 @@ protected:
 
     bool eventFilter(QObject *, QEvent *);
 
+protected slots:
+    void columnAdded();
 private:
     Ui::MainWindow *ui;
     QList<Canvas*> m_canvasList;
