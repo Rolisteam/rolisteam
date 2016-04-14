@@ -40,7 +40,7 @@ class CharacterSheetItem : public QObject
 public:
     enum CharacterSheetItemType {SectionItem,FieldItem,ButtonItem};
 
-    enum ColumnId {ID,VALUE,X,Y,WIDTH,HEIGHT,BORDER,TEXT_ALIGN,BGCOLOR,TEXTCOLOR,VALUES};
+    enum ColumnId {ID,LABEL,VALUE,X,Y,WIDTH,HEIGHT,BORDER,TEXT_ALIGN,BGCOLOR,TEXTCOLOR,VALUES};
     enum QMLSection {FieldSec,ConnectionSec};
     CharacterSheetItem();
     virtual bool hasChildren();
@@ -70,19 +70,24 @@ public:
     virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec)=0;
     virtual void setNewEnd(QPointF nend)=0;
 
-    bool isReadOnly() const;
-    void setReadOnly(bool readOnly);
-
-    int getPage() const;
-    void setPage(int page);
-
-    virtual QString value() const;
-    virtual void setValue(const QString &value);
-
     QString getId() const;
     void setId(const QString &id);
 
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const = 0;
+
+    QString getLabel() const;
+    void setLabel(const QString &label);
+
+    Q_INVOKABLE virtual QString value() const;
+    Q_INVOKABLE bool isReadOnly() const;
+    Q_INVOKABLE int getPage() const;
+
+public slots:
+    virtual void setValue(const QString &value);
+    void setReadOnly(bool readOnly);
+    void setPage(int page);
+
+
 
 signals:
     void valueChanged();
@@ -101,6 +106,7 @@ protected:
     CharacterSheetItem* m_parent;
     int m_page;
     QString m_value;
+    QString m_label;
     bool m_readOnly;
     QString m_id;
 };
