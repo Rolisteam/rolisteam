@@ -72,12 +72,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //ui->m_splitter->setStretchFactor(0,1);
 
-    ui->m_addAct->setData(Canvas::ADD);
+    ui->m_addCheckBoxAct->setData(Canvas::ADDCHECKBOX);
+    ui->m_addTextAreaAct->setData(Canvas::ADDTEXTAREA);
+    ui->m_addTextInputAct->setData(Canvas::ADDINPUT);
+    ui->m_addTextFieldAct->setData(Canvas::ADDTEXTFIELD);
+
     ui->m_moveAct->setData(Canvas::MOVE);
     ui->m_deleteAct->setData(Canvas::DELETE);
     ui->m_addButtonAct->setData(Canvas::BUTTON);
 
-    ui->m_addBtn->setDefaultAction(ui->m_addAct);
+    ui->m_addTextInput->setDefaultAction(ui->m_addTextInputAct);
+    ui->m_addTextArea->setDefaultAction(ui->m_addTextAreaAct);
+    ui->m_addTextField->setDefaultAction(ui->m_addTextFieldAct);
+    ui->m_addCheckbox->setDefaultAction(ui->m_addCheckBoxAct);
+
+
     ui->m_moveBtn->setDefaultAction(ui->m_moveAct);
     ui->m_deleteBtn->setDefaultAction(ui->m_deleteAct);
     ui->m_addButtonBtn->setDefaultAction(ui->m_addButtonAct);
@@ -85,7 +94,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QmlHighlighter* highlighter = new QmlHighlighter(ui->m_codeEdit->document());
 
 
-    connect(ui->m_addAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_addCheckBoxAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_addTextAreaAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_addTextFieldAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_addTextInputAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+
+
     connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_deleteAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_addButtonAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
@@ -101,10 +115,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_selectPageCb,SIGNAL(currentIndexChanged(int)),this,SLOT(currentPageChanged(int)));
 
     m_imgProvider = new RolisteamImageProvider();
-
-   //ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
-   //ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
-   //ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
 
@@ -377,18 +387,30 @@ void MainWindow::showQML()
     generateQML(data);
     ui->m_codeEdit->setText(data);
 
+    QHash<QString,QPixmap> imgdata = m_imgProvider->data();
+
     QFile file("test.qml");
     if(file.open(QIODevice::WriteOnly))
     {
         file.write(data.toLatin1());
         file.close();
     }
+    QLayout* layout = ui->m_qml->layout();
+    if(NULL!=ui->m_quickview)
+    {
+        layout->removeWidget(ui->m_quickview);
+        delete ui->m_quickview;
+        ui->m_quickview = new QQuickWidget();
+        layout->addWidget(ui->m_quickview);
+    }
     ui->m_quickview->engine()->clearComponentCache();
+    m_imgProvider = new RolisteamImageProvider();
+    m_imgProvider->setData(imgdata);
     ui->m_quickview->engine()->addImageProvider(QLatin1String("rcs"),m_imgProvider);
     QList<CharacterSheetItem *> list = m_model->children();
     for(CharacterSheetItem* item : list)
     {
-        ui->m_quickview->engine()->rootContext()->setContextProperty(QStringLiteral("_%1").arg(item->getId()),item);
+        ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
     ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
