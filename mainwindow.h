@@ -89,9 +89,14 @@ private:
     CharacterSheetModel* m_characterModel;
     int m_currentPage;
 
+
+
     //Action
     QAction* m_addCharacter;
     QAction* m_delItem;
+    QAction* m_applyValueOnSelection;
+    QAction* m_applyValueOnAllLines;
+
 };
 
 #endif // MAINWINDOW_H
