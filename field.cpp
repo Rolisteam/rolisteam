@@ -91,6 +91,10 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id) const
         return m_textColor.name(QColor::HexArgb);
     case VALUES:
         return m_availableValue.join(',');
+    case TYPE:
+        return m_currentType;
+    case CLIPPED:
+        return m_clippedText;
     }
     return QVariant();
 }
@@ -134,6 +138,12 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         break;
     case VALUES:
         m_availableValue = var.toString().split(',');
+        break;
+    case TYPE:
+        m_currentType= (Field::TypeField)var.toInt();
+        break;
+    case CLIPPED:
+        m_clippedText=var.toBool();
         break;
     }
     update();
@@ -180,6 +190,26 @@ void Field::mousePressEvent(QMouseEvent* ev)
        // emit clickOn(this);
     }
 }
+
+bool Field::getClippedText() const
+{
+    return m_clippedText;
+}
+
+void Field::setClippedText(bool clippedText)
+{
+    m_clippedText = clippedText;
+}
+
+Field::TypeField Field::getCurrentType() const
+{
+    return m_currentType;
+}
+
+void Field::setCurrentType(const Field::TypeField &currentType)
+{
+    m_currentType = currentType;
+}
 CharacterSheetItem* Field::getChildAt(QString key) const
 {
     return NULL;
@@ -208,10 +238,13 @@ void Field::save(QJsonObject& json,bool exp)
     }
     json["type"]="field";
     json["id"]=m_id;
+    json["typefield"]=m_currentType;
     json["label"]=m_label;
     json["value"]=m_value;
     json["border"]=m_border;
     json["page"]=m_page;
+
+    json["clippedText"]=m_clippedText;
 
     QJsonObject bgcolor;
     bgcolor["r"]=QJsonValue(m_bgColor.red());
@@ -244,6 +277,10 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
     m_border = (BorderLine)json["border"].toInt();
     m_value= json["value"].toString();
     m_label = json["label"].toString();
+
+    m_currentType=(Field::TypeField)json["typefield"].toInt();
+    m_clippedText=json["clippedText"].toBool();
+
 
     QJsonObject bgcolor = json["bgcolor"].toObject();
     int r,g,b,a;
@@ -286,9 +323,13 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
     if(sec==CharacterSheetItem::FieldSec)
     {
         out << "Field {\n";
-        out << "    id:"<<m_id<< "\n";
-        out << "    text: _"<<m_id << ".value\n";
+        out << "    id: _"<<m_id<< "\n";
+        out << "    text: "<<m_id << ".value\n";
         out << "    x:" << m_rect.x() << "*parent.realscale"<<"\n";
+        if(m_clippedText)
+        {
+            out << "    clippedText:True\n";
+        }
         out << "    y:" << m_rect.y()<< "*parent.realscale"<<"\n";
         out << "    width:" << m_rect.width() <<"*parent.realscale"<<"\n";
         out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
@@ -297,7 +338,27 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "    onTextChanged: {_"<<m_id<<".value = text}\n";
         if(m_availableValue.isEmpty())
         {
-            out << "    state:\"field\"\n";
+            switch (m_currentType)
+            {
+            case Field::TEXTFIELD:
+                out << "    state:\"field\"\n";
+                break;
+            case Field::TEXTINPUT:
+                out << "    state:\"input\"\n";
+                break;
+            case Field::TEXTAREA:
+                out << "    state:\"textarea\"\n";
+                break;
+            case Field::CHECKBOX:
+                out << "    state:\"check\"\n";
+                break;
+            case Field::SELECT:
+                out << "    state:\"combo\"\n";
+                break;
+            default:
+                break;
+            }
+
         }
         else
         {
@@ -306,13 +367,6 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         }
         out << "}\n";
     }
-   /* else if(sec==CharacterSheetItem::ConnectionSec)
-    {
-        out << "        if(valueKey==\""<<m_name<<"\")"<<"\n";
-        out << "        {"<<"\n";
-        out << "            "<<m_id.toLower().trimmed()<<".text=value;"<<"\n";
-        out << "        }"<<"\n";
-    }*/
 }
 void Field::copyField(CharacterSheetItem* newItem)
 {
@@ -329,19 +383,3 @@ void Field::copyField(CharacterSheetItem* newItem)
         setTextColor(newField->textColor());
     }
 }
-
-/*QString Field::getValue() const
-{
-    qDebug() << "getValue"<< m_value <<  m_id;
-    return m_value;
-}
-
-void Field::setValue(const QString &value)
-{
-    qDebug() << "SetValue"<< m_value << value << m_id;
-    if(m_value!=value)
-    {
-        m_value = value;
-        emit valueChanged(m_value);
-    }
-}*/

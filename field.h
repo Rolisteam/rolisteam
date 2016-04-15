@@ -34,6 +34,7 @@ class Field : public CSItem
 public:
     enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
     enum TextAlign {ALignLEFT,ALignRIGHT,ALignCENTER};
+    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX};
 
 
     explicit Field(QGraphicsItem* parent = 0);
@@ -71,6 +72,12 @@ public:
 
     void copyField(CharacterSheetItem* );
 
+    Field::TypeField getCurrentType() const;
+    void setCurrentType(const Field::TypeField &currentType);
+
+    bool getClippedText() const;
+    void setClippedText(bool clippedText);
+
 signals:
     void updateNeeded(CSItem* c);
     //void valueChanged(QString);
@@ -86,6 +93,9 @@ private:
     QFont  m_font;
     TextAlign m_textAlign;
     QStringList m_availableValue;
+
+    TypeField m_currentType;
+    bool m_clippedText;
 
 };
 
