@@ -1,5 +1,9 @@
 #! /bin/sh
 
+############################
+## Create DMG file
+############################
+
 dir="temp"
 dmg="dmg/rolisteam.dmg"
 
