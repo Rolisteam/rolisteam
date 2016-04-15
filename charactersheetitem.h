@@ -40,7 +40,7 @@ class CharacterSheetItem : public QObject
 public:
     enum CharacterSheetItemType {SectionItem,FieldItem,ButtonItem};
 
-    enum ColumnId {ID,LABEL,VALUE,X,Y,WIDTH,HEIGHT,BORDER,TEXT_ALIGN,BGCOLOR,TEXTCOLOR,VALUES};
+    enum ColumnId {ID,LABEL,VALUE,X,Y,WIDTH,HEIGHT,BORDER,TEXT_ALIGN,BGCOLOR,TEXTCOLOR,VALUES,TYPE,CLIPPED};
     enum QMLSection {FieldSec,ConnectionSec};
     CharacterSheetItem();
     virtual bool hasChildren();
