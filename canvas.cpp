@@ -80,13 +80,28 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     }
     else if(mouseEvent->button() == Qt::LeftButton)
     {
-         if(m_currentTool==Canvas::ADD)
+         if(m_currentTool<=Canvas::ADDCHECKBOX)
          {
             Field* field = new Field(mouseEvent->scenePos());
             field->setPage(m_currentPage);
             addItem(field);
             m_model->appendField(field);
             m_currentItem = field;
+            switch(m_currentTool)
+            {
+            case Canvas::ADDCHECKBOX:
+                field->setCurrentType(Field::CHECKBOX);
+                break;
+            case Canvas::ADDINPUT:
+                field->setCurrentType(Field::TEXTINPUT);
+                break;
+            case Canvas::ADDTEXTAREA:
+                field->setCurrentType(Field::TEXTAREA);
+                break;
+            case Canvas::ADDTEXTFIELD:
+                field->setCurrentType(Field::TEXTFIELD);
+                break;
+            }
          }
          else  if(m_currentTool==Canvas::DELETE)
          {
