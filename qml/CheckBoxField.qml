@@ -4,17 +4,22 @@ import QtQuick.Controls 1.3
 
 Rectangle {
     id:root
-    property string text:""
+    property string text
     property color textColor: "black"
     property alias availableValues: selectvalues.model
     property int hAlign: TextInput.AlignLeft
     property int vAlign: TextInput.AlignTop
     property bool clippedText: false
+    signal textHasChanged(string value)
     TextField {
         id: textField
         anchors.fill: parent
         selectByMouse: true
-        //onTextChanged: root.text = textInput.text
+        onTextChanged: {
+           computeSizeFont();
+           console.log("Changed text:"+text)
+           root.textHasChanged(text)
+        }
     }
     TextInput {//textInput.textColor
         id: textInput
@@ -23,11 +28,24 @@ Rectangle {
         horizontalAlignment: root.hAlign
         verticalAlignment: root.vAlign
         onTextChanged: {
+           computeSizeFont();
+            console.log("Changed text:"+text)
+            root.textHasChanged(text)
+        }
+        onWidthChanged: {
+            computeSizeFont();
+        }
+        function computeSizeFont()
+        {
             if(clippedText)
             {
-                while(contentWidth>root.width)
+                while((contentWidth>root.width)&&(font.pointSize>1)&&(root.width>0))
                 {
                     font.pointSize-=1
+                }
+                while((contentWidth+2<width)&&(contentHeight+2<height))
+                {
+                    font.pointSize+=1
                 }
             }
         }
@@ -36,16 +54,25 @@ Rectangle {
         id: textArea
         anchors.fill: parent
         selectByMouse: true
+        onTextChanged: {
+           root.textHasChanged(text)
+        }
     }
     ComboBox {
         id: selectvalues
         anchors.fill: parent
-        onCurrentTextChanged: root.text = selectvalues.currentText
+        //onCurrentTextChanged: root.text = selectvalues.currentText
+        onCurrentTextChanged: {
+           root.textHasChanged(text)
+        }
     }
     CheckBox {
         id: checkbox
         anchors.fill: parent
-        onCheckedChanged: checked == true ? root.text = "X" : root.text = ""
+        //onCheckedChanged:
+        onCheckedChanged: {
+           root.textHasChanged(checked == true ? root.text = "X" : root.text = "")
+        }
     }
 
     states: [
@@ -53,6 +80,8 @@ Rectangle {
             name: ""
             PropertyChanges {target: selectvalues; visible: false}
             PropertyChanges {target: textInput; visible: false}
+            PropertyChanges {target: textField; text: root.text}
+            PropertyChanges {target: selectvalues; currentIndex: find(root.text)}
             PropertyChanges {target: textArea; visible: false}
             PropertyChanges {target: textField; visible: false}
             PropertyChanges {target: checkbox; visible: false}
@@ -71,7 +100,6 @@ Rectangle {
                 PropertyChanges {target: selectvalues; visible: false}
                 PropertyChanges {target: textInput; visible: true}
                 PropertyChanges {target: textField; visible: false}
-                PropertyChanges {target: textInput; text: root.text}
                 PropertyChanges {target: textArea; visible: false}
                 PropertyChanges {target: checkbox; visible: false}
             },
