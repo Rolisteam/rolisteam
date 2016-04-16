@@ -335,7 +335,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         out << "    visible: root.page == "<< m_page << "? true : false\n";
-        out << "    onTextChanged: {_"<<m_id<<".value = text}\n";
+        out << "    onTextChanged: {"<<m_id<<".value = text}\n";
         if(m_availableValue.isEmpty())
         {
             switch (m_currentType)
