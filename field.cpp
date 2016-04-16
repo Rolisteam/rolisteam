@@ -328,7 +328,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "    x:" << m_rect.x() << "*parent.realscale"<<"\n";
         if(m_clippedText)
         {
-            out << "    clippedText:True\n";
+            out << "    clippedText:true\n";
         }
         out << "    y:" << m_rect.y()<< "*parent.realscale"<<"\n";
         out << "    width:" << m_rect.width() <<"*parent.realscale"<<"\n";
