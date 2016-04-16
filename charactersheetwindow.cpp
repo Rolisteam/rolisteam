@@ -181,19 +181,16 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
         openQML();
     }
     m_qmlView = new QQuickWidget();
-    m_qmlView->rootContext()->setContextProperty("_model",chSheet);
     connect(m_qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
-    m_qmlView->engine()->addImageProvider("rcs",m_imgProvider);
-    m_sheetComponent = new QQmlComponent(m_qmlView->engine());
-    //QList<CharacterSheetItem*>* list = m_model.getExportedList(chSheet);
+    m_qmlView->engine()->addImageProvider(QLatin1String("rcs"),m_imgProvider);
 
-    //for(auto itItem = list->begin(); itItem!= list->end(); ++itItem)
     for(int i =0;i<chSheet->getFieldCount();++i)
     {
-        Field* field = chSheet->getFieldAt(i);
+        CharacterSheetItem* field = chSheet->getFieldAt(i);
         if(NULL!=field)
         {
-            m_qmlView->engine()->rootContext()->setContextProperty(QStringLiteral("_%1").arg(field->getId()),field);
+            m_qmlView->engine()->rootContext()->setContextProperty(field->getId(),field);
+            qDebug() << field->getId() << field->value();
         }
     }
 
@@ -208,20 +205,11 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
         file.write(m_qmlData.toLatin1());
         file.close();
     }
-
-    //m_qmlView->setSource(QUrl("qrc:/resources/qml/sheet.qml"));
     m_qmlView->setSource(QUrl(name));
     m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    QObject* root = m_qmlView->rootObject();
+    connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
 
-    //m_sheetComponent->setData(m_qmlData.toLatin1(),QUrl("test.qml"));
-    /*if (m_sheetComponent->isLoading())
-    {
-        QObject::connect(m_sheetComponent, SIGNAL(statusChanged(QQmlComponent::Status)),this, SLOT(continueLoading()));
-    }
-    else
-    {
-        continueLoading();
-    }*/
     m_characterSheetlist.append(m_qmlView);
     m_tabs->addTab(m_qmlView,chSheet->getTitle());
 }
