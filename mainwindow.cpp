@@ -129,12 +129,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->treeView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequestedForFieldModel(QPoint)));
     connect(ui->m_characterView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequested(QPoint)));
-    //connect(m_addCharacter,SIGNAL(toggled(bool)),m_characterModel,SLOT(addCharacterSheet()));
     connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
 
-    m_delItem = new QAction(tr("Delete Item"),this);
-    //connect(m_delItem,SIGNAL(toggled(bool)),this,SLOT());
+    canvas->setCurrentTool(Canvas::NONE);
 
+
+    m_delItem = new QAction(tr("Delete Item"),this);
 }
 MainWindow::~MainWindow()
 {

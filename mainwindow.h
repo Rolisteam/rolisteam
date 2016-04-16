@@ -40,7 +40,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    enum EDITION_TOOL {ADDFIELD,SELECT};
+    enum EDITION_TOOL {ADDFIELD,SELECT,NONE};
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 

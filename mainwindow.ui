@@ -119,7 +119,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="qmlfile.qrc">
-                  <normaloff>:/resources/icons/Actions-edit-rename-icon.png</normaloff>:/resources/icons/Actions-edit-rename-icon.png</iconset>
+                  <normaloff>:/resources/icons/checked_checkbox.png</normaloff>:/resources/icons/checked_checkbox.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -148,7 +148,7 @@
                 </property>
                 <property name="icon">
                  <iconset resource="qmlfile.qrc">
-                  <normaloff>:/resources/icons/Actions-edit-rename-icon.png</normaloff>:/resources/icons/Actions-edit-rename-icon.png</iconset>
+                  <normaloff>:/resources/icons/textarea.png</normaloff>:/resources/icons/textarea.png</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -354,7 +354,7 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionNew"/>
+    <addaction name="m_newAct"/>
     <addaction name="m_openAct"/>
     <addaction name="m_saveAct"/>
     <addaction name="actionSave_As"/>
@@ -372,6 +372,7 @@
     </property>
     <addaction name="actionQML_View"/>
     <addaction name="actionCode_To_QML"/>
+    <addaction name="m_backgroundImageAct"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdition"/>
@@ -392,7 +393,7 @@
     <string>Save As...</string>
    </property>
   </action>
-  <action name="actionNew">
+  <action name="m_newAct">
    <property name="text">
     <string>New</string>
    </property>
@@ -406,6 +407,10 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/Actions-edit-rename-icon.png</normaloff>:/resources/icons/Actions-edit-rename-icon.png</iconset>
+   </property>
    <property name="text">
     <string>TextInput</string>
    </property>
@@ -414,6 +419,10 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/moveNpc.png</normaloff>:/resources/icons/moveNpc.png</iconset>
+   </property>
    <property name="text">
     <string>Move</string>
    </property>
@@ -421,6 +430,10 @@
   <action name="m_deleteAct">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/delete.png</normaloff>:/resources/icons/delete.png</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -452,6 +465,10 @@
    </property>
   </action>
   <action name="m_addButtonAct">
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/symbol.svg</normaloff>:/resources/icons/symbol.svg</iconset>
+   </property>
    <property name="text">
     <string>Add Button</string>
    </property>
@@ -459,6 +476,10 @@
   <action name="m_addTextFieldAct">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/Actions-edit-rename-icon.png</normaloff>:/resources/icons/Actions-edit-rename-icon.png</iconset>
    </property>
    <property name="text">
     <string>TextField</string>
@@ -468,6 +489,10 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/checked_checkbox.png</normaloff>:/resources/icons/checked_checkbox.png</iconset>
+   </property>
    <property name="text">
     <string>Checkbox</string>
    </property>
@@ -476,8 +501,17 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/textarea.png</normaloff>:/resources/icons/textarea.png</iconset>
+   </property>
    <property name="text">
     <string>TextArea</string>
+   </property>
+  </action>
+  <action name="m_backgroundImageAct">
+   <property name="text">
+    <string>Set image background…</string>
    </property>
   </action>
  </widget>
