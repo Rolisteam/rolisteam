@@ -62,7 +62,7 @@ void Column::setPos(const CharacterSheetItem::ColumnId &pos)
 FieldModel::FieldModel(QObject *parent) : QAbstractItemModel(parent)
 {
     m_colunm << new Column(tr("Id"),CharacterSheetItem::ID)
-             << new Column(tr("LABEL"),CharacterSheetItem::LABEL)
+             << new Column(tr("Label"),CharacterSheetItem::LABEL)
              << new Column(tr("Value"),CharacterSheetItem::VALUE)
              << new Column(tr("Possible Values"),CharacterSheetItem::VALUES)
              << new Column(tr("Type"),CharacterSheetItem::TYPE)
@@ -75,6 +75,8 @@ FieldModel::FieldModel(QObject *parent) : QAbstractItemModel(parent)
              << new Column(tr("Text Color"),CharacterSheetItem::TEXTCOLOR)
              << new Column(tr("Bg Color"),CharacterSheetItem::BGCOLOR)
              << new Column(tr("Border"),CharacterSheetItem::BORDER);
+
+
 
 
     m_rootSection = new Section();
