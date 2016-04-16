@@ -64,7 +64,7 @@ public:
     const QString getTitle();
 
     int getFieldCount();
-    Field* getFieldAt(int i);
+    CharacterSheetItem* getFieldAt(int i);
 
     Section* getRootSection() const;
     void setRootSection(Section* rootSection);
@@ -85,8 +85,7 @@ private:
 
 
 private:
-    //QMap<QString,QString> m_values;// key , value
-    QMap<QString,Field*> m_valuesMap;
+    QMap<QString,CharacterSheetItem*> m_valuesMap;
     /**
     *@brief User Id of the owner
     */

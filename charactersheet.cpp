@@ -49,7 +49,7 @@ int CharacterSheet::getFieldCount()
     return m_valuesMap.size();
 }
 
-Field *CharacterSheet::getFieldAt(int i)
+CharacterSheetItem* CharacterSheet::getFieldAt(int i)
 {
     return m_valuesMap.value(m_valuesMap.keys().at(i));
 }
@@ -67,7 +67,7 @@ void CharacterSheet::setValue(QString key, QString value)
 {
     if(m_valuesMap.contains(key))
     {
-        Field* field = m_valuesMap.value(key);
+        CharacterSheetItem* field = m_valuesMap.value(key);
         field->setValue(value);
     }
     else
@@ -123,22 +123,27 @@ void CharacterSheet::setRootSection(Section *rootSection)
 void CharacterSheet::save(QJsonObject& json)
 {
     json["name"]= m_name;
+    QJsonObject array=QJsonObject();
     foreach (QString key, m_valuesMap.keys())
     {
-        json[key]=m_valuesMap[key]->value();
+        array[key]=m_valuesMap[key]->value();
     }
+    json["values"]=array;
+    qDebug() << m_valuesMap;
 }
 
 void CharacterSheet::load(QJsonObject& json)
 {
     m_name = json["name"].toString();
-    foreach(QString key, json.keys() )
+    QJsonObject array = json["values"].toObject();
+    for(QString key : array.keys() )
     {
         Field* field = new Field();
-        field->setValue(json[key].toString());
+        field->setValue(array[key].toString());
         field->setId(key);
         m_valuesMap.insert(key,field);
     }
+    qDebug() << m_valuesMap;
 }
 #ifndef RCSE
 void CharacterSheet::fill(NetworkMessageWriter & msg)
