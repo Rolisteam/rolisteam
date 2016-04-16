@@ -32,7 +32,7 @@ class Canvas : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    enum Tool {ADDINPUT,ADDTEXTFIELD,ADDTEXTAREA,ADDCHECKBOX,MOVE,DELETE,BUTTON};
+    enum Tool {NONE,ADDINPUT,ADDTEXTFIELD,ADDTEXTAREA,ADDCHECKBOX,MOVE,DELETE,BUTTON};
     explicit Canvas(QObject *parent = 0);
 
     void setCurrentTool(Canvas::Tool);
