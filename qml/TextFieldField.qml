@@ -6,7 +6,6 @@ Rectangle {
     id:root
     property alias text : textField.text
     property alias textColor: textField.textColor
-    property alias availableValues: selectvalues.model
     property alias hAlign: textField.horizontalAlignment
     property alias vAlign: textField.verticalAlignment
     property bool clippedText: false
