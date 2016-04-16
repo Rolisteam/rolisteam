@@ -88,6 +88,8 @@ protected:
     void mouseMoveEvent(QMouseEvent* ev);
 
 private:
+    QString getQMLItemName();
+private:
     BorderLine m_border;
 
     QFont  m_font;
@@ -96,7 +98,6 @@ private:
 
     TypeField m_currentType;
     bool m_clippedText;
-
 };
 
 #endif // FIELD_H
