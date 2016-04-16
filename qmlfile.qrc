@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="resources/qml/Field.qml">charactersheet/qml/Field.qml</file>
-        <file alias="resources/qml/MChoice.qml">charactersheet/qml/MChoice.qml</file>
         <file alias="resources/qml/qmldir">charactersheet/qml/qmldir</file>
         <file>resources/icons/go-up.png</file>
         <file>resources/icons/go-top.png</file>
@@ -12,5 +10,12 @@
         <file>resources/icons/Actions-edit-rename-icon.png</file>
         <file>resources/icons/symbol.svg</file>
         <file>resources/icons/moveNpc.png</file>
+        <file>resources/icons/checked_checkbox.png</file>
+        <file>resources/icons/textarea.png</file>
+        <file alias="resources/qml/CheckBoxField.qml">charactersheet/qml/CheckBoxField.qml</file>
+        <file alias="resources/qml/SelectField.qml">charactersheet/qml/SelectField.qml</file>
+        <file alias="resources/qml/TextAreaField.qml">charactersheet/qml/TextAreaField.qml</file>
+        <file alias="resources/qml/TextFieldField.qml">charactersheet/qml/TextFieldField.qml</file>
+        <file alias="resources/qml/TextInputField.qml">charactersheet/qml/TextInputField.qml</file>
     </qresource>
 </RCC>
