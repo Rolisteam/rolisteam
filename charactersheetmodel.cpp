@@ -295,7 +295,9 @@ QModelIndex CharacterSheetModel::indexToSectionIndex(const QModelIndex & index)
 }
 bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool data)
 {
-    m_rootSection->save(jsonObj);
+    QJsonObject data;
+    m_rootSection->save(data);
+    jsonObj["data"]=data;
     qDebug() << "characterCount:" <<m_characterCount;
     jsonObj["characterCount"]=m_characterCount;
 
@@ -314,7 +316,9 @@ bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool data)
 bool CharacterSheetModel::readModel(QJsonObject& jsonObj)
 {
     beginResetModel();
-    m_rootSection->load(jsonObj,QList<QGraphicsScene*>());
+    QJsonObject data = jsonObj["data"].toObject();
+    m_rootSection->load(data,QList<QGraphicsScene*>());
+
     m_characterCount = jsonObj["characterCount"].toInt();
     QJsonArray characters = jsonObj["characters"].toArray();
     foreach(auto charJson, characters)
