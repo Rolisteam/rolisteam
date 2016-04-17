@@ -298,7 +298,14 @@
             </item>
            </layout>
           </widget>
-          <widget class="QTreeView" name="treeView"/>
+          <widget class="QTreeView" name="treeView">
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -333,7 +340,11 @@
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QTreeView" name="m_characterView"/>
+         <widget class="QTreeView" name="m_characterView">
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
