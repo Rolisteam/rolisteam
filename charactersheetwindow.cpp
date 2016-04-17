@@ -292,7 +292,8 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
         {
             QJsonDocument json = QJsonDocument::fromJson(file.readAll());
             QJsonObject jsonObj = json.object();
-            QJsonObject data = jsonObj["data"].toObject();
+
+           // QJsonObject data = jsonObj["data"].toObject();
 
             m_qmlData = jsonObj["qml"].toString();
 
@@ -309,7 +310,7 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
                 ++i;
             }
             //m_model->load(data,m_canvasList);
-            m_model.readModel(jsonObj);
+            m_model.readModel(jsonObj,true);
         }
         return true;
     }
