@@ -44,6 +44,7 @@ Field::Field(QPointF topleft,QGraphicsItem* parent)
 void Field::init()
 {
     m_id = QStringLiteral("id_%1").arg(m_count);
+    m_clippedText = false;
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 
     m_textAlign = ALignLEFT;

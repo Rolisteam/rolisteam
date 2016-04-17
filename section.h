@@ -54,6 +54,7 @@ public:
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
     void copySection(Section* itm);
     bool removeChild(CharacterSheetItem*);
+    void setValueForAll(CharacterSheetItem* item,int col);
 
 public slots:
     void fillList(QList<CharacterSheetItem *> *result, CharacterSheet *character);

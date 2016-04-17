@@ -27,6 +27,7 @@
 #include "field.h"
 #include "charactersheetbutton.h"
 
+#include <QDebug>
 
 Section::Section()
 {
@@ -202,6 +203,7 @@ bool Section::removeChild(CharacterSheetItem* child)
     if(m_dataHash.contains(child->getId()))
     {
         m_dataHash.remove(child->getId());
+        m_keyList.removeOne(child->getId());
         delete child;
        return true;
     }
@@ -242,6 +244,14 @@ void Section::fillList(QList<CharacterSheetItem *>* result, CharacterSheet* char
         }
     }
 }
-
-
-
+void Section::setValueForAll(CharacterSheetItem* itemSrc,int col)
+{
+    for(auto key : m_keyList)
+    {
+        CharacterSheetItem* item = m_dataHash.value(key);
+        if(NULL!=item)
+        {
+            item->setValueFrom((ColumnId)col,itemSrc->getValueFrom((ColumnId)col));
+        }
+    }
+}
