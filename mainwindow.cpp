@@ -135,6 +135,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     m_delItem = new QAction(tr("Delete Item"),this);
+    m_applyValueOnSelection = new QAction(tr("Apply on Selection"),this);
+    m_applyValueOnAllLines = new QAction(tr("Apply on all lines"),this);
 }
 MainWindow::~MainWindow()
 {
@@ -156,6 +158,8 @@ void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
     if(index.isValid())
     {
         menu.addAction(m_delItem);
+        menu.addAction(m_applyValueOnAllLines);
+        menu.addAction(m_applyValueOnSelection);
     }
 
     QAction* act = menu.exec(QCursor::pos());
@@ -163,6 +167,38 @@ void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
     if(act == m_delItem)
     {
         m_model->removeItem(index);
+    }
+    else if( m_applyValueOnAllLines == act)
+    {
+        applyValue(index,false);
+    }
+    else if(m_applyValueOnSelection == act)
+    {
+        applyValue(index,true);
+    }
+}
+void MainWindow::applyValue(QModelIndex& index, bool selection)
+{
+    if(!index.isValid())
+        return;
+
+
+    if(selection)
+    {
+        QVariant var = index.data(Qt::DisplayRole);
+        int col = index.column();
+        QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
+        for(QModelIndex modelIndex : list)
+        {
+            if(modelIndex.column() == col)
+            {
+                m_model->setData(modelIndex,var,Qt::EditRole);
+            }
+        }
+    }
+    else
+    {
+        m_model->setValueForAll(index);
     }
 }
 

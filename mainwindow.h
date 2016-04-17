@@ -73,6 +73,7 @@ public slots:
     void menuRequestedForFieldModel(const QPoint &pos);
 protected:
     bool eventFilter(QObject *, QEvent *);
+    void applyValue(QModelIndex &index, bool selection);
 protected slots:
     void columnAdded();
 private:

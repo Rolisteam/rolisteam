@@ -331,3 +331,12 @@ void FieldModel::removeItem(QModelIndex& index)
     }
 }
 
+void FieldModel::setValueForAll(QModelIndex& index)
+{
+    if(index.isValid())
+    {
+        CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
+        m_rootSection->setValueForAll(childItem,m_colunm[index.column()]->getPos());
+    }
+}
+
