@@ -2116,6 +2116,10 @@ CleverURI::ContentType MainWindow::getContentType(QString str)
     {
         return CleverURI::SCENARIO;
     }
+    else if(str.endsWith(".rcs"))
+    {
+        return CleverURI::CHARACTERSHEET;
+    }
     else
     {
         QStringList list = m_preferences->value("AudioFileFilter","*.wav *.mp2 *.mp3 *.ogg *.flac").toString().split(' ');
@@ -2150,6 +2154,13 @@ void MainWindow::dropEvent(QDropEvent* event)
             case CleverURI::MAP:
                 tmp = new MapFrame();
 				prepareMap(static_cast<MapFrame*>(tmp));
+                tmp->setCleverUri(uri);
+                tmp->readFileFromUri();
+                addMediaToMdiArea(tmp);
+                tmp->setVisible(true);
+                break;
+            case CleverURI::CHARACTERSHEET:
+                tmp = new CharacterSheetWindow();
                 tmp->setCleverUri(uri);
                 tmp->readFileFromUri();
                 addMediaToMdiArea(tmp);
