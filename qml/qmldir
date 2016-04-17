@@ -1,4 +1,7 @@
 module Rcse
 
-Field 1.0 Field.qml
-MChoice 1.0 MChoice.qml
+TextInputField 1.0 TextInputField.qml
+SelectField 1.0 SelectField.qml
+TextAreaField 1.0 TextAreaField.qml
+TextFieldField 1.0 TextFieldField.qml
+CheckBoxField 1.0 CheckBoxField.qml

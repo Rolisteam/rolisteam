@@ -44,6 +44,7 @@ Field::Field(QPointF topleft,QGraphicsItem* parent)
 void Field::init()
 {
     m_id = QStringLiteral("id_%1").arg(m_count);
+    m_clippedText = false;
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 
     m_textAlign = ALignLEFT;
@@ -317,12 +318,46 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 
     update();
 }
+QString Field::getQMLItemName()
+{
+    if(!m_availableValue.isEmpty())
+    {
+        return "SelectField";
+    }
+    switch(m_currentType)
+    {
+    case Field::TEXTFIELD:
+        return "TextFieldField";
+    case Field::TEXTINPUT:
+        return "TextInputField";
+    case Field::TEXTAREA:
+        return "TextAreaField";
+    case Field::CHECKBOX:
+        return "CheckBoxField";
+    case Field::SELECT:
+        return "SelectField";
+    default:
+        return "";
+        break;
+    }
+}
 
 void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
 {
     if(sec==CharacterSheetItem::FieldSec)
     {
-        out << "Field {\n";
+
+        out << getQMLItemName() <<" {\n";
+        if(!m_availableValue.isEmpty())
+        {
+            out << "    availableValues:" << QStringLiteral("[\"%1\"]").arg(m_availableValue.join("\",\""))<<"\n";
+            out << "    currentIndex: availableValues.find(text)\n";
+            out << "    onCurrentIndexChanged:{\n";
+            out << "    if(count>0)\n";
+            out << "    {\n";
+            out << "    "<<m_id<<".value = currentText\n";
+            out << "    }}\n";
+        }
         out << "    id: _"<<m_id<< "\n";
         out << "    text: "<<m_id << ".value\n";
         out << "    x:" << m_rect.x() << "*parent.realscale"<<"\n";
@@ -335,35 +370,10 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         out << "    visible: root.page == "<< m_page << "? true : false\n";
-        out << "    onTextChanged: {"<<m_id<<".value = text}\n";
         if(m_availableValue.isEmpty())
         {
-            switch (m_currentType)
-            {
-            case Field::TEXTFIELD:
-                out << "    state:\"field\"\n";
-                break;
-            case Field::TEXTINPUT:
-                out << "    state:\"input\"\n";
-                break;
-            case Field::TEXTAREA:
-                out << "    state:\"textarea\"\n";
-                break;
-            case Field::CHECKBOX:
-                out << "    state:\"check\"\n";
-                break;
-            case Field::SELECT:
-                out << "    state:\"combo\"\n";
-                break;
-            default:
-                break;
-            }
-
-        }
-        else
-        {
-            out << "    state:\"combo\"\n";
-            out << "    availableValues:" << QStringLiteral("[\"%1\"]").arg(m_availableValue.join("\",\""));
+            out << "    onTextChanged: {\n";
+            out << "    "<<m_id<<".value = text}\n";
         }
         out << "}\n";
     }
