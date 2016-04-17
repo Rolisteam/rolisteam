@@ -101,6 +101,13 @@
         <file>resources/icons/playlist.svg</file>
         <file>resources/qml/Field.qml</file>
         <file>resources/qml/sheet.qml</file>
+        <file>resources/qml/CheckBoxField.qml</file>
+        <file>resources/qml/main.qml</file>
+        <file>resources/qml/qmldir</file>
+        <file>resources/qml/SelectField.qml</file>
+        <file>resources/qml/TextAreaField.qml</file>
+        <file>resources/qml/TextFieldField.qml</file>
+        <file>resources/qml/TextInputField.qml</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
