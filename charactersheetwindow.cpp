@@ -213,6 +213,10 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     m_characterSheetlist.append(m_qmlView);
     m_tabs->addTab(m_qmlView,chSheet->getTitle());
 }
+void CharacterSheetWindow::rollDice(QString str)
+{
+
+}
 
 void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
 {
