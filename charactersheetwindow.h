@@ -61,6 +61,7 @@ public slots:
     void detachTab();
 
 
+    void rollDice(QString str);
 protected slots:
     void addTabWithSheetView(CharacterSheet *chSheet);
     /**
