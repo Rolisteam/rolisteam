@@ -253,10 +253,6 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     setWindowModality(Qt::ApplicationModal);
 
 
-    m_preferences->registerListener("isPlayer",m_aliasModel);
-    m_aliasModel->setGM(!m_preferences->value("isPlayer",false).toBool());
-
-
     // background
     connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
     connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(applyBackground()));
@@ -285,6 +281,13 @@ PreferencesDialog::~PreferencesDialog()
     // QObject should do it right for us already.
 }
 
+void PreferencesDialog::updateUi(bool isGM)
+{
+    if(NULL!=m_aliasModel)
+    {
+        m_aliasModel->setGM(isGM);
+    }
+}
 
 void PreferencesDialog::show()
 {

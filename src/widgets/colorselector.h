@@ -158,7 +158,7 @@ private:
     bool m_pressedButton;
     PreferencesManager* m_preferences;
     static SelectedColor s_selectedColor;
-
+    bool m_isGM;
 };
 
 #endif

@@ -359,6 +359,13 @@ void ToolsBar::incrementNpcNumber()
     m_currentNpcNumber = (int) m_showPnjNumber->value();
     emit currentNpcNumberChanged(m_currentNpcNumber);
 }
+void ToolsBar::updateUi(bool isGM)
+{
+    if(NULL!=m_color)
+    {
+        m_color->updateUi(isGM);
+    }
+}
 
 void ToolsBar::resetNpcNumber()
 {

@@ -430,7 +430,10 @@ void MainWindow::prepareMap(MapFrame* mapFrame)
     if(NULL==map)
         return;
     map->setPointeur(m_toolBar->getCurrentTool());
-    map->setLocalIsPlayer(m_preferences->value("isPlayer",false).toBool());
+    if(NULL!=m_currentConnectionProfile)
+    {
+        map->setLocalIsPlayer(m_currentConnectionProfile->isGM());
+    }
 
     connect(m_toolBar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),map,SLOT(setPointeur(ToolsBar::SelectableTool)));
 
@@ -936,10 +939,18 @@ void MainWindow::helpOnLine()
 }
 void MainWindow::updateUi()
 {
+    if(NULL==m_currentConnectionProfile)
+    {
+        return;
+    }
     m_toolBar->updateUi();
 #ifndef NULL_PLAYER
     m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
 #endif
+    if(NULL!=m_preferencesDialog)
+    {
+        m_preferencesDialog->updateUi(m_currentConnectionProfile->isGM());
+    }
 
     m_vToolBar->setGM(m_currentConnectionProfile->isGM());
     if(!m_currentConnectionProfile->isGM())
@@ -1344,7 +1355,8 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
     else
     {
         MapFrame* mapFrame = new MapFrame(NULL, m_mdiArea);
-        if(!mapFrame->processMapMessage(msg,m_preferences->value("isPlayer",false).toBool()))
+
+        if((NULL!=m_currentConnectionProfile)&&(!mapFrame->processMapMessage(msg,m_currentConnectionProfile->isGM())))
         {
             delete mapFrame;
         }
@@ -1356,7 +1368,6 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
         }
     }
 }
-
 void MainWindow::processImageMessage(NetworkMessageReader* msg)
 {
     if(msg->action() == NetMsg::AddPictureAction)
@@ -1546,7 +1557,7 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
 
         CharacterToken* npc = new CharacterToken(map, npcId, npcName, npcColor, npcDiameter, npcPos, (CharacterToken::typePersonnage)npcType,showNumber,showName, npcNumber);
 
-        if((npcVisible)||(npcType == CharacterToken::pnj && !m_preferences->value("isPlayer",false).toBool()))
+        if((npcVisible)||(npcType == CharacterToken::pnj && (NULL!=m_currentConnectionProfile) && m_currentConnectionProfile->isGM()))
         {
             npc->showCharacter();
         }

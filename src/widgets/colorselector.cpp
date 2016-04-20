@@ -71,6 +71,7 @@ SelectedColor ColorSelector::s_selectedColor;
 ColorSelector::ColorSelector(QWidget *parent)
 	: QWidget(parent)
 {
+    m_isGM = false;
     m_pressedButton = false;
 
     m_preferences =  PreferencesManager::getInstance();
@@ -246,11 +247,16 @@ ColorSelector::~ColorSelector()
     delete m_characterGrid;
     delete m_layoutSelector;
 }
+void ColorSelector::updateUi(bool isGM)
+{
+    m_isGM = isGM;
+    checkPermissionColor();
+}
 
 void ColorSelector::checkPermissionColor()
 {
-	// L'utilisateur est un joueur
-	if (m_preferences->value("isPlayer",false).toBool())
+    // player
+    if (!m_isGM)
 	{
         PreferencesManager::getInstance()->registerValue("Fog_color",QColor(0,0,0),false);
         m_maskColor->setToolTip(tr("Hide (GM only)"));
