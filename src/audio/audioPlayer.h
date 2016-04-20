@@ -167,6 +167,7 @@ private:
     PreferencesManager* m_preferences;
     QMutex m_mutex;
     qint64 m_time;//!< @brief current time
+    bool m_isGM;
 };
 
 #endif

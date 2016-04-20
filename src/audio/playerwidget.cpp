@@ -28,7 +28,7 @@
 #define FACTOR_WAIT 4
 
 PlayerWidget::PlayerWidget(int id, QWidget* parent)
-    : QWidget(parent),m_id(id),m_ui(new Ui::AudioWidgetUI)
+    : QWidget(parent),m_id(id),m_ui(new Ui::AudioWidgetUI),m_isGM(false)
 {
     m_preferences = PreferencesManager::getInstance();
     m_ui->setupUi(this);
@@ -72,7 +72,7 @@ void PlayerWidget::positionChanged(qint64 time)
 {
      QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
 
-     if((!m_preferences->value("isPlayer",false).toBool()) && ((time>m_time+(FACTOR_WAIT*m_player.notifyInterval()))||(time<m_time)))
+     if((m_isGM) && ((time>m_time+(FACTOR_WAIT*m_player.notifyInterval()))||(time<m_time)))
      {
           emit playerPositionChanged(m_id,time);
      }
@@ -374,6 +374,7 @@ void PlayerWidget::addActionsIntoMenu(QMenu* menu)
 
 void PlayerWidget::updateUi(bool isGM)
 {
+    m_isGM = m_isGM;
    /* if(isGM)
     {// Game Master*/
         m_ui->m_playButton->setVisible(isGM);
@@ -656,7 +657,7 @@ void  PlayerWidget::savePlaylist()
      else
      {
          m_ui->m_label->setStyleSheet("color: black");
-         if(m_preferences->value("isPlayer",false).toBool())
+         if(m_isGM)
          {// Player
                  m_ui->m_label->setEchoMode(QLineEdit::Password);
          }

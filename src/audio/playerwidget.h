@@ -299,5 +299,6 @@ private:
     quint64 m_time;
 
     Ui::AudioWidgetUI* m_ui;
+    bool m_isGM;
 };
 #endif

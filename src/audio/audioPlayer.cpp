@@ -38,6 +38,7 @@ AudioPlayer * AudioPlayer::m_singleton = NULL;
 AudioPlayer::AudioPlayer(QWidget *parent)
     : QDockWidget(parent)//,m_currentSource(NULL)
 {
+    m_isGM = false;
     m_preferences = PreferencesManager::getInstance();
     setObjectName("MusicPlayer");
     setupUi();
@@ -130,6 +131,7 @@ void AudioPlayer::showMusicPlayer(bool status)
 }
 void AudioPlayer::updateUi(bool isGM)
 {
+    m_isGM = isGM;
     foreach(PlayerWidget* tmp,m_players)
     {
         tmp->updateUi(isGM);
@@ -145,7 +147,7 @@ void AudioPlayer::updateUi(bool isGM)
 }
 void AudioPlayer::onePlayerHasStopped(int id)
 {
-    if(!m_preferences->value("isPlayer",false).toBool())
+    if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::StopSong);
         message.uint8(id);
@@ -155,7 +157,7 @@ void AudioPlayer::onePlayerHasStopped(int id)
 
 void AudioPlayer::onePlayerIsPaused(int id)
 {
-    if(!m_preferences->value("isPlayer",false).toBool())
+    if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PauseSong);
         message.uint8(id);
@@ -165,7 +167,7 @@ void AudioPlayer::onePlayerIsPaused(int id)
 
 void AudioPlayer::onePlayerPlays(int id,quint64 pos)
 {
-    if(!m_preferences->value("isPlayer",false).toBool())
+    if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::PlaySong);
         message.uint8(id);
@@ -177,7 +179,7 @@ void AudioPlayer::onePlayerPlays(int id,quint64 pos)
 
 void AudioPlayer::onePlayerHasNewSong(int id,QString str)
 {
-    if(!m_preferences->value("isPlayer",false).toBool())
+    if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::NewSong);
         message.uint8(id);
@@ -188,7 +190,7 @@ void AudioPlayer::onePlayerHasNewSong(int id,QString str)
 
 void AudioPlayer::onePlayerHasChangedPosition(int id,quint64 pos)
 {
-    if(!m_preferences->value("isPlayer",false).toBool())
+    if(m_isGM)
     {
         NetworkMessageWriter message(NetMsg::MusicCategory, NetMsg::ChangePositionSong);
         message.uint8(id);
@@ -203,7 +205,7 @@ void AudioPlayer::onePlayerHasChangedPosition(int id,quint64 pos)
 QString AudioPlayer::getDirectoryKey()
 {
     QString key;
-    if (PreferencesManager::getInstance()->value("isPlayer",true).toBool())
+    if (m_isGM)
     {
         key="MusicDirectoryPlayer";
     }
