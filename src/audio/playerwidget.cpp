@@ -374,7 +374,7 @@ void PlayerWidget::addActionsIntoMenu(QMenu* menu)
 
 void PlayerWidget::updateUi(bool isGM)
 {
-    m_isGM = m_isGM;
+    m_isGM = isGM;
    /* if(isGM)
     {// Game Master*/
         m_ui->m_playButton->setVisible(isGM);
