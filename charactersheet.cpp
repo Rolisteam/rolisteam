@@ -34,7 +34,7 @@
 
 int CharacterSheet::m_count=0;
 CharacterSheet::CharacterSheet()
-    : m_name("Character %1")
+    : m_name("Character %1"),m_rootSection(NULL)
 {
     ++m_count;
     m_name = m_name.arg(m_count);
