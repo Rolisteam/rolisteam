@@ -6,7 +6,7 @@ ConvertorOperator::ConvertorOperator(double a,double b,bool fraction)
 
 }
 
-qreal ConvertorOperator::convert(qreal convert)
+qreal ConvertorOperator::convert(qreal convert) const
 {
     if(m_fraction)
     {
