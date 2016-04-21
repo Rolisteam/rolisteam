@@ -155,7 +155,7 @@ public:
 
 
 private:
-    ColorListEditor* m_editor;
+    //ColorListEditor* m_editor;
 };
 /**
  * @brief Actually only to change directories.
