@@ -9,7 +9,7 @@ class ConvertorOperator
 public:
     ConvertorOperator(double a,double b=0, bool fraction=false);
 
-    qreal convert(qreal convert);
+    qreal convert(qreal convert) const;
 private:
     double m_a;
     double m_b;
