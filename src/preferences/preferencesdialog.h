@@ -191,6 +191,7 @@ public slots:
      */
     void show();
 
+    void updateUi(bool isGM);
 private slots:
     /**
      * @brief load

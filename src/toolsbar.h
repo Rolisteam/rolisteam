@@ -117,6 +117,7 @@ public slots :
     void changeMap(Map * map);
 
     
+    void updateUi(bool isGM);
 private :
     void createActions();
     void createTools();

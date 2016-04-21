@@ -139,6 +139,7 @@ public slots:
      * @param couleur
      */
     void changeCurrentColor(QColor couleur);
+    void updateUi(bool isGM);
 private:
     QLabel* m_currentColor;
     QLabel* m_eraseColor;
