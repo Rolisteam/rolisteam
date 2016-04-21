@@ -43,7 +43,7 @@ RGraphicsView::RGraphicsView(VMap *vmap)
     m_preferences = PreferencesManager::getInstance();
 //    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
-    setViewport(new QOpenGLWidget());
+    //setViewport(new QOpenGLWidget());
     fitInView(sceneRect(),Qt::KeepAspectRatio);
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
     setRubberBandSelectionMode(Qt::IntersectsItemBoundingRect);
@@ -254,25 +254,26 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 }
 void RGraphicsView::setRotation(QList<QGraphicsItem*> list, int value)
 {
-    foreach(QGraphicsItem* item, list)
+    for(QGraphicsItem* item: list)
     {
         item->setRotation(value);
     }
 }
 void RGraphicsView::setItemLayer(QList<QGraphicsItem*> list,VisualItem::Layer layer)
 {
-    foreach(QGraphicsItem* item, list)
+    for(QGraphicsItem* item : list)
     {
         VisualItem* vItem = dynamic_cast<VisualItem*>(item);
         if((vItem != NULL))
         {
             vItem->setLayer(layer);
+            vItem->setEditableItem(layer==m_vmap->getCurrentLayer());
         }
     }
 }
 void RGraphicsView::deleteItem(QList<QGraphicsItem*> list)
 {
-    foreach(QGraphicsItem* item, list)
+    for(QGraphicsItem* item: list)
     {
         if(NULL!=m_vmap)
         {
@@ -282,7 +283,7 @@ void RGraphicsView::deleteItem(QList<QGraphicsItem*> list)
 }
 void RGraphicsView::changeZValue(QList<QGraphicsItem*> list,VisualItem::StackOrder order)
 {
-    foreach(QGraphicsItem* item, list)
+    for(QGraphicsItem* item: list)
     {
         VisualItem* vItem = dynamic_cast<VisualItem*>(item);
         if((NULL!=m_vmap)&&(vItem != NULL))
