@@ -226,6 +226,11 @@ public:
      * @return
      */
     QVariant getOption(VisualItem::Properties pop) const;
+    /**
+     * @brief setSize
+     * @param size
+     */
+    virtual void setSize(QSizeF size);
 
 
     bool isEditable() const;
@@ -234,6 +239,9 @@ public:
      */
     virtual void setEditableItem(bool);
     void readOpacityMsg(NetworkMessageReader *msg);
+    bool getHoldSize() const;
+    void setHoldSize(bool holdSize);
+
 signals:
     /**
      * @brief itemGeometryChanged
@@ -350,6 +358,7 @@ protected:
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
     QVector<ChildPointItem*>* m_child;
+    bool m_holdSize;
 
 private slots:
 	/**

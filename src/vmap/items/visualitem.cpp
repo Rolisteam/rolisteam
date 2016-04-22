@@ -450,6 +450,16 @@ bool VisualItem::canBeMoved() const
     }
 }
 
+bool VisualItem::getHoldSize() const
+{
+    return m_holdSize;
+}
+
+void VisualItem::setHoldSize(bool holdSize)
+{
+    m_holdSize = holdSize;
+}
+
 bool VisualItem::isEditable() const
 {
     return m_editable;
@@ -471,6 +481,14 @@ QVariant VisualItem::getOption(VisualItem::Properties pop) const
         return m_propertiesHash->value(pop);
     }
     return QVariant();
+}
+
+void VisualItem::setSize(QSizeF size)
+{
+    //qDebug() << "Size:"<< size;
+    m_rect.setSize(size);
+    updateChildPosition();
+    update();
 }
 //friend functions
 QDataStream& operator<<(QDataStream& os,const VisualItem& c)
