@@ -41,7 +41,7 @@ RGraphicsView::RGraphicsView(VMap *vmap)
     }
     setAcceptDrops(true);
     m_preferences = PreferencesManager::getInstance();
-//    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
     //setViewport(new QOpenGLWidget());
     fitInView(sceneRect(),Qt::KeepAspectRatio);
@@ -203,6 +203,8 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
             raiseAction->setData(VisualItem::RAISE);
 
+            menu.addAction(m_lockSize);
+
             QMenu* rotationMenu = menu.addMenu(tr("Rotate"));
             QAction* resetRotationAct = rotationMenu->addAction(tr("To 360"));
             QAction* rightRotationAct = rotationMenu->addAction(tr("Right"));
@@ -214,7 +216,16 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             setLayerMenu->addAction(m_putObjectLayer);
             setLayerMenu->addAction(m_putCharacterLayer);
 
+            QMenu* harmonizeMenu = menu.addMenu(tr("Normalize Size"));
+            harmonizeMenu->addAction(m_normalizeSizeAverage);
+            harmonizeMenu->addAction(m_normalizeSizeUnderMouse);
+            harmonizeMenu->addAction(m_normalizeSizeBigger);
+            harmonizeMenu->addAction(m_normalizeSizeSmaller);
+
+
+
             QAction* selectedAction = menu.exec(event->globalPos());
+
 
             if(removeAction==selectedAction)
             {
@@ -223,6 +234,22 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             else if(resetRotationAct==selectedAction)
             {
                 setRotation(list,0);
+            }
+            else if(selectedAction == m_normalizeSizeAverage)
+            {
+                normalizeSize(list, Average,event->globalPos());
+            }
+            else if(selectedAction == m_normalizeSizeBigger)
+            {
+                normalizeSize(list, Bigger,event->globalPos());
+            }
+            else if(selectedAction == m_normalizeSizeSmaller)
+            {
+                normalizeSize(list, Smaller,event->globalPos());
+            }
+            else if(selectedAction == m_normalizeSizeUnderMouse)
+            {
+                normalizeSize(list, UnderMouse,event->globalPos());
             }
             else if(selectedAction==rightRotationAct)
             {
@@ -259,6 +286,71 @@ void RGraphicsView::setRotation(QList<QGraphicsItem*> list, int value)
         item->setRotation(value);
     }
 }
+void RGraphicsView::normalizeSize(QList<QGraphicsItem*> list,Method method,QPoint point)
+{
+    QSizeF finalRect;
+    if(Bigger == method)
+    {
+        for(QGraphicsItem* item: list)
+        {
+            if(finalRect.width()*finalRect.height() <= item->boundingRect().size().height()*item->boundingRect().size().width())
+            {
+                finalRect = item->boundingRect().size();
+            }
+        }
+
+    }
+    else if(Smaller == method)
+    {
+        for(QGraphicsItem* item: list)
+        {
+            if(finalRect.isNull())
+            {
+                finalRect = item->boundingRect().size();
+            }
+            else if(finalRect.width()*finalRect.height() >= item->boundingRect().size().height()*item->boundingRect().size().width())
+            {
+                finalRect = item->boundingRect().size();
+            }
+        }
+    }
+    else if(UnderMouse == method)
+    {
+        QGraphicsItem* item = itemAt(mapFromGlobal(point));
+        if(NULL!=item)
+        {
+            finalRect = item->boundingRect().size();
+        }
+        else
+        {
+            return;
+        }
+    }
+    else if(Average == method)
+    {
+        for(QGraphicsItem* item: list)
+        {
+            if(finalRect.isNull())
+            {
+                finalRect = item->boundingRect().size();
+            }
+            else
+            {
+                finalRect = (item->boundingRect().size()+finalRect)/2;
+            }
+        }
+    }
+
+    for(QGraphicsItem* item: list)
+    {
+        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
+        if(NULL!=vItem)
+        {
+            vItem->setSize(finalRect);
+        }
+    }
+}
+
 void RGraphicsView::setItemLayer(QList<QGraphicsItem*> list,VisualItem::Layer layer)
 {
     for(QGraphicsItem* item : list)
@@ -306,6 +398,14 @@ void RGraphicsView::createAction()
     connect(m_zoomInMax,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
     connect(m_zoomOutMax,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
     connect(m_importImage,SIGNAL(triggered()),this,SLOT(addImageToMap()));
+
+
+    m_normalizeSizeAverage = new QAction(tr("Average"),this);
+    m_normalizeSizeUnderMouse = new QAction(tr("As undermouse item"),this);
+    m_normalizeSizeBigger = new QAction(tr("As the Bigger"),this);
+    m_normalizeSizeSmaller = new QAction(tr("As the Smaller"),this);
+
+    m_lockSize = new QAction(tr("Lock Item Size"),this);
 
     addAction(m_zoomNormal);
     addAction(m_zoomInMax);

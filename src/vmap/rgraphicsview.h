@@ -32,6 +32,7 @@ class RGraphicsView : public QGraphicsView
     Q_OBJECT
 
 public:
+    enum Method {Bigger, Smaller, UnderMouse, Average };
     /**
     * @brief constructor with parameters
     * @param Map address which it will be displayed by the graphicsview
@@ -46,6 +47,7 @@ public:
     void setItemLayer(QList<QGraphicsItem*> list,VisualItem::Layer layer);
     void setRotation(QList<QGraphicsItem*> list, int value);
     void changeZValue(QList<QGraphicsItem *> list, VisualItem::StackOrder order);
+    void normalizeSize(QList<QGraphicsItem *> list,Method method, QPoint point);
 
 public slots:
     void addImageToMap();
@@ -87,6 +89,13 @@ private:
     QAction* m_editGroundLayer;
     QAction* m_editObjectLayer;
     QAction* m_editCharacterLayer;
+
+    QAction* m_normalizeSizeAverage;
+    QAction* m_normalizeSizeUnderMouse;
+    QAction* m_normalizeSizeBigger;
+    QAction* m_normalizeSizeSmaller;
+
+    QAction* m_lockSize;
 
     QAction* m_allVisibility;
     QAction* m_hiddenVisibility;
