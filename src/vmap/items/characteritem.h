@@ -181,6 +181,7 @@ public:
      */
     bool isPlayableCharacter();
 
+    virtual void setSize(QSizeF size);
 signals:
     /**
      * @brief positionChanged
@@ -239,11 +240,14 @@ private slots:
      */
 	void changeCharacter();
 private:
+    QString getSubTitle() const;
+
+private:
     Character* m_character;
     QPointF m_center;
     int m_diameter;
     QPixmap* m_thumnails;
-    QRectF m_rect;
+    QRectF m_rectText;
 	QString m_title;
 
     //QAction*
@@ -257,6 +261,8 @@ private:
     QPointF m_oldPosition;
     QPainterPath m_debugPath;
     QPainterPath m_debugPath2;
+
+    bool m_protectGeometryChange;
 };
 
 #endif // CHARACTERITEM_H

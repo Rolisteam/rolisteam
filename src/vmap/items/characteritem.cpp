@@ -34,14 +34,15 @@
 #include "vmap/items/sightitem.h"
 #include "map/map.h"
 
+#define MARGING 1
 CharacterItem::CharacterItem()
-: VisualItem(),m_character(NULL),m_thumnails(NULL)
+: VisualItem(),m_character(NULL),m_thumnails(NULL),m_protectGeometryChange(false)
 {
     createActions();
 }
 
 CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
-    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL)
+    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL),m_protectGeometryChange(false)
 {
 	setPos(m_center-QPoint(diameter/2,diameter/2));
 	sizeChanged(diameter);
@@ -90,7 +91,8 @@ VisualItem::ItemType CharacterItem::getType()
 }
 QRectF CharacterItem::boundingRect() const
 {
-    return m_rect;
+    QRectF uni = m_rect.united(m_rectText);
+    return uni;
 }
 QPainterPath CharacterItem::shape() const
 {
@@ -103,12 +105,39 @@ QPainterPath CharacterItem::shape() const
     {
         path.addRoundedRect(0,0,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
     }
+    path.addRect(m_rectText);
+
 	return path;
 }
 void CharacterItem::setNewEnd(QPointF& nend)
 {
     //m_center = nend;
 }
+QString CharacterItem::getSubTitle() const
+{
+    QString toShow;
+    if(m_character->isNpc())
+    {
+        if(getOption(VisualItem::ShowNpcName).toBool())
+        {
+            toShow = m_character->getName();
+        }
+        if(getOption(VisualItem::ShowNpcNumber).toBool())
+        {
+            toShow = m_character->getName();
+        }
+        if(getOption(VisualItem::ShowNpcName).toBool() && getOption(VisualItem::ShowNpcNumber).toBool())
+        {
+            toShow = QString("%1 - %2").arg(m_character->getName()).arg(m_character->number());
+        }
+    }
+    else if(getOption(VisualItem::ShowPcName).toBool())
+    {
+        toShow = m_character->getName();
+    }
+    return toShow;
+}
+
 void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
     if(m_thumnails==NULL)
@@ -119,26 +148,8 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
     setChildrenVisible(hasFocusOrChildren);
     emit selectStateChange(hasFocusOrChildren);
 
-	QString toShow;
-	if(m_character->isNpc())
-	{
-        if(getOption(VisualItem::ShowNpcName).toBool())
-		{
-			toShow = m_character->getName();
-		}
-        if(getOption(VisualItem::ShowNpcNumber).toBool())
-		{
-			toShow = m_character->getName();
-		}
-        if(getOption(VisualItem::ShowNpcName).toBool() && getOption(VisualItem::ShowNpcNumber).toBool())
-		{
-			toShow = QString("%1 - %2").arg(m_character->getName()).arg(m_character->number());
-		}
-	}
-    else if(getOption(VisualItem::ShowPcName).toBool())
-	{
-		toShow = m_character->getName();
-	}
+    QString toShow = getSubTitle();
+
 	painter->setRenderHint(QPainter::Antialiasing,true);
 	painter->setRenderHint(QPainter::TextAntialiasing,true);
 	painter->setRenderHint(QPainter::SmoothPixmapTransform,true);
@@ -176,10 +187,9 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 			painter->drawEllipse(m_rect.adjusted(3,3,-3,-3));
 		}
 	}
-
-    QRectF rectText;
+    //QRectF rectText;
     QFontMetrics metric(painter->font());
-	rectText.setRect(m_rect.center().x()-(metric.boundingRect(toShow).width()/2),m_rect.bottom(),metric.boundingRect(toShow).width(),metric.height());
+    m_rectText.setRect(m_rect.center().x()-((metric.boundingRect(toShow).width()+MARGING)/2),m_rect.bottom(),metric.boundingRect(toShow).width()+MARGING+MARGING,metric.height());
 
 	if(!toShow.isEmpty())
 	{
@@ -189,7 +199,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 			setToolTip(m_title);
 		}
 		painter->setPen(m_character->getColor());
-		painter->drawText(rectText,Qt::AlignCenter,toShow);
+        painter->drawText(m_rectText,Qt::AlignCenter,toShow);
 	}
 
     painter->drawPath(m_debugPath);
@@ -204,6 +214,27 @@ void CharacterItem::sizeChanged(int m_size)
 	m_rect.setRect(0,0,m_diameter,m_diameter);
     generatedThumbnail();
 }
+void CharacterItem::setSize(QSizeF size)
+{
+    //m_rect.setSize(size);
+    qDebug() << size;
+    /*for(ChildPointItem* item : *m_child)
+    {
+        item->blockSignals(true);
+    }*/
+    m_protectGeometryChange = true;
+    sizeChanged(size.width());
+    updateChildPosition();
+    m_protectGeometryChange = false;
+    /*blockSignals(false);
+    for(ChildPointItem* item : *m_child)
+    {
+        item->blockSignals(false);
+    }*/
+
+    update();
+}
+
 void CharacterItem::generatedThumbnail()
 {
     if(m_thumnails!=NULL)
@@ -379,7 +410,8 @@ int CharacterItem::getChildPointCount() const
 void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
     QRectF rect=m_rect;
-
+    if(m_protectGeometryChange)
+        return;
     switch ((int)pointId)
     {
     case 0:
@@ -427,7 +459,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         break;
     case 1:
         pos = m_rect.topRight();
-         m_child->value(0)->setPos(m_rect.topLeft());
+        m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
