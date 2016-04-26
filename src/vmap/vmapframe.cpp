@@ -278,7 +278,13 @@ void  VMapFrame::processOpacityMessage(NetworkMessageReader* msg)
         m_vmap->processOpacityMessage(msg);
     }
 }
-
+void  VMapFrame::processLayerMessage(NetworkMessageReader* msg)
+{
+    if(NULL!=m_vmap)
+    {
+        m_vmap->processLayerMessage(msg);
+    }
+}
 void VMapFrame::processGeometryChangeItem(NetworkMessageReader* msg)
 {
     if(NULL!=m_vmap)

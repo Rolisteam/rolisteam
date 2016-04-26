@@ -197,6 +197,7 @@ public slots :
 	 */
     virtual void setCurrentNpcNumberChanged(int);
     
+    void processLayerMessage(NetworkMessageReader *msg);
 signals:
     /**
      * @brief defineCurrentTool
