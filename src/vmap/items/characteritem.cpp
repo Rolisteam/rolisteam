@@ -58,6 +58,8 @@ void CharacterItem::writeData(QDataStream& out) const
     out << m_diameter;
     out << *m_thumnails;
     out << m_rect;
+    out << m_layer;
+    //out << zValue();
     if(NULL!=m_character)
     {
         out << true;
@@ -76,6 +78,12 @@ void CharacterItem::readData(QDataStream& in)
     m_thumnails = new QPixmap();
     in >> *m_thumnails;
     in >> m_rect;
+    int tmp;
+    in >> tmp;
+    m_layer = (VisualItem::Layer)tmp;
+    //qreal zVal;
+    //in >>  zVal;
+    //setZValue(zVal);
     bool hasCharacter;
     in >> hasCharacter;
     m_character = new Character();
@@ -216,22 +224,10 @@ void CharacterItem::sizeChanged(int m_size)
 }
 void CharacterItem::setSize(QSizeF size)
 {
-    //m_rect.setSize(size);
-    qDebug() << size;
-    /*for(ChildPointItem* item : *m_child)
-    {
-        item->blockSignals(true);
-    }*/
     m_protectGeometryChange = true;
     sizeChanged(size.width());
     updateChildPosition();
     m_protectGeometryChange = false;
-    /*blockSignals(false);
-    for(ChildPointItem* item : *m_child)
-    {
-        item->blockSignals(false);
-    }*/
-
     update();
 }
 
@@ -273,6 +269,9 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     msg->string16(m_character->getUuid());
     msg->uint16(m_diameter);
 
+    msg->uint8(m_layer);
+    msg->real(zValue());
+
     //pos
     msg->real(pos().x());
     msg->real(pos().y());
@@ -307,6 +306,10 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     setRotation(msg->real());
     QString idCharacter = msg->string16();
     m_diameter = msg->uint16();
+
+    m_layer = (VisualItem::Layer)msg->uint8();
+
+    setZValue(msg->real());
 
     qreal x = msg->real();
     qreal y = msg->real();
@@ -370,12 +373,12 @@ QString CharacterItem::getCharacterId() const
 
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-
     QVariant newValue = value;
     if(change == QGraphicsItem::ItemPositionChange)
     {
         m_oldPosition = pos();
         QList<QGraphicsItem*> list = collidingItems();
+        //qDebug()<<"collision list:"<<list;
 
         //list.clear();
         QPainterPath path;
@@ -385,11 +388,12 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &va
         QGraphicsScene* currentScene = scene();
         list.append(currentScene->items(path));
 
-        foreach(QGraphicsItem* item,list)
+        for(QGraphicsItem* item : list)
         {
             VisualItem* vItem = dynamic_cast<VisualItem*>(item);
             if(NULL!=vItem)
             {
+                //qDebug() << (vItem->getLayer()==VisualItem::OBJECT)<< (int)vItem->getLayer();
                 if(vItem->getLayer()==VisualItem::OBJECT)
                 {
                    newValue = m_oldPosition;
