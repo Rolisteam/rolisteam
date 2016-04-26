@@ -253,7 +253,7 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     }
     else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putGroundLayer))
     {
-        m_layer = (VisualItem::Layer)selectedAction->data().toInt();
+        setLayer((VisualItem::Layer)selectedAction->data().toInt());
         itemLayerChanged(this);
     }
 }
@@ -297,7 +297,12 @@ VisualItem::Layer VisualItem::getLayer()
 
 void VisualItem::setLayer(VisualItem::Layer layer)
 {
-    m_layer = layer;
+    if(m_layer!=layer)
+    {
+        qDebug() << "Layer Changed"<< layer << m_layer;
+        m_layer = layer;
+        sendItemLayer();
+    }
 }
 
 void VisualItem::addActionContextMenu(QMenu*)
@@ -335,6 +340,21 @@ bool VisualItem::hasFocusOrChild()
     }
     return false;
 }
+void VisualItem::sendItemLayer()
+{
+    qDebug() << "before if send item layer";
+    if(getOption(VisualItem::LocalIsGM).toBool() ||
+       getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)//getOption PermissionMode
+    {
+        qDebug()<< "sendItem Layer";
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::LayerItemChanged);
+        msg.string8(m_mapId);
+        msg.string16(m_id);
+        msg.uint8(m_layer);
+        msg.sendAll();
+    }
+}
+
 void VisualItem::sendOpacityMsg()
 {
     if(getOption(VisualItem::LocalIsGM).toBool() ||
@@ -352,6 +372,13 @@ void VisualItem::readOpacityMsg(NetworkMessageReader* msg)
     qreal opa = msg->real();
     blockSignals(true);
     setOpacity(opa);
+    blockSignals(false);
+}
+void VisualItem::readLayerMsg(NetworkMessageReader* msg)
+{
+    quint8 lay = msg->uint8();
+    blockSignals(true);
+    setLayer((VisualItem::Layer)lay);
     blockSignals(false);
 }
 void VisualItem::sendPositionMsg()

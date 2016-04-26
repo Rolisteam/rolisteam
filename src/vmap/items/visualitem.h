@@ -242,6 +242,7 @@ public:
     bool getHoldSize() const;
     void setHoldSize(bool holdSize);
 
+    void readLayerMsg(NetworkMessageReader *msg);
 signals:
     /**
      * @brief itemGeometryChanged
@@ -285,6 +286,7 @@ public slots:
 
     virtual void sendOpacityMsg();
     
+    void sendItemLayer();
 protected:
 	/**
 	 * @brief mouseReleaseEvent
