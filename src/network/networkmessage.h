@@ -147,6 +147,7 @@ enum Action {
     MoveItem,
     DelPoint,
     OpacityItemChanged,
+    LayerItemChanged,
     GeometryItemChanged,
     AddPoint,
     GeometryViewChanged,
