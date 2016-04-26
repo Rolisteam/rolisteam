@@ -1825,6 +1825,16 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
                 }
             }
             break;
+        case NetMsg::LayerItemChanged:
+            {
+                QString vmapId = msg->string8();
+                VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
+                if(NULL!=tmp)
+                {
+                    tmp->processLayerMessage(msg);
+                }
+            }
+            break;
         case NetMsg::AddPoint:
             break;
         case NetMsg::vmapChanges:
