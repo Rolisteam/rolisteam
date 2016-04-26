@@ -47,6 +47,7 @@ void ImageItem::writeData(QDataStream& out) const
 	out << m_keepAspect;
 	out << m_color;
 	out << m_id;
+    out << (int)m_layer;
     out << m_image;
     out << m_imagePath;
     out << m_initialized;
@@ -62,6 +63,9 @@ void ImageItem::readData(QDataStream& in)
 	in >> m_keepAspect;
 	in >> m_color;
 	in >> m_id;
+    int i;
+    in >> i;
+    m_layer = (VisualItem::Layer)i;
     in >> m_image;
     in >> m_imagePath;
     in >> m_initialized;
@@ -89,6 +93,8 @@ void ImageItem::fillMessage(NetworkMessageWriter* msg)
 	msg->real(m_rect.y());
 	msg->real(m_rect.width());
 	msg->real(m_rect.height());
+    msg->uint8((int)m_layer);
+    msg->real(zValue());
 
 	msg->int8(m_keepAspect);
 	msg->rgb(m_color);
@@ -125,6 +131,9 @@ void ImageItem::readItem(NetworkMessageReader* msg)
 	m_rect.setY(msg->real());
 	m_rect.setWidth(msg->real());
 	m_rect.setHeight(msg->real());
+    m_layer = (VisualItem::Layer)msg->int8();
+    setZValue(msg->real());
+
 	m_keepAspect = msg->int8();
 	m_color = msg->rgb();
     QByteArray array = msg->byteArray32();

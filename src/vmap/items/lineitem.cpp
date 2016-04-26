@@ -85,6 +85,7 @@ void LineItem::writeData(QDataStream& out) const
     out << m_endPoint;
     out << m_pen;
     out << m_color;
+    out << (int)m_layer;
 }
 
 void LineItem::readData(QDataStream& in)
@@ -94,6 +95,9 @@ void LineItem::readData(QDataStream& in)
     in >> m_endPoint;
     in >> m_pen;
     in >> m_color;
+    int i;
+    in >> i;
+    m_layer = (VisualItem::Layer)i;
 }
 VisualItem::ItemType LineItem::getType()
 {
@@ -104,6 +108,8 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
+    msg->uint8((int)m_layer);
+    msg->real(zValue());
 
     //rect
     msg->real(m_rect.x());
@@ -125,6 +131,8 @@ void LineItem::readItem(NetworkMessageReader* msg)
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
+    m_layer = (VisualItem::Layer)msg->uint8();
+    setZValue(msg->real());
     //rect
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());

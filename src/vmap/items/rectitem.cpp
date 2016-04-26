@@ -115,7 +115,8 @@ void RectItem::writeData(QDataStream& out) const
     out << scale();
     out << rotation();
     out << pos();
-    out << zValue();
+    //out << zValue();
+    out << (int)m_layer;
 }
 
 void RectItem::readData(QDataStream& in)
@@ -138,10 +139,14 @@ void RectItem::readData(QDataStream& in)
     in >> p;
     setPos(p);
 
-    qreal zvalue;
-    in >> zvalue;
-    setZValue(zvalue);
 
+    /*qreal zvalue;
+    in >> zvalue;
+    setZValue(zvalue);*/
+
+    int i;
+    in >> i;
+    m_layer = (VisualItem::Layer)i;
 }
 void RectItem::fillMessage(NetworkMessageWriter* msg)
 {
@@ -152,6 +157,9 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_rect.y());
     msg->real(m_rect.width());
     msg->real(m_rect.height());
+
+    msg->uint8((int)m_layer);
+    msg->real(zValue());
 
     //pos
     msg->real(pos().x());
@@ -176,6 +184,8 @@ void RectItem::readItem(NetworkMessageReader* msg)
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
 
+    m_layer = (VisualItem::Layer)msg->uint8();
+    setZValue(msg->real());
     //pos
     qreal x  = msg->real();
     qreal y = msg->real();

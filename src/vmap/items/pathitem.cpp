@@ -153,6 +153,7 @@ void PathItem::writeData(QDataStream& out) const
     out << scale();
     out << rotation();
     out << m_penMode;
+    out << (VisualItem::Layer)m_layer;
 }
 
 void PathItem::readData(QDataStream& in)
@@ -170,6 +171,9 @@ void PathItem::readData(QDataStream& in)
     in >> rotation;
     setRotation(rotation);
     in >> m_penMode;
+    int i;
+    in >> i;
+    m_layer = (VisualItem::Layer)i;
 }
 VisualItem::ItemType PathItem::getType()
 {
@@ -182,6 +186,8 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(rotation());
     msg->uint8(m_closed);
     msg->uint8(m_penMode);
+    msg->uint8((VisualItem::Layer)m_layer);
+    msg->real(zValue());
     //pen
     msg->uint16(m_pen.width());
     msg->rgb(m_pen.color());
@@ -206,7 +212,8 @@ void PathItem::readItem(NetworkMessageReader* msg)
     m_closed = (bool)msg->uint8();
     m_closeAct->setChecked(m_closed);
     m_penMode = (bool)msg->uint8();
-
+    m_layer = (VisualItem::Layer)msg->uint8();
+    setZValue(msg->real());
     //pen
     m_pen.setWidth(msg->int16());
     m_pen.setColor(msg->rgb());

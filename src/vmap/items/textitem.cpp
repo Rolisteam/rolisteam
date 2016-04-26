@@ -303,7 +303,8 @@ void TextItem::writeData(QDataStream& out) const
     out << scale();
     out << rotation();
     out << pos();
-    out << zValue();
+    //out << zValue();
+    out << (int) m_layer;
 }
 void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -338,10 +339,12 @@ void TextItem::readData(QDataStream& in)
     setPos(pos);
 
 
-    qreal zvalue;
+   /* qreal zvalue;
     in >> zvalue;
-    setZValue(zvalue);
-
+    setZValue(zvalue);*/
+    int i;
+    in >> i;
+    m_layer = (VisualItem::Layer)i;
 
 }
 void TextItem::fillMessage(NetworkMessageWriter* msg)
@@ -349,6 +352,8 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
+    msg->uint8((int)m_layer);
+    msg->real(zValue());
     //pos
     msg->real(pos().x());
     msg->real(pos().y());
@@ -364,6 +369,8 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_id = msg->string16();
     setScale(msg->real());
     setRotation(msg->real());
+    m_layer = (VisualItem::Layer)msg->uint8();
+    setZValue(msg->real());
     //pos
     qreal x = msg->real();
     qreal y = msg->real();
