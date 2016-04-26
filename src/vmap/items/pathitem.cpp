@@ -113,7 +113,10 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     }
     if(!m_penMode)
     {
-        path.lineTo(m_end);
+        if(!m_end.isNull())
+        {
+            path.lineTo(m_end);
+        }
     }
     painter->save();
     painter->setPen(m_pen);
@@ -154,6 +157,8 @@ void PathItem::writeData(QDataStream& out) const
     out << rotation();
     out << m_penMode;
     out << (VisualItem::Layer)m_layer;
+
+
 }
 
 void PathItem::readData(QDataStream& in)
@@ -174,6 +179,8 @@ void PathItem::readData(QDataStream& in)
     int i;
     in >> i;
     m_layer = (VisualItem::Layer)i;
+
+    //m_end = m_start;
 }
 VisualItem::ItemType PathItem::getType()
 {
