@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>611</width>
-    <height>481</height>
+    <height>556</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -275,6 +275,9 @@
           <iconset resource="../../rolisteam.qrc">
            <normaloff>:/resources/icons/add_round.png</normaloff>:/resources/icons/add_round.png</iconset>
          </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
        <item>
@@ -308,6 +311,9 @@
         <widget class="QPushButton" name="m_connect">
          <property name="text">
           <string>Connect</string>
+         </property>
+         <property name="default">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
