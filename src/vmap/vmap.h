@@ -318,6 +318,7 @@ public slots:
     void setCurrentItemOpacity(qreal);
 
     void selectionHasChanged();
+    void processLayerMessage(NetworkMessageReader *msg);
 signals:
     /**
      * @brief npcAdded

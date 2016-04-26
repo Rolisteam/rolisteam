@@ -941,6 +941,19 @@ void VMap::processOpacityMessage(NetworkMessageReader* msg)
         }
     }
 }
+void VMap::processLayerMessage(NetworkMessageReader* msg)
+{
+    qDebug() << "processe Layer Message;";
+    if(NULL!=msg)
+    {
+        QString id = msg->string16();
+        VisualItem* item = m_itemMap->value(id);
+        if(NULL!=item)
+        {
+            item->readLayerMsg(msg);
+        }
+    }
+}
 void VMap::processDelItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
@@ -1455,8 +1468,10 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
     }
 
     // reassign z-levels
+    m_sortedItemList.removeAll(m_sightItem->getId());
+    m_sortedItemList.append(m_sightItem->getId());
     int z =0;
-    //foreach (VisualItem* item, m_sortedItemList)
+    //foreach (VisualItem* item, )
     for(QString key : m_sortedItemList)
     {
         VisualItem* item = m_itemMap->value(key);
@@ -1465,7 +1480,10 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
             item->setZValue(++z);
         }
     }
+    qDebug() << m_sortedItemList.contains(m_sightItem->getId()) << "######################";
+
     m_sightItem->setZValue(++z);
+    //ensure that character player are above everythings.
     if(!getOption(VisualItem::LocalIsGM).toBool())
     {
         foreach(CharacterItem* item,m_characterItemMap->values())
