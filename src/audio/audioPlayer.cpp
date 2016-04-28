@@ -56,7 +56,7 @@ AudioPlayer*  AudioPlayer::getInstance(QWidget *parent)
 void AudioPlayer::contextMenuEvent(QContextMenuEvent* ev)
 {
     QMenu menu;
-    if(!PreferencesManager::getInstance()->value("isPlayer",true).toBool())
+    if(m_isGM)
     {
         foreach(PlayerWidget* tmp,m_players)
         {

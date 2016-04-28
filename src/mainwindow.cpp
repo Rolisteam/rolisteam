@@ -148,7 +148,7 @@ void MainWindow::addMediaToMdiArea(MediaContainer* mediac)
     CleverURI* uri = mediac->getCleverUri();
     if(NULL!=uri)
     {
-        setLatestFile(mediac->getCleverUri());
+        setLatestFile(uri);
         m_sessionManager->addRessource(mediac->getCleverUri());
         uri->setDisplayed(true);
     }
@@ -760,13 +760,12 @@ void MainWindow::saveCurrentMedia()
                 {
                     return;
                 }
-
-                int lastSlash = fileName.lastIndexOf("/");
-                m_preferences->registerValue(key,fileName.left(lastSlash));
-
+                QFileInfo info(fileName);
+                m_preferences->registerValue(key,info.absolutePath());
                 cleverURI->setUri(fileName);
             }
             currentMedia->saveMedia();
+            setLatestFile(cleverURI);
         }
     }
 }

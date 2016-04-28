@@ -277,7 +277,7 @@ bool ColorSelector::eventFilter(QObject* obj, QEvent* event)
     {
         if(obj==m_maskColor)
         {
-            if (m_preferences->value("isPlayer",false).toBool())
+            if (!m_isGM)
                 return false;
 
             setBackgroundColorToWidget(m_currentColor,QColor(Qt::white));
@@ -288,7 +288,7 @@ bool ColorSelector::eventFilter(QObject* obj, QEvent* event)
         }
         else if(obj==m_unveilColor)
         {
-            if (m_preferences->value("isPlayer",false).toBool())
+            if (!m_isGM)
                 return false;
 
             setBackgroundColorToWidget(m_currentColor,QColor(Qt::white));
