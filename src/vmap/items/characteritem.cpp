@@ -35,6 +35,7 @@
 #include "map/map.h"
 
 #define MARGING 1
+#define MINI_VALUE 25
 CharacterItem::CharacterItem()
 : VisualItem(),m_character(NULL),m_thumnails(NULL),m_protectGeometryChange(false)
 {
@@ -422,12 +423,14 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         rect.setTopLeft(pos);
         break;
     case 1:
+        pos.setY(rect.topRight().x()-pos.x());
         rect.setTopRight(pos);
         break;
     case 2:
         rect.setBottomRight(pos);
         break;
     case 3:
+        pos.setX(rect.bottomLeft().y()-pos.y());
         rect.setBottomLeft(pos);
         break;
     case 4:
@@ -441,13 +444,13 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
        // emit geometryChangeOnUnkownChild(pointId,pos);
         break;
     }
-	if(rect.width()<0.1)
+    if(rect.width()<MINI_VALUE)
 	{
-		rect.setWidth(0.1);
+        rect.setWidth(MINI_VALUE);
 	}
-	if(rect.height()<0.1)
+    if(rect.height()<MINI_VALUE)
 	{
-		rect.setHeight(0.1);
+        rect.setHeight(MINI_VALUE);
 	}
     m_diameter = qMin(rect.width(),rect.height());
     sizeChanged(m_diameter);
