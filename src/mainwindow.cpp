@@ -47,7 +47,7 @@
 #include "network/networkmanager.h"
 #include "Image.h"
 #include "network/networkmessagewriter.h"
-
+#include "charactersheet/charactersheet.h"
 #include "data/person.h"
 #include "data/player.h"
 #include "userlist/playersList.h"
@@ -1661,6 +1661,25 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
                 character->showOrientation(showOrientation);
             }
         }
+    }
+    else if(NetMsg::addCharacterSheet == msg->action())
+    {
+        /// @todo Improve the clarity of this code.
+        QString idMedia = msg->string8();
+        CharacterSheet* sheet = new CharacterSheet();
+        sheet->read(*msg);
+        QString qmlData = msg->string32();
+        CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
+        RolisteamImageProvider* imageProvider = new RolisteamImageProvider();
+        imageProvider->read(*msg);
+        sheetWindow->setImgProvider(imageProvider);
+        sheetWindow->setMediaId(idMedia);
+        sheetWindow->setQmlData(qmlData);
+        sheetWindow->addCharacterSheet(sheet);
+        addMediaToMdiArea(sheetWindow);
+        connect(sheetWindow,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
+        //sheetWindow->addTabWithSheetView(sheet);
+
     }
 }
 void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
