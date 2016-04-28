@@ -182,8 +182,15 @@ CharacterSheet* CharacterSheetModel::addCharacterSheet()
     endInsertColumns();
     return sheet;
 }
-
-Section *CharacterSheetModel::getRootSection() const
+void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
+{
+    beginInsertColumns(QModelIndex(),m_characterList->size()+1 ,m_characterList->size()+1 );
+    ++m_characterCount;
+    m_characterList->append(sheet);
+    emit characterSheetHasBeenAdded(sheet);
+    endInsertColumns();
+}
+Section* CharacterSheetModel::getRootSection() const
 {
     return m_rootSection;
 }
