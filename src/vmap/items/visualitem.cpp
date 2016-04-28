@@ -342,11 +342,9 @@ bool VisualItem::hasFocusOrChild()
 }
 void VisualItem::sendItemLayer()
 {
-    qDebug() << "before if send item layer";
     if(getOption(VisualItem::LocalIsGM).toBool() ||
        getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)//getOption PermissionMode
     {
-        qDebug()<< "sendItem Layer";
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::LayerItemChanged);
         msg.string8(m_mapId);
         msg.string16(m_id);
