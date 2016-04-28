@@ -67,10 +67,6 @@ void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 		{
 			setDragMode(QGraphicsView::NoDrag);
 		}
-       /* else if(event->modifiers() & Qt::ShiftModifier)
-        {
-            setDragMode(QGraphicsView::ScrollHandDrag);
-        }*/
 		else
 		{
 			setDragMode(QGraphicsView::RubberBandDrag);
@@ -91,7 +87,7 @@ void RGraphicsView::mouseMoveEvent(QMouseEvent *event)
 {
     if((VToolsBar::HANDLER == m_currentTool)&&
        (event->modifiers() & Qt::ShiftModifier)&&
-       (event->buttons() & Qt::LeftButton))
+       (event->buttons() & Qt::LeftButton)&&(dragMode()==QGraphicsView::RubberBandDrag))
     {
         if(!m_lastPoint.isNull())
         {
