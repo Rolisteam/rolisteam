@@ -161,6 +161,10 @@ void CharacterSheetWindow::affectSheetToCharacter()
                 NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterSheet);
                 msg.string8(m_mediaId);
                 sheet->fill(msg);
+                msg.string32(m_qmlData);
+                m_imgProvider->fill(msg);
+                Player* person = character->getParentPlayer();
+                msg.sendTo(person->link());
             }
         }
     }
@@ -340,6 +344,31 @@ void CharacterSheetWindow::closeEvent(QCloseEvent *event)
     setVisible(false);
     event->ignore();
     
+}
+
+RolisteamImageProvider *CharacterSheetWindow::getImgProvider() const
+{
+    return m_imgProvider;
+}
+
+void CharacterSheetWindow::setImgProvider(RolisteamImageProvider *imgProvider)
+{
+    m_imgProvider = imgProvider;
+}
+
+QString CharacterSheetWindow::getQmlData() const
+{
+    return m_qmlData;
+}
+
+void CharacterSheetWindow::setQmlData(const QString &qmlData)
+{
+    m_qmlData = qmlData;
+}
+
+void CharacterSheetWindow::addCharacterSheet(CharacterSheet* sheet)
+{
+    m_model.addCharacterSheet(sheet);
 }
 bool CharacterSheetWindow::hasDockWidget() const
 {

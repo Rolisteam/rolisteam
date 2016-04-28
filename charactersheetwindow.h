@@ -52,6 +52,14 @@ public:
     bool readFileFromUri();
     void saveMedia();
     
+    QString getQmlData() const;
+    void setQmlData(const QString &qmlData);
+
+    void addCharacterSheet(CharacterSheet*);
+
+    RolisteamImageProvider *getImgProvider() const;
+    void setImgProvider(RolisteamImageProvider *imgProvider);
+
 signals:
     void addWidgetToMdiArea(QWidget*);
 
