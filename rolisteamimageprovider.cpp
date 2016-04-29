@@ -41,16 +41,13 @@ void RolisteamImageProvider::setData(const QHash<QString, QPixmap> &data)
 void RolisteamImageProvider::fill(NetworkMessageWriter &msg)
 {
     msg.uint16(m_data.count());
-    qDebug() << "image Provider:"<< m_data.count();
     for(auto key : m_data.keys())
     {
         msg.string16(key);
-        qDebug() << key;
         QByteArray array;
         QBuffer buffer(&array);
         buffer.open(QIODevice::WriteOnly);
         m_data[key].toImage().save(&buffer,"jpg");
-        qDebug() << array.size();
         msg.byteArray32(array);
     }
 }
@@ -58,15 +55,12 @@ void RolisteamImageProvider::fill(NetworkMessageWriter &msg)
 void RolisteamImageProvider::read(NetworkMessageReader &msg)
 {
     int size = msg.uint16();
-    qDebug() << "image Provider:"<< size;
     for(int i = 0; i<size; ++i)
     {
         QString key = msg.string16();
-        qDebug() << "read" <<key ;
         QByteArray array = msg.byteArray32();
         QPixmap pix;
         pix.loadFromData(array);
-        qDebug() << "isNull"<<pix.isNull();
         m_data.insert(key,pix);
     }
 }
