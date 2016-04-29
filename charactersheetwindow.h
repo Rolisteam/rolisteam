@@ -60,6 +60,9 @@ public:
     RolisteamImageProvider *getImgProvider() const;
     void setImgProvider(RolisteamImageProvider *imgProvider);
 
+    void fill(NetworkMessageWriter* msg, CharacterSheet* sheet);
+    void read(NetworkMessageReader* msg);
+
 signals:
     void addWidgetToMdiArea(QWidget*);
 

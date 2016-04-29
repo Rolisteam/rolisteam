@@ -159,10 +159,7 @@ void CharacterSheetWindow::affectSheetToCharacter()
             if((NULL!=m_currentCharacterSheet)&&(NULL!=parent)&&(NULL!=localItem)&&(localItem->isGM()))
             {
                 NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterSheet);
-                msg.string8(m_mediaId);
-                sheet->fill(msg);
-                msg.string32(m_qmlData);
-                m_imgProvider->fill(msg);
+                fill(&msg,sheet);
                 Player* person = character->getParentPlayer();
                 msg.sendTo(person->link());
             }
@@ -386,4 +383,39 @@ bool CharacterSheetWindow::readFileFromUri()
 void CharacterSheetWindow::saveMedia()
 {
     saveFile(m_uri->getUri());
+}
+void CharacterSheetWindow::fill(NetworkMessageWriter* msg,CharacterSheet* sheet)
+{
+    msg->string8(m_mediaId);
+    if(NULL!=sheet)
+    {
+        sheet->fill(*msg);
+    }
+    msg->string32(m_qmlData);
+    if(NULL!=m_imgProvider)
+    {
+        m_imgProvider->fill(*msg);
+    }
+
+}
+
+void CharacterSheetWindow::read(NetworkMessageReader* msg)
+{
+    if(NULL==msg)
+        return;
+
+    CharacterSheet* sheet = new CharacterSheet();
+
+    m_mediaId = msg->string8();
+    if(NULL!=sheet)
+    {
+        sheet->read(*msg);
+    }
+    m_qmlData = msg->string32();
+    if(NULL!=m_imgProvider)
+    {
+        m_imgProvider->read(*msg);
+    }
+
+    addCharacterSheet(sheet);
 }
