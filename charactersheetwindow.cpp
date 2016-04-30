@@ -59,7 +59,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
 
     m_view.setModel(&m_model);
     
-    resize(m_preferences->value("charactersheetwindows/width",400).toInt(),m_preferences->value("charactersheetwindows/height",200).toInt());
+    resize(m_preferences->value("charactersheetwindows/width",400).toInt(),m_preferences->value("charactersheetwindows/height",600).toInt());
     m_view.setAlternatingRowColors(true);
     setWindowTitle(m_title);
     
@@ -191,7 +191,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
         if(NULL!=field)
         {
             m_qmlView->engine()->rootContext()->setContextProperty(field->getId(),field);
-            qDebug() << field->getId() << field->value();
+           // qDebug() << field->getId() << field->value();
         }
     }
 
@@ -228,7 +228,7 @@ void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
 }
 void CharacterSheetWindow::continueLoading()
 {
-    qDebug() << "ContinueLoading";
+   // qDebug() << "ContinueLoading";
     if (m_sheetComponent->isError())
     {
         qWarning() << "hasError ///////"<< m_sheetComponent->errors();
@@ -238,11 +238,11 @@ void CharacterSheetWindow::continueLoading()
         QObject* sheetObj = m_sheetComponent->create();
         if(NULL!=sheetObj)
         {
-            qDebug() << "Creation succeed";
+           // qDebug() << "Creation succeed";
             QQuickItem* sheetItem = dynamic_cast<QQuickItem*>(sheetObj);
             if(NULL!=sheetItem)
             {
-                qDebug() << m_qmlView->rootObject();
+               // qDebug() << m_qmlView->rootObject();
                 sheetItem->setParentItem(m_qmlView->rootObject());
             }
         }
