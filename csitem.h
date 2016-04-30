@@ -22,7 +22,9 @@
 
 #include "charactersheetitem.h"
 #include <QGraphicsItem>
-
+/**
+ * @brief The CSItem class is managing some item values for RCSE.
+ */
 class CSItem : public CharacterSheetItem,public QGraphicsItem
 {
     Q_OBJECT

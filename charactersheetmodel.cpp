@@ -179,7 +179,7 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
     emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();
 }
-
+#ifndef RCSE
 void CharacterSheetModel::readRootSection(NetworkMessageReader* msg)
 {
     beginResetModel();
@@ -200,6 +200,7 @@ void CharacterSheetModel::fillRootSection(NetworkMessageWriter* msg)
     doc.setObject(data);
     msg->byteArray32(doc.toBinaryData());
 }
+#endif
 Section* CharacterSheetModel::getRootSection() const
 {
     return m_rootSection;
@@ -331,16 +332,14 @@ bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool writeData)
     return true;
 }
 
-bool CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readData)
+bool CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
 {
     beginResetModel();
-    if(readData)
+    if(readRootSection)
     {
         QJsonObject data = jsonObj["data"].toObject();
         m_rootSection->load(data,QList<QGraphicsScene*>());
     }
-
-
     m_characterCount = jsonObj["characterCount"].toInt();
     QJsonArray characters = jsonObj["characters"].toArray();
     foreach(auto charJson, characters)

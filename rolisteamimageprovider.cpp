@@ -37,7 +37,7 @@ void RolisteamImageProvider::setData(const QHash<QString, QPixmap> &data)
 {
     m_data = data;
 }
-
+#ifndef RCSE
 void RolisteamImageProvider::fill(NetworkMessageWriter &msg)
 {
     msg.uint16(m_data.count());
@@ -64,4 +64,4 @@ void RolisteamImageProvider::read(NetworkMessageReader &msg)
         m_data.insert(key,pix);
     }
 }
-
+#endif

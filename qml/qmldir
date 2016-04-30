@@ -5,3 +5,4 @@ SelectField 1.0 SelectField.qml
 TextAreaField 1.0 TextAreaField.qml
 TextFieldField 1.0 TextFieldField.qml
 CheckBoxField 1.0 CheckBoxField.qml
+DiceButton 1.0 DiceButton.qml

@@ -25,8 +25,11 @@
 
 #include <QTextStream>
 #include <QFile>
+
+#ifndef RCSE
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#endif
 
 class CharacterSheetItem;
 class CharacterSheet;
@@ -108,8 +111,8 @@ public:
     
     QList<CharacterSheetItem *>* getExportedList(CharacterSheet*);
     
-    bool writeModel(QJsonObject& file, bool data);
-    bool readModel(QJsonObject& file,bool data);
+    bool writeModel(QJsonObject& file, bool data= true);
+    bool readModel(QJsonObject& file,bool readRootSection);
     
     CharacterSheetItem* addSection(QString title);
     void addLine(CharacterSheetItem* parentItem,QString name,const QModelIndex& parent);
@@ -120,9 +123,10 @@ public:
 
     void addCharacterSheet(CharacterSheet *sheet);
 
+#ifndef RCSE
     void readRootSection(NetworkMessageReader* msg);
     void fillRootSection(NetworkMessageWriter* msg);
-
+#endif
 public slots:
     /**
     * @brief adds an empty CharacterSheet into the model.
