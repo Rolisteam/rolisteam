@@ -27,36 +27,120 @@
 
 class CharacterSheet;
 /**
- * @brief The Section class
+ * @brief The Section class store data field for charactersheet.
  */
 class Section : public CharacterSheetItem
 {
 public:
+    /**
+     * @brief Section constructor
+     */
     Section();
 
+    /**
+     * @brief hasChildren
+     * @return
+     */
     virtual bool hasChildren();
+    /**
+     * @brief getChildrenCount
+     * @return
+     */
     virtual int getChildrenCount() const;
+    /**
+     * @brief getChildAt
+     * @return
+     */
     virtual CharacterSheetItem* getChildAt(int) const;
+    /**
+     * @brief getChildAt
+     * @return
+     */
     virtual CharacterSheetItem* getChildAt(QString) const;
 
-
+    /**
+     * @brief getValueFrom
+     * @return
+     */
     virtual QVariant getValueFrom(CharacterSheetItem::ColumnId) const;
+    /**
+     * @brief setValueFrom
+     */
     virtual void setValueFrom(CharacterSheetItem::ColumnId,QVariant);
+    /**
+     * @brief mayHaveChildren
+     * @return
+     */
     virtual bool mayHaveChildren();
+    /**
+     * @brief appendChild
+     */
     virtual void appendChild(CharacterSheetItem*);
+    /**
+     * @brief indexOfChild
+     * @param itm
+     * @return
+     */
     virtual int indexOfChild(CharacterSheetItem *itm);
+    /**
+     * @brief getName
+     * @return
+     */
     QString getName() const;
+    /**
+     * @brief setName
+     * @param name
+     */
     void setName(const QString &name);
+    /**
+     * @brief save
+     * @param json
+     * @param exp
+     */
     virtual void save(QJsonObject& json,bool exp=false);
+    /**
+     * @brief load
+     * @param json
+     * @param scene
+     */
     virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene);
+    /**
+     * @brief generateQML
+     * @param out
+     */
     virtual void generateQML(QTextStream &out,CharacterSheetItem::QMLSection);
+    /**
+     * @brief setNewEnd
+     */
     virtual void setNewEnd(QPointF){}
+    /**
+     * @brief getItemType
+     * @return
+     */
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
+    /**
+     * @brief copySection
+     * @param itm
+     */
     void copySection(Section* itm);
+    /**
+     * @brief removeChild
+     * @return
+     */
     bool removeChild(CharacterSheetItem*);
+    /**
+     * @brief setValueForAll
+     * @param item
+     * @param col
+     */
     void setValueForAll(CharacterSheetItem* item,int col);
 
 public slots:
+    /**
+     * @brief fillList
+     * @param result
+     * @param character
+     */
     void fillList(QList<CharacterSheetItem *> *result, CharacterSheet *character);
 private:
     QHash<QString,CharacterSheetItem*> m_dataHash;
