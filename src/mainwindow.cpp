@@ -1665,17 +1665,9 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     else if(NetMsg::addCharacterSheet == msg->action())
     {
         /// @todo Improve the clarity of this code.
-        QString idMedia = msg->string8();
-        CharacterSheet* sheet = new CharacterSheet();
-        sheet->read(*msg);
-        QString qmlData = msg->string32();
         CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
-        RolisteamImageProvider* imageProvider = new RolisteamImageProvider();
-        imageProvider->read(*msg);
-        sheetWindow->setImgProvider(imageProvider);
-        sheetWindow->setMediaId(idMedia);
-        sheetWindow->setQmlData(qmlData);
-        sheetWindow->addCharacterSheet(sheet);
+        sheetWindow->read(msg);
+
         addMediaToMdiArea(sheetWindow);
         connect(sheetWindow,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
         //sheetWindow->addTabWithSheetView(sheet);
