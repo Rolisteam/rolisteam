@@ -41,7 +41,7 @@ CharacterSheetButton::CharacterSheetButton(QGraphicsItem* parent)
 void CharacterSheetButton::init()
 {
     ++m_count;
-    m_id = QStringLiteral("id%1").arg(m_count);
+    m_id = QStringLiteral("id_%1").arg(m_count);
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 
 
@@ -209,30 +209,19 @@ void CharacterSheetButton::generateQML(QTextStream &out,CharacterSheetItem::QMLS
 {
     if(sec==CharacterSheetItem::FieldSec)
     {
-    out << "    Rectangle {\n";
-    out << "        id:"<<m_id<< "\n";
-    out << "        Text {\n";
-    out << "            text: _"<<m_id<<".value\n";
-    out << "            color:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
-    out << "        }\n";
+    out << "    DiceButton {\n";
+    out << "        id:_"<<m_id<< "\n";
+    out << "        text: "<<m_id<<".label\n";
+    out << "        textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
     out << "        x:" << m_rect.x() << "*parent.realscale"<<"\n";
     out << "        y:" << m_rect.y()<< "*parent.realscale"<<"\n";
     out << "        width:" << m_rect.width() <<"*parent.realscale"<<"\n";
     out << "        height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
     out << "        color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
-    out << "        MouseArea {\n";
-    out << "            anchors.fill:parent\n";
-    out << "            onClicked:rollDiceCmd("<<m_value<<")\n";
-    out << "        }\n";
+    out << "        onClicked:rollDiceCmd("<<m_id<<".value)\n";
     out << "    }\n";
     }
-  /*  else if(sec==CharacterSheetItem::ConnectionSec)
-    {
-        out << "        if(valueKey==\""<<m_name<<"\")"<<"\n";
-        out << "        {"<<"\n";
-        out << "            "<<m_id.toLower().trimmed()<<".text=value;"<<"\n";
-        out << "        }"<<"\n";
-    }*/
+
 }
 
 QString CharacterSheetButton::getId() const
