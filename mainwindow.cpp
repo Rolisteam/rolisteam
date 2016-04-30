@@ -287,7 +287,7 @@ void MainWindow::save()
                 images.append(QString(buffer.data().toBase64()));
             }
             obj["background"]=images;
-            m_characterModel->writeModel(obj);
+            m_characterModel->writeModel(obj,false);
             json.setObject(obj);
             file.write(json.toJson());
 
@@ -337,7 +337,7 @@ void MainWindow::open()
                 ++i;
             }
             m_model->load(data,m_canvasList);
-            m_characterModel->readModel(data);
+            m_characterModel->readModel(data,false);
             updatePageSelector();
         }
     }
@@ -446,12 +446,13 @@ void MainWindow::showQML()
     QList<CharacterSheetItem *> list = m_model->children();
     for(CharacterSheetItem* item : list)
     {
+        qDebug() <<"add item into qml" << item->getId();
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
     ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root = ui->m_quickview->rootObject();
-    //connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
+    connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
 }
 void MainWindow::showQMLFromCode()
 {
