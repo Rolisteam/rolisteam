@@ -129,7 +129,6 @@ void CharacterSheet::save(QJsonObject& json)
         array[key]=m_valuesMap[key]->value();
     }
     json["values"]=array;
-    qDebug() << m_valuesMap;
 }
 
 void CharacterSheet::load(QJsonObject& json)
@@ -143,7 +142,6 @@ void CharacterSheet::load(QJsonObject& json)
         field->setId(key);
         m_valuesMap.insert(key,field);
     }
-    qDebug() << m_valuesMap;
 }
 #ifndef RCSE
 void CharacterSheet::fill(NetworkMessageWriter & msg)
