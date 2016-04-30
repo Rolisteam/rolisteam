@@ -151,7 +151,8 @@ void CharacterSheetWindow::affectSheetToCharacter()
         if(NULL!=sheet)
         {
             character->setSheet(sheet);
-            m_tabs->setTabText(m_currentCharacterSheet+1,character->getName());
+            sheet->setName(character->getName());
+            m_tabs->setTabText(m_currentCharacterSheet+1,sheet->getName());
 
 
             Player* parent = character->getParentPlayer();
