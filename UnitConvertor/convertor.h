@@ -12,7 +12,19 @@ class Convertor;
 }
 namespace GMTOOL
 {
-
+/**
+ * @page Convertor Unit Convertor
+ *
+ * @section Intro Introduction
+ * Convertor provides convertion for any kind of unit. This tool is dedicated to GM to convert value from books.<br/>
+ *
+ * @section unit Supported Units:
+ * @subsection distance Distance Units:
+ * @subsection temp Temperature Units:
+ * @subsection currency Currency Units:
+ *
+ *
+ */
 
 class Convertor : public QWidget
 {
