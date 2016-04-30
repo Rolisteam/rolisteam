@@ -37,6 +37,7 @@ class CharacterSheetItem : public QObject
     Q_PROPERTY(QString value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(int page READ getPage WRITE setPage NOTIFY pageChanged)
     Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly NOTIFY readOnlyChanged)
+    Q_PROPERTY(QString label READ getLabel WRITE setLabel NOTIFY labelChanged)
 public:
     enum CharacterSheetItemType {SectionItem,FieldItem,ButtonItem};
 
@@ -155,12 +156,8 @@ public:
      * @brief getLabel
      * @return
      */
-    QString getLabel() const;
-    /**
-     * @brief setLabel
-     * @param label
-     */
-    void setLabel(const QString &label);
+    Q_INVOKABLE QString getLabel() const;
+
     Q_INVOKABLE virtual QString value() const;
     Q_INVOKABLE bool isReadOnly() const;
     Q_INVOKABLE int getPage() const;
@@ -181,6 +178,11 @@ public slots:
      * @param page
      */
     void setPage(int page);
+    /**
+     * @brief setLabel
+     * @param label
+     */
+     void setLabel(const QString &label);
 
 
 
@@ -194,6 +196,7 @@ signals:
     void pageChanged();
     void readOnlyChanged();
     void idChanged();
+    void labelChanged();
 
 
 
