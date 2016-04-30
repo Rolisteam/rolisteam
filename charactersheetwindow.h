@@ -52,6 +52,17 @@ public:
     bool readFileFromUri();
     void saveMedia();
     
+    QString getQmlData() const;
+    void setQmlData(const QString &qmlData);
+
+    void addCharacterSheet(CharacterSheet*);
+
+    RolisteamImageProvider *getImgProvider() const;
+    void setImgProvider(RolisteamImageProvider *imgProvider);
+
+    void fill(NetworkMessageWriter* msg, CharacterSheet* sheet);
+    void read(NetworkMessageReader* msg);
+
 signals:
     void addWidgetToMdiArea(QWidget*);
 
@@ -61,6 +72,7 @@ public slots:
     void detachTab();
 
 
+    void rollDice(QString str);
 protected slots:
     void addTabWithSheetView(CharacterSheet *chSheet);
     /**

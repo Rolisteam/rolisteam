@@ -59,7 +59,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
 
     m_view.setModel(&m_model);
     
-    resize(m_preferences->value("charactersheetwindows/width",400).toInt(),m_preferences->value("charactersheetwindows/height",200).toInt());
+    resize(m_preferences->value("charactersheetwindows/width",400).toInt(),m_preferences->value("charactersheetwindows/height",600).toInt());
     m_view.setAlternatingRowColors(true);
     setWindowTitle(m_title);
     
@@ -151,7 +151,8 @@ void CharacterSheetWindow::affectSheetToCharacter()
         if(NULL!=sheet)
         {
             character->setSheet(sheet);
-            m_tabs->setTabText(m_currentCharacterSheet+1,character->getName());
+            sheet->setName(character->getName());
+            m_tabs->setTabText(m_currentCharacterSheet+1,sheet->getName());
 
 
             Player* parent = character->getParentPlayer();
@@ -159,8 +160,9 @@ void CharacterSheetWindow::affectSheetToCharacter()
             if((NULL!=m_currentCharacterSheet)&&(NULL!=parent)&&(NULL!=localItem)&&(localItem->isGM()))
             {
                 NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterSheet);
-                msg.string8(m_mediaId);
-                sheet->fill(msg);
+                fill(&msg,sheet);
+                Player* person = character->getParentPlayer();
+                msg.sendTo(person->link());
             }
         }
     }
@@ -190,7 +192,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
         if(NULL!=field)
         {
             m_qmlView->engine()->rootContext()->setContextProperty(field->getId(),field);
-            qDebug() << field->getId() << field->value();
+           // qDebug() << field->getId() << field->value();
         }
     }
 
@@ -213,6 +215,10 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     m_characterSheetlist.append(m_qmlView);
     m_tabs->addTab(m_qmlView,chSheet->getTitle());
 }
+void CharacterSheetWindow::rollDice(QString str)
+{
+
+}
 
 void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
 {
@@ -223,7 +229,7 @@ void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
 }
 void CharacterSheetWindow::continueLoading()
 {
-    qDebug() << "ContinueLoading";
+   // qDebug() << "ContinueLoading";
     if (m_sheetComponent->isError())
     {
         qWarning() << "hasError ///////"<< m_sheetComponent->errors();
@@ -233,11 +239,11 @@ void CharacterSheetWindow::continueLoading()
         QObject* sheetObj = m_sheetComponent->create();
         if(NULL!=sheetObj)
         {
-            qDebug() << "Creation succeed";
+           // qDebug() << "Creation succeed";
             QQuickItem* sheetItem = dynamic_cast<QQuickItem*>(sheetObj);
             if(NULL!=sheetItem)
             {
-                qDebug() << m_qmlView->rootObject();
+               // qDebug() << m_qmlView->rootObject();
                 sheetItem->setParentItem(m_qmlView->rootObject());
             }
         }
@@ -288,7 +294,8 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
         {
             QJsonDocument json = QJsonDocument::fromJson(file.readAll());
             QJsonObject jsonObj = json.object();
-            QJsonObject data = jsonObj["data"].toObject();
+
+           // QJsonObject data = jsonObj["data"].toObject();
 
             m_qmlData = jsonObj["qml"].toString();
 
@@ -305,7 +312,7 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
                 ++i;
             }
             //m_model->load(data,m_canvasList);
-            m_model.readModel(jsonObj);
+            m_model.readModel(jsonObj,true);
         }
         return true;
     }
@@ -336,6 +343,31 @@ void CharacterSheetWindow::closeEvent(QCloseEvent *event)
     event->ignore();
     
 }
+
+RolisteamImageProvider *CharacterSheetWindow::getImgProvider() const
+{
+    return m_imgProvider;
+}
+
+void CharacterSheetWindow::setImgProvider(RolisteamImageProvider *imgProvider)
+{
+    m_imgProvider = imgProvider;
+}
+
+QString CharacterSheetWindow::getQmlData() const
+{
+    return m_qmlData;
+}
+
+void CharacterSheetWindow::setQmlData(const QString &qmlData)
+{
+    m_qmlData = qmlData;
+}
+
+void CharacterSheetWindow::addCharacterSheet(CharacterSheet* sheet)
+{
+    m_model.addCharacterSheet(sheet);
+}
 bool CharacterSheetWindow::hasDockWidget() const
 {
     return false;
@@ -352,4 +384,41 @@ bool CharacterSheetWindow::readFileFromUri()
 void CharacterSheetWindow::saveMedia()
 {
     saveFile(m_uri->getUri());
+}
+void CharacterSheetWindow::fill(NetworkMessageWriter* msg,CharacterSheet* sheet)
+{
+    msg->string8(m_mediaId);
+    if(NULL!=sheet)
+    {
+        sheet->fill(*msg);
+    }
+    msg->string32(m_qmlData);
+    if(NULL!=m_imgProvider)
+    {
+        m_imgProvider->fill(*msg);
+    }
+    m_model.fillRootSection(msg);
+
+}
+
+void CharacterSheetWindow::read(NetworkMessageReader* msg)
+{
+    if(NULL==msg)
+        return;
+
+    CharacterSheet* sheet = new CharacterSheet();
+
+    m_mediaId = msg->string8();
+    if(NULL!=sheet)
+    {
+        sheet->read(*msg);
+    }
+    m_qmlData = msg->string32();
+    if(NULL!=m_imgProvider)
+    {
+        m_imgProvider->read(*msg);
+    }
+
+    addCharacterSheet(sheet);
+    m_model.readRootSection(msg);
 }

@@ -25,6 +25,8 @@
 
 #include <QTextStream>
 #include <QFile>
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 
 class CharacterSheetItem;
 class CharacterSheet;
@@ -115,6 +117,11 @@ public:
     void setRootSection(Section *rootSection);
 
     Section* getRootSection() const;
+
+    void addCharacterSheet(CharacterSheet *sheet);
+
+    void readRootSection(NetworkMessageReader* msg);
+    void fillRootSection(NetworkMessageWriter* msg);
 
 public slots:
     /**

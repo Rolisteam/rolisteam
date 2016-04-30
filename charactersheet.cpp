@@ -34,7 +34,7 @@
 
 int CharacterSheet::m_count=0;
 CharacterSheet::CharacterSheet()
-    : m_name("Character %1")
+    : m_name("Character %1"),m_rootSection(NULL)
 {
     ++m_count;
     m_name = m_name.arg(m_count);
@@ -129,7 +129,6 @@ void CharacterSheet::save(QJsonObject& json)
         array[key]=m_valuesMap[key]->value();
     }
     json["values"]=array;
-    qDebug() << m_valuesMap;
 }
 
 void CharacterSheet::load(QJsonObject& json)
@@ -143,7 +142,6 @@ void CharacterSheet::load(QJsonObject& json)
         field->setId(key);
         m_valuesMap.insert(key,field);
     }
-    qDebug() << m_valuesMap;
 }
 #ifndef RCSE
 void CharacterSheet::fill(NetworkMessageWriter & msg)
