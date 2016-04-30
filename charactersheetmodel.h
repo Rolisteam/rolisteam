@@ -25,6 +25,8 @@
 
 #include <QTextStream>
 #include <QFile>
+#include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 
 class CharacterSheetItem;
 class CharacterSheet;
@@ -117,6 +119,10 @@ public:
     Section* getRootSection() const;
 
     void addCharacterSheet(CharacterSheet *sheet);
+
+    void readRootSection(NetworkMessageReader* msg);
+    void fillRootSection(NetworkMessageWriter* msg);
+
 public slots:
     /**
     * @brief adds an empty CharacterSheet into the model.
