@@ -8,14 +8,21 @@ Rectangle {
     property alias textColor: textInput.color
     property alias hAlign: textInput.horizontalAlignment
     property alias vAlign: textInput.verticalAlignment
-    property bool clippedText: false
-    TextInput {//textInput.textColor
+    scale: mouseZone.pressed ? 0.8 : 1.0
+    signal clicked
+    Text {//textInput.textColor
         id: textInput
         anchors.fill: parent
-        selectByMouse: true
+        clip: true
         onWidthChanged: {
             computeSizeFont();
         }
+        MouseArea {
+            id: mouseZone
+            anchors.fill: parent
+            onClicked:  root.clicked()
+        }
+
         function computeSizeFont()
         {
             if(parent.clippedText)
