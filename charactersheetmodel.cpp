@@ -191,7 +191,7 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
     emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();
 }
-
+#ifndef RCSE
 void CharacterSheetModel::readRootSection(NetworkMessageReader* msg)
 {
     beginResetModel();
@@ -212,6 +212,7 @@ void CharacterSheetModel::fillRootSection(NetworkMessageWriter* msg)
     doc.setObject(data);
     msg->byteArray32(doc.toBinaryData());
 }
+#endif
 Section* CharacterSheetModel::getRootSection() const
 {
     return m_rootSection;

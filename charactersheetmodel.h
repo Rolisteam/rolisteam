@@ -25,8 +25,11 @@
 
 #include <QTextStream>
 #include <QFile>
+
+#ifndef RCSE
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+#endif
 
 class CharacterSheetItem;
 class CharacterSheet;
@@ -120,9 +123,10 @@ public:
 
     void addCharacterSheet(CharacterSheet *sheet);
 
+#ifndef RCSE
     void readRootSection(NetworkMessageReader* msg);
     void fillRootSection(NetworkMessageWriter* msg);
-
+#endif
 public slots:
     /**
     * @brief adds an empty CharacterSheet into the model.

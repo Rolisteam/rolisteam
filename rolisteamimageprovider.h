@@ -2,9 +2,10 @@
 #define ROLISTEAMIMAGEPROVIDER_H
 
 #include <QQuickImageProvider>
+#ifndef RCSE
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
-
+#endif
 /**
  * @brief The RolisteamImageProvider class is providing images to qml engine for charactersheet.
  */
@@ -22,10 +23,10 @@ public:
 
     QHash<QString, QPixmap> data() const;
     void setData(const QHash<QString, QPixmap> &data);
-
+#ifndef RCSE
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);
-
+#endif
 private:
     QHash<QString,QPixmap> m_data;
 };
