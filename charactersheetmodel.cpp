@@ -119,37 +119,25 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
         return Qt::AlignHCenter;
     if((role == Qt::DisplayRole)||(role == Qt::EditRole))
     {
-      /*  if(index.column()==0)
-        {*/
-                CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
-                if(NULL!=childItem)
-                {
-                    if(index.column()==0)
-                    {
-                        return childItem->getLabel();
-                    }
-                    else
-                    {
-                        QString path = childItem->getId();
-                        CharacterSheet* sheet = m_characterList->at(index.column()-1);
-                        return sheet->getValue(path);
-                        //childItem->setValue(value.toString(),index.column()-1);
-                    }
-                }
-       /* }
-        else
+        CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
+        if(NULL!=childItem)
         {
-            QModelIndex tmp = index.sibling(index.row(),0);
-            CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(tmp.internalPointer());
-            if(NULL!=childItem)
+            if(index.column()==0)
             {
-                return m_characterList->at(index.column()-1)->getValue(childItem->getPath());
+                return childItem->getLabel();
             }
-        }*/
-
+            else
+            {
+                QString path = childItem->getId();
+                CharacterSheet* sheet = m_characterList->at(index.column()-1);
+                return sheet->getValue(path,(Qt::ItemDataRole)role);
+                //childItem->setValue(value.toString(),index.column()-1);
+            }
+        }
     }
     return QVariant();
 }
+
 bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & value, int role  )
 {
     if(Qt::EditRole==role)

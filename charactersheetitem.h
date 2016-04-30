@@ -37,6 +37,7 @@ class CharacterSheetItem : public QObject
     Q_PROPERTY(QString value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(int page READ getPage WRITE setPage NOTIFY pageChanged)
     Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly NOTIFY readOnlyChanged)
+    Q_PROPERTY(QString formula READ getFormula WRITE setFormula NOTIFY readOnlyChanged)
 public:
     enum CharacterSheetItemType {SectionItem,FieldItem,ButtonItem};
 
@@ -165,6 +166,8 @@ public:
     Q_INVOKABLE bool isReadOnly() const;
     Q_INVOKABLE int getPage() const;
 
+    Q_INVOKABLE QString getFormula() const;
+
 public slots:
     /**
      * @brief setValue
@@ -182,6 +185,7 @@ public slots:
      */
     void setPage(int page);
 
+    void setFormula(const QString &formula);
 
 
 signals:
@@ -193,6 +197,7 @@ signals:
     void valuesChanged();
     void pageChanged();
     void readOnlyChanged();
+    void formulaChanged();
     void idChanged();
 
 
@@ -204,6 +209,7 @@ protected:
     QString m_label;
     bool m_readOnly;
     QString m_id;
+    QString m_formula;
 };
 
 #endif // CHARACTERSHEETITEM_H
