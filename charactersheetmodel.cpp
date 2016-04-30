@@ -311,10 +311,13 @@ bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool data)
     return true;
 }
 
-bool CharacterSheetModel::readModel(QJsonObject& jsonObj)
+bool CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
 {
     beginResetModel();
-    //m_rootSection->load(jsonObj,QList<QGraphicsScene*>());
+    if(readRootSection)
+    {
+        m_rootSection->load(jsonObj,QList<QGraphicsScene*>());
+    }
     m_characterCount = jsonObj["characterCount"].toInt();
     QJsonArray characters = jsonObj["characters"].toArray();
     foreach(auto charJson, characters)

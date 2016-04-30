@@ -107,7 +107,7 @@ public:
     QList<CharacterSheetItem *>* getExportedList(CharacterSheet*);
     
     bool writeModel(QJsonObject& file, bool data= true);
-    bool readModel(QJsonObject& file);
+    bool readModel(QJsonObject& file,bool readRootSection);
     
     CharacterSheetItem* addSection(QString title);
     void addLine(CharacterSheetItem* parentItem,QString name,const QModelIndex& parent);
