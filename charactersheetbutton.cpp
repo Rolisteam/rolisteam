@@ -23,9 +23,6 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
-
-int CharacterSheetButton::m_count = 0;
-
 CharacterSheetButton::CharacterSheetButton(QPointF topleft,QGraphicsItem* parent)
 : CSItem(parent)
 {
@@ -302,3 +299,4 @@ void CharacterSheetButton::copyField(CharacterSheetItem* newBtn)
         setTextColor(newField->textColor());
     }
 }
+

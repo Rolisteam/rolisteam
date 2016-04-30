@@ -26,6 +26,9 @@
 #include "charactersheetitem.h"
 #include "csitem.h"
 
+/**
+ * @brief The CharacterSheetButton class is dedicated to manage button.
+ */
 class CharacterSheetButton : public CSItem
 {
         Q_OBJECT
@@ -65,6 +68,16 @@ public:
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
 
     void copyField(CharacterSheetItem *newField);
+    /**
+     * @brief fillNetworkMessage
+     * @param msg
+     */
+    //virtual void fillNetworkMessage(NetworkMessageWriter* msg);
+    /**
+     * @brief readNetworkMessage
+     * @param msg
+     */
+    //virtual void readNetworkMessage(NetworkMessageReader* msg);
 signals:
     void updateNeeded(CSItem* c);
 
@@ -75,8 +88,6 @@ private:
     QColor m_bgColor;
     QColor m_textColor;
     QRectF m_rect;
-    static int m_count;
-
 };
 
 #endif // CHARACTERSHEETBUTTON_H
