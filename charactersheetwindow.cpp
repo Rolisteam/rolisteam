@@ -396,6 +396,7 @@ void CharacterSheetWindow::fill(NetworkMessageWriter* msg,CharacterSheet* sheet)
     {
         m_imgProvider->fill(*msg);
     }
+    m_model.fillRootSection(msg);
 
 }
 
@@ -418,4 +419,5 @@ void CharacterSheetWindow::read(NetworkMessageReader* msg)
     }
 
     addCharacterSheet(sheet);
+    m_model.readRootSection(msg);
 }
