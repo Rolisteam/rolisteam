@@ -27,7 +27,22 @@
 #include "data/person.h"
 #include "vmap/items/visualitem.h"
 #include "vmap/items/sightitem.h"
-
+/**
+ * @page VMap
+ * @tableofcontents
+ * @section Intro Introduction
+ * VMap is vectorial map system to draw map on the fly.<br/>
+ * It has been introduced in rolisteam v1.8.
+ *
+ *
+ * @section item Type of Items:
+ * @section action Actions on Items:
+ * @section Selection Selection:
+ * @section Vision Vision:
+ * @section fow Fog of war:
+ *
+ *
+ */
 class CharacterItem;
 /**
     * @brief allows users to draw a map on the fly. It manages several kinds of items (VisualItem): rect, line...

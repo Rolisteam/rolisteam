@@ -38,8 +38,8 @@
 
 /**
 * @mainpage Rolisteam
-*
-* @section @author Renaud Guezennec
+* @tableofcontents
+* @author Renaud Guezennec
 *
 *  @section intro_sec Introduction
 * Rolisteam help you to manage role playing games with your friend all over the world.<br/>
@@ -66,7 +66,7 @@
 * Please, visit: http://www.rolisteam.org/
 *
 * @section tools_subsec Dependencies:
-* Qt5, zlib.
+* Qt5, zlib, QML,
 * @subpage DiceParser
 *
 * @section copyright Copyright and License
