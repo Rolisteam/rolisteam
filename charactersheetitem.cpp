@@ -28,7 +28,6 @@
 CharacterSheetItem::CharacterSheetItem()
     : m_parent(NULL),m_page(0),m_readOnly(false)
 {
-    qDebug()<< "CharacterSheetItem constructor by default";
 }
 
 bool CharacterSheetItem::hasChildren()
