@@ -117,6 +117,8 @@ public:
     QString getParentId() const;
     void setParentId(const QString &parentId);
 
+    virtual QHash<QString,QString> getVariableDictionnary();
+
 signals:
     void avatarChanged();
 

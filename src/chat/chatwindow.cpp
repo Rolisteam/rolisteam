@@ -71,9 +71,7 @@ ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
     m_toggleViewAction->setCheckable(true);
 
     m_diceParser = new DiceParser();
-    m_variableTest = new QHash<QString,QString>();
-    m_variableTest->insert(QStringLiteral("force"),QStringLiteral("4"));
-    m_diceParser->setVariableDictionary(m_variableTest);
+
     m_diceParser->setPathToHelp(tr("<a href=\"http://wiki.rolisteam.org/index.php/Dice_Rolling\">http://wiki.rolisteam.org/index.php/Dice_Rolling</a>"));
 
     m_operatorMap = new QMap<QString,CHAT_OPERATOR>();
@@ -185,7 +183,7 @@ ChatWindow::~ChatWindow()
 }
 
 
-AbstractChat * ChatWindow::chat() const
+AbstractChat* ChatWindow::chat() const
 {
     return m_chat;
 }
@@ -240,6 +238,8 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
         color = Qt::red;
         showMessage(messageTitle, color, messageCorps);
     }
+
+    m_diceParser->setVariableDictionary(NULL);
 }
 
 ImprovedTextEdit *ChatWindow::getEditionZone() const
@@ -271,6 +271,8 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
     {
         localPerson = m_localPerson;
     }
+
+    setProperDictionnary(localPersonIdentifier);
 
     if(m_operatorMap->contains(tmpmessage.left(1)))
     {
@@ -657,15 +659,42 @@ void ChatWindow::detachView(bool b)
         m_window->setVisible(true);
     }
 }
+void ChatWindow::setProperDictionnary(QString idOwner)
+{
+    if(NULL!=m_diceParser)
+    {
+        QHash<QString,QString>* variableTest = NULL;
+        if(m_dicoByCharacter.contains(idOwner))
+        {
+            variableTest = m_dicoByCharacter[idOwner];
+            m_dicoByCharacter.remove(idOwner);
+            delete variableTest;
+        }
+
+
+        Person* localPerson = PlayersList::instance()->getPerson(idOwner);
+        if(NULL!=localPerson)
+        {
+            variableTest = new QHash<QString,QString>();
+            *variableTest = localPerson->getVariableDictionnary();
+            m_dicoByCharacter.insert(idOwner,variableTest);
+        }
+
+        m_diceParser->setVariableDictionary(variableTest);
+    }
+}
 
 void ChatWindow::rollDiceCmd(QString cmd, QString owner)
 {
     QString title;
     QString msg;
+    QString idOwner = PlayersList::instance()->getUuidFromName(owner);
+    setProperDictionnary(idOwner);
+
     manageDiceRoll(cmd.simplified(),title,msg);
 
     NetworkMessageWriter data(NetMsg::ChatCategory, NetMsg::DiceMessageAction);
-    data.string8(PlayersList::instance()->getUuidFromName(owner));
+    data.string8(idOwner);
     data.string8(m_chat->identifier());
     data.string32(msg);
     m_chat->sendThem(data);

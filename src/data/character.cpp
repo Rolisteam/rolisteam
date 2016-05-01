@@ -73,6 +73,18 @@ void Character::setParentId(const QString &parentId)
     m_parentId = parentId;
 }
 
+QHash<QString, QString> Character::getVariableDictionnary()
+{
+    if(NULL==m_sheet)
+    {
+        return QHash<QString, QString>();
+    }
+    else
+    {
+        return m_sheet->getVariableDictionnary();
+    }
+}
+
 CharacterSheet *Character::getSheet() const
 {
     return m_sheet;

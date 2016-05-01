@@ -175,6 +175,7 @@ protected :
      */
     void updateListAlias();
 
+    void setProperDictionnary(QString idOwner);
 private slots :
     /**
      * @brief sendOffTextMessage
@@ -231,8 +232,8 @@ private :
     QMap<QString,CHAT_OPERATOR>* m_operatorMap;
     Person* m_localPerson;
     static QList<DiceAlias*>* m_receivedAlias;
-    ///@warning for test only
-    QHash<QString,QString>* m_variableTest;
+    QHash<QString,QHash<QString,QString>*> m_dicoByCharacter;
+
 
 };
 

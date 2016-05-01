@@ -129,6 +129,7 @@ public:
      */
     void setState(Qt::CheckState c);
 
+    virtual QHash<QString,QString> getVariableDictionnary() = 0;
 
 
 protected:

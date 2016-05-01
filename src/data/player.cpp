@@ -155,6 +155,11 @@ bool Player::searchCharacter(Character * character, int & index) const
     return false;
 }
 
+QHash<QString, QString> Player::getVariableDictionnary()
+{
+    return QHash<QString, QString>();
+}
+
 bool Player::hasFeature(const QString & name, quint8 version) const
 {
     return m_features.contains(name) && m_features.value(name) >= version;

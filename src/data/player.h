@@ -150,6 +150,8 @@ public:
      * @return
      */
     bool searchCharacter(Character * character, int & index) const;
+
+    virtual QHash<QString,QString> getVariableDictionnary();
 private:
     friend class PlayersList;
     friend class SendFeaturesIterator;
