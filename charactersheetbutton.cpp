@@ -224,7 +224,7 @@ void CharacterSheetButton::generateQML(QTextStream &out,CharacterSheetItem::QMLS
 
 }
 
-QString CharacterSheetButton::getId() const
+/*QString CharacterSheetButton::getId() const
 {
     return m_id;
 }
@@ -264,7 +264,7 @@ QRectF CharacterSheetButton::getRect() const
 void CharacterSheetButton::setRect(const QRectF &rect)
 {
     m_rect = rect;
-}
+}*/
 CharacterSheetItem* CharacterSheetButton::getChildAt(QString) const
 {
     return NULL;
@@ -273,6 +273,21 @@ CharacterSheetItem* CharacterSheetButton::getChildAt(QString) const
 CharacterSheetItem::CharacterSheetItemType CharacterSheetButton::getItemType() const
 {
     return CharacterSheetItem::ButtonItem;
+}
+
+void CharacterSheetButton::saveDataItem(QJsonObject &json)
+{
+    json["type"]="button";
+    json["id"]=m_id;
+    json["label"]=m_label;
+    json["value"]=m_value;
+}
+
+void CharacterSheetButton::loadDataItem(QJsonObject &json)
+{
+    m_id = json["id"].toString();
+    m_value= json["value"].toString();
+    m_label = json["label"].toString();
 }
 void CharacterSheetButton::copyField(CharacterSheetItem* newBtn)
 {

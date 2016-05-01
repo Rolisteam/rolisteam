@@ -44,20 +44,20 @@ public:
 
     virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
 
-    QString getId() const;
+    /*QString getId() const;
     void setId(const QString &id);
 
     QString getTitle() const;
-    void setTitle(const QString &title);
+    void setTitle(const QString &title);*/
 
-    QColor getBgColor() const;
+   /* QColor getBgColor() const;
     void setBgColor(const QColor &bgColor);
 
     QColor getTextColor() const;
     void setTextColor(const QColor &textColor);
 
     QRectF getRect() const;
-    void setRect(const QRectF &rect);
+    void setRect(const QRectF &rect);*/
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
     virtual void setNewEnd(QPointF nend);
@@ -66,6 +66,18 @@ public:
     CharacterSheetItem* getChildAt(QString) const;
 
     virtual CharacterSheetItem::CharacterSheetItemType getItemType() const;
+
+    /**
+     * @brief saveDataItem
+     * @param json
+     */
+    virtual void saveDataItem(QJsonObject& json);
+    /**
+     * @brief load
+     * @param json
+     * @param scene
+     */
+    virtual void loadDataItem(QJsonObject& json);
 
     void copyField(CharacterSheetItem *newField);
     /**
@@ -84,10 +96,7 @@ signals:
 private:
     void init();
 
-private:
-    QColor m_bgColor;
-    QColor m_textColor;
-    QRectF m_rect;
+
 };
 
 #endif // CHARACTERSHEETBUTTON_H

@@ -235,6 +235,8 @@ void Field::save(QJsonObject& json,bool exp)
     {
         json["type"]="field";
         json["id"]=m_id;
+        json["label"]=m_label;
+        json["value"]=m_value;
         return;
     }
     json["type"]="field";
@@ -317,6 +319,23 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
     m_rect.setRect(x,y,w,h);
 
     update();
+}
+
+void Field::loadDataItem(QJsonObject &json)
+{
+    m_id = json["id"].toString();
+    m_value= json["value"].toString();
+    m_label = json["label"].toString();
+    m_currentType=(Field::TypeField)json["typefield"].toInt();
+}
+
+void Field::saveDataItem(QJsonObject &json)
+{
+    json["type"]="field";
+    json["typefield"]=m_currentType;
+    json["id"]=m_id;
+    json["label"]=m_label;
+    json["value"]=m_value;
 }
 QString Field::getQMLItemName()
 {

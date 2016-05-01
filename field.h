@@ -62,6 +62,17 @@ public:
 
     virtual void save(QJsonObject& json,bool exp=false);
     virtual void load(QJsonObject &json,QList<QGraphicsScene*> scene);
+    /**
+     * @brief saveDataItem
+     * @param json
+     */
+    virtual void saveDataItem(QJsonObject& json);
+    /**
+     * @brief load
+     * @param json
+     * @param scene
+     */
+    virtual void loadDataItem(QJsonObject& json);
 
     virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
 

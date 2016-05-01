@@ -135,6 +135,16 @@ public:
      */
     void setValueForAll(CharacterSheetItem* item,int col);
 
+    /**
+     * @brief saveDataItem saves only data, no info about how to display the item.
+     * @param json
+     */
+    virtual void saveDataItem(QJsonObject& json);
+    /**
+     * @brief loadDataItem load core data: id, value, label.
+     * @param json
+     */
+    virtual void loadDataItem(QJsonObject& json);
 public slots:
     /**
      * @brief fillList

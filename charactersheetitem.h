@@ -127,6 +127,19 @@ public:
      * @param scene
      */
     virtual void load(QJsonObject& json,QList<QGraphicsScene*> scene)=0;
+
+    /**
+     * @brief save
+     * @param json
+     * @param exp
+     */
+    virtual void saveDataItem(QJsonObject& json)=0;
+    /**
+     * @brief load
+     * @param json
+     * @param scene
+     */
+    virtual void loadDataItem(QJsonObject& json)=0;
     /**
      * @brief generateQML
      * @param out
@@ -202,8 +215,6 @@ signals:
     void formulaChanged();
     void idChanged();
     void labelChanged();
-
-
 
 protected:
     CharacterSheetItem* m_parent;

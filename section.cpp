@@ -255,3 +255,13 @@ void Section::setValueForAll(CharacterSheetItem* itemSrc,int col)
         }
     }
 }
+
+void Section::saveDataItem(QJsonObject &json)
+{
+    save(json);
+}
+
+void Section::loadDataItem(QJsonObject &json)
+{
+    load(json,QList<QGraphicsScene*>());
+}
