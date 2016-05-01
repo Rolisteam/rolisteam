@@ -112,7 +112,19 @@ ChatList::~ChatList()
 void ChatList::addPublicChat()
 {
 	// main (public) chat
-	addChatWindow(new ChatWindow(new PublicChat(), m_mainWindow));
+    addChatWindow(new ChatWindow(new PublicChat(), m_mainWindow));
+}
+
+void ChatList::rollDiceCmd(QString cmd, QString owner)
+{
+    if(!m_chatWindowList.isEmpty())
+    {
+        ChatWindow* wid = m_chatWindowList.first();
+        if(NULL!=wid)
+        {
+            wid->rollDiceCmd(cmd,owner);
+        }
+    }
 }
 
 bool ChatList::setData(const QModelIndex &index, const QVariant &value, int role)

@@ -503,6 +503,8 @@ void MainWindow::newCharacterSheetWindow()
     CharacterSheetWindow* window = new CharacterSheetWindow(NULL,this);
     addMediaToMdiArea(window);
     connect(window,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
+    connect(window,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
+
 }
 
 
@@ -1670,6 +1672,8 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
 
         addMediaToMdiArea(sheetWindow);
         connect(sheetWindow,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
+        connect(sheetWindow,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
+
         //sheetWindow->addTabWithSheetView(sheet);
 
     }
@@ -2019,6 +2023,8 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         CharacterSheetWindow* csW = new CharacterSheetWindow();
         tmp = csW;
         connect(csW,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
+        connect(csW,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
+
     }
         break;
     default:
@@ -2194,6 +2200,9 @@ void MainWindow::dropEvent(QDropEvent* event)
                 break;
             case CleverURI::CHARACTERSHEET:
                 tmp = new CharacterSheetWindow();
+                connect(static_cast<CharacterSheetWindow*>(tmp),SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
+                connect(static_cast<CharacterSheetWindow*>(tmp),SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
+
                 tmp->setCleverUri(uri);
                 tmp->readFileFromUri();
                 addMediaToMdiArea(tmp);

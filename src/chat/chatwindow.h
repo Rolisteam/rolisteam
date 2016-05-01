@@ -83,7 +83,7 @@ public :
      * @brief toggleViewAction
      * @return
      */
-    QAction * toggleViewAction() const;
+    QAction* toggleViewAction() const;
     /**
      * @brief showMessage
      * @param utilisateur
@@ -117,6 +117,7 @@ public :
     static void updateDiceAliases(QList<DiceAlias*>* map);
 
     ImprovedTextEdit *getEditionZone() const;
+
     void setEditionZone(ImprovedTextEdit *editionZone);
 
 signals:
@@ -151,6 +152,8 @@ public slots:
      * @param b
      */
     void detachView(bool b);
+
+    void rollDiceCmd(QString cmd,QString owner);
 protected :
     /**
      * @brief init
@@ -178,7 +181,7 @@ private slots :
      * @param messagehtml
      * @param message
      */
-	void emettreTexte(bool hasHtml,QString message);
+    void sendOffTextMessage(bool hasHtml,QString message);
     /**
      * @brief upSelectPerson
      */

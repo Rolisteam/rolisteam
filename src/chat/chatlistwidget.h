@@ -35,7 +35,7 @@ class MainWindow;
 class PrivateChatDialog;
 class DiceAlias;
 /**
- * @brief The ChatListWidget class
+ * @brief The ChatListWidget class manages all chat windows and dice alias.
  */
 class ChatListWidget : public QDockWidget, public NetWorkReceiver
 {
@@ -58,7 +58,12 @@ public:
 public slots:
     void createPrivateChat();
 	void addPublicChat();
-
+    /**
+     * @brief rollDiceCmd into the global  chat
+     * @param cmd
+     * @param owner
+     */
+    void rollDiceCmd(QString cmd,QString owner);
 private slots:
     void selectAnotherChat(const QModelIndex & index);
     void editChat(const QModelIndex & index);
@@ -67,6 +72,7 @@ private slots:
     void processAddDiceAlias(NetworkMessageReader* msg);
     void processRemoveDiceALias(NetworkMessageReader* msg);
     void processMoveDiceALias(NetworkMessageReader* msg);
+
 
 
 private:

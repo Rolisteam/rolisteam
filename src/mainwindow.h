@@ -348,7 +348,7 @@ private:
 
     PreferencesDialog* m_preferencesDialog;
 	PreferencesManager* m_preferences;
-    ChatListWidget * m_chatListWidget;
+    ChatListWidget* m_chatListWidget;
     UpdateChecker* m_updateChecker;
 
     QString m_version;

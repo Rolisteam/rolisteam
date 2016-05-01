@@ -108,6 +108,7 @@ public:
     void cleanChat();
 public slots:
 	void addPublicChat();
+    void rollDiceCmd(QString, QString);
 
 private:
     /**

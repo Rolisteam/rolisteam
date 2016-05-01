@@ -206,7 +206,12 @@ void ChatListWidget::processMoveDiceALias(NetworkMessageReader* msg)
 }
 void ChatListWidget::addPublicChat()
 {
-	m_chatList->addPublicChat();
+    m_chatList->addPublicChat();
+}
+
+void ChatListWidget::rollDiceCmd(QString cmd, QString owner)
+{
+    m_chatList->rollDiceCmd(cmd,owner);
 }
 void ChatListWidget::cleanChatList()
 {

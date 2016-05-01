@@ -41,11 +41,12 @@
 #include "userlist/playersList.h"
 #include "chat/improvedtextedit.h"
 
+
 QStringList ChatWindow::m_keyWordList;
 QList<DiceAlias*>* ChatWindow::m_receivedAlias = NULL;
 
 ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
-	: QWidget(parent), m_chat(chat), m_filename("%1/%2.html")
+    : QWidget(parent), m_chat(chat), m_filename("%1/%2.html")
 {
     m_preferences = PreferencesManager::getInstance();
     if (m_chat == NULL)
@@ -61,7 +62,7 @@ ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
         m_keyWordList << "e" << "em" << "me" << "emote";
     }
     setupUi();
-	connect(m_editionZone, SIGNAL(textValidated(bool,QString)), this, SLOT(emettreTexte(bool,QString)));
+    connect(m_editionZone, SIGNAL(textValidated(bool,QString)), this, SLOT(sendOffTextMessage(bool,QString)));
     connect(m_editionZone, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
     connect(m_editionZone, SIGNAL(ctrlDown()), this, SLOT(downSelectPerson()));
     connect(m_chat, SIGNAL(changedMembers()), this, SLOT(scheduleUpdateChatMembers()));
@@ -213,20 +214,20 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
             {
                 QString diceOutput = tr("got <span class=\"dice\">%1</span> at your dice roll [%3 (%2)]","mine dice roll").arg(value).arg(list).arg(cmdLine);
                 if(showResult)
-		{
-			showMessage(messageTitle, color, diceOutput,NetMsg::DiceMessageAction);
-		}
+                {
+                    showMessage(messageTitle, color, diceOutput,NetMsg::DiceMessageAction);
+                }
                 QString diceOutput2 = tr("got <span class=\"dice\">%1</span> [%3 (%2)]","third person roll").arg(value).arg(list).arg(cmdLine);
                 message = diceOutput2;
             }
             else
             {
                 messageTitle="";
-		if(!showResult)
-		{
-                	showMessage(messageTitle, color,value,NetMsg::DiceMessageAction);
+                if(!showResult)
+                {
+                    showMessage(messageTitle, color,value,NetMsg::DiceMessageAction);
                 }
-		message = value;
+                message = value;
             }
 
         }
@@ -251,18 +252,16 @@ void ChatWindow::setEditionZone(ImprovedTextEdit *editionZone)
     m_editionZone = editionZone;
 }
 
-// not (const QString & message), because we change it !
-void ChatWindow::emettreTexte(bool hasHtml,QString message)
+void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
 {
-    //NetMsg::ChatMessageAction, NetMsg::DiceMessageAction, NetMsg::EmoteMessageAction
     NetMsg::Action action = NetMsg::DiceMessageAction;
 
     bool ok=true;
     m_editionZone->clear();
 
     QString tmpmessage=message.simplified();
-    QString messageCorps="";
-    QString messageTitle="";
+    QString msgBody="";
+    QString msgTitle="";
     QColor color;
 
     if(m_operatorMap->contains(tmpmessage.left(1)))
@@ -272,13 +271,13 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
         switch(chatOperator)
         {
         case DICEROLL:
-            manageDiceRoll(tmpmessage,messageTitle,message);
+            manageDiceRoll(tmpmessage,msgTitle,message);
             break;
         case SECRET_DICEROLL:
-            manageDiceRoll(tmpmessage,messageTitle,message);
+            manageDiceRoll(tmpmessage,msgTitle,message);
             return;
         case TO_GM_DICEROLL:
-            manageDiceRoll(tmpmessage,messageTitle,message,false);
+            manageDiceRoll(tmpmessage,msgTitle,message,false);
             break;
         case COMMAND:
         {
@@ -290,10 +289,10 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
                 message = tmpmessage;
                 if (!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
                 {
-                    messageTitle = tr("Warning");
-                    messageCorps = tr("Some users won't be enable to see your emotes.");
+                    msgTitle = tr("Warning");
+                    msgBody = tr("Some users won't be enable to see your emotes.");
                     color = Qt::red;
-                    showMessage(messageTitle, color, messageCorps);
+                    showMessage(msgTitle, color, msgBody);
                     m_warnedEmoteUnavailable = true;
                 }
 
@@ -311,13 +310,13 @@ void ChatWindow::emettreTexte(bool hasHtml,QString message)
     }
     else
     {//sending info to others.
-        messageTitle = m_localPerson->getName();
-		if(!hasHtml)
-		{
-			message = message.toHtmlEscaped();
-		}
-		message = message.replace('\n',"<br/>");
-        showMessage(messageTitle, m_localPerson->getColor(), message);
+        msgTitle = m_localPerson->getName();
+        if(!hasHtml)
+        {
+            message = message.toHtmlEscaped();
+        }
+        message = message.replace('\n',"<br/>");
+        showMessage(msgTitle, m_localPerson->getColor(), message);
         action = NetMsg::ChatMessageAction;
     }
 
@@ -640,15 +639,28 @@ void ChatWindow::detachView(bool b)
     static QMdiArea* parent = m_window->mdiArea();
     if(b)
     {
-            m_window->setParent(NULL);
-            m_window->setVisible(true);
+        m_window->setParent(NULL);
+        m_window->setVisible(true);
     }
     else
     {
-            //m_window->setParent(parent);
-            parent->addSubWindow(m_window);
-            m_window->setVisible(true);
+        //m_window->setParent(parent);
+        parent->addSubWindow(m_window);
+        m_window->setVisible(true);
     }
+}
+
+void ChatWindow::rollDiceCmd(QString cmd, QString owner)
+{
+    QString title;
+    QString msg;
+    manageDiceRoll(cmd.simplified(),title,msg);
+
+    NetworkMessageWriter data(NetMsg::ChatCategory, NetMsg::DiceMessageAction);
+    data.string8(PlayersList::instance()->getUuidFromName(owner));
+    data.string8(m_chat->identifier());
+    data.string32(msg);
+    m_chat->sendThem(data);
 }
 void ChatWindow::setLocalPlayer(Person* person)
 {
