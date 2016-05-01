@@ -92,6 +92,13 @@ public:
     Player* getPlayer(const QModelIndex & index) const;
     Character * getCharacter(const QModelIndex & index) const;
 
+    /**
+     * @brief getUuidFromName
+     * @param name
+     * @return uuid of the given name. If it has not been found, return uuid of local person.
+     */
+    QString getUuidFromName(QString name);
+
 
 	QList<Character*> getCharacterList();
 

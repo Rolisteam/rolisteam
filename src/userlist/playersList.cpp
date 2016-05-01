@@ -402,6 +402,23 @@ Character * PlayersList::getCharacter(const QModelIndex & index) const
     return NULL;
 }
 
+QString PlayersList::getUuidFromName(QString owner)
+{
+    Person* ownerPerson = m_localPlayer;
+    QList<Character*> list = getCharacterList();
+    bool unfound = true;
+    for(int i = 0; i< list.size() && unfound; ++i)
+    {
+        Character* carac = list.at(i);
+        if(carac->getName() == owner)
+        {
+            unfound = false;
+            ownerPerson = carac;
+        }
+    }
+    return ownerPerson->getUuid();
+}
+
 bool PlayersList::everyPlayerHasFeature(const QString & name, quint8 version) const
 {
     int playersCount = m_playersList.size();
