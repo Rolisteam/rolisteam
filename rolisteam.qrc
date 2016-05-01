@@ -108,6 +108,7 @@
         <file>resources/qml/TextAreaField.qml</file>
         <file>resources/qml/TextFieldField.qml</file>
         <file>resources/qml/TextInputField.qml</file>
+        <file>resources/qml/DiceButton.qml</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
