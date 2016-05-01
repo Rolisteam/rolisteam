@@ -185,6 +185,53 @@ Convertor::Convertor(QWidget *parent) :
     m_convertorTable.insert(QPair<Unit*,Unit*>(kelvin,fahrenheit),new ConvertorOperator(9.0/5.0,-459.67));
 
 
+
+    //////////////////////////
+    // Currency
+    /////////////////////////
+    Unit* koku = m_model->insertData(new Unit(QStringLiteral("koku"),QStringLiteral("koku"),Unit::CURRENCY));
+    Unit* bu =m_model->insertData(new Unit(QStringLiteral("bu"),QStringLiteral("bu"),Unit::CURRENCY));
+    Unit* zeni =m_model->insertData(new Unit(QStringLiteral("zeni"),QStringLiteral("zeni"),Unit::CURRENCY));
+
+    m_convertorTable.insert(QPair<Unit*,Unit*>(koku,bu),new ConvertorOperator(5));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(koku,zeni),new ConvertorOperator(50));
+
+    m_convertorTable.insert(QPair<Unit*,Unit*>(bu,koku),new ConvertorOperator(0.2));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(bu,zeni),new ConvertorOperator(10));
+
+    m_convertorTable.insert(QPair<Unit*,Unit*>(zeni,koku),new ConvertorOperator(0.02));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(zeni,bu),new ConvertorOperator(0.1));
+
+
+
+    //////////////////////////
+    // MASS
+    /////////////////////////
+    Unit* gram = m_model->insertData(new Unit(QStringLiteral("gram"),QStringLiteral("g"),Unit::MASS));
+    Unit* kilo =m_model->insertData(new Unit(QStringLiteral("kilogram"),QStringLiteral("Kg"),Unit::MASS));
+    Unit* once =m_model->insertData(new Unit(QStringLiteral("Once"),QStringLiteral("oz"),Unit::MASS));
+    Unit* pound =m_model->insertData(new Unit(QStringLiteral("Pound"),QStringLiteral("lb"),Unit::MASS));
+
+
+    m_convertorTable.insert(QPair<Unit*,Unit*>(gram,kilo),new ConvertorOperator(0.001));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(gram,once),new ConvertorOperator(1.0/28.349));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(gram,pound),new ConvertorOperator(1.0/453.59237));
+
+    m_convertorTable.insert(QPair<Unit*,Unit*>(kilo,gram),new ConvertorOperator(1000));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(kilo,once),new ConvertorOperator(1.0/0.028349));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(kilo,pound),new ConvertorOperator(1.0/0.45359237));
+
+    m_convertorTable.insert(QPair<Unit*,Unit*>(once,gram),new ConvertorOperator(28.349));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(once,kilo),new ConvertorOperator(0.028349));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(once,pound),new ConvertorOperator(1.0/16.0));
+
+    m_convertorTable.insert(QPair<Unit*,Unit*>(pound,gram),new ConvertorOperator(453.59237));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(pound,kilo),new ConvertorOperator(0.45359237));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(pound,once),new ConvertorOperator(16.0));
+
+
+
+
     m_catModel->setSourceModel(m_model);
     m_toModel->setSourceModel(m_model);
     ui->m_fromCombo->setModel(m_catModel);

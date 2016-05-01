@@ -4,10 +4,10 @@ namespace GMTOOL
 {
 QHash<Unit::Category,QString> UnitModel::m_cat2Text({{Unit::CURRENCY,tr("Currency")},
                                                      {Unit::DISTANCE,tr("Distance")},
-                                                     {Unit::VOLUME,tr("Volume")},
                                                      {Unit::TEMPERATURE,tr("Temperature")},
                                                     {Unit::MASS,tr("MASS")}});
 
+                                                     //{Unit::VOLUME,tr("Volume")},
 
 CategoryModel::CategoryModel(QObject* parent)
     : QSortFilterProxyModel(parent)
