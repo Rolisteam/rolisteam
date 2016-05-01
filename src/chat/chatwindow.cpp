@@ -264,6 +264,14 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
     QString msgTitle="";
     QColor color;
 
+    //get the name of currently selected character.
+    QString localPersonIdentifier = m_selectPersonComboBox->itemData(m_selectPersonComboBox->currentIndex(), PlayersList::IdentifierRole).toString();
+    Person* localPerson = PlayersList::instance()->getPerson(localPersonIdentifier);
+    if(NULL==localPerson)
+    {
+        localPerson = m_localPerson;
+    }
+
     if(m_operatorMap->contains(tmpmessage.left(1)))
     {
         CHAT_OPERATOR chatOperator = m_operatorMap->value(tmpmessage.left(1));
@@ -296,9 +304,9 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
                     m_warnedEmoteUnavailable = true;
                 }
 
-                if(NULL!=m_localPerson)
+                if(NULL!=localPerson)
                 {
-                    showMessage(m_localPerson->getName(), m_localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
+                    showMessage(localPerson->getName(), localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
                     action = NetMsg::EmoteMessageAction;
                 }
                 break;
@@ -310,13 +318,13 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
     }
     else
     {//sending info to others.
-        msgTitle = m_localPerson->getName();
+        msgTitle = localPerson->getName();
         if(!hasHtml)
         {
             message = message.toHtmlEscaped();
         }
         message = message.replace('\n',"<br/>");
-        showMessage(msgTitle, m_localPerson->getColor(), message);
+        showMessage(msgTitle, localPerson->getColor(), message);
         action = NetMsg::ChatMessageAction;
     }
 
@@ -326,7 +334,7 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
 
     // Emission du message
     NetworkMessageWriter data(NetMsg::ChatCategory, action);
-    data.string8(m_localPerson->getUuid());
+    data.string8(localPerson->getUuid());
     data.string8(m_chat->identifier());
     data.string32(message);
     m_chat->sendThem(data);
