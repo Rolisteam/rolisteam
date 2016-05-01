@@ -52,25 +52,64 @@ public:
     * @param int index : 0 refers to the title of the section, 1 refers to key of the first data of the first section...
     */
     const QString getkey(int index);
-    
+    /**
+     * @brief save
+     * @param json
+     */
     virtual void save(QJsonObject& json);
+    /**
+     * @brief load
+     * @param json
+     */
     virtual void load(QJsonObject& json);
 
     #ifndef RCSE
     void fill(NetworkMessageWriter & message);
     void read(NetworkMessageReader &msg);
     #endif
-
+    /**
+     * @brief getTitle
+     * @return
+     */
     const QString getTitle();
-
+    /**
+     * @brief getFieldCount
+     * @return
+     */
     int getFieldCount();
+    /**
+     * @brief getFieldAt
+     * @param i
+     * @return
+     */
     CharacterSheetItem* getFieldAt(int i);
 
+    /**
+     * @brief getRootSection
+     * @return
+     */
     Section* getRootSection() const;
+    /**
+     * @brief setRootSection
+     * @param rootSection
+     */
     void setRootSection(Section* rootSection);
 
+    /**
+     * @brief getName
+     * @return
+     */
     QString getName() const;
+    /**
+     * @brief setName
+     * @param name
+     */
     void setName(const QString &name);
+    /**
+     * @brief getVariableDictionnary
+     * @return
+     */
+    QHash<QString, QString> getVariableDictionnary();
 
 public slots:
     /**

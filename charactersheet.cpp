@@ -26,6 +26,7 @@
 
 
 #include "section.h"
+#include "charactersheetbutton.h"
 /////////////////////////////////////
 //CharacterSheet
 /////////////////////////////////////////
@@ -140,7 +141,9 @@ void CharacterSheet::save(QJsonObject& json)
     QJsonObject array=QJsonObject();
     foreach (QString key, m_valuesMap.keys())
     {
-        array[key]=m_valuesMap[key]->value();
+        QJsonObject item;
+        m_valuesMap[key]->saveDataItem(item);
+        array[key]=item;
     }
     json["values"]=array;
 }
@@ -151,10 +154,22 @@ void CharacterSheet::load(QJsonObject& json)
     QJsonObject array = json["values"].toObject();
     for(QString key : array.keys() )
     {
-        Field* field = new Field();
-        field->setValue(array[key].toString());
-        field->setId(key);
-        m_valuesMap.insert(key,field);
+        QJsonObject item = array[key].toObject();
+        CharacterSheetItem* itemSheet=NULL;
+        if(item["type"]==QStringLiteral("field"))
+        {
+            itemSheet = new Field();
+        }
+        else if(item["type"]==QStringLiteral("button"))
+        {
+            itemSheet = new CharacterSheetButton();
+        }
+        if(NULL!=itemSheet)
+        {
+            itemSheet->loadDataItem(item);
+            itemSheet->setId(key);
+            m_valuesMap.insert(key,itemSheet);
+        }
     }
 }
 #ifndef RCSE
@@ -173,3 +188,17 @@ void CharacterSheet::read(NetworkMessageReader& msg)
     load(object);
 }
 #endif
+QHash<QString, QString> CharacterSheet::getVariableDictionnary()
+{
+    QHash<QString, QString> dataDict;
+    for(QString key : m_valuesMap.keys())
+    {
+        if(NULL!=m_valuesMap[key])
+        {
+            dataDict[key] = m_valuesMap[key]->value();
+            dataDict[m_valuesMap[key]->getLabel()] = m_valuesMap[key]->value();
+        }
+    }
+    qDebug() << dataDict;
+    return dataDict;
+}
