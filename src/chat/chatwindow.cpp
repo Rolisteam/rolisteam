@@ -288,35 +288,35 @@ void ChatWindow::sendOffTextMessage(bool hasHtml,QString message)
             manageDiceRoll(tmpmessage,msgTitle,message,false);
             break;
         case COMMAND:
-        {
-            int pos = tmpmessage.indexOf(' ');
-            QString cmd = tmpmessage.left(pos);
-            if(m_keyWordList.contains(cmd))
             {
-                tmpmessage=tmpmessage.remove(0,pos);
-                message = tmpmessage;
-                if (!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
+                int pos = tmpmessage.indexOf(' ');
+                QString cmd = tmpmessage.left(pos);
+                if(m_keyWordList.contains(cmd))
                 {
-                    msgTitle = tr("Warning");
-                    msgBody = tr("Some users won't be enable to see your emotes.");
-                    color = Qt::red;
-                    showMessage(msgTitle, color, msgBody);
-                    m_warnedEmoteUnavailable = true;
-                }
+                    tmpmessage=tmpmessage.remove(0,pos);
+                    message = tmpmessage;
+                    if (!m_warnedEmoteUnavailable && !m_chat->everyPlayerHasFeature(QString("Emote")))
+                    {
+                        msgTitle = tr("Warning");
+                        msgBody = tr("Some users won't be enable to see your emotes.");
+                        color = Qt::red;
+                        showMessage(msgTitle, color, msgBody);
+                        m_warnedEmoteUnavailable = true;
+                    }
 
-                if(NULL!=localPerson)
-                {
-                    showMessage(localPerson->getName(), localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
-                    action = NetMsg::EmoteMessageAction;
-                }
-                break;
+                    if(NULL!=localPerson)
+                    {
+                        showMessage(localPerson->getName(), localPerson->getColor(), tmpmessage,NetMsg::EmoteMessageAction);
+                        action = NetMsg::EmoteMessageAction;
+                    }
+                    break;
 
+                }
             }
-        }
 
         }
     }
-    else
+    else//normal text
     {//sending info to others.
         msgTitle = localPerson->getName();
         if(!hasHtml)

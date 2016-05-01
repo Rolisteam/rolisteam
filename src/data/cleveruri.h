@@ -160,7 +160,9 @@ private:
     static QStringList m_typeToPreferenceDirectory;
     static CleverURIListener* s_listener;
 };
-
+/**
+ * @brief The CleverURIListener class is an abstract track to be notify when CleverURI has changed.
+ */
 class CleverURIListener
 {
 public:
