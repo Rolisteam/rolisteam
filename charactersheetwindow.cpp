@@ -217,7 +217,17 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 }
 void CharacterSheetWindow::rollDice(QString str)
 {
-
+    QObject* obj = sender();
+    QString label;
+    for(QQuickWidget* qmlView : m_characterSheetlist)
+    {
+        QObject* root = qmlView->rootObject();
+        if(root == obj)
+        {
+             label = m_tabs->tabText(m_tabs->indexOf(qmlView));
+        }
+    }
+    emit rollDiceCmd(str,label);
 }
 
 void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
@@ -227,7 +237,7 @@ void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
         qDebug() << error.toString();
     }
 }
-void CharacterSheetWindow::continueLoading()
+/*void CharacterSheetWindow::continueLoading()
 {
    // qDebug() << "ContinueLoading";
     if (m_sheetComponent->isError())
@@ -249,7 +259,7 @@ void CharacterSheetWindow::continueLoading()
         }
         m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
     }
-}
+}*/
 void  CharacterSheetWindow::saveCharacterSheet()
 {
     if(m_fileUri.isEmpty())

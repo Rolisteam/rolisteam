@@ -68,6 +68,20 @@ void CharacterSheetItem::setPage(int page)
     emit pageChanged();
 }
 
+QString CharacterSheetItem::getFormula() const
+{
+    if(m_formula.isEmpty())
+    {
+        return m_value;
+    }
+    return m_formula;
+}
+
+void CharacterSheetItem::setFormula(const QString &formula)
+{
+    m_formula = formula;
+}
+
 QString CharacterSheetItem::value() const
 {
     return m_value;

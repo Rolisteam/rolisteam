@@ -65,6 +65,7 @@ public:
 
 signals:
     void addWidgetToMdiArea(QWidget*);
+    void rollDiceCmd(QString str,QString label);
 
 public slots:
     void openQML();
@@ -72,7 +73,7 @@ public slots:
     void detachTab();
 
 
-    void rollDice(QString str);
+    void rollDice(QString cmd);
 protected slots:
     void addTabWithSheetView(CharacterSheet *chSheet);
     /**
@@ -100,7 +101,7 @@ protected slots:
     void displayError(const QList<QQmlError> &warnings);
 
 
-    void continueLoading();
+//    void continueLoading();
 protected:
     virtual void closeEvent ( QCloseEvent * event );
 

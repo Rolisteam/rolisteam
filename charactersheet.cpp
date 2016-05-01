@@ -54,11 +54,18 @@ CharacterSheetItem* CharacterSheet::getFieldAt(int i)
     return m_valuesMap.value(m_valuesMap.keys().at(i));
 }
 
-const  QString CharacterSheet::getValue(QString path) const
+const  QString CharacterSheet::getValue(QString path,Qt::ItemDataRole role) const
 {
     if(m_valuesMap.contains(path))
     {
-        return m_valuesMap.value(path)->value();
+        if(role == Qt::DisplayRole)
+        {
+            return m_valuesMap.value(path)->value();
+        }
+        else
+        {
+            return m_valuesMap.value(path)->getFormula();
+        }
     }
     return QString();
 }
@@ -68,7 +75,14 @@ void CharacterSheet::setValue(QString key, QString value)
     if(m_valuesMap.contains(key))
     {
         CharacterSheetItem* field = m_valuesMap.value(key);
-        field->setValue(value);
+        if(value.startsWith('='))
+        {
+            field->setFormula(value);
+        }
+        else
+        {
+            field->setValue(value);
+        }
     }
     else
     {
