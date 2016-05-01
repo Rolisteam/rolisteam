@@ -5,7 +5,9 @@
 #include <QPushButton>
 #include <QLabel>
 
-
+/**
+ * @brief The ImagePathEditor class get the path to image.
+ */
 class ImagePathEditor : public QWidget
 {
     Q_OBJECT
@@ -41,7 +43,7 @@ private:
 };
 
 /**
- * @brief The FilePathDelegateItem class - displays path for image in the treeview
+ * @brief The FilePathDelegateItem class displays path for image in the treeview
  */
 class FilePathDelegateItem : public QStyledItemDelegate
 {

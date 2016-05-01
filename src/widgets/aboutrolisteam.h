@@ -26,14 +26,25 @@
 namespace Ui {
 class AboutRolisteam;
 }
-
+/**
+ * @brief The AboutRolisteam class shows the dialog box about rolisteam
+ * Its goal and the list of author and translators.
+ */
 class AboutRolisteam : public QDialog
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief AboutRolisteam
+     * @param version
+     * @param parent
+     */
     explicit AboutRolisteam(QString version,QWidget *parent = 0);
-    ~AboutRolisteam();
+    /**
+     * @brief ~AboutRolisteam
+     */
+    virtual ~AboutRolisteam();
 
 private:
     Ui::AboutRolisteam *ui;

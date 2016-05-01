@@ -50,7 +50,7 @@ namespace Ui {
 class ChatWindow;
 }
 /**
- * @brief chat window.
+ * @brief chat window display on screen the chat.
  */    
 class ChatWindow : public QWidget
 {
@@ -177,9 +177,9 @@ protected :
 
 private slots :
     /**
-     * @brief emettreTexte
-     * @param messagehtml
-     * @param message
+     * @brief sendOffTextMessage
+     * @param hasHtml true if the given message has html
+     * @param message to send.
      */
     void sendOffTextMessage(bool hasHtml,QString message);
     /**
