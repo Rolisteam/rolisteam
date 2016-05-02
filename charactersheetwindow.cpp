@@ -43,6 +43,10 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     {
         setCleverUriType(CleverURI::CHARACTERSHEET);
     }
+    else
+    {
+        m_title.append("- %1").arg(m_uri->getData(ResourcesNode::NAME).toString());
+    }
     setObjectName("CharacterSheetViewer");
 
     connect(&m_model,SIGNAL(characterSheetHasBeenAdded(CharacterSheet*)),this,SLOT(addTabWithSheetView(CharacterSheet*)));
@@ -157,9 +161,10 @@ void CharacterSheetWindow::affectSheetToCharacter()
 
             Player* parent = character->getParentPlayer();
             Player* localItem =  PlayersList::instance()->getLocalPlayer();
-            if((NULL!=m_currentCharacterSheet)&&(NULL!=parent)&&(NULL!=localItem)&&(localItem->isGM()))
+            if((NULL!=parent)&&(NULL!=localItem)&&(localItem->isGM()))
             {
                 NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterSheet);
+                msg.string8(character->getUuid());
                 fill(&msg,sheet);
                 Player* person = character->getParentPlayer();
                 msg.sendTo(person->link());
@@ -416,7 +421,14 @@ void CharacterSheetWindow::read(NetworkMessageReader* msg)
     if(NULL==msg)
         return;
 
+    QString characterId= msg->string8();
+    Character* character = PlayersList::instance()->getCharacter(characterId);
+
     CharacterSheet* sheet = new CharacterSheet();
+    if(NULL!=character)
+    {
+      character->setSheet(sheet);
+    }
 
     m_mediaId = msg->string8();
     if(NULL!=sheet)
