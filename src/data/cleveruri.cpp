@@ -278,17 +278,18 @@ bool CleverURI::seekNode(QList<ResourcesNode*>& path,ResourcesNode* node)
     return false;
 }
 
-QVariant CleverURI::getData(int i)
+QVariant CleverURI::getData(ResourcesNode::DataValue i)
 {
+
     switch(i)
     {
-    case 0:
+    case NAME:
         return m_name;
-    case 1:
+    case MODE:
         return (int)m_currentMode;
-    case 2:
+    case DISPLAYED:
         return m_displayed;
-    case 3:
+    case URI:
         return m_uri;
     }
 }

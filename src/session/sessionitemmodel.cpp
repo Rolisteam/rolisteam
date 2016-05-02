@@ -342,7 +342,8 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
     {
         if((role == Qt::DisplayRole)||(Qt::EditRole==role))
         {
-            return tmp->getData(index.column());
+            /// @TODO add column management for preventing this cast.
+            return tmp->getData((ResourcesNode::DataValue)index.column());
         }
         else if(role == Qt::DecorationRole)
         {

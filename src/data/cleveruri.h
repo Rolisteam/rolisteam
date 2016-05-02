@@ -48,6 +48,7 @@ public:
                      };
 
     enum LoadingMode {Internal,Linked};
+    enum DataValue {NAME,MODE,DISPLAYED,URI};
     /**
     * @brief default constructor
     *
@@ -136,7 +137,7 @@ public:
     void loadFileFromUri();
     void clearData();
 
-    QVariant getData(int i);
+    QVariant getData(ResourcesNode::DataValue i);
     bool seekNode(QList<ResourcesNode*>& path,ResourcesNode* node);
 
     //static CleverURIListener *getListener();

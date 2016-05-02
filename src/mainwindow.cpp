@@ -1668,7 +1668,9 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     {
         /// @todo Improve the clarity of this code.
         CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
+
         sheetWindow->read(msg);
+
 
         addMediaToMdiArea(sheetWindow);
         connect(sheetWindow,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));

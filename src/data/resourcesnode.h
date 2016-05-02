@@ -30,6 +30,7 @@
 class ResourcesNode
 {
 public:
+    enum DataValue {NAME,MODE,DISPLAYED,URI};
     ResourcesNode();
 
     QString name() const;
@@ -67,7 +68,7 @@ public:
     virtual bool removeChild(ResourcesNode*);
     virtual void insertChildAt(int row, ResourcesNode*);
 
-    virtual QVariant getData(int)=0;
+    virtual QVariant getData(ResourcesNode::DataValue)=0;
 
     virtual bool seekNode(QList<ResourcesNode*>& path,ResourcesNode* node)=0;
 
