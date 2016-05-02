@@ -151,7 +151,7 @@ public slots:
      * @param result
      * @param character
      */
-    void fillList(QList<CharacterSheetItem *> *result, CharacterSheet *character);
+    void buildDataInto(CharacterSheet* CharacterSheet);
 private:
     QHash<QString,CharacterSheetItem*> m_dataHash;
     QStringList m_keyList;

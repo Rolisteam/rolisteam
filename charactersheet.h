@@ -93,7 +93,7 @@ public:
      * @brief setRootSection
      * @param rootSection
      */
-    void setRootSection(Section* rootSection);
+    void buildDataFromSection(Section* rootSection);
 
     /**
      * @brief getName
@@ -110,6 +110,8 @@ public:
      * @return
      */
     QHash<QString, QString> getVariableDictionnary();
+
+    void insertCharacterItem(CharacterSheetItem* item);
 
 public slots:
     /**

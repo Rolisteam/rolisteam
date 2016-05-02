@@ -109,7 +109,7 @@ public:
 
     CharacterSheet* getCharacterSheet(int id);
     
-    QList<CharacterSheetItem *>* getExportedList(CharacterSheet*);
+    //QList<CharacterSheetItem *>* getExportedList(CharacterSheet*);
     
     bool writeModel(QJsonObject& file, bool data= true);
     bool readModel(QJsonObject& file,bool readRootSection);

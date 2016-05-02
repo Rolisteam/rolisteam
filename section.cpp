@@ -211,7 +211,7 @@ bool Section::removeChild(CharacterSheetItem* child)
 }
 
 
-void Section::fillList(QList<CharacterSheetItem *>* result, CharacterSheet* character)
+void Section::buildDataInto( CharacterSheet* character)
 {
     for(int i = 0; i< getChildrenCount();++i)
     {
@@ -234,12 +234,12 @@ void Section::fillList(QList<CharacterSheetItem *>* result, CharacterSheet* char
             if(NULL!=newItem)
             {
                 newItem->setValue(character->getValue(newItem->getId()));
-                result->append(newItem);
+                character->insertCharacterItem(newItem);
             }
             if(CharacterSheetItem::SectionItem == childItem->getItemType())
             {
                 Section* sec = dynamic_cast<Section*>(childItem);
-                sec->fillList(result,character);
+                sec->buildDataInto(character);
             }
         }
     }

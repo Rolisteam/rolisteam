@@ -295,12 +295,11 @@ void CharacterSheetButton::copyField(CharacterSheetItem* newBtn)
     if(NULL!=newField)
     {
         setId(newField->getId());
-        setValue(newField->value());
+        //setValue(newField->value());
         setRect(newField->getRect());
-        //newField->setBorder(border());
-        //newField->setFont(font());
         setBgColor(newField->bgColor());
         setTextColor(newField->textColor());
+        setLabel(newField->getLabel());
     }
 }
 

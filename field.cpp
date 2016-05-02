@@ -44,6 +44,7 @@ Field::Field(QPointF topleft,QGraphicsItem* parent)
 void Field::init()
 {
     m_id = QStringLiteral("id_%1").arg(m_count);
+    m_currentType=TEXTINPUT;
     m_clippedText = false;
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 
@@ -403,12 +404,12 @@ void Field::copyField(CharacterSheetItem* newItem)
     if(NULL!=newField)
     {
         setId(newField->getId());
-        qDebug() << m_id << newField->getId()<<"newfield";
-        setValue(newField->value());
+//        setValue(newField->value());
         setRect(newField->getRect());
         setBorder(newField->border());
         setFont(newField->font());
         setBgColor(newField->bgColor());
         setTextColor(newField->textColor());
+        setLabel(newField->getLabel());
     }
 }

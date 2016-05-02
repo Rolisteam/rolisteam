@@ -62,12 +62,12 @@ CharacterSheet*  CharacterSheetModel::getCharacterSheet(int id)
     return NULL;
 }
 
-QList<CharacterSheetItem *>* CharacterSheetModel::getExportedList(CharacterSheet* character)
+/*QList<CharacterSheetItem *>* CharacterSheetModel::getExportedList(CharacterSheet* character)
 {
     QList<CharacterSheetItem *>* result = new QList<CharacterSheetItem *>();
     m_rootSection->fillList(result,character);
     return result;
-}
+}*/
 
 int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
 {
@@ -167,7 +167,7 @@ CharacterSheet* CharacterSheetModel::addCharacterSheet()
     ++m_characterCount;
     CharacterSheet* sheet = new CharacterSheet;
     m_characterList->append(sheet);
-    //sheet->setRootChild(m_rootSection);
+    sheet->buildDataFromSection(m_rootSection);
     endInsertColumns();
     return sheet;
 }

@@ -131,9 +131,9 @@ Section *CharacterSheet::getRootSection() const
     return m_rootSection;
 }
 
-void CharacterSheet::setRootSection(Section *rootSection)
+void CharacterSheet::buildDataFromSection(Section *rootSection)
 {
-    m_rootSection = rootSection;
+    rootSection->buildDataInto(this);
 }
 void CharacterSheet::save(QJsonObject& json)
 {
@@ -201,4 +201,9 @@ QHash<QString, QString> CharacterSheet::getVariableDictionnary()
     }
     qDebug() << dataDict;
     return dataDict;
+}
+
+void CharacterSheet::insertCharacterItem(CharacterSheetItem *item)
+{
+    m_valuesMap.insert(item->getId(),item);
 }
