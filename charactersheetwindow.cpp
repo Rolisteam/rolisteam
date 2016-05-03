@@ -38,7 +38,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     : MediaContainer(parent)
 {
     m_uri=uri;
-    m_title = tr("Character Sheet Viewer");
+    setTitle(tr("Character Sheet Viewer"));
     if(NULL==m_uri)
     {
         setCleverUriType(CleverURI::CHARACTERSHEET);
@@ -393,7 +393,16 @@ QDockWidget* CharacterSheetWindow::getDockWidget()
 }
 bool CharacterSheetWindow::readFileFromUri()
 {
-    return openFile(m_uri->getUri());
+    if(NULL!=m_uri)
+    {
+        setTitle(QStringLiteral("%1 - %2").arg(m_uri->getData(ResourcesNode::NAME).toString()).arg(tr("Character Sheet Viewer")));
+        return openFile(m_uri->getUri());
+
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void CharacterSheetWindow::saveMedia()
