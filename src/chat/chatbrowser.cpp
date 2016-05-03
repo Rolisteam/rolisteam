@@ -6,7 +6,7 @@
 
 #define MAX_COLOR_CHANNEL 255
 
-ChatBrowser::ChatBrowser(QWidget *parent) :
+ChatBrowser::ChatBrowser(bool showTimeStatus,QWidget *parent) :
     QTextBrowser(parent),m_bgColor(MAX_COLOR_CHANNEL,MAX_COLOR_CHANNEL,MAX_COLOR_CHANNEL),m_parent(parent)
 {
     //setOpenLinks(true);
@@ -21,8 +21,12 @@ ChatBrowser::ChatBrowser(QWidget *parent) :
     m_wordWarp->setCheckable(true);
     m_wordWarp->setChecked(true);
 
+    m_showTime = new QAction(tr("Display time"),this);
+    m_showTime->setCheckable(true);
+    m_showTime->setChecked(showTimeStatus);
+
     connect(m_detachedDialog,SIGNAL(triggered()),this, SLOT(detachedView()));
-    //connect(m_anyWhereWarp,SIGNAL(triggered()),this, SLOT(setWrapAnyWhere()));
+    connect(m_showTime,SIGNAL(triggered(bool)),this, SIGNAL(showTimeChanged(bool)));
     connect(m_wordWarp,SIGNAL(triggered()),this, SLOT(setWordWrap()));
 
     setContextMenuPolicy(Qt::CustomContextMenu);
@@ -52,10 +56,12 @@ void ChatBrowser::showContextMenu(QPoint pos)
     QMenu* menu = createStandardContextMenu(pos);
     menu->addAction(m_bgColorAct);
     menu->addAction(m_detachedDialog);
+    menu->addAction(m_showTime);
     menu->addSeparator();
     menu->addAction(m_wordWarp);
     menu->exec(mapToGlobal(pos));
 }
+
 void ChatBrowser::resizeEvent(QResizeEvent *e)
 {
     QTextBrowser::resizeEvent(e);

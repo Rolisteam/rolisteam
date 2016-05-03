@@ -107,7 +107,9 @@ public :
      * @return
      */
     QMdiSubWindow* getSubWindow();
-
+    /**
+     * @brief setLocalPlayer
+     */
     void setLocalPlayer(Person*);
 
     /**
@@ -119,6 +121,8 @@ public :
     ImprovedTextEdit *getEditionZone() const;
 
     void setEditionZone(ImprovedTextEdit *editionZone);
+
+    bool isTimeShown() const;
 
 signals:
     /**
@@ -154,6 +158,9 @@ public slots:
     void detachView(bool b);
 
     void rollDiceCmd(QString cmd,QString owner);
+
+    void showTime(bool showTime);
+
 protected :
     /**
      * @brief init
@@ -233,8 +240,7 @@ private :
     Person* m_localPerson;
     static QList<DiceAlias*>* m_receivedAlias;
     QHash<QString,QHash<QString,QString>*> m_dicoByCharacter;
-
-
+    bool m_showTime;
 };
 
 #endif

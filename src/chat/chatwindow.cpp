@@ -61,6 +61,7 @@ ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
     {
         m_keyWordList << "e" << "em" << "me" << "emote";
     }
+    m_showTime = m_preferences->value("MessagingShowTime",false).toBool();
     setupUi();
     connect(m_editionZone, SIGNAL(textValidated(bool,QString)), this, SLOT(sendOffTextMessage(bool,QString)));
     connect(m_editionZone, SIGNAL(ctrlUp()), this, SLOT(upSelectPerson()));
@@ -79,6 +80,8 @@ ChatWindow::ChatWindow(AbstractChat * chat,QWidget* parent)
     m_operatorMap->insert("!",DICEROLL);
     m_operatorMap->insert("&",SECRET_DICEROLL);
     m_operatorMap->insert("#",TO_GM_DICEROLL);
+
+
 
 }
 QMdiSubWindow* ChatWindow::getSubWindow()
@@ -119,7 +122,7 @@ void ChatWindow::setupUi()
     vboxLayout->setSpacing(0);
 
     vboxLayout->addWidget(m_splitter);
-    m_displayZone= new ChatBrowser();
+    m_displayZone= new ChatBrowser(m_showTime);
     m_displayZone->setOpenExternalLinks(true);
     m_displayZone->setReadOnly(true);
     m_displayZone->setMinimumHeight(30);
@@ -131,6 +134,7 @@ void ChatWindow::setupUi()
     m_editionZone->installEventFilter(this);
 
     connect(m_editionZone,SIGNAL(receivedFocus()),this,SLOT(editionGetFocus()));
+    connect(m_displayZone,SIGNAL(showTimeChanged(bool)),this,SLOT(showTime(bool)));
 
     // Layout
     m_bottomWidget = new QWidget();
@@ -240,6 +244,16 @@ void ChatWindow::manageDiceRoll(QString str,QString& messageTitle,QString& messa
     }
 
     m_diceParser->setVariableDictionary(NULL);
+}
+
+bool ChatWindow::isTimeShown() const
+{
+    return m_showTime;
+}
+
+void ChatWindow::showTime(bool showTime)
+{
+    m_showTime = showTime;
 }
 
 ImprovedTextEdit *ChatWindow::getEditionZone() const
@@ -523,6 +537,15 @@ void ChatWindow::showMessage(const QString& user, const QColor& color, const QSt
 
     QString userSpan("<span style=\"color:%2;\">%1</span>");
     userSpan = userSpan.arg(user).arg(color.name());
+
+    //
+    if(m_showTime)
+    {
+        QColor color = m_preferences->value("MessagingColorTime",QColor(Qt::darkGreen)).value<QColor>();
+        QString time("<span style=\"color:%2;font-size: small;\">[%1]</span> ");
+        time = time.arg(QTime::currentTime().toString("hh:mm")).arg(color.name());
+        userSpan.prepend(time);
+    }
 
     setUpdatesEnabled(false);
 
