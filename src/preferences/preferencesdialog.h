@@ -187,11 +187,18 @@ public:
 
 public slots:
     /**
-     * @brief show
+     * @brief show the dialog.
      */
     void show();
-
+    /**
+     * @brief updateUi
+     * @param isGM
+     */
     void updateUi(bool isGM);
+    /**
+     * @brief manageMessagingPref receives all notification when GUI widget has changed.
+     */
+    void manageMessagingPref();
 private slots:
     /**
      * @brief load
