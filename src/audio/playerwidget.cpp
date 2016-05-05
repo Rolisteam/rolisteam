@@ -657,7 +657,7 @@ void  PlayerWidget::savePlaylist()
      else
      {
          m_ui->m_label->setStyleSheet("color: black");
-         if(m_isGM)
+         if(!m_isGM)
          {// Player
                  m_ui->m_label->setEchoMode(QLineEdit::Password);
          }
