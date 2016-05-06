@@ -32,7 +32,6 @@
 class Character;
 class NetworkMessageReader;
 class NetworkMessageWriter;
-class NetworkLink;
 class Player;
 
 /**
