@@ -136,7 +136,7 @@ MainWindow::MainWindow()
 }
 MainWindow::~MainWindow()
 {
-    delete m_dockLogUtil;
+   // delete m_dockLogUtil;
 }
 void MainWindow::aboutRolisteam()
 {
