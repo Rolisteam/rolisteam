@@ -13,6 +13,7 @@ class RolisteamImageProvider : public QQuickImageProvider
 {
 public:
     RolisteamImageProvider();
+    RolisteamImageProvider(const RolisteamImageProvider& copy);
     virtual ~RolisteamImageProvider();
     //virtual QImage      requestImage(const QString & id, QSize * size, const QSize & requestedSize, bool requestedAutoTransform);
     virtual QPixmap requestPixmap(const QString &id, QSize *size, const QSize& requestedSize);

@@ -8,6 +8,12 @@ RolisteamImageProvider::RolisteamImageProvider()
 
 }
 
+RolisteamImageProvider::RolisteamImageProvider(const RolisteamImageProvider &copy)
+:  QQuickImageProvider(QQuickImageProvider::Pixmap)
+{
+    m_data = copy.data();
+}
+
 RolisteamImageProvider::~RolisteamImageProvider()
 {
 
