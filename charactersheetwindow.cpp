@@ -34,8 +34,9 @@
 
 #include "data/player.h"
 
+
 CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
-    : MediaContainer(parent)
+    : MediaContainer(parent),m_localIsGM(false)
 {
     m_uri=uri;
     m_title = tr("Character Sheet Viewer");
@@ -80,6 +81,8 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     connect(&m_view,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(displayCustomMenu(QPoint)));
     connect(m_loadQml,SIGNAL(triggered(bool)),this,SLOT(openQML()));
 
+    m_customNetworkAccessFactory = new CustomFactory();
+
 
 
     connect(m_detachTab,SIGNAL(triggered(bool)),this,SLOT(detachTab()));
@@ -88,7 +91,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
 }
 CharacterSheetWindow::~CharacterSheetWindow()
 {
-
+    delete m_customNetworkAccessFactory;
 }
 void CharacterSheetWindow::addLine()
 {
@@ -159,10 +162,11 @@ void CharacterSheetWindow::affectSheetToCharacter()
             Player* localItem =  PlayersList::instance()->getLocalPlayer();
             if((NULL!=m_currentCharacterSheet)&&(NULL!=parent)&&(NULL!=localItem)&&(localItem->isGM()))
             {
+                //connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(updateFieldFrom(CharacterSheet*,CharacterSheetItem*)));
+                m_sheetToPerson.insert(sheet,parent);
                 NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterSheet);
-                fill(&msg,sheet);
-                Player* person = character->getParentPlayer();
-                msg.sendTo(person->link());
+                fill(&msg,sheet,character->getUuid());
+                msg.sendTo(parent->link());
             }
         }
     }
@@ -192,22 +196,19 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
         if(NULL!=field)
         {
             m_qmlView->engine()->rootContext()->setContextProperty(field->getId(),field);
-           // qDebug() << field->getId() << field->value();
         }
     }
 
-    QString name(QStringLiteral("test.qml"));
-    if(QFile::exists(name))
+    //QString name(QStringLiteral("charactersheet.qml"));
+    QTemporaryFile fileTemp;
+
+    if(fileTemp.open())//QIODevice::WriteOnly
     {
-        QFile::remove(name);
+        fileTemp.write(m_qmlData.toLatin1());
+        fileTemp.close();
     }
-    QFile file(name);
-    if(file.open(QIODevice::WriteOnly))
-    {
-        file.write(m_qmlData.toLatin1());
-        file.close();
-    }
-    m_qmlView->setSource(QUrl(name));
+
+    m_qmlView->setSource(QUrl(fileTemp.fileName()));
     m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root = m_qmlView->rootObject();
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
@@ -230,6 +231,49 @@ void CharacterSheetWindow::rollDice(QString str)
     emit rollDiceCmd(str,label);
 }
 
+void CharacterSheetWindow::updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem *item)
+{
+    if(NULL!=sheet)
+    {
+        NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::updateFieldCharacterSheet);
+        msg.string8(m_mediaId);
+        msg.string8(sheet->getUuid());
+        QJsonObject object;
+        item->saveDataItem(object);
+        QJsonDocument doc;
+        doc.setObject(object);
+        msg.byteArray32(doc.toBinaryData());
+        Player* person = NULL;
+        if(m_localIsGM)
+        {
+            person = m_sheetToPerson.value(sheet);
+        }
+        else
+        {
+            person = PlayersList::instance()->getGM();
+        }
+
+        msg.sendTo(person->link());
+    }
+}
+void CharacterSheetWindow::processUpdateFieldMessage(NetworkMessageReader* msg)
+{
+    QString idSheet = msg->string8();
+    CharacterSheet* currentSheet=m_model.getCharacterSheetById(idSheet);
+
+    if(NULL==currentSheet)
+        return;
+
+    QByteArray array= msg->byteArray32();
+    if(array.isEmpty())
+        return;
+
+
+    QJsonDocument doc = QJsonDocument::fromBinaryData(array);
+    QJsonObject obj = doc.object();
+    currentSheet->setFieldData(obj);
+
+}
 void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
 {
     foreach(auto error, warnings)
@@ -237,7 +281,26 @@ void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
         qDebug() << error.toString();
     }
 }
-/*void CharacterSheetWindow::continueLoading()
+/*
+ *
+ *    //m_customNetworkAccessFactory->insertQmlFile(QStringLiteral("rolisteam://charactersheet.qml"),m_qmlData);
+    //m_qmlView->engine()->setNetworkAccessManagerFactory(m_customNetworkAccessFactory);
+
+   // m_qmlView->setSource(QUrl(QStringLiteral("rolisteam://charactersheet.qml")));
+    m_qmlView->engine()->addImportPath("qrc:/resources/qml");
+    m_qmlView->engine()->addPluginPath("qrc:/resources/qml");
+    m_qmlView->engine()->addImportPath("QtQuick");
+    if(QFile::exists(name))
+    {
+        QFile::remove(name);
+    }
+    QFile file(name);
+    QQmlComponent* com = new QQmlComponent(m_qmlView->engine(),this);
+    const QUrl url;
+    com->setData(m_qmlData.remove("import QtQuick 2.4\nimport \"qrc:/resources/qml/\"\n\n").toUtf8(),url);
+    qDebug() << m_qmlData;
+    m_qmlView->setContent(QUrl("Charactersheet.qml"),com,this);
+ * void CharacterSheetWindow::continueLoading()
 {
    // qDebug() << "ContinueLoading";
     if (m_sheetComponent->isError())
@@ -354,6 +417,16 @@ void CharacterSheetWindow::closeEvent(QCloseEvent *event)
     
 }
 
+bool CharacterSheetWindow::getLocalIsGM() const
+{
+    return m_localIsGM;
+}
+
+void CharacterSheetWindow::setLocalIsGM(bool localIsGM)
+{
+    m_localIsGM = localIsGM;
+}
+
 RolisteamImageProvider *CharacterSheetWindow::getImgProvider() const
 {
     return m_imgProvider;
@@ -376,7 +449,11 @@ void CharacterSheetWindow::setQmlData(const QString &qmlData)
 
 void CharacterSheetWindow::addCharacterSheet(CharacterSheet* sheet)
 {
-    m_model.addCharacterSheet(sheet);
+    if(NULL!=sheet)
+    {
+        connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(updateFieldFrom(CharacterSheet*,CharacterSheetItem*)));
+        m_model.addCharacterSheet(sheet);
+    }
 }
 bool CharacterSheetWindow::hasDockWidget() const
 {
@@ -395,9 +472,10 @@ void CharacterSheetWindow::saveMedia()
 {
     saveFile(m_uri->getUri());
 }
-void CharacterSheetWindow::fill(NetworkMessageWriter* msg,CharacterSheet* sheet)
+void CharacterSheetWindow::fill(NetworkMessageWriter* msg,CharacterSheet* sheet,QString idChar)
 {
     msg->string8(m_mediaId);
+    msg->string8(idChar);
     if(NULL!=sheet)
     {
         sheet->fill(*msg);
@@ -411,6 +489,7 @@ void CharacterSheetWindow::fill(NetworkMessageWriter* msg,CharacterSheet* sheet)
 
 }
 
+
 void CharacterSheetWindow::read(NetworkMessageReader* msg)
 {
     if(NULL==msg)
@@ -419,6 +498,7 @@ void CharacterSheetWindow::read(NetworkMessageReader* msg)
     CharacterSheet* sheet = new CharacterSheet();
 
     m_mediaId = msg->string8();
+    QString idChar = msg->string8();
     if(NULL!=sheet)
     {
         sheet->read(*msg);
@@ -431,4 +511,10 @@ void CharacterSheetWindow::read(NetworkMessageReader* msg)
 
     addCharacterSheet(sheet);
     m_model.readRootSection(msg);
+
+    Character* character = PlayersList::instance()->getCharacter(idChar);
+    if(NULL!=character)
+    {
+        character->setSheet(sheet);
+    }
 }

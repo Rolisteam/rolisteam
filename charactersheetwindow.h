@@ -31,6 +31,8 @@
 #include "data/mediacontainer.h"
 #include "charactersheetmodel.h"
 #include "rolisteamimageprovider.h"
+#include "qmlnetworkaccessmanager.h"
+
 /**
     * @brief herits from SubMdiWindows. It displays and manages all classes required to deal with the character sheet MVC architrecture.
     */
@@ -60,8 +62,12 @@ public:
     RolisteamImageProvider *getImgProvider() const;
     void setImgProvider(RolisteamImageProvider *imgProvider);
 
-    void fill(NetworkMessageWriter* msg, CharacterSheet* sheet);
+    void fill(NetworkMessageWriter *msg, CharacterSheet *sheet, QString idChar);
     void read(NetworkMessageReader* msg);
+
+    void processUpdateFieldMessage(NetworkMessageReader *msg);
+    bool getLocalIsGM() const;
+    void setLocalIsGM(bool localIsGM);
 
 signals:
     void addWidgetToMdiArea(QWidget*);
@@ -74,6 +80,8 @@ public slots:
 
 
     void rollDice(QString cmd);
+
+    void updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item);
 protected slots:
     void addTabWithSheetView(CharacterSheet *chSheet);
     /**
@@ -160,7 +168,12 @@ private:
     QQmlComponent* m_sheetComponent;
     QQuickWidget* m_qmlView;
 
+    QHash<CharacterSheet*,Player*> m_sheetToPerson;
+
     QString m_qmlData;
+
+    CustomFactory* m_customNetworkAccessFactory;
+    bool m_localIsGM;
 };
 
 #endif // CHARACTERSHEETWINDOW_H
