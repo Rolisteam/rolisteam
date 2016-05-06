@@ -116,6 +116,7 @@ public:
     void setLocalPersonColor(Person * person, const QColor & color);
     void delLocalCharacter(int index);
 
+    Player* getGM();
     // Proxy helpers
     static const quint32 NoParent = 0x7fffffff;
 public slots:
@@ -151,7 +152,7 @@ private:
      * @brief Destructor
      * @see instance()
      */
-    ~PlayersList();
+    virtual ~PlayersList();
     QModelIndex createIndex(Person * person) const;
     void addPlayer(Player * player);
     void addCharacter(Player * player, Character * character);
