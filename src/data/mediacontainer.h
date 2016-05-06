@@ -117,7 +117,7 @@ public:
      */
     virtual CleverURI::ContentType getContentType();
     /**
-     * @brief saveMedia
+     * @brief saveMedia must be implemented for each media container.
      */
     virtual void saveMedia() =0;
 
