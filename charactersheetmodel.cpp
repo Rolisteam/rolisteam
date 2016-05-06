@@ -179,6 +179,23 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
     emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();
 }
+
+CharacterSheet *CharacterSheetModel::getCharacterSheetById(QString id)
+{
+
+    for(CharacterSheet* sheet :*m_characterList)
+    {
+        qDebug() << "sheet id"<< sheet->getUuid() << id;
+    }
+    for(CharacterSheet* sheet :*m_characterList)
+    {
+        if(sheet->getUuid() == id)
+        {
+            return sheet;
+        }
+    }
+    return NULL;
+}
 #ifndef RCSE
 void CharacterSheetModel::readRootSection(NetworkMessageReader* msg)
 {
