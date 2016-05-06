@@ -123,7 +123,7 @@ private slots :
 private:
     QTcpServer * m_server;
     QList<NetworkLink *> m_networkLinkList;
-    NetworkLink * m_networkLinkToServer;
+    NetworkLink* m_networkLinkToServer;
     quint16 m_port;
     quint16 m_listeningPort;
     QString m_address;
