@@ -81,6 +81,7 @@ class TextEdit;
 class PlayersList;
 class ConnectionProfile;
 class SessionManager;
+class CharacterSheetWindow;
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
@@ -254,6 +255,7 @@ protected :
     void dropEvent(QDropEvent* event);
     void dragEnterEvent(QDragEnterEvent* ev);
 
+    void prepareCharacterSheetWindow(CharacterSheetWindow *window);
 private slots :
     void userNatureChange();
     void activeWindowChanged(QMdiSubWindow* widget);
@@ -311,6 +313,7 @@ private slots :
     void newCharacterSheetWindow();
 
 
+
 private :
     MainWindow();
     void showCleverUri(CleverURI *uri);
@@ -340,6 +343,7 @@ private:
     QMap<QString,MapFrame *> m_mapWindowMap;
     QMap<QString,VMapFrame *> m_mapWindowVectorialMap;
     QMap<QString,NoteContainer*> m_noteMap;
+    QHash<QString,CharacterSheetWindow*> m_sheetHash;
     QHash<QString,Image*> m_pictureHash;
     QMap<MediaContainer*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
@@ -376,6 +380,7 @@ private:
     SelectConnectionProfileDialog* m_dialog;
     bool m_profileDefined;
 
+    CharacterSheetWindow *findCharacterSheetWindowById(QString id);
 };
 
 #endif

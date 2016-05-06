@@ -501,6 +501,7 @@ void MainWindow::newMap()
 void MainWindow::newCharacterSheetWindow()
 {
     CharacterSheetWindow* window = new CharacterSheetWindow(NULL,this);
+    prepareCharacterSheetWindow(window);
     addMediaToMdiArea(window);
     connect(window,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
     connect(window,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
@@ -1668,16 +1669,40 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     {
         /// @todo Improve the clarity of this code.
         CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
+        prepareCharacterSheetWindow(sheetWindow);
         sheetWindow->read(msg);
 
         addMediaToMdiArea(sheetWindow);
         connect(sheetWindow,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
         connect(sheetWindow,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
 
+        m_sheetHash.insert(sheetWindow->getMediaId(),sheetWindow);
         //sheetWindow->addTabWithSheetView(sheet);
 
     }
+    else if(NetMsg::updateFieldCharacterSheet == msg->action())
+    {
+        QString idCharacterSheetW = msg->string8();
+        CharacterSheetWindow* sheet = findCharacterSheetWindowById(idCharacterSheetW);
+        if(NULL!=sheet)
+        {
+            sheet->processUpdateFieldMessage(msg);
+        }
+
+    }
 }
+CharacterSheetWindow*  MainWindow::findCharacterSheetWindowById(QString id)
+{
+    if(m_sheetHash.contains(id))
+    {
+        return m_sheetHash.value(id);
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
 void MainWindow::processCharacterPlayerMessage(NetworkMessageReader* msg)
 {
     QString idMap = msg->string8();
@@ -1995,6 +2020,14 @@ void MainWindow::showCleverUri(CleverURI* uri)
         }
     }
 }
+void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
+{
+    if(NULL!=m_currentConnectionProfile)
+    {
+        window->setLocalIsGM(m_currentConnectionProfile->isGM());
+    }
+    m_sheetHash.insert(window->getMediaId(),window);
+}
 
 void MainWindow::openCleverURI(CleverURI* uri,bool force)
 {
@@ -2021,6 +2054,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     case CleverURI::CHARACTERSHEET:
     {
         CharacterSheetWindow* csW = new CharacterSheetWindow();
+        prepareCharacterSheetWindow(csW);
         tmp = csW;
         connect(csW,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
         connect(csW,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
@@ -2199,7 +2233,10 @@ void MainWindow::dropEvent(QDropEvent* event)
                 tmp->setVisible(true);
                 break;
             case CleverURI::CHARACTERSHEET:
-                tmp = new CharacterSheetWindow();
+            {
+                CharacterSheetWindow* sheet = new CharacterSheetWindow();
+                prepareCharacterSheetWindow(sheet);
+                tmp = sheet;
                 connect(static_cast<CharacterSheetWindow*>(tmp),SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
                 connect(static_cast<CharacterSheetWindow*>(tmp),SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
 
@@ -2207,6 +2244,7 @@ void MainWindow::dropEvent(QDropEvent* event)
                 tmp->readFileFromUri();
                 addMediaToMdiArea(tmp);
                 tmp->setVisible(true);
+            }
                 break;
             case CleverURI::PICTURE:
                 tmp = new Image();
