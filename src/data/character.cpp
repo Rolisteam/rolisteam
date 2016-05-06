@@ -81,7 +81,9 @@ QHash<QString, QString> Character::getVariableDictionnary()
     }
     else
     {
-        return m_sheet->getVariableDictionnary();
+        #ifndef UNIT_TEST
+            return m_sheet->getVariableDictionnary();
+        #endif
     }
 }
 
