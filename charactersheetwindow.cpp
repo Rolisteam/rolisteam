@@ -45,7 +45,6 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
         setCleverUriType(CleverURI::CHARACTERSHEET);
     }
     setObjectName("CharacterSheetViewer");
-
     connect(&m_model,SIGNAL(characterSheetHasBeenAdded(CharacterSheet*)),this,SLOT(addTabWithSheetView(CharacterSheet*)));
     
     setWindowIcon(QIcon(":/resources/icons/treeview.png"));
@@ -57,21 +56,18 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     m_loadQml = new QAction(tr("Load CharacterSheet View File"),this);
 
     m_detachTab = new QAction(tr("Detach Tabs"),this);
-
     m_view.setModel(&m_model);
     
     resize(m_preferences->value("charactersheetwindows/width",400).toInt(),m_preferences->value("charactersheetwindows/height",600).toInt());
     m_view.setAlternatingRowColors(true);
     setWindowTitle(m_title);
     
-
     m_tabs = new QTabWidget(this);
     m_tabs->addTab(&m_view,tr("Data"));
     setWidget(m_tabs);
     m_view.setContextMenuPolicy(Qt::CustomContextMenu);
     m_tabs->tabBar()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_tabs->tabBar(),SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenuForTabs(QPoint)));
-    
     
     connect(m_addLine,SIGNAL(triggered()),this,SLOT(addLine()));
     connect(m_addSection,SIGNAL(triggered()),this,SLOT(addSection()));
@@ -80,18 +76,17 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     connect(m_openCharacterSheet,SIGNAL(triggered()),this,SLOT(openCharacterSheet()));
     connect(&m_view,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(displayCustomMenu(QPoint)));
     connect(m_loadQml,SIGNAL(triggered(bool)),this,SLOT(openQML()));
-
-    m_customNetworkAccessFactory = new CustomFactory();
-
-
-
     connect(m_detachTab,SIGNAL(triggered(bool)),this,SLOT(detachTab()));
 
     m_imgProvider = new RolisteamImageProvider();
 }
 CharacterSheetWindow::~CharacterSheetWindow()
 {
-    delete m_customNetworkAccessFactory;
+  /*  for(auto sheet : m_characterSheetlist)
+    {
+        sheet->engine()->addImageProvider(QLatin1String("rcs"),NULL);
+    }*/
+
 }
 void CharacterSheetWindow::addLine()
 {
@@ -131,7 +126,11 @@ void CharacterSheetWindow::contextMenuForTabs(const QPoint& pos)
 
     m_currentCharacterSheet=m_tabs->tabBar()->tabAt(pos);
     menu.addAction(m_detachTab);
-    if(m_currentCharacterSheet>0)
+    if(m_currentCharacterSheet<0)
+    {
+        m_currentCharacterSheet = m_tabs->currentIndex();
+    }
+    if((m_currentCharacterSheet>0))
     {
         menu.exec(QCursor::pos());
     }
@@ -156,6 +155,7 @@ void CharacterSheetWindow::affectSheetToCharacter()
             character->setSheet(sheet);
             sheet->setName(character->getName());
             m_tabs->setTabText(m_currentCharacterSheet+1,sheet->getName());
+
 
 
             Player* parent = character->getParentPlayer();
@@ -186,9 +186,16 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     {
         openQML();
     }
-    m_qmlView = new QQuickWidget();
+    m_qmlView = new QQuickWidget(this);
+    m_qmlView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_qmlView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenuForTabs(QPoint)));
+
     connect(m_qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
-    m_qmlView->engine()->addImageProvider(QLatin1String("rcs"),m_imgProvider);
+
+    RolisteamImageProvider* imgProvider = new RolisteamImageProvider();
+    *imgProvider = *m_imgProvider;
+
+    m_qmlView->engine()->addImageProvider(QLatin1String("rcs"),imgProvider);
 
     for(int i =0;i<chSheet->getFieldCount();++i)
     {

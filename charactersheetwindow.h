@@ -31,7 +31,7 @@
 #include "data/mediacontainer.h"
 #include "charactersheetmodel.h"
 #include "rolisteamimageprovider.h"
-#include "qmlnetworkaccessmanager.h"
+//#include "qmlnetworkaccessmanager.h"
 
 /**
     * @brief herits from SubMdiWindows. It displays and manages all classes required to deal with the character sheet MVC architrecture.
@@ -171,8 +171,6 @@ private:
     QHash<CharacterSheet*,Player*> m_sheetToPerson;
 
     QString m_qmlData;
-
-    CustomFactory* m_customNetworkAccessFactory;
     bool m_localIsGM;
 };
 
