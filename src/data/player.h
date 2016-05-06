@@ -22,6 +22,7 @@
 #define PLAYER_H
 #include <QMetaType>
 #include "person.h"
+class NetworkLink;
 /**
  * @brief Represents a player.
  *
