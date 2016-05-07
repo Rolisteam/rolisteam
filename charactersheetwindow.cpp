@@ -40,6 +40,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
 {
     m_uri=uri;
     m_title = tr("Character Sheet Viewer");
+   // m_data = new QJsonObject();
     if(NULL==m_uri)
     {
         setCleverUriType(CleverURI::CHARACTERSHEET);
@@ -81,11 +82,11 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
 }
 CharacterSheetWindow::~CharacterSheetWindow()
 {
-  /*  for(auto sheet : m_characterSheetlist)
+    if(NULL!=m_imgProvider)
     {
-        sheet->engine()->addImageProvider(QLatin1String("rcs"),NULL);
-    }*/
-
+        delete m_imgProvider;
+        m_imgProvider = NULL;
+    }
 }
 void CharacterSheetWindow::addLine()
 {
@@ -143,7 +144,7 @@ bool CharacterSheetWindow::eventFilter(QObject *object, QEvent *event)
 {
     if(event->type() == QEvent::Hide)
     {
-        QWidget* wid = dynamic_cast<QWidget*>(object);
+        QQuickWidget* wid = dynamic_cast<QQuickWidget*>(object);
         if(NULL!=wid)
         {
             if(-1==m_tabs->indexOf(wid))
@@ -235,16 +236,13 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     {
         openQML();
     }
-    m_qmlView = new QQuickWidget(this);
+    m_qmlView = new QQuickWidget();
     m_qmlView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_qmlView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenuForTabs(QPoint)));
 
     connect(m_qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
 
-    RolisteamImageProvider* imgProvider = new RolisteamImageProvider();
-    *imgProvider = *m_imgProvider;
-
-    m_qmlView->engine()->addImageProvider(QLatin1String("rcs"),imgProvider);
+    m_qmlView->engine()->addImageProvider(QLatin1String("rcs"),new RolisteamImageProvider());
 
     for(int i =0;i<chSheet->getFieldCount();++i)
     {
@@ -337,48 +335,7 @@ void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
         qDebug() << error.toString();
     }
 }
-/*
- *
- *    //m_customNetworkAccessFactory->insertQmlFile(QStringLiteral("rolisteam://charactersheet.qml"),m_qmlData);
-    //m_qmlView->engine()->setNetworkAccessManagerFactory(m_customNetworkAccessFactory);
 
-   // m_qmlView->setSource(QUrl(QStringLiteral("rolisteam://charactersheet.qml")));
-    m_qmlView->engine()->addImportPath("qrc:/resources/qml");
-    m_qmlView->engine()->addPluginPath("qrc:/resources/qml");
-    m_qmlView->engine()->addImportPath("QtQuick");
-    if(QFile::exists(name))
-    {
-        QFile::remove(name);
-    }
-    QFile file(name);
-    QQmlComponent* com = new QQmlComponent(m_qmlView->engine(),this);
-    const QUrl url;
-    com->setData(m_qmlData.remove("import QtQuick 2.4\nimport \"qrc:/resources/qml/\"\n\n").toUtf8(),url);
-    qDebug() << m_qmlData;
-    m_qmlView->setContent(QUrl("Charactersheet.qml"),com,this);
- * void CharacterSheetWindow::continueLoading()
-{
-   // qDebug() << "ContinueLoading";
-    if (m_sheetComponent->isError())
-    {
-        qWarning() << "hasError ///////"<< m_sheetComponent->errors();
-    }
-    else
-    {
-        QObject* sheetObj = m_sheetComponent->create();
-        if(NULL!=sheetObj)
-        {
-           // qDebug() << "Creation succeed";
-            QQuickItem* sheetItem = dynamic_cast<QQuickItem*>(sheetObj);
-            if(NULL!=sheetItem)
-            {
-               // qDebug() << m_qmlView->rootObject();
-                sheetItem->setParentItem(m_qmlView->rootObject());
-            }
-        }
-        m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
-    }
-}*/
 void  CharacterSheetWindow::saveCharacterSheet()
 {
     if(m_fileUri.isEmpty())
@@ -387,30 +344,45 @@ void  CharacterSheetWindow::saveCharacterSheet()
                                                  tr("Character Sheets Data files (*.rcs)"));
     }
     saveFile(m_fileUri);
-    
 }
-void CharacterSheetWindow::saveFile(const QString & file)
+void CharacterSheetWindow::saveFile(const QString & uri)
 {
-    if(!file.isEmpty())
+    if(!uri.isEmpty())
     {
-        QFile url(file);
-        if(!url.open(QIODevice::ReadWrite | QIODevice::Text))
+        QFile file(uri);
+        if(!file.open(QIODevice::WriteOnly))
             return;
 
-        QJsonDocument doc(QJsonDocument::fromJson(url.readAll()));
-        QJsonObject jsonObj=doc.object();
+        QJsonDocument json;
+        QJsonObject obj;
 
-        QJsonObject data = jsonObj["data"].toObject();
+        //fieldModel
+        obj["data"]=m_data;
 
-        m_model.writeModel(data,true);
 
-        jsonObj["data"]=data;
-        jsonObj["qml"]=m_qmlData;
-        doc.setObject(jsonObj);
+        obj["qml"]=m_qmlData;
 
-        url.write(doc.toJson());
 
-        url.close();
+        //background
+        QJsonArray images;
+        if(NULL!=m_imgProvider)
+        {
+            for(QPixmap pix : RolisteamImageProvider::getData()->values())
+            {
+                QByteArray bytes;
+                QBuffer buffer(&bytes);
+                buffer.open(QIODevice::WriteOnly);
+                pix.save(&buffer, "PNG");
+                images.append(QString(buffer.data().toBase64()));
+            }
+        }
+        obj["background"]=images;
+
+        //CharacterModel
+        m_model.writeModel(obj,false);
+
+        json.setObject(obj);
+        file.write(json.toJson());
     }
 }
 
@@ -424,7 +396,7 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
             QJsonDocument json = QJsonDocument::fromJson(file.readAll());
             QJsonObject jsonObj = json.object();
 
-           // QJsonObject data = jsonObj["data"].toObject();
+            m_data = jsonObj["data"].toObject();
 
             m_qmlData = jsonObj["qml"].toString();
 
@@ -577,3 +549,45 @@ void CharacterSheetWindow::read(NetworkMessageReader* msg)
         character->setSheet(sheet);
     }
 }
+/*
+ *
+ *    //m_customNetworkAccessFactory->insertQmlFile(QStringLiteral("rolisteam://charactersheet.qml"),m_qmlData);
+    //m_qmlView->engine()->setNetworkAccessManagerFactory(m_customNetworkAccessFactory);
+
+   // m_qmlView->setSource(QUrl(QStringLiteral("rolisteam://charactersheet.qml")));
+    m_qmlView->engine()->addImportPath("qrc:/resources/qml");
+    m_qmlView->engine()->addPluginPath("qrc:/resources/qml");
+    m_qmlView->engine()->addImportPath("QtQuick");
+    if(QFile::exists(name))
+    {
+        QFile::remove(name);
+    }
+    QFile file(name);
+    QQmlComponent* com = new QQmlComponent(m_qmlView->engine(),this);
+    const QUrl url;
+    com->setData(m_qmlData.remove("import QtQuick 2.4\nimport \"qrc:/resources/qml/\"\n\n").toUtf8(),url);
+    qDebug() << m_qmlData;
+    m_qmlView->setContent(QUrl("Charactersheet.qml"),com,this);
+ * void CharacterSheetWindow::continueLoading()
+{
+   // qDebug() << "ContinueLoading";
+    if (m_sheetComponent->isError())
+    {
+        qWarning() << "hasError ///////"<< m_sheetComponent->errors();
+    }
+    else
+    {
+        QObject* sheetObj = m_sheetComponent->create();
+        if(NULL!=sheetObj)
+        {
+           // qDebug() << "Creation succeed";
+            QQuickItem* sheetItem = dynamic_cast<QQuickItem*>(sheetObj);
+            if(NULL!=sheetItem)
+            {
+               // qDebug() << m_qmlView->rootObject();
+                sheetItem->setParentItem(m_qmlView->rootObject());
+            }
+        }
+        m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    }
+}*/

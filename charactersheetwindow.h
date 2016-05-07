@@ -188,6 +188,7 @@ private:
     QQuickWidget* m_qmlView;
 
     QHash<CharacterSheet*,Player*> m_sheetToPerson;
+    QJsonObject m_data;
 
     QString m_qmlData;
     bool m_localIsGM;
