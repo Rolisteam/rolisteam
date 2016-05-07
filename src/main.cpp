@@ -174,14 +174,6 @@ int main(int argc, char *argv[])
     mainWindow->readSettings();
 
 	int value = 0;
-	/*if(mainWindow->showConnectionDialog())
-    {
-        mainWindow->setUpNetworkConnection();
-        mainWindow->updateWindowTitle();
-        mainWindow->checkUpdate();
-        mainWindow->updateUi();
-
-	}*/
 	if(PreferencesManager::getInstance()->value("FullScreenAtStarting",true).toBool())
 	{
 		mainWindow->showMaximized();
@@ -190,7 +182,6 @@ int main(int argc, char *argv[])
 	{
 		mainWindow->show();
 	}
-    //QTimer::singleShot(0,mainWindow,SLOT(showConnectionDialog()));
     mainWindow->showConnectionDialog();
 	value = app.exec();
     QObject::connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
