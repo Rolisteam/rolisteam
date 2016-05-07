@@ -349,7 +349,7 @@ bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool writeData)
     return true;
 }
 
-bool CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
+void CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
 {
     beginResetModel();
     if(readRootSection)
