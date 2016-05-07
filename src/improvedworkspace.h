@@ -67,7 +67,7 @@ signals:
 public slots:
     void setTabbedMode(bool );
     void ensurePresent();
-    void addWidgetToMdi(QWidget*);
+    void addWidgetToMdi(QWidget*,QString title);
 
 protected :
     void resizeEvent ( QResizeEvent * event );
