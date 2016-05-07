@@ -500,12 +500,9 @@ void MainWindow::newMap()
 }
 void MainWindow::newCharacterSheetWindow()
 {
-    CharacterSheetWindow* window = new CharacterSheetWindow(NULL,this);
+    CharacterSheetWindow* window = new CharacterSheetWindow();
     prepareCharacterSheetWindow(window);
     addMediaToMdiArea(window);
-    connect(window,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
-    connect(window,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
-
 }
 
 
@@ -1211,7 +1208,7 @@ void MainWindow::notifyUser(QString message, MessageType type) const
     m_notifierDisplay->setTextColor(color);
     m_notifierDisplay->insertPlainText(message);
 }
-bool  MainWindow::showConnectionDialog(bool forced)
+void  MainWindow::showConnectionDialog(bool forced)
 {
     if((!m_profileDefined)||(forced))
 	{
@@ -1673,8 +1670,6 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         sheetWindow->read(msg);
 
         addMediaToMdiArea(sheetWindow);
-        connect(sheetWindow,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
-        connect(sheetWindow,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
 
         m_sheetHash.insert(sheetWindow->getMediaId(),sheetWindow);
         //sheetWindow->addTabWithSheetView(sheet);
@@ -2027,6 +2022,8 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
         window->setLocalIsGM(m_currentConnectionProfile->isGM());
     }
     m_sheetHash.insert(window->getMediaId(),window);
+    connect(window,SIGNAL(addWidgetToMdiArea(QWidget*,QString )),m_mdiArea,SLOT(addWidgetToMdi(QWidget*,QString)));
+    connect(window,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
 }
 
 void MainWindow::openCleverURI(CleverURI* uri,bool force)
@@ -2056,9 +2053,6 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         CharacterSheetWindow* csW = new CharacterSheetWindow();
         prepareCharacterSheetWindow(csW);
         tmp = csW;
-        connect(csW,SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
-        connect(csW,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
-
     }
         break;
     default:
@@ -2237,9 +2231,6 @@ void MainWindow::dropEvent(QDropEvent* event)
                 CharacterSheetWindow* sheet = new CharacterSheetWindow();
                 prepareCharacterSheetWindow(sheet);
                 tmp = sheet;
-                connect(static_cast<CharacterSheetWindow*>(tmp),SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
-                connect(static_cast<CharacterSheetWindow*>(tmp),SIGNAL(addWidgetToMdiArea(QWidget*)),m_mdiArea,SLOT(addWidgetToMdi(QWidget*)));
-
                 tmp->setCleverUri(uri);
                 tmp->readFileFromUri();
                 addMediaToMdiArea(tmp);

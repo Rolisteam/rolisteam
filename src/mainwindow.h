@@ -233,10 +233,9 @@ public slots :
     void closeAllImagesAndMaps();
 
 	/**
-	 * @brief showConnectionDialog
-	 * @return
+     * @brief showConnectionDialog
 	 */
-    bool showConnectionDialog(bool forced = false);
+    void showConnectionDialog(bool forced = false);
 
     void startConnection();
 protected :
