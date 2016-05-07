@@ -91,6 +91,7 @@ bool NetworkManager::startConnection()
         m_address = m_connectionProfile->getAddress();
         startConnectionToServer();
     }
+    return true;
 }
 bool  NetworkManager::startListening()
 {

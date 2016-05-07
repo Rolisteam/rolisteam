@@ -90,10 +90,12 @@ void Chapter::insertChildAt(int row, ResourcesNode* uri)
 
 bool Chapter::seekNode(QList<ResourcesNode *> &path, ResourcesNode *node)
 {
+    bool val = false;
     if(m_children.contains(node))
     {
         path.append(this);
         path.append(node);
+        val = true;
     }
     else
     {
@@ -101,10 +103,12 @@ bool Chapter::seekNode(QList<ResourcesNode *> &path, ResourcesNode *node)
         {
             if((child->hasChildren()) && (child->seekNode(path,node)))
             {
+                val = true;
                 path.prepend(this);
             }
         }
     }
+    return val;
 }
 
 QIcon Chapter::getIcon()
