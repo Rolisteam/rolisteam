@@ -199,6 +199,7 @@ public slots:
      * @brief manageMessagingPref receives all notification when GUI widget has changed.
      */
     void manageMessagingPref();
+    void backgroundChanged();
 private slots:
     /**
      * @brief load
@@ -237,7 +238,7 @@ private slots:
     /**
      * @brief dupplicateTheme
      */
-    void dupplicateTheme();
+    void dupplicateTheme(bool selectNew = true);
     /**
      * @brief setTitleAtCurrentTheme
      */
@@ -273,7 +274,7 @@ private:
      /**
      *  @brief getCurrentRemovableTheme should return the current theme which can be modified.
      */
-    RolisteamTheme* getCurrentRemovableTheme();
+    RolisteamTheme* getCurrentRemovableTheme(bool selectNew= true);
 
 private:
     PreferencesManager* m_preferences;
@@ -284,6 +285,7 @@ private:
     PaletteModel* m_paletteModel;
     QList<RolisteamTheme*> m_themes;
     CharacterStateModel* m_stateModel;
+    bool m_currentThemeIsEditable;
 };
 
 #endif

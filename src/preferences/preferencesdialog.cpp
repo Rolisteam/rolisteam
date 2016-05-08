@@ -190,7 +190,7 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     : QDialog(parent, f), ui(new Ui::PreferencesDialogBox())
 {
     ui->setupUi(this);
-
+    m_currentThemeIsEditable = false;
     NewEmptyMapDialog dialog;
     ui->m_defaultMapModeCombo->addItems(dialog.getPermissionData());
 
@@ -259,9 +259,9 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 
 
     // background
-    connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(applyBackground()));
-    connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(applyBackground()));
-    connect(ui->m_backgroundImage,SIGNAL(pathChanged()),this,SLOT(applyBackground()));
+    connect(ui->m_positioningComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(backgroundChanged()));
+    connect(ui->m_bgColorPush, SIGNAL(colorChanged(QColor)), this, SLOT(backgroundChanged()));
+    connect(ui->m_backgroundImage,SIGNAL(pathChanged()),this,SLOT(backgroundChanged()));
     //connect(ui->m_backgroundImage,ç)
 
     //themes
@@ -452,8 +452,6 @@ void PreferencesDialog::initializePostSettings()
             int pos = m_preferences->value(QString("Theme_%1_bgPosition").arg(i),0).toInt();
             QString css = m_preferences->value(QString("Theme_%1_css").arg(i),"").toString();
             bool isRemovable = m_preferences->value(QString("Theme_%1_removable").arg(i),false).toBool();
-            qDebug() << "pos" << pos << "name" << name;
-
             RolisteamTheme* tmp = new RolisteamTheme(pal,name,css,QStyleFactory::create(style),path,pos,color,isRemovable);
             m_themes.append(tmp);
             // m_preferences->registerValue(QString("Theme_%1_css").arg(i),tmp->getName());
@@ -506,7 +504,6 @@ void PreferencesDialog::initializePostSettings()
     ui->m_styleCombo->addItems(QStyleFactory::keys());
 
     QString theme = m_preferences->value("currentTheme","Default").toString();
-    qDebug() << theme;
     ui->m_themeComboBox->setCurrentText(theme);
 
     updateTheme();
@@ -595,7 +592,6 @@ void PreferencesDialog::initializePostSettings()
 void PreferencesDialog::updateTheme()
 {
     int i = ui->m_themeComboBox->currentIndex();
-    qDebug() << "current id theme"<<i;
     if((i>=0)&&(i<m_themes.size()))
     {
         RolisteamTheme* theme = m_themes.at(i);
@@ -606,7 +602,6 @@ void PreferencesDialog::updateTheme()
         ui->m_bgColorPush->blockSignals(true);
         ui->m_bgColorPush->setColor(theme->getBackgroundColor());
         ui->m_bgColorPush->blockSignals(false);
-        qDebug() << theme->getBackgroundPosition();
 
         ui->m_positioningComboBox->blockSignals(true);
         ui->m_positioningComboBox->setCurrentIndex(theme->getBackgroundPosition());
@@ -656,7 +651,7 @@ void PreferencesDialog::editCss()
 
 }
 
-void PreferencesDialog::dupplicateTheme()
+void PreferencesDialog::dupplicateTheme(bool selectNew)
 {
     int i = ui->m_themeComboBox->currentIndex();
     if((i>=0)&&(i<m_themes.size()))
@@ -665,9 +660,12 @@ void PreferencesDialog::dupplicateTheme()
         QString str = theme->getName();
         str.append(tr(" (copy)"));
         RolisteamTheme* newTheme = new RolisteamTheme(theme->getPalette(),str,theme->getCss(),theme->getStyle(),theme->getBackgroundImage(),theme->getBackgroundPosition(),theme->getBackgroundColor(),true);
-        ui->m_themeComboBox->addItem(str);
+        //ui->m_themeComboBox->addItem(str);
         m_themes.append(newTheme);
-        ui->m_themeComboBox->setCurrentIndex(m_themes.size()-1);
+        if(selectNew)
+        {
+            ui->m_themeComboBox->setCurrentIndex(m_themes.size()-1);
+        }
     }
 
 }
@@ -689,9 +687,27 @@ void PreferencesDialog::setTitleAtCurrentTheme()
         int i = ui->m_themeComboBox->currentIndex();
         ui->m_themeComboBox->setItemText(i,theme->getName());
     }
-
 }
+void PreferencesDialog::backgroundChanged()
+{
+    RolisteamTheme* theme =getCurrentRemovableTheme(false);
+    if(NULL==theme)
+    {
+        return;
+    }
+    if(theme->isRemovable())
+    {
+        theme->setBackgroundImage(ui->m_backgroundImage->path());
+        //ui->m_backgroundImage->setPath(path);
+        theme->setBackgroundColor(ui->m_bgColorPush->color());
+        theme->setBackgroundPosition(ui->m_positioningComboBox->currentIndex());
 
+        /*int i = ui->m_themeComboBox->currentIndex();*/
+        ui->m_themeComboBox->insertItem(m_themes.indexOf(theme),theme->getName());
+        ui->m_themeComboBox->setCurrentIndex(m_themes.indexOf(theme));
+        //applyBackground();
+    }
+}
 
 void PreferencesDialog::performDiag()
 {
@@ -741,7 +757,6 @@ void PreferencesDialog::performDiag()
                         << "audio/flac";//
     foreach (const QString &type, commonAudioMimeType)
     {
-        qDebug() << type;
         switch (QMediaPlayer::hasSupport(type))
         {
         case QMultimedia::NotSupported:
@@ -841,15 +856,18 @@ void PreferencesDialog::applyBackground()
     if((i>=0)&&(i<m_themes.size()))
     {
         RolisteamTheme* theme = m_themes.at(i);
-        qDebug() << theme->getName() << theme->getBackgroundPosition();
-        theme->setBackgroundColor(ui->m_bgColorPush->color());
-        theme->setBackgroundPosition(ui->m_positioningComboBox->currentIndex());
-        theme->setBackgroundImage(ui->m_backgroundImage->path());
+        if(NULL!=theme)
+        {
+            m_currentThemeIsEditable = theme->isRemovable();
+            theme->setBackgroundColor(ui->m_bgColorPush->color());
+            theme->setBackgroundPosition(ui->m_positioningComboBox->currentIndex());
+            theme->setBackgroundImage(ui->m_backgroundImage->path());
 
 
-        m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
-        m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
-        m_preferences->registerValue("BackGroundPositioning",ui->m_positioningComboBox->currentIndex());
+            m_preferences->registerValue("PathOfBackgroundImage",ui->m_backgroundImage->path());
+            m_preferences->registerValue("BackGroundColor",ui->m_bgColorPush->color());
+            m_preferences->registerValue("BackGroundPositioning",ui->m_positioningComboBox->currentIndex());
+        }
     }
 }
 void PreferencesDialog::sendOffAllDiceAlias(NetworkLink* link)
@@ -913,7 +931,7 @@ bool PreferencesDialog::importTheme()
     }
 }
 
-RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme()
+RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme(bool selectNew)
 {
     int i = ui->m_themeComboBox->currentIndex();
     if((i>=0)&&(i<m_themes.size()))
@@ -921,9 +939,16 @@ RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme()
         RolisteamTheme* theme = m_themes.at(i);
         if(!theme->isRemovable())
         {
-            dupplicateTheme();
+            dupplicateTheme(selectNew);
         }
-        i = ui->m_themeComboBox->currentIndex();
+        if(selectNew)
+        {
+            i = ui->m_themeComboBox->currentIndex();
+        }
+        else
+        {
+            i = m_themes.size()-1;
+        }
         if(i>0)
         {
             theme = m_themes.at(i);
@@ -940,5 +965,6 @@ void PreferencesDialog::deleteTheme()
     if((i>=0)&&(i<m_themes.size()))
     {
         ui->m_themeComboBox->removeItem(i);
+        m_themes.removeAt(i);
     }
 }
