@@ -41,7 +41,7 @@ class NetworkLink;
 class NetworkMessageWriter;
 class QShortcut;
 /**
- * @brief The Image class
+ * @brief The Image class displays image to the screen. It also manages image from Internet and the zooming.
  */
 class Image : public MediaContainer
 {
@@ -50,7 +50,14 @@ Q_OBJECT
 public :
     //Image(QString title, QString identImage, QString identJoueur, QImage *image, QAction *action = 0, ImprovedWorkspace *parent = 0);
     Image(ImprovedWorkspace* parent = NULL);
-    ~Image();
+    /**
+     * @brief ~Image destructor.
+     */
+    virtual ~Image();
+    /**
+     * @brief setInternalAction may not be useful anymore.
+     * @param action
+     */
     void setInternalAction(QAction *action);
     QAction* getAssociatedAction() const;
 
@@ -66,7 +73,7 @@ public :
     virtual bool openMedia();
     virtual void saveMedia();
 
-
+    virtual void putDataIntoCleverUri();
 
 public slots :
     void pointeurMain();
