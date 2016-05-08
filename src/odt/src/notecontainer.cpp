@@ -62,6 +62,19 @@ void NoteContainer::saveMedia()
         m_uri->setUri(uri);
     }
 }
+void NoteContainer::putDataIntoCleverUri()
+{
+    if(NULL!=m_edit)
+    {
+        QByteArray data;
+        QDataStream out(&data,QIODevice::WriteOnly);
+        m_edit->saveFileAsBinary(out);
+        if(NULL!=m_uri)
+        {
+            m_uri->setData(data);
+        }
+    }
+}
 void NoteContainer::readFromFile(QDataStream& data)
 {
     if(NULL!=m_edit)
