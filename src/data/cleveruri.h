@@ -133,7 +133,7 @@ public:
     QByteArray getData() const;
     void setData(const QByteArray& data);
 
-    void loadFileFromUri();
+    void loadFileFromUri(QByteArray&) const;
     void clearData();
 
     QVariant getData(int i);
