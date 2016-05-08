@@ -40,7 +40,7 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
 {
     m_uri=uri;
     m_title = tr("Character Sheet Viewer");
-   // m_data = new QJsonObject();
+    // m_data = new QJsonObject();
     if(NULL==m_uri)
     {
         setCleverUriType(CleverURI::CHARACTERSHEET);
@@ -149,8 +149,8 @@ bool CharacterSheetWindow::eventFilter(QObject *object, QEvent *event)
         {
             if(-1==m_tabs->indexOf(wid))
             {
-               wid->removeEventFilter(this);
-               m_tabs->addTab(wid,wid->windowTitle());
+                wid->removeEventFilter(this);
+                m_tabs->addTab(wid,wid->windowTitle());
             }
         }
         return MediaContainer::eventFilter(object,event);
@@ -279,7 +279,7 @@ void CharacterSheetWindow::rollDice(QString str)
         QObject* root = qmlView->rootObject();
         if(root == obj)
         {
-             label = m_tabs->tabText(m_tabs->indexOf(qmlView));
+            label = m_tabs->tabText(m_tabs->indexOf(qmlView));
         }
     }
     emit rollDiceCmd(str,label);
@@ -338,53 +338,53 @@ void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
 
 void  CharacterSheetWindow::saveCharacterSheet()
 {
-    if(m_fileUri.isEmpty())
+    if((NULL!=m_uri)&&(m_uri->getUri().isEmpty()))
     {
-        m_fileUri = QFileDialog::getSaveFileName(this, tr("Save Character Sheets Data"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
+       QString uri = QFileDialog::getSaveFileName(this, tr("Save Character Sheets Data"), m_preferences->value(QString("CharacterSheetDirectory"),QDir::homePath()).toString(),
                                                  tr("Character Sheets Data files (*.rcs)"));
+
+       m_uri->setUri(uri);
     }
-    saveFile(m_fileUri);
+    saveMedia();
+
 }
-void CharacterSheetWindow::saveFile(const QString & uri)
+void CharacterSheetWindow::saveFile(QDataStream& stream)
 {
-    if(!uri.isEmpty())
+
+
+    QJsonDocument json;
+    QJsonObject obj;
+
+    //fieldModel
+    obj["data"]=m_data;
+
+
+    obj["qml"]=m_qmlData;
+
+
+    //background
+    QJsonArray images;
+    if(NULL!=m_imgProvider)
     {
-        QFile file(uri);
-        if(!file.open(QIODevice::WriteOnly))
-            return;
-
-        QJsonDocument json;
-        QJsonObject obj;
-
-        //fieldModel
-        obj["data"]=m_data;
-
-
-        obj["qml"]=m_qmlData;
-
-
-        //background
-        QJsonArray images;
-        if(NULL!=m_imgProvider)
+        for(QPixmap pix : RolisteamImageProvider::getData()->values())
         {
-            for(QPixmap pix : RolisteamImageProvider::getData()->values())
-            {
-                QByteArray bytes;
-                QBuffer buffer(&bytes);
-                buffer.open(QIODevice::WriteOnly);
-                pix.save(&buffer, "PNG");
-                images.append(QString(buffer.data().toBase64()));
-            }
+            QByteArray bytes;
+            QBuffer buffer(&bytes);
+            buffer.open(QIODevice::WriteOnly);
+            pix.save(&buffer, "PNG");
+            images.append(QString(buffer.data().toBase64()));
         }
-        obj["background"]=images;
-
-        //CharacterModel
-        m_model.writeModel(obj,false);
-
-        json.setObject(obj);
-        file.write(json.toJson());
     }
+    obj["background"]=images;
+
+    //CharacterModel
+    m_model.writeModel(obj,false);
+
+    json.setObject(obj);
+    //file.write(json.toJson());
+    stream << json.toJson();
 }
+
 
 bool CharacterSheetWindow::openFile(const QString& fileUri)
 {
@@ -431,7 +431,7 @@ void CharacterSheetWindow::openCharacterSheet()
 void CharacterSheetWindow::openQML()
 {
     m_qmlUri = QFileDialog::getOpenFileName(this, tr("Open Character Sheets View"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
-                                             tr("Character Sheet files (*.qml)"));
+                                            tr("Character Sheet files (*.qml)"));
 
     //m_qmlData;
     /// @todo load m_qmlUri into m_qmlData
@@ -493,12 +493,37 @@ QDockWidget* CharacterSheetWindow::getDockWidget()
 }
 bool CharacterSheetWindow::readFileFromUri()
 {
+    setTitle(tr("%1 - CharacterSheet Window").arg(m_uri->name()));
     return openFile(m_uri->getUri());
+}
+void CharacterSheetWindow::putDataIntoCleverUri()
+{
+    QByteArray data;
+    QDataStream out(&data,QIODevice::WriteOnly);
+
+    saveFile(out);
+    if(NULL!=m_uri)
+    {
+        m_uri->setData(data);
+    }
 }
 
 void CharacterSheetWindow::saveMedia()
 {
-    saveFile(m_uri->getUri());
+    if((NULL!=m_uri)&&(m_uri->getUri().isEmpty()))
+    {
+        QString uri = m_uri->getUri();
+        if(!uri.isEmpty())
+        {
+            QFile file(uri);
+            if(!file.open(QIODevice::WriteOnly))
+                return;
+
+            QDataStream out(&file);
+
+            saveFile(out);
+        }
+    }
 }
 void CharacterSheetWindow::fill(NetworkMessageWriter* msg,CharacterSheet* sheet,QString idChar)
 {

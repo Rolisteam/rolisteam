@@ -54,7 +54,7 @@ public:
     virtual ~CharacterSheetWindow(); 
     
     bool openFile(const QString& file);
-    void saveFile(const QString & file);
+    void saveFile(QDataStream& stream);
     virtual bool hasDockWidget() const ;
     virtual QDockWidget* getDockWidget() ;
 
@@ -114,6 +114,7 @@ protected slots:
 
     void affectSheetToCharacter();
     void displayError(const QList<QQmlError> &warnings);
+    void putDataIntoCleverUri();
 
 
     //    void continueLoading();
