@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
@@ -571,6 +571,13 @@
                 </property>
                </widget>
               </item>
+              <item>
+               <widget class="QLabel" name="label_22">
+                <property name="text">
+                 <string>Character Sheet:</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
             <item>
@@ -595,6 +602,9 @@
               </item>
               <item>
                <widget class="FileDirChooser" name="m_chatDir" native="true"/>
+              </item>
+              <item>
+               <widget class="FileDirChooser" name="m_characterSheetDir" native="true"/>
               </item>
              </layout>
             </item>

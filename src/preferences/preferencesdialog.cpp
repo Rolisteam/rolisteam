@@ -316,6 +316,7 @@ void PreferencesDialog::save() const
     m_preferences->registerValue("currentTranslationFile",ui->m_translationFileEdit->path());
     m_preferences->registerValue("MainWindow_MustBeChecked",ui->m_checkUpdate->isChecked());
     m_preferences->registerValue("defaultPermissionMap",ui->m_defaultMapModeCombo->currentIndex());
+    m_preferences->registerValue("CharacterSheetDirectory",ui->m_characterSheetDir->path());
 
     //messaging
     m_preferences->registerValue("MessagingShowTime",ui->m_showTimeCheckBox->isChecked());
@@ -387,6 +388,8 @@ void PreferencesDialog::load()
     ui->m_scenarioDir->setPath(m_preferences->value("SessionDirectory",QDir::homePath()).toString());
     ui->m_minuteDir->setPath(m_preferences->value("MinutesDirectory",QDir::homePath()).toString());
     ui->m_chatDir->setPath(m_preferences->value("ChatDirectory",QDir::homePath()).toString());
+    ui->m_characterSheetDir->setPath(m_preferences->value("CharacterSheetDirectory",QDir::homePath()).toString());
+
     ui->m_translationFileEdit->setPath(m_preferences->value("currentTranslationFile","").toString());
     ui->m_checkUpdate->setChecked(m_preferences->value("MainWindow_MustBeChecked",true).toBool());
 
@@ -449,6 +452,7 @@ void PreferencesDialog::initializePostSettings()
             int pos = m_preferences->value(QString("Theme_%1_bgPosition").arg(i),0).toInt();
             QString css = m_preferences->value(QString("Theme_%1_css").arg(i),"").toString();
             bool isRemovable = m_preferences->value(QString("Theme_%1_removable").arg(i),false).toBool();
+            qDebug() << "pos" << pos << "name" << name;
 
             RolisteamTheme* tmp = new RolisteamTheme(pal,name,css,QStyleFactory::create(style),path,pos,color,isRemovable);
             m_themes.append(tmp);
@@ -502,6 +506,7 @@ void PreferencesDialog::initializePostSettings()
     ui->m_styleCombo->addItems(QStyleFactory::keys());
 
     QString theme = m_preferences->value("currentTheme","Default").toString();
+    qDebug() << theme;
     ui->m_themeComboBox->setCurrentText(theme);
 
     updateTheme();
@@ -525,6 +530,7 @@ void PreferencesDialog::initializePostSettings()
     {//default alias
         m_aliasModel->addAlias(new DiceAlias("l5r","D10k"));
         m_aliasModel->addAlias(new DiceAlias("l5R","D10K"));
+        m_aliasModel->addAlias(new DiceAlias("DF","D[-1-1]"));
         m_aliasModel->addAlias(new DiceAlias("nwod","D10e10c[>7]"));
         m_aliasModel->addAlias(new DiceAlias("(.*)wod(.*)","\\1d10e[=10]c[>=\\2]-@c[=1]",false));
     }
@@ -589,17 +595,29 @@ void PreferencesDialog::initializePostSettings()
 void PreferencesDialog::updateTheme()
 {
     int i = ui->m_themeComboBox->currentIndex();
+    qDebug() << "current id theme"<<i;
     if((i>=0)&&(i<m_themes.size()))
     {
         RolisteamTheme* theme = m_themes.at(i);
         m_paletteModel->setPalette(theme->getPalette());
         ui->m_themeNameLineEdit->setText(theme->getName());
         ui->m_backgroundImage->setPath(theme->getBackgroundImage());
+
+        ui->m_bgColorPush->blockSignals(true);
         ui->m_bgColorPush->setColor(theme->getBackgroundColor());
+        ui->m_bgColorPush->blockSignals(false);
+        qDebug() << theme->getBackgroundPosition();
+
+        ui->m_positioningComboBox->blockSignals(true);
         ui->m_positioningComboBox->setCurrentIndex(theme->getBackgroundPosition());
+        ui->m_positioningComboBox->blockSignals(false);
 
         QString defaultStyle = theme->getStyleName();
+
+        ui->m_styleCombo->blockSignals(true);
         ui->m_styleCombo->setCurrentIndex(ui->m_styleCombo->findText(defaultStyle.toUpper(), Qt::MatchContains));
+        ui->m_styleCombo->blockSignals(false);
+
 
         qApp->setStyleSheet(theme->getCss());
 
@@ -823,7 +841,7 @@ void PreferencesDialog::applyBackground()
     if((i>=0)&&(i<m_themes.size()))
     {
         RolisteamTheme* theme = m_themes.at(i);
-
+        qDebug() << theme->getName() << theme->getBackgroundPosition();
         theme->setBackgroundColor(ui->m_bgColorPush->color());
         theme->setBackgroundPosition(ui->m_positioningComboBox->currentIndex());
         theme->setBackgroundImage(ui->m_backgroundImage->path());
