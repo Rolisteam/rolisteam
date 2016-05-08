@@ -87,8 +87,6 @@ MainWindow::MainWindow()
       m_profileDefined(false)
 {
     setAcceptDrops(true);
-  /*  qRegisterMetaType<NetworkMessage>();
-    qRegisterMetaType<NetworkMessage*>();*/
     m_profileDefined = false;
 
     m_ui->setupUi(this);
@@ -101,10 +99,7 @@ MainWindow::MainWindow()
     m_downLoadProgressbar->setRange(0,100);
 
     m_downLoadProgressbar->setVisible(false);
-
-    //m_mapWizzard = new MapWizzard(this);
 	m_networkManager = new NetworkManager();
-	//m_localPlayerId = ;
     m_vmapToolBar = new VmapToolBar();
     addToolBar(Qt::TopToolBarArea,m_vmapToolBar);
 
@@ -722,11 +717,11 @@ void MainWindow::openNote()
 
 void MainWindow::openStory()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open scenario"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open scenario"), m_preferences->value("SessionDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
     if (fileName.isNull())
         return;
-    m_preferences->registerValue("StoryDirectory",fileName.lastIndexOf("/"));
+    m_preferences->registerValue("SessionDirectory",fileName.lastIndexOf("/"));
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly))
     {
@@ -749,25 +744,47 @@ void MainWindow::saveCurrentMedia()
         MediaContainer* currentMedia = dynamic_cast<MediaContainer*>(active);
         if(NULL!=currentMedia)
         {
-            CleverURI* cleverURI = currentMedia->getCleverUri();
+            bool saveAs = false;
+            if(qobject_cast<QAction*>(sender())==m_ui->m_saveAsAction)
+            {
+                saveAs=true;
+            }
+            saveMedia(currentMedia,true,saveAs);
+        }
+    }
+}
+void MainWindow::saveMedia(MediaContainer* mediaC,bool askPath, bool saveAs)
+{
+    if(NULL!=mediaC)
+    {
+        CleverURI* cleverURI = mediaC->getCleverUri();
+        if(NULL!=cleverURI)
+        {
             QString uri  = cleverURI->getUri();
             QFileInfo info(uri);
-            if((uri.isEmpty())||(!info.exists(uri))||(!info.isWritable())||qobject_cast<QAction*>(sender())==m_ui->m_saveAsAction)
+            if(!askPath)
             {
-                QString key = CleverURI::getPreferenceDirectoryKey(cleverURI->getType());
-                QString filter = CleverURI::getFilterForType(cleverURI->getType());
-                QString media = CleverURI::typeToString(cleverURI->getType());
-                QString fileName= QFileDialog::getSaveFileName(this, tr("Save %1").arg(media), m_preferences->value(key,QDir::homePath()).toString(), filter);
-                if(fileName.isEmpty())
-                {
-                    return;
-                }
-                QFileInfo info(fileName);
-                m_preferences->registerValue(key,info.absolutePath());
-                cleverURI->setUri(fileName);
+                mediaC->putDataIntoCleverUri();
             }
-            currentMedia->saveMedia();
-            setLatestFile(cleverURI);
+            else
+            {
+                if((uri.isEmpty())||(!info.exists(uri))||(!info.isWritable())||saveAs)
+                {
+                    QString key = CleverURI::getPreferenceDirectoryKey(cleverURI->getType());
+                    QString filter = CleverURI::getFilterForType(cleverURI->getType());
+                    QString media = CleverURI::typeToString(cleverURI->getType());
+                    QString fileName= QFileDialog::getSaveFileName(this, tr("Save %1").arg(media), m_preferences->value(key,QDir::homePath()).toString(), filter);
+                    if(fileName.isEmpty())
+                    {
+                        return;
+                    }
+                    QFileInfo info(fileName);
+                    m_preferences->registerValue(key,info.absolutePath());
+                    cleverURI->setUri(fileName);
+                }
+                mediaC->saveMedia();
+                setLatestFile(cleverURI);
+            }
         }
     }
 }
@@ -783,7 +800,7 @@ bool MainWindow::saveMinutes()
 bool MainWindow::saveStory()
 {
     // open file
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenario"), m_preferences->value("StoryDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenario"), m_preferences->value("SessionDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
     if (filename.isNull())
     {
@@ -794,7 +811,7 @@ bool MainWindow::saveStory()
         filename.append(QStringLiteral(".sce"));
     }
 
-    m_preferences->registerValue("StoryDirectory",filename.left(filename.lastIndexOf("/")));
+    m_preferences->registerValue("SessionDirectory",filename.left(filename.lastIndexOf("/")));
 
     QFile file(filename);
     if (!file.open(QIODevice::WriteOnly))
@@ -802,34 +819,35 @@ bool MainWindow::saveStory()
         notifyUser(tr("%1 cannot be opened (saveStory - MainWindow.cpp)").arg(filename));
         return false;
     }
+
+    saveAllMediaContainer();
+
     QDataStream out(&file);
     m_sessionManager->saveSession(out);
     file.close();
     return true;
 }
-void MainWindow::saveAllMap(QDataStream &out)
+void MainWindow::saveAllMediaContainer()
 {
-    out << m_mapWindowMap.size();
-    QMapIterator<QString, MapFrame*> i(m_mapWindowMap);
-    while (i.hasNext())
+    for(auto map : m_mapWindowMap.values())
     {
-        i.next();
-        QPoint pos2 = i.value()->mapFromParent(i.value()->pos());
-        out << pos2;
-        out << i.value()->size();
-        i.value()->getMap()->saveMap(out, i.value()->windowTitle());
+        saveMedia(map,false,false);
     }
-}
-
-void MainWindow::saveAllImages(QDataStream &out)
-{
-    out << m_pictureHash.size();
-    foreach(Image* sub, m_pictureHash.values())
+    for(auto map : m_mapWindowVectorialMap.values())
     {
-        if(NULL!=sub)
-        {
-            sub->saveImageToFile(out);
-        }
+        saveMedia(map,false,false);
+    }
+    for(auto note : m_noteMap.values())
+    {
+        saveMedia(note,false,false);
+    }
+    for(auto sheet : m_sheetHash.values())
+    {
+        saveMedia(sheet,false,false);
+    }
+    for(auto pix : m_pictureHash.values())
+    {
+        saveMedia(pix,false,false);
     }
 }
 void MainWindow::stopReconnection()
@@ -900,16 +918,16 @@ void MainWindow::readImageFromStream(QDataStream &file)
     QString idImage = QUuid::createUuid().toString();
 
     // Creation de la fenetre image
-    Image *imageFenetre = new Image(m_mdiArea);
-    imageFenetre->setTitle(title);
-    imageFenetre->setLocalPlayerId(m_localPlayerId);
-    imageFenetre->setImage(img);
+    Image* imgWindow = new Image(m_mdiArea);
+    imgWindow->setTitle(title);
+    imgWindow->setLocalPlayerId(m_localPlayerId);
+    imgWindow->setImage(img);
 
-    prepareImage(imageFenetre);
-    addMediaToMdiArea(imageFenetre);
+    prepareImage(imgWindow);
+    addMediaToMdiArea(imgWindow);
 
-    connect(m_toolBar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),imageFenetre,SLOT(setCurrentTool(ToolsBar::SelectableTool)));
-    imageFenetre->setCurrentTool(m_toolBar->getCurrentTool());
+    connect(m_toolBar,SIGNAL(currentToolChanged(ToolsBar::SelectableTool)),imgWindow,SLOT(setCurrentTool(ToolsBar::SelectableTool)));
+    imgWindow->setCurrentTool(m_toolBar->getCurrentTool());
 
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
@@ -982,7 +1000,6 @@ void MainWindow::updateMayBeNeeded()
 }
 void MainWindow::networkStateChanged(NetworkManager::ConnectionState state)
 {
-    qDebug() << "NetworkStateChanged";
     switch(state)
     {
     case NetworkManager::LISTENING:
@@ -2044,6 +2061,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
         tmp = new VMapFrame();
         break;
     case CleverURI::PICTURE:
+    case CleverURI::ONLINEPICTURE:
         tmp = new Image();
         break;
     case CleverURI::SCENARIO:
@@ -2071,11 +2089,15 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
             {
                 prepareVMap(static_cast<VMapFrame*>(tmp));
             }
-            else if(uri->getType()==CleverURI::PICTURE)
+            else if((uri->getType()==CleverURI::PICTURE)||((uri->getType()==CleverURI::ONLINEPICTURE)))
             {
 				prepareImage(static_cast<Image*>(tmp));
             }
             addMediaToMdiArea(tmp);
+        }
+        else
+        {
+            uri->setDisplayed(false);
         }
     }
 }

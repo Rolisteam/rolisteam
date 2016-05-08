@@ -255,6 +255,8 @@ protected :
     void dragEnterEvent(QDragEnterEvent* ev);
 
     void prepareCharacterSheetWindow(CharacterSheetWindow *window);
+    void saveAllMediaContainer();
+    void saveMedia(MediaContainer *mediaC,bool AskPath, bool saveAs);
 private slots :
     void userNatureChange();
     void activeWindowChanged(QMdiSubWindow* widget);
@@ -324,8 +326,6 @@ private:
 
 	//QMdiSubWindow*  readMapAndNpc(QDataStream &file, bool masquer = false, QString nomFichier = "");
     void readImageFromStream(QDataStream &file);
-    void saveAllMap(QDataStream &file);
-    void saveAllImages(QDataStream &file);
     CleverURI::ContentType getContentType(QString str);
     /**
      * @brief workspace
