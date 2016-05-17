@@ -128,9 +128,13 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {
 
-    if((event->key ()==Qt::Key_Delete)&&(m_editable))
+    if((event->key ()==Qt::Key_Delete)&&(m_editable)&&(isSelected()))
     {
         emit itemRemoved(m_id);
+    }
+    else if((event->key() == Qt::Key_C)&&(event->modifiers() == Qt::ControlModifier)&&(m_editable)&&(isSelected()))
+    {
+        emit duplicateItem(this);
     }
     QGraphicsItem::keyPressEvent(event);
 }
