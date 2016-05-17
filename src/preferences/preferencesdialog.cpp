@@ -660,10 +660,11 @@ void PreferencesDialog::dupplicateTheme(bool selectNew)
         QString str = theme->getName();
         str.append(tr(" (copy)"));
         RolisteamTheme* newTheme = new RolisteamTheme(theme->getPalette(),str,theme->getCss(),theme->getStyle(),theme->getBackgroundImage(),theme->getBackgroundPosition(),theme->getBackgroundColor(),true);
-        //ui->m_themeComboBox->addItem(str);
+
         m_themes.append(newTheme);
         if(selectNew)
         {
+            ui->m_themeComboBox->addItem(str);
             ui->m_themeComboBox->setCurrentIndex(m_themes.size()-1);
         }
     }
