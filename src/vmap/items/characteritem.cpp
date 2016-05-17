@@ -36,6 +36,7 @@
 
 #define MARGING 1
 #define MINI_VALUE 25
+#define RADIUS_CORNER 10
 CharacterItem::CharacterItem()
 : VisualItem(),m_character(NULL),m_thumnails(NULL),m_protectGeometryChange(false)
 {
@@ -256,7 +257,7 @@ void CharacterItem::generatedThumbnail()
     }
     
     painter.setBrush(brush);
-    painter.drawRoundedRect(0,0,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
+    painter.drawRoundedRect(0,0,m_diameter,m_diameter,m_diameter/RADIUS_CORNER,m_diameter/RADIUS_CORNER);
 }
 int CharacterItem::getRadius() const
 {
@@ -264,6 +265,7 @@ int CharacterItem::getRadius() const
 }
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
+    qDebug() << "Fill message character";
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
@@ -296,7 +298,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     in << *m_thumnails;
     msg->byteArray32(data);
 
-    m_character->fill(*msg);
+    m_character->fill(*msg,false);
 
     m_vision->fill(msg);
 }
@@ -369,7 +371,12 @@ void CharacterItem::resizeContents(const QRect& rect, bool )
 }
 QString CharacterItem::getCharacterId() const
 {
-    return m_character->getUuid();
+    qDebug() << "########################################################################";
+    if(NULL!=m_character)
+    {
+        return m_character->getUuid();
+    }
+    return QString();
 }
 
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &value)

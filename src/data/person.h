@@ -84,7 +84,7 @@ public:
      * @brief fill
      * @param message
      */
-    virtual void fill(NetworkMessageWriter & message) = 0;
+    virtual void fill(NetworkMessageWriter & message, bool withAvatar = true) = 0;
 
     /**
     * @brief gives access to person's avatar.

@@ -69,7 +69,7 @@ Player::~Player()
     m_characters.clear();
 }
 
-void Player::fill(NetworkMessageWriter & message)
+void Player::fill(NetworkMessageWriter & message,bool addAvatar)
 {
     message.string16(m_name);
     message.string8(m_uuid);
@@ -80,7 +80,7 @@ void Player::fill(NetworkMessageWriter & message)
 
     foreach(Character* item,m_characters)
     {
-        item->fill(message);
+        item->fill(message,addAvatar);
         message.uint8(1); // add it to the map
     }
 }
