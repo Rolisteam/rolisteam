@@ -1301,6 +1301,7 @@ void VMap::duplicateItem(VisualItem* item)
         setFocusItem(copy);
         //m_currentItem = copy;
         update();
+        sendOffItem(copy);
     }
 }
 bool VMap::isIdle() const
