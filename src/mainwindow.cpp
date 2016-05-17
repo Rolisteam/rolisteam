@@ -1803,7 +1803,16 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
 }
 NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* msg)
 {
+    bool isServer = false;
+    if(NULL!=m_currentConnectionProfile)
+    {
+        isServer = m_currentConnectionProfile->isServer();
+    }
     NetWorkReceiver::SendType type = NetWorkReceiver::NONE;
+    if(isServer)
+    {
+        type = NetWorkReceiver::AllExceptSender;
+    }
     switch(msg->action())
     {
         case NetMsg::addVmap:
