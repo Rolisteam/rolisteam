@@ -69,7 +69,7 @@ public:
     RolisteamImageProvider *getImgProvider() const;
     void setImgProvider(RolisteamImageProvider *imgProvider);
 
-    void fill(NetworkMessageWriter *msg, CharacterSheet *sheet, QString idChar);
+    void fill(NetworkMessageWriter *msg, CharacterSheet* sheet, QString idChar);
     void read(NetworkMessageReader* msg);
 
     void processUpdateFieldMessage(NetworkMessageReader *msg);

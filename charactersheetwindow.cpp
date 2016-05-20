@@ -203,8 +203,8 @@ void CharacterSheetWindow::affectSheetToCharacter()
             {
                 m_sheetToPerson.insert(sheet,parent);
                 NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterSheet);
-                msg.string8(character->getUuid());
-                fill(&msg,sheet);
+                //msg.string8(character->getUuid());
+                fill(&msg,sheet,character->getUuid());
                 Player* person = character->getParentPlayer();
                 msg.sendTo(person->link());
             }
@@ -562,14 +562,15 @@ void CharacterSheetWindow::read(NetworkMessageReader* msg)
     if(NULL==msg)
         return;
 
-    QString characterId= msg->string8();
-    Character* character = PlayersList::instance()->getCharacter(characterId);
+    //Character* character = PlayersList::instance()->getCharacter(characterId);
 
     CharacterSheet* sheet = new CharacterSheet();
-    if(NULL!=character)
+
+
+    /*if(NULL!=character)
     {
       character->setSheet(sheet);
-    }
+    }*/
 
     m_mediaId = msg->string8();
     QString idChar = msg->string8();
