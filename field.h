@@ -60,7 +60,7 @@ public:
     CharacterSheetItem* getChildAt(QString) const;
 
 
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId) const;
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId,int role) const;
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
 
     virtual void save(QJsonObject& json,bool exp=false);

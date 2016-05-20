@@ -56,7 +56,7 @@ CharacterSheetItem* Section::getChildAt(QString key) const
 {
     return m_dataHash.value(key);
 }
-QVariant Section::getValueFrom(CharacterSheetItem::ColumnId id) const
+QVariant Section::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
 {
     if(CharacterSheetItem::ID==id)
         return m_id;
@@ -251,7 +251,7 @@ void Section::setValueForAll(CharacterSheetItem* itemSrc,int col)
         CharacterSheetItem* item = m_dataHash.value(key);
         if(NULL!=item)
         {
-            item->setValueFrom((ColumnId)col,itemSrc->getValueFrom((ColumnId)col));
+            item->setValueFrom((ColumnId)col,itemSrc->getValueFrom((ColumnId)col,Qt::DisplayRole));
         }
     }
 }

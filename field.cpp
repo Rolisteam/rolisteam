@@ -66,7 +66,7 @@ QRectF Field::boundingRect() const
     return m_rect;
 }
 
-QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id) const
+QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
 {
     switch(id)
     {
@@ -89,9 +89,16 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id) const
     case TEXT_ALIGN:
         return m_textAlign;
     case BGCOLOR:
-        return m_bgColor.name(QColor::HexArgb);
+        if(role == Qt::DisplayRole)
+        {
+            return m_bgColor.name(QColor::HexArgb);
+        }
+        else
+        {
+            return m_bgColor;
+        }
     case TEXTCOLOR:
-        return m_textColor.name(QColor::HexArgb);
+        return m_textColor;
     case VALUES:
         return m_availableValue.join(',');
     case TYPE:
