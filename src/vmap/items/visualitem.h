@@ -250,6 +250,7 @@ public:
     void setHoldSize(bool holdSize);
 
     void readLayerMsg(NetworkMessageReader *msg);
+    virtual bool isLocal();
 signals:
     /**
      * @brief itemGeometryChanged

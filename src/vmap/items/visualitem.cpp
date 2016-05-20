@@ -57,6 +57,7 @@ VisualItem::~VisualItem()
 void VisualItem::init()
 {
     createActions();
+    m_propertiesHash = NULL;
     m_layer = VisualItem::GROUND;
     QActionGroup* group = new QActionGroup(this);
 	m_putGroundLayer = new QAction(s_layerName[0],this);
@@ -100,6 +101,9 @@ void VisualItem::setEditableItem(bool b)
         disconnect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
         disconnect(this,SIGNAL(zChanged()),this,SLOT(sendPositionMsg()));
         disconnect(this,SIGNAL(rotationChanged()),this,SLOT(sendPositionMsg()));
+        disconnect(this,SIGNAL(widthChanged()),this,SLOT(sendPositionMsg()));
+        disconnect(this,SIGNAL(heightChanged()),this,SLOT(sendPositionMsg()));
+        disconnect(this,SIGNAL(opacityChanged()),this,SLOT(sendOpacityMsg()));
     }
     if(NULL!=m_child)
     {
@@ -390,10 +394,18 @@ void VisualItem::readLayerMsg(NetworkMessageReader* msg)
     setLayer((VisualItem::Layer)lay);
     blockSignals(false);
 }
+bool VisualItem::isLocal()
+{
+    return false;
+}
+
 void VisualItem::sendPositionMsg()
 {
-   if(getOption(VisualItem::LocalIsGM).toBool() ||
-      getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)//getOption PermissionMode
+   if((getOption(VisualItem::LocalIsGM).toBool()) ||
+      (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
+      ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
+       (getType() == VisualItem::CHARACTER)&&
+       (isLocal())))//getOption PermissionMode
    {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
         msg.string8(m_mapId);

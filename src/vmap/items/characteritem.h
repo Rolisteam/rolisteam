@@ -174,7 +174,7 @@ public:
      * @brief isLocal
      * @return
      */
-    bool isLocal();
+    virtual bool isLocal();
     /**
      * @brief isPlayableCharacter
      * @return
@@ -182,6 +182,11 @@ public:
     bool isPlayableCharacter();
 
     virtual void setSize(QSizeF size);
+    /**
+     * @brief setCharacterIsMovable if isMovable is true and the character is local then the item is mavable
+     * @param isMovable
+     */
+    void setCharacterIsMovable(bool isMovable);
 signals:
     /**
      * @brief positionChanged
@@ -199,6 +204,11 @@ signals:
      * @brief localItemZValueChange
      */
     void localItemZValueChange(CharacterItem*);
+    /**
+     * @brief ownerChanged
+     * @param old
+     */
+    void ownerChanged(Character* old,CharacterItem*);
 
 public slots:
     /**

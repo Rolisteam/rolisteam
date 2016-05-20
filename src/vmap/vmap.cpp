@@ -166,7 +166,7 @@ void VMap::characterHasBeenDeleted(Character* character)
     QList<CharacterItem*> list = getCharacterOnMap(character->getUuid());
     foreach(CharacterItem* item,list)
     {
-        m_sightItem->removeVision(item);
+        //m_sightItem->removeVision(item);
         m_characterItemMap->remove(character->getUuid());
         removeItemFromScene(item->getId());
     }
@@ -1017,19 +1017,11 @@ void VMap::addNewItem(VisualItem* item)
 
 
 
-        //Editing permission
-        if(getOption(VisualItem::LocalIsGM).toBool())
+        if(item!=m_sightItem)
         {
-            if(item!=m_sightItem)
-            {
-                item->setEditableItem(getOption(VisualItem::LocalIsGM).toBool());
-            }
+          item->setEditableItem(getOption(VisualItem::LocalIsGM).toBool());
         }
-        else if((getPermissionMode() == Map::GM_ONLY))
-        {
-            item->setEditableItem(getOption(VisualItem::LocalIsGM).toBool());
-        }
-        else if(getPermissionMode() == Map::PC_ALL)
+        if(getPermissionMode() == Map::PC_ALL)
         {
             item->setEditableItem(true);
         }
@@ -1046,7 +1038,8 @@ void VMap::addNewItem(VisualItem* item)
                 {
                     if(charItem->getParentId() == m_localUserId)//LocalUser is owner of item.
                     {
-                        item->setEditableItem(true);
+                        item->setEditableItem(false);
+                        charItem->setCharacterIsMovable(true);
                     }
                 }
             }
@@ -1117,16 +1110,23 @@ void VMap::removeItemFromScene(QString id)
         return;
     }
     VisualItem* item = m_itemMap->take(id);
-
-    // if(m_item )
-    m_characterItemMap->remove(id);
     m_sortedItemList.removeAll(id);
     if(item->getType() == VisualItem::CHARACTER)
     {
         CharacterItem* cItem = dynamic_cast<CharacterItem*>(item);
         if(NULL != cItem)
         {
-            m_characterItemMap->remove(cItem->getCharacterId());
+            m_sightItem->removeVision(cItem);
+            QList<CharacterItem*> list = m_characterItemMap->values(cItem->getCharacterId());
+            int i = m_characterItemMap->remove(cItem->getCharacterId());
+            if(list.size() == i)
+            {
+                list.removeOne(cItem);
+                for(auto itemC : list)
+                {
+                    m_characterItemMap->insertMulti(itemC->getCharacterId(),itemC);
+                }
+            }
         }
     }
     QGraphicsScene::removeItem(item);
@@ -1198,6 +1198,8 @@ void VMap::setPermissionMode(Map::PermissionMode mode)
                 foreach(CharacterItem* item,m_characterItemMap->values())
                 {
                     item->setEditableItem(false);
+                    item->setCharacterIsMovable(true);
+                    //item->setEditableItem(false);
                 }
             }
             else
@@ -1321,13 +1323,39 @@ bool VMap::isIdle() const
 {
     return (m_currentItem==NULL);
 }
+void VMap::ownerHasChangedForCharacterItem(Character* item,CharacterItem* cItem)
+{
+    if(NULL!=item)
+    {
+        //Get all item with the key
+        QList<CharacterItem*> list = m_characterItemMap->values(item->getUuid());
+
+        //Remove them from the map
+        m_characterItemMap->remove(item->getUuid());
+        //remove the changed characterItem
+        list.removeOne(cItem);
+        //add the others
+        for(CharacterItem* itemC : list)
+        {
+            m_characterItemMap->insertMulti(itemC->getCharacterId(),itemC);
+        }
+        //add item with its new key
+        m_characterItemMap->insertMulti(cItem->getCharacterId(),cItem);
+        if((cItem->isPlayableCharacter())&&(!getOption(VisualItem::LocalIsGM).toBool())&&(cItem->isLocal()))
+        {
+            changeStackOrder(cItem,VisualItem::FRONT);
+        }
+    }
+}
+
 void VMap::insertCharacterInMap(CharacterItem* item)
 {
     if((NULL!=m_characterItemMap)&&(NULL!=item))
     {
         m_characterItemMap->insertMulti(item->getCharacterId(),item);
+        connect(item,SIGNAL(ownerChanged(Character*,CharacterItem*)),this,SLOT(ownerHasChangedForCharacterItem(Character*,CharacterItem*)));
         m_sightItem->insertVision(item);
-        if((item->isPlayableCharacter())&&(!getOption(VisualItem::LocalIsGM).toBool())&&(m_localUserId==item->getParentId()))
+        if((item->isPlayableCharacter())&&(!getOption(VisualItem::LocalIsGM).toBool())&&(item->isLocal()))
         {
             changeStackOrder(item,VisualItem::FRONT);
         }
@@ -1513,7 +1541,7 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
     {
         foreach(CharacterItem* item,m_characterItemMap->values())
         {
-            if(item->getParentId() == m_localUserId)
+            if(item->isLocal())
             {
                 item->setZValue(++z);
             }

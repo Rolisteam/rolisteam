@@ -334,6 +334,7 @@ public slots:
 
     void selectionHasChanged();
     void processLayerMessage(NetworkMessageReader *msg);
+    void ownerHasChangedForCharacterItem(Character *item, CharacterItem *cItem);
 signals:
     /**
      * @brief npcAdded

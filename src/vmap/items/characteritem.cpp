@@ -261,6 +261,7 @@ void CharacterItem::generatedThumbnail()
     }
     else
     {
+        painter.setPen(Qt::NoPen);
         QImage img =m_character->getAvatar();
         brush.setTextureImage(img.scaled(m_diameter,m_diameter));
     }
@@ -348,16 +349,24 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
 
     Character* tmp = PlayersList::instance()->getCharacter(idCharacter);
 
-    /// @todo This code may no longer be needed.
     if(NULL!=tmp)
     {
+        qDebug() << "Existing Character" << tmp->getParentId();
         m_character = tmp;
         m_character->read(*msg);
+        generatedThumbnail();
     }
     else
     {
+        qDebug() << "Add new Character";
+    /// @todo This code may no longer be needed.
         m_character = new Character(*msg);
         m_character->setParentPerson(PlayersList::instance()->getPlayer(m_character->getParentId()));
+    }
+
+    if(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)
+    {
+       setCharacterIsMovable(true);
     }
 
 
@@ -379,7 +388,6 @@ void CharacterItem::resizeContents(const QRectF& rect, bool )
 }
 QString CharacterItem::getCharacterId() const
 {
-    qDebug() << "########################################################################";
     if(NULL!=m_character)
     {
         return m_character->getUuid();
@@ -600,11 +608,15 @@ void CharacterItem::changeCharacter()
 
 
 	Character* tmp = PlayersList::instance()->getCharacter(uuid);
+
+    Character* old = m_character;
 	if(NULL!=tmp)
 	{
 		m_character = tmp;
+        generatedThumbnail();
+        emit ownerChanged(old,this);
+        emit itemGeometryChanged(this);
 	}
-    itemGeometryChanged(this);
 }
 
 void CharacterItem::createActions()
@@ -657,10 +669,13 @@ VisualItem* CharacterItem::getItemCopy()
 
 QString CharacterItem::getParentId() const
 {
-    Person* pers = m_character->getParent();
-    if(NULL!=pers)
+    if(NULL!=m_character)
     {
-        return pers->getUuid();
+        Person* pers = m_character->getParent();
+        if(NULL!=pers)
+        {
+            return pers->getUuid();
+        }
     }
     return QString();
 }
@@ -713,6 +728,20 @@ bool CharacterItem::isLocal()
         return true;
     }
     return false;
+}
+void CharacterItem::setCharacterIsMovable(bool isMovable)
+{
+
+    if((isLocal()&&(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)))
+    {
+            setFlag(QGraphicsItem::ItemIsMovable,isMovable);
+            connect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
+            connect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
+    }
+    else
+    {
+        setFlag(QGraphicsItem::ItemIsMovable,false);
+    }
 }
 
 bool CharacterItem::isPlayableCharacter()

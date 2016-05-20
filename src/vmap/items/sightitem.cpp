@@ -356,7 +356,7 @@ void SightItem::setVisible(bool visible)
 {
     if(NULL!=m_child)
     {
-        foreach (ChildPointItem* item, *m_child)
+        foreach (ChildPointItem* item,*m_child)
         {
             if(NULL!=item)
             {
