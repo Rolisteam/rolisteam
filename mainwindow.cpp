@@ -22,6 +22,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QColorDialog>
 #include <QDebug>
 #include <QMimeData>
 #include <QUrl>
@@ -38,9 +39,10 @@
 #include <QQuickItem>
 #include <QQmlComponent>
 #include <QJsonArray>
+#include <QButtonGroup>
 
 #include "borderlisteditor.h"
-
+#include "alignmentdelegate.h"
 #include "qmlhighlighter.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -58,6 +60,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_canvasList.append(canvas);
     m_model = new FieldModel();
     ui->treeView->setModel(m_model);
+    AlignmentDelegate* delegate = new AlignmentDelegate();
+    ui->treeView->setItemDelegateForColumn(10,delegate);
     canvas->setModel(m_model);
     ui->treeView->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
     m_view = new QGraphicsView();
@@ -86,12 +90,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_addTextField->setDefaultAction(ui->m_addTextFieldAct);
     ui->m_addCheckbox->setDefaultAction(ui->m_addCheckBoxAct);
 
+    QButtonGroup* group = new QButtonGroup();
+    group->addButton(ui->m_addTextInput);
+    group->addButton(ui->m_addTextArea);
+    group->addButton(ui->m_addTextField);
+    group->addButton(ui->m_addTextInput);
+    group->addButton(ui->m_addTextArea);
+    group->addButton(ui->m_addCheckbox);
+    group->addButton(ui->m_addButtonBtn);
+    group->addButton(ui->m_deleteBtn);
+    group->addButton(ui->m_moveBtn);
 
     ui->m_moveBtn->setDefaultAction(ui->m_moveAct);
     ui->m_deleteBtn->setDefaultAction(ui->m_deleteAct);
     ui->m_addButtonBtn->setDefaultAction(ui->m_addButtonAct);
 
     QmlHighlighter* highlighter = new QmlHighlighter(ui->m_codeEdit->document());
+    highlighter->setObjectName("HighLighterForQML");
 
 
     connect(ui->m_addCheckBoxAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
@@ -132,6 +147,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
 
     canvas->setCurrentTool(Canvas::NONE);
+
+    connect(ui->treeView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(editColor(QModelIndex)));
 
 
     m_delItem = new QAction(tr("Delete Item"),this);
@@ -337,7 +354,7 @@ void MainWindow::open()
                 ++i;
             }
             m_model->load(data,m_canvasList);
-            m_characterModel->readModel(data,false);
+            m_characterModel->readModel(jsonObj,false);
             updatePageSelector();
         }
     }
@@ -567,4 +584,24 @@ void MainWindow::removePage()
         m_canvasList.removeOne(previous);
         m_model->removePageId(m_currentPage);
     }
+}
+void MainWindow::editColor(QModelIndex index)
+{
+    if(!index.isValid())
+    {
+        return;
+    }
+    if(index.column()==CharacterSheetItem::BGCOLOR || CharacterSheetItem::TEXTCOLOR == index.column())
+    {
+
+    CharacterSheetItem* itm = static_cast<CharacterSheetItem*>(index.internalPointer());
+
+    if(NULL!=itm)
+    {
+       QColor col = itm->getValueFrom((CharacterSheetItem::ColumnId)index.column(),Qt::EditRole).value<QColor>();//CharacterSheetItem::TEXTCOLOR
+       col = QColorDialog::getColor(col,this,tr("Get Color"),QColorDialog::ShowAlphaChannel);
+
+       itm->setValueFrom((CharacterSheetItem::ColumnId)index.column(),col);
+    }
+}
 }
