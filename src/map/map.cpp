@@ -1257,19 +1257,21 @@ void Map::toggleCharacterView(Character * character)
 }
 
 
-void Map::showPc(QString idPerso, bool afficher)
+void Map::showPc(QString idPerso, bool show)
 {
     // Recherche du PJ
     CharacterToken *pj = trouverPersonnage(idPerso);
-    // Ne devrait jamais arriver
+    // @Todo @warning Pc ID not found
     if (NULL==pj)
     {
 		qWarning() << (tr("PC ID not found (showPc - map.cpp)"));
         return;
     }
     // On masque ou on affiche le PJ
-    if (afficher)
+    if (show)
+    {
         pj->showCharacter();
+    }
     else
     {
         pj->hideCharater();
