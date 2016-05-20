@@ -31,6 +31,15 @@
 #include "data/mediacontainer.h"
 #include "charactersheetmodel.h"
 #include "rolisteamimageprovider.h"
+//#include "qmlnetworkaccessmanager.h"
+
+/**
+  * @page characterSheet CharacterSheet System
+  *
+  * @section Introduction Introduction
+  *
+  * /
+
 /**
     * @brief herits from SubMdiWindows. It displays and manages all classes required to deal with the character sheet MVC architrecture.
     */
@@ -45,7 +54,7 @@ public:
     virtual ~CharacterSheetWindow(); 
     
     bool openFile(const QString& file);
-    void saveFile(const QString & file);
+    void saveFile(QDataStream& stream);
     virtual bool hasDockWidget() const ;
     virtual QDockWidget* getDockWidget() ;
 
@@ -60,11 +69,15 @@ public:
     RolisteamImageProvider *getImgProvider() const;
     void setImgProvider(RolisteamImageProvider *imgProvider);
 
-    void fill(NetworkMessageWriter* msg, CharacterSheet* sheet);
+    void fill(NetworkMessageWriter *msg, CharacterSheet *sheet, QString idChar);
     void read(NetworkMessageReader* msg);
 
+    void processUpdateFieldMessage(NetworkMessageReader *msg);
+    bool getLocalIsGM() const;
+    void setLocalIsGM(bool localIsGM);
+
 signals:
-    void addWidgetToMdiArea(QWidget*);
+    void addWidgetToMdiArea(QWidget*,QString str);
     void rollDiceCmd(QString str,QString label);
 
 public slots:
@@ -74,6 +87,8 @@ public slots:
 
 
     void rollDice(QString cmd);
+
+    void updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item);
 protected slots:
     void addTabWithSheetView(CharacterSheet *chSheet);
     /**
@@ -99,12 +114,17 @@ protected slots:
 
     void affectSheetToCharacter();
     void displayError(const QList<QQmlError> &warnings);
+    void putDataIntoCleverUri();
 
 
-//    void continueLoading();
+    //    void continueLoading();
+    void copyTab();
 protected:
     virtual void closeEvent ( QCloseEvent * event );
 
+    void addSharingMenu(QMenu *share);
+    void checkAlreadyShare(CharacterSheet *sheet);
+    bool eventFilter(QObject *object, QEvent *event);
 private:
     /**
     * @brief The view class
@@ -130,16 +150,21 @@ private:
     */
     QAction* m_addCharacterSheet;
     /**
-    * @brief event button
-    */
-    QAction* m_saveCharacterSheet;
-    /**
-    * @brief event button
-    */
-    QAction* m_openCharacterSheet;
-
+     * @brief m_loadQml
+     */
     QAction* m_loadQml;
+    /**
+     * @brief m_detachTab
+     */
     QAction* m_detachTab;
+    /**
+     * @brief m_copyTab
+     */
+    QAction* m_copyTab;
+    /**
+     * @brief m_closeTabAct
+     */
+    QAction* m_stopSharingTabAct;
     /**
     * @brief layout
     */
@@ -148,19 +173,26 @@ private:
      * @brief m_fileUri
      */
     QString m_fileUri;
+    /**
+     * @brief m_qmlUri
+     */
     QString m_qmlUri;
     /**
      * @brief m_tabs
      */
     QTabWidget* m_tabs;
 
-    QList<QQuickWidget*> m_characterSheetlist;
-    int m_currentCharacterSheet;
+    QMap<QQuickWidget*,CharacterSheet*> m_characterSheetlist;
+    CharacterSheet* m_currentCharacterSheet;
     RolisteamImageProvider* m_imgProvider;
     QQmlComponent* m_sheetComponent;
     QQuickWidget* m_qmlView;
 
+    QHash<CharacterSheet*,Player*> m_sheetToPerson;
+    QJsonObject m_data;
+
     QString m_qmlData;
+    bool m_localIsGM;
 };
 
 #endif // CHARACTERSHEETWINDOW_H

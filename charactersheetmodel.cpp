@@ -179,6 +179,23 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
     emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();
 }
+
+CharacterSheet *CharacterSheetModel::getCharacterSheetById(QString id)
+{
+
+    for(CharacterSheet* sheet :*m_characterList)
+    {
+        qDebug() << "sheet id"<< sheet->getUuid() << id;
+    }
+    for(CharacterSheet* sheet :*m_characterList)
+    {
+        if(sheet->getUuid() == id)
+        {
+            return sheet;
+        }
+    }
+    return NULL;
+}
 #ifndef RCSE
 void CharacterSheetModel::readRootSection(NetworkMessageReader* msg)
 {
@@ -332,7 +349,7 @@ bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool writeData)
     return true;
 }
 
-bool CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
+void CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
 {
     beginResetModel();
     if(readRootSection)

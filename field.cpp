@@ -361,8 +361,8 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 void Field::loadDataItem(QJsonObject &json)
 {
     m_id = json["id"].toString();
-    m_value= json["value"].toString();
-    m_label = json["label"].toString();
+    setValue(json["value"].toString(),true);
+    setLabel(json["label"].toString());
     m_currentType=(Field::TypeField)json["typefield"].toInt();
 }
 
