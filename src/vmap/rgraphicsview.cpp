@@ -135,6 +135,13 @@ void RGraphicsView::wheelEvent(QWheelEvent *event)
 }
 void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 {
+    if(NULL == m_vmap)
+        return;
+
+    if((!m_vmap->getOption(VisualItem::LocalIsGM).toBool())&&
+       (m_vmap->getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL))
+        return;
+
     if(m_vmap->isIdle())
     {
         QList<QGraphicsItem*> list = scene()->selectedItems();
