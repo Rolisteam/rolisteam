@@ -88,6 +88,9 @@ void VisualItem::setEditableItem(bool b)
         connect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
         connect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
         connect(this,SIGNAL(zChanged()),this,SLOT(sendPositionMsg()));
+        connect(this,SIGNAL(heightChanged()),this,SLOT(sendPositionMsg()));
+        connect(this,SIGNAL(widthChanged()),this,SLOT(sendPositionMsg()));
+        connect(this,SIGNAL(rotationChanged()),this,SLOT(sendPositionMsg()));
         connect(this,SIGNAL(opacityChanged()),this,SLOT(sendOpacityMsg()));
     }
     else
@@ -96,6 +99,7 @@ void VisualItem::setEditableItem(bool b)
         disconnect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
         disconnect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
         disconnect(this,SIGNAL(zChanged()),this,SLOT(sendPositionMsg()));
+        disconnect(this,SIGNAL(rotationChanged()),this,SLOT(sendPositionMsg()));
     }
     if(NULL!=m_child)
     {
@@ -144,7 +148,7 @@ void VisualItem::setId(QString id)
     m_id = id;
 }
 
-void VisualItem::resizeContents(const QRect& rect, bool keepRatio)
+void VisualItem::resizeContents(const QRectF& rect, bool keepRatio)
 {
     if (!rect.isValid())
         return;
@@ -170,6 +174,10 @@ void VisualItem::updateChildPosition()
 }
 void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
+    if((m_propertiesHash->contains(VisualItem::LocalIsGM))&&(m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == false))
+    {
+        return;
+    }
     QMenu menu;
     addActionContextMenu(&menu);
     QAction* backOrderAction = menu.addAction(tr("Back"));
@@ -303,7 +311,6 @@ void VisualItem::setLayer(VisualItem::Layer layer)
 {
     if(m_layer!=layer)
     {
-        qDebug() << "Layer Changed"<< layer << m_layer;
         m_layer = layer;
         sendItemLayer();
     }
@@ -393,7 +400,8 @@ void VisualItem::sendPositionMsg()
         msg.string16(m_id);
         msg.real(pos().x());
         msg.real(pos().y());
-
+        msg.real(m_rect.width());
+        msg.real(m_rect.height());
         msg.real(zValue());
         msg.real(rotation());
         msg.sendAll();
@@ -404,14 +412,24 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 {
     qreal x = msg->real();
     qreal y = msg->real();
+    qreal w = msg->real();
+    qreal h = msg->real();
     qreal z = msg->real();
     qreal rot = msg->real();
     blockSignals(true);
     setPos(x,y);
+    setRectSize(w,h);
     setZValue(z);
     setRotation(rot);
     blockSignals(false);
+    resizeContents(m_rect);
 }
+void VisualItem::setRectSize(qreal w,qreal h)
+{
+    m_rect.setWidth(w);
+    m_rect.setHeight(h);
+}
+
 void VisualItem::setPropertiesHash(QHash<VisualItem::Properties,QVariant>* hash)
 {
     m_propertiesHash = hash;
@@ -428,7 +446,8 @@ QString VisualItem::getMapId()
 }
 void VisualItem::endOfGeometryChange()
 {
-    emit itemGeometryChanged(this);
+    //emit itemGeometryChanged(this);
+    sendPositionMsg();
 }
 
 void VisualItem::setModifiers(Qt::KeyboardModifiers modifiers)

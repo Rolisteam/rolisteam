@@ -99,7 +99,7 @@ public:
     /**
      * @brief resizeContents
      */
-    virtual void resizeContents(const QRect&,bool);
+    virtual void resizeContents(const QRectF&,bool);
 
 
 protected:

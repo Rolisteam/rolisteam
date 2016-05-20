@@ -183,7 +183,7 @@ void ImageItem::setGeometryPoint(qreal pointId, QPointF &pos)
 	setTransformOriginPoint(m_rect.center());
 	//updateChildPosition();
 }
-void ImageItem::resizeContents(const QRect& rect, bool keepRatio)
+void ImageItem::resizeContents(const QRectF& rect, bool keepRatio)
 {
     if (!rect.isValid())
         return;
@@ -310,7 +310,7 @@ VisualItem* ImageItem::getItemCopy()
 {
 	ImageItem* rectItem = new ImageItem();
 	rectItem->setImageUri(m_imagePath);
-	rectItem->resizeContents(m_rect.toRect(),false);
+    rectItem->resizeContents(m_rect,false);
     rectItem->setPos(pos());
 	return rectItem;
 }
