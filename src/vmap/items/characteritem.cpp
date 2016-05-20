@@ -354,6 +354,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
         qDebug() << "Existing Character" << tmp->getParentId();
         m_character = tmp;
         m_character->read(*msg);
+        qDebug() << "Existing Character" << tmp->getParentId();
         generatedThumbnail();
     }
     else

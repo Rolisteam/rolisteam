@@ -65,12 +65,11 @@ void Character::init()
 
 QString Character::getParentId() const
 {
-    return m_parentId;
-}
-
-void Character::setParentId(const QString &parentId)
-{
-    m_parentId = parentId;
+    if(NULL!=m_parent)
+    {
+        return m_parent->getUuid();
+    }
+    return QString();
 }
 
 QHash<QString, QString> Character::getVariableDictionnary()
@@ -120,6 +119,7 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
     }
     else
     {
+        qDebug() << "parent is nulll";
         message.string8("NULL");
     }
     message.string8(m_uuid);
@@ -156,7 +156,7 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
 }
 void Character::read(NetworkMessageReader& msg)
 {
-    m_parentId = msg.string8();
+    QString parentId = msg.string8();
     m_uuid = msg.string8();
     m_name = msg.string16();
     bool hasCurrentState = msg.uint8();

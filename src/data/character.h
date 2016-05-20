@@ -115,7 +115,7 @@ public:
 
     Player *getParentPlayer() const;
     QString getParentId() const;
-    void setParentId(const QString &parentId);
+
 
     virtual QHash<QString,QString> getVariableDictionnary();
 
@@ -127,7 +127,6 @@ private:
 private:
     bool m_isNpc;
     int m_number;
-    QString m_parentId;
     CharacterState* m_currentState;
     CharacterSheet* m_sheet;
 
