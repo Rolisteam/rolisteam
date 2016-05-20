@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     fieldmodel.cpp \
     borderlisteditor.cpp \
     qmlhighlighter.cpp \
-    charactermodel.cpp
+    charactermodel.cpp \
+    alignmentdelegate.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -34,12 +35,12 @@ HEADERS  += mainwindow.h \
     borderlisteditor.h \
     qmlhighlighter.h \
     charactermodel.h \
+    alignmentdelegate.h
 
 FORMS    += mainwindow.ui
 
 DISTFILES += \
-    examples/Rcse/Field.qml\
-    examples/cs.qml
+    charactersheet/qml/*.qml
 
 RESOURCES += \
     qmlfile.qrc
