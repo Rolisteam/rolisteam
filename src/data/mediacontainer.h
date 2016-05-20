@@ -42,6 +42,9 @@ public:
      * @brief MediaContainer
      */
     MediaContainer(QWidget* parent = NULL);
+    /**
+     * @brief ~MediaContainer
+     */
     virtual ~MediaContainer();
 
     /**
@@ -117,11 +120,13 @@ public:
      */
     virtual CleverURI::ContentType getContentType();
     /**
-     * @brief saveMedia
+     * @brief saveMedia must be implemented for each media container.
      */
     virtual void saveMedia() =0;
-
-
+    /**
+     * @brief putDataIntoCleverUri when the uri is empty, save media into cleverURI data
+     */
+    virtual void putDataIntoCleverUri() = 0;
     /**
     * @brief is called when the selected tool changes.
     * @param the current tool.
@@ -139,8 +144,14 @@ public:
     */
     virtual void currentColorChanged(QColor&);
 
+    /**
+     * @brief getMediaId
+     * @return the media id
+     */
     virtual QString getMediaId();
-
+    /**
+     * @brief setMediaId
+     */
     virtual void setMediaId(QString);
 
 signals:
@@ -172,6 +183,10 @@ protected:
     * @brief the current color of the pen.
     */
     QColor m_penColor;
+    /**
+     * @brief m_mediaId stores the unique id to identify this media. Helpful with network message.
+     * see getMediaId and setMediaId
+     */
     QString m_mediaId;
 
 };

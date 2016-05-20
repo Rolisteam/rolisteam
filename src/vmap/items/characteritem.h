@@ -103,7 +103,7 @@ public:
      * @param rect
      * @param keepRatio
      */
-    void resizeContents(const QRect& rect, bool keepRatio);
+    void resizeContents(const QRectF& rect, bool keepRatio);
     /**
      * @brief updateChildPosition
      */

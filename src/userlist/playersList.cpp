@@ -962,3 +962,14 @@ void PlayersList::delPlayerWithLink(NetworkLink * link)
         }
     }
 }
+Player* PlayersList::getGM()
+{
+    for(auto player : m_playersList)
+    {
+        if(player->isGM())
+        {
+            return player;
+        }
+    }
+    return NULL;
+}

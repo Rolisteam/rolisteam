@@ -470,3 +470,17 @@ void MapFrame::saveMedia()
         file.close();
     }
 }
+
+void MapFrame::putDataIntoCleverUri()
+{
+    if(NULL!=m_map)
+    {
+        QByteArray data;
+        QDataStream out(&data,QIODevice::WriteOnly);
+        m_map->saveMap(out);
+        if(NULL!=m_uri)
+        {
+            m_uri->setData(data);
+        }
+    }
+}

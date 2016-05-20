@@ -31,11 +31,13 @@
 #include "data/character.h"
 #include "data/player.h"
 #include "userlist/playersList.h"
-#include "vmap/items/sightitem.h"
+//#include "vmap/items/sightitem.h"
+#include "vmap/vmap.h"
 #include "map/map.h"
 
 #define MARGING 1
 #define MINI_VALUE 25
+#define RADIUS_CORNER 10
 CharacterItem::CharacterItem()
 : VisualItem(),m_character(NULL),m_thumnails(NULL),m_protectGeometryChange(false)
 {
@@ -205,7 +207,15 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 		if(toShow!=m_title)
 		{
 			m_title = toShow;
-			setToolTip(m_title);
+            if((m_propertiesHash->value(VisualItem::FogOfWarStatus).toBool() == false)||
+               (m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == true))
+            {
+                setToolTip(m_title);
+            }
+            else
+            {
+                setToolTip("");
+            }
 		}
 		painter->setPen(m_character->getColor());
         painter->drawText(m_rectText,Qt::AlignCenter,toShow);
@@ -256,7 +266,7 @@ void CharacterItem::generatedThumbnail()
     }
     
     painter.setBrush(brush);
-    painter.drawRoundedRect(0,0,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
+    painter.drawRoundedRect(0,0,m_diameter,m_diameter,m_diameter/RADIUS_CORNER,m_diameter/RADIUS_CORNER);
 }
 int CharacterItem::getRadius() const
 {
@@ -264,6 +274,7 @@ int CharacterItem::getRadius() const
 }
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
+    qDebug() << "Fill message characterItem";
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
@@ -296,7 +307,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     in << *m_thumnails;
     msg->byteArray32(data);
 
-    m_character->fill(*msg);
+    m_character->fill(*msg,false);
 
     m_vision->fill(msg);
 }
@@ -346,7 +357,6 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     else
     {
         m_character = new Character(*msg);
-
         m_character->setParentPerson(PlayersList::instance()->getPlayer(m_character->getParentId()));
     }
 
@@ -356,7 +366,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
         m_vision->readMessage(msg);
     }
 }
-void CharacterItem::resizeContents(const QRect& rect, bool )
+void CharacterItem::resizeContents(const QRectF& rect, bool )
 {
     if (!rect.isValid())
         return;
@@ -369,7 +379,12 @@ void CharacterItem::resizeContents(const QRect& rect, bool )
 }
 QString CharacterItem::getCharacterId() const
 {
-    return m_character->getUuid();
+    qDebug() << "########################################################################";
+    if(NULL!=m_character)
+    {
+        return m_character->getUuid();
+    }
+    return QString();
 }
 
 QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &value)
@@ -589,6 +604,7 @@ void CharacterItem::changeCharacter()
 	{
 		m_character = tmp;
 	}
+    itemGeometryChanged(this);
 }
 
 void CharacterItem::createActions()

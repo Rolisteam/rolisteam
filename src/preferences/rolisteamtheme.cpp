@@ -87,10 +87,7 @@ void RolisteamTheme::setBackgroundColor(QColor c)
     m_bgColor = c;
 }
 
-void RolisteamTheme::setBackgroundPosition(int p)
-{
-    m_position = p;
-}
+
 
 void RolisteamTheme::setBackgroundImage(QString img)
 {
@@ -110,7 +107,10 @@ int RolisteamTheme::getBackgroundPosition() const
 {
     return m_position;
 }
-
+void RolisteamTheme::setBackgroundPosition(int p)
+{
+    m_position = p;
+}
 QColor RolisteamTheme::getBackgroundColor() const
 {
     return m_bgColor;

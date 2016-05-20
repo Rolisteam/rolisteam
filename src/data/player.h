@@ -22,6 +22,7 @@
 #define PLAYER_H
 #include <QMetaType>
 #include "person.h"
+class NetworkLink;
 /**
  * @brief Represents a player.
  *
@@ -63,7 +64,7 @@ public:
      * @brief fill
      * @param message
      */
-    void fill(NetworkMessageWriter & message);
+    void fill(NetworkMessageWriter & message,bool addAvatar = true);
     /**
      * @brief link
      * @return

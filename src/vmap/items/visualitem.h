@@ -65,7 +65,8 @@ public:
         Scale,
         Unit,
         EnableCharacterVision,
-        PermissionMode
+        PermissionMode,
+        FogOfWarStatus
                     };
 	/**
 	 * @brief VisualItem default constructor
@@ -145,7 +146,7 @@ public:
      * @param rect
      * @param keepRatio
      */
-    virtual void resizeContents(const QRect& rect, bool keepRatio = true);
+    virtual void resizeContents(const QRectF& rect, bool keepRatio = true);
 
     /**
      * @brief setGeometryPoint
@@ -153,6 +154,12 @@ public:
      * @param pos
      */
     virtual void setGeometryPoint(qreal pointId,QPointF& pos) = 0;
+    /**
+     * @brief setRectSize
+     * @param w
+     * @param h
+     */
+    virtual void setRectSize(qreal w,qreal h);
     /**
      * @brief endOfGeometryChange
      */

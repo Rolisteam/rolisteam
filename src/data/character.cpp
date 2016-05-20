@@ -81,7 +81,9 @@ QHash<QString, QString> Character::getVariableDictionnary()
     }
     else
     {
-        return m_sheet->getVariableDictionnary();
+        #ifndef UNIT_TEST
+            return m_sheet->getVariableDictionnary();
+        #endif
     }
 }
 
@@ -110,7 +112,7 @@ CharacterState* Character::getStateFromLabel(QString label)
     return NULL;
 }
 
-void Character::fill(NetworkMessageWriter & message)
+void Character::fill(NetworkMessageWriter & message,bool addAvatar)
 {
     if(NULL!=m_parent)
     {
@@ -131,16 +133,24 @@ void Character::fill(NetworkMessageWriter & message)
     message.int32(m_number);
     message.rgb(m_color);
 
-    message.uint8((bool)!m_avatar.isNull());
-    if(!m_avatar.isNull())
+    if(addAvatar)
     {
-        QByteArray baImage;
-        QBuffer bufImage(&baImage);
-        if(m_avatar.save(&bufImage, "PNG", 70))
+        message.uint8((quint8)!m_avatar.isNull());
+        if(!m_avatar.isNull())
         {
-
+            QByteArray baImage;
+            //QImage sentImage = m_avatar.scaled(QSize(64,64),Qt::KeepAspectRatio);
+            QBuffer bufImage(&baImage);
+            if(m_avatar.save(&bufImage, "PNG", 70))
+            {
+                qDebug() << baImage.size();
+                message.byteArray32(baImage);
+            }
         }
-        message.byteArray32(baImage);
+    }
+    else
+    {
+        message.uint8((quint8)false);
     }
 
 }

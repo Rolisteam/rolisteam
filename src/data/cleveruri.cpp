@@ -54,8 +54,8 @@ QStringList CleverURI::m_typeNameList = QStringList() <<    QObject::tr("None") 
                                                             QObject::tr("Charecter Sheet") <<QObject::tr("Scenario") <<QObject::tr("Song") <<QObject::tr("Song List");
 
 QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString("SessionDirectory") <<QString("MapDirectory")       <<QString("MapDirectory")           <<QString("ChatDirectory")
-                                                                   <<   QString("ImageDirectory")   <<QString("ImageDirectory")     <<QString("Text")                   <<QString("MinutesDirectory") <<
-                                                                        QString("SessionDirectory") <<QString("SessionDirectory")   <<QString("MusicDirectoryPlayer")   <<QString("MusicDirectoryPlayer");
+                                                                   <<   QString("ImageDirectory")   <<QString("ImageDirectory")     <<QString("MinutesDirectory")       <<QString("CharacterSheetDirectory") <<
+                                                                        QString("SessionDirectory") <<QString("MusicDirectoryPlayer")   <<QString("MusicDirectoryPlayer");
 CleverURIListener* CleverURI::s_listener = NULL;
 
 CleverURI::CleverURI()
@@ -184,17 +184,30 @@ const QString CleverURI::getAbsolueDir() const
 void CleverURI::write(QDataStream &out) const
 {
     out << QStringLiteral("CleverUri");
-    out << (int)m_type << m_uri << (int)m_currentMode << m_data << m_displayed;
+    QByteArray data;
+    qDebug() << m_data.size();
+    if(m_data.isEmpty())
+    {
+        loadFileFromUri(data);
+    }
+    else
+    {
+        data = m_data;
+    }
+    out << (int)m_type << m_uri << m_name << (int)m_currentMode << data << m_displayed;
 }
 
 void CleverURI::read(QDataStream &in)
 {
     int type;
     int mode;
-    in >> type >> m_uri >> mode >> m_data >> m_displayed;
+    in >> type >> m_uri >> m_name >> mode >> m_data >> m_displayed;
     m_type = (CleverURI::ContentType)type;
     m_currentMode = (CleverURI::LoadingMode)mode;
-    defineShortName();
+    if(m_name.isEmpty())
+    {
+        defineShortName();
+    }
     if(QFile::exists(m_uri))
     {
         m_data.clear();
@@ -251,6 +264,7 @@ QString CleverURI::typeToString(CleverURI::ContentType type)
     {
         return m_typeNameList.at((int)type);
     }
+    return QString();
 }
 
 QString CleverURI::getPreferenceDirectoryKey(CleverURI::ContentType type)
@@ -259,13 +273,14 @@ QString CleverURI::getPreferenceDirectoryKey(CleverURI::ContentType type)
     {
         return m_typeToPreferenceDirectory.at((int)type);
     }
+    return QString();
 }
-void CleverURI::loadFileFromUri()
+void CleverURI::loadFileFromUri(QByteArray& array) const
 {
     QFile file(m_uri);
     if(file.open(QIODevice::ReadOnly))
     {
-        m_data = file.readAll();
+        array = file.readAll();
     }
 }
 
@@ -322,7 +337,6 @@ QDataStream& operator<<(QDataStream& out, const CleverUriList& con)
     {
         out << uri;
     }
-
     return out;
 }
 

@@ -70,7 +70,6 @@ void Image::initImage()
 
         m_ratioImage = (double)m_pixMap.size().width()/m_pixMap.size().height();
         m_ratioImageBis = (double)m_pixMap.size().height()/m_pixMap.size().width();
-        //labelImage->installEventFilter(this);
         if(NULL!=m_parent)
         {
             fitWorkSpace();
@@ -126,10 +125,6 @@ void Image::saveImageToFile(QDataStream &out)
             error(tr("Image Compression fails (saveImageToFile - Image.cpp)"),this);
             return;
         }
-        // Ecriture de l'image dans le fichier
-        out<< m_title;
-        out << pos();
-        out << size();
         out << baImage;
     }
 }
@@ -465,36 +460,55 @@ void Image::setCurrentTool(ToolsBar::SelectableTool tool)
         break;
     }
 }
+
+void Image::putDataIntoCleverUri()
+{
+    QByteArray data;
+    QDataStream out(&data,QIODevice::WriteOnly);
+    saveImageToFile(out);
+    if(NULL!=m_uri)
+    {
+        m_uri->setData(data);
+    }
+}
 bool Image::readFileFromUri()
 {
-    if(NULL==m_uri)
+    if(m_pixMap.isNull())
     {
-        return false;
-    }
-    if(CleverURI::PICTURE == m_uri->getType())
-    {
-        m_preferences->registerValue("ImageDirectory",m_uri->getAbsolueDir());
-        m_uri->loadFileFromUri();
-        QImage img=QImage::fromData(m_uri->getData());
-        if (img.isNull())
+        if(NULL==m_uri)
         {
-            error(tr("Unsupported file format"),this);
             return false;
         }
+        //read from CleverURI
+        QByteArray data;
+        QByteArray dataFromURI= m_uri->getData();
+        QDataStream in(&dataFromURI,QIODevice::ReadOnly);
+        in >> data;
+        QImage img=QImage::fromData(data);
+
+        if(img.isNull() && !m_uri->getUri().isEmpty() && CleverURI::PICTURE == m_uri->getType())
+        {
+            QByteArray array;
+            m_uri->loadFileFromUri(array);
+            img=QImage::fromData(array);
+        }
+
+
+        if(img.isNull())
+        {
+            return false;
+        }
+
         setImage(img);
-        setTitle(m_uri->name()+tr(" (Picture)"));
+
     }
-    else if(CleverURI::ONLINEPICTURE == m_uri->getType())
+
+
+    if(CleverURI::ONLINEPICTURE == m_uri->getType())
     {
-        if(!m_pixMap.isNull())
-        {
-            initImage();
-        }
-        else
-        {
-            return false;
-        }
+        initImage();
     }
+    setTitle(m_uri->name()+tr(" (Picture)"));
 
     NetworkMessageWriter message(NetMsg::PictureCategory, NetMsg::AddPictureAction);
     fill(message);
@@ -504,15 +518,6 @@ bool Image::readFileFromUri()
 bool Image::openMedia()
 {
     QString filepath;
-    /*if(CleverURI::PICTURE == m_uri->getType())
-    {
-        QString filter = tr("Supported Image formats %1").arg("(*.jpg *.jpeg *.png *.bmp *.svg)");
-
-        QString title = tr("Open Picture");
-        QString folder = m_preferences->value(QString("ImageDirectory"),".").toString();
-        filepath = QFileDialog::getOpenFileName(this,title,folder,filter);
-    }
-    else*/
     if(CleverURI::ONLINEPICTURE == m_uri->getType())
     {
         OnlinePictureDialog dialog;
@@ -520,20 +525,21 @@ bool Image::openMedia()
         {
             filepath = dialog.getPath();
             m_pixMap = dialog.getPixmap();
-            setTitle(dialog.getTitle()+tr(" (Picture)"));
+
+
+            if(!filepath.isEmpty())
+            {
+                m_uri->setUri(filepath);
+                setTitle(dialog.getTitle()+tr(" (Picture)"));
+                m_uri->setName(dialog.getTitle());
+                return true;
+            }
         }
     }
-    if(filepath.isEmpty())
-    {
-        return false;
-    }
-    else
-    {
-        m_uri->setUri(filepath);
-        return true;
-    }
+    return false;
 }
 void Image::saveMedia()
 {
     ///nothing to be done.
 }
+

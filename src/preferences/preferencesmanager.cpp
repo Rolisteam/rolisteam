@@ -37,7 +37,7 @@ PreferencesManager::PreferencesManager()
     m_optionDictionary->insert("MusicDirectory",QDir::homePath());
     m_optionDictionary->insert("ImageDirectory",QDir::homePath());
     m_optionDictionary->insert("MapDirectory",QDir::homePath());
-    m_optionDictionary->insert("StoryDirectory",QDir::homePath());
+    m_optionDictionary->insert("SessionDirectory",QDir::homePath());
     m_optionDictionary->insert("MinutesDirectory",QDir::homePath());
     m_optionDictionary->insert("ChatDirectory",QDir::homePath());
     m_optionDictionary->insert("DataDirectory",QDir::homePath()); 

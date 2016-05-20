@@ -157,6 +157,7 @@ public :
      * @return
      */
     virtual QString getMediaId();
+    void putDataIntoCleverUri();
 public slots :
 	/**
 	 * @brief setCleverURI

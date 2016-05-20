@@ -81,6 +81,7 @@ class TextEdit;
 class PlayersList;
 class ConnectionProfile;
 class SessionManager;
+class CharacterSheetWindow;
 /**
  * @brief Main widget for rolisteam, it herits from QMainWindow.
  */
@@ -232,10 +233,9 @@ public slots :
     void closeAllImagesAndMaps();
 
 	/**
-	 * @brief showConnectionDialog
-	 * @return
+     * @brief showConnectionDialog
 	 */
-    bool showConnectionDialog(bool forced = false);
+    void showConnectionDialog(bool forced = false);
 
     void startConnection();
 protected :
@@ -254,6 +254,9 @@ protected :
     void dropEvent(QDropEvent* event);
     void dragEnterEvent(QDragEnterEvent* ev);
 
+    void prepareCharacterSheetWindow(CharacterSheetWindow *window);
+    void saveAllMediaContainer();
+    void saveMedia(MediaContainer *mediaC,bool AskPath, bool saveAs);
 private slots :
     void userNatureChange();
     void activeWindowChanged(QMdiSubWindow* widget);
@@ -311,6 +314,7 @@ private slots :
     void newCharacterSheetWindow();
 
 
+
 private :
     MainWindow();
     void showCleverUri(CleverURI *uri);
@@ -322,8 +326,6 @@ private:
 
 	//QMdiSubWindow*  readMapAndNpc(QDataStream &file, bool masquer = false, QString nomFichier = "");
     void readImageFromStream(QDataStream &file);
-    void saveAllMap(QDataStream &file);
-    void saveAllImages(QDataStream &file);
     CleverURI::ContentType getContentType(QString str);
     /**
      * @brief workspace
@@ -340,6 +342,7 @@ private:
     QMap<QString,MapFrame *> m_mapWindowMap;
     QMap<QString,VMapFrame *> m_mapWindowVectorialMap;
     QMap<QString,NoteContainer*> m_noteMap;
+    QHash<QString,CharacterSheetWindow*> m_sheetHash;
     QHash<QString,Image*> m_pictureHash;
     QMap<MediaContainer*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
@@ -376,6 +379,7 @@ private:
     SelectConnectionProfileDialog* m_dialog;
     bool m_profileDefined;
 
+    CharacterSheetWindow *findCharacterSheetWindowById(QString id);
 };
 
 #endif

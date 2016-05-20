@@ -17,13 +17,13 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabWidgetPage1">
       <attribute name="title">
        <string>General</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
+      <layout class="QVBoxLayout" name="verticalLayout_20">
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
@@ -153,6 +153,53 @@
              <string>* : need restart</string>
             </property>
            </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_6">
+         <property name="title">
+          <string>Messaging</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_16">
+            <item>
+             <widget class="QCheckBox" name="m_showTimeCheckBox">
+              <property name="text">
+               <string>Show time</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>Color of Time:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="ColorButton" name="m_timeColorBtn">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -524,6 +571,13 @@
                 </property>
                </widget>
               </item>
+              <item>
+               <widget class="QLabel" name="label_22">
+                <property name="text">
+                 <string>Character Sheet:</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
             <item>
@@ -548,6 +602,9 @@
               </item>
               <item>
                <widget class="FileDirChooser" name="m_chatDir" native="true"/>
+              </item>
+              <item>
+               <widget class="FileDirChooser" name="m_characterSheetDir" native="true"/>
               </item>
              </layout>
             </item>
@@ -975,8 +1032,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>470</y>
+     <x>266</x>
+     <y>701</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -991,8 +1048,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>470</y>
+     <x>334</x>
+     <y>701</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

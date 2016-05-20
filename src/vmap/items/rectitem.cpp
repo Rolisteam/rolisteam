@@ -278,7 +278,7 @@ VisualItem* RectItem::getItemCopy()
     rectItem->setPos(pos());
 	return rectItem;
 }
-void RectItem::resizeContents(const QRect& rect ,bool b)
+void RectItem::resizeContents(const QRectF& rect ,bool b)
 {
    // qDebug() << "after" <<m_rect << rect;
     VisualItem::resizeContents(rect,b);

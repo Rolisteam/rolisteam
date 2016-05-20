@@ -55,7 +55,7 @@ public :
     /**
      *
      */
-    ~MapFrame();
+    virtual ~MapFrame();
     /**
      * @brief carte
      * @return
@@ -99,8 +99,15 @@ public :
      * @return
      */
     bool readMapAndNpc(QDataStream &in, bool hidden=false);
-
+    /**
+     * @brief saveMedia
+     */
     void saveMedia();
+    /**
+     * @brief putDataIntoCleverUri
+     */
+    void putDataIntoCleverUri();
+
 
 
 signals:

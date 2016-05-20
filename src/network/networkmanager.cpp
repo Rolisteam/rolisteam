@@ -91,6 +91,7 @@ bool NetworkManager::startConnection()
         m_address = m_connectionProfile->getAddress();
         startConnectionToServer();
     }
+    return true;
 }
 bool  NetworkManager::startListening()
 {
@@ -272,7 +273,11 @@ void NetworkManager::disconnectAndClose()
 }
 bool NetworkManager::isServer() const
 {
-    return m_connectionProfile->isServer();
+    if(NULL!=m_connectionProfile)
+    {
+        return m_connectionProfile->isServer();
+    }
+    return false;
 }
 bool NetworkManager::isConnected() const
 {

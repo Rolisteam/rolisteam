@@ -297,11 +297,13 @@ void ImprovedWorkspace::preferencesHasChanged(QString str)
     updateBackGround();
     update();
 }
-void ImprovedWorkspace::addWidgetToMdi(QWidget* wid)
+void ImprovedWorkspace::addWidgetToMdi(QWidget* wid,QString title)
 {
     wid->setParent(this);
     QMdiSubWindow* sub = addSubWindow(wid);
-    sub->setAttribute(Qt::WA_DeleteOnClose, false);
+    sub->setWindowTitle(title);
+    wid->setWindowTitle(title);
+    //sub->setAttribute(Qt::WA_DeleteOnClose, false);
     sub->setVisible(true);
     wid->setVisible(true);
 }

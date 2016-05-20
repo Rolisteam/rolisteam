@@ -235,7 +235,19 @@ void VMapFrame::saveMedia()
         file.close();
     }
 }
-
+void VMapFrame::putDataIntoCleverUri()
+{
+    if(NULL!=m_vmap)
+    {
+        QByteArray data;
+        QDataStream out(&data,QIODevice::WriteOnly);
+        m_vmap->saveFile(out);
+        if(NULL!=m_uri)
+        {
+            m_uri->setData(data);
+        }
+    }
+}
 bool VMapFrame::hasDockWidget() const
 {
     return false;

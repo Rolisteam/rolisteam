@@ -13,10 +13,11 @@ class ChatBrowser : public QTextBrowser
 {
     Q_OBJECT
 public:
-    explicit ChatBrowser(QWidget *parent = 0);
+    explicit ChatBrowser(bool showTimeStatus,QWidget *parent = 0);
     
 signals:
     void detachView(bool);
+    void showTimeChanged(bool);
 protected:
         //void contextMenuEvent ( QContextMenuEvent * event );
     virtual void resizeEvent(QResizeEvent *e);
@@ -34,6 +35,7 @@ private:
     QAction* m_bgColorAct;
     QAction* m_detachedDialog;
     QAction* m_wordWarp;
+    QAction* m_showTime;
 
     QColor m_bgColor;
     QWidget* m_parent;
