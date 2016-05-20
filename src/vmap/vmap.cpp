@@ -69,6 +69,7 @@ void VMap::initMap()
     m_propertiesHash->insert(VisualItem::LocalIsGM,false);
     m_propertiesHash->insert(VisualItem::EnableCharacterVision,false);
     m_propertiesHash->insert(VisualItem::PermissionMode,Map::GM_ONLY);
+    m_propertiesHash->insert(VisualItem::FogOfWarStatus,false);
 }
 
 VToolsBar::SelectableTool VMap::getSelectedtool() const
@@ -1155,9 +1156,21 @@ void VMap::keyPressEvent(QKeyEvent* event)
             VisualItem* itemV = dynamic_cast<VisualItem*>(item);
             if(NULL!=itemV)
             {
-                if(itemV->isEditable())
+                if(itemV->getType() == VisualItem::CHARACTER)
                 {
-                    idListToRemove << itemV->getId();
+                       CharacterItem* itemC = dynamic_cast<CharacterItem*>(itemV);
+                       if(itemC->isLocal())
+                       {
+                           idListToRemove << itemV->getId();
+                       }
+                }
+                else if(itemV->isEditable())
+                {
+                    if((!getOption(VisualItem::LocalIsGM).toBool())&&
+                       (getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL))
+                    {
+                        idListToRemove << itemV->getId();
+                    }
                 }
             }
         }
@@ -1370,6 +1383,18 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
     if(NULL!=m_sightItem)
     {
         m_sightItem->setVisible(visibilitySight);
+        m_propertiesHash->insert(VisualItem::FogOfWarStatus,visibilitySight);
+        if((visibilitySight)&&(m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == false))
+        {
+            qDebug() << "set tooltip vide map";
+            for(auto item : m_itemMap->values())
+            {
+                if(item->getType() == VisualItem::CHARACTER)
+                {
+                    item->setToolTip("");
+                }
+            }
+        }
     }
     return result;
 }
@@ -1481,7 +1506,6 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
             item->setZValue(++z);
         }
     }
-    qDebug() << m_sortedItemList.contains(m_sightItem->getId()) << "######################";
 
     m_sightItem->setZValue(++z);
     //ensure that character player are above everythings.
