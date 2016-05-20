@@ -87,12 +87,17 @@ QString CharacterSheetItem::value() const
     return m_value;
 }
 
-void CharacterSheetItem::setValue(const QString &value)
+void CharacterSheetItem::setValue(const QString &value,bool fromNetwork)
 {
     if(m_value!=value)
     {
         m_value = value;
         emit valueChanged();
+        if(!fromNetwork)
+        {
+            emit sendOffData();
+            qDebug() << "emit sendoffdata";
+        }
     }
 }
 

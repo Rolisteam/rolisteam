@@ -14,21 +14,17 @@ class RolisteamImageProvider : public QQuickImageProvider
 public:
     RolisteamImageProvider();
     virtual ~RolisteamImageProvider();
-    //virtual QImage      requestImage(const QString & id, QSize * size, const QSize & requestedSize, bool requestedAutoTransform);
     virtual QPixmap requestPixmap(const QString &id, QSize *size, const QSize& requestedSize);
-   // virtual QQuickTextureFactory * 	requestTexture(const QString & id, QSize * size, const QSize & requestedSize, bool requestedAutoTransform);
 
-    virtual void insertPix(QString key,QPixmap img);
+    static void insertPix(QString key,QPixmap img);
+    static QHash<QString,QPixmap>* getData();
 
-
-    QHash<QString, QPixmap> data() const;
-    void setData(const QHash<QString, QPixmap> &data);
 #ifndef RCSE
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);
 #endif
 private:
-    QHash<QString,QPixmap> m_data;
+    static QHash<QString,QPixmap>* s_data;
 };
 
 #endif // ROLISTEAMIMAGEPROVIDER_H

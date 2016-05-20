@@ -23,6 +23,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
+#include <QUuid>
 
 
 #include "section.h"
@@ -35,7 +36,7 @@
 
 int CharacterSheet::m_count=0;
 CharacterSheet::CharacterSheet()
-    : m_name("Character %1"),m_rootSection(NULL)
+    : m_name("Character %1"),m_rootSection(NULL),m_uuid(QUuid::createUuid().toString())
 {
     ++m_count;
     m_name = m_name.arg(m_count);
@@ -52,7 +53,12 @@ int CharacterSheet::getFieldCount()
 
 CharacterSheetItem* CharacterSheet::getFieldAt(int i)
 {
-    return m_valuesMap.value(m_valuesMap.keys().at(i));
+    if(i<m_valuesMap.size() && i >=0)
+    {
+        return m_valuesMap.value(m_valuesMap.keys().at(i));
+
+    }
+    return NULL;
 }
 
 const  QString CharacterSheet::getValue(QString path,Qt::ItemDataRole role) const
@@ -90,7 +96,8 @@ void CharacterSheet::setValue(QString key, QString value)
         Field* field = new Field();
         field->setValue(value);
         field->setId(key);
-        m_valuesMap.insert(key,field);
+        insertField(key,field);
+        //m_valuesMap.insert(key,field);
     }
 }
 
@@ -116,6 +123,23 @@ QStringList CharacterSheet::explosePath(QString str)
     return str.split('.');
 }
 
+QString CharacterSheet::getUuid() const
+{
+    return m_uuid;
+}
+
+void CharacterSheet::setUuid(const QString &uuid)
+{
+    m_uuid = uuid;
+}
+
+void CharacterSheet::setFieldData(QJsonObject &obj)
+{
+    QString id = obj["id"].toString();
+    CharacterSheetItem* item = m_valuesMap.value(id);
+    item->loadDataItem(obj);
+}
+
 QString CharacterSheet::getName() const
 {
     return m_name;
@@ -138,6 +162,7 @@ void CharacterSheet::buildDataFromSection(Section *rootSection)
 void CharacterSheet::save(QJsonObject& json)
 {
     json["name"]= m_name;
+    json["idSheet"]= m_uuid;
     QJsonObject array=QJsonObject();
     foreach (QString key, m_valuesMap.keys())
     {
@@ -151,6 +176,7 @@ void CharacterSheet::save(QJsonObject& json)
 void CharacterSheet::load(QJsonObject& json)
 {
     m_name = json["name"].toString();
+    m_uuid = json["idSheet"].toString();
     QJsonObject array = json["values"].toObject();
     for(QString key : array.keys() )
     {
@@ -168,11 +194,27 @@ void CharacterSheet::load(QJsonObject& json)
         {
             itemSheet->loadDataItem(item);
             itemSheet->setId(key);
-            m_valuesMap.insert(key,itemSheet);
+            insertField(key,itemSheet);
         }
     }
 }
+void CharacterSheet::insertField(QString key, CharacterSheetItem* itemSheet)
+{
+    m_valuesMap.insert(key,itemSheet);
+    connect(itemSheet,SIGNAL(sendOffData()),this,SLOT(sendUpdateForField()));
+}
+
 #ifndef RCSE
+void CharacterSheet::sendUpdateForField()
+{
+    CharacterSheetItem* item = dynamic_cast<CharacterSheetItem*>(sender());
+
+    if(NULL!=item)
+    {
+        emit updateField(this,item);
+    }
+}
+
 void CharacterSheet::fill(NetworkMessageWriter & msg)
 {
     QJsonObject object;
@@ -199,7 +241,6 @@ QHash<QString, QString> CharacterSheet::getVariableDictionnary()
             dataDict[m_valuesMap[key]->getLabel()] = m_valuesMap[key]->value();
         }
     }
-    qDebug() << dataDict;
     return dataDict;
 }
 
