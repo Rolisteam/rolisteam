@@ -31,7 +31,8 @@
 #include "data/character.h"
 #include "data/player.h"
 #include "userlist/playersList.h"
-#include "vmap/items/sightitem.h"
+//#include "vmap/items/sightitem.h"
+#include "vmap/vmap.h"
 #include "map/map.h"
 
 #define MARGING 1
@@ -206,7 +207,15 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 		if(toShow!=m_title)
 		{
 			m_title = toShow;
-			setToolTip(m_title);
+            if((m_propertiesHash->value(VisualItem::FogOfWarStatus).toBool() == false)||
+               (m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == true))
+            {
+                setToolTip(m_title);
+            }
+            else
+            {
+                setToolTip("");
+            }
 		}
 		painter->setPen(m_character->getColor());
         painter->drawText(m_rectText,Qt::AlignCenter,toShow);
@@ -265,7 +274,7 @@ int CharacterItem::getRadius() const
 }
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
-    qDebug() << "Fill message character";
+    qDebug() << "Fill message characterItem";
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
@@ -348,7 +357,6 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     else
     {
         m_character = new Character(*msg);
-
         m_character->setParentPerson(PlayersList::instance()->getPlayer(m_character->getParentId()));
     }
 
@@ -358,7 +366,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
         m_vision->readMessage(msg);
     }
 }
-void CharacterItem::resizeContents(const QRect& rect, bool )
+void CharacterItem::resizeContents(const QRectF& rect, bool )
 {
     if (!rect.isValid())
         return;
@@ -596,6 +604,7 @@ void CharacterItem::changeCharacter()
 	{
 		m_character = tmp;
 	}
+    itemGeometryChanged(this);
 }
 
 void CharacterItem::createActions()
