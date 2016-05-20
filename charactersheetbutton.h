@@ -36,7 +36,7 @@ public:
     CharacterSheetButton(QPointF topleft,QGraphicsItem* parent = 0);
     CharacterSheetButton(QGraphicsItem* parent = 0);
 
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId) const;
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId,int role) const;
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
 
     virtual void save(QJsonObject& json,bool exp=false);

@@ -48,7 +48,8 @@ void Field::init()
     m_clippedText = false;
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 
-    m_textAlign = ALignLEFT;
+
+    m_textAlign = TopLeft;
     m_bgColor = Qt::transparent;
     m_textColor = Qt::black;
     m_font = font();
@@ -65,7 +66,7 @@ QRectF Field::boundingRect() const
     return m_rect;
 }
 
-QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id) const
+QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
 {
     switch(id)
     {
@@ -88,9 +89,16 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id) const
     case TEXT_ALIGN:
         return m_textAlign;
     case BGCOLOR:
-        return m_bgColor.name(QColor::HexArgb);
+        if(role == Qt::DisplayRole)
+        {
+            return m_bgColor.name(QColor::HexArgb);
+        }
+        else
+        {
+            return m_bgColor;
+        }
     case TEXTCOLOR:
-        return m_textColor.name(QColor::HexArgb);
+        return m_textColor;
     case VALUES:
         return m_availableValue.join(',');
     case TYPE:
@@ -154,7 +162,35 @@ void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option,
 {
     painter->save();
     painter->drawRect(m_rect);
-    painter->drawText(m_rect,m_id);
+    int flags =0;
+    if(m_textAlign <3)
+    {
+        flags = Qt::AlignTop;
+    }
+    else if(m_textAlign <6)
+    {
+        flags = Qt::AlignVCenter;
+    }
+    else
+    {
+        flags = Qt::AlignBottom;
+    }
+
+    if(m_textAlign%3==0)
+    {
+        flags |= Qt::AlignRight;
+    }
+    else if(m_textAlign%3==1)
+    {
+        flags |= Qt::AlignHCenter;
+    }
+    else
+    {
+        flags |= Qt::AlignLeft;
+    }
+
+
+    painter->drawText(m_rect,flags,m_id);
     painter->restore();
 }
 
@@ -390,6 +426,15 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         out << "    visible: root.page == "<< m_page << "? true : false\n";
+        if(m_currentType== Field::TEXTINPUT)
+        {
+            QPair<QString,QString> pair = getTextAlign();
+            out << "    hAlign: "<< pair.first<<"\n";
+
+            out << "    vAlign: "<< pair.second <<"\n";
+            //TextInput.AlignTop (default), TextInput.AlignBottom TextInput.AlignVCenter.
+
+        }
         if(m_availableValue.isEmpty())
         {
             out << "    onTextChanged: {\n";
@@ -398,6 +443,43 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "}\n";
     }
 }
+QPair<QString,QString> Field::getTextAlign()
+{
+    QPair<QString,QString> pair;
+
+
+    QString hori;
+    if(m_textAlign%3 == 0)
+    {
+        hori = "TextInput.AlignRight";
+    }
+    else if(m_textAlign%3==1)
+    {
+        hori = "TextInput.AlignHCenter";
+    }
+    else
+    {
+        hori = "TextInput.AlignLeft";
+    }
+    pair.first= hori;
+    QString verti;
+    if(m_textAlign/3 == 0)
+    {
+        verti = "TextInput.AlignTop";
+    }
+    else if(m_textAlign/3==1)
+    {
+        verti = "TextInput.AlignVCenter";
+    }
+    else
+    {
+        verti = "TextInput.AlignBottom";
+    }
+    pair.second = verti;
+
+    return pair;
+}
+
 void Field::copyField(CharacterSheetItem* newItem)
 {
     Field* newField =  dynamic_cast<Field*>(newItem);

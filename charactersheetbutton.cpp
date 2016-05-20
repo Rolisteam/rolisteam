@@ -56,7 +56,7 @@ QRectF CharacterSheetButton::boundingRect() const
 {
     return m_rect;
 }
-QVariant CharacterSheetButton::getValueFrom(CharacterSheetItem::ColumnId id) const
+QVariant CharacterSheetButton::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
 {
     switch(id)
     {

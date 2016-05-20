@@ -40,7 +40,7 @@ int CharacterSheetItem::getChildrenCount() const
     return 0;
 }
 
-QVariant CharacterSheetItem::getValueFrom(CharacterSheetItem::ColumnId i) const
+QVariant CharacterSheetItem::getValueFrom(CharacterSheetItem::ColumnId i,int role) const
 {
     return QVariant();
 }
