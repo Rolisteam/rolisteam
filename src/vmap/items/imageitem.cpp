@@ -181,16 +181,21 @@ void ImageItem::setGeometryPoint(qreal pointId, QPointF &pos)
 	}
 
 	setTransformOriginPoint(m_rect.center());
+
 	//updateChildPosition();
 }
 void ImageItem::resizeContents(const QRectF& rect, bool keepRatio)
 {
-    if (!rect.isValid())
+    //qDebug() << "resize content:" << m_rect << pos();
+    VisualItem::resizeContents(rect,keepRatio);
+   // qDebug() << "resize content 2:" << m_rect << pos();
+   /* if (!rect.isValid())
         return;
+    m_rect = rect.normalized();
 
     prepareGeometryChange();
 
-    m_rect = rect.normalized();
+    qDebug() << "resize content" << m_rect;
     if (keepRatio)
     {
         int width = m_image.width();
@@ -203,7 +208,7 @@ void ImageItem::resizeContents(const QRectF& rect, bool keepRatio)
         }
     }
 
-    updateChildPosition();
+    updateChildPosition();*/
 }
 void ImageItem::initChildPointItem()
 {
