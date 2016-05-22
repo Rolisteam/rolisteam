@@ -745,6 +745,15 @@ void CharacterItem::setCharacterIsMovable(bool isMovable)
     }
 }
 
+bool CharacterItem::isNpc()
+{
+    if(NULL!=m_character)
+    {
+        return m_character->isNpc();
+    }
+    return false;
+}
+
 bool CharacterItem::isPlayableCharacter()
 {
     if(NULL!=m_character)

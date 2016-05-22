@@ -180,13 +180,21 @@ public:
      * @return
      */
     bool isPlayableCharacter();
-
+    /**
+     * @brief setSize
+     * @param size
+     */
     virtual void setSize(QSizeF size);
     /**
      * @brief setCharacterIsMovable if isMovable is true and the character is local then the item is mavable
      * @param isMovable
      */
     void setCharacterIsMovable(bool isMovable);
+    /**
+     * @brief isNpc
+     * @return
+     */
+    bool isNpc();
 signals:
     /**
      * @brief positionChanged
