@@ -277,7 +277,7 @@ public slots:
      */
     void setCurrentNpcNumber(int number);
     void setId(QString id);
-    void removeItemFromScene(QString);
+    void removeItemFromScene(QString ,bool = true);
     /**
      * @brief VMap::computePattern
      */

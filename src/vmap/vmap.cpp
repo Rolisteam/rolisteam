@@ -167,7 +167,7 @@ void VMap::characterHasBeenDeleted(Character* character)
     foreach(CharacterItem* item,list)
     {
         //m_sightItem->removeVision(item);
-        m_characterItemMap->remove(character->getUuid());
+        //m_characterItemMap->remove(character->getUuid());
         removeItemFromScene(item->getId());
     }
 }
@@ -609,9 +609,9 @@ void VMap::sendOffItem(VisualItem* item)
     NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
     msg.string8(m_id);
     msg.uint8(item->getType());
+    item->initChildPointItem();
     item->fillMessage(&msg);
     msg.sendAll();
-    item->initChildPointItem();
 }
 
 void VMap::setCurrentChosenColor(QColor& p)
@@ -959,16 +959,18 @@ void VMap::processDelItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
     {
+        qDebug() << "remove processDelItemMessage";
         QString id = msg->string16();
-        VisualItem* item = m_itemMap->value(id);
-        if(NULL!=item)
+        removeItemFromScene(id,false);
+        //VisualItem* item = m_itemMap->value(id);
+       /* if(NULL!=item)
         {
             m_itemMap->remove(id);
             m_sortedItemList.removeAll(id);
             m_characterItemMap->remove(id);
             QGraphicsScene::removeItem(item);
             delete item;
-        }
+        }*/
 
     }
 }
@@ -1103,39 +1105,45 @@ void VMap::promoteItemInType(VisualItem* item, VisualItem::ItemType type)
     }
 }
 
-void VMap::removeItemFromScene(QString id)
+void VMap::removeItemFromScene(QString id,bool sendToAll)
 {
     if(m_sightItem->getId()==id)
     {
         return;
     }
     VisualItem* item = m_itemMap->take(id);
-    m_sortedItemList.removeAll(id);
-    if(item->getType() == VisualItem::CHARACTER)
+    if(NULL!=item)
     {
-        CharacterItem* cItem = dynamic_cast<CharacterItem*>(item);
-        if(NULL != cItem)
+        m_sortedItemList.removeAll(id);
+        if(item->getType() == VisualItem::CHARACTER)
         {
-            m_sightItem->removeVision(cItem);
-            QList<CharacterItem*> list = m_characterItemMap->values(cItem->getCharacterId());
-            int i = m_characterItemMap->remove(cItem->getCharacterId());
-            if(list.size() == i)
+            CharacterItem* cItem = dynamic_cast<CharacterItem*>(item);
+            if(NULL != cItem)
             {
-                list.removeOne(cItem);
-                for(auto itemC : list)
+                m_sightItem->removeVision(cItem);
+                QList<CharacterItem*> list = m_characterItemMap->values(cItem->getCharacterId());
+                int i = m_characterItemMap->remove(cItem->getCharacterId());
+                if(list.size() == i)
                 {
-                    m_characterItemMap->insertMulti(itemC->getCharacterId(),itemC);
+                    list.removeOne(cItem);
+                    for(auto itemC : list)
+                    {
+                        m_characterItemMap->insertMulti(itemC->getCharacterId(),itemC);
+                    }
                 }
             }
         }
-    }
-    QGraphicsScene::removeItem(item);
-    delete item;
+        QGraphicsScene::removeItem(item);
+        delete item;
 
-    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::DelItem);
-    msg.string8(m_id);//id map
-    msg.string16(id);//id item
-    msg.sendAll();
+        if(sendToAll)
+        {
+            NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::DelItem);
+            msg.string8(m_id);//id map
+            msg.string16(id);//id item
+            msg.sendAll();
+        }
+    }
 }
 
 void VMap::sendItemToAll(VisualItem* item)
@@ -1354,7 +1362,10 @@ void VMap::insertCharacterInMap(CharacterItem* item)
     {
         m_characterItemMap->insertMulti(item->getCharacterId(),item);
         connect(item,SIGNAL(ownerChanged(Character*,CharacterItem*)),this,SLOT(ownerHasChangedForCharacterItem(Character*,CharacterItem*)));
-        m_sightItem->insertVision(item);
+        if(!item->isNpc())
+        {
+            m_sightItem->insertVision(item);
+        }
         if((item->isPlayableCharacter())&&(!getOption(VisualItem::LocalIsGM).toBool())&&(item->isLocal()))
         {
             changeStackOrder(item,VisualItem::FRONT);
