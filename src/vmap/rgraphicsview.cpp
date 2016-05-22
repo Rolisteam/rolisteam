@@ -370,9 +370,10 @@ void RGraphicsView::deleteItem(QList<QGraphicsItem*> list)
 {
     for(QGraphicsItem* item: list)
     {
-        if(NULL!=m_vmap)
+        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
+        if((NULL!=m_vmap)&&(NULL!=vItem))
         {
-            m_vmap->removeItem(item);
+            m_vmap->removeItemFromScene(vItem->getId());
         }
     }
 }
