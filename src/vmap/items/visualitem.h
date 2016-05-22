@@ -159,7 +159,7 @@ public:
      * @param w
      * @param h
      */
-    virtual void setRectSize(qreal w,qreal h);
+    virtual void setRectSize(qreal x,qreal y,qreal w,qreal h);
     /**
      * @brief endOfGeometryChange
      */

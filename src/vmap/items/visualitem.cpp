@@ -159,6 +159,7 @@ void VisualItem::resizeContents(const QRectF& rect, bool keepRatio)
     prepareGeometryChange();
     int width = m_rect.width();
     int height = m_rect.height();
+    //.normalized()
     m_rect = rect;
     if (keepRatio)
     {
@@ -412,11 +413,14 @@ void VisualItem::sendPositionMsg()
         msg.string16(m_id);
         msg.real(pos().x());
         msg.real(pos().y());
+        msg.real(m_rect.x());
+        msg.real(m_rect.y());
         msg.real(m_rect.width());
         msg.real(m_rect.height());
         msg.real(zValue());
         msg.real(rotation());
         msg.sendAll();
+        qDebug() <<"envoie" <<pos() << m_rect ;
    }
 }
 
@@ -424,20 +428,25 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 {
     qreal x = msg->real();
     qreal y = msg->real();
+    qreal xR = msg->real();
+    qreal yR = msg->real();
     qreal w = msg->real();
     qreal h = msg->real();
     qreal z = msg->real();
     qreal rot = msg->real();
+    qDebug() <<"reception" <<pos() << m_rect;
     blockSignals(true);
     setPos(x,y);
-    setRectSize(w,h);
+    setRectSize(xR,yR,w,h);
     setZValue(z);
     setRotation(rot);
     blockSignals(false);
     resizeContents(m_rect);
 }
-void VisualItem::setRectSize(qreal w,qreal h)
+void VisualItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
 {
+    m_rect.setX(x);
+    m_rect.setY(y);
     m_rect.setWidth(w);
     m_rect.setHeight(h);
 }
