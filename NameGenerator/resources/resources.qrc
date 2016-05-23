@@ -8,5 +8,12 @@
         <file>result_Name_Chinese_Male.txt</file>
         <file>result_Name_French_Female.txt</file>
         <file>result_Name_French_Male.txt</file>
+        <file>data_Name_English_Female.txt</file>
+        <file>data_Name_English_Male.txt</file>
+        <file>data_Name_French_Female.txt</file>
+        <file>data_Name_French_Male.txt</file>
+        <file>result_Last_Name_human_star_wars_Male.txt</file>
+        <file>result_Name_human_star_wars_Male.txt</file>
+        <file>data_Last_Name_French.txt</file>
     </qresource>
 </RCC>
