@@ -52,9 +52,15 @@ class NameGeneratorWidget : public QWidget
     Q_OBJECT
 
 public:
-    enum AVAILABLE_GENDER{Female,Male,BOTH};
+    enum AVAILABLE_GENDER{Female,Male,BOTH,NONE};
+    enum TypeOfGeneration{Chinese,Elves,English,French,Japanese,StarWars};
+
     explicit NameGeneratorWidget(QWidget *parent = 0);
     ~NameGeneratorWidget();
+protected:
+    void buildAllNames(int count, QHash<QString, DataBase> data);
+protected slots:
+    void checkFeatureAvailability();
 private slots:
     void generateName();
     bool nextCharacterCanEnd(const QJsonObject& json,QString key);
@@ -62,20 +68,24 @@ private slots:
 
 
 private:
-    QString buildName(const QJsonObject &json,int len);
+    QString buildName(const QJsonObject &json);
+    QString pickUpName(QStringList data);
 
 
 private:
     Ui::NameGeneratorWidget *ui;
     QStringList m_model;
-    QList<DataBase> m_gender;
+    QHash<TypeOfGeneration,QHash<QString,DataBase> > m_complexName;
 };
 
-
+/**
+ * @brief The DataBase struct stored data for database
+ */
 struct DataBase
 {
     NameGeneratorWidget::AVAILABLE_GENDER gender;
     QString filepath;
     int id;
+    bool generate;
 };
 #endif // NAMEGENERATORWIDGET_H

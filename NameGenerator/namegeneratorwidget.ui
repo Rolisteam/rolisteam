@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>332</width>
-    <height>442</height>
+    <height>332</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,17 +76,10 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="1" column="0" colspan="2">
+        <widget class="QCheckBox" name="m_complexName">
          <property name="text">
-          <string>Max length ?</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QSpinBox" name="m_nameLenght">
-         <property name="value">
-          <number>8</number>
+          <string>Complex</string>
          </property>
         </widget>
        </item>
