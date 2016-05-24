@@ -52,7 +52,7 @@ void RuleItem::setNewEnd(QPointF& nend)
     if(m_mod & Qt::ControlModifier)
     {
         QLineF line(m_startPoint,nend);
-        if(abs(line.dx()) > abs(line.dy()))
+        if(fabs(line.dx()) > fabs(line.dy()))
         {
             nend.setY(m_startPoint.y());
         }
