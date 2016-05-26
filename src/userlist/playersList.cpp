@@ -930,9 +930,6 @@ void PlayersList::completeListClean()
     beginResetModel();
     m_playersList.clear();
     m_uuidMap.clear();
-    //reset();
-	//m_localPlayer=NULL;
-	m_playersList.append(m_localPlayer);
     endResetModel();
 
 
