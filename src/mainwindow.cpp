@@ -1374,7 +1374,7 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
     {
         MapFrame* mapFrame = new MapFrame(NULL, m_mdiArea);
 
-        if((NULL!=m_currentConnectionProfile)&&(!mapFrame->processMapMessage(msg,m_currentConnectionProfile->isGM())))
+        if((NULL!=m_currentConnectionProfile)&&(!mapFrame->processMapMessage(msg,!m_currentConnectionProfile->isGM())))
         {
             delete mapFrame;
         }
