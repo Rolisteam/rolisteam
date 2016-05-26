@@ -436,12 +436,21 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
             error(tr("Extract alpha layer information Failed (processMapMessage - mainwindow.cpp)"),this);
             return false;
         }
+
         m_map = new Map(m_localPlayerId,idMap, &originalBackgroundImage, &backgroundImage, &alphaImage);
         m_map->setLocalIsPlayer(localIsPlayer);
         m_map->changePjSize(npSize,false);
 
         m_map->setPermissionMode((Map::PermissionMode)permission);
-        m_map->adapterCoucheAlpha(alphaValue);
+        if(localIsPlayer)
+        {
+            m_map->adapterCoucheAlpha(255);
+        }
+        else
+        {
+            QColor color = m_preferences->value("Fog_color",QColor(50,50,50)).value<QColor>();
+            m_map->adapterCoucheAlpha(color.red());
+        }
 
         emit notifyUser(tr("Receiving map: %1").arg(m_title));
 
