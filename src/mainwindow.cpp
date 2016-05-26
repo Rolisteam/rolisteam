@@ -962,7 +962,7 @@ void MainWindow::updateUi()
     {
         return;
     }
-    m_toolBar->updateUi();
+    m_toolBar->updateUi(m_currentConnectionProfile->isGM());
 #ifndef NULL_PLAYER
     m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
 #endif

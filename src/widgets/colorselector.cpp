@@ -269,6 +269,8 @@ void ColorSelector::checkPermissionColor()
         PreferencesManager::getInstance()->registerValue("Fog_color",QColor(50,50,50),false);
         m_maskColor->setToolTip(tr("Hide"));
         m_unveilColor->setToolTip(tr("Unveil"));
+        m_maskColor->setEnabled(true);
+        m_unveilColor->setEnabled(true);
 	}
 }
 bool ColorSelector::eventFilter(QObject* obj, QEvent* event)

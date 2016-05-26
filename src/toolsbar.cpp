@@ -361,9 +361,14 @@ void ToolsBar::incrementNpcNumber()
 }
 void ToolsBar::updateUi(bool isGM)
 {
+
     if(NULL!=m_color)
     {
         m_color->updateUi(isGM);
+    }
+    if(!isGM)
+    {
+        m_npcDiameter->setVisible(false);
     }
 }
 
