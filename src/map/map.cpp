@@ -71,7 +71,28 @@ Map::Map(QString localPlayerId,QString identCarte, QImage *image, bool masquer, 
 
     p_init();
 }
+Map::Map(QString localPlayerId,QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
+    : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
+{
+       m_localPlayerId = localPlayerId;
 
+    m_currentMode = Map::GM_ONLY;
+    // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
+
+    // Creation de l'image de fond originale qui servira a effacer
+    m_originalBackground = new QImage(original->size(), QImage::Format_ARGB32);
+    *m_originalBackground = original->convertToFormat(QImage::Format_ARGB32);
+
+    // Creation de l'image de fond
+    m_backgroundImage = new QImage(avecAnnotations->size(), QImage::Format_ARGB32_Premultiplied);
+    *m_backgroundImage = avecAnnotations->convertToFormat(QImage::Format_ARGB32_Premultiplied);
+
+    // Creation de la couche alpha qui sera utilisee avec fondAlpha
+    m_alphaLayer = new QImage(coucheAlpha->size(), QImage::Format_ARGB32_Premultiplied);
+    *m_alphaLayer = coucheAlpha->convertToFormat(QImage::Format_ARGB32_Premultiplied);
+
+    p_init();
+}
 
 void Map::p_init()
 {
@@ -144,28 +165,7 @@ void Map::p_init()
 }
 
 
-Map::Map(QString localPlayerId,QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
-    : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
-{
-       m_localPlayerId = localPlayerId;
 
-    m_currentMode = Map::GM_ONLY;
-    // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
-
-    // Creation de l'image de fond originale qui servira a effacer
-    m_originalBackground = new QImage(original->size(), QImage::Format_ARGB32);
-    *m_originalBackground = original->convertToFormat(QImage::Format_ARGB32);
-    
-    // Creation de l'image de fond
-    m_backgroundImage = new QImage(avecAnnotations->size(), QImage::Format_ARGB32_Premultiplied);
-    *m_backgroundImage = avecAnnotations->convertToFormat(QImage::Format_ARGB32_Premultiplied);
-
-    // Creation de la couche alpha qui sera utilisee avec fondAlpha
-    m_alphaLayer = new QImage(coucheAlpha->size(), QImage::Format_ARGB32_Premultiplied);
-    *m_alphaLayer = coucheAlpha->convertToFormat(QImage::Format_ARGB32_Premultiplied);
-
-    p_init();
-}
 Map::~Map()
 {
     delete m_orientCursor;
@@ -841,9 +841,6 @@ bool Map::addAlphaLayer(QImage *source, QImage *alpha, QImage *destination, cons
             pixelDestination[x+y] = (pixelSource[x+y] & 0x00FFFFFF) | ((pixelAlpha[x+y] & 0x00FF0000) << 8);
         }
     }
-
-
-        
     return true;
 }
 
