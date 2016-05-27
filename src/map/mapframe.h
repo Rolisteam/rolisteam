@@ -146,7 +146,12 @@ protected :
 	 * @brief initMap
 	 */
 	void initMap();
-
+    /**
+     * @brief openUriAndLoadMap - open file and call method to read it and sent it over network.
+     * @param uri
+     * @return true the reading was succesfull, false otherwise.
+     */
+    bool openUriAndLoadMap(QString uri);
 private :
 	Map* m_map;
     QPoint pointDepart;
@@ -155,6 +160,7 @@ private :
     QSize m_originalSize;
 	MapWizzard* m_mapWizzard;
     QScrollArea* m_widgetArea;
+    bool m_isHidden;
 };
 
 #endif
