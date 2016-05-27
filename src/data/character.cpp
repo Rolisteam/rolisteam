@@ -31,25 +31,25 @@
 QList<CharacterState*>* Character::m_stateList = NULL;
 
 Character::Character()
-    :Person(), m_currentState(NULL)
+    :Person(), m_currentState(NULL),m_sheet(NULL)
 {
 	init();
 }
 
 Character::Character(const QString & nom, const QColor & color,bool npc,int number)
-    : Person(nom, color), m_isNpc(npc),m_number(number),m_currentState(NULL)
+    : Person(nom, color), m_isNpc(npc),m_number(number),m_currentState(NULL),m_sheet(NULL)
 {
 	init();
 }
 
 Character::Character(const QString & uuid, const QString & nom, const QColor & color,bool npc,int number)
-    : Person(uuid, nom, color),m_isNpc(npc),m_number(number),m_currentState(NULL)
+    : Person(uuid, nom, color),m_isNpc(npc),m_number(number),m_currentState(NULL),m_sheet(NULL)
 {
 	init();
 }
 
 Character::Character(NetworkMessageReader & data)
-    : Person(), m_currentState(NULL)
+    : Person(), m_currentState(NULL),m_sheet(NULL)
 {
     read(data);
 
