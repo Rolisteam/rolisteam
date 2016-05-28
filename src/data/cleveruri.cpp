@@ -212,6 +212,10 @@ void CleverURI::read(QDataStream &in)
     {
         m_data.clear();
     }
+    else
+    {
+        m_uri.clear();
+    }
 }
 
 QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
