@@ -74,7 +74,8 @@ Map::Map(QString localPlayerId,QString identCarte, QImage *image, bool masquer, 
 Map::Map(QString localPlayerId,QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
     : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
 {
-       m_localPlayerId = localPlayerId;
+    m_localPlayerId = localPlayerId;
+
 
     m_currentMode = Map::GM_ONLY;
     // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
@@ -709,13 +710,13 @@ void Map::paintMap(QPainter &painter)
     }
             
     else
-		qWarning() << tr("undefined drawing tools (paintMap - map.cpp)");
+        qWarning() << tr("undefined drawing tools (paintMap - map.cpp)");
 }
 
 QRect Map::zoneARafraichir()
 {
     QRect resultat;
-    
+
 
     QPoint supGauche, infDroit;
     int gauche = m_originePoint.x()<m_mousePoint.x()?m_originePoint.x():m_mousePoint.x();
