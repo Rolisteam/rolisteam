@@ -2069,6 +2069,10 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
 
 void MainWindow::openCleverURI(CleverURI* uri,bool force)
 {
+    if(NULL==uri)
+    {
+        return;
+    }
     if((uri->isDisplayed())&&(!force))
     {
         showCleverUri(uri);
@@ -2102,6 +2106,7 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     }
     if(tmp!=NULL)
     {
+        tmp->setLocalPlayerId(m_localPlayerId);
         tmp->setCleverUri(uri);
         if(tmp->readFileFromUri())
         {
