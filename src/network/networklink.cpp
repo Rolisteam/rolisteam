@@ -26,11 +26,9 @@
 
 #include "network/networklink.h"
 
-#include "map/map.h"
-#include "map/mapframe.h"
 #include "network/networkmanager.h"
 #include "map/charactertoken.h"
-#include "Image.h"
+//#include "Image.h"
 #include "data/person.h"
 #include "userlist/playersList.h"
 #include "network/receiveevent.h"

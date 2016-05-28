@@ -37,7 +37,7 @@
 #include "data/cleveruri.h"
 #include "data/mediacontainer.h"
 
-#include "map/map.h"
+//#include "map/map.h"
 #include "map/charactertoken.h"
 
 #include "preferences/preferencesmanager.h"
