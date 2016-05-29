@@ -157,8 +157,8 @@ bool MapFrame::readFileFromUri()
     {//load from uri data
         QByteArray array = m_uri->getData();
         QDataStream in(&array,QIODevice::ReadOnly);
-        in >> m_isHidden;
-
+        //in >> m_isHidden;
+        m_isHidden = false;
         readMapAndNpc(in,m_isHidden);
         m_title = m_uri->name();
     }
@@ -521,7 +521,7 @@ void MapFrame::putDataIntoCleverUri()
     {
         QByteArray data;
         QDataStream out(&data,QIODevice::WriteOnly);
-        out << m_isHidden;
+        //out << m_isHidden;
         m_map->saveMap(out);
         if(NULL!=m_uri)
         {
