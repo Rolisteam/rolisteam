@@ -119,7 +119,6 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
     }
     else
     {
-        qDebug() << "parent is nulll";
         message.string8("NULL");
     }
     message.string8(m_uuid);
