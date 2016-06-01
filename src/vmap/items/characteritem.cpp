@@ -61,7 +61,7 @@ void CharacterItem::writeData(QDataStream& out) const
     out << m_diameter;
     out << *m_thumnails;
     out << m_rect;
-    out << m_layer;
+    out << (int)m_layer;
     //out << zValue();
     if(NULL!=m_character)
     {
@@ -84,9 +84,6 @@ void CharacterItem::readData(QDataStream& in)
     int tmp;
     in >> tmp;
     m_layer = (VisualItem::Layer)tmp;
-    //qreal zVal;
-    //in >>  zVal;
-    //setZValue(zVal);
     bool hasCharacter;
     in >> hasCharacter;
     m_character = new Character();
@@ -275,7 +272,6 @@ int CharacterItem::getRadius() const
 }
 void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 {
-    qDebug() << "Fill message characterItem";
     msg->string16(m_id);
     msg->real(scale());
     msg->real(rotation());
@@ -309,7 +305,6 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     msg->byteArray32(data);
 
     m_character->fill(*msg,false);
-
     m_vision->fill(msg);
 }
 void CharacterItem::readItem(NetworkMessageReader* msg)
