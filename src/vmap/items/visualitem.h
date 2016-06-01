@@ -44,7 +44,7 @@ public:
     /**
      * @brief The Layer enum
      */
-    enum Layer{GROUND,OBJECT,CHARACTER_LAYER,FOG};
+    enum Layer{GROUND,OBJECT,CHARACTER_LAYER,FOG,NONE};
     /**
      * @brief The StackOrder enum
      */
@@ -348,7 +348,7 @@ protected:
 
 protected:
     QColor m_color;
-    ItemType m_type;
+    //ItemType m_type;
     QString m_id;
     QString m_mapId;
 	bool m_editable;
