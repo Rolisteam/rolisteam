@@ -368,9 +368,17 @@ void RGraphicsView::setItemLayer(QList<QGraphicsItem*> list,VisualItem::Layer la
 }
 void RGraphicsView::deleteItem(QList<QGraphicsItem*> list)
 {
+    QList<VisualItem*> vItemlist;
     for(QGraphicsItem* item: list)
     {
         VisualItem* vItem = dynamic_cast<VisualItem*>(item);
+        if(NULL!=vItem)
+        {
+            vItemlist.append(vItem);
+        }
+    }
+    for(VisualItem* vItem: vItemlist)
+    {
         if((NULL!=m_vmap)&&(NULL!=vItem))
         {
             m_vmap->removeItemFromScene(vItem->getId());
