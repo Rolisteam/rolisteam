@@ -684,7 +684,7 @@ void VMap::saveFile(QDataStream& out)
         VisualItem* tmp = m_itemMap->value(key);
         if(NULL!=tmp)
         {
-            out << tmp->getType() << *tmp << tmp->pos().x() << tmp->pos().y();
+            out << (int)tmp->getType() << *tmp << tmp->pos().x() << tmp->pos().y();
         }
     }
 }
@@ -756,13 +756,13 @@ void VMap::openFile(QDataStream& in)
                 item= new ImageItem();
                 break;
             default:
-                qDebug() << "not managed item"<< type;
                 break;
 
             }
             if(NULL!=item)
             {
                 in >> *item;
+
                 qreal x,y;
                 in >> x;
                 in >> y;
@@ -944,7 +944,6 @@ void VMap::processOpacityMessage(NetworkMessageReader* msg)
 }
 void VMap::processLayerMessage(NetworkMessageReader* msg)
 {
-    qDebug() << "processe Layer Message;";
     if(NULL!=msg)
     {
         QString id = msg->string16();
@@ -959,19 +958,8 @@ void VMap::processDelItemMessage(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
     {
-        qDebug() << "remove processDelItemMessage";
         QString id = msg->string16();
         removeItemFromScene(id,false);
-        //VisualItem* item = m_itemMap->value(id);
-       /* if(NULL!=item)
-        {
-            m_itemMap->remove(id);
-            m_sortedItemList.removeAll(id);
-            m_characterItemMap->remove(id);
-            QGraphicsScene::removeItem(item);
-            delete item;
-        }*/
-
     }
 }
 void VMap::processSetParentItem(NetworkMessageReader* msg)
@@ -1014,34 +1002,53 @@ void VMap::addNewItem(VisualItem* item)
 
         connect(item,SIGNAL(changeStackPosition(VisualItem*,VisualItem::StackOrder)),this,SLOT(changeStackOrder(VisualItem*,VisualItem::StackOrder)));
 
-        item->setLayer(m_currentLayer);
+
+        //Todo Remove this line:
+        if(item->getLayer() == VisualItem::NONE)
+        {
+            item->setLayer(m_currentLayer);
+        }
         QGraphicsScene::addItem(item);
 
 
 
-        if(item!=m_sightItem)
+        if((getOption(VisualItem::LocalIsGM).toBool()))//GM
         {
-          item->setEditableItem(getOption(VisualItem::LocalIsGM).toBool());
-        }
-        if(getPermissionMode() == Map::PC_ALL)
-        {
-            item->setEditableItem(true);
-        }
-        else if(getPermissionMode() == Map::PC_MOVE)
-        {
-            if(item->getType()!=VisualItem::CHARACTER)
+            if(item!=m_sightItem)
             {
-                item->setEditableItem(false);
+                item->setEditableItem(true);
             }
             else
             {
-                CharacterItem* charItem = dynamic_cast<CharacterItem*>(item);
-                if(NULL != charItem )
+                item->setEditableItem(false);
+            }
+        }
+        else//Player
+        {
+            if(getPermissionMode() == Map::PC_ALL)
+            {
+                item->setEditableItem(true);
+            }
+            else if(getPermissionMode() == Map::GM_ONLY)
+            {
+                item->setEditableItem(false);
+            }
+            else if(getPermissionMode() == Map::PC_MOVE)
+            {
+                if(item->getType()!=VisualItem::CHARACTER)
                 {
-                    if(charItem->getParentId() == m_localUserId)//LocalUser is owner of item.
+                    item->setEditableItem(false);
+                }
+                else
+                {
+                    CharacterItem* charItem = dynamic_cast<CharacterItem*>(item);
+                    if(NULL != charItem )
                     {
-                        item->setEditableItem(false);
-                        charItem->setCharacterIsMovable(true);
+                        if(charItem->getParentId() == m_localUserId)//LocalUser is owner of item.
+                        {
+                            item->setEditableItem(false);
+                            charItem->setCharacterIsMovable(true);
+                        }
                     }
                 }
             }
@@ -1187,6 +1194,7 @@ void VMap::keyPressEvent(QKeyEvent* event)
             removeItemFromScene(id);
         }
         event->accept();
+        return;
     }
     QGraphicsScene::keyPressEvent(event);
 }
