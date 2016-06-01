@@ -58,7 +58,7 @@ void VisualItem::init()
 {
     createActions();
     m_propertiesHash = NULL;
-    m_layer = VisualItem::GROUND;
+    m_layer = VisualItem::NONE;
     QActionGroup* group = new QActionGroup(this);
 	m_putGroundLayer = new QAction(s_layerName[0],this);
     m_putGroundLayer->setData(VisualItem::GROUND);
@@ -420,7 +420,6 @@ void VisualItem::sendPositionMsg()
         msg.real(zValue());
         msg.real(rotation());
         msg.sendAll();
-        qDebug() <<"envoie" <<pos() << m_rect ;
    }
 }
 
