@@ -1166,7 +1166,7 @@ void VMap::keyPressEvent(QKeyEvent* event)
     if(event->key ()==Qt::Key_Delete)
     {
         QStringList idListToRemove;
-        foreach(QGraphicsItem* item, selectedItems())
+        for(QGraphicsItem* item : selectedItems())
         {
             VisualItem* itemV = dynamic_cast<VisualItem*>(item);
             if(NULL!=itemV)
@@ -1174,14 +1174,16 @@ void VMap::keyPressEvent(QKeyEvent* event)
                 if(itemV->getType() == VisualItem::CHARACTER)
                 {
                        CharacterItem* itemC = dynamic_cast<CharacterItem*>(itemV);
-                       if(itemC->isLocal())
+
+                       if(((getOption(VisualItem::LocalIsGM).toBool())||getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL)||
+                         (itemC->isLocal()&&(getOption(VisualItem::PermissionMode).toInt()!=Map::PC_MOVE)))
                        {
                            idListToRemove << itemV->getId();
                        }
                 }
                 else if(itemV->isEditable())
                 {
-                    if((!getOption(VisualItem::LocalIsGM).toBool())&&
+                    if((getOption(VisualItem::LocalIsGM).toBool())||(!getOption(VisualItem::LocalIsGM).toBool())&&
                        (getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL))
                     {
                         idListToRemove << itemV->getId();
@@ -1193,8 +1195,9 @@ void VMap::keyPressEvent(QKeyEvent* event)
         {
             removeItemFromScene(id);
         }
+        setFocusItem(NULL);
         event->accept();
-        return;
+      //  return;
     }
     QGraphicsScene::keyPressEvent(event);
 }
