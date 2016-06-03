@@ -52,7 +52,7 @@ public:
 public slots:
     void addImageToMap();
 protected:
-    void keyPressEvent ( QKeyEvent * event);
+   // void keyPressEvent ( QKeyEvent * event);
     void mousePressEvent ( QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent *event);
     void focusInEvent ( QFocusEvent * event );
