@@ -2271,9 +2271,9 @@ void MainWindow::dropEvent(QDropEvent* event)
             {
             case CleverURI::MAP:
                 tmp = new MapFrame();
-                prepareMap(static_cast<MapFrame*>(tmp));
                 tmp->setCleverUri(uri);
                 tmp->readFileFromUri();
+                prepareMap(static_cast<MapFrame*>(tmp));
                 addMediaToMdiArea(tmp);
                 tmp->setVisible(true);
                 break;
