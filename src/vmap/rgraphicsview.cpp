@@ -55,10 +55,7 @@ RGraphicsView::RGraphicsView(VMap *vmap)
 
     vmap->initScene();
 }
-void RGraphicsView::keyPressEvent ( QKeyEvent * event)
-{
-    QGraphicsView::keyPressEvent(event);
-}
+
 void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 {
 	if(m_currentTool == VToolsBar::HANDLER)
