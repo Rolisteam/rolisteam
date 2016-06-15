@@ -21,6 +21,9 @@
 #include <QPainterPath>
 #include <QPainter>
 #include <QMenu>
+#include <QDebug>
+
+
 
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
@@ -64,7 +67,7 @@ QPainterPath PathItem::shape () const
 {
 	QPainterPath path;
 	path.moveTo(m_start);
-	foreach(QPointF p,m_pointVector)
+    for(QPointF p : m_pointVector)
 	{
 		path.lineTo(p);
 	}
@@ -80,6 +83,7 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         path.moveTo(m_start);
         foreach(QPointF p,m_pointVector)
         {
+            qDebug() << p << m_start;
             path.lineTo(p);
         }
         if(m_closed)
@@ -126,6 +130,7 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 void PathItem::setNewEnd(QPointF& p)
 {
     m_end = p;
+    qDebug() << p << m_start << m_pointVector.size();
     if(m_penMode)
     {
         m_pointVector.append(p);
@@ -139,10 +144,14 @@ void PathItem::release()
 {
     if(!m_penMode)
     {
-        m_pointVector.append(m_end);
-        update();
-        initChildPointItem();
-        emit itemGeometryChanged(this);
+        if(m_end != m_start)
+        {
+            m_pointVector.append(m_end);
+            update();
+            initChildPointItem();
+            emit itemGeometryChanged(this);
+        }
+        m_end = QPointF();
     }
 }
 
