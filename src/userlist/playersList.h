@@ -135,7 +135,7 @@ signals:
     /**
      * @brief Send when local is client and the server refused local player to be GM.
      */
-    void localGMRefused();
+    void localGMRefused(bool);
 
 
 private slots:

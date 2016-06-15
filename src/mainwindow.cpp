@@ -290,11 +290,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
         event->ignore();
     }
 }
-void MainWindow::userNatureChange()
+void MainWindow::userNatureChange(bool isGM)
 {
-    m_toolBar->updateUi();
-    updateUi();
-    updateWindowTitle();
+    if(NULL!=m_currentConnectionProfile)
+    {
+        m_currentConnectionProfile->setGm(isGM);
+        updateUi();
+        updateWindowTitle();
+    }
 }
 NetworkManager* MainWindow::getNetWorkManager()
 {
@@ -887,7 +890,7 @@ void MainWindow::setUpNetworkConnection()
 {
     if((m_currentConnectionProfile!=NULL)&&(!m_currentConnectionProfile->isServer()))
     {
-        connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(userNatureChange()));
+        connect(m_playerList, SIGNAL(localGMRefused(bool)), this, SLOT(userNatureChange(bool)));
         connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
     }
     else
