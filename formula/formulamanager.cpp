@@ -20,6 +20,38 @@
 #include "formulamanager.h"
 
 FormulaManager::FormulaManager()
+    : m_startingNode(NULL)
 {
+    m_parsingTool = new ParsingToolFormula();
+}
+
+QVariant FormulaManager::getValue(QString i)
+{
+    m_formula = i;
+    if(parseLine(i))
+    {
+        return startComputing();
+    }
+}
+
+bool FormulaManager::parseLine(QString& str)
+{
+
+   return readFormula(str);
+}
+
+QVariant FormulaManager::startComputing()
+{
+    m_startingNode->run(NULL);
+
+
+    //TODO display result;
+    delete m_startingNode;
+}
+
+bool FormulaManager::readFormula(QString &str)
+{
+    m_startingNode = new StartNode();
+    return m_parsingTool->readFormula(str,m_startingNode);
 
 }

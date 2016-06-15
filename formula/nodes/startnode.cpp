@@ -23,3 +23,11 @@ StartNode::StartNode()
 {
 
 }
+
+bool StartNode::run(FormulaNode *previous)
+{
+    if(0 != m_next)
+    {
+        m_next->run(this);
+    }
+}

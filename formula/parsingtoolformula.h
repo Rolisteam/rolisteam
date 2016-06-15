@@ -20,11 +20,28 @@
 #ifndef PARSINGTOOLFORMULA_H
 #define PARSINGTOOLFORMULA_H
 
+#include <QString>
+#include <QHash>
+
+#include "nodes/formulanode.h"
 
 class ParsingToolFormula
 {
 public:
+    enum FormulaOperator {ABS,MIN,MAX,IF,FLOOR,CEIL,AVG};
     ParsingToolFormula();
+
+
+
+    bool readFormula(QString&, FormulaNode*);
+    bool readScalarOperator(QString&, FormulaNode*);
+    bool readOperand(QString&, FormulaNode* );
+    bool readOperator(QString&, FormulaNode*);
+    bool readFieldRef(QString&, FormulaNode*);
+    bool readNumber(QString&, FormulaNode*);
+
+private:
+    QHash<QString,ParsingToolFormula::FormulaOperator>* m_hashOp;
 };
 
 #endif // PARSINGTOOLFORMULA_H

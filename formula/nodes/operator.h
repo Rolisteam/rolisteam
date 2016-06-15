@@ -19,12 +19,27 @@
     ***************************************************************************/
 #ifndef OPERATOR_H
 #define OPERATOR_H
+#include <QList>
 
-
-class Operator
+#include "formulanode.h"
+#include "../parsingtoolformula.h"
+/**
+ * @brief The OperatorFNode class
+ */
+class OperatorFNode : public FormulaNode
 {
 public:
-    Operator();
+    OperatorFNode();
+
+    ParsingToolFormula::FormulaOperator getOperator() const;
+    void setOperator(const ParsingToolFormula::FormulaOperator &ope);
+
+    virtual bool run(FormulaNode* previous);
+    void addParameter(FormulaNode* node);
+
+private:
+    ParsingToolFormula::FormulaOperator m_operator;
+    QList<FormulaNode*> m_parameters;
 };
 
 #endif // OPERATOR_H

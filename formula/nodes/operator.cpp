@@ -19,7 +19,27 @@
     ***************************************************************************/
 #include "operator.h"
 
-Operator::Operator()
+OperatorFNode::OperatorFNode()
 {
 
+}
+
+ParsingToolFormula::FormulaOperator OperatorFNode::getOperator() const
+{
+
+}
+
+void OperatorFNode::setOperator(const ParsingToolFormula::FormulaOperator &ope)
+{
+
+}
+
+bool OperatorFNode::run(FormulaNode *previous)
+{
+
+}
+
+void OperatorFNode::addParameter(FormulaNode *node)
+{
+    m_parameters.append(node);
 }

@@ -21,11 +21,52 @@
 #define FORMULAMANAGER_H
 
 #include <QObject>
+#include <QString>
+#include <QVariant>
+/**
+ * @page FormulaManager Formula Manager
+ *
+ * @section Intro Introduction
+ * FormulaManager is the software component dedicated to compute charactersheet formula in rolisteam.<br/>
+ *
+ * @section grammar The Grammar
+ *
+ * The grammar looks like this:
+ *
+ * Formula =: Operand | ScalarOperator Operand<br/>
+ * Operand =: number | Field Ref | operator <br/>
+ * Field Ref =: ${[A-z[A-z|0-9]+}<br/>
+ * Operator =: [abs | min | max | floor | ceil | avg](Formula[,Formula]*)
+ * ScalarOperator =: [x,-,*,/]<br/>
+ * number =: [0-9]+<br/>
+ * Word =: [A-z]+<br/>
+ *
+ */
 
+#include "parsingtoolformula.h"
+#include "nodes/startnode.h"
+/**
+ * @brief The FormulaManager class
+ */
 class FormulaManager
 {
 public:
     FormulaManager();
+
+    QVariant getValue(QString i);
+protected:
+    bool parseLine(QString& str);
+    QVariant startComputing();
+
+
+    bool readFormula(QString& str);
+
+
+private:
+    QString m_formula;
+    ParsingToolFormula* m_parsingTool;
+    StartNode* m_startingNode;
+
 };
 
 #endif // FORMULAMANAGER_H

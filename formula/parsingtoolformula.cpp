@@ -18,8 +18,122 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "parsingtoolformula.h"
+#include "nodes/operator.h"
 
 ParsingToolFormula::ParsingToolFormula()
 {
+    //ABS,MIN,MAX,IF,FLOOR,CEIL,AVG
+    m_hashOp = new QHash<QString,ParsingToolFormula::FormulaOperator>();
+    m_hashOp->insert(QStringLiteral("abs"),ABS);
+    m_hashOp->insert(QStringLiteral("min"),MIN);
+    m_hashOp->insert(QStringLiteral("max"),MAX);
+    m_hashOp->insert(QStringLiteral("if"),IF);
+    m_hashOp->insert(QStringLiteral("floor"),FLOOR);
+    m_hashOp->insert(QStringLiteral("ceil"),CEIL);
+    m_hashOp->insert(QStringLiteral("avg"),AVG);
+}
+
+bool ParsingToolFormula::readFormula(QString& str, FormulaNode* previous)
+{
+    if(readOperand(str,previous))
+    {
+        while(readScalarOperator(str,previous))
+        {
+            if(!readOperand(str,previous))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    else
+        return false;
+}
+
+bool ParsingToolFormula::readScalarOperator(QString& str, FormulaNode* previous)
+{
 
 }
+
+bool ParsingToolFormula::readOperand(QString & str, FormulaNode * previous)
+{
+    if(readNumber(str,previous))
+    {
+        return true;
+    }
+    else if(readFieldRef(str,previous))
+    {
+        return true;
+    }
+    else if(readOperator(str,previous))
+    {
+        return true;
+    }
+    return false;
+}
+
+bool ParsingToolFormula::readOperator(QString& str, FormulaNode* previous)
+{
+    bool found = false;
+    for(int i = 0; i < m_hashOp->keys().size() && !found ; ++i)
+    {
+        QString key = m_hashOp->keys().at(i);
+        if(str.startsWith(key))
+        {
+            str=str.remove(0,key.size());
+            OperatorFNode* node = new OperatorFNode();
+            previous->setNext(node);
+            node->setOperator(m_hashOp->value(key));
+            FormulaNode* nextNode=NULL;
+            if(str.startsWith("("))
+            {
+                while(readFormula(str,nextNode))
+                {
+                   node->addParameter(nextNode);
+                   nextNode=NULL;
+                   if(str.startsWith(","))
+                   {
+                       str=str.remove(0,1);
+                   }
+                }
+                if(str.startsWith(")"))
+                {
+                    str=str.remove(0,1);
+                }
+            }
+
+        }
+    }
+
+}
+
+bool ParsingToolFormula::readFieldRef(QString& str, FormulaNode* previous)
+{
+
+}
+
+bool ParsingToolFormula::readNumber(QString& str, FormulaNode* previous)
+{
+    if(str.isEmpty())
+        return false;
+
+    QString number;
+    int i=0;
+    while(i<str.length() && ((str[i].isNumber()) || (str[i]=='.') || ( (i==0) && (str[i]=='-'))))
+    {
+        number+=str[i];
+        ++i;
+    }
+
+    bool ok;
+    qreal r = number.toDouble(&ok);
+    if(ok)
+    {
+        str=str.remove(0,number.size());
+        return true;
+    }
+
+
+    return false;
+}
+

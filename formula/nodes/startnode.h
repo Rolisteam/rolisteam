@@ -20,11 +20,15 @@
 #ifndef STARTNODE_H
 #define STARTNODE_H
 
+#include "formulanode.h"
+
 
 class StartNode : public FormulaNode
 {
 public:
     StartNode();
+    virtual bool run(FormulaNode *previous);
+
 };
 
 #endif // STARTNODE_H

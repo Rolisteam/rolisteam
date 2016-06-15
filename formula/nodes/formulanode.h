@@ -20,11 +20,20 @@
 #ifndef FORMULANODE_H
 #define FORMULANODE_H
 
-
+/**
+ * @brief The FormulaNode class abstract class for all nodes.
+ */
 class FormulaNode
 {
 public:
     FormulaNode();
+
+    virtual bool run(FormulaNode* previous) = 0;
+    FormulaNode *next() const;
+    void setNext(FormulaNode *next);
+
+protected:
+    FormulaNode* m_next;
 };
 
 #endif // FORMULANODE_H

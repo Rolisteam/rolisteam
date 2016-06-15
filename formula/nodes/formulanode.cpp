@@ -20,6 +20,17 @@
 #include "formulanode.h"
 
 FormulaNode::FormulaNode()
+    : m_next(0)
 {
 
+}
+
+FormulaNode *FormulaNode::next() const
+{
+    return m_next;
+}
+
+void FormulaNode::setNext(FormulaNode *next)
+{
+    m_next = next;
 }
