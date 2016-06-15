@@ -174,6 +174,7 @@ void VMapFrame::openFile(const QString& filepath)
         QDataStream in(&input);
         createView();
         m_vmap->openFile(in);
+        m_vmap->setVisibilityMode(VMap::HIDDEN);
         updateMap();
         //m_vmap->openItemsInFile(in);
     }
