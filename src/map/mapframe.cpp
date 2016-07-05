@@ -63,7 +63,8 @@ void MapFrame::initMap()
 {
 	if(NULL!=m_map)
 	{
-        setTitle(m_title);
+        //setTitle(m_title);
+        updateTitle();
 		m_originalSize = m_map->size();
         m_widgetArea->setWidget(m_map);
         //m_widgetArea->setViewportMargins(0,0,0,0);
@@ -74,8 +75,32 @@ void MapFrame::initMap()
                 this, SLOT(startMoving(QPoint)));
 		connect(m_map, SIGNAL(deplacerBipMapWindow(QPoint)),
                 this, SLOT(moveMap(QPoint)));
+        connect(m_map,SIGNAL(permissionModeChanged()),this,SLOT(updateTitle()));
 	}
 }
+void MapFrame::updateTitle()
+{
+    QString realTitle(tr("%1 - Permission: %2"));
+
+    if(m_map->getPermissionMode()==Map::GM_ONLY)
+    {
+        realTitle= realTitle.arg(m_title).arg(tr("GM Only"));
+    }
+    else if(m_map->getPermissionMode()==Map::PC_ALL)
+    {
+        realTitle=realTitle.arg(m_title).arg(tr("All"));
+    }
+    else if(m_map->getPermissionMode()==Map::PC_MOVE)
+    {
+        realTitle=realTitle.arg(m_title).arg(tr("Pc Move"));
+    }
+    else
+    {
+        realTitle=realTitle.arg(m_title).arg(tr("Unknown"));
+    }
+    setTitle(realTitle);
+}
+
 Map* MapFrame::getMap()
 {
 	return m_map;
@@ -202,6 +227,7 @@ bool MapFrame::readFileFromUri()
             // Creation de la carte
             m_map = new Map(m_localPlayerId,idMap, &image, m_isHidden);
             m_map->setPermissionMode(Permission);
+
 
             //addMap(bipMapWindow, title);
 

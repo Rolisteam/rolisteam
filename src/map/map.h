@@ -122,6 +122,7 @@ signals :
     void setPcSize(int nouvelleTaille);
     void commencerDeplacementBipMapWindow(QPoint position);
     void deplacerBipMapWindow(QPoint position);
+    void permissionModeChanged();
 
 
 protected :
