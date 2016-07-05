@@ -213,6 +213,8 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     blockSignals(false);
     emit mapStatutChanged();
 }
+
+
 VisualItem::Layer VMap::getCurrentLayer() const
 {
     return m_currentLayer;

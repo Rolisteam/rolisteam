@@ -35,6 +35,8 @@
 #include "vmap.h"
 #include "data/mediacontainer.h"
 #include "vmap/vtoolbar.h"
+#include "network/networkreceiver.h"
+
 //#include "MainWindow.h"
 
 /**
@@ -158,6 +160,7 @@ public :
      */
     virtual QString getMediaId();
     void putDataIntoCleverUri();
+    NetWorkReceiver::SendType processMessage(NetworkMessageReader *msg);
 public slots :
 	/**
 	 * @brief setCleverURI

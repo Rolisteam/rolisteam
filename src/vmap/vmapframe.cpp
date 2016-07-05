@@ -29,6 +29,7 @@
 #include "map/mapwizzard.h"
 
 #include "network/networkmessagewriter.h"
+#include "network/networkmessagereader.h"
 
 VMapFrame::VMapFrame()
     : MediaContainer(),m_graphicView(NULL),m_currentEditingMode(0)
@@ -44,7 +45,7 @@ VMapFrame::VMapFrame(CleverURI* uri,VMap *map)
     m_uri =uri;
     
     createView();
-    updateMap();  
+    updateMap();
 }
 
 
@@ -57,7 +58,7 @@ VMapFrame::~VMapFrame()
 void VMapFrame::closeEvent(QCloseEvent *event)
 {
     hide();
-	event->accept();
+    event->accept();
 }
 void  VMapFrame::createView()
 {
@@ -74,17 +75,17 @@ void VMapFrame::updateMap()
     setTitle(m_vmap->getMapTitle());
     m_graphicView->setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setGeometry(m_graphicView->geometry());
-	setWidget(m_graphicView);
+    setWidget(m_graphicView);
     setWindowIcon(QIcon(":/map.png"));
     m_vmap->setVisibilityMode(m_vmap->getVisibilityMode());
 
-	updateTitle();
+    updateTitle();
 }
 void VMapFrame::updateTitle()
 {
     setWindowTitle(tr("%1 - visibility: %2 - permission: %3 - layer: %4").arg(m_vmap->getMapTitle())
-				   .arg(m_vmap->getVisibilityModeText())
-				   .arg(m_vmap->getPermissionModeText())
+                   .arg(m_vmap->getVisibilityModeText())
+                   .arg(m_vmap->getPermissionModeText())
                    .arg(m_vmap->getCurrentLayerText()));
 }
 
@@ -109,9 +110,9 @@ void VMapFrame::currentToolChanged(VToolsBar::SelectableTool selectedtool)
     {
         m_vmap->setCurrentTool(selectedtool);
     }
-	if(NULL!=m_graphicView)
-	{
-		m_graphicView->currentToolChanged(selectedtool);
+    if(NULL!=m_graphicView)
+    {
+        m_graphicView->currentToolChanged(selectedtool);
 
         switch (m_currentTool)
         {
@@ -258,6 +259,69 @@ QDockWidget* VMapFrame::getDockWidget()
     return NULL;
     //return m_toolsbar;
 }
+
+NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
+{
+    NetWorkReceiver::SendType type = NetWorkReceiver::NONE;
+    if(NULL==m_vmap)
+        return type;
+
+    switch(msg->action())
+    {
+        case NetMsg::DelPoint:
+            break;
+        case NetMsg::addItem:
+        {
+            m_vmap->processAddItemMessage(msg);
+            type = NetWorkReceiver::AllExceptSender;
+        }
+                    break;
+        case NetMsg::DelItem:
+        {
+            m_vmap->processDelItemMessage(msg);
+        }
+            break;
+        case NetMsg::MoveItem:
+        {
+                m_vmap->processMoveItemMessage(msg);
+        }
+            break;
+
+        case NetMsg::GeometryItemChanged:
+        {
+                m_vmap->processGeometryChangeItem(msg);
+        }
+            break;
+        case NetMsg::OpacityItemChanged:
+        {
+                m_vmap->processOpacityMessage(msg);
+        }
+            break;
+        case NetMsg::LayerItemChanged:
+        {
+                m_vmap->processLayerMessage(msg);
+        }
+            break;
+        case NetMsg::vmapChanges:
+        {
+            //m_vmap->processMapPropertyChange(msg);
+            m_vmap->readMessage(*msg,false);
+        }
+            break;
+        case NetMsg::GeometryViewChanged:
+        {
+             //m_vmap->processGeometryViewChange(msg);
+             m_graphicView->readMessage(msg);
+        }
+            break;
+        case NetMsg::SetParentItem:
+        {
+            m_vmap->processSetParentItem(msg);
+        }
+        break;
+    }
+}
+
 bool VMapFrame::readFileFromUri()
 {
     openFile(m_uri->getUri());
