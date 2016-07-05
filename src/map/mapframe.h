@@ -136,6 +136,7 @@ public slots :
     void moveMap(QPoint position);
 
 
+    void updateTitle();
 protected :
     /**
      * @brief focusInEvent

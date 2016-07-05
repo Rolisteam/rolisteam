@@ -780,7 +780,7 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
             {
                 m_localPlayer->setGM(false);
                 notifyPersonChanged(actualPlayer);
-                emit localGMRefused();
+                emit localGMRefused(false);
             }
         }
         else

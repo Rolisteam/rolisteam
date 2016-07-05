@@ -290,11 +290,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
         event->ignore();
     }
 }
-void MainWindow::userNatureChange()
+void MainWindow::userNatureChange(bool isGM)
 {
-    m_toolBar->updateUi();
-    updateUi();
-    updateWindowTitle();
+    if(NULL!=m_currentConnectionProfile)
+    {
+        m_currentConnectionProfile->setGm(isGM);
+        updateUi();
+        updateWindowTitle();
+    }
 }
 NetworkManager* MainWindow::getNetWorkManager()
 {
@@ -887,7 +890,7 @@ void MainWindow::setUpNetworkConnection()
 {
     if((m_currentConnectionProfile!=NULL)&&(!m_currentConnectionProfile->isServer()))
     {
-        connect(m_playerList, SIGNAL(localGMRefused()), this, SLOT(userNatureChange()));
+        connect(m_playerList, SIGNAL(localGMRefused(bool)), this, SLOT(userNatureChange(bool)));
         connect(this, SIGNAL(closing()), m_playerList, SLOT(sendDelLocalPlayer()));
     }
     else
@@ -1853,18 +1856,28 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
         removeVMapFromId(vmapId);
     }
         break;
+    case NetMsg::DelPoint:
+        break;
     case NetMsg::addItem:
+    case NetMsg::DelItem:
+    case NetMsg::MoveItem:
+    case NetMsg::GeometryItemChanged:
+    case NetMsg::OpacityItemChanged:
+    case NetMsg::LayerItemChanged:
+    case NetMsg::vmapChanges:
+    case NetMsg::GeometryViewChanged:
+    case NetMsg::SetParentItem:
     {
         QString vmapId = msg->string8();
         VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
         if(NULL!=tmp)
         {
-            tmp->processAddItemMessage(msg);
-            type = NetWorkReceiver::AllExceptSender;
+            type = tmp->processMessage(msg);
+            //type = NetWorkReceiver::AllExceptSender;
         }
     }
         break;
-    case NetMsg::DelItem:
+    /*case NetMsg::DelItem:
     {
         QString vmapId = msg->string8();
         VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);
@@ -1947,7 +1960,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
             tmp->processSetParentItem(msg);
         }
     }
-        break;
+        break;*/
     }
 
     return type;

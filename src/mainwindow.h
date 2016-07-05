@@ -140,7 +140,7 @@ public :
      * @brief registerSubWindow
      * @param subWindow
      */
-    QWidget* registerSubWindow(QWidget * subWindow, QAction* action);
+    QWidget* registerSubWindow(QWidget* subWindow, QAction* action);
     /**
      * @brief setupUi
      */
@@ -258,7 +258,7 @@ protected :
     void saveAllMediaContainer();
     void saveMedia(MediaContainer *mediaC,bool AskPath, bool saveAs);
 private slots :
-    void userNatureChange();
+    void userNatureChange(bool isGM);
     void activeWindowChanged(QMdiSubWindow* widget);
     void newMap();
     void newVectorialMap();

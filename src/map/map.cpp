@@ -2055,6 +2055,7 @@ bool Map::selectCharacter(QString& id)
 void Map::setPermissionMode(Map::PermissionMode mode)
 {
     m_currentMode = mode;
+    emit permissionModeChanged();
 }
 Map::PermissionMode Map::getPermissionMode()
 {
