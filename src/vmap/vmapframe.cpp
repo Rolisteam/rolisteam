@@ -342,3 +342,25 @@ QString VMapFrame::getMediaId()
     }
     return QString();
 }
+void VMapFrame::processsZValueMsg(NetworkMessageReader* msg)
+{
+    if(NULL!=m_vmap)
+    {
+        m_vmap->processZValueMsg(msg);
+    }
+}
+void VMapFrame::processsRotationMsg(NetworkMessageReader* msg)
+{
+    if(NULL!=m_vmap)
+    {
+        m_vmap->processRotationMsg(msg);
+    }
+}
+void VMapFrame::processsRectGeometryMsg(NetworkMessageReader* msg)
+{
+    if(NULL!=m_vmap)
+    {
+        m_vmap->processRectGeometryMsg(msg);
+    }
+}
+                                                            

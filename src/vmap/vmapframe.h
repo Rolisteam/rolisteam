@@ -157,6 +157,11 @@ public :
      * @return
      */
     virtual QString getMediaId();
+	
+	void processsZValueMsg(NetworkMessageReader* msg);
+	void processsRotationMsg(NetworkMessageReader* msg);
+	void processsRectGeometryMsg(NetworkMessageReader* msg);
+
     void putDataIntoCleverUri();
 public slots :
 	/**
