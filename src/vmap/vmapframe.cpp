@@ -318,6 +318,18 @@ NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
         {
             m_vmap->processSetParentItem(msg);
         }
+        case NetMsg::ZValueItem:
+        {
+            m_vmap->processZValueMsg(msg);
+        }
+    case NetMsg::RectGeometryItem:
+    {
+        m_vmap->processRectGeometryMsg(msg);
+    }
+    case NetMsg::RotationItem:
+    {
+        m_vmap->processRotationMsg(msg);
+    }
         break;
     }
 }

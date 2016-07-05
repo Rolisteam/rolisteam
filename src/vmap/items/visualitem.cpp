@@ -164,6 +164,7 @@ void VisualItem::resizeContents(const QRectF& rect, bool keepRatio)
     prepareGeometryChange();
     int width = m_rect.width();
     int height = m_rect.height();
+    sendRectGeometryMsg();
     //.normalized()
     m_rect = rect;
     if (keepRatio)
