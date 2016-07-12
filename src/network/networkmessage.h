@@ -57,6 +57,7 @@ enum Category {
 enum Action {
     // ConnectionCategory
     EndConnectionAction = 0,
+    heartbeat,
 
     // PlayerCategory
     PlayerConnectionAction = 0,
