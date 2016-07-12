@@ -200,6 +200,7 @@ public slots:
      */
     void manageMessagingPref();
     void backgroundChanged();
+    void manageHeartBeat();
 private slots:
     /**
      * @brief load

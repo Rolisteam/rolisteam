@@ -252,6 +252,9 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
     setWindowTitle(QString("%1 - %2").arg(m_preferences->value("Application_Name","rolisteam").toString(),tr("Preferences")));
     setWindowModality(Qt::ApplicationModal);
 
+    connect(ui->m_heartBeat,SIGNAL(clicked(bool)),this,SLOT(manageHeartBeat()));
+    connect(ui->m_hbFrequency,SIGNAL(valueChanged(int)),this,SLOT(manageHeartBeat()));
+
 
     //Messaging
     connect(ui->m_showTimeCheckBox,SIGNAL(clicked(bool)),this,SLOT(manageMessagingPref()));
@@ -284,6 +287,12 @@ PreferencesDialog::PreferencesDialog(QWidget * parent, Qt::WindowFlags f)
 PreferencesDialog::~PreferencesDialog()
 {
     // QObject should do it right for us already.
+}
+
+void PreferencesDialog::manageHeartBeat()
+{
+    m_preferences->registerValue("HeartBeatStatus",ui->m_heartBeat->isChecked());
+    m_preferences->registerValue("HbFrequency",ui->m_hbFrequency->value());
 }
 void PreferencesDialog::manageMessagingPref()
 {
