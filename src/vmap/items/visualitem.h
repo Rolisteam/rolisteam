@@ -251,6 +251,7 @@ public:
 
     void readLayerMsg(NetworkMessageReader *msg);
     virtual bool isLocal();
+
 signals:
     /**
      * @brief itemGeometryChanged
@@ -293,8 +294,14 @@ public slots:
     virtual void readPositionMsg(NetworkMessageReader* msg);
 
     virtual void sendOpacityMsg();
-    
+    void posChange();
     void sendItemLayer();
+    void readRectGeometryMsg(NetworkMessageReader *msg);
+    void sendRectGeometryMsg();
+    void readRotationMsg(NetworkMessageReader *msg);
+    void sendRotationMsg();
+    void readZValueMsg(NetworkMessageReader *msg);
+    void sendZValueMsg();
 protected:
 	/**
 	 * @brief mouseReleaseEvent
@@ -365,6 +372,7 @@ protected:
 
     VisualItem::Layer m_layer;
     QVector<ItemType> m_promoteTypeList;
+    QList<QPointF> m_pointList;
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
     QVector<ChildPointItem*>* m_child;

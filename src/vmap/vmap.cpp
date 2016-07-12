@@ -983,7 +983,43 @@ void VMap::processSetParentItem(NetworkMessageReader* msg)
         }
     }
 }
-
+void VMap::processZValueMsg(NetworkMessageReader* msg)
+{        
+                                                                                                     
+    if(NULL!=msg)                                                                                          
+    {           
+		QString id = msg->string16();
+		VisualItem* item = m_itemMap->value(id);
+		if(NULL!=item)                                                                                              
+		{
+	        item->readZValueMsg(msg);                                                                        
+		}
+    }                                                                                                         
+}                                                                                                             
+void VMap::processRotationMsg(NetworkMessageReader* msg)
+{                                                                                                             
+    if(NULL!=msg)                                                                                          
+    {           
+		QString id = msg->string16();
+		VisualItem* item = m_itemMap->value(id);
+		if(NULL!=item)                                                                                              
+		{
+	        item->readRotationMsg(msg);                                                                        
+		}
+    }                                                                                                         
+}                                                                                                             
+void VMap::processRectGeometryMsg(NetworkMessageReader* msg)
+{                                                                                                             
+    if(NULL!=msg)                                                                                          
+    {           
+		QString id = msg->string16();
+		VisualItem* item = m_itemMap->value(id);
+		if(NULL!=item)                                                                                              
+		{
+	        item->readRectGeometryMsg(msg);                                                                        
+		}
+    }                                                                                                         
+}             
 void VMap::addNewItem(VisualItem* item)
 {
     if(NULL!=item)

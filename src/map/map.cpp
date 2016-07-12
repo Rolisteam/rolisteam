@@ -43,7 +43,7 @@
 
 
 Map::Map(QString localPlayerId,QString identCarte, QImage *image, bool masquer, QWidget *parent)
-    : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
+    : QWidget(parent), m_mapId(identCarte),m_hasPermissionMode(true)
 {
     m_localPlayerId = localPlayerId;
     if(NULL!=PlayersList::instance()->getLocalPlayer())
@@ -72,7 +72,7 @@ Map::Map(QString localPlayerId,QString identCarte, QImage *image, bool masquer, 
     p_init();
 }
 Map::Map(QString localPlayerId,QString identCarte, QImage *original, QImage *avecAnnotations, QImage *coucheAlpha, QWidget *parent)
-    : QWidget(parent), idCarte(identCarte),m_hasPermissionMode(true)
+    : QWidget(parent), m_mapId(identCarte),m_hasPermissionMode(true)
 {
     m_localPlayerId = localPlayerId;
 
@@ -136,7 +136,7 @@ void Map::p_init()
     resize(m_backgroundImage->size());
     // Initialisation de la liste de points du trace du crayon et de la liste de deplacement du PJ
     listePointsCrayon.clear();
-    listeDeplacement.clear();
+    m_characterMoveList.clear();
     // Mise a zero de la zone globale du trace du crayon
     zoneGlobaleCrayon.setRect(0,0,0,0);
 
@@ -337,7 +337,7 @@ void Map::mousePressEvent(QMouseEvent *event)
                 dernierPnjSelectionne = pnj;
 
                 NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::showCharecterOrientation);
-                msg.string8(idCarte);
+                msg.string8(m_mapId);
                 msg.string8(pnj->getCharacterId());
                 msg.uint8(pnj->orientationStatus());
                 msg.sendAll();
@@ -465,7 +465,7 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
         {///@todo test orientation pnj
             QPoint orientation =  dernierPnjSelectionne->getCharacterOrientation();
             NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::changeCharacterOrientation);
-            msg.string8(idCarte);
+            msg.string8(m_mapId);
             msg.string8(dernierPnjSelectionne->getCharacterId());
             msg.int16(orientation.x());
             msg.int16(orientation.y());
@@ -886,7 +886,7 @@ void Map::processNpcAction(QPoint positionSouris)
 
                             // Emission de la demande de suppression de de PNJ
                             NetworkMessageWriter msg(NetMsg::NPCCategory,NetMsg::delNpc);
-                            msg.string8(idCarte);
+                            msg.string8(m_mapId);
                             msg.string8(pnj->getCharacterId());
                             msg.sendAll();
 
@@ -902,9 +902,9 @@ void Map::processNpcAction(QPoint positionSouris)
                             // On calcule la difference entre le coin sup gauche du PNJ et le pointeur de la souris
                             diffSourisDessinPerso = pnj->mapFromParent(positionSouris);
                             // Mise a zero de la liste de points
-                            listeDeplacement.clear();
+                            m_characterMoveList.clear();
                             // Ajout de la position actuelle du perso dans la liste
-                            listeDeplacement.append(pnj->getCharacterCenter());
+                            m_characterMoveList.append(pnj->getCharacterCenter());
                 }
                 else if (m_currentTool == ToolsBar::ChangeCharacterState)
                 {
@@ -913,7 +913,7 @@ void Map::processNpcAction(QPoint positionSouris)
                         dernierPnjSelectionne = pnj;
 
                         NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::changeCharacterState);
-                        msg.string8(idCarte);
+                        msg.string8(m_mapId);
                         msg.string8(pnj->getCharacterId());
                         msg.uint16(pnj->getHealtState());
                         msg.sendAll();
@@ -944,7 +944,7 @@ void Map::processNpcActionReleased(QPoint positionSouris)
                 // Plus de PNJ selectionne
                 pnjSelectionne = 0;
                 // Emission du PNJ vers les clients ou le serveur
-                dernierPnjSelectionne->emettrePnj(idCarte);
+                dernierPnjSelectionne->emettrePnj(m_mapId);
             }
         }
 
@@ -982,7 +982,7 @@ void Map::processNpcActionReleased(QPoint positionSouris)
                 // sauvegarde du dernier PNJ selectionne
                 dernierPnjSelectionne = pnjSelectionne;
                 // Emission du trajet du personnage
-                emettreTrajetPersonnage();
+                sendCharacterPath();
                 // Plus de PNJ selectionne
                 pnjSelectionne = 0;
             }
@@ -1031,7 +1031,7 @@ void Map::processNpcMove(QPoint positionSouris)
                     // Deplacement du perso
                     pnjSelectionne->moveCharacter(positionSouris - diffSourisDessinPerso);
                     // Ajout de la position actuelle du perso dans la liste
-                    listeDeplacement.append(pnjSelectionne->getCharacterCenter());
+                    m_characterMoveList.append(pnjSelectionne->getCharacterCenter());
                 }
             }
         }
@@ -1246,7 +1246,7 @@ void Map::toggleCharacterView(Character * character)
 		showPc(uuid, newState);
 
         NetworkMessageWriter message(NetMsg::CharacterPlayerCategory, NetMsg::ToggleViewPlayerCharacterAction);
-        message.string8(idCarte);
+        message.string8(m_mapId);
         message.string8(uuid);
         message.uint8(newState ? 1 : 0);
         message.sendAll();
@@ -1387,7 +1387,7 @@ void Map::emettreCarteGeneral(QString titre, NetworkLink * link, bool versNetwor
 
     NetworkMessageWriter message(NetMsg::MapCategory, NetMsg::ImportMap);
     message.string16(titre);
-    message.string8(idCarte);
+    message.string8(m_mapId);
 	message.uint8(m_npcSize);
     message.uint8(getPermissionMode());
     message.uint8(getFogColor().red());
@@ -1423,7 +1423,7 @@ void Map::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetworkL
 {
 
     NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterList);
-    msg.string8(idCarte);
+    msg.string8(m_mapId);
     msg.uint16(children().size());
 
     QObjectList enfants = children();
@@ -1453,7 +1453,7 @@ void Map::emettreTrace()
     {
         msg = new NetworkMessageWriter(NetMsg::DrawCategory,NetMsg::penPainting);
         msg->string8(m_localPlayerId);
-        msg->string8(idCarte);
+        msg->string8(m_mapId);
         msg->uint32(listePointsCrayon.size());
         for (int i=0; i<listePointsCrayon.size(); i++)
         {
@@ -1472,7 +1472,7 @@ void Map::emettreTrace()
     else if(m_currentTool == ToolsBar::Text)
     {
         msg = new NetworkMessageWriter(NetMsg::DrawCategory,NetMsg::textPainting);
-        msg->string8(idCarte);
+        msg->string8(m_mapId);
 		msg->string16(m_currentText);
         msg->uint16(m_mousePoint.x());
         msg->uint16(m_mousePoint.y());
@@ -1513,7 +1513,7 @@ void Map::emettreTrace()
         }
 
         msg = new NetworkMessageWriter(NetMsg::DrawCategory,action);
-        msg->string8(idCarte);
+        msg->string8(m_mapId);
         msg->uint16(m_originePoint.x());
         msg->uint16(m_originePoint.y());
 
@@ -1538,19 +1538,19 @@ void Map::emettreTrace()
 }
 
 
-void Map::emettreTrajetPersonnage()
+void Map::sendCharacterPath()
 {
     QString idPerso = pnjSelectionne->getCharacterId();
-    quint32 tailleListe = listeDeplacement.size();
+    quint32 sizeList = m_characterMoveList.size();
 
     NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::moveCharacter);
-    msg.string8(idCarte);
+    msg.string8(m_mapId);
     msg.string8(idPerso);
-    msg.uint32(tailleListe);
-    for (int i=0; i<tailleListe; i++)
+    msg.uint32(sizeList);
+    for (int i=0; i<sizeList; i++)
     {
-        msg.uint16(listeDeplacement[i].x());
-        msg.uint16(listeDeplacement[i].y());
+        msg.uint16(m_characterMoveList[i].x());
+        msg.uint16(m_characterMoveList[i].y());
     }
     msg.sendAll();
 }
@@ -2033,7 +2033,7 @@ void Map::saveMap(QDataStream &out, QString titre)
 
 QString Map::identifiantCarte()
 {
-    return idCarte;
+    return m_mapId;
 }
 
 QString Map::getLastSelectedCharacterId()

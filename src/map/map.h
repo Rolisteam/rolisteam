@@ -142,7 +142,7 @@ private :
     QRect zoneARafraichir();
 	void paintMap(QPainter &painter);
     void emettreTrace();
-    void emettreTrajetPersonnage();
+    void sendCharacterPath();
 	void processNpcAction(QPoint positionSouris);
 	void processNpcActionReleased(QPoint positionSouris);
 	void processNpcMove(QPoint positionSouris);
@@ -182,9 +182,9 @@ private :
     QCursor pointeur;                    // pointeur actuel de la souris
     CharacterToken *pnjSelectionne;        // pointe sur le PNJ actuellement selectionne (0 si aucun PNJ selectionne)
     CharacterToken *dernierPnjSelectionne;    // pointe sur le dernier PNJ selectionne (0 si aucun PNJ n'a deja ete selection)
-    QString idCarte;                    // identifiant de la carte
+    QString m_mapId;                    // identifiant de la carte
     QList<QPoint> listePointsCrayon;    // liste des points composant le trace du crayon, qui sera emise aux autres utilisateurs
-    QList<QPoint> listeDeplacement;        // liste des points composant le deplacement du perso qui vient d'etre deplace par l'utilisateur
+    QList<QPoint> m_characterMoveList;        // liste des points composant le deplacement du perso qui vient d'etre deplace par l'utilisateur
     QList<PersoEnMouvement> mouvements;    // liste des personnages a deplacer, ainsi que leur trajectoire
     Map::PermissionMode m_currentMode;
     ToolsBar::SelectableTool m_currentTool;

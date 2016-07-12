@@ -60,11 +60,11 @@ void VisualItem::init()
     m_propertiesHash = NULL;
     m_layer = VisualItem::NONE;
     QActionGroup* group = new QActionGroup(this);
-	m_putGroundLayer = new QAction(s_layerName[0],this);
+    m_putGroundLayer = new QAction(s_layerName[0],this);
     m_putGroundLayer->setData(VisualItem::GROUND);
-	m_putObjectLayer = new QAction(s_layerName[1],this);
+    m_putObjectLayer = new QAction(s_layerName[1],this);
     m_putObjectLayer->setData(VisualItem::OBJECT);
-	m_putCharacterLayer= new QAction(s_layerName[2],this);
+    m_putCharacterLayer= new QAction(s_layerName[2],this);
     m_putCharacterLayer->setData(VisualItem::CHARACTER_LAYER);
 
     m_putGroundLayer->setCheckable(true);
@@ -86,23 +86,23 @@ void VisualItem::setEditableItem(bool b)
     {
         /// @warning if two connected people have editable item, it will lead to endless loop.
         setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
-        connect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
-        connect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
-        connect(this,SIGNAL(zChanged()),this,SLOT(sendPositionMsg()));
-        connect(this,SIGNAL(heightChanged()),this,SLOT(sendPositionMsg()));
-        connect(this,SIGNAL(widthChanged()),this,SLOT(sendPositionMsg()));
-        connect(this,SIGNAL(rotationChanged()),this,SLOT(sendPositionMsg()));
+        connect(this,SIGNAL(xChanged()),this,SLOT(posChange()));
+        connect(this,SIGNAL(yChanged()),this,SLOT(posChange()));
+        connect(this,SIGNAL(zChanged()),this,SLOT(sendZValueMsg()));
+        connect(this,SIGNAL(heightChanged()),this,SLOT(sendRectGeometryMsg()));
+        connect(this,SIGNAL(widthChanged()),this,SLOT(sendRectGeometryMsg()));
+        connect(this,SIGNAL(rotationChanged()),this,SLOT(sendRotationMsg()));
         connect(this,SIGNAL(opacityChanged()),this,SLOT(sendOpacityMsg()));
     }
     else
     {
         setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
-        disconnect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
-        disconnect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
-        disconnect(this,SIGNAL(zChanged()),this,SLOT(sendPositionMsg()));
-        disconnect(this,SIGNAL(rotationChanged()),this,SLOT(sendPositionMsg()));
-        disconnect(this,SIGNAL(widthChanged()),this,SLOT(sendPositionMsg()));
-        disconnect(this,SIGNAL(heightChanged()),this,SLOT(sendPositionMsg()));
+        disconnect(this,SIGNAL(xChanged()),this,SLOT(posChange()));
+        disconnect(this,SIGNAL(yChanged()),this,SLOT(posChange()));
+        disconnect(this,SIGNAL(zChanged()),this,SLOT(sendZValueMsg()));
+        disconnect(this,SIGNAL(rotationChanged()),this,SLOT(sendRotationMsg()));
+        disconnect(this,SIGNAL(widthChanged()),this,SLOT(sendRectGeometryMsg()));
+        disconnect(this,SIGNAL(heightChanged()),this,SLOT(sendRectGeometryMsg()));
         disconnect(this,SIGNAL(opacityChanged()),this,SLOT(sendOpacityMsg()));
     }
     if(NULL!=m_child)
@@ -118,20 +118,25 @@ void VisualItem::setPenColor(QColor& penColor)
 {
     m_color = penColor;
 }
+void VisualItem::mousePressEvent ( QGraphicsSceneMouseEvent * event )
+{
+    qDebug() << "mousePress";
+    update();
+    m_pointList.clear();
+    QGraphicsItem::mousePressEvent(event);
+}
 void VisualItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 {
+    qDebug() << "mouseMove";
     update();
     QGraphicsItem::mouseMoveEvent(event);
 }
-void VisualItem::mousePressEvent ( QGraphicsSceneMouseEvent * event )
-{
-    update();
-    QGraphicsItem::mousePressEvent(event);
-}
 void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    qDebug() << "mouseRelease";
     update();
     QGraphicsItem::mouseReleaseEvent(event);
+    sendPositionMsg();
 }
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {
@@ -159,6 +164,7 @@ void VisualItem::resizeContents(const QRectF& rect, bool keepRatio)
     prepareGeometryChange();
     int width = m_rect.width();
     int height = m_rect.height();
+    sendRectGeometryMsg();
     //.normalized()
     m_rect = rect;
     if (keepRatio)
@@ -188,27 +194,27 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QAction* backOrderAction = menu.addAction(tr("Back"));
     backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
     connect(backOrderAction,&QAction::triggered,[&](){
-            emit changeStackPosition(this,VisualItem::BACK);
+        emit changeStackPosition(this,VisualItem::BACK);
     });
 
 
     QAction* frontOrderAction = menu.addAction(tr("Front"));
     frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
     connect(frontOrderAction,&QAction::triggered,[&](){
-            emit changeStackPosition(this,VisualItem::FRONT);
+        emit changeStackPosition(this,VisualItem::FRONT);
     });
 
 
     QAction* lowerAction = menu.addAction(tr("Lower"));
     lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
     connect(lowerAction,&QAction::triggered,[&](){
-            emit changeStackPosition(this,VisualItem::LOWER);
+        emit changeStackPosition(this,VisualItem::LOWER);
     });
 
     QAction* raiseAction = menu.addAction(tr("Raise"));
     raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
     connect(raiseAction,&QAction::triggered,[&](){
-            emit changeStackPosition(this,VisualItem::RAISE);
+        emit changeStackPosition(this,VisualItem::RAISE);
     });
 
 
@@ -359,7 +365,7 @@ bool VisualItem::hasFocusOrChild()
 void VisualItem::sendItemLayer()
 {
     if(getOption(VisualItem::LocalIsGM).toBool() ||
-       getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)//getOption PermissionMode
+            getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)//getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::LayerItemChanged);
         msg.string8(m_mapId);
@@ -372,13 +378,13 @@ void VisualItem::sendItemLayer()
 void VisualItem::sendOpacityMsg()
 {
     if(getOption(VisualItem::LocalIsGM).toBool() ||
-       getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)//getOption PermissionMode
+            getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)//getOption PermissionMode
     {
-         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::OpacityItemChanged);
-         msg.string8(m_mapId);
-         msg.string16(m_id);
-         msg.real(opacity());
-         msg.sendAll();
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::OpacityItemChanged);
+        msg.string8(m_mapId);
+        msg.string16(m_id);
+        msg.real(opacity());
+        msg.sendAll();
     }
 }
 void VisualItem::readOpacityMsg(NetworkMessageReader* msg)
@@ -399,49 +405,138 @@ bool VisualItem::isLocal()
 {
     return false;
 }
+void VisualItem::posChange()
+{
+    m_pointList.append(pos());
+}
 
 void VisualItem::sendPositionMsg()
 {
-   if((getOption(VisualItem::LocalIsGM).toBool()) ||
-      (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
-      ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
-       (getType() == VisualItem::CHARACTER)&&
-       (isLocal())))//getOption PermissionMode
-   {
+    if((getOption(VisualItem::LocalIsGM).toBool()) ||
+            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
+            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
+             (getType() == VisualItem::CHARACTER)&&
+             (isLocal())))//getOption PermissionMode
+    {
+
+        qDebug() << "Pos x:" << pos().x() << "posy"<< pos().y() << "m_rectx"<< m_rect.x() <<"m_recty"<< m_rect.y() << "type"<< type2NameList[getType()] << m_pointList.size();
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
-        msg.real(pos().x());
-        msg.real(pos().y());
-        msg.real(m_rect.x());
+        msg.uint64(m_pointList.size());
+        for(auto point : m_pointList)
+        {
+            msg.real(point.x());
+            msg.real(point.y());
+        }
+
+        /*  msg.real(m_rect.x());
         msg.real(m_rect.y());
         msg.real(m_rect.width());
         msg.real(m_rect.height());
         msg.real(zValue());
-        msg.real(rotation());
+        msg.real(rotation());*/
         msg.sendAll();
-   }
+    }
 }
-
 void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 {
-    qreal x = msg->real();
-    qreal y = msg->real();
-    qreal xR = msg->real();
+    quint64 size = msg->uint64();
+    for(quint64 i = 0; i < size;++i)
+    {
+        qreal x = msg->real();
+        qreal y = msg->real();
+        blockSignals(true);
+        setPos(x,y);
+        blockSignals(false);
+    }
+    /*qreal xR = msg->real();
     qreal yR = msg->real();
     qreal w = msg->real();
     qreal h = msg->real();
     qreal z = msg->real();
-    qreal rot = msg->real();
-    qDebug() <<"reception" <<pos() << m_rect;
+    qreal rot = msg->real();*/
+
+
+    //setRectSize(xR,yR,w,h);
+    //setZValue(z);
+    //setRotation(rot);
+
+    //resizeContents(m_rect);
+}
+void VisualItem::sendZValueMsg()
+{
+    if((getOption(VisualItem::LocalIsGM).toBool()) ||
+            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
+            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
+             (getType() == VisualItem::CHARACTER)&&
+             (isLocal())))//getOption PermissionMode
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::ZValueItem);
+        msg.string8(m_mapId);
+        msg.string16(m_id);
+        msg.real(zValue());
+        msg.sendAll();
+    }
+}
+void VisualItem::readZValueMsg(NetworkMessageReader* msg)
+{
+    qreal z = msg->real();
     blockSignals(true);
-    setPos(x,y);
-    setRectSize(xR,yR,w,h);
     setZValue(z);
+    blockSignals(false);
+}
+void VisualItem::sendRotationMsg()
+{
+    if((getOption(VisualItem::LocalIsGM).toBool()) ||
+            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
+            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
+             (getType() == VisualItem::CHARACTER)&&
+             (isLocal())))//getOption PermissionMode
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::RotationItem);
+        msg.string8(m_mapId);
+        msg.string16(m_id);
+        msg.real(rotation());
+        msg.sendAll();
+    }
+}
+void VisualItem::readRotationMsg(NetworkMessageReader* msg)
+{
+    qreal rot = msg->real();
+    blockSignals(true);
     setRotation(rot);
     blockSignals(false);
-    resizeContents(m_rect);
 }
+void VisualItem::sendRectGeometryMsg()
+{
+    if((getOption(VisualItem::LocalIsGM).toBool()) ||
+            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
+            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
+             (getType() == VisualItem::CHARACTER)&&
+             (isLocal())))//getOption PermissionMode
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::RectGeometryItem);
+        msg.string8(m_mapId);
+        msg.string16(m_id);
+        msg.real(m_rect.x());
+        msg.real(m_rect.y());
+        msg.real(m_rect.width());
+        msg.real(m_rect.height());
+        msg.sendAll();
+    }
+}
+void VisualItem::readRectGeometryMsg(NetworkMessageReader* msg)
+{
+    qreal xR = msg->real();
+    qreal yR = msg->real();
+    qreal w = msg->real();
+    qreal h = msg->real();
+    blockSignals(true);
+    setRectSize(xR,yR,w,h);
+    blockSignals(false);
+}
+
 void VisualItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
 {
     m_rect.setX(x);

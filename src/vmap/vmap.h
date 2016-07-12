@@ -251,6 +251,9 @@ public:
 
     VToolsBar::SelectableTool getSelectedtool() const;
 
+    void processZValueMsg(NetworkMessageReader *msg);
+    void processRotationMsg(NetworkMessageReader *msg);
+    void processRectGeometryMsg(NetworkMessageReader *msg);
 public slots:
     /**
     * @brief defines the current tools

@@ -1867,6 +1867,9 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     case NetMsg::vmapChanges:
     case NetMsg::GeometryViewChanged:
     case NetMsg::SetParentItem:
+    case NetMsg::RectGeometryItem:
+    case NetMsg::RotationItem:
+    case NetMsg::ZValueItem:
     {
         QString vmapId = msg->string8();
         VMapFrame* tmp = m_mapWindowVectorialMap.value(vmapId);

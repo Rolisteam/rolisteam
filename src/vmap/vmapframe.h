@@ -159,6 +159,11 @@ public :
      * @return
      */
     virtual QString getMediaId();
+	
+	void processsZValueMsg(NetworkMessageReader* msg);
+	void processsRotationMsg(NetworkMessageReader* msg);
+	void processsRectGeometryMsg(NetworkMessageReader* msg);
+
     void putDataIntoCleverUri();
     NetWorkReceiver::SendType processMessage(NetworkMessageReader *msg);
 public slots :
