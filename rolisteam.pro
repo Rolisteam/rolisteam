@@ -149,7 +149,8 @@ HEADERS += \
         src/widgets/filepathdelegateitem.h \
         src/network/selectconnectionprofiledialog.h \
     src/services/updaterwindow.h \
-    src/widgets/realslider.h
+    src/widgets/realslider.h \
+    src/network/heartbeatsender.h
 
 
 
@@ -222,7 +223,8 @@ SOURCES += \
         src/widgets/filepathdelegateitem.cpp \
         src/network/selectconnectionprofiledialog.cpp \
     src/services/updaterwindow.cpp \
-    src/widgets/realslider.cpp
+    src/widgets/realslider.cpp \
+    src/network/heartbeatsender.cpp
 
 
 FORMS += \
