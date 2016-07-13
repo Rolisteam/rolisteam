@@ -632,7 +632,10 @@ void PlayersList::addCharacter(Player * player, Character * character)
 
     beginInsertRows(createIndex(player), size, size);
 
-    player->addCharacter(character);
+    if(character->getParentPlayer() != player)
+    {
+        player->addCharacter(character);
+    }
     m_uuidMap.insert(uuid, character);
 
     emit characterAdded(character);
@@ -648,7 +651,9 @@ void PlayersList::delPlayer(Player * player)
 
     int charactersCount = player->getCharactersCount();
     for (int i = 0; i < charactersCount ; i++)
+    {
         delCharacter(player, 0);
+    }
 
     beginRemoveRows(QModelIndex(), index, index);
 
@@ -666,8 +671,8 @@ void PlayersList::delPlayer(Player * player)
 void PlayersList::delCharacter(Player * parent, int index)
 {
     Character * character = parent->getCharacterByIndex(index);
-
-    beginRemoveRows(createIndex(parent), index, index);
+    QModelIndex parentItem = createIndex(parent);
+    beginRemoveRows(parentItem , index, index);
 
     emit characterDeleted(character);
 
