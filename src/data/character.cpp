@@ -54,7 +54,11 @@ Character::Character(NetworkMessageReader & data)
 {
     read(data);
 
-	init();
+    init();
+}
+
+Character::~Character()
+{
 }
 void Character::init()
 {

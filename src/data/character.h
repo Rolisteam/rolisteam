@@ -55,6 +55,10 @@ public:
      */
     Character(NetworkMessageReader & data);
     /**
+     * @brief ~Character
+     */
+    virtual ~Character();
+    /**
      * @brief fill
      * @param message
      */
