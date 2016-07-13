@@ -616,10 +616,9 @@ void PlayersList::addPlayer(Player * player)
     for(int i = 0;i<player->getCharactersCount();++i)
     {
         Character* character = player->getCharacterByIndex(i);
-        if(!m_uuidMap.contains(character->getUuid()))
-        {
-            m_uuidMap.insert(character->getUuid(),character);
-        }
+        addCharacter(player,character);
+        //emit characterAdded(player->getCharacterByIndex(i));
+        //m_uuidMap.insert(character->getUuid(),character);
     }
 }
 
@@ -795,7 +794,7 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
 void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 {
     NetworkLink * link = event->link();
-    Player * player = new Player(event->data(), link);
+    Player* player = new Player(event->data(), link);
     if (player->isGM() && m_gmCount > 0)
     {
         player->setGM(false);
