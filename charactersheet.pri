@@ -11,7 +11,8 @@ HEADERS += $$PWD/charactersheetwindow.h \
     $$PWD/formula/parsingtoolformula.h \
     $$PWD/formula/nodes/formulanode.h \
     $$PWD/formula/nodes/startnode.h \
-    $$PWD/formula/nodes/operator.h
+    $$PWD/formula/nodes/operator.h \
+    $$PWD/formula/nodes/valuefnode.h
 
 
 SOURCES += $$PWD/charactersheetwindow.cpp \
@@ -27,7 +28,8 @@ SOURCES += $$PWD/charactersheetwindow.cpp \
     $$PWD/formula/parsingtoolformula.cpp \
     $$PWD/formula/nodes/formulanode.cpp \
     $$PWD/formula/nodes/startnode.cpp \
-    $$PWD/formula/nodes/operator.cpp
+    $$PWD/formula/nodes/operator.cpp \
+    $$PWD/formula/nodes/valuefnode.cpp
 
 
 INCLUDEPATH += $$PWD formula formula/nodes

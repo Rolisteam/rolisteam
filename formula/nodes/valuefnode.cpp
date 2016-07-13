@@ -23,3 +23,8 @@ ValueFNode::ValueFNode()
 {
 
 }
+
+bool ValueFNode::run(FormulaNode *previous)
+{
+
+}

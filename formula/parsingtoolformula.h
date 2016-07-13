@@ -25,23 +25,51 @@
 
 #include "nodes/formulanode.h"
 
+/**
+ * @brief The ParsingToolFormula class
+ */
 class ParsingToolFormula
 {
 public:
     enum FormulaOperator {ABS,MIN,MAX,IF,FLOOR,CEIL,AVG};
+    /**
+     * @brief ParsingToolFormula
+     */
     ParsingToolFormula();
-
-
-
+    /**
+     * @brief readFormula
+     * @return
+     */
     bool readFormula(QString&, FormulaNode*);
+    /**
+     * @brief readScalarOperator
+     * @return
+     */
     bool readScalarOperator(QString&, FormulaNode*);
+    /**
+     * @brief readOperand
+     * @return
+     */
     bool readOperand(QString&, FormulaNode* );
+    /**
+     * @brief readOperator
+     * @return
+     */
     bool readOperator(QString&, FormulaNode*);
+    /**
+     * @brief readFieldRef
+     * @return
+     */
     bool readFieldRef(QString&, FormulaNode*);
+    /**
+     * @brief readNumber
+     * @return
+     */
     bool readNumber(QString&, FormulaNode*);
 
 private:
     QHash<QString,ParsingToolFormula::FormulaOperator>* m_hashOp;
+    QHash<QString,QString>* m_variableHash;
 };
 
 #endif // PARSINGTOOLFORMULA_H

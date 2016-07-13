@@ -21,6 +21,7 @@
 #include "nodes/operator.h"
 
 ParsingToolFormula::ParsingToolFormula()
+    : m_variableHash(NULL)
 {
     //ABS,MIN,MAX,IF,FLOOR,CEIL,AVG
     m_hashOp = new QHash<QString,ParsingToolFormula::FormulaOperator>();
@@ -109,7 +110,35 @@ bool ParsingToolFormula::readOperator(QString& str, FormulaNode* previous)
 
 bool ParsingToolFormula::readFieldRef(QString& str, FormulaNode* previous)
 {
+    if(str.isEmpty())
+        return false;
+    if(str.startsWith("${"))
+    {
+        str=str.remove(0,2);
+    }
+    QString key;
+    int post = str.indexOf('}');
+    key = str.left(post);
 
+    if(NULL!=m_variableHash)
+    {
+        if(m_variableHash->contains(key))
+        {
+            QString value = m_variableHash->value(key);
+            bool ok;
+            int valueInt = value.toInt(&ok);
+            if(ok)
+            {
+               // myNumber = valueInt;
+                str=str.remove(0,post+1);
+                return true;
+            }
+
+        }
+    }
+
+
+    return false;
 }
 
 bool ParsingToolFormula::readNumber(QString& str, FormulaNode* previous)

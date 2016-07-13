@@ -20,11 +20,31 @@
 #ifndef VALUEFNODE_H
 #define VALUEFNODE_H
 
+#include <QVariant>
 
-class ValueFNode
+#include "formulanode.h"
+
+
+/**
+ * @brief The ValueFNode class
+ */
+class ValueFNode : public FormulaNode
 {
 public:
+    /**
+     * @brief ValueFNode
+     */
     ValueFNode();
+    /**
+     * @brief run
+     * @param previous
+     * @return
+     */
+    virtual bool run(FormulaNode* previous);
+    bool isNumber();
+    bool isString();
+private:
+    QVariant m_value;
 };
 
 #endif // VALUEFNODE_H
