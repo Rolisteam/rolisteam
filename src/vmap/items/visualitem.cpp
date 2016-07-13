@@ -58,6 +58,8 @@ void VisualItem::init()
 {
     createActions();
     m_propertiesHash = NULL;
+    m_resizing = false;
+    m_rotating = false;
     m_layer = VisualItem::NONE;
     QActionGroup* group = new QActionGroup(this);
     m_putGroundLayer = new QAction(s_layerName[0],this);
@@ -89,9 +91,11 @@ void VisualItem::setEditableItem(bool b)
         connect(this,SIGNAL(xChanged()),this,SLOT(posChange()));
         connect(this,SIGNAL(yChanged()),this,SLOT(posChange()));
         connect(this,SIGNAL(zChanged()),this,SLOT(sendZValueMsg()));
-        connect(this,SIGNAL(heightChanged()),this,SLOT(sendRectGeometryMsg()));
-        connect(this,SIGNAL(widthChanged()),this,SLOT(sendRectGeometryMsg()));
-        connect(this,SIGNAL(rotationChanged()),this,SLOT(sendRotationMsg()));
+        //connect(this,SIGNAL(heightChanged()),this,SLOT(sendRectGeometryMsg()));
+        //connect(this,SIGNAL(widthChanged()),this,SLOT(sendRectGeometryMsg()));
+        connect(this,SIGNAL(heightChanged()),this,SLOT(rectChange()));
+        connect(this,SIGNAL(widthChanged()),this,SLOT(rectChange()));
+        connect(this,SIGNAL(rotationChanged()),this,SLOT(rotationChange()));//sendRotationMsg
         connect(this,SIGNAL(opacityChanged()),this,SLOT(sendOpacityMsg()));
     }
     else
@@ -100,9 +104,9 @@ void VisualItem::setEditableItem(bool b)
         disconnect(this,SIGNAL(xChanged()),this,SLOT(posChange()));
         disconnect(this,SIGNAL(yChanged()),this,SLOT(posChange()));
         disconnect(this,SIGNAL(zChanged()),this,SLOT(sendZValueMsg()));
-        disconnect(this,SIGNAL(rotationChanged()),this,SLOT(sendRotationMsg()));
-        disconnect(this,SIGNAL(widthChanged()),this,SLOT(sendRectGeometryMsg()));
-        disconnect(this,SIGNAL(heightChanged()),this,SLOT(sendRectGeometryMsg()));
+        disconnect(this,SIGNAL(widthChanged()),this,SLOT(rectChange()));
+        disconnect(this,SIGNAL(heightChanged()),this,SLOT(rectChange()));
+        disconnect(this,SIGNAL(rotationChanged()),this,SLOT(rotationChange()));
         disconnect(this,SIGNAL(opacityChanged()),this,SLOT(sendOpacityMsg()));
     }
     if(NULL!=m_child)
@@ -122,7 +126,6 @@ void VisualItem::mousePressEvent ( QGraphicsSceneMouseEvent * event )
 {
     qDebug() << "mousePress";
     update();
-    m_pointList.clear();
     QGraphicsItem::mousePressEvent(event);
 }
 void VisualItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
@@ -164,7 +167,8 @@ void VisualItem::resizeContents(const QRectF& rect, bool keepRatio)
     prepareGeometryChange();
     int width = m_rect.width();
     int height = m_rect.height();
-    sendRectGeometryMsg();
+    //sendRectGeometryMsg();
+    m_resizing = true;
     //.normalized()
     m_rect = rect;
     if (keepRatio)
@@ -262,16 +266,19 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     else if(resetRotationAct==selectedAction)
     {
         setRotation(0);
+        m_rotating = true;
         endOfGeometryChange();
     }
     else if(selectedAction==rightRotationAct)
     {
         setRotation(90);
+        m_rotating = true;
         endOfGeometryChange();
     }
     else if(selectedAction==leftRotationAct)
     {
         setRotation(270);
+        m_rotating = true;
         endOfGeometryChange();
     }
     else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putGroundLayer))
@@ -409,6 +416,14 @@ void VisualItem::posChange()
 {
     m_pointList.append(pos());
 }
+void VisualItem::rectChange()
+{
+    m_resizing = true;//not used
+}
+void VisualItem::rotationChange()
+{
+    m_rotating = true;
+}
 
 void VisualItem::sendPositionMsg()
 {
@@ -418,8 +433,6 @@ void VisualItem::sendPositionMsg()
              (getType() == VisualItem::CHARACTER)&&
              (isLocal())))//getOption PermissionMode
     {
-
-        qDebug() << "Pos x:" << pos().x() << "posy"<< pos().y() << "m_rectx"<< m_rect.x() <<"m_recty"<< m_rect.y() << "type"<< type2NameList[getType()] << m_pointList.size();
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
         msg.string8(m_mapId);
         msg.string16(m_id);
@@ -429,13 +442,6 @@ void VisualItem::sendPositionMsg()
             msg.real(point.x());
             msg.real(point.y());
         }
-
-        /*  msg.real(m_rect.x());
-        msg.real(m_rect.y());
-        msg.real(m_rect.width());
-        msg.real(m_rect.height());
-        msg.real(zValue());
-        msg.real(rotation());*/
         msg.sendAll();
     }
 }
@@ -450,19 +456,7 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
         setPos(x,y);
         blockSignals(false);
     }
-    /*qreal xR = msg->real();
-    qreal yR = msg->real();
-    qreal w = msg->real();
-    qreal h = msg->real();
-    qreal z = msg->real();
-    qreal rot = msg->real();*/
-
-
-    //setRectSize(xR,yR,w,h);
-    //setZValue(z);
-    //setRotation(rot);
-
-    //resizeContents(m_rect);
+    update();
 }
 void VisualItem::sendZValueMsg()
 {
@@ -485,6 +479,7 @@ void VisualItem::readZValueMsg(NetworkMessageReader* msg)
     blockSignals(true);
     setZValue(z);
     blockSignals(false);
+    update();
 }
 void VisualItem::sendRotationMsg()
 {
@@ -507,6 +502,7 @@ void VisualItem::readRotationMsg(NetworkMessageReader* msg)
     blockSignals(true);
     setRotation(rot);
     blockSignals(false);
+    update();
 }
 void VisualItem::sendRectGeometryMsg()
 {
@@ -535,6 +531,7 @@ void VisualItem::readRectGeometryMsg(NetworkMessageReader* msg)
     blockSignals(true);
     setRectSize(xR,yR,w,h);
     blockSignals(false);
+    update();
 }
 
 void VisualItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
@@ -562,7 +559,23 @@ QString VisualItem::getMapId()
 void VisualItem::endOfGeometryChange()
 {
     //emit itemGeometryChanged(this);
-    sendPositionMsg();
+    if(!m_pointList.isEmpty())
+    {
+        sendPositionMsg();
+        m_pointList.clear();
+    }
+
+    if(m_resizing)
+    {
+        sendRectGeometryMsg();
+        m_resizing=false;
+    }
+
+    if(m_rotating)
+    {
+        sendRotationMsg();
+        m_rotating = false;
+    }
 }
 
 void VisualItem::setModifiers(Qt::KeyboardModifiers modifiers)

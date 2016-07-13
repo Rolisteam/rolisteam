@@ -47,11 +47,7 @@ EllipsItem::EllipsItem(QPointF& center,bool filled,int penSize,QColor& penColor,
 }
 QRectF EllipsItem::boundingRect() const
 {
-    QRectF rect;
-   /* rect.setTopLeft(QPointF(m_center.x()-m_rx,m_center.y()-m_ry));
-    rect.setBottomRight(QPointF(m_center.x()+m_rx,m_center.y()+m_ry));*/
-    rect.setRect(-m_rx,-m_ry,m_rx*2,m_ry*2);
-    return rect;
+    return m_rect;
 }
 QPainterPath EllipsItem::shape() const
 {
@@ -87,6 +83,8 @@ void EllipsItem::setNewEnd(QPointF& p)
 {
     m_rx = std::fabs(p.x()-pos().x());
     m_ry = std::fabs(p.y()-pos().y());
+
+    m_rect.setRect(-m_rx,-m_ry,m_rx*2,m_ry*2);
 }
 VisualItem::ItemType EllipsItem::getType()
 {
@@ -205,6 +203,9 @@ void EllipsItem::setGeometryPoint(qreal pointId, QPointF &pos)
 		m_rx = 0.1;
 		pos.setX(m_center.x()+m_rx);
 	}
+    m_rect.setRect(-m_rx,-m_ry,m_rx*2,m_ry*2);
+    m_resizing = true;
+    //qDebug() <<"EllipsItem" << m_rect << this->pos();
     update();
 }
 void EllipsItem::initChildPointItem()
@@ -233,4 +234,11 @@ VisualItem* EllipsItem::getItemCopy()
     QPointF pos(m_rx+m_center.x(),m_ry+m_center.y());
     ellipseItem->setNewEnd(pos);
     return ellipseItem;
+}
+void EllipsItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
+{
+    VisualItem::setRectSize(x,y,w,h);
+    m_rx = w/2;
+    m_ry = h/2;
+    update();
 }

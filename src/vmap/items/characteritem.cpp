@@ -377,6 +377,7 @@ void CharacterItem::resizeContents(const QRectF& rect, bool )
         return;
 
     prepareGeometryChange();
+    m_resizing = true;
     m_rect = rect;
     m_diameter = qMin(m_rect.width(),m_rect.height());
     sizeChanged(m_diameter);

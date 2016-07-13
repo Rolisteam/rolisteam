@@ -76,6 +76,8 @@ public:
     void setGeometryPoint(qreal pointId, QPointF &pos);
     virtual void initChildPointItem();
 	virtual VisualItem* getItemCopy();
+
+    virtual void setRectSize(qreal x,qreal y,qreal w,qreal h);
 private:
     /**
     * @brief bounding rect

@@ -302,6 +302,8 @@ public slots:
     void sendRotationMsg();
     void readZValueMsg(NetworkMessageReader *msg);
     void sendZValueMsg();
+    void rectChange();
+    void rotationChange();
 protected:
 	/**
 	 * @brief mouseReleaseEvent
@@ -373,6 +375,9 @@ protected:
     VisualItem::Layer m_layer;
     QVector<ItemType> m_promoteTypeList;
     QList<QPointF> m_pointList;
+    //QList<QRectF> m_sizeList;
+    bool m_resizing;
+    bool m_rotating;
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
     QVector<ChildPointItem*>* m_child;

@@ -186,29 +186,7 @@ void ImageItem::setGeometryPoint(qreal pointId, QPointF &pos)
 }
 void ImageItem::resizeContents(const QRectF& rect, bool keepRatio)
 {
-    //qDebug() << "resize content:" << m_rect << pos();
     VisualItem::resizeContents(rect,keepRatio);
-   // qDebug() << "resize content 2:" << m_rect << pos();
-   /* if (!rect.isValid())
-        return;
-    m_rect = rect.normalized();
-
-    prepareGeometryChange();
-
-    qDebug() << "resize content" << m_rect;
-    if (keepRatio)
-    {
-        int width = m_image.width();
-        int height = m_image.height();
-        qreal hfw = height * rect.width() / width;
-        if (hfw > 1)
-        {
-            m_rect.setTop(-hfw / 2);
-            m_rect.setHeight(hfw);
-        }
-    }
-
-    updateChildPosition();*/
 }
 void ImageItem::initChildPointItem()
 {
