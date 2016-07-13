@@ -56,7 +56,8 @@ Player::Player(NetworkMessageReader & data, NetworkLink * link)
     int childCount = data.int32();
     for(int i = 0; i < childCount;++i)
     {
-        Character* child = new Character(data);
+        Character* child = new Character();
+        child->read(data);
         m_characters.append(child);
         child->setParentPerson(this);
         data.uint8();

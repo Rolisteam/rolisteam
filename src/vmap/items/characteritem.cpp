@@ -356,8 +356,9 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     {
         qDebug() << "Add new Character";
     /// @todo This code may no longer be needed.
-        m_character = new Character(*msg);
-        m_character->setParentPerson(PlayersList::instance()->getPlayer(m_character->getParentId()));
+        m_character = new Character();
+        QString id = m_character->read(*msg);
+        m_character->setParentPerson(PlayersList::instance()->getPlayer(id));
     }
 
     if(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)
