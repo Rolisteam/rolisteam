@@ -38,6 +38,4 @@ void heartBeatSender::sendHeartBeatMsg()
     NetworkMessageWriter msg(NetMsg::ConnectionCategory,NetMsg::heartbeat);
     msg.string8("");//@todo add id local player
     msg.sendAll();
-
-    qDebug() << "Sending off Heartbeat msg";
 }

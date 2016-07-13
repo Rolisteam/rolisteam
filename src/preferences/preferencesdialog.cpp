@@ -402,6 +402,9 @@ void PreferencesDialog::load()
     ui->m_translationFileEdit->setPath(m_preferences->value("currentTranslationFile","").toString());
     ui->m_checkUpdate->setChecked(m_preferences->value("MainWindow_MustBeChecked",true).toBool());
 
+    ui->m_heartBeat->setChecked(m_preferences->value("HeartBeatStatus",false).toBool());
+    ui->m_hbFrequency->setValue(m_preferences->value("HbFrequency",60).toInt());
+
     ////////////////////////
     //MAP
     ///////////////////////

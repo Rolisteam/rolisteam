@@ -101,6 +101,7 @@ public slots :
     void sendData(NetworkMessage *msg);
 
     void sendDataSlot(char* data,quint32 size, NetworkLink* but = 0);
+    void processConnectionMessage(NetworkMessageReader *msg);
 signals:
     /**
      * @brief disconnected
@@ -158,7 +159,7 @@ private :
     NetworkManager* m_networkManager;
     QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
     int m_headerRead;
-
+    QHash<QString,int> m_hbCount;
     int m_port;
     QString m_host;
     ConnectionProfile* m_connection;

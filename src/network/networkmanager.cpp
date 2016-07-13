@@ -46,6 +46,8 @@ NetworkManager::NetworkManager()
     connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
     connect(m_dialog,SIGNAL(rejected()),this,SIGNAL(stopConnectionTry()));
     m_playersList = PlayersList::instance();
+
+
 }
 
 
@@ -55,6 +57,11 @@ NetworkManager::~NetworkManager()
     {
         delete m_dialog;
         m_dialog = NULL;
+    }
+    if(NULL!=m_waitDialog)
+    {
+        delete m_waitDialog;
+        m_waitDialog = NULL;
     }
     delete m_reconnect;
 }
@@ -303,6 +310,10 @@ quint16 NetworkManager::getPort() const
 void NetworkManager::setConnectionProfile(ConnectionProfile* profile)
 {
     m_connectionProfile = profile;
+    if(!m_connectionProfile->isServer())
+    {
+        m_hbSender = new heartBeatSender(this);
+    }
 }
 //void NetworkManager::messageRecieved(NetworkMessageReader* message,NetworkLink* link)
 //{

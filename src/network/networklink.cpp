@@ -228,6 +228,8 @@ void NetworkLink::receivingData()
                 case NetMsg::SetupCategory :
                     processSetupMessage(&data);
                     break;
+                case NetMsg::ConnectionCategory:
+                    processConnectionMessage(&data);
                 default:
                     break;
             }
@@ -238,6 +240,22 @@ void NetworkLink::receivingData()
     }
 
 }
+void NetworkLink::processConnectionMessage(NetworkMessageReader* msg)
+{
+    if(NetMsg::heartbeat == msg->action())
+    {
+        QString id = msg->string8();
+        if(!m_hbCount.contains(id))
+        {
+            m_hbCount[id]=0;
+        }
+        else
+        {
+            m_hbCount[id]+=1;
+        }
+    }
+}
+
 void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
 {
     if(NetMsg::PlayerCategory==msg->category())

@@ -36,6 +36,7 @@
 #include "connectionretrydialog.h"
 #include "preferences/preferencesmanager.h"
 #include "userlist/playersList.h"
+#include "heartbeatsender.h"
 
 class Player;
 class NetworkLink;
@@ -144,6 +145,7 @@ private:
     ConnectionProfile* m_connectionProfile;
     ConnectionWaitDialog* m_waitDialog;
     QList<QThread*> m_threadList;
+    heartBeatSender* m_hbSender;
 };
 
 #endif
