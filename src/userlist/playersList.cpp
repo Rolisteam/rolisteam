@@ -132,6 +132,8 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
         case Qt::DisplayRole:
         case Qt::EditRole:
             return person->getName();
+        case Qt::ToolTipRole:
+            return person->getUuid();
         case Qt::DecorationRole:
         {
             if(person->hasAvatar())
@@ -614,10 +616,9 @@ void PlayersList::addPlayer(Player * player)
     for(int i = 0;i<player->getCharactersCount();++i)
     {
         Character* character = player->getCharacterByIndex(i);
-        if(!m_uuidMap.contains(character->getUuid()))
-        {
-            m_uuidMap.insert(character->getUuid(),character);
-        }
+        addCharacter(player,character);
+        //emit characterAdded(player->getCharacterByIndex(i));
+        //m_uuidMap.insert(character->getUuid(),character);
     }
 }
 
@@ -793,7 +794,7 @@ void PlayersList::addPlayer(NetworkMessageReader & data)
 void PlayersList::addPlayerAsServer(ReceiveEvent * event)
 {
     NetworkLink * link = event->link();
-    Player * player = new Player(event->data(), link);
+    Player* player = new Player(event->data(), link);
     if (player->isGM() && m_gmCount > 0)
     {
         player->setGM(false);
@@ -894,9 +895,10 @@ void PlayersList::setPersonColor(NetworkMessageReader & data)
 
 void PlayersList::addCharacter(NetworkMessageReader & data)
 {
-    Character* character = new Character(data);
+    Character* character = new Character();
+    QString parentId = character->read(data);
 
-    Player * player = getPlayer(character->getParentId());
+    Player* player = getPlayer(parentId);
     if (player == NULL)
         return;
     addCharacter(player, character);
@@ -931,6 +933,12 @@ void PlayersList::completeListClean()
     m_playersList.clear();
     m_uuidMap.clear();
     endResetModel();
+
+    Player* player= getLocalPlayer();
+    if(NULL!=player)
+    {
+        player->clearCharacterList();
+    }
 
 
 

@@ -1262,7 +1262,7 @@ void Map::showPc(QString idPerso, bool show)
     // @Todo @warning Pc ID not found
     if (NULL==pj)
     {
-		qWarning() << (tr("PC ID not found (showPc - map.cpp)"));
+        qWarning() << (tr("PC ID %1 not found (showPc - map.cpp)").arg(idPerso));
         return;
     }
     // On masque ou on affiche le PJ

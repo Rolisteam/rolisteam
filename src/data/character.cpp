@@ -27,6 +27,7 @@
 #include "data/player.h"
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
+//#include "userlist/playersList.h"
 
 QList<CharacterState*>* Character::m_stateList = NULL;
 
@@ -153,9 +154,11 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
     }
 
 }
-void Character::read(NetworkMessageReader& msg)
+QString Character::read(NetworkMessageReader& msg)
 {
     QString parentId = msg.string8();
+    //PlayersList* list = PlayersList::getInstance();
+
     m_uuid = msg.string8();
     m_name = msg.string16();
     bool hasCurrentState = msg.uint8();
@@ -173,6 +176,8 @@ void Character::read(NetworkMessageReader& msg)
     {
         m_avatar = QImage::fromData(msg.byteArray32());
     }
+
+    return parentId;
 }
 
 Player* Character::getParentPlayer() const
