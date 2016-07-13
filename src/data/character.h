@@ -62,8 +62,9 @@ public:
     /**
      * @brief read
      * @param msg
+     * @return parentId
      */
-    void read(NetworkMessageReader& msg);
+    QString read(NetworkMessageReader& msg);
     /**
      * @brief isBool
      * @return
@@ -129,7 +130,6 @@ private:
     int m_number;
     CharacterState* m_currentState;
     CharacterSheet* m_sheet;
-
     static QList<CharacterState*>* m_stateList;
 };
 

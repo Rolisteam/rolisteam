@@ -132,6 +132,8 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
         case Qt::DisplayRole:
         case Qt::EditRole:
             return person->getName();
+        case Qt::ToolTipRole:
+            return person->getUuid();
         case Qt::DecorationRole:
         {
             if(person->hasAvatar())
@@ -894,9 +896,10 @@ void PlayersList::setPersonColor(NetworkMessageReader & data)
 
 void PlayersList::addCharacter(NetworkMessageReader & data)
 {
-    Character* character = new Character(data);
+    Character* character = new Character();
+    QString parentId = character->read(data);
 
-    Player * player = getPlayer(character->getParentId());
+    Player* player = getPlayer(parentId);
     if (player == NULL)
         return;
     addCharacter(player, character);
@@ -931,6 +934,12 @@ void PlayersList::completeListClean()
     m_playersList.clear();
     m_uuidMap.clear();
     endResetModel();
+
+    Player* player= getLocalPlayer();
+    if(NULL!=player)
+    {
+        player->clearCharacterList();
+    }
 
 
 

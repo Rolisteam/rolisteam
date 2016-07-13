@@ -144,6 +144,8 @@ public:
      * @param index
      */
     void delCharacter(int index);
+
+    void clearCharacterList();
     /**
      * @brief searchCharacter
      * @param character
