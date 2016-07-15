@@ -24,7 +24,9 @@
 #include <QHash>
 
 #include "nodes/formulanode.h"
-
+#include "nodes/scalaroperatorfnode.h"
+namespace Formula
+{
 /**
  * @brief The ParsingToolFormula class
  */
@@ -40,7 +42,7 @@ public:
      * @brief readFormula
      * @return
      */
-    bool readFormula(QString&, FormulaNode*);
+    bool readFormula(QString&, FormulaNode* &);
     /**
      * @brief readScalarOperator
      * @return
@@ -50,7 +52,7 @@ public:
      * @brief readOperand
      * @return
      */
-    bool readOperand(QString&, FormulaNode* );
+    bool readOperand(QString&, FormulaNode* &);
     /**
      * @brief readOperator
      * @return
@@ -65,11 +67,14 @@ public:
      * @brief readNumber
      * @return
      */
-    bool readNumber(QString&, FormulaNode*);
+    bool readNumber(QString&, FormulaNode*&);
 
+    FormulaNode *getLatestNode(FormulaNode *node);
 private:
     QHash<QString,ParsingToolFormula::FormulaOperator>* m_hashOp;
     QHash<QString,QString>* m_variableHash;
-};
 
+    QHash<QString,ScalarOperatorFNode::ArithmeticOperator>* m_arithmeticOperation;
+};
+}
 #endif // PARSINGTOOLFORMULA_H

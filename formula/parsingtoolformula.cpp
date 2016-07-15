@@ -20,6 +20,9 @@
 #include "parsingtoolformula.h"
 #include "nodes/operator.h"
 
+#include "nodes/valuefnode.h"
+namespace Formula
+{
 ParsingToolFormula::ParsingToolFormula()
     : m_variableHash(NULL)
 {
@@ -32,19 +35,43 @@ ParsingToolFormula::ParsingToolFormula()
     m_hashOp->insert(QStringLiteral("floor"),FLOOR);
     m_hashOp->insert(QStringLiteral("ceil"),CEIL);
     m_hashOp->insert(QStringLiteral("avg"),AVG);
-}
 
-bool ParsingToolFormula::readFormula(QString& str, FormulaNode* previous)
+    m_arithmeticOperation = new QHash<QString,ScalarOperatorFNode::ArithmeticOperator>();
+
+    m_arithmeticOperation->insert(QStringLiteral("+"),ScalarOperatorFNode::PLUS);
+    m_arithmeticOperation->insert(QStringLiteral("-"),ScalarOperatorFNode::MINUS);
+    m_arithmeticOperation->insert(QStringLiteral("*"),ScalarOperatorFNode::MULTIPLICATION);
+    m_arithmeticOperation->insert(QStringLiteral("x"),ScalarOperatorFNode::MULTIPLICATION);
+    m_arithmeticOperation->insert(QStringLiteral("/"),ScalarOperatorFNode::DIVIDE);
+    m_arithmeticOperation->insert(QStringLiteral("÷"),ScalarOperatorFNode::DIVIDE);
+}
+FormulaNode* ParsingToolFormula::getLatestNode(FormulaNode* node)
 {
-    if(readOperand(str,previous))
+    FormulaNode* next = node;
+    while(NULL != next->next() )
     {
-        while(readScalarOperator(str,previous))
-        {
+        next = next->next();
+    }
+    return next;
+}
+bool ParsingToolFormula::readFormula(QString& str, FormulaNode* & previous)
+{
+    if(str.startsWith('='))
+    {
+        str=str.remove(0,1);
+    }
+    FormulaNode* operandNode=NULL;
+    if(readOperand(str,operandNode))
+    {
+        previous=operandNode;
+        operandNode= getLatestNode(operandNode);
+        while(readScalarOperator(str,operandNode));
+       /* {
             if(!readOperand(str,previous))
             {
                 return false;
             }
-        }
+        }*/
         return true;
     }
     else
@@ -53,10 +80,31 @@ bool ParsingToolFormula::readFormula(QString& str, FormulaNode* previous)
 
 bool ParsingToolFormula::readScalarOperator(QString& str, FormulaNode* previous)
 {
+    bool found = false;
+    ScalarOperatorFNode::ArithmeticOperator ope;
+    for(auto i = m_arithmeticOperation->begin() ; i !=m_arithmeticOperation->end() && !found; ++i)
+    {
+        if(str.startsWith(i.key()))
+        {
+                ope = i.value();
+                str=str.remove(0,i.key().size());
+                found=true;
+        }
+    }
+    if(found)
+    {
+        ScalarOperatorFNode* node = new ScalarOperatorFNode();
+        node->setArithmeticOperator(ope);
+        previous->setNext(node);
+        FormulaNode* internal=NULL;
+        readFormula(str,internal);
+        node->setInternalNode(internal);
+    }
 
+    return found;
 }
 
-bool ParsingToolFormula::readOperand(QString & str, FormulaNode * previous)
+bool ParsingToolFormula::readOperand(QString & str, FormulaNode * & previous)
 {
     if(readNumber(str,previous))
     {
@@ -141,7 +189,7 @@ bool ParsingToolFormula::readFieldRef(QString& str, FormulaNode* previous)
     return false;
 }
 
-bool ParsingToolFormula::readNumber(QString& str, FormulaNode* previous)
+bool ParsingToolFormula::readNumber(QString& str, FormulaNode* & previous)
 {
     if(str.isEmpty())
         return false;
@@ -159,10 +207,14 @@ bool ParsingToolFormula::readNumber(QString& str, FormulaNode* previous)
     if(ok)
     {
         str=str.remove(0,number.size());
+        ValueFNode* nodeV = new ValueFNode();
+        nodeV->setValue(r);
+        previous = nodeV;
         return true;
     }
 
 
+
     return false;
 }
-
+}
