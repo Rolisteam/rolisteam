@@ -28,7 +28,7 @@
 namespace Formula
 {
 /**
- * @brief The ParsingToolFormula class
+ * @brief The ParsingToolFormula class provides methods for parsing formula.
  */
 class ParsingToolFormula
 {
@@ -62,7 +62,7 @@ public:
      * @brief readFieldRef
      * @return
      */
-    bool readFieldRef(QString&, FormulaNode*);
+    bool readFieldRef(QString&, FormulaNode* &);
     /**
      * @brief readNumber
      * @return
@@ -70,6 +70,10 @@ public:
     bool readNumber(QString&, FormulaNode*&);
 
     FormulaNode *getLatestNode(FormulaNode *node);
+
+    QHash<QString, QString> *getVariableHash() const;
+    void setVariableHash(QHash<QString, QString> *variableHash);
+
 private:
     QHash<QString,ParsingToolFormula::FormulaOperator>* m_hashOp;
     QHash<QString,QString>* m_variableHash;

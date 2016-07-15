@@ -54,6 +54,16 @@ FormulaNode* ParsingToolFormula::getLatestNode(FormulaNode* node)
     }
     return next;
 }
+
+QHash<QString, QString> *ParsingToolFormula::getVariableHash() const
+{
+    return m_variableHash;
+}
+
+void ParsingToolFormula::setVariableHash(QHash<QString, QString> *variableHash)
+{
+    m_variableHash = variableHash;
+}
 bool ParsingToolFormula::readFormula(QString& str, FormulaNode* & previous)
 {
     if(str.startsWith('='))
@@ -156,7 +166,7 @@ bool ParsingToolFormula::readOperator(QString& str, FormulaNode* previous)
 
 }
 
-bool ParsingToolFormula::readFieldRef(QString& str, FormulaNode* previous)
+bool ParsingToolFormula::readFieldRef(QString& str, FormulaNode* & previous)
 {
     if(str.isEmpty())
         return false;
@@ -174,11 +184,14 @@ bool ParsingToolFormula::readFieldRef(QString& str, FormulaNode* previous)
         {
             QString value = m_variableHash->value(key);
             bool ok;
-            int valueInt = value.toInt(&ok);
+            qreal valueR = value.toDouble(&ok);
             if(ok)
             {
                // myNumber = valueInt;
                 str=str.remove(0,post+1);
+                ValueFNode* nodeV = new ValueFNode();
+                nodeV->setValue(valueR);
+                previous = nodeV;
                 return true;
             }
 
