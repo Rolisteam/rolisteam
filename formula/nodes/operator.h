@@ -39,9 +39,17 @@ public:
     virtual bool run(FormulaNode* previous);
     void addParameter(FormulaNode* node);
 
+
+    //Implementation of operator.
+    void min();
+    void max();
+
+
+    virtual QVariant getResult();
 private:
     ParsingToolFormula::FormulaOperator m_operator;
     QList<FormulaNode*> m_parameters;
+    QVariant m_result;
 };
 }
 #endif // OPERATOR_H

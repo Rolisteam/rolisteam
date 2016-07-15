@@ -27,21 +27,95 @@ OperatorFNode::OperatorFNode()
 
 ParsingToolFormula::FormulaOperator OperatorFNode::getOperator() const
 {
-
+    return m_operator;
 }
 
 void OperatorFNode::setOperator(const ParsingToolFormula::FormulaOperator &ope)
 {
-
+    m_operator= ope;
 }
 
 bool OperatorFNode::run(FormulaNode *previous)
 {
+    for(auto node : m_parameters)
+    {
+        if(NULL!=node)
+        {
+            node->run(this);
+        }
+    }
 
+    switch(m_operator)
+    {
+    case ParsingToolFormula::MIN:
+        min();
+        break;
+    case ParsingToolFormula::MAX:
+        max();
+        break;
+    }
+    if(NULL!=m_next)
+    {
+        m_next->run(this);
+    }
+    return true;
 }
 
 void OperatorFNode::addParameter(FormulaNode *node)
 {
     m_parameters.append(node);
 }
+
+void OperatorFNode::min()
+{
+    QVariant min;
+    for(int i = 0; i< m_parameters.size() ; ++i)
+    {
+        FormulaNode* node = m_parameters.at(i);
+        node = getLatestNode(node);
+        if(NULL!=node)
+        {
+            QVariant var = node->getResult();
+            if(0==i)
+            {
+                min = var;
+            }
+            else if(var<min)
+            {
+                min = var;
+            }
+        }
+
+    }
+    m_result = min;
+}
+void OperatorFNode::max()
+{
+    QVariant max;
+    for(int i = 0; i< m_parameters.size() ; ++i)
+    {
+        FormulaNode* node = m_parameters.at(i);
+        node = getLatestNode(node);
+        if(NULL!=node)
+        {
+            QVariant var = node->getResult();
+            if(0==i)
+            {
+                var = max;
+            }
+            else if(var>max)
+            {
+                max = var;
+            }
+        }
+
+    }
+    m_result = max;
+}
+
+QVariant OperatorFNode::getResult()
+{
+    return m_result;
+}
+
 }
