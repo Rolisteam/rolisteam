@@ -96,7 +96,6 @@ void CharacterSheetItem::setValue(const QString &value,bool fromNetwork)
         if(!fromNetwork)
         {
             emit sendOffData();
-            qDebug() << "emit sendoffdata";
         }
     }
 }
