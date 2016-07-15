@@ -35,10 +35,12 @@
 /////////////////////////////
 
 CharacterSheetModel::CharacterSheetModel()
- : m_characterCount(0)
+ : m_characterCount(0),m_formulaManager(NULL)
 {
     m_characterList = new QList<CharacterSheet*>;
     m_rootSection = new Section();
+    m_formulaManager = new Formula::FormulaManager();
+
 }
 
 int CharacterSheetModel::rowCount ( const QModelIndex & parent  ) const
@@ -153,7 +155,14 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
             {
                 QString path = childItem->getId();
                 CharacterSheet* sheet = m_characterList->at(index.column()-1);
-                sheet->setValue(path,value.toString());
+                QString valueStr = value.toString();
+                QString formula;
+                if(valueStr.startsWith('='))
+                {
+                    formula=valueStr;
+                    valueStr=m_formulaManager->getValue(formula).toString();
+                }
+                sheet->setValue(path,valueStr,formula);
             }
             return true;
         }

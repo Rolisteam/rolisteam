@@ -30,6 +30,7 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #endif
+#include "formula/formulamanager.h"
 
 class CharacterSheetItem;
 class CharacterSheet;
@@ -147,6 +148,7 @@ private:
     int m_characterCount;
     
     Section* m_rootSection;
+    Formula::FormulaManager* m_formulaManager;
 };
 
 #endif // CHARACTERSHEETMODEL_H
