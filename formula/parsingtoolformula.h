@@ -57,7 +57,7 @@ public:
      * @brief readOperator
      * @return
      */
-    bool readOperator(QString&, FormulaNode*);
+    bool readOperator(QString&, FormulaNode* &);
     /**
      * @brief readFieldRef
      * @return

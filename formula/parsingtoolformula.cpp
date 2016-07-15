@@ -47,6 +47,9 @@ ParsingToolFormula::ParsingToolFormula()
 }
 FormulaNode* ParsingToolFormula::getLatestNode(FormulaNode* node)
 {
+    if(NULL==node)
+        return NULL;
+
     FormulaNode* next = node;
     while(NULL != next->next() )
     {
@@ -105,10 +108,24 @@ bool ParsingToolFormula::readScalarOperator(QString& str, FormulaNode* previous)
     {
         ScalarOperatorFNode* node = new ScalarOperatorFNode();
         node->setArithmeticOperator(ope);
-        previous->setNext(node);
+
         FormulaNode* internal=NULL;
         readFormula(str,internal);
+
         node->setInternalNode(internal);
+
+        if(NULL==internal)
+        {
+            delete node;
+            return false;
+        }
+        if(node->getPriority()>=internal->getPriority())
+        {
+            node->setNext(internal->next());
+            internal->setNext(NULL);
+        }
+        previous->setNext(node);
+
     }
 
     return found;
@@ -131,7 +148,7 @@ bool ParsingToolFormula::readOperand(QString & str, FormulaNode * & previous)
     return false;
 }
 
-bool ParsingToolFormula::readOperator(QString& str, FormulaNode* previous)
+bool ParsingToolFormula::readOperator(QString& str, FormulaNode*& previous)
 {
     bool found = false;
     for(int i = 0; i < m_hashOp->keys().size() && !found ; ++i)
@@ -141,13 +158,15 @@ bool ParsingToolFormula::readOperator(QString& str, FormulaNode* previous)
         {
             str=str.remove(0,key.size());
             OperatorFNode* node = new OperatorFNode();
-            previous->setNext(node);
+            previous = node;
             node->setOperator(m_hashOp->value(key));
             FormulaNode* nextNode=NULL;
+            found = true;
             if(str.startsWith("("))
             {
+                str=str.remove(0,1);
                 while(readFormula(str,nextNode))
-                {
+                {//reading parameter loop
                    node->addParameter(nextNode);
                    nextNode=NULL;
                    if(str.startsWith(","))
@@ -163,6 +182,7 @@ bool ParsingToolFormula::readOperator(QString& str, FormulaNode* previous)
 
         }
     }
+    return found;
 
 }
 
