@@ -124,7 +124,7 @@ public slots:
     * @param QString path : 0 refers to the title of the first section, 1 refers to the first data of the first section....
     */
     const  QString getValue(QString key,Qt::ItemDataRole role = Qt::DisplayRole) const;
-    void setValue(QString key , QString value);
+    void setValue(QString key , QString value, QString formula);
     void sendUpdateForField();
 signals:
     void updateField(CharacterSheet*,CharacterSheetItem* );

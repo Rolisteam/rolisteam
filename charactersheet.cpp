@@ -77,19 +77,18 @@ const  QString CharacterSheet::getValue(QString path,Qt::ItemDataRole role) cons
     return QString();
 }
 
-void CharacterSheet::setValue(QString key, QString value)
+void CharacterSheet::setValue(QString key, QString value, QString formula)
 {
     if(m_valuesMap.contains(key))
     {
         CharacterSheetItem* field = m_valuesMap.value(key);
-        if(value.startsWith('='))
+        if(!formula.isEmpty())
         {
-            field->setFormula(value);
+            field->setFormula(formula);
+
         }
-        else
-        {
-            field->setValue(value);
-        }
+        field->setValue(value);
+
     }
     else
     {
