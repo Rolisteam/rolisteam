@@ -40,3 +40,4 @@ RCSE{
 HEADERS -=$$PWD/charactersheetwindow.h
 SOURCES -=$$PWD/charactersheetwindow.cpp
 }
+
