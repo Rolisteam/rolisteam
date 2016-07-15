@@ -22,7 +22,8 @@
 
 #include "formulanode.h"
 
-
+namespace Formula
+{
 class StartNode : public FormulaNode
 {
 public:
@@ -30,5 +31,5 @@ public:
     virtual bool run(FormulaNode *previous);
 
 };
-
+}
 #endif // STARTNODE_H

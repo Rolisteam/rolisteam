@@ -18,7 +18,8 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "operator.h"
-
+namespace Formula
+{
 OperatorFNode::OperatorFNode()
 {
 
@@ -42,4 +43,5 @@ bool OperatorFNode::run(FormulaNode *previous)
 void OperatorFNode::addParameter(FormulaNode *node)
 {
     m_parameters.append(node);
+}
 }

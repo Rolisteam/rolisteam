@@ -23,8 +23,10 @@
 
 #include "formulanode.h"
 #include "../parsingtoolformula.h"
+namespace Formula
+{
 /**
- * @brief The OperatorFNode class
+ * @brief The OperatorFNode class manages function in formula such as AVG,floor…
  */
 class OperatorFNode : public FormulaNode
 {
@@ -41,5 +43,5 @@ private:
     ParsingToolFormula::FormulaOperator m_operator;
     QList<FormulaNode*> m_parameters;
 };
-
+}
 #endif // OPERATOR_H

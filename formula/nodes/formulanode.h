@@ -20,6 +20,10 @@
 #ifndef FORMULANODE_H
 #define FORMULANODE_H
 
+#include <QVariant>
+
+namespace Formula
+{
 /**
  * @brief The FormulaNode class abstract class for all nodes.
  */
@@ -32,8 +36,12 @@ public:
     FormulaNode *next() const;
     void setNext(FormulaNode *next);
 
+    virtual QVariant getResult();
+
+
+
 protected:
     FormulaNode* m_next;
 };
-
+}
 #endif // FORMULANODE_H

@@ -18,7 +18,8 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "valuefnode.h"
-
+namespace Formula
+{
 ValueFNode::ValueFNode()
 {
 
@@ -26,5 +27,19 @@ ValueFNode::ValueFNode()
 
 bool ValueFNode::run(FormulaNode *previous)
 {
+    if(0 != m_next)
+    {
+        m_next->run(this);
+    }
+    return true;
+}
+void ValueFNode::setValue(QVariant var)
+{
+    m_value = var;
+}
 
+QVariant ValueFNode::getResult()
+{
+    return m_value;
+}
 }

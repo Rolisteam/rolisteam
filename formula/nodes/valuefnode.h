@@ -24,7 +24,8 @@
 
 #include "formulanode.h"
 
-
+namespace Formula
+{
 /**
  * @brief The ValueFNode class
  */
@@ -43,8 +44,10 @@ public:
     virtual bool run(FormulaNode* previous);
     bool isNumber();
     bool isString();
+    void setValue(QVariant);
+    virtual QVariant getResult();
 private:
     QVariant m_value;
 };
-
+}
 #endif // VALUEFNODE_H

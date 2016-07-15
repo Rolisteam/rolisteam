@@ -18,7 +18,8 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "startnode.h"
-
+namespace Formula
+{
 StartNode::StartNode()
 {
 
@@ -30,4 +31,6 @@ bool StartNode::run(FormulaNode *previous)
     {
         m_next->run(this);
     }
+    return true;
+}
 }

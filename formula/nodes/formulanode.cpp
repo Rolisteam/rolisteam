@@ -18,7 +18,8 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "formulanode.h"
-
+namespace Formula
+{
 FormulaNode::FormulaNode()
     : m_next(0)
 {
@@ -33,4 +34,10 @@ FormulaNode *FormulaNode::next() const
 void FormulaNode::setNext(FormulaNode *next)
 {
     m_next = next;
+}
+
+QVariant FormulaNode::getResult()
+{
+    return QVariant();
+}
 }
