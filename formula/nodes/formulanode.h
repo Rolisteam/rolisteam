@@ -38,10 +38,16 @@ public:
 
     virtual QVariant getResult();
 
+    virtual int getPriority();
+
+
+protected:
+    static FormulaNode* getLatestNode(FormulaNode *node);
 
 
 protected:
     FormulaNode* m_next;
+
 };
 }
 #endif // FORMULANODE_H
