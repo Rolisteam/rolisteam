@@ -46,6 +46,11 @@
 #include "parsingtoolformula.h"
 #include "nodes/startnode.h"
 /**
+ * Formala namespace is gathering all classes required for formula management.
+ */
+namespace Formula
+{
+/**
  * @brief The FormulaManager class
  */
 class FormulaManager
@@ -68,5 +73,5 @@ private:
     StartNode* m_startingNode;
 
 };
-
+}
 #endif // FORMULAMANAGER_H

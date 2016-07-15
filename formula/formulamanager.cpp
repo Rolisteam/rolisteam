@@ -18,7 +18,8 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "formulamanager.h"
-
+namespace Formula
+{
 FormulaManager::FormulaManager()
     : m_startingNode(NULL)
 {
@@ -36,7 +37,6 @@ QVariant FormulaManager::getValue(QString i)
 
 bool FormulaManager::parseLine(QString& str)
 {
-
    return readFormula(str);
 }
 
@@ -44,14 +44,24 @@ QVariant FormulaManager::startComputing()
 {
     m_startingNode->run(NULL);
 
+    FormulaNode* node = m_startingNode;
+    while(NULL!=node->next())
+    {
+        node=node->next();
+    }
 
-    //TODO display result;
+    QVariant var =node->getResult();
     delete m_startingNode;
+    return var;
 }
 
 bool FormulaManager::readFormula(QString &str)
 {
     m_startingNode = new StartNode();
-    return m_parsingTool->readFormula(str,m_startingNode);
+    FormulaNode* node = NULL;
+    bool a = m_parsingTool->readFormula(str,node);
 
+    m_startingNode->setNext(node);
+    return a;
+}
 }
