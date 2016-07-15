@@ -59,12 +59,17 @@ public:
     FormulaManager();
 
     QVariant getValue(QString i);
+    void setConstantHash(QHash<QString,QString>* hash);
+
 protected:
     bool parseLine(QString& str);
     QVariant startComputing();
 
 
     bool readFormula(QString& str);
+
+
+
 
 
 private:

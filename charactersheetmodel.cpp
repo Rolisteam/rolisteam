@@ -160,6 +160,8 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
                 if(valueStr.startsWith('='))
                 {
                     formula=valueStr;
+                    QHash<QString,QString> hash = sheet->getVariableDictionnary();
+                    m_formulaManager->setConstantHash(&hash);
                     valueStr=m_formulaManager->getValue(formula).toString();
                 }
                 sheet->setValue(path,valueStr,formula);
@@ -168,7 +170,6 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
         }
     }
     return false;
-    
 }
 CharacterSheet* CharacterSheetModel::addCharacterSheet()
 {

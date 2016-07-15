@@ -64,4 +64,11 @@ bool FormulaManager::readFormula(QString &str)
     m_startingNode->setNext(node);
     return a;
 }
+void FormulaManager::setConstantHash(QHash<QString,QString>* hash)
+{
+    if(NULL!=m_parsingTool)
+    {
+        m_parsingTool->setVariableHash(hash);
+    }
+}
 }
