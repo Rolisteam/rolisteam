@@ -43,6 +43,10 @@ public:
     //Implementation of operator.
     void min();
     void max();
+    void absFunction();
+    void avg();
+    void floorFunction();
+    void ceilFunction();
 
 
     virtual QVariant getResult();
