@@ -31,7 +31,7 @@ ParsingToolFormula::ParsingToolFormula()
     m_hashOp->insert(QStringLiteral("abs"),ABS);
     m_hashOp->insert(QStringLiteral("min"),MIN);
     m_hashOp->insert(QStringLiteral("max"),MAX);
-    m_hashOp->insert(QStringLiteral("if"),IF);
+    //m_hashOp->insert(QStringLiteral("if"),IF);
     m_hashOp->insert(QStringLiteral("floor"),FLOOR);
     m_hashOp->insert(QStringLiteral("ceil"),CEIL);
     m_hashOp->insert(QStringLiteral("avg"),AVG);
@@ -79,12 +79,6 @@ bool ParsingToolFormula::readFormula(QString& str, FormulaNode* & previous)
         previous=operandNode;
         operandNode= getLatestNode(operandNode);
         while(readScalarOperator(str,operandNode));
-       /* {
-            if(!readOperand(str,previous))
-            {
-                return false;
-            }
-        }*/
         return true;
     }
     else
