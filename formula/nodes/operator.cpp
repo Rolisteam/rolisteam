@@ -65,6 +65,9 @@ bool OperatorFNode::run(FormulaNode *previous)
     case ParsingToolFormula::AVG:
         avg();
         break;
+    case ParsingToolFormula::CONCAT:
+        concatenate();
+        break;
     }
     if(NULL!=m_next)
     {
@@ -113,7 +116,6 @@ void OperatorFNode::ceilFunction()
     else
     {
         FormulaNode* node = m_parameters.at(0);
-        node->run(this);
         node = getLatestNode(node);
         if(NULL!=node)
         {
@@ -136,7 +138,6 @@ void OperatorFNode::floorFunction()
     else
     {
         FormulaNode* node = m_parameters.at(0);
-        node->run(this);
         node = getLatestNode(node);
         if(NULL!=node)
         {
@@ -146,29 +147,31 @@ void OperatorFNode::floorFunction()
 
     }
 }
-/*void OperatorFNode::absFunction()
+void OperatorFNode::concatenate()
 {
-    if(m_parameters.size()>1)
-    {
-        m_result = QObject::tr("abs : too many arguments");
-    }
     if(m_parameters.isEmpty())
     {
-        m_result = QObject::tr("abs : too few arguments");
+        m_result = QObject::tr("concatenate : too few arguments");
     }
     else
     {
-        FormulaNode* node = m_parameters.at(0);
-        node->run(this);
-        node = getLatestNode(node);
-        if(NULL!=node)
+        QString concat("");
+        for(int i = 0; i< m_parameters.size() ; ++i)
         {
-            QVariant var = node->getResult();
-            m_result = fabs(var.toDouble());
+            FormulaNode* node = m_parameters.at(i);
+
+            node = getLatestNode(node);
+            if(NULL!=node)
+            {
+                QVariant var = node->getResult();
+                concat += var.toString();
+            }
+
         }
+        m_result = concat;
 
     }
-}*/
+}
 void OperatorFNode::min()
 {
     QVariant min;

@@ -31,6 +31,7 @@ ParsingToolFormula::ParsingToolFormula()
     m_hashOp->insert(QStringLiteral("abs"),ABS);
     m_hashOp->insert(QStringLiteral("min"),MIN);
     m_hashOp->insert(QStringLiteral("max"),MAX);
+    m_hashOp->insert(QStringLiteral("concat"),CONCAT);
     //m_hashOp->insert(QStringLiteral("if"),IF);
     m_hashOp->insert(QStringLiteral("floor"),FLOOR);
     m_hashOp->insert(QStringLiteral("ceil"),CEIL);

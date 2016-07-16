@@ -33,7 +33,7 @@ namespace Formula
 class ParsingToolFormula
 {
 public:
-    enum FormulaOperator {ABS,MIN,MAX,FLOOR,CEIL,AVG};//,IF
+    enum FormulaOperator {ABS,MIN,MAX,FLOOR,CEIL,AVG,CONCAT};//,IF
     /**
      * @brief ParsingToolFormula
      */

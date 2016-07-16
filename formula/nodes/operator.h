@@ -39,6 +39,7 @@ public:
     virtual bool run(FormulaNode* previous);
     void addParameter(FormulaNode* node);
 
+    virtual QVariant getResult();
 
     //Implementation of operator.
     void min();
@@ -47,9 +48,9 @@ public:
     void avg();
     void floorFunction();
     void ceilFunction();
+    void concatenate();
 
 
-    virtual QVariant getResult();
 private:
     ParsingToolFormula::FormulaOperator m_operator;
     QList<FormulaNode*> m_parameters;
