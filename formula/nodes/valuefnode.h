@@ -46,6 +46,9 @@ public:
     bool isString();
     void setValue(QVariant);
     virtual QVariant getResult();
+
+
+    int getPriority();
 private:
     QVariant m_value;
 };

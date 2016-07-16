@@ -38,6 +38,16 @@ void ValueFNode::setValue(QVariant var)
     m_value = var;
 }
 
+int ValueFNode::getPriority()
+{
+    int priority=0;
+    if(NULL!=m_next)
+    {
+        priority = m_next->getPriority();
+    }
+    return priority;
+}
+
 QVariant ValueFNode::getResult()
 {
     return m_value;
