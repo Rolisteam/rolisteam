@@ -107,7 +107,7 @@ void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
     QModelIndex index = m_view.indexAt(pos);
     if(index.column()>0)
     {
-        m_currentCharacterSheet = m_characterSheetlist.value(m_characterSheetlist.keys().at(index.column()-1));
+        m_currentCharacterSheet = m_model.getCharacterSheet(index.column()-1);
         QMenu* affect = menu.addMenu(tr("Share To "));
         addSharingMenu(affect);
     }
@@ -233,7 +233,8 @@ void CharacterSheetWindow::addSection()
 }
 void CharacterSheetWindow::addCharacterSheet()
 {
-    m_model.addCharacterSheet();
+    CharacterSheet* sheet = m_model.addCharacterSheet();
+
 }
 void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 {
