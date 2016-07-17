@@ -138,6 +138,10 @@ void Player::addCharacter(Character* character)
 }
 void Player::clearCharacterList()
 {
+    for(auto character : m_characters)
+    {
+        character->setParentPerson(NULL);
+    }
     m_characters.clear();
 }
 
