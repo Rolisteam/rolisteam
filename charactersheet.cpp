@@ -245,5 +245,5 @@ QHash<QString, QString> CharacterSheet::getVariableDictionnary()
 
 void CharacterSheet::insertCharacterItem(CharacterSheetItem *item)
 {
-    m_valuesMap.insert(item->getId(),item);
+    m_valuesMap.insert(item->getPath(),item);
 }
