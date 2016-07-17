@@ -231,7 +231,7 @@ public slots:
     void connectTo();
     void connectToIndex(QModelIndex index);
     void openImage();
-
+    void errorOccurs(QString);
     void checkConnection();
 private:
 	Ui::SelectConnectionProfileDialog *ui;

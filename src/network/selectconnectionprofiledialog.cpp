@@ -362,6 +362,7 @@ void SelectConnectionProfileDialog::removeProfile()
 
 void SelectConnectionProfileDialog::updateProfile()
 {
+    ui->m_errorNotification->setStyleSheet("");
     if(NULL!=m_currentProfile)
     {
         m_currentProfile->setAddress(ui->m_addresseLineEdit->text());
@@ -397,7 +398,7 @@ void SelectConnectionProfileDialog::writeSettings(QSettings & settings)
 void SelectConnectionProfileDialog::connectToIndex(QModelIndex index)
 {
     m_currentProfile = m_model->getProfile(index);
-    updateGUI();
+    updateGUI();    
     connectTo();
 }
 void SelectConnectionProfileDialog::connectTo()
@@ -425,4 +426,9 @@ void SelectConnectionProfileDialog::checkConnection()
         valid=true;
     }
     ui->m_connect->setEnabled(valid);
+}
+void SelectConnectionProfileDialog::errorOccurs(QString str)
+{
+    ui->m_errorNotification->setStyleSheet("font: 19pt ;\nbackground: rgb(255, 0, 0);\ncolor: rgb(0,0,0);");
+    ui->m_errorNotification->setText(str);
 }

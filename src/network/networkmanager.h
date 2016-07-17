@@ -51,7 +51,7 @@ class NetworkManager : public QObject
     Q_OBJECT
     Q_ENUMS(ConnectionState)
 public:
-    enum ConnectionState {DISCONNECTED,CONNECTING,LISTENING,CONNECTED};
+    enum ConnectionState {DISCONNECTED,CONNECTING,LISTENING,CONNECTED,ERROR};
 	/**
 	 * @brief NetworkManager
 	 */
@@ -113,6 +113,7 @@ signals :
     void stopConnectionTry();
     void connectionStateChanged(NetworkManager::ConnectionState);
     void notifyUser(QString);
+    void errorOccur(QString);
 
 private slots :
     void newClientConnection();

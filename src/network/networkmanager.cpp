@@ -42,6 +42,8 @@ NetworkManager::NetworkManager()
     m_reconnect = new QTimer(this);
     m_preferences =  PreferencesManager::getInstance();
     m_dialog = new ConnectionRetryDialog();
+
+    /// @warning may no be used any more.
     m_waitDialog = new ConnectionWaitDialog();
     connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
     connect(m_dialog,SIGNAL(rejected()),this,SIGNAL(stopConnectionTry()));
@@ -154,15 +156,10 @@ void NetworkManager::startConnectionToServer()
     {
         m_networkLinkToServer = new NetworkLink(m_connectionProfile);
         addNetworkLink(m_networkLinkToServer);
-        connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),
-                m_waitDialog,SLOT(socketError(QString)));
-        connect(m_networkLinkToServer,SIGNAL(connnectionStateChanged(QAbstractSocket::SocketState)),
-                this,SLOT(socketStateChanged(QAbstractSocket::SocketState)));
-        /*QThread* thread = new QThread();
-        m_networkLinkToServer->moveToThread(thread);
-        m_threadList.append(thread);
-        connect(thread,SIGNAL(started()),m_networkLinkToServer,SLOT(connectTo()));
-        thread->start(QThread::HighestPriority);*/
+        connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),m_waitDialog,SLOT(socketError(QString)));
+        connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),this,SIGNAL(errorOccur(QString)));
+        connect(m_networkLinkToServer,SIGNAL(connnectionStateChanged(QAbstractSocket::SocketState)),this,SLOT(socketStateChanged(QAbstractSocket::SocketState)));
+
         m_networkLinkToServer->connectTo();
     }
     else

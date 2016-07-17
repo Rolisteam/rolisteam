@@ -1381,6 +1381,7 @@ void MainWindow::setupUi()
 
     m_dialog = new SelectConnectionProfileDialog(m_version,this);
     connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
+    connect(m_networkManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
     connect(m_networkManager,SIGNAL(connectionStateChanged(NetworkManager::ConnectionState)),this,SLOT(updateWindowTitle()));
     connect(m_networkManager,SIGNAL(connectionStateChanged(NetworkManager::ConnectionState)),this,SLOT(networkStateChanged(NetworkManager::ConnectionState)));
     connect(m_ipChecker,SIGNAL(finished(QString)),this,SLOT(showIp(QString)));
