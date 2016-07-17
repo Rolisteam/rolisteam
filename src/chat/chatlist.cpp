@@ -342,7 +342,7 @@ void ChatList::cleanChat()
     endResetModel();
 }
 
-ChatWindow * ChatList::getChatWindowByUuid(const QString & uuid) const
+ChatWindow* ChatList::getChatWindowByUuid(const QString & uuid) const
 {
     int maxChatIndex = m_chatWindowList.size();
     for (int i = 0 ; i < maxChatIndex ; i++)
@@ -455,25 +455,31 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     QString to   = data.string8();
     QString msg  = data.string32();
 
-    PlayersList* g_playersList = PlayersList::instance();
+    PlayersList* playersList = PlayersList::instance();
 
-    Person* sender = g_playersList->getPerson(from);
+    Person* sender = playersList->getPerson(from);
     if (sender == NULL)
     {
         qWarning("Message from unknown person %s", qPrintable(from));
         return;
     }
 
-    if (to == g_playersList->getLocalPlayer()->getUuid())
-    {
-        Player * owner = g_playersList->getPlayer(from);
-        getChatWindowByUuid(owner->getUuid())->showMessage(sender->getName(), sender->getColor(), msg, data.action());
-        return;
+    if (to == playersList->getLocalPlayer()->getUuid())
+    {//to one person
+       ChatWindow* win = getChatWindowByUuid(from);
+       if((NULL==win) && (NULL!=sender->getParent()))
+       {
+            win = getChatWindowByUuid(sender->getParent()->getUuid());
+       }
+       if(NULL!=win)
+       {
+            win->showMessage(sender->getName(), sender->getColor(), msg, data.action());
+       }
+       return;
     }
-
-    else
+    else//Global
     {
-        Player * addressee = g_playersList->getPlayer(to);
+        Player * addressee = playersList->getPlayer(to);
         if (addressee != NULL)
         {
             if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
@@ -483,8 +489,10 @@ void ChatList::dispatchMessage(ReceiveEvent * event)
     }
 
     ChatWindow * chatw = getChatWindowByUuid(to);
-    if (chatw != NULL)
+    if (NULL != chatw)
+    {
         chatw->showMessage(sender->getName(), sender->getColor(), msg, data.action());
+    }
 
     if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
     {
