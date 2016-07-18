@@ -42,11 +42,6 @@ NetworkManager::NetworkManager()
     m_reconnect = new QTimer(this);
     m_preferences =  PreferencesManager::getInstance();
     m_dialog = new ConnectionRetryDialog();
-
-    /// @warning may no be used any more.
-    m_waitDialog = new ConnectionWaitDialog();
-    connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
-    connect(m_dialog,SIGNAL(rejected()),this,SIGNAL(stopConnectionTry()));
     m_playersList = PlayersList::instance();
 
 
@@ -60,11 +55,7 @@ NetworkManager::~NetworkManager()
         delete m_dialog;
         m_dialog = NULL;
     }
-    if(NULL!=m_waitDialog)
-    {
-        delete m_waitDialog;
-        m_waitDialog = NULL;
-    }
+
     delete m_reconnect;
 }
 void NetworkManager::setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue)
@@ -156,7 +147,6 @@ void NetworkManager::startConnectionToServer()
     {
         m_networkLinkToServer = new NetworkLink(m_connectionProfile);
         addNetworkLink(m_networkLinkToServer);
-        connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),m_waitDialog,SLOT(socketError(QString)));
         connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),this,SIGNAL(errorOccur(QString)));
         connect(m_networkLinkToServer,SIGNAL(connnectionStateChanged(QAbstractSocket::SocketState)),this,SLOT(socketStateChanged(QAbstractSocket::SocketState)));
 

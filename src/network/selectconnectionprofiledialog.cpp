@@ -279,6 +279,7 @@ SelectConnectionProfileDialog::SelectConnectionProfileDialog(QString version,QWi
     m_model = new ProfileModel(m_version);
     readSettings(settings);
     ui->m_profileList->setModel(m_model);
+    ui->m_progressBar->setVisible(false);
 
     connect(ui->m_profileList,SIGNAL(clicked(QModelIndex)),this,SLOT(setCurrentProfile(QModelIndex)));
     connect(ui->m_profileList,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(connectToIndex(QModelIndex)));
@@ -404,6 +405,7 @@ void SelectConnectionProfileDialog::connectToIndex(QModelIndex index)
 void SelectConnectionProfileDialog::connectTo()
 {
     updateProfile();
+    ui->m_progressBar->setVisible(true);
     emit tryConnection();
 }
 void SelectConnectionProfileDialog::openImage()
@@ -431,4 +433,5 @@ void SelectConnectionProfileDialog::errorOccurs(QString str)
 {
     ui->m_errorNotification->setStyleSheet("font: 19pt ;\nbackground: rgb(255, 0, 0);\ncolor: rgb(0,0,0);");
     ui->m_errorNotification->setText(str);
+    ui->m_progressBar->setVisible(false);
 }

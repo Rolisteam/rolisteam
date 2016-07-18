@@ -84,7 +84,6 @@ HEADERS += \
         src/chat/chat.h \
         src/chat/chatlist.h \
         src/chat/chatlistwidget.h \
-        src/network/connectiondialog.h \
         src/delegate.h \
         src/Features.h \
         src/Image.h \
@@ -158,7 +157,6 @@ SOURCES += \
         src/chat/chat.cpp \
         src/chat/chatlist.cpp \
         src/chat/chatlistwidget.cpp \
-        src/network/connectiondialog.cpp \
         src/delegate.cpp \
         src/Features.cpp \
         src/Image.cpp \

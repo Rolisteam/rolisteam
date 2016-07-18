@@ -144,7 +144,7 @@ private:
     QString m_role;
     QString m_username;
     ConnectionProfile* m_connectionProfile;
-    ConnectionWaitDialog* m_waitDialog;
+//    ConnectionWaitDialog* m_waitDialog;
     QList<QThread*> m_threadList;
     heartBeatSender* m_hbSender;
 };
