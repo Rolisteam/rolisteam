@@ -32,7 +32,7 @@
 #include <QDialog>
 
 
-#include "connectiondialog.h"
+//#include "connectiondialog.h"
 #include "connectionretrydialog.h"
 #include "preferences/preferencesmanager.h"
 #include "userlist/playersList.h"
