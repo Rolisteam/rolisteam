@@ -21,6 +21,8 @@
 #include "nodes/operator.h"
 
 #include "nodes/valuefnode.h"
+#include <QDebug>
+
 namespace Formula
 {
 ParsingToolFormula::ParsingToolFormula()
@@ -140,8 +142,40 @@ bool ParsingToolFormula::readOperand(QString & str, FormulaNode * & previous)
     {
         return true;
     }
+    else if(readStringValue(str,previous))
+    {
+        return true;
+    }
     return false;
 }
+bool ParsingToolFormula::readStringValue(QString& str, FormulaNode*& previous)
+{
+    if(str.isEmpty())
+        return false;
+
+    QString strResult;
+    if(str.startsWith("\""))
+    {
+        int i=0;
+        str = str.remove(0,1);
+        while(i<str.length() && str[i].isLetterOrNumber() && str[i]!='"')
+        {
+            strResult+=str[i];
+            ++i;
+        }
+
+        str=str.remove(0,strResult.size()+1);
+        qDebug() << str;
+        ValueFNode* nodeV = new ValueFNode();
+        nodeV->setValue(strResult);
+        previous = nodeV;
+        return true;
+
+    }
+
+    return false;
+}
+
 
 bool ParsingToolFormula::readOperator(QString& str, FormulaNode*& previous)
 {
@@ -160,7 +194,7 @@ bool ParsingToolFormula::readOperator(QString& str, FormulaNode*& previous)
             if(str.startsWith("("))
             {
                 str=str.remove(0,1);
-                while(readFormula(str,nextNode))
+                while(readFormula(str,nextNode) ) //&& !str.startsWith(")")
                 {//reading parameter loop
                    node->addParameter(nextNode);
                    nextNode=NULL;

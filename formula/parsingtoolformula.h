@@ -74,6 +74,7 @@ public:
     QHash<QString, QString> *getVariableHash() const;
     void setVariableHash(QHash<QString, QString> *variableHash);
 
+    bool readStringValue(QString &str, FormulaNode *&previous);
 private:
     QHash<QString,ParsingToolFormula::FormulaOperator>* m_hashOp;
     QHash<QString,QString>* m_variableHash;
