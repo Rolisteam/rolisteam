@@ -20,6 +20,7 @@
 #ifndef OPERATOR_H
 #define OPERATOR_H
 #include <QList>
+#include <math.h>
 
 #include "formulanode.h"
 #include "../parsingtoolformula.h"
