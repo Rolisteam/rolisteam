@@ -439,12 +439,13 @@ Player* PlayersList::getLocalPlayer() const
 void PlayersList::sendOffLocalPlayerInformations()
 {
     NetworkMessageWriter message (NetMsg::PlayerCategory, NetMsg::PlayerConnectionAction);
+    setLocalFeatures(*m_localPlayer);
     m_localPlayer->fill(message);
     message.sendAll();
 }
 void PlayersList::sendOffFeatures(Player* player)
 {
-    setLocalFeatures(*player);
+    //setLocalFeatures(*player);
     SendFeaturesIterator i(*player);
     while (i.hasNext())
     {

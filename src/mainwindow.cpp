@@ -1262,6 +1262,8 @@ void MainWindow::startConnection()
                     m_playerList->addLocalCharacter(m_currentConnectionProfile->getCharacter());
                 }
                 m_playerList->sendOffLocalPlayerInformations();
+
+                //may not be needed anymore
                 m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
             }
             m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();

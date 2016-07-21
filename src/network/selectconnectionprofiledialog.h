@@ -12,7 +12,7 @@ class SelectConnectionProfileDialog;
 }
 
 /**
- * @brief The ConnectionProfile class
+ * @brief The ConnectionProfile class stores any data about the connection: Mode (client or server) or role (GM or Player)
  */
 class ConnectionProfile
 {
@@ -102,14 +102,14 @@ private:
     bool    m_server;
     int     m_port;
     Player*  m_player;
-    bool    m_isGM;
-    QString m_title;
+    bool    m_isGM;///<
+    QString m_title;///< @brief defines the name of the profile. It can be what ever users want.
     QString m_name;
     QString m_address;
 };
 
 /**
- * @brief The ProfileModel class
+ * @brief The ProfileModel class stores all users profile. It is read from settings. User can add, update or remove profile.
  */
 class ProfileModel : public QAbstractListModel
 {
@@ -175,7 +175,7 @@ private:
 };
 
 /**
- * @brief The SelectConnectionProfileDialog class
+ * @brief The SelectConnectionProfileDialog class is the dialog box shown at starting or when the connection is lost.
  */
 class SelectConnectionProfileDialog : public QDialog
 {

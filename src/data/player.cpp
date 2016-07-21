@@ -62,6 +62,9 @@ Player::Player(NetworkMessageReader & data, NetworkLink * link)
         child->setParentPerson(this);
         data.uint8();
     }
+    QByteArray array = data.byteArray32();
+    QDataStream in(&array,QIODevice::ReadOnly);
+    in >> m_features;
 }
 
 Player::~Player()
@@ -79,11 +82,17 @@ void Player::fill(NetworkMessageWriter & message,bool addAvatar)
     message.string16(qApp->applicationVersion());
     message.int32(m_characters.size());
 
-    foreach(Character* item,m_characters)
+    for(Character* item : m_characters)
     {
         item->fill(message,addAvatar);
         message.uint8(1); // add it to the map
     }
+
+    QByteArray array;
+    QDataStream out(&array,QIODevice::WriteOnly);
+    out << m_features;
+
+    message.byteArray32(array);
 }
 
 NetworkLink * Player::link() const
