@@ -21,6 +21,7 @@
 #include "nodes/operator.h"
 
 #include "nodes/valuefnode.h"
+#include "nodes/parenthesesfnode.h"
 #include <QDebug>
 
 namespace Formula
@@ -77,7 +78,14 @@ bool ParsingToolFormula::readFormula(QString& str, FormulaNode* & previous)
         str=str.remove(0,1);
     }
     FormulaNode* operandNode=NULL;
-    if(readOperand(str,operandNode))
+    if(readParenthese(str,operandNode))
+    {
+
+        previous=operandNode;
+
+        return true;
+    }
+    else if(readOperand(str,operandNode))
     {
         previous=operandNode;
         operandNode= getLatestNode(operandNode);
@@ -86,6 +94,26 @@ bool ParsingToolFormula::readFormula(QString& str, FormulaNode* & previous)
     }
     else
         return false;
+}
+bool ParsingToolFormula::readParenthese(QString& str, FormulaNode* previous)
+{
+    if(str.startsWith("("))
+    {
+        str=str.remove(0,1);
+        FormulaNode* internalNode=NULL;
+        if(readFormula(str,internalNode))
+        {
+
+            ParenthesesFNode* node = new ParenthesesFNode();
+            node->setInternalNode(internalNode);
+            previous = node;
+
+            if(str.startsWith(")"))
+            {
+                str=str.remove(0,1);
+            }
+        }
+    }
 }
 
 bool ParsingToolFormula::readScalarOperator(QString& str, FormulaNode* previous)
