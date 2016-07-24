@@ -51,7 +51,7 @@ class NetworkManager : public QObject
     Q_OBJECT
     Q_ENUMS(ConnectionState)
 public:
-    enum ConnectionState {DISCONNECTED,CONNECTING,LISTENING,CONNECTED,ERROR};
+    enum ConnectionState {DISCONNECTED,CONNECTING,LISTENING,CONNECTED};
 	/**
 	 * @brief NetworkManager
 	 */
