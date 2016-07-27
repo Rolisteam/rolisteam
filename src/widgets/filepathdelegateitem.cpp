@@ -121,7 +121,6 @@ void FilePathDelegateItem::setEditorData(QWidget *editor, const QModelIndex &ind
             ImgEditor->setPixmap(index.data(Qt::DisplayRole).value<QPixmap>());
         }
     }
-
     QStyledItemDelegate::setEditorData(editor, index);
 
 }
@@ -142,7 +141,6 @@ void FilePathDelegateItem::setModelData(QWidget *editor, QAbstractItemModel *mod
     {
         QStyledItemDelegate::setModelData(editor, model, index);
     }
-
 }
 void FilePathDelegateItem::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
