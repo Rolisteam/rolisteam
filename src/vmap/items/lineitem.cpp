@@ -153,14 +153,27 @@ void LineItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
     if(pointId == 0)
     {
+        m_resizing = true;
         m_startPoint = pos;
         m_rect.setTopLeft(m_startPoint);
     }
     else if(pointId == 1)
     {
+
+        m_resizing = true;
         m_endPoint = pos;
         m_rect.setBottomRight(m_endPoint);
     }
+}
+void LineItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
+{
+    m_rect.setX(x);
+    m_rect.setY(y);
+    m_rect.setWidth(w);
+    m_rect.setHeight(h);
+
+    m_startPoint = m_rect.topLeft();
+    m_endPoint = m_rect.bottomRight();
 }
 void LineItem::initChildPointItem()
 {

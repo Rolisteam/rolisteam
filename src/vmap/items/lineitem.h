@@ -82,12 +82,9 @@ public:
      */
     virtual void setGeometryPoint(qreal pointId, QPointF &pos);
     virtual void initChildPointItem();
-	virtual VisualItem* getItemCopy();
+    virtual VisualItem* getItemCopy();
+    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
 private:
-    /**
-    * @brief bounding rect copy (no need to compute it each time
-    */
-    QRectF m_rect;
     /**
     * @brief starting point, does not move except when the whole line is moved.
     */
