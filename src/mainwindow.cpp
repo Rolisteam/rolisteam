@@ -332,17 +332,17 @@ void MainWindow::receiveData(quint64 readData,quint64 size)
     if(size==0)
     {
         m_downLoadProgressbar->setVisible(false);
-        if(m_shownProgress)
+       /* if(m_shownProgress)
         {
             statusBar()->removeWidget(m_downLoadProgressbar);
-        }
+        }*/
         m_shownProgress=false;
-        statusBar()->setVisible(false);
+       // statusBar()->setVisible(false);
     }
     else if(readData!=size)
     {
-        statusBar()->setVisible(true);
-        statusBar()->addWidget(m_downLoadProgressbar);
+        //statusBar()->setVisible(true);
+        //statusBar()->addWidget(m_downLoadProgressbar);
         m_downLoadProgressbar->setVisible(true);
         quint64 i = (size-readData)*100/size;
 
@@ -358,9 +358,16 @@ void MainWindow::createNotificationZone()
     m_dockLogUtil->setObjectName("dockLogUtil");
     m_dockLogUtil->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_dockLogUtil->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    QWidget* wd = new QWidget();
+    QVBoxLayout* layout = new QVBoxLayout();
+    wd->setLayout(layout);
     m_notifierDisplay = new QTextEdit(m_dockLogUtil);
     m_notifierDisplay->setReadOnly(true);
-    m_dockLogUtil->setWidget(m_notifierDisplay);
+
+    layout->addWidget(m_notifierDisplay);
+    layout->addWidget(m_downLoadProgressbar);
+
+    m_dockLogUtil->setWidget(wd);
     m_dockLogUtil->setMinimumWidth(125);
 }
 
