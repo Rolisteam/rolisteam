@@ -107,6 +107,7 @@ public:
     void setBorderVisible(bool);
 
     virtual void setEditableItem(bool b);
+    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
 public slots:
     void updateTextPosition();
     void decreaseTextSize();

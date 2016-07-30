@@ -59,17 +59,14 @@ void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
 void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     VMap* map = dynamic_cast<VMap*>(scene());
-    qDebug() << "double click";
     if( NULL != map)
     {
         if(map->getSelectedtool() == VToolsBar::HANDLER)
         {
-            qDebug() << "double click HANDLER";
         }
         else if((map->getSelectedtool() == VToolsBar::TEXT)||
                 (map->getSelectedtool() == VToolsBar::TEXTBORDER))
         {
-             qDebug() << "double click TEXT";
         }
     }
     QGraphicsTextItem::mouseDoubleClickEvent(event);
@@ -110,8 +107,9 @@ void TextItem::init()
     m_textItem->setPos(QPointF(0,0));
     m_textItem->setTextWidth(100);
     m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+    m_textItem->setDefaultTextColor(m_color);
     m_doc = new QTextDocument(m_textItem);
-    m_doc->setHtml(tr("<b style=\"color: %1\">Text</b>").arg(m_color.name()));
+    m_doc->setPlainText(tr("Text"));
     //m_doc->setDefaultStyleSheet(QString("color: %1;").arg(m_color.name()));
     m_textItem->setDocument(m_doc);
 
@@ -256,7 +254,8 @@ void TextItem::updateTextPosition()
             m_child->value(3)->setPos(m_rect.bottomLeft());
         }
     }
-    itemGeometryChanged(this);
+    //itemGeometryChanged(this);
+    m_resizing = true;
 }
 
 void TextItem::initChildPointItem()
@@ -296,10 +295,12 @@ void TextItem::updateChildPosition()
 void TextItem::writeData(QDataStream& out) const
 {
     out << m_start;
+    out << m_showRect;
     out << m_doc->toHtml();
     out << m_color;
     out << m_id;
     out << m_rect;
+    out << m_penWidth;
     out << scale();
     out << rotation();
     out << pos();
@@ -320,11 +321,15 @@ void TextItem::readData(QDataStream& in)
 {
     in >> m_start;
     QString text;
+    in >> m_showRect;
     in >> text;
     m_doc->setHtml(text);
     in >> m_color;
+    m_textItem->setDefaultTextColor(m_color);
+
     in >> m_id;
     in >> m_rect;
+    in >> m_penWidth;
 
     qreal scale;
     in >> scale;
@@ -350,10 +355,19 @@ void TextItem::readData(QDataStream& in)
 void TextItem::fillMessage(NetworkMessageWriter* msg)
 {
     msg->string16(m_id);
+    msg->uint8((quint8)m_showRect);
     msg->real(scale());
     msg->real(rotation());
     msg->uint8((int)m_layer);
     msg->real(zValue());
+    //m_rect
+    msg->real(m_rect.x());
+    msg->real(m_rect.y());
+    msg->real(m_rect.width());
+    msg->real(m_rect.height());
+
+    msg->uint32(m_penWidth);
+
     //pos
     msg->real(pos().x());
     msg->real(pos().y());
@@ -362,15 +376,25 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(m_start.y());
     msg->string32(m_doc->toHtml());
     msg->rgb(m_color);
+    msg->uint8((quint8 )m_showRect);
 }//Votre appel est en attente.
 void TextItem::readItem(NetworkMessageReader* msg)
 {
     blockSignals(true);
     m_id = msg->string16();
+    m_showRect = (bool)msg->uint8();
     setScale(msg->real());
     setRotation(msg->real());
     m_layer = (VisualItem::Layer)msg->uint8();
     setZValue(msg->real());
+    //m_rect
+    m_rect.setX(msg->real());
+    m_rect.setY(msg->real());
+    m_rect.setWidth(msg->real());
+    m_rect.setHeight(msg->real());
+
+    m_penWidth = msg->uint32();
+
     //pos
     qreal x = msg->real();
     qreal y = msg->real();
@@ -380,7 +404,10 @@ void TextItem::readItem(NetworkMessageReader* msg)
     m_start.setY(msg->real());
     m_doc->setHtml(msg->string32());
     m_color = msg->rgb();
+    m_showRect = (bool)msg->uint8();
     blockSignals(false);
+    m_textItem->setDefaultTextColor(m_color);
+
     update();
 }
 VisualItem* TextItem::getItemCopy()
@@ -418,7 +445,12 @@ void TextItem::setBorderVisible(bool b)
 {
     m_showRect = b ;
 }
+void TextItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
+{
+    VisualItem::setRectSize(x,y,w,h);
 
+    updateTextPosition();
+}
 void TextItem::setEditableItem(bool b)
 {
     VisualItem::setEditableItem(b);
