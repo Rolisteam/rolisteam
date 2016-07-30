@@ -52,5 +52,10 @@ const QPixmap& CharacterState::getImage() const
 }
 QPixmap* CharacterState::getPixmap()
 {
-	return &m_image;
+    return &m_image;
+}
+
+bool CharacterState::hasImage() const
+{
+    return !m_image.isNull();
 }

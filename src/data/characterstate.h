@@ -67,6 +67,8 @@ public:
 
 	QPixmap* getPixmap();
 
+    bool hasImage() const;
+
 
 private:
 	QString m_label;
