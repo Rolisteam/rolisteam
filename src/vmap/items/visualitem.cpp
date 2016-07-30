@@ -124,19 +124,16 @@ void VisualItem::setPenColor(QColor& penColor)
 }
 void VisualItem::mousePressEvent ( QGraphicsSceneMouseEvent * event )
 {
-    qDebug() << "mousePress";
     update();
     QGraphicsItem::mousePressEvent(event);
 }
 void VisualItem::mouseMoveEvent ( QGraphicsSceneMouseEvent * event )
 {
-    qDebug() << "mouseMove";
     update();
     QGraphicsItem::mouseMoveEvent(event);
 }
 void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "mouseRelease";
     update();
     QGraphicsItem::mouseReleaseEvent(event);
     sendPositionMsg();
