@@ -732,13 +732,18 @@ void CharacterItem::setCharacterIsMovable(bool isMovable)
 
     if((isLocal()&&(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)))
     {
+        if(!isEditable())
+        {
             setFlag(QGraphicsItem::ItemIsMovable,isMovable);
-            connect(this,SIGNAL(xChanged()),this,SLOT(sendPositionMsg()));
-            connect(this,SIGNAL(yChanged()),this,SLOT(sendPositionMsg()));
+            connect(this,SIGNAL(xChanged()),this,SLOT(posChange()),Qt::UniqueConnection);
+            connect(this,SIGNAL(yChanged()),this,SLOT(posChange()),Qt::UniqueConnection);
+        }
     }
     else
     {
         setFlag(QGraphicsItem::ItemIsMovable,false);
+        disconnect(this,SIGNAL(xChanged()),this,SLOT(posChange()));
+        disconnect(this,SIGNAL(yChanged()),this,SLOT(posChange()));
     }
 }
 
