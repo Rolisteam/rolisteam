@@ -229,6 +229,7 @@ void CharacterItem::sizeChanged(int m_size)
     m_diameter=m_size;
 	m_rect.setRect(0,0,m_diameter,m_diameter);
     generatedThumbnail();
+    m_resizing = true;
 }
 void CharacterItem::setSize(QSizeF size)
 {
@@ -238,7 +239,13 @@ void CharacterItem::setSize(QSizeF size)
     m_protectGeometryChange = false;
     update();
 }
-
+void CharacterItem::setRectSize(qreal x,qreal y,qreal w,qreal h)
+{
+    VisualItem::setRectSize(x,y,w,h);
+    m_diameter=m_rect.width();
+    generatedThumbnail();
+    updateChildPosition();
+}
 void CharacterItem::generatedThumbnail()
 {
     if(m_thumnails!=NULL)
@@ -346,15 +353,12 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
 
     if(NULL!=tmp)
     {
-        qDebug() << "Existing Character" << tmp->getParentId();
         m_character = tmp;
         m_character->read(*msg);
-        qDebug() << "Existing Character" << tmp->getParentId();
         generatedThumbnail();
     }
     else
     {
-        qDebug() << "Add new Character";
     /// @todo This code may no longer be needed.
         m_character = new Character();
         QString id = m_character->read(*msg);
@@ -378,7 +382,6 @@ void CharacterItem::resizeContents(const QRectF& rect, bool )
         return;
 
     prepareGeometryChange();
-    m_resizing = true;
     m_rect = rect;
     m_diameter = qMin(m_rect.width(),m_rect.height());
     sizeChanged(m_diameter);
@@ -427,7 +430,7 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &va
             emit positionChanged();
         }
     }
-    return QGraphicsItem::itemChange(change, newValue);
+    return VisualItem::itemChange(change, newValue);
 }
 int CharacterItem::getChildPointCount() const
 {

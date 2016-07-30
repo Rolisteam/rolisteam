@@ -195,6 +195,7 @@ public:
      * @return
      */
     bool isNpc();
+    virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
 signals:
     /**
      * @brief positionChanged
