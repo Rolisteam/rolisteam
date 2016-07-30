@@ -157,6 +157,7 @@ enum Action {
     GeometryItemChanged,
     AddPoint,
     GeometryViewChanged,
+    characterStateChanged,
     SetParentItem
 };
 }
