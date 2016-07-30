@@ -214,6 +214,25 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     emit mapStatutChanged();
 }
 
+void VMap::processCharacterStateHasChanged(NetworkMessageReader& msg)
+{
+    QString idItem = msg.string8();
+    VisualItem* item = m_itemMap->value(idItem);
+    if(item->getType() == VisualItem::CHARACTER)
+    {
+        QString idCharacter = msg.string8();
+        QList<CharacterItem*> list = getCharacterOnMap(idCharacter);
+        for(auto characterItem : list)
+        {
+            if(characterItem->getId() == idItem)
+            {
+                characterItem->readCharacterStateChanged(msg);
+            }
+        }
+
+    }
+
+}
 
 VisualItem::Layer VMap::getCurrentLayer() const
 {

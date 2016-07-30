@@ -254,6 +254,7 @@ public:
     void processZValueMsg(NetworkMessageReader *msg);
     void processRotationMsg(NetworkMessageReader *msg);
     void processRectGeometryMsg(NetworkMessageReader *msg);
+    void processCharacterStateHasChanged(NetworkMessageReader &msg);
 public slots:
     /**
     * @brief defines the current tools

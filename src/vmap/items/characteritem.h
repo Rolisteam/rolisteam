@@ -196,6 +196,7 @@ public:
      */
     bool isNpc();
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
+    void readCharacterStateChanged(NetworkMessageReader &msg);
 signals:
     /**
      * @brief positionChanged

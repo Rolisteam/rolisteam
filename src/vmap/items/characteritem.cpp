@@ -652,6 +652,9 @@ void CharacterItem::changeVisionShape()
 void CharacterItem::characterStateChange()
 {
     QAction* act = qobject_cast<QAction*>(sender());
+    if(NULL == act)
+        return;
+
     if(NULL == m_character)
         return;
 
@@ -659,6 +662,13 @@ void CharacterItem::characterStateChange()
 
 	CharacterState* state = Character::getCharacterStateList()->at(index);
     m_character->setState(state);
+
+    NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::VMapCategory,NetMsg::characterStateChanged);
+    msg->string8(getMapId());
+    msg->string8(m_id);
+    msg->string8(m_character->getUuid());
+    msg->uint16(index);
+    msg->sendAll();
 
 }
 VisualItem* CharacterItem::getItemCopy()
@@ -679,6 +689,20 @@ QString CharacterItem::getParentId() const
         }
     }
     return QString();
+}
+void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
+{
+    int index = msg.uint16();
+    if(NULL!=m_character)
+    {
+        CharacterState* state = Character::getCharacterStateList()->at(index);
+        if(NULL!=state)
+        {
+            m_character->setState(state);
+            update();
+        }
+    }
+
 }
 
 void CharacterItem::addChildPoint(ChildPointItem* item)
