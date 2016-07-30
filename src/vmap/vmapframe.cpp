@@ -279,59 +279,72 @@ NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
         case NetMsg::DelItem:
         {
             m_vmap->processDelItemMessage(msg);
+            type = NetWorkReceiver::AllExceptSender;
         }
             break;
         case NetMsg::MoveItem:
         {
                 m_vmap->processMoveItemMessage(msg);
+                type = NetWorkReceiver::AllExceptSender;
         }
             break;
 
         case NetMsg::GeometryItemChanged:
         {
                 m_vmap->processGeometryChangeItem(msg);
+                type = NetWorkReceiver::AllExceptSender;
         }
             break;
         case NetMsg::OpacityItemChanged:
         {
                 m_vmap->processOpacityMessage(msg);
+                type = NetWorkReceiver::AllExceptSender;
         }
             break;
         case NetMsg::LayerItemChanged:
         {
                 m_vmap->processLayerMessage(msg);
+                type = NetWorkReceiver::AllExceptSender;
         }
             break;
         case NetMsg::vmapChanges:
         {
             //m_vmap->processMapPropertyChange(msg);
             m_vmap->readMessage(*msg,false);
+            type = NetWorkReceiver::AllExceptSender;
         }
             break;
         case NetMsg::GeometryViewChanged:
         {
              //m_vmap->processGeometryViewChange(msg);
              m_graphicView->readMessage(msg);
+             type = NetWorkReceiver::AllExceptSender;
         }
             break;
         case NetMsg::SetParentItem:
         {
             m_vmap->processSetParentItem(msg);
+            type = NetWorkReceiver::AllExceptSender;
         }
         case NetMsg::ZValueItem:
         {
             m_vmap->processZValueMsg(msg);
+            type = NetWorkReceiver::AllExceptSender;
         }
     case NetMsg::RectGeometryItem:
     {
         m_vmap->processRectGeometryMsg(msg);
+        type = NetWorkReceiver::AllExceptSender;
     }
     case NetMsg::RotationItem:
     {
         m_vmap->processRotationMsg(msg);
+        type = NetWorkReceiver::AllExceptSender;
     }
         break;
     }
+
+    return type;
 }
 
 bool VMapFrame::readFileFromUri()
