@@ -24,6 +24,7 @@
 
 #include "data/character.h"
 #include <QDebug>
+#include <QBuffer>
 
 CharacterStateModel::CharacterStateModel()
     : m_stateList(new QList<CharacterState*>()),m_isGM(false)
@@ -111,6 +112,27 @@ void CharacterStateModel::preferencesHasChanged(QString pref)
     {
         m_isGM =! PreferencesManager::getInstance()->value(pref,true).toBool();
     }
+}
+NetWorkReceiver::SendType CharacterStateModel::processMessage(NetworkMessageReader* msg, NetworkLink* link)
+{
+    NetWorkReceiver::SendType type  = NetWorkReceiver::AllExceptSender;;
+
+    if(NULL==msg)
+        return NetWorkReceiver::NONE;
+
+    switch(msg->action())
+    {
+        case NetMsg::addState:
+            processAddState(msg);
+        break;
+        case NetMsg::removeState:
+        break;
+        case NetMsg::moveState:
+        break;
+    }
+
+    return type;
+
 }
 
 void CharacterStateModel::addState(CharacterState* alias)
@@ -247,24 +269,53 @@ void CharacterStateModel::clear()
 	m_stateList->clear();
     endResetModel();
 }
+void CharacterStateModel::processAddState(NetworkMessageReader* msg)
+{
+    CharacterState* state = new CharacterState();
+
+    quint64 id = msg->uint64();
+    state->setLabel(msg->string32());
+    state->setColor(msg->rgb());
+    bool hasImage = (bool)msg->uint8();
+    if(hasImage)
+    {
+        QByteArray array = msg->byteArray32();
+        QPixmap pix;
+        pix.loadFromData(array.data());
+    }
+    m_stateList->insert(id,state);
+}
+
 void CharacterStateModel::sendOffAllCharacterState(NetworkLink* link)
 {
-	foreach(CharacterState* alias,*m_stateList)
+    foreach(CharacterState* state,*m_stateList)
     {
-        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addDiceAlias);
-		/*msg.int64(m_stateList->indexOf(alias));
-        msg.string32(alias->getCommand());
-        msg.string32(alias->getValue());
-        msg.int8(alias->isReplace());
-        msg.int8(alias->isEnable());
-		msg.sendTo(link);*/
+        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::addState);
+        msg.uint64(m_stateList->indexOf(state));
+        msg.string32(state->getLabel());
+        msg.rgb(state->getColor());
+        if(state->hasImage())
+        {
+            msg.uint8((quint8)true);
+
+            QByteArray array;
+            QBuffer buffer(&array);
+            buffer.open(QIODevice::WriteOnly);
+            state->getPixmap()->save(&buffer,"PNG");
+            msg.byteArray32(array);
+        }
+        else
+        {
+            msg.uint8((quint8)false);
+        }
+        msg.sendTo(link);
     }
 }
 void CharacterStateModel::moveState(int from,int to)
 {
     if(m_isGM)
     {
-        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::moveDiceAlias);
+        NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::moveState);
         msg.int64(from);
         msg.int64(to);
         msg.sendAll();

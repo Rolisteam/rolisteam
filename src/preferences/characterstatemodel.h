@@ -28,7 +28,7 @@
 /**
  * @brief The CharacterStateModel class
  */
-class CharacterStateModel : public QAbstractListModel, public PreferencesListener
+class CharacterStateModel : public QAbstractListModel, public PreferencesListener, public NetWorkReceiver
 {
     Q_OBJECT
 public:
@@ -90,6 +90,8 @@ public:
 
     virtual void preferencesHasChanged(QString);
 
+    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader* msg, NetworkLink* link = NULL);
+
 
 	///new methods
 	void setStates(QList<CharacterState*>* map);
@@ -110,6 +112,7 @@ public:
      */
 	void sendOffAllCharacterState(NetworkLink*);
 
+    void processAddState(NetworkMessageReader *msg);
 private:
     QList<CharacterState*>* m_stateList;
     bool m_isGM;
