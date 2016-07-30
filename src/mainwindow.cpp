@@ -1155,6 +1155,10 @@ void MainWindow::parseCommandLineArguments(QStringList list)
 }
 NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, NetworkLink* link)
 {
+    if(NULL==msg)
+        return NetWorkReceiver::NONE;
+
+
     NetWorkReceiver::SendType type;
     switch(msg->category())
     {
@@ -1880,6 +1884,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     case NetMsg::SetParentItem:
     case NetMsg::RectGeometryItem:
     case NetMsg::RotationItem:
+    case NetMsg::characterStateChanged:
     case NetMsg::ZValueItem:
     {
         QString vmapId = msg->string8();
