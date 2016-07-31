@@ -119,6 +119,8 @@ void ImageItem::fillMessage(NetworkMessageWriter* msg)
 	msg->real(scale());
 	msg->real(rotation());
 
+
+
     msg->real(pos().x());
     msg->real(pos().y());
 
@@ -192,7 +194,7 @@ void ImageItem::initChildPointItem()
 {
     if(!m_initialized)
     {
-        setPos(m_rect.center());
+        //setPos(m_rect.center());
         m_rect.setCoords(-m_rect.width()/2,-m_rect.height()/2,m_rect.width()/2,m_rect.height()/2);
         m_initialized=true;
     }

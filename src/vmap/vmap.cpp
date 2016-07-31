@@ -1348,9 +1348,12 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
                 {
                     ImageItem* led = new ImageItem();
                     led->setImageUri(url.toLocalFile());
-                    sendOffItem(led);
                     addNewItem(led);
+                    qDebug() << event->scenePos() << event->pos() << led->pos();
                     led->setPos(event->scenePos());
+                    qDebug() << led->pos();
+                    sendOffItem(led);
+                    qDebug() << led->pos();
                 }
             }
 
