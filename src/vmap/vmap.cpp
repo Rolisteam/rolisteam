@@ -83,9 +83,11 @@ VisualItem::Layer VMap::currentLayer() const
 
 void VMap::setCurrentLayer(const VisualItem::Layer &currentLayer)
 {
-    editLayer(currentLayer);
-    //m_currentLayer = currentLayer;
-    emit mapChanged();
+    if(editLayer(currentLayer))
+    {
+        emit mapChanged();
+    }
+
 }
 
 void  VMap::initScene()
@@ -174,11 +176,12 @@ void VMap::characterHasBeenDeleted(Character* character)
 
 void VMap::fill(NetworkMessageWriter& msg)
 {
-    msg.string16(getMapTitle());
     msg.string8(getId());
+    msg.string16(getMapTitle());
     msg.rgb(mapColor());
     msg.uint16(mapWidth());
     msg.uint16(mapHeight());
+    msg.uint8((quint8)m_currentLayer);
     msg.string8(m_sightItem->getId());
     msg.uint8((quint8)getPermissionMode());
     msg.uint8((quint8)getVisibilityMode());
@@ -187,11 +190,12 @@ void VMap::fill(NetworkMessageWriter& msg)
 }
 void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
 {
-    m_title = msg.string16();
     m_id = msg.string8();
+    m_title = msg.string16();
     m_bgColor = msg.rgb();
     setWidth(msg.uint16());
     setHeight(msg.uint16());
+    quint8 layer = (VisualItem::Layer)msg.uint8();
     QString idSight = msg.string8();
     m_sightItem->setId(idSight);
     quint8 permissionMode = msg.uint8();
@@ -207,6 +211,7 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     }
 
     blockSignals(true);
+    editLayer((VisualItem::Layer)layer);
     setPermissionMode((Map::PermissionMode)permissionMode);
     setOption(VisualItem::EnableCharacterVision,enableCharacter);
     setVisibilityMode(mode);
@@ -700,11 +705,13 @@ void VMap::saveFile(QDataStream& out)
 
 
     out << m_itemMap->size();
+    qDebug() << m_sortedItemList.size() << m_itemMap->size();
     foreach(QString key, m_sortedItemList)//m_itemMap->values()
     {
         VisualItem* tmp = m_itemMap->value(key);
         if(NULL!=tmp)
         {
+            qDebug() << tmp->getType() << "get type";
             out << (int)tmp->getType() << *tmp << tmp->pos().x() << tmp->pos().y();
         }
     }
@@ -771,6 +778,11 @@ void VMap::openFile(QDataStream& in)
                 item=new PathItem();
                 break;
             case VisualItem::SIGHT:
+                //remove the old one
+                m_orderedItemList.removeAll(m_sightItem);
+                m_sortedItemList.removeAll(m_sightItem->getId());
+                m_itemMap->remove(m_sightItem->getId());
+                //add new
                 item= m_sightItem;
                 break;
             case VisualItem::IMAGE:
