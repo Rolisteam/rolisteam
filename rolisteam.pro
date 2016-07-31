@@ -73,6 +73,7 @@ include(src/diceparser/diceparser.pri)
 include(src/vmap/vmap.pri)
 include(src/charactersheet/charactersheet.pri)
 include(src/session/session.pri)
+include(src/widgets/MRichTextEditor/MRichTextEditor.pri)
 
 
 #GM TOOL BOX
