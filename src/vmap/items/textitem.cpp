@@ -333,6 +333,7 @@ void TextItem::initChildPointItem()
     {
         ChildPointItem* tmp = new ChildPointItem(i,this);
         tmp->setMotion(ChildPointItem::ALL);
+        tmp->setRotationEnable(true);
         m_child->append(tmp);
     }
     updateChildPosition();
