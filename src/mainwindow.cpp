@@ -1330,6 +1330,8 @@ void MainWindow::setupUi()
     dock->setWindowTitle(tr("ToolBox"));
     dock->setObjectName("DockToolBar");
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,dock->toggleViewAction());
+    QAction* vmapToolBar  = m_vmapToolBar->toggleViewAction();
+    vmapToolBar->setShortcut(Qt::Key_F9);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_toolBarAct,m_vmapToolBar->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_toolBarAct);
 
