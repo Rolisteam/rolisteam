@@ -34,6 +34,9 @@
 
 #include "vmap/vmap.h"
 
+///////////////////////////////////////
+/// Code of TextLabel
+///////////////////////////////////////
 TextLabel::TextLabel(QGraphicsItem* parent)
     : QGraphicsTextItem(parent)
 {
@@ -63,24 +66,62 @@ void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     {
         if(map->getSelectedtool() == VToolsBar::HANDLER)
         {
+            qDebug() << "double click handler";
         }
         else if((map->getSelectedtool() == VToolsBar::TEXT)||
                 (map->getSelectedtool() == VToolsBar::TEXTBORDER))
         {
+            qDebug() << "double click text";//start richtextedit dialog
         }
     }
     QGraphicsTextItem::mouseDoubleClickEvent(event);
 
 }
 
+
+///////////////////////////////////////
+/// Code of RichTextEditDialog
+///////////////////////////////////////
+
+
+RichTextEditDialog::RichTextEditDialog()
+{
+    m_richText = new MRichTextEdit(this);
+    QVBoxLayout* lay = new QVBoxLayout(this);
+    lay->addWidget(m_richText);
+
+    QDialogButtonBox* dialogButton = new QDialogButtonBox(QDialogButtonBox::Ok
+                                                          | QDialogButtonBox::Cancel);
+    lay->addWidget(dialogButton);
+
+    connect(dialogButton,SIGNAL(accepted()),this,SLOT(accept()));
+    connect(dialogButton,SIGNAL(rejected()),this,SLOT(reject()));
+
+    setLayout(lay);
+}
+
+void RichTextEditDialog::setText(QString str)
+{
+    m_richText->setText(str);
+}
+
+QString RichTextEditDialog::getText()
+{
+    return m_richText->toHtml();
+}
+
 ///////////////////////
+/// Code of TextItem
 //
 //
 //
 ///////////////////////
+
+RichTextEditDialog* TextItem::m_dialog = NULL;
 TextItem::TextItem()
     : m_offset(QPointF(100,30))
 {
+
     init();
     createActions();
 }
@@ -99,6 +140,10 @@ TextItem::TextItem(QPointF& start,quint16 penSize,QColor& penColor,QGraphicsItem
 
 void TextItem::init()
 {
+    if(NULL==m_dialog)
+    {
+        m_dialog = new RichTextEditDialog();
+    }
     setAcceptHoverEvents(true);
     m_showRect = false;
     m_textItem = new TextLabel(this);
@@ -158,7 +203,21 @@ void TextItem::updateFont()
     updateChildPosition();
     update();
 }
+void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        setChildrenVisible(false);
+        m_menuPos = event->screenPos();
+        editText();
+        event->accept();
+    }
+    else
+    {
+        VisualItem::mouseDoubleClickEvent(event);
+    }
 
+}
 void TextItem::wheelEvent(QGraphicsSceneWheelEvent *event)
 {
     if(event->modifiers() && Qt::ControlModifier)
@@ -254,7 +313,10 @@ void TextItem::updateTextPosition()
             m_child->value(3)->setPos(m_rect.bottomLeft());
         }
     }
-    //itemGeometryChanged(this);
+    if(m_doc == qobject_cast<QTextDocument*>(sender()))
+    {
+        emit itemGeometryChanged(this);
+    }
     m_resizing = true;
 }
 
@@ -292,6 +354,21 @@ void TextItem::updateChildPosition()
     setTransformOriginPoint(m_rect.center());
     update();
 }
+
+void TextItem::editText()
+{
+    m_dialog->setText(m_textItem->toHtml());
+    m_dialog->move(m_menuPos);
+    if(QDialog::Accepted == m_dialog->exec())
+    {
+        m_textItem->setHtml(m_dialog->getText());
+        updateTextPosition();
+        emit itemGeometryChanged(this);
+    }
+
+
+}
+
 void TextItem::writeData(QDataStream& out) const
 {
     out << m_start;
@@ -307,11 +384,10 @@ void TextItem::writeData(QDataStream& out) const
     //out << zValue();
     out << (int) m_layer;
 }
-void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+/*void TextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    setChildrenVisible(false);
     VisualItem::mouseDoubleClickEvent(event);
-}
+}*/
 void TextItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     VisualItem::mousePressEvent(event);
@@ -343,10 +419,6 @@ void TextItem::readData(QDataStream& in)
     in >> pos;
     setPos(pos);
 
-
-   /* qreal zvalue;
-    in >> zvalue;
-    setZValue(zvalue);*/
     int i;
     in >> i;
     m_layer = (VisualItem::Layer)i;
@@ -377,7 +449,7 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->string32(m_doc->toHtml());
     msg->rgb(m_color);
     msg->uint8((quint8 )m_showRect);
-}//Votre appel est en attente.
+}
 void TextItem::readItem(NetworkMessageReader* msg)
 {
     blockSignals(true);
@@ -417,6 +489,10 @@ VisualItem* TextItem::getItemCopy()
 }
 void TextItem::addActionContextMenu(QMenu* menu)
 {
+
+    QAction* edit = menu->addAction(tr("Edit Text…"));
+    connect(edit,SIGNAL(triggered(bool)),this,SLOT(editText()));
+
     QMenu* state =  menu->addMenu(tr("Font Size"));
     state->addAction(m_increaseFontSize);
     state->addAction(m_decreaseFontSize);
@@ -483,6 +559,17 @@ void TextItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
 {
     if(isEditable())
     QApplication::restoreOverrideCursor();
+}
+void TextItem::keyPressEvent(QKeyEvent* event)
+{
+    if(m_textItem->hasCursor())
+    {
+        QGraphicsItem::keyPressEvent(event);
+    }
+    else
+    {
+        VisualItem::keyPressEvent(event);
+    }
 }
 
 

@@ -24,8 +24,8 @@
 #include <QFontMetrics>
 #include <QGraphicsTextItem>
 #include <QTextDocument>
-
-
+#include "widgets/MRichTextEditor/mrichtextedit.h"
+#include <QDialog>
 class TextLabel : public QGraphicsTextItem
 {
 public:
@@ -34,6 +34,21 @@ public:
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
+};
+/**
+ * @brief The RichTextEditDialog class is a simple class based on QDialog to display rich text editor
+ */
+class RichTextEditDialog : public QDialog
+{
+public:
+    RichTextEditDialog();
+
+    void setText(QString str);
+    QString getText();
+
+private:
+    MRichTextEdit* m_richText;
 
 };
 
@@ -112,12 +127,14 @@ public slots:
     void updateTextPosition();
     void decreaseTextSize();
     void increaseTextSize();
+    void editText();
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void wheelEvent(QGraphicsSceneWheelEvent* event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 private:
     void updateFont();
     void init();
@@ -138,6 +155,8 @@ private:
     quint16 m_penWidth;
 
     const QPointF m_offset;
+
+    static RichTextEditDialog* m_dialog;
 
 };
 
