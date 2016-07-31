@@ -362,6 +362,7 @@ protected:
     QString m_mapId;
 	bool m_editable;
     QRectF m_rect;
+    QPoint m_menuPos;
 
 
     /// QAction*

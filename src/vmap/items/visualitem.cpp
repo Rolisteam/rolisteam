@@ -227,7 +227,7 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     QAction* resetRotationAct = rotationMenu->addAction(tr("To 360"));
     QAction* rightRotationAct =rotationMenu->addAction(tr("Right"));
     QAction* leftRotationAct =rotationMenu->addAction(tr("Left"));
-    QAction* angleRotationAct =rotationMenu->addAction(tr("Set Angle…"));
+    //QAction* angleRotationAct =rotationMenu->addAction(tr("Set Angle…"));
     event->accept();
 
     if(!m_promoteTypeList.isEmpty())
@@ -254,8 +254,9 @@ void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         m_putCharacterLayer->setChecked(true);
         break;
     }
+    m_menuPos = event->screenPos();
 
-    QAction* selectedAction = menu.exec(event->screenPos());
+    QAction* selectedAction = menu.exec(m_menuPos);
     if(removeAction==selectedAction)
     {
         emit itemRemoved(m_id);
