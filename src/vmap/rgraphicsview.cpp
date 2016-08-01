@@ -589,7 +589,7 @@ void RGraphicsView::readMessage(NetworkMessageReader* msg)
 
     if(NULL!=scene())
     {
-        setSceneRect(x,y,width,height);
+        //setSceneRect(x,y,width,height);
     }
 }
 void RGraphicsView::addImageToMap()
