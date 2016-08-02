@@ -524,7 +524,9 @@ void MainWindow::newVectorialMap()
         //tempmap->setCurrentTool(m_toolbar->getCurrentTool());
 
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
+
         tempmap->fill(msg);
+        tmp->fill(msg);
         msg.sendAll();
     }
 }
@@ -555,11 +557,16 @@ void MainWindow::sendOffAllMaps(NetworkLink * link)
     while (mapi.hasNext())
     {
         mapi.next();
-        VMap* tempmap = mapi.value()->getMap();
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
-        tempmap->fill(msg);
-        tempmap->sendAllItems(msg);
-        msg.sendTo(link);
+        VMapFrame* tmp = mapi.value();
+        if(NULL!=tmp)
+        {
+            VMap* tempmap = mapi.value()->getMap();
+            NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
+            tempmap->fill(msg);
+            tempmap->sendAllItems(msg);
+            tmp->fill(msg);
+            msg.sendTo(link);
+        }
     }
 
 
@@ -1861,6 +1868,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
         map->readMessage(*msg);
 
         VMapFrame* mapFrame = new VMapFrame(new CleverURI("",CleverURI::VMAP),map);
+        mapFrame->readMessage(*msg);
         prepareVMap(mapFrame);
         addMediaToMdiArea(mapFrame);
     }

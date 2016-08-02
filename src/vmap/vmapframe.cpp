@@ -63,6 +63,7 @@ void VMapFrame::closeEvent(QCloseEvent *event)
 void  VMapFrame::createView()
 {
     m_graphicView = new RGraphicsView(m_vmap);
+
     connect(m_vmap,SIGNAL(mapStatutChanged()),this,SLOT(updateTitle()));
     connect(m_vmap,SIGNAL(mapChanged()),this,SLOT(updateTitle()));
 }
@@ -74,7 +75,7 @@ void VMapFrame::updateMap()
     }
     setTitle(m_vmap->getMapTitle());
     m_graphicView->setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
-    setGeometry(m_graphicView->geometry());
+    setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setWidget(m_graphicView);
     setWindowIcon(QIcon(":/map.png"));
     m_vmap->setVisibilityMode(m_vmap->getVisibilityMode());
@@ -352,6 +353,26 @@ NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
 
     return type;
 }
+void VMapFrame::fill(NetworkMessageWriter& msg)
+{
+    QRectF rect = m_graphicView->sceneRect();
+    msg.real(rect.x());
+    msg.real(rect.y());
+    msg.real(rect.width());
+    msg.real(rect.height());
+
+}
+void VMapFrame::readMessage(NetworkMessageReader& msg)
+{
+    qreal x = msg.real();
+    qreal y = msg.real();
+    qreal w = msg.real();
+    qreal h = msg.real();
+    if(NULL!=m_graphicView)
+    {
+        m_graphicView->setSceneRect(x,y,w,h);
+    }
+}
 
 bool VMapFrame::readFileFromUri()
 {
@@ -361,6 +382,7 @@ bool VMapFrame::readFileFromUri()
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
         m_vmap->fill(msg);
         m_vmap->sendAllItems(msg);
+        fill(msg);
         msg.sendAll();
     }
     return true;
