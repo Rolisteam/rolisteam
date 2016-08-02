@@ -44,7 +44,7 @@ RGraphicsView::RGraphicsView(VMap *vmap)
     setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
     //setViewport(new QOpenGLWidget());
-    fitInView(sceneRect(),Qt::KeepAspectRatio);
+    //fitInView(sceneRect(),Qt::KeepAspectRatio);
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
     setRubberBandSelectionMode(Qt::IntersectsItemBoundingRect);
     setOptimizationFlag(QGraphicsView::DontAdjustForAntialiasing);
@@ -125,7 +125,8 @@ void RGraphicsView::wheelEvent(QWheelEvent *event)
             --m_counterZoom;
             scale(1.0 / scaleFactor, 1.0 / scaleFactor);
         }
-
+        setResizeAnchor(QGraphicsView::NoAnchor);
+        setTransformationAnchor(QGraphicsView::NoAnchor);
     }
     else
         QGraphicsView::wheelEvent(event);
@@ -563,9 +564,19 @@ void RGraphicsView::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 void RGraphicsView::resizeEvent(QResizeEvent* event)
 {
     //GM is the references
+
+//    qDebug() << "resize event" << geometry() << scene()->sceneRect() << sceneRect();
    if((NULL!=scene())&&(m_vmap->getOption(VisualItem::LocalIsGM).toBool()))
    {
-        scene()->setSceneRect(geometry());
+
+       if((geometry().width() > scene()->sceneRect().width())||
+               ((geometry().height() > scene()->sceneRect().height())))
+       {
+           scene()->setSceneRect(geometry());
+           m_vmap->setWidth(geometry().width());
+           m_vmap->setHeight(geometry().height());
+           ensureVisible(geometry(),0,0);
+       }
 
        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::GeometryViewChanged);
        msg.string8(m_vmap->getId());
@@ -578,6 +589,9 @@ void RGraphicsView::resizeEvent(QResizeEvent* event)
 
        msg.sendAll();
    }
+
+   setResizeAnchor(QGraphicsView::NoAnchor);
+   setTransformationAnchor(QGraphicsView::NoAnchor);
    QGraphicsView::resizeEvent(event);
 }
 void RGraphicsView::readMessage(NetworkMessageReader* msg)
@@ -586,6 +600,8 @@ void RGraphicsView::readMessage(NetworkMessageReader* msg)
     qreal y  = msg->real();
     qreal width  = msg->real();
     qreal height  = msg->real();
+
+    //qDebug() <<"read message" << x << y << width << height;
 
     if(NULL!=scene())
     {
