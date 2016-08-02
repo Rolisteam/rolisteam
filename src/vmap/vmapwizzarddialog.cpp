@@ -28,6 +28,10 @@
 #include "preferences/preferencesmanager.h"
 
 
+/// @todo make those value to be store in preferences.
+#define DEFAULT_VMAP_WIDTH 800
+#define DEFAULT_VMAP_HEIGHT 600
+
 MapWizzardDialog::MapWizzardDialog(QWidget* parent) :
     QDialog(parent),
     ui(new Ui::MapWizzardDialog)
@@ -194,8 +198,8 @@ void MapWizzardDialog::setAllMap(VMap* map)
     map->setVisibilityMode(resultVisibility);
     map->setOption(VisualItem::GridSize,ui->m_sizeGrid->value());
 
-    map->setWidth(800);
-    map->setHeight(600);
+    map->setWidth(DEFAULT_VMAP_WIDTH);
+    map->setHeight(DEFAULT_VMAP_HEIGHT);
 
     map->setOption(VisualItem::Scale,ui->m_scaleOfGrid->value());
     map->setOption(VisualItem::Unit,ui->m_unitPattern->currentIndex());
