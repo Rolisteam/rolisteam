@@ -487,10 +487,13 @@ void RGraphicsView::showMapProperties()
 }
 void RGraphicsView::sendOffMapChange()
 {
-    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::vmapChanges);
-    msg.string8(m_vmap->getId());
-    m_vmap->fill(msg);
-    msg.sendAll();
+    if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())||(m_vmap->getPermissionMode() == Map::PC_ALL))
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::vmapChanges);
+        msg.string8(m_vmap->getId());
+        m_vmap->fill(msg);
+        msg.sendAll();
+    }
 }
 
 void RGraphicsView::changeLayer()
