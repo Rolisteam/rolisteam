@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_addTextFieldAct->setData(Canvas::ADDTEXTFIELD);
 
     ui->m_moveAct->setData(Canvas::MOVE);
-    ui->m_deleteAct->setData(Canvas::DELETE);
+    ui->m_deleteAct->setData(Canvas::DELETETOOL);
     ui->m_addButtonAct->setData(Canvas::BUTTON);
 
     ui->m_addTextInput->setDefaultAction(ui->m_addTextInputAct);
