@@ -127,6 +127,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
 
     connect(ui->m_addPage,SIGNAL(clicked(bool)),this,SLOT(addPage()));
+    connect(ui->m_removePage,SIGNAL(clicked(bool)),this,SLOT(removePage()));
     connect(ui->m_selectPageCb,SIGNAL(currentIndexChanged(int)),this,SLOT(currentPageChanged(int)));
 
     m_imgProvider = new RolisteamImageProvider();
@@ -440,7 +441,7 @@ void MainWindow::showQML()
     generateQML(data);
     ui->m_codeEdit->setText(data);
 
-    QHash<QString,QPixmap> imgdata = m_imgProvider->data();
+    QHash<QString,QPixmap>* imgdata = RolisteamImageProvider::getData();
 
     QFile file("test.qml");
     if(file.open(QIODevice::WriteOnly))
@@ -573,7 +574,10 @@ void MainWindow::addPage()
 }
 void MainWindow::currentPageChanged(int i)
 {
-    m_view->setScene(m_canvasList[i]);
+    if((i>=0)&&(i<m_canvasList.size()))
+    {
+        m_view->setScene(m_canvasList[i]);
+    }
 
 }
 void MainWindow::removePage()
@@ -583,6 +587,8 @@ void MainWindow::removePage()
         Canvas* previous = m_canvasList[m_currentPage];
         m_canvasList.removeOne(previous);
         m_model->removePageId(m_currentPage);
+        --m_currentPage;
+        updatePageSelector();
     }
 }
 void MainWindow::editColor(QModelIndex index)
