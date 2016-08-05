@@ -229,6 +229,24 @@ QList<CharacterSheetItem *> FieldModel::children()
 
 void FieldModel::removePageId(int id)
 {
+    Section* parentSection = m_rootSection;
+
+
+
+
+    for(int i = m_rootSection->getChildrenCount()-1;i>=0;--i)
+    {
+      auto child = m_rootSection->getChildAt(i);
+      if(id == child->getPage())
+      {
+          beginRemoveRows(createIndex(parentSection->indexOfChild(child),0,parentSection),
+                          parentSection->indexOfChild(child),
+                          parentSection->indexOfChild(child));
+
+          parentSection->removeChild(child);
+          endRemoveRows();
+      }
+    }
 
 }
 void FieldModel::updateItem(CSItem* item)

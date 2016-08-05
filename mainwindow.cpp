@@ -112,6 +112,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_openAct,SIGNAL(triggered(bool)),this,SLOT(open()));
 
     connect(ui->m_addPage,SIGNAL(clicked(bool)),this,SLOT(addPage()));
+    connect(ui->m_removePage,SIGNAL(clicked(bool)),this,SLOT(removePage()));
     connect(ui->m_selectPageCb,SIGNAL(currentIndexChanged(int)),this,SLOT(currentPageChanged(int)));
 
     m_imgProvider = new RolisteamImageProvider();
@@ -337,7 +338,7 @@ void MainWindow::open()
                 ++i;
             }
             m_model->load(data,m_canvasList);
-            m_characterModel->readModel(data,false);
+            m_characterModel->readModel(jsonObj,false);
             updatePageSelector();
         }
     }
@@ -556,7 +557,10 @@ void MainWindow::addPage()
 }
 void MainWindow::currentPageChanged(int i)
 {
-    m_view->setScene(m_canvasList[i]);
+    if((i>=0)&&(i<m_canvasList.size()))
+    {
+        m_view->setScene(m_canvasList[i]);
+    }
 
 }
 void MainWindow::removePage()
@@ -566,5 +570,7 @@ void MainWindow::removePage()
         Canvas* previous = m_canvasList[m_currentPage];
         m_canvasList.removeOne(previous);
         m_model->removePageId(m_currentPage);
+        --m_currentPage;
+        updatePageSelector();
     }
 }
