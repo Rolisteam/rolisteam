@@ -23,6 +23,7 @@ public:
 
     QHash<QString, QPixmap> data() const;
     void setData(const QHash<QString, QPixmap> &data);
+
 #ifndef RCSE
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);
