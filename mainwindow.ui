@@ -185,6 +185,9 @@
                   <height>20</height>
                  </size>
                 </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
                 <property name="toolButtonStyle">
                  <enum>Qt::ToolButtonTextBesideIcon</enum>
                 </property>
@@ -476,6 +479,9 @@
    </property>
   </action>
   <action name="m_addButtonAct">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="qmlfile.qrc">
      <normaloff>:/resources/icons/symbol.svg</normaloff>:/resources/icons/symbol.svg</iconset>

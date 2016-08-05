@@ -34,7 +34,9 @@
 namespace Ui {
 class MainWindow;
 }
-
+/**
+ * @brief The MainWindow class displays all components to edit and manage the character sheet.
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -71,6 +73,8 @@ public slots:
     void currentPageChanged(int);
     void menuRequested(const QPoint &pos);
     void menuRequestedForFieldModel(const QPoint &pos);
+
+    void editColor(QModelIndex);
 protected:
     bool eventFilter(QObject *, QEvent *);
     void applyValue(QModelIndex &index, bool selection);

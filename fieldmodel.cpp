@@ -76,8 +76,15 @@ FieldModel::FieldModel(QObject *parent) : QAbstractItemModel(parent)
              << new Column(tr("Bg Color"),CharacterSheetItem::BGCOLOR)
              << new Column(tr("Border"),CharacterSheetItem::BORDER);
 
-
-
+    m_alignList << tr("TopRight")
+           << tr("TopMiddle")
+           << tr("TopLeft")
+           << tr("CenterRight")
+           << tr("CenterMiddle")
+           << tr("CenterLeft")
+           << tr("ButtomRight")
+           << tr("ButtomMiddle")
+           << tr("ButtomLeft");
 
     m_rootSection = new Section();
 }
@@ -91,7 +98,27 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
         CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
         if(NULL!=item)
         {
-            return item->getValueFrom(m_colunm[index.column()]->getPos(),role);
+            QVariant var = item->getValueFrom(m_colunm[index.column()]->getPos(),role);
+            if((index.column() == 10)&&(Qt::DisplayRole == role))
+            {
+                if((var.toInt() >= 0)&&(var.toInt() < m_alignList.size()))
+                {
+                    var = m_alignList.at(var.toInt());
+                }
+            }
+
+
+            return var;
+        }
+    }
+    if((role == Qt::BackgroundRole )&&((index.column() == CharacterSheetItem::BGCOLOR)||(index.column() == CharacterSheetItem::TEXTCOLOR)))
+    {
+        CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
+        if(NULL!=item)
+        {
+            QVariant var = item->getValueFrom(m_colunm[index.column()]->getPos(),Qt::EditRole);
+            return var;
+
         }
     }
     return QVariant();
@@ -174,7 +201,7 @@ bool FieldModel::setData(const QModelIndex &index, const QVariant &value, int ro
         if(NULL!=item)
         {
             item->setValueFrom(m_colunm[index.column()]->getPos(),value);
-            emit valuesChanged(item->getValueFrom(CharacterSheetItem::ID,role).toString(),value.toString());
+            emit valuesChanged(item->getValueFrom(CharacterSheetItem::ID,Qt::DisplayRole).toString(),value.toString());
             return true;
         }
     }

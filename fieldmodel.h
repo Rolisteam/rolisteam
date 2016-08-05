@@ -206,6 +206,7 @@ public slots:
 private:
     QList<Column*> m_colunm;
     Section* m_rootSection;
+    QStringList m_alignList;
 
 };
 

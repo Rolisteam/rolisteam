@@ -57,7 +57,7 @@ QmlHighlighter::QmlHighlighter(QTextDocument *parent)
 
     itemFormat.setForeground(QColor(Qt::red));
     //itemFormat.setFontWeight(QFont::Bold);
-    rule.pattern =  QRegExp("[A-Z][a-z]+ ");
+    rule.pattern =  QRegExp("[A-Z][A-z|0-9]+ ");
     rule.format = itemFormat;
     highlightingRules.append(rule);
 
