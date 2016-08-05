@@ -424,7 +424,7 @@ void MainWindow::showQML()
     generateQML(data);
     ui->m_codeEdit->setText(data);
 
-    QHash<QString,QPixmap> imgdata = m_imgProvider->data();
+    QHash<QString,QPixmap>* imgdata = RolisteamImageProvider::getData();
 
     QFile file("test.qml");
     if(file.open(QIODevice::WriteOnly))

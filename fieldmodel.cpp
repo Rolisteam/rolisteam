@@ -91,7 +91,7 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
         CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
         if(NULL!=item)
         {
-            return item->getValueFrom(m_colunm[index.column()]->getPos());
+            return item->getValueFrom(m_colunm[index.column()]->getPos(),role);
         }
     }
     return QVariant();
@@ -174,7 +174,7 @@ bool FieldModel::setData(const QModelIndex &index, const QVariant &value, int ro
         if(NULL!=item)
         {
             item->setValueFrom(m_colunm[index.column()]->getPos(),value);
-            emit valuesChanged(item->getValueFrom(CharacterSheetItem::ID).toString(),value.toString());
+            emit valuesChanged(item->getValueFrom(CharacterSheetItem::ID,role).toString(),value.toString());
             return true;
         }
     }
