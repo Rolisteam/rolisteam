@@ -103,7 +103,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 break;
             }
          }
-         else  if(m_currentTool==Canvas::DELETE)
+         else  if(m_currentTool==Canvas::DELETETOOL)
          {
              QList<QGraphicsItem *> itemList = items(mouseEvent->scenePos());
              for(QGraphicsItem* item : itemList)
