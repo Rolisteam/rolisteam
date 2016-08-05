@@ -73,7 +73,7 @@ public:
      * @brief getValueFrom
      * @return
      */
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId) const;
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId,int role) const;
     /**
      * @brief setValueFrom
      * @param data
@@ -183,7 +183,7 @@ public slots:
      * @brief setValue
      * @param value
      */
-    virtual void setValue(const QString &value);
+    virtual void setValue(const QString &value,bool fromNetwork=false);
     /**
      * @brief setReadOnly
      * @param readOnly
@@ -215,6 +215,7 @@ signals:
     void formulaChanged();
     void idChanged();
     void labelChanged();
+    void sendOffData();
 
 protected:
     CharacterSheetItem* m_parent;

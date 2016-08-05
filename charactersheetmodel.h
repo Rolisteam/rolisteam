@@ -30,6 +30,7 @@
 #include "network/networkmessagereader.h"
 #include "network/networkmessagewriter.h"
 #endif
+#include "formula/formulamanager.h"
 
 class CharacterSheetItem;
 class CharacterSheet;
@@ -112,7 +113,7 @@ public:
     //QList<CharacterSheetItem *>* getExportedList(CharacterSheet*);
     
     bool writeModel(QJsonObject& file, bool data= true);
-    bool readModel(QJsonObject& file,bool readRootSection);
+    void readModel(QJsonObject& file,bool readRootSection);
     
     CharacterSheetItem* addSection(QString title);
     void addLine(CharacterSheetItem* parentItem,QString name,const QModelIndex& parent);
@@ -122,6 +123,9 @@ public:
     Section* getRootSection() const;
 
     void addCharacterSheet(CharacterSheet *sheet);
+
+    CharacterSheet* getCharacterSheetById(QString id);
+
 
 #ifndef RCSE
     void readRootSection(NetworkMessageReader* msg);
@@ -144,6 +148,7 @@ private:
     int m_characterCount;
     
     Section* m_rootSection;
+    Formula::FormulaManager* m_formulaManager;
 };
 
 #endif // CHARACTERSHEETMODEL_H

@@ -28,12 +28,15 @@
 #include "charactersheetitem.h"
 #include "csitem.h"
 
+/**
+ * @brief The Field class managed text field in qml and datamodel.
+ */
 class Field : public CSItem
 {
     Q_OBJECT
 public:
     enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
-    enum TextAlign {ALignLEFT,ALignRIGHT,ALignCENTER};
+    enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,ButtomRight,ButtomMiddle,ButtomLeft};
     enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX};
 
 
@@ -57,7 +60,7 @@ public:
     CharacterSheetItem* getChildAt(QString) const;
 
 
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId) const;
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId,int role) const;
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
 
     virtual void save(QJsonObject& json,bool exp=false);
@@ -98,6 +101,7 @@ protected:
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent* ev);
 
+    QPair<QString, QString> getTextAlign();
 private:
     QString getQMLItemName();
 private:

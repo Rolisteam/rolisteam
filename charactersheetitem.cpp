@@ -40,7 +40,7 @@ int CharacterSheetItem::getChildrenCount() const
     return 0;
 }
 
-QVariant CharacterSheetItem::getValueFrom(CharacterSheetItem::ColumnId i) const
+QVariant CharacterSheetItem::getValueFrom(CharacterSheetItem::ColumnId i,int role) const
 {
     return QVariant();
 }
@@ -87,12 +87,16 @@ QString CharacterSheetItem::value() const
     return m_value;
 }
 
-void CharacterSheetItem::setValue(const QString &value)
+void CharacterSheetItem::setValue(const QString &value,bool fromNetwork)
 {
     if(m_value!=value)
     {
         m_value = value;
         emit valueChanged();
+        if(!fromNetwork)
+        {
+            emit sendOffData();
+        }
     }
 }
 

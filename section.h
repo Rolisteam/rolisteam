@@ -62,7 +62,7 @@ public:
      * @brief getValueFrom
      * @return
      */
-    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId) const;
+    virtual QVariant getValueFrom(CharacterSheetItem::ColumnId,int role) const;
     /**
      * @brief setValueFrom
      */

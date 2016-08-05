@@ -35,10 +35,12 @@
 /////////////////////////////
 
 CharacterSheetModel::CharacterSheetModel()
- : m_characterCount(0)
+ : m_characterCount(0),m_formulaManager(NULL)
 {
     m_characterList = new QList<CharacterSheet*>;
     m_rootSection = new Section();
+    m_formulaManager = new Formula::FormulaManager();
+
 }
 
 int CharacterSheetModel::rowCount ( const QModelIndex & parent  ) const
@@ -128,7 +130,7 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
             }
             else
             {
-                QString path = childItem->getId();
+                QString path = childItem->getPath();
                 CharacterSheet* sheet = m_characterList->at(index.column()-1);
                 return sheet->getValue(path,(Qt::ItemDataRole)role);
                 //childItem->setValue(value.toString(),index.column()-1);
@@ -143,23 +145,33 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
     if(Qt::EditRole==role)
     {
         CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
+
         if(NULL!=childItem)
         {
             if(index.column()==0)
             {
-                childItem->setValue(value.toString());
+                childItem->setLabel(value.toString());
             }
             else
             {
-                QString path = childItem->getId();
+                QString path = childItem->getPath();
+                qDebug() << "Path::" << path;
                 CharacterSheet* sheet = m_characterList->at(index.column()-1);
-                sheet->setValue(path,value.toString());
+                QString valueStr = value.toString();
+                QString formula;
+                if(valueStr.startsWith('='))
+                {
+                    formula=valueStr;
+                    QHash<QString,QString> hash = sheet->getVariableDictionnary();
+                    m_formulaManager->setConstantHash(&hash);
+                    valueStr=m_formulaManager->getValue(formula).toString();
+                }
+                sheet->setValue(path,valueStr,formula);
             }
             return true;
         }
     }
     return false;
-    
 }
 CharacterSheet* CharacterSheetModel::addCharacterSheet()
 {
@@ -178,6 +190,23 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
     m_characterList->append(sheet);
     emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();
+}
+
+CharacterSheet *CharacterSheetModel::getCharacterSheetById(QString id)
+{
+
+    for(CharacterSheet* sheet :*m_characterList)
+    {
+        qDebug() << "sheet id"<< sheet->getUuid() << id;
+    }
+    for(CharacterSheet* sheet :*m_characterList)
+    {
+        if(sheet->getUuid() == id)
+        {
+            return sheet;
+        }
+    }
+    return NULL;
 }
 #ifndef RCSE
 void CharacterSheetModel::readRootSection(NetworkMessageReader* msg)
@@ -243,7 +272,8 @@ CharacterSheetItem* CharacterSheetModel::addSection(QString title)
     beginInsertRows(QModelIndex(),m_rootSection->getChildrenCount(),m_rootSection->getChildrenCount());
     Section* rootSection = static_cast<Section*>(m_rootSection);
     Section* sec=new Section();
-    sec->setName(title);
+    sec->setLabel(title);
+    sec->setId(tr("Section_%1").arg(m_rootSection->getChildrenCount()+1));
     rootSection->appendChild(sec);
     endInsertRows();
     return sec;
@@ -276,7 +306,8 @@ void CharacterSheetModel::addLine(CharacterSheetItem* parentItem,QString name,co
         beginInsertRows(parent,parentItem->getChildrenCount(),parentItem->getChildrenCount());
         Section* section = static_cast<Section*>(parentItem);
         Field* field = new Field();
-        field->setId(name);
+        field->setId(name.replace(' ','_'));
+        field->setLabel(name);
         section->appendChild(field);
         endInsertRows();
     }
@@ -332,7 +363,7 @@ bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool writeData)
     return true;
 }
 
-bool CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
+void CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
 {
     beginResetModel();
     if(readRootSection)

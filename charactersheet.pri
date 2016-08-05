@@ -6,7 +6,15 @@ HEADERS += $$PWD/charactersheetwindow.h \
     $$PWD/field.h\
     $$PWD/csitem.h\
     $$PWD/section.h \
-    $$PWD/rolisteamimageprovider.h
+    $$PWD/rolisteamimageprovider.h \
+    $$PWD/formula/formulamanager.h \
+    $$PWD/formula/parsingtoolformula.h \
+    $$PWD/formula/nodes/formulanode.h \
+    $$PWD/formula/nodes/startnode.h \
+    $$PWD/formula/nodes/operator.h \
+    $$PWD/formula/nodes/valuefnode.h \
+    $$PWD/formula/nodes/scalaroperatorfnode.h \
+    $$PWD/formula/nodes/parenthesesfnode.h
 
 
 SOURCES += $$PWD/charactersheetwindow.cpp \
@@ -17,10 +25,21 @@ SOURCES += $$PWD/charactersheetwindow.cpp \
     $$PWD/section.cpp \
     $$PWD/field.cpp\
     $$PWD/csitem.cpp\
-    $$PWD/rolisteamimageprovider.cpp
+    $$PWD/rolisteamimageprovider.cpp \
+    $$PWD/formula/formulamanager.cpp \
+    $$PWD/formula/parsingtoolformula.cpp \
+    $$PWD/formula/nodes/formulanode.cpp \
+    $$PWD/formula/nodes/startnode.cpp \
+    $$PWD/formula/nodes/operator.cpp \
+    $$PWD/formula/nodes/valuefnode.cpp \
+    $$PWD/formula/nodes/scalaroperatorfnode.cpp \
+    $$PWD/formula/nodes/parenthesesfnode.cpp
 
+
+INCLUDEPATH += $$PWD formula formula/nodes
 
 RCSE{
 HEADERS -=$$PWD/charactersheetwindow.h
 SOURCES -=$$PWD/charactersheetwindow.cpp
 }
+
