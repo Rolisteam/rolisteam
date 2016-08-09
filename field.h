@@ -37,7 +37,7 @@ class Field : public CSItem
 public:
     enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
     enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,ButtomRight,ButtomMiddle,ButtomLeft};
-    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX};
+    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE};
 
 
     explicit Field(QGraphicsItem* parent = 0);

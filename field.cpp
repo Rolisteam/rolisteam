@@ -392,6 +392,8 @@ QString Field::getQMLItemName()
         return "CheckBoxField";
     case Field::SELECT:
         return "SelectField";
+    case Field::IMAGE:
+        return "ImageField";
     default:
         return "";
         break;
