@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_view = new QGraphicsView();
     m_view->setAcceptDrops(true);
     m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-    m_view->setViewport(new QOpenGLWidget());
+    //m_view->setViewport(new QOpenGLWidget());
     m_view->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
 
 
@@ -80,6 +80,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_addTextAreaAct->setData(Canvas::ADDTEXTAREA);
     ui->m_addTextInputAct->setData(Canvas::ADDINPUT);
     ui->m_addTextFieldAct->setData(Canvas::ADDTEXTFIELD);
+    ui->m_addImageAction->setData(Canvas::ADDIMAGE);
 
     ui->m_moveAct->setData(Canvas::MOVE);
     ui->m_deleteAct->setData(Canvas::DELETETOOL);
@@ -113,6 +114,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_addTextAreaAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_addTextFieldAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_addTextInputAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_imageBtn,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
 
     connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));

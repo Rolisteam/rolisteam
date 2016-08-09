@@ -197,6 +197,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QToolButton" name="m_imageBtn">
+                <property name="text">
+                 <string>Image</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QToolButton" name="m_moveBtn">
                 <property name="text">
                  <string>Move</string>
@@ -529,6 +536,11 @@
   <action name="m_backgroundImageAct">
    <property name="text">
     <string>Set image background…</string>
+   </property>
+  </action>
+  <action name="m_addImageAction">
+   <property name="text">
+    <string>Image</string>
    </property>
   </action>
  </widget>

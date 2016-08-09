@@ -80,8 +80,25 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     }
     else if(mouseEvent->button() == Qt::LeftButton)
     {
-         if(m_currentTool<=Canvas::ADDCHECKBOX)
-         {
+        if(m_currentTool==Canvas::DELETETOOL)
+        {
+            QList<QGraphicsItem *> itemList = items(mouseEvent->scenePos());
+            for(QGraphicsItem* item : itemList)
+            {
+                removeItem(item);
+            }
+        }
+        else if(m_currentTool == Canvas::BUTTON)
+        {
+            CharacterSheetButton* btn = new CharacterSheetButton(mouseEvent->scenePos());
+            btn->setPage(m_currentPage);
+            addItem(btn);
+            m_model->appendField(btn);
+            m_currentItem = btn;
+
+        }
+        else if(m_currentTool<=Canvas::ADDCHECKBOX)
+        {
             Field* field = new Field(mouseEvent->scenePos());
             field->setPage(m_currentPage);
             addItem(field);
@@ -101,26 +118,11 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             case Canvas::ADDTEXTFIELD:
                 field->setCurrentType(Field::TEXTFIELD);
                 break;
+            case Canvas::ADDIMAGE:
+                field->setCurrentType(Field::IMAGE);
+                break;
             }
-         }
-         else  if(m_currentTool==Canvas::DELETETOOL)
-         {
-             QList<QGraphicsItem *> itemList = items(mouseEvent->scenePos());
-             for(QGraphicsItem* item : itemList)
-             {
-                removeItem(item);
-             }
-         }
-         else if(m_currentTool == Canvas::BUTTON)
-         {
-            CharacterSheetButton* btn = new CharacterSheetButton(mouseEvent->scenePos());
-            btn->setPage(m_currentPage);
-            addItem(btn);
-            m_model->appendField(btn);
-            m_currentItem = btn;
-
-         }
-
+        }
     }
     else if(mouseEvent->button()==Qt::RightButton)
     {
