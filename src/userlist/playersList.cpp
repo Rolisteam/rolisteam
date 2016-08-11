@@ -947,6 +947,8 @@ void PlayersList::completeListClean()
     }
 
 
+    m_localPlayer = NULL;
+
 
 }
 
