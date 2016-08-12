@@ -15,6 +15,11 @@ void ParenthesesFNode::setInternalNode(FormulaNode *internalNode)
 {
     m_internalNode = internalNode;
 }
+QVariant ParenthesesFNode::getResult()
+{
+    return m_result;
+}
+
 bool ParenthesesFNode::run(FormulaNode* /*previous*/)
 {
     bool result = false;

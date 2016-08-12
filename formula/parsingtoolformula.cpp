@@ -78,24 +78,27 @@ bool ParsingToolFormula::readFormula(QString& str, FormulaNode* & previous)
         str=str.remove(0,1);
     }
     FormulaNode* operandNode=NULL;
+    bool found = false;
     if(readParenthese(str,operandNode))
     {
 
         previous=operandNode;
-
-        return true;
+        found = true;
     }
     else if(readOperand(str,operandNode))
     {
         previous=operandNode;
+        found = true;
+    }
+    if(found)
+    {
         operandNode= getLatestNode(operandNode);
         while(readScalarOperator(str,operandNode));
-        return true;
     }
-    else
-        return false;
+
+    return found;
 }
-bool ParsingToolFormula::readParenthese(QString& str, FormulaNode* previous)
+bool ParsingToolFormula::readParenthese(QString& str, FormulaNode* & previous)
 {
     if(str.startsWith("("))
     {
@@ -111,6 +114,7 @@ bool ParsingToolFormula::readParenthese(QString& str, FormulaNode* previous)
             if(str.startsWith(")"))
             {
                 str=str.remove(0,1);
+                return true;
             }
         }
     }
@@ -129,6 +133,7 @@ bool ParsingToolFormula::readScalarOperator(QString& str, FormulaNode* previous)
                 found=true;
         }
     }
+
     if(found)
     {
         ScalarOperatorFNode* node = new ScalarOperatorFNode();

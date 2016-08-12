@@ -19,6 +19,8 @@ public:
     static void insertPix(QString key,QPixmap img);
     static QHash<QString,QPixmap>* getData();
 
+    void setData( QHash<QString, QPixmap>* data);
+
 #ifndef RCSE
     void fill(NetworkMessageWriter& msg);
     void read(NetworkMessageReader& msg);

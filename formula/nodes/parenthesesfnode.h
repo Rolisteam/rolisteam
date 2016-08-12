@@ -18,6 +18,8 @@ public:
 
     void setInternalNode(FormulaNode *internalNode);
     virtual int getPriority();
+
+    virtual QVariant getResult();
 private:
     FormulaNode* m_internalNode;
     QVariant m_result;

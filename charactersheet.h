@@ -125,7 +125,9 @@ public slots:
     */
     const  QString getValue(QString key,Qt::ItemDataRole role = Qt::DisplayRole) const;
     void setValue(QString key , QString value, QString formula);
+    #ifndef RCSE
     void sendUpdateForField();
+    #endif
 signals:
     void updateField(CharacterSheet*,CharacterSheetItem* );
 

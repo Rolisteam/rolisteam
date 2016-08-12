@@ -268,7 +268,8 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
         fileTemp.close();
     }
 
-    m_qmlView->setSource(QUrl(fileTemp.fileName()));
+
+    m_qmlView->setSource(QUrl::fromLocalFile(fileTemp.fileName()));
     m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root = m_qmlView->rootObject();
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
