@@ -31,7 +31,7 @@
 #include "network/networkmessagereader.h"
 
 RGraphicsView::RGraphicsView(VMap *vmap)
-    : QGraphicsView(vmap),m_vmap(vmap)
+    : QGraphicsView(vmap),m_vmap(vmap),m_centerOnItem(NULL)
 {
     m_counterZoom = 0;
 
@@ -135,9 +135,12 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
     if(NULL == m_vmap)
         return;
 
-    if((!m_vmap->getOption(VisualItem::LocalIsGM).toBool())&&
-       (m_vmap->getOption(VisualItem::PermissionMode).toInt()!=Map::PC_ALL))
-        return;
+    bool licenseToModify = false;
+    if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())||
+       (m_vmap->getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL))
+    {
+        licenseToModify = true;
+    }
 
     if(m_vmap->isIdle())
     {
@@ -145,6 +148,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
         //QList<QGraphicsItem*> list = items(event->pos());
         QMenu menu;
+        //Empty list
         if((list.isEmpty())||((list.size()==1)&&(list.contains(m_vmap->getFogItem()))))
         {
             menu.setTitle(tr("Change the map"));
@@ -161,27 +165,42 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                 m_editCharacterLayer->setChecked(true);
                 break;
             }
-            QMenu* editLayer = menu.addMenu(tr("Edit Layer"));
-            editLayer->addAction(m_editGroundLayer);
-            editLayer->addAction(m_editObjectLayer);
-            editLayer->addAction(m_editCharacterLayer);
+            if(licenseToModify)
+            {
+                QMenu* editLayer = menu.addMenu(tr("Edit Layer"));
+                editLayer->addAction(m_editGroundLayer);
+                editLayer->addAction(m_editObjectLayer);
+                editLayer->addAction(m_editCharacterLayer);
 
-            QMenu* changeVibility = menu.addMenu(tr("Change Visibility"));
-            changeVibility->addAction(m_hiddenVisibility);
-            changeVibility->addAction(m_characterVisibility);
-            changeVibility->addAction(m_allVisibility);
-
+                QMenu* changeVibility = menu.addMenu(tr("Change Visibility"));
+                changeVibility->addAction(m_hiddenVisibility);
+                changeVibility->addAction(m_characterVisibility);
+                changeVibility->addAction(m_allVisibility);
+            }
 
             menu.addAction(m_zoomInMax);
             menu.addAction(m_zoomNormal);
             menu.addAction(m_zoomOutMax);
-            menu.addSeparator();
-            menu.addAction(m_importImage);
-            menu.addSeparator();
-            menu.addAction(m_properties);
+            menu.addAction(m_zoomCenterOnItem);
+            m_centerOnItem = dynamic_cast<VisualItem*>(itemAt(event->pos()));
+            if(NULL==m_centerOnItem)
+            {
+                m_zoomCenterOnItem->setVisible(false);
+            }
+            else
+            {
+                m_zoomCenterOnItem->setVisible(true);
+            }
+            if(licenseToModify)
+            {
+                menu.addSeparator();
+                menu.addAction(m_importImage);
+                menu.addSeparator();
+                menu.addAction(m_properties);
+            }
             menu.exec(event->globalPos());
         }
-        else if (list.size() > 1)
+        else if ((list.size() > 1) && (licenseToModify))
         {
             menu.setTitle(tr("Change selected Items"));
 
@@ -273,10 +292,47 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                 setItemLayer(list,(VisualItem::Layer)selectedAction->data().toInt());
             }
         }
-        else
+        else//only one item
         {
-            QGraphicsView::contextMenuEvent(event);
+            /// @todo management of PC_MOVE
+          /*  if(licenseToModify)
+            {*/
+                QGraphicsView::contextMenuEvent(event);
+        /*    }
+            else // modification only on the view, zoom and position
+            {
+                menu.setTitle(tr("Ajust the view"));
+
+                menu.addAction(m_zoomInMax);
+                menu.addAction(m_zoomNormal);
+                menu.addAction(m_zoomOutMax);
+                menu.addAction(m_zoomCenterOnItem);
+
+            }*/
         }
+    }
+    else
+    {
+        QGraphicsView::contextMenuEvent(event);
+
+    }
+}
+void RGraphicsView::centerOnItem()
+{
+    if(NULL!=m_centerOnItem)
+    {
+        QRectF rect = m_centerOnItem->mapToScene(m_centerOnItem->boundingRect()).boundingRect();
+        QRectF rect2 = sceneRect();
+
+        qDebug()<< rect << rect2;
+
+        int dx = rect.center().x() - rect2.center().x();
+        int dy = rect.center().x() - rect2.center().y();
+
+        qDebug() << dx << dy;
+        rect.translate(-dx,-dy);
+        setSceneRect(rect);
+
     }
 }
 void RGraphicsView::setRotation(QList<QGraphicsItem*> list, int value)
@@ -394,16 +450,19 @@ void RGraphicsView::changeZValue(QList<QGraphicsItem*> list,VisualItem::StackOrd
     }
 }
 
+
 void RGraphicsView::createAction()
 {
     //ZOOM MANAGEMENT
     m_zoomNormal= new QAction(tr("Zoom to Normal"),this);
     m_zoomInMax= new QAction(tr("Zoom In Max"),this);
     m_zoomOutMax = new QAction(tr("Zoom Out Max"),this);
+    m_zoomCenterOnItem = new QAction(tr("Center on Item"),this);
 
     m_importImage = new QAction(tr("Import Image"),this);
 
     connect(m_zoomNormal,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
+    connect(m_zoomCenterOnItem,SIGNAL(triggered(bool)),this,SLOT(centerOnItem()));
     connect(m_zoomInMax,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
     connect(m_zoomOutMax,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
     connect(m_importImage,SIGNAL(triggered()),this,SLOT(addImageToMap()));
@@ -419,6 +478,7 @@ void RGraphicsView::createAction()
     addAction(m_zoomNormal);
     addAction(m_zoomInMax);
     addAction(m_zoomOutMax);
+    //addAction(m_zoomCenterOnItem);
 
     //PROPERTIES
     m_properties = new QAction(tr("Properties"),this);
