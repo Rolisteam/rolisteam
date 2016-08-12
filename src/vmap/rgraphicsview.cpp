@@ -183,7 +183,7 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             menu.addAction(m_zoomNormal);
             menu.addAction(m_zoomOutMax);
             menu.addAction(m_zoomCenterOnItem);
-            m_centerOnItem = dynamic_cast<VisualItem*>(itemAt(event->pos()));
+            m_centerOnItem = dynamic_cast<QGraphicsItem*>(itemAt(event->pos()));
             if(NULL==m_centerOnItem)
             {
                 m_zoomCenterOnItem->setVisible(false);
@@ -325,14 +325,15 @@ void RGraphicsView::centerOnItem()
         QRectF rect = m_centerOnItem->mapToScene(m_centerOnItem->boundingRect()).boundingRect();
         QRectF rect2 = sceneRect();
 
-        qDebug()<< rect << rect2;
+        if(!rect2.contains(rect))
+        {
 
-        int dx = rect.center().x() - rect2.center().x();
-        int dy = rect.center().x() - rect2.center().y();
+            int dx = rect.center().x() - rect2.center().x();
+            int dy = rect.center().y() - rect2.center().y();
 
-        qDebug() << dx << dy;
-        rect.translate(-dx,-dy);
-        setSceneRect(rect);
+            rect2.translate(dx,dy);
+            setSceneRect(rect2);
+        }
 
     }
 }

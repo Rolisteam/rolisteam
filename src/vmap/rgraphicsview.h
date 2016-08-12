@@ -113,7 +113,7 @@ private:
 	VToolsBar::SelectableTool m_currentTool;
     PreferencesManager* m_preferences;
     QPoint m_lastPoint;
-    VisualItem* m_centerOnItem;
+    QGraphicsItem* m_centerOnItem;
 
 };
 
