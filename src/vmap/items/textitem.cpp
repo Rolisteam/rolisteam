@@ -49,7 +49,7 @@ void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
     {
         if(map->getSelectedtool() == VToolsBar::HANDLER)
         {
-            event->ignore();
+            event->accept();
         }
         else if((map->getSelectedtool() == VToolsBar::TEXT)||
                 (map->getSelectedtool() == VToolsBar::TEXTBORDER))
