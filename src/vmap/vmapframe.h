@@ -159,6 +159,9 @@ public :
      * @return
      */
     virtual QString getMediaId();
+
+    void fill(NetworkMessageWriter& msg);
+    void readMessage(NetworkMessageReader& msg);
 	
 	void processsZValueMsg(NetworkMessageReader* msg);
 	void processsRotationMsg(NetworkMessageReader* msg);

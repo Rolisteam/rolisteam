@@ -41,7 +41,7 @@ NetworkManager::NetworkManager()
 {
     m_reconnect = new QTimer(this);
     m_preferences =  PreferencesManager::getInstance();
-    m_dialog = new ConnectionRetryDialog();
+   // m_dialog = new ConnectionRetryDialog();
     m_playersList = PlayersList::instance();
 
 
@@ -50,11 +50,11 @@ NetworkManager::NetworkManager()
 
 NetworkManager::~NetworkManager()
 {
-    if(NULL!=m_dialog)
+   /* if(NULL!=m_dialog)
     {
         delete m_dialog;
         m_dialog = NULL;
-    }
+    }*/
 
     delete m_reconnect;
 }
@@ -219,11 +219,11 @@ void NetworkManager::endingNetworkLink(NetworkLink * link)
         }
 
 
-        if(!m_disconnectAsked)
+       /* if(!m_disconnectAsked)
         {
             m_dialog->startTimer();
             m_dialog->show();
-        }
+        }*/
     }
     else
     {

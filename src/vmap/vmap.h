@@ -113,6 +113,11 @@ public:
      */
     void openFile(QDataStream& );
     /**
+     * @brief itemsBoundingRectWithoutSight
+     * @return
+     */
+    QRectF itemsBoundingRectWithoutSight();
+    /**
      * @brief addCharacter
      * @param p
      * @param pos

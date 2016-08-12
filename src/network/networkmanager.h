@@ -33,7 +33,7 @@
 
 
 //#include "connectiondialog.h"
-#include "connectionretrydialog.h"
+//#include "connectionretrydialog.h"
 #include "preferences/preferencesmanager.h"
 #include "userlist/playersList.h"
 #include "heartbeatsender.h"
@@ -134,7 +134,7 @@ private:
     QString  m_localPlayerId;
     bool m_disconnectAsked;
     PreferencesManager* m_preferences;
-    ConnectionRetryDialog* m_dialog;
+  //  ConnectionRetryDialog* m_dialog;
     PlayersList* m_playersList;
     ConnectionState m_connectionState;
     bool m_isClient;

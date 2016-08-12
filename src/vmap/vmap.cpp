@@ -705,13 +705,11 @@ void VMap::saveFile(QDataStream& out)
 
 
     out << m_itemMap->size();
-    qDebug() << m_sortedItemList.size() << m_itemMap->size();
     foreach(QString key, m_sortedItemList)//m_itemMap->values()
     {
         VisualItem* tmp = m_itemMap->value(key);
         if(NULL!=tmp)
         {
-            qDebug() << tmp->getType() << "get type";
             out << (int)tmp->getType() << *tmp << tmp->pos().x() << tmp->pos().y();
         }
     }
@@ -1361,11 +1359,8 @@ void VMap::dropEvent ( QGraphicsSceneDragDropEvent * event )
                     ImageItem* led = new ImageItem();
                     led->setImageUri(url.toLocalFile());
                     addNewItem(led);
-                    qDebug() << event->scenePos() << event->pos() << led->pos();
                     led->setPos(event->scenePos());
-                    qDebug() << led->pos();
                     sendOffItem(led);
-                    qDebug() << led->pos();
                 }
             }
 
@@ -1508,7 +1503,6 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
         m_propertiesHash->insert(VisualItem::FogOfWarStatus,visibilitySight);
         if((visibilitySight)&&(m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == false))
         {
-            qDebug() << "set tooltip vide map";
             for(auto item : m_itemMap->values())
             {
                 if(item->getType() == VisualItem::CHARACTER)
@@ -1641,4 +1635,21 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
             }
         }
     }
+}
+QRectF VMap::itemsBoundingRectWithoutSight()
+{
+    QRectF result;
+    for(auto item : m_itemMap->values())
+    {
+        if(item != m_sightItem)
+        {
+            qDebug() << item << item->boundingRect() << "itemsBoundingRectWithout";
+            if(result.isNull())
+            {
+                result = item->boundingRect();
+            }
+            result = result.united(item->boundingRect());
+        }
+    }
+    return result;
 }
