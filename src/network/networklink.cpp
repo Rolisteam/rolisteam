@@ -57,6 +57,7 @@ NetworkLink::NetworkLink(ConnectionProfile* connection)
     m_networkManager = m_mainWindow->getNetWorkManager();
     setConnection(connection);
     m_socketTcp = new QTcpSocket(this);
+    m_socketTcp->setSocketOption(QAbstractSocket::KeepAliveOption,1);
     initialize();
     m_receivingData = false;
     m_headerRead= 0;
