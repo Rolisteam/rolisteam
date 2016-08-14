@@ -86,6 +86,8 @@ private:
     QAction* m_zoomNormal;
     QAction* m_zoomInMax;
     QAction* m_zoomOutMax;
+    QAction* m_zoomIn;
+    QAction* m_zoomOut;
     QAction* m_zoomCenterOnItem;
     QAction* m_properties;
     QAction* m_editGroundLayer;

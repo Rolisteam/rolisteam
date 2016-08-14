@@ -178,7 +178,8 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
                 changeVibility->addAction(m_characterVisibility);
                 changeVibility->addAction(m_allVisibility);
             }
-
+            menu.addAction(m_zoomIn);
+            menu.addAction(m_zoomOut);
             menu.addAction(m_zoomInMax);
             menu.addAction(m_zoomNormal);
             menu.addAction(m_zoomOutMax);
@@ -323,7 +324,9 @@ void RGraphicsView::centerOnItem()
     if(NULL!=m_centerOnItem)
     {
         QRectF rect = m_centerOnItem->mapToScene(m_centerOnItem->boundingRect()).boundingRect();
-        QRectF rect2 = sceneRect();
+        QRectF rect2 = mapToScene(sceneRect().toRect()).boundingRect();
+
+        qDebug() << rect << mapToScene(rect2.toRect()).boundingRect() << transform();
 
         if(!rect2.contains(rect))
         {
@@ -461,6 +464,12 @@ void RGraphicsView::createAction()
     m_zoomOutMax = new QAction(tr("Zoom Out Max"),this);
     m_zoomCenterOnItem = new QAction(tr("Center on Item"),this);
 
+    m_zoomIn = new QAction(tr("Zoom In"),this);
+    m_zoomIn->setShortcut(QKeySequence("+"));
+
+    m_zoomOut = new QAction(tr("Zoom Out"),this);
+    m_zoomOut->setShortcut(QKeySequence("-"));
+
     m_importImage = new QAction(tr("Import Image"),this);
 
     connect(m_zoomNormal,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
@@ -468,6 +477,8 @@ void RGraphicsView::createAction()
     connect(m_zoomInMax,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
     connect(m_zoomOutMax,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
     connect(m_importImage,SIGNAL(triggered()),this,SLOT(addImageToMap()));
+    connect(m_zoomOut,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
+    connect(m_zoomIn,SIGNAL(triggered()),this,SLOT(setZoomFactor()));
 
 
     m_normalizeSizeAverage = new QAction(tr("Average"),this);
@@ -480,6 +491,8 @@ void RGraphicsView::createAction()
     addAction(m_zoomNormal);
     addAction(m_zoomInMax);
     addAction(m_zoomOutMax);
+    addAction(m_zoomOut);
+    addAction(m_zoomIn);
     //addAction(m_zoomCenterOnItem);
 
     //PROPERTIES
@@ -604,6 +617,24 @@ void RGraphicsView::setZoomFactor()
     {
         destination = -20;
         step = -1;
+    }
+    else if(senderAct == m_zoomIn)
+    {
+        destination = m_counterZoom+1;
+        step = 1;
+    }
+    else if(senderAct == m_zoomOut)
+    {
+        destination = m_counterZoom-1;
+        step = -1;
+    }
+    if(destination>20)
+    {
+        destination = 20;
+    }
+    else if(destination < -20)
+    {
+        destination = -20;
     }
     double scaleFactor = 1.1;
     double realFactor = 1.0;
