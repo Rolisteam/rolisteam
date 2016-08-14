@@ -187,7 +187,7 @@ void VisualItem::updateChildPosition()
 void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     bool licenseToModify = false;
-    if((m_propertiesHash->contains(VisualItem::LocalIsGM))&&(m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == false))
+    if((m_propertiesHash->contains(VisualItem::LocalIsGM))&&(m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == true))
     {
         licenseToModify = true;
     }
