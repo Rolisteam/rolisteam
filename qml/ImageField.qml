@@ -5,7 +5,7 @@ import QtQuick.Controls 1.3
 Rectangle {
     id:root
     property alias text : textArea.source
-    property alias textColor: textArea.textColor
+    property color textColor : "black"
     property alias hAlign: textArea.horizontalAlignment
     property alias vAlign: textArea.verticalAlignment
     property bool clippedText: false
