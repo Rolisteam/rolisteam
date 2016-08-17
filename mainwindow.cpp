@@ -90,6 +90,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->m_addTextArea->setDefaultAction(ui->m_addTextAreaAct);
     ui->m_addTextField->setDefaultAction(ui->m_addTextFieldAct);
     ui->m_addCheckbox->setDefaultAction(ui->m_addCheckBoxAct);
+    ui->m_imageBtn->setDefaultAction(ui->m_addImageAction);
 
     QButtonGroup* group = new QButtonGroup();
     group->addButton(ui->m_addTextInput);
@@ -114,7 +115,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_addTextAreaAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_addTextFieldAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_addTextInputAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
-    connect(ui->m_imageBtn,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
+    connect(ui->m_addImageAction,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
 
 
     connect(ui->m_moveAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
