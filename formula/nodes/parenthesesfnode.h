@@ -4,6 +4,9 @@
 #include "formulanode.h"
 namespace Formula
 {
+/**
+ * @brief The ParenthesesFNode class
+ */
 class ParenthesesFNode : public FormulaNode
 {
 public:
