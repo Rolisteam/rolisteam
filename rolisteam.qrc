@@ -109,6 +109,7 @@
         <file>resources/qml/TextFieldField.qml</file>
         <file>resources/qml/TextInputField.qml</file>
         <file>resources/qml/DiceButton.qml</file>
+        <file alias="resources/qml/ImageField.qml">src/charactersheet/qml/ImageField.qml</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>
