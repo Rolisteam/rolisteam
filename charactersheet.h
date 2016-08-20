@@ -118,6 +118,7 @@ public:
 
     void setFieldData(QJsonObject& obj);
 
+    QList<QString> getAllDependancy(QString key);
 public slots:
     /**
     * @brief global getter of data.  This function has been written to make easier the MVC architecture.
