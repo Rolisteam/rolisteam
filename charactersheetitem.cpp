@@ -160,4 +160,7 @@ int CharacterSheetItem::indexOfChild(CharacterSheetItem* itm)
 {
     return 0;
 }
-
+bool CharacterSheetItem::hasFormula() const
+{
+    return !m_formula.isEmpty();
+}

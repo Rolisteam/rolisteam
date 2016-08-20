@@ -178,6 +178,9 @@ public:
 
     Q_INVOKABLE QString getFormula() const;
 
+
+    bool hasFormula() const;
+
 public slots:
     /**
      * @brief setValue
