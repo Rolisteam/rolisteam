@@ -283,6 +283,7 @@ void Field::save(QJsonObject& json,bool exp)
     json["value"]=m_value;
     json["border"]=m_border;
     json["page"]=m_page;
+    json["formula"]=m_formula;
 
     json["clippedText"]=m_clippedText;
 
@@ -321,6 +322,7 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
     m_currentType=(Field::TypeField)json["typefield"].toInt();
     m_clippedText=json["clippedText"].toBool();
 
+    m_formula = json["formula"].toString();
 
     QJsonObject bgcolor = json["bgcolor"].toObject();
     int r,g,b,a;
@@ -363,6 +365,7 @@ void Field::loadDataItem(QJsonObject &json)
     m_id = json["id"].toString();
     setValue(json["value"].toString(),true);
     setLabel(json["label"].toString());
+    setFormula(json["formula"].toString());
     m_currentType=(Field::TypeField)json["typefield"].toInt();
 }
 
@@ -373,6 +376,7 @@ void Field::saveDataItem(QJsonObject &json)
     json["id"]=m_id;
     json["label"]=m_label;
     json["value"]=m_value;
+    json["formula"]=m_formula;
 }
 QString Field::getQMLItemName()
 {
