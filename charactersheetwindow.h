@@ -54,7 +54,7 @@ public:
     virtual ~CharacterSheetWindow(); 
     
     bool openFile(const QString& file);
-    void saveFile(QDataStream& stream);
+    QJsonDocument saveFile();
     virtual bool hasDockWidget() const ;
     virtual QDockWidget* getDockWidget() ;
 
