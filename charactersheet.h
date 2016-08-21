@@ -124,7 +124,7 @@ public slots:
     * @brief global getter of data.  This function has been written to make easier the MVC architecture.
     * @param QString path : 0 refers to the title of the first section, 1 refers to the first data of the first section....
     */
-    const  QString getValue(QString key,Qt::ItemDataRole role = Qt::DisplayRole) const;
+    const  QVariant getValue(QString key,Qt::ItemDataRole role = Qt::DisplayRole) const;
     void setValue(QString key , QString value, QString formula);
     #ifndef RCSE
     void sendUpdateForField();
