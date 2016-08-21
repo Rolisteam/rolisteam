@@ -366,6 +366,7 @@ void Field::loadDataItem(QJsonObject &json)
     setValue(json["value"].toString(),true);
     setLabel(json["label"].toString());
     setFormula(json["formula"].toString());
+    setReadOnly(json["readOnly"].toBool());
     m_currentType=(Field::TypeField)json["typefield"].toInt();
 }
 
@@ -377,6 +378,7 @@ void Field::saveDataItem(QJsonObject &json)
     json["label"]=m_label;
     json["value"]=m_value;
     json["formula"]=m_formula;
+    json["readonly"]=m_readOnly;
 }
 QString Field::getQMLItemName()
 {
