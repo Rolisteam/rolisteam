@@ -84,7 +84,9 @@ QModelIndex CharacterSheetModel::index ( int row, int column, const QModelIndex 
     
     CharacterSheetItem* childItem = parentItem->getChildAt(row);
     if (childItem)
+    {
         return createIndex(row, column, childItem);
+    }
     else
         return QModelIndex();
     
@@ -112,21 +114,37 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
     
     if((role == Qt::TextAlignmentRole) && (index.column()!=0))
         return Qt::AlignHCenter;
-    if((role == Qt::DisplayRole)||(role == Qt::EditRole))
+    if((role == Qt::DisplayRole)||(role == Qt::EditRole)||(role == Qt::BackgroundRole))
     {
         CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
         if(NULL!=childItem)
         {
-            if(index.column()==0)
+            if(role == Qt::BackgroundRole)
             {
-                return childItem->getLabel();
+                if(0!=index.column())
+                {
+                    QString path = childItem->getPath();
+                    CharacterSheet* sheet = m_characterList->at(index.column()-1);
+                    bool isReadOnly = sheet->getValue(path,Qt::BackgroundRole).toBool();
+                    if(isReadOnly)
+                    {
+                        return QColor(128,128,128);
+                    }
+                }
             }
             else
             {
-                QString path = childItem->getPath();
-                CharacterSheet* sheet = m_characterList->at(index.column()-1);
-                return sheet->getValue(path,(Qt::ItemDataRole)role);
-                //childItem->setValue(value.toString(),index.column()-1);
+                if(index.column()==0)
+                {
+                    return childItem->getLabel();
+                }
+                else
+                {
+                    QString path = childItem->getPath();
+                    CharacterSheet* sheet = m_characterList->at(index.column()-1);
+                    return sheet->getValue(path,(Qt::ItemDataRole)role);
+                    //childItem->setValue(value.toString(),index.column()-1);
+                }
             }
         }
     }
@@ -180,7 +198,7 @@ void CharacterSheetModel::computeFormula(QString path,CharacterSheet* sheet)
 
         QHash<QString,QString> hash = sheet->getVariableDictionnary();
         m_formulaManager->setConstantHash(&hash);
-        formula = sheet->getValue(item,Qt::EditRole);
+        formula = sheet->getValue(item,Qt::EditRole).toString();
         valueStr=m_formulaManager->getValue(formula).toString();
 
 
@@ -196,11 +214,8 @@ CharacterSheet* CharacterSheetModel::addCharacterSheet()
 {
     CharacterSheet* sheet = new CharacterSheet;
     addCharacterSheet(sheet);
-    //beginInsertColumns(QModelIndex(),m_characterList->size()+1 ,m_characterList->size()+1 );
-    //++m_characterCount;
-    //m_characterList->append(sheet);
+
     sheet->buildDataFromSection(m_rootSection);
-    //endInsertColumns();
     return sheet;
 }
 void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
