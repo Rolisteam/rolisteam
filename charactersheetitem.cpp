@@ -53,8 +53,12 @@ bool CharacterSheetItem::isReadOnly() const
 
 void CharacterSheetItem::setReadOnly(bool readOnly)
 {
-    m_readOnly = readOnly;
-    emit readOnlyChanged();
+    if(m_readOnly != readOnly)
+    {
+        m_readOnly = readOnly;
+        emit readOnlyChanged();
+        emit sendOffData();
+    }
 }
 
 int CharacterSheetItem::getPage() const
@@ -64,8 +68,11 @@ int CharacterSheetItem::getPage() const
 
 void CharacterSheetItem::setPage(int page)
 {
-    m_page = page;
-    emit pageChanged();
+    if(page != m_page)
+    {
+        m_page = page;
+        emit pageChanged();
+    }
 }
 
 QString CharacterSheetItem::getFormula() const
