@@ -233,7 +233,7 @@ void Section::buildDataInto( CharacterSheet* character)
             }
             if(NULL!=newItem)
             {
-                newItem->setValue(character->getValue(newItem->getId()));
+                newItem->setValue(character->getValue(newItem->getId()).toString());
                 character->insertCharacterItem(newItem);
             }
             if(CharacterSheetItem::SectionItem == childItem->getItemType())
