@@ -59,6 +59,10 @@ CharacterSheetWindow::CharacterSheetWindow(CleverURI* uri,QWidget* parent)
     connect(m_copyTab,SIGNAL(triggered(bool)),this,SLOT(copyTab()));
     m_stopSharingTabAct = new QAction(tr("Stop Sharing"),this);
 
+    m_readOnlyAct = new QAction(tr("Read Only"),this);
+    connect(m_readOnlyAct,SIGNAL(triggered(bool)),this,SLOT(setReadOnlyOnSelection()));
+
+
     m_loadQml = new QAction(tr("Load CharacterSheet View File"),this);
 
     m_detachTab = new QAction(tr("Detach Tabs"),this);
@@ -97,10 +101,71 @@ void CharacterSheetWindow::addLine()
 {
     m_model.addLine(m_view.currentIndex());
 }
+void CharacterSheetWindow::setReadOnlyOnSelection()
+{
+    QList<QModelIndex> list = m_view.selectionModel()->selectedIndexes();
+    bool allTheSame = true;
+    int i=0;
+    bool firstStatus;
+    QList<CharacterSheetItem*> listItem;
+    for(auto item : list)
+    {
+        if(0==item.column())
+        {
+            CharacterSheetItem* csitem = static_cast<CharacterSheetItem*>(item.internalPointer());
+            if(NULL!=csitem)
+            {
+                listItem.append(csitem);
+            }
+        }
+        else
+        {
+            CharacterSheet* sheet = m_model.getCharacterSheet(item.column()-1);
+            if(NULL!=sheet)
+            {
+                listItem.append(sheet->getFieldAt(item.row()));
+            }
+        }
+    }
+    for(CharacterSheetItem* csitem : listItem)
+    {
+        if(NULL!=csitem)
+        {
+            if(i==0)
+            {
+                firstStatus = csitem->isReadOnly();
+            }
+            if(firstStatus != csitem->isReadOnly())
+            {
+                allTheSame = false;
+            }
+        }
+        ++i;
+    }
+    bool valueToSet;
+    if(allTheSame)
+    {
+        valueToSet = !firstStatus;
+    }
+    else
+    {
+        valueToSet = true;
+    }
+    for(CharacterSheetItem* csitem : listItem)
+    {
+         if(NULL!=csitem)
+         {
+            csitem->setReadOnly(valueToSet);
+         }
+    }
+}
+
 void CharacterSheetWindow::displayCustomMenu(const QPoint & pos)
 {
     QMenu menu(this);
-    
+
+    menu.addAction(m_readOnlyAct);
+    menu.addSeparator();
     menu.addAction(m_addLine);
     menu.addAction(m_addSection);
     menu.addAction(m_addCharacterSheet);

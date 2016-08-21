@@ -116,6 +116,8 @@ protected slots:
     void displayError(const QList<QQmlError> &warnings);
     void putDataIntoCleverUri();
 
+    void setReadOnlyOnSelection();
+
 
     //    void continueLoading();
     void copyTab();
@@ -161,6 +163,10 @@ private:
      * @brief m_copyTab
      */
     QAction* m_copyTab;
+    /**
+     * @brief m_copyTab
+     */
+    QAction* m_readOnlyAct;
     /**
      * @brief m_closeTabAct
      */
