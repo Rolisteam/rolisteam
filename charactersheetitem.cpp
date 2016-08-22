@@ -96,7 +96,6 @@ void CharacterSheetItem::setValue(const QString &value,bool fromNetwork)
         if(!fromNetwork)
         {
             emit sendOffData();
-            qDebug() << "emit sendoffdata";
         }
     }
 }
@@ -161,4 +160,7 @@ int CharacterSheetItem::indexOfChild(CharacterSheetItem* itm)
 {
     return 0;
 }
-
+bool CharacterSheetItem::hasFormula() const
+{
+    return !m_formula.isEmpty();
+}

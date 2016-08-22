@@ -139,6 +139,10 @@ public slots:
 signals:
     void characterSheetHasBeenAdded(CharacterSheet* sheet);
     
+protected:
+    void computeFormula(QString path, CharacterSheet *sheet);
+protected slots:
+    void fieldHasBeenChanged(CharacterSheet *sheet, CharacterSheetItem *item);
 private:
     /**
     * @brief QList which stores pointer to CharacterSheet.

@@ -33,6 +33,10 @@ QHash<QString,QPixmap>* RolisteamImageProvider::getData()
     return s_data;
 }
 
+void RolisteamImageProvider::setData( QHash<QString, QPixmap> * data)
+{
+    s_data = data;
+}
 #ifndef RCSE
 void RolisteamImageProvider::fill(NetworkMessageWriter &msg)
 {

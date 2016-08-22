@@ -34,7 +34,7 @@ QVariant ScalarOperatorFNode::getResult()
     return m_value;
 }
 
-bool ScalarOperatorFNode::run(FormulaNode *previous)
+bool ScalarOperatorFNode::run(FormulaNode* previous)
 {
 
     if(nullptr!=m_internalNode)
@@ -117,5 +117,12 @@ ScalarOperatorFNode::ArithmeticOperator ScalarOperatorFNode::getArithmeticOperat
 void ScalarOperatorFNode::setArithmeticOperator(const ArithmeticOperator &arithmeticOperator)
 {
     m_arithmeticOperator = arithmeticOperator;
+}
+int ScalarOperatorFNode::getPriority()
+{
+    if((m_arithmeticOperator == PLUS)||(m_arithmeticOperator == MINUS))
+        return 1;
+    else
+        return 2;
 }
 }

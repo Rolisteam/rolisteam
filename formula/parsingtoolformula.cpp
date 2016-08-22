@@ -21,6 +21,7 @@
 #include "nodes/operator.h"
 
 #include "nodes/valuefnode.h"
+#include "nodes/parenthesesfnode.h"
 #include <QDebug>
 
 namespace Formula
@@ -33,7 +34,8 @@ ParsingToolFormula::ParsingToolFormula()
     m_hashOp->insert(QStringLiteral("abs"),ABS);
     m_hashOp->insert(QStringLiteral("min"),MIN);
     m_hashOp->insert(QStringLiteral("max"),MAX);
-    m_hashOp->insert(QStringLiteral("if"),IF);
+    m_hashOp->insert(QStringLiteral("concat"),CONCAT);
+    //m_hashOp->insert(QStringLiteral("if"),IF);
     m_hashOp->insert(QStringLiteral("floor"),FLOOR);
     m_hashOp->insert(QStringLiteral("ceil"),CEIL);
     m_hashOp->insert(QStringLiteral("avg"),AVG);
@@ -50,7 +52,7 @@ ParsingToolFormula::ParsingToolFormula()
 FormulaNode* ParsingToolFormula::getLatestNode(FormulaNode* node)
 {
     if(NULL==node)
-        return node;
+        return NULL;
     FormulaNode* next = node;
     while(NULL != next->next() )
     {
@@ -75,21 +77,46 @@ bool ParsingToolFormula::readFormula(QString& str, FormulaNode* & previous)
         str=str.remove(0,1);
     }
     FormulaNode* operandNode=NULL;
-    if(readOperand(str,operandNode))
+    bool found = false;
+    if(readParenthese(str,operandNode))
+    {
+
+        previous=operandNode;
+        found = true;
+    }
+    else if(readOperand(str,operandNode))
     {
         previous=operandNode;
+        found = true;
+    }
+    if(found)
+    {
         operandNode= getLatestNode(operandNode);
         while(readScalarOperator(str,operandNode));
-       /* {
-            if(!readOperand(str,previous))
-            {
-                return false;
-            }
-        }*/
-        return true;
     }
-    else
-        return false;
+
+    return found;
+}
+bool ParsingToolFormula::readParenthese(QString& str, FormulaNode* & previous)
+{
+    if(str.startsWith("("))
+    {
+        str=str.remove(0,1);
+        FormulaNode* internalNode=NULL;
+        if(readFormula(str,internalNode))
+        {
+
+            ParenthesesFNode* node = new ParenthesesFNode();
+            node->setInternalNode(internalNode);
+            previous = node;
+
+            if(str.startsWith(")"))
+            {
+                str=str.remove(0,1);
+                return true;
+            }
+        }
+    }
 }
 
 bool ParsingToolFormula::readScalarOperator(QString& str, FormulaNode* previous)
@@ -105,14 +132,29 @@ bool ParsingToolFormula::readScalarOperator(QString& str, FormulaNode* previous)
                 found=true;
         }
     }
+
     if(found)
     {
         ScalarOperatorFNode* node = new ScalarOperatorFNode();
         node->setArithmeticOperator(ope);
-        previous->setNext(node);
+
         FormulaNode* internal=NULL;
         readFormula(str,internal);
+
         node->setInternalNode(internal);
+
+        if(NULL==internal)
+        {
+            delete node;
+            return false;
+        }
+        if(node->getPriority()>=internal->getPriority())
+        {
+            node->setNext(internal->next());
+            internal->setNext(NULL);
+        }
+        previous->setNext(node);
+
     }
 
     return found;
@@ -132,6 +174,37 @@ bool ParsingToolFormula::readOperand(QString & str, FormulaNode * & previous)
     {
         return true;
     }
+    else if(readStringValue(str,previous))
+    {
+        return true;
+    }
+    return false;
+}
+bool ParsingToolFormula::readStringValue(QString& str, FormulaNode*& previous)
+{
+    if(str.isEmpty())
+        return false;
+
+    QString strResult;
+    if(str.startsWith("\""))
+    {
+        int i=0;
+        str = str.remove(0,1);
+        while(i<str.length() && str[i].isLetterOrNumber() && str[i]!='"')
+        {
+            strResult+=str[i];
+            ++i;
+        }
+
+        str=str.remove(0,strResult.size()+1);
+        qDebug() << str;
+        ValueFNode* nodeV = new ValueFNode();
+        nodeV->setValue(strResult);
+        previous = nodeV;
+        return true;
+
+    }
+
     return false;
 }
 
@@ -148,12 +221,12 @@ bool ParsingToolFormula::readOperator(QString& str, FormulaNode* & previous)
             previous = node;
             node->setOperator(m_hashOp->value(key));
             FormulaNode* nextNode=NULL;
+            found = true;
             if(str.startsWith("("))
             {
                 str=str.remove(0,1);
-
-                while(readFormula(str,nextNode))
-                {
+                while(readFormula(str,nextNode) ) //&& !str.startsWith(")")
+                {//reading parameter loop
                    node->addParameter(nextNode);
                    nextNode=NULL;
                    if(str.startsWith(","))

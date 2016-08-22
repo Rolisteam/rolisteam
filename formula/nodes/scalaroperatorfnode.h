@@ -42,6 +42,7 @@ public:
     void setArithmeticOperator(const ArithmeticOperator &arithmeticOperator);
 
     virtual QVariant getResult();
+    int getPriority();
 private:
     FormulaNode* m_internalNode;
     ArithmeticOperator m_arithmeticOperator;

@@ -13,7 +13,8 @@ HEADERS += $$PWD/charactersheetwindow.h \
     $$PWD/formula/nodes/startnode.h \
     $$PWD/formula/nodes/operator.h \
     $$PWD/formula/nodes/valuefnode.h \
-    $$PWD/formula/nodes/scalaroperatorfnode.h
+    $$PWD/formula/nodes/scalaroperatorfnode.h \
+    $$PWD/formula/nodes/parenthesesfnode.h
 
 
 SOURCES += $$PWD/charactersheetwindow.cpp \
@@ -31,7 +32,8 @@ SOURCES += $$PWD/charactersheetwindow.cpp \
     $$PWD/formula/nodes/startnode.cpp \
     $$PWD/formula/nodes/operator.cpp \
     $$PWD/formula/nodes/valuefnode.cpp \
-    $$PWD/formula/nodes/scalaroperatorfnode.cpp
+    $$PWD/formula/nodes/scalaroperatorfnode.cpp \
+    $$PWD/formula/nodes/parenthesesfnode.cpp
 
 
 INCLUDEPATH += $$PWD formula formula/nodes

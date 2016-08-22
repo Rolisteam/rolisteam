@@ -33,7 +33,7 @@ namespace Formula
 class ParsingToolFormula
 {
 public:
-    enum FormulaOperator {ABS,MIN,MAX,IF,FLOOR,CEIL,AVG};
+    enum FormulaOperator {ABS,MIN,MAX,FLOOR,CEIL,AVG,CONCAT};//,IF
     /**
      * @brief ParsingToolFormula
      */
@@ -74,6 +74,8 @@ public:
     QHash<QString, QString> *getVariableHash() const;
     void setVariableHash(QHash<QString, QString> *variableHash);
 
+    bool readStringValue(QString &str, FormulaNode *&previous);
+    bool readParenthese(QString &str, FormulaNode *& previous);
 private:
     QHash<QString,ParsingToolFormula::FormulaOperator>* m_hashOp;
     QHash<QString,QString>* m_variableHash;

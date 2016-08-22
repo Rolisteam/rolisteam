@@ -64,13 +64,6 @@ CharacterSheet*  CharacterSheetModel::getCharacterSheet(int id)
     return NULL;
 }
 
-/*QList<CharacterSheetItem *>* CharacterSheetModel::getExportedList(CharacterSheet* character)
-{
-    QList<CharacterSheetItem *>* result = new QList<CharacterSheetItem *>();
-    m_rootSection->fillList(result,character);
-    return result;
-}*/
-
 int CharacterSheetModel::columnCount ( const QModelIndex & parent  ) const
 {
     Q_UNUSED(parent)
@@ -130,7 +123,7 @@ QVariant CharacterSheetModel::data ( const QModelIndex & index, int role  ) cons
             }
             else
             {
-                QString path = childItem->getId();
+                QString path = childItem->getPath();
                 CharacterSheet* sheet = m_characterList->at(index.column()-1);
                 return sheet->getValue(path,(Qt::ItemDataRole)role);
                 //childItem->setValue(value.toString(),index.column()-1);
@@ -145,15 +138,17 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
     if(Qt::EditRole==role)
     {
         CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
+
         if(NULL!=childItem)
         {
             if(index.column()==0)
             {
-                childItem->setValue(value.toString());
+                childItem->setLabel(value.toString());
             }
             else
             {
-                QString path = childItem->getId();
+                QString path = childItem->getPath();
+                qDebug() << "Path::" << path;
                 CharacterSheet* sheet = m_characterList->at(index.column()-1);
                 QString valueStr = value.toString();
                 QString formula;
@@ -165,20 +160,47 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
                     valueStr=m_formulaManager->getValue(formula).toString();
                 }
                 sheet->setValue(path,valueStr,formula);
+                computeFormula(childItem->getLabel(),sheet);
+
             }
             return true;
         }
     }
     return false;
 }
+void CharacterSheetModel::computeFormula(QString path,CharacterSheet* sheet)
+{
+    QList<QString> List = sheet->getAllDependancy(path);
+    qDebug() << "computeformula" <<List << path;
+
+    for(auto item : List)
+    {
+        QString formula;
+        QString valueStr;
+
+        QHash<QString,QString> hash = sheet->getVariableDictionnary();
+        m_formulaManager->setConstantHash(&hash);
+        formula = sheet->getValue(item,Qt::EditRole);
+        valueStr=m_formulaManager->getValue(formula).toString();
+
+
+        sheet->setValue(item,valueStr,formula);
+    }
+}
+void CharacterSheetModel::fieldHasBeenChanged(CharacterSheet* sheet,CharacterSheetItem* item)
+{
+    qDebug() << "fieldHasBeenChanged" << item->getLabel();
+   computeFormula(item->getLabel(),sheet);
+}
 CharacterSheet* CharacterSheetModel::addCharacterSheet()
 {
-    beginInsertColumns(QModelIndex(),m_characterList->size()+1 ,m_characterList->size()+1 );
-    ++m_characterCount;
     CharacterSheet* sheet = new CharacterSheet;
-    m_characterList->append(sheet);
+    addCharacterSheet(sheet);
+    //beginInsertColumns(QModelIndex(),m_characterList->size()+1 ,m_characterList->size()+1 );
+    //++m_characterCount;
+    //m_characterList->append(sheet);
     sheet->buildDataFromSection(m_rootSection);
-    endInsertColumns();
+    //endInsertColumns();
     return sheet;
 }
 void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
@@ -188,6 +210,9 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
     m_characterList->append(sheet);
     emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();
+
+    connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(fieldHasBeenChanged(CharacterSheet*,CharacterSheetItem*)));
+
 }
 
 CharacterSheet *CharacterSheetModel::getCharacterSheetById(QString id)
@@ -270,7 +295,8 @@ CharacterSheetItem* CharacterSheetModel::addSection(QString title)
     beginInsertRows(QModelIndex(),m_rootSection->getChildrenCount(),m_rootSection->getChildrenCount());
     Section* rootSection = static_cast<Section*>(m_rootSection);
     Section* sec=new Section();
-    sec->setName(title);
+    sec->setLabel(title);
+    sec->setId(tr("Section_%1").arg(m_rootSection->getChildrenCount()+1));
     rootSection->appendChild(sec);
     endInsertRows();
     return sec;
@@ -303,7 +329,8 @@ void CharacterSheetModel::addLine(CharacterSheetItem* parentItem,QString name,co
         beginInsertRows(parent,parentItem->getChildrenCount(),parentItem->getChildrenCount());
         Section* section = static_cast<Section*>(parentItem);
         Field* field = new Field();
-        field->setId(name);
+        field->setId(name.replace(' ','_'));
+        field->setLabel(name);
         section->appendChild(field);
         endInsertRows();
     }
@@ -367,15 +394,18 @@ void CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
         QJsonObject data = jsonObj["data"].toObject();
         m_rootSection->load(data,QList<QGraphicsScene*>());
     }
-    m_characterCount = jsonObj["characterCount"].toInt();
+    //m_characterCount = jsonObj["characterCount"].toInt();
     QJsonArray characters = jsonObj["characters"].toArray();
     foreach(auto charJson, characters)
     {
         QJsonObject obj = charJson.toObject();
         CharacterSheet* sheet = new CharacterSheet();
         sheet->load(obj);
-        m_characterList->append(sheet);
-        emit characterSheetHasBeenAdded(sheet);
+        addCharacterSheet(sheet);
+        //m_characterList->append(sheet);
+       // emit characterSheetHasBeenAdded(sheet);
     }
     endResetModel();
+    m_characterCount = jsonObj["characterCount"].toInt();
+
 }

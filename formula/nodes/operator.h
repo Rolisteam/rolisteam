@@ -20,6 +20,7 @@
 #ifndef OPERATOR_H
 #define OPERATOR_H
 #include <QList>
+#include <math.h>
 
 #include "formulanode.h"
 #include "../parsingtoolformula.h"
@@ -39,9 +40,22 @@ public:
     virtual bool run(FormulaNode* previous);
     void addParameter(FormulaNode* node);
 
+    virtual QVariant getResult();
+
+    //Implementation of operator.
+    void min();
+    void max();
+    void absFunction();
+    void avg();
+    void floorFunction();
+    void ceilFunction();
+    void concatenate();
+
+
 private:
     ParsingToolFormula::FormulaOperator m_operator;
     QList<FormulaNode*> m_parameters;
+    QVariant m_result;
 };
 }
 #endif // OPERATOR_H

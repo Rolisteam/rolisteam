@@ -27,21 +27,223 @@ OperatorFNode::OperatorFNode()
 
 ParsingToolFormula::FormulaOperator OperatorFNode::getOperator() const
 {
-
+    return m_operator;
 }
 
 void OperatorFNode::setOperator(const ParsingToolFormula::FormulaOperator &ope)
 {
-
+    m_operator= ope;
 }
 
 bool OperatorFNode::run(FormulaNode *previous)
 {
+    for(auto node : m_parameters)
+    {
+        if(NULL!=node)
+        {
+            node->run(this);
+        }
+    }
 
+    switch(m_operator)
+    {
+    case ParsingToolFormula::MIN:
+        min();
+        break;
+    case ParsingToolFormula::MAX:
+        max();
+        break;
+    case ParsingToolFormula::ABS:
+        absFunction();
+        break;
+    case ParsingToolFormula::FLOOR:
+        floorFunction();
+        break;
+    case ParsingToolFormula::CEIL:
+        ceilFunction();
+        break;
+    case ParsingToolFormula::AVG:
+        avg();
+        break;
+    case ParsingToolFormula::CONCAT:
+        concatenate();
+        break;
+    }
+    if(NULL!=m_next)
+    {
+        m_next->run(this);
+    }
+    return true;
 }
 
 void OperatorFNode::addParameter(FormulaNode *node)
 {
     m_parameters.append(node);
 }
+void OperatorFNode::absFunction()
+{
+    if(m_parameters.size()>1)
+    {
+        m_result = QObject::tr("abs : too many arguments");
+    }
+    if(m_parameters.isEmpty())
+    {
+        m_result = QObject::tr("abs : too few arguments");
+    }
+    else
+    {
+        FormulaNode* node = m_parameters.at(0);
+        node->run(this);
+        node = getLatestNode(node);
+        if(NULL!=node)
+        {
+            QVariant var = node->getResult();
+            m_result = fabs(var.toDouble());
+        }
+
+    }
+}
+void OperatorFNode::ceilFunction()
+{
+    if(m_parameters.size()>1)
+    {
+        m_result = QObject::tr("ceil : too many arguments");
+    }
+    if(m_parameters.isEmpty())
+    {
+        m_result = QObject::tr("ceil : too few arguments");
+    }
+    else
+    {
+        FormulaNode* node = m_parameters.at(0);
+        node = getLatestNode(node);
+        if(NULL!=node)
+        {
+            QVariant var = node->getResult();
+            m_result = ceil(var.toDouble());
+        }
+
+    }
+}
+void OperatorFNode::floorFunction()
+{
+    if(m_parameters.size()>1)
+    {
+        m_result = QObject::tr("floor : too many arguments");
+    }
+    if(m_parameters.isEmpty())
+    {
+        m_result = QObject::tr("floor : too few arguments");
+    }
+    else
+    {
+        FormulaNode* node = m_parameters.at(0);
+        node = getLatestNode(node);
+        if(NULL!=node)
+        {
+            QVariant var = node->getResult();
+            m_result = floor(var.toDouble());
+        }
+
+    }
+}
+void OperatorFNode::concatenate()
+{
+    if(m_parameters.isEmpty())
+    {
+        m_result = QObject::tr("concatenate : too few arguments");
+    }
+    else
+    {
+        QString concat("");
+        for(int i = 0; i< m_parameters.size() ; ++i)
+        {
+            FormulaNode* node = m_parameters.at(i);
+
+            node = getLatestNode(node);
+            if(NULL!=node)
+            {
+                QVariant var = node->getResult();
+                concat += var.toString();
+            }
+
+        }
+        m_result = concat;
+
+    }
+}
+void OperatorFNode::min()
+{
+    QVariant min;
+    for(int i = 0; i< m_parameters.size() ; ++i)
+    {
+        FormulaNode* node = m_parameters.at(i);
+        node = getLatestNode(node);
+        if(NULL!=node)
+        {
+            QVariant var = node->getResult();
+            if(0==i)
+            {
+                min = var;
+            }
+            else if(var<min)
+            {
+                min = var;
+            }
+        }
+
+    }
+    m_result = min;
+}
+void OperatorFNode::max()
+{
+    QVariant max;
+    for(int i = 0; i< m_parameters.size() ; ++i)
+    {
+        FormulaNode* node = m_parameters.at(i);
+        node = getLatestNode(node);
+        if(NULL!=node)
+        {
+            QVariant var = node->getResult();
+            if(0==i)
+            {
+                var = max;
+            }
+            else if(var>max)
+            {
+                max = var;
+            }
+        }
+
+    }
+    m_result = max;
+}
+void OperatorFNode::avg()
+{
+    if(m_parameters.isEmpty())
+    {
+        m_result = QObject::tr("abs : too few arguments");
+
+    }
+    else
+    {
+        QVariant avg(0);
+        for(int i = 0; i< m_parameters.size() ; ++i)
+        {
+            FormulaNode* node = m_parameters.at(i);
+            node = getLatestNode(node);
+            if(NULL!=node)
+            {
+                avg = avg.toDouble() + node->getResult().toDouble();
+            }
+
+        }
+        m_result = avg.toDouble() / m_parameters.size();
+    }
+}
+QVariant OperatorFNode::getResult()
+{
+    return m_result;
+}
+
 }

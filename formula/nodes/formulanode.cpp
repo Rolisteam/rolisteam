@@ -40,4 +40,21 @@ QVariant FormulaNode::getResult()
 {
     return QVariant();
 }
+int FormulaNode::getPriority()
+{
+    return 1;
+}
+FormulaNode* FormulaNode::getLatestNode(FormulaNode* node)
+{
+    if(NULL==node)
+    {
+        return NULL;
+    }
+    while(NULL!=node->next())
+    {
+        node = node->next();
+    }
+    return node;
+}
+
 }
