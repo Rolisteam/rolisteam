@@ -21,6 +21,8 @@
 #include "nodes/operator.h"
 
 #include "nodes/valuefnode.h"
+#include <QDebug>
+
 namespace Formula
 {
 ParsingToolFormula::ParsingToolFormula()
@@ -47,6 +49,8 @@ ParsingToolFormula::ParsingToolFormula()
 }
 FormulaNode* ParsingToolFormula::getLatestNode(FormulaNode* node)
 {
+    if(NULL==node)
+        return node;
     FormulaNode* next = node;
     while(NULL != next->next() )
     {
@@ -131,7 +135,7 @@ bool ParsingToolFormula::readOperand(QString & str, FormulaNode * & previous)
     return false;
 }
 
-bool ParsingToolFormula::readOperator(QString& str, FormulaNode* previous)
+bool ParsingToolFormula::readOperator(QString& str, FormulaNode* & previous)
 {
     bool found = false;
     for(int i = 0; i < m_hashOp->keys().size() && !found ; ++i)
@@ -141,11 +145,13 @@ bool ParsingToolFormula::readOperator(QString& str, FormulaNode* previous)
         {
             str=str.remove(0,key.size());
             OperatorFNode* node = new OperatorFNode();
-            previous->setNext(node);
+            previous = node;
             node->setOperator(m_hashOp->value(key));
             FormulaNode* nextNode=NULL;
             if(str.startsWith("("))
             {
+                str=str.remove(0,1);
+
                 while(readFormula(str,nextNode))
                 {
                    node->addParameter(nextNode);
@@ -158,11 +164,13 @@ bool ParsingToolFormula::readOperator(QString& str, FormulaNode* previous)
                 if(str.startsWith(")"))
                 {
                     str=str.remove(0,1);
+                    found=true;
                 }
             }
 
         }
     }
+    return found;
 
 }
 
