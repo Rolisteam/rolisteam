@@ -130,6 +130,7 @@ public slots:
     void decreaseTextSize();
     void increaseTextSize();
     void editText();
+    void sizeToTheContent();
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent* event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);

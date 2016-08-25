@@ -497,6 +497,10 @@ void TextItem::addActionContextMenu(QMenu* menu)
     QAction* edit = menu->addAction(tr("Edit Text…"));
     connect(edit,SIGNAL(triggered(bool)),this,SLOT(editText()));
 
+
+    QAction* adapt = menu->addAction(tr("Adapt to content"));
+    connect(adapt,SIGNAL(triggered(bool)),this,SLOT(sizeToTheContent()));
+
     QMenu* state =  menu->addMenu(tr("Font Size"));
     state->addAction(m_increaseFontSize);
     state->addAction(m_decreaseFontSize);
@@ -509,6 +513,26 @@ void TextItem::createActions()
     connect(m_increaseFontSize,SIGNAL(triggered()),this,SLOT(increaseTextSize()));
     connect(m_decreaseFontSize,SIGNAL(triggered()),this,SLOT(decreaseTextSize()));
 }
+void TextItem::sizeToTheContent()
+{
+    QRectF rectItem =  m_textItem->boundingRect();
+    setTransformOriginPoint(m_rect.center());
+    if(rectItem.height() < m_rect.height()+10)
+    {
+        m_rect.setHeight(rectItem.height()+10);
+        m_resizing = true;
+    }
+    if(rectItem.width() < m_rect.width()+10)
+    {
+        m_rect.setWidth(rectItem.width()+10);
+        m_resizing = true;
+    }
+    if(m_resizing)
+    {
+        endOfGeometryChange();
+    }
+}
+
 void TextItem::increaseTextSize()
 {
     int i = m_font.pointSize();
