@@ -17,7 +17,7 @@ DEFINES+=RCSE
 CONFIG+=RCSE
 
 isEmpty(PREFIX) {
- PREFIX = /usr/local/bin
+ PREFIX = /usr/bin
 }
 
 
