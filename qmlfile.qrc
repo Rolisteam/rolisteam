@@ -19,5 +19,6 @@
         <file alias="resources/qml/TextInputField.qml">charactersheet/qml/TextInputField.qml</file>
         <file alias="resources/qml/DiceButton.qml">charactersheet/qml/DiceButton.qml</file>
         <file alias="resources/qml/ImageField.qml">charactersheet/qml/ImageField.qml</file>
+        <file>resources/logo/symbol2.png</file>
     </qresource>
 </RCC>

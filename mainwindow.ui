@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Rolisteam Character Sheet Editor</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="qmlfile.qrc">
+    <normaloff>:/resources/logo/symbol2.png</normaloff>:/resources/logo/symbol2.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
