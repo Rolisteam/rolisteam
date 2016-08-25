@@ -247,28 +247,24 @@ void TextItem::setGeometryPoint(qreal pointId, QPointF &pos)
     {
     case 0:
         m_rect.setTopLeft(pos);
-        updateTextPosition();
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 1:
         m_rect.setTopRight(pos);
-        updateTextPosition();
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 2:
         m_rect.setBottomRight(pos);
-        updateTextPosition();
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 3:
         m_rect.setBottomLeft(pos);
-        updateTextPosition();
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
@@ -279,8 +275,15 @@ void TextItem::setGeometryPoint(qreal pointId, QPointF &pos)
 
     setTransformOriginPoint(m_rect.center());
 
-    updateTextPosition();
+    //updateTextPosition();
+    m_resizing = true;
 }
+void TextItem::endOfGeometryChange()
+{
+    updateTextPosition();
+    VisualItem::endOfGeometryChange();
+}
+
 void TextItem::updateTextPosition()
 {
     m_textItem->setTextWidth(m_rect.width()-10);
@@ -317,7 +320,7 @@ void TextItem::updateTextPosition()
     {
         emit itemGeometryChanged(this);
     }
-    m_resizing = true;
+
 }
 
 void TextItem::initChildPointItem()

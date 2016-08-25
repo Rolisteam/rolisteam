@@ -123,6 +123,8 @@ public:
 
     virtual void setEditableItem(bool b);
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
+
+    virtual void endOfGeometryChange();
 public slots:
     void updateTextPosition();
     void decreaseTextSize();
