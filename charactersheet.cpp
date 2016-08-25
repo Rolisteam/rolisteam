@@ -25,11 +25,10 @@
 #include <QJsonArray>
 #include <QUuid>
 
-
 #include "section.h"
 #include "charactersheetbutton.h"
-/////////////////////////////////////
-//CharacterSheet
+/////////////////////////////////////////
+//          CharacterSheet           ////
 /////////////////////////////////////////
 /// \brief CharacterSheet::CharacterSheet
 ///
