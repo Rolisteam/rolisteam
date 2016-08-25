@@ -42,4 +42,15 @@ RCSE{
 HEADERS -=$$PWD/charactersheetwindow.h
 SOURCES -=$$PWD/charactersheetwindow.cpp
 }
+UNIT_TEST{
+HEADERS -=$$PWD/charactersheetwindow.h \
+    $$PWD/charactersheetwindow.h \
+    $$PWD/charactersheetmodel.h\
+    $$PWD/rolisteamimageprovider.h \
 
+
+
+SOURCES -=$$PWD/charactersheetwindow.cpp\
+    $$PWD/charactersheetmodel.cpp\
+    $$PWD/rolisteamimageprovider.cpp \
+}

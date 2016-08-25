@@ -222,7 +222,6 @@ void CharacterSheet::insertField(QString key, CharacterSheetItem* itemSheet)
     connect(itemSheet,SIGNAL(sendOffData()),this,SLOT(sendUpdateForField()));
 }
 
-#ifndef RCSE
 void CharacterSheet::sendUpdateForField()
 {
     CharacterSheetItem* item = dynamic_cast<CharacterSheetItem*>(sender());
@@ -233,6 +232,7 @@ void CharacterSheet::sendUpdateForField()
     }
 }
 
+#if !defined(RCSE)  && !defined(UNIT_TEST)
 void CharacterSheet::fill(NetworkMessageWriter & msg)
 {
     QJsonObject object;
@@ -264,5 +264,5 @@ QHash<QString, QString> CharacterSheet::getVariableDictionnary()
 
 void CharacterSheet::insertCharacterItem(CharacterSheetItem *item)
 {
-    m_valuesMap.insert(item->getPath(),item);
+   insertField(item->getId(),item);
 }

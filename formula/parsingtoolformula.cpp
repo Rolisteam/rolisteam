@@ -53,7 +53,6 @@ FormulaNode* ParsingToolFormula::getLatestNode(FormulaNode* node)
 {
     if(NULL==node)
         return NULL;
-
     FormulaNode* next = node;
     while(NULL != next->next() )
     {
@@ -209,8 +208,7 @@ bool ParsingToolFormula::readStringValue(QString& str, FormulaNode*& previous)
     return false;
 }
 
-
-bool ParsingToolFormula::readOperator(QString& str, FormulaNode*& previous)
+bool ParsingToolFormula::readOperator(QString& str, FormulaNode* & previous)
 {
     bool found = false;
     for(int i = 0; i < m_hashOp->keys().size() && !found ; ++i)
@@ -239,6 +237,7 @@ bool ParsingToolFormula::readOperator(QString& str, FormulaNode*& previous)
                 if(str.startsWith(")"))
                 {
                     str=str.remove(0,1);
+                    found=true;
                 }
             }
 
