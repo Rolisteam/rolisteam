@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/qmake.mk
+QMAKE=qmake rcse.pro
+
+
+install/rcse::
+	mkdir -p $(CURDIR)/debian/rcse/usr/
+	mkdir -p $(CURDIR)/debian/rcse/usr/bin/
+	mkdir -p $(CURDIR)/debian/rcse/usr/share/
+	mkdir -p $(CURDIR)/debian/rcse/usr/share/applications/
+	mkdir -p $(CURDIR)/debian/rcse/usr/share/app-install/
+	mkdir -p $(CURDIR)/debian/rcse/usr/share/app-install/icons/
+	cp $(CURDIR)/bin/rcse $(CURDIR)/debian/rcse/usr/bin/
+	cp $(CURDIR)/resources/logo/symbol2.png $(CURDIR)/debian/rcse/usr/share/app-install/icons/symbol2.png
+	cp rcse.desktop $(CURDIR)/debian/rcse/usr/share/applications/

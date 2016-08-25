@@ -1,0 +1,6 @@
+rcse (0.0.9ubuntu~ppa1~beta) xenial; urgency=medium
+
+  [Renaud Guezennec]
+  * Fix package system
+
+ -- Renaud Guezennec <renaud@rolisteam.org>  Sat, 18 Aug 2016 11:26:18 +0200
