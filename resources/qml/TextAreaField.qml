@@ -9,9 +9,11 @@ Rectangle {
     property alias hAlign: textArea.horizontalAlignment
     property alias vAlign: textArea.verticalAlignment
     property bool clippedText: false
+    property bool readOnly: false
     TextArea {
         id: textArea
         anchors.fill: parent
         selectByMouse: true
+        readOnly: root.readOnly
     }
 }
