@@ -8,7 +8,7 @@ QT       += core gui quickwidgets quick
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = rcse
+TARGET = bin/rcse
 TEMPLATE = app
 
 QMAKE_CXXFLAGS = -std=c++11
