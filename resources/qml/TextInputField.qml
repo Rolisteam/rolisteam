@@ -9,10 +9,12 @@ Rectangle {
     property alias hAlign: textInput.horizontalAlignment
     property alias vAlign: textInput.verticalAlignment
     property bool clippedText: false
+    property bool readOnly: false
     TextInput {//textInput.textColor
         id: textInput
         anchors.fill: parent
         selectByMouse: true
+        readOnly: root.readOnly
         onWidthChanged: {
             computeSizeFont();
         }

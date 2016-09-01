@@ -10,10 +10,12 @@ Rectangle {
     property int hAlign: TextInput.AlignLeft
     property int vAlign: TextInput.AlignTop
     property bool clippedText: false
+    property bool readOnly:false
     TextField {
         id: textField
         anchors.fill: parent
         selectByMouse: true
+        readOnly: root.readOnly
         //onTextChanged: root.text = textInput.text
     }
     TextInput {//textInput.textColor
@@ -22,6 +24,7 @@ Rectangle {
         selectByMouse: true
         horizontalAlignment: root.hAlign
         verticalAlignment: root.vAlign
+        readOnly: root.readOnly
         onTextChanged: {
             if(clippedText)
             {
@@ -45,16 +48,20 @@ Rectangle {
         id: textArea
         anchors.fill: parent
         selectByMouse: true
+        readOnly: root.readOnly
     }
     ComboBox {
         id: selectvalues
         anchors.fill: parent
         onCurrentTextChanged: root.text = selectvalues.currentText
+        editable: root.readOnly
+        selectByMouse: root.readOnly
     }
     CheckBox {
         id: checkbox
         anchors.fill: parent
         onCheckedChanged: checked == true ? root.text = "X" : root.text = ""
+        readOnly: root.readOnly
     }
 
     states: [

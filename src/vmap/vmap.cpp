@@ -44,6 +44,7 @@ void VMap::initMap()
 {
     m_editionMode = VToolsBar::Painting;
     m_propertiesHash = new QHash<VisualItem::Properties,QVariant>();
+    m_zIndex =0;
 
     PlayersList* list = PlayersList::instance();
     connect(list,SIGNAL(characterDeleted(Character*)),this,SLOT(characterHasBeenDeleted(Character*)));
@@ -821,7 +822,6 @@ void VMap::addCharacter(Character* p, QPointF pos)
     msg.sendAll();
     item->initChildPointItem();
     addNewItem(item);
-
     insertCharacterInMap(item);
 }
 QColor VMap::getBackGroundColor() const
@@ -1077,7 +1077,7 @@ void VMap::addNewItem(VisualItem* item)
         }
         QGraphicsScene::addItem(item);
 
-
+        item->setZValue(m_zIndex);
 
         if((getOption(VisualItem::LocalIsGM).toBool()))//GM
         {
@@ -1444,10 +1444,10 @@ void VMap::insertCharacterInMap(CharacterItem* item)
         {
             m_sightItem->insertVision(item);
         }
-        if((item->isPlayableCharacter())&&(!getOption(VisualItem::LocalIsGM).toBool())&&(item->isLocal()))
+       /* if((item->isPlayableCharacter())&&(!getOption(VisualItem::LocalIsGM).toBool())&&(item->isLocal()))
         {
             changeStackOrder(item,VisualItem::FRONT);
-        }
+        }*/
     }
 }
 
@@ -1612,8 +1612,7 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
     // reassign z-levels
     m_sortedItemList.removeAll(m_sightItem->getId());
     m_sortedItemList.append(m_sightItem->getId());
-    int z =0;
-    //foreach (VisualItem* item, )
+    quint64 z =0;
     for(QString key : m_sortedItemList)
     {
         VisualItem* item = m_itemMap->value(key);
@@ -1627,7 +1626,7 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
     //ensure that character player are above everythings.
     if(!getOption(VisualItem::LocalIsGM).toBool())
     {
-        foreach(CharacterItem* item,m_characterItemMap->values())
+        for(CharacterItem* item : m_characterItemMap->values())
         {
             if(item->isLocal())
             {
@@ -1635,6 +1634,7 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
             }
         }
     }
+    m_zIndex = z;
 }
 QRectF VMap::itemsBoundingRectWithoutSight()
 {

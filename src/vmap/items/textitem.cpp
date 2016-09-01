@@ -49,7 +49,7 @@ void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
     {
         if(map->getSelectedtool() == VToolsBar::HANDLER)
         {
-            event->ignore();
+            event->accept();
         }
         else if((map->getSelectedtool() == VToolsBar::TEXT)||
                 (map->getSelectedtool() == VToolsBar::TEXTBORDER))
@@ -247,28 +247,24 @@ void TextItem::setGeometryPoint(qreal pointId, QPointF &pos)
     {
     case 0:
         m_rect.setTopLeft(pos);
-        updateTextPosition();
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 1:
         m_rect.setTopRight(pos);
-        updateTextPosition();
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(2)->setPos(m_rect.bottomRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 2:
         m_rect.setBottomRight(pos);
-        updateTextPosition();
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(3)->setPos(m_rect.bottomLeft());
         break;
     case 3:
         m_rect.setBottomLeft(pos);
-        updateTextPosition();
         m_child->value(0)->setPos(m_rect.topLeft());
         m_child->value(1)->setPos(m_rect.topRight());
         m_child->value(2)->setPos(m_rect.bottomRight());
@@ -279,8 +275,15 @@ void TextItem::setGeometryPoint(qreal pointId, QPointF &pos)
 
     setTransformOriginPoint(m_rect.center());
 
-    updateTextPosition();
+    //updateTextPosition();
+    m_resizing = true;
 }
+void TextItem::endOfGeometryChange()
+{
+    updateTextPosition();
+    VisualItem::endOfGeometryChange();
+}
+
 void TextItem::updateTextPosition()
 {
     m_textItem->setTextWidth(m_rect.width()-10);
@@ -317,7 +320,7 @@ void TextItem::updateTextPosition()
     {
         emit itemGeometryChanged(this);
     }
-    m_resizing = true;
+
 }
 
 void TextItem::initChildPointItem()
@@ -494,6 +497,10 @@ void TextItem::addActionContextMenu(QMenu* menu)
     QAction* edit = menu->addAction(tr("Edit Text…"));
     connect(edit,SIGNAL(triggered(bool)),this,SLOT(editText()));
 
+
+    QAction* adapt = menu->addAction(tr("Adapt to content"));
+    connect(adapt,SIGNAL(triggered(bool)),this,SLOT(sizeToTheContent()));
+
     QMenu* state =  menu->addMenu(tr("Font Size"));
     state->addAction(m_increaseFontSize);
     state->addAction(m_decreaseFontSize);
@@ -506,6 +513,26 @@ void TextItem::createActions()
     connect(m_increaseFontSize,SIGNAL(triggered()),this,SLOT(increaseTextSize()));
     connect(m_decreaseFontSize,SIGNAL(triggered()),this,SLOT(decreaseTextSize()));
 }
+void TextItem::sizeToTheContent()
+{
+    QRectF rectItem =  m_textItem->boundingRect();
+    setTransformOriginPoint(m_rect.center());
+    if(rectItem.height() < m_rect.height()+10)
+    {
+        m_rect.setHeight(rectItem.height()+10);
+        m_resizing = true;
+    }
+    if(rectItem.width() < m_rect.width()+10)
+    {
+        m_rect.setWidth(rectItem.width()+10);
+        m_resizing = true;
+    }
+    if(m_resizing)
+    {
+        endOfGeometryChange();
+    }
+}
+
 void TextItem::increaseTextSize()
 {
     int i = m_font.pointSize();

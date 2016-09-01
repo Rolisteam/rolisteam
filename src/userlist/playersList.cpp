@@ -946,9 +946,7 @@ void PlayersList::completeListClean()
         player->clearCharacterList();
     }
 
-
     m_localPlayer = NULL;
-
 
 }
 

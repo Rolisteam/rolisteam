@@ -51,6 +51,7 @@ public:
 
 public slots:
     void addImageToMap();
+    void centerOnItem();
 protected:
    // void keyPressEvent ( QKeyEvent * event);
     void mousePressEvent ( QMouseEvent * event);
@@ -85,6 +86,9 @@ private:
     QAction* m_zoomNormal;
     QAction* m_zoomInMax;
     QAction* m_zoomOutMax;
+    QAction* m_zoomIn;
+    QAction* m_zoomOut;
+    QAction* m_zoomCenterOnItem;
     QAction* m_properties;
     QAction* m_editGroundLayer;
     QAction* m_editObjectLayer;
@@ -111,6 +115,7 @@ private:
 	VToolsBar::SelectableTool m_currentTool;
     PreferencesManager* m_preferences;
     QPoint m_lastPoint;
+    QGraphicsItem* m_centerOnItem;
 
 };
 

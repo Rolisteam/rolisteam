@@ -536,6 +536,7 @@ private:
 
     VisualItem* m_fogItem;
     FogSingularity* m_currentFog;
+    quint64 m_zIndex;
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
 

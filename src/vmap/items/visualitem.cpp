@@ -186,103 +186,108 @@ void VisualItem::updateChildPosition()
 }
 void VisualItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-    if((m_propertiesHash->contains(VisualItem::LocalIsGM))&&(m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == false))
+    bool licenseToModify = false;
+    if((m_propertiesHash->contains(VisualItem::LocalIsGM))&&(m_propertiesHash->value(VisualItem::LocalIsGM).toBool() == true))
     {
-        return;
+        licenseToModify = true;
     }
     QMenu menu;
-    addActionContextMenu(&menu);
-    QAction* backOrderAction = menu.addAction(tr("Back"));
-    backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
-    connect(backOrderAction,&QAction::triggered,[&](){
-        emit changeStackPosition(this,VisualItem::BACK);
-    });
-
-
-    QAction* frontOrderAction = menu.addAction(tr("Front"));
-    frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
-    connect(frontOrderAction,&QAction::triggered,[&](){
-        emit changeStackPosition(this,VisualItem::FRONT);
-    });
-
-
-    QAction* lowerAction = menu.addAction(tr("Lower"));
-    lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
-    connect(lowerAction,&QAction::triggered,[&](){
-        emit changeStackPosition(this,VisualItem::LOWER);
-    });
-
-    QAction* raiseAction = menu.addAction(tr("Raise"));
-    raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
-    connect(raiseAction,&QAction::triggered,[&](){
-        emit changeStackPosition(this,VisualItem::RAISE);
-    });
-
-
-    menu.addSeparator();
-    QAction* removeAction = menu.addAction(tr("Remove"));
-    menu.addAction(m_duplicateAct);
-
-    QMenu* rotationMenu = menu.addMenu(tr("Rotate"));
-    QAction* resetRotationAct = rotationMenu->addAction(tr("To 360"));
-    QAction* rightRotationAct =rotationMenu->addAction(tr("Right"));
-    QAction* leftRotationAct =rotationMenu->addAction(tr("Left"));
-    //QAction* angleRotationAct =rotationMenu->addAction(tr("Set Angle…"));
-    event->accept();
-
-    if(!m_promoteTypeList.isEmpty())
+    if(licenseToModify)
     {
-        QMenu* promoteMenu = menu.addMenu(tr("Promote to"));
-        addPromoteItemMenu(promoteMenu);
-    }
+        addActionContextMenu(&menu);
+        QAction* backOrderAction = menu.addAction(tr("Back"));
+        backOrderAction->setIcon(QIcon(":/resources/icons/action-order-back.png"));
+        connect(backOrderAction,&QAction::triggered,[&](){
+            emit changeStackPosition(this,VisualItem::BACK);
+        });
 
 
-    QMenu* setLayerMenu = menu.addMenu(tr("Set Layer"));
-    setLayerMenu->addAction(m_putGroundLayer);
-    setLayerMenu->addAction(m_putObjectLayer);
-    setLayerMenu->addAction(m_putCharacterLayer);
+        QAction* frontOrderAction = menu.addAction(tr("Front"));
+        frontOrderAction->setIcon(QIcon(":/resources/icons/action-order-front.png"));
+        connect(frontOrderAction,&QAction::triggered,[&](){
+            emit changeStackPosition(this,VisualItem::FRONT);
+        });
 
-    switch (m_layer)
-    {
-    case OBJECT:
-        m_putObjectLayer->setChecked(true);
-        break;
-    case GROUND:
-        m_putGroundLayer->setChecked(true);
-        break;
-    case CHARACTER_LAYER:
-        m_putCharacterLayer->setChecked(true);
-        break;
-    }
-    m_menuPos = event->screenPos();
 
-    QAction* selectedAction = menu.exec(m_menuPos);
-    if(removeAction==selectedAction)
-    {
-        emit itemRemoved(m_id);
-    }
-    else if(resetRotationAct==selectedAction)
-    {
-        setRotation(0);
-        m_rotating = true;
-        endOfGeometryChange();
-    }
-    else if(selectedAction==rightRotationAct)
-    {
-        setRotation(90);
-        m_rotating = true;
-        endOfGeometryChange();
-    }
-    else if(selectedAction==leftRotationAct)
-    {
-        setRotation(270);
-        m_rotating = true;
-        endOfGeometryChange();
-    }
-    else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putGroundLayer))
-    {
-        setLayer((VisualItem::Layer)selectedAction->data().toInt());
-        itemLayerChanged(this);
+        QAction* lowerAction = menu.addAction(tr("Lower"));
+        lowerAction->setIcon(QIcon(":/resources/icons/action-order-lower.png"));
+        connect(lowerAction,&QAction::triggered,[&](){
+            emit changeStackPosition(this,VisualItem::LOWER);
+        });
+
+        QAction* raiseAction = menu.addAction(tr("Raise"));
+        raiseAction->setIcon(QIcon(":/resources/icons/action-order-raise.png"));
+        connect(raiseAction,&QAction::triggered,[&](){
+            emit changeStackPosition(this,VisualItem::RAISE);
+        });
+
+
+        menu.addSeparator();
+        QAction* removeAction = menu.addAction(tr("Remove"));
+        menu.addAction(m_duplicateAct);
+
+        QMenu* rotationMenu = menu.addMenu(tr("Rotate"));
+        QAction* resetRotationAct = rotationMenu->addAction(tr("To 360"));
+        QAction* rightRotationAct =rotationMenu->addAction(tr("Right"));
+        QAction* leftRotationAct =rotationMenu->addAction(tr("Left"));
+        //QAction* angleRotationAct =rotationMenu->addAction(tr("Set Angle…"));
+        event->accept();
+
+        if(!m_promoteTypeList.isEmpty())
+        {
+            QMenu* promoteMenu = menu.addMenu(tr("Promote to"));
+            addPromoteItemMenu(promoteMenu);
+        }
+
+
+        QMenu* setLayerMenu = menu.addMenu(tr("Set Layer"));
+        setLayerMenu->addAction(m_putGroundLayer);
+        setLayerMenu->addAction(m_putObjectLayer);
+        setLayerMenu->addAction(m_putCharacterLayer);
+
+        switch (m_layer)
+        {
+        case OBJECT:
+            m_putObjectLayer->setChecked(true);
+            break;
+        case GROUND:
+            m_putGroundLayer->setChecked(true);
+            break;
+        case CHARACTER_LAYER:
+            m_putCharacterLayer->setChecked(true);
+            break;
+        }
+        m_menuPos = event->screenPos();
+
+
+        QAction* selectedAction = menu.exec(m_menuPos);
+        if(removeAction==selectedAction)
+        {
+            emit itemRemoved(m_id);
+        }
+        else if(resetRotationAct==selectedAction)
+        {
+            setRotation(0);
+            m_rotating = true;
+            endOfGeometryChange();
+        }
+        else if(selectedAction==rightRotationAct)
+        {
+            setRotation(90);
+            m_rotating = true;
+            endOfGeometryChange();
+        }
+        else if(selectedAction==leftRotationAct)
+        {
+            setRotation(270);
+            m_rotating = true;
+            endOfGeometryChange();
+        }
+        else if((selectedAction==m_putCharacterLayer)||(selectedAction==m_putObjectLayer)||(selectedAction==m_putGroundLayer))
+        {
+            setLayer((VisualItem::Layer)selectedAction->data().toInt());
+            itemLayerChanged(this);
+        }
     }
 }
 void VisualItem::addPromoteItemMenu(QMenu* menu)

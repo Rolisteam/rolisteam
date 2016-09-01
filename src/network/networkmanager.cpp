@@ -82,6 +82,7 @@ bool NetworkManager::startConnection()
         else
         {
             setConnectionState(DISCONNECTED);
+            return false;
         }
         m_port = m_connectionProfile->getPort();
     }
