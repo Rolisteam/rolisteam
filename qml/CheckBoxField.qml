@@ -14,9 +14,9 @@ Rectangle {
     CheckBox {
         id: checkbox
         anchors.fill: parent
-        checked: root.text === "X"  ? true :false
+        checked: root.text === "1"  ? true :false
         onCheckedChanged: {
-            root.text = checked ? "X": ""
+            root.text = checked ? "1": "0"
         }
     }
 }
