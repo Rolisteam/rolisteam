@@ -9,6 +9,7 @@ Rectangle {
     property alias hAlign: textArea.horizontalAlignment
     property alias vAlign: textArea.verticalAlignment
     property bool clippedText: false
+    color:black
     Image {
         id: textArea
         anchors.fill: parent
