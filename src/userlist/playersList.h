@@ -116,6 +116,8 @@ public:
     void setLocalPersonColor(Person * person, const QColor & color);
     void delLocalCharacter(int index);
 
+    bool hasPlayer(Player* player);
+
     Player* getGM();
     // Proxy helpers
     static const quint32 NoParent = 0x7fffffff;
