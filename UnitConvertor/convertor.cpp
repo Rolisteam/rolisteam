@@ -242,6 +242,7 @@ Convertor::Convertor(QWidget *parent) :
 
 Convertor::~Convertor()
 {
+    qDeleteAll(m_convertorTable);
     delete ui;
 }
 
