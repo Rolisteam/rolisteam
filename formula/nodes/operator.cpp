@@ -207,7 +207,7 @@ void OperatorFNode::max()
             QVariant var = node->getResult();
             if(0==i)
             {
-                var = max;
+                max = var;
             }
             else if(var>max)
             {

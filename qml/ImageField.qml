@@ -10,6 +10,8 @@ Rectangle {
     property alias vAlign: textArea.verticalAlignment
     property bool clippedText: false
     property bool readOnly: true //by default, the edit mode will not be made in 1.8.
+    color: "black"
+
     Image {
         id: textArea
         anchors.fill: parent
