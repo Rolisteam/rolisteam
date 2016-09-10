@@ -89,6 +89,7 @@ public slots:
     void rollDice(QString cmd);
 
     void updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item);
+    void removeConnection(Player* );
 protected slots:
     void addTabWithSheetView(CharacterSheet *chSheet);
     /**

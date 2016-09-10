@@ -293,9 +293,21 @@ void CharacterSheetWindow::checkAlreadyShare(CharacterSheet* sheet)
             NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::closeCharacterSheet);
             msg.string8(m_mediaId);
             msg.string8(sheet->getUuid());
-            msg.sendTo(olderParent->link());
+            PlayersList* list = PlayersList::instance();
+            if(list->hasPlayer(olderParent))
+            {
+                msg.sendTo(olderParent->link());
+            }
         }
         m_sheetToPerson.remove(sheet);
+    }
+}
+void CharacterSheetWindow::removeConnection(Player* player)
+{
+    CharacterSheet* key = m_sheetToPerson.key(player,NULL);
+    if(NULL!=key)
+    {
+        m_sheetToPerson.remove(key);
     }
 }
 
