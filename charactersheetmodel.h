@@ -47,7 +47,7 @@ public:
     * @brief default constructor
     */
     CharacterSheetModel();
-    
+    virtual ~CharacterSheetModel();
     
     /**
     * @brief compulsory function which returns the  row count : should be the higher index count of stored characterSheets

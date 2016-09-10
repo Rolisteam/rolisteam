@@ -42,6 +42,13 @@ CharacterSheetModel::CharacterSheetModel()
     m_formulaManager = new Formula::FormulaManager();
 
 }
+CharacterSheetModel::~CharacterSheetModel()
+{
+    qDeleteAll(*m_characterList);
+    delete m_characterList;
+    delete m_rootSection;
+    delete m_formulaManager;
+}
 
 int CharacterSheetModel::rowCount ( const QModelIndex & parent  ) const
 {
