@@ -34,11 +34,12 @@ SessionManager::SessionManager()
 
     setObjectName("SessionManager");
     m_options = PreferencesManager::getInstance();
-    m_view =new SessionView;
-    m_layout = new QHBoxLayout;
+    m_view =new SessionView(this);
+    m_layout = new QHBoxLayout();
     m_layout->setMargin(0);
     m_layout->addWidget(m_view);
-    m_internal = new QWidget();
+    m_internal = new QWidget(this);
+    m_layout->setParent(m_internal);
     m_internal->setLayout(m_layout);
     setWidget(m_internal);
     
@@ -74,6 +75,11 @@ SessionManager::SessionManager()
 
     connect(m_model,SIGNAL(openFile(CleverURI*,bool)),this,SIGNAL(openFile(CleverURI*,bool)));
 }
+SessionManager::~SessionManager()
+{
+   delete m_model;
+}
+
 Chapter* SessionManager::getCurrentChapter()
 {
     return m_currentChapter;

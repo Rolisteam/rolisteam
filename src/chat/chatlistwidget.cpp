@@ -84,6 +84,7 @@ ChatListWidget::ChatListWidget(MainWindow * parent)
 
 ChatListWidget::~ChatListWidget()
 {
+    delete m_diceAliasMapFromGM;
 }
 void ChatListWidget::updateAllUnreadChat()
 {
