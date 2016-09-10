@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
 <context>
     <name>AboutRolisteam</name>
     <message>
@@ -18,9 +16,9 @@
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5 &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later). A copy of the GPL is contained in the &apos;COPYING&apos; file distributed with Rolisteam. Rolisteam is copyrighted by its contributors. See the &apos;COPYRIGHT&apos; file for the complete list of contributors. We provide no warranty for this program.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later). A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam. Rolisteam is copyrighted by its contributors. See the 'COPYRIGHT' file for the complete list of contributors. We provide no warranty for this program.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Web Sites :&lt;/p&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Official Rolisteam Site&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Bug Tracker&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
@@ -76,7 +74,67 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/Vistaus/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Heimen Stoffels&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Dutch)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Rolisteam vous permet de jouer à n&apos;importe quel jeu de rôle avec vos amis distants. Rolisteam vous permet de dessiner des plans, de les partager ainsi que des images, il contient également un système avancé de lancer de dés, bien entendu, il comprend aussi des outils de communication avec vos amis/joueurs. Le but de rolisteam est de permettre une partie aussi amusante qu&apos;elle pourrait l&apos;être autour d&apos;une table. Nous travaillons dans ce but pour vous offrir encore plus de nouvelles fonctions.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Vous pouvez modifier et contribuer à rolisteam en respectant la license the GPL (version 2 ou plus récentes). Une copie de la license GPL est distribué (fichier COPYING) avec rolisteam. Rolisteam appartient à ses contributeurs. Plus d&apos;information dans le fichier &apos;COPYRIGHT&apos; pour une liste complete des contributeurs. Nous ne fournissons aucune garrantie pour ce programme.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Sites Web:&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Site Official Rolisteam &lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Gestion des Bugs&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Developeur :&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/contact&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Renaud Guezennec&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Contributeurs :&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:joseph.boudou@matabio.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Joseph Boudou&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;mailto:rolistik@free.fr&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Romain Campioni&lt;/span&gt;&lt;/a&gt; (rolistik) &lt;/li&gt;&lt;/ul&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Translateurs&lt;/p&gt;
+&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/Le_Sage/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Renaud Guezennec&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Anglais &amp;amp; Français)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/lorrampi/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Lorram Lomeu de Souza Rampi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Portugais)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/JuAlves/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Juliana Alves de Sousa Rampi&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Portugais)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/KrekoG/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Gergely Krekó&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Hongrois)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/kayazeren/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Kaya Zeren&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Turc)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/accounts/profile/IGrumoI/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Alexia Béné&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Français &amp;amp; Allemand)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/Jobava/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Baadur Jobava&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Roumain)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/omik/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Jesus M&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Espagnol)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/user/profile/Vistaus/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Heimen Stoffels&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(Néerlandais)&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -161,22 +219,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="297"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="275"/>
         <source>Fields name</source>
         <translation>Nom du champ</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="313"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="291"/>
         <source>Empty Section %1</source>
         <translation>Section vide %1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="321"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="299"/>
         <source>Section_%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Section_%1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="344"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="322"/>
         <source>Field %1</source>
         <translation>Champ %1</translation>
     </message>
@@ -185,7 +243,7 @@ p, li { white-space: pre-wrap; }
     <name>CharacterSheetWindow</name>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="585"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="508"/>
         <source>Character Sheet Viewer</source>
         <translation>Visinneur de fiche de personnage</translation>
     </message>
@@ -205,72 +263,67 @@ p, li { white-space: pre-wrap; }
         <translation>Ajouter une fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="66"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="62"/>
         <source>Load CharacterSheet View File</source>
         <translation>Charger une vue de fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="68"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="64"/>
         <source>Detach Tabs</source>
         <translation>Détacher l&apos;onglet</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="78"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="74"/>
         <source>Data</source>
         <translation>Données</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="58"/>
         <source>Copy Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Copie l&apos;onglet</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="60"/>
         <source>Stop Sharing</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter le partage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="62"/>
-        <source>Read Only</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="178"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="113"/>
         <source>Share To </source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer à</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="207"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="142"/>
         <source>Share To</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer à</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="434"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="357"/>
         <source>Save Character Sheets Data</source>
         <translation>Sauvegarder les données des personnages</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="435"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="358"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="512"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="435"/>
         <source>Open Character Sheet data</source>
         <translation>Ouvrir les données des personnages</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="513"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="436"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="520"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="443"/>
         <source>Open Character Sheets View</source>
         <translation>Ouvrir une fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="521"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="444"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Fiche de personnage (*.qml)</translation>
     </message>
@@ -353,7 +406,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/chat/chatbrowser.cpp" line="24"/>
         <source>Display time</source>
-        <translation type="unfinished"></translation>
+        <translation>Affiche le temps</translation>
     </message>
 </context>
 <context>
@@ -387,7 +440,7 @@ p, li { white-space: pre-wrap; }
         <translation>Supprimer un tchat</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatlistwidget.cpp" line="125"/>
+        <location filename="../src/chat/chatlistwidget.cpp" line="124"/>
         <source>New chat</source>
         <translation>Nouveau tchat</translation>
     </message>
@@ -595,7 +648,7 @@ p, li { white-space: pre-wrap; }
         <translation>Commentaires</translation>
     </message>
     <message>
-        <location filename="../src/preferences/dicealiasmodel.cpp" line="106"/>
+        <location filename="../src/preferences/dicealiasmodel.cpp" line="104"/>
         <source>New Alias%1</source>
         <translation>Nouvel Alias %1</translation>
     </message>
@@ -783,218 +836,229 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="56"/>
         <source>Paragraph formatting</source>
-        <translation type="unfinished"></translation>
+        <translation>Style de paragraphe</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="79"/>
         <source>Undo (CTRL+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler (Ctrl+Z)</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="82"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="105"/>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="108"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="106"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="109"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Refaire</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="128"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="130"/>
         <source>Cut (CTRL+X)</source>
-        <translation type="unfinished"></translation>
+        <translation>Couper (Ctrl+X)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="131"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="133"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="151"/>
-        <source>Copy (CTRL+C)</source>
-        <translation type="unfinished"></translation>
+        <translation>Couper</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="154"/>
+        <source>Copy (CTRL+C)</source>
+        <translation>Copier (Ctrl+C)</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="157"/>
         <source>Copy</source>
-        <translation type="unfinished">Copie</translation>
+        <translation>Copier</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="174"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="178"/>
         <source>Paste (CTRL+V)</source>
-        <translation type="unfinished"></translation>
+        <translation>Coller (Ctrl+V)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="177"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="181"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="204"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="209"/>
         <source>Link (CTRL+L)</source>
-        <translation type="unfinished"></translation>
+        <translation>Lien (Ctrl+L)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="207"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="212"/>
         <source>Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Lien</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="240"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="246"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Gras</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="263"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="270"/>
         <source>Italic (CTRL+I)</source>
-        <translation type="unfinished"></translation>
+        <translation>Italique (Ctrl+I)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="266"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="273"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Italique</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="289"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="297"/>
         <source>Underline (CTRL+U)</source>
-        <translation type="unfinished"></translation>
+        <translation>So&amp;ulignage (Ctrl+U)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="292"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="300"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Souligner</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="312"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="321"/>
         <source>Strike Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Rayer</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="332"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="341"/>
         <source>Bullet list (CTRL+-)</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste à points (Ctrl+-)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="335"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="344"/>
         <source>Bullet list</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste à points</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="354"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="363"/>
         <source>Ordered list (CTRL+=)</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste ordonnée (Ctrl+=)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="357"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="366"/>
         <source>Ordered list</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste ordonnée</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="376"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="385"/>
         <source>Decrease indentation (CTRL+,)</source>
-        <translation type="unfinished"></translation>
+        <translation>Réduire le décalage (Ctrl+,)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="379"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="388"/>
         <source>Decrease indentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Réduire le décalage</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="399"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="409"/>
         <source>Increase indentation (CTRL+.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmenter le décalage (Ctrl+.)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="402"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="412"/>
         <source>Increase indentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Augmente le décalage</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="441"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="452"/>
         <source>Text foreground color</source>
-        <translation type="unfinished"></translation>
+        <translation>Couleur du texte</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="472"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="455"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="486"/>
+        <source>.</source>
+        <translation>.</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="483"/>
         <source>Text background color</source>
-        <translation type="unfinished"></translation>
+        <translation>Couleur de fond</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="491"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="502"/>
         <source>Font size</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille de police</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="539"/>
+        <source>...</source>
+        <translation>…</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="62"/>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="63"/>
         <source>Heading 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre 1</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="64"/>
         <source>Heading 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre 2</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="65"/>
         <source>Heading 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre 3</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="66"/>
         <source>Heading 4</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre 4</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="67"/>
         <source>Monospace</source>
-        <translation type="unfinished"></translation>
+        <translation>Chasse fixe</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="126"/>
         <source>Remove character formatting</source>
-        <translation type="unfinished"></translation>
+        <translation>Effacer le style de caractère</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="131"/>
         <source>Remove all formatting</source>
-        <translation type="unfinished"></translation>
+        <translation>Effacer tous les styles</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="135"/>
         <source>Edit document source</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier le code source</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="200"/>
         <source>Document source</source>
-        <translation type="unfinished"></translation>
+        <translation>Source du document</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="293"/>
         <source>Create a link</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un lien</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="294"/>
         <source>Link URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>Lien URL:</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="583"/>
         <source>Select an image</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionner une image</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="585"/>
         <source>JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; Tout (*)</translation>
     </message>
 </context>
 <context>
@@ -1010,32 +1074,32 @@ p, li { white-space: pre-wrap; }
         <translation>Ouvrir Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2164"/>
+        <location filename="../src/mainwindow.cpp" line="2163"/>
         <source>Connected</source>
         <translation>Connecté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2164"/>
+        <location filename="../src/mainwindow.cpp" line="2163"/>
         <source>Not Connected</source>
         <translation>Non connecté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2165"/>
+        <location filename="../src/mainwindow.cpp" line="2164"/>
         <source>Server</source>
         <translation>Serveur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2165"/>
+        <location filename="../src/mainwindow.cpp" line="2164"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2165"/>
+        <location filename="../src/mainwindow.cpp" line="2164"/>
         <source>GM</source>
         <translation>MJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2165"/>
+        <location filename="../src/mainwindow.cpp" line="2164"/>
         <source>Player</source>
         <translation>Joueur</translation>
     </message>
@@ -1097,8 +1161,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="86"/>
-        <location filename="../src/mainwindow.ui" line="268"/>
-        <location filename="../src/mainwindow.ui" line="298"/>
+        <location filename="../src/mainwindow.ui" line="270"/>
+        <location filename="../src/mainwindow.ui" line="300"/>
         <source>Map</source>
         <translation>Plan</translation>
     </message>
@@ -1108,257 +1172,257 @@ p, li { white-space: pre-wrap; }
         <translation>Boîte à outils du MJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="139"/>
+        <location filename="../src/mainwindow.ui" line="140"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="142"/>
+        <location filename="../src/mainwindow.ui" line="143"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="151"/>
+        <location filename="../src/mainwindow.ui" line="153"/>
         <source>Save as</source>
         <translation>Enregistrer Sous</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="154"/>
+        <location filename="../src/mainwindow.ui" line="156"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="159"/>
+        <location filename="../src/mainwindow.ui" line="161"/>
         <source>Save All</source>
         <translation>Enregistrer tout</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="162"/>
+        <location filename="../src/mainwindow.ui" line="164"/>
         <source>Ctrl+Shift+A</source>
         <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="171"/>
+        <location filename="../src/mainwindow.ui" line="173"/>
         <source>Save into Scenario</source>
         <translation>Enregistrer dans Scénario</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="174"/>
+        <location filename="../src/mainwindow.ui" line="176"/>
         <source>Meta+Ctrl+S</source>
         <translation>Meta+Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="179"/>
+        <location filename="../src/mainwindow.ui" line="181"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="191"/>
+        <location filename="../src/mainwindow.ui" line="193"/>
         <source>Preferences</source>
         <translation>Préférences</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="194"/>
+        <location filename="../src/mainwindow.ui" line="196"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="203"/>
+        <location filename="../src/mainwindow.ui" line="205"/>
         <location filename="../src/mainwindow.cpp" line="643"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="206"/>
+        <location filename="../src/mainwindow.ui" line="208"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="214"/>
+        <location filename="../src/mainwindow.ui" line="216"/>
         <source>Tab</source>
         <translation>Tab</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="217"/>
+        <location filename="../src/mainwindow.ui" line="219"/>
         <source>Alt+O</source>
         <translation>Alt+O</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="233"/>
+        <location filename="../src/mainwindow.ui" line="235"/>
         <source>Alt+T</source>
         <translation>Alt+T</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="238"/>
+        <location filename="../src/mainwindow.ui" line="240"/>
         <source>Connection</source>
         <translation>Connexion</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="243"/>
+        <location filename="../src/mainwindow.ui" line="245"/>
         <source>Disconnection</source>
         <translation>Déconnexion</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="248"/>
+        <location filename="../src/mainwindow.ui" line="250"/>
         <source>Check Update</source>
         <translation>Vérifier les mises à jour</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="251"/>
+        <location filename="../src/mainwindow.ui" line="253"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="259"/>
+        <location filename="../src/mainwindow.ui" line="261"/>
         <source>F12</source>
         <translation>F12</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="271"/>
+        <location filename="../src/mainwindow.ui" line="273"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="280"/>
+        <location filename="../src/mainwindow.ui" line="282"/>
         <source>Chat</source>
         <translation>Tchat</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="289"/>
-        <location filename="../src/mainwindow.ui" line="322"/>
+        <location filename="../src/mainwindow.ui" line="291"/>
+        <location filename="../src/mainwindow.ui" line="324"/>
         <source>Note</source>
         <translation>Notes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="301"/>
+        <location filename="../src/mainwindow.ui" line="303"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="310"/>
+        <location filename="../src/mainwindow.ui" line="312"/>
         <source>Picture</source>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="313"/>
+        <location filename="../src/mainwindow.ui" line="315"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="331"/>
+        <location filename="../src/mainwindow.ui" line="333"/>
         <source>Scenario</source>
         <translation>Scénario</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="342"/>
+        <location filename="../src/mainwindow.ui" line="344"/>
         <source>Show PC Name</source>
         <translation>Affiche le nom des PJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="345"/>
+        <location filename="../src/mainwindow.ui" line="347"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="356"/>
+        <location filename="../src/mainwindow.ui" line="358"/>
         <source>Show Npc Name</source>
         <translation>Affiche le nom des PNJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="359"/>
+        <location filename="../src/mainwindow.ui" line="361"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="370"/>
+        <location filename="../src/mainwindow.ui" line="372"/>
         <source>Show Npc Number</source>
         <translation>Affiche le numéros des PNJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="373"/>
+        <location filename="../src/mainwindow.ui" line="375"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="381"/>
+        <location filename="../src/mainwindow.ui" line="383"/>
         <source>Minute Editor</source>
         <translation>Editeur de notes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="384"/>
+        <location filename="../src/mainwindow.ui" line="386"/>
         <source>Alt+M</source>
         <translation>Alt+M</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="393"/>
+        <location filename="../src/mainwindow.ui" line="395"/>
         <source>Online Picture</source>
         <translation>Image En Ligne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="401"/>
+        <location filename="../src/mainwindow.ui" line="403"/>
         <source>Audio Player</source>
         <translation>Lecteur Audio</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="409"/>
+        <location filename="../src/mainwindow.ui" line="411"/>
         <location filename="../src/mainwindow.cpp" line="357"/>
         <source>Notification Zone</source>
         <translation>Zone de notification</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="417"/>
+        <location filename="../src/mainwindow.ui" line="419"/>
         <source>Chat List</source>
         <translation>Liste des Tchats</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="425"/>
+        <location filename="../src/mainwindow.ui" line="427"/>
         <source>Character List</source>
         <translation>Liste Des Personnages</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="433"/>
+        <location filename="../src/mainwindow.ui" line="435"/>
         <source>ToolBar</source>
         <translation>Barre d&apos;Outils</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="442"/>
-        <location filename="../src/mainwindow.ui" line="454"/>
+        <location filename="../src/mainwindow.ui" line="444"/>
+        <location filename="../src/mainwindow.ui" line="456"/>
         <source>Vectorial Map</source>
         <translation>Plan Vectoriel</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="445"/>
+        <location filename="../src/mainwindow.ui" line="447"/>
         <source>Ctrl+.</source>
         <translation>Ctrl+.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="462"/>
+        <location filename="../src/mainwindow.ui" line="464"/>
         <source>Show Health State</source>
         <translation>Montrer les états de santé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="465"/>
+        <location filename="../src/mainwindow.ui" line="467"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="470"/>
+        <location filename="../src/mainwindow.ui" line="472"/>
         <source>Change Profile</source>
         <translation>Changer de profil</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="479"/>
-        <location filename="../src/mainwindow.ui" line="491"/>
+        <location filename="../src/mainwindow.ui" line="481"/>
+        <location filename="../src/mainwindow.ui" line="493"/>
         <source>Character Sheet</source>
         <translation>Fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="482"/>
+        <location filename="../src/mainwindow.ui" line="484"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="494"/>
+        <location filename="../src/mainwindow.ui" line="496"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
@@ -1383,22 +1447,22 @@ p, li { white-space: pre-wrap; }
         <translation>Réorganiser</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="182"/>
+        <location filename="../src/mainwindow.ui" line="184"/>
         <source>Ctrl+Esc</source>
         <translation>Ctrl+Esc</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="222"/>
+        <location filename="../src/mainwindow.ui" line="224"/>
         <source>Cascade</source>
         <translation>Cascade</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="225"/>
+        <location filename="../src/mainwindow.ui" line="227"/>
         <source>Alt+C</source>
         <translation>Alt+C</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="230"/>
+        <location filename="../src/mainwindow.ui" line="232"/>
         <source>Tile</source>
         <translation>Tuile</translation>
     </message>
@@ -1460,7 +1524,7 @@ p, li { white-space: pre-wrap; }
         <translation>Avertissement:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2102"/>
+        <location filename="../src/mainwindow.cpp" line="2101"/>
         <source>Open %1</source>
         <translation>Ouvrir %1</translation>
     </message>
@@ -1496,7 +1560,7 @@ p, li { white-space: pre-wrap; }
         <translation>Scénarios (*.sce)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="256"/>
+        <location filename="../src/mainwindow.ui" line="258"/>
         <source>About Rolisteam</source>
         <translation>À propos de Rolisteam</translation>
     </message>
@@ -1599,7 +1663,7 @@ Port:%2</translation>
     <message>
         <location filename="../src/map/map.cpp" line="1265"/>
         <source>PC ID %1 not found (showPc - map.cpp)</source>
-        <translation type="unfinished"></translation>
+        <translation>Le PJ %1 ne peut pas être trouvé (showPc - map.cpp)</translation>
     </message>
     <message>
         <location filename="../src/map/map.cpp" line="1289"/>
@@ -1657,32 +1721,32 @@ Port:%2</translation>
     <message>
         <location filename="../src/map/mapframe.cpp" line="83"/>
         <source>%1 - Permission: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - Permission: %2</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="87"/>
         <source>GM Only</source>
-        <translation type="unfinished">Uniquement le MJ</translation>
+        <translation>MJ uniquement</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="91"/>
         <source>All</source>
-        <translation type="unfinished">Tout</translation>
+        <translation>Tout</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="95"/>
         <source>Pc Move</source>
-        <translation type="unfinished"></translation>
+        <translation>Déplacer son PJ</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="99"/>
         <source>Unknown</source>
-        <translation type="unfinished">Inconnu</translation>
+        <translation>Inconnu</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="161"/>
         <source>File %1 does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier %1 n&apos;existe pas</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="166"/>
@@ -1693,7 +1757,7 @@ Port:%2</translation>
     <message>
         <location filename="../src/map/mapframe.cpp" line="172"/>
         <source>Wrong Map Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Mauvais format de plan</translation>
     </message>
     <message>
         <location filename="../src/map/mapframe.cpp" line="239"/>
@@ -1967,7 +2031,7 @@ Port:%2</translation>
     <message>
         <location filename="../src/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="82"/>
         <source>Complex</source>
-        <translation type="unfinished"></translation>
+        <translation>Complex</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="108"/>
@@ -1977,32 +2041,32 @@ Port:%2</translation>
     <message>
         <location filename="../src/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>Chinese Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom chinois</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>Elve Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom d&apos;elfe</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>English Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom anglais</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>French Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom français</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>Japanese Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom japonais</translation>
     </message>
     <message>
         <location filename="../src/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>Star Wars Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom star wars</translation>
     </message>
 </context>
 <context>
@@ -2650,22 +2714,22 @@ Port:%2</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="120"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Some users have experienced disconnection while they don&apos;t send or receive any message. &lt;/p&gt;&lt;p&gt;This feature is sending heartbeat message to prevent that behaviour.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;En période d&apos;inactivité, certains dispositifs réseaux coupent les connexions.&lt;/p&gt;&lt;p&gt;Cette fonctionnalité envoie un signal de vie pour empecher les déconnexions.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="123"/>
         <source>Keep connection alive</source>
-        <translation type="unfinished"></translation>
+        <translation>Garder la connexion active</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="145"/>
         <source>Every </source>
-        <translation type="unfinished"></translation>
+        <translation>Tous</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="162"/>
         <source>s</source>
-        <translation type="unfinished"></translation>
+        <translation>s</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="182"/>
@@ -2685,17 +2749,17 @@ Port:%2</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="218"/>
         <source>Messaging</source>
-        <translation type="unfinished"></translation>
+        <translation>Messagerie</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="226"/>
         <source>Show time</source>
-        <translation type="unfinished"></translation>
+        <translation>Active horodatage</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="246"/>
         <source>Color of Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Couleur de l&apos;horodatage:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="285"/>
@@ -2884,7 +2948,7 @@ Port:%2</translation>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="632"/>
         <source>Character Sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fiche de personnage:</translation>
     </message>
     <message>
         <location filename="../src/preferences/preferencesdialogbox.ui" line="688"/>
@@ -3174,43 +3238,43 @@ Documentation complète disponible: %1</translation>
     <message>
         <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="87"/>
         <source>abs : too many arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>abs : trop de paramètres</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="91"/>
         <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="225"/>
         <source>abs : too few arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>abs : trop peu de paramètres</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="110"/>
         <source>ceil : too many arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>ceil : trop de paramètres</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="114"/>
         <source>ceil : too few arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>ceil : trop peu d&apos;arguments</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="132"/>
         <source>floor : too many arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>floor : trop de paramètres</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="136"/>
         <source>floor : too few arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>floor : trop peu d&apos;arguments</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/formula/nodes/operator.cpp" line="154"/>
         <source>concatenate : too few arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>contaténation : trop peu de paramètres</translation>
     </message>
     <message>
         <location filename="../src/charactersheet/formula/nodes/scalaroperatorfnode.cpp" line="82"/>
         <source>Error: division by Zero</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur: division par zéro</translation>
     </message>
 </context>
 <context>
@@ -3293,7 +3357,7 @@ Documentation complète disponible: %1</translation>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="240"/>
         <source>Normalize Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Normaliser les tailles</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="285"/>
@@ -3323,17 +3387,17 @@ Documentation complète disponible: %1</translation>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="465"/>
         <source>Center on Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Centrer sur l&apos;élément</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="467"/>
         <source>Zoom In</source>
-        <translation type="unfinished">Agrandir</translation>
+        <translation>Zoom avant</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="470"/>
         <source>Zoom Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom arrière</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="473"/>
@@ -3343,27 +3407,27 @@ Documentation complète disponible: %1</translation>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="484"/>
         <source>Average</source>
-        <translation type="unfinished"></translation>
+        <translation>Moyenne</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="485"/>
         <source>As undermouse item</source>
-        <translation type="unfinished"></translation>
+        <translation>Comme l&apos;élément sous la souris</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="486"/>
         <source>As the Bigger</source>
-        <translation type="unfinished"></translation>
+        <translation>comme le plus grand</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="487"/>
         <source>As the Smaller</source>
-        <translation type="unfinished"></translation>
+        <translation>comme le plus petit</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="489"/>
         <source>Lock Item Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Verrouiller la taille de l&apos;élément</translation>
     </message>
     <message>
         <location filename="../src/vmap/rgraphicsview.cpp" line="499"/>
@@ -3592,12 +3656,12 @@ Documentation complète disponible: %1</translation>
 <context>
     <name>SessionManager</name>
     <message>
-        <location filename="../src/session/sessionmanager.cpp" line="46"/>
+        <location filename="../src/session/sessionmanager.cpp" line="45"/>
         <source>Resources Explorer</source>
         <translation>Explorateur de ressources</translation>
     </message>
     <message>
-        <location filename="../src/session/sessionmanager.cpp" line="98"/>
+        <location filename="../src/session/sessionmanager.cpp" line="92"/>
         <source>Chapter %1</source>
         <translation>Chapitre %1</translation>
     </message>
@@ -3851,17 +3915,17 @@ Voulez-vous sauvegarder vos changements ?</translation>
     <message>
         <location filename="../src/vmap/items/textitem.cpp" line="157"/>
         <source>Text</source>
-        <translation type="unfinished">Texte</translation>
+        <translation>Texte</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/textitem.cpp" line="497"/>
         <source>Edit Text…</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier le texte…</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/textitem.cpp" line="501"/>
         <source>Adapt to content</source>
-        <translation type="unfinished"></translation>
+        <translation>Adapter au contenu</translation>
     </message>
     <message>
         <location filename="../src/vmap/items/textitem.cpp" line="504"/>
