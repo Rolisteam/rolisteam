@@ -9,10 +9,12 @@ Rectangle {
     property alias hAlign: textField.horizontalAlignment
     property alias vAlign: textField.verticalAlignment
     property bool clippedText: false
+    property bool readOnly: false
     TextField {
         id: textField
         anchors.fill: parent
         selectByMouse: true
+        readOnly: root.readOnly
     }
 }
 

@@ -10,11 +10,14 @@ Rectangle {
     property int hAlign: 0
     property int vAlign: 0
     property bool clippedText: false
+    property bool readOnly: false
+    property alias checked: checkbox.checked
 
     CheckBox {
         id: checkbox
         anchors.fill: parent
         checked: root.text === "1"  ? true :false
+        activeFocusOnPress: !root.readOnly
         onCheckedChanged: {
             root.text = checked ? "1": "0"
         }
