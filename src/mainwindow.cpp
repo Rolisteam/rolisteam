@@ -2027,6 +2027,7 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
     m_sheetHash.insert(window->getMediaId(),window);
     connect(window,SIGNAL(addWidgetToMdiArea(QWidget*,QString )),m_mdiArea,SLOT(addWidgetToMdi(QWidget*,QString)));
     connect(window,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
+    connect(m_playerList,SIGNAL(playerDeleted(Player*)),window,SLOT(removeConnection(Player*)));
 }
 
 void MainWindow::openCleverURI(CleverURI* uri,bool force)

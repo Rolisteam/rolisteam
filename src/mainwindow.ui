@@ -20,7 +20,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -133,8 +133,7 @@
   <action name="m_saveAction">
    <property name="icon">
     <iconset theme="QStyle::SP_FileIcon">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -146,8 +145,7 @@
   <action name="m_saveAsAction">
    <property name="icon">
     <iconset theme="QStyle::SP_FileIcon">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Save as</string>
@@ -306,7 +304,7 @@
   <action name="m_openPictureAction">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/picture.png</normaloff>:/picture.png</iconset>
+     <normaloff>:/resources/icons/photo.png</normaloff>:/resources/icons/photo.png</iconset>
    </property>
    <property name="text">
     <string>Picture</string>
@@ -389,7 +387,7 @@
   <action name="m_openOnlinePictureAction">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/picture.png</normaloff>:/picture.png</iconset>
+     <normaloff>:/resources/icons/photo.png</normaloff>:/resources/icons/photo.png</iconset>
    </property>
    <property name="text">
     <string>Online Picture</string>
