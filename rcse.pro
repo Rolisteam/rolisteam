@@ -69,7 +69,8 @@ SOURCES += main.cpp\
     borderlisteditor.cpp \
     qmlhighlighter.cpp \
     charactermodel.cpp \
-    alignmentdelegate.cpp
+    alignmentdelegate.cpp \
+    codeeditor.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -77,12 +78,14 @@ HEADERS  += mainwindow.h \
     borderlisteditor.h \
     qmlhighlighter.h \
     charactermodel.h \
-    alignmentdelegate.h
+    alignmentdelegate.h \
+    codeeditor.h
 
 FORMS    += mainwindow.ui
 
 DISTFILES += \
-    charactersheet/qml/*.qml
+    charactersheet/qml/*.qml \
+    resources/icons/photo.png
 
 RESOURCES += \
     qmlfile.qrc

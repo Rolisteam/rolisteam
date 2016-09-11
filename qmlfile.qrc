@@ -12,6 +12,7 @@
         <file>resources/icons/moveNpc.png</file>
         <file>resources/icons/checked_checkbox.png</file>
         <file>resources/icons/textarea.png</file>
+        <file>resources/icons/photo.png</file>
         <file alias="resources/qml/CheckBoxField.qml">charactersheet/qml/CheckBoxField.qml</file>
         <file alias="resources/qml/SelectField.qml">charactersheet/qml/SelectField.qml</file>
         <file alias="resources/qml/TextAreaField.qml">charactersheet/qml/TextAreaField.qml</file>
