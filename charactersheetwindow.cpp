@@ -421,7 +421,7 @@ void CharacterSheetWindow::processUpdateFieldMessage(NetworkMessageReader* msg)
 }
 void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
 {
-    foreach(auto error, warnings)
+    for(auto error : warnings)
     {
         qDebug() << error.toString();
     }

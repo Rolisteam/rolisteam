@@ -173,7 +173,7 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
             else
             {
                 QString path = childItem->getPath();
-                qDebug() << "Path::" << path;
+                //qDebug() << "Path::" << path;
                 CharacterSheet* sheet = m_characterList->at(index.column()-1);
                 QString valueStr = value.toString();
                 QString formula;
@@ -196,7 +196,7 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
 void CharacterSheetModel::computeFormula(QString path,CharacterSheet* sheet)
 {
     QList<QString> List = sheet->getAllDependancy(path);
-    qDebug() << "computeformula" <<List << path;
+    //qDebug() << "computeformula" <<List << path;
 
     for(auto item : List)
     {
@@ -214,7 +214,7 @@ void CharacterSheetModel::computeFormula(QString path,CharacterSheet* sheet)
 }
 void CharacterSheetModel::fieldHasBeenChanged(CharacterSheet* sheet,CharacterSheetItem* item)
 {
-    qDebug() << "fieldHasBeenChanged" << item->getLabel();
+    //qDebug() << "fieldHasBeenChanged" << item->getLabel();
    computeFormula(item->getLabel(),sheet);
 }
 CharacterSheet* CharacterSheetModel::addCharacterSheet()
@@ -240,10 +240,10 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
 CharacterSheet *CharacterSheetModel::getCharacterSheetById(QString id)
 {
 
-    for(CharacterSheet* sheet :*m_characterList)
+    /*for(CharacterSheet* sheet :*m_characterList)
     {
         qDebug() << "sheet id"<< sheet->getUuid() << id;
-    }
+    }*/
     for(CharacterSheet* sheet :*m_characterList)
     {
         if(sheet->getUuid() == id)

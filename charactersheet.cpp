@@ -104,12 +104,10 @@ void CharacterSheet::setValue(QString key, QString value, QString formula)
 QList<QString> CharacterSheet::getAllDependancy(QString key)
 {
     QList<QString> list;
-    qDebug() << m_valuesMap.values();
     for(auto field : m_valuesMap.values())
     {
         if(field->hasFormula())
         {
-            qDebug() << "hasformula" << field->getFormula() << key;
             if(field->getFormula().contains(key))
             {
                list << field->getPath();
