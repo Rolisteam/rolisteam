@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="editor">
        <attribute name="title">
@@ -57,6 +57,12 @@
              <layout class="QVBoxLayout" name="verticalLayout_4">
               <item>
                <widget class="QToolButton" name="m_addTextInput">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>TextInput</string>
                 </property>
@@ -86,6 +92,12 @@
               </item>
               <item>
                <widget class="QToolButton" name="m_addTextField">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>TextField</string>
                 </property>
@@ -118,6 +130,12 @@
               </item>
               <item>
                <widget class="QToolButton" name="m_addCheckbox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Checkbox</string>
                 </property>
@@ -147,6 +165,12 @@
               </item>
               <item>
                <widget class="QToolButton" name="m_addTextArea">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>TextArea</string>
                 </property>
@@ -176,6 +200,12 @@
               </item>
               <item>
                <widget class="QToolButton" name="m_addButtonBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Button</string>
                 </property>
@@ -202,13 +232,35 @@
               </item>
               <item>
                <widget class="QToolButton" name="m_imageBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Image</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="qmlfile.qrc">
+                  <normaloff>:/resources/icons/photo.png</normaloff>:/resources/icons/photo.png</iconset>
+                </property>
+                <property name="toolButtonStyle">
+                 <enum>Qt::ToolButtonTextBesideIcon</enum>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QToolButton" name="m_moveBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Move</string>
                 </property>
@@ -238,6 +290,12 @@
               </item>
               <item>
                <widget class="QToolButton" name="m_deleteBtn">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Delete</string>
                 </property>
@@ -344,7 +402,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QTextEdit" name="m_codeEdit"/>
+         <widget class="CodeEditor" name="m_codeEdit"/>
         </item>
        </layout>
       </widget>
@@ -543,6 +601,13 @@
    </property>
   </action>
   <action name="m_addImageAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qmlfile.qrc">
+     <normaloff>:/resources/icons/photo.png</normaloff>:/resources/icons/photo.png</iconset>
+   </property>
    <property name="text">
     <string>Image</string>
    </property>
@@ -554,6 +619,11 @@
    <class>QQuickWidget</class>
    <extends>QWidget</extends>
    <header>QtQuickWidgets/QQuickWidget</header>
+  </customwidget>
+  <customwidget>
+   <class>CodeEditor</class>
+   <extends>QPlainTextEdit</extends>
+   <header>codeeditor.h</header>
   </customwidget>
  </customwidgets>
  <resources>

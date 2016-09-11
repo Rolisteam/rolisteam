@@ -48,7 +48,8 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_currentPage(0)
+    m_currentPage(0),
+    m_editedTextByHand(false)
 {
     m_qmlGeneration =true;
     setAcceptDrops(true);
@@ -100,6 +101,7 @@ MainWindow::MainWindow(QWidget *parent) :
     group->addButton(ui->m_addTextArea);
     group->addButton(ui->m_addCheckbox);
     group->addButton(ui->m_addButtonBtn);
+    group->addButton(ui->m_imageBtn);
     group->addButton(ui->m_deleteBtn);
     group->addButton(ui->m_moveBtn);
 
@@ -109,6 +111,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QmlHighlighter* highlighter = new QmlHighlighter(ui->m_codeEdit->document());
     highlighter->setObjectName("HighLighterForQML");
+
+
+
 
 
     connect(ui->m_addCheckBoxAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
@@ -158,6 +163,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_delItem = new QAction(tr("Delete Item"),this);
     m_applyValueOnSelection = new QAction(tr("Apply on Selection"),this);
     m_applyValueOnAllLines = new QAction(tr("Apply on all lines"),this);
+
+        connect(ui->m_codeEdit,SIGNAL(textChanged()),this,SLOT(codeChanged()));
 }
 MainWindow::~MainWindow()
 {
@@ -332,7 +339,7 @@ void MainWindow::open()
 
             QString qml = jsonObj["qml"].toString();
 
-            ui->m_codeEdit->setText(qml);
+            ui->m_codeEdit->setPlainText(qml);
 
             QJsonArray images = jsonObj["background"].toArray();
             int i = 0;
@@ -376,9 +383,17 @@ void MainWindow::updatePageSelector()
     ui->m_selectPageCb->addItems(list);
     ui->m_selectPageCb->setCurrentIndex(0);
 }
+void MainWindow::codeChanged()
+{
+    if(!ui->m_codeEdit->toPlainText().isEmpty())
+    {
+        m_editedTextByHand = true;
+    }
+}
 
 void MainWindow::generateQML(QString& qml)
 {
+
     QTextStream text(&qml);
     QPixmap pix;
     bool allTheSame=true;
@@ -425,13 +440,6 @@ void MainWindow::generateQML(QString& qml)
         text << "\n";
         text << "  }\n";
         text << "}\n";
-
-     /*   text << "       Connections {\n";
-        text << "           target: _model\n";
-        text << "           onValuesChanged:{\n";
-        m_model->generateQML(text,CharacterSheetItem::ConnectionSec);
-        text << "       }\n";
-        text << "   }\n";*/
         text.flush();
 
     }
@@ -440,10 +448,20 @@ void MainWindow::generateQML(QString& qml)
 
 void MainWindow::showQML()
 {
+    if(m_editedTextByHand)
+    {
+        QMessageBox::StandardButton btn = QMessageBox::question(this,tr("Do you want to erase current QML code ?"),tr("Generate QML code will override any change you made in the QML.<br/>Do you really want to generate QML code ?"),
+                              QMessageBox::Yes | QMessageBox::Cancel,QMessageBox::Cancel);
+
+        if(btn == QMessageBox::Cancel)
+        {
+            return;
+        }
+    }
     QString data;
     generateQML(data);
-    ui->m_codeEdit->setText(data);
-
+    ui->m_codeEdit->setPlainText(data);
+    m_editedTextByHand=false;
     QHash<QString,QPixmap>* imgdata = RolisteamImageProvider::getData();
 
     QFile file("test.qml");
@@ -507,7 +525,7 @@ void MainWindow::saveQML()
     {
         QString data=ui->m_codeEdit->toPlainText();
         generateQML(data);
-        ui->m_codeEdit->setText(data);
+        ui->m_codeEdit->setPlainText(data);
 
         QFile file(qmlFile);
         if(file.open(QIODevice::WriteOnly))
@@ -526,7 +544,7 @@ void MainWindow::openQML()
         if(file.open(QIODevice::ReadOnly))
         {
             QString qmlContent = file.readAll();
-            ui->m_codeEdit->setText(qmlContent);
+            ui->m_codeEdit->setPlainText(qmlContent);
             showQMLFromCode();
 
         }

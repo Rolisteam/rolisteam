@@ -80,6 +80,8 @@ protected:
     void applyValue(QModelIndex &index, bool selection);
 protected slots:
     void columnAdded();
+private slots:
+    void codeChanged();
 private:
     Ui::MainWindow *ui;
     QList<Canvas*> m_canvasList;
@@ -93,6 +95,7 @@ private:
     RolisteamImageProvider* m_imgProvider;
     CharacterSheetModel* m_characterModel;
     int m_currentPage;
+    bool m_editedTextByHand;
 
 
 
