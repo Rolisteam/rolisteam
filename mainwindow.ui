@@ -22,7 +22,7 @@
     <item>
      <widget class="QTabWidget" name="m_tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="editor">
        <attribute name="title">
@@ -47,7 +47,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>321</width>
-                 <height>699</height>
+                 <height>705</height>
                 </rect>
                </property>
               </widget>
@@ -430,7 +430,7 @@
      <x>0</x>
      <y>0</y>
      <width>1069</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
