@@ -75,12 +75,22 @@ QVariant CharacterSheetButton::getValueFrom(CharacterSheetItem::ColumnId id,int 
     case HEIGHT:
         return m_rect.height();
     case BORDER:
+        if(role == Qt::DisplayRole)
+        {
+            return m_bgColor.name(QColor::HexArgb);
+        }
+        else
+        {
+            return m_bgColor;
+        }
     case TEXT_ALIGN:
         return QVariant();
     case BGCOLOR:
         return m_bgColor.name(QColor::HexArgb);
     case TEXTCOLOR:
         return m_textColor.name(QColor::HexArgb);
+    case TYPE:
+        return getCurrentType();
     }
     return QVariant();
 }
@@ -111,6 +121,8 @@ void CharacterSheetButton::setValueFrom(CharacterSheetItem::ColumnId id, QVarian
         m_rect.setHeight(var.toReal());
         break;
     case BORDER:
+        m_border = (BorderLine)var.toInt();
+        break;
     case TEXT_ALIGN:
         break;
     case BGCOLOR:
@@ -209,62 +221,25 @@ void CharacterSheetButton::generateQML(QTextStream &out,CharacterSheetItem::QMLS
 {
     if(sec==CharacterSheetItem::FieldSec)
     {
-    out << "    DiceButton {\n";
-    out << "        id:_"<<m_id<< "\n";
-    out << "        text: "<<m_id<<".label\n";
-    out << "        textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
-    out << "        x:" << m_rect.x() << "*parent.realscale"<<"\n";
-    out << "        y:" << m_rect.y()<< "*parent.realscale"<<"\n";
-    out << "        width:" << m_rect.width() <<"*parent.realscale"<<"\n";
-    out << "        height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
-    out << "        color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
-    out << "        onClicked:rollDiceCmd("<<m_id<<".value)\n";
-    out << "    }\n";
+        out << "DiceButton {\n";
+        out << "    id:_"<<m_id<< "\n";
+        out << "    text: "<<m_id<<".label\n";
+        out << "    textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
+        out << "    x:" << m_rect.x() << "*parent.realscale"<<"\n";
+        out << "    y:" << m_rect.y()<< "*parent.realscale"<<"\n";
+        out << "    width:" << m_rect.width() <<"*parent.realscale"<<"\n";
+        out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
+        out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
+        out << "    onClicked:rollDiceCmd("<<m_id<<".value)\n";
+        out << "}\n";
     }
 
 }
 
-/*QString CharacterSheetButton::getId() const
+CharacterSheetItem::TypeField CharacterSheetButton::getCurrentType()const
 {
-    return m_id;
+    return Field::BUTTON;
 }
-
-void CharacterSheetButton::setId(const QString &id)
-{
-    m_id = id;
-}
-
-
-
-QColor CharacterSheetButton::getBgColor() const
-{
-    return m_bgColor;
-}
-
-void CharacterSheetButton::setBgColor(const QColor &bgColor)
-{
-    m_bgColor = bgColor;
-}
-
-QColor CharacterSheetButton::getTextColor() const
-{
-    return m_textColor;
-}
-
-void CharacterSheetButton::setTextColor(const QColor &textColor)
-{
-    m_textColor = textColor;
-}
-
-QRectF CharacterSheetButton::getRect() const
-{
-    return m_rect;
-}
-
-void CharacterSheetButton::setRect(const QRectF &rect)
-{
-    m_rect = rect;
-}*/
 CharacterSheetItem* CharacterSheetButton::getChildAt(QString) const
 {
     return NULL;

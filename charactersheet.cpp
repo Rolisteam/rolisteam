@@ -198,14 +198,14 @@ void CharacterSheet::load(QJsonObject& json)
     {
         QJsonObject item = array[key].toObject();
         CharacterSheetItem* itemSheet=NULL;
-        if(item["type"]==QStringLiteral("field"))
+        if((item["type"]==QStringLiteral("field"))||(item["type"]==QStringLiteral("button")))
         {
             itemSheet = new Field();
         }
-        else if(item["type"]==QStringLiteral("button"))
-        {
+
+    /*    {
             itemSheet = new CharacterSheetButton();
-        }
+        }*/
         if(NULL!=itemSheet)
         {
             itemSheet->loadDataItem(item);

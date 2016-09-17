@@ -100,3 +100,13 @@ void CSItem::setRect(const QRectF &rect)
 {
     m_rect = rect;
 }
+CSItem::BorderLine CSItem::border() const
+{
+    return m_border;
+}
+
+void CSItem::setBorder(const CSItem::BorderLine &border)
+{
+    m_border = border;
+    update();
+}

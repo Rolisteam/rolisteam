@@ -35,10 +35,8 @@ class Field : public CSItem
 {
     Q_OBJECT
 public:
-    enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
-    enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,ButtomRight,ButtomMiddle,ButtomLeft};
-    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BOTTON};
 
+    enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,ButtomRight,ButtomMiddle,ButtomLeft};
 
     explicit Field(QGraphicsItem* parent = 0);
     explicit Field(QPointF topleft,QGraphicsItem* parent = 0);
@@ -48,9 +46,6 @@ public:
 
     QSize size() const;
     void setSize(const QSize &size);
-
-    Field::BorderLine border() const;
-    void setBorder(const Field::BorderLine &border);
 
     QFont font() const;
     void setFont(const QFont &font);
@@ -86,8 +81,8 @@ public:
 
     void copyField(CharacterSheetItem* );
 
-    Field::TypeField getCurrentType() const;
-    void setCurrentType(const Field::TypeField &currentType);
+//    Field::TypeField getCurrentType() const;
+//    void setCurrentType(const Field::TypeField &currentType);
 
     bool getClippedText() const;
     void setClippedText(bool clippedText);
@@ -105,13 +100,10 @@ protected:
 private:
     QString getQMLItemName();
 private:
-    BorderLine m_border;
-
     QFont  m_font;
     TextAlign m_textAlign;
     QStringList m_availableValue;
 
-    TypeField m_currentType;
     bool m_clippedText;
 };
 

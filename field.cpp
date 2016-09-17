@@ -48,7 +48,7 @@ void Field::init()
     m_clippedText = false;
     setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
 
-
+    m_border=NONE;
     m_textAlign = TopLeft;
     m_bgColor = Qt::transparent;
     m_textColor = Qt::black;
@@ -161,7 +161,7 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
 void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
     painter->save();
-    painter->drawRect(m_rect);
+    painter->fillRect(m_rect,m_bgColor);
     int flags =0;
     if(m_textAlign <3)
     {
@@ -199,16 +199,7 @@ void Field::drawField()
 
 }
 
-Field::BorderLine Field::border() const
-{
-    return m_border;
-}
 
-void Field::setBorder(const Field::BorderLine &border)
-{
-    m_border = border;
-    drawField();
-}
 
 QFont Field::font() const
 {
@@ -239,15 +230,7 @@ void Field::setClippedText(bool clippedText)
     m_clippedText = clippedText;
 }
 
-Field::TypeField Field::getCurrentType() const
-{
-    return m_currentType;
-}
 
-void Field::setCurrentType(const Field::TypeField &currentType)
-{
-    m_currentType = currentType;
-}
 CharacterSheetItem* Field::getChildAt(QString key) const
 {
     return NULL;
@@ -400,6 +383,8 @@ QString Field::getQMLItemName()
         return "SelectField";
     case Field::IMAGE:
         return "ImageField";
+    case Field::BUTTON:
+        return "DiceButton";
     default:
         return "";
         break;
@@ -423,7 +408,16 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
             out << "    }}\n";
         }
         out << "    id: _"<<m_id<< "\n";
-        out << "    text: "<<m_id << ".value\n";
+
+        if(m_currentType==Field::BUTTON)
+        {
+            out << "    text: "<<m_id<<".label\n";
+        }
+        else
+        {
+            out << "    text: "<<m_id << ".value\n";
+        }
+        out << "    textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
         out << "    x:" << m_rect.x() << "*parent.realscale"<<"\n";
         if(m_clippedText)
         {
@@ -434,14 +428,15 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         out << "    visible: root.page == "<< m_page << "? true : false\n";
+        if(m_currentType==Field::BUTTON)
+        {
+           out << "    onClicked:rollDiceCmd("<<m_id<<".value)\n";
+        }
         if(m_currentType== Field::TEXTINPUT)
         {
             QPair<QString,QString> pair = getTextAlign();
             out << "    hAlign: "<< pair.first<<"\n";
-
             out << "    vAlign: "<< pair.second <<"\n";
-            //TextInput.AlignTop (default), TextInput.AlignBottom TextInput.AlignVCenter.
-
         }
         if(m_availableValue.isEmpty())
         {
