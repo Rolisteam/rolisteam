@@ -171,3 +171,21 @@ bool CharacterSheetItem::hasFormula() const
 {
     return !m_formula.isEmpty();
 }
+CharacterSheetItem::TypeField CharacterSheetItem::getCurrentType() const
+{
+    return m_currentType;
+}
+
+void CharacterSheetItem::setCurrentType(const CharacterSheetItem::TypeField &currentType)
+{
+    m_currentType = currentType;
+}
+/*Field::TypeField Field::getCurrentType() const
+{
+    return m_currentType;
+}
+
+void Field::setCurrentType(const Field::TypeField &currentType)
+{
+    m_currentType = currentType;
+}*/

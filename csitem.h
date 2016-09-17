@@ -34,6 +34,7 @@ class CSItem : public CharacterSheetItem,public QGraphicsItem
     Q_PROPERTY(qreal height READ getHeight WRITE setHeight NOTIFY heightChanged)
 
 public:
+    enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
     CSItem(QGraphicsItem* parent=0);
     virtual void setNewEnd(QPointF nend);
 
@@ -57,6 +58,9 @@ public:
     QRectF getRect() const;
     void setRect(const QRectF &rect);
 
+    CSItem::BorderLine border() const;
+    void setBorder(const CSItem::BorderLine &border);
+
 signals:
     void xChanged();
     void yChanged();
@@ -69,6 +73,7 @@ protected:
     static int m_count;
     QColor m_bgColor;
     QColor m_textColor;
+    BorderLine m_border;
 };
 
 #endif // CSITEM_H

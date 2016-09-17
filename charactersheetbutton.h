@@ -25,7 +25,7 @@
 #include <QGraphicsItem>
 #include "charactersheetitem.h"
 #include "csitem.h"
-
+#include "field.h"
 /**
  * @brief The CharacterSheetButton class is dedicated to manage button.
  */
@@ -44,24 +44,12 @@ public:
 
     virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
 
-    /*QString getId() const;
-    void setId(const QString &id);
-
-    QString getTitle() const;
-    void setTitle(const QString &title);*/
-
-   /* QColor getBgColor() const;
-    void setBgColor(const QColor &bgColor);
-
-    QColor getTextColor() const;
-    void setTextColor(const QColor &textColor);
-
-    QRectF getRect() const;
-    void setRect(const QRectF &rect);*/
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
     virtual void setNewEnd(QPointF nend);
     QRectF boundingRect() const;
+
+    CharacterSheetItem::TypeField getCurrentType()const;
 
     CharacterSheetItem* getChildAt(QString) const;
 
@@ -95,8 +83,6 @@ signals:
 
 private:
     void init();
-
-
 };
 
 #endif // CHARACTERSHEETBUTTON_H

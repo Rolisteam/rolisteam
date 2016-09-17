@@ -127,19 +127,20 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
         {
             item = new Section();
         }
-        if(obj["type"]==QStringLiteral("button"))
-        {
-            CharacterSheetButton* btn = new CharacterSheetButton();
-            item = btn;
-            gItem = btn;
-
-        }
         else
         {
             Field* field=new Field();
             item = field;
             gItem = field;
         }
+      /*  if(obj["type"]==QStringLiteral("button"))
+        {
+            CharacterSheetButton* btn = new CharacterSheetButton();
+            item = btn;
+            gItem = btn;
+
+        }*/
+
         item->load(obj,scenes);
         if(scenes.size()>item->getPage())
         {
@@ -181,12 +182,7 @@ void Section::copySection(Section* oldSection)
                 newField->copyField(childItem);
                 newItem = newField;
             }
-            if(CharacterSheetItem::ButtonItem == childItem->getItemType())
-            {
-                CharacterSheetButton* newField = new CharacterSheetButton();
-                newField->copyField(childItem);
-                newItem = newField;
-            }
+
             if(CharacterSheetItem::SectionItem == childItem->getItemType())
             {
                 Section* sec = new Section();
@@ -225,12 +221,12 @@ void Section::buildDataInto( CharacterSheet* character)
                 newField->copyField(childItem);
                 newItem = newField;
             }
-            if(CharacterSheetItem::ButtonItem == childItem->getItemType())
+           /* if(CharacterSheetItem::ButtonItem == childItem->getItemType())
             {
                 CharacterSheetButton* newField = new CharacterSheetButton();
                 newField->copyField(childItem);
                 newItem = newField;
-            }
+            }*/
             if(NULL!=newItem)
             {
                 newItem->setValue(character->getValue(newItem->getId()).toString());

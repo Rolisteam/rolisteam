@@ -44,6 +44,7 @@ public:
 
     enum ColumnId {ID,LABEL,VALUE,VALUES,TYPE,X,Y,WIDTH,HEIGHT,CLIPPED,TEXT_ALIGN,TEXTCOLOR,BGCOLOR,BORDER};
     enum QMLSection {FieldSec,ConnectionSec};
+    enum TypeField {TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON};
     /**
      * @brief CharacterSheetItem
      */
@@ -181,6 +182,8 @@ public:
 
     bool hasFormula() const;
 
+    CharacterSheetItem::TypeField getCurrentType() const;
+    void setCurrentType(const CharacterSheetItem::TypeField &currentType);
 public slots:
     /**
      * @brief setValue
@@ -228,6 +231,7 @@ protected:
     bool m_readOnly;
     QString m_id;
     QString m_formula;
+    TypeField m_currentType;
 };
 
 #endif // CHARACTERSHEETITEM_H
