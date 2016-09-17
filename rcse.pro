@@ -93,4 +93,7 @@ RESOURCES += \
     qmlfile.qrc
 
 ICON = resources/logo/rcse.icns
-
+win32 {
+RC_FILE = "resources/logo/rcse.rc"
+OTHER_FILES +=resources/logo/rcse.rc
+}
