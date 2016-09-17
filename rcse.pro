@@ -70,7 +70,8 @@ SOURCES += main.cpp\
     qmlhighlighter.cpp \
     charactermodel.cpp \
     alignmentdelegate.cpp \
-    codeeditor.cpp
+    codeeditor.cpp \
+    typedelegate.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -79,7 +80,8 @@ HEADERS  += mainwindow.h \
     qmlhighlighter.h \
     charactermodel.h \
     alignmentdelegate.h \
-    codeeditor.h
+    codeeditor.h \
+    typedelegate.h
 
 FORMS    += mainwindow.ui
 

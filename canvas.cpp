@@ -25,7 +25,7 @@
 #include <QUrl>
 
 
-#include "charactersheetbutton.h"
+//#include "charactersheetbutton.h"
 
 Canvas::Canvas(QObject *parent) : QGraphicsScene(parent),m_bg(NULL),m_currentItem(NULL)
 {
@@ -88,7 +88,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 removeItem(item);
             }
         }
-        else if(m_currentTool == Canvas::BUTTON)
+  /*      else if(m_currentTool == Canvas::BUTTON)
         {
             CharacterSheetButton* btn = new CharacterSheetButton(mouseEvent->scenePos());
             btn->setPage(m_currentPage);
@@ -96,15 +96,15 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             m_model->appendField(btn);
             m_currentItem = btn;
 
-        }
-        else if(m_currentTool<=Canvas::ADDCHECKBOX)
+        }*/
+        else if((m_currentTool<=Canvas::ADDCHECKBOX)||(m_currentTool==Canvas::BUTTON))
         {
             Field* field = new Field(mouseEvent->scenePos());
             field->setPage(m_currentPage);
             addItem(field);
             m_model->appendField(field);
             m_currentItem = field;
-            switch(m_currentTool)
+            switch(m_currentTool)//TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON
             {
             case Canvas::ADDCHECKBOX:
                 field->setCurrentType(Field::CHECKBOX);
@@ -120,6 +120,10 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 break;
             case Canvas::ADDIMAGE:
                 field->setCurrentType(Field::IMAGE);
+                break;
+            case Canvas::BUTTON:
+                field->setCurrentType(Field::BUTTON);
+                field->setBgColor(Qt::red);
                 break;
             }
         }

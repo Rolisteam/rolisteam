@@ -28,7 +28,7 @@
 #include <QTextStream>
 
 #include "field.h"
-#include "charactersheetbutton.h"
+//#include "charactersheetbutton.h"
 #include "charactersheetitem.h"
 
 #include "section.h"

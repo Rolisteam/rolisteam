@@ -198,6 +198,7 @@ bool FieldModel::setData(const QModelIndex &index, const QVariant &value, int ro
     if(Qt::EditRole == role)
     {
         CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
+
         if(NULL!=item)
         {
             item->setValueFrom(m_colunm[index.column()]->getPos(),value);

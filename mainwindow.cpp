@@ -43,6 +43,7 @@
 
 #include "borderlisteditor.h"
 #include "alignmentdelegate.h"
+#include "typedelegate.h"
 #include "qmlhighlighter.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -61,8 +62,13 @@ MainWindow::MainWindow(QWidget *parent) :
     m_canvasList.append(canvas);
     m_model = new FieldModel();
     ui->treeView->setModel(m_model);
+
     AlignmentDelegate* delegate = new AlignmentDelegate();
     ui->treeView->setItemDelegateForColumn(10,delegate);
+
+    TypeDelegate* typeDelegate = new TypeDelegate();
+    ui->treeView->setItemDelegateForColumn(4,typeDelegate);
+
     canvas->setModel(m_model);
     ui->treeView->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
     m_view = new QGraphicsView();
