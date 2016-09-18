@@ -19,9 +19,7 @@ QPixmap RolisteamImageProvider::requestPixmap(const QString &id, QSize *size, co
     /// @warning Ugly stuff
     QString idTranslate = id;
     idTranslate = idTranslate.replace("%7B","{").replace("%7D","}");
-    //idTranslate.replace("%7D","}");
 
-    qDebug() << idTranslate << id << QUrl(id).toString(QUrl::FullyDecoded)<< QUrl(id).toString(QUrl::FullyEncoded);
     QPixmap pixmap= s_data->value(idTranslate);
 
     if (NULL!=size)
