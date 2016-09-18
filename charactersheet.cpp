@@ -64,17 +64,21 @@ const  QVariant CharacterSheet::getValue(QString path,Qt::ItemDataRole role) con
 {
     if(m_valuesMap.contains(path))
     {
-        if(role == Qt::DisplayRole)
+        CharacterSheetItem* item = m_valuesMap.value(path);
+        if(NULL!=item)
         {
-            return m_valuesMap.value(path)->value();
-        }
-        else if(role == Qt::EditRole)
-        {
-            return m_valuesMap.value(path)->getFormula();
-        }
-        else if(Qt::BackgroundRole)
-        {
-            return m_valuesMap.value(path)->isReadOnly();
+            if(role == Qt::DisplayRole)
+            {
+                 return item->value();
+            }
+            else if(role == Qt::EditRole)
+            {
+                return item->getFormula();
+            }
+            else if(Qt::BackgroundRole)
+            {
+                return item->isReadOnly();
+            }
         }
     }
     return QString();
