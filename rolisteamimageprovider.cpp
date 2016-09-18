@@ -16,7 +16,13 @@ RolisteamImageProvider::~RolisteamImageProvider()
 
 QPixmap RolisteamImageProvider::requestPixmap(const QString &id, QSize *size, const QSize& requestedSize)
 {
-    QPixmap pixmap= s_data->value(id);
+    /// @warning Ugly stuff
+    QString idTranslate = id;
+    idTranslate = idTranslate.replace("%7B","{").replace("%7D","}");
+    //idTranslate.replace("%7D","}");
+
+    qDebug() << idTranslate << id << QUrl(id).toString(QUrl::FullyDecoded)<< QUrl(id).toString(QUrl::FullyEncoded);
+    QPixmap pixmap= s_data->value(idTranslate);
 
     if (NULL!=size)
         return pixmap.copy(0,0,size->width(),size->height());
