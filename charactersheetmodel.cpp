@@ -214,7 +214,6 @@ void CharacterSheetModel::computeFormula(QString path,CharacterSheet* sheet)
 }
 void CharacterSheetModel::fieldHasBeenChanged(CharacterSheet* sheet,CharacterSheetItem* item)
 {
-    //qDebug() << "fieldHasBeenChanged" << item->getLabel();
    computeFormula(item->getLabel(),sheet);
 }
 CharacterSheet* CharacterSheetModel::addCharacterSheet()
@@ -239,11 +238,6 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
 
 CharacterSheet *CharacterSheetModel::getCharacterSheetById(QString id)
 {
-
-    /*for(CharacterSheet* sheet :*m_characterList)
-    {
-        qDebug() << "sheet id"<< sheet->getUuid() << id;
-    }*/
     for(CharacterSheet* sheet :*m_characterList)
     {
         if(sheet->getUuid() == id)
