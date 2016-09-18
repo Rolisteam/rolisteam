@@ -40,6 +40,7 @@
 #include <QQmlComponent>
 #include <QJsonArray>
 #include <QButtonGroup>
+#include <QUuid>
 
 #include "borderlisteditor.h"
 #include "alignmentdelegate.h"
@@ -248,8 +249,14 @@ void MainWindow::setImage()
     m_pixList.clear();
     for(auto canvas : m_canvasList)
     {
-        m_imgProvider->insertPix(QStringLiteral("background_%1.jpg").arg(i),canvas->pixmap());
-        m_pixList.append(canvas->pixmap());
+        QString id = QUuid::createUuid().toString();
+        QPixmap* pix = canvas->pixmap();
+        if(NULL==pix)
+        {
+            pix=new QPixmap();
+        }
+        m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(id),*pix);
+        m_pixList.insert(id,pix);
         ++i;
     }
 }
@@ -313,12 +320,19 @@ void MainWindow::save()
             QJsonArray images;
             for(auto canvas : m_canvasList)
             {
-                QPixmap pix = canvas->pixmap();
-                QByteArray bytes;
-                QBuffer buffer(&bytes);
-                buffer.open(QIODevice::WriteOnly);
-                pix.save(&buffer, "PNG");
-                images.append(QString(buffer.data().toBase64()));
+                QPixmap* pix = canvas->pixmap();
+                if(NULL!=pix)
+                {
+                    QJsonObject oj;
+
+                    QByteArray bytes;
+                    QBuffer buffer(&bytes);
+                    buffer.open(QIODevice::WriteOnly);
+                    pix->save(&buffer, "PNG");
+                    oj["bin"]=QString(buffer.data().toBase64());
+                    oj["key"]=QUuid::createUuid().toString();
+                    images.append(oj);
+                }
             }
             obj["background"]=images;
             m_characterModel->writeModel(obj,false);
@@ -351,10 +365,12 @@ void MainWindow::open()
             int i = 0;
             for(auto jsonpix : images)
             {
-                QString str = jsonpix.toString();
+                QJsonObject oj = jsonpix.toObject();
+                QString str = oj["bin"].toString();
+                QString id = oj["key"].toString();
                 QByteArray array = QByteArray::fromBase64(str.toUtf8());
-                QPixmap pix;
-                pix.loadFromData(array);
+                QPixmap* pix = new QPixmap();
+                pix->loadFromData(array);
                 if(i!=0)
                 {
                     Canvas* canvas = new Canvas();
@@ -366,8 +382,8 @@ void MainWindow::open()
                 {
                    m_canvasList[0]->setPixmap(pix);
                 }
-                m_pixList.append(pix);
-                m_imgProvider->insertPix(QStringLiteral("background_%1.jpg").arg(i),pix);
+                m_pixList.insert(id,pix);
+                m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(id),*pix);
                 ++i;
             }
             m_model->load(data,m_canvasList);
@@ -401,23 +417,24 @@ void MainWindow::generateQML(QString& qml)
 {
 
     QTextStream text(&qml);
-    QPixmap pix;
+    QPixmap* pix;
     bool allTheSame=true;
     QSize size;
-    for(QPixmap pix2 : m_pixList)
+    for(QPixmap* pix2 : m_pixList.values())
     {
-        if(size != pix2.size())
+        if(size != pix2->size())
         {
             if(size.isValid())
                 allTheSame=false;
-            size = pix2.size();
+            size = pix2->size();
         }
         pix = pix2;
 
     }
    // QPixmap pix = m_canvasList.pixmap();
-    if((allTheSame)&&(!pix.isNull()))
+    if((allTheSame)&&(NULL!=pix)&&(!pix->isNull()))
     {
+        QString key = m_pixList.key(pix);
         text << "import QtQuick 2.4\n";
         text << "import \"qrc:/resources/qml/\"\n";
         text << "\n";
@@ -434,14 +451,14 @@ void MainWindow::generateQML(QString& qml)
         text << "   signal rollDiceCmd(string cmd)\n";
         text << "   Image {\n";
         text << "       id:imagebg" << "\n";
-        qreal ratio = (qreal)pix.width()/(qreal)pix.height();
-        qreal ratioBis = (qreal)pix.height()/(qreal)pix.width();
+        qreal ratio = (qreal)pix->width()/(qreal)pix->height();
+        qreal ratioBis = (qreal)pix->height()/(qreal)pix->width();
         text << "       property real iratio :" << ratio << "\n";
         text << "       property real iratiobis :" << ratioBis << "\n";
-        text << "       property real realscale: width/"<< pix.width() << "\n";
+        text << "       property real realscale: width/"<< pix->width() << "\n";
         text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
         text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
-        text << "       source: \"image://rcs/background_%1.jpg\".arg(root.page)" << "\n";
+        text << "       source: \"image://rcs/"+key+"_background_%1.jpg\".arg(root.page)" << "\n";
         m_model->generateQML(text,CharacterSheetItem::FieldSec);
         text << "\n";
         text << "  }\n";

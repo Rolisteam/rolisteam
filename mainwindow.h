@@ -24,6 +24,11 @@
 
 #include <QGraphicsView>
 #include <QMainWindow>
+#include <QHash>
+#include <QPixmap>
+
+
+
 #include "canvas.h"
 #include "fieldmodel.h"
 #include "rolisteamimageprovider.h"
@@ -88,7 +93,7 @@ private:
     QGraphicsView* m_view;
     EDITION_TOOL m_currentTool;
     QPoint m_startField;
-    QList<QPixmap> m_pixList;
+    QHash<QString,QPixmap*> m_pixList;
     FieldModel* m_model;
     QString m_filename;
     bool m_qmlGeneration;

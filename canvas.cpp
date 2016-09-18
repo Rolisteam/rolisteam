@@ -58,7 +58,8 @@ void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
         {
             if(url.isLocalFile())
             {
-                m_bg = addPixmap(url.toLocalFile());
+                m_pix = new QPixmap(url.toLocalFile());
+                m_bg = addPixmap(*m_pix);
                 emit imageChanged();
                 setSceneRect(m_bg->boundingRect());
             }
@@ -88,15 +89,6 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 removeItem(item);
             }
         }
-  /*      else if(m_currentTool == Canvas::BUTTON)
-        {
-            CharacterSheetButton* btn = new CharacterSheetButton(mouseEvent->scenePos());
-            btn->setPage(m_currentPage);
-            addItem(btn);
-            m_model->appendField(btn);
-            m_currentItem = btn;
-
-        }*/
         else if((m_currentTool<=Canvas::ADDCHECKBOX)||(m_currentTool==Canvas::BUTTON))
         {
             Field* field = new Field(mouseEvent->scenePos());
@@ -179,20 +171,16 @@ void Canvas::setModel(FieldModel *model)
     m_model = model;
 }
 
-QPixmap Canvas::pixmap()
+QPixmap* Canvas::pixmap()
 {
-    if(NULL!=m_bg)
-    {
-        return m_bg->pixmap();
-    }
-    return QPixmap();
+    return m_pix;
 }
-void Canvas::setPixmap(QPixmap pix)
+void Canvas::setPixmap(QPixmap* pix)
 {
-    if(!pix.isNull())
+    m_pix = pix;
+    if((NULL!=m_pix)&&(m_pix->isNull()))
     {
-        m_bg = addPixmap(pix);
+        m_bg = addPixmap(*m_pix);
         setSceneRect(m_bg->boundingRect());
-
     }
 }

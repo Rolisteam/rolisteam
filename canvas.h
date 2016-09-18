@@ -39,9 +39,9 @@ public:
     FieldModel *model() const;
     void setModel(FieldModel *model);
 
-    QPixmap pixmap();
+    QPixmap* pixmap();
 
-    void setPixmap(QPixmap pix);
+    void setPixmap(QPixmap* pix);
     int currentPage() const;
     void setCurrentPage(int currentPage);
 
@@ -62,6 +62,7 @@ private:
     Tool m_currentTool;
     FieldModel* m_model;
     int m_currentPage;
+    QPixmap* m_pix;
 };
 
 #endif // CANVAS_H
