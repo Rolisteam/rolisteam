@@ -438,7 +438,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
             out << "    hAlign: "<< pair.first<<"\n";
             out << "    vAlign: "<< pair.second <<"\n";
         }
-        if(m_availableValue.isEmpty())
+        if((m_availableValue.isEmpty())&&(m_currentType!=Field::BUTTON))
         {
             out << "    onTextChanged: {\n";
             out << "    "<<m_id<<".value = text}\n";
@@ -489,7 +489,7 @@ void Field::copyField(CharacterSheetItem* newItem)
     if(NULL!=newField)
     {
         setId(newField->getId());
-//        setValue(newField->value());
+        setCurrentType(newField->getCurrentType());
         setRect(newField->getRect());
         setBorder(newField->border());
         setFont(newField->font());

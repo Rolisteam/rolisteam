@@ -206,10 +206,6 @@ void CharacterSheet::load(QJsonObject& json)
         {
             itemSheet = new Field();
         }
-
-    /*    {
-            itemSheet = new CharacterSheetButton();
-        }*/
         if(NULL!=itemSheet)
         {
             itemSheet->loadDataItem(item);
