@@ -69,6 +69,7 @@ void VMap::initMap()
     m_propertiesHash->insert(VisualItem::ShowGrid,false);
     m_propertiesHash->insert(VisualItem::LocalIsGM,false);
     m_propertiesHash->insert(VisualItem::EnableCharacterVision,false);
+    m_propertiesHash->insert(VisualItem::CollisionStatus,false);
     m_propertiesHash->insert(VisualItem::PermissionMode,Map::GM_ONLY);
     m_propertiesHash->insert(VisualItem::FogOfWarStatus,false);
 }
@@ -1048,7 +1049,19 @@ void VMap::processRectGeometryMsg(NetworkMessageReader* msg)
 	        item->readRectGeometryMsg(msg);                                                                        
 		}
     }                                                                                                         
-}             
+}
+void VMap::processMovePointMsg(NetworkMessageReader* msg)
+{
+    if(NULL!=msg)
+    {
+        QString id = msg->string16();
+        VisualItem* item = m_itemMap->value(id);
+        if(NULL!=item)
+        {
+            item->readMovePointMsg(msg);
+        }
+    }
+}
 void VMap::addNewItem(VisualItem* item)
 {
     if(NULL!=item)
@@ -1653,3 +1666,4 @@ QRectF VMap::itemsBoundingRectWithoutSight()
     }
     return result;
 }
+

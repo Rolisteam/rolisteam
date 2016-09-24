@@ -102,6 +102,11 @@ public:
      * @brief addActionContextMenu
      */
     virtual void addActionContextMenu(QMenu*);
+    virtual void endOfGeometryChange();
+    virtual void readMovePointMsg(NetworkMessageReader* msg);
+
+protected slots:
+    void sendPointPosition();
 private slots:
     void closePath();
 private:
@@ -122,6 +127,8 @@ private:
     QAction* m_closeAct;
     bool m_closed;
     bool m_penMode;
+    QPointF m_changedPointPos;
+    qreal     m_changedPointId;
     
 };
 

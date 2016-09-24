@@ -96,6 +96,7 @@ private:
     QSpinBox* m_gridSize;
     QSpinBox* m_scaleSize;
     QCheckBox* m_showCharacterVision;
+    QCheckBox* m_collision;
 };
 
 #endif // VMAPTOOLBAR_H

@@ -96,6 +96,9 @@ void VmapToolBar::setupUi()
     m_showCharacterVision = new QCheckBox(tr("Character Vision"));
     addWidget(m_showCharacterVision);
 
+    m_collision = new QCheckBox(tr("Collision"));
+    addWidget(m_collision);
+
     connect(m_showGridAct,SIGNAL(triggered()),this,SLOT(triggerGrid()));
     connect(m_bgSelector,SIGNAL(colorChanged(QColor)),this,SLOT(setBackgroundColor(QColor)));
     connect(m_gridSize,SIGNAL(valueChanged(int)),this,SLOT(setPatternSize(int)));
@@ -107,6 +110,7 @@ void VmapToolBar::setupUi()
 
     connect(m_gridPattern,SIGNAL(currentIndexChanged(int)),this,SLOT(patternChanged(int)));
     connect(m_showCharacterVision,SIGNAL(clicked(bool)),this,SLOT(managedAction()));
+    connect(m_collision,SIGNAL(clicked(bool)),this,SLOT(managedAction()));
 
 }
 void VmapToolBar::setCurrentMap(VMap* map)
@@ -171,6 +175,7 @@ void VmapToolBar::updateUI()
         m_currentPermission->setCurrentIndex(m_vmap->getOption(VisualItem::PermissionMode).toInt());
         m_currentVisibility->setCurrentIndex(m_vmap->getVisibilityMode());
         m_gridPattern->setCurrentIndex(m_vmap->getOption(VisualItem::GridPattern).toInt());
+        m_collision->setChecked(m_vmap->getOption(VisualItem::CollisionStatus).toBool());
     }
     else
     {
@@ -203,5 +208,9 @@ void VmapToolBar::managedAction()
     if(obj==m_showCharacterVision)
     {
         m_vmap->setOption(VisualItem::EnableCharacterVision,m_showCharacterVision->isChecked());
+    }
+    else if(obj == m_collision)
+    {
+        m_vmap->setOption(VisualItem::CollisionStatus,m_collision->isChecked());
     }
 }

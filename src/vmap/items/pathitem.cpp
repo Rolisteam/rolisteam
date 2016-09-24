@@ -23,6 +23,7 @@
 #include <QMenu>
 #include <QDebug>
 
+#include "map/map.h"
 
 
 #include "network/networkmessagewriter.h"
@@ -275,6 +276,9 @@ void PathItem::setGeometryPoint(qreal pointId, QPointF &pos)
     }
     else
     {
+        m_resizing = true;
+        m_changedPointId = pointId;
+        m_changedPointPos = pos;
         m_pointVector[(int)pointId]=pos;
     }
 }
@@ -327,6 +331,22 @@ void PathItem::setStartPoint(QPointF start)
 {
     m_start = start;
 }
+void PathItem::readMovePointMsg(NetworkMessageReader* msg)
+{
+    qreal pointid = msg->real();
+    qreal x = msg->real();
+    qreal y = msg->real();
+    if(-1==pointid)
+    {
+        m_start = QPointF(x,y);
+    }
+    else
+    {
+        m_pointVector[(int)pointid]=QPointF(x,y);
+    }
+    update();
+}
+
 
 void PathItem::setPath(QVector<QPointF> points)
 {
@@ -337,4 +357,29 @@ void PathItem::setClosed(bool b)
 {
     m_closed = b;
     update();
+}
+void PathItem::endOfGeometryChange()
+{
+    if(m_resizing)
+    {
+        sendPointPosition();
+        m_resizing =false;
+    }
+}
+void PathItem::sendPointPosition()
+{
+    if((getOption(VisualItem::LocalIsGM).toBool()) ||
+            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
+            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
+             (getType() == VisualItem::CHARACTER)&&
+             (isLocal())))//getOption PermissionMode
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MovePoint);
+        msg.string8(m_mapId);
+        msg.string16(m_id);
+        msg.real(m_changedPointId);
+        msg.real(m_changedPointPos.x());
+        msg.real(m_changedPointPos.y());
+        msg.sendAll();
+    }
 }
