@@ -35,8 +35,9 @@ Field::Field(QGraphicsItem* parent)
 Field::Field(QPointF topleft,QGraphicsItem* parent)
     : CSItem(parent)
 {
-    m_rect.setTopLeft(topleft);
-    m_rect.setBottomRight(topleft);
+    setPos(topleft);
+    m_rect.setTopLeft(QPoint(0,0));
+    m_rect.setBottomRight(QPoint(0,0));
     m_value = QStringLiteral("value");
     init();
 
@@ -46,7 +47,7 @@ void Field::init()
     m_id = QStringLiteral("id_%1").arg(m_count);
     m_currentType=TEXTINPUT;
     m_clippedText = false;
-    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
+    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable|QGraphicsItem::ItemClipsToShape);
 
     m_border=NONE;
     m_textAlign = TopLeft;
@@ -65,7 +66,21 @@ QRectF Field::boundingRect() const
 {
     return m_rect;
 }
+QPainterPath Field::shape() const
+{
 
+    QPainterPath path;
+    path.moveTo(0,0);
+
+    path.lineTo(m_rect.width(),0);
+    path.lineTo(m_rect.width(),m_rect.height());
+    path.lineTo(0,m_rect.height());
+    path.closeSubpath();
+    return path;
+
+
+
+}
 QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
 {
     switch(id)
@@ -77,9 +92,11 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
     case VALUE:
         return m_value;
     case X:
-        return m_rect.x();
+        //return m_rect.x();
+        return pos().x();
     case Y:
-        return m_rect.y();
+        //return m_rect.y();
+        return pos().y();
     case WIDTH:
         return m_rect.width();
     case HEIGHT:
@@ -123,10 +140,12 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         setValue(var.toString());
         break;
     case X:
-        m_rect.setX(var.toReal());
+        //m_rect.setX(var.toReal());
+        setPos(var.toReal(),pos().y());
         break;
     case Y:
-        m_rect.setY(var.toReal());
+        //m_rect.setY(var.toReal());
+        setPos(pos().x(),var.toReal());
         break;
     case WIDTH:
         m_rect.setWidth(var.toReal());
@@ -162,6 +181,8 @@ void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option,
 {
     painter->save();
     painter->fillRect(m_rect,m_bgColor);
+    painter->setPen(Qt::black);
+    painter->drawRect(m_rect);
     int flags =0;
     if(m_textAlign <3)
     {
@@ -418,12 +439,12 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
             out << "    text: "<<m_id << ".value\n";
         }
         out << "    textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
-        out << "    x:" << m_rect.x() << "*parent.realscale"<<"\n";
+        out << "    x:" << pos().x() << "*parent.realscale"<<"\n";
         if(m_clippedText)
         {
             out << "    clippedText:true\n";
         }
-        out << "    y:" << m_rect.y()<< "*parent.realscale"<<"\n";
+        out << "    y:" <<  pos().y()<< "*parent.realscale"<<"\n";
         out << "    width:" << m_rect.width() <<"*parent.realscale"<<"\n";
         out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";

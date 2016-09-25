@@ -87,6 +87,7 @@ public:
     bool getClippedText() const;
     void setClippedText(bool clippedText);
 
+    virtual QPainterPath shape() const;
 signals:
     void updateNeeded(CSItem* c);
     //void valueChanged(QString);

@@ -18,6 +18,7 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "csitem.h"
+#include <QDebug>
 
 int CSItem::m_count=0;
 CSItem::CSItem(QGraphicsItem* parent)
@@ -29,6 +30,8 @@ CSItem::CSItem(QGraphicsItem* parent)
 void CSItem::setNewEnd(QPointF nend)
 {
     m_rect.setBottomRight(nend);
+    emit widthChanged();
+    emit heightChanged();
 }
 
 QColor CSItem::bgColor() const
@@ -109,4 +112,29 @@ void CSItem::setBorder(const CSItem::BorderLine &border)
 {
     m_border = border;
     update();
+}
+void CSItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mouseMoveEvent(event);
+    if(pos() != m_posPrivate)
+    {
+        emit xChanged();
+        emit yChanged();
+    }
+}
+
+void CSItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mouseReleaseEvent(event);
+    if(pos() != m_posPrivate)
+    {
+        emit xChanged();
+        emit yChanged();
+    }
+}
+
+void CSItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    m_posPrivate = pos();
+    QGraphicsItem::mousePressEvent(event);
 }

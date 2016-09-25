@@ -60,6 +60,10 @@ public:
 
     CSItem::BorderLine border() const;
     void setBorder(const CSItem::BorderLine &border);
+protected:
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 signals:
     void xChanged();
@@ -74,6 +78,7 @@ protected:
     QColor m_bgColor;
     QColor m_textColor;
     BorderLine m_border;
+    QPointF m_posPrivate;
 };
 
 #endif // CSITEM_H
