@@ -456,20 +456,25 @@ QJsonDocument CharacterSheetWindow::saveFile()
     //background
     QJsonArray images;
     QHash<QString,QPixmap>* hash = RolisteamImageProvider::getData();
-    for(int i = 0; i< hash->size(); ++i)
+    for(auto key : m_pixmapList.keys())
     {
-        QPixmap pix = hash->value(QStringLiteral("background_%1.jpg").arg(i));
-        QByteArray bytes;
-        QBuffer buffer(&bytes);
-        buffer.open(QIODevice::WriteOnly);
-        pix.save(&buffer, "PNG");
-        images.append(QString(buffer.data().toBase64()));
+        QJsonObject obj;
+        obj["key"]=key;
+        QPixmap* pix = m_pixmapList.value(key);
+        if(NULL!=pix)
+        {
+            QByteArray bytes;
+            QBuffer buffer(&bytes);
+            buffer.open(QIODevice::WriteOnly);
+            pix->save(&buffer, "PNG");
+            obj["bin"]=QString(buffer.data().toBase64());
+            images.append(obj);
+        }
     }
     obj["background"]=images;
     m_model.writeModel(obj,false);
     json.setObject(obj);
     return json;
-   // file.write(json.toJson());
 }
 
 
@@ -491,12 +496,14 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
             int i = 0;
             for(auto jsonpix : images)
             {
-                QString str = jsonpix.toString();
+                QJsonObject obj = jsonpix.toObject();
+                QString str = obj["bin"].toString();
+                QString key = obj["key"].toString();
                 QByteArray array = QByteArray::fromBase64(str.toUtf8());
-                QPixmap pix;
-                pix.loadFromData(array);
-                //m_pixList.append(pix);
-                m_imgProvider->insertPix(QStringLiteral("background_%1.jpg").arg(i),pix);
+                QPixmap* pix = new QPixmap();
+                pix->loadFromData(array);
+                m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(key),*pix);
+                m_pixmapList.insert(key,pix);
                 ++i;
             }
             //m_model->load(data,m_canvasList);
