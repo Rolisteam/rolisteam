@@ -984,3 +984,7 @@ Player* PlayersList::getGM()
     }
     return NULL;
 }
+bool PlayersList::hasPlayer(Player* player)
+{
+    return m_playersList.contains(player);
+}

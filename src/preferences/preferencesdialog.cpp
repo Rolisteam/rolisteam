@@ -954,7 +954,7 @@ RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme(bool selectNew)
         {
             dupplicateTheme(selectNew);
         }
-        if(selectNew)
+        if(!selectNew)
         {
             i = ui->m_themeComboBox->currentIndex();
         }
@@ -962,7 +962,7 @@ RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme(bool selectNew)
         {
             i = m_themes.size()-1;
         }
-        if(i>0)
+        if(i>=0)
         {
             theme = m_themes.at(i);
         }

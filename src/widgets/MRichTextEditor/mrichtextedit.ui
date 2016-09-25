@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>819</width>
+    <width>851</width>
     <height>312</height>
    </rect>
   </property>
@@ -83,8 +83,7 @@
         </property>
         <property name="icon">
          <iconset theme="edit-undo">
-          <normaloff/>
-         </iconset>
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -110,8 +109,7 @@
         </property>
         <property name="icon">
          <iconset theme="edit-redo">
-          <normaloff/>
-         </iconset>
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -134,8 +132,7 @@
         </property>
         <property name="icon">
          <iconset theme="edit-cut">
-          <normaloff/>
-         </iconset>
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -158,8 +155,7 @@
         </property>
         <property name="icon">
          <iconset theme="edit-copy">
-          <normaloff/>
-         </iconset>
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -182,8 +178,7 @@
         </property>
         <property name="icon">
          <iconset theme="edit-paste">
-          <normaloff/>
-         </iconset>
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -213,8 +208,7 @@
         </property>
         <property name="icon">
          <iconset theme="applications-internet">
-          <normaloff/>
-         </iconset>
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -247,8 +241,7 @@
         </property>
         <property name="icon">
          <iconset theme="format-text-bold">
-          <normaloff/>
-         </iconset>
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -274,8 +267,7 @@
         </property>
         <property name="icon">
          <iconset theme="format-text-italic">
-          <normaloff/>
-         </iconset>
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -301,8 +293,7 @@
         </property>
         <property name="icon">
          <iconset theme="format-text-underline">
-          <normaloff/>
-         </iconset>
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -389,8 +380,7 @@
         </property>
         <property name="icon">
          <iconset theme="format-indent-less">
-          <normaloff/>
-         </iconset>
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -413,8 +403,7 @@
         </property>
         <property name="icon">
          <iconset theme="format-indent-more">
-          <normaloff/>
-         </iconset>
+          <normaloff>.</normaloff>.</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -452,7 +441,7 @@
          <string>Text foreground color</string>
         </property>
         <property name="text">
-         <string>.</string>
+         <string notr="true">.</string>
         </property>
         <property name="iconSize">
          <size>
@@ -483,7 +472,7 @@
          <string>Text background color</string>
         </property>
         <property name="text">
-         <string>.</string>
+         <string notr="true">.</string>
         </property>
         <property name="iconSize">
          <size>
@@ -536,7 +525,7 @@
       <item>
        <widget class="QToolButton" name="f_menu">
         <property name="text">
-         <string>...</string>
+         <string notr="true">...</string>
         </property>
        </widget>
       </item>

@@ -169,6 +169,11 @@ public:
      */
     void processDelItemMessage(NetworkMessageReader* msg);
     /**
+     * @brief processMovePointMsg
+     * @param msg
+     */
+    void processMovePointMsg(NetworkMessageReader* msg);
+    /**
      * @brief manageAnchor
      */
     void manageAnchor();

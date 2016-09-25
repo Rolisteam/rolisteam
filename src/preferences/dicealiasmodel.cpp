@@ -31,6 +31,8 @@ DiceAliasModel::DiceAliasModel()
 
 DiceAliasModel::~DiceAliasModel()
 {
+    qDeleteAll(*m_diceAliasList);
+    delete m_diceAliasList;
 
 }
 

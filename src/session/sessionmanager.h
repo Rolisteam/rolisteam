@@ -42,6 +42,7 @@ public:
     * @brief default constructor
     */
     SessionManager();
+    virtual ~SessionManager();
     /**
     * @brief the current chapter is defined by users
     * @return address to the chapter

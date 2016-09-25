@@ -44,7 +44,7 @@ Image::Image(/*QString title,QString identImage, QString identJoueur, QImage *im
     m_widgetArea = new QScrollArea();
     m_zoomLevel = 1;
     m_parent=parent;
-    setWindowIcon(QIcon(":/picture.png"));
+    setWindowIcon(QIcon(":/resources/icons/photo.png"));
     createActions();
     m_imageLabel = new QLabel(this);
     m_widgetArea->setAlignment(Qt::AlignCenter);
