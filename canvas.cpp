@@ -23,6 +23,7 @@
 #include <QGraphicsSceneDragDropEvent>
 #include <QMimeData>
 #include <QUrl>
+#include <QDebug>
 
 
 //#include "charactersheetbutton.h"
@@ -59,9 +60,22 @@ void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
             if(url.isLocalFile())
             {
                 m_pix = new QPixmap(url.toLocalFile());
-                m_bg = addPixmap(*m_pix);
-                emit imageChanged();
-                setSceneRect(m_bg->boundingRect());
+                if(NULL==m_bg)
+                {
+                    m_bg = addPixmap(*m_pix);
+                    m_bg->setFlag(QGraphicsItem::ItemIsSelectable,false);
+                    m_bg->setFlag(QGraphicsItem::ItemSendsGeometryChanges,false);
+                    m_bg->setFlag(QGraphicsItem::ItemIsMovable,false);
+                    m_bg->setFlag(QGraphicsItem::ItemIsFocusable,false);
+                    m_bg->setAcceptedMouseButtons(Qt::NoButton);
+                    emit imageChanged();
+                    setSceneRect(m_bg->boundingRect());
+                }
+                else
+                {
+                    m_bg->setPixmap(*m_pix);
+                    setSceneRect(m_bg->boundingRect());
+                }
             }
         }
     }
@@ -86,7 +100,10 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             QList<QGraphicsItem *> itemList = items(mouseEvent->scenePos());
             for(QGraphicsItem* item : itemList)
             {
-                removeItem(item);
+                if(item!=m_bg)
+                {
+                    removeItem(item);
+                }
             }
         }
         else if((m_currentTool<=Canvas::ADDCHECKBOX)||(m_currentTool==Canvas::BUTTON))
@@ -95,7 +112,9 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             field->setPage(m_currentPage);
             addItem(field);
             m_model->appendField(field);
+            field->setPos(mouseEvent->scenePos());
             m_currentItem = field;
+            m_currentItem->setFocus();
             switch(m_currentTool)//TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON
             {
             case Canvas::ADDCHECKBOX:
@@ -126,23 +145,24 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 }
 void Canvas::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
-    if(m_currentItem!=NULL)
-    {
-        m_currentItem->setNewEnd(mouseEvent->scenePos());
-        update();
-    }
+
     if(m_currentTool==Canvas::MOVE)
     {
         QGraphicsScene::mouseMoveEvent(mouseEvent);
+    }
+    else if(m_currentItem!=NULL)
+    {
+        m_currentItem->setNewEnd(m_currentItem->mapFromScene(mouseEvent->scenePos()));
+        update();
     }
 }
 void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     Q_UNUSED(mouseEvent);
 
-    m_currentItem = NULL;
+    //m_currentItem = NULL;
     if(m_currentTool==Canvas::MOVE)
-    {
+    {      
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
 }
@@ -178,7 +198,7 @@ QPixmap* Canvas::pixmap()
 void Canvas::setPixmap(QPixmap* pix)
 {
     m_pix = pix;
-    if((NULL!=m_pix)&&(m_pix->isNull()))
+    if((NULL!=m_pix)&&(!m_pix->isNull()))
     {
         m_bg = addPixmap(*m_pix);
         setSceneRect(m_bg->boundingRect());
