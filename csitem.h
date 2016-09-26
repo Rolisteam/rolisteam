@@ -21,11 +21,12 @@
 #define CSITEM_H
 
 #include "charactersheetitem.h"
-#include <QGraphicsItem>
+#include <QGraphicsObject>
+
 /**
  * @brief The CSItem class is managing some item values for RCSE.
  */
-class CSItem : public CharacterSheetItem,public QGraphicsItem
+class CSItem : public CharacterSheetItem
 {
     Q_OBJECT
     Q_PROPERTY(qreal x READ getX WRITE setX NOTIFY xChanged)
@@ -36,7 +37,7 @@ class CSItem : public CharacterSheetItem,public QGraphicsItem
 public:
     enum BorderLine {UP=1,LEFT=2,DOWN=4,RIGHT=8,ALL=15,NONE=16};
     CSItem(QGraphicsItem* parent=0);
-    virtual void setNewEnd(QPointF nend);
+    virtual void setNewEnd(QPointF nend) =0;
 
 
     QColor bgColor() const;
@@ -60,16 +61,15 @@ public:
 
     CSItem::BorderLine border() const;
     void setBorder(const CSItem::BorderLine &border);
-protected:
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+
+    virtual QPointF mapFromScene(QPointF) =0;
 
 signals:
     void xChanged();
     void yChanged();
     void widthChanged();
     void heightChanged();
+    void askUpdate();
 
 protected:
     //internal data

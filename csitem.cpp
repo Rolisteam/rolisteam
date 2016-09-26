@@ -22,16 +22,8 @@
 
 int CSItem::m_count=0;
 CSItem::CSItem(QGraphicsItem* parent)
-    : QGraphicsItem(parent)
 {
     ++m_count;
-}
-
-void CSItem::setNewEnd(QPointF nend)
-{
-    m_rect.setBottomRight(nend);
-    emit widthChanged();
-    emit heightChanged();
 }
 
 QColor CSItem::bgColor() const
@@ -111,30 +103,6 @@ CSItem::BorderLine CSItem::border() const
 void CSItem::setBorder(const CSItem::BorderLine &border)
 {
     m_border = border;
-    update();
-}
-void CSItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    QGraphicsItem::mouseMoveEvent(event);
-    if(pos() != m_posPrivate)
-    {
-        emit xChanged();
-        emit yChanged();
-    }
-}
 
-void CSItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    QGraphicsItem::mouseReleaseEvent(event);
-    if(pos() != m_posPrivate)
-    {
-        emit xChanged();
-        emit yChanged();
-    }
-}
-
-void CSItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    m_posPrivate = pos();
-    QGraphicsItem::mousePressEvent(event);
+    emit askUpdate();
 }

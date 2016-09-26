@@ -27,6 +27,7 @@
 #include <QGraphicsItem>
 #include "charactersheetitem.h"
 #include "csitem.h"
+#include "canvasfield.h"
 
 /**
  * @brief The Field class managed text field in qml and datamodel.
@@ -40,9 +41,10 @@ public:
 
     explicit Field(QGraphicsItem* parent = 0);
     explicit Field(QPointF topleft,QGraphicsItem* parent = 0);
+    virtual ~Field();
 
-    void drawField();
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+
+    //void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
     QSize size() const;
     void setSize(const QSize &size);
@@ -50,10 +52,9 @@ public:
     QFont font() const;
     void setFont(const QFont &font);
 
-    QRectF boundingRect() const;
+    //QRectF boundingRect() const;
 
     CharacterSheetItem* getChildAt(QString) const;
-
 
     virtual QVariant getValueFrom(CharacterSheetItem::ColumnId,int role) const;
     virtual void setValueFrom(CharacterSheetItem::ColumnId id, QVariant var);
@@ -72,6 +73,8 @@ public:
      */
     virtual void loadDataItem(QJsonObject& json);
 
+    virtual QPointF mapFromScene(QPointF);
+
     virtual void generateQML(QTextStream& out,CharacterSheetItem::QMLSection sec);
 
     QStringList getAvailableValue() const;
@@ -81,13 +84,20 @@ public:
 
     void copyField(CharacterSheetItem* );
 
-//    Field::TypeField getCurrentType() const;
-//    void setCurrentType(const Field::TypeField &currentType);
-
     bool getClippedText() const;
     void setClippedText(bool clippedText);
 
-    virtual QPainterPath shape() const;
+    //virtual QPainterPath shape() const;
+    void setTextAlign(const TextAlign &textAlign);
+
+
+    Field::TextAlign getTextAlignValue();
+
+    virtual void setNewEnd(QPointF nend);
+
+    CanvasField* getCanvasField() const;
+    void setCanvasField(CanvasField* canvasField);
+
 signals:
     void updateNeeded(CSItem* c);
     //void valueChanged(QString);
@@ -104,8 +114,8 @@ private:
     QFont  m_font;
     TextAlign m_textAlign;
     QStringList m_availableValue;
-
     bool m_clippedText;
+    CanvasField* m_canvasField;
 };
 
 #endif // FIELD_H

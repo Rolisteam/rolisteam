@@ -35,52 +35,45 @@ Field::Field(QGraphicsItem* parent)
 Field::Field(QPointF topleft,QGraphicsItem* parent)
     : CSItem(parent)
 {
-    setPos(topleft);
-    m_rect.setTopLeft(QPoint(0,0));
-    m_rect.setBottomRight(QPoint(0,0));
     m_value = QStringLiteral("value");
     init();
-
+}
+Field::~Field()
+{
+    if(NULL!=m_canvasField)
+        delete m_canvasField;
+    m_canvasField=NULL;
 }
 void Field::init()
 {
+#ifdef RCSE
+    m_canvasField = new CanvasField(this);
+#else
+    m_canvasField = NULL;
+#endif
     m_id = QStringLiteral("id_%1").arg(m_count);
     m_currentType=TEXTINPUT;
     m_clippedText = false;
-    setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable|QGraphicsItem::ItemClipsToShape);
+
 
     m_border=NONE;
     m_textAlign = TopLeft;
     m_bgColor = Qt::transparent;
     m_textColor = Qt::black;
     m_font = font();
-    connect(this,&Field::xChanged,[=](){
-        emit updateNeeded(this);
-    });
-    connect(this,&Field::yChanged,[=](){
-        emit updateNeeded(this);
-    });
+    if(NULL!=m_canvasField)
+    {
+        m_canvasField->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable|QGraphicsItem::ItemClipsToShape);
+
+        connect(m_canvasField,&CanvasField::xChanged,[=](){
+            emit updateNeeded(this);
+        });
+        connect(m_canvasField,&CanvasField::yChanged,[=](){
+            emit updateNeeded(this);
+        });
+    }
 }
 
-QRectF Field::boundingRect() const
-{
-    return m_rect;
-}
-QPainterPath Field::shape() const
-{
-
-    QPainterPath path;
-    path.moveTo(0,0);
-
-    path.lineTo(m_rect.width(),0);
-    path.lineTo(m_rect.width(),m_rect.height());
-    path.lineTo(0,m_rect.height());
-    path.closeSubpath();
-    return path;
-
-
-
-}
 QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
 {
     switch(id)
@@ -93,10 +86,16 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
         return m_value;
     case X:
         //return m_rect.x();
-        return pos().x();
+        if(NULL!=m_canvasField)
+            return m_canvasField->pos().x();
+        else
+            return 0;
     case Y:
         //return m_rect.y();
-        return pos().y();
+        if(NULL!=m_canvasField)
+            return m_canvasField->pos().y();
+        else
+            return 0;
     case WIDTH:
         return m_rect.width();
     case HEIGHT:
@@ -141,11 +140,17 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         break;
     case X:
         //m_rect.setX(var.toReal());
-        setPos(var.toReal(),pos().y());
+        if(NULL!=m_canvasField)
+        {
+            m_canvasField->setPos(var.toReal(),m_canvasField->pos().y());
+        }
         break;
     case Y:
         //m_rect.setY(var.toReal());
-        setPos(pos().x(),var.toReal());
+        if(NULL!=m_canvasField)
+        {
+            m_canvasField->setPos(m_canvasField->pos().x(),var.toReal());
+        }
         break;
     case WIDTH:
         m_rect.setWidth(var.toReal());
@@ -175,52 +180,22 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         m_clippedText=var.toBool();
         break;
     }
-    update();
+   // update();
 }
-void Field::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
+void Field::setNewEnd(QPointF nend)
 {
-    painter->save();
-    painter->fillRect(m_rect,m_bgColor);
-    painter->setPen(Qt::black);
-    painter->drawRect(m_rect);
-    int flags =0;
-    if(m_textAlign <3)
-    {
-        flags = Qt::AlignTop;
-    }
-    else if(m_textAlign <6)
-    {
-        flags = Qt::AlignVCenter;
-    }
-    else
-    {
-        flags = Qt::AlignBottom;
-    }
-
-    if(m_textAlign%3==0)
-    {
-        flags |= Qt::AlignRight;
-    }
-    else if(m_textAlign%3==1)
-    {
-        flags |= Qt::AlignHCenter;
-    }
-    else
-    {
-        flags |= Qt::AlignLeft;
-    }
-
-
-    painter->drawText(m_rect,flags,m_id);
-    painter->restore();
+    m_canvasField->setNewEnd(nend);
+    m_rect.setBottomRight(nend);
+    emit widthChanged();
+    emit heightChanged();
 }
-
-void Field::drawField()
+QPointF Field::mapFromScene(QPointF pos)
 {
-
+    if(NULL!=m_canvasField)
+    {
+        return m_canvasField->mapFromScene(pos);
+    }
 }
-
-
 
 QFont Field::font() const
 {
@@ -230,7 +205,7 @@ QFont Field::font() const
 void Field::setFont(const QFont &font)
 {
     m_font = font;
-    drawField();
+    //drawField();
 }
 
 void Field::mousePressEvent(QMouseEvent* ev)
@@ -361,7 +336,7 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
     }
     m_rect.setRect(x,y,w,h);
 
-    update();
+    //update();
 }
 
 void Field::loadDataItem(QJsonObject &json)
@@ -412,8 +387,31 @@ QString Field::getQMLItemName()
     }
 }
 
+CanvasField *Field::getCanvasField() const
+{
+    return m_canvasField;
+}
+
+void Field::setCanvasField(CanvasField *canvasField)
+{
+    m_canvasField = canvasField;
+}
+
+void Field::setTextAlign(const Field::TextAlign &textAlign)
+{
+    m_textAlign = textAlign;
+}
+Field::TextAlign Field::getTextAlignValue()
+{
+    return m_textAlign;
+}
+
 void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
 {
+    if(NULL==m_canvasField)
+    {
+        return;
+    }
     if(sec==CharacterSheetItem::FieldSec)
     {
 
@@ -439,12 +437,12 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
             out << "    text: "<<m_id << ".value\n";
         }
         out << "    textColor:\""<< m_textColor.name(QColor::HexArgb) <<"\"\n";
-        out << "    x:" << pos().x() << "*parent.realscale"<<"\n";
+        out << "    x:" << m_canvasField->pos().x() << "*parent.realscale"<<"\n";
         if(m_clippedText)
         {
             out << "    clippedText:true\n";
         }
-        out << "    y:" <<  pos().y()<< "*parent.realscale"<<"\n";
+        out << "    y:" <<  m_canvasField->pos().y()<< "*parent.realscale"<<"\n";
         out << "    width:" << m_rect.width() <<"*parent.realscale"<<"\n";
         out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
