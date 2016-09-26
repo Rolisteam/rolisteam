@@ -2,7 +2,6 @@ HEADERS += $$PWD/charactersheetwindow.h \
     $$PWD/charactersheetmodel.h\
     $$PWD/charactersheet.h \
     $$PWD/charactersheetitem.h \
-    $$PWD/charactersheetbutton.h \
     $$PWD/field.h\
     $$PWD/csitem.h\
     $$PWD/section.h \
@@ -16,11 +15,12 @@ HEADERS += $$PWD/charactersheetwindow.h \
     $$PWD/formula/nodes/scalaroperatorfnode.h \
     $$PWD/formula/nodes/parenthesesfnode.h
 
+   ## $$PWD/charactersheetbutton.h \
+##    $$PWD/charactersheetbutton.cpp \
 
 SOURCES += $$PWD/charactersheetwindow.cpp \
     $$PWD/charactersheetmodel.cpp\
     $$PWD/charactersheet.cpp \
-    $$PWD/charactersheetbutton.cpp \
     $$PWD/charactersheetitem.cpp \
     $$PWD/section.cpp \
     $$PWD/field.cpp\
