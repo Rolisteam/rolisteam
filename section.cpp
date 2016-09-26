@@ -131,16 +131,8 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
         {
             Field* field=new Field();
             item = field;
-            gItem = field;
+            gItem = field->getCanvasField();
         }
-      /*  if(obj["type"]==QStringLiteral("button"))
-        {
-            CharacterSheetButton* btn = new CharacterSheetButton();
-            item = btn;
-            gItem = btn;
-
-        }*/
-
         item->load(obj,scenes);
         if(scenes.size()>item->getPage())
         {
