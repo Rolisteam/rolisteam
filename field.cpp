@@ -97,9 +97,15 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
         else
             return 0;
     case WIDTH:
-        return m_rect.width();
+        if(NULL!=m_canvasField)
+            return m_canvasField->boundingRect().width();
+        else
+            return 0;
     case HEIGHT:
-        return m_rect.height();
+        if(NULL!=m_canvasField)
+            return m_canvasField->boundingRect().height();
+        else
+            return 0;
     case BORDER:
         return (int)m_border;
     case TEXT_ALIGN:
@@ -443,8 +449,8 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
             out << "    clippedText:true\n";
         }
         out << "    y:" <<  m_canvasField->pos().y()<< "*parent.realscale"<<"\n";
-        out << "    width:" << m_rect.width() <<"*parent.realscale"<<"\n";
-        out << "    height:"<< m_rect.height()<<"*parent.realscale"<<"\n";
+        out << "    width:" << m_canvasField->boundingRect().width() <<"*parent.realscale"<<"\n";
+        out << "    height:"<< m_canvasField->boundingRect().height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         out << "    visible: root.page == "<< m_page << "? true : false\n";
         if(m_currentType==Field::BUTTON)
