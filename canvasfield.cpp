@@ -96,10 +96,20 @@ void CanvasField::paint ( QPainter * painter, const QStyleOptionGraphicsItem * o
 }
 void CanvasField::setWidth(qreal w)
 {
-    m_rect.setWidth(w);
+    if(w!=m_rect.width())
+    {
+        m_rect.setWidth(w);
+        emit widthChanged();
+        update();
+    }
 }
 
 void CanvasField::setHeight(qreal h)
 {
-    m_rect.setHeight(h);
+    if(h!=m_rect.height())
+    {
+        m_rect.setHeight(h);
+        emit heightChanged();
+        update();
+    }
 }

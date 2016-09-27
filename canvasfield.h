@@ -24,7 +24,8 @@ public:
     void setHeight(qreal h);
 
 signals:
-    void positionChanged();
+    void widthChanged();
+    void heightChanged();
 
 private:
     Field* m_field;
