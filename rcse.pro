@@ -71,7 +71,8 @@ SOURCES += main.cpp\
     charactermodel.cpp \
     alignmentdelegate.cpp \
     codeeditor.cpp \
-    typedelegate.cpp
+    typedelegate.cpp \
+    canvasfield.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -81,7 +82,8 @@ HEADERS  += mainwindow.h \
     charactermodel.h \
     alignmentdelegate.h \
     codeeditor.h \
-    typedelegate.h
+    typedelegate.h \
+    canvasfield.h
 
 FORMS    += mainwindow.ui
 

@@ -110,11 +110,12 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         {
             Field* field = new Field(mouseEvent->scenePos());
             field->setPage(m_currentPage);
-            addItem(field);
+            addItem(field->getCanvasField());
             m_model->appendField(field);
-            field->setPos(mouseEvent->scenePos());
+            field->setValueFrom(CharacterSheetItem::X,mouseEvent->scenePos().x());
+            field->setValueFrom(CharacterSheetItem::Y,mouseEvent->scenePos().y());
             m_currentItem = field;
-            m_currentItem->setFocus();
+            //m_currentItem->setFocus();
             switch(m_currentTool)//TEXTINPUT,TEXTFIELD,TEXTAREA,SELECT,CHECKBOX,IMAGE,BUTTON
             {
             case Canvas::ADDCHECKBOX:
@@ -160,7 +161,6 @@ void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
     Q_UNUSED(mouseEvent);
 
-    //m_currentItem = NULL;
     if(m_currentTool==Canvas::MOVE)
     {      
         QGraphicsScene::mouseReleaseEvent(mouseEvent);

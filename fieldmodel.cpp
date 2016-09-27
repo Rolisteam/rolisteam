@@ -374,6 +374,8 @@ void FieldModel::removeItem(QModelIndex& index)
         endRemoveRows();
 
 
+
+
     }
 }
 
