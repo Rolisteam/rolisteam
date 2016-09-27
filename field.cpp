@@ -159,10 +159,16 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         }
         break;
     case WIDTH:
-        m_rect.setWidth(var.toReal());
+        if(NULL!=m_canvasField)
+        {
+            m_canvasField->setWidth(var.toReal());
+        }
         break;
     case HEIGHT:
-        m_rect.setHeight(var.toReal());
+        if(NULL!=m_canvasField)
+        {
+            m_canvasField->setHeight(var.toReal());
+        }
         break;
     case BORDER:
         m_border = (BorderLine)var.toInt();
