@@ -66,7 +66,8 @@ public:
         Unit,
         EnableCharacterVision,
         PermissionMode,
-        FogOfWarStatus
+        FogOfWarStatus,
+        CollisionStatus
                     };
 	/**
 	 * @brief VisualItem default constructor
@@ -245,11 +246,12 @@ public:
      * @brief setEditableItem
      */
     virtual void setEditableItem(bool);
-    void readOpacityMsg(NetworkMessageReader *msg);
+    void readOpacityMsg(NetworkMessageReader* msg);
     bool getHoldSize() const;
     void setHoldSize(bool holdSize);
 
-    void readLayerMsg(NetworkMessageReader *msg);
+    virtual void readLayerMsg(NetworkMessageReader* msg);
+    virtual void readMovePointMsg(NetworkMessageReader* msg);
     virtual bool isLocal();
 
 signals:

@@ -430,6 +430,9 @@ void VisualItem::rotationChange()
 
 void VisualItem::sendPositionMsg()
 {
+    if(m_pointList.isEmpty())
+        return;
+
     if((getOption(VisualItem::LocalIsGM).toBool()) ||
             (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
             ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
@@ -535,6 +538,10 @@ void VisualItem::readRectGeometryMsg(NetworkMessageReader* msg)
     setRectSize(xR,yR,w,h);
     blockSignals(false);
     update();
+}
+void VisualItem::readMovePointMsg(NetworkMessageReader* msg)
+{
+    //Do nothing - only used for now on by pathItem.
 }
 
 void VisualItem::setRectSize(qreal x,qreal y,qreal w,qreal h)

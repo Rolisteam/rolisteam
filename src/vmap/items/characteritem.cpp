@@ -401,6 +401,10 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &va
     QVariant newValue = value;
     if(change == QGraphicsItem::ItemPositionChange)
     {
+        if(!getOption(VisualItem::CollisionStatus).toBool())
+        {
+            return VisualItem::itemChange(change, newValue);
+        }
         m_oldPosition = pos();
         QList<QGraphicsItem*> list = collidingItems();
         //qDebug()<<"collision list:"<<list;
@@ -416,21 +420,25 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &va
         for(QGraphicsItem* item : list)
         {
             VisualItem* vItem = dynamic_cast<VisualItem*>(item);
-            if(NULL!=vItem)
+            if((NULL!=vItem)&&(vItem!=this))
             {
-                //qDebug() << (vItem->getLayer()==VisualItem::OBJECT)<< (int)vItem->getLayer();
-                if(vItem->getLayer()==VisualItem::OBJECT)
+                if((vItem->getLayer()==VisualItem::OBJECT))
                 {
                    newValue = m_oldPosition;
                 }
             }
         }
+        QVariant var = VisualItem::itemChange(change, newValue);
         if(newValue!=m_oldPosition)
         {
             emit positionChanged();
         }
+        return var;
     }
-    return VisualItem::itemChange(change, newValue);
+    else
+    {
+        return VisualItem::itemChange(change, newValue);
+    }
 }
 int CharacterItem::getChildPointCount() const
 {
@@ -631,6 +639,9 @@ void CharacterItem::createActions()
 
 	connect(m_visionShapeAngle,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
 	connect(m_visionShapeDisk,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
+
+
+    connect(PlayersList::instance(),SIGNAL(characterDeleted(Character*)),this,SLOT(characterHasBeenDeleted(Character*)));
 }
 void CharacterItem::changeVisionShape()
 {
@@ -705,6 +716,14 @@ void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
 
 }
 
+void CharacterItem::characterHasBeenDeleted(Character* pc)
+{
+    if(pc == m_character)
+    {
+        m_character = NULL;
+    }
+}
+
 void CharacterItem::addChildPoint(ChildPointItem* item)
 {
     if(NULL!=m_child)
@@ -745,6 +764,7 @@ void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
         setZValue(z);
         blockSignals(false);
     }
+    update();
 }
 bool CharacterItem::isLocal()
 {
@@ -757,7 +777,9 @@ bool CharacterItem::isLocal()
 void CharacterItem::setCharacterIsMovable(bool isMovable)
 {
 
-    if((isLocal()&&(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)))
+    if((m_propertiesHash->value(VisualItem::LocalIsGM).toBool())||
+       (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)||
+            (isLocal()&&(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)))
     {
         if(!isEditable())
         {

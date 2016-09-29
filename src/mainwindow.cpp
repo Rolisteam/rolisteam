@@ -1893,6 +1893,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     case NetMsg::GeometryItemChanged:
     case NetMsg::OpacityItemChanged:
     case NetMsg::LayerItemChanged:
+    case NetMsg::MovePoint:
     case NetMsg::vmapChanges:
     case NetMsg::GeometryViewChanged:
     case NetMsg::SetParentItem:

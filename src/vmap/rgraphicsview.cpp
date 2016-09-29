@@ -60,14 +60,29 @@ void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 {
 	if(m_currentTool == VToolsBar::HANDLER)
 	{
-        if(!items(event->pos()).isEmpty())
-		{
-			setDragMode(QGraphicsView::NoDrag);
-		}
-		else
-		{
-			setDragMode(QGraphicsView::RubberBandDrag);
-		}
+        QList<QGraphicsItem*> list = items(event->pos());
+        if(NULL!=m_vmap)
+        {
+            list.removeAll(m_vmap->getFogItem());
+            //VisualItem::Layer layer = m_vmap->getCurrentLayer();
+            bool rubber = true;
+            for( QGraphicsItem* item : list)
+            {
+                ChildPointItem* point = dynamic_cast<ChildPointItem*>(item);
+                if(NULL!=point)
+                {
+                    rubber = false;
+                }
+            }
+            if(!rubber)
+            {
+                setDragMode(QGraphicsView::NoDrag);
+            }
+            else
+            {
+                setDragMode(QGraphicsView::RubberBandDrag);
+            }
+        }
 	}
 	QGraphicsView::mousePressEvent (event);
 }

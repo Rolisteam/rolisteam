@@ -53,6 +53,17 @@ QPainterPath EllipsItem::shape() const
 {
 	QPainterPath path;
 	path.addEllipse(boundingRect());
+
+    if(!m_filled)
+    {
+        QPainterPath subpath;
+
+        QRectF rect = boundingRect();
+        rect.adjust(m_penWidth,m_penWidth,-m_penWidth,-m_penWidth);
+        subpath.addEllipse(rect);
+        path -= subpath;
+    }
+
 	return path;
 }
 void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
