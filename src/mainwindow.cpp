@@ -119,6 +119,7 @@ MainWindow::MainWindow()
     foreach (QWidget* wid, m_gmToolBoxList)
     {
         QDockWidget* widDock = new QDockWidget(this);
+        widDock->setAllowedAreas(Qt::AllDockWidgetAreas);
         widDock->setWidget(wid);
         widDock->setWindowTitle(wid->windowTitle());
         widDock->setObjectName(wid->objectName());
@@ -1318,7 +1319,7 @@ void MainWindow::setupUi()
 #endif
 
 
-    setAnimated(false);
+    //setAnimated(false);
     m_mdiArea = new ImprovedWorkspace();
     setCentralWidget(m_mdiArea);
     connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(activeWindowChanged(QMdiSubWindow *)));
