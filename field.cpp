@@ -26,6 +26,13 @@
 #include <QUuid>
 #include <QDebug>
 
+#ifndef RCSE
+CanvasField::CanvasField()
+{
+
+}
+#endif
+
 Field::Field(QGraphicsItem* parent)
 : CSItem(parent)
 {
@@ -61,6 +68,7 @@ void Field::init()
     m_bgColor = Qt::transparent;
     m_textColor = Qt::black;
     m_font = font();
+    #ifdef RCSE
     if(NULL!=m_canvasField)
     {
         m_canvasField->setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable|QGraphicsItem::ItemClipsToShape);
@@ -78,6 +86,7 @@ void Field::init()
             emit updateNeeded(this);
         });*/
     }
+    #endif
 }
 
 QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
@@ -167,13 +176,17 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
     case WIDTH:
         if(NULL!=m_canvasField)
         {
+            #ifdef RCSE
             m_canvasField->setWidth(var.toReal());
+            #endif
         }
         break;
     case HEIGHT:
         if(NULL!=m_canvasField)
         {
+            #ifdef RCSE
             m_canvasField->setHeight(var.toReal());
+            #endif
         }
         break;
     case BORDER:
@@ -202,7 +215,9 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
 }
 void Field::setNewEnd(QPointF nend)
 {
+    #ifdef RCSE
     m_canvasField->setNewEnd(nend);
+    #endif
     m_rect.setBottomRight(nend);
     emit widthChanged();
     emit heightChanged();

@@ -27,7 +27,17 @@
 #include <QGraphicsItem>
 #include "charactersheetitem.h"
 #include "csitem.h"
+
+#ifdef RCSE
 #include "canvasfield.h"
+#else
+class CanvasField : public QGraphicsObject
+{
+    CanvasField();
+};
+#endif
+
+
 
 /**
  * @brief The Field class managed text field in qml and datamodel.
