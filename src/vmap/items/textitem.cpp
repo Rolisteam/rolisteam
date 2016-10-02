@@ -61,7 +61,7 @@ void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
 void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    VMap* map = dynamic_cast<VMap*>(scene());
+   /* VMap* map = dynamic_cast<VMap*>(scene());
     if( NULL != map)
     {
         if(map->getSelectedtool() == VToolsBar::HANDLER)
@@ -73,7 +73,7 @@ void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         {
             qDebug() << "double click text";//start richtextedit dialog
         }
-    }
+    }*/
     QGraphicsTextItem::mouseDoubleClickEvent(event);
 
 }

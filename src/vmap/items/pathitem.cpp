@@ -84,7 +84,6 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         path.moveTo(m_start);
         foreach(QPointF p,m_pointVector)
         {
-            qDebug() << p << m_start;
             path.lineTo(p);
         }
         if(m_closed)
@@ -131,7 +130,6 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 void PathItem::setNewEnd(QPointF& p)
 {
     m_end = p;
-    qDebug() << p << m_start << m_pointVector.size();
     if(m_penMode)
     {
         m_pointVector.append(p);
