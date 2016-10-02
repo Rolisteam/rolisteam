@@ -117,6 +117,10 @@ void VisualItem::setEditableItem(bool b)
         }
     }
 }
+QColor VisualItem::getColor()
+{
+    return m_color;
+}
 
 void VisualItem::setPenColor(QColor& penColor)
 {

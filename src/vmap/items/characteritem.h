@@ -198,6 +198,8 @@ public:
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
     void readCharacterStateChanged(NetworkMessageReader &msg);
 
+    virtual QColor getColor();
+
 signals:
     /**
      * @brief positionChanged

@@ -95,6 +95,11 @@ public:
 	 * @param penColor
 	 */
     virtual void setPenColor(QColor& penColor);
+    /**
+     * @brief getColor
+     * @return
+     */
+    virtual QColor getColor();
 	/**
 	 * @brief writeData
 	 * @param out

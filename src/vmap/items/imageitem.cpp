@@ -46,6 +46,7 @@ void ImageItem::writeData(QDataStream& out) const
 	out << m_rect;
 	out << m_keepAspect;
 	out << m_color;
+    out << opacity();
 	out << m_id;
     out << (int)m_layer;
     out << m_image;
@@ -62,6 +63,9 @@ void ImageItem::readData(QDataStream& in)
 	in >> m_rect;
 	in >> m_keepAspect;
 	in >> m_color;
+    qreal opa=0;
+    in >> opa;
+    setOpacity(opa);
 	in >> m_id;
     int i;
     in >> i;
@@ -95,6 +99,7 @@ void ImageItem::fillMessage(NetworkMessageWriter* msg)
 	msg->real(m_rect.height());
     msg->uint8((int)m_layer);
     msg->real(zValue());
+    msg->real(opacity());
 
 	msg->int8(m_keepAspect);
 	msg->rgb(m_color);
@@ -135,6 +140,7 @@ void ImageItem::readItem(NetworkMessageReader* msg)
 	m_rect.setHeight(msg->real());
     m_layer = (VisualItem::Layer)msg->int8();
     setZValue(msg->real());
+    setOpacity(msg->real());
 
 	m_keepAspect = msg->int8();
 	m_color = msg->rgb();
