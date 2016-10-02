@@ -1352,11 +1352,15 @@ void MainWindow::setupUi()
     m_chatListWidget = new ChatListWidget(this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_chatListWidget);
     addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
+    dock->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_chatListWidget->toggleViewAction());
 
 
-    addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_sessionManager->toggleViewAction());
+    QDockWidget* dock2 = new QDockWidget(this);
+    dock2->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
+    dock2->setWidget(m_sessionManager);
+    addDockWidget(Qt::RightDockWidgetArea,dock2);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,dock2->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
 
 
