@@ -78,6 +78,17 @@ VToolsBar::SelectableTool VMap::getSelectedtool() const
 {
     return m_selectedtool;
 }
+void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
+{
+    cleanFogEdition();
+    if((m_selectedtool == VToolsBar::PATH)&&(m_selectedtool != selectedtool))
+    {
+        m_currentPath = NULL;
+    }
+    m_selectedtool = selectedtool;
+    m_currentItem = NULL;
+
+}
 VisualItem::Layer VMap::currentLayer() const
 {
     return m_currentLayer;
@@ -149,17 +160,7 @@ const QColor& VMap::mapColor() const
     return m_bgColor;
 }
 
-void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
-{
-    cleanFogEdition();
-    if((m_selectedtool == VToolsBar::PATH)&&(m_selectedtool != selectedtool))
-    {
-        m_currentPath = NULL;
-    }
-    m_selectedtool = selectedtool;
-    m_currentItem = NULL;
 
-}
 
 void VMap::setPenSize(int p)
 {
@@ -415,9 +416,31 @@ void VMap::addItem()
     }
         break;
     case VToolsBar::ANCHOR:
+    {
         AnchorItem* anchorItem = new AnchorItem(m_first);
         m_currentItem = anchorItem;
+    }
         break;
+    case VToolsBar::PIPETTE:
+    {
+        QList<QGraphicsItem *> itemList = items(m_first);
+        if(!itemList.isEmpty())
+        {
+            VisualItem* item = dynamic_cast<VisualItem*>(itemList.at(0));
+            if(NULL!=item)
+            {
+                if(item->getType() != VisualItem::IMAGE)
+                {
+                    QColor color = item->getColor();
+                    if(color.isValid())
+                    {
+                        emit colorPipette(color);
+                    }
+                }
+            }
+        }
+    }
+       break;
     }
     addNewItem(m_currentItem);
 
