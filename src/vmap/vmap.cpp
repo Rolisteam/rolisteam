@@ -550,6 +550,19 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
 }
+void VMap::selectionPositionHasChanged()
+{
+    QList<QGraphicsItem*> selection = selectedItems();
+    for(auto item : selection)
+    {
+        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
+        if(NULL!=vItem)
+        {
+            vItem->sendPositionMsg();
+        }
+    }
+}
+
 void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
 {
     if(NULL!=child)
@@ -1101,6 +1114,7 @@ void VMap::addNewItem(VisualItem* item)
         connect(item,SIGNAL(itemRemoved(QString)),this,SLOT(removeItemFromScene(QString)));
         connect(item,SIGNAL(duplicateItem(VisualItem*)),this,SLOT(duplicateItem(VisualItem*)));
         connect(item,SIGNAL(itemLayerChanged(VisualItem*)),this,SLOT(checkItemLayer(VisualItem*)));
+        connect(item,SIGNAL(itemPositionHasChanged()),this,SLOT(selectionPositionHasChanged()));
         connect(item,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),this,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
 
         if((item!=m_sightItem)&&(VisualItem::ANCHOR!=item->type())&&(VisualItem::RULE!=item->type()))
@@ -1684,7 +1698,7 @@ QRectF VMap::itemsBoundingRectWithoutSight()
     {
         if(item != m_sightItem)
         {
-            qDebug() << item << item->boundingRect() << "itemsBoundingRectWithout";
+            //qDebug() << item << item->boundingRect() << "itemsBoundingRectWithout";
             if(result.isNull())
             {
                 result = item->boundingRect();

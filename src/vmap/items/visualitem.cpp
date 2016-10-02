@@ -140,7 +140,8 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mouseReleaseEvent(event);
-    sendPositionMsg();
+    //sendPositionMsg();
+    emit itemPositionHasChanged();
 }
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {

@@ -398,6 +398,10 @@ public slots:
      * @param cItem
      */
     void ownerHasChangedForCharacterItem(Character *item, CharacterItem *cItem);
+    /**
+     * @brief selectionPositionHasChanged
+     */
+    void selectionPositionHasChanged();
 signals:
     /**
      * @brief npcAdded
