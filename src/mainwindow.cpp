@@ -184,7 +184,6 @@ void MainWindow::closeAllImagesAndMaps()
             removeMapFromId(tmp->getMediaId());
         }
     }
-
     foreach(VMapFrame* tmp,m_mapWindowVectorialMap.values())
     {
         if(NULL!=tmp)
@@ -1359,6 +1358,7 @@ void MainWindow::setupUi()
     QDockWidget* dock2 = new QDockWidget(this);
     dock2->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
     dock2->setWidget(m_sessionManager);
+    dock2->setObjectName("sessionManager");
     addDockWidget(Qt::RightDockWidgetArea,dock2);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,dock2->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
