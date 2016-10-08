@@ -1969,7 +1969,8 @@ void MainWindow::openRecentFile()
 }
 void MainWindow::updateRecentFileActions()
 {
-    QVariant var(CleverUriList);
+    QVariant var = QVariant::fromValue(CleverUriList());
+
     CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList >();
 
     int numRecentFiles = qMin(files.size(), m_maxSizeRecentFile);
@@ -1996,9 +1997,9 @@ void MainWindow::setLatestFile(CleverURI* fileName)
     // no online picture because they are handled in a really different way.
     if((NULL!=fileName)&&(fileName->getType()!=CleverURI::ONLINEPICTURE))
     {
-        QVariant var(CleverUriList());
+        QVariant var = QVariant::fromValue(CleverUriList());
 
-        CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList >();
+        CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList>();
 
         files.removeAll(*fileName);
         files.prepend(*fileName);
