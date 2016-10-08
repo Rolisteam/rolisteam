@@ -48,22 +48,22 @@ void CSItem::setTextColor(const QColor &textColor)
 
 qreal CSItem::getX() const
 {
-
+    return 0;
 }
 
 qreal CSItem::getY() const
 {
-
+    return 0;
 }
 
 qreal CSItem::getWidth() const
 {
-
+    return 0;
 }
 
 qreal CSItem::getHeight() const
 {
-
+    return 0;
 }
 
 void CSItem::setX(qreal x)
