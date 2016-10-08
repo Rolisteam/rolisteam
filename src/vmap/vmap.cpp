@@ -618,7 +618,7 @@ void VMap::manageAnchor()
 
         foreach (QGraphicsItem* item, item1)
         {
-            if(item!=m_currentItem)
+            if((NULL==child)&&(item!=m_currentItem))
             {
                 child = item;
             }
@@ -627,7 +627,7 @@ void VMap::manageAnchor()
         QList<QGraphicsItem*> item2 = items(tmp->getEnd());
         foreach (QGraphicsItem* item, item2)
         {
-            if(item!=m_currentItem)
+            if((NULL==parent)&&(item!=m_currentItem))
             {
                 parent = item;
             }
