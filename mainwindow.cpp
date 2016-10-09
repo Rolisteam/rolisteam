@@ -570,7 +570,7 @@ void MainWindow::showQML()
     QList<CharacterSheetItem *> list = m_model->children();
     for(CharacterSheetItem* item : list)
     {
-        qDebug() <<"add item into qml" << item->getId();
+        //qDebug() <<"add item into qml" << item->getId();
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
     ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
@@ -596,12 +596,21 @@ void MainWindow::showQMLFromCode()
 
     //delete ui->m_quickview;
     ui->m_quickview->engine()->clearComponentCache();
-    //ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
-    ui->m_quickview->engine()->rootContext()->setContextProperty("_model",m_model);
+      QHash<QString,QPixmap>* imgdata = RolisteamImageProvider::getData();
+    m_imgProvider = new RolisteamImageProvider();
+    m_imgProvider->setData(imgdata);
+    ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
+
+    QList<CharacterSheetItem *> list = m_model->children();
+    for(CharacterSheetItem* item : list)
+    {
+        //qDebug() <<"add item into qml" << item->getId();
+        ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
+    }
     ui->m_quickview->setSource(QUrl::fromLocalFile(name));
+    ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root = ui->m_quickview->rootObject();
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
-    ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
 }
 void MainWindow::saveQML()
 {
@@ -648,7 +657,7 @@ void MainWindow::setQmlGeneration(bool qmlGeneration)
 
 Field* MainWindow::addFieldAt(QPoint pos)
 {
-    qDebug() << "create Field";
+    //qDebug() << "create Field";
 
     return NULL;
 }
