@@ -377,8 +377,10 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
 void Field::initGraphicsItem()
 {
     m_canvasField->setPos(m_rect.x(),m_rect.y());
+    #ifdef RCSE
     m_canvasField->setWidth(m_rect.width());
     m_canvasField->setHeight(m_rect.height());
+    #endif
 }
 void Field::loadDataItem(QJsonObject &json)
 {
