@@ -350,6 +350,8 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
     r = textcolor["r"].toInt();
     g = textcolor["g"].toInt();
     b = textcolor["b"].toInt();
+    a = textcolor["a"].toInt();
+
     m_textColor=QColor(r,g,b,a);
 
     m_font.fromString(json["font"].toString());
@@ -369,9 +371,15 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
     }
     m_rect.setRect(x,y,w,h);
 
+
     //update();
 }
-
+void Field::initGraphicsItem()
+{
+    m_canvasField->setPos(m_rect.x(),m_rect.y());
+    m_canvasField->setWidth(m_rect.width());
+    m_canvasField->setHeight(m_rect.height());
+}
 void Field::loadDataItem(QJsonObject &json)
 {
     m_id = json["id"].toString();
@@ -420,7 +428,7 @@ QString Field::getQMLItemName()
     }
 }
 
-CanvasField *Field::getCanvasField() const
+CanvasField* Field::getCanvasField() const
 {
     return m_canvasField;
 }

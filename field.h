@@ -108,6 +108,7 @@ public:
     CanvasField* getCanvasField() const;
     void setCanvasField(CanvasField* canvasField);
 
+    void initGraphicsItem();
 signals:
     void updateNeeded(CSItem* c);
     //void valueChanged(QString);
