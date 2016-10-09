@@ -17,6 +17,7 @@ RolisteamImageProvider::~RolisteamImageProvider()
 QPixmap RolisteamImageProvider::requestPixmap(const QString &id, QSize *size, const QSize& requestedSize)
 {
     /// @warning Ugly stuff
+    //qDebug() << "Image Provider" << s_data->size();
     QString idTranslate = id;
     idTranslate = idTranslate.replace("%7B","{").replace("%7D","}");
 
@@ -30,6 +31,7 @@ QPixmap RolisteamImageProvider::requestPixmap(const QString &id, QSize *size, co
 
 void RolisteamImageProvider::insertPix(QString key, QPixmap img)
 {
+   // qDebug() << key << img << "Image Provider";
     s_data->insert(key,img);
 }
 QHash<QString,QPixmap>* RolisteamImageProvider::getData()
