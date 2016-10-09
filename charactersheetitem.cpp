@@ -189,3 +189,7 @@ void Field::setCurrentType(const Field::TypeField &currentType)
 {
     m_currentType = currentType;
 }*/
+void CharacterSheetItem::initGraphicsItem()
+{
+
+}

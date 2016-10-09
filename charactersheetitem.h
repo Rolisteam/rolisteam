@@ -184,6 +184,8 @@ public:
 
     CharacterSheetItem::TypeField getCurrentType() const;
     void setCurrentType(const CharacterSheetItem::TypeField &currentType);
+
+    virtual void initGraphicsItem();
 public slots:
     /**
      * @brief setValue
