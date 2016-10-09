@@ -51,7 +51,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_currentPage(0),
-    m_editedTextByHand(false)
+    m_editedTextByHand(false),
+    m_counterZoom(0)
 {
     m_qmlGeneration =true;
     setAcceptDrops(true);
@@ -73,11 +74,13 @@ MainWindow::MainWindow(QWidget *parent) :
     canvas->setModel(m_model);
     ui->treeView->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
     m_view = new QGraphicsView();
+    m_view->installEventFilter(this);
     m_view->setAcceptDrops(true);
     m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     //m_view->setViewport(new QOpenGLWidget());
     m_view->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
 
+    connect(ui->m_backgroundImageAct,SIGNAL(triggered(bool)),this,SLOT(openImage()));
 
     m_view->setScene(canvas);
     ui->scrollArea->setWidget(m_view);
@@ -177,6 +180,64 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+bool MainWindow::eventFilter(QObject* obj, QEvent* event)
+{
+    if((obj==m_view)&&(event->type() == QEvent::Wheel))
+    {
+        return wheelEventForView(dynamic_cast<QWheelEvent*>(event));
+
+    }
+    else
+        return QMainWindow::eventFilter(obj,event);
+}
+
+bool MainWindow::wheelEventForView(QWheelEvent *event)
+{
+    if(NULL==event)
+        return false;
+
+    if(event->modifiers() & Qt::ShiftModifier)
+    {
+        m_view->setResizeAnchor(QGraphicsView::AnchorUnderMouse);
+        m_view->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+        // Scale the view / do the zoom
+        double scaleFactor = 1.1;
+
+        if((event->delta() > 0)&&(m_counterZoom<20))
+        {
+             m_view->scale(scaleFactor, scaleFactor);
+            ++m_counterZoom;
+        }
+        else if(m_counterZoom>-20)
+        {
+            --m_counterZoom;
+             m_view->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+        }
+         m_view->setResizeAnchor(QGraphicsView::NoAnchor);
+        m_view->setTransformationAnchor(QGraphicsView::NoAnchor);
+         return true;
+    }
+     return false;
+}
+void MainWindow::openImage()
+{
+    QString img = QFileDialog::getOpenFileName(this,tr("Open Background Image"),QDir::homePath());
+    if(!img.isEmpty())
+    {
+        QPixmap* pix = new QPixmap(img);
+        if(!pix->isNull())
+        {
+             Canvas* canvas = m_canvasList[m_currentPage];
+             canvas->setPixmap(pix);
+             QString id = QUuid::createUuid().toString();
+             m_pixList.insert(id,pix);
+             m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(m_currentPage).arg(id),*pix);
+             m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
+        }
+    }
+
+}
+
 void MainWindow::menuRequested(const QPoint & pos)
 {
     QMenu menu(this);
@@ -251,6 +312,7 @@ void MainWindow::setImage()
     {
         QString id = QUuid::createUuid().toString();
         QPixmap* pix = canvas->pixmap();
+        m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
         if(NULL==pix)
         {
             pix=new QPixmap();
@@ -573,10 +635,7 @@ void MainWindow::openQML()
         }
     }
 }
-bool MainWindow::eventFilter(QObject* obj, QEvent* ev)
-{
-    return QMainWindow::eventFilter(obj,ev);
-}
+
 bool MainWindow::qmlGeneration() const
 {
     return m_qmlGeneration;

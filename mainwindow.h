@@ -80,9 +80,11 @@ public slots:
     void menuRequestedForFieldModel(const QPoint &pos);
 
     void editColor(QModelIndex);
+    void openImage();
 protected:
     bool eventFilter(QObject *, QEvent *);
     void applyValue(QModelIndex &index, bool selection);
+    bool wheelEventForView(QWheelEvent *event);
 protected slots:
     void columnAdded();
 private slots:
@@ -101,6 +103,7 @@ private:
     CharacterSheetModel* m_characterModel;
     int m_currentPage;
     bool m_editedTextByHand;
+    int m_counterZoom;
 
 
 
