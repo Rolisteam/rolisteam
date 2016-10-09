@@ -4,7 +4,9 @@
 
 //
 class Field;
-
+/**
+ * @brief The CanvasField class is the representation of the field into GraphicsScene.
+ */
 class CanvasField : public QGraphicsObject
 {
     Q_OBJECT

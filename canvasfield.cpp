@@ -83,8 +83,12 @@ void CanvasField::paint ( QPainter * painter, const QStyleOptionGraphicsItem * o
 
     if(m_pix.isNull()||m_currentType!=m_field->getCurrentType())
     {
-        m_pix=QPixmap(m_pictureMap[m_field->getCurrentType()]).scaled(32,32);
-        m_currentType = m_field->getCurrentType();
+        QPixmap map = QPixmap(m_pictureMap[m_field->getCurrentType()]);
+        if(!map.isNull())
+        {
+            m_pix=map.scaled(32,32);
+            m_currentType = m_field->getCurrentType();
+        }
     }
     if(!m_pix.isNull())
     {
