@@ -140,6 +140,7 @@ void Section::load(QJsonObject &json,QList<QGraphicsScene*> scenes)
             if((NULL!=scene)&&(NULL!=gItem))
             {
                 scene->addItem(gItem);
+                item->initGraphicsItem();
             }
         }
         item->setParent(this);
