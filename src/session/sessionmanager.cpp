@@ -39,7 +39,7 @@ SessionManager::SessionManager()
     m_layout->setMargin(0);
     m_layout->addWidget(m_view);
     //m_internal = new QWidget(this);
-    m_layout->setParent(m_internal);
+    //m_layout->setParent(m_internal);
     //m_internal->setLayout(m_layout);
     //setWidget(m_internal);
     setLayout(m_layout);
