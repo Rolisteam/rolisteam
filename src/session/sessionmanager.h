@@ -114,7 +114,7 @@ private:
     PreferencesManager* m_options;
 
 
-    QWidget* m_internal;/// generic widget to bring together all the UI
+   // QWidget* m_internal;/// generic widget to bring together all the UI
     Chapter* m_currentChapter;/// current chapter pointer
     QHBoxLayout* m_layout;/// layout
 };
