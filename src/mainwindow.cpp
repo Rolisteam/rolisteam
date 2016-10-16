@@ -1358,6 +1358,7 @@ void MainWindow::setupUi()
     QDockWidget* dock2 = new QDockWidget(this);
     dock2->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
     dock2->setWidget(m_sessionManager);
+    dock2->setWindowTitle(tr("Resources Explorer"));
     dock2->setObjectName("sessionManager");
     addDockWidget(Qt::RightDockWidgetArea,dock2);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,dock2->toggleViewAction());
