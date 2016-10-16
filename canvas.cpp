@@ -28,7 +28,7 @@
 
 //#include "charactersheetbutton.h"
 
-Canvas::Canvas(QObject *parent) : QGraphicsScene(parent),m_bg(NULL),m_currentItem(NULL)
+Canvas::Canvas(QObject *parent) : QGraphicsScene(parent),m_bg(NULL),m_currentItem(NULL),m_pix(NULL)
 {
     setSceneRect(QRect(0,0,800,600));
 }
@@ -83,18 +83,27 @@ void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
 void Canvas::setCurrentTool(Canvas::Tool tool)
 {
     m_currentTool = tool;
+    if(NULL!=m_currentItem)
+    {
+       // deleteItem(m_currentItem);
+        m_currentItem=NULL;
+    }
 }
+void Canvas::deleteItem(QGraphicsItem* item)
+{
+     removeItem(item);
+     itemDeleted(item);
+}
+
 void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 {
-    if(m_currentTool==Canvas::MOVE)
+
+    if(mouseEvent->button() == Qt::LeftButton)
     {
-        if(mouseEvent->button() == Qt::LeftButton)
+        if(m_currentTool==Canvas::MOVE)
         {
-            QGraphicsScene::mousePressEvent(mouseEvent);
+                QGraphicsScene::mousePressEvent(mouseEvent);
         }
-    }
-    else if(mouseEvent->button() == Qt::LeftButton)
-    {
         if(m_currentTool==Canvas::DELETETOOL)
         {
             QList<QGraphicsItem *> itemList = items(mouseEvent->scenePos());
@@ -102,7 +111,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             {
                 if(item!=m_bg)
                 {
-                    removeItem(item);
+                    deleteItem(item);
                 }
             }
         }
@@ -142,6 +151,7 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     }
     else if(mouseEvent->button()==Qt::RightButton)
     {
+        QGraphicsScene::mousePressEvent(mouseEvent);
     }
 }
 void Canvas::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent )
@@ -165,8 +175,11 @@ void Canvas::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     {      
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
+    else
+    {
+        m_currentItem=NULL;
+    }
 }
-
 Canvas::Tool Canvas::currentTool() const
 {
     return m_currentTool;

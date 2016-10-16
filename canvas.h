@@ -47,8 +47,10 @@ public:
 
    Canvas::Tool currentTool() const;
 
+   void deleteItem(QGraphicsItem *item);
 signals:
     void imageChanged();
+    void itemDeleted(QGraphicsItem*);
 protected:
     void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
     void dropEvent ( QGraphicsSceneDragDropEvent * event );
