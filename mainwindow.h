@@ -81,6 +81,8 @@ public slots:
 
     void editColor(QModelIndex);
     void openImage();
+    void menuRequestedFromView(const QPoint &pos);
+    void setFitInView();
 protected:
     bool eventFilter(QObject *, QEvent *);
     void applyValue(QModelIndex &index, bool selection);
@@ -112,6 +114,7 @@ private:
     QAction* m_delItem;
     QAction* m_applyValueOnSelection;
     QAction* m_applyValueOnAllLines;
+    QAction* m_fitInView;
 
 };
 

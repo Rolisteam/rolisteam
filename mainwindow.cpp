@@ -73,7 +73,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     canvas->setModel(m_model);
     ui->treeView->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
-    m_view = new QGraphicsView();
+    m_view = new QGraphicsView(this);
+    m_view->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    m_fitInView = new QAction(tr("Fit the view"),m_view);
+    m_fitInView->setCheckable(true);
+    connect(m_fitInView,SIGNAL(triggered(bool)),this,SLOT(setFitInView()));
     m_view->installEventFilter(this);
     m_view->setAcceptDrops(true);
     m_view->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
@@ -81,6 +86,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_view->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform );
 
     connect(ui->m_backgroundImageAct,SIGNAL(triggered(bool)),this,SLOT(openImage()));
+    connect(m_view, SIGNAL(customContextMenuRequested(QPoint)),this, SLOT(menuRequestedFromView(QPoint)));
 
     m_view->setScene(canvas);
     ui->scrollArea->setWidget(m_view);
@@ -232,12 +238,33 @@ void MainWindow::openImage()
              QString id = QUuid::createUuid().toString();
              m_pixList.insert(id,pix);
              m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(m_currentPage).arg(id),*pix);
-             m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
+             //setFitInView(); //m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
         }
     }
 
 }
+void MainWindow::setFitInView()
+{
+    if(m_fitInView->isChecked())
+    {
+        Canvas* canvas = m_canvasList[m_currentPage];
+        QPixmap* pix = canvas->pixmap();
+        m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
+    }
+    else
+    {
+        m_view->fitInView(QRectF(m_view->rect()));
+    }
+}
 
+void MainWindow::menuRequestedFromView(const QPoint & pos)
+{
+    QMenu menu(this);
+
+    menu.addAction(m_fitInView);
+
+    menu.exec(QCursor::pos());
+}
 void MainWindow::menuRequested(const QPoint & pos)
 {
     QMenu menu(this);
@@ -312,7 +339,8 @@ void MainWindow::setImage()
     {
         QString id = QUuid::createUuid().toString();
         QPixmap* pix = canvas->pixmap();
-        m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
+        //m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
+        setFitInView();
         if(NULL==pix)
         {
             pix=new QPixmap();
@@ -479,7 +507,7 @@ void MainWindow::generateQML(QString& qml)
 {
 
     QTextStream text(&qml);
-    QPixmap* pix;
+    QPixmap* pix = NULL;
     bool allTheSame=true;
     QSize size;
     for(QPixmap* pix2 : m_pixList.values())
@@ -494,8 +522,16 @@ void MainWindow::generateQML(QString& qml)
 
     }
    // QPixmap pix = m_canvasList.pixmap();
+    qreal ratio = 1;
+    qreal ratioBis= 1;
+    bool hasImage= false;
     if((allTheSame)&&(NULL!=pix)&&(!pix->isNull()))
     {
+        ratio = (qreal)pix->width()/(qreal)pix->height();
+        ratioBis = (qreal)pix->height()/(qreal)pix->width();
+        hasImage=true;
+    }
+
         QString key = m_pixList.key(pix);
         text << "import QtQuick 2.4\n";
         text << "import \"qrc:/resources/qml/\"\n";
@@ -511,23 +547,29 @@ void MainWindow::generateQML(QString& qml)
         text << "   Keys.onLeftPressed: --page\n";
         text << "   Keys.onRightPressed: ++page\n";
         text << "   signal rollDiceCmd(string cmd)\n";
-        text << "   Image {\n";
-        text << "       id:imagebg" << "\n";
-        qreal ratio = (qreal)pix->width()/(qreal)pix->height();
-        qreal ratioBis = (qreal)pix->height()/(qreal)pix->width();
-        text << "       property real iratio :" << ratio << "\n";
-        text << "       property real iratiobis :" << ratioBis << "\n";
-        text << "       property real realscale: width/"<< pix->width() << "\n";
-        text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
-        text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
-        text << "       source: \"image://rcs/"+key+"_background_%1.jpg\".arg(root.page)" << "\n";
-        m_model->generateQML(text,CharacterSheetItem::FieldSec);
-        text << "\n";
-        text << "  }\n";
+        if(hasImage)
+        {
+            text << "   Image {\n";
+            text << "       id:imagebg" << "\n";
+            text << "       property real iratio :" << ratio << "\n";
+            text << "       property real iratiobis :" << ratioBis << "\n";
+            text << "       property real realscale: width/"<< pix->width() << "\n";
+            text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
+            text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
+            text << "       source: \"image://rcs/"+key+"_background_%1.jpg\".arg(root.page)" << "\n";
+            m_model->generateQML(text,CharacterSheetItem::FieldSec);
+            text << "\n";
+            text << "  }\n";
+        }
+        else
+        {
+            text << "       property real realscale: 1\n";
+            m_model->generateQML(text,CharacterSheetItem::FieldSec);
+        }
         text << "}\n";
         text.flush();
 
-    }
+
 }
 
 
