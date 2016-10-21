@@ -34,7 +34,7 @@
 #include "data/person.h"
 #include "data/character.h"
 #include "data/player.h"
-#include "persondialog.h"
+#include "widgets/persondialog.h"
 #include "userlist/playersList.h"
 
 
@@ -216,7 +216,9 @@ void PlayersListWidget::createLocalCharacter()
 
     if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->getColor()) == QDialog::Accepted)
     {
-        playersList->addLocalCharacter(new Character(m_personDialog->getName(), m_personDialog->getColor()));
+        Character* tmp = new Character(m_personDialog->getName(), m_personDialog->getColor());
+        tmp->setAvatar(QImage(m_personDialog->getAvatarUri()));
+        playersList->addLocalCharacter(tmp);
     }
 }
 
@@ -255,14 +257,10 @@ void PlayersListWidget::setUI()
 
     // Add PC button
     Player* tmp = PlayersList::instance()->getLocalPlayer();
-    QString what;
+    QString what = tr("PC");
     if(NULL!=tmp)
     {
         what = (tmp->isGM() ? tr("NPC") : tr("PC"));
-    }
-    else
-    {
-        what = tr("PC");
     }
 
     QPushButton * addPlayerButton = new QPushButton(tr("Add a %1").arg(what), centralWidget);

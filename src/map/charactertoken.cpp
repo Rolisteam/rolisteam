@@ -521,7 +521,7 @@ void CharacterToken::write(QDataStream &out)
         numeroDuPnj = 0;
     out << nomPerso << ident << pnj << numeroDuPnj << diametre << m_color << getCharacterCenter() << orientation << etat.couleurEtat << etat.nomEtat << numeroEtat << visible << orientationAffichee;
 }
-int CharacterToken::prepareToSendOff(NetworkMessageWriter* msg, bool convertirEnPnj)
+void CharacterToken::prepareToSendOff(NetworkMessageWriter* msg, bool convertirEnPnj)
 {
 
     QString ident;

@@ -184,7 +184,6 @@ void MainWindow::closeAllImagesAndMaps()
             removeMapFromId(tmp->getMediaId());
         }
     }
-
     foreach(VMapFrame* tmp,m_mapWindowVectorialMap.values())
     {
         if(NULL!=tmp)
@@ -1352,11 +1351,17 @@ void MainWindow::setupUi()
     m_chatListWidget = new ChatListWidget(this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_chatListWidget);
     addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
+    dock->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_chatListWidget->toggleViewAction());
 
 
-    addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_sessionManager->toggleViewAction());
+    QDockWidget* dock2 = new QDockWidget(this);
+    dock2->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
+    dock2->setWidget(m_sessionManager);
+    dock2->setWindowTitle(tr("Resources Explorer"));
+    dock2->setObjectName("sessionManager");
+    addDockWidget(Qt::RightDockWidgetArea,dock2);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,dock2->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
 
 
@@ -1805,6 +1810,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     //Toolbar to Map
     connect(m_vToolBar,SIGNAL(currentToolChanged(VToolsBar::SelectableTool)),tmp,SLOT(currentToolChanged(VToolsBar::SelectableTool)));
     connect(tmp,SIGNAL(defineCurrentTool(VToolsBar::SelectableTool)),m_vToolBar,SLOT(setCurrentTool(VToolsBar::SelectableTool)));
+    connect(map,SIGNAL(colorPipette(QColor)),m_vToolBar,SLOT(setCurrentColor(QColor)));
     connect(m_vToolBar,SIGNAL(currentColorChanged(QColor&)),tmp,SLOT(currentColorChanged(QColor&)));
     connect(m_vToolBar,SIGNAL(currentModeChanged(int)),tmp,SLOT(setEditingMode(int)));
     connect(m_vToolBar,SIGNAL(currentPenSizeChanged(int)),tmp,SLOT(currentPenSizeChanged(int)));
@@ -1890,6 +1896,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     case NetMsg::GeometryItemChanged:
     case NetMsg::OpacityItemChanged:
     case NetMsg::LayerItemChanged:
+    case NetMsg::MovePoint:
     case NetMsg::vmapChanges:
     case NetMsg::GeometryViewChanged:
     case NetMsg::SetParentItem:
@@ -1963,7 +1970,8 @@ void MainWindow::openRecentFile()
 }
 void MainWindow::updateRecentFileActions()
 {
-    QVariant var(CleverUriList);
+    QVariant var = QVariant::fromValue(CleverUriList());
+
     CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList >();
 
     int numRecentFiles = qMin(files.size(), m_maxSizeRecentFile);
@@ -1990,9 +1998,9 @@ void MainWindow::setLatestFile(CleverURI* fileName)
     // no online picture because they are handled in a really different way.
     if((NULL!=fileName)&&(fileName->getType()!=CleverURI::ONLINEPICTURE))
     {
-        QVariant var(CleverUriList());
+        QVariant var = QVariant::fromValue(CleverUriList());
 
-        CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList >();
+        CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList>();
 
         files.removeAll(*fileName);
         files.prepend(*fileName);

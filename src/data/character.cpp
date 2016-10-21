@@ -104,6 +104,11 @@ void Character::setListOfCharacterState(QList<CharacterState*>* list)
 {
     m_stateList = list;
 }
+int Character::indexOf(CharacterState* state)
+{
+    return m_stateList->indexOf(state);
+}
+
 CharacterState* Character::getStateFromLabel(QString label)
 {
     foreach(CharacterState* state, *m_stateList)
@@ -128,11 +133,7 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
     }
     message.string8(m_uuid);
     message.string16(m_name);
-	message.uint8(NULL!=m_currentState);
-	if(NULL!=m_currentState)
-	{
-		message.string16(m_currentState->getLabel());
-	}
+    message.int8(indexOf(m_currentState));
     message.uint8((int)m_isNpc);
     message.int32(m_number);
     message.rgb(m_color);
@@ -161,14 +162,12 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
 QString Character::read(NetworkMessageReader& msg)
 {
     QString parentId = msg.string8();
-    //PlayersList* list = PlayersList::getInstance();
-
     m_uuid = msg.string8();
     m_name = msg.string16();
-    bool hasCurrentState = msg.uint8();
-    if(hasCurrentState)
+    int currentStateIndex = msg.int8();
+    if(currentStateIndex>=0)
     {
-        m_currentState = getStateFromLabel(msg.string16());
+        m_currentState = getStateFromIndex(currentStateIndex);
     }
     m_isNpc = (bool)msg.uint8();
     m_number = msg.int32();
@@ -182,6 +181,15 @@ QString Character::read(NetworkMessageReader& msg)
     }
 
     return parentId;
+}
+CharacterState* Character::getStateFromIndex(int i)
+{
+    if(m_stateList->empty())
+        return NULL;
+    if(m_stateList->size()>i)
+    {
+        return m_stateList->at(i);
+    }
 }
 
 Player* Character::getParentPlayer() const

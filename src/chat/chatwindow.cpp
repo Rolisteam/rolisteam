@@ -390,10 +390,14 @@ QString ChatWindow::diceToText(ExportedDiceResult& dice)
             QStringList diceListStr;
             if((previousHighlight)&&(!tmp.isHighlighted()))
             {
-                QStringList list;
-                list << patternColor+currentStreak.join(',')+"</span>";
-                allStreakList.append(list);
-                currentStreak.clear();
+                if(!currentStreak.isEmpty())
+                {
+                    QStringList list;
+                    list << patternColor+currentStreak.join(',')+"</span>";
+                    allStreakList.append(list);
+                    currentStreak.clear();
+                }
+
             }
             else if((!previousHighlight)&&(tmp.isHighlighted()))
             {

@@ -169,6 +169,11 @@ public:
      */
     void processDelItemMessage(NetworkMessageReader* msg);
     /**
+     * @brief processMovePointMsg
+     * @param msg
+     */
+    void processMovePointMsg(NetworkMessageReader* msg);
+    /**
      * @brief manageAnchor
      */
     void manageAnchor();
@@ -251,14 +256,40 @@ public:
      * @param send
      */
     void setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send = true);
+    /**
+     * @brief currentLayer
+     * @return
+     */
     VisualItem::Layer currentLayer() const;
+    /**
+     * @brief setCurrentLayer
+     * @param currentLayer
+     */
     void setCurrentLayer(const VisualItem::Layer &currentLayer);
-
-    VToolsBar::SelectableTool getSelectedtool() const;
-
+    /**
+     * @brief getSelectedtool
+     * @return
+     */
+  VToolsBar::SelectableTool getSelectedtool() const;
+    /**
+     * @brief processZValueMsg
+     * @param msg
+     */
     void processZValueMsg(NetworkMessageReader *msg);
+    /**
+     * @brief processRotationMsg
+     * @param msg
+     */
     void processRotationMsg(NetworkMessageReader *msg);
+    /**
+     * @brief processRectGeometryMsg
+     * @param msg
+     */
     void processRectGeometryMsg(NetworkMessageReader *msg);
+    /**
+     * @brief processCharacterStateHasChanged
+     * @param msg
+     */
     void processCharacterStateHasChanged(NetworkMessageReader &msg);
 public slots:
     /**
@@ -285,7 +316,14 @@ public slots:
      * @param number
      */
     void setCurrentNpcNumber(int number);
+    /**
+     * @brief setId
+     * @param id
+     */
     void setId(QString id);
+    /**
+     * @brief removeItemFromScene
+     */
     void removeItemFromScene(QString ,bool = true);
     /**
      * @brief VMap::computePattern
@@ -336,14 +374,34 @@ public slots:
      * @param op operation to be done.
      */
     void changeStackOrder(VisualItem* item,VisualItem::StackOrder op);
-
+    /**
+     * @brief addImageItem
+     * @param file
+     */
     void addImageItem(QString file);
-
+    /**
+     * @brief setCurrentItemOpacity
+     */
     void setCurrentItemOpacity(qreal);
-
+    /**
+     * @brief selectionHasChanged
+     */
     void selectionHasChanged();
+    /**
+     * @brief processLayerMessage
+     * @param msg
+     */
     void processLayerMessage(NetworkMessageReader *msg);
+    /**
+     * @brief ownerHasChangedForCharacterItem
+     * @param item
+     * @param cItem
+     */
     void ownerHasChangedForCharacterItem(Character *item, CharacterItem *cItem);
+    /**
+     * @brief selectionPositionHasChanged
+     */
+    void selectionPositionHasChanged();
 signals:
     /**
      * @brief npcAdded
@@ -362,6 +420,10 @@ signals:
      * @brief currentItemOpacity
      */
     void currentItemOpacity(qreal);
+    /**
+     * @brief colorPipette
+     */
+    void colorPipette(QColor);
 private slots:
     /**
      * @brief sendItemToAll

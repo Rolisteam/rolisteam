@@ -80,6 +80,7 @@ include(src/widgets/MRichTextEditor/MRichTextEditor.pri)
 include(src/widgets/gmtoolbox/NameGenerator/NameGenerator.pri)
 include(src/widgets/gmtoolbox/UnitConvertor/UnitConvertor.pri)
 
+   #     src/persondialog.h \
 ## Source
 HEADERS += \
         src/chat/chat.h \
@@ -92,7 +93,6 @@ HEADERS += \
         src/network/networkmessage.h \
         src/network/networkmessagereader.h \
         src/network/networkmessagewriter.h \
-        src/persondialog.h \
         src/userlist/playersList.h \
         src/userlist/playerslistproxy.h \
         src/userlist/playersListWidget.h \
@@ -150,9 +150,11 @@ HEADERS += \
         src/network/selectconnectionprofiledialog.h \
     src/services/updaterwindow.h \
     src/widgets/realslider.h \
-    src/network/heartbeatsender.h
+    src/network/heartbeatsender.h \
+    src/widgets/persondialog.h
 
 
+   #     src/persondialog.cpp \
 
 SOURCES += \
         src/chat/chat.cpp \
@@ -166,7 +168,6 @@ SOURCES += \
         src/network/networkmessage.cpp \
         src/network/networkmessagereader.cpp \
         src/network/networkmessagewriter.cpp \
-        src/persondialog.cpp \
         src/userlist/playersList.cpp \
         src/userlist/playerslistproxy.cpp \
         src/userlist/playersListWidget.cpp \
@@ -223,7 +224,8 @@ SOURCES += \
         src/network/selectconnectionprofiledialog.cpp \
     src/services/updaterwindow.cpp \
     src/widgets/realslider.cpp \
-    src/network/heartbeatsender.cpp
+    src/network/heartbeatsender.cpp \
+    src/widgets/persondialog.cpp
 
 
 FORMS += \
@@ -236,7 +238,8 @@ FORMS += \
     src/mainwindow.ui \
     src/widgets/onlinepicturedialog.ui \
     src/widgets/aboutrolisteam.ui \
-    src/network/selectconnectionprofiledialog.ui
+    src/network/selectconnectionprofiledialog.ui \
+    src/widgets/persondialog.ui
 #end source
 
 

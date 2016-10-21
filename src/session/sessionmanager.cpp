@@ -38,10 +38,11 @@ SessionManager::SessionManager()
     m_layout = new QHBoxLayout();
     m_layout->setMargin(0);
     m_layout->addWidget(m_view);
-    m_internal = new QWidget(this);
-    m_layout->setParent(m_internal);
-    m_internal->setLayout(m_layout);
-    setWidget(m_internal);
+    //m_internal = new QWidget(this);
+    //m_layout->setParent(m_internal);
+    //m_internal->setLayout(m_layout);
+    //setWidget(m_internal);
+    setLayout(m_layout);
     
     setWindowTitle(tr("Resources Explorer"));
     
@@ -102,7 +103,7 @@ void SessionManager::addChapter(QModelIndex& index)
 }
 void SessionManager::closeEvent ( QCloseEvent * event )
 {
-    QDockWidget::closeEvent(event);
+    QWidget::closeEvent(event);
     if(event->isAccepted())
     {
         emit changeVisibility(false);

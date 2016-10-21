@@ -38,6 +38,11 @@
 #define MARGING 1
 #define MINI_VALUE 25
 #define RADIUS_CORNER 10
+#define MAX_CORNER_ITEM 6
+#define DIRECTION_RADIUS_HANDLE 4
+#define ANGLE_HANDLE 5
+
+
 CharacterItem::CharacterItem()
 : VisualItem(),m_character(NULL),m_thumnails(NULL),m_protectGeometryChange(false)
 {
@@ -61,6 +66,7 @@ void CharacterItem::writeData(QDataStream& out) const
     out << m_diameter;
     out << *m_thumnails;
     out << m_rect;
+    out << opacity();
     out << (int)m_layer;
     //out << zValue();
     if(NULL!=m_character)
@@ -81,6 +87,11 @@ void CharacterItem::readData(QDataStream& in)
     m_thumnails = new QPixmap();
     in >> *m_thumnails;
     in >> m_rect;
+
+    qreal opa=0;
+    in >> opa;
+    setOpacity(opa);
+
     int tmp;
     in >> tmp;
     m_layer = (VisualItem::Layer)tmp;
@@ -287,6 +298,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 
     msg->uint8(m_layer);
     msg->real(zValue());
+    msg->real(opacity());
 
     //pos
     msg->real(pos().x());
@@ -325,6 +337,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     m_layer = (VisualItem::Layer)msg->uint8();
 
     setZValue(msg->real());
+    setOpacity(msg->real());
 
     qreal x = msg->real();
     qreal y = msg->real();
@@ -401,6 +414,10 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &va
     QVariant newValue = value;
     if(change == QGraphicsItem::ItemPositionChange)
     {
+        if(!getOption(VisualItem::CollisionStatus).toBool())
+        {
+            return VisualItem::itemChange(change, newValue);
+        }
         m_oldPosition = pos();
         QList<QGraphicsItem*> list = collidingItems();
         //qDebug()<<"collision list:"<<list;
@@ -416,21 +433,25 @@ QVariant CharacterItem::itemChange(GraphicsItemChange change, const QVariant &va
         for(QGraphicsItem* item : list)
         {
             VisualItem* vItem = dynamic_cast<VisualItem*>(item);
-            if(NULL!=vItem)
+            if((NULL!=vItem)&&(vItem!=this))
             {
-                //qDebug() << (vItem->getLayer()==VisualItem::OBJECT)<< (int)vItem->getLayer();
-                if(vItem->getLayer()==VisualItem::OBJECT)
+                if((vItem->getLayer()==VisualItem::OBJECT))
                 {
                    newValue = m_oldPosition;
                 }
             }
         }
+        QVariant var = VisualItem::itemChange(change, newValue);
         if(newValue!=m_oldPosition)
         {
             emit positionChanged();
         }
+        return var;
     }
-    return VisualItem::itemChange(change, newValue);
+    else
+    {
+        return VisualItem::itemChange(change, newValue);
+    }
 }
 int CharacterItem::getChildPointCount() const
 {
@@ -457,12 +478,31 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         pos.setX(rect.bottomLeft().y()-pos.y());
         rect.setBottomLeft(pos);
         break;
-    case 4:
+    case DIRECTION_RADIUS_HANDLE:
         if(pos.x()-(m_rect.width()/2)<0)
         {
             pos.setX(m_rect.width()/2);
         }
         m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width()+m_rect.width()/2);
+        break;
+    case ANGLE_HANDLE:
+    {
+        if(pos.x()-(m_vision->getRadius()+getRadius()/2))
+        {
+            pos.setX(m_vision->getRadius()+getRadius()/2);
+        }
+        if(pos.y()<-360)
+        {
+            pos.setY(-360);
+        }
+
+        if(pos.y()>0)
+        {
+            pos.setY(0);
+        }
+        qreal angle = 360*(fabs(pos.y())/360);
+        m_vision->setAngle(angle);
+    }
         break;
     default:
        // emit geometryChangeOnUnkownChild(pointId,pos);
@@ -512,7 +552,10 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
        // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
-    case 4:
+    case DIRECTION_RADIUS_HANDLE:
+        m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius()+getRadius())/2,-m_vision->getAngle());
+        break;
+    case ANGLE_HANDLE:
         break;
     default:
         break;
@@ -524,7 +567,7 @@ void CharacterItem::initChildPointItem()
 {
     m_child = new QVector<ChildPointItem*>();
 
-    for(int i = 0; i< 5 ; ++i)
+    for(int i = 0; i<= MAX_CORNER_ITEM ; ++i)
     {
         ChildPointItem* tmp = new ChildPointItem(i,this,(i==4));
         tmp->setMotion(ChildPointItem::ALL);
@@ -532,10 +575,13 @@ void CharacterItem::initChildPointItem()
         m_child->append(tmp);
     }
 
-    m_child->at(4)->setMotion(ChildPointItem::X_AXIS);
-    m_child->at(4)->setRotationEnable(false);
-    m_child->at(4)->setVisible(false);
+    m_child->at(DIRECTION_RADIUS_HANDLE)->setMotion(ChildPointItem::X_AXIS);
+    m_child->at(DIRECTION_RADIUS_HANDLE)->setRotationEnable(false);
+    m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
 
+    m_child->at(ANGLE_HANDLE)->setMotion(ChildPointItem::Y_AXIS);
+    m_child->at(ANGLE_HANDLE)->setRotationEnable(true);
+    m_child->at(ANGLE_HANDLE)->setVisible(false);
 
     updateChildPosition();
 
@@ -547,6 +593,11 @@ ChildPointItem* CharacterItem::getRadiusChildWidget()
     {
         return  m_child->value(4);
     }
+}
+QColor CharacterItem::getColor()
+{
+    if(NULL!= m_character)
+        return m_character->getColor();
 }
 
 void CharacterItem::updateChildPosition()
@@ -561,7 +612,9 @@ void CharacterItem::updateChildPosition()
     m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
 
 
-    m_child->value(4)->setPos(m_vision->getRadius()+getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
+    m_child->value(DIRECTION_RADIUS_HANDLE)->setPos(m_vision->getRadius()+getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
+
+    m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius()+getRadius())/2,-m_vision->getAngle());
 
     setTransformOriginPoint(m_rect.center());
 
@@ -631,6 +684,9 @@ void CharacterItem::createActions()
 
 	connect(m_visionShapeAngle,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
 	connect(m_visionShapeDisk,SIGNAL(triggered()),this,SLOT(changeVisionShape()));
+
+
+    connect(PlayersList::instance(),SIGNAL(characterDeleted(Character*)),this,SLOT(characterHasBeenDeleted(Character*)));
 }
 void CharacterItem::changeVisionShape()
 {
@@ -705,6 +761,14 @@ void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
 
 }
 
+void CharacterItem::characterHasBeenDeleted(Character* pc)
+{
+    if(pc == m_character)
+    {
+        m_character = NULL;
+    }
+}
+
 void CharacterItem::addChildPoint(ChildPointItem* item)
 {
     if(NULL!=m_child)
@@ -745,6 +809,7 @@ void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
         setZValue(z);
         blockSignals(false);
     }
+    update();
 }
 bool CharacterItem::isLocal()
 {
@@ -757,7 +822,9 @@ bool CharacterItem::isLocal()
 void CharacterItem::setCharacterIsMovable(bool isMovable)
 {
 
-    if((isLocal()&&(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)))
+    if((m_propertiesHash->value(VisualItem::LocalIsGM).toBool())||
+       (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)||
+            (isLocal()&&(getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)))
     {
         if(!isEditable())
         {

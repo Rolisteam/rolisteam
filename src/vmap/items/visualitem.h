@@ -66,7 +66,8 @@ public:
         Unit,
         EnableCharacterVision,
         PermissionMode,
-        FogOfWarStatus
+        FogOfWarStatus,
+        CollisionStatus
                     };
 	/**
 	 * @brief VisualItem default constructor
@@ -94,6 +95,11 @@ public:
 	 * @param penColor
 	 */
     virtual void setPenColor(QColor& penColor);
+    /**
+     * @brief getColor
+     * @return
+     */
+    virtual QColor getColor();
 	/**
 	 * @brief writeData
 	 * @param out
@@ -245,11 +251,12 @@ public:
      * @brief setEditableItem
      */
     virtual void setEditableItem(bool);
-    void readOpacityMsg(NetworkMessageReader *msg);
+    void readOpacityMsg(NetworkMessageReader* msg);
     bool getHoldSize() const;
     void setHoldSize(bool holdSize);
 
-    void readLayerMsg(NetworkMessageReader *msg);
+    virtual void readLayerMsg(NetworkMessageReader* msg);
+    virtual void readMovePointMsg(NetworkMessageReader* msg);
     virtual bool isLocal();
 
 signals:
@@ -281,6 +288,11 @@ signals:
      * @brief changeStackPosition
      */
     void changeStackPosition(VisualItem*,  VisualItem::StackOrder);
+
+    /**
+     * @brief itemPositionHasChanged
+     */
+    void itemPositionHasChanged();
 
 public slots:
     /**

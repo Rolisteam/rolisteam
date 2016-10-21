@@ -23,6 +23,7 @@
 #include <QMenu>
 #include <QDebug>
 
+#include "map/map.h"
 
 
 #include "network/networkmessagewriter.h"
@@ -83,7 +84,6 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         path.moveTo(m_start);
         foreach(QPointF p,m_pointVector)
         {
-            qDebug() << p << m_start;
             path.lineTo(p);
         }
         if(m_closed)
@@ -130,7 +130,6 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 void PathItem::setNewEnd(QPointF& p)
 {
     m_end = p;
-    qDebug() << p << m_start << m_pointVector.size();
     if(m_penMode)
     {
         m_pointVector.append(p);
@@ -160,6 +159,7 @@ void PathItem::writeData(QDataStream& out) const
     out << m_start;
     out << m_pointVector;
     out << m_path;
+    out << opacity();
     out << m_pen;
     out << m_closed;
     out << scale();
@@ -175,6 +175,9 @@ void PathItem::readData(QDataStream& in)
     in >> m_start;
     in >> m_pointVector;
     in >> m_path;
+    qreal opa=0;
+    in >> opa;
+    setOpacity(opa);
     in >> m_pen;
     in >> m_closed;
     qreal scale;
@@ -204,6 +207,7 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->uint8(m_penMode);
     msg->uint8((VisualItem::Layer)m_layer);
     msg->real(zValue());
+     msg->real(opacity());
     //pen
     msg->uint16(m_pen.width());
     msg->rgb(m_pen.color());
@@ -230,6 +234,8 @@ void PathItem::readItem(NetworkMessageReader* msg)
     m_penMode = (bool)msg->uint8();
     m_layer = (VisualItem::Layer)msg->uint8();
     setZValue(msg->real());
+    setOpacity(msg->real());
+
     //pen
     m_pen.setWidth(msg->int16());
     m_pen.setColor(msg->rgb());
@@ -275,6 +281,9 @@ void PathItem::setGeometryPoint(qreal pointId, QPointF &pos)
     }
     else
     {
+        m_resizing = true;
+        m_changedPointId = pointId;
+        m_changedPointPos = pos;
         m_pointVector[(int)pointId]=pos;
     }
 }
@@ -327,6 +336,22 @@ void PathItem::setStartPoint(QPointF start)
 {
     m_start = start;
 }
+void PathItem::readMovePointMsg(NetworkMessageReader* msg)
+{
+    qreal pointid = msg->real();
+    qreal x = msg->real();
+    qreal y = msg->real();
+    if(-1==pointid)
+    {
+        m_start = QPointF(x,y);
+    }
+    else
+    {
+        m_pointVector[(int)pointid]=QPointF(x,y);
+    }
+    update();
+}
+
 
 void PathItem::setPath(QVector<QPointF> points)
 {
@@ -337,4 +362,29 @@ void PathItem::setClosed(bool b)
 {
     m_closed = b;
     update();
+}
+void PathItem::endOfGeometryChange()
+{
+    if(m_resizing)
+    {
+        sendPointPosition();
+        m_resizing =false;
+    }
+}
+void PathItem::sendPointPosition()
+{
+    if((getOption(VisualItem::LocalIsGM).toBool()) ||
+            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
+            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
+             (getType() == VisualItem::CHARACTER)&&
+             (isLocal())))//getOption PermissionMode
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MovePoint);
+        msg.string8(m_mapId);
+        msg.string16(m_id);
+        msg.real(m_changedPointId);
+        msg.real(m_changedPointPos.x());
+        msg.real(m_changedPointPos.y());
+        msg.sendAll();
+    }
 }

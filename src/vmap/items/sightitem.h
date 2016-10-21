@@ -175,7 +175,9 @@ public slots:
      * @param item
      */
     void removeVision(CharacterItem* item);
-
+    /**
+     * @brief setGM
+     */
     void setGM(bool);
 
 protected:
@@ -185,12 +187,6 @@ private:
     CharacterVision::SHAPE m_defaultShape;
     qreal m_defaultAngle;
     qreal m_defaultRadius;
-
-
-    /*QAction* m_diskShape;
-    QAction* m_angleShape;*/
-
- //   QMap<qreal,CharacterVision*> m_visionMap;
     QMap<QString,CharacterItem*>* m_characterItemMap;
     QColor m_bgColor;
     QImage m_image;

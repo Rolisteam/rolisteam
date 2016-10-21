@@ -117,6 +117,10 @@ void VisualItem::setEditableItem(bool b)
         }
     }
 }
+QColor VisualItem::getColor()
+{
+    return m_color;
+}
 
 void VisualItem::setPenColor(QColor& penColor)
 {
@@ -136,7 +140,8 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mouseReleaseEvent(event);
-    sendPositionMsg();
+    //sendPositionMsg();
+    emit itemPositionHasChanged();
 }
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {
@@ -430,6 +435,9 @@ void VisualItem::rotationChange()
 
 void VisualItem::sendPositionMsg()
 {
+    if(m_pointList.isEmpty())
+        return;
+
     if((getOption(VisualItem::LocalIsGM).toBool()) ||
             (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
             ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
@@ -535,6 +543,10 @@ void VisualItem::readRectGeometryMsg(NetworkMessageReader* msg)
     setRectSize(xR,yR,w,h);
     blockSignals(false);
     update();
+}
+void VisualItem::readMovePointMsg(NetworkMessageReader* msg)
+{
+    //Do nothing - only used for now on by pathItem.
 }
 
 void VisualItem::setRectSize(qreal x,qreal y,qreal w,qreal h)

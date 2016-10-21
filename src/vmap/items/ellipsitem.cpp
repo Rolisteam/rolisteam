@@ -53,6 +53,17 @@ QPainterPath EllipsItem::shape() const
 {
 	QPainterPath path;
 	path.addEllipse(boundingRect());
+
+    if(!m_filled)
+    {
+        QPainterPath subpath;
+
+        QRectF rect = boundingRect();
+        rect.adjust(m_penWidth,m_penWidth,-m_penWidth,-m_penWidth);
+        subpath.addEllipse(rect);
+        path -= subpath;
+    }
+
 	return path;
 }
 void EllipsItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
@@ -95,6 +106,7 @@ void EllipsItem::writeData(QDataStream& out) const
     out << m_rx;
     out << m_ry;
     out << (int)m_layer;
+    out << opacity();
     out << m_center;
     out << m_filled;
     out << m_color;
@@ -112,6 +124,9 @@ void EllipsItem::readData(QDataStream& in)
     int lay;
     in >> lay;
     m_layer = (VisualItem::Layer)lay;
+    qreal opa=0;
+    in >> opa;
+    setOpacity(opa);
     in >> m_center;
     in >> m_filled;
     in >> m_color;
@@ -139,6 +154,7 @@ void EllipsItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(rotation());
     msg->uint8((int)m_layer);
     msg->real(zValue());
+    msg->real(opacity());
     //
     msg->real(pos().x());
     msg->real(pos().y());
@@ -159,6 +175,9 @@ void EllipsItem::readItem(NetworkMessageReader* msg)
     setRotation(msg->real());
     m_layer = (VisualItem::Layer)msg->uint8();
     setZValue(msg->real());
+    setOpacity(msg->real());
+
+    //x , y
     qreal posx = msg->real();
     qreal posy = msg->real();
 

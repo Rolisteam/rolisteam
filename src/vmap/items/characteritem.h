@@ -197,6 +197,9 @@ public:
     bool isNpc();
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
     void readCharacterStateChanged(NetworkMessageReader &msg);
+
+    virtual QColor getColor();
+
 signals:
     /**
      * @brief positionChanged
@@ -221,6 +224,10 @@ signals:
     void ownerChanged(Character* old,CharacterItem*);
 
 public slots:
+    /**
+     * @brief characterHasBeenDeleted
+     */
+    void characterHasBeenDeleted(Character*);
     /**
      * @brief changeVisionShape
      */

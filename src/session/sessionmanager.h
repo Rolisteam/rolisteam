@@ -34,7 +34,7 @@ class PreferencesManager;
 /**
     * @brief SessionManager is a dockwidget which displays all loaded resources in the current session. It provides shortcut to open them. It is part of the MVC architecture. It manages the view and the model.
     */
-class SessionManager : public QDockWidget
+class SessionManager : public QWidget
 {
     Q_OBJECT
 public:
@@ -114,7 +114,7 @@ private:
     PreferencesManager* m_options;
 
 
-    QWidget* m_internal;/// generic widget to bring together all the UI
+   // QWidget* m_internal;/// generic widget to bring together all the UI
     Chapter* m_currentChapter;/// current chapter pointer
     QHBoxLayout* m_layout;/// layout
 };
