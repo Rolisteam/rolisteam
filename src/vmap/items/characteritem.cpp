@@ -38,6 +38,11 @@
 #define MARGING 1
 #define MINI_VALUE 25
 #define RADIUS_CORNER 10
+#define MAX_CORNER_ITEM 6
+#define DIRECTION_RADIUS_HANDLE 4
+#define ANGLE_HANDLE 5
+
+
 CharacterItem::CharacterItem()
 : VisualItem(),m_character(NULL),m_thumnails(NULL),m_protectGeometryChange(false)
 {
@@ -473,12 +478,31 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         pos.setX(rect.bottomLeft().y()-pos.y());
         rect.setBottomLeft(pos);
         break;
-    case 4:
+    case DIRECTION_RADIUS_HANDLE:
         if(pos.x()-(m_rect.width()/2)<0)
         {
             pos.setX(m_rect.width()/2);
         }
         m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width()+m_rect.width()/2);
+        break;
+    case ANGLE_HANDLE:
+    {
+        if(pos.x()-(m_vision->getRadius()+getRadius()/2))
+        {
+            pos.setX(m_vision->getRadius()+getRadius()/2);
+        }
+        if(pos.y()<-360)
+        {
+            pos.setY(-360);
+        }
+
+        if(pos.y()>0)
+        {
+            pos.setY(0);
+        }
+        qreal angle = 360*(fabs(pos.y())/360);
+        m_vision->setAngle(angle);
+    }
         break;
     default:
        // emit geometryChangeOnUnkownChild(pointId,pos);
@@ -528,7 +552,10 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
        // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
-    case 4:
+    case DIRECTION_RADIUS_HANDLE:
+        m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius()+getRadius())/2,-m_vision->getAngle());
+        break;
+    case ANGLE_HANDLE:
         break;
     default:
         break;
@@ -540,7 +567,7 @@ void CharacterItem::initChildPointItem()
 {
     m_child = new QVector<ChildPointItem*>();
 
-    for(int i = 0; i< 5 ; ++i)
+    for(int i = 0; i<= MAX_CORNER_ITEM ; ++i)
     {
         ChildPointItem* tmp = new ChildPointItem(i,this,(i==4));
         tmp->setMotion(ChildPointItem::ALL);
@@ -548,10 +575,13 @@ void CharacterItem::initChildPointItem()
         m_child->append(tmp);
     }
 
-    m_child->at(4)->setMotion(ChildPointItem::X_AXIS);
-    m_child->at(4)->setRotationEnable(false);
-    m_child->at(4)->setVisible(false);
+    m_child->at(DIRECTION_RADIUS_HANDLE)->setMotion(ChildPointItem::X_AXIS);
+    m_child->at(DIRECTION_RADIUS_HANDLE)->setRotationEnable(false);
+    m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
 
+    m_child->at(ANGLE_HANDLE)->setMotion(ChildPointItem::Y_AXIS);
+    m_child->at(ANGLE_HANDLE)->setRotationEnable(true);
+    m_child->at(ANGLE_HANDLE)->setVisible(false);
 
     updateChildPosition();
 
@@ -582,7 +612,9 @@ void CharacterItem::updateChildPosition()
     m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
 
 
-    m_child->value(4)->setPos(m_vision->getRadius()+getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
+    m_child->value(DIRECTION_RADIUS_HANDLE)->setPos(m_vision->getRadius()+getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
+
+    m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius()+getRadius())/2,-m_vision->getAngle());
 
     setTransformOriginPoint(m_rect.center());
 
