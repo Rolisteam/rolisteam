@@ -21,21 +21,38 @@
 #define PERSONDIALOG_H
 
 #include <QDialog>
+#include <QLineEdit>
+
+#include "widgets/colorbutton.h"
 
 namespace Ui {
 class PersonDialog;
 }
-
+/**
+ * @brief The PersonDialog class asks for all details about new character.
+ */
 class PersonDialog : public QDialog
 {
     Q_OBJECT
 
 public:
     explicit PersonDialog(QWidget *parent = 0);
-    ~PersonDialog();
+    virtual ~PersonDialog();
+
+    QString getName() const;
+    QColor  getColor() const;
+    QString  getAvatarUri() const;
+
+public slots :
+    int edit(QString title, QString name, QColor color);
+
+    void openImage();
+protected:
+    void setVisible(bool visible);
 
 private:
     Ui::PersonDialog *ui;
+    QString m_avatar;
 };
 
 #endif // PERSONDIALOG_H
