@@ -487,9 +487,9 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         break;
     case ANGLE_HANDLE:
     {
-        if(pos.x()-(m_vision->getRadius()+getRadius()/2))
+        if(pos.x()-((m_vision->getRadius()+getRadius())/2)!=0)
         {
-            pos.setX(m_vision->getRadius()+getRadius()/2);
+            pos.setX((m_vision->getRadius()+getRadius())/2);
         }
         if(pos.y()<-360)
         {
@@ -567,9 +567,9 @@ void CharacterItem::initChildPointItem()
 {
     m_child = new QVector<ChildPointItem*>();
 
-    for(int i = 0; i<= MAX_CORNER_ITEM ; ++i)
+    for(int i = 0; i< MAX_CORNER_ITEM ; ++i)
     {
-        ChildPointItem* tmp = new ChildPointItem(i,this,(i==4));
+        ChildPointItem* tmp = new ChildPointItem(i,this,(i==DIRECTION_RADIUS_HANDLE));
         tmp->setMotion(ChildPointItem::ALL);
         tmp->setRotationEnable(true);
         m_child->append(tmp);
@@ -580,7 +580,7 @@ void CharacterItem::initChildPointItem()
     m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
 
     m_child->at(ANGLE_HANDLE)->setMotion(ChildPointItem::Y_AXIS);
-    m_child->at(ANGLE_HANDLE)->setRotationEnable(true);
+    m_child->at(ANGLE_HANDLE)->setRotationEnable(false);
     m_child->at(ANGLE_HANDLE)->setVisible(false);
 
     updateChildPosition();
@@ -591,7 +591,7 @@ ChildPointItem* CharacterItem::getRadiusChildWidget()
 {
     if(m_child->size()>=5)
     {
-        return  m_child->value(4);
+        return  m_child->value(DIRECTION_RADIUS_HANDLE);
     }
 }
 QColor CharacterItem::getColor()
@@ -612,9 +612,14 @@ void CharacterItem::updateChildPosition()
     m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
 
 
-    m_child->value(DIRECTION_RADIUS_HANDLE)->setPos(m_vision->getRadius()+getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
+    qDebug() << "raduis " << m_vision->getRadius() << m_rect;
+
+
+    m_child->value(DIRECTION_RADIUS_HANDLE)->setPos(m_vision->getRadius()+getRadius(),m_rect.height()/2-m_child->value(DIRECTION_RADIUS_HANDLE)->boundingRect().height()/2);
+
 
     m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius()+getRadius())/2,-m_vision->getAngle());
+    m_child->value(ANGLE_HANDLE)->setVisionHandler(true);
 
     setTransformOriginPoint(m_rect.center());
 
