@@ -291,6 +291,7 @@ public:
      * @param msg
      */
     void processCharacterStateHasChanged(NetworkMessageReader &msg);
+    void processVisionMsg(NetworkMessageReader *msg);
 public slots:
     /**
     * @brief defines the current tools

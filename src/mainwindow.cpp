@@ -1907,6 +1907,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     case NetMsg::RectGeometryItem:
     case NetMsg::RotationItem:
     case NetMsg::characterStateChanged:
+    case NetMsg::VisionChanged:
     case NetMsg::ZValueItem:
     {
         QString vmapId = msg->string8();

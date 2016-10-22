@@ -44,13 +44,13 @@
 
 
 CharacterItem::CharacterItem()
-: VisualItem(),m_character(NULL),m_thumnails(NULL),m_protectGeometryChange(false)
+: VisualItem(),m_character(NULL),m_thumnails(NULL),m_protectGeometryChange(false),m_visionChanged(false)
 {
     createActions();
 }
 
 CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
-    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL),m_protectGeometryChange(false)
+    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL),m_protectGeometryChange(false),m_visionChanged(false)
 {
 	setPos(m_center-QPoint(diameter/2,diameter/2));
 	sizeChanged(diameter);
@@ -241,6 +241,10 @@ void CharacterItem::sizeChanged(int m_size)
 	m_rect.setRect(0,0,m_diameter,m_diameter);
     generatedThumbnail();
     m_resizing = true;
+}
+void CharacterItem::visionChanged()
+{
+    m_visionChanged = true;
 }
 void CharacterItem::setSize(QSizeF size)
 {
@@ -484,6 +488,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
             pos.setX(m_rect.width()/2);
         }
         m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width()+m_rect.width()/2);
+        visionChanged();
         break;
     case ANGLE_HANDLE:
     {
@@ -502,6 +507,7 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         }
         qreal angle = 360*(fabs(pos.y())/360);
         m_vision->setAngle(angle);
+        visionChanged();
     }
         break;
     default:
@@ -823,6 +829,37 @@ bool CharacterItem::isLocal()
         return true;
     }
     return false;
+}
+void CharacterItem::sendVisionMsg()
+{
+    if((getOption(VisualItem::LocalIsGM).toBool()) ||
+            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
+            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
+             (getType() == VisualItem::CHARACTER)&&
+             (isLocal())))//getOption PermissionMode
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::VisionChanged);
+        msg.string8(m_mapId);
+        msg.string16(getCharacterId());
+        msg.string16(m_id);
+        m_vision->fill(&msg);
+        msg.sendAll();
+    }
+}
+void CharacterItem::readVisionMsg(NetworkMessageReader* msg)
+{
+    m_vision->readMessage(msg);
+    update();
+}
+
+void CharacterItem::endOfGeometryChange()
+{
+    if(m_visionChanged)
+    {
+        sendVisionMsg();
+        m_visionChanged = false;
+    }
+    VisualItem::endOfGeometryChange();
 }
 void CharacterItem::setCharacterIsMovable(bool isMovable)
 {
