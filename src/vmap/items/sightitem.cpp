@@ -360,7 +360,7 @@ void SightItem::setVisible(bool visible)
         {
             if(NULL!=item)
             {
-                item->setVisible(visible);
+               // item->setVisible(visible);
             }
         }
     }
