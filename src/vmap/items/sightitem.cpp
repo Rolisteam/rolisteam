@@ -284,35 +284,39 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
                 QPainterPath subArea;
                 subArea.setFillRule(Qt::WindingFill);
                 int itemRadius = charact->getRadius();
+                qreal rot = charact->rotation();
+                QMatrix mat;
+                QPointF center= charact->pos()+QPointF(itemRadius,itemRadius);
+                mat.translate(center.x(),center.y());
+                mat.rotate(rot);
 
-                path = path.subtracted(charact->shape().translated(charact->pos()));//always see the user
-
+                path = path.subtracted(mat.map(charact->shape().translated(-itemRadius,-itemRadius)));//always see the user
                 switch(vision->getShape())
                 {
                     case CharacterVision::DISK:
                     {
-                        subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
+                       // subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
                         subArea.addEllipse(charact->pos()+QPointF(itemRadius,itemRadius),vision->getRadius()+itemRadius,vision->getRadius()+itemRadius);
                         //subArea.addEllipse(vision->getCharacterItem()->boundingRect());
                     }
                     break;
                     case CharacterVision::ANGLE:
                     {
-                        QPointF center= charact->pos()+QPointF(itemRadius,itemRadius);
-                        subArea.moveTo(center);
+                        //subArea.moveTo(center);
 
                         QRectF rectArc;
-                        rectArc.setCoords(center.x()-vision->getRadius(),center.y()-vision->getRadius(),center.x()+vision->getRadius(),center.y()+vision->getRadius());
+                        //rectArc.setCoords(center.x()-vision->getRadius(),center.y()-vision->getRadius(),center.x()+vision->getRadius(),center.y()+vision->getRadius());
+                        rectArc.setCoords(-vision->getRadius(),-vision->getRadius(),vision->getRadius(),vision->getRadius());
 
-                        qreal rot = charact->rotation();
-                        subArea.arcTo(rectArc,-vision->getAngle()/2-rot,vision->getAngle());
+                        //-vision->getAngle()/2-rot
+                        subArea.arcTo(rectArc,-vision->getAngle()/2,vision->getAngle());
                         painter->setPen(QColor(255,0,0));
 
                     }
                     break;
                 }
                 path.moveTo(charact->pos());
-                path = path.subtracted(subArea);
+                path = path.subtracted(mat.map(subArea));
             }
         }
     }
