@@ -987,6 +987,10 @@ void MainWindow::updateUi()
     {
         m_preferencesDialog->updateUi(m_currentConnectionProfile->isGM());
     }
+    if(NULL!=m_playersListWidget)
+    {
+        m_playersListWidget->updateUi(m_currentConnectionProfile->isGM());
+    }
 
     m_vToolBar->setGM(m_currentConnectionProfile->isGM());
     if(!m_currentConnectionProfile->isGM())
