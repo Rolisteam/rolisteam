@@ -351,7 +351,7 @@ void SightItem::setColor(QColor& color)
     m_bgColor = color;
 }
 
-void  SightItem::setDefaultRaduis(qreal rad)
+void  SightItem::setDefaultRadius(qreal rad)
 {
     m_defaultRadius = rad;
     update();

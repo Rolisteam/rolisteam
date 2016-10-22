@@ -123,10 +123,10 @@ public:
      */
     void setDefaultShape(CharacterVision::SHAPE shape);
     /**
-     * @brief setDefaultRaduis
+     * @brief setDefaultRadius
      * @param rad
      */
-    void setDefaultRaduis(qreal rad);
+    void setDefaultRadius(qreal rad);
     /**
      * @brief setDefaultAngle
      * @param rad
