@@ -617,10 +617,6 @@ void CharacterItem::updateChildPosition()
     m_child->value(3)->setPos(m_rect.bottomLeft());
     m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
 
-
-    qDebug() << "raduis " << m_vision->getRadius() << m_rect;
-
-
     m_child->value(DIRECTION_RADIUS_HANDLE)->setPos(m_vision->getRadius()+getRadius(),m_rect.height()/2-m_child->value(DIRECTION_RADIUS_HANDLE)->boundingRect().height()/2);
 
 
