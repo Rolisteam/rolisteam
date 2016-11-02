@@ -603,20 +603,25 @@ void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
             msg.sendAll();
         }
         child->setParentItem(parent);
-        child->setPos(pos2);
+
+        if(!(pos2.isNull() && parent == NULL))
+        {
+            child->setPos(pos2);
+        }
     }
 }
 
 void VMap::manageAnchor()
 {
     AnchorItem* tmp = dynamic_cast< AnchorItem*>(m_currentItem);
+
     if(NULL!=tmp)
     {
         QGraphicsItem* child = NULL;
         QGraphicsItem* parent = NULL;
         QList<QGraphicsItem*> item1 = items(tmp->getStart());
 
-        foreach (QGraphicsItem* item, item1)
+        for (QGraphicsItem* item: item1)
         {
             if((NULL==child)&&(item!=m_currentItem))
             {
@@ -625,7 +630,7 @@ void VMap::manageAnchor()
         }
 
         QList<QGraphicsItem*> item2 = items(tmp->getEnd());
-        foreach (QGraphicsItem* item, item2)
+        for (QGraphicsItem* item: item2)
         {
             if((NULL==parent)&&(item!=m_currentItem))
             {
