@@ -610,9 +610,10 @@ void VisualItem::setChildrenVisible(bool b)
     {
         if(NULL!=m_child)
         {
-            foreach(ChildPointItem* item, *m_child)
+            for(ChildPointItem* item: *m_child)
             {
-                if(!item->isVisionHandler())
+                bool isVisionAndFog = m_propertiesHash->value(VisualItem::FogOfWarStatus).toBool() & m_propertiesHash->value(VisualItem::EnableCharacterVision).toBool();
+                if((!item->isVisionHandler())||(isVisionAndFog)||(!b))
                 {
                     item->setVisible(b);
                 }

@@ -160,9 +160,9 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
     if(m_vmap->isIdle())
     {
-        QList<QGraphicsItem*> list = scene()->selectedItems();
+        //QList<QGraphicsItem*> list = scene()->selectedItems();
 
-        //QList<QGraphicsItem*> list = items(event->pos());
+        QList<QGraphicsItem*> list = items(event->pos());
         QMenu menu;
         //Empty list
         if((list.isEmpty())||((list.size()==1)&&(list.contains(m_vmap->getFogItem()))))

@@ -1091,6 +1091,24 @@ void VMap::processRectGeometryMsg(NetworkMessageReader* msg)
 		}
     }                                                                                                         
 }
+
+void VMap::processVisionMsg(NetworkMessageReader* msg)
+{
+    if(NULL!=msg)
+    {
+        QString CharacterId = msg->string16();
+        QString itemId = msg->string16();
+        QList<CharacterItem*> itemList = m_characterItemMap->values(CharacterId);
+        for(auto item: itemList)
+        {
+            if((NULL!=item)&&(item->getId() == itemId))
+            {
+                item->readVisionMsg(msg);
+            }
+
+        }
+    }
+}
 void VMap::processMovePointMsg(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
