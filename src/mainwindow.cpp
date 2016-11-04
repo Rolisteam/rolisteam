@@ -1322,7 +1322,7 @@ void MainWindow::setupUi()
 #endif
 
 
-  //  setAnimated(false);
+    //setAnimated(false);
     m_mdiArea = new ImprovedWorkspace();
     setCentralWidget(m_mdiArea);
     connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(activeWindowChanged(QMdiSubWindow *)));
