@@ -1592,6 +1592,24 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
     }
     return result;
 }
+void VMap::hideOtherLayers(bool b)
+{
+    for( auto item : m_itemMap->values())
+    {
+        if(item == m_sightItem)
+            continue;
+
+        if((b)&&(item->getLayer() != m_currentLayer))
+        {
+            item->setVisible(false);
+        }
+        else
+        {
+            item->setVisible(true);
+        }
+    }
+}
+
 VMap::VisibilityMode VMap::getVisibilityMode()
 {
     return m_currentVisibityMode;
@@ -1603,6 +1621,10 @@ void VMap::setOption(VisualItem::Properties pop,QVariant value)
         if(getOption(pop)!=value)
         {
             m_propertiesHash->insert(pop,value);
+            if(pop==VisualItem::HideOtherLayers)
+            {
+                hideOtherLayers(value.toBool());
+            }
             emit mapChanged();
             computePattern();
             update();

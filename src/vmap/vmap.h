@@ -291,6 +291,10 @@ public:
      * @param msg
      */
     void processCharacterStateHasChanged(NetworkMessageReader &msg);
+    /**
+     * @brief processVisionMsg
+     * @param msg
+     */
     void processVisionMsg(NetworkMessageReader *msg);
 public slots:
     /**
@@ -502,7 +506,11 @@ protected:
      * @brief initMap
      */
     void initMap();
-
+    /**
+     * @brief hideOtherLayers
+     * @param b
+     */
+    void hideOtherLayers(bool b);
 private:
     /**
     * @brief width of the map

@@ -95,6 +95,7 @@ private:
     QComboBox* m_currentVisibility;
     QSpinBox* m_gridSize;
     QSpinBox* m_scaleSize;
+    QCheckBox* m_showOnlyItemsFromThisLayer;
     QCheckBox* m_showCharacterVision;
     QCheckBox* m_collision;
 };

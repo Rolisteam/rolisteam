@@ -93,12 +93,16 @@ void VmapToolBar::setupUi()
     addWidget(new QLabel(tr("Layer:")));
     addWidget(m_currentLayer);
 
+    m_showOnlyItemsFromThisLayer = new QCheckBox(tr("Hide other Layers"));
+    addWidget(m_showOnlyItemsFromThisLayer);
+
     m_showCharacterVision = new QCheckBox(tr("Character Vision"));
     addWidget(m_showCharacterVision);
 
     m_collision = new QCheckBox(tr("Collision"));
     addWidget(m_collision);
 
+    connect(m_showOnlyItemsFromThisLayer,SIGNAL(clicked(bool)),this,SLOT(managedAction()));
     connect(m_showGridAct,SIGNAL(triggered()),this,SLOT(triggerGrid()));
     connect(m_bgSelector,SIGNAL(colorChanged(QColor)),this,SLOT(setBackgroundColor(QColor)));
     connect(m_gridSize,SIGNAL(valueChanged(int)),this,SLOT(setPatternSize(int)));
@@ -176,6 +180,7 @@ void VmapToolBar::updateUI()
         m_currentVisibility->setCurrentIndex(m_vmap->getVisibilityMode());
         m_gridPattern->setCurrentIndex(m_vmap->getOption(VisualItem::GridPattern).toInt());
         m_collision->setChecked(m_vmap->getOption(VisualItem::CollisionStatus).toBool());
+        m_showOnlyItemsFromThisLayer->setChecked(m_vmap->getOption(VisualItem::HideOtherLayers).toBool());
     }
     else
     {
@@ -212,5 +217,9 @@ void VmapToolBar::managedAction()
     else if(obj == m_collision)
     {
         m_vmap->setOption(VisualItem::CollisionStatus,m_collision->isChecked());
+    }
+    else if(obj == m_showOnlyItemsFromThisLayer)
+    {
+        m_vmap->setOption(VisualItem::HideOtherLayers,m_showOnlyItemsFromThisLayer->isChecked());
     }
 }

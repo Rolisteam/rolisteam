@@ -67,7 +67,8 @@ public:
         EnableCharacterVision,
         PermissionMode,
         FogOfWarStatus,
-        CollisionStatus
+        CollisionStatus,
+        HideOtherLayers
                     };
 	/**
 	 * @brief VisualItem default constructor
