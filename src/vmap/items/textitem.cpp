@@ -61,7 +61,7 @@ void TextLabel::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
 void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    VMap* map = dynamic_cast<VMap*>(scene());
+   /* VMap* map = dynamic_cast<VMap*>(scene());
     if( NULL != map)
     {
         if(map->getSelectedtool() == VToolsBar::HANDLER)
@@ -73,7 +73,7 @@ void TextLabel::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
         {
             qDebug() << "double click text";//start richtextedit dialog
         }
-    }
+    }*/
     QGraphicsTextItem::mouseDoubleClickEvent(event);
 
 }
@@ -378,6 +378,7 @@ void TextItem::writeData(QDataStream& out) const
     out << m_start;
     out << m_showRect;
     out << m_doc->toHtml();
+    out << opacity();
     out << m_color;
     out << m_id;
     out << m_rect;
@@ -404,6 +405,9 @@ void TextItem::readData(QDataStream& in)
     in >> m_showRect;
     in >> text;
     m_doc->setHtml(text);
+    qreal opa=0;
+    in >> opa;
+    setOpacity(opa);
     in >> m_color;
     m_textItem->setDefaultTextColor(m_color);
 
@@ -436,6 +440,8 @@ void TextItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(rotation());
     msg->uint8((int)m_layer);
     msg->real(zValue());
+    msg->real(opacity());
+
     //m_rect
     msg->real(m_rect.x());
     msg->real(m_rect.y());
@@ -463,6 +469,8 @@ void TextItem::readItem(NetworkMessageReader* msg)
     setRotation(msg->real());
     m_layer = (VisualItem::Layer)msg->uint8();
     setZValue(msg->real());
+    setOpacity(msg->real());
+
     //m_rect
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());

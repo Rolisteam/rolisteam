@@ -71,20 +71,27 @@ public:
 
     PlayersListWidgetModel * model() const;
 
+public slots:
+    void updateUi(bool isGM);
+
+private:
+    void setUI();
+
 private slots:
     void editIndex(const QModelIndex & index);
     void createLocalCharacter();
     void selectAnotherPerson(const QModelIndex & current);
     void deleteSelected();
 
+
 private:
     PersonDialog* m_personDialog;
     QItemSelectionModel* m_selectionModel;
-    QPushButton* m_delButton;
     PlayersListWidgetModel* m_model;
-    UserListView*              m_playersListView;
+    UserListView* m_playersListView;
+    QPushButton* m_delButton;
+    QPushButton* m_addPlayerButton;
 
-    void setUI();
 };
 
 #endif

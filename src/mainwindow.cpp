@@ -119,6 +119,7 @@ MainWindow::MainWindow()
     foreach (QWidget* wid, m_gmToolBoxList)
     {
         QDockWidget* widDock = new QDockWidget(this);
+        widDock->setAllowedAreas(Qt::AllDockWidgetAreas);
         widDock->setWidget(wid);
         widDock->setWindowTitle(wid->windowTitle());
         widDock->setObjectName(wid->objectName());
@@ -183,7 +184,6 @@ void MainWindow::closeAllImagesAndMaps()
             removeMapFromId(tmp->getMediaId());
         }
     }
-
     foreach(VMapFrame* tmp,m_mapWindowVectorialMap.values())
     {
         if(NULL!=tmp)
@@ -987,6 +987,10 @@ void MainWindow::updateUi()
     {
         m_preferencesDialog->updateUi(m_currentConnectionProfile->isGM());
     }
+    if(NULL!=m_playersListWidget)
+    {
+        m_playersListWidget->updateUi(m_currentConnectionProfile->isGM());
+    }
 
     m_vToolBar->setGM(m_currentConnectionProfile->isGM());
     if(!m_currentConnectionProfile->isGM())
@@ -1318,7 +1322,7 @@ void MainWindow::setupUi()
 #endif
 
 
-    setAnimated(false);
+    //setAnimated(false);
     m_mdiArea = new ImprovedWorkspace();
     setCentralWidget(m_mdiArea);
     connect(m_mdiArea, SIGNAL(subWindowActivated ( QMdiSubWindow * )), this, SLOT(activeWindowChanged(QMdiSubWindow *)));
@@ -1351,11 +1355,17 @@ void MainWindow::setupUi()
     m_chatListWidget = new ChatListWidget(this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_chatListWidget);
     addDockWidget(Qt::RightDockWidgetArea, m_chatListWidget);
+    dock->setAllowedAreas(Qt::AllDockWidgetAreas);
     m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_chatListWidget->toggleViewAction());
 
 
-    addDockWidget(Qt::RightDockWidgetArea,m_sessionManager);
-    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,m_sessionManager->toggleViewAction());
+    QDockWidget* dock2 = new QDockWidget(this);
+    dock2->setAllowedAreas(Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea);
+    dock2->setWidget(m_sessionManager);
+    dock2->setWindowTitle(tr("Resources Explorer"));
+    dock2->setObjectName("sessionManager");
+    addDockWidget(Qt::RightDockWidgetArea,dock2);
+    m_ui->m_menuSubWindows->insertAction(m_ui->m_chatListAct,dock2->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_chatListAct);
 
 
@@ -1804,6 +1814,7 @@ void MainWindow::prepareVMap(VMapFrame* tmp)
     //Toolbar to Map
     connect(m_vToolBar,SIGNAL(currentToolChanged(VToolsBar::SelectableTool)),tmp,SLOT(currentToolChanged(VToolsBar::SelectableTool)));
     connect(tmp,SIGNAL(defineCurrentTool(VToolsBar::SelectableTool)),m_vToolBar,SLOT(setCurrentTool(VToolsBar::SelectableTool)));
+    connect(map,SIGNAL(colorPipette(QColor)),m_vToolBar,SLOT(setCurrentColor(QColor)));
     connect(m_vToolBar,SIGNAL(currentColorChanged(QColor&)),tmp,SLOT(currentColorChanged(QColor&)));
     connect(m_vToolBar,SIGNAL(currentModeChanged(int)),tmp,SLOT(setEditingMode(int)));
     connect(m_vToolBar,SIGNAL(currentPenSizeChanged(int)),tmp,SLOT(currentPenSizeChanged(int)));
@@ -1896,6 +1907,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
     case NetMsg::RectGeometryItem:
     case NetMsg::RotationItem:
     case NetMsg::characterStateChanged:
+    case NetMsg::VisionChanged:
     case NetMsg::ZValueItem:
     {
         QString vmapId = msg->string8();
@@ -1963,7 +1975,8 @@ void MainWindow::openRecentFile()
 }
 void MainWindow::updateRecentFileActions()
 {
-    QVariant var(CleverUriList);
+    QVariant var = QVariant::fromValue(CleverUriList());
+
     CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList >();
 
     int numRecentFiles = qMin(files.size(), m_maxSizeRecentFile);
@@ -1990,9 +2003,9 @@ void MainWindow::setLatestFile(CleverURI* fileName)
     // no online picture because they are handled in a really different way.
     if((NULL!=fileName)&&(fileName->getType()!=CleverURI::ONLINEPICTURE))
     {
-        QVariant var(CleverUriList());
+        QVariant var = QVariant::fromValue(CleverUriList());
 
-        CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList >();
+        CleverUriList files = m_preferences->value("recentFileList",var).value<CleverUriList>();
 
         files.removeAll(*fileName);
         files.prepend(*fileName);

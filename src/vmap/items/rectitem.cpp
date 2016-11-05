@@ -111,6 +111,7 @@ void RectItem::writeData(QDataStream& out) const
     out << m_color;
     out << m_id;
     out << m_penWidth;
+    out << opacity();
     out << m_initialized;
     out << scale();
     out << rotation();
@@ -126,6 +127,9 @@ void RectItem::readData(QDataStream& in)
     in >> m_color;
     in >> m_id;
     in >> m_penWidth;
+    qreal opa=0;
+    in >> opa;
+    setOpacity(opa);
     in >> m_initialized;
     qreal scale;
     in >> scale;
@@ -160,6 +164,7 @@ void RectItem::fillMessage(NetworkMessageWriter* msg)
 
     msg->uint8((int)m_layer);
     msg->real(zValue());
+    msg->real(opacity());
 
     //pos
     msg->real(pos().x());
@@ -186,6 +191,9 @@ void RectItem::readItem(NetworkMessageReader* msg)
 
     m_layer = (VisualItem::Layer)msg->uint8();
     setZValue(msg->real());
+    setOpacity(msg->real());
+
+
     //pos
     qreal x  = msg->real();
     qreal y = msg->real();

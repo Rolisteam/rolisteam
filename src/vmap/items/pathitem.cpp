@@ -84,7 +84,6 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         path.moveTo(m_start);
         foreach(QPointF p,m_pointVector)
         {
-            qDebug() << p << m_start;
             path.lineTo(p);
         }
         if(m_closed)
@@ -131,7 +130,6 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
 void PathItem::setNewEnd(QPointF& p)
 {
     m_end = p;
-    qDebug() << p << m_start << m_pointVector.size();
     if(m_penMode)
     {
         m_pointVector.append(p);
@@ -161,6 +159,7 @@ void PathItem::writeData(QDataStream& out) const
     out << m_start;
     out << m_pointVector;
     out << m_path;
+    out << opacity();
     out << m_pen;
     out << m_closed;
     out << scale();
@@ -176,6 +175,9 @@ void PathItem::readData(QDataStream& in)
     in >> m_start;
     in >> m_pointVector;
     in >> m_path;
+    qreal opa=0;
+    in >> opa;
+    setOpacity(opa);
     in >> m_pen;
     in >> m_closed;
     qreal scale;
@@ -205,6 +207,7 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->uint8(m_penMode);
     msg->uint8((VisualItem::Layer)m_layer);
     msg->real(zValue());
+     msg->real(opacity());
     //pen
     msg->uint16(m_pen.width());
     msg->rgb(m_pen.color());
@@ -231,6 +234,8 @@ void PathItem::readItem(NetworkMessageReader* msg)
     m_penMode = (bool)msg->uint8();
     m_layer = (VisualItem::Layer)msg->uint8();
     setZValue(msg->real());
+    setOpacity(msg->real());
+
     //pen
     m_pen.setWidth(msg->int16());
     m_pen.setColor(msg->rgb());

@@ -137,13 +137,13 @@ void VToolsBar::createActions()
             m_anchorAct->setChecked(tool==VToolsBar::ANCHOR);
     });
 
-    /*m_unmaskRectAct = new QAction(QIcon(":/resources/icons/draw-rectangle-2.png"),tr("Unmask Rect"),m_toolsGroup);
-    m_unmaskRectAct->setData(RECTFOG);
+    m_pipette = new QAction(QIcon(":/resources/icons/pipettecursor.png"),tr("Pipette"),m_toolsGroup);
+    m_pipette->setData(PIPETTE);
     connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
-            m_unmaskRectAct->setChecked(tool==VToolsBar::RECTFOG);
+            m_pipette->setChecked(tool==VToolsBar::PIPETTE);
     });
 
-    m_unmaskPathAct = new QAction(QIcon(":/resources/icons/maskpath.png"),tr("Unmask Path"),m_toolsGroup);
+  /*  m_unmaskPathAct = new QAction(QIcon(":/resources/icons/maskpath.png"),tr("Unmask Path"),m_toolsGroup);
     m_unmaskPathAct->setData(PATHFOG);
     connect(this,&VToolsBar::currentToolChanged,[=](VToolsBar::SelectableTool tool){
             m_unmaskPathAct->setChecked(tool==VToolsBar::PATHFOG);
@@ -169,6 +169,7 @@ void VToolsBar::createActions()
     m_addPCAct->setCheckable(true);
     m_ruleAct->setCheckable(true);
     m_pathAct->setCheckable(true);
+    m_pipette->setCheckable(true);
 
     m_anchorAct->setCheckable(true);
     //m_unmaskPathAct->setCheckable(true);
@@ -198,6 +199,7 @@ void VToolsBar::makeTools()
     QToolButton* ruleButton  = new QToolButton();
     QToolButton* pathButton  = new QToolButton();
     QToolButton* anchorButton  = new QToolButton();
+    QToolButton* pipetteButton  = new QToolButton();
 
 
     penButton->setDefaultAction(m_pencilAct);
@@ -212,7 +214,7 @@ void VToolsBar::makeTools()
     resetNpcNumberButton->setDefaultAction(m_resetCountAct);
     ruleButton->setDefaultAction(m_ruleAct);
     pathButton->setDefaultAction(m_pathAct);
-   // unveilPath->setDefaultAction(m_unmaskPathAct);
+    pipetteButton->setDefaultAction(m_pipette);
     anchorButton->setDefaultAction(m_anchorAct);
     textButton->addAction(m_textWithBorderAct);
   //  unveilRect->setDefaultAction(m_unmaskRectAct);
@@ -235,7 +237,7 @@ void VToolsBar::makeTools()
     ruleButton->setAutoRaise(true);
     pathButton->setAutoRaise(true);
     anchorButton->setAutoRaise(true);
-  //  unveilPath->setAutoRaise(true);
+    pipetteButton->setAutoRaise(true);
  //   unveilRect->setAutoRaise(true);
 
     /**
@@ -257,7 +259,7 @@ void VToolsBar::makeTools()
     ruleButton->setIconSize(iconSize);
     pathButton->setIconSize(iconSize);
 
-    //unmaskButton->setIconSize(iconSize);
+    pipetteButton->setIconSize(iconSize);
     //maskModeButton->setIconSize(iconSize);
    // paintingModeButton->setIconSize(iconSize);
 
@@ -282,7 +284,7 @@ void VToolsBar::makeTools()
     toolsLayout->addWidget(ruleButton);
     toolsLayout->addWidget(pathButton);
     toolsLayout->addWidget(anchorButton);
-    //toolsLayout->addWidget(unveilPath);
+    toolsLayout->addWidget(pipetteButton);
     //toolsLayout->addWidget(unveilRect);
 
     m_npcNameTextEdit = new QLineEdit();
@@ -471,4 +473,9 @@ void VToolsBar::setGM(bool b)
 void VToolsBar::setCurrentOpacity(qreal a)
 {
     m_opacitySlider->setRealValue(a);
+}
+
+void VToolsBar::setCurrentColor(QColor color)
+{
+    m_colorSelector->setCurrentColor(color);
 }

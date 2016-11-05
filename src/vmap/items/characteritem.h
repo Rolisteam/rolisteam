@@ -198,6 +198,10 @@ public:
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
     void readCharacterStateChanged(NetworkMessageReader &msg);
 
+    virtual QColor getColor();
+
+    void readVisionMsg(NetworkMessageReader *msg);
+    void sendVisionMsg();
 signals:
     /**
      * @brief positionChanged
@@ -241,6 +245,7 @@ public slots:
      */
     virtual void readPositionMsg(NetworkMessageReader* msg);
 
+    void endOfGeometryChange();
 protected:
     /**
      * @brief canBeMoved
@@ -288,6 +293,8 @@ private:
     QPainterPath m_debugPath2;
 
     bool m_protectGeometryChange;
+    bool m_visionChanged;
+    void visionChanged();
 };
 
 #endif // CHARACTERITEM_H

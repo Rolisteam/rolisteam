@@ -38,14 +38,19 @@
 #define MARGING 1
 #define MINI_VALUE 25
 #define RADIUS_CORNER 10
+#define MAX_CORNER_ITEM 6
+#define DIRECTION_RADIUS_HANDLE 4
+#define ANGLE_HANDLE 5
+
+
 CharacterItem::CharacterItem()
-: VisualItem(),m_character(NULL),m_thumnails(NULL),m_protectGeometryChange(false)
+: VisualItem(),m_character(NULL),m_thumnails(NULL),m_protectGeometryChange(false),m_visionChanged(false)
 {
     createActions();
 }
 
 CharacterItem::CharacterItem(Character* m,QPointF pos,int diameter)
-    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL),m_protectGeometryChange(false)
+    : VisualItem(),m_character(m),m_center(pos),m_diameter(diameter),m_thumnails(NULL),m_protectGeometryChange(false),m_visionChanged(false)
 {
 	setPos(m_center-QPoint(diameter/2,diameter/2));
 	sizeChanged(diameter);
@@ -61,6 +66,7 @@ void CharacterItem::writeData(QDataStream& out) const
     out << m_diameter;
     out << *m_thumnails;
     out << m_rect;
+    out << opacity();
     out << (int)m_layer;
     //out << zValue();
     if(NULL!=m_character)
@@ -81,6 +87,11 @@ void CharacterItem::readData(QDataStream& in)
     m_thumnails = new QPixmap();
     in >> *m_thumnails;
     in >> m_rect;
+
+    qreal opa=0;
+    in >> opa;
+    setOpacity(opa);
+
     int tmp;
     in >> tmp;
     m_layer = (VisualItem::Layer)tmp;
@@ -231,6 +242,10 @@ void CharacterItem::sizeChanged(int m_size)
     generatedThumbnail();
     m_resizing = true;
 }
+void CharacterItem::visionChanged()
+{
+    m_visionChanged = true;
+}
 void CharacterItem::setSize(QSizeF size)
 {
     m_protectGeometryChange = true;
@@ -287,6 +302,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
 
     msg->uint8(m_layer);
     msg->real(zValue());
+    msg->real(opacity());
 
     //pos
     msg->real(pos().x());
@@ -325,6 +341,7 @@ void CharacterItem::readItem(NetworkMessageReader* msg)
     m_layer = (VisualItem::Layer)msg->uint8();
 
     setZValue(msg->real());
+    setOpacity(msg->real());
 
     qreal x = msg->real();
     qreal y = msg->real();
@@ -465,12 +482,33 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         pos.setX(rect.bottomLeft().y()-pos.y());
         rect.setBottomLeft(pos);
         break;
-    case 4:
+    case DIRECTION_RADIUS_HANDLE:
         if(pos.x()-(m_rect.width()/2)<0)
         {
             pos.setX(m_rect.width()/2);
         }
         m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width()+m_rect.width()/2);
+        visionChanged();
+        break;
+    case ANGLE_HANDLE:
+    {
+        if(pos.x()-((m_vision->getRadius()+getRadius())/2)!=0)
+        {
+            pos.setX((m_vision->getRadius()+getRadius())/2);
+        }
+        if(pos.y()<-360)
+        {
+            pos.setY(-360);
+        }
+
+        if(pos.y()>0)
+        {
+            pos.setY(0);
+        }
+        qreal angle = 360*(fabs(pos.y())/360);
+        m_vision->setAngle(angle);
+        visionChanged();
+    }
         break;
     default:
        // emit geometryChangeOnUnkownChild(pointId,pos);
@@ -520,7 +558,10 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
         m_child->value(4)->setPos(m_vision->getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
        // m_vision->setRadius(pos.x()-(getRadius()*2)+m_child->at(4)->boundingRect().width());
         break;
-    case 4:
+    case DIRECTION_RADIUS_HANDLE:
+        m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius()+getRadius())/2,-m_vision->getAngle());
+        break;
+    case ANGLE_HANDLE:
         break;
     default:
         break;
@@ -532,18 +573,21 @@ void CharacterItem::initChildPointItem()
 {
     m_child = new QVector<ChildPointItem*>();
 
-    for(int i = 0; i< 5 ; ++i)
+    for(int i = 0; i< MAX_CORNER_ITEM ; ++i)
     {
-        ChildPointItem* tmp = new ChildPointItem(i,this,(i==4));
+        ChildPointItem* tmp = new ChildPointItem(i,this,(i==DIRECTION_RADIUS_HANDLE));
         tmp->setMotion(ChildPointItem::ALL);
         tmp->setRotationEnable(true);
         m_child->append(tmp);
     }
 
-    m_child->at(4)->setMotion(ChildPointItem::X_AXIS);
-    m_child->at(4)->setRotationEnable(false);
-    m_child->at(4)->setVisible(false);
+    m_child->at(DIRECTION_RADIUS_HANDLE)->setMotion(ChildPointItem::X_AXIS);
+    m_child->at(DIRECTION_RADIUS_HANDLE)->setRotationEnable(false);
+    m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
 
+    m_child->at(ANGLE_HANDLE)->setMotion(ChildPointItem::Y_AXIS);
+    m_child->at(ANGLE_HANDLE)->setRotationEnable(false);
+    m_child->at(ANGLE_HANDLE)->setVisible(false);
 
     updateChildPosition();
 
@@ -553,8 +597,13 @@ ChildPointItem* CharacterItem::getRadiusChildWidget()
 {
     if(m_child->size()>=5)
     {
-        return  m_child->value(4);
+        return  m_child->value(DIRECTION_RADIUS_HANDLE);
     }
+}
+QColor CharacterItem::getColor()
+{
+    if(NULL!= m_character)
+        return m_character->getColor();
 }
 
 void CharacterItem::updateChildPosition()
@@ -568,8 +617,11 @@ void CharacterItem::updateChildPosition()
     m_child->value(3)->setPos(m_rect.bottomLeft());
     m_child->value(3)->setPlacement(ChildPointItem::ButtomLeft);
 
+    m_child->value(DIRECTION_RADIUS_HANDLE)->setPos(m_vision->getRadius()+getRadius(),m_rect.height()/2-m_child->value(DIRECTION_RADIUS_HANDLE)->boundingRect().height()/2);
 
-    m_child->value(4)->setPos(m_vision->getRadius()+getRadius(),m_rect.height()/2-m_child->value(4)->boundingRect().height()/2);
+
+    m_child->value(ANGLE_HANDLE)->setPos((m_vision->getRadius()+getRadius())/2,-m_vision->getAngle());
+    m_child->value(ANGLE_HANDLE)->setVisionHandler(true);
 
     setTransformOriginPoint(m_rect.center());
 
@@ -773,6 +825,37 @@ bool CharacterItem::isLocal()
         return true;
     }
     return false;
+}
+void CharacterItem::sendVisionMsg()
+{
+    if((getOption(VisualItem::LocalIsGM).toBool()) ||
+            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
+            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
+             (getType() == VisualItem::CHARACTER)&&
+             (isLocal())))//getOption PermissionMode
+    {
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::VisionChanged);
+        msg.string8(m_mapId);
+        msg.string16(getCharacterId());
+        msg.string16(m_id);
+        m_vision->fill(&msg);
+        msg.sendAll();
+    }
+}
+void CharacterItem::readVisionMsg(NetworkMessageReader* msg)
+{
+    m_vision->readMessage(msg);
+    update();
+}
+
+void CharacterItem::endOfGeometryChange()
+{
+    if(m_visionChanged)
+    {
+        sendVisionMsg();
+        m_visionChanged = false;
+    }
+    VisualItem::endOfGeometryChange();
 }
 void CharacterItem::setCharacterIsMovable(bool isMovable)
 {

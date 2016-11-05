@@ -83,6 +83,7 @@ void LineItem::writeData(QDataStream& out) const
     out << m_rect;
     out << m_startPoint;
     out << m_endPoint;
+    out << opacity();
     out << m_pen;
     out << m_color;
     out << (int)m_layer;
@@ -93,6 +94,9 @@ void LineItem::readData(QDataStream& in)
     in >> m_rect;
     in >> m_startPoint;
     in >> m_endPoint;
+    qreal opa=0;
+    in >> opa;
+    setOpacity(opa);
     in >> m_pen;
     in >> m_color;
     int i;
@@ -110,6 +114,7 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(rotation());
     msg->uint8((int)m_layer);
     msg->real(zValue());
+    msg->real(opacity());
 
     //rect
     msg->real(m_rect.x());
@@ -133,6 +138,7 @@ void LineItem::readItem(NetworkMessageReader* msg)
     setRotation(msg->real());
     m_layer = (VisualItem::Layer)msg->uint8();
     setZValue(msg->real());
+    setOpacity(msg->real());
     //rect
     m_rect.setX(msg->real());
     m_rect.setY(msg->real());

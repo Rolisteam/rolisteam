@@ -54,7 +54,7 @@ CleverURI*  MediaContainer::getCleverUri() const
 }
 bool MediaContainer::openMedia()
 {
-
+    return false;
 }
 void MediaContainer::error(QString err,QWidget* parent)
 {

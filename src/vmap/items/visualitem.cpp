@@ -117,6 +117,10 @@ void VisualItem::setEditableItem(bool b)
         }
     }
 }
+QColor VisualItem::getColor()
+{
+    return m_color;
+}
 
 void VisualItem::setPenColor(QColor& penColor)
 {
@@ -136,7 +140,8 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mouseReleaseEvent(event);
-    sendPositionMsg();
+    //sendPositionMsg();
+    emit itemPositionHasChanged();
 }
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {
@@ -605,9 +610,10 @@ void VisualItem::setChildrenVisible(bool b)
     {
         if(NULL!=m_child)
         {
-            foreach(ChildPointItem* item, *m_child)
+            for(ChildPointItem* item: *m_child)
             {
-                if(!item->isVisionHandler())
+                bool isVisionAndFog = m_propertiesHash->value(VisualItem::FogOfWarStatus).toBool() & m_propertiesHash->value(VisualItem::EnableCharacterVision).toBool();
+                if((!item->isVisionHandler())||(isVisionAndFog)||(!b))
                 {
                     item->setVisible(b);
                 }

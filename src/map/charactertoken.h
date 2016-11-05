@@ -72,7 +72,7 @@ public :
     QString getCharacterId();
     QPoint getCharacterCenter();
     QPoint getCharacterOrientation();
-    int prepareToSendOff(NetworkMessageWriter* msg, bool convertirEnPnj = false);
+    void prepareToSendOff(NetworkMessageWriter* msg, bool convertirEnPnj = false);
     int getSizeForEmiting();
     int getHealtState();
     void write(QDataStream &out);

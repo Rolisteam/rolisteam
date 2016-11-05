@@ -159,7 +159,8 @@ enum Action {
     GeometryViewChanged,
     characterStateChanged,
     SetParentItem,
-    MovePoint
+    MovePoint,
+    VisionChanged
 };
 }
 /**

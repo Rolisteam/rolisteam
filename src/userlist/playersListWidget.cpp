@@ -34,7 +34,7 @@
 #include "data/person.h"
 #include "data/character.h"
 #include "data/player.h"
-#include "persondialog.h"
+#include "widgets/persondialog.h"
 #include "userlist/playersList.h"
 
 
@@ -213,10 +213,16 @@ void PlayersListWidget::createLocalCharacter()
 {
     PlayersList* playersList = PlayersList::instance();
     Player * localPlayer = playersList->getLocalPlayer();
+    if(NULL==localPlayer)
+    {
+        return;
+    }
 
     if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->getColor()) == QDialog::Accepted)
     {
-        playersList->addLocalCharacter(new Character(m_personDialog->getName(), m_personDialog->getColor()));
+        Character* tmp = new Character(m_personDialog->getName(), m_personDialog->getColor());
+        tmp->setAvatar(QImage(m_personDialog->getAvatarUri()));
+        playersList->addLocalCharacter(tmp);
     }
 }
 
@@ -240,6 +246,15 @@ void PlayersListWidget::deleteSelected()
         m_delButton->setEnabled(false);
     }
 }
+void PlayersListWidget::updateUi(bool isGM)
+{
+    if(isGM)
+    {
+        m_addPlayerButton->setText(tr("Add %1").arg("NPC"));
+        m_delButton->setText(tr("Remove %1").arg("NPC"));
+    }
+    m_addPlayerButton->setEnabled(true);
+}
 
 void PlayersListWidget::setUI()
 {
@@ -255,17 +270,14 @@ void PlayersListWidget::setUI()
 
     // Add PC button
     Player* tmp = PlayersList::instance()->getLocalPlayer();
-    QString what;
+    QString what = tr("PC");
     if(NULL!=tmp)
     {
         what = (tmp->isGM() ? tr("NPC") : tr("PC"));
     }
-    else
-    {
-        what = tr("PC");
-    }
 
-    QPushButton * addPlayerButton = new QPushButton(tr("Add a %1").arg(what), centralWidget);
+    m_addPlayerButton = new QPushButton(tr("Add a %1").arg(what), centralWidget);
+    m_addPlayerButton->setEnabled(false);
 
     // Del PJ buttun
     m_delButton = new QPushButton(tr("Remove %1").arg(what), centralWidget);
@@ -273,7 +285,7 @@ void PlayersListWidget::setUI()
 
     // Button layout
     QHBoxLayout * buttonLayout = new QHBoxLayout;
-    buttonLayout->addWidget(addPlayerButton);
+    buttonLayout->addWidget(m_addPlayerButton);
     buttonLayout->addWidget(m_delButton);
 
     // Layout
@@ -289,7 +301,7 @@ void PlayersListWidget::setUI()
             this, SLOT(selectAnotherPerson(const QModelIndex &)));
     connect(m_model, SIGNAL(rowsRemoved( const QModelIndex &, int, int)),
             m_playersListView, SLOT(clearSelection()));
-    connect(addPlayerButton, SIGNAL(clicked()), this, SLOT(createLocalCharacter()));
+    connect(m_addPlayerButton, SIGNAL(clicked()), this, SLOT(createLocalCharacter()));
     connect(m_delButton, SIGNAL(clicked()), this, SLOT(deleteSelected()));
 
     // Dialog

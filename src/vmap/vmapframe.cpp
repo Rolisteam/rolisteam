@@ -355,6 +355,12 @@ NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
             type = NetWorkReceiver::AllExceptSender;
         }
         break;
+        case NetMsg::VisionChanged:
+        {
+            m_vmap->processVisionMsg(msg);
+            type = NetWorkReceiver::AllExceptSender;
+        }
+        break;
     }
 
     return type;

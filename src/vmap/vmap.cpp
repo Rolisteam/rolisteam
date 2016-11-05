@@ -78,6 +78,17 @@ VToolsBar::SelectableTool VMap::getSelectedtool() const
 {
     return m_selectedtool;
 }
+void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
+{
+    cleanFogEdition();
+    if((m_selectedtool == VToolsBar::PATH)&&(m_selectedtool != selectedtool))
+    {
+        m_currentPath = NULL;
+    }
+    m_selectedtool = selectedtool;
+    m_currentItem = NULL;
+
+}
 VisualItem::Layer VMap::currentLayer() const
 {
     return m_currentLayer;
@@ -149,17 +160,7 @@ const QColor& VMap::mapColor() const
     return m_bgColor;
 }
 
-void VMap::setCurrentTool(VToolsBar::SelectableTool selectedtool)
-{
-    cleanFogEdition();
-    if((m_selectedtool == VToolsBar::PATH)&&(m_selectedtool != selectedtool))
-    {
-        m_currentPath = NULL;
-    }
-    m_selectedtool = selectedtool;
-    m_currentItem = NULL;
 
-}
 
 void VMap::setPenSize(int p)
 {
@@ -415,9 +416,31 @@ void VMap::addItem()
     }
         break;
     case VToolsBar::ANCHOR:
+    {
         AnchorItem* anchorItem = new AnchorItem(m_first);
         m_currentItem = anchorItem;
+    }
         break;
+    case VToolsBar::PIPETTE:
+    {
+        QList<QGraphicsItem *> itemList = items(m_first);
+        if(!itemList.isEmpty())
+        {
+            VisualItem* item = dynamic_cast<VisualItem*>(itemList.at(0));
+            if(NULL!=item)
+            {
+                if(item->getType() != VisualItem::IMAGE)
+                {
+                    QColor color = item->getColor();
+                    if(color.isValid())
+                    {
+                        emit colorPipette(color);
+                    }
+                }
+            }
+        }
+    }
+       break;
     }
     addNewItem(m_currentItem);
 
@@ -527,6 +550,19 @@ void VMap::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent )
         QGraphicsScene::mouseReleaseEvent(mouseEvent);
     }
 }
+void VMap::selectionPositionHasChanged()
+{
+    QList<QGraphicsItem*> selection = selectedItems();
+    for(auto item : selection)
+    {
+        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
+        if(NULL!=vItem)
+        {
+            vItem->sendPositionMsg();
+        }
+    }
+}
+
 void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
 {
     if(NULL!=child)
@@ -567,31 +603,36 @@ void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
             msg.sendAll();
         }
         child->setParentItem(parent);
-        child->setPos(pos2);
+
+        if(!(pos2.isNull() && parent == NULL))
+        {
+            child->setPos(pos2);
+        }
     }
 }
 
 void VMap::manageAnchor()
 {
     AnchorItem* tmp = dynamic_cast< AnchorItem*>(m_currentItem);
+
     if(NULL!=tmp)
     {
         QGraphicsItem* child = NULL;
         QGraphicsItem* parent = NULL;
         QList<QGraphicsItem*> item1 = items(tmp->getStart());
 
-        foreach (QGraphicsItem* item, item1)
+        for (QGraphicsItem* item: item1)
         {
-            if(item!=m_currentItem)
+            if((NULL==child)&&(item!=m_currentItem))
             {
                 child = item;
             }
         }
 
         QList<QGraphicsItem*> item2 = items(tmp->getEnd());
-        foreach (QGraphicsItem* item, item2)
+        for (QGraphicsItem* item: item2)
         {
-            if(item!=m_currentItem)
+            if((NULL==parent)&&(item!=m_currentItem))
             {
                 parent = item;
             }
@@ -1055,6 +1096,24 @@ void VMap::processRectGeometryMsg(NetworkMessageReader* msg)
 		}
     }                                                                                                         
 }
+
+void VMap::processVisionMsg(NetworkMessageReader* msg)
+{
+    if(NULL!=msg)
+    {
+        QString CharacterId = msg->string16();
+        QString itemId = msg->string16();
+        QList<CharacterItem*> itemList = m_characterItemMap->values(CharacterId);
+        for(auto item: itemList)
+        {
+            if((NULL!=item)&&(item->getId() == itemId))
+            {
+                item->readVisionMsg(msg);
+            }
+
+        }
+    }
+}
 void VMap::processMovePointMsg(NetworkMessageReader* msg)
 {
     if(NULL!=msg)
@@ -1078,6 +1137,7 @@ void VMap::addNewItem(VisualItem* item)
         connect(item,SIGNAL(itemRemoved(QString)),this,SLOT(removeItemFromScene(QString)));
         connect(item,SIGNAL(duplicateItem(VisualItem*)),this,SLOT(duplicateItem(VisualItem*)));
         connect(item,SIGNAL(itemLayerChanged(VisualItem*)),this,SLOT(checkItemLayer(VisualItem*)));
+        connect(item,SIGNAL(itemPositionHasChanged()),this,SLOT(selectionPositionHasChanged()));
         connect(item,SIGNAL(promoteItemTo(VisualItem*,VisualItem::ItemType)),this,SLOT(promoteItemInType(VisualItem*,VisualItem::ItemType)));
 
         if((item!=m_sightItem)&&(VisualItem::ANCHOR!=item->type())&&(VisualItem::RULE!=item->type()))
@@ -1532,6 +1592,24 @@ bool VMap::setVisibilityMode(VMap::VisibilityMode mode)
     }
     return result;
 }
+void VMap::hideOtherLayers(bool b)
+{
+    for( auto item : m_itemMap->values())
+    {
+        if(item == m_sightItem)
+            continue;
+
+        if((b)&&(item->getLayer() != m_currentLayer))
+        {
+            item->setVisible(false);
+        }
+        else
+        {
+            item->setVisible(true);
+        }
+    }
+}
+
 VMap::VisibilityMode VMap::getVisibilityMode()
 {
     return m_currentVisibityMode;
@@ -1543,6 +1621,10 @@ void VMap::setOption(VisualItem::Properties pop,QVariant value)
         if(getOption(pop)!=value)
         {
             m_propertiesHash->insert(pop,value);
+            if(pop==VisualItem::HideOtherLayers)
+            {
+                hideOtherLayers(value.toBool());
+            }
             emit mapChanged();
             computePattern();
             update();
@@ -1661,7 +1743,7 @@ QRectF VMap::itemsBoundingRectWithoutSight()
     {
         if(item != m_sightItem)
         {
-            qDebug() << item << item->boundingRect() << "itemsBoundingRectWithout";
+            //qDebug() << item << item->boundingRect() << "itemsBoundingRectWithout";
             if(result.isNull())
             {
                 result = item->boundingRect();

@@ -67,7 +67,8 @@ public:
         EnableCharacterVision,
         PermissionMode,
         FogOfWarStatus,
-        CollisionStatus
+        CollisionStatus,
+        HideOtherLayers
                     };
 	/**
 	 * @brief VisualItem default constructor
@@ -95,6 +96,11 @@ public:
 	 * @param penColor
 	 */
     virtual void setPenColor(QColor& penColor);
+    /**
+     * @brief getColor
+     * @return
+     */
+    virtual QColor getColor();
 	/**
 	 * @brief writeData
 	 * @param out
@@ -283,6 +289,11 @@ signals:
      * @brief changeStackPosition
      */
     void changeStackPosition(VisualItem*,  VisualItem::StackOrder);
+
+    /**
+     * @brief itemPositionHasChanged
+     */
+    void itemPositionHasChanged();
 
 public slots:
     /**

@@ -124,9 +124,12 @@ public:
 
     virtual QHash<QString,QString> getVariableDictionnary();
 
+    int indexOf(CharacterState *state);
 signals:
     void avatarChanged();
 
+protected:
+    CharacterState* getStateFromIndex(int i);
 private:
     void init();
 private:

@@ -58,7 +58,7 @@ public :
     /**
       * @brief tools id
       */
-    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC,RULE,PATH,ANCHOR,TEXTBORDER};
+    enum SelectableTool {PEN, LINE, EMPTYRECT, FILLRECT, EMPTYELLIPSE, FILLEDELLIPSE, TEXT, HANDLER, ADDNPC,RULE,PATH,ANCHOR,TEXTBORDER,PIPETTE};
     /**
      * @brief The EditionMode enum
      */
@@ -92,10 +92,18 @@ public slots :
      * @brief updateUi
      */
     void updateUi(Map::PermissionMode mode);
-
+    /**
+     * @brief setGM
+     */
     void setGM(bool);
-
+    /**
+     * @brief setCurrentOpacity
+     */
     void setCurrentOpacity(qreal);
+    /**
+     * @brief setCurrentColor
+     */
+    void setCurrentColor(QColor);
 signals:
     /**
       * @brief emited when current tool has been changed by user
@@ -169,7 +177,7 @@ private:
 	QAction* m_ruleAct;
 	QAction* m_pathAct;
     QAction* m_anchorAct;
-  //  QAction* m_unmaskRectAct;
+    QAction* m_pipette;
   //  QAction* m_unmaskPathAct;
     QAction* m_textWithBorderAct;
     QComboBox* m_editionModeCombo;
