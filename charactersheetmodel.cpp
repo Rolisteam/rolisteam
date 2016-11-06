@@ -168,6 +168,7 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
         {
             if(index.column()==0)
             {
+                emit dataCharacterChange();
                 childItem->setLabel(value.toString());
             }
             else
@@ -186,6 +187,7 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
                 }
                 sheet->setValue(path,valueStr,formula);
                 computeFormula(childItem->getLabel(),sheet);
+                emit dataCharacterChange();
 
             }
             return true;
@@ -214,6 +216,7 @@ void CharacterSheetModel::computeFormula(QString path,CharacterSheet* sheet)
 }
 void CharacterSheetModel::fieldHasBeenChanged(CharacterSheet* sheet,CharacterSheetItem* item)
 {
+   emit dataCharacterChange();
    computeFormula(item->getLabel(),sheet);
 }
 CharacterSheet* CharacterSheetModel::addCharacterSheet()
@@ -232,6 +235,7 @@ void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
     emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();
 
+    emit dataCharacterChange();
     connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(fieldHasBeenChanged(CharacterSheet*,CharacterSheetItem*)));
 
 }
@@ -315,6 +319,7 @@ CharacterSheetItem* CharacterSheetModel::addSection(QString title)
     sec->setId(tr("Section_%1").arg(m_rootSection->getChildrenCount()+1));
     rootSection->appendChild(sec);
     endInsertRows();
+    emit dataCharacterChange();
     return sec;
 }
 
@@ -349,6 +354,7 @@ void CharacterSheetModel::addLine(CharacterSheetItem* parentItem,QString name,co
         field->setLabel(name);
         section->appendChild(field);
         endInsertRows();
+        emit dataCharacterChange();
     }
 }
 bool CharacterSheetModel::hasChildren ( const QModelIndex & parent  ) const
