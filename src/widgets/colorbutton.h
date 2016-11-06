@@ -75,10 +75,11 @@ public slots:
      */
     void setColor(const QColor & color);
 
-
+    void openDialog();
 private:
     QColor       m_color;
-    QColorDialog m_dialog;
+    bool m_hasTransparency;
+    //QColorDialog m_dialog;
 };
 
 #endif
