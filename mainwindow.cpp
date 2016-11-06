@@ -54,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_editedTextByHand(false),
     m_counterZoom(0)
 {
+    m_title = QStringLiteral("%1[*] - %2");
+    setWindowTitle(m_title.arg("Unknown").arg("RCSE"));
     m_qmlGeneration =true;
     setAcceptDrops(true);
     ui->setupUi(this);
@@ -130,7 +132,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-
+    connect(ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
 
     connect(ui->m_addCheckBoxAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
     connect(ui->m_addTextAreaAct,SIGNAL(triggered(bool)),this,SLOT(setCurrentTool()));
@@ -180,7 +182,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_applyValueOnSelection = new QAction(tr("Apply on Selection"),this);
     m_applyValueOnAllLines = new QAction(tr("Apply on all lines"),this);
 
-        connect(ui->m_codeEdit,SIGNAL(textChanged()),this,SLOT(codeChanged()));
+    connect(ui->m_codeEdit,SIGNAL(textChanged()),this,SLOT(codeChanged()));
 }
 MainWindow::~MainWindow()
 {
@@ -196,7 +198,52 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event)
     else
         return QMainWindow::eventFilter(obj,event);
 }
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if(mayBeSaved())
+    {
+       // writeSettings();
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+    }
+}
+bool MainWindow::mayBeSaved()
+{
+    if(!isWindowModified())
+    {
+        QMessageBox msgBox(this);
 
+        QString message(tr("The charactersheet has unsaved changes."));
+        QString msg =QStringLiteral("RCSE");
+
+        msgBox.setIcon(QMessageBox::Question);
+        msgBox.addButton(QMessageBox::Cancel);
+        msgBox.addButton(QMessageBox::Save);
+        msgBox.addButton(QMessageBox::Discard);
+        msgBox.setWindowTitle(tr("Quit %1 ").arg(msg));
+
+
+        msgBox.setText(message);
+        int value = msgBox.exec();
+        if (QMessageBox::Cancel == value)
+        {
+            return false;
+        }
+        else if (QMessageBox::Save == value) //saving
+        {
+            save();
+            return true;
+        }
+        else if(QMessageBox::Discard == value)
+        {
+            return true;
+        }
+    }
+    return true;
+}
 bool MainWindow::wheelEventForView(QWheelEvent *event)
 {
     if(NULL==event)
@@ -429,6 +476,9 @@ void MainWindow::save()
             json.setObject(obj);
             file.write(json.toJson());
 
+
+            setWindowTitle(m_title.arg(QFileInfo(m_filename).fileName()).arg("RCSE"));
+
         }
         //
     }
@@ -479,6 +529,7 @@ void MainWindow::open()
             m_model->load(data,m_canvasList);
             m_characterModel->readModel(jsonObj,false);
             updatePageSelector();
+            setWindowTitle(m_title.arg(QFileInfo(m_filename).fileName()).arg("RCSE"));
         }
     }
 }

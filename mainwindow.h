@@ -83,10 +83,12 @@ public slots:
     void openImage();
     void menuRequestedFromView(const QPoint &pos);
     void setFitInView();
+    bool mayBeSaved();
 protected:
     bool eventFilter(QObject *, QEvent *);
     void applyValue(QModelIndex &index, bool selection);
     bool wheelEventForView(QWheelEvent *event);
+    void closeEvent(QCloseEvent *event);
 protected slots:
     void columnAdded();
 private slots:
@@ -115,6 +117,8 @@ private:
     QAction* m_applyValueOnSelection;
     QAction* m_applyValueOnAllLines;
     QAction* m_fitInView;
+
+    QString m_title;
 
 };
 
