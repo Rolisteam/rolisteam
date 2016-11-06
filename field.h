@@ -47,7 +47,7 @@ class Field : public CSItem
     Q_OBJECT
 public:
 
-    enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,ButtomRight,ButtomMiddle,ButtomLeft};
+    enum TextAlign {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
 
     explicit Field(QGraphicsItem* parent = 0);
     explicit Field(QPointF topleft,QGraphicsItem* parent = 0);
