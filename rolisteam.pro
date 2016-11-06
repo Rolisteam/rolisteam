@@ -15,7 +15,7 @@ LANGUAGE = C++
 MOC_DIR = bin
 OBJECTS_DIR = bin
 
-UI_DIR = src
+UI_DIR = bin
 
 isEmpty(PREFIX) {
  PREFIX = /usr/local/bin
@@ -65,6 +65,9 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 ##Installation
 target.path = $$PREFIX/
 
+}
+macx {
+target.path = /Applications/
 }
 INSTALLS += target
 
