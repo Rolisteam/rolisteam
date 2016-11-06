@@ -56,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     m_title = QStringLiteral("%1[*] - %2");
     setWindowTitle(m_title.arg("Unknown").arg("RCSE"));
+    setWindowModified(false);
     m_qmlGeneration =true;
     setAcceptDrops(true);
     ui->setupUi(this);
@@ -65,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_canvasList.append(canvas);
     m_model = new FieldModel();
+    connect(m_model,SIGNAL(modelChanged()),this,SLOT(modelChanged()));
     ui->treeView->setModel(m_model);
 
     AlignmentDelegate* delegate = new AlignmentDelegate();
@@ -164,6 +166,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     m_characterModel = new CharacterSheetModel();
+    connect(m_characterModel,SIGNAL(dataCharacterChange()),this,SLOT(modelChanged()));
     connect(m_characterModel,SIGNAL(columnsInserted(QModelIndex,int,int)),this,SLOT(columnAdded()));
     ui->m_characterView->setModel(m_characterModel);
     m_characterModel->setRootSection(m_model->getRootSection());
@@ -212,7 +215,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 bool MainWindow::mayBeSaved()
 {
-    if(!isWindowModified())
+    if(isWindowModified())
     {
         QMessageBox msgBox(this);
 
@@ -243,6 +246,11 @@ bool MainWindow::mayBeSaved()
         }
     }
     return true;
+}
+
+void MainWindow::modelChanged()
+{
+    setWindowModified(true);
 }
 bool MainWindow::wheelEventForView(QWheelEvent *event)
 {
@@ -478,6 +486,7 @@ void MainWindow::save()
 
 
             setWindowTitle(m_title.arg(QFileInfo(m_filename).fileName()).arg("RCSE"));
+            setWindowModified(false);
 
         }
         //
@@ -530,6 +539,7 @@ void MainWindow::open()
             m_characterModel->readModel(jsonObj,false);
             updatePageSelector();
             setWindowTitle(m_title.arg(QFileInfo(m_filename).fileName()).arg("RCSE"));
+            setWindowModified(false);
         }
     }
 }
@@ -551,6 +561,7 @@ void MainWindow::codeChanged()
     if(!ui->m_codeEdit->toPlainText().isEmpty())
     {
         m_editedTextByHand = true;
+        setWindowModified(true);
     }
 }
 
@@ -775,7 +786,7 @@ void MainWindow::addPage()
     canvas->setCurrentPage(m_currentPage);
     currentPageChanged(m_currentPage);
     ui->m_selectPageCb->setCurrentIndex(m_currentPage);
-
+    setWindowModified(true);
 }
 void MainWindow::currentPageChanged(int i)
 {

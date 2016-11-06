@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Rolisteam Character Sheet Editor</string>
+   <string>Unknown[*] - Rolisteam Character Sheet Editor</string>
   </property>
   <property name="windowIcon">
    <iconset resource="qmlfile.qrc">

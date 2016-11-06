@@ -84,6 +84,7 @@ public slots:
     void menuRequestedFromView(const QPoint &pos);
     void setFitInView();
     bool mayBeSaved();
+    void modelChanged();
 protected:
     bool eventFilter(QObject *, QEvent *);
     void applyValue(QModelIndex &index, bool selection);

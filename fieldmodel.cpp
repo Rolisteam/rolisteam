@@ -203,6 +203,7 @@ bool FieldModel::setData(const QModelIndex &index, const QVariant &value, int ro
         {
             item->setValueFrom(m_colunm[index.column()]->getPos(),value);
             emit valuesChanged(item->getValueFrom(CharacterSheetItem::ID,Qt::DisplayRole).toString(),value.toString());
+            emit modelChanged();
             return true;
         }
     }
@@ -215,6 +216,7 @@ void FieldModel::appendField(CSItem *f)
     m_rootSection->appendChild(f);
     connect(f,SIGNAL(updateNeeded(CSItem*)),this,SLOT(updateItem(CSItem*)));
     endInsertRows();
+    emit modelChanged();
 }
 
 Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
@@ -275,7 +277,7 @@ void FieldModel::removePageId(int id)
           endRemoveRows();
       }
     }
-
+    emit modelChanged();
 }
 void FieldModel::updateItem(CSItem* item)
 {
@@ -283,6 +285,7 @@ void FieldModel::updateItem(CSItem* item)
     if(ind>=0)
     {
         emit dataChanged(createIndex(ind,0,item),createIndex(ind,m_colunm.size(),item));
+        emit modelChanged();
     }
     else
     {
@@ -317,6 +320,7 @@ void FieldModel::updateItem(CSItem* item)
             }
         }
         emit dataChanged(first,second);
+        emit modelChanged();
     }
 }
 
@@ -375,7 +379,7 @@ void FieldModel::removeItem(QModelIndex& index)
 
 
 
-
+    emit modelChanged();
     }
 }
 

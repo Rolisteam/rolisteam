@@ -197,6 +197,10 @@ signals:
      * @param value
      */
     void valuesChanged(QString valueKey,QString value);
+    /**
+     * @brief modelChanged
+     */
+    void modelChanged();
 
 public slots:
     /**
