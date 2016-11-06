@@ -28,9 +28,9 @@ AlignmentDelegate::AlignmentDelegate()
            << tr("CenterRight")
            << tr("CenterMiddle")
            << tr("CenterLeft")
-           << tr("ButtomRight")
-           << tr("ButtomMiddle")
-           << tr("ButtomLeft");
+           << tr("BottomRight")
+           << tr("BottomMiddle")
+           << tr("BottomLeft");
 }
 
 QWidget* AlignmentDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
