@@ -82,9 +82,9 @@ FieldModel::FieldModel(QObject *parent) : QAbstractItemModel(parent)
            << tr("CenterRight")
            << tr("CenterMiddle")
            << tr("CenterLeft")
-           << tr("ButtomRight")
-           << tr("ButtomMiddle")
-           << tr("ButtomLeft");
+           << tr("BottomRight")
+           << tr("BottomMiddle")
+           << tr("BottomLeft");
 
     m_rootSection = new Section();
 }

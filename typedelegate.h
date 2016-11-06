@@ -28,7 +28,7 @@ class TypeDelegate : public QStyledItemDelegate
 {
 public:
     TypeDelegate();
-    enum AlignmentState {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,ButtomRight,ButtomMiddle,ButtomLeft};
+    enum AlignmentState {TopRight, TopMiddle, TopLeft, CenterRight,CenterMiddle,CenterLeft,BottomRight,BottomMiddle,BottomLeft};
 
 
     QWidget *createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const;
