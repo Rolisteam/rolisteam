@@ -248,6 +248,8 @@ protected :
     void processCharacterMessage(NetworkMessageReader* msg);
     void processConnectionMessage(NetworkMessageReader* msg);
     void processCharacterPlayerMessage(NetworkMessageReader* msg);
+    void processMediaMessage(NetworkMessageReader *msg);
+
     NetWorkReceiver::SendType processVMapMessage(NetworkMessageReader* msg);
     void extractCharacter(Map* map,NetworkMessageReader* msg);
     CleverURI* contentToPath(CleverURI::ContentType type,bool save);
@@ -257,6 +259,8 @@ protected :
     void prepareCharacterSheetWindow(CharacterSheetWindow *window);
     void saveAllMediaContainer();
     void saveMedia(MediaContainer *mediaC,bool AskPath, bool saveAs);
+protected slots:
+    void closeMediaContainer(QString id);
 private slots :
     void userNatureChange(bool isGM);
     void activeWindowChanged(QMdiSubWindow* widget);
@@ -338,12 +342,7 @@ private:
     VToolsBar* m_vToolBar;
     QStackedWidget* m_toolBarStack;
 
-
-    QMap<QString,MapFrame *> m_mapWindowMap;
-    QMap<QString,VMapFrame *> m_mapWindowVectorialMap;
-    QMap<QString,NoteContainer*> m_noteMap;
-    QHash<QString,CharacterSheetWindow*> m_sheetHash;
-    QHash<QString,Image*> m_pictureHash;
+    QHash<QString,MediaContainer*> m_mediaHash;
     QMap<MediaContainer*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
     AudioPlayer* m_audioPlayer;
