@@ -268,7 +268,7 @@ private slots :
     void newVectorialMap();
     void openStory();
     void openNote();
-    void closeMapOrImage();
+    void closeCurrentSubWindow();
     void updateMayBeNeeded();
 	void sendOffAllMaps(NetworkLink * link);
 	void sendOffAllImages(NetworkLink * link);

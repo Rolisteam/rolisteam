@@ -210,7 +210,7 @@ void MainWindow::closeMediaContainer(QString id)
      }
 }
 
-void MainWindow::closeMapOrImage()
+void MainWindow::closeCurrentSubWindow()
 {
     QMdiSubWindow* subactive = m_mdiArea->currentSubWindow();
     MediaContainer* container = dynamic_cast<MediaContainer*>(subactive);
@@ -337,17 +337,10 @@ void MainWindow::receiveData(quint64 readData,quint64 size)
     if(size==0)
     {
         m_downLoadProgressbar->setVisible(false);
-       /* if(m_shownProgress)
-        {
-            statusBar()->removeWidget(m_downLoadProgressbar);
-        }*/
         m_shownProgress=false;
-       // statusBar()->setVisible(false);
     }
     else if(readData!=size)
     {
-        //statusBar()->setVisible(true);
-        //statusBar()->addWidget(m_downLoadProgressbar);
         m_downLoadProgressbar->setVisible(true);
         quint64 i = (size-readData)*100/size;
 
@@ -403,7 +396,7 @@ void MainWindow::linkActionToMenu()
     m_ui->m_openNoteAction->setData((int)CleverURI::TEXT);
 
     m_ui->m_recentFileMenu->setVisible(false);
-    connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeMapOrImage()));
+    connect(m_ui->m_closeAction, SIGNAL(triggered(bool)), this, SLOT(closeCurrentSubWindow()));
     connect(m_ui->m_saveAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
     connect(m_ui->m_saveAsAction, SIGNAL(triggered(bool)), this, SLOT(saveCurrentMedia()));
     connect(m_ui->m_saveScenarioAction, SIGNAL(triggered(bool)), this, SLOT(saveStory()));
@@ -594,7 +587,7 @@ void MainWindow::sendOffAllImages(NetworkLink * link)
 Map* MainWindow::findMapById(QString idMap)
 {
     MediaContainer* media = m_mediaHash.value(idMap);
-    if(CleverURI::MAP==media->getContentType())
+    if(NULL!=media)
     {
         MapFrame* mapframe = dynamic_cast<MapFrame*>(media);
         if(NULL!=mapframe)
