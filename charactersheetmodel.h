@@ -127,6 +127,9 @@ public:
     CharacterSheet* getCharacterSheetById(QString id);
 
 
+    int getCharacterSheetCount() const;
+
+
 #ifndef RCSE
     void readRootSection(NetworkMessageReader* msg);
     void fillRootSection(NetworkMessageWriter* msg);

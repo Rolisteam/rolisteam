@@ -247,6 +247,18 @@ CharacterSheet *CharacterSheetModel::getCharacterSheetById(QString id)
     }
     return NULL;
 }
+
+int CharacterSheetModel::getCharacterSheetCount() const
+{
+    if(NULL!=m_characterList)
+    {
+        return m_characterList->size();
+    }
+    else
+    {
+        return 0;
+    }
+}
 #ifndef RCSE
 void CharacterSheetModel::readRootSection(NetworkMessageReader* msg)
 {
@@ -419,7 +431,7 @@ void CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
         sheet->load(obj);
         addCharacterSheet(sheet);
         //m_characterList->append(sheet);
-       // emit characterSheetHasBeenAdded(sheet);
+        //emit characterSheetHasBeenAdded(sheet);
     }
     endResetModel();
     m_characterCount = jsonObj["characterCount"].toInt();
