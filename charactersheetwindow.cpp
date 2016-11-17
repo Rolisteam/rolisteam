@@ -508,6 +508,14 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
             }
             //m_model->load(data,m_canvasList);
             m_model.readModel(jsonObj,true);
+            for(int j = 0; j< m_model.getCharacterSheetCount(); ++j)
+            {
+                CharacterSheet* sheet = m_model.getCharacterSheet(j);
+                if(NULL!=sheet)
+                {
+                    connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(updateFieldFrom(CharacterSheet*,CharacterSheetItem*)));
+                }
+            }
         }
         return true;
     }
