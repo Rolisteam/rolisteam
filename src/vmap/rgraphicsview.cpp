@@ -58,33 +58,40 @@ RGraphicsView::RGraphicsView(VMap *vmap)
 
 void RGraphicsView::mousePressEvent ( QMouseEvent * event)
 {
-	if(m_currentTool == VToolsBar::HANDLER)
-	{
-        QList<QGraphicsItem*> list = items(event->pos());
-        if(NULL!=m_vmap)
+    if(m_currentTool == VToolsBar::HANDLER)
+    {
+        if(event->button() == Qt::LeftButton)
         {
-            list.removeAll(m_vmap->getFogItem());
-            //VisualItem::Layer layer = m_vmap->getCurrentLayer();
-            bool rubber = true;
-            for( QGraphicsItem* item : list)
+            QList<QGraphicsItem*> list = items(event->pos());
+            if(NULL!=m_vmap)
             {
-                ChildPointItem* point = dynamic_cast<ChildPointItem*>(item);
-                if(NULL!=point)
+                list.removeAll(m_vmap->getFogItem());
+                //VisualItem::Layer layer = m_vmap->getCurrentLayer();
+                bool rubber = true;
+                for( QGraphicsItem* item : list)
                 {
-                    rubber = false;
+                    ChildPointItem* point = dynamic_cast<ChildPointItem*>(item);
+                    if(NULL!=point)
+                    {
+                        rubber = false;
+                    }
+                }
+                if(!rubber)
+                {
+                    setDragMode(QGraphicsView::NoDrag);
+                }
+                else
+                {
+                    setDragMode(QGraphicsView::RubberBandDrag);
                 }
             }
-            if(!rubber)
-            {
-                setDragMode(QGraphicsView::NoDrag);
-            }
-            else
-            {
-                setDragMode(QGraphicsView::RubberBandDrag);
-            }
         }
-	}
-	QGraphicsView::mousePressEvent (event);
+        else if(event->button() == Qt::RightButton)
+        {
+            return;
+        }
+    }
+    QGraphicsView::mousePressEvent (event);
 }
 void RGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
@@ -98,8 +105,8 @@ void RGraphicsView::mouseReleaseEvent(QMouseEvent *event)
 void RGraphicsView::mouseMoveEvent(QMouseEvent *event)
 {
     if((VToolsBar::HANDLER == m_currentTool)&&
-       (event->modifiers() & Qt::ShiftModifier)&&
-       (event->buttons() & Qt::LeftButton)&&(dragMode()==QGraphicsView::RubberBandDrag))
+            (event->modifiers() & Qt::ShiftModifier)&&
+            (event->buttons() & Qt::LeftButton)&&(dragMode()==QGraphicsView::RubberBandDrag))
     {
         if(!m_lastPoint.isNull())
         {
@@ -153,16 +160,27 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
 
     bool licenseToModify = false;
     if((m_vmap->getOption(VisualItem::LocalIsGM).toBool())||
-       (m_vmap->getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL))
+            (m_vmap->getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL))
     {
         licenseToModify = true;
     }
 
     if(m_vmap->isIdle())
     {
-        //QList<QGraphicsItem*> list = scene()->selectedItems();
+        QList<QGraphicsItem*> items = scene()->selectedItems();
 
-        QList<QGraphicsItem*> list = items(event->pos());
+        //remove none visual item
+        QList<VisualItem*> list;
+        for(QGraphicsItem* item: items)
+        {
+            VisualItem* vItem = dynamic_cast<VisualItem*>(item);
+            if(NULL!=vItem)
+            {
+                list.append(vItem);
+            }
+
+        }
+
         QMenu menu;
         //Empty list
         if((list.isEmpty())||((list.size()==1)&&(list.contains(m_vmap->getFogItem()))))
@@ -312,10 +330,10 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         else//only one item
         {
             /// @todo management of PC_MOVE
-          /*  if(licenseToModify)
+            /*  if(licenseToModify)
             {*/
-                QGraphicsView::contextMenuEvent(event);
-        /*    }
+            QGraphicsView::contextMenuEvent(event);
+            /*    }
             else // modification only on the view, zoom and position
             {
                 menu.setTitle(tr("Ajust the view"));
@@ -362,8 +380,10 @@ void RGraphicsView::setRotation(QList<QGraphicsItem*> list, int value)
         item->setRotation(value);
     }
 }
-void RGraphicsView::normalizeSize(QList<QGraphicsItem*> list,Method method,QPoint point)
+void RGraphicsView::normalizeSize(QList<QGraphicsItem*> items,Method method,QPoint point)
 {
+
+
     QSizeF finalRect;
     if(Bigger == method)
     {
@@ -669,40 +689,40 @@ void RGraphicsView::setZoomFactor()
 }
 void RGraphicsView::currentToolChanged(VToolsBar::SelectableTool selectedtool)
 {
-	m_currentTool = selectedtool;
+    m_currentTool = selectedtool;
 }
 void RGraphicsView::resizeEvent(QResizeEvent* event)
 {
     //GM is the references
 
-//    qDebug() << "resize event" << geometry() << scene()->sceneRect() << sceneRect();
-   if((NULL!=scene())&&(m_vmap->getOption(VisualItem::LocalIsGM).toBool()))
-   {
+    //    qDebug() << "resize event" << geometry() << scene()->sceneRect() << sceneRect();
+    if((NULL!=scene())&&(m_vmap->getOption(VisualItem::LocalIsGM).toBool()))
+    {
 
-       if((geometry().width() > scene()->sceneRect().width())||
-               ((geometry().height() > scene()->sceneRect().height())))
-       {
-           scene()->setSceneRect(geometry());
-           m_vmap->setWidth(geometry().width());
-           m_vmap->setHeight(geometry().height());
-           ensureVisible(geometry(),0,0);
-       }
+        if((geometry().width() > scene()->sceneRect().width())||
+                ((geometry().height() > scene()->sceneRect().height())))
+        {
+            scene()->setSceneRect(geometry());
+            m_vmap->setWidth(geometry().width());
+            m_vmap->setHeight(geometry().height());
+            ensureVisible(geometry(),0,0);
+        }
 
-       NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::GeometryViewChanged);
-       msg.string8(m_vmap->getId());
-       QRectF r = sceneRect();
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::GeometryViewChanged);
+        msg.string8(m_vmap->getId());
+        QRectF r = sceneRect();
 
-       msg.real(r.x());
-       msg.real(r.y());
-       msg.real(r.width());
-       msg.real(r.height());
+        msg.real(r.x());
+        msg.real(r.y());
+        msg.real(r.width());
+        msg.real(r.height());
 
-       msg.sendAll();
-   }
+        msg.sendAll();
+    }
 
-   setResizeAnchor(QGraphicsView::NoAnchor);
-   setTransformationAnchor(QGraphicsView::NoAnchor);
-   QGraphicsView::resizeEvent(event);
+    setResizeAnchor(QGraphicsView::NoAnchor);
+    setTransformationAnchor(QGraphicsView::NoAnchor);
+    QGraphicsView::resizeEvent(event);
 }
 void RGraphicsView::readMessage(NetworkMessageReader* msg)
 {
@@ -721,8 +741,8 @@ void RGraphicsView::readMessage(NetworkMessageReader* msg)
 void RGraphicsView::addImageToMap()
 {
     QString imageToLoad = QFileDialog::getOpenFileName(this,tr("Open image file"),
-                                 m_preferences->value("ImageDirectory",QDir::homePath()).toString(),
-                                 m_preferences->value("ImageFileFilter","*.jpg *.jpeg *.png *.bmp *.svg").toString());
+                                                       m_preferences->value("ImageDirectory",QDir::homePath()).toString(),
+                                                       m_preferences->value("ImageFileFilter","*.jpg *.jpeg *.png *.bmp *.svg").toString());
 
     if(NULL!=m_vmap)
     {
