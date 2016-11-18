@@ -677,12 +677,15 @@ void VMap::checkItemLayer(VisualItem* item)
     }
 }
 
-void VMap::sendOffItem(VisualItem* item)
+void VMap::sendOffItem(VisualItem* item, bool doInitPoint)
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
     msg.string8(m_id);
     msg.uint8(item->getType());
-    item->initChildPointItem();
+    if(doInitPoint)
+    {
+        item->initChildPointItem();
+    }
     item->fillMessage(&msg);
     msg.sendAll();
 }
@@ -1480,7 +1483,7 @@ void VMap::duplicateItem(VisualItem* item)
         setFocusItem(copy);
         //m_currentItem = copy;
         update();
-        sendOffItem(copy);
+        sendOffItem(copy,false);
     }
 }
 bool VMap::isIdle() const

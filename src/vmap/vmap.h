@@ -438,7 +438,7 @@ private slots:
      * @brief sendOffItem
      * @param item
      */
-    void sendOffItem(VisualItem* item);
+    void sendOffItem(VisualItem* item, bool doInitPoint = true);
     /**
      * @brief updateItem
      */
