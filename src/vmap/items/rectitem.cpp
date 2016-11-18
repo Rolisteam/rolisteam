@@ -100,7 +100,7 @@ void RectItem::setNewEnd(QPointF& p)
     m_rect.setBottomRight(p);
 }
 
-VisualItem::ItemType RectItem::getType()
+VisualItem::ItemType RectItem::getType() const
 {
     return VisualItem::RECT;
 }

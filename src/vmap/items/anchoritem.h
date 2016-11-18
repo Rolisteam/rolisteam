@@ -44,7 +44,7 @@ public:
     /**
     *
     */
-    ~AnchorItem();
+    virtual ~AnchorItem();
 
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
@@ -70,7 +70,7 @@ public:
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType();
+    virtual VisualItem::ItemType getType() const;
     /**
      * @brief fillMessage
      * @param msg

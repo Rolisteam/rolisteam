@@ -58,7 +58,7 @@ public:
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType();
+    virtual VisualItem::ItemType getType() const;
     
     /**
     * @brief gives the bounding rect of the ellipse
@@ -174,7 +174,7 @@ public:
      * @brief isLocal
      * @return
      */
-    virtual bool isLocal();
+    virtual bool isLocal() const;
     /**
      * @brief isPlayableCharacter
      * @return

@@ -43,7 +43,7 @@ QRectF RuleItem::boundingRect() const
 {
     return  m_rect;
 }
-VisualItem::ItemType RuleItem::getType()
+VisualItem::ItemType RuleItem::getType() const
 {
     return VisualItem::RULE;
 }

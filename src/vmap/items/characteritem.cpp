@@ -104,7 +104,7 @@ void CharacterItem::readData(QDataStream& in)
     }
 
 }
-VisualItem::ItemType CharacterItem::getType()
+VisualItem::ItemType CharacterItem::getType() const
 {
     return VisualItem::CHARACTER;
 }
@@ -818,7 +818,7 @@ void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
     }
     update();
 }
-bool CharacterItem::isLocal()
+bool CharacterItem::isLocal() const
 {
     if(getParentId() == PlayersList::instance()->getLocalPlayer()->getUuid())
     {
@@ -828,11 +828,7 @@ bool CharacterItem::isLocal()
 }
 void CharacterItem::sendVisionMsg()
 {
-    if((getOption(VisualItem::LocalIsGM).toBool()) ||
-            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
-            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
-             (getType() == VisualItem::CHARACTER)&&
-             (isLocal())))//getOption PermissionMode
+    if(hasPermissionToMove())//getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::VisionChanged);
         msg.string8(m_mapId);

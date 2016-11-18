@@ -194,7 +194,7 @@ void PathItem::readData(QDataStream& in)
 
     //m_end = m_start;
 }
-VisualItem::ItemType PathItem::getType()
+VisualItem::ItemType PathItem::getType() const
 {
     return VisualItem::PATH;
 }

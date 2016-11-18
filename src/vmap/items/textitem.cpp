@@ -183,7 +183,7 @@ void TextItem::setNewEnd(QPointF& p)
 {
 
 }
-VisualItem::ItemType TextItem::getType()
+VisualItem::ItemType TextItem::getType() const
 {
     return VisualItem::TEXT;
 }

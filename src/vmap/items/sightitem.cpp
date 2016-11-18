@@ -145,7 +145,7 @@ void SightItem::readData(QDataStream& in)
 {
 
 }
-VisualItem::ItemType SightItem::getType()
+VisualItem::ItemType SightItem::getType() const
 {
     return VisualItem::SIGHT;
 }

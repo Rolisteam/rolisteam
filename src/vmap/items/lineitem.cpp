@@ -103,7 +103,7 @@ void LineItem::readData(QDataStream& in)
     in >> i;
     m_layer = (VisualItem::Layer)i;
 }
-VisualItem::ItemType LineItem::getType()
+VisualItem::ItemType LineItem::getType() const
 {
     return VisualItem::LINE;
 }
