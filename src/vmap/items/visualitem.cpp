@@ -84,7 +84,7 @@ void VisualItem::init()
 void VisualItem::setEditableItem(bool b)
 {
     m_editable=b;
-    if(m_editable)
+    if((m_editable)&&(hasPermissionToMove()))
     {
         /// @warning if two connected people have editable item, it will lead to endless loop.
         setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
@@ -146,7 +146,7 @@ void VisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 void VisualItem::keyPressEvent(QKeyEvent* event)
 {
 
-    if((event->key ()==Qt::Key_Delete)&&(m_editable)&&(isSelected()))
+    if((event->key ()==Qt::Key_Delete)&&(m_editable)&&(isSelected())&&hasPermissionToMove())
     {
         emit itemRemoved(m_id);
     }
@@ -354,7 +354,7 @@ QString VisualItem::getId()
 
 bool VisualItem::hasFocusOrChild()
 {
-    if((getOption(VisualItem::LocalIsGM).toBool())||((!getOption(VisualItem::LocalIsGM).toBool())&&(getOption(VisualItem::PermissionMode).toInt()==Map::PC_ALL)))
+    if(hasPermissionToMove())
     {
         if(isSelected())
         {
@@ -379,8 +379,7 @@ bool VisualItem::hasFocusOrChild()
 }
 void VisualItem::sendItemLayer()
 {
-    if(getOption(VisualItem::LocalIsGM).toBool() ||
-            getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)//getOption PermissionMode
+    if(hasPermissionToMove(true))//getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::LayerItemChanged);
         msg.string8(m_mapId);
@@ -392,8 +391,7 @@ void VisualItem::sendItemLayer()
 
 void VisualItem::sendOpacityMsg()
 {
-    if(getOption(VisualItem::LocalIsGM).toBool() ||
-            getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL)//getOption PermissionMode
+    if(hasPermissionToMove(false))//getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::OpacityItemChanged);
         msg.string8(m_mapId);
@@ -416,7 +414,7 @@ void VisualItem::readLayerMsg(NetworkMessageReader* msg)
     setLayer((VisualItem::Layer)lay);
     blockSignals(false);
 }
-bool VisualItem::isLocal()
+bool VisualItem::isLocal() const
 {
     return false;
 }
@@ -438,11 +436,7 @@ void VisualItem::sendPositionMsg()
     if(m_pointList.isEmpty())
         return;
 
-    if((getOption(VisualItem::LocalIsGM).toBool()) ||
-            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
-            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
-             (getType() == VisualItem::CHARACTER)&&
-             (isLocal())))//getOption PermissionMode
+    if(hasPermissionToMove())//getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::MoveItem);
         msg.string8(m_mapId);
@@ -471,11 +465,7 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 }
 void VisualItem::sendZValueMsg()
 {
-    if((getOption(VisualItem::LocalIsGM).toBool()) ||
-            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
-            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
-             (getType() == VisualItem::CHARACTER)&&
-             (isLocal())))//getOption PermissionMode
+    if(hasPermissionToMove())//getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::ZValueItem);
         msg.string8(m_mapId);
@@ -494,11 +484,7 @@ void VisualItem::readZValueMsg(NetworkMessageReader* msg)
 }
 void VisualItem::sendRotationMsg()
 {
-    if((getOption(VisualItem::LocalIsGM).toBool()) ||
-            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
-            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
-             (getType() == VisualItem::CHARACTER)&&
-             (isLocal())))//getOption PermissionMode
+    if(hasPermissionToMove())//getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::RotationItem);
         msg.string8(m_mapId);
@@ -517,11 +503,7 @@ void VisualItem::readRotationMsg(NetworkMessageReader* msg)
 }
 void VisualItem::sendRectGeometryMsg()
 {
-    if((getOption(VisualItem::LocalIsGM).toBool()) ||
-            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
-            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
-             (getType() == VisualItem::CHARACTER)&&
-             (isLocal())))//getOption PermissionMode
+    if(hasPermissionToMove())//getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::RectGeometryItem);
         msg.string8(m_mapId);
@@ -627,8 +609,26 @@ bool VisualItem::canBeMoved() const
     if(!isEditable())
     {
         return false;
+    } 
+    else if(hasPermissionToMove())
+    {
+        return true;
     }
-    else if(getOption(VisualItem::LocalIsGM).toBool())
+    else
+    {
+        return false;
+    }
+}
+bool VisualItem::hasPermissionToMove(bool allowCharacter) const
+{
+    if(getOption(VisualItem::LocalIsGM).toBool())
+    {
+        return true;
+    }
+    else if((getOption(VisualItem::PermissionMode).toInt()==Map::PC_MOVE)&&
+            (getType() == VisualItem::CHARACTER)&&
+            (isLocal())&&
+            (allowCharacter))
     {
         return true;
     }
@@ -641,7 +641,6 @@ bool VisualItem::canBeMoved() const
         return false;
     }
 }
-
 bool VisualItem::getHoldSize() const
 {
     return m_holdSize;
