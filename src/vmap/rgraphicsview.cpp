@@ -330,20 +330,8 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
         else//only one item
         {
             /// @todo management of PC_MOVE
-            /*  if(licenseToModify)
-            {*/
             QGraphicsView::contextMenuEvent(event);
-            /*    }
-            else // modification only on the view, zoom and position
-            {
-                menu.setTitle(tr("Ajust the view"));
 
-                menu.addAction(m_zoomInMax);
-                menu.addAction(m_zoomNormal);
-                menu.addAction(m_zoomOutMax);
-                menu.addAction(m_zoomCenterOnItem);
-
-            }*/
         }
     }
     else
@@ -373,21 +361,22 @@ void RGraphicsView::centerOnItem()
 
     }
 }
-void RGraphicsView::setRotation(QList<QGraphicsItem*> list, int value)
+void RGraphicsView::setRotation(QList<VisualItem*> list, int value)
 {
-    for(QGraphicsItem* item: list)
+    for(VisualItem* item: list)
     {
         item->setRotation(value);
+        item->sendRotationMsg();
     }
 }
-void RGraphicsView::normalizeSize(QList<QGraphicsItem*> items,Method method,QPoint point)
+void RGraphicsView::normalizeSize(QList<VisualItem*> list,Method method,QPoint point)
 {
 
 
     QSizeF finalRect;
     if(Bigger == method)
     {
-        for(QGraphicsItem* item: list)
+        for(VisualItem* item: list)
         {
             if(finalRect.width()*finalRect.height() <= item->boundingRect().size().height()*item->boundingRect().size().width())
             {
@@ -398,7 +387,7 @@ void RGraphicsView::normalizeSize(QList<QGraphicsItem*> items,Method method,QPoi
     }
     else if(Smaller == method)
     {
-        for(QGraphicsItem* item: list)
+        for(VisualItem* item: list)
         {
             if(finalRect.isNull())
             {
@@ -424,7 +413,7 @@ void RGraphicsView::normalizeSize(QList<QGraphicsItem*> items,Method method,QPoi
     }
     else if(Average == method)
     {
-        for(QGraphicsItem* item: list)
+        for(VisualItem* item: list)
         {
             if(finalRect.isNull())
             {
@@ -437,40 +426,32 @@ void RGraphicsView::normalizeSize(QList<QGraphicsItem*> items,Method method,QPoi
         }
     }
 
-    for(QGraphicsItem* item: list)
+    for(VisualItem* item: list)
     {
-        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
-        if(NULL!=vItem)
+        if(NULL!=item)
         {
-            vItem->setSize(finalRect);
+            item->setSize(finalRect);
+            item->sendRectGeometryMsg();
         }
+
     }
 }
 
-void RGraphicsView::setItemLayer(QList<QGraphicsItem*> list,VisualItem::Layer layer)
+void RGraphicsView::setItemLayer(QList<VisualItem*> list,VisualItem::Layer layer)
 {
-    for(QGraphicsItem* item : list)
+    for(VisualItem* item : list)
     {
-        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
-        if((vItem != NULL))
+        if(NULL != item)
         {
-            vItem->setLayer(layer);
-            vItem->setEditableItem(layer==m_vmap->getCurrentLayer());
+            item->setLayer(layer);
+            item->setEditableItem(layer==m_vmap->getCurrentLayer());
+            item->sendItemLayer();
         }
     }
 }
-void RGraphicsView::deleteItem(QList<QGraphicsItem*> list)
+void RGraphicsView::deleteItem(QList<VisualItem*> list)
 {
-    QList<VisualItem*> vItemlist;
-    for(QGraphicsItem* item: list)
-    {
-        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
-        if(NULL!=vItem)
-        {
-            vItemlist.append(vItem);
-        }
-    }
-    for(VisualItem* vItem: vItemlist)
+    for(VisualItem* vItem: list)
     {
         if((NULL!=m_vmap)&&(NULL!=vItem))
         {
@@ -478,14 +459,13 @@ void RGraphicsView::deleteItem(QList<QGraphicsItem*> list)
         }
     }
 }
-void RGraphicsView::changeZValue(QList<QGraphicsItem*> list,VisualItem::StackOrder order)
+void RGraphicsView::changeZValue(QList<VisualItem*> list,VisualItem::StackOrder order)
 {
-    for(QGraphicsItem* item: list)
+    for(VisualItem* item: list)
     {
-        VisualItem* vItem = dynamic_cast<VisualItem*>(item);
-        if((NULL!=m_vmap)&&(vItem != NULL))
+        if((NULL!=m_vmap)&&(item != NULL))
         {
-            m_vmap->changeStackOrder(vItem,order);
+            m_vmap->changeStackOrder(item,order);
         }
     }
 }
