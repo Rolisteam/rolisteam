@@ -388,7 +388,7 @@ void Field::loadDataItem(QJsonObject &json)
     setValue(json["value"].toString(),true);
     setLabel(json["label"].toString());
     setFormula(json["formula"].toString());
-    setReadOnly(json["readOnly"].toBool());
+    setReadOnly(json["readonly"].toBool());
     m_currentType=(Field::TypeField)json["typefield"].toInt();
 }
 
@@ -490,6 +490,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "    height:"<< m_canvasField->boundingRect().height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         out << "    visible: root.page == "<< m_page << "? true : false\n";
+        out << "    readonly: "<<m_id<<".readonly";
         if(m_currentType==Field::BUTTON)
         {
            out << "    onClicked:rollDiceCmd("<<m_id<<".value)\n";
