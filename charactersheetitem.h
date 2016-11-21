@@ -37,7 +37,7 @@ class CharacterSheetItem : public QObject
     Q_PROPERTY(QString value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(int page READ getPage WRITE setPage NOTIFY pageChanged)
     Q_PROPERTY(bool readOnly READ isReadOnly WRITE setReadOnly NOTIFY readOnlyChanged)
-    Q_PROPERTY(QString formula READ getFormula WRITE setFormula NOTIFY readOnlyChanged)
+    Q_PROPERTY(QString formula READ getFormula WRITE setFormula NOTIFY formulaChanged)
     Q_PROPERTY(QString label READ getLabel WRITE setLabel NOTIFY labelChanged)
 public:
     enum CharacterSheetItemType {SectionItem,FieldItem,ButtonItem};
