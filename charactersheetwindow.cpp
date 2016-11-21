@@ -123,7 +123,11 @@ void CharacterSheetWindow::setReadOnlyOnSelection()
             CharacterSheet* sheet = m_model.getCharacterSheet(item.column()-1);
             if(NULL!=sheet)
             {
-                listItem.append(sheet->getFieldAt(item.row()));
+                CharacterSheetItem* csitem = static_cast<CharacterSheetItem*>(item.internalPointer());
+                if(NULL!=csitem)
+                {
+                    listItem.append(sheet->getFieldFromKey(csitem->getId()));
+                }
             }
         }
     }
@@ -397,8 +401,10 @@ void CharacterSheetWindow::updateFieldFrom(CharacterSheet* sheet, CharacterSheet
         {
             person = PlayersList::instance()->getGM();
         }
-
-        msg.sendTo(person->link());
+        if(NULL!=person)
+        {
+            msg.sendTo(person->link());
+        }
     }
 }
 void CharacterSheetWindow::processUpdateFieldMessage(NetworkMessageReader* msg)
@@ -423,6 +429,7 @@ void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
 {
     for(auto error : warnings)
     {
+        /// @todo display errors else where.
         qDebug() << error.toString();
     }
 }
