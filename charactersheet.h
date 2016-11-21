@@ -85,6 +85,13 @@ public:
     CharacterSheetItem* getFieldAt(int i);
 
     /**
+     * @brief getFieldFromKey
+     * @param key
+     * @return
+     */
+    CharacterSheetItem *getFieldFromKey(QString key);
+
+    /**
      * @brief getRootSection
      * @return
      */

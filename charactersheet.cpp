@@ -54,8 +54,18 @@ CharacterSheetItem* CharacterSheet::getFieldAt(int i)
 {
     if(i<m_valuesMap.size() && i >=0)
     {
+       // qDebug() << m_valuesMap.keys() << m_valuesMap << m_valuesMap.keys().at(i);
         return m_valuesMap.value(m_valuesMap.keys().at(i));
 
+    }
+    return NULL;
+}
+
+CharacterSheetItem* CharacterSheet::getFieldFromKey(QString key)
+{
+    if(m_valuesMap.contains(key))
+    {
+        return m_valuesMap.value(key);
     }
     return NULL;
 }
@@ -157,7 +167,10 @@ void CharacterSheet::setFieldData(QJsonObject &obj)
 {
     QString id = obj["id"].toString();
     CharacterSheetItem* item = m_valuesMap.value(id);
-    item->loadDataItem(obj);
+    if(NULL!=item)
+    {
+        item->loadDataItem(obj);
+    }
 }
 
 QString CharacterSheet::getName() const
