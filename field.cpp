@@ -490,7 +490,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "    height:"<< m_canvasField->boundingRect().height()<<"*parent.realscale"<<"\n";
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         out << "    visible: root.page == "<< m_page << "? true : false\n";
-        out << "    readonly: "<<m_id<<".readonly";
+        out << "    readOnly: "<<m_id<<".readOnly\n";
         if(m_currentType==Field::BUTTON)
         {
            out << "    onClicked:rollDiceCmd("<<m_id<<".value)\n";
