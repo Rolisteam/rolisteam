@@ -186,6 +186,9 @@ MainWindow::MainWindow(QWidget *parent) :
     m_applyValueOnAllLines = new QAction(tr("Apply on all lines"),this);
 
     connect(ui->m_codeEdit,SIGNAL(textChanged()),this,SLOT(codeChanged()));
+
+
+
 }
 MainWindow::~MainWindow()
 {
@@ -666,6 +669,7 @@ void MainWindow::showQML()
         delete ui->m_quickview;
         ui->m_quickview = new QQuickWidget();
         layout->addWidget(ui->m_quickview);
+
     }
     ui->m_quickview->engine()->clearComponentCache();
     m_imgProvider = new RolisteamImageProvider();
@@ -678,10 +682,26 @@ void MainWindow::showQML()
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
     ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
+    displayWarningsQML(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root = ui->m_quickview->rootObject();
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
 }
+void MainWindow::displayWarningsQML(QList<QQmlError> list)
+{
+    if(!list.isEmpty())
+    {
+        QString errors;
+        QTextStream out(&errors);
+        for(auto error : list)
+        {
+            out << error.toString();
+        }
+
+        QMessageBox::information(this,tr("QML Error "),errors,QMessageBox::Ok);
+    }
+}
+
 void MainWindow::showQMLFromCode()
 {
     QString data = ui->m_codeEdit->document()->toPlainText();
@@ -712,7 +732,9 @@ void MainWindow::showQMLFromCode()
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
     ui->m_quickview->setSource(QUrl::fromLocalFile(name));
+    displayWarningsQML(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
+
     QObject* root = ui->m_quickview->rootObject();
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
 }

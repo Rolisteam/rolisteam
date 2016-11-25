@@ -85,6 +85,7 @@ public slots:
     void setFitInView();
     bool mayBeSaved();
     void modelChanged();
+    void displayWarningsQML(QList<QQmlError> list);
 protected:
     bool eventFilter(QObject *, QEvent *);
     void applyValue(QModelIndex &index, bool selection);
