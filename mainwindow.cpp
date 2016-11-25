@@ -475,7 +475,7 @@ void MainWindow::save()
                     buffer.open(QIODevice::WriteOnly);
                     pix->save(&buffer, "PNG");
                     oj["bin"]=QString(buffer.data().toBase64());
-                    oj["key"]=QUuid::createUuid().toString();
+                    oj["key"]=m_pixList.key(pix);
                     images.append(oj);
                 }
             }
