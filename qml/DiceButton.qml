@@ -8,6 +8,7 @@ Rectangle {
     property alias textColor: textInput.color
     property alias hAlign: textInput.horizontalAlignment
     property alias vAlign: textInput.verticalAlignment
+    property alias readOnly: mouseZone.enabled
     scale: mouseZone.pressed ? 0.8 : 1.0
     signal clicked
     Text {//textInput.textColor
