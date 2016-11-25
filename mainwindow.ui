@@ -457,8 +457,16 @@
     <addaction name="actionCode_To_QML"/>
     <addaction name="m_backgroundImageAct"/>
    </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionHelp"/>
+    <addaction name="actionAbout_RCSE"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdition"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="m_openAct">
@@ -539,12 +547,12 @@
   </action>
   <action name="actionQML_View">
    <property name="text">
-    <string>Generate QML</string>
+    <string>Generate Code and Sheet</string>
    </property>
   </action>
   <action name="actionCode_To_QML">
    <property name="text">
-    <string>Code To QML</string>
+    <string>Code To Sheet</string>
    </property>
   </action>
   <action name="m_addButtonAct">
@@ -610,6 +618,16 @@
    </property>
    <property name="text">
     <string>Image</string>
+   </property>
+  </action>
+  <action name="actionAbout_RCSE">
+   <property name="text">
+    <string>About RCSE</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help</string>
    </property>
   </action>
  </widget>
