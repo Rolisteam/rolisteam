@@ -1164,7 +1164,7 @@ void MainWindow::processConnectionMessage(NetworkMessageReader* msg)
         updateWorkspace();
     }
 }
-void MainWindow::notifyUser(QString message, MessageType type) const
+void MainWindow::notifyUser(QString message, MainWindow::MessageType type) const
 {
     static bool alternance = false;
     QColor color;
@@ -1177,9 +1177,6 @@ void MainWindow::notifyUser(QString message, MessageType type) const
 
     switch (type)
     {
-    case Information:
-
-        break;
     case Error:
         color = Qt::red;
         message.prepend(tr("Error:"));
@@ -1188,6 +1185,7 @@ void MainWindow::notifyUser(QString message, MessageType type) const
         color = Qt::darkRed;
         message.prepend(tr("Warning:"));
         break;
+    case Information:
     case Notice:
         break;
     }
@@ -1994,6 +1992,7 @@ void MainWindow::prepareCharacterSheetWindow(CharacterSheetWindow* window)
     m_mediaHash.insert(window->getMediaId(),window);
     connect(window,SIGNAL(addWidgetToMdiArea(QWidget*,QString )),m_mdiArea,SLOT(addWidgetToMdi(QWidget*,QString)));
     connect(window,SIGNAL(rollDiceCmd(QString,QString)),m_chatListWidget,SLOT(rollDiceCmd(QString,QString)));
+    connect(window,SIGNAL(errorOccurs(QString,MainWindow::MessageType)),this,SLOT(notifyUser(QString,MainWindow::MessageType)));
     connect(m_playerList,SIGNAL(playerDeleted(Player*)),window,SLOT(removeConnection(Player*)));
 }
 

@@ -205,7 +205,7 @@ public slots :
      * @brief notifyUser
      * @param msg
      */
-    void notifyUser(QString msg,MessageType msgType = Information) const;
+    void notifyUser(QString msg, MainWindow::MessageType msgType = Information) const;
     /**
      * @brief quitterApplication
      * @param perteConnexion
