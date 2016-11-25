@@ -315,8 +315,8 @@ void Field::save(QJsonObject& json,bool exp)
 
     json["font"]=m_font.toString();
     json["textalign"]=m_textAlign;
-    json["x"]=m_rect.x();
-    json["y"]=m_rect.y();
+    json["x"]=getValueFrom(CharacterSheetItem::X,Qt::DisplayRole).toDouble();
+    json["y"]=getValueFrom(CharacterSheetItem::Y,Qt::DisplayRole).toDouble();
     json["width"]=m_rect.width();
     json["height"]=m_rect.height();
     QJsonArray valuesArray;
@@ -370,6 +370,9 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
         m_availableValue << value.toString();
     }
     m_rect.setRect(x,y,w,h);
+    m_canvasField->setPos(x,y);
+    m_canvasField->setWidth(w);
+    m_canvasField->setWidth(h);
 
 
     //update();
