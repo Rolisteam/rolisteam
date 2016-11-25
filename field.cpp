@@ -370,10 +370,11 @@ void Field::load(QJsonObject &json,QList<QGraphicsScene*> scene)
         m_availableValue << value.toString();
     }
     m_rect.setRect(x,y,w,h);
+    #ifdef RCSE
     m_canvasField->setPos(x,y);
     m_canvasField->setWidth(w);
-    m_canvasField->setWidth(h);
-
+    m_canvasField->setHeight(h);
+    #endif
 
     //update();
 }

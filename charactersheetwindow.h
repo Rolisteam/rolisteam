@@ -31,6 +31,9 @@
 #include "data/mediacontainer.h"
 #include "charactersheetmodel.h"
 #include "rolisteamimageprovider.h"
+
+#include "mainwindow.h"
+
 //#include "qmlnetworkaccessmanager.h"
 
 /**
@@ -79,6 +82,7 @@ public:
 signals:
     void addWidgetToMdiArea(QWidget*,QString str);
     void rollDiceCmd(QString str,QString label);
+    void errorOccurs(QString error, MainWindow::MessageType);
 
 public slots:
     void openQML();
@@ -90,6 +94,7 @@ public slots:
 
     void updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item);
     void removeConnection(Player* );
+    void readErrorFromQML(QList<QQmlError> m_);
 protected slots:
     void addTabWithSheetView(CharacterSheet *chSheet);
     /**

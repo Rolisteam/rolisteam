@@ -359,12 +359,21 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 
     m_qmlView->setSource(QUrl::fromLocalFile(fileTemp.fileName()));
     m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
+    readErrorFromQML(m_qmlView->errors());
+
     QObject* root = m_qmlView->rootObject();
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
-
     m_characterSheetlist.insert(m_qmlView,chSheet);
     m_tabs->addTab(m_qmlView,chSheet->getTitle());
 }
+void CharacterSheetWindow::readErrorFromQML(QList<QQmlError> list)
+{
+    for(auto error : list)
+    {
+        emit errorOccurs(error.toString(),MainWindow::Error);
+    }
+}
+
 void CharacterSheetWindow::rollDice(QString str)
 {
     QObject* obj = sender();
