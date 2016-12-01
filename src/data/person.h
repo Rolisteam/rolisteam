@@ -99,7 +99,7 @@ public:
     /**
     * @brief set the person's avatar.
     */
-    virtual void setAvatar(const QImage& p);
+    virtual bool setAvatar(const QImage& p);
     /**
      * @brief setColor
      * @param color

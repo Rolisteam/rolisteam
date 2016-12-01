@@ -198,14 +198,15 @@ void PlayersListWidget::editIndex(const QModelIndex & index)
     if (!index.isValid())
         return;
 
-    PlayersList* g_playersList = PlayersList::instance();
-    Person * person = g_playersList->getPerson(index);
-    if (!g_playersList->isLocal(person))
+    PlayersList* playersList = PlayersList::instance();
+    Person * person = playersList->getPerson(index);
+    if (!playersList->isLocal(person))
         return;
 
-    if (m_personDialog->edit(tr("Edit"), person->getName(), person->getColor()) == QDialog::Accepted)
+    if (m_personDialog->edit(tr("Edit"), person->getName(), person->getColor(),m_personDialog->getAvatarUri()) == QDialog::Accepted)
     {
-        g_playersList->changeLocalPerson(person, m_personDialog->getName(), m_personDialog->getColor());
+        //person->setAvatar();
+        playersList->changeLocalPerson(person, m_personDialog->getName(), m_personDialog->getColor(),QImage(m_personDialog->getAvatarUri()));
     }
 }
 
@@ -218,7 +219,7 @@ void PlayersListWidget::createLocalCharacter()
         return;
     }
 
-    if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->getColor()) == QDialog::Accepted)
+    if (m_personDialog->edit(tr("New Character"), tr("New Character"), localPlayer->getColor(),"") == QDialog::Accepted)
     {
         Character* tmp = new Character(m_personDialog->getName(), m_personDialog->getColor());
         tmp->setAvatar(QImage(m_personDialog->getAvatarUri()));

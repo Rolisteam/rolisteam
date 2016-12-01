@@ -67,6 +67,7 @@ enum Action {
     DelPlayerAction,
     ChangePlayerNameAction,
     ChangePlayerColorAction,
+    ChangePlayerAvatarAction,
 
     // CharacterPlayerCategory
     AddPlayerCharacterAction = 0,

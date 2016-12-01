@@ -496,12 +496,12 @@ void PlayersList::addLocalCharacter(Character * newCharacter)
     message.sendAll();
 }
 
-void PlayersList::changeLocalPerson(Person * person, const QString & name, const QColor & color)
+void PlayersList::changeLocalPerson(Person * person, const QString & name, const QColor & color, const QImage & icon)
 {
     if (!isLocal(person))
         return;
 
-    if (p_setLocalPersonName(person, name) || p_setLocalPersonColor(person, color))
+    if (p_setLocalPersonName(person, name) || p_setLocalPersonColor(person, color) || setLocalPersonAvatar(person,icon))
         notifyPersonChanged(person);
 }
 
@@ -523,25 +523,7 @@ void PlayersList::setLocalPersonColor(Person * person, const QColor & color)
         notifyPersonChanged(person);
 }
 
-bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
-{
-    if (person->setName(name))
-    {
-        NetworkMessageWriter * message;
 
-        if (person->getParent() == NULL)
-            message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerNameAction);
-        else
-            message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);
-
-        message->string16(person->getName());
-        message->string8(person->getUuid());
-        message->sendAll();
-
-        return true;
-    }
-    return false;
-}
 bool PlayersList::setLocalPersonAvatar(Person* person,const QImage& image)
 {
     if(person->getAvatar() != image)
@@ -575,6 +557,25 @@ bool PlayersList::p_setLocalPersonColor(Person * person, const QColor & color)
 
         message->string8(person->getUuid());
         message->rgb(person->getColor());
+        message->sendAll();
+
+        return true;
+    }
+    return false;
+}
+bool PlayersList::p_setLocalPersonName(Person * person, const QString & name)
+{
+    if (person->setName(name))
+    {
+        NetworkMessageWriter * message;
+
+        if (person->getParent() == NULL)
+            message = new NetworkMessageWriter(NetMsg::PlayerCategory, NetMsg::ChangePlayerNameAction);
+        else
+            message = new NetworkMessageWriter(NetMsg::CharacterPlayerCategory, NetMsg::ChangePlayerCharacterNameAction);
+
+        message->string16(person->getName());
+        message->string8(person->getUuid());
         message->sendAll();
 
         return true;
