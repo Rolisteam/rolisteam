@@ -88,10 +88,10 @@
  */
 int main(int argc, char *argv[])
 {
-    // Creation de l'application
+    // Application creation
     QApplication app(argc, argv);
 
-    QString appName="rolisteam";
+    QString appName("rolisteam");
 
     app.setApplicationName(appName);
     QString version = QObject::tr("Unknown");
