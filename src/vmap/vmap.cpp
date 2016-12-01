@@ -974,7 +974,7 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         {
             item->readItem(msg);
             QPointF pos = item->pos();
-            addNewItem(item);
+            addNewItem(item,true);
             item->initChildPointItem();
             if(NULL!=charItem)
             {
@@ -1129,7 +1129,7 @@ void VMap::processMovePointMsg(NetworkMessageReader* msg)
         }
     }
 }
-void VMap::addNewItem(VisualItem* item)
+void VMap::addNewItem(VisualItem* item,bool fromNetwork)
 {
     if(NULL!=item)
     {
@@ -1222,7 +1222,7 @@ void VMap::addNewItem(VisualItem* item)
                 item->setVisible(true);
             }
         }
-        if(VToolsBar::Painting == m_editionMode)
+        if((VToolsBar::Painting == m_editionMode)||(fromNetwork))
         {
             if(item->type() != VisualItem::ANCHOR)
             {

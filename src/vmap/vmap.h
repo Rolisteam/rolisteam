@@ -484,9 +484,10 @@ protected:
     void addItem();
     /**
      * @brief addNewItem
-     * @param item
+     * @param item to add
+     * @param fromNetwork, true when item is added from network, false by default.
      */
-    void addNewItem(VisualItem* item);
+    void addNewItem(VisualItem* item, bool fromNetwork = false);
     /**
      * @brief dragEnterEvent
      * @param event
