@@ -202,7 +202,11 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->uint8(m_penMode);
     msg->uint8((VisualItem::Layer)m_layer);
     msg->real(zValue());
-     msg->real(opacity());
+    msg->real(opacity());
+
+    msg->real(pos().x());
+    msg->real(pos().y());
+
     //pen
     msg->uint16(m_pen.width());
     msg->rgb(m_pen.color());
@@ -233,6 +237,10 @@ void PathItem::readItem(NetworkMessageReader* msg)
     setZValue(msg->real());
     setOpacity(msg->real());
 
+    qreal posx = msg->real();
+    qreal posy = msg->real();
+
+
     //pen
     m_pen.setWidth(msg->int16());
     m_pen.setColor(msg->rgb());
@@ -251,6 +259,9 @@ void PathItem::readItem(NetworkMessageReader* msg)
         qreal y = msg->real();
         m_pointVector.append(QPointF(x,y));
     }
+
+
+    setPos(posx,posy);
 }
 void PathItem::createActions()
 {
