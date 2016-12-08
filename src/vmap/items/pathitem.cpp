@@ -31,14 +31,14 @@
 
 
 PathItem::PathItem()
-    : VisualItem(),m_penMode(false)
+    : VisualItem(),m_penMode(false),m_filled(false)
 {
     m_closed=false;
     createActions();
 }
 
 PathItem::PathItem(QPointF& start,QColor& penColor,int penSize,bool penMode,QGraphicsItem * parent)
-    : VisualItem(penColor,parent),m_penMode(penMode)
+    : VisualItem(penColor,parent),m_penMode(penMode),m_filled(false)
 {
     m_closed=false;
 //    m_path.moveTo(start);
@@ -79,10 +79,11 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     setChildrenVisible(hasFocusOrChild());
 
 	QPainterPath path;
+
     if(!m_penMode)
     {
         path.moveTo(m_start);
-        foreach(QPointF p,m_pointVector)
+        for(QPointF p : m_pointVector)
         {
             path.lineTo(p);
         }
@@ -93,24 +94,8 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     }
     else
     {
-        /*path.moveTo(m_start);
-        for(int i = 0; i< m_pointVector.size();++i)
-        {
-            if(i==0)
-            {
-                path.quadTo(m_start,m_pointVector[i]);
-            }
-            else if(i==1)
-            {
-                path.cubicTo(m_start,m_pointVector[0],m_pointVector[i]);
-            }
-            else
-            {
-                path.cubicTo(m_pointVector[i-2],m_pointVector[i-1],m_pointVector[i]);
-            }
-        }*/
         path.moveTo(m_start);
-        foreach(QPointF p,m_pointVector)
+        for(QPointF p: m_pointVector)
         {
             path.lineTo(p);
         }
@@ -123,6 +108,11 @@ void PathItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
         }
     }
     painter->save();
+    if(m_filled)
+    {
+        path.setFillRule(Qt::OddEvenFill);
+        painter->setBrush(m_pen.brush());
+    }
     painter->setPen(m_pen);
 	painter->drawPath(path);
     painter->restore();
@@ -162,6 +152,7 @@ void PathItem::writeData(QDataStream& out) const
     out << opacity();
     out << m_pen;
     out << m_closed;
+    out << m_filled;
     out << scale();
     out << rotation();
     out << m_penMode;
@@ -180,6 +171,9 @@ void PathItem::readData(QDataStream& in)
     setOpacity(opa);
     in >> m_pen;
     in >> m_closed;
+    m_closeAct->setChecked(m_closed);
+    in >> m_filled;
+    m_fillAct->setChecked(m_filled);
     qreal scale;
     in >> scale;
     setScale(scale);
@@ -204,6 +198,7 @@ void PathItem::fillMessage(NetworkMessageWriter* msg)
     msg->real(scale());
     msg->real(rotation());
     msg->uint8(m_closed);
+    msg->uint8(m_filled);
     msg->uint8(m_penMode);
     msg->uint8((VisualItem::Layer)m_layer);
     msg->real(zValue());
@@ -231,6 +226,8 @@ void PathItem::readItem(NetworkMessageReader* msg)
     setRotation(msg->real());
     m_closed = (bool)msg->uint8();
     m_closeAct->setChecked(m_closed);
+    m_filled = (bool)msg->uint8();
+    m_fillAct->setChecked(m_filled);
     m_penMode = (bool)msg->uint8();
     m_layer = (VisualItem::Layer)msg->uint8();
     setZValue(msg->real());
@@ -260,11 +257,16 @@ void PathItem::createActions()
     m_closeAct = new QAction(tr("Close Path"),this);
     m_closeAct->setCheckable(true);
     connect(m_closeAct,SIGNAL(triggered()),this,SLOT(closePath()));
+
+    m_fillAct = new QAction(tr("Fill Path"),this);
+    m_fillAct->setCheckable(true);
+    connect(m_fillAct,SIGNAL(triggered()),this,SLOT(fillPath()));
 }
 
 void PathItem::addActionContextMenu(QMenu* menu)
 {
     menu->addAction(m_closeAct);
+    menu->addAction(m_fillAct);
 }
 void  PathItem::closePath()
 {
@@ -272,7 +274,12 @@ void  PathItem::closePath()
     emit itemGeometryChanged(this);
     update();
 }
-
+void  PathItem::fillPath()
+{
+    m_filled = m_fillAct->isChecked();
+    emit itemGeometryChanged(this);
+    update();
+}
 void PathItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {
     if(pointId==-1)
@@ -316,15 +323,12 @@ void PathItem::initChildPointItem()
 VisualItem* PathItem::getItemCopy()
 {
 	PathItem* path = new PathItem();
-
     path->setPath(m_pointVector);
     path->setStartPoint(m_start);
     path->setPen(m_pen);
     path->setClosed(m_closed);
+    path->setFilled(m_filled);
     path->setPos(pos());
-
-///@todo implement copy
-
 	return path;
 }
 void PathItem::setPen(QPen pen)
@@ -363,6 +367,12 @@ void PathItem::setClosed(bool b)
     m_closed = b;
     update();
 }
+void PathItem::setFilled(bool b)
+{
+    m_filled = b;
+    update();
+}
+
 void PathItem::endOfGeometryChange()
 {
     if(m_resizing)
