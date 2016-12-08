@@ -40,8 +40,16 @@
   * @page characterSheet CharacterSheet System
   *
   * @section Introduction Introduction
+  * The characterSheet system is dedicated to manage charactersheet.
+  * It provides a way to display the charactersheet into a graphical user interface.
+  * This GUI is designed in QML and to create it, rolisteam comes with Rolisteam CharacterSheet Editor.
+  * The interface displays data from data model stored in rolisteam. Those data are also read by the Dice System.
+  * The GUI provides different kinds of items to display data: Textfield, TextArea, TextLine, Combobox and dice button.
+  * So, it is possible to send dice command from the graphical sheet.
+  * It is possible to use formula in the charactersheet.
   *
-  * /
+  *
+  */
 
 /**
     * @brief herits from SubMdiWindows. It displays and manages all classes required to deal with the character sheet MVC architrecture.
@@ -54,48 +62,150 @@ public:
     * @brief default construtor
     */
     CharacterSheetWindow(CleverURI* uri= NULL, QWidget* parent = NULL);
+    /**
+     * @brief ~CharacterSheetWindow
+     */
     virtual ~CharacterSheetWindow(); 
-    
+    /**
+     * @brief openFile
+     * @param file
+     * @return
+     */
     bool openFile(const QString& file);
+    /**
+     * @brief saveFile
+     * @return
+     */
     QJsonDocument saveFile();
+    /**
+     * @brief hasDockWidget
+     * @return
+     */
     virtual bool hasDockWidget() const ;
+    /**
+     * @brief getDockWidget
+     * @return
+     */
     virtual QDockWidget* getDockWidget() ;
-
+    /**
+     * @brief readFileFromUri
+     * @return
+     */
     bool readFileFromUri();
+    /**
+     * @brief saveMedia
+     */
     void saveMedia();
-    
+    /**
+     * @brief getQmlData
+     * @return
+     */
     QString getQmlData() const;
+    /**
+     * @brief setQmlData
+     * @param qmlData
+     */
     void setQmlData(const QString &qmlData);
-
+    /**
+     * @brief addCharacterSheet
+     */
     void addCharacterSheet(CharacterSheet*);
-
+    /**
+     * @brief getImgProvider
+     * @return
+     */
     RolisteamImageProvider *getImgProvider() const;
+    /**
+     * @brief setImgProvider
+     * @param imgProvider
+     */
     void setImgProvider(RolisteamImageProvider *imgProvider);
-
+    /**
+     * @brief fill
+     * @param msg
+     * @param sheet
+     * @param idChar
+     */
     void fill(NetworkMessageWriter *msg, CharacterSheet* sheet, QString idChar);
+    /**
+     * @brief read
+     * @param msg
+     */
     void read(NetworkMessageReader* msg);
-
+    /**
+     * @brief processUpdateFieldMessage
+     * @param msg
+     */
     void processUpdateFieldMessage(NetworkMessageReader *msg);
+    /**
+     * @brief getLocalIsGM
+     * @return
+     */
     bool getLocalIsGM() const;
+    /**
+     * @brief setLocalIsGM
+     * @param localIsGM
+     */
     void setLocalIsGM(bool localIsGM);
 
 signals:
+    /**
+     * @brief addWidgetToMdiArea
+     * @param str
+     */
     void addWidgetToMdiArea(QWidget*,QString str);
+    /**
+     * @brief rollDiceCmd
+     * @param str
+     * @param label
+     */
     void rollDiceCmd(QString str,QString label);
+    /**
+     * @brief errorOccurs
+     * @param error
+     */
     void errorOccurs(QString error, MainWindow::MessageType);
 
 public slots:
+    /**
+     * @brief openQML
+     */
     void openQML();
+    /**
+     * @brief contextMenuForTabs
+     * @param pos
+     */
     void contextMenuForTabs(const QPoint &pos);
+    /**
+     * @brief detachTab
+     */
     void detachTab();
 
-
+    /**
+     * @brief rollDice
+     * @param cmd
+     */
     void rollDice(QString cmd);
-
+    /**
+     * @brief updateFieldFrom
+     * @param sheet
+     * @param item
+     */
     void updateFieldFrom(CharacterSheet* sheet, CharacterSheetItem* item);
+    /**
+     * @brief removeConnection
+     */
     void removeConnection(Player* );
-    void readErrorFromQML(QList<QQmlError> m_);
+    /**
+     * @brief readErrorFromQML
+     * @param errors
+     */
+    void readErrorFromQML(QList<QQmlError> errors);
 protected slots:
+    /**
+     * @brief addTabWithSheetView
+     * @param chSheet
+     */
     void addTabWithSheetView(CharacterSheet *chSheet);
     /**
     * @brief slot is called when the user click on the m_addLine button. That leads to add one line after the current position (in the current CharacterSheet).
@@ -113,25 +223,59 @@ protected slots:
     * @brief slot is called when the user click on the  mice right button
     */
     void displayCustomMenu(const QPoint & pos);
-    
+    /**
+     * @brief openCharacterSheet
+     */
     void openCharacterSheet();
-    
+    /**
+     * @brief saveCharacterSheet
+     */
     void saveCharacterSheet();
-
+    /**
+     * @brief affectSheetToCharacter
+     */
     void affectSheetToCharacter();
+    /**
+     * @brief displayError
+     * @param warnings
+     */
     void displayError(const QList<QQmlError> &warnings);
+    /**
+     * @brief putDataIntoCleverUri
+     */
     void putDataIntoCleverUri();
-
+    /**
+     * @brief setReadOnlyOnSelection
+     */
     void setReadOnlyOnSelection();
 
 
-    //    void continueLoading();
+    /**
+    * @brief copyTab
+    */
     void copyTab();
 protected:
+    /**
+     * @brief closeEvent
+     * @param event
+     */
     virtual void closeEvent ( QCloseEvent * event );
-
+    /**
+     * @brief addSharingMenu
+     * @param share
+     */
     void addSharingMenu(QMenu *share);
+    /**
+     * @brief checkAlreadyShare
+     * @param sheet
+     */
     void checkAlreadyShare(CharacterSheet *sheet);
+    /**
+     * @brief eventFilter
+     * @param object
+     * @param event
+     * @return
+     */
     bool eventFilter(QObject *object, QEvent *event);
 private:
     /**

@@ -22,26 +22,63 @@
 
 #include "formulanode.h"
 /**
- * @brief The ScalarOperatorFNode class manages basic arithmetic operation.
+ * @brief the Formula namespace is gathering all classes to manage the computation formula.
  */
 namespace Formula
 {
+/**
+ * @brief The ScalarOperatorFNode class manages basic arithmetic operation.
+ */
 class ScalarOperatorFNode : public FormulaNode
 {
 public:
+    /**
+     * @brief The ArithmeticOperator enum
+     */
     enum ArithmeticOperator {PLUS,MINUS,DIVIDE,MULTIPLICATION};
+    /**
+     * @brief ScalarOperatorFNode
+     */
     ScalarOperatorFNode();
+    /**
+     * @brief ~ScalarOperatorFNode
+     */
     virtual ~ScalarOperatorFNode();
-
+    /**
+     * @brief run
+     * @param previous
+     * @return
+     */
     bool run(FormulaNode* previous);
-
+    /**
+     * @brief getInternalNode
+     * @return
+     */
     FormulaNode* getInternalNode() const;
+    /**
+     * @brief setInternalNode
+     * @param internalNode
+     */
     void setInternalNode(FormulaNode* internalNode);
-
+    /**
+     * @brief getArithmeticOperator
+     * @return
+     */
     ArithmeticOperator getArithmeticOperator() const;
+    /**
+     * @brief setArithmeticOperator
+     * @param arithmeticOperator
+     */
     void setArithmeticOperator(const ArithmeticOperator &arithmeticOperator);
-
+    /**
+     * @brief getResult
+     * @return
+     */
     virtual QVariant getResult();
+    /**
+     * @brief getPriority
+     * @return
+     */
     int getPriority();
 private:
     FormulaNode* m_internalNode;
