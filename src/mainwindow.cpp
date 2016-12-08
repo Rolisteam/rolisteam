@@ -265,6 +265,14 @@ void MainWindow::activeWindowChanged(QMdiSubWindow *subWindow)
                 m_vmapToolBar->setCurrentMap(frame->getMap());
                 m_vToolBar->updateUi(frame->getMap()->getPermissionMode());
             }
+            else if(subWindow->objectName() == QString("CharacterSheetViewer") && (localPlayerIsGM))
+            {
+                m_playersListWidget->model()->changeMap(NULL);
+                m_ui->m_closeAction->setEnabled(true);
+                m_ui->m_saveAction->setEnabled(true);
+                m_ui->m_saveAsAction->setEnabled(true);
+                m_vmapToolBar->setEnabled(false);
+            }
         }
         else
         {
