@@ -85,22 +85,22 @@
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="295"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="307"/>
         <source>Fields name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="311"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="323"/>
         <source>Empty Section %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="319"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="331"/>
         <source>Section_%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="343"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="355"/>
         <source>Field %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -109,7 +109,7 @@
     <name>CharacterSheetWindow</name>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="592"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="616"/>
         <source>Character Sheet Viewer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -159,42 +159,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="178"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="182"/>
         <source>Share To </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="207"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="211"/>
         <source>Share To</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="434"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="450"/>
         <source>Save Character Sheets Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="435"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="451"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="519"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="543"/>
         <source>Open Character Sheet data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="520"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="544"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="527"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="551"/>
         <source>Open Character Sheets View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="528"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="552"/>
         <source>Character Sheet files (*.qml)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -303,17 +303,17 @@
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="85"/>
-        <source>ButtomRight</source>
+        <source>BottomRight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="86"/>
-        <source>ButtomMiddle</source>
+        <source>BottomMiddle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="87"/>
-        <source>ButtomLeft</source>
+        <source>BottomLeft</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -331,25 +331,25 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="67"/>
-        <location filename="../mainwindow.ui" line="498"/>
+        <location filename="../mainwindow.ui" line="506"/>
         <source>TextInput</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="102"/>
-        <location filename="../mainwindow.ui" line="571"/>
+        <location filename="../mainwindow.ui" line="579"/>
         <source>TextField</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="140"/>
-        <location filename="../mainwindow.ui" line="583"/>
+        <location filename="../mainwindow.ui" line="591"/>
         <source>Checkbox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="175"/>
-        <location filename="../mainwindow.ui" line="595"/>
+        <location filename="../mainwindow.ui" line="603"/>
         <source>TextArea</source>
         <translation type="unfinished"></translation>
     </message>
@@ -360,19 +360,19 @@
     </message>
     <message>
         <location filename="../mainwindow.ui" line="242"/>
-        <location filename="../mainwindow.ui" line="612"/>
+        <location filename="../mainwindow.ui" line="620"/>
         <source>Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="265"/>
-        <location filename="../mainwindow.ui" line="510"/>
+        <location filename="../mainwindow.ui" line="518"/>
         <source>Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="300"/>
-        <location filename="../mainwindow.ui" line="522"/>
+        <location filename="../mainwindow.ui" line="530"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -412,62 +412,73 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="466"/>
+        <location filename="../mainwindow.ui" line="462"/>
+        <location filename="../mainwindow.ui" line="630"/>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="474"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="471"/>
+        <location filename="../mainwindow.ui" line="479"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="476"/>
+        <location filename="../mainwindow.ui" line="484"/>
         <source>Save As...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="481"/>
+        <location filename="../mainwindow.ui" line="489"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="486"/>
+        <location filename="../mainwindow.ui" line="494"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="527"/>
+        <location filename="../mainwindow.ui" line="535"/>
         <source>Export To Rolisteam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="532"/>
+        <location filename="../mainwindow.ui" line="540"/>
         <source>Save View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="537"/>
+        <location filename="../mainwindow.ui" line="545"/>
         <source>Load View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="542"/>
-        <source>Generate QML</source>
+        <location filename="../mainwindow.ui" line="550"/>
+        <source>Generate Code and Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="547"/>
-        <source>Code To QML</source>
+        <location filename="../mainwindow.ui" line="555"/>
+        <source>Code To Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="559"/>
+        <location filename="../mainwindow.ui" line="625"/>
+        <source>About RCSE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="567"/>
         <source>Add Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="600"/>
+        <location filename="../mainwindow.ui" line="608"/>
         <source>Set image background…</source>
         <translation type="unfinished"></translation>
     </message>
@@ -497,60 +508,65 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="222"/>
+        <location filename="../mainwindow.cpp" line="225"/>
         <source>The charactersheet has unsaved changes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="229"/>
+        <location filename="../mainwindow.cpp" line="232"/>
         <source>Quit %1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="285"/>
+        <location filename="../mainwindow.cpp" line="288"/>
         <source>Open Background Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="419"/>
-        <location filename="../mainwindow.cpp" line="499"/>
+        <location filename="../mainwindow.cpp" line="422"/>
+        <location filename="../mainwindow.cpp" line="502"/>
         <source>Save CharacterSheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="419"/>
-        <location filename="../mainwindow.cpp" line="499"/>
+        <location filename="../mainwindow.cpp" line="422"/>
+        <location filename="../mainwindow.cpp" line="502"/>
         <source>Rolisteam CharacterSheet (*.rcs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="642"/>
+        <location filename="../mainwindow.cpp" line="645"/>
         <source>Do you want to erase current QML code ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="642"/>
+        <location filename="../mainwindow.cpp" line="645"/>
         <source>Generate QML code will override any change you made in the QML.&lt;br/&gt;Do you really want to generate QML code ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="721"/>
-        <location filename="../mainwindow.cpp" line="738"/>
+        <location filename="../mainwindow.cpp" line="701"/>
+        <source>QML Error </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="743"/>
+        <location filename="../mainwindow.cpp" line="760"/>
         <source>Save CharacterSheet View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="721"/>
+        <location filename="../mainwindow.cpp" line="743"/>
         <source>CharacterSheet View (*.qml)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="738"/>
+        <location filename="../mainwindow.cpp" line="760"/>
         <source>Rolisteam CharacterSheet View (*.qml)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="824"/>
+        <location filename="../mainwindow.cpp" line="846"/>
         <source>Get Color</source>
         <translation type="unfinished"></translation>
     </message>
