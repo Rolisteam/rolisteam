@@ -178,6 +178,19 @@ void RGraphicsView::contextMenuEvent(QContextMenuEvent* event)
             {
                 list.append(vItem);
             }
+            else
+            {
+                ChildPointItem* childItem = dynamic_cast<ChildPointItem*>(item);
+                if(nullptr != childItem)
+                {
+                    QGraphicsItem* item2 = childItem->parentItem();
+                    VisualItem* vItem = dynamic_cast<VisualItem*>(item2);
+                    if(NULL!=vItem)
+                    {
+                        list.append(vItem);
+                    }
+                }
+            }
 
         }
 
@@ -347,7 +360,7 @@ void RGraphicsView::centerOnItem()
         QRectF rect = m_centerOnItem->mapToScene(m_centerOnItem->boundingRect()).boundingRect();
         QRectF rect2 = mapToScene(sceneRect().toRect()).boundingRect();
 
-        qDebug() << rect << mapToScene(rect2.toRect()).boundingRect() << transform();
+        //qDebug() << rect << mapToScene(rect2.toRect()).boundingRect() << transform();
 
         if(!rect2.contains(rect))
         {
