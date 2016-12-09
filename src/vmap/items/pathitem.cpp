@@ -296,6 +296,9 @@ void PathItem::setGeometryPoint(qreal pointId, QPointF &pos)
     if(pointId==-1)
     {
         m_start = pos;
+        m_resizing = true;
+        m_changedPointId = pointId;
+        m_changedPointPos = pos;
     }
     else
     {
@@ -390,6 +393,10 @@ void PathItem::endOfGeometryChange()
     {
         sendPointPosition();
         m_resizing =false;
+    }
+    else
+    {
+        VisualItem::endOfGeometryChange();
     }
 }
 void PathItem::sendPointPosition()
