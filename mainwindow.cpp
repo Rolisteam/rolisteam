@@ -41,18 +41,21 @@
 #include <QJsonArray>
 #include <QButtonGroup>
 #include <QUuid>
+#include <poppler-qt5.h>
 
 #include "borderlisteditor.h"
 #include "alignmentdelegate.h"
 #include "typedelegate.h"
 #include "qmlhighlighter.h"
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_currentPage(0),
     m_editedTextByHand(false),
-    m_counterZoom(0)
+    m_counterZoom(0),
+    m_pdf(nullptr)
 {
     m_title = QStringLiteral("%1[*] - %2");
     setWindowTitle(m_title.arg("Unknown").arg("RCSE"));
@@ -208,7 +211,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if(mayBeSaved())
     {
-       // writeSettings();
+        // writeSettings();
         event->accept();
     }
     else
@@ -269,34 +272,143 @@ bool MainWindow::wheelEventForView(QWheelEvent *event)
 
         if((event->delta() > 0)&&(m_counterZoom<20))
         {
-             m_view->scale(scaleFactor, scaleFactor);
+            m_view->scale(scaleFactor, scaleFactor);
             ++m_counterZoom;
         }
         else if(m_counterZoom>-20)
         {
             --m_counterZoom;
-             m_view->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+            m_view->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
         }
-         m_view->setResizeAnchor(QGraphicsView::NoAnchor);
+        m_view->setResizeAnchor(QGraphicsView::NoAnchor);
         m_view->setTransformationAnchor(QGraphicsView::NoAnchor);
-         return true;
+        return true;
     }
-     return false;
+    return false;
 }
+void MainWindow::openPDF()
+{
+#ifdef WITH_PDF
+    Poppler::Document* document = Poppler::Document::load(m_pdfPath);
+    if (nullptr==document || document->isLocked()) {
+        QMessageBox::warning(this,tr("Error! this PDF file can not be read!"),tr("This PDF document can not be read: %1").arg(m_pdfPath),QMessageBox::Ok);
+        delete document;
+        return;
+    }
+    if(nullptr!=m_pdf)
+    {
+        qreal res = m_pdf->getDpi();
+        m_pixList.clear();
+        QString id = QUuid::createUuid().toString();
+        static int lastCanvas=m_canvasList.size()-1;
+
+        QSize previous;
+        if(m_pdf->hasResolution())
+        {
+            previous.setHeight(m_pdf->getHeight());
+            previous.setWidth(m_pdf->getWidth());
+        }
+        for(int i = 0; i<document->numPages();++i)
+        {
+            Poppler::Page* pdfPage = document->page(i);  // Document starts at page 0
+            if (nullptr == pdfPage)
+            {
+              QMessageBox::warning(this,tr("Error! This PDF file seems empty!"),tr("This PDF document has no page."),QMessageBox::Ok);
+              return;
+            }
+            // Generate a QImage of the rendered page
+
+            QImage image = pdfPage->renderToImage(res,res);//xres, yres, x, y, width, height
+            if (image.isNull())
+            {
+              QMessageBox::warning(this,tr("Error! Can not make image!"),tr("System has failed while making image of the pdf page."),QMessageBox::Ok);
+              return;
+            }
+            QPixmap* pix = new QPixmap();
+            if(!m_pdf->hasResolution())
+            {
+                m_pdf->setWidth(image.size().width());
+                m_pdf->setHeight(image.size().height());
+            }
+            if(!previous.isValid())
+            {
+                previous = image.size();
+                *pix=QPixmap::fromImage(image);
+            }
+            else if(previous != image.size())
+            {
+                *pix=QPixmap::fromImage(image.scaled(previous.width(),previous.height(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
+            }
+            else
+            {
+                *pix=QPixmap::fromImage(image);
+            }
+
+            if(!pix->isNull())
+            {
+                if(i>=m_canvasList.size())
+                {
+                    addPage();
+                }
+                if(i<m_canvasList.size())
+                {
+                    Canvas* canvas = m_canvasList[i];
+                    if(nullptr!=canvas)
+                    {
+                        canvas->setPixmap(pix);
+                        QString key = QStringLiteral("%2_background_%1.jpg").arg(lastCanvas+i).arg(id);
+                        m_pixList.insert(key,pix);
+
+                        m_imgProvider->insertPix(key,*pix);
+                    }
+                }
+            }
+
+        delete pdfPage;
+    }
+    }
+    delete document;
+#endif
+}
+void MainWindow::managePDFImport()
+{
+  m_pdf =new PdfManager(this);
+  connect(m_pdf,SIGNAL(apply()),this,SLOT(openPDF()));
+  connect(m_pdf,SIGNAL(accepted()),this,SLOT(openPDF()));
+  openPDF();
+  m_pdf->exec();
+
+}
+
 void MainWindow::openImage()
 {
-    QString img = QFileDialog::getOpenFileName(this,tr("Open Background Image"),QDir::homePath());
+#ifdef WITH_PDF
+    QString supportedFormat("Supported files (*.jpg *.png *.xpm *.pdf);;All Files (*.*)");
+#else
+    QString supportedFormat("Supported files (*.jpg,*.png);;All Files (*.*)");
+#endif
+    QString img = QFileDialog::getOpenFileName(this,tr("Open Background Image"),QDir::homePath(),supportedFormat);
     if(!img.isEmpty())
     {
-        QPixmap* pix = new QPixmap(img);
-        if(!pix->isNull())
+        if(img.endsWith("pdf"))
         {
-             Canvas* canvas = m_canvasList[m_currentPage];
-             canvas->setPixmap(pix);
-             QString id = QUuid::createUuid().toString();
-             m_pixList.insert(id,pix);
-             m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(m_currentPage).arg(id),*pix);
-             //setFitInView(); //m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
+            //openPDF(img);
+            m_pdfPath = img;
+            managePDFImport();
+        }
+        else
+        {
+            QPixmap* pix = new QPixmap(img);
+            if(!pix->isNull())
+            {
+                Canvas* canvas = m_canvasList[m_currentPage];
+                canvas->setPixmap(pix);
+                QString id = QUuid::createUuid().toString();
+                QString key = QStringLiteral("%2_background_%1.jpg").arg(m_currentPage).arg(id);
+                m_pixList.insert(key,pix);
+                m_imgProvider->insertPix(key,*pix);
+                //setFitInView(); //m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
+            }
         }
     }
 
@@ -317,6 +429,7 @@ void MainWindow::setFitInView()
 
 void MainWindow::menuRequestedFromView(const QPoint & pos)
 {
+    Q_UNUSED(pos);
     QMenu menu(this);
 
     menu.addAction(m_fitInView);
@@ -325,6 +438,7 @@ void MainWindow::menuRequestedFromView(const QPoint & pos)
 }
 void MainWindow::menuRequested(const QPoint & pos)
 {
+    Q_UNUSED(pos);
     QMenu menu(this);
 
     menu.addAction(m_addCharacter);
@@ -333,6 +447,7 @@ void MainWindow::menuRequested(const QPoint & pos)
 }
 void MainWindow::menuRequestedForFieldModel(const QPoint & pos)
 {
+    Q_UNUSED(pos);
     QMenu menu(this);
 
     QModelIndex index = ui->treeView->currentIndex();
@@ -393,9 +508,9 @@ void MainWindow::setImage()
 {
     int i = 0;
     m_pixList.clear();
+    QString id = QUuid::createUuid().toString();//one id for all images.
     for(auto canvas : m_canvasList)
     {
-        QString id = QUuid::createUuid().toString();
         QPixmap* pix = canvas->pixmap();
         //m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
         setFitInView();
@@ -403,8 +518,9 @@ void MainWindow::setImage()
         {
             pix=new QPixmap();
         }
-        m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(id),*pix);
-        m_pixList.insert(id,pix);
+        QString idList = QStringLiteral("%2_background_%1.jpg").arg(i).arg(id);
+        m_imgProvider->insertPix(idList,*pix);
+        m_pixList.insert(idList,pix);
         ++i;
     }
 }
@@ -431,7 +547,7 @@ void MainWindow::saveAs()
 }
 void MainWindow::save()
 {
-   // m_filename = QFileDialog::getSaveFileName(this,tr("Select file to export files"),QDir::homePath());
+    // m_filename = QFileDialog::getSaveFileName(this,tr("Select file to export files"),QDir::homePath());
     if(m_filename.isEmpty())
         saveAs();
     else if(!m_filename.isEmpty())
@@ -532,10 +648,11 @@ void MainWindow::open()
                 }
                 else
                 {
-                   m_canvasList[0]->setPixmap(pix);
+                    m_canvasList[0]->setPixmap(pix);
                 }
                 m_pixList.insert(id,pix);
-                m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(id),*pix);
+                //m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(id),*pix);
+                m_imgProvider->insertPix(id,*pix);
                 ++i;
             }
             m_model->load(data,m_canvasList);
@@ -577,6 +694,7 @@ void MainWindow::generateQML(QString& qml)
     QSize size;
     for(QPixmap* pix2 : m_pixList.values())
     {
+        qDebug()<< size << "size: "<< pix2->size() << m_pixList.size();
         if(size != pix2->size())
         {
             if(size.isValid())
@@ -584,9 +702,9 @@ void MainWindow::generateQML(QString& qml)
             size = pix2->size();
         }
         pix = pix2;
-
     }
-   // QPixmap pix = m_canvasList.pixmap();
+    // QPixmap pix = m_canvasList.pixmap();
+    qDebug()<< allTheSame << "all the same";
     qreal ratio = 1;
     qreal ratioBis= 1;
     bool hasImage= false;
@@ -597,42 +715,47 @@ void MainWindow::generateQML(QString& qml)
         hasImage=true;
     }
 
-        QString key = m_pixList.key(pix);
-        text << "import QtQuick 2.4\n";
-        text << "import \"qrc:/resources/qml/\"\n";
+    QString key = m_pixList.key(pix);
+    QStringList keyParts = key.split('_');
+    if(!keyParts.isEmpty())
+    {
+        key = keyParts[0];
+    }
+    text << "import QtQuick 2.4\n";
+    text << "import \"qrc:/resources/qml/\"\n";
+    text << "\n";
+    text << "Item {\n";
+    text << "   id:root\n";
+    text << "   focus: true\n";
+    text << "   property int page: 0\n";
+    text << "   property int maxPage:"<< m_canvasList.size()-1 <<"\n";
+    text << "   onPageChanged: {\n";
+    text << "       page=page>maxPage ? maxPage : page<0 ? 0 : page\n";
+    text << "   }\n";
+    text << "   Keys.onLeftPressed: --page\n";
+    text << "   Keys.onRightPressed: ++page\n";
+    text << "   signal rollDiceCmd(string cmd)\n";
+    if(hasImage)
+    {
+        text << "   Image {\n";
+        text << "       id:imagebg" << "\n";
+        text << "       property real iratio :" << ratio << "\n";
+        text << "       property real iratiobis :" << ratioBis << "\n";
+        text << "       property real realscale: width/"<< pix->width() << "\n";
+        text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
+        text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
+        text << "       source: \"image://rcs/"+key+"_background_%1.jpg\".arg(root.page)" << "\n";
+        m_model->generateQML(text,CharacterSheetItem::FieldSec);
         text << "\n";
-        text << "Item {\n";
-        text << "   id:root\n";
-        text << "   focus: true\n";
-        text << "   property int page: 0\n";
-        text << "   property int maxPage:"<< m_canvasList.size()-1 <<"\n";
-        text << "   onPageChanged: {\n";
-        text << "       page=page>maxPage ? maxPage : page<0 ? 0 : page\n";
-        text << "   }\n";
-        text << "   Keys.onLeftPressed: --page\n";
-        text << "   Keys.onRightPressed: ++page\n";
-        text << "   signal rollDiceCmd(string cmd)\n";
-        if(hasImage)
-        {
-            text << "   Image {\n";
-            text << "       id:imagebg" << "\n";
-            text << "       property real iratio :" << ratio << "\n";
-            text << "       property real iratiobis :" << ratioBis << "\n";
-            text << "       property real realscale: width/"<< pix->width() << "\n";
-            text << "       width:(parent.width>parent.height*iratio)?iratio*parent.height:parent.width" << "\n";
-            text << "       height:(parent.width>parent.height*iratio)?parent.height:iratiobis*parent.width" << "\n";
-            text << "       source: \"image://rcs/"+key+"_background_%1.jpg\".arg(root.page)" << "\n";
-            m_model->generateQML(text,CharacterSheetItem::FieldSec);
-            text << "\n";
-            text << "  }\n";
-        }
-        else
-        {
-            text << "       property real realscale: 1\n";
-            m_model->generateQML(text,CharacterSheetItem::FieldSec);
-        }
-        text << "}\n";
-        text.flush();
+        text << "  }\n";
+    }
+    else
+    {
+        text << "       property real realscale: 1\n";
+        m_model->generateQML(text,CharacterSheetItem::FieldSec);
+    }
+    text << "}\n";
+    text.flush();
 
 
 }
@@ -643,7 +766,7 @@ void MainWindow::showQML()
     if(m_editedTextByHand)
     {
         QMessageBox::StandardButton btn = QMessageBox::question(this,tr("Do you want to erase current QML code ?"),tr("Generate QML code will override any change you made in the QML.<br/>Do you really want to generate QML code ?"),
-                              QMessageBox::Yes | QMessageBox::Cancel,QMessageBox::Cancel);
+                                                                QMessageBox::Yes | QMessageBox::Cancel,QMessageBox::Cancel);
 
         if(btn == QMessageBox::Cancel)
         {
@@ -720,7 +843,7 @@ void MainWindow::showQMLFromCode()
 
     //delete ui->m_quickview;
     ui->m_quickview->engine()->clearComponentCache();
-      QHash<QString,QPixmap>* imgdata = RolisteamImageProvider::getData();
+    QHash<QString,QPixmap>* imgdata = RolisteamImageProvider::getData();
     m_imgProvider = new RolisteamImageProvider();
     m_imgProvider->setData(imgdata);
     ui->m_quickview->engine()->addImageProvider("rcs",m_imgProvider);
@@ -838,14 +961,14 @@ void MainWindow::editColor(QModelIndex index)
     if(index.column()==CharacterSheetItem::BGCOLOR || CharacterSheetItem::TEXTCOLOR == index.column())
     {
 
-    CharacterSheetItem* itm = static_cast<CharacterSheetItem*>(index.internalPointer());
+        CharacterSheetItem* itm = static_cast<CharacterSheetItem*>(index.internalPointer());
 
-    if(NULL!=itm)
-    {
-       QColor col = itm->getValueFrom((CharacterSheetItem::ColumnId)index.column(),Qt::EditRole).value<QColor>();//CharacterSheetItem::TEXTCOLOR
-       col = QColorDialog::getColor(col,this,tr("Get Color"),QColorDialog::ShowAlphaChannel);
+        if(NULL!=itm)
+        {
+            QColor col = itm->getValueFrom((CharacterSheetItem::ColumnId)index.column(),Qt::EditRole).value<QColor>();//CharacterSheetItem::TEXTCOLOR
+            col = QColorDialog::getColor(col,this,tr("Get Color"),QColorDialog::ShowAlphaChannel);
 
-       itm->setValueFrom((CharacterSheetItem::ColumnId)index.column(),col);
+            itm->setValueFrom((CharacterSheetItem::ColumnId)index.column(),col);
+        }
     }
-}
 }

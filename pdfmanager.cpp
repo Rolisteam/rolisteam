@@ -17,6 +17,7 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
+#include <QPushButton>
 
 #include "pdfmanager.h"
 #include "ui_pdfmanager.h"
@@ -26,9 +27,48 @@ PdfManager::PdfManager(QWidget *parent) :
     ui(new Ui::PdfManager)
 {
     ui->setupUi(this);
+    connect(ui->spinBox,SIGNAL(valueChanged(int)),this,SIGNAL(resolutionChanged()));
+    //connect(ui->horizontalSlider,SIGNAL(valueChanged(int)),this,SIGNAL(resolutionChanged()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Apply),&QPushButton::clicked,[=]{
+        emit apply();
+    });
+   /* connect(ui->buttonBox->button(QDialogButtonBox::Ok),&QPushButton::clicked,[=]{
+        accept();
+        //emit accepted();
+    });*/
 }
 
 PdfManager::~PdfManager()
 {
     delete ui;
+}
+
+qreal PdfManager::getDpi()
+{
+    return (qreal)ui->spinBox->value();
+}
+
+bool PdfManager::hasResolution()
+{
+    return ui->m_resolutionCheck->isChecked();
+}
+
+int PdfManager::getWidth()
+{
+    return ui->m_widthBox->value();
+}
+
+int PdfManager::getHeight()
+{
+    return ui->m_heightBox->value();
+}
+
+void PdfManager::setHeight(int h)
+{
+    ui->m_heightBox->setValue(h);
+}
+
+void PdfManager::setWidth(int w)
+{
+    ui->m_widthBox->setValue(w);
 }

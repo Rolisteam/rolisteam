@@ -33,7 +33,20 @@ class PdfManager : public QDialog
 
 public:
     explicit PdfManager(QWidget *parent = 0);
-    ~PdfManager();
+    virtual ~PdfManager();
+
+    qreal getDpi();
+
+    bool hasResolution();
+    int getWidth();
+    int getHeight();
+
+    void setHeight(int h);
+    void setWidth(int w);
+
+signals:
+    void resolutionChanged();
+    void apply();
 
 private:
     Ui::PdfManager *ui;
