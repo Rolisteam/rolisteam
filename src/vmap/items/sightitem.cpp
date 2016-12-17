@@ -164,6 +164,8 @@ void SightItem::fillMessage(NetworkMessageWriter* msg)
      msg->real(pos().x());
      msg->real(pos().y());
 
+     msg->real(zValue());
+
     msg->uint64(m_fogHoleList.count());
     foreach(FogSingularity* hole, m_fogHoleList)
     {
@@ -188,10 +190,13 @@ void SightItem::readItem(NetworkMessageReader* msg)
     m_rect.setWidth(msg->real());
     m_rect.setHeight(msg->real());
 
+
     //pos
     qreal x  = msg->real();
     qreal y = msg->real();
     setPos(x,y);
+    qreal z = msg->real();
+    setZValue(z);
 
     quint64 count = msg->uint64();
     for(int i = 0; i<count;++i)
@@ -244,6 +249,7 @@ void  SightItem::updateChildPosition()
 
 void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    painter->save();
     painter->setPen(Qt::NoPen);
     if(getOption(VisualItem::LocalIsGM).toBool())
     {
@@ -321,6 +327,9 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
         }
     }
     painter->drawPath(path);
+    painter->restore();
+    /*painter->setPen(Qt::red);
+    painter->drawText(0,0,QStringLiteral("%1").arg(zValue()));*/
 }
 void SightItem::insertVision(CharacterItem* item)
 {
