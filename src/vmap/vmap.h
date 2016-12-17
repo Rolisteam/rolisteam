@@ -512,6 +512,10 @@ protected:
      * @param b
      */
     void hideOtherLayers(bool b);
+    /**
+     * @brief ensureFogAboveAll
+     */
+    void ensureFogAboveAll();
 private:
     /**
     * @brief width of the map
