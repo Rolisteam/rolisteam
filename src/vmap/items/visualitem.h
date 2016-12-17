@@ -396,6 +396,7 @@ protected:
     //QList<QRectF> m_sizeList;
     bool m_resizing;
     bool m_rotating;
+    bool m_receivingZValue;
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
     QVector<ChildPointItem*>* m_child;

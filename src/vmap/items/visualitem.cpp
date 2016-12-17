@@ -465,7 +465,7 @@ void VisualItem::readPositionMsg(NetworkMessageReader* msg)
 }
 void VisualItem::sendZValueMsg()
 {
-    if(hasPermissionToMove())//getOption PermissionMode
+    if(hasPermissionToMove() && !m_receivingZValue)//getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::ZValueItem);
         msg.string8(m_mapId);
@@ -476,11 +476,15 @@ void VisualItem::sendZValueMsg()
 }
 void VisualItem::readZValueMsg(NetworkMessageReader* msg)
 {
-    qreal z = msg->real();
-    blockSignals(true);
-    setZValue(z);
-    blockSignals(false);
-    update();
+    if(nullptr != msg)
+    {
+        qreal z = msg->real();
+        m_receivingZValue = true;
+        setZValue(z);
+        m_receivingZValue =false;
+        //blockSignals(false);
+        update();
+    }
 }
 void VisualItem::sendRotationMsg()
 {
