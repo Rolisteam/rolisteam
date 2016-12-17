@@ -131,9 +131,9 @@ QVariant PlayersList::data(const QModelIndex &index, int role) const
     {
         case Qt::DisplayRole:
         case Qt::EditRole:
-            return person->getName();
         case Qt::ToolTipRole:
-            return person->getUuid();
+            return person->getName();
+        //    return person->getUuid();
         case Qt::DecorationRole:
         {
             if(person->hasAvatar())
