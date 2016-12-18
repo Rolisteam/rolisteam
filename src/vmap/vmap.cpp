@@ -270,7 +270,7 @@ void VMap::sendAllItems(NetworkMessageWriter& msg)
     for(QString key : m_sortedItemList)
     {
         VisualItem* item = m_itemMap->value(key);
-        if(NULL!=item)
+        if(nullptr!=item)
         {
             msg.uint8(item->getType());
             item->fillMessage(&msg);
@@ -283,9 +283,13 @@ void  VMap::setEditionMode(VToolsBar::EditionMode mode)
 }
 void VMap::cleanFogEdition()
 {
-    if(NULL!=m_fogItem)
+    if(nullptr!=m_fogItem)
     {
-        removeItem(m_fogItem);
+        if(nullptr != m_fogItem->scene())
+        {
+            removeItem(m_fogItem);
+        }
+        m_fogItem = nullptr;
     }
 }
 
@@ -625,7 +629,7 @@ void VMap::manageAnchor()
 
         for (QGraphicsItem* item: item1)
         {
-            if((NULL==child)&&(item!=m_currentItem))
+            if((NULL==child)&&(item!=m_currentItem)&&(item!=m_sightItem))
             {
                 child = item;
             }
@@ -634,14 +638,13 @@ void VMap::manageAnchor()
         QList<QGraphicsItem*> item2 = items(tmp->getEnd());
         for (QGraphicsItem* item: item2)
         {
-            if((NULL==parent)&&(item!=m_currentItem))
+            if((NULL==parent)&&(item!=m_currentItem)&&(item!=m_sightItem))
             {
                 parent = item;
             }
         }
 
         setAnchor(child,parent);
-
     }
 }
 
@@ -1721,8 +1724,11 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
         else if (cIdx > prevIndex && cIdx < index)
             prevIndex = cIdx;
     }
+
+
     if(index < 0)
     {
+        //qDebug() << "changeStackOrder index is less than 0" << item->sceneBoundingRect().intersects(item->shape().boundingRect()) << item->sceneBoundingRect();
         return;
     }
 
@@ -1751,9 +1757,6 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
     // reassign z-levels
     m_sortedItemList.removeAll(m_sightItem->getId());
     m_sortedItemList.append(m_sightItem->getId());
-
-
-
 
 
     quint64 z =0;
