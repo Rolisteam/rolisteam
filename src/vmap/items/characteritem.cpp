@@ -116,7 +116,8 @@ QRectF CharacterItem::boundingRect() const
 QPainterPath CharacterItem::shape() const
 {
 	QPainterPath path;
-    if((m_thumnails==NULL)&&(m_thumnails->isNull()))
+    path.moveTo(0,0);
+    if((nullptr == m_thumnails)||(m_thumnails->isNull()))
     {
         path.addEllipse(boundingRect());
     }
@@ -125,7 +126,7 @@ QPainterPath CharacterItem::shape() const
         path.addRoundedRect(0,0,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
     }
     path.addRect(m_rectText);
-
+    //qDebug() << boundingRect() << m_diameter << m_rectText;
 	return path;
 }
 void CharacterItem::setNewEnd(QPointF& nend)
