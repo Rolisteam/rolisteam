@@ -93,7 +93,7 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     }
     setChildrenVisible(hasFocusOrChild());
     painter->restore();
-    
+ //   painter->drawText(m_rect,QStringLiteral("%1").arg(zValue()));
 }
 void RectItem::setNewEnd(QPointF& p)
 {

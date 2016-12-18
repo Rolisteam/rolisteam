@@ -1772,7 +1772,7 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
 
     //m_sightItem->setZValue(++z);
     //ensure that character player are above everythings.
-    for(CharacterItem* item : m_characterItemMap->values())
+ /*   for(CharacterItem* item : m_characterItemMap->values())
     {
         if(item->isLocal() && !getOption(VisualItem::LocalIsGM).toBool())
         {
@@ -1782,7 +1782,7 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
         {
             //item->setZValue(m_zIndex);
         }
-    }
+    }*/
 
 }
 QRectF VMap::itemsBoundingRectWithoutSight()
