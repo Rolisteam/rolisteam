@@ -320,12 +320,15 @@
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="m_delProfileAct">
+        <widget class="QPushButton" name="m_delProfileAct">
          <property name="toolTip">
           <string>Delete</string>
          </property>
+         <property name="statusTip">
+          <string>Delete selected profile</string>
+         </property>
          <property name="text">
-          <string>Delete</string>
+          <string/>
          </property>
          <property name="icon">
           <iconset resource="../../rolisteam.qrc">
