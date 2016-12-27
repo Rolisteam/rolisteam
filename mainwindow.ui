@@ -461,8 +461,8 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionHelp"/>
-    <addaction name="actionAbout_RCSE"/>
+    <addaction name="m_onlineHelpAct"/>
+    <addaction name="m_aboutRcseAct"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdition"/>
@@ -620,12 +620,12 @@
     <string>Image</string>
    </property>
   </action>
-  <action name="actionAbout_RCSE">
+  <action name="m_aboutRcseAct">
    <property name="text">
     <string>About RCSE</string>
    </property>
   </action>
-  <action name="actionHelp">
+  <action name="m_onlineHelpAct">
    <property name="text">
     <string>Help</string>
    </property>

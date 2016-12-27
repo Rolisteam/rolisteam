@@ -41,6 +41,7 @@
 #include <QJsonArray>
 #include <QButtonGroup>
 #include <QUuid>
+#include <QDesktopServices>
 
 #include "borderlisteditor.h"
 #include "alignmentdelegate.h"
@@ -158,6 +159,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_removePage,SIGNAL(clicked(bool)),this,SLOT(removePage()));
     connect(ui->m_selectPageCb,SIGNAL(currentIndexChanged(int)),this,SLOT(currentPageChanged(int)));
 
+
+
     m_imgProvider = new RolisteamImageProvider();
 
     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
@@ -166,7 +169,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     m_characterModel = new CharacterSheetModel();
-    connect(m_characterModel,SIGNAL(dataCharacterChange()),this,SLOT(modelChanged()));
+    connect(m_characterModel,SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),this,SLOT(modelChanged()));
     connect(m_characterModel,SIGNAL(columnsInserted(QModelIndex,int,int)),this,SLOT(columnAdded()));
     ui->m_characterView->setModel(m_characterModel);
     m_characterModel->setRootSection(m_model->getRootSection());
@@ -175,6 +178,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->treeView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequestedForFieldModel(QPoint)));
     connect(ui->m_characterView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequested(QPoint)));
     connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
+
 
     canvas->setCurrentTool(Canvas::NONE);
 
@@ -187,7 +191,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->m_codeEdit,SIGNAL(textChanged()),this,SLOT(codeChanged()));
 
-
+    // Help Menu
+    connect(ui->m_aboutRcseAct,SIGNAL(triggered(bool)),this,SLOT(aboutRcse()));
+    connect(ui->m_onlineHelpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 
 }
 MainWindow::~MainWindow()
@@ -214,6 +220,18 @@ void MainWindow::closeEvent(QCloseEvent *event)
     else
     {
         event->ignore();
+    }
+}
+void MainWindow::helpOnLine()
+{
+    if (!QDesktopServices::openUrl(QUrl("http://wiki.rolisteam.org/")))
+    {
+        QMessageBox * msgBox = new QMessageBox(
+                    QMessageBox::Information,
+                    tr("Help"),
+                    tr("Documentation of Rcse can be found online at :<br> <a href=\"http://wiki.rolisteam.org\">http://wiki.rolisteam.org/</a>")
+                    );
+        msgBox->exec();
     }
 }
 bool MainWindow::mayBeSaved()
@@ -848,4 +866,11 @@ void MainWindow::editColor(QModelIndex index)
        itm->setValueFrom((CharacterSheetItem::ColumnId)index.column(),col);
     }
 }
+}
+#include <aboutrcse.h>
+
+void MainWindow::aboutRcse()
+{
+    AboutRcse dialog;
+    dialog.exec();
 }

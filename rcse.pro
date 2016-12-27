@@ -19,7 +19,8 @@ CONFIG+=RCSE
 isEmpty(PREFIX) {
  PREFIX = /usr/bin
 }
-
+# Version
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=8 VERSION_MINOR=0
 
 ## Translation
 TRANSLATIONS =  translations/rcse_fr.ts \
@@ -72,7 +73,8 @@ SOURCES += main.cpp\
     alignmentdelegate.cpp \
     codeeditor.cpp \
     typedelegate.cpp \
-    canvasfield.cpp
+    canvasfield.cpp \
+    aboutrcse.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -83,9 +85,11 @@ HEADERS  += mainwindow.h \
     alignmentdelegate.h \
     codeeditor.h \
     typedelegate.h \
-    canvasfield.h
+    canvasfield.h \
+    aboutrcse.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    aboutrcse.ui
 
 DISTFILES += \
     charactersheet/qml/*.qml \
