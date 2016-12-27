@@ -41,7 +41,10 @@
 #include <QJsonArray>
 #include <QButtonGroup>
 #include <QUuid>
+
+#ifdef WITH_PDF
 #include <poppler-qt5.h>
+#endif
 
 #include "borderlisteditor.h"
 #include "alignmentdelegate.h"
