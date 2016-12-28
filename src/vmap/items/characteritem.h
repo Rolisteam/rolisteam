@@ -195,13 +195,37 @@ public:
      * @return
      */
     bool isNpc();
+    /**
+     * @brief setRectSize
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     */
     virtual void setRectSize(qreal x, qreal y, qreal w, qreal h);
+    /**
+     * @brief readCharacterStateChanged
+     * @param msg
+     */
     void readCharacterStateChanged(NetworkMessageReader &msg);
-
+    /**
+     * @brief getColor
+     * @return
+     */
     virtual QColor getColor();
-
+    /**
+     * @brief readVisionMsg
+     * @param msg
+     */
     void readVisionMsg(NetworkMessageReader *msg);
+    /**
+     * @brief sendVisionMsg
+     */
     void sendVisionMsg();
+    /**
+     * @brief setChildrenVisible
+     * @param b
+     */
     void setChildrenVisible(bool b);
 signals:
     /**
@@ -245,7 +269,9 @@ public slots:
      * @param msg
      */
     virtual void readPositionMsg(NetworkMessageReader* msg);
-
+    /**
+     * @brief endOfGeometryChange
+     */
     void endOfGeometryChange();
 protected:
     /**
@@ -271,6 +297,10 @@ private slots:
      */
 	void changeCharacter();
 private:
+    /**
+     * @brief getSubTitle
+     * @return
+     */
     QString getSubTitle() const;
 
 private:
