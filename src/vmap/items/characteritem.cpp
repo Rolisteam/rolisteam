@@ -157,6 +157,25 @@ QString CharacterItem::getSubTitle() const
     }
     return toShow;
 }
+void CharacterItem::setChildrenVisible(bool b)
+{
+    VisualItem::setChildrenVisible(b);
+
+    if(m_propertiesHash->value(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)
+    {
+        if(!m_propertiesHash->value(VisualItem::LocalIsGM,false).toBool())
+        {
+            if(!m_child->isEmpty() && m_child->size() > DIRECTION_RADIUS_HANDLE)
+            {
+              m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
+            }
+            if(!m_child->isEmpty() && m_child->size() > ANGLE_HANDLE)
+            {
+              m_child->at(ANGLE_HANDLE)->setVisible(false);
+            }
+        }
+    }
+}
 
 void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
@@ -766,7 +785,6 @@ void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
             update();
         }
     }
-
 }
 
 void CharacterItem::characterHasBeenDeleted(Character* pc)

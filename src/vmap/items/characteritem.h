@@ -202,6 +202,7 @@ public:
 
     void readVisionMsg(NetworkMessageReader *msg);
     void sendVisionMsg();
+    void setChildrenVisible(bool b);
 signals:
     /**
      * @brief positionChanged
