@@ -472,14 +472,14 @@ void PreferencesDialog::initializePostSettings()
     else //theme provided by default
     {
         //normal
-        m_themes.append(new RolisteamTheme(QPalette(),tr("default"),"",QStyleFactory::create("fusion"),":/resources/icons/workspacebackground.bmp",0,QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE),false));
+        m_themes.append(new RolisteamTheme(QPalette(),tr("default"),"",QStyleFactory::create("fusion"),":/resources/icons/workspacebackground.jpg",0,QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE),false));
 
         //DarkOrange
         QFile styleFile(":/stylesheet/resources/stylesheet/darkorange.qss");
         styleFile.open(QFile::ReadOnly);
         QByteArray bytes = styleFile.readAll();
         QString css(bytes);
-        m_themes.append(new RolisteamTheme(QPalette(),tr("darkorange"),css,QStyleFactory::create("fusion"),":/resources/icons/workspacebackground.bmp",0,QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE),false));
+        m_themes.append(new RolisteamTheme(QPalette(),tr("darkorange"),css,QStyleFactory::create("fusion"),":/resources/icons/workspacebackground.jpg",0,QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE),false));
 
         //DarkFusion
         QPalette palette;
@@ -499,7 +499,7 @@ void PreferencesDialog::initializePostSettings()
         palette.setColor(QPalette::Disabled, QPalette::Text, Qt::darkGray);
         palette.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
 
-        m_themes.append(new RolisteamTheme(palette,tr("darkfusion"),"",QStyleFactory::create("fusion"),":/resources/icons/workspacebackground.bmp",0,QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE),false));
+        m_themes.append(new RolisteamTheme(palette,tr("darkfusion"),"",QStyleFactory::create("fusion"),":/resources/icons/workspacebackground.jpg",0,QColor(GRAY_SCALE,GRAY_SCALE,GRAY_SCALE),false));
     }
     ui->m_themeComboBox->clear();
 
