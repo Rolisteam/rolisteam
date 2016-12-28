@@ -21,5 +21,10 @@
         <file alias="resources/qml/DiceButton.qml">charactersheet/qml/DiceButton.qml</file>
         <file alias="resources/qml/ImageField.qml">charactersheet/qml/ImageField.qml</file>
         <file>resources/logo/symbol2.png</file>
+        <file>translations/rcse_fr.qm</file>
+        <file>translations/rcse_de.qm</file>
+        <file>translations/rcse_hu_HU.qm</file>
+        <file>translations/rcse_pt_BR.qm</file>
+        <file>translations/rcse_tr.qm</file>
     </qresource>
 </RCC>

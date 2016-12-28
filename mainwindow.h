@@ -87,6 +87,8 @@ public slots:
     bool mayBeSaved();
     void modelChanged();
     void displayWarningsQML(QList<QQmlError> list);
+    void aboutRcse();
+    void helpOnLine();
 protected:
     bool eventFilter(QObject *, QEvent *);
     void applyValue(QModelIndex &index, bool selection);
