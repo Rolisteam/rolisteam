@@ -56,6 +56,9 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 ##Installation
 target.path = $$PREFIX/
 
+INCLUDEPATH  += /usr/include/poppler/qt5
+LIBS         += -lpoppler-qt5
+DEFINES += WITH_PDF
 }
 INSTALLS += target
 
@@ -74,7 +77,8 @@ SOURCES += main.cpp\
     codeeditor.cpp \
     typedelegate.cpp \
     canvasfield.cpp \
-    aboutrcse.cpp
+    aboutrcse.cpp \
+    pdfmanager.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -86,10 +90,12 @@ HEADERS  += mainwindow.h \
     codeeditor.h \
     typedelegate.h \
     canvasfield.h \
-    aboutrcse.h
+    aboutrcse.h \
+    pdfmanager.h
 
 FORMS    += mainwindow.ui \
-    aboutrcse.ui
+    aboutrcse.ui \
+    pdfmanager.ui
 
 DISTFILES += \
     charactersheet/qml/*.qml \

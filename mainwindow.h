@@ -34,7 +34,7 @@
 #include "rolisteamimageprovider.h"
 #include "field.h"
 #include "charactersheetmodel.h"
-
+#include "pdfmanager.h"
 
 namespace Ui {
 class MainWindow;
@@ -58,6 +58,7 @@ public:
 
     void updatePageSelector();
 public slots:
+    void openPDF();
     void setCurrentTool();
 
     void save();
@@ -93,6 +94,7 @@ protected:
     void applyValue(QModelIndex &index, bool selection);
     bool wheelEventForView(QWheelEvent *event);
     void closeEvent(QCloseEvent *event);
+    void managePDFImport();
 protected slots:
     void columnAdded();
 private slots:
@@ -112,8 +114,8 @@ private:
     int m_currentPage;
     bool m_editedTextByHand;
     int m_counterZoom;
-
-
+    QString m_pdfPath;
+    PdfManager* m_pdf;
 
     //Action
     QAction* m_addCharacter;
