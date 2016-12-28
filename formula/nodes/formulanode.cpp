@@ -26,6 +26,15 @@ FormulaNode::FormulaNode()
 
 }
 
+FormulaNode::~FormulaNode()
+{
+    if(nullptr != m_next)
+    {
+        delete m_next;
+        m_next = nullptr;
+    }
+}
+
 FormulaNode *FormulaNode::next() const
 {
     return m_next;

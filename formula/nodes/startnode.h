@@ -28,6 +28,7 @@ class StartNode : public FormulaNode
 {
 public:
     StartNode();
+    virtual ~StartNode();
     virtual bool run(FormulaNode *previous);
 
 };

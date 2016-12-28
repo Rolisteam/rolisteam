@@ -31,7 +31,7 @@ class FormulaNode
 {
 public:
     FormulaNode();
-
+    virtual ~FormulaNode();
     virtual bool run(FormulaNode* previous) = 0;
     FormulaNode *next() const;
     void setNext(FormulaNode *next);
