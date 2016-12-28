@@ -128,6 +128,7 @@ private:
     bool m_allowRotation;
     bool m_editable;
     bool m_vision;
+    PLACEMENT m_placement;
 };
 
 #endif // CHILDPOINTITEM_H

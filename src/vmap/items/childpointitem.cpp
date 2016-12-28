@@ -106,8 +106,8 @@ void ChildPointItem::setMotion(ChildPointItem::MOTION m)
 void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
 {
     //MiddelLeft,MiddleRight,Center,ButtomLeft,ButtomRight,ButtomCenter};
-
-    switch(p)
+    m_placement = p;
+    switch(m_placement)
     {
     case TopLeft:
         m_startPoint.setX(0);
