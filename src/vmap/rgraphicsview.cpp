@@ -30,6 +30,9 @@
 #include "network/networkmessagewriter.h"
 #include "network/networkmessagereader.h"
 
+#include "items/ruleitem.h"
+//#include "items/childpointitem.h"
+
 RGraphicsView::RGraphicsView(VMap *vmap)
     : QGraphicsView(vmap),m_vmap(vmap),m_centerOnItem(NULL)
 {
@@ -141,12 +144,17 @@ void RGraphicsView::wheelEvent(QWheelEvent *event)
         {
             scale(scaleFactor, scaleFactor);
             ++m_counterZoom;
+            RuleItem::setZoomLevel(scaleFactor);
+            //ChildPointItem::setZoomLevel(scaleFactor);
         }
         else if(m_counterZoom>-20)
         {
             --m_counterZoom;
             scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+            RuleItem::setZoomLevel(1.0 / scaleFactor);
+            //ChildPointItem::setZoomLevel(1.0 / scaleFactor);
         }
+
         setResizeAnchor(QGraphicsView::NoAnchor);
         setTransformationAnchor(QGraphicsView::NoAnchor);
     }

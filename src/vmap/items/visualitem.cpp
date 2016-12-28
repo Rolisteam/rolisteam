@@ -603,6 +603,10 @@ void VisualItem::setChildrenVisible(bool b)
                 {
                     item->setVisible(b);
                 }
+                else
+                {
+                    item->setVisible(!b);
+                }
             }
         }
     }
