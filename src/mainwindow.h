@@ -241,6 +241,7 @@ public slots :
      * @brief startConnection
      */
     void startConnection();
+
 protected :
     /**
      * @brief closeEvent
@@ -337,6 +338,7 @@ protected :
      * @param saveAs
      */
     void saveMedia(MediaContainer *mediaC,bool AskPath, bool saveAs);
+    void readStory(QString fileName);
 protected slots:
     /**
      * @brief closeMediaContainer
@@ -467,12 +469,16 @@ private slots :
      */
     void helpOnLine();
     /**
-     * @brief saveStory
-     * @return
+     * @brief saveStory - saves all media contener into the current story file.
+     *
      */
     bool saveStory();
     /**
-     * @brief saveMinutes
+     * @brief saveAsStory asks filename to save current story into.
+     */
+    void saveAsStory();
+    /**
+     * @brief saveMinutes saves notes into file.
      * @return
      */
     bool saveMinutes();
@@ -582,6 +588,7 @@ private:
     QList<QWidget*> m_gmToolBoxList;
     SelectConnectionProfileDialog* m_dialog;
     bool m_profileDefined;
+    CleverURI* m_currentStory;
 
 };
 
