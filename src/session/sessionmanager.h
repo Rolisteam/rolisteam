@@ -42,6 +42,9 @@ public:
     * @brief default constructor
     */
     SessionManager();
+    /**
+     * @brief ~SessionManager
+     */
     virtual ~SessionManager();
     /**
     * @brief the current chapter is defined by users
@@ -58,14 +61,33 @@ public:
     * @brief accessor to the recent files list
     */
     const QList<CleverURI*>& getRecentFiles();
-
+    /**
+     * @brief updateCleverUri
+     */
     void updateCleverUri(CleverURI* );
-
+    /**
+     * @brief saveSession
+     * @param out
+     */
     virtual void saveSession(QDataStream& out);
+    /**
+     * @brief loadSession
+     * @param in
+     */
     virtual void loadSession(QDataStream& in);
-
+    /**
+     * @brief getModel
+     * @return
+     */
     SessionItemModel* getModel() const;
+    /**
+     * @brief setModel
+     * @param model
+     */
     void setModel(SessionItemModel* model);
+
+    QString getSessionName() const;
+    void setSessionName(const QString &sessionName);
 
 public slots:
     /**
@@ -82,12 +104,10 @@ public slots:
     * @brief set the current chapter. The selected item from the view become the current one.
     */
     void setCurrentChapter();
-    
     /**
     * @brief removes selected items and all children
     */
     void removeSelectedItem();
-    
     
 signals:
     /**
@@ -98,6 +118,10 @@ signals:
     * @brief emitted when the application must open a resource
     */
     void openFile(CleverURI*,bool);
+    /**
+     * @brief sessionChanged
+     * @param statut
+     */
     void sessionChanged(bool statut);
 protected:
     /**
@@ -117,6 +141,8 @@ private:
    // QWidget* m_internal;/// generic widget to bring together all the UI
     Chapter* m_currentChapter;/// current chapter pointer
     QHBoxLayout* m_layout;/// layout
+
+    QString m_sessionName;
 };
 
 #endif // SESSIONMANAGER_H
