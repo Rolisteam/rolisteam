@@ -1788,6 +1788,17 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
     }*/
 
 }
+void VMap::showTransparentItems()
+{
+    for(auto item : m_itemMap->values())
+    {
+        if(item->opacity() == 0)
+        {
+            item->setOpacity(1);
+        }
+    }
+}
+
 QRectF VMap::itemsBoundingRectWithoutSight()
 {
     QRectF result;

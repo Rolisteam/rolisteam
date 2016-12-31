@@ -407,6 +407,7 @@ public slots:
      * @brief selectionPositionHasChanged
      */
     void selectionPositionHasChanged();
+    void showTransparentItems();
 signals:
     /**
      * @brief npcAdded

@@ -102,6 +102,11 @@ void VmapToolBar::setupUi()
     m_collision = new QCheckBox(tr("Collision"));
     addWidget(m_collision);
 
+
+    m_showTransparentItem = new QAction(tr("Show transparent Item"),this);
+    addAction(m_showTransparentItem);
+
+
     connect(m_showOnlyItemsFromThisLayer,SIGNAL(clicked(bool)),this,SLOT(managedAction()));
     connect(m_showGridAct,SIGNAL(triggered()),this,SLOT(triggerGrid()));
     connect(m_bgSelector,SIGNAL(colorChanged(QColor)),this,SLOT(setBackgroundColor(QColor)));
@@ -115,6 +120,7 @@ void VmapToolBar::setupUi()
     connect(m_gridPattern,SIGNAL(currentIndexChanged(int)),this,SLOT(patternChanged(int)));
     connect(m_showCharacterVision,SIGNAL(clicked(bool)),this,SLOT(managedAction()));
     connect(m_collision,SIGNAL(clicked(bool)),this,SLOT(managedAction()));
+    connect(m_showTransparentItem,SIGNAL(triggered()),this,SLOT(managedAction()));
 
 }
 void VmapToolBar::setCurrentMap(VMap* map)
@@ -221,5 +227,9 @@ void VmapToolBar::managedAction()
     else if(obj == m_showOnlyItemsFromThisLayer)
     {
         m_vmap->setOption(VisualItem::HideOtherLayers,m_showOnlyItemsFromThisLayer->isChecked());
+    }
+    else if(obj == m_showTransparentItem)
+    {
+        m_vmap->showTransparentItems();
     }
 }

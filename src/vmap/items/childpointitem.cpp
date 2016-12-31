@@ -36,7 +36,7 @@ ChildPointItem::ChildPointItem(qreal point,VisualItem* parent,bool isVision )
 {
     m_currentMotion = ALL;
     m_editable = true;
-    setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
+   // setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
     // setAcceptHoverEvents(true);
     //setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
     //setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);

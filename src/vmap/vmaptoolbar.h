@@ -86,7 +86,7 @@ private:
     //Button
     ColorButton* m_bgSelector;
     QAction* m_showGridAct;
-    QAction* m_Act;
+   // QAction* m_Act;
 
     QComboBox* m_gridPattern;
     QComboBox* m_gridUnit;
@@ -98,6 +98,7 @@ private:
     QCheckBox* m_showOnlyItemsFromThisLayer;
     QCheckBox* m_showCharacterVision;
     QCheckBox* m_collision;
+    QAction* m_showTransparentItem;
 };
 
 #endif // VMAPTOOLBAR_H

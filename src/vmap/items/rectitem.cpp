@@ -259,7 +259,7 @@ void RectItem::initChildPointItem()
         ChildPointItem* tmp = new ChildPointItem(i,this);
         tmp->setMotion(ChildPointItem::MOUSE);
         m_child->append(tmp);
-        tmp->setFlag(QGraphicsItem::ItemIgnoresParentOpacity,true);
+        //tmp->setFlag(QGraphicsItem::ItemIgnoresParentOpacity,true);
     }
    updateChildPosition();
 }
