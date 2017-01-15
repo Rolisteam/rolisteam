@@ -19,7 +19,8 @@ CONFIG+=RCSE
 isEmpty(PREFIX) {
  PREFIX = /usr/bin
 }
-
+# Version
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=8 VERSION_MINOR=0
 
 ## Translation
 TRANSLATIONS =  translations/rcse_fr.ts \
@@ -76,6 +77,7 @@ SOURCES += main.cpp\
     codeeditor.cpp \
     typedelegate.cpp \
     canvasfield.cpp \
+    aboutrcse.cpp \
     pdfmanager.cpp
 
 HEADERS  += mainwindow.h \
@@ -88,9 +90,11 @@ HEADERS  += mainwindow.h \
     codeeditor.h \
     typedelegate.h \
     canvasfield.h \
+    aboutrcse.h \
     pdfmanager.h
 
 FORMS    += mainwindow.ui \
+    aboutrcse.ui \
     pdfmanager.ui
 
 DISTFILES += \
@@ -101,10 +105,14 @@ RESOURCES += \
     qmlfile.qrc
 
 ICON = resources/logo/rcse.icns
-
-
 win32 {
 RC_FILE = "resources/logo/rcse.rc"
 OTHER_FILES +=resources/logo/rcse.rc
-}
 
+LIBS += -L$$PWD/../../lib/poppler-0.24/lib/ -llibpoppler-qt5.dll
+#DEFINES += WITH_PDF
+
+#INCLUDEPATH += $$PWD/../../lib/poppler-0.24/include/poppler-qt5
+#DEPENDPATH += $$PWD/../../lib/poppler-0.24/lib/ $$PWD/../../lib/poppler-0.24/bin/
+#$$PWD/../../lib/poppler-0.24/include/poppler-cpp/
+}
