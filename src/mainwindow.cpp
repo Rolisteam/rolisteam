@@ -1259,10 +1259,6 @@ void MainWindow::startConnection()
             {
                 m_playerList->completeListClean();
 
-                //TODO: Remove it, test only for AKODO
-                notifyUser(QString(":%1:").arg(m_currentConnectionProfile->getAddress()));
-                notifyUser(QString(":%1:").arg(m_currentConnectionProfile->getPort()));
-
                 m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
 
                 m_networkManager->startConnection();
