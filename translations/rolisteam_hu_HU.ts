@@ -133,27 +133,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterItem</name>
     <message>
-        <location filename="../src/vmap/items/characteritem.cpp" line="573"/>
+        <location filename="../src/vmap/items/characteritem.cpp" line="653"/>
         <source>Change State</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/characteritem.cpp" line="581"/>
+        <location filename="../src/vmap/items/characteritem.cpp" line="661"/>
         <source>Affect to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/characteritem.cpp" line="589"/>
+        <location filename="../src/vmap/items/characteritem.cpp" line="669"/>
         <source>Vision Shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/characteritem.cpp" line="627"/>
+        <location filename="../src/vmap/items/characteritem.cpp" line="707"/>
         <source>Disk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/characteritem.cpp" line="629"/>
+        <location filename="../src/vmap/items/characteritem.cpp" line="709"/>
         <source>Conical</source>
         <translation type="unfinished"></translation>
     </message>
@@ -161,22 +161,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="297"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="307"/>
         <source>Fields name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="313"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="323"/>
         <source>Empty Section %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="321"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="331"/>
         <source>Section_%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="344"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="355"/>
         <source>Field %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -185,7 +185,7 @@ p, li { white-space: pre-wrap; }
     <name>CharacterSheetWindow</name>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="585"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="616"/>
         <source>Character Sheet Viewer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -235,42 +235,42 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="178"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="182"/>
         <source>Share To </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="207"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="211"/>
         <source>Share To</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="434"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="450"/>
         <source>Save Character Sheets Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="435"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="451"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="512"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="543"/>
         <source>Open Character Sheet data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="513"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="544"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="520"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="551"/>
         <source>Open Character Sheets View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="521"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="552"/>
         <source>Character Sheet files (*.qml)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1000,7 +1000,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1311"/>
+        <location filename="../src/mainwindow.cpp" line="1297"/>
         <source>unknown</source>
         <translation>ismeretlen</translation>
     </message>
@@ -1010,57 +1010,62 @@ p, li { white-space: pre-wrap; }
         <translation>Térkép Megnyitása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2164"/>
+        <location filename="../src/mainwindow.cpp" line="2179"/>
         <source>Connected</source>
         <translation>Csatlakozva</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2164"/>
+        <location filename="../src/mainwindow.cpp" line="2179"/>
         <source>Not Connected</source>
         <translation>Nincs összeköttetés</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2165"/>
+        <location filename="../src/mainwindow.cpp" line="2180"/>
         <source>Server</source>
         <translation>Kiszolgáló</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2165"/>
+        <location filename="../src/mainwindow.cpp" line="2180"/>
         <source>Client</source>
         <translation>Kliens</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2165"/>
+        <location filename="../src/mainwindow.cpp" line="2180"/>
         <source>GM</source>
         <translation>Mesélő</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2165"/>
+        <location filename="../src/mainwindow.cpp" line="2180"/>
         <source>Player</source>
         <translation>Játékos</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="737"/>
+        <location filename="../src/mainwindow.cpp" line="699"/>
         <source>Open scenario</source>
         <translation>Jelenet megnyitása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="793"/>
+        <location filename="../src/mainwindow.cpp" line="726"/>
+        <source>Save Scenario as</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="806"/>
         <source>Save %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="820"/>
+        <location filename="../src/mainwindow.ui" line="538"/>
         <source>Save Scenario</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="836"/>
+        <location filename="../src/mainwindow.cpp" line="751"/>
         <source>%1 cannot be opened (saveStory - MainWindow.cpp)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1337"/>
+        <location filename="../src/mainwindow.cpp" line="1323"/>
         <source>ToolBox</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1070,7 +1075,7 @@ p, li { white-space: pre-wrap; }
         <translation>Kép megnyitása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="722"/>
+        <location filename="../src/mainwindow.cpp" line="684"/>
         <location filename="../src/mainwindow.cpp" line="1929"/>
         <source>Open Minutes</source>
         <translation>Jegyzet Megnyitása</translation>
@@ -1096,274 +1101,325 @@ p, li { white-space: pre-wrap; }
         <translation>Legutóbbi Fájlok</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="86"/>
-        <location filename="../src/mainwindow.ui" line="268"/>
-        <location filename="../src/mainwindow.ui" line="298"/>
+        <location filename="../src/mainwindow.ui" line="88"/>
+        <location filename="../src/mainwindow.ui" line="270"/>
+        <location filename="../src/mainwindow.ui" line="306"/>
         <source>Map</source>
         <translation>Térkép</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="123"/>
+        <location filename="../src/mainwindow.ui" line="125"/>
         <source>GM ToolBox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="139"/>
+        <location filename="../src/mainwindow.ui" line="141"/>
         <source>Save</source>
         <translation>Mentés</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="142"/>
+        <location filename="../src/mainwindow.ui" line="144"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="151"/>
-        <source>Save as</source>
-        <translation>Mentés másként</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="154"/>
+        <location filename="../src/mainwindow.ui" line="156"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="159"/>
+        <location filename="../src/mainwindow.ui" line="161"/>
         <source>Save All</source>
         <translation>Összes Mentése</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="162"/>
+        <location filename="../src/mainwindow.ui" line="164"/>
         <source>Ctrl+Shift+A</source>
         <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="171"/>
-        <source>Save into Scenario</source>
-        <translation>Mentés Jelenetbe</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="174"/>
-        <source>Meta+Ctrl+S</source>
-        <translation>Meta+Ctrl+S</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="179"/>
+        <location filename="../src/mainwindow.ui" line="181"/>
         <source>Close</source>
         <translation>Bezárás</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="191"/>
+        <location filename="../src/mainwindow.ui" line="193"/>
         <source>Preferences</source>
         <translation>Beállítások</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="194"/>
+        <location filename="../src/mainwindow.ui" line="196"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="203"/>
-        <location filename="../src/mainwindow.cpp" line="643"/>
+        <location filename="../src/mainwindow.ui" line="205"/>
+        <location filename="../src/mainwindow.cpp" line="622"/>
         <source>Quit</source>
         <translation>Kilépés</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="206"/>
+        <location filename="../src/mainwindow.ui" line="208"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="214"/>
+        <location filename="../src/mainwindow.ui" line="216"/>
         <source>Tab</source>
         <translation>Fülek</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="217"/>
+        <location filename="../src/mainwindow.ui" line="219"/>
         <source>Alt+O</source>
         <translation>Alt+O</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="233"/>
+        <location filename="../src/mainwindow.ui" line="235"/>
+        <location filename="../src/mainwindow.ui" line="465"/>
         <source>Alt+T</source>
         <translation>Alt+T</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="238"/>
+        <location filename="../src/mainwindow.ui" line="240"/>
         <source>Connection</source>
         <translation>Csatlakozás</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="243"/>
+        <location filename="../src/mainwindow.ui" line="245"/>
         <source>Disconnection</source>
         <translation>Kapcsolatbontás</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="248"/>
+        <location filename="../src/mainwindow.ui" line="250"/>
         <source>Check Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="251"/>
+        <location filename="../src/mainwindow.ui" line="253"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="259"/>
+        <location filename="../src/mainwindow.ui" line="261"/>
         <source>F12</source>
         <translation>F12</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="271"/>
+        <location filename="../src/mainwindow.ui" line="297"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="280"/>
+        <location filename="../src/mainwindow.ui" line="282"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="289"/>
-        <location filename="../src/mainwindow.ui" line="322"/>
+        <location filename="../src/mainwindow.ui" line="153"/>
+        <source>Save as…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="173"/>
+        <source>Save Scenario As…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="176"/>
+        <source>Alt+Shift+A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="273"/>
+        <source>Ctrl+M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="285"/>
+        <source>Ctrl+T</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="294"/>
+        <location filename="../src/mainwindow.ui" line="330"/>
         <source>Note</source>
         <translation>Jegyzet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="301"/>
+        <location filename="../src/mainwindow.ui" line="309"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="310"/>
+        <location filename="../src/mainwindow.ui" line="318"/>
         <source>Picture</source>
         <translation>Kép</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="313"/>
+        <location filename="../src/mainwindow.ui" line="321"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="331"/>
+        <location filename="../src/mainwindow.ui" line="333"/>
+        <source>Ctrl+R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="342"/>
         <source>Scenario</source>
         <translation>Jelenet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="342"/>
+        <location filename="../src/mainwindow.ui" line="345"/>
+        <source>Ctrl+E</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="356"/>
         <source>Show PC Name</source>
         <translation>JK Nevek Mutatása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="345"/>
+        <location filename="../src/mainwindow.ui" line="359"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="356"/>
+        <location filename="../src/mainwindow.ui" line="370"/>
         <source>Show Npc Name</source>
         <translation>NJK Nevek Mutatása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="359"/>
+        <location filename="../src/mainwindow.ui" line="373"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="370"/>
+        <location filename="../src/mainwindow.ui" line="384"/>
         <source>Show Npc Number</source>
         <translation>NJK Számának Mutatása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="373"/>
+        <location filename="../src/mainwindow.ui" line="387"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="381"/>
+        <location filename="../src/mainwindow.ui" line="395"/>
         <source>Minute Editor</source>
         <translation>Jegyzet Szerkesztő</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="384"/>
+        <location filename="../src/mainwindow.ui" line="398"/>
         <source>Alt+M</source>
         <translation>Alt+M</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="393"/>
+        <location filename="../src/mainwindow.ui" line="407"/>
         <source>Online Picture</source>
         <translation>Online Kép</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="401"/>
+        <location filename="../src/mainwindow.ui" line="410"/>
+        <source>Ctrl+Shift+I</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="418"/>
         <source>Audio Player</source>
         <translation>Hanglejátszó</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="409"/>
-        <location filename="../src/mainwindow.cpp" line="357"/>
+        <location filename="../src/mainwindow.ui" line="421"/>
+        <source>Alt+A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="429"/>
+        <location filename="../src/mainwindow.cpp" line="373"/>
         <source>Notification Zone</source>
         <translation>Értesítési Terület</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="417"/>
+        <location filename="../src/mainwindow.ui" line="432"/>
+        <source>Alt+N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="440"/>
         <source>Chat List</source>
         <translation>Chat Lista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="425"/>
+        <location filename="../src/mainwindow.ui" line="443"/>
+        <source>Alt+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="451"/>
         <source>Character List</source>
         <translation>Karakter Lista</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="433"/>
+        <location filename="../src/mainwindow.ui" line="462"/>
         <source>ToolBar</source>
         <translation>Eszköztár</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="442"/>
-        <location filename="../src/mainwindow.ui" line="454"/>
+        <location filename="../src/mainwindow.ui" line="474"/>
+        <location filename="../src/mainwindow.ui" line="486"/>
         <source>Vectorial Map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="445"/>
-        <source>Ctrl+.</source>
+        <location filename="../src/mainwindow.ui" line="541"/>
+        <source>Alt+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="462"/>
+        <location filename="../src/mainwindow.ui" line="497"/>
         <source>Show Health State</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="465"/>
+        <location filename="../src/mainwindow.ui" line="500"/>
         <source>F8</source>
         <translation type="unfinished">F8</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="470"/>
+        <location filename="../src/mainwindow.ui" line="505"/>
         <source>Change Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="479"/>
-        <location filename="../src/mainwindow.ui" line="491"/>
+        <location filename="../src/mainwindow.ui" line="514"/>
+        <location filename="../src/mainwindow.ui" line="526"/>
         <source>Character Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="482"/>
+        <location filename="../src/mainwindow.ui" line="489"/>
         <source>Ctrl+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="494"/>
+        <location filename="../src/mainwindow.ui" line="477"/>
+        <source>Ctrl+V</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="517"/>
+        <source>Ctrl+W</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="529"/>
         <source>Ctrl+U</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="106"/>
+        <location filename="../src/mainwindow.ui" line="108"/>
         <source>Network</source>
         <translation>Hálózat</translation>
     </message>
@@ -1373,160 +1429,166 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="74"/>
+        <location filename="../src/mainwindow.ui" line="76"/>
         <source>Sub-Windows</source>
         <translation>Ablakok</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="78"/>
+        <location filename="../src/mainwindow.ui" line="80"/>
         <source>Reorganize</source>
         <translation>Elrendezés</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="182"/>
+        <location filename="../src/mainwindow.ui" line="184"/>
         <source>Ctrl+Esc</source>
         <translation>Ctrl+Esc</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="222"/>
+        <location filename="../src/mainwindow.ui" line="224"/>
         <source>Cascade</source>
         <translation>Lépcsős elrendezés</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="225"/>
+        <location filename="../src/mainwindow.ui" line="227"/>
+        <location filename="../src/mainwindow.ui" line="454"/>
         <source>Alt+C</source>
         <translation>Alt+C</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="230"/>
+        <location filename="../src/mainwindow.ui" line="232"/>
         <source>Tile</source>
         <translation>Csempés elrendezés</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="115"/>
-        <location filename="../src/mainwindow.cpp" line="969"/>
+        <location filename="../src/mainwindow.ui" line="117"/>
+        <location filename="../src/mainwindow.cpp" line="946"/>
         <source>Help</source>
         <translation>Segítség</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="931"/>
-        <location filename="../src/mainwindow.cpp" line="953"/>
+        <location filename="../src/mainwindow.cpp" line="908"/>
+        <location filename="../src/mainwindow.cpp" line="930"/>
         <source>Image compression error (readImageFromStream - MainWindow.cpp)</source>
         <translation>Képtömörítési hiba (saveImageToFile - Image.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1044"/>
+        <location filename="../src/mainwindow.cpp" line="1025"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 nem rendelkezik a megfelelő verzióval: %2.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1116"/>
+        <location filename="../src/mainwindow.cpp" line="1097"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam beállítása, hogy a &lt;port&gt; portot használja</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1117"/>
+        <location filename="../src/mainwindow.cpp" line="1098"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam beállítása, hogy a &lt;server&gt; kiszolgálóhoz csatlakozzon.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1118"/>
+        <location filename="../src/mainwindow.cpp" line="1099"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>Határozd meg &lt;role&gt;: KM vagy JK</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1119"/>
+        <location filename="../src/mainwindow.cpp" line="1100"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Változtatások törlése, és az alapbeállítások visszaállítása</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1120"/>
+        <location filename="../src/mainwindow.cpp" line="1101"/>
         <source>Define the &lt;username&gt;</source>
         <translation>Határozd meg &lt;username&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1210"/>
+        <location filename="../src/mainwindow.cpp" line="1203"/>
         <source>End of the connection process</source>
         <translation>Csatlakozási folyamat vége</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1232"/>
+        <location filename="../src/mainwindow.cpp" line="1222"/>
         <source>Error:</source>
         <translation>Hiba:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1236"/>
+        <location filename="../src/mainwindow.cpp" line="1226"/>
         <source>Warning:</source>
         <translation>Figyelmeztetés:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2102"/>
+        <location filename="../src/mainwindow.cpp" line="1347"/>
+        <source>Resources Explorer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="2118"/>
         <source>Open %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="651"/>
+        <location filename="../src/mainwindow.cpp" line="630"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>A kapcsolat megszakadt. %1 be fog zárni</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="653"/>
+        <location filename="../src/mainwindow.cpp" line="632"/>
         <source>Connection lost</source>
         <translation>A kapcsolat megszakadt</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="659"/>
+        <location filename="../src/mainwindow.cpp" line="638"/>
         <source>Quit %1 </source>
         <translation>Kilépés %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="666"/>
+        <location filename="../src/mainwindow.cpp" line="645"/>
         <source>Do you want to save your minutes before to quit %1?</source>
         <translation>Szeretnéd elmenteni a jegyzeteid mielőtt kilpsz %1?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="670"/>
+        <location filename="../src/mainwindow.cpp" line="649"/>
         <source>Do you want to save your scenario before to quit %1?</source>
         <translation>Szeretnéd elmenteni a jelenetet mielőtt kilépsz %1?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="737"/>
-        <location filename="../src/mainwindow.cpp" line="820"/>
+        <location filename="../src/mainwindow.cpp" line="699"/>
+        <location filename="../src/mainwindow.cpp" line="726"/>
         <source>Scenarios (*.sce)</source>
         <translation>Jelenetek (*.sce)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="256"/>
+        <location filename="../src/mainwindow.ui" line="258"/>
         <source>About Rolisteam</source>
         <translation>A Rolisteamről</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="970"/>
+        <location filename="../src/mainwindow.cpp" line="947"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>A %1 dokumentációja megtalálható online: &lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1014"/>
+        <location filename="../src/mainwindow.cpp" line="995"/>
         <source>Update Monitor</source>
         <translation>Képernyő Frissítése</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1014"/>
+        <location filename="../src/mainwindow.cpp" line="995"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>Kiadásra került a %1 verzió. Kérlek nézd meg a &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Letöltések szekciót&lt;/a&gt; további információkért</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1041"/>
+        <location filename="../src/mainwindow.cpp" line="1022"/>
         <source>%1 just joins the game.</source>
         <translation>%1 csatlakozott a játékhoz.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1050"/>
+        <location filename="../src/mainwindow.cpp" line="1031"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 elhagyja a játékot.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="901"/>
+        <location filename="../src/mainwindow.cpp" line="878"/>
         <source>Server Ip Address:%1
 Port:%2</source>
         <translation>Kiszolgáló IP címe: %1
@@ -2230,8 +2292,13 @@ ez egy kiemelt szín.</translation>
 <context>
     <name>PathItem</name>
     <message>
-        <location filename="../src/vmap/items/pathitem.cpp" line="254"/>
+        <location filename="../src/vmap/items/pathitem.cpp" line="268"/>
         <source>Close Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/vmap/items/pathitem.cpp" line="272"/>
+        <source>Fill Path</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2256,24 +2323,29 @@ ez egy kiemelt szín.</translation>
 <context>
     <name>PersonDialog</name>
     <message>
-        <location filename="../src/persondialog.cpp" line="66"/>
-        <source>&amp;Name : </source>
-        <translation>&amp;Név :</translation>
+        <location filename="../src/widgets/persondialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished">Dialógus</translation>
     </message>
     <message>
-        <location filename="../src/persondialog.cpp" line="67"/>
-        <source>&amp;Color : </source>
-        <translation>&amp;Szín :</translation>
+        <location filename="../src/widgets/persondialog.ui" line="40"/>
+        <source>Avatar…</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/persondialog.cpp" line="69"/>
-        <source>OK</source>
-        <translation>OK</translation>
+        <location filename="../src/widgets/persondialog.ui" line="55"/>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/persondialog.cpp" line="72"/>
-        <source>&amp;Cancel</source>
-        <translation>&amp;Mégse</translation>
+        <location filename="../src/widgets/persondialog.ui" line="62"/>
+        <source>Color:</source>
+        <translation type="unfinished">Szín:</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/persondialog.cpp" line="56"/>
+        <source>Load Avatar</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2413,12 +2485,12 @@ ez egy kiemelt szín.</translation>
         <translation>Játékos Lista</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersList.cpp" line="731"/>
+        <location filename="../src/userlist/playersList.cpp" line="732"/>
         <source>PlayersList [PlayerCategory]: unknown action (%d)</source>
         <translation>JátékosLista [JátékosKategória]: ismeretlen cselekvés (%d)</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersList.cpp" line="753"/>
+        <location filename="../src/userlist/playersList.cpp" line="754"/>
         <source>PlayersList [CharacterPlayerCategory]: unknown action (%d)</source>
         <translation>JátékosLista [KarakterJátékosKategória]: ismeretlen cselekvés (%d)</translation>
     </message>
@@ -2436,28 +2508,34 @@ ez egy kiemelt szín.</translation>
         <translation>Szerkesztés </translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersListWidget.cpp" line="217"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="222"/>
         <source>New Character</source>
         <translation>Ismeretlen Karakter</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersListWidget.cpp" line="261"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="254"/>
+        <source>Add %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/userlist/playersListWidget.cpp" line="277"/>
         <source>NPC</source>
         <translation>NJK</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersListWidget.cpp" line="261"/>
-        <location filename="../src/userlist/playersListWidget.cpp" line="265"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="274"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="277"/>
         <source>PC</source>
         <translation>JK</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersListWidget.cpp" line="268"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="280"/>
         <source>Add a %1</source>
         <translation>%1 Hozzáadása</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersListWidget.cpp" line="271"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="255"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="284"/>
         <source>Remove %1</source>
         <translation>%1 Eltávolítása</translation>
     </message>
@@ -3015,37 +3093,37 @@ ez egy kiemelt szín.</translation>
         <translation>Töltési hiba</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="186"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="190"/>
         <source>Nothing was understood</source>
         <translation>Semmit sem értek</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="603"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="610"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Nem létezik %1 oldalú kocka. Kérlek 0-nál nagyobb számot adj meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="648"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="655"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>Hiányzó lista az L operátor után. Kérlek add meg (példa: 1L[kard,lándza,pisztoly,nyílvessző])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="905"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="921"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Hiányzó validátor a c operátor után. Kérlek változtasd meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="931"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="947"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Hiányzó validátor a(z) %1 operátor után. Kérlek változtasd meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="943"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="959"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>Ez a feltétel %1 végtelen ciklust hoz létre. Kérlek változtasd meg</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="954"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="970"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Hiányzó validátor a e operátor után. Kérlek változtasd meg</translation>
     </message>
@@ -3057,7 +3135,7 @@ ez egy kiemelt szín.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1121"/>
+        <location filename="../src/mainwindow.cpp" line="1102"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation>elérési út a honosító fájlhoz: &lt;translationfile&gt;</translation>
     </message>
@@ -3122,32 +3200,32 @@ ez egy kiemelt szín.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="227"/>
+        <location filename="../src/data/cleveruri.cpp" line="233"/>
         <source>Character Sheets files  (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="230"/>
+        <location filename="../src/data/cleveruri.cpp" line="236"/>
         <source>Supported Image formats (%1)</source>
         <translation>Támogatott Képformátumok (%1)</translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="240"/>
+        <location filename="../src/data/cleveruri.cpp" line="246"/>
         <source>Supported Text Files (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="243"/>
+        <location filename="../src/data/cleveruri.cpp" line="249"/>
         <source>Supported Story Files (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="246"/>
+        <location filename="../src/data/cleveruri.cpp" line="252"/>
         <source>Supported Audio formats (%1)</source>
         <translation>Támogatott Hangformátumok (%1)</translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="257"/>
+        <location filename="../src/data/cleveruri.cpp" line="263"/>
         <source>Pdf File (%1)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3163,7 +3241,7 @@ Full documentation at: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/jumpbackwardnode.cpp" line="75"/>
+        <location filename="../src/diceparser/node/jumpbackwardnode.cpp" line="126"/>
         <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3217,195 +3295,195 @@ Full documentation at: %1</source>
 <context>
     <name>RGraphicsView</name>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="155"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="209"/>
         <source>Change the map</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="171"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="225"/>
         <source>Edit Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="176"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="230"/>
         <source>Change Visibility</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="207"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="261"/>
         <source>Change selected Items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="209"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="263"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="211"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="265"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="215"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="269"/>
         <source>Front</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="219"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="273"/>
         <source>Lower</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="223"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="277"/>
         <source>Raise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="229"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="283"/>
         <source>Rotate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="230"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="284"/>
         <source>To 360</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="231"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="285"/>
         <source>Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="232"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="286"/>
         <source>Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="233"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="287"/>
         <source>Set Angle…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="235"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="289"/>
         <source>Set Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="240"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="294"/>
         <source>Normalize Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="285"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="339"/>
         <source>Rotation Value ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="285"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="339"/>
         <source>Please, set the rotation angle you want [0-360]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="462"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="498"/>
         <source>Zoom to Normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="463"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="499"/>
         <source>Zoom In Max</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="464"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="500"/>
         <source>Zoom Out Max</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="465"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="501"/>
         <source>Center on Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="467"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="503"/>
         <source>Zoom In</source>
         <translation type="unfinished">Nagyítás</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="470"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="506"/>
         <source>Zoom Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="473"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="509"/>
         <source>Import Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="484"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="520"/>
         <source>Average</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="485"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="521"/>
         <source>As undermouse item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="486"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="522"/>
         <source>As the Bigger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="487"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="523"/>
         <source>As the Smaller</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="489"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="525"/>
         <source>Lock Item Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="499"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="535"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="504"/>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="518"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="540"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="554"/>
         <source>Ground</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="507"/>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="520"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="543"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="556"/>
         <source>Object</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="510"/>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="522"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="546"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="558"/>
         <source>Character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="530"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="566"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="533"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="569"/>
         <source>Hidden</source>
         <translation type="unfinished">Rejtett</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="537"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="573"/>
         <source>Fog Of War</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="708"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="744"/>
         <source>Open image file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3413,42 +3491,42 @@ Full documentation at: %1</source>
 <context>
     <name>RuleItem</name>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="139"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="148"/>
         <source>m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="142"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="151"/>
         <source>cm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="145"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="154"/>
         <source>″</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="148"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="157"/>
         <source>′</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="151"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="160"/>
         <source>yd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="154"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="163"/>
         <source>mi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="157"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="166"/>
         <source>km</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="160"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="169"/>
         <source>px</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3532,22 +3610,26 @@ Full documentation at: %1</source>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="325"/>
-        <location filename="../src/network/selectconnectionprofiledialog.ui" line="328"/>
         <source>Delete</source>
         <translation type="unfinished">Törlés</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.ui" line="352"/>
+        <location filename="../src/network/selectconnectionprofiledialog.ui" line="328"/>
+        <source>Delete selected profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/network/selectconnectionprofiledialog.ui" line="355"/>
         <source>Connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.ui" line="362"/>
+        <location filename="../src/network/selectconnectionprofiledialog.ui" line="365"/>
         <source>OffLine Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.ui" line="365"/>
+        <location filename="../src/network/selectconnectionprofiledialog.ui" line="368"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3576,12 +3658,12 @@ Full documentation at: %1</source>
     </message>
     <message>
         <location filename="../src/session/sessionitemmodel.cpp" line="59"/>
-        <source>Mode</source>
+        <source>Loading Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/session/sessionitemmodel.cpp" line="59"/>
-        <source>Opened</source>
+        <source>Displayed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3593,12 +3675,17 @@ Full documentation at: %1</source>
 <context>
     <name>SessionManager</name>
     <message>
-        <location filename="../src/session/sessionmanager.cpp" line="46"/>
+        <location filename="../src/session/sessionmanager.cpp" line="33"/>
+        <source>Unknown</source>
+        <translation type="unfinished">Ismeretlen</translation>
+    </message>
+    <message>
+        <location filename="../src/session/sessionmanager.cpp" line="48"/>
         <source>Resources Explorer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/session/sessionmanager.cpp" line="98"/>
+        <location filename="../src/session/sessionmanager.cpp" line="102"/>
         <source>Chapter %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3855,27 +3942,27 @@ Akarod menteni a változtatásokat?</translation>
         <translation type="unfinished">Szöveg</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/textitem.cpp" line="497"/>
+        <location filename="../src/vmap/items/textitem.cpp" line="505"/>
         <source>Edit Text…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/textitem.cpp" line="501"/>
+        <location filename="../src/vmap/items/textitem.cpp" line="509"/>
         <source>Adapt to content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/textitem.cpp" line="504"/>
+        <location filename="../src/vmap/items/textitem.cpp" line="512"/>
         <source>Font Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/textitem.cpp" line="510"/>
+        <location filename="../src/vmap/items/textitem.cpp" line="518"/>
         <source>Increase Text Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/textitem.cpp" line="511"/>
+        <location filename="../src/vmap/items/textitem.cpp" line="519"/>
         <source>Decrease Text Size</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4013,32 +4100,32 @@ Akarod menteni a változtatásokat?</translation>
 <context>
     <name>VMap</name>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1310"/>
+        <location filename="../src/vmap/vmap.cpp" line="1425"/>
         <source>No Right</source>
         <translation type="unfinished">Semmihez</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1310"/>
+        <location filename="../src/vmap/vmap.cpp" line="1425"/>
         <source>His character</source>
         <translation type="unfinished">Csak a karakteréhez</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1310"/>
+        <location filename="../src/vmap/vmap.cpp" line="1425"/>
         <source>All Permissions</source>
         <translation type="unfinished">Bármihez</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1545"/>
+        <location filename="../src/vmap/vmap.cpp" line="1682"/>
         <source>Hidden</source>
         <translation type="unfinished">Rejtett</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1545"/>
+        <location filename="../src/vmap/vmap.cpp" line="1682"/>
         <source>Fog Of War</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1545"/>
+        <location filename="../src/vmap/vmap.cpp" line="1682"/>
         <source>All visible</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4124,6 +4211,11 @@ Akarod menteni a változtatásokat?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/vmap/vtoolbar.cpp" line="140"/>
+        <source>Pipette</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="152"/>
         <source>Text With Border</source>
         <translation type="unfinished"></translation>
@@ -4134,37 +4226,37 @@ Akarod menteni a változtatásokat?</translation>
         <translation type="unfinished">NJK számláló újraindítása</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="289"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="291"/>
         <source>NPC Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="294"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="296"/>
         <source>NPC&apos;s number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="302"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="304"/>
         <source>Normal</source>
         <translation type="unfinished">Normális</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="303"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="305"/>
         <source>Mask</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="304"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="306"/>
         <source>Unmask</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="314"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="316"/>
         <source>height of the pen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="327"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="329"/>
         <source>Opacity:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4223,62 +4315,62 @@ Akarod menteni a változtatásokat?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="198"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="203"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="205"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="210"/>
         <source>Front</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="212"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="217"/>
         <source>Lower</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="218"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="223"/>
         <source>Raise</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="226"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="231"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="229"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="234"/>
         <source>Rotate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="230"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="235"/>
         <source>To 360</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="231"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="236"/>
         <source>Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="232"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="237"/>
         <source>Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="238"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="243"/>
         <source>Promote to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="243"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="248"/>
         <source>Set Layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="314"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="319"/>
         <source>Duplicate Item</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4432,7 +4524,22 @@ Akarod menteni a változtatásokat?</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="96"/>
+        <source>Hide other Layers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/vmap/vmaptoolbar.cpp" line="99"/>
         <source>Character Vision</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/vmap/vmaptoolbar.cpp" line="102"/>
+        <source>Collision</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/vmap/vmaptoolbar.cpp" line="106"/>
+        <source>Show transparent Item</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -193,27 +193,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterItem</name>
     <message>
-        <location filename="../src/vmap/items/characteritem.cpp" line="573"/>
+        <location filename="../src/vmap/items/characteritem.cpp" line="653"/>
         <source>Change State</source>
         <translation>Change état</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/characteritem.cpp" line="581"/>
+        <location filename="../src/vmap/items/characteritem.cpp" line="661"/>
         <source>Affect to</source>
         <translation>Attribuer à</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/characteritem.cpp" line="589"/>
+        <location filename="../src/vmap/items/characteritem.cpp" line="669"/>
         <source>Vision Shape</source>
         <translation>Forme de vision</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/characteritem.cpp" line="627"/>
+        <location filename="../src/vmap/items/characteritem.cpp" line="707"/>
         <source>Disk</source>
         <translation>Disque</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/characteritem.cpp" line="629"/>
+        <location filename="../src/vmap/items/characteritem.cpp" line="709"/>
         <source>Conical</source>
         <translation>Cônique</translation>
     </message>
@@ -221,22 +221,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="275"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="307"/>
         <source>Fields name</source>
         <translation>Nom du champ</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="291"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="323"/>
         <source>Empty Section %1</source>
         <translation>Section vide %1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="299"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="331"/>
         <source>Section_%1</source>
         <translation>Section_%1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="322"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="355"/>
         <source>Field %1</source>
         <translation>Champ %1</translation>
     </message>
@@ -245,7 +245,7 @@ p, li { white-space: pre-wrap; }
     <name>CharacterSheetWindow</name>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="508"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="616"/>
         <source>Character Sheet Viewer</source>
         <translation>Visionneur de fiche de personnages</translation>
     </message>
@@ -265,17 +265,17 @@ p, li { white-space: pre-wrap; }
         <translation>Ajouter une fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="62"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="66"/>
         <source>Load CharacterSheet View File</source>
         <translation>Charger une vue de fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="64"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="68"/>
         <source>Detach Tabs</source>
         <translation>Détacher l&apos;onglet</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="74"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="78"/>
         <source>Data</source>
         <translation>Données</translation>
     </message>
@@ -290,42 +290,47 @@ p, li { white-space: pre-wrap; }
         <translation>Arrêter le partage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="113"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="62"/>
+        <source>Read Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="182"/>
         <source>Share To </source>
         <translation>Envoyer à</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="142"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="211"/>
         <source>Share To</source>
         <translation>Envoyer à</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="357"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="450"/>
         <source>Save Character Sheets Data</source>
         <translation>Sauvegarder les données des personnages</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="358"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="451"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="435"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="543"/>
         <source>Open Character Sheet data</source>
         <translation>Ouvrir les données des personnages</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="436"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="544"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="443"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="551"/>
         <source>Open Character Sheets View</source>
         <translation>Ouvrir une fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="444"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="552"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Fiche de personnage (*.qml)</translation>
     </message>
@@ -442,7 +447,7 @@ p, li { white-space: pre-wrap; }
         <translation>Supprimer un tchat</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatlistwidget.cpp" line="124"/>
+        <location filename="../src/chat/chatlistwidget.cpp" line="125"/>
         <source>New chat</source>
         <translation>Nouveau tchat</translation>
     </message>
@@ -650,7 +655,7 @@ p, li { white-space: pre-wrap; }
         <translation>Commentaires</translation>
     </message>
     <message>
-        <location filename="../src/preferences/dicealiasmodel.cpp" line="104"/>
+        <location filename="../src/preferences/dicealiasmodel.cpp" line="106"/>
         <source>New Alias%1</source>
         <translation>Nouvel Alias %1</translation>
     </message>
@@ -851,146 +856,135 @@ p, li { white-space: pre-wrap; }
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="106"/>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="109"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="105"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="108"/>
         <source>Redo</source>
         <translation>Refaire</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="130"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="128"/>
         <source>Cut (CTRL+X)</source>
         <translation>Couper (Ctrl+X)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="133"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="131"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="154"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="151"/>
         <source>Copy (CTRL+C)</source>
         <translation>Copier (Ctrl+C)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="157"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="154"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="178"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="174"/>
         <source>Paste (CTRL+V)</source>
         <translation>Coller (Ctrl+V)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="181"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="177"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="209"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="204"/>
         <source>Link (CTRL+L)</source>
         <translation>Lien (Ctrl+L)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="212"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="207"/>
         <source>Link</source>
         <translation>Lien</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="246"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="240"/>
         <source>Bold</source>
         <translation>Gras</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="270"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="263"/>
         <source>Italic (CTRL+I)</source>
         <translation>Italique (Ctrl+I)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="273"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="266"/>
         <source>Italic</source>
         <translation>Italique</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="297"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="289"/>
         <source>Underline (CTRL+U)</source>
         <translation>So&amp;ulignage (Ctrl+U)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="300"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="292"/>
         <source>Underline</source>
         <translation>Souligner</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="321"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="312"/>
         <source>Strike Out</source>
         <translation>Rayer</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="341"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="332"/>
         <source>Bullet list (CTRL+-)</source>
         <translation>Liste à points (Ctrl+-)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="344"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="335"/>
         <source>Bullet list</source>
         <translation>Liste à points</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="363"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="354"/>
         <source>Ordered list (CTRL+=)</source>
         <translation>Liste ordonnée (Ctrl+=)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="366"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="357"/>
         <source>Ordered list</source>
         <translation>Liste ordonnée</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="385"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="376"/>
         <source>Decrease indentation (CTRL+,)</source>
         <translation>Réduire le décalage (Ctrl+,)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="388"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="379"/>
         <source>Decrease indentation</source>
         <translation>Réduire le décalage</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="409"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="399"/>
         <source>Increase indentation (CTRL+.)</source>
         <translation>Augmenter le décalage (Ctrl+.)</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="412"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="402"/>
         <source>Increase indentation</source>
         <translation>Augmente le décalage</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="452"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="441"/>
         <source>Text foreground color</source>
         <translation>Couleur du texte</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="455"/>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="486"/>
-        <source>.</source>
-        <translation>.</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="483"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="472"/>
         <source>Text background color</source>
         <translation>Couleur de fond</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="502"/>
+        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="491"/>
         <source>Font size</source>
         <translation>Taille de police</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="539"/>
-        <source>...</source>
-        <translation>…</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.cpp" line="62"/>
@@ -1066,7 +1060,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1311"/>
+        <location filename="../src/mainwindow.cpp" line="1297"/>
         <source>unknown</source>
         <translation>inconnu</translation>
     </message>
@@ -1076,57 +1070,62 @@ p, li { white-space: pre-wrap; }
         <translation>Ouvrir Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2163"/>
+        <location filename="../src/mainwindow.cpp" line="2179"/>
         <source>Connected</source>
         <translation>Connecté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2163"/>
+        <location filename="../src/mainwindow.cpp" line="2179"/>
         <source>Not Connected</source>
         <translation>Non connecté</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2164"/>
+        <location filename="../src/mainwindow.cpp" line="2180"/>
         <source>Server</source>
         <translation>Serveur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2164"/>
+        <location filename="../src/mainwindow.cpp" line="2180"/>
         <source>Client</source>
         <translation>Client</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2164"/>
+        <location filename="../src/mainwindow.cpp" line="2180"/>
         <source>GM</source>
         <translation>MJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2164"/>
+        <location filename="../src/mainwindow.cpp" line="2180"/>
         <source>Player</source>
         <translation>Joueur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="737"/>
+        <location filename="../src/mainwindow.cpp" line="699"/>
         <source>Open scenario</source>
         <translation>Ouvrir Scénario</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="793"/>
+        <location filename="../src/mainwindow.cpp" line="726"/>
+        <source>Save Scenario as</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="806"/>
         <source>Save %1</source>
         <translation>Sauvegarder %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="820"/>
+        <location filename="../src/mainwindow.ui" line="538"/>
         <source>Save Scenario</source>
         <translation>Sauvegarder Scénario</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="836"/>
+        <location filename="../src/mainwindow.cpp" line="751"/>
         <source>%1 cannot be opened (saveStory - MainWindow.cpp)</source>
         <translation>%1 ne peut pas être ouvert (saveStory - MainWindow.cpp)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1337"/>
+        <location filename="../src/mainwindow.cpp" line="1323"/>
         <source>ToolBox</source>
         <translation>Boîte à outils</translation>
     </message>
@@ -1136,7 +1135,7 @@ p, li { white-space: pre-wrap; }
         <translation>Ouvrir Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="722"/>
+        <location filename="../src/mainwindow.cpp" line="684"/>
         <location filename="../src/mainwindow.cpp" line="1929"/>
         <source>Open Minutes</source>
         <translation>Ouvrir Notes</translation>
@@ -1162,31 +1161,26 @@ p, li { white-space: pre-wrap; }
         <translation>Fichiers Récents</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="86"/>
+        <location filename="../src/mainwindow.ui" line="88"/>
         <location filename="../src/mainwindow.ui" line="270"/>
-        <location filename="../src/mainwindow.ui" line="300"/>
+        <location filename="../src/mainwindow.ui" line="306"/>
         <source>Map</source>
         <translation>Plan</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="123"/>
+        <location filename="../src/mainwindow.ui" line="125"/>
         <source>GM ToolBox</source>
         <translation>Boîte à outils du MJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="140"/>
+        <location filename="../src/mainwindow.ui" line="141"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="143"/>
+        <location filename="../src/mainwindow.ui" line="144"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="153"/>
-        <source>Save as</source>
-        <translation>Enregistrer Sous</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="156"/>
@@ -1202,16 +1196,6 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/mainwindow.ui" line="164"/>
         <source>Ctrl+Shift+A</source>
         <translation>Ctrl+Shift+A</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="173"/>
-        <source>Save into Scenario</source>
-        <translation>Enregistrer dans Scénario</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.ui" line="176"/>
-        <source>Meta+Ctrl+S</source>
-        <translation>Meta+Ctrl+S</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="181"/>
@@ -1230,7 +1214,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="205"/>
-        <location filename="../src/mainwindow.cpp" line="643"/>
+        <location filename="../src/mainwindow.cpp" line="622"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
@@ -1251,6 +1235,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="235"/>
+        <location filename="../src/mainwindow.ui" line="465"/>
         <source>Alt+T</source>
         <translation>Alt+T</translation>
     </message>
@@ -1280,7 +1265,7 @@ p, li { white-space: pre-wrap; }
         <translation>F12</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="273"/>
+        <location filename="../src/mainwindow.ui" line="297"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
@@ -1290,146 +1275,211 @@ p, li { white-space: pre-wrap; }
         <translation>Tchat</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="291"/>
-        <location filename="../src/mainwindow.ui" line="324"/>
+        <location filename="../src/mainwindow.ui" line="153"/>
+        <source>Save as…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="173"/>
+        <source>Save Scenario As…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="176"/>
+        <source>Alt+Shift+A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="273"/>
+        <source>Ctrl+M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="285"/>
+        <source>Ctrl+T</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="294"/>
+        <location filename="../src/mainwindow.ui" line="330"/>
         <source>Note</source>
         <translation>Notes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="303"/>
+        <location filename="../src/mainwindow.ui" line="309"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="312"/>
+        <location filename="../src/mainwindow.ui" line="318"/>
         <source>Picture</source>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="315"/>
+        <location filename="../src/mainwindow.ui" line="321"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="333"/>
+        <source>Ctrl+R</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="342"/>
         <source>Scenario</source>
         <translation>Scénario</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="344"/>
+        <location filename="../src/mainwindow.ui" line="345"/>
+        <source>Ctrl+E</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="356"/>
         <source>Show PC Name</source>
         <translation>Affiche le nom des PJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="347"/>
+        <location filename="../src/mainwindow.ui" line="359"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="358"/>
+        <location filename="../src/mainwindow.ui" line="370"/>
         <source>Show Npc Name</source>
         <translation>Affiche le nom des PNJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="361"/>
+        <location filename="../src/mainwindow.ui" line="373"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="372"/>
+        <location filename="../src/mainwindow.ui" line="384"/>
         <source>Show Npc Number</source>
         <translation>Affiche le numéros des PNJ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="375"/>
+        <location filename="../src/mainwindow.ui" line="387"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="383"/>
+        <location filename="../src/mainwindow.ui" line="395"/>
         <source>Minute Editor</source>
         <translation>Editeur de notes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="386"/>
+        <location filename="../src/mainwindow.ui" line="398"/>
         <source>Alt+M</source>
         <translation>Alt+M</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="395"/>
+        <location filename="../src/mainwindow.ui" line="407"/>
         <source>Online Picture</source>
         <translation>Image En Ligne</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="403"/>
+        <location filename="../src/mainwindow.ui" line="410"/>
+        <source>Ctrl+Shift+I</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="418"/>
         <source>Audio Player</source>
         <translation>Lecteur Audio</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="411"/>
-        <location filename="../src/mainwindow.cpp" line="357"/>
+        <location filename="../src/mainwindow.ui" line="421"/>
+        <source>Alt+A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="429"/>
+        <location filename="../src/mainwindow.cpp" line="373"/>
         <source>Notification Zone</source>
         <translation>Zone de notification</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="419"/>
+        <location filename="../src/mainwindow.ui" line="432"/>
+        <source>Alt+N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="440"/>
         <source>Chat List</source>
         <translation>Liste des Tchats</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="427"/>
+        <location filename="../src/mainwindow.ui" line="443"/>
+        <source>Alt+L</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="451"/>
         <source>Character List</source>
         <translation>Liste Des Personnages</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="435"/>
+        <location filename="../src/mainwindow.ui" line="462"/>
         <source>ToolBar</source>
         <translation>Barre d&apos;Outils</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="444"/>
-        <location filename="../src/mainwindow.ui" line="456"/>
+        <location filename="../src/mainwindow.ui" line="474"/>
+        <location filename="../src/mainwindow.ui" line="486"/>
         <source>Vectorial Map</source>
         <translation>Plan Vectoriel</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="447"/>
-        <source>Ctrl+.</source>
-        <translation>Ctrl+.</translation>
+        <location filename="../src/mainwindow.ui" line="541"/>
+        <source>Alt+S</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="464"/>
+        <location filename="../src/mainwindow.ui" line="497"/>
         <source>Show Health State</source>
         <translation>Montrer les états de santé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="467"/>
+        <location filename="../src/mainwindow.ui" line="500"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="472"/>
+        <location filename="../src/mainwindow.ui" line="505"/>
         <source>Change Profile</source>
         <translation>Changer de profil</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="481"/>
-        <location filename="../src/mainwindow.ui" line="493"/>
+        <location filename="../src/mainwindow.ui" line="514"/>
+        <location filename="../src/mainwindow.ui" line="526"/>
         <source>Character Sheet</source>
         <translation>Fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="484"/>
+        <location filename="../src/mainwindow.ui" line="489"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="496"/>
+        <location filename="../src/mainwindow.ui" line="477"/>
+        <source>Ctrl+V</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="517"/>
+        <source>Ctrl+W</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="529"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="106"/>
+        <location filename="../src/mainwindow.ui" line="108"/>
         <source>Network</source>
         <translation>Réseau</translation>
     </message>
@@ -1439,12 +1489,12 @@ p, li { white-space: pre-wrap; }
         <translation>Rolisteam</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="74"/>
+        <location filename="../src/mainwindow.ui" line="76"/>
         <source>Sub-Windows</source>
         <translation>Fenêtres</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="78"/>
+        <location filename="../src/mainwindow.ui" line="80"/>
         <source>Reorganize</source>
         <translation>Réorganiser</translation>
     </message>
@@ -1460,6 +1510,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="227"/>
+        <location filename="../src/mainwindow.ui" line="454"/>
         <source>Alt+C</source>
         <translation>Alt+C</translation>
     </message>
@@ -1469,95 +1520,100 @@ p, li { white-space: pre-wrap; }
         <translation>Tuile</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="115"/>
-        <location filename="../src/mainwindow.cpp" line="969"/>
+        <location filename="../src/mainwindow.ui" line="117"/>
+        <location filename="../src/mainwindow.cpp" line="946"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="931"/>
-        <location filename="../src/mainwindow.cpp" line="953"/>
+        <location filename="../src/mainwindow.cpp" line="908"/>
+        <location filename="../src/mainwindow.cpp" line="930"/>
         <source>Image compression error (readImageFromStream - MainWindow.cpp)</source>
         <translation>Erreur durant la compression (readImageFromStream - MainWindow.cpp) </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1044"/>
+        <location filename="../src/mainwindow.cpp" line="1025"/>
         <source>%1 has not the right version: %2.</source>
         <translation>%1 n&apos;a pas la même version: %2.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1116"/>
+        <location filename="../src/mainwindow.cpp" line="1097"/>
         <source>Set rolisteam to use &lt;port&gt; for the connection</source>
         <translation>Rolisteam utilise le port &lt;port&gt; pour la connexion</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1117"/>
+        <location filename="../src/mainwindow.cpp" line="1098"/>
         <source>Set rolisteam to connect to &lt;server&gt;.</source>
         <translation>Rolisteam se connecte à &lt;server&gt;.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1118"/>
+        <location filename="../src/mainwindow.cpp" line="1099"/>
         <source>Define the &lt;role&gt;: gm or pc</source>
         <translation>Définir le &lt;role&gt;: gm ou pc</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1119"/>
+        <location filename="../src/mainwindow.cpp" line="1100"/>
         <source>Erase the settings and use the default parameters</source>
         <translation>Effacer les réglages et utiliser les paramètres par défaut</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1120"/>
+        <location filename="../src/mainwindow.cpp" line="1101"/>
         <source>Define the &lt;username&gt;</source>
         <translation>Définir le nom d&apos;&lt;utilisateur&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1210"/>
+        <location filename="../src/mainwindow.cpp" line="1203"/>
         <source>End of the connection process</source>
         <translation>Fin du processus de connexion</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1232"/>
+        <location filename="../src/mainwindow.cpp" line="1222"/>
         <source>Error:</source>
         <translation>Erreur:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1236"/>
+        <location filename="../src/mainwindow.cpp" line="1226"/>
         <source>Warning:</source>
         <translation>Avertissement:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="2101"/>
+        <location filename="../src/mainwindow.cpp" line="1347"/>
+        <source>Resources Explorer</source>
+        <translation type="unfinished">Explorateur de ressources</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="2118"/>
         <source>Open %1</source>
         <translation>Ouvrir %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="651"/>
+        <location filename="../src/mainwindow.cpp" line="630"/>
         <source>Connection has been lost. %1 will be close</source>
         <translation>La connexion a été perdue. %1 va s&apos;arrêter </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="653"/>
+        <location filename="../src/mainwindow.cpp" line="632"/>
         <source>Connection lost</source>
         <translation>Connexion perdue</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="659"/>
+        <location filename="../src/mainwindow.cpp" line="638"/>
         <source>Quit %1 </source>
         <translation>Quitter %1 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="666"/>
+        <location filename="../src/mainwindow.cpp" line="645"/>
         <source>Do you want to save your minutes before to quit %1?</source>
         <translation>Voulez-vous sauvegarder vos notes avant de quitter %1 ?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="670"/>
+        <location filename="../src/mainwindow.cpp" line="649"/>
         <source>Do you want to save your scenario before to quit %1?</source>
         <translation>Voulez-vous sauvegarder votre scénario avant de quitter %1 ?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="737"/>
-        <location filename="../src/mainwindow.cpp" line="820"/>
+        <location filename="../src/mainwindow.cpp" line="699"/>
+        <location filename="../src/mainwindow.cpp" line="726"/>
         <source>Scenarios (*.sce)</source>
         <translation>Scénarios (*.sce)</translation>
     </message>
@@ -1567,32 +1623,32 @@ p, li { white-space: pre-wrap; }
         <translation>À propos de Rolisteam</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="970"/>
+        <location filename="../src/mainwindow.cpp" line="947"/>
         <source>Documentation of %1 can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation>La documentation de %1 est accessible sur le web :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1014"/>
+        <location filename="../src/mainwindow.cpp" line="995"/>
         <source>Update Monitor</source>
         <translation>Mises à jour</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1014"/>
+        <location filename="../src/mainwindow.cpp" line="995"/>
         <source>The %1 version has been released. Please take a look at &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;Download page&lt;/a&gt; for more information</source>
         <translation>La version %1 est disponible. Pour plus d&apos;informations veuillez consulter &lt;a href=&quot;http://www.rolisteam.org/download&quot;&gt;la page de téléchargement&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1041"/>
+        <location filename="../src/mainwindow.cpp" line="1022"/>
         <source>%1 just joins the game.</source>
         <translation>%1 vient de rejoindre la partie.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1050"/>
+        <location filename="../src/mainwindow.cpp" line="1031"/>
         <source>%1 just leaves the game.</source>
         <translation>%1 vient de quitter la partie.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="901"/>
+        <location filename="../src/mainwindow.cpp" line="878"/>
         <source>Server Ip Address:%1
 Port:%2</source>
         <translation>Adresse IP du serveur:%1
@@ -2295,9 +2351,14 @@ Port:%2</translation>
 <context>
     <name>PathItem</name>
     <message>
-        <location filename="../src/vmap/items/pathitem.cpp" line="254"/>
+        <location filename="../src/vmap/items/pathitem.cpp" line="268"/>
         <source>Close Path</source>
         <translation>Fermer le chemin</translation>
+    </message>
+    <message>
+        <location filename="../src/vmap/items/pathitem.cpp" line="272"/>
+        <source>Fill Path</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2321,24 +2382,29 @@ Port:%2</translation>
 <context>
     <name>PersonDialog</name>
     <message>
-        <location filename="../src/persondialog.cpp" line="66"/>
-        <source>&amp;Name : </source>
-        <translation>&amp;Nom : </translation>
+        <location filename="../src/widgets/persondialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/persondialog.cpp" line="67"/>
-        <source>&amp;Color : </source>
-        <translation>&amp;Couleur : </translation>
+        <location filename="../src/widgets/persondialog.ui" line="40"/>
+        <source>Avatar…</source>
+        <translation type="unfinished">Avatar…</translation>
     </message>
     <message>
-        <location filename="../src/persondialog.cpp" line="69"/>
-        <source>OK</source>
-        <translation>OK</translation>
+        <location filename="../src/widgets/persondialog.ui" line="55"/>
+        <source>Name:</source>
+        <translation type="unfinished">Nom:</translation>
     </message>
     <message>
-        <location filename="../src/persondialog.cpp" line="72"/>
-        <source>&amp;Cancel</source>
-        <translation>&amp;Annuler</translation>
+        <location filename="../src/widgets/persondialog.ui" line="62"/>
+        <source>Color:</source>
+        <translation type="unfinished">Couleur:</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/persondialog.cpp" line="56"/>
+        <source>Load Avatar</source>
+        <translation type="unfinished">Charger Avatar</translation>
     </message>
 </context>
 <context>
@@ -2478,12 +2544,12 @@ Port:%2</translation>
         <translation>Liste des Joueurs</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersList.cpp" line="731"/>
+        <location filename="../src/userlist/playersList.cpp" line="732"/>
         <source>PlayersList [PlayerCategory]: unknown action (%d)</source>
         <translation>PlayersList [PlayerCategory]: action inconnue (%d)</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersList.cpp" line="753"/>
+        <location filename="../src/userlist/playersList.cpp" line="754"/>
         <source>PlayersList [CharacterPlayerCategory]: unknown action (%d)</source>
         <translation>PlayersList [CharacterPlayerCategory]: action inconnue (%d)</translation>
     </message>
@@ -2501,28 +2567,34 @@ Port:%2</translation>
         <translation>Editer</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersListWidget.cpp" line="217"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="222"/>
         <source>New Character</source>
         <translation>Nouveau Personnage</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersListWidget.cpp" line="261"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="254"/>
+        <source>Add %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/userlist/playersListWidget.cpp" line="277"/>
         <source>NPC</source>
         <translation>PNJ</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersListWidget.cpp" line="261"/>
-        <location filename="../src/userlist/playersListWidget.cpp" line="265"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="274"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="277"/>
         <source>PC</source>
         <translation>PJ</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersListWidget.cpp" line="268"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="280"/>
         <source>Add a %1</source>
         <translation>Ajouter un %1</translation>
     </message>
     <message>
-        <location filename="../src/userlist/playersListWidget.cpp" line="271"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="255"/>
+        <location filename="../src/userlist/playersListWidget.cpp" line="284"/>
         <source>Remove %1</source>
         <translation>Supprimer %1</translation>
     </message>
@@ -3080,37 +3152,37 @@ Port:%2</translation>
         <translation>Erreur de chargement</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="186"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="190"/>
         <source>Nothing was understood</source>
         <translation>Commande incomprise</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="603"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="610"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Un dé avec %1 face(s) n&apos;existe pas. S&apos;il vous plaît, veuillez entrer une valeur supérieure à 0</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="648"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="655"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>La liste est manquante après l&apos;opérateur L. Veuillez en ajouter une (exemple: 1L[épée,lance,pistolet,flèche])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="905"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="921"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur c. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="931"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="947"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur %1. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="943"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="959"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>La condition %1 introduit une boucle infinie. Veuillez la changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="954"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="970"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur e. Veuillez le changer</translation>
     </message>
@@ -3121,7 +3193,7 @@ Port:%2</translation>
         <translation>Liste des alias:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1121"/>
+        <location filename="../src/mainwindow.cpp" line="1102"/>
         <source>path to the translation file: &lt;translationfile&gt;</source>
         <translation>chemin vers le fichier de traduction: &lt;traduction&gt;</translation>
     </message>
@@ -3186,32 +3258,32 @@ Port:%2</translation>
         <translation>Liste de lecture audio</translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="227"/>
+        <location filename="../src/data/cleveruri.cpp" line="233"/>
         <source>Character Sheets files  (%1)</source>
         <translation>Fiches de personnage (%1)</translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="230"/>
+        <location filename="../src/data/cleveruri.cpp" line="236"/>
         <source>Supported Image formats (%1)</source>
         <translation>Formats d&apos;images supportés (%1)</translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="240"/>
+        <location filename="../src/data/cleveruri.cpp" line="246"/>
         <source>Supported Text Files (%1)</source>
         <translation>Fichier de texte (%1)</translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="243"/>
+        <location filename="../src/data/cleveruri.cpp" line="249"/>
         <source>Supported Story Files (%1)</source>
         <translation>Scénario (%1)</translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="246"/>
+        <location filename="../src/data/cleveruri.cpp" line="252"/>
         <source>Supported Audio formats (%1)</source>
         <translation>Formats Audio supportés (%1)</translation>
     </message>
     <message>
-        <location filename="../src/data/cleveruri.cpp" line="257"/>
+        <location filename="../src/data/cleveruri.cpp" line="263"/>
         <source>Pdf File (%1)</source>
         <translation>Pdf (%1)</translation>
     </message>
@@ -3228,7 +3300,7 @@ Full documentation at: %1</source>
 Documentation complète disponible: %1</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/jumpbackwardnode.cpp" line="75"/>
+        <location filename="../src/diceparser/node/jumpbackwardnode.cpp" line="126"/>
         <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
         <translation> L&apos;opérateur @ attend un résultat de dés. Veuillez vérifier la documentation afin de corriger votre commande.</translation>
     </message>
@@ -3282,195 +3354,195 @@ Documentation complète disponible: %1</translation>
 <context>
     <name>RGraphicsView</name>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="155"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="209"/>
         <source>Change the map</source>
         <translation>Changer le plan</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="171"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="225"/>
         <source>Edit Layer</source>
         <translation>Éditer le calque</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="176"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="230"/>
         <source>Change Visibility</source>
         <translation>Changer la Visibilité</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="207"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="261"/>
         <source>Change selected Items</source>
         <translation>Changer la selection des éléments</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="209"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="263"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="211"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="265"/>
         <source>Back</source>
         <translation>Arrière</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="215"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="269"/>
         <source>Front</source>
         <translation>Devant</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="219"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="273"/>
         <source>Lower</source>
         <translation>Plus bas</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="223"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="277"/>
         <source>Raise</source>
         <translation>Plus haut</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="229"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="283"/>
         <source>Rotate</source>
         <translation>Tourner</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="230"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="284"/>
         <source>To 360</source>
         <translation>à 360</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="231"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="285"/>
         <source>Right</source>
         <translation>Droite</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="232"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="286"/>
         <source>Left</source>
         <translation>Gauche</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="233"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="287"/>
         <source>Set Angle…</source>
         <translation>Définir l&apos;angle…</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="235"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="289"/>
         <source>Set Layer</source>
         <translation>Calque courant </translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="240"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="294"/>
         <source>Normalize Size</source>
         <translation>Normaliser les tailles</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="285"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="339"/>
         <source>Rotation Value ?</source>
         <translation>Valeur de rotation ?</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="285"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="339"/>
         <source>Please, set the rotation angle you want [0-360]</source>
         <translation>Veillez définir un angle de rotation entre [0-360]</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="462"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="498"/>
         <source>Zoom to Normal</source>
         <translation>Zoom Normal</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="463"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="499"/>
         <source>Zoom In Max</source>
         <translation>Zoom avant Max</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="464"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="500"/>
         <source>Zoom Out Max</source>
         <translation>Zoom Arrière Max</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="465"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="501"/>
         <source>Center on Item</source>
         <translation>Centrer sur l&apos;élément</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="467"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="503"/>
         <source>Zoom In</source>
         <translation>Zoom avant</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="470"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="506"/>
         <source>Zoom Out</source>
         <translation>Zoom arrière</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="473"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="509"/>
         <source>Import Image</source>
         <translation>Importer une image</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="484"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="520"/>
         <source>Average</source>
         <translation>Moyenne</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="485"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="521"/>
         <source>As undermouse item</source>
         <translation>Comme l&apos;élément sous la souris</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="486"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="522"/>
         <source>As the Bigger</source>
         <translation>comme le plus grand</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="487"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="523"/>
         <source>As the Smaller</source>
         <translation>comme le plus petit</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="489"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="525"/>
         <source>Lock Item Size</source>
         <translation>Verrouiller la taille de l&apos;élément</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="499"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="535"/>
         <source>Properties</source>
         <translation>Propriétés</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="504"/>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="518"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="540"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="554"/>
         <source>Ground</source>
         <translation>Sol</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="507"/>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="520"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="543"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="556"/>
         <source>Object</source>
         <translation>Objet</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="510"/>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="522"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="546"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="558"/>
         <source>Character</source>
         <translation>Personnage</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="530"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="566"/>
         <source>All</source>
         <translation>Tout</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="533"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="569"/>
         <source>Hidden</source>
         <translation>Caché</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="537"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="573"/>
         <source>Fog Of War</source>
         <translation>Brouillard de guerre</translation>
     </message>
     <message>
-        <location filename="../src/vmap/rgraphicsview.cpp" line="708"/>
+        <location filename="../src/vmap/rgraphicsview.cpp" line="744"/>
         <source>Open image file</source>
         <translation>Ouvrir une image</translation>
     </message>
@@ -3478,42 +3550,42 @@ Documentation complète disponible: %1</translation>
 <context>
     <name>RuleItem</name>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="139"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="148"/>
         <source>m</source>
         <translation>m</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="142"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="151"/>
         <source>cm</source>
         <translation>cm</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="145"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="154"/>
         <source>″</source>
         <translation>″</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="148"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="157"/>
         <source>′</source>
         <translation>′</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="151"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="160"/>
         <source>yd</source>
         <translation>yd</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="154"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="163"/>
         <source>mi</source>
         <translation>mi</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="157"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="166"/>
         <source>km</source>
         <translation>km</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/ruleitem.cpp" line="160"/>
+        <location filename="../src/vmap/items/ruleitem.cpp" line="169"/>
         <source>px</source>
         <translation>px</translation>
     </message>
@@ -3597,22 +3669,26 @@ Documentation complète disponible: %1</translation>
     </message>
     <message>
         <location filename="../src/network/selectconnectionprofiledialog.ui" line="325"/>
-        <location filename="../src/network/selectconnectionprofiledialog.ui" line="328"/>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.ui" line="352"/>
+        <location filename="../src/network/selectconnectionprofiledialog.ui" line="328"/>
+        <source>Delete selected profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/network/selectconnectionprofiledialog.ui" line="355"/>
         <source>Connect</source>
         <translation>Connexion</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.ui" line="362"/>
+        <location filename="../src/network/selectconnectionprofiledialog.ui" line="365"/>
         <source>OffLine Mode</source>
         <translation>Mode hors ligne</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.ui" line="365"/>
+        <location filename="../src/network/selectconnectionprofiledialog.ui" line="368"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
@@ -3641,13 +3717,13 @@ Documentation complète disponible: %1</translation>
     </message>
     <message>
         <location filename="../src/session/sessionitemmodel.cpp" line="59"/>
-        <source>Mode</source>
-        <translation>Mode</translation>
+        <source>Loading Mode</source>
+        <translation type="unfinished">Mode de chargement</translation>
     </message>
     <message>
         <location filename="../src/session/sessionitemmodel.cpp" line="59"/>
-        <source>Opened</source>
-        <translation>Ouvert</translation>
+        <source>Displayed</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/session/sessionitemmodel.cpp" line="59"/>
@@ -3658,12 +3734,17 @@ Documentation complète disponible: %1</translation>
 <context>
     <name>SessionManager</name>
     <message>
-        <location filename="../src/session/sessionmanager.cpp" line="45"/>
+        <location filename="../src/session/sessionmanager.cpp" line="33"/>
+        <source>Unknown</source>
+        <translation type="unfinished">Inconnu</translation>
+    </message>
+    <message>
+        <location filename="../src/session/sessionmanager.cpp" line="48"/>
         <source>Resources Explorer</source>
         <translation>Explorateur de ressources</translation>
     </message>
     <message>
-        <location filename="../src/session/sessionmanager.cpp" line="92"/>
+        <location filename="../src/session/sessionmanager.cpp" line="102"/>
         <source>Chapter %1</source>
         <translation>Chapitre %1</translation>
     </message>
@@ -3920,27 +4001,27 @@ Voulez-vous sauvegarder vos changements ?</translation>
         <translation>Texte</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/textitem.cpp" line="497"/>
+        <location filename="../src/vmap/items/textitem.cpp" line="505"/>
         <source>Edit Text…</source>
         <translation>Modifier le texte…</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/textitem.cpp" line="501"/>
+        <location filename="../src/vmap/items/textitem.cpp" line="509"/>
         <source>Adapt to content</source>
         <translation>Adapter au contenu</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/textitem.cpp" line="504"/>
+        <location filename="../src/vmap/items/textitem.cpp" line="512"/>
         <source>Font Size</source>
         <translation>Taille de la police</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/textitem.cpp" line="510"/>
+        <location filename="../src/vmap/items/textitem.cpp" line="518"/>
         <source>Increase Text Size</source>
         <translation>Augmenter la taille de la police</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/textitem.cpp" line="511"/>
+        <location filename="../src/vmap/items/textitem.cpp" line="519"/>
         <source>Decrease Text Size</source>
         <translation>Diminuer la police</translation>
     </message>
@@ -4078,32 +4159,32 @@ Voulez-vous sauvegarder vos changements ?</translation>
 <context>
     <name>VMap</name>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1310"/>
+        <location filename="../src/vmap/vmap.cpp" line="1425"/>
         <source>No Right</source>
         <translation>Aucun droit</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1310"/>
+        <location filename="../src/vmap/vmap.cpp" line="1425"/>
         <source>His character</source>
         <translation>Personnage</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1310"/>
+        <location filename="../src/vmap/vmap.cpp" line="1425"/>
         <source>All Permissions</source>
         <translation>Tous les droits</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1545"/>
+        <location filename="../src/vmap/vmap.cpp" line="1682"/>
         <source>Hidden</source>
         <translation>Caché</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1545"/>
+        <location filename="../src/vmap/vmap.cpp" line="1682"/>
         <source>Fog Of War</source>
         <translation>Brouillard de guerre</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vmap.cpp" line="1545"/>
+        <location filename="../src/vmap/vmap.cpp" line="1682"/>
         <source>All visible</source>
         <translation>Entierement visible</translation>
     </message>
@@ -4189,6 +4270,11 @@ Voulez-vous sauvegarder vos changements ?</translation>
         <translation>Ancre</translation>
     </message>
     <message>
+        <location filename="../src/vmap/vtoolbar.cpp" line="140"/>
+        <source>Pipette</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/vmap/vtoolbar.cpp" line="152"/>
         <source>Text With Border</source>
         <translation>Texte avec bordures</translation>
@@ -4199,37 +4285,37 @@ Voulez-vous sauvegarder vos changements ?</translation>
         <translation>Redémarrer le compteur des PNJ</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="289"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="291"/>
         <source>NPC Name</source>
         <translation>Nom des PNJ</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="294"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="296"/>
         <source>NPC&apos;s number</source>
         <translation>Numero de PNJ</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="302"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="304"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="303"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="305"/>
         <source>Mask</source>
         <translation>Masquer</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="304"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="306"/>
         <source>Unmask</source>
         <translation>Démasquer</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="314"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="316"/>
         <source>height of the pen</source>
         <translation>Taille du crayon</translation>
     </message>
     <message>
-        <location filename="../src/vmap/vtoolbar.cpp" line="327"/>
+        <location filename="../src/vmap/vtoolbar.cpp" line="329"/>
         <source>Opacity:</source>
         <translation>Opacité:</translation>
     </message>
@@ -4288,62 +4374,62 @@ Voulez-vous sauvegarder vos changements ?</translation>
         <translation>Objet</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="198"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="203"/>
         <source>Back</source>
         <translation>Descendre</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="205"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="210"/>
         <source>Front</source>
         <translation>Tout devant</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="212"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="217"/>
         <source>Lower</source>
         <translation>Tout en bas</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="218"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="223"/>
         <source>Raise</source>
         <translation>Monter</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="226"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="231"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="229"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="234"/>
         <source>Rotate</source>
         <translation>Rotation</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="230"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="235"/>
         <source>To 360</source>
         <translation>Mettre droit</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="231"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="236"/>
         <source>Right</source>
         <translation>Droite</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="232"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="237"/>
         <source>Left</source>
         <translation>Gauche</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="238"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="243"/>
         <source>Promote to</source>
         <translation>Changer en</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="243"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="248"/>
         <source>Set Layer</source>
         <translation>Changer de calque</translation>
     </message>
     <message>
-        <location filename="../src/vmap/items/visualitem.cpp" line="314"/>
+        <location filename="../src/vmap/items/visualitem.cpp" line="319"/>
         <source>Duplicate Item</source>
         <translation>Dupplication</translation>
     </message>
@@ -4497,8 +4583,23 @@ Voulez-vous sauvegarder vos changements ?</translation>
     </message>
     <message>
         <location filename="../src/vmap/vmaptoolbar.cpp" line="96"/>
+        <source>Hide other Layers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/vmap/vmaptoolbar.cpp" line="99"/>
         <source>Character Vision</source>
         <translation>Vision des personnages</translation>
+    </message>
+    <message>
+        <location filename="../src/vmap/vmaptoolbar.cpp" line="102"/>
+        <source>Collision</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/vmap/vmaptoolbar.cpp" line="106"/>
+        <source>Show transparent Item</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
