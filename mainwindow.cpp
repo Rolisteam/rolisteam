@@ -991,7 +991,7 @@ void MainWindow::editColor(QModelIndex index)
         }
     }
 }
-}
+
 
 
 void MainWindow::aboutRcse()
