@@ -9,9 +9,16 @@ class RolisteamDaemon : public QObject
 public:
     explicit RolisteamDaemon(QObject *parent = 0);
 
+
 signals:
 
 public slots:
+    void readConfigFile(QString);
+    void createEmptyConfigFile(QString);
+
+private:
+    int m_port;
+
 };
 
 #endif // ROLISTEAMDAEMON_H

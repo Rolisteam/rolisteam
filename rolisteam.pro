@@ -156,7 +156,8 @@ HEADERS += \
     src/services/updaterwindow.h \
     src/widgets/realslider.h \
     src/network/heartbeatsender.h \
-    src/widgets/persondialog.h
+    src/widgets/persondialog.h \
+    src/network/rolisteamdaemon.h
 
 
    #     src/persondialog.cpp \
@@ -230,7 +231,8 @@ SOURCES += \
     src/services/updaterwindow.cpp \
     src/widgets/realslider.cpp \
     src/network/heartbeatsender.cpp \
-    src/widgets/persondialog.cpp
+    src/widgets/persondialog.cpp \
+    src/network/rolisteamdaemon.cpp
 
 
 FORMS += \
