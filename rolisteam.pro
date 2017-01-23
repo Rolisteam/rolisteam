@@ -36,6 +36,7 @@ TRANSLATIONS =  translations/rolisteam_fr.ts \
                 translations/rolisteam_pt_BR.ts \
                 translations/rolisteam_hu_HU.ts \
                 translations/rolisteam_tr.ts \
+                translations/rolisteam_es.ts \
 
 CODECFORTR = UTF-8
 
@@ -154,7 +155,8 @@ HEADERS += \
     src/services/updaterwindow.h \
     src/widgets/realslider.h \
     src/network/heartbeatsender.h \
-    src/widgets/persondialog.h
+    src/widgets/persondialog.h \
+    src/network/rolisteamdaemon.h
 
 
    #     src/persondialog.cpp \
@@ -228,7 +230,8 @@ SOURCES += \
     src/services/updaterwindow.cpp \
     src/widgets/realslider.cpp \
     src/network/heartbeatsender.cpp \
-    src/widgets/persondialog.cpp
+    src/widgets/persondialog.cpp \
+    src/network/rolisteamdaemon.cpp
 
 
 FORMS += \
