@@ -25,11 +25,11 @@
 #include "network/networkmanager.h"
 
 #include <QTcpSocket>
-#include <QMessageBox>
+//#include <QMessageBox>
 #include "network/networklink.h"
 #include "data/person.h"
 #include "data/player.h"
-#include "network/selectconnectionprofiledialog.h"
+#include "network/connectionprofile.h"
 
 #define second 1000
 
@@ -40,7 +40,7 @@ NetworkManager::NetworkManager()
     : QObject(), m_server(NULL),m_networkLinkToServer(NULL),m_disconnectAsked(false),m_connectionState(DISCONNECTED),m_localPlayer(NULL)
 {
     m_reconnect = new QTimer(this);
-    m_preferences =  PreferencesManager::getInstance();
+    //m_preferences =  PreferencesManager::getInstance();
    // m_dialog = new ConnectionRetryDialog();
     m_playersList = PlayersList::instance();
 
@@ -109,10 +109,10 @@ bool  NetworkManager::startListening()
     }
     else
     {
-        QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
+       /* QMessageBox errorDialog(QMessageBox::Warning, tr("Error"), tr("Can not establish the connection."));
         errorDialog.setInformativeText(m_server->errorString());
         errorDialog.exec();
-        return false;
+        return false;*/
     }
 
 }
@@ -146,7 +146,7 @@ void NetworkManager::startConnectionToServer()
 {
     if(NULL==m_networkLinkToServer)
     {
-        m_networkLinkToServer = new NetworkLink(m_connectionProfile);
+        m_networkLinkToServer = new NetworkLink(m_connectionProfile,this);
         addNetworkLink(m_networkLinkToServer);
         connect(m_networkLinkToServer,SIGNAL(errorMessage(QString)),this,SIGNAL(errorOccur(QString)));
         connect(m_networkLinkToServer,SIGNAL(connnectionStateChanged(QAbstractSocket::SocketState)),this,SLOT(socketStateChanged(QAbstractSocket::SocketState)));
@@ -194,7 +194,7 @@ void NetworkManager::addNetworkLink(NetworkLink* networkLink)
 void NetworkManager::newClientConnection()
 {
     QTcpSocket* socketTcp = m_server->nextPendingConnection();
-    new NetworkLink(socketTcp);
+    new NetworkLink(socketTcp,this);
 
 }
 void NetworkManager::endingNetworkLink(NetworkLink * link)

@@ -27,8 +27,9 @@
 #include <QTcpSocket>
 
 #include "network/networkmessage.h"
-#include "mainwindow.h"
-#include "selectconnectionprofiledialog.h"
+//#include "mainwindow.h"
+#include "connectionprofile.h"
+#include "networkreceiver.h"
 
 class Map;
 
@@ -44,9 +45,12 @@ public :
      * @brief NetworkLink
      * @param socket
      */
-	NetworkLink(QTcpSocket *socket);
-
-    NetworkLink(ConnectionProfile* m_connection);
+    NetworkLink(QTcpSocket *socket,NetworkManager* netMan);
+    /**
+     * @brief NetworkLink
+     * @param m_connection
+     */
+    NetworkLink(ConnectionProfile* m_connection,NetworkManager* netMan);
     /**
      * @brief ~NetworkLink
      */
@@ -155,7 +159,7 @@ private :
     bool m_receivingData;
     char* m_buffer;
     quint32 m_remainingData;
-    MainWindow* m_mainWindow;
+    //MainWindow* m_mainWindow;
     NetworkManager* m_networkManager;
     QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
     int m_headerRead;

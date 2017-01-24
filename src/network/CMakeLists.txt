@@ -12,10 +12,12 @@ set(CMAKE_AUTOMOC ON)
 
 # Find the QtWidgets library
 find_package(Qt5Core)
+find_package(Qt5Network)
+find_package(Qt5Gui)
 set(EXECUTABLE_OUTPUT_PATH bin/)
 
-include_directories(${Qt5Core_INCLUDES} ../)
-add_definitions(${Qt5Core_DEFINITIONS})
+include_directories(${Qt5Core_INCLUDES} ${Qt5Gui_INCLUDES} ${Qt5Network_INCLUDES} ../)
+add_definitions(${Qt5Core_DEFINITIONS} ${Qt5Gui_DEFINITIONS} ${Qt5Network_DEFINITIONS})
 
 set(MODE "cli")
 
@@ -53,20 +55,22 @@ if(Qt5Core_FOUND)
     get_filename_component(QT_LIBRARY_DIR ${QT_LIBRARY_DIR} PATH)
 endif()
 
-
+#networkmanager.cpp
 SET( rolisteamd_sources
     main.cpp
     networklink.cpp
-    networkmanager.cpp
+    tcpclient.cpp
+    servermanager.cpp
     networkmessage.cpp
     networkmessagereader.cpp
     networkmessagewriter.cpp
     rolisteamdaemon.cpp
+    connectionprofile.cpp
     receiveevent.cpp)
 
 
 
 add_executable( rolisteamd ${rolisteamd_sources} ${rolisteamd_QM}   )
 
-target_link_libraries(rolisteamd ${Qt5Core_LIBRARIES})
+target_link_libraries(rolisteamd ${Qt5Core_LIBRARIES} ${Qt5Gui_LIBRARIES} ${Qt5Network_LIBRARIES})
 INSTALL_TARGETS(/bin rolisteamd )

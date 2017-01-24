@@ -156,7 +156,10 @@ HEADERS += \
     src/widgets/realslider.h \
     src/network/heartbeatsender.h \
     src/widgets/persondialog.h \
-    src/network/rolisteamdaemon.h
+    src/network/rolisteamdaemon.h \
+    src/network/connectionprofile.h \
+    src/network/servermanager.h \
+    src/network/channelmodel.h
 
 
    #     src/persondialog.cpp \
@@ -231,7 +234,10 @@ SOURCES += \
     src/widgets/realslider.cpp \
     src/network/heartbeatsender.cpp \
     src/widgets/persondialog.cpp \
-    src/network/rolisteamdaemon.cpp
+    src/network/rolisteamdaemon.cpp \
+    src/network/connectionprofile.cpp \
+    src/network/servermanager.cpp \
+    src/network/channelmodel.cpp
 
 
 FORMS += \

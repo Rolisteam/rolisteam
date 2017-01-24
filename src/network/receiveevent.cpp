@@ -19,7 +19,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QTimer>
 
 #include "network/receiveevent.h"
@@ -41,12 +41,12 @@ quint16 makeKey(quint8 categorie, quint8 action)
 }
 
 
-ReceiveEvent::ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, NetworkLink * link)
-    : QEvent((QEvent::Type)ReceiveEvent::Type), m_data(header, buffer), m_link(link), m_repost(0)
+ReceiveEvent::ReceiveEvent(NetworkManager* manager, const NetworkMessageHeader & header, const char * buffer, NetworkLink * link)
+    : QEvent((QEvent::Type)ReceiveEvent::Type), m_data(manager,header, buffer), m_link(link), m_repost(0)
 {}
 
-ReceiveEvent::ReceiveEvent(const ReceiveEvent & other)
-    : QEvent((QEvent::Type)ReceiveEvent::Type), m_data(other.m_data), m_link(other.m_link), m_repost(other.m_repost + 1)
+ReceiveEvent::ReceiveEvent(NetworkManager* manager,const ReceiveEvent & other)
+    : QEvent((QEvent::Type)ReceiveEvent::Type), m_data(manager,other.m_data), m_link(other.m_link), m_repost(other.m_repost + 1)
 {}
 
 ReceiveEvent::~ReceiveEvent()

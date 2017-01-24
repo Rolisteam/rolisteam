@@ -32,8 +32,8 @@
 class NetworkMessageReader : public NetworkMessage
 {
 public:
-    NetworkMessageReader(const NetworkMessageHeader & header, const char * buffer);
-    NetworkMessageReader(const NetworkMessageReader & other);
+    NetworkMessageReader(NetworkManager* server, const NetworkMessageHeader & header, const char * buffer);
+    NetworkMessageReader(NetworkManager* server, const NetworkMessageReader & other);
     ~NetworkMessageReader();
 
     NetMsg::Category category() const;

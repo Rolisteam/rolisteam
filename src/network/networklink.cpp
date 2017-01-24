@@ -21,24 +21,24 @@
 *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
 *************************************************************************/
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QTcpSocket>
 
 #include "network/networklink.h"
 
 #include "network/networkmanager.h"
-#include "map/charactertoken.h"
+//#include "map/charactertoken.h"
 //#include "Image.h"
-#include "data/person.h"
-#include "userlist/playersList.h"
+//#include "data/person.h"
+//#include "userlist/playersList.h"
 #include "network/receiveevent.h"
 
 
-NetworkLink::NetworkLink(QTcpSocket *socket)
-    : QObject(NULL),m_mainWindow(NULL)
+NetworkLink::NetworkLink(QTcpSocket *socket,NetworkManager* netMan)
+    : QObject(NULL),m_networkManager(netMan)
 {
-    m_mainWindow = MainWindow::getInstance();
-    m_networkManager = m_mainWindow->getNetWorkManager();
+    //m_mainWindow = MainWindow::getInstance();
+   // m_networkManager = m_mainWindow->getNetWorkManager();
     m_socketTcp = socket;
     m_receivingData = false;
     m_headerRead= 0;
@@ -50,11 +50,11 @@ NetworkLink::NetworkLink(QTcpSocket *socket)
     }
 }
 
-NetworkLink::NetworkLink(ConnectionProfile* connection)
-    : m_host("localhost"),m_port(6660)
+NetworkLink::NetworkLink(ConnectionProfile* connection,NetworkManager* netMan)
+    : m_host("localhost"),m_port(6660),m_networkManager(netMan)
 {
-    m_mainWindow = MainWindow::getInstance();
-    m_networkManager = m_mainWindow->getNetWorkManager();
+   // m_mainWindow = MainWindow::getInstance();
+   // m_networkManager = m_mainWindow->getNetWorkManager();
     setConnection(connection);
     m_socketTcp = new QTcpSocket(this);
     m_socketTcp->setSocketOption(QAbstractSocket::KeepAliveOption,1);
@@ -199,16 +199,16 @@ void NetworkLink::receivingData()
         }
         else
         {
-            QApplication::alert(m_mainWindow);
+            //QApplication::alert(m_mainWindow);
             emit readDataReceived(0,0);
 
             // Send event
             if (ReceiveEvent::hasReceiverFor(m_header.category, m_header.action))
             {
-                ReceiveEvent * event = new ReceiveEvent(m_header, m_buffer, this);
+                ReceiveEvent * event = new ReceiveEvent(m_networkManager,m_header, m_buffer, this);
                 event->postToReceiver();
             }
-            NetworkMessageReader data(m_header,m_buffer);
+            NetworkMessageReader data(m_networkManager,m_header,m_buffer);
             if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
             {
 

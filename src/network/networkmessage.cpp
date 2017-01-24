@@ -27,6 +27,12 @@
 #endif
 #include "network/networkmanager.h"
 
+NetworkMessage::NetworkMessage(NetworkManager *server)
+    : m_server(server)
+{
+
+}
+
 NetworkMessage::~NetworkMessage()
 {
 
