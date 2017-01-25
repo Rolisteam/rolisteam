@@ -1,7 +1,10 @@
 #include "servermanager.h"
 
-ServerManager::ServerManager(QObject *parent) : QObject(parent)
+ServerManager::ServerManager(QObject *parent)
+    : QObject(parent),  m_state(Off)
 {
+    m_model = new ChannelModel();
+    m_defaultChannelIndex = m_model->addChannel("default","");
 
 }
 
@@ -20,13 +23,12 @@ void ServerManager::startListening()
     if (m_server == NULL)
     {
         m_server = new QTcpServer(this);
-        connect(m_server, SIGNAL(newConnection()), this, SLOT(newClientConnection()));
+        connect(m_server, SIGNAL(newConnection()), this, SLOT(incomingClientConnection()));
     }
-    if (m_server->listen(QHostAddress::Any, m_connectionProfile->getPort()))
+    if (m_server->listen(QHostAddress::Any,m_port))
     {
+        setState(Listening);
         emit sendLog(tr("Rolisteam Server is on!"));
-//        connect(this, SIGNAL(linkDeleted(NetworkLink *)), m_playersList, SLOT(delPlayerWithLink(NetworkLink *)));
-        return true;
     }
     else
     {
@@ -37,16 +39,27 @@ void ServerManager::startListening()
 void ServerManager::incomingClientConnection()
 {
     QTcpSocket* socketTcp = m_server->nextPendingConnection();
-    //NetworkLink* netlink = new NetworkLink(socketTcp,this);
+    emit sendLog(tr("New Incoming Connection!"));
 
     TcpClient* client = new TcpClient(socketTcp);
-    m_networkLinkList.append(client);
-
+    m_model->addConnectionToChannel(m_defaultChannelIndex,client);
 
     connect(client,SIGNAL(dataReceived(QByteArray)),this,SLOT(sendDataToAll(QByteArray)));
     connect(socketTcp, SIGNAL(error(QAbstractSocket::SocketError)),client, SLOT(connectionError(QAbstractSocket::SocketError)));
     connect(socketTcp, SIGNAL(disconnected()), client, SIGNAL(disconnected()));
     connect(client, SIGNAL(disconnected()), this, SLOT(disconnection()));
+}
 
+ServerManager::ServerState ServerManager::getState() const
+{
+    return m_state;
+}
 
+void ServerManager::setState(const ServerManager::ServerState &state)
+{
+    if(m_state != state)
+    {
+        m_state = state;
+        emit stateChanged(m_state);
+    }
 }

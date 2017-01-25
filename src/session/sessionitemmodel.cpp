@@ -302,8 +302,7 @@ bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& 
 }
 QModelIndex SessionItemModel::parent( const QModelIndex & index ) const
 {
-    
-    if (!index.isValid())
+        if (!index.isValid())
         return QModelIndex();
     
     ResourcesNode *childItem = static_cast<ResourcesNode*>(index.internalPointer());

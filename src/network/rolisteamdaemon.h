@@ -21,6 +21,10 @@ public slots:
     void readConfigFile(QString);
     void createEmptyConfigFile(QString);
 
+private slots:
+    void notifyUser(QString);
+    void errorMessage(QString);
+
 private:
     ServerManager m_serverManager;
     QThread m_thread;

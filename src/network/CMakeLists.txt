@@ -56,17 +56,19 @@ if(Qt5Core_FOUND)
 endif()
 
 #networkmanager.cpp
+#networklink.cpp
+#    networkmessage.cpp
+#    networkmessagereader.cpp
+#    networkmessagewriter.cpp
+#receiveevent.cpp
 SET( rolisteamd_sources
     main.cpp
-    networklink.cpp
     tcpclient.cpp
     servermanager.cpp
-    networkmessage.cpp
-    networkmessagereader.cpp
-    networkmessagewriter.cpp
     rolisteamdaemon.cpp
     connectionprofile.cpp
-    receiveevent.cpp)
+    channelmodel.cpp
+    )
 
 
 

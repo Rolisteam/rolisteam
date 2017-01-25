@@ -6,6 +6,7 @@
 
 #include "networkmessage.h"
 #include "tcpclient.h"
+#include "channelmodel.h"
 /**
  * @brief The ServerManager class
  */
@@ -23,6 +24,9 @@ public:
     int getPort() const;
     void setPort(int port);
 
+    ServerManager::ServerState getState() const;
+    void setState(const ServerManager::ServerState &state);
+
 signals:
     void stateChanged(ServerState);
     void errorOccurs(QString);
@@ -36,7 +40,10 @@ private slots:
 
 private:
     int m_port;
-    QTcpServer * m_server;
+    QTcpServer* m_server;
+    ChannelModel* m_model;
+    int m_defaultChannelIndex;
+    ServerState m_state;
 };
 
 #endif // SERVERMANAGER_H
