@@ -53,16 +53,15 @@ if(Qt5Core_FOUND)
     get_filename_component(QT_LIBRARY_DIR ${QT_LIBRARY_DIR} PATH)
 endif()
 
-
+#receiveevent.cpp
 SET( rolisteamd_sources
     main.cpp
-    networklink.cpp
-    networkmanager.cpp
-    networkmessage.cpp
-    networkmessagereader.cpp
-    networkmessagewriter.cpp
+    tcpclient.cpp
+    servermanager.cpp
     rolisteamdaemon.cpp
-    receiveevent.cpp)
+    connectionprofile.cpp
+    channelmodel.cpp
+    )
 
 
 

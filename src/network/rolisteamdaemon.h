@@ -16,6 +16,10 @@ public slots:
     void readConfigFile(QString);
     void createEmptyConfigFile(QString);
 
+private slots:
+    void notifyUser(QString);
+    void errorMessage(QString);
+
 private:
     int m_port;
 
