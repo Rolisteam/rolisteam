@@ -407,6 +407,7 @@ public slots:
      * @brief selectionPositionHasChanged
      */
     void selectionPositionHasChanged();
+    void showTransparentItems();
 signals:
     /**
      * @brief npcAdded
@@ -438,7 +439,7 @@ private slots:
      * @brief sendOffItem
      * @param item
      */
-    void sendOffItem(VisualItem* item);
+    void sendOffItem(VisualItem* item, bool doInitPoint = true);
     /**
      * @brief updateItem
      */
@@ -484,9 +485,10 @@ protected:
     void addItem();
     /**
      * @brief addNewItem
-     * @param item
+     * @param item to add
+     * @param fromNetwork, true when item is added from network, false by default.
      */
-    void addNewItem(VisualItem* item);
+    void addNewItem(VisualItem* item, bool fromNetwork = false);
     /**
      * @brief dragEnterEvent
      * @param event
@@ -511,6 +513,10 @@ protected:
      * @param b
      */
     void hideOtherLayers(bool b);
+    /**
+     * @brief ensureFogAboveAll
+     */
+    void ensureFogAboveAll();
 private:
     /**
     * @brief width of the map

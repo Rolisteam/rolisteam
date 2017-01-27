@@ -64,7 +64,7 @@ public:
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType();
+    virtual VisualItem::ItemType getType() const;
     /**
      * @brief fillMessage
      * @param msg

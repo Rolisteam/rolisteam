@@ -67,7 +67,7 @@ public:
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType();
+    virtual VisualItem::ItemType getType() const;
     /**
      * @brief fillMessage
      * @param msg
@@ -89,26 +89,57 @@ public:
      * @brief initChildPointItem
      */
     virtual void initChildPointItem();
-
+    /**
+     * @brief getItemCopy
+     * @return
+     */
 	virtual VisualItem* getItemCopy();
-
+    /**
+     * @brief setPen
+     * @param pen
+     */
     void setPen(QPen pen);
+    /**
+     * @brief setPath
+     * @param points
+     */
     void setPath(QVector<QPointF> points);
+    /**
+     * @brief setClosed
+     */
     void setClosed(bool);
+    /**
+     * @brief setFilled
+     */
+    void setFilled(bool);
+    /**
+     * @brief setStartPoint
+     */
     void setStartPoint(QPointF);
+    /**
+     * @brief release
+     */
     void release();
 
     /**
      * @brief addActionContextMenu
      */
     virtual void addActionContextMenu(QMenu*);
+    /**
+     * @brief endOfGeometryChange
+     */
     virtual void endOfGeometryChange();
+    /**
+     * @brief readMovePointMsg
+     * @param msg
+     */
     virtual void readMovePointMsg(NetworkMessageReader* msg);
 
 protected slots:
     void sendPointPosition();
 private slots:
     void closePath();
+    void fillPath();
 private:
     void createActions();
 private:
@@ -125,7 +156,9 @@ private:
 
 	QVector<QPointF> m_pointVector;
     QAction* m_closeAct;
+    QAction* m_fillAct;
     bool m_closed;
+    bool m_filled;
     bool m_penMode;
     QPointF m_changedPointPos;
     qreal     m_changedPointId;

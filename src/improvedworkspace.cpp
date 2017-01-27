@@ -68,10 +68,10 @@ void ImprovedWorkspace::updateBackGround()
     m_background.setColor(m_color);
     setBackground(m_background);
 
-    QString fileName = m_preferences->value("PathOfBackgroundImage",":/resources/icons/workspacebackground.bmp").toString();
+    QString fileName = m_preferences->value("PathOfBackgroundImage",":/resources/icons/workspacebackground.jpg").toString();
 //    if (!QFile::exists(fileName))
 //    {
-//        fileName = ":/resources/icons/workspacebackground.bmp";
+//        fileName = ":/resources/icons/workspacebackground.jpg";
 //    }
 
     m_variableSizeBackground = m_variableSizeBackground.scaled(size());

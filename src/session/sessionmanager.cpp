@@ -30,6 +30,7 @@
 #include "preferences/preferencesmanager.h"
 
 SessionManager::SessionManager()
+    : m_sessionName(tr("Unknown"))
 {
 
     setObjectName("SessionManager");
@@ -57,6 +58,8 @@ SessionManager::SessionManager()
     m_view->setDropIndicatorShown(true);
     m_view->setDefaultDropAction(Qt::MoveAction);
     m_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+    m_view->setAlternatingRowColors(true);
 
     QHeaderView* hHeader = m_view->header();//new QHeaderView(Qt::Vertical,this);
     hHeader->setSectionResizeMode(SessionItemModel::Name,QHeaderView::Stretch);
@@ -108,6 +111,16 @@ void SessionManager::closeEvent ( QCloseEvent * event )
     {
         emit changeVisibility(false);
     }
+}
+
+QString SessionManager::getSessionName() const
+{
+    return m_sessionName;
+}
+
+void SessionManager::setSessionName(const QString &sessionName)
+{
+    m_sessionName = sessionName;
 }
 SessionItemModel *SessionManager::getModel() const
 {

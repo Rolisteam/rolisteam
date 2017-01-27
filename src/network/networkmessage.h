@@ -51,7 +51,8 @@ enum Category {
     MusicCategory,
     SetupCategory,
     SharePreferencesCategory,
-    VMapCategory
+    VMapCategory,
+    MediaCategory
 };
 
 enum Action {
@@ -59,12 +60,14 @@ enum Action {
     EndConnectionAction = 0,
     heartbeat,
 
+
     // PlayerCategory
     PlayerConnectionAction = 0,
     AddPlayerAction,
     DelPlayerAction,
     ChangePlayerNameAction,
     ChangePlayerColorAction,
+    ChangePlayerAvatarAction,
 
     // CharacterPlayerCategory
     AddPlayerCharacterAction = 0,
@@ -160,7 +163,10 @@ enum Action {
     characterStateChanged,
     SetParentItem,
     MovePoint,
-    VisionChanged
+    VisionChanged,
+
+    //mediacategory
+    closeMedia=0
 };
 }
 /**

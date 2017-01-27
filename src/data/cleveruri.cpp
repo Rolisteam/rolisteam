@@ -162,7 +162,14 @@ bool CleverURI::isDisplayed() const
 
 void CleverURI::setDisplayed(bool displayed)
 {
-    m_displayed = displayed;
+    if(m_displayed!=displayed)//otherwise there are egals.
+    {
+        m_displayed = displayed;
+        if(NULL!=s_listener)
+        {
+            s_listener->cleverURIHasChanged(this);
+        }
+    }
 }
 
 CleverURI::LoadingMode CleverURI::getCurrentMode() const
@@ -185,7 +192,6 @@ void CleverURI::write(QDataStream &out) const
 {
     out << QStringLiteral("CleverUri");
     QByteArray data;
-    qDebug() << m_data.size();
     if(m_data.isEmpty())
     {
         loadFileFromUri(data);
@@ -305,9 +311,9 @@ QVariant CleverURI::getData(ResourcesNode::DataValue i)
     case NAME:
         return m_name;
     case MODE:
-        return (int)m_currentMode;
+        return m_currentMode==Internal ? "Internal" : "Linked";
     case DISPLAYED:
-        return m_displayed;
+        return m_displayed ? "true":"false";
     case URI:
         return m_uri;
     }

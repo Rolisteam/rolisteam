@@ -10,7 +10,7 @@
         <file>resources/icons/filledellipse.png</file>
         <file>resources/icons/emptyellipse.png</file>
         <file>resources/icons/state.png</file>
-        <file>resources/icons/workspacebackground.bmp</file>
+        <file>resources/icons/workspacebackground.jpg</file>
         <file>resources/icons/playunique.png</file>
         <file>resources/icons/play.png</file>
         <file>resources/icons/hand.png</file>
@@ -102,12 +102,14 @@
         <file alias="resources/qml/ImageField.qml">src/charactersheet/qml/ImageField.qml</file>
         <file alias="resources/qml/TextInputField.qml">src/charactersheet/qml/TextInputField.qml</file>
         <file alias="resources/qml/TextFieldField.qml">src/charactersheet/qml/TextFieldField.qml</file>
-        <file alias="resources/qml/TextAreaField.qml" >src/charactersheet/qml/TextAreaField.qml</file>
+        <file alias="resources/qml/TextAreaField.qml">src/charactersheet/qml/TextAreaField.qml</file>
         <file alias="resources/qml/SelectField.qml">src/charactersheet/qml/SelectField.qml</file>
         <file alias="resources/qml/qmldir">src/charactersheet/qml/qmldir</file>
         <file alias="resources/qml/main.qml">src/charactersheet/qml/main.qml</file>
         <file alias="resources/qml/DiceButton.qml">src/charactersheet/qml/DiceButton.qml</file>
         <file alias="resources/qml/CheckBoxField.qml">src/charactersheet/qml/CheckBoxField.qml</file>
+        <file>translations/rolisteam_ro_RO.qm</file>
+        <file>translations/rolisteam_es.qm</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>

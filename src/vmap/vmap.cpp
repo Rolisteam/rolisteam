@@ -186,6 +186,7 @@ void VMap::fill(NetworkMessageWriter& msg)
     msg.string8(m_sightItem->getId());
     msg.uint8((quint8)getPermissionMode());
     msg.uint8((quint8)getVisibilityMode());
+    msg.uint64(m_zIndex);
     msg.uint8(getOption(VisualItem::EnableCharacterVision).toBool());
     msg.uint8(getOption(VisualItem::GridPattern).toInt());
     msg.uint8(getOption(VisualItem::ShowGrid).toBool());
@@ -205,6 +206,7 @@ void VMap::readMessage(NetworkMessageReader& msg,bool readCharacter)
     m_sightItem->setId(idSight);
     quint8 permissionMode = msg.uint8();
     VMap::VisibilityMode mode = (VMap::VisibilityMode)msg.uint8();
+    m_zIndex = msg.uint64();
     quint8 enableCharacter = msg.uint8();
 
     //Grid
@@ -268,7 +270,7 @@ void VMap::sendAllItems(NetworkMessageWriter& msg)
     for(QString key : m_sortedItemList)
     {
         VisualItem* item = m_itemMap->value(key);
-        if(NULL!=item)
+        if(nullptr!=item)
         {
             msg.uint8(item->getType());
             item->fillMessage(&msg);
@@ -281,9 +283,13 @@ void  VMap::setEditionMode(VToolsBar::EditionMode mode)
 }
 void VMap::cleanFogEdition()
 {
-    if(NULL!=m_fogItem)
+    if(nullptr!=m_fogItem)
     {
-        removeItem(m_fogItem);
+        if(nullptr != m_fogItem->scene())
+        {
+            removeItem(m_fogItem);
+        }
+        m_fogItem = nullptr;
     }
 }
 
@@ -623,7 +629,7 @@ void VMap::manageAnchor()
 
         for (QGraphicsItem* item: item1)
         {
-            if((NULL==child)&&(item!=m_currentItem))
+            if((NULL==child)&&(item!=m_currentItem)&&(item!=m_sightItem))
             {
                 child = item;
             }
@@ -632,14 +638,13 @@ void VMap::manageAnchor()
         QList<QGraphicsItem*> item2 = items(tmp->getEnd());
         for (QGraphicsItem* item: item2)
         {
-            if((NULL==parent)&&(item!=m_currentItem))
+            if((NULL==parent)&&(item!=m_currentItem)&&(item!=m_sightItem))
             {
                 parent = item;
             }
         }
 
         setAnchor(child,parent);
-
     }
 }
 
@@ -677,12 +682,15 @@ void VMap::checkItemLayer(VisualItem* item)
     }
 }
 
-void VMap::sendOffItem(VisualItem* item)
+void VMap::sendOffItem(VisualItem* item, bool doInitPoint)
 {
     NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
     msg.string8(m_id);
     msg.uint8(item->getType());
-    item->initChildPointItem();
+    if(doInitPoint)
+    {
+        item->initChildPointItem();
+    }
     item->fillMessage(&msg);
     msg.sendAll();
 }
@@ -706,6 +714,7 @@ QDataStream& operator<<(QDataStream& out, const VMap& con)
     out << con.m_height;
     out << con.m_title;
     out << con.m_bgColor;
+    out << con.m_zIndex;
     
     out << con.m_itemMap->size();
     for(int i = 0; i< con.m_itemMap->size();i++)
@@ -723,7 +732,8 @@ QDataStream& operator>>(QDataStream& is,VMap& con)
     is >>(con.m_height);
     is >>(con.m_title);
     is >>(con.m_bgColor);
-    
+    is >> (con.m_zIndex);
+
     int size;
     is >> size;
     
@@ -739,6 +749,7 @@ void VMap::saveFile(QDataStream& out)
     out<< m_height;
     out<< m_title;
     out<< m_bgColor;
+    out << m_zIndex;
 
 
 
@@ -772,6 +783,7 @@ void VMap::openFile(QDataStream& in)
         setSceneRect();
         in>> m_title;
         in>> m_bgColor;
+        in>> m_zIndex;
 
         int propertyCount;
         in >> propertyCount;
@@ -860,15 +872,18 @@ void VMap::addCharacter(Character* p, QPointF pos)
 {
 
     CharacterItem* item= new CharacterItem(p,pos);
-
-    NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
-    msg.string8(m_id);
-    msg.uint8(item->getType());
-    item->fillMessage(&msg);
-    msg.sendAll();
-    item->initChildPointItem();
-    addNewItem(item);
-    insertCharacterInMap(item);
+    if(nullptr!=item)
+    {
+        item->setZValue(m_zIndex);
+        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addItem);
+        msg.string8(m_id);
+        msg.uint8(item->getType());
+        item->fillMessage(&msg);
+        msg.sendAll();
+        item->initChildPointItem();
+        addNewItem(item);
+        insertCharacterInMap(item);
+    }
 }
 QColor VMap::getBackGroundColor() const
 {
@@ -971,13 +986,15 @@ void VMap::processAddItemMessage(NetworkMessageReader* msg)
         {
             item->readItem(msg);
             QPointF pos = item->pos();
-            addNewItem(item);
+            qreal z = item->zValue();
+            addNewItem(item,true);
             item->initChildPointItem();
             if(NULL!=charItem)
             {
                 insertCharacterInMap(charItem);
             }
             item->setPos(pos);
+            item->setZValue(z);
         }
     }
 }
@@ -1068,10 +1085,30 @@ void VMap::processZValueMsg(NetworkMessageReader* msg)
 		VisualItem* item = m_itemMap->value(id);
 		if(NULL!=item)                                                                                              
 		{
-	        item->readZValueMsg(msg);                                                                        
+            item->readZValueMsg(msg);
+            ensureFogAboveAll();
 		}
     }                                                                                                         
-}                                                                                                             
+}
+void VMap::ensureFogAboveAll()
+{
+    QList<VisualItem*> list = m_itemMap->values();
+    std::sort(list.begin(),list.end(),[](const VisualItem* item, const VisualItem* meti){
+        return meti->zValue()>item->zValue();
+    });
+    m_orderedItemList = list;
+    VisualItem* highest = nullptr;
+    for(auto item : m_orderedItemList)
+    {
+        if(item!=m_sightItem)
+        {
+            highest = item;
+        }
+    }
+    int z = highest->zValue();
+    m_sightItem->setZValue(z+1);
+}
+
 void VMap::processRotationMsg(NetworkMessageReader* msg)
 {                                                                                                             
     if(NULL!=msg)                                                                                          
@@ -1126,7 +1163,7 @@ void VMap::processMovePointMsg(NetworkMessageReader* msg)
         }
     }
 }
-void VMap::addNewItem(VisualItem* item)
+void VMap::addNewItem(VisualItem* item,bool fromNetwork)
 {
     if(NULL!=item)
     {
@@ -1219,7 +1256,7 @@ void VMap::addNewItem(VisualItem* item)
                 item->setVisible(true);
             }
         }
-        if(VToolsBar::Painting == m_editionMode)
+        if((VToolsBar::Painting == m_editionMode)||(fromNetwork))
         {
             if(item->type() != VisualItem::ANCHOR)
             {
@@ -1480,7 +1517,7 @@ void VMap::duplicateItem(VisualItem* item)
         setFocusItem(copy);
         //m_currentItem = copy;
         update();
-        sendOffItem(copy);
+        sendOffItem(copy,false);
     }
 }
 bool VMap::isIdle() const
@@ -1670,6 +1707,7 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
 
     // find out insertion indexes over the stacked items
     QList<QGraphicsItem *> stackedItems = items(item->sceneBoundingRect(), Qt::IntersectsItemShape);
+
     int prevIndex = 0;
     int nextIndex = size - 1;
     foreach (QGraphicsItem * qitem, stackedItems)
@@ -1685,6 +1723,13 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
             nextIndex = cIdx;
         else if (cIdx > prevIndex && cIdx < index)
             prevIndex = cIdx;
+    }
+
+
+    if(index < 0)
+    {
+        //qDebug() << "changeStackOrder index is less than 0" << item->sceneBoundingRect().intersects(item->shape().boundingRect()) << item->sceneBoundingRect();
+        return;
     }
 
     // move items
@@ -1712,30 +1757,48 @@ void VMap::changeStackOrder(VisualItem* item,VisualItem::StackOrder op)
     // reassign z-levels
     m_sortedItemList.removeAll(m_sightItem->getId());
     m_sortedItemList.append(m_sightItem->getId());
+
+
     quint64 z =0;
     for(QString key : m_sortedItemList)
     {
         VisualItem* item = m_itemMap->value(key);
         if(NULL!=item)
         {
+            if(item==m_sightItem)
+            {//z index is just one level before the level of fog.
+                m_zIndex = z;
+            }
             item->setZValue(++z);
         }
     }
 
-    m_sightItem->setZValue(++z);
+    //m_sightItem->setZValue(++z);
     //ensure that character player are above everythings.
-    if(!getOption(VisualItem::LocalIsGM).toBool())
+ /*   for(CharacterItem* item : m_characterItemMap->values())
     {
-        for(CharacterItem* item : m_characterItemMap->values())
+        if(item->isLocal() && !getOption(VisualItem::LocalIsGM).toBool())
         {
-            if(item->isLocal())
-            {
-                item->setZValue(++z);
-            }
+            item->setZValue(++z);
+        }
+        else
+        {
+            //item->setZValue(m_zIndex);
+        }
+    }*/
+
+}
+void VMap::showTransparentItems()
+{
+    for(auto item : m_itemMap->values())
+    {
+        if(item->opacity() == 0)
+        {
+            item->setOpacity(1);
         }
     }
-    m_zIndex = z;
 }
+
 QRectF VMap::itemsBoundingRectWithoutSight()
 {
     QRectF result;

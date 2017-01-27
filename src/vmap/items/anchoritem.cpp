@@ -43,7 +43,7 @@ QRectF AnchorItem::boundingRect() const
 {
     return  m_rect;
 }
-VisualItem::ItemType AnchorItem::getType()
+VisualItem::ItemType AnchorItem::getType() const
 {
     return VisualItem::ANCHOR;
 }

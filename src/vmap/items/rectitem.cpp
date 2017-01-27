@@ -93,14 +93,14 @@ void RectItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     }
     setChildrenVisible(hasFocusOrChild());
     painter->restore();
-    
+ //   painter->drawText(m_rect,QStringLiteral("%1").arg(zValue()));
 }
 void RectItem::setNewEnd(QPointF& p)
 {
     m_rect.setBottomRight(p);
 }
 
-VisualItem::ItemType RectItem::getType()
+VisualItem::ItemType RectItem::getType() const
 {
     return VisualItem::RECT;
 }
@@ -259,7 +259,7 @@ void RectItem::initChildPointItem()
         ChildPointItem* tmp = new ChildPointItem(i,this);
         tmp->setMotion(ChildPointItem::MOUSE);
         m_child->append(tmp);
-        tmp->setFlag(QGraphicsItem::ItemIgnoresParentOpacity,true);
+        //tmp->setFlag(QGraphicsItem::ItemIgnoresParentOpacity,true);
     }
    updateChildPosition();
 }

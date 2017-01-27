@@ -110,9 +110,15 @@ bool Person::hasAvatar() const
     return !m_avatar.isNull();
 }
 
-void Person::setAvatar(const QImage& p)
+bool Person::setAvatar(const QImage& p)
 {
+    if(m_avatar == p)
+    {
+        return false;
+    }
+
     m_avatar = p;
+    return true;
 }
 Qt::CheckState Person::checkedState()
 {

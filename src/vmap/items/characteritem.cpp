@@ -104,7 +104,7 @@ void CharacterItem::readData(QDataStream& in)
     }
 
 }
-VisualItem::ItemType CharacterItem::getType()
+VisualItem::ItemType CharacterItem::getType() const
 {
     return VisualItem::CHARACTER;
 }
@@ -116,7 +116,8 @@ QRectF CharacterItem::boundingRect() const
 QPainterPath CharacterItem::shape() const
 {
 	QPainterPath path;
-    if((m_thumnails==NULL)&&(m_thumnails->isNull()))
+    path.moveTo(0,0);
+    if((nullptr == m_thumnails)||(m_thumnails->isNull()))
     {
         path.addEllipse(boundingRect());
     }
@@ -125,7 +126,7 @@ QPainterPath CharacterItem::shape() const
         path.addRoundedRect(0,0,m_diameter,m_diameter,m_diameter/10,m_diameter/10);
     }
     path.addRect(m_rectText);
-
+    //qDebug() << boundingRect() << m_diameter << m_rectText;
 	return path;
 }
 void CharacterItem::setNewEnd(QPointF& nend)
@@ -155,6 +156,25 @@ QString CharacterItem::getSubTitle() const
         toShow = m_character->getName();
     }
     return toShow;
+}
+void CharacterItem::setChildrenVisible(bool b)
+{
+    VisualItem::setChildrenVisible(b);
+
+    if(m_propertiesHash->value(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)
+    {
+        if(!m_propertiesHash->value(VisualItem::LocalIsGM,false).toBool())
+        {
+            if(!m_child->isEmpty() && m_child->size() > DIRECTION_RADIUS_HANDLE)
+            {
+              m_child->at(DIRECTION_RADIUS_HANDLE)->setVisible(false);
+            }
+            if(!m_child->isEmpty() && m_child->size() > ANGLE_HANDLE)
+            {
+              m_child->at(ANGLE_HANDLE)->setVisible(false);
+            }
+        }
+    }
 }
 
 void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
@@ -765,7 +785,6 @@ void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
             update();
         }
     }
-
 }
 
 void CharacterItem::characterHasBeenDeleted(Character* pc)
@@ -818,7 +837,7 @@ void CharacterItem::readPositionMsg(NetworkMessageReader* msg)
     }
     update();
 }
-bool CharacterItem::isLocal()
+bool CharacterItem::isLocal() const
 {
     if(getParentId() == PlayersList::instance()->getLocalPlayer()->getUuid())
     {
@@ -828,11 +847,7 @@ bool CharacterItem::isLocal()
 }
 void CharacterItem::sendVisionMsg()
 {
-    if((getOption(VisualItem::LocalIsGM).toBool()) ||
-            (getOption(VisualItem::PermissionMode).toInt() == Map::PC_ALL) ||
-            ((getOption(VisualItem::PermissionMode).toInt() == Map::PC_MOVE)&&
-             (getType() == VisualItem::CHARACTER)&&
-             (isLocal())))//getOption PermissionMode
+    if(hasPermissionToMove())//getOption PermissionMode
     {
         NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::VisionChanged);
         msg.string8(m_mapId);

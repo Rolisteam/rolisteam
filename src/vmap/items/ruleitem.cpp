@@ -19,11 +19,14 @@
     ***************************************************************************/
 
 #include "ruleitem.h"
-
+#define PEN_WIDTH 3
+#define FONT_SIZE 15
+qreal RuleItem::m_zoomFactor = 1;
 
 RuleItem::RuleItem()
     : m_pen(QColor(Qt::red))
 {
+    //setFlag(QGraphicsItem::ItemIgnoresTransformations,true);
 }
 RuleItem::RuleItem(QPointF& p)
     :  VisualItem()
@@ -33,6 +36,7 @@ RuleItem::RuleItem(QPointF& p)
     m_rect.setTopLeft(p);
     m_rect.setBottomRight(m_endPoint);
 
+    //setFlag(QGraphicsItem::ItemIgnoresTransformations,true);
 }
 
 RuleItem::~RuleItem()
@@ -43,7 +47,7 @@ QRectF RuleItem::boundingRect() const
 {
     return  m_rect;
 }
-VisualItem::ItemType RuleItem::getType()
+VisualItem::ItemType RuleItem::getType() const
 {
     return VisualItem::RULE;
 }
@@ -63,16 +67,22 @@ void RuleItem::setNewEnd(QPointF& nend)
     }
     m_endPoint = nend;
     m_rect.setBottomRight(nend);
+    QLineF line(m_startPoint,m_endPoint);
+    setTransformOriginPoint(line.pointAt(0.5));
 }
 void RuleItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
+    //setScale(1+1*m_zoomFactor);
+
+    //qDebug() << m_zoomFactor << 1+1*m_zoomFactor << 1/m_zoomFactor;
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing,true);
 
-    m_pen.setWidth(3);
+    m_pen.setWidth(PEN_WIDTH*1/m_zoomFactor);
     m_pen.setColor(Qt::red);
     painter->setPen(m_pen);
     QLineF line(m_startPoint,m_endPoint);
+
     painter->drawLine(line);
     painter->restore();
 
@@ -82,11 +92,10 @@ void RuleItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opti
     qreal unitCount = len/m_pixelToUnit;
 
     QFont f = painter->font();
-    f.setPixelSize(15);
+    f.setPixelSize(FONT_SIZE*1/m_zoomFactor);
     painter->setFont(f);
 
     painter->drawText(m_endPoint,QString("%1 %2").arg(QString::number(unitCount,'f',2)).arg(m_unitText));
-
 }
 void RuleItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -167,5 +176,10 @@ void RuleItem::setPixelToUnit(qreal pixels)
 }
 VisualItem* RuleItem::getItemCopy()
 {
-	return NULL;
+    return NULL;
+}
+
+void RuleItem::setZoomLevel(qreal i)
+{
+    m_zoomFactor *= i;
 }

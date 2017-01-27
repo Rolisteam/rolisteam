@@ -43,11 +43,11 @@ public:
     void readMessage(NetworkMessageReader* msg);
 
 
-    void deleteItem(QList<QGraphicsItem*> list);
-    void setItemLayer(QList<QGraphicsItem*> list,VisualItem::Layer layer);
-    void setRotation(QList<QGraphicsItem*> list, int value);
-    void changeZValue(QList<QGraphicsItem *> list, VisualItem::StackOrder order);
-    void normalizeSize(QList<QGraphicsItem *> list,Method method, QPoint point);
+    void deleteItem(QList<VisualItem*> list);
+    void setItemLayer(QList<VisualItem*> list,VisualItem::Layer layer);
+    void setRotation(QList<VisualItem*> list, int value);
+    void changeZValue(QList<VisualItem*> list, VisualItem::StackOrder order);
+    void normalizeSize(QList<VisualItem*> list,Method method, QPoint point);
 
 public slots:
     void addImageToMap();

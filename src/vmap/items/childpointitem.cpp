@@ -36,7 +36,7 @@ ChildPointItem::ChildPointItem(qreal point,VisualItem* parent,bool isVision )
 {
     m_currentMotion = ALL;
     m_editable = true;
-    setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
+   // setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
     // setAcceptHoverEvents(true);
     //setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges|QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsFocusable);
     //setFlags(QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemIsFocusable);
@@ -106,8 +106,8 @@ void ChildPointItem::setMotion(ChildPointItem::MOTION m)
 void ChildPointItem::setPlacement(ChildPointItem::PLACEMENT p)
 {
     //MiddelLeft,MiddleRight,Center,ButtomLeft,ButtomRight,ButtomCenter};
-
-    switch(p)
+    m_placement = p;
+    switch(m_placement)
     {
     case TopLeft:
         m_startPoint.setX(0);

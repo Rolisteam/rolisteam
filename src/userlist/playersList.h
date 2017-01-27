@@ -111,7 +111,7 @@ public:
     // Setters
     void setLocalPlayer(Player * player);
     void addLocalCharacter(Character * newCharacter);
-    void changeLocalPerson(Person * person, const QString & name, const QColor & color);
+    void changeLocalPerson(Person * person, const QString & name, const QColor & color,const QImage& image);
     void setLocalPersonName(Person * person, const QString & name);
     void setLocalPersonColor(Person * person, const QColor & color);
     void delLocalCharacter(int index);

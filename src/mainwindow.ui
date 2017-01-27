@@ -61,7 +61,9 @@
     <addaction name="m_saveAction"/>
     <addaction name="m_saveAsAction"/>
     <addaction name="m_saveAllAction"/>
+    <addaction name="separator"/>
     <addaction name="m_saveScenarioAction"/>
+    <addaction name="m_saveScenarioAsAction"/>
     <addaction name="separator"/>
     <addaction name="m_closeAction"/>
     <addaction name="separator"/>
@@ -148,7 +150,7 @@
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>Save as</string>
+    <string>Save as…</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
@@ -162,16 +164,16 @@
     <string>Ctrl+Shift+A</string>
    </property>
   </action>
-  <action name="m_saveScenarioAction">
+  <action name="m_saveScenarioAsAction">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
      <normaloff>:/story.png</normaloff>:/story.png</iconset>
    </property>
    <property name="text">
-    <string>Save into Scenario</string>
+    <string>Save Scenario As…</string>
    </property>
    <property name="shortcut">
-    <string>Meta+Ctrl+S</string>
+    <string>Alt+Shift+A</string>
    </property>
   </action>
   <action name="m_closeAction">
@@ -268,7 +270,7 @@
     <string>Map</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+N</string>
+    <string>Ctrl+M</string>
    </property>
   </action>
   <action name="m_newChatAction">
@@ -279,6 +281,9 @@
    <property name="text">
     <string>Chat</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
   </action>
   <action name="m_newNoteAction">
    <property name="icon">
@@ -287,6 +292,9 @@
    </property>
    <property name="text">
     <string>Note</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="m_openMapAction">
@@ -321,6 +329,9 @@
    <property name="text">
     <string>Note</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
   </action>
   <action name="m_openStoryAction">
    <property name="icon">
@@ -329,6 +340,9 @@
    </property>
    <property name="text">
     <string>Scenario</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
   <action name="m_showPcNameAction">
@@ -392,6 +406,9 @@
    <property name="text">
     <string>Online Picture</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+I</string>
+   </property>
   </action>
   <action name="m_audioPlayerAct">
    <property name="checkable">
@@ -399,6 +416,9 @@
    </property>
    <property name="text">
     <string>Audio Player</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+A</string>
    </property>
   </action>
   <action name="m_notificationAct">
@@ -408,6 +428,9 @@
    <property name="text">
     <string>Notification Zone</string>
    </property>
+   <property name="shortcut">
+    <string>Alt+N</string>
+   </property>
   </action>
   <action name="m_chatListAct">
    <property name="checkable">
@@ -415,6 +438,9 @@
    </property>
    <property name="text">
     <string>Chat List</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+L</string>
    </property>
   </action>
   <action name="m_characterListAct">
@@ -424,6 +450,9 @@
    <property name="text">
     <string>Character List</string>
    </property>
+   <property name="shortcut">
+    <string>Alt+C</string>
+   </property>
   </action>
   <action name="m_toolBarAct">
    <property name="checkable">
@@ -431,6 +460,9 @@
    </property>
    <property name="text">
     <string>ToolBar</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+T</string>
    </property>
   </action>
   <action name="m_addVectorialMap">
@@ -442,7 +474,7 @@
     <string>Vectorial Map</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+.</string>
+    <string>Ctrl+V</string>
    </property>
   </action>
   <action name="m_openVectorialMap">
@@ -452,6 +484,9 @@
    </property>
    <property name="text">
     <string>Vectorial Map</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
    </property>
   </action>
   <action name="m_showHealtStatusAction">
@@ -479,7 +514,7 @@
     <string>Character Sheet</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+B</string>
+    <string>Ctrl+W</string>
    </property>
   </action>
   <action name="m_openCharacterSheet">
@@ -492,6 +527,18 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="m_saveScenarioAction">
+   <property name="icon">
+    <iconset resource="../rolisteam.qrc">
+     <normaloff>:/story.png</normaloff>:/story.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save Scenario</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+S</string>
    </property>
   </action>
  </widget>

@@ -214,6 +214,9 @@ public:
      */
     void updateGUI();
 signals:
+    /**
+     * @brief tryConnection
+     */
     void tryConnection();
 public slots:
     /**

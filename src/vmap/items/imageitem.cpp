@@ -37,7 +37,7 @@ void ImageItem::setNewEnd(QPointF& p)
 	m_rect.setBottomRight(p);
 }
 
-VisualItem::ItemType ImageItem::getType()
+VisualItem::ItemType ImageItem::getType() const
 {
 	return VisualItem::IMAGE;
 }

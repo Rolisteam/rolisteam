@@ -15,7 +15,7 @@ LANGUAGE = C++
 MOC_DIR = bin
 OBJECTS_DIR = bin
 
-UI_DIR = src
+UI_DIR = bin
 
 isEmpty(PREFIX) {
  PREFIX = /usr/local/bin
@@ -34,8 +34,10 @@ TRANSLATIONS =  translations/rolisteam_fr.ts \
                 translations/rolisteam.ts \
                 translations/rolisteam_de.ts \
                 translations/rolisteam_pt_BR.ts \
+                translations/rolisteam_ro_RO.ts \
                 translations/rolisteam_hu_HU.ts \
                 translations/rolisteam_tr.ts \
+                translations/rolisteam_es.ts \
 
 CODECFORTR = UTF-8
 
@@ -65,6 +67,9 @@ PRE_TARGETDEPS += compiler_updateqm_make_all
 ##Installation
 target.path = $$PREFIX/
 
+}
+macx {
+target.path = /Applications/
 }
 INSTALLS += target
 

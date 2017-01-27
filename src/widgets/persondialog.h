@@ -44,9 +44,11 @@ public:
     QString  getAvatarUri() const;
 
 public slots :
-    int edit(QString title, QString name, QColor color);
+    int edit(QString title, QString name, QColor color, QString icon);
 
     void openImage();
+    void reset();
+    void clickOnBar(QAbstractButton* btn);
 protected:
     void setVisible(bool visible);
 

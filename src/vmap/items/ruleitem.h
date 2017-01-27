@@ -61,7 +61,7 @@ public:
      * @brief getType
      * @return
      */
-    virtual VisualItem::ItemType getType();
+    virtual VisualItem::ItemType getType() const;
     /**
      * @brief fillMessage
      * @param msg
@@ -104,6 +104,8 @@ public:
 	 */
 	virtual VisualItem* getItemCopy();
 
+    static void setZoomLevel(qreal );
+
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
@@ -129,6 +131,8 @@ private:
 
     QString m_unitText;
     Qt::KeyboardModifiers m_mod;
+
+    static qreal m_zoomFactor;
 
 
 };

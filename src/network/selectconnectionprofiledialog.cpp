@@ -137,7 +137,9 @@ void ProfileModel::appendProfile()
     profile->setTitle(QStringLiteral("Profile #%1").arg(m_connectionProfileList.size()+1));
     profile->setPort(6660);
     profile->setName(QStringLiteral("Unknown User"));
-    profile->setPlayer(new Player());
+    Player* player = new Player();
+    player->setUserVersion(m_version);
+    profile->setPlayer(player);
     profile->setCharacter(new Character(QStringLiteral("Unknown"),Qt::black,false));
     beginInsertRows(QModelIndex(),m_connectionProfileList.size(),m_connectionProfileList.size());
     m_connectionProfileList.append(profile);

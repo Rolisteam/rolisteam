@@ -116,7 +116,7 @@ public:
 	 * @brief getType
 	 * @return
 	 */
-    virtual VisualItem::ItemType getType()=0;
+    virtual VisualItem::ItemType getType() const =0;
 	/**
 	 * @brief fillMessage
 	 * @param msg
@@ -258,7 +258,7 @@ public:
 
     virtual void readLayerMsg(NetworkMessageReader* msg);
     virtual void readMovePointMsg(NetworkMessageReader* msg);
-    virtual bool isLocal();
+    virtual bool isLocal() const;
 
 signals:
     /**
@@ -366,7 +366,11 @@ protected:
      * @return
      */
     virtual bool canBeMoved() const;
-
+    /**
+     * @brief hasPermissionToMove
+     * @return
+     */
+    bool hasPermissionToMove(bool allowCharacter = true) const;
 
 protected:
     QColor m_color;
@@ -392,6 +396,7 @@ protected:
     //QList<QRectF> m_sizeList;
     bool m_resizing;
     bool m_rotating;
+    bool m_receivingZValue;
 
     QHash<VisualItem::Properties,QVariant>* m_propertiesHash;
     QVector<ChildPointItem*>* m_child;

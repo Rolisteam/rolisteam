@@ -56,7 +56,7 @@ bool CleverUriMimeData::hasFormat(const QString & mimeType) const
 
 SessionItemModel::SessionItemModel()
 {
-    m_header << tr("Name")<< tr("Mode")<< tr("Opened")<< tr("Path");
+    m_header << tr("Name")<< tr("Loading Mode")<< tr("Displayed")<< tr("Path");
     m_rootItem = new Chapter();
     m_rootItem->setParentNode(NULL);
 
@@ -116,8 +116,6 @@ QMimeData* SessionItemModel::mimeData(const QModelIndexList &indexes) const
 {
     CleverUriMimeData* mimeData = new CleverUriMimeData();
 
-    // first loop to isolate all modules from the selection
-    //QList<CleverURI*> previousModule;
     foreach(const QModelIndex & index, indexes)
     {
         if((index.isValid())&&(index.column()==0))
@@ -342,7 +340,6 @@ QVariant SessionItemModel::data(const QModelIndex &index, int role ) const
     {
         if((role == Qt::DisplayRole)||(Qt::EditRole==role))
         {
-            /// @TODO add column management for preventing this cast.
             return tmp->getData((ResourcesNode::DataValue)index.column());
         }
         else if(role == Qt::DecorationRole)

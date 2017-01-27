@@ -103,7 +103,7 @@ void LineItem::readData(QDataStream& in)
     in >> i;
     m_layer = (VisualItem::Layer)i;
 }
-VisualItem::ItemType LineItem::getType()
+VisualItem::ItemType LineItem::getType() const
 {
     return VisualItem::LINE;
 }
@@ -130,6 +130,10 @@ void LineItem::fillMessage(NetworkMessageWriter* msg)
     //pen
     msg->int16(m_pen.width());
     msg->rgb(m_color);
+
+
+    msg->real(pos().x());
+    msg->real(pos().y());
 }
 void LineItem::readItem(NetworkMessageReader* msg)
 {
@@ -154,6 +158,12 @@ void LineItem::readItem(NetworkMessageReader* msg)
     m_pen.setWidth(msg->int16());
     m_color = msg->rgb();
     m_pen.setColor(m_color);
+
+    qreal posx = msg->real();
+    qreal posy = msg->real();
+
+    setPos(posx,posy);
+
 }
 void LineItem::setGeometryPoint(qreal pointId, QPointF &pos)
 {

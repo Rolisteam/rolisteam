@@ -31,6 +31,7 @@ PersonDialog::PersonDialog(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->m_selectCharaterAvatar,SIGNAL(clicked()),this,SLOT(openImage()));
+    connect(ui->buttonBox,SIGNAL(clicked(QAbstractButton*)),this,SLOT(clickOnBar(QAbstractButton*)));
 }
 
 PersonDialog::~PersonDialog()
@@ -59,18 +60,33 @@ void PersonDialog::openImage()
         ui->m_selectCharaterAvatar->setIcon(QIcon(QPixmap::fromImage(QImage(m_avatar))));
     }
 }
-int  PersonDialog::edit(QString title, QString name, QColor color)
+int  PersonDialog::edit(QString title, QString name, QColor color, QString icon)
 {
 
- setWindowTitle(title);
- ui->m_characterName->setText(name);
- ui->m_characterColor->setColor(color);
+     setWindowTitle(title);
+     ui->m_characterName->setText(name);
+     ui->m_characterColor->setColor(color);
+     m_avatar=icon;
+     ui->m_selectCharaterAvatar->setIcon(QIcon(icon));
 
 
- return exec();
+     return exec();
 }
 void PersonDialog::setVisible(bool visible)
 {
     ui->m_characterName->selectAll();
     QDialog::setVisible(visible);
+}
+void PersonDialog::clickOnBar(QAbstractButton* btn)
+{
+    if(QDialogButtonBox::ResetRole == ui->buttonBox->buttonRole(btn))
+    {
+        reset();
+    }
+}
+void PersonDialog::reset()
+{
+    ui->m_selectCharaterAvatar->setIcon(QIcon());
+    ui->m_characterColor->setColor(QColor());
+    ui->m_characterName->setText("");
 }

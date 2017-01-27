@@ -205,7 +205,7 @@ public slots :
      * @brief notifyUser
      * @param msg
      */
-    void notifyUser(QString msg,MessageType msgType = Information) const;
+    void notifyUser(QString msg, MainWindow::MessageType msgType = Information) const;
     /**
      * @brief quitterApplication
      * @param perteConnexion
@@ -237,60 +237,224 @@ public slots :
 	 */
     void showConnectionDialog(bool forced = false);
 
+    /**
+     * @brief startConnection
+     */
     void startConnection();
+
 protected :
+    /**
+     * @brief closeEvent
+     * @param event
+     */
     void closeEvent(QCloseEvent *event);
+    /**
+     * @brief prepareImage
+     * @param imageFenetre
+     */
     void prepareImage(Image *imageFenetre);
+    /**
+     * @brief processImageMessage
+     * @param msg
+     */
 	void processImageMessage(NetworkMessageReader* msg);
+    /**
+     * @brief processMapMessage
+     * @param msg
+     */
     void processMapMessage(NetworkMessageReader* msg);
+    /**
+     * @brief processNpcMessage
+     * @param msg
+     */
     void processNpcMessage(NetworkMessageReader* msg);
+    /**
+     * @brief processPaintingMessage
+     * @param msg
+     */
     void processPaintingMessage(NetworkMessageReader* msg);
+    /**
+     * @brief processCharacterMessage
+     * @param msg
+     */
     void processCharacterMessage(NetworkMessageReader* msg);
+    /**
+     * @brief processConnectionMessage
+     * @param msg
+     */
     void processConnectionMessage(NetworkMessageReader* msg);
+    /**
+     * @brief processCharacterPlayerMessage
+     * @param msg
+     */
     void processCharacterPlayerMessage(NetworkMessageReader* msg);
+    /**
+     * @brief processMediaMessage
+     * @param msg
+     */
+    void processMediaMessage(NetworkMessageReader *msg);
+    /**
+     * @brief processVMapMessage
+     * @param msg
+     * @return
+     */
     NetWorkReceiver::SendType processVMapMessage(NetworkMessageReader* msg);
+    /**
+     * @brief extractCharacter
+     * @param map
+     * @param msg
+     */
     void extractCharacter(Map* map,NetworkMessageReader* msg);
+    /**
+     * @brief contentToPath
+     * @param type
+     * @param save
+     * @return
+     */
     CleverURI* contentToPath(CleverURI::ContentType type,bool save);
+    /**
+     * @brief dropEvent
+     * @param event
+     */
     void dropEvent(QDropEvent* event);
+    /**
+     * @brief dragEnterEvent
+     * @param ev
+     */
     void dragEnterEvent(QDragEnterEvent* ev);
-
+    /**
+     * @brief prepareCharacterSheetWindow
+     * @param window
+     */
     void prepareCharacterSheetWindow(CharacterSheetWindow *window);
+    /**
+     * @brief saveAllMediaContainer
+     */
     void saveAllMediaContainer();
+    /**
+     * @brief saveMedia
+     * @param mediaC
+     * @param AskPath
+     * @param saveAs
+     */
     void saveMedia(MediaContainer *mediaC,bool AskPath, bool saveAs);
+    void readStory(QString fileName);
+protected slots:
+    /**
+     * @brief closeMediaContainer
+     * @param id
+     */
+    void closeMediaContainer(QString id);
 private slots :
+    /**
+     * @brief userNatureChange
+     * @param isGM
+     */
     void userNatureChange(bool isGM);
+    /**
+     * @brief activeWindowChanged
+     * @param widget
+     */
     void activeWindowChanged(QMdiSubWindow* widget);
+    /**
+     * @brief newMap
+     */
     void newMap();
+    /**
+     * @brief newVectorialMap
+     */
     void newVectorialMap();
+    /**
+     * @brief openStory
+     */
     void openStory();
+    /**
+     * @brief openNote
+     */
     void openNote();
-    void closeMapOrImage();
+    /**
+     * @brief closeCurrentSubWindow
+     */
+    void closeCurrentSubWindow();
+    /**
+     * @brief updateMayBeNeeded
+     */
     void updateMayBeNeeded();
+    /**
+     * @brief sendOffAllMaps
+     * @param link
+     */
 	void sendOffAllMaps(NetworkLink * link);
+    /**
+     * @brief sendOffAllImages
+     * @param link
+     */
 	void sendOffAllImages(NetworkLink * link);
+    /**
+     * @brief updateSessionToNewClient
+     * @param player
+     */
     void updateSessionToNewClient(Player* player);
+    /**
+     * @brief receiveData
+     * @param readData
+     * @param size
+     */
     void receiveData(quint64 readData,quint64 size);
+    /**
+     * @brief openContent
+     */
     void openContent();
-
-
-
     //save methods
+    /**
+     * @brief saveCurrentMedia
+     */
     void saveCurrentMedia();
-    //void saveMap(MapFrame* mapWindow);
-
-
-
-
     //Network private Slot
+    /**
+     * @brief stopReconnection
+     */
     void stopReconnection();
+    /**
+     * @brief closeConnection
+     */
     void closeConnection();
+    /**
+     * @brief startReconnection
+     */
     void startReconnection();
+    /**
+     * @brief networkStateChanged
+     * @param state
+     */
     void networkStateChanged(NetworkManager::ConnectionState state);
+    /**
+     * @brief openContentFromType
+     * @param type
+     */
     void openContentFromType(CleverURI::ContentType type);
+    /**
+     * @brief openCleverURI
+     * @param uri
+     * @param force
+     */
     void openCleverURI(CleverURI* uri,bool force = false);
+    /**
+     * @brief newNoteDocument
+     */
     void newNoteDocument();
+    /**
+     * @brief setLatestFile
+     * @param fileName
+     */
     void setLatestFile(CleverURI* fileName);
+    /**
+     * @brief updateRecentFileActions
+     */
     void updateRecentFileActions();
+    /**
+     * @brief openRecentFile
+     */
     void openRecentFile();
 
     /**
@@ -300,10 +464,33 @@ private slots :
     void aboutRolisteam();
 
     /// \brief open the Qt assistant with the rolisteam documentation
+    /**
+     * @brief helpOnLine
+     */
     void helpOnLine();
+    /**
+     * @brief saveStory - saves all media contener into the current story file.
+     *
+     */
     bool saveStory();
+    /**
+     * @brief saveAsStory asks filename to save current story into.
+     */
+    void saveAsStory();
+    /**
+     * @brief saveMinutes saves notes into file.
+     * @return
+     */
     bool saveMinutes();
+    /**
+     * @brief notifyAboutAddedPlayer
+     * @param player
+     */
     void notifyAboutAddedPlayer(Player * player) const;
+    /**
+     * @brief notifyAboutDeletedPlayer
+     * @param player
+     */
     void notifyAboutDeletedPlayer(Player * player) const;
 
     /**
@@ -311,25 +498,53 @@ private slots :
      * @param ip
      */
     void showIp(QString ip);
+    /**
+     * @brief newCharacterSheetWindow
+     */
     void newCharacterSheetWindow();
 
 
 
 private :
+    /**
+     * @brief MainWindow
+     */
     MainWindow();
+    /**
+     * @brief showCleverUri
+     * @param uri
+     */
     void showCleverUri(CleverURI *uri);
 
 private:
-    static MainWindow* m_singleton;
+    /**
+     * @brief createNotificationZone
+     */
     void createNotificationZone();
+    /**
+     * @brief linkActionToMenu
+     */
     void linkActionToMenu();
-
-	//QMdiSubWindow*  readMapAndNpc(QDataStream &file, bool masquer = false, QString nomFichier = "");
+    /**
+     * @brief readImageFromStream
+     * @param file
+     */
     void readImageFromStream(QDataStream &file);
+    /**
+     * @brief getContentType
+     * @param str
+     * @return
+     */
     CleverURI::ContentType getContentType(QString str);
     /**
-     * @brief workspace
+     * @brief findCharacterSheetWindowById
+     * @param id
+     * @return
      */
+    CharacterSheetWindow *findCharacterSheetWindowById(QString id);
+
+private:
+    static MainWindow* m_singleton;
 	ImprovedWorkspace* m_mdiArea;
     PlayersListWidget* m_playersListWidget;
 
@@ -338,12 +553,7 @@ private:
     VToolsBar* m_vToolBar;
     QStackedWidget* m_toolBarStack;
 
-
-    QMap<QString,MapFrame *> m_mapWindowMap;
-    QMap<QString,VMapFrame *> m_mapWindowVectorialMap;
-    QMap<QString,NoteContainer*> m_noteMap;
-    QHash<QString,CharacterSheetWindow*> m_sheetHash;
-    QHash<QString,Image*> m_pictureHash;
+    QHash<QString,MediaContainer*> m_mediaHash;
     QMap<MediaContainer*,QAction*>* m_mapAction;
 #ifndef NULL_PLAYER   
     AudioPlayer* m_audioPlayer;
@@ -378,8 +588,8 @@ private:
     QList<QWidget*> m_gmToolBoxList;
     SelectConnectionProfileDialog* m_dialog;
     bool m_profileDefined;
+    CleverURI* m_currentStory;
 
-    CharacterSheetWindow *findCharacterSheetWindowById(QString id);
 };
 
 #endif

@@ -97,7 +97,7 @@ void EllipsItem::setNewEnd(QPointF& p)
 
     m_rect.setRect(-m_rx,-m_ry,m_rx*2,m_ry*2);
 }
-VisualItem::ItemType EllipsItem::getType()
+VisualItem::ItemType EllipsItem::getType() const
 {
     return VisualItem::ELLISPE;
 }
