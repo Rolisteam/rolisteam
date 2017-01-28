@@ -27,7 +27,7 @@
 #include <QBuffer>
 
 CharacterStateModel::CharacterStateModel()
-    : m_stateList(new QList<CharacterState*>()),m_isGM(false)
+    : m_stateList(new QList<CharacterState*>()),m_stateListFromGM(new QList<CharacterState*>()),m_isGM(false)
 {
 	m_header << tr("Label") << tr("Color")<< tr("Image");
 
@@ -126,8 +126,10 @@ NetWorkReceiver::SendType CharacterStateModel::processMessage(NetworkMessageRead
             processAddState(msg);
         break;
         case NetMsg::removeState:
+            processRemoveState(msg);
         break;
         case NetMsg::moveState:
+            processMoveState(msg);
         break;
     }
 
@@ -194,7 +196,7 @@ void CharacterStateModel::deleteState(QModelIndex& index)
 	m_stateList->removeAt(index.row());
     endRemoveRows();
 
-    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::removeDiceAlias);
+    NetworkMessageWriter msg(NetMsg::SharePreferencesCategory,NetMsg::removeState);
     msg.int64(index.row());
     msg.sendAll();
 }
@@ -261,6 +263,15 @@ void CharacterStateModel::bottomState(QModelIndex& index)
 void CharacterStateModel::setGM(bool b)
 {
     m_isGM = b;
+
+    if(!m_isGM)
+    {
+        Character::setListOfCharacterState(m_stateListFromGM);
+    }
+    else
+    {
+        Character::setListOfCharacterState(m_stateList);
+    }
 }
 void CharacterStateModel::clear()
 {
@@ -277,13 +288,42 @@ void CharacterStateModel::processAddState(NetworkMessageReader* msg)
     state->setLabel(msg->string32());
     state->setColor(msg->rgb());
     bool hasImage = (bool)msg->uint8();
+    qDebug() << hasImage;
     if(hasImage)
     {
         QByteArray array = msg->byteArray32();
+        qDebug() << array.size();
         QPixmap pix;
-        pix.loadFromData(array.data());
+        pix.loadFromData(array);
+        state->setImage(pix);
     }
-    m_stateList->insert(id,state);
+    m_stateListFromGM->insert(id,state);
+}
+void CharacterStateModel::processMoveState(NetworkMessageReader* msg)
+{
+
+    int from = msg->int64();
+    int to   = msg->int64();
+
+    if((from>=0)&&(from<m_stateList->size()))
+    {
+        //beginMoveRows(QModelIndex(),from,from,QModelIndex(),to);
+        CharacterState* tpm = m_stateList->takeAt(from);
+        m_stateListFromGM->insert(to,tpm);
+        //endMoveRows();
+
+    }
+}
+void CharacterStateModel::processRemoveState(NetworkMessageReader* msg)
+{
+
+    int pos = msg->int64();
+    if(m_stateList->size()>pos)
+    {
+        //beginRemoveRows(QModelIndex(),pos,pos);
+        m_stateListFromGM->removeAt(pos);
+        //endRemoveRows();
+    }
 }
 
 void CharacterStateModel::sendOffAllCharacterState(NetworkLink* link)
@@ -300,8 +340,11 @@ void CharacterStateModel::sendOffAllCharacterState(NetworkLink* link)
 
             QByteArray array;
             QBuffer buffer(&array);
-            buffer.open(QIODevice::WriteOnly);
-            state->getPixmap()->save(&buffer,"PNG");
+           // buffer.open(QIODevice::WriteOnly);
+            if(!state->getPixmap()->save(&buffer,"PNG"))
+            {
+                qDebug() << "error during encoding png";
+            }
             msg.byteArray32(array);
         }
         else
