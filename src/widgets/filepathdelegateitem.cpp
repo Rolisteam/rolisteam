@@ -46,7 +46,7 @@ void ImagePathEditor::setUi()
     hbox->addWidget(m_cleanButton);
 
     connect(m_photoBrowser,SIGNAL(pressed()),this,SLOT(getFileName()));
-    connect(m_photoEdit,SIGNAL(textChanged(QString)),this,SLOT(readPixmap(QString)));
+    connect(m_photoEdit,SIGNAL(textEdited(QString)),this,SLOT(readPixmap(QString)));
     connect(m_cleanButton,SIGNAL(pressed()),this,SLOT(clearPixmap()));
 }
 
@@ -76,14 +76,20 @@ void ImagePathEditor::getFileName()
     PreferencesManager* preferences = PreferencesManager::getInstance();
 
     QString fileName = QFileDialog::getOpenFileName(this,tr("Get picture for Character State"),
-                                                    preferences->value("ImageDirectory",QDir::homePath()).toString(),
+                                                    preferences->value("StateImageDirectory",QDir::homePath()).toString(),
                                                     preferences->value("ImageFileFilter","*.jpg *jpeg *.png *.bmp *.svg").toString());
-    readPixmap(fileName);
+    if (! fileName.isEmpty() )
+    {
+        readPixmap(fileName);
+
+        QFileInfo info(fileName);
+        preferences->registerValue("StateImageDirectory",info.absolutePath());
+    }
 
 }
 void ImagePathEditor::readPixmap(QString str)
 {
-    if (! str.isNull() )
+    if (! str.isEmpty() )
     {
         QPixmap pix(str);
         if(!pix.isNull())
@@ -149,16 +155,16 @@ void FilePathDelegateItem::paint(QPainter *painter, const QStyleOptionViewItem &
 
     QPixmap pix = index.data().value<QPixmap>();
 
+
     if(pix.isNull())
         return;
 
     QRect rectImg = pix.rect();
-    qreal ratioImg = rectImg.width()/rectImg.height();
+    qreal ratioImg = (qreal)rectImg.width()/(qreal)rectImg.height();
 
 
     QRect target2 = option.rect;
-    qreal ratioZone = target2.width()/target2.height();
-
+    qreal ratioZone = (qreal)target2.width()/(qreal)target2.height();
 
     QRect target(target2);
 
