@@ -185,6 +185,10 @@ public:
      */
     void initializePostSettings();
 
+    void sendOffAllState(NetworkLink *link);
+    CharacterStateModel *getStateModel() const;
+    void setStateModel(CharacterStateModel *stateModel);
+
 public slots:
     /**
      * @brief show the dialog.
