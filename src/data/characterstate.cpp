@@ -22,6 +22,14 @@
 CharacterState::CharacterState()
 {
 }
+CharacterState::CharacterState(const CharacterState& copy)
+{
+    m_color = copy.getColor();
+    m_label = copy.getLabel();
+    m_image = copy.getImage();
+    m_local = copy.isLocal();
+}
+
 void CharacterState::setLabel(QString str)
 {
 	m_label = str;
@@ -58,4 +66,14 @@ QPixmap* CharacterState::getPixmap()
 bool CharacterState::hasImage() const
 {
     return !m_image.isNull();
+}
+
+bool CharacterState::isLocal() const
+{
+    return m_local;
+}
+
+void CharacterState::setIsLocal(bool isLocal)
+{
+    m_local = isLocal;
 }
