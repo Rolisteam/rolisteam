@@ -503,6 +503,11 @@ void MainWindow::applyValue(QModelIndex& index, bool selection)
     if(selection)
     {
         QVariant var = index.data(Qt::DisplayRole);
+        QVariant editvar = index.data(Qt::EditRole);
+        if(editvar != var)
+        {
+            var = editvar;
+        }
         int col = index.column();
         QModelIndexList list = ui->treeView->selectionModel()->selectedIndexes();
         for(QModelIndex modelIndex : list)
