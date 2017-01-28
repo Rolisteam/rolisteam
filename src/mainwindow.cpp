@@ -85,7 +85,8 @@ MainWindow::MainWindow()
       m_resetSettings(false),
       m_currentConnectionProfile(nullptr),
       m_profileDefined(false),
-      m_currentStory(nullptr)
+      m_currentStory(nullptr),
+      m_preferencesDialog(nullptr)
 {
     setAcceptDrops(true);
     m_profileDefined = false;
@@ -952,7 +953,7 @@ void MainWindow::helpOnLine()
 }
 void MainWindow::updateUi()
 {
-    if(NULL==m_currentConnectionProfile)
+    if(nullptr==m_currentConnectionProfile)
     {
         return;
     }
@@ -960,11 +961,11 @@ void MainWindow::updateUi()
 #ifndef NULL_PLAYER
     m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
 #endif
-    if(NULL!=m_preferencesDialog)
+    if(nullptr!=m_preferencesDialog)
     {
         m_preferencesDialog->updateUi(m_currentConnectionProfile->isGM());
     }
-    if(NULL!=m_playersListWidget)
+    if(nullptr!=m_playersListWidget)
     {
         m_playersListWidget->updateUi(m_currentConnectionProfile->isGM());
     }
@@ -1038,6 +1039,7 @@ void MainWindow::updateSessionToNewClient(Player* player)
         sendOffAllMaps(player->link());
         sendOffAllImages(player->link());
         m_preferencesDialog->sendOffAllDiceAlias(player->link());
+        m_preferencesDialog->sendOffAllState(player->link());
     }
 }
 
@@ -1381,9 +1383,13 @@ void MainWindow::setupUi()
     m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct,m_audioPlayer->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_audioPlayerAct);
 #endif
-    //readSettings();
+
     m_preferencesDialog = new PreferencesDialog(this);
     linkActionToMenu();
+    if(nullptr!=m_preferencesDialog->getStateModel())
+    {
+        ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_preferencesDialog->getStateModel());
+    }
 
 
     // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
