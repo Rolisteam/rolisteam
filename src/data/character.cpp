@@ -144,11 +144,9 @@ void Character::fill(NetworkMessageWriter & message,bool addAvatar)
         if(!m_avatar.isNull())
         {
             QByteArray baImage;
-            //QImage sentImage = m_avatar.scaled(QSize(64,64),Qt::KeepAspectRatio);
             QBuffer bufImage(&baImage);
             if(m_avatar.save(&bufImage, "PNG", 70))
             {
-                qDebug() << baImage.size();
                 message.byteArray32(baImage);
             }
         }
