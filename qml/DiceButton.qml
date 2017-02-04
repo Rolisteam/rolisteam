@@ -8,7 +8,7 @@ Rectangle {
     property alias textColor: textInput.color
     property alias hAlign: textInput.horizontalAlignment
     property alias vAlign: textInput.verticalAlignment
-    property alias readOnly: mouseZone.enabled
+    property bool readOnly: false
     scale: mouseZone.pressed ? 0.8 : 1.0
     signal clicked
     Text {//textInput.textColor
@@ -22,6 +22,7 @@ Rectangle {
             id: mouseZone
             anchors.fill: parent
             onClicked:  root.clicked()
+            enabled: !root.readOnly
         }
 
         function computeSizeFont()
