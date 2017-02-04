@@ -759,6 +759,10 @@ void MainWindow::generateQML(QString& qml)
     text << "   Keys.onLeftPressed: --page\n";
     text << "   Keys.onRightPressed: ++page\n";
     text << "   signal rollDiceCmd(string cmd)\n";
+    text << "   MouseArea {\n";
+    text << "        anchors.fill:parent\n";
+    text << "        onClicked: root.focus = true\n";
+    text << "    }\n";
     if(hasImage)
     {
         text << "   Image {\n";
