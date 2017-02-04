@@ -816,7 +816,6 @@ void VMap::openFile(QDataStream& in)
                 item=new TextItem();
                 break;
             case VisualItem::CHARACTER:
-                /// @TODO: Reimplement that feature
                 charItem=new CharacterItem();
                 item = charItem;
                 break;
@@ -865,6 +864,7 @@ void VMap::openFile(QDataStream& in)
                 }
             }
         }
+        ensureFogAboveAll();
     }
 }
 
@@ -1105,8 +1105,11 @@ void VMap::ensureFogAboveAll()
             highest = item;
         }
     }
-    int z = highest->zValue();
-    m_sightItem->setZValue(z+1);
+    if(nullptr!=highest)
+    {
+        int z = highest->zValue();
+        m_sightItem->setZValue(z+1);
+    }
 }
 
 void VMap::processRotationMsg(NetworkMessageReader* msg)
@@ -1268,7 +1271,6 @@ void VMap::addNewItem(VisualItem* item,bool fromNetwork)
 }
 QList<CharacterItem*> VMap::getCharacterOnMap(QString id)
 {
-    /// @todo activate dynamic shadows
     QList<CharacterItem*> result;
     foreach(CharacterItem* item, m_characterItemMap->values())
     {

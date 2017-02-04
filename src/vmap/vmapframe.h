@@ -59,7 +59,6 @@ public :
     VMapFrame();
     /**
     * @brief constructor
-    * @todo default constructor missing
     */
     VMapFrame(CleverURI* uri,VMap *vmap);
     /**

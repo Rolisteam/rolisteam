@@ -102,9 +102,7 @@ void CharacterStateModel::setStates(QList<CharacterState*>* lst)
 }
 void CharacterStateModel::appendState()
 {
-	/// @todo Init of State
 	addState(new CharacterState());
-	//tr("New Alias%1").arg(m_stateList->size()),"")
 }
 void CharacterStateModel::preferencesHasChanged(QString pref)
 {
@@ -288,11 +286,11 @@ void CharacterStateModel::processAddState(NetworkMessageReader* msg)
     state->setLabel(msg->string32());
     state->setColor(msg->rgb());
     bool hasImage = (bool)msg->uint8();
-    qDebug() << hasImage;
+    //qDebug() << hasImage;
     if(hasImage)
     {
         QByteArray array = msg->byteArray32();
-        qDebug() << array.size();
+        //qDebug() << array.size();
         QPixmap pix;
         pix.loadFromData(array);
         state->setImage(pix);
@@ -343,7 +341,7 @@ void CharacterStateModel::sendOffAllCharacterState(NetworkLink* link)
            // buffer.open(QIODevice::WriteOnly);
             if(!state->getPixmap()->save(&buffer,"PNG"))
             {
-                qDebug() << "error during encoding png";
+                qWarning() << "error during encoding png";
             }
             msg.byteArray32(array);
         }

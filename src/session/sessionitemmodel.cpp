@@ -212,7 +212,6 @@ bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& 
     {
         parentItem = m_rootItem;
     }
-    /// @todo enable this
     int orignRow = row;
 
 

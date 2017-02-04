@@ -72,7 +72,6 @@ void ImagePathEditor::clearPixmap()
 
 void ImagePathEditor::getFileName()
 {
-    /// @todo :
     PreferencesManager* preferences = PreferencesManager::getInstance();
 
     QString fileName = QFileDialog::getOpenFileName(this,tr("Get picture for Character State"),

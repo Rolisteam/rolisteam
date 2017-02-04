@@ -23,7 +23,6 @@
 #include "visualitem.h"
 /**
     * @brief displays and manages rectangle on map, part of QGraphicsScene/view.
-    * @todo add features for amend size, square, rotation, make it bigger/smaller, move, selection....
     */
 class RectItem : public VisualItem
 {

@@ -1725,16 +1725,11 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::addCharacterSheet == msg->action())
     {
-        /// @todo Improve the clarity of this code.
         CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
         prepareCharacterSheetWindow(sheetWindow);
         sheetWindow->read(msg);
-
-
         addMediaToMdiArea(sheetWindow);
-
         m_mediaHash.insert(sheetWindow->getMediaId(),sheetWindow);
-        //sheetWindow->addTabWithSheetView(sheet);
 
     }
     else if(NetMsg::updateFieldCharacterSheet == msg->action())

@@ -54,7 +54,6 @@ private:
 
 /**
     * @brief displays and manages text on map, part of QGraphicsScene/view.
-    * @todo add features for amend font size, text orientation,
     */
 class TextItem : public VisualItem
 {

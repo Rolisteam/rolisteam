@@ -49,10 +49,6 @@ void SessionView::startDrag(Qt::DropActions supportedActions)
 {
     QDrag* drag = new QDrag(this);
     QModelIndexList indexes = selectionModel()->selectedRows();
-    foreach(QModelIndex index,indexes)
-    {
-        qDebug() << index.data(Qt::DisplayRole) << "test";
-    }
 
     QMimeData* mimeData = model()->mimeData(indexes);
     if(NULL==mimeData)

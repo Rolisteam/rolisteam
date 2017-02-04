@@ -363,7 +363,6 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 		in>> visible;
 		in >> orientationAffichee;
 
-		/// @todo here
 		bool showNumber=true;//(type == DessinPerso::pnj)?m_ui->m_showNpcNumberAction->isChecked():false;
 		bool showName=true;//(type == DessinPerso::pnj)? m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
 

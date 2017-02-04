@@ -88,7 +88,6 @@ private:
 };
 /**
   * @brief ColorTable is a widget which display a large panel of color, and allows user to chose one of them.
-  * @todo make the performance improvement, using image should be enough or implement a better resizing policy.
   */
 class ColorTable : public QWidget
 {

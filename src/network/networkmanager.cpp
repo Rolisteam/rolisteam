@@ -119,7 +119,7 @@ bool  NetworkManager::startListening()
 
 void NetworkManager::socketStateChanged(QAbstractSocket::SocketState state)
 {
-    qDebug() << "socket State Changed" << state;
+   // qDebug() << "socket State Changed" << state;
     switch (state)
     {
     case QAbstractSocket::ClosingState:
@@ -301,6 +301,10 @@ void NetworkManager::setConnectionProfile(ConnectionProfile* profile)
     if(!m_connectionProfile->isServer())
     {
         m_hbSender = new heartBeatSender(this);
+        if(nullptr != m_localPlayer)
+        {
+            m_hbSender->setIdLocalUser(m_localPlayer->getUuid());
+        }
     }
 }
 //void NetworkManager::messageRecieved(NetworkMessageReader* message,NetworkLink* link)

@@ -211,8 +211,11 @@ VisualItem* LineItem::getItemCopy()
 {
 	LineItem* line = new LineItem(m_startPoint,m_color,m_pen.width());
 	line->setNewEnd(m_endPoint);
-
-///@todo implement copy
+    line->setOpacity(opacity());
+    line->setScale(scale());
+    line->setRotation(rotation());
+    line->setZValue(zValue());
+    line->setLayer(getLayer());
 
 	return line;
 }
