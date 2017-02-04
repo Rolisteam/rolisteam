@@ -221,7 +221,7 @@ void SightItem::readItem(NetworkMessageReader* msg)
             }
         }
     }
-
+    updateVeil();
     update();
 }
 void SightItem::setGeometryPoint(qreal pointId,QPointF& pos)
@@ -260,23 +260,8 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
         painter->setBrush(QColor(0,0,0));
     }
 
-    QRectF rect = boundingRect();
-    QPainterPath path;
-    path.addRect(rect);
-    foreach(FogSingularity* fogs, m_fogHoleList)
-    {
-        QPainterPath subPoly;
-        const QPolygonF* poly = fogs->getPolygon();
-        subPoly.addPolygon(*poly);
-        if(!fogs->isAdding())
-        {
-            path = path.subtracted(subPoly);
-        }
-        else
-        {
-            path = path.united(subPoly);
-        }
-    }
+    updateVeil();
+    QPainterPath path = m_path;
 
     if(getOption(VisualItem::EnableCharacterVision).toBool())
     {
@@ -402,6 +387,36 @@ void SightItem::moveVision(qreal id, QPointF& pos)
         m_visionMap.value(id)->setRadius(pos.x());
     }*/
 }
+void SightItem::updateVeil()
+{
+    QPainterPath path;
+    QRectF rect = boundingRect();
+    if(m_rectOfVeil.isNull())
+    {
+        m_rectOfVeil = rect;
+    }
+    else //if(rect.width()*rect.height() > m_rectOfVeil.width()*m_rectOfVeil.height())
+    {
+        m_rectOfVeil = m_rectOfVeil.united(rect);
+    }
+    path.addRect(m_rectOfVeil);
+    foreach(FogSingularity* fogs, m_fogHoleList)
+    {
+        QPainterPath subPoly;
+        const QPolygonF* poly = fogs->getPolygon();
+        subPoly.addPolygon(*poly);
+        if(!fogs->isAdding())
+        {
+            path = path.subtracted(subPoly);
+        }
+        else
+        {
+            path = path.united(subPoly);
+        }
+    }
+    m_path = path;
+}
+
 void SightItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     QGraphicsObject::contextMenuEvent(event);
@@ -410,6 +425,7 @@ FogSingularity* SightItem::addFogPolygon(QPolygonF* a,bool adding)
 {
     FogSingularity* fogs = new FogSingularity(a,adding);
     m_fogHoleList << fogs;
+    updateVeil();
     update();
     return fogs;
 }
