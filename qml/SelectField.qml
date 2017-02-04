@@ -8,15 +8,19 @@ Rectangle {
     property alias currentIndex : selectvalues.currentIndex
     property alias currentText: selectvalues.currentText
     property alias count: selectvalues.count
+    property alias combo: selectvalues
     property color textColor:"black"
     property int hAlign: 0
     property int vAlign: 0
+    property bool readOnly: false
 
     property alias availableValues: selectvalues.model
     property bool clippedText: false
+
     ComboBox {
         id: selectvalues
         anchors.fill: parent
+        enabled: !root.readOnly
         onCountChanged: {
             currentIndex=selectvalues.find(root.text)
         }
