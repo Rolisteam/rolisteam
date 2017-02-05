@@ -40,7 +40,6 @@ struct DataBase;
  * @section algo Let's have a look to the algo:
  *
  * @section todo Todo:
- * @todo Add way to get name from list
  * @todo Add new country
  */
 
