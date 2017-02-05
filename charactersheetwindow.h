@@ -289,52 +289,51 @@ private:
     
     
     /**
-    * @brief event button
-    * @todo It should be a better idea to use QAction instead of Button and profide a contextual menu or a custom menu instead of these awful buttons.
+    * @brief add section action
     */
     QAction* m_addSection;
     /**
-    * @brief event button
+    * @brief add line action
     */
     QAction* m_addLine;
     /**
-    * @brief event button
+    * @brief add character action
     */
     QAction* m_addCharacterSheet;
     /**
-     * @brief m_loadQml
+     * @brief load qml
      */
     QAction* m_loadQml;
     /**
-     * @brief m_detachTab
+     * @brief detach tab action
      */
     QAction* m_detachTab;
     /**
-     * @brief m_copyTab
+     * @brief copy tab action
      */
     QAction* m_copyTab;
     /**
-     * @brief m_copyTab
+     * @brief put some value in readonly action
      */
     QAction* m_readOnlyAct;
     /**
-     * @brief m_closeTabAct
+     * @brief stop sharing charactersheet action
      */
     QAction* m_stopSharingTabAct;
     /**
-    * @brief layout
+    * @brief vertical layout to display widget in proper order.
     */
     QVBoxLayout m_vertiLayout;
     /**
-     * @brief m_fileUri
+     * @brief main data info, uri to reach data
      */
     QString m_fileUri;
     /**
-     * @brief m_qmlUri
+     * @brief may no longer used.
      */
     QString m_qmlUri;
     /**
-     * @brief m_tabs
+     * @brief the tabs widget.
      */
     QTabWidget* m_tabs;
 
