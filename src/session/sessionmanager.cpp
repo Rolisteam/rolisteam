@@ -185,3 +185,16 @@ void SessionManager::loadSession(QDataStream& in)
         m_model->loadModel(in);
     }
 }
+void SessionManager::resourceClosed(CleverURI* uri)
+{
+    if(nullptr!=uri)
+    {
+        m_view->clearSelection();
+        uri->setDisplayed(false);
+        if(uri->getUri().isEmpty())//new and unsaved document
+        {
+            m_model->removeNode(uri);
+            delete uri;
+        }
+    }
+}

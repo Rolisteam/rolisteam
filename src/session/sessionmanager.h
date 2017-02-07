@@ -89,6 +89,8 @@ public:
     QString getSessionName() const;
     void setSessionName(const QString &sessionName);
 
+
+
 public slots:
     /**
     * @brief add chapter into the given index
@@ -108,6 +110,10 @@ public slots:
     * @brief removes selected items and all children
     */
     void removeSelectedItem();
+    /**
+     * @brief resourceClosed
+     */
+    void resourceClosed(CleverURI*);
     
 signals:
     /**

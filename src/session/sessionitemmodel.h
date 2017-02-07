@@ -126,6 +126,7 @@ public:
 
 public slots:
     void updateNode(ResourcesNode*);
+    void removeNode(ResourcesNode*);
 
 signals:
     void openFile(CleverURI*,bool);
