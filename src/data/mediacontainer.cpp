@@ -113,7 +113,7 @@ QAction* MediaContainer::getAction()
 }
 void MediaContainer::setCleverUriType(CleverURI::ContentType type)
 {
-    m_uri = new CleverURI(m_title,type);
+    m_uri = new CleverURI(m_title,"",type);
 }
 void MediaContainer::currentColorChanged(QColor& penColor)
 {
