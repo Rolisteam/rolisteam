@@ -913,7 +913,7 @@ p, li { white-space: pre-wrap; }?
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="263"/>
         <source>Italic (CTRL+I)</source>
-        <translation>Itálico(CTRL+I)</translation>
+        <translation>Itálico (CTRL+I)</translation>
     </message>
     <message>
         <location filename="../src/widgets/MRichTextEditor/mrichtextedit.ui" line="266"/>
