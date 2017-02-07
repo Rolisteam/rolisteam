@@ -69,17 +69,20 @@ CleverURI::CleverURI(const CleverURI & mp)
     m_type=mp.getType();
     m_uri=mp.getUri();
     m_currentMode = mp.getCurrentMode();
-    defineShortName();
+    m_name = mp.name();
+    setUpListener();
+
 }
 QIcon CleverURI::getIcon()
 {
     return QIcon(m_iconPathHash[m_type]);
 }
 
-CleverURI::CleverURI(QString uri,ContentType type)
+CleverURI::CleverURI(QString name,QString uri,ContentType type)
     : m_uri(uri),m_type(type),m_displayed(false)
 {
-    defineShortName();
+    m_name = name;
+    setUpListener();
     init();
 }
 
@@ -97,7 +100,7 @@ bool CleverURI::operator==(const CleverURI& uri) const
 void CleverURI::setUri(QString& uri)
 {
     m_uri=uri;
-    defineShortName();
+    setUpListener();
 }
 
 void CleverURI::setType(CleverURI::ContentType type)
@@ -118,11 +121,8 @@ bool CleverURI::hasChildren() const
 {
     return false;
 }
-void CleverURI::defineShortName()
+void CleverURI::setUpListener()
 {
-    QFileInfo info(m_uri);
-
-    m_name = info.baseName();
     if(NULL!=s_listener)
     {
         s_listener->cleverURIHasChanged(this);
@@ -134,10 +134,17 @@ void CleverURI::init()
      PreferencesManager* preferences=PreferencesManager::getInstance();
      m_currentMode = (LoadingMode)preferences->value(QStringLiteral("DefaultLoadingMode"),(int)Linked).toInt();
 }
-/*CleverURIListener *CleverURI::getListener()
+
+bool CleverURI::isSaved() const
 {
-    return s_listener;
-}*/
+    return m_saved;
+}
+
+void CleverURI::setSaved(bool saved)
+{
+    m_saved = saved;
+}
+
 
 void CleverURI::setListener(CleverURIListener *value)
 {
@@ -210,10 +217,7 @@ void CleverURI::read(QDataStream &in)
     in >> type >> m_uri >> m_name >> mode >> m_data >> m_displayed;
     m_type = (CleverURI::ContentType)type;
     m_currentMode = (CleverURI::LoadingMode)mode;
-    if(m_name.isEmpty())
-    {
-        defineShortName();
-    }
+    setUpListener();
     if(QFile::exists(m_uri))
     {
         m_data.clear();

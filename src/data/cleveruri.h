@@ -63,7 +63,7 @@ public:
     * @brief constructor with parameter
     *
     */
-    CleverURI(QString uri,ContentType type);
+    CleverURI(QString name, QString uri,ContentType type);
     /**
     * @brief Destructor
     *
@@ -143,17 +143,21 @@ public:
     //static CleverURIListener *getListener();
     static void setListener(CleverURIListener *value);
 
+    bool isSaved() const;
+    void setSaved(bool saved);
+
 private:
     /**
     * @brief split the uri to get the shortname
     */
-    void defineShortName();
+    void setUpListener();
     void init();
     QString m_uri; ///< member to store the uri
     CleverURI::ContentType m_type;///< member to store the content type
     QByteArray m_data;///< data from the file
     LoadingMode m_currentMode;
     bool m_displayed;
+    bool m_saved;
 
 
     static QHash<CleverURI::ContentType,QString> m_iconPathHash;
