@@ -202,7 +202,8 @@ bool MapFrame::readFileFromUri()
         m_title = m_mapWizzard->getTitle();
 
         m_isHidden = m_mapWizzard->getHidden();
-        m_uri = new CleverURI(filepath,CleverURI::MAP);
+        QFileInfo info(filepath);
+        m_uri = new CleverURI(info.baseName(),filepath,CleverURI::MAP);
 
         if (filepath.endsWith(".pla"))
         {
