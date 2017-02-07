@@ -277,6 +277,9 @@ protected:
      * @return
      */
     bool eventFilter(QObject *object, QEvent *event);
+
+private: //members
+    bool readData(QByteArray data);
 private:
     /**
     * @brief The view class
@@ -351,6 +354,7 @@ private:
 
     QString m_qmlData;
     bool m_localIsGM;
+
 };
 
 #endif // CHARACTERSHEETWINDOW_H

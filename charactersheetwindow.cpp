@@ -493,6 +493,40 @@ QJsonDocument CharacterSheetWindow::saveFile()
     return json;
 }
 
+bool CharacterSheetWindow::readData(QByteArray data)
+{
+    QJsonDocument json = QJsonDocument::fromJson(data);
+    QJsonObject jsonObj = json.object();
+
+    m_data = jsonObj["data"].toObject();
+
+    m_qmlData = jsonObj["qml"].toString();
+
+    QJsonArray images = jsonObj["background"].toArray();
+    int i = 0;
+    for(auto jsonpix : images)
+    {
+        QJsonObject obj = jsonpix.toObject();
+        QString str = obj["bin"].toString();
+        QString key = obj["key"].toString();
+        QByteArray array = QByteArray::fromBase64(str.toUtf8());
+        QPixmap* pix = new QPixmap();
+        pix->loadFromData(array);
+        m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(key),*pix);
+        m_pixmapList.insert(key,pix);
+        ++i;
+    }
+    //m_model->load(data,m_canvasList);
+    m_model.readModel(jsonObj,true);
+    for(int j = 0; j< m_model.getCharacterSheetCount(); ++j)
+    {
+        CharacterSheet* sheet = m_model.getCharacterSheet(j);
+        if(NULL!=sheet)
+        {
+            connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(updateFieldFrom(CharacterSheet*,CharacterSheetItem*)));
+        }
+    }
+}
 
 bool CharacterSheetWindow::openFile(const QString& fileUri)
 {
@@ -501,37 +535,7 @@ bool CharacterSheetWindow::openFile(const QString& fileUri)
         QFile file(fileUri);
         if(file.open(QIODevice::ReadOnly))
         {
-            QJsonDocument json = QJsonDocument::fromJson(file.readAll());
-            QJsonObject jsonObj = json.object();
-
-            m_data = jsonObj["data"].toObject();
-
-            m_qmlData = jsonObj["qml"].toString();
-
-            QJsonArray images = jsonObj["background"].toArray();
-            int i = 0;
-            for(auto jsonpix : images)
-            {
-                QJsonObject obj = jsonpix.toObject();
-                QString str = obj["bin"].toString();
-                QString key = obj["key"].toString();
-                QByteArray array = QByteArray::fromBase64(str.toUtf8());
-                QPixmap* pix = new QPixmap();
-                pix->loadFromData(array);
-                m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(key),*pix);
-                m_pixmapList.insert(key,pix);
-                ++i;
-            }
-            //m_model->load(data,m_canvasList);
-            m_model.readModel(jsonObj,true);
-            for(int j = 0; j< m_model.getCharacterSheetCount(); ++j)
-            {
-                CharacterSheet* sheet = m_model.getCharacterSheet(j);
-                if(NULL!=sheet)
-                {
-                    connect(sheet,SIGNAL(updateField(CharacterSheet*,CharacterSheetItem*)),this,SLOT(updateFieldFrom(CharacterSheet*,CharacterSheetItem*)));
-                }
-            }
+            readData(file.readAll());
         }
         return true;
     }
@@ -614,7 +618,15 @@ bool CharacterSheetWindow::readFileFromUri()
     if(NULL!=m_uri)
     {
         setTitle(QStringLiteral("%1 - %2").arg(m_uri->getData(ResourcesNode::NAME).toString()).arg(tr("Character Sheet Viewer")));
-        return openFile(m_uri->getUri());
+        if(!m_uri->getUri().isEmpty())
+        {
+            return openFile(m_uri->getUri());
+        }
+        else
+        {
+            QByteArray data = m_uri->getData();
+            return readData(data);
+        }
 
     }
     else
