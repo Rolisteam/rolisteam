@@ -498,7 +498,10 @@ void MainWindow::prepareImage(Image* imageFrame)
     imageFrame->setCurrentTool(m_toolBar->getCurrentTool());
 }
 
-
+void MainWindow::prepareNote(NoteContainer* note)
+{
+    m_mediaHash.insert(note->getMediaId(),note);
+}
 void MainWindow::updateWorkspace()
 {
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
@@ -2075,6 +2078,9 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     case CleverURI::ONLINEPICTURE:
         tmp = new Image();
         break;
+    case CleverURI::TEXT:
+        tmp = new NoteContainer();
+        break;
     case CleverURI::SCENARIO:
         break;
     case CleverURI::CHARACTERSHEET:
@@ -2118,6 +2124,10 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
             else if((uri->getType()==CleverURI::PICTURE)||((uri->getType()==CleverURI::ONLINEPICTURE)))
             {
                 prepareImage(static_cast<Image*>(tmp));
+            }
+            else if(uri->getType()==CleverURI::TEXT)
+            {
+                prepareNote(static_cast<NoteContainer*>(tmp));
             }
             addMediaToMdiArea(tmp);
         }

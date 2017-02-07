@@ -101,10 +101,10 @@ void MediaContainer::setVisible(bool b)
 
         }
     }
-    if(nullptr != m_uri)
+   /* if(nullptr != m_uri)
     {
         m_uri->setDisplayed(b);
-    }
+    }*/
     QMdiSubWindow::setVisible(b);
 }
 void MediaContainer::setAction(QAction* act)

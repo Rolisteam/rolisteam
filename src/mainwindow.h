@@ -339,6 +339,7 @@ protected :
      */
     void saveMedia(MediaContainer *mediaC,bool AskPath, bool saveAs);
     void readStory(QString fileName);
+    void prepareNote(NoteContainer *note);
 protected slots:
     /**
      * @brief closeMediaContainer
