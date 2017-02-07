@@ -397,17 +397,30 @@ bool VMapFrame::readFileFromUri()
 {
     if(nullptr!=m_uri)
     {
-        if(openFile(m_uri->getUri()))
+        bool read=false;
+        if(m_uri->getUri().isEmpty())//have not been saved outside story
         {
-            if(nullptr!=m_vmap)
-            {
-                NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
-                m_vmap->fill(msg);
-                m_vmap->sendAllItems(msg);
-                fill(msg);
-                msg.sendAll();
-                return true;
-            }
+            QByteArray data = m_uri->getData();
+            QDataStream in(&data,QIODevice::ReadOnly);
+            createView();
+            m_vmap->openFile(in);
+            m_vmap->setVisibilityMode(VMap::HIDDEN);
+            updateMap();
+            read=true;
+        }
+        else if(openFile(m_uri->getUri()))
+        {
+            read=true;
+        }
+
+        if((nullptr!=m_vmap)&&(read))
+        {
+            NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
+            m_vmap->fill(msg);
+            m_vmap->sendAllItems(msg);
+            fill(msg);
+            msg.sendAll();
+            return true;
         }
 
     }

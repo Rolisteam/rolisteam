@@ -804,6 +804,14 @@ void MainWindow::saveMedia(MediaContainer* mediaC,bool askPath, bool saveAs)
             if(!askPath)
             {
                 mediaC->putDataIntoCleverUri();
+                if(uri.isEmpty())
+                {
+                    cleverURI->setCurrentMode(CleverURI::Internal);
+                }
+                else
+                {
+                    mediaC->saveMedia();
+                }
             }
             else
             {
