@@ -202,7 +202,10 @@ void MainWindow::closeMediaContainer(QString id)
 
              //setUri as undisplayed
              CleverURI* uri = mediaCon->getCleverUri();
-             uri->setDisplayed(false);
+             if(nullptr!=uri)
+             {
+                m_sessionManager->resourceClosed(uri);
+             }
 
              //remove action from data and from memory
              QAction* act = m_mapAction->value(mediaCon);
@@ -533,7 +536,7 @@ void MainWindow::newVectorialMap()
     {
         VMap* tempmap = new VMap();
         mapWizzard.setAllMap(tempmap);
-        VMapFrame* tmp = new VMapFrame(new CleverURI(tempmap->getMapTitle(),CleverURI::VMAP),tempmap);
+        VMapFrame* tmp = new VMapFrame(new CleverURI(tempmap->getMapTitle(),"",CleverURI::VMAP),tempmap);
         prepareVMap(tmp);
         addMediaToMdiArea(tmp);
         //tempmap->setCurrentTool(m_toolbar->getCurrentTool());
@@ -717,22 +720,27 @@ void MainWindow::readStory(QString fileName)
     QDataStream in(&file);
     m_sessionManager->loadSession(in);
     file.close();
-    m_currentStory = new  CleverURI(fileName,CleverURI::SCENARIO);
+    m_currentStory = new  CleverURI(getShortNameFromPath(fileName),fileName,CleverURI::SCENARIO);
     updateWindowTitle();
+}
+QString MainWindow::getShortNameFromPath(QString path)
+{
+    QFileInfo info(path);
+    return info.baseName();
 }
 
 void MainWindow::saveAsStory()
 {
     // open file
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenario as"), m_preferences->value("SessionDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Scenario as"), m_preferences->value("SessionDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
-    if (!filename.isNull())
+    if (!fileName.isNull())
     {
-        if(!filename.endsWith(".sce"))
+        if(!fileName.endsWith(".sce"))
         {
-            filename.append(QStringLiteral(".sce"));
+            fileName.append(QStringLiteral(".sce"));
         }
-        m_currentStory = new  CleverURI(filename,CleverURI::SCENARIO);
+        m_currentStory = new  CleverURI(getShortNameFromPath(fileName),fileName,CleverURI::SCENARIO);
         saveStory();
     }
 }
@@ -1417,6 +1425,7 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
     else
     {
         MapFrame* mapFrame = new MapFrame(NULL, m_mdiArea);
+      //  mapFrame->setCleverUri(new CleverURI("",CleverURI::MAP));
 
         if((NULL!=m_currentConnectionProfile)&&(!mapFrame->processMapMessage(msg,!m_currentConnectionProfile->isGM())))
         {
@@ -1863,7 +1872,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
         map->setOption(VisualItem::LocalIsGM,false);
         map->readMessage(*msg);
 
-        VMapFrame* mapFrame = new VMapFrame(new CleverURI("",CleverURI::VMAP),map);
+        VMapFrame* mapFrame = new VMapFrame(nullptr,map);
         mapFrame->readMessage(*msg);
         prepareVMap(mapFrame);
         addMediaToMdiArea(mapFrame);
@@ -1941,7 +1950,7 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
         else
             filepath= QFileDialog::getOpenFileName(this,title,folder,filter);
 
-        return new CleverURI(filepath,type);
+        return new CleverURI(getShortNameFromPath(filepath),filepath,type);
     }
     return NULL;
 }
@@ -2122,7 +2131,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
         QStringList::Iterator it = list.begin();
         while(it != list.end())
         {
-            openCleverURI(new CleverURI(*it,type));
+            openCleverURI(new CleverURI(getShortNameFromPath(*it),*it,type));
             ++it;
         }
     }
@@ -2246,7 +2255,7 @@ void MainWindow::dropEvent(QDropEvent* event)
         {
             CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
             MediaContainer* tmp=NULL;
-            CleverURI* uri = new CleverURI(list.at(i).toLocalFile(),type);
+            CleverURI* uri = new CleverURI(getShortNameFromPath(list.at(i).toLocalFile()),list.at(i).toLocalFile(),type);
             switch(type)
             {
             case CleverURI::MAP:
