@@ -436,11 +436,12 @@ void CharacterSheetWindow::processUpdateFieldMessage(NetworkMessageReader* msg)
 }
 void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
 {
+    QString result="";
     for(auto error : warnings)
     {
-        /// @todo display errors else where.
-        qDebug() << error.toString();
+        result += error.toString();
     }
+    QMessageBox::information(this,tr("Errors QML"),result,QMessageBox::Ok);
 }
 
 void  CharacterSheetWindow::saveCharacterSheet()
@@ -555,9 +556,15 @@ void CharacterSheetWindow::openQML()
     m_qmlUri = QFileDialog::getOpenFileName(this, tr("Open Character Sheets View"), m_preferences->value(QString("DataDirectory"),QVariant(".")).toString(),
                                             tr("Character Sheet files (*.qml)"));
 
-    //m_qmlData;
-    /// @todo load m_qmlUri into m_qmlData
-    //openFile(m_fileUri);
+    if(!m_qmlUri.isEmpty())
+    {
+        QFile file(m_qmlUri);
+        if(file.open(QIODevice::ReadOnly))
+        {
+            m_qmlData = QString(file.readAll());
+
+        }
+    }
 }
 
 void CharacterSheetWindow::closeEvent(QCloseEvent *event)

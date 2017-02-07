@@ -197,7 +197,7 @@ bool ParsingToolFormula::readStringValue(QString& str, FormulaNode*& previous)
         }
 
         str=str.remove(0,strResult.size()+1);
-        qDebug() << str;
+        //qDebug() << str;
         ValueFNode* nodeV = new ValueFNode();
         nodeV->setValue(strResult);
         previous = nodeV;

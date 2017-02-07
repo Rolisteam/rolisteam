@@ -124,7 +124,7 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
     case BORDER:
         return (int)m_border;
     case TEXT_ALIGN:
-        return m_textAlign;
+        return (int)m_textAlign;
     case BGCOLOR:
         if(role == Qt::DisplayRole)
         {
@@ -466,7 +466,7 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         if(!m_availableValue.isEmpty())
         {
             out << "    availableValues:" << QStringLiteral("[\"%1\"]").arg(m_availableValue.join("\",\""))<<"\n";
-            out << "    currentIndex: availableValues.find(text)\n";
+            out << "    currentIndex: combo.find(text)\n";
             out << "    onCurrentIndexChanged:{\n";
             out << "    if(count>0)\n";
             out << "    {\n";
