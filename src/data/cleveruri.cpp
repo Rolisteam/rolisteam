@@ -59,7 +59,7 @@ QStringList CleverURI::m_typeToPreferenceDirectory = QStringList() <<   QString(
 CleverURIListener* CleverURI::s_listener = NULL;
 
 CleverURI::CleverURI()
-    : m_type(NONE),m_displayed(false)
+    : m_type(NONE),m_state(Remain)
 {
     init();
 }
@@ -70,6 +70,7 @@ CleverURI::CleverURI(const CleverURI & mp)
     m_uri=mp.getUri();
     m_currentMode = mp.getCurrentMode();
     m_name = mp.name();
+    m_state = mp.getState();
     setUpListener();
 
 }
@@ -79,7 +80,7 @@ QIcon CleverURI::getIcon()
 }
 
 CleverURI::CleverURI(QString name,QString uri,ContentType type)
-    : m_uri(uri),m_type(type),m_displayed(false)
+    : m_uri(uri),m_type(type),m_state(Remain)
 {
     m_name = name;
     setUpListener();
@@ -135,14 +136,19 @@ void CleverURI::init()
      m_currentMode = (LoadingMode)preferences->value(QStringLiteral("DefaultLoadingMode"),(int)Linked).toInt();
 }
 
-bool CleverURI::isSaved() const
+CleverURI::State CleverURI::getState() const
 {
-    return m_saved;
+    return m_state;
 }
 
-void CleverURI::setSaved(bool saved)
+void CleverURI::setState(const State &state)
 {
-    m_saved = saved;
+    m_state = state;
+}
+
+bool CleverURI::hasData() const
+{
+    return !m_data.isEmpty();
 }
 
 
@@ -164,19 +170,25 @@ void CleverURI::setData(const QByteArray &data)
 
 bool CleverURI::isDisplayed() const
 {
-    return m_displayed;
+    return (m_state == Displayed);
 }
 
 void CleverURI::setDisplayed(bool displayed)
 {
-    if(m_displayed!=displayed)//otherwise there are egals.
+    if(displayed)
     {
-        m_displayed = displayed;
-        if(NULL!=s_listener)
-        {
-            s_listener->cleverURIHasChanged(this);
-        }
+        m_state = Displayed;
     }
+    else
+    {
+        m_state = Opened;
+    }
+
+    if(NULL!=s_listener)
+    {
+        s_listener->cleverURIHasChanged(this);
+    }
+
 }
 
 CleverURI::LoadingMode CleverURI::getCurrentMode() const
@@ -207,25 +219,27 @@ void CleverURI::write(QDataStream &out) const
     {
         data = m_data;
     }
-    out << (int)m_type << m_uri << m_name << (int)m_currentMode << data << m_displayed;
+    out << (int)m_type << m_uri << m_name << (int)m_currentMode << data << (int)m_state;
 }
 
 void CleverURI::read(QDataStream &in)
 {
     int type;
     int mode;
-    in >> type >> m_uri >> m_name >> mode >> m_data >> m_displayed;
+    int state;
+    in >> type >> m_uri >> m_name >> mode >> m_data >> state;
     m_type = (CleverURI::ContentType)type;
     m_currentMode = (CleverURI::LoadingMode)mode;
+    m_state = (CleverURI::State)state;
     setUpListener();
-    if(QFile::exists(m_uri))
+   /* if(QFile::exists(m_uri))
     {
         m_data.clear();
     }
     else
     {
         m_uri.clear();
-    }
+    }*/
 }
 
 QString CleverURI::getFilterForType(CleverURI::ContentType type) //static
@@ -315,9 +329,9 @@ QVariant CleverURI::getData(ResourcesNode::DataValue i)
     case NAME:
         return m_name;
     case MODE:
-        return m_currentMode==Internal ? "Internal" : "Linked";
+        return m_currentMode==Internal ? QObject::tr("Internal") : QObject::tr("Linked");
     case DISPLAYED:
-        return m_displayed ? "true":"false";
+        return m_state == Displayed ? QObject::tr("true"):QObject::tr("false");
     case URI:
         return m_uri;
     }

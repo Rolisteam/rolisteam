@@ -204,7 +204,11 @@ void MainWindow::closeMediaContainer(QString id)
              CleverURI* uri = mediaCon->getCleverUri();
              if(nullptr!=uri)
              {
-                m_sessionManager->resourceClosed(uri);
+                 uri->setState(CleverURI::Remain);
+                 if(!uri->hasData())
+                 {
+                    m_sessionManager->resourceClosed(uri);//delete the uri
+                 }
              }
 
              //remove action from data and from memory
@@ -804,17 +808,14 @@ void MainWindow::saveMedia(MediaContainer* mediaC,bool askPath, bool saveAs)
         {
             QString uri  = cleverURI->getUri();
             QFileInfo info(uri);
-            if(!askPath)
+            if(!askPath)//save into story
             {
                 mediaC->putDataIntoCleverUri();
-                if(uri.isEmpty())
-                {
-                    cleverURI->setCurrentMode(CleverURI::Internal);
-                }
-                else
+                /*if(!uri.isEmpty())
                 {
                     mediaC->saveMedia();
-                }
+                }*/
+
             }
             else
             {
