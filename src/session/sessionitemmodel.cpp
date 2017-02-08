@@ -349,12 +349,10 @@ int SessionItemModel::rowCount(const QModelIndex& index) const
     if(index.isValid())
     {
         ResourcesNode* tmp = static_cast<ResourcesNode*>(index.internalPointer());
-        qDebug() << "childcount" << tmp->getChildrenCount();
         return tmp->getChildrenCount();
     }
     else
     {
-        qDebug() << "root count"<<m_rootItem->getChildrenCount();
         return m_rootItem->getChildrenCount();
     }
 }
