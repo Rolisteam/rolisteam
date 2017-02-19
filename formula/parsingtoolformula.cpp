@@ -117,6 +117,7 @@ bool ParsingToolFormula::readParenthese(QString& str, FormulaNode* & previous)
             }
         }
     }
+    return false;
 }
 
 bool ParsingToolFormula::readScalarOperator(QString& str, FormulaNode* previous)
