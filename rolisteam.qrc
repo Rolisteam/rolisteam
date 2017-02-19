@@ -110,6 +110,7 @@
         <file alias="resources/qml/CheckBoxField.qml">src/charactersheet/qml/CheckBoxField.qml</file>
         <file>translations/rolisteam_ro_RO.qm</file>
         <file>translations/rolisteam_es.qm</file>
+        <file alias="vmap.png" >resources/icons/vmap.png</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>

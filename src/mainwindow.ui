@@ -20,7 +20,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File">
@@ -468,7 +468,7 @@
   <action name="m_addVectorialMap">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/map.png</normaloff>:/map.png</iconset>
+     <normaloff>:/vmap.png</normaloff>:/vmap.png</iconset>
    </property>
    <property name="text">
     <string>Vectorial Map</string>
@@ -480,7 +480,7 @@
   <action name="m_openVectorialMap">
    <property name="icon">
     <iconset resource="../rolisteam.qrc">
-     <normaloff>:/map.png</normaloff>:/map.png</iconset>
+     <normaloff>:/vmap.png</normaloff>:/vmap.png</iconset>
    </property>
    <property name="text">
     <string>Vectorial Map</string>

@@ -34,7 +34,7 @@
 QHash<CleverURI::ContentType,QString> CleverURI::m_iconPathHash={
     {CleverURI::NONE,""},
     {CleverURI::MAP,":/map.png"},
-    {CleverURI::VMAP,":/map.png"},
+    {CleverURI::VMAP,":/vmap.png"},
     {CleverURI::CHAT,":/resources/icons/scenario.png"},
     {CleverURI::PICTURE,":/resources/icons/photo.png"},
     {CleverURI::ONLINEPICTURE,":/resources/icons/photo.png"},

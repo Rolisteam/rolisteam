@@ -77,7 +77,7 @@ void VMapFrame::updateMap()
     m_graphicView->setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setGeometry(0,0,m_vmap->mapWidth(),m_vmap->mapHeight());
     setWidget(m_graphicView);
-    setWindowIcon(QIcon(":/map.png"));
+    setWindowIcon(QIcon(":/vmap.png"));
     m_vmap->setVisibilityMode(m_vmap->getVisibilityMode());
 
     updateTitle();
