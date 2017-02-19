@@ -109,6 +109,7 @@ void VmapToolBar::setupUi()
 
     connect(m_showOnlyItemsFromThisLayer,SIGNAL(clicked(bool)),this,SLOT(managedAction()));
     connect(m_showGridAct,SIGNAL(triggered()),this,SLOT(triggerGrid()));
+    connect(m_gridUnit,SIGNAL(currentIndexChanged(int)),this,SLOT(setUnit()));
     connect(m_bgSelector,SIGNAL(colorChanged(QColor)),this,SLOT(setBackgroundColor(QColor)));
     connect(m_gridSize,SIGNAL(valueChanged(int)),this,SLOT(setPatternSize(int)));
     connect(m_scaleSize,SIGNAL(valueChanged(int)),this,SLOT(setScaleSize(int)));
@@ -133,6 +134,13 @@ void VmapToolBar::triggerGrid()
     if(NULL!=m_vmap)
     {
         m_vmap->setOption(VisualItem::ShowGrid,m_showGridAct->isChecked());
+    }
+}
+void VmapToolBar::setUnit()
+{
+    if(NULL!=m_vmap)
+    {
+        m_vmap->setOption(VisualItem::Unit,m_gridUnit->currentIndex());
     }
 }
 void VmapToolBar::setBackgroundColor(QColor color)

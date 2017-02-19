@@ -73,6 +73,7 @@ public slots:
     void managedAction();
 
     void layerHasChanged(int index);
+    void setUnit();
 private:
     /**
      * @brief updateUi
