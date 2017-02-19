@@ -513,7 +513,7 @@ bool CharacterSheetWindow::readData(QByteArray data)
         QByteArray array = QByteArray::fromBase64(str.toUtf8());
         QPixmap* pix = new QPixmap();
         pix->loadFromData(array);
-        m_imgProvider->insertPix(QStringLiteral("%2_background_%1.jpg").arg(i).arg(key),*pix);
+        m_imgProvider->insertPix(key,*pix);
         m_pixmapList.insert(key,pix);
         ++i;
     }
