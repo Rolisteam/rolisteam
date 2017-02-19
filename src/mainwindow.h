@@ -339,6 +339,7 @@ protected :
      */
     void saveMedia(MediaContainer *mediaC,bool AskPath, bool saveAs);
     void readStory(QString fileName);
+    void prepareNote(NoteContainer *note);
 protected slots:
     /**
      * @brief closeMediaContainer
@@ -542,7 +543,12 @@ private:
      * @return
      */
     CharacterSheetWindow *findCharacterSheetWindowById(QString id);
-
+    /**
+     * @brief getShortNameFromPath generic tool to translate filepath to short name.
+     * @param path
+     * @return
+     */
+    QString getShortNameFromPath(QString path);
 private:
     static MainWindow* m_singleton;
 	ImprovedWorkspace* m_mdiArea;

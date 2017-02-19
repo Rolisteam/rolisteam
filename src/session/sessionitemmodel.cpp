@@ -153,6 +153,37 @@ void SessionItemModel::updateNode(ResourcesNode* node)
     }
 	emit dataChanged(nodeIndex,nodeIndex);
 }
+void SessionItemModel::removeNode(ResourcesNode* node)
+{
+    QModelIndex parent;
+    int row=-1;
+    QList<ResourcesNode*> path;
+    if(m_rootItem->seekNode(path,node))
+    {
+        ResourcesNode* parentItem=NULL;
+        ResourcesNode* tmpItem=NULL;
+
+        for(int i = 0 ; i<path.size();++i)
+        {
+            ResourcesNode* current=path.at(i);
+            if(NULL!=tmpItem)
+            {
+                    row = tmpItem->indexOf(current);
+                    if(i+1<path.size())
+                    {
+                        parent = index(row,0,parent);//recursive parenting
+                    }
+                    parentItem = tmpItem;
+            }
+            tmpItem=current;
+        }
+
+        beginRemoveRows(parent,row,row);
+        parentItem->removeChild(node);
+        endRemoveRows();
+    }
+}
+
 Qt::DropActions SessionItemModel::supportedDropActions() const
 {
     return Qt::CopyAction | Qt::MoveAction;
@@ -212,7 +243,6 @@ bool SessionItemModel::moveMediaItem(QList<CleverURI*> items,const QModelIndex& 
     {
         parentItem = m_rootItem;
     }
-    /// @todo enable this
     int orignRow = row;
 
 

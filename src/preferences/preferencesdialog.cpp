@@ -305,6 +305,7 @@ void PreferencesDialog::updateUi(bool isGM)
     if(NULL!=m_aliasModel)
     {
         m_aliasModel->setGM(isGM);
+        m_stateModel->setGM(isGM);
     }
 }
 
@@ -834,7 +835,7 @@ void  PreferencesDialog::manageStateAction()
     }
     else
     {
-        QModelIndex index = ui->m_tableViewAlias->currentIndex();
+        QModelIndex index = ui->m_stateView->currentIndex();
         if(act == ui->m_delCharceterStateAct)
         {
             m_stateModel->deleteState(index);
@@ -888,6 +889,13 @@ void PreferencesDialog::sendOffAllDiceAlias(NetworkLink* link)
     if(NULL!=m_aliasModel)
     {
         m_aliasModel->sendOffAllDiceAlias(link);
+    }
+}
+void PreferencesDialog::sendOffAllState(NetworkLink* link)
+{
+    if(NULL!=m_aliasModel)
+    {
+        m_stateModel->sendOffAllCharacterState(link);
     }
 }
 void PreferencesDialog::exportTheme()
@@ -970,6 +978,16 @@ RolisteamTheme* PreferencesDialog::getCurrentRemovableTheme(bool selectNew)
     }
     else
         return NULL;
+}
+
+CharacterStateModel *PreferencesDialog::getStateModel() const
+{
+    return m_stateModel;
+}
+
+void PreferencesDialog::setStateModel(CharacterStateModel *stateModel)
+{
+    m_stateModel = stateModel;
 }
 
 void PreferencesDialog::deleteTheme()

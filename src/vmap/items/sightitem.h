@@ -183,6 +183,7 @@ public slots:
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
+    void updateVeil();
 private:
     CharacterVision::SHAPE m_defaultShape;
     qreal m_defaultAngle;
@@ -193,6 +194,8 @@ private:
     qreal m_count;
     QList<FogSingularity*> m_fogHoleList;
     bool m_isGM;
+    QPainterPath m_path;
+    QRectF m_rectOfVeil;
 };
 
 #endif // SIGHTITEM_H

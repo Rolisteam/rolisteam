@@ -48,6 +48,7 @@ public:
                      };
 
     enum LoadingMode {Internal,Linked};
+    enum State {Remain,Opened,Displayed};
     enum DataValue {NAME,MODE,DISPLAYED,URI};
     /**
     * @brief default constructor
@@ -63,7 +64,7 @@ public:
     * @brief constructor with parameter
     *
     */
-    CleverURI(QString uri,ContentType type);
+    CleverURI(QString name, QString uri,ContentType type);
     /**
     * @brief Destructor
     *
@@ -143,17 +144,22 @@ public:
     //static CleverURIListener *getListener();
     static void setListener(CleverURIListener *value);
 
+    CleverURI::State getState() const;
+    void setState(const State &state);
+
+    bool hasData()const;
+
 private:
     /**
     * @brief split the uri to get the shortname
     */
-    void defineShortName();
+    void setUpListener();
     void init();
     QString m_uri; ///< member to store the uri
     CleverURI::ContentType m_type;///< member to store the content type
     QByteArray m_data;///< data from the file
     LoadingMode m_currentMode;
-    bool m_displayed;
+    State m_state;
 
 
     static QHash<CleverURI::ContentType,QString> m_iconPathHash;

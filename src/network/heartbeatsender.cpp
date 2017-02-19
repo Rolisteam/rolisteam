@@ -25,6 +25,11 @@ void heartBeatSender::updateStatus()
     m_timeOut = m_preferences->value("HbFrequency",60).toInt();
     updateTimer();
 }
+
+void heartBeatSender::setIdLocalUser(QString str)
+{
+    m_localId = str;
+}
 void heartBeatSender::updateTimer()
 {
     m_timer.stop();
@@ -36,6 +41,6 @@ void heartBeatSender::updateTimer()
 void heartBeatSender::sendHeartBeatMsg()
 {
     NetworkMessageWriter msg(NetMsg::ConnectionCategory,NetMsg::heartbeat);
-    msg.string8("");//@todo add id local player
+    msg.string8(m_localId);
     msg.sendAll();
 }

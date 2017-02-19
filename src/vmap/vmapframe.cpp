@@ -166,20 +166,22 @@ bool VMapFrame::defineMenu(QMenu* /*menu*/)
     return false;
 }
 
-void VMapFrame::openFile(const QString& filepath)
+bool VMapFrame::openFile(const QString& filepath)
 {
     if(!filepath.isEmpty())
     {
         QFile input(filepath);
         if (!input.open(QIODevice::ReadOnly))
-            return;
+            return false;
         QDataStream in(&input);
         createView();
         m_vmap->openFile(in);
         m_vmap->setVisibilityMode(VMap::HIDDEN);
         updateMap();
         //m_vmap->openItemsInFile(in);
+        return true;
     }
+    return false;
 }
 void VMapFrame::keyPressEvent ( QKeyEvent * event )
 {
@@ -222,20 +224,23 @@ void VMapFrame::saveMedia()
 {
     if(NULL!=m_vmap)
     {
-        if(!m_uri->getUri().endsWith(".vmap"))
+        if(nullptr!=m_uri)
         {
-            QString str = m_uri->getUri()+".vmap";
-            m_uri->setUri(str);
-        }
+            if(!m_uri->getUri().endsWith(".vmap"))
+            {
+                QString str = m_uri->getUri()+".vmap";
+                m_uri->setUri(str);
+            }
 
-        QFile file(m_uri->getUri());
-        if (!file.open(QIODevice::WriteOnly))
-        {
-            return;
+            QFile file(m_uri->getUri());
+            if (!file.open(QIODevice::WriteOnly))
+            {
+                return;
+            }
+            QDataStream out(&file);
+            m_vmap->saveFile(out);
+            file.close();
         }
-        QDataStream out(&file);
-        m_vmap->saveFile(out);
-        file.close();
     }
 }
 void VMapFrame::putDataIntoCleverUri()
@@ -367,12 +372,14 @@ NetWorkReceiver::SendType VMapFrame::processMessage(NetworkMessageReader* msg)
 }
 void VMapFrame::fill(NetworkMessageWriter& msg)
 {
-    QRectF rect = m_graphicView->sceneRect();
-    msg.real(rect.x());
-    msg.real(rect.y());
-    msg.real(rect.width());
-    msg.real(rect.height());
-
+    if(nullptr!=m_graphicView)
+    {
+        QRectF rect = m_graphicView->sceneRect();
+        msg.real(rect.x());
+        msg.real(rect.y());
+        msg.real(rect.width());
+        msg.real(rect.height());
+    }
 }
 void VMapFrame::readMessage(NetworkMessageReader& msg)
 {
@@ -388,16 +395,36 @@ void VMapFrame::readMessage(NetworkMessageReader& msg)
 
 bool VMapFrame::readFileFromUri()
 {
-    openFile(m_uri->getUri());
-    if(NULL!=m_vmap)
+    if(nullptr!=m_uri)
     {
-        NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
-        m_vmap->fill(msg);
-        m_vmap->sendAllItems(msg);
-        fill(msg);
-        msg.sendAll();
+        bool read=false;
+        if(m_uri->getUri().isEmpty())//have not been saved outside story
+        {
+            QByteArray data = m_uri->getData();
+            QDataStream in(&data,QIODevice::ReadOnly);
+            createView();
+            m_vmap->openFile(in);
+            m_vmap->setVisibilityMode(VMap::HIDDEN);
+            updateMap();
+            read=true;
+        }
+        else if(openFile(m_uri->getUri()))
+        {
+            read=true;
+        }
+
+        if((nullptr!=m_vmap)&&(read))
+        {
+            NetworkMessageWriter msg(NetMsg::VMapCategory,NetMsg::addVmap);
+            m_vmap->fill(msg);
+            m_vmap->sendAllItems(msg);
+            fill(msg);
+            msg.sendAll();
+            return true;
+        }
+
     }
-    return true;
+    return  false;
 }
 void VMapFrame::processAddItemMessage(NetworkMessageReader* msg)
 {

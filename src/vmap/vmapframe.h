@@ -59,7 +59,6 @@ public :
     VMapFrame();
     /**
     * @brief constructor
-    * @todo default constructor missing
     */
     VMapFrame(CleverURI* uri,VMap *vmap);
     /**
@@ -84,7 +83,7 @@ public :
     * @brief reads the map into the given file
     * @param uri of the file
     */
-    void openFile(const QString& file);
+    bool openFile(const QString& file);
 	/**
 	 * @brief hasDockWidget
 	 * @return

@@ -2,6 +2,9 @@
 
 Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. 
 
+# License
+GNU GPLv2
+
 #  Official Web site : 
 http://www.rolisteam.org/
 

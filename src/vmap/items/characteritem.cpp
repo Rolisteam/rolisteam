@@ -176,7 +176,8 @@ void CharacterItem::setChildrenVisible(bool b)
         }
     }
 }
-
+#define PEN_WIDTH 6
+#define PEN_RADIUS 3
 void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
     if(m_thumnails==NULL)
@@ -208,7 +209,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 
 
 	QPen pen = painter->pen();
-	pen.setWidth(6);
+    pen.setWidth(PEN_WIDTH);
     if(( NULL!= m_character )&&(NULL!=m_character->getState()))
 	{
         if(getOption(VisualItem::ShowHealtStatus).toBool())
@@ -223,7 +224,7 @@ void CharacterItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem *
 		{
 			pen.setColor(m_character->getState()->getColor());
 			painter->setPen(pen);
-			painter->drawEllipse(m_rect.adjusted(3,3,-3,-3));
+            painter->drawEllipse(m_rect.adjusted(PEN_RADIUS,PEN_RADIUS,-PEN_RADIUS,-PEN_RADIUS));
 		}
 	}
     //QRectF rectText;
@@ -778,11 +779,18 @@ void CharacterItem::readCharacterStateChanged(NetworkMessageReader& msg)
     int index = msg.uint16();
     if(NULL!=m_character)
     {
-        CharacterState* state = Character::getCharacterStateList()->at(index);
-        if(NULL!=state)
+        QList<CharacterState*>* list = Character::getCharacterStateList();
+        if(nullptr != list)
         {
-            m_character->setState(state);
-            update();
+            if(!list->isEmpty() && index < list->size())
+            {
+                CharacterState* state = Character::getCharacterStateList()->at(index);
+                if(NULL!=state)
+                {
+                    m_character->setState(state);
+                    update();
+                }
+            }
         }
     }
 }

@@ -85,7 +85,8 @@ MainWindow::MainWindow()
       m_resetSettings(false),
       m_currentConnectionProfile(nullptr),
       m_profileDefined(false),
-      m_currentStory(nullptr)
+      m_currentStory(nullptr),
+      m_preferencesDialog(nullptr)
 {
     setAcceptDrops(true);
     m_profileDefined = false;
@@ -201,7 +202,14 @@ void MainWindow::closeMediaContainer(QString id)
 
              //setUri as undisplayed
              CleverURI* uri = mediaCon->getCleverUri();
-             uri->setDisplayed(false);
+             if(nullptr!=uri)
+             {
+                 uri->setState(CleverURI::Remain);
+                 if(!uri->hasData())
+                 {
+                    m_sessionManager->resourceClosed(uri);//delete the uri
+                 }
+             }
 
              //remove action from data and from memory
              QAction* act = m_mapAction->value(mediaCon);
@@ -494,7 +502,10 @@ void MainWindow::prepareImage(Image* imageFrame)
     imageFrame->setCurrentTool(m_toolBar->getCurrentTool());
 }
 
-
+void MainWindow::prepareNote(NoteContainer* note)
+{
+    m_mediaHash.insert(note->getMediaId(),note);
+}
 void MainWindow::updateWorkspace()
 {
     QMdiSubWindow* active = m_mdiArea->currentSubWindow();
@@ -532,7 +543,7 @@ void MainWindow::newVectorialMap()
     {
         VMap* tempmap = new VMap();
         mapWizzard.setAllMap(tempmap);
-        VMapFrame* tmp = new VMapFrame(new CleverURI(tempmap->getMapTitle(),CleverURI::VMAP),tempmap);
+        VMapFrame* tmp = new VMapFrame(new CleverURI(tempmap->getMapTitle(),"",CleverURI::VMAP),tempmap);
         prepareVMap(tmp);
         addMediaToMdiArea(tmp);
         //tempmap->setCurrentTool(m_toolbar->getCurrentTool());
@@ -716,22 +727,27 @@ void MainWindow::readStory(QString fileName)
     QDataStream in(&file);
     m_sessionManager->loadSession(in);
     file.close();
-    m_currentStory = new  CleverURI(fileName,CleverURI::SCENARIO);
+    m_currentStory = new  CleverURI(getShortNameFromPath(fileName),fileName,CleverURI::SCENARIO);
     updateWindowTitle();
+}
+QString MainWindow::getShortNameFromPath(QString path)
+{
+    QFileInfo info(path);
+    return info.baseName();
 }
 
 void MainWindow::saveAsStory()
 {
     // open file
-    QString filename = QFileDialog::getSaveFileName(this, tr("Save Scenario as"), m_preferences->value("SessionDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Scenario as"), m_preferences->value("SessionDirectory",QDir::homePath()).toString(), tr("Scenarios (*.sce)"));
 
-    if (!filename.isNull())
+    if (!fileName.isNull())
     {
-        if(!filename.endsWith(".sce"))
+        if(!fileName.endsWith(".sce"))
         {
-            filename.append(QStringLiteral(".sce"));
+            fileName.append(QStringLiteral(".sce"));
         }
-        m_currentStory = new  CleverURI(filename,CleverURI::SCENARIO);
+        m_currentStory = new  CleverURI(getShortNameFromPath(fileName),fileName,CleverURI::SCENARIO);
         saveStory();
     }
 }
@@ -792,9 +808,14 @@ void MainWindow::saveMedia(MediaContainer* mediaC,bool askPath, bool saveAs)
         {
             QString uri  = cleverURI->getUri();
             QFileInfo info(uri);
-            if(!askPath)
+            if(!askPath)//save into story
             {
                 mediaC->putDataIntoCleverUri();
+                /*if(!uri.isEmpty())
+                {
+                    mediaC->saveMedia();
+                }*/
+
             }
             else
             {
@@ -952,7 +973,7 @@ void MainWindow::helpOnLine()
 }
 void MainWindow::updateUi()
 {
-    if(NULL==m_currentConnectionProfile)
+    if(nullptr==m_currentConnectionProfile)
     {
         return;
     }
@@ -960,11 +981,11 @@ void MainWindow::updateUi()
 #ifndef NULL_PLAYER
     m_audioPlayer->updateUi(m_currentConnectionProfile->isGM());
 #endif
-    if(NULL!=m_preferencesDialog)
+    if(nullptr!=m_preferencesDialog)
     {
         m_preferencesDialog->updateUi(m_currentConnectionProfile->isGM());
     }
-    if(NULL!=m_playersListWidget)
+    if(nullptr!=m_playersListWidget)
     {
         m_playersListWidget->updateUi(m_currentConnectionProfile->isGM());
     }
@@ -1038,6 +1059,7 @@ void MainWindow::updateSessionToNewClient(Player* player)
         sendOffAllMaps(player->link());
         sendOffAllImages(player->link());
         m_preferencesDialog->sendOffAllDiceAlias(player->link());
+        m_preferencesDialog->sendOffAllState(player->link());
     }
 }
 
@@ -1381,9 +1403,13 @@ void MainWindow::setupUi()
     m_ui->m_menuSubWindows->insertAction(m_ui->m_audioPlayerAct,m_audioPlayer->toggleViewAction());
     m_ui->m_menuSubWindows->removeAction(m_ui->m_audioPlayerAct);
 #endif
-    //readSettings();
+
     m_preferencesDialog = new PreferencesDialog(this);
     linkActionToMenu();
+    if(nullptr!=m_preferencesDialog->getStateModel())
+    {
+        ReceiveEvent::registerNetworkReceiver(NetMsg::SharePreferencesCategory,m_preferencesDialog->getStateModel());
+    }
 
 
     // Initialisation des etats de sante des PJ/PNJ (variable declarees dans DessinPerso.cpp)
@@ -1411,6 +1437,7 @@ void MainWindow::processMapMessage(NetworkMessageReader* msg)
     else
     {
         MapFrame* mapFrame = new MapFrame(NULL, m_mdiArea);
+      //  mapFrame->setCleverUri(new CleverURI("",CleverURI::MAP));
 
         if((NULL!=m_currentConnectionProfile)&&(!mapFrame->processMapMessage(msg,!m_currentConnectionProfile->isGM())))
         {
@@ -1719,16 +1746,11 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::addCharacterSheet == msg->action())
     {
-        /// @todo Improve the clarity of this code.
         CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
         prepareCharacterSheetWindow(sheetWindow);
         sheetWindow->read(msg);
-
-
         addMediaToMdiArea(sheetWindow);
-
         m_mediaHash.insert(sheetWindow->getMediaId(),sheetWindow);
-        //sheetWindow->addTabWithSheetView(sheet);
 
     }
     else if(NetMsg::updateFieldCharacterSheet == msg->action())
@@ -1862,7 +1884,7 @@ NetWorkReceiver::SendType MainWindow::processVMapMessage(NetworkMessageReader* m
         map->setOption(VisualItem::LocalIsGM,false);
         map->readMessage(*msg);
 
-        VMapFrame* mapFrame = new VMapFrame(new CleverURI("",CleverURI::VMAP),map);
+        VMapFrame* mapFrame = new VMapFrame(nullptr,map);
         mapFrame->readMessage(*msg);
         prepareVMap(mapFrame);
         addMediaToMdiArea(mapFrame);
@@ -1940,7 +1962,7 @@ CleverURI* MainWindow::contentToPath(CleverURI::ContentType type,bool save)
         else
             filepath= QFileDialog::getOpenFileName(this,title,folder,filter);
 
-        return new CleverURI(filepath,type);
+        return new CleverURI(getShortNameFromPath(filepath),filepath,type);
     }
     return NULL;
 }
@@ -2057,6 +2079,9 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
     case CleverURI::ONLINEPICTURE:
         tmp = new Image();
         break;
+    case CleverURI::TEXT:
+        tmp = new NoteContainer();
+        break;
     case CleverURI::SCENARIO:
         break;
     case CleverURI::CHARACTERSHEET:
@@ -2101,6 +2126,10 @@ void MainWindow::openCleverURI(CleverURI* uri,bool force)
             {
                 prepareImage(static_cast<Image*>(tmp));
             }
+            else if(uri->getType()==CleverURI::TEXT)
+            {
+                prepareNote(static_cast<NoteContainer*>(tmp));
+            }
             addMediaToMdiArea(tmp);
         }
         else
@@ -2121,7 +2150,7 @@ void MainWindow::openContentFromType(CleverURI::ContentType type)
         QStringList::Iterator it = list.begin();
         while(it != list.end())
         {
-            openCleverURI(new CleverURI(*it,type));
+            openCleverURI(new CleverURI(getShortNameFromPath(*it),*it,type));
             ++it;
         }
     }
@@ -2245,7 +2274,7 @@ void MainWindow::dropEvent(QDropEvent* event)
         {
             CleverURI::ContentType type= getContentType(list.at(i).toLocalFile());
             MediaContainer* tmp=NULL;
-            CleverURI* uri = new CleverURI(list.at(i).toLocalFile(),type);
+            CleverURI* uri = new CleverURI(getShortNameFromPath(list.at(i).toLocalFile()),list.at(i).toLocalFile(),type);
             switch(type)
             {
             case CleverURI::MAP:

@@ -173,7 +173,7 @@ void Chapter::read(QDataStream &in)
         node->setParentNode(this);
         m_children.append(node);
         node->read(in);
-        if(NULL!=uri)
+        if(nullptr!=uri)
         {
             if(uri->isDisplayed())
             {

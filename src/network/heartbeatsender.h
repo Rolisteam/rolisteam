@@ -19,6 +19,8 @@ public:
     void preferencesHasChanged(QString);
     void updateStatus();
 
+    void setIdLocalUser(QString);
+
 public slots:
 
     void sendHeartBeatMsg();
@@ -27,6 +29,7 @@ private:
     QTimer m_timer;
     PreferencesManager* m_preferences;
     int m_timeOut;
+    QString m_localId;
     bool m_status;
 };
 

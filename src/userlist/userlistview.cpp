@@ -93,28 +93,39 @@ void UserListView::customContextMenuEvent ( QPoint e )
     QMenu popMenu(this);
     popMenu.addAction(m_addAvatarAct);
     popMenu.addAction(m_removeAvatarAct);
-    /// @todo check if the position is a valid person (and belongs to the user)
     QModelIndex index = indexAt(e);
-    QString uuid = index.data(PlayersList::IdentifierRole).toString();
-    Person* tmpperso = PlayersList::instance()->getPerson(uuid);
+    if(index.isValid())
+    {
+        QString uuid = index.data(PlayersList::IdentifierRole).toString();
 
-    if(PlayersList::instance()->isLocal(tmpperso))
-    {
-        m_addAvatarAct->setEnabled(true);
-        m_removeAvatarAct->setEnabled(true);
+        Person* tmpperso = PlayersList::instance()->getPerson(uuid);
+        if(nullptr!=tmpperso)
+        {
+            if(PlayersList::instance()->isLocal(tmpperso))
+            {
+                m_addAvatarAct->setEnabled(true);
+                m_removeAvatarAct->setEnabled(true);
+            }
+            else
+            {
+                m_addAvatarAct->setEnabled(false);
+                m_removeAvatarAct->setEnabled(false);
+            }
+            popMenu.exec(mapToGlobal(e));
+        }
     }
-    else
-    {
-        m_addAvatarAct->setEnabled(false);
-        m_removeAvatarAct->setEnabled(false);
-    }
-    popMenu.exec(mapToGlobal(e));
-    
 }
+#include "preferences/preferencesmanager.h"
 void UserListView::addAvatar()
 {
     /// @TODO: Here! options manager is required to get access to the photo directory
-    QString path = QFileDialog::getOpenFileName(this, tr("Avatar"),".",tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)"));
+    PreferencesManager* m_preferencesManager = PreferencesManager::getInstance();
+    QString directory(".");
+    if(nullptr != m_preferencesManager)
+    {
+        directory = m_preferencesManager->value("imageDirectory",QDir::homePath()).toString();
+    }
+    QString path = QFileDialog::getOpenFileName(this, tr("Avatar"),directory,tr("Supported Image formats (*.jpg *.jpeg *.png *.bmp *.svg)"));
     QModelIndex index= currentIndex();
     if(path.isEmpty())
         return;

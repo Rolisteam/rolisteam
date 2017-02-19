@@ -113,8 +113,11 @@ public:
 	void sendOffAllCharacterState(NetworkLink*);
 
     void processAddState(NetworkMessageReader *msg);
+    void processMoveState(NetworkMessageReader *msg);
+    void processRemoveState(NetworkMessageReader *msg);
 private:
     QList<CharacterState*>* m_stateList;
+    QList<CharacterState*>* m_stateListFromGM;
     bool m_isGM;
     QStringList m_header;
 };

@@ -98,7 +98,12 @@ void MediaContainer::setVisible(bool b)
         if(NULL!=m_action)
         {
             m_action->setChecked(b);
+
         }
+    }
+    if(nullptr != m_uri)
+    {
+        m_uri->setDisplayed(b);
     }
     QMdiSubWindow::setVisible(b);
 }
@@ -113,7 +118,7 @@ QAction* MediaContainer::getAction()
 }
 void MediaContainer::setCleverUriType(CleverURI::ContentType type)
 {
-    m_uri = new CleverURI(m_title,type);
+    m_uri = new CleverURI(m_title,"",type);
 }
 void MediaContainer::currentColorChanged(QColor& penColor)
 {

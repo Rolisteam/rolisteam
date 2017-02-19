@@ -202,7 +202,8 @@ bool MapFrame::readFileFromUri()
         m_title = m_mapWizzard->getTitle();
 
         m_isHidden = m_mapWizzard->getHidden();
-        m_uri = new CleverURI(filepath,CleverURI::MAP);
+        QFileInfo info(filepath);
+        m_uri = new CleverURI(info.baseName(),filepath,CleverURI::MAP);
 
         if (filepath.endsWith(".pla"))
         {
@@ -363,7 +364,6 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 		in>> visible;
 		in >> orientationAffichee;
 
-		/// @todo here
 		bool showNumber=true;//(type == DessinPerso::pnj)?m_ui->m_showNpcNumberAction->isChecked():false;
 		bool showName=true;//(type == DessinPerso::pnj)? m_ui->m_showNpcNameAction->isChecked():m_ui->m_showPcNameAction->isChecked();
 
@@ -523,21 +523,24 @@ void MapFrame::saveMedia()
 {
     if(NULL!=m_map)
     {
-        if(!m_uri->getUri().endsWith(".pla"))
+        if(nullptr!=m_uri)
         {
-            QString uri = m_uri->getUri()+".pla";
-            m_uri->setUri(uri);
-        }
+            if(!m_uri->getUri().endsWith(".pla"))
+            {
+                QString uri = m_uri->getUri()+".pla";
+                m_uri->setUri(uri);
+            }
 
-        QFile file(m_uri->getUri());
-        if (!file.open(QIODevice::WriteOnly))
-        {
-            notifyUser("could not open file for writting (saveMap - MapFrame.cpp)");
-            return;
+            QFile file(m_uri->getUri());
+            if (!file.open(QIODevice::WriteOnly))
+            {
+                notifyUser("could not open file for writting (saveMap - MapFrame.cpp)");
+                return;
+            }
+            QDataStream out(&file);
+            m_map->saveMap(out);
+            file.close();
         }
-        QDataStream out(&file);
-        m_map->saveMap(out);
-        file.close();
     }
 }
 

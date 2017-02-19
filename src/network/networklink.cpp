@@ -94,7 +94,7 @@ void NetworkLink::connectionError(QAbstractSocket::SocketError erreur)
     {
         return;
     }
-    errorMessage(m_socketTcp->errorString());
+    emit errorMessage(m_socketTcp->errorString());
 }
 
 void NetworkLink::p_disconnect()
@@ -108,7 +108,7 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 {
     if(NULL==m_socketTcp)
     {
-        qDebug() << "sendData is Null";
+        emit errorMessage(tr("Socket is null"));
         return;
     }
     if (but != this)
@@ -125,7 +125,7 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 
         if (t < 0)
         {
-            qWarning() << "Tranmission error :" << m_socketTcp->errorString();
+            emit errorMessage(tr("Tranmission error :")+m_socketTcp->errorString());
         }
     }
 }
@@ -133,7 +133,7 @@ void NetworkLink::sendData(NetworkMessage* msg)
 {
     if(NULL==m_socketTcp)
     {
-        qDebug() << "sendData is Null";
+        emit errorMessage(tr("Socket is null"));
         return;
     }
     //if (but != this)
@@ -142,7 +142,7 @@ void NetworkLink::sendData(NetworkMessage* msg)
 
         if (t < 0)
         {
-            qWarning() << "Tranmission error :" << m_socketTcp->errorString();
+            emit errorMessage(tr("Tranmission error :")+m_socketTcp->errorString());
         }
     }
 }
@@ -357,6 +357,6 @@ void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver,NetMsg::Catego
 }
 void NetworkLink::connectTo()
 {
-    qDebug() << "connect To thread"<<m_host << m_port;
+   // qDebug() << "connect To thread"<<m_host << m_port;
     m_socketTcp->connectToHost(m_host, m_port);
 }

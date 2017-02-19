@@ -81,7 +81,6 @@ public slots :
     void setCurrentTool(VToolsBar::SelectableTool);
     /**
       * @brief increase NPC number
-      * @todo rename it
       */
     void increaseNpcNumber();
     /**

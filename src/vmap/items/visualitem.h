@@ -31,7 +31,6 @@ class NetworkMessageReader;
 
 /**
     * @brief abstract class which defines interface for all map items.
-    * @todo Allows the modification of item's geometry, enable the selection.
     */
 class VisualItem : public QGraphicsObject
 {

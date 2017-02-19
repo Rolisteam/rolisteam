@@ -1,3 +1,78 @@
+rolisteam (1.8.0ubuntu1) xenial; urgency=medium 
+
+ * New map system using vectorial drawing
+ * Items can be modified, rotated, moved
+ * Avatar can be used as character token
+ * -New map system using vectorial drawing
+ * Items can be modified, rotated, moved
+ * Avatar can be used as character token
+ * image can be added to the map
+ * management of layers
+ * fog of war
+ * Character vision
+ * size adaptation
+ * Parenthood relationship
+ * Grid (square or hexagon)
+ * Zoom level
+ * # Character sheet
+ * Management of charactersheet
+ * Charactersheet editor
+ * Formula management
+ * Roll dice from the charactersheet
+ * Management of several kind of text field
+ * Character sheet in QML
+ * Update through network
+ * ReadOnly data
+ * Character sheet can have several pages
+ * Display several page at once
+ * # DiceParser
+ * Validator with several condition and combination with logic operator (OR, AND and exclusive OR)
+ * Improved management of errors
+ * List operator accept range/probability"
+ * Hide roll from the player but visible by everyone else (#2d6)
+ * Merge operator
+ * filter operator
+ * if operator
+ * Support modulo operator in validator
+ * Management of varible from the character sheet
+ * Support of different operator (!=)
+ * improve randomness by using C++11 API
+ * better generation for dot tree
+ * # General
+ * Dynamic Management of state (add/remove)
+ * Dice alias can be disable
+ * heartbeat mechanism to prevent disconnection
+ * # Connection Dialog
+ * Management of several connection profile
+ * Define role (GM or Player), define connection mode (Host or Client), if player then define character (name, color, avatar)
+ * # Resources management
+ * resources can be ordered into chapter 
+ * management of state of resources (open/loaded)
+ * # Fixed Bug
+ * Workaround for #42 - How to auto-size Huge map
+ * #41 - Mix between GM and player rights
+ * #28 - hide Roll Dice from the roller enhancement
+ * #33 - Disconnection
+ * #22 - Characters portraits & tokens
+ * #3 - It is not possible to move sheets around as if on a regular table
+ * #8 - Add images into maps
+ * # Translation
+ * French, English, Portuguese, Hungrian,German, Roumanian, Spanish, Turkish(partial), Dutch(partial)
+ 
+  -- Renaud Guezennec <renaud@rolisteam.org>  Sat, 05 Feb 2016 15:58:18 +0200
+
+rolisteam (1.7.1ubuntu1) trusty; urgency=medium                                                               
+                                                                                                              
+  [Renaud Guezennec]                                                                                          
+  * Better display for several strings or several dice command at once.                                       
+  * Fix #14 - fix build with Qt5.5 for some linux distributions                                               
+  * Fix #18 - unwanted {1 at the end of dice sentence                                                         
+  * Fix #11 - link are not clickable                                                                          
+  * Fix #10 - players can see hidden maps                                                                     
+  * Fix #12 - word wrap in chat (activated by default, can be disactived)                                     
+                                                                                                              
+ -- Renaud Guezennec <renaud@rolisteam.org>  Sat, 05 Sep 2015 09:26:18 +0200
+
 rolisteam (1.7.0ubuntu11) trusty; urgency=medium
 
   [Renaud Guezennec]

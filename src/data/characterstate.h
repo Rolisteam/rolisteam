@@ -32,7 +32,11 @@ public:
     /**
      * @brief CharacterState
      */
-	CharacterState();
+    CharacterState();
+    /**
+     * @brief CharacterState
+     */
+    CharacterState(const CharacterState& copy);
     /**
      * @brief setLabel
      * @param str
@@ -70,10 +74,14 @@ public:
     bool hasImage() const;
 
 
+    bool isLocal() const;
+    void setIsLocal(bool isLocal);
+
 private:
-	QString m_label;
-	QColor m_color;
-	QPixmap m_image;
+    QString m_label;
+    QColor m_color;
+    QPixmap m_image;
+    bool m_local;
 };
 
 #endif // CHARACTERSTATE_H

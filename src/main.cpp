@@ -90,6 +90,7 @@ int main(int argc, char *argv[])
 {
     // Application creation
     QApplication app(argc, argv);
+    app.setAttribute(Qt::AA_DontUseNativeMenuBar,true);
 
     QString appName("rolisteam");
 

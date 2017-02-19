@@ -50,7 +50,19 @@ bool NoteContainer::readFileFromUri()
     {
         return false;
     }
-    return m_edit->load(m_uri->getUri());
+    if(m_uri->getUri().isEmpty())
+    {
+        QByteArray array =m_uri->getData();
+        QDataStream in(&array,QIODevice::ReadOnly);
+        readFromFile(in);
+        return true;
+    }
+    else
+    {
+
+        return m_edit->load(m_uri->getUri());
+    }
+    return false;
 }
 
 void NoteContainer::saveMedia()
