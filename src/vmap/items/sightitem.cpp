@@ -277,7 +277,7 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
                 int itemRadius = charact->getRadius();
                 qreal rot = charact->rotation();
                 QMatrix mat;
-                QPointF center= charact->pos()+QPointF(itemRadius,itemRadius);
+                QPointF center = charact->pos()+QPointF(itemRadius,itemRadius);
                 mat.translate(center.x(),center.y());
                 mat.rotate(rot);
 
@@ -287,7 +287,8 @@ void SightItem::paint ( QPainter * painter, const QStyleOptionGraphicsItem * opt
                     case CharacterVision::DISK:
                     {
                        // subArea.moveTo(charact->pos()+QPointF(itemRadius,itemRadius));
-                        subArea.addEllipse(charact->pos()+QPointF(itemRadius,itemRadius),vision->getRadius()+itemRadius,vision->getRadius()+itemRadius);
+                        //subArea.addEllipse(charact->pos()+QPointF(itemRadius,itemRadius),vision->getRadius()+itemRadius,vision->getRadius()+itemRadius);
+                        subArea.addEllipse(QPointF(0,0),vision->getRadius()+itemRadius,vision->getRadius()+itemRadius);
                         //subArea.addEllipse(vision->getCharacterItem()->boundingRect());
                     }
                     break;
