@@ -604,13 +604,26 @@ void VMap::setAnchor(QGraphicsItem* child,QGraphicsItem* parent,bool send)
         {
             msg.string8("NULL");
         }
-        if(send)
+        bool hasMoved=false;
+        if(nullptr==parent)
         {
-            msg.sendAll();
+            if(send)
+            {
+                msg.sendAll();
+            }
+            child->setParentItem(parent);
+            hasMoved = true;
         }
-        child->setParentItem(parent);
-
-        if(!(pos2.isNull() && parent == NULL))
+        else if(parent->parentItem()!=child)
+        {
+            if(send)
+            {
+                msg.sendAll();
+            }
+            child->setParentItem(parent);
+            hasMoved = true;
+        }
+        if(!(pos2.isNull() && parent == NULL )&& hasMoved)
         {
             child->setPos(pos2);
         }
