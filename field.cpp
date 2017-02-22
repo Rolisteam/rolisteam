@@ -317,8 +317,8 @@ void Field::save(QJsonObject& json,bool exp)
     json["textalign"]=m_textAlign;
     json["x"]=getValueFrom(CharacterSheetItem::X,Qt::DisplayRole).toDouble();
     json["y"]=getValueFrom(CharacterSheetItem::Y,Qt::DisplayRole).toDouble();
-    json["width"]=m_rect.width();
-    json["height"]=m_rect.height();
+    json["width"]=getValueFrom(CharacterSheetItem::WIDTH,Qt::DisplayRole).toDouble();
+    json["height"]=getValueFrom(CharacterSheetItem::HEIGHT,Qt::DisplayRole).toDouble();
     QJsonArray valuesArray;
     valuesArray=QJsonArray::fromStringList(m_availableValue);
     json["values"]=valuesArray;
