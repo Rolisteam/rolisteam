@@ -312,6 +312,7 @@ void VMap::addImageItem(QString file)
     led->setImageUri(file);
     led->initChildPointItem();
     addNewItem(led);
+    sendOffItem(led);
 }
 
 void VMap::setCurrentItemOpacity(qreal a)
