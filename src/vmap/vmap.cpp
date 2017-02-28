@@ -1307,6 +1307,7 @@ void VMap::promoteItemInType(VisualItem* item, VisualItem::ItemType type)
         removeItemFromScene(item->getId());
         addNewItem(bis);
         bis->initChildPointItem();
+        sendOffItem(bis);
     }
 }
 
