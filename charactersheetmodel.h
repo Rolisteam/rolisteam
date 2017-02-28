@@ -139,6 +139,8 @@ public slots:
     * @brief adds an empty CharacterSheet into the model.
     */
     CharacterSheet* addCharacterSheet();
+
+    void clearModel();
 signals:
     void characterSheetHasBeenAdded(CharacterSheet* sheet);
     void dataCharacterChange();
@@ -153,7 +155,7 @@ private:
     */
     QList<CharacterSheet*>* m_characterList;
 
-    int m_characterCount;
+   // int m_characterCount;
     
     Section* m_rootSection;
     Formula::FormulaManager* m_formulaManager;
