@@ -145,6 +145,8 @@ public:
      * @param json
      */
     virtual void loadDataItem(QJsonObject& json);
+
+    virtual void removeAll();
 public slots:
     /**
      * @brief fillList
