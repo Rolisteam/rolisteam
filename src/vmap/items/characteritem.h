@@ -273,6 +273,10 @@ public slots:
      * @brief endOfGeometryChange
      */
     void endOfGeometryChange();
+    /**
+     * @brief generatedThumbnail
+     */
+    void generatedThumbnail();
 protected:
     /**
      * @brief canBeMoved
@@ -280,10 +284,6 @@ protected:
      */
     virtual bool canBeMoved() const;
 private slots:
-    /**
-     * @brief generatedThumbnail
-     */
-    void generatedThumbnail();
     /**
      * @brief createActions
      */
