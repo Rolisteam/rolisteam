@@ -229,6 +229,18 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
     {
        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
     }
+    else if(m_colunm[index.column()]->getPos() == CharacterSheetItem::TYPE)
+    {
+        QVariant var = index.data();
+        if(var.toInt() == Field::SELECT)
+        {
+           return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+        }
+        else
+        {
+            return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
+        }
+    }
     else if(!childItem->mayHaveChildren())
     {
         return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable /*| Qt::ItemIsUserCheckable */;
@@ -381,6 +393,12 @@ void FieldModel::removeItem(QModelIndex& index)
 
     emit modelChanged();
     }
+}
+void FieldModel::clearModel()
+{
+    beginResetModel();
+    m_rootSection->removeAll();
+    endResetModel();
 }
 
 void FieldModel::setValueForAll(QModelIndex& index)

@@ -97,6 +97,7 @@ protected:
     void managePDFImport();
 protected slots:
     void columnAdded();
+    void clearData();
 private slots:
     void codeChanged();
 private:

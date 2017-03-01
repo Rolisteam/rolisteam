@@ -185,6 +185,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_characterView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequested(QPoint)));
     connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
 
+    connect(ui->m_newAct,SIGNAL(triggered(bool)),this,SLOT(clearData()));
 
     canvas->setCurrentTool(Canvas::NONE);
 
@@ -206,6 +207,27 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::clearData()
+{
+    qDeleteAll(m_canvasList);
+    m_canvasList.clear();
+    Canvas* canvas = new Canvas();
+    CSItem::resetCount();
+    m_currentPage = 0;
+    canvas->setCurrentPage(m_currentPage);
+    m_canvasList.append(canvas);
+    m_view->setScene(canvas);
+
+    m_pixList.clear();
+
+    m_model->clearModel();
+    m_imgProvider->cleanData();
+    m_characterModel->clearModel();
+
+    connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+    canvas->setModel(m_model);
+}
+
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
 {
     if((obj==m_view)&&(event->type() == QEvent::Wheel))
