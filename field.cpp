@@ -47,9 +47,11 @@ Field::Field(QPointF topleft,QGraphicsItem* parent)
 }
 Field::~Field()
 {
+    #ifdef RCSE
     if(NULL!=m_canvasField)
         delete m_canvasField;
     m_canvasField=NULL;
+    #endif
 }
 void Field::init()
 {
@@ -202,7 +204,16 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         m_textColor= var.value<QColor>();
         break;
     case VALUES:
-        m_availableValue = var.toString().split(',');
+        if(var.toString().isEmpty())
+        {
+            m_availableValue.clear();
+            m_currentType = Field::TEXTINPUT;
+        }
+        else
+        {
+            m_availableValue = var.toString().split(',');
+            m_currentType = Field::SELECT;
+        }
         break;
     case TYPE:
         m_currentType= (Field::TypeField)var.toInt();

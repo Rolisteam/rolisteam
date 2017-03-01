@@ -198,7 +198,12 @@ bool Section::removeChild(CharacterSheetItem* child)
     }
     return false;
 }
-
+void  Section::removeAll()
+{
+    //qDeleteAll(m_dataHash.values());
+    m_dataHash.clear();
+    m_keyList.clear();
+}
 
 void Section::buildDataInto( CharacterSheet* character)
 {

@@ -106,3 +106,7 @@ void CSItem::setBorder(const CSItem::BorderLine &border)
 
     emit askUpdate();
 }
+void CSItem::resetCount()
+{
+    m_count=0;
+}
