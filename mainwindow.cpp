@@ -625,7 +625,7 @@ void MainWindow::save()
                 }
             }
             obj["background"]=images;
-            m_characterModel->writeModel(obj,false);
+            m_characterModel->writeModel(obj,true);
             json.setObject(obj);
             file.write(json.toJson());
 
