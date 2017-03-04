@@ -9,6 +9,8 @@ Rectangle {
     property alias currentText: selectvalues.currentText
     property alias count: selectvalues.count
     property alias combo: selectvalues
+    property alias style: selectvalues.style
+
     property color textColor:"black"
     property int hAlign: 0
     property int vAlign: 0

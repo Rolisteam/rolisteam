@@ -7,6 +7,7 @@ Rectangle {
     property alias text : textField.text
     property alias textColor: textField.textColor
     property alias hAlign: textField.horizontalAlignment
+    property alias font : textField.font
     property alias vAlign: textField.verticalAlignment
     property bool clippedText: false
     property bool readOnly: false

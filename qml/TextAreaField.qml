@@ -6,6 +6,7 @@ Rectangle {
     id:root
     property alias text : textArea.text
     property alias textColor: textArea.textColor
+    property alias font: textArea.font
     property alias hAlign: textArea.horizontalAlignment
     property alias vAlign: textArea.verticalAlignment
     property bool clippedText: false
