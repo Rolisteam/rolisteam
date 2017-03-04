@@ -38,6 +38,8 @@ SOURCES += $$PWD/charactersheetwindow.cpp \
 
 INCLUDEPATH += $$PWD formula formula/nodes
 
+OTHER_FILES += $$PWD/qml/*.qml
+
 RCSE{
 HEADERS -=$$PWD/charactersheetwindow.h
 SOURCES -=$$PWD/charactersheetwindow.cpp
