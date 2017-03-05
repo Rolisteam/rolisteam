@@ -9,6 +9,7 @@ Rectangle {
     property alias hAlign: textInput.horizontalAlignment
     property alias vAlign: textInput.verticalAlignment
     property alias font : textInput.font
+    property alias wrapMode : textInput.wrapMode
     property bool clippedText: false
     property bool readOnly: false
     TextInput {//textInput.textColor
