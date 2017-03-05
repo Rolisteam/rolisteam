@@ -38,6 +38,13 @@ QHash<QString,QPixmap>* RolisteamImageProvider::getData()
 {
     return s_data;
 }
+void RolisteamImageProvider::cleanData()
+{
+    if(nullptr != s_data)
+    {
+        s_data->clear();
+    }
+}
 
 void RolisteamImageProvider::setData( QHash<QString, QPixmap> * data)
 {

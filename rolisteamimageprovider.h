@@ -18,6 +18,7 @@ public:
 
     static void insertPix(QString key,QPixmap img);
     static QHash<QString,QPixmap>* getData();
+    static void cleanData();
 
     void setData( QHash<QString, QPixmap>* data);
 

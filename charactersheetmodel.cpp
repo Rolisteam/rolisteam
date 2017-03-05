@@ -35,7 +35,7 @@
 /////////////////////////////
 
 CharacterSheetModel::CharacterSheetModel()
- : m_characterCount(0),m_formulaManager(NULL)
+ : m_formulaManager(NULL) //m_characterCount(0),
 {
     m_characterList = new QList<CharacterSheet*>;
     m_rootSection = new Section();
@@ -227,10 +227,23 @@ CharacterSheet* CharacterSheetModel::addCharacterSheet()
     sheet->buildDataFromSection(m_rootSection);
     return sheet;
 }
+
+void CharacterSheetModel::clearModel()
+{
+    beginResetModel();
+    qDeleteAll(*m_characterList);
+    m_characterList->clear();
+    //m_characterCount = 0;
+    if(nullptr != m_rootSection)
+    {
+        m_rootSection->removeAll();
+    }
+    endResetModel();
+}
 void CharacterSheetModel::addCharacterSheet(CharacterSheet* sheet)
 {
     beginInsertColumns(QModelIndex(),m_characterList->size()+1 ,m_characterList->size()+1 );
-    ++m_characterCount;
+    //++m_characterCount;
     m_characterList->append(sheet);
     emit characterSheetHasBeenAdded(sheet);
     endInsertColumns();
@@ -407,7 +420,7 @@ bool CharacterSheetModel::writeModel(QJsonObject& jsonObj, bool writeData)
         m_rootSection->save(data);
         jsonObj["data"]=data;
     }
-    jsonObj["characterCount"]=m_characterCount;
+    jsonObj["characterCount"]=m_characterList->size();//m_characterCount;
 
     QJsonArray characters;
     foreach (CharacterSheet* item, *m_characterList)
@@ -440,6 +453,6 @@ void CharacterSheetModel::readModel(QJsonObject& jsonObj,bool readRootSection)
         //emit characterSheetHasBeenAdded(sheet);
     }
     endResetModel();
-    m_characterCount = jsonObj["characterCount"].toInt();
+//    m_characterCount = jsonObj["characterCount"].toInt();
 
 }
