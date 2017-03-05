@@ -99,7 +99,7 @@ void CharacterSheet::setValue(QString key, QString value, QString formula)
     if(m_valuesMap.contains(key))
     {
         CharacterSheetItem* field = m_valuesMap.value(key);
-        if(!formula.isEmpty())
+        //if(!formula.isEmpty())
         {
             field->setFormula(formula);
         }
