@@ -348,7 +348,7 @@ void CharacterItem::fillMessage(NetworkMessageWriter* msg)
     in << *m_thumnails;
     msg->byteArray32(data);
 
-    m_character->fill(*msg,false);
+    m_character->fill(*msg,true);
     m_vision->fill(msg);
 }
 void CharacterItem::readItem(NetworkMessageReader* msg)
@@ -592,6 +592,11 @@ void CharacterItem::setGeometryPoint(qreal pointId, QPointF &pos)
 }
 void CharacterItem::initChildPointItem()
 {
+    if(nullptr!=m_child)
+    {
+        qDeleteAll(m_child->begin(),m_child->end());
+        delete m_child;
+    }
     m_child = new QVector<ChildPointItem*>();
 
     for(int i = 0; i< MAX_CORNER_ITEM ; ++i)

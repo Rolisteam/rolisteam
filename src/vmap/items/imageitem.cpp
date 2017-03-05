@@ -313,6 +313,8 @@ VisualItem* ImageItem::promoteTo(VisualItem::ItemType type)
         Character* character = new Character(info.baseName(),Qt::black,true);
         character->setAvatar(m_image);
         CharacterItem* item = new CharacterItem(character,pos());
+      //  item->set
+        item->generatedThumbnail();
         item->setScale(scale());
         return item;
     }
