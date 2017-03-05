@@ -892,6 +892,18 @@ void CharacterItem::setCharacterIsMovable(bool isMovable)
             setFlag(QGraphicsItem::ItemIsMovable,isMovable);
             connect(this,SIGNAL(xChanged()),this,SLOT(posChange()),Qt::UniqueConnection);
             connect(this,SIGNAL(yChanged()),this,SLOT(posChange()),Qt::UniqueConnection);
+
+
+            if(nullptr!=m_child)
+            {
+                foreach (ChildPointItem* itemChild, *m_child)
+                {
+                    itemChild->setEditableItem(true);
+                    itemChild->setMotion(ChildPointItem::NONE);
+                    itemChild->setRotationEnable(true);
+                    connect(this,SIGNAL(rotationChanged()),this,SLOT(rotationChange()),Qt::UniqueConnection);
+                }
+            }
         }
     }
     else
@@ -899,9 +911,26 @@ void CharacterItem::setCharacterIsMovable(bool isMovable)
         setFlag(QGraphicsItem::ItemIsMovable,false);
         disconnect(this,SIGNAL(xChanged()),this,SLOT(posChange()));
         disconnect(this,SIGNAL(yChanged()),this,SLOT(posChange()));
+        disconnect(this,SIGNAL(rotationChanged()),this,SLOT(rotationChange()));
+    }
+
+}
+void CharacterItem::setEditableItem(bool b)
+{
+    VisualItem::setEditableItem(b);
+    if(b)
+    {
+        if(nullptr!=m_child)
+        {
+            foreach (ChildPointItem* itemChild, *m_child)
+            {
+                itemChild->setEditableItem(true);
+                itemChild->setMotion(ChildPointItem::ALL);
+                itemChild->setRotationEnable(true);
+            }
+        }
     }
 }
-
 bool CharacterItem::isNpc()
 {
     if(NULL!=m_character)

@@ -227,6 +227,11 @@ public:
      * @param b
      */
     void setChildrenVisible(bool b);
+    /**
+     * @brief setEditableItem
+     * @param b
+     */
+    void setEditableItem(bool b);
 signals:
     /**
      * @brief positionChanged
