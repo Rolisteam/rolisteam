@@ -334,7 +334,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     m_qmlView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_qmlView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenuForTabs(QPoint)));
 
-    connect(m_qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
+   // connect(m_qmlView->engine(),SIGNAL(warnings(QList<QQmlError>)),this,SLOT(displayError(QList<QQmlError>)));
 
     m_qmlView->engine()->addImageProvider(QLatin1String("rcs"),new RolisteamImageProvider());
 
@@ -360,6 +360,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     m_qmlView->setSource(QUrl::fromLocalFile(fileTemp.fileName()));
     m_qmlView->setResizeMode(QQuickWidget::SizeRootObjectToView);
     readErrorFromQML(m_qmlView->errors());
+    displayError(m_qmlView->errors());
 
     QObject* root = m_qmlView->rootObject();
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
@@ -441,7 +442,10 @@ void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
     {
         result += error.toString();
     }
-    QMessageBox::information(this,tr("Errors QML"),result,QMessageBox::Ok);
+    if(!warnings.isEmpty())
+    {
+        QMessageBox::information(this,tr("Errors QML"),result,QMessageBox::Ok);
+    }
 }
 
 void  CharacterSheetWindow::saveCharacterSheet()

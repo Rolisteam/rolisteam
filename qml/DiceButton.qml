@@ -7,6 +7,9 @@ Rectangle {
     property alias text : textInput.text
     property alias textColor: textInput.color
     property alias hAlign: textInput.horizontalAlignment
+    property alias font: textInput.font
+    property alias wrapMode: textInput.wrapMode
+
     property alias vAlign: textInput.verticalAlignment
     property bool readOnly: false
     scale: mouseZone.pressed ? 0.8 : 1.0
