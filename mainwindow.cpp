@@ -299,6 +299,10 @@ bool MainWindow::mayBeSaved()
 
 void MainWindow::modelChanged()
 {
+    if((nullptr != m_characterModel)&&(nullptr!=m_model))
+    {
+        m_characterModel->setRootSection(m_model->getRootSection());
+    }
     setWindowModified(true);
 }
 bool MainWindow::wheelEventForView(QWheelEvent *event)
@@ -690,6 +694,7 @@ void MainWindow::open()
                 if(i!=0)
                 {
                     Canvas* canvas = new Canvas();
+                    canvas->setModel(m_model);
                     canvas->setPixmap(pix);
                     m_canvasList.append(canvas);
                     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
