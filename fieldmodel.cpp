@@ -71,6 +71,7 @@ FieldModel::FieldModel(QObject *parent) : QAbstractItemModel(parent)
              << new Column(tr("Width"),CharacterSheetItem::WIDTH)
              << new Column(tr("Height"),CharacterSheetItem::HEIGHT)
              << new Column(tr("Font Adaptation"),CharacterSheetItem::CLIPPED)
+             << new Column(tr("Font"),CharacterSheetItem::FONT)
              << new Column(tr("Text-align"),CharacterSheetItem::TEXT_ALIGN)
              << new Column(tr("Text Color"),CharacterSheetItem::TEXTCOLOR)
              << new Column(tr("Bg Color"),CharacterSheetItem::BGCOLOR)
@@ -99,7 +100,7 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
         if(NULL!=item)
         {
             QVariant var = item->getValueFrom(m_colunm[index.column()]->getPos(),role);
-            if((index.column() == 10)&&(Qt::DisplayRole == role))
+            if((index.column() == CharacterSheetItem::TEXT_ALIGN)&&(Qt::DisplayRole == role))
             {
                 if((var.toInt() >= 0)&&(var.toInt() < m_alignList.size()))
                 {
@@ -120,6 +121,17 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
             return var;
 
         }
+    }
+    if((Qt::FontRole==role)&&(index.column() == CharacterSheetItem::FONT))
+    {
+            CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
+            if(NULL!=item)
+            {
+                QVariant var = item->getValueFrom(m_colunm[index.column()]->getPos(),Qt::DisplayRole);
+                QFont font;
+                font.fromString(var.toString());
+                return font;
+            }
     }
     return QVariant();
 }

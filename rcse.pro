@@ -73,12 +73,13 @@ SOURCES += main.cpp\
     borderlisteditor.cpp \
     qmlhighlighter.cpp \
     charactermodel.cpp \
-    alignmentdelegate.cpp \
+    delegate/alignmentdelegate.cpp \
     codeeditor.cpp \
-    typedelegate.cpp \
+    delegate/typedelegate.cpp \
     canvasfield.cpp \
     aboutrcse.cpp \
-    pdfmanager.cpp
+    pdfmanager.cpp \
+    delegate/fontdelegate.cpp \
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -86,12 +87,15 @@ HEADERS  += mainwindow.h \
     borderlisteditor.h \
     qmlhighlighter.h \
     charactermodel.h \
-    alignmentdelegate.h \
+    delegate/alignmentdelegate.h \
     codeeditor.h \
-    typedelegate.h \
+    delegate/typedelegate.h \
     canvasfield.h \
     aboutrcse.h \
-    pdfmanager.h
+    pdfmanager.h \
+    delegate/fontdelegate.h \
+
+
 
 FORMS    += mainwindow.ui \
     aboutrcse.ui \
