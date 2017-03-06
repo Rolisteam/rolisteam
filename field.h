@@ -121,6 +121,7 @@ protected:
     QPair<QString, QString> getTextAlign();
 private:
     QString getQMLItemName();
+    bool hasFontField();
 private:
     QFont  m_font;
     TextAlign m_textAlign;
