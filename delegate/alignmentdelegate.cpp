@@ -19,6 +19,7 @@
     ***************************************************************************/
 #include "alignmentdelegate.h"
 #include <QComboBox>
+#include "charactersheetitem.h"
 
 AlignmentDelegate::AlignmentDelegate()
 {
@@ -36,7 +37,7 @@ AlignmentDelegate::AlignmentDelegate()
 QWidget* AlignmentDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     // ComboBox ony in column 2
-       if (index.column() != 10)
+       if (index.column() != static_cast<int>(CharacterSheetItem::TEXT_ALIGN))
            return QStyledItemDelegate::createEditor(parent, option, index);
 
 
