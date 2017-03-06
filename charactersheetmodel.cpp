@@ -305,7 +305,9 @@ Section* CharacterSheetModel::getRootSection() const
 
 void CharacterSheetModel::setRootSection(Section *rootSection)
 {
+    beginResetModel();
     m_rootSection = rootSection;
+    endResetModel();
 }
 
 
