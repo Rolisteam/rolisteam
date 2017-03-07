@@ -93,6 +93,7 @@ void Field::init()
 
 QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
 {
+
     switch(id)
     {
     case ID:
@@ -144,6 +145,8 @@ QVariant Field::getValueFrom(CharacterSheetItem::ColumnId id,int role) const
         return m_currentType;
     case CLIPPED:
         return m_clippedText;
+    case FONT:
+        return m_font.toString();
     }
     return QVariant();
 }
@@ -220,6 +223,9 @@ void Field::setValueFrom(CharacterSheetItem::ColumnId id, QVariant var)
         break;
     case CLIPPED:
         m_clippedText=var.toBool();
+        break;
+    case FONT:
+        m_font.fromString(var.toString());
         break;
     }
    // update();
@@ -506,6 +512,17 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "    color: \"" << m_bgColor.name(QColor::HexArgb)<<"\"\n";
         out << "    visible: root.page == "<< m_page << "? true : false\n";
         out << "    readOnly: "<<m_id<<".readOnly\n";
+        if(hasFontField())
+        {
+            out << "    font.family: \"" << m_font.family() <<"\"\n";
+            out << "    font.bold: " << (m_font.bold()?"true":"false") <<"\n";
+            out << "    font.italic: " << (m_font.italic()?"true":"false") <<"\n";
+            out << "    font.underline: " << (m_font.underline()?"true":"false") <<"\n";
+            out << "    font.pointSize: " << m_font.pointSize() <<"\n";
+            out << "    font.overline: " << (m_font.overline()?"true":"false") <<"\n";
+            out << "    font.strikeout: " << (m_font.strikeOut()?"true":"false") <<"\n";
+
+        }
         if(m_currentType==Field::BUTTON)
         {
            out << "    onClicked:rollDiceCmd("<<m_id<<".value)\n";
@@ -524,6 +541,23 @@ void Field::generateQML(QTextStream &out,CharacterSheetItem::QMLSection sec)
         out << "}\n";
     }
 }
+bool Field::hasFontField()
+{
+    switch (m_currentType)
+    {
+    case Field::TEXTINPUT:
+    case Field::TEXTAREA:
+    case Field::TEXTFIELD:
+    case Field::BUTTON:
+        return true;
+        break;
+    case Field::SELECT:
+    case Field::CHECKBOX:
+    case Field::IMAGE:
+        return false;
+    }
+}
+
 QPair<QString,QString> Field::getTextAlign()
 {
     QPair<QString,QString> pair;
