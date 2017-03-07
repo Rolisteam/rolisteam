@@ -352,7 +352,7 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
 
     if(fileTemp.open())//QIODevice::WriteOnly
     {
-        fileTemp.write(m_qmlData.toLatin1());
+        fileTemp.write(m_qmlData.toUtf8());
         fileTemp.close();
     }
 
