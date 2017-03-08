@@ -191,7 +191,7 @@ bool ParsingToolFormula::readStringValue(QString& str, FormulaNode*& previous)
     {
         int i=0;
         str = str.remove(0,1);
-        while(i<str.length() && str[i].isLetterOrNumber() && str[i]!='"')
+        while(i<str.length() && str[i]!='"')//&& (str[i].isLetterOrNumber() || str[i].isPunct() || str[i].isSpace())
         {
             strResult+=str[i];
             ++i;
