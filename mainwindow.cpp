@@ -48,10 +48,15 @@
 #endif
 
 #include "borderlisteditor.h"
-#include "alignmentdelegate.h"
-#include "typedelegate.h"
 #include "qmlhighlighter.h"
 #include "aboutrcse.h"
+
+// Delegates
+#include "delegate/alignmentdelegate.h"
+#include "delegate/typedelegate.h"
+#include "delegate/fontdelegate.h"
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -77,10 +82,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeView->setModel(m_model);
 
     AlignmentDelegate* delegate = new AlignmentDelegate();
-    ui->treeView->setItemDelegateForColumn(10,delegate);
+    ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TEXT_ALIGN),delegate);
 
     TypeDelegate* typeDelegate = new TypeDelegate();
-    ui->treeView->setItemDelegateForColumn(4,typeDelegate);
+    ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TYPE),typeDelegate);
+
+    FontDelegate* fontDelegate = new FontDelegate();
+    ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::FONT),fontDelegate);
+
 
     canvas->setModel(m_model);
     ui->treeView->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
