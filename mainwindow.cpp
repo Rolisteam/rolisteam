@@ -992,6 +992,7 @@ void MainWindow::currentPageChanged(int i)
 {
     if((i>=0)&&(i<m_canvasList.size()))
     {
+        m_currentPage = i;
         m_view->setScene(m_canvasList[i]);
     }
 
