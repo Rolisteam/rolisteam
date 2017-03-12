@@ -204,7 +204,26 @@ void  Section::removeAll()
     m_dataHash.clear();
     m_keyList.clear();
 }
+void Section::resetAllId(int& i)
+{
+  QString id("id_%1");
 
+  for(QString key : m_keyList)
+  {
+      CharacterSheetItem* item = m_dataHash.value(key);
+
+      if(CharacterSheetItem::FieldItem == item->getItemType())
+      {
+          ++i;
+          item->setId(id.arg(i));
+      }
+      else if(CharacterSheetItem::SectionItem == item->getItemType())
+      {
+          Section* sec = dynamic_cast<Section*>(item);
+          sec->resetAllId(i);
+      }
+  }
+}
 void Section::buildDataInto( CharacterSheet* character)
 {
     for(int i = 0; i< getChildrenCount();++i)

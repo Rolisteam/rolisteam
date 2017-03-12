@@ -65,6 +65,7 @@ public:
     virtual QPointF mapFromScene(QPointF) =0;
 
     static void resetCount();
+    static void setCount(int i);
 
 signals:
     void xChanged();

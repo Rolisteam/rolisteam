@@ -110,3 +110,7 @@ void CSItem::resetCount()
 {
     m_count=0;
 }
+void CSItem::setCount(int i)
+{
+    m_count = i;
+}
