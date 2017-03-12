@@ -17,5 +17,6 @@ Rectangle {
         anchors.fill: parent
         selectByMouse: true
         readOnly: root.readOnly
+        textFormat: TextEdit.RichText
     }
 }
