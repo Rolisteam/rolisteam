@@ -74,6 +74,7 @@ void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
                 else
                 {
                     m_bg->setPixmap(*m_pix);
+                    emit imageChanged();
                     setSceneRect(m_bg->boundingRect());
                 }
             }

@@ -572,9 +572,19 @@ void MainWindow::setImage()
     int i = 0;
     m_pixList.clear();
     QString id = QUuid::createUuid().toString();//one id for all images.
+    QSize previous;
+    bool issue = false;
     for(auto canvas : m_canvasList)
     {
         QPixmap* pix = canvas->pixmap();
+        if(!previous.isValid())
+        {
+            previous = pix->size();
+        }
+        if(previous!=pix->size())
+        {
+            issue = true;
+        }
         //m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
         setFitInView();
         if(NULL==pix)
@@ -585,6 +595,10 @@ void MainWindow::setImage()
         m_imgProvider->insertPix(idList,*pix);
         m_pixList.insert(idList,pix);
         ++i;
+    }
+    if(issue)
+    {
+        QMessageBox::warning(this,tr("Error!"),tr("Background images have to be of the same size"),QMessageBox::Ok);
     }
 }
 
