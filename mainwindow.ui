@@ -456,6 +456,8 @@
     <addaction name="actionQML_View"/>
     <addaction name="actionCode_To_QML"/>
     <addaction name="m_backgroundImageAct"/>
+    <addaction name="separator"/>
+    <addaction name="m_resetIdAct"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -643,6 +645,11 @@
   <action name="m_onlineHelpAct">
    <property name="text">
     <string>Help</string>
+   </property>
+  </action>
+  <action name="m_resetIdAct">
+   <property name="text">
+    <string>Reset Ids</string>
    </property>
   </action>
  </widget>

@@ -422,3 +422,13 @@ void FieldModel::setValueForAll(QModelIndex& index)
     }
 }
 
+void FieldModel::resetAllId()
+{
+    beginResetModel();
+    int i = 0;
+    m_rootSection->resetAllId(i);
+    qDebug() << "i:" << i;
+    Field::setCount(i);
+    endResetModel();
+}
+

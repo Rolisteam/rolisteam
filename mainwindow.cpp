@@ -174,6 +174,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_removePage,SIGNAL(clicked(bool)),this,SLOT(removePage()));
     connect(ui->m_selectPageCb,SIGNAL(currentIndexChanged(int)),this,SLOT(currentPageChanged(int)));
 
+    connect(ui->m_resetIdAct,SIGNAL(triggered(bool)),m_model,SLOT(resetAllId()));
+
 
 
     m_imgProvider = new RolisteamImageProvider();
@@ -846,7 +848,7 @@ void MainWindow::showQML()
     QFile file("test.qml");
     if(file.open(QIODevice::WriteOnly))
     {
-        file.write(data.toLatin1());
+        file.write(data.toUtf8());
         file.close();
     }
     QLayout* layout = ui->m_qml->layout();
@@ -901,7 +903,7 @@ void MainWindow::showQMLFromCode()
     QFile file(name);
     if(file.open(QIODevice::WriteOnly))
     {
-        file.write(data.toLatin1());
+        file.write(data.toUtf8());
         file.close();
     }
 

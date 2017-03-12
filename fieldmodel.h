@@ -208,6 +208,7 @@ public slots:
      */
     void updateItem(CSItem* );
     void clearModel();
+    void resetAllId();
 private:
     QList<Column*> m_colunm;
     Section* m_rootSection;
