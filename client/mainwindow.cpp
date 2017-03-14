@@ -1117,7 +1117,7 @@ void MainWindow::updateSessionToNewClient(Player* player)
 }
 void MainWindow::readSettings()
 {
-    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
+    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_major));
 
     if(m_resetSettings)
     {
@@ -1153,7 +1153,7 @@ void MainWindow::readSettings()
 }
 void MainWindow::writeSettings()
 {
-    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_version));
+    QSettings settings("rolisteam",QString("rolisteam_%1/preferences").arg(m_major));
     settings.setValue("geometry", saveGeometry());
     settings.setValue("windowState", saveState());
     settings.setValue("Maximized", isMaximized());
@@ -1554,6 +1554,7 @@ void MainWindow::setupUi()
 #ifdef VERSION_MAJOR
 #ifdef VERSION_MIDDLE
     m_version = QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MIDDLE).arg(VERSION_MINOR);
+    m_major = QString("%1.%2.0").arg(VERSION_MAJOR).arg(VERSION_MIDDLE);
 #endif
 #endif
 #endif

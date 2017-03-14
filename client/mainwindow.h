@@ -569,6 +569,7 @@ private:
     UpdateChecker* m_updateChecker;
 
     QString m_version;
+    QString m_major;
     QDockWidget* m_dockLogUtil;
     ClientManager* m_clientManager;
     QTextEdit* m_notifierDisplay;
