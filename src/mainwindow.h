@@ -571,6 +571,7 @@ private:
     UpdateChecker* m_updateChecker;
 
     QString m_version;
+    QString m_major;
     QDockWidget* m_dockLogUtil;
 	NetworkManager* m_networkManager;
     QTextEdit* m_notifierDisplay;
