@@ -21,7 +21,7 @@
 ***************************************************************************/
 #include "charactersheetitem.h"
 #include <QDebug>
-
+#include <QTextDocument>
 //////////////////////////////
 //Item
 /////////////////////////////
@@ -96,7 +96,17 @@ QString CharacterSheetItem::value() const
 
 void CharacterSheetItem::setValue(const QString &value,bool fromNetwork)
 {
-    if(m_value!=value)
+    /// @warning ugly solution to prevent html rich text to break the change check.
+    QTextDocument doc;
+    doc.setHtml(value);
+    QString newValue = doc.toPlainText();
+
+    doc.setHtml(m_value);
+    QString currentValue = doc.toPlainText();
+    //newValue.remove(QRegExp("<[^>]*>"));
+    //currentValue.remove(QRegExp("<[^>]*>"));
+
+    if(currentValue!=newValue)
     {
         m_value = value;
         emit valueChanged();
