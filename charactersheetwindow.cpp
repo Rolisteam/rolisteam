@@ -365,7 +365,11 @@ void CharacterSheetWindow::addTabWithSheetView(CharacterSheet* chSheet)
     QObject* root = m_qmlView->rootObject();
     connect(root,SIGNAL(rollDiceCmd(QString)),this,SLOT(rollDice(QString)));
     m_characterSheetlist.insert(m_qmlView,chSheet);
-    m_tabs->addTab(m_qmlView,chSheet->getTitle());
+    int id = m_tabs->addTab(m_qmlView,chSheet->getTitle());
+    if(!m_localIsGM)
+    {
+        m_tabs->setCurrentIndex(id);
+    }
 }
 void CharacterSheetWindow::readErrorFromQML(QList<QQmlError> list)
 {
