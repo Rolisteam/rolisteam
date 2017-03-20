@@ -1756,11 +1756,13 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::updateFieldCharacterSheet == msg->action())
     {
+
         QString idCharacterSheetW = msg->string8();
         CharacterSheetWindow* sheet = findCharacterSheetWindowById(idCharacterSheetW);
         if(NULL!=sheet)
         {
             sheet->processUpdateFieldMessage(msg);
+
         }
 
     }
