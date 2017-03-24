@@ -230,6 +230,16 @@ Convertor::Convertor(QWidget *parent) :
     m_convertorTable.insert(QPair<Unit*,Unit*>(pound,once),new ConvertorOperator(16.0));
 
 
+    ////////////////////////////
+    // Volume
+    ////////////////////////////
+    Unit* cubicMeter = m_model->insertData(new Unit(QStringLiteral("Cubic Meter"),QStringLiteral("m³"),Unit::VOLUME));
+    Unit* cubicFeet =m_model->insertData(new Unit(QStringLiteral("Cubic Feet"),QStringLiteral("ft³"),Unit::VOLUME));
+
+    m_convertorTable.insert(QPair<Unit*,Unit*>(cubicMeter,cubicFeet),new ConvertorOperator(35.3147));
+    m_convertorTable.insert(QPair<Unit*,Unit*>(cubicFeet,cubicMeter),new ConvertorOperator(0.0283168));
+
+
 
 
     m_catModel->setSourceModel(m_model);
@@ -237,6 +247,9 @@ Convertor::Convertor(QWidget *parent) :
     ui->m_fromCombo->setModel(m_catModel);
     ui->m_toCombo->setModel(m_toModel);
     connect(ui->m_fromLine,SIGNAL(textChanged(QString)),this,SLOT(convert()));
+    connect(ui->m_convert,SIGNAL(clicked(bool)),this,SLOT(convert()));
+    connect(ui->m_fromCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(convert()));
+    connect(ui->m_toCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(convert()));
 
 }
 
