@@ -448,7 +448,7 @@ void CharacterSheetWindow::displayError(const QList<QQmlError> & warnings)
     }
     if(!warnings.isEmpty())
     {
-        QMessageBox::information(this,tr("Errors QML"),result,QMessageBox::Ok);
+        QMessageBox::information(this,tr("QML Errors"),result,QMessageBox::Ok);
     }
 }
 
