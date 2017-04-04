@@ -80,6 +80,8 @@ SOURCES += main.cpp\
     aboutrcse.cpp \
     pdfmanager.cpp \
     delegate/fontdelegate.cpp \
+    preferencesdialog.cpp \
+    preferencesmanager.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -94,12 +96,15 @@ HEADERS  += mainwindow.h \
     aboutrcse.h \
     pdfmanager.h \
     delegate/fontdelegate.h \
+    preferencesdialog.h \
+    preferencesmanager.h
 
 
 
 FORMS    += mainwindow.ui \
     aboutrcse.ui \
-    pdfmanager.ui
+    pdfmanager.ui \
+    preferencesdialog.ui
 
 DISTFILES += \
     charactersheet/qml/*.qml \

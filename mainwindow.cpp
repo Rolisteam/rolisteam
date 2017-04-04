@@ -68,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     m_title = QStringLiteral("%1[*] - %2");
     setWindowTitle(m_title.arg("Unknown").arg("RCSE"));
+    m_preferences = PreferencesManager::getInstance();
     setWindowModified(false);
     m_qmlGeneration =true;
     setAcceptDrops(true);
@@ -176,6 +177,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->m_resetIdAct,SIGNAL(triggered(bool)),m_model,SLOT(resetAllId()));
 
+    connect(ui->m_preferencesAction,SIGNAL(triggered(bool)),this,SLOT(showPreferences()));
+
 
 
     m_imgProvider = new RolisteamImageProvider();
@@ -213,10 +216,40 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_aboutRcseAct,SIGNAL(triggered(bool)),this,SLOT(aboutRcse()));
     connect(ui->m_onlineHelpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 
+
+    readSettings();
 }
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+void MainWindow::readSettings()
+{
+    QSettings settings("rolisteam",QString("rcse/preferences"));
+
+   /* if(m_resetSettings)
+    {
+        settings.clear();
+    }*/
+
+    restoreState(settings.value("windowState").toByteArray());
+    bool  maxi = settings.value("Maximized", false).toBool();
+    if(!maxi)
+    {
+        restoreGeometry(settings.value("geometry").toByteArray());
+    }
+
+    m_preferences->readSettings(settings);
+
+    //m_preferencesDialog->initializePostSettings();
+}
+void MainWindow::writeSettings()
+{
+    QSettings settings("rolisteam",QString("rcse/preferences"));
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("windowState", saveState());
+    settings.setValue("Maximized", isMaximized());
+    m_preferences->writeSettings(settings);
 }
 void MainWindow::clearData()
 {
@@ -253,7 +286,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if(mayBeSaved())
     {
-        // writeSettings();
+        writeSettings();
         event->accept();
     }
     else
@@ -484,6 +517,20 @@ void MainWindow::setFitInView()
         m_view->fitInView(QRectF(m_view->rect()));
     }
 }
+#include "preferencesdialog.h"
+void MainWindow::showPreferences()
+{
+    PreferencesDialog dialog;
+    if(m_preferences->value("hasCustomPath",false).toBool())
+    {
+        dialog.setGenerationPath(m_preferences->value("GenerationCustomPath",QDir::homePath()).toString());
+    }
+    if(QDialog::Accepted == dialog.exec())
+    {
+        m_preferences->registerValue("hasCustomPath",dialog.hasCustomPath());
+        m_preferences->registerValue("GenerationCustomPath",dialog.generationPath());
+    }
+}
 
 void MainWindow::menuRequestedFromView(const QPoint & pos)
 {
@@ -599,6 +646,21 @@ void MainWindow::setImage()
     if(issue)
     {
         QMessageBox::warning(this,tr("Error!"),tr("Background images have to be of the same size"),QMessageBox::Ok);
+    }
+}
+QString MainWindow::getFilePath(QString path)
+{
+    if(m_preferences->value("hasCustomPath",false).toBool())
+    {
+        if(!m_preferences->value("GenerationCustomPath","").toString().isEmpty())
+        {
+            return QStringLiteral("%1/%2").arg(m_preferences->value("GenerationCustomPath","").toString()).arg(path);
+        }
+        return path;
+    }
+    else
+    {
+        return path;
     }
 }
 
@@ -859,7 +921,7 @@ void MainWindow::showQML()
     m_editedTextByHand=false;
     QHash<QString,QPixmap>* imgdata = RolisteamImageProvider::getData();
 
-    QFile file("test.qml");
+    QFile file(getFilePath("test.qml"));
     if(file.open(QIODevice::WriteOnly))
     {
         file.write(data.toUtf8());
@@ -884,7 +946,7 @@ void MainWindow::showQML()
         //qDebug() <<"add item into qml" << item->getId();
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
-    ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
+    ui->m_quickview->setSource(QUrl::fromLocalFile(getFilePath("test.qml")));
     displayWarningsQML(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root = ui->m_quickview->rootObject();
@@ -909,7 +971,7 @@ void MainWindow::showQMLFromCode()
 {
     QString data = ui->m_codeEdit->document()->toPlainText();
 
-    QString name(QStringLiteral("test.qml"));
+    QString name(getFilePath(QStringLiteral("test.qml")));
     if(QFile::exists(name))
     {
         QFile::remove(name);

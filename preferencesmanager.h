@@ -87,7 +87,7 @@ public:
     /**
      * @brief registerListener
      */
-    void registerListener(QString ,PreferencesListener* );
+  //  void registerListener(QString ,PreferencesListener* );
     
 private:
     /**
@@ -97,7 +97,7 @@ private:
     /**
      * @brief notifyListener
      */
-    void notifyListener(QString);
+   // void notifyListener(QString);
 
 
 
@@ -115,7 +115,7 @@ private:
     /**
      * @brief m_listernerMap
      */
-    QMap<QString,PreferencesListener*> m_listernerMap;
+   // QMap<QString,PreferencesListener*> m_listernerMap;
 };
 
 #endif // PREFERENCESMANAGER_H

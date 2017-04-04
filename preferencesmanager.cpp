@@ -18,20 +18,20 @@
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
 #include "preferencesmanager.h"
-#include "preferenceslistener.h"
+//#include "preferenceslistener.h"
 #include <QSettings>
 #include <QDir>
 #include <QDebug>
 #include <QMetaType>
 
-#include "data/cleveruri.h"
+//#include "data/cleveruri.h"
 
 PreferencesManager::PreferencesManager()
     : m_optionDictionary(NULL)
 {
     m_optionDictionary = new QMap<QString,QVariant>;
-    qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
-    qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
+//    qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
+//    qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
 
     //Default value
     m_optionDictionary->insert("MusicDirectory",QDir::homePath());
@@ -70,10 +70,10 @@ bool PreferencesManager::registerValue(QString key,QVariant value, bool overwrit
             oldValue = m_optionDictionary->value(key);
         }
         m_optionDictionary->insert(key,value);
-        if(oldValue != value)
+    /*    if(oldValue != value)
         {
             notifyListener(key);
-        }
+        }*/
         return true;
     }
     else
@@ -93,7 +93,7 @@ const QVariant PreferencesManager::value(QString key,QVariant defaultValue)
 //#1707fe
 void PreferencesManager::readSettings(QSettings & settings)
 {
-    settings.beginGroup("rolisteam/preferences");
+    settings.beginGroup("rcse/preferences");
     int size = settings.beginReadArray("preferenceMap");
     for (int i = 0; i < size; ++i)
     {
@@ -107,10 +107,7 @@ void PreferencesManager::readSettings(QSettings & settings)
 }
 void PreferencesManager::writeSettings(QSettings & settings)
 {
-    qRegisterMetaTypeStreamOperators<CleverURI>("CleverURI");
-    qRegisterMetaTypeStreamOperators<CleverUriList>("CleverUriList");
-
-    settings.beginGroup("rolisteam/preferences");
+    settings.beginGroup("rcse/preferences");
     settings.beginWriteArray("preferenceMap");
     for (int i = 0; i < m_optionDictionary->size(); ++i)
     {
@@ -123,6 +120,7 @@ void PreferencesManager::writeSettings(QSettings & settings)
     settings.endArray();
     settings.endGroup();
 }
+/*
 void PreferencesManager::registerListener(QString str, PreferencesListener* listerner)
 {
    m_listernerMap.insert(str,listerner);
@@ -134,4 +132,4 @@ void PreferencesManager::notifyListener(QString str)
     {
         tmp->preferencesHasChanged(str);
     }
-}
+}*/

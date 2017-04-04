@@ -36,6 +36,8 @@
 #include "charactersheetmodel.h"
 #include "pdfmanager.h"
 
+#include "preferencesmanager.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -57,6 +59,8 @@ public:
     void setQmlGeneration(bool qmlGeneration);
 
     void updatePageSelector();
+    void readSettings();
+    void writeSettings();
 public slots:
     void openPDF();
     void setCurrentTool();
@@ -98,8 +102,12 @@ protected:
 protected slots:
     void columnAdded();
     void clearData();
+    void showPreferences();
+
 private slots:
     void codeChanged();
+private:
+    QString getFilePath(QString);
 private:
     Ui::MainWindow *ui;
     QList<Canvas*> m_canvasList;
@@ -126,6 +134,9 @@ private:
     QAction* m_fitInView;
 
     QString m_title;
+
+    PreferencesManager* m_preferences;
+
 
 };
 
