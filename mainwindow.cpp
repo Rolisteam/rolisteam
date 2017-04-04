@@ -648,9 +648,9 @@ void MainWindow::setImage()
         QMessageBox::warning(this,tr("Error!"),tr("Background images have to be of the same size"),QMessageBox::Ok);
     }
 }
-QString MainWindow::getFilePath(QString path)
+/*QString MainWindow::getFilePath(QString path)
 {
-    if(m_preferences->value("hasCustomPath",false).toBool())
+   if(m_preferences->value("hasCustomPath",false).toBool())
     {
         if(!m_preferences->value("GenerationCustomPath","").toString().isEmpty())
         {
@@ -662,7 +662,7 @@ QString MainWindow::getFilePath(QString path)
     {
         return path;
     }
-}
+}*/
 
 void MainWindow::setCurrentTool()
 {
@@ -921,8 +921,9 @@ void MainWindow::showQML()
     m_editedTextByHand=false;
     QHash<QString,QPixmap>* imgdata = RolisteamImageProvider::getData();
 
-    QFile file(getFilePath("test.qml"));
-    if(file.open(QIODevice::WriteOnly))
+    //QFile file(getFilePath("test.qml"));
+    QTemporaryFile file;
+    if(file.open())//QIODevice::WriteOnly
     {
         file.write(data.toUtf8());
         file.close();
@@ -946,7 +947,7 @@ void MainWindow::showQML()
         //qDebug() <<"add item into qml" << item->getId();
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
-    ui->m_quickview->setSource(QUrl::fromLocalFile(getFilePath("test.qml")));
+    ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
     displayWarningsQML(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root = ui->m_quickview->rootObject();
@@ -971,13 +972,13 @@ void MainWindow::showQMLFromCode()
 {
     QString data = ui->m_codeEdit->document()->toPlainText();
 
-    QString name(getFilePath(QStringLiteral("test.qml")));
+   /* QString name(getFilePath(QStringLiteral("test.qml")));
     if(QFile::exists(name))
     {
         QFile::remove(name);
-    }
-    QFile file(name);
-    if(file.open(QIODevice::WriteOnly))
+    }*/
+    QTemporaryFile file;
+    if(file.open())//QIODevice::WriteOnly
     {
         file.write(data.toUtf8());
         file.close();
@@ -996,7 +997,7 @@ void MainWindow::showQMLFromCode()
         //qDebug() <<"add item into qml" << item->getId();
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
-    ui->m_quickview->setSource(QUrl::fromLocalFile(name));
+    ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
     displayWarningsQML(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
 

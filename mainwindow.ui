@@ -47,7 +47,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>321</width>
-                 <height>705</height>
+                 <height>699</height>
                 </rect>
                </property>
               </widget>
@@ -430,7 +430,7 @@
      <x>0</x>
      <y>0</y>
      <width>1069</width>
-     <height>19</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -660,6 +660,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
    </property>
   </action>
  </widget>

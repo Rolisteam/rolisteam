@@ -106,8 +106,8 @@ protected slots:
 
 private slots:
     void codeChanged();
-private:
-    QString getFilePath(QString);
+//private:
+   // QString getFilePath(QString);
 private:
     Ui::MainWindow *ui;
     QList<Canvas*> m_canvasList;
