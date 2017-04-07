@@ -465,21 +465,28 @@ p, li { white-space: pre-wrap; }
         <translation>Tu</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="217"/>
+        <location filename="../src/chat/chatwindow.cpp" line="220"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%2)]</source>
         <comment>mine dice roll</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="222"/>
+        <location filename="../src/chat/chatwindow.cpp" line="224"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2]</source>
+        <comment>mine dice roll</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="233"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</source>
         <comment>third person roll</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="241"/>
-        <source>Syntax</source>
-        <translation>Sintaxis</translation>
+        <location filename="../src/chat/chatwindow.cpp" line="237"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</source>
+        <comment>third person roll</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../client/chat/chatwindow.cpp" line="316"/>
@@ -487,7 +494,7 @@ p, li { white-space: pre-wrap; }
         <translation>Advertencia</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="317"/>
+        <location filename="../src/chat/chatwindow.cpp" line="333"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation>Algunos usuarios no podrán ver tus emotes.</translation>
     </message>
@@ -604,10 +611,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="58"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="80"/>
+        <location filename="../src/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="73"/>
         <source>From:</source>
         <translation>De:</translation>
     </message>
@@ -1055,41 +1062,39 @@ p, li { white-space: pre-wrap; }
         <translation>desconocido</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="28"/>
-        <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/mainwindow.cpp" line="1968"/>
+        <source>Open Map</source>
+        <translation>Abrir Mapa</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="32"/>
-        <source>&amp;New</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/mainwindow.cpp" line="2229"/>
+        <source>Connected</source>
+        <translation>Conectado</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="42"/>
-        <source>&amp;Open</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/mainwindow.cpp" line="2229"/>
+        <source>Not Connected</source>
+        <translation>Sin conexión</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="54"/>
-        <source>Recent Files</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
+        <source>Server</source>
+        <translation>Servidor</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="76"/>
-        <source>Sub-Windows</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
+        <source>Client</source>
+        <translation>Cliente</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="80"/>
-        <source>Reorganize</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
+        <source>GM</source>
+        <translation>GM</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="88"/>
-        <location filename="../client/mainwindow.ui" line="270"/>
-        <location filename="../client/mainwindow.ui" line="306"/>
-        <source>Map</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
+        <source>Player</source>
+        <translation>Jugador</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="710"/>
@@ -1122,14 +1127,15 @@ p, li { white-space: pre-wrap; }
         <translation>Cuadro de herramientas</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="156"/>
-        <source>Ctrl+Shift+S</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/mainwindow.cpp" line="1964"/>
+        <source>Open Picture</source>
+        <translation>Abrir Imagen</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.ui" line="161"/>
-        <source>Save All</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/mainwindow.cpp" line="695"/>
+        <location filename="../src/mainwindow.cpp" line="1972"/>
+        <source>Open Minutes</source>
+        <translation>Abrir Minutos</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.ui" line="28"/>
