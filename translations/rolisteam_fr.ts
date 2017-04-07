@@ -191,6 +191,14 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ChannelModel</name>
+    <message>
+        <location filename="../client/network/channelmodel.cpp" line="101"/>
+        <source>channel_%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CharacterItem</name>
     <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="653"/>
@@ -221,145 +229,118 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="322"/>
-=======
->>>>>>> branch
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="307"/>
         <source>Fields name</source>
-        <translation type="vanished">Nom du champ</translation>
+        <translation>Nom du champ</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="338"/>
-=======
->>>>>>> branch
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="323"/>
         <source>Empty Section %1</source>
-        <translation type="vanished">Section vide %1</translation>
+        <translation>Section vide %1</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="346"/>
-=======
->>>>>>> branch
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="331"/>
         <source>Section_%1</source>
-        <translation type="vanished">Section_%1</translation>
+        <translation>Section_%1</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="370"/>
-=======
->>>>>>> branch
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="355"/>
         <source>Field %1</source>
-        <translation type="vanished">Champ %1</translation>
+        <translation>Champ %1</translation>
     </message>
 </context>
 <context>
     <name>CharacterSheetWindow</name>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="631"/>
-=======
->>>>>>> branch
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="41"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="616"/>
         <source>Character Sheet Viewer</source>
-        <translation type="vanished">Visinneur de fiche de personnage</translation>
+        <translation>Visinneur de fiche de personnage</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="55"/>
         <source>Add Section</source>
-        <translation type="vanished">Ajouter Section</translation>
+        <translation>Ajouter Section</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="56"/>
         <source>Add line</source>
-        <translation type="vanished">Ajouter champ</translation>
+        <translation>Ajouter champ</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="57"/>
         <source>Add CharacterSheet</source>
-        <translation type="vanished">Ajouter une fiche de personnage</translation>
+        <translation>Ajouter une fiche de personnage</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="66"/>
         <source>Load CharacterSheet View File</source>
-        <translation type="vanished">Charger une vue de fiche de personnage</translation>
+        <translation>Charger une vue de fiche de personnage</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="68"/>
         <source>Detach Tabs</source>
-        <translation type="vanished">Détacher l&apos;onglet</translation>
+        <translation>Détacher l&apos;onglet</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="78"/>
         <source>Data</source>
-        <translation type="vanished">Données</translation>
+        <translation>Données</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="58"/>
         <source>Copy Tab</source>
-        <translation type="vanished">Copie l&apos;onglet</translation>
+        <translation>Copie l&apos;onglet</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="60"/>
         <source>Stop Sharing</source>
-        <translation type="vanished">Arrêter le partage</translation>
+        <translation>Arrêter le partage</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="62"/>
         <source>Read Only</source>
-        <translation type="vanished">Lecture Seule</translation>
+        <translation>Lecture Seule</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="182"/>
         <source>Share To </source>
-        <translation type="vanished">Envoyer à</translation>
+        <translation>Envoyer à</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="211"/>
         <source>Share To</source>
-        <translation type="vanished">Envoyer à</translation>
+        <translation>Envoyer à</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="447"/>
-        <source>Errors QML</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="455"/>
-=======
->>>>>>> branch
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="450"/>
         <source>Save Character Sheets Data</source>
-        <translation type="vanished">Sauvegarder les données des personnages</translation>
+        <translation>Sauvegarder les données des personnages</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="456"/>
-=======
->>>>>>> branch
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="451"/>
         <source>Character Sheets Data files (*.rcs)</source>
-        <translation type="vanished">Fichier de Données de personnage (*.rcs)</translation>
+        <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="552"/>
-=======
->>>>>>> branch
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="543"/>
         <source>Open Character Sheet data</source>
-        <translation type="vanished">Ouvrir les données des personnages</translation>
+        <translation>Ouvrir les données des personnages</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="553"/>
-=======
->>>>>>> branch
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="544"/>
         <source>Character Sheet Data files (*.rcs)</source>
-        <translation type="vanished">Fichier de Données de personnage (*.rcs)</translation>
+        <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="560"/>
-=======
->>>>>>> branch
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="551"/>
         <source>Open Character Sheets View</source>
-        <translation type="vanished">Ouvrir une fiche de personnage</translation>
+        <translation>Ouvrir une fiche de personnage</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="561"/>
-=======
->>>>>>> branch
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="552"/>
         <source>Character Sheet files (*.qml)</source>
-        <translation type="vanished">Fiche de personnage (*.qml)</translation>
+        <translation>Fiche de personnage (*.qml)</translation>
     </message>
 </context>
 <context>
@@ -604,44 +585,54 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Convertor</name>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="14"/>
         <source>Unit Convertor</source>
-        <translation type="vanished">Convertisseur d&apos;unité</translation>
+        <translation>Convertisseur d&apos;unité</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="22"/>
         <source>Category:</source>
-        <translation type="vanished">Catégorie:</translation>
+        <translation>Catégorie:</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="30"/>
         <source>Temperature</source>
-        <translation type="vanished">Température</translation>
+        <translation>Température</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="35"/>
         <source>Distance</source>
-        <translation type="vanished">Distance</translation>
+        <translation>Distance</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="40"/>
         <source>Currency</source>
-        <translation type="vanished">Monnaie</translation>
+        <translation>Monnaie</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="45"/>
         <source>Volume</source>
-        <translation type="vanished">Volume</translation>
+        <translation>Volume</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="50"/>
         <source>Mass</source>
-        <translation type="vanished">Masse</translation>
+        <translation>Masse</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="58"/>
         <source>...</source>
-        <translation type="vanished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="73"/>
         <source>From:</source>
-        <translation type="vanished">Convertir:</translation>
+        <translation>Convertir:</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="104"/>
         <source>To</source>
-        <translation type="vanished">en</translation>
+        <translation>en</translation>
     </message>
 </context>
 <context>
@@ -693,20 +684,24 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>GMTOOL</name>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="5"/>
         <source>Currency</source>
-        <translation type="vanished">Monnaie</translation>
+        <translation>Monnaie</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="6"/>
         <source>Distance</source>
-        <translation type="vanished">Distance</translation>
+        <translation>Distance</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="7"/>
         <source>Temperature</source>
-        <translation type="vanished">Temperature</translation>
+        <translation>Temperature</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="8"/>
         <source>MASS</source>
-        <translation type="vanished">Masse</translation>
+        <translation>Masse</translation>
     </message>
 </context>
 <context>
@@ -2080,58 +2075,70 @@ Port:%2</translation>
 <context>
     <name>NameGeneratorWidget</name>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="14"/>
         <source>Name Generator</source>
-        <translation type="vanished">Générateur de Nom</translation>
+        <translation>Générateur de Nom</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="31"/>
         <source>Male</source>
-        <translation type="vanished">Homme</translation>
+        <translation>Homme</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="44"/>
         <source>Female</source>
-        <translation type="vanished">Femme</translation>
+        <translation>Femme</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="68"/>
         <source>How many ?</source>
-        <translation type="vanished">Combien ?</translation>
+        <translation>Combien ?</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="82"/>
         <source>Complex</source>
-        <translation type="vanished">Complex</translation>
+        <translation>Complex</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="108"/>
         <source>Generate</source>
-        <translation type="vanished">Générer</translation>
+        <translation>Générer</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>Chinese Name</source>
-        <translation type="vanished">Nom chinois</translation>
+        <translation>Nom chinois</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>Elve Name</source>
-        <translation type="vanished">Nom d&apos;elfe</translation>
+        <translation>Nom d&apos;elfe</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>English Name</source>
-        <translation type="vanished">Nom anglais</translation>
+        <translation>Nom anglais</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>French Name</source>
-        <translation type="vanished">Nom français</translation>
+        <translation>Nom français</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>Japanese Name</source>
-        <translation type="vanished">Nom japonais</translation>
+        <translation>Nom japonais</translation>
     </message>
     <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
         <source>Star Wars Name</source>
-        <translation type="vanished">Nom star wars</translation>
+        <translation>Nom star wars</translation>
     </message>
 </context>
 <context>
     <name>NetworkManager</name>
     <message>
-        <location filename="../client/network/networkmanager.cpp" line="106"/>
+        <location filename="../client/network/networkmanager.cpp" line="115"/>
         <source>Server is on.</source>
         <translation>Le serveur est fonctionnel.</translation>
     </message>
@@ -2144,27 +2151,27 @@ Port:%2</translation>
         <translation type="vanished">Impossible d&apos;établir la connexion.</translation>
     </message>
     <message>
-        <location filename="../client/network/networkmanager.cpp" line="216"/>
+        <location filename="../client/network/networkmanager.cpp" line="225"/>
         <source>Connection with the Remote Server has been lost.</source>
         <translation>La connexion avec le serveur distant a été perdue.</translation>
     </message>
     <message>
-        <location filename="../client/network/networkmanager.cpp" line="232"/>
+        <location filename="../client/network/networkmanager.cpp" line="241"/>
         <source>NULL NetworkLink pointer (NetworkManager::finDeNetworkLink).</source>
         <translation>Lien Réseau Nul (NetworkManager::finDeNetworkLink).</translation>
     </message>
     <message>
-        <location filename="../client/network/networkmanager.cpp" line="239"/>
+        <location filename="../client/network/networkmanager.cpp" line="248"/>
         <source>Unknown thread joined, (finDeNetworkLink - NetworkManager.cpp)</source>
         <translation>Fin d&apos;un thread inconnu, (finDeNetworkLink - NetworkManager.cpp)</translation>
     </message>
     <message>
-        <location filename="../client/network/networkmanager.cpp" line="251"/>
+        <location filename="../client/network/networkmanager.cpp" line="260"/>
         <source>Server has been closed.</source>
         <translation>Le serveur a été fermé.</translation>
     </message>
     <message>
-        <location filename="../client/network/networkmanager.cpp" line="262"/>
+        <location filename="../client/network/networkmanager.cpp" line="271"/>
         <source>Connection to the server has been closed.</source>
         <translation>La liaison avec le serveur a été coupée.</translation>
     </message>
@@ -3120,20 +3127,12 @@ Port:%2</translation>
 <context>
     <name>ProfileModel</name>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="115"/>
-=======
         <location filename="../client/network/selectconnectionprofiledialog.cpp" line="115"/>
->>>>>>> branch
         <source>New Player</source>
         <translation>Nouveau Joueur</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="116"/>
-=======
         <location filename="../client/network/selectconnectionprofiledialog.cpp" line="116"/>
->>>>>>> branch
         <source>Default</source>
         <translation>Défaut</translation>
     </message>
@@ -3159,61 +3158,45 @@ Port:%2</translation>
         <translation>Erreur de chargement</translation>
     </message>
     <message>
+        <location filename="../client/diceparser/diceparser.cpp" line="190"/>
         <source>Nothing was understood</source>
-        <translation type="vanished">Commande incomprise</translation>
+        <translation>Commande incomprise</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/diceparser/diceparser.cpp" line="617"/>
-=======
->>>>>>> branch
+        <location filename="../client/diceparser/diceparser.cpp" line="610"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
-        <translation type="vanished">Un dé avec %1 face(s) n&apos;existe pas. S&apos;il vous plaît, veuillez entrer une valeur supérieure à 0</translation>
+        <translation>Un dé avec %1 face(s) n&apos;existe pas. S&apos;il vous plaît, veuillez entrer une valeur supérieure à 0</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/diceparser/diceparser.cpp" line="663"/>
-=======
->>>>>>> branch
+        <location filename="../client/diceparser/diceparser.cpp" line="655"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
-        <translation type="vanished">La liste est manquante après l&apos;opérateur L. Veuillez en ajouter une (exemple: 1L[épée,lance,pistolet,flèche])</translation>
+        <translation>La liste est manquante après l&apos;opérateur L. Veuillez en ajouter une (exemple: 1L[épée,lance,pistolet,flèche])</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/diceparser/diceparser.cpp" line="946"/>
-=======
->>>>>>> branch
+        <location filename="../client/diceparser/diceparser.cpp" line="924"/>
         <source>Validator is missing after the c operator. Please, change it</source>
-        <translation type="vanished">Validateur est manquant après l&apos;opérateur c. Veuillez le changer</translation>
+        <translation>Validateur est manquant après l&apos;opérateur c. Veuillez le changer</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/diceparser/diceparser.cpp" line="969"/>
-=======
->>>>>>> branch
+        <location filename="../client/diceparser/diceparser.cpp" line="950"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
-        <translation type="vanished">Validateur est manquant après l&apos;opérateur %1. Veuillez le changer</translation>
+        <translation>Validateur est manquant après l&apos;opérateur %1. Veuillez le changer</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/diceparser/diceparser.cpp" line="981"/>
-=======
->>>>>>> branch
+        <location filename="../client/diceparser/diceparser.cpp" line="962"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
-        <translation type="vanished">La condition %1 introduit une boucle infinie. Veuillez la changer</translation>
+        <translation>La condition %1 introduit une boucle infinie. Veuillez la changer</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/diceparser/diceparser.cpp" line="992"/>
-=======
->>>>>>> branch
+        <location filename="../client/diceparser/diceparser.cpp" line="973"/>
         <source>Validator is missing after the e operator. Please, change it</source>
-        <translation type="vanished">Validateur est manquant après l&apos;opérateur e. Veuillez le changer</translation>
+        <translation>Validateur est manquant après l&apos;opérateur e. Veuillez le changer</translation>
     </message>
     <message>
+        <location filename="../client/diceparser/node/listaliasnode.cpp" line="55"/>
         <source>List of Alias:
 </source>
-        <translation type="vanished">Liste des alias:</translation>
+        <translation>Liste des alias:</translation>
     </message>
     <message>
         <location filename="../client/mainwindow.cpp" line="1102"/>
@@ -3221,12 +3204,9 @@ Port:%2</translation>
         <translation>chemin vers le fichier de traduction: &lt;traduction&gt;</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/diceparser/node/scalaroperatornode.cpp" line="131"/>
-=======
->>>>>>> branch
+        <location filename="../client/diceparser/node/scalaroperatornode.cpp" line="128"/>
         <source>Division by zero</source>
-        <translation type="vanished">Division par zéro</translation>
+        <translation>Division par zéro</translation>
     </message>
     <message>
         <location filename="../client/data/cleveruri.cpp" line="52"/>
@@ -3314,58 +3294,67 @@ Port:%2</translation>
         <translation>Pdf (%1)</translation>
     </message>
     <message>
+        <location filename="../client/diceparser/node/dicerollernode.cpp" line="30"/>
         <source>No dice to roll</source>
-        <translation type="vanished">Aucun dé a lancé</translation>
+        <translation>Aucun dé a lancé</translation>
     </message>
     <message>
+        <location filename="../client/diceparser/node/helpnode.cpp" line="37"/>
         <source>Rolisteam Dice Parser:
 Full documentation at: %1</source>
-        <translation type="vanished">Système de dés -Rolisteam:
+        <translation>Système de dés -Rolisteam:
 Documentation complète disponible: %1</translation>
     </message>
     <message>
+        <location filename="../client/diceparser/node/jumpbackwardnode.cpp" line="126"/>
         <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
-        <translation type="vanished"> L&apos;opérateur @ attend un résultat de dés. Veuillez vérifier la documentation afin de corriger votre commande.</translation>
+        <translation> L&apos;opérateur @ attend un résultat de dés. Veuillez vérifier la documentation afin de corriger votre commande.</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/diceparser/node/keepdiceexecnode.cpp" line="64"/>
-=======
->>>>>>> branch
+        <location filename="../client/diceparser/node/keepdiceexecnode.cpp" line="48"/>
         <source> You ask to keep %1 dice but the result only has %2</source>
-        <translation type="vanished"> Vous voulez garder %1 dés mais le resultat n&apos;en contient que %2</translation>
+        <translation> Vous voulez garder %1 dés mais le resultat n&apos;en contient que %2</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="87"/>
         <source>abs : too many arguments</source>
-        <translation type="vanished">abs : trop de paramètres</translation>
+        <translation>abs : trop de paramètres</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="91"/>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="225"/>
         <source>abs : too few arguments</source>
-        <translation type="vanished">abs : trop peu de paramètres</translation>
+        <translation>abs : trop peu de paramètres</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="110"/>
         <source>ceil : too many arguments</source>
-        <translation type="vanished">ceil : trop de paramètres</translation>
+        <translation>ceil : trop de paramètres</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="114"/>
         <source>ceil : too few arguments</source>
-        <translation type="vanished">ceil : trop peu d&apos;arguments</translation>
+        <translation>ceil : trop peu d&apos;arguments</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="132"/>
         <source>floor : too many arguments</source>
-        <translation type="vanished">floor : trop de paramètres</translation>
+        <translation>floor : trop de paramètres</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="136"/>
         <source>floor : too few arguments</source>
-        <translation type="vanished">floor : trop peu d&apos;arguments</translation>
+        <translation>floor : trop peu d&apos;arguments</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="154"/>
         <source>concatenate : too few arguments</source>
-        <translation type="vanished">contaténation : trop peu de paramètres</translation>
+        <translation>contaténation : trop peu de paramètres</translation>
     </message>
     <message>
+        <location filename="../client/charactersheet/formula/nodes/scalaroperatorfnode.cpp" line="82"/>
         <source>Error: division by Zero</source>
-        <translation type="vanished">Erreur: division par zéro</translation>
+        <translation>Erreur: division par zéro</translation>
     </message>
 </context>
 <context>
@@ -3567,11 +3556,7 @@ Documentation complète disponible: %1</translation>
 <context>
     <name>RolisteamDaemon</name>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/network/rolisteamdaemon.cpp" line="39"/>
-=======
-        <location filename="../client/network/rolisteamdaemon.cpp" line="39"/>
->>>>>>> branch
+        <location filename="../client/network/rolisteamdaemon.cpp" line="42"/>
         <source>Error!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3722,29 +3707,17 @@ Documentation complète disponible: %1</translation>
         <translation>Annuler</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="271"/>
-=======
         <location filename="../client/network/selectconnectionprofiledialog.cpp" line="271"/>
->>>>>>> branch
         <source>Remove Current Profile</source>
         <translation>Supprimer le profil courant</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="271"/>
-=======
         <location filename="../client/network/selectconnectionprofiledialog.cpp" line="271"/>
->>>>>>> branch
         <source>Do you really want to remove %1 from your connection list ?</source>
         <translation>Voulez vous vraiment que %1 soit supprimer de votre liste de connexions ?</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="343"/>
-=======
         <location filename="../client/network/selectconnectionprofiledialog.cpp" line="343"/>
->>>>>>> branch
         <source>Load Avatar</source>
         <translation>Charger Avatar</translation>
     </message>
@@ -3752,20 +3725,12 @@ Documentation complète disponible: %1</translation>
 <context>
     <name>ServerManager</name>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/network/servermanager.cpp" line="31"/>
-=======
         <location filename="../client/network/servermanager.cpp" line="31"/>
->>>>>>> branch
         <source>Rolisteam Server is on!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../src/network/servermanager.cpp" line="42"/>
-=======
         <location filename="../client/network/servermanager.cpp" line="42"/>
->>>>>>> branch
         <source>New Incoming Connection!</source>
         <translation type="unfinished"></translation>
     </message>
