@@ -27,10 +27,9 @@
 
 #include <QTcpServer>
 #include <QList>
-
-#include <QStateMachine>
+//#include <QColor>
 #include <QTimer>
-#include <QState>
+//#include <QDialog>
 
 
 //#include "connectiondialog.h"
@@ -38,21 +37,19 @@
 #include "preferences/preferencesmanager.h"
 #include "userlist/playersList.h"
 #include "heartbeatsender.h"
-#include "network/networkmessagewriter.h"
-#include "network/networklink.h"
 
 class Player;
+class NetworkLink;
 class ConnectionProfile;
 
 /**
  * @brief hold the list of socket (NetworkLink).
  * On startup displays the configDialog.
  */
-class ClientManager : public QObject
+class NetworkManager : public QObject
 {
     Q_OBJECT
     Q_ENUMS(ConnectionState)
-
 public:
     enum ConnectionState {DISCONNECTED,CONNECTING,CONNECTED,AUTHENTIFIED};
     /**
@@ -62,7 +59,7 @@ public:
 	/**
 	 * @brief ~NetworkManager
 	 */
-    virtual ~ClientManager();
+	virtual ~NetworkManager();
     /**
      * @brief emettreDonnees
      * @param donnees
@@ -70,6 +67,13 @@ public:
      * @param sauf
      */
     void sendMessage(char *donnees, quint32 taille, NetworkLink *sauf);
+
+    /**
+     * @brief ajouterNetworkLink
+     * @param NetworkLink
+     */
+    void addNetworkLink(NetworkLink *NetworkLink);
+
     /**
      * @brief isServer
      * @return
@@ -87,8 +91,10 @@ public:
      * @return
      */
     bool isConnected() const;
+    NetworkLink* getLinkToServer();
+    quint16 getPort() const;
+    void setValueConnection(QString portValue,QString hostnameValue,QString username,QString roleValue);
     void setConnectionProfile(ConnectionProfile*);
-    static NetworkLink* getLinkToServer();
 public slots:
     void setConnectionState(ConnectionState);
     void disconnectAndClose();
@@ -97,6 +103,7 @@ public slots:
      * @return true everything goes fine, otherwise false.
      */
     bool startConnection();
+
 signals :
     void sendData(char* data, quint32 size, NetworkLink* but);
 
@@ -104,36 +111,40 @@ signals :
     void linkDeleted(NetworkLink * link);
     void dataReceived(quint64,quint64);
     void stopConnectionTry();
-    void connectionStateChanged(ClientManager::ConnectionState);
+    void connectionStateChanged(NetworkManager::ConnectionState);
     void notifyUser(QString);
     void errorOccur(QString);
 
-    //State signal
-    void isReady();
-    void isAuthentified();
-    void isConnectedSig();
-    void isConnecting();
-    void isDisconnected();
-    void clearData();
-
-protected:
-    void initializeLink();
 private slots :
+    void newClientConnection();
     void endingNetworkLink(NetworkLink * link);
     void startConnectionToServer();
+    bool startListening();
+    void socketStateChanged(QAbstractSocket::SocketState state);
 
 private:
-    static NetworkLink* m_networkLinkToServer;
+    QTcpServer * m_server;
+    QList<NetworkLink *> m_networkLinkList;
+    NetworkLink* m_networkLinkToServer;
+    quint16 m_port;
+    quint16 m_listeningPort;
+    QString m_address;
     QTimer* m_reconnect;
     Player* m_localPlayer;
-    bool m_isAdmin;
 
     bool m_disconnectAsked;
     PreferencesManager* m_preferences;
+  //  ConnectionRetryDialog* m_dialog;
     PlayersList* m_playersList;
     ConnectionState m_connectionState;
     bool m_isClient;
+    bool m_commandLineValue;
+    QString m_portStr;
+    QString m_host;
+    QString m_role;
+    QString m_username;
     ConnectionProfile* m_connectionProfile;
+//    ConnectionWaitDialog* m_waitDialog;
     QList<QThread*> m_threadList;
     heartBeatSender* m_hbSender;
 

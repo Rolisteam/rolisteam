@@ -3709,6 +3709,19 @@ Full documentation at: %1</source>
     </message>
 </context>
 <context>
+    <name>ServerManager</name>
+    <message>
+        <location filename="../client/network/servermanager.cpp" line="31"/>
+        <source>Rolisteam Server is on!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/network/servermanager.cpp" line="42"/>
+        <source>New Incoming Connection!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SessionItemModel</name>
     <message>
         <location filename="../src/session/sessionitemmodel.cpp" line="59"/>

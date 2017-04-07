@@ -5,6 +5,7 @@ LANGUAGE = C++
 DEPENDPATH += .
 INCLUDEPATH += .
 
+
 isEmpty(PREFIX) {
  PREFIX = /usr/local/bin
 }
@@ -14,7 +15,7 @@ CONFIG += c++11
 macx:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
 CONFIG += HAVE_SOUND
 
-QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets webenginewidgets webview
+QT += core gui opengl network widgets printsupport multimedia quick qml quickwidgets
 
 ## Translation
 TRANSLATIONS =  ../translations/rolisteam_fr.ts \
@@ -60,28 +61,24 @@ target.path = /Applications/
 }
 INSTALLS += target
 
-include(noteeditor/noteeditor.pri)
+include(odt/src/src.pri)
 include(diceparser/diceparser.pri)
 include(vmap/vmap.pri)
 include(charactersheet/charactersheet.pri)
 include(session/session.pri)
 include(widgets/MRichTextEditor/MRichTextEditor.pri)
-include(sharededitor/sharededitor.pri)
-include(undoCmd/undoCmd.pri)
-
 
 
 #GM TOOL BOX
 include(widgets/gmtoolbox/NameGenerator/NameGenerator.pri)
 include(widgets/gmtoolbox/UnitConvertor/UnitConvertor.pri)
-include(widgets/gmtoolbox/DiceBookMark/DiceBookMark.pri)
 
 #Audio configuration
 HAVE_SOUND {
  DEFINES+= HAVE_SOUND
 }
-HAVE_nullptr {
- DEFINES+= nullptr_PLAYER
+HAVE_NULL {
+ DEFINES+= NULL_PLAYER
 }
 # End of audio
 
@@ -156,26 +153,11 @@ HEADERS += \
     widgets/realslider.h \
     network/heartbeatsender.h \
     widgets/persondialog.h \
+    network/rolisteamdaemon.h \
     network/connectionprofile.h \
-    network/tcpclient.h \
-    network/channelmodel.h \
-    network/messagedispatcher.h \
-    network/channel.h \
-    network/treeitem.h \
-    network/channellistpanel.h \
     network/servermanager.h \
-    network/ipbanaccepter.h \
-    network/iprangeaccepter.h \
-    network/passwordaccepter.h \
-    network/timeaccepter.h \
-    network/connectionaccepter.h \
-    network/rserver.h \
-    services/tipchecker.h \
-    widgets/tipofdayviewer.h \
-    data/shortcutmodel.h \
-    data/shortcutvisitor.h \
-    widgets/shortcuteditordialog.h \
-    widgets/gmtoolbox/gamemastertool.h
+    network/tcpclient.h \
+    network/channelmodel.h
 
 
    #     persondialog.cpp \
@@ -250,47 +232,30 @@ SOURCES += \
     widgets/realslider.cpp \
     network/heartbeatsender.cpp \
     widgets/persondialog.cpp \
+    network/rolisteamdaemon.cpp \
     network/connectionprofile.cpp \
-    network/tcpclient.cpp \
-    network/channelmodel.cpp \
-    network/messagedispatcher.cpp \
-    network/channel.cpp \
-    network/treeitem.cpp \
-    network/channellistpanel.cpp \
     network/servermanager.cpp \
-    network/ipbanaccepter.cpp \
-    network/iprangeaccepter.cpp \
-    network/passwordaccepter.cpp \
-    network/timeaccepter.cpp \
-    network/connectionaccepter.cpp \
-    network/rserver.cpp \
-    services/tipchecker.cpp \
-    widgets/tipofdayviewer.cpp \
-    data/shortcutmodel.cpp \
-    data/shortcutvisitor.cpp \
-    widgets/shortcuteditordialog.cpp \
-    widgets/gmtoolbox/gamemastertool.cpp
+    network/tcpclient.cpp \
+    network/channelmodel.cpp
 
 
 FORMS += \
     network/connectionretrydialog.ui \
     map/mapwizzard.ui \
     map/newemptymapdialog.ui \
+    chat/chatwindow.ui \
     preferences/preferencesdialogbox.ui \
     audio/audiowidget.ui \
     mainwindow.ui \
     widgets/onlinepicturedialog.ui \
     widgets/aboutrolisteam.ui \
     network/selectconnectionprofiledialog.ui \
-    widgets/persondialog.ui \
-    network/channellistpanel.ui \
-    widgets/tipofdayviewer.ui \
-    widgets/shortcuteditordialog.ui
+    widgets/persondialog.ui
 
 
 # Installs
 unix:!macx{
-QMAKE_CXXFLAGS = "-std=c++11 -fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror -Wall -Wextra -Wnon-virtual-dtor"
+QMAKE_CXXFLAGS = "-std=c++11 -fstack-protector -W -Wall -Wextra -pedantic -Wstack-protector -Wno-long-long -Werror"
 }
 
 
@@ -299,9 +264,8 @@ QMAKE_CXXFLAGS = "-std=c++11 -fstack-protector -W -Wall -Wextra -pedantic -Wstac
 ICON = ../resources/logo/rolisteam.icns
 
 # Version
-DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=0
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=8 VERSION_MINOR=0
 
-RESOURCES += $$PWD/../rolisteam.qrc
 
 UI_DIR = src
 
@@ -327,6 +291,21 @@ PRE_TARGETDEPS += $$PWD/../../../lib/zlibapi/dll32/zlibwapi.lib
 }
 
 DISTFILES += \
-    rolisteam.dox \
-    undoCmd/undoCmd.pri
+    rolisteam.dox
+#DEFINES += DEBUG_MODE
 
+
+
+#CONFIG += HAVE_NULL
+
+
+
+
+
+
+
+
+
+#src/persondialog.h \
+
+#end source

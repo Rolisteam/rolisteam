@@ -3,26 +3,33 @@
 
 #include <QObject>
 #include <QAbstractItemModel>
-#include <QMimeData>
+#include "tcpclient.h"
 
-#include "network/networkmessagereader.h"
-#include "network/networkmessagewriter.h"
-#include "channel.h"
-#include "networkreceiver.h"
+class TreeItem
+{
+public:
+    TreeItem();
 
-class TreeItem;
+    virtual void addChild();
+    virtual bool isLeaf() const;
+    virtual int childCount() const;
+    virtual int addChild(TreeItem*);
+    TreeItem* getChildAt(int row);
 
+    TreeItem* getParent() const;
+    void setParent(TreeItem* parent);
 
 class ClientMimeData : public QMimeData
 {
-Q_OBJECT
+
+
 public:
     ClientMimeData();
     void addClient(TcpClient* m,const QModelIndex);
     const QMap<QModelIndex,TcpClient*>& getList() const;
     virtual bool hasFormat(const QString & mimeType) const;
 private:
-    QMap<QModelIndex,TcpClient*> m_clientList;
+    TcpClient* m_client;
 };
 /**
  * @brief The ChannelModel class
@@ -33,49 +40,16 @@ class ChannelModel : public QAbstractItemModel, public NetWorkReceiver
 public:
     ChannelModel();
 
-    virtual int rowCount(const QModelIndex &parent) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
-    virtual QModelIndex parent(const QModelIndex &child) const;
-    virtual int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
-
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    virtual QModelIndex parent(const QModelIndex &child) const;
+    virtual int rowCount(const QModelIndex &parent) const;
+    virtual int columnCount(const QModelIndex &parent) const;
 
 
     int addChannel(QString name, QString password);
-    bool addConnectionToChannel(QString chanId, TcpClient* client);
+    int addConnectionToChannel(int indexChan, TcpClient* client);
 
-    void readDataJson(const QJsonObject &);
-    void writeDataJson(QJsonObject &);
-
-    void readSettings();
-    void writeSettings();
-
-    bool addConnectionToDefaultChannel(TcpClient *client);
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool hasChildren(const QModelIndex &parent) const;
-
-    void kick(QString);
-
-    TreeItem* getItemById(QString id);
-
-    bool isAdmin() const;
-    void setAdmin(bool admin);
-
-    QModelIndex addChannelToIndex(Channel *channel, QModelIndex &parent);
-    bool addChannelToChannel(Channel* child, Channel* parent);
-    QModelIndex channelToIndex(Channel *channel);
-
-    void setLocalPlayerId(const QString &id);
-
-    virtual NetWorkReceiver::SendType processMessage(NetworkMessageReader *msg, NetworkLink *link);
-    void removeChild(QString id);
-    QStringList mimeTypes() const;
-    Qt::DropActions supportedDropActions() const;
-    QMimeData *mimeData(const QModelIndexList &indexes) const;
-    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
-protected:
-    bool moveMediaItem(QList<TcpClient *> items, const QModelIndex &parentToBe, int row, QList<QModelIndex> &formerPosition);
 private:
     QList<TreeItem*> m_root;
     QString m_defaultChannel;

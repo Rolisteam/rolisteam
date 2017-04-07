@@ -2174,14 +2174,12 @@ Porta:%2</translation>
         <translation>Servidor ligado.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="112"/>
         <source>Error</source>
-        <translation>Erro</translation>
+        <translation type="vanished">Erro</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="112"/>
         <source>Can not establish the connection.</source>
-        <translation>Não é possível estabelecer a conexão.</translation>
+        <translation type="vanished">Não é possível estabelecer a conexão.</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="216"/>
@@ -3160,12 +3158,12 @@ Porta:%2</translation>
 <context>
     <name>ProfileModel</name>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="187"/>
+        <location filename="../client/network/selectconnectionprofiledialog.cpp" line="115"/>
         <source>New Player</source>
         <translation>Novo Jogador</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="188"/>
+        <location filename="../client/network/selectconnectionprofiledialog.cpp" line="116"/>
         <source>Default</source>
         <translation>Padrão</translation>
     </message>
@@ -3608,6 +3606,14 @@ Documentação Completa em: %1 </translation>
     </message>
 </context>
 <context>
+    <name>RolisteamDaemon</name>
+    <message>
+        <location filename="../client/network/rolisteamdaemon.cpp" line="39"/>
+        <source>Error!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RuleItem</name>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="148"/>
@@ -3753,19 +3759,32 @@ Documentação Completa em: %1 </translation>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="343"/>
+        <location filename="../client/network/selectconnectionprofiledialog.cpp" line="271"/>
         <source>Remove Current Profile</source>
         <translation>Remover Perfil Atual</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="343"/>
+        <location filename="../client/network/selectconnectionprofiledialog.cpp" line="271"/>
         <source>Do you really want to remove %1 from your connection list ?</source>
         <translation>Você realmente deseja remover %1 de sua lista de conexão?</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="415"/>
+        <location filename="../client/network/selectconnectionprofiledialog.cpp" line="343"/>
         <source>Load Avatar</source>
         <translation>Carregar Avatar</translation>
+    </message>
+</context>
+<context>
+    <name>ServerManager</name>
+    <message>
+        <location filename="../client/network/servermanager.cpp" line="31"/>
+        <source>Rolisteam Server is on!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/network/servermanager.cpp" line="42"/>
+        <source>New Incoming Connection!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

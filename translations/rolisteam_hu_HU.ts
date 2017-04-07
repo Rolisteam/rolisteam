@@ -2168,14 +2168,12 @@ ez egy kiemelt szín.</translation>
         <translation>A kiszolgáló elérhető.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="112"/>
         <source>Error</source>
-        <translation>Hiba</translation>
+        <translation type="vanished">Hiba</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="112"/>
         <source>Can not establish the connection.</source>
-        <translation>Nem sikerült csatlakozni.</translation>
+        <translation type="vanished">Nem sikerült csatlakozni.</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="216"/>
@@ -3154,12 +3152,12 @@ ez egy kiemelt szín.</translation>
 <context>
     <name>ProfileModel</name>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="187"/>
+        <location filename="../client/network/selectconnectionprofiledialog.cpp" line="115"/>
         <source>New Player</source>
         <translation>Új játékos</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="188"/>
+        <location filename="../client/network/selectconnectionprofiledialog.cpp" line="116"/>
         <source>Default</source>
         <translation>Alapértelmezett</translation>
     </message>
@@ -3602,6 +3600,14 @@ Teljes dokumentáció itt: %1</translation>
     </message>
 </context>
 <context>
+    <name>RolisteamDaemon</name>
+    <message>
+        <location filename="../client/network/rolisteamdaemon.cpp" line="39"/>
+        <source>Error!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RuleItem</name>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="148"/>
@@ -3747,19 +3753,32 @@ Teljes dokumentáció itt: %1</translation>
         <translation>Mégse</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="343"/>
+        <location filename="../client/network/selectconnectionprofiledialog.cpp" line="271"/>
         <source>Remove Current Profile</source>
         <translation>Jelenlegi profil eltávolítása</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="343"/>
+        <location filename="../client/network/selectconnectionprofiledialog.cpp" line="271"/>
         <source>Do you really want to remove %1 from your connection list ?</source>
         <translation>Biztosan szeretnéd eltávolítani a kapcsolati listádról a következőt: %1 ?</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="415"/>
+        <location filename="../client/network/selectconnectionprofiledialog.cpp" line="343"/>
         <source>Load Avatar</source>
         <translation>Avatár betöltése</translation>
+    </message>
+</context>
+<context>
+    <name>ServerManager</name>
+    <message>
+        <location filename="../client/network/servermanager.cpp" line="31"/>
+        <source>Rolisteam Server is on!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/network/servermanager.cpp" line="42"/>
+        <source>New Incoming Connection!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
