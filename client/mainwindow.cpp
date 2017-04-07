@@ -72,7 +72,7 @@
 //session
 #include "session/sessionmanager.h"
 #ifndef NULL_PLAYER
-#include "audioPlayer.h"
+#include "audio/audioPlayer.h"
 #endif
 
 // singleton to the mainwindow
@@ -99,7 +99,7 @@ MainWindow::MainWindow()
     m_downLoadProgressbar->setRange(0,100);
 
     m_downLoadProgressbar->setVisible(false);
-    m_networkManager = new NetworkManager();
+    m_networkManager = NetworkManager::getInstance();
     m_vmapToolBar = new VmapToolBar();
     addToolBar(Qt::TopToolBarArea,m_vmapToolBar);
 
