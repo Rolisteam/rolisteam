@@ -465,19 +465,31 @@ p, li { white-space: pre-wrap; }
         <translation>Te</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="217"/>
+        <location filename="../src/chat/chatwindow.cpp" line="220"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%3 (%2)]</source>
         <comment>mine dice roll</comment>
         <translation>A kockadobásod eredménye: &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="222"/>
+        <location filename="../src/chat/chatwindow.cpp" line="224"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; at your dice roll [%2]</source>
+        <comment>mine dice roll</comment>
+        <translation>A kockadobásod eredménye: &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="233"/>
         <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</source>
         <comment>third person roll</comment>
         <translation>Az eredmény: &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%3 (%2)]</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="241"/>
+        <location filename="../src/chat/chatwindow.cpp" line="237"/>
+        <source>got &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</source>
+        <comment>third person roll</comment>
+        <translation>Az eredmény: &lt;span class=&quot;dice&quot;&gt;%1&lt;/span&gt; [%2]</translation>
+    </message>
+    <message>
+        <location filename="../src/chat/chatwindow.cpp" line="257"/>
         <source>Syntax</source>
         <translation>Szintaxis</translation>
     </message>
@@ -492,12 +504,12 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;a href=&quot;http://wiki.rolisteam.org/index.php/Dice_Rolling&quot;&gt;http://wiki.rolisteam.org/index.php/Dice_Rolling&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="316"/>
+        <location filename="../src/chat/chatwindow.cpp" line="332"/>
         <source>Warning</source>
         <translation>Figyelmeztetés</translation>
     </message>
     <message>
-        <location filename="../src/chat/chatwindow.cpp" line="317"/>
+        <location filename="../src/chat/chatwindow.cpp" line="333"/>
         <source>Some users won&apos;t be enable to see your emotes.</source>
         <translation>Néhány felhasznló nem fogja látni a hangulatjeleket.</translation>
     </message>
@@ -1070,37 +1082,37 @@ p, li { white-space: pre-wrap; }
         <translation>ismeretlen</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1925"/>
+        <location filename="../src/mainwindow.cpp" line="1968"/>
         <source>Open Map</source>
         <translation>Térkép Megnyitása</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2179"/>
+        <location filename="../src/mainwindow.cpp" line="2229"/>
         <source>Connected</source>
         <translation>Csatlakozva</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2179"/>
+        <location filename="../src/mainwindow.cpp" line="2229"/>
         <source>Not Connected</source>
         <translation>Nincs összeköttetés</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2180"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Server</source>
         <translation>Kiszolgáló</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2180"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Client</source>
         <translation>Kliens</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2180"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>GM</source>
         <translation>Mesélő</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2180"/>
+        <location filename="../src/mainwindow.cpp" line="2230"/>
         <source>Player</source>
         <translation>Játékos</translation>
     </message>
@@ -1135,13 +1147,13 @@ p, li { white-space: pre-wrap; }
         <translation>Eszközsor</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="1921"/>
+        <location filename="../src/mainwindow.cpp" line="1964"/>
         <source>Open Picture</source>
         <translation>Kép megnyitása</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="684"/>
-        <location filename="../client/mainwindow.cpp" line="1929"/>
+        <location filename="../src/mainwindow.cpp" line="695"/>
+        <location filename="../src/mainwindow.cpp" line="1972"/>
         <source>Open Minutes</source>
         <translation>Jegyzet Megnyitása</translation>
     </message>
@@ -1587,7 +1599,7 @@ p, li { white-space: pre-wrap; }
         <translation>Erőforrás-böngésző</translation>
     </message>
     <message>
-        <location filename="../client/mainwindow.cpp" line="2118"/>
+        <location filename="../src/mainwindow.cpp" line="2168"/>
         <source>Open %1</source>
         <translation>Megnyitás: %1</translation>
     </message>
@@ -3173,7 +3185,7 @@ ez egy kiemelt szín.</translation>
         <translation>Töltési hiba</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="190"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="191"/>
         <source>Nothing was understood</source>
         <translation>Semmit sem értek</translation>
     </message>

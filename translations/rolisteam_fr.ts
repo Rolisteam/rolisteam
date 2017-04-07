@@ -221,22 +221,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="326"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="322"/>
         <source>Fields name</source>
         <translation>Nom du champ</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="342"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="338"/>
         <source>Empty Section %1</source>
         <translation>Section vide %1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="350"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="346"/>
         <source>Section_%1</source>
         <translation>Section_%1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="374"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="370"/>
         <source>Field %1</source>
         <translation>Champ %1</translation>
     </message>
@@ -245,7 +245,7 @@ p, li { white-space: pre-wrap; }
     <name>CharacterSheetWindow</name>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="647"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="631"/>
         <source>Character Sheet Viewer</source>
         <translation>Visinneur de fiche de personnage</translation>
     </message>
@@ -310,32 +310,37 @@ p, li { white-space: pre-wrap; }
         <translation>Envoyer à</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="471"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="447"/>
+        <source>Errors QML</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="455"/>
         <source>Save Character Sheets Data</source>
         <translation>Sauvegarder les données des personnages</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="472"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="456"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="568"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="552"/>
         <source>Open Character Sheet data</source>
         <translation>Ouvrir les données des personnages</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="569"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="553"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="576"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="560"/>
         <source>Open Character Sheets View</source>
         <translation>Ouvrir une fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="577"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="561"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Fiche de personnage (*.qml)</translation>
     </message>
@@ -2152,14 +2157,12 @@ Port:%2</translation>
         <translation>Le serveur est fonctionnel.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="112"/>
         <source>Error</source>
-        <translation>Erreur</translation>
+        <translation type="vanished">Erreur</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="112"/>
         <source>Can not establish the connection.</source>
-        <translation>Impossible d&apos;établir la connexion.</translation>
+        <translation type="vanished">Impossible d&apos;établir la connexion.</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="216"/>
@@ -3138,12 +3141,12 @@ Port:%2</translation>
 <context>
     <name>ProfileModel</name>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="187"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="115"/>
         <source>New Player</source>
         <translation>Nouveau Joueur</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="188"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="116"/>
         <source>Default</source>
         <translation>Défaut</translation>
     </message>
@@ -3174,32 +3177,32 @@ Port:%2</translation>
         <translation>Commande incomprise</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="625"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="617"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Un dé avec %1 face(s) n&apos;existe pas. S&apos;il vous plaît, veuillez entrer une valeur supérieure à 0</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="680"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="663"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>La liste est manquante après l&apos;opérateur L. Veuillez en ajouter une (exemple: 1L[épée,lance,pistolet,flèche])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="968"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="946"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur c. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="991"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="969"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur %1. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="1003"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="981"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>La condition %1 introduit une boucle infinie. Veuillez la changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="1014"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="992"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur e. Veuillez le changer</translation>
     </message>
@@ -3585,6 +3588,14 @@ Documentation complète disponible: %1</translation>
     </message>
 </context>
 <context>
+    <name>RolisteamDaemon</name>
+    <message>
+        <location filename="../src/network/rolisteamdaemon.cpp" line="39"/>
+        <source>Error!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RuleItem</name>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="148"/>
@@ -3730,19 +3741,32 @@ Documentation complète disponible: %1</translation>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="343"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="271"/>
         <source>Remove Current Profile</source>
         <translation>Supprimer le profil courant</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="343"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="271"/>
         <source>Do you really want to remove %1 from your connection list ?</source>
         <translation>Voulez vous vraiment que %1 soit supprimer de votre liste de connexions ?</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="415"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="343"/>
         <source>Load Avatar</source>
         <translation>Charger Avatar</translation>
+    </message>
+</context>
+<context>
+    <name>ServerManager</name>
+    <message>
+        <location filename="../src/network/servermanager.cpp" line="31"/>
+        <source>Rolisteam Server is on!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/network/servermanager.cpp" line="42"/>
+        <source>New Incoming Connection!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
