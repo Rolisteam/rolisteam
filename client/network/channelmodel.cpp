@@ -15,7 +15,7 @@ QModelIndex ChannelModel::index(int row, int column, const QModelIndex &parent) 
     TreeItem* childItem = nullptr;
     if (!parent.isValid())
     {
-        childItem = m_root.indexOf(parent);
+        childItem = m_root.at(row);
     }
     else
     {
@@ -47,21 +47,21 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
 
 QModelIndex ChannelModel::parent(const QModelIndex &child) const
 {
-    if (!index.isValid())
+    if (!child.isValid())
     return QModelIndex();
 
     TreeItem* childItem = static_cast<TreeItem*>(child.internalPointer());
     if(nullptr!=childItem)
     {
-        TreeItem* parentItem = childItem->getParentNode();
+        TreeItem* parentItem = childItem->getParent();
 
-        if (parentItem == m_rootItem)
+        if (m_root.contains(parentItem))
         {
             return QModelIndex();
         }
+        return createIndex(parentItem->rowInParent(), 0, parentItem);
     }
-
-    return createIndex(parentItem->rowInParent(), 0, parentItem);
+    return QModelIndex();
 }
 
 int ChannelModel::rowCount(const QModelIndex &parent) const
@@ -98,7 +98,7 @@ int ChannelModel::addConnectionToChannel(int indexChan, TcpClient* client)
 {
     if(!m_root.isEmpty() && m_root.size()<indexChan)
     {
-        return m_root[indexChan]->addChild(new TcpClientItem(client));
+        return m_root[indexChan]->addChild(new TcpClientItem(tr("channel_%1").arg(m_root.size()),client));
     }
 }
 
@@ -152,9 +152,13 @@ void TreeItem::setName(const QString &name)
     m_name = name;
 }
 
+int TreeItem::rowInParent()
+{
+    return m_parent->indexOf(this);
+}
+
 TcpClientItem::TcpClientItem(QString name, TcpClient *client)
 {
-
 }
 
 TcpClient *TcpClientItem::client() const
@@ -165,6 +169,11 @@ TcpClient *TcpClientItem::client() const
 void TcpClientItem::setClient(TcpClient *client)
 {
     m_client = client;
+}
+
+int TcpClientItem::indexOf(TreeItem *child)
+{
+    return -1;
 }
 
 Channel::Channel(QString)
@@ -185,4 +194,9 @@ QString Channel::password() const
 void Channel::setPassword(const QString &password)
 {
     m_password = password;
+}
+
+int Channel::indexOf(TreeItem *child)
+{
+    return m_child.indexOf(child);
 }

@@ -99,18 +99,15 @@
         <file>resources/icons/treeview.png</file>
         <file>resources/icons/audiofile.svg</file>
         <file>resources/icons/playlist.svg</file>
-        <file alias="resources/qml/ImageField.qml">src/charactersheet/qml/ImageField.qml</file>
-        <file alias="resources/qml/TextInputField.qml">src/charactersheet/qml/TextInputField.qml</file>
-        <file alias="resources/qml/TextFieldField.qml">src/charactersheet/qml/TextFieldField.qml</file>
-        <file alias="resources/qml/TextAreaField.qml">src/charactersheet/qml/TextAreaField.qml</file>
-        <file alias="resources/qml/SelectField.qml">src/charactersheet/qml/SelectField.qml</file>
-        <file alias="resources/qml/qmldir">src/charactersheet/qml/qmldir</file>
-        <file alias="resources/qml/main.qml">src/charactersheet/qml/main.qml</file>
-        <file alias="resources/qml/DiceButton.qml">src/charactersheet/qml/DiceButton.qml</file>
-        <file alias="resources/qml/CheckBoxField.qml">src/charactersheet/qml/CheckBoxField.qml</file>
-        <file>translations/rolisteam_ro_RO.qm</file>
-        <file>translations/rolisteam_es.qm</file>
-        <file alias="vmap.png" >resources/icons/vmap.png</file>
+        <file alias="resources/qml/ImageField.qml">client/charactersheet/qml/ImageField.qml</file>
+        <file alias="resources/qml/TextInputField.qml">client/charactersheet/qml/TextInputField.qml</file>
+        <file alias="resources/qml/TextFieldField.qml">client/charactersheet/qml/TextFieldField.qml</file>
+        <file alias="resources/qml/TextAreaField.qml" >client/charactersheet/qml/TextAreaField.qml</file>
+        <file alias="resources/qml/SelectField.qml">client/charactersheet/qml/SelectField.qml</file>
+        <file alias="resources/qml/qmldir">client/charactersheet/qml/qmldir</file>
+        <file alias="resources/qml/main.qml">client/charactersheet/qml/main.qml</file>
+        <file alias="resources/qml/DiceButton.qml">client/charactersheet/qml/DiceButton.qml</file>
+        <file alias="resources/qml/CheckBoxField.qml">client/charactersheet/qml/CheckBoxField.qml</file>
     </qresource>
     <qresource prefix="/stylesheet">
         <file>resources/stylesheet/darkorange.qss</file>

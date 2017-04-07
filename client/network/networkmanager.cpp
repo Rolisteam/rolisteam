@@ -32,7 +32,7 @@
 #include "network/selectconnectionprofiledialog.h"
 
 #define second 1000
-
+NetworkManager* NetworkManager::m_singleton = nullptr;
 /*****************
  * NetworkManager *
  *****************/
@@ -47,6 +47,15 @@ NetworkManager::NetworkManager()
 
 }
 
+
+NetworkManager* NetworkManager::getInstance()
+{
+    if(nullptr == m_singleton)
+    {
+        m_singleton = new NetworkManager();
+    }
+    return m_singleton;
+}
 
 NetworkManager::~NetworkManager()
 {

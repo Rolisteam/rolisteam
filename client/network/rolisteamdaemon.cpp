@@ -29,9 +29,12 @@ void RolisteamDaemon::readConfigFile(QString)
 
 }
 
-void RolisteamDaemon::createEmptyConfigFile(QString)
+#include <iostream>
+void RolisteamDaemon::createEmptyConfigFile()
 {
+    QTextStream out(stdout);
 
+    out << "configuration file:\n";
 }
 void RolisteamDaemon::notifyUser(QString str)
 {
