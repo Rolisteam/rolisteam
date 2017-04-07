@@ -255,13 +255,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../client/charactersheet/charactersheetwindow.cpp" line="41"/>
         <location filename="../client/charactersheet/charactersheetwindow.cpp" line="616"/>
         <source>Character Sheet Viewer</source>
-<<<<<<< e320e9e24b4f9f5e8228f63832694df67da15f44
-        <translation>Visinneur de fiche de personnage</translation>
-||||||| merged common ancestors
-        <translation>Visionneur de fiche de personnage</translation>
-=======
         <translation type="vanished">Visinneur de fiche de personnage</translation>
->>>>>>> -update rolisteam project structure
     </message>
     <message>
         <location filename="../client/charactersheet/charactersheetwindow.cpp" line="55"/>
@@ -923,7 +917,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/widgets/MRichTextEditor/mrichtextedit.ui" line="289"/>
         <source>Underline (CTRL+U)</source>
-        <translation>Soulignage (Ctrl+U)</translation>
+        <translation>So&amp;ulignage (Ctrl+U)</translation>
     </message>
     <message>
         <location filename="../client/widgets/MRichTextEditor/mrichtextedit.ui" line="292"/>
