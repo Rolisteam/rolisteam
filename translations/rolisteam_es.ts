@@ -127,7 +127,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/audio/audiowidget.ui" line="186"/>
         <source>repeat</source>
-        <translation type="unfinished"></translation>
+        <translation>repetir</translation>
     </message>
 </context>
 <context>
@@ -155,6 +155,123 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/vmap/items/characteritem.cpp" line="709"/>
         <source>Conical</source>
+        <translation>Cónico</translation>
+    </message>
+</context>
+<context>
+    <name>CharacterSheetModel</name>
+    <message>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="307"/>
+        <source>Fields name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="323"/>
+        <source>Empty Section %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="331"/>
+        <source>Section_%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetmodel.cpp" line="355"/>
+        <source>Field %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CharacterSheetWindow</name>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="41"/>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="616"/>
+        <source>Character Sheet Viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="55"/>
+        <source>Add Section</source>
+        <translation>Añadir sección </translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="56"/>
+        <source>Add line</source>
+        <translation>Añadir línea</translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="57"/>
+        <source>Add CharacterSheet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="58"/>
+        <source>Copy Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="60"/>
+        <source>Stop Sharing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="62"/>
+        <source>Read Only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="66"/>
+        <source>Load CharacterSheet View File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="68"/>
+        <source>Detach Tabs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="78"/>
+        <source>Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="182"/>
+        <source>Share To </source>
+        <translation>Compartir a </translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="211"/>
+        <source>Share To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="450"/>
+        <source>Save Character Sheets Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="451"/>
+        <source>Character Sheets Data files (*.rcs)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="543"/>
+        <source>Open Character Sheet data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="544"/>
+        <source>Character Sheet Data files (*.rcs)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="551"/>
+        <source>Open Character Sheets View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/charactersheetwindow.cpp" line="552"/>
+        <source>Character Sheet files (*.qml)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -394,6 +511,59 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/network/connectionretrydialog.cpp" line="36"/>
         <source>Connection has failed! Connection Retry in %1s.</source>
+        <translation>La conexión ha fallado! Reintentando en %1s.</translation>
+    </message>
+</context>
+<context>
+    <name>Convertor</name>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="14"/>
+        <source>Unit Convertor</source>
+        <translation>Convertidor de unidades</translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="22"/>
+        <source>Category:</source>
+        <translation>Categoría:</translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="30"/>
+        <source>Temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="35"/>
+        <source>Distance</source>
+        <translation>Distancia</translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="40"/>
+        <source>Currency</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="45"/>
+        <source>Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="50"/>
+        <source>Mass</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="58"/>
+        <source>...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="73"/>
+        <source>From:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/convertor.ui" line="104"/>
+        <source>To</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -440,6 +610,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../client/widgets/filedirchooser.cpp" line="98"/>
         <source>Open File</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GMTOOL</name>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="5"/>
+        <source>Currency</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="6"/>
+        <source>Distance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="7"/>
+        <source>Temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/UnitConvertor/unitmodel.cpp" line="8"/>
+        <source>MASS</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1811,6 +2004,69 @@ Port:%2</source>
     </message>
 </context>
 <context>
+    <name>NameGeneratorWidget</name>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="14"/>
+        <source>Name Generator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="31"/>
+        <source>Male</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="44"/>
+        <source>Female</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="68"/>
+        <source>How many ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="82"/>
+        <source>Complex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.ui" line="108"/>
+        <source>Generate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
+        <source>Chinese Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
+        <source>Elve Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
+        <source>English Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
+        <source>French Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
+        <source>Japanese Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/widgets/gmtoolbox/NameGenerator/namegeneratorwidget.cpp" line="45"/>
+        <source>Star Wars Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NetworkManager</name>
     <message>
         <location filename="../client/network/networkmanager.cpp" line="115"/>
@@ -2815,6 +3071,47 @@ Port:%2</source>
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="87"/>
+        <source>abs : too many arguments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="91"/>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="225"/>
+        <source>abs : too few arguments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="110"/>
+        <source>ceil : too many arguments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="114"/>
+        <source>ceil : too few arguments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="132"/>
+        <source>floor : too many arguments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="136"/>
+        <source>floor : too few arguments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/formula/nodes/operator.cpp" line="154"/>
+        <source>concatenate : too few arguments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/charactersheet/formula/nodes/scalaroperatorfnode.cpp" line="82"/>
+        <source>Error: division by Zero</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../client/data/cleveruri.cpp" line="52"/>
         <source>None</source>
         <translation type="unfinished"></translation>
@@ -2902,6 +3199,73 @@ Port:%2</source>
     <message>
         <location filename="../client/data/mediacontainer.cpp" line="66"/>
         <source>Loading error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/diceparser.cpp" line="190"/>
+        <source>Nothing was understood</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/diceparser.cpp" line="610"/>
+        <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/diceparser.cpp" line="655"/>
+        <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/diceparser.cpp" line="924"/>
+        <source>Validator is missing after the c operator. Please, change it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/diceparser.cpp" line="950"/>
+        <source>Validator is missing after the %1 operator. Please, change it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/diceparser.cpp" line="962"/>
+        <source>This condition %1 introduces an endless loop. Please, change it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/diceparser.cpp" line="973"/>
+        <source>Validator is missing after the e operator. Please, change it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/node/dicerollernode.cpp" line="30"/>
+        <source>No dice to roll</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/node/helpnode.cpp" line="37"/>
+        <source>Rolisteam Dice Parser:
+Full documentation at: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/node/jumpbackwardnode.cpp" line="126"/>
+        <source> The @ operator expects dice result. Please check the documentation to fix your command.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/node/keepdiceexecnode.cpp" line="48"/>
+        <source> You ask to keep %1 dice but the result only has %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/node/listaliasnode.cpp" line="55"/>
+        <source>List of Alias:
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../client/diceparser/node/scalaroperatornode.cpp" line="128"/>
+        <source>Division by zero</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3114,7 +3478,7 @@ Port:%2</source>
 <context>
     <name>RolisteamDaemon</name>
     <message>
-        <location filename="../client/network/rolisteamdaemon.cpp" line="39"/>
+        <location filename="../client/network/rolisteamdaemon.cpp" line="42"/>
         <source>Error!</source>
         <translation type="unfinished"></translation>
     </message>
