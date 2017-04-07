@@ -4,12 +4,12 @@
 #include <QTime>
 
 RolisteamDaemon::RolisteamDaemon(QObject *parent)
-    : QObject(parent)//,m_serverManager(new ServerManager())
+    : QObject(parent)
 {
 
 }
 
-void RolisteamDaemon::readConfigFile(QString filepath)
+void RolisteamDaemon::readConfigFile(QString)
 {
     //QFile file(filepath);
     m_serverManager.setPort(6660);
