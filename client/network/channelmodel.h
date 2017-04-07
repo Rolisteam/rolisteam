@@ -22,6 +22,9 @@ public:
     QString getName() const;
     void setName(const QString &name);
 
+    virtual int indexOf(TreeItem*) = 0;
+    int rowInParent();
+
 protected:
     QString m_name;
     TreeItem* m_parent;
@@ -36,6 +39,8 @@ public:
     TcpClient* client() const;
     void setClient(TcpClient *client);
 
+    virtual int indexOf(TreeItem* child);
+
 private:
     TcpClient* m_client;
 };
@@ -49,6 +54,7 @@ public:
     QString password() const;
     void setPassword(const QString &password);
 
+    int indexOf(TreeItem* child);
 private:
     QString m_password;
     QList<TreeItem*> m_child;
@@ -72,7 +78,7 @@ public:
     int addConnectionToChannel(int indexChan, TcpClient* client);
 
 private:
-    QList<Channel*> m_root;
+    QList<TreeItem*> m_root;
 };
 
 #endif // CHANNELMODEL_H

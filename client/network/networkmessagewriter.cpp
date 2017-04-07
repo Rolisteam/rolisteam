@@ -22,10 +22,11 @@
 //#ifndef UNIT_TEST
 //#include "mainwindow.h"
 //#endif
+#include "network/networkmanager.h"
 #include <QDebug>
 
-NetworkMessageWriter::NetworkMessageWriter(NetworkManager* server,NetMsg::Category category, NetMsg::Action action, int size)
-    : NetworkMessage(server)
+NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Action action, int size)
+    : NetworkMessage(nullptr)
 {
     int headerSize = sizeof(NetworkMessageHeader);
 
@@ -45,7 +46,7 @@ NetworkMessageWriter::NetworkMessageWriter(NetworkManager* server,NetMsg::Catego
     m_header->category = category;
     m_header->action = action;
 #ifndef UNIT_TEST
-  //  m_server = MainWindow::getInstance()->getNetWorkManager();
+    m_server = NetworkManager::getInstance();
 #endif
 }
 

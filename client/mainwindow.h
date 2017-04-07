@@ -57,7 +57,7 @@
 #include "network/selectconnectionprofiledialog.h"
 
 #ifndef NULL_PLAYER
-#include "audioPlayer.h"
+#include "audio/audioPlayer.h"
 #endif
 
 #include "network/networkmanager.h"
