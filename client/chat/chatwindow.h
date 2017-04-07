@@ -23,6 +23,15 @@
 
 
 #ifndef CHATWINDOW_H
+#define CHATWINDOW_H
+
+#include <QComboBox>
+#include <QFile>
+#include <QSplitter>
+#include <QTextBrowser>
+#include <QMdiSubWindow>
+
+#include "network/networkmessage.h"
 #include "preferences/preferencesmanager.h"
 #include "widgets/colorbutton.h"
 #include "chatbrowser.h"
@@ -32,16 +41,6 @@
 
 class AbstractChat;
 class MainWindow;
-#define CHATWINDOW_H
-
-#include <QComboBox>
-#include <QFile>
-#include <QSplitter>
-#include <QTextBrowser>
-#include <QMdiSubWindow>
-#include <QToolBar>
-
-#include "network/networkmessage.h"
 class Player;
 class ImprovedTextEdit;
 
