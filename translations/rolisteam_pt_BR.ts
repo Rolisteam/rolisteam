@@ -225,22 +225,22 @@ p, li { white-space: pre-wrap; }?
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="307"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="322"/>
         <source>Fields name</source>
         <translation>Nome de Campos</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="323"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="338"/>
         <source>Empty Section %1</source>
         <translation>Seção Vazia %1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="331"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="346"/>
         <source>Section_%1</source>
         <translation>Seção_%1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="355"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="370"/>
         <source>Field %1</source>
         <translation>Campo %1</translation>
     </message>
@@ -249,7 +249,7 @@ p, li { white-space: pre-wrap; }?
     <name>CharacterSheetWindow</name>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="616"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="631"/>
         <source>Character Sheet Viewer</source>
         <translation>Visualizador de Ficha de Personagem</translation>
     </message>
@@ -309,32 +309,37 @@ p, li { white-space: pre-wrap; }?
         <translation>Compartilhar para</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="450"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="447"/>
+        <source>Errors QML</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="455"/>
         <source>Save Character Sheets Data</source>
         <translation>Salvar Dados de Ficha de Personagem</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="451"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="456"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation>Arquivo de Dados de Fichas de Personagem (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="543"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="552"/>
         <source>Open Character Sheet data</source>
         <translation>Abrir Dados de Ficha de Personagem</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="544"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="553"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Arquivo de Dados de Ficha de Personagem (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="551"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="560"/>
         <source>Open Character Sheets View</source>
         <translation>Abrir visualização de Fichas de Personagem</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="552"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="561"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Arquivos de Ficha de Personagem (*.qml)</translation>
     </message>
@@ -2140,14 +2145,12 @@ Porta:%2</translation>
         <translation>Servidor ligado.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="112"/>
         <source>Error</source>
-        <translation>Erro</translation>
+        <translation type="vanished">Erro</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="112"/>
         <source>Can not establish the connection.</source>
-        <translation>Não é possível estabelecer a conexão.</translation>
+        <translation type="vanished">Não é possível estabelecer a conexão.</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="216"/>
@@ -3126,12 +3129,12 @@ Porta:%2</translation>
 <context>
     <name>ProfileModel</name>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="185"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="115"/>
         <source>New Player</source>
         <translation>Novo Jogador</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="186"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="116"/>
         <source>Default</source>
         <translation>Padrão</translation>
     </message>
@@ -3162,32 +3165,32 @@ Porta:%2</translation>
         <translation>Nada foi entendido</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="610"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="617"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Dado com %1 face(s) não existe. Por favor, colocar um valor maior que 0</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="655"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="663"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>Lista está faltando depois do operador L. Por favor, adicione isto (por exemplo : 1L[espada,lança,pistola,flecha])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="921"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="946"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Validador está faltando após o operador c. Por favor, mude isso</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="947"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="969"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Validador está faltando após o operador %1 . Por favor, mude isso</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="959"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="981"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>Esta condição %1 introduz um loop infinito. Por favor, mude isso</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="970"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="992"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Validador está faltando após o operador e. Por favor, mude isso</translation>
     </message>
@@ -3204,7 +3207,7 @@ Porta:%2</translation>
         <translation>caminho para o arquivo de tradução: &lt;translationfile&gt;</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/scalaroperatornode.cpp" line="128"/>
+        <location filename="../src/diceparser/node/scalaroperatornode.cpp" line="131"/>
         <source>Division by zero</source>
         <translation>Divisão por zero</translation>
     </message>
@@ -3311,7 +3314,7 @@ Documentação Completa em: %1 </translation>
         <translation>O operador @ espera um resultado de dados. Por favor, verifique a documentação para corrigir o seu comando.</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/keepdiceexecnode.cpp" line="48"/>
+        <location filename="../src/diceparser/node/keepdiceexecnode.cpp" line="64"/>
         <source> You ask to keep %1 dice but the result only has %2</source>
         <translation>Você pede para manter %1 dados, mas o resultado tem apenas %2</translation>
     </message>
@@ -3554,6 +3557,14 @@ Documentação Completa em: %1 </translation>
     </message>
 </context>
 <context>
+    <name>RolisteamDaemon</name>
+    <message>
+        <location filename="../src/network/rolisteamdaemon.cpp" line="39"/>
+        <source>Error!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RuleItem</name>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="148"/>
@@ -3699,19 +3710,32 @@ Documentação Completa em: %1 </translation>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="341"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="271"/>
         <source>Remove Current Profile</source>
         <translation>Remover Perfil Atual</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="341"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="271"/>
         <source>Do you really want to remove %1 from your connection list ?</source>
         <translation>Você realmente deseja remover %1 de sua lista de conexão?</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="413"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="343"/>
         <source>Load Avatar</source>
         <translation>Carregar Avatar</translation>
+    </message>
+</context>
+<context>
+    <name>ServerManager</name>
+    <message>
+        <location filename="../src/network/servermanager.cpp" line="31"/>
+        <source>Rolisteam Server is on!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/network/servermanager.cpp" line="42"/>
+        <source>New Incoming Connection!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

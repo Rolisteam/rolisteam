@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="fr">
 <context>
     <name>AboutRolisteam</name>
     <message>
@@ -16,9 +18,9 @@
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Ubuntu&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Rolisteam helps you to manage a tabletop role playing game with remote friends/players. It provides many features to share maps, pictures and it also includes tool to communicate with your friends/players. The goal is to make Rolisteam-managed RPG games as good as RPG games around your table. To achieve it, we are working hard to provide you more and more features. Existing features : Map sharing (with permission management), Image sharing, background music, dice roll and so on. Rolisteam is written in Qt5 &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later). A copy of the GPL is contained in the 'COPYING' file distributed with Rolisteam. Rolisteam is copyrighted by its contributors. See the 'COPYRIGHT' file for the complete list of contributors. We provide no warranty for this program.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You may modify and redistribute the program under the terms of the GPL (version 2 or later). A copy of the GPL is contained in the &apos;COPYING&apos; file distributed with Rolisteam. Rolisteam is copyrighted by its contributors. See the &apos;COPYRIGHT&apos; file for the complete list of contributors. We provide no warranty for this program.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Web Sites :&lt;/p&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.rolisteam.org/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Official Rolisteam Site&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://github.com/Rolisteam/rolisteam/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Bug Tracker&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
@@ -219,22 +221,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="307"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="322"/>
         <source>Fields name</source>
         <translation>Nom du champ</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="323"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="338"/>
         <source>Empty Section %1</source>
         <translation>Section vide %1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="331"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="346"/>
         <source>Section_%1</source>
         <translation>Section_%1</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="355"/>
+        <location filename="../src/charactersheet/charactersheetmodel.cpp" line="370"/>
         <source>Field %1</source>
         <translation>Champ %1</translation>
     </message>
@@ -243,7 +245,7 @@ p, li { white-space: pre-wrap; }
     <name>CharacterSheetWindow</name>
     <message>
         <location filename="../src/charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="616"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="631"/>
         <source>Character Sheet Viewer</source>
         <translation>Visinneur de fiche de personnage</translation>
     </message>
@@ -303,32 +305,37 @@ p, li { white-space: pre-wrap; }
         <translation>Envoyer à</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="450"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="447"/>
+        <source>Errors QML</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="455"/>
         <source>Save Character Sheets Data</source>
         <translation>Sauvegarder les données des personnages</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="451"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="456"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="543"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="552"/>
         <source>Open Character Sheet data</source>
         <translation>Ouvrir les données des personnages</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="544"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="553"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation>Fichier de Données de personnage (*.rcs)</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="551"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="560"/>
         <source>Open Character Sheets View</source>
         <translation>Ouvrir une fiche de personnage</translation>
     </message>
     <message>
-        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="552"/>
+        <location filename="../src/charactersheet/charactersheetwindow.cpp" line="561"/>
         <source>Character Sheet files (*.qml)</source>
         <translation>Fiche de personnage (*.qml)</translation>
     </message>
@@ -2133,14 +2140,12 @@ Port:%2</translation>
         <translation>Le serveur est fonctionnel.</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="112"/>
         <source>Error</source>
-        <translation>Erreur</translation>
+        <translation type="vanished">Erreur</translation>
     </message>
     <message>
-        <location filename="../src/network/networkmanager.cpp" line="112"/>
         <source>Can not establish the connection.</source>
-        <translation>Impossible d&apos;établir la connexion.</translation>
+        <translation type="vanished">Impossible d&apos;établir la connexion.</translation>
     </message>
     <message>
         <location filename="../src/network/networkmanager.cpp" line="216"/>
@@ -3119,12 +3124,12 @@ Port:%2</translation>
 <context>
     <name>ProfileModel</name>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="185"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="115"/>
         <source>New Player</source>
         <translation>Nouveau Joueur</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="186"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="116"/>
         <source>Default</source>
         <translation>Défaut</translation>
     </message>
@@ -3155,32 +3160,32 @@ Port:%2</translation>
         <translation>Commande incomprise</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="610"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="617"/>
         <source>Dice with %1 face(s) does not exist. Please, put a value higher than 0</source>
         <translation>Un dé avec %1 face(s) n&apos;existe pas. S&apos;il vous plaît, veuillez entrer une valeur supérieure à 0</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="655"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="663"/>
         <source>List is missing after the L operator. Please, add it (e.g : 1L[sword,spear,gun,arrow])</source>
         <translation>La liste est manquante après l&apos;opérateur L. Veuillez en ajouter une (exemple: 1L[épée,lance,pistolet,flèche])</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="921"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="946"/>
         <source>Validator is missing after the c operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur c. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="947"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="969"/>
         <source>Validator is missing after the %1 operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur %1. Veuillez le changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="959"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="981"/>
         <source>This condition %1 introduces an endless loop. Please, change it</source>
         <translation>La condition %1 introduit une boucle infinie. Veuillez la changer</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/diceparser.cpp" line="970"/>
+        <location filename="../src/diceparser/diceparser.cpp" line="992"/>
         <source>Validator is missing after the e operator. Please, change it</source>
         <translation>Validateur est manquant après l&apos;opérateur e. Veuillez le changer</translation>
     </message>
@@ -3196,7 +3201,7 @@ Port:%2</translation>
         <translation>chemin vers le fichier de traduction: &lt;traduction&gt;</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/scalaroperatornode.cpp" line="128"/>
+        <location filename="../src/diceparser/node/scalaroperatornode.cpp" line="131"/>
         <source>Division by zero</source>
         <translation>Division par zéro</translation>
     </message>
@@ -3303,7 +3308,7 @@ Documentation complète disponible: %1</translation>
         <translation> L&apos;opérateur @ attend un résultat de dés. Veuillez vérifier la documentation afin de corriger votre commande.</translation>
     </message>
     <message>
-        <location filename="../src/diceparser/node/keepdiceexecnode.cpp" line="48"/>
+        <location filename="../src/diceparser/node/keepdiceexecnode.cpp" line="64"/>
         <source> You ask to keep %1 dice but the result only has %2</source>
         <translation> Vous voulez garder %1 dés mais le resultat n&apos;en contient que %2</translation>
     </message>
@@ -3546,6 +3551,14 @@ Documentation complète disponible: %1</translation>
     </message>
 </context>
 <context>
+    <name>RolisteamDaemon</name>
+    <message>
+        <location filename="../src/network/rolisteamdaemon.cpp" line="39"/>
+        <source>Error!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>RuleItem</name>
     <message>
         <location filename="../src/vmap/items/ruleitem.cpp" line="148"/>
@@ -3691,19 +3704,32 @@ Documentation complète disponible: %1</translation>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="341"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="271"/>
         <source>Remove Current Profile</source>
         <translation>Supprimer le profil courant</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="341"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="271"/>
         <source>Do you really want to remove %1 from your connection list ?</source>
         <translation>Voulez vous vraiment que %1 soit supprimer de votre liste de connexions ?</translation>
     </message>
     <message>
-        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="413"/>
+        <location filename="../src/network/selectconnectionprofiledialog.cpp" line="343"/>
         <source>Load Avatar</source>
         <translation>Charger Avatar</translation>
+    </message>
+</context>
+<context>
+    <name>ServerManager</name>
+    <message>
+        <location filename="../src/network/servermanager.cpp" line="31"/>
+        <source>Rolisteam Server is on!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/network/servermanager.cpp" line="42"/>
+        <source>New Incoming Connection!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
