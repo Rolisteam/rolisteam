@@ -7,6 +7,12 @@ INCLUDEPATH += . ../client/
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> branch
 isEmpty(PREFIX) {
  PREFIX = /usr/local/bin
 }

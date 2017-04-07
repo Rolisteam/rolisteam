@@ -8,3 +8,8 @@ HEADERS += ../client/network/rolisteamdaemon.h \
             ../client/network/channelmodel.h \
             ../client/network/tcpclient.h \
             ../client/network/servermanager.h
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> branch
