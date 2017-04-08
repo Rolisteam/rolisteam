@@ -116,3 +116,7 @@ LIBS += -L$$PWD/../../lib/poppler-0.24/lib/ -llibpoppler-qt5.dll
 #DEPENDPATH += $$PWD/../../lib/poppler-0.24/lib/ $$PWD/../../lib/poppler-0.24/bin/
 #$$PWD/../../lib/poppler-0.24/include/poppler-cpp/
 }
+macx {
+target.path = /Applications/
+}
+INSTALLS += target
