@@ -48,10 +48,15 @@
 #endif
 
 #include "borderlisteditor.h"
-#include "alignmentdelegate.h"
-#include "typedelegate.h"
 #include "qmlhighlighter.h"
 #include "aboutrcse.h"
+
+// Delegates
+#include "delegate/alignmentdelegate.h"
+#include "delegate/typedelegate.h"
+#include "delegate/fontdelegate.h"
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -63,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     m_title = QStringLiteral("%1[*] - %2");
     setWindowTitle(m_title.arg("Unknown").arg("RCSE"));
+    m_preferences = PreferencesManager::getInstance();
     setWindowModified(false);
     m_qmlGeneration =true;
     setAcceptDrops(true);
@@ -77,10 +83,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->treeView->setModel(m_model);
 
     AlignmentDelegate* delegate = new AlignmentDelegate();
-    ui->treeView->setItemDelegateForColumn(10,delegate);
+    ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TEXT_ALIGN),delegate);
 
     TypeDelegate* typeDelegate = new TypeDelegate();
-    ui->treeView->setItemDelegateForColumn(4,typeDelegate);
+    ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::TYPE),typeDelegate);
+
+    FontDelegate* fontDelegate = new FontDelegate();
+    ui->treeView->setItemDelegateForColumn(static_cast<int>(CharacterSheetItem::FONT),fontDelegate);
+
 
     canvas->setModel(m_model);
     ui->treeView->setItemDelegateForColumn(CharacterSheetItem::BORDER,new BorderListEditor);
@@ -165,6 +175,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_removePage,SIGNAL(clicked(bool)),this,SLOT(removePage()));
     connect(ui->m_selectPageCb,SIGNAL(currentIndexChanged(int)),this,SLOT(currentPageChanged(int)));
 
+    connect(ui->m_resetIdAct,SIGNAL(triggered(bool)),m_model,SLOT(resetAllId()));
+
+    connect(ui->m_preferencesAction,SIGNAL(triggered(bool)),this,SLOT(showPreferences()));
+
 
 
     m_imgProvider = new RolisteamImageProvider();
@@ -185,6 +199,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_characterView,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(menuRequested(QPoint)));
     connect(m_addCharacter,SIGNAL(triggered(bool)),m_characterModel,SLOT(addCharacterSheet()));
 
+    connect(ui->m_newAct,SIGNAL(triggered(bool)),this,SLOT(clearData()));
 
     canvas->setCurrentTool(Canvas::NONE);
 
@@ -201,11 +216,62 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->m_aboutRcseAct,SIGNAL(triggered(bool)),this,SLOT(aboutRcse()));
     connect(ui->m_onlineHelpAct, SIGNAL(triggered()), this, SLOT(helpOnLine()));
 
+
+    readSettings();
 }
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::readSettings()
+{
+    QSettings settings("rolisteam",QString("rcse/preferences"));
+
+   /* if(m_resetSettings)
+    {
+        settings.clear();
+    }*/
+
+    restoreState(settings.value("windowState").toByteArray());
+    bool  maxi = settings.value("Maximized", false).toBool();
+    if(!maxi)
+    {
+        restoreGeometry(settings.value("geometry").toByteArray());
+    }
+
+    m_preferences->readSettings(settings);
+
+    //m_preferencesDialog->initializePostSettings();
+}
+void MainWindow::writeSettings()
+{
+    QSettings settings("rolisteam",QString("rcse/preferences"));
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("windowState", saveState());
+    settings.setValue("Maximized", isMaximized());
+    m_preferences->writeSettings(settings);
+}
+void MainWindow::clearData()
+{
+    qDeleteAll(m_canvasList);
+    m_canvasList.clear();
+    Canvas* canvas = new Canvas();
+    CSItem::resetCount();
+    m_currentPage = 0;
+    canvas->setCurrentPage(m_currentPage);
+    m_canvasList.append(canvas);
+    m_view->setScene(canvas);
+
+    m_pixList.clear();
+
+    m_model->clearModel();
+    m_imgProvider->cleanData();
+    m_characterModel->clearModel();
+
+    connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
+    canvas->setModel(m_model);
+}
+
 bool MainWindow::eventFilter(QObject* obj, QEvent* event)
 {
     if((obj==m_view)&&(event->type() == QEvent::Wheel))
@@ -220,7 +286,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if(mayBeSaved())
     {
-        // writeSettings();
+        writeSettings();
         event->accept();
     }
     else
@@ -277,6 +343,10 @@ bool MainWindow::mayBeSaved()
 
 void MainWindow::modelChanged()
 {
+    if((nullptr != m_characterModel)&&(nullptr!=m_model))
+    {
+        m_characterModel->setRootSection(m_model->getRootSection());
+    }
     setWindowModified(true);
 }
 bool MainWindow::wheelEventForView(QWheelEvent *event)
@@ -447,6 +517,20 @@ void MainWindow::setFitInView()
         m_view->fitInView(QRectF(m_view->rect()));
     }
 }
+#include "preferencesdialog.h"
+void MainWindow::showPreferences()
+{
+    PreferencesDialog dialog;
+    if(m_preferences->value("hasCustomPath",false).toBool())
+    {
+        dialog.setGenerationPath(m_preferences->value("GenerationCustomPath",QDir::homePath()).toString());
+    }
+    if(QDialog::Accepted == dialog.exec())
+    {
+        m_preferences->registerValue("hasCustomPath",dialog.hasCustomPath());
+        m_preferences->registerValue("GenerationCustomPath",dialog.generationPath());
+    }
+}
 
 void MainWindow::menuRequestedFromView(const QPoint & pos)
 {
@@ -535,9 +619,19 @@ void MainWindow::setImage()
     int i = 0;
     m_pixList.clear();
     QString id = QUuid::createUuid().toString();//one id for all images.
+    QSize previous;
+    bool issue = false;
     for(auto canvas : m_canvasList)
     {
         QPixmap* pix = canvas->pixmap();
+        if(!previous.isValid())
+        {
+            previous = pix->size();
+        }
+        if(previous!=pix->size())
+        {
+            issue = true;
+        }
         //m_view->fitInView(QRectF(pix->rect()),Qt::KeepAspectRatioByExpanding);
         setFitInView();
         if(NULL==pix)
@@ -549,7 +643,26 @@ void MainWindow::setImage()
         m_pixList.insert(idList,pix);
         ++i;
     }
+    if(issue)
+    {
+        QMessageBox::warning(this,tr("Error!"),tr("Background images have to be of the same size"),QMessageBox::Ok);
+    }
 }
+/*QString MainWindow::getFilePath(QString path)
+{
+   if(m_preferences->value("hasCustomPath",false).toBool())
+    {
+        if(!m_preferences->value("GenerationCustomPath","").toString().isEmpty())
+        {
+            return QStringLiteral("%1/%2").arg(m_preferences->value("GenerationCustomPath","").toString()).arg(path);
+        }
+        return path;
+    }
+    else
+    {
+        return path;
+    }
+}*/
 
 void MainWindow::setCurrentTool()
 {
@@ -625,7 +738,7 @@ void MainWindow::save()
                 }
             }
             obj["background"]=images;
-            m_characterModel->writeModel(obj,false);
+            m_characterModel->writeModel(obj,true);
             json.setObject(obj);
             file.write(json.toJson());
 
@@ -668,6 +781,7 @@ void MainWindow::open()
                 if(i!=0)
                 {
                     Canvas* canvas = new Canvas();
+                    canvas->setModel(m_model);
                     canvas->setPixmap(pix);
                     m_canvasList.append(canvas);
                     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
@@ -807,10 +921,11 @@ void MainWindow::showQML()
     m_editedTextByHand=false;
     QHash<QString,QPixmap>* imgdata = RolisteamImageProvider::getData();
 
-    QFile file("test.qml");
-    if(file.open(QIODevice::WriteOnly))
+    //QFile file(getFilePath("test.qml"));
+    QTemporaryFile file;
+    if(file.open())//QIODevice::WriteOnly
     {
-        file.write(data.toLatin1());
+        file.write(data.toUtf8());
         file.close();
     }
     QLayout* layout = ui->m_qml->layout();
@@ -832,7 +947,7 @@ void MainWindow::showQML()
         //qDebug() <<"add item into qml" << item->getId();
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
-    ui->m_quickview->setSource(QUrl::fromLocalFile("test.qml"));
+    ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
     displayWarningsQML(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
     QObject* root = ui->m_quickview->rootObject();
@@ -857,15 +972,15 @@ void MainWindow::showQMLFromCode()
 {
     QString data = ui->m_codeEdit->document()->toPlainText();
 
-    QString name(QStringLiteral("test.qml"));
+   /* QString name(getFilePath(QStringLiteral("test.qml")));
     if(QFile::exists(name))
     {
         QFile::remove(name);
-    }
-    QFile file(name);
-    if(file.open(QIODevice::WriteOnly))
+    }*/
+    QTemporaryFile file;
+    if(file.open())//QIODevice::WriteOnly
     {
-        file.write(data.toLatin1());
+        file.write(data.toUtf8());
         file.close();
     }
 
@@ -882,7 +997,7 @@ void MainWindow::showQMLFromCode()
         //qDebug() <<"add item into qml" << item->getId();
         ui->m_quickview->engine()->rootContext()->setContextProperty(item->getId(),item);
     }
-    ui->m_quickview->setSource(QUrl::fromLocalFile(name));
+    ui->m_quickview->setSource(QUrl::fromLocalFile(file.fileName()));
     displayWarningsQML(ui->m_quickview->errors());
     ui->m_quickview->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
@@ -965,6 +1080,7 @@ void MainWindow::currentPageChanged(int i)
 {
     if((i>=0)&&(i<m_canvasList.size()))
     {
+        m_currentPage = i;
         m_view->setScene(m_canvasList[i]);
     }
 

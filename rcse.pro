@@ -20,7 +20,7 @@ isEmpty(PREFIX) {
  PREFIX = /usr/bin
 }
 # Version
-DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=8 VERSION_MINOR=0
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=8 VERSION_MINOR=1
 
 ## Translation
 TRANSLATIONS =  translations/rcse_fr.ts \
@@ -73,12 +73,15 @@ SOURCES += main.cpp\
     borderlisteditor.cpp \
     qmlhighlighter.cpp \
     charactermodel.cpp \
-    alignmentdelegate.cpp \
+    delegate/alignmentdelegate.cpp \
     codeeditor.cpp \
-    typedelegate.cpp \
+    delegate/typedelegate.cpp \
     canvasfield.cpp \
     aboutrcse.cpp \
-    pdfmanager.cpp
+    pdfmanager.cpp \
+    delegate/fontdelegate.cpp \
+    preferencesdialog.cpp \
+    preferencesmanager.cpp
 
 HEADERS  += mainwindow.h \
     canvas.h \
@@ -86,16 +89,22 @@ HEADERS  += mainwindow.h \
     borderlisteditor.h \
     qmlhighlighter.h \
     charactermodel.h \
-    alignmentdelegate.h \
+    delegate/alignmentdelegate.h \
     codeeditor.h \
-    typedelegate.h \
+    delegate/typedelegate.h \
     canvasfield.h \
     aboutrcse.h \
-    pdfmanager.h
+    pdfmanager.h \
+    delegate/fontdelegate.h \
+    preferencesdialog.h \
+    preferencesmanager.h
+
+
 
 FORMS    += mainwindow.ui \
     aboutrcse.ui \
-    pdfmanager.ui
+    pdfmanager.ui \
+    preferencesdialog.ui
 
 DISTFILES += \
     charactersheet/qml/*.qml \

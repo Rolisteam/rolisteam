@@ -28,7 +28,7 @@
 
 //#include "charactersheetbutton.h"
 
-Canvas::Canvas(QObject *parent) : QGraphicsScene(parent),m_bg(NULL),m_currentItem(NULL),m_pix(NULL)
+Canvas::Canvas(QObject *parent) : QGraphicsScene(parent),m_bg(NULL),m_currentItem(NULL),m_pix(NULL),m_model(NULL)
 {
     setSceneRect(QRect(0,0,800,600));
 }
@@ -74,6 +74,7 @@ void Canvas::dropEvent ( QGraphicsSceneDragDropEvent * event )
                 else
                 {
                     m_bg->setPixmap(*m_pix);
+                    emit imageChanged();
                     setSceneRect(m_bg->boundingRect());
                 }
             }
@@ -120,7 +121,10 @@ void Canvas::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
             Field* field = new Field(mouseEvent->scenePos());
             field->setPage(m_currentPage);
             addItem(field->getCanvasField());
-            m_model->appendField(field);
+            if(nullptr != m_model)
+            {
+                m_model->appendField(field);
+            }
             field->setValueFrom(CharacterSheetItem::X,mouseEvent->scenePos().x());
             field->setValueFrom(CharacterSheetItem::Y,mouseEvent->scenePos().y());
             m_currentItem = field;

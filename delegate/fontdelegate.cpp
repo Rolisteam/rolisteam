@@ -17,56 +17,45 @@
     *   Free Software Foundation, Inc.,                                       *
     *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
     ***************************************************************************/
-#include "alignmentdelegate.h"
-#include <QComboBox>
+#include "fontdelegate.h"
+#include <QFontDialog>
 
-AlignmentDelegate::AlignmentDelegate()
+FontDelegate::FontDelegate()
 {
-    m_data << tr("TopRight")
-           << tr("TopMiddle")
-           << tr("TopLeft")
-           << tr("CenterRight")
-           << tr("CenterMiddle")
-           << tr("CenterLeft")
-           << tr("BottomRight")
-           << tr("BottomMiddle")
-           << tr("BottomLeft");
+
 }
 
-QWidget* AlignmentDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget* FontDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     // ComboBox ony in column 2
        if (index.column() != 10)
            return QStyledItemDelegate::createEditor(parent, option, index);
 
 
-    QComboBox* cm = new QComboBox(parent);
-    for(QString item : m_data)
-    {
-        cm->addItem(item,m_data.indexOf(item));
-    }
+    QFontDialog* cm = new QFontDialog(parent);
     return cm;
 }
-void AlignmentDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
+void FontDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
 {
-    if (QComboBox* cb = qobject_cast<QComboBox*>(editor))
+    if (QFontDialog* cb = qobject_cast<QFontDialog*>(editor))
     {
-       int currentIndex = index.data(Qt::EditRole).toInt();
-       if (currentIndex >= 0)
-       {
-           cb->setCurrentIndex(currentIndex);
-       }
+       QString fontStr = index.data(Qt::EditRole).toString();
+       QFont font;
+       font.fromString(fontStr);
+
+       cb->setCurrentFont(font);
+
     }
     else
     {
         QStyledItemDelegate::setEditorData(editor, index);
     }
 }
-void AlignmentDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
+void FontDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
 {
-    if (QComboBox* cb = qobject_cast<QComboBox*>(editor))
+    if (QFontDialog* cb = qobject_cast<QFontDialog*>(editor))
     {
-        model->setData(index, cb->currentIndex(), Qt::EditRole);
+        model->setData(index, cb->currentFont().toString(), Qt::EditRole);
     }
     else
         QStyledItemDelegate::setModelData(editor, model, index);

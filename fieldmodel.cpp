@@ -71,6 +71,7 @@ FieldModel::FieldModel(QObject *parent) : QAbstractItemModel(parent)
              << new Column(tr("Width"),CharacterSheetItem::WIDTH)
              << new Column(tr("Height"),CharacterSheetItem::HEIGHT)
              << new Column(tr("Font Adaptation"),CharacterSheetItem::CLIPPED)
+             << new Column(tr("Font"),CharacterSheetItem::FONT)
              << new Column(tr("Text-align"),CharacterSheetItem::TEXT_ALIGN)
              << new Column(tr("Text Color"),CharacterSheetItem::TEXTCOLOR)
              << new Column(tr("Bg Color"),CharacterSheetItem::BGCOLOR)
@@ -99,7 +100,7 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
         if(NULL!=item)
         {
             QVariant var = item->getValueFrom(m_colunm[index.column()]->getPos(),role);
-            if((index.column() == 10)&&(Qt::DisplayRole == role))
+            if((index.column() == CharacterSheetItem::TEXT_ALIGN)&&(Qt::DisplayRole == role))
             {
                 if((var.toInt() >= 0)&&(var.toInt() < m_alignList.size()))
                 {
@@ -120,6 +121,17 @@ QVariant FieldModel::data(const QModelIndex &index, int role) const
             return var;
 
         }
+    }
+    if((Qt::FontRole==role)&&(index.column() == CharacterSheetItem::FONT))
+    {
+            CharacterSheetItem* item = static_cast<CharacterSheetItem*>(index.internalPointer());
+            if(NULL!=item)
+            {
+                QVariant var = item->getValueFrom(m_colunm[index.column()]->getPos(),Qt::DisplayRole);
+                QFont font;
+                font.fromString(var.toString());
+                return font;
+            }
     }
     return QVariant();
 }
@@ -228,6 +240,18 @@ Qt::ItemFlags FieldModel::flags ( const QModelIndex & index ) const
     if(m_colunm[index.column()]->getPos() == CharacterSheetItem::ID)
     {
        return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
+    }
+    else if(m_colunm[index.column()]->getPos() == CharacterSheetItem::TYPE)
+    {
+        QVariant var = index.data();
+        if(var.toInt() == Field::SELECT)
+        {
+           return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+        }
+        else
+        {
+            return Qt::ItemIsEnabled | Qt::ItemIsEditable | Qt::ItemIsSelectable;
+        }
     }
     else if(!childItem->mayHaveChildren())
     {
@@ -382,6 +406,12 @@ void FieldModel::removeItem(QModelIndex& index)
     emit modelChanged();
     }
 }
+void FieldModel::clearModel()
+{
+    beginResetModel();
+    m_rootSection->removeAll();
+    endResetModel();
+}
 
 void FieldModel::setValueForAll(QModelIndex& index)
 {
@@ -390,5 +420,15 @@ void FieldModel::setValueForAll(QModelIndex& index)
         CharacterSheetItem* childItem = static_cast<CharacterSheetItem*>(index.internalPointer());
         m_rootSection->setValueForAll(childItem,m_colunm[index.column()]->getPos());
     }
+}
+
+void FieldModel::resetAllId()
+{
+    beginResetModel();
+    int i = 0;
+    m_rootSection->resetAllId(i);
+    qDebug() << "i:" << i;
+    Field::setCount(i);
+    endResetModel();
 }
 

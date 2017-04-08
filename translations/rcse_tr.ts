@@ -33,47 +33,47 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>AlignmentDelegate</name>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="25"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="26"/>
         <source>TopRight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="26"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="27"/>
         <source>TopMiddle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="27"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="28"/>
         <source>TopLeft</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="28"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="29"/>
         <source>CenterRight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="29"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="30"/>
         <source>CenterMiddle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="30"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="31"/>
         <source>CenterLeft</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="31"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="32"/>
         <source>BottomRight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="32"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="33"/>
         <source>BottomMiddle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../alignmentdelegate.cpp" line="33"/>
+        <location filename="../delegate/alignmentdelegate.cpp" line="34"/>
         <source>BottomLeft</source>
         <translation type="unfinished"></translation>
     </message>
@@ -114,22 +114,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CharacterSheetModel</name>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="307"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="322"/>
         <source>Fields name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="323"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="338"/>
         <source>Empty Section %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="331"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="346"/>
         <source>Section_%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetmodel.cpp" line="355"/>
+        <location filename="../charactersheet/charactersheetmodel.cpp" line="370"/>
         <source>Field %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -138,7 +138,7 @@ p, li { white-space: pre-wrap; }
     <name>CharacterSheetWindow</name>
     <message>
         <location filename="../charactersheet/charactersheetwindow.cpp" line="41"/>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="616"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="635"/>
         <source>Character Sheet Viewer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -198,32 +198,37 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="450"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="451"/>
+        <source>QML Errors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="459"/>
         <source>Save Character Sheets Data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="451"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="460"/>
         <source>Character Sheets Data files (*.rcs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="543"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="556"/>
         <source>Open Character Sheet data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="544"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="557"/>
         <source>Character Sheet Data files (*.rcs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="551"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="564"/>
         <source>Open Character Sheets View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../charactersheet/charactersheetwindow.cpp" line="552"/>
+        <location filename="../charactersheet/charactersheetwindow.cpp" line="565"/>
         <source>Character Sheet files (*.qml)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -282,66 +287,71 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="74"/>
-        <source>Text-align</source>
+        <source>Font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="75"/>
-        <source>Text Color</source>
+        <source>Text-align</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="76"/>
-        <source>Bg Color</source>
+        <source>Text Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../fieldmodel.cpp" line="77"/>
+        <source>Bg Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../fieldmodel.cpp" line="78"/>
         <source>Border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="79"/>
+        <location filename="../fieldmodel.cpp" line="80"/>
         <source>TopRight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="80"/>
+        <location filename="../fieldmodel.cpp" line="81"/>
         <source>TopMiddle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="81"/>
+        <location filename="../fieldmodel.cpp" line="82"/>
         <source>TopLeft</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="82"/>
+        <location filename="../fieldmodel.cpp" line="83"/>
         <source>CenterRight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="83"/>
+        <location filename="../fieldmodel.cpp" line="84"/>
         <source>CenterMiddle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="84"/>
+        <location filename="../fieldmodel.cpp" line="85"/>
         <source>CenterLeft</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="85"/>
+        <location filename="../fieldmodel.cpp" line="86"/>
         <source>BottomRight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="86"/>
+        <location filename="../fieldmodel.cpp" line="87"/>
         <source>BottomMiddle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../fieldmodel.cpp" line="87"/>
+        <location filename="../fieldmodel.cpp" line="88"/>
         <source>BottomLeft</source>
         <translation type="unfinished"></translation>
     </message>
@@ -360,25 +370,25 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="67"/>
-        <location filename="../mainwindow.ui" line="506"/>
+        <location filename="../mainwindow.ui" line="525"/>
         <source>TextInput</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="102"/>
-        <location filename="../mainwindow.ui" line="579"/>
+        <location filename="../mainwindow.ui" line="598"/>
         <source>TextField</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="140"/>
-        <location filename="../mainwindow.ui" line="591"/>
+        <location filename="../mainwindow.ui" line="610"/>
         <source>Checkbox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="175"/>
-        <location filename="../mainwindow.ui" line="603"/>
+        <location filename="../mainwindow.ui" line="622"/>
         <source>TextArea</source>
         <translation type="unfinished"></translation>
     </message>
@@ -389,19 +399,19 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="242"/>
-        <location filename="../mainwindow.ui" line="620"/>
+        <location filename="../mainwindow.ui" line="639"/>
         <source>Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="265"/>
-        <location filename="../mainwindow.ui" line="518"/>
+        <location filename="../mainwindow.ui" line="537"/>
         <source>Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="300"/>
-        <location filename="../mainwindow.ui" line="530"/>
+        <location filename="../mainwindow.ui" line="549"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -436,202 +446,252 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="454"/>
+        <location filename="../mainwindow.ui" line="456"/>
         <source>Edition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="462"/>
-        <location filename="../mainwindow.ui" line="630"/>
-        <location filename="../mainwindow.cpp" line="237"/>
+        <location filename="../mainwindow.ui" line="466"/>
+        <location filename="../mainwindow.ui" line="649"/>
+        <location filename="../mainwindow.cpp" line="303"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="474"/>
+        <location filename="../mainwindow.ui" line="478"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="479"/>
+        <location filename="../mainwindow.ui" line="481"/>
+        <source>Ctrl+O</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="486"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="484"/>
-        <source>Save As...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../mainwindow.ui" line="489"/>
-        <source>New</source>
+        <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="494"/>
+        <source>Save As...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="497"/>
+        <source>Ctrl+Shift+S</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="502"/>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="505"/>
+        <source>Ctrl+N</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="510"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="535"/>
+        <location filename="../mainwindow.ui" line="513"/>
+        <source>Ctrl+Q</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="554"/>
         <source>Export To Rolisteam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="540"/>
+        <location filename="../mainwindow.ui" line="559"/>
         <source>Save View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="545"/>
+        <location filename="../mainwindow.ui" line="564"/>
         <source>Load View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="550"/>
+        <location filename="../mainwindow.ui" line="569"/>
         <source>Generate Code and Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="555"/>
+        <location filename="../mainwindow.ui" line="574"/>
         <source>Code To Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="625"/>
+        <location filename="../mainwindow.ui" line="644"/>
         <source>About RCSE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="567"/>
+        <location filename="../mainwindow.ui" line="654"/>
+        <source>Reset Ids</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="659"/>
+        <source>Preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="662"/>
+        <source>Ctrl+P</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="586"/>
         <source>Add Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="608"/>
+        <location filename="../mainwindow.ui" line="627"/>
         <source>Set image background…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="90"/>
+        <location filename="../mainwindow.cpp" line="100"/>
         <source>Fit the view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="174"/>
+        <location filename="../mainwindow.cpp" line="188"/>
         <source>Add character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="194"/>
+        <location filename="../mainwindow.cpp" line="209"/>
         <source>Delete Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="195"/>
+        <location filename="../mainwindow.cpp" line="210"/>
         <source>Apply on Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="196"/>
+        <location filename="../mainwindow.cpp" line="211"/>
         <source>Apply on all lines</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="238"/>
+        <location filename="../mainwindow.cpp" line="304"/>
         <source>Documentation of Rcse can be found online at :&lt;br&gt; &lt;a href=&quot;http://wiki.rolisteam.org&quot;&gt;http://wiki.rolisteam.org/&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="249"/>
+        <location filename="../mainwindow.cpp" line="315"/>
         <source>The charactersheet has unsaved changes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="256"/>
+        <location filename="../mainwindow.cpp" line="322"/>
         <source>Quit %1 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="315"/>
+        <location filename="../mainwindow.cpp" line="385"/>
         <source>Error! this PDF file can not be read!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="315"/>
+        <location filename="../mainwindow.cpp" line="385"/>
         <source>This PDF document can not be read: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="337"/>
+        <location filename="../mainwindow.cpp" line="407"/>
         <source>Error! This PDF file seems empty!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="337"/>
+        <location filename="../mainwindow.cpp" line="407"/>
         <source>This PDF document has no page.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="345"/>
+        <location filename="../mainwindow.cpp" line="415"/>
         <source>Error! Can not make image!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="345"/>
+        <location filename="../mainwindow.cpp" line="415"/>
         <source>System has failed while making image of the pdf page.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="411"/>
+        <location filename="../mainwindow.cpp" line="481"/>
         <source>Open Background Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="559"/>
-        <location filename="../mainwindow.cpp" line="639"/>
+        <location filename="../mainwindow.cpp" line="648"/>
+        <source>Error!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="648"/>
+        <source>Background images have to be of the same size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="677"/>
+        <location filename="../mainwindow.cpp" line="757"/>
         <source>Save CharacterSheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="559"/>
-        <location filename="../mainwindow.cpp" line="639"/>
+        <location filename="../mainwindow.cpp" line="677"/>
+        <location filename="../mainwindow.cpp" line="757"/>
         <source>Rolisteam CharacterSheet (*.rcs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="787"/>
+        <location filename="../mainwindow.cpp" line="910"/>
         <source>Do you want to erase current QML code ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="787"/>
+        <location filename="../mainwindow.cpp" line="910"/>
         <source>Generate QML code will override any change you made in the QML.&lt;br/&gt;Do you really want to generate QML code ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="843"/>
+        <location filename="../mainwindow.cpp" line="967"/>
         <source>QML Error </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="885"/>
-        <location filename="../mainwindow.cpp" line="902"/>
+        <location filename="../mainwindow.cpp" line="1009"/>
+        <location filename="../mainwindow.cpp" line="1026"/>
         <source>Save CharacterSheet View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="885"/>
+        <location filename="../mainwindow.cpp" line="1009"/>
         <source>CharacterSheet View (*.qml)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="902"/>
+        <location filename="../mainwindow.cpp" line="1026"/>
         <source>Rolisteam CharacterSheet View (*.qml)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="988"/>
+        <location filename="../mainwindow.cpp" line="1113"/>
         <source>Get Color</source>
         <translation type="unfinished"></translation>
     </message>
@@ -666,6 +726,44 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../pdfmanager.ui" line="126"/>
         <source>Height:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PreferencesDialog</name>
+    <message>
+        <location filename="../preferencesdialog.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.ui" line="20"/>
+        <source>QML Generation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.ui" line="26"/>
+        <source>Custom path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.ui" line="35"/>
+        <source>Generation Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.ui" line="52"/>
+        <source>Select</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.cpp" line="36"/>
+        <source>Directory to save QML file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdialog.cpp" line="36"/>
+        <source>Place to save Generated files</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -713,7 +811,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="35"/>
+        <location filename="../main.cpp" line="36"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
@@ -721,37 +819,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>TypeDelegate</name>
     <message>
-        <location filename="../typedelegate.cpp" line="25"/>
+        <location filename="../delegate/typedelegate.cpp" line="25"/>
         <source>TextInput</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="26"/>
+        <location filename="../delegate/typedelegate.cpp" line="26"/>
         <source>TextField</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="27"/>
+        <location filename="../delegate/typedelegate.cpp" line="27"/>
         <source>TextArea</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="28"/>
+        <location filename="../delegate/typedelegate.cpp" line="28"/>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="29"/>
+        <location filename="../delegate/typedelegate.cpp" line="29"/>
         <source>Checkbox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="30"/>
+        <location filename="../delegate/typedelegate.cpp" line="30"/>
         <source>Image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../typedelegate.cpp" line="31"/>
+        <location filename="../delegate/typedelegate.cpp" line="31"/>
         <source>Button</source>
         <translation type="unfinished"></translation>
     </message>
