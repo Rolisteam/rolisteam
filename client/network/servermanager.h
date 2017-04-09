@@ -9,6 +9,13 @@
 #include "channelmodel.h"
 /**
  * @brief The ServerManager class
+ * @Todo: Add management of password
+ * @Todo: Add management of time socket
+ * @Todo: Add management of ip ban
+ * @Todo: Add management of Range ip acception
+ * @Todo: Add management of kick user
+ *
+ *
  */
 class ServerManager : public QObject
 {

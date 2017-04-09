@@ -52,10 +52,8 @@ class NetworkManager : public QObject
     Q_ENUMS(ConnectionState)
 public:
     enum ConnectionState {DISCONNECTED,CONNECTING,LISTENING,CONNECTED};
-	/**
-	 * @brief NetworkManager
-	 */
-	NetworkManager();
+
+    static NetworkManager *getInstance();
 	/**
 	 * @brief ~NetworkManager
 	 */
@@ -121,7 +119,11 @@ private slots :
     void startConnectionToServer();
     bool startListening();
     void socketStateChanged(QAbstractSocket::SocketState state);
-
+private:
+    /**
+     * @brief NetworkManager
+     */
+    NetworkManager();
 private:
     QTcpServer * m_server;
     QList<NetworkLink *> m_networkLinkList;
@@ -147,6 +149,8 @@ private:
 //    ConnectionWaitDialog* m_waitDialog;
     QList<QThread*> m_threadList;
     heartBeatSender* m_hbSender;
+
+    static NetworkManager* m_singleton;
 };
 
 #endif
