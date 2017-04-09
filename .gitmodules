@@ -1,9 +1,12 @@
 [submodule "client/diceparser"]
 	path = client/diceparser
-	url = git@github.com:Rolisteam/DiceParser.git
+	url = https://github.com/Rolisteam/DiceParser.git
+    pushURL = git@github.com:Rolisteam/DiceParser.git
 [submodule "client/widgets/gmtoolbox"]
 	path = client/widgets/gmtoolbox
-	url = git@github.com:Rolisteam/RPlugins.git
+	url = https://github.com/Rolisteam/RPlugins.git
+    pushURL = git@github.com:Rolisteam/RPlugins.git
 [submodule "client/charactersheet"]
 	path = client/charactersheet
-	url = git@github.com:Rolisteam/RCharacterSheet.git
+	url = https://github.com/Rolisteam/RCharacterSheet.git
+    pushURL = git@github.com:Rolisteam/RCharacterSheet.git
