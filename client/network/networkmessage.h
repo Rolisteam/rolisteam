@@ -194,7 +194,7 @@ public:
      * @brief sendAll
      * @param butLink
      */
-	void sendAll(NetworkLink * butLink = NULL);
+    void sendAll(NetworkLink * butLink = nullptr);
     /**
      * @brief category
      * @return
