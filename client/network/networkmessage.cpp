@@ -25,9 +25,18 @@
 #ifndef UNIT_TEST
 #include "network/networklink.h"
 #include "network/networkmanager.h"
+<<<<<<< 0fba426f6b9904c3f5211011a52c8d24919e0732
 #endif
 
 
+||||||| merged common ancestors
+=======
+NetworkMessage::NetworkMessage(NetworkManager* server)
+    : m_server(server)
+{
+
+}
+>>>>>>> -fix rebase errors.
 
 NetworkMessage::NetworkMessage(NetworkLink* linkToServer)
     : m_linkToServer(linkToServer)

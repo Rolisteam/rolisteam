@@ -25,9 +25,9 @@
 #define NETWORK_MESSAGE_H
 
 #include <QtGlobal>
-//
+//#include "network/networkmanager.h"
 class NetworkLink;
-class ClientManager;
+class NetworkManager;
 
 struct NetworkMessageHeader
 {
@@ -39,42 +39,27 @@ struct NetworkMessageHeader
 namespace NetMsg
 {
 enum Category {
-    AdministrationCategory,
+    ConnectionCategory,
     PlayerCategory,
     CharacterPlayerCategory,
     NPCCategory,
     CharacterCategory,
     DrawCategory,
     MapCategory,
+    PictureCategory,
     ChatCategory,
     MusicCategory,
     SetupCategory,
     SharePreferencesCategory,
     VMapCategory,
-    MediaCategory,
-    SharedNoteCategory
+    MediaCategory
 };
 
 enum Action {
     // ConnectionCategory
     EndConnectionAction = 0,
     heartbeat,
-    Password,
-    Goodbye,
-    Kicked,
-    MoveChannel,
-    SetChannelList,
-    AuthentificationSucessed,
-    AuthentificationFail,
-    LockChannel,
-    JoinChannel,
-    DeleteChannel,
-    AddChannel,
-    BanUser,
-    ClearTable,
-    AdminPassword,
-    AdminAuthSucessed,
-    AdminAuthFail,
+
 
     // PlayerCategory
     PlayerConnectionAction = 0,
@@ -113,6 +98,10 @@ enum Action {
     LoadMap,
     ImportMap,
     CloseMap,
+
+    // PictureCategory
+    AddPictureAction = 0,
+    DelPictureAction,
 
     // Painting
     penPainting =0,
@@ -177,13 +166,7 @@ enum Action {
     VisionChanged,
 
     //mediacategory
-    addMedia=0,
-    closeMedia,
-
-    //SharedNoteCategory
-    updateTextAndPermission,
-    updateText,
-    updatePermissionOneUser
+    closeMedia=0
 };
 }
 /**
@@ -191,8 +174,8 @@ enum Action {
  */
 class NetworkMessage
 {
+
 public:
-    enum RecipientMode {All,OneOrMany};
     /**
      * @brief NetworkMessage
      * @param server
@@ -211,7 +194,7 @@ public:
      * @brief sendAll
      * @param butLink
      */
-    void sendAll(NetworkLink * butLink = nullptr);
+	void sendAll(NetworkLink * butLink = NULL);
     /**
      * @brief category
      * @return
@@ -223,26 +206,18 @@ public:
      * @return
      */
     virtual NetMsg::Action action() const =0;
-    /**
-     * @brief setLinkToServer
-     * @param server
-     */
-    void setLinkToServer(NetworkLink* server);
 
-    /**
-     * @brief getSize
-     * @return
-     */
+
     quint64 getSize();
+
+    virtual NetworkMessageHeader *  buffer() =0;
+protected:
     /**
      * @brief buffer
      * @return
      */
-    virtual NetworkMessageHeader *  buffer() =0;
-
 
 protected:
-    NetworkLink* m_linkToServer;
-
+    NetworkManager* m_server;
 };
 #endif
