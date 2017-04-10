@@ -3,6 +3,8 @@
 #include <QDebug>
 #include <QTime>
 
+#include <QSettings>
+
 RolisteamDaemon::RolisteamDaemon(QObject *parent)
     : QObject(parent)
 {
@@ -11,8 +13,12 @@ RolisteamDaemon::RolisteamDaemon(QObject *parent)
 
 void RolisteamDaemon::readConfigFile(QString)
 {
+    QSettings settings(filepath,QSettings::IniFormat);
+
+    int port = settings.value("port").toInt();
+    QString password = settings.value("AdminPassword").toString();
     //QFile file(filepath);
-    m_serverManager.setPort(6660);
+    m_serverManager.setPort(port);
 
     connect(&m_thread,SIGNAL(started()),&m_serverManager,SLOT(startListening()));
     connect(&m_serverManager,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
