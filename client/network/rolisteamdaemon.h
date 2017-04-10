@@ -2,6 +2,10 @@
 #define ROLISTEAMDAEMON_H
 
 #include <QObject>
+#include <QThread>
+
+#include "network/servermanager.h"
+
 
 class RolisteamDaemon : public QObject
 {
@@ -22,7 +26,8 @@ private slots:
 
 private:
     int m_port;
-
+    ServerManager m_serverManager;
+    QThread m_thread;
 };
 
 #endif // ROLISTEAMDAEMON_H

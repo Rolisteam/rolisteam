@@ -176,6 +176,8 @@ class NetworkMessage
 {
 
 public:
+    NetworkMessage(NetworkManager* server = nullptr);
+
     virtual ~NetworkMessage();
     /**
      * @brief sendTo
