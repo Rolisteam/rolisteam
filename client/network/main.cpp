@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
     app.setApplicationVersion(version);
 
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    QString locale = QLocale::system().name();
+    //QString locale = QLocale::system().name();
 
     // Ressources
 
@@ -113,18 +113,18 @@ int main(int argc, char *argv[])
 
     RolisteamDaemon daemon;
     parser.process(app.arguments());
-    if(parser.isSet(configFile))
-    {
-        QString value = parser.value(configFile);
-        daemon.readConfigFile(value);
-    }
+
     if(parser.isSet(generateFile))
     {
         QString value = parser.value(generateFile);
         daemon.readConfigFile(value);
     }
 
-
+    if(parser.isSet(configFile))
+    {
+        QString value = parser.value(configFile);
+        daemon.readConfigFile(value);
+    }
 
 
     return app.exec();

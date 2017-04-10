@@ -27,9 +27,9 @@
 
 #include <QTcpServer>
 #include <QList>
-#include <QColor>
+//#include <QColor>
 #include <QTimer>
-#include <QDialog>
+//#include <QDialog>
 
 
 //#include "connectiondialog.h"

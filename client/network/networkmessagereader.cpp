@@ -18,11 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           *
  *************************************************************************/
 
-#include "mainwindow.h"
+//#include "mainwindow.h"
 #include "network/networkmessagereader.h"
 
-NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, const char * buffer)
-    : NetworkMessage()
+NetworkMessageReader::NetworkMessageReader(NetworkManager* server, const NetworkMessageHeader & header, const char * buffer)
+    : NetworkMessage(server)
 {
     size_t headerSize = sizeof(NetworkMessageHeader);
     m_buffer = new char[header.dataSize + headerSize];
@@ -35,12 +35,12 @@ NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, 
     m_pos = m_buffer;
     m_end = m_buffer + m_header->dataSize;
 #ifndef UNIT_TEST
-    m_server = MainWindow::getInstance()->getNetWorkManager();
+    //m_server = MainWindow::getInstance()->getNetWorkManager();
 #endif
 }
 
-NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader & other)
-: NetworkMessage()
+NetworkMessageReader::NetworkMessageReader(NetworkManager* server,const NetworkMessageReader & other)
+: NetworkMessage(server)
 {
     size_t size = other.m_end - ((char *)other.m_header);
     char * copy = new char[size];

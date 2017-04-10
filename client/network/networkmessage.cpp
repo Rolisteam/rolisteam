@@ -32,6 +32,12 @@ NetworkMessage::NetworkMessage(NetworkManager* server)
 
 }
 
+NetworkMessage::NetworkMessage(NetworkManager *server)
+    : m_server(server)
+{
+
+}
+
 NetworkMessage::~NetworkMessage()
 {
 

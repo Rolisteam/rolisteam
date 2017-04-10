@@ -3,15 +3,14 @@
 
 #include <QDialog>
 #include "data/player.h"
-#include <QSettings>
 #include "connectionprofile.h"
+#include <QSettings>
+
 #include <QAbstractListModel>
 
 namespace Ui {
 class SelectConnectionProfileDialog;
 }
-
-
 
 
 /**
@@ -147,7 +146,7 @@ private:
     ProfileModel* m_model;
     ConnectionProfile* m_currentProfile;
     QString m_version;
-    QString     m_avatarUri;
+    QString m_avatarUri;
 };
 
 #endif // SELECTCONNECTIONPROFILEDIALOG_H

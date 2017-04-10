@@ -4,9 +4,10 @@
 #include <QObject>
 #include <QThread>
 
-#include "network/servermanager.h"
-
-
+#include "servermanager.h"
+/**
+ * @brief The RolisteamDaemon class
+ */
 class RolisteamDaemon : public QObject
 {
     Q_OBJECT
@@ -25,7 +26,6 @@ private slots:
     void errorMessage(QString);
 
 private:
-    int m_port;
     ServerManager m_serverManager;
     QThread m_thread;
 };
