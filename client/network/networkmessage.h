@@ -180,7 +180,7 @@ public:
      * @brief NetworkMessage
      * @param server
      */
-    NetworkMessage(NetworkManager* server = NULL);
+    NetworkMessage(NetworkManager* server = nullptr);
     /**
      * @brief ~NetworkMessage
      */
@@ -194,7 +194,7 @@ public:
      * @brief sendAll
      * @param butLink
      */
-	void sendAll(NetworkLink * butLink = NULL);
+    void sendAll(NetworkLink * butLink = nullptr);
     /**
      * @brief category
      * @return
