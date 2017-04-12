@@ -16,7 +16,27 @@ void RolisteamDaemon::readConfigFile(QString filepath)
     QSettings settings(filepath,QSettings::IniFormat);
 
     int port = settings.value("port").toInt();
-    QString password = settings.value("AdminPassword").toString();
+    QString password = settings.value("password").toString();
+    QString range = settings.value("IpRange").toString();
+    QString ipBan = settings.value("IpBan").toString();
+    QString connectionMax = settings.value("ConnectionMax").toString();
+    QString timeStart = settings.value("TimeStart").toString();
+    QString timeEnd= settings.value("TimeEnd").toString();
+    QString ipMode= settings.value("IpMode").toString();
+
+
+    m_serverManager.insertField("port",port);
+    m_serverManager.insertField("password",password);
+    m_serverManager.insertField("IpRange",range);
+    m_serverManager.insertField("IpBan",ipBan);
+    m_serverManager.insertField("ConnectionMax",connectionMax);
+    m_serverManager.insertField("TimeStart",timeStart);
+    m_serverManager.insertField("TimeEnd",timeEnd);
+    m_serverManager.insertField("IpMode",ipMode);//v4 v6 any
+
+    //m_serverManager.insertField("ConnectionMax",ipBan);
+
+
     //QFile file(filepath);
     m_serverManager.setPort(port);
 
@@ -30,11 +50,24 @@ void RolisteamDaemon::readConfigFile(QString filepath)
 }
 
 #include <iostream>
-void RolisteamDaemon::createEmptyConfigFile()
+void RolisteamDaemon::createEmptyConfigFile(QString filepath)
 {
-    QTextStream out(stdout);
+    QSettings settings(filepath,QSettings::IniFormat);
 
-    out << "configuration file:\n";
+    settings.setValue("port",m_serverManager.getValue("port"));
+    settings.setValue("password",m_serverManager.getValue("password"));
+    settings.setValue("IpRange",m_serverManager.getValue("IpRange"));
+    settings.setValue("IpBan",m_serverManager.getValue("IpBan"));
+    settings.setValue("ConnectionMax",m_serverManager.getValue("ConnectionMax"));
+    settings.setValue("TimeStart",m_serverManager.getValue("TimeStart"));
+    settings.setValue("TimeEnd",m_serverManager.getValue("TimeEnd"));
+    settings.setValue("IpMode",m_serverManager.getValue("IpMode"));
+
+    settings.sync();
+
+    //QTextStream out(stdout);
+
+    //out << "configuration file:\n";
 }
 void RolisteamDaemon::notifyUser(QString str)
 {

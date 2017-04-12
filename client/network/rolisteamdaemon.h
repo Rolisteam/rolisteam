@@ -19,7 +19,7 @@ signals:
 
 public slots:
     void readConfigFile(QString);
-    void createEmptyConfigFile();
+    void createEmptyConfigFile(QString filepath);
 
 private slots:
     void notifyUser(QString);
