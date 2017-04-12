@@ -78,8 +78,7 @@ int main(int argc, char *argv[])
     // Application creation
     QCoreApplication app(argc, argv);
 
-
-    QString appName("rolisteamd");
+    QString appName("roliserver");
 
     app.setApplicationName(appName);
     QString version = QObject::tr("Unknown");
