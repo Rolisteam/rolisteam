@@ -7,6 +7,8 @@
 #include "networkmessage.h"
 #include "tcpclient.h"
 #include "channelmodel.h"
+#include "connectionaccepter.h"
+
 /**
  * @brief The ServerManager class
  * @Todo: Add management of password
@@ -34,6 +36,9 @@ public:
     ServerManager::ServerState getState() const;
     void setState(const ServerManager::ServerState &state);
 
+    void insertField(QString,QVariant, bool erase = true);
+    QVariant getValue(QString) const;
+
 signals:
     void stateChanged(ServerState);
     void errorOccurs(QString);
@@ -51,6 +56,9 @@ private:
     ChannelModel* m_model;
     int m_defaultChannelIndex;
     ServerState m_state;
+    ConnectionAccepter* m_chainOfResponsability;
+
+    QMap<QString,QVariant> m_parameters;
 };
 
 #endif // SERVERMANAGER_H
