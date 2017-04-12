@@ -2,10 +2,12 @@
 #define IPRANGEACCTEPTER_H
 
 #include "connectionaccepter.h"
-class IpRangeAcctepter : public ConnectionAccepter
+class IpRangeAccepter : public ConnectionAccepter
 {
 public:
-    IpRangeAcctepter();
+    IpRangeAccepter();
+
+     virtual bool isValid(const QMap<QString,QVariant>& data);
 };
 
 #endif // IPRANGEACCTEPTER_H

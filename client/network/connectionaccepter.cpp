@@ -6,7 +6,7 @@ ConnectionAccepter::ConnectionAccepter()
 
 }
 
-void ConnectionAccepter::setNext(ConnectionAccepter *next)
+void ConnectionAccepter::setNext(ConnectionAccepter* next)
 {
     m_next = next;
 }
