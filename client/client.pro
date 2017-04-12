@@ -152,9 +152,7 @@ HEADERS += \
     widgets/realslider.h \
     network/heartbeatsender.h \
     widgets/persondialog.h \
-    network/rolisteamdaemon.h \
     network/connectionprofile.h \
-    network/servermanager.h \
     network/tcpclient.h \
     network/channelmodel.h
 
@@ -231,9 +229,7 @@ SOURCES += \
     widgets/realslider.cpp \
     network/heartbeatsender.cpp \
     widgets/persondialog.cpp \
-    network/rolisteamdaemon.cpp \
     network/connectionprofile.cpp \
-    network/servermanager.cpp \
     network/tcpclient.cpp \
     network/channelmodel.cpp
 
