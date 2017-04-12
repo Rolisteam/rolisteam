@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
 
     QCommandLineOption configuration(QStringList() << "c"<< "config", QObject::tr("Set the path to configuration file [mandatory]"),"config");
-    QCommandLineOption print(QStringList() << "p"<< "print", QObject::tr("Print a default configuration file into Standard output"));
+    QCommandLineOption print(QStringList() << "p"<< "print", QObject::tr("Print a default configuration file into Standard output"),"output");
 
 
     parser.addOption(configuration);
@@ -133,19 +133,20 @@ int main(int argc, char *argv[])
     }
 
 
+    RolisteamDaemon deamon;
+    if(askPrint)
+    {
+        QString configPathOut = parser.value(print);
+        deamon.createEmptyConfigFile(configPathOut);
+        return 0;
+    }
     if(configPath.isEmpty())
     {
         parser.showHelp();
     }
 
-    RolisteamDaemon deamon;
     deamon.readConfigFile(configPath);
 
-    if(askPrint)
-    {
-        deamon.createEmptyConfigFile();
-        return 0;
-    }
 
     //m_networkManager->setValueConnection(portValue,hostnameValue,username,roleValue);
 
