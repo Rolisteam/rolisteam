@@ -3,6 +3,7 @@
 
 #include <QTcpServer>
 #include <QObject>
+#include <QThread>
 
 #include "networkmessage.h"
 #include "tcpclient.h"
@@ -11,11 +12,6 @@
 
 /**
  * @brief The ServerManager class
- * @Todo: Add management of password
- * @Todo: Add management of time socket
- * @Todo: Add management of ip ban
- * @Todo: Add management of Range ip acception
- * @Todo: Add management of kick user
  *
  *
  */
@@ -31,13 +27,17 @@ public:
     void sendMessage(NetworkMessage* msg);
 
     int getPort() const;
-    void setPort(int port);
+    //void setPort(int port);
+
+   // void create
 
     ServerManager::ServerState getState() const;
     void setState(const ServerManager::ServerState &state);
 
     void insertField(QString,QVariant, bool erase = true);
     QVariant getValue(QString) const;
+
+    void initServerManager();
 
 signals:
     void stateChanged(ServerState);
@@ -56,9 +56,13 @@ private:
     ChannelModel* m_model;
     int m_defaultChannelIndex;
     ServerState m_state;
-    ConnectionAccepter* m_chainOfResponsability;
+    ConnectionAccepter* m_corConnection;
+    ConnectionAccepter* m_corEndProcess;
 
     QMap<QString,QVariant> m_parameters;
+
+    QList< QPair<QThread*,int> > m_threadPool;
+
 };
 
 #endif // SERVERMANAGER_H
