@@ -39,7 +39,7 @@ struct NetworkMessageHeader
 namespace NetMsg
 {
 enum Category {
-    ConnectionCategory,
+    AdministrationCategory,
     PlayerCategory,
     CharacterPlayerCategory,
     NPCCategory,
@@ -59,7 +59,10 @@ enum Action {
     // ConnectionCategory
     EndConnectionAction = 0,
     heartbeat,
-
+    Password,
+    Disconnection,
+    Kickban,
+    MoveChannel,
 
     // PlayerCategory
     PlayerConnectionAction = 0,
