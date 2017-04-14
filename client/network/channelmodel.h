@@ -5,6 +5,9 @@
 #include <QAbstractItemModel>
 #include "tcpclient.h"
 
+/**
+ * @brief The TreeItem class
+ */
 class TreeItem
 {
 public:
@@ -29,10 +32,12 @@ protected:
     QString m_name;
     TreeItem* m_parent;
 };
+
+/**
+ * @brief The TcpClientItem class
+ */
 class TcpClientItem : public TreeItem
 {
-
-
 public:
     TcpClientItem(QString name,TcpClient* client);
 
@@ -44,7 +49,9 @@ public:
 private:
     TcpClient* m_client;
 };
-
+/**
+ * @brief The Channel class
+ */
 class Channel : public TreeItem
 {
 public:
@@ -55,12 +62,30 @@ public:
     void setPassword(const QString &password);
 
     int indexOf(TreeItem* child);
+
+
+    QString title() const;
+    void setTitle(const QString &title);
+
+    QString description() const;
+    void setDescription(const QString &description);
+
+    bool usersListed() const;
+    void setUsersListed(bool usersListed);
+
+    bool isLeaf() const;
+
 private:
     QString m_password;
+    QString m_title;
+    QString m_description;
+    bool m_usersListed;
+
     QList<TreeItem*> m_child;
 };
-
-
+/**
+ * @brief The ChannelModel class
+ */
 class ChannelModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -76,6 +101,10 @@ public:
 
     int addChannel(QString name, QString password);
     int addConnectionToChannel(int indexChan, TcpClient* client);
+
+
+    void readSettings();
+    void writeSettings();
 
 private:
     QList<TreeItem*> m_root;
