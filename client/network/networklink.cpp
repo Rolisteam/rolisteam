@@ -229,7 +229,7 @@ void NetworkLink::receivingData()
                 case NetMsg::SetupCategory :
                     processSetupMessage(&data);
                     break;
-                case NetMsg::ConnectionCategory:
+                case NetMsg::AdministrationCategory:
                     processConnectionMessage(&data);
                 default:
                     break;
