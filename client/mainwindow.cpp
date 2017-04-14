@@ -1192,7 +1192,7 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, 
         processCharacterMessage(msg);
         type = NetWorkReceiver::AllExceptSender;
         break;
-    case NetMsg::ConnectionCategory:
+    case NetMsg::AdministrationCategory:
         processConnectionMessage(msg);
         type = NetWorkReceiver::NONE;
         break;
@@ -1379,7 +1379,7 @@ void MainWindow::setupUi()
     ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory,this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::ConnectionCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory,this);
 
