@@ -29,8 +29,7 @@ void TcpClient::receivingData()
             char* tmp = (char *)&m_header;
             size = m_socket->read(tmp+m_headerRead, sizeof(NetworkMessageHeader)-m_headerRead);
             size+=m_headerRead;
-           // qDebug() << "Global size read"<<size;
-            if(size!= sizeof(NetworkMessageHeader) || m_header.dataSize>2048 || m_header.category > 20 || m_header.action>20)
+            if(size!= sizeof(NetworkMessageHeader))
             {
               //m_headerRead=size;
               return;

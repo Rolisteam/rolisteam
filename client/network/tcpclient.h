@@ -76,7 +76,6 @@ private:
     QTcpSocket* m_socket;
     NetworkMessageHeader m_header;
     char* m_buffer;
-    NetworkManager* m_networkManager;
     int m_headerRead;
     quint32 m_dataToRead;
 };
