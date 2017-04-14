@@ -23,6 +23,9 @@ void RolisteamDaemon::readConfigFile(QString filepath)
     QString timeStart = settings.value("TimeStart").toString();
     QString timeEnd= settings.value("TimeEnd").toString();
     QString ipMode= settings.value("IpMode").toString();
+    QString threadCount= settings.value("ThreadCount").toInt();
+    QString channelCount= settings.value("ChannelCount").toInt();
+    QString timeToRetry= settings.value("TimeToRetry").toString();
 
 
     m_serverManager.insertField("port",port);
@@ -33,12 +36,16 @@ void RolisteamDaemon::readConfigFile(QString filepath)
     m_serverManager.insertField("TimeStart",timeStart);
     m_serverManager.insertField("TimeEnd",timeEnd);
     m_serverManager.insertField("IpMode",ipMode);//v4 v6 any
+    m_serverManager.insertField("ThreadCount",threadCount);//thread count
+    m_serverManager.insertField("ChannelCount",channelCount);//channel count
+    m_serverManager.insertField("TimeToRetry",timeToRetry);//channel count
+
 
     //m_serverManager.insertField("ConnectionMax",ipBan);
 
-
+    m_serverManager.initServerManager();
     //QFile file(filepath);
-    m_serverManager.setPort(port);
+    //m_serverManager.setPort(port);
 
     connect(&m_thread,SIGNAL(started()),&m_serverManager,SLOT(startListening()));
     connect(&m_serverManager,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
