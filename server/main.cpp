@@ -91,6 +91,7 @@ int main(int argc, char *argv[])
 
     QString appName("roliserver");
 
+    app.setOrganizationName("Rolisteam");
     app.setApplicationName(appName);
     QString version = QObject::tr("Unknown");
     #ifdef VERSION_MINOR
