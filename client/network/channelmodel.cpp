@@ -1,5 +1,16 @@
 #include "channelmodel.h"
 
+#include "treeitem.h"
+#include "tcpclientitem.h"
+
+#include <QSettings>
+#include <QList>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+
+#include "channel.h"
+
 ChannelModel::ChannelModel()
 {
 
@@ -48,7 +59,7 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
 QModelIndex ChannelModel::parent(const QModelIndex &child) const
 {
     if (!child.isValid())
-    return QModelIndex();
+        return QModelIndex();
 
     TreeItem* childItem = static_cast<TreeItem*>(child.internalPointer());
     if(nullptr!=childItem)
@@ -96,172 +107,75 @@ int ChannelModel::addChannel(QString name, QString password)
 
 int ChannelModel::addConnectionToChannel(int indexChan, TcpClient* client)
 {
-    if(!m_root.isEmpty() && m_root.size()<indexChan)
+    if(!m_root.isEmpty() && m_root.size()>indexChan)
     {
         return m_root[indexChan]->addChild(new TcpClientItem(tr("channel_%1").arg(m_root.size()),client));
     }
 }
 
+void ChannelModel::readDataJson(const QJsonObject& obj)
+{
+    beginResetModel();
+    QJsonArray channels = obj["channel"].toArray();
+    for(auto channelJson : channels)
+    {
+        Channel* tmp = new Channel();
+        QJsonObject obj = channelJson.toObject();
+        tmp->readChannel(obj);
+        m_root.append(tmp);
+    }
+    endResetModel();
+}
+
+void ChannelModel::writeDataJson(QJsonObject& obj)
+{
+    QJsonArray array;
+    for (int i = 0; i < m_root.size(); ++i)
+    {
+        if(m_root.at(i)->isLeaf())
+        {
+            Channel* item = dynamic_cast<Channel*>(m_root.at(i));
+            if(nullptr != item)
+            {
+                QJsonObject jsonObj;
+                item->writeChannel(jsonObj);
+                array.append(jsonObj);
+            }
+        }
+    }
+    obj["channel"]=array;
+}
+
 void ChannelModel::readSettings()
 {
+    QSettings settings("Rolisteam","roliserver");
 
+    QJsonDocument doc= QJsonDocument::fromVariant(settings.value("channeldata",""));
+
+    QJsonObject obj = doc.object();
+
+    readDataJson(obj);
 }
-#include <QSettings>
-#include <QList>
+
+
 void ChannelModel::writeSettings()
 {
     QSettings settings("Rolisteam","roliserver");
 
-    settings.beginWriteArray("channels");
-    for (int i = 0; i < m_child.size(); ++i)
-    {
-        if(m_child.at(i).isLeaf())
-        {
-            Channel* item = dynamic_cast<Channel*>(m_child.at(i));
-            if(nullptr != item)
-            {
-                settings.setArrayIndex(i);
-                settings.setValue("title", item->title());
-                settings.setValue("password", item->password());
-                settings.setValue("description", item->description());
-                settings.setValue("usersListed", item->usersListed());
-            }
-        }
-    }
-    settings.endArray();
+    QJsonDocument doc;
+
+    QJsonObject obj;
+
+    writeDataJson(obj);
+
+    doc.setObject(obj);
+    settings.setValue("channeldata",doc);
+
 
 }
 
-TreeItem::TreeItem()
-{
 
-}
 
-void TreeItem::addChild()
-{
 
-}
 
-bool TreeItem::isLeaf() const
-{
-    return true;
-}
 
-int TreeItem::childCount() const
-{
-
-}
-
-int TreeItem::addChild(TreeItem *)
-{
-
-}
-
-TreeItem *TreeItem::getChildAt(int row)
-{
-
-}
-
-TreeItem *TreeItem::getParent() const
-{
-    return m_parent;
-}
-
-void TreeItem::setParent(TreeItem *parent)
-{
-    m_parent = parent;
-}
-
-QString TreeItem::getName() const
-{
-    return m_name;
-}
-
-void TreeItem::setName(const QString &name)
-{
-    m_name = name;
-}
-
-int TreeItem::rowInParent()
-{
-    return m_parent->indexOf(this);
-}
-
-TcpClientItem::TcpClientItem(QString name, TcpClient *client)
-{
-}
-
-TcpClient *TcpClientItem::client() const
-{
-    return m_client;
-}
-
-void TcpClientItem::setClient(TcpClient *client)
-{
-    m_client = client;
-}
-
-int TcpClientItem::indexOf(TreeItem *child)
-{
-    return -1;
-}
-
-Channel::Channel(QString)
-{
-
-}
-
-Channel::~Channel()
-{
-
-}
-
-QString Channel::password() const
-{
-    return m_password;
-}
-
-void Channel::setPassword(const QString &password)
-{
-    m_password = password;
-}
-
-int Channel::indexOf(TreeItem *child)
-{
-    return m_child.indexOf(child);
-}
-
-QString Channel::title() const
-{
-    return m_title;
-}
-
-void Channel::setTitle(const QString &title)
-{
-    m_title = title;
-}
-
-QString Channel::description() const
-{
-    return m_description;
-}
-
-void Channel::setDescription(const QString &description)
-{
-    m_description = description;
-}
-
-bool Channel::usersListed() const
-{
-    return m_usersListed;
-}
-
-void Channel::setUsersListed(bool usersListed)
-{
-    m_usersListed = usersListed;
-}
-
-bool Channel::isLeaf() const
-{
-    return false;
-}
