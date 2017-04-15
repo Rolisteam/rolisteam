@@ -60,9 +60,10 @@ enum Action {
     EndConnectionAction = 0,
     heartbeat,
     Password,
-    Disconnection,
-    Kickban,
+    Goodbye,
+    Kicked,
     MoveChannel,
+    SetChannelList,
 
     // PlayerCategory
     PlayerConnectionAction = 0,
@@ -209,6 +210,8 @@ public:
      * @return
      */
     virtual NetMsg::Action action() const =0;
+
+    void setManager(NetworkManager* server);
 
 
     quint64 getSize();

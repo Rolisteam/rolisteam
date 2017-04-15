@@ -69,3 +69,7 @@ quint64 NetworkMessage::getSize()
         return  header->dataSize + sizeof(NetworkMessageHeader);
     }
 }
+void NetworkMessage::setManager(NetworkManager* server)
+{
+    m_server = server;
+}
