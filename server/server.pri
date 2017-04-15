@@ -1,20 +1,34 @@
-SOURCES += main.cpp \
-           ../client/network/rolisteamdaemon.cpp \
-            ../client/network/channelmodel.cpp \
-            ../client/network/tcpclient.cpp \
-           ../client/network/servermanager.cpp \
-    ../client/network/connectionaccepter.cpp \
-    ../client/network/passwordaccepter.cpp \
-    ../client/network/iprangeaccepter.cpp \
-    ../client/network/ipbanaccepter.cpp \
-    ../client/network/timeaccepter.cpp
 
-HEADERS += ../client/network/rolisteamdaemon.h \
-            ../client/network/channelmodel.h \
-            ../client/network/tcpclient.h \
-            ../client/network/servermanager.h \
-    ../client/network/connectionaccepter.h \
-    ../client/network/passwordaccepter.h \
-    ../client/network/iprangeaccepter.h \
-    ../client/network/ipbanaccepter.h \
-    ../client/network/timeaccepter.h
+
+SOURCES += main.cpp \
+           $$PWD/../client/network/rolisteamdaemon.cpp \
+            $$PWD/../client/network/channelmodel.cpp \
+            $$PWD/../client/network/tcpclient.cpp \
+           $$PWD/../client/network/servermanager.cpp \
+    $$PWD/../client/network/connectionaccepter.cpp \
+    $$PWD/../client/network/passwordaccepter.cpp \
+    $$PWD/../client/network/iprangeaccepter.cpp \
+    $$PWD/../client/network/ipbanaccepter.cpp \
+    $$PWD/../client/network/timeaccepter.cpp \
+    $$PWD/../client/network/channel.cpp \
+    $$PWD/../client/network/tcpclientitem.cpp \
+    $$PWD/../client/network/treeitem.cpp \
+    $$PWD/../client/network/networkmessage.cpp \
+    $$PWD/../client/network/networkmessagereader.cpp \
+    $$PWD/../client/network/messagedispatcher.cpp
+
+HEADERS += $$PWD/../client/network/rolisteamdaemon.h \
+            $$PWD/../client/network/channelmodel.h \
+            $$PWD/../client/network/tcpclient.h \
+            $$PWD/../client/network/servermanager.h \
+    $$PWD/../client/network/connectionaccepter.h \
+    $$PWD/../client/network/passwordaccepter.h \
+    $$PWD/../client/network/iprangeaccepter.h \
+    $$PWD/../client/network/ipbanaccepter.h \
+    $$PWD/../client/network/timeaccepter.h \
+    $$PWD/../client/network/channel.h \
+    $$PWD/../client/network/tcpclientitem.h \
+    $$PWD/../client/network/treeitem.h \
+    $$PWD/../client/network/networkmessage.h \
+    $$PWD/../client/network/networkmessagereader.h \
+    $$PWD/../client/network/messagedispatcher.h

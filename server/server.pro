@@ -5,7 +5,7 @@ LANGUAGE = C++
 DEPENDPATH += . ../client/
 INCLUDEPATH += . ../client/
 
-
+DEFINES += UNIT_TEST
 
 isEmpty(PREFIX) {
  PREFIX = /usr/local/bin
