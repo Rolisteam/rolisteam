@@ -1,16 +1,35 @@
 #include "tcpclient.h"
-
-//#include "networkmanager.h"
+#include "channel.h"
 
 TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
-    : QObject(parent),m_socket(socket)
+    : QObject(parent),m_socket(socket),m_parentChannel(nullptr)
 {
     m_dataToRead=0;
     m_headerRead = 0;
-
+    qInfo() << "########################################tcpClient########################################" << this;
     connect(m_socket,SIGNAL(readyRead()),this,SLOT(receivingData()));
     connect(m_socket,SIGNAL(disconnected()),this,SIGNAL(disconnected()));
     connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
+
+
+    m_incomingConnection = new QState();
+    m_controlConnection = new QState();
+    m_waitingAuthentificationData = new QState();
+    m_authentification = new QState();
+    m_wantToGoToChannel = new QState();
+    m_inPlace = new QState();
+    m_waitingAuthChannel = new QState();
+
+
+
+
+    m_stateMachine.addState(m_incomingConnection);
+    m_stateMachine.addState(m_controlConnection);
+    m_stateMachine.addState(m_waitingAuthentificationData);
+    m_stateMachine.addState(m_authentification);
+    m_stateMachine.addState(m_wantToGoToChannel);
+    m_stateMachine.addState(m_inPlace);
+    m_stateMachine.addState(m_waitingAuthChannel);
 }
 
 void TcpClient::receivingData()
@@ -65,11 +84,12 @@ void TcpClient::forwardMessage()
     array.append(m_buffer,m_header.dataSize);
 
     //qDebug()<< array.size() << "DataReceived";
-
+    qInfo() << "forwardMessage";
     emit dataReceived(array);
 }
 void TcpClient::sendData(char* data, quint32 size)
 {
+    qInfo() << "send data (char*)";
     qint64 dataSend = m_socket->write(data,size);
     if(-1 == dataSend)
     {
@@ -79,6 +99,7 @@ void TcpClient::sendData(char* data, quint32 size)
 }
 void TcpClient::sendData(QByteArray a)
 {
+    qInfo() << "send data";
     qint64 dataSend = m_socket->write(a);
     if(-1 == dataSend)
     {
@@ -88,6 +109,7 @@ void TcpClient::sendData(QByteArray a)
 }
 void TcpClient::sendMessage(NetworkMessage& msg)
 {
+    qInfo() << "send message";
     NetworkMessageHeader* data = msg.buffer();
     qint64 dataSend = m_socket->write((char*)data,data->dataSize+sizeof(NetworkMessageHeader));
     //qDebug() << "sendData MESSAGE:"<<dataSend;
@@ -100,6 +122,16 @@ void TcpClient::connectionError(QAbstractSocket::SocketError error)
 {
     //qDebug() << "Error socket" <<error;
     emit disconnected();
+}
+
+Channel *TcpClient::getParentChannel() const
+{
+    return m_parentChannel;
+}
+
+void TcpClient::setParentChannel(Channel *parent)
+{
+    m_parentChannel = parent;
 }
 QTcpSocket* TcpClient::getSocket()
 {

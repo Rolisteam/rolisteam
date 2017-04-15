@@ -3,12 +3,15 @@
 
 #include <QObject>
 #include <QTcpSocket>
+#include <QStateMachine>
+#include <QState>
+
+#include "channelmodel.h"
 
 #include "networkmessage.h"
 
-
 class NetworkManager;
-
+class Channel;
 /**
  * @brief The TcpClient class
  */
@@ -16,6 +19,7 @@ class TcpClient : public QObject
 {
     Q_OBJECT
 public:
+    enum ConnectionEvent {CheckedEvent,CheckFailedEvent,ForbiddenEvent,DataReceivedEvent,AuthFailEvent,AuthSuccessEvent,NoRestrictionEvent,HasRestrictionEvent,ChannelAuthSuccessEvent,ChannelAuthFailEvent};
     /**
      * @brief TcpClient
      * @param socket
@@ -27,6 +31,18 @@ public:
      * @return
      */
     QTcpSocket* getSocket();
+
+    /**
+     * @brief getParentChannel
+     * @return
+     */
+    Channel *getParentChannel() const;
+    /**
+     * @brief setParentChannel
+     * @param parent
+     */
+    void setParentChannel(Channel *parent);
+
 signals:
     /**
      * @brief readDataReceived
@@ -40,6 +56,18 @@ signals:
      * @brief disconnected
      */
     void disconnected();
+
+    ///
+    void connectionChecked();
+    void checkFail();
+    void forbidden();
+    void dataReceived();
+    void authFail();
+    void authSuccess();
+    void hasNoRestriction();
+    void hasRestriction();
+    void channelAuthFail();
+    void channelAuthSuccess();
 
 public slots:
     /**
@@ -72,12 +100,26 @@ public slots:
      */
     void connectionError(QAbstractSocket::SocketError error);
 
+
+    void sendEvent(TcpClient::ConnectionEvent);
+
 private:
     QTcpSocket* m_socket;
     NetworkMessageHeader m_header;
     char* m_buffer;
     int m_headerRead;
     quint32 m_dataToRead;
+    Channel* m_parentChannel;
+
+    QStateMachine m_stateMachine;
+    QState* m_incomingConnection;
+    QState* m_controlConnection;
+    QState* m_waitingAuthentificationData;
+    QState* m_authentification;
+    QState* m_wantToGoToChannel;
+    QState* m_inPlace;
+    QState* m_waitingAuthChannel;
+
 };
 
 #endif // TCPCLIENT_H
