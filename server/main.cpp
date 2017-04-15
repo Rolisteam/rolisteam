@@ -74,9 +74,51 @@
 *
 *
 */
+#include <QTextStream>
+#include <QMessageLogContext>
+enum LOG_STATE {DEBUG,WARNING,CRITICAL,FATAL,INFO};
 
+int g_logMini = CRITICAL;
 
-
+void logOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+      QByteArray localMsg = msg.toLocal8Bit();
+      QString time = QDateTime::currentDateTime().toString("dd/mm/yyyy - hh:mm:ss");
+      QTextStream stream(stderr);
+      if(g_logMini != INFO)
+      {
+          if((type==QtDebugMsg)&&(g_logMini!=DEBUG))
+          {
+             return;
+          }
+          else if((g_logMini==DEBUG)&&(type!=QtDebugMsg))
+          {
+             return;
+          }
+          else if(type < g_logMini)
+          {
+              return;
+          }
+      }
+      switch (type)
+      {
+      case QtDebugMsg:
+          stream << QStringLiteral("Debug: [%1] - %2 (%3:%4, %5)\n").arg(time).arg(localMsg.constData()).arg(context.file).arg(context.line).arg(context.function);
+          break;
+      case QtInfoMsg:
+          stream << QStringLiteral("Info: [%1] - %2 (%3:%4, %5)\n").arg(time).arg(localMsg.constData()).arg(context.file).arg(context.line).arg(context.function);
+          break;
+      case QtWarningMsg:
+          stream << QStringLiteral("Warning: [%1] - %2 (%3:%4, %5)\n").arg(time).arg(localMsg.constData()).arg(context.file).arg(context.line).arg(context.function);
+          break;
+      case QtCriticalMsg:
+          stream << QStringLiteral("Critical: [%1] - %2 (%3:%4, %5)\n").arg(time).arg(localMsg.constData()).arg(context.file).arg(context.line).arg(context.function);
+          break;
+      case QtFatalMsg:
+          stream << QStringLiteral("Fatal: [%1] - %2 (%3:%4, %5)\n").arg(time).arg(localMsg.constData()).arg(context.file).arg(context.line).arg(context.function);
+          abort();
+      }
+}
 
 /**
  * @brief main
@@ -86,6 +128,7 @@
  */
 int main(int argc, char *argv[])
 {
+    qInstallMessageHandler(logOutput);
     // Application creation
     QCoreApplication app(argc, argv);
 
@@ -148,7 +191,10 @@ int main(int argc, char *argv[])
 
     deamon.readConfigFile(configPath);
 
+    g_logMini = static_cast<LOG_STATE>(deamon.getLevelOfLog());
 
+
+    deamon.start();
     //m_networkManager->setValueConnection(portValue,hostnameValue,username,roleValue);
 
 
