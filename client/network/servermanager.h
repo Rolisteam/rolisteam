@@ -9,6 +9,7 @@
 #include "tcpclient.h"
 #include "channelmodel.h"
 #include "connectionaccepter.h"
+#include "messagedispatcher.h"
 
 /**
  * @brief The ServerManager class
@@ -46,7 +47,10 @@ signals:
 
 public slots:
     void startListening();
+    void messageReceived(QByteArray);
+    void disconnection();
 
+    void processMessageAdmin(NetworkMessageReader *msg);
 private slots:
     void incomingClientConnection();
 
@@ -62,6 +66,7 @@ private:
     QMap<QString,QVariant> m_parameters;
 
     QList< QPair<QThread*,int> > m_threadPool;
+    MessageDispatcher* m_msgDispatcher;
 
 };
 
