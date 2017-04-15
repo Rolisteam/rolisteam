@@ -154,7 +154,12 @@ HEADERS += \
     widgets/persondialog.h \
     network/connectionprofile.h \
     network/tcpclient.h \
-    network/channelmodel.h
+    network/channelmodel.h \
+    network/messagedispatcher.h \
+    network/channel.h \
+    network/treeitem.h \
+    network/tcpclientitem.h \
+    network/channellistpanel.h
 
 
    #     persondialog.cpp \
@@ -231,7 +236,12 @@ SOURCES += \
     widgets/persondialog.cpp \
     network/connectionprofile.cpp \
     network/tcpclient.cpp \
-    network/channelmodel.cpp
+    network/channelmodel.cpp \
+    network/messagedispatcher.cpp \
+    network/channel.cpp \
+    network/treeitem.cpp \
+    network/tcpclientitem.cpp \
+    network/channellistpanel.cpp
 
 
 FORMS += \
@@ -245,7 +255,8 @@ FORMS += \
     widgets/onlinepicturedialog.ui \
     widgets/aboutrolisteam.ui \
     network/selectconnectionprofiledialog.ui \
-    widgets/persondialog.ui
+    widgets/persondialog.ui \
+    network/channellistpanel.ui
 
 
 # Installs
