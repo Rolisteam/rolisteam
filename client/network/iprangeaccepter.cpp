@@ -8,6 +8,7 @@ IpRangeAccepter::IpRangeAccepter()
 
 bool IpRangeAccepter::isValid(const QMap<QString, QVariant> &data)
 {
+    qInfo() << "data" << data;
     bool result = true;
     if(!data["rangeIp"].toString().isEmpty())
     {
@@ -18,6 +19,11 @@ bool IpRangeAccepter::isValid(const QMap<QString, QVariant> &data)
             result = false;
         }
     }
-    result &= m_next->isValid(data);
+    qInfo() << "result" << result;
+    if(nullptr != m_next)
+    {
+        result &= m_next->isValid(data);
+    }
+    qInfo() << "result" << result;
     return result;
 }
