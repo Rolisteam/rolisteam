@@ -32,14 +32,17 @@
 class NetworkMessageReader : public NetworkMessage
 {
 public:
+    NetworkMessageReader();
     NetworkMessageReader(NetworkManager* server, const NetworkMessageHeader & header, const char * buffer);
     NetworkMessageReader(NetworkManager* server, const NetworkMessageReader & other);
-    ~NetworkMessageReader();
+    virtual ~NetworkMessageReader();
 
     NetMsg::Category category() const;
     NetMsg::Action action() const;
 
     void reset();
+
+    void setData(QByteArray& bytes);
 
     size_t left() const;
 

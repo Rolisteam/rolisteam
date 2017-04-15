@@ -21,6 +21,12 @@
 //#include "mainwindow.h"
 #include "network/networkmessagereader.h"
 
+NetworkMessageReader::NetworkMessageReader()
+    : NetworkMessage(nullptr)
+{
+
+}
+
 NetworkMessageReader::NetworkMessageReader(NetworkManager* server, const NetworkMessageHeader & header, const char * buffer)
     : NetworkMessage(server)
 {
@@ -55,6 +61,18 @@ NetworkMessageReader::NetworkMessageReader(NetworkManager* server,const NetworkM
 NetworkMessageReader::~NetworkMessageReader()
 {
     delete[] ((char *)m_header);
+}
+void NetworkMessageReader::setData(QByteArray& bytes)
+{
+    int size = bytes.size();
+    const char* data = bytes.data();
+
+    size_t headerSize = sizeof(NetworkMessageHeader);
+    m_buffer = new char[size + headerSize];
+
+    memcpy(m_buffer,data,size+headerSize);
+
+    m_header = (NetworkMessageHeader *)m_buffer;
 }
 
 NetMsg::Category NetworkMessageReader::category() const
