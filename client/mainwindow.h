@@ -61,6 +61,7 @@
 #endif
 
 #include "network/networkmanager.h"
+#include  "network/channellistpanel.h"
 
 namespace Ui {
 class MainWindow;
@@ -595,7 +596,7 @@ private:
     SelectConnectionProfileDialog* m_dialog;
     bool m_profileDefined;
     CleverURI* m_currentStory;
-
+    QDockWidget* m_roomPanelDockWidget;
 };
 
 #endif

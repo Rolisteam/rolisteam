@@ -86,7 +86,8 @@ MainWindow::MainWindow()
       m_currentConnectionProfile(nullptr),
       m_profileDefined(false),
       m_currentStory(nullptr),
-      m_preferencesDialog(nullptr)
+      m_preferencesDialog(nullptr),
+      m_roomPanelDockWidget(new QDockWidget(this))
 {
     setAcceptDrops(true);
     m_profileDefined = false;
@@ -128,6 +129,16 @@ MainWindow::MainWindow()
         m_ui->m_gmToolBoxMenu->addAction(widDock->toggleViewAction());
         widDock->setVisible(false);
     }
+
+    //Room List
+    ChannelListPanel* roomPanel = new ChannelListPanel(this);
+
+    m_roomPanelDockWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
+    m_roomPanelDockWidget->setWidget(roomPanel);
+    m_roomPanelDockWidget->setWindowTitle(roomPanel->windowTitle());
+    m_roomPanelDockWidget->setObjectName(roomPanel->objectName());
+    m_roomPanelDockWidget->setVisible(false);
+    addDockWidget(Qt::RightDockWidgetArea, m_roomPanelDockWidget);
 
 }
 MainWindow::~MainWindow()
@@ -437,6 +448,8 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_disconnectAction,SIGNAL(triggered()),this,SLOT(closeConnection()));
     connect(m_ui->m_connectionAction,SIGNAL(triggered()),this,SLOT(startReconnection()));
     connect(m_ui->m_changeProfileAct,SIGNAL(triggered()),this,SLOT(showConnectionDialog()));
+
+    connect(m_ui->m_roomListAct,SIGNAL(triggered(bool)),m_roomPanelDockWidget,SLOT(setVisible(bool)));
 
     // Windows managing
     connect(m_ui->m_cascadeViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
