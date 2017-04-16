@@ -15,7 +15,7 @@ ServerManager::ServerManager(QObject *parent)
 {
     m_model = new ChannelModel();
     m_msgDispatcher = new MessageDispatcher(this);
-    connect(m_msgDispatcher, SIGNAL(messageForAdmin(NetworkMessageReader*)),this,SLOT(processMessageAdmin(NetworkMessageReader*)));
+    connect(m_msgDispatcher, SIGNAL(messageForAdmin(NetworkMessageReader*,Channel*,TcpClient*)),this,SLOT(processMessageAdmin(NetworkMessageReader*,Channel*,TcpClient*)));
     m_defaultChannelIndex = m_model->addChannel("default","");
 
     m_corConnection = new IpBanAccepter();
@@ -58,18 +58,23 @@ void ServerManager::startListening()
         QTimer::singleShot(getValue("TimeToRetry").toInt(),this,SLOT(startListening()));
     }
 }
+void ServerManager::stopListening()
+{
+
+    m_server->close();
+}
 
 void ServerManager::messageReceived(QByteArray array)
 {
-    qInfo() << "Message Received" << array.size();
+    //qInfo() << "Message Received" << array.size();
     TcpClient* client = qobject_cast<TcpClient*>(sender());
     if(nullptr != client)
     {
-        qInfo() << "Client" ;
+        //qInfo() << "Client" ;
         Channel* channel = client->getParentChannel();
-        if(nullptr != channel)
+        //if(nullptr != channel)
         {
-            qInfo() << "channel" ;
+            //qInfo() << "channel" ;
             //channel->sendToAll(,client);
             m_msgDispatcher->dispatchMessage(array,channel,client);
         }
@@ -78,6 +83,7 @@ void ServerManager::messageReceived(QByteArray array)
 
 void ServerManager::disconnection()
 {
+
     qInfo() << "Disconnction";
 }
 void ServerManager::initServerManager()
@@ -105,14 +111,26 @@ void ServerManager::incomingClientConnection()
     QTcpSocket* socketTcp = m_server->nextPendingConnection();
     emit sendLog(tr("New Incoming Connection!"));
 
+
     QMap<QString,QVariant> data(m_parameters);
     data["currentIp"]=socketTcp->peerAddress().toString();
-
     qInfo() << "currentIP" << data["currentIp"].toString();
     if(m_corConnection->isValid(data))
     {
         qInfo() << "inside connection valide";
         TcpClient* client = new TcpClient(socketTcp);
+        connect(client,SIGNAL(isReady()),this,SLOT(initClient()));
+        m_clients.append(client);
+
+    }
+}
+void ServerManager::initClient()
+{
+    TcpClient* client = qobject_cast<TcpClient*>(sender());
+    QMap<QString,QVariant> data(m_parameters);
+    data["currentIp"]=client->getSocket()->peerAddress().toString();
+    if(nullptr != client)
+    {
         client->sendEvent(TcpClient::HasCheckEvent);
 
         if(m_corEndProcess->isValid(data))
@@ -151,11 +169,10 @@ void ServerManager::incomingClientConnection()
 
         qInfo() << "set connection signal/slots: found:" << found;
         connect(client,SIGNAL(dataReceived(QByteArray)),this,SLOT(messageReceived(QByteArray)));
-        connect(socketTcp, SIGNAL(error(QAbstractSocket::SocketError)),client, SLOT(connectionError(QAbstractSocket::SocketError)));
-        connect(socketTcp, SIGNAL(disconnected()), client, SIGNAL(disconnected()));
         connect(client, SIGNAL(disconnected()), this, SLOT(disconnection()));
     }
 }
+
 void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan, TcpClient* tcp)
 {
     switch (msg->action())

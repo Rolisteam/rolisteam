@@ -50,8 +50,10 @@ public slots:
     void startListening();
     void messageReceived(QByteArray);
     void disconnection();
+    void stopListening();
 
     void processMessageAdmin(NetworkMessageReader *msg,Channel* chan, TcpClient* tcp);
+    void initClient();
 private slots:
     void incomingClientConnection();
 
@@ -68,6 +70,7 @@ private:
 
     QList< QPair<QThread*,int> > m_threadPool;
     MessageDispatcher* m_msgDispatcher;
+    QList <TcpClient*> m_clients;
 
 };
 
