@@ -89,7 +89,7 @@ int RolisteamDaemon::getLevelOfLog()
 }
 void RolisteamDaemon::notifyUser(QString str)
 {
-    qDebug() << str;
+    qInfo() << str;
 }
 
 void RolisteamDaemon::errorMessage(QString str)
