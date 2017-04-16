@@ -15,6 +15,7 @@ SOURCES += main.cpp \
     $$PWD/../client/network/treeitem.cpp \
     $$PWD/../client/network/networkmessage.cpp \
     $$PWD/../client/network/networkmessagereader.cpp \
+    $$PWD/../client/network/networkmessagewriter.cpp \
     $$PWD/../client/network/messagedispatcher.cpp
 
 HEADERS += $$PWD/../client/network/rolisteamdaemon.h \
@@ -31,4 +32,5 @@ HEADERS += $$PWD/../client/network/rolisteamdaemon.h \
     $$PWD/../client/network/treeitem.h \
     $$PWD/../client/network/networkmessage.h \
     $$PWD/../client/network/networkmessagereader.h \
+    $$PWD/../client/network/networkmessagewriter.h \
     $$PWD/../client/network/messagedispatcher.h
