@@ -45,12 +45,12 @@ public :
      * @brief NetworkLink
      * @param socket
      */
-    NetworkLink(QTcpSocket *socket,NetworkManager* netMan);
+    NetworkLink(QTcpSocket *socket,ClientManager* netMan);
     /**
      * @brief NetworkLink
      * @param m_connection
      */
-    NetworkLink(ConnectionProfile* m_connection,NetworkManager* netMan);
+    NetworkLink(ConnectionProfile* m_connection,ClientManager* netMan);
     /**
      * @brief ~NetworkLink
      */
@@ -105,7 +105,7 @@ public slots :
     void sendData(NetworkMessage *msg);
 
     void sendDataSlot(char* data,quint32 size, NetworkLink* but = 0);
-    void processConnectionMessage(NetworkMessageReader *msg);
+    void processAdminstrationMessage(NetworkMessageReader *msg);
 signals:
     /**
      * @brief disconnected
@@ -160,7 +160,7 @@ private :
     char* m_buffer;
     quint32 m_remainingData;
     //MainWindow* m_mainWindow;
-    NetworkManager* m_networkManager;
+    ClientManager* m_networkManager;
     QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
     int m_headerRead;
     QHash<QString,int> m_hbCount;

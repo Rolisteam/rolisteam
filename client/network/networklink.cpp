@@ -34,7 +34,7 @@
 #include "network/receiveevent.h"
 
 
-NetworkLink::NetworkLink(QTcpSocket *socket,NetworkManager* netMan)
+NetworkLink::NetworkLink(QTcpSocket *socket,ClientManager* netMan)
     : QObject(NULL),m_networkManager(netMan)
 {
     //m_mainWindow = MainWindow::getInstance();
@@ -50,7 +50,7 @@ NetworkLink::NetworkLink(QTcpSocket *socket,NetworkManager* netMan)
     }
 }
 
-NetworkLink::NetworkLink(ConnectionProfile* connection,NetworkManager* netMan)
+NetworkLink::NetworkLink(ConnectionProfile* connection,ClientManager* netMan)
     : m_host("localhost"),m_port(6660),m_networkManager(netMan)
 {
    // m_mainWindow = MainWindow::getInstance();
@@ -230,7 +230,7 @@ void NetworkLink::receivingData()
                     processSetupMessage(&data);
                     break;
                 case NetMsg::AdministrationCategory:
-                    processConnectionMessage(&data);
+                    processAdminstrationMessage(&data);
                 default:
                     break;
             }
@@ -241,7 +241,7 @@ void NetworkLink::receivingData()
     }
 
 }
-void NetworkLink::processConnectionMessage(NetworkMessageReader* msg)
+void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
 {
     if(NetMsg::heartbeat == msg->action())
     {
