@@ -159,7 +159,13 @@ HEADERS += \
     network/channel.h \
     network/treeitem.h \
     network/tcpclientitem.h \
-    network/channellistpanel.h
+    network/channellistpanel.h \
+    network/servermanager.h \
+    network/ipbanaccepter.h \
+    network/iprangeaccepter.h \
+    network/passwordaccepter.h \
+    network/timeaccepter.h \
+    network/connectionaccepter.h
 
 
    #     persondialog.cpp \
@@ -241,7 +247,13 @@ SOURCES += \
     network/channel.cpp \
     network/treeitem.cpp \
     network/tcpclientitem.cpp \
-    network/channellistpanel.cpp
+    network/channellistpanel.cpp \
+    network/servermanager.cpp \
+    network/ipbanaccepter.cpp \
+    network/iprangeaccepter.cpp \
+    network/passwordaccepter.cpp \
+    network/timeaccepter.cpp \
+    network/connectionaccepter.cpp
 
 
 FORMS += \
@@ -270,7 +282,7 @@ QMAKE_CXXFLAGS = "-std=c++11 -fstack-protector -W -Wall -Wextra -pedantic -Wstac
 ICON = ../resources/logo/rolisteam.icns
 RESOURCES += ../rolisteam.qrc
 # Version
-DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=8 VERSION_MINOR=0
+DEFINES += VERSION_MAJOR=1 VERSION_MIDDLE=9 VERSION_MINOR=0
 
 
 UI_DIR = src
@@ -298,20 +310,4 @@ PRE_TARGETDEPS += $$PWD/../../../lib/zlibapi/dll32/zlibwapi.lib
 
 DISTFILES += \
     rolisteam.dox
-#DEFINES += DEBUG_MODE
 
-
-
-#CONFIG += HAVE_NULL
-
-
-
-
-
-
-
-
-
-#src/persondialog.h \
-
-#end source
