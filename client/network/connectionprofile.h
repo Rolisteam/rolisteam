@@ -88,6 +88,18 @@ public:
      * @brief setCharacter
      */
     void setCharacter(Character* );
+
+    /**
+     * @brief getPassword
+     * @return
+     */
+    QString getPassword() const;
+    /**
+     * @brief setPassword
+     * @param password
+     */
+    void setPassword(const QString &password);
+
 private:
     Character* m_character;
     bool    m_server;
@@ -97,6 +109,7 @@ private:
     QString m_title;///< @brief defines the name of the profile. It can be what ever users want.
     QString m_name;
     QString m_address;
+    QString m_password;
 };
 
 

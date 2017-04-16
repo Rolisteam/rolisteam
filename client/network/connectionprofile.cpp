@@ -75,3 +75,13 @@ void ConnectionProfile::setCharacter(Character* character)
 {
     m_character = character;
 }
+
+QString ConnectionProfile::getPassword() const
+{
+    return m_password;
+}
+
+void ConnectionProfile::setPassword(const QString &password)
+{
+    m_password = password;
+}
