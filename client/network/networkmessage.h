@@ -184,7 +184,7 @@ public:
      * @brief NetworkMessage
      * @param server
      */
-    NetworkMessage(ClientManager* server = nullptr);
+    NetworkMessage(NetworkLink* server = nullptr);
     /**
      * @brief ~NetworkMessage
      */
@@ -211,7 +211,7 @@ public:
      */
     virtual NetMsg::Action action() const =0;
 
-    void setManager(ClientManager* server);
+    void setLinkToServer(NetworkLink* server);
 
 
     quint64 getSize();
@@ -224,6 +224,6 @@ protected:
      */
 
 protected:
-    ClientManager* m_server;
+    NetworkLink* m_linkToServer;
 };
 #endif

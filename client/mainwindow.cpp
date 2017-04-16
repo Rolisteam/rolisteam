@@ -100,7 +100,7 @@ MainWindow::MainWindow()
     m_downLoadProgressbar->setRange(0,100);
 
     m_downLoadProgressbar->setVisible(false);
-    m_clientManager = ClientManager::getInstance();
+    m_clientManager = nullptr;
     m_vmapToolBar = new VmapToolBar();
     addToolBar(Qt::TopToolBarArea,m_vmapToolBar);
 
@@ -117,7 +117,7 @@ MainWindow::MainWindow()
     m_gmToolBoxList.append(new NameGeneratorWidget());
     m_gmToolBoxList.append(new GMTOOL::Convertor());
 
-    foreach (QWidget* wid, m_gmToolBoxList)
+    for (QWidget* wid : m_gmToolBoxList)
     {
         QDockWidget* widDock = new QDockWidget(this);
         widDock->setAllowedAreas(Qt::AllDockWidgetAreas);
@@ -911,7 +911,10 @@ void MainWindow::startReconnection()
 }
 void MainWindow::showIp(QString ip)
 {
-    notifyUser(tr("Server Ip Address:%1\nPort:%2").arg(ip).arg(m_clientManager->getPort()));
+    if(nullptr!=m_currentConnectionProfile)
+    {
+        notifyUser(tr("Server Ip Address:%1\nPort:%2").arg(ip).arg(m_currentConnectionProfile->getPort()));
+    }
 }
 void MainWindow::setUpNetworkConnection()
 {
@@ -1032,8 +1035,8 @@ void MainWindow::networkStateChanged(ClientManager::ConnectionState state)
 {
     switch(state)
     {
-    case ClientManager::LISTENING:
-        m_ipChecker->startCheck();
+    /*case ClientManager::LISTENING:
+        m_ipChecker->startCheck();*/
     case ClientManager::CONNECTED:
         m_ui->m_connectionAction->setEnabled(false);
         m_ui->m_disconnectAction->setEnabled(true);
@@ -1072,12 +1075,6 @@ void MainWindow::updateSessionToNewClient(Player* player)
         m_preferencesDialog->sendOffAllDiceAlias(player->link());
         m_preferencesDialog->sendOffAllState(player->link());
     }
-}
-
-void MainWindow::setNetworkManager(ClientManager* tmp)
-{
-    m_clientManager = tmp;
-    m_clientManager->setParent(this);
 }
 void MainWindow::readSettings()
 {
@@ -1171,7 +1168,7 @@ void MainWindow::parseCommandLineArguments(QStringList list)
     }
     if(!(roleValue.isNull()&&hostnameValue.isNull()&&portValue.isNull()&&username.isNull()))
     {
-        m_clientManager->setValueConnection(portValue,hostnameValue,username,roleValue);
+        //m_clientManager->setValueConnection(portValue,hostnameValue,username,roleValue);
     }
 }
 NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, NetworkLink* link)
@@ -1238,7 +1235,12 @@ void MainWindow::processAdminstrationMessage(NetworkMessageReader* msg)
     }
     else if(msg->action() == NetMsg::SetChannelList)
     {
-        QByteArray data = msg->byteArray32();
+        //QByteArray data = msg->byteArray32();
+        ChannelListPanel* roomPanel = qobject_cast<ChannelListPanel*>(m_roomPanelDockWidget->widget());
+        if(nullptr != roomPanel)
+        {
+            roomPanel->processMessage(msg);
+        }
 
     }
 }
@@ -1315,10 +1317,10 @@ void MainWindow::startConnection()
                 m_serverThread.start();
             }
         }
-
+        initializedClientManager();
         if((NULL!=m_currentConnectionProfile)&&(NULL!=m_clientManager))
         {
-            m_clientManager->setConnectionProfile(m_currentConnectionProfile);
+
             if(NULL!=m_playerList)
             {
                 m_playerList->completeListClean();
@@ -1326,32 +1328,39 @@ void MainWindow::startConnection()
                 m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
 
                 m_clientManager->startConnection();
-                if(!m_currentConnectionProfile->isGM())
-                {
-                    m_playerList->addLocalCharacter(m_currentConnectionProfile->getCharacter());
-                }
 
-                /// @todo Must be relocated elsewhere - may not be needed anymore
-                m_playerList->sendOffLocalPlayerInformations();
-                m_playerList->sendOffFeatures(m_currentConnectionProfile->getPlayer());
-            }
-            m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
-            m_chatListWidget->addPublicChat();
-
-            if(NULL!=m_preferences)
-            {
-                m_preferences->registerValue("isClient",!m_currentConnectionProfile->isServer());
             }
 
-
-            setUpNetworkConnection();
-            updateWindowTitle();
-            checkUpdate();
-            updateUi();
-            m_dialog->writeSettings(settings);
         }
     }
 
+}
+
+void MainWindow::initializedClientManager()
+{
+    m_clientManager = new ClientManager(m_currentConnectionProfile);
+    //connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
+    connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
+    connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
+    connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
+    connect(m_clientManager,SIGNAL(isReady()),this,SLOT(postConnection()));
+}
+void MainWindow::postConnection()
+{
+    m_localPlayerId = m_currentConnectionProfile->getPlayer()->getUuid();
+    m_chatListWidget->addPublicChat();
+
+    if(NULL!=m_preferences)
+    {
+        m_preferences->registerValue("isClient",!m_currentConnectionProfile->isServer());
+    }
+
+
+    setUpNetworkConnection();
+    updateWindowTitle();
+    checkUpdate();
+    updateUi();
+  //  m_dialog->writeSettings(settings);
 }
 
 void MainWindow::setupUi()
@@ -1464,9 +1473,6 @@ void MainWindow::setupUi()
 
     m_dialog = new SelectConnectionProfileDialog(m_version,this);
     connect(m_dialog,SIGNAL(tryConnection()),this,SLOT(startConnection()));
-    connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
-    connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
-    connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
     connect(m_ipChecker,SIGNAL(finished(QString)),this,SLOT(showIp(QString)));
 }
 void MainWindow::processMapMessage(NetworkMessageReader* msg)

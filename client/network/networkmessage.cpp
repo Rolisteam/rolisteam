@@ -25,9 +25,11 @@
 #ifndef UNIT_TEST
 #include "network/networklink.h"
 #endif
-#include "network/networkmanager.h"
-NetworkMessage::NetworkMessage(ClientManager* server)
-    : m_server(server)
+//#include "network/networkmanager.h"
+
+
+NetworkMessage::NetworkMessage(NetworkLink* linkToServer)
+    : m_linkToServer(linkToServer)
 {
 
 }
@@ -58,7 +60,10 @@ void NetworkMessage::sendAll(NetworkLink * butLink)
 {
     NetworkMessageHeader* header = buffer();
 #ifndef UNIT_TEST
-    m_server->sendMessage((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
+    if(nullptr != m_linkToServer)
+    {
+        m_linkToServer->sendData((char *)header, header->dataSize + sizeof(NetworkMessageHeader), butLink);
+    }
 #endif
 }
 quint64 NetworkMessage::getSize()
@@ -69,7 +74,7 @@ quint64 NetworkMessage::getSize()
         return  header->dataSize + sizeof(NetworkMessageHeader);
     }
 }
-void NetworkMessage::setManager(ClientManager* server)
+void NetworkMessage::setLinkToServer(NetworkLink* linkToServer)
 {
-    m_server = server;
+    m_linkToServer = linkToServer;
 }

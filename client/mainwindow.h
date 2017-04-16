@@ -195,6 +195,7 @@ public :
      * @param mediac
      */
     void addMediaToMdiArea(MediaContainer* mediac );
+
 signals:
     /**
      * @brief closing
@@ -216,10 +217,6 @@ public slots :
      * @brief checkUpdate
      */
     void checkUpdate();
-    /**
-     * @brief setNetworkManager
-     */
-    void setNetworkManager(ClientManager*);
     /**
      * @brief updateUi
      */
@@ -243,6 +240,7 @@ public slots :
      */
     void startConnection();
 
+    void postConnection();
 protected :
     /**
      * @brief closeEvent
@@ -347,6 +345,7 @@ protected slots:
      * @param id
      */
     void closeMediaContainer(QString id);
+    void initializedClientManager();
 private slots :
     /**
      * @brief userNatureChange
