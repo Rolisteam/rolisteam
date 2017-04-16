@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Welcome To Rolisteam - Connection Dialog</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,1">
+  <layout class="QHBoxLayout" name="horizontalLayout_7">
    <item>
     <widget class="QListView" name="m_profileList">
      <property name="sizePolicy">
@@ -200,6 +200,13 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>Password</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item>
@@ -234,6 +241,13 @@
               </item>
              </layout>
             </item>
+            <item>
+             <widget class="QLineEdit" name="m_passwordEdit">
+              <property name="echoMode">
+               <enum>QLineEdit::Password</enum>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
@@ -255,8 +269,8 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>20</width>
-         <height>40</height>
+         <width>478</width>
+         <height>13</height>
         </size>
        </property>
       </spacer>
@@ -294,8 +308,8 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>20</width>
-         <height>40</height>
+         <width>478</width>
+         <height>13</height>
         </size>
        </property>
       </spacer>
@@ -393,12 +407,28 @@
    <slot>setHidden(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>352</x>
-     <y>153</y>
+     <x>333</x>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
      <x>341</x>
      <y>209</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_isServerCheckbox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>m_addresseLineEdit</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>215</x>
+     <y>409</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>253</x>
+     <y>339</y>
     </hint>
    </hints>
   </connection>
