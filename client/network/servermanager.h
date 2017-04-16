@@ -40,6 +40,7 @@ public:
 
     void initServerManager();
 
+    void sendOffModel();
 signals:
     void stateChanged(ServerState);
     void errorOccurs(QString);
@@ -50,7 +51,7 @@ public slots:
     void messageReceived(QByteArray);
     void disconnection();
 
-    void processMessageAdmin(NetworkMessageReader *msg);
+    void processMessageAdmin(NetworkMessageReader *msg,Channel* chan, TcpClient* tcp);
 private slots:
     void incomingClientConnection();
 

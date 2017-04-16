@@ -1,11 +1,15 @@
 #include "servermanager.h"
 
+#include <QTimer>
+#include <QJsonDocument>
+#include <QJsonObject>
+
 #include "iprangeaccepter.h"
 #include "ipbanaccepter.h"
 #include "passwordaccepter.h"
 #include "timeaccepter.h"
+#include "network/networkmessagewriter.h"
 
-#include <QTimer>
 ServerManager::ServerManager(QObject *parent)
     : QObject(parent),  m_state(Off),m_server(nullptr)
 {
@@ -109,7 +113,19 @@ void ServerManager::incomingClientConnection()
     {
         qInfo() << "inside connection valide";
         TcpClient* client = new TcpClient(socketTcp);
-        m_model->addConnectionToChannel(m_defaultChannelIndex,client);
+        client->sendEvent(TcpClient::HasCheckEvent);
+
+        if(m_corEndProcess->isValid(data))
+        {
+            m_model->addConnectionToDefaultChannel(client);
+            client->sendEvent(TcpClient::AuthSuccessEvent);
+            sendOffModel();
+        }
+        else
+        {
+            client->sendEvent(TcpClient::CheckedEvent);
+        }
+
         bool found = false;
         int previous = 0;
         for(int i = 0 ; i < m_threadPool.size() && !found ; ++i)
@@ -140,7 +156,7 @@ void ServerManager::incomingClientConnection()
         connect(client, SIGNAL(disconnected()), this, SLOT(disconnection()));
     }
 }
-void ServerManager::processMessageAdmin(NetworkMessageReader* msg)
+void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan, TcpClient* tcp)
 {
     switch (msg->action())
     {
@@ -149,6 +165,29 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg)
         break;
         case NetMsg::Kicked:
 
+        break;
+        case NetMsg::Password:
+        {
+            QMap<QString,QVariant> data(m_parameters);
+            data["userpassword"]=msg->string32();
+            bool hasChannelData = static_cast<bool>(msg->uint8());
+            if(m_corEndProcess->isValid(data))
+            {
+                tcp->sendEvent(TcpClient::AuthSuccessEvent);
+                if(hasChannelData)
+                {
+                    QString chanId=msg->string32();
+                    if(m_model->addConnectionToChannel(chanId,tcp))
+                    {
+                        sendOffModel();
+                    }
+                }
+            }
+            else
+            {
+                tcp->sendEvent(TcpClient::AuthFailEvent);
+            }
+        }
         break;
         case NetMsg::MoveChannel:
 

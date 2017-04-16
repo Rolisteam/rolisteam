@@ -19,7 +19,7 @@ class TcpClient : public QObject
 {
     Q_OBJECT
 public:
-    enum ConnectionEvent {CheckedEvent,CheckFailedEvent,ForbiddenEvent,DataReceivedEvent,AuthFailEvent,AuthSuccessEvent,NoRestrictionEvent,HasRestrictionEvent,ChannelAuthSuccessEvent,ChannelAuthFailEvent};
+    enum ConnectionEvent {HasCheckEvent,NoCheckEvent,CheckedEvent,CheckFailedEvent,ForbiddenEvent,DataReceivedEvent,AuthFailEvent,AuthSuccessEvent,NoRestrictionEvent,HasRestrictionEvent,ChannelAuthSuccessEvent,ChannelAuthFailEvent,MoveChanEvent};
     /**
      * @brief TcpClient
      * @param socket
@@ -58,16 +58,20 @@ signals:
     void disconnected();
 
     ///
+    /// \brief connectionChecked
+    void hasCheck();
+    void hasNoCheck();
     void connectionChecked();
     void checkFail();
     void forbidden();
-    void dataReceived();
+    void authDataReceived();
     void authFail();
     void authSuccess();
     void hasNoRestriction();
     void hasRestriction();
     void channelAuthFail();
     void channelAuthSuccess();
+    void moveChannel();
 
 public slots:
     /**
@@ -119,6 +123,10 @@ private:
     QState* m_wantToGoToChannel;
     QState* m_inPlace;
     QState* m_waitingAuthChannel;
+    QState* m_stayInPlace;
+    QState* m_disconnected;
+
+    QState* m_currentState;
 
 };
 
