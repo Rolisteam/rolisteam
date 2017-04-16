@@ -31,7 +31,7 @@
 #include <QCommandLineOption>
 #include <time.h>
 
-#include "network/networkmanager.h"
+//#include "network/networkmanager.h"
 #include "mainwindow.h"
 #include "data/person.h"
 #include "preferences/preferencesmanager.h"

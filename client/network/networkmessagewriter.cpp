@@ -22,7 +22,7 @@
 //#ifndef UNIT_TEST
 //#include "mainwindow.h"
 //#endif
-#include "network/networkmanager.h"
+//#include "network/networkmanager.h"
 #include <QDebug>
 
 NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Action action, int size)
@@ -45,9 +45,6 @@ NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Ac
 
     m_header->category = category;
     m_header->action = action;
-#ifndef UNIT_TEST
-    m_server = ClientManager::getInstance();
-#endif
 }
 
 NetworkMessageWriter::~NetworkMessageWriter()

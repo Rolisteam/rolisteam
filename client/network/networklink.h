@@ -38,19 +38,20 @@ class Map;
  */
 class NetworkLink : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 
 public :
+
     /**
      * @brief NetworkLink
      * @param socket
      */
-    NetworkLink(QTcpSocket *socket,ClientManager* netMan);
+    NetworkLink(QTcpSocket *socket);
     /**
      * @brief NetworkLink
      * @param m_connection
      */
-    NetworkLink(ConnectionProfile* m_connection,ClientManager* netMan);
+    NetworkLink(ConnectionProfile* m_connection);
     /**
      * @brief ~NetworkLink
      */
@@ -121,10 +122,24 @@ signals:
 
     void connnectionStateChanged(QAbstractSocket::SocketState);
 
+    //////////////////////////
+    // State signal
+    /////////////////////////
+    /**
+     * @brief connecting
+     */
+    void connecting();
+    void error();
+    void connected();
+    void disconnected();
+    void authentificationSuccessed();
+
     void dataToSend(char* data,quint32 size, NetworkLink* but = 0);
 
     void receivedMessage(NetworkMessageReader*,NetworkLink*);
 
+protected slots:
+    void socketStateChanged(QAbstractSocket::SocketState state);
 private slots :
     void receivingData();
     void connectionError(QAbstractSocket::SocketError);
@@ -159,8 +174,7 @@ private :
     bool m_receivingData;
     char* m_buffer;
     quint32 m_remainingData;
-    //MainWindow* m_mainWindow;
-    ClientManager* m_networkManager;
+   // ClientManager* m_networkManager;
     QMap<NetMsg::Category,NetWorkReceiver*> m_receiverMap;
     int m_headerRead;
     QHash<QString,int> m_hbCount;

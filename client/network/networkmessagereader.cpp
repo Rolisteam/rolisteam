@@ -27,8 +27,8 @@ NetworkMessageReader::NetworkMessageReader()
 
 }
 
-NetworkMessageReader::NetworkMessageReader(ClientManager* server, const NetworkMessageHeader & header, const char * buffer)
-    : NetworkMessage(server)
+NetworkMessageReader::NetworkMessageReader(const NetworkMessageHeader & header, const char * buffer)
+    : NetworkMessage(nullptr)
 {
     size_t headerSize = sizeof(NetworkMessageHeader);
     m_buffer = new char[header.dataSize + headerSize];
@@ -40,13 +40,10 @@ NetworkMessageReader::NetworkMessageReader(ClientManager* server, const NetworkM
 
     m_pos = m_buffer;
     m_end = m_buffer + m_header->dataSize;
-#ifndef UNIT_TEST
-    //m_server = MainWindow::getInstance()->getNetWorkManager();
-#endif
 }
 
-NetworkMessageReader::NetworkMessageReader(ClientManager* server,const NetworkMessageReader & other)
-: NetworkMessage(server)
+NetworkMessageReader::NetworkMessageReader(const NetworkMessageReader & other)
+: NetworkMessage(nullptr)
 {
     size_t size = other.m_end - ((char *)other.m_header);
     char * copy = new char[size];

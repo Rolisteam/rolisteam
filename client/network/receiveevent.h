@@ -39,8 +39,8 @@ class NetworkLink;
 class ReceiveEvent : public QEvent
 {
 public:
-    ReceiveEvent(ClientManager* manager,const NetworkMessageHeader & header, const char * buffer, NetworkLink * link);
-    ReceiveEvent(ClientManager* manager,const ReceiveEvent & other);
+    ReceiveEvent(const NetworkMessageHeader & header, const char * buffer, NetworkLink * link);
+    ReceiveEvent(const ReceiveEvent & other);
     ~ReceiveEvent();
 
     static const int Type;

@@ -29,7 +29,6 @@
 #include <QListView>
 #include <QDebug>
 
-#include "network/networkmanager.h"
 #include "network/networklink.h"
 #include "network/networkmessagewriter.h"
 

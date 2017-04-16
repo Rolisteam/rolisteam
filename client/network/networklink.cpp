@@ -26,44 +26,34 @@
 
 #include "network/networklink.h"
 
-#include "network/networkmanager.h"
+//#include "network/networkmanager.h"
 //#include "map/charactertoken.h"
 //#include "Image.h"
 //#include "data/person.h"
 //#include "userlist/playersList.h"
 #include "network/receiveevent.h"
+#include "network/networkmessagewriter.h"
 
 
-NetworkLink::NetworkLink(QTcpSocket *socket,ClientManager* netMan)
-    : QObject(NULL),m_networkManager(netMan)
+NetworkLink::NetworkLink(QTcpSocket* socket)
 {
-    //m_mainWindow = MainWindow::getInstance();
-   // m_networkManager = m_mainWindow->getNetWorkManager();
     m_socketTcp = socket;
     m_receivingData = false;
     m_headerRead= 0;
     setSocket(socket);
-
-    if(!m_networkManager->isServer())
-    {
-        m_networkManager->addNetworkLink(this);
-    }
 }
 
-NetworkLink::NetworkLink(ConnectionProfile* connection,ClientManager* netMan)
-    : m_host("localhost"),m_port(6660),m_networkManager(netMan)
+NetworkLink::NetworkLink(ConnectionProfile* connection)
 {
-   // m_mainWindow = MainWindow::getInstance();
-   // m_networkManager = m_mainWindow->getNetWorkManager();
     setConnection(connection);
-    m_socketTcp = new QTcpSocket(this);
-    m_socketTcp->setSocketOption(QAbstractSocket::KeepAliveOption,1);
+    setSocket(new QTcpSocket(this));
     initialize();
     m_receivingData = false;
     m_headerRead= 0;
 }
 void NetworkLink::initialize()
 {
+    m_socketTcp->setSocketOption(QAbstractSocket::KeepAliveOption,1);
     makeSignalConnection();
 }
 
@@ -80,9 +70,7 @@ void NetworkLink::makeSignalConnection()
     connect(m_socketTcp, SIGNAL(readyRead()),this, SLOT(receivingData()));
     connect(m_socketTcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(connectionError(QAbstractSocket::SocketError)));
     connect(m_socketTcp, SIGNAL(disconnected()), this, SLOT(p_disconnect()));
-    qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
-    connect(m_socketTcp,SIGNAL(stateChanged(QAbstractSocket::SocketState)),this,SIGNAL(connnectionStateChanged(QAbstractSocket::SocketState)));
-
+    connect(m_socketTcp,SIGNAL(stateChanged(QAbstractSocket::SocketState)),this,SLOT(socketStateChanged(QAbstractSocket::SocketState)));
     connect(this,SIGNAL(dataToSend(char*,quint32,NetworkLink*)),this,SLOT(sendData(char*,quint32,NetworkLink*)));
 }
 
@@ -205,13 +193,12 @@ void NetworkLink::receivingData()
             // Send event
             if (ReceiveEvent::hasReceiverFor(m_header.category, m_header.action))
             {
-                ReceiveEvent * event = new ReceiveEvent(m_networkManager,m_header, m_buffer, this);
+                ReceiveEvent * event = new ReceiveEvent(m_header, m_buffer, this);
                 event->postToReceiver();
             }
-            NetworkMessageReader data(m_networkManager,m_header,m_buffer);
+            NetworkMessageReader data(m_header,m_buffer);
             if (ReceiveEvent::hasNetworkReceiverFor((NetMsg::Category)m_header.category))
             {
-
                 QList<NetWorkReceiver*> tmpList = ReceiveEvent::getNetWorkReceiverFor((NetMsg::Category)m_header.category);
 
                 foreach(NetWorkReceiver* tmp, tmpList)
@@ -263,7 +250,7 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
     {
         if(NetMsg::PlayerConnectionAction == msg->action())
         {
-            m_networkManager->addNetworkLink(this);
+            //m_networkManager->addNetworkLink(this);
 
             NetworkMessageHeader header;
             header.category = NetMsg::SetupCategory;
@@ -302,7 +289,7 @@ void NetworkLink::forwardMessage( NetWorkReceiver::SendType type)
     {
         return;
     }
-    if (m_networkManager->isServer())
+  /*  if (m_networkManager->isServer())
     {
         char *donnees = new char[m_header.dataSize + sizeof(NetworkMessageHeader)];
         memcpy(donnees, &m_header, sizeof(NetworkMessageHeader));
@@ -316,7 +303,7 @@ void NetworkLink::forwardMessage( NetWorkReceiver::SendType type)
             m_networkManager->sendMessage(donnees,m_header.dataSize + sizeof(NetworkMessageHeader),this);
         }
         delete[] donnees;
-    }
+    }*/
 }
 
 ConnectionProfile *NetworkLink::getConnection() const
@@ -327,11 +314,6 @@ ConnectionProfile *NetworkLink::getConnection() const
 void NetworkLink::setConnection(ConnectionProfile* value)
 {
     m_connection = value;
-    if(NULL!=m_connection)
-    {
-        m_host = m_connection->getAddress();
-        m_port = m_connection->getPort();
-    }
 }
 void NetworkLink::disconnectAndClose()
 {
@@ -347,7 +329,7 @@ void NetworkLink::setSocket(QTcpSocket* socket, bool makeConnection)
     m_socketTcp=socket;
     if(makeConnection)
     {
-        makeSignalConnection();
+        initialize();
     }
 
 }
@@ -357,6 +339,51 @@ void NetworkLink::insertNetWortReceiver(NetWorkReceiver* receiver,NetMsg::Catego
 }
 void NetworkLink::connectTo()
 {
-   // qDebug() << "connect To thread"<<m_host << m_port;
-    m_socketTcp->connectToHost(m_host, m_port);
+   if(nullptr != m_socketTcp)
+   {
+       if(nullptr != m_connection)
+       {
+            m_socketTcp->connectToHost(m_connection->getAddress(), m_connection->getPort());
+       }
+       else
+       {
+           emit errorMessage(tr("Connection Profile is not defined"));
+       }
+   }
+}
+void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
+{
+   // qDebug() << "socket State Changed" << state;
+    switch (state)
+    {
+    case QAbstractSocket::ClosingState:
+    case QAbstractSocket::UnconnectedState:
+        qDebug() << "disconnected";
+        emit disconnected();
+        break;
+    case QAbstractSocket::HostLookupState:
+    case QAbstractSocket::ConnectingState:
+    case QAbstractSocket::BoundState:
+        qDebug() << "connecting";
+        emit connecting();//setConnectionState(CONNECTING);
+        break;
+    case QAbstractSocket::ConnectedState:
+    {
+        qDebug() << "connected";
+        emit connected();
+        QString pw = m_connection->getPassword();
+        if(!pw.isEmpty())
+        {
+            NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::Password);
+            msg.string32(pw);
+            msg.uint8(false);
+            msg.sendAll(nullptr);
+        }
+
+        //setConnectionState(CONNECTED);
+    }
+        break;
+    default:
+        break;
+    }
 }
