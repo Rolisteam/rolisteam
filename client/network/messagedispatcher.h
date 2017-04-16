@@ -23,7 +23,7 @@ public:
     void dispatchMessage(QByteArray msg, Channel* channel, TcpClient* emitter);
 
 signals:
-    void messageForAdmin(NetworkMessageReader* );
+    void messageForAdmin(NetworkMessageReader* , Channel* channel, TcpClient* emitter );
 
 
 public slots:

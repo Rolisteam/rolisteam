@@ -16,7 +16,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
     switch (msg->category())
     {
             case NetMsg::AdministrationCategory:
-                emit messageForAdmin(msg);
+                emit messageForAdmin(msg,channel,emitter);
             break;
             default:
                 channel->sendToAll(msg,emitter);
