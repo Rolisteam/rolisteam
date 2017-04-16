@@ -1,6 +1,7 @@
 #include "treeitem.h"
-
+#include <QUuid>
 TreeItem::TreeItem()
+    : m_id(QUuid::createUuid().toString())
 {
 
 }
@@ -53,4 +54,19 @@ void TreeItem::setName(const QString &name)
 int TreeItem::rowInParent()
 {
     return m_parent->indexOf(this);
+}
+
+QString TreeItem::getId() const
+{
+    return m_id;
+}
+
+void TreeItem::setId(const QString &id)
+{
+    m_id = id;
+}
+
+bool TreeItem::addChildInto(QString id, TreeItem *child)
+{
+    return false;
 }
