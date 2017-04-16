@@ -27,7 +27,7 @@ NetworkMessageReader::NetworkMessageReader()
 
 }
 
-NetworkMessageReader::NetworkMessageReader(NetworkManager* server, const NetworkMessageHeader & header, const char * buffer)
+NetworkMessageReader::NetworkMessageReader(ClientManager* server, const NetworkMessageHeader & header, const char * buffer)
     : NetworkMessage(server)
 {
     size_t headerSize = sizeof(NetworkMessageHeader);
@@ -45,7 +45,7 @@ NetworkMessageReader::NetworkMessageReader(NetworkManager* server, const Network
 #endif
 }
 
-NetworkMessageReader::NetworkMessageReader(NetworkManager* server,const NetworkMessageReader & other)
+NetworkMessageReader::NetworkMessageReader(ClientManager* server,const NetworkMessageReader & other)
 : NetworkMessage(server)
 {
     size_t size = other.m_end - ((char *)other.m_header);
@@ -73,6 +73,9 @@ void NetworkMessageReader::setData(QByteArray& bytes)
     memcpy(m_buffer,data,size+headerSize);
 
     m_header = (NetworkMessageHeader *)m_buffer;
+
+    m_pos = m_buffer + headerSize;
+    m_end = m_buffer + headerSize + m_header->dataSize;
 }
 
 NetMsg::Category NetworkMessageReader::category() const
@@ -88,6 +91,16 @@ NetMsg::Action NetworkMessageReader::action() const
 NetworkMessageHeader* NetworkMessageReader::buffer()
 {
     return m_header;
+}
+
+NetworkMessageHeader *NetworkMessageReader::header() const
+{
+    return m_header;
+}
+
+void NetworkMessageReader::setHeader(NetworkMessageHeader *header)
+{
+    m_header = header;
 }
 
 void NetworkMessageReader::reset()

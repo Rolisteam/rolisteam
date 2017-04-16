@@ -33,8 +33,8 @@ class NetworkMessageReader : public NetworkMessage
 {
 public:
     NetworkMessageReader();
-    NetworkMessageReader(NetworkManager* server, const NetworkMessageHeader & header, const char * buffer);
-    NetworkMessageReader(NetworkManager* server, const NetworkMessageReader & other);
+    NetworkMessageReader(ClientManager* server, const NetworkMessageHeader & header, const char * buffer);
+    NetworkMessageReader(ClientManager* server, const NetworkMessageReader & other);
     virtual ~NetworkMessageReader();
 
     NetMsg::Category category() const;
@@ -66,6 +66,9 @@ public:
     qint16 int16();
     qint32 int32();
     qint64 int64();
+
+    NetworkMessageHeader* header() const;
+    void setHeader(NetworkMessageHeader* header);
 
 protected:
     NetworkMessageHeader * buffer();
