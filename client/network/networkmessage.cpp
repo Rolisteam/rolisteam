@@ -25,12 +25,8 @@
 #ifndef UNIT_TEST
 #include "network/networklink.h"
 #endif
-#include "network/networkmanager.h"
-NetworkMessage::NetworkMessage(NetworkManager* server)
-    : m_server(server)
-{
+//#include "network/networkmanager.h"
 
-}
 
 NetworkMessage::NetworkMessage(NetworkLink* linkToServer)
     : m_linkToServer(linkToServer)
@@ -74,4 +70,8 @@ quint64 NetworkMessage::getSize()
         NetworkMessageHeader* header = buffer();
         return  header->dataSize + sizeof(NetworkMessageHeader);
     }
+}
+void NetworkMessage::setLinkToServer(NetworkLink* linkToServer)
+{
+    m_linkToServer = linkToServer;
 }

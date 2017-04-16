@@ -37,6 +37,7 @@
 #include "preferences/preferencesmanager.h"
 #include "userlist/playersList.h"
 #include "heartbeatsender.h"
+#include "network/networkmessagewriter.h"
 
 class Player;
 class NetworkLink;
@@ -46,7 +47,7 @@ class ConnectionProfile;
  * @brief hold the list of socket (NetworkLink).
  * On startup displays the configDialog.
  */
-class NetworkManager : public QObject
+class ClientManager : public QObject
 {
     Q_OBJECT
     Q_ENUMS(ConnectionState)
@@ -56,10 +57,11 @@ public:
      * @brief NetworkManager
      */
     ClientManager(ConnectionProfile* connection);
+   // static ClientManager *getInstance();
 	/**
 	 * @brief ~NetworkManager
 	 */
-	virtual ~NetworkManager();
+    virtual ~ClientManager();
     /**
      * @brief emettreDonnees
      * @param donnees
@@ -111,20 +113,17 @@ signals :
     void linkDeleted(NetworkLink * link);
     void dataReceived(quint64,quint64);
     void stopConnectionTry();
-    void connectionStateChanged(NetworkManager::ConnectionState);
+    void connectionStateChanged(ClientManager::ConnectionState);
     void notifyUser(QString);
     void errorOccur(QString);
 
 private slots :
-    void newClientConnection();
+    //void newClientConnection();
     void endingNetworkLink(NetworkLink * link);
     void startConnectionToServer();
-    bool startListening();
+    //bool startListening();
     void socketStateChanged(QAbstractSocket::SocketState state);
-
 private:
-    QTcpServer * m_server;
-    QList<NetworkLink *> m_networkLinkList;
     NetworkLink* m_networkLinkToServer;
     quint16 m_port;
     quint16 m_listeningPort;
@@ -148,11 +147,13 @@ private:
     QList<QThread*> m_threadList;
     heartBeatSender* m_hbSender;
 
+
     QState* m_connecting;
     QState* m_connected;
     QState* m_authentified;
     QState* m_error;
     QState* m_disconnected;
+    QState* m_ready;
     QStateMachine m_states;
 };
 

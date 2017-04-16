@@ -27,7 +27,7 @@
 #include <QtGlobal>
 //#include "network/networkmanager.h"
 class NetworkLink;
-class NetworkManager;
+class ClientManager;
 
 struct NetworkMessageHeader
 {
@@ -39,7 +39,7 @@ struct NetworkMessageHeader
 namespace NetMsg
 {
 enum Category {
-    ConnectionCategory,
+    AdministrationCategory,
     PlayerCategory,
     CharacterPlayerCategory,
     NPCCategory,
@@ -59,7 +59,11 @@ enum Action {
     // ConnectionCategory
     EndConnectionAction = 0,
     heartbeat,
-
+    Password,
+    Goodbye,
+    Kicked,
+    MoveChannel,
+    SetChannelList,
 
     // PlayerCategory
     PlayerConnectionAction = 0,
@@ -180,7 +184,7 @@ public:
      * @brief NetworkMessage
      * @param server
      */
-    NetworkMessage(NetworkLink* server = nullptr);
+    NetworkMessage(ClientManager* server = nullptr);
     /**
      * @brief ~NetworkMessage
      */
@@ -207,6 +211,8 @@ public:
      */
     virtual NetMsg::Action action() const =0;
 
+    void setLinkToServer(NetworkLink* server);
+
 
     quint64 getSize();
 
@@ -218,6 +224,6 @@ protected:
      */
 
 protected:
-    NetworkManager* m_server;
+    NetworkLink* m_linkToServer;
 };
 #endif
