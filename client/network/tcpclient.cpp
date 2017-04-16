@@ -6,12 +6,9 @@ TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
 {
     m_dataToRead=0;
     m_headerRead = 0;
-    qInfo() << "########################################tcpClient########################################" << this;
-    connect(m_socket,SIGNAL(readyRead()),this,SLOT(receivingData()));
-    connect(m_socket,SIGNAL(disconnected()),this,SIGNAL(disconnected()));
-    connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
 
-
+    connect(&m_stateMachine,SIGNAL(started()),this,SLOT(starReading()));
+    connect(&m_stateMachine,SIGNAL(started()),this,SIGNAL(isReady()));
     m_incomingConnection = new QState();
     m_controlConnection = new QState();
     m_waitingAuthentificationData = new QState();
@@ -22,60 +19,85 @@ TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
     m_disconnected = new QState();
     m_stayInPlace = new QState();
 
+    m_stateMachine.addState(m_incomingConnection);
+    m_stateMachine.setInitialState(m_incomingConnection);
+
+    m_stateMachine.addState(m_controlConnection);
+    m_stateMachine.addState(m_waitingAuthentificationData);
+    m_stateMachine.addState(m_authentification);
+    m_stateMachine.addState(m_wantToGoToChannel);
+    m_stateMachine.addState(m_inPlace);
+    m_stateMachine.addState(m_waitingAuthChannel);
+    m_stateMachine.addState(m_disconnected);
+    m_stateMachine.addState(m_stayInPlace);
+    m_stateMachine.start();
+
     connect(m_incomingConnection,&QState::activeChanged,[=](bool b){
         if(b)
         {
+            qDebug() << "Incoming State";
             m_currentState = m_incomingConnection;
         }
     });
     connect(m_controlConnection,&QState::activeChanged,[=](bool b){
         if(b)
         {
+            qDebug() << "Control State";
             m_currentState = m_controlConnection;
         }
     });
     connect(m_waitingAuthentificationData,&QState::activeChanged,[=](bool b){
         if(b)
         {
+            qDebug() << "WaitingAuthData State";
             m_currentState = m_waitingAuthentificationData;
         }
     });
     connect(m_authentification,&QState::activeChanged,[=](bool b){
         if(b)
         {
+            qDebug() << "Authification State";
             m_currentState = m_authentification;
         }
     });
     connect(m_wantToGoToChannel,&QState::activeChanged,[=](bool b){
         if(b)
         {
+            qDebug() << "WantToGoToChannel State";
             m_currentState = m_wantToGoToChannel;
         }
     });
     connect(m_inPlace,&QState::activeChanged,[=](bool b){
         if(b)
         {
+            qDebug() << "InPlace State";
             m_currentState = m_inPlace;
         }
     });
     connect(m_waitingAuthChannel,&QState::activeChanged,[=](bool b){
         if(b)
         {
+            qDebug() << "WaitingAuthChannel State";
             m_currentState = m_waitingAuthChannel;
         }
     });
     connect(m_disconnected,&QState::activeChanged,[=](bool b){
         if(b)
         {
+            qDebug() << "disconnected State";
             m_currentState = m_disconnected;
+            m_socket->close();
         }
     });
     connect(m_stayInPlace,&QState::activeChanged,[=](bool b){
         if(b)
         {
+            qDebug() << "StayInPlace State";
             m_currentState = m_stayInPlace;
         }
     });
+
+    connect(this,SIGNAL(connectionChecked()),this,SLOT(connectionCheckedSlot()));
 
 
     m_incomingConnection->addTransition(this, SIGNAL(hasCheck()), m_controlConnection);
@@ -93,18 +115,27 @@ TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
 
 
 
-    m_stateMachine.addState(m_incomingConnection);
-    m_stateMachine.addState(m_controlConnection);
-    m_stateMachine.addState(m_waitingAuthentificationData);
-    m_stateMachine.addState(m_authentification);
-    m_stateMachine.addState(m_wantToGoToChannel);
-    m_stateMachine.addState(m_inPlace);
-    m_stateMachine.addState(m_waitingAuthChannel);
-    m_stateMachine.addState(m_disconnected);
-    m_stateMachine.addState(m_stayInPlace);
-    m_stateMachine.setInitialState(m_incomingConnection);
 
-    m_stateMachine.start();
+
+
+
+
+
+
+
+}
+void TcpClient::connectionCheckedSlot()
+{
+    qDebug() << "connection checked";
+}
+
+void TcpClient::starReading()
+{
+    qInfo() << m_stateMachine.isRunning();
+    qInfo() << "########################################tcpClient########################################" << this;
+    connect(m_socket,SIGNAL(readyRead()),this,SLOT(receivingData()));
+    connect(m_socket,SIGNAL(disconnected()),this,SIGNAL(disconnected()));
+    connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(connectionError(QAbstractSocket::SocketError)));
 }
 
 void TcpClient::receivingData()
@@ -155,6 +186,7 @@ void TcpClient::receivingData()
 }
 void TcpClient::forwardMessage()
 {
+    //qDebug() << m_header.dataSize << m_header.action << m_header.category;
     QByteArray array((char*)&m_header,sizeof(NetworkMessageHeader));
     array.append(m_buffer,m_header.dataSize);
     if(m_currentState != m_disconnected)
@@ -201,7 +233,8 @@ void TcpClient::connectionError(QAbstractSocket::SocketError error)
 
 void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
 {//{HasCheckEvent,NoCheckEvent,CheckedEvent,CheckFailedEvent,ForbiddenEvent,DataReceivedEvent,AuthFailEvent,AuthSuccessEvent,NoRestrictionEvent,HasRestrictionEvent,ChannelAuthSuccessEvent,ChannelAuthFailEvent};
-    switch (event) {
+    switch (event)
+    {
     case HasCheckEvent:
         emit hasCheck();
         break;
@@ -221,23 +254,26 @@ void TcpClient::sendEvent(TcpClient::ConnectionEvent event)
         emit authDataReceived();
         break;
     case AuthFailEvent:
-
+        emit authFail();
         break;
     case AuthSuccessEvent:
-
+        emit authSuccess();
         break;
     case NoRestrictionEvent:
-
+        emit hasNoRestriction();
         break;
     case HasRestrictionEvent:
-
+        emit hasRestriction();
         break;
     case ChannelAuthSuccessEvent:
-
+        emit channelAuthSuccess();
         break;
 
     case ChannelAuthFailEvent:
-
+        emit channelAuthFail();
+        break;
+    case MoveChanEvent:
+        emit moveChannel();
         break;
     }
 }

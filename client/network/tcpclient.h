@@ -10,7 +10,7 @@
 
 #include "networkmessage.h"
 
-class NetworkManager;
+class ClientManager;
 class Channel;
 /**
  * @brief The TcpClient class
@@ -73,6 +73,8 @@ signals:
     void channelAuthSuccess();
     void moveChannel();
 
+    void isReady();
+
 public slots:
     /**
      * @brief receivingData
@@ -107,6 +109,8 @@ public slots:
 
     void sendEvent(TcpClient::ConnectionEvent);
 
+    void connectionCheckedSlot();
+    void starReading();
 private:
     QTcpSocket* m_socket;
     NetworkMessageHeader m_header;
