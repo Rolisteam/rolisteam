@@ -46,7 +46,7 @@ NetworkMessageWriter::NetworkMessageWriter(NetMsg::Category category, NetMsg::Ac
     m_header->category = category;
     m_header->action = action;
 #ifndef UNIT_TEST
-    m_server = NetworkManager::getInstance();
+    m_server = ClientManager::getInstance();
 #endif
 }
 

@@ -39,8 +39,8 @@ class NetworkLink;
 class ReceiveEvent : public QEvent
 {
 public:
-    ReceiveEvent(NetworkManager* manager,const NetworkMessageHeader & header, const char * buffer, NetworkLink * link);
-    ReceiveEvent(NetworkManager* manager,const ReceiveEvent & other);
+    ReceiveEvent(ClientManager* manager,const NetworkMessageHeader & header, const char * buffer, NetworkLink * link);
+    ReceiveEvent(ClientManager* manager,const ReceiveEvent & other);
     ~ReceiveEvent();
 
     static const int Type;
@@ -101,7 +101,7 @@ public:
     static void removeNetworkReceiver(NetMsg::Category categorie, NetWorkReceiver* receiver);
 private:
     NetworkMessageReader m_data;
-    NetworkManager* m_manager;
+    ClientManager* m_manager;
     NetworkLink * m_link;
     quint8 m_repost;
 

@@ -41,11 +41,11 @@ quint16 makeKey(quint8 categorie, quint8 action)
 }
 
 
-ReceiveEvent::ReceiveEvent(NetworkManager* manager, const NetworkMessageHeader & header, const char * buffer, NetworkLink * link)
+ReceiveEvent::ReceiveEvent(ClientManager* manager, const NetworkMessageHeader & header, const char * buffer, NetworkLink * link)
     : QEvent((QEvent::Type)ReceiveEvent::Type), m_data(manager,header, buffer), m_link(link), m_repost(0)
 {}
 
-ReceiveEvent::ReceiveEvent(NetworkManager* manager,const ReceiveEvent & other)
+ReceiveEvent::ReceiveEvent(ClientManager* manager,const ReceiveEvent & other)
     : QEvent((QEvent::Type)ReceiveEvent::Type), m_data(manager,other.m_data), m_link(other.m_link), m_repost(other.m_repost + 1)
 {}
 

@@ -26,7 +26,7 @@
 #include "network/networklink.h"
 #endif
 #include "network/networkmanager.h"
-NetworkMessage::NetworkMessage(NetworkManager* server)
+NetworkMessage::NetworkMessage(ClientManager* server)
     : m_server(server)
 {
 
@@ -69,7 +69,7 @@ quint64 NetworkMessage::getSize()
         return  header->dataSize + sizeof(NetworkMessageHeader);
     }
 }
-void NetworkMessage::setManager(NetworkManager* server)
+void NetworkMessage::setManager(ClientManager* server)
 {
     m_server = server;
 }

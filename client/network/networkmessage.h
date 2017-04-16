@@ -27,7 +27,7 @@
 #include <QtGlobal>
 //#include "network/networkmanager.h"
 class NetworkLink;
-class NetworkManager;
+class ClientManager;
 
 struct NetworkMessageHeader
 {
@@ -184,7 +184,7 @@ public:
      * @brief NetworkMessage
      * @param server
      */
-    NetworkMessage(NetworkManager* server = nullptr);
+    NetworkMessage(ClientManager* server = nullptr);
     /**
      * @brief ~NetworkMessage
      */
@@ -211,7 +211,7 @@ public:
      */
     virtual NetMsg::Action action() const =0;
 
-    void setManager(NetworkManager* server);
+    void setManager(ClientManager* server);
 
 
     quint64 getSize();
@@ -224,6 +224,6 @@ protected:
      */
 
 protected:
-    NetworkManager* m_server;
+    ClientManager* m_server;
 };
 #endif
