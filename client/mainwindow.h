@@ -167,7 +167,7 @@ public :
 	 * @brief getNetWorkManager
 	 * @return
 	 */
-	NetworkManager* getNetWorkManager();
+    ClientManager* getNetWorkManager();
 	/**
 	 * @brief parseCommandLineArguments
 	 */
@@ -218,7 +218,7 @@ public slots :
     /**
      * @brief setNetworkManager
      */
-	void setNetworkManager(NetworkManager*);
+    void setNetworkManager(ClientManager*);
     /**
      * @brief updateUi
      */
@@ -279,10 +279,10 @@ protected :
      */
     void processCharacterMessage(NetworkMessageReader* msg);
     /**
-     * @brief processConnectionMessage
+     * @brief processAdminstrationMessage
      * @param msg
      */
-    void processConnectionMessage(NetworkMessageReader* msg);
+    void processAdminstrationMessage(NetworkMessageReader* msg);
     /**
      * @brief processCharacterPlayerMessage
      * @param msg
@@ -428,7 +428,7 @@ private slots :
      * @brief networkStateChanged
      * @param state
      */
-    void networkStateChanged(NetworkManager::ConnectionState state);
+    void networkStateChanged(ClientManager::ConnectionState state);
     /**
      * @brief openContentFromType
      * @param type
@@ -573,7 +573,7 @@ private:
     QString m_version;
     QString m_major;
     QDockWidget* m_dockLogUtil;
-	NetworkManager* m_networkManager;
+    ClientManager* m_clientManager;
     QTextEdit* m_notifierDisplay;
     PlayersList* m_playerList;
     IpChecker* m_ipChecker; /// @brief get the server IP.
@@ -596,7 +596,14 @@ private:
     SelectConnectionProfileDialog* m_dialog;
     bool m_profileDefined;
     CleverURI* m_currentStory;
+<<<<<<< 92b91363d980d527f6d3cdee72fd4bafc3cd4b97
 
+||||||| merged common ancestors
+    QDockWidget* m_roomPanelDockWidget;
+=======
+    QDockWidget* m_roomPanelDockWidget;
+    QThread m_serverThread;
+>>>>>>> -rename the networkmanager to clientmanager.
 };
 
 #endif

@@ -72,7 +72,7 @@
 //session
 #include "session/sessionmanager.h"
 #ifndef NULL_PLAYER
-#include "audioPlayer.h"
+#include "audio/audioPlayer.h"
 #endif
 
 // singleton to the mainwindow
@@ -86,7 +86,8 @@ MainWindow::MainWindow()
       m_currentConnectionProfile(nullptr),
       m_profileDefined(false),
       m_currentStory(nullptr),
-      m_preferencesDialog(nullptr)
+      m_preferencesDialog(nullptr),
+      m_roomPanelDockWidget(new QDockWidget(this))
 {
     setAcceptDrops(true);
     m_profileDefined = false;
@@ -128,6 +129,16 @@ MainWindow::MainWindow()
         m_ui->m_gmToolBoxMenu->addAction(widDock->toggleViewAction());
         widDock->setVisible(false);
     }
+
+    //Room List
+    ChannelListPanel* roomPanel = new ChannelListPanel(this);
+
+    m_roomPanelDockWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
+    m_roomPanelDockWidget->setWidget(roomPanel);
+    m_roomPanelDockWidget->setWindowTitle(roomPanel->windowTitle());
+    m_roomPanelDockWidget->setObjectName(roomPanel->objectName());
+    m_roomPanelDockWidget->setVisible(false);
+    addDockWidget(Qt::RightDockWidgetArea, m_roomPanelDockWidget);
 
 }
 MainWindow::~MainWindow()
@@ -437,6 +448,8 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_disconnectAction,SIGNAL(triggered()),this,SLOT(closeConnection()));
     connect(m_ui->m_connectionAction,SIGNAL(triggered()),this,SLOT(startReconnection()));
     connect(m_ui->m_changeProfileAct,SIGNAL(triggered()),this,SLOT(showConnectionDialog()));
+
+    connect(m_ui->m_roomListAct,SIGNAL(triggered(bool)),m_roomPanelDockWidget,SLOT(setVisible(bool)));
 
     // Windows managing
     connect(m_ui->m_cascadeViewAction, SIGNAL(triggered(bool)), m_mdiArea, SLOT(cascadeSubWindows()));
@@ -1192,7 +1205,7 @@ NetWorkReceiver::SendType MainWindow::processMessage(NetworkMessageReader* msg, 
         processCharacterMessage(msg);
         type = NetWorkReceiver::AllExceptSender;
         break;
-    case NetMsg::ConnectionCategory:
+    case NetMsg::AdministrationCategory:
         processConnectionMessage(msg);
         type = NetWorkReceiver::NONE;
         break;
@@ -1380,7 +1393,7 @@ void MainWindow::setupUi()
     ReceiveEvent::registerNetworkReceiver(NetMsg::NPCCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::DrawCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterCategory,this);
-    ReceiveEvent::registerNetworkReceiver(NetMsg::ConnectionCategory,this);
+    ReceiveEvent::registerNetworkReceiver(NetMsg::AdministrationCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::CharacterPlayerCategory,this);
     ReceiveEvent::registerNetworkReceiver(NetMsg::MediaCategory,this);
 
@@ -1763,12 +1776,26 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
 
         QString idCharacterSheetW = msg->string8();
         CharacterSheetWindow* sheet = findCharacterSheetWindowById(idCharacterSheetW);
-        if(NULL!=sheet)
+        if(nullptr!=sheet)
         {
             sheet->processUpdateFieldMessage(msg);
 
         }
 
+    }
+    else if(NetMsg::closeCharacterSheet == msg->action())
+    {
+        QString mediaId = msg->string8();
+        QString sheetId = msg->string8();
+        CharacterSheetWindow* sheet = findCharacterSheetWindowById(mediaId);
+
+        if(nullptr!=sheet)
+        {
+            if((sheet->hasCharacterSheet(sheetId))&&(!m_currentConnectionProfile->isGM()))//can't close the media for the GM.
+            {
+                closeMediaContainer(mediaId);
+            }
+        }
     }
 }
 CharacterSheetWindow*  MainWindow::findCharacterSheetWindowById(QString id)
@@ -1780,7 +1807,7 @@ CharacterSheetWindow*  MainWindow::findCharacterSheetWindowById(QString id)
     }
     else
     {
-        return NULL;
+        return nullptr;
     }
 }
 
