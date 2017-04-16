@@ -45,6 +45,8 @@ public:
 
     int addChild(TreeItem* );
 
+    bool addChildInto(QString id, TreeItem* child);
+
 private:
     QString m_password;
     QString m_title;

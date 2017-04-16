@@ -132,5 +132,25 @@ int Channel::addChild(TreeItem* item)
     {
         tcp->setChannelParent(this);
     }
+    return m_child.size();
 
+}
+bool Channel::addChildInto(QString id, TreeItem* child)
+{
+    if(m_id == id)
+    {
+        addChild(child);
+        return true;
+    }
+    else
+    {
+        for(TreeItem* item : m_child)
+        {
+            if(item->addChildInto(id, child))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
