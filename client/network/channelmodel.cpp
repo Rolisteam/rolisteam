@@ -105,14 +105,37 @@ int ChannelModel::addChannel(QString name, QString password)
     return m_root.indexOf(chan);
 }
 
-int ChannelModel::addConnectionToChannel(int indexChan, TcpClient* client)
+bool ChannelModel::addConnectionToDefaultChannel(TcpClient* client)
 {
-    if(!m_root.isEmpty() && m_root.size()>indexChan)
+    if(m_defaultChannel.isEmpty())
     {
-        return m_root[indexChan]->addChild(new TcpClientItem(tr("channel_%1").arg(m_root.size()),client));
+        if(!m_root.isEmpty())
+        {
+            m_defaultChannel = m_root.at(0)->getId();
+        }
+        else
+        {
+            return false;
+        }
     }
+
+    return addConnectionToChannel(m_defaultChannel,client);
+
 }
 
+bool ChannelModel::addConnectionToChannel(QString chanId, TcpClient* client)
+{
+    bool found=false;
+    for(int i = 0; i < m_root.size() && !found ; ++i)
+    {
+        TreeItem* item = m_root.at(i);
+        if(nullptr != item)
+        {
+            found = item->addChildInto(chanId,new TcpClientItem(tr("channel_%1").arg(m_root.size()),client));
+        }
+    }
+    return found;
+}
 void ChannelModel::readDataJson(const QJsonObject& obj)
 {
     beginResetModel();

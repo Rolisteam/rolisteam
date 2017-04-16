@@ -5,6 +5,7 @@
 #include <QAbstractItemModel>
 
 #include "network/networkmessagereader.h"
+#include "network/networkmessagewriter.h"
 #include "channel.h"
 
 
@@ -29,7 +30,7 @@ public:
 
 
     int addChannel(QString name, QString password);
-    int addConnectionToChannel(int indexChan, TcpClient* client);
+    bool addConnectionToChannel(QString chanId, TcpClient* client);
 
     void readDataJson(const QJsonObject &);
     void writeDataJson(QJsonObject &);
@@ -37,8 +38,10 @@ public:
     void readSettings();
     void writeSettings();
 
+    bool addConnectionToDefaultChannel(TcpClient *client);
 private:
     QList<TreeItem*> m_root;
+    QString m_defaultChannel;
 };
 
 #endif // CHANNELMODEL_H
