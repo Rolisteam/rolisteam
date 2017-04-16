@@ -16,6 +16,7 @@ class NetworkMessageReader;
 class MessageDispatcher : public QObject
 {
     Q_OBJECT
+
 public:
     explicit MessageDispatcher(QObject *parent = 0);
 
@@ -27,6 +28,10 @@ signals:
 
 
 public slots:
+
+private:
+    QString cat2String(NetworkMessageHeader *head);
+    QString act2String(NetworkMessageHeader *head);
 };
 
 #endif // MESSAGEDISPATCHER_H
