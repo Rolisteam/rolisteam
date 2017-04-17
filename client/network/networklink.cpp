@@ -47,7 +47,7 @@ NetworkLink::NetworkLink(ConnectionProfile* connection)
 {
     setConnection(connection);
     setSocket(new QTcpSocket(this));
-    initialize();
+    //initialize();
     m_receivingData = false;
     m_headerRead= 0;
 }
@@ -242,6 +242,19 @@ void NetworkLink::processAdminstrationMessage(NetworkMessageReader* msg)
             m_hbCount[id]+=1;
         }
     }
+    else if(NetMsg::AuthentificationSucessed == msg->action())
+    {
+        emit authentificationSuccessed();
+    }
+    else if(NetMsg::AuthentificationFail == msg->action())
+    {
+        emit errorMessage(tr("Authentification Fail"));
+        emit authentificationFail();
+        if(isOpen())
+        {
+            disconnectAndClose();
+        }
+    }
 }
 
 void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
@@ -320,8 +333,8 @@ void NetworkLink::disconnectAndClose()
     if(NULL!=m_socketTcp)
     {
         m_socketTcp->close();
-        delete m_socketTcp;
-        m_socketTcp=NULL;
+        //delete m_socketTcp;
+        //m_socketTcp=NULL;
     }
 }
 void NetworkLink::setSocket(QTcpSocket* socket, bool makeConnection)
@@ -358,26 +371,27 @@ void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
     {
     case QAbstractSocket::ClosingState:
     case QAbstractSocket::UnconnectedState:
-        qDebug() << "disconnected";
+        qDebug() << "[client] disconnected";
         emit disconnected();
         break;
     case QAbstractSocket::HostLookupState:
     case QAbstractSocket::ConnectingState:
     case QAbstractSocket::BoundState:
-        qDebug() << "connecting";
+        qDebug() << "[client] connecting";
         emit connecting();//setConnectionState(CONNECTING);
         break;
     case QAbstractSocket::ConnectedState:
     {
-        qDebug() << "connected";
+        qDebug() << "[client] connected";
         emit connected();
         QString pw = m_connection->getPassword();
         if(!pw.isEmpty())
         {
             NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::Password);
+            msg.setLinkToServer(this);
             msg.string32(pw);
             msg.uint8(false);
-            msg.sendAll(nullptr);
+            msg.sendTo(this);
         }
 
         //setConnectionState(CONNECTED);
@@ -386,4 +400,12 @@ void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
     default:
         break;
     }
+}
+bool NetworkLink::isOpen() const
+{
+    if(nullptr != m_socketTcp)
+    {
+        return m_socketTcp->isOpen();
+    }
+    return false;
 }

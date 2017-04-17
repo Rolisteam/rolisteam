@@ -91,6 +91,8 @@ public :
     ConnectionProfile *getConnection() const;
     void setConnection(ConnectionProfile *value);
 
+    bool isOpen() const;
+
 public slots :
     /**
      * @brief sendData
@@ -117,10 +119,10 @@ signals:
      * @brief readDataReceived
      */
     void readDataReceived(quint64,quint64);
-
     void errorMessage(QString);
-
     void connnectionStateChanged(QAbstractSocket::SocketState);
+    void dataToSend(char* data,quint32 size, NetworkLink* but = 0);
+    void receivedMessage(NetworkMessageReader*,NetworkLink*);
 
     //////////////////////////
     // State signal
@@ -133,10 +135,8 @@ signals:
     void connected();
     void disconnected();
     void authentificationSuccessed();
+    void authentificationFail();
 
-    void dataToSend(char* data,quint32 size, NetworkLink* but = 0);
-
-    void receivedMessage(NetworkMessageReader*,NetworkLink*);
 
 protected slots:
     void socketStateChanged(QAbstractSocket::SocketState state);
