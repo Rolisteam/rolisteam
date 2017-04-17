@@ -66,7 +66,7 @@ QModelIndex ChannelModel::parent(const QModelIndex &child) const
     {
         TreeItem* parentItem = childItem->getParent();
 
-        if (m_root.contains(parentItem))
+        if(m_root.contains(childItem))
         {
             return QModelIndex();
         }
@@ -155,7 +155,7 @@ void ChannelModel::writeDataJson(QJsonObject& obj)
     QJsonArray array;
     for (int i = 0; i < m_root.size(); ++i)
     {
-        if(m_root.at(i)->isLeaf())
+        if(!m_root.at(i)->isLeaf())
         {
             Channel* item = dynamic_cast<Channel*>(m_root.at(i));
             if(nullptr != item)
