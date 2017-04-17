@@ -1,7 +1,7 @@
 #include "treeitem.h"
 #include <QUuid>
 TreeItem::TreeItem()
-    : m_id(QUuid::createUuid().toString())
+    : m_id(QUuid::createUuid().toString()),m_parent(nullptr)
 {
 
 }
