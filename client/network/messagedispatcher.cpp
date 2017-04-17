@@ -12,7 +12,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
     msg->setData(data);
 
-    qDebug() << "[Received Message]" <<cat2String(msg->header()) << act2String(msg->header());
+    qDebug() << "[Server][Received Message]" <<cat2String(msg->header()) << act2String(msg->header()) << channel;
 
     switch (msg->category())
     {
