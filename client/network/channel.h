@@ -26,10 +26,6 @@ public:
 
     int indexOf(TreeItem* child);
 
-
-    QString title() const;
-    void setTitle(const QString &title);
-
     QString description() const;
     void setDescription(const QString &description);
 
@@ -49,11 +45,11 @@ public:
 
 private:
     QString m_password;
-    QString m_title;
     QString m_description;
     bool m_usersListed;
 
     QList<TreeItem*> m_child;
+    QList<NetworkMessageReader*> m_dataToSend;
 };
 
 #endif // CHANNEL_H

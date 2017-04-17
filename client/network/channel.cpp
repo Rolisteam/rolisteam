@@ -7,9 +7,9 @@ Channel::Channel()
 
 }
 
-Channel::Channel(QString)
+Channel::Channel(QString str)
 {
-
+    m_name = str;
 }
 
 Channel::~Channel()
@@ -30,16 +30,6 @@ void Channel::setPassword(const QString &password)
 int Channel::indexOf(TreeItem *child)
 {
     return m_child.indexOf(child);
-}
-
-QString Channel::title() const
-{
-    return m_title;
-}
-
-void Channel::setTitle(const QString &title)
-{
-    m_title = title;
 }
 
 QString Channel::description() const
@@ -69,7 +59,7 @@ bool Channel::isLeaf() const
 void Channel::readChannel(QJsonObject &json)
 {
     m_password=json["password"].toString();
-    m_title=json["title"].toString();
+    m_name=json["title"].toString();
     m_description=json["description"].toString();
     m_usersListed=json["usersListed"].toBool();
 
@@ -86,7 +76,7 @@ void Channel::readChannel(QJsonObject &json)
 void Channel::writeChannel(QJsonObject &json)
 {
     json["password"]=m_password;
-    json["title"]=m_title;
+    json["title"]=m_name;
     json["description"]=m_description;
     json["usersListed"]=m_usersListed;
 
@@ -108,6 +98,7 @@ void Channel::writeChannel(QJsonObject &json)
 }
 void Channel::sendToAll(NetworkMessageReader* msg, TcpClient* tcp)
 {
+    m_dataToSend.append(msg);
     for(auto client : m_child)
     {
         TcpClientItem* item = dynamic_cast<TcpClientItem*>(client);
@@ -115,10 +106,9 @@ void Channel::sendToAll(NetworkMessageReader* msg, TcpClient* tcp)
         if(nullptr != item)
         {
             TcpClient* other = item->client();
-            qDebug()<< "test" << other << tcp;
             if((nullptr != other)&&(other!=tcp))
             {
-               // tqDebug() << "inside";
+                qDebug()<< "[server][send to clients]" << other << tcp;
                 other->sendMessage(*msg);
             }
         }
@@ -131,6 +121,14 @@ int Channel::addChild(TreeItem* item)
     if(nullptr!=tcp)
     {
         tcp->setChannelParent(this);
+        TcpClient* newClient = tcp->client();
+        if(nullptr != newClient)
+        {//resend all previous data received
+            for(auto msg : m_dataToSend)
+            {
+                newClient->sendMessage(*msg);
+            }
+        }
     }
     return m_child.size();
 
