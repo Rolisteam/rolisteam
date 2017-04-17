@@ -1343,7 +1343,7 @@ void MainWindow::initializedClientManager()
     connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
     connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
     connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
-    connect(m_clientManager,SIGNAL(isReady()),this,SLOT(postConnection()));
+    connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
 }
 void MainWindow::postConnection()
 {
@@ -1355,6 +1355,9 @@ void MainWindow::postConnection()
         m_preferences->registerValue("isClient",!m_currentConnectionProfile->isServer());
     }
 
+    m_ui->m_connectionAction->setEnabled(false);
+    m_ui->m_disconnectAction->setEnabled(true);
+    m_dialog->accept();
 
     setUpNetworkConnection();
     updateWindowTitle();
