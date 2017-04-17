@@ -40,7 +40,7 @@ public:
 
     void initServerManager();
 
-    void sendOffModel();
+    void sendOffModel(TcpClient*);
 signals:
     void stateChanged(ServerState);
     void errorOccurs(QString);
@@ -54,6 +54,8 @@ public slots:
 
     void processMessageAdmin(NetworkMessageReader *msg,Channel* chan, TcpClient* tcp);
     void initClient();
+    void sendOffAuthSuccessed();
+    void sendOffAuthFail();
 private slots:
     void incomingClientConnection();
 
@@ -62,7 +64,6 @@ private:
     QTcpServer* m_server;
     ChannelModel* m_model;
     int m_defaultChannelIndex;
-    ServerState m_state;
     ConnectionAccepter* m_corConnection;
     ConnectionAccepter* m_corEndProcess;
 
@@ -71,6 +72,7 @@ private:
     QList< QPair<QThread*,int> > m_threadPool;
     MessageDispatcher* m_msgDispatcher;
     QList <TcpClient*> m_clients;
+    ServerState m_state;
 
 };
 

@@ -18,6 +18,7 @@ ServerManager::ServerManager(QObject *parent)
     connect(m_msgDispatcher, SIGNAL(messageForAdmin(NetworkMessageReader*,Channel*,TcpClient*)),this,SLOT(processMessageAdmin(NetworkMessageReader*,Channel*,TcpClient*)));
     m_defaultChannelIndex = m_model->addChannel("default","");
 
+
     m_corConnection = new IpBanAccepter();
 
     IpRangeAccepter* tmp = new IpRangeAccepter();
@@ -97,13 +98,18 @@ void ServerManager::initServerManager()
        pair.first->start();
    }
 
+
    //create channel
    int chCount = getValue("ChannelCount").toInt();
-   //m_model->
-   for(int i = 0; i < thCount ; ++i)
+   int count = m_model->rowCount(QModelIndex());
+
+
+   for(int i = count; i < thCount ; ++i)
    {
        m_model->addChannel(QStringLiteral("Channel %1").arg(chCount),"");
    }
+   qDebug() << m_model->rowCount(QModelIndex()) << thCount;
+
 }
 
 void ServerManager::incomingClientConnection()
@@ -120,6 +126,8 @@ void ServerManager::incomingClientConnection()
         qInfo() << "inside connection valide";
         TcpClient* client = new TcpClient(socketTcp);
         connect(client,SIGNAL(isReady()),this,SLOT(initClient()));
+        connect(client,SIGNAL(authSuccess()),this,SLOT(sendOffAuthSuccessed()));
+        connect(client,SIGNAL(authFail()),this,SLOT(sendOffAuthFail()));
         m_clients.append(client);
 
     }
@@ -137,7 +145,7 @@ void ServerManager::initClient()
         {
             m_model->addConnectionToDefaultChannel(client);
             client->sendEvent(TcpClient::AuthSuccessEvent);
-            sendOffModel();
+            sendOffModel(client);
         }
         else
         {
@@ -172,7 +180,26 @@ void ServerManager::initClient()
         connect(client, SIGNAL(disconnected()), this, SLOT(disconnection()));
     }
 }
+void ServerManager::sendOffAuthSuccessed()
+{
+    TcpClient* client = qobject_cast<TcpClient*>(sender());
+    if(nullptr != client)
+    {
+        NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AuthentificationSucessed);
+        client->sendMessage(msg);
 
+        sendOffModel(client);
+    }
+}
+void ServerManager::sendOffAuthFail()
+{
+    TcpClient* client = qobject_cast<TcpClient*>(sender());
+    if(nullptr != client)
+    {
+        NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::AuthentificationFail);
+        client->sendMessage(msg);
+    }
+}
 void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan, TcpClient* tcp)
 {
     switch (msg->action())
@@ -194,10 +221,11 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
                 if(hasChannelData)
                 {
                     QString chanId=msg->string32();
-                    if(m_model->addConnectionToChannel(chanId,tcp))
-                    {
-                        sendOffModel();
-                    }
+                    m_model->addConnectionToChannel(chanId,tcp);
+                }
+                else
+                {
+                    m_model->addConnectionToDefaultChannel(tcp);
                 }
             }
             else
@@ -227,16 +255,20 @@ void ServerManager::processMessageAdmin(NetworkMessageReader* msg,Channel* chan,
     }
 }
 
-void ServerManager::sendOffModel()
+void ServerManager::sendOffModel(TcpClient* client)
 {
-    NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::SetChannelList);
-    QJsonDocument doc;
-    QJsonObject obj;
-    m_model->writeDataJson(obj);
-    doc.setObject(obj);
+    if(nullptr != client)
+    {
+        NetworkMessageWriter msg(NetMsg::AdministrationCategory,NetMsg::SetChannelList);
+        QJsonDocument doc;
+        QJsonObject obj;
+        m_model->writeDataJson(obj);
+        doc.setObject(obj);
 
-    msg.byteArray32(doc.toJson());
-    msg.sendAll();
+        msg.byteArray32(doc.toJson());
+        qDebug() << doc.toJson();
+        client->sendMessage(msg);
+    }
 }
 
 void ServerManager::insertField(QString key,QVariant value,bool erase)
