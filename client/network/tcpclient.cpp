@@ -72,6 +72,7 @@ TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
         {
             qDebug() << "InPlace State";
             m_currentState = m_inPlace;
+
         }
     });
     connect(m_waitingAuthChannel,&QState::activeChanged,[=](bool b){
@@ -112,15 +113,6 @@ TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
     m_waitingAuthChannel->addTransition(this, SIGNAL(channelAuthFail()), m_stayInPlace);
     m_waitingAuthChannel->addTransition(this, SIGNAL(channelAuthSuccess()), m_inPlace);
     m_inPlace->addTransition(this, SIGNAL(moveChannel()), m_wantToGoToChannel);
-
-
-
-
-
-
-
-
-
 
 
 }
