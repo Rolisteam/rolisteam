@@ -25,7 +25,7 @@
 #define NETWORK_MESSAGE_H
 
 #include <QtGlobal>
-//#include "network/networkmanager.h"
+//
 class NetworkLink;
 class ClientManager;
 
@@ -64,6 +64,8 @@ enum Action {
     Kicked,
     MoveChannel,
     SetChannelList,
+    AuthentificationSucessed,
+    AuthentificationFail,
 
     // PlayerCategory
     PlayerConnectionAction = 0,
