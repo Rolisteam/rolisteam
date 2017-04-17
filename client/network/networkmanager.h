@@ -95,8 +95,8 @@ public:
      * @return
      */
     bool isConnected() const;
-    NetworkLink* getLinkToServer();
     void setConnectionProfile(ConnectionProfile*);
+    static NetworkLink* getLinkToServer();
 public slots:
     void setConnectionState(ConnectionState);
     void disconnectAndClose();
@@ -117,7 +117,12 @@ signals :
     void notifyUser(QString);
     void errorOccur(QString);
 
+    //State signal
     void isReady();
+    void isAuthentified();
+    void isConnectedSig();
+    void isConnecting();
+    void isDisconnected();
 
 private slots :
     //void newClientConnection();
@@ -127,7 +132,7 @@ private slots :
    // void socketStateChanged(QAbstractSocket::SocketState state);
 
 private:
-    NetworkLink* m_networkLinkToServer;
+    static NetworkLink* m_networkLinkToServer;
     QTimer* m_reconnect;
     Player* m_localPlayer;
 
@@ -139,15 +144,12 @@ private:
     ConnectionProfile* m_connectionProfile;
     QList<QThread*> m_threadList;
     heartBeatSender* m_hbSender;
- //   static ClientManager* m_singleton;
-
 
     QState* m_connecting;
     QState* m_connected;
     QState* m_authentified;
     QState* m_error;
     QState* m_disconnected;
-    QState* m_ready;
     QStateMachine m_states;
 };
 

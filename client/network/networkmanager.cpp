@@ -32,12 +32,12 @@
 #include "network/connectionprofile.h"
 
 #define second 1000
-//ClientManager* ClientManager::m_singleton = nullptr;
+NetworkLink* ClientManager::m_networkLinkToServer = nullptr;
 /*****************
  * ClientManager *
  *****************/
 ClientManager::ClientManager(ConnectionProfile* connection)
-    : QObject(),m_networkLinkToServer(nullptr),m_connectionProfile(connection),m_disconnectAsked(false),m_connectionState(DISCONNECTED),m_localPlayer(nullptr)
+    : QObject(),m_connectionProfile(connection),m_disconnectAsked(false),m_connectionState(DISCONNECTED),m_localPlayer(nullptr)
 {
     m_reconnect = new QTimer(this);
     m_playersList = PlayersList::instance();
@@ -55,12 +55,26 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     m_authentified= new QState();
     m_error= new QState();
     m_disconnected= new QState();
-    m_ready = new QState();
-
 
     connect(m_connected,&QAbstractState::entered,[=]()
     {
-        emit connectionStateChanged(CONNECTED);
+        setConnectionState(CONNECTED);
+    });
+    connect(m_connecting,&QAbstractState::entered,[=]()
+    {
+        setConnectionState(CONNECTING);
+        emit isConnecting();
+
+    });
+    connect(m_disconnected,&QAbstractState::entered,[=]()
+    {
+        setConnectionState(DISCONNECTED);
+        emit isDisconnected();
+    });
+    connect(m_authentified,&QAbstractState::entered,[=]()
+    {
+        setConnectionState(AUTHENTIFIED);
+        emit isAuthentified();
         PlayersList*  playerList = PlayersList::instance();
         if(!m_connectionProfile->isGM())
         {
@@ -69,30 +83,19 @@ ClientManager::ClientManager(ConnectionProfile* connection)
         playerList->sendOffLocalPlayerInformations();
         playerList->sendOffFeatures(m_connectionProfile->getPlayer());
     });
-    connect(m_connecting,&QAbstractState::entered,[=]()
-    {
-        emit connectionStateChanged(CONNECTING);
-    });
-    connect(m_disconnected,&QAbstractState::entered,[=]()
-    {
-        emit connectionStateChanged(DISCONNECTED);
-    });
-    connect(m_ready,&QAbstractState::entered,[=]()
-    {
-        emit connectionStateChanged(AUTHENTIFIED);
-    });
 
     m_states.addState(m_connecting);
     m_states.addState(m_connected);
     m_states.addState(m_authentified);
     m_states.addState(m_disconnected);
     m_states.addState(m_error);
-    m_states.addState(m_ready);
+
     m_states.setInitialState(m_disconnected);
 
     m_disconnected->addTransition(m_networkLinkToServer,SIGNAL(connecting()),m_connecting);
     m_connecting->addTransition(m_networkLinkToServer,SIGNAL(connected()),m_connected);
-    m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationSuccessed()),m_ready);
+    m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationSuccessed()),m_authentified);
+    //m_connected->addTransition(m_networkLinkToServer,SIGNAL(authentificationFail()),m_disconnected);
 
     m_states.addTransition(m_networkLinkToServer,SIGNAL(error()),m_error);
     m_states.addTransition(m_networkLinkToServer,SIGNAL(disconnected()),m_disconnected);
@@ -100,10 +103,6 @@ ClientManager::ClientManager(ConnectionProfile* connection)
     connect(&m_states,SIGNAL(started()),this,SIGNAL(isReady()));
 
     m_states.start();
-
-
-
-
 
 }
 
@@ -220,25 +219,11 @@ void ClientManager::endingNetworkLink(NetworkLink * link)
 void ClientManager::disconnectAndClose()
 {
     m_disconnectAsked = true;
-    /*if (m_connectionProfile->isServer())
-    {
-        m_server->close();
-        emit notifyUser(tr("Server has been closed."));
-        m_playersList->cleanListButLocal();
-        foreach(NetworkLink * tmp,m_networkLinkList)
-        {
-            tmp->disconnectAndClose();
-        }
-        m_networkLinkList.clear();
-    }
-    else
-    {*/
-        m_networkLinkToServer->disconnectAndClose();
-        emit notifyUser(tr("Connection to the server has been closed."));
-        m_playersList->cleanListButLocal();
-        delete m_networkLinkToServer;
-        m_networkLinkToServer=NULL;
-    //}
+    m_networkLinkToServer->disconnectAndClose();
+    emit notifyUser(tr("Connection to the server has been closed."));
+    m_playersList->cleanListButLocal();
+    delete m_networkLinkToServer;
+    m_networkLinkToServer=NULL;
     setConnectionState(DISCONNECTED);
 }
 bool ClientManager::isServer() const
@@ -247,7 +232,16 @@ bool ClientManager::isServer() const
 }
 bool ClientManager::isConnected() const
 {
-    return m_connectionState;
+    qDebug() << m_connectionState;
+    switch (m_connectionState)
+    {
+    case DISCONNECTED:
+    case CONNECTING:
+        return false;
+    case CONNECTED:
+    case AUTHENTIFIED:
+        return true;
+    }
 }
 
 void ClientManager::setConnectionState(ConnectionState state)
