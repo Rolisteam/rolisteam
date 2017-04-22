@@ -20,8 +20,8 @@ class MessageDispatcher : public QObject
 public:
     explicit MessageDispatcher(QObject *parent = 0);
 
-
-
+    static QString cat2String(NetworkMessageHeader *head);
+    static QString act2String(NetworkMessageHeader *head);
 signals:
     void messageForAdmin(NetworkMessageReader* , Channel* channel, TcpClient* emitter );
 
@@ -29,9 +29,6 @@ signals:
 public slots:
     void dispatchMessage(QByteArray msg, Channel* channel, TcpClient* emitter);
 
-private:
-    QString cat2String(NetworkMessageHeader *head);
-    QString act2String(NetworkMessageHeader *head);
 };
 
 #endif // MESSAGEDISPATCHER_H

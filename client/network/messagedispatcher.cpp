@@ -6,27 +6,40 @@ MessageDispatcher::MessageDispatcher(QObject *parent) : QObject(parent)
 
 }
 
-void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpClient *emitter)
+void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpClient* emitter)
 {
+    bool sendToAll = true;
     NetworkMessageReader* msg = new NetworkMessageReader();
 
     msg->setData(data);
 
     qDebug() << "[Server][Received Message]" <<cat2String(msg->header()) << act2String(msg->header()) << channel;
 
-    switch (msg->category())
+    if(msg->category()== NetMsg::AdministrationCategory)
     {
-            case NetMsg::AdministrationCategory:
-                emit messageForAdmin(msg,channel,emitter);
-            break;
-            default:
-                if(nullptr != channel)
-                {
-                    channel->sendToAll(msg,emitter);
-                }
-            break;
+        emit messageForAdmin(msg,channel,emitter);
+        sendToAll = false;
+    }
+    else if(msg->category()== NetMsg::PlayerCategory)
+    {
+        if(msg->action() == NetMsg::PlayerConnectionAction)
+        {
+            QString name = msg->string16();
+            QString uuid = msg->string8();
+            msg->rgb();
+            bool isGM = msg->uint8();
+            emitter->setName(name);
+            emitter->setId(uuid);
+            emitter->setIsGM(isGM);
+        }
     }
 
+
+
+    if((sendToAll)&&(nullptr != channel))
+    {
+        channel->sendToAll(msg,emitter);
+    }
 
 }
 
