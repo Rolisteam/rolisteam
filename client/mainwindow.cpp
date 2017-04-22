@@ -104,7 +104,7 @@ MainWindow::MainWindow()
     m_vmapToolBar = new VmapToolBar();
     addToolBar(Qt::TopToolBarArea,m_vmapToolBar);
 
-    connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
+
     m_ipChecker = new IpChecker(this);
     m_mapAction = new QMap<MediaContainer*,QAction*>();
 
@@ -446,7 +446,7 @@ void MainWindow::linkActionToMenu()
     connect(m_ui->m_quitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
 
     // network
-    connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
+
     connect(m_ui->m_disconnectAction,SIGNAL(triggered()),this,SLOT(closeConnection()));
     connect(m_ui->m_connectionAction,SIGNAL(triggered()),this,SLOT(startReconnection()));
     connect(m_ui->m_changeProfileAct,SIGNAL(triggered()),this,SLOT(showConnectionDialog()));
@@ -1312,38 +1312,43 @@ void MainWindow::startConnection()
                 connect(&m_serverThread,SIGNAL(finished()),server,SLOT(deleteLater()));
                 connect(server,SIGNAL(sendLog(QString)),this,SLOT(notifyUser(QString)));
                 connect(server,SIGNAL(errorOccurs(QString)),this,SLOT(notifyUser(QString)));
+                connect(server,SIGNAL(listening()),this,SLOT(initializedClientManager()),Qt::QueuedConnection);
+
+
                 server->moveToThread(&m_serverThread);
 
                 m_serverThread.start();
             }
-        }
-        initializedClientManager();
-        if((NULL!=m_currentConnectionProfile)&&(NULL!=m_clientManager))
-        {
-
-            if(NULL!=m_playerList)
+            else
             {
-                m_playerList->completeListClean();
-
-                m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
-
-                m_clientManager->startConnection();
+                initializedClientManager();
 
             }
-
         }
+
     }
-
 }
-
 void MainWindow::initializedClientManager()
 {
     m_clientManager = new ClientManager(m_currentConnectionProfile);
-    //connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
+   // connect(m_clientManager,SIGNAL(isReady()),m_clientManager,SLOT(startConnection()));
+
+    connect(m_clientManager,SIGNAL(notifyUser(QString)),this,SLOT(notifyUser(QString)));
+    connect(m_clientManager,SIGNAL(stopConnectionTry()),this,SLOT(stopReconnection()));
     connect(m_clientManager,SIGNAL(errorOccur(QString)),m_dialog,SLOT(errorOccurs(QString)));
     connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(updateWindowTitle()));
     connect(m_clientManager,SIGNAL(connectionStateChanged(ClientManager::ConnectionState)),this,SLOT(networkStateChanged(ClientManager::ConnectionState)));
     connect(m_clientManager,SIGNAL(isAuthentified()),this,SLOT(postConnection()));
+
+    if((NULL!=m_currentConnectionProfile)&&(NULL!=m_clientManager))
+    {
+        if(NULL!=m_playerList)
+        {
+            m_playerList->completeListClean();
+            m_playerList->setLocalPlayer(m_currentConnectionProfile->getPlayer());
+            m_clientManager->startConnection();
+        }
+    }
 }
 void MainWindow::postConnection()
 {
