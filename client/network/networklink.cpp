@@ -33,7 +33,7 @@
 //#include "userlist/playersList.h"
 #include "network/receiveevent.h"
 #include "network/networkmessagewriter.h"
-
+#include "network/messagedispatcher.h"
 
 NetworkLink::NetworkLink(QTcpSocket* socket)
     : m_socketTcp(socket)
@@ -93,13 +93,16 @@ void NetworkLink::p_disconnect()
 
 void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 {
+
+    qDebug() << "Categorie:" << MessageDispatcher::cat2String((NetworkMessageHeader*)data) << "Action" << MessageDispatcher::act2String((NetworkMessageHeader*)data);
+
     if(NULL==m_socketTcp)
     {
         emit errorMessage(tr("Socket is null"));
         return;
     }
 
-    qDebug() << "current thread:" << QThread::currentThread() << "normal thread of this:" << this->thread() << "normal thread of socket:" << m_socketTcp->thread();
+   // qDebug() << "current thread:" << QThread::currentThread() << "normal thread of this:" << this->thread() << "normal thread of socket:" << m_socketTcp->thread();
     if (but != this)
     {
         // Emission des donnees
@@ -112,16 +115,17 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
 
         int t = m_socketTcp->write(data, size);
 
-        qDebug() << "write " << t;
-
         if (t < 0)
         {
             emit errorMessage(tr("Tranmission error :")+m_socketTcp->errorString());
         }
     }
 }
+
 void NetworkLink::sendData(NetworkMessage* msg)
 {
+    qDebug() << "Categorie:" << MessageDispatcher::cat2String(msg->buffer()) << "Action" << MessageDispatcher::act2String(msg->buffer());
+
     if(NULL==m_socketTcp)
     {
         emit errorMessage(tr("Socket is null"));
@@ -269,7 +273,7 @@ void NetworkLink::processPlayerMessage(NetworkMessageReader* msg)
             //m_networkManager->addNetworkLink(this);
 
             NetworkMessageHeader header;
-            header.category = NetMsg::SetupCategory;
+            header.category = NetMsg::AdministrationCategory;
             header.action = NetMsg::EndConnectionAction;
             header.dataSize = 0;
             sendData((char *)&header, sizeof(NetworkMessageHeader));
