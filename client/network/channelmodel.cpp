@@ -1,7 +1,7 @@
 #include "channelmodel.h"
 
 #include "treeitem.h"
-#include "tcpclientitem.h"
+#include "tcpclient.h"
 
 #include <QSettings>
 #include <QList>
@@ -64,7 +64,7 @@ QModelIndex ChannelModel::parent(const QModelIndex &child) const
     TreeItem* childItem = static_cast<TreeItem*>(child.internalPointer());
     if(nullptr!=childItem)
     {
-        TreeItem* parentItem = childItem->getParent();
+        TreeItem* parentItem = childItem->getParentItem();
 
         if(m_root.contains(childItem))
         {
@@ -131,7 +131,7 @@ bool ChannelModel::addConnectionToChannel(QString chanId, TcpClient* client)
         TreeItem* item = m_root.at(i);
         if(nullptr != item)
         {
-            found = item->addChildInto(chanId,new TcpClientItem(tr("channel_%1").arg(m_root.size()),client));
+            found = item->addChildInto(chanId,client);
         }
     }
     return found;
@@ -144,7 +144,7 @@ void ChannelModel::readDataJson(const QJsonObject& obj)
     {
         Channel* tmp = new Channel();
         QJsonObject obj = channelJson.toObject();
-        tmp->readChannel(obj);
+        tmp->readFromJson(obj);
         m_root.append(tmp);
     }
     endResetModel();
@@ -153,17 +153,13 @@ void ChannelModel::readDataJson(const QJsonObject& obj)
 void ChannelModel::writeDataJson(QJsonObject& obj)
 {
     QJsonArray array;
-    for (int i = 0; i < m_root.size(); ++i)
+    for (TreeItem* item : m_root)
     {
-        if(!m_root.at(i)->isLeaf())
+        if(nullptr != item)
         {
-            Channel* item = dynamic_cast<Channel*>(m_root.at(i));
-            if(nullptr != item)
-            {
-                QJsonObject jsonObj;
-                item->writeChannel(jsonObj);
-                array.append(jsonObj);
-            }
+            QJsonObject jsonObj;
+            item->writeIntoJson(jsonObj);
+            array.append(jsonObj);
         }
     }
     obj["channel"]=array;
