@@ -21,13 +21,13 @@ public:
     explicit MessageDispatcher(QObject *parent = 0);
 
 
-    void dispatchMessage(QByteArray msg, Channel* channel, TcpClient* emitter);
 
 signals:
     void messageForAdmin(NetworkMessageReader* , Channel* channel, TcpClient* emitter );
 
 
 public slots:
+    void dispatchMessage(QByteArray msg, Channel* channel, TcpClient* emitter);
 
 private:
     QString cat2String(NetworkMessageHeader *head);

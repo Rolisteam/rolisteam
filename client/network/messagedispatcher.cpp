@@ -21,7 +21,9 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
             break;
             default:
                 if(nullptr != channel)
+                {
                     channel->sendToAll(msg,emitter);
+                }
             break;
     }
 
