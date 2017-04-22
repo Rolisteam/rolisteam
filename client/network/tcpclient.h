@@ -16,7 +16,7 @@ class Channel;
 /**
  * @brief The TcpClient class
  */
-class TcpClient : public QObject, public TreeItem
+class TcpClient : public TreeItem
 {
     Q_OBJECT
 public:
@@ -51,6 +51,9 @@ public:
 
     void setSocket(QTcpSocket* socket);
 
+    bool isGM() const;
+    void setIsGM(bool isGM);
+
 signals:
     /**
      * @brief readDataReceived
@@ -82,6 +85,8 @@ signals:
     void moveChannel();
 
     void isReady();
+
+
 
 public slots:
     /**
@@ -138,6 +143,8 @@ private:
     QState* m_disconnected;
 
     QState* m_currentState;
+
+    bool m_isGM;
 
 };
 

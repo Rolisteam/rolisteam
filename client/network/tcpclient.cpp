@@ -2,7 +2,7 @@
 #include "channel.h"
 
 TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
-    : QObject(parent),m_socket(socket)
+    : TreeItem(parent),m_socket(socket)
 {
     m_dataToRead=0;
     m_headerRead = 0;
@@ -135,14 +135,30 @@ void TcpClient::setSocket(QTcpSocket* socket)
 
 void TcpClient::starReading()
 {
-    qInfo() << m_stateMachine.isRunning();
-    qInfo() << "########################################tcpClient########################################" << this;
+   /* qInfo() << m_stateMachine.isRunning();
+    qInfo() << "########################################tcpClient########################################" << this;*/
+
+}
+
+bool TcpClient::isGM() const
+{
+    return m_isGM;
+}
+
+void TcpClient::setIsGM(bool isGM)
+{
+    if(m_isGM != isGM)
+    {
+        m_isGM = isGM;
+        emit itemChanged();
+
+    }
 
 }
 
 void TcpClient::receivingData()
 {
-    qInfo() << "########################################tcpClient########################################\n Receiving Data";
+    //qInfo() << "########################################tcpClient########################################\n Receiving Data";
     if(NULL==m_socket)
     {
         return;
@@ -303,6 +319,7 @@ void TcpClient::readFromJson(QJsonObject &json)
 {
     m_name=json["name"].toString();
     m_id=json["id"].toString();
+    m_isGM = json["gm"].toBool();
 }
 
 void TcpClient::writeIntoJson(QJsonObject &json)
@@ -310,5 +327,6 @@ void TcpClient::writeIntoJson(QJsonObject &json)
     json["type"]="client";
     json["name"]=m_name;
     json["id"]=m_id;
+    json["gm"]=m_isGM;
 }
 
