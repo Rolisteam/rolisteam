@@ -1,7 +1,7 @@
 #include "treeitem.h"
 #include <QUuid>
 TreeItem::TreeItem()
-    : m_id(QUuid::createUuid().toString()),m_parent(nullptr)
+    : m_id(QUuid::createUuid().toString()),m_parentItem(nullptr)
 {
 
 }
@@ -31,14 +31,14 @@ TreeItem *TreeItem::getChildAt(int row)
     return nullptr;
 }
 
-TreeItem *TreeItem::getParent() const
+TreeItem *TreeItem::getParentItem() const
 {
-    return m_parent;
+    return m_parentItem;
 }
 
-void TreeItem::setParent(TreeItem *parent)
+void TreeItem::setParentItem(TreeItem *parent)
 {
-    m_parent = parent;
+    m_parentItem = parent;
 }
 
 QString TreeItem::getName() const
@@ -53,7 +53,7 @@ void TreeItem::setName(const QString &name)
 
 int TreeItem::rowInParent()
 {
-    return m_parent->indexOf(this);
+    return m_parentItem->indexOf(this);
 }
 
 QString TreeItem::getId() const

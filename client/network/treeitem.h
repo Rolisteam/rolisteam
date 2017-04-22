@@ -2,6 +2,8 @@
 #define TREEITEM_H
 
 #include <QString>
+#include <QJsonArray>
+#include <QJsonObject>
 /**
  * @brief The TreeItem class
  */
@@ -16,8 +18,8 @@ public:
     virtual int addChild(TreeItem*);
     TreeItem* getChildAt(int row);
 
-    TreeItem* getParent() const;
-    void setParent(TreeItem* parent);
+    TreeItem* getParentItem() const;
+    void setParentItem(TreeItem* parent);
 
     QString getName() const;
     void setName(const QString &name);
@@ -30,9 +32,13 @@ public:
 
     virtual bool addChildInto(QString id, TreeItem* child);
 
+    //serialization
+    virtual void readFromJson(QJsonObject &json)=0;
+    virtual void writeIntoJson(QJsonObject& json) =0;
+
 protected:
     QString m_name;
-    TreeItem* m_parent;
+    TreeItem* m_parentItem;
     QString m_id;
 };
 
