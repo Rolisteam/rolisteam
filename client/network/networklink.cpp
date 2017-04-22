@@ -36,8 +36,8 @@
 
 
 NetworkLink::NetworkLink(QTcpSocket* socket)
+    : m_socketTcp(socket)
 {
-    m_socketTcp = socket;
     m_receivingData = false;
     m_headerRead= 0;
     setSocket(socket);
@@ -47,7 +47,6 @@ NetworkLink::NetworkLink(ConnectionProfile* connection)
 {
     setConnection(connection);
     setSocket(new QTcpSocket(this));
-    //initialize();
     m_receivingData = false;
     m_headerRead= 0;
 }
@@ -99,6 +98,8 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
         emit errorMessage(tr("Socket is null"));
         return;
     }
+
+    qDebug() << "current thread:" << QThread::currentThread() << "normal thread of this:" << this->thread() << "normal thread of socket:" << m_socketTcp->thread();
     if (but != this)
     {
         // Emission des donnees
@@ -110,6 +111,8 @@ void NetworkLink::sendData(char* data, quint32 size, NetworkLink* but)
         #endif
 
         int t = m_socketTcp->write(data, size);
+
+        qDebug() << "write " << t;
 
         if (t < 0)
         {
@@ -366,7 +369,7 @@ void NetworkLink::connectTo()
 }
 void NetworkLink::socketStateChanged(QAbstractSocket::SocketState state)
 {
-   // qDebug() << "socket State Changed" << state;
+    qDebug() << "[client] socket State Changed" << state;
     switch (state)
     {
     case QAbstractSocket::ClosingState:
