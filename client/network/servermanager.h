@@ -37,7 +37,6 @@ public:
 
     void initServerManager();
 
-    void sendOffModel(TcpClient*);
     QVariant getValue(QString key) const;
 signals:
     void stateChanged(ServerManager::ServerState);
@@ -63,6 +62,8 @@ public slots:
     void removeSocket(QTcpSocket *socket);
     void disconnected();
     void error(QAbstractSocket::SocketError socketError);
+    void sendOffModel(TcpClient*);
+    void sendOffModelToAll();
 private slots:
     void incomingClientConnection();
 
@@ -78,7 +79,6 @@ private:
 
 
     MessageDispatcher* m_msgDispatcher;
-//    QList <TcpClient*> m_clients;
     QHash<QTcpSocket*,TcpClient*> m_connections;
     ServerState m_state;
 

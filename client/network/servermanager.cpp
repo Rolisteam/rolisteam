@@ -95,10 +95,6 @@ void ServerManager::disconnection()
 }
 void ServerManager::initServerManager()
 {
-   //create thread
-
-
-
    //create channel
    int chCount = getValue("ChannelCount").toInt();
    int count = m_model->rowCount(QModelIndex());
@@ -108,8 +104,6 @@ void ServerManager::initServerManager()
    {
        m_model->addChannel(QStringLiteral("Channel %1").arg(chCount),"");
    }
-   qDebug() << m_model->rowCount(QModelIndex()) << chCount;
-
 }
 
 void ServerManager::incomingClientConnection()
@@ -223,6 +217,7 @@ void ServerManager::sendOffModel(TcpClient* client)
 {
     if(nullptr != client)
     {
+        qDebug() << "[current qthread]" << QThread::currentThread() << " [client thread:]"<<client->thread();
         NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::AdministrationCategory,NetMsg::SetChannelList);
         QJsonDocument doc;
         QJsonObject obj;
@@ -231,8 +226,6 @@ void ServerManager::sendOffModel(TcpClient* client)
 
         msg->byteArray32(doc.toJson());
         qDebug() << doc.toJson();
-        //NetworkMessage* msgP = &msg;
-        //client->sendMessage(msg);
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)));
 
     }
@@ -315,6 +308,7 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
         connect(connection,SIGNAL(isReady()),this,SLOT(initClient()),Qt::QueuedConnection);
         connect(connection,SIGNAL(authSuccess()),this,SLOT(sendOffAuthSuccessed()),Qt::QueuedConnection);
         connect(connection,SIGNAL(authFail()),this,SLOT(sendOffAuthFail()),Qt::QueuedConnection);
+        connect(connection,SIGNAL(itemChanged()),this,SLOT(sendOffModelToAll()),Qt::QueuedConnection);
 
         connect(socket,&QTcpSocket::disconnected, this, &ServerManager::disconnected,Qt::QueuedConnection);
         connect(socket,static_cast<void (QTcpSocket::*)(QAbstractSocket::SocketError)>(&QTcpSocket::error),this,&ServerManager::error,Qt::QueuedConnection);
@@ -323,11 +317,19 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
         connection->setSocket(socket);
 
         m_connections.insert(socket,connection);
-        qDebug() << this << "clients = " << m_connections.count();
         emit socket->connected();
     }
 
 }
+void ServerManager::sendOffModelToAll()
+{
+    qDebug() << "sendoffmodeltoALL";
+    for( auto connection : m_connections.values())
+    {
+        sendOffModel(connection);
+    }
+}
+
 void ServerManager::disconnected()
 {
     if(!sender()) return;
