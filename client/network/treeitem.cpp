@@ -1,7 +1,7 @@
 #include "treeitem.h"
 #include <QUuid>
-TreeItem::TreeItem()
-    : m_id(QUuid::createUuid().toString()),m_parentItem(nullptr)
+TreeItem::TreeItem(QObject* parent)
+    : QObject(parent), m_id(QUuid::createUuid().toString()),m_parentItem(nullptr)
 {
 
 }
@@ -38,7 +38,11 @@ TreeItem *TreeItem::getParentItem() const
 
 void TreeItem::setParentItem(TreeItem *parent)
 {
-    m_parentItem = parent;
+    if(m_parentItem!=parent)
+    {
+        itemChanged();
+        m_parentItem=parent;
+    }
 }
 
 QString TreeItem::getName() const
@@ -48,7 +52,11 @@ QString TreeItem::getName() const
 
 void TreeItem::setName(const QString &name)
 {
-    m_name = name;
+    if(m_name!=name)
+    {
+        itemChanged();
+        m_name = name;
+    }
 }
 
 int TreeItem::rowInParent()
@@ -63,10 +71,19 @@ QString TreeItem::getId() const
 
 void TreeItem::setId(const QString &id)
 {
-    m_id = id;
+    if(m_id!=id)
+    {
+        itemChanged();
+        m_id=id;
+    }
 }
 
 bool TreeItem::addChildInto(QString id, TreeItem *child)
 {
     return false;
+}
+
+void TreeItem::clear()
+{
+
 }

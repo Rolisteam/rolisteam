@@ -4,19 +4,21 @@
 #include <QString>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QObject>
 /**
  * @brief The TreeItem class
  */
-class TreeItem
+class TreeItem : public QObject
 {
+    Q_OBJECT
 public:
-    TreeItem();
+    TreeItem(QObject* parent = nullptr);
 
     virtual void addChild();
     virtual bool isLeaf() const;
     virtual int childCount() const;
     virtual int addChild(TreeItem*);
-    TreeItem* getChildAt(int row);
+    virtual TreeItem* getChildAt(int row);
 
     TreeItem* getParentItem() const;
     void setParentItem(TreeItem* parent);
@@ -35,6 +37,12 @@ public:
     //serialization
     virtual void readFromJson(QJsonObject &json)=0;
     virtual void writeIntoJson(QJsonObject& json) =0;
+
+    virtual void clear();
+
+
+signals:
+    void itemChanged();
 
 protected:
     QString m_name;
