@@ -36,8 +36,8 @@ public:
 
     void sendToAll(NetworkMessageReader*, TcpClient *);
 
-    void readChannel(QJsonObject &json);
-    void writeChannel(QJsonObject& json);
+    void readFromJson(QJsonObject &json);
+    void writeIntoJson(QJsonObject& json);
 
     int addChild(TreeItem* );
 

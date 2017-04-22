@@ -9,13 +9,14 @@
 #include "channelmodel.h"
 
 #include "networkmessage.h"
+#include "treeitem.h"
 
 class ClientManager;
 class Channel;
 /**
  * @brief The TcpClient class
  */
-class TcpClient : public QObject
+class TcpClient : public QObject, public TreeItem
 {
     Q_OBJECT
 public:
@@ -42,6 +43,13 @@ public:
      * @param parent
      */
     void setParentChannel(Channel *parent);
+
+    void readFromJson(QJsonObject &json);
+    void writeIntoJson(QJsonObject& json);
+
+    virtual int indexOf(TreeItem*);
+
+    void setSocket(QTcpSocket* socket);
 
 signals:
     /**
@@ -99,7 +107,7 @@ public slots:
      * @brief sendMessage
      * @param msg
      */
-    void sendMessage(NetworkMessage& msg);
+    void sendMessage(NetworkMessage* msg);
     /**
      * @brief connectionError
      * @param error
@@ -117,7 +125,6 @@ private:
     char* m_buffer;
     int m_headerRead;
     quint32 m_dataToRead;
-    Channel* m_parentChannel;
 
     QStateMachine m_stateMachine;
     QState* m_incomingConnection;

@@ -1,6 +1,5 @@
 #include "channel.h"
 #include "tcpclient.h"
-#include "tcpclientitem.h"
 
 Channel::Channel()
 {
@@ -56,7 +55,7 @@ bool Channel::isLeaf() const
 {
     return false;
 }
-void Channel::readChannel(QJsonObject &json)
+void Channel::readFromJson(QJsonObject &json)
 {
     m_password=json["password"].toString();
     m_name=json["title"].toString();
@@ -66,30 +65,42 @@ void Channel::readChannel(QJsonObject &json)
     QJsonArray array = json["channel"].toArray();
     for(auto channelJson : array)
     {
-        Channel* chan = new Channel();
         QJsonObject obj = channelJson.toObject();
-        chan->readChannel(obj);
-        m_child.append(chan);
+        TreeItem* item = nullptr;
+        if(obj["type"]=="channel")
+        {
+            Channel* chan = new Channel();
+            item = chan;
+        }
+        else
+        {
+            TcpClient* tcpItem = new TcpClient(nullptr,nullptr);
+            item = tcpItem;
+        }
+        item->readFromJson(obj);
+        m_child.append(item);
     }
 }
 
-void Channel::writeChannel(QJsonObject &json)
+void Channel::writeIntoJson(QJsonObject &json)
 {
     json["password"]=m_password;
     json["title"]=m_name;
     json["description"]=m_description;
     json["usersListed"]=m_usersListed;
+    json["type"]="channel";
 
     QJsonArray array;
     for (int i = 0; i < m_child.size(); ++i)
     {
         if(m_child.at(i)->isLeaf())
         {
-            Channel* item = dynamic_cast<Channel*>(m_child.at(i));
+            TreeItem* item = m_child.at(i);
+           // Channel* item = dynamic_cast<Channel*>(m_child.at(i));
             if(nullptr != item)
             {
                 QJsonObject jsonObj;
-                item->writeChannel(jsonObj);
+                item->writeIntoJson(jsonObj);
                 array.append(jsonObj);
             }
         }
@@ -101,34 +112,32 @@ void Channel::sendToAll(NetworkMessageReader* msg, TcpClient* tcp)
     m_dataToSend.append(msg);
     for(auto client : m_child)
     {
-        TcpClientItem* item = dynamic_cast<TcpClientItem*>(client);
+        TcpClient* other = dynamic_cast<TcpClient*>(client);
 
-        if(nullptr != item)
+        if((nullptr != other)&&(other!=tcp))
         {
-            TcpClient* other = item->client();
-            if((nullptr != other)&&(other!=tcp))
-            {
-                qDebug()<< "[server][send to clients]" << other << tcp;
-                other->sendMessage(*msg);
-            }
+            qDebug()<< "[server][send to clients]" << other << tcp;
+
+            //other->sendMessage(*msg);
+            QMetaObject::invokeMethod(other,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg));
         }
+
     }
 }
 int Channel::addChild(TreeItem* item)
 {
     m_child.append(item);
-    TcpClientItem* tcp = dynamic_cast<TcpClientItem*>(item);
+    TcpClient* tcp = dynamic_cast<TcpClient*>(item);
     if(nullptr!=tcp)
     {
-        tcp->setChannelParent(this);
-        TcpClient* newClient = tcp->client();
-        if(nullptr != newClient)
-        {//resend all previous data received
-            for(auto msg : m_dataToSend)
-            {
-                newClient->sendMessage(*msg);
-            }
+        tcp->setParentItem(this);
+        //resend all previous data received
+        for(auto msg : m_dataToSend)
+        {
+            //tcp->sendMessage(msg);
+            QMetaObject::invokeMethod(tcp,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg));
         }
+
     }
     return m_child.size();
 
