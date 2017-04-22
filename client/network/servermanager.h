@@ -1,7 +1,7 @@
 #ifndef SERVERMANAGER_H
 #define SERVERMANAGER_H
 
-#include <QTcpServer>
+
 #include <QObject>
 #include <QThread>
 
@@ -10,7 +10,7 @@
 #include "channelmodel.h"
 #include "connectionaccepter.h"
 #include "messagedispatcher.h"
-
+#include "rserver.h"
 /**
  * @brief The ServerManager class
  *
@@ -28,23 +28,24 @@ public:
     void sendMessage(NetworkMessage* msg);
 
     int getPort() const;
-    //void setPort(int port);
-
-   // void create
 
     ServerManager::ServerState getState() const;
     void setState(const ServerManager::ServerState &state);
 
     void insertField(QString,QVariant, bool erase = true);
-    QVariant getValue(QString) const;
+
 
     void initServerManager();
 
     void sendOffModel(TcpClient*);
+    QVariant getValue(QString key) const;
 signals:
-    void stateChanged(ServerState);
+    void stateChanged(ServerManager::ServerState);
     void errorOccurs(QString);
     void sendLog(QString);
+    void messageMustBeDispatched(QByteArray array, Channel* channel,TcpClient* client);
+    void finished();
+    void listening();
 
 public slots:
     void startListening();
@@ -56,22 +57,29 @@ public slots:
     void initClient();
     void sendOffAuthSuccessed();
     void sendOffAuthFail();
+    void start();
+    void quit();
+    void accept(qintptr handle, TcpClient* connection, QThread* thread);
+    void removeSocket(QTcpSocket *socket);
+    void disconnected();
+    void error(QAbstractSocket::SocketError socketError);
 private slots:
     void incomingClientConnection();
 
 private:
     int m_port;
-    QTcpServer* m_server;
+    RServer* m_server;
     ChannelModel* m_model;
     int m_defaultChannelIndex;
-    ConnectionAccepter* m_corConnection;
     ConnectionAccepter* m_corEndProcess;
+    ConnectionAccepter* m_corConnection;
 
     QMap<QString,QVariant> m_parameters;
 
-    QList< QPair<QThread*,int> > m_threadPool;
+
     MessageDispatcher* m_msgDispatcher;
-    QList <TcpClient*> m_clients;
+//    QList <TcpClient*> m_clients;
+    QHash<QTcpSocket*,TcpClient*> m_connections;
     ServerState m_state;
 
 };
