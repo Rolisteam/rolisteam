@@ -39,6 +39,9 @@ NetworkLink* ClientManager::m_networkLinkToServer = nullptr;
 ClientManager::ClientManager(ConnectionProfile* connection)
     : QObject(),m_connectionProfile(connection),m_disconnectAsked(false),m_connectionState(DISCONNECTED),m_localPlayer(nullptr)
 {
+    qRegisterMetaType<NetworkLink*>("NetworkLink*");
+    qRegisterMetaType<char*>("char*");
+
     m_reconnect = new QTimer(this);
     m_playersList = PlayersList::instance();
 
