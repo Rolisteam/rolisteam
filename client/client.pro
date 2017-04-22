@@ -158,14 +158,14 @@ HEADERS += \
     network/messagedispatcher.h \
     network/channel.h \
     network/treeitem.h \
-    network/tcpclientitem.h \
     network/channellistpanel.h \
     network/servermanager.h \
     network/ipbanaccepter.h \
     network/iprangeaccepter.h \
     network/passwordaccepter.h \
     network/timeaccepter.h \
-    network/connectionaccepter.h
+    network/connectionaccepter.h \
+    network/rserver.h
 
 
    #     persondialog.cpp \
@@ -246,14 +246,14 @@ SOURCES += \
     network/messagedispatcher.cpp \
     network/channel.cpp \
     network/treeitem.cpp \
-    network/tcpclientitem.cpp \
     network/channellistpanel.cpp \
     network/servermanager.cpp \
     network/ipbanaccepter.cpp \
     network/iprangeaccepter.cpp \
     network/passwordaccepter.cpp \
     network/timeaccepter.cpp \
-    network/connectionaccepter.cpp
+    network/connectionaccepter.cpp \
+    network/rserver.cpp
 
 
 FORMS += \

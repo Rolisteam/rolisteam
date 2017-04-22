@@ -11,11 +11,11 @@ SOURCES += main.cpp \
     $$PWD/../client/network/ipbanaccepter.cpp \
     $$PWD/../client/network/timeaccepter.cpp \
     $$PWD/../client/network/channel.cpp \
-    $$PWD/../client/network/tcpclientitem.cpp \
     $$PWD/../client/network/treeitem.cpp \
     $$PWD/../client/network/networkmessage.cpp \
     $$PWD/../client/network/networkmessagereader.cpp \
     $$PWD/../client/network/networkmessagewriter.cpp \
+    $$PWD/../client/network/rserver.cpp \
     $$PWD/../client/network/messagedispatcher.cpp
 
 HEADERS += $$PWD/../client/network/rolisteamdaemon.h \
@@ -28,9 +28,9 @@ HEADERS += $$PWD/../client/network/rolisteamdaemon.h \
     $$PWD/../client/network/ipbanaccepter.h \
     $$PWD/../client/network/timeaccepter.h \
     $$PWD/../client/network/channel.h \
-    $$PWD/../client/network/tcpclientitem.h \
     $$PWD/../client/network/treeitem.h \
     $$PWD/../client/network/networkmessage.h \
     $$PWD/../client/network/networkmessagereader.h \
     $$PWD/../client/network/networkmessagewriter.h \
+    $$PWD/../client/network/rserver.h \
     $$PWD/../client/network/messagedispatcher.h
