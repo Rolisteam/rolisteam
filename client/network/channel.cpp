@@ -26,6 +26,11 @@ void Channel::setPassword(const QString &password)
     m_password = password;
 }
 
+int Channel::childCount() const
+{
+    return m_child.size();
+}
+
 int Channel::indexOf(TreeItem *child)
 {
     return m_child.indexOf(child);
@@ -78,6 +83,7 @@ void Channel::readFromJson(QJsonObject &json)
             item = tcpItem;
         }
         item->readFromJson(obj);
+        item->setParentItem(this);
         m_child.append(item);
     }
 }
@@ -106,6 +112,15 @@ void Channel::writeIntoJson(QJsonObject &json)
         }
     }
     json["channel"]=array;
+}
+
+TreeItem *Channel::getChildAt(int row)
+{
+    if(m_child.isEmpty()) return nullptr;
+    if(m_child.size() > row)
+    {
+        return m_child.at(row);
+    }
 }
 void Channel::sendToAll(NetworkMessageReader* msg, TcpClient* tcp)
 {
@@ -160,4 +175,13 @@ bool Channel::addChildInto(QString id, TreeItem* child)
         }
     }
     return false;
+}
+
+void Channel::clear()
+{
+    for(TreeItem* item : m_child)
+    {
+        item->clear();
+    }
+    m_child.clear();
 }

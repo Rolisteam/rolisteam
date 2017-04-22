@@ -13,7 +13,7 @@
 
 ChannelModel::ChannelModel()
 {
-
+    //m_root = new Channel();
 }
 
 QModelIndex ChannelModel::index(int row, int column, const QModelIndex &parent) const
@@ -21,21 +21,24 @@ QModelIndex ChannelModel::index(int row, int column, const QModelIndex &parent) 
     if(row<0)
         return QModelIndex();
 
-
-
     TreeItem* childItem = nullptr;
     if (!parent.isValid())
     {
+        qDebug() << "invalid parent";
+        //childItem = m_root->getChildAt(row);
         childItem = m_root.at(row);
     }
     else
     {
+        qDebug() << "valid parent";
         TreeItem* parentItem = static_cast<TreeItem*>(parent.internalPointer());
         childItem = parentItem->getChildAt(row);
     }
 
     if (childItem)
+    {
         return createIndex(row, column, childItem);
+    }
     else
         return QModelIndex();
 }
@@ -46,7 +49,8 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     TreeItem* tmp = static_cast<TreeItem*>(index.internalPointer());
-    if(tmp)
+   // qDebug() << "[data channelmodel]"<<  tmp;
+    if(tmp!=nullptr)
     {
         if((role == Qt::DisplayRole)||(Qt::EditRole==role))
         {
@@ -65,10 +69,15 @@ QModelIndex ChannelModel::parent(const QModelIndex &child) const
     if(nullptr!=childItem)
     {
         TreeItem* parentItem = childItem->getParentItem();
+        qDebug() << "parent Item" << parentItem << childItem->childCount()<< childItem;
 
         if(m_root.contains(childItem))
         {
             return QModelIndex();
+        }
+        if(m_root.contains(parentItem))
+        {
+            return createIndex(m_root.indexOf(parentItem), 0, parentItem);
         }
         return createIndex(parentItem->rowInParent(), 0, parentItem);
     }
@@ -77,22 +86,24 @@ QModelIndex ChannelModel::parent(const QModelIndex &child) const
 
 int ChannelModel::rowCount(const QModelIndex &parent) const
 {
+    int result = 0;
     if(!parent.isValid())
     {
-        return m_root.size();
+        result = m_root.size();
     }
     else
     {
         TreeItem* item = static_cast<TreeItem*>(parent.internalPointer());
         if(NULL!=item)
         {
-            return item->childCount();
+            result = item->childCount();
         }
     }
-    return 0;
+    qDebug() << "[Number of child]"<< result << parent.isValid();
+    return result;
 }
 
-int ChannelModel::columnCount(const QModelIndex &parent) const
+int ChannelModel::columnCount(const QModelIndex &) const
 {
     return 1;
 }
@@ -102,16 +113,43 @@ int ChannelModel::addChannel(QString name, QString password)
     Channel* chan = new Channel(name);
     chan->setPassword(password);
     m_root.append(chan);
+   // chan->setParentItem(m_root);
     return m_root.indexOf(chan);
 }
+Qt::ItemFlags ChannelModel::flags(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return Qt::ItemIsEnabled;
 
+    return Qt::ItemIsEnabled  | Qt::ItemIsSelectable;//| Qt::ItemIsEditable
+}
+bool ChannelModel::hasChildren ( const QModelIndex & parent  ) const
+{
+
+    if(!parent.isValid())//root
+    {
+        return  !m_root.isEmpty();//==0?false:true;
+    }
+    else
+    {
+        TreeItem* childItem = static_cast<TreeItem*>(parent.internalPointer());
+        if(childItem->childCount()==0)
+            return false;
+        else
+            return true;
+    }
+}
 bool ChannelModel::addConnectionToDefaultChannel(TcpClient* client)
 {
     if(m_defaultChannel.isEmpty())
     {
         if(!m_root.isEmpty())
         {
-            m_defaultChannel = m_root.at(0)->getId();
+            auto item = m_root.at(0);
+            if(nullptr != item)
+            {
+                m_defaultChannel = item->getId();
+            }
         }
         else
         {
@@ -126,9 +164,9 @@ bool ChannelModel::addConnectionToDefaultChannel(TcpClient* client)
 bool ChannelModel::addConnectionToChannel(QString chanId, TcpClient* client)
 {
     bool found=false;
-    for(int i = 0; i < m_root.size() && !found ; ++i)
+    for(auto item : m_root)
     {
-        TreeItem* item = m_root.at(i);
+        //TreeItem* item = m_root->getChildAt(i);
         if(nullptr != item)
         {
             found = item->addChildInto(chanId,client);
@@ -139,22 +177,38 @@ bool ChannelModel::addConnectionToChannel(QString chanId, TcpClient* client)
 void ChannelModel::readDataJson(const QJsonObject& obj)
 {
     beginResetModel();
+    for(auto item : m_root)
+    {
+        item->clear();
+    }
+    m_root.clear();
     QJsonArray channels = obj["channel"].toArray();
     for(auto channelJson : channels)
     {
         Channel* tmp = new Channel();
         QJsonObject obj = channelJson.toObject();
+        tmp->setParentItem(nullptr);
         tmp->readFromJson(obj);
         m_root.append(tmp);
     }
     endResetModel();
+
+
+    ///////////
+  /*  qDebug() << "m_root:" << m_root->childCount();
+
+    for(auto item : m_root)
+    {
+        qDebug() << "child:" << item->childCount();
+    }*/
 }
 
 void ChannelModel::writeDataJson(QJsonObject& obj)
 {
     QJsonArray array;
-    for (TreeItem* item : m_root)
+    for(auto item : m_root) //int i = 0; i< m_root->childCount(); ++i)
     {
+        //auto item = m_root->getChildAt(i);
         if(nullptr != item)
         {
             QJsonObject jsonObj;

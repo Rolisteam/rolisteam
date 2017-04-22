@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QDebug>
 
 ChannelListPanel::ChannelListPanel(QWidget *parent) :
     QWidget(parent),
@@ -12,6 +13,8 @@ ChannelListPanel::ChannelListPanel(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->m_channelView->setModel(m_model);
+    ui->m_channelView->setAlternatingRowColors(true);
+    ui->m_channelView->setHeaderHidden(true);
 
 
 }
@@ -40,7 +43,7 @@ void ChannelListPanel::processMessage(NetworkMessageReader* msg)
             if(!doc.isEmpty())
             {
                 QJsonObject obj = doc.object();
-
+                qDebug() << "[Received channel] " << doc.toJson();
                 m_model->readDataJson(obj);
             }
 

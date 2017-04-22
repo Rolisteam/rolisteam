@@ -22,11 +22,11 @@ class ChannelModel : public QAbstractItemModel
 public:
     ChannelModel();
 
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    virtual QModelIndex parent(const QModelIndex &child) const;
     virtual int rowCount(const QModelIndex &parent) const;
+    QModelIndex index(int row, int column, const QModelIndex &parent) const;
+    virtual QModelIndex parent(const QModelIndex &child) const;
     virtual int columnCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
 
 
     int addChannel(QString name, QString password);
@@ -39,6 +39,8 @@ public:
     void writeSettings();
 
     bool addConnectionToDefaultChannel(TcpClient *client);
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    bool hasChildren(const QModelIndex &parent) const;
 private:
     QList<TreeItem*> m_root;
     QString m_defaultChannel;

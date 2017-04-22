@@ -16,6 +16,7 @@ class NetworkMessageReader;
  */
 class Channel : public TreeItem
 {
+    Q_OBJECT
 public:
     Channel();
     Channel(QString);
@@ -23,6 +24,8 @@ public:
 
     QString password() const;
     void setPassword(const QString &password);
+
+    virtual int childCount() const;
 
     int indexOf(TreeItem* child);
 
@@ -38,10 +41,13 @@ public:
 
     void readFromJson(QJsonObject &json);
     void writeIntoJson(QJsonObject& json);
+    TreeItem* getChildAt(int row);
 
     int addChild(TreeItem* );
 
     bool addChildInto(QString id, TreeItem* child);
+
+    virtual void clear();
 
 private:
     QString m_password;
