@@ -66,6 +66,11 @@ public:
      */
     void fill(NetworkMessageWriter & message,bool addAvatar = true);
     /**
+     * @brief readFromMsg
+     * @param data
+     */
+    void readFromMsg(NetworkMessageReader &data);
+    /**
      * @brief link
      * @return
      */
@@ -155,6 +160,7 @@ public:
     bool searchCharacter(Character * character, int & index) const;
 
     virtual QHash<QString,QString> getVariableDictionnary();
+
 private:
     friend class PlayersList;
     friend class SendFeaturesIterator;

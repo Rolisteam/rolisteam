@@ -48,6 +48,16 @@ Player::Player(const QString & uuid, const QString & nom, const QColor & color, 
 Player::Player(NetworkMessageReader & data, NetworkLink * link)
     : Person(), m_link(link)
 {
+    readFromMsg(data);
+}
+
+Player::~Player()
+{
+    qDeleteAll(m_characters);
+    m_characters.clear();
+}
+void Player::readFromMsg(NetworkMessageReader& data)
+{
     m_name = data.string16();
     m_uuid = data.string8();
     m_color = QColor(data.rgb());
@@ -65,12 +75,6 @@ Player::Player(NetworkMessageReader & data, NetworkLink * link)
     QByteArray array = data.byteArray32();
     QDataStream in(&array,QIODevice::ReadOnly);
     in >> m_features;
-}
-
-Player::~Player()
-{
-    qDeleteAll(m_characters);
-    m_characters.clear();
 }
 
 void Player::fill(NetworkMessageWriter & message,bool addAvatar)
