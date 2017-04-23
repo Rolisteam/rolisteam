@@ -11,6 +11,8 @@
 #include "networkmessage.h"
 #include "treeitem.h"
 
+#include "data/player.h"
+
 class ClientManager;
 class Channel;
 /**
@@ -53,6 +55,9 @@ public:
 
     bool isGM() const;
     void setIsGM(bool isGM);
+
+    void setInfoPlayer(NetworkMessageReader* msg);
+    void fill(NetworkMessageWriter* msg);
 
 signals:
     /**
@@ -145,6 +150,8 @@ private:
     QState* m_currentState;
 
     bool m_isGM;
+
+    Player* m_player;
 
 };
 

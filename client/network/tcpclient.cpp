@@ -2,7 +2,7 @@
 #include "channel.h"
 
 TcpClient::TcpClient(QTcpSocket* socket,QObject *parent)
-    : TreeItem(parent),m_socket(socket)
+    : TreeItem(parent),m_socket(socket),m_player(new Player())
 {
     m_dataToRead=0;
     m_headerRead = 0;
@@ -151,9 +151,24 @@ void TcpClient::setIsGM(bool isGM)
     {
         m_isGM = isGM;
         emit itemChanged();
-
     }
 
+}
+
+void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
+{
+    if(nullptr != m_player)
+    {
+        m_player->readFromMsg(*msg);
+    }
+}
+
+void TcpClient::fill(NetworkMessageWriter *msg)
+{
+    if(nullptr != m_player)
+    {
+        m_player->fill(*msg);
+    }
 }
 
 void TcpClient::receivingData()

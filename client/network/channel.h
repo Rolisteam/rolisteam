@@ -37,7 +37,7 @@ public:
 
     bool isLeaf() const;
 
-    void sendToAll(NetworkMessageReader*, TcpClient *);
+    void sendToAll(NetworkMessageReader*, TcpClient *, bool mustBeSaved);
 
     void readFromJson(QJsonObject &json);
     void writeIntoJson(QJsonObject& json);
@@ -49,6 +49,7 @@ public:
 
     virtual void clear();
 
+    void updateNewClient(TcpClient *newComer);
 private:
     QString m_password;
     QString m_description;

@@ -16,6 +16,10 @@ SOURCES += main.cpp \
     $$PWD/../client/network/networkmessagereader.cpp \
     $$PWD/../client/network/networkmessagewriter.cpp \
     $$PWD/../client/network/rserver.cpp \
+    $$PWD/../client/data/player.cpp \
+    $$PWD/../client/data/person.cpp \
+    $$PWD/../client/data/character.cpp \
+    $$PWD/../client/data/characterstate.cpp \
     $$PWD/../client/network/messagedispatcher.cpp
 
 HEADERS += $$PWD/../client/network/rolisteamdaemon.h \
@@ -33,4 +37,8 @@ HEADERS += $$PWD/../client/network/rolisteamdaemon.h \
     $$PWD/../client/network/networkmessagereader.h \
     $$PWD/../client/network/networkmessagewriter.h \
     $$PWD/../client/network/rserver.h \
+    $$PWD/../client/data/player.h \
+    $$PWD/../client/data/person.h \
+    $$PWD/../client/data/character.h \
+    $$PWD/../client/data/characterstate.h \
     $$PWD/../client/network/messagedispatcher.h

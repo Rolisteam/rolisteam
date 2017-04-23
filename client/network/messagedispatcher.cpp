@@ -9,6 +9,7 @@ MessageDispatcher::MessageDispatcher(QObject *parent) : QObject(parent)
 void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpClient* emitter)
 {
     bool sendToAll = true;
+    bool saveIt = true;
     NetworkMessageReader* msg = new NetworkMessageReader();
 
     msg->setData(data);
@@ -24,6 +25,8 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
     {
         if(msg->action() == NetMsg::PlayerConnectionAction)
         {
+            emitter->setInfoPlayer(msg);
+
             QString name = msg->string16();
             QString uuid = msg->string8();
             msg->rgb();
@@ -31,6 +34,7 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
             emitter->setName(name);
             emitter->setId(uuid);
             emitter->setIsGM(isGM);
+            saveIt = false;
         }
     }
 
@@ -38,23 +42,10 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
 
     if((sendToAll)&&(nullptr != channel))
     {
-        channel->sendToAll(msg,emitter);
+        channel->sendToAll(msg,emitter,saveIt);
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 QString MessageDispatcher::cat2String(NetworkMessageHeader* head)
 {

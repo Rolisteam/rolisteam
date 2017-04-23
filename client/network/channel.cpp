@@ -122,9 +122,12 @@ TreeItem *Channel::getChildAt(int row)
         return m_child.at(row);
     }
 }
-void Channel::sendToAll(NetworkMessageReader* msg, TcpClient* tcp)
+void Channel::sendToAll(NetworkMessageReader* msg, TcpClient* tcp, bool mustBeSaved)
 {
-    m_dataToSend.append(msg);
+    if(mustBeSaved)
+    {
+        m_dataToSend.append(msg);
+    }
     for(auto client : m_child)
     {
         TcpClient* other = dynamic_cast<TcpClient*>(client);
@@ -146,17 +149,41 @@ int Channel::addChild(TreeItem* item)
     if(nullptr!=tcp)
     {
         tcp->setParentItem(this);
-        //resend all previous data received
-        for(auto msg : m_dataToSend)
-        {
-            //tcp->sendMessage(msg);
-            QMetaObject::invokeMethod(tcp,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg));
-        }
 
+        updateNewClient(tcp);
     }
     return m_child.size();
 
 }
+
+void Channel::updateNewClient(TcpClient* newComer)
+{
+    //Sending players infos
+    for(auto child : m_child)
+    {
+        if(child->isLeaf())
+        {
+            TcpClient* tcpConnection = dynamic_cast<TcpClient*>(child);
+            if(nullptr != tcpConnection)
+            {
+                if(tcpConnection != newComer)
+                {
+                    NetworkMessageWriter* msg = new NetworkMessageWriter(NetMsg::PlayerCategory,NetMsg::PlayerConnectionAction);
+                    tcpConnection->fill(msg);
+                    QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg));
+                }
+
+            }
+        }
+    }
+    //resend all previous data received
+    for(auto msg : m_dataToSend)
+    {
+        //tcp->sendMessage(msg);
+        QMetaObject::invokeMethod(newComer,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,msg));
+    }
+}
+
 bool Channel::addChildInto(QString id, TreeItem* child)
 {
     if(m_id == id)
