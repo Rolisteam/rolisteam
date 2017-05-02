@@ -1063,6 +1063,7 @@ void MainWindow::addPage()
     Canvas* previous = m_canvasList[m_currentPage];
     ++m_currentPage;
     Canvas* canvas = new Canvas();
+    canvas->setCurrentPage(m_currentPage);
     connect(canvas,SIGNAL(imageChanged()),this,SLOT(setImage()));
 
     canvas->setCurrentTool(previous->currentTool());
@@ -1071,7 +1072,6 @@ void MainWindow::addPage()
     m_canvasList.append(canvas);
 
     updatePageSelector();
-    canvas->setCurrentPage(m_currentPage);
     currentPageChanged(m_currentPage);
     ui->m_selectPageCb->setCurrentIndex(m_currentPage);
     setWindowModified(true);
