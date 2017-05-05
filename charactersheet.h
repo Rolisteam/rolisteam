@@ -124,6 +124,7 @@ public:
     void setUuid(const QString &uuid);
 
     void setFieldData(QJsonObject& obj);
+    void setOrigin(Section*);
 
     QList<QString> getAllDependancy(QString key);
 public slots:
@@ -132,7 +133,7 @@ public slots:
     * @param QString path : 0 refers to the title of the first section, 1 refers to the first data of the first section....
     */
     const  QVariant getValue(QString key,Qt::ItemDataRole role = Qt::DisplayRole) const;
-    void setValue(QString key , QString value, QString formula);
+    CharacterSheetItem* setValue(QString key , QString value, QString formula);
 
     void sendUpdateForField();
 

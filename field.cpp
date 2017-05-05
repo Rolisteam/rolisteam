@@ -245,6 +245,7 @@ QPointF Field::mapFromScene(QPointF pos)
     {
         return m_canvasField->mapFromScene(pos);
     }
+    return QPointF();
 }
 
 QFont Field::font() const
@@ -277,7 +278,7 @@ void Field::setClippedText(bool clippedText)
 }
 
 
-CharacterSheetItem* Field::getChildAt(QString key) const
+CharacterSheetItem* Field::getChildAt(QString) const
 {
     return NULL;
 }
@@ -556,6 +557,7 @@ bool Field::hasFontField()
     case Field::IMAGE:
         return false;
     }
+    return false;
 }
 
 QPair<QString,QString> Field::getTextAlign()
@@ -595,18 +597,19 @@ QPair<QString,QString> Field::getTextAlign()
     return pair;
 }
 
-void Field::copyField(CharacterSheetItem* newItem)
+void Field::copyField(CharacterSheetItem* oldItem)
 {
-    Field* newField =  dynamic_cast<Field*>(newItem);
-    if(NULL!=newField)
+    Field* oldField =  dynamic_cast<Field*>(oldItem);
+    if(NULL!=oldField)
     {
-        setId(newField->getId());
-        setCurrentType(newField->getCurrentType());
-        setRect(newField->getRect());
-        setBorder(newField->border());
-        setFont(newField->font());
-        setBgColor(newField->bgColor());
-        setTextColor(newField->textColor());
-        setLabel(newField->getLabel());
+        setId(oldField->getId());
+        setCurrentType(oldField->getCurrentType());
+        setRect(oldField->getRect());
+        setBorder(oldField->border());
+        setFont(oldField->font());
+        setBgColor(oldField->bgColor());
+        setTextColor(oldField->textColor());
+        setLabel(oldField->getLabel());
+        setOrig(oldField);
     }
 }
