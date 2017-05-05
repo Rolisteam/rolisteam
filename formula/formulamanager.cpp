@@ -33,6 +33,7 @@ QVariant FormulaManager::getValue(QString i)
     {
         return startComputing();
     }
+    return QVariant();
 }
 
 bool FormulaManager::parseLine(QString& str)
