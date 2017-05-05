@@ -1747,11 +1747,15 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
     }
     else if(NetMsg::addCharacterSheet == msg->action())
     {
-        CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
-        prepareCharacterSheetWindow(sheetWindow);
-        sheetWindow->read(msg);
-        addMediaToMdiArea(sheetWindow);
-        m_mediaHash.insert(sheetWindow->getMediaId(),sheetWindow);
+        QString idPlayer = msg->string8();
+        if(m_localPlayerId == idPlayer)
+        {
+            CharacterSheetWindow* sheetWindow = new CharacterSheetWindow();
+            prepareCharacterSheetWindow(sheetWindow);
+            sheetWindow->read(msg);
+            addMediaToMdiArea(sheetWindow);
+            m_mediaHash.insert(sheetWindow->getMediaId(),sheetWindow);
+        }
 
     }
     else if(NetMsg::updateFieldCharacterSheet == msg->action())
@@ -1759,12 +1763,26 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
 
         QString idCharacterSheetW = msg->string8();
         CharacterSheetWindow* sheet = findCharacterSheetWindowById(idCharacterSheetW);
-        if(NULL!=sheet)
+        if(nullptr!=sheet)
         {
             sheet->processUpdateFieldMessage(msg);
 
         }
 
+    }
+    else if(NetMsg::closeCharacterSheet == msg->action())
+    {
+        QString mediaId = msg->string8();
+        QString sheetId = msg->string8();
+        CharacterSheetWindow* sheet = findCharacterSheetWindowById(mediaId);
+
+        if(nullptr!=sheet)
+        {
+            if((sheet->hasCharacterSheet(sheetId))&&(!m_currentConnectionProfile->isGM()))//can't close the media for the GM.
+            {
+                closeMediaContainer(mediaId);
+            }
+        }
     }
 }
 CharacterSheetWindow*  MainWindow::findCharacterSheetWindowById(QString id)
@@ -1776,7 +1794,7 @@ CharacterSheetWindow*  MainWindow::findCharacterSheetWindowById(QString id)
     }
     else
     {
-        return NULL;
+        return nullptr;
     }
 }
 
