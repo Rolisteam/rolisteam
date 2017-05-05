@@ -188,6 +188,8 @@ bool CharacterSheetModel::setData ( const QModelIndex& index, const QVariant & v
                 CharacterSheetItem* newitem = sheet->setValue(path,valueStr,formula);
                 if(nullptr!=newitem)
                 {
+                    //auto value = sheet->getFieldFromKey(path);
+                    newitem->setLabel(childItem->getLabel());
                     newitem->setOrig(childItem);
                 }
                 computeFormula(childItem->getLabel(),sheet);
