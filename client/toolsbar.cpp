@@ -405,7 +405,7 @@ void ToolsBar::changeMap(Map* map)
 {
     if (map != NULL)
     {
-        m_npcDiameter->setDiameter(map->tailleDesPj());
+        m_npcDiameter->setDiameter(map->getPcSize());
     }
 }
 

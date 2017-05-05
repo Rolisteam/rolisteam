@@ -78,17 +78,13 @@ Map::Map(QString localPlayerId,QString identCarte, QImage *original, QImage *ave
 
 
     m_currentMode = Map::GM_ONLY;
-    // Les images sont creees en ARGB32_Premultiplied pour beneficier de l'antialiasing
 
-    // Creation de l'image de fond originale qui servira a effacer
     m_originalBackground = new QImage(original->size(), QImage::Format_ARGB32);
     *m_originalBackground = original->convertToFormat(QImage::Format_ARGB32);
 
-    // Creation de l'image de fond
     m_backgroundImage = new QImage(avecAnnotations->size(), QImage::Format_ARGB32_Premultiplied);
     *m_backgroundImage = avecAnnotations->convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-    // Creation de la couche alpha qui sera utilisee avec fondAlpha
     m_alphaLayer = new QImage(coucheAlpha->size(), QImage::Format_ARGB32_Premultiplied);
     *m_alphaLayer = coucheAlpha->convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
@@ -99,21 +95,20 @@ void Map::p_init()
 {
     initCursor();
     m_showPcName = true;
-    effaceAlpha = new QImage(m_originalBackground->size(), QImage::Format_ARGB32_Premultiplied);
-    QPainter painterEfface(effaceAlpha);
+    m_eraseAlpha = new QImage(m_originalBackground->size(), QImage::Format_ARGB32_Premultiplied);
+    QPainter painterEfface(m_eraseAlpha);
     painterEfface.fillRect(0, 0, m_originalBackground->width(), m_originalBackground->height(), Qt::black);
-    // Ajout de la couche alpha effaceAlpha a l'image de fond originale
-	addAlphaLayer(m_originalBackground, effaceAlpha, m_originalBackground);
+	addAlphaLayer(m_originalBackground, m_eraseAlpha, m_originalBackground);
 
     m_localPlayer = PlayersList::instance()->getLocalPlayer();
 
-    fondAlpha = new QImage(m_originalBackground->size(), QImage::Format_ARGB32);
+    m_alphaBg = new QImage(m_originalBackground->size(), QImage::Format_ARGB32);
 
 
 
-	addAlphaLayer(m_backgroundImage, m_alphaLayer, fondAlpha);
+	addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg);
 
-    QColor color(fondAlpha->pixel(10,10));
+    QColor color(m_alphaBg->pixel(10,10));
     QColor color2(m_alphaLayer->pixel(10,10));
 
 
@@ -122,26 +117,21 @@ void Map::p_init()
     pal.setColor(QPalette::Window, PreferencesManager::getInstance()->value("Mask_color",QColor(Qt::darkMagenta)).value<QColor>());
     setPalette(pal);
     
-    // variable Initialisation
 	m_npcSize = 12;
-    boutonGaucheEnfonce = false;
-    boutonDroitEnfonce = false;
+    m_leftButtonStatus = false;
+    m_rightButtonStatus = false;
     m_mousePoint = QPoint(0,0);
-    m_originePoint = QPoint(0,0);
-    diffSourisDessinPerso = QPoint(0,0);
-    pnjSelectionne = 0;
-    dernierPnjSelectionne = 0;
+    m_originPoint = QPoint(0,0);
+    m_distanceBetweenMouseAndNPC = QPoint(0,0);
+    m_selectedNpc = 0;
+    m_lastSelectedNpc = 0;
 
-    // Redimentionnement du widget
     resize(m_backgroundImage->size());
-    // Initialisation de la liste de points du trace du crayon et de la liste de deplacement du PJ
-    listePointsCrayon.clear();
+    m_penPointList.clear();
     m_characterMoveList.clear();
-    // Mise a zero de la zone globale du trace du crayon
-    zoneGlobaleCrayon.setRect(0,0,0,0);
+    m_penGlobalZone.setRect(0,0,0,0);
 
-    // Initialisation de la liste des mouvement de personnages
-    mouvements.clear();
+    m_motionList.clear();
 
     // Get every characters
     PlayersList* g_playersList = PlayersList::instance();
@@ -180,30 +170,20 @@ Map::~Map()
     delete m_originalBackground;
     delete m_backgroundImage;
     delete m_alphaLayer;
-    delete effaceAlpha;
-    delete fondAlpha;
+    delete m_eraseAlpha;
+    delete m_alphaBg;
 }
 
 void Map::initCursor()
 {
-
-    //InitMousePointer(&G_pointeurTexte, ":/resources/icons/pointeur texte.png", 4, 13); //strange values here
-
-    //G_pointeurDeplacer
     m_orientCursor  = new QCursor(QPixmap(":/resources/icons/orientationcursor.png"), 10, 12);
     m_pipetteCursor   = new QCursor(QPixmap(":/resources/icons/pipettecursor.png"), 1, 19);
-    //G_pointeurAjouter
-    //G_pointeurSupprimer
-
     m_addCursor= new QCursor(QPixmap(":/resources/icons/addcursor.png"), 6, 0);
     m_delCursor = new QCursor(QPixmap(":/resources/icons/deletecursor.png"), 6, 0);
     m_movCursor= new QCursor(QPixmap(":/resources/icons/movecursor.png"), 0, 0);
     m_textCursor= new QCursor(QPixmap(":/resources/icons/textcursor.png"), 4, 13);
     m_pencilCursor = new QCursor(QPixmap(":/resources/icons/paintcursor.png"), 8, 8);
-
     m_stateCursor = new QCursor(QPixmap(":/resources/icons/statecursor.png"), 0, 0);
-
-
 }
 
 void Map::paintEvent(QPaintEvent *event)
@@ -212,12 +192,12 @@ void Map::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);  
 
-    painter.drawImage(event->rect(), *fondAlpha, event->rect());
+    painter.drawImage(event->rect(), *m_alphaBg, event->rect());
 
     //painter.drawImage(event->rect(), *fondAlpha, event->rect());
-    painter.drawImage(rect(), *fondAlpha, fondAlpha->rect());
+    painter.drawImage(rect(), *m_alphaBg, m_alphaBg->rect());
 
-    if (boutonGaucheEnfonce == false)
+    if (m_leftButtonStatus == false)
         return;
 
     if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc ||
@@ -235,8 +215,8 @@ void Map::paintEvent(QPaintEvent *event)
 QPoint Map::mapToScale(const QPoint & p)
 {
     QPoint tmp = p;
-    m_scaleX=(qreal)fondAlpha->rect().width()/rect().width();
-    m_scaleY=(qreal)fondAlpha->rect().height()/rect().height();
+    m_scaleX=(qreal)m_alphaBg->rect().width()/rect().width();
+    m_scaleY=(qreal)m_alphaBg->rect().height()/rect().height();
     tmp.setX(tmp.x()*m_scaleX);
     tmp.setY(tmp.y()*m_scaleY);
 
@@ -259,10 +239,10 @@ void Map::mousePressEvent(QMouseEvent *event)
     QPoint pos = mapToScale(event->pos());
 
 
-    if ((event->button() == Qt::LeftButton) && !boutonGaucheEnfonce && !boutonDroitEnfonce)
+    if ((event->button() == Qt::LeftButton) && !m_leftButtonStatus && !m_rightButtonStatus)
     {
 
-            boutonGaucheEnfonce = true;
+            m_leftButtonStatus = true;
 
 
 
@@ -274,42 +254,37 @@ void Map::mousePressEvent(QMouseEvent *event)
 					processNpcAction(pos);
                 }
             }
-
-            // Il s'agit de l'outil main
             else if (m_currentTool == ToolsBar::Handler)
             {
                 // On initialise le deplacement de la Carte
 				//if((!m_localIsPlayer)||
                //   (((m_currentMode == Carte::PC_ALL))))
                 {
-					emit commencerDeplacementBipMapWindow(mapToGlobal(pos));
+                    emit startBipmapMove(mapToGlobal(pos));
                 }
 
         }
-        // Il s'agit d'une action de dessin
         else
         {
 				if(((!m_localIsPlayer))||
                   (((m_currentMode == Map::PC_ALL))))
                 {
-                        m_originePoint = m_mousePoint = pos;
-                        zoneOrigine = zoneNouvelle = zoneARafraichir();
-                        listePointsCrayon.clear();
-                        zoneGlobaleCrayon = zoneNouvelle;
+                        m_originPoint = m_mousePoint = pos;
+                        m_origZone = m_newZone = zoneToRefresh();
+                        m_penPointList.clear();
+                        m_penGlobalZone = m_newZone;
                         update();
                 }
         }
     }
-
-    // Si l'utilisateur a clique avec le bouton droit
-    else if ((event->button() == Qt::RightButton) && !boutonGaucheEnfonce && !boutonDroitEnfonce)
+    else if ((event->button() == Qt::RightButton) && !m_leftButtonStatus && !m_rightButtonStatus)
     {
 
         QPoint positionSouris = pos;
         
         if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc)
         {
-            boutonDroitEnfonce = true;
+            m_rightButtonStatus = true;
 
             setCursor(Qt::WhatsThisCursor);
 			CharacterToken *pnj = paintCharacter(positionSouris);
@@ -320,21 +295,19 @@ void Map::mousePressEvent(QMouseEvent *event)
                 QString nomPnj;
 
                 pnj->defineToken(&diametre, &couleur, &nomPnj);
-                emit mettreAJourPnj(diametre, nomPnj);
+                emit updateNPC(diametre, nomPnj);
                 emit changeCurrentColor(couleur);
             }
         }
         else if (m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
-            boutonDroitEnfonce = true;
+            m_rightButtonStatus = true;
             setCursor(*m_orientCursor);
-            // On regarde s'il y a un PNJ sous la souris
 			CharacterToken *pnj = paintCharacter(positionSouris);
-            // Si oui, on modifie son affichage de l'orientation et on le selectionne
             if (pnj)
             {
                 pnj->showOrHideOrientation();
-                dernierPnjSelectionne = pnj;
+                m_lastSelectedNpc = pnj;
 
                 NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::showCharecterOrientation);
                 msg.string8(m_mapId);
@@ -342,15 +315,15 @@ void Map::mousePressEvent(QMouseEvent *event)
                 msg.uint8(pnj->orientationStatus());
                 msg.sendAll();
             }
-            else if (dernierPnjSelectionne)
+            else if (m_lastSelectedNpc)
             {
-                boutonDroitEnfonce = true;
-                dernierPnjSelectionne->drawCharacter(positionSouris);
+                m_rightButtonStatus = true;
+                m_lastSelectedNpc->drawCharacter(positionSouris);
             }
         }
         else if(event->modifiers()==Qt::ControlModifier)
         {
-            boutonDroitEnfonce = true;
+            m_rightButtonStatus = true;
             setCursor(*m_pipetteCursor);
             QColor couleur = QColor(m_backgroundImage->pixel(positionSouris.x(), positionSouris.y()));
             emit changeCurrentColor(couleur);
@@ -363,50 +336,35 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
 {
       QPoint pos = mapToScale(event->pos());
 
-    if (event->button() == Qt::LeftButton && boutonGaucheEnfonce)
+    if (event->button() == Qt::LeftButton && m_leftButtonStatus)
     {
-        // Bouton gauche relache
-        boutonGaucheEnfonce = false;
+        m_leftButtonStatus = false;
 
-        // Il s'agit d'une action sur les PJ/PNJ
         if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc ||
             m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
 			processNpcActionReleased(pos);
         }
 
-        // Il s'agit de l'outil main
         else if (m_currentTool == ToolsBar::Handler)
         {
-            // On ne fait rien
+            //nothing
         }
-
-        // Il s'agit d'une action de dessin
         else
         {
-            // On recupere la position de la souris
-            //QPoint pointSouris = event->pos();
-
-            // Si l'ordinateur local est le serveur on peut dessiner directement sur le plan
-            // Dans le cas contraire le plan ne sera mis a jour qu'a la reception du message de trace
-            // ayant fait l'aller-retour avec le serveur (necessaire pour conserver la coherence
-            // entre les differents utilisateurs : le serveur fait foi)
             if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
             {
-                // Creation du painter pour pouvoir dessiner
                 QPainter painter;
         
-                // Choix de l'image sur laquelle dessiner, en fonction de la couleur actuelle
                 if (ColorSelector::getSelectedColor().type == ColorType)
                     painter.begin(m_backgroundImage);
                 else if (ColorSelector::getSelectedColor().type == Veil || ColorSelector::getSelectedColor().type == Unveil)
                     painter.begin(m_alphaLayer);
                 else if (ColorSelector::getSelectedColor().type == Erase)
-                    painter.begin(effaceAlpha);
+                    painter.begin(m_eraseAlpha);
                 else
                 {
                     painter.begin(m_backgroundImage);
-					//qWarning(tr("Type de couleur incorrecte (mouseReleaseEvent - map.cpp)"));
                 }
                 painter.setRenderHint(QPainter::Antialiasing);
                 
@@ -417,56 +375,44 @@ void Map::mouseReleaseEvent(QMouseEvent *event)
               (((m_currentMode == Map::PC_ALL))))
             {
                  m_mousePoint = pos;
-                zoneNouvelle = zoneARafraichir();
+                m_newZone = zoneToRefresh();
             }
 
-            // Idem : seul le serveur peut dessiner directement sur le plan
             if (!PreferencesManager::getInstance()->value("isClient",true).toBool())
             {
                 if (ColorSelector::getSelectedColor().type == Erase)
                 {
-                    // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
-					addAlphaLayer(m_originalBackground, effaceAlpha, m_originalBackground, zoneNouvelle);
-                    // Apres quoi on recopie la zone concernee sur l'image de fond
+					addAlphaLayer(m_originalBackground, m_eraseAlpha, m_originalBackground, m_newZone);
                     QPainter painterFond(m_backgroundImage);
-                    painterFond.drawImage(zoneNouvelle, *m_originalBackground, zoneNouvelle);
-                    // Enfin on remet a zero effaceAlpha pour la prochaine utilisation
-                    QPainter painterEfface(effaceAlpha);
-                    painterEfface.fillRect(zoneNouvelle, Qt::black);
+                    painterFond.drawImage(m_newZone, *m_originalBackground, m_newZone);
+                    QPainter painterEfface(m_eraseAlpha);
+                    painterEfface.fillRect(m_newZone, Qt::black);
                 }
 
-                // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-				addAlphaLayer(m_backgroundImage, m_alphaLayer, fondAlpha, zoneNouvelle);
-                // Demande de rafraichissement de la fenetre (appel a paintEvent)
+				addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg, m_newZone);
                 update(/*zoneOrigine.unite(zoneNouvelle)*/);
-                // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
-                afficheOuMasquePnj();
+                showHideNPC();
             }
 			if((!m_localIsPlayer)||
               (((m_currentMode == Map::PC_ALL))))
             {
 
-                emettreTrace();
+                sendTrace();
             }
 
-        }        // Fin action de dessin
-    }            // Fin bouton gauche relache
-
-    // Si le bouton droit est relache
-    else if (event->button() == Qt::RightButton && boutonDroitEnfonce)
+        }        //
+    }            //
+    else if (event->button() == Qt::RightButton && m_rightButtonStatus)
     {
-        // Bouton droit relache
-        boutonDroitEnfonce = false;
-        // On restaure le curseur
-        setCursor(pointeur);
+        m_rightButtonStatus = false;
+        setCursor(m_mouseCursor);
 
-        // Il s'agit d'une action de deplacement ou de l'action de changement d'etat du perso et qu'un perso a ete selectionne
-        if ((m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState) && dernierPnjSelectionne)
-        {///@todo test orientation pnj
-            QPoint orientation =  dernierPnjSelectionne->getCharacterOrientation();
+        if ((m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState) && m_lastSelectedNpc)
+        {///@todo test Npc orientation
+            QPoint orientation =  m_lastSelectedNpc->getCharacterOrientation();
             NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::changeCharacterOrientation);
             msg.string8(m_mapId);
-            msg.string8(dernierPnjSelectionne->getCharacterId());
+            msg.string8(m_lastSelectedNpc->getCharacterId());
             msg.int16(orientation.x());
             msg.int16(orientation.y());
             msg.sendAll();
@@ -479,55 +425,41 @@ void Map::mouseMoveEvent(QMouseEvent *event)
 {
       QPoint pos = mapToScale(event->pos());
 
-    if (boutonGaucheEnfonce && !boutonDroitEnfonce)
+    if (m_leftButtonStatus && !m_rightButtonStatus)
     {
-        // Il s'agit d'une action sur les PJ/PNJ
         if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc ||
             m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
 			processNpcMove(pos);
         }
-
-        // Il s'agit de l'outil main
         else if (m_currentTool == ToolsBar::Handler)
         {
-			// On deplace la Carte dans la BipMapWindow
-			emit deplacerBipMapWindow(mapToGlobal(pos));
+            emit moveBipMapWindow(mapToGlobal(pos));
         }
-
-        // Il s'agit d'une action de dessin
         else
         {
 			if((!m_localIsPlayer)||
               (((m_currentMode == Map::PC_ALL))))
             {
-                //m_originePoint = m_mousePoint;
                 m_mousePoint = pos;
 
-                zoneNouvelle = zoneARafraichir();
+                m_newZone = zoneToRefresh();
                 update();
-                zoneOrigine = zoneNouvelle;
+                m_origZone = m_newZone;
             }
         }
     }
-
-    // Si le bouton droit est enfonce et que le pointeur est dans l'image (evite un plantage)
-    else if (boutonDroitEnfonce && !boutonGaucheEnfonce && (m_backgroundImage->rect()).contains(pos))
+    else if (m_rightButtonStatus && !m_leftButtonStatus && (m_backgroundImage->rect()).contains(pos))
     {
-        // Recuperation de la position de la souris
         QPoint positionSouris = pos;
         
-        // Il s'agit d'une action d'ajout ou de suppression de PNJ
         if (m_currentTool == ToolsBar::AddNpc || m_currentTool == ToolsBar::DelNpc)
         {
         }
-        // Il s'agit d'une action de deplacement ou de changement d'etat de PNJ
         else if (m_currentTool == ToolsBar::MoveCharacterToken || m_currentTool == ToolsBar::ChangeCharacterState)
         {
-            // On met a jour l'orientation du PNJ (si la souris n'est pas sur un PNJ
-            // et qu'il en existe un de selectionne)
-			if (dernierPnjSelectionne && !paintCharacter(positionSouris))
-                dernierPnjSelectionne->drawCharacter(positionSouris);
+			if (m_lastSelectedNpc && !paintCharacter(positionSouris))
+                m_lastSelectedNpc->drawCharacter(positionSouris);
         }
         else
         {
@@ -574,7 +506,7 @@ void Map::paintMap(QPainter &painter)
         else if (ColorSelector::getSelectedColor().type == Veil || ColorSelector::getSelectedColor().type == Unveil)
             painterCrayon.begin(m_alphaLayer);
         else if (ColorSelector::getSelectedColor().type == Erase)
-            painterCrayon.begin(effaceAlpha);
+            painterCrayon.begin(m_eraseAlpha);
         else
         {
             painter.begin(m_backgroundImage);
@@ -582,91 +514,70 @@ void Map::paintMap(QPainter &painter)
         }
         painterCrayon.setRenderHint(QPainter::Antialiasing);
         
-        // M.a.j du pinceau pour avoir des bouts arrondis
         QPen pen;
         pen.setColor(couleurPinceau);
 		pen.setWidth(m_penSize);
         pen.setCapStyle(Qt::RoundCap);
         painterCrayon.setPen(pen);
         painter.setPen(pen);
-        // On dessine une ligne entre le point d'origine et le pointeur de la souris, sur le fond et sur le widget
-        painterCrayon.drawLine(m_originePoint, m_mousePoint);
-        painter.drawLine(m_originePoint, m_mousePoint);
+        painterCrayon.drawLine(m_originPoint, m_mousePoint);
+        painter.drawLine(m_originPoint, m_mousePoint);
 
-        // Dessin d'un point pour permettre a l'utilisateur de ne dessiner qu'un unique point (cas ou il ne deplace pas la souris)
         painter.drawPoint(m_mousePoint);
         
         if (ColorSelector::getSelectedColor().type == Erase)
         {
-            // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
-			addAlphaLayer(m_originalBackground, effaceAlpha, m_originalBackground, zoneNouvelle);
-            // Apres quoi on recopie la zone concernee sur l'image de fond
+			addAlphaLayer(m_originalBackground, m_eraseAlpha, m_originalBackground, m_newZone);
             QPainter painterFond(m_backgroundImage);
-            painterFond.drawImage(zoneNouvelle, *m_originalBackground, zoneNouvelle);
-            // Enfin on remet a zero effaceAlpha pour la prochaine utilisation
-            painterCrayon.fillRect(zoneNouvelle, Qt::black);
+            painterFond.drawImage(m_newZone, *m_originalBackground, m_newZone);
+            painterCrayon.fillRect(m_newZone, Qt::black);
         }
         
-        // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-		addAlphaLayer(m_backgroundImage, m_alphaLayer, fondAlpha, zoneNouvelle);
-
-        // On ajoute la position de la souris a la liste de points destinee a l'emission
-        listePointsCrayon.append(m_mousePoint);
-        // On agglomere les zones a rafraichir pour obtenir la zone globale du trace du crayon (pour l'emission)
-        zoneGlobaleCrayon = zoneGlobaleCrayon.united(zoneNouvelle);
-
-        // M.a.j du point d'origine
-        m_originePoint = m_mousePoint;
+		addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg, m_newZone);
+        m_penPointList.append(m_mousePoint);
+        m_penGlobalZone = m_penGlobalZone.united(m_newZone);
+        m_originPoint = m_mousePoint;
     }
     
     else if (m_currentTool == ToolsBar::Line)
     {
-        // On dessine une ligne entre le point d'origine et le pointeur de la souris
-        painter.drawLine(m_originePoint, m_mousePoint);
+        painter.drawLine(m_originPoint, m_mousePoint);
     }
     
     else if (m_currentTool == ToolsBar::EmptyRect)
     {
-        // Creation des points du rectangle a partir du point d'origine et du pointeur de souris
         QPoint supGauche, infDroit;
-        supGauche.setX(m_originePoint.x()<m_mousePoint.x()?m_originePoint.x():m_mousePoint.x());
-        supGauche.setY(m_originePoint.y()<m_mousePoint.y()?m_originePoint.y():m_mousePoint.y());
-        infDroit.setX(m_originePoint.x()>m_mousePoint.x()?m_originePoint.x():m_mousePoint.x());
-        infDroit.setY(m_originePoint.y()>m_mousePoint.y()?m_originePoint.y():m_mousePoint.y());
+        supGauche.setX(m_originPoint.x()<m_mousePoint.x()?m_originPoint.x():m_mousePoint.x());
+        supGauche.setY(m_originPoint.y()<m_mousePoint.y()?m_originPoint.y():m_mousePoint.y());
+        infDroit.setX(m_originPoint.x()>m_mousePoint.x()?m_originPoint.x():m_mousePoint.x());
+        infDroit.setY(m_originPoint.y()>m_mousePoint.y()?m_originPoint.y():m_mousePoint.y());
 
-        // Si le rectangle est petit on dessine un rectangle plein (correction d'un bug Qt)
 		if ((infDroit.x()-supGauche.x() < m_penSize) && (infDroit.y()-supGauche.y() < m_penSize))
         {
 			QPoint delta(m_penSize/2, m_penSize/2);
             painter.fillRect(QRect(supGauche - delta, infDroit + delta), couleurPinceau);
         }
-        // Sinon on dessine un rectangle vide
         else
             painter.drawRect(QRect(supGauche, infDroit));
     }
     
     else if (m_currentTool == ToolsBar::FilledRect)
     {
-        // On dessine un rectangle plein
-        painter.fillRect(QRect(m_originePoint, m_mousePoint), couleurPinceau);
+        painter.fillRect(QRect(m_originPoint, m_mousePoint), couleurPinceau);
     }
     else if (m_currentTool == ToolsBar::EmptyEllipse)
     {
-        // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point d'origine
-        QPoint diff = m_mousePoint - m_originePoint;
-        QPoint nouveauPointOrigine = m_originePoint - diff;
+        QPoint diff = m_mousePoint - m_originPoint;
+        QPoint nouveauPointOrigine = m_originPoint - diff;
 
-        // Si l'ellipse est petite on dessine une ellipse pleine (correction d'un bug Qt)
 		if (abs(m_mousePoint.x()-nouveauPointOrigine.x()) < m_penSize && abs(m_mousePoint.y()-nouveauPointOrigine.y()) < m_penSize)
         {
-            // Redefinition des points du rectangle
             QPoint supGauche, infDroit;
             supGauche.setX(nouveauPointOrigine.x()<m_mousePoint.x()?nouveauPointOrigine.x():m_mousePoint.x());
             supGauche.setY(nouveauPointOrigine.y()<m_mousePoint.y()?nouveauPointOrigine.y():m_mousePoint.y());
             infDroit.setX(nouveauPointOrigine.x()>m_mousePoint.x()?nouveauPointOrigine.x():m_mousePoint.x());
             infDroit.setY(nouveauPointOrigine.y()>m_mousePoint.y()?nouveauPointOrigine.y():m_mousePoint.y());
             
-            // Parametrage pour une ellipse pleine
             QPen pen;
             pen.setColor(couleurPinceau);
             pen.setWidth(0);
@@ -675,18 +586,14 @@ void Map::paintMap(QPainter &painter)
 			QPoint delta(m_penSize/2, m_penSize/2);
             painter.drawEllipse(QRect(supGauche - delta, infDroit + delta));
         }
-        // Sinon on dessine une ellipse vide
         else
             painter.drawEllipse(QRect(nouveauPointOrigine, m_mousePoint));
     }
     
     else if (m_currentTool == ToolsBar::FilledEllipse)
     {
-        // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point d'origine
-        QPoint diff = m_mousePoint - m_originePoint;
-        QPoint nouveauPointOrigine = m_originePoint - diff;
-
-        // On dessine une ellipse pleine    
+        QPoint diff = m_mousePoint - m_originPoint;
+        QPoint nouveauPointOrigine = m_originPoint - diff;
         QPen pen;
         pen.setColor(couleurPinceau);
         pen.setWidth(0);
@@ -697,11 +604,9 @@ void Map::paintMap(QPainter &painter)
     
     else if (m_currentTool == ToolsBar::Text)
     {
-        // Parametrage de la fonte
         QFont font;
         font.setPixelSize(16);
         painter.setFont(font);
-        // On affiche le texte de la zone de saisie
 		painter.drawText(m_mousePoint, m_currentText);  // + QPoint(2,7)
     }
     
@@ -713,23 +618,20 @@ void Map::paintMap(QPainter &painter)
         qWarning() << tr("undefined drawing tools (paintMap - map.cpp)");
 }
 
-QRect Map::zoneARafraichir()
+QRect Map::zoneToRefresh()
 {
     QRect resultat;
 
 
     QPoint supGauche, infDroit;
-    int gauche = m_originePoint.x()<m_mousePoint.x()?m_originePoint.x():m_mousePoint.x();
-    int haut = m_originePoint.y()<m_mousePoint.y()?m_originePoint.y():m_mousePoint.y();
-    int droit = m_originePoint.x()>m_mousePoint.x()?m_originePoint.x():m_mousePoint.x();
-    int bas = m_originePoint.y()>m_mousePoint.y()?m_originePoint.y():m_mousePoint.y();
-    // Calcul de la largeur et de la hauteur
+    int gauche = m_originPoint.x()<m_mousePoint.x()?m_originPoint.x():m_mousePoint.x();
+    int haut = m_originPoint.y()<m_mousePoint.y()?m_originPoint.y():m_mousePoint.y();
+    int droit = m_originPoint.x()>m_mousePoint.x()?m_originPoint.x():m_mousePoint.x();
+    int bas = m_originPoint.y()>m_mousePoint.y()?m_originPoint.y():m_mousePoint.y();
     int largeur = droit - gauche + 1;
     int hauteur = bas - haut + 1;
 
-    //qDebug() << "Refresh Haut: " << haut << gauche << droit << bas << m_originePoint << m_mousePoint;
 
-    // Action a effectuer en fonction de l'outil en cours d'utilisation
     if (m_currentTool == ToolsBar::Pen)
     {
 		resultat = QRect(gauche-m_penSize/2-2, haut-m_penSize/2-2, largeur+m_penSize+4, hauteur+m_penSize+4);
@@ -752,8 +654,8 @@ QRect Map::zoneARafraichir()
     
     else if (m_currentTool == ToolsBar::EmptyEllipse)
     {
-        QPoint diff = m_mousePoint - m_originePoint;
-        QPoint nouveauPointOrigine = m_originePoint - diff;
+        QPoint diff = m_mousePoint - m_originPoint;
+        QPoint nouveauPointOrigine = m_originPoint - diff;
         
         int gauche = nouveauPointOrigine.x()<m_mousePoint.x()?nouveauPointOrigine.x():m_mousePoint.x();
         int haut = nouveauPointOrigine.y()<m_mousePoint.y()?nouveauPointOrigine.y():m_mousePoint.y();
@@ -767,8 +669,8 @@ QRect Map::zoneARafraichir()
     
     else if (m_currentTool == ToolsBar::FilledEllipse)
     {
-        QPoint diff = m_mousePoint - m_originePoint;
-        QPoint nouveauPointOrigine = m_originePoint - diff;
+        QPoint diff = m_mousePoint - m_originPoint;
+        QPoint nouveauPointOrigine = m_originPoint - diff;
         
         int gauche = nouveauPointOrigine.x()<m_mousePoint.x()?nouveauPointOrigine.x():m_mousePoint.x();
         int haut = nouveauPointOrigine.y()<m_mousePoint.y()?nouveauPointOrigine.y():m_mousePoint.y();
@@ -812,7 +714,6 @@ bool Map::addAlphaLayer(QImage *source, QImage *alpha, QImage *destination, cons
         return false;
     }
 
-    // Initialisation de la zone a mettre a jour
     QRect zone = rect;
     if (rect.isNull())
     {
@@ -824,17 +725,14 @@ bool Map::addAlphaLayer(QImage *source, QImage *alpha, QImage *destination, cons
         zone.setHeight(source->height());
     }
 
-    // Calcule de la position de fin
     int finX = zone.left() + zone.width();
     int finY = (zone.top() + zone.height()) * source->width();
 
-    // Recuperation des pointeurs vers les images
     QRgb *pixelSource = (QRgb *)source->bits();
     QRgb *pixelDestination = (QRgb *)destination->bits();
     QRgb *pixelAlpha = (QRgb *)alpha->bits();
 
     int x, y;
-    // Destination = Source + couche alpha (pas propre, mais rapide)
     for (y=zone.top()*source->width(); y<finY; y+=source->width())
     {
         for (x=zone.left(); x<finX; x++)
@@ -854,17 +752,12 @@ void Map::processNpcAction(QPoint positionSouris)
         {
             if (ColorSelector::getSelectedColor().type == ColorType)
             {
-                // Creation de l'identifiant du PNJ
                 QString idPnj = QUuid::createUuid().toString();
-                // Creation du dessin du PNJ qui s'affiche dans le widget
                 CharacterToken *pnj = new CharacterToken(this, idPnj, m_currentNpcName, ColorSelector::getSelectedColor().color, m_npcSize, positionSouris, CharacterToken::pnj, m_showNpcNumber, m_showNpcName, m_currentNpcNumber);
                 pnj->showCharacter();
-                // Un PNJ est selectionne
-                pnjSelectionne = pnj;
-                // On calcule la difference entre le coin sup gauche du PNJ et le pointeur de la souris
-                diffSourisDessinPerso = pnjSelectionne->mapFromParent(positionSouris);
-                // Demande d'incrementation du numero de PNJ (envoyee a la barre d'outils)
-                emit incrementeNumeroPnj();
+                m_selectedNpc = pnj;
+                m_distanceBetweenMouseAndNPC = m_selectedNpc->mapFromParent(positionSouris);
+                emit increaseNpcNumber();
             }
         }
     }
@@ -881,16 +774,14 @@ void Map::processNpcAction(QPoint positionSouris)
                 {
                         if (!pnj->isPc())
                         {
-                            if (dernierPnjSelectionne == pnj)
-                                dernierPnjSelectionne = 0;
+                            if (m_lastSelectedNpc == pnj)
+                                m_lastSelectedNpc = 0;
 
-                            // Emission de la demande de suppression de de PNJ
                             NetworkMessageWriter msg(NetMsg::NPCCategory,NetMsg::delNpc);
                             msg.string8(m_mapId);
                             msg.string8(pnj->getCharacterId());
                             msg.sendAll();
 
-                            // Destruction du personnage
                             pnj->~CharacterToken();
                         }
 
@@ -898,19 +789,15 @@ void Map::processNpcAction(QPoint positionSouris)
 
                 else if (m_currentTool == ToolsBar::MoveCharacterToken)
                 {
-                            pnjSelectionne = pnj;
-                            // On calcule la difference entre le coin sup gauche du PNJ et le pointeur de la souris
-                            diffSourisDessinPerso = pnj->mapFromParent(positionSouris);
-                            // Mise a zero de la liste de points
+                            m_selectedNpc = pnj;
+                            m_distanceBetweenMouseAndNPC = pnj->mapFromParent(positionSouris);
                             m_characterMoveList.clear();
-                            // Ajout de la position actuelle du perso dans la liste
                             m_characterMoveList.append(pnj->getCharacterCenter());
                 }
                 else if (m_currentTool == ToolsBar::ChangeCharacterState)
                 {
-                        // changement d'etat du personnage
                         pnj->changeState();
-                        dernierPnjSelectionne = pnj;
+                        m_lastSelectedNpc = pnj;
 
                         NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::changeCharacterState);
                         msg.string8(m_mapId);
@@ -932,34 +819,24 @@ void Map::processNpcActionReleased(QPoint positionSouris)
              Q_UNUSED(positionSouris)
     if (m_currentTool == ToolsBar::AddNpc)
     {
-        // On verifie que la couleur courante peut etre utilisee pour dessiner un PNJ
         if (ColorSelector::getSelectedColor().type == ColorType)
         {
-            if (pnjSelectionne!=NULL)
+            if (m_selectedNpc!=NULL)
             {
-                // Affiche ou masque le PNJ selon qu'il se trouve sur une zone masquee ou pas
-                afficheOuMasquePnj(pnjSelectionne);
-                // sauvegarde du dernier PNJ selectionne
-                dernierPnjSelectionne = pnjSelectionne;
-                // Plus de PNJ selectionne
-                pnjSelectionne = 0;
-                // Emission du PNJ vers les clients ou le serveur
-                dernierPnjSelectionne->emettrePnj(m_mapId);
+                showHideNPC(m_selectedNpc);
+                m_lastSelectedNpc = m_selectedNpc;
+                m_selectedNpc = 0;
+                m_lastSelectedNpc->emettrePnj(m_mapId);
             }
         }
-
-        // S'il s'agit d'une couleur speciale, on affiche une boite d'alerte
         else
         {
-            // Creation de la boite d'alerte
             QMessageBox msgBox(this);
             msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
             msgBox.setIcon(QMessageBox::Warning);
             msgBox.setWindowTitle(tr("Inappropriate Color"));
-            // On supprime l'icone de la barre de titre
             Qt::WindowFlags flags = msgBox.windowFlags();
             msgBox.setWindowFlags(flags ^ Qt::WindowSystemMenuHint);
-            // On met a jour le message et on ouvre la boite d'alerte
             msgBox.setText(tr("You can not select this color because\n It's a special color."));
             msgBox.exec();
         }
@@ -971,20 +848,16 @@ void Map::processNpcActionReleased(QPoint positionSouris)
     
     else if (m_currentTool == ToolsBar::MoveCharacterToken)
     {
-        if (pnjSelectionne)
+        if (m_selectedNpc)
         {
 			if((!m_localIsPlayer)||
                (Map::PC_ALL==m_currentMode)||
-               ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->getCharacterId())>-1)) )
+               ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(m_selectedNpc->getCharacterId())>-1)) )
             {
-                // Affiche ou masque le PNJ selon qu'il se trouve sur une zone masquee ou pas
-                afficheOuMasquePnj(pnjSelectionne);
-                // sauvegarde du dernier PNJ selectionne
-                dernierPnjSelectionne = pnjSelectionne;
-                // Emission du trajet du personnage
+                showHideNPC(m_selectedNpc);
+                m_lastSelectedNpc = m_selectedNpc;
                 sendCharacterPath();
-                // Plus de PNJ selectionne
-                pnjSelectionne = 0;
+                m_selectedNpc = 0;
             }
 
         }
@@ -1004,12 +877,10 @@ void Map::processNpcMove(QPoint positionSouris)
 {
     if (m_currentTool == ToolsBar::AddNpc)
     {
-        // Si un PNJ est selectionne, on le deplace
-        if (pnjSelectionne)
+        if (m_selectedNpc)
         {
-            // On verifie que la souris reste dans les limites de la carte
             if ( QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris, true) )
-                pnjSelectionne->moveCharacter(positionSouris - diffSourisDessinPerso);
+                m_selectedNpc->moveCharacter(positionSouris - m_distanceBetweenMouseAndNPC);
         }
     }
     
@@ -1019,19 +890,16 @@ void Map::processNpcMove(QPoint positionSouris)
     
     else if (m_currentTool == ToolsBar::MoveCharacterToken)
     {
-        if (pnjSelectionne)
+        if (m_selectedNpc)
         {
 			if((!m_localIsPlayer)||
                (Map::PC_ALL==m_currentMode)||
-               ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(pnjSelectionne->getCharacterId())>-1)) )
+               ((Map::PC_MOVE == m_currentMode)&&(m_localPlayer->getIndexOf(m_selectedNpc->getCharacterId())>-1)) )
             {
-                // On verifie que la souris reste dans les limites de la carte
                 if ( QRect(0, 0, m_backgroundImage->width(), m_backgroundImage->height()).contains(positionSouris, true) )
                 {
-                    // Deplacement du perso
-                    pnjSelectionne->moveCharacter(positionSouris - diffSourisDessinPerso);
-                    // Ajout de la position actuelle du perso dans la liste
-                    m_characterMoveList.append(pnjSelectionne->getCharacterCenter());
+                    m_selectedNpc->moveCharacter(positionSouris - m_distanceBetweenMouseAndNPC);
+                    m_characterMoveList.append(m_selectedNpc->getCharacterCenter());
                 }
             }
         }
@@ -1052,68 +920,45 @@ CharacterToken* Map::paintCharacter(QPoint positionSouris)
     CharacterToken *resultat;
     CharacterToken *dessinPnj;
     
-    // Recuperation du widget se trouvant sous la souris
     QWidget *widget = childAt(positionSouris);
     
-    // S'il y a un widget sous la souris...
     if (widget)
     {
-        // Il y a 3 cas de figure possibles :
-        // Le widget est un disquePerso
+
         if (widget->objectName() == QString("disquePerso"))
         {
-            // On recupere le parent du disquePerso : un DessinPerso
             dessinPnj = (CharacterToken *) (widget->parentWidget());
-            // Si le pointeur se trouve dans la partie transparente de la pixmap...
             if (dessinPnj->onTransparentPart(positionSouris))
             {
-                // On masque le DessinPerso courant...
                 dessinPnj->hide();
-                // ...et on regarde derriere lui
 				resultat = paintCharacter(positionSouris);
-                // Puis on refait apparaitre le DessinPerso
                 dessinPnj->show();
             }
-            // Si le pointeur n'est pas dans la partie transparente de la pixmap
             else
             {
-                // On renvoie le DessinPerso courant
-                resultat = dessinPnj;
+                 resultat = dessinPnj;
             }
         }
-        // Le widget est un intitulePerso
         else if (widget->objectName() == QString("intitulePerso"))
         {
-            // On recupere le parent de l'intitulePerso : un DessinPerso
             dessinPnj = (CharacterToken *) (widget->parentWidget());
-            // On masque le DessinPerso courant...
             dessinPnj->hide();
-            // ...et on regarde derriere lui
 			resultat = paintCharacter(positionSouris);
-            // Puis on refait apparaitre le DessinPerso
             dessinPnj->show();
         }
-        // Le widget est un DessinPerso
         else if (widget->objectName() == QString("DessinPerso"))
         {
-            // On convertit le pointeur en DessinPerso*
             dessinPnj = (CharacterToken *) widget;
-            // On masque le DessinPerso courant...
             dessinPnj->hide();
-            // ...et on regarde derriere lui
 			resultat = paintCharacter(positionSouris);
-            // Puis on refait apparaitre le DessinPerso
             dessinPnj->show();
         }
-        // Cas qui ne devrait jamais arriver
         else
         {
 			qWarning() <<  (tr("unknown widget under cursor (paintCharacter - map.cpp)"));
             resultat = 0;
         }
     }
-
-    // Le pointeur ne se trouve pas sur un widget
     else
         resultat = 0;
 
@@ -1121,100 +966,83 @@ CharacterToken* Map::paintCharacter(QPoint positionSouris)
 }
 
 
-void Map::afficheOuMasquePnj(CharacterToken *pnjSeul)
+void Map::showHideNPC(CharacterToken *pnjSeul)
 {
     QObjectList enfants;
     int i, j, masque, affiche;
     QPoint contour[8];
     QRect limites = m_backgroundImage->rect();
 
-    // Si pnjSeul n'est pas nul, on le met en tete de liste, comme seul element
     if (pnjSeul)
         enfants.append(pnjSeul);
-    // Sinon on recupere la liste des enfants de la carte (tous des DessinPerso)
     else
         enfants = children();
     
-    // Taille de la liste
     int tailleListe = enfants.size();
     
-    // Parcours des DessinPerso
     for (i=0; i<tailleListe; i++)
     {
 		CharacterToken* pnj = (CharacterToken *)(enfants[i]);
 
-        // On ne masque le pesonnage uniquement s'il s'agit d'un PNJ
         if (!pnj->isPc())
         {
-            // Recuperation des 8 points formant le coutour du disque representant le PNJ
             pnj->diskBorder(contour);
 
-            // Il y a 2 cas de figure :
-            // Soit le DessinPerso est visible : on regarde s'il faut le cacher
             if (pnj->isVisible())
             {
-                // On verifie la couche alpha de fondAlpha pour chacun des points
                 masque = 0;
                 for (j=0; j<8; j++)
                 {
-                    // On verifie que le point se trouve dans les limites de l'image (evite un plantage)
                     if (limites.contains(contour[j]))
                     {
-                        if ( qAlpha(fondAlpha->pixel(contour[j].x(), contour[j].y())) == 0)
+                        if ( qAlpha(m_alphaBg->pixel(contour[j].x(), contour[j].y())) == 0)
                             masque++;
                     }
                     else
                         masque++;
                 }
 
-                // Si tous les points se trouvent dans une zone masquee, on cache le PNJ
                 if (masque == 8)
                     pnj->hideCharater();
             }
-
-            // Le PNJ est deja cache : on regarde s'il faut l'afficher
             else
             {
-                // On verifie la couche alpha de fondAlpha pour chacun des points
                 affiche = 0;
                 for (j=0; j<8 && !affiche; j++)
                 {
-                    // On verifie que le point se trouve dans les limites de l'image (evite un plantage)
                     if (limites.contains(contour[j]))
                     {
-                        if ( qAlpha(fondAlpha->pixel(contour[j].x(), contour[j].y())) == 255)
+                        if ( qAlpha(m_alphaBg->pixel(contour[j].x(), contour[j].y())) == 255)
                             affiche++;
                     }
                     else
                         affiche++;
                 }
-
-                // Si un des points se trouve dans la zone visible, on affiche le PNJ
                 if (affiche)
                     pnj->showCharacter();
             }
-        }    // Fin de la condition : le personnage est un PNJ
-    }        // Fin du parcours de la liste des enfants
+        }    //
+    }        //
 }
 
 
 void Map::changePjSize(int nouvelleTaille, bool updatePj)
 {
 	m_npcSize = nouvelleTaille;
-    if((updatePj)&&(dernierPnjSelectionne!=NULL))
+    if((updatePj)&&(m_lastSelectedNpc!=NULL))
     {
-		dernierPnjSelectionne->setPcSize(nouvelleTaille);
+		m_lastSelectedNpc->setPcSize(nouvelleTaille);
     }
 		//emit changerm_npcSize(nouvelleTaille);
 }
 
-int Map::tailleDesPj()
+int Map::getPcSize()
 {
 	return m_npcSize;
 }
 
 
-CharacterToken* Map::trouverPersonnage(QString idPerso)
+CharacterToken* Map::findCharacter(QString idPerso)
 {
     CharacterToken *perso=NULL;
     bool ok = false;
@@ -1257,15 +1085,13 @@ void Map::toggleCharacterView(Character * character)
 
 void Map::showPc(QString idPerso, bool show)
 {
-    // Recherche du PJ
-    CharacterToken *pj = trouverPersonnage(idPerso);
+    CharacterToken *pj = findCharacter(idPerso);
     // @Todo @warning Pc ID not found
     if (NULL==pj)
     {
         qWarning() << (tr("PC ID %1 not found (showPc - map.cpp)").arg(idPerso));
         return;
     }
-    // On masque ou on affiche le PJ
     if (show)
     {
         pj->showCharacter();
@@ -1273,7 +1099,6 @@ void Map::showPc(QString idPerso, bool show)
     else
     {
         pj->hideCharater();
-        // M.a.j de la carte pour eviter les residus dans les autres PJ/PNJ
         update(QRect(pj->pos(), pj->size()));
     }
 }
@@ -1281,9 +1106,7 @@ void Map::showPc(QString idPerso, bool show)
 
 bool Map::isVisiblePc(QString idPerso)
 {
-    // Recherche du PJ
-    CharacterToken *pj = trouverPersonnage(idPerso);
-    // Ne devrait jamais arriver
+    CharacterToken *pj = findCharacter(idPerso);
     if (NULL==pj)
     {
 		qWarning() << tr("PC ID: %1 not found (isVisiblePc - map.cpp)") << qPrintable(idPerso);
@@ -1301,15 +1124,12 @@ void Map::addCharacter(Character * person)
 
 void Map::eraseCharacter(QString idCharacter)
 {
-    // Recherche du personnage
-	CharacterToken *perso = trouverPersonnage(idCharacter);
-    // Ne devrait jamais arriver
+    CharacterToken *perso = findCharacter(idCharacter);
      if (NULL==perso)
     {
 		qWarning() << tr("No character with this id: %1").arg(idCharacter)<<"(eraseCharacter - map.cpp)";
         return;
     }
-    // Suppression du personnage
     perso->~CharacterToken();
 }
 
@@ -1318,7 +1138,7 @@ void Map::delCharacter(Character * person)
 	if(NULL==person)
 		return;
 
-    CharacterToken * pj = trouverPersonnage(person->getUuid());
+    CharacterToken * pj = findCharacter(person->getUuid());
     if (pj == NULL)
     {
 		qWarning() << ( tr("Person %s %s unknown in Carte::changePerson"),
@@ -1333,7 +1153,7 @@ void Map::changeCharacter(Character * person)
 {
 	if(NULL==person)
 		return;
-    CharacterToken * pj = trouverPersonnage(person->getUuid());
+    CharacterToken * pj = findCharacter(person->getUuid());
     if (pj == NULL)
     {
         qWarning() << tr("Person %s %s unknown in Carte::changePerson").arg(person->getUuid()).arg(person->getName()) ;
@@ -1345,22 +1165,20 @@ void Map::changeCharacter(Character * person)
 }
 
 
-void Map::emettreCarte(QString titre)
+void Map::sendMap(QString titre)
 {
-    emettreCarteGeneral(titre);
+    sendOffGlobalMap(titre);
 }
 
 
-void Map::emettreCarte(QString titre, NetworkLink * link)
+void Map::sendMap(QString titre, NetworkLink * link)
 {
-    emettreCarteGeneral(titre, link, true);
+    sendOffGlobalMap(titre, link, true);
 }
 
 
-void Map::emettreCarteGeneral(QString titre, NetworkLink * link, bool versNetworkLinkUniquement)
+void Map::sendOffGlobalMap(QString titre, NetworkLink * link, bool versNetworkLinkUniquement)
 {
-
-    // On commence par compresser le fond original (format jpeg) dans un tableau
     QByteArray baFondOriginal;
     QBuffer bufFondOriginal(&baFondOriginal);
     if (!m_originalBackground->save(&bufFondOriginal, "jpeg", 70))
@@ -1376,7 +1194,6 @@ void Map::emettreCarteGeneral(QString titre, NetworkLink * link, bool versNetwor
     {
 		qWarning() << (tr("Codec Error (emettreCarte - map.cpp)"));
     }
-    // Enfin on compresse la couche alpha (format jpeg) dans un tableau
     QByteArray baAlpha;
     QBuffer bufAlpha(&baAlpha);
     if (!m_alphaLayer->save(&bufAlpha, "jpeg", 100))
@@ -1407,19 +1224,19 @@ void Map::emettreCarteGeneral(QString titre, NetworkLink * link, bool versNetwor
 }
 
 
-void Map::emettreTousLesPersonnages()
+void Map::sendOffAllCharacters()
 {
-    emettreTousLesPersonnagesGeneral();
+    sendOffAllGlobalCharacters();
 }
 
 
-void Map::emettreTousLesPersonnages(NetworkLink * link)
+void Map::sendOffAllCharacters(NetworkLink * link)
 {
-    emettreTousLesPersonnagesGeneral(link, true);
+    sendOffAllGlobalCharacters(link, true);
 }
 
 
-void Map::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetworkLinkUniquement)
+void Map::sendOffAllGlobalCharacters(NetworkLink * link, bool versNetworkLinkUniquement)
 {
 
     NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::addCharacterList);
@@ -1445,7 +1262,7 @@ void Map::emettreTousLesPersonnagesGeneral(NetworkLink * link, bool versNetworkL
 }
 
 
-void Map::emettreTrace()
+void Map::sendTrace()
 {
     NetworkMessageWriter* msg = NULL;
 
@@ -1454,16 +1271,16 @@ void Map::emettreTrace()
         msg = new NetworkMessageWriter(NetMsg::DrawCategory,NetMsg::penPainting);
         msg->string8(m_localPlayerId);
         msg->string8(m_mapId);
-        msg->uint32(listePointsCrayon.size());
-        for (int i=0; i<listePointsCrayon.size(); i++)
+        msg->uint32(m_penPointList.size());
+        for (int i=0; i<m_penPointList.size(); i++)
         {
-            msg->uint16(listePointsCrayon[i].x());
-            msg->uint16(listePointsCrayon[i].y());
+            msg->uint16(m_penPointList[i].x());
+            msg->uint16(m_penPointList[i].y());
         }
-        msg->uint16(zoneGlobaleCrayon.x());
-        msg->uint16(zoneGlobaleCrayon.y());
-        msg->uint16(zoneGlobaleCrayon.width());
-        msg->uint16(zoneGlobaleCrayon.height());
+        msg->uint16(m_penGlobalZone.x());
+        msg->uint16(m_penGlobalZone.y());
+        msg->uint16(m_penGlobalZone.width());
+        msg->uint16(m_penGlobalZone.height());
 
 		msg->uint8(m_penSize);
         msg->uint8(ColorSelector::getSelectedColor().type);
@@ -1477,10 +1294,10 @@ void Map::emettreTrace()
         msg->uint16(m_mousePoint.x());
         msg->uint16(m_mousePoint.y());
 
-        msg->uint16(zoneNouvelle.x());
-        msg->uint16(zoneNouvelle.y());
-        msg->uint16(zoneNouvelle.width());
-        msg->uint16(zoneNouvelle.height());
+        msg->uint16(m_newZone.x());
+        msg->uint16(m_newZone.y());
+        msg->uint16(m_newZone.width());
+        msg->uint16(m_newZone.height());
 
         msg->uint8(ColorSelector::getSelectedColor().type);
         msg->rgb(ColorSelector::getSelectedColor().color);
@@ -1514,16 +1331,16 @@ void Map::emettreTrace()
 
         msg = new NetworkMessageWriter(NetMsg::DrawCategory,action);
         msg->string8(m_mapId);
-        msg->uint16(m_originePoint.x());
-        msg->uint16(m_originePoint.y());
+        msg->uint16(m_originPoint.x());
+        msg->uint16(m_originPoint.y());
 
         msg->uint16(m_mousePoint.x());
         msg->uint16(m_mousePoint.y());
 
-        msg->uint16(zoneNouvelle.x());
-        msg->uint16(zoneNouvelle.y());
-        msg->uint16(zoneNouvelle.width());
-        msg->uint16(zoneNouvelle.height());
+        msg->uint16(m_newZone.x());
+        msg->uint16(m_newZone.y());
+        msg->uint16(m_newZone.width());
+        msg->uint16(m_newZone.height());
 
 		msg->uint8(m_penSize);
 
@@ -1540,7 +1357,7 @@ void Map::emettreTrace()
 
 void Map::sendCharacterPath()
 {
-    QString idPerso = pnjSelectionne->getCharacterId();
+    QString idPerso = m_selectedNpc->getCharacterId();
     quint32 sizeList = m_characterMoveList.size();
 
     NetworkMessageWriter msg(NetMsg::CharacterCategory,NetMsg::moveCharacter);
@@ -1560,8 +1377,6 @@ void Map::paintPenLine(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8
 {
     QPainter painter;
     QColor couleurPinceau;
-
-    // Choix de l'image sur laquelle dessiner et de la couleur du pinceau
     if (couleur.type == ColorType)
     {
         painter.begin(m_backgroundImage);
@@ -1579,7 +1394,7 @@ void Map::paintPenLine(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8
     }
     else if (couleur.type == Erase)
     {
-        painter.begin(effaceAlpha);
+        painter.begin(m_eraseAlpha);
         couleurPinceau = Qt::white;
     }
     else
@@ -1589,11 +1404,8 @@ void Map::paintPenLine(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8
     }
     painter.setRenderHint(QPainter::Antialiasing);
 
-    // Reglage du pinceau pour avoir des bouts arrondis
     QPen pen;
     pen.setColor(couleurPinceau);
-    // Si le trace a ete effectue par le joueur local, cela signifie qu'il est deja present sur le fond,
-    // par consequence on le redessine en plus fin pour eviter qu'il ne soit plus opaque
     if (joueurLocal)
         pen.setWidthF(((qreal)diametre)-0.5);
     else
@@ -1603,11 +1415,9 @@ void Map::paintPenLine(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8
 
     int tailleListe = listePoints->size();
     
-    // S'il n'y a qu'un point dans la liste on le dessine
     if (tailleListe == 1)
         painter.drawPoint(listePoints->at(0));
 
-    // Sinon s'il n'y a que 2 points dans la liste et qu'ils sont identiques, on dessine un point, ou une ligne s'ils sont differents
     else if (tailleListe == 2)
     {
         if (listePoints->at(0) == listePoints->at(1))
@@ -1616,30 +1426,22 @@ void Map::paintPenLine(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8
             painter.drawLine(listePoints->at(0), listePoints->at(1));
     }
     
-    // Sinon on trace une ligne entre chaque point de la liste
     else
         for (int i=1; i<tailleListe; i++)
             painter.drawLine(listePoints->at(i-1), listePoints->at(i));
 
-    // Si le trace effacait, on recopie de fond original sur le fond
     if (couleur.type == Erase)
     {
-        // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
-		addAlphaLayer(m_originalBackground, effaceAlpha, m_originalBackground, zoneARafraichir);
-        // Apres quoi on recopie la zone concernee sur l'image de fond
+		addAlphaLayer(m_originalBackground, m_eraseAlpha, m_originalBackground, zoneARafraichir);
         QPainter painterFond(m_backgroundImage);
         painterFond.drawImage(zoneARafraichir, *m_originalBackground, zoneARafraichir);
-        // Enfin on remet a zero effaceAlpha pour la prochaine utilisation
-        QPainter painterEfface(effaceAlpha);
+        QPainter painterEfface(m_eraseAlpha);
         painterEfface.fillRect(zoneARafraichir, Qt::black);
     }
     
-    // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-	addAlphaLayer(m_backgroundImage, m_alphaLayer, fondAlpha, zoneARafraichir);
-    // Demande de rafraichissement de la fenetre (appel a paintEvent)
+	addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg, zoneARafraichir);
     update(/*zoneOrigine.unite(zoneARafraichir)*/);
-    // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
-    afficheOuMasquePnj();
+    showHideNPC();
 }
 
 
@@ -1648,7 +1450,6 @@ void Map::paintText(QString texte, QPoint positionSouris, QRect zoneARafraichir,
     QPainter painter;
     QColor couleurPinceau;
 
-    // Choix de l'image sur laquelle dessiner et de la couleur du pinceau
     if (couleur.type == ColorType)
     {
         painter.begin(m_backgroundImage);
@@ -1666,7 +1467,7 @@ void Map::paintText(QString texte, QPoint positionSouris, QRect zoneARafraichir,
     }
     else if (couleur.type == Erase)
     {
-        painter.begin(effaceAlpha);
+        painter.begin(m_eraseAlpha);
         couleurPinceau = Qt::white;
     }
     else
@@ -1676,38 +1477,28 @@ void Map::paintText(QString texte, QPoint positionSouris, QRect zoneARafraichir,
     }
     painter.setRenderHint(QPainter::Antialiasing);
 
-    // Reglage du pinceau
     QPen pen;
     pen.setColor(couleurPinceau);
     painter.setPen(pen);
 
-    // Parametrage de la fonte
     QFont font;
     font.setPixelSize(16);
     painter.setFont(font);
     
-    // On dessine le texte passe en parametre
     painter.drawText(positionSouris, texte);
     
-    // Si la couleur effacait, on recopie de fond original sur le fond
     if (couleur.type == Erase)
     {
-        // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
-		addAlphaLayer(m_originalBackground, effaceAlpha, m_originalBackground, zoneARafraichir);
-        // Apres quoi on recopie la zone concernee sur l'image de fond
+		addAlphaLayer(m_originalBackground, m_eraseAlpha, m_originalBackground, zoneARafraichir);
         QPainter painterFond(m_backgroundImage);
         painterFond.drawImage(zoneARafraichir, *m_originalBackground, zoneARafraichir);
-        // Enfin on remet a zero effaceAlpha pour la prochaine utilisation
-        QPainter painterEfface(effaceAlpha);
+        QPainter painterEfface(m_eraseAlpha);
         painterEfface.fillRect(zoneARafraichir, Qt::black);
     }
     
-    // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-	addAlphaLayer(m_backgroundImage, m_alphaLayer, fondAlpha, zoneARafraichir);
-    // Demande de rafraichissement de la fenetre (appel a paintEvent)
+	addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg, zoneARafraichir);
     update(/*zoneOrigine.unite(zoneARafraichir)*/);
-    // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
-    afficheOuMasquePnj();
+    showHideNPC();
 }
 
 
@@ -1716,7 +1507,6 @@ void Map::paintOther(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect
     QPainter painter;
     QColor couleurPinceau;
 
-    // Choix de l'image sur laquelle dessiner et de la couleur du pinceau
     if (couleur.type == ColorType)
     {
         painter.begin(m_backgroundImage);
@@ -1734,7 +1524,7 @@ void Map::paintOther(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect
     }
     else if (couleur.type == Erase)
     {
-        painter.begin(effaceAlpha);
+        painter.begin(m_eraseAlpha);
         couleurPinceau = Qt::white;
     }
     else
@@ -1744,64 +1534,53 @@ void Map::paintOther(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect
     }
     painter.setRenderHint(QPainter::Antialiasing);
 
-    // Reglage du pinceau
     QPen pen;
     pen.setWidth(diametre);
     pen.setJoinStyle(Qt::MiterJoin);
     pen.setColor(couleurPinceau);
     painter.setPen(pen);
 
-    // Dessin du trace en fonction de l'outil employe
 
     if (action == NetMsg::linePainting)
     {
-        // On dessine une ligne entre le point de depart et d'arrivee
         painter.drawLine(depart, arrivee);
     }
     
     else if (action == NetMsg::emptyRectanglePainting)
     {
-        // Creation des points du rectangle a partir des points de depart et d'arrivee
         QPoint supGauche, infDroit;
         supGauche.setX(depart.x()<arrivee.x()?depart.x():arrivee.x());
         supGauche.setY(depart.y()<arrivee.y()?depart.y():arrivee.y());
         infDroit.setX(depart.x()>arrivee.x()?depart.x():arrivee.x());
         infDroit.setY(depart.y()>arrivee.y()?depart.y():arrivee.y());
 
-        // Si le rectangle est petit on dessine un rectangle plein (correction d'un bug Qt)
         if ((infDroit.x()-supGauche.x() < diametre) && (infDroit.y()-supGauche.y() < diametre))
         {
             QPoint delta(diametre/2, diametre/2);
             painter.fillRect(QRect(supGauche - delta, infDroit + delta), couleurPinceau);
         }
-        // Sinon on dessine un rectangle vide
         else
             painter.drawRect(QRect(supGauche, infDroit));
     }
     
     else if (action == NetMsg::filledRectanglePainting)
     {
-        // On dessine un rectangle plein
         painter.fillRect(QRect(depart, arrivee), couleurPinceau);
     }
     
     else if (action == NetMsg::emptyEllipsePainting)
     {
-        // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point de depart
         QPoint diff = arrivee - depart;
         QPoint nouveauPointOrigine = depart - diff;
 
-        // Si l'ellipse est petite on dessine une ellipse pleine (correction d'un bug Qt)
         if (abs(arrivee.x()-nouveauPointOrigine.x()) < diametre && abs(arrivee.y()-nouveauPointOrigine.y()) < diametre)
         {
-            // Redefinition des points du rectangle
             QPoint supGauche, infDroit;
             supGauche.setX(nouveauPointOrigine.x()<arrivee.x()?nouveauPointOrigine.x():arrivee.x());
             supGauche.setY(nouveauPointOrigine.y()<arrivee.y()?nouveauPointOrigine.y():arrivee.y());
             infDroit.setX(nouveauPointOrigine.x()>arrivee.x()?nouveauPointOrigine.x():arrivee.x());
             infDroit.setY(nouveauPointOrigine.y()>arrivee.y()?nouveauPointOrigine.y():arrivee.y());
             
-            // Parametrage pour une ellipse pleine
             QPen pen;
             pen.setColor(couleurPinceau);
             pen.setWidth(0);
@@ -1810,18 +1589,15 @@ void Map::paintOther(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect
             QPoint delta(diametre/2, diametre/2);
             painter.drawEllipse(QRect(supGauche - delta, infDroit + delta));
         }
-        // Sinon on dessine une ellipse vide
         else
             painter.drawEllipse(QRect(nouveauPointOrigine, arrivee));
     }
     
     else if (action == NetMsg::filledEllipsePainting)
     {
-        // Deplacement du point superieur gauche pour que l'ellipse soit centree sur le point de depart
         QPoint diff = arrivee - depart;
         QPoint nouveauPointOrigine = depart - diff;
 
-        // On dessine une ellipse pleine    
         QPen pen;
         pen.setColor(couleurPinceau);
         pen.setWidth(0);
@@ -1833,25 +1609,18 @@ void Map::paintOther(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect
     else
 		qWarning() << (tr("Undefined Tool (paintOther - map.cpp)"));
 
-    // Si le trace effacait, on recopie de fond original sur le fond
     if (couleur.type == Erase)
     {
-        // Si l'utilisateur est en train d'effacer, on mixe fondOriginal et effaceAlpha
-		addAlphaLayer(m_originalBackground, effaceAlpha, m_originalBackground, zoneARafraichir);
-        // Apres quoi on recopie la zone concernee sur l'image de fond
+		addAlphaLayer(m_originalBackground, m_eraseAlpha, m_originalBackground, zoneARafraichir);
         QPainter painterFond(m_backgroundImage);
         painterFond.drawImage(zoneARafraichir, *m_originalBackground, zoneARafraichir);
-        // Enfin on remet a zero effaceAlpha pour la prochaine utilisation
-        QPainter painterEfface(effaceAlpha);
+        QPainter painterEfface(m_eraseAlpha);
         painterEfface.fillRect(zoneARafraichir, Qt::black);
     }
     
-    // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-	addAlphaLayer(m_backgroundImage, m_alphaLayer, fondAlpha, zoneARafraichir);
-    // Demande de rafraichissement de la fenetre (appel a paintEvent)
+	addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg, zoneARafraichir);
     update(/*zoneOrigine.unite(zoneARafraichir)*/);
-    // Affiche ou masque les PNJ selon qu'ils se trouvent sur une zone masquee ou pas
-    afficheOuMasquePnj();
+    showHideNPC();
 }
 
 QColor Map::getFogColor()
@@ -1866,70 +1635,52 @@ QColor Map::getFogColor()
     }
 }
 
-void Map::adapterCoucheAlpha(quint8 intensiteAlpha)
+void Map::adaptAlphaLayer(quint8 intensiteAlpha)
 {
     if (intensiteAlpha == getFogColor().red())
         return;
         
-    // Dans le cas contraire il faut modifier tous les pixels de la couche alpha
     
-    // Calcul de la difference entre les 2 intensites
     qint16 diff = (qint16)(getFogColor().red()) - (qint16)intensiteAlpha;
-    // Nbr de pixels de la couche alpha
     int tailleAlpha = m_alphaLayer->width() * m_alphaLayer->height();
-    // Pointeur vers les donnees de l'image
     QRgb *pixelAlpha = (QRgb *)m_alphaLayer->bits();
 
     qint16 nouvelleIntensite;
-    // Parcours des pixels de l'image
     for (int i=0; i<tailleAlpha; i++)
     {
-        // Si le pixel n'est pas opaque, on le modifie
         if (qRed(pixelAlpha[i]) != 255)
         {
-            // Calcul de la nouvelle intensite pour le pixel concerne
             nouvelleIntensite = qRed(pixelAlpha[i]) + diff;
 
-            // Correction de l'intensite en cas de depassement (probablement du a la compression jpeg)
             if (nouvelleIntensite < 0)
                 nouvelleIntensite = 0;
             else if (nouvelleIntensite > 255)
                 nouvelleIntensite = 255;
 
-            // Ecriture du nouveau pixel
             pixelAlpha[i] = 0xFF000000 | nouvelleIntensite << 16 | nouvelleIntensite << 8 | nouvelleIntensite;
         }
     }
-    // Conversion de l'image de fond en ARGB32 avec ajout de la couche alpha : le resultat est stocke dans fondAlpha
-	addAlphaLayer(m_backgroundImage, m_alphaLayer, fondAlpha);
+	addAlphaLayer(m_backgroundImage, m_alphaLayer, m_alphaBg);
 }
 
-void Map::lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoints)
+void Map::startCharacterMove(QString idPerso, QList<QPoint> listePoints)
 {
-    // On commence part verifier si le perso est deja present dans la liste des mouvements
     int i;
-    int tailleListe = mouvements.size();
+    int tailleListe = m_motionList.size();
     bool trouve = false;
-    // Parcours de la liste des mouvements
     for (i=0; i<tailleListe && !trouve; i++)
-        if (mouvements[i].idPersonnage == idPerso)
+        if (m_motionList[i].idCharacter == idPerso)
             trouve = true;
 
-    // Si le perso est deja present dans la liste, on ajoute les nouveaux deplacements a ceux existant
     if (trouve)
-        mouvements[i-1].trajet += listePoints;
-
-    // Sinon on cree un nouvel element dans les liste des mouvements
+        m_motionList[i-1].motion += listePoints;
     else
     {
-        // Creation du mouvement
-        PersoEnMouvement trajetPerso;
-        trajetPerso.idPersonnage = idPerso;
-        trajetPerso.trajet = listePoints;
-        // Ajout du mouvement a la liste des personnages en mouvement
-        mouvements.append(trajetPerso);
-        // Si l'element ajoute est le seul de la liste, on relance le timer
-        if (mouvements.size() == 1)
+        CharacterMotion trajetPerso;
+        trajetPerso.idCharacter = idPerso;
+        trajetPerso.motion = listePoints;
+        m_motionList.append(trajetPerso);
+        if (m_motionList.size() == 1)
         {
             QTimer::singleShot(10, this, SLOT(moveAllCharacters()));
         }
@@ -1941,26 +1692,26 @@ void Map::moveAllCharacters()
 {
     QPoint position;
     int i=0;
-    while(i < mouvements.size())
+    while(i < m_motionList.size())
     {
 
-        CharacterToken *perso = trouverPersonnage(mouvements[i].idPersonnage);
+        CharacterToken *perso = findCharacter(m_motionList[i].idCharacter);
 
 
         if (NULL != perso)
         {
-            position = mouvements[i].trajet.takeFirst();
+            position = m_motionList[i].motion.takeFirst();
             perso->moveCharaterCenter(position);
-            afficheOuMasquePnj(perso);
+            showHideNPC(perso);
         }
-        if (mouvements[i].trajet.isEmpty() || !perso)
+        if (m_motionList[i].motion.isEmpty() || !perso)
         {
-            mouvements.removeAt(i);
+            m_motionList.removeAt(i);
         }
         else
             i++;
     }
-    if (!mouvements.isEmpty())
+    if (!m_motionList.isEmpty())
     {
         QTimer::singleShot(10, this, SLOT(moveAllCharacters()));
     }
@@ -2031,22 +1782,22 @@ void Map::saveMap(QDataStream &out, QString titre)
     }
 }
 
-QString Map::identifiantCarte()
+QString Map::getMapId()
 {
     return m_mapId;
 }
 
 QString Map::getLastSelectedCharacterId()
 {
-    if(dernierPnjSelectionne==NULL)
+    if(m_lastSelectedNpc==NULL)
         return QString();
-    return dernierPnjSelectionne->getCharacterId();
+    return m_lastSelectedNpc->getCharacterId();
 }
 bool Map::selectCharacter(QString& id)
 {
-    CharacterToken* tmp=trouverPersonnage(id);
+    CharacterToken* tmp=findCharacter(id);
     if(tmp!=NULL)
-        dernierPnjSelectionne=tmp;
+        m_lastSelectedNpc=tmp;
     else
         return false;
 
@@ -2081,28 +1832,28 @@ void Map::setPointeur(ToolsBar::SelectableTool currentTool)
         case ToolsBar::FilledRect:
         case ToolsBar::EmptyEllipse:
         case ToolsBar::FilledEllipse:
-            pointeur = *m_pencilCursor;
+            m_mouseCursor = *m_pencilCursor;
         break;
         case ToolsBar::Text:
-            pointeur = *m_textCursor;
+            m_mouseCursor = *m_textCursor;
         break;
         case ToolsBar::Handler:
-            pointeur =  Qt::OpenHandCursor;
+            m_mouseCursor =  Qt::OpenHandCursor;
         break;
         case ToolsBar::AddNpc:
-            pointeur =*m_addCursor;
+            m_mouseCursor =*m_addCursor;
         break;
         case ToolsBar::DelNpc:
-            pointeur =*m_delCursor;
+            m_mouseCursor =*m_delCursor;
         break;
         case ToolsBar::MoveCharacterToken:
-            pointeur =*m_movCursor;
+            m_mouseCursor =*m_movCursor;
         break;
         case ToolsBar::ChangeCharacterState:
-            pointeur = *m_stateCursor;
+            m_mouseCursor = *m_stateCursor;
         break;
     }
-    setCursor(pointeur);
+    setCursor(m_mouseCursor);
 }
 void Map::setCurrentText(QString text)
 {

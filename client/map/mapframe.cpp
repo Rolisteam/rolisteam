@@ -128,7 +128,7 @@ QString MapFrame::getMediaId()
 {
 	if(NULL!=m_map)
     {
-		return m_map->identifiantCarte();
+		return m_map->getMapId();
     }
     else
     {
@@ -379,11 +379,11 @@ bool MapFrame::readMapAndNpc(QDataStream &in, bool hidden)
 
 		pnj->newHealtState(sante, numeroEtat);
 
-		m_map->afficheOuMasquePnj(pnj);
+		m_map->showHideNPC(pnj);
 
 	}
-	m_map->emettreCarte(windowTitle());
-	m_map->emettreTousLesPersonnages();
+	m_map->sendMap(windowTitle());
+	m_map->sendOffAllCharacters();
 
 	return true;
 }
@@ -505,12 +505,12 @@ bool MapFrame::processMapMessage(NetworkMessageReader* msg,bool localIsPlayer)
         m_map->setPermissionMode((Map::PermissionMode)permission);
         if(localIsPlayer)
         {
-            m_map->adapterCoucheAlpha(255);
+            m_map->adaptAlphaLayer(255);
         }
         else
         {
             QColor color = m_preferences->value("Fog_color",QColor(50,50,50)).value<QColor>();
-            m_map->adapterCoucheAlpha(color.red());
+            m_map->adaptAlphaLayer(color.red());
         }
 
         emit notifyUser(tr("Receiving map: %1").arg(m_title));

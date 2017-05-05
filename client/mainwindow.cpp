@@ -605,8 +605,8 @@ void MainWindow::sendOffAllMaps(NetworkLink * link)
             if(NULL!=tmp)
             {
                 tmp->getMap()->setHasPermissionMode(m_playerList->everyPlayerHasFeature("MapPermission"));
-                tmp->getMap()->emettreCarte(tmp->windowTitle(), link);
-                tmp->getMap()->emettreTousLesPersonnages(link);
+                tmp->getMap()->sendMap(tmp->windowTitle(), link);
+                tmp->getMap()->sendOffAllCharacters(link);
             }
         }
     }
@@ -1710,7 +1710,7 @@ void MainWindow::extractCharacter(Map* map,NetworkMessageReader* msg)
         health.couleurEtat = npcState;
         health.nomEtat = npcStateName;
         npc->newHealtState(health, npcStateNum);
-        map->afficheOuMasquePnj(npc);
+        map->showHideNPC(npc);
 
     }
 }
@@ -1750,7 +1750,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         Map* map=findMapById(idMap);
         if(NULL!=map)
         {
-            map->lancerDeplacementPersonnage(idCharacter,moveList);
+            map->startCharacterMove(idCharacter,moveList);
         }
     }
     else if(NetMsg::changeCharacterState == msg->action())
@@ -1761,7 +1761,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         Map* map=findMapById(idMap);
         if(NULL!=map)
         {
-            CharacterToken* character = map->trouverPersonnage(idCharacter);
+            CharacterToken* character = map->findCharacter(idCharacter);
             if(NULL!=character)
             {
                 character->changeHealtStatus(stateNumber);
@@ -1778,7 +1778,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         Map* map=findMapById(idMap);
         if(NULL!=map)
         {
-            CharacterToken* character = map->trouverPersonnage(idCharacter);
+            CharacterToken* character = map->findCharacter(idCharacter);
             if(NULL!=character)
             {
                 character->newOrientation(orientation);
@@ -1793,7 +1793,7 @@ void MainWindow::processCharacterMessage(NetworkMessageReader* msg)
         Map* map=findMapById(idMap);
         if(NULL!=map)
         {
-            CharacterToken* character = map->trouverPersonnage(idCharacter);
+            CharacterToken* character = map->findCharacter(idCharacter);
             if(NULL!=character)
             {
                 character->showOrientation(showOrientation);

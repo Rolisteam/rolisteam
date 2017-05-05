@@ -61,31 +61,31 @@ public :
 
     enum PermissionMode{GM_ONLY, PC_MOVE,PC_ALL };
 
-    void afficheOuMasquePnj(CharacterToken *pnjSeul = 0);
+    void showHideNPC(CharacterToken *pnjSeul = 0);
     void toggleCharacterView(Character * character);
 	void showPc(QString idPerso, bool afficher);
 	void changePjSize(int nouvelleTaille, bool updatePj = true);
-    void emettreCarte(QString titre);
-    void emettreCarte(QString titre, NetworkLink * link);
-    void emettreTousLesPersonnages();
-    void emettreTousLesPersonnages(NetworkLink * link);
-	void paintPenLine(QList<QPoint> *listePoints, QRect zoneARafraichir, quint8 diametre, SelectedColor couleur, bool joueurLocal);
-	void paintText(QString texte, QPoint positionSouris, QRect zoneARafraichir, SelectedColor couleur);
-	void paintOther(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect zoneARafraichir, quint8 diametre, SelectedColor couleur);
-    void adapterCoucheAlpha(quint8 intensiteAlpha);
-    void lancerDeplacementPersonnage(QString idPerso, QList<QPoint> listePoints);
+    void sendMap(QString titre);
+    void sendMap(QString titre, NetworkLink * link);
+    void sendOffAllCharacters();
+    void sendOffAllCharacters(NetworkLink * link);
+    void paintPenLine(QList<QPoint> *listePoints, QRect zoneToRefresh, quint8 diametre, SelectedColor couleur, bool joueurLocal);
+    void paintText(QString texte, QPoint positionSouris, QRect zoneToRefresh, SelectedColor couleur);
+    void paintOther(NetMsg::Action action, QPoint depart, QPoint arrivee, QRect zoneToRefresh, quint8 diametre, SelectedColor couleur);
+    void adaptAlphaLayer(quint8 intensiteAlpha);
+    void startCharacterMove(QString idPerso, QList<QPoint> listePoints);
 
     void saveMap(QDataStream &out, QString titre = "");
-    int tailleDesPj();
+    int getPcSize();
 	bool isVisiblePc(QString idPerso);
-    QString identifiantCarte();
+    QString getMapId();
 
     /**
      * @brief trouverPersonnage
      * @param idPerso id of the character
      * @return the corresponding DessinPerso or NULL
      */
-    CharacterToken* trouverPersonnage(QString idPerso);
+    CharacterToken* findCharacter(QString idPerso);
 
     QString getLastSelectedCharacterId();
     bool selectCharacter(QString& id);
@@ -113,15 +113,15 @@ public slots :
 
 
 signals :
-    void incrementeNumeroPnj();
+    void increaseNpcNumber();
     void changeCurrentColor(QColor couleur);
-    void mettreAJourPnj(int diametre, QString nom);
+    void updateNPC(int diametre, QString nom);
     void showPcName(bool afficher);
     void showNpcName(bool afficher);
     void showNpcNumber(bool afficher);
     void setPcSize(int nouvelleTaille);
-    void commencerDeplacementBipMapWindow(QPoint position);
-    void deplacerBipMapWindow(QPoint position);
+    void startBipmapMove(QPoint position);
+    void moveBipMapWindow(QPoint position);
     void permissionModeChanged();
 
 
@@ -138,54 +138,54 @@ private :
     void p_init();
     void initCursor();
 	bool addAlphaLayer(QImage *source, QImage *m_alphaLayer, QImage *destination, const QRect &rect = QRect());
-    bool convertirARGB32(QImage *original, QImage *copie);
-    QRect zoneARafraichir();
+    bool convertToARGB32(QImage *original, QImage *copie);
+    QRect zoneToRefresh();
 	void paintMap(QPainter &painter);
-    void emettreTrace();
+    void sendTrace();
     void sendCharacterPath();
 	void processNpcAction(QPoint positionSouris);
 	void processNpcActionReleased(QPoint positionSouris);
 	void processNpcMove(QPoint positionSouris);
-    void emettreCarteGeneral(QString titre, NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
-    void emettreTousLesPersonnagesGeneral(NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
+    void sendOffGlobalMap(QString titre, NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
+    void sendOffAllGlobalCharacters(NetworkLink * link = NULL, bool versNetworkLinkUniquement = false);
 	CharacterToken* paintCharacter(QPoint positionSouris);
     QColor getFogColor();
 
     typedef struct
     {
-        QString idPersonnage;
-        QList<QPoint> trajet;
-    } PersoEnMouvement;
+        QString idCharacter;
+        QList<QPoint> motion;
+    } CharacterMotion;
 
-    int taillePj;                        // Taille courante des PJ de la carte
+    int m_pcSize;                        // Taille courante des PJ de la carte
     QImage *m_backgroundImage;                        // image de fond affichee dans la fenetre
     QImage *m_originalBackground;                // image qui servira a effacer les annotations
     QImage *m_alphaLayer;                        // image contenant la couche alpha
-    QImage *fondAlpha;                    // image temporaire contenant le melange du fond et de la couche alpha
-    QImage *effaceAlpha;                // image contenant la couche alpha permettant d'effacer le fond a l'aide du fond original
-    bool boutonGaucheEnfonce;            // bouton gauche de la souris enfonce ou pas?
-    bool boutonDroitEnfonce;            // bouton droit de la souris enfonce ou pas?
+    QImage *m_alphaBg;                    // image temporaire contenant le melange du fond et de la couche alpha
+    QImage *m_eraseAlpha;                // image contenant la couche alpha permettant d'effacer le fond a l'aide du fond original
+    bool m_leftButtonStatus;            // bouton gauche de la souris enfonce ou pas?
+    bool m_rightButtonStatus;            // bouton droit de la souris enfonce ou pas?
 
 
-    QPoint m_originePoint;
+    QPoint m_originPoint;
     QPoint m_mousePoint;
 
-    QPoint m_origineScalePoint;
+    QPoint m_originScalePoint;
     QPoint m_scalePoint;
     QRect  m_refreshZone;
 
 
-    QPoint diffSourisDessinPerso;        // difference entre le coin sup gauche du PNJ selectionne (pnjSelectionne) et la position de la souris au moment du clic
-    QRect zoneOrigine;                    // zone a rafraichir au 1er clic de la souris, puis zone precedemment rafraichie
-    QRect zoneNouvelle;                    // zone a rafraichir au prochain affichage
-    QRect zoneGlobaleCrayon;            // unite de toutes les zone a raffraichir lors du trace du crayon (emise aux autres utilisateurs)
-    QCursor pointeur;                    // pointeur actuel de la souris
-    CharacterToken *pnjSelectionne;        // pointe sur le PNJ actuellement selectionne (0 si aucun PNJ selectionne)
-    CharacterToken *dernierPnjSelectionne;    // pointe sur le dernier PNJ selectionne (0 si aucun PNJ n'a deja ete selection)
+    QPoint m_distanceBetweenMouseAndNPC;        // difference entre le coin sup gauche du PNJ selectionne (pnjSelectionne) et la position de la souris au moment du clic
+    QRect m_origZone;                    // zone a rafraichir au 1er clic de la souris, puis zone precedemment rafraichie
+    QRect m_newZone;                    // zone a rafraichir au prochain affichage
+    QRect m_penGlobalZone;            // unite de toutes les zone a raffraichir lors du trace du crayon (emise aux autres utilisateurs)
+    QCursor m_mouseCursor;                    // pointeur actuel de la souris
+    CharacterToken *m_selectedNpc;        // pointe sur le PNJ actuellement selectionne (0 si aucun PNJ selectionne)
+    CharacterToken *m_lastSelectedNpc;    // pointe sur le dernier PNJ selectionne (0 si aucun PNJ n'a deja ete selection)
     QString m_mapId;                    // identifiant de la carte
-    QList<QPoint> listePointsCrayon;    // liste des points composant le trace du crayon, qui sera emise aux autres utilisateurs
+    QList<QPoint> m_penPointList;    // liste des points composant le trace du crayon, qui sera emise aux autres utilisateurs
     QList<QPoint> m_characterMoveList;        // liste des points composant le deplacement du perso qui vient d'etre deplace par l'utilisateur
-    QList<PersoEnMouvement> mouvements;    // liste des personnages a deplacer, ainsi que leur trajectoire
+    QList<CharacterMotion> m_motionList;    // liste des personnages a deplacer, ainsi que leur trajectoire
     Map::PermissionMode m_currentMode;
     ToolsBar::SelectableTool m_currentTool;
     Player* m_localPlayer;
