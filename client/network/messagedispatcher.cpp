@@ -27,6 +27,10 @@ void MessageDispatcher::dispatchMessage(QByteArray data, Channel* channel, TcpCl
         {
             emitter->setInfoPlayer(msg);
 
+            msg->resetToData();
+
+
+
             QString name = msg->string16();
             QString uuid = msg->string8();
             msg->rgb();

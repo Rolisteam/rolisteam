@@ -160,6 +160,10 @@ void TcpClient::setInfoPlayer(NetworkMessageReader* msg)
     if(nullptr != m_player)
     {
         m_player->readFromMsg(*msg);
+
+        /// @todo make it nicer.
+        m_name = m_player->getName();
+        m_id = m_player->getUuid();
     }
 }
 

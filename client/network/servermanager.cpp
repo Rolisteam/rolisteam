@@ -225,6 +225,7 @@ void ServerManager::sendOffModel(TcpClient* client)
         doc.setObject(obj);
 
         msg->byteArray32(doc.toJson());
+
         qDebug() << doc.toJson();
         QMetaObject::invokeMethod(client,"sendMessage",Qt::QueuedConnection,Q_ARG(NetworkMessage*,static_cast<NetworkMessage*>(msg)));
 
@@ -300,7 +301,7 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
 
     QMap<QString,QVariant> data(m_parameters);
     data["currentIp"]=socket->peerAddress().toString();
-    qInfo() << "currentIP" << data["currentIp"].toString();
+    //qInfo() << "currentIP" << data["currentIp"].toString();
 
     if(m_corConnection->isValid(data))
     {
@@ -323,7 +324,7 @@ void ServerManager::accept(qintptr handle, TcpClient *connection,QThread* thread
 }
 void ServerManager::sendOffModelToAll()
 {
-    qDebug() << "sendoffmodeltoALL";
+    //qDebug() << "sendoffmodeltoALL";
     for( auto connection : m_connections.values())
     {
         sendOffModel(connection);
@@ -333,7 +334,7 @@ void ServerManager::sendOffModelToAll()
 void ServerManager::disconnected()
 {
     if(!sender()) return;
-    qDebug() << this << "disconnecting socket"<< sender();
+    //qDebug() << this << "disconnecting socket"<< sender();
 
     QTcpSocket *socket = static_cast<QTcpSocket*>(sender());
     if(!socket) return;

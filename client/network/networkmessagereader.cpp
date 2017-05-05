@@ -104,6 +104,10 @@ void NetworkMessageReader::reset()
 {
     m_pos = m_buffer;
 }
+void NetworkMessageReader::resetToData()
+{
+    m_pos = m_buffer+sizeof(NetworkMessageHeader);
+}
 
 size_t NetworkMessageReader::left() const
 {

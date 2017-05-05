@@ -70,6 +70,7 @@ public:
     NetworkMessageHeader* header() const;
     void setHeader(NetworkMessageHeader* header);
 
+    void resetToData();
 protected:
     NetworkMessageHeader * buffer();
 

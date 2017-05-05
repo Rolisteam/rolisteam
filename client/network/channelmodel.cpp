@@ -24,13 +24,13 @@ QModelIndex ChannelModel::index(int row, int column, const QModelIndex &parent) 
     TreeItem* childItem = nullptr;
     if (!parent.isValid())
     {
-        qDebug() << "invalid parent";
+       // qDebug() << "invalid parent";
         //childItem = m_root->getChildAt(row);
         childItem = m_root.at(row);
     }
     else
     {
-        qDebug() << "valid parent";
+       // qDebug() << "valid parent";
         TreeItem* parentItem = static_cast<TreeItem*>(parent.internalPointer());
         childItem = parentItem->getChildAt(row);
     }
@@ -69,7 +69,7 @@ QModelIndex ChannelModel::parent(const QModelIndex &child) const
     if(nullptr!=childItem)
     {
         TreeItem* parentItem = childItem->getParentItem();
-        qDebug() << "parent Item" << parentItem << childItem->childCount()<< childItem;
+       // qDebug() << "parent Item" << parentItem << childItem->childCount()<< childItem;
 
         if(m_root.contains(childItem))
         {
@@ -99,7 +99,7 @@ int ChannelModel::rowCount(const QModelIndex &parent) const
             result = item->childCount();
         }
     }
-    qDebug() << "[Number of child]"<< result << parent.isValid();
+   // qDebug() << "[Number of child]"<< result << parent.isValid();
     return result;
 }
 
