@@ -796,6 +796,7 @@ void MainWindow::open()
                 ++i;
             }
             m_model->load(data,m_canvasList);
+            m_characterModel->setRootSection(m_model->getRootSection());
             m_characterModel->readModel(jsonObj,false);
             updatePageSelector();
             setWindowTitle(m_title.arg(QFileInfo(m_filename).fileName()).arg("RCSE"));
