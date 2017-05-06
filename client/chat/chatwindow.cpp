@@ -516,16 +516,19 @@ bool ChatWindow::getMessageResult(QString& value, QString& command, QString& lis
     {
         bool ok;
         QStringList allStringlist = m_diceParser->getAllStringResult(ok);
+        QString stringResult = allStringlist.join(' ');
+        stringResult.replace("%1",scalarText);
+        stringResult.replace("%2",list);
         if(ok)
         {
             QString patternColor("<span class=\"dice\">%1</span>");
-            list =   patternColor.arg(allStringlist.join(' '));
+            list =   patternColor.arg(stringResult);
             value = list;
         }
         else
         {
             value = m_diceParser->getStringResult().replace("\n","<br/>");
-            list = allStringlist.join(' ');
+            list = stringResult;
             return true;
         }
     }
