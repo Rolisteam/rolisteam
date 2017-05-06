@@ -245,6 +245,7 @@ QPointF Field::mapFromScene(QPointF pos)
     {
         return m_canvasField->mapFromScene(pos);
     }
+    return QPointF();
 }
 
 QFont Field::font() const
@@ -554,6 +555,8 @@ bool Field::hasFontField()
     case Field::SELECT:
     case Field::CHECKBOX:
     case Field::IMAGE:
+        return false;
+    default:
         return false;
     }
 }
